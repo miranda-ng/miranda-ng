@@ -71,7 +71,7 @@ void gg_optsdlgcheck(HWND m_hwnd)
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Proc: Account manager options dialog
 
-INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	GaduProto *gg = (GaduProto *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 
@@ -175,4 +175,9 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND m_hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 	}
 	return FALSE;
+}
+
+MWindow GaduProto::OnCreateAccMgrUI(MWindow hwndParent)
+{
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMGRUI), hwndParent, gg_acc_mgr_guidlgproc, (LPARAM)this);
 }

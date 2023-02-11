@@ -60,11 +60,11 @@ public:
 	}
 };
 
-INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+MWindow CSteamProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	auto *page = new CSteamOptionsMain(this, IDD_ACCMGR, (HWND)lParam);
+	auto *page = new CSteamOptionsMain(this, IDD_ACCMGR, hwndParent);
 	page->Show();
-	return (INT_PTR)page->GetHwnd();
+	return page->GetHwnd();
 }
 
 /////////////////////////////////////////////////////////////////////////////////

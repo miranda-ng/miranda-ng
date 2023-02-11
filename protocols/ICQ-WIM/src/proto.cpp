@@ -63,8 +63,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");
 
 	// services
-	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
-
 	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);

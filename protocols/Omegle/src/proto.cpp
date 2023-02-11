@@ -36,8 +36,6 @@ OmegleProto::OmegleProto(const char* proto_name, const wchar_t* username) :
 	CreateProtoService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &OmegleProto::OnLeaveChat);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI);
-
 	HookProtoEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit);
 	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
 
@@ -136,10 +134,9 @@ int OmegleProto::SetStatus(int new_status)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow OmegleProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_OmegleACCOUNT),
-		(HWND)lParam, OmegleAccountProc, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_OmegleACCOUNT), hwndParent, OmegleAccountProc, (LPARAM)this);
 }
 
 void OmegleProto::OnShutdown()

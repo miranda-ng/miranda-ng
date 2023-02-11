@@ -68,8 +68,6 @@ static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	PROTO<CDummyProto>(szModuleName, ptszUserName)
 {
-	CreateProtoService(PS_CREATEACCMGRUI, &CDummyProto::SvcCreateAccMgrUI);
-
 	msgid = 0;
 
 	int id = getTemplateId();

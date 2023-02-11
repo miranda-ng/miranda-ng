@@ -167,6 +167,7 @@ public:
 	HANDLE   GetAwayMsg(MCONTACT) override;
 
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 
@@ -175,7 +176,6 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Services
 
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM,LPARAM);
 	INT_PTR __cdecl ReplyToTweet(WPARAM,LPARAM);
 	INT_PTR __cdecl VisitHomepage(WPARAM,LPARAM);
 	INT_PTR __cdecl GetAvatar(WPARAM,LPARAM);

@@ -49,7 +49,6 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 {
 	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CTelegramProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARCAPS, &CTelegramProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
@@ -169,7 +168,7 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
+		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_EXTSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 	case PFLAGNUM_4:

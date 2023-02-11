@@ -464,12 +464,9 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
 	void     OnModulesLoaded() override;
-
-	// Services ////////////////////////////////////////////////////////////////////////////
-
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	// Events //////////////////////////////////////////////////////////////////////////////
 

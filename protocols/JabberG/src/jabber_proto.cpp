@@ -148,8 +148,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_hEventXStatusIconChanged = CreateProtoEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
 	m_hEventXStatusChanged = CreateProtoEvent(JE_CUSTOMSTATUS_CHANGED);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
-
 	CreateProtoService(PS_GETAVATARINFO, &CJabberProto::JabberGetAvatarInfo);
 	CreateProtoService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
 	CreateProtoService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);

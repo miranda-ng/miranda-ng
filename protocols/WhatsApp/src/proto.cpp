@@ -58,8 +58,6 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
 
-	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
-
 	CreateProtoService(PS_GETAVATARINFO, &WhatsAppProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &WhatsAppProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &WhatsAppProto::GetMyAvatar);

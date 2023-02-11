@@ -48,6 +48,7 @@ public:
 
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
 	void     OnModulesLoaded() override;
 
@@ -116,8 +117,6 @@ private:
 
 	// accounts
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
-
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
 	// netlib
 	void InitNetlib();

@@ -377,6 +377,7 @@ public:
 
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -385,7 +386,6 @@ public:
 	// Services
 
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);

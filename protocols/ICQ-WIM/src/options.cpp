@@ -366,12 +366,12 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Services
 
-INT_PTR CIcqProto::CreateAccMgrUI(WPARAM, LPARAM hwndParent)
+MWindow CIcqProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	COptionsDlg *pDlg = new COptionsDlg(this, IDD_OPTIONS_ACCMGR, false);
-	pDlg->SetParent((HWND)hwndParent);
+	pDlg->SetParent(hwndParent);
 	pDlg->Create();
-	return (INT_PTR)pDlg->GetHwnd();
+	return pDlg->GetHwnd();
 }
 
 int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)

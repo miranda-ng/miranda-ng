@@ -15,8 +15,6 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	if (m_defaultGroup == nullptr)
 		m_defaultGroup = mir_wstrdup(L"Tox");
 	
-	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
-
 	setAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// avatars

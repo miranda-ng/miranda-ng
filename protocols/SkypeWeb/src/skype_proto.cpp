@@ -38,7 +38,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CSkypeProto::SvcGetMyAvatar);

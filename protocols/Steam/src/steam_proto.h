@@ -106,6 +106,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 
 	// menus
@@ -236,7 +237,6 @@ protected:
 	// events
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	// utils
 	static uint16_t SteamToMirandaStatus(PersonaState state);

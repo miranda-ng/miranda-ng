@@ -48,7 +48,6 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	InitQueue();
 	CheckUpdate();
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFO, &CVkProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CVkProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CVkProto::SvcGetMyAvatar);

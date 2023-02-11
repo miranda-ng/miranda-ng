@@ -202,12 +202,11 @@ class CAccountManagerDlg : public CDlgBase
 					SetDlgItemText(m_hwnd, IDC_TXT_INFO, TranslateT("Account is disabled. Please activate it to access options."));
 				}
 				else {
-					HWND hwnd = (HWND)CallProtoService(pa->szModuleName, PS_CREATEACCMGRUI, 0, (LPARAM)m_hwnd);
-					if (hwnd && (hwnd != (HWND)CALLSERVICE_NOTFOUND)) {
-						RECT rc;
-
+					MWindow hwnd = pa->ppro->OnCreateAccMgrUI(m_hwnd);
+					if (hwnd) {
 						ShowWindow(GetDlgItem(m_hwnd, IDC_TXT_INFO), SW_HIDE);
 
+						RECT rc;
 						GetWindowRect(GetDlgItem(m_hwnd, IDC_TXT_INFO), &rc);
 						MapWindowPoints(nullptr, m_hwnd, (LPPOINT)&rc, 2);
 						SetWindowPos(hwnd, m_accList.GetHwnd(), rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);

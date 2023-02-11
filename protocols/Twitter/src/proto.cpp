@@ -27,8 +27,6 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CTwitterProto>(proto_name, username),
 	m_arChatMarks(10, NumericKeySortT)
 {
-	CreateProtoService(PS_CREATEACCMGRUI, &CTwitterProto::SvcCreateAccMgrUI);
-
 	CreateProtoService(PS_JOINCHAT, &CTwitterProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &CTwitterProto::OnLeaveChat);
 
@@ -181,9 +179,9 @@ int CTwitterProto::SetStatus(int new_status)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CTwitterProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow CTwitterProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERACCOUNT), (HWND)lParam, first_run_dialog, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERACCOUNT), hwndParent, first_run_dialog, (LPARAM)this);
 }
 
 INT_PTR CTwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)

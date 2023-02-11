@@ -74,11 +74,11 @@ public:
 	}
 };
 
-INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow CVkProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	CVkAccMgrForm *dlg = new CVkAccMgrForm(this, (HWND)lParam);
+	CVkAccMgrForm *dlg = new CVkAccMgrForm(this, hwndParent);
 	dlg->Show();
-	return (INT_PTR)dlg->GetHwnd();
+	return dlg->GetHwnd();
 }
 
 ////////////////////// Options ///////////////////////////////////////////////

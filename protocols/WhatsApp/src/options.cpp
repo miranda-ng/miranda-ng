@@ -71,12 +71,12 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
+MWindow WhatsAppProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	auto *pDlg = new COptionsDlg(this, IDD_ACCMGRUI, false);
-	pDlg->SetParent((HWND)hwndParent);
+	pDlg->SetParent(hwndParent);
 	pDlg->Create();
-	return (INT_PTR)pDlg->GetHwnd();
+	return pDlg->GetHwnd();
 }
 
 int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM)

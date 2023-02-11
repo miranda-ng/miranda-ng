@@ -1400,11 +1400,11 @@ private:
 	}
 };
 
-INT_PTR CJabberProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow CJabberProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	CJabberDlgAccMgrUI *dlg = new CJabberDlgAccMgrUI(this, (HWND)lParam);
+	CJabberDlgAccMgrUI *dlg = new CJabberDlgAccMgrUI(this, hwndParent);
 	dlg->Show();
-	return (INT_PTR)dlg->GetHwnd();
+	return dlg->GetHwnd();
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)

@@ -9,8 +9,6 @@ CCloudService::CCloudService(const char *protoName, const wchar_t *userName, HPL
 	nlu.szSettingsModule = (char*)protoName;
 	nlu.szDescriptiveName.w = (wchar_t*)userName;
 	m_hConnection = Netlib_RegisterUser(&nlu);
-
-	CreateProtoService(PS_CREATEACCMGRUI, &CCloudService::OnAccountManagerInit);
 }
 
 CCloudService::~CCloudService()
@@ -86,12 +84,12 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 		SetActiveWindow(it->second);
 }
 
-INT_PTR CCloudService::OnAccountManagerInit(WPARAM, LPARAM lParam)
+MWindow CCloudService::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	CAccountManagerDlg *page = new CAccountManagerDlg(this);
-	page->SetParent((HWND)lParam);
+	page->SetParent(hwndParent);
 	page->Show();
-	return (INT_PTR)page->GetHwnd();
+	return page->GetHwnd();
 }
 
 std::string CCloudService::PreparePath(const std::string &path) const

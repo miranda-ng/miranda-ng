@@ -41,7 +41,6 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 {
 	CreateProtoService(PS_GETMYAWAYMSG, &CIrcProto::GetMyAwayMsg);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_JOINCHAT, &CIrcProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &CIrcProto::OnLeaveChat);
 

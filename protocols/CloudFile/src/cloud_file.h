@@ -14,8 +14,6 @@ protected:
 	HPLUGIN m_pPlugin;
 	HNETLIBUSER m_hConnection;
 
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
-
 	// utils
 	std::string PreparePath(const std::string &path) const;
 
@@ -24,7 +22,9 @@ protected:
 	virtual void HandleHttpError(NETLIBHTTPREQUEST *response);
 	virtual void HandleJsonError(JSONNode &node) = 0;
 
+	// events
 	void OnModulesLoaded() override;
+	MWindow OnCreateAccMgrUI(MWindow) override;
 
 	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);
 
@@ -40,7 +40,7 @@ public:
 
 	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
-
+		
 	HPLUGIN GetId() const;
 	virtual const char* GetModuleName() const = 0;
 	const char* GetAccountName() const;

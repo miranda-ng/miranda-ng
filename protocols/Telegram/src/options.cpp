@@ -167,12 +167,12 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CTelegramProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
+MWindow CTelegramProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	auto *pDlg = new COptionsDlg(this, IDD_ACCMGRUI, false);
-	pDlg->SetParent((HWND)hwndParent);
+	pDlg->SetParent(hwndParent);
 	pDlg->Create();
-	return (INT_PTR)pDlg->GetHwnd();
+	return pDlg->GetHwnd();
 }
 
 int CTelegramProto::OnOptionsInit(WPARAM wParam, LPARAM)

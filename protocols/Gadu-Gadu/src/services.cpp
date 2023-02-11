@@ -369,17 +369,6 @@ INT_PTR GaduProto::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	return res;
 }
 
-extern INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-//////////////////////////////////////////////////////////
-// gets account manager GUI
-// registered as ProtoService PS_CREATEACCMGRUI
-//
-INT_PTR GaduProto::get_acc_mgr_gui(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, gg_acc_mgr_guidlgproc, (LPARAM)this);
-}
-
 //////////////////////////////////////////////////////////
 // leaves (terminates) conference
 // registered as ProtoService PS_LEAVECHAT

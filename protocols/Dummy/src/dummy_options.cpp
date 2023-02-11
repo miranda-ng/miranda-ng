@@ -114,7 +114,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-INT_PTR CDummyProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow CDummyProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, DummyAccountProc, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMGRUI), hwndParent, DummyAccountProc, (LPARAM)this);
 }

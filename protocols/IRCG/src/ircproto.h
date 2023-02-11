@@ -71,11 +71,11 @@ struct CIrcProto : public PROTO<CIrcProto>
 			   
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
 	// Services
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAwayMsg(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnChangeNickMenuCommand(WPARAM, LPARAM);

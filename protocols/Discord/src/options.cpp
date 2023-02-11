@@ -77,12 +77,12 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CDiscordProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
+MWindow CDiscordProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	CDiscardAccountOptions *pDlg = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCMGR, false);
-	pDlg->SetParent((HWND)hwndParent);
+	pDlg->SetParent(hwndParent);
 	pDlg->Create();
-	return (INT_PTR)pDlg->GetHwnd();
+	return pDlg->GetHwnd();
 }
 
 int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)

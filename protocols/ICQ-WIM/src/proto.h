@@ -406,7 +406,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
-	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
 	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
@@ -450,6 +449,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnBuildProtoMenu(void) override;
 	void      OnContactAdded(MCONTACT) override;
 	void      OnContactDeleted(MCONTACT) override;
+	MWindow   OnCreateAccMgrUI(MWindow) override;
 	void      OnEventEdited(MCONTACT, MEVENT) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;

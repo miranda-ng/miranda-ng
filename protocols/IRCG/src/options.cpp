@@ -1352,11 +1352,11 @@ public:
 	}
 };
 
-INT_PTR CIrcProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow CIrcProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	CDlgAccMgrUI *dlg = new CDlgAccMgrUI(this, (HWND)lParam);
+	CDlgAccMgrUI *dlg = new CDlgAccMgrUI(this, hwndParent);
 	dlg->Show();
-	return (INT_PTR)dlg->GetHwnd();
+	return dlg->GetHwnd();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

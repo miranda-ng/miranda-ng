@@ -38,9 +38,9 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 
-	//==== Services ======================================================================
+	//==== Events ==========================================================================
 
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	MWindow OnCreateAccMgrUI(MWindow) override;
 	
 	void __cdecl SearchIdAckThread(void*);
 	

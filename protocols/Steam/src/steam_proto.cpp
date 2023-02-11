@@ -4,8 +4,6 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSteamProto>(protoName, userName),
 	m_requestQueue(1), hAuthProcess(1), hMessageProcess(1)
 {
-	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
-
 	m_hRequestsQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	// default group

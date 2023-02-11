@@ -58,6 +58,7 @@ struct GaduProto : public PROTO<GaduProto>
 				
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -66,7 +67,6 @@ struct GaduProto : public PROTO<GaduProto>
 
 	INT_PTR  __cdecl blockuser(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl getmyawaymsg(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl get_acc_mgr_gui(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl leavechat(WPARAM wParam, LPARAM lParam);
 
 	//////////////////////////////////////////////////////////////////////////////////////

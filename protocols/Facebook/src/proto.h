@@ -532,6 +532,7 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -547,7 +548,6 @@ public:
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 };
 
 typedef CProtoDlgBase<FacebookProto> CFBDlgBase;

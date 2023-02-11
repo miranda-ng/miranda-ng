@@ -69,6 +69,7 @@ public:
 
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -185,8 +186,6 @@ private:
 	EventHandle m_hTrouterEvent;
 
 	EventHandle m_hTrouterHealthEvent;
-
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);

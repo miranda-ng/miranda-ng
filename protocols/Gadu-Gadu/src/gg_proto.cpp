@@ -67,7 +67,6 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &GaduProto::setmyavatar);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &GaduProto::getmyawaymsg);
-	CreateProtoService(PS_CREATEACCMGRUI, &GaduProto::get_acc_mgr_gui);
 
 	CreateProtoService(PS_LEAVECHAT, &GaduProto::leavechat);
 

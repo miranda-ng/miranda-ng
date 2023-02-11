@@ -297,8 +297,7 @@ int FacebookProto::UserIsTyping(MCONTACT hContact, int type)
 //////////////////////////////////////////////////////////////////////////////
 // Services
 
-INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow FacebookProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR) CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
-		(HWND) lParam, FBAccountProc, (LPARAM) this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT), hwndParent, FBAccountProc, (LPARAM)this);
 }

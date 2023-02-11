@@ -238,18 +238,15 @@ public:
 
 	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
 	
-	int SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
-	int SetStatus(int iNewStatus) override;
+	int     SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
+	int     SetStatus(int iNewStatus) override;
 
-	void OnContactDeleted(MCONTACT hContact) override;
-	void OnMarkRead(MCONTACT, MEVENT) override;
-	void OnModulesLoaded() override;
-	void OnShutdown() override;
-	void OnErase() override;
-
-	// Services //////////////////////////////////////////////////////////////////////////
-
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	void    OnContactDeleted(MCONTACT hContact) override;
+	MWindow OnCreateAccMgrUI(MWindow) override;
+	void    OnMarkRead(MCONTACT, MEVENT) override;
+	void    OnModulesLoaded() override;
+	void    OnShutdown() override;
+	void    OnErase() override;
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	

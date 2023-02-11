@@ -74,6 +74,11 @@ void PROTO_INTERFACE::OnContactAdded(MCONTACT)
 void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
 {}
 
+MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
+{
+	return nullptr; // error
+}
+
 void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT)
 {}
 

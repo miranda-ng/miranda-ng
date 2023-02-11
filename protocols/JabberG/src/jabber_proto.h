@@ -150,12 +150,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
 	//====| Services |====================================================================
-	INT_PTR  __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR  __cdecl JabberVOIP_call(WPARAM hContact, LPARAM);

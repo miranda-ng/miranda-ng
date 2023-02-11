@@ -54,10 +54,8 @@ public:
 	int     UserIsTyping(MCONTACT hContact, int type) override;
 
 	void    OnContactDeleted(MCONTACT) override;
+	MWindow OnCreateAccMgrUI(MWindow) override;
 	void    OnShutdown() override;
-
-	// Services
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	// Events
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);

@@ -82,12 +82,12 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CSkypeProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+MWindow CSkypeProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
 	auto *pDlg = new CSkypeOptionsMain(this, IDD_ACCOUNT_MANAGER);
-	pDlg->SetParent(HWND(lParam));
+	pDlg->SetParent(hwndParent);
 	pDlg->Show();
-	return (INT_PTR)pDlg->GetHwnd();
+	return pDlg->GetHwnd();
 }
 
 int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)

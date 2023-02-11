@@ -56,8 +56,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true)
 {
 	// Services
-	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);
-
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CDiscordProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CDiscordProto::GetMyAvatar);
@@ -597,7 +595,7 @@ void CDiscordProto::SendMarkRead()
 	}
 }
 
-void CDiscordProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
+void CDiscordProto::OnMarkRead(MCONTACT hContact, MEVENT)
 {
 	if (m_bOnline) {
 		m_impl.m_markRead.Start(200);

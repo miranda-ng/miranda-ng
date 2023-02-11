@@ -47,10 +47,8 @@ public:
 	int     SetStatus(int iNewStatus) override;
 
 	void    OnContactDeleted(MCONTACT) override;
+	MWindow OnCreateAccMgrUI(MWindow) override;
 	void    OnShutdown() override;
-
-	// Services
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	// Chat handling
 	int     __cdecl OnChatEvent(WPARAM,LPARAM);

@@ -36,8 +36,6 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 	CreateProtoService(PS_JOINCHAT, &MinecraftDynmapProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &MinecraftDynmapProto::OnLeaveChat);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &MinecraftDynmapProto::SvcCreateAccMgrUI);
-
 	HookProtoEvent(ME_GC_EVENT, &MinecraftDynmapProto::OnChatEvent);
 
 	// Create standard network connection
@@ -133,9 +131,9 @@ int MinecraftDynmapProto::SetStatus(int new_status)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+MWindow MinecraftDynmapProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(),MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(),MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), hwndParent, MinecraftDynmapAccountProc, (LPARAM)this);
 }
 
 void MinecraftDynmapProto::OnShutdown()

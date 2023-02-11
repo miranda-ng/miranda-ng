@@ -258,6 +258,9 @@ public:
 	// called when an account's contact is deleted
 	virtual void OnContactDeleted(MCONTACT);
 
+	// called when the Account Manager needs to draw short account's options
+	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
+
 	// called when an event is altered in database
 	virtual void OnEventEdited(MCONTACT, MEVENT);
 

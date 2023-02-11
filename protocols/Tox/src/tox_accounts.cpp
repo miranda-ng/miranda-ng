@@ -15,7 +15,7 @@ int CToxProto::OnAccountRenamed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+MWindow CToxProto::OnCreateAccMgrUI(MWindow hwndParent)
 {
-	return (INT_PTR)(CToxOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
+	return (CToxOptionsMain::CreateAccountManagerPage(this, hwndParent))->GetHwnd();
 }
