@@ -181,17 +181,18 @@ class CRecvFileDlg : public CDlgBase
 	FileDlgData *dat;
 	LPARAM m_lParam;
 
-	CCtrlButton btnCancel, btnBrowse, btnAdd, btnUserMenu, btnDetails, btnHistory;
+	CCtrlButton btnCancel, btnBrowse;
+	CCtrlMButton btnAdd, btnUserMenu, btnDetails, btnHistory;
 
 public:
 	CRecvFileDlg(CLISTEVENT *cle) :
 		CDlgBase(g_plugin, IDD_FILERECV),
-		btnAdd(this, IDC_ADD),
+		btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list")),
 		btnCancel(this, IDCANCEL),
 		btnBrowse(this, IDC_FILEDIRBROWSE),
-		btnDetails(this, IDC_DETAILS),
-		btnHistory(this, IDC_HISTORY),
-		btnUserMenu(this, IDC_USERMENU)
+		btnDetails(this, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details")),
+		btnHistory(this, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View user's history")),
+		btnUserMenu(this, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User menu"))
 	{
 		dat = new FileDlgData();
 		dat->hContact = cle->hContact;
@@ -209,6 +210,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		char *szProto = Proto_GetBaseAccountName(dat->hContact);
+
 		dat->hNotifyEvent = HookEventMessage(ME_PROTO_ACK, m_hwnd, HM_RECVEVENT);
 		dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, m_hwnd, M_PRESHUTDOWN);
 
@@ -217,10 +220,7 @@ public:
 		EnumChildWindows(m_hwnd, ClipSiblingsChildEnumProc, 0);
 
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_FILE);
-		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
-		Button_SetSkin_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
-		Button_SetSkin_IcoLib(m_hwnd, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View user's history"));
-		Button_SetSkin_IcoLib(m_hwnd, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User menu"));
+		Button_SetIcon_IcoLib(m_hwnd, IDC_PROTOCOL, Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE));
 
 		wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 		SetDlgItemText(m_hwnd, IDC_FROM, contactName);
@@ -327,10 +327,6 @@ public:
 	void OnDestroy() override
 	{
 		Window_FreeIcon_IcoLib(m_hwnd);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_HISTORY);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_USERMENU);
 
 		delete dat;
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
@@ -358,7 +354,7 @@ public:
 				FlashWindow(m_hwnd, TRUE);
 			}
 			else if (ack->result != ACKRESULT_FILERESUME) {
-				SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(m_hwnd, IDCANCEL));
+				btnCancel.Click();
 			}
 			break;
 		}
