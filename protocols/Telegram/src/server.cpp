@@ -183,7 +183,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *
 	}
 
 	auto *pMessage = ((TD::message *)response.object.get());
-	auto *pUser = FindUser(pMessage->chat_id_);
+	auto *pUser = FindChat(pMessage->chat_id_);
 	if (pUser) {
 		char szMsgId[100];
 		_i64toa(pMessage->id_, szMsgId, 10);
@@ -256,9 +256,11 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	else
 		pGroup->group = std::move(pObj->basic_group_);
 
-	auto *pUser = AddUser(tmp.id, true);
-	if (iStatusId == TD::chatMemberStatusLeft::ID)
-		Contact::Hide(pUser->hContact);
+	if (iStatusId == TD::chatMemberStatusLeft::ID) {
+		auto *pUser = AddFakeUser(tmp.id, true);
+		pUser->wszFirstName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+	}
+	else AddUser(tmp.id, true);
 }
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
@@ -288,10 +290,22 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	if (auto *pUser = FindUser(chatId)) {
-		if (!pChat->title_.empty() && pUser->hContact != INVALID_CONTACT_ID)
-			setUString(pUser->hContact, "Nick", pChat->title_.c_str());
+		pUser->chatId = pChat->id_;
 
-		if (pUser->isGroupChat)
+		if (!m_arChats.find(pUser))
+			m_arChats.insert(pUser);
+
+		if (!pChat->title_.empty()) {
+			if (pUser->hContact != INVALID_CONTACT_ID)
+				setUString(pUser->hContact, "Nick", pChat->title_.c_str());
+			else
+				pUser->wszNick = Utf2T(pChat->title_.c_str());
+		}
+
+		if (CheckSearchUser(pUser))
+			return;
+
+		if (pUser->isGroupChat && pUser->hContact != INVALID_CONTACT_ID)
 			InitGroupChat(pUser, pChat, bIsBasicGroup);
 	}
 	else debugLogA("Unknown chat id %lld, ignoring", chatId);
@@ -304,7 +318,7 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		return;
 	}
 
-	auto *pUser = FindUser(pObj->chat_id_);
+	auto *pUser = FindChat(pObj->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("Unknown chat, skipping");
 		return;
@@ -359,7 +373,7 @@ void CTelegramProto::ProcessGroups(TD::updateChatFilters *pObj)
 
 void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 {
-	auto *pUser = FindUser(pObj->chat_id_);
+	auto *pUser = FindChat(pObj->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("message from unknown chat/user, ignored");
 		return;
@@ -393,7 +407,7 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 {
 	auto &pMessage = pObj->message_;
 
-	auto *pUser = FindUser(pMessage->chat_id_);
+	auto *pUser = FindChat(pMessage->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("message from unknown chat/user, ignored");
 		return;
@@ -446,14 +460,18 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
 
 	auto *pGroup = m_arSuperGroups.find(&tmp);
-	if (pGroup == nullptr)
-		m_arSuperGroups.insert(new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_)));
-	else
-		pGroup->group = std::move(pObj->supergroup_);
+	if (pGroup == nullptr) {
+		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
+		m_arSuperGroups.insert(pGroup);
+	}
+	else pGroup->group = std::move(pObj->supergroup_);
 
-	auto *pUser = AddUser(tmp.id, true);
-	if (iStatusId == TD::chatMemberStatusLeft::ID)
-		Contact::Hide(pUser->hContact);
+	if (iStatusId == TD::chatMemberStatusLeft::ID) {
+		auto *pUser = AddFakeUser(tmp.id, true);
+		pUser->wszNick = getName(pGroup->group->usernames_.get());
+		pUser->wszFirstName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+	}
+	else AddUser(tmp.id, true);
 }
 
 void CTelegramProto::ProcessUser(TD::updateUser *pObj)
@@ -468,15 +486,18 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 
 	if (!pUser->is_contact_) {
-		auto *pu = FindUser(pUser->id_);
-		if (pu == nullptr) {
-			pu = new TG_USER(pUser->id_, INVALID_CONTACT_ID, false);
-			m_arUsers.insert(pu);
+		auto *pu = AddFakeUser(pUser->id_, false);
+		pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
+		pu->wszLastName = Utf2T(pUser->last_name_.c_str());
+		if (pUser->usernames_)
+			pu->wszNick = Utf2T(pUser->usernames_->editable_username_.c_str());
+		else {
+			pu->wszNick = Utf2T(pUser->first_name_.c_str());
+			if (!pUser->last_name_.empty())
+				pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
 		}
 
-		pu->wszNick = Utf2T(pUser->first_name_.c_str());
-		if (!pUser->last_name_.empty()) 
-			pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
+		CheckSearchUser(pu);
 
 		debugLogA("User doesn't belong to your contacts, skipping");
 		return;

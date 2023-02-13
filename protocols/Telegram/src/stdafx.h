@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <malloc.h>
 #include <time.h>
 #include <windows.h>
 

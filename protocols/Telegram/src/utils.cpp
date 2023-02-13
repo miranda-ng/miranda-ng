@@ -17,7 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-char* getSender(const TD::MessageSender *pSender, char *pDest, size_t cbSize)
+const char *getName(const TD::usernames *pName)
+{
+	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
+}
+
+const char* getSender(const TD::MessageSender *pSender, char *pDest, size_t cbSize)
 {
 	switch (pSender->get_id()) {
 	case TD::messageSenderChat::ID:
@@ -34,6 +39,49 @@ char* getSender(const TD::MessageSender *pSender, char *pDest, size_t cbSize)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CTelegramProto::CheckSearchUser(TG_USER *pUser)
+{
+	auto pSearchId = std::find(m_searchIds.begin(), m_searchIds.end(), pUser->chatId);
+	if (pSearchId == m_searchIds.end())
+		return false;
+
+	ReportSearchUser(pUser);
+
+	m_searchIds.erase(pSearchId);
+	if (m_searchIds.empty())
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
+	return true;
+}
+
+void CTelegramProto::ReportSearchUser(TG_USER *pUser)
+{
+	CMStringW wszId(FORMAT, L"%lld", pUser->id);
+
+	PROTOSEARCHRESULT psr = {};
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_UNICODE;
+	psr.id.w = wszId.GetBuffer();
+
+	if (pUser->hContact != INVALID_CONTACT_ID) {
+		CMStringW wszNick = getMStringW(pUser->hContact, "Nick");
+		CMStringW wszLastName = getMStringW(pUser->hContact, "LastName");
+		CMStringW wszFirstName = getMStringW(pUser->hContact, "FirstName");
+
+		psr.nick.w = wszNick.GetBuffer();
+		psr.lastName.w = wszLastName.GetBuffer();
+		psr.firstName.w = wszFirstName.GetBuffer();
+	}
+	else {
+		psr.firstName.w = pUser->wszFirstName.GetBuffer();
+		psr.lastName.w = pUser->wszLastName.GetBuffer();
+		psr.nick.w = pUser->wszNick.GetBuffer();
+	}
+
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
 {
 	if (str.empty())
@@ -45,18 +93,28 @@ void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, con
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
 
+TG_USER* CTelegramProto::FindChat(int64_t id)
+{
+	auto *tmp = (TG_USER *)_alloca(sizeof(TG_USER));
+	tmp->chatId = id;
+	return m_arChats.find(tmp);
+}
+
 TG_USER* CTelegramProto::FindUser(int64_t id)
 {
-	if (auto *pCache = m_arUsers.find((TG_USER *)&id))
-		return pCache;
+	return m_arUsers.find((TG_USER *)&id);
+}
 
-	if (id < 0) {
-		id = -id;
-		if (auto *pCache = m_arUsers.find((TG_USER *)&id))
-			return pCache;
+TG_USER* CTelegramProto::AddFakeUser(int64_t id, bool bIsChat)
+{
+	auto *pu = FindUser(id);
+	if (pu == nullptr) {
+		pu = new TG_USER(id, INVALID_CONTACT_ID, bIsChat);
+		m_arUsers.insert(pu);
+		if (!bIsChat)
+			m_arChats.insert(pu);
 	}
-
-	return nullptr;
+	return pu;
 }
 
 TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
@@ -81,6 +139,8 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 
 	pUser = new TG_USER(id, hContact, bIsChat);
 	m_arUsers.insert(pUser);
+	if (!bIsChat)
+		m_arChats.insert(pUser);
 	return pUser;
 }
 

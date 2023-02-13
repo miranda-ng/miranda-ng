@@ -80,13 +80,15 @@ struct TG_USER
 		id(_1),
 		hContact(_2),
 		isGroupChat(_3)
-	{}
+	{
+		chatId = (isGroupChat) ? -1 :id;
+	}
 
-	int64_t  id;
+	int64_t   id, chatId;
 	MCONTACT  hContact;
 	bool      isGroupChat;
 	CMStringA szAvatarHash;
-	CMStringW wszNick;
+	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
 	SESSION_INFO *m_si = nullptr;
 };
@@ -168,6 +170,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	}
 
 	void OnEndSession(td::ClientManager::Response &response);
+	void OnSearchResults(td::ClientManager::Response &response);
 	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
 	void OnUpdateAuth(td::ClientManager::Response &response);
 
@@ -212,13 +215,22 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool bUpdateMembers);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 
+	// Search
+	TD::array<TD::int53> m_searchIds;
+
+	bool CheckSearchUser(TG_USER *pUser);
+	void ReportSearchUser(TG_USER *pUser);
+
 	// Users
 	int64_t m_iOwnId;
 	MGROUP m_iBaseGroup;
+	LIST<TG_USER> m_arChats;
 	OBJLIST<TG_USER> m_arUsers;
 
+	TG_USER* FindChat(int64_t id);
 	TG_USER* FindUser(int64_t id);
 	TG_USER* AddUser(int64_t id, bool bIsChat);
+	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 
 	// Popups
 	HANDLE m_hPopupClass;
@@ -236,17 +248,20 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
-	
-	int     SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
-	int     SetStatus(int iNewStatus) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
+		
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	void    OnContactDeleted(MCONTACT hContact) override;
-	MWindow OnCreateAccMgrUI(MWindow) override;
-	void    OnMarkRead(MCONTACT, MEVENT) override;
-	void    OnModulesLoaded() override;
-	void    OnShutdown() override;
-	void    OnErase() override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
+	int      SetStatus(int iNewStatus) override;
+			   
+	void     OnContactDeleted(MCONTACT hContact) override;
+	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
+	void     OnErase() override;
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	

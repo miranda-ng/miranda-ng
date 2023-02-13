@@ -16,6 +16,10 @@ static int CompareRequests(const TG_REQUEST_BASE *p1, const TG_REQUEST_BASE *p2)
 	return (p1->requestId < p2->requestId) ? -1 : 1;
 }
 
+static int CompareChats(const TG_USER *p1, const TG_USER *p2)
+{	return CompareId(p1->chatId, p2->chatId);
+}
+
 static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 {	return CompareId(p1->id, p2->id);
 }
@@ -32,7 +36,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CTelegramProto>(protoName, userName),
 	m_impl(*this),
 	m_arFiles(1),
-	m_arUsers(10, CompareUsers),
+	m_arChats(100, CompareChats),
+	m_arUsers(100, CompareUsers),
 	m_arRequests(10, CompareRequests),
 	m_arBasicGroups(10, CompareBasicGroups),
 	m_arSuperGroups(10, CompareSuperGroups),
@@ -60,8 +65,6 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateDirectoryTreeW(GetAvatarPath());
 
 	// default contacts group
-	if (m_wszDefaultGroup == NULL)
-		m_wszDefaultGroup = mir_wstrdup(L"WhatsApp");
 	m_iBaseGroup = Clist_GroupCreate(0, m_wszDefaultGroup);
 
 	// create standard network connection
@@ -99,8 +102,11 @@ void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 void CTelegramProto::OnModulesLoaded()
 {
 	CMStringA szId(getMStringA(DBKEY_ID));
-	if (!szId.IsEmpty())
-		m_arUsers.insert(new TG_USER(_atoi64(szId.c_str()), 0));
+	if (!szId.IsEmpty()) {
+		auto *pUser = new TG_USER(_atoi64(szId.c_str()), 0);
+		m_arUsers.insert(pUser);
+		m_arChats.insert(pUser);
+	}
 
 	for (auto &cc : AccContacts()) {
 		ptrA szPath(getStringA(cc, "AvatarPath"));
@@ -115,6 +121,8 @@ void CTelegramProto::OnModulesLoaded()
 			auto *pUser = new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat);
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
 			m_arUsers.insert(pUser);
+			if (!isGroupChat)
+				m_arChats.insert(pUser);
 		}
 	}
 
@@ -164,11 +172,32 @@ void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+{
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.w == nullptr)
+		return 0;
+
+	auto id = _wtoi64(psr->id.w);
+	if (auto *pUser = FindUser(id))
+		if (pUser->hContact != INVALID_CONTACT_ID)
+			return pUser->hContact;
+
+	auto *pUser = AddUser(id, false);
+	if (flags & PALF_TEMPORARY)
+		Contact::RemoveFromList(pUser->hContact);
+
+	auto cc = TD::make_object<TD::contact>(); cc->user_id_ = id;
+	SendQuery(new TD::addContact(std::move(cc), false));
+	return pUser->hContact;
+}
+
 INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_EXTSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV | PF1_SERVERCLIST;
+		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES | PF1_MODEMSGRECV | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 	case PFLAGNUM_4:
@@ -176,11 +205,52 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_LONGAWAY;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)L"Phone";
+		return (INT_PTR)L"ID";
 	default:
 		return 0;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
+{
+	m_searchIds.clear();
+
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::chats::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::chats::ID);
+		return;
+	}
+
+	auto *pChats = ((TD::chats*)response.object.get());
+	if (pChats->total_count_) {
+		for (auto &it : pChats->chat_ids_) {
+			if (auto *pUser = FindChat(it))
+				ReportSearchUser(pUser);
+			else
+				m_searchIds.push_back(it);
+		}
+	}
+
+	if (m_searchIds.empty())
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
+}
+
+HANDLE CTelegramProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
+{
+	CMStringA szQuery(FORMAT, "%s %s %s", T2Utf(nick).get(), T2Utf(firstName).get(), T2Utf(lastName).get());
+	if (szQuery.GetLength() == 2)
+		return nullptr;
+
+	szQuery.Trim();
+	SendQuery(new TD::searchPublicChats(szQuery.c_str()), &CTelegramProto::OnSearchResults);
+	return this;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CTelegramProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
 {
