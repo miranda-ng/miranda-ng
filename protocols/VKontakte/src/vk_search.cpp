@@ -19,62 +19,43 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 HANDLE CVkProto::SearchBasic(const wchar_t *id)
 {
-	ForkThread(&CVkProto::SearchBasicThread, (void *)id);
+	if (!IsOnline())
+		return nullptr;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
+		<< WCHAR_PARAM("user_ids", id) << CHAR_PARAM("fields", "nickname, domain"));
 	return (HANDLE)1;
 }
 
 HANDLE CVkProto::SearchByEmail(const wchar_t *email)
 {
-	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
+	if (!IsOnline())
+		return nullptr;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
+		<< WCHAR_PARAM("contacts", email) << CHAR_PARAM("service", "email"));
 	return (HANDLE)1;
 }
 
 HANDLE CVkProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
-	PROTOSEARCHBYNAME *psr = new (PROTOSEARCHBYNAME);
+	if (!IsOnline())
+		return nullptr;
 
+	PROTOSEARCHBYNAME *psr = new PROTOSEARCHBYNAME;
 	psr->pszFirstName = mir_wstrdup(firstName);
 	psr->pszLastName = mir_wstrdup(lastName);
 	psr->pszNick = mir_wstrdup(nick);
 
-	ForkThread(&CVkProto::SearchThread, (void *)psr);
-	return (HANDLE)1;
-}
-
-void CVkProto::SearchBasicThread(void *id)
-{
-	debugLogA("CVkProto::OnSearchBasicThread");
-	if (!IsOnline())
-		return;
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
-		<< WCHAR_PARAM("user_ids", (wchar_t *)id) << CHAR_PARAM("fields", "nickname, domain"));
-}
-
-void CVkProto::SearchByMailThread(void *email)
-{
-	debugLogA("CVkProto::OnSearchBasicThread");
-	if (!IsOnline())
-		return;
-	
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
-		<< WCHAR_PARAM("contacts", (wchar_t *)email) << CHAR_PARAM("service", "email"));
-}
-
-void __cdecl CVkProto::SearchThread(void *p)
-{
-	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
-
 	wchar_t arg[200];
-	mir_snwprintf(arg, L"%s %s %s", pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
-	debugLogW(L"CVkProto::SearchThread %s", arg);
-	if (!IsOnline())
-		return;
+	mir_snwprintf(arg, L"%s %s %s", psr->pszFirstName, psr->pszNick, psr->pszLastName);
+	debugLogW(L"CVkProto::SearchByName %s", arg);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
 		<< WCHAR_PARAM("q", (wchar_t *)arg)
 		<< CHAR_PARAM("fields", "nickname, domain")
-		<< INT_PARAM("count", 200))->pUserInfo = p;
+		<< INT_PARAM("count", 200))->pUserInfo = psr;
+	return (HANDLE)1;
 }
 
 void CVkProto::FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam)
