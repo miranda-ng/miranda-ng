@@ -315,6 +315,7 @@ public:
 		GetDlgItemText(m_hwnd, IDC_MSG, dat->szMsg, _countof(dat->szMsg));
 		FtMgr_AddTransfer(dat);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+		dat = nullptr;
 		
 		// check for auto-minimize here to fix BUG#647620
 		if (g_plugin.bAutoAccept && g_plugin.bAutoMin) {
