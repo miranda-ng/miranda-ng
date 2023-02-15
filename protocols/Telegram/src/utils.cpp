@@ -82,6 +82,15 @@ void CTelegramProto::ReportSearchUser(TG_USER *pUser)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::SetId(MCONTACT hContact, int64_t id)
+{
+	char szId[100];
+	_i64toa(id, szId, 10);
+	setString(hContact, DBKEY_ID, szId);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
 {
 	if (str.empty())
@@ -126,9 +135,7 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	char szId[100];
-	_i64toa(id, szId, 10);
-	setString(hContact, DBKEY_ID, szId);
+	SetId(hContact, id);
 
 	if (bIsChat) {
 		Clist_SetGroup(hContact, TranslateT("Chat rooms"));

@@ -480,9 +480,13 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (pUser->phone_number_ == m_szFullPhone.c_str()) {
 		m_iOwnId = pUser->id_;
+		SetId(0, m_iOwnId);
 
-		if (!FindUser(pUser->id_))
-			m_arUsers.insert(new TG_USER(pUser->id_, 0));
+		if (!FindUser(pUser->id_)) {
+			auto *pMe = new TG_USER(pUser->id_, 0);
+			m_arUsers.insert(pMe);
+			m_arChats.insert(pMe);
+		}
 	}
 
 	if (!pUser->is_contact_) {

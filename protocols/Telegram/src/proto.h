@@ -231,6 +231,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* FindUser(int64_t id);
 	TG_USER* AddUser(int64_t id, bool bIsChat);
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
+	void     SetId(MCONTACT, int64_t id);
 
 	// Popups
 	HANDLE m_hPopupClass;
