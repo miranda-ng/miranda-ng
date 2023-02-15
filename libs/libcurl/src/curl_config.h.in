@@ -580,6 +580,9 @@
 /* Define to 1 if you have the <ssl.h> header file. */
 #undef HAVE_SSL_H
 
+/* Define to 1 if you have the `SSL_set0_wbio' function. */
+#undef HAVE_SSL_SET0_WBIO
+
 /* Define to 1 if you have the <stdatomic.h> header file. */
 #undef HAVE_STDATOMIC_H
 

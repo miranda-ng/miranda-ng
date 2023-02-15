@@ -47,6 +47,12 @@
     <ClCompile Include="src\c-hyper.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\cf-http.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cf-socket.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\cfilters.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -81,6 +87,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_gssapi.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curl_log.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_memrchr.c">
@@ -383,6 +392,18 @@
     <ClCompile Include="src\vauth\vauth.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vquic\curl_msh3.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\vquic\curl_ngtcp2.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\vquic\curl_quiche.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\vquic\vquic.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vssh\libssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -450,8 +471,10 @@
     <ClInclude Include="src\amigaos.h" />
     <ClInclude Include="src\arpa_telnet.h" />
     <ClInclude Include="src\asyn.h" />
-	<ClInclude Include="src\bufref.h" />
+    <ClInclude Include="src\bufref.h" />
     <ClInclude Include="src\c-hyper.h" />
+    <ClInclude Include="src\cf-http.h" />
+    <ClInclude Include="src\cf-socket.h" />
     <ClInclude Include="src\cfilters.h" />
     <ClInclude Include="src\config-amigaos.h" />
     <ClInclude Include="src\config-dos.h" />
@@ -478,6 +501,7 @@
     <ClInclude Include="src\curl_hmac.h" />
     <ClInclude Include="src\curl_krb5.h" />
     <ClInclude Include="src\curl_ldap.h" />
+    <ClInclude Include="src\curl_log.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
     <ClInclude Include="src\curl_memory.h" />
@@ -517,7 +541,7 @@
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
-	<ClInclude Include="src\http_aws_sigv4.h" />
+    <ClInclude Include="src\http_aws_sigv4.h" />
     <ClInclude Include="src\http.h" />
     <ClInclude Include="src\http2.h" />
     <ClInclude Include="src\http_chunks.h" />
@@ -544,7 +568,6 @@
     <ClInclude Include="src\pop3.h" />
     <ClInclude Include="src\progress.h" />
     <ClInclude Include="src\psl.h" />
-    <ClInclude Include="src\quic.h" />
     <ClInclude Include="src\rand.h" />
     <ClInclude Include="src\rename.h" />
     <ClInclude Include="src\rtsp.h" />
@@ -579,6 +602,11 @@
     <ClInclude Include="src\urlapi-int.h" />
     <ClInclude Include="src\urldata.h" />
     <ClInclude Include="src\version_win32.h" />
+    <ClInclude Include="src\vquic\curl_msh3.h" />
+    <ClInclude Include="src\vquic\curl_ngtcp2.h" />
+    <ClInclude Include="src\vquic\curl_quiche.h" />
+    <ClInclude Include="src\vquic\vquic.h" />
+    <ClInclude Include="src\vquic\vquic_int.h" />
     <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\wildcard.h" />
     <ClInclude Include="src\ws.h" />

@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -61,6 +61,16 @@
 #  ifndef NOGDI
 #    define NOGDI
 #  endif
+/* Detect Windows App environment which has a restricted access
+ * to the Win32 APIs. */
+# if (defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0602)) || \
+  defined(WINAPI_FAMILY)
+#  include <winapifamily.h>
+#  if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) &&  \
+     !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#    define CURL_WINDOWS_APP
+#  endif
+# endif
 #endif
 
 /*
@@ -767,14 +777,16 @@ endings either CRLF or LF so 't' is appropriate.
 #define FOPEN_APPENDTEXT "a"
 #endif
 
-/* WinSock destroys recv() buffer when send() failed.
- * Enabled automatically for Windows and for Cygwin as Cygwin sockets are
- * wrappers for WinSock sockets. https://github.com/curl/curl/issues/657
- * Define DONT_USE_RECV_BEFORE_SEND_WORKAROUND to force disable workaround.
+/* Windows workaround to recv before every send, because apparently Winsock
+ * destroys destroys recv() buffer when send() failed.
+ * This workaround is now disabled by default since it caused hard to fix bugs.
+ * Define USE_RECV_BEFORE_SEND_WORKAROUND to enable it.
+ * https://github.com/curl/curl/issues/657
+ * https://github.com/curl/curl/pull/10409
  */
 #if !defined(DONT_USE_RECV_BEFORE_SEND_WORKAROUND)
 #  if defined(WIN32) || defined(__CYGWIN__)
-#    define USE_RECV_BEFORE_SEND_WORKAROUND
+/* #    define USE_RECV_BEFORE_SEND_WORKAROUND */
 #  endif
 #else  /* DONT_USE_RECV_BEFORE_SEND_WORKAROUND */
 #  ifdef USE_RECV_BEFORE_SEND_WORKAROUND
@@ -824,6 +836,13 @@ int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf,
 #if defined(USE_NGTCP2) || defined(USE_QUICHE) || defined(USE_MSH3)
 #define ENABLE_QUIC
 #define USE_HTTP3
+#endif
+
+/* Certain Windows implementations are not aligned with what curl expects,
+   so always use the local one on this platform. E.g. the mingw-w64
+   implementation can return wrong results for non-ASCII inputs. */
+#if defined(HAVE_BASENAME) && defined(WIN32)
+#undef HAVE_BASENAME
 #endif
 
 #if defined(USE_UNIX_SOCKETS) && defined(WIN32)

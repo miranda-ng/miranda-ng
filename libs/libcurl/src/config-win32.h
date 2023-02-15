@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -196,10 +196,6 @@
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
-
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
 
 /* Define if you have the strcasecmp function. */
 #ifdef __MINGW32__
@@ -618,9 +614,6 @@ Vista
 #if defined(__POCC__) && defined(USE_WIN32_LDAP)
 #  define CURL_DISABLE_LDAP 1
 #endif
-
-/* if SSL is enabled */
-#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)

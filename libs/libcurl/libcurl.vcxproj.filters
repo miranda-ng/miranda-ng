@@ -23,6 +23,12 @@
     <ClCompile Include="src\c-hyper.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cf-http.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cf-socket.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\cfilters.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_gssapi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curl_log.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_memrchr.c">
@@ -356,6 +365,18 @@
     <ClCompile Include="src\vauth\vauth.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vquic\curl_msh3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vquic\curl_ngtcp2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vquic\curl_quiche.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vquic\vquic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\vssh\libssh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -475,6 +496,12 @@
     <ClInclude Include="src\c-hyper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\cf-http.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cf-socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\cfilters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -551,6 +578,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_ldap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curl_log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_md4.h">
@@ -751,9 +781,6 @@
     <ClInclude Include="src\psl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\quic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\rand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -854,6 +881,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vquic\curl_msh3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vquic\curl_ngtcp2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vquic\curl_quiche.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vquic\vquic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vquic\vquic_int.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\warnless.h">

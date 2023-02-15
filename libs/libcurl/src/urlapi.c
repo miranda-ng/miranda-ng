@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -33,6 +33,7 @@
 #include "inet_pton.h"
 #include "inet_ntop.h"
 #include "strdup.h"
+#include "idn.h"
 
 /* The last 3 #include files should be in this order */
 #include "curl_printf.h"
@@ -116,14 +117,11 @@ static const char *find_host_sep(const char *url)
 }
 
 /*
- * Decide in an encoding-independent manner whether a character in a URL must
- * be escaped. This is used in urlencode_str().
+ * Decide whether a character in a URL must be escaped.
  */
-static bool urlchar_needs_escaping(int c)
-{
-  return !(ISCNTRL(c) || ISSPACE(c) || ISGRAPH(c));
-}
+#define urlchar_needs_escaping(c) (!(ISCNTRL(c) || ISSPACE(c) || ISGRAPH(c)))
 
+static const char hexdigits[] = "0123456789abcdef";
 /* urlencode_str() writes data into an output dynbuf and URL-encodes the
  * spaces in the source URL accordingly.
  *
@@ -167,7 +165,10 @@ static CURLUcode urlencode_str(struct dynbuf *o, const char *url,
       left = FALSE;
 
     if(urlchar_needs_escaping(*iptr)) {
-      if(Curl_dyn_addf(o, "%%%02x", *iptr))
+      char out[3]={'%'};
+      out[1] = hexdigits[*iptr>>4];
+      out[2] = hexdigits[*iptr & 0xf];
+      if(Curl_dyn_addn(o, out, 3))
         return CURLUE_OUT_OF_MEMORY;
     }
     else {
@@ -782,24 +783,27 @@ static CURLUcode decode_host(struct dynbuf *host)
  *
  * RETURNS
  *
- * an allocated dedotdotified output string
+ * Zero for success and 'out' set to an allocated dedotdotified string.
  */
-UNITTEST char *dedotdotify(const char *input, size_t clen);
-UNITTEST char *dedotdotify(const char *input, size_t clen)
+UNITTEST int dedotdotify(const char *input, size_t clen, char **outp);
+UNITTEST int dedotdotify(const char *input, size_t clen, char **outp)
 {
-  char *out = malloc(clen + 1);
   char *outptr;
   const char *orginput = input;
   char *queryp;
+  char *out;
+
+  *outp = NULL;
+  /* the path always starts with a slash, and a slash has not dot */
+  if((clen < 2) || !memchr(input, '.', clen))
+    return 0;
+
+  out = malloc(clen + 1);
   if(!out)
-    return NULL; /* out of memory */
+    return 1; /* out of memory */
 
   *out = 0; /* null-terminates, for inputs like "./" */
   outptr = out;
-
-  if(!*input)
-    /* zero length input string, return that */
-    return out;
 
   /*
    * To handle query-parts properly, we must find it and remove it during the
@@ -905,7 +909,8 @@ UNITTEST char *dedotdotify(const char *input, size_t clen)
     memcpy(outptr, &orginput[oindex], qlen + 1); /* include zero byte */
   }
 
-  return out;
+  *outp = out;
+  return 0; /* success */
 }
 
 static CURLUcode parseurl(const char *url, CURLU *u, unsigned int flags)
@@ -1152,7 +1157,7 @@ static CURLUcode parseurl(const char *url, CURLU *u, unsigned int flags)
     size_t qlen = strlen(query) - fraglen; /* includes '?' */
     pathlen = strlen(path) - qlen - fraglen;
     if(qlen > 1) {
-      if(qlen && (flags & CURLU_URLENCODE)) {
+      if(flags & CURLU_URLENCODE) {
         struct dynbuf enc;
         Curl_dyn_init(&enc, CURL_MAX_INPUT_LENGTH);
         /* skip the leading question mark */
@@ -1199,8 +1204,8 @@ static CURLUcode parseurl(const char *url, CURLU *u, unsigned int flags)
     path = u->path = Curl_dyn_ptr(&enc);
   }
 
-  if(!pathlen) {
-    /* there is no path left, unset */
+  if(pathlen <= 1) {
+    /* there is no path left or just the slash, unset */
     path = NULL;
   }
   else {
@@ -1224,13 +1229,16 @@ static CURLUcode parseurl(const char *url, CURLU *u, unsigned int flags)
 
     if(!(flags & CURLU_PATH_AS_IS)) {
       /* remove ../ and ./ sequences according to RFC3986 */
-      char *newp = dedotdotify((char *)path, pathlen);
-      if(!newp) {
+      char *dedot;
+      int err = dedotdotify((char *)path, pathlen, &dedot);
+      if(err) {
         result = CURLUE_OUT_OF_MEMORY;
         goto fail;
       }
-      free(u->path);
-      u->path = newp;
+      if(dedot) {
+        free(u->path);
+        u->path = dedot;
+      }
     }
   }
 
@@ -1379,6 +1387,7 @@ CURLUcode curl_url_get(CURLU *u, CURLUPart what,
   char portbuf[7];
   bool urldecode = (flags & CURLU_URLDECODE)?1:0;
   bool urlencode = (flags & CURLU_URLENCODE)?1:0;
+  bool punycode = FALSE;
   bool plusdecode = FALSE;
   (void)flags;
   if(!u)
@@ -1408,6 +1417,7 @@ CURLUcode curl_url_get(CURLU *u, CURLUPart what,
   case CURLUPART_HOST:
     ptr = u->host;
     ifmissing = CURLUE_NO_HOST;
+    punycode = (flags & CURLU_PUNYCODE)?1:0;
     break;
   case CURLUPART_ZONEID:
     ptr = u->zoneid;
@@ -1460,6 +1470,7 @@ CURLUcode curl_url_get(CURLU *u, CURLUPart what,
     char *options = u->options;
     char *port = u->port;
     char *allochost = NULL;
+    punycode = (flags & CURLU_PUNYCODE)?1:0;
     if(u->scheme && strcasecompare("file", u->scheme)) {
       url = aprintf("file://%s%s%s",
                     u->path,
@@ -1513,6 +1524,17 @@ CURLUcode curl_url_get(CURLU *u, CURLUPart what,
         allochost = curl_easy_escape(NULL, u->host, 0);
         if(!allochost)
           return CURLUE_OUT_OF_MEMORY;
+      }
+      else if(punycode) {
+        if(!Curl_is_ASCII_name(u->host)) {
+#ifndef USE_IDN
+          return CURLUE_LACKS_IDN;
+#else
+          allochost = Curl_idn_decode(u->host);
+          if(!allochost)
+            return CURLUE_OUT_OF_MEMORY;
+#endif
+        }
       }
       else {
         /* only encode '%' in output host name */
@@ -1610,6 +1632,19 @@ CURLUcode curl_url_get(CURLU *u, CURLUPart what,
         return CURLUE_OUT_OF_MEMORY;
       free(*part);
       *part = Curl_dyn_ptr(&enc);
+    }
+    else if(punycode) {
+      if(!Curl_is_ASCII_name(u->host)) {
+#ifndef USE_IDN
+        return CURLUE_LACKS_IDN;
+#else
+        char *allochost = Curl_idn_decode(*part);
+        if(!allochost)
+          return CURLUE_OUT_OF_MEMORY;
+        free(*part);
+        *part = allochost;
+#endif
+      }
     }
 
     return CURLUE_OK;
@@ -1807,7 +1842,10 @@ CURLUcode curl_url_set(CURLU *u, CURLUPart what,
             return CURLUE_OUT_OF_MEMORY;
         }
         else {
-          result = Curl_dyn_addf(&enc, "%%%02x", *i);
+          char out[3]={'%'};
+          out[1] = hexdigits[*i>>4];
+          out[2] = hexdigits[*i & 0xf];
+          result = Curl_dyn_addn(&enc, out, 3);
           if(result)
             return CURLUE_OUT_OF_MEMORY;
         }
