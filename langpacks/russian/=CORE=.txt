@@ -214,8 +214,8 @@
 Показывать панель статусов
 [Show icons]
 Показывать значки
-[Show protocol names]
-Показывать протоколы
+[Show account names]
+Показывать имена учётных записей
 [Show status text]
 Показывать текст статуса
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Google Карты
 История сообщений
 [User menu]
 Меню пользователя
-[Canceled]
-Отменённые
 [This file transfer has been canceled by the other side]
 Передача файла отменена другой стороной
+[Canceled]
+Отменённые
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файла(ов)

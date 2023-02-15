@@ -1452,6 +1452,8 @@ OMEMO не поддерживает шифрование приватных со
 Добавлять контакт после подтверждения авторизации
 [Automatically accept authorization requests]
 Автоматически принимать запросы авторизации
+[Automatically download files passed via HTTP File Upload]
+Автоматически принимать файлы, полученные через HTTP File Upload
 [Fix incorrect timestamps in incoming messages]
 Исправлять время во входящих сообщениях
 [Enable XMPP link processing (requires AssocMgr)]

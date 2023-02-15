@@ -106,8 +106,8 @@
 Показывать панель статусов
 [Show icons]
 Показывать значки
-[Show protocol names]
-Показывать протоколы
+[Show account names]
+Показывать имена учётных записей
 [Show status text]
 Показывать текст статуса
 [Right click opens status menu]

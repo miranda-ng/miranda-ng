@@ -23,7 +23,7 @@
 [Use BBCode]
 Использовать BBCode
 [Unregister]
-
+Удалить
 [Invite users]
 Пригласить пользователей
 [Choose a user]

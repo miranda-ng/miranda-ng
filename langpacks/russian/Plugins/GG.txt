@@ -153,8 +153,6 @@
 [Sign out all sessions]
 Выйти из всех сессий
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Не удалось создать папку для кэша аватаров. Ошибка: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Не удалось создать файл аватара. Ошибка: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]

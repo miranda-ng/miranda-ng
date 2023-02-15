@@ -8,6 +8,8 @@
 [Telegram protocol support for Miranda NG.]
 Поддержка протокола Telegram в Miranda NG.
 ;file \protocols\Telegram\res\resource.rc
+[Country:]
+Страна:
 [Phone number:]
 Телефон:
 [Default group:]
@@ -16,7 +18,15 @@
 Имя устройства:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
 ;file \protocols\Telegram\src\auth.cpp
+[Enter email address for account verification]
+Введите адрес электронной почты для подтверждения учётной записи
+[Enter verification code received by email]
+Введите код подтверждения, полученный по электронной почте
 [Enter secret code sent to your phone]
 
 [Enter password]
@@ -31,6 +41,17 @@
 
 [Invalid password]
 Неверный пароль
+;file \protocols\Telegram\src\groupchat.cpp
+[Creator]
+Создатель
+[Admin]
+Админ
+[Participant]
+Участник
+[SuperAdmin]
+СуперАдмин
+[Visitor]
+Посетитель
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
 Premium-подписчик
@@ -39,7 +60,14 @@ Premium-подписчик
 Сеть
 [Account]
 Учётная запись
+[Advanced]
+Дополнительно
+;file \protocols\Telegram\src\server.cpp
+[%d member(s)]
+%d участник(ов)
 ;file \protocols\Telegram\src\utils.cpp
+[none]
+нет
 [Chat rooms]
 Чаты
 [%s error notifications]

@@ -116,8 +116,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Настроить учётную запись
 [Hide account completely]
 Скрыть учётную запись
-[Show protocol names]
-Показывать протоколы
+[Show account names]
+Показывать имена учётных записей
 [Show status name]
 Имя статуса
 [Show xStatus name]
@@ -784,6 +784,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [(Unknown contact)]
 (Неизвестный контакт)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+Свернуть метаконтакт
+[Expand meta]
+Развернуть метаконтакт
 [Show avatar]
 Показать аватар
 [Hide avatar]
