@@ -72,7 +72,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	if (auto *pa = Proto_GetAccount(pszModule)) {
 		if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {
 			if (pd->iUniqueIdType == DBVT_DWORD)
-				db_set_w(hContact, pszModule, pd->szUniqueId, _wtoi(pszRoom));
+				db_set_dw(hContact, pszModule, pd->szUniqueId, _wtoi(pszRoom));
 			else
 				db_set_ws(hContact, pszModule, pd->szUniqueId, pszRoom);
 		}

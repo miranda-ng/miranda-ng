@@ -125,6 +125,7 @@ void CVkProto::CheckUpdate()
 			if (userId != VK_INVALID_USER) {
 				setDword(cc, "ID", userId);
 				delSetting(cc, "vk_chat_id");
+				delSetting(cc, "ChatRoomID");
 			}
 		}
 		setByte("Compatibility", 1);
