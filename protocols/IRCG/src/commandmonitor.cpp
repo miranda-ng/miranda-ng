@@ -1140,7 +1140,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 
 						const wchar_t* tszTemp = sFile;
 
-						PROTORECVFILE pre = { 0 };
+						PROTORECVFILE pre = {};
 						pre.dwFlags = PRFF_UNICODE;
 						pre.timestamp = (uint32_t)time(0);
 						pre.fileCount = 1;

@@ -36,7 +36,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	else
 		strncpy_s(description, filename, _TRUNCATE);
 
-	PROTORECVFILE pre = {0};
+	PROTORECVFILE pre = {};
 	pre.fileCount = 1;
 	pre.timestamp = time(0);
 	pre.descr.a = description;

@@ -52,7 +52,7 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
-			PROTORECVFILE pre = { 0 };
+			PROTORECVFILE pre = {};
 			pre.dwFlags = PRFF_UNICODE;
 			pre.fileCount = 1;
 			pre.timestamp = now();

@@ -1033,7 +1033,7 @@ retry:
 
 			const char *fileName = (const char*)dcc7->filename;
 
-			PROTORECVFILE pre = { 0 };
+			PROTORECVFILE pre = {};
 			pre.fileCount = 1;
 			pre.timestamp = time(0);
 			pre.descr.a = fileName;

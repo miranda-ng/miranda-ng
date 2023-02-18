@@ -367,7 +367,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
 						const char *pszFileName = (const char *)m_dcc->file_info.filename;
 
-						PROTORECVFILE pre = { 0 };
+						PROTORECVFILE pre = {};
 						pre.fileCount = 1;
 						pre.timestamp = time(0);
 						pre.descr.a = pszFileName;
