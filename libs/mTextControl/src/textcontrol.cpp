@@ -27,7 +27,7 @@ struct TextControlData
 {
 	HANDLE htu;
 	wchar_t *text;
-	HANDLE mtext;
+	struct TextObject *mtext;
 };
 
 void MTextControl_RegisterClass()

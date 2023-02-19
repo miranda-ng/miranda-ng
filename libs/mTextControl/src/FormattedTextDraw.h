@@ -28,23 +28,22 @@ interface IFormattedTextDraw
 {
 public:
 	virtual ~IFormattedTextDraw() {};
-	virtual HRESULT get_NaturalSize(void *hdcDraw, long *Width, long *pVal) = 0;
-	virtual HRESULT Create() = 0;
-	virtual HRESULT Draw(void *hdcDraw, RECT *prc) = 0;
-	virtual HRESULT putRTFTextA(char *newVal) = 0;
-	virtual HRESULT putRTFTextW(wchar_t *newVal) = 0;
-	virtual HRESULT putTextA(char *newVal) = 0;
-	virtual HRESULT putTextW(wchar_t *newVal) = 0;
+	virtual HRESULT get_NaturalSize(void *hdcDraw, long *Width, long *pVal) PURE;
+	virtual HRESULT Create() PURE;
+	virtual HRESULT Draw(void *hdcDraw, RECT *prc) PURE;
+	virtual HRESULT putRTFTextA(char *newVal) PURE;
+	virtual HRESULT putRTFTextW(wchar_t *newVal) PURE;
+	virtual HRESULT putTextA(char *newVal) PURE;
+	virtual HRESULT putTextW(wchar_t *newVal) PURE;
 
-	virtual ITextServices *getTextService() = 0;
-	virtual ITextDocument *getTextDocument() = 0;
-	virtual void setParentWnd(HWND hwnd, RECT rect) = 0;
+	virtual ITextServices *getTextService() PURE;
+	virtual ITextDocument *getTextDocument() PURE;
+	virtual void setParentWnd(HWND hwnd, RECT rect) PURE;
 
 	// COM-like functions
-	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
-	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+	virtual ULONG STDMETHODCALLTYPE AddRef(void) PURE;
+	virtual ULONG STDMETHODCALLTYPE Release(void) PURE;
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CFormattedTextDraw

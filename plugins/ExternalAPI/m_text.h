@@ -8,8 +8,10 @@
 
 #ifdef MTEXTCONTROL_EXPORTS
 	#define MTEXTCONTROL_EXPORT __declspec(dllexport)
+	typedef struct TextObject *HText;
 #else
 	#define MTEXTCONTROL_EXPORT __declspec(dllimport)
+	typedef HANDLE HText;
 #endif
 
 #define MTEXTCONTROL_DLL(T) MTEXTCONTROL_EXPORT T __stdcall
@@ -47,29 +49,32 @@ enum
 MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options);
 
 // allocate text object (unicode)
-MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
+MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
 
 // allocate text object (advanced)
-MTEXTCONTROL_DLL(HANDLE) MTextCreateEx(HANDLE userHandle, void *text, DWORD flags);
+MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, void *text, DWORD flags);
 
 // destroys text object
-MTEXTCONTROL_DLL(int) MTextDestroy(HANDLE text);
+MTEXTCONTROL_DLL(int) MTextDestroy(HText text);
+
+// activates text object
+MTEXTCONTROL_DLL(int) MTextActivate(HText text, bool bActivate = true);
 
 // measures text object
 // result = 1 (success), 0 (failure)
 // sz->cx is interpreted as maximum width allowed.
 // wrapped text size is stored in sz, text
-MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, HANDLE text);
+MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, HText text);
 
 // display text object
 // result = 1 (success), 0 (failure)
-MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text);
+MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, HText text);
 
 // set parent window for text object (this is required for mouse handling, etc)
-MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd);
+MTEXTCONTROL_DLL(int) MTextSetParent(HText text, HWND hwnd);
 
 // send message to an object
-MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam);
+MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HText text, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #ifdef __cplusplus
 }

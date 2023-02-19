@@ -823,6 +823,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (data->caret != idx)
 				data->EndEditItem(false);
 
+			auto *pItem = data->items[idx];
+			MTextActivate(pItem->data, true);
+
 			if (wParam & MK_CONTROL) {
 				SendMessage(hwnd, NSM_TOGGLEITEMS, idx, idx);
 				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
@@ -832,7 +835,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
 			}
 			else {
-				auto *pItem = data->items[idx];
 				pt.y -= pItem->savedTop;
 				if (pItem->isLink(pt)) {
 					Utils_OpenUrlW(pItem->getWBuf());
@@ -847,6 +849,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
 				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
 			}
+			MTextActivate(pItem->data, false);
 		}
 
 		SetFocus(hwnd);

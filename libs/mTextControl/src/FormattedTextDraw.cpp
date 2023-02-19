@@ -241,12 +241,13 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 
 HDC CFormattedTextDraw::TxGetDC()
 {
-	return nullptr;
+	return GetDC(nullptr);
 }
 
-INT CFormattedTextDraw::TxReleaseDC(HDC)
+INT CFormattedTextDraw::TxReleaseDC(HDC hdc)
 {
-	return 1;
+	ReleaseDC(nullptr, hdc);
+	return FALSE;
 }
 
 BOOL CFormattedTextDraw::TxShowScrollBar(INT, BOOL)
