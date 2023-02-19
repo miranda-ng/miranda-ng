@@ -59,6 +59,6 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD ul_reason_for_call, LPVOID)
 		FreeLibrary(hMsfteditDll);
 		break;
 	}
-	
+
 	return TRUE;
 }

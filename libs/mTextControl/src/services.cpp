@@ -22,17 +22,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 struct TextObject
 {
-	uint32_t options;
-	const char *szProto;
-	IFormattedTextDraw *ftd;
-	TextObject() : options(0), ftd(nullptr) {}
-	~TextObject() { if (ftd) delete ftd; }
+	uint32_t options = 0;
+	const char *szProto = nullptr;
+	CFormattedTextDraw *ftd = nullptr;
+
+	TextObject() {}
+
+	~TextObject()
+	{
+		delete ftd;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// elper functions
+// Helper functions
 
-void MText_InitFormatting0(IFormattedTextDraw *ftd, uint32_t)
+void MText_InitFormatting0(CFormattedTextDraw *ftd, uint32_t)
 {
 	// urls
 	LRESULT lResult;
@@ -61,17 +66,16 @@ void MText_InitFormatting1(TextObject *text)
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocate text object (unicode)
 
-MTEXTCONTROL_DLL(TextObject*) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text)
+MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text)
 {
 	TextObject *result = new TextObject;
 	result->szProto = szProto;
 	result->options = TextUserGetOptions(userHandle);
-	result->ftd = new CFormattedTextDraw;
-	result->ftd->Create();
+	result->ftd = new CFormattedTextDraw();
 	InitRichEdit(result->ftd->getTextService());
 
 	MText_InitFormatting0(result->ftd, result->options);
-	result->ftd->putTextW((wchar_t*)text);
+	result->ftd->putTextW((wchar_t *)text);
 	MText_InitFormatting1(result);
 
 	return result;
@@ -80,12 +84,11 @@ MTEXTCONTROL_DLL(TextObject*) MTextCreateW(HANDLE userHandle, const char *szProt
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocate text object (advanced)
 
-MTEXTCONTROL_DLL(TextObject*) MTextCreateEx(HANDLE userHandle, void *text, uint32_t flags)
+MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint32_t flags)
 {
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
-	result->ftd = new CFormattedTextDraw;
-	result->ftd->Create();
+	result->ftd = new CFormattedTextDraw();
 	InitRichEdit(result->ftd->getTextService());
 
 	MText_InitFormatting0(result->ftd, result->options);
@@ -105,7 +108,7 @@ MTEXTCONTROL_DLL(TextObject*) MTextCreateEx(HANDLE userHandle, void *text, uint3
 MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, TextObject *text)
 {
 	if (!text) return 0;
-	
+
 	long lWidth = sz->cx, lHeight = sz->cy;
 	text->ftd->get_NaturalSize(dc, &lWidth, &lHeight);
 	sz->cx = lWidth;

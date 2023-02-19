@@ -6,17 +6,18 @@ struct BBCodeInfo
 {
 	wchar_t *start;
 	wchar_t *end;
-	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t cookie);
+	bool (*func)(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t cookie);
 	uint32_t cookie;
 };
 
-enum {
+enum
+{
 	BBS_BOLD_S, BBS_BOLD_E, BBS_ITALIC_S, BBS_ITALIC_E, BBS_UNDERLINE_S, BBS_UNDERLINE_E,
 	BBS_STRIKEOUT_S, BBS_STRIKEOUT_E, BBS_COLOR_S, BBS_COLOR_E, BBS_URL1, BBS_URL2,
 	BBS_IMG1, BBS_IMG2
 };
 
-static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *pwszText, uint32_t cookie)
+static bool bbCodeSimpleFunc(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *pwszText, uint32_t cookie)
 {
 	wchar_t *pwszStr = L"";
 	CHARFORMAT cf = { 0 };
@@ -75,7 +76,7 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *
 	return true;
 }
 
-static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t)
+static bool bbCodeImageFunc(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t)
 {
 	ITextServices *ts = ftd->getTextService();
 	ITextDocument *td = ftd->getTextDocument();
@@ -83,15 +84,15 @@ static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *t
 	long cnt;
 	LRESULT lResult;
 	ts->TxSendMessage(EM_SETSEL, range.cpMin, range.cpMax, &lResult);
-	IRichEditOle* RichEditOle;
+	IRichEditOle *RichEditOle;
 	ts->TxSendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle, &lResult);
 	td->Freeze(&cnt);
 
-#ifdef _WIN64
+	#ifdef _WIN64
 	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi64(txt)));
-#else
+	#else
 	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi(txt)));
-#endif
+	#endif
 
 	td->Unfreeze(&cnt);
 	RichEditOle->Release();
@@ -100,27 +101,27 @@ static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *t
 
 static BBCodeInfo bbCodes[] =
 {
-	{ L"[b]", nullptr,       bbCodeSimpleFunc, BBS_BOLD_S },
-	{ L"[/b]", nullptr,      bbCodeSimpleFunc, BBS_BOLD_E },
-	{ L"[i]", nullptr,       bbCodeSimpleFunc, BBS_ITALIC_S },
-	{ L"[/i]", nullptr,      bbCodeSimpleFunc, BBS_ITALIC_E },
-	{ L"[u]", nullptr,       bbCodeSimpleFunc, BBS_UNDERLINE_S },
-	{ L"[/u]", nullptr,      bbCodeSimpleFunc, BBS_UNDERLINE_E },
-	{ L"[s]", nullptr,       bbCodeSimpleFunc, BBS_STRIKEOUT_S },
-	{ L"[/s]", nullptr,      bbCodeSimpleFunc, BBS_STRIKEOUT_E },
+	{ L"[b]", nullptr, bbCodeSimpleFunc, BBS_BOLD_S },
+	{ L"[/b]", nullptr, bbCodeSimpleFunc, BBS_BOLD_E },
+	{ L"[i]", nullptr, bbCodeSimpleFunc, BBS_ITALIC_S },
+	{ L"[/i]", nullptr, bbCodeSimpleFunc, BBS_ITALIC_E },
+	{ L"[u]", nullptr, bbCodeSimpleFunc, BBS_UNDERLINE_S },
+	{ L"[/u]", nullptr, bbCodeSimpleFunc, BBS_UNDERLINE_E },
+	{ L"[s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
+	{ L"[/s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
 
-	{ L"[color=",  L"]",     bbCodeSimpleFunc, BBS_COLOR_S },
-	{ L"[/color]", 0,        bbCodeSimpleFunc, BBS_COLOR_E },
+	{ L"[color=", L"]", bbCodeSimpleFunc, BBS_COLOR_S },
+	{ L"[/color]", 0, bbCodeSimpleFunc, BBS_COLOR_E },
 
-	{ L"[$hicon=", L"$]",    bbCodeImageFunc,  0 },
+	{ L"[$hicon=", L"$]", bbCodeImageFunc, 0 },
 
-	{ L"[url]", L"[/url]",   bbCodeSimpleFunc, BBS_URL1 },
-	{ L"[url=", L"]",        bbCodeSimpleFunc, BBS_URL2 },
-	{ L"[url]", L"[/url]",   bbCodeSimpleFunc, BBS_IMG1 },
-	{ L"[url=", L"]",        bbCodeSimpleFunc, BBS_IMG2 },
+	{ L"[url]", L"[/url]", bbCodeSimpleFunc, BBS_URL1 },
+	{ L"[url=", L"]", bbCodeSimpleFunc, BBS_URL2 },
+	{ L"[url]", L"[/url]", bbCodeSimpleFunc, BBS_IMG1 },
+	{ L"[url=", L"]", bbCodeSimpleFunc, BBS_IMG2 },
 };
 
-void bbCodeParse(IFormattedTextDraw *ftd)
+void bbCodeParse(CFormattedTextDraw *ftd)
 {
 	ITextServices *ts = ftd->getTextService();
 	LRESULT lResult;

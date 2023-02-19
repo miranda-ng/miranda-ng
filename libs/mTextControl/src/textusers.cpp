@@ -64,7 +64,7 @@ void TextUsersSave()
 void TextUsersReset()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
-		textUser->options = (db_get_dw(0, MODULENAME, textUser->name, 0) & MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
+		textUser->options = (db_get_dw(0, MODULENAME, textUser->name, 0) & MTEXT_FANCY_MASK) | (textUser->options & MTEXT_SYSTEM_MASK);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

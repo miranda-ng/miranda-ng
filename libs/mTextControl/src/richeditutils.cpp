@@ -10,67 +10,67 @@ private:
 public:
 	CREOleCallback() {}
 
-	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, LPVOID * ppvObj)
+	STDMETHODIMP QueryInterface(REFIID riid, LPVOID *ppvObj) override
 	{
 		if (IsEqualIID(riid, IID_IRichEditOleCallback)) {
 			*ppvObj = this;
-			this->AddRef();
+			AddRef();
 			return S_OK;
 		}
 		*ppvObj = nullptr;
 		return E_NOINTERFACE;
 	}
 
-	ULONG STDMETHODCALLTYPE AddRef()
+	ULONG STDMETHODCALLTYPE AddRef() override
 	{
-		if (this->refCount == 0) {
+		if (refCount == 0) {
 			if (S_OK != StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &this->pictStg))
-				this->pictStg = nullptr;
-			this->nextStgId = 0;
+				pictStg = nullptr;
+			nextStgId = 0;
 		}
-		return ++this->refCount;
+		return ++refCount;
 	}
 
-	ULONG STDMETHODCALLTYPE Release()
+	ULONG STDMETHODCALLTYPE Release() override
 	{
-		if (--this->refCount == 0) {
-			if (this->pictStg)
-				this->pictStg->Release();
+		if (--refCount == 0) {
+			if (pictStg)
+				pictStg->Release();
 		}
-		return this->refCount;
+		return refCount;
 	}
 
-	HRESULT STDMETHODCALLTYPE  ContextSensitiveHelp(BOOL)
+	STDMETHODIMP ContextSensitiveHelp(BOOL) override
 	{
 		return S_OK;
 	}
 
-	HRESULT STDMETHODCALLTYPE  DeleteObject(LPOLEOBJECT)
+	STDMETHODIMP DeleteObject(LPOLEOBJECT) override
 	{
 		return S_OK;
 	}
 
-	HRESULT STDMETHODCALLTYPE  GetClipboardData(CHARRANGE *, DWORD, LPDATAOBJECT *)
+	STDMETHODIMP GetClipboardData(CHARRANGE *, DWORD, LPDATAOBJECT *) override
 	{
 		return E_NOTIMPL;
 	}
 
-	HRESULT STDMETHODCALLTYPE  GetContextMenu(uint16_t, LPOLEOBJECT, CHARRANGE *, HMENU *)
+	STDMETHODIMP GetContextMenu(uint16_t, LPOLEOBJECT, CHARRANGE *, HMENU *) override
 	{
 		return E_INVALIDARG;
 	}
 
-	HRESULT STDMETHODCALLTYPE  GetDragDropEffect(BOOL, DWORD, LPDWORD)
+	STDMETHODIMP GetDragDropEffect(BOOL, DWORD, LPDWORD) override
 	{
 		return S_OK;
 	}
 
-	HRESULT STDMETHODCALLTYPE  GetInPlaceContext(LPOLEINPLACEFRAME *, LPOLEINPLACEUIWINDOW *, LPOLEINPLACEFRAMEINFO)
+	STDMETHODIMP GetInPlaceContext(LPOLEINPLACEFRAME *, LPOLEINPLACEUIWINDOW *, LPOLEINPLACEFRAMEINFO) override
 	{
 		return E_INVALIDARG;
 	}
 
-	HRESULT STDMETHODCALLTYPE  GetNewStorage(LPSTORAGE * lplpstg)
+	STDMETHODIMP GetNewStorage(LPSTORAGE *lplpstg) override
 	{
 		wchar_t sztName[64];
 		mir_snwprintf(sztName, L"s%u", this->nextStgId);
@@ -81,17 +81,17 @@ public:
 
 	}
 
-	HRESULT STDMETHODCALLTYPE  QueryAcceptData(LPDATAOBJECT, CLIPFORMAT *, DWORD, BOOL, HGLOBAL)
+	STDMETHODIMP QueryAcceptData(LPDATAOBJECT, CLIPFORMAT *, DWORD, BOOL, HGLOBAL) override
 	{
 		return S_OK;
 	}
 
-	HRESULT STDMETHODCALLTYPE  QueryInsertObject(LPCLSID, LPSTORAGE, LONG)
+	STDMETHODIMP QueryInsertObject(LPCLSID, LPSTORAGE, LONG) override
 	{
 		return S_OK;
 	}
 
-	HRESULT STDMETHODCALLTYPE  ShowContainerUI(BOOL)
+	STDMETHODIMP ShowContainerUI(BOOL) override
 	{
 		return S_OK;
 	}

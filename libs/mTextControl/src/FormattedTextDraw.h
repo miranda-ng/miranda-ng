@@ -23,168 +23,105 @@ struct COOKIE
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// IFormatttedTextDraw
-interface IFormattedTextDraw
-{
-public:
-	virtual ~IFormattedTextDraw() {};
-	virtual HRESULT get_NaturalSize(void *hdcDraw, long *Width, long *pVal) PURE;
-	virtual HRESULT Create() PURE;
-	virtual HRESULT Draw(void *hdcDraw, RECT *prc) PURE;
-	virtual HRESULT putRTFTextA(char *newVal) PURE;
-	virtual HRESULT putRTFTextW(wchar_t *newVal) PURE;
-	virtual HRESULT putTextA(char *newVal) PURE;
-	virtual HRESULT putTextW(wchar_t *newVal) PURE;
-
-	virtual ITextServices *getTextService() PURE;
-	virtual ITextDocument *getTextDocument() PURE;
-	virtual void setParentWnd(HWND hwnd, RECT rect) PURE;
-
-	// COM-like functions
-	virtual ULONG STDMETHODCALLTYPE AddRef(void) PURE;
-	virtual ULONG STDMETHODCALLTYPE Release(void) PURE;
-};
-
-/////////////////////////////////////////////////////////////////////////////
 // CFormattedTextDraw
-class CFormattedTextDraw :
-	public ITextHost,
-	public IFormattedTextDraw
+
+class CFormattedTextDraw : public ITextHost, public MZeroedObject
 {
+	HWND           m_hwndParent;
+	RECT           m_rcClient;			// Client Rect
+	RECT           m_rcViewInset;		// view rect inset
+	SIZEL          m_sizelExtent;		// Extent array
+
+	int            nPixelsPerInchX;    // Pixels per logical inch along width
+	int            nPixelsPerInchY;    // Pixels per logical inch along height
+
+	CHARFORMAT2W  *m_pCF;
+	PARAFORMAT2    m_PF;
+	uint32_t       m_dwScrollbar;		// Scroll bar style
+	uint32_t       m_dwPropertyBits;	// Property bits
+	uint32_t       m_dwMaxLength;
+	COOKIE         m_editCookie;
+
+	ITextServices *m_spTextServices;
+	ITextDocument *m_spTextDocument;
+
 public:
-	CFormattedTextDraw()
-	{
-		HDC hdcScreen;
+	CFormattedTextDraw();
+	~CFormattedTextDraw();
 
-		hdcScreen = GetDC(nullptr);
-		nPixelsPerInchX = GetDeviceCaps(hdcScreen, LOGPIXELSX);
-		nPixelsPerInchY = GetDeviceCaps(hdcScreen, LOGPIXELSY);
-		ReleaseDC(nullptr, hdcScreen);
-
-		SetRectEmpty(&m_rcClient);
-		SetRectEmpty(&m_rcViewInset);
-
-		m_pCF = (CHARFORMAT2W*)malloc(sizeof(CHARFORMAT2W));
-
-		InitDefaultCharFormat();
-		InitDefaultParaFormat();
-		m_spTextServices = nullptr;
-		m_spTextDocument = nullptr;
-
-		m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
-		m_dwScrollbar = 0;
-		m_dwMaxLength = INFINITE;
-	}
-
-	~CFormattedTextDraw()
-	{
-		free(m_pCF);
-		if (m_spTextServices != nullptr)
-			m_spTextServices->Release();
-		if (m_spTextDocument != nullptr)
-			m_spTextDocument->Release();
-	}
-
-	// Minimal COM functionality
-	HRESULT STDMETHODCALLTYPE QueryInterface(
-		/* [in] */ REFIID,
-		/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
-	{
-		*ppvObject = nullptr;
-		return S_FALSE;
-	}
-
-	ULONG STDMETHODCALLTYPE AddRef(void)
-	{
-		return 0;
-	}
-
-	ULONG STDMETHODCALLTYPE Release(void)
-	{
-		return 0;
-	}
-
-	// IFormattedTextDraw
-public:
-	HRESULT get_NaturalSize(void *hdcDraw, long *Width, long *pVal);
-	HRESULT Create();
-	HRESULT Draw(void *hdcDraw, RECT *prc);
+	HRESULT get_NaturalSize(HDC hdcDraw, long *Width, long *pVal);
+	HRESULT Draw(HDC hdcDraw, RECT *prc);
 	HRESULT putRTFTextA(char *newVal);
 	HRESULT putRTFTextW(wchar_t *newVal);
 	HRESULT putTextA(char *newVal);
 	HRESULT putTextW(wchar_t *newVal);
 
-	ITextServices *getTextService() { return m_spTextServices; };
-	ITextDocument *getTextDocument() { return m_spTextDocument; };
-	virtual void setParentWnd(HWND hwnd, RECT rect) { m_hwndParent = hwnd; m_rcClient = rect; }
+	__forceinline ITextServices *getTextService() { return m_spTextServices; };
+	__forceinline ITextDocument *getTextDocument() { return m_spTextDocument; };
+
+	__forceinline void setParentWnd(HWND hwnd, RECT rect) { m_hwndParent = hwnd; m_rcClient = rect; }
+
+	// IUnknown
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void __RPC_FAR *__RPC_FAR *ppvObject) override
+	{	*ppvObject = nullptr;
+		return S_FALSE;
+	}
+
+	ULONG STDMETHODCALLTYPE AddRef(void) override
+	{	return 0;
+	}
+
+	ULONG STDMETHODCALLTYPE Release(void) override
+	{	return 0;
+	}
 
 	// ITextHost
-	HDC TxGetDC();
-	INT TxReleaseDC(HDC hdc);
-	BOOL TxShowScrollBar(INT fnBar, BOOL fShow);
-	BOOL TxEnableScrollBar(INT fuSBFlags, INT fuArrowflags);
-	BOOL TxSetScrollRange(INT fnBar, LONG nMinPos, INT nMaxPos, BOOL fRedraw);
-	BOOL TxSetScrollPos(INT fnBar, INT nPos, BOOL fRedraw);
-	void TxInvalidateRect(LPCRECT prc, BOOL fMode);
-	void TxViewChange(BOOL fUpdate);
-	BOOL TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight);
-	BOOL TxShowCaret(BOOL fShow);
-	BOOL TxSetCaretPos(INT x, INT y);
-	BOOL TxSetTimer(UINT idTimer, UINT uTimeout);
-	void TxKillTimer(UINT idTimer);
-	void TxScrollWindowEx(INT dx, INT dy, LPCRECT lprcScroll, LPCRECT lprcClip, HRGN hrgnUpdate, LPRECT lprcUpdate, UINT fuScroll);
-	void TxSetCapture(BOOL fCapture);
-	void TxSetFocus();
-	void TxSetCursor(HCURSOR hcur, BOOL fText);
-	BOOL TxScreenToClient(LPPOINT lppt);
-	BOOL TxClientToScreen(LPPOINT lppt);
-	HRESULT	TxActivate(LONG * plOldState);
-	HRESULT	TxDeactivate(LONG lNewState);
-	HRESULT	TxGetClientRect(LPRECT prc);
-	HRESULT	TxGetViewInset(LPRECT prc);
-	HRESULT  TxGetCharFormat(const CHARFORMATW **ppCF);
-	HRESULT	TxGetParaFormat(const PARAFORMAT **ppPF);
-	COLORREF TxGetSysColor(int nIndex);
-	HRESULT	TxGetBackStyle(TXTBACKSTYLE *pstyle);
-	HRESULT	TxGetMaxLength(DWORD *plength);
-	HRESULT	TxGetScrollBars(DWORD *pdwScrollBar);
-	HRESULT	TxGetPasswordChar(wchar_t *pch);
-	HRESULT	TxGetAcceleratorPos(LONG *pcp);
-	HRESULT	TxGetExtent(LPSIZEL lpExtent);
-	HRESULT  OnTxCharFormatChange(const CHARFORMATW * pcf);
-	HRESULT	OnTxParaFormatChange(const PARAFORMAT * ppf);
-	HRESULT	TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits);
-	HRESULT	TxNotify(DWORD iNotify, void *pv);
-	HIMC TxImmGetContext();
-	void TxImmReleaseContext(HIMC himc);
-	HRESULT	TxGetSelectionBarWidth(LONG *lSelBarWidth);
+	HDC      TxGetDC() override;
+	INT      TxReleaseDC(HDC hdc) override;
+	BOOL     TxShowScrollBar(INT fnBar, BOOL fShow) override;
+	BOOL     TxEnableScrollBar(INT fuSBFlags, INT fuArrowflags) override;
+	BOOL     TxSetScrollRange(INT fnBar, LONG nMinPos, INT nMaxPos, BOOL fRedraw) override;
+	BOOL     TxSetScrollPos(INT fnBar, INT nPos, BOOL fRedraw) override;
+	void     TxInvalidateRect(LPCRECT prc, BOOL fMode) override;
+	void     TxViewChange(BOOL fUpdate) override;
+	BOOL     TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight) override;
+	BOOL     TxShowCaret(BOOL fShow) override;
+	BOOL     TxSetCaretPos(INT x, INT y) override;
+	BOOL     TxSetTimer(UINT idTimer, UINT uTimeout) override;
+	void     TxKillTimer(UINT idTimer) override;
+	void     TxScrollWindowEx(INT dx, INT dy, LPCRECT lprcScroll, LPCRECT lprcClip, HRGN hrgnUpdate, LPRECT lprcUpdate, UINT fuScroll) override;
+	void     TxSetCapture(BOOL fCapture) override;
+	void     TxSetFocus() override;
+	void     TxSetCursor(HCURSOR hcur, BOOL fText) override;
+	BOOL     TxScreenToClient(LPPOINT lppt) override;
+	BOOL     TxClientToScreen(LPPOINT lppt) override;
+	HRESULT	TxActivate(LONG * plOldState) override;
+	HRESULT	TxDeactivate(LONG lNewState) override;
+	HRESULT	TxGetClientRect(LPRECT prc) override;
+	HRESULT	TxGetViewInset(LPRECT prc) override;
+	HRESULT  TxGetCharFormat(const CHARFORMATW **ppCF) override;
+	HRESULT	TxGetParaFormat(const PARAFORMAT **ppPF) override;
+	COLORREF TxGetSysColor(int nIndex) override;
+	HRESULT	TxGetBackStyle(TXTBACKSTYLE *pstyle) override;
+	HRESULT	TxGetMaxLength(DWORD *plength) override;
+	HRESULT	TxGetScrollBars(DWORD *pdwScrollBar) override;
+	HRESULT	TxGetPasswordChar(wchar_t *pch) override;
+	HRESULT	TxGetAcceleratorPos(LONG *pcp) override;
+	HRESULT	TxGetExtent(LPSIZEL lpExtent) override;
+	HRESULT  OnTxCharFormatChange(const CHARFORMATW * pcf) override;
+	HRESULT	OnTxParaFormatChange(const PARAFORMAT * ppf) override;
+	HRESULT	TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits) override;
+	HRESULT	TxNotify(DWORD iNotify, void *pv) override;
+	HIMC     TxImmGetContext() override;
+	void     TxImmReleaseContext(HIMC himc) override;
+	HRESULT	TxGetSelectionBarWidth(LONG *lSelBarWidth) override;
 
 	// Custom functions
-	HRESULT CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont);
-	HRESULT InitDefaultCharFormat();
-	HRESULT InitDefaultParaFormat();
-	HRESULT CreateTextServicesObject();
-
-	// Variables
-	HWND			m_hwndParent;
-	RECT			m_rcClient;			// Client Rect
-	RECT			m_rcViewInset;		// view rect inset
-	SIZEL			m_sizelExtent;		// Extent array
-
-	int				nPixelsPerInchX;    // Pixels per logical inch along width
-	int				nPixelsPerInchY;    // Pixels per logical inch along height
-
-	CHARFORMAT2W	*m_pCF;
-	PARAFORMAT2		m_PF;
-	uint32_t			m_dwScrollbar;		// Scroll bar style
-	uint32_t			m_dwPropertyBits;	// Property bits
-	uint32_t			m_dwMaxLength;
-	COOKIE			m_editCookie;
-
-	ITextServices	*m_spTextServices;
-	ITextDocument	*m_spTextDocument;
+	HRESULT  CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont);
+	HRESULT  InitDefaultCharFormat();
+	HRESULT  InitDefaultParaFormat();
 };
 
-void bbCodeParse(IFormattedTextDraw *ts);
+void bbCodeParse(CFormattedTextDraw *ts);
 
 #endif //__FORMATTEDTEXTDRAW_H_

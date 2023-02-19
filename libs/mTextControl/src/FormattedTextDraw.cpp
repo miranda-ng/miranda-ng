@@ -33,10 +33,10 @@ const IID IID_ITextDocument = {
 
 uint32_t CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	COOKIE *pCookie = (COOKIE*)dwCookie;
+	COOKIE *pCookie = (COOKIE *)dwCookie;
 	if (pCookie->isUnicode) {
-		if ((pCookie->cbSize - pCookie->cbCount)*sizeof(wchar_t) < (size_t)cb)
-			*pcb = LONG(pCookie->cbSize - pCookie->cbCount)*sizeof(wchar_t);
+		if ((pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t) < (size_t)cb)
+			*pcb = LONG(pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t);
 		else
 			*pcb = cb & ~1UL;
 		memcpy(pbBuff, pCookie->unicode + pCookie->cbCount, *pcb);
@@ -56,6 +56,47 @@ uint32_t CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 
 /////////////////////////////////////////////////////////////////////////////
 // CFormattedTextDraw
+
+CFormattedTextDraw::CFormattedTextDraw()
+{
+	HDC hdcScreen;
+
+	hdcScreen = GetDC(nullptr);
+	nPixelsPerInchX = GetDeviceCaps(hdcScreen, LOGPIXELSX);
+	nPixelsPerInchY = GetDeviceCaps(hdcScreen, LOGPIXELSY);
+	ReleaseDC(nullptr, hdcScreen);
+
+	SetRectEmpty(&m_rcClient);
+	SetRectEmpty(&m_rcViewInset);
+
+	m_pCF = (CHARFORMAT2W *)malloc(sizeof(CHARFORMAT2W));
+
+	InitDefaultCharFormat();
+	InitDefaultParaFormat();
+	m_spTextServices = nullptr;
+	m_spTextDocument = nullptr;
+
+	m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
+	m_dwScrollbar = 0;
+	m_dwMaxLength = INFINITE;
+
+	IUnknown *spUnk;
+	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost *>(this), &spUnk);
+	if (hr == S_OK) {
+		hr = spUnk->QueryInterface(IID_ITextServices, (void **)&m_spTextServices);
+		hr = spUnk->QueryInterface(IID_ITextDocument, (void **)&m_spTextDocument);
+		spUnk->Release();
+	}
+}
+
+CFormattedTextDraw::~CFormattedTextDraw()
+{
+	free(m_pCF);
+	if (m_spTextServices != nullptr)
+		m_spTextServices->Release();
+	if (m_spTextDocument != nullptr)
+		m_spTextDocument->Release();
+}
 
 HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
 {
@@ -153,10 +194,10 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	return S_OK;
 }
 
-HRESULT CFormattedTextDraw::Draw(void *hdcDraw, RECT *prc)
+HRESULT CFormattedTextDraw::Draw(HDC hdcDraw, RECT *prc)
 {
 	LOGFONT lf;
-	GetObject(GetCurrentObject((HDC)hdcDraw, OBJ_FONT), sizeof(lf), &lf);
+	GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
 
 	LRESULT lResult;
 	CHARFORMAT cf;
@@ -167,44 +208,40 @@ HRESULT CFormattedTextDraw::Draw(void *hdcDraw, RECT *prc)
 		(lf.lfUnderline ? CFM_UNDERLINE : 0) |
 		(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
 	cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
-	cf.crTextColor = GetTextColor((HDC)hdcDraw);
+	cf.crTextColor = GetTextColor(hdcDraw);
 	cf.bCharSet = lf.lfCharSet;
-	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
+	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps(hdcDraw, LOGPIXELSY);
 	wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
+	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
 
 	m_spTextServices->TxDraw(
-		DVASPECT_CONTENT,  		// Draw Aspect
-		0,						// Lindex
-		nullptr,					// Info for drawing optimization
-		nullptr,					// target device information
-		(HDC)hdcDraw,			// Draw device HDC
-		nullptr,			 	   	// Target device HDC
-		(RECTL *)prc,			// Bounding client rectangle
-		nullptr,					// Clipping rectangle for metafiles
-		(RECT *)nullptr,			// Update rectangle
-		nullptr, 	   				// Call back function
-		NULL,					// Call back parameter
-		TXTVIEW_INACTIVE);		// What view of the object could be TXTVIEW_ACTIVE
+		DVASPECT_CONTENT, // Draw Aspect
+		0,                // Lindex
+		nullptr,          // Info for drawing optimization
+		nullptr,          // target device information
+		hdcDraw,          // Draw device HDC
+		nullptr,          // Target device HDC
+		(RECTL *)prc,     // Bounding client rectangle
+		nullptr,          // Clipping rectangle for metafiles
+		(RECT *)nullptr,  // Update rectangle
+		nullptr,          // Call back function
+		NULL,             // Call back parameter
+		TXTVIEW_INACTIVE); // What view of the object could be TXTVIEW_ACTIVE
+
 	return S_OK;
 }
 
-HRESULT CFormattedTextDraw::Create()
-{
-	return CreateTextServicesObject();
-}
-
-HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *Height)
+HRESULT CFormattedTextDraw::get_NaturalSize(HDC hdcDraw, long *Width, long *Height)
 {
 	if (hdcDraw == 0)
 		return S_FALSE;
 
-	int iCaps = GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
+	int iCaps = GetDeviceCaps(hdcDraw, LOGPIXELSY);
 	if (iCaps == 0)
 		return S_FALSE;
 
 	LOGFONT lf;
-	GetObject(GetCurrentObject((HDC)hdcDraw, OBJ_FONT), sizeof(lf), &lf);
+	GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
 
 	LRESULT lResult;
 	CHARFORMAT cf;
@@ -215,7 +252,7 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 		(lf.lfUnderline ? CFM_UNDERLINE : 0) |
 		(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
 	cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
-	cf.crTextColor = GetTextColor((HDC)hdcDraw);
+	cf.crTextColor = GetTextColor(hdcDraw);
 	cf.bCharSet = lf.lfCharSet;
 	cf.yHeight = 1440 * abs(lf.lfHeight) / iCaps;
 	wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
@@ -223,14 +260,14 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
+	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
 
 	*Height = 1;
 
 	SIZEL szExtent;
 	szExtent.cx = *Width;
 	szExtent.cy = *Height;
-	if (m_spTextServices->TxGetNaturalSize(DVASPECT_CONTENT, (HDC)hdcDraw, nullptr, nullptr, TXTNS_FITTOCONTENT, &szExtent, Width, Height) != S_OK)
+	if (m_spTextServices->TxGetNaturalSize(DVASPECT_CONTENT, hdcDraw, nullptr, nullptr, TXTNS_FITTOCONTENT, &szExtent, Width, Height) != S_OK)
 		return S_FALSE;
 
 	return S_OK;
@@ -241,12 +278,12 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 
 HDC CFormattedTextDraw::TxGetDC()
 {
-	return GetDC(nullptr);
+	return GetDC(m_hwndParent);
 }
 
 INT CFormattedTextDraw::TxReleaseDC(HDC hdc)
 {
-	ReleaseDC(nullptr, hdc);
+	ReleaseDC(m_hwndParent, hdc);
 	return FALSE;
 }
 
@@ -297,20 +334,16 @@ BOOL CFormattedTextDraw::TxSetTimer(UINT, UINT)
 }
 
 void CFormattedTextDraw::TxKillTimer(UINT)
-{
-}
+{}
 
 void CFormattedTextDraw::TxScrollWindowEx(INT, INT, LPCRECT, LPCRECT, HRGN, LPRECT, UINT)
-{
-}
+{}
 
 void CFormattedTextDraw::TxSetCapture(BOOL)
-{
-}
+{}
 
 void CFormattedTextDraw::TxSetFocus()
-{
-}
+{}
 
 void CFormattedTextDraw::TxSetCursor(HCURSOR hcur, BOOL fText)
 {
@@ -408,13 +441,13 @@ HRESULT	CFormattedTextDraw::TxGetExtent(LPSIZEL)
 	return E_NOTIMPL;
 }
 
-HRESULT CFormattedTextDraw::OnTxCharFormatChange(const CHARFORMATW * pcf)
+HRESULT CFormattedTextDraw::OnTxCharFormatChange(const CHARFORMATW *pcf)
 {
 	memcpy(m_pCF, pcf, pcf->cbSize);
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::OnTxParaFormatChange(const PARAFORMAT * ppf)
+HRESULT	CFormattedTextDraw::OnTxParaFormatChange(const PARAFORMAT *ppf)
 {
 	memcpy(&m_PF, ppf, ppf->cbSize);
 	return S_OK;
@@ -448,7 +481,7 @@ HRESULT	CFormattedTextDraw::TxGetSelectionBarWidth(LONG *lSelBarWidth)
 /////////////////////////////////////////////////////////////////////////////
 // custom functions
 
-HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont)
+HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W *pCF, HFONT hFont)
 // Takes an HFONT and fills in a CHARFORMAT2W structure with the corresponding info
 {
 	// Get LOGFONT for default font
@@ -510,16 +543,4 @@ HRESULT CFormattedTextDraw::InitDefaultParaFormat()
 	m_PF.cTabCount = 1;
 	m_PF.rgxTabs[0] = lDefaultTab;
 	return S_OK;
-}
-
-HRESULT CFormattedTextDraw::CreateTextServicesObject()
-{
-	IUnknown *spUnk;
-	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost*>(this), &spUnk);
-	if (hr == S_OK) {
-		hr = spUnk->QueryInterface(IID_ITextServices, (void**)&m_spTextServices);
-		hr = spUnk->QueryInterface(IID_ITextDocument, (void**)&m_spTextDocument);
-		spUnk->Release();
-	}
-	return hr;
 }

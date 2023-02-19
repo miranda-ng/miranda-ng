@@ -35,8 +35,7 @@ mir_cs csEmfCache;
 
 void UnloadEmfCache()
 {
-	while (emfCache)
-	{
+	while (emfCache) {
 		EMFCACHE *tmp = emfCache->next;
 		delete emfCache;
 		emfCache = tmp;
@@ -48,10 +47,8 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 	HENHMETAFILE result = nullptr;
 	mir_cslock lck(csEmfCache);
 	for (EMFCACHE *p = emfCache; p; p = p->next)
-		if (p->hIcon == hIcon)
-		{
-			if (p->prev)
-			{
+		if (p->hIcon == hIcon) {
+			if (p->prev) {
 				p->prev->next = p->next;
 				if (p->next) p->next->prev = p->prev;
 				p->prev = nullptr;
@@ -64,8 +61,7 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 		}
 
 	// cache new item
-	if (!result)
-	{
+	if (!result) {
 		EMFCACHE *newItem = new EMFCACHE;
 		newItem->prev = nullptr;
 		newItem->next = emfCache;
@@ -81,15 +77,13 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 	}
 
 	// tail cutoff
-	if (emfCacheSize > 20)
-	{
+	if (emfCacheSize > 20) {
 		int n = 0;
 		EMFCACHE *p;
 		for (p = emfCache; p; p = p->next)
 			if (++n > 20)
 				break;
-		while (p->next)
-		{
+		while (p->next) {
 			EMFCACHE *tmp = p->next;
 			p->next = p->next->next;
 			delete tmp;
@@ -105,7 +99,7 @@ HRESULT CreateDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmed, UINT 
 
 // returns true on success, false on failure
 //bool InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap, HGLOBAL hGlobal)
-bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
+bool InsertBitmap(IRichEditOle *pRichEditOle, HENHMETAFILE hEmf)
 {
 	SCODE sc;
 
@@ -137,8 +131,7 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	//
 	LPLOCKBYTES lpLockBytes = nullptr;
 	sc = CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes);
-	if (sc != S_OK)
-	{
+	if (sc != S_OK) {
 		pOleClientSite->Release();
 		return false;
 	}
@@ -146,8 +139,7 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	IStorage *pStorage;
 	sc = StgCreateDocfileOnILockBytes(lpLockBytes,
 		STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
-	if (sc != S_OK)
-	{
+	if (sc != S_OK) {
 		lpLockBytes->Release();
 		pOleClientSite->Release();
 		pods->Release();
@@ -159,8 +151,7 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	IOleObject *pOleObject;
 	sc = OleCreateStaticFromData(pods, IID_IOleObject, OLERENDER_FORMAT,
 		(LPFORMATETC)lc_format, pOleClientSite, pStorage, (void **)&pOleObject);
-	if (sc != S_OK)
-	{
+	if (sc != S_OK) {
 		pStorage->Release();
 		lpLockBytes->Release();
 		pOleClientSite->Release();
@@ -184,8 +175,7 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	reobject.dwFlags = REO_BELOWBASELINE;
 
 	sc = pOleObject->GetUserClassID(&reobject.clsid);
-	if (sc != S_OK)
-	{
+	if (sc != S_OK) {
 		pOleObject->Release();
 		pStorage->Release();
 		lpLockBytes->Release();
