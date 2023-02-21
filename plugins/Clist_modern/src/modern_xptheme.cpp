@@ -6,6 +6,11 @@
 
 struct XPTObject : public MZeroedObject
 {
+	~XPTObject()
+	{
+		CloseThemeData(hThemeHandle);
+	}
+
 	HANDLE  hThemeHandle;
 	HWND    hOwnerWindow;
 	LPCWSTR lpcwClassObject;
@@ -13,12 +18,6 @@ struct XPTObject : public MZeroedObject
 
 static OBJLIST<XPTObject> xptObjectList(1);
 static mir_cs xptCS;
-
-static void _sttXptCloseThemeData(XPTObject * xptObject)
-{
-	CloseThemeData(xptObject->hThemeHandle);
-	xptObject->hThemeHandle = nullptr;
-}
 
 static void _sttXptReloadThemeData(XPTObject * xptObject)
 {
@@ -58,24 +57,13 @@ XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 	return (XPTHANDLE)xptObject;
 }
 
-void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
-{
-	mir_cslock lck(xptCS);
-	if (xpt_IsValidHandle(xptHandle)) {
-		XPTObject* xptObject = (XPTObject*)xptHandle;
-		_sttXptCloseThemeData(xptObject);
-		mir_free(xptHandle);
-		xptObjectList.remove(xptObjectList.indexOf(xptObject));
-	}
-}
-
 void xpt_FreeThemeForWindow(HWND hwnd)
 {
 	mir_cslock lck(xptCS);
 
 	for (auto &xptObject : xptObjectList.rev_iter())
 		if (xptObject->hOwnerWindow == hwnd)
-			_sttXptCloseThemeData(xptObjectList.removeItem(&xptObject));
+			xptObjectList.removeItem(&xptObject);
 }
 
 void xpt_OnWM_THEMECHANGED()
