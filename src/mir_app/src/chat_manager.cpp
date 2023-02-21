@@ -207,12 +207,9 @@ int SM_RemoveModule(const char *pszModule, bool removeContact)
 		return FALSE;
 
 	auto T = g_arSessions.rev_iter();
-	for (auto &si : T) {
-		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule)) {
-			SM_FreeSession(si, removeContact);
-			g_arSessions.removeItem(&si);
-		}
-	}
+	for (auto &si : T)
+		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule))
+			SM_FreeSession(g_arSessions.removeItem(&si), removeContact);
 
 	return TRUE;
 }
