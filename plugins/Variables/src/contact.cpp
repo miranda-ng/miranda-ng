@@ -76,7 +76,7 @@ static builtinCnfs[] =
 /* contact cache entry */
 struct CONTACTCE
 {
-	uint32_t    flags;
+	uint32_t flags;
 	wchar_t* tszContact;
 	MCONTACT hContact;
 };

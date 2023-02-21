@@ -230,8 +230,7 @@ static void __cdecl KillObjectThreadsWorker(void* owner)
 
 	// forcibly kill all remaining threads after 5 secs
 	mir_cslock lck(csThreads);
-	auto T = threads.rev_iter();
-	for (auto &it : T) {
+	for (auto &it : threads.rev_iter()) {
 		if (it->pObject == owner) {
 			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));

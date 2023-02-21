@@ -819,8 +819,7 @@ void KillModuleToolbarIcons(CMPluginBase *pPlugin)
 {
 	int oldCount = arButtonsList.getCount();
 
-	auto T = arButtonsList.rev_iter();
-	for (auto &cbd : T)
+	for (auto &cbd : arButtonsList.rev_iter())
 		if (cbd->m_pPlugin == pPlugin)
 			delete arButtonsList.removeItem(&cbd);
 

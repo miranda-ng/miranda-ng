@@ -415,8 +415,7 @@ void UnloadAccountsModule()
 	if (!bModuleInitialized)
 		return;
 
-	auto T = g_arAccounts.rev_iter();
-	for (auto &it : T) {
+	for (auto &it : g_arAccounts.rev_iter()) {
 		UnloadAccount(it, 0);
 		g_arAccounts.removeItem(&it);
 	}

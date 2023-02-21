@@ -367,8 +367,7 @@ void KillModuleSounds(CMPluginBase *pPlugin)
 {
 	bool bFound = false;
 
-	auto T = arSounds.rev_iter();
-	for (auto &it : T)
+	for (auto &it : arSounds.rev_iter())
 		if (it->pPlugin == pPlugin) {
 			arSounds.removeItem(&it);
 			bFound = true;
