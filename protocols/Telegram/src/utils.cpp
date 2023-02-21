@@ -201,12 +201,44 @@ void CTelegramProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA CTelegramProto::GetMessageText(TD::MessageContent *pBody)
+CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBody)
 {
 	switch (pBody->get_id()) {
+	case TD::messageDocument::ID:
+		{
+			auto *pDoc = ((TD::messageDocument *)pBody);
+			auto *pFile = pDoc->document_->document_.get();
+
+			if (pFile->get_id() != TD::file::ID) {
+				debugLogA("Document contains unsupported type %d, exiting", pDoc->document_->get_id());
+				break;
+			}
+			
+			auto *pFileId = pFile->remote_->unique_id_.c_str();
+
+			CMStringW wszDest(GetProtoFolder() + L"\\tmpfiles");
+			CreateDirectoryW(wszDest, 0);
+			wszDest.AppendFormat(L"\\%s", Utf2T(pDoc->document_->file_name_.c_str()).get());
+
+			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFileId, wszDest);
+			m_arFiles.insert(pRequest);
+
+			auto *pszFileName = pDoc->document_->file_name_.c_str();
+
+			PROTORECVFILE pre = {};
+			pre.fileCount = 1;
+			pre.timestamp = time(0);
+			pre.files.a = &pszFileName;
+			pre.lParam = (LPARAM)pRequest;
+			if (!pDoc->caption_->text_.empty())
+				pre.descr.a = pDoc->caption_->text_.c_str();
+			ProtoChainRecvFile(pUser->hContact, &pre);
+		}
+		break;
+
 	case TD::messageSticker::ID:
 		if (m_bSmileyAdd) {
-			auto pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
+			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
 			if (pSticker->type_->get_id() != TD::stickerTypeRegular::ID)
 				break;
 

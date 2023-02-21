@@ -61,7 +61,7 @@ struct TG_REQUEST_FULL : public TG_REQUEST_BASE
 
 struct TG_FILE_REQUEST
 {
-	enum Type { AVATAR = 1 };
+	enum Type { AVATAR = 1, FILE = 2 };
 
 	TG_FILE_REQUEST(Type _1, const char *_2, const wchar_t *_3) :
 		m_type(_1),
@@ -196,7 +196,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
-	CMStringA GetMessageText(TD::MessageContent *pBody);
+	CMStringA GetMessageText(TG_USER *pUser, TD::MessageContent *pBody);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -251,6 +251,10 @@ public:
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
 		
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
+
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;

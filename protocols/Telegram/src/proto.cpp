@@ -213,6 +213,34 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HANDLE CTelegramProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *pwszSavePath)
+{
+	auto *ft = (TG_FILE_REQUEST *)hTransfer;
+	if (ft == nullptr)
+		return nullptr;
+
+	return ft;
+}
+
+int CTelegramProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+{
+	auto *ft = (TG_FILE_REQUEST *)hTransfer;
+
+	return 1;
+}
+
+int CTelegramProto::FileResume(HANDLE hTransfer, int, const wchar_t *pwszFilename)
+{
+	auto *ft = (TG_FILE_REQUEST *)hTransfer;
+	if (ft == nullptr)
+		return 1;
+
+	ft->m_destPath = pwszFilename;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
 	m_searchIds.clear();
