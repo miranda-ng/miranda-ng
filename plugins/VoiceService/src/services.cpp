@@ -64,8 +64,7 @@ INT_PTR VoiceUnregister(WPARAM wParam, LPARAM)
 		if (call->module == module) {
 			call->Drop();
 			call->SetState(VOICE_STATE_ENDED);
-
-			calls.remove(calls.indexOf(&call));
+			calls.removeItem(&call);
 		}
 
 	modules.remove(module);

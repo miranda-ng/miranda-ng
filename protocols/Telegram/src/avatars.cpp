@@ -101,7 +101,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 					SMADD_CONT cont = {1, m_szModuleName, it->m_destPath};
 					CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 				}
-				m_arFiles.remove(m_arFiles.indexOf(&it));
+				m_arFiles.removeItem(&it);
 				return;
 			}
 		}

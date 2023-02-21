@@ -122,8 +122,7 @@ class CUserInfoDlg : public CDlgBase
 			if (!it->pDialog->IsEmpty())
 				continue;
 
-			delete it;
-			items.remove(items.indexOf(&it));
+			delete items.removeItem(&it);
 		}
 
 		if (items.getCount() == 0)

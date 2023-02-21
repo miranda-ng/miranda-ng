@@ -389,7 +389,7 @@ template<class T> struct OBJLIST : public LIST<T>
 		List_ObjCopy((SortedList *)&x, (SortedList *)this, sizeof(T));
 	}
 
-	__inline OBJLIST &operator = (const OBJLIST &x)
+	__inline OBJLIST& operator=(const OBJLIST &x)
 	{
 		destroy();
 		List_ObjCopy((SortedList *)&x, (SortedList *)this, sizeof(T));
@@ -425,7 +425,12 @@ template<class T> struct OBJLIST : public LIST<T>
 		return 0;
 	}
 
-	__inline T &operator[](int idx) const { return *this->items[idx]; }
+	__inline void removeItem(T **p)
+	{
+		remove(int(p - items));
+	}
+
+	__inline T& operator[](int idx) const { return *this->items[idx]; }
 };
 
 #define __A2W(s) L ## s

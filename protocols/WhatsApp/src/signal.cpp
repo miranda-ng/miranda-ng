@@ -123,7 +123,7 @@ static int delete_all_sessions_func(const char *name, size_t name_len, void *use
 	for (auto &it : pList.rev_iter()) {
 		if (it->hasAddress(name, name_len)) {
 			pStore->pProto->delSetting(it->getSetting());
-			pList.remove(pList.indexOf(&it));
+			pList.removeItem(&it);
 			count++;
 		}
 	}

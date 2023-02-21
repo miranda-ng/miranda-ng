@@ -443,14 +443,18 @@ MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact)
 MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent, bool bFromServer)
 {
 	if (g_pCurrDb == nullptr)
-		return 0;
+		return 1;
 	
 	if (!g_pCurrDb->MarkEventRead(hContact, hDbEvent))
-		return 0;
+		return 1;
 
 	if (!bFromServer)
-		if (auto *ppro = Proto_GetInstance(hContact))
+		if (auto *ppro = Proto_GetInstance(hContact)) {
 			ppro->OnMarkRead(hContact, hDbEvent);
+			return 0;
+		}
+
+	return 1;
 }
 
 MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent)

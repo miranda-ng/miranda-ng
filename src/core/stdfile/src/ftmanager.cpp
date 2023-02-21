@@ -143,7 +143,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_REMOVE:
 		for (auto &it : dat->arWindows)
 			if (it->hwnd == (HWND)lParam) {
-				dat->arWindows.remove(dat->arWindows.indexOf(&it));
+				dat->arWindows.removeItem(&it);
 				break;
 			}
 		LayoutTransfers(hwnd, dat);

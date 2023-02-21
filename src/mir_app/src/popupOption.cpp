@@ -64,7 +64,7 @@ void KillModulePopups(CMPluginBase *pPlugin)
 {
 	for (auto &it : g_arOptions.rev_iter())
 		if (it->m_plugin == pPlugin)
-			g_arOptions.remove(g_arOptions.indexOf(&it));
+			g_arOptions.removeItem(&it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
