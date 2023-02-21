@@ -46,7 +46,7 @@ void CMPlugin::UnloadLuaScripts()
 {
 	for (auto &script : m_scripts.rev_iter()) {
 		script->Unload();
-		delete m_scripts.removeItem(&script);
+		m_scripts.removeItem(&script);
 	}
 }
 
