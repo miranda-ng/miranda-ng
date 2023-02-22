@@ -24,92 +24,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-/** Adds all the metacontacts desired in the listview.
-*
-* Adds all the metacontacts present in the database in the list,
-*
-* @param list : HANDLE to the list which will contain the columns.
-* @param nb_contacts : Number of loaded contacts.
-* @param contacts : A list of the contacts' identifiers
-*
-* @param id : Reference to a list of the MetaContacts IDs loaded in the listview.
-*             Since this list is resized, its address must be passed.
-*
-* @return An integer specifying the number of rows added in the list.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// 'Add To' Dialog.
 
-static int FillList(HWND list, BOOL sort)
-{
-	int i = 0;
-
-	// The DB is searched through, to get all the metacontacts
-	for (auto &hMetaUser : Contacts()) {
-		// if it's not a MetaContact, go to the next
-		DBCachedContact *cc = CheckMeta(hMetaUser);
-		if (cc == nullptr)
-			continue;
-
-		// get contact display name from clist
-		wchar_t *swzContactDisplayName = Clist_GetContactDisplayName(hMetaUser);
-		// don't insert huge strings that we have to compare with later
-		if (mir_wstrlen(swzContactDisplayName) > 1023)
-			swzContactDisplayName[1024] = 0;
-
-		int pos = -1;
-		if (sort) {
-			for (pos = 0; pos < i; pos++) {
-				wchar_t buff[1024];
-				SendMessage(list, LB_GETTEXT, pos, (LPARAM)buff);
-				if (mir_wstrcmp(buff, swzContactDisplayName) > 0)
-					break;
-			}
-		}
-
-		int index = SendMessage(list, LB_INSERTSTRING, pos, (LPARAM)swzContactDisplayName);
-		SendMessage(list, LB_SETITEMDATA, index, hMetaUser);
-		i++;
-	}
-	return i;
-}
-
-/** Build or update the list.
-*
-* @param list : HANDLE to the list which will contain the columns
-* @param id : Reference to a list that will contain all the MetaContacts IDs loaded in the listview
-*             otherwise the list is only refilled \n (Warning : this value must be
-*             set to TRUE only once per Dialog display, otherwise all columns will be doubled)
-*
-* @returns An integer specifying the number of rows inserted or -1 if there was a problem
-*/
-
-static int BuildList(HWND list, BOOL sort)
-{
-	SendMessage(list, LB_RESETCONTENT, 0, 0);
-	return FillList(list, sort);
-}
-
-/** Callback function for the <b>'Add To'</b> Dialog.
-*
-* All the UI is controlled here, from display to functionnalities.
-*
-* @param hwndDlg : HANDLE to the <b>'Add To'</b> Dialog.
-* @param uMsg : Specifies the message received by this dialog.
-* @param wParam : Specifies additional message-specific information.
-* @param lParam : Specifies additional message-specific information.
-*
-* @return TRUE if the dialog processed the message, FALSE if it did not.
-*/
-
-#define szConvMsg LPGENW("Either there is no metacontact in the database (in this case you should first convert a contact into one)\n\
+const wchar_t wszConvMsg[] = LPGENW("Either there is no metacontact in the database (in this case you should first convert a contact into one)\n\
 or there is none that can host this contact.\n\
-Another solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?")
+Another solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?");
 
 class CMetaSelectDlg : public CDlgBase
 {
 	MCONTACT m_hContact;
 
-	CCtrlListBox m_metaList;
+	CCtrlListBox m_list;
 	CCtrlCheck m_sortCheck;
+
+	int FillList()
+	{
+		int i = 0;
+		bool bSort = m_sortCheck.GetState();
+
+		// The DB is searched through, to get all the metacontacts
+		for (auto &hMetaUser : Contacts()) {
+			// if it's not a MetaContact, go to the next
+			DBCachedContact *cc = CheckMeta(hMetaUser);
+			if (cc == nullptr)
+				continue;
+
+			// get contact display name from clist
+			wchar_t *swzContactDisplayName = Clist_GetContactDisplayName(hMetaUser);
+			// don't insert huge strings that we have to compare with later
+			if (mir_wstrlen(swzContactDisplayName) > 1023)
+				swzContactDisplayName[1024] = 0;
+
+			int pos = -1;
+			if (bSort) {
+				for (pos = 0; pos < i; pos++) {
+					wchar_t buff[1024];
+					m_list.SendMsg(LB_GETTEXT, pos, (LPARAM)buff);
+					if (mir_wstrcmp(buff, swzContactDisplayName))
+						break;
+				}
+			}
+
+			m_list.InsertString(swzContactDisplayName, pos, hMetaUser);
+			i++;
+		}
+		return i;
+	}
 
 protected:
 	bool OnInitDialog() override;
@@ -123,11 +84,13 @@ public:
 	CMetaSelectDlg(MCONTACT hContact);
 };
 
-CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact)
-	: CDlgBase(g_plugin, IDD_METASELECT), m_hContact(hContact),
-	m_metaList(this, IDC_METALIST), m_sortCheck(this, IDC_CHK_SRT)
+CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact) :
+	CDlgBase(g_plugin, IDD_METASELECT),
+	m_hContact(hContact),
+	m_list(this, IDC_METALIST),
+	m_sortCheck(this, IDC_CHK_SRT)
 {
-	m_metaList.OnDblClick = Callback(this, &CMetaSelectDlg::MetaList_OnDblClick);
+	m_list.OnDblClick = Callback(this, &CMetaSelectDlg::MetaList_OnDblClick);
 	m_sortCheck.OnChange = Callback(this, &CMetaSelectDlg::SortCheck_OnChange);
 }
 
@@ -156,10 +119,13 @@ bool CMetaSelectDlg::OnInitDialog()
 	// Initialize the graphical part
 	CheckDlgButton(GetHwnd(), IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 														 // Besides, we can check if there is at least one metacontact to add the contact to.
-	if (BuildList(GetDlgItem(GetHwnd(), IDC_METALIST), FALSE) <= 0) {
-		if (MessageBoxW(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+	if (FillList() <= 0) {
+		if (MessageBoxW(GetHwnd(), TranslateW(wszConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
-		return false;
+		else {
+			Close();
+			return false;
+		}
 	}
 
 	// get contact display name from clist
@@ -177,13 +143,13 @@ bool CMetaSelectDlg::OnInitDialog()
 
 bool CMetaSelectDlg::OnApply()
 {
-	int item = m_metaList.GetCurSel();
+	int item = m_list.GetCurSel();
 	if (item == -1) {
 		BOOL result = IDOK == MessageBoxW(GetHwnd(), TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
 		EndModal(result);
 	}
 
-	MCONTACT hMeta = (MCONTACT)m_metaList.GetItemData(item);
+	MCONTACT hMeta = (MCONTACT)m_list.GetItemData(item);
 	if (!Meta_Assign(m_hContact, hMeta, false))
 		MessageBoxW(GetHwnd(), TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 	return true;
@@ -205,9 +171,11 @@ void CMetaSelectDlg::MetaList_OnDblClick(CCtrlListBox*)
 
 void CMetaSelectDlg::SortCheck_OnChange(CCtrlCheck*)
 {
-	SetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE) ^ LBS_SORT);
-	if (BuildList(m_metaList.GetHwnd(), m_sortCheck.GetState() ? TRUE : FALSE) <= 0) {
-		if (MessageBoxW(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+	SetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE) ^ LBS_SORT);
+	
+	m_list.ResetContent();
+	if (FillList() <= 0) {
+		if (MessageBoxW(GetHwnd(), TranslateW(wszConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
 		Close();
 	}
