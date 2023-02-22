@@ -160,7 +160,7 @@ void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID)));
 
-	Chat_Terminate(si, true);
+	db_delete_contact(si->hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -163,7 +163,7 @@ static SESSION_INFO* SM_CreateSession(void)
 	return new SESSION_INFO();
 }
 
-void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact)
+void SM_FreeSession(SESSION_INFO *si)
 {
 	if (g_clistApi.pfnGetEvent(si->hContact, 0))
 		g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
@@ -174,9 +174,6 @@ void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact)
 		si->pDlg->CloseTab();
 
 	Chat_DoEventHook(si, GC_SESSION_TERMINATE, nullptr, nullptr, (INT_PTR)si->pItemData);
-
-	if (si->hContact && bRemoveContact)
-		db_delete_contact(si->hContact);
 
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
@@ -411,7 +408,7 @@ BOOL SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce)
 void SM_RemoveAll(void)
 {
 	for (auto &it : g_arSessions.rev_iter()) {
-		SM_FreeSession(it, false);
+		SM_FreeSession(it);
 		g_arSessions.removeItem(&it);
 	}
 }

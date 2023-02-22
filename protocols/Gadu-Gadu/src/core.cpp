@@ -1221,7 +1221,7 @@ void GaduProto::OnContactDeleted(MCONTACT hContact)
 			list_remove(&chats, chat, 1);
 			// Terminate chat window / shouldn't cascade entry is deleted
 			Chat_Control(chat->si, SESSION_OFFLINE);
-			Chat_Terminate(chat->si, wszRoomId);
+			Chat_Terminate(chat->si);
 			chat->si = nullptr;
 		}
 		return;

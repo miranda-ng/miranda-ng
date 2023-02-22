@@ -373,7 +373,6 @@ struct ChatTerminateParam
 {
 	const char *pszModule;
 	SESSION_INFO *si;
-	bool bRemoveContact;
 };
 
 static INT_PTR __stdcall stubRoomTerminate(void *param)
@@ -381,7 +380,7 @@ static INT_PTR __stdcall stubRoomTerminate(void *param)
 	ChatTerminateParam *p = (ChatTerminateParam*)param;
 	if (p->si) {
 		g_arSessions.remove(p->si);
-		SM_FreeSession(p->si, p->bRemoveContact);
+		SM_FreeSession(p->si);
 	}
 	else {
 		if (p->pszModule == nullptr)
@@ -390,23 +389,23 @@ static INT_PTR __stdcall stubRoomTerminate(void *param)
 		// remove all sessions with matching module name
 		for (auto &si : g_arSessions.rev_iter())
 			if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, p->pszModule))
-				SM_FreeSession(g_arSessions.removeItem(&si), p->bRemoveContact);
+				SM_FreeSession(g_arSessions.removeItem(&si));
 	}
 	return TRUE;
 }
 
-MIR_APP_DLL(int) Chat_Terminate(const char *szModule, bool bRemoveContact)
+MIR_APP_DLL(int) Chat_Terminate(const char *szModule)
 {
-	ChatTerminateParam param = { szModule, 0, bRemoveContact };
+	ChatTerminateParam param = { szModule, 0 };
 	return CallFunctionSync(stubRoomTerminate, &param);
 }
 
-MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si, bool bRemoveContact)
+MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si)
 {
 	if (!g_arSessions.find(si))
 		return GC_EVENT_ERROR;
 
-	ChatTerminateParam param = { 0, si, bRemoveContact };
+	ChatTerminateParam param = { 0, si };
 	return CallFunctionSync(stubRoomTerminate, &param);
 }
 

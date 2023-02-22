@@ -420,11 +420,11 @@ MIR_APP_DLL(int) Chat_SetStatusEx(SESSION_INFO *si, int flags, const wchar_t *ws
 #define WINDOW_CLEARLOG			6   // clear the log of the room window
 
 MIR_APP_DLL(int) Chat_Control(SESSION_INFO *si, int command);
-MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si, bool bRemoveContact = false);
+MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si);
 
 // these functions broadcast a command to all windows of specified szModule
 MIR_APP_DLL(int) Chat_Control(const char *szModule, int command);
-MIR_APP_DLL(int) Chat_Terminate(const char *szModule, bool bRemoveContact = false);
+MIR_APP_DLL(int) Chat_Terminate(const char *szModule);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Use this function to get information on different aspects of the sessions that are registered with Chat.

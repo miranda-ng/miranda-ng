@@ -109,7 +109,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 	else {
 		CDiscordGuild *pGuild = FindGuild(guildId);
 		if (pGuild != nullptr) {
-			Chat_Terminate(pUser->si, true);
+			db_delete_contact(pUser->si->hContact);
 			pUser->si = nullptr;
 		}
 	}
@@ -185,11 +185,11 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 
 	for (auto &it : arUsers.rev_iter())
 		if (it->pGuild == pGuild) {
-			Chat_Terminate(it->si, true);
+			db_delete_contact(it->si->hContact);
 			arUsers.removeItem(&it);
 		}
 
-	Chat_Terminate(pGuild->pParentSi, true);
+	db_delete_contact(pGuild->pParentSi->hContact);
 	pGuild->pParentSi = nullptr;
 
 	arGuilds.remove(pGuild);

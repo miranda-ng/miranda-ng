@@ -641,7 +641,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 		return;
 
 	if (close_window)
-		Chat_Terminate(m_szModuleName, cc->m_si->ptszID);
+		Chat_Terminate(cc->m_si);
 	else
 		Chat_Control(cc->m_si, SESSION_OFFLINE);
 

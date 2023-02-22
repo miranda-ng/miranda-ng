@@ -68,7 +68,7 @@ MODULEINFO*   MM_FindModule(const char *pszModule);
 
 BOOL          SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted);
 BOOL          SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce);
-void          SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false);
+void          SM_FreeSession(SESSION_INFO *si);
 char*         SM_GetUsers(SESSION_INFO *si);
 BOOL          SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus);
 void          SM_RemoveAll(void);

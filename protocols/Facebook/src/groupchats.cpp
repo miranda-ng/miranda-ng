@@ -245,7 +245,7 @@ int FacebookProto::Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid)
 static void __cdecl DestroyRoomThread(SESSION_INFO *si)
 {
 	::Sleep(100);
-	Chat_Terminate(si, true);
+	db_delete_contact(si->hContact);
 }
 
 void FacebookProto::Chat_Leave(SESSION_INFO *si)
