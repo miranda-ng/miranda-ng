@@ -966,8 +966,9 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 		if (dbei.timestamp > timestamp)
 			break;
 
-		if (!dbei.markedRead())
-			db_event_markRead(pUser->hContact, ev, true);
+		if (dbei.flags & DBEF_SENT)
+			if (!dbei.markedRead())
+				db_event_markRead(pUser->hContact, ev, true);
 	}
 }
 
