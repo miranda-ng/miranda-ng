@@ -163,7 +163,7 @@ static SESSION_INFO* SM_CreateSession(void)
 	return new SESSION_INFO();
 }
 
-static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
+void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact)
 {
 	if (g_clistApi.pfnGetEvent(si->hContact, 0))
 		g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
@@ -199,28 +199,6 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 	mir_free(si->ptszStatusbarText);
 	mir_free(si->ptszTopic);
 	delete si;
-}
-
-int SM_RemoveModule(const char *pszModule, bool removeContact)
-{
-	if (pszModule == nullptr)
-		return FALSE;
-
-	for (auto &si : g_arSessions.rev_iter())
-		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule))
-			SM_FreeSession(g_arSessions.removeItem(&si), removeContact);
-
-	return TRUE;
-}
-
-int SM_RemoveSession(SESSION_INFO *si, bool removeContact)
-{
-	if (si == nullptr)
-		return FALSE;
-
-	g_arSessions.remove(si);
-	SM_FreeSession(si, removeContact);
-	return TRUE;
 }
 
 MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule)

@@ -379,9 +379,20 @@ struct ChatTerminateParam
 static INT_PTR __stdcall stubRoomTerminate(void *param)
 {
 	ChatTerminateParam *p = (ChatTerminateParam*)param;
-	if (p->si)
-		return SM_RemoveSession(p->si, p->bRemoveContact);
-	return SM_RemoveModule(p->pszModule, p->bRemoveContact);
+	if (p->si) {
+		g_arSessions.remove(p->si);
+		SM_FreeSession(p->si, p->bRemoveContact);
+	}
+	else {
+		if (p->pszModule == nullptr)
+			return FALSE;
+
+		// remove all sessions with matching module name
+		for (auto &si : g_arSessions.rev_iter())
+			if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, p->pszModule))
+				SM_FreeSession(g_arSessions.removeItem(&si), p->bRemoveContact);
+	}
+	return TRUE;
 }
 
 MIR_APP_DLL(int) Chat_Terminate(const char *szModule, bool bRemoveContact)

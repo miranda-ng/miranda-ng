@@ -68,11 +68,10 @@ MODULEINFO*   MM_FindModule(const char *pszModule);
 
 BOOL          SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted);
 BOOL          SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce);
+void          SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false);
 char*         SM_GetUsers(SESSION_INFO *si);
 BOOL          SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus);
 void          SM_RemoveAll(void);
-int           SM_RemoveModule(const char *pszModule, bool removeContact);
-int           SM_RemoveSession(SESSION_INFO *si, bool removeContact);
 BOOL          SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID);
 BOOL          SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStatus);
 BOOL          SM_SetOffline(const char *pszModule, SESSION_INFO *si);
