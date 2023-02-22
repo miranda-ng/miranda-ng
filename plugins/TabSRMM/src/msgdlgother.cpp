@@ -2284,7 +2284,6 @@ LBL_SkipEnd:
 				szReplace = pszName;
 				if (mir_wstrlen(g_Settings.pwszAutoText))
 					szReplace.Append(g_Settings.pwszAutoText);
-				szReplace.AppendChar(' ');
 				m_wszSearchResult = szReplace.Detach();
 				pszName = m_wszSearchResult;
 			}

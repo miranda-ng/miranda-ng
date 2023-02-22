@@ -1035,7 +1035,6 @@ void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
 		CMStringW tszName(ui->pszNick);
 		if (selStart == 0 && mir_wstrlen(g_Settings.pwszAutoText))
 			tszName.Append(g_Settings.pwszAutoText);
-		tszName.AppendChar(' ');
 
 		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
