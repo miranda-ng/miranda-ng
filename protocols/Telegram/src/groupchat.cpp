@@ -24,9 +24,10 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 		
 	wchar_t wszId[100];
 	_i64tow(pUser->id, wszId, 10);
-	auto *si = pUser->m_si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
+	SESSION_INFO *si;
 
 	if (bUpdateMembers) {
+		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
 		Chat_AddGroup(si, TranslateT("Creator"));
 		Chat_AddGroup(si, TranslateT("Admin"));
 		Chat_AddGroup(si, TranslateT("Participant"));
@@ -35,6 +36,7 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 		SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::StartGroupChat, pUser);
 	}
 	else {
+		si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
 		Chat_AddGroup(si, TranslateT("SuperAdmin"));
 		Chat_AddGroup(si, TranslateT("Visitor"));
 
@@ -56,6 +58,8 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 		Chat_Control(si, SESSION_ONLINE);
 	}
+	
+	pUser->m_si = si;
 }
 
 void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void *pUserData)

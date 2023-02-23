@@ -281,7 +281,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		break;
 
 	case TD::chatTypeSupergroup::ID:
-		chatId = ((TD::chatTypeSupergroup*)pChat->type_.get())->supergroup_id_;
+		{
+			auto *pSuperGroup = (TD::chatTypeSupergroup *)pChat->type_.get();
+			chatId = pSuperGroup->supergroup_id_;
+			bIsBasicGroup = !pSuperGroup->is_channel_;
+		}
 		break;
 
 	default:

@@ -501,8 +501,11 @@ bool CSrmmBaseDialog::OnInitDialog()
 	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 
 	if (isChat()) {
-		SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-		mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+		if (m_si->bHasNicklist) {
+			SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+			mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+		}
+		else m_bNicklistEnabled = false;
 	}
 
 	// three buttons below are initiated inside this call, so button creation must precede subclassing

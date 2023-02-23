@@ -141,6 +141,7 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 
 	bool        bInitDone;
 	bool        bHasToolTip;
+	bool        bHasNicklist;
 	bool        bTrimmed;
 	bool        bHistoryInit;
 

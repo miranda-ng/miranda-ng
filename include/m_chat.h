@@ -166,6 +166,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
                         // A hContact will be added for the session, but it will default to being hidden (on the CList)
 #define GCW_PRIVMESS 3  // NOT SUPPORTED YET! the session is a 1 to 1 session, but with additional
                         // support for adding more users etc. ex "MSN session".
+#define GCW_CHANNEL  4  // same as GCW_CHATROOM, but without user list/nick list
 
 MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 	int            iType,           // Use one of the GCW_* flags above to set the type of session

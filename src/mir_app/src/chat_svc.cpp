@@ -241,9 +241,17 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	si->pItemData = pItemData;
 	if (iType != GCW_SERVER)
 		si->wStatus = ID_STATUS_ONLINE;
-	si->iType = iType;
 	si->ptszName = mir_wstrdup(ptszName);
 	si->currentHovered = -1;
+
+	if (iType == GCW_CHANNEL) {
+		si->iType = GCW_CHATROOM;
+		si->bHasNicklist = false;
+	}
+	else {
+		si->bHasNicklist = true;
+		si->iType = iType;
+	}
 
 	wchar_t szTemp[256];
 	if (si->iType == GCW_SERVER)
