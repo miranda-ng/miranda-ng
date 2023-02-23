@@ -30,7 +30,9 @@ CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId, int16_t wMax, int16_t wMin) :
 	m_wMin(wMin),
 	m_wMax(wMax),
 	m_wCurr(0)
-{}
+{
+	m_bNotifiable = true;
+}
 
 BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
 {

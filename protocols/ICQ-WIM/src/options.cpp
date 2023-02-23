@@ -315,24 +315,23 @@ public:
 		edtDiff1.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout1);
 		edtDiff2.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout2);
 
+		spin1.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Spin1);
+		spin2.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Spin2);
+
 		CreateLink(spin1, ppro->m_iTimeDiff1);
 		CreateLink(spin2, ppro->m_iTimeDiff2);
 	}
 
 	bool OnInitDialog() override
 	{
-		if (cmbStatus1.GetHwnd()) {
-			for (uint32_t iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_MAX; iStatus++) {
-				int idx = cmbStatus1.AddString(Clist_GetStatusModeDescription(iStatus, 0));
-				cmbStatus1.SetItemData(idx, iStatus);
-				if (iStatus == m_proto->m_iStatus1)
-					cmbStatus1.SetCurSel(idx);
+		for (uint32_t iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_MAX; iStatus++) {
+			int idx = cmbStatus1.AddString(Clist_GetStatusModeDescription(iStatus, 0), iStatus);
+			if (iStatus == m_proto->m_iStatus1)
+				cmbStatus1.SetCurSel(idx);
 
-				idx = cmbStatus2.AddString(Clist_GetStatusModeDescription(iStatus, 0));
-				cmbStatus2.SetItemData(idx, iStatus);
-				if (iStatus == m_proto->m_iStatus2)
-					cmbStatus2.SetCurSel(idx);
-			}
+			idx = cmbStatus2.AddString(Clist_GetStatusModeDescription(iStatus, 0), iStatus);
+			if (iStatus == m_proto->m_iStatus2)
+				cmbStatus2.SetCurSel(idx);
 		}
 
 		return true;
@@ -340,26 +339,38 @@ public:
 
 	bool OnApply() override
 	{
-		if (cmbStatus1.GetHwnd()) {
-			m_proto->m_iStatus1 = cmbStatus1.GetCurData();
-			m_proto->m_iStatus2 = cmbStatus2.GetCurData();
-		}
-
+		m_proto->m_iStatus1 = cmbStatus1.GetCurData();
+		m_proto->m_iStatus2 = cmbStatus2.GetCurData();
 		return true;
 	}
 
-	void onChange_Timeout1(CCtrlEdit*)
+	void onChange_Value1(int val)
 	{
-		bool bEnabled = edtDiff1.GetInt() != 0;
+		bool bEnabled = val != 0;
 		spin2.Enable(bEnabled);
 		edtDiff2.Enable(bEnabled);
 		cmbStatus1.Enable(bEnabled);
-		cmbStatus2.Enable(bEnabled && edtDiff2.GetInt() != 0);
+		cmbStatus2.Enable(bEnabled && spin2.GetPosition() != 0);
 	}
 
-	void onChange_Timeout2(CCtrlEdit*)
+	void onChange_Timeout1(CCtrlEdit *)
+	{
+		onChange_Value1(edtDiff1.GetInt());
+	}
+
+	void onChange_Spin1(CCtrlEdit *)
+	{
+		onChange_Value1(spin1.GetPosition());
+	}
+
+	void onChange_Timeout2(CCtrlEdit *)
 	{
 		cmbStatus2.Enable(edtDiff1.GetInt() != 0 && edtDiff2.GetInt() != 0);
+	}
+
+	void onChange_Spin2(CCtrlEdit *)
+	{
+		cmbStatus2.Enable(spin1.GetPosition() != 0 && spin2.GetPosition() != 0);
 	}
 };
 
