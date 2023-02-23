@@ -42,4 +42,6 @@ int GetContactAge(int year, int month, int day);
 void SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode);
 void DeleteBirthday(MCONTACT hContact);
 
+const char *GetModule(MCONTACT hContact, int mode);
+
 #endif //H_WWI_DATE_UTILS_H

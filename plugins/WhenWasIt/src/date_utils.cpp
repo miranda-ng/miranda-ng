@@ -33,6 +33,11 @@ bool IsDOBValid(int, int month, int day)
 	return (month != 0 && day != 0);
 }
 
+const char* GetModule(MCONTACT hContact, int mode)
+{
+	return (mode == DOB_PROTOCOL) ? Proto_GetBaseAccountName(hContact) : "UserInfo";
+}
+
 int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int iModule)
 {
 	if (iModule != DOB_PROTOCOL) {
@@ -173,7 +178,7 @@ void DeleteBirthday(MCONTACT hContact)
 
 void SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
 {
-	const char *szModule = (mode == DOB_PROTOCOL) ? Proto_GetBaseAccountName(hContact) : "UserInfo";
+	auto *szModule = GetModule(hContact, mode);
 
 	db_set_dw(hContact, szModule, "BirthYear", year);
 	db_set_b(hContact, szModule, "BirthMonth", month);

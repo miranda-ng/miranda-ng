@@ -107,11 +107,12 @@ int RefreshContactListIcons(MCONTACT hContact)
 	int dab = NotifyMissedContactBirthday(hContact, today, g_plugin.daysAfter);
 
 	if (ok && (dtb >= 0 || dab > 0)) {
-		int age = GetContactAge(hContact);
-		db_set_b(hContact, "UserInfo", "Age", age);
+		int year, month, day;
+		int mode = GetContactDOB(hContact, year, month, day);
+		int age = GetContactAge(year, month, day);
+		db_set_b(hContact, GetModule(hContact, mode), "Age", age);
 
-		if ((bShouldCheckBirthdays) && (g_plugin.bUsePopups))
-		{
+		if (bShouldCheckBirthdays && g_plugin.bUsePopups) {
 			if (dtb >= 0) {
 				bBirthdayFound = 1; //only set it if we're called from our CheckBirthdays service
 				PopupNotifyBirthday(hContact, dtb, age);
@@ -124,7 +125,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 			if (dtb >= 0)
 				SoundNotifyBirthday(dtb);
 
-		if ((bShouldCheckBirthdays) && (g_plugin.bUseDialog)) {
+		if (bShouldCheckBirthdays && g_plugin.bUseDialog) {
 			if (dtb >= 0)
 				DialogNotifyBirthday(hContact, dtb, age);
 			else if (dab > 0)
