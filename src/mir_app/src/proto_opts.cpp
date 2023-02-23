@@ -709,7 +709,12 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 			else
 				text.Format(L"%s: %s", wszIdName, TranslateT("<unknown>"));
 		}
-		else text.Format(TranslateT("Protocol is not loaded."));
+		else {
+			if (acc->ppro)
+				text.Format(TranslateT("Protocol is not loaded."));
+			else
+				text.Format(TranslateT("Account is disabled."));
+		}
 
 		DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 		GetTextExtentPoint32(lps->hDC, text, text.GetLength(), &sz);
