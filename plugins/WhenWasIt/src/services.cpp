@@ -25,21 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int bShouldCheckBirthdays = 0;
 int bBirthdayFound = 0;
 
-int InitServices()
-{
-	Log("%s", "Entering function " __FUNCTION__);
-
-	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
-	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
-	CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
-	CreateServiceFunction(MS_WWI_REFRESH_USERDETAILS, RefreshUserDetailsService);
-	CreateServiceFunction(MS_WWI_IMPORT_BIRTHDAYS, ImportBirthdaysService);
-	CreateServiceFunction(MS_WWI_EXPORT_BIRTHDAYS, ExportBirthdaysService);
-
-	Log("%s", "Leaving function " __FUNCTION__);
-	return 0;
-}
-
 /*
 returns -1 if notify is not necesarry
 returns daysToBirthday if it should notify
@@ -83,7 +68,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	SYSTEMTIME today;
 	GetLocalTime(&today);
 
-	uint32_t lastChecked = g_plugin.getDword("LastChecked", 0); //get last checked date
+	uint32_t lastChecked = g_plugin.getDword("LastChecked"); //get last checked date
 	int lcDay = LOBYTE(LOWORD(lastChecked));
 	int lcMonth = HIBYTE(LOWORD(lastChecked));
 	int lcYear = HIWORD(lastChecked);
@@ -146,7 +131,7 @@ void __cdecl RefreshUserDetailsWorkerThread(void*)
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done refreshing user details"), hRefreshUserDetails);
 }
 
-INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
+static INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 {
 	mir_forkthread(RefreshUserDetailsWorkerThread);
 	return 0;
@@ -155,63 +140,7 @@ INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Birthdays import
 
-INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
-{
-	wchar_t fileName[1024] = { 0 };
-	OPENFILENAME of = { 0 };
-	of.lStructSize = sizeof(OPENFILENAME);
-	//of.g_plugin.getInst() = g_plugin.getInst();
-	wchar_t filter[MAX_PATH];
-	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
-	of.lpstrFilter = filter;
-	of.lpstrFile = fileName;
-	of.nMaxFile = _countof(fileName);
-	of.lpstrTitle = TranslateT("Please select a file to import birthdays from...");
-	of.Flags = OFN_FILEMUSTEXIST;
-
-	if (GetOpenFileName(&of)) {
-		wchar_t buffer[2048];
-		mir_snwprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
-		DoImport(fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hImportBirthdays);
-	}
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Birthdays export
-
-INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
-{
-	wchar_t fileName[1024] = { 0 };
-	OPENFILENAME of = { 0 };
-	of.lStructSize = sizeof(OPENFILENAME);
-	//of.g_plugin.getInst() = g_plugin.getInst();
-	wchar_t filter[MAX_PATH];
-	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
-	of.lpstrFilter = filter;
-	of.lpstrFile = fileName;
-	of.nMaxFile = _countof(fileName);
-	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
-
-	if (GetSaveFileName(&of)) {
-		wchar_t buffer[2048];
-		wchar_t *fn = wcsrchr(fileName, '\\') + 1;
-		if (!wcschr(fn, '.'))
-			mir_wstrcat(fileName, BIRTHDAY_EXTENSION);
-
-		mir_snwprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
-		DoExport(fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hExportBirthdays);
-	}
-
-	return 0;
-}
-
-int DoImport(wchar_t *fileName)
+static int DoImport(wchar_t *fileName)
 {
 	FILE *fin = _wfopen(fileName, L"rt");
 	if (!fin) {
@@ -256,7 +185,35 @@ int DoImport(wchar_t *fileName)
 	return 0;
 }
 
-int DoExport(wchar_t *fileName)
+static INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
+{
+	wchar_t fileName[1024] = { 0 };
+	OPENFILENAME of = { 0 };
+	of.lStructSize = sizeof(OPENFILENAME);
+	//of.g_plugin.getInst() = g_plugin.getInst();
+	wchar_t filter[MAX_PATH];
+	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
+	of.lpstrFilter = filter;
+	of.lpstrFile = fileName;
+	of.nMaxFile = _countof(fileName);
+	of.lpstrTitle = TranslateT("Please select a file to import birthdays from...");
+	of.Flags = OFN_FILEMUSTEXIST;
+
+	if (GetOpenFileName(&of)) {
+		wchar_t buffer[2048];
+		mir_snwprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
+		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
+		DoImport(fileName);
+		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hImportBirthdays);
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Birthdays export
+
+static int DoExport(wchar_t *fileName)
 {
 	FILE *fout = _wfopen(fileName, L"wt");
 	if (!fout) {
@@ -282,5 +239,47 @@ int DoExport(wchar_t *fileName)
 	}
 
 	fclose(fout);
+	return 0;
+}
+
+static INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
+{
+	wchar_t fileName[1024] = { 0 };
+	OPENFILENAME of = { 0 };
+	of.lStructSize = sizeof(OPENFILENAME);
+	//of.g_plugin.getInst() = g_plugin.getInst();
+	wchar_t filter[MAX_PATH];
+	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
+	of.lpstrFilter = filter;
+	of.lpstrFile = fileName;
+	of.nMaxFile = _countof(fileName);
+	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
+
+	if (GetSaveFileName(&of)) {
+		wchar_t buffer[2048];
+		wchar_t *fn = wcsrchr(fileName, '\\') + 1;
+		if (!wcschr(fn, '.'))
+			mir_wstrcat(fileName, BIRTHDAY_EXTENSION);
+
+		mir_snwprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
+		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
+		DoExport(fileName);
+		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hExportBirthdays);
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+int InitServices()
+{
+	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
+	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
+	CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
+	CreateServiceFunction(MS_WWI_REFRESH_USERDETAILS, RefreshUserDetailsService);
+	CreateServiceFunction(MS_WWI_IMPORT_BIRTHDAYS, ImportBirthdaysService);
+	CreateServiceFunction(MS_WWI_EXPORT_BIRTHDAYS, ExportBirthdaysService);
 	return 0;
 }

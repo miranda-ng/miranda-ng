@@ -37,22 +37,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM);
 
-class CBasicListDlg : public CDlgBase
-{
-	MCONTACT SelectedItem();
-
-protected:
-	CCtrlListView m_list;
-
-	CBasicListDlg(int dlgId);
-
-	void Sort(int iCol);
-
-	void onDblClick_List(CCtrlListView::TEventInfo*);
-	void onMenu_List(CContextMenuPos *pos);
-};
-
-INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 #endif //M_WWI_DIALOG_HANDLERS_H

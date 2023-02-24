@@ -40,14 +40,8 @@ int InitServices();
 int NotifyContactBirthday(MCONTACT hContact, time_t now, int daysInAdvance);
 int NotifyMissedContactBirthday(MCONTACT hContact, time_t now, int daysAfter);
 
-int DoExport(wchar_t *fileName);
-int DoImport(wchar_t *fileName);
-
 INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam);
 INT_PTR ShowListService(WPARAM wParam, LPARAM lParam);
 INT_PTR AddBirthdayService(WPARAM wParam, LPARAM lParam);
-INT_PTR RefreshUserDetailsService(WPARAM wParam, LPARAM lParam);
-INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam);
-INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam);
 
 #endif //M_EXCHANGE_SERVICES_H

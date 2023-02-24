@@ -71,56 +71,62 @@ int CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic list dialog
 
-CBasicListDlg::CBasicListDlg(int dlgId) :
-	CDlgBase(g_plugin, dlgId),
-	m_list(this, IDC_BIRTHDAYS_LIST)
+class CBasicListDlg : public CDlgBase
 {
-	m_list.OnDoubleClick = Callback(this, &CBasicListDlg::onDblClick_List);
-	m_list.OnBuildMenu = Callback(this, &CBasicListDlg::onMenu_List);
-}
+	MCONTACT SelectedItem()
+	{
+		int count = m_list.GetItemCount();
 
-MCONTACT CBasicListDlg::SelectedItem()
-{
-	int count = m_list.GetItemCount();
+		LVITEM item = {};
+		item.mask = LVIF_PARAM;
+		for (int i = 0; i < count; i++) {
+			if (m_list.GetItemState(i, LVIS_SELECTED)) {
+				item.iItem = i;
+				m_list.GetItem(&item);
 
-	LVITEM item = {};
-	item.mask = LVIF_PARAM;
-	for (int i = 0; i < count; i++) {
-		if (m_list.GetItemState(i, LVIS_SELECTED)) {
-			item.iItem = i;
-			m_list.GetItem(&item);
+				int res = item.lParam;
+				return (res < 0) ? -res : res;
+			}
+		}
+		return 0;
+	}
 
-			int res = item.lParam;
-			return (res < 0) ? -res : res;
+protected:
+	CCtrlListView m_list;
+
+	CBasicListDlg(int dlgId) :
+		CDlgBase(g_plugin, dlgId),
+		m_list(this, IDC_BIRTHDAYS_LIST)
+	{
+		m_list.OnDoubleClick = Callback(this, &CBasicListDlg::onDblClick_List);
+		m_list.OnBuildMenu = Callback(this, &CBasicListDlg::onMenu_List);
+	}
+
+	void Sort(int iCol)
+	{
+		BirthdaysSortParams params = {};
+		params.hList = m_list.GetHwnd();
+		params.column = iCol;
+		m_list.SortItemsEx(BirthdaysCompare, (LPARAM)&params);
+	}
+
+	void onDblClick_List(CCtrlListView::TEventInfo *)
+	{
+		if (MCONTACT hContact = SelectedItem())
+			AddBirthdayService(hContact, TRUE);
+	}
+
+	void onMenu_List(CContextMenuPos *pos)
+	{
+		if (MCONTACT hContact = SelectedItem()) {
+			HMENU hMenu = Menu_BuildContactMenu(hContact);
+			if (hMenu != nullptr) {
+				Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_list.GetHwnd(), nullptr), MPCF_CONTACTMENU, hContact);
+				DestroyMenu(hMenu);
+			}
 		}
 	}
-	return 0;
-}
-
-void CBasicListDlg::onDblClick_List(CCtrlListView::TEventInfo*)
-{
-	if (MCONTACT hContact = SelectedItem())
-		CallService(MS_WWI_ADD_BIRTHDAY, hContact, 0);
-}
-
-void CBasicListDlg::onMenu_List(CContextMenuPos *pos)
-{
-	if (MCONTACT hContact = SelectedItem()) {
-		HMENU hMenu = Menu_BuildContactMenu(hContact);
-		if (hMenu != nullptr) {
-			Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_list.GetHwnd(), nullptr), MPCF_CONTACTMENU, hContact);
-			DestroyMenu(hMenu);
-		}
-	}
-}
-
-void CBasicListDlg::Sort(int iCol)
-{
-	BirthdaysSortParams params = {};
-	params.hList = m_list.GetHwnd();
-	params.column = iCol;
-	m_list.SortItemsEx(BirthdaysCompare, (LPARAM)&params);
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Birthday list dialog
@@ -165,16 +171,15 @@ class CBirthdaysDlg : public CBasicListDlg
 			PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
 			wchar_t *ptszAccName = (pAcc == nullptr) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
-			LVITEM item = { 0 };
-			item.mask = LVIF_TEXT | LVIF_PARAM;
-			item.iItem = entry;
-			item.lParam = (iModule == DOB_PROTOCOL) ? hContact : -hContact;
-			item.pszText = ptszAccName;
-
-			if (bAdd)
+			if (bAdd) {
+				LVITEM item = {};
+				item.mask = LVIF_TEXT | LVIF_PARAM;
+				item.iItem = entry;
+				item.lParam = (iModule == DOB_PROTOCOL) ? hContact : -hContact;
+				item.pszText = ptszAccName;
 				m_list.InsertItem(&item);
-			else
-				m_list.SetItemText(entry, 0, ptszAccName);
+			}
+			else m_list.SetItemText(entry, 0, ptszAccName);
 
 			m_list.SetItemText(entry, 1, Clist_GetContactDisplayName(hContact));
 
@@ -254,7 +259,7 @@ public:
 		m_list.InsertColumn(5, &col);
 
 		LoadBirthdays();
-		int column = g_plugin.getByte("SortColumn", 0);
+		int column = g_plugin.getByte("SortColumn");
 		Sort(column);
 
 		Utils_RestoreWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayList");
@@ -323,7 +328,7 @@ INT_PTR ShowListService(WPARAM, LPARAM)
 	if (!g_pDialog)
 		(new CBirthdaysDlg())->Show();
 	else
-		ShowWindow(g_pDialog->GetHwnd(), SW_SHOW);
+		g_pDialog->Show();
 	return 0;
 }
 
@@ -340,41 +345,148 @@ void CloseBirthdayList()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Popups
 
-int HandlePopupClick(HWND hWnd, int action)
+static class CUpcomingDlg *g_pUpcomingDlg = nullptr;
+
+class CUpcomingDlg : public CBasicListDlg
 {
-	MCONTACT hContact;
+	int timeout;
 
-	switch (action) {
-	case 2: //OPEN MESSAGE WINDOW
-		hContact = (MCONTACT)PUGetContact(hWnd);
-		if (hContact)
-			CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
+	CTimer m_timer;
 
-	case 1: //DISMISS
-		PUDeletePopup(hWnd);
-		break;
+public:
+	CUpcomingDlg() :
+		CBasicListDlg(IDD_UPCOMING),
+		m_timer(this, 1002)
+	{
+		SetMinSize(400, 160);
+
+		m_timer.OnEvent = Callback(this, &CUpcomingDlg::onTimer);
 	}
 
+	bool OnInitDialog() override
+	{
+		Window_SetIcon_IcoLib(m_hwnd, hListMenu);
+
+		g_pUpcomingDlg = this;
+		timeout = g_plugin.cDlgTimeout;
+
+		m_list.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
+
+		LVCOLUMN col;
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.pszText = TranslateT("Contact");
+		col.cx = 300;
+		m_list.InsertColumn(0, &col);
+
+		col.pszText = TranslateT("Age");
+		col.cx = 45;
+		m_list.InsertColumn(1, &col);
+
+		col.pszText = TranslateT("DTB");
+		col.cx = 45;
+		m_list.InsertColumn(2, &col);
+
+		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
+
+		if (timeout > 0)
+			m_timer.Start(1000);
+
+		Utils_RestoreWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayListUpcoming");
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		g_pUpcomingDlg = nullptr;
+		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayListUpcoming");
+		Window_FreeIcon_IcoLib(m_hwnd);
+		m_timer.Stop();
+	}
+
+	void OnResize() override
+	{
+		RECT rcWin;
+		GetWindowRect(m_hwnd, &rcWin);
+
+		int cx = rcWin.right - rcWin.left;
+		int cy = rcWin.bottom - rcWin.top;
+		SetWindowPos(m_list.GetHwnd(), nullptr, 0, 0, (cx - 30), (cy - 80), (SWP_NOZORDER | SWP_NOMOVE));
+
+		m_list.SetColumnWidth(0, (cx - 150));
+		SetWindowPos(GetDlgItem(m_hwnd, IDOK), nullptr, ((cx / 2) - 95), (cy - 67), 0, 0, SWP_NOSIZE);
+		RedrawWindow(m_hwnd, nullptr, nullptr, (RDW_FRAME | RDW_INVALIDATE));
+	}
+
+	void onTimer(CTimer *)
+	{
+		const int MAX_SIZE = 512;
+		wchar_t buffer[MAX_SIZE];
+		timeout--;
+		mir_snwprintf(buffer, (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), timeout);
+		SetDlgItemText(m_hwnd, IDOK, buffer);
+
+		if (timeout <= 0)
+			Close();
+	}
+
+	void AddBirthDay(MCONTACT hContact, wchar_t *message, int dtb, int age)
+	{
+		LVFINDINFO fi = { 0 };
+		fi.flags = LVFI_PARAM;
+		fi.lParam = (LPARAM)hContact;
+		if (-1 != m_list.FindItem(-1, &fi))
+			return; /* Allready in list. */
+
+		int index = m_list.GetItemCount();
+		LVITEM item = { 0 };
+		item.iItem = index;
+		item.mask = LVIF_PARAM | LVIF_TEXT;
+		item.lParam = (LPARAM)hContact;
+		item.pszText = message;
+		m_list.InsertItem(&item);
+
+		wchar_t buffer[512];
+		mir_snwprintf(buffer, L"%d", age);
+		m_list.SetItemText(index, 1, buffer);
+
+		mir_snwprintf(buffer, L"%d", dtb);
+		m_list.SetItemText(index, 2, buffer);
+
+		Sort(2);
+	}
+};
+
+int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
+{
+	wchar_t text[1024];
+	BuildDTBText(dtb, Clist_GetContactDisplayName(hContact), text, _countof(text));
+
+	if (!g_pUpcomingDlg) {
+		g_pUpcomingDlg = new CUpcomingDlg();
+		g_pUpcomingDlg->Show(g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
+	}
+
+	g_pUpcomingDlg->AddBirthDay(hContact, text, dtb, age);
 	return 0;
 }
 
-LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
-	switch (msg) {
-	case WM_COMMAND:
-		switch (HIWORD(wParam)) {
-		case STN_CLICKED:
-			HandlePopupClick(hWnd, g_plugin.lPopupClick);
-			break;
-		}
-		break;
+	wchar_t text[1024];
+	BuildDABText(dab, Clist_GetContactDisplayName(hContact), text, _countof(text));
 
-	case WM_CONTEXTMENU:
-		HandlePopupClick(hWnd, g_plugin.rPopupClick);
-		break;
+	if (!g_pUpcomingDlg) {
+		g_pUpcomingDlg = new CUpcomingDlg();
+		g_pUpcomingDlg->Show(g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	g_pUpcomingDlg->AddBirthDay(hContact, text, -dab, age);
+	return 0;
+}
+
+void CloseUpcoming()
+{
+	if (g_pUpcomingDlg)
+		g_pUpcomingDlg->Close();
 }

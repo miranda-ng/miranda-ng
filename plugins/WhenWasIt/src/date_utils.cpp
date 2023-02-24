@@ -33,17 +33,12 @@ bool IsDOBValid(int, int month, int day)
 	return (month != 0 && day != 0);
 }
 
-const char* GetModule(MCONTACT hContact, int mode)
-{
-	return (mode == DOB_PROTOCOL) ? Proto_GetBaseAccountName(hContact) : "UserInfo";
-}
-
 int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int iModule)
 {
 	if (iModule != DOB_PROTOCOL) {
-		year = db_get_w(hContact, "UserInfo", "BirthYear", 0);
-		month = db_get_b(hContact, "UserInfo", "BirthMonth", 0);
-		day = db_get_b(hContact, "UserInfo", "BirthDay", 0);
+		year = db_get_w(hContact, "UserInfo", "BirthYear");
+		month = db_get_b(hContact, "UserInfo", "BirthMonth");
+		day = db_get_b(hContact, "UserInfo", "BirthDay");
 		if (IsDOBValid(year, month, day))
 			return DOB_USERINFO;
 		if (iModule == DOB_USERINFO)
@@ -51,9 +46,9 @@ int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int iModul
 	}
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	year = db_get_w(hContact, szProto, "BirthYear", 0);
-	month = db_get_b(hContact, szProto, "BirthMonth", 0);
-	day = db_get_b(hContact, szProto, "BirthDay", 0);
+	year = db_get_w(hContact, szProto, "BirthYear");
+	month = db_get_b(hContact, szProto, "BirthMonth");
+	day = db_get_b(hContact, szProto, "BirthDay");
 	if (IsDOBValid(year, month, day))
 		return DOB_PROTOCOL;
 
@@ -178,9 +173,12 @@ void DeleteBirthday(MCONTACT hContact)
 
 void SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
 {
-	auto *szModule = GetModule(hContact, mode);
+	auto *szModule = (mode == DOB_PROTOCOL) ? Proto_GetBaseAccountName(hContact) : "UserInfo";
 
 	db_set_dw(hContact, szModule, "BirthYear", year);
 	db_set_b(hContact, szModule, "BirthMonth", month);
 	db_set_b(hContact, szModule, "BirthDay", day);
+
+	int age = GetContactAge(year, month, day);
+	db_set_b(hContact, szModule, "Age", age);
 }

@@ -92,7 +92,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 		return 0;
 
 	bool hidden = Contact::IsHidden(hContact);
-	int ignored = db_get_dw(hContact, "Ignore", "Mask1", 0);
+	int ignored = db_get_dw(hContact, "Ignore", "Mask1");
 	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
 	int ok = 1;
 	if (g_plugin.notifyFor & EXCLUDE_HIDDEN)
@@ -107,11 +107,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 	int dab = NotifyMissedContactBirthday(hContact, today, g_plugin.daysAfter);
 
 	if (ok && (dtb >= 0 || dab > 0)) {
-		int year, month, day;
-		int mode = GetContactDOB(hContact, year, month, day);
-		int age = GetContactAge(year, month, day);
-		db_set_b(hContact, GetModule(hContact, mode), "Age", age);
-
+		int age = GetContactAge(hContact);
 		if (bShouldCheckBirthdays && g_plugin.bUsePopups) {
 			if (dtb >= 0) {
 				bBirthdayFound = 1; //only set it if we're called from our CheckBirthdays service
@@ -177,4 +173,3 @@ VOID CALLBACK OnDateChangeTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	currentDay = now.wDay;
 }
-

@@ -20,6 +20,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popups
+
+static int HandlePopupClick(HWND hWnd, int action)
+{
+	MCONTACT hContact;
+
+	switch (action) {
+	case 2: //OPEN MESSAGE WINDOW
+		hContact = (MCONTACT)PUGetContact(hWnd);
+		if (hContact)
+			CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
+
+	case 1: //DISMISS
+		PUDeletePopup(hWnd);
+		break;
+	}
+
+	return 0;
+}
+
+static LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case STN_CLICKED:
+			HandlePopupClick(hWnd, g_plugin.lPopupClick);
+			break;
+		}
+		break;
+
+	case WM_CONTEXTMENU:
+		HandlePopupClick(hWnd, g_plugin.rPopupClick);
+		break;
+	}
+
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
 void FillPopupData(POPUPDATAW &ppd, int dtb)
 {
 	int popupTimeout = (dtb == 0) ? g_plugin.popupTimeoutToday : g_plugin.popupTimeout;
@@ -40,7 +80,7 @@ void PopupNotifyNoBirthdays()
 	PUAddPopupW(&ppd);
 }
 
-wchar_t *BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
+wchar_t* BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
 {
 	if (dtb > 1)
 		mir_snwprintf(text, size, TranslateT("%s has birthday in %d days."), name, dtb);
@@ -52,7 +92,7 @@ wchar_t *BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
 	return text;
 }
 
-wchar_t *BuildDABText(int dab, wchar_t *name, wchar_t *text, int size)
+wchar_t* BuildDABText(int dab, wchar_t *name, wchar_t *text, int size)
 {
 	if (dab > 1)
 		mir_snwprintf(text, size, TranslateT("%s had birthday %d days ago."), name, dab);
@@ -94,17 +134,16 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 		sex = TranslateT("He/She");
 		break;
 	}
+	
 	if (age > 0) {
 		if (dtb > 0)
-			mir_snwprintf(ppd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
+			mir_snwprintf(ppd.lpwzText, TranslateT("%s\n%s will be %d years old."), text, sex, age);
 		else
-			mir_snwprintf(ppd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+			mir_snwprintf(ppd.lpwzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
-	else
-		mir_wstrncpy(ppd.lpwzText, text, MAX_SECONDLINE - 1);
+	else mir_wstrncpy(ppd.lpwzText, text, MAX_SECONDLINE - 1);
 
 	PUAddPopupW(&ppd);
-
 	return 0;
 }
 
@@ -148,151 +187,6 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static class CUpcomingDlg *g_pUpcomingDlg = nullptr;
-
-class CUpcomingDlg : public CBasicListDlg
-{
-	int timeout;
-
-	CTimer m_timer;
-
-public:
-	CUpcomingDlg() :
-		CBasicListDlg(IDD_UPCOMING),
-		m_timer(this, 1002)
-	{
-		SetMinSize(400, 160);
-
-		m_timer.OnEvent = Callback(this, &CUpcomingDlg::onTimer);
-	}
-
-	bool OnInitDialog() override
-	{
-		Window_SetIcon_IcoLib(m_hwnd, hListMenu);
-
-		g_pUpcomingDlg = this;
-		timeout = g_plugin.cDlgTimeout;
-
-		m_list.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
-
-		LVCOLUMN col;
-		col.mask = LVCF_TEXT | LVCF_WIDTH;
-		col.pszText = TranslateT("Contact");
-		col.cx = 300;
-		m_list.InsertColumn(0, &col);
-
-		col.pszText = TranslateT("Age");
-		col.cx = 45;
-		m_list.InsertColumn(1, &col);
-
-		col.pszText = TranslateT("DTB");
-		col.cx = 45;
-		m_list.InsertColumn(2, &col);
-
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
-
-		if (timeout > 0)
-			m_timer.Start(1000);
-
-		Utils_RestoreWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayListUpcoming");
-		return true;
-	}
-
-	void OnDestroy() override
-	{
-		g_pUpcomingDlg = nullptr;
-		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayListUpcoming");
-		Window_FreeIcon_IcoLib(m_hwnd);
-		m_timer.Stop();
-	}
-
-	void OnResize() override
-	{
-		RECT rcWin;
-		GetWindowRect(m_hwnd, &rcWin);
-
-		int cx = rcWin.right - rcWin.left;
-		int cy = rcWin.bottom - rcWin.top;
-		SetWindowPos(m_list.GetHwnd(), nullptr, 0, 0, (cx - 30), (cy - 80), (SWP_NOZORDER | SWP_NOMOVE));
-
-		m_list.SetColumnWidth(0, (cx - 150));
-		SetWindowPos(GetDlgItem(m_hwnd, IDOK), nullptr, ((cx / 2) - 95), (cy - 67), 0, 0, SWP_NOSIZE);
-		RedrawWindow(m_hwnd, nullptr, nullptr, (RDW_FRAME | RDW_INVALIDATE));
-	}
-
-	void onTimer(CTimer *)
-	{
-		const int MAX_SIZE = 512;
-		wchar_t buffer[MAX_SIZE];
-		timeout--;
-		mir_snwprintf(buffer, (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), timeout);
-		SetDlgItemText(m_hwnd, IDOK, buffer);
-
-		if (timeout <= 0)
-			Close();
-	}
-
-	void AddBirthDay(MCONTACT hContact, wchar_t *message, int dtb, int age)
-	{
-		LVFINDINFO fi = { 0 };
-		fi.flags = LVFI_PARAM;
-		fi.lParam = (LPARAM)hContact;
-		if (-1 != m_list.FindItem(-1, &fi))
-			return; /* Allready in list. */
-
-		int index = m_list.GetItemCount();
-		LVITEM item = { 0 };
-		item.iItem = index;
-		item.mask = LVIF_PARAM | LVIF_TEXT;
-		item.lParam = (LPARAM)hContact;
-		item.pszText = message;
-		m_list.InsertItem(&item);
-
-		wchar_t buffer[512];
-		mir_snwprintf(buffer, L"%d", age);
-		m_list.SetItemText(index, 1, buffer);
-
-		mir_snwprintf(buffer, L"%d", dtb);
-		m_list.SetItemText(index, 2, buffer);
-
-		Sort(2);
-	}
-};
-
-int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
-{
-	wchar_t text[1024];
-	BuildDTBText(dtb, Clist_GetContactDisplayName(hContact), text, _countof(text));
-
-	if (!g_pUpcomingDlg) {
-		g_pUpcomingDlg = new CUpcomingDlg();
-		g_pUpcomingDlg->Show(g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
-	}
-
-	g_pUpcomingDlg->AddBirthDay(hContact, text, dtb, age);
-	return 0;
-}
-
-int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
-{
-	wchar_t text[1024];
-	BuildDABText(dab, Clist_GetContactDisplayName(hContact), text, _countof(text));
-
-	if (!g_pUpcomingDlg) {
-		g_pUpcomingDlg = new CUpcomingDlg();
-		g_pUpcomingDlg->Show(g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
-	}
-
-	g_pUpcomingDlg->AddBirthDay(hContact, text, -dab, age);
-	return 0;
-}
-
-void CloseUpcoming()
-{
-	if (g_pUpcomingDlg)
-		g_pUpcomingDlg->Close();
-}
 
 int SoundNotifyBirthday(int dtb)
 {

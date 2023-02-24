@@ -94,8 +94,12 @@ public:
 	}
 };
 
-INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
+INT_PTR AddBirthdayService(WPARAM hContact, LPARAM bAsIs)
 {
+	// if called from the contacts' popup menu, always edit custom birthday in UserInfo module
+	if (!bAsIs)
+		hContact = -hContact;
+
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if (!hWnd)
 		(new CAddBirthdayDlg(hContact))->Show();
