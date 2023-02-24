@@ -167,8 +167,7 @@ class CBirthdaysDlg : public CBasicListDlg
 			int dtb = DaysToBirthday(Today(), year, month, day);
 			int age = GetContactAge(year, month, day);
 
-			char *szProto = Proto_GetBaseAccountName(hContact);
-			PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
+			PROTOACCOUNT *pAcc = Proto_GetContactAccount(hContact);
 			wchar_t *ptszAccName = (pAcc == nullptr) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
 			if (bAdd) {

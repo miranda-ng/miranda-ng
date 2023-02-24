@@ -78,7 +78,9 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 		return nullptr;
 
 	if (szProto == nullptr)
-		szProto = Proto_GetBaseAccountName(hContact);
+		if (auto *pa = Proto_GetContactAccount(hContact))
+			szProto = pa->szModuleName;
+
 	if (szProto == nullptr)
 		return nullptr;
 
