@@ -749,10 +749,9 @@ FileDlgData::~FileDlgData()
 {
 	if (fs)
 		ProtoChainSend(hContact, PSS_FILECANCEL, (WPARAM)fs, 0);
-	if (hPreshutdownEvent)
-		UnhookEvent(hPreshutdownEvent);
-	if (hNotifyEvent)
-		UnhookEvent(hNotifyEvent);
+
+	UnhookEvent(hPreshutdownEvent);
+	UnhookEvent(hNotifyEvent);
 
 	FreeProtoFileTransferStatus(&transferStatus);
 	FreeFilesMatrix(&files);

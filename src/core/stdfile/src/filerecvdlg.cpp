@@ -329,7 +329,7 @@ public:
 	{
 		Window_FreeIcon_IcoLib(m_hwnd);
 
-		delete dat;
+		delete dat; dat = nullptr;
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	}
 
@@ -343,7 +343,7 @@ public:
 
 		case HM_RECVEVENT:
 			ACKDATA *ack = (ACKDATA *)lParam;
-			if ((ack == nullptr) || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
+			if (!ack || !dat || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
 				break;
 
 			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
