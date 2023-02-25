@@ -87,11 +87,10 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Jingle.dll" (
 		ren Libs Libs2
 		mkdir Libs
-		copy /s ../../redist/x%tp%/gstreamer/*.* Libs
+		xcopy /S /V /Y "../../redist/x%tp%/gstreamer" "Libs"
 		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll"
-		rd /s /q Libs
+		rd /S /Q Libs
 		ren Libs2 Libs
-		pause
 	)
 	rem now adding plugin itself into archive
 	%ZipIt% "%Arch%\Plugins\%%~na.zip" %%a
