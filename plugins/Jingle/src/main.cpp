@@ -38,6 +38,6 @@ static INT_PTR FakeService(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	CreateServiceFunction("Jingle/StartSession", &FakeService);
+	CreateServiceFunction(MS_JINGLE_SERVICE, &FakeService);
 	return 0;
 }

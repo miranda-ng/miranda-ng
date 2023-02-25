@@ -122,7 +122,7 @@ struct CJabberProto;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 {
-	bool bMessageState = false, bSecureIM = false, bMirOTR = false, bNewGPG = false, bPlatform = false;
+	bool bMessageState = false, bSecureIM = false, bMirOTR = false, bNewGPG = false, bPlatform = false, bJingle = false;
 	char szRandom[17];
 
 	CMPlugin();

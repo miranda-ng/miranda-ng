@@ -94,6 +94,7 @@ static int OnLoadModule(WPARAM, LPARAM)
 {
 	g_plugin.bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	g_plugin.bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
+	g_plugin.bJingle = ServiceExists(MS_JINGLE_SERVICE);
 	g_plugin.bMirOTR = GetModuleHandle(L"mirotr.dll") != nullptr;
 	g_plugin.bNewGPG = GetModuleHandle(L"new_gpg.dll") != nullptr;
 	return 0;

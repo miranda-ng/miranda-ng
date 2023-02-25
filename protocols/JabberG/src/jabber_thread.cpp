@@ -1821,7 +1821,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 
 				const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
 				const char *reason = NULL;
-				if (m_bEnableVOIP && descr) {
+				if (hasJingle() && descr) {
 					if (m_voipSession.IsEmpty()) {
 						m_voipSession = szSid;
 						m_voipPeerJid = from;
@@ -1869,7 +1869,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 				return true;
 			}
 			else if (!mir_strcmp(szAction, "session-accept")) {
-				if (m_bEnableVOIP && m_voipSession == szSid) {
+				if (hasJingle() && m_voipSession == szSid) {
 					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 					if (OnRTPDescription(child)) {
 						//Make call GUI
@@ -1885,7 +1885,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 				}
 			}
 			else if (!mir_strcmp(szAction, "session-terminate")) {
-				if (m_bEnableVOIP && m_voipSession == szSid) {
+				if (hasJingle() && m_voipSession == szSid) {
 					// EndCall()
 					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
@@ -1903,7 +1903,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 			}
 			else if (!mir_strcmp(szAction, "transport-info")) {
 				auto *transport = XmlGetChildByTag(content, "transport", "xmlns", JABBER_FEAT_JINGLE_ICEUDP);
-				if (m_bEnableVOIP && m_voipSession == szSid && transport) {
+				if (hasJingle() && m_voipSession == szSid && transport) {
 					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 					if (const TiXmlElement *candidate = XmlFirstChild(transport, "candidate")) {
 						OnICECandidate(candidate);

@@ -276,7 +276,7 @@ void dbgprint(const gchar *string)
 
 bool CJabberProto::VOIPCreatePipeline(void)
 {
-	if (!m_bEnableVOIP)
+	if (!hasJingle())
 		goto err;
 
 	//gstreamer init
@@ -444,7 +444,7 @@ bool CJabberProto::OnRTPDescription(const TiXmlElement *jingleNode)
 
 bool CJabberProto::OnICECandidate(const TiXmlElement *Node)
 {
-	if (!m_bEnableVOIP)
+	if (!hasJingle())
 		return false;
 
 	CMStringA scandidate;
@@ -479,7 +479,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 		return false;
 	}
 
-	if (!m_bEnableVOIP)
+	if (!hasJingle())
 		return false;
 
 	CMStringA jid(ptrA(getUStringA(hContact, "jid")));

@@ -251,7 +251,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
 
 	// Voip
-	if (m_bEnableVOIP) {
+	if (hasJingle()) {
 		VOICE_MODULE vsr = {};
 		vsr.cbSize = sizeof(VOICE_MODULE);
 		vsr.description = L"XMPP/DTLS-SRTP";

@@ -706,7 +706,8 @@ public:
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), m_proto->m_bEnableMam);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
+		if (g_plugin.bJingle)
+			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
 
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (experimental)"), m_proto->m_bEnableStreamMgmt);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
@@ -772,7 +773,7 @@ public:
 		vsr.name = m_proto->m_szModuleName;
 		vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
 		vsr.flags = 3;
-		if (m_proto->m_bEnableVOIP)
+		if (m_proto->hasJingle())
 			CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
 		else {
 			m_proto->VOIPTerminateSession();

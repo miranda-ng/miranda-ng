@@ -94,7 +94,7 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] =
 	{ JABBER_EXT_NEWGPG,            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
 	{ JABBER_EXT_OMEMO,             JABBER_CAPS_OMEMO,                                            },
 	{ JABBER_EXT_NUDGE,             JABBER_CAPS_ATTENTION,            "NUDGE/Send"                },
-	{ JABBER_EXT_JINGLE,            JABBER_CAPS_JINGLE,               "Jingle/StartSession"       },
+	{ JABBER_EXT_JINGLE,            JABBER_CAPS_JINGLE,               MS_JINGLE_SERVICE           },
 	{ JABBER_EXT_COMMANDS,          JABBER_CAPS_COMMANDS                                          },
 	{ JABBER_EXT_USER_ACTIVITY,     JABBER_CAPS_USER_ACTIVITY_NOTIFY                              },
 	{ JABBER_EXT_USER_MOOD,         JABBER_CAPS_USER_MOOD_NOTIFY                                  },
@@ -351,7 +351,7 @@ JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 	if (!m_bMsgAck)
 		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
-	if (m_bEnableVOIP)
+	if (hasJingle())
 		jcb |= JABBER_CAPS_JINGLE | JABBER_CAPS_JINGLE_ICEUDP | JABBER_CAPS_JINGLE_RTP | JABBER_CAPS_JINGLE_DTLS | JABBER_CAPS_JINGLE_RTPAUDIO;
 
 	return jcb;

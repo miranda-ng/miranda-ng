@@ -31,6 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_xml.h>
 
+#define MS_JINGLE_SERVICE "Jabber/Jingle"
+
 // Iq type flags
 enum
 {

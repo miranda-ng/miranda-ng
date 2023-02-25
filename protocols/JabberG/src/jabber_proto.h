@@ -911,6 +911,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	struct _GstElement *m_pipe1 = NULL;
 	struct _GstElement *m_webrtc1 = NULL;
 
+	__forceinline bool hasJingle()
+	{	return g_plugin.bJingle && m_bEnableVOIP;
+	}
+
 	//---- jabber_xml.c ------------------------------------------------------------------
 
 	void       OnConsoleProcessXml(const TiXmlElement *node, uint32_t flags);
