@@ -335,9 +335,6 @@ public:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
-		if (dat == nullptr)
-			return 0;
-
 		switch (msg) {
 		case WM_COMMAND:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact))
@@ -346,19 +343,21 @@ public:
 
 		case HM_RECVEVENT:
 			ACKDATA *ack = (ACKDATA *)lParam;
-			if (!ack || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
-				break;
+			if (ack && dat) {
+				if (ack->hProcess != dat->fs || ack->type != ACKTYPE_FILE || ack->hContact != dat->hContact)
+					break;
 
-			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
-				EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-				EnableWindow(GetDlgItem(m_hwnd, IDC_FILEDIR), FALSE);
-				EnableWindow(GetDlgItem(m_hwnd, IDC_FILEDIRBROWSE), FALSE);
-				SetDlgItemText(m_hwnd, IDC_MSG, TranslateT("This file transfer has been canceled by the other side"));
-				Skin_PlaySound("FileDenied");
-				FlashWindow(m_hwnd, TRUE);
-			}
-			else if (ack->result != ACKRESULT_FILERESUME) {
-				btnCancel.Click();
+				if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
+					EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
+					EnableWindow(GetDlgItem(m_hwnd, IDC_FILEDIR), FALSE);
+					EnableWindow(GetDlgItem(m_hwnd, IDC_FILEDIRBROWSE), FALSE);
+					SetDlgItemText(m_hwnd, IDC_MSG, TranslateT("This file transfer has been canceled by the other side"));
+					Skin_PlaySound("FileDenied");
+					FlashWindow(m_hwnd, TRUE);
+				}
+				else if (ack->result != ACKRESULT_FILERESUME) {
+					btnCancel.Click();
+				}
 			}
 			break;
 		}
