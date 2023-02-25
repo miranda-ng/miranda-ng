@@ -84,6 +84,15 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll" "Plugins\Weather\*.ini")
 	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "libs\libqrencode.mir")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
+	if /I "%%a"=="Jingle.dll" (
+		ren Libs Libs2
+		mkdir Libs
+		copy /s ../../redist/x%tp%/gstreamer/*.* Libs
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll"
+		rd /s /q Libs
+		ren Libs2 Libs
+		pause
+	)
 	rem now adding plugin itself into archive
 	%ZipIt% "%Arch%\Plugins\%%~na.zip" %%a
 )

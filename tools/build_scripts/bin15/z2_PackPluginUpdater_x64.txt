@@ -68,6 +68,7 @@ Plugins\ignorestate.dll
 Plugins\import.dll
 Plugins\irc.dll
 Plugins\jabber.dll
+Plugins\jingle.dll
 Plugins\keyboardnotify.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
