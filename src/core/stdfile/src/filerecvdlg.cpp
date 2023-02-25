@@ -335,6 +335,9 @@ public:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
+		if (dat == nullptr)
+			return 0;
+
 		switch (msg) {
 		case WM_COMMAND:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact))
@@ -343,7 +346,7 @@ public:
 
 		case HM_RECVEVENT:
 			ACKDATA *ack = (ACKDATA *)lParam;
-			if (!ack || !dat || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
+			if (!ack || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
 				break;
 
 			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
