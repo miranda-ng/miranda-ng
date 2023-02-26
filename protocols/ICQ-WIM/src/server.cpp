@@ -27,6 +27,8 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 	CMStringW wszIconId(ev["bigIconId"].as_mstring());
 	if (wszIconId.IsEmpty())
 		wszIconId = ev["iconId"].as_mstring();
+	if (wszIconId.IsEmpty())
+		wszIconId = ev["avatarId"].as_mstring();
 	
 	if (!wszIconId.IsEmpty()) {
 		CMStringW oldIconID(getMStringW(hContact, "IconId"));
