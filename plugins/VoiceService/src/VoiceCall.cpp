@@ -35,13 +35,13 @@ struct {
 	wchar_t *btn2text;
 }
 static stateTexts[NUM_STATES] = {
-	{ L"0:00",           L"Hold",   L"Drop"   },
-	{ L"Ringing",        L"Answer", L"Drop"   },
-	{ L"Calling",        nullptr,   L"Drop"   },
-	{ L"Holded",         L"Resume", L"Drop"   },
-	{ nullptr,           nullptr,   L"Close"  },
-	{ L"Callee is busy", nullptr,   L"Close"  },
-	{ L"Ready",          L"Call",   L"Cancel" },
+	{ L"0:00",           LPGENW("Hold"),   LPGENW("Drop")   },
+	{ LPGENW("Ringing"),        LPGENW("Answer"), LPGENW("Drop")   },
+	{ LPGENW("Calling"),        nullptr,   LPGENW("Drop")   },
+	{ LPGENW("Holded"),         LPGENW("Resume"), LPGENW("Drop")   },
+	{ nullptr,           nullptr,   LPGENW("Close")  },
+	{ LPGENW("Callee is busy"), nullptr,   LPGENW("Close")  },
+	{ LPGENW("Ready"),          LPGENW("Call"),   LPGENW("Cancel") },
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
