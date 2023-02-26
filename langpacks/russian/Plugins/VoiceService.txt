@@ -77,9 +77,9 @@
 [Established]
 
 [M]
-м
+
 [V]
-Пер.
+
 [Frame Popup]
 
 [Answer call]
@@ -169,7 +169,19 @@
 Абонент занят
 [Voice call ready]
 
+[Hold]
+Удержать
+[Holded]
+Удерживается
+[Resume]
+Продолжить
+[Close]
+Закрыть
+[Callee is busy]
+Абонент занят
+[Cancel]
+Отмена
 [Unknown number]
 Неизвестный номер
 [Call is over %s]
-
+Вызов завершён %s

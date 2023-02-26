@@ -1,0 +1,9 @@
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
+[Jingle support for Jabber plugin.]
+Поддержка Jingle для протокола Jabber.

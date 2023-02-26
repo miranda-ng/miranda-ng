@@ -2688,6 +2688,8 @@ ID учётной записи
 <неизвестно>
 [Protocol is not loaded.]
 Протокол не загружен.
+[Account is disabled.]
+Учётная запись отключена.
 [Create new account]
 Новая учётная запись
 [Editing account]
