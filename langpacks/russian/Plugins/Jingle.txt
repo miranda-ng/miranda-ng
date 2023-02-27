@@ -5,5 +5,5 @@
 ;  Version: 0.0.0.1
 ;  Authors: George Hazan
 ;============================================================
-[Jingle support for Jabber plugin.]
+[Jingle support for Jabber protocol.]
 Поддержка Jingle для протокола Jabber.

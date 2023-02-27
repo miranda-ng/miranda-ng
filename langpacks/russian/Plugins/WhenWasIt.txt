@@ -88,8 +88,6 @@
 Плагин протокола
 [Birthday list (%d)]
 Список дней рождения (%d)
-[Unknown]
-Неизвестно
 [Protocol]
 Протокол
 [Contact]

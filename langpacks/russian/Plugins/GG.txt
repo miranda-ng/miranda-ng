@@ -206,9 +206,9 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Входящее изображение
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
-
+Не удалось создать передачу файла. Ошибка: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
-
+Не удалось создать передачу файла. Ошибка: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
 HTTP ошибка памяти

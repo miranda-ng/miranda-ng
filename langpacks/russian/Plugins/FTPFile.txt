@@ -242,13 +242,13 @@ FTP файл менеджер
 Снять всё
 ;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
-
+FTP (обычный)
 [FTP+SSL (Explicit)]
 FTP+SSL (явный)
 [FTP+SSL (Implicit)]
 FTP+SSL (неявный)
 [SFTP (Secure FTP over SSH)]
-
+SFTP (FTP через SSH)
 [minutes]
 минут(ы)
 [hours]

@@ -108,7 +108,7 @@
 [Busy]
 Занят
 [Ready]
-Готово
+Готов
 [Make Voice Call]
 Позвонить
 [Answer Voice Call]

@@ -1,5 +1,3 @@
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]
-[FTP (Standard)]
-[SFTP (Secure FTP over SSH)]
