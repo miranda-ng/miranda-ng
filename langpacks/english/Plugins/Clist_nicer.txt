@@ -134,7 +134,7 @@
 [Status bar]
 [Show status bar]
 [Show icons]
-[Show protocol names]
+[Show account names]
 [Show status text]
 [Right click opens status menu]
 [Right click opens Miranda NG menu]

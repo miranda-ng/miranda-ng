@@ -61,7 +61,7 @@
 [Set options per account]
 [Enable custom account settings]
 [Hide account completely]
-[Show protocol names]
+[Show account names]
 [Show status name]
 [Show xStatus name]
 [Show protocol icon]
@@ -400,6 +400,8 @@
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+[Expand meta]
 [Show avatar]
 [Hide avatar]
 [Show contact &avatar]

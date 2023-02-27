@@ -7,11 +7,16 @@
 ;============================================================
 [Telegram protocol support for Miranda NG.]
 ;file \protocols\Telegram\res\resource.rc
+[Country:]
 [Phone number:]
 [Default group:]
 [Device name:]
 [Do not open chat windows on creation]
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 ;file \protocols\Telegram\src\auth.cpp
+[Enter email address for account verification]
+[Enter verification code received by email]
 [Enter secret code sent to your phone]
 [Enter password]
 [ (hint: %s)]
@@ -19,12 +24,22 @@
 [Error]
 [Invalid phone code]
 [Invalid password]
+;file \protocols\Telegram\src\groupchat.cpp
+[Creator]
+[Admin]
+[Participant]
+[SuperAdmin]
+[Visitor]
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 [Account]
+[Advanced]
+;file \protocols\Telegram\src\server.cpp
+[%d member(s)]
 ;file \protocols\Telegram\src\utils.cpp
+[none]
 [Chat rooms]
 [%s error notifications]
 [Errors]

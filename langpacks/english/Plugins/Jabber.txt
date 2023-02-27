@@ -741,6 +741,7 @@
 [Show transport agents on contact list]
 [Automatically add contact when accept authorization]
 [Automatically accept authorization requests]
+[Automatically download files passed via HTTP File Upload]
 [Fix incorrect timestamps in incoming messages]
 [Enable XMPP link processing (requires AssocMgr)]
 [Embrace picture URLs with [img]]
