@@ -35,12 +35,12 @@ struct {
 	wchar_t *btn2text;
 }
 static stateTexts[NUM_STATES] = {
-	{ L"0:00",           LPGENW("Hold"),   LPGENW("Drop")   },
+	{ L"0:00",                  LPGENW("Hold"),   LPGENW("Drop")   },
 	{ LPGENW("Ringing"),        LPGENW("Answer"), LPGENW("Drop")   },
-	{ LPGENW("Calling"),        nullptr,   LPGENW("Drop")   },
+	{ LPGENW("Calling"),        nullptr,          LPGENW("Drop")   },
 	{ LPGENW("Holded"),         LPGENW("Resume"), LPGENW("Drop")   },
-	{ nullptr,           nullptr,   LPGENW("Close")  },
-	{ LPGENW("Callee is busy"), nullptr,   LPGENW("Close")  },
+	{ nullptr,                  nullptr,          LPGENW("Close")  },
+	{ LPGENW("Callee is busy"), nullptr,          LPGENW("Close")  },
 	{ LPGENW("Ready"),          LPGENW("Call"),   LPGENW("Cancel") },
 };
 
@@ -236,23 +236,21 @@ void VoiceCall::SetState(int aState)
 		Show();
 		break;
 	}
-	
-	if(stateTexts[state].status)
-		m_lblStatus.SetText(stateTexts[state].status);
-	if(stateTexts[state].btn1text)
-		m_btnAnswer.SetText(stateTexts[state].btn1text);
-	m_btnDrop.SetText(stateTexts[state].btn2text);
 
-	m_btnAnswer.Enable(state == VOICE_STATE_TALKING ? CanHold() : (bool)stateTexts[state].btn1text);
+	auto &ST = stateTexts[state];
+	if (ST.status)
+		m_lblStatus.SetText(TranslateW(ST.status));
+	if (ST.btn1text)
+		m_btnAnswer.SetText(TranslateW(ST.btn1text));
+	m_btnDrop.SetText(TranslateW(ST.btn2text));
+
+	m_btnAnswer.Enable(state == VOICE_STATE_TALKING ? CanHold() : (bool)ST.btn1text);
 
 	if (state != VOICE_STATE_ON_HOLD)
 		m_nsec = 0;
 
-	if (IsFinished()) {
-		// Remove id because providers can re-use them
-		mir_free(id);
-		id = NULL;
-	}
+	if (IsFinished()) // Remove id because providers can re-use them
+		replaceStr(id, 0);
 
 	Notify();
 }
