@@ -255,7 +255,6 @@ static gboolean check_plugins(void)
 		/*"vpx", "videotestsrc", "audiotestsrc",*/  };
 
 	GstRegistry *registry = gst_registry_get();
-	gst_registry_scan_path(registry, "libs\\gst_plugins");
 	gboolean ret = TRUE;
 	for (auto &it : needed) {
 		GstPlugin *plugin = gst_registry_find_plugin(registry, it);

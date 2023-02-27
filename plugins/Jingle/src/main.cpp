@@ -38,6 +38,8 @@ static INT_PTR FakeService(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	SetEnvironmentVariableW(L"GST_PLUGIN_PATH", VARSW(L"%miranda_path%\\Libs\\gst_plugins"));
+
 	CreateServiceFunction(MS_JINGLE_SERVICE, &FakeService);
 	return 0;
 }
