@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME           "Jingle"
 #define __FILENAME              "Jingle"
-#define __DESCRIPTION           "Jingle support for Jabber plugin."
+#define __DESCRIPTION           "Jingle support for Jabber protocol."
 #define __AUTHOR                "George Hazan"
 #define __AUTHORWEB             "https://miranda-ng.org/p/Jingle"
 #define __COPYRIGHT             "© 2023 George Hazan"
