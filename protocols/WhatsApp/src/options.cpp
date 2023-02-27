@@ -59,7 +59,7 @@ public:
 
 	void onClick_Unregister(CCtrlButton *)
 	{
-		if (IDYES != MessageBoxW(0, TranslateT("Do you really want to unregister Miranda?"), m_proto->m_tszUserName, MB_ICONQUESTION | MB_YESNO))
+		if (IDYES != MessageBoxW(0, TranslateT("Do you really want to log out from account? You will have to link your devices again."), m_proto->m_tszUserName, MB_ICONQUESTION | MB_YESNO))
 			return;
 
 		if (m_proto->isOnline())
