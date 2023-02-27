@@ -61,6 +61,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // name without any appended user names.
 // Note that the directory name returned by this function does not necessarily exist.
 #define MS_FILE_GETRECEIVEDFILESFOLDER  "SRFile/GetReceivedFilesFolder"
+#define MS_FILE_GETRECEIVEDFILESFOLDERW "SRFile/GetReceivedFilesFolderW"
 
 // notifies a caller about file send start
 // wParam = (MCONTACT)hContact

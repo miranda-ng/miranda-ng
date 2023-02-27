@@ -94,6 +94,18 @@ void ItemData::load(bool bFullLoad)
 			wtext = mir_utf8decodeW((char *)dbe.pBlob);
 			break;
 
+		case EVENTTYPE_FILE:
+			wchar_t buf[MAX_PATH];
+			CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
+			{
+				CMStringW wszFileName(buf);
+				wszFileName.Append(ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
+				wszFileName.Replace('\\', '/');
+				wszFileName.Insert(0, L"file://");
+				wtext = wszFileName.Detach();
+			}
+			break;
+
 		default:
 			wtext = DbEvent_GetTextW(&dbe, CP_ACP);
 			break;

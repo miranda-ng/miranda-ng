@@ -73,9 +73,17 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t buf[MAX_PATH];
 	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
-	char* dir = mir_u2a(buf);
-	mir_strncpy((char*)lParam, dir, MAX_PATH);
+	char *dir = mir_u2a(buf);
+	mir_strncpy((char *)lParam, dir, MAX_PATH);
 	mir_free(dir);
+	return 0;
+}
+
+static INT_PTR GetReceivedFilesFolderW(WPARAM wParam, LPARAM lParam)
+{
+	wchar_t buf[MAX_PATH];
+	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
+	mir_wstrncpy((wchar_t *)lParam, buf, MAX_PATH);
 	return 0;
 }
 
@@ -427,6 +435,7 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES, SendSpecificFiles);
 	CreateServiceFunction(MS_FILE_SENDSPECIFICFILEST, SendSpecificFilesT);
 	CreateServiceFunction(MS_FILE_GETRECEIVEDFILESFOLDER, GetReceivedFilesFolder);
+	CreateServiceFunction(MS_FILE_GETRECEIVEDFILESFOLDERW, GetReceivedFilesFolderW);
 	CreateServiceFunction("SRFile/RecvFile", RecvFileCommand);
 
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
