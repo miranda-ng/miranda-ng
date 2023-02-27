@@ -162,23 +162,27 @@ class CBirthdaysDlg : public CBasicListDlg
 
 		int year = 0, month = 0, day = 0;
 		GetContactDOB(hContact, year, month, day, iModule);
-		if (bShowAll || IsDOBValid(year, month, day)) {
-			lastColumn = -1; //list isn't sorted anymore
+		if (!IsDOBValid(year, month, day))
+			return res;
+		 
+		PROTOACCOUNT *pAcc = Proto_GetContactAccount(hContact);
+		if (pAcc == nullptr)
+			return res;
+
+		if (bShowAll || pAcc->IsEnabled()) {
+			lastColumn = -1; // list isn't sorted anymore
 			int dtb = DaysToBirthday(Today(), year, month, day);
 			int age = GetContactAge(year, month, day);
-
-			PROTOACCOUNT *pAcc = Proto_GetContactAccount(hContact);
-			wchar_t *ptszAccName = (pAcc == nullptr) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
 			if (bAdd) {
 				LVITEM item = {};
 				item.mask = LVIF_TEXT | LVIF_PARAM;
 				item.iItem = entry;
 				item.lParam = (iModule == DOB_PROTOCOL) ? hContact : -hContact;
-				item.pszText = ptszAccName;
+				item.pszText = pAcc->tszAccountName;
 				m_list.InsertItem(&item);
 			}
-			else m_list.SetItemText(entry, 0, ptszAccName);
+			else m_list.SetItemText(entry, 0, pAcc->tszAccountName);
 
 			m_list.SetItemText(entry, 1, Clist_GetContactDisplayName(hContact));
 
