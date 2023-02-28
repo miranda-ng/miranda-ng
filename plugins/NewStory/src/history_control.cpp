@@ -824,7 +824,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				data->EndEditItem(false);
 
 			auto *pItem = data->items[idx];
-			MTextActivate(pItem->data, true);
 
 			if (wParam & MK_CONTROL) {
 				SendMessage(hwnd, NSM_TOGGLEITEMS, idx, idx);
@@ -836,8 +835,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 			else {
 				pt.y -= pItem->savedTop;
-				if (pItem->isLink(pt)) {
-					Utils_OpenUrlW(pItem->getWBuf());
+
+				CMStringW wszUrl;
+				if (pItem->isLink(pt, wszUrl)) {
+					Utils_OpenUrlW(wszUrl);
 					return 0;
 				}
 					
@@ -849,7 +850,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
 				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
 			}
-			MTextActivate(pItem->data, false);
 		}
 
 		SetFocus(hwnd);

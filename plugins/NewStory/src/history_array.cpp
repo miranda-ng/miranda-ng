@@ -51,18 +51,47 @@ void ItemData::checkCreate(HWND hwnd)
 	if (data == nullptr) {
 		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
 		MTextSetParent(data, hwnd);
+		MTextActivate(data, true);
 	}
 }
 
-bool ItemData::isLink(POINT pt) const
+bool ItemData::isLink(POINT pt, CMStringW &url) const
 {
 	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
 	if (cp == -1)
 		return false;
 	
-	CHARRANGE cr = { cp, cp + 1 };
-	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&cr));
-	
+	if (!isLinkChar(cp))
+		return false;
+
+	CHARRANGE sel = { cp, cp };
+	for (sel.cpMin = cp; sel.cpMin >= 0; sel.cpMin--)
+		if (!isLinkChar(sel.cpMin))
+			break;
+
+	for (sel.cpMax = cp + 1; isLinkChar(sel.cpMax); sel.cpMax++)
+		;
+
+	if (sel.cpMax > sel.cpMin) {
+		url.Truncate(sel.cpMax - sel.cpMin + 1);
+
+		TEXTRANGE tr = { 0 };
+		tr.chrg = sel;
+		tr.lpstrText = url.GetBuffer();
+		int iRes = MTextSendMessage(0, data, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+		if (iRes > 0)
+			url.Trim();
+		else
+			url.Empty();
+	}
+	return true;
+}
+
+bool ItemData::isLinkChar(int idx) const
+{
+	CHARRANGE sel = { idx, idx + 1 };
+	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&sel));
+
 	CHARFORMAT2 cf = {};
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_LINK;

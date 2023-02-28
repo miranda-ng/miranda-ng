@@ -24,7 +24,8 @@ struct ItemData
 
 	void load(bool bFullLoad);
 	bool isGrouped() const;
-	bool isLink(POINT pt) const;
+	bool isLink(POINT pt, CMStringW &url) const;
+	bool isLinkChar(int idx) const;
 
 	int getTemplate() const;
 	int getCopyTemplate() const;
