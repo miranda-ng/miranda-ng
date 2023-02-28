@@ -249,17 +249,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		m_tszSelectedLang = mir_strdup("en");
 
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
-
-	// Voip
-	if (hasJingle()) {
-		VOICE_MODULE vsr = {};
-		vsr.cbSize = sizeof(VOICE_MODULE);
-		vsr.description = L"XMPP/DTLS-SRTP";
-		vsr.name = m_szModuleName;
-		vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
-		vsr.flags = 3;
-		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
-	}
 }
 
 CJabberProto::~CJabberProto()
@@ -277,15 +266,8 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hVoiceEvent);
 
 	// Voice
-	VOIPTerminateSession();
-
-	VOICE_MODULE vsr = {};
-	vsr.cbSize = sizeof(VOICE_MODULE);
-	vsr.description = L"XMPP/DTLS-SRTP";
-	vsr.name = m_szModuleName;
-	vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
-	vsr.flags = 3;
-	CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)&vsr, 0);
+	if (hasJingle())
+		InitVoip(false);
 
 	// Lists & strings
 	ListWipe();
@@ -346,6 +328,10 @@ void CJabberProto::OnModulesLoaded()
 	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
+
+	// Voip
+	if (hasJingle())
+		InitVoip(true);
 
 	// Set all contacts to offline
 	for (auto &hContact : AccContacts()) {

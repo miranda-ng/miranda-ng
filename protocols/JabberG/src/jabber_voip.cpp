@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <m_voiceservice.h>
+
 #include <gst/gst.h>
 #include <gst/sdp/sdp.h>
 #include <gst/rtp/rtp.h>
@@ -556,4 +558,24 @@ INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM id, LPARAM)
 
 	VOIPTerminateSession();
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+void CJabberProto::InitVoip(bool bEnable)
+{
+	// Voip
+	VOICE_MODULE vsr = {};
+	vsr.cbSize = sizeof(VOICE_MODULE);
+	vsr.description = L"XMPP/DTLS-SRTP";
+	vsr.name = m_szModuleName;
+	vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
+	vsr.flags = 3;
+	if (bEnable)
+		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
+	else {
+		VOIPTerminateSession();
+		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)&vsr, 0);
+	}
 }

@@ -158,8 +158,17 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 	}
 }
 
+static int ContactListModulesLoaded2(WPARAM, LPARAM)
+{
+	InitStaticAccounts();
+	return 0;
+}
+
 static int ContactListModulesLoaded(WPARAM, LPARAM)
 {
+	// delay accounts initialization after all plugins initialization
+	HookEvent(ME_SYSTEM_MODULESLOADED, ContactListModulesLoaded2);
+
 	ScheduleMenuUpdate();
 
 	RebuildMenuOrder();
@@ -171,7 +180,6 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	LoadCLUIModule();
 
 	InitClistHotKeys();
-	InitStaticAccounts();
 	InitMoveToGroup();
 
 	CMenuItem mi(&g_plugin);

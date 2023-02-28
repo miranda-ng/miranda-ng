@@ -897,6 +897,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_voip.c -----------------------------------------------------------------
 
+	void InitVoip(bool bEnable);
 	bool OnICECandidate(const TiXmlElement *Node);
 	bool OnRTPDescription(const TiXmlElement *Node);
 	bool VOIPCreatePipeline();

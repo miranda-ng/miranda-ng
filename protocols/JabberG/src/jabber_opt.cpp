@@ -766,19 +766,7 @@ public:
 		else
 			m_proto->m_omemo.deinit();
 
-		// Voip
-		VOICE_MODULE vsr = {};
-		vsr.cbSize = sizeof(VOICE_MODULE);
-		vsr.description = L"XMPP/DTLS-SRTP";
-		vsr.name = m_proto->m_szModuleName;
-		vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
-		vsr.flags = 3;
-		if (m_proto->hasJingle())
-			CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
-		else {
-			m_proto->VOIPTerminateSession();
-			CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)&vsr, 0);
-		}
+		m_proto->InitVoip(m_proto->hasJingle());
 
 		m_proto->UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);

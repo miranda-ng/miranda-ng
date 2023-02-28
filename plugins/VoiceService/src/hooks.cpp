@@ -259,8 +259,8 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 	Menu_ShowItem(hCMAnswer, false);
 	Menu_ShowItem(hCMHold, false);
 	Menu_ShowItem(hCMDrop, false);
-	for (unsigned int i = 0; i < hCMCalls.size(); ++i)
-		Menu_ShowItem(hCMCalls[i], false);
+	for (auto &it : hCMCalls)
+		Menu_ShowItem(it, false);
 
 	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
