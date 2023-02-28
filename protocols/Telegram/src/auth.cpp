@@ -154,9 +154,9 @@ void CTelegramProto::OnUpdateAuth(td::ClientManager::Response &response)
 		debugLogA("error happened: %s", to_string(*pError).c_str());
 
 		if (pError->message_ == "PHONE_CODE_EXPIRED")
-			Popup(0, TranslateT("Phone code expired"), TranslateT("Error"));
+			Popup(0, TranslateT("Secret code expired"), TranslateT("Error"));
 		else if (pError->message_ == "INVALID_PHONE_CODE")
-			Popup(0, TranslateT("Invalid phone code"), TranslateT("Error"));
+			Popup(0, TranslateT("Invalid secret code"), TranslateT("Error"));
 		else if (pError->message_ == "PASSWORD_HASH_INVALID")
 			Popup(0, TranslateT("Invalid password"), TranslateT("Error"));
 
