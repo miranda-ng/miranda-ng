@@ -27,16 +27,16 @@ void __cdecl CTelegramProto::ServerThread(void *)
 	m_bTerminated = m_bAuthorized = false;
 	m_szFullPhone.Format("%d%S", (int)m_iCountry, (wchar_t *)m_szOwnPhone);
 
-	m_pClientMmanager = std::make_unique<td::ClientManager>();
-	m_iClientId = m_pClientMmanager->create_client_id();
+	m_pClientManager = std::make_unique<td::ClientManager>();
+	m_iClientId = m_pClientManager->create_client_id();
 
 	SendQuery(new TD::getOption("version"));
 
 	while (!m_bTerminated) {
-		ProcessResponse(m_pClientMmanager->receive(1));
+		ProcessResponse(m_pClientManager->receive(1));
 	}
 
-	m_pClientMmanager = std::move(nullptr);
+	m_pClientManager = std::move(nullptr);
 }
 
 void CTelegramProto::LogOut()
@@ -53,6 +53,8 @@ void CTelegramProto::LogOut()
 
 	m_impl.m_keepAlive.Stop();
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
+	for (auto &it : m_arUsers)
+		it->m_si = nullptr;
 }
 
 void CTelegramProto::OnLoggedIn()
@@ -209,7 +211,7 @@ int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 
 void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
-	if (!m_pClientMmanager)
+	if (!m_pClientManager)
 		return;
 
 	int queryId = ++m_iQueryId;
@@ -217,7 +219,7 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 	auto szDescr = to_string(*pFunc);
 	debugLogA("Sending query %d:\n%s", queryId, szDescr.c_str());
 
-	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
+	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
@@ -225,7 +227,7 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
 {
-	if (!m_pClientMmanager)
+	if (!m_pClientManager)
 		return;
 
 	int queryId = ++m_iQueryId;
@@ -233,7 +235,7 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandl
 	auto szDescr = to_string(*pFunc);
 	debugLogA("Sending full query %d:\n%s", queryId, szDescr.c_str());
 
-	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
+	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));

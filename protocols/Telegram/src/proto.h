@@ -142,10 +142,10 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	} m_impl;
 
 	bool __forceinline isRunning() const 
-	{	return m_pClientMmanager != nullptr; 
+	{	return m_pClientManager != nullptr; 
 	}
 
-	std::unique_ptr<td::ClientManager> m_pClientMmanager;
+	std::unique_ptr<td::ClientManager> m_pClientManager;
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
 	mir_cs m_csMarkRead;
