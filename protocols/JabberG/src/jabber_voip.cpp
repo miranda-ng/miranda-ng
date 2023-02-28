@@ -356,8 +356,9 @@ bool CJabberProto::VOIPTerminateSession(const char *reason)
 		gst_print("Pipeline stopped\n");
 	}
 
-	if (reason && !m_voipSession.IsEmpty() && !m_voipPeerJid.IsEmpty()) {
+	if (m_ThreadInfo && reason && !m_voipSession.IsEmpty() && !m_voipPeerJid.IsEmpty()) {
 		XmlNodeIq iq("set", SerialNext(), m_voipPeerJid);
+
 		TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
 		jingleNode << XATTR("action", "session-terminate") << XATTR("sid", m_voipSession);
 		jingleNode << XATTR("initiator", m_isOutgoing ? m_ThreadInfo->fullJID : m_voipPeerJid);
