@@ -378,7 +378,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	bool      IsQueueEmpty();
 	void      Push(MHttpRequest*);
 	bool      RefreshRobustToken(AsyncHttpRequest *pReq);
-	bool      SkipRapi();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// cache

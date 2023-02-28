@@ -613,7 +613,7 @@ void CIcqProto::SetServerStatus(int iStatus)
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState")
 		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
 
-	if (iStatus == ID_STATUS_OFFLINE && !SkipRapi()) {
+	if (iStatus == ID_STATUS_OFFLINE && !getByte(DB_KEY_PHONEREG)) {
 		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, ICQ_API_SERVER "/aim/endSession", &CIcqProto::OnSessionEnd);
 		pReq << AIMSID(this) << INT_PARAM("invalidateToken", 1);
 		ExecuteRequest(pReq);

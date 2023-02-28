@@ -104,7 +104,7 @@ AsyncRapiRequest::AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHtt
 {
 	params.set_name("params");
 
-	if (ppro->SkipRapi()) {
+	if (ppro->getByte(DB_KEY_PHONEREG)) {
 		m_szUrl.AppendChar('/');
 		m_szUrl.Append(pszMethod);
 		
@@ -181,7 +181,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	// replace credentials inside JSON body for pure RAPI requests
-	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->szUrl, ICQ_ROBUST_SERVER) && !SkipRapi()) {
+	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->szUrl, ICQ_ROBUST_SERVER) && !getByte(DB_KEY_PHONEREG)) {
 		CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 		pReq->AddHeader("User-Agent", szAgent);
 		pReq->AddHeader("Content-Type", "application/json");

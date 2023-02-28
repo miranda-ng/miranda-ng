@@ -58,7 +58,7 @@ public:
 bool CIcqProto::RetrievePassword()
 {
 	// if we registered via phone (i.e., server holds the password), we don't need to enter it
-	if (SkipRapi())
+	if (getByte(DB_KEY_PHONEREG))
 		return true;
 
 	if (!m_szPassword.IsEmpty() && m_bRememberPwd)
