@@ -59,7 +59,7 @@ INT_PTR CALLBACK CTelegramProto::EnterPhoneCode(void *param)
 
 	ENTER_STRING es = {};
 	es.szModuleName = ppro->m_szModuleName;
-	es.caption = TranslateT("Enter secret code sent to your phone");
+	es.caption = TranslateT("Enter the secret code sent to your Telegram on another device");
 	if (EnterString(&es)) {
 		ppro->SendQuery(new TD::checkAuthenticationCode(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
