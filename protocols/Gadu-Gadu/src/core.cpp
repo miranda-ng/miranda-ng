@@ -299,12 +299,10 @@ void __cdecl GaduProto::mainthread(void *)
 	int hostcount = 0;
 	GGHOST hosts[64];
 
-	if (m_useManualHosts) {
-		CMStringW serverHosts = m_serverHosts;
-		if (!serverHosts.IsEmpty()) {
-			ptrA pHostsList(mir_u2a(serverHosts.c_str()));
-			hostcount = gg_decodehosts(pHostsList, hosts, 64);
-		}
+	CMStringW serverHosts = (m_useManualHosts) ? m_serverHosts : GG_KEYDEF_SERVERHOSTS;
+	if (!serverHosts.IsEmpty()) {
+		ptrA pHostsList(mir_u2a(serverHosts.c_str()));
+		hostcount = gg_decodehosts(pHostsList, hosts, 64);
 	}
 
 	// Readup password

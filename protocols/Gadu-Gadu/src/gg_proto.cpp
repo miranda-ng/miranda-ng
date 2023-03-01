@@ -29,7 +29,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	// options
 	m_forwardPort(this, "ForwardPort", 1550),
 	m_forwardHost(this, "ForwardHost", L""),
-	m_serverHosts(this, "ServerHosts", GG_KEYDEF_SERVERHOSTS),
+	m_serverHosts(this, "ServerHosts", L""),
 	m_autoRecconect(this, "AReconnect", 0),
 	m_useForwarding(this, "Forwarding", 0),
 	m_useManualHosts(this, "ManualHost", 1),
