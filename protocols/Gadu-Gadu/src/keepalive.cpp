@@ -52,19 +52,15 @@ static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 void GaduProto::keepalive_init()
 {
-	if (m_keepConnectionAlive)
-	{
-		int i;
-		for (i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
+	int i;
+	for (i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
 
-		if (i < MAX_TIMERS)
-		{
+	if (i < MAX_TIMERS) {
 #ifdef DEBUGMODE
-			debugLogA("keepalive_init(): Initializing Timer %d", i);
+		debugLogA("keepalive_init(): Initializing Timer %d", i);
 #endif
-			timer = SetTimer(nullptr, 0, 1000 * 60, gg_keepalive);
-			g_timers[i] = this;
-		}
+		timer = SetTimer(nullptr, 0, 1000 * 60, gg_keepalive);
+		g_timers[i] = this;
 	}
 }
 

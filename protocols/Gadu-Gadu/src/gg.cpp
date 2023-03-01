@@ -124,7 +124,7 @@ void crc_gentable(void)
 // Calculate the crc value
 unsigned long crc_get(char *mem)
 {
-	register unsigned long crc = 0xFFFFFFFF;
+	unsigned long crc = 0xFFFFFFFF;
 	while (mem && *mem)
 		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc_table[(crc ^ *(mem++)) & 0xFF];
 
@@ -164,10 +164,8 @@ void GaduProto::cleanuplastplugin(uint32_t version)
 
 	// force SSL and keepalive; overwrite old server list; 
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 4)) {
-		setWString("ServerHosts", GG_KEYDEF_SERVERHOSTS);
-		m_useManualHosts = 1;
-		m_useSslConnection = 1;
-		m_keepConnectionAlive = 1;
+		delSetting("ServerHosts");
+		m_useManualHosts = false;
 	}
 }
 

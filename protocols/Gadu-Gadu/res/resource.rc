@@ -47,7 +47,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -155,17 +155,15 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Advanced Configuration",IDC_STATIC,4,2,298,146
-    CONTROL         "Keep connection alive",IDC_KEEPALIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,17,286,10
-    CONTROL         "Show connection errors",IDC_SHOWCERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,32,286,10
+    CONTROL         "Show connection errors",IDC_SHOWCERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,15,286,10
     CONTROL         "Automatically reconnect after unintentional disconnection",IDC_ARECONNECT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,286,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,286,10
     CONTROL         "Send messages slower, but with full acknowledgment",IDC_MSGACK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,62,286,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,45,286,10
     CONTROL         "Manually specify connection servers' hosts",IDC_MANUALHOST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,286,10
-    EDITTEXT        IDC_HOST,22,91,144,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,60,286,10
+    EDITTEXT        IDC_HOST,9,76,157,64,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
     LTEXT           "* new line is separator\n** hostname:port format",IDC_HOST_LIST_L,174,92,119,32
-    CONTROL         "Use SSL secure connection",IDC_SSLCONN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,132,286,10
     GROUPBOX        "File Transfer",IDC_STATIC,4,150,297,58
     CONTROL         "Use direct connections",IDC_DIRECTCONNS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,164,153,10
     RTEXT           "Port:",IDC_DIRECTPORT_L,157,165,25,8
@@ -456,7 +454,7 @@ BEGIN
     0
 END
 
-#endif    // English resources
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

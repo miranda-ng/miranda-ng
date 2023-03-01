@@ -33,8 +33,6 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	m_autoRecconect(this, "AReconnect", 0),
 	m_useForwarding(this, "Forwarding", 0),
 	m_useManualHosts(this, "ManualHost", 1),
-	m_useSslConnection(this, "SSLConnection", 1),
-	m_keepConnectionAlive(this, "KeepAlive", 1),
 	m_showConnectionErrors(this, "ShowCErrors", 0),
 	m_useDirectConnections(this, "DirectConns", 1),
 	m_directConnectionPort(this, "DirectPort", 1550),

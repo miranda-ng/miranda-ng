@@ -203,4 +203,57 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\gg.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\import_list_from_server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\import_list_from_txt_file.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\remove_list_from_server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\export_list_to_server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\export_list_to_txt_file.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\settings.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\list.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\block.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\previous.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\next.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\image.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\save.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\conference.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\clear_ignored_conference.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sessions.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

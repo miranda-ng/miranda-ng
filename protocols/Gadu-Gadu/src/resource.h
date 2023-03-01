@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Repozytoria\Miranda NG\protocols\Gadu-Gadu\res\resource.rc
+// Used by W:\miranda-ng\protocols\Gadu-Gadu\res\resource.rc
 //
 #define IDI_GG                          251
 #define IDI_IMPORT_TEXT                 252
@@ -41,8 +41,6 @@
 #define IDC_LOSTPASS                    403
 #define IDC_FRIENDSONLY                 404
 #define IDC_SHOWINVISIBLE               405
-#define IDC_KEEPALIVE                   406
-#define IDC_SAFESTATUS                  407
 #define IDC_MANUALHOST                  408
 #define IDC_HOST                        409
 #define IDC_PORT                        410
@@ -80,7 +78,6 @@
 #define IDC_FORWARDPORT                 448
 #define IDC_FORWARDING                  449
 #define IDC_MSGACK                      450
-#define IDC_SSLCONN                     451
 #define IDC_VERSION                     452
 #define IDC_TOKEN                       453
 #define IDC_IGNORECONF                  454

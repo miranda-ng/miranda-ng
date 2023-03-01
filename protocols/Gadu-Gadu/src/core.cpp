@@ -331,8 +331,8 @@ void __cdecl GaduProto::mainthread(void *)
 	}
 
 	// Readup SSL/TLS setting
-	if (p.tls = m_useSslConnection)
-		debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
+	p.tls = true;
+	debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
 
 	// Gadu-Gadu accepts image sizes upto 255
 	p.image_size = 255;

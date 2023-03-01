@@ -142,4 +142,23 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\block.ico" />
+    <Image Include="res\clear_ignored_conference.ico" />
+    <Image Include="res\conference.ico" />
+    <Image Include="res\delete.ico" />
+    <Image Include="res\export_list_to_server.ico" />
+    <Image Include="res\export_list_to_txt_file.ico" />
+    <Image Include="res\gg.ico" />
+    <Image Include="res\image.ico" />
+    <Image Include="res\import_list_from_server.ico" />
+    <Image Include="res\import_list_from_txt_file.ico" />
+    <Image Include="res\list.ico" />
+    <Image Include="res\next.ico" />
+    <Image Include="res\previous.ico" />
+    <Image Include="res\remove_list_from_server.ico" />
+    <Image Include="res\save.ico" />
+    <Image Include="res\sessions.ico" />
+    <Image Include="res\settings.ico" />
+  </ItemGroup>
 </Project>

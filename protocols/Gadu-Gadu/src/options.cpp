@@ -345,10 +345,8 @@ public:
 class GaduOptionsDlgAdvanced : public GaduDlgBase
 {
 	CCtrlCheck chkAutoReconnect;
-	CCtrlCheck chkKeepConnectionAlive;
 	CCtrlCheck chkMsgAcknowledge;
 	CCtrlCheck chkShowConnectionErrors;
-	CCtrlCheck chkSslConnection;
 
 	CCtrlCheck chkManualHosts;
 	CCtrlEdit edtServerHosts;
@@ -370,10 +368,8 @@ public:
 	GaduOptionsDlgAdvanced(GaduProto *proto) :
 		GaduDlgBase(proto, IDD_OPT_GG_ADVANCED),
 		chkAutoReconnect(this, IDC_ARECONNECT),
-		chkKeepConnectionAlive(this, IDC_KEEPALIVE),
 		chkMsgAcknowledge(this, IDC_MSGACK),
 		chkShowConnectionErrors(this, IDC_SHOWCERRORS),
-		chkSslConnection(this, IDC_SSLCONN),
 		chkManualHosts(this, IDC_MANUALHOST),
 		edtServerHosts(this, IDC_HOST),
 		txtServerHostsLabel(this, IDC_HOST_LIST_L),
@@ -388,10 +384,8 @@ public:
 		txtReconnectRequired(this, IDC_RELOADREQD)
 	{
 		CreateLink(chkAutoReconnect, proto->m_autoRecconect);
-		CreateLink(chkKeepConnectionAlive, proto->m_keepConnectionAlive);
 		CreateLink(chkMsgAcknowledge, proto->m_useMsgDeliveryAcknowledge);
 		CreateLink(chkShowConnectionErrors, proto->m_showConnectionErrors);
-		CreateLink(chkSslConnection, proto->m_useSslConnection);
 
 		CreateLink(chkManualHosts, proto->m_useManualHosts);
 		CreateLink(edtServerHosts, proto->m_serverHosts);
@@ -413,9 +407,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		chkKeepConnectionAlive.Disable();
-		chkSslConnection.Disable();
-
 		txtReconnectRequired.Hide();
 		return true;
 	}
