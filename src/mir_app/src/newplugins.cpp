@@ -735,8 +735,15 @@ int LoadNewPluginsModule(void)
 		SetPluginOnWhiteList(p->pluginname, plugin_clist == p);
 
 	// now loop thru and load all the other plugins, do this in one pass
-	for (int i = 0; i < pluginList.getCount(); i++)
-		TryLoadPlugin(pluginList[i], false);
+	for (int i = 0; i < pluginList.getCount(); i++) {
+		auto *p = pluginList[i];
+		if (!TryLoadPlugin(p, false)) {
+			if (!p->bFailed) {
+				Plugin_Uninit(p);
+				i--;
+			}
+		}
+	}
 
 	for (auto &it : servicePlugins.rev_iter())
 		if (!IsPluginOnWhiteList(it->pluginname))

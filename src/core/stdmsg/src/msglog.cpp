@@ -439,7 +439,7 @@ void LoadMsgLogIcons(void)
 void FreeMsgLogIcons(void)
 {
 	for (auto &it : pLogIconBmpBits)
-		mir_free(it);
+		replaceStr(it, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
