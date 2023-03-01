@@ -136,8 +136,10 @@ bool CMsgDialog::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_TOGGLEINFOPANEL:
-		m_pPanel.setActive(!m_pPanel.isActive());
-		m_pPanel.showHide();
+		if (!isChat()) {
+			m_pPanel.setActive(!m_pPanel.isActive());
+			m_pPanel.showHide();
+		}
 		return true;
 
 	case TABSRMM_HK_TOGGLETOOLBAR:

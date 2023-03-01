@@ -139,7 +139,7 @@ public:
 	__forceinline const CMsgDialog* getDat() const { return m_dat; }
 
 	void setHeight(LONG newHeight, bool fBroadcast = false);
-	void setActive(const int newActive);
+	void setActive(bool bActive);
 	void loadHeight();
 	void saveHeight(bool fFlush = false);
 

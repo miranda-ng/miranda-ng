@@ -64,9 +64,9 @@ CInfoPanel::~CInfoPanel()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CInfoPanel::setActive(const int newActive)
+void CInfoPanel::setActive(bool bActive)
 {
-	m_active = newActive ? true : false;
+	m_active = bActive;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -218,10 +218,15 @@ void CInfoPanel::showHide() const
 
 bool CInfoPanel::getVisibility()
 {
-	uint8_t bDefault = (m_dat->m_pContainer->cfg.flags.m_bInfoPanel) ? 1 : 0;
 	uint8_t bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 
-	uint8_t visible = (bContact == 0 ? bDefault : (bContact == (uint8_t)-1 ? 0 : 1));
+	bool visible;
+	if (m_dat->isChat())
+		visible = false;
+	else if (bContact == 0)
+		visible = (m_dat->m_pContainer->cfg.flags.m_bInfoPanel); // default for container
+	else 
+		visible = (bContact == (uint8_t)-1 ? 0 : 1);
 	setActive(visible);
 	return m_active;
 }

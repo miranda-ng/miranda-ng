@@ -417,7 +417,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend class CLogWindow;
 	friend class CProxyWindow;
 
-	std::map<CustomButtonData *, bool> mapHidden;
+	std::map<CustomButtonData*, bool> mapHidden;
 
 	__forceinline bool BB_IsDisplayed(CustomButtonData *cbd) const
 	{

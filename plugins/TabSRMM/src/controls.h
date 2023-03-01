@@ -61,8 +61,8 @@ public:
 	{
 		m_activeSubMenu = hMenu;
 	}
-	void			setAero(bool fState) { m_isAero = fState; }
-	const bool		getAero(void) const { return(m_isAero); }
+	void         setAero(bool fState) { m_isAero = fState; }
+	const bool   getAero(void) const { return(m_isAero); }
 
 	const LRESULT	processAccelerator(wchar_t a, UINT& ctlId) const
 	{
