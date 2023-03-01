@@ -558,6 +558,7 @@ public:
 		m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", text);
 
 		cmbRoom.GetText(text, _countof(text));
+		CharLowerW(text);
 		T2Utf room(text);
 
 		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
