@@ -253,14 +253,15 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	
 	TG_BASIC_GROUP tmp(pObj->basic_group_->id_, 0);
 	auto *pGroup = m_arBasicGroups.find(&tmp);
-	if (pGroup == nullptr)
-		m_arBasicGroups.insert(new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_)));
-	else
-		pGroup->group = std::move(pObj->basic_group_);
+	if (pGroup == nullptr) {
+		pGroup = new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_));
+		m_arBasicGroups.insert(pGroup);
+	}
+	else pGroup->group = std::move(pObj->basic_group_);
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
 		auto *pUser = AddFakeUser(tmp.id, true);
-		pUser->wszFirstName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 	}
 	else AddUser(tmp.id, true);
 }
@@ -270,6 +271,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	bool bIsBasicGroup = false;
 	int64_t chatId;
 	auto *pChat = pObj->chat_.get();
+	std::string szTitle;
 
 	switch(pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
@@ -280,9 +282,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	case TD::chatTypeBasicGroup::ID:
 		bIsBasicGroup = true;
 		chatId = ((TD::chatTypeBasicGroup*)pChat->type_.get())->basic_group_id_;
+		szTitle = pChat->title_;
 		break;
 
 	case TD::chatTypeSupergroup::ID:
+		szTitle = pChat->title_;
 		{
 			auto *pSuperGroup = (TD::chatTypeSupergroup *)pChat->type_.get();
 			chatId = pSuperGroup->supergroup_id_;
@@ -301,11 +305,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (!m_arChats.find(pUser))
 			m_arChats.insert(pUser);
 
-		if (!pChat->title_.empty()) {
+		if (!szTitle.empty()) {
 			if (pUser->hContact != INVALID_CONTACT_ID)
-				setUString(pUser->hContact, "Nick", pChat->title_.c_str());
-			else
-				pUser->wszNick = Utf2T(pChat->title_.c_str());
+				setUString(pUser->hContact, "Nick", szTitle.c_str());
+			else if (pUser->wszNick.IsEmpty())
+				pUser->wszFirstName = Utf2T(szTitle.c_str());
 		}
 
 		if (CheckSearchUser(pUser))
@@ -475,7 +479,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
 		auto *pUser = AddFakeUser(tmp.id, true);
 		pUser->wszNick = getName(pGroup->group->usernames_.get());
-		pUser->wszFirstName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 	}
 	else AddUser(tmp.id, true);
 }
@@ -499,8 +503,10 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		auto *pu = AddFakeUser(pUser->id_, false);
 		pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
 		pu->wszLastName = Utf2T(pUser->last_name_.c_str());
-		if (pUser->usernames_)
-			pu->wszNick = Utf2T(pUser->usernames_->editable_username_.c_str());
+		if (pUser->usernames_) {
+			pu->wszNick = L"@";
+			pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
+		}
 		else {
 			pu->wszNick = Utf2T(pUser->first_name_.c_str());
 			if (!pUser->last_name_.empty())
