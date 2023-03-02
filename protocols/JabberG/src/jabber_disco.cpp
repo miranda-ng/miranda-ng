@@ -315,10 +315,8 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	mir_cslockfull lck(m_SDManager.cs());
 	m_SDManager.RemoveAll();
 	if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_MYAGENTS))) {
-		JABBER_LIST_ITEM *item = nullptr;
-		LISTFOREACH(i, this, LIST_ROSTER)
-		{
-			if ((item = ListGetItemPtrFromIndex(i)) != nullptr) {
+		LISTFOREACH(i, this, LIST_ROSTER) {
+			if (auto *item = ListGetItemPtrFromIndex(i)) {
 				if (strchr(item->jid, '@') == nullptr && strchr(item->jid, '/') == nullptr && item->subscription != SUB_NONE) {
 					MCONTACT hContact = HContactFromJID(item->jid);
 					if (hContact != 0)

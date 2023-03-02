@@ -153,12 +153,9 @@ void CJabberProto::CheckKeepAlive()
 	// unfortunately there's no other way to detect if that message came online or from history
 	time_t now = time(0);
 	LISTFOREACH(i, this, LIST_CHATROOM)
-	{
 		if (auto *item = ListGetItemPtrFromIndex(i))
 			if (!item->bChatLogging && now - item->iChatInitTime > 2)
 				item->bChatLogging = true;
-	}
-
 
 	// check expired iq requests
 	m_iqManager.CheckExpired();
@@ -269,7 +266,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 
 	// quit all chatrooms (will send quit message)
 	LISTFOREACH(i, this, LIST_CHATROOM)
-		if (JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i))
+		if (auto *item = ListGetItemPtrFromIndex(i))
 			GcQuit(item, 0, nullptr);
 
 	ListRemoveList(LIST_CHATROOM);
@@ -1958,7 +1955,7 @@ void CJabberProto::OnProcessIq(const TiXmlElement *node)
 		// Check for file transfer deny by comparing idStr with ft->iqId
 		LISTFOREACH(i, this, LIST_FILE)
 		{
-			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+			auto *item = ListGetItemPtrFromIndex(i);
 			if (item->ft != nullptr && item->ft->state == FT_CONNECTING && !mir_strcmp(tszBuf, item->ft->szId)) {
 				debugLogA("Denying file sending request");
 				item->ft->state = FT_DENIED;

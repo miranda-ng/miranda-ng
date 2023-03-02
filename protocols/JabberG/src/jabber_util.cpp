@@ -328,7 +328,7 @@ void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
 
 	LISTFOREACH(i, this, LIST_ROSTER)
 	{
-		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+		auto *item = ListGetItemPtrFromIndex(i);
 		if (item == nullptr)
 			continue;
 
@@ -536,7 +536,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 	if (bSendToAll) {
 		LISTFOREACH(i, this, LIST_CHATROOM)
 		{
-			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+			auto *item = ListGetItemPtrFromIndex(i);
 			if (item != nullptr && item->nick != nullptr)
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, MakeJid(item->jid, item->nick));
 		}

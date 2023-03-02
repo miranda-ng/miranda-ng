@@ -324,10 +324,10 @@ public:
 	{
 		m_lvBookmarks.DeleteAllItems();
 
-		JABBER_LIST_ITEM *item = nullptr;
+		bool bEnable = false;
 		LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 		{
-			if (item = m_proto->ListGetItemPtrFromIndex(i)) {
+			if (auto *item = m_proto->ListGetItemPtrFromIndex(i)) {
 				int itemType = mir_strcmpi(item->type, "conference") ? 1 : 0;
 				m_proto->debugLogA("BOOKMARK #%d: %d %s", i, itemType, item->jid);
 
@@ -335,10 +335,12 @@ public:
 				m_lvBookmarks.SetItem(iItem, 1, Utf2T(item->jid));
 				if (itemType == 0)
 					m_lvBookmarks.SetItem(iItem, 2, Utf2T(item->nick));
+
+				bEnable = true;
 			}
 		}
 
-		if (item) {
+		if (bEnable) {
 			m_btnEdit.Enable();
 			m_btnRemove.Enable();
 		}

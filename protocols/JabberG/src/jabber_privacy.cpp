@@ -429,21 +429,17 @@ public:
 			cmbValue.Hide();
 
 			cmbValues.ResetContent();
-			{
-				for (auto &hContact : m_proto->AccContacts()) {
-					ptrW jid(m_proto->getWStringA(hContact, "jid"));
-					if (jid != nullptr)
-						cmbValues.AddString(jid);
-				}
 
-				// append known chatroom jids from bookmarks
-				LISTFOREACH(i, m_proto, LIST_BOOKMARK)
-				{
-					JABBER_LIST_ITEM *item = nullptr;
-					if (item = m_proto->ListGetItemPtrFromIndex(i))
-						cmbValues.AddString(Utf2T(item->jid));
-				}
+			for (auto &hContact : m_proto->AccContacts()) {
+				ptrW jid(m_proto->getWStringA(hContact, "jid"));
+				if (jid != nullptr)
+					cmbValues.AddString(jid);
 			}
+
+			// append known chatroom jids from bookmarks
+			LISTFOREACH(i, m_proto, LIST_BOOKMARK)
+				if (auto *item = m_proto->ListGetItemPtrFromIndex(i))
+					cmbValues.AddString(Utf2T(item->jid));
 
 			// FIXME: ugly code :)
 			if (m_pRule->GetValue()) {

@@ -220,7 +220,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, uint32_t rq)
 			LIST<JABBER_LIST_ITEM> ll(10);
 			LISTFOREACH(i, this, LIST_BOOKMARK)
 			{
-				JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+				auto *item = ListGetItemPtrFromIndex(i);
 				debugLogA("BOOKMARK #%d: %s %s", i, item->type, item->jid);
 
 				if (item != nullptr && !mir_strcmp(item->type, "conference") && item->bAutoJoin)
@@ -529,7 +529,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 	if (m_bRosterSync) {
 		LISTFOREACH(i, this, LIST_ROSTER)
 		{
-			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+			auto *item = ListGetItemPtrFromIndex(i);
 			if (item && item->hContact && !item->bRealContact) {
 				debugLogA("Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
 				db_delete_contact(item->hContact, true);
@@ -1465,7 +1465,7 @@ void CJabberProto::SetBookmarkRequest(XmlNodeIq &iq)
 
 	LISTFOREACH(i, this, LIST_BOOKMARK)
 	{
-		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+		auto *item = ListGetItemPtrFromIndex(i);
 		if (item == nullptr || item->jid == nullptr)
 			continue;
 

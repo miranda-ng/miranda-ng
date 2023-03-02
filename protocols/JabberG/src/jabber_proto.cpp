@@ -1066,8 +1066,6 @@ int CJabberProto::SetStatus(int iNewStatus)
 		}
 		m_StrmMgmt.ResetState();
 		m_iDesiredStatus = ID_STATUS_OFFLINE;
-		//m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		//ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 	else if (!m_ThreadInfo && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;

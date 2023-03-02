@@ -743,9 +743,7 @@ public:
 	{
 		BOOL bChecked = m_proto->m_bShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
-		{
-			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
-			if (item != nullptr) {
+			if (auto *item = m_proto->ListGetItemPtrFromIndex(index)) {
 				if (strchr(item->jid, '@') == nullptr) {
 					MCONTACT hContact = m_proto->HContactFromJID(item->jid);
 					if (hContact != 0) {
@@ -759,7 +757,6 @@ public:
 					}
 				}
 			}
-		}
 
 		if (m_proto->m_bUseOMEMO)
 			m_proto->m_omemo.init();

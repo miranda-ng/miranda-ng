@@ -1104,17 +1104,16 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			char *szInviteTo = nullptr;
 			int idx = gch->dwData - IDM_LINK0;
 			LISTFOREACH(i, ppro, LIST_CHATROOM)
-			{
-				if (JABBER_LIST_ITEM *pItem = ppro->ListGetItemPtrFromIndex(i)) {
+				if (auto *pItem = ppro->ListGetItemPtrFromIndex(i)) {
 					if (!pItem->si) continue;
 					if (!idx--) {
 						szInviteTo = pItem->jid;
 						break;
 					}
 				}
-			}
 
-			if (!szInviteTo) break;
+			if (!szInviteTo)
+				break;
 
 			szTitle.Format(TranslateT("Invite %s to %s"), Utf2T(him->m_szResourceName).get(), Utf2T(szInviteTo).get());
 			if (!ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE))

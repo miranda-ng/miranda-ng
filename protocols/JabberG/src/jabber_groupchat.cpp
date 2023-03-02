@@ -632,12 +632,10 @@ public:
 		HMENU hMenu = CreatePopupMenu();
 
 		LISTFOREACH(i, m_proto, LIST_BOOKMARK)
-		{
-			JABBER_LIST_ITEM *item = nullptr;
-			if (item = m_proto->ListGetItemPtrFromIndex(i))
+			if (auto *item = m_proto->ListGetItemPtrFromIndex(i))
 				if (!mir_strcmp(item->type, "conference"))
 					AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
-		}
+
 		AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		AppendMenu(hMenu, MF_STRING, (UINT_PTR)-1, TranslateT("Bookmarks..."));
 		AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
