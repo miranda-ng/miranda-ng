@@ -649,6 +649,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        ListFindNext(JABBER_LIST list, int fromOffset);
 
 	pResourceStatus ListFindResource(JABBER_LIST list, const char *jid);
+	pResourceStatus ListGetBestResource(const char *jid);
 
 	bool       ListAddResource(JABBER_LIST list, const char *jid, int status, const char *statusMessage, int priority = 0, const char *nick = nullptr);
 	void       ListRemoveResource(JABBER_LIST list, const char *jid);

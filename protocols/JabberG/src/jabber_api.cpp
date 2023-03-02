@@ -64,6 +64,7 @@ char* CJabberProto::GetBestResourceName(const char *jid)
 {
 	if (jid == nullptr)
 		return nullptr;
+	
 	const char *p = strchr(jid, '/');
 	if (p == nullptr) {
 		mir_cslock lck(m_csLists);

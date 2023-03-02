@@ -484,12 +484,19 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	if (!hasJingle())
 		return false;
 
-	CMStringA jid(ptrA(getUStringA(hContact, "jid")));
+	CMStringA jid(getMStringA(hContact, "jid"));
 	if (jid.IsEmpty())
 		return false;
-	ptrA szResource(GetBestResourceName(jid));
-	if (szResource)
-		jid = MakeJid(jid, szResource);
+	
+	auto r = ListGetBestResource(jid);
+	if (r) {
+		if (!(r->m_pCaps->GetCaps() & JABBER_CAPS_JINGLE)) {
+			MsgPopup(hContact, TranslateT("Client's program does not support voice calls"), TranslateT("Error"));
+			return false;
+		}
+
+		jid = MakeJid(jid, r->m_szResourceName);
+	}
 
 	unsigned char tmp[16];
 	Utils_GetRandom(tmp, sizeof(tmp));

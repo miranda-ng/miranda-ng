@@ -371,6 +371,16 @@ JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::getTemp()
 	return m_pItemResource;
 }
 
+pResourceStatus CJabberProto::ListGetBestResource(const char *jid)
+{
+	mir_cslock lck(m_csLists);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
+	if (LI == nullptr)
+		return nullptr;
+
+	return pResourceStatus(LI->getBestResource());
+}
+
 char* CJabberProto::ListGetBestClientResourceNamePtr(const char *jid)
 {
 	mir_cslock lck(m_csLists);
