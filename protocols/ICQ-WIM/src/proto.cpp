@@ -182,7 +182,7 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNMOVABLE;
 
-	// "Bookmarks..."
+	// Groups uploader
 	mi.pszService = "/UploadGroups";
 	CreateProtoService(mi.pszService, &CIcqProto::UploadGroups);
 	mi.name.a = LPGEN("Synchronize server groups");
@@ -190,6 +190,9 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	m_hUploadGroups = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
+	Menu_ShowItem(m_hUploadGroups, false);
+
+	// Groups editor
 	mi.pszService = "/EditGroups";
 	CreateProtoService(mi.pszService, &CIcqProto::EditGroups);
 	mi.name.a = LPGEN("Edit server groups");
@@ -197,14 +200,15 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = "/EditProfile";
-	CreateProtoService(mi.pszService, &CIcqProto::EditProfile);
-	mi.name.a = LPGEN("Edit my web profile");
-	mi.position = 210001;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-	Menu_ShowItem(m_hUploadGroups, false);
+	// Profile viewer
+	if (!m_isMra) {
+		mi.pszService = "/EditProfile";
+		CreateProtoService(mi.pszService, &CIcqProto::EditProfile);
+		mi.name.a = LPGEN("Edit my web profile");
+		mi.position = 210001;
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
+		Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	}
 }
 
 INT_PTR CIcqProto::EditProfile(WPARAM, LPARAM)
