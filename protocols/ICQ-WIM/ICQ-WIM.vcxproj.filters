@@ -38,6 +38,9 @@
     <ClCompile Include="src\mra.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\groups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\http.h">

@@ -27,6 +27,7 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="src\groupchats.cpp" />
+    <ClCompile Include="src\groups.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\ignore.cpp" />
     <ClCompile Include="src\main.cpp" />
