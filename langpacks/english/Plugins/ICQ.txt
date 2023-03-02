@@ -38,6 +38,11 @@
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 [&Leave/destroy chat]
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+[Rename]
+[Delete]
+[Enter new group name]
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 [E-mail notification]
@@ -51,10 +56,6 @@
 ;file \protocols\ICQ-WIM\src\proto.cpp
 [Synchronize server groups]
 [Edit my web profile]
-[Name]
-[Rename]
-[Delete]
-[Enter new group name]
 [UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
 [SmileyAdd plugin required to support stickers]

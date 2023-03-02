@@ -17,12 +17,12 @@
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]
-[Enter secret code sent to your phone]
+[Enter the secret code sent to your Telegram on another device]
 [Enter password]
 [ (hint: %s)]
-[Phone code expired]
+[Secret code expired]
 [Error]
-[Invalid phone code]
+[Invalid secret code]
 [Invalid password]
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
