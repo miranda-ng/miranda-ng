@@ -410,24 +410,22 @@ void CMsgDialog::OnType(CTimer*)
 			m_bShowTyping = false;
 		}
 	}
-	else {
-		if (m_nTypeSecs) {
-			HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
+	else if (m_nTypeSecs) {
+		HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-			wchar_t szBuf[256];
-			mir_snwprintf(szBuf, TranslateT("%s is typing a message..."),
-				(m_pUserTyping) ? m_pUserTyping->pszNick : Clist_GetContactDisplayName(m_hContact));
-			m_nTypeSecs--;
+		wchar_t szBuf[256];
+		mir_snwprintf(szBuf, TranslateT("%s is typing a message..."),
+			(m_pUserTyping) ? m_pUserTyping->pszNick : Clist_GetContactDisplayName(m_hContact));
+		m_nTypeSecs--;
 
-			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
-			SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
-			if (g_plugin.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
-				HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
-				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
-				IcoLib_ReleaseIcon(hIcon);
-			}
-			m_bShowTyping = true;
+		SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
+		SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
+		if (g_plugin.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
+			HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
+			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
+			IcoLib_ReleaseIcon(hIcon);
 		}
+		m_bShowTyping = true;
 	}
 }
 
@@ -805,7 +803,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_STATUSICONCHANGE:
-		SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, (SBT_OWNERDRAW | (SendMessage(m_pOwner->m_hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
+		if (!isChat())
+			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, (SBT_OWNERDRAW | (SendMessage(m_pOwner->m_hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
 		break;
 
 	case WM_KEYDOWN:
