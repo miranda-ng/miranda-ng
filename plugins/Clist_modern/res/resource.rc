@@ -252,11 +252,9 @@ BEGIN
     LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.",IDC_STATIC,17,216,277,8,WS_DISABLED
     CONTROL         "Set options per account",IDC_STATUSBAR_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,12,134,10
     COMBOBOX        IDC_STATUSBAR_PROTO_LIST,160,23,134,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Enable custom account settings",IDC_SBAR_USE_ACCOUNT_SETTINGS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,38,124,8
-    CONTROL         "Hide account completely",IDC_SBAR_HIDE_ACCOUNT_COMPLETELY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,48,134,8
-    CONTROL         "Show account names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,58,124,8
+    CONTROL         "Enable custom account settings",IDC_SBAR_USE_ACCOUNT_SETTINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,38,124,8
+    CONTROL         "Hide account completely",IDC_SBAR_HIDE_ACCOUNT_COMPLETELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,48,134,8
+    CONTROL         "Show account names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,58,134,8
     CONTROL         "Show status name",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,68,124,8
     CONTROL         "Show xStatus name",IDC_SHOWXSTATUSNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,78,124,8
     CONTROL         "Show protocol icon",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,88,124,8
