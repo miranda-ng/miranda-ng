@@ -69,6 +69,15 @@ Entrer le passe :
 
 [&Leave/destroy chat]
 
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Nom
+[Rename]
+Renommer
+[Delete]
+Effacer
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 Courriel
@@ -90,14 +99,6 @@ Avancé
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Nom
-[Rename]
-Renommer
-[Delete]
-Effacer
-[Enter new group name]
 
 [UIN/e-mail/phone]
 

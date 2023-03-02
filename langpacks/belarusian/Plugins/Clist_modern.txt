@@ -116,8 +116,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Наладзіць конт
 [Hide account completely]
 Схаваць конт
-[Show protocol names]
-Паказваць пратаколы
+[Show account names]
+
 [Show status name]
 Імя Статуса
 [Show xStatus name]
@@ -784,6 +784,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [(Unknown contact)]
 (Невядомы кантакт)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 
 [Hide avatar]

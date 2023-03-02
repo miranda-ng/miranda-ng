@@ -116,8 +116,8 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Налаштувати обліковий запис
 [Hide account completely]
 Сховати обліковий запис
-[Show protocol names]
-Показувати протоколи
+[Show account names]
+
 [Show status name]
 Ім'я статусу
 [Show xStatus name]
@@ -784,6 +784,10 @@ xСтатус: xПовідомлення
 [(Unknown contact)]
 (Невідомий контакт)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 Показати аватар
 [Hide avatar]

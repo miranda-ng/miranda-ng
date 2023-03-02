@@ -116,8 +116,8 @@ Einstellungen je Account setzen
 Aktiviere Einstellungen je Account
 [Hide account completely]
 Account nicht anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
+[Show account names]
+
 [Show status name]
 Statusnamen anzeigen
 [Show xStatus name]
@@ -784,6 +784,10 @@ Zeile
 [(Unknown contact)]
 (Unbekannter Kontakt)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 Avatar anzeigen
 [Hide avatar]

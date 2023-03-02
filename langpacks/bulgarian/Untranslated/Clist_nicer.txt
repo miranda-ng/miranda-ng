@@ -2,6 +2,7 @@
 [Inner row vertical padding]
 [Client margins]
 [Clip border by]
+[Show account names]
 [Draw background skin]
 [Per contact skins:]
 [Unload skin]

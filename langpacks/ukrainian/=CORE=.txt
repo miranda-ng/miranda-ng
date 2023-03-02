@@ -214,8 +214,8 @@
 Показувати панель статусів
 [Show icons]
 Показувати значки
-[Show protocol names]
-Показувати протоколи
+[Show account names]
+
 [Show status text]
 Показувати текст статусу
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ UIN, E-mail тощо
 Історія
 [User menu]
 Меню користувача
-[Canceled]
-Скасовані
 [This file transfer has been canceled by the other side]
 Передачу файлу скасовано іншою стороною
+[Canceled]
+Скасовані
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файлів
@@ -2688,6 +2688,8 @@ ID облікового запису
 <невідомо>
 [Protocol is not loaded.]
 Протокол не запущений.
+[Account is disabled.]
+
 [Create new account]
 Створити новий запис
 [Editing account]

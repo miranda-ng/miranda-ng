@@ -1,3 +1,4 @@
+[Show account names]
 [Sort file transfers in the reverse order]
 [Maximum number of flashes (0 = indefinite)]
 [Popup history]
@@ -244,6 +245,7 @@
 [&Convert]
 [Check database]
 [Load server history]
+[Account is disabled.]
 [Account name must be filled.]
 [Add group]
 [Blank]

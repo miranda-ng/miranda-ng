@@ -1452,6 +1452,8 @@ Jabber източник
 Автоматично добавяне на контакт след упълномощаването му
 [Automatically accept authorization requests]
 Автоматично приемане на молбите за упълномощаване
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 Поправяне на грешните времеви марки във входящите съобщения
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1933,6 +1935,9 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

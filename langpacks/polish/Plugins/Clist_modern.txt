@@ -116,8 +116,8 @@ Ustaw opcje dla każdego konta
 Włącz niestandardowe ustawienia dla konta
 [Hide account completely]
 Ukryj konto całkowicie
-[Show protocol names]
-Pokaż nazwy protokołów
+[Show account names]
+
 [Show status name]
 Pokazuj nazwę statusu
 [Show xStatus name]
@@ -784,6 +784,10 @@ Wiersz
 [(Unknown contact)]
 (Nieznany kontakt)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 Pokaż awatar
 [Hide avatar]

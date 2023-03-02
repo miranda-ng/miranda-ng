@@ -169,6 +169,18 @@ Ventanas emergentes
 
 [Voice call ready]
 
+[Hold]
+
+[Holded]
+
+[Resume]
+Reanudar
+[Close]
+Cerrar
+[Callee is busy]
+
+[Cancel]
+Cancelar
 [Unknown number]
 
 [Call is over %s]

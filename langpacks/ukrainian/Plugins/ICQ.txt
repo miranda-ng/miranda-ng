@@ -69,6 +69,15 @@ UIN/пошта:
 &Запросити користувача
 [&Leave/destroy chat]
 
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Ім'я
+[Rename]
+Перейменувати
+[Delete]
+Видалити
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 Пошта
@@ -90,14 +99,6 @@ UIN/пошта:
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Ім'я
-[Rename]
-Перейменувати
-[Delete]
-Видалити
-[Enter new group name]
 
 [UIN/e-mail/phone]
 UIN/пошта/телефон

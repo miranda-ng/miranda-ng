@@ -1,3 +1,4 @@
+[Show account names]
 [Sort file transfers in the reverse order]
 [Maximum number of flashes (0 = indefinite)]
 [Print dates]
@@ -30,6 +31,7 @@
 [Options dialog is disabled by the system administrator. Contact him if you need to edit options]
 [Check database]
 [Load server history]
+[Account is disabled.]
 [Blank]
 [Unselect all]
 [Log viewer]

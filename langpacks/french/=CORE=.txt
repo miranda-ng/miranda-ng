@@ -214,8 +214,8 @@ Barre d'état
 Afficher la barre d'état
 [Show icons]
 Voir les icônes
-[Show protocol names]
-Afficher le nom des protocoles
+[Show account names]
+
 [Show status text]
 Afficher l'état du protocole
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Voir les détails du contact
 Voir l'historique
 [User menu]
 Menu Contact
-[Canceled]
-Annulé
 [This file transfer has been canceled by the other side]
 
+[Canceled]
+Annulé
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 Fichiers %d
@@ -2688,6 +2688,8 @@ ID du compte
 <inconnu>
 [Protocol is not loaded.]
 Le protocole n'a pas été chargé.
+[Account is disabled.]
+
 [Create new account]
 Créer un compte
 [Editing account]

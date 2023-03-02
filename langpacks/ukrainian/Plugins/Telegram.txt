@@ -8,6 +8,8 @@
 [Telegram protocol support for Miranda NG.]
 Підтримка протоколу Telegram в Miranda NG.
 ;file \protocols\Telegram\res\resource.rc
+[Country:]
+Країна:
 [Phone number:]
 Телефон:
 [Default group:]
@@ -16,21 +18,40 @@
 
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
 ;file \protocols\Telegram\src\auth.cpp
-[Enter secret code sent to your phone]
+[Enter email address for account verification]
+
+[Enter verification code received by email]
+
+[Enter the secret code sent to your Telegram on another device]
 
 [Enter password]
 Введіть пароль
 [ (hint: %s)]
 
-[Phone code expired]
+[Secret code expired]
 
 [Error]
 Помилка
-[Invalid phone code]
+[Invalid secret code]
 
 [Invalid password]
 
+;file \protocols\Telegram\src\groupchat.cpp
+[Creator]
+
+[Admin]
+Адмін
+[Participant]
+Учасник
+[SuperAdmin]
+
+[Visitor]
+Відвідувач
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
 
@@ -39,7 +60,14 @@
 Мережа
 [Account]
 Обліковий запис
+[Advanced]
+Розширений
+;file \protocols\Telegram\src\server.cpp
+[%d member(s)]
+
 ;file \protocols\Telegram\src\utils.cpp
+[none]
+немає
 [Chat rooms]
 Чати
 [%s error notifications]

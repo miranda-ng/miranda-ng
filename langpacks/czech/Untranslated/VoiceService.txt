@@ -24,5 +24,7 @@
 [Voice call ringing]
 [Voice call busy]
 [Voice call ready]
+[Holded]
+[Callee is busy]
 [Unknown number]
 [Call is over %s]

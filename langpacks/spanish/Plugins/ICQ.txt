@@ -69,6 +69,15 @@ Número de teléfono:
 
 [&Leave/destroy chat]
 
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Nombre
+[Rename]
+Renombrar
+[Delete]
+Eliminar
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 E-mail
@@ -90,14 +99,6 @@ Avanzado
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Nombre
-[Rename]
-Renombrar
-[Delete]
-Eliminar
-[Enter new group name]
 
 [UIN/e-mail/phone]
 

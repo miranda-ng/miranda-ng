@@ -180,6 +180,7 @@
 [Enable VOIP (experimental)]
 [Use Stream Management (XEP-0198) if possible (experimental)]
 [Use TLS 1.3 bindings (if possible)]
+[Automatically download files passed via HTTP File Upload]
 [Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]
 [Allow local time and timezone requests (XEP-0202)]
@@ -244,4 +245,5 @@
 [Remote server error]
 [Service unavailable]
 [Remote server timeout]
+[Client's program does not support voice calls]
 [/me slaps %s around a bit with a large trout]

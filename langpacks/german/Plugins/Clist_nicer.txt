@@ -262,8 +262,8 @@ Statusleiste
 Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
+[Show account names]
+
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]

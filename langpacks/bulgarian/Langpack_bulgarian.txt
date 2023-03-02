@@ -212,8 +212,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 Показване на лента за състояние
 [Show icons]
 Показване на икони
-[Show protocol names]
-Показване името на протокола
 [Show status text]
 Показване на текст за състоянието
 [Right click opens status menu]
@@ -1070,6 +1068,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 С групи
 [Ask before deleting contacts]
 Запитване преди изтриване на контакт
+[Enable icon blinking]
+С мигане на икони
 ['Hide offline' means to hide:]
 Скриване като извън линия:
 [Tray]
@@ -1330,10 +1330,10 @@ Google Translate
 История на съобщенията
 [User menu]
 Потребителско меню
-[Canceled]
-Отказано
 [This file transfer has been canceled by the other side]
 Прехвърлянето на файла е отказано от отсрещната страна.
+[Canceled]
+Отказано
 [%d files]
 %d файла
 [%d directories]
@@ -5159,8 +5159,6 @@ ChangeKeyboardLayout
 Показване на лента за състояние
 [Show icons]
 Показване на икони
-[Show protocol names]
-Показване името на протокола
 [Show status text]
 Показване на текст за състоянието
 [Right click opens status menu]
@@ -5302,8 +5300,6 @@ ChangeKeyboardLayout
 Частни настройки на акаунта
 [Hide account completely]
 Цялостно скриване на акаунта
-[Show protocol names]
-Показване името на протокола
 [Show status name]
 Името на състоянието
 [Show xStatus name]
@@ -6305,8 +6301,6 @@ CList nicer изключение
 Показване на лента за състояние
 [Show icons]
 Показване на икони
-[Show protocol names]
-Показване името на протокола
 [Show status text]
 Показване на текст за състоянието
 [Right click opens status menu]
@@ -7720,7 +7714,7 @@ INI файлове
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.2
+;  Version: 0.96.2.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -8648,14 +8642,10 @@ Gadu-Gadu номер:
 в друг случай
 [Advanced Configuration]
 Допълнителни настройки
-[Keep connection alive]
-Поддържане на връзката
 [Show connection errors]
 Показване на проблеми с връзката
 [Send messages slower, but with full acknowledgment]
 По-бавно изпращане на съобщенията, но със сигурно потвърждение
-[Use SSL secure connection]
-Защитаване на връзка с SSL
 [File Transfer]
 Обмен на файл
 [Use direct connections]
@@ -10715,6 +10705,12 @@ UIN:
 Запомняне на паролата за сесията
 [&Invite a user]
 Поканване на потребител
+[Name]
+Име
+[Rename]
+Преименуване
+[Delete]
+Изтриване
 [E-mail]
 Имейл
 [Network]
@@ -10723,12 +10719,6 @@ UIN:
 Основни
 [Advanced]
 Разширени
-[Name]
-Име
-[Rename]
-Преименуване
-[Delete]
-Изтриване
 [admin]
 администратор
 [member]
@@ -13538,6 +13528,13 @@ Jabber vCard: Редактиране на телефонен номер
 Дейности
 [I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
 Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от https://miranda-ng.org/.
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -14979,7 +14976,7 @@ UIN        :
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Limit message preview to]
@@ -15000,6 +14997,8 @@ UIN        :
 Фон
 [Use default colors]
 Стандартни цветове
+[Use Windows colors]
+Цветове от Windows
 [Preview]
 Образец
 [Show date]
@@ -15187,7 +15186,7 @@ URL адрес на страницата за коментари към нови
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -15953,15 +15952,6 @@ URL
 Отваряне на папка
 [Main]
 Основна
-#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
-;============================================================
-;  File: OpenSSL.dll
-;  Plugin: OpenSSL SSL API module
-;  Version: 0.1.0.2
-;  Authors: Miranda NG team
-;============================================================
-[Host we are connecting to is not the one certificate was issued for]
-Хоста към който се свързвате не е този, за който е издаден сертификата
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
@@ -18711,6 +18701,8 @@ Smiley кеш
 Персонализиране
 [General]
 Основни
+[Categories]
+Категории
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
 [Standard]
@@ -21150,6 +21142,8 @@ Latin I
 В лентата с бутони
 [Error feedback]
 При грешка
+[Enable error popups on sending failures]
+С popups при неуспешно изпращане на съобщение
 [Choose status modes]
 Избор на състояния
 [General]
@@ -21357,6 +21351,10 @@ TabSRMM предупреждение
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Telegram protocol support for Miranda NG.]
+Осигурява комуникация чрез протокола Telegram в Miranda NG.
+[Country:]
+Държава:
 [Phone number:]
 Тел. номер:
 [Default group:]
@@ -21365,10 +21363,20 @@ TabSRMM предупреждение
 Въведете парола
 [Error]
 Грешка
+[Admin]
+Администратор
+[Participant]
+Участник
+[Visitor]
+Посетител
 [Network]
 Мрежа
 [Account]
 Акаунт
+[Advanced]
+Разширени
+[none]
+няма
 [Errors]
 Грешки
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -22056,7 +22064,7 @@ BYTE към език (ICQ)
 [Preview]
 Образец
 [Enable popups]
-Включване на Popups
+Включване на popups
 [Information]
 Информация
 [Warning]
@@ -23734,7 +23742,7 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.1
+;  Version: 0.1.14.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -23980,6 +23988,12 @@ m
 Рopups
 [Voice call]
 Гласов разговор
+[Resume]
+Продължаване
+[Close]
+Затваряне
+[Cancel]
+Отказ
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -26301,12 +26315,12 @@ Popup приставка
 ;  Version: 0.0.1.1
 ;  Authors: George Hazan
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Осигурява комуникация чрез протокола WhatsApp в Miranda NG.
 [Nick:]
 Прякор:
 [Default group:]
 Стандартна група
-[Unregister]
-Премахване
 [&Invite]
 Покана
 [Cancel]
@@ -26331,7 +26345,7 @@ Popup приставка
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -26378,8 +26392,6 @@ Popup приставка
 Изтриване
 [N/A]
 НД
-[Unknown]
-Неизвестно
 [Protocol]
 Протокол
 [Contact]
@@ -26414,12 +26426,12 @@ Popup приставка
 Всички контакти
 [Contacts]
 Контакти
-[All Files]
-Всички файлове
 [Error]
 Грешка
 [Warning]
 Предупреждение
+[All Files]
+Всички файлове
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;============================================================
 ;  File: WhoUsesMyFiles.dll

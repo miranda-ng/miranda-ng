@@ -214,8 +214,8 @@ Statusleiste
 Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
+[Show account names]
+
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Kontaktprofil anzeigen
 Verlauf anzeigen
 [User menu]
 Benutzermenü
-[Canceled]
-Abgebrochen
 [This file transfer has been canceled by the other side]
 Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
+[Canceled]
+Abgebrochen
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Dateien
@@ -2688,6 +2688,8 @@ Konto-ID
 <unbekannt>
 [Protocol is not loaded.]
 Protokoll ist nicht geladen.
+[Account is disabled.]
+
 [Create new account]
 Neues Konto erstellen...
 [Editing account]

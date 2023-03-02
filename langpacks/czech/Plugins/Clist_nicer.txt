@@ -262,8 +262,8 @@ Stavová lišta
 Zobrazit stavovou lištu
 [Show icons]
 Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
+[Show account names]
+
 [Show status text]
 Zobrazit stav
 [Right click opens status menu]

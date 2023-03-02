@@ -69,6 +69,15 @@
 Запрасіць кантакт
 [&Leave/destroy chat]
 
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Імя
+[Rename]
+Пераназваць
+[Delete]
+Выдаліць
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 Пошта
@@ -90,14 +99,6 @@
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Імя
-[Rename]
-Пераназваць
-[Delete]
-Выдаліць
-[Enter new group name]
 
 [UIN/e-mail/phone]
 

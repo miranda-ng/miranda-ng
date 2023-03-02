@@ -50,8 +50,6 @@ Opciones
 
 [Advanced Configuration]
 
-[Keep connection alive]
-Mantener viva la conexión
 [Show connection errors]
 
 [Automatically reconnect after unintentional disconnection]
@@ -61,8 +59,6 @@ Mantener viva la conexión
 [Manually specify connection servers' hosts]
 
 [* new line is separator\n** hostname:port format]
-
-[Use SSL secure connection]
 
 [File Transfer]
 Transferencia de Archivos
@@ -153,8 +149,6 @@ a:
 [Sign out all sessions]
 
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 
 [Cannot open avatar file. ERROR: %d: %s\n%s]

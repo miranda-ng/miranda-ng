@@ -1452,6 +1452,8 @@ Jabber Рэсурс
 Дадаваць кантакт пасля пацверджання аўтарызацыі
 [Automatically accept authorization requests]
 Аўтаматычна прымаць запыты аўтарызацыі
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 Выпраўляць час ва ўваходных паведамленнях
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1933,6 +1935,9 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

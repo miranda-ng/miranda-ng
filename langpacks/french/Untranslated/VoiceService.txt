@@ -57,5 +57,8 @@
 [Voice call ended]
 [Voice call busy]
 [Voice call ready]
+[Hold]
+[Holded]
+[Callee is busy]
 [Unknown number]
 [Call is over %s]

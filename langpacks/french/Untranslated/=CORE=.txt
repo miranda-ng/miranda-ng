@@ -1,4 +1,5 @@
 [Enable docking]
+[Show account names]
 [Sort file transfers in the reverse order]
 [Maximum number of flashes (0 = indefinite)]
 [Default timeout]
@@ -212,6 +213,7 @@
 [Load server history]
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 [Account %s is being disabled]
+[Account is disabled.]
 [Account name must be filled.]
 [Account error]
 [Icon sets]

@@ -1,4 +1,6 @@
 [Move offline users to bottom]
+[Show account names]
 [Page]
 [Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+[Account is disabled.]
 [Blank]

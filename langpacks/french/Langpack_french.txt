@@ -79,6 +79,8 @@ Classer par nom
 Classer par état
 [Sort contacts by protocol]
 Classer par protocole
+[Move offline users to bottom]
+Déplacez les utilisateur déconnecté en bas
 [Show]
 Afficher
 [icon when statuses differ]
@@ -215,8 +217,6 @@ Barre d'état
 Afficher la barre d'état
 [Show icons]
 Voir les icônes
-[Show protocol names]
-Afficher le nom des protocoles
 [Show status text]
 Afficher l'état du protocole
 [Right click opens status menu]
@@ -1061,6 +1061,8 @@ Cacher les contacts hors ligne
 Cacher les groupes vides
 [Ask before deleting contacts]
 Demander avant de supprimer
+[Enable icon blinking]
+Avec clignotement
 ['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Tray]
@@ -4222,8 +4224,6 @@ Barre d'état
 Afficher la barre d'état
 [Show icons]
 Voir les icônes
-[Show protocol names]
-Afficher le nom des protocoles
 [Show status text]
 Afficher l'état du protocole
 [Right click opens status menu]
@@ -4355,8 +4355,6 @@ Options par comptes
 Réglages personnalisés
 [Hide account completely]
 Cacher complètement ce compte
-[Show protocol names]
-Afficher le nom des protocoles
 [Show protocol icon]
 Voir l'icône du protocole
 [Use connecting icon]
@@ -5282,8 +5280,6 @@ Barre d'état
 Afficher la barre d'état
 [Show icons]
 Voir les icônes
-[Show protocol names]
-Afficher le nom des protocoles
 [Show status text]
 Afficher l'état du protocole
 [Right click opens status menu]
@@ -6229,7 +6225,7 @@ Panique dans la Base de données !
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.2
+;  Version: 0.96.2.4
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -6927,16 +6923,12 @@ si il y'a plus de participants inconnus que :
 dans une autre case
 [Advanced Configuration]
 Configuration avancée
-[Keep connection alive]
-Garder la connection active
 [Show connection errors]
 Voir les erreurs de connexion
 [Manually specify connection servers' hosts]
 Spécifier l'hôte du serveur de connexion
 [* new line is separator\n** hostname:port format]
 * la nouvelle ligne est séparateur \n** format hôte:port
-[Use SSL secure connection]
-Utiliser une connexion sécurisée SSL
 [File Transfer]
 Transfert de fichiers
 [Use direct connections]
@@ -7784,6 +7776,12 @@ Téléphone :
 Entrer le passe ICQ
 [Enter a password:]
 Entrer le passe :
+[Name]
+Nom
+[Rename]
+Renommer
+[Delete]
+Effacer
 [E-mail]
 Courriel
 [Network]
@@ -7792,12 +7790,6 @@ Réseau
 Général
 [Advanced]
 Avancé
-[Name]
-Nom
-[Rename]
-Renommer
-[Delete]
-Effacer
 [member]
 membre
 ;#muuid for ICQCorp not found, please specify manually!
@@ -9777,6 +9769,13 @@ Definir
 Activité : %s
 [Listening To]
 Écoute
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -10678,7 +10677,7 @@ Popups
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Limit message preview to]
@@ -10699,6 +10698,8 @@ Texte
 Arrière-plan
 [Use default colors]
 Couleurs par défaut
+[Use Windows colors]
+Utiliser les couleurs Windows
 [Preview]
 Aperçu
 [Don't show popup when message dialog is already open]
@@ -10820,7 +10821,7 @@ Avatars
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -11524,13 +11525,6 @@ Ajoute un menu/barre d'outil qui ouvre le dossier principal de Miranda NG.
 Ouvrir dossier
 [Main]
 Principales
-#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
-;============================================================
-;  File: OpenSSL.dll
-;  Plugin: OpenSSL SSL API module
-;  Version: 0.1.0.2
-;  Authors: Miranda NG team
-;============================================================
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
@@ -13620,6 +13614,8 @@ Tous les fichiers
 Apparence
 [General]
 Général
+[Categories]
+Catégories
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.
 [Smiley #%u in file %s for smiley pack %s not found.]
@@ -14847,6 +14843,8 @@ Bulle détaillée sur les onglets (requière Tipper)
 Ajouter les contacts hors ligne à la liste de l'envoi groupé
 [Close current tab on send]
 Fermer l'onglet en cours dés l'envoi
+[Enable error popups on sending failures]
+Activer les popups en cas d'échec d'envoi
 [Choose status modes]
 Choisir les modes d'état...
 [General]
@@ -14956,6 +14954,10 @@ Message TabSRMM (%s)
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Telegram protocol support for Miranda NG.]
+Support du protocole Telegram pour Miranda NG.
+[Country:]
+Pays :
 [Phone number:]
 Téléphone :
 [Default group:]
@@ -14964,10 +14966,16 @@ Groupes :
 Entrez le passe
 [Error]
 Erreur
+[Visitor]
+Visiteur
 [Network]
 Réseau
 [Account]
 Compte
+[Advanced]
+Avancé
+[none]
+Aucun
 [Errors]
 Erreurs
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -16203,7 +16211,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.1
+;  Version: 0.1.14.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16351,6 +16359,12 @@ Test : Contact
 Test : Description
 [Popups]
 Popups
+[Resume]
+Reprendre
+[Close]
+Fermer
+[Cancel]
+Annuler
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -17204,8 +17218,6 @@ Support du protocole WhatsApp pour Miranda NG.
 Pseudo :
 [Default group:]
 Groupes :
-[Unregister]
-Désenregistrer
 [Invite users]
 Inviter des utilisateurs
 [&Invite]
@@ -17228,7 +17240,7 @@ Erreurs
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
@@ -17277,8 +17289,6 @@ Date :
 Sauver
 [Delete]
 Effacer
-[Unknown]
-Inconnu
 [Protocol]
 Protocole
 [Contact]
@@ -17307,12 +17317,12 @@ Contacts
 Début du rafraîchissement
 [Done refreshing user details]
 Rafraîchissement terminé
-[All Files]
-Tous les fichiers
 [Error]
 Erreur
 [Warning]
 Avertissement
+[All Files]
+Tous les fichiers
 [Birthdays (When Was It)]
 Anniversaire (quand ?)
 [Add/change user &birthday]

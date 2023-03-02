@@ -54,6 +54,7 @@
 [Double click on avatar opens user info]
 [Use these settings to skin the entire background]
 [If you enable this, the background settings will affect the entire contact list frame.]
+[Show account names]
 [Draw background skin]
 [Show ICQ extended status icons]
 [Mark protocols locked from global status changes]

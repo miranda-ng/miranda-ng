@@ -1,1 +1,2 @@
+[Show account names]
 [Editing view mode]

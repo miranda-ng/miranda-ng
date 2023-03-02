@@ -116,8 +116,8 @@
 Частни настройки на акаунта
 [Hide account completely]
 Цялостно скриване на акаунта
-[Show protocol names]
-Показване името на протокола
+[Show account names]
+
 [Show status name]
 Името на състоянието
 [Show xStatus name]
@@ -784,6 +784,10 @@ Modern contact list
 [(Unknown contact)]
 (Непознат контакт)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 Показване на аватара
 [Hide avatar]

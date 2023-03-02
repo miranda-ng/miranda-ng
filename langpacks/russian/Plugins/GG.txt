@@ -50,8 +50,6 @@
 в других случаях
 [Advanced Configuration]
 Дополнительная настройка
-[Keep connection alive]
-Поддерживать соединение
 [Show connection errors]
 Показывать ошибки соединения
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@
 Указать серверы вручную
 [* new line is separator\n** hostname:port format]
 * перевод строки разделитель\n** хост:порт
-[Use SSL secure connection]
-Безопасное подключение (SSL)
 [File Transfer]
 Передача файла
 [Use direct connections]

@@ -214,8 +214,8 @@ Stavová lišta
 Zobrazit stavovou lištu
 [Show icons]
 Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
+[Show account names]
+
 [Show status text]
 Zobrazit stav
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Zobrazit osobní údaje
 Zobrazit historii
 [User menu]
 Nabídka kontaktu
-[Canceled]
-Přerušeno
 [This file transfer has been canceled by the other side]
 Přenos tohoto souboru byl přerušen druhou stranou
+[Canceled]
+Přerušeno
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d souborů
@@ -2688,6 +2688,8 @@ Identifikátor účtu
 <neznámý>
 [Protocol is not loaded.]
 Protokol není načtený.
+[Account is disabled.]
+
 [Create new account]
 Zřídit nový účet
 [Editing account]

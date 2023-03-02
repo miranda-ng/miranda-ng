@@ -214,8 +214,8 @@
 Показване на лента за състояние
 [Show icons]
 Показване на икони
-[Show protocol names]
-Показване името на протокола
+[Show account names]
+
 [Show status text]
 Показване на текст за състоянието
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Google Translate
 История на съобщенията
 [User menu]
 Потребителско меню
-[Canceled]
-Отказано
 [This file transfer has been canceled by the other side]
 Прехвърлянето на файла е отказано от отсрещната страна.
+[Canceled]
+Отказано
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файла
@@ -2688,6 +2688,8 @@ ID на акаунта
 <неизвестно>
 [Protocol is not loaded.]
 Протоколът не е зареден.
+[Account is disabled.]
+
 [Create new account]
 Създаване на акаунт
 [Editing account]

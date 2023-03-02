@@ -77,9 +77,9 @@ Mikrofon Boost
 [Established]
 
 [M]
-m
+
 [V]
-V
+
 [Frame Popup]
 
 [Answer call]
@@ -169,6 +169,18 @@ Anruf beendet
 
 [Voice call ready]
 
+[Hold]
+
+[Holded]
+
+[Resume]
+Fortsetzen
+[Close]
+Schließen
+[Callee is busy]
+
+[Cancel]
+Abbrechen
 [Unknown number]
 
 [Call is over %s]

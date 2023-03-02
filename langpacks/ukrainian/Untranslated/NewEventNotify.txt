@@ -1,5 +1,6 @@
 [Timeout, secs]
 [(timeout -1 means forever, 0 - default)]
 [Misc options]
+[No popups for read messages (conflicts with anti-spam plugin)]
 [Event types]
 [This is a sample error event :-D]

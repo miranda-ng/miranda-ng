@@ -1,6 +1,7 @@
 [No expand/collapse icon]
 [Inner row vertical padding]
 [Client margins]
+[Show account names]
 [Sticky contacts]
 [Editing view mode]
 [Download more skins]

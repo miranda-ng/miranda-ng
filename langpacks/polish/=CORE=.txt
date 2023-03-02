@@ -214,8 +214,8 @@ Pasek statusu
 Pokaż pasek statusu
 [Show icons]
 Pokaż ikony
-[Show protocol names]
-Pokaż nazwy protokołów
+[Show account names]
+
 [Show status text]
 Pokaż nazwę statusu
 [Right click opens status menu]
@@ -1412,10 +1412,10 @@ Zobacz dane kontaktu
 Zobacz historię użytkownika
 [User menu]
 Menu użytkownika
-[Canceled]
-Anulowany
 [This file transfer has been canceled by the other side]
 Ten transfer pliku został anulowany przez drugą stronę
+[Canceled]
+Anulowany
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d pliki
@@ -2688,6 +2688,8 @@ ID konta
 <nieznany>
 [Protocol is not loaded.]
 Protokół nie jest załadowany.
+[Account is disabled.]
+
 [Create new account]
 Utwórz nowe konto
 [Editing account]

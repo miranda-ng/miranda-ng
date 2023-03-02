@@ -50,8 +50,6 @@
 в інших випадках
 [Advanced Configuration]
 Додаткові налаштування
-[Keep connection alive]
-Підтримувати з'єднання
 [Show connection errors]
 Показувати помилки з'єднання
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@
 Вказати сервери вручну
 [* new line is separator\n** hostname:port format]
 * новий рядок - роздільник\n** хост:порт
-[Use SSL secure connection]
-Безпечне з'єднання (SSL)
 [File Transfer]
 Передача файлу
 [Use direct connections]
@@ -153,8 +149,6 @@
 [Sign out all sessions]
 Вийти з усіх сесій
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Не вдалося створити папку для кешу аватарів. Помилка: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Не вдалося створити файл аватару. Помилка: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]

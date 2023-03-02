@@ -596,7 +596,7 @@ kilo-octets
 [Precision]
 Précision
 [none]
-Aucun
+aucun
 [kb]
 kb
 [Kb]

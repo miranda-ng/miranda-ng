@@ -1452,6 +1452,8 @@ Otro
 
 [Automatically accept authorization requests]
 
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1932,6 +1934,9 @@ Femenino
 [Contacts]
 Contactos
 [Note]
+
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

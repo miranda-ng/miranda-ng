@@ -1,2 +1,3 @@
+[Show account names]
 [Overlay icons]
 [Connecting icons]

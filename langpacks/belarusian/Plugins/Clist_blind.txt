@@ -106,8 +106,8 @@
 Паказваць панэль статусу
 [Show icons]
 Паказваць абразкі
-[Show protocol names]
-Паказваць пратаколы
+[Show account names]
+
 [Show status text]
 Паказваць тэкст статусу
 [Right click opens status menu]

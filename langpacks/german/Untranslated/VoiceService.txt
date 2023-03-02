@@ -19,5 +19,8 @@
 [Dialpad press]
 [Voice call busy]
 [Voice call ready]
+[Hold]
+[Holded]
+[Callee is busy]
 [Unknown number]
 [Call is over %s]

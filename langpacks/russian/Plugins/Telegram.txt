@@ -27,17 +27,17 @@
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
 Введите код подтверждения, полученный по электронной почте
-[Enter secret code sent to your phone]
+[Enter the secret code sent to your Telegram on another device]
 
 [Enter password]
 Введите пароль
 [ (hint: %s)]
  (подсказка: %s)
-[Phone code expired]
+[Secret code expired]
 
 [Error]
 Ошибка
-[Invalid phone code]
+[Invalid secret code]
 
 [Invalid password]
 Неверный пароль

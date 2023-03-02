@@ -28,7 +28,7 @@
 [Timeout actions]
 [Misc options]
 [No popups for RSS contacts]
-[No popups for read messages]
+[No popups for read messages (conflicts with anti-spam plugin)]
 [Event Notify]
 [Main options]
 [Message events]

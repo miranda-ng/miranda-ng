@@ -2,11 +2,13 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Use default colors]
 Use default colours
+[Use Windows colors]
+Use Windows colours
 [ requested authorization]
  requested authorisation
 [Requests your authorization]

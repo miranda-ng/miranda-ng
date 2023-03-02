@@ -1,0 +1,1 @@
+[Jingle support for Jabber protocol.]

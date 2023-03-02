@@ -50,8 +50,6 @@ Gadu-Gadu номер:
 в друг случай
 [Advanced Configuration]
 Допълнителни настройки
-[Keep connection alive]
-Поддържане на връзката
 [Show connection errors]
 Показване на проблеми с връзката
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@ Gadu-Gadu номер:
 
 [* new line is separator\n** hostname:port format]
 
-[Use SSL secure connection]
-Защитаване на връзка с SSL
 [File Transfer]
 Обмен на файл
 [Use direct connections]
@@ -153,8 +149,6 @@ Gadu-Gadu номер:
 [Sign out all sessions]
 Отписване от всички сесии
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 
 [Cannot open avatar file. ERROR: %d: %s\n%s]

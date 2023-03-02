@@ -6,7 +6,7 @@
 [Enable event notifications for group chats]
 [Dismiss popup]
 [Misc options]
-[No popups for read messages]
+[No popups for read messages (conflicts with anti-spam plugin)]
 [Main options]
 [Message events]
 [Event types]

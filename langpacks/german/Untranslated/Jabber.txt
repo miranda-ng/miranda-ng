@@ -8,4 +8,6 @@
 [Enable VOIP (experimental)]
 [Use Stream Management (XEP-0198) if possible (experimental)]
 [Use TLS 1.3 bindings (if possible)]
+[Automatically download files passed via HTTP File Upload]
 [SSL intialization failed]
+[Client's program does not support voice calls]

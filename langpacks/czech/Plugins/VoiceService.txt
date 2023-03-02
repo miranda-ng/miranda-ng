@@ -169,6 +169,18 @@ Hovor ukončen
 
 [Voice call ready]
 
+[Hold]
+Přidržet
+[Holded]
+
+[Resume]
+Navázat
+[Close]
+Zavřít
+[Callee is busy]
+
+[Cancel]
+Zrušit
 [Unknown number]
 
 [Call is over %s]

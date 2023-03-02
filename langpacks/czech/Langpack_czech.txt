@@ -82,6 +82,8 @@ Tímto odstraníte celou historii a nastavení kontaktu!
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
+[Move offline users to bottom]
+Kontakty offline přesunout na konec
 [Show]
 Zobrazit
 [icon when statuses differ]
@@ -220,8 +222,6 @@ Stavová lišta
 Zobrazit stavovou lištu
 [Show icons]
 Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
 [Show status text]
 Zobrazit stav
 [Right click opens status menu]
@@ -1112,6 +1112,8 @@ Skrýt prázdné skupiny
 Povolit skupiny
 [Ask before deleting contacts]
 Potvrdit smazání kontaktů
+[Enable icon blinking]
+Zapnout blikání ikon
 ['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Tray]
@@ -1376,10 +1378,10 @@ Zobrazit osobní údaje
 Zobrazit historii
 [User menu]
 Nabídka kontaktu
-[Canceled]
-Přerušeno
 [This file transfer has been canceled by the other side]
 Přenos tohoto souboru byl přerušen druhou stranou
+[Canceled]
+Přerušeno
 [%d files]
 %d souborů
 [%d directories]
@@ -5523,8 +5525,6 @@ Stavová lišta
 Zobrazit stavovou lištu
 [Show icons]
 Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
 [Show status text]
 Zobrazit stav
 [Right click opens status menu]
@@ -5672,8 +5672,6 @@ Nastavit pro každý účet zvlášť
 Povolit vlastní nastavení účtu
 [Hide account completely]
 Skýt účet úplně
-[Show protocol names]
-Zobrazit názvy protokolů
 [Show status name]
 Zobrazit název stavu
 [Show xStatus name]
@@ -6739,8 +6737,6 @@ Stavová lišta
 Zobrazit stavovou lištu
 [Show icons]
 Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
 [Show status text]
 Zobrazit stav
 [Right click opens status menu]
@@ -8190,7 +8186,7 @@ Zastaralý formát databáze
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.2
+;  Version: 0.96.2.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9104,8 +9100,6 @@ je-li počet neznámých účastníků větší než:
 ve všech ostatních případech
 [Advanced Configuration]
 Pro pokročilé
-[Keep connection alive]
-Udržovat spojení
 [Show connection errors]
 Zobrazit chyby při připojení
 [Automatically reconnect after unintentional disconnection]
@@ -9116,8 +9110,6 @@ Odeslat zprávy pomaleji, ale s úplným potvrzením
 Určit hostitele pro připojení
 [* new line is separator\n** hostname:port format]
 * 1 položka = 1 řádek\n** ve formátu hostitel:port
-[Use SSL secure connection]
-Použít zabezpečené spojení (SSL)
 [File Transfer]
 Přenos souborů
 [Use direct connections]
@@ -9206,8 +9198,6 @@ Přehled %s přihlášených relací
 Zobrazuje informace o přihlášených relacích
 [Sign out all sessions]
 Odhlásit všechny relace
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Nelze vytvořit složku pro cache avatarů. CHYBA: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Nelze vytvořit soubor s avatarem. CHYBA: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
@@ -10977,6 +10967,12 @@ Zadejte heslo:
 Zapamatovat heslo této relace
 [&Invite a user]
 Pozvat už&ivatele
+[Name]
+Jméno
+[Rename]
+Přejmenovat
+[Delete]
+Smazat
 [E-mail]
 E-mail
 [Network]
@@ -10985,12 +10981,6 @@ Sítě
 Obecné
 [Advanced]
 Extra
-[Name]
-Jméno
-[Rename]
-Přejmenovat
-[Delete]
-Smazat
 [admin]
 admin
 [member]
@@ -13766,6 +13756,13 @@ Nálada
 Činnosti
 [I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
 Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/.
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -15625,7 +15622,7 @@ Doplněk Variables není nainstalován
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
@@ -15648,6 +15645,8 @@ Text
 Pozadí
 [Use default colors]
 Použít výchozí barvy
+[Use Windows colors]
+Použít barvy Windows
 [Preview]
 Náhled
 [Don't show popup when message dialog is already open]
@@ -15698,8 +15697,6 @@ Pravé tlačítko myši
 Při časové expiraci
 [No popups for RSS contacts]
 Nezobrazit oznámení pro zdroje RSS
-[No popups for read messages]
-Neoznamovat přečtené zprávy
 [Event Notify]
 Oznámení události
 [Popups]
@@ -15847,7 +15844,7 @@ Povolit/zakázat automatickou aktualizaci
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -16997,21 +16994,6 @@ Přidává položku do menu a tlačítkové lišty pro otevření složky s Mira
 Otevřít složku
 [Main]
 Hlavní
-#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
-;============================================================
-;  File: OpenSSL.dll
-;  Plugin: OpenSSL SSL API module
-;  Version: 0.1.0.2
-;  Authors: Miranda NG team
-;============================================================
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
-[Host we are connecting to is not the one certificate was issued for]
-Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
-[OpenSSL library loading failed]
-Načtení knihovny OpenSSL selhalo
-[OpenSSL error]
-Chyba OpenSSL
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
@@ -20593,6 +20575,8 @@ Smajlíky
 Vlastní úpravy
 [General]
 Obecné
+[Categories]
+Sady
 [Protocol specific]
 Závisí na protokolu
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
@@ -23054,6 +23038,8 @@ Na záložkách
 Na tlačítkové liště
 [Error feedback]
 Hlášení o chybách
+[Enable error popups on sending failures]
+Povolit chybové oznámení při neodeslání zprávy
 [Choose status modes]
 Vyberte stavy
 [General]
@@ -23291,6 +23277,8 @@ Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení de
 ;============================================================
 [Telegram protocol support for Miranda NG.]
 Telegram protokol pro Mirandu NG.
+[Country:]
+Země:
 [Phone number:]
 Telefon:
 [Default group:]
@@ -23301,10 +23289,20 @@ Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 Zadejte heslo
 [Error]
 Chyba
+[Admin]
+Admin
+[Participant]
+Účastník
+[Visitor]
+Přihlížející
 [Network]
 Sítě
 [Account]
 Účet
+[Advanced]
+Extra
+[none]
+---
 [Chat rooms]
 Místnosti chatu
 [Errors]
@@ -25960,7 +25958,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.1
+;  Version: 0.1.14.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -26264,6 +26262,14 @@ Hovor
 Hovor je přidržen
 [Voice call ended]
 Hovor ukončen
+[Hold]
+Přidržet
+[Resume]
+Navázat
+[Close]
+Zavřít
+[Cancel]
+Zrušit
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -28715,8 +28721,6 @@ Výchozí skupina:
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Use BBCode]
 Použít BBCode
-[Unregister]
-Zrušit reg.
 [&Invite]
 &Pozvat
 [Cancel]
@@ -28741,7 +28745,7 @@ Chyby
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -28816,8 +28820,6 @@ Narozeniny: %s
 protokolu
 [Birthday list (%d)]
 Seznam narozenin (%d)
-[Unknown]
-neznámý
 [Protocol]
 Protokol
 [Contact]
@@ -28904,6 +28906,10 @@ Kontakty
 Probíhá aktualizace informací o kontaktech
 [Done refreshing user details]
 Konec aktualizace informací o kontaktech
+[Error]
+Chyba
+[Warning]
+Upozornění
 [Birthdays files]
 Soubory s narozeninami
 [Please select a file to import birthdays from...]
@@ -28920,10 +28926,6 @@ Vyberte prosím soubor k uložení seznamu narozenin
 Export seznamu narozenin do souboru %s.
 [Done exporting birthdays]
 Export seznamu narozenin úspěšně dokončen.
-[Error]
-Chyba
-[Warning]
-Upozornění
 [Birthdays (When Was It)]
 Narozeniny (Kdy to bylo?)
 [Add/change user &birthday]

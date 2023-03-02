@@ -1452,6 +1452,8 @@ Transportagenten in der Kontaktliste anzeigen
 Kontakt bei akzeptierter Autorisierung automatisch hinzufügen
 [Automatically accept authorization requests]
 Autorisierungsanfragen automatisch akzeptieren
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1933,6 +1935,9 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

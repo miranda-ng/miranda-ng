@@ -1452,6 +1452,8 @@ Zobrazit transporty v seznamu kontaktů
 Automaticky přidat kontakt po úspěšné autorizaci
 [Automatically accept authorization requests]
 Automaticky přijímat žádosti o autorizaci
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 Opravovat neplatné datum příchozích zpráv
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1933,6 +1935,9 @@ Jabber vCard: Upravit telefonní číslo
 Kontakty
 [Note]
 Poznámka
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <slot rozšířeného stavu>

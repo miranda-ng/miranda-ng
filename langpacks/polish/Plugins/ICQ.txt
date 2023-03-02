@@ -69,6 +69,15 @@ Zapamiętaj hasło dla tej sesji
 &Zaproś
 [&Leave/destroy chat]
 &Opuść/usuń czat
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Nazwa
+[Rename]
+Zmień nazwę
+[Delete]
+Usuń
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 E-mail
@@ -90,14 +99,6 @@ Zaawansowane
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Nazwa
-[Rename]
-Zmień nazwę
-[Delete]
-Usuń
-[Enter new group name]
 
 [UIN/e-mail/phone]
 

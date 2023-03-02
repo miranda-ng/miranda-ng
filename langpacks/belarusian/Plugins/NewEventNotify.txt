@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
@@ -26,6 +26,8 @@
 Фон
 [Use default colors]
 Колеры па змаўчанні
+[Use Windows colors]
+Колеры Windows
 [Timeout, secs]
 Час затрымкі, сек
 [Preview]
@@ -84,8 +86,8 @@
 
 [No popups for RSS contacts]
 Выключыць для RSS навін
-[No popups for read messages]
-Не паказваць для прачытаных паведамленняў
+[No popups for read messages (conflicts with anti-spam plugin)]
+
 [Event Notify]
 Падзеі
 [Popups]

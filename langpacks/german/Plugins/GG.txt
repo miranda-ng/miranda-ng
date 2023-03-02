@@ -50,8 +50,6 @@ wenn Anzahl unbekannter Teilnehmer größer ist als:
 in anderem Fall
 [Advanced Configuration]
 Erweiterte Einstellungen
-[Keep connection alive]
-Verbindung aufrechterhalten
 [Show connection errors]
 Über Verbindungsfehler benachrichtigen
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@ Nachrichten langsamer, aber mit voller Bestätigung senden
 Manuell Server/Hosts eintragen
 [* new line is separator\n** hostname:port format]
 * Zeilenumbruch ist Trenner\n ** hostname:port-Format
-[Use SSL secure connection]
-Sichere SSL-Verbindung verwenden
 [File Transfer]
 Dateiübertragungen
 [Use direct connections]
@@ -153,8 +149,6 @@ Informationen zu aktiven gleichzeitigen Sitzungen anzeigen
 [Sign out all sessions]
 Alle Sitzungen abmelden
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Kann Avatarcacheverzeichnis nicht erzeugen. Fehler: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Kann Avatardatei nicht erzeugen. Fehler: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]

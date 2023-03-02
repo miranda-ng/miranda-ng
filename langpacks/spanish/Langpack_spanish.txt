@@ -87,6 +87,8 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
+[Move offline users to bottom]
+Mover usuario fuera de línea al final
 [Show]
 Mostrar
 [icon when statuses differ]
@@ -225,8 +227,6 @@ Barra de estado
 Mostrar barra de estado
 [Show icons]
 Mostrar iconos
-[Show protocol names]
-Mostrar nombres de protocolo
 [Show status text]
 Mostrar texto de estado
 [Right click opens status menu]
@@ -1015,6 +1015,8 @@ Ocultar usuarios fuera de línea
 Ocultar grupos vacíos
 [Ask before deleting contacts]
 Preguntar antes de eliminar
+[Enable icon blinking]
+Activar parpadeo de icono
 ['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
 [Tray]
@@ -3794,8 +3796,6 @@ Barra de estado
 Mostrar barra de estado
 [Show icons]
 Mostrar iconos
-[Show protocol names]
-Mostrar nombres de protocolo
 [Show status text]
 Mostrar texto de estado
 [Right click opens status menu]
@@ -3939,8 +3939,6 @@ Ajuste de opciones por cuenta
 Activar cuenta personalizadas
 [Hide account completely]
 Ocultar cuenta por completo
-[Show protocol names]
-Mostrar nombres de protocolo
 [Show status name]
 Muestrar nombre de estado
 [Show xStatus name]
@@ -4482,8 +4480,6 @@ Barra de estado
 Mostrar barra de estado
 [Show icons]
 Mostrar iconos
-[Show protocol names]
-Mostrar nombres de protocolo
 [Show status text]
 Mostrar texto de estado
 [Right click opens status menu]
@@ -5093,7 +5089,7 @@ Error
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.2
+;  Version: 0.96.2.4
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -5531,8 +5527,6 @@ Eliminar cuenta
 Cambiar contraseña
 [Options]
 Opciones
-[Keep connection alive]
-Mantener viva la conexión
 [File Transfer]
 Transferencia de Archivos
 [Port:]
@@ -5802,6 +5796,12 @@ Registro de cuenta
 Nick:
 [Phone number:]
 Número de teléfono:
+[Name]
+Nombre
+[Rename]
+Renombrar
+[Delete]
+Eliminar
 [E-mail]
 E-mail
 [Network]
@@ -5810,12 +5810,6 @@ Red
 General
 [Advanced]
 Avanzado
-[Name]
-Nombre
-[Rename]
-Renombrar
-[Delete]
-Eliminar
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -6379,6 +6373,13 @@ Me enoja
 Me entristece
 [on the phone]
 en el teléfono
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -7006,7 +7007,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Message]
@@ -7021,6 +7022,8 @@ Texto
 Fondo
 [Use default colors]
 Usar colores predeterminados
+[Use Windows colors]
+Usar colores de Windows
 [Preview]
 Previsualizar
 [Error]
@@ -7068,7 +7071,7 @@ Avatares
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -7498,17 +7501,6 @@ Añade un ítem de menú/barra de herramientas que abre la carpeta principal de 
 Abrir carpeta
 [Main]
 Principal
-#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
-;============================================================
-;  File: OpenSSL.dll
-;  Plugin: OpenSSL SSL API module
-;  Version: 0.1.0.2
-;  Authors: Miranda NG team
-;============================================================
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
-[Host we are connecting to is not the one certificate was issued for]
-El servidor al que nos estamos conectando no es el del certificado emitido
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
@@ -9832,6 +9824,8 @@ El contacto dejó de escribir
 ;============================================================
 [Telegram protocol support for Miranda NG.]
 Compatibilidad con el protocolo Telegram para Miranda NG.
+[Country:]
+País:
 [Phone number:]
 Número de teléfono:
 [Default group:]
@@ -9842,6 +9836,10 @@ Error
 Red
 [Account]
 Cuenta
+[Advanced]
+Avanzado
+[none]
+Ninguno
 [Errors]
 Errores
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -10449,7 +10447,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.1
+;  Version: 0.1.14.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10561,6 +10559,12 @@ No hacer nada
 Cerrar popup
 [Popups]
 Ventanas emergentes
+[Resume]
+Reanudar
+[Close]
+Cerrar
+[Cancel]
+Cancelar
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -11182,8 +11186,6 @@ Compatibilidad con el protocolo WhatsApp para Miranda NG.
 Nick:
 [Default group:]
 Grupo predeterminado:
-[Unregister]
-Anular registro
 [Cancel]
 Cancelar
 [Owner]
@@ -11202,7 +11204,7 @@ Errores
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
@@ -11239,8 +11241,6 @@ Fecha:
 Guardar
 [Delete]
 Eliminar
-[Unknown]
-Desconocido
 [Protocol]
 Protocolo
 [Contact]
@@ -11251,12 +11251,12 @@ Edad
 Todos los contactos
 [Contacts]
 Contactos
-[All Files]
-Todos los archivos
 [Error]
 Error
 [Warning]
 Advertencia
+[All Files]
+Todos los archivos
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;============================================================
 ;  File: WhoUsesMyFiles.dll

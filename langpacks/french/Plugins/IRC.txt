@@ -199,7 +199,7 @@ Chats client à client
 [Auto-accept from:]
 Accepter automatiq. de :
 [none]
-Aucun
+aucun
 [everyone on the contact list]
 toute la liste
 [everyone]

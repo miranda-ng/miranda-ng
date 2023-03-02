@@ -1,2 +1,3 @@
 [Tool style main window]
+[Show account names]
 [Group: %name% %count% [%mode%]]

@@ -1,3 +1,6 @@
+[Show account names]
+[Contract meta]
+[Expand meta]
 [Add view mode]
 [Rename view mode]
 [Remove view mode]

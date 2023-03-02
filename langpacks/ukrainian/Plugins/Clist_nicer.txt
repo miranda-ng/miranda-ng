@@ -262,8 +262,8 @@
 Показувати панель статусів
 [Show icons]
 Показувати значки
-[Show protocol names]
-Показувати протоколи
+[Show account names]
+
 [Show status text]
 Показувати текст статусу
 [Right click opens status menu]

@@ -47,10 +47,10 @@ Add to contact list if authorised
 Use default colours
 [Use custom colors]
 Use custom colours
-[Canceled]
-Cancelled
 [This file transfer has been canceled by the other side]
 This file transfer has been cancelled by the other side
+[Canceled]
+Cancelled
 [Initializing...]
 Initialising...
 [Timestamp has same color as the event]

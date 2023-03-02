@@ -106,8 +106,8 @@ Pasek statusu
 Pokaż pasek statusu
 [Show icons]
 Pokaż ikony
-[Show protocol names]
-Pokaż nazwy protokołów
+[Show account names]
+
 [Show status text]
 Pokaż nazwę statusu
 [Right click opens status menu]

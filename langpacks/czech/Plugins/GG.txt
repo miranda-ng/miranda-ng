@@ -50,8 +50,6 @@ je-li počet neznámých účastníků větší než:
 ve všech ostatních případech
 [Advanced Configuration]
 Pro pokročilé
-[Keep connection alive]
-Udržovat spojení
 [Show connection errors]
 Zobrazit chyby při připojení
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@ Odeslat zprávy pomaleji, ale s úplným potvrzením
 Určit hostitele pro připojení
 [* new line is separator\n** hostname:port format]
 * 1 položka = 1 řádek\n** ve formátu hostitel:port
-[Use SSL secure connection]
-Použít zabezpečené spojení (SSL)
 [File Transfer]
 Přenos souborů
 [Use direct connections]
@@ -153,8 +149,6 @@ Zobrazuje informace o přihlášených relacích
 [Sign out all sessions]
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Nelze vytvořit složku pro cache avatarů. CHYBA: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Nelze vytvořit soubor s avatarem. CHYBA: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]

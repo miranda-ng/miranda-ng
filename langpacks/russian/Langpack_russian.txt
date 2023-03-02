@@ -10430,8 +10430,6 @@ SFTP (FTP через SSH)
 в других случаях
 [Advanced Configuration]
 Дополнительная настройка
-[Keep connection alive]
-Поддерживать соединение
 [Show connection errors]
 Показывать ошибки соединения
 [Automatically reconnect after unintentional disconnection]
@@ -10442,8 +10440,6 @@ SFTP (FTP через SSH)
 Указать серверы вручную
 [* new line is separator\n** hostname:port format]
 * перевод строки разделитель\n** хост:порт
-[Use SSL secure connection]
-Безопасное подключение (SSL)
 [File Transfer]
 Передача файла
 [Use direct connections]
@@ -12811,6 +12807,14 @@ UIN/почта:
 &Пригласить пользователя
 [&Leave/destroy chat]
 &Покинуть/уничтожить чат
+[Name]
+Имя
+[Rename]
+Переименовать
+[Delete]
+Удалить
+[Enter new group name]
+Введите имя новой группы
 [E-mail]
 Почта
 [E-mail notification]
@@ -12829,14 +12833,6 @@ UIN/почта:
 Синхронизировать группы с сервером
 [Edit my web profile]
 Редактировать профиль на веб-сайте
-[Name]
-Имя
-[Rename]
-Переименовать
-[Delete]
-Удалить
-[Enter new group name]
-Введите имя новой группы
 [UIN/e-mail/phone]
 UIN/почта/телефон
 [SmileyAdd plugin required to support stickers]
@@ -16299,6 +16295,8 @@ Jabber vCard: редактирование телефона
 ;  Version: 0.0.0.1
 ;  Authors: George Hazan
 ;============================================================
+[Jingle support for Jabber protocol.]
+��������� Jingle ��� ��������� Jabber.
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -35115,6 +35113,8 @@ URL:
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Поддержка протокола WhatsApp в Miranda NG.
+[Link a device]
+Привязка устройства
 [Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
 Откройте приложение WhatsApp на мобильном телефоне, выберите "Связанные устройства" и отсканируйте этот QR-кол.\nПосле этого окно автоматически закроется.
 [Nick:]
@@ -35127,6 +35127,8 @@ URL:
 Имя устройства:
 [Use BBCode]
 Использовать BBCode
+[Log out]
+Выйти
 [Invite users]
 Пригласить пользователей
 [Choose a user]
@@ -35147,6 +35149,8 @@ URL:
 Участник
 [WhatsApp (HTTP)]
 WhatsApp (HTTP)
+[Do you really want to log out from account? You will have to link your devices again.]
+Уверены, что хотите выйти из учётной записи? Вам придётся связать устройства заново.
 [Network]
 Сеть
 [Account]

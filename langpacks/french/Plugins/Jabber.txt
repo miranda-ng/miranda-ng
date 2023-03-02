@@ -1452,6 +1452,8 @@ Voir les services de transports dans ma liste de contact
 Ajouter auto. un contact après une autorisation acceptée
 [Automatically accept authorization requests]
 
+[Automatically download files passed via HTTP File Upload]
+
 [Fix incorrect timestamps in incoming messages]
 
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1932,6 +1934,9 @@ Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
 [Note]
+
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

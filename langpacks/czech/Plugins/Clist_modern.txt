@@ -116,8 +116,8 @@ Nastavit pro každý účet zvlášť
 Povolit vlastní nastavení účtu
 [Hide account completely]
 Skýt účet úplně
-[Show protocol names]
-Zobrazit názvy protokolů
+[Show account names]
+
 [Show status name]
 Zobrazit název stavu
 [Show xStatus name]
@@ -784,6 +784,10 @@ Názvy skupin vpravo
 [(Unknown contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 Zobrazit avatar
 [Hide avatar]

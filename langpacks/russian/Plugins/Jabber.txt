@@ -1935,6 +1935,9 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Client's program does not support voice calls]
+Клиент собеседника не поддерживает голосовые вызовы
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>

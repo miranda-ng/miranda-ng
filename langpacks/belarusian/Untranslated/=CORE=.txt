@@ -1,3 +1,4 @@
+[Show account names]
 [Sort file transfers in the reverse order]
 [Print dates]
 [Rotate logs]
@@ -63,6 +64,7 @@
 [Options dialog is disabled by the system administrator. Contact him if you need to edit options]
 [Check database]
 [Load server history]
+[Account is disabled.]
 [Blank]
 [Unselect all]
 [Log viewer]

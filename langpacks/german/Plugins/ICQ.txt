@@ -69,6 +69,15 @@ Dieses Sitzungspasswort merken
 Benutzer e&inladen
 [&Leave/destroy chat]
 Chat ver&lassen/zerstören
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Name
+[Rename]
+Umbenennen
+[Delete]
+Löschen
+[Enter new group name]
+Neuen Gruppennamen eingeben
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 E-Mail
@@ -91,14 +100,6 @@ Sie haben %d ungelesene E-Mails
 Servergruppen synchronisieren
 [Edit my web profile]
 
-[Name]
-Name
-[Rename]
-Umbenennen
-[Delete]
-Löschen
-[Enter new group name]
-Neuen Gruppennamen eingeben
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp

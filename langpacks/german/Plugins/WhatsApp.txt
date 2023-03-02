@@ -8,7 +8,7 @@
 [WhatsApp protocol support for Miranda NG.]
 Wsparcie dla protokołu WhatsApp.
 ;file \protocols\WhatsApp\res\whatsapp.rc
-[Sign in using QR code]
+[Link a device]
 
 [Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
 
@@ -22,8 +22,8 @@ Chatfenster bei der Erzeugung nicht öffnen
 
 [Use BBCode]
 BBCode verwenden
-[Unregister]
-Löschen
+[Log out]
+
 [Invite users]
 Benutzer einladen
 [Choose a user]
@@ -47,7 +47,7 @@ Teilnehmer
 [WhatsApp (HTTP)]
 
 ;file \protocols\WhatsApp\src\options.cpp
-[Do you really want to unregister Miranda?]
+[Do you really want to log out from account? You will have to link your devices again.]
 
 [Network]
 Netzwerk

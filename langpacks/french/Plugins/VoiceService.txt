@@ -169,6 +169,18 @@ Popups
 
 [Voice call ready]
 
+[Hold]
+
+[Holded]
+
+[Resume]
+Reprendre
+[Close]
+Fermer
+[Callee is busy]
+
+[Cancel]
+Annuler
 [Unknown number]
 
 [Call is over %s]

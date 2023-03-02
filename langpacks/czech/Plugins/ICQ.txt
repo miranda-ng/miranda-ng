@@ -69,6 +69,15 @@ Zapamatovat heslo této relace
 Pozvat už&ivatele
 [&Leave/destroy chat]
 
+;file \protocols\ICQ-WIM\src\groups.cpp
+[Name]
+Jméno
+[Rename]
+Přejmenovat
+[Delete]
+Smazat
+[Enter new group name]
+
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 E-mail
@@ -90,14 +99,6 @@ Extra
 [Synchronize server groups]
 
 [Edit my web profile]
-
-[Name]
-Jméno
-[Rename]
-Přejmenovat
-[Delete]
-Smazat
-[Enter new group name]
 
 [UIN/e-mail/phone]
 

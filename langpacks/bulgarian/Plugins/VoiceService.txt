@@ -169,6 +169,18 @@
 
 [Voice call ready]
 
+[Hold]
+
+[Holded]
+
+[Resume]
+Продължаване
+[Close]
+Затваряне
+[Callee is busy]
+
+[Cancel]
+Отказ
 [Unknown number]
 
 [Call is over %s]

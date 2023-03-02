@@ -222,8 +222,6 @@ Statusleiste
 Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
@@ -1128,6 +1126,8 @@ Gruppen aktivieren
 Vor Löschen von Kontakten fragen
 [Remove temporary contacts on exit]
 Temporäre Kontakte beim Beenden löschen
+[Enable icon blinking]
+Iconblinken aktivieren
 [Search works as filter]
 Suche arbeitet als Filter
 ['Hide offline' means to hide:]
@@ -1398,10 +1398,10 @@ Kontaktprofil anzeigen
 Verlauf anzeigen
 [User menu]
 Benutzermenü
-[Canceled]
-Abgebrochen
 [This file transfer has been canceled by the other side]
 Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
+[Canceled]
+Abgebrochen
 [%d files]
 %d Dateien
 [%d directories]
@@ -6139,8 +6139,6 @@ Statusleiste
 Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
@@ -6288,8 +6286,6 @@ Einstellungen je Account setzen
 Aktiviere Einstellungen je Account
 [Hide account completely]
 Account nicht anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
 [Show status name]
 Statusnamen anzeigen
 [Show xStatus name]
@@ -7365,8 +7361,6 @@ Statusleiste
 Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
-[Show protocol names]
-Protokollnamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
@@ -9196,7 +9190,7 @@ Veraltetes Datenbankformat
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.2
+;  Version: 0.96.2.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -10428,8 +10422,6 @@ wenn Anzahl unbekannter Teilnehmer größer ist als:
 in anderem Fall
 [Advanced Configuration]
 Erweiterte Einstellungen
-[Keep connection alive]
-Verbindung aufrechterhalten
 [Show connection errors]
 Über Verbindungsfehler benachrichtigen
 [Automatically reconnect after unintentional disconnection]
@@ -10440,8 +10432,6 @@ Nachrichten langsamer, aber mit voller Bestätigung senden
 Manuell Server/Hosts eintragen
 [* new line is separator\n** hostname:port format]
 * Zeilenumbruch ist Trenner\n ** hostname:port-Format
-[Use SSL secure connection]
-Sichere SSL-Verbindung verwenden
 [File Transfer]
 Dateiübertragungen
 [Use direct connections]
@@ -10530,8 +10520,6 @@ Gleichzeitige %s Loginsitzungen
 Informationen zu aktiven gleichzeitigen Sitzungen anzeigen
 [Sign out all sessions]
 Alle Sitzungen abmelden
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Kann Avatarcacheverzeichnis nicht erzeugen. Fehler: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Kann Avatardatei nicht erzeugen. Fehler: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
@@ -12843,6 +12831,14 @@ Dieses Sitzungspasswort merken
 Benutzer e&inladen
 [&Leave/destroy chat]
 Chat ver&lassen/zerstören
+[Name]
+Name
+[Rename]
+Umbenennen
+[Delete]
+Löschen
+[Enter new group name]
+Neuen Gruppennamen eingeben
 [E-mail]
 E-Mail
 [E-mail notification]
@@ -12859,14 +12855,6 @@ Sie haben eine E-Mail von %s erhalten: %s
 Sie haben %d ungelesene E-Mails
 [Synchronize server groups]
 Servergruppen synchronisieren
-[Name]
-Name
-[Rename]
-Umbenennen
-[Delete]
-Löschen
-[Enter new group name]
-Neuen Gruppennamen eingeben
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 [SmileyAdd plugin required to support stickers]
@@ -16336,6 +16324,13 @@ Aktivitäten
 Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda-ng.org.
 [/me slaps %s around a bit with a large trout]
 /me schlägt %s mit einem großen Hering.
+#muuid {D3E24A92-E2C3-440F-bc87-002Ab822abf8}
+;============================================================
+;  File: Jingle
+;  Plugin: Jingle
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -18693,7 +18688,7 @@ Variables-Plugin ist nicht installiert.
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.6
+;  Version: 0.2.2.7
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
@@ -18716,6 +18711,8 @@ Text
 Hintergrund
 [Use default colors]
 Standardfarben verwenden
+[Use Windows colors]
+Windowsfarben verwenden
 [Timeout, secs]
 Anzeigedauer, Sek.
 [Preview]
@@ -18772,8 +18769,6 @@ Aktionen bei Anzeigedauer abgelaufen
 Sonstige Einstellungen
 [No popups for RSS contacts]
 Keine Popups für RSS-Feeds
-[No popups for read messages]
-Keine Popups für gelesene Nachrichten
 [Event Notify]
 Ereignismeldungen
 [Popups]
@@ -18967,7 +18962,7 @@ Auto-Update de-/aktivieren
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -27871,6 +27866,8 @@ Auf der Tableiste
 Auf der Werkzeugleiste
 [Error feedback]
 Fehlermeldung
+[Enable error popups on sending failures]
+Fehler-Popups bei Sendefehlern aktivieren
 [Choose status modes]
 Wähle Statusmodi
 [General]
@@ -28114,22 +28111,40 @@ Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins 
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Telegram protocol support for Miranda NG.]
+Wsparcie dla protokołu Telegram.
+[Country:]
+Land:
 [Phone number:]
 Telefonnummer:
 [Default group:]
 Standardgruppe:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
 [Enter password]
 Passwort eingeben
 [Error]
 Fehler
 [Invalid password]
 Falsches Passwort
+[Admin]
+Administrator
+[Participant]
+Teilnehmer
+[Visitor]
+Besucher
 [Network]
 Netzwerk
 [Account]
 Konto
+[Advanced]
+Erweitert
+[none]
+Keine
 [Chat rooms]
 Chaträume
 [%s error notifications]
@@ -31065,7 +31080,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.1
+;  Version: 0.1.14.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31831,6 +31846,12 @@ Sprachnachricht
 Anruf ist angehalten worden
 [Voice call ended]
 Anruf beendet
+[Resume]
+Fortsetzen
+[Close]
+Schließen
+[Cancel]
+Abbrechen
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -35184,6 +35205,8 @@ Sie müssen einen Namen für den Kontakt festlegen.
 ;  Version: 0.0.1.1
 ;  Authors: George Hazan
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Wsparcie dla protokołu WhatsApp.
 [Nick:]
 Nick:
 [Default group:]
@@ -35192,8 +35215,6 @@ Standardgruppe:
 Chatfenster bei der Erzeugung nicht öffnen
 [Use BBCode]
 BBCode verwenden
-[Unregister]
-Löschen
 [Invite users]
 Benutzer einladen
 [&Invite]
@@ -35222,7 +35243,7 @@ Fehler
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -35305,8 +35326,6 @@ n.v.
 Protokollmodul
 [Birthday list (%d)]
 Geburtstagsliste (%d)
-[Unknown]
-Unbekannt
 [Protocol]
 Protokoll
 [Contact]
@@ -35319,6 +35338,10 @@ Geburtstag
 Alter
 [Module]
 Modul
+[Closing in %d seconds]
+In %d Sekunden schließen
+[Closing in %d second]
+In %d Sekunde schließen
 [Check for birthdays]
 Prüfe Geburtstage
 [WhenWasIt]
@@ -35371,10 +35394,6 @@ Er/Sie
 %s\n%s wird %d Jahre alt.
 [%s\n%s just turned %d.]
 %s\n%s ist %d geworden.
-[Closing in %d seconds]
-In %d Sekunden schließen
-[Closing in %d second]
-In %d Sekunde schließen
 [Upcoming age]
 Kommendes Alter
 [Current age]
@@ -35403,22 +35422,6 @@ Kontakte
 Beginne Kontaktdetails auf neusten Stand zu bringen
 [Done refreshing user details]
 Kontaktdetails wurden auf den neusten Stand gebracht
-[Birthdays files]
-Geburtstags-Dateien
-[Please select a file to import birthdays from...]
-Bitte Datei für den Import der Geburtstage wählen...
-[Importing birthdays from file: %s]
-Importiere Geburtstage aus Datei: %s
-[Done importing birthdays]
-Import der Geburtstage abgeschlossen
-[All Files]
-Alle Dateien
-[Please select a file to export birthdays to...]
-Bitte Datei für den Export der Geburtstage wählen...
-[Exporting birthdays to file: %s]
-Exportiere Geburtstage in Datei: %s
-[Done exporting birthdays]
-Export der Geburtstage abgeschlossen
 [Could not open file to import birthdays]
 Konnte Datei für den Geburtstagsimport nicht öffnen
 [Error]
@@ -35427,10 +35430,26 @@ Fehler
 Kann die UID '%s [%S]' nicht in der aktuellen Datenbank finden, überspringe
 [Warning]
 Warnung
+[Birthdays files]
+Geburtstags-Dateien
+[Please select a file to import birthdays from...]
+Bitte Datei für den Import der Geburtstage wählen...
+[Importing birthdays from file: %s]
+Importiere Geburtstage aus Datei: %s
+[Done importing birthdays]
+Import der Geburtstage abgeschlossen
 [Could not open file to export birthdays]
 Konnte Datei für den Geburtstagsexport nicht öffnen
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
 Bitte ändern Sie diese Datei nicht von Hand. Verwenden Sie die Exportfunktion des WhenWasIt-Plugins.\n
+[All Files]
+Alle Dateien
+[Please select a file to export birthdays to...]
+Bitte Datei für den Export der Geburtstage wählen...
+[Exporting birthdays to file: %s]
+Exportiere Geburtstage in Datei: %s
+[Done exporting birthdays]
+Export der Geburtstage abgeschlossen
 [Birthdays (When Was It)]
 Geburtstage (When Was It)
 [Add/change user &birthday]

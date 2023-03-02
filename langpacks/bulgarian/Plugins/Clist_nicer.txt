@@ -262,8 +262,8 @@ CList nicer изключение
 Показване на лента за състояние
 [Show icons]
 Показване на икони
-[Show protocol names]
-Показване името на протокола
+[Show account names]
+
 [Show status text]
 Показване на текст за състоянието
 [Right click opens status menu]

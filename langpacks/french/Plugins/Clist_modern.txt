@@ -116,8 +116,8 @@ Options par comptes
 Réglages personnalisés
 [Hide account completely]
 Cacher complètement ce compte
-[Show protocol names]
-Afficher le nom des protocoles
+[Show account names]
+
 [Show status name]
 
 [Show xStatus name]
@@ -784,6 +784,10 @@ Ligne
 [(Unknown contact)]
 (Contact inconnu)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 
 [Hide avatar]

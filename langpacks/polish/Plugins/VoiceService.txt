@@ -169,6 +169,18 @@ Rozmowa głosowa
 
 [Voice call ready]
 
+[Hold]
+
+[Holded]
+
+[Resume]
+Wznów
+[Close]
+Zamknij
+[Callee is busy]
+
+[Cancel]
+Anuluj
 [Unknown number]
 
 [Call is over %s]

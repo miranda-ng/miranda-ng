@@ -50,8 +50,6 @@ jeśli liczba nieznanych przekracza:
 w innym wypadku
 [Advanced Configuration]
 Zaawansowana konfiguracja
-[Keep connection alive]
-Utrzymuj połączenie
 [Show connection errors]
 Pokazuj błędy połączenia
 [Automatically reconnect after unintentional disconnection]
@@ -62,8 +60,6 @@ Wysyłaj wiadomości wolniej, ale z potwierdzeniem
 Podaj adresy hostów serwerów ręcznie
 [* new line is separator\n** hostname:port format]
 * nowa linia - separator\n** format nazwa hosta:port
-[Use SSL secure connection]
-Używaj szyfrowanego połączenia SSL
 [File Transfer]
 Transfer plików
 [Use direct connections]
@@ -153,8 +149,6 @@ Wyświetl informacje o aktywnych równoległych sesjach
 [Sign out all sessions]
 Wyloguj wszystkie sesje
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Nie można utworzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
 Nie można utworzyć pliku awatara. BŁĄD: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]

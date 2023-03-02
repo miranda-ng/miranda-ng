@@ -116,8 +116,8 @@ Ajuste de opciones por cuenta
 Activar cuenta personalizadas
 [Hide account completely]
 Ocultar cuenta por completo
-[Show protocol names]
-Mostrar nombres de protocolo
+[Show account names]
+
 [Show status name]
 Muestrar nombre de estado
 [Show xStatus name]
@@ -784,6 +784,10 @@ Iconos adicionales
 [(Unknown contact)]
 (Contacto desconocido)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Contract meta]
+
+[Expand meta]
+
 [Show avatar]
 
 [Hide avatar]

@@ -8,6 +8,8 @@
 [Telegram protocol support for Miranda NG.]
 Telegram protokol pro Mirandu NG.
 ;file \protocols\Telegram\res\resource.rc
+[Country:]
+Země:
 [Phone number:]
 Telefon:
 [Default group:]
@@ -16,21 +18,40 @@ Výchozí skupina:
 
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
 ;file \protocols\Telegram\src\auth.cpp
-[Enter secret code sent to your phone]
+[Enter email address for account verification]
+
+[Enter verification code received by email]
+
+[Enter the secret code sent to your Telegram on another device]
 
 [Enter password]
 Zadejte heslo
 [ (hint: %s)]
 
-[Phone code expired]
+[Secret code expired]
 
 [Error]
 Chyba
-[Invalid phone code]
+[Invalid secret code]
 
 [Invalid password]
 
+;file \protocols\Telegram\src\groupchat.cpp
+[Creator]
+
+[Admin]
+Admin
+[Participant]
+Účastník
+[SuperAdmin]
+
+[Visitor]
+Přihlížející
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
 
@@ -39,7 +60,14 @@ Chyba
 Sítě
 [Account]
 Účet
+[Advanced]
+Extra
+;file \protocols\Telegram\src\server.cpp
+[%d member(s)]
+
 ;file \protocols\Telegram\src\utils.cpp
+[none]
+---
 [Chat rooms]
 Místnosti chatu
 [%s error notifications]
