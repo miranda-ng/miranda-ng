@@ -245,6 +245,8 @@ public:
 
 	void RefreshGroups()
 	{
+		groups.DeleteAllItems();
+
 		for (auto &it : m_proto->m_arGroups.rev_iter())
 			groups.AddItem(it->wszName, 0, (LPARAM)it);
 	}
