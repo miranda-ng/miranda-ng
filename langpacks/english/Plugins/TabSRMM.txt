@@ -22,7 +22,7 @@
 [Popup]
 [Tray]
 [Options]
-[Text for autocomplete]
+[Text for autocomplete:]
 [Add new rooms to group:]
 [Log files]
 [Enable logging to disk]

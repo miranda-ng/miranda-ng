@@ -38,7 +38,7 @@
 Трэй
 [Options]
 Налады
-[Text for autocomplete]
+[Text for autocomplete:]
 
 [Add new rooms to group:]
 Дадаваць чаты ў гурт:

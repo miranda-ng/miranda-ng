@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\georg\DiskW\miranda-ng\plugins\TabSRMM\res\chat.rc
+// Used by W:\miranda-ng\plugins\TabSRMM\res\chat.rc
 //
 #define IDD_TEMPLATEEDIT                1
 #define VS_VERSION_INFO                 1

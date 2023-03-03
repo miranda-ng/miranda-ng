@@ -1135,7 +1135,7 @@ UIN, E-mail и т.д.
 [Enable icon blinking]
 Включить мигание
 [Search works as filter]
-Поиск по списку контактов с фильтрацией результатов
+Поиск с фильтрацией результатов
 ['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
 [Tray]
@@ -15942,6 +15942,8 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
+[Client's program does not support voice calls]
+Клиент собеседника не поддерживает голосовые вызовы
 [<advanced status slot>]
 <слот расширенного статуса>
 [Afraid]
