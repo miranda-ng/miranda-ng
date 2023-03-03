@@ -130,7 +130,8 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 {
 	auto *pUser = FindUser(id);
 	if (pUser != nullptr)
-		return pUser;
+		if (pUser->hContact != INVALID_CONTACT_ID)
+			return pUser;
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
@@ -144,10 +145,19 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	else if (mir_wstrlen(m_wszDefaultGroup))
 		Clist_SetGroup(hContact, m_wszDefaultGroup);
 
-	pUser = new TG_USER(id, hContact, bIsChat);
-	m_arUsers.insert(pUser);
-	if (!bIsChat)
-		m_arChats.insert(pUser);
+	if (pUser == nullptr) {
+		pUser = new TG_USER(id, hContact, bIsChat);
+		m_arUsers.insert(pUser);
+		if (!bIsChat)
+			m_arChats.insert(pUser);
+	}
+	else {
+		pUser->hContact = hContact;
+		setWString(hContact, "Nick", pUser->wszNick);
+		setWString(hContact, "FirstName", pUser->wszFirstName);
+		setWString(hContact, "LastName", pUser->wszLastName);
+	}
+
 	return pUser;
 }
 

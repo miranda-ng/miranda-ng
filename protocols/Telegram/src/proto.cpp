@@ -180,10 +180,6 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		return 0;
 
 	auto id = _wtoi64(psr->id.w);
-	if (auto *pUser = FindUser(id))
-		if (pUser->hContact != INVALID_CONTACT_ID)
-			return pUser->hContact;
-
 	auto *pUser = AddUser(id, false);
 	if (flags & PALF_TEMPORARY)
 		Contact::RemoveFromList(pUser->hContact);
