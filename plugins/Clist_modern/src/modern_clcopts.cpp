@@ -506,7 +506,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETCURSEL, i, 0);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_NOOFFLINEMOVE, g_plugin.getByte("NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OFFLINEMOVE, g_plugin.getByte("OfflineBottom", SETTING_OFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
@@ -539,7 +539,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				g_plugin.setByte("SortBy2", (uint8_t)s2);
 				g_plugin.setByte("SortBy3", (uint8_t)s3);
 
-				g_plugin.setByte("NoOfflineBottom", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NOOFFLINEMOVE));
+				g_plugin.setByte("OfflineBottom", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_OFFLINEMOVE));
 				g_plugin.setByte("PlaceOfflineToRoot", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_OFFLINETOROOT));
 
 				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */

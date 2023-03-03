@@ -245,7 +245,7 @@
 #define IDC_BUTTON_BROWSE               1633
 #define IDC_UP                          1633
 #define IDC_DOWN                        1634
-#define IDC_NOOFFLINEMOVE               1657
+#define IDC_OFFLINEMOVE                 1657
 #define IDC_HILIGHTMODE                 1658
 #define IDC_OFFLINETOROOT               1658
 #define IDC_HILIGHTMODE2                1659

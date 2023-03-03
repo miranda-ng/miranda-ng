@@ -112,6 +112,11 @@ int CMPlugin::Unload(void)
 
 void CMPlugin::ReadSettings()
 {
+	if (g_plugin.getBool("NoOfflineBottom")) {
+		g_plugin.setByte("OfflineBottom", false);
+		g_plugin.delSetting("NoOfflineBottom");
+	}
+
 	wcsncpy_s(secondLine.text, getMStringW("SecondLineText"), _TRUNCATE);
 	secondLine.iType = getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 	secondLine.bActive = getBool("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);

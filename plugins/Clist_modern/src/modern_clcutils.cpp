@@ -462,7 +462,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	g_CluiData.bSortByOrder[0] = g_plugin.getByte("SortBy1", SETTING_SORTBY1_DEFAULT);
 	g_CluiData.bSortByOrder[1] = g_plugin.getByte("SortBy2", SETTING_SORTBY2_DEFAULT);
 	g_CluiData.bSortByOrder[2] = g_plugin.getByte("SortBy3", SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom = g_plugin.getByte("NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) != 0;
+	g_CluiData.fSortOfflineBottom = g_plugin.getBool("OfflineBottom", SETTING_OFFLINEBOTTOM_DEFAULT);
 
 	// Row
 	dat->row_min_heigh = g_plugin.getWord("MinRowHeight", CLCDEFAULT_ROWHEIGHT);

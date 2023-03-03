@@ -45,7 +45,7 @@ struct CLUIDATA
 	bool     fOnDesktop;
 	bool     fSmoothAnimation;
 	bool     fLayered;
-	bool     fSortNoOfflineBottom;
+	bool     fSortOfflineBottom;
 	bool     fAutoSize;
 	bool     fAeroGlass;
 	uint8_t     bCurrentAlpha;

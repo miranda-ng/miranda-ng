@@ -101,7 +101,7 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 		}
 
 		// one is offline: offline goes below online
-		if (!g_CluiData.fSortNoOfflineBottom) {
+		if (g_CluiData.fSortOfflineBottom) {
 			int statusa = c1->getStatus();
 			int statusb = c2->getStatus();
 			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
