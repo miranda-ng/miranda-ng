@@ -258,7 +258,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact list sorting",IDC_STATIC,2,8,294,84,WS_GROUP
-    CONTROL         "Move offline user to bottom",IDC_OFFLINEMOVE,
+    CONTROL         "Move offline users to bottom",IDC_OFFLINEMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,281,10
     LTEXT           "1st:",IDC_STATIC,15,19,14,8
     LTEXT           "2nd:",IDC_STATIC,15,35,14,8
