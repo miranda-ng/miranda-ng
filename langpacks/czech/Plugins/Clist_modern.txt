@@ -144,24 +144,10 @@ Pravým tlačítkem nabídku Mirandy
 Mezera vlevo
 [Space on right]
 Mezera vpravo
-[Delete contact]
-Smazání kontaktu
-[No]
-Ne
-[Yes]
-Ano
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
-[Are you sure you want to delete %s?]
-Opravdu chcete smazat kontakt %s?
-[This will erase all history and settings for this contact!]
-Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact list sorting]
 Řazení seznamu kontaktů
-[Don't move offline user to bottom]
-Kontakty offline nepřesouvat na konec
+[Move offline users to bottom]
+Kontakty offline přesunout na konec
 [1st:]
 1)
 [2nd:]
@@ -478,56 +464,6 @@ Rozšířená autom. odpověď
 Zobrazit třetí řádek
 [Draw smileys on third line]
 Vykreslit smajlíky na třetím řádku
-[Preview]
-Náhled
-[Top/Left]
-Vlevo nahoře
-[Bottom/Right]
-Vpravo dole
-[Position (vertical)]
-Umístění (svislé)
-[Align]
-Zarovnání
-[Options]
-Možnosti
-[Visible]
-Viditelné
-[Show title]
-Zobrazit záhlaví
-[Locked]
-Uzamknout
-[Border]
-Okraj
-[Floating]
-Plovoucí
-[Frames order]
-Pořadí rámečků
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-VE VÝSTAVBĚ!!!            NEFUNGUJE
-[Row template]
-Šablony řádků
-[Add container]
-Přidat kontejner
-[Remove container]
-Odstranit kontejner
-[Vertical align:]
-Svislé zarovnání:
-[Horizontal align:]
-Vodorovné zarovnání:
-[Container type:]
-Typ kontejneru:
-[Container width:]
-Šířka kontejneru:
-[Container height:]
-Výška kontejneru:
-[Layered]
-Se skinem
-[Move up]
-Přesunout nahoru
-[Move down]
-Přesunout dolů
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-STRÁNKA S NASTAVENÍM JE VE VÝSTAVBĚ. Nevšímejte si zde žádných problémů.\nPouze vysokoúrovňové komentáře k designu jsou užitečné.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Viditelný
@@ -557,6 +493,10 @@ Nahor&u
 &Dolů
 [Lock frame]
 Zamknout rámeček
+[Visible]
+Viditelné
+[Floating]
+Plovoucí
 [Show all frames]
 Zobrazit všechny rámečky
 [Show all title bars]

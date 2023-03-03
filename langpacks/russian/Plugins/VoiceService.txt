@@ -70,8 +70,8 @@
 Подавление эха
 [Microphone boost]
 Усиление микрофона
-[Unknown call]
-Неизвестный звонок
+[Voice call]
+Вызов
 [Call will disclose IP address to the peer and his server]
 Вызов раскроет ваш IP-адрес собеседнику и его серверу
 [Established]
@@ -159,8 +159,6 @@
 Вызов принят
 [Voice call ringing]
 Входящий вызов
-[Voice call]
-Вызов
 [Voice call on hold]
 Вызов на удержании
 [Voice call ended]

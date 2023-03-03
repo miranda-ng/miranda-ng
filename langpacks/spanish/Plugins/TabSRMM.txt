@@ -38,7 +38,7 @@ Ventana emergente
 Bandeja
 [Options]
 Opciones
-[Text for autocomplete]
+[Text for autocomplete:]
 
 [Add new rooms to group:]
 Añadir nuevas salas de grupo:

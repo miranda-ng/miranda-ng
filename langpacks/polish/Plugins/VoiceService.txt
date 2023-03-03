@@ -70,8 +70,8 @@ Audio
 
 [Microphone boost]
 
-[Unknown call]
-
+[Voice call]
+Rozmowa głosowa
 [Call will disclose IP address to the peer and his server]
 
 [Established]
@@ -159,8 +159,6 @@ Powiadomienia
 
 [Voice call ringing]
 
-[Voice call]
-Rozmowa głosowa
 [Voice call on hold]
 
 [Voice call ended]

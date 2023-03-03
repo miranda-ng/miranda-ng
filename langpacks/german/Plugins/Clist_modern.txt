@@ -144,24 +144,10 @@ Rechtsklick öffnet Miranda-Hauptmenü
 Abstand links
 [Space on right]
 Abstand rechts
-[Delete contact]
-Kontakt löschen
-[No]
-Nein
-[Yes]
-Ja
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
-[Are you sure you want to delete %s?]
-Soll Kontakt %s wirklich gelöscht werden ?
-[This will erase all history and settings for this contact!]
-Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
 [Contact list sorting]
 Sortierung der Kontaktliste
-[Don't move offline user to bottom]
-Offline-Kontakte nicht nach unten setzen
+[Move offline users to bottom]
+
 [1st:]
 1.:
 [2nd:]
@@ -478,56 +464,6 @@ xStatus hat Priorität
 Dritte Zeile anzeigen
 [Draw smileys on third line]
 Grafiksmileys in der dritten Zeile
-[Preview]
-Vorschau
-[Top/Left]
-Oben/Links
-[Bottom/Right]
-Unten/Rechts
-[Position (vertical)]
-Position(vertikal)
-[Align]
-Ausrichten
-[Options]
-Einstellungen
-[Visible]
-Sichtbar
-[Show title]
-Titel anzeigen
-[Locked]
-Gesperrt
-[Border]
-Rand
-[Floating]
-Frei bewegend
-[Frames order]
-Frame-Reihenfolge
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-UNTER BEARBEITUNG!!!! ES FUNKTIONIERT NICHT!!!!
-[Row template]
-Zeilenvorlage
-[Add container]
-Container hinzufügen
-[Remove container]
-Container entfernen
-[Vertical align:]
-Vert. Ausrichtung:
-[Horizontal align:]
-Horiz. Ausrichtung:
-[Container type:]
-Containertyp:
-[Container width:]
-Containerbreite:
-[Container height:]
-Containerhöhe:
-[Layered]
-Layered
-[Move up]
-Hoch
-[Move down]
-Runter
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-EINSTELLUNGSSEITE IST IM BAU!
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 Sichtbar
@@ -557,6 +493,10 @@ A&uf
 &Ab
 [Lock frame]
 Keine Größenänderung
+[Visible]
+Sichtbar
+[Floating]
+Frei bewegend
 [Show all frames]
 Alle Frames anzeigen
 [Show all title bars]

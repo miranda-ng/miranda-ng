@@ -14,7 +14,6 @@
 [Output:]
 [Echo cancelation]
 [Microphone boost]
-[Unknown call]
 [Call will disclose IP address to the peer and his server]
 [Established]
 [M]

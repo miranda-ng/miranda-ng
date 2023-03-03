@@ -1,4 +1,4 @@
-[Text for autocomplete]
+[Text for autocomplete:]
 [Split into files (in KB)]
 [Use &default colors]
 [Selected nick list background]

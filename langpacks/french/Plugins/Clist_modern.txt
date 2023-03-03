@@ -144,24 +144,10 @@ Le clic droit ouvre le menu Miranda
 Espace à gauche
 [Space on right]
 Espace à droite
-[Delete contact]
-Supprimer un contact
-[No]
-Non
-[Yes]
-Oui
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Effacer de la liste mais conserver son historique et ses options.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts.
-[Are you sure you want to delete %s?]
-Voulez-vous vraiment supprimer %s ?
-[This will erase all history and settings for this contact!]
-Ceci effacera tout l'historique et réglages de ce contact !
 [Contact list sorting]
 Tri des contacts dans la liste
-[Don't move offline user to bottom]
-Ne pas déplacez les utilisateur déconnecté en bas
+[Move offline users to bottom]
+Déplacez les utilisateur déconnecté en bas
 [1st:]
 1er :
 [2nd:]
@@ -478,56 +464,6 @@ Utiliser 'xStatus : xMessage'
 Afficher une troisième ligne
 [Draw smileys on third line]
 Afficher les smileys
-[Preview]
-Aperçu
-[Top/Left]
-Heut/Gauche
-[Bottom/Right]
-Bas/Droite
-[Position (vertical)]
-Position (verticale)
-[Align]
-
-[Options]
-Paramètres
-[Visible]
-Visible
-[Show title]
-Voir le titre
-[Locked]
-Verrouillé
-[Border]
-Bordures
-[Floating]
-Flottant
-[Frames order]
-Ordre des images
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-EN COURS DE CONCEPTION !!!   NE FONCTIONNE PAS ENCORE
-[Row template]
-Modèles
-[Add container]
-Ajouter conteneur
-[Remove container]
-Retirer conteneur
-[Vertical align:]
-Align. vertical :
-[Horizontal align:]
-Align. horizontal :
-[Container type:]
-Type :
-[Container width:]
-Largeur :
-[Container height:]
-Hauteur :
-[Layered]
-Surcouchage
-[Move up]
-
-[Move down]
-
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-PAGE D'OPTION EN CONSTRUCTION Veuillez ne poser aucune question en rapport\nà ces options. Seuls des commentaires à haut niveau de conception seront écoutés.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Visible
@@ -557,6 +493,10 @@ PAGE D'OPTION EN CONSTRUCTION Veuillez ne poser aucune question en rapport\nà c
 &Vers le Bas
 [Lock frame]
 Cadre vérouillé
+[Visible]
+Visible
+[Floating]
+Flottant
 [Show all frames]
 Montrer tous les cadres
 [Show all title bars]

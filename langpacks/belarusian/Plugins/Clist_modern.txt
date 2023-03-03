@@ -144,24 +144,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Водступ злева
 [Space on right]
 Водступ справа
-[Delete contact]
-Выдаліць кантакт
-[No]
-Не
-[Yes]
-Так
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-"Налады -> Кантакты -> Ігнараваць", каб адлюстраваць кантакты.
-[Are you sure you want to delete %s?]
-Выдаліць %s са спісу?
-[This will erase all history and settings for this contact!]
-Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
 [Contact list sorting]
 Сартаванне спісу кантактаў
-[Don't move offline user to bottom]
-Не перасоўваць адключаных уніз
+[Move offline users to bottom]
+Перасоўваць адключаных уніз
 [1st:]
 1-шы:
 [2nd:]
@@ -478,56 +464,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паказваць трэці радок
 [Draw smileys on third line]
 Смайлікі на трэцяй сцёку
-[Preview]
-Прагляд
-[Top/Left]
-Вышэй/Лявей
-[Bottom/Right]
-Ніжэй/Правей
-[Position (vertical)]
-Палажэнне (вертыкальна)
-[Align]
-Выраўняць
-[Options]
-Налады
-[Visible]
-Мабыць
-[Show title]
-Загаловак
-[Locked]
-Заблакавана
-[Border]
-Рамка
-[Floating]
-Плывучае
-[Frames order]
-Рамка фрэймаў
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-У РАСПРАЦОЎЦЫ!!!                      ГЭТА НЕ ПРАЦУЕ
-[Row template]
-Радок шаблона
-[Add container]
-Дадаць кантэйнер
-[Remove container]
-Выдаліць кантэйнер
-[Vertical align:]
-Раўняць па вертыкалі:
-[Horizontal align:]
-Раўняць по гарызанталі:
-[Container type:]
-Тып кантэйнера:
-[Container width:]
-Шырыня кантэйнера:
-[Container height:]
-Вышыня кантэйнера:
-[Layered]
-Слаіста
-[Move up]
-Вышэй
-[Move down]
-Ніжэй
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-Гэта старонка ў распрацоўцы.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Бачнасць
@@ -557,6 +493,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 У&ніз
 [Lock frame]
 Замацаваць фрэйм
+[Visible]
+Мабыць
+[Floating]
+Плывучае
 [Show all frames]
 Паказаць усе
 [Show all title bars]

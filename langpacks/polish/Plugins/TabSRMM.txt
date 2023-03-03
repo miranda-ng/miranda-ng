@@ -38,7 +38,7 @@ Powiadomienia
 Zasobnik
 [Options]
 Opcje
-[Text for autocomplete]
+[Text for autocomplete:]
 
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:

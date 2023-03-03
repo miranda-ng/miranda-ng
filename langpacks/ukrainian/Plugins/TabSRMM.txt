@@ -38,7 +38,7 @@
 Трей
 [Options]
 Налаштування
-[Text for autocomplete]
+[Text for autocomplete:]
 
 [Add new rooms to group:]
 Додавати кімнати до групи:

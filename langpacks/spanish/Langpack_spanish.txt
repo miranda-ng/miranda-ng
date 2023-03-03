@@ -17,7 +17,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.2
+;  Version: 0.96.3
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -3965,24 +3965,8 @@ Clic derecho abre el menú de Miranda
 Espacio a la izquierda
 [Space on right]
 Espacio a la derecha
-[Delete contact]
-Eliminar contacto
-[No]
-No
-[Yes]
-Sí
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
-[Are you sure you want to delete %s?]
-¿Está seguro de que desea eliminar a %s?
-[This will erase all history and settings for this contact!]
-¡Esto borrará toda el historial y los valores de este contacto!
 [Contact list sorting]
 Clasificación de la lista de contacto
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
 [1st:]
 1ro:
 [2nd:]
@@ -4141,14 +4125,6 @@ Texto:
 Estado
 [Nickname]
 Apodo
-[Preview]
-Previsualizar
-[Align]
-Alinear
-[Options]
-Opciones
-[Border]
-Borde
 [&Hide/show]
 &Mostrar/Ocultar
 [&Find/add contacts...]

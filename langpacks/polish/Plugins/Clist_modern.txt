@@ -144,24 +144,10 @@ PPM otwiera menu Mirandy NG
 Pole po lewej
 [Space on right]
 Odstęp z prawej
-[Delete contact]
-Usuń kontakt
-[No]
-Nie
-[Yes]
-Tak
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
-[Are you sure you want to delete %s?]
-Czy na pewno chcesz usunąć %s?
-[This will erase all history and settings for this contact!]
-To usunie wszystkie ustawienia i historię tego kontaktu!
 [Contact list sorting]
 Sortowanie kontaktów
-[Don't move offline user to bottom]
-Nie przesuwaj rozłączonych na dół
+[Move offline users to bottom]
+Przesuwaj rozłączonych na dół
 [1st:]
 1:
 [2nd:]
@@ -478,56 +464,6 @@ Użyj "xStatus: xOpis"
 Pokaż trzecią linię
 [Draw smileys on third line]
 Rysuj emotikony w trzeciej linii
-[Preview]
-Podgląd
-[Top/Left]
-Góra/Lewa
-[Bottom/Right]
-Dół/Prawa
-[Position (vertical)]
-Pozycja (pozioma)
-[Align]
-Wyrównaj
-[Options]
-Opcje
-[Visible]
-Widoczny
-[Show title]
-Pokaż tytuł
-[Locked]
-Zablokowane
-[Border]
-Wyrównanie
-[Floating]
-Pływający
-[Frames order]
-Kolejność ramek
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-W BUDOWIE!!!!           NA RAZIE NIE DZIAŁA
-[Row template]
-Szablon wiersza
-[Add container]
-Dodaj kontener
-[Remove container]
-Usuń kontener
-[Vertical align:]
-Pionowo
-[Horizontal align:]
-Poziomo
-[Container type:]
-Typ kontenera:
-[Container width:]
-Szerokość kontenera:
-[Container height:]
-Wysokość kontenera:
-[Layered]
-Skórkowane
-[Move up]
-Przesuń w górę
-[Move down]
-Przesuń w dół
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-STRONA OPCJI JEST W BUDOWIE Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Widoczny
@@ -557,6 +493,10 @@ Tryb &pływający
 &Dół
 [Lock frame]
 Zablokuj ramkę
+[Visible]
+Widoczny
+[Floating]
+Pływający
 [Show all frames]
 Pokaż wszystkie ramki
 [Show all title bars]

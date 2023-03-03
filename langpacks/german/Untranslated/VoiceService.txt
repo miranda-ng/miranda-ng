@@ -1,7 +1,6 @@
 [Show incoming call dialog immediately ]
 [Catch focus on this dialog]
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
-[Unknown call]
 [Call will disclose IP address to the peer and his server]
 [Established]
 [M]

@@ -70,8 +70,8 @@
 
 [Microphone boost]
 
-[Unknown call]
-
+[Voice call]
+Дзвінок
 [Call will disclose IP address to the peer and his server]
 
 [Established]
@@ -159,8 +159,6 @@
 
 [Voice call ringing]
 
-[Voice call]
-Дзвінок
 [Voice call on hold]
 
 [Voice call ended]

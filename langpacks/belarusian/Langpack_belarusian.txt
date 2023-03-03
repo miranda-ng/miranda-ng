@@ -8,7 +8,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.2
+;  Version: 0.96.3
 ;============================================================
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
@@ -5936,24 +5936,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Водступ злева
 [Space on right]
 Водступ справа
-[Delete contact]
-Выдаліць кантакт
-[No]
-Не
-[Yes]
-Так
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-"Налады -> Кантакты -> Ігнараваць", каб адлюстраваць кантакты.
-[Are you sure you want to delete %s?]
-Выдаліць %s са спісу?
-[This will erase all history and settings for this contact!]
-Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
 [Contact list sorting]
 Сартаванне спісу кантактаў
-[Don't move offline user to bottom]
-Не перасоўваць адключаных уніз
+[Move offline users to bottom]
+Перасоўваць адключаных уніз
 [1st:]
 1-шы:
 [2nd:]
@@ -6254,56 +6240,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паказваць трэці радок
 [Draw smileys on third line]
 Смайлікі на трэцяй сцёку
-[Preview]
-Прагляд
-[Top/Left]
-Вышэй/Лявей
-[Bottom/Right]
-Ніжэй/Правей
-[Position (vertical)]
-Палажэнне (вертыкальна)
-[Align]
-Выраўняць
-[Options]
-Налады
-[Visible]
-Мабыць
-[Show title]
-Загаловак
-[Locked]
-Заблакавана
-[Border]
-Рамка
-[Floating]
-Плывучае
-[Frames order]
-Рамка фрэймаў
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-У РАСПРАЦОЎЦЫ!!!                      ГЭТА НЕ ПРАЦУЕ
-[Row template]
-Радок шаблона
-[Add container]
-Дадаць кантэйнер
-[Remove container]
-Выдаліць кантэйнер
-[Vertical align:]
-Раўняць па вертыкалі:
-[Horizontal align:]
-Раўняць по гарызанталі:
-[Container type:]
-Тып кантэйнера:
-[Container width:]
-Шырыня кантэйнера:
-[Container height:]
-Вышыня кантэйнера:
-[Layered]
-Слаіста
-[Move up]
-Вышэй
-[Move down]
-Ніжэй
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-Гэта старонка ў распрацоўцы.
 [&Visible]
 &Бачнасць
 [&Show title]
@@ -6332,6 +6268,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 У&ніз
 [Lock frame]
 Замацаваць фрэйм
+[Visible]
+Мабыць
+[Floating]
+Плывучае
 [Show all frames]
 Паказаць усе
 [Show all title bars]
@@ -25252,7 +25192,7 @@ TabSRMM: %s
 [Advanced]
 Дадаткова
 [none]
-Няма
+няма
 [Errors]
 Памылкі
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -28228,6 +28168,8 @@ x, і захоўвае y, як зменную з імем x
 Фрэйм
 [Audio]
 Аўдыё
+[Voice call]
+Званок
 [M]
 м
 [Main]
@@ -28248,8 +28190,6 @@ x, і захоўвае y, як зменную з імем x
 Тэставае апісанне
 [Popups]
 Усплывальныя вокны
-[Voice call]
-Званок
 [Resume]
 Працягнуць
 [Close]

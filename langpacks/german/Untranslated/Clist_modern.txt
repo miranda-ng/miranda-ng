@@ -1,3 +1,4 @@
 [Show account names]
+[Move offline users to bottom]
 [Contract meta]
 [Expand meta]

@@ -144,24 +144,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Отступ слева
 [Space on right]
 Отступ справа
-[Delete contact]
-Удалить контакт
-[No]
-Нет
-[Yes]
-Да
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Скрыть из списка (останутся история и настройки видимости)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Управление отображением контактов осуществляется в разделе "Настройки -> Контакты -> Игнорировать".
-[Are you sure you want to delete %s?]
-Удалить %s из списка?
-[This will erase all history and settings for this contact!]
-Будет удалена вся история и все настройки для данного контакта!
 [Contact list sorting]
 Сортировка списка контактов
-[Don't move offline user to bottom]
-Не перемещать отключённых вниз
+[Move offline users to bottom]
+Перемещать отключённых вниз
 [1st:]
 1-й:
 [2nd:]
@@ -478,56 +464,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Показывать третью строку
 [Draw smileys on third line]
 Смайлы на третьей строке
-[Preview]
-Тест
-[Top/Left]
-Лево/верх
-[Bottom/Right]
-Право/низ
-[Position (vertical)]
-Положение (вертикаль)
-[Align]
-Выравнивание
-[Options]
-Настройки
-[Visible]
-Видимо
-[Show title]
-Заголовок
-[Locked]
-Заблокирован
-[Border]
-Рамка
-[Floating]
-Плавающее
-[Frames order]
-Порядок фреймов
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-РАЗРАБАТЫВАЕТСЯ!!!           НЕ РАБОТАЕТ
-[Row template]
-Шаблон
-[Add container]
-Добавить
-[Remove container]
-Удалить
-[Vertical align:]
-Вертикально:
-[Horizontal align:]
-Горизонтально:
-[Container type:]
-Тип контейнера:
-[Container width:]
-Ширина:
-[Container height:]
-Высота:
-[Layered]
-Слои
-[Move up]
-Выше
-[Move down]
-Ниже
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-ЭТА СТРАНИЦА ТОЛЬКО РАЗРАБАТЫВАЕТСЯ. Пожалуйста, НЕ СООБЩАЙТЕ об ошибках. Принимаются только замечания к дизайну.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Показывать
@@ -557,6 +493,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 В&низ
 [Lock frame]
 Закрепить фрейм
+[Visible]
+Видимо
+[Floating]
+Плавающее
 [Show all frames]
 Показать все фреймы
 [Show all title bars]

@@ -144,24 +144,10 @@ Clic derecho abre el menú de Miranda
 Espacio a la izquierda
 [Space on right]
 Espacio a la derecha
-[Delete contact]
-Eliminar contacto
-[No]
-No
-[Yes]
-Sí
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
-[Are you sure you want to delete %s?]
-¿Está seguro de que desea eliminar a %s?
-[This will erase all history and settings for this contact!]
-¡Esto borrará toda el historial y los valores de este contacto!
 [Contact list sorting]
 Clasificación de la lista de contacto
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
+[Move offline users to bottom]
+Mover usuario fuera de línea al final
 [1st:]
 1ro:
 [2nd:]
@@ -478,56 +464,6 @@ Apodo
 
 [Draw smileys on third line]
 
-[Preview]
-Previsualizar
-[Top/Left]
-
-[Bottom/Right]
-
-[Position (vertical)]
-
-[Align]
-Alinear
-[Options]
-Opciones
-[Visible]
-
-[Show title]
-
-[Locked]
-
-[Border]
-Borde
-[Floating]
-
-[Frames order]
-
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-
-[Row template]
-
-[Add container]
-
-[Remove container]
-
-[Vertical align:]
-
-[Horizontal align:]
-
-[Container type:]
-
-[Container width:]
-
-[Container height:]
-
-[Layered]
-
-[Move up]
-
-[Move down]
-
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 
@@ -556,6 +492,10 @@ Borde
 [&Down]
 
 [Lock frame]
+
+[Visible]
+
+[Floating]
 
 [Show all frames]
 

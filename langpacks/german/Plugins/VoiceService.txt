@@ -70,8 +70,8 @@ Ausgehend:
 Echo Reduzierung
 [Microphone boost]
 Mikrofon Boost
-[Unknown call]
-
+[Voice call]
+Sprachnachricht
 [Call will disclose IP address to the peer and his server]
 
 [Established]
@@ -159,8 +159,6 @@ Voreinstellungen
 Anruf gestartet
 [Voice call ringing]
 Anruf empfangen
-[Voice call]
-Sprachnachricht
 [Voice call on hold]
 Anruf ist angehalten worden
 [Voice call ended]

@@ -144,24 +144,10 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Відступ ліворуч
 [Space on right]
 Відступ праворуч
-[Delete contact]
-Видалити контакт
-[No]
-Ні
-[Yes]
-Так
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Сховати зі списку, зберігши історію і параметри ігнорування та видимості
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Приховані контакти: Налаштування -> Контакти -> Ігнорувати.
-[Are you sure you want to delete %s?]
-Справді видалити %s зі списку?
-[This will erase all history and settings for this contact!]
-Ця дія видалить усю історію і налаштування цього контакту!
 [Contact list sorting]
 Впорядкування списку
-[Don't move offline user to bottom]
-Не переміщати відключених униз
+[Move offline users to bottom]
+Переміщати відключених униз
 [1st:]
 1-й:
 [2nd:]
@@ -478,56 +464,6 @@ xСтатус: xПовідомлення
 Показувати третій рядок
 [Draw smileys on third line]
 Смайли в третьому рядку
-[Preview]
-Тест
-[Top/Left]
-Вгорі ліворуч
-[Bottom/Right]
-Внизу праворуч
-[Position (vertical)]
-Позиція (вертикаль)
-[Align]
-Вирівнювання
-[Options]
-Налаштування
-[Visible]
-Видимий
-[Show title]
-Заголовок
-[Locked]
-Заблокований
-[Border]
-Рамка
-[Floating]
-Плаваюче
-[Frames order]
-Порядок фреймів
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-У розробці!!!           Не працює
-[Row template]
-Шаблон
-[Add container]
-Додати
-[Remove container]
-Видалити
-[Vertical align:]
-Вертикально:
-[Horizontal align:]
-Горизонтально:
-[Container type:]
-Тип контейнера:
-[Container width:]
-Ширина:
-[Container height:]
-Висота:
-[Layered]
-
-[Move up]
-Вище
-[Move down]
-Нижче
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-Ця сторінка розробляється. Будь ласка, НЕ ПОВІДОМЛЯЙТЕ про помилки. Приймаються лише зауваження щодо дизайну.
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Показувати
@@ -557,6 +493,10 @@ xСтатус: xПовідомлення
 В&низ
 [Lock frame]
 Закріпити фрейм
+[Visible]
+Видимий
+[Floating]
+Плаваюче
 [Show all frames]
 Показати всі фрейми
 [Show all title bars]

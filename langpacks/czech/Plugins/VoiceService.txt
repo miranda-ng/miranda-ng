@@ -70,8 +70,8 @@ Výstup:
 
 [Microphone boost]
 
-[Unknown call]
-
+[Voice call]
+Hovor
 [Call will disclose IP address to the peer and his server]
 
 [Established]
@@ -159,8 +159,6 @@ Akce
 Hovor začal
 [Voice call ringing]
 
-[Voice call]
-Hovor
 [Voice call on hold]
 Hovor je přidržen
 [Voice call ended]

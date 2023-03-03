@@ -1,6 +1,5 @@
 [Editing view mode]
 [Show account names]
-[Layered]
 [Last online]
 [Contract meta]
 [Expand meta]

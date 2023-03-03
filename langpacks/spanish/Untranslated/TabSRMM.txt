@@ -1,6 +1,6 @@
 [IM and group chat module for Miranda NG.]
 [Show these events]
-[Text for autocomplete]
+[Text for autocomplete:]
 [Log files]
 [Split into files (in KB)]
 [Group chat log formatting]
