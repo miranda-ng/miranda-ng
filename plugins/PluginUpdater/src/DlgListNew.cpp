@@ -260,15 +260,13 @@ public:
 			FILEINFO *p = (FILEINFO *)lvI.lParam;
 			p->bEnabled = m_list.GetCheckState(nmlv->iItem);
 
-			bool enableOk = false;
-			for (auto &it : *todo) {
-				if (it->bEnabled) {
-					enableOk = true;
-					break;
-				}
-			}
+			int iCount = 0;
+			for (auto &it : *todo)
+				if (it->bEnabled)
+					iCount++;
 
-			btnOk.Enable(enableOk);
+			btnOk.SetText(CMStringW(FORMAT, L"%s (%d)", TranslateT("Download"), iCount));
+			btnOk.Enable(iCount > 0);
 		}
 	}
 
