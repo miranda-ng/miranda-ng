@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
-Wsparcie dla protokołu Telegram.
+Unterstützung für Telegram in Miranda NG.
 ;file \protocols\Telegram\res\resource.rc
 [Country:]
 Land:
@@ -15,7 +15,7 @@ Telefonnummer:
 [Default group:]
 Standardgruppe:
 [Device name:]
-
+Gerätename:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -24,37 +24,37 @@ Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl
 Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
-
+E-Mail-Adresse zur Kontenüberprüfung eingeben
 [Enter verification code received by email]
-
+Geben Sie den per E-Mail empfangenen Überprüfungscode ein
 [Enter the secret code sent to your Telegram on another device]
-
+Geben Sie den Geheimcode ein, der an Ihr Telegram auf einem anderen Gerät gesendet wurde
 [Enter password]
 Passwort eingeben
 [ (hint: %s)]
-
+ (Hinweis: %s)
 [Secret code expired]
-
+Geheimcode abgelaufen
 [Error]
 Fehler
 [Invalid secret code]
-
+Ungültiger Geheimcode
 [Invalid password]
-Falsches Passwort
+Ungültiges Passwort
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
-
+Ersteller
 [Admin]
 Administrator
 [Participant]
 Teilnehmer
 [SuperAdmin]
-
+SuperAdministrator
 [Visitor]
 Besucher
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
-
+Premiumnutzer
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 Netzwerk
@@ -64,7 +64,7 @@ Konto
 Erweitert
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
-
+%d Mitglieder
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 Keine

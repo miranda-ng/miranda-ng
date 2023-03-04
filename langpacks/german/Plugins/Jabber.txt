@@ -521,13 +521,13 @@ Empfängt Informationen über OMEMO-Geräte
 [Supports message carbons (XEP-0280)]
 Unterstützt Nachrichtendurchschläge (XEP-0280)
 [Jingle ICE-UDP Transport]
-
+Jingle ICE-UDP Transport
 [Jingle RTP]
-
+Jingle RTP
 [Jingle DTLS]
-
+Jingle DTLS
 [Jingle RTP Audio]
-
+Jingle RTP Audio
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -599,7 +599,7 @@ Außgestoßene-Liste (&Bann)
 [Add to &bookmarks]
 Als &Lesezeichen speichern
 [Change &avatar]
-
+&Avatar ändern
 [&Configure...]
 &Einstellungen...
 [&Destroy room]
@@ -773,7 +773,7 @@ Fehler beim Anfragen der Info
 Fehler beim Anfragen der Einträge
 ;file \protocols\JabberG\src\jabber_ft.cpp
 [%s is too large. Maximum size supported by the service is %d KB]
-
+%s ist zu groß. Die maximale Größe, die von diesem Dienst unterstützt wird, ist %d KB.
 [No compatible file transfer mechanism exists]
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -1008,7 +1008,7 @@ Eingehende Notiz
 [Do you want to create OMEMO session with new device:]
 Möchten Sie eine OMEMO-Sitzung mit diesem neuen Gerät erzeugen:
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
-
+OMEMO kann keine privaten Nachrichten in öffentlichen Gruppenchats verschlüsseln. Im Klartext fortfahren?
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch
@@ -1431,17 +1431,17 @@ Message Archive Management unterstützen (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Durchschlagskopien aktivieren (XEP-0280)
 [Enable VOIP (experimental)]
-
+VOIP aktivieren (experimentell)
 [Server options]
 Servereinstellungen
 [Use Stream Management (XEP-0198) if possible (experimental)]
-
+Stream Management (XEP-0198) verwenden falls möglich (experimentell)
 [Disable SASL authentication (for old servers)]
 SASL-Authentifizierung deaktivieren (für ältere Server)
 [Enable stream compression (if possible)]
 Datenstromkompression aktivieren (falls möglich)
 [Use TLS 1.3 bindings (if possible)]
-
+TLS 1.3 Bindings aktivieren (falls möglich)
 [Other]
 Sonstige
 [Enable remote controlling (from another resource of same JID only)]
@@ -1452,8 +1452,6 @@ Transportagenten in der Kontaktliste anzeigen
 Kontakt bei akzeptierter Autorisierung automatisch hinzufügen
 [Automatically accept authorization requests]
 Autorisierungsanfragen automatisch akzeptieren
-[Automatically download files passed via HTTP File Upload]
-
 [Fix incorrect timestamps in incoming messages]
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1795,7 +1793,7 @@ Fehler: Nicht genug Speicher
 [Error: Cannot connect to the server]
 Fehler: Verbindung zum Server fehlgeschlagen
 [SSL intialization failed]
-
+SSL-Initialisierung fehlgeschlagen
 [Error: Connection lost]
 Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
@@ -1873,10 +1871,6 @@ Geräte-ID
 Fingerabdruck
 [Own device]
 Eigenes Gerät
-[Trusted]
-Vertraut
-[UNTRUSTED]
-UNVERTRAUT
 [Unknown]
 Unbekannt
 [Photo]
@@ -1937,7 +1931,7 @@ Kontakte
 Hinweis
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Client's program does not support voice calls]
-
+Das Programm des gegenübers unterstützt keine Sprachanrufe
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

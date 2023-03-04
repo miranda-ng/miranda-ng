@@ -99,7 +99,7 @@ Sie haben %d ungelesene E-Mails
 [Synchronize server groups]
 Servergruppen synchronisieren
 [Edit my web profile]
-
+Mein Web-Profil bearbeiten
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp

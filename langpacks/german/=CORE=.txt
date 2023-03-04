@@ -75,7 +75,7 @@ Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
 [Move offline users to bottom]
-
+Offline-Nutzer nach unten schieben
 [Show]
 Zeige
 [icon when statuses differ]
@@ -215,7 +215,7 @@ Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
 [Show account names]
-
+Kontonamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
@@ -1880,7 +1880,7 @@ Inhaber
 [Folder]
 Ordner
 [Page]
-
+Seite
 [View/change my &details...]
 Mein Profil än&dern...
 ;file \src\core\stduserinfo\src\utils.h
@@ -2583,7 +2583,7 @@ Lade... %d%%
 [%s options]
 %s-Einstellungen
 [Options dialog is disabled by the system administrator. Contact him if you need to edit options]
-
+Einstellungsdialog wurde vom Systemadministrator gesperrt. Kontaktieren Sie ihn, um diese Einstellungen zu bearbeiten.
 [Miranda NG options]
 Miranda-NG-Einstellungen
 ;file \src\mir_app\src\path.cpp
@@ -2689,7 +2689,7 @@ Konto-ID
 [Protocol is not loaded.]
 Protokoll ist nicht geladen.
 [Account is disabled.]
-
+Konto ist deaktiviert.
 [Create new account]
 Neues Konto erstellen...
 [Editing account]
@@ -2781,7 +2781,7 @@ Gruppe hinzufügen
 [Warning]
 Warnung
 [Blank]
-
+Leer
 [Always visible]
 Immer sichtbar
 [Always invisible]

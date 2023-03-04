@@ -36,16 +36,16 @@ Bei Rechtsklick:
 Bei Linksklick:
 [Preview]
 Vorschau
-[Show incoming call dialog immediately ]
-
+[Show incoming call dialog immediately]
+Dialog bei eingehenden Anrufen sofort anzeigen
 [Catch focus on this dialog]
-
+Fokus auf diesen Dialog legen
 [New Voice Call]
-Neuer Anruf
+Neuer Sprachanruf
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
-
+%s möchte einen Sprachanruf mit Ihnen starten. Was möchten Sie tun?\n\nWenn Sie den Anruf annehmen wird der aktuelle Anruf gehalten.
 [Answer]
-Antwort
+Antworten
 [Drop]
 Auflegen
 [From now on, repeat this action for this contact]
@@ -57,9 +57,9 @@ Frame automatisch anpassen
 [Automatic Actions]
 Automatische Aktionen
 [Auto accept this contact calls]
-Anrufe vom diesen Kontakt immer annehmen
+Anrufe von diesem Kontakt immer annehmen
 [Auto drop this contacts calls]
-Anrufe von diesen Kontakt immer ablehnen
+Anrufe von diesem Kontakt immer ablehnen
 [Audio]
 Audio
 [Input:]
@@ -73,15 +73,15 @@ Mikrofon Boost
 [Voice call]
 Sprachnachricht
 [Call will disclose IP address to the peer and his server]
-
+Der Anruf wird Ihre IP-Adresse dem Gegenüber und seinem Server entthüllen.
 [Established]
-
+Aufgebaut
 [M]
-
+M
 [V]
-
+V
 [Frame Popup]
-
+Frame Popup
 [Answer call]
 Anruf annehmen
 [Drop call]
@@ -92,7 +92,7 @@ Anruf halten
 [Main]
 Allgemein
 [Dialpad]
-
+Ziffernblock
 [Secure]
 Sicher
 [Talking]
@@ -106,17 +106,17 @@ Angehalten
 [Ended]
 Beendet
 [Busy]
-
+Beschäftigt
 [Ready]
 Bereit
 [Make Voice Call]
-
+Sprachanruf machen
 [Answer Voice Call]
-Anruf annehmen
+Sprachanruf annehmen
 [Hold Voice Call]
-Anruf anhalten
+Sprachanruf anhalten
 [Drop Voice Call]
-Auflegen
+Sprachanruf auflegen
 [Started talking]
 Gespräch gestartet
 [Calling a contact]
@@ -124,23 +124,23 @@ Ruft ein Kontakt an
 [Put a call on Hold]
 Hat ein Anruf angehalten
 [End of call]
-
+Ende des Anrufs
 [Busy signal]
-
+Besetzt-Zeichen
 [Call %s with %s]
-
+%s mit %s anrufen
 [Call with %s]
-
+Anrufen mit %s
 [Call]
 Anrufen
 [%s with %s]
-
+%s mit %s
 [with %s]
-
+mit %s
 [Voice Calls]
 Anrufe
 [Dialpad press]
-
+Ziffernblock gedrückt
 ;file \plugins\VoiceService\src\options.cpp
 [Do nothing]
 Nichts tun
@@ -156,30 +156,30 @@ Popups
 Voreinstellungen
 ;file \plugins\VoiceService\src\VoiceCall.cpp
 [Voice call started]
-Anruf gestartet
+Sprachanruf gestartet
 [Voice call ringing]
-Anruf empfangen
+Sprachanruf empfangen
 [Voice call on hold]
-Anruf ist angehalten worden
+Sprachanruf ist angehalten worden
 [Voice call ended]
-Anruf beendet
+Sprachanruf beendet
 [Voice call busy]
-
+Sprachanruf beschäftigt
 [Voice call ready]
-
+Sprachanruf bereit
 [Hold]
-
+Halten
 [Holded]
-
+Gehalten
 [Resume]
 Fortsetzen
 [Close]
 Schließen
 [Callee is busy]
-
+Der Angerufene ist beschäftigt
 [Cancel]
 Abbrechen
 [Unknown number]
-
+Unbekannte Nummer
 [Call is over %s]
-
+Anruf ist über %s

@@ -107,7 +107,7 @@ Statusleiste anzeigen
 [Show icons]
 Icons anzeigen
 [Show account names]
-
+Kontonamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]

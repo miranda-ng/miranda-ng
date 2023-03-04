@@ -39,7 +39,7 @@ Tray
 [Options]
 Einstellungen
 [Text for autocomplete:]
-
+Text zur Auto-Vervollständigung:
 [Add new rooms to group:]
 Gruppe für neue Räume:
 [Log files]
@@ -49,7 +49,7 @@ Verlauf auf Festplatte speichern
 [Log directory]
 Verzeichnis für Verlaufsdateien
 [Split into files (in KB)]
-
+In Dateien aufteilen (in KB)
 [Group chat log formatting]
 Gruppenchat-Verlaufsformatierung
 [Your name]
@@ -920,7 +920,7 @@ Chatfenster bei Hervorhebung aktivieren
 [Show list of users in the chat room]
 Benutzerliste im Chatfenster anzeigen
 [Colorize nicknames in member list (you need to adjust colors)]
-
+Nicknamen in Benutzerliste färben (Sie können die Farben anpassen)
 [Show topic as status message on the contact list]
 Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]

@@ -111,13 +111,13 @@ Umschalt gedrückt halten, um Rechtsklick-Verhalten umzukehren.
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
 Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
 [Set options per account]
-Einstellungen je Account setzen
+Einstellungen je Konto setzen
 [Enable custom account settings]
-Aktiviere Einstellungen je Account
+Aktiviere Einstellungen je Konto
 [Hide account completely]
-Account nicht anzeigen
+Konto nicht anzeigen
 [Show account names]
-
+Kontonamen anzeigen
 [Show status name]
 Statusnamen anzeigen
 [Show xStatus name]
@@ -147,7 +147,7 @@ Abstand rechts
 [Contact list sorting]
 Sortierung der Kontaktliste
 [Move offline users to bottom]
-
+Offline-Nutzer nach unten schieben
 [1st:]
 1.:
 [2nd:]
@@ -725,9 +725,9 @@ Zeile
 (Unbekannter Kontakt)
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Contract meta]
-
+Meta einklappen
 [Expand meta]
-
+Meta ausklappen
 [Show avatar]
 Avatar anzeigen
 [Hide avatar]

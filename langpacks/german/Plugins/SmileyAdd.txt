@@ -39,7 +39,7 @@ IEView-Auswahlfenster
 [Horizontal sorting]
 Horizontal sortieren
 [Download more smileys]
-
+Weitere Smileys herunterladen
 [Specify smiley pack for each category]
 Für jede Kategorie separate Smileys setzen
 [Name:]
@@ -83,7 +83,7 @@ Customize
 [General]
 Allgemein
 [Categories]
-
+Kategorien
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 protokollspezifisch

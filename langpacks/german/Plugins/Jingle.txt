@@ -6,4 +6,4 @@
 ;  Authors: George Hazan
 ;============================================================
 [Jingle support for Jabber protocol.]
-
+Unterstützung für Jingle für das Jabber-Protokoll.

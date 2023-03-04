@@ -87,7 +87,7 @@ Sonstige Einstellungen
 [No popups for RSS contacts]
 Keine Popups für RSS-Feeds
 [No popups for read messages (conflicts with anti-spam plugin)]
-
+Keine Popups für gelesene Nachrichten (Konflikte mit Anti-Spam-Plugin)
 [Event Notify]
 Ereignismeldungen
 [Popups]
@@ -97,7 +97,7 @@ Einstellungen
 [Message events]
 Nachrichten-Ereignisse
 [Event types]
-
+Ereignisarten
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 %d Kontakte empfangen.
