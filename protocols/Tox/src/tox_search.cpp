@@ -45,10 +45,10 @@ void CToxProto::SearchByNameAsync(void *arg)
 		mir_snprintf(email, "%s@toxme.io", name);
 		psr.email.a = mir_strdup(email);
 
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this, 0);
 	mir_free(arg);
 }
 
@@ -73,7 +73,7 @@ INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM, LPARAM lParam)
 	return FALSE;
 }
 
-HWND CToxProto::OnSearchAdvanced(HWND owner)
+HANDLE CToxProto::OnSearchAdvanced(HWND owner)
 {
 	if (!IsOnline()) {
 		// we cannot add someone to friend list while tox is offline
@@ -93,16 +93,16 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		psr.id.a = mir_strdup(query.c_str());
 		Contact::AddBySearch(m_szModuleName, &psr, owner);
 
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
 	}
 	else {
 		regex = "^\\s*(([^ @/:;()\"']+)(@[A-Za-z]+.[A-Za-z]{2,6})?)\\s*$";
 		if (std::regex_search(query, match, regex))
 			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
 		else
-			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
+			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this, (LPARAM)TranslateT("Invalid search string"));
 	}
-	return (HWND)1;
+	return (HWND)this;
 }
 
 HWND CToxProto::OnCreateExtendedSearchUI(HWND owner)

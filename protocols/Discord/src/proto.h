@@ -353,7 +353,7 @@ public:
 	INT_PTR  GetCaps(int, MCONTACT = 0) override;
 
 	HWND     CreateExtendedSearchUI(HWND owner) override;
-	HWND     SearchAdvanced(HWND owner) override;
+	HANDLE   SearchAdvanced(HWND owner) override;
 
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;

@@ -177,12 +177,12 @@ HANDLE PROTO_INTERFACE::SearchByName(const wchar_t*, const wchar_t*, const wchar
 	return nullptr; // error
 }
 
-HWND PROTO_INTERFACE::SearchAdvanced(HWND)
+HANDLE PROTO_INTERFACE::SearchAdvanced(MWindow)
 {
 	return nullptr; // error
 }
 
-HWND PROTO_INTERFACE::CreateExtendedSearchUI(HWND)
+MWindow PROTO_INTERFACE::CreateExtendedSearchUI(MWindow)
 {
 	return nullptr; // error
 }

@@ -301,13 +301,13 @@ void CDiscordProto::SearchThread(void *param)
 	psr.firstName.w = L"";
 	psr.lastName.w = L"";
 	psr.id.w = L"";
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
 
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this, 0);
 	mir_free(param);
 }
 
-HWND CDiscordProto::SearchAdvanced(HWND hwndDlg)
+HANDLE CDiscordProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (!m_bOnline || !IsWindow(hwndDlg))
 		return nullptr;
@@ -322,7 +322,7 @@ HWND CDiscordProto::SearchAdvanced(HWND hwndDlg)
 		return nullptr;
 
 	ForkThread(&CDiscordProto::SearchThread, mir_wstrdup(wszNick));
-	return (HWND)1;
+	return this;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -332,7 +332,7 @@ void CDiscordProto::OnReceiveUserinfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 {
 	JsonReply root(pReply);
 	if (!root) {
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, this);
 		return;
 	}
 

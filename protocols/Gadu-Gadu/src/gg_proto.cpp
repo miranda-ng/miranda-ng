@@ -253,8 +253,8 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GaduProto::searchthread");
 #endif
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
-		return (HANDLE)1;
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this, 0);
+		return this;
 	}
 
 	// Add uin and search it
@@ -267,13 +267,13 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GaduProto::searchthread");
 #endif
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
-		return (HANDLE)1;
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this, 0);
+		return this;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
 	debugLogA("SearchBasic(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
-	return (HANDLE)1;
+	return this;
 }
 
 //////////////////////////////////////////////////////////
@@ -293,8 +293,8 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GaduProto::searchthread");
 #endif
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
-		return (HANDLE)1;
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this);
+		return this;
 	}
 
 	// Add nick,firstName,lastName and search it
@@ -334,7 +334,7 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GaduProto::searchthread");
 #endif
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this);
 	}
 	else
 	{
@@ -343,13 +343,13 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 	}
 	gg_pubdir50_free(req);
 
-	return (HANDLE)1;
+	return this;
 }
 
 //////////////////////////////////////////////////////////
 // search by advanced
-//
-HWND GaduProto::SearchAdvanced(HWND hwndDlg)
+
+HANDLE GaduProto::SearchAdvanced(HWND hwndDlg)
 {
 	// Check if connected
 	if (!isonline())
@@ -360,8 +360,8 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 #ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GaduProto::searchthread");
 #endif
-		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
-		return (HWND)1;
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this);
+		return this;
 	}
 
 	CMStringA szQuery;
@@ -470,15 +470,15 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 #ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GaduProto::searchthread");
 #endif
-			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
-			return (HWND)1;
+			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, this);
+			return this;
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
 	}
 	debugLogA("SearchAdvanced(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
 
-	return (HWND)1;
+	return this;
 }
 
 //////////////////////////////////////////////////////////
@@ -567,7 +567,7 @@ void __cdecl GaduProto::getawaymsgthread(void *arg)
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
 
 	ptrW wszMsg(db_get_wsa(hContact, "CList", "StatusMsg"));
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszMsg);
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, this, wszMsg);
 }
 
 HANDLE GaduProto::GetAwayMsg(MCONTACT hContact)
@@ -576,7 +576,7 @@ HANDLE GaduProto::GetAwayMsg(MCONTACT hContact)
 	debugLogA("GetAwayMsg(): ForkThread 17 GaduProto::getawaymsgthread");
 #endif
 	ForkThread(&GaduProto::getawaymsgthread, (void*)hContact);
-	return (HANDLE)1;
+	return this;
 }
 
 //////////////////////////////////////////////////////////

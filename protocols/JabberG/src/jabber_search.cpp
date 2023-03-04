@@ -712,7 +712,7 @@ HWND CJabberProto::CreateExtendedSearchUI(HWND parent)
 //////////////////////////////////////////////////////////////////////////
 // The function formats request to server
 
-HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
+HANDLE CJabberProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (!m_bJabberOnline || !hwndDlg)
 		return nullptr;	//error
@@ -759,7 +759,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 
 	if (fRequestNotEmpty) {
 		m_ThreadInfo->send(iq);
-		return (HWND)pInfo->GetIqId();
+		return (HANDLE)pInfo->GetIqId();
 	}
 	return nullptr;
 }

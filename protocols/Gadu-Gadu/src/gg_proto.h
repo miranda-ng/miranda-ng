@@ -42,7 +42,7 @@ struct GaduProto : public PROTO<GaduProto>
 				
 	HANDLE   SearchBasic(const wchar_t* id) override;
 	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override;
-	HWND     SearchAdvanced(HWND owner) override;
+	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 				
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;

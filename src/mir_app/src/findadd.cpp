@@ -825,7 +825,10 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					StopThrobber(hwndDlg, dat);
 				}
 				ListView_SortItemsEx(hwndList, SearchResultsCompareFunc, (LPARAM)hwndDlg);
-				SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
+				if (ack->lParam)
+					SendMessage(GetDlgItem(hwndDlg, IDC_STATUSBAR), SB_SETTEXT, 0, ack->lParam);
+				else
+					SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
 			}
 			else if (ack->result == ACKRESULT_SEARCHRESULT && ack->lParam) {
 				CUSTOMSEARCHRESULTS *csr = (CUSTOMSEARCHRESULTS*)ack->lParam;

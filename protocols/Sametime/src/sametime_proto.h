@@ -21,7 +21,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 
 	HANDLE   SearchBasic(const wchar_t* id) override;
-	HWND     SearchAdvanced(HWND owner) override;
+	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
 	int      RecvFile(MCONTACT hContact, PROTORECVFILE*) override;

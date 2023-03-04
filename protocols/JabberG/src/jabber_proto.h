@@ -132,7 +132,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	HANDLE   SearchByEmail(const wchar_t *email) override;
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	HWND     SearchAdvanced(HWND owner) override;
+	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;

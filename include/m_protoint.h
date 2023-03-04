@@ -226,8 +226,8 @@ public:
 	virtual	HANDLE   SearchBasic(const wchar_t *id);
 	virtual	HANDLE   SearchByEmail(const wchar_t *email);
 	virtual	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
-	virtual	HWND     SearchAdvanced(HWND owner);
-	virtual	HWND     CreateExtendedSearchUI(HWND owner);
+	virtual	HANDLE   SearchAdvanced(MWindow owner);
+	virtual	MWindow  CreateExtendedSearchUI(MWindow owner);
 
 	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT *);
 	virtual	int      RecvFile(MCONTACT hContact, PROTORECVFILE *);

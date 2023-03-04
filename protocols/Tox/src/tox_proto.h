@@ -32,7 +32,7 @@ public:
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	HWND     SearchAdvanced(HWND owner) override;
+	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
 	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
@@ -169,8 +169,8 @@ private:
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	HWND __cdecl OnSearchAdvanced(HWND owner);
-	HWND __cdecl OnCreateExtendedSearchUI(HWND owner);
+	HANDLE OnSearchAdvanced(HWND owner);
+	HWND   OnCreateExtendedSearchUI(HWND owner);
 
 	// messages
 	std::map<uint64_t, UINT> messages;

@@ -134,7 +134,7 @@ int CToxProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilenam
 	return OnFileResume(m_tox, hTransfer, action, szFilename);
 }
 
-HWND CToxProto::SearchAdvanced(HWND owner)
+HANDLE CToxProto::SearchAdvanced(HWND owner)
 {
 	return OnSearchAdvanced(owner);
 }

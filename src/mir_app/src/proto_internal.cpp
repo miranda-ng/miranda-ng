@@ -176,9 +176,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	}
 
-	HWND SearchAdvanced(HWND owner) override
+	HANDLE SearchAdvanced(HWND owner) override
 	{
-		return (HWND)ProtoCallService(m_szModuleName, PS_SEARCHBYADVANCED, 0, (LPARAM)owner);
+		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYADVANCED, 0, (LPARAM)owner);
 	}
 
 	HWND CreateExtendedSearchUI(HWND owner) override
