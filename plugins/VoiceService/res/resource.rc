@@ -72,8 +72,8 @@ BEGIN
     RTEXT           "On left click:",IDC_LEFT_ACTION_L,13,132,62,9
     COMBOBOX        IDC_LEFT_ACTION,83,132,156,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Preview",IDC_PREV,131,161,50,14
-	CONTROL         "Show incoming call dialog immediately ",IDC_IMMDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,180,308,12
-	CONTROL         "Catch focus on this dialog",IDC_IMMDIALOG_FOCUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,200,308,12
+    CONTROL         "Show incoming call dialog immediately",IDC_IMMDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,180,308,12
+    CONTROL         "Catch focus on this dialog",IDC_IMMDIALOG_FOCUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,200,308,12
 END
 
 IDD_NEW_CALL DIALOG 0, 0, 229, 87
@@ -84,8 +84,7 @@ BEGIN
     CTEXT           "%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.",IDC_TEXT,7,7,215,36
     DEFPUSHBUTTON   "Answer",ID_ANSWER,58,47,50,14
     PUSHBUTTON      "Drop",ID_DROP,121,47,50,14
-    CONTROL         "From now on, repeat this action for this contact",IDC_AUTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,215,12
+    CONTROL         "From now on, repeat this action for this contact",IDC_AUTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,215,12
 END
 
 IDD_OPTS DIALOGEX 0, 0, 233, 41
