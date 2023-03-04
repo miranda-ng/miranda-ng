@@ -129,6 +129,16 @@ void ItemData::load(bool bFullLoad)
 			{
 				CMStringW wszFileName(buf);
 				wszFileName.Append(ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
+
+				// if a filename contains spaces, URL will be broken
+				if (wszFileName.Find(' ') != -1) {
+					wchar_t wszShortPath[MAX_PATH];
+					if (GetShortPathNameW(wszFileName, wszShortPath, _countof(wszShortPath))) {
+						wszFileName = wszShortPath;
+						wszFileName.MakeLower();
+					}
+				}
+
 				wszFileName.Replace('\\', '/');
 				wszFileName.Insert(0, L"file://");
 				wtext = wszFileName.Detach();
