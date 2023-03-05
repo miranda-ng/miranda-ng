@@ -572,6 +572,9 @@ bool CMsgDialog::OnInitDialog()
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
 
+		if (!m_SendFormat)
+			ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
+
 		UpdateNickList();
 		UpdateChatLog();
 	}
