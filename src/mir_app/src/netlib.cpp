@@ -115,8 +115,9 @@ void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs)
 static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szSetting, int defValue)
 {
 	DBVARIANT dbv;
-	if (db_get(0, szUserModule, szSetting, &dbv) && db_get(0, "Netlib", szSetting, &dbv))
-		return defValue;
+	if (db_get(0, szUserModule, szSetting, &dbv))
+		if (db_get(0, "Netlib", szSetting, &dbv))
+			return defValue;
 
 	if (dbv.type == DBVT_BYTE) return dbv.bVal;
 	if (dbv.type == DBVT_WORD) return dbv.wVal;
@@ -190,7 +191,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	thisUser->settings.enableUPnP = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLEnableUPnP", 1); //default to on
 	thisUser->settings.validateSSL = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLValidateSSL", 0);
 
-	thisUser->toLog = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 1);
+	thisUser->toLog = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 0);
 
 	mir_cslock lck(csNetlibUser);
 	netlibUser.insert(thisUser);

@@ -220,7 +220,10 @@ public:
 			}
 			else if (tvi.lParam < netlibUser.getCount()) {
 				netlibUser[tvi.lParam]->toLog = checked;
-				db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
+				if (checked)
+					db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
+				else
+					db_unset(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog");
 			}
 
 			tvi.hItem = treeFilter.GetNextSibling(tvi.hItem);
