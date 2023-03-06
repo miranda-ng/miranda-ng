@@ -55,7 +55,7 @@ bool CTelegramProto::CheckSearchUser(TG_USER *pUser)
 
 void CTelegramProto::ReportSearchUser(TG_USER *pUser)
 {
-	CMStringW wszId(FORMAT, L"%lld", pUser->id);
+	CMStringW wszId(FORMAT, L"%lld", pUser->id), wszNick, wszLastName, wszFirstName;
 
 	PROTOSEARCHRESULT psr = {};
 	psr.cbSize = sizeof(psr);
@@ -63,9 +63,9 @@ void CTelegramProto::ReportSearchUser(TG_USER *pUser)
 	psr.id.w = wszId.GetBuffer();
 
 	if (pUser->hContact != INVALID_CONTACT_ID) {
-		CMStringW wszNick = getMStringW(pUser->hContact, "Nick");
-		CMStringW wszLastName = getMStringW(pUser->hContact, "LastName");
-		CMStringW wszFirstName = getMStringW(pUser->hContact, "FirstName");
+		wszNick = getMStringW(pUser->hContact, "Nick");
+		wszLastName = getMStringW(pUser->hContact, "LastName");
+		wszFirstName = getMStringW(pUser->hContact, "FirstName");
 
 		psr.nick.w = wszNick.GetBuffer();
 		psr.lastName.w = wszLastName.GetBuffer();

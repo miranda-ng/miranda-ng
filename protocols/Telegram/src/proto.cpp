@@ -184,7 +184,12 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (flags & PALF_TEMPORARY)
 		Contact::RemoveFromList(pUser->hContact);
 
-	auto cc = TD::make_object<TD::contact>(); cc->user_id_ = id;
+	auto cc = TD::make_object<TD::contact>(); 
+	cc->user_id_ = id;
+	if (psr->firstName.w)
+		cc->first_name_ = T2Utf(psr->firstName.w);
+	if (psr->lastName.w)
+		cc->last_name_ = T2Utf(psr->lastName.w);
 	SendQuery(new TD::addContact(std::move(cc), false));
 	return pUser->hContact;
 }
