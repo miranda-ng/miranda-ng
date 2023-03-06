@@ -21,6 +21,7 @@
 #include <m_extraicons.h>
 #include <m_icolib.h>
 #include <m_langpack.h>
+#include <m_message.h>
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>

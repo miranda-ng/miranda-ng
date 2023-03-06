@@ -151,6 +151,7 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
+		Chat_SendPrivateMessage(gch);
 		break;
 
 	case GC_USER_LOGMENU:
@@ -161,6 +162,29 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 	}
 
 	return 1;
+}
+
+void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
+{
+	MCONTACT hContact;
+	TD::int53 userId = _wtoi64(gch->ptszUID);
+	auto *pUser = FindUser(userId);
+	if (pUser == nullptr || pUser->hContact == INVALID_CONTACT_ID) {
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.id.w = (wchar_t *)gch->ptszUID;
+		psr.firstName.w = (wchar_t *)gch->ptszNick;
+
+		hContact = AddToList(PALF_TEMPORARY, &psr);
+		if (hContact == 0)
+			return;
+
+		setWString(hContact, "Nick", gch->ptszNick);
+		Contact::Hide(hContact);
+		db_set_dw(hContact, "Ignore", "Mask1", 0);
+	}
+	else hContact = pUser->hContact;
+
+	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

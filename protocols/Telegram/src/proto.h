@@ -214,6 +214,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool bUpdateMembers);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
+	
+	void Chat_SendPrivateMessage(GCHOOK *gch);
 
 	// Search
 	TD::array<TD::int53> m_searchIds;
