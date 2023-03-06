@@ -113,39 +113,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		CreateServiceFunction("JABBER/*" JS_PARSE_XMPP_URI, g_SvcParseXmppUri);
 		AssocMgr_AddNewUrlTypeW("xmpp:", TranslateT("Jabber Link Protocol"), g_plugin.getInst(), IDI_JABBER, "JABBER/*" JS_PARSE_XMPP_URI, 0);
 	}
-
-	// init fontservice for info frame
-	FontIDW fontid = {};
-	wcsncpy_s(fontid.group, LPGENW("Jabber"), _TRUNCATE);
-	strncpy_s(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
-	wcsncpy_s(fontid.backgroundGroup, L"Jabber", _TRUNCATE);
-	wcsncpy_s(fontid.backgroundName, L"Background", _TRUNCATE);
-	fontid.flags = FIDF_DEFAULTVALID;
-
-	fontid.deffontsettings.charset = DEFAULT_CHARSET;
-	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
-	fontid.deffontsettings.size = -11;
-	mir_wstrncpy(fontid.deffontsettings.szFace, L"MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
-	fontid.deffontsettings.style = 0;
-
-	wcsncpy_s(fontid.name, LPGENW("Frame title"), _TRUNCATE);
-	strncpy_s(fontid.setting, "fntFrameTitle", _TRUNCATE);
-	fontid.deffontsettings.style = DBFONTF_BOLD;
-	g_plugin.addFont(&fontid);
-
-	wcsncpy_s(fontid.name, LPGENW("Frame text"), _TRUNCATE);
-	strncpy_s(fontid.setting, "fntFrameClock", _TRUNCATE);
-	fontid.deffontsettings.style = 0;
-	g_plugin.addFont(&fontid);
-
-	ColourIDW colourid = {};
-	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
-	strncpy_s(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
-
-	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
-	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	g_plugin.addColor(&colourid);
 	return 0;
 }
 

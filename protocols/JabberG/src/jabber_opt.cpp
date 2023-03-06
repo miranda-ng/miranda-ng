@@ -218,7 +218,6 @@ struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 	{ "yo", LPGENW("Yoruba") },
 	{ "za", LPGENW("Zhuang; Chuang") },
 	{ "zu", LPGENW("Zulu") },
-	{ nullptr, nullptr }
 };
 
 class CJabberDlgRegister : public CJabberDlgBase
@@ -446,9 +445,9 @@ protected:
 		}
 		else m_cbResource.SetText(L"Miranda");
 
-		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
-			int iItem = m_cbLocale.AddString(TranslateW(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
-			if (!mir_strcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
+		for (auto &it : g_LanguageCodes) {
+			int iItem = m_cbLocale.AddString(TranslateW(it.szDescription), (LPARAM)it.szCode);
+			if (!mir_strcmp(m_proto->m_tszSelectedLang, it.szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
 
