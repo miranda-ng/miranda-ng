@@ -243,11 +243,11 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			char* filename = ((char *)dbei.pBlob) + sizeof(uint32_t);
 			char* descr = filename + mir_strlen(filename) + 1;
 			eventData->szText.w = DbEvent_GetString(&dbei, filename);
-			if (*descr != '\0') {
+			/*if (*descr != '\0') {
 				CMStringW tmp(FORMAT, L"%s (%s)", eventData->szText.w, ptrW(DbEvent_GetString(&dbei, descr)).get());
 				mir_free((void*)eventData->szText.w);
 				eventData->szText.w = tmp.Detach();
-			}
+			}*/
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
