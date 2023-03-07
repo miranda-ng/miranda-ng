@@ -57,27 +57,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
 
-	m_szSkypename = getMStringA(SKYPE_SETTINGS_ID);
-	if (m_szSkypename.IsEmpty()) {
-		m_szSkypename = getMStringA(SKYPE_SETTINGS_LOGIN);
-		if (!m_szSkypename.IsEmpty()) { // old settings format, need to update all settings
-			m_szSkypename.Insert(0, "8:");
-			setString(SKYPE_SETTINGS_ID, m_szSkypename);
-
-			for (auto &hContact : AccContacts()) {
-				CMStringA id(ptrA(getUStringA(hContact, "Skypename")));
-				if (!id.IsEmpty())
-					setString(hContact, SKYPE_SETTINGS_ID, (isChatRoom(hContact)) ? "19:"+id : "8:"+id);
-
-				ptrW wszNick(getWStringA(hContact, "Nick"));
-				if (wszNick == nullptr)
-					setUString(hContact, "Nick", id);
-
-				delSetting(hContact, "Skypename");
-			}
-		}
-	}
-
+	CheckConvert();
 	InitGroupChatModule();
 }
 
@@ -282,17 +262,14 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			setAllContactStatuses(ID_STATUS_OFFLINE, false);
 		return 0;
 	}
-	else {
-		if (old_status == ID_STATUS_CONNECTING)
-			return 0;
 
-		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
-			Login();
-		else
-			PushRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
-	}
+	if (m_iStatus == ID_STATUS_CONNECTING)
+		return 0;
 
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	if (m_iStatus == ID_STATUS_OFFLINE)
+		Login();
+	else
+		PushRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
 	return 0;
 }
 

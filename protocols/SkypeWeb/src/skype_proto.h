@@ -80,7 +80,7 @@ public:
 	// menus
 	static void InitMenus();
 
-	//popups
+	// popups
 	void InitPopups();
 	void UninitPopups();
 
@@ -157,6 +157,8 @@ public:
 	void OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnReceiveAwayMsg(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+
+	void CheckConvert(void);
 
 	bool CheckOauth(const char *szResponse);
 	void LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);

@@ -17,8 +17,34 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CSkypeProto::CheckConvert()
+{
+	m_szSkypename = getMStringA(SKYPE_SETTINGS_ID);
+	if (m_szSkypename.IsEmpty()) {
+		m_szSkypename = getMStringA(SKYPE_SETTINGS_LOGIN);
+		if (!m_szSkypename.IsEmpty()) { // old settings format, need to update all settings
+			m_szSkypename.Insert(0, "8:");
+			setString(SKYPE_SETTINGS_ID, m_szSkypename);
+
+			for (auto &hContact : AccContacts()) {
+				CMStringA id(ptrA(getUStringA(hContact, "Skypename")));
+				if (!id.IsEmpty())
+					setString(hContact, SKYPE_SETTINGS_ID, (isChatRoom(hContact)) ? "19:" + id : "8:" + id);
+
+				ptrW wszNick(getWStringA(hContact, "Nick"));
+				if (wszNick == nullptr)
+					setUString(hContact, "Nick", id);
+
+				delSetting(hContact, "Skypename");
+			}
+		}
+	}
+}
+
 void CSkypeProto::Login()
 {
+	CheckConvert();
+
 	// login
 	m_iStatus = ID_STATUS_CONNECTING;
 	StartQueue();
@@ -106,6 +132,10 @@ void CSkypeProto::OnLoginSuccess()
 
 	m_bThreadsTerminated = false;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
+
+	int oldStatus = m_iStatus;
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	m_szApiToken = getStringA("TokenSecret");
 
