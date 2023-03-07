@@ -68,7 +68,7 @@ ScriverHTMLBuilder::ScriverHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
+bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO *dbei)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -80,7 +80,7 @@ bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	}
 }
 
-void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
+void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA *lf, COLORREF *colour)
 {
 	char str[32];
 	int style;
@@ -118,7 +118,7 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char* ScriverHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
+char *ScriverHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
 {
 	static char szResult[512]; szResult[0] = '\0';
 	char str[80];
@@ -134,13 +134,13 @@ char* ScriverHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int 
 		today = mktime(&tm_today);
 
 		if (dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
-			strncpy(szResult, Translate("Today"), _countof(szResult)-1);
+			strncpy(szResult, Translate("Today"), _countof(szResult) - 1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}
 		}
 		else if (dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
-			strncpy(szResult, Translate("Yesterday"), _countof(szResult)-1);
+			strncpy(szResult, Translate("Yesterday"), _countof(szResult) - 1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}
@@ -179,7 +179,7 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
-	
+
 	CMStringA str;
 	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getSRMMCssFilename();
@@ -273,7 +273,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
 	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
 
-	IEVIEWEVENTDATA* eventData = event->eventData;
+	IEVIEWEVENTDATA *eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		const char *className = "";
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
@@ -328,8 +328,8 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 			if (dwFlags & SMF_LOG_SHOWTIME &&
 				(eventData->iType != IEED_EVENT_MESSAGE ||
-				(dwFlags & SMF_LOG_MARKFOLLOWUPS || isGroupBreak || !(dwFlags & SMF_LOG_GROUPMESSAGES)))) {
-				char* timestampString = nullptr;
+					(dwFlags & SMF_LOG_MARKFOLLOWUPS || isGroupBreak || !(dwFlags & SMF_LOG_GROUPMESSAGES)))) {
+				char *timestampString = nullptr;
 				if (dwFlags & SMF_LOG_GROUPMESSAGES) {
 					if (isGroupBreak) {
 						if (!(dwFlags & SMF_LOG_MARKFOLLOWUPS))
@@ -382,7 +382,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			else className = "notices";
 
 			if (eventData->iType == IEED_EVENT_FILE) {
-				str.AppendFormat("<span class=\"%s\">%s: %s</span>", className, 
+				str.AppendFormat("<span class=\"%s\">%s: %s</span>", className,
 					(isSent) ? Translate("File sent") : Translate("File received"), szText.get());
 			}
 			else str.AppendFormat("<span class=\"%s\">%s</span>", className, szText.get());

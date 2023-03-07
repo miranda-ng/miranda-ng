@@ -66,14 +66,14 @@ static int countNoWhitespace(const wchar_t *str)
 	return c;
 }
 
-TextToken* TextToken::tokenizeBBCodes(const wchar_t *text)
+TextToken *TextToken::tokenizeBBCodes(const wchar_t *text)
 {
 	return tokenizeBBCodes(text, (int)mir_wstrlen(text));
 }
 
 // TODO: Add the following BBCodes: code
 #define BB_TAG_NUM 10
-TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
+TextToken *TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 {
 	static const wchar_t *bbTagName[] = { L"b", L"i", L"u", L"s", L"img", L"color", L"size", L"bimg", L"url", L"code" };
 	static int 		bbTagNameLen[] = { 1, 1, 1, 1, 3, 5, 4, 4, 3, 4 };
@@ -170,7 +170,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 			else {
 				for (j = 0; j < BB_TAG_NUM; j++) {
 					k = i + 2;
-					if (bbTagCount[j]>0 && !wcsnicmp(text + k, bbTagName[j], bbTagNameLen[j])) {
+					if (bbTagCount[j] > 0 && !wcsnicmp(text + k, bbTagName[j], bbTagNameLen[j])) {
 						k += bbTagNameLen[j];
 						if (text[k] == ']') {
 							k++;
@@ -225,7 +225,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeLinks(const wchar_t *text)
+TextToken *TextToken::tokenizeLinks(const wchar_t *text)
 {
 	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int textLen = 0;
@@ -282,7 +282,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bool isSent)
+TextToken *TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bool isSent)
 {
 	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int l = (int)mir_wstrlen(text);
@@ -339,18 +339,18 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bo
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
+TextToken *TextToken::tokenizeChatFormatting(const wchar_t *text)
 {
 	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int textLen = 0;
 	int l = (int)mir_wstrlen(text);
-	wchar_t* tokenBuffer = new wchar_t[l + 1];
+	wchar_t *tokenBuffer = new wchar_t[l + 1];
 	for (int i = 0; i <= l;) {
 		int newTokenType = TEXT;
 		int newTokenSize = 1;
 		int newTokenTag = 0;
 		int newTokenTextLen = 0;
-		const wchar_t * newTokenText = nullptr;
+		const wchar_t *newTokenText = nullptr;
 		bool endToken = false;
 
 
@@ -558,7 +558,7 @@ void TextToken::toString(CMStringW &str)
 			str.AppendFormat(L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 				 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
 					<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
-					eText, wlink);
+				eText, wlink);
 		}
 		else str.AppendFormat(L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
 		break;
@@ -590,7 +590,7 @@ void TextToken::toString(CMStringW &str)
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 							codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-							eText);
+						eText);
 				}
 				else {
 					if (eText != nullptr && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8))
@@ -606,7 +606,7 @@ void TextToken::toString(CMStringW &str)
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 						 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-							eText);
+						eText);
 				}
 				else str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
 				break;

@@ -29,12 +29,12 @@ const wchar_t *Utils::getBaseDir()
 	return base_dir;
 }
 
-wchar_t* Utils::toAbsolute(wchar_t* relative)
+wchar_t *Utils::toAbsolute(wchar_t *relative)
 {
-	const wchar_t* bdir = getBaseDir();
+	const wchar_t *bdir = getBaseDir();
 	long len = (int)mir_wstrlen(bdir);
 	long tlen = len + (int)mir_wstrlen(relative);
-	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tlen + 1));
+	wchar_t *result = (wchar_t *)mir_alloc(sizeof(wchar_t) * (tlen + 1));
 	if (result) {
 		mir_wstrcpy(result, bdir);
 		mir_wstrcpy(result + len, relative);
@@ -99,7 +99,7 @@ char *Utils::escapeString(const char *a)
 			l++;
 		}
 	}
-	char *out = (char*)mir_alloc(l + 1);
+	char *out = (char *)mir_alloc(l + 1);
 	for (i = l = 0; i < len; i++, l++) {
 		if (a[i] == '\\' || a[i] == '\n' || a[i] == '\r' || a[i] == '\"'
 			|| a[i] == '\'' || a[i] == '\b' || a[i] == '\t' || a[i] == '\f') {

@@ -69,7 +69,7 @@ HistoryHTMLBuilder::HistoryHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
+bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO *dbei)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -90,7 +90,7 @@ char *HistoryHTMLBuilder::timestampToString(time_t check)
 	return szResult;
 }
 
-void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, COLORREF * colour, COLORREF * bkgColour)
+void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA *lf, COLORREF *colour, COLORREF *bkgColour)
 {
 	char str[128];
 	int style;
@@ -133,12 +133,12 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	}
 }
 
-const char *HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings * protoSettings)
+const char *HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings *protoSettings)
 {
 	return protoSettings->getHistoryTemplateFilename();
 }
 
-int HistoryHTMLBuilder::getFlags(ProtocolSettings * protoSettings)
+int HistoryHTMLBuilder::getFlags(ProtocolSettings *protoSettings)
 {
 	return protoSettings->getHistoryFlags();
 }
@@ -222,12 +222,11 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	uint32_t dwFlags = db_get_b(0, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
-	IEVIEWEVENTDATA* eventData = event->eventData;
+	IEVIEWEVENTDATA *eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		CMStringA str;
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE)
-		{
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE) {
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, eventData->szNick.w, ENF_NAMESMILEYS, true);
