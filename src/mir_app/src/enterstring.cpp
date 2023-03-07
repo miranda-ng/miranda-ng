@@ -222,6 +222,7 @@ public:
 	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		switch (urc->wId) {
+		case IDC_TXT_SIMPLE:
 		case IDC_TXT_MULTILINE:
 		case IDC_TXT_COMBO:
 		case IDC_TXT_RICHEDIT:
