@@ -46,7 +46,10 @@ void CSkypeProto::Login()
 	CheckConvert();
 
 	// login
+	int oldStatus = m_iStatus;
 	m_iStatus = ID_STATUS_CONNECTING;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
 	StartQueue();
 	int tokenExpires = getDword("TokenExpiresIn");
 
