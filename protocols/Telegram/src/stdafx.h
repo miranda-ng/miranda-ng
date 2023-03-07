@@ -25,6 +25,7 @@
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>
+#include <m_skin.h>
 #include <m_smileyadd.h>
 
 #include "../../libs/freeimage/src/FreeImage.h"

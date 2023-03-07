@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionsDlg : public CProtoDlgBase<CTelegramProto>
+class COptionsDlg : public CTelegramDlgBase
 {
 	CCtrlCheck chkHideChats, chkUsePopups;
 	CCtrlCombo cmbCountry;
@@ -28,7 +28,7 @@ class COptionsDlg : public CProtoDlgBase<CTelegramProto>
 
 public:
 	COptionsDlg(CTelegramProto *ppro, int iDlgID, bool bFullDlg) :
-		CProtoDlgBase<CTelegramProto>(ppro, iDlgID),
+		CTelegramDlgBase(ppro, iDlgID),
 		cmbCountry(this, IDC_COUNTRY),
 		chkUsePopups(this, IDC_POPUPS),
 		chkHideChats(this, IDC_HIDECHATS),
@@ -98,7 +98,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options
 
-class CAdvOptionsDlg : public CProtoDlgBase<CTelegramProto>
+class CAdvOptionsDlg : public CTelegramDlgBase
 {
 	CCtrlEdit edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
@@ -106,7 +106,7 @@ class CAdvOptionsDlg : public CProtoDlgBase<CTelegramProto>
 
 public:
 	CAdvOptionsDlg(CTelegramProto *ppro) :
-		CProtoDlgBase<CTelegramProto>(ppro, IDD_OPTIONS_ADV),
+		CTelegramDlgBase(ppro, IDD_OPTIONS_ADV),
 		spin1(this, IDC_SPIN1, 32000),
 		spin2(this, IDC_SPIN2, 32000),
 		edtDiff1(this, IDC_DIFF1),

@@ -117,6 +117,8 @@ struct TG_BASIC_GROUP
 
 class CTelegramProto : public PROTO<CTelegramProto>
 {
+	friend class CAddPhoneContactDlg;
+
 	class CProtoImpl
 	{
 		friend class CTelegramProto;
@@ -262,7 +264,8 @@ public:
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
-			   
+		
+	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
@@ -276,6 +279,10 @@ public:
 
 	int __cdecl GcMenuHook(WPARAM, LPARAM);
 	int __cdecl GcEventHook(WPARAM, LPARAM);
+
+	// Services //////////////////////////////////////////////////////////////////////////
+
+	INT_PTR __cdecl AddByPhone(WPARAM, LPARAM);
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	
@@ -294,3 +301,5 @@ public:
 
 	void __cdecl ServerThread(void *);
 };
+
+typedef CProtoDlgBase<CTelegramProto> CTelegramDlgBase;

@@ -146,6 +146,23 @@ void CTelegramProto::OnShutdown()
 	m_bTerminated = true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnBuildProtoMenu()
+{
+	CMenuItem mi(&g_plugin);
+	mi.root = Menu_GetProtocolRoot(this);
+	mi.flags = CMIF_UNMOVABLE;
+
+	// Groups uploader
+	mi.pszService = "/UploadGroups";
+	CreateProtoService(mi.pszService, &CTelegramProto::AddByPhone);
+	mi.name.a = LPGEN("Add phone contact");
+	mi.position = 200001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+}
+
 void CTelegramProto::OnErase()
 {
 	m_bUnregister = true;
