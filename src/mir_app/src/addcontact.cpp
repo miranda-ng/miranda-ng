@@ -104,20 +104,37 @@ public:
 
 	bool OnApply() override
 	{
+		CMStringW wszHandle(ptrW(m_myHandle.GetText()));
+
 		MCONTACT hContact = 0;
 		if (m_hDbEvent)
 			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLISTBYEVENT, 0, m_hDbEvent);
-		else if (m_psr)
+		else if (m_psr) {
+			if (!wszHandle.IsEmpty()) {
+				CMStringW wszFirstName, wszLastName;
+				int idx = wszHandle.Find(' ');
+				if (idx != -1) {
+					wszFirstName = wszHandle.Left(idx);
+					wszLastName = wszHandle.Right(wszHandle.GetLength() - idx - 1);
+				}
+				else wszFirstName = wszHandle;
+
+				if (!wszFirstName.IsEmpty())
+					replaceStrW(m_psr->firstName.w, wszFirstName.Detach());
+
+				if (!wszLastName.IsEmpty())
+					replaceStrW(m_psr->lastName.w, wszLastName.Detach());
+			}
+
 			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLIST, 0, (LPARAM)m_psr);
-		else
-			hContact = m_hContact;
+		}
+		else hContact = m_hContact;
 
 		if (hContact == 0) // something went wrong
 			return false;
 
-		ptrW szHandle(m_myHandle.GetText());
-		if (mir_wstrlen(szHandle))
-			db_set_ws(hContact, "CList", "MyHandle", szHandle);
+		if (mir_wstrlen(wszHandle))
+			db_set_ws(hContact, "CList", "MyHandle", wszHandle);
 
 		MGROUP iGroup = m_group.GetCurData();
 		if (iGroup >= 0)
