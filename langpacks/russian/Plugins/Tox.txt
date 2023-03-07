@@ -164,6 +164,8 @@ IPv6 адрес (необязательно)
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запрос
+[Invalid search string]
+Недопустимая строка для поиска
 ;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
 Пропущен один из аргументов

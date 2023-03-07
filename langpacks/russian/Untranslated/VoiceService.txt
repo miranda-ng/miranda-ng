@@ -1,4 +1,4 @@
-[Show incoming call dialog immediately ]
+[Show incoming call dialog immediately]
 [Catch focus on this dialog]
 [Established]
 [M]

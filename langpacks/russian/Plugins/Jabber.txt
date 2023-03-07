@@ -379,10 +379,6 @@ XML Консоль
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Протокол Jabber
-[Frame title]
-Заголовок фрейма
-[Frame text]
-Текст фрейма
 [Jabber Activity]
 Занятие Jabber
 [Jabber Mood]

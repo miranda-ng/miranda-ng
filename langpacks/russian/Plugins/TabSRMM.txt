@@ -143,7 +143,7 @@
 [Send text formatting method]
 Метод отправки форматирования
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
-Смена отправки информации о формате текста. "Выключить" - отключает форматирование для этого контакта.
+Смена отправки информации о формате текста. "Принудительно выключить" - отключает форматирование для этого контакта.
 [Info panel mode]
 Режим инфо-панели
 [Show avatar in message window]
@@ -601,23 +601,23 @@ RTL по умолчанию
 [Send unsafe (ignore timeouts)]
 Отправлять небезопасно (без ожидания)
 [Splitter position]
-Разделители
+Положение разделителя
 [Global]
-Глобальные
+Глобальное
 [Private]
-Конфиденциальный
+Индивидуальное
 [Send text formatting]
 Отправка форматирования текста
 [BBCode]
 BBCode ([b][i][u])
 [Off]
-Откл.
+Выключить
 [This contact]
 Этот контакт
 [Global setting]
 Глобальные настройки
 [Force off]
-Выключить
+Принудительно выключить
 [Set position for this session]
 Установить положение для этой сессии
 [Set and save for all sessions]

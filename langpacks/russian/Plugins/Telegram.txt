@@ -22,13 +22,23 @@
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
+[Add phone contact]
+Добавить контакт по номеру телефона
+[First name:]
+Имя:
+[Last name:]
+Фамилия:
+[Phone:]
+Телефон:
+[Cancel]
+Отмена
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
 Введите код подтверждения, полученный по электронной почте
-[Enter the secret code sent to your Telegram on another device]
-
+[Enter the secret code sent to another device]
+Введите код, отправленный на другое ваше устройство
 [Enter password]
 Введите пароль
 [ (hint: %s)]
@@ -62,6 +72,7 @@ Premium-подписчик
 Учётная запись
 [Advanced]
 Дополнительно
+;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
 %d участник(ов)
