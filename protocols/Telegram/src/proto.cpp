@@ -91,11 +91,18 @@ CTelegramProto::~CTelegramProto()
 
 void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 {
-	CMStringA szId(getMStringA(hContact, DBKEY_ID));
-	if (!szId.IsEmpty()) {
-		TD::array<TD::int53> ids;
-		ids.push_back(_atoi64(szId));
-		SendQuery(new TD::removeContacts(std::move(ids)));
+	TD::int53 id = _atoi64(getMStringA(hContact, DBKEY_ID));
+	if (id == 0)
+		return;
+
+	TD::array<TD::int53> ids;
+	ids.push_back(id);
+	SendQuery(new TD::removeContacts(std::move(ids)));
+
+	if (auto *pUser = FindUser(id)) {
+		pUser->hContact = INVALID_CONTACT_ID;
+		pUser->wszFirstName = getMStringW(hContact, "FirstName");
+		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
 }
 
