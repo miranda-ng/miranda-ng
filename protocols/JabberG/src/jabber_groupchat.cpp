@@ -762,9 +762,8 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const char *old
 	if (!mir_strcmp(item->nick, oldNick)) {
 		replaceStr(item->nick, newNick);
 
-		MCONTACT hContact = HContactFromJID(item->jid);
-		if (hContact != 0)
-			setUString(hContact, "MyNick", newNick);
+		if (item->hContact)
+			setUString(item->hContact, "MyNick", newNick);
 	}
 
 	Chat_ChangeUserId(item->si, Utf2T(oldNick), Utf2T(newNick));
