@@ -79,6 +79,9 @@ MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
 	return nullptr; // error
 }
 
+void PROTO_INTERFACE::OnEventDeleted(MCONTACT, MEVENT)
+{}
+
 void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT)
 {}
 

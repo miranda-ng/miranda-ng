@@ -457,7 +457,7 @@ void CDiscordProto::OnCommandMessageDelete(const JSONNode &pRoot)
 	if (!msgid.IsEmpty()) {
 		MEVENT hEvent = db_event_getById(m_szModuleName, msgid);
 		if (hEvent)
-			db_event_delete(hEvent);
+			db_event_delete(hEvent, true);
 	}
 }
 

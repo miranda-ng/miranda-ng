@@ -267,6 +267,9 @@ public:
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
 	// called when an event is altered in database
+	virtual void OnEventDeleted(MCONTACT, MEVENT);
+
+	// called when an event is altered in database
 	virtual void OnEventEdited(MCONTACT, MEVENT);
 
 	// called when an account gets physically removed from the database
