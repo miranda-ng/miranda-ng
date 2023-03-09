@@ -289,6 +289,7 @@ public:
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	
+	int __cdecl OnEmptyHistory(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 
 	int __cdecl GcMenuHook(WPARAM, LPARAM);

@@ -59,8 +59,9 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
 
+	HookProtoEvent(ME_HISTORY_EMPTY, &CTelegramProto::OnEmptyHistory);
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
-
+	
 	// avatar
 	CreateDirectoryTreeW(GetAvatarPath());
 
@@ -104,6 +105,17 @@ void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 		pUser->wszFirstName = getMStringW(hContact, "FirstName");
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
+}
+
+int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
+{
+	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
+		TD::int53 id = _atoi64(getMStringA(hContact, DBKEY_ID));
+		if (auto *pUser = FindUser(id))
+			SendQuery(new TD::deleteChatHistory(pUser->chatId, true, true));
+	}
+
+	return 0;
 }
 
 void CTelegramProto::OnModulesLoaded()
