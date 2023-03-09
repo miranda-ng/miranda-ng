@@ -124,9 +124,13 @@ class CTelegramProto : public PROTO<CTelegramProto>
 		friend class CTelegramProto;
 		CTelegramProto &m_proto;
 
-		CTimer m_keepAlive, m_markRead;
+		CTimer m_keepAlive, m_markRead, m_deleteMsg;
 		void OnKeepAlive(CTimer *)
 		{	m_proto.SendKeepAlive();
+		}
+
+		void OnDeleteMsg(CTimer *)
+		{	m_proto.SendDeleteMsg();
 		}
 
 		void OnMarkRead(CTimer *)
@@ -136,9 +140,11 @@ class CTelegramProto : public PROTO<CTelegramProto>
 		CProtoImpl(CTelegramProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
+			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this)+1),
+			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(this)+2)
 		{
 			m_markRead.OnEvent = Callback(this, &CProtoImpl::OnMarkRead);
+			m_deleteMsg.OnEvent = Callback(this, &CProtoImpl::OnDeleteMsg);
 			m_keepAlive.OnEvent = Callback(this, &CProtoImpl::OnKeepAlive);
 		}
 	} m_impl;
@@ -153,6 +159,10 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	mir_cs m_csMarkRead;
 	MCONTACT m_markContact = 0;
 	TD::array<TD::int53> m_markIds;
+
+	mir_cs m_csDeleteMsg;
+	MCONTACT m_deleteMsgContact = 0;
+	TD::array<TD::int53> m_deleteIds;
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
@@ -181,6 +191,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessResponse(td::ClientManager::Response);
 
 	void SendKeepAlive(void);
+	void SendDeleteMsg(void);
 	void SendMarkRead(void);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
@@ -270,6 +281,7 @@ public:
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
+	void     OnEventDeleted(MCONTACT, MEVENT) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;

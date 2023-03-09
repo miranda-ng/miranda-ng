@@ -96,6 +96,16 @@ void CTelegramProto::SendKeepAlive()
 	}
 }
 
+void CTelegramProto::SendDeleteMsg()
+{
+	m_impl.m_deleteMsg.Stop();
+
+	mir_cslock lck(m_csDeleteMsg);
+	int64_t userId = _atoi64(getMStringA(m_deleteMsgContact, DBKEY_ID));
+	SendQuery(new TD::deleteMessages(userId, std::move(m_deleteIds), true));
+	m_markContact = 0;
+}
+
 void CTelegramProto::SendMarkRead()
 {
 	m_impl.m_markRead.Stop();
@@ -402,7 +412,7 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 		char id[100];
 		_i64toa(it, id, 10);
 		if (MEVENT hEvent = db_event_getById(m_szModuleName, id))
-			db_event_delete(hEvent);
+			db_event_delete(hEvent, true);
 	}
 }
 

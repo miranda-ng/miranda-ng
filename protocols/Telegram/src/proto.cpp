@@ -171,28 +171,55 @@ void CTelegramProto::OnErase()
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
+void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
+{
+	if (!hContact)
+		return;
+
+	ptrA userId(getStringA(hContact, DBKEY_ID));
+	if (!userId)
+		return;
+
+	DBEVENTINFO dbei = {};
+	db_event_get(hDbEvent, &dbei);
+	if (dbei.szId) {
+		mir_cslock lck(m_csDeleteMsg);
+		if (m_deleteMsgContact) {
+			if (m_deleteMsgContact != hContact)
+				SendDeleteMsg();
+
+			m_impl.m_deleteMsg.Stop();
+		}
+
+		m_deleteMsgContact = hContact;
+		m_deleteIds.push_back(_atoi64(dbei.szId));
+		m_impl.m_deleteMsg.Start(500);
+	}
+}
+
 void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	if (!hContact)
 		return;
 
 	ptrA userId(getStringA(hContact, DBKEY_ID));
-	if (userId) {
-		DBEVENTINFO dbei = {};
-		db_event_get(hDbEvent, &dbei);
-		if (dbei.szId) {
-			mir_cslock lck(m_csMarkRead);
-			if (m_markContact) {
-				if (m_markContact != hContact)
-					SendMarkRead();
+	if (!userId)
+		return;
 
-				m_impl.m_markRead.Stop();
-			}
+	DBEVENTINFO dbei = {};
+	db_event_get(hDbEvent, &dbei);
+	if (dbei.szId) {
+		mir_cslock lck(m_csMarkRead);
+		if (m_markContact) {
+			if (m_markContact != hContact)
+				SendMarkRead();
 
-			m_markContact = hContact;
-			m_markIds.push_back(_atoi64(dbei.szId));
-			m_impl.m_markRead.Start(500);
+			m_impl.m_markRead.Stop();
 		}
+
+		m_markContact = hContact;
+		m_markIds.push_back(_atoi64(dbei.szId));
+		m_impl.m_markRead.Start(500);
 	}
 }
 
