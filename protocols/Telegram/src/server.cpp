@@ -569,8 +569,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			m_arChats.insert(pMe);
 		}
 	}
-
-	if (!pUser->is_contact_) {
+	else if (!pUser->is_contact_) {
 		auto *pu = AddFakeUser(pUser->id_, false);
 		if (pu->hContact != INVALID_CONTACT_ID)
 			Contact::RemoveFromList(pu->hContact);
