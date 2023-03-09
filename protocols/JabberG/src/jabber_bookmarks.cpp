@@ -393,7 +393,7 @@ public:
 				if (item->nick && *item->nick)
 					m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
 				else
-					m_proto->GroupchatJoinRoom(server, room, ptrA(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
+					m_proto->GroupchatJoinRoom(server, room, m_proto->MyNick(), item->password);
 			}
 		}
 		else Utils_OpenUrlW(Utf2T(item->jid));

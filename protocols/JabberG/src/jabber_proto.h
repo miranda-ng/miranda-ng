@@ -883,6 +883,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       IsSendAck(MCONTACT hContact);
 				 
 	void       __cdecl LoadHttpAvatars(void* param);
+	CMStringA  MyNick(MCONTACT hContact = 0);
 
 	//---- jabber_vcard.c -----------------------------------------------
 

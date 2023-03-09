@@ -118,6 +118,18 @@ char* JabberNickFromJID(const char *jid)
 	return (p != nullptr) ? mir_strndup(jid, p - jid) : mir_strdup(jid);
 }
 
+CMStringA CJabberProto::MyNick(MCONTACT hContact)
+{
+	CMStringA sNick;
+	if (hContact)
+		sNick = getMStringU(hContact, "MyNick");
+	if (sNick.IsEmpty())
+		sNick = getMStringU("Nick");
+	if (sNick.IsEmpty())
+		sNick = ptrA(JabberNickFromJID(m_szJabberJID));
+	return sNick;
+}
+
 pResourceStatus CJabberProto::ResourceInfoFromJID(const char *jid)
 {
 	if (jid == nullptr)

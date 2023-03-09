@@ -236,13 +236,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, uint32_t rq)
 				if (item->nick && item->nick[0])
 					GroupchatJoinRoom(server, p, item->nick, item->password, true);
 				else {
-					ptrA nick(getUStringA(HContactFromJID(m_szJabberJID), "MyNick"));
-					if (nick == nullptr)
-						nick = getUStringA("Nick");
-					if (nick == nullptr)
-						nick = JabberNickFromJID(m_szJabberJID);
-
-					GroupchatJoinRoom(server, p, nick, item->password, true);
+					GroupchatJoinRoom(server, p, MyNick(HContactFromJID(m_szJabberJID)), item->password, true);
 				}
 			}
 		}
@@ -434,14 +428,7 @@ void CJabberProto::GroupchatJoinByHContact(MCONTACT hContact, bool autojoin)
 
 	server[0] = 0; server++;
 
-	ptrA nick(getUStringA(hContact, "MyNick"));
-	if (nick == nullptr) {
-		nick = JabberNickFromJID(m_szJabberJID);
-		if (nick == nullptr)
-			return;
-	}
-
-	GroupchatJoinRoom(server, room, nick, ptrA(getUStringA(hContact, "Password")), autojoin);
+	GroupchatJoinRoom(server, room, MyNick(hContact), ptrA(getUStringA(hContact, "Password")), autojoin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

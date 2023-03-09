@@ -190,18 +190,13 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (jid == nullptr)
 		return 0;
 
-	ptrA nick(getUStringA(hContact, "MyNick"));
-	if (nick == nullptr)
-		if ((nick = getUStringA("Nick")) == nullptr)
-			return 0;
-
 	ptrA password(getUStringA(hContact, "Password"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
 		char *p = strchr(jid, '@');
 		if (p != nullptr) {
 			*p++ = 0;
-			GroupchatJoinRoom(p, jid, nick, password);
+			GroupchatJoinRoom(p, jid, MyNick(hContact), password);
 		}
 	}
 
@@ -1152,12 +1147,7 @@ void CJabberProto::GroupchatProcessInvite(const char *roomJid, const char *from,
 		return;
 
 	if (m_bAutoAcceptMUC) {
-		ptrA nick(getUStringA(HContactFromJID(m_szJabberJID), "MyNick"));
-		if (nick == nullptr)
-			nick = getUStringA("Nick");
-		if (nick == nullptr)
-			nick = JabberNickFromJID(m_szJabberJID);
-		AcceptGroupchatInvite(roomJid, nick, password);
+		AcceptGroupchatInvite(roomJid, MyNick(HContactFromJID(m_szJabberJID)), password);
 	}
 	else CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
 }
