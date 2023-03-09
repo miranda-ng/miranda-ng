@@ -158,9 +158,6 @@
     <ClCompile Include="src\chat_ui.cpp">
       <Filter>Source Files\Chats</Filter>
     </ClCompile>
-    <ClCompile Include="src\clc.cpp">
-      <Filter>Source Files\Contact list</Filter>
-    </ClCompile>
     <ClCompile Include="src\clcfiledrop.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
@@ -400,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="src\clccontact.cpp">
       <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clc.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

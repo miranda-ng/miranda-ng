@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookSrmmEvent;
 
-static HANDLE hHookIconsChanged, hHookIconPressedEvt;
+static HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookEmptyHistory;
 static mir_cs csIcons;
 
 void LoadSrmmToolbarModule();
@@ -272,6 +272,9 @@ static HGENMENU hmiEmpty;
 
 static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 {
+	if (NotifyEventHooks(hHookEmptyHistory))
+		return 2;
+
 	if (lParam == 0)
 		if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNO | MB_ICONQUESTION))
 			return 1;
@@ -319,6 +322,7 @@ int LoadSrmmModule()
 	LoadSrmmToolbarModule();
 
 	CreateServiceFunction(MS_HISTORY_EMPTY, svcEmptyHistory);
+	hHookEmptyHistory = CreateHookableEvent(ME_HISTORY_EMPTY);
 
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
