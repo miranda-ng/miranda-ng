@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Empties contact's history
 // wParam = (MCONTACT)hContact
-// lParam = 0 (unused)
+// lParam = (BOOL)bForce - force history deletion, don't ask questions
 // hContact can be NULL to wipe system history
 
 #define MS_HISTORY_EMPTY "History/EmptyHistory"

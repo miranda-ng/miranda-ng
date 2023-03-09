@@ -270,10 +270,11 @@ void KillModuleSrmmIcons(CMPluginBase *pPlugin)
 
 static HGENMENU hmiEmpty;
 
-static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM)
+static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 {
-	if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNO | MB_ICONQUESTION))
-		return 1;
+	if (lParam == 0)
+		if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNO | MB_ICONQUESTION))
+			return 1;
 
 	DB::ECPTR pCursor(DB::Events(hContact));
 	while (pCursor.FetchNext())
