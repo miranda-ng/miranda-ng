@@ -1549,3 +1549,4 @@ Utils_CorrectFontSize @1762 NONAME
 ?appendBefore@MBinBuffer@@QEAAXAEBV1@@Z @1770 NONAME
 db_event_replace @1771
 db_event_updateId @1772
+?db_get_usm@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPEBD00@Z @1773 NONAME

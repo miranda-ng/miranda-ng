@@ -162,6 +162,11 @@ public:
 	__forceinline CMStringA getMStringA(MCONTACT hContact, const char *name, const char *szValue = nullptr) {
 		return db_get_sm(hContact, m_szModuleName, name, szValue); }
 
+	__forceinline CMStringA getMStringU(const char *name, const char *szValue = nullptr) {
+		return db_get_usm(0, m_szModuleName, name, szValue); }
+	__forceinline CMStringA getMStringU(MCONTACT hContact, const char *name, const char *szValue = nullptr) {
+		return db_get_usm(hContact, m_szModuleName, name, szValue); }
+
 	__forceinline CMStringW getMStringW(const char *name, const wchar_t *szValue = nullptr) {
 		return db_get_wsm(0, m_szModuleName, name, szValue); }
 	__forceinline CMStringW getMStringW(MCONTACT hContact, const char *name, const wchar_t *szValue = nullptr) {

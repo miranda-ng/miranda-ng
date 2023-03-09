@@ -255,6 +255,18 @@ MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szS
 	return CMStringA(ptrA(dbv.pszVal).get());
 }
 
+MIR_CORE_DLL(CMStringA) db_get_usm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, const char *szValue)
+{
+	if (g_pCurrDb == nullptr)
+		return (szValue == nullptr) ? CMStringA() : CMStringA(szValue);
+
+	DBVARIANT dbv = { DBVT_UTF8 };
+	if (g_pCurrDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+		return (szValue == nullptr) ? CMStringA() : CMStringA(szValue);
+
+	return CMStringA(ptrA(dbv.pszVal).get());
+}
+
 MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, const wchar_t *szValue)
 {
 	if (g_pCurrDb == nullptr)
