@@ -150,6 +150,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessMarkRead((TD::updateChatReadInbox *)response.object.get());
 		break;
 
+	case TD::updateDeleteMessages::ID:
+		ProcessDeleteMessage((TD::updateDeleteMessages*)response.object.get());
+		break;
+
 	case TD::updateFile::ID:
 		ProcessFile((TD::updateFile *)response.object.get());
 		break;
@@ -380,6 +384,25 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 				Clist_SetGroup(pUser->hContact, wszNewGroup);
 			}
 		}
+	}
+}
+
+void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
+{
+	if (!pObj->is_permanent_)
+		return;
+
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr || pUser->hContact == INVALID_CONTACT_ID) {
+		debugLogA("message from unknown chat, ignored");
+		return;
+	}
+
+	for (auto &it : pObj->message_ids_) {
+		char id[100];
+		_i64toa(it, id, 10);
+		if (MEVENT hEvent = db_event_getById(m_szModuleName, id))
+			db_event_delete(hEvent);
 	}
 }
 

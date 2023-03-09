@@ -191,6 +191,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
+	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
