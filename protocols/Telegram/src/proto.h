@@ -189,6 +189,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
+	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);

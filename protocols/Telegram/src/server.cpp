@@ -138,6 +138,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessGroups((TD::updateChatFilters *)response.object.get());
 		break;
 
+	case TD::updateChatLastMessage::ID:
+		ProcessChatLastMessage((TD::updateChatLastMessage *)response.object.get());
+		break;
+
 	case TD::updateChatPosition::ID:
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
 		break;
@@ -321,6 +325,29 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	else debugLogA("Unknown chat id %lld, ignoring", chatId);
 }
 
+void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
+{
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("Unknown chat, skipping");
+		return;
+	}
+
+	if (pUser->hContact == INVALID_CONTACT_ID) {
+		debugLogA("Last message for a temporary contact, skipping");
+		return;
+	}
+
+	// according to #3406 we wipe history for the contacts from contacts' list
+	// but remove the contact itself if it's a temporary one
+	if (pObj->last_message_ == nullptr) {
+		if (Contact::OnList(pUser->hContact))
+			CallService(MS_HISTORY_EMPTY, pUser->hContact, TRUE);
+		else
+			db_delete_contact(pUser->hContact, true);
+	}
+}
+
 void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 {
 	if (pObj->position_->get_id() != TD::chatPosition::ID) {
@@ -429,6 +456,17 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 		return;
 	}
 
+	// make a temporary contact if needed
+	if (pUser->hContact == INVALID_CONTACT_ID) {
+		if (pUser->isGroupChat) {
+			debugLogA("spam from unknown group chat, ignored");
+			return;
+		}
+		
+		AddUser(pUser->id, false);
+		Contact::RemoveFromList(pUser->hContact);
+	}
+
 	char szId[100], szUserId[100];
 	_i64toa(pMessage->id_, szId, 10);
 
@@ -501,6 +539,9 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (!pUser->is_contact_) {
 		auto *pu = AddFakeUser(pUser->id_, false);
+		if (pu->hContact != INVALID_CONTACT_ID)
+			Contact::RemoveFromList(pu->hContact);
+
 		pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
 		pu->wszLastName = Utf2T(pUser->last_name_.c_str());
 		if (pUser->usernames_) {
@@ -527,6 +568,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
 	if (pu->hContact == 0)
 		pu->wszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName);
+	Contact::PutOnList(pu->hContact);
 
 	if (pUser->is_premium_)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");

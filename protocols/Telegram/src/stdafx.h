@@ -19,6 +19,7 @@
 #include <m_contacts.h>
 #include <m_database.h>
 #include <m_extraicons.h>
+#include <m_history.h>
 #include <m_icolib.h>
 #include <m_langpack.h>
 #include <m_message.h>
