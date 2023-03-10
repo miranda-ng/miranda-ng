@@ -152,6 +152,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChatLastMessage((TD::updateChatLastMessage *)response.object.get());
 		break;
 
+	case TD::updateChatNotificationSettings::ID:
+		ProcessChatNotification((TD::updateChatNotificationSettings*)response.object.get());
+		break;
+
 	case TD::updateChatPosition::ID:
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
 		break;
@@ -360,6 +364,19 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		else
 			db_delete_contact(pUser->hContact, true);
 	}
+}
+
+void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings *pObj)
+{
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr || pUser->hContact == INVALID_CONTACT_ID)
+		return;
+
+	auto &pSettings = pObj->notification_settings_;
+	if (!pSettings->use_default_mute_for_ && pSettings->mute_for_ != 0)
+		Chat_Mute(pUser->hContact, CHATMODE_MUTE);
+	else
+		Chat_Mute(pUser->hContact, CHATMODE_NORMAL);
 }
 
 void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
