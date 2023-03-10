@@ -158,7 +158,7 @@ static void AddEvent(MCONTACT hContact, HICON hIcon, int type, const wchar_t *pw
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
-	int iMuteMode = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	int iMuteMode = Chat_IsMuted(si->hContact);
 	switch (iMuteMode) {
 	case CHATMODE_MUTE: iMuteMode = CLEF_ONLYAFEW; break;
 	case CHATMODE_UNMUTE: iMuteMode = 0; break;
@@ -375,7 +375,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	BOOL bInactive = si->pDlg == nullptr || !si->pDlg->IsActive();
-	int iMuteMode = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	int iMuteMode = Chat_IsMuted(si->hContact);
 
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;

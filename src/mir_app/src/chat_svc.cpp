@@ -750,16 +750,24 @@ MIR_APP_DLL(int) Chat_SetUserInfo(SESSION_INFO *si, void *pItemData)
 	return GC_EVENT_ERROR;
 }
 
-EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions()
+MIR_APP_DLL(void) Chat_UpdateOptions()
 {
 	for (auto &si : g_arSessions)
 		if (si->pDlg)
 			si->pDlg->UpdateOptions();
 }
 
-EXTERN_C MIR_APP_DLL(void) Chat_Mute(SESSION_INFO *si, int mode)
+MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact)
 {
-	db_set_b(si->hContact, "SRMM", "MuteMode", mode);
+	return db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+}
+
+MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode)
+{
+	if (mode != CHATMODE_NORMAL)
+		db_set_b(hContact, "SRMM", "MuteMode", mode);
+	else
+		db_unset(hContact, "SRMM", "MuteMode");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -830,7 +838,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 
 static INT_PTR MuteChat(WPARAM hContact, LPARAM param)
 {
-	db_set_b(hContact, "SRMM", "MuteMode", param);
+	Chat_Mute(hContact, param);
 	return 0;
 }
 
@@ -839,7 +847,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (hContact == 0)
 		return 0;
 
-	int iMuteMode = db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	int iMuteMode = Chat_IsMuted(hContact);
 	bool bEnabledJoin = false, bEnabledLeave = false, bIsChat = false;
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {

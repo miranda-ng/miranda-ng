@@ -95,7 +95,7 @@ static void SetChatMute(MCONTACT hContact, int mode)
 		return;
 
 	if (mode == -1)
-		mode = db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+		mode = Chat_IsMuted(hContact);
 
 	HANDLE hIcon;
 	switch (mode) {

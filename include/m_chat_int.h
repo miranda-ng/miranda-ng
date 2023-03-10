@@ -387,7 +387,8 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hF
 EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
 
 // sets mute mode for a group chat
-EXTERN_C MIR_APP_DLL(void) Chat_Mute(SESSION_INFO *si, int mode);
+EXTERN_C MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // common settings
