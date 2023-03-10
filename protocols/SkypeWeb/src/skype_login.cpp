@@ -68,7 +68,8 @@ void CSkypeProto::Login()
 
 void CSkypeProto::OnLoginOAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
-	if (!IsStatusConnecting(m_iStatus)) return;
+	if (!IsStatusConnecting(m_iStatus))
+		return;
 
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -222,9 +223,6 @@ void CSkypeProto::OnEndpointDeleted(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
 
 void CSkypeProto::OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
-	if (!IsStatusConnecting(m_iStatus))
-		return;
-
 	if (response == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to create subscription");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -253,9 +251,6 @@ void CSkypeProto::SendPresence()
 
 void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
-	if (!IsStatusConnecting(m_iStatus))
-		return;
-
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
