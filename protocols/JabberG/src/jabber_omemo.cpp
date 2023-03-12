@@ -1376,33 +1376,26 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched");
 		return false;
 	}
+
 	auto *header_node = XmlFirstChild(node, "header");
 	if (!header_node) {
 		debugLogA("Jabber OMEMO: error: omemo message does not contain header");
 		return true; //this should never happen
 	}
-	auto *payload_node = XmlFirstChild(node, "payload");
-	if (!payload_node) {
-		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
-		return true; //this is "KeyTransportElement" which is currently unused
-	}
-	const char *payload_base64 = payload_node->GetText();
-	if (!payload_base64) {
-		debugLogA("Jabber OMEMO: error: failed to get payload data");
-		return true; //this should never happen
-	}
-	const char *iv_base64 = XmlFirstChild(header_node, "iv")->GetText();
+
+	const char *iv_base64 = XmlGetChildText(header_node, "iv");
 	if (!iv_base64) {
 		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get iv data");
 		return true;
 	}
+	
 	const char *sender_dev_id = XmlGetAttr(header_node, "sid");
 	if (!sender_dev_id) {
 		debugLogA("Jabber OMEMO: error: failed to get sender device id");
 		return true;
 	}
+	
 	uint32_t sender_dev_id_int = strtoul(sender_dev_id, nullptr, 10);
-
 	auto &pSession = m_omemo.sessions[hContact][sender_dev_id_int];
 	if (!pSession.cipher || !pSession.builder || !pSession.store_context) {
 		OmemoCheckSession(hContact); //this should not normally happened
@@ -1412,201 +1405,101 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 	
 	uint32_t own_id = m_omemo.GetOwnDeviceId();
 	const char *encrypted_key_base64 = nullptr;
+	bool isprekey = false;
 	for (auto *it : TiXmlFilter(header_node, "key")) {
 		uint32_t dev_id_int = it->IntAttribute("rid");
 		if (dev_id_int == own_id) {
 			encrypted_key_base64 = it->GetText();
+			isprekey = it->BoolAttribute("prekey");
 			break;
 		}
 	}
 
-	if (!encrypted_key_base64) {
-		debugLogA("Jabber OMEMO: message does not have decryption key for our device");
-		return true; //node does not contain key for our device
-	}
+	CMStringA result;
+	if (encrypted_key_base64) {
+		size_t encrypted_key_len;
+		mir_ptr<uint8_t> encrypted_key((uint8_t *)mir_base64_decode(encrypted_key_base64, &encrypted_key_len));
 
-	size_t encrypted_key_len;
-	unsigned char *encrypted_key = (unsigned char*)mir_base64_decode(encrypted_key_base64, &encrypted_key_len);
+		size_t iv_len;
+		mir_ptr<uint8_t> iv((uint8_t *)mir_base64_decode(iv_base64, &iv_len));
 
-	size_t iv_len;
-	unsigned char *iv = (unsigned char *)mir_base64_decode(iv_base64, &iv_len);
-
-	signal_buffer *decrypted_key = nullptr;
-	bool decrypted = false;
-	{
-		//try to decrypt as  pre_key_signal_message
-		pre_key_signal_message *pm = nullptr;
-		bool deserialized = false;
-		//TODO: cleanup before return on error
-		{
+		signal_buffer *decrypted_key = nullptr;
+		bool decrypted = false;
+		if (isprekey) {
+			//try to decrypt as  pre_key_signal_message
+			pre_key_signal_message *pm = nullptr;
 			int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
-			switch (ret) {
-			case SG_SUCCESS:
-				deserialized = true;
-				break;
-			case SG_ERR_INVALID_PROTO_BUF:
-				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed SG_ERR_INVALID_PROTO_BUF\nTODO: use prekey tag in incomming message key element to avoid this");
-				break;
-			default:
-				debugLogA("Jabber OMEMO: error: pre_key_signal_message_deserialize failed with unknown error");
-				break;
+			if (ret == SG_SUCCESS && pm) {
+				ret = session_cipher_decrypt_pre_key_signal_message(pSession.cipher, pm, nullptr, &decrypted_key);
+				if (ret == SG_SUCCESS) {
+					decrypted = true;
+					omemo::OmemoRefreshUsedPreKey(this, pm);
+				}
+				else debugLogA("Jabber OMEMO: error %d at session_cipher_decrypt_pre_key_signal_message", ret);
+				SIGNAL_UNREF(pm);
 			}
+			else debugLogA("Jabber OMEMO: error %d at pre_key_signal_message_deserialize", ret);
 		}
-		if (deserialized && pm) {
-			int ret = session_cipher_decrypt_pre_key_signal_message(pSession.cipher, pm, nullptr, &decrypted_key);
-			switch (ret) {
-			case SG_SUCCESS:
-				decrypted = true;
-				omemo::OmemoRefreshUsedPreKey(this, pm);
-				break;
-			case SG_ERR_INVALID_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_MESSAGE\nTODO: use prekey tag in incomming message key element to avoid this");
-				break;
-			case SG_ERR_DUPLICATE_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
-				break;
-			case SG_ERR_LEGACY_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_LEGACY_MESSAGE");
-				break;
-			case SG_ERR_INVALID_KEY_ID:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY_ID");
-				break;
-			case SG_ERR_INVALID_KEY:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_INVALID_KEY");
-				break;
-			case SG_ERR_UNTRUSTED_IDENTITY:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed SG_ERR_UNTRUSTED_IDENTITY");
-				break;
-			default:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_pre_key_signal_message failed with unknown error");
-				break;
+		else { //try to decrypt as signal message
+			signal_message *sm = nullptr;
+			int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, omemo::global_context);
+			if (ret == SG_SUCCESS && sm) {
+				ret = session_cipher_decrypt_signal_message(pSession.cipher, sm, nullptr, &decrypted_key);
+				if (ret == SG_SUCCESS)
+					decrypted = true;
+				else
+					debugLogA("Jabber OMEMO: error %d at session_cipher_decrypt_signal_message", ret);
+				SIGNAL_UNREF(sm);
 			}
+			else debugLogA("Jabber OMEMO: error %d at signal_message_deserialize", ret);
 		}
-	}
-	if (!decrypted) { //try to decrypt as signal message
-		signal_message *sm = nullptr;
-
-		bool deserialized = false;
-		int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, omemo::global_context);
-		switch (ret) {
-		case SG_SUCCESS:
-			deserialized = true;
-			break;
-		default:
-			debugLogA("Jabber OMEMO: error: signal_message_deserialize failed with unknown error");
-			break;
-		}
-
-		if (deserialized && sm) {
-			ret = session_cipher_decrypt_signal_message(pSession.cipher, sm, nullptr, &decrypted_key);
-			switch (ret) {
-			case SG_SUCCESS:
-				decrypted = true;
-				break;
-			case SG_ERR_INVALID_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_INVALID_MESSAGE");
-				break;
-			case SG_ERR_DUPLICATE_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_DUPLICATE_MESSAGE");
-				break;
-			case SG_ERR_LEGACY_MESSAGE:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_LEGACY_MESSAGE");
-				break;
-			case SG_ERR_NO_SESSION:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed SG_ERR_NO_SESSION");
-				break;
-			default:
-				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed with unknown error");
-				break;
-			}
-		}
-	}
-	if (!decrypted) {
-		debugLogA("Jabber OMEMO: error: failed to decrypt incomming message");
-		return true; //TODO: cleanup
-	}
-	char *out = nullptr;
-	{
-		int dec_success = 0;
-		size_t payload_len = 0;
-		int outl = 0, round_len = 0, tag_len = 0;
-		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
-		out = (char*)mir_alloc(payload_len + 32); //TODO: check this
-		unsigned char key[16], *tag;
-		{
-			size_t buf_len = signal_buffer_len(decrypted_key);
-			unsigned char *tmp = (unsigned char*)mir_alloc(buf_len);
-			memcpy(tmp, signal_buffer_data(decrypted_key), buf_len);
-			memcpy(key, tmp, 16);
-			unsigned char *ptr = tmp + 16;
-			tag_len = (int)buf_len - 16;
-			tag = (unsigned char*)mir_alloc(tag_len);
-			memcpy(tag, ptr, tag_len);
-			mir_free(tmp);
-			signal_buffer_free(decrypted_key);
-		}
-
-		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-		EVP_DecryptInit_ex(ctx, EVP_aes_128_gcm(), NULL, NULL, NULL);
-		if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, (int)iv_len, NULL)) {
-			debugLogA("Jabber OMEMO: error: EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, (int)iv_len, NULL) failed");
-			mir_free(tag);
-			return true;
-		}
-		if (!EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv)) {
-			debugLogA("Jabber OMEMO: error: EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv) failed");
-			mir_free(tag);
-			return true;
-		}
-		if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag)) {
-			debugLogA("Jabber OMEMO: error: EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag) failed");
-			mir_free(tag);
-			return true;
-		}
-		if (!EVP_DecryptUpdate(ctx, (unsigned char*)out, &outl, payload, int(payload_len))) {
-			debugLogA("Jabber OMEMO: error: EVP_DecryptUpdate(ctx, (unsigned char*)out, &outl, payload, int(payload_len)) failed");
-			mir_free(tag);
-			return true;
-		}
-/*		for (;;)
-		{
-			if (!EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len)))
-			{
-				debugLogA("Jabber OMEMO: error: EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len)) failed");
-				mir_free(tag);
+		
+		if (decrypted) {
+			auto *payload_base64 = XmlGetChildText(node, "payload");
+			if (!payload_base64) {
+				signal_buffer_free(decrypted_key);
+				debugLogA("Jabber OMEMO: Session accept message received");
 				return true;
 			}
-			outl += round_len;
-			if (outl >= (int)payload_len - 128)
-				break;
-		}
-		EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int(payload_len - outl));
-		outl += round_len; */
 
-		dec_success = EVP_DecryptFinal_ex(ctx, (unsigned char*)out + outl, &round_len);
-		outl += round_len;
-		out[outl] = 0;
-		mir_free(payload);
-		EVP_CIPHER_CTX_free(ctx);
-		mir_free(tag);
-		if (dec_success <= 0) {
-			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed");
-			return true;
+			size_t payload_len;
+			mir_ptr<uint8_t> payload((uint8_t *)mir_base64_decode(payload_base64, &payload_len));
+			ptrA out((char *)mir_alloc(payload_len + 32)); //TODO: check this
+
+			//Will be freed by signal_buffer_free(decrypted_key);
+			unsigned char *keytag = signal_buffer_data(decrypted_key);
+			size_t keytag_len = signal_buffer_len(decrypted_key);
+
+			EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+			EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, (int)iv_len, NULL);
+			EVP_DecryptInit(ctx, EVP_aes_128_gcm(), keytag, iv);
+			EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, (int)keytag_len - 16, keytag + 16);
+
+			int outl = 0, round_len = 0;
+			EVP_DecryptUpdate(ctx, (unsigned char *)out.get(), &outl, payload, (int)payload_len);
+			int dec_success = EVP_DecryptFinal(ctx, (unsigned char *)out.get() + outl, &round_len);
+			outl += round_len;
+			out[outl] = 0;
+			EVP_CIPHER_CTX_free(ctx);
+			signal_buffer_free(decrypted_key);
+
+			if (!dec_success)
+				result = "<< OMEMO message verification failed. Bug or attack? >>\n";
+			result.Append(out);
 		}
+		else result = "<< Undecryptable incomming OMEMO message >>";
 	}
+	else result = "<< OMEMO message is not encrypted for this device >>";
 
 	time_t now = time(0);
-	if (!msgTime)
-		msgTime = now;
-
-	if (m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
+	if (!msgTime || m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
 	PROTORECVEVENT recv = {};
 	recv.timestamp = (uint32_t)msgTime;
-	recv.szMessage = mir_strdup(out);
+	recv.szMessage = result.GetBuffer();
 	ProtoChainRecvMsg(hContact, &recv);
-	mir_free(out);
+
 	return true;
 }
 
