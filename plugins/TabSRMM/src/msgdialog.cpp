@@ -309,8 +309,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog::CMsgDialog(MCONTACT hContact) :
-	CSuper(g_plugin, IDD_MSGSPLITNEW),
+CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
+	CSuper(g_plugin, iDlgId),
 	m_pPanel(this),
 	timerAwayMsg(this, 4),
 	m_btnAdd(this, IDC_ADD),
