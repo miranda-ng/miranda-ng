@@ -73,9 +73,11 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 	if (pOwn == nullptr)
 		return 0;
 
-	ProtoBroadcastAck(pOwn->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->m_msgid, (LPARAM)msgId.c_str());
-
 	MCONTACT ret = pOwn->m_hContact;
+
+	if (!Contact::IsGroupChat(ret))
+		ProtoBroadcastAck(ret, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->m_msgid, (LPARAM)msgId.c_str());
+
 	if (bRemove) {
 		mir_cslock lck(m_csOwnIds);
 		m_arOwnIds.remove(pOwn);
@@ -471,12 +473,16 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		}
 	}
 
-	// skip own messages, just set the server msgid
+	// process our own messages
 	CMStringA reqId(it["reqId"].as_mstring());
 	if (CheckOwnMessage(reqId, szMsgId, true)) {
 		debugLogA("Skipping our own message %s", szMsgId.c_str());
-		return;
+		if (!Contact::IsGroupChat(hContact)) // prevent duplicates in private chats 
+			return;
+		bIsOutgoing = bCreateRead = true;
 	}
+	else if (Contact::IsGroupChat(hContact))
+		bCreateRead = true;
 
 	// ignore duplicates
 	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
