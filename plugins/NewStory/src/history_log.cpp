@@ -60,11 +60,8 @@ public:
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
-	void LogEvents(LOGINFO *pLog, bool bAppend) override
+	void LogEvents(LOGINFO *pLog, bool) override
 	{
-		if (!bAppend)
-			Clear();
-
 		while (pLog) {
 			SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)pLog);
 			pLog = pLog->prev;
