@@ -602,7 +602,7 @@ public:
 	CCtrlButton m_btnAdd, m_btnQuote, m_btnCancelAdd;
 
 public:
-	CMsgDialog(int dlgId, MCONTACT hContact);
+	CMsgDialog(MCONTACT hContact);
 	CMsgDialog(SESSION_INFO *si);
 	~CMsgDialog();
 
