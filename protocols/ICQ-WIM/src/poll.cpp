@@ -164,7 +164,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	bool bVeryBeginning = m_bFirstBos;
 
 	CMStringW wszId(ev["sn"].as_mstring());
-	auto *pCache = FindContactByUIN(wszId); // might be NULL for groupchats
+	auto *pUser = FindUser(wszId); // might be NULL for groupchats
 
 	if (IsChat(wszId)) {
 		SESSION_INFO *si = Chat_Find(wszId, m_szModuleName);
@@ -189,9 +189,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		hContact = CreateContact(wszId, true);
 
 		// for temporary contacts that just gonna be created
-		if (pCache == nullptr) {
+		if (pUser == nullptr) {
 			bVeryBeginning = true;
-			pCache = FindContactByUIN(wszId);
+			pUser = FindUser(wszId);
 		}
 	}
 
@@ -209,9 +209,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	// we load history in the very beginning or if the previous message 
 	if (bVeryBeginning) {
-		if (pCache) {
+		if (pUser) {
 			debugLogA("Setting cache = %lld for %d", srvLastId, hContact);
-			pCache->m_iProcessedMsgId = srvLastId;
+			pUser->m_iProcessedMsgId = srvLastId;
 		}
 
 		if (srvLastId > lastMsgId) {
@@ -220,9 +220,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		}
 	}
 	else {
-		if (!(pCache && pCache->m_iProcessedMsgId >= srvLastId)) {
-			if (pCache)
-				debugLogA("Proceeding with cache for %d: %lld < %lld", hContact, pCache->m_iProcessedMsgId, srvLastId);
+		if (!(pUser && pUser->m_iProcessedMsgId >= srvLastId)) {
+			if (pUser)
+				debugLogA("Proceeding with cache for %d: %lld < %lld", hContact, pUser->m_iProcessedMsgId, srvLastId);
 			else
 				debugLogA("Proceeding with empty cache for %d", hContact);
 
@@ -230,8 +230,8 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 				ParseMessage(hContact, lastMsgId, it, false, true);
 
 			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
-			if (pCache) {
-				pCache->m_iProcessedMsgId = lastMsgId;
+			if (pUser) {
+				pUser->m_iProcessedMsgId = lastMsgId;
 				debugLogA("Setting second cache = %lld for %d", srvLastId, hContact);
 			}
 		}
@@ -317,11 +317,11 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 {
 	CMStringW aimId = ev["aimId"].as_mstring();
 
-	IcqCacheItem *pCache = FindContactByUIN(aimId);
-	if (pCache == nullptr)
+	auto *pUser = FindUser(aimId);
+	if (pUser == nullptr)
 		return;
 
-	int iNewStatus = StatusFromPresence(ev, pCache->m_hContact);
+	int iNewStatus = StatusFromPresence(ev, pUser->m_hContact);
 	if (iNewStatus == -1)
 		iNewStatus = ID_STATUS_OFFLINE;
 
@@ -331,16 +331,16 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if (m_iTimeDiff1) {
 			iNewStatus = m_iStatus1;
-			pCache->m_timer1 = time(0);
+			pUser->m_timer1 = time(0);
 		}
 	}
 	// if a client returns back online, we clear timers not to play with statuses anymore
-	else pCache->m_timer1 = pCache->m_timer2 = 0;
+	else pUser->m_timer1 = pUser->m_timer2 = 0;
 
-	setWord(pCache->m_hContact, "Status", iNewStatus);
+	setWord(pUser->m_hContact, "Status", iNewStatus);
 
-	Json2string(pCache->m_hContact, ev, "friendly", "Nick", true);
-	CheckAvatarChange(pCache->m_hContact, ev);
+	Json2string(pUser->m_hContact, ev, "friendly", "Nick", true);
+	CheckAvatarChange(pUser->m_hContact, ev);
 }
 
 void CIcqProto::ProcessSessionEnd(const JSONNode &/*ev*/)
@@ -357,12 +357,12 @@ void CIcqProto::ProcessTyping(const JSONNode &ev)
 	CMStringW aimId = ev["aimId"].as_mstring();
 	CMStringW wszStatus = ev["typingStatus"].as_mstring();
 
-	IcqCacheItem *pCache = FindContactByUIN(aimId);
-	if (pCache) {
+	auto *pUser = FindUser(aimId);
+	if (pUser) {
 		if (wszStatus == "typing")
-			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, 60);
+			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, 60);
 		else
-			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
+			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
 }
 

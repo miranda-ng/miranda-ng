@@ -41,7 +41,7 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 	}
 
 	for (auto &it : ev["allows"]) {
-		auto *p = FindContactByUIN(it.as_mstring());
+		auto *p = FindUser(it.as_mstring());
 		if (p)
 			p->m_iApparentMode = ID_STATUS_ONLINE;
 	}
@@ -49,10 +49,10 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 	m_bIgnoreListEmpty = true;
 	for (auto &it : ev["ignores"]) {
 		CMStringW wszId(it.as_mstring());
-		auto *p = FindContactByUIN(wszId);
+		auto *p = FindUser(wszId);
 		if (p == nullptr) {
 			CreateContact(wszId, false);
-			p = FindContactByUIN(wszId);
+			p = FindUser(wszId);
 		}
 		p->m_iApparentMode = ID_STATUS_OFFLINE;
 		Contact::Hide(p->m_hContact);

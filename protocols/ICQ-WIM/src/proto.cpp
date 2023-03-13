@@ -33,7 +33,7 @@
 
 #pragma warning(disable:4355)
 
-static int CompareCache(const IcqCacheItem *p1, const IcqCacheItem *p2)
+static int CompareCache(const IcqUser *p1, const IcqUser *p2)
 {
 	return mir_wstrcmp(p1->m_aimid, p2->m_aimid);
 }
@@ -145,9 +145,9 @@ void CIcqProto::OnShutdown()
 void CIcqProto::OnContactAdded(MCONTACT hContact)
 {
 	CMStringW wszId(getMStringW(hContact, DB_KEY_ID));
-	if (!wszId.IsEmpty() && !FindContactByUIN(wszId)) {
+	if (!wszId.IsEmpty() && !FindUser(wszId)) {
 		mir_cslock l(m_csCache);
-		m_arCache.insert(new IcqCacheItem(wszId, hContact));
+		m_arCache.insert(new IcqUser(wszId, hContact));
 	}
 }
 
@@ -155,7 +155,7 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
 	CMStringW szId(GetUserId(hContact));
 	if (!isChatRoom(hContact))
-		m_arCache.remove(FindContactByUIN(szId));
+		m_arCache.remove(FindUser(szId));
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
@@ -239,7 +239,7 @@ void CIcqProto::SendMarkRead()
 {
 	mir_cslock lck(m_csMarkReadQueue);
 	while (m_arMarkReadQueue.getCount()) {
-		IcqCacheItem *pUser = m_arMarkReadQueue[0];
+		auto *pUser = m_arMarkReadQueue[0];
 
 		auto *pReq = new AsyncRapiRequest(this, "setDlgStateWim");
 		pReq->params << WCHAR_PARAM("sn", GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", getId(pUser->m_hContact, DB_KEY_LASTMSGID));
@@ -256,11 +256,11 @@ void CIcqProto::OnMarkRead(MCONTACT hContact, MEVENT)
 
 	m_impl.m_markRead.Start(200);
 
-	auto *pCache = FindContactByUIN(GetUserId(hContact));
-	if (pCache) {
+	auto *pUser = FindUser(GetUserId(hContact));
+	if (pUser) {
 		mir_cslock lck(m_csMarkReadQueue);
-		if (m_arMarkReadQueue.indexOf(pCache) == -1)
-			m_arMarkReadQueue.insert(pCache);
+		if (m_arMarkReadQueue.indexOf(pUser) == -1)
+			m_arMarkReadQueue.insert(pUser);
 	}
 }
 

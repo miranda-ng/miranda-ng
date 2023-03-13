@@ -246,14 +246,14 @@ void CIcqProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
 void CIcqProto::Chat_SendPrivateMessage(GCHOOK *gch)
 {
 	MCONTACT hContact;
-	auto *pCache = FindContactByUIN(gch->ptszUID);
-	if (pCache == nullptr) {
+	auto *pUser = FindUser(gch->ptszUID);
+	if (pUser == nullptr) {
 		hContact = CreateContact(gch->ptszUID, true);
 		setWString(hContact, "Nick", gch->ptszNick);
 		Contact::Hide(hContact);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}
-	else hContact = pCache->m_hContact;
+	else hContact = pUser->m_hContact;
 
 	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 }
@@ -276,11 +276,11 @@ void CIcqProto::ProcessGroupChat(const JSONNode &ev)
 			if (member.IsEmpty())
 				break;
 
-			auto *pCache = FindContactByUIN(member);
-			if (pCache == nullptr)
+			auto *pUser = FindUser(member);
+			if (pUser == nullptr)
 				continue;
 
-			gce.pszNick.w = Clist_GetContactDisplayName(pCache->m_hContact);
+			gce.pszNick.w = Clist_GetContactDisplayName(pUser->m_hContact);
 			gce.pszUID.w = member;
 			gce.time = ::time(0);
 			gce.bIsMe = member == m_szOwnId;

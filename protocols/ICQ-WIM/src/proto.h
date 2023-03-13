@@ -107,9 +107,9 @@ struct IcqGroup
 	}
 };
 
-struct IcqCacheItem : public MZeroedObject
+struct IcqUser : public MZeroedObject
 {
-	IcqCacheItem(const CMStringW &wszId, MCONTACT _contact) :
+	IcqUser(const CMStringW &wszId, MCONTACT _contact) :
 		m_aimid(wszId),
 		m_hContact(_contact)
 	{}
@@ -282,7 +282,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         OnLoggedOut(void);
 
 	mir_cs       m_csMarkReadQueue;
-	LIST<IcqCacheItem> m_arMarkReadQueue;
+	LIST<IcqUser> m_arMarkReadQueue;
 	void         SendMarkRead();
 
 	__int64   getId(MCONTACT hContact, const char *szSetting);
@@ -383,10 +383,10 @@ class CIcqProto : public PROTO<CIcqProto>
 	// cache
 
 	mir_cs    m_csCache;
-	OBJLIST<IcqCacheItem> m_arCache;
+	OBJLIST<IcqUser> m_arCache;
 
 	void      InitContactCache(void);
-	IcqCacheItem* FindContactByUIN(const CMStringW &pwszId);
+	IcqUser*  FindUser(const CMStringW &pwszId);
 	MCONTACT  CreateContact(const CMStringW &pwszId, bool bTemporary);
 
 	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);

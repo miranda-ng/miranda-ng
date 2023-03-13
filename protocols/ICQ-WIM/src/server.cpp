@@ -277,8 +277,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		CMStringW wszChatId(buddy["aimId"].as_mstring());
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
 
-		auto *pContact = FindContactByUIN(wszId);
-		if (pContact && pContact->m_iApparentMode == ID_STATUS_OFFLINE)
+		auto *pUser = FindUser(wszId);
+		if (pUser && pUser->m_iApparentMode == ID_STATUS_OFFLINE)
 			return INVALID_CONTACT_ID;
 
 		auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
@@ -298,7 +298,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 			return INVALID_CONTACT_ID;
 
 		hContact = CreateContact(wszId, false);
-		FindContactByUIN(wszId)->m_bInList = true;
+		FindUser(wszId)->m_bInList = true;
 	}
 	else if (bIgnored) {
 		db_delete_contact(hContact, true);
@@ -424,6 +424,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
 
+	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
+
 	CMStringW wszText;
 	const JSONNode &sticker = it["sticker"];
 	if (sticker) {
@@ -439,25 +441,48 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		wszText = it["text"].as_mstring();
 		wszText.TrimRight();
 
-		// user added you
-		if (it["class"].as_mstring() == L"event" && it["eventTypeId"].as_mstring() == L"27:33000") {
-			if (bLocalTime) {
-				CMStringA id = getMStringA(hContact, DB_KEY_ID);
-				int pos = id.Find('@');
-				CMStringA nick = (pos == -1) ? id : id.Left(pos);
-				DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
+		if (it["class"].as_mstring() == L"event") {
+			// user added you
+			if (it["eventTypeId"].as_mstring() == L"27:33000") {
+				if (bLocalTime) {
+					CMStringA id = getMStringA(hContact, DB_KEY_ID);
+					int pos = id.Find('@');
+					CMStringA nick = (pos == -1) ? id : id.Left(pos);
+					DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
 
-				PROTORECVEVENT pre = {};
-				pre.timestamp = (uint32_t)time(0);
-				pre.lParam = blob.size();
-				pre.szMessage = blob;
-				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+					PROTORECVEVENT pre = {};
+					pre.timestamp = (uint32_t)time(0);
+					pre.lParam = blob.size();
+					pre.szMessage = blob;
+					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+				}
+				return;
 			}
-			return;
+
+			if (auto &pChat = it["chat"]) {
+				auto *si = Chat_Find(pChat["sender"].as_mstring(), m_szModuleName);
+				if (si == nullptr)
+					return;
+
+				if (pChat["type"].as_string() == "group") {
+					if (pChat["memberEvent"]["type"].as_string() == "kicked") {
+						GCEVENT gce = {};
+						gce.si = si;
+						gce.time = iMsgTime;
+						gce.iType = GC_EVENT_KICK;
+
+						for (auto &jt : pChat["memberEvent"]["members"]) {
+							auto userId = jt.as_mstring();
+							gce.pszUID.w = userId;
+							Chat_Event(&gce);
+						}
+					}
+				}
+				return;
+			}
 		}
 	}
 
-	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 	bool bIsOutgoing = it["outgoing"].as_bool(), bIsFileTransfer = false;
 	IcqFileInfo *pFileInfo = nullptr;
 
