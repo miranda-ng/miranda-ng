@@ -246,7 +246,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	cc->m_bHistoryRead = true;
 
 	for (auto &p : cc->m_msgs)
-		AppendChatMessage(cc, p->m_uid, p->m_date, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
+		AppendChatMessage(cc, p->m_mid, p->m_uid, p->m_date, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
 
 	cc->m_msgs.destroy();
 }
@@ -395,7 +395,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 	wszBody.Replace(L"%", L"%%");
 
 	if (cc->m_bHistoryRead) {
-		AppendChatMessage(cc, uid, msgTime, wszBody, bIsHistory, bIsAction);
+		AppendChatMessage(cc, mid, uid, msgTime, wszBody, bIsHistory, bIsAction);
 	}
 	else {
 		CVkChatMessage* cm = cc->m_msgs.find((CVkChatMessage*)&mid);
@@ -410,29 +410,60 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 	}
 }
 
-void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
+void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG mid, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
 {
 	debugLogA("CVkProto::AppendChatMessage2");
-	MCONTACT hContact = FindUser(uid);
-	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
-	if (cu == nullptr) {
-		cc->m_users.insert(cu = new CVkChatUser(uid));
-		CMStringW wszNick(ptrW(db_get_wsa(cc->m_si->hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
-		cu->m_wszNick = mir_wstrdup(wszNick.IsEmpty() ? (hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : wszNick);
-		cu->m_bUnknown = true;
+
+	MCONTACT hChatContact = cc->m_si->hContact;
+	if (!hChatContact)
+		return;
+
+	if (bIsAction) {
+		MCONTACT hContact = FindUser(uid);
+		CVkChatUser* cu = cc->m_users.find((CVkChatUser*)&uid);
+		if (cu == nullptr) {
+			cc->m_users.insert(cu = new CVkChatUser(uid));
+			CMStringW wszNick(ptrW(db_get_wsa(cc->m_si->hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
+			cu->m_wszNick = mir_wstrdup(wszNick.IsEmpty() ? (hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : wszNick);
+			cu->m_bUnknown = true;
+		}
+
+		wchar_t wszId[20];
+		_itow(uid, wszId, 10);
+
+		GCEVENT gce = { cc->m_si, GC_EVENT_ACTION };
+		gce.bIsMe = (uid == m_myUserId);
+		gce.pszUID.w = wszId;
+		gce.time = msgTime;
+		gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
+		gce.pszNick.w = cu->m_wszNick ? mir_wstrdup(cu->m_wszNick) : mir_wstrdup(hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
+		gce.pszText.w = IsEmpty((wchar_t*)pwszBody) ? mir_wstrdup(L"...") : mir_wstrdup(pwszBody);
+		Chat_Event(&gce);
+	}
+	else {
+
+		char szId[20];
+		_itoa(uid, szId, 10);
+
+		char szMid[40];
+		_itoa(mid, szMid, 10);
+
+		T2Utf pszBody(pwszBody);
+
+		PROTORECVEVENT pre = {};
+		pre.szMsgId = szMid;
+		pre.timestamp = msgTime;
+		pre.szMessage = pszBody;
+		if (uid == m_myUserId)
+			pre.flags |= PREF_SENT;
+		if (bIsHistory)
+			pre.flags |= PREF_CREATEREAD;
+
+		pre.szUserId = szId;
+
+		ProtoChainRecvMsg(hChatContact, &pre);
 	}
 
-	wchar_t wszId[20];
-	_itow(uid, wszId, 10);
-
-	GCEVENT gce = { cc->m_si, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	gce.bIsMe = (uid == m_myUserId);
-	gce.pszUID.w = wszId;
-	gce.time = msgTime;
-	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.pszNick.w = cu->m_wszNick ? mir_wstrdup(cu->m_wszNick) : mir_wstrdup(hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
-	gce.pszText.w = IsEmpty((wchar_t *)pwszBody) ? mir_wstrdup(L"...") : mir_wstrdup(pwszBody);
-	Chat_Event(&gce);
 	StopChatContactTyping(cc->m_iChatId, uid);
 }
 
