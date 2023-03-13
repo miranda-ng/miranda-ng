@@ -247,10 +247,6 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 			szReason = TranslateU("user banned");
 	}
 
-	ptrA myNick(mir_strdup(item->nick));
-	if (myNick == nullptr)
-		myNick = JabberNickFromJID(m_szJabberJID);
-
 	GCEVENT gce = { item->si, 0 };
 	gce.dwFlags = GCEF_UTF8 | ((item->bChatLogging) ? 0 : GCEF_SILENT);
 	gce.pszNick.a = nick;
@@ -266,6 +262,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 		break;
 	
 	default:
+		CMStringA myNick(MyNick());
 		mir_cslock lck(m_csLists);
 		for (auto &JS : item->arResources) {
 			if (!mir_strcmp(resource, JS->m_szResourceName)) {
@@ -314,7 +311,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 			szMessage = TranslateU(JABBER_GC_MSG_QUIT);
 	}
 	else {
-		ptrA myNick(JabberNickFromJID(m_szJabberJID));
+		CMStringA myNick(MyNick());
 		GcLogUpdateMemberStatus(item, myNick, myNick, nullptr, GC_EVENT_KICK, reason);
 	}
 

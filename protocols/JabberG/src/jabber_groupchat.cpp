@@ -478,10 +478,7 @@ public:
 			delete pInfo;
 		}
 
-		ptrA tszNick(m_proto->getUStringA("Nick"));
-		if (tszNick == nullptr)
-			tszNick = JabberNickFromJID(m_proto->m_szJabberJID);
-		SetDlgItemTextUtf(m_hwnd, IDC_NICK, tszNick);
+		SetDlgItemTextUtf(m_hwnd, IDC_NICK, m_proto->MyNick());
 
 		TEXTMETRIC tm = { 0 };
 		HDC hdc = GetDC(m_hwnd);
@@ -1115,7 +1112,7 @@ public:
 
 		SetDlgItemTextUtf(m_hwnd, IDC_FROM, m_from);
 		SetDlgItemTextUtf(m_hwnd, IDC_REASON, m_reason);
-		SetDlgItemTextUtf(m_hwnd, IDC_NICK, JabberNickFromJID(m_proto->m_szJabberJID));
+		SetDlgItemTextUtf(m_hwnd, IDC_NICK, m_proto->MyNick());
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
@@ -1147,7 +1144,7 @@ void CJabberProto::GroupchatProcessInvite(const char *roomJid, const char *from,
 		return;
 
 	if (m_bAutoAcceptMUC) {
-		AcceptGroupchatInvite(roomJid, MyNick(HContactFromJID(m_szJabberJID)), password);
+		AcceptGroupchatInvite(roomJid, MyNick(), password);
 	}
 	else CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
 }
