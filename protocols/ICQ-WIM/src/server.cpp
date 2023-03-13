@@ -274,22 +274,13 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	// user chat?
 	CMStringW wszId(buddy["aimId"].as_mstring());
 	if (IsChat(wszId)) {
-		CMStringW wszChatId(buddy["aimId"].as_mstring());
-		CMStringW wszChatName(buddy["friendly"].as_mstring());
-
 		auto *pUser = FindUser(wszId);
 		if (pUser && pUser->m_iApparentMode == ID_STATUS_OFFLINE)
 			return INVALID_CONTACT_ID;
 
-		auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
-		if (si == nullptr)
-			return INVALID_CONTACT_ID;
-
-		Chat_AddGroup(si, TranslateT("admin"));
-		Chat_AddGroup(si, TranslateT("member"));
-		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-		Chat_Control(si, SESSION_ONLINE);
-		return si->hContact;
+		CMStringW wszChatName(buddy["friendly"].as_mstring());
+		auto *si = CreateGroupChat(wszId, wszChatName);
+		return (si) ? si->hContact : INVALID_CONTACT_ID;
 	}
 
 	bool bIgnored = !IsValidType(buddy);

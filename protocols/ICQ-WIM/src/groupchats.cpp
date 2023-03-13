@@ -20,6 +20,21 @@
 
 #include "stdafx.h"
 
+SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick)
+{
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pwszId, pwszNick);
+	if (si != nullptr) {
+		Chat_AddGroup(si, TranslateT("admin"));
+		Chat_AddGroup(si, TranslateT("member"));
+		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+		Chat_Control(si, SESSION_ONLINE);
+	}
+
+	return si;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 {
 	int memberCount = getDword(si->hContact, "MemberCount");
@@ -46,6 +61,16 @@ void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 
 		json_delete(node);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::RetrieveChatInfo(SESSION_INFO *si)
+{
+	auto *pReq = new AsyncRapiRequest(this, "getChatInfo", &CIcqProto::OnGetChatInfo);
+	pReq->params << WCHAR_PARAM("sn", si->ptszID) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
+	pReq->pUserInfo = si;
+	Push(pReq);
 }
 
 void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)

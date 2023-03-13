@@ -169,20 +169,18 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	if (IsChat(wszId)) {
 		SESSION_INFO *si = Chat_Find(wszId, m_szModuleName);
 		if (si == nullptr)
-			return;
+			if ((si = CreateGroupChat(wszId, L"")) == nullptr)
+				return;
 
 		hContact = si->hContact;
 
 		if (si->arUsers.getCount() == 0) {
 			__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
 			__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
-			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion")) {
-				auto *pReq = new AsyncRapiRequest(this, "getChatInfo", &CIcqProto::OnGetChatInfo);
-				pReq->params << WCHAR_PARAM("sn", wszId) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
-				pReq->pUserInfo = si;
-				Push(pReq);
-			}
-			else LoadChatInfo(si);
+			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion"))
+				RetrieveChatInfo(si);
+			else
+				LoadChatInfo(si);
 		}
 	}
 	else {

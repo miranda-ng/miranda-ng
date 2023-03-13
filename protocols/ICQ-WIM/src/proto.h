@@ -361,6 +361,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      Chat_ProcessLogMenu(SESSION_INFO *si, int);
 	void      Chat_SendPrivateMessage(GCHOOK *gch);
 
+	SESSION_INFO* CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick);
+
+	void      RetrieveChatInfo(SESSION_INFO *si);
 	void      InviteUserToChat(SESSION_INFO *si);
 	void      LeaveDestroyChat(SESSION_INFO *si);
 	void      LoadChatInfo(SESSION_INFO *si);
