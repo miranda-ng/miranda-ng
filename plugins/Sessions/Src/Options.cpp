@@ -239,6 +239,7 @@ public:
 			if (!LoadSessionContacts())
 				btnDel.Disable();
 		}
+		else btnDel.Disable();
 
 		GetComboBoxInfo(m_list.GetHwnd(), &cbi);
 		mir_subclassWindow(cbi.hwndItem, ComboBoxSubclassProc);
