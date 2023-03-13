@@ -57,9 +57,9 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Action on Startup",IDC_STATIC,6,11,157,75
     CONTROL         "Open Sessions Manager dialog",IDC_STARTDIALOG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,21,144,10
+    CONTROL         "Open dialog if last session present",IDC_CHECKLAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,9,32,144,10
     CONTROL         "Restore Last Session",IDC_RLOADLAST,"Button",BS_AUTORADIOBUTTON,9,43,144,10
-    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON,9,55,144,10
-    CONTROL         "Only if last session present",IDC_CHECKLAST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,32,126,10
+    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON,9,54,144,10
     EDITTEXT        IDC_STARTDELAY,105,70,26,12,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Startup delay",IDC_STATICOP,9,72,93,8
     LTEXT           "ms",IDC_STATICMS,136,72,16,8

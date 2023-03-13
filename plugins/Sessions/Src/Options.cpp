@@ -215,10 +215,8 @@ public:
 
 		if (startupmode == 1)
 			chkStartDialog.SetState(true);
-		else if (startupmode == 3) {
-			chkStartDialog.SetState(true);
+		else if (startupmode == 3)
 			chkLast.SetState(true);
-		}
 		else if (startupmode == 2)
 			chkLoadLast.SetState(true);
 		else if (startupmode == 0)
@@ -263,12 +261,10 @@ public:
 		else if (chkExitAsk.IsChecked())
 			g_plugin.setByte("ShutdownMode", 1);
 
-		if (chkStartDialog.IsChecked()) {
-			if (chkLast.IsChecked())
-				g_plugin.setByte("StartupMode", 1);
-			else
-				g_plugin.setByte("StartupMode", 3);
-		}
+		if (chkStartDialog.IsChecked())
+			g_plugin.setByte("StartupMode", 1);
+		else if (chkLast.IsChecked())
+			g_plugin.setByte("StartupMode", 3);
 		else if (chkLoadLast.IsChecked())
 			g_plugin.setByte("StartupMode", 2);
 		else if (chkNothing.IsChecked())
@@ -427,7 +423,6 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), TRUE);
-		chkLast.Enable();
 	}
 
 	void onChange_LoadLast(CCtrlCheck *pCheck)
@@ -437,7 +432,6 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), TRUE);
-		chkLast.Disable();
 	}
 
 	void onChange_Nothing(CCtrlCheck *pCheck)
@@ -447,7 +441,6 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), FALSE);
-		chkLast.Disable();
 	}
 
 	void onChange_ExSave(CCtrlCheck *pCheck)
