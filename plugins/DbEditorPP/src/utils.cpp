@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern uint8_t nameOrder[NAMEORDERCOUNT];
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax)
@@ -248,75 +246,20 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 
 	char *szProto = (char*)proto;
 	char tmp[FLD_SIZE];
-	wchar_t name[NAME_SIZE]; name[0] = 0;
 
 	if (hContact && (!proto || !proto[0]))
 		if (!db_get_static(hContact, "Protocol", "p", tmp, _countof(tmp)))
 			szProto = tmp;
 
-	for (int i = 0; i < NAMEORDERCOUNT - 1; i++) {
-		switch (nameOrder[i]) {
-		case 0: // custom name
-			GetValueW(hContact, "CList", "MyHandle", name, _countof(name));
-			break;
-
-		case 1: // nick
-			if (!szProto) break;
-			GetValueW(hContact, szProto, "Nick", name, _countof(name));
-			break;
-
-		case 2: // First Name
-			// if (!szProto) break;
-			// GetValueW(hContact, szProto, "FirstName", name, _countof(name));
-			break;
-
-		case 3: // E-mail
-			if (!szProto) break;
-			GetValueW(hContact, szProto, "e-mail", name, _countof(name));
-			break;
-
-		case 4: // Last Name
-			// GetValueW(hContact, szProto, "LastName", name, _countof(name));
-			break;
-
-		case 5: // Unique id
-			if (szProto) {
-				// protocol must define a PFLAG_UNIQUEIDSETTING
-				const char *uid = Proto_GetUniqueId(szProto);
-				if (uid)
-					GetValueW(hContact, szProto, uid, name, _countof(name));
-			}
-			break;
-
-		case 6: // first + last name
-			if (szProto) {
-				GetValueW(hContact, szProto, "FirstName", name, _countof(name));
-
-				int len = (int)mir_wstrlen(name);
-				if (len + 2 < _countof(name)) {
-					if (len)
-						mir_wstrncat(name, L" ", _countof(name));
-					len++;
-					GetValueW(hContact, szProto, "LastName", &name[len], _countof(name) - len);
-				}
-			}
-			break;
-		}
-
-		if (name[0])
-			break;
-	}
-
-	if (!name[0])
-		mir_wstrncpy(name, TranslateT("<UNKNOWN>"), _countof(name));
+	ptrW pwszNick(Contact::GetInfo(CNF_DISPLAY, hContact, szProto));
 
 	if (szProto && szProto[0]) {
 		if (g_Order)
-			mir_snwprintf(value, maxlen, L"(%S) %s", szProto, name);
+			mir_snwprintf(value, maxlen, L"(%S) %s", szProto, pwszNick.get());
 		else
-			mir_snwprintf(value, maxlen, L"%s (%S)", name, szProto);
+			mir_snwprintf(value, maxlen, L"%s (%S)", pwszNick.get(), szProto);
 	}
-	else mir_wstrncpy(value, name, maxlen);
+	else mir_wstrncpy(value, pwszNick, maxlen);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	if (!pa->IsEnabled()) {

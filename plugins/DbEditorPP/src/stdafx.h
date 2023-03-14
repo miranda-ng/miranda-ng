@@ -17,6 +17,7 @@
 
 #include <newpluginapi.h>
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_db_int.h>
 #include <m_gui.h>

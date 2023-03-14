@@ -98,6 +98,7 @@ int LoadDefaultModules(void)
 	if (LoadButtonModule()) return 1;
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
+	if (LoadContactsModule()) return 1;
 
 	// check if a service plugin is scheduled to execution
 	if (plugin_service != nullptr) {
@@ -130,7 +131,6 @@ int LoadDefaultModules(void)
 	if (LoadProtocolsModule()) return 1;
 
 	LoadDbAccounts();                    // retrieves the account array from a database
-	if (LoadContactsModule()) return 1;
 	if (LoadMetacontacts()) return 1;
 
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first

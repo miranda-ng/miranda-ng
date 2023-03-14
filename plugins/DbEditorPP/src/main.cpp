@@ -7,7 +7,6 @@ bool g_bServiceMode = false;
 bool g_bUsePopups;
 
 CMPlugin g_plugin;
-uint8_t nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
 MCONTACT hRestore;
 
@@ -185,17 +184,6 @@ int CMPlugin::Load()
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
-
-	// Load the name order
-	for (int i = 0; i < NAMEORDERCOUNT; i++)
-		nameOrder[i] = i;
-
-	DBVARIANT dbv = {};
-	if (!db_get_s(0, "Contact", "NameOrder", &dbv, DBVT_BLOB)) {
-		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
-		db_free(&dbv);
-	}
-
 	return 0;
 }
 

@@ -197,7 +197,7 @@ bool CMainDlg::OnInitDialog()
 	mir_subclassWindow(m_modules.GetHwnd(), ModuleTreeSubclassProc);
 	m_modules.SetImageList(hImg, TVSIL_NORMAL);
 
-	//setting list
+	// setting list
 	mir_subclassWindow(m_settings.GetHwnd(), SettingListSubclassProc);
 	m_settings.SetExtendedListViewStyle(32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP); //LVS_EX_GRIDLINES
 	loadListSettings(m_settings.GetHwnd(), csSettingList);
