@@ -203,8 +203,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_messageManager.FillPermanentHandlers();
 	m_adhocManager.FillDefaultNodes();
 
-	UpdateFeatHash();
-
 	IconsInit();
 
 	m_pepServices.insert(new CPepMood(this));
@@ -304,6 +302,7 @@ void CJabberProto::OnModulesLoaded()
 
 	InitPopups();
 	GlobalMenuInit();
+	UpdateFeatHash();
 
 	StatusIconData sid = {};
 	sid.szModule = m_szModuleName;
