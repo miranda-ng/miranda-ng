@@ -22,19 +22,25 @@ const char *getName(const TD::usernames *pName)
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
 }
 
-const char* getSender(const TD::MessageSender *pSender, char *pDest, size_t cbSize)
+CMStringW TG_USER::getDisplayName() const
+{
+	if (!wszFirstName.IsEmpty())
+		return (wszLastName.IsEmpty()) ? wszFirstName : wszFirstName + L" " + wszLastName;
+
+	return wszNick;
+}
+
+TG_USER* CTelegramProto::GetSender(const TD::MessageSender *pSender)
 {
 	switch (pSender->get_id()) {
 	case TD::messageSenderChat::ID:
-		_i64toa_s(((TD::messageSenderChat *)pSender)->chat_id_, pDest, cbSize, 10);
-		break;
+		return FindChat(((TD::messageSenderChat *)pSender)->chat_id_);
+
 	case TD::messageSenderUser::ID:
-		_i64toa_s(((TD::messageSenderUser *)pSender)->user_id_, pDest, cbSize, 10);
-		break;
-	default:
-		*pDest = 0;
+		return FindUser(((TD::messageSenderUser *)pSender)->user_id_);
 	}
-	return pDest;
+
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

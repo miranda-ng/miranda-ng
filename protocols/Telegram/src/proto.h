@@ -91,6 +91,8 @@ struct TG_USER
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
 	SESSION_INFO *m_si = nullptr;
+
+	CMStringW getDisplayName() const;
 };
 
 struct TG_SUPER_GROUP
@@ -249,6 +251,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* FindUser(int64_t id);
 	TG_USER* AddUser(int64_t id, bool bIsChat);
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
+	TG_USER* GetSender(const TD::MessageSender *pSender);
 	void     SetId(MCONTACT, int64_t id);
 
 	// Popups

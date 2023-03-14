@@ -308,12 +308,9 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		break;
 
 	case TD::chatTypeSupergroup::ID:
+		bIsBasicGroup = false;
+		chatId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
-		{
-			auto *pSuperGroup = (TD::chatTypeSupergroup *)pChat->type_.get();
-			chatId = pSuperGroup->supergroup_id_;
-			bIsBasicGroup = !pSuperGroup->is_channel_;
-		}
 		break;
 
 	default:
@@ -526,8 +523,14 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 	pre.timestamp = pMessage->date_;
 	if (pMessage->is_outgoing_)
 		pre.flags |= PREF_SENT;
-	if (pUser->isGroupChat)
-		pre.szUserId = getSender(pMessage->sender_id_.get(), szUserId, sizeof(szUserId));
+	if (pUser->isGroupChat) {
+		if (auto *pSender = GetSender(pMessage->sender_id_.get())) {
+			_i64toa(pSender->id, szUserId, 10);
+			pre.szUserId = szUserId;
+			if (pUser->m_si)
+				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(szUserId), pSender->getDisplayName(), ID_STATUS_ONLINE);
+		}
+	}
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
