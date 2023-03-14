@@ -168,9 +168,17 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	if (IsChat(wszId)) {
 		SESSION_INFO *si = Chat_Find(wszId, m_szModuleName);
-		if (si == nullptr)
-			if ((si = CreateGroupChat(wszId, L"")) == nullptr)
+		if (si == nullptr) {
+			CMStringW wszNick;
+			for (auto &it : ev["persons"])
+				if (it["sn"].as_mstring() == wszId) {
+					wszNick = it["friendly"].as_mstring();
+					break;
+				}
+
+			if ((si = CreateGroupChat(wszId, wszNick)) == nullptr)
 				return;
+		}
 
 		hContact = si->hContact;
 
