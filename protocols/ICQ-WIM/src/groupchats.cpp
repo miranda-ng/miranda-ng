@@ -28,6 +28,9 @@ SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *p
 		Chat_AddGroup(si, TranslateT("member"));
 		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 		Chat_Control(si, SESSION_ONLINE);
+
+		// #3420 ICQ server will place our group chat into its own group
+		Clist_SetGroup(si->hContact, nullptr);
 	}
 
 	return si;
