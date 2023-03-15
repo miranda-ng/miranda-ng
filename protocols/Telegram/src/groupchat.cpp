@@ -130,6 +130,11 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+enum
+{
+	IDM_LEAVE = 1,
+};
+
 int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK *)lParam;
@@ -155,6 +160,7 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_LOGMENU:
+		Chat_LogMenu(gch);
 		break;
 
 	case GC_USER_NICKLISTMENU:
@@ -162,6 +168,23 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 	}
 
 	return 1;
+}
+
+void CTelegramProto::Chat_LogMenu(GCHOOK *gch)
+{
+	switch (gch->dwData) {
+	case IDM_LEAVE:
+		int64_t id(_atoi64(getMStringA(gch->si->hContact, DBKEY_ID)));
+		if (auto *pUser = FindUser(id)) {
+			pUser->m_si = nullptr;
+			SendQuery(new TD::leaveChat(pUser->chatId));
+		}
+
+		Chat_Terminate(gch->si);
+		Contact::Hide(gch->si->hContact);
+		Contact::RemoveFromList(gch->si->hContact);
+		break;
+	}
 }
 
 void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
@@ -189,6 +212,11 @@ void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static gc_item sttLogListItems[] =
+{
+	{ LPGENW("&Leave chat session"), IDM_LEAVE, MENU_ITEM }
+};
+
 int CTelegramProto::GcMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS *)lParam;
@@ -198,11 +226,12 @@ int CTelegramProto::GcMenuHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	auto *pUser = FindUser(T2Utf(gcmi->pszID));
+	auto *pUser = FindUser(_wtoi64(gcmi->pszID));
 	if (pUser == nullptr)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 	}
