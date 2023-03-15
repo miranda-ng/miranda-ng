@@ -2346,18 +2346,7 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 
 	if (!(dbei.flags & DBEF_READ)) {
 		AddUnreadContact(hContact);
-
-		wchar_t toolTip[256];
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
-
-		CLISTEVENT cle = {};
-		cle.hContact = hContact;
-		cle.hDbEvent = hDbEvent;
-		cle.flags = CLEF_UNICODE;
-		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		cle.pszService = MS_MSG_READMESSAGE;
-		cle.szTooltip.w = toolTip;
-		g_clistApi.pfnAddEvent(&cle);
+		Srmm_AddEvent(hContact, hDbEvent);
 	}
 }
 

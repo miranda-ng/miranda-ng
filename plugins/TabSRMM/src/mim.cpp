@@ -286,6 +286,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM nSecs)
 	if (nSecs) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
+		
 		if (fShowOnClist && g_plugin.getByte("ShowTypingBalloon", 0))
 			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
@@ -446,18 +447,7 @@ nowindowcreate:
 	// the contact list for flashing
 	if (!(dbei.flags & DBEF_READ)) {
 		AddUnreadContact(hContact);
-
-		wchar_t toolTip[256];
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
-
-		CLISTEVENT cle = {};
-		cle.hContact = hContact;
-		cle.hDbEvent = hDbEvent;
-		cle.flags = CLEF_UNICODE;
-		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		cle.pszService = MS_MSG_READMESSAGE;
-		cle.szTooltip.w = toolTip;
-		g_clistApi.pfnAddEvent(&cle);
+		Srmm_AddEvent(hContact, hDbEvent);
 	}
 	return 0;
 }

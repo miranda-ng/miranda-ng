@@ -115,6 +115,23 @@ MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
+{
+	wchar_t toolTip[256];
+	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
+
+	CLISTEVENT cle = {};
+	cle.hContact = hContact;
+	cle.hDbEvent = hDbEvent;
+	cle.flags = CLEF_UNICODE;
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	cle.pszService = MS_MSG_READMESSAGE;
+	cle.szTooltip.w = toolTip;
+	g_clistApi.pfnAddEvent(&cle);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // serializes all thread-unsafe operation to the first thread
 
 struct SSTParam

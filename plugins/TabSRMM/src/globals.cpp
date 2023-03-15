@@ -455,20 +455,8 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	wchar_t toolTip[256];
-
-	CLISTEVENT cle = {};
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = MS_MSG_READMESSAGE;
-	cle.flags = CLEF_UNICODE;
-	cle.szTooltip.w = toolTip;
-
-	for (auto &e : arEvents) {
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
-		cle.hContact = e->hContact;
-		cle.hDbEvent = e->hEvent;
-		g_clistApi.pfnAddEvent(&cle);
-	}
+	for (auto &e : arEvents)
+		Srmm_AddEvent(e->hContact, e->hEvent);
 }
 
 void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)

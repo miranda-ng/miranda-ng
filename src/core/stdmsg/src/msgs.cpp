@@ -65,13 +65,13 @@ static int SRMMStatusToPf2(int status)
 	return 0;
 }
 
-static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
+static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
 	DBEVENTINFO dbei = {};
-	if (db_event_get(lParam, &dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return 0;
 
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
@@ -105,17 +105,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	wchar_t toolTip[256];
-	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
-
-	CLISTEVENT cle = {};
-	cle.hContact = hContact;
-	cle.hDbEvent = lParam;
-	cle.flags = CLEF_UNICODE;
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = MS_MSG_READMESSAGE;
-	cle.szTooltip.w = toolTip;
-	g_clistApi.pfnAddEvent(&cle);
+	Srmm_AddEvent(hContact, hDbEvent);
 	return 0;
 }
 
@@ -283,20 +273,8 @@ static void RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	wchar_t toolTip[256];
-
-	CLISTEVENT cle = {};
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = MS_MSG_READMESSAGE;
-	cle.flags = CLEF_UNICODE;
-	cle.szTooltip.w = toolTip;
-
-	for (auto &e : arEvents) {
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
-		cle.hContact = e->hContact;
-		cle.hDbEvent = e->hEvent;
-		g_clistApi.pfnAddEvent(&cle);
-	}
+	for (auto &e : arEvents)
+		Srmm_AddEvent(e->hContact, e->hEvent);
 }
 
 void RegisterSRMMFonts(void);

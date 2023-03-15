@@ -108,19 +108,9 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		}
 	}
 
-	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd))) {
-		wchar_t toolTip[256];
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
+	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd)))
+		Srmm_AddEvent(hContact, hDbEvent);
 
-		CLISTEVENT cle = {};
-		cle.flags = CLEF_UNICODE;
-		cle.hContact = hContact;
-		cle.hDbEvent = hDbEvent;
-		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		cle.pszService = MS_MSG_READMESSAGE;
-		cle.szTooltip.w = toolTip;
-		g_clistApi.pfnAddEvent(&cle);
-	}
 	return 0;
 }
 
@@ -263,20 +253,8 @@ static void RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	wchar_t toolTip[256];
-
-	CLISTEVENT cle = {};
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = MS_MSG_READMESSAGE;
-	cle.flags = CLEF_UNICODE;
-	cle.szTooltip.w = toolTip;
-
-	for (auto &e : arEvents) {
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
-		cle.hContact = e->hContact;
-		cle.hDbEvent = e->hEvent;
-		g_clistApi.pfnAddEvent(&cle);
-	}
+	for (auto &e : arEvents)
+		Srmm_AddEvent(e->hContact, e->hEvent);
 }
 
 void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)

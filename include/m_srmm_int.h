@@ -287,6 +287,10 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, 
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows
 
 EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
