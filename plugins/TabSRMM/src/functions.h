@@ -84,9 +84,8 @@ void  TSAPI CacheMsgLogIcons();
 void  TSAPI CacheLogFonts();
 void  TSAPI LoadIconTheme();
 
-int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
-
-int   TSAPI DbEventIsShown(DBEVENTINFO *dbei);
+bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei);
+bool DbEventIsShown(const DBEVENTINFO *dbei);
 
 // custom tab control
 

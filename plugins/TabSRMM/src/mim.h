@@ -173,7 +173,6 @@ public:
 	static int TypingMessage(WPARAM wParam, LPARAM lParam);
 	static int ProtoAck(WPARAM wParam, LPARAM lParam);
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-	static int DispatchNewEvent(WPARAM wParam, LPARAM lParam);
 	static int MessageEventAdded(WPARAM wParam, LPARAM lParam);
 
 public:

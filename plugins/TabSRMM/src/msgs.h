@@ -70,7 +70,6 @@
 #define EM_REFRESHWITHOUTCLIP    (TM_USER+0x106)
 
 #define HM_EVENTSENT             (TM_USER+10)
-#define HM_DBEVENTADDED          (TM_USER+12)
 #define DM_SETINFOPANEL          (TM_USER+13)
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
 #define DM_SPLITSENDACK          (TM_USER+19)
@@ -437,7 +436,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	HWND     DM_CreateClist(void);
 	void     DM_DismissTip(const POINT& pt);
 	void     DM_ErrorDetected(int type, int flag);
-	void     DM_EventAdded(WPARAM wParam, LPARAM lParam);
 	void     DM_FreeTheme(void);
 	bool     DM_GenericHotkeysCheck(MSG *message);
 	void     DM_HandleAutoSizeRequest(REQRESIZE *rr);
@@ -457,7 +455,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     DetermineMinHeight(void);
 	BOOL     DoRtfToTags(CMStringW &pszText) const;
 	int      FindRTLLocale(void);
-	void     FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
+	void     FlashOnClist(MEVENT hEvent, const DBEVENTINFO *dbei);
 	void     FlashTab(bool bInvertMode);
 	LRESULT  GetSendButtonState();
 	void     GetSendFormat(void);
@@ -633,6 +631,7 @@ public:
 
 	void AddLog() override;
 	void CloseTab() override;
+	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;

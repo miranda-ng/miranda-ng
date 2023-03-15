@@ -2489,13 +2489,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			StreamEvents(lParam, 1, 1);
 		return 0;
 
-	case HM_DBEVENTADDED:
-		// this is called whenever a new event has been added to the database.
-		// this CAN be posted (some sanity checks required).
-		if (this && !isChat())
-			DM_EventAdded(m_hContact, lParam);
-		return 0;
-
 	case WM_TIMER:
 		// timer id for message timeouts is composed like:
 		// for single message sends: basevalue (TIMERID_MSGSEND) + send queue index

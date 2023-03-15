@@ -60,21 +60,6 @@ static int OnMetaChanged(WPARAM hMeta, LPARAM)
 	return 0;
 }
 
-static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
-{
-	if (hContact) {
-		HWND h = Srmm_FindWindow(hContact);
-		if (h)
-			::SendMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
-
-		MCONTACT hEventContact = db_event_getContact(hDbEvent);
-		if (hEventContact != hContact)
-			if ((h = Srmm_FindWindow(hEventContact)) != nullptr)
-				::SendMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
-	}
-	return 0;
-}
-
 static int ackevent(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
@@ -105,8 +90,6 @@ void InitGlobals()
 		g_plugin.delSetting("HideNames");
 	}
 
-	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
-	HookEvent(ME_DB_EVENT_EDITED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);

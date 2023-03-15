@@ -248,6 +248,7 @@ public:
 
 	virtual void AddLog();
 	virtual void CloseTab() {}
+	virtual void EventAdded(MEVENT, const DBEVENTINFO &dbei) PURE;
 	virtual bool GetFirstEvent() PURE;
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;

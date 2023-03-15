@@ -802,6 +802,9 @@ static INT_PTR LeaveChat(WPARAM hContact, LPARAM)
 
 static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
+	if (hContact == 0)
+		return 0;
+
 	if (Contact::IsGroupChat(hContact)) {
 		if (auto *si = SM_FindSessionByContact(hContact)) {
 			DB::EventInfo dbei;
@@ -820,6 +823,20 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 					Chat_Event(&gce);
 				}
 			}
+		}
+	}
+	else {
+		g_clistApi.pfnRemoveEvent(hContact, 1);
+
+		DBEVENTINFO dbei = {};
+		if (!db_event_get(hDbEvent, &dbei)) {
+			if (auto *pDlg = Srmm_FindDialog(hContact))
+				pDlg->EventAdded(hDbEvent, dbei);
+
+			MCONTACT hRealContact = db_event_getContact(hDbEvent);
+			if (hRealContact != hContact)
+				if (auto *pDlg = Srmm_FindDialog(hRealContact))
+					pDlg->EventAdded(hDbEvent, dbei);
 		}
 	}
 

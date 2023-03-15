@@ -187,18 +187,17 @@ static void SetToStyle(int style, CMStringA &dest)
 	dest.AppendFormat("\\f%u\\cf%u\\b%d\\i%d\\fs%u ", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
 }
 
-int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
+bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
 {
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-int DbEventIsShown(DBEVENTINFO *dbei)
+bool DbEventIsShown(const DBEVENTINFO *dbei)
 {
-	return (dbei->eventType==EVENTTYPE_MESSAGE) ||  DbEventIsForMsgWindow(dbei);
+	return (dbei->eventType == EVENTTYPE_MESSAGE) || DbEventIsForMsgWindow(dbei);
 }
 
-//mir_free() the return value
 static bool CreateRTFFromDbEvent(LogStreamData *dat)
 {
 	DB::EventInfo dbei;

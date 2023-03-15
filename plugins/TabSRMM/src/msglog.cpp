@@ -411,7 +411,7 @@ static char *CreateRTFTail()
 	return mir_strdup("}");
 }
 
-int TSAPI DbEventIsShown(DBEVENTINFO *dbei)
+bool DbEventIsShown(const DBEVENTINFO *dbei)
 {
 	if (!IsCustomEvent(dbei->eventType) || DbEventIsForMsgWindow(dbei))
 		return 1;
@@ -419,7 +419,7 @@ int TSAPI DbEventIsShown(DBEVENTINFO *dbei)
 	return IsStatusEvent(dbei->eventType);
 }
 
-int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
+bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
 {
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);

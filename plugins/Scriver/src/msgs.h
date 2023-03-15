@@ -172,6 +172,7 @@ public:
 	void onType(CTimer *);
 
 	void CloseTab() override;
+	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
 	bool GetFirstEvent() override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;
@@ -217,7 +218,6 @@ public:
 	void Reattach(HWND hwndContainer);
 };
 
-#define HM_DBEVENTADDED        (WM_USER+10)
 #define HM_ACKEVENT            (WM_USER+11)
 
 #define DM_REMAKELOG           (WM_USER+12)
@@ -235,9 +235,9 @@ public:
 #define EVENTTYPE_JABBER_CHATSTATES	2000
 #define EVENTTYPE_JABBER_PRESENCE	2001
 
-int DbEventIsShown(DBEVENTINFO &dbei);
-int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);
-int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
+bool DbEventIsShown(const DBEVENTINFO &dbei);
+bool DbEventIsCustomForMsgWindow(const DBEVENTINFO *dbei);
+bool DbEventIsMessageOrCustom(const DBEVENTINFO *dbei);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 int IsAutoPopup(MCONTACT hContact);

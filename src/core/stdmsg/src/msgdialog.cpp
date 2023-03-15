@@ -587,46 +587,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
-	case HM_DBEVENTADDED:
-		if (wParam == m_hContact && !isChat()) {
-			MEVENT hDbEvent = lParam;
-			if (m_hDbEventFirst == 0)
-				m_hDbEventFirst = hDbEvent;
-
-			DBEVENTINFO dbei = {};
-			db_event_get(hDbEvent, &dbei);
-			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
-			bool isActive = IsActive();
-			if (DbEventIsShown(&dbei)) {
-				// Sounds *only* for sent messages, not for custom events
-				if (isMessage && !isSent) {
-					if (isActive)
-						Skin_PlaySound("RecvMsgActive");
-					else
-						Skin_PlaySound("RecvMsgInactive");
-				}
-				if (isMessage && !isSent) {
-					m_lastMessage = dbei.timestamp;
-					UpdateLastMessage();
-				}
-
-				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					m_pLog->LogEvents(hDbEvent, 1, 1);
-				else
-					RemakeLog();
-
-				// Flash window *only* for messages, not for custom events
-				if (isMessage && !isSent) {
-					if (isActive) {
-						if (m_pLog->AtBottom())
-							StartFlash();
-					}
-					else StartFlash();
-				}
-			}
-		}
-		break;
-
 	case WM_TIMECHANGE:
 		PostMessage(m_hwnd, DM_NEWTIMEZONE, 0, 0);
 		RemakeLog();
@@ -1293,6 +1253,42 @@ void CMsgDialog::CloseTab()
 		Close();
 	}
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
+
+void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
+{
+	if (m_hDbEventFirst == 0)
+		m_hDbEventFirst = hDbEvent;
+
+	bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
+	bool isActive = IsActive();
+	if (DbEventIsShown(&dbei)) {
+		// Sounds *only* for sent messages, not for custom events
+		if (isMessage && !isSent) {
+			if (isActive)
+				Skin_PlaySound("RecvMsgActive");
+			else
+				Skin_PlaySound("RecvMsgInactive");
+		}
+		if (isMessage && !isSent) {
+			m_lastMessage = dbei.timestamp;
+			UpdateLastMessage();
+		}
+
+		if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+			m_pLog->LogEvents(hDbEvent, 1, 1);
+		else
+			RemakeLog();
+
+		// Flash window *only* for messages, not for custom events
+		if (isMessage && !isSent) {
+			if (isActive) {
+				if (m_pLog->AtBottom())
+					StartFlash();
+			}
+			else StartFlash();
+		}
+	}
 }
 
 bool CMsgDialog::GetFirstEvent()

@@ -361,27 +361,6 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// this handler is called first in the message window chain - it will handle events for which a message window
-// is already open. if not, it will do nothing and the 2nd handler(MessageEventAdded) will perform all
-// the needed actions.
-//
-// this handler POSTs the event to the message window procedure - so it is fast and can exit quickly which will
-// improve the overall responsiveness when receiving messages.
-
-int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
-{
-	if (hContact) {
-		Utils::sendContactMessage(hContact, HM_DBEVENTADDED, hContact, hDbEvent);
-
-		// we're in meta and an event belongs to a sub
-		MCONTACT hReal = db_event_getContact(hDbEvent);
-		if (hReal != hContact)
-			Utils::sendContactMessage(hReal, HM_DBEVENTADDED, hContact, hDbEvent);
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Message event added is called when a new message is added to the database
 // if no session is open for the contact, this function will determine if and how a new message
 // session(tab) must be created.
@@ -390,7 +369,7 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	if (hContact == 0)
+	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
 	DBEVENTINFO dbei = {};
@@ -401,11 +380,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		pDlg = Srmm_FindDialog(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
-	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
+	bool isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
 	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
 		return 0;
-
-	g_clistApi.pfnRemoveEvent(hContact, 1);
 
 	bool bAutoPopup = g_plugin.bAutoPopup;
 	bool bAutoCreate = g_plugin.bAutoTabs;

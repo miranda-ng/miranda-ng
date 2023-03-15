@@ -79,19 +79,14 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
+static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	MCONTACT hContactWnd;
-	MEVENT hDbEvent = (MEVENT)lParam;
-
-	HWND hwnd = Srmm_FindWindow(hContactWnd = hContact);
-	if (hwnd == nullptr)
-		hwnd = Srmm_FindWindow(hContactWnd = db_event_getContact(hDbEvent));
-	if (hwnd)
-		::PostMessage(hwnd, HM_DBEVENTADDED, hContactWnd, lParam);
+	if (hContact == 0 || Contact::IsGroupChat(hContact))
+		return 0;
 
 	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
+	if (db_event_get(hDbEvent, &dbei))
+		return 0;
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
@@ -99,8 +94,11 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
 		return 0;
 
-	g_clistApi.pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
+	HWND hwnd = Srmm_FindWindow(hContact);
+	if (hwnd == nullptr)
+		hwnd = Srmm_FindWindow(db_event_getContact(hDbEvent));
+
 	if (hwnd == nullptr) {
 		/* new message */
 		Skin_PlaySound("AlertMsg");

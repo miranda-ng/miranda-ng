@@ -50,18 +50,18 @@ struct LogStreamData
 	EventData *events;
 };
 
-int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei)
+bool DbEventIsCustomForMsgWindow(const DBEVENTINFO *dbei)
 {
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-int DbEventIsMessageOrCustom(DBEVENTINFO* dbei)
+bool DbEventIsMessageOrCustom(const DBEVENTINFO* dbei)
 {
 	return dbei->eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei);
 }
 
-int DbEventIsShown(DBEVENTINFO &dbei)
+bool DbEventIsShown(const DBEVENTINFO &dbei)
 {
 	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
