@@ -54,13 +54,12 @@ public:
 		m_list.SetCurSel(0);
 		pSession = (CSession *)m_list.GetItemData(0);
 
-		int iDelay = g_plugin.getWord("StartupModeDelay", 1500);
 		if (g_bDontShow == TRUE)
-			timerLoad.Start(iDelay);
+			timerLoad.Start(g_plugin.iStartupDelay);
 		else {
 			LoadPosition(m_hwnd, "LoadDlg");
 			if (g_bStartup)
-				timerShow.Start(iDelay);
+				timerShow.Start(g_plugin.iStartupDelay);
 			else
 				Show();
 		}
@@ -137,7 +136,7 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 		return 0;
 	}
 	
-	if (g_bOtherWarnings)
+	if (g_plugin.bOtherWarnings)
 		MessageBox(nullptr, TranslateT("No sessions to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 	return 1;
 }
@@ -163,7 +162,7 @@ INT_PTR LoadLastSession(WPARAM, LPARAM)
 	if (g_bLastSessionPresent && cnt)
 		return LoadSession(&g_arDateSessions[cnt-1]);
 	
-	if (g_bOtherWarnings)
+	if (g_plugin.bOtherWarnings)
 		MessageBox(nullptr, TranslateT("Last Sessions is empty"), TranslateT("Sessions Manager"), MB_OK);
 	return 0;
 }
@@ -190,7 +189,7 @@ int LoadSession(CSession *pSession)
 	while (session_list_t[i] != 0) {
 		if (CheckForDuplicate(session_list, session_list_t[i]) == -1)
 			Clist_ContactDoubleClicked(session_list_t[i]);
-		else if (g_bWarnOnHidden) {
+		else if (g_plugin.bWarnOnHidden) {
 			if (!CheckContactVisibility(session_list_t[i])) {
 				hidden[j] = i + 1;
 				j++;
@@ -201,22 +200,22 @@ int LoadSession(CSession *pSession)
 	}
 
 	if (i == 0) {
-		if (g_bOtherWarnings)
+		if (g_plugin.bOtherWarnings)
 			MessageBox(nullptr, TranslateT("No contacts to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 		return 1;
 	}
 
 	if (dup == i) {
 		if (!hidden[i]) {
-			if (g_bOtherWarnings)
+			if (g_plugin.bOtherWarnings)
 				MessageBox(nullptr, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
-		if (!g_bWarnOnHidden && g_bOtherWarnings) {
+		if (!g_plugin.bWarnOnHidden && g_plugin.bOtherWarnings) {
 			MessageBox(nullptr, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
-		if (g_bWarnOnHidden) {
+		if (g_plugin.bWarnOnHidden) {
 			if (IDYES == MessageBox(nullptr, TranslateT("This Session already opened (but probably hidden).\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO | MB_ICONQUESTION))
 				for (j = 0; hidden[j] != 0; j++)
 					Clist_ContactDoubleClicked(session_list_t[hidden[j] - 1]);

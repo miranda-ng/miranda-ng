@@ -137,6 +137,9 @@ class COptionsDlg : public CDlgBase
 	CCtrlCombo m_list;
 	CCtrlListBox m_opclist;
 
+	CCtrlEdit edtDelay;
+	CCtrlSpin spinCount;
+	CCtrlCheck chkExclHidden, chkWarnOnHidden, chkOtherWarnings, chkCrashRecovery;
 	CCtrlCheck chkStartDialog, chkLoadLast, chkLast, chkNothing;
 	CCtrlCheck chkExitAsk, chkExitSave, chkExitNothing;
 	CCtrlButton btnSave, btnEdit, btnDel;
@@ -152,14 +155,28 @@ public:
 		btnDel(this, IDC_DEL),
 		btnEdit(this, IDC_EDIT),
 		btnSave(this, IDC_SAVE),
+		edtDelay(this, IDC_STARTDELAY),
+		spinCount(this, IDC_SPIN1, 10, 1),
 		chkLast(this, IDC_CHECKLAST),
 		chkExitAsk(this, IDC_REXASK),
 		chkNothing(this, IDC_RNOTHING),
 		chkExitSave(this, IDC_REXSAVE),
 		chkLoadLast(this, IDC_RLOADLAST),
 		chkExitNothing(this, IDC_REXDSAVE),
-		chkStartDialog(this, IDC_STARTDIALOG)
+		chkStartDialog(this, IDC_STARTDIALOG),
+		chkExclHidden(this, IDC_EXCLHIDDEN),
+		chkWarnOnHidden(this, IDC_LASTHIDDENWARN),
+		chkOtherWarnings(this, IDC_WARNINGS),
+		chkCrashRecovery(this, IDC_CRASHRECOVERY)
 	{
+		CreateLink(edtDelay, g_plugin.iStartupDelay);
+		CreateLink(spinCount, g_plugin.iTrackCount);
+
+		CreateLink(chkExclHidden, g_plugin.bExclHidden);
+		CreateLink(chkWarnOnHidden, g_plugin.bWarnOnHidden);
+		CreateLink(chkOtherWarnings, g_plugin.bOtherWarnings);
+		CreateLink(chkCrashRecovery, g_plugin.bCrashRecovery);
+
 		btnDel.OnClick = Callback(this, &COptionsDlg::onClick_Del);
 		btnEdit.OnClick = Callback(this, &COptionsDlg::onClick_Edit);
 		btnSave.OnClick = Callback(this, &COptionsDlg::onClick_Save);
@@ -194,25 +211,9 @@ public:
 		m_clist.SetExStyle(CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT);
 		m_clist.AutoRebuild();
 
-		SetDlgItemInt(m_hwnd, IDC_TRACK, g_ses_limit = g_plugin.getByte("TrackCount", 10), FALSE);
-		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
-		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(m_hwnd, IDC_TRACK, nullptr, FALSE));
-
 		m_opclist.ResetContent();
-		SetDlgItemInt(m_hwnd, IDC_STARTDELAY, g_plugin.getWord("StartupModeDelay", 1500), FALSE);
+
 		int startupmode = g_plugin.getByte("StartupMode", 3);
-		int exitmode = g_plugin.getByte("ShutdownMode", 2);
-
-		g_bExclHidden = g_plugin.getByte("ExclHidden", 0) != 0;
-		g_bWarnOnHidden = g_plugin.getByte("WarnOnHidden", 0) != 0;
-		g_bOtherWarnings = g_plugin.getByte("OtherWarnings", 1) != 0;
-		g_bCrashRecovery = g_plugin.getByte("CrashRecovery", 0) != 0;
-
-		CheckDlgButton(m_hwnd, IDC_EXCLHIDDEN, g_bExclHidden ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_LASTHIDDENWARN, g_bWarnOnHidden ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_WARNINGS, g_bOtherWarnings ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_CRASHRECOVERY, g_bCrashRecovery ? BST_CHECKED : BST_UNCHECKED);
-
 		if (startupmode == 1)
 			chkStartDialog.SetState(true);
 		else if (startupmode == 3)
@@ -222,6 +223,7 @@ public:
 		else if (startupmode == 0)
 			chkNothing.SetState(true);
 
+		int exitmode = g_plugin.getByte("ShutdownMode", 2);
 		if (exitmode == 0)
 			chkExitNothing.SetState(true);
 		else if (exitmode == 1)
@@ -237,7 +239,10 @@ public:
 			if (!LoadSessionContacts())
 				btnDel.Disable();
 		}
-		else btnDel.Disable();
+		else {
+			m_list.Disable();
+			btnDel.Disable();
+		}
 
 		GetComboBoxInfo(m_list.GetHwnd(), &cbi);
 		mir_subclassWindow(cbi.hwndItem, ComboBoxSubclassProc);
@@ -253,7 +258,7 @@ public:
 	{
 		int iDelay = GetDlgItemInt(m_hwnd, IDC_STARTDELAY, nullptr, FALSE);
 		g_plugin.setWord("StartupModeDelay", (uint16_t)iDelay);
-		g_plugin.setByte("TrackCount", (uint8_t)(g_ses_limit = GetDlgItemInt(m_hwnd, IDC_TRACK, nullptr, FALSE)));
+
 		if (chkExitSave.IsChecked())
 			g_plugin.setByte("ShutdownMode", 2);
 		else if (IsDlgButtonChecked(m_hwnd, IDC_REXDSAVE))
@@ -269,11 +274,6 @@ public:
 			g_plugin.setByte("StartupMode", 2);
 		else if (chkNothing.IsChecked())
 			g_plugin.setByte("StartupMode", 0);
-
-		g_plugin.setByte("ExclHidden", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
-		g_plugin.setByte("WarnOnHidden", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
-		g_plugin.setByte("OtherWarnings", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
-		g_plugin.setByte("CrashRecovery", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
 		return true;
 	}
 

@@ -25,7 +25,6 @@ OBJLIST<CSession> g_arUserSessions(1, NumericKeySortT), g_arDateSessions(1, Nume
 
 HANDLE hmTBButton[2], hiTBbutton[2], iTBbutton[2];
 
-int g_ses_limit;
 int g_lastUserId, g_lastDateId;
 
 bool g_bExclHidden;
@@ -64,7 +63,13 @@ PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 	g_lastUserId(MODULENAME, "LastUserId", 0),
-	g_lastDateId(MODULENAME, "LastDateId", 0)
+	g_lastDateId(MODULENAME, "LastDateId", 0),
+	bExclHidden(MODULENAME, "ExclHidden", false),
+	bWarnOnHidden(MODULENAME, "WarnOnHidden", false),
+	bOtherWarnings(MODULENAME, "OtherWarnings", true),
+	bCrashRecovery(MODULENAME, "CrashRecovery", false),
+	iTrackCount(MODULENAME, "TrackCount", 10),
+	iStartupDelay(MODULENAME, "StartupModeDelay", 1500)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +121,7 @@ static void SaveDateSession()
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", int(g_plugin.g_lastDateId));
 		g_plugin.setUString(szSetting, data.toString().c_str());
 
-		while (g_arDateSessions.getCount() >= g_ses_limit) {
+		while (g_arDateSessions.getCount() >= g_plugin.iTrackCount) {
 			mir_snprintf(szSetting, "%s_%d", "SessionDate", g_arDateSessions[0].id);
 			g_plugin.delSetting(szSetting);
 			g_arDateSessions.remove(int(0));
@@ -389,7 +394,6 @@ int CMPlugin::Load()
 	Miranda_WaitOnHandle(LaunchSessions);
 
 	// Settimgs
-	g_ses_limit = g_plugin.getByte("TrackCount", 10);
 	g_bExclHidden = g_plugin.getByte("ExclHidden", 0) != 0;
 	g_bWarnOnHidden = g_plugin.getByte("WarnOnHidden", 0) != 0;
 	g_bOtherWarnings = g_plugin.getByte("OtherWarnings", 1) != 0;

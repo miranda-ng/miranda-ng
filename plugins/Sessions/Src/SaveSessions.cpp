@@ -50,7 +50,7 @@ static int SaveUserSessionName(MCONTACT *contacts, wchar_t *szUSessionName)
 
 	pSession->save();
 
-	while (g_arUserSessions.getCount() > g_ses_limit) {
+	while (g_arUserSessions.getCount() > g_plugin.iTrackCount) {
 		g_arUserSessions[0].remove();
 		g_arUserSessions.remove(int(0));
 	}

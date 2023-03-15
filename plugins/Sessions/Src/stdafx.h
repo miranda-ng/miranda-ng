@@ -53,6 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<int> g_lastUserId, g_lastDateId;
+	CMOption<bool> bExclHidden, bWarnOnHidden, bOtherWarnings, bCrashRecovery;
+	CMOption<uint16_t> iTrackCount, iStartupDelay;
 
 	CMPlugin();
 
@@ -83,12 +85,11 @@ extern OBJLIST<CSession> g_arUserSessions, g_arDateSessions;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int  LoadSession(CSession *pSession);
-int  SaveSessionHandles(MCONTACT *pSession, bool bNewSession);
 
 void CALLBACK LaunchSessions();
 
 INT_PTR CloseCurrentSession(WPARAM, LPARAM);
-INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam);
+INT_PTR LoadLastSession(WPARAM, LPARAM);
 INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM);
 INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
 
@@ -96,12 +97,7 @@ extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
 
 extern HWND g_hDlg, g_hSDlg;
-extern int  g_ses_limit;
 extern bool g_bLastSessionPresent;
-extern bool g_bExclHidden;	
-extern bool g_bWarnOnHidden;
-extern bool g_bOtherWarnings;
-extern bool g_bCrashRecovery;
 extern bool g_bIncompletedSave;
 
 #define TIMERID_SHOW 11
