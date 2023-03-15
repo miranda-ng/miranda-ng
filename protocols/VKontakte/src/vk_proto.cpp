@@ -75,6 +75,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 
 	// Group chats
 	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_DATABASE;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
