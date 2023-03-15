@@ -294,6 +294,7 @@
 #define IDC_TXT_ALTNICK                 1323
 #define IDC_SAVE_PERM                   1324
 #define IDC_LIST1                       1326
+#define IDC_CHECK_ENOMEMO               1330
 #define IDC_BM_LIST                     3002
 #define IDC_ADD                         3004
 #define IDC_REMOVE                      3005
@@ -317,7 +318,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        235
 #define _APS_NEXT_COMMAND_VALUE         40017
-#define _APS_NEXT_CONTROL_VALUE         1327
+#define _APS_NEXT_CONTROL_VALUE         1331
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

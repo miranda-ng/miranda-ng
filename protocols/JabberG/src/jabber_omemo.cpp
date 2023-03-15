@@ -474,9 +474,9 @@ complete:
 		return false;
 	}
 
-	unsigned long omemo_impl::GetOwnDeviceId()
+	int omemo_impl::GetOwnDeviceId()
 	{
-		unsigned long own_id = proto->getDword("OmemoDeviceId", 0);
+		int own_id = proto->getDword("OmemoDeviceId", 0);
 		if (own_id == 0) {
 			proto->OmemoInitDevice();
 			own_id = proto->getDword("OmemoDeviceId", 0);
@@ -1328,8 +1328,47 @@ complete:
 
 		return buf;
 	}
-};
 
+	// Some DB helpers
+	int omemo_impl::dbGetDeviceId(MCONTACT hContact, uint32_t number)
+	{
+		CMStringA szSetting(FORMAT, "%s%u", DevicePrefix, number);
+		return proto->getDword(hContact, szSetting, 0);
+	}
+
+	CMStringA omemo_impl::dbGetSuffix(MCONTACT hContact, int device_id)
+	{
+		ptrA jid(proto->getStringA(hContact, "jid"));
+		if (!jid)
+			return CMStringA();
+
+		return dbGetSuffix(jid, device_id);
+	}
+
+	CMStringA omemo_impl::dbGetSuffix(char *jid, int device_id)
+	{
+		if (!jid || device_id <= 0)
+			return CMStringA();
+
+		size_t len = strlen(jid);
+		char *jiddev = (char *)mir_alloc(len + sizeof(int32_t));
+		memcpy(jiddev, jid, len);
+		memcpy(jiddev + len, &device_id, sizeof(int32_t));
+		ptrA suffix(mir_base64_encode(jiddev, len + sizeof(int32_t)));
+		mir_free(jiddev);
+
+		return CMStringA(suffix);
+	}
+
+	CMStringA hex_string(const uint8_t *pData, const size_t length)
+	{
+		CMStringA hexstr;
+		hexstr.Truncate((int)length * 2);
+		bin2hex(pData, length, hexstr.GetBuffer());
+
+		return hexstr;
+	}
+};
 
 void CJabberProto::OmemoInitDevice()
 {

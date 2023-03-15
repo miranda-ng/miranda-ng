@@ -36,6 +36,7 @@ namespace omemo
 	const char DevicePrefix[] = "OmemoDeviceId";
 
 	CMStringW FormatFingerprint(const char* pszHexString);
+	CMStringA hex_string(const uint8_t* pData, const size_t length);
 
 	struct omemo_device;
 
@@ -47,7 +48,7 @@ namespace omemo
 		void init();
 		void deinit();
 		bool IsFirstRun();
-		unsigned long GetOwnDeviceId();
+		int GetOwnDeviceId();
 		void RefreshDevice();
 		omemo_device* create_device();
 		bool create_session_store(MCONTACT hContact, const char *device_id);
@@ -61,6 +62,10 @@ namespace omemo
 		std::map<MCONTACT, bool> session_checked;
 		std::list<struct incoming_message> incoming_messages;
 		std::list<struct outgoing_message> outgoing_messages;
+
+		int dbGetDeviceId(MCONTACT hContact, uint32_t number);
+		CMStringA dbGetSuffix(MCONTACT hContact, int device_id);
+		CMStringA dbGetSuffix(char* jid, int device_id);
 
 		TiXmlDocument doc;
 

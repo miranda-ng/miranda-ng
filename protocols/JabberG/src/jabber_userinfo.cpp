@@ -738,6 +738,7 @@ static int EnumOmemoSessions(const char *szSetting, void *param)
 class JabberUserOmemoDlg : public JabberBaseUserInfoDlg
 {
 	CCtrlListView m_list;
+	CCtrlCheck m_ChkEnabled;
 
 	void AddListItem(const CMStringA &pszStr1, const wchar_t *pszStr2, const CMStringA &pszStr3)
 	{
@@ -756,8 +757,11 @@ class JabberUserOmemoDlg : public JabberBaseUserInfoDlg
 public:
 	JabberUserOmemoDlg(CJabberProto *_ppro) :
 		JabberBaseUserInfoDlg(_ppro, IDD_INFO_OMEMO),
-		m_list(this, IDC_LIST)
+		m_list(this, IDC_LIST),
+		m_ChkEnabled(this, IDC_CHECK_ENOMEMO)
 	{
+//		m_ChkEnabled.OnChange = Callback(this, &JabberUserOmemoDlg::onEnCheck);
+		m_list.OnBuildMenu = Callback(this, &JabberUserOmemoDlg::onMenu_List);
 	}
 
 	bool OnInitDialog() override
@@ -777,14 +781,30 @@ public:
 		lvc.pszText = TranslateT("Fingerprint");
 		m_list.InsertColumn(3, &lvc);
 
-		if (m_hContact == 0)
+		if (m_hContact == 0) {
 			OnRefresh();
+			m_ChkEnabled.Disable();
+			m_ChkEnabled.SetState(1);
+		}
+		else {
+			if (ppro->isChatRoom(m_hContact)) {
+				m_ChkEnabled.Disable();
+				m_ChkEnabled.SetState(0);
+			}
+			else
+				m_ChkEnabled.SetState(!ppro->getByte(m_hContact, "bDisableOmemo"));
+		}
 		return true;
 	}
 
-	int Resizer(UTILRESIZECONTROL*) override
+	int Resizer(UTILRESIZECONTROL* ctrl) override
 	{
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		switch (ctrl->wId) {
+		case IDC_CHECK_ENOMEMO:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+		default:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		}
 	}
 
 	bool OnRefresh() override
@@ -795,47 +815,80 @@ public:
 			// GetOwnDeviceId() creates own keys if they don't exist
 			CMStringA str1(FORMAT, "%d", ppro->m_omemo.GetOwnDeviceId());
 			CMStringA str2(ppro->getMStringA("OmemoFingerprintOwn"));
-			AddListItem(str1, TranslateT("Own device"), str2);
+			AddListItem(str1, TranslateT("This device"), str2);
 		}
 
 		for (int i = 0;; i++) {
-			CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
-			uint32_t device_id = ppro->getDword(m_hContact, szSetting, 0);
+			int device_id = ppro->m_omemo.dbGetDeviceId(m_hContact, i);
 			if (device_id == 0)
 				break;
 
-			char *jiddev = ppro->getStringA(m_hContact, "jid");
-			if (jiddev == 0)
-				continue;
+			CMStringA suffix(ppro->m_omemo.dbGetSuffix(m_hContact, device_id));
+			MBinBuffer fp(ppro->getBlob(m_hContact, CMStringA(omemo::IdentityPrefix) + suffix));
 
-			size_t len = strlen(jiddev);
-			jiddev = (char *)mir_realloc(jiddev, len + sizeof(int32_t));
-			memcpy(jiddev + len, &device_id, sizeof(int32_t));
-
-			szSetting = omemo::IdentityPrefix;
-			szSetting.Append(ptrA(mir_base64_encode(jiddev, len + sizeof(int32_t))));
-			mir_free(jiddev);
-
-			const wchar_t *pwszStatus = L"";
+			CMStringW wsStatus;
 			CMStringA fp_hex;
-			DBVARIANT dbv = { 0 };
-			dbv.type = DBVT_BLOB;
-			db_get(m_hContact, ppro->m_szModuleName, szSetting, &dbv);
-			if (dbv.cpbVal == 33) {
-				fp_hex.Truncate(33 * 2);
-				bin2hex(dbv.pbVal, 33, fp_hex.GetBuffer());
-				uint8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex);
-				pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
-				//TODO: 3 states Trusted, Untrusted, TOFU
+			if (!fp.isEmpty()) {
+				fp_hex = omemo::hex_string(fp.data(), fp.length());
+				int8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex);
+				wsStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
 			}
-			else if (dbv.cpbVal)
-				pwszStatus = TranslateT("Unknown");
+			MBinBuffer session(ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix));
 
-			db_free(&dbv);
-
-			AddListItem(CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
+			CMStringA device(FORMAT, "%d", device_id);
+			if (!session.isEmpty())
+				device.AppendChar('*');
+			AddListItem(device, wsStatus, fp_hex);
 		}
 		return false;
+	}
+
+	void onMenu_List(CContextMenuPos *pos)
+	{
+		if (pos->iCurr < 0)
+			return;
+
+		wchar_t wszText[16];
+		m_list.GetItemText(pos->iCurr, 0, wszText, _countof(wszText));
+		int device_id = wcstol(wszText, NULL, 10);
+		if (device_id == ppro->m_omemo.GetOwnDeviceId())
+			return;
+
+		CMStringA suffix(ppro->m_omemo.dbGetSuffix(m_hContact, device_id));
+		MBinBuffer fp(ppro->getBlob(m_hContact, CMStringA(omemo::IdentityPrefix) + suffix));
+		CMStringA TrustSettingName("OmemoFingerprintTrusted_");
+		TrustSettingName.Append(omemo::hex_string(fp.data(), fp.length()));
+
+		int8_t trusted = ppro->getByte(m_hContact, TrustSettingName);
+		bool ses = !ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix).isEmpty();
+
+		HMENU hMenu = CreatePopupMenu();
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
+		AppendMenu(hMenu, MF_STRING | (ses ? 0 : MF_GRAYED), (UINT_PTR)2, TranslateT("Kill session"));
+		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
+		if (nReturnCmd == 1) {
+			ppro->setByte(m_hContact, TrustSettingName, !trusted);
+			OnRefresh();
+		}
+		else if (nReturnCmd == 2) {
+			// TODO Purge session in ram
+			CMStringA SettingName(FORMAT, "OmemoDeviceId%dChecked", pos->iCurr);
+			ppro->delSetting(m_hContact, SettingName);
+			ppro->delSetting(m_hContact, "OmemoSignalSession_" + suffix);
+
+			OnRefresh();
+		}
+		DestroyMenu(hMenu);
+	}
+
+	bool OnApply() override
+	{
+		if (m_ChkEnabled.GetState())
+			ppro->delSetting(m_hContact, "bDisableOmemo");
+		else
+			ppro->setByte(m_hContact, "bDisableOmemo", true);
+
+		return true;
 	}
 };
 
