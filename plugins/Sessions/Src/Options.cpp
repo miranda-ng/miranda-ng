@@ -28,7 +28,6 @@ HWND hComboBoxEdit = nullptr;
 HWND hOpClistControl = nullptr;
 
 CSession *pSession = nullptr;
-BOOL bSesssionNameChanged = 0;
 
 BOOL bChecked = FALSE;
 
@@ -121,10 +120,27 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 class COptionsDlg : public CDlgBase
 {
+	void BuildList()
+	{
+		for (auto &cc : Contacts()) {
+			HANDLE hContact = m_clist.FindContact(cc);
+
+			bool bSet = false;
+			for (int i = 0; session_list_t[i] > 0; i++)
+				if (session_list_t[i] == cc) {
+					bSet = true;
+					break;
+				}
+
+			m_clist.SetCheck(hContact, bSet);
+		}
+	}
+
 	// returns number of contacts in a session
 	int LoadSessionContacts()
 	{
 		memset(session_list_t, 0, sizeof(session_list_t));
+		m_opclist.ResetContent();
 
 		int i = 0;
 		for (auto &cc : pSession->contacts)
@@ -145,6 +161,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlButton btnSave, btnEdit, btnDel;
 
 	MCONTACT session_list_t[255];
+	bool bSesssionNameChanged = false, bClistChanged = false;
 
 public:
 	COptionsDlg() :
@@ -307,12 +324,13 @@ public:
 	void onCheckChanged_Clist(CCtrlClc::TEventInfo*)
 	{
 		btnSave.Enable();
+		bClistChanged = true;
 	}
 
 	void onEditChange_List(CCtrlCombo *)
 	{
 		btnSave.Enable();
-		bSesssionNameChanged = TRUE;
+		bSesssionNameChanged = true;
 	}
 
 	void onSelChange_List(CCtrlCombo *)
@@ -337,13 +355,7 @@ public:
 		if (!hOpClistControl)
 			btnDel.Enable();
 		else {
-			for (auto &hContact : Contacts())
-				SendMessage(hOpClistControl, CLM_SETCHECKMARK, hContact, 0);
-
-			for (int i = 0; session_list_t[i] > 0; i++) {
-				MCONTACT hContact = (MCONTACT)SendMessage(hOpClistControl, CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
-				SendMessage(hOpClistControl, CLM_SETCHECKMARK, hContact, 1);
-			}
+			BuildList();
 			btnSave.Disable();
 		}
 	}
@@ -355,12 +367,16 @@ public:
 			m_clist.Show();
 			btnDel.Disable();
 			btnEdit.SetText(TranslateT("View"));
-			hOpClistControl = m_clist.GetHwnd();
 
-			for (int i = 0; session_list_t[i] > 0; i++)
-				m_clist.SetCheck(m_clist.FindContact(session_list_t[i]), true);
+			hOpClistControl = m_clist.GetHwnd();
+			BuildList();
 		}
 		else {
+			if (btnSave.Enabled()) {
+				if (IDYES == MessageBoxW(m_hwnd, TranslateT("Do you want to save changes?"), TranslateT("Sessions"), MB_YESNO | MB_ICONQUESTION))
+					onClick_Save(0);
+			}
+
 			m_clist.Hide();
 			m_opclist.Show();
 			btnDel.Enable();
@@ -372,13 +388,18 @@ public:
 
 	void onClick_Save(CCtrlButton *)
 	{
-		pSession->contacts.clear();
+		if (bClistChanged) {
+			pSession->contacts.clear();
 
-		for (auto &hContact : Contacts()) {
-			uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
-			if (res)
-				pSession->contacts.push_back(hContact);
+			for (auto &hContact : Contacts()) {
+				uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
+				if (res)
+					pSession->contacts.push_back(hContact);
+			}
+			
+			LoadSessionContacts();
 		}
+
 		if (bSesssionNameChanged) {
 			if (GetWindowTextLength(hComboBoxEdit)) {
 				wchar_t szUserSessionName[MAX_PATH] = { '\0' };
@@ -388,7 +409,7 @@ public:
 				m_list.ResetContent();
 				LoadSessionToCombobox(m_list, true);
 			}
-			bSesssionNameChanged = FALSE;
+			bSesssionNameChanged = false;
 		}
 		pSession->save();
 
