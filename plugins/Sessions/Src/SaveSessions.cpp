@@ -64,7 +64,8 @@ class CSessionDlg : public CDlgBase
 {
 	CCtrlClc m_clist;
 	CCtrlCombo m_sessions;
-	CCtrlCheck chkSelContacts, chkSaveAndClose;
+	CCtrlCheck chkSaveAndClose;
+	CCtrlMButton chkSelContacts;
 
 	MCONTACT user_session_list[255];
 
@@ -73,18 +74,21 @@ public:
 		CDlgBase(g_plugin, IDD_SAVEDIALOG),
 		m_clist(this, IDC_CLIST),
 		m_sessions(this, IDC_LIST),
-		chkSelContacts(this, IDC_SELCONTACTS),
+		chkSelContacts(this, IDC_SELCONTACTS, SKINICON_AUTH_ADD, LPGEN("More contacts")),
 		chkSaveAndClose(this, IDC_SANDCCHECK)
 	{
 		memset(user_session_list, 0, sizeof(user_session_list));
 
-		chkSelContacts.OnChange = Callback(this, &CSessionDlg::onChange_SelContacts);
+		chkSelContacts.OnClick = Callback(this, &CSessionDlg::onChange_SelContacts);
 
 		m_clist.OnCheckChanged = Callback(this, &CSessionDlg::onCheckChanged_Clist);
 	}
 
 	bool OnInitDialog() override
 	{
+		chkSelContacts.MakeFlat();
+		chkSelContacts.MakePush();
+
 		g_hSDlg = m_hwnd;
 		LoadSessionToCombobox(m_sessions, true);
 
@@ -107,7 +111,7 @@ public:
 			return false;
 		}
 
-		if (chkSelContacts.IsChecked() && bSC) {
+		if (chkSelContacts.IsPushed() && bSC) {
 			int i = 0;
 			for (auto &hContact : Contacts()) {
 				uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
@@ -153,7 +157,7 @@ public:
 
 		int x = rWnd.right - rWnd.left, y = rWnd.bottom - rWnd.top, dy, dx, dd;
 
-		if (chkSelContacts.IsChecked()) {
+		if (chkSelContacts.IsPushed()) {
 			chkSaveAndClose.Disable();
 			dy = 20;
 			dx = 150;

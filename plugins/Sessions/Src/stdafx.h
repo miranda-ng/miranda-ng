@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_message.h>
 #include <m_metacontacts.h>
 #include <m_options.h>
+#include <m_skin.h>
 #include <m_srmm_int.h>
 #include <m_utils.h>
 

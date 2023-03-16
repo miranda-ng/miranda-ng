@@ -372,24 +372,25 @@ public:
 
 	void onClick_Save(CCtrlButton *)
 	{
+		pSession->contacts.clear();
+
 		for (auto &hContact : Contacts()) {
 			uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
-			if (res) {
-				// !!!!!!!!!!!!!!!!!!!
-			}
+			if (res)
+				pSession->contacts.push_back(hContact);
 		}
 		if (bSesssionNameChanged) {
 			if (GetWindowTextLength(hComboBoxEdit)) {
 				wchar_t szUserSessionName[MAX_PATH] = { '\0' };
 				GetWindowText(hComboBoxEdit, szUserSessionName, _countof(szUserSessionName));
 				pSession->wszName = szUserSessionName;
-				pSession->save();
 
 				m_list.ResetContent();
 				LoadSessionToCombobox(m_list, true);
 			}
 			bSesssionNameChanged = FALSE;
 		}
+		pSession->save();
 
 		btnSave.Disable();
 	}

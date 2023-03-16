@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(65001)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ BEGIN
     COMBOBOX        IDC_LIST,12,30,148,65,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_CLIST,"CListControl",NOT WS_VISIBLE | WS_TABSTOP | WS_CHILD,12,30,148,65
     CONTROL         "Save and Close",IDC_SANDCCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,46,137,10
-    CONTROL         "adv.",IDC_SELCONTACTS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_FLAT | WS_TABSTOP,136,4,24,10
+    CONTROL         "",IDC_SELCONTACTS,"MButtonClass",WS_TABSTOP,136,4,16,16
 END
 
 IDD_EXDIALOG DIALOGEX 0, 0, 170, 70
