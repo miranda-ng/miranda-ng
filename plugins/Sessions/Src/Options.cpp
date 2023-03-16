@@ -411,6 +411,7 @@ public:
 		}
 		else {
 			pSession = nullptr;
+			m_list.Disable();
 			btnEdit.Disable();
 			btnDel.Disable();
 		}
