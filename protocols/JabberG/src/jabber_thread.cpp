@@ -1597,15 +1597,6 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			hContact = DBCreateContact(from, nick, true, true);
 		}
 
-		if (hContact && m_bUseOMEMO) {
-			XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetOmemodevicelist, JABBER_IQ_TYPE_GET));
-			iq << XATTR("from", szBareOurJid);
-			iq << XATTR("to", szBareFrom);
-			iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
-				<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
-			m_ThreadInfo->send(iq);
-		}
-
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
 			debugLogA("Receive presence online from %s (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from, hContact);

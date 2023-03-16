@@ -700,6 +700,7 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	}
 
 	SendGetVcard(hContact);
+	OmemoRequestDeviceList(jid);
 	return 0;
 }
 

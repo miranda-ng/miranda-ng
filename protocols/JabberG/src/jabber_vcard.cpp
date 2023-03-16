@@ -1063,4 +1063,5 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 
 	CheckOmemoUserInfo(wParam, uip);
 	SendGetVcard(0);
+	OmemoRequestDeviceList(nullptr);
 }

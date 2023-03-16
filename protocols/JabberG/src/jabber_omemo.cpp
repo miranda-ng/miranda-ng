@@ -1996,3 +1996,19 @@ bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
 {
 	return !getByte(hContact, "bDisableOmemo");
 }
+
+void CJabberProto::OmemoRequestDeviceList(const char *szBareJid)
+{
+	if (!m_bJabberOnline)
+		return;
+
+	if (szBareJid && strchr(szBareJid, '/'))
+		return;
+
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetOmemodevicelist, JABBER_IQ_TYPE_GET));
+	if (szBareJid)
+		iq << XATTR("to", szBareJid);
+	iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
+		<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
+	m_ThreadInfo->send(iq);
+}

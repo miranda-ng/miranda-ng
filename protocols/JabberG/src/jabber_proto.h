@@ -731,6 +731,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
 	bool       OmemoIsEnabled(MCONTACT hContact);
 	void       OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OmemoRequestDeviceList(const char * szBareJid);
 
 	omemo::omemo_impl m_omemo;
 
