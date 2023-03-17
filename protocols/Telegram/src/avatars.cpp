@@ -90,7 +90,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 				CMStringW wszFullName = it->m_destPath + L"\\" + it->m_fileName;
 
 				if (it->m_type == it->AVATAR) {
-					if (it->m_destPath.Right(5).MakeLower() == L".webp") {
+					if (it->m_fileName.Right(5).MakeLower() == L".webp") {
 						if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
 							wszFullName.Truncate(wszFullName.GetLength() - 5);
 							wszFullName += L".png";
