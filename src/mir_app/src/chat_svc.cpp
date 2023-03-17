@@ -899,6 +899,13 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+// function OnEventAdded() modifies an event, so let's call it after all handlers
+static int PostModulesLoaded(WPARAM, LPARAM)
+{
+	HookEvent(ME_DB_EVENT_ADDED, OnEventAdded);
+	return 0;
+}
+
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	SrmmModulesLoaded();
@@ -907,6 +914,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_SYSTEM_MODULESLOADED, PostModulesLoaded);
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x2bb76d5, 0x740d, 0x4fd2, 0x8f, 0xee, 0x7c, 0xa4, 0x5a, 0x74, 0x65, 0xa6);
@@ -981,7 +989,6 @@ int LoadChatModule(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	HookEvent(ME_DB_EVENT_ADDED, OnEventAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
