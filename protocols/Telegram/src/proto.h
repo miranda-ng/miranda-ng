@@ -59,19 +59,21 @@ struct TG_REQUEST_FULL : public TG_REQUEST_BASE
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TG_FILE_REQUEST
+struct TG_FILE_REQUEST : public MZeroedObject
 {
 	enum Type { AVATAR = 1, FILE = 2 };
 
-	TG_FILE_REQUEST(Type _1, const char *_2, const wchar_t *_3) :
+	TG_FILE_REQUEST(Type _1, TD::int53 _2, const char *_3) :
 		m_type(_1),
-		m_uniqueId(_2),
-		m_destPath(_3)
+		m_fileId(_2),
+		m_uniqueId(_3)
 	{}
 
 	Type m_type;
+	TD::int53 m_fileId;
 	CMStringA m_uniqueId;
-	CMStringW m_destPath;
+	CMStringW m_destPath, m_fileName;
+	PROTOFILETRANSFERSTATUS pfts;
 };
 
 struct TG_USER

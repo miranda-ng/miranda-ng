@@ -230,13 +230,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBo
 				break;
 			}
 			
-			auto *pFileId = pFile->remote_->unique_id_.c_str();
-
-			CMStringW wszDest(GetProtoFolder() + L"\\tmpfiles");
-			CreateDirectoryW(wszDest, 0);
-			wszDest.AppendFormat(L"\\%s", Utf2T(pDoc->document_->file_name_.c_str()).get());
-
-			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFileId, wszDest);
+			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFile->id_, pFile->remote_->unique_id_.c_str());
+			pRequest->m_fileName = Utf2T(pDoc->document_->file_name_.c_str());
+			pRequest->m_destPath = GetProtoFolder() + L"\\tmpfiles";
+			pRequest->pfts.flags = PFTS_UNICODE;
+			pRequest->pfts.hContact = pUser->hContact;
+			pRequest->pfts.currentFileSize = pFile->size_;
 			m_arFiles.insert(pRequest);
 
 			auto *pszFileName = pDoc->document_->file_name_.c_str();
@@ -269,11 +268,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBo
 			default:pwszFileExt = "jpeg"; break;
 			}
 
-			CMStringW wszDest(GetAvatarPath() + L"\\Stickers");
-			CreateDirectoryW(wszDest, 0);
-			wszDest.AppendFormat(L"\\STK{%S}.%S", pFileId, pwszFileExt);
-
-			m_arFiles.insert(new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFileId, wszDest));
+			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFile->id_, pFileId);
+			pRequest->m_destPath = GetAvatarPath() + L"\\Stickers";
+			CreateDirectoryW(pRequest->m_destPath, 0);
+			
+			pRequest->m_fileName.Format(L"STK{%S}.%S", pFileId, pwszFileExt);
+			m_arFiles.insert(pRequest);
 
 			SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
 			return CMStringA(FORMAT, "STK{%s}", pFileId);

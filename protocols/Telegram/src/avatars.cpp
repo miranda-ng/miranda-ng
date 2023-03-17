@@ -87,21 +87,34 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 		for (auto &it : m_arFiles) {
 			if (it->m_uniqueId == pFile->remote_->unique_id_.c_str()) {
+				CMStringW wszFullName = it->m_destPath + L"\\" + it->m_fileName;
+
 				if (it->m_type == it->AVATAR) {
 					if (it->m_destPath.Right(5).MakeLower() == L".webp") {
 						if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
-							it->m_destPath.Truncate(it->m_destPath.GetLength() - 5);
-							it->m_destPath += L".png";
-							FreeImage_SaveU(FIF_PNG, pImage, it->m_destPath);
+							wszFullName.Truncate(wszFullName.GetLength() - 5);
+							wszFullName += L".png";
+							FreeImage_SaveU(FIF_PNG, pImage, wszFullName);
 							FreeImage_Unload(pImage);
 						}
 					}
-					else MoveFileW(wszExistingFile, it->m_destPath);
+					else MoveFileW(wszExistingFile, wszFullName);
 					
-					SMADD_CONT cont = {1, m_szModuleName, it->m_destPath};
+					SMADD_CONT cont = { 1, m_szModuleName, wszFullName };
 					CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+					m_arFiles.removeItem(&it);
 				}
-				m_arFiles.removeItem(&it);
+				else { // FILE
+					it->pfts.currentFileProgress = pFile->local_->downloaded_size_;
+					ProtoBroadcastAck(it->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, it, (LPARAM)&it->pfts);
+
+					if (pFile->local_->is_downloading_completed_) {
+						MoveFileW(wszExistingFile, wszFullName);
+						ProtoBroadcastAck(it->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, it);
+
+						m_arFiles.removeItem(&it);
+					}
+				}
 				return;
 			}
 		}
