@@ -487,12 +487,12 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 
 	case GC_EVENT_ADDSTATUS:
 		SM_GiveStatus(si, gce.pszUID.w, gce.pszStatus.w);
-		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
 		SM_TakeStatus(si, gce.pszUID.w, gce.pszStatus.w);
-		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
@@ -504,7 +504,7 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 
 	case GC_EVENT_NICK:
 		SM_ChangeNick(si, &gce);
-		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
 	case GC_EVENT_TYPING:
@@ -512,14 +512,14 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 
 	case GC_EVENT_JOIN:
 		AddUser(&gce);
-		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
 		bRemoveFlag = TRUE;
-		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 	}
 
