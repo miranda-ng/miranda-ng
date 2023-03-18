@@ -262,7 +262,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 		break;
 	
 	default:
-		CMStringA myNick(MyNick());
+		CMStringA myNick(MyNick(item->hContact));
 		mir_cslock lck(m_csLists);
 		for (auto &JS : item->arResources) {
 			if (!mir_strcmp(resource, JS->m_szResourceName)) {
@@ -311,7 +311,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 			szMessage = TranslateU(JABBER_GC_MSG_QUIT);
 	}
 	else {
-		CMStringA myNick(MyNick());
+		CMStringA myNick(MyNick(item->hContact));
 		GcLogUpdateMemberStatus(item, myNick, myNick, nullptr, GC_EVENT_KICK, reason);
 	}
 

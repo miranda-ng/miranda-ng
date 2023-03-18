@@ -393,7 +393,7 @@ public:
 				if (item->nick && *item->nick)
 					m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
 				else
-					m_proto->GroupchatJoinRoom(server, room, m_proto->MyNick(), item->password);
+					m_proto->GroupchatJoinRoom(server, room, m_proto->MyNick(item->hContact), item->password);
 			}
 		}
 		else Utils_OpenUrlW(Utf2T(item->jid));

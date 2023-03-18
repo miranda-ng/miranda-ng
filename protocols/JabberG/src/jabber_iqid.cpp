@@ -230,7 +230,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, uint32_t rq)
 				if (item->nick && item->nick[0])
 					GroupchatJoinRoom(server, p, item->nick, item->password, true);
 				else {
-					GroupchatJoinRoom(server, p, MyNick(), item->password, true);
+					GroupchatJoinRoom(server, p, MyNick(item->hContact), item->password, true);
 				}
 			}
 		}

@@ -1143,10 +1143,10 @@ void CJabberProto::GroupchatProcessInvite(const char *roomJid, const char *from,
 	if (ListGetItemPtr(LIST_CHATROOM, roomJid))
 		return;
 
-	if (m_bAutoAcceptMUC) {
+	if (m_bAutoAcceptMUC)
 		AcceptGroupchatInvite(roomJid, MyNick(), password);
-	}
-	else CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
+	else
+		CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
 }
 
 void CJabberProto::AcceptGroupchatInvite(const char *roomJid, const char *reason, const char *password)
