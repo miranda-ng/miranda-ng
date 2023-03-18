@@ -145,7 +145,7 @@ static void ShowRoom(SESSION_INFO *si)
 
 int Chat_Load()
 {
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, &g_plugin };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, &g_plugin };
 	Chat_CustomizeApi(&data);
 
 	g_chatApi.MM_CreateModule = MM_CreateModule;

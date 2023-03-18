@@ -128,7 +128,6 @@ CTabbedWindow *GetContainer();
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct MODULEINFO : public GCModuleInfoBase {};
-struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 #include "cmdlist.h"

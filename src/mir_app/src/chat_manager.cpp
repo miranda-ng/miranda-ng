@@ -122,15 +122,15 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
-GCSessionInfoBase::GCSessionInfoBase() :
+SESSION_INFO::SESSION_INFO() :
 	arKeys(10, CompareKeys),
 	arUsers(10, CompareUser)
 {}
 
-GCSessionInfoBase::~GCSessionInfoBase()
+SESSION_INFO::~SESSION_INFO()
 {}
 
-const char *GCSessionInfoBase::getSoundName(int iEventType) const
+const char* SESSION_INFO::SESSION_INFO::getSoundName(int iEventType) const
 {
 	// if sounds are filtered out for this event type, do nothing;
 	if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEventType))
@@ -942,19 +942,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 	// wipe out old junk
 	memset((uint8_t*)&g_chatApi + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
-
-	if (g_cbSession) { // reallocate old sessions
-		mir_cslock lck(csChat);
-
-		LIST<SESSION_INFO> tmp(g_arSessions);
-		g_arSessions.destroy();
-
-		for (auto &p : tmp) {
-			SESSION_INFO *p1 = (SESSION_INFO*)realloc(p, pInit->cbSession);
-			memset((uint8_t*)p1 + sizeof(SESSION_INFO), 0, pInit->cbSession - sizeof(SESSION_INFO));
-			g_arSessions.insert(p1);
-		}
-	}
 	
 	if (g_cbModuleInfo != pInit->cbModuleInfo) { // reallocate old modules
 		bool bReallocated = false;
@@ -978,7 +965,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 	g_Settings = pInit->pSettings;
 	g_szFontGroup = pInit->szFontGroup;
-	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
 	g_iFontMode = pInit->iFontMode;
 	g_pChatPlugin = pInit->pPlugin;

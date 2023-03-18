@@ -50,11 +50,6 @@ struct MODULEINFO : public GCModuleInfoBase
 	wchar_t tszIdleMsg[60];
 };
 
-struct SESSION_INFO : public GCSessionInfoBase
-{
-	int iLogTrayFlags, iLogPopupFlags;
-};
-
 struct LOGSTREAMDATA : public GCLogStreamDataBase
 {
 	int crCount;

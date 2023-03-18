@@ -259,6 +259,8 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	else
 		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
 	si->hContact = AddRoom(pszModule, ptszID, szTemp, si->iType);
+	si->iLogPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+	si->iLogTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)

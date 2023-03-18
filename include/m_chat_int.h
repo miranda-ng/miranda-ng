@@ -132,10 +132,10 @@ struct STATUSINFO
 	STATUSINFO *next;
 };
 
-struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopyable
+struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 {
-	GCSessionInfoBase();
-	~GCSessionInfoBase();
+	SESSION_INFO();
+	~SESSION_INFO();
 
 	MCONTACT    hContact;
 
@@ -154,6 +154,7 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	int         iType;
 	int         iEventCount;
 	int         iStatusCount;
+	int         iLogTrayFlags, iLogPopupFlags;
 
 	uint16_t    wStatus;
 	uint16_t    wState;
@@ -168,7 +169,7 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	USERINFO *pMe;
 	STATUSINFO *pStatuses;
 	MODULEINFO *pMI;
-	GCSessionInfoBase *pParent;
+	SESSION_INFO *pParent;
 
 	LIST<USERINFO> arKeys;
 	OBJLIST<USERINFO> arUsers;
@@ -249,7 +250,6 @@ struct GlobalLogSettingsBase
 
 #ifndef SRMM_OWN_STRUCTURES
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
-struct SESSION_INFO : public GCSessionInfoBase {};
 struct MODULEINFO : public GCModuleInfoBase {};
 #endif
 
@@ -262,7 +262,7 @@ struct MODULEINFO : public GCModuleInfoBase {};
 struct CHAT_MANAGER_INITDATA
 {
 	GlobalLogSettingsBase *pSettings;
-	int cbModuleInfo, cbSession;
+	int cbModuleInfo;
 	wchar_t *szFontGroup;
 	int iFontMode;
 	HPLUGIN pPlugin;

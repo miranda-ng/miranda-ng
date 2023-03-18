@@ -33,7 +33,7 @@ void CheckChatCompatibility();
 class CLogWindow : public CSrmmLogWindow {};
 
 extern HPLUGIN  g_pChatPlugin;
-extern int      g_cbSession, g_cbModuleInfo, g_iFontMode;
+extern int      g_cbModuleInfo, g_iFontMode;
 extern wchar_t *g_szFontGroup;
 extern mir_cs   csChat;
 
