@@ -315,7 +315,6 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 		GcLogUpdateMemberStatus(item, myNick, myNick, nullptr, GC_EVENT_KICK, reason);
 	}
 
-	Utf2T wszRoomJid(item->jid);
 	if (code == 200)
 		Chat_Terminate(item->si);
 	else
