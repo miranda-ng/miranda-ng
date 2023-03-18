@@ -51,21 +51,21 @@ namespace omemo
 		int GetOwnDeviceId();
 		void RefreshDevice();
 		omemo_device* create_device();
-		bool create_session_store(MCONTACT hContact, const char *device_id);
+		bool create_session_store();
 		bool build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
 			const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key);
 
 		__forceinline void lock() { _signal_cs.Lock(); }
 		__forceinline void unlock() { _signal_cs.Unlock(); }
 
-		std::map<MCONTACT, std::map<unsigned int, struct omemo_session_jabber_internal_ptrs>> sessions;
 		std::map<MCONTACT, bool> session_checked;
+		signal_protocol_store_context *store_context;
 		std::list<struct incoming_message> incoming_messages;
 		std::list<struct outgoing_message> outgoing_messages;
 
 		int dbGetDeviceId(MCONTACT hContact, uint32_t number);
 		CMStringA dbGetSuffix(MCONTACT hContact, int device_id);
-		CMStringA dbGetSuffix(char* jid, int device_id);
+		CMStringA dbGetSuffix(const char* jid, int device_id);
 
 		TiXmlDocument doc;
 

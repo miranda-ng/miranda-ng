@@ -866,17 +866,17 @@ public:
 		AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
 		AppendMenu(hMenu, MF_STRING | (ses ? 0 : MF_GRAYED), (UINT_PTR)2, TranslateT("Kill session"));
 		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
-		if (nReturnCmd == 1) {
+		switch (nReturnCmd) {
+		case 1:
 			ppro->setByte(m_hContact, TrustSettingName, !trusted);
+			if (trusted)
+				ppro->delSetting(m_hContact, "OmemoSignalSession_" + suffix);
 			OnRefresh();
-		}
-		else if (nReturnCmd == 2) {
-			// TODO Purge session in ram
-			CMStringA SettingName(FORMAT, "OmemoDeviceId%dChecked", pos->iCurr);
-			ppro->delSetting(m_hContact, SettingName);
+			break;
+		case 2:
 			ppro->delSetting(m_hContact, "OmemoSignalSession_" + suffix);
-
 			OnRefresh();
+			break;
 		}
 		DestroyMenu(hMenu);
 	}
