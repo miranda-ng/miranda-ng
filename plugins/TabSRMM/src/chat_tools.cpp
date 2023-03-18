@@ -152,7 +152,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	char *szProto = dat ? dat->m_szProto : si->pszModule;
 	if (szProto != nullptr) {
 		int dwStatus = Proto_GetStatus(szProto);
-		if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE))
+		if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE)
 			return 0;
 	}
 
