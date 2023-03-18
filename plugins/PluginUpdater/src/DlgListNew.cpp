@@ -265,8 +265,14 @@ public:
 				if (it->bEnabled)
 					iCount++;
 
-			btnOk.SetText(CMStringW(FORMAT, L"%s (%d)", TranslateT("Download"), iCount));
-			btnOk.Enable(iCount > 0);
+			CMStringW wszText(TranslateT("Download"));
+			if (iCount > 0) {
+				wszText.AppendFormat(L" (%d)", iCount);
+				btnOk.Enable();
+			}
+			else btnOk.Disable();
+
+			btnOk.SetText(wszText);
 		}
 	}
 
