@@ -451,7 +451,7 @@ protected:
 				m_cbLocale.SetCurSel(iItem);
 		}
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), !m_chkUseHostnameAsResource.GetState());
+		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), !m_chkUseHostnameAsResource.IsChecked());
 		EnableWindow(GetDlgItem(m_hwnd, IDC_UNREGISTER), m_proto->m_bJabberOnline);
 
 		m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
@@ -476,7 +476,7 @@ protected:
 		// clear saved password
 		m_proto->m_savedPassword = nullptr;
 
-		if (m_chkSavePassword.GetState())
+		if (m_chkSavePassword.IsChecked())
 			m_proto->setWString("Password", ptrW(m_txtPassword.GetText()));
 		else
 			m_proto->delSetting("Password");
@@ -535,7 +535,7 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		if (m_chkManualHost.GetState()) {
+		if (m_chkManualHost.IsChecked()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
@@ -544,7 +544,7 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0])) {
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.IsChecked() || regInfo.manualHost[0])) {
 			CJabberDlgRegister dlg(m_proto, m_hwnd, &regInfo);
 			dlg.DoModal();
 		}
@@ -578,7 +578,7 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		if (chk->GetState()) {
+		if (chk->IsChecked()) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
 			m_txtPort.Disable();
@@ -594,8 +594,8 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		m_cbResource.Enable(!chk->GetState());
-		if (chk->GetState()) {
+		m_cbResource.Enable(!chk->IsChecked());
+		if (chk->IsChecked()) {
 			wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
 			DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 			if (GetComputerName(szCompName, &dwCompNameLength))
@@ -606,7 +606,7 @@ private:
 	void chkUseDomainLogin_OnChange(CCtrlData *sender)
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
-		bool bChecked = chk->GetState();
+		bool bChecked = chk->IsChecked();
 
 		m_txtPassword.Enable(!bChecked);
 		m_txtUsername.Enable(!bChecked);
@@ -620,8 +620,8 @@ private:
 
 	void chkUseSsl_OnChange(CCtrlData *)
 	{
-		bool bManualHost = m_chkManualHost.GetState();
-		if (m_chkUseSsl.GetState()) {
+		bool bManualHost = m_chkManualHost.IsChecked();
+		if (m_chkUseSsl.IsChecked()) {
 			m_chkUseTls.Disable();
 			if (!bManualHost)
 				m_txtPort.SetInt(5223);
@@ -636,7 +636,7 @@ private:
 
 	void chkUseTls_OnChange(CCtrlData *)
 	{
-		if (m_chkUseTls.GetState())
+		if (m_chkUseTls.IsChecked())
 			m_chkUseSsl.Disable();
 		else
 			m_chkUseSsl.Enable();
@@ -648,7 +648,7 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		if (m_chkManualHost.GetState()) {
+		if (m_chkManualHost.IsChecked()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
@@ -657,7 +657,7 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.IsChecked() || regInfo.manualHost[0]))
 			m_btnRegister.Enable();
 		else
 			m_btnRegister.Disable();
@@ -771,8 +771,8 @@ public:
 
 	void chkDirect_OnChange(CCtrlData *)
 	{
-		if (m_chkDirect.GetState()) {
-			if (m_chkDirectManual.GetState())
+		if (m_chkDirect.IsChecked()) {
+			if (m_chkDirectManual.IsChecked())
 				m_txtDirect.Enable();
 			else
 				m_txtDirect.Disable();
@@ -866,8 +866,11 @@ class CJabberDlgAccMgrUI : public CJabberDlgBase
 	CCtrlCombo		m_cbResource;
 	CCtrlCheck		m_chkManualHost;
 	CCtrlEdit		m_txtManualHost;
-	CCtrlEdit		m_txtPort;
+	CCtrlEdit		m_txtManualPort;
 	CCtrlButton		m_btnRegister;
+
+	bool m_canregister;
+	int  m_iDefPort; // invisible in this dialog
 
 public:
 	CJabberDlgAccMgrUI(CJabberProto *proto, HWND hwndParent) :
@@ -879,9 +882,9 @@ public:
 		m_chkSavePassword(this, IDC_SAVEPASSWORD),
 		m_cbResource(this, IDC_COMBO_RESOURCE),
 		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
-		m_txtPort(this, IDC_PORT),
 		m_chkManualHost(this, IDC_MANUAL),
 		m_txtManualHost(this, IDC_HOST),
+		m_txtManualPort(this, IDC_HOSTPORT),
 		m_btnRegister(this, IDC_BUTTON_REGISTER)
 	{
 		SetParent(hwndParent);
@@ -890,8 +893,12 @@ public:
 		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
-		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
+		CreateLink(m_chkManualHost, proto->m_bManualConnect);
+		CreateLink(m_txtManualHost, "ManualHost", L"");
+		CreateLink(m_txtManualPort, "ManualPort", DBVT_WORD, 5222);
+
+		m_iDefPort = proto->getWord("Port", 5222);
 
 		// Bind events
 		m_cbType.OnChange = Callback(this, &CJabberDlgAccMgrUI::cbType_OnChange);
@@ -947,7 +954,6 @@ protected:
 
 		char server[256];
 		m_txtServer.GetTextA(server, _countof(server));
-		m_txtManualHost.SetTextA(server);
 
 		m_canregister = true;
 		if (!mir_strcmp(server, "chat.hipchat.com")) {
@@ -986,41 +992,9 @@ protected:
 			m_cbType.SetCurSel(ACC_SSL);
 		else if (m_proto->m_bUseTLS) {
 			m_cbType.SetCurSel(ACC_TLS);
-			m_txtPort.SetInt(5222);
+			m_iDefPort = 5222;
 		}
 		else m_cbType.SetCurSel(ACC_PUBLIC);
-
-		if (m_chkManualHost.Enabled()) {
-			if (m_proto->m_bManualConnect) {
-				m_chkManualHost.SetState(true);
-				m_txtManualHost.Enable();
-				m_txtPort.Enable();
-
-				ptrW dbManualHost(m_proto->getWStringA("ManualHost"));
-				if (dbManualHost != nullptr)
-					m_txtManualHost.SetText(dbManualHost);
-
-				m_txtPort.SetInt(m_proto->getWord("ManualPort", m_txtPort.GetInt()));
-			}
-			else {
-				int defPort = m_txtPort.GetInt();
-				int port = m_proto->getWord("Port", defPort);
-
-				if (port != defPort) {
-					m_chkManualHost.SetState(true);
-					m_txtManualHost.Enable();
-					m_txtPort.Enable();
-
-					m_txtManualHost.SetTextA(server);
-					m_txtPort.SetInt(port);
-				}
-				else {
-					m_chkManualHost.SetState(false);
-					m_txtManualHost.Disable();
-					m_txtPort.Disable();
-				}
-			}
-		}
 
 		if (m_proto->m_bUseDomainLogin)
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
@@ -1044,7 +1018,7 @@ protected:
 		}
 		m_proto->m_bHostNameAsResource = bUseHostnameAsResource;
 
-		if (m_chkSavePassword.GetState()) {
+		if (m_chkSavePassword.IsChecked()) {
 			wchar_t *text = m_txtPassword.GetText();
 			m_proto->setWString("Password", text);
 			mir_free(text);
@@ -1058,8 +1032,7 @@ protected:
 
 		case ACC_OK:
 			m_proto->m_bIgnoreRoster = true;
-			m_proto->m_bUseSSL = false;
-			m_proto->m_bUseTLS = true;
+			__fallthrough;
 
 		case ACC_TLS:
 		case ACC_HIPCHAT:
@@ -1084,25 +1057,13 @@ protected:
 			break;
 		}
 
-		ptrA szManualServer(m_txtManualHost.GetTextA());
-		if (m_chkManualHost.IsChecked() && mir_strcmp(ptrA(m_txtServer.GetTextA()), szManualServer)) {
-			m_proto->m_bManualConnect = true;
-			m_proto->setString("ManualHost", szManualServer);
-			m_proto->setWord("ManualPort", m_txtPort.GetInt());
-			m_proto->setWord("Port", m_txtPort.GetInt());
-		}
-		else {
-			m_proto->m_bManualConnect = false;
-			m_proto->delSetting("ManualHost");
-			m_proto->delSetting("ManualPort");
-			m_proto->setWord("Port", m_txtPort.GetInt());
-		}
+		m_proto->setWord("Port", m_iDefPort);
 
 		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_cbType.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_txtServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged()) {
+				m_txtServer.IsChanged() || m_txtManualPort.IsChanged() || m_txtManualHost.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("Some changes will take effect the next time you connect to the Jabber network."),
 					TranslateT("Jabber Protocol Option"), MB_OK | MB_SETFOREGROUND);
@@ -1119,9 +1080,6 @@ protected:
 			CheckRegistration();
 	}
 
-private:
-	bool m_canregister;
-
 	void btnRegister_OnClick(CCtrlButton*)
 	{
 		PSHNOTIFY pshn = {};
@@ -1133,13 +1091,13 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		regInfo.port = (uint16_t)m_txtPort.GetInt();
-		if (m_chkManualHost.GetState())
+		regInfo.port = (uint16_t)m_iDefPort;
+		if (m_chkManualHost.IsChecked())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		else
 			regInfo.manualHost[0] = '\0';
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.IsChecked() || regInfo.manualHost[0]))
 			CJabberDlgRegister(m_proto, m_hwnd, &regInfo).DoModal();
 	}
 
@@ -1150,10 +1108,9 @@ private:
 		CheckRegistration();
 	}
 
-	void chkUseDomainLogin_OnChange(CCtrlData *sender)
+	void chkUseDomainLogin_OnChange(CCtrlCheck *sender)
 	{
-		CCtrlCheck *chk = (CCtrlCheck *)sender;
-		bool bChecked = chk->GetState();
+		bool bChecked = sender->IsChecked();
 
 		m_txtPassword.Enable(!bChecked);
 		m_txtUsername.Enable(!bChecked);
@@ -1165,21 +1122,11 @@ private:
 		}
 	}
 
-	void chkManualHost_OnChange(CCtrlData *sender)
+	void chkManualHost_OnChange(CCtrlCheck *sender)
 	{
-		CCtrlCheck *chk = (CCtrlCheck *)sender;
-
-		if (chk->GetState()) {
-			m_txtManualHost.SetTextA(ptrA(m_txtServer.GetTextA()));
-			m_txtPort.SetInt(5222);
-
-			m_txtManualHost.Enable();
-			m_txtPort.Enable();
-		}
-		else {
-			m_txtManualHost.Disable();
-			m_txtPort.Disable();
-		}
+		bool bChecked = sender->IsChecked();
+		m_txtManualHost.Enable(bChecked);
+		m_txtManualPort.Enable(bChecked);
 	}
 
 	void CheckRegistration()
@@ -1193,13 +1140,13 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		regInfo.port = m_txtPort.GetInt();
-		if (m_chkManualHost.GetState())
+		regInfo.port = m_iDefPort;
+		if (m_chkManualHost.IsChecked())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		else
 			regInfo.manualHost[0] = '\0';
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.IsChecked() || regInfo.manualHost[0]))
 			m_btnRegister.Enable();
 		else
 			m_btnRegister.Disable();
@@ -1225,43 +1172,22 @@ private:
 	void setupPublic()
 	{
 		m_canregister = true;
-		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
-
-		m_txtServer.Enable();
-		m_chkManualHost.Enable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Enable();
+		m_iDefPort = 5222;
+		setupHost(true, true);
 	}
 
 	void setupSecure()
 	{
 		m_canregister = true;
-		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
-
-		m_txtServer.Enable();
-		m_chkManualHost.Enable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Enable();
+		m_iDefPort = 5222;
+		setupHost(true, true);
 	}
 
 	void setupSecureSSL()
 	{
 		m_canregister = true;
-		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5223);
-
-		m_txtServer.Enable();
-		m_chkManualHost.Enable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Enable();
+		m_iDefPort = 5223;
+		setupHost(true, true);
 	}
 
 	void setupHipchat()
@@ -1269,14 +1195,8 @@ private:
 		m_canregister = false;
 		m_txtServer.SetTextA("chat.hipchat.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_iDefPort = 5222;
+		setupHost(false, true);
 	}
 
 	void setupLJ()
@@ -1284,74 +1204,48 @@ private:
 		m_canregister = false;
 		m_txtServer.SetTextA("livejournal.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_iDefPort = 5222;
+		setupHost(false, true);
 	}
 
 	void setupLOLEN()
 	{
 		m_canregister = false;
 		m_txtServer.SetTextA("pvp.net");
-		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
-		m_txtPort.SetInt(5223);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_txtManualPort.SetInt(m_iDefPort = 5223);
+		setupHost(false, false);
 	}
 
 	void setupLOLEW()
 	{
 		m_canregister = false;
 		m_txtServer.SetTextA("pvp.net");
-		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
-		m_txtPort.SetInt(5223);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_txtManualPort.SetInt(m_iDefPort = 5223);
+		setupHost(false, false);
 	}
 
 	void setupLOLOC()
 	{
 		m_canregister = false;
 		m_txtServer.SetTextA("pvp.net");
-		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
-		m_txtPort.SetInt(5223);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_txtManualPort.SetInt(m_iDefPort = 5223);
+		setupHost(false, false);
 	}
 
 	void setupLOLUS()
 	{
 		m_canregister = false;
 		m_txtServer.SetTextA("pvp.net");
-		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
-		m_txtPort.SetInt(5223);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_txtManualPort.SetInt(m_iDefPort = 5223);
+		setupHost(false, false);
 	}
 
 	void setupOK()
@@ -1359,14 +1253,8 @@ private:
 		m_canregister = false;
 		m_txtServer.SetTextA("xmpp.odnoklassniki.ru");
 		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
-
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+		m_iDefPort = 5222;
+		setupHost(false, true);
 	}
 
 	void setupSMS()
@@ -1374,14 +1262,20 @@ private:
 		m_canregister = false;
 		m_txtServer.SetTextA("S.ms");
 		m_chkManualHost.SetState(BST_UNCHECKED);
-		m_txtManualHost.SetTextA("");
-		m_txtPort.SetInt(5222);
+		m_iDefPort = 5222;
+		setupHost(false, true);
+	}
 
-		m_txtServer.Disable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_txtPort.Disable();
-		m_btnRegister.Disable();
+	void setupHost(bool bCustomizable, bool bManual)
+	{
+		m_txtServer.Enable(bCustomizable);
+		m_btnRegister.Enable(bCustomizable);
+		m_chkManualHost.Enable(bCustomizable);
+
+		if (bManual)
+			bManual = m_chkManualHost.IsChecked();
+		m_txtManualHost.Enable(bManual);
+		m_txtManualPort.Enable(bManual);
 	}
 };
 
