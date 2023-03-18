@@ -740,11 +740,6 @@ complete:
 		return count;
 	}
 
-	void destroy_func(void *user_data)
-	{
-			mir_free(user_data);
-	}
-
 	//signal_protocol_pre_key_store callback follow
 	int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_data)
 	{
@@ -1037,7 +1032,6 @@ complete:
 
 		return proto->getByte(proto->HContactFromJID(address->name), TrustSettingName);
 	}
-	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
 	bool omemo_impl::create_session_store()
 	{
@@ -1048,7 +1042,7 @@ complete:
 		ss.contains_session_func = &contains_session_func;
 		ss.delete_all_sessions_func = &delete_all_sessions_func;
 		ss.delete_session_func = &delete_session_func;
-		ss.destroy_func = &destroy_func;
+		ss.destroy_func = nullptr;
 		ss.get_sub_device_sessions_func = &get_sub_device_sessions_func;
 		ss.load_session_func = &load_session_func;
 		ss.store_session_func = &store_session_func;
@@ -1057,7 +1051,7 @@ complete:
 
 		signal_protocol_pre_key_store sp;
 		sp.contains_pre_key = &contains_pre_key;
-		sp.destroy_func = &destroy_func;
+		sp.destroy_func = nullptr;
 		sp.load_pre_key = &load_pre_key;
 		sp.remove_pre_key = &remove_pre_key;
 		sp.store_pre_key = &store_pre_key;
@@ -1066,7 +1060,7 @@ complete:
 
 		signal_protocol_signed_pre_key_store ssp;
 		ssp.contains_signed_pre_key = &contains_signed_pre_key;
-		ssp.destroy_func = &destroy_func;
+		ssp.destroy_func = nullptr;
 		ssp.load_signed_pre_key = &load_signed_pre_key;
 		ssp.remove_signed_pre_key = &remove_signed_pre_key;
 		ssp.store_signed_pre_key = &store_signed_pre_key;
@@ -1074,7 +1068,7 @@ complete:
 		signal_protocol_store_context_set_signed_pre_key_store(store_context, &ssp);
 
 		signal_protocol_identity_key_store sip;
-		sip.destroy_func = &destroy_func;
+		sip.destroy_func = nullptr;
 		sip.get_identity_key_pair = &get_identity_key_pair;
 		sip.get_local_registration_id = &get_local_registration_id;
 		sip.is_trusted_identity = &is_trusted_identity;
