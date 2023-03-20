@@ -530,6 +530,13 @@ void CMsgDialog::UpdateIcon()
 	SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hStatusIcon);
 }
 
+void CMsgDialog::UpdateFilterButton()
+{
+	CSuper::UpdateFilterButton();
+
+	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER2 : IDI_FILTER));
+}
+
 void CMsgDialog::UpdateNickList()
 {
 	m_nickList.SetDraw(false);
@@ -552,10 +559,10 @@ void CMsgDialog::UpdateNickList()
 void CMsgDialog::UpdateOptions()
 {
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST2 : IDI_NICKLIST));
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER2 : IDI_FILTER));
 
 	GetAvatar();
 
+	UpdateFilterButton();
 	UpdateStatusBar();
 	UpdateTitle();
 	FixTabIcons();

@@ -830,3 +830,4 @@ Chat_IsMuted @941 NONAME
 ?iPopupFlags@Chat@@3V?$CMOption@I@@A @945 NONAME
 ?iSoundFlags@Chat@@3V?$CMOption@I@@A @946 NONAME
 ?iTrayIconFlags@Chat@@3V?$CMOption@I@@A @947 NONAME
+?UpdateFilterButton@CSrmmBaseDialog@@UEAAXXZ @948 NONAME

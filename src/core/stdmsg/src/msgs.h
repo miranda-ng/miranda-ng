@@ -158,6 +158,7 @@ public:
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
+	void UpdateFilterButton() override;
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;

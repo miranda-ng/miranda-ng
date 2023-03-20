@@ -676,6 +676,11 @@ void CSrmmBaseDialog::UpdateChatLog()
 	m_pLog->LogEvents(m_si->pLogEnd, false);
 }
 
+void CSrmmBaseDialog::UpdateFilterButton()
+{
+	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable filter") : TranslateT("Enable filter")), BATF_UNICODE);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)

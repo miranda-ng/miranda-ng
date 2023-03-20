@@ -254,6 +254,7 @@ public:
 	virtual void LoadSettings() PURE;
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
+	virtual void UpdateFilterButton();
 	virtual void UpdateNickList() {}
 	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}

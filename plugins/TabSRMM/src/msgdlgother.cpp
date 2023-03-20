@@ -2485,6 +2485,13 @@ int CMsgDialog::Typing(int secs)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CMsgDialog::UpdateFilterButton()
+{
+	CSuper::UpdateFilterButton();
+
+	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+}
+
 void CMsgDialog::UpdateNickList()
 {
 	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
@@ -2506,7 +2513,7 @@ void CMsgDialog::UpdateOptions()
 	m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
-	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+	UpdateFilterButton();
 
 	CSuper::UpdateOptions();
 }

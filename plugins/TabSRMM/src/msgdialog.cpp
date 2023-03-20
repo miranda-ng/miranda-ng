@@ -996,7 +996,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 		return;
 
 	m_bFilterEnabled = !m_bFilterEnabled;
-	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+	UpdateFilterButton();
 
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter) 
 		ShowFilterMenu();
