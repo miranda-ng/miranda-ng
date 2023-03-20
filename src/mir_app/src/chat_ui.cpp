@@ -86,20 +86,14 @@ public:
 	{
 		btn1.MakeFlat(); btn2.MakeFlat(); btn3.MakeFlat(); btn4.MakeFlat();
 
-		uint32_t dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-		uint32_t dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-		uint32_t dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-		uint32_t dwSoundFlags = db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
-		uint32_t dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
-
 		for (int i = 0; i < _countof(_eventorder); i++) {
 			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
-				CheckDlgButton(m_hwnd, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(m_hwnd, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_1 + i, Chat::iFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_L1 + i, Chat::iDiskLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 			}
-			CheckDlgButton(m_hwnd, IDC_P1 + i, dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(m_hwnd, IDC_T1 + i, dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(m_hwnd, IDC_S1 + i, dwSoundFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_P1 + i, Chat::iPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_S1 + i, Chat::iSoundFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_T1 + i, Chat::iTrayIconFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return true;
 	}
@@ -117,11 +111,12 @@ public:
 			dwPopupFlags |= (IsDlgButtonChecked(m_hwnd, IDC_P1 + i) ? _eventorder[i] : 0);
 			dwTrayFlags |= (IsDlgButtonChecked(m_hwnd, IDC_T1 + i) ? _eventorder[i] : 0);
 		}
-		db_set_dw(0, CHAT_MODULE, "FilterFlags", dwFilterFlags);
-		db_set_dw(0, CHAT_MODULE, "PopupFlags", dwPopupFlags);
-		db_set_dw(0, CHAT_MODULE, "SoundFlags", dwSoundFlags);
-		db_set_dw(0, CHAT_MODULE, "TrayIconFlags", dwTrayFlags);
-		db_set_dw(0, CHAT_MODULE, "DiskLogFlags", dwLogFlags);
+
+		Chat::iPopupFlags = dwPopupFlags;
+		Chat::iSoundFlags = dwSoundFlags;
+		Chat::iFilterFlags = dwFilterFlags;
+		Chat::iTrayIconFlags = dwTrayFlags;
+		Chat::iDiskLogFlags = dwLogFlags;
 
 		LoadGlobalSettings();
 		return true;

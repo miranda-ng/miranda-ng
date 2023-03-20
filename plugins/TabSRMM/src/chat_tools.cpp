@@ -78,14 +78,6 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
-{
-	int iEvent = gce->iType;
-	if (si && (iEvent & si->iLogTrayFlags))
-		return oldDoTrayIcon(si, gce);
-	return TRUE;
-}
-
 int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t*, COLORREF crBkg, const wchar_t* fmt, ...)
 {
 	POPUPDATAW pd;
@@ -132,7 +124,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->iType;
-	if (si == nullptr || !(iEvent & si->iLogPopupFlags))
+	if (si == nullptr || !(iEvent & si->iPopupFlags))
 		return true;
 
 	CMsgDialog *dat = si->pDlg;
@@ -145,7 +137,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	}
 	else bbStart = bbEnd = L"";
 
-	if (!NEN::bMucPopups)                          // no popups at all. Period
+	if (!NEN::bMucPopups) // no popups at all. Period
 		return 0;
 
 	// check the status mode against the status mask
@@ -221,7 +213,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		
 		if (bInactive) {
 			bFlagUnread = true;
-			DoTrayIcon(si, gce);
+			g_chatApi.DoTrayIcon(si, gce);
 		}
 
 		if (dat || NEN::bMucPopups)
@@ -247,7 +239,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	else {
 		// do blinking icons in tray
 		if (bInactive || !g_Settings.bTrayIconInactiveOnly) {
-			DoTrayIcon(si, gce);
+			g_chatApi.DoTrayIcon(si, gce);
 			if (iEvent == GC_EVENT_MESSAGE)
 				bFlagUnread = true;
 		}
@@ -298,7 +290,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(gce->iType);
 		BOOL bForcedIcon = (hNotifyIcon == hIconHighlight || hNotifyIcon == hIconMessage);
 
-		if ((gce->iType & si->iLogTrayFlags) || bForcedIcon) {
+		if ((gce->iType & si->iTrayFlags) || bForcedIcon) {
 			if (!bActiveTab) {
 				if (hNotifyIcon == hIconHighlight)
 					dat->m_iFlashIcon = hNotifyIcon;
@@ -334,7 +326,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			if (!dat->m_pContainer->cfg.flags.m_bNoFlash)
 				dat->m_pContainer->FlashContainer(1, 0);
 
-		if (hNotifyIcon && bInactive && ((gce->iType & si->iLogTrayFlags) || bForcedIcon)) {
+		if (hNotifyIcon && bInactive && ((gce->iType & si->iTrayFlags) || bForcedIcon)) {
 			if (bMustFlash)
 				dat->m_hTabIcon = hNotifyIcon;
 			else if (dat->m_iFlashIcon) {
@@ -365,13 +357,12 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	uint32_t dwFlags_default = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	uint32_t dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
 	CMsgDialog *pDlg = si->pDlg;
 	if (pDlg) {
-		pDlg->m_iLogFilterFlags = dwFlags_default;
+		pDlg->m_iLogFilterFlags = Chat::iFilterFlags;
 		for (int i = 0; i < 32; i++) {
 			uint32_t dwBit = 1 << i;
 			if (dwMask & dwBit)
@@ -379,26 +370,24 @@ void Chat_SetFilters(SESSION_INFO *si)
 		}
 	}
 
-	dwFlags_default = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
 
-	si->iLogPopupFlags = dwFlags_default;
+	si->iPopupFlags = Chat::iPopupFlags;
 	for (int i = 0; i < 32; i++) {
 		uint32_t dwBit = 1 << i;
 		if (dwMask & dwBit)
-			si->iLogPopupFlags = (dwFlags_local & dwBit) ? si->iLogPopupFlags | dwBit : si->iLogPopupFlags & ~dwBit;
+			si->iPopupFlags = (dwFlags_local & dwBit) ? si->iPopupFlags | dwBit : si->iPopupFlags & ~dwBit;
 	}
 
-	dwFlags_default = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
 
-	si->iLogTrayFlags = dwFlags_default;
+	si->iTrayFlags = Chat::iTrayIconFlags;
 	for (int i = 0; i < 32; i++) {
 		uint32_t dwBit = 1 << i;
 		if (dwMask & dwBit)
-			si->iLogTrayFlags = (dwFlags_local & dwBit) ? si->iLogTrayFlags | dwBit : si->iLogTrayFlags & ~dwBit;
+			si->iTrayFlags = (dwFlags_local & dwBit) ? si->iTrayFlags | dwBit : si->iTrayFlags & ~dwBit;
 	}
 
 	if (pDlg != nullptr && pDlg->m_iLogFilterFlags == 0)

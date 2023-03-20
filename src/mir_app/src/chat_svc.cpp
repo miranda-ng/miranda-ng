@@ -40,6 +40,11 @@ CMOption<bool> Chat::bLogIndentEnabled(CHAT_MODULE, "LogIndentEnabled", true);
 CMOption<bool> Chat::bShowTimeIfChanged(CHAT_MODULE, "ShowTimeStampIfChanged", false);
 CMOption<bool> Chat::bTimeStampEventColour(CHAT_MODULE, "TimeStampEventColour", false);
 
+CMOption<uint32_t> Chat::iPopupFlags(CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+CMOption<uint32_t> Chat::iSoundFlags(CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
+CMOption<uint32_t> Chat::iFilterFlags(CHAT_MODULE, "FilterFlags", GC_EVENT_FILTERED);
+CMOption<uint32_t> Chat::iDiskLogFlags(CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
+CMOption<uint32_t> Chat::iTrayIconFlags(CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 
@@ -259,8 +264,8 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	else
 		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
 	si->hContact = AddRoom(pszModule, ptszID, szTemp, si->iType);
-	si->iLogPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-	si->iLogTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+	si->iPopupFlags = Chat::iPopupFlags;
+	si->iTrayFlags = Chat::iTrayIconFlags;
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)

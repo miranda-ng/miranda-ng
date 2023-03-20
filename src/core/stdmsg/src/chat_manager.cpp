@@ -94,20 +94,6 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 		si->pDlg->StartFlash();
 }
 
-static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (gce->iType & g_Settings.dwTrayIconFlags)
-		return oldDoTrayIcon(si, gce);
-	return TRUE;
-}
-
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (gce->iType & g_Settings.dwPopupFlags)
-		return oldDoPopup(si, gce);
-	return TRUE;
-}
-
 static void OnLoadSettings()
 {
 	g_Settings.iX = db_get_dw(0, CHAT_MODULE, "roomx", -1);
@@ -221,8 +207,6 @@ void Load_ChatModule()
 
 	Srmm_CreateHotkey(LPGEN("Messaging"), LPGEN("Send message"));
 
-	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
-	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;
 	g_chatApi.ReloadSettings();
 
 	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU));

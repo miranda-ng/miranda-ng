@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern SESSION_INFO g_TabSession;
 
 HICON g_hChatIcons[20];
-uint32_t g_dwDiskLogFlags;
 HPLUGIN g_pChatPlugin;
 GlobalLogSettingsBase *g_Settings;
 int g_cbModuleInfo = sizeof(MODULEINFO), g_iFontMode;
@@ -208,8 +207,6 @@ void LoadGlobalSettings(void)
 	g_Settings->bSoundsFocus = db_get_b(0, CHAT_MODULE, "SoundsFocus", 0) != 0;
 	g_Settings->iEventLimit = db_get_w(0, CHAT_MODULE, "LogLimit", 100);
 	g_Settings->dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
-	g_Settings->dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
-	g_Settings->dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
 	g_Settings->LoggingLimit = db_get_w(0, CHAT_MODULE, "LoggingLimit", 100);
 	g_Settings->bLoggingEnabled = db_get_b(0, CHAT_MODULE, "LoggingEnabled", 0) != 0;
 	g_Settings->bHighlightEnabled = db_get_b(0, CHAT_MODULE, "HighlightEnabled", 1) != 0;
@@ -258,8 +255,6 @@ void LoadGlobalSettings(void)
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
 
 	SetIndentSize();
-
-	g_dwDiskLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 }
 
 static void FreeGlobalSettings(void)

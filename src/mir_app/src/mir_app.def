@@ -825,3 +825,8 @@ Srmm_CreateHotkey @886 NONAME
 ?OnEventDeleted@PROTO_INTERFACE@@UAEXII@Z @940 NONAME
 Chat_IsMuted @941 NONAME
 ?Srmm_AddEvent@@YGXII@Z @942 NONAME
+?iDiskLogFlags@Chat@@3V?$CMOption@I@@A @943 NONAME
+?iFilterFlags@Chat@@3V?$CMOption@I@@A @944 NONAME
+?iPopupFlags@Chat@@3V?$CMOption@I@@A @945 NONAME
+?iSoundFlags@Chat@@3V?$CMOption@I@@A @946 NONAME
+?iTrayIconFlags@Chat@@3V?$CMOption@I@@A @947 NONAME

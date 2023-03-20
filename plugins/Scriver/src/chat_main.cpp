@@ -97,20 +97,6 @@ static void OnCreateModule(MODULEINFO *mi)
 	mi->hOfflineIconBig = Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE, true);
 }
 
-static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (gce->iType & g_Settings.dwTrayIconFlags)
-		return oldDoTrayIcon(si, gce);
-	return TRUE;
-}
-
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (gce->iType & g_Settings.dwPopupFlags)
-		return oldDoPopup(si, gce);
-	return TRUE;
-}
-
 static void OnLoadSettings()
 {
 	g_Settings.bAddColonToAutoComplete = db_get_b(0, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
@@ -163,9 +149,6 @@ int Chat_Load()
 
 	Srmm_CreateHotkey(LPGEN("Messaging"), LPGEN("Action: Send message"));
 
-	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
-	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;
 	g_chatApi.ReloadSettings();
-
 	return 0;
 }

@@ -133,7 +133,7 @@ SESSION_INFO::~SESSION_INFO()
 const char* SESSION_INFO::SESSION_INFO::getSoundName(int iEventType) const
 {
 	// if sounds are filtered out for this event type, do nothing;
-	if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEventType))
+	if (!(Chat::iSoundFlags & iEventType))
 		return nullptr;
 
 	if (iEventType & GC_EVENT_HIGHLIGHT)

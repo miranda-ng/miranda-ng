@@ -158,6 +158,9 @@ static void AddEvent(MCONTACT hContact, HICON hIcon, int type, const wchar_t *pw
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
+	if (si == nullptr || !(si->iTrayFlags & gce->iType))
+		return FALSE;
+
 	int iMuteMode = Chat_IsMuted(si->hContact);
 	switch (iMuteMode) {
 	case CHATMODE_MUTE: iMuteMode = CLEF_ONLYAFEW; break;
@@ -296,6 +299,9 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
+	if (si == nullptr || !(si->iPopupFlags & gce->iType))
+		return FALSE;
+
 	fakeLOGINFO lin(gce);
 	CMStringW wszText, wszNick;
 	g_chatApi.CreateNick(si, &lin, wszNick);
@@ -466,7 +472,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		return FALSE;
 
 	// check whether we have to log this event
-	if (!(gce->iType & g_dwDiskLogFlags))
+	if (!(gce->iType & Chat::iDiskLogFlags))
 		return FALSE;
 
 	wchar_t p = '\0';

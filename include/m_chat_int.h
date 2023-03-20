@@ -154,7 +154,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	int         iType;
 	int         iEventCount;
 	int         iStatusCount;
-	int         iLogTrayFlags, iLogPopupFlags;
+	int         iTrayFlags, iPopupFlags;
 
 	uint16_t    wStatus;
 	uint16_t    wState;
@@ -218,8 +218,6 @@ struct GlobalLogSettingsBase
 	bool		bShowContactStatus;
 	bool		bContactStatusFirst;
 	uint32_t dwIconFlags;
-	uint32_t dwTrayIconFlags;
-	uint32_t dwPopupFlags;
 	int      LogIconSize;
 	int      LogTextIndent;
 	int      LoggingLimit;
@@ -412,6 +410,13 @@ namespace Chat
 		bLogIndentEnabled,
 		bLogLimitNames,
 		bStripFormat;
+
+	extern MIR_APP_EXPORT CMOption<uint32_t>
+		iPopupFlags,
+		iSoundFlags,
+		iFilterFlags,
+		iDiskLogFlags,
+		iTrayIconFlags;
 };
 
 #endif // M_CHAT_INT_H__
