@@ -1004,6 +1004,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 		RedrawLog();
 		UpdateTitle();
 		db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
+		Chat_SetFilters(m_si);
 	}
 }
 

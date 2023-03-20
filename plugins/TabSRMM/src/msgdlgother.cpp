@@ -2021,13 +2021,12 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
 				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 			}
-			Chat_SetFilters(pDlg->getChat());
 
 			if (pDlg->m_bFilterEnabled) {
 				if (pDlg->m_iLogFilterFlags == 0)
 					pDlg->m_btnFilter.Click();
+
 				pDlg->RedrawLog();
-				db_set_b(pDlg->m_hContact, CHAT_MODULE, "FilterEnabled", pDlg->m_bFilterEnabled);
 			}
 		}
 		DestroyWindow(hwndDlg);

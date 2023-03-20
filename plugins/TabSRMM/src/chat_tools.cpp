@@ -357,12 +357,15 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 void Chat_SetFilters(SESSION_INFO *si)
 {
+	bool bEnabled = db_get_b(si->hContact, CHAT_MODULE, "FilterEnabled") != 0;
+
 	uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-	uint32_t dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
+	uint32_t dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "FilterMask") : 0;
 
 	CMsgDialog *pDlg = si->pDlg;
 	if (pDlg) {
 		pDlg->m_iLogFilterFlags = Chat::iFilterFlags;
+
 		for (int i = 0; i < 32; i++) {
 			uint32_t dwBit = 1 << i;
 			if (dwMask & dwBit)
@@ -371,7 +374,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	}
 
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
+	dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0) : 0;
 
 	si->iPopupFlags = Chat::iPopupFlags;
 	for (int i = 0; i < 32; i++) {
@@ -381,7 +384,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	}
 
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
+	dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0) : 0;
 
 	si->iTrayFlags = Chat::iTrayIconFlags;
 	for (int i = 0; i < 32; i++) {
