@@ -997,14 +997,14 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 	m_bFilterEnabled = !m_bFilterEnabled;
 	UpdateFilterButton();
+	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
+	Chat_SetFilters(m_si);
 
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter) 
 		ShowFilterMenu();
 	else {
 		RedrawLog();
 		UpdateTitle();
-		db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
-		Chat_SetFilters(m_si);
 	}
 }
 
