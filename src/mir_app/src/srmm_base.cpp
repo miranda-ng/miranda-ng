@@ -678,7 +678,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 void CSrmmBaseDialog::UpdateFilterButton()
 {
-	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable filter") : TranslateT("Enable filter")), BATF_UNICODE);
+	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable the event filter (Ctrl+F)") : TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
