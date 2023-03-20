@@ -491,7 +491,7 @@ void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
 		return;
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST2 : IDI_NICKLIST));
+	UpdateFilterButton();
 	m_pLog->ScrollToBottom();
 	Resize();
 }

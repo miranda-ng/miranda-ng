@@ -2489,7 +2489,7 @@ void CMsgDialog::UpdateFilterButton()
 {
 	CSuper::UpdateFilterButton();
 
-	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled), 0);
 }
 
 void CMsgDialog::UpdateNickList()
