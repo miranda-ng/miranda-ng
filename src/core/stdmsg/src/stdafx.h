@@ -144,7 +144,6 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 	int iSplitterX, iSplitterY;
 	
 	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;
-	bool bAddColonToAutoComplete;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -155,40 +154,27 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	HANDLE hLogger;
 
-	CMOption<bool> bShowButtons;
-	CMOption<bool> bSendButton;
-	CMOption<bool> bShowTyping;
-	CMOption<bool> bShowTypingWin;
-	CMOption<bool> bShowTypingTray;
-	CMOption<bool> bShowTypingClist;
-	CMOption<bool> bShowIcons;
-	CMOption<bool> bShowTime;
-	CMOption<bool> bShowDate;
-	CMOption<bool> bShowAvatar;
-	CMOption<bool> bShowNames;
-	CMOption<bool> bShowSecs;
-	CMOption<bool> bShowReadChar;
-	CMOption<bool> bAutoClose;
-	CMOption<bool> bAutoMin;
-	CMOption<bool> bTypingNew;
-	CMOption<bool> bTypingUnknown;
-	CMOption<bool> bCtrlSupport;
-	CMOption<bool> bShowFormat;
-	CMOption<bool> bSavePerContact;
-	CMOption<bool> bDoNotStealFocus;
-	CMOption<bool> bCascade;
-	CMOption<bool> bDeleteTempCont;
-	CMOption<bool> bUseStatusWinIcon;
+	// private chat log options
+	CMOption<bool> bShowButtons, bSendButton, bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist;
+	CMOption<bool> bShowIcons, bShowTime, bShowDate, bShowAvatar, bShowNames, bShowSecs, bShowReadChar;
+	CMOption<bool> bAutoClose, bAutoMin, bTypingNew, bTypingUnknown, bCtrlSupport, bShowFormat;
+	CMOption<bool> bSavePerContact, bDoNotStealFocus, bCascade, bDeleteTempCont, bUseStatusWinIcon;
 
 	CMOption<bool> bLimitAvatarHeight;
 	CMOption<uint16_t> iAvatarHeight;
 
+	// chat appearance
+	CMOption<bool> bSoundsFocus;
+
+	// chat log appearance
+	CMOption<bool> bAddColonToAutoComplete;
+	
 	CMOption<uint32_t> popupFlags;
 	CMOption<uint32_t> msgTimeout;
 	CMOption<uint32_t> nFlashMax;
 
 	CMOption<uint8_t>  iLoadHistory;
-	CMOption<uint16_t>  nLoadCount, nLoadTime;
+	CMOption<uint16_t> nLoadCount, nLoadTime;
 
 	bool bSmileyInstalled = false;
 

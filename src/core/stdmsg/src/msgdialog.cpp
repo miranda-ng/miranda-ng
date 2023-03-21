@@ -1002,7 +1002,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (m_szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT && wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE) {
-				if (g_Settings.bAddColonToAutoComplete && m_iTabStart == 0)
+				if (g_plugin.bAddColonToAutoComplete && m_iTabStart == 0)
 					SendMessageA(m_message.GetHwnd(), EM_REPLACESEL, FALSE, (LPARAM) ": ");
 
 				m_szTabSave[0] = '\0';

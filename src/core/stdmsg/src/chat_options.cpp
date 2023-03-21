@@ -21,68 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "stdafx.h"
 
-struct branch_t
-{
-	const wchar_t *szDescr;
-	const char *szDBName;
-	int iMode;
-	bool bDefault;
-	HTREEITEM hItem;
-};
-
-static branch_t branch1[] = {
-	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, false },
-	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, true },
-	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, true },
-	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, false },
-	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, false },
-	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, false },
-	{ LPGENW("Show contact statuses if protocol supports them"), "ShowContactStatus", 0, false },
-	{ LPGENW("Display contact status icon before user role icon"), "ContactStatusFirst", 0, false },
-};
-
-static branch_t branch2[] = {
-	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, true },
-	{ LPGENW("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0, false },
-	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, false },
-	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, true },
-	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, true },
-	{ LPGENW("Add ':' to auto-completed user names"), "AddColonToAutoComplete", 0, true },
-	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, false },
-	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0 }
-};
-
-static branch_t branch4[] = {
-	{ LPGENW("Show icon for topic changes"), "IconFlags", GC_EVENT_TOPIC, false },
-	{ LPGENW("Show icon for users joining"), "IconFlags", GC_EVENT_JOIN, true },
-	{ LPGENW("Show icon for users disconnecting"), "IconFlags", GC_EVENT_QUIT, false },
-	{ LPGENW("Show icon for messages"), "IconFlags", GC_EVENT_MESSAGE, false },
-	{ LPGENW("Show icon for actions"), "IconFlags", GC_EVENT_ACTION, false },
-	{ LPGENW("Show icon for highlights"), "IconFlags", GC_EVENT_HIGHLIGHT, false },
-	{ LPGENW("Show icon for users leaving"), "IconFlags", GC_EVENT_PART, false },
-	{ LPGENW("Show icon for users kicking other user"), "IconFlags", GC_EVENT_KICK, false },
-	{ LPGENW("Show icon for notices"), "IconFlags", GC_EVENT_NOTICE, false },
-	{ LPGENW("Show icon for name changes"), "IconFlags", GC_EVENT_NICK, false },
-	{ LPGENW("Show icon for information messages"), "IconFlags", GC_EVENT_INFORMATION, false },
-	{ LPGENW("Show icon for status changes"), "IconFlags", GC_EVENT_ADDSTATUS, false },
-};
-
-static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
-{
-	wchar_t szDir[MAX_PATH];
-	switch (uMsg) {
-	case BFFM_INITIALIZED:
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
-		break;
-
-	case BFFM_SELCHANGED:
-		if (SHGetPathFromIDList((LPITEMIDLIST)lp, szDir))
-			SendMessage(hwnd, BFFM_SETSTATUSTEXT, 0, (LPARAM)szDir);
-		break;
-	}
-	return 0;
-}
-
 // add icons to the skinning module
 
 static IconItem iconList1[] =
@@ -133,191 +71,80 @@ void AddIcons(void)
 
 class COptMainDlg : public CDlgBase
 {
-	HTREEITEM hListHeading1, hListHeading2, hListHeading4;
+	uint32_t m_dwFlags;
 
-	CCtrlTreeView checkBoxes;
-
-	void CheckHeading(HTREEITEM hHeading)
-	{
-		BOOL bChecked = TRUE;
-
-		if (hHeading == nullptr)
-			return;
-
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_STATE;
-		tvi.hItem = checkBoxes.GetNextItem(hHeading, TVGN_CHILD);
-		while (tvi.hItem && bChecked) {
-			if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem) {
-				checkBoxes.GetItem(&tvi);
-				if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 1))
-					bChecked = FALSE;
-			}
-			tvi.hItem = checkBoxes.GetNextSibling(tvi.hItem);
-		}
-		tvi.stateMask = TVIS_STATEIMAGEMASK;
-		tvi.state = INDEXTOSTATEIMAGEMASK(bChecked ? 2 : 1);
-		tvi.hItem = hHeading;
-		checkBoxes.SetItem(&tvi);
-	}
-
-	void CheckBranches(HTREEITEM hHeading)
-	{
-		BOOL bChecked = TRUE;
-
-		if (hHeading == nullptr)
-			return;
-
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_STATE;
-		tvi.hItem = hHeading;
-		checkBoxes.GetItem(&tvi);
-		if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
-			bChecked = FALSE;
-		tvi.hItem = checkBoxes.GetNextItem(hHeading, TVGN_CHILD);
-		tvi.stateMask = TVIS_STATEIMAGEMASK;
-		while (tvi.hItem) {
-			tvi.state = INDEXTOSTATEIMAGEMASK(bChecked ? 2 : 1);
-			if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem)
-				checkBoxes.SetItem(&tvi);
-			tvi.hItem = checkBoxes.GetNextSibling(tvi.hItem);
-		}
-	}
-
-	HTREEITEM InsertBranch(char *pszDescr, BOOL bExpanded)
-	{
-		TVINSERTSTRUCT tvis = {};
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-		tvis.item.pszText = Langpack_PcharToTchar(pszDescr);
-		tvis.item.stateMask = bExpanded ? TVIS_STATEIMAGEMASK | TVIS_EXPANDED : TVIS_STATEIMAGEMASK;
-		tvis.item.state = bExpanded ? INDEXTOSTATEIMAGEMASK(1) | TVIS_EXPANDED : INDEXTOSTATEIMAGEMASK(1);
-		HTREEITEM res = checkBoxes.InsertItem(&tvis);
-		mir_free(tvis.item.pszText);
-		return res;
-	}
-
-	void FillBranch(HTREEITEM hParent, branch_t *branch, int nValues, uint32_t defaultval)
-	{
-		int iState;
-
-		if (hParent == nullptr)
-			return;
-
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = hParent;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-		for (int i = 0; i < nValues; i++, branch++) {
-			tvis.item.pszText = TranslateW(branch->szDescr);
-			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-			if (branch->iMode)
-				iState = ((db_get_dw(0, CHAT_MODULE, branch->szDBName, defaultval) & branch->iMode) & branch->iMode) != 0 ? 2 : 1;
-			else
-				iState = db_get_b(0, CHAT_MODULE, branch->szDBName, branch->bDefault) != 0 ? 2 : 1;
-			tvis.item.state = INDEXTOSTATEIMAGEMASK(iState);
-			branch->hItem = checkBoxes.InsertItem(&tvis);
-		}
-	}
-
-	void SaveBranch(branch_t *branch, int nValues)
-	{
-		int iState = 0;
-
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_STATE;
-		for (int i = 0; i < nValues; i++, branch++) {
-			tvi.hItem = branch->hItem;
-			checkBoxes.GetItem(&tvi);
-			uint8_t bChecked = (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 1) ? 0 : 1;
-			if (branch->iMode) {
-				if (bChecked)
-					iState |= branch->iMode;
-				if (iState & GC_EVENT_ADDSTATUS)
-					iState |= GC_EVENT_REMOVESTATUS;
-				db_set_dw(0, CHAT_MODULE, branch->szDBName, (uint32_t)iState);
-			}
-			else db_set_b(0, CHAT_MODULE, branch->szDBName, bChecked);
-		}
-	}
-
-	void FixHeadings()
-	{
-		CheckHeading(hListHeading1);
-		CheckHeading(hListHeading2);
-		CheckHeading(hListHeading4);
-	}
+	CCtrlTreeOpts checkBoxes;
 
 public:
-	COptMainDlg()
-		: CDlgBase(g_plugin, IDD_OPTIONS1),
+	COptMainDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONS1),
 		checkBoxes(this, IDC_CHECKBOXES)
 	{
-		checkBoxes.OnItemChanged = Callback(this, &COptMainDlg::onChange_Tree);
-	}
+		m_dwFlags = db_get_dw(0, CHAT_MODULE, "IconFlags");
 
-	bool OnInitDialog() override
-	{
-		SetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE, GetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		auto *pwszSection = TranslateT("Appearance and functionality of chat room windows");
+		checkBoxes.AddOption(pwszSection, TranslateT("Flash window when someone speaks"), Chat::bFlashWindow);
+		checkBoxes.AddOption(pwszSection, TranslateT("Flash window when a word is highlighted"), Chat::bFlashWindowHighlight);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show list of users in the chat room"), Chat::bShowNicklist);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show the topic of the room on your contact list (if supported)"), Chat::bTopicOnClist);
+		checkBoxes.AddOption(pwszSection, TranslateT("Do not play sounds when the chat room is focused"), g_plugin.bSoundsFocus);
+		checkBoxes.AddOption(pwszSection, TranslateT("Do not pop up the window when joining a chat room"), Chat::bPopupOnJoin);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show contact statuses if protocol supports them"), Chat::bShowContactStatus);
+		checkBoxes.AddOption(pwszSection, TranslateT("Display contact status icon before user role icon"), Chat::bContactStatusFirst);
 
-		hListHeading1 = InsertBranch(LPGEN("Appearance and functionality of chat room windows"), db_get_b(0, CHAT_MODULE, "Branch1Exp", 0) ? TRUE : FALSE);
-		hListHeading2 = InsertBranch(LPGEN("Appearance of the message log"), db_get_b(0, CHAT_MODULE, "Branch2Exp", 0) ? TRUE : FALSE);
-		hListHeading4 = InsertBranch(LPGEN("Icons to display in the message log"), db_get_b(0, CHAT_MODULE, "Branch4Exp", 0) ? TRUE : FALSE);
+		pwszSection = TranslateT("Appearance of the message log");
+		checkBoxes.AddOption(pwszSection, TranslateT("Prefix all events with a timestamp"), Chat::bShowTime);
+		checkBoxes.AddOption(pwszSection, TranslateT("Only prefix with timestamp if it has changed"), Chat::bShowTimeIfChanged);
+		checkBoxes.AddOption(pwszSection, TranslateT("Timestamp has same color as the event"), Chat::bTimeStampEventColour);
+		checkBoxes.AddOption(pwszSection, TranslateT("Indent the second line of a message"), Chat::bLogIndentEnabled);
+		checkBoxes.AddOption(pwszSection, TranslateT("Limit user names in the message log to 20 characters"), Chat::bLogLimitNames);
+		checkBoxes.AddOption(pwszSection, TranslateT("Add ':' to auto-completed user names"), g_plugin.bAddColonToAutoComplete);
+		checkBoxes.AddOption(pwszSection, TranslateT("Strip colors from messages in the log"), Chat::bStripFormat);
+		checkBoxes.AddOption(pwszSection, TranslateT("Enable the 'event filter' for new rooms"), Chat::bFilterEnabled);
 
-		FillBranch(hListHeading1, branch1, _countof(branch1), 0);
-		FillBranch(hListHeading2, branch2, _countof(branch2), 0);
-		FillBranch(hListHeading4, branch4, _countof(branch4), 0x0000);
-
-		FixHeadings();
-		return true;
+		pwszSection = TranslateT("Icons to display in the message log");
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for topic changes"), m_dwFlags, GC_EVENT_TOPIC);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for users joining"), m_dwFlags, GC_EVENT_JOIN);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for users disconnecting"), m_dwFlags, GC_EVENT_QUIT);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for messages"), m_dwFlags, GC_EVENT_MESSAGE);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for actions"), m_dwFlags, GC_EVENT_ACTION);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for highlights"), m_dwFlags, GC_EVENT_HIGHLIGHT);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for users leaving"), m_dwFlags, GC_EVENT_PART);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for users kicking other user"), m_dwFlags, GC_EVENT_KICK);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for notices"), m_dwFlags, GC_EVENT_NOTICE);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for name changes"), m_dwFlags, GC_EVENT_NICK);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for information messages"), m_dwFlags, GC_EVENT_INFORMATION);
+		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for status changes"), m_dwFlags, GC_EVENT_ADDSTATUS);
 	}
 
 	bool OnApply() override
 	{
-		SaveBranch(branch1, _countof(branch1));
-		SaveBranch(branch2, _countof(branch2));
-		SaveBranch(branch4, _countof(branch4));
+		db_set_dw(0, CHAT_MODULE, "IconFlags", m_dwFlags);
 
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
 		return true;
 	}
-
-	void OnDestroy() override
-	{
-		uint8_t b = checkBoxes.GetItemState(hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch1Exp", b);
-		b = checkBoxes.GetItemState(hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
-		b = checkBoxes.GetItemState(hListHeading4, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch4Exp", b);
-	}
-
-	void onChange_Tree(CCtrlTreeView::TEventInfo *evt)
-	{
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_STATE;
-		tvi.hItem = evt->hItem;
-		checkBoxes.GetItem(&tvi);
-		
-		if (tvi.hItem == branch1[0].hItem && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
-			checkBoxes.SetItemState(branch1[1].hItem, INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
-		if (tvi.hItem == branch1[1].hItem && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
-			checkBoxes.SetItemState(branch1[0].hItem, INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
-
-		if (tvi.hItem == hListHeading1)
-			CheckBranches(hListHeading1);
-		else if (tvi.hItem == hListHeading2)
-			CheckBranches(hListHeading2);
-		else if (tvi.hItem == hListHeading4)
-			CheckBranches(hListHeading4);
-		else
-			FixHeadings();
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Log & other options
+
+static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
+{
+	wchar_t szDir[MAX_PATH];
+	switch (uMsg) {
+	case BFFM_INITIALIZED:
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
+		break;
+
+	case BFFM_SELCHANGED:
+		if (SHGetPathFromIDList((LPITEMIDLIST)lp, szDir))
+			SendMessage(hwnd, BFFM_SETSTATUSTEXT, 0, (LPARAM)szDir);
+		break;
+	}
+	return 0;
+}
 
 class COptLogDlg : public CDlgBase
 {

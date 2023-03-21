@@ -81,7 +81,13 @@ CMPlugin::CMPlugin() :
 
 	iLoadHistory(SRMMMOD, "LoadHistory", LOADHISTORY_UNREAD),
 	nLoadCount(SRMMMOD, "LoadCount", 10),
-	nLoadTime(SRMMMOD, "LoadTime", 10)
+	nLoadTime(SRMMMOD, "LoadTime", 10),
+
+	// chat options
+	bSoundsFocus(CHAT_MODULE, "SoundsFocus", false),
+
+	// chat log options
+	bAddColonToAutoComplete(CHAT_MODULE, "AddColonToAutoComplete", true)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

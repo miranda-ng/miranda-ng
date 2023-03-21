@@ -83,6 +83,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint16_t> iLimitNames, iLimitTabs, iLimitChatTabs, iLoadCount, iLoadTime, iIndentSize, iAutoResizeLines;
 	CMOption<uint32_t> iPopFlags, iMsgTimeout, iActiveAlpha, iInactiveAlpha;
 
+	CMOption<bool> bSoundsFocus, bAddColonToAutoComplete;
+
 	CMPlugin();
 
 	int Load() override;

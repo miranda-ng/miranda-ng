@@ -109,7 +109,10 @@ CMPlugin::CMPlugin() :
 	iInactiveAlpha(SRMM_MODULE, "InactiveAlpha", 0),
 	iMsgTimeout(SRMM_MODULE, "MessageTimeout", 10),
 	iHistoryMode(SRMM_MODULE, "LoadHistory", LOADHISTORY_UNREAD),
-	iAutoResizeLines(SRMM_MODULE, "AutoResizeLines", 2)
+	iAutoResizeLines(SRMM_MODULE, "AutoResizeLines", 2),
+
+	bSoundsFocus(CHAT_MODULE, "SoundsFocus", false),
+	bAddColonToAutoComplete(CHAT_MODULE, "AddColonToAutoComplete", true)
 {
 }
 
