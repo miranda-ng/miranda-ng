@@ -206,13 +206,11 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
 	ptrA jid(ContactToJID(hContact));
-	if (jid != nullptr) {
-		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
-			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
-			if (item != nullptr)
+	if (jid != nullptr)
+		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE)
+			if (JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid))
 				GcQuit(item, 200, nullptr);
-		}
-	}
+
 	return 0;
 }
 
