@@ -94,7 +94,7 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 	pAuthState = std::move(pObj->authorization_state_);
 	switch (pAuthState->get_id()) {
 	case TD::authorizationStateWaitTdlibParameters::ID:
-		{
+		if (!m_bUnregister) {
 			MFileVersion v;
 			char text[100];
 			Miranda_GetFileVersion(&v);
@@ -114,6 +114,7 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->enable_storage_optimizer_ = true;
 			SendQuery(request, &CTelegramProto::OnUpdateAuth);
 		}
+		else LogOut();
 		break;
 
 	case TD::authorizationStateWaitPhoneNumber::ID:
