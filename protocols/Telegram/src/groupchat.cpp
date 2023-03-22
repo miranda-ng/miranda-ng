@@ -130,6 +130,32 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CTelegramProto::GcMuteHook(WPARAM hContact, LPARAM mode)
+{
+	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
+		if (auto *pUser = FindUser(_atoi64(getMStringA(hContact, DBKEY_ID)))) {
+			auto settings = TD::make_object<TD::chatNotificationSettings>();
+			memcpy(settings.get(), &pUser->notificationSettings, sizeof(pUser->notificationSettings));
+
+			switch (mode) {
+			case CHATMODE_MUTE:
+				settings->use_default_mute_for_ = false;
+				settings->mute_for_ = 45000000;
+				break;
+
+			default:
+				settings->use_default_mute_for_ = true;
+				settings->mute_for_ = 0;
+				break;
+			}
+			SendQuery(new TD::setChatNotificationSettings(pUser->chatId, std::move(settings)));
+		}
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 enum
 {
 	IDM_LEAVE = 1,

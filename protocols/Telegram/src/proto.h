@@ -93,6 +93,7 @@ struct TG_USER
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
 	SESSION_INFO *m_si = nullptr;
+	TD::chatNotificationSettings notificationSettings;
 
 	CMStringW getDisplayName() const;
 };
@@ -300,6 +301,7 @@ public:
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 
 	int __cdecl GcMenuHook(WPARAM, LPARAM);
+	int __cdecl GcMuteHook(WPARAM, LPARAM);
 	int __cdecl GcEventHook(WPARAM, LPARAM);
 
 	// Services //////////////////////////////////////////////////////////////////////////

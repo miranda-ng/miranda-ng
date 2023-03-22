@@ -559,9 +559,19 @@ typedef struct {
 MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, HPLUGIN pPlugin);
 
 //////////////////////////////////////////////////////////////////////////
+// Mute chat event
+// called when a user manually changes mute mode for a group chat
+// wParam = (MCONTACT)hContact 
+// lParam = new mute mode (one of CHATMUTE_* constants)
+
+#define ME_GC_MUTE "GChat/Mute"
+
+//////////////////////////////////////////////////////////////////////////
 // Get Chat ToolTip Text for buddy
 // wParam = (WPARAM)(wchar_t*) roomID parentdat->ptszID
 // lParam = (WPARAM)(wchar_t*) userID ui1->pszUID
 // result (int)(wchar_t*)mir_tstrdup("tooltip text")
 // returns pointer to text of tooltip and starts owns it
+
 #define MS_GC_PROTO_GETTOOLTIPTEXT "/GetChatToolTipText"
+

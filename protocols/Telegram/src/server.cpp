@@ -374,6 +374,8 @@ void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings 
 		Chat_Mute(pUser->hContact, CHATMODE_MUTE);
 	else
 		Chat_Mute(pUser->hContact, CHATMODE_NORMAL);
+
+	memcpy(&pUser->notificationSettings, pSettings.get(), sizeof(pUser->notificationSettings));
 }
 
 void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)

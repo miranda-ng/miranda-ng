@@ -55,17 +55,8 @@ mir_cs csChat;
 MWindowList g_hWindowList;
 HANDLE hevSendEvent, hevBuildMenuEvent;
 
-static HANDLE
-   hServiceRegister = nullptr,
-   hServiceNewChat = nullptr,
-   hServiceAddEvent = nullptr,
-   hServiceGetAddEventPtr = nullptr,
-   hServiceGetInfo = nullptr,
-   hServiceGetCount = nullptr,
-   hEventPrebuildMenu = nullptr,
-   hEventDoubleclicked = nullptr,
-   hEventJoinChat = nullptr,
-   hEventLeaveChat = nullptr,
+static HANDLE 
+	hevMuteChat = nullptr,
 	hHookEvent = nullptr;
 
 void SrmmModulesLoaded();
@@ -863,6 +854,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 static INT_PTR MuteChat(WPARAM hContact, LPARAM param)
 {
 	Chat_Mute(hContact, param);
+	NotifyEventHooks(hevMuteChat, hContact, param);
 	return 0;
 }
 
@@ -1002,9 +994,10 @@ int LoadChatModule(void)
 
 	g_hWindowList = WindowList_Create();
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
+	hevMuteChat = CreateHookableEvent(ME_GC_MUTE);
 	hevSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	hevBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
-	
+		
 	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 
