@@ -47,7 +47,7 @@
     <ClCompile Include="src\c-hyper.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\cf-http.c">
+    <ClCompile Include="src\cf-https-connect.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\cf-socket.c">
@@ -461,9 +461,6 @@
     <ClCompile Include="src\warnless.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\wildcard.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\ws.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -473,7 +470,7 @@
     <ClInclude Include="src\asyn.h" />
     <ClInclude Include="src\bufref.h" />
     <ClInclude Include="src\c-hyper.h" />
-    <ClInclude Include="src\cf-http.h" />
+    <ClInclude Include="src\cf-https-connect.h" />
     <ClInclude Include="src\cf-socket.h" />
     <ClInclude Include="src\cfilters.h" />
     <ClInclude Include="src\config-amigaos.h" />
@@ -608,7 +605,6 @@
     <ClInclude Include="src\vquic\vquic.h" />
     <ClInclude Include="src\vquic\vquic_int.h" />
     <ClInclude Include="src\warnless.h" />
-    <ClInclude Include="src\wildcard.h" />
     <ClInclude Include="src\ws.h" />
   </ItemGroup>
   <ItemGroup>

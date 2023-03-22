@@ -23,7 +23,7 @@
     <ClCompile Include="src\c-hyper.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cf-http.c">
+    <ClCompile Include="src\cf-https-connect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cf-socket.c">
@@ -431,9 +431,6 @@
     <ClCompile Include="src\warnless.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wildcard.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\strcase.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -496,7 +493,7 @@
     <ClInclude Include="src\c-hyper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cf-http.h">
+    <ClInclude Include="src\cf-https-connect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\cf-socket.h">
@@ -899,9 +896,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\warnless.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\wildcard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ws.h">

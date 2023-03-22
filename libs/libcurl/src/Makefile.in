@@ -212,7 +212,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 libcurl_la_LIBADD =
 am__libcurl_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
-	asyn-thread.c base64.c bufref.c c-hyper.c cf-http.c \
+	asyn-thread.c base64.c bufref.c c-hyper.c cf-https-connect.c \
 	cf-socket.c cfilters.c conncache.c connect.c \
 	content_encoding.c cookie.c curl_addrinfo.c curl_des.c \
 	curl_endian.c curl_fnmatch.c curl_get_line.c \
@@ -234,43 +234,44 @@ am__libcurl_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
 	speedcheck.c splay.c strcase.c strdup.c strerror.c strtok.c \
 	strtoofft.c system_win32.c telnet.c tftp.c timediff.c \
 	timeval.c transfer.c url.c urlapi.c version.c version_win32.c \
-	warnless.c wildcard.c ws.c vauth/cleartext.c vauth/cram.c \
-	vauth/digest.c vauth/digest_sspi.c vauth/gsasl.c \
-	vauth/krb5_gssapi.c vauth/krb5_sspi.c vauth/ntlm.c \
-	vauth/ntlm_sspi.c vauth/oauth2.c vauth/spnego_gssapi.c \
-	vauth/spnego_sspi.c vauth/vauth.c vtls/bearssl.c vtls/gskit.c \
-	vtls/gtls.c vtls/hostcheck.c vtls/keylog.c vtls/mbedtls.c \
+	warnless.c ws.c vauth/cleartext.c vauth/cram.c vauth/digest.c \
+	vauth/digest_sspi.c vauth/gsasl.c vauth/krb5_gssapi.c \
+	vauth/krb5_sspi.c vauth/ntlm.c vauth/ntlm_sspi.c \
+	vauth/oauth2.c vauth/spnego_gssapi.c vauth/spnego_sspi.c \
+	vauth/vauth.c vtls/bearssl.c vtls/gskit.c vtls/gtls.c \
+	vtls/hostcheck.c vtls/keylog.c vtls/mbedtls.c \
 	vtls/mbedtls_threadlock.c vtls/nss.c vtls/openssl.c \
 	vtls/rustls.c vtls/schannel.c vtls/schannel_verify.c \
 	vtls/sectransp.c vtls/vtls.c vtls/wolfssl.c vtls/x509asn1.c \
 	vquic/curl_msh3.c vquic/curl_ngtcp2.c vquic/curl_quiche.c \
 	vquic/vquic.c vssh/libssh.c vssh/libssh2.c vssh/wolfssh.c \
 	altsvc.h amigaos.h arpa_telnet.h asyn.h bufref.h c-hyper.h \
-	cf-http.h cf-socket.h cfilters.h conncache.h connect.h \
-	content_encoding.h cookie.h curl_addrinfo.h curl_base64.h \
-	curl_ctype.h curl_des.h curl_endian.h curl_fnmatch.h \
-	curl_get_line.h curl_gethostname.h curl_gssapi.h curl_hmac.h \
-	curl_krb5.h curl_ldap.h curl_log.h curl_md4.h curl_md5.h \
-	curl_memory.h curl_memrchr.h curl_multibyte.h curl_ntlm_core.h \
-	curl_ntlm_wb.h curl_path.h curl_printf.h curl_range.h \
-	curl_rtmp.h curl_sasl.h curl_setup.h curl_setup_once.h \
-	curl_sha256.h curl_sspi.h curl_threads.h curlx.h dict.h doh.h \
-	dynbuf.h easy_lock.h easyif.h easyoptions.h escape.h file.h \
-	fileinfo.h fopen.h formdata.h functypes.h ftp.h \
-	ftplistparser.h getinfo.h gopher.h h2h3.h hash.h headers.h \
-	hostip.h hsts.h http.h http2.h http_chunks.h http_digest.h \
-	http_negotiate.h http_ntlm.h http_proxy.h http_aws_sigv4.h \
-	idn.h if2ip.h imap.h inet_ntop.h inet_pton.h llist.h \
-	memdebug.h mime.h mqtt.h multihandle.h multiif.h netrc.h \
-	nonblock.h noproxy.h parsedate.h pingpong.h pop3.h progress.h \
-	psl.h rand.h rename.h rtsp.h select.h sendf.h setopt.h \
-	setup-vms.h share.h sigpipe.h slist.h smb.h smtp.h sockaddr.h \
-	socketpair.h socks.h speedcheck.h splay.h strcase.h strdup.h \
-	strerror.h strtok.h strtoofft.h system_win32.h telnet.h tftp.h \
-	timediff.h timeval.h transfer.h url.h urlapi-int.h urldata.h \
-	version_win32.h warnless.h wildcard.h ws.h vauth/digest.h \
-	vauth/ntlm.h vauth/vauth.h vtls/bearssl.h vtls/gskit.h \
-	vtls/gtls.h vtls/hostcheck.h vtls/keylog.h vtls/mbedtls.h \
+	cf-https-connect.h cf-socket.h cfilters.h conncache.h \
+	connect.h content_encoding.h cookie.h curl_addrinfo.h \
+	curl_base64.h curl_ctype.h curl_des.h curl_endian.h \
+	curl_fnmatch.h curl_get_line.h curl_gethostname.h \
+	curl_gssapi.h curl_hmac.h curl_krb5.h curl_ldap.h curl_log.h \
+	curl_md4.h curl_md5.h curl_memory.h curl_memrchr.h \
+	curl_multibyte.h curl_ntlm_core.h curl_ntlm_wb.h curl_path.h \
+	curl_printf.h curl_range.h curl_rtmp.h curl_sasl.h \
+	curl_setup.h curl_setup_once.h curl_sha256.h curl_sspi.h \
+	curl_threads.h curlx.h dict.h doh.h dynbuf.h easy_lock.h \
+	easyif.h easyoptions.h escape.h file.h fileinfo.h fopen.h \
+	formdata.h functypes.h ftp.h ftplistparser.h getinfo.h \
+	gopher.h h2h3.h hash.h headers.h hostip.h hsts.h http.h \
+	http2.h http_chunks.h http_digest.h http_negotiate.h \
+	http_ntlm.h http_proxy.h http_aws_sigv4.h idn.h if2ip.h imap.h \
+	inet_ntop.h inet_pton.h llist.h memdebug.h mime.h mqtt.h \
+	multihandle.h multiif.h netrc.h nonblock.h noproxy.h \
+	parsedate.h pingpong.h pop3.h progress.h psl.h rand.h rename.h \
+	rtsp.h select.h sendf.h setopt.h setup-vms.h share.h sigpipe.h \
+	slist.h smb.h smtp.h sockaddr.h socketpair.h socks.h \
+	speedcheck.h splay.h strcase.h strdup.h strerror.h strtok.h \
+	strtoofft.h system_win32.h telnet.h tftp.h timediff.h \
+	timeval.h transfer.h url.h urlapi-int.h urldata.h \
+	version_win32.h warnless.h ws.h vauth/digest.h vauth/ntlm.h \
+	vauth/vauth.h vtls/bearssl.h vtls/gskit.h vtls/gtls.h \
+	vtls/hostcheck.h vtls/keylog.h vtls/mbedtls.h \
 	vtls/mbedtls_threadlock.h vtls/nssg.h vtls/openssl.h \
 	vtls/rustls.h vtls/schannel.h vtls/sectransp.h vtls/vtls.h \
 	vtls/vtls_int.h vtls/wolfssl.h vtls/x509asn1.h \
@@ -279,7 +280,7 @@ am__libcurl_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
 am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-asyn-ares.lo libcurl_la-asyn-thread.lo \
 	libcurl_la-base64.lo libcurl_la-bufref.lo \
-	libcurl_la-c-hyper.lo libcurl_la-cf-http.lo \
+	libcurl_la-c-hyper.lo libcurl_la-cf-https-connect.lo \
 	libcurl_la-cf-socket.lo libcurl_la-cfilters.lo \
 	libcurl_la-conncache.lo libcurl_la-connect.lo \
 	libcurl_la-content_encoding.lo libcurl_la-cookie.lo \
@@ -329,7 +330,7 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-timeval.lo libcurl_la-transfer.lo libcurl_la-url.lo \
 	libcurl_la-urlapi.lo libcurl_la-version.lo \
 	libcurl_la-version_win32.lo libcurl_la-warnless.lo \
-	libcurl_la-wildcard.lo libcurl_la-ws.lo
+	libcurl_la-ws.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = vauth/libcurl_la-cleartext.lo vauth/libcurl_la-cram.lo \
 	vauth/libcurl_la-digest.lo vauth/libcurl_la-digest_sspi.lo \
@@ -372,7 +373,7 @@ libcurlu_la_LIBADD =
 am__objects_11 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-asyn-ares.lo libcurlu_la-asyn-thread.lo \
 	libcurlu_la-base64.lo libcurlu_la-bufref.lo \
-	libcurlu_la-c-hyper.lo libcurlu_la-cf-http.lo \
+	libcurlu_la-c-hyper.lo libcurlu_la-cf-https-connect.lo \
 	libcurlu_la-cf-socket.lo libcurlu_la-cfilters.lo \
 	libcurlu_la-conncache.lo libcurlu_la-connect.lo \
 	libcurlu_la-content_encoding.lo libcurlu_la-cookie.lo \
@@ -426,8 +427,7 @@ am__objects_11 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-timeval.lo libcurlu_la-transfer.lo \
 	libcurlu_la-url.lo libcurlu_la-urlapi.lo \
 	libcurlu_la-version.lo libcurlu_la-version_win32.lo \
-	libcurlu_la-warnless.lo libcurlu_la-wildcard.lo \
-	libcurlu_la-ws.lo
+	libcurlu_la-warnless.lo libcurlu_la-ws.lo
 am__objects_12 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-cram.lo vauth/libcurlu_la-digest.lo \
 	vauth/libcurlu_la-digest_sspi.lo vauth/libcurlu_la-gsasl.lo \
@@ -480,7 +480,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-base64.Plo \
 	./$(DEPDIR)/libcurl_la-bufref.Plo \
 	./$(DEPDIR)/libcurl_la-c-hyper.Plo \
-	./$(DEPDIR)/libcurl_la-cf-http.Plo \
+	./$(DEPDIR)/libcurl_la-cf-https-connect.Plo \
 	./$(DEPDIR)/libcurl_la-cf-socket.Plo \
 	./$(DEPDIR)/libcurl_la-cfilters.Plo \
 	./$(DEPDIR)/libcurl_la-conncache.Plo \
@@ -592,7 +592,6 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-version.Plo \
 	./$(DEPDIR)/libcurl_la-version_win32.Plo \
 	./$(DEPDIR)/libcurl_la-warnless.Plo \
-	./$(DEPDIR)/libcurl_la-wildcard.Plo \
 	./$(DEPDIR)/libcurl_la-ws.Plo \
 	./$(DEPDIR)/libcurlu_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-amigaos.Plo \
@@ -601,7 +600,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-base64.Plo \
 	./$(DEPDIR)/libcurlu_la-bufref.Plo \
 	./$(DEPDIR)/libcurlu_la-c-hyper.Plo \
-	./$(DEPDIR)/libcurlu_la-cf-http.Plo \
+	./$(DEPDIR)/libcurlu_la-cf-https-connect.Plo \
 	./$(DEPDIR)/libcurlu_la-cf-socket.Plo \
 	./$(DEPDIR)/libcurlu_la-cfilters.Plo \
 	./$(DEPDIR)/libcurlu_la-conncache.Plo \
@@ -717,7 +716,6 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-version.Plo \
 	./$(DEPDIR)/libcurlu_la-version_win32.Plo \
 	./$(DEPDIR)/libcurlu_la-warnless.Plo \
-	./$(DEPDIR)/libcurlu_la-wildcard.Plo \
 	./$(DEPDIR)/libcurlu_la-ws.Plo \
 	vauth/$(DEPDIR)/libcurl_la-cleartext.Plo \
 	vauth/$(DEPDIR)/libcurl_la-cram.Plo \
@@ -1205,7 +1203,7 @@ LIB_CFILES = \
   base64.c           \
   bufref.c           \
   c-hyper.c          \
-  cf-http.c          \
+  cf-https-connect.c \
   cf-socket.c        \
   cfilters.c         \
   conncache.c        \
@@ -1321,7 +1319,6 @@ LIB_CFILES = \
   version.c          \
   version_win32.c    \
   warnless.c         \
-  wildcard.c         \
   ws.c
 
 LIB_HFILES = \
@@ -1331,7 +1328,7 @@ LIB_HFILES = \
   asyn.h             \
   bufref.h           \
   c-hyper.h          \
-  cf-http.h          \
+  cf-https-connect.h \
   cf-socket.h        \
   cfilters.h         \
   conncache.h        \
@@ -1450,7 +1447,6 @@ LIB_HFILES = \
   urldata.h          \
   version_win32.h    \
   warnless.h         \
-  wildcard.h         \
   ws.h
 
 LIB_RCFILES = libcurl.rc
@@ -1778,7 +1774,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-base64.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-bufref.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-c-hyper.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-cf-http.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-cf-https-connect.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-cf-socket.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-cfilters.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-conncache.Plo@am__quote@ # am--include-marker
@@ -1894,7 +1890,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-version.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-version_win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-warnless.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-wildcard.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-ws.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-altsvc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-amigaos.Plo@am__quote@ # am--include-marker
@@ -1903,7 +1898,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-base64.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-bufref.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-c-hyper.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-cf-http.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-cf-https-connect.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-cf-socket.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-cfilters.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-conncache.Plo@am__quote@ # am--include-marker
@@ -2019,7 +2014,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-version.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-version_win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-warnless.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-wildcard.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-ws.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-cleartext.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-cram.Plo@am__quote@ # am--include-marker
@@ -2173,12 +2167,12 @@ libcurl_la-c-hyper.lo: c-hyper.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-c-hyper.lo `test -f 'c-hyper.c' || echo '$(srcdir)/'`c-hyper.c
 
-libcurl_la-cf-http.lo: cf-http.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-cf-http.lo -MD -MP -MF $(DEPDIR)/libcurl_la-cf-http.Tpo -c -o libcurl_la-cf-http.lo `test -f 'cf-http.c' || echo '$(srcdir)/'`cf-http.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-cf-http.Tpo $(DEPDIR)/libcurl_la-cf-http.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cf-http.c' object='libcurl_la-cf-http.lo' libtool=yes @AMDEPBACKSLASH@
+libcurl_la-cf-https-connect.lo: cf-https-connect.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-cf-https-connect.lo -MD -MP -MF $(DEPDIR)/libcurl_la-cf-https-connect.Tpo -c -o libcurl_la-cf-https-connect.lo `test -f 'cf-https-connect.c' || echo '$(srcdir)/'`cf-https-connect.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-cf-https-connect.Tpo $(DEPDIR)/libcurl_la-cf-https-connect.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cf-https-connect.c' object='libcurl_la-cf-https-connect.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-cf-http.lo `test -f 'cf-http.c' || echo '$(srcdir)/'`cf-http.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-cf-https-connect.lo `test -f 'cf-https-connect.c' || echo '$(srcdir)/'`cf-https-connect.c
 
 libcurl_la-cf-socket.lo: cf-socket.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-cf-socket.lo -MD -MP -MF $(DEPDIR)/libcurl_la-cf-socket.Tpo -c -o libcurl_la-cf-socket.lo `test -f 'cf-socket.c' || echo '$(srcdir)/'`cf-socket.c
@@ -2985,13 +2979,6 @@ libcurl_la-warnless.lo: warnless.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-warnless.lo `test -f 'warnless.c' || echo '$(srcdir)/'`warnless.c
 
-libcurl_la-wildcard.lo: wildcard.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-wildcard.lo -MD -MP -MF $(DEPDIR)/libcurl_la-wildcard.Tpo -c -o libcurl_la-wildcard.lo `test -f 'wildcard.c' || echo '$(srcdir)/'`wildcard.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-wildcard.Tpo $(DEPDIR)/libcurl_la-wildcard.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='wildcard.c' object='libcurl_la-wildcard.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-wildcard.lo `test -f 'wildcard.c' || echo '$(srcdir)/'`wildcard.c
-
 libcurl_la-ws.lo: ws.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-ws.lo -MD -MP -MF $(DEPDIR)/libcurl_la-ws.Tpo -c -o libcurl_la-ws.lo `test -f 'ws.c' || echo '$(srcdir)/'`ws.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-ws.Tpo $(DEPDIR)/libcurl_la-ws.Plo
@@ -3300,12 +3287,12 @@ libcurlu_la-c-hyper.lo: c-hyper.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-c-hyper.lo `test -f 'c-hyper.c' || echo '$(srcdir)/'`c-hyper.c
 
-libcurlu_la-cf-http.lo: cf-http.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-cf-http.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-cf-http.Tpo -c -o libcurlu_la-cf-http.lo `test -f 'cf-http.c' || echo '$(srcdir)/'`cf-http.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-cf-http.Tpo $(DEPDIR)/libcurlu_la-cf-http.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cf-http.c' object='libcurlu_la-cf-http.lo' libtool=yes @AMDEPBACKSLASH@
+libcurlu_la-cf-https-connect.lo: cf-https-connect.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-cf-https-connect.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-cf-https-connect.Tpo -c -o libcurlu_la-cf-https-connect.lo `test -f 'cf-https-connect.c' || echo '$(srcdir)/'`cf-https-connect.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-cf-https-connect.Tpo $(DEPDIR)/libcurlu_la-cf-https-connect.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cf-https-connect.c' object='libcurlu_la-cf-https-connect.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-cf-http.lo `test -f 'cf-http.c' || echo '$(srcdir)/'`cf-http.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-cf-https-connect.lo `test -f 'cf-https-connect.c' || echo '$(srcdir)/'`cf-https-connect.c
 
 libcurlu_la-cf-socket.lo: cf-socket.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-cf-socket.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-cf-socket.Tpo -c -o libcurlu_la-cf-socket.lo `test -f 'cf-socket.c' || echo '$(srcdir)/'`cf-socket.c
@@ -4112,13 +4099,6 @@ libcurlu_la-warnless.lo: warnless.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-warnless.lo `test -f 'warnless.c' || echo '$(srcdir)/'`warnless.c
 
-libcurlu_la-wildcard.lo: wildcard.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-wildcard.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-wildcard.Tpo -c -o libcurlu_la-wildcard.lo `test -f 'wildcard.c' || echo '$(srcdir)/'`wildcard.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-wildcard.Tpo $(DEPDIR)/libcurlu_la-wildcard.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='wildcard.c' object='libcurlu_la-wildcard.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-wildcard.lo `test -f 'wildcard.c' || echo '$(srcdir)/'`wildcard.c
-
 libcurlu_la-ws.lo: ws.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-ws.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-ws.Tpo -c -o libcurlu_la-ws.lo `test -f 'ws.c' || echo '$(srcdir)/'`ws.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-ws.Tpo $(DEPDIR)/libcurlu_la-ws.Plo
@@ -4531,7 +4511,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-bufref.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-c-hyper.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-cf-http.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-cf-https-connect.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-cf-socket.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-cfilters.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-conncache.Plo
@@ -4647,7 +4627,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-version.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-warnless.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ws.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-altsvc.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-amigaos.Plo
@@ -4656,7 +4635,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-bufref.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-c-hyper.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-cf-http.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-cf-https-connect.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-cf-socket.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-cfilters.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-conncache.Plo
@@ -4772,7 +4751,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-version.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-warnless.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ws.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cleartext.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cram.Plo
@@ -4898,7 +4876,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-bufref.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-c-hyper.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-cf-http.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-cf-https-connect.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-cf-socket.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-cfilters.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-conncache.Plo
@@ -5014,7 +4992,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-version.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-warnless.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ws.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-altsvc.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-amigaos.Plo
@@ -5023,7 +5000,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-bufref.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-c-hyper.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-cf-http.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-cf-https-connect.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-cf-socket.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-cfilters.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-conncache.Plo
@@ -5139,7 +5116,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-version.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-warnless.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ws.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cleartext.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cram.Plo

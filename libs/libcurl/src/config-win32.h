@@ -39,8 +39,16 @@
 #define HAVE_FCNTL_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#if defined(_MSC_VER) && (_MSC_VER >= 1800)
+#if defined(__MINGW32__) || \
+    (defined(_MSC_VER) && (_MSC_VER >= 1800))
 #define HAVE_INTTYPES_H 1
+#endif
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#if defined(__MINGW32__) || defined(__POCC__) || \
+    (defined(_MSC_VER) && (_MSC_VER >= 1600)) || \
+    (defined(__BORLANDC__) && (__BORLANDC__ >= 0x0582))
+#define HAVE_STDINT_H 1
 #endif
 
 /* Define if you have the <io.h> header file. */
@@ -196,10 +204,6 @@
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
-
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
 
 /* Define if you have the strcasecmp function. */
 #ifdef __MINGW32__
@@ -618,9 +622,6 @@ Vista
 #if defined(__POCC__) && defined(USE_WIN32_LDAP)
 #  define CURL_DISABLE_LDAP 1
 #endif
-
-/* if SSL is enabled */
-#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)
