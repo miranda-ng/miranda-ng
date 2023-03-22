@@ -25,19 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GlobalMessageData g_dat;
 
-static int buttonIcons[] =
-{
-	IDI_CLOSEX, IDI_QUOTE, IDI_ADDCONTACT, 0,
-	IDI_USERDETAILS, IDI_HISTORY, IDI_SEND
-};
-
-static int chatButtonIcons[] =
-{
-	IDI_CLOSEX, IDI_BBOLD, IDI_BITALICS, IDI_BUNDERLINE,
-	IDI_COLOR, IDI_BKGCOLOR, IDI_HISTORY, IDI_FILTER,
-	IDI_TOPICBUT, IDI_NICKLIST, IDI_SEND
-};
-
 static IconItem iconList1[] =
 {
 	{ LPGEN("Add contact"),             "ADD",         IDI_ADDCONTACT  }, //  1
@@ -212,20 +199,10 @@ void LoadGlobalIcons()
 	g_dat.hMsgIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	g_dat.hIconChatBig = IcoLib_GetIcon("chat_window", true);
 
-	ImageList_RemoveAll(g_dat.hButtonIconList);
-	ImageList_RemoveAll(g_dat.hChatButtonIconList);
-	ImageList_RemoveAll(g_dat.hHelperIconList);
-	
-	for (auto &it : buttonIcons) {
-		if (it == 0)
-			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, nullptr, ID_STATUS_OFFLINE);
-		else
-			g_plugin.addImgListIcon(g_dat.hButtonIconList, it);
-	}
-	
-	for (auto &it : chatButtonIcons)
-		g_plugin.addImgListIcon(g_dat.hChatButtonIconList, it);
+	if (!ImageList_GetImageCount(g_dat.hTabIconList))
+		g_plugin.addImgListIcon(g_dat.hTabIconList, IDI_CLOSEX);
 
+	ImageList_RemoveAll(g_dat.hHelperIconList);
 	g_plugin.addImgListIcon(g_dat.hHelperIconList, IDI_OVERLAY);
 
 	int overlayIcon = g_plugin.addImgListIcon(g_dat.hHelperIconList, IDI_OVERLAY);
@@ -273,13 +250,12 @@ void InitGlobals()
 	ReloadGlobals();
 	g_dat.lastParent = nullptr;
 	g_dat.lastChatParent = nullptr;
-	g_dat.hTabIconList = nullptr;
 	g_dat.tabIconListUsage = nullptr;
 	g_dat.tabIconListUsageSize = 0;
-	g_dat.hButtonIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
-	g_dat.hChatButtonIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
+
 	g_dat.hTabIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 	g_dat.hHelperIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
+	
 	g_dat.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 	g_dat.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	LoadInfobarFonts();
@@ -292,10 +268,6 @@ void FreeGlobals()
 		DeleteObject(g_dat.hInfobarBrush);
 	if (g_dat.hTabIconList)
 		ImageList_Destroy(g_dat.hTabIconList);
-	if (g_dat.hButtonIconList)
-		ImageList_Destroy(g_dat.hButtonIconList);
-	if (g_dat.hChatButtonIconList)
-		ImageList_Destroy(g_dat.hChatButtonIconList);
 	if (g_dat.hHelperIconList)
 		ImageList_Destroy(g_dat.hHelperIconList);
 	mir_free(g_dat.tabIconListUsage);

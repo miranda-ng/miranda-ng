@@ -72,63 +72,6 @@ wchar_t* limitText(wchar_t *text, int limit)
 	return text;
 }
 
-int MeasureMenuItem(WPARAM, LPARAM lParam)
-{
-	LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
-	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
-		return FALSE;
-
-	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
-	mis->itemHeight = GetSystemMetrics(SM_CYSMICON) + 2;
-	return TRUE;
-}
-
-int DrawMenuItem(WPARAM, LPARAM lParam)
-{
-	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-	if (dis->itemData != (ULONG_PTR)g_dat.hButtonIconList && dis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
-		return FALSE;
-
-	int y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + 1;
-	if (dis->itemState & ODS_SELECTED) {
-		if (dis->itemState & ODS_CHECKED) {
-			RECT rc;
-			rc.left = 2;
-			rc.right = GetSystemMetrics(SM_CXSMICON) + 2;
-			rc.top = y;
-			rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 2;
-			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_SELECTED);
-		}
-		else
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_FOCUS);
-	}
-	else {
-		if (dis->itemState & ODS_CHECKED) {
-			HBRUSH hBrush;
-			RECT rc;
-			COLORREF menuCol, hiliteCol;
-			rc.left = 0;
-			rc.right = GetSystemMetrics(SM_CXSMICON) + 4;
-			rc.top = y - 2;
-			rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 4;
-			DrawEdge(dis->hDC, &rc, BDR_SUNKENOUTER, BF_RECT);
-			InflateRect(&rc, -1, -1);
-			menuCol = GetSysColor(COLOR_MENU);
-			hiliteCol = GetSysColor(COLOR_3DHIGHLIGHT);
-			hBrush = CreateSolidBrush(RGB
-				((GetRValue(menuCol) + GetRValue(hiliteCol)) / 2, (GetGValue(menuCol) + GetGValue(hiliteCol)) / 2,
-					(GetBValue(menuCol) + GetBValue(hiliteCol)) / 2));
-			FillRect(dis->hDC, &rc, hBrush);
-			DeleteObject(hBrush);
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND25);
-		}
-		else
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-	}
-	return TRUE;
-}
-
 // Code taken from http://www.geekhideout.com/urlcode.shtml
 
 /* Converts an integer value to its hex character*/

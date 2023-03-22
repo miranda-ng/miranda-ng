@@ -101,8 +101,6 @@ struct GlobalMessageData
 	int        limitChatsTabsNum;
 	int        indentSize;
 	HIMAGELIST hTabIconList;
-	HIMAGELIST hButtonIconList;
-	HIMAGELIST hChatButtonIconList;
 	HIMAGELIST hHelperIconList;
 	HBRUSH     hInfobarBrush;
 	int        toolbarPosition;

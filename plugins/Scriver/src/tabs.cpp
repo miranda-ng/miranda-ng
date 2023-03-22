@@ -614,7 +614,7 @@ static LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				
 				POINT pt = { LOWORD(lParam), HIWORD(lParam) };
 				IMAGEINFO info;
-				ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+				ImageList_GetImageInfo(g_dat.hTabIconList, 0, &info);
 				rect.left = rect.right - (info.rcImage.right - info.rcImage.left) - 6;
 				if (!atTop)
 					rect.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top);
@@ -628,10 +628,10 @@ static LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					hBmp = CreateCompatibleBitmap(hdc, info.rcImage.right - info.rcImage.left + 1, info.rcImage.bottom - info.rcImage.top + 1);
 					hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmp);
 					SetPixel(hdcMem, pt.x, pt.y, 0x000000);
-					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					ImageList_DrawEx(g_dat.hTabIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 					COLORREF color1 = GetPixel(hdcMem, pt.x, pt.y);
 					SetPixel(hdcMem, pt.x, pt.y, 0xFFFFFF);
-					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					ImageList_DrawEx(g_dat.hTabIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 					COLORREF color2 = GetPixel(hdcMem, pt.x, pt.y);
 					SelectObject(hdcMem, hOldBitmap);
 					DeleteDC(hdcMem);
@@ -1252,9 +1252,9 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 			rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 		}
 		if (dat->flags2.bTabCloseButton) {
-			ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+			ImageList_GetImageInfo(g_dat.hTabIconList, 0, &info);
 			rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
-			ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+			ImageList_DrawEx(g_dat.hTabIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			rect.right = rIcon.left - 1;
 		}
 		rect.top += GetSystemMetrics(SM_CYEDGE) + 2;
@@ -1269,10 +1269,10 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 			rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 		}
 		if (dat->flags2.bTabCloseButton) {
-			ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+			ImageList_GetImageInfo(g_dat.hTabIconList, 0, &info);
 			rIcon.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top) - 2;
 			rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
-			ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+			ImageList_DrawEx(g_dat.hTabIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			rect.right = rIcon.left - 1;
 		}
 		rect.bottom -= GetSystemMetrics(SM_CYEDGE) + 2;

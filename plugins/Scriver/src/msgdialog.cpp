@@ -764,11 +764,11 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_MEASUREITEM:
-		MeasureMenuItem(wParam, lParam);
+		Menu_MeasureItem(lParam);
 		return TRUE;
 
 	case WM_DRAWITEM:
-		return DrawMenuItem(wParam, lParam);
+		return Menu_DrawItem(lParam);
 	}
 
 	return CSuper::WndProc(msg, wParam, lParam);
@@ -1181,29 +1181,25 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MEASUREITEM:
-		if (!MeasureMenuItem(wParam, lParam)) {
+		{
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
-			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem(lParam);
-
-			int ih = Chat_GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, false);
-			int ih2 = Chat_GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, false);
-			int font = ih > ih2 ? ih : ih2;
-			int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
-			// make sure we have space for icon!
-			if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
-				font = font > 16 ? font : 16;
-			mis->itemHeight = height > font ? height : font;
+			if (mis->CtlID == IDC_SRMM_NICKLIST) {
+				int ih = Chat_GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, false);
+				int ih2 = Chat_GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, false);
+				int font = ih > ih2 ? ih : ih2;
+				int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
+				// make sure we have space for icon!
+				if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
+					font = font > 16 ? font : 16;
+				mis->itemHeight = height > font ? height : font;
+			}
 		}
-		return TRUE;
+		return Menu_MeasureItem(lParam);
 
 	case WM_DRAWITEM:
-		if (!DrawMenuItem(wParam, lParam)) {
+		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem(lParam);
-
-			if (dis->hwndItem == GetDlgItem(m_hwnd, IDC_AVATAR)) {
+			if (dis->CtlID == IDC_AVATAR) {
 				int avatarWidth = 0, avatarHeight = 0;
 				int itemWidth = dis->rcItem.right - dis->rcItem.left + 1, itemHeight = dis->rcItem.bottom - dis->rcItem.top + 1;
 				HDC hdcMem = CreateCompatibleDC(dis->hDC);
