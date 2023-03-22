@@ -623,46 +623,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 				return TRUE;
 			}
-
-			if (dis->CtlID == IDC_SRMM_NICKLIST) {
-				int index = dis->itemID;
-				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
-				if (ui) {
-					int x_offset = 2;
-
-					int height = dis->rcItem.bottom - dis->rcItem.top;
-					if (height & 1)
-						height++;
-
-					int offset = (height == 10) ? 0 : height / 2 - 4;
-					HFONT hFont = (ui->iStatusEx == 0) ? g_Settings.UserListFont : g_Settings.UserListHeadingsFont;
-					HFONT hOldFont = (HFONT)SelectObject(dis->hDC, hFont);
-					SetBkMode(dis->hDC, TRANSPARENT);
-
-					if (dis->itemAction == ODA_FOCUS && dis->itemState & ODS_SELECTED)
-						FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListSelectedBkgBrush);
-					else //if (dis->itemState & ODS_INACTIVE)
-						FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListBkgBrush);
-
-					if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
-						HICON hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
-						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-						x_offset += 18;
-					}
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, g_chatApi.SM_GetStatusIcon(m_si, ui), 10, 10, 0, nullptr, DI_NORMAL);
-					x_offset += 12;
-					if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
-						HICON hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
-						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-						x_offset += 18;
-					}
-
-					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
-					SelectObject(dis->hDC, hOldFont);
-				}
-				return TRUE;
-			}
 		}
 		break;
 
@@ -1250,6 +1210,46 @@ void CMsgDialog::CloseTab()
 	}
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis)
+{
+	int x_offset = 2;
+
+	int height = dis->rcItem.bottom - dis->rcItem.top;
+	if (height & 1)
+		height++;
+
+	int offset = (height == 10) ? 0 : height / 2 - 4;
+	HFONT hFont = (ui->iStatusEx == 0) ? g_Settings.UserListFont : g_Settings.UserListHeadingsFont;
+	HFONT hOldFont = (HFONT)SelectObject(dis->hDC, hFont);
+	SetBkMode(dis->hDC, TRANSPARENT);
+
+	if (dis->itemAction == ODA_FOCUS && dis->itemState & ODS_SELECTED)
+		FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListSelectedBkgBrush);
+	else //if (dis->itemState & ODS_INACTIVE)
+		FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListBkgBrush);
+
+	if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
+		HICON hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
+		DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+		x_offset += 18;
+	}
+	DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, g_chatApi.SM_GetStatusIcon(m_si, ui), 10, 10, 0, nullptr, DI_NORMAL);
+	x_offset += 12;
+	if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
+		HICON hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
+		DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+		x_offset += 18;
+	}
+
+	SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
+	TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
+	SelectObject(dis->hDC, hOldFont);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
 {

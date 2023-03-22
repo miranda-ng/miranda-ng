@@ -553,6 +553,18 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_DRAWITEM:
+		{
+			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+			if (dis->CtlID == IDC_SRMM_NICKLIST) {
+				USERINFO *ui = UM_FindUserFromIndex(m_si, dis->itemID);
+				if (ui != nullptr)
+					DrawNickList(ui, dis);
+				return TRUE;
+			}
+		}
+		break;
+
 	case WM_CBD_RECREATE:
 		Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 		break;
@@ -773,7 +785,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 	ScreenToClient(pList->GetHwnd(), &hti.pt);
 
 	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item);
+	USERINFO *ui = UM_FindUserFromIndex(m_si, item);
 	if (ui == nullptr)
 		return;
 

@@ -172,6 +172,7 @@ public:
 	void onType(CTimer *);
 
 	void CloseTab() override;
+	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
 	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
 	bool GetFirstEvent() override;
 	void LoadSettings() override;

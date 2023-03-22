@@ -305,7 +305,7 @@ BOOL SM_RemoveUser(SESSION_INFO *pSI, const wchar_t *pszUID)
 static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
 {
 	SESSION_INFO *si = Chat_Find(pszID, pszModule);
-	return (si == nullptr) ? nullptr : g_chatApi.UM_FindUserFromIndex(si, index);
+	return (si == nullptr) ? nullptr : UM_FindUserFromIndex(si, index);
 }
 
 BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
@@ -707,7 +707,7 @@ static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 	return mir_wstrcmpi(u1->pszNick, u2->pszNick);
 }
 
-static USERINFO* UM_FindUserFromIndex(SESSION_INFO *si, int index)
+USERINFO* UM_FindUserFromIndex(SESSION_INFO *si, int index)
 {
 	if (!si)
 		return nullptr;

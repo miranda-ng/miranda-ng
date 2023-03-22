@@ -152,6 +152,7 @@ public:
 	}
 
 	void CloseTab() override;
+	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
 	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
