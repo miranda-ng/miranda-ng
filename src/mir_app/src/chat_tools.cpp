@@ -311,13 +311,13 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-		dwColor = g_chatApi.aFonts[16].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
+		dwColor = g_chatApi.aFonts[16].color; wszText.Format(L"%s:", wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		dwColor = g_chatApi.aFonts[16].color;
 		break;
 	case GC_EVENT_MESSAGE:
-		dwColor = g_chatApi.aFonts[9].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
+		dwColor = g_chatApi.aFonts[9].color; wszText.Format(L"%s:", wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION:
 		dwColor = g_chatApi.aFonts[15].color;
