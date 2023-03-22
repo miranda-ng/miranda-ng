@@ -1200,11 +1200,11 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->CtlID == IDC_AVATAR) {
-				int avatarWidth = 0, avatarHeight = 0;
 				int itemWidth = dis->rcItem.right - dis->rcItem.left + 1, itemHeight = dis->rcItem.bottom - dis->rcItem.top + 1;
 				HDC hdcMem = CreateCompatibleDC(dis->hDC);
 				HBITMAP hbmMem = CreateCompatibleBitmap(dis->hDC, itemWidth, itemHeight);
 				hbmMem = (HBITMAP)SelectObject(hdcMem, hbmMem);
+
 				RECT rect;
 				rect.top = 0;
 				rect.left = 0;
@@ -1216,8 +1216,8 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					BITMAP bminfo;
 					GetObject(m_hbmpAvatarPic, sizeof(bminfo), &bminfo);
 					if (bminfo.bmWidth != 0 && bminfo.bmHeight != 0) {
-						avatarHeight = itemHeight;
-						avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;
+						int avatarHeight = itemHeight;
+						int avatarWidth = bminfo.bmWidth * avatarHeight / bminfo.bmHeight;
 						if (avatarWidth > itemWidth) {
 							avatarWidth = itemWidth;
 							avatarHeight = bminfo.bmHeight * avatarWidth / bminfo.bmWidth;
@@ -1329,27 +1329,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (pNmhdr->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 				return TRUE;
-			}
-			break;
-
-		case IDC_SRMM_NICKLIST:
-			if (pNmhdr->code == TTN_NEEDTEXT) {
-				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lParam;
-				SESSION_INFO *parentdat = (SESSION_INFO *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
-
-				POINT p;
-				GetCursorPos(&p);
-				ScreenToClient(m_nickList.GetHwnd(), &p);
-				int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
-				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
-				if (ui != nullptr) {
-					static wchar_t ptszBuf[1024];
-					mir_snwprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
-						TranslateT("Nickname"), ui->pszNick,
-						TranslateT("Unique ID"), ui->pszUID,
-						TranslateT("Status"), g_chatApi.TM_WordToString(parentdat->pStatuses, ui->Status));
-					lpttd->lpszText = ptszBuf;
-				}
 			}
 			break;
 		}
