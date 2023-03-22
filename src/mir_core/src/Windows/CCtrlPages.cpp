@@ -264,7 +264,7 @@ void CCtrlPages::RemovePage(int iPage)
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
 {
 	if (pDlg->GetHwnd() == nullptr) {
-		pDlg->SetParent(m_hwnd);
+		pDlg->SetParent(GetParent()->GetHwnd());
 		pDlg->Create();
 
 		RECT rc;

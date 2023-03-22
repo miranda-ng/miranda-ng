@@ -353,7 +353,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 					m_autoClose = CLOSE_ON_OK;
 				}
 				else if (g_plugin.bAutoMin)
-					::ShowWindow(GetParent(m_hwndParent), SW_MINIMIZE);
+					::ShowWindow(m_hwndParent, SW_MINIMIZE);
 			}
 			else {
 				if (g_plugin.bAutoClose)

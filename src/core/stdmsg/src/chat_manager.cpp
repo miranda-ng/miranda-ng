@@ -151,10 +151,8 @@ static void ShowRoom(SESSION_INFO *si)
 	// Do we need to create a window?
 	if (si->pDlg == nullptr) {
 		CTabbedWindow *pContainer = GetContainer();
-		if (g_Settings.bTabsEnable) {
+		if (g_Settings.bTabsEnable)
 			pContainer->AddPage(si);
-			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
-		}
 		else {
 			CMsgDialog *pDlg = pContainer->m_pEmbed = new CMsgDialog(pContainer, si);
 			pContainer->Create();
@@ -162,8 +160,8 @@ static void ShowRoom(SESSION_INFO *si)
 			pDlg->Create();
 			pContainer->Show();
 			pContainer->FixTabIcons(pDlg);
-			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 		}
+		PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 
 		if (si->iType != GCW_SERVER)
 			si->pDlg->UpdateNickList();
