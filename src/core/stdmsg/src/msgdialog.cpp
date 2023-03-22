@@ -578,13 +578,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos();
-			m_pLog->Resize();
 
-			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
-			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			if (g_plugin.bShowAvatar && m_avatarPic)
-				RedrawWindow(m_avatar.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, false);
 		}
 		return TRUE;
 
