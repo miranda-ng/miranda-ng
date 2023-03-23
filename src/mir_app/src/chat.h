@@ -84,6 +84,7 @@ SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);
 STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);
 uint16_t      TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 
+USERINFO*     UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
 USERINFO*     UM_FindUserFromIndex(SESSION_INFO *si, int index);
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);
@@ -132,5 +133,6 @@ void          Chat_RemoveContact(MCONTACT hContact);
 
 CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);
 void          Chat_Serialize(SESSION_INFO *si);
+bool          Chat_Unserialize(SESSION_INFO *si);
 
 #pragma comment(lib,"comctl32.lib")

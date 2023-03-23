@@ -867,7 +867,8 @@ void Chat_Serialize(SESSION_INFO *si)
 	JSONNode pUserList(JSON_ARRAY); pUserList.set_name("users");
 	for (auto &it : si->arUsers) {
 		JSONNode user;
-		user << JSONNode("id", T2Utf(it->pszUID).get()) << JSONNode("nick", T2Utf(it->pszNick).get()) << JSONNode("role", it->Status);
+		user << JSONNode("id", T2Utf(it->pszUID).get()) << JSONNode("nick", T2Utf(it->pszNick).get())
+			<< JSONNode("role", it->Status) << JSONNode("isMe", it == si->pMe);
 		pUserList << user;
 	}
 
@@ -885,4 +886,56 @@ void Chat_Serialize(SESSION_INFO *si)
 			fclose(out);
 		}
 	}
+}
+
+bool Chat_Unserialize(SESSION_INFO *si)
+{
+	FILE *in = _wfopen(Chat_GetFolderName(si), L"r");
+	if (in == nullptr)
+		return false;
+
+	CMStringA szJson;
+	unsigned iFileLength = filelength(fileno(in));
+	szJson.Truncate(iFileLength);
+	fread(szJson.GetBuffer(), 1, iFileLength, in);
+	fclose(in);
+
+	JSONNode root = JSONNode::parse(szJson);
+	if (!root)
+		return false;
+
+	CMStringW str = root["name"].as_mstring();
+	if (!str.IsEmpty())
+		si->ptszName = str.Detach();
+
+	str = root["topic"].as_mstring();
+	if (!str.IsEmpty())
+		si->ptszTopic = str.Detach();
+
+	for (auto &it : root["roles"])
+		if (auto *pStatus = TM_AddStatus(&si->pStatuses, it["name"].as_mstring(), &si->iStatusCount))
+			si->iStatusCount++;
+
+	for (auto &it : root["users"]) {
+		int iStatus = it["role"].as_int();
+		USERINFO *ui = UM_AddUser(si, it["id"].as_mstring(), it["nick"].as_mstring(), iStatus);
+		if (ui == nullptr)
+			continue;
+
+		if (g_chatApi.OnAddUser)
+			g_chatApi.OnAddUser(si, ui);
+
+		if (it["isMe"].as_bool())
+			si->pMe = ui;
+		ui->Status = iStatus;
+		ui->Status |= si->pStatuses->iStatus;
+
+		if (g_chatApi.OnNewUser)
+			g_chatApi.OnNewUser(si, ui);
+	}
+
+	if (si->pDlg)
+		si->pDlg->UpdateNickList();
+
+	return true;
 }

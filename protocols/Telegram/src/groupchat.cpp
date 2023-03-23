@@ -28,32 +28,40 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 
 	if (bUpdateMembers) {
 		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
-		Chat_AddGroup(si, TranslateT("Creator"));
-		Chat_AddGroup(si, TranslateT("Admin"));
-		Chat_AddGroup(si, TranslateT("Participant"));
+		if (!si->pStatuses) {
+			Chat_AddGroup(si, TranslateT("Creator"));
+			Chat_AddGroup(si, TranslateT("Admin"));
+			Chat_AddGroup(si, TranslateT("Participant"));
 
-		// push async query to fetch users
-		SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::StartGroupChat, pUser);
+			// push async query to fetch users
+			SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::StartGroupChat, pUser);
+		}
+		else {
+			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+			Chat_Control(si, SESSION_ONLINE);
+		}
 	}
 	else {
 		si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
-		Chat_AddGroup(si, TranslateT("SuperAdmin"));
-		Chat_AddGroup(si, TranslateT("Visitor"));
+		if (!si->pStatuses) {
+			Chat_AddGroup(si, TranslateT("SuperAdmin"));
+			Chat_AddGroup(si, TranslateT("Visitor"));
 
-		ptrW wszUserId(getWStringA(DBKEY_ID)), wszNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
+			ptrW wszUserId(getWStringA(DBKEY_ID)), wszNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
 
-		GCEVENT gce = { si, GC_EVENT_JOIN };
-		gce.pszUID.w = wszUserId;
-		gce.pszNick.w = wszNick;
-		gce.bIsMe = true;
-		gce.pszStatus.w = TranslateT("Visitor");
-		Chat_Event(&gce);
+			GCEVENT gce = { si, GC_EVENT_JOIN };
+			gce.pszUID.w = wszUserId;
+			gce.pszNick.w = wszNick;
+			gce.bIsMe = true;
+			gce.pszStatus.w = TranslateT("Visitor");
+			Chat_Event(&gce);
 
-		gce.bIsMe = false;
-		gce.pszUID.w = L"---";
-		gce.pszNick.w = TranslateT("Admin");
-		gce.pszStatus.w = TranslateT("SuperAdmin");
-		Chat_Event(&gce);
+			gce.bIsMe = false;
+			gce.pszUID.w = L"---";
+			gce.pszNick.w = TranslateT("Admin");
+			gce.pszStatus.w = TranslateT("SuperAdmin");
+			Chat_Event(&gce);
+		}
 
 		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 		Chat_Control(si, SESSION_ONLINE);

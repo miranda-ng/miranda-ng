@@ -570,7 +570,7 @@ STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, in
 		return node;
 
 	}
-	return FALSE;
+	return nullptr;
 }
 
 static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus)

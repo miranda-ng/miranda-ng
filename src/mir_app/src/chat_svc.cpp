@@ -255,10 +255,18 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 		mir_snwprintf(szTemp, L"Server: %s", si->ptszName);
 	else
 		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
+
 	si->hContact = AddRoom(pszModule, ptszID, szTemp, si->iType);
 	si->iPopupFlags = Chat::iPopupFlags;
 	si->iTrayFlags = Chat::iTrayIconFlags;
-	db_set_s(si->hContact, si->pszModule, "Topic", "");
+
+	bool bRestored = false;
+	if (mi->bPersistent)
+		bRestored = Chat_Unserialize(si);
+
+	if (!bRestored)
+		db_set_s(si->hContact, si->pszModule, "Topic", "");
+
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)
 		db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
@@ -423,7 +431,7 @@ static void AddUser(SESSION_INFO *si, GCEVENT &gce)
 {
 	uint16_t status = TM_StringToWord(si->pStatuses, gce.pszStatus.w);
 
-	USERINFO *ui = g_chatApi.UM_AddUser(si, gce.pszUID.w, gce.pszNick.w, status);
+	USERINFO *ui = UM_AddUser(si, gce.pszUID.w, gce.pszNick.w, status);
 	if (ui == nullptr)
 		return;
 
