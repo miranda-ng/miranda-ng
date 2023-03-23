@@ -134,6 +134,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_TYPNOTIF        0x0040 // enable typing notifications.
 #define GC_CHANMGR         0x0080 // enable the 'channel settings' button
 #define GC_DATABASE        0x0100 // all events are backed in the database
+#define GC_PERSISTENT      0x0200 // chat structure is stored offline not to retrieve it each time
 
 // Error messages
 #define GC_ERROR                1 // An internal error occurred.

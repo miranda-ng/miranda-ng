@@ -837,3 +837,52 @@ MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool
 	ReleaseDC(nullptr, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat serialization
+
+CMStringW Chat_GetFolderName(SESSION_INFO *si)
+{
+	CMStringW ret(VARSW(L"%miranda_userdata%\\ChatCache"));
+	if (si)
+		ret.AppendFormat(L"\\%d.json", si->hContact);
+	
+	return ret;
+}
+
+void Chat_Serialize(SESSION_INFO *si)
+{
+	si->bIsDirty = false;
+
+	if (!si->pMI->bPersistent)
+		return;
+
+	JSONNode pRoleList(JSON_ARRAY); pRoleList.set_name("roles");
+	for (auto *p = si->pStatuses; p; p = p->next) {
+		JSONNode role;
+		role << JSONNode("id", p->iStatus) << JSONNode("name", T2Utf(p->pszGroup).get());
+		pRoleList << role;
+	}
+
+	JSONNode pUserList(JSON_ARRAY); pUserList.set_name("users");
+	for (auto &it : si->arUsers) {
+		JSONNode user;
+		user << JSONNode("id", T2Utf(it->pszUID).get()) << JSONNode("nick", T2Utf(it->pszNick).get()) << JSONNode("role", it->Status);
+		pUserList << user;
+	}
+
+	JSONNode root;
+	root << pRoleList << pUserList;
+	if (si->ptszName)
+		root << JSONNode("name", T2Utf(si->ptszName).get());
+	if (si->ptszTopic)
+		root << JSONNode("topic", T2Utf(si->ptszTopic).get());
+
+	ptrW wszText(json_write(&root));
+	if (wszText) {
+		if (FILE *out = _wfopen(Chat_GetFolderName(si), L"w")) {
+			fputs(T2Utf(wszText), out);
+			fclose(out);
+		}
+	}
+}

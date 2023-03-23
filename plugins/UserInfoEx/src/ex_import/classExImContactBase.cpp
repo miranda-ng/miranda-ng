@@ -76,7 +76,6 @@ CExImContactBase::~CExImContactBase()
 uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 {
 	uint8_t		ret = FALSE;
-	uint8_t		isChatRoom = FALSE;
 	LPSTR		pszProto;
 	DBVARIANT	dbv;
 

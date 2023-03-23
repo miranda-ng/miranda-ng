@@ -98,7 +98,7 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 	
 	bool     bBold, bItalics, bUnderline;
 	bool     bColor, bBkgColor;
-	bool     bChanMgr, bAckMsg, bDatabase;
+	bool     bChanMgr, bAckMsg, bDatabase, bPersistent;
 	
 	int      iMaxText;
 };
@@ -144,6 +144,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	bool        bHasNicklist;
 	bool        bTrimmed;
 	bool        bHistoryInit;
+	bool        bIsDirty;
 
 	char*       pszModule;
 	wchar_t*    ptszID;

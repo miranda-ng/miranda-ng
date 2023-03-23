@@ -187,6 +187,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
 	mi->bDatabase = (gcr->dwFlags & GC_DATABASE) != 0;
+	mi->bPersistent = (gcr->dwFlags & GC_PERSISTENT) != 0;
 	mi->iMaxText = gcr->iMaxText;
 	mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 
@@ -418,22 +419,18 @@ MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si)
 /////////////////////////////////////////////////////////////////////////////////////////
 // handles chat event
 
-static void AddUser(GCEVENT *gce)
+static void AddUser(SESSION_INFO *si, GCEVENT &gce)
 {
-	SESSION_INFO *si = gce->si;
-	if (si == nullptr)
-		return;
+	uint16_t status = TM_StringToWord(si->pStatuses, gce.pszStatus.w);
 
-	uint16_t status = TM_StringToWord(si->pStatuses, gce->pszStatus.w);
-
-	USERINFO *ui = g_chatApi.UM_AddUser(si, gce->pszUID.w, gce->pszNick.w, status);
+	USERINFO *ui = g_chatApi.UM_AddUser(si, gce.pszUID.w, gce.pszNick.w, status);
 	if (ui == nullptr)
 		return;
 
 	if (g_chatApi.OnAddUser)
 		g_chatApi.OnAddUser(si, ui);
 
-	if (gce->bIsMe)
+	if (gce.bIsMe)
 		si->pMe = ui;
 	ui->Status = status;
 	ui->Status |= si->pStatuses->iStatus;
@@ -465,6 +462,7 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
 				return 0;
 
+			si->bIsDirty = true;
 			replaceStrW(si->ptszTopic, pwszNew);
 			if (pwszNew != nullptr)
 				db_set_ws(si->hContact, si->pszModule, "Topic", si->ptszTopic);
@@ -501,6 +499,7 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 		break;
 
 	case GC_EVENT_NICK:
+		si->bIsDirty = true;
 		SM_ChangeNick(si, &gce);
 		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
@@ -509,13 +508,15 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 		return SM_UserTyping(&gce);
 
 	case GC_EVENT_JOIN:
-		AddUser(&gce);
+		si->bIsDirty = true;
+		AddUser(si, gce);
 		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
+		si->bIsDirty = true;
 		bRemoveFlag = TRUE;
 		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
@@ -617,8 +618,10 @@ MIR_APP_DLL(int) Chat_AddGroup(SESSION_INFO *si, const wchar_t *wszText)
 
 	mir_cslock lck(csChat);
 	STATUSINFO *ti = TM_AddStatus(&si->pStatuses, wszText, &si->iStatusCount);
-	if (ti)
+	if (ti) {
 		si->iStatusCount++;
+		si->bIsDirty = true;
+	}
 
 	if (g_chatApi.OnAddStatus)
 		g_chatApi.OnAddStatus(si, ti);
@@ -634,6 +637,7 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(SESSION_INFO *si, const wchar_t *wszNewN
 	if (!mir_wstrcmp(si->ptszName, wszNewName))
 		return 0;
 
+	si->bIsDirty = true;
 	replaceStrW(si->ptszName, wszNewName);
 	db_set_ws(si->hContact, si->pszModule, "Nick", wszNewName);
 	if (si->pDlg)
@@ -650,8 +654,10 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszOldId
 
 	mir_cslock lck(csChat);
 	for (auto &si : g_arSessions)
-		if (!mir_strcmpi(si->pszModule, szModule))
+		if (!mir_strcmpi(si->pszModule, szModule)) {
 			Chat_ChangeUserId(si, wszOldId, wszNewId);
+			si->bIsDirty = true;
+		}
 
 	return 0;
 }
@@ -665,6 +671,7 @@ MIR_APP_DLL(int) Chat_ChangeUserId(SESSION_INFO *si, const wchar_t *wszOldId, co
 	if (ui) {
 		replaceStrW(ui->pszUID, wszNewId);
 		UM_SortKeys(si);
+		si->bIsDirty = true;
 	}
 	return 0;
 }
@@ -723,6 +730,8 @@ MIR_APP_DLL(int) Chat_SetStatusEx(SESSION_INFO *si, int flags, const wchar_t *ws
 	UM_SetStatusEx(si, wszText, flags);
 	if (si->pDlg)
 		RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
+
+	si->bIsDirty = true;
 	return 0;
 }
 
@@ -984,6 +993,34 @@ static IconItem iconList[] =
 
 static bool bInited = false;
 
+class ChatGlobals
+{
+	CTimer timerChat;
+
+	void onTimer(CTimer *)
+	{
+		mir_cslock lck(csChat);
+		
+		for (auto &it : g_arSessions)
+			if (it->bIsDirty)
+				Chat_Serialize(it);
+	}
+
+public:
+	ChatGlobals() :
+		timerChat(Miranda_GetSystemWindow(), (LPARAM)this)
+	{
+		timerChat.OnEvent = Callback(this, &ChatGlobals::onTimer);
+		timerChat.Start(10000);
+	}
+
+	~ChatGlobals()
+	{
+		timerChat.Stop();
+	}
+}
+static *pChatGlobals = nullptr;
+
 int LoadChatModule(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -991,6 +1028,9 @@ int LoadChatModule(void)
 	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
+
+	pChatGlobals = new ChatGlobals();
+	CreateDirectoryTreeW(Chat_GetFolderName());
 
 	g_hWindowList = WindowList_Create();
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
@@ -1022,6 +1062,8 @@ void UnloadChatModule(void)
 {
 	if (!bInited)
 		return;
+
+	delete pChatGlobals;
 
 	FreeMsgLogBitmaps();
 	OptionsUnInit();

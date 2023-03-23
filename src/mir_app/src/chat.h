@@ -130,4 +130,7 @@ CSrmmLogWindow *Srmm_GetLogWindow(CMsgDialog *pDlg);
 
 void          Chat_RemoveContact(MCONTACT hContact);
 
+CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);
+void          Chat_Serialize(SESSION_INFO *si);
+
 #pragma comment(lib,"comctl32.lib")

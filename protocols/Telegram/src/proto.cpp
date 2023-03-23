@@ -77,7 +77,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 
 	// groupchat initialization
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_DATABASE;
+	gcr.dwFlags = GC_TYPNOTIF | GC_DATABASE | GC_PERSISTENT;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
