@@ -154,8 +154,10 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
 	CMStringW szId(GetUserId(hContact));
-	if (!isChatRoom(hContact))
+	if (!isChatRoom(hContact)) {
+		mir_cslock lck(m_csCache);
 		m_arCache.remove(FindUser(szId));
+	}
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));

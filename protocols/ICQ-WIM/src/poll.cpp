@@ -69,6 +69,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 	if (bEnableMenu)
 		Menu_ShowItem(m_hUploadGroups, true);
 
+	mir_cslock lck(m_csCache);
 	for (auto &it : m_arCache)
 		if (!it->m_bInList && !getBool(it->m_hContact, "IcqDeleted"))
 			Contact::RemoveFromList(it->m_hContact);

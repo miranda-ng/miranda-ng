@@ -46,6 +46,8 @@ void CIcqProto::InitContactCache()
 		auto *pUser = FindUser(wszId);
 		if (pUser == nullptr) {
 			pUser = new IcqUser(wszId, it);
+
+			mir_cslock lck(m_csCache);
 			m_arCache.insert(pUser);
 		}
 		pUser->m_iProcessedMsgId = getId(it, DB_KEY_LASTMSGID);
