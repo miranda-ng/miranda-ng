@@ -93,7 +93,7 @@ void RegisterSRMMFonts(void)
 	FontIDW fontid = {};
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
-		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
+		strncpy_s(fontid.dbSettingsGroup, SRMM_MODULE, _TRUNCATE);
 		wcsncpy_s(fontid.group, LPGENW("Message sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
 
@@ -116,7 +116,7 @@ void RegisterSRMMFonts(void)
 	}
 
 	ColourIDW colourid = {};
-	strncpy_s(colourid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
+	strncpy_s(colourid.dbSettingsGroup, SRMM_MODULE, _TRUNCATE);
 	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);

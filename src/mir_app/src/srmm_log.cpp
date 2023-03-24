@@ -82,7 +82,7 @@ static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 {
 	if (sttEnableCustomLogs(pDlg)) {
-		CMStringA szViewerName(db_get_sm(pDlg->m_hContact, SRMM_MODULE, "Logger"));
+		CMStringA szViewerName(db_get_sm(pDlg->m_hContact, SRMSGMOD, "Logger"));
 		if (szViewerName.IsEmpty())
 			szViewerName = db_get_sm(0, "SRMM", "Logger", "built-in");
 

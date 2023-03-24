@@ -200,9 +200,9 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour);
 #define LOADHISTORY_COUNT     1
 #define LOADHISTORY_TIME      2
 
-#define SRMMMOD    "SRMM"
-#define SRMSGMOD   "SRMsg"
-#define DBSAVEDMSG "SavedMsg"
+#define SRMM_MODULE           "SRMM"
+#define SRMSGMOD              "SRMsg"
+#define DBSAVEDMSG            "SavedMsg"
 
 #define SRMSGSET_TYPING  "SupportTyping"
 

@@ -91,7 +91,7 @@ MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescr
 	g_pszHotkeySection = pszSection;
 
 	uint16_t wHotKey = HOTKEYCODE(0, VK_RETURN);
-	if (db_get_b(0, SRMM_MODULE, "SendOnCtrlEnter"))
+	if (db_get_b(0, SRMSGMOD, "SendOnCtrlEnter"))
 		wHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_RETURN);
 
 	if (db_get_b(0, "Tab_SRMsg", "sendonshiftenter"))
