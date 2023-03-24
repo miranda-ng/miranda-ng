@@ -53,9 +53,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_hContact(0),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
 {
-	m_bFilterEnabled = db_get_b(0, CHAT_MODULE, "FilterEnabled", 0) != 0;
-	m_bNicklistEnabled = db_get_b(0, CHAT_MODULE, "ShowNicklist", 1) != 0;
+	m_bFilterEnabled = Chat::bFilterEnabled;
 	m_iLogFilterFlags = Chat::iFilterFlags;
+	m_bNicklistEnabled = Chat::bShowNicklist;
 
 	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);

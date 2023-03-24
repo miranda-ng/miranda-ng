@@ -625,8 +625,9 @@ void CMsgDialog::UpdateOptions()
 		int ih2 = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, false);
 		int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 		int font = ih > ih2 ? ih : ih2;
+		
 		// make sure we have space for icon!
-		if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
+		if (Chat::bShowContactStatus)
 			font = font > 16 ? font : 16;
 
 		m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);

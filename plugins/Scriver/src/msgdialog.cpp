@@ -1189,7 +1189,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				int font = ih > ih2 ? ih : ih2;
 				int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
 				// make sure we have space for icon!
-				if (db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0))
+				if (Chat::bShowContactStatus)
 					font = font > 16 ? font : 16;
 				mis->itemHeight = height > font ? height : font;
 			}

@@ -298,7 +298,7 @@ public:
 		mir_free(pszText);
 		
 		g_Settings.bStripFormat = db_get_b(0, CHAT_MODULE, "TrimFormatting", 0) != 0;
-		g_Settings.bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+		g_Settings.bLogIndentEnabled = Chat::bLogIndentEnabled;
 
 		g_chatApi.MM_FontsChanged();
 		return true;
