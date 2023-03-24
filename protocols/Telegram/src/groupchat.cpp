@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool bUpdateMembers)
+void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 {
 	if (pUser->m_si)
 		return;
@@ -26,7 +26,7 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 	_i64tow(pUser->id, wszId, 10);
 	SESSION_INFO *si;
 
-	if (bUpdateMembers) {
+	if (pUser->bLoadMembers) {
 		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
 		if (!si->pStatuses) {
 			Chat_AddGroup(si, TranslateT("Creator"));
@@ -34,7 +34,10 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool b
 			Chat_AddGroup(si, TranslateT("Participant"));
 
 			// push async query to fetch users
-			SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::StartGroupChat, pUser);
+			if (m_arBasicGroups.find((TG_BASIC_GROUP*)&pUser->id))
+				SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::StartGroupChat, pUser);
+			else
+				SendQuery(new TD::getSupergroupMembers(pUser->id, 0, 0, 100), &CTelegramProto::StartGroupChat, pUser);
 		}
 		else {
 			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
@@ -75,15 +78,25 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 	if (!response.object)
 		return;
 
-	if (response.object->get_id() != TD::basicGroupFullInfo::ID) {
+	TD::array<TD::object_ptr<TD::chatMember>> *pMembers;
+
+	switch (response.object->get_id()) {
+	case TD::basicGroupFullInfo::ID:
+		pMembers = &((TD::basicGroupFullInfo *)response.object.get())->members_;
+		break;
+
+	case TD::chatMembers::ID:
+		pMembers = &((TD::chatMembers *)response.object.get())->members_;
+		break;
+
+	default:
 		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::basicGroupFullInfo::ID);
 		return;
 	}
 
-	auto *pInfo = ((TD::basicGroupFullInfo *)response.object.get());
 	auto *pUser = (TG_USER *)pUserData;
 
-	for (auto &it : pInfo->members_) {
+	for (auto &it : *pMembers) {
 		auto *pMember = it.get();
 		const wchar_t *pwszRole;
 

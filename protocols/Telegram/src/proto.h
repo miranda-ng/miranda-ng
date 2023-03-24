@@ -76,7 +76,7 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	PROTOFILETRANSFERSTATUS pfts;
 };
 
-struct TG_USER
+struct TG_USER : public MZeroedObject
 {
 	TG_USER(int64_t _1, MCONTACT _2, bool _3 = false) :
 		id(_1),
@@ -88,7 +88,7 @@ struct TG_USER
 
 	int64_t   id, chatId;
 	MCONTACT  hContact;
-	bool      isGroupChat;
+	bool      isGroupChat, bLoadMembers;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -233,7 +233,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_BASIC_GROUP>  m_arBasicGroups;
 	OBJLIST<TG_SUPER_GROUP>  m_arSuperGroups;
 
-	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool bUpdateMembers);
+	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 	
 	void Chat_SendPrivateMessage(GCHOOK *gch);

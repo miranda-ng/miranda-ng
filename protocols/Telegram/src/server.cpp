@@ -267,13 +267,18 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandl
 
 void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 {
-	auto iStatusId = pObj->basic_group_->status_->get_id();
+	auto *pBasicGroup = pObj->basic_group_.get();
+	if (pBasicGroup->upgraded_to_supergroup_id_)
+		if (auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_))
+			pUser->bLoadMembers = true;
+
+	auto iStatusId = pBasicGroup->status_->get_id();
 	if (iStatusId == TD::chatMemberStatusBanned::ID) {
 		debugLogA("We are banned here, skipping");
 		return;
 	}
 	
-	TG_BASIC_GROUP tmp(pObj->basic_group_->id_, 0);
+	TG_BASIC_GROUP tmp(pBasicGroup->id_, 0);
 	auto *pGroup = m_arBasicGroups.find(&tmp);
 	if (pGroup == nullptr) {
 		pGroup = new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_));
@@ -281,16 +286,18 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	}
 	else pGroup->group = std::move(pObj->basic_group_);
 
+	TG_USER *pUser;
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		auto *pUser = AddFakeUser(tmp.id, true);
+		pUser = AddFakeUser(tmp.id, true);
 		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 	}
-	else AddUser(tmp.id, true);
+	else pUser = AddUser(tmp.id, true);
+
+	pUser->bLoadMembers = true;
 }
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
-	bool bIsBasicGroup = false;
 	int64_t chatId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
@@ -302,13 +309,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		break;
 
 	case TD::chatTypeBasicGroup::ID:
-		bIsBasicGroup = true;
 		chatId = ((TD::chatTypeBasicGroup*)pChat->type_.get())->basic_group_id_;
 		szTitle = pChat->title_;
 		break;
 
 	case TD::chatTypeSupergroup::ID:
-		bIsBasicGroup = false;
 		chatId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
 		break;
@@ -335,7 +340,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 			return;
 
 		if (pUser->isGroupChat && pUser->hContact != INVALID_CONTACT_ID)
-			InitGroupChat(pUser, pChat, bIsBasicGroup);
+			InitGroupChat(pUser, pChat);
 	}
 	else debugLogA("Unknown chat id %lld, ignoring", chatId);
 }
