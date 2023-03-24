@@ -158,12 +158,12 @@ class COptionMainDlg : public CDlgBase
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		for (auto &it : statusValues) {
 			tvis.item.lParam = it.style;
 			tvis.item.pszText = TranslateW(it.szDescr);
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-			tvis.item.iImage = (style & it.style) != 0;
+			tvis.item.state = INDEXTOSTATEIMAGEMASK((style & it.style) != 0 ? 2 : 1);
 			tree.InsertItem(&tvis);
 		}
 	}
@@ -173,11 +173,11 @@ class COptionMainDlg : public CDlgBase
 		uint32_t flags = 0;
 
 		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 		tvi.hItem = tree.GetRoot();
 		while (tvi.hItem) {
 			tree.GetItem(&tvi);
-			if (tvi.iImage)
+			if ((tvi.state >> 12) == 2)
 				flags |= tvi.lParam;
 			tvi.hItem = tree.GetNextSibling(tvi.hItem);
 		}
