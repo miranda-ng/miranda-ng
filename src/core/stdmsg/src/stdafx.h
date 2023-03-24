@@ -98,7 +98,7 @@ public:
 		return GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd;
 	}
 
-	CTabbedWindow *AddPage(MCONTACT hContact, wchar_t *pwszText = nullptr, int iActivate = -1);
+	CTabbedWindow *AddPage(MCONTACT hContact, wchar_t *pwszText = nullptr, int iNoActivate = -1);
 	CMsgDialog *CurrPage() const;
 
 	void AddPage(SESSION_INFO*, int insertAt = -1);

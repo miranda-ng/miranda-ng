@@ -81,10 +81,16 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
 		if (!g_plugin.bDoNotStealFocus) {
-			ShowWindow(hwnd, SW_RESTORE);
-			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-			SetForegroundWindow(hwnd);
-			Skin_PlaySound("RecvMsgActive");
+			if (!g_Settings.bTabsEnable) {
+				ShowWindow(hwnd, SW_RESTORE);
+				SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+				SetForegroundWindow(hwnd);
+				Skin_PlaySound("RecvMsgActive");
+			}
+			else {
+				CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
+			}
 		}
 		else {
 			if (GetForegroundWindow() == GetParent(hwnd))
@@ -119,6 +125,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 	hContact = db_mc_tryMeta(hContact);
 
 	HWND hwnd = Srmm_FindWindow(hContact);
+	HWND hwndContainer;
 	if (hwnd) {
 		if (pwszInitialText) {
 			SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_SRMM_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
@@ -126,9 +133,8 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 			mir_free(pwszInitialText);
 		}
 		
+		hwndContainer = GetParent(hwnd);
 		if (!g_Settings.bTabsEnable) {
-			HWND hwndContainer = GetParent(hwnd);
-			ShowWindow(hwndContainer, SW_RESTORE);
 			SetWindowPos(hwndContainer, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetForegroundWindow(hwndContainer);
 		}
@@ -137,8 +143,9 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 			g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
 		}
 	}
-	else GetContainer()->AddPage(hContact, pwszInitialText, false);
+	else hwndContainer = GetContainer()->AddPage(hContact, pwszInitialText, false)->GetHwnd();
 
+	ShowWindow(hwndContainer, SW_RESTORE);
 	return 0;
 }
 

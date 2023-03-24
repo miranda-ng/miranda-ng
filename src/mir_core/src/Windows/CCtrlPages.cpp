@@ -152,20 +152,21 @@ void CCtrlPages::ActivatePage(int iPage)
 	if (info == nullptr || info->m_pDlg == nullptr)
 		return;
 
-	if (m_pActivePage != nullptr)
-		ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
+	if (info->m_pDlg != m_pActivePage) {
+		if (m_pActivePage != nullptr)
+			ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 
-	m_pActivePage = info->m_pDlg;
-	if (m_pActivePage->GetHwnd() && info->m_bScheduledResize) {
-		RECT rc;
-		GetClientRect(m_hwnd, &rc);
-		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-		SetWindowPos(m_pActivePage->GetHwnd(), nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+		m_pActivePage = info->m_pDlg;
+		if (m_pActivePage->GetHwnd() && info->m_bScheduledResize) {
+			RECT rc;
+			GetClientRect(m_hwnd, &rc);
+			TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+			SetWindowPos(m_pActivePage->GetHwnd(), nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+		}
+
+		TabCtrl_SetCurSel(m_hwnd, iPage);
+		ShowPage(m_pActivePage);
 	}
-
-	TabCtrl_SetCurSel(m_hwnd, iPage);
-	ShowPage(m_pActivePage);
-
 	::SendMessage(m_pActivePage->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
 }
 
