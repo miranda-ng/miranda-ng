@@ -137,10 +137,6 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 		CallFunctionSync(EnterEmailCode, this);
 		break;
 
-	case TD::authorizationStateReady::ID:
-		OnLoggedIn();
-		break;
-
 	case TD::authorizationStateClosed::ID:
 		debugLogA("Connection terminated, exiting");
 		LogOut();

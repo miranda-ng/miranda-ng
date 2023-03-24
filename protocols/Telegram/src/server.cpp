@@ -168,6 +168,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessDeleteMessage((TD::updateDeleteMessages*)response.object.get());
 		break;
 
+	case TD::updateConnectionState::ID:
+		ProcessConnectionState((TD::updateConnectionState *)response.object.get());
+		break;
+
 	case TD::updateFile::ID:
 		ProcessFile((TD::updateFile *)response.object.get());
 		break;
@@ -416,6 +420,32 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			}
 		}
 	}
+}
+
+void CTelegramProto::ProcessConnectionState(TD::updateConnectionState *pObj)
+{
+	switch (pObj->state_->get_id()) {
+	case TD::connectionStateConnecting::ID:
+		debugLogA("Connection state: connecting");
+		break;
+
+	case TD::connectionStateConnectingToProxy::ID:
+		debugLogA("Connection state: connecting to proxy");
+		break;
+
+	case TD::connectionStateWaitingForNetwork::ID:
+		debugLogA("Connection state: waiting for network");
+		break;
+
+	case TD::connectionStateUpdating::ID:
+		debugLogA("Connection state: updating");
+		break;
+
+	case TD::connectionStateReady::ID:
+		debugLogA("Connection state: connected");
+		OnLoggedIn();
+		break;
+	}		
 }
 
 void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
