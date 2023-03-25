@@ -83,38 +83,38 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		bPopup = true;
 
 	/* does a window for the contact exist? */
-	HWND hwndContainer = 0;
-	HWND hwndSrmm = Srmm_FindWindow(hContact);
-	if (!hwndSrmm) {
-		if (bPopup)
-			hwndContainer = GetContainer()->AddPage(hContact, nullptr, true)->GetHwnd();
+	CTabbedWindow *pContainer = nullptr;
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (!pDlg) {
+		if (bPopup) {
+			pDlg = GetContainer()->AddPage(hContact, nullptr, true);
+			pContainer = pDlg->getContainer();
+		}
+		
 		Skin_PlaySound("AlertMsg");
 		Srmm_AddEvent(hContact, hDbEvent);
 	}
 	else {
-		hwndContainer = GetParent(hwndSrmm);
+		pContainer = pDlg->getContainer();
 		if (bPopup)
-			ShowWindow(hwndContainer, SW_RESTORE);
+			ShowWindow(pContainer->GetHwnd(), SW_RESTORE);
 
-		CTabbedWindow *pOwner = (CTabbedWindow *)GetWindowLongPtr(hwndContainer, GWLP_USERDATA);
-		if (pOwner && pOwner->CurrPage()->GetHwnd() != hwndSrmm)
+		if (pContainer->CurrPage() != pDlg)
 			Srmm_AddEvent(hContact, hDbEvent);
 	}
 
-	if (!hwndContainer)
+	if (!pContainer)
 		return 0;
 
-	if (bPopup && g_Settings.bTabsEnable && GetForegroundWindow() != hwndContainer) {
-		CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwndSrmm ? hwndSrmm : Srmm_FindWindow(hContact), GWLP_USERDATA);
+	if (bPopup && g_Settings.bTabsEnable && GetForegroundWindow() != pContainer->GetHwnd())
 		g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
-	}
 
 	if (!g_plugin.bDoNotStealFocus) {
-		SetForegroundWindow(hwndContainer);
+		SetForegroundWindow(pContainer->GetHwnd());
 		Skin_PlaySound("RecvMsgActive");
 	}
 	else {
-		if (GetForegroundWindow() == GetParent(hwndContainer))
+		if (GetForegroundWindow() == GetParent(pContainer->GetHwnd()))
 			Skin_PlaySound("RecvMsgActive");
 		else
 			Skin_PlaySound("RecvMsgInactive");
@@ -150,7 +150,10 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 			g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
 		}
 	}
-	else hwndContainer = GetContainer()->AddPage(hContact, pwszInitialText, false)->GetHwnd();
+	else {
+		auto *pDlg = GetContainer()->AddPage(hContact, pwszInitialText, false);
+		hwndContainer = pDlg->getContainer()->GetHwnd();
+	}
 
 	ShowWindow(hwndContainer, SW_RESTORE);
 	return 0;

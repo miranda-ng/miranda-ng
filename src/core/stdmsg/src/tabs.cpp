@@ -216,7 +216,7 @@ int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int iNoActivate)
+CMsgDialog* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int iNoActivate)
 {
 	CMsgDialog *pDlg = new CMsgDialog(this, hContact);
 	pDlg->m_wszInitialText = pwszText;
@@ -256,7 +256,7 @@ CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int 
 	}
 
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
-	return this;
+	return pDlg;
 }
 
 void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)

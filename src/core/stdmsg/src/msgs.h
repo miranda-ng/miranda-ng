@@ -139,6 +139,10 @@ public:
 		return ((CLogWindow *)m_pLog);
 	}
 
+	__forceinline CTabbedWindow* getContainer() const {
+		return m_pOwner;
+	}
+
 	int m_avatarWidth = 0, m_avatarHeight = 0;
 
 	bool m_bIsAutoRTL = false;
