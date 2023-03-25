@@ -861,9 +861,13 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto && Contact::IsGroupChat(hContact, szProto))
+	if (szProto && Contact::IsGroupChat(hContact, szProto)) {
+		if (auto *si = SM_FindSessionByContact(hContact))
+			_wremove(Chat_GetFolderName(si));
+
 		if (Contact::GetStatus(hContact) != ID_STATUS_OFFLINE)
 			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
+	}
 
 	return 0;
 }	
