@@ -88,14 +88,14 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!pDlg) {
 		if (bPopup) {
 			pDlg = GetContainer()->AddPage(hContact, nullptr, true);
-			pContainer = pDlg->getContainer();
+			pContainer = pDlg->getOwner();
 		}
 		
 		Skin_PlaySound("AlertMsg");
 		Srmm_AddEvent(hContact, hDbEvent);
 	}
 	else {
-		pContainer = pDlg->getContainer();
+		pContainer = pDlg->getOwner();
 		if (bPopup)
 			ShowWindow(pContainer->GetHwnd(), SW_RESTORE);
 
@@ -152,7 +152,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 	}
 	else {
 		auto *pDlg = GetContainer()->AddPage(hContact, pwszInitialText, false);
-		hwndContainer = pDlg->getContainer()->GetHwnd();
+		hwndContainer = pDlg->getOwner()->GetHwnd();
 	}
 
 	ShowWindow(hwndContainer, SW_RESTORE);

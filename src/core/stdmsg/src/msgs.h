@@ -139,7 +139,7 @@ public:
 		return ((CLogWindow *)m_pLog);
 	}
 
-	__forceinline CTabbedWindow* getContainer() const {
+	__forceinline CTabbedWindow* getOwner() const {
 		return m_pOwner;
 	}
 
