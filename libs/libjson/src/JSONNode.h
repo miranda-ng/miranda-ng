@@ -89,10 +89,11 @@ class LIBJSON_EXPORT JSONNode
 
 public:
 	explicit JSONNode(char mytype = JSON_NODE);
-	#define DECLARE_CTOR(type) JSONNode(const json_string & name_t, type value_t)
+	#define DECLARE_CTOR(type) JSONNode(const json_string &name_t, type value_t)
 	DECLARE_FOR_ALL_TYPES(DECLARE_CTOR)
+	JSONNode(const json_string &name_t, const wchar_t *value_t);
 
-	JSONNode(const JSONNode & orig);
+	JSONNode(const JSONNode &orig);
 	~JSONNode(void);
 
 	static JSONNode parse(const json_char *str);

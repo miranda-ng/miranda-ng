@@ -860,24 +860,23 @@ void Chat_Serialize(SESSION_INFO *si)
 	JSONNode pRoleList(JSON_ARRAY); pRoleList.set_name("roles");
 	for (auto *p = si->pStatuses; p; p = p->next) {
 		JSONNode role;
-		role << JSONNode("id", p->iStatus) << JSONNode("name", T2Utf(p->pszGroup).get());
+		role << JSONNode("id", p->iStatus) << JSONNode("name", p->pszGroup);
 		pRoleList << role;
 	}
 
 	JSONNode pUserList(JSON_ARRAY); pUserList.set_name("users");
 	for (auto &it : si->arUsers) {
 		JSONNode user;
-		user << JSONNode("id", T2Utf(it->pszUID).get()) << JSONNode("nick", T2Utf(it->pszNick).get())
-			<< JSONNode("role", it->Status) << JSONNode("isMe", it == si->pMe);
+		user << JSONNode("id", it->pszUID) << JSONNode("nick", it->pszNick) << JSONNode("role", it->Status) << JSONNode("isMe", it == si->pMe);
 		pUserList << user;
 	}
 
 	JSONNode root;
 	root << pRoleList << pUserList;
 	if (si->ptszName)
-		root << JSONNode("name", T2Utf(si->ptszName).get());
+		root << JSONNode("name", si->ptszName);
 	if (si->ptszTopic)
-		root << JSONNode("topic", T2Utf(si->ptszTopic).get());
+		root << JSONNode("topic", si->ptszTopic);
 
 	ptrW wszText(json_write(&root));
 	if (wszText) {

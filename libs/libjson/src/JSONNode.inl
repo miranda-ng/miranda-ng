@@ -17,22 +17,22 @@ inline JSONNode::JSONNode(char mytype) : internal(internalJSONNode::newInternal(
 				(mytype == JSON_NODE), JSON_TEXT("Not a proper JSON type"));
 	incAllocCount();
 }
-inline JSONNode::JSONNode(const json_string & unparsed) :
+inline JSONNode::JSONNode(const json_string &unparsed) :
 	internal(internalJSONNode::newInternal(unparsed))
 { //root, specialized because it can only be array or node
 	incAllocCount();
 }
-inline JSONNode::JSONNode(internalJSONNode * internal_t) :
+inline JSONNode::JSONNode(internalJSONNode *internal_t) :
 	internal(internal_t)
 { //do not increment anything, this is only used in one case and it's already taken care of 
 	incAllocCount();
 }
-inline JSONNode::JSONNode(const JSONNode & orig): internal(orig.internal -> incRef())
+inline JSONNode::JSONNode(const JSONNode &orig) : internal(orig.internal -> incRef())
 {
 	incAllocCount();
 }
 //this allows a temp node to simply transfer its contents, even with ref counting off
-inline JSONNode::JSONNode(bool, JSONNode & orig): internal(orig.internal)
+inline JSONNode::JSONNode(bool, JSONNode &orig) : internal(orig.internal)
 {
 	orig.internal = 0;
 	incAllocCount();

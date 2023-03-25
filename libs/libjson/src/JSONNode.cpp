@@ -53,9 +53,18 @@ JSONNode nullNode(JSON_NULL);
 IMPLEMENT_FOR_ALL_TYPES(IMPLEMENT_CTOR)
 
 #ifndef JSON_LIBRARY
-	JSONNode::JSONNode(const json_string & name_t, const json_char * value_t) : internal(internalJSONNode::newInternal()) {
-		internal -> Set(json_string(value_t));
-		internal -> setname(name_t);
+	JSONNode::JSONNode(const json_string &name_t, const json_char *value_t) : internal(internalJSONNode::newInternal())
+	{
+		internal->Set(json_string(value_t ? value_t : ""));
+		internal->setname(name_t);
+		incAllocCount();
+	}
+
+	JSONNode::JSONNode(const json_string &name_t, const wchar_t *value_t) : internal(internalJSONNode::newInternal())
+	{
+		T2Utf val(value_t);
+		internal->Set(json_string(val ? val : ""));
+		internal->setname(name_t);
 		incAllocCount();
 	}
 #endif
