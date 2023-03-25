@@ -31,7 +31,7 @@ CTabbedWindow* GetContainer()
 	if (g_Settings.bTabsEnable) {
 		if (g_pTabDialog == nullptr) {
 			g_pTabDialog = new CTabbedWindow();
-			g_pTabDialog->Show();
+			g_pTabDialog->Show(SW_SHOWNOACTIVATE);
 		}
 		return g_pTabDialog;
 	}
@@ -226,15 +226,33 @@ CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int 
 	if (g_Settings.bTabsEnable) {
 		m_tab.AddPage(Clist_GetContactDisplayName(hContact), nullptr, pDlg);
 		FixTabIcons(pDlg);
+		if (!iNoActivate || m_tab.GetCount() == 1)
+			m_tab.ActivatePage(m_tab.GetCount() - 1);
+		else {
+			pDlg->SetParent(GetHwnd());
+			pDlg->Create();
 
-		m_tab.ActivatePage(m_tab.GetCount() - 1);
+			RECT rc;
+			GetClientRect(m_tab.GetHwnd(), &rc);
+			TabCtrl_AdjustRect(m_tab.GetHwnd(), FALSE, &rc);
+			SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE);
+
+			EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
+
+			PSHNOTIFY pshn;
+			pshn.hdr.code = PSN_INFOCHANGED;
+			pshn.hdr.hwndFrom = pDlg->GetHwnd();
+			pshn.hdr.idFrom = 0;
+			pshn.lParam = 0;
+			SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+		}
 	}
 	else {
 		m_pEmbed = pDlg;
 		Create();
 		pDlg->SetParent(m_hwnd);
 		pDlg->Create();
-		Show();
+		Show(iNoActivate ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);

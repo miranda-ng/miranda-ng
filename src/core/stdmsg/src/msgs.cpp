@@ -77,41 +77,48 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
+	bool bPopup = false;
+	char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto && (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
+		bPopup = true;
+
 	/* does a window for the contact exist? */
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd) {
-		if (!g_plugin.bDoNotStealFocus) {
-			if (!g_Settings.bTabsEnable) {
-				ShowWindow(hwnd, SW_RESTORE);
-				SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-				SetForegroundWindow(hwnd);
-				Skin_PlaySound("RecvMsgActive");
-			}
-			else {
-				CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
-			}
-		}
-		else {
-			if (GetForegroundWindow() == GetParent(hwnd))
-				Skin_PlaySound("RecvMsgActive");
-			else
-				Skin_PlaySound("RecvMsgInactive");
-		}
-		return 0;
+	HWND hwndContainer = 0;
+	HWND hwndSrmm = Srmm_FindWindow(hContact);
+	if (!hwndSrmm) {
+		if (bPopup)
+			hwndContainer = GetContainer()->AddPage(hContact, nullptr, true)->GetHwnd();
+		Skin_PlaySound("AlertMsg");
+		Srmm_AddEvent(hContact, hDbEvent);
 	}
-	/* new message */
-	Skin_PlaySound("AlertMsg");
+	else {
+		hwndContainer = GetParent(hwndSrmm);
+		if (bPopup)
+			ShowWindow(hwndContainer, SW_RESTORE);
+
+		CTabbedWindow *pOwner = (CTabbedWindow *)GetWindowLongPtr(hwndContainer, GWLP_USERDATA);
+		if (pOwner && pOwner->CurrPage()->GetHwnd() != hwndSrmm)
+			Srmm_AddEvent(hContact, hDbEvent);
+	}
+
+	if (!hwndContainer)
+		return 0;
+
+	if (bPopup && g_Settings.bTabsEnable && GetForegroundWindow() != hwndContainer) {
+		CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwndSrmm ? hwndSrmm : Srmm_FindWindow(hContact), GWLP_USERDATA);
+		g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
+	}
 
 	if (!g_plugin.bDoNotStealFocus) {
-		char *szProto = Proto_GetBaseAccountName(hContact);
-		if (szProto && (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
-			GetContainer()->AddPage(hContact);
-			return 0;
-		}
+		SetForegroundWindow(hwndContainer);
+		Skin_PlaySound("RecvMsgActive");
 	}
-
-	Srmm_AddEvent(hContact, hDbEvent);
+	else {
+		if (GetForegroundWindow() == GetParent(hwndContainer))
+			Skin_PlaySound("RecvMsgActive");
+		else
+			Skin_PlaySound("RecvMsgInactive");
+	}
 	return 0;
 }
 
