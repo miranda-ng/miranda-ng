@@ -691,6 +691,7 @@ public:
 	void SaveSplitter(void);
 	void SelectContainer(void);
 	void SetDialogToType(void);
+	void SetFilter(uint32_t dwFlags);
 	void ShowPicture(bool showNewPic);
 	void SplitterMoved(int x, HWND hwnd);
 	void SwitchToContainer(const wchar_t *szNewName);

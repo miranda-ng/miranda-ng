@@ -364,13 +364,15 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 	CMsgDialog *pDlg = si->pDlg;
 	if (pDlg) {
-		pDlg->m_iLogFilterFlags = Chat::iFilterFlags;
+		uint32_t dwFlags = Chat::iFilterFlags;
 
 		for (int i = 0; i < 32; i++) {
 			uint32_t dwBit = 1 << i;
 			if (dwMask & dwBit)
-				pDlg->m_iLogFilterFlags = (dwFlags_local & dwBit) ? pDlg->m_iLogFilterFlags | dwBit : pDlg->m_iLogFilterFlags & ~dwBit;
+				dwFlags = (dwFlags_local & dwBit) ? dwFlags | dwBit : dwFlags & ~dwBit;
 		}
+
+		pDlg->SetFilter(dwFlags);
 	}
 
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
@@ -392,9 +394,6 @@ void Chat_SetFilters(SESSION_INFO *si)
 		if (dwMask & dwBit)
 			si->iTrayFlags = (dwFlags_local & dwBit) ? si->iTrayFlags | dwBit : si->iTrayFlags & ~dwBit;
 	}
-
-	if (pDlg != nullptr && pDlg->m_iLogFilterFlags == 0)
-		pDlg->m_bFilterEnabled = 0;
 }
 
 char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)

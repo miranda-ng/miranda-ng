@@ -410,7 +410,7 @@ bool CMsgDialog::OnInitDialog()
 	if (m_bIsMeta)
 		m_cache->updateMeta();
 
-	if (m_si) {
+	if (isChat()) {
 		m_si->pDlg = this;
 		Chat_SetFilters(m_si);
 
@@ -1125,22 +1125,20 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	if (m_panelStatusCX == 0)
 		m_panelStatusCX = 80;
 
-	if (m_si) {
+	if (isChat()) {
 		if (m_si->iType != GCW_SERVER) {
 			m_nickList.Show(m_bNicklistEnabled);
 			Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
 			m_btnNickList.Enable(true);
-			m_btnFilter.Enable(true);
+			m_btnFilter.Enable(m_iLogFilterFlags != 0);
 			if (m_si->iType == GCW_CHATROOM)
 				m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 		}
 		else {
 			m_nickList.Hide();
 			Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, SW_HIDE);
-		}
 
-		if (m_si->iType == GCW_SERVER) {
 			m_btnNickList.Enable(false);
 			m_btnFilter.Enable(false);
 			m_btnChannelMgr.Enable(false);
