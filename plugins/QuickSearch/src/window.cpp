@@ -243,6 +243,9 @@ INT_PTR QSMainDlg::NewLVProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ti.uId = LPARAM(m_hwnd);
 
 			int num = ListViewToColumn(OldHSubItem);
+			if (num == -1)
+				break;
+
 			auto &pCol = g_plugin.m_columns[num];
 			if (pCol.isXstatus || pCol.isGender) {
 				auto *pRow = GetRow(OldHItem);
