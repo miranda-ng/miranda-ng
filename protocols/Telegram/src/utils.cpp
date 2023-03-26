@@ -236,10 +236,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBo
 			pRequest->pfts.flags = PFTS_UNICODE;
 			pRequest->pfts.hContact = pUser->hContact;
 			pRequest->pfts.currentFileSize = pFile->size_;
-			m_arFiles.insert(pRequest);
+			{
+				mir_cslock lck(m_csFiles);
+				m_arFiles.insert(pRequest);
+			}
 
 			auto *pszFileName = pDoc->document_->file_name_.c_str();
-
 			PROTORECVFILE pre = {};
 			pre.fileCount = 1;
 			pre.timestamp = time(0);
@@ -273,7 +275,10 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBo
 			CreateDirectoryW(pRequest->m_destPath, 0);
 			
 			pRequest->m_fileName.Format(L"STK{%S}.%S", pFileId, pwszFileExt);
-			m_arFiles.insert(pRequest);
+			{
+				mir_cslock lck(m_csFiles);
+				m_arFiles.insert(pRequest);
+			}
 
 			SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
 			return CMStringA(FORMAT, "STK{%s}", pFileId);

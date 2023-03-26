@@ -35,7 +35,7 @@ static int CompareSuperGroups(const TG_SUPER_GROUP *p1, const TG_SUPER_GROUP *p2
 CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CTelegramProto>(protoName, userName),
 	m_impl(*this),
-	m_arFiles(1),
+	m_arFiles(1, PtrKeySortT),
 	m_arChats(100, CompareChats),
 	m_arUsers(100, CompareUsers),
 	m_arRequests(10, CompareRequests),
