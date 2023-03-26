@@ -765,7 +765,7 @@ void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	if (m_si != nullptr)
+	if (m_si != nullptr && !m_si->pMI->bDatabase)
 		ShellExecute(m_hwnd, nullptr, g_chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 	else
 		CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
