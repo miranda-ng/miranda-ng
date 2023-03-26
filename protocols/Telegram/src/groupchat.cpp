@@ -24,10 +24,12 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 		
 	wchar_t wszId[100];
 	_i64tow(pUser->id, wszId, 10);
+
 	SESSION_INFO *si;
+	Utf2T wszNick(pChat->title_.c_str());
 
 	if (pUser->bLoadMembers) {
-		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
+		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszNick, pUser);
 		if (!si->pStatuses) {
 			Chat_AddGroup(si, TranslateT("Creator"));
 			Chat_AddGroup(si, TranslateT("Admin"));
@@ -45,23 +47,23 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 		}
 	}
 	else {
-		si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, Utf2T(pChat->title_.c_str()), pUser);
+		si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, wszNick, pUser);
 		if (!si->pStatuses) {
 			Chat_AddGroup(si, TranslateT("SuperAdmin"));
 			Chat_AddGroup(si, TranslateT("Visitor"));
 
-			ptrW wszUserId(getWStringA(DBKEY_ID)), wszNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
+			ptrW wszMyId(getWStringA(DBKEY_ID)), wszMyNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
 
 			GCEVENT gce = { si, GC_EVENT_JOIN };
-			gce.pszUID.w = wszUserId;
-			gce.pszNick.w = wszNick;
+			gce.pszUID.w = wszMyId;
+			gce.pszNick.w = wszMyNick;
 			gce.bIsMe = true;
 			gce.pszStatus.w = TranslateT("Visitor");
 			Chat_Event(&gce);
 
 			gce.bIsMe = false;
-			gce.pszUID.w = L"---";
-			gce.pszNick.w = TranslateT("Admin");
+			gce.pszUID.w = wszId;
+			gce.pszNick.w = wszNick;
 			gce.pszStatus.w = TranslateT("SuperAdmin");
 			Chat_Event(&gce);
 		}

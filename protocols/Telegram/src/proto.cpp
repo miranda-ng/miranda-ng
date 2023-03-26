@@ -128,13 +128,10 @@ void CTelegramProto::OnModulesLoaded()
 		m_arChats.insert(pUser);
 	}
 
-	for (auto &cc : AccContacts()) {
-		ptrA szPath(getStringA(cc, "AvatarPath"));
-		if (szPath) {
-			delSetting(cc, "AvatarPath");
-			delSetting(cc, DBKEY_AVATAR_HASH);
-		}
+	int iCompatLevel = getByte(DBKEY_COMPAT);
+	VARSW cachePath(L"%miranda_userdata%\\ChatCache");
 
+	for (auto &cc : AccContacts()) {
 		bool isGroupChat = isChatRoom(cc);
 		szId = getMStringA(cc, DBKEY_ID);
 		if (!szId.IsEmpty()) {
@@ -143,8 +140,11 @@ void CTelegramProto::OnModulesLoaded()
 			m_arUsers.insert(pUser);
 			if (!isGroupChat)
 				m_arChats.insert(pUser);
+			else if (iCompatLevel == 0)
+				_wremove(CMStringW(FORMAT, L"%s\\%d.json", cachePath.get(), cc));
 		}
 	}
+	setByte(DBKEY_COMPAT, 1);
 
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS);
 	if (m_bSmileyAdd) {
