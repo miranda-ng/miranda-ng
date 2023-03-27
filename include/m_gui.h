@@ -1413,6 +1413,7 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 	HIMAGELIST m_hIml;
 	CDlgBase *m_pActivePage;
 	int m_numRows = 1;
+	bool m_bOwnPages = false;
 
 	struct TPageInfo;
 	void InsertPage(TPageInfo *pPage);
@@ -1437,6 +1438,10 @@ public:
 
 	__forceinline CDlgBase* GetActivePage() const
 	{	return m_pActivePage;
+	}
+
+	__forceinline void SetPageOwner()
+	{	m_bOwnPages = true;
 	}
 
 protected:

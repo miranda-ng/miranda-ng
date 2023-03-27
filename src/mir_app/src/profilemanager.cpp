@@ -586,6 +586,7 @@ public:
 	{
 		m_chkSmEnabled.OnChange = Callback(this, &CProfileManager::onChanged);
 
+		m_tab.SetPageOwner();
 		m_tab.AddPage(LPGENW("My profiles"), nullptr, new CChooseProfileDlg(m_btnOk, m_pd));
 		m_tab.AddPage(LPGENW("New profile"), nullptr, new CCreateProfileDlg(m_btnOk, m_pd));
 	}
