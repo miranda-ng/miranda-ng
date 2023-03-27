@@ -210,3 +210,4 @@ json_write_formatted @191
 ??9JSONNode@@QEBA_N_J@Z @207 NONAME
 ??9JSONNode@@QEBA_N_K@Z @208 NONAME
 ??6@YAAEAVJSONNode@@AEAV0@AEBUSINT64_PARAM@@@Z @209 NONAME
+??0JSONNode@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEB_W@Z @210 NONAME
