@@ -334,8 +334,8 @@ public:
 		m_nameOrder(this, IDC_NAMEORDER)
 	{
 		m_nameOrder.SetFlags(MTREE_DND);
-		m_nameOrder.OnBeginDrag = Callback(this, &CContactOptsDlg::OnBeginDrag);
-		m_nameOrder.OnEndDrag = Callback(this, &CContactOptsDlg::OnEndDrag);
+		m_nameOrder.OnBeginDrag = BCallback(this, &CContactOptsDlg::OnBeginDrag);
+		m_nameOrder.OnEndDrag = BCallback(this, &CContactOptsDlg::OnEndDrag);
 	}
 
 	bool OnInitDialog() override

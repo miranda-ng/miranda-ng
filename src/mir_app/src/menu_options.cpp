@@ -318,7 +318,7 @@ public:
 
 		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
-		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
+		m_menuItems.OnBeginDrag = BCallback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 
 		m_customName.SetSilent();
 		m_service.SetSilent();

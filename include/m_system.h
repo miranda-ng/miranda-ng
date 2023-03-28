@@ -667,7 +667,7 @@ __inline CCallback<TArgument> Callback(TClass *object, void (TClass:: *func)(TAr
 }
 
 template<typename TClass, typename TArgument>
-__inline CCallback<TArgument> Callback(TClass *object, bool (TClass:: *func)(TArgument *argument))
+__inline CCallback<TArgument> BCallback(TClass *object, bool (TClass:: *func)(TArgument *argument))
 {
 	return CCallback<TArgument>(object, func);
 }
