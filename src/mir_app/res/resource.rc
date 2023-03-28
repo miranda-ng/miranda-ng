@@ -814,23 +814,38 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
-    LTEXT           "Show when filter is active",IDC_STATIC,12,16,119,8,SS_CENTERIMAGE
-    CONTROL         "Popup",IDC_ICON1,"MButtonClass",WS_TABSTOP,150,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Tray",IDC_ICON2,"MButtonClass",WS_TABSTOP,190,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Sound",IDC_ICON3,"MButtonClass",WS_TABSTOP,230,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Log to file",IDC_ICON4,"MButtonClass",WS_TABSTOP,270,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Actions",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,28,120,10
-    CONTROL         "Messages",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,38,120,10
-    CONTROL         "Nick changes",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,48,120,10
-    CONTROL         "Users joining",IDC_4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,58,120,10
-    CONTROL         "Users leaving",IDC_5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,68,120,10
-    CONTROL         "Topic changes",IDC_6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,78,120,10
-    CONTROL         "Status changes",IDC_7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,88,120,10
-    CONTROL         "Information",IDC_8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,98,120,10
-    CONTROL         "Disconnects",IDC_9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,108,120,10
-    CONTROL         "User kicks",IDC_10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,118,120,10
-    CONTROL         "Notices",IDC_11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,128,120,10
+    GROUPBOX        "Show when filter is active",IDC_STATIC,7,5,293,153
+
+    CONTROL         "Window",IDC_ICON1,"MButtonClass",WS_TABSTOP,109,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Popup",IDC_ICON2,"MButtonClass",WS_TABSTOP,149,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Tray",IDC_ICON3,"MButtonClass",WS_TABSTOP,189,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Sound",IDC_ICON4,"MButtonClass",WS_TABSTOP,229,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Log to file",IDC_ICON5,"MButtonClass",WS_TABSTOP,269,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    
+    LTEXT           "Actions",IDC_STATIC,22,28,80,10
+    LTEXT           "Messages",IDC_STATIC,22,38,80,10
+    LTEXT           "Nick changes",IDC_STATIC,22,48,80,10
+    LTEXT           "Users joining",IDC_STATIC,22,58,80,10
+    LTEXT           "Users leaving",IDC_STATIC,22,68,80,10
+    LTEXT           "Topic changes",IDC_STATIC,22,78,80,10
+    LTEXT           "Status changes",IDC_STATIC,22,88,80,10
+    LTEXT           "Information",IDC_STATIC,22,98,80,10
+    LTEXT           "Disconnects",IDC_STATIC,22,108,80,10
+    LTEXT           "User kicks",IDC_STATIC,22,118,80,10
+    LTEXT           "Notices",IDC_STATIC,22,128,80,10
+    LTEXT           "Highlight event",IDC_STATIC,22,138,80,10
+
+    CONTROL         "",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,28,21,10
+    CONTROL         "",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,38,21,10
+    CONTROL         "",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,48,21,10
+    CONTROL         "",IDC_4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,58,21,10
+    CONTROL         "",IDC_5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,68,21,10
+    CONTROL         "",IDC_6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,78,21,10
+    CONTROL         "",IDC_7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,88,21,10
+    CONTROL         "",IDC_8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,98,21,10
+    CONTROL         "",IDC_9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,108,21,10
+    CONTROL         "",IDC_10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,118,21,10
+    CONTROL         "",IDC_11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,128,21,10
     CONTROL         "",IDC_P1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,28,21,10
     CONTROL         "",IDC_P2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,38,21,10
     CONTROL         "",IDC_P3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,48,21,10
@@ -880,7 +895,6 @@ BEGIN
     CONTROL         "",IDC_L11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,128,21,10
     CONTROL         "Show icons in tray only when the chat room is not active",IDC_TRAYONLYFORINACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,164,279,8
-    LTEXT           "Highlight event",IDC_STATIC,42,139,100,12
     CONTROL         "Show popups only when the chat room is not active",IDC_POPUPONLYFORINACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,176,279,8
     CONTROL         "Show button menus when right clicking the buttons",IDC_RIGHTCLICK,
