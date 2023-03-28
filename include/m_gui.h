@@ -1306,6 +1306,7 @@ public:
 			NMTVGETINFOTIP *nmtvit;
 			NMTVCUSTOMDRAW *nmcd;
 			HTREEITEM hItem; // for OnItemChanged
+			TVHITTESTINFO *ntvhi; // for OnEndDrag
 		};
 	};
 
@@ -1314,6 +1315,7 @@ public:
 	CCallback<TEventInfo> OnBeginRDrag;
 	CCallback<TEventInfo> OnCustomDraw;
 	CCallback<TEventInfo> OnDeleteItem;
+	CCallback<TEventInfo> OnEndDrag;
 	CCallback<TEventInfo> OnEndLabelEdit;
 	CCallback<TEventInfo> OnGetDispInfo;
 	CCallback<TEventInfo> OnGetInfoTip;

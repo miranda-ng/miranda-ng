@@ -572,12 +572,14 @@ public:
 		m_customName.Enable(true);
 	}
 
-	void onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
+	bool onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
 	{
 		MenuItemOptData *p = (MenuItemOptData*)evt->nmtv->itemNew.lParam;
 		if (p->pimi != nullptr)
 			if (p->pimi->mi.flags & CMIF_UNMOVABLE)
-				evt->nmhdr->code = 0; // reject an attempt to change item's position
+				return false; // reject an attempt to change item's position
+
+		return true;
 	}
 };
 

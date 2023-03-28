@@ -604,19 +604,29 @@ class CCallbackImp
 	};
 
 	typedef void (CDummy:: *TFnCallback)(void *argument);
+	typedef bool (CDummy:: *TFnBCallback)(void *argument);
 
 	CDummy *m_object;
-	TFnCallback m_func;
+	union {
+		TFnCallback m_func;
+		TFnBCallback m_bfunc;
+	};
 
 protected:
 	template<typename TClass, typename TArgument>
 	__inline CCallbackImp(TClass *object, void (TClass:: *func)(TArgument *argument)) :
 		m_object((CDummy *)object),
 		m_func((TFnCallback)func)
-	{
-	}
+	{}
+
+	template<typename TClass, typename TArgument>
+	__inline CCallbackImp(TClass *object, bool (TClass:: *func)(TArgument *argument)) :
+		m_object((CDummy *)object),
+		m_bfunc((TFnBCallback)func)
+	{}
 
 	__inline void Invoke(void *argument) const { if (m_func && m_object) (m_object->*m_func)(argument); }
+	__inline bool BInvoke(void *argument) const { return (m_bfunc && m_object) ? (m_object->*m_bfunc)(argument) : true; }
 
 public:
 	__inline CCallbackImp() : m_object(nullptr), m_func(nullptr) {}
@@ -641,13 +651,23 @@ public:
 	template<typename TClass>
 	__inline CCallback(TClass *object, void (TClass:: *func)(TArgument *argument)) : CCallbackImp(object, func) {}
 
+	template<typename TClass>
+	__inline CCallback(TClass *object, bool (TClass:: *func)(TArgument *argument)) : CCallbackImp(object, func) {}
+
 	__inline CCallback &operator=(const CCallbackImp &x) { CSuper::operator =(x); return *this; }
 
 	__inline void operator()(TArgument *argument) const { Invoke((void *)argument); }
+	__inline bool Check(TArgument *argument) const { return BInvoke((void *)argument); }
 };
 
 template<typename TClass, typename TArgument>
 __inline CCallback<TArgument> Callback(TClass *object, void (TClass:: *func)(TArgument *argument))
+{
+	return CCallback<TArgument>(object, func);
+}
+
+template<typename TClass, typename TArgument>
+__inline CCallback<TArgument> Callback(TClass *object, bool (TClass:: *func)(TArgument *argument))
 {
 	return CCallback<TArgument>(object, func);
 }

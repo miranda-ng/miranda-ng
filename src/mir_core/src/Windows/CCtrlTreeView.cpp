@@ -161,10 +161,14 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_bDragging = false;
 			ReleaseCapture();
 
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam) - GetItemHeight() / 2;
+			hti.pt.x = GET_X_LPARAM(lParam);
+			hti.pt.y = GET_Y_LPARAM(lParam) - GetItemHeight() / 2;
 			HitTest(&hti);
 			if (m_hDragItem == hti.hItem)
+				break;
+
+			TEventInfo evt = { this, (LPNMHDR)&hti};
+			if (!OnEndDrag.Check(&evt))
 				break;
 
 			if (hti.flags & TVHT_ABOVE)
@@ -288,14 +292,14 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 	case TVN_SINGLEEXPAND:   OnSingleExpand(&evt);    return TRUE;
 
 	case TVN_BEGINDRAG:
-		OnBeginDrag(&evt);
-
 		// user-defined can clear the event code to disable dragging
-		if (m_bDndEnabled && pnmh->code) {
-			::SetCapture(m_hwnd);
-			m_bDragging = true;
-			m_hDragItem = evt.nmtv->itemNew.hItem;
-			SelectItem(m_hDragItem);
+		if (m_bDndEnabled) {
+			if (OnBeginDrag.Check(&evt)) {
+				::SetCapture(m_hwnd);
+				m_bDragging = true;
+				m_hDragItem = evt.nmtv->itemNew.hItem;
+				SelectItem(m_hDragItem);
+			}
 		}
 		return TRUE;
 
