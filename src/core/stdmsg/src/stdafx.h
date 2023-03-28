@@ -77,7 +77,6 @@ class CMsgDialog;
 
 class CTabbedWindow : public CDlgBase
 {
-	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
 
 	int oldSizeX = 0, oldSizeY = 0;
@@ -140,7 +139,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
-	int iX, iY;
 	int iSplitterX, iSplitterY;
 	
 	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;

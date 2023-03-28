@@ -180,8 +180,6 @@ void CTabbedWindow::OnDestroy()
 {
 	DestroyWindow(m_hwndStatus); m_hwndStatus = nullptr;
 
-	SaveWindowPosition(true);
-
 	Utils_SaveWindowPosition(m_hwnd, g_plugin.bSavePerContact ? ((m_pEmbed == nullptr) ? 0 : m_pEmbed->m_hContact) : 0, CHAT_MODULE, "room");
 
 	if (m_pEmbed == nullptr)
@@ -190,17 +188,15 @@ void CTabbedWindow::OnDestroy()
 
 void CTabbedWindow::OnResize()
 {
-	CDlgBase::OnResize();
-
 	SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
+
+	CDlgBase::OnResize();
 
 	if (m_pEmbed) {
 		RECT rc;
 		GetClientRect(m_tab.GetHwnd(), &rc);
 		MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
 	}
-
-	SaveWindowPosition(false);
 }
 
 int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
@@ -363,25 +359,6 @@ void CTabbedWindow::RemoveTab(CMsgDialog *pDlg)
 	}
 }
 
-void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
-{
-	WINDOWPLACEMENT wp = {};
-	wp.length = sizeof(wp);
-	GetWindowPlacement(m_hwnd, &wp);
-
-	g_Settings.iX = wp.rcNormalPosition.left;
-	g_Settings.iY = wp.rcNormalPosition.top;
-	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
-	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
-
-	if (bUpdateSession) {
-		iX = g_Settings.iX;
-		iY = g_Settings.iY;
-		iWidth = g_Settings.iWidth;
-		iHeight = g_Settings.iHeight;
-	}
-}
-
 void CTabbedWindow::SetMessageHighlight(CMsgDialog *pDlg)
 {
 	if (m_tab.GetDlgIndex(pDlg) == -1)
@@ -407,20 +384,6 @@ void CTabbedWindow::SetWindowPosition()
 {
 	if (m_pEmbed == nullptr) {
 		Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room");
-		return;
-	}
-
-	if (iX) {
-		WINDOWPLACEMENT wp;
-		wp.length = sizeof(wp);
-		GetWindowPlacement(m_hwnd, &wp);
-
-		wp.rcNormalPosition.left = iX;
-		wp.rcNormalPosition.top = iY;
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left + iWidth;
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + iHeight;
-		wp.showCmd = SW_HIDE;
-		SetWindowPlacement(m_hwnd, &wp);
 		return;
 	}
 
@@ -534,27 +497,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	int idx;
 
 	switch (msg) {
-	case WM_MOVE:
-		SaveWindowPosition(false);
-		break;
-
-	case WM_ENTERSIZEMOVE:
-		GetClientRect(m_hwnd, &rc);
-		oldSizeX = rc.right - rc.left;
-		oldSizeY = rc.bottom - rc.top;
-		break;
-
-	case WM_EXITSIZEMOVE:
-		GetClientRect(m_hwnd, &rc);
-		if (!((rc.right - rc.left) == oldSizeX && (rc.bottom - rc.top) == oldSizeY)) {
-			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
-			if (pDlg != nullptr) {
-				pDlg->m_pLog->ScrollToBottom();
-				pDlg->Resize();
-			}
-		}
-		break;
-
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;

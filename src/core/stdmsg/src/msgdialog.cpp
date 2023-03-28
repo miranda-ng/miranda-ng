@@ -578,8 +578,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos();
-
-			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, false);
 		}
 		return TRUE;
 
@@ -725,11 +723,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		SetFocus(m_message.GetHwnd());
-		break;
-
-	case WM_LBUTTONDBLCLK:
-		if (LOWORD(lParam) < 30)
-			m_pLog->ScrollToBottom();
 		break;
 
 	case WM_ACTIVATE:
