@@ -565,7 +565,7 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 		if (auto *pSender = GetSender(pMessage->sender_id_.get())) {
 			_i64toa(pSender->id, szUserId, 10);
 			pre.szUserId = szUserId;
-			if (pUser->m_si)
+			if (pUser->m_si && !pSender->wszFirstName.IsEmpty())
 				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(szUserId), pSender->getDisplayName(), ID_STATUS_ONLINE);
 		}
 	}
