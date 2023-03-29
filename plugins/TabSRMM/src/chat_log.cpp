@@ -323,7 +323,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	while (lin) {
 		// filter
-		if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || !si->pDlg->m_bFilterEnabled || (si->pDlg->m_iLogFilterFlags & lin->iType) != 0) {
+		if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || (si->pDlg->m_iLogFilterFlags & lin->iType) != 0) {
 			if (lin->next != nullptr)
 				str.Append("\\par ");
 

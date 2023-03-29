@@ -74,8 +74,11 @@ int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 
 BOOL SM_ReconfigureFilters()
 {
-	for (auto &si : g_chatApi.arSessions)
+	for (auto &si : g_chatApi.arSessions) {
 		Chat_SetFilters(si);
+		if (si->pDlg)
+			si->pDlg->RedrawLog();
+	}
 
 	return TRUE;
 }
