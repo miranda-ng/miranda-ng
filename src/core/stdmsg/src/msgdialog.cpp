@@ -725,7 +725,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		break;
 
-	case WM_MOUSEACTIVATE:
+	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_ACTIVE)
 			OnActivate();
 		break;
