@@ -658,33 +658,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		HCURSOR hCur;
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_SRMM_LOG:
-			switch (((LPNMHDR)lParam)->code) {
-			case EN_MSGFILTER:
-				switch (((MSGFILTER *)lParam)->msg) {
-				case WM_LBUTTONDOWN:
-					hCur = GetCursor();
-					if (hCur == LoadCursor(nullptr, IDC_SIZENS) || hCur == LoadCursor(nullptr, IDC_SIZEWE) || hCur == LoadCursor(nullptr, IDC_SIZENESW) || hCur == LoadCursor(nullptr, IDC_SIZENWSE)) {
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-						return TRUE;
-					}
-					break;
-
-				case WM_MOUSEMOVE:
-					hCur = GetCursor();
-					if (hCur == LoadCursor(nullptr, IDC_SIZENS) || hCur == LoadCursor(nullptr, IDC_SIZEWE) || hCur == LoadCursor(nullptr, IDC_SIZENESW) || hCur == LoadCursor(nullptr, IDC_SIZENWSE))
-						SetCursor(LoadCursor(nullptr, IDC_ARROW));
-					break;
-
-				case WM_RBUTTONUP:
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
-				}
-			}
-			break;
-
 		case IDC_SRMM_MESSAGE:
 			if (((LPNMHDR)lParam)->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
