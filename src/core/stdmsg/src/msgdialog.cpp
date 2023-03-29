@@ -649,6 +649,11 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (Contact::OnList(m_hContact))
 				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 			break;
+
+		case IDC_SRMM_LOG:
+			if (HIWORD(wParam) == EN_VSCROLL && m_pLog->AtBottom())
+				StopFlash();
+			break;
 		}
 		break;
 
@@ -676,17 +681,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				case WM_RBUTTONUP:
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					return TRUE;
-				}
-				break;
-
-			case EN_VSCROLL:
-				if (LOWORD(wParam) == IDC_SRMM_LOG && GetWindowLongPtr((HWND)lParam, GWL_STYLE) & WS_VSCROLL) {
-					SCROLLINFO si = {};
-					si.cbSize = sizeof(si);
-					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-					GetScrollInfo((HWND)lParam, SB_VERT, &si);
-					if ((si.nPos + (int)si.nPage + 5) >= si.nMax)
-						StopFlash();
 				}
 			}
 			break;
@@ -1265,13 +1259,9 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
 			RemakeLog();
 
 		// Flash window *only* for messages, not for custom events
-		if (isMessage && !isSent) {
-			if (isActive) {
-				if (m_pLog->AtBottom())
-					StartFlash();
-			}
-			else StartFlash();
-		}
+		if (isMessage && !isSent)
+			if (!isActive || !m_pLog->AtBottom())
+				StartFlash();
 	}
 }
 
