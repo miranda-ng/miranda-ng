@@ -125,7 +125,7 @@ static void ShowRoom(SESSION_INFO *si)
 	else pDlg = si->pDlg;
 
 	pDlg->UpdateTabControl();
-	SendMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	SendMessage(pDlg->GetHwnd(), WM_ACTIVATE, WA_ACTIVE, 0);
 	SetFocus(GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
 }
 

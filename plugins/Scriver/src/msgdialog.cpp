@@ -1069,7 +1069,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			FixTabIcons();
 			if (!m_si->pDlg) {
 				g_chatApi.ShowRoom(m_si);
-				SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				SendMessage(m_hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
 			}
 			break;
 		}
@@ -1079,8 +1079,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		__fallthrough;
-	case WM_MOUSEACTIVATE:
 		if (isChat()) {
 			SetFocus(m_message.GetHwnd());
 

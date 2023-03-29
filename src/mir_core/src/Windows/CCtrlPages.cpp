@@ -167,7 +167,7 @@ void CCtrlPages::ActivatePage(int iPage)
 		TabCtrl_SetCurSel(m_hwnd, iPage);
 		ShowPage(m_pActivePage);
 	}
-	::SendMessage(m_pActivePage->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	::SendMessage(m_pActivePage->GetHwnd(), WM_ACTIVATE, WA_ACTIVE, 0);
 }
 
 void CCtrlPages::CheckRowCount()
