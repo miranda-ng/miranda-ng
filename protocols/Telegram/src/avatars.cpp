@@ -22,7 +22,7 @@ CMStringW CTelegramProto::GetAvatarFilename(MCONTACT hContact)
 	CMStringW wszResult(GetAvatarPath());
 
 	const wchar_t *szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
-	wszResult.AppendFormat(L"\\%s%s", getMStringW(hContact, DBKEY_ID).c_str(), szFileType);
+	wszResult.AppendFormat(L"\\%lld%s", GetId(hContact), szFileType);
 	return wszResult;
 }
 

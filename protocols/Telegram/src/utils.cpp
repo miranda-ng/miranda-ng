@@ -88,6 +88,11 @@ void CTelegramProto::ReportSearchUser(TG_USER *pUser)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int64_t CTelegramProto::GetId(MCONTACT hContact)
+{
+	return _atoi64(getMStringA(hContact, DBKEY_ID));
+}
+
 void CTelegramProto::SetId(MCONTACT hContact, int64_t id)
 {
 	char szId[100];

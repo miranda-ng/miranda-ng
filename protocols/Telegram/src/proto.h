@@ -163,11 +163,11 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
 	mir_cs m_csMarkRead;
-	MCONTACT m_markContact = 0;
+	TD::int53 m_markChatId = 0;
 	TD::array<TD::int53> m_markIds;
 
 	mir_cs m_csDeleteMsg;
-	MCONTACT m_deleteMsgContact = 0;
+	TD::int53 m_deleteChatId = 0;
 	TD::array<TD::int53> m_deleteIds;
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
@@ -261,6 +261,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddUser(int64_t id, bool bIsChat);
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
+	int64_t  GetId(MCONTACT);
 	void     SetId(MCONTACT, int64_t id);
 
 	// Popups

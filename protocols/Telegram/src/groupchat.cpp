@@ -156,7 +156,7 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 int CTelegramProto::GcMuteHook(WPARAM hContact, LPARAM mode)
 {
 	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
-		if (auto *pUser = FindUser(_atoi64(getMStringA(hContact, DBKEY_ID)))) {
+		if (auto *pUser = FindUser(GetId(hContact))) {
 			auto settings = TD::make_object<TD::chatNotificationSettings>();
 			memcpy(settings.get(), &pUser->notificationSettings, sizeof(pUser->notificationSettings));
 
@@ -223,7 +223,7 @@ void CTelegramProto::Chat_LogMenu(GCHOOK *gch)
 {
 	switch (gch->dwData) {
 	case IDM_LEAVE:
-		int64_t id(_atoi64(getMStringA(gch->si->hContact, DBKEY_ID)));
+		int64_t id = GetId(gch->si->hContact);
 		if (auto *pUser = FindUser(id)) {
 			pUser->m_si = nullptr;
 			SendQuery(new TD::leaveChat(pUser->chatId));

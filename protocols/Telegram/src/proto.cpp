@@ -93,7 +93,7 @@ CTelegramProto::~CTelegramProto()
 
 void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 {
-	TD::int53 id = _atoi64(getMStringA(hContact, DBKEY_ID));
+	TD::int53 id = GetId(hContact);
 	if (id == 0)
 		return;
 
@@ -111,8 +111,7 @@ void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
 {
 	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
-		TD::int53 id = _atoi64(getMStringA(hContact, DBKEY_ID));
-		if (auto *pUser = FindUser(id))
+		if (auto *pUser = FindUser(GetId(hContact)))
 			SendQuery(new TD::deleteChatHistory(pUser->chatId, true, true));
 	}
 
@@ -189,22 +188,22 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 	if (!hContact)
 		return;
 
-	ptrA userId(getStringA(hContact, DBKEY_ID));
-	if (!userId)
+	auto *pUser = FindUser(GetId(hContact));
+	if (!pUser)
 		return;
 
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.szId) {
 		mir_cslock lck(m_csDeleteMsg);
-		if (m_deleteMsgContact) {
-			if (m_deleteMsgContact != hContact)
+		if (m_deleteChatId) {
+			if (m_deleteChatId != pUser->chatId)
 				SendDeleteMsg();
 
 			m_impl.m_deleteMsg.Stop();
 		}
 
-		m_deleteMsgContact = hContact;
+		m_deleteChatId = pUser->chatId;
 		m_deleteIds.push_back(_atoi64(dbei.szId));
 		m_impl.m_deleteMsg.Start(500);
 	}
@@ -215,22 +214,22 @@ void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (!hContact)
 		return;
 
-	ptrA userId(getStringA(hContact, DBKEY_ID));
-	if (!userId)
+	auto *pUser = FindUser(GetId(hContact));
+	if (!pUser)
 		return;
 
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.szId) {
 		mir_cslock lck(m_csMarkRead);
-		if (m_markContact) {
-			if (m_markContact != hContact)
+		if (m_markChatId) {
+			if (m_markChatId != hContact)
 				SendMarkRead();
 
 			m_impl.m_markRead.Stop();
 		}
 
-		m_markContact = hContact;
+		m_markChatId = pUser->chatId;
 		m_markIds.push_back(_atoi64(dbei.szId));
 		m_impl.m_markRead.Start(500);
 	}

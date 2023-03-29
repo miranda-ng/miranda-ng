@@ -101,9 +101,8 @@ void CTelegramProto::SendDeleteMsg()
 	m_impl.m_deleteMsg.Stop();
 
 	mir_cslock lck(m_csDeleteMsg);
-	int64_t userId = _atoi64(getMStringA(m_deleteMsgContact, DBKEY_ID));
-	SendQuery(new TD::deleteMessages(userId, std::move(m_deleteIds), true));
-	m_markContact = 0;
+	SendQuery(new TD::deleteMessages(m_deleteChatId, std::move(m_deleteIds), true));
+	m_deleteChatId = 0;
 }
 
 void CTelegramProto::SendMarkRead()
@@ -111,9 +110,8 @@ void CTelegramProto::SendMarkRead()
 	m_impl.m_markRead.Stop();
 
 	mir_cslock lck(m_csMarkRead);
-	int64_t userId = _atoi64(getMStringA(m_markContact, DBKEY_ID));
-	SendQuery(new TD::viewMessages(userId, 0, std::move(m_markIds), true));
-	m_markContact = 0;
+	SendQuery(new TD::viewMessages(m_markChatId, 0, std::move(m_markIds), true));
+	m_markChatId = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -273,8 +271,11 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 {
 	auto *pBasicGroup = pObj->basic_group_.get();
 	if (pBasicGroup->upgraded_to_supergroup_id_)
-		if (auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_))
+		if (auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_)) {
 			pUser->bLoadMembers = true;
+			if (pUser->m_si)
+				pUser->m_si->bHasNicklist = true;
+		}
 
 	auto iStatusId = pBasicGroup->status_->get_id();
 	if (iStatusId == TD::chatMemberStatusBanned::ID) {
