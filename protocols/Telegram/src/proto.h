@@ -161,6 +161,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	std::unique_ptr<td::ClientManager> m_pClientManager;
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
+	TD::object_ptr<TD::ConnectionState> pConnState;
 
 	mir_cs m_csMarkRead;
 	TD::int53 m_markChatId = 0;

@@ -93,6 +93,11 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 {
 	pAuthState = std::move(pObj->authorization_state_);
 	switch (pAuthState->get_id()) {
+	case TD::authorizationStateReady::ID:
+		if (pConnState->get_id() == TD::connectionStateReady::ID)
+			OnLoggedIn();
+		break;
+
 	case TD::authorizationStateWaitTdlibParameters::ID:
 		if (!m_bUnregister) {
 			MFileVersion v;

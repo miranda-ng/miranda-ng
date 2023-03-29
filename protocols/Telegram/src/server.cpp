@@ -425,7 +425,9 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 
 void CTelegramProto::ProcessConnectionState(TD::updateConnectionState *pObj)
 {
-	switch (pObj->state_->get_id()) {
+	pConnState = std::move(pObj->state_);
+
+	switch (pConnState->get_id()) {
 	case TD::connectionStateConnecting::ID:
 		debugLogA("Connection state: connecting");
 		break;
@@ -444,7 +446,8 @@ void CTelegramProto::ProcessConnectionState(TD::updateConnectionState *pObj)
 
 	case TD::connectionStateReady::ID:
 		debugLogA("Connection state: connected");
-		OnLoggedIn();
+		if (pAuthState->get_id() == TD::authorizationStateReady::ID)
+			OnLoggedIn();
 		break;
 	}		
 }
