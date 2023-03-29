@@ -92,6 +92,7 @@
 [Cellular]
 [Video]
 [Modem]
+[Enable OMEMO]
 [Load]
 [Save]
 [Delete]
@@ -193,8 +194,6 @@
 [Send]
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
-[Frame title]
-[Frame text]
 [Jabber Activity]
 [Jabber Mood]
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -955,10 +954,12 @@
 [<No photo>]
 [Device ID]
 [Fingerprint]
-[Own device]
+[This device]
 [Trusted]
 [UNTRUSTED]
-[Unknown]
+[Untrust]
+[Trust]
+[Kill session]
 [Photo]
 ;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]

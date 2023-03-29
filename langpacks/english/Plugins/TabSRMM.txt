@@ -519,11 +519,8 @@
 [Settings]
 [Log formatting]
 [Highlighting]
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
-[Message from %s]
 [Default container]
 [Attach to]
 ;file \plugins\TabSRMM\src\containeroptions.cpp
