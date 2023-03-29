@@ -911,8 +911,9 @@ bool Chat_Unserialize(SESSION_INFO *si)
 	if (!str.IsEmpty())
 		si->ptszTopic = str.Detach();
 
-	for (auto &it : root["roles"])
-		if (auto *pStatus = TM_AddStatus(&si->pStatuses, it["name"].as_mstring(), &si->iStatusCount))
+	auto &pRoles = root["roles"];
+	for (auto it = pRoles.rbegin(); it != pRoles.rend(); ++it)
+		if (auto *pStatus = TM_AddStatus(&si->pStatuses, (*it)["name"].as_mstring(), &si->iStatusCount))
 			si->iStatusCount++;
 
 	for (auto &it : root["users"]) {
