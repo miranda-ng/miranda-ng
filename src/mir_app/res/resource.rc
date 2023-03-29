@@ -814,7 +814,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Show when filter is active",IDC_STATIC,7,5,293,153
+    GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
 
     CONTROL         "Window",IDC_ICON1,"MButtonClass",WS_TABSTOP,109,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Popup",IDC_ICON2,"MButtonClass",WS_TABSTOP,149,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
