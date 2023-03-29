@@ -360,8 +360,8 @@
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Открывать окно, если:
-[In background]
-В фоне
+[Don't steal focus]
+Не перехватывать фокус
 [Maximum number of flashes (0 = indefinite)]
 Максимальное количество миганий (0 = бесконечно)
 [Close the message window on send]
@@ -1142,18 +1142,16 @@ UIN, E-mail и т.д.
 Всегда показывать статус в подсказке
 [Default settings for known event types]
 Настройки для известных типов событий
-[Show when filter is active]
-Показывать при вкл. фильтре
 [Popup]
 Всплывающее окно
 [Sound]
 Звук
 [Log to file]
 Запись в файл
-[Show icons in tray only when the chat room is not active]
-Показывать значки в трее только когда окно чата не активно
 [Highlight event]
 Подсветка
+[Show icons in tray only when the chat room is not active]
+Показывать значки в трее только когда окно чата не активно
 [Show popups only when the chat room is not active]
 Показывать всплывающие окна только когда окно чата не активно
 [Show button menus when right clicking the buttons]
@@ -1191,7 +1189,7 @@ UIN, E-mail и т.д.
 [Group chats]
 Чаты
 [Use same style as in the message log]
-Тот же стиль, что и в журнале
+Тот же стиль, что и в беседах
 [Use default colors]
 Цвета по умолчанию
 [Use custom colors]
@@ -1495,62 +1493,6 @@ Google Карты
 [Send message]
 Отправить сообщение
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Мигать окном, если есть новое сообщение
-[Flash window when a word is highlighted]
-Мигать окном, если есть подсвеченные сообщения
-[Show list of users in the chat room]
-Показывать список пользователей в комнате чата
-[Show the topic of the room on your contact list (if supported)]
-Показывать тему комнаты чата в списке контактов (если поддерживается)
-[Do not play sounds when the chat room is focused]
-Не играть звук, когда комната чата на переднем плане
-[Do not pop up the window when joining a chat room]
-Не открывать окно чата при входе в комнату чата
-[Show contact statuses if protocol supports them]
-Показывать статусы, если есть поддержка в протоколе
-[Display contact status icon before user role icon]
-Показывать значок статуса перед значком роли
-[Prefix all events with a timestamp]
-Указывать время всех событий
-[Only prefix with timestamp if it has changed]
-Указывать время, только если оно изменилось
-[Timestamp has same color as the event]
-Время того же цвета, что и событие
-[Indent the second line of a message]
-Отступ второй строки сообщения
-[Limit user names in the message log to 20 characters]
-Ограничить имена в журнале 20-ю символами
-[Add ':' to auto-completed user names]
-Добавлять ":" к именам пользователей
-[Strip colors from messages in the log]
-Запретить цвета в журнале
-[Enable the 'event filter' for new rooms]
-Включить 'фильтр событий' для новых комнат чата
-[Show icon for topic changes]
-Смены темы
-[Show icon for users joining]
-Новые пользователи
-[Show icon for users disconnecting]
-Отключения участников
-[Show icon for messages]
-Сообщения
-[Show icon for actions]
-Действия
-[Show icon for highlights]
-Подсвеченные сообщения
-[Show icon for users leaving]
-Выходы участников
-[Show icon for users kicking other user]
-Пинки
-[Show icon for notices]
-Уведомления
-[Show icon for name changes]
-Смены ников
-[Show icon for information messages]
-Информационные сообщения
-[Show icon for status changes]
-Смены статусов
 [Window icon]
 Значок окна
 [Bold]
@@ -1607,10 +1549,66 @@ Google Карты
 Журналы чатов
 [Appearance and functionality of chat room windows]
 Интерфейс и функциональность окон чата
+[Flash window when someone speaks]
+Мигать окном, если есть новое сообщение
+[Flash window when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Show list of users in the chat room]
+Показывать список пользователей в комнате чата
+[Show the topic of the room on your contact list (if supported)]
+Показывать тему комнаты чата в списке контактов (если поддерживается)
+[Do not play sounds when the chat room is focused]
+Не играть звук, когда комната чата на переднем плане
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в комнату чата
+[Show contact statuses if protocol supports them]
+Показывать статусы, если есть поддержка в протоколе
+[Display contact status icon before user role icon]
+Показывать значок статуса перед значком роли
 [Appearance of the message log]
 Внешний вид журнала сообщений
+[Prefix all events with a timestamp]
+Указывать время всех событий
+[Only prefix with timestamp if it has changed]
+Указывать время, только если оно изменилось
+[Timestamp has same color as the event]
+Время того же цвета, что и событие
+[Indent the second line of a message]
+Отступ второй строки сообщения
+[Limit user names in the message log to 20 characters]
+Ограничить имена в журнале 20-ю символами
+[Add ':' to auto-completed user names]
+Добавлять ":" к именам пользователей
+[Strip colors from messages in the log]
+Запретить цвета в журнале
+[Enable the 'event filter' for new rooms]
+Включить 'фильтр событий' для новых комнат чата
 [Icons to display in the message log]
 Значки журнала сообщений
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
 [Chat log]
 Журнал чата
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1673,8 +1671,6 @@ Google Карты
 [Typing notify]
 Набирает текст
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Сообщение от %s
 [%s is typing a message]
 %s набирает текст
 [Typing notification]
@@ -2071,8 +2067,6 @@ Miranda не смогла загрузить встроенную систему
 %s включает статус '%s' для %s в %s
 [%s disables '%s' status for %s in %s]
 %s выключает статус '%s' для %s в %s
-[%s says]
-%s говорит
 [Chat rooms]
 Чаты
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,6 +2802,10 @@ ANSI плагин
 Ник
 [Unique ID]
 Уник. ID
+[Disable the event filter (Ctrl+F)]
+Вылючить фильтр событий (Ctrl+F)
+[Enable the event filter (Ctrl+F)]
+Включить фильтр событий (Ctrl+F)
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Просмотрщик журнала сообщений
@@ -2830,6 +2828,9 @@ ANSI плагин
 <Разделитель>
 [Toolbar]
 Панель кнопок
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Сообщение от %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Не указано

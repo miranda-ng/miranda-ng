@@ -44,11 +44,11 @@
 [ (hint: %s)]
  (подсказка: %s)
 [Secret code expired]
-
+Код просрочен
 [Error]
 Ошибка
 [Invalid secret code]
-
+Неверный код
 [Invalid password]
 Неверный пароль
 ;file \protocols\Telegram\src\groupchat.cpp
@@ -62,6 +62,8 @@
 СуперАдмин
 [Visitor]
 Посетитель
+[&Leave chat session]
+&Покинуть чат
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
 Premium-подписчик

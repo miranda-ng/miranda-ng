@@ -1,3 +1,0 @@
-[Enter the secret code sent to your Telegram on another device]
-[Secret code expired]
-[Invalid secret code]

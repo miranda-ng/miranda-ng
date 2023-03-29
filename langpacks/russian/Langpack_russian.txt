@@ -370,8 +370,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 Запрос всегда будет показан, если человек не в списке контактов
 [Automatically popup window when:]
 Открывать окно, если:
-[In background]
-В фоне
 [Maximum number of flashes (0 = indefinite)]
 Максимальное количество миганий (0 = бесконечно)
 [Close the message window on send]
@@ -1148,18 +1146,16 @@ UIN, E-mail и т.д.
 Всегда показывать статус в подсказке
 [Default settings for known event types]
 Настройки для известных типов событий
-[Show when filter is active]
-Показывать при вкл. фильтре
 [Popup]
 Всплывающее окно
 [Sound]
 Звук
 [Log to file]
 Запись в файл
-[Show icons in tray only when the chat room is not active]
-Показывать значки в трее только когда окно чата не активно
 [Highlight event]
 Подсветка
+[Show icons in tray only when the chat room is not active]
+Показывать значки в трее только когда окно чата не активно
 [Show popups only when the chat room is not active]
 Показывать всплывающие окна только когда окно чата не активно
 [Show button menus when right clicking the buttons]
@@ -1197,7 +1193,7 @@ UIN, E-mail и т.д.
 [Group chats]
 Чаты
 [Use same style as in the message log]
-Тот же стиль, что и в журнале
+Тот же стиль, что и в беседах
 [Use default colors]
 Цвета по умолчанию
 [Use custom colors]
@@ -1482,62 +1478,6 @@ Google Карты
 Сообщения
 [Send message]
 Отправить сообщение
-[Flash window when someone speaks]
-Мигать окном, если есть новое сообщение
-[Flash window when a word is highlighted]
-Мигать окном, если есть подсвеченные сообщения
-[Show list of users in the chat room]
-Показывать список пользователей в комнате чата
-[Show the topic of the room on your contact list (if supported)]
-Показывать тему комнаты чата в списке контактов (если поддерживается)
-[Do not play sounds when the chat room is focused]
-Не играть звук, когда комната чата на переднем плане
-[Do not pop up the window when joining a chat room]
-Не открывать окно чата при входе в комнату чата
-[Show contact statuses if protocol supports them]
-Показывать статусы, если есть поддержка в протоколе
-[Display contact status icon before user role icon]
-Показывать значок статуса перед значком роли
-[Prefix all events with a timestamp]
-Указывать время всех событий
-[Only prefix with timestamp if it has changed]
-Указывать время, только если оно изменилось
-[Timestamp has same color as the event]
-Время того же цвета, что и событие
-[Indent the second line of a message]
-Отступ второй строки сообщения
-[Limit user names in the message log to 20 characters]
-Ограничить имена в журнале 20-ю символами
-[Add ':' to auto-completed user names]
-Добавлять ":" к именам пользователей
-[Strip colors from messages in the log]
-Запретить цвета в журнале
-[Enable the 'event filter' for new rooms]
-Включить 'фильтр событий' для новых комнат чата
-[Show icon for topic changes]
-Смены темы
-[Show icon for users joining]
-Новые пользователи
-[Show icon for users disconnecting]
-Отключения участников
-[Show icon for messages]
-Сообщения
-[Show icon for actions]
-Действия
-[Show icon for highlights]
-Подсвеченные сообщения
-[Show icon for users leaving]
-Выходы участников
-[Show icon for users kicking other user]
-Пинки
-[Show icon for notices]
-Уведомления
-[Show icon for name changes]
-Смены ников
-[Show icon for information messages]
-Информационные сообщения
-[Show icon for status changes]
-Смены статусов
 [Window icon]
 Значок окна
 [Bold]
@@ -1594,10 +1534,66 @@ Google Карты
 Журналы чатов
 [Appearance and functionality of chat room windows]
 Интерфейс и функциональность окон чата
+[Flash window when someone speaks]
+Мигать окном, если есть новое сообщение
+[Flash window when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Show list of users in the chat room]
+Показывать список пользователей в комнате чата
+[Show the topic of the room on your contact list (if supported)]
+Показывать тему комнаты чата в списке контактов (если поддерживается)
+[Do not play sounds when the chat room is focused]
+Не играть звук, когда комната чата на переднем плане
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в комнату чата
+[Show contact statuses if protocol supports them]
+Показывать статусы, если есть поддержка в протоколе
+[Display contact status icon before user role icon]
+Показывать значок статуса перед значком роли
 [Appearance of the message log]
 Внешний вид журнала сообщений
+[Prefix all events with a timestamp]
+Указывать время всех событий
+[Only prefix with timestamp if it has changed]
+Указывать время, только если оно изменилось
+[Timestamp has same color as the event]
+Время того же цвета, что и событие
+[Indent the second line of a message]
+Отступ второй строки сообщения
+[Limit user names in the message log to 20 characters]
+Ограничить имена в журнале 20-ю символами
+[Add ':' to auto-completed user names]
+Добавлять ":" к именам пользователей
+[Strip colors from messages in the log]
+Запретить цвета в журнале
+[Enable the 'event filter' for new rooms]
+Включить 'фильтр событий' для новых комнат чата
 [Icons to display in the message log]
 Значки журнала сообщений
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
 [Chat log]
 Журнал чата
 [The message send timed out.]
@@ -1654,8 +1650,6 @@ Google Карты
 Журнал
 [Typing notify]
 Набирает текст
-[Message from %s]
-Сообщение от %s
 [%s is typing a message]
 %s набирает текст
 [Typing notification]
@@ -2034,8 +2028,6 @@ Miranda не смогла загрузить встроенную систему
 %s включает статус '%s' для %s в %s
 [%s disables '%s' status for %s in %s]
 %s выключает статус '%s' для %s в %s
-[%s says]
-%s говорит
 [Chat rooms]
 Чаты
 [Events and filters]
@@ -2714,6 +2706,10 @@ ANSI плагин
 Ник
 [Unique ID]
 Уник. ID
+[Disable the event filter (Ctrl+F)]
+Вылючить фильтр событий (Ctrl+F)
+[Enable the event filter (Ctrl+F)]
+Включить фильтр событий (Ctrl+F)
 [Log viewer]
 Просмотрщик журнала сообщений
 [Copy all]
@@ -2732,6 +2728,8 @@ ANSI плагин
 <Разделитель>
 [Toolbar]
 Панель кнопок
+[Message from %s]
+Сообщение от %s
 [Unspecified]
 Не указано
 [Afghanistan]
@@ -8769,7 +8767,7 @@ ID пользователя
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9088,8 +9086,6 @@ ID пользователя
 Редактировать настройку (%s)
 [New setting (%s)]
 Новая настройка (%s)
-[<UNKNOWN>]
-<НЕИЗВЕСТНО>
 [[UNLOADED]]
 \[НЕ ЗАГРУЖЕН]
 [*** resident ***]
@@ -12743,6 +12739,10 @@ UIN/почта:
 Введите пароль
 [Remember this session password]
 Запомнить пароль на время сеанса
+[admin]
+админ
+[member]
+пользователь
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
@@ -12785,10 +12785,6 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[admin]
-админ
-[member]
-пользователь
 [Unknown sticker]
 Неизвестный стикер
 [User sent a sticker:]
@@ -15816,14 +15812,10 @@ XML (кодировка UTF-8)
 ID устройства
 [Fingerprint]
 Отпечаток
-[Own device]
-Это устройство
 [Trusted]
 Доверенное
 [UNTRUSTED]
 НЕДОВЕРЕННОЕ
-[Unknown]
-Неизвестно
 [Photo]
 Фото
 [Redirect]
@@ -22937,6 +22929,8 @@ IP токена не совпадает
 Чаты
 [Action: Send message]
 Действие: отправить сообщение
+[Appearance and functionality of chat windows]
+Интерфейс и функциональность окон чата
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -22955,10 +22949,36 @@ IP токена не совпадает
 Показывать значок статуса перед значком роли
 [Add ':' to auto-completed names]
 Добавлять ":" к именам пользователей
+[Icons to display in the message log]
+Значки журнала сообщений
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
+[Appearance]
+Внешний вид
 [Prefix all events with a timestamp]
 Указывать время всех событий
-[Only prefix with timestamp if it has changed]
-Указывать время, только если оно изменилось
 [Timestamp has same color as the event]
 Время того же цвета, что и событие
 [Indent the second line of a message]
@@ -22969,8 +22989,6 @@ IP токена не совпадает
 Запретить цвета сообщений
 [Enable 'event filter' for new rooms]
 Включать "фильтр событий" для новых комнат
-[Appearance and functionality of chat windows]
-Интерфейс и функциональность окон чата
 [nick of current contact (if defined)]
 ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -23021,8 +23039,6 @@ ID текущего контакта (если определён). Наприм
 полное название дня недели
 [Variables]
 Переменные
-[Appearance]
-Внешний вид
 [Select folder]
 Выбрать папку
 [Message sessions]
@@ -23169,12 +23185,6 @@ ID текущего контакта (если определён). Наприм
 Действие: Вставить и отправить
 [User menu - %s]
 Меню пользователя - %s
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
-[Status]
-Статус
 [Me]
 Я
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -23255,8 +23265,6 @@ consectetur adipisicing elit
 Журнал событий
 [Typing notify]
 Набирает текст
-[Message from %s]
-Сообщение от %s
 [%s is typing a message]
 %s набирает текст
 [Typing notification]
@@ -24238,7 +24246,7 @@ Upload Pie (1 нед)
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -24247,12 +24255,12 @@ Upload Pie (1 нед)
 Действие при старте
 [Open Sessions Manager dialog]
 Открыть менеджер сессий
+[Open dialog if last session present]
+Открыть менеджер сессий, если доступна последняя сессия
 [Restore Last Session]
 Восстановить последнюю сессию
 [Do nothing]
 Ничего не делать
-[Only if last session present]
-Только если доступна последняя сессия
 [Startup delay]
 Задержка открытия
 [ms]
@@ -24303,8 +24311,6 @@ Upload Pie (1 нед)
 Введите название сессии:
 [Save and Close]
 Сохранить и закрыть
-[adv.]
-доп.
 [Sessions Manager]
 Менеджер сессий
 [Cancel]
@@ -24349,6 +24355,8 @@ Upload Pie (1 нед)
 Загрузить последнюю сессию
 [View]
 Вид
+[Do you want to save changes?]
+Хотите сохранить изменения?
 [Message sessions]
 Беседы
 [Session name is empty, enter the name and try again]
@@ -27116,12 +27124,8 @@ ID текущего контакта (если определён). Наприм
 Формат журнала
 [Highlighting]
 Подсветка
-[%s%s says:%s %s]
-%s%s пишет:%s %s
 [Message session...]
 Беседа...
-[Message from %s]
-Сообщение от %s
 [Default container]
 Контейнер по умолчанию
 [Attach to]
@@ -27895,6 +27899,8 @@ TabSRMM: %s
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
+[Add phone contact]
+Добавить контакт по номеру телефона
 [First name:]
 Имя:
 [Last name:]
@@ -27907,6 +27913,8 @@ TabSRMM: %s
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
 Введите код подтверждения, полученный по электронной почте
+[Enter the secret code sent to another device]
+Введите код, отправленный на другое ваше устройство
 [Enter password]
 Введите пароль
 [ (hint: %s)]
@@ -27925,6 +27933,8 @@ TabSRMM: %s
 СуперАдмин
 [Visitor]
 Посетитель
+[&Leave chat session]
+&Покинуть чат
 [Premium user]
 Premium-подписчик
 [Network]
@@ -29018,6 +29028,8 @@ IPv6 адрес (необязательно)
 Невозможно инициализировать ядро Tox
 [Query]
 Запрос
+[Invalid search string]
+Недопустимая строка для поиска
 [One of the arguments is missing]
 Пропущен один из аргументов
 [Unable to allocate enough memory]
@@ -30870,7 +30882,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.3
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

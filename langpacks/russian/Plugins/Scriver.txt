@@ -246,6 +246,8 @@
 [Action: Send message]
 Действие: отправить сообщение
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Интерфейс и функциональность окон чата
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -264,10 +266,36 @@
 Показывать значок статуса перед значком роли
 [Add ':' to auto-completed names]
 Добавлять ":" к именам пользователей
+[Icons to display in the message log]
+Значки журнала сообщений
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
+[Appearance]
+Внешний вид
 [Prefix all events with a timestamp]
 Указывать время всех событий
-[Only prefix with timestamp if it has changed]
-Указывать время, только если оно изменилось
 [Timestamp has same color as the event]
 Время того же цвета, что и событие
 [Indent the second line of a message]
@@ -278,8 +306,6 @@
 Запретить цвета сообщений
 [Enable 'event filter' for new rooms]
 Включать "фильтр событий" для новых комнат
-[Appearance and functionality of chat windows]
-Интерфейс и функциональность окон чата
 [nick of current contact (if defined)]
 ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +356,6 @@ ID текущего контакта (если определён). Наприм
 полное название дня недели
 [Variables]
 Переменные
-[Appearance]
-Внешний вид
 [Select folder]
 Выбрать папку
 [Message sessions]
@@ -481,12 +505,6 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Меню пользователя - %s
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
-[Status]
-Статус
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
@@ -570,8 +588,6 @@ consectetur adipisicing elit
 [Typing notify]
 Набирает текст
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Сообщение от %s
 [%s is typing a message]
 %s набирает текст
 [Typing notification]

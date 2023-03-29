@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -12,12 +12,12 @@
 Действие при старте
 [Open Sessions Manager dialog]
 Открыть менеджер сессий
+[Open dialog if last session present]
+Открыть менеджер сессий, если доступна последняя сессия
 [Restore Last Session]
 Восстановить последнюю сессию
 [Do nothing]
 Ничего не делать
-[Only if last session present]
-Только если доступна последняя сессия
 [Startup delay]
 Задержка открытия
 [ms]
@@ -68,8 +68,6 @@
 Введите название сессии:
 [Save and Close]
 Сохранить и закрыть
-[adv.]
-доп.
 [Sessions Manager]
 Менеджер сессий
 [Cancel]
@@ -117,9 +115,13 @@
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Вид
+[Do you want to save changes?]
+Хотите сохранить изменения?
 [Message sessions]
 Беседы
 ;file \plugins\Sessions\Src\SaveSessions.cpp
+[More contacts]
+
 [Session name is empty, enter the name and try again]
 Имя сессии пусто, введите имя и попробуйте ещё раз
 [Current session is empty!]

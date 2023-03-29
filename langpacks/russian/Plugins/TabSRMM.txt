@@ -1027,14 +1027,9 @@ ID текущего контакта (если определён). Наприм
 Формат журнала
 [Highlighting]
 Подсветка
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s пишет:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Беседа...
-[Message from %s]
-Сообщение от %s
 [Default container]
 Контейнер по умолчанию
 [Attach to]

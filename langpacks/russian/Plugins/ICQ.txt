@@ -65,6 +65,10 @@ UIN/почта:
 [Remember this session password]
 Запомнить пароль на время сеанса
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
+[admin]
+админ
+[member]
+пользователь
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
@@ -113,10 +117,6 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[admin]
-админ
-[member]
-пользователь
 [Unknown sticker]
 Неизвестный стикер
 [User sent a sticker:]

@@ -178,6 +178,8 @@ Jabber vCard: добавление телефона
 Видео
 [Modem]
 Модем
+[Enable OMEMO]
+Включить OMEMO
 [Load]
 Загрузить
 [Save]
@@ -1867,14 +1869,18 @@ XML (кодировка UTF-8)
 ID устройства
 [Fingerprint]
 Отпечаток
-[Own device]
+[This device]
 Это устройство
 [Trusted]
 Доверенное
 [UNTRUSTED]
 НЕДОВЕРЕННОЕ
-[Unknown]
-Неизвестно
+[Untrust]
+Не доверять
+[Trust]
+Доверять
+[Kill session]
+Завершить сеанс
 [Photo]
 Фото
 ;file \protocols\JabberG\src\jabber_util.cpp
