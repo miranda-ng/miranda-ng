@@ -2121,8 +2121,8 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 			}
 
-			if (pDlg->m_bFilterEnabled)
-				pDlg->RedrawLog();
+			Chat_SetFilters(pDlg->getChat());
+			pDlg->RedrawLog();
 		}
 		DestroyWindow(hwndDlg);
 		break;
