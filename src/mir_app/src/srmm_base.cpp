@@ -53,10 +53,6 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_hContact(0),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
 {
-	m_bFilterEnabled = Chat::bFilterEnabled;
-	m_iLogFilterFlags = Chat::iFilterFlags;
-	m_bNicklistEnabled = Chat::bShowNicklist;
-
 	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
 	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
@@ -77,6 +73,10 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 			m_iBG = 2;
 			m_bBGSet = true;
 		}
+
+		m_bFilterEnabled = m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
+		m_iLogFilterFlags = Chat::iFilterFlags;
+		m_bNicklistEnabled = Chat::bShowNicklist;
 	}
 }
 
@@ -690,6 +690,11 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 void CSrmmBaseDialog::UpdateFilterButton()
 {
+	db_set_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
+	
+	if (m_si)
+		Chat_SetFilters(m_si);
+
 	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable the event filter (Ctrl+F)") : TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
 }
 

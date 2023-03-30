@@ -471,7 +471,7 @@ protected:
 		g_chatApi.MM_IconsChanged();
 		g_chatApi.MM_FontsChanged();
 		Chat_UpdateOptions();
-		SM_ReconfigureFilters();
+		Chat_ReconfigureFilters();
 
 		PluginConfig.reloadSettings();
 		CacheMsgLogIcons();

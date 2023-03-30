@@ -55,8 +55,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_cmdList(20),
 	m_pOwner(pOwner)
 {
-	m_si->pDlg = this;
-
 	m_iSplitterX = g_Settings.iSplitterX;
 	m_iSplitterY = g_Settings.iSplitterY;
 
@@ -94,6 +92,11 @@ void CMsgDialog::Init()
 bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
+
+	if (m_si) {
+		m_si->pDlg = this;
+		Chat_SetFilters(m_si);
+	}
 
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;

@@ -831,3 +831,5 @@ Chat_IsMuted @941 NONAME
 ?iSoundFlags@Chat@@3V?$CMOption@I@@A @946 NONAME
 ?iTrayIconFlags@Chat@@3V?$CMOption@I@@A @947 NONAME
 ?UpdateFilterButton@CSrmmBaseDialog@@UAEXXZ @948 NONAME
+?Chat_SetFilters@@YGXPAUSESSION_INFO@@@Z @949 NONAME
+?Chat_ReconfigureFilters@@YGXXZ @950 NONAME

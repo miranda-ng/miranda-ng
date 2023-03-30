@@ -350,7 +350,6 @@ void CMsgDialog::Init()
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
-	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
 
 	// refresh cache data for this contact
 	m_cache = CContactCache::getContactCache(m_hContact);
@@ -997,8 +996,6 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 	m_bFilterEnabled = !m_bFilterEnabled;
 	UpdateFilterButton();
-	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
-	Chat_SetFilters(m_si);
 
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();

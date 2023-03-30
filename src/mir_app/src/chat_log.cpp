@@ -290,7 +290,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	for (LOGINFO *lin = streamData->lin; lin; lin = lin->prev) {
 		// filter
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
-			if (si->pDlg->m_bFilterEnabled && (si->pDlg->m_iLogFilterFlags & lin->iType) == 0)
+			if (!(si->pDlg->m_iLogFilterFlags & lin->iType))
 				continue;
 
 		// create new line, and set font and color

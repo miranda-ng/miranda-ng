@@ -37,6 +37,7 @@ struct CChatOptionsBaseDlg : public CDlgBase
 	{
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
+		Chat_ReconfigureFilters();
 	}
 };
 

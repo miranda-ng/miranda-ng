@@ -389,6 +389,12 @@ EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, con
 EXTERN_C MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode);
 
+// resets filters for all session
+MIR_APP_DLL(void) Chat_ReconfigureFilters();
+
+// sets filters for a session
+MIR_APP_DLL(void) Chat_SetFilters(SESSION_INFO *si);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // common settings
 

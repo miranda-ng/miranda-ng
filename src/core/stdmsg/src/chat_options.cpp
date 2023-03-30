@@ -67,9 +67,27 @@ void AddIcons(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+struct CChatOptionsBaseDlg : public CDlgBase
+{
+	CChatOptionsBaseDlg(int iDlgId) :
+		CDlgBase(g_plugin, iDlgId)
+	{
+		m_OnFinishWizard = Callback(this, &CChatOptionsBaseDlg::onFinish);
+	}
+
+	void onFinish(void *)
+	{
+		g_chatApi.ReloadSettings();
+		Chat_UpdateOptions();
+		Chat_ReconfigureFilters();
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // General options
 
-class COptMainDlg : public CDlgBase
+class COptMainDlg : public CChatOptionsBaseDlg
 {
 	uint32_t m_dwFlags;
 
@@ -77,7 +95,7 @@ class COptMainDlg : public CDlgBase
 
 public:
 	COptMainDlg() :
-		CDlgBase(g_plugin, IDD_OPTIONS1),
+		CChatOptionsBaseDlg(IDD_OPTIONS1),
 		checkBoxes(this, IDC_CHECKBOXES)
 	{
 		m_dwFlags = db_get_dw(0, CHAT_MODULE, "IconFlags");
@@ -120,9 +138,6 @@ public:
 	bool OnApply() override
 	{
 		db_set_dw(0, CHAT_MODULE, "IconFlags", m_dwFlags);
-
-		g_chatApi.ReloadSettings();
-		Chat_UpdateOptions();
 		return true;
 	}
 };
@@ -146,7 +161,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 	return 0;
 }
 
-class COptLogDlg : public CDlgBase
+class COptLogDlg : public CChatOptionsBaseDlg
 {
 	CCtrlEdit edtGroup, edtLogDir, edtLogTimestamp, edtTimestamp, edtHighlight, edtInStamp, edtOutStamp, edtLimit;
 	CCtrlSpin spin2, spin3, spin4;
@@ -155,7 +170,7 @@ class COptLogDlg : public CDlgBase
 
 public:
 	COptLogDlg() :
-		CDlgBase(g_plugin, IDD_OPTIONS2),
+		CChatOptionsBaseDlg(IDD_OPTIONS2),
 		spin2(this, IDC_SPIN2, 5000),
 		spin3(this, IDC_SPIN3, 10000),
 		spin4(this, IDC_SPIN4, 255, 10),
@@ -263,8 +278,6 @@ public:
 		else
 			db_unset(0, CHAT_MODULE, "NicklistRowDist");
 
-		g_chatApi.ReloadSettings();
-		Chat_UpdateOptions();
 		return true;
 	}
 

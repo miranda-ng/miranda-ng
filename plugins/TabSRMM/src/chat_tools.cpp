@@ -352,48 +352,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// set all filters and notification config for a session
-// uses per channel mask + filterbits, default config as backup
-
-void Chat_SetFilters(SESSION_INFO *si)
-{
-	bool bEnabled = db_get_b(si->hContact, CHAT_MODULE, "FilterEnabled") != 0;
-
-	CMsgDialog *pDlg = si->pDlg;
-	if (pDlg) {
-		uint32_t dwFlags = Chat::iFilterFlags;
-		uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-		uint32_t dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "FilterMask") : 0;
-
-		for (int i = 0; i < 32; i++) {
-			uint32_t dwBit = 1 << i;
-			if (dwMask & dwBit)
-				dwFlags = (dwFlags_local & dwBit) ? dwFlags | dwBit : dwFlags & ~dwBit;
-		}
-
-		pDlg->m_iLogFilterFlags = dwFlags;
-	}
-
-	uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-	uint32_t dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0) : 0;
-
-	si->iPopupFlags = Chat::iPopupFlags;
-	for (int i = 0; i < 32; i++) {
-		uint32_t dwBit = 1 << i;
-		if (dwMask & dwBit)
-			si->iPopupFlags = (dwFlags_local & dwBit) ? si->iPopupFlags | dwBit : si->iPopupFlags & ~dwBit;
-	}
-
-	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-	dwMask = (bEnabled) ? db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0) : 0;
-
-	si->iTrayFlags = Chat::iTrayIconFlags;
-	for (int i = 0; i < 32; i++) {
-		uint32_t dwBit = 1 << i;
-		if (dwMask & dwBit)
-			si->iTrayFlags = (dwFlags_local & dwBit) ? si->iTrayFlags | dwBit : si->iTrayFlags & ~dwBit;
-	}
-}
 
 char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 {

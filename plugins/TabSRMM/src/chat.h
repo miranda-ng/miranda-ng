@@ -100,8 +100,6 @@ SESSION_INFO* SM_FindSessionByHWND(HWND h);
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 
-BOOL SM_ReconfigureFilters();
-
 void OnCreateNick(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &wszNick);
 
 int UM_CompareItem(const USERINFO *u1, const USERINFO *u2);
@@ -110,7 +108,6 @@ int UM_CompareItem(const USERINFO *u1, const USERINFO *u2);
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char     GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
-void     Chat_SetFilters(SESSION_INFO *si);
 BOOL     DoPopup(SESSION_INFO *si, GCEVENT* gce);
 int      ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 

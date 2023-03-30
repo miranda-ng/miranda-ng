@@ -254,6 +254,7 @@ void LoadGlobalSettings(void)
 	LoadMsgDlgFont(19, &lf, nullptr);
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
 
+	Chat_ReconfigureFilters();
 	SetIndentSize();
 }
 

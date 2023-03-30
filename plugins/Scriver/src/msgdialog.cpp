@@ -156,8 +156,10 @@ bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	if (m_si)
+	if (m_si) {
 		m_si->pDlg = this;
+		Chat_SetFilters(m_si);
+	}
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
@@ -680,21 +682,25 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 
 INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	int iFlags;
 	static CMsgDialog *pDlg = nullptr;
+
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		pDlg = (CMsgDialog *)lParam;
-		CheckDlgButton(hwndDlg, IDC_CHAT_1, pDlg->m_iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_2, pDlg->m_iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_3, pDlg->m_iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_4, pDlg->m_iLogFilterFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_5, pDlg->m_iLogFilterFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_6, pDlg->m_iLogFilterFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_7, pDlg->m_iLogFilterFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_8, pDlg->m_iLogFilterFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_9, pDlg->m_iLogFilterFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_10, pDlg->m_iLogFilterFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHAT_11, pDlg->m_iLogFilterFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
+
+		iFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
+		CheckDlgButton(hwndDlg, IDC_CHAT_1, iFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_2, iFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_3, iFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_4, iFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_5, iFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_6, iFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_7, iFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_8, iFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_9, iFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_10, iFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_11, iFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_CTLCOLOREDIT:
@@ -705,7 +711,7 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE) {
-			int iFlags = 0;
+			iFlags = 0;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_1) == BST_CHECKED)
 				iFlags |= GC_EVENT_ACTION;
@@ -733,9 +739,11 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
-			pDlg->m_iLogFilterFlags = iFlags;
-			if (pDlg->m_bFilterEnabled)
-				pDlg->RedrawLog();
+			db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", iFlags);
+			db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0xFFFF);
+
+			Chat_SetFilters(pDlg->getChat());
+			pDlg->RedrawLog();
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 		}
 		break;

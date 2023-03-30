@@ -2023,14 +2023,14 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		pDlg = (CMsgDialog *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			uint32_t dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
-			uint32_t dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
+			uint32_t dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask");
+			uint32_t dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
 
-			uint32_t dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
-			uint32_t dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
+			uint32_t dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask");
+			uint32_t dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags");
 
-			uint32_t dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
-			uint32_t dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
+			uint32_t dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask");
+			uint32_t dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags");
 
 			for (int i = 0; i < _countof(_eventorder); i++) {
 				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
