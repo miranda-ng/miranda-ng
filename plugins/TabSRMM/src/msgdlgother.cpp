@@ -1978,19 +1978,6 @@ void TSAPI CleanTempFiles()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::SetFilter(uint32_t dwFlags)
-{
-	m_iLogFilterFlags = dwFlags;
-
-	if (dwFlags == 0) {
-		m_bFilterEnabled = false;
-		m_btnFilter.Disable();
-	}
-	else m_btnFilter.Enable();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Sets a status bar text for a contact
 
 void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
