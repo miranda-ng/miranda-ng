@@ -24,28 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMM_MSGS_H
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// CLogWindow - built-in log window
-
-class CLogWindow : public CRtfLogWindow
-{
-	typedef CRtfLogWindow CSuper;
-
-public:
-	CLogWindow(CMsgDialog &pDlg) :
-		CSuper(pDlg)
-	{
-	}
-
-	void Attach() override;
-	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(struct LOGINFO *, bool) override;
-	void ScrollToBottom() override;
-	void UpdateOptions() override;
-
-	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 #define MSGERROR_CANCEL	0
 #define MSGERROR_RETRY	1

@@ -156,7 +156,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<bool> bShowButtons, bSendButton, bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist;
 	CMOption<bool> bShowIcons, bShowTime, bShowDate, bShowAvatar, bShowNames, bShowSecs, bShowReadChar;
 	CMOption<bool> bAutoClose, bAutoMin, bTypingNew, bTypingUnknown, bCtrlSupport, bShowFormat;
-	CMOption<bool> bSavePerContact, bDoNotStealFocus, bCascade, bDeleteTempCont, bUseStatusWinIcon;
+	CMOption<bool> bSavePerContact, bDoNotStealFocus, bCascade, bDeleteTempCont, bUseStatusWinIcon, bAutoCopy;
 
 	CMOption<bool> bLimitAvatarHeight;
 	CMOption<uint16_t> iAvatarHeight;

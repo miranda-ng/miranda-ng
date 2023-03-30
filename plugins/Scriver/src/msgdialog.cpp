@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static CMStringW GetQuotedTextW(wchar_t *text)
@@ -140,8 +138,6 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 
 void CMsgDialog::Init()
 {
-	g_arDialogs.insert(this);
-
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 
@@ -283,8 +279,6 @@ bool CMsgDialog::OnInitDialog()
 void CMsgDialog::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
-
-	g_arDialogs.remove(this);
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -755,24 +749,6 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	int result = m_pDlg.InputAreaShortcuts(m_rtf.GetHwnd(), msg, wParam, lParam);
-	if (result != -1)
-		return result;
-
-	switch (msg) {
-	case WM_MEASUREITEM:
-		Menu_MeasureItem(lParam);
-		return TRUE;
-
-	case WM_DRAWITEM:
-		return Menu_DrawItem(lParam);
-	}
-
-	return CSuper::WndProc(msg, wParam, lParam);
-}
 
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {

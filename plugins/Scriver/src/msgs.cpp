@@ -486,9 +486,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int OnSystemPreshutdown(WPARAM, LPARAM)
 {
-	for (auto &it : g_arDialogs.rev_iter())
-		it->CloseTab();
-
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);
 	return 0;
 }

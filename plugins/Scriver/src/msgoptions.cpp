@@ -498,7 +498,7 @@ class CLogOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlSpin spinCount, spinTime, spinIndent;
 	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime;
-	CCtrlCheck chkShowIcons, chkShowTime, chkShowSecs, chkShowDate, chkLongDate, chkRelativeDate;
+	CCtrlCheck chkShowIcons, chkShowTime, chkShowSecs, chkShowDate, chkLongDate, chkRelativeDate, chkAutoCopy;
 	CCtrlCheck chkGroupMsg, chkIndentText, chkHideNames, chkMarkFollowups, chkMsgOnNewline, chkDrawLines;
 	CCtrlRichEdit m_rtf;
 	CCtrlHyperlink m_fonts;
@@ -536,21 +536,22 @@ public:
 		CBaseOptionDlg(IDD_OPT_MSGLOG),
 		m_rtf(this, IDC_SRMM_LOG),
 		m_fonts(this, IDC_FONTSCOLORS),
+		chkLoadTime(this, IDC_LOADTIME),
+		chkLoadCount(this, IDC_LOADCOUNT),
+		chkLoadUnread(this, IDC_LOADUNREAD),
 		chkShowTime(this, IDC_SHOWTIMES),
 		chkShowSecs(this, IDC_SHOWSECONDS),
 		chkShowDate(this, IDC_SHOWDATES),
 		chkLongDate(this, IDC_USELONGDATE),
-		chkRelativeDate(this, IDC_USERELATIVEDATE),
+		chkAutoCopy(this, IDC_AUTOCOPY),
 		chkGroupMsg(this, IDC_GROUPMESSAGES),
-		chkMarkFollowups(this, IDC_MARKFOLLOWUPS),
+		chkHideNames(this, IDC_HIDENAMES),
 		chkDrawLines(this, IDC_DRAWLINES),
 		chkShowIcons(this, IDC_SHOWLOGICONS),
 		chkIndentText(this, IDC_INDENTTEXT),
-		chkHideNames(this, IDC_HIDENAMES),
+		chkRelativeDate(this, IDC_USERELATIVEDATE),
+		chkMarkFollowups(this, IDC_MARKFOLLOWUPS),
 		chkMsgOnNewline(this, IDC_MESSAGEONNEWLINE),
-		chkLoadTime(this, IDC_LOADTIME),
-		chkLoadCount(this, IDC_LOADCOUNT),
-		chkLoadUnread(this, IDC_LOADUNREAD),
 		spinTime(this, IDC_LOADTIMESPIN, 12 * 60),
 		spinCount(this, IDC_LOADCOUNTSPIN, 100),
 		spinIndent(this, IDC_INDENTSPIN, 999)
@@ -560,6 +561,7 @@ public:
 		CreateLink(chkShowTime, g_plugin.bShowTime);
 		CreateLink(chkShowSecs, g_plugin.bShowSeconds);
 		CreateLink(chkShowDate, g_plugin.bShowDate);
+		CreateLink(chkAutoCopy, g_plugin.bAutoCopy);
 		CreateLink(chkLongDate, g_plugin.bLongDate);
 		CreateLink(chkGroupMsg, g_plugin.bGroupMessages);
 		CreateLink(chkShowIcons, g_plugin.bShowIcons);

@@ -301,7 +301,7 @@ class COptionLogDlg : public CDlgBase
 	HBRUSH hBkgColourBrush;
 
 	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime, chkDate, chkTime, chkSecs, chkIcons;
-	CCtrlCheck chkShowNames, chkFormat;
+	CCtrlCheck chkShowNames, chkFormat, chkAutoCopy;
 	CCtrlSpin  spinCount, spinTime;
 
 public:
@@ -312,6 +312,7 @@ public:
 		chkTime(this, IDC_SHOWTIMES),
 		chkIcons(this, IDC_SHOWLOGICONS),
 		chkFormat(this, IDC_SHOWFORMATTING),
+		chkAutoCopy(this, IDC_AUTOCOPY),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkShowNames(this, IDC_SHOWNAMES),
 		chkLoadCount(this, IDC_LOADCOUNT),
@@ -328,6 +329,7 @@ public:
 		CreateLink(chkTime, g_plugin.bShowTime);
 		CreateLink(chkIcons, g_plugin.bShowIcons);
 		CreateLink(chkFormat, g_plugin.bShowFormat);
+		CreateLink(chkAutoCopy, g_plugin.bAutoCopy);
 		CreateLink(chkShowNames, g_plugin.bShowNames);
 	}
 	

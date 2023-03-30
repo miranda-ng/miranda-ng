@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\georg\DiskW\miranda-ng\plugins\Scriver\res\resource.rc
+// Used by W:\miranda-ng\plugins\Scriver\res\resource.rc
 //
 #define VS_VERSION_INFO                 1
 #define IDD_MSGWIN                      100
@@ -138,6 +138,7 @@
 #define IDC_TRANSPARENCYTEXT1           1627
 #define IDC_TRANSPARENCYTEXT2           1628
 #define IDC_DRAWLINES                   1629
+#define IDC_AUTOCOPY                    1630
 #define IDC_SAVEDRAFTS                  1631
 #define IDC_POPLIST                     1632
 #define IDC_LIMITNAMESLEN               1633

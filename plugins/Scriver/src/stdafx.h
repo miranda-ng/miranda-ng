@@ -72,7 +72,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE hLogger;
 
-	CMOption<uint8_t> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
+	CMOption<uint8_t> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup, bAutoCopy;
 	CMOption<uint8_t> bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
 	CMOption<uint8_t> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
 	CMOption<uint8_t> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
@@ -141,6 +141,5 @@ CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);
 #include "chat.h"
 
 extern GlobalMessageData g_dat;
-extern LIST<CMsgDialog> g_arDialogs;
 
 #endif

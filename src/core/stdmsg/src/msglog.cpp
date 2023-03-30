@@ -617,6 +617,18 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_LBUTTONUP:
+		if (g_plugin.bAutoCopy) {
+			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin != sel.cpMax) {
+				m_rtf.SendMsg(WM_COPY, 0, 0);
+				sel.cpMin = sel.cpMax;
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			}
+			SetFocus(m_pDlg.m_message.GetHwnd());
+		}
+		break;
+	
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;

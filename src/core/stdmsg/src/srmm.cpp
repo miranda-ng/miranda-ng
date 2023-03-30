@@ -60,6 +60,7 @@ CMPlugin::CMPlugin() :
 
 	bCascade(SRMM_MODULE, "Cascade", true),
 	bAutoMin(SRMM_MODULE, "AutoMin", false),
+	bAutoCopy(SRMM_MODULE, "AutoCopy", true),
 	bAutoClose(SRMM_MODULE, "AutoClose", false),
 	bShowNames(SRMM_MODULE, "ShowNames", false),
 	bShowFormat(SRMM_MODULE, "ShowFormatting", true),

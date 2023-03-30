@@ -53,6 +53,7 @@
 #define IDI_INCOMING                    276
 #define IDI_OUTGOING                    277
 #define IDI_EXCL                        282
+#define IDC_AUTOCOPY                    1001
 #define IDC_SPLITTERX                   1003
 #define IDC_AUTOCLOSE                   1004
 #define IDC_AUTOMIN                     1005
@@ -60,7 +61,7 @@
 #define IDC_SPLITTERY                   1008
 #define IDC_CHECKBOXES                  1018
 #define IDC_NICKLISTBKG                 1021
-#define IDC_NICKROW                     1024
+#define IDC_NICKROW                     1022
 #define IDC_LOGLIMIT                    1024
 #define IDC_NICKROW2                    1025
 #define IDC_SHOWNAMES                   1026
