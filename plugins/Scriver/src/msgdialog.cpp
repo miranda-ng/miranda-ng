@@ -627,13 +627,13 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 			m_nickList.Hide();
 
 		if (m_si->iType == GCW_SERVER) {
-			m_btnNickList.Enable(false);
-			m_btnFilter.Enable(false);
-			m_btnChannelMgr.Enable(false);
+			m_btnNickList.Disable();
+			m_btnFilter.Disable();
+			m_btnChannelMgr.Disable();
 		}
 		else {
-			m_btnNickList.Enable(true);
-			m_btnFilter.Enable(true);
+			m_btnNickList.Enable();
+			m_btnFilter.Enable();
 			if (m_si->iType == GCW_CHATROOM)
 				m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 		}

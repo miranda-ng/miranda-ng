@@ -1130,8 +1130,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 			m_nickList.Show(m_bNicklistEnabled);
 			Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, m_bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
-			m_btnNickList.Enable(true);
-			m_btnFilter.Enable(m_iLogFilterFlags != 0);
+			m_btnNickList.Enable();
 			if (m_si->iType == GCW_CHATROOM)
 				m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 		}
@@ -1139,9 +1138,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 			m_nickList.Hide();
 			Utils::showDlgControl(m_hwnd, IDC_SPLITTERX, SW_HIDE);
 
-			m_btnNickList.Enable(false);
-			m_btnFilter.Enable(false);
-			m_btnChannelMgr.Enable(false);
+			m_btnNickList.Disable();
+			m_btnFilter.Disable();
+			m_btnChannelMgr.Disable();
 		}
 
 		bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
