@@ -834,7 +834,7 @@ public:
 		if (m_rtf.GetHwnd() == nullptr || lin == nullptr || si == nullptr)
 			return;
 
-		if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && m_pDlg.m_bFilterEnabled && !(m_pDlg.m_iLogFilterFlags & lin->iType))
+		if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && !(m_pDlg.m_iLogFilterFlags & lin->iType))
 			return;
 
 		LOGSTREAMDATA streamData;

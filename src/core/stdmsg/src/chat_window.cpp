@@ -113,7 +113,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	if (lin == nullptr || si == nullptr)
 		return;
 
-	if (!bRedraw && si->iType == GCW_CHATROOM && m_pDlg.m_bFilterEnabled && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && si->iType == GCW_CHATROOM && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	LOGSTREAMDATA streamData;
