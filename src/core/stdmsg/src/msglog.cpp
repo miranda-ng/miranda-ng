@@ -475,14 +475,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	if (!streamData.isEmpty) {
-		bottomScroll = (GetFocus() != m_rtf.GetHwnd());
-		if (bottomScroll && (GetWindowLongPtr(m_rtf.GetHwnd(), GWL_STYLE) & WS_VSCROLL)) {
-			SCROLLINFO si = {};
-			si.cbSize = sizeof(si);
-			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			GetScrollInfo(m_rtf.GetHwnd(), SB_VERT, &si);
-			bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
-		}
+		bottomScroll = GetFocus() != m_rtf.GetHwnd() && AtBottom();
 		if (!bottomScroll)
 			m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}

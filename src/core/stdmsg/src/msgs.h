@@ -57,12 +57,10 @@ class CMsgDialog : public CSrmmBaseDialog
 	void Init(void);
 	void NotifyTyping(int mode);
 	void SetButtonsPos(void);
-	void ShowAvatar(void);
 	void ShowTime(bool bForce);
 	void SetupStatusBar(void);
 	void UpdateIcon(WPARAM wParam);
 	void UpdateLastMessage(void);
-	void UpdateSizeBar(void);
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

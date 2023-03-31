@@ -131,7 +131,6 @@ bool CMsgDialog::OnInitDialog()
 
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
-	UpdateSizeBar();
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
 
@@ -490,8 +489,8 @@ LBL_CalcBottom:
 
 	case IDC_AVATAR:
 		urc->rcItem.top = underTB + (urc->dlgNewSize.cy - underTB - m_avatarHeight)/2;
-		urc->rcItem.bottom = urc->rcItem.top + m_avatarHeight + 2;
-		urc->rcItem.right = urc->rcItem.left + (m_avatarWidth + 2);
+		urc->rcItem.bottom = urc->rcItem.top + m_avatarHeight;
+		urc->rcItem.right = urc->rcItem.left + m_avatarWidth;
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 	}
 
@@ -528,7 +527,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case HM_AVATARACK:
-		ShowAvatar();
+		UpdateAvatar();
 		break;
 
 	case DM_OPTIONSAPPLIED:
@@ -1335,21 +1334,6 @@ void CMsgDialog::RemakeLog()
 	m_pLog->LogEvents(m_hDbEventFirst, -1, false);
 }
 
-void CMsgDialog::ShowAvatar()
-{
-	if (g_plugin.bShowAvatar) {
-		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, getActiveContact(), 0);
-		if (ace && (INT_PTR)ace != CALLSERVICE_NOTFOUND && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST))
-			m_avatarPic = ace->hbmPic;
-		else
-			m_avatarPic = nullptr;
-	}
-	else m_avatarPic = nullptr;
-
-	UpdateSizeBar();
-	Resize();
-}
-
 void CMsgDialog::ShowTime(bool bForce)
 {
 	if (!m_hTimeZone)
@@ -1403,12 +1387,41 @@ void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 
 void CMsgDialog::UpdateAvatar()
 {
-	PROTO_AVATAR_INFORMATION ai = {};
-	ai.hContact = m_hContact;
-	CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
+	m_avatarPic = nullptr;
+	if (g_plugin.bShowAvatar) {
+		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, getActiveContact(), 0);
+		if (ace && (INT_PTR)ace != CALLSERVICE_NOTFOUND && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST))
+			m_avatarPic = ace->hbmPic;
+	}
 
-	ShowAvatar();
-	SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, 1);
+	m_minEditBoxSize.cx = m_minEditInit.right - m_minEditInit.left;
+	m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
+
+	if (m_avatarPic == nullptr) {
+		m_avatarWidth = 50;
+		m_avatarHeight = 50;
+		m_avatar.Hide();
+		return;
+	}
+
+	BITMAP bminfo;
+	GetObject(m_avatarPic, sizeof(bminfo), &bminfo);
+	m_avatarWidth = bminfo.bmWidth;
+	m_avatarHeight = bminfo.bmHeight;
+	if (m_limitAvatarH && m_avatarHeight > m_limitAvatarH) {
+		m_avatarWidth = bminfo.bmWidth * m_limitAvatarH / bminfo.bmHeight;
+		m_avatarHeight = m_limitAvatarH;
+	}
+	m_avatar.Show();
+
+	if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
+		m_minEditBoxSize.cy = m_avatarHeight;
+		if (m_iSplitterY < m_minEditBoxSize.cy + m_iBBarHeight) {
+			m_iSplitterY = m_minEditBoxSize.cy + m_iBBarHeight;
+		}
+	}
+
+	Resize();
 }
 
 void CMsgDialog::UpdateIcon(WPARAM wParam)
@@ -1451,39 +1464,6 @@ void CMsgDialog::UpdateReadChars()
 
 		mir_snwprintf(buf, L"%d", len);
 		SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
-	}
-}
-
-void CMsgDialog::UpdateSizeBar()
-{
-	m_minEditBoxSize.cx = m_minEditInit.right - m_minEditInit.left;
-	m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
-	if (g_plugin.bShowAvatar) {
-		if (m_avatarPic == nullptr || !g_plugin.bShowAvatar) {
-			m_avatarWidth = 50;
-			m_avatarHeight = 50;
-			m_avatar.Hide();
-			return;
-		}
-		else {
-			BITMAP bminfo;
-			GetObject(m_avatarPic, sizeof(bminfo), &bminfo);
-			m_avatarWidth = bminfo.bmWidth + 2;
-			m_avatarHeight = bminfo.bmHeight + 2;
-			if (m_limitAvatarH && m_avatarHeight > m_limitAvatarH) {
-				m_avatarWidth = bminfo.bmWidth * m_limitAvatarH / bminfo.bmHeight + 2;
-				m_avatarHeight = m_limitAvatarH + 2;
-			}
-			m_avatar.Show();
-		}
-
-		if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
-			m_minEditBoxSize.cy = m_avatarHeight;
-			if (m_iSplitterY < m_minEditBoxSize.cy) {
-				m_iSplitterY = m_minEditBoxSize.cy;
-				Resize();
-			}
-		}
 	}
 }
 
