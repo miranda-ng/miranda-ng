@@ -42,7 +42,7 @@ CMOption<bool> Chat::bTimeStampEventColour(CHAT_MODULE, "TimeStampEventColour", 
 
 CMOption<uint32_t> Chat::iPopupFlags(CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
 CMOption<uint32_t> Chat::iSoundFlags(CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
-CMOption<uint32_t> Chat::iFilterFlags(CHAT_MODULE, "FilterFlags", GC_EVENT_FILTERED);
+CMOption<uint32_t> Chat::iFilterFlags(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 CMOption<uint32_t> Chat::iDiskLogFlags(CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 CMOption<uint32_t> Chat::iTrayIconFlags(CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 
