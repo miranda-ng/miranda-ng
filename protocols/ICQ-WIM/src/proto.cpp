@@ -459,7 +459,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 			continue;
 		}
 
-		int iFileId = _wopen(ppszFiles[0], _O_RDONLY | _O_BINARY, _S_IREAD);
+		int iFileId = _wopen(ppszFiles[i], _O_RDONLY | _O_BINARY, _S_IREAD);
 		if (iFileId < 0)
 			continue;
 
