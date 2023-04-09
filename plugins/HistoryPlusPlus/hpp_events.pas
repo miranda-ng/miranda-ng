@@ -562,14 +562,9 @@ end;
 
 procedure GetEventTextForFile(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 var
-  BytePos: LongWord;
-  FileName,Desc: AnsiString;
+  PText: PWideChar;
   cp: Cardinal;
 begin
-  //blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
-  BytePos := 4;
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, FileName, BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, Desc, BytePos);
   if Boolean(EventInfo.flags and DBEF_SENT) then
     Hi.Text := 'Outgoing file transfer: %s'
   else
@@ -578,8 +573,11 @@ begin
     cp := CP_UTF8
   else
     cp := Hi.CodePage;
-  Hi.Text := Format(TranslateUnicodeString(Hi.Text), [AnsiToWideString(FileName + #13#10 + Desc, cp)]);
-  Hi.Extended := FileName;
+  PText := DbEvent_GetTextW(@EventInfo, CP_ACP);
+  if not Assigned(PText) then
+     PText := mir_wstrdup('');
+  Hi.Text := Format(TranslateUnicodeString(Hi.Text), [PText]);
+  Hi.Extended := '';
 end;
 
 procedure GetEventTextForAuthRequest(EventInfo: TDBEventInfo; var Hi: THistoryItem);
