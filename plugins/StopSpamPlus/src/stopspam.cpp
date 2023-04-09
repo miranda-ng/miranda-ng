@@ -19,7 +19,19 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	Question(MODULENAME, "Question"),
+	AuthRepl(MODULENAME, "AuthReply"),
+	Answer(MODULENAME, "Answer", L"nospam"),
+	Congratulation(MODULENAME, "Congratulation"),
+	DisabledProtoList(MODULENAME, "DisabledProtoList", "MetaContacts RSSNews"),
+	InfTalkProtection(MODULENAME, "InfTalkProtection", 1),
+	AddPermanent(MODULENAME, "AddPermanent", 0),
+	HandleAuthReq(MODULENAME, "HandleAuthReq", 0),
+	MaxQuestCount(MODULENAME, "MaxQuestCount", 2),
+	AnswNotCaseSens(MODULENAME, "AnswNotCaseSens", 1),
+	AnswSplitString(MODULENAME, "AnswSplitString", L"|"),
+	HistLog(MODULENAME, "HistLog", 0)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -28,21 +40,9 @@ int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 	HookEvent(ME_DB_EVENT_ADDED, OnDbEventAdded);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnDbEventFilterAdd);
 	HookEvent(ME_OPT_INITIALISE, OnOptInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingchanged);
-	
-	// Add deleting temporary contacts
-	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0xf2164e17, 0xa4c1, 0x4b07, 0xae, 0x81, 0x9e, 0xae, 0x7f, 0xa2, 0x55, 0x13);
-	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Remove Temporary Contacts");
-	mi.pszService = "StopSpam/RemoveTempContacts";
-	Menu_AddMainMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, RemoveTempContacts);
 	return 0;
 }

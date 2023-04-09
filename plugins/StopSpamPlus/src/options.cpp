@@ -5,7 +5,7 @@ const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only 
 class COptMainDlg : public CDlgBase
 {
 	CCtrlEdit edtCount, edtDescr;
-	CCtrlCheck chk1, chk2, chk3, chk4, chk5, chk6;
+	CCtrlCheck chk1, chk2, chk3, chk4, chk6;
 
 public:
 	COptMainDlg() :
@@ -16,17 +16,15 @@ public:
 		chk2(this, ID_ADDPERMANENT),
 		chk3(this, ID_HANDLEAUTHREQ),
 		chk4(this, ID_NOTCASESENS),
-		chk5(this, ID_REMOVE_TMP_ALL),
 		chk6(this, ID_HISTORY_LOG)
 	{
-		CreateLink(edtCount, g_sets.MaxQuestCount);
+		CreateLink(edtCount, g_plugin.MaxQuestCount);
 
-		CreateLink(chk1, g_sets.InfTalkProtection);
-		CreateLink(chk2, g_sets.AddPermanent);
-		CreateLink(chk3, g_sets.HandleAuthReq);
-		CreateLink(chk4, g_sets.AnswNotCaseSens);
-		CreateLink(chk5, g_sets.RemTmpAll);
-		CreateLink(chk6, g_sets.HistLog);
+		CreateLink(chk1, g_plugin.InfTalkProtection);
+		CreateLink(chk2, g_plugin.AddPermanent);
+		CreateLink(chk3, g_plugin.HandleAuthReq);
+		CreateLink(chk4, g_plugin.AnswNotCaseSens);
+		CreateLink(chk6, g_plugin.HistLog);
 	}
 
 	bool OnInitDialog() override
@@ -57,11 +55,11 @@ public:
 		btnHelp.OnClick = Callback(this, &COptMessageDlg::onHelp);
 		btnRestore.OnClick = Callback(this, &COptMessageDlg::onRestore);
 
-		CreateLink(edtReply, g_sets.AuthRepl);
-		CreateLink(edtAnswer, g_sets.Answer);
-		CreateLink(edtQuestion, g_sets.Question);
-		CreateLink(edtCongrat, g_sets.Congratulation);
-		CreateLink(edtDivider, g_sets.AnswSplitString);
+		CreateLink(edtReply, g_plugin.AuthRepl);
+		CreateLink(edtAnswer, g_plugin.Answer);
+		CreateLink(edtQuestion, g_plugin.Question);
+		CreateLink(edtCongrat, g_plugin.Congratulation);
+		CreateLink(edtDivider, g_plugin.AnswSplitString);
 	}
 
 	bool OnInitDialog() override
@@ -69,9 +67,9 @@ public:
 		variables_skin_helpbutton(m_hwnd, IDC_VARS);
 		btnHelp.Enable(ServiceExists(MS_VARS_FORMATSTRING));
 
-		edtQuestion.SetText(g_sets.getQuestion());
-		edtCongrat.SetText(g_sets.getCongrats());
-		edtReply.SetText(g_sets.getReply());
+		edtQuestion.SetText(g_plugin.getQuestion());
+		edtCongrat.SetText(g_plugin.getCongrats());
+		edtReply.SetText(g_plugin.getReply());
 		return true;
 	}
 
@@ -82,15 +80,15 @@ public:
 
 	void onRestore(CCtrlButton*)
 	{
-		g_plugin.delSetting(g_sets.AuthRepl.GetDBSettingName());
-		g_plugin.delSetting(g_sets.Question.GetDBSettingName());
-		g_plugin.delSetting(g_sets.Congratulation.GetDBSettingName());
+		g_plugin.delSetting(g_plugin.AuthRepl.GetDBSettingName());
+		g_plugin.delSetting(g_plugin.Question.GetDBSettingName());
+		g_plugin.delSetting(g_plugin.Congratulation.GetDBSettingName());
 
-		edtQuestion.SetText(g_sets.getQuestion());
-		edtAnswer.SetText(g_sets.Answer.Default());
-		edtCongrat.SetText(g_sets.getCongrats());
-		edtReply.SetText(g_sets.getReply());
-		edtDivider.SetText(g_sets.AnswSplitString.Default());
+		edtQuestion.SetText(g_plugin.getQuestion());
+		edtAnswer.SetText(g_plugin.Answer.Default());
+		edtCongrat.SetText(g_plugin.getCongrats());
+		edtReply.SetText(g_plugin.getReply());
+		edtDivider.SetText(g_plugin.AnswSplitString.Default());
 		
 		NotifyChange();
 	}
@@ -132,7 +130,7 @@ public:
 			item.lParam = (LPARAM)pa->szModuleName;
 			item.pszText = pa->tszAccountName;
 			int idx = m_accounts.InsertItem(&item);
-			m_accounts.SetCheckState(idx, !g_sets.ProtoDisabled(pa->szModuleName));
+			m_accounts.SetCheckState(idx, !g_plugin.ProtoDisabled(pa->szModuleName));
 		}
 		return true;
 	}
@@ -153,7 +151,7 @@ public:
 				out << (char*)item.lParam << " ";
 		}
 
-		g_sets.DisabledProtoList = (char*)out.str().c_str();
+		g_plugin.DisabledProtoList = (char*)out.str().c_str();
 		return true;
 	}
 

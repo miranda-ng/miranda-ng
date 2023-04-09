@@ -19,7 +19,6 @@
 #define ID_NOTCASESENS                  1013
 #define ID_DIVIDER                      1014
 #define IDC_VARS                        1015
-#define ID_REMOVE_TMP_ALL               1016
 #define ID_HISTORY_LOG                  1017
 
 // Next default values for new objects

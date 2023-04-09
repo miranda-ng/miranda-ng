@@ -10,7 +10,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		return 0;
 
 	// if event is in protocol that is not despammed
-	if (g_sets.ProtoDisabled(dbei.szModule))
+	if (g_plugin.ProtoDisabled(dbei.szModule))
 		return 0;
 
 	// event is an auth request
@@ -20,18 +20,18 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
 		if (!Contact::OnList(hcntct) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
-			if (!g_sets.HandleAuthReq) {
-				char *buf = mir_utf8encodeW(variables_parse(g_sets.getReply(), hcntct).c_str());
+			if (!g_plugin.HandleAuthReq) {
+				char *buf = mir_utf8encodeW(variables_parse(g_plugin.getReply(), hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 
 			// ...send message
-			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_sets.getReply(), hcntct).c_str()));
+			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), hcntct).c_str()));
 
 			Contact::RemoveFromList(hcntct);
 			Contact::Hide(hcntct);
-			if (!g_sets.HistLog)
+			if (!g_plugin.HistLog)
 				db_event_delete(hDbEvent);
 			return 1;
 		}
@@ -47,7 +47,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		return 0;
 
 	// if event is in protocol that is not despammed
-	if (g_sets.ProtoDisabled(dbei->szModule))
+	if (g_plugin.ProtoDisabled(dbei->szModule))
 		// ...let the event go its way
 		return 0;
 
@@ -89,17 +89,17 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 
 	// if message equal right answer...
-	tstring answers = variables_parse(g_sets.Answer, hContact);
-	answers.append(g_sets.AnswSplitString);
+	tstring answers = variables_parse(g_plugin.Answer, hContact);
+	answers.append(g_plugin.AnswSplitString);
 	tstring::size_type pos = 0;
 	tstring::size_type prev_pos = 0;
-	while ((pos = answers.find(g_sets.AnswSplitString, pos)) != tstring::npos) {
+	while ((pos = answers.find(g_plugin.AnswSplitString, pos)) != tstring::npos) {
 		// get one of answers and trim witespace chars
 		tstring answer = trim(answers.substr(prev_pos, pos - prev_pos));
 		// if answer not empty
 		if (answer.length() > 0) {
 			// if message equal right answer...
-			if (g_sets.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
+			if (g_plugin.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				Contact::Hide(hContact, false);
 
@@ -107,12 +107,12 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 				g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
 
 				//add contact permanently
-				if (g_sets.AddPermanent)
+				if (g_plugin.AddPermanent)
 					Contact::PutOnList(hContact);
 
 				// send congratulation
 
-				char * buf = mir_utf8encodeW(variables_parse(g_sets.getCongrats(), hContact).c_str());
+				char * buf = mir_utf8encodeW(variables_parse(g_plugin.getCongrats(), hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 
@@ -126,9 +126,9 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
-	if ((!g_sets.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_sets.MaxQuestCount || g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT) < g_sets.MaxQuestCount)) {
+	if ((!g_plugin.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_plugin.MaxQuestCount || g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT) < g_plugin.MaxQuestCount)) {
 		// send question
-		tstring q = pwszPrefix + variables_parse(g_sets.getQuestion(), hContact);
+		tstring q = pwszPrefix + variables_parse(g_plugin.getQuestion(), hContact);
 
 
 		char * buf = mir_utf8encodeW(q.c_str());

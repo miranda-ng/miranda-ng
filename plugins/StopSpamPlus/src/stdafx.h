@@ -28,7 +28,6 @@ typedef std::wstring tstring;
 
 #include "version.h"
 #include "resource.h"
-#include "settings.h"
 
 #define MODULENAME LPGEN("StopSpam")
 
@@ -38,6 +37,21 @@ typedef std::wstring tstring;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> InfTalkProtection, AddPermanent, HandleAuthReq, AnswNotCaseSens, HistLog;
+	CMOption<wchar_t *> Question, AuthRepl, Answer, Congratulation, AnswSplitString;
+	CMOption<char *> DisabledProtoList;
+	CMOption<uint32_t> MaxQuestCount;
+
+	const wchar_t* getQuestion();
+	const wchar_t* getReply();
+	const wchar_t* getCongrats();
+
+	bool ProtoDisabled(const char *proto)
+	{
+		std::string temp(proto); temp += ' ';
+		return strstr(DisabledProtoList, temp.c_str()) != nullptr;
+	}
 
 	int Load() override;
 };
@@ -49,8 +63,6 @@ tstring variables_parse(const wchar_t *tstrFormat, MCONTACT hContact);
 tstring trim(tstring const &tstr, tstring const &trimChars = L" \f\n\r\t\v");
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);
-INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam);
-int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnDbEventAdded(WPARAM wParam, LPARAM lParam);
 int OnDbEventFilterAdd(WPARAM w, LPARAM l);
 int OnOptInit(WPARAM w, LPARAM l);

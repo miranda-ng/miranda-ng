@@ -66,9 +66,7 @@ BEGIN
     CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,121,282,8
     CONTROL         "Enable auth. requests blocking",ID_HANDLEAUTHREQ,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,270,8
     CONTROL         "Answer is not case sensitive",ID_NOTCASESENS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,145,282,8
-    CONTROL         "Remove all temporary contacts after restart",ID_REMOVE_TMP_ALL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,282,8
-    CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,169,282,8
+    CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,282,8
 END
 
 
