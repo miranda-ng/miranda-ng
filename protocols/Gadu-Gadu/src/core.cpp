@@ -611,16 +611,17 @@ retry:
 				for (int i = 0; i < count; i++) {
 					// Loadup fields
 					const char *__fmnumber = gg_pubdir50_get(res, i, GG_PUBDIR50_UIN);
-					wchar_t *__nickname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME));
-					wchar_t *__firstname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME));
-					wchar_t *__lastname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME));
-					wchar_t *__familyname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME));
-					wchar_t *__city = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY));
-					wchar_t *__familycity = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY));
 					const char *__birthyear = gg_pubdir50_get(res, i, GG_PUBDIR50_BIRTHYEAR);
 					const char *__gender = gg_pubdir50_get(res, i, GG_PUBDIR50_GENDER);
 					const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
 					uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
+
+					ptrW __nickname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME)));
+					ptrW __firstname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME)));
+					ptrW __lastname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME)));
+					ptrW __familyname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME)));
+					ptrW __city(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY)));
+					ptrW __familycity(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY)));
 
 					MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, nullptr);
 					debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
@@ -654,7 +655,7 @@ retry:
 						psr.email.w = strFmt2;
 						psr.id.w = _ultow(uin, strFmt1, 10);
 						psr.uin = uin;
-						ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+						ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
 					}
 
 					if (((res->seq == GG_SEQ_INFO || res->seq == GG_SEQ_GETNICK) && hContact != NULL)
@@ -713,32 +714,26 @@ retry:
 						// Gadu-Gadu Male <-> Female
 						if (__gender) {
 							if (res->seq == GG_SEQ_CHINFO)
-								setByte(hContact, GG_KEY_PD_GANDER,
+								setByte(hContact, GG_KEY_PD_GENDER,
 								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_MALE) ? 'M' :
 									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_FEMALE) ? 'F' : '?')));
 							else
-								setByte(hContact, GG_KEY_PD_GANDER,
+								setByte(hContact, GG_KEY_PD_GENDER,
 								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_MALE) ? 'M' :
 									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_FEMALE) ? 'F' : '?')));
 						}
 						else if (res->seq == GG_SEQ_CHINFO) {
-							delSetting(GG_KEY_PD_GANDER);
+							delSetting(GG_KEY_PD_GENDER);
 						}
 
 						debugLogA("mainthread() (%x): Setting user info for uin %d.", this, uin);
 						ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 					}
-
-					if (__nickname) mir_free(__nickname);
-					if (__firstname) mir_free(__firstname);
-					if (__lastname) mir_free(__lastname);
-					if (__familyname) mir_free(__familyname);
-					if (__city) mir_free(__city);
-					if (__familycity) mir_free(__familycity);
 				}
 			}
+
 			if (res->seq == GG_SEQ_SEARCH)
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this, 0);
 
 			break;
 		}

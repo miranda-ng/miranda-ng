@@ -208,7 +208,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND m_hwnd, UINT msg, WPARAM wParam, 
 						gg->delSetting(GG_KEY_PD_FAMILYCITY);
 						gg->delSetting(GG_KEY_PD_AGE);
 						gg->delSetting(GG_KEY_PD_BIRTHYEAR);
-						gg->delSetting(GG_KEY_PD_GANDER);
+						gg->delSetting(GG_KEY_PD_GENDER);
 					}
 				}
 			}

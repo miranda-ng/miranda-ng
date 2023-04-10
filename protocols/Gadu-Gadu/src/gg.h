@@ -127,144 +127,142 @@ struct GGGETAVATARDATA
 };
 
 // Wrappers of the old interface
-#define GGDEF_PROTO 	 "GG"        // Default Proto
-#define GGDEF_PROTONAME  "Gadu-Gadu" // Default ProtoName
+#define GGDEF_PROTO               "GG"        // Default Proto
+#define GGDEF_PROTONAME           "Gadu-Gadu" // Default ProtoName
 
 // Process handles / seqs
-#define GG_SEQ_INFO				100
-#define GG_SEQ_SEARCH			200
-#define GG_SEQ_GETNICK			300
-#define GG_SEQ_CHINFO			400
+#define GG_SEQ_INFO               100
+#define GG_SEQ_SEARCH             200
+#define GG_SEQ_GETNICK            300
+#define GG_SEQ_CHINFO             400
 
 // Services
-#define GGS_IMPORT_SERVER		"/ImportFromServer"
-#define GGS_REMOVE_SERVER		"/RemoveFromServer"
-#define GGS_IMPORT_TEXT 		"/ImportFromText"
-#define GGS_EXPORT_SERVER		"/ExportFromServer"
-#define GGS_EXPORT_TEXT 		"/ExportFromText"
+#define GGS_IMPORT_SERVER         "/ImportFromServer"
+#define GGS_REMOVE_SERVER         "/RemoveFromServer"
+#define GGS_IMPORT_TEXT           "/ImportFromText"
+#define GGS_EXPORT_SERVER         "/ExportFromServer"
+#define GGS_EXPORT_TEXT           "/ExportFromText"
 
-#define GGS_SENDIMAGE			"/SendImage"
-#define GGS_RECVIMAGE			"/RecvImage"
+#define GGS_SENDIMAGE             "/SendImage"
+#define GGS_RECVIMAGE             "/RecvImage"
 
 // Keys
-#define GG_PLUGINVERSION		"Version"		// Plugin version.. used for cleanup from previous versions
+#define GG_PLUGINVERSION          "Version"          // Plugin version.. used for cleanup from previous versions
+																	  
+#define GG_KEY_UIN                "UIN"              // Uin - unique number
+#define GG_KEY_PASSWORD           "Password"         // Password
+#define GG_KEY_EMAIL              "e-mail"           // E-mail
+#define GG_KEY_STATUS             "Status"           // Status
+#define GG_KEY_NICK               "Nick"             // Nick
+#define GG_KEY_STATUSDESCR        "StatusMsg"        // Users status description, to be compatible with MWClist
+                                                     // should be stored in "CList" group
+#define GG_KEY_TOKEN              "Token"            // OAuth Access Token
+#define GG_KEY_TOKENSECRET        "TokenSecret"      // OAuth Access Token Secret
+																	  
+#define GG_KEY_LEAVESTATUSMSG     "LeaveStatusMsg"   // Leave status msg when disconnected
+#define GG_KEYDEF_LEAVESTATUSMSG  0						  
+#define GG_KEY_LEAVESTATUS        "LeaveStatus"		  
+#define GG_KEYDEF_LEAVESTATUS     0						  
+																	  
+#define GG_KEY_FRIENDSONLY        "FriendsOnly"      // Friend only visibility
+#define GG_KEYDEF_FRIENDSONLY     0						  
+																	  
+#define GG_KEY_SHOWLINKS          "ShowLinks"        // Show links from unknown contacts
+#define GG_KEYDEF_SHOWLINKS       0						  
+																	  
+#define GG_KEY_ENABLEAVATARS      "EnableAvatars"    // Enable avatars support
+#define GG_KEYDEF_ENABLEAVATARS   1						  
+																	  
+#define GG_KEY_AVATARHASH         "AvatarHash"       // Contact's avatar hash
+																	  
+#define GG_KEY_AVATARURL          "AvatarURL"        // Contact's avatar URL
+																	  
+#define GG_KEY_AVATARTS           "AvatarTs"         // Contact's avatar Timestamp
+																	  
+#define GG_KEY_AVATARTYPE         "AvatarType"       // Contact's avatar format
+#define GG_KEY_AVATARTYPEPREV     "AvatarTypePrev"   // Contact's previous avatar format (during setting new avatar)
+#define GG_KEYDEF_AVATARTYPE      PA_FORMAT_UNKNOWN  
 
-#define GG_KEY_UIN				"UIN"			// Uin - unique number
-#define GG_KEY_PASSWORD			"Password"		// Password
-#define GG_KEY_EMAIL			"e-mail"		// E-mail
-#define GG_KEY_STATUS			"Status"		// Status
-#define GG_KEY_NICK				"Nick"			// Nick
-#define GG_KEY_STATUSDESCR		"StatusMsg" 	// Users status description, to be compatible with MWClist
-												// should be stored in "CList" group
-#define GG_KEY_TOKEN			"Token"			// OAuth Access Token
-#define GG_KEY_TOKENSECRET		"TokenSecret"	// OAuth Access Token Secret
+#define GG_KEY_AVATARREQUESTED    "AvatarRequested"  // When contact's avatar is requested
+#define GG_KEYDEF_AVATARREQUESTED 0
 
-#define GG_KEY_LEAVESTATUSMSG	"LeaveStatusMsg"// Leave status msg when disconnected
-#define GG_KEYDEF_LEAVESTATUSMSG 0
-#define GG_KEY_LEAVESTATUS		"LeaveStatus"
-#define GG_KEYDEF_LEAVESTATUS	0
+#define GG_KEY_SHOWINVISIBLE      "ShowInvisible"    // Show invisible users when described
+#define GG_KEYDEF_SHOWINVISIBLE   0
 
-#define GG_KEY_FRIENDSONLY		"FriendsOnly"	// Friend only visibility
-#define GG_KEYDEF_FRIENDSONLY	0
+#define GG_KEY_IGNORECONF         "IgnoreConf"       // Ignore incoming conference messages
+#define GG_KEYDEF_IGNORECONF      0
 
-#define GG_KEY_SHOWLINKS		"ShowLinks"		// Show links from unknown contacts
-#define GG_KEYDEF_SHOWLINKS		0
+#define GG_KEY_IMGRECEIVE         "ReceiveImg"       // Popup image window automatically
+#define GG_KEYDEF_IMGRECEIVE      1
 
-#define GG_KEY_ENABLEAVATARS	"EnableAvatars"	// Enable avatars support
-#define GG_KEYDEF_ENABLEAVATARS	1
-
-#define GG_KEY_AVATARHASH		"AvatarHash"	// Contact's avatar hash
-
-#define GG_KEY_AVATARURL		"AvatarURL"		// Contact's avatar URL
-
-#define GG_KEY_AVATARTS			"AvatarTs"		// Contact's avatar Timestamp
-
-#define GG_KEY_AVATARTYPE		"AvatarType"	// Contact's avatar format
-#define GG_KEY_AVATARTYPEPREV	"AvatarTypePrev"		// Contact's previous avatar format (during setting new avatar)
-#define GG_KEYDEF_AVATARTYPE	PA_FORMAT_UNKNOWN
-
-#define GG_KEY_AVATARREQUESTED		"AvatarRequested"	// When contact's avatar is requested
-#define GG_KEYDEF_AVATARREQUESTED	0
-
-#define GG_KEY_SHOWINVISIBLE	"ShowInvisible" // Show invisible users when described
-#define GG_KEYDEF_SHOWINVISIBLE	0
-
-#define GG_KEY_IGNORECONF		"IgnoreConf"	// Ignore incoming conference messages
-#define GG_KEYDEF_IGNORECONF	0
-
-#define GG_KEY_IMGRECEIVE		"ReceiveImg"	// Popup image window automatically
-#define GG_KEYDEF_IMGRECEIVE	1
-
-#define GG_KEY_IMGMETHOD		"PopupImg"		// Popup image window automatically
-#define GG_KEYDEF_IMGMETHOD		1
+#define GG_KEY_IMGMETHOD          "PopupImg"         // Popup image window automatically
+#define GG_KEYDEF_IMGMETHOD       1
 
 // newline separated list of hosts for server connection
-#define GG_KEYDEF_SERVERHOSTS	\
-	L"ggproxy-secure-10.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-11.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-12.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-13.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-14.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-15.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-16.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-17.gadu-gadu.pl\r\n" \
-	L"ggproxy-secure-18.gadu-gadu.pl" 
+#define GG_KEYDEF_SERVERHOSTS    \
+    L"ggproxy-secure-10.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-11.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-12.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-13.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-14.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-15.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-16.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-17.gadu-gadu.pl\r\n" \
+    L"ggproxy-secure-18.gadu-gadu.pl" 
 
-#define GG_KEY_CLIENTIP 		"IP"			// Contact IP (by notify)
-#define GG_KEY_CLIENTPORT		"ClientPort"	// Contact port
-#define GG_KEY_CLIENTVERSION	"ClientVersion"	// Contact app version
+#define GG_KEY_CLIENTIP             "IP"               // Contact IP (by notify)
+#define GG_KEY_CLIENTPORT           "ClientPort"       // Contact port
+#define GG_KEY_CLIENTVERSION        "ClientVersion"    // Contact app version
 
-#define GG_KEY_GC_POLICY_UNKNOWN		"GCPolicyUnknown"
-#define GG_KEYDEF_GC_POLICY_UNKNOWN 	1
+#define GG_KEY_GC_POLICY_UNKNOWN    "GCPolicyUnknown"
+#define GG_KEYDEF_GC_POLICY_UNKNOWN 1
 
-#define GG_KEY_GC_COUNT_UNKNOWN 		"GCCountUnknown"
-#define GG_KEYDEF_GC_COUNT_UNKNOWN		5
+#define GG_KEY_GC_COUNT_UNKNOWN     "GCCountUnknown"
+#define GG_KEYDEF_GC_COUNT_UNKNOWN  5
 
-#define GG_KEY_GC_POLICY_TOTAL			"GCPolicyTotal"
-#define GG_KEYDEF_GC_POLICY_TOTAL		1
+#define GG_KEY_GC_POLICY_TOTAL      "GCPolicyTotal"
+#define GG_KEYDEF_GC_POLICY_TOTAL   1
 
-#define GG_KEY_GC_COUNT_TOTAL			"GCCountTotal"
-#define GG_KEYDEF_GC_COUNT_TOTAL		10
+#define GG_KEY_GC_COUNT_TOTAL       "GCCountTotal"
+#define GG_KEYDEF_GC_COUNT_TOTAL    10
 
-#define GG_KEY_GC_POLICY_DEFAULT		"GCPolicyDefault"
-#define GG_KEYDEF_GC_POLICY_DEFAULT 	0
+#define GG_KEY_GC_POLICY_DEFAULT    "GCPolicyDefault"
+#define GG_KEYDEF_GC_POLICY_DEFAULT 0
 
-#define GG_KEY_BLOCK			"Block"			// Contact is blocked
-#define GG_KEY_APPARENT 		"ApparentMode"	// Visible list
+#define GG_KEY_BLOCK                "Block"          // Contact is blocked
+#define GG_KEY_APPARENT             "ApparentMode"   // Visible list
+											  
+#define GG_KEY_TIMEDEVIATION        "TimeDeviation"  // Max time deviation for connections (seconds)
+#define GG_KEYDEF_TIMEDEVIATION     300
+											  
+#define GG_KEY_LOGONTIME            "LogonTS"
+											  
+#define GG_KEY_RECONNINTERVAL       "ReconnectInterval"
+#define GG_KEYDEF_RECONNINTERVAL    3000
 
-#define GG_KEY_TIMEDEVIATION	"TimeDeviation" // Max time deviation for connections (seconds)
-#define GG_KEYDEF_TIMEDEVIATION	300
+#define GG_KEY_PD_NICKNAME          "NickName"       // GG Public directory: Nick name
+#define GG_KEY_PD_FIRSTNAME         "FirstName"      // GG Public directory: First name
+#define GG_KEY_PD_LASTNAME          "LastName"       // GG Public directory: Last name
+#define GG_KEY_PD_FAMILYNAME        "FamilyName"     // GG Public directory: Family name
+#define GG_KEY_PD_CITY              "City"           // GG Public directory: City
+#define GG_KEY_PD_FAMILYCITY        "CityOrigin"     // GG Public directory: Family city
 
-#define GG_KEY_LOGONTIME		"LogonTS"
-
-#define GG_KEY_RECONNINTERVAL		"ReconnectInterval"
-#define GG_KEYDEF_RECONNINTERVAL	3000
-
-
-#define GG_KEY_PD_NICKNAME			"NickName"		// GG Public directory: Nick name
-#define GG_KEY_PD_FIRSTNAME			"FirstName"		// GG Public directory: First name
-#define GG_KEY_PD_LASTNAME			"LastName"		// GG Public directory: Last name
-#define GG_KEY_PD_FAMILYNAME		"FamilyName"	// GG Public directory: Family name
-#define GG_KEY_PD_CITY				"City"			// GG Public directory: City
-#define GG_KEY_PD_FAMILYCITY		"CityOrigin"	// GG Public directory: Family city
-
-#define GG_KEY_PD_AGE				"Age"			// GG Public directory: Age
-#define GG_KEY_PD_BIRTHYEAR			"BirthYear"		// GG Public directory: Birth year
-#define GG_KEY_PD_GANDER			"Gender"		// GG Public directory: Gander
-
+#define GG_KEY_PD_AGE               "Age"            // GG Public directory: Age
+#define GG_KEY_PD_BIRTHYEAR         "BirthYear"      // GG Public directory: Birth year
+#define GG_KEY_PD_GENDER            "Gender"         // GG Public directory: Gander
 
 // chpassdlgproc() multipurpose dialog proc modes
-#define GG_USERUTIL_PASS	0
-#define GG_USERUTIL_CREATE	1
-#define GG_USERUTIL_REMOVE	2
-#define GG_USERUTIL_EMAIL	3
+#define GG_USERUTIL_PASS            0
+#define GG_USERUTIL_CREATE          1
+#define GG_USERUTIL_REMOVE          2
+#define GG_USERUTIL_EMAIL           3
 
 // popup flags
-#define GG_POPUP_ALLOW_MSGBOX	1
-#define GG_POPUP_ONCE			2
-#define GG_POPUP_ERROR			4
-#define GG_POPUP_WARNING		8
-#define GG_POPUP_MULTILOGON		16
+#define GG_POPUP_ALLOW_MSGBOX       1
+#define GG_POPUP_ONCE               2
+#define GG_POPUP_ERROR              4
+#define GG_POPUP_WARNING            8
+#define GG_POPUP_MULTILOGON        16
 
 // Some MSVC compatibility with gcc
 #ifndef strcasecmp

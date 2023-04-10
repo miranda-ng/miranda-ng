@@ -202,10 +202,10 @@ public:
 		SetValue(IDC_CITYORIGIN, szProto, GG_KEY_PD_FAMILYCITY, SVS_NORMAL);
 
 		if (m_hContact) {
-			SetValue(IDC_GENDER, szProto, GG_KEY_PD_GANDER, SVS_GENDER);
+			SetValue(IDC_GENDER, szProto, GG_KEY_PD_GENDER, SVS_GENDER);
 			SetValue(IDC_STATUSDESCR, "CList", GG_KEY_STATUSDESCR, SVS_NORMAL);
 		}
-		else switch ((char)db_get_b(m_hContact, gg->m_szModuleName, GG_KEY_PD_GANDER, (uint8_t)'?')) {
+		else switch ((char)db_get_b(m_hContact, gg->m_szModuleName, GG_KEY_PD_GENDER, (uint8_t)'?')) {
 		case 'F':
 			SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_SETCURSEL, 1, 0);
 			break;
