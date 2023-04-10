@@ -833,3 +833,6 @@ Chat_IsMuted @941 NONAME
 ?UpdateFilterButton@CSrmmBaseDialog@@UAEXXZ @948 NONAME
 ?Chat_SetFilters@@YGXPAUSESSION_INFO@@@Z @949 NONAME
 ?Chat_ReconfigureFilters@@YGXXZ @950 NONAME
+??0EventInfo@DB@@QAE@I_N@Z @951 NONAME
+??0EventInfo@DB@@QAE@XZ @952 NONAME
+??1EventInfo@DB@@QAE@XZ @953 NONAME

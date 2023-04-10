@@ -198,9 +198,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	newEvent.hwnd = event->hwnd;
 
 	for (int eventIdx = 0; hDbEvent != NULL && (eventIdx < event->count || event->count == -1); eventIdx++) {
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (db_event_get(hDbEvent, &dbei)) {
+		DB::EventInfo dbei(hDbEvent);
+		if (!dbei) {
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}

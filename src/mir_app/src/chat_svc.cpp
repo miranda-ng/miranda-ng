@@ -822,9 +822,8 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 	if (Contact::IsGroupChat(hContact)) {
 		if (auto *si = SM_FindSessionByContact(hContact)) {
-			DB::EventInfo dbei;
-			dbei.cbBlob = -1;
-			if (!db_event_get(hDbEvent, &dbei)) {
+			DB::EventInfo dbei(hDbEvent);
+			if (dbei) {
 				auto *szProto = Proto_GetBaseAccountName(si->hContact);
 				if (si && !mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
 					CMStringA szText((char *)dbei.pBlob);

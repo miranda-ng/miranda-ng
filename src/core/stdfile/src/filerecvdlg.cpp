@@ -243,9 +243,8 @@ public:
 
 		db_event_markRead(dat->hContact, dat->hDbEvent);
 
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (db_event_get(dat->hDbEvent, &dbei))
+		DB::EventInfo dbei(dat->hDbEvent);
+		if (!dbei)
 			return false;
 
 		dat->fs = m_lParam ? (HANDLE)m_lParam : (HANDLE)*(PDWORD)dbei.pBlob;

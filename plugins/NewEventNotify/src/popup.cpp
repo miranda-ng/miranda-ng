@@ -435,10 +435,7 @@ int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent)
 			wszText.AppendChar('\n');
 
 		// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-		DB::EventInfo dbe;
-		if (g_plugin.bPreview)
-			dbe.cbBlob = -1;
-		db_event_get(pdata.events[i], &dbe);
+		DB::EventInfo dbe(pdata.events[i], g_plugin.bPreview);
 
 		CMStringW wszFormat;
 		if (g_plugin.bShowDate)

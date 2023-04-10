@@ -989,11 +989,8 @@ uint32_t JabberGetLastContactMessageTime(MCONTACT hContact)
 	if (!hDbEvent)
 		return 0;
 
-	DB::EventInfo dbei;
-	if (!db_event_get(hDbEvent, &dbei))
-		return dbei.timestamp;
-
-	return 0;
+	DB::EventInfo dbei(hDbEvent, false);
+	return (dbei) ? dbei.timestamp : 0;
 }
 
 MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM *chatItem)

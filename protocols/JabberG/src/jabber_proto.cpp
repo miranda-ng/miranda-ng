@@ -402,9 +402,8 @@ MCONTACT CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbE
 {
 	debugLogA("AddToListByEvent");
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return 0;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 0;
@@ -423,9 +422,8 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (!m_bJabberOnline)
 		return 1;
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
@@ -463,9 +461,8 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 	debugLogA("Entering AuthDeny");
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)

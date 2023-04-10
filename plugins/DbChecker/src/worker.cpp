@@ -90,10 +90,8 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 			DB::ECPTR pCursor(DB::Events(cc));
 			DBEVENTINFO dboldev = {};
 			while (MEVENT hEvent = pCursor.FetchNext()) {
-				DB::EventInfo dbei;
-				if (opts->bCheckUtf || opts->bCheckDups) // read also event's body
-					dbei.cbBlob = -1;
-				if (db_event_get(hEvent, &dbei))
+				DB::EventInfo dbei(hEvent, opts->bCheckUtf || opts->bCheckDups);
+				if (!dbei)
 					continue;
 
 				if (opts->bMarkRead && !dbei.markedRead()) {

@@ -195,9 +195,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!BoltunAutoChat(hContact))
 		return 0;
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	db_event_get(hDbEvent, &dbei);
+	DB::EventInfo dbei(hDbEvent);
 	if (dbei.flags & DBEF_SENT || dbei.flags & DBEF_READ || dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 

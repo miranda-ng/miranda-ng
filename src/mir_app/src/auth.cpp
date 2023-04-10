@@ -204,10 +204,7 @@ public:
 		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
 		// blob is: uin(uint32_t), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		db_event_get(m_hDbEvent, &dbei);
-
+		DB::EventInfo dbei(m_hDbEvent);
 		m_hContact = DbGetAuthEventContact(&dbei);
 
 		uint32_t uin = *(uint32_t*)dbei.pBlob;
@@ -306,8 +303,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	wchar_t szTooltip[256];
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DB::EventInfo dbei;
-	db_event_get(lParam, &dbei);
+	DB::EventInfo dbei(lParam);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;
 

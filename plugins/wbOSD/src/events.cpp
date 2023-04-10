@@ -129,9 +129,8 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 {
 	logmsg("HookedNewEvent1");
-	DB::EventInfo dbe;
-	dbe.cbBlob = -1;
-	if (db_event_get(hDBEvent, &dbe))
+	DB::EventInfo dbe(hDBEvent);
+	if (!dbe)
 		return 0;
 
 	if (dbe.flags & DBEF_SENT)

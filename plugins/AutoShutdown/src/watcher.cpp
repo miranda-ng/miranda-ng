@@ -64,9 +64,8 @@ static void __inline ShutdownAndStopWatcher(void)
 static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	if (currentWatcherType & SDWTF_MESSAGE) {
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (db_event_get(hDbEvent, &dbei))
+		DB::EventInfo dbei(hDbEvent);
+		if (!dbei)
 			return 0;
 
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {

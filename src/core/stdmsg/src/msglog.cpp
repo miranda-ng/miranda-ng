@@ -200,9 +200,8 @@ bool DbEventIsShown(const DBEVENTINFO *dbei)
 
 static bool CreateRTFFromDbEvent(LogStreamData *dat)
 {
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(dat->hDbEvent, &dbei))
+	DB::EventInfo dbei(dat->hDbEvent);
+	if (!dbei)
 		return false;
 
 	if (!DbEventIsShown(&dbei))

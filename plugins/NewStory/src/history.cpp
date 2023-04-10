@@ -709,9 +709,8 @@ public:
 		bool bAppendOnly = false;
 		DB::ECPTR pCursor(DB::Events(m_hContact));
 		while (MEVENT hDbEvent = pCursor.FetchNext()) {
-			DB::EventInfo dbei;
-			dbei.cbBlob = -1;
-			if (!db_event_get(hDbEvent, &dbei)) {
+			DB::EventInfo dbei(hDbEvent);
+			if (dbei) {
 				if (bAppendOnly) {
 					SetFilePointer(hFile, -3, nullptr, FILE_END);
 					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);

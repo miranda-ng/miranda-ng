@@ -196,9 +196,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			RebuildGroupCombo(hwndDlg);
 
 			{	// fill listview with received contacts
-				DB::EventInfo dbe;
-				dbe.cbBlob = -1;
-				db_event_get(wndData->mhDbEvent, &dbe);
+				DB::EventInfo dbe(wndData->mhDbEvent);
 				char* pcBlob = (char*)dbe.pBlob;
 				char* pcEnd = (char*)dbe.pBlob + dbe.cbBlob;
 

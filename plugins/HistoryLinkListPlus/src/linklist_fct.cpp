@@ -380,9 +380,7 @@ void WriteLinkList(HWND hDlg, uint8_t params, LISTELEMENT *listStart, LPCTSTR se
 					// Perform deep scan
 					if (actualElement->hEvent != NULL)
 					{
-						DB::EventInfo dbe;
-						dbe.cbBlob = -1;
-						db_event_get(actualElement->hEvent, &dbe);
+						DB::EventInfo dbe(actualElement->hEvent);
 
 						ptrW msg(DbEvent_GetTextW(&dbe, CP_ACP));
 						if (wcsstr(msg, searchString))
@@ -610,11 +608,9 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 		if (actualElement->linePos == actLinePos) {
 			MEVENT hEvent = actualElement->hEvent;
 			if (hEvent != NULL) {
-				DB::EventInfo dbe;
-				dbe.cbBlob = -1;
-				db_event_get(hEvent, &dbe);
-
 				SetDlgItemTextW(hDlg, IDC_MESSAGE, L"");
+
+				DB::EventInfo dbe(hEvent);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
 			}
 			break;
@@ -763,9 +759,7 @@ void GetListInfo(uint8_t params, LISTELEMENT *listStart, LPCTSTR searchString, s
 				// Perform deep scan
 				if (actualElement->hEvent != NULL)
 				{
-					DB::EventInfo dbe;
-					dbe.cbBlob = -1;
-					db_event_get(actualElement->hEvent, &dbe);
+					DB::EventInfo dbe(actualElement->hEvent);
 
 					if (wcsstr((LPTSTR)dbe.pBlob, searchString))
 						filter3 = 1;
@@ -1165,9 +1159,8 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 		return 0;
 
 	if (hDlg) {
-		DB::EventInfo dbe;
-		dbe.cbBlob = -1;
-		if (db_event_get(hEvent, &dbe))
+		DB::EventInfo dbe(hEvent);
+		if (!dbe)
 			return 0;
 
 		if (dbe.eventType == EVENTTYPE_MESSAGE) {

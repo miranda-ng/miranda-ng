@@ -265,6 +265,27 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
+{
+	memset(this, 0, sizeof(*this));
+	if (bFetchBlob)
+		cbBlob = -1;
+	bValid = ::db_event_get(hEvent, this) == 0;
+}
+
+DB::EventInfo::EventInfo() :
+	bValid(false)
+{
+	memset(this, 0, sizeof(*this));
+}
+
+DB::EventInfo::~EventInfo()
+{
+	mir_free(pBlob);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
 	m_dwUin(0),
 	m_hContact(hContact),

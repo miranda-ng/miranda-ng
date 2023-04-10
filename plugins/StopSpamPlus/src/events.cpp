@@ -4,9 +4,8 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return 0;
 
 	// if event is in protocol that is not despammed

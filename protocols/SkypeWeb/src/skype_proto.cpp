@@ -169,9 +169,8 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
 	
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return NULL;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return NULL;

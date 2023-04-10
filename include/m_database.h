@@ -681,17 +681,16 @@ namespace DB
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Helper to free event contents automatically
 
-	struct EventInfo : public DBEVENTINFO
+	class MIR_APP_EXPORT EventInfo : public DBEVENTINFO, public MNonCopyable
 	{
-		__forceinline explicit EventInfo()
-		{
-			memset(this, 0, sizeof(*this));
-		}
+		bool bValid;
 
-		__forceinline ~EventInfo()
-		{
-			mir_free(pBlob);
-		}
+	public:
+		explicit EventInfo();
+		explicit EventInfo(MEVENT, bool bFetchBlob = true);
+		~EventInfo();
+
+		__forceinline operator bool() const { return bValid; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

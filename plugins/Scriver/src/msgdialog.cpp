@@ -430,9 +430,8 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		mir_free(buffer);
 	}
 	else {
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (db_event_get(m_hDbEventLast, &dbei))
+		DB::EventInfo dbei(m_hDbEventLast);
+		if (!dbei)
 			return;
 
 		if (DbEventIsMessageOrCustom(&dbei)) {

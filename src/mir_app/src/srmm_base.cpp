@@ -660,9 +660,8 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 	auto *szProto = Proto_GetBaseAccountName(m_hContact);
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (!db_event_get(hDbEvent, &dbei)) {
+		DB::EventInfo dbei(hDbEvent);
+		if (dbei) {
 			if (!mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
 				auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
 				if (pUser == nullptr)

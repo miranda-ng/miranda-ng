@@ -106,9 +106,8 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 MCONTACT CSteamProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return 0;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 0;

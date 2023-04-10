@@ -449,11 +449,8 @@ int CJabberProto::RcGetUnreadEventsCount()
 		if (jid == nullptr) continue;
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DB::EventInfo dbei;
-			dbei.cbBlob = -1;
-
-			int nGetTextResult = db_event_get(hDbEvent, &dbei);
-			if (!nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+			DB::EventInfo dbei(hDbEvent);
+			if (dbei && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 				ptrW szEventText(DbEvent_GetTextW(&dbei, CP_ACP));
 				if (szEventText)
 					nEventsSent++;
@@ -525,9 +522,8 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 				continue;
 
 			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-				DB::EventInfo dbei;
-				dbei.cbBlob = -1;
-				if (db_event_get(hDbEvent, &dbei))
+				DB::EventInfo dbei(hDbEvent);
+				if (!dbei)
 					continue;
 
 				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))

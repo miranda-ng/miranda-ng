@@ -791,41 +791,40 @@ void CAppletManager::MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent)
 //************************************************************************
 bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hdbevent)
 {
-	// Create struct for dbevent
-	DB::EventInfo dbevent;
-	dbevent.cbBlob = -1;
-	if (db_event_get(hdbevent, &dbevent) != 0)
+	// Create struct for event
+	DB::EventInfo dbei(hdbevent);
+	if (!dbei)
 		return false;
 
-	pEvent->dwFlags = dbevent.flags;
+	pEvent->dwFlags = dbei.flags;
 	pEvent->hContact = hContact;
 	pEvent->hValue = hdbevent;
 
-	time_t timestamp = (time_t)dbevent.timestamp;
+	time_t timestamp = (time_t)dbei.timestamp;
 	localtime_s(&pEvent->Time, &timestamp);
 	pEvent->bTime = true;
 
 	// Skip events from the user except for messages
-	if (dbevent.eventType != EVENTTYPE_MESSAGE && (dbevent.flags & DBEF_SENT))
+	if (dbei.eventType != EVENTTYPE_MESSAGE && (dbei.flags & DBEF_SENT))
 		return false;
 
 	int msglen = 0;
 
 	tstring strName = CAppletManager::GetContactDisplayname(hContact, true);
 
-	switch (dbevent.eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
-		msglen = (int)mir_strlen((char *)dbevent.pBlob) + 1;
-		if (dbevent.flags & DBEF_UTF) {
-			pEvent->strValue = Utf8_Decode((char*)dbevent.pBlob);
+		msglen = (int)mir_strlen((char *)dbei.pBlob) + 1;
+		if (dbei.flags & DBEF_UTF) {
+			pEvent->strValue = Utf8_Decode((char*)dbei.pBlob);
 		}
-		else if ((int)dbevent.cbBlob == msglen * 3) {
-			pEvent->strValue = (wchar_t *)& dbevent.pBlob[msglen];
+		else if ((int)dbei.cbBlob == msglen * 3) {
+			pEvent->strValue = (wchar_t *)& dbei.pBlob[msglen];
 		}
 		else {
-			pEvent->strValue = toTstring((char*)dbevent.pBlob);
+			pEvent->strValue = toTstring((char*)dbei.pBlob);
 		}
-		pEvent->eType = (dbevent.flags & DBEF_SENT) ? EVENT_MSG_SENT : EVENT_MSG_RECEIVED;
+		pEvent->eType = (dbei.flags & DBEF_SENT) ? EVENT_MSG_SENT : EVENT_MSG_RECEIVED;
 		if (pEvent->eType == EVENT_MSG_RECEIVED) {
 			pEvent->dwFlags = MSG_UNREAD;
 			if (CConfig::GetBoolSetting(NOTIFY_MESSAGES))

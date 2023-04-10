@@ -272,9 +272,8 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
 				MEVENT hDbEvent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
 
-				DB::EventInfo dbei;
-				dbei.cbBlob = -1;
-				if (!db_event_get(hDbEvent, &dbei)) {
+				DB::EventInfo dbei(hDbEvent);
+				if (dbei) {
 					ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
 					if (wszDescr)
 						SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);

@@ -975,9 +975,8 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 {
 	bool result = true;
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (!db_event_get(hDbEvent, &dbei)) {
+	DB::EventInfo dbei(hDbEvent);
+	if (dbei) {
 		if (db_mc_isMeta(hContact))
 			hContact = db_event_getContact(hDbEvent);
 

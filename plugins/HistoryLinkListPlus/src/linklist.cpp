@@ -90,10 +90,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	memset(listStart, 0, sizeof(LISTELEMENT));
 
 	do {
-		DB::EventInfo dbe;
-		dbe.cbBlob = -1;
-		db_event_get(hEvent, &dbe);
-
+		DB::EventInfo dbe(hEvent);
 		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			if (ExtractURI(&dbe, hEvent, listStart) < 0) {

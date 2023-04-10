@@ -1770,10 +1770,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStri
 	if (!hDbEvent)
 		return 0;
 
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	db_event_get(hDbEvent, &dbei);
-
+	DB::EventInfo dbei(hDbEvent);
 	msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
 	timestamp = dbei.timestamp;
 

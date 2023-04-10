@@ -78,9 +78,8 @@ bool DbEventIsShown(const DBEVENTINFO &dbei)
 
 EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 {
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
 		return nullptr;
 
 	if (!DbEventIsShown(dbei))

@@ -412,9 +412,8 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 	int max_pos = 0;
 	DB::ECPTR pCursor(DB::Events(hContact));
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {
-		DB::EventInfo dbei;
-		dbei.cbBlob = -1;
-		if (db_event_get(hDbEvent, &dbei))
+		DB::EventInfo dbei(hDbEvent);
+		if (!dbei)
 			continue;
 		if (dbei.eventType != EVENTTYPE_AVATAR_CHANGE)
 			continue;

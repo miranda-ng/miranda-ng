@@ -59,9 +59,8 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &s
 {
 	mir_cslock lck(m_AppendMessageLock);
 	
-	DB::EventInfo dbei;
-	dbei.cbBlob = -1;
-	if (db_event_get(hEvent, &dbei))
+	DB::EventInfo dbei(hEvent);
+	if (!dbei)
 		return;
 
 	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
