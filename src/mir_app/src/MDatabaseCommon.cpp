@@ -547,6 +547,13 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, con
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+STDMETHODIMP_(int) MDatabaseCommon::SetEventJson(MEVENT, const char *, DBVARIANT *)
+{
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Resident settings
 
 STDMETHODIMP_(BOOL) MDatabaseCommon::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)

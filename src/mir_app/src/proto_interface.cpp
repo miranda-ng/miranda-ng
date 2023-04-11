@@ -195,7 +195,7 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
+MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
 {
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);

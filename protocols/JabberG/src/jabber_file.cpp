@@ -25,6 +25,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_caps.h"
 
+INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread((MyThreadFunc)&CJabberProto::OfflineFileThread, (void*)param);
+	return 0;
+}
+
+void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
+{
+	DB::EventInfo dbei(param->hDbEvent);
+	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+		if (blob.isOffline()) {
+			// initialize the netlib request
+			NETLIBHTTPREQUEST nlhr = {};
+			nlhr.cbSize = sizeof(nlhr);
+			nlhr.requestType = REQUEST_GET;
+			nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
+			nlhr.szUrl = (char*)blob.getUrl();
+
+			// download the page
+			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
+			if (nlhrReply) {
+				if (nlhrReply->resultCode == 200) {
+					FILE *f = _wfopen(param->wszPath, L"wb");
+					fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f);
+					fclose(f);
+
+					blob.setSize(nlhrReply->dataLength);
+					blob.write(dbei);
+					db_event_edit(param->hDbEvent, &dbei);
+
+					if (param->bOpen)
+						ShellExecute(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+				}
+			}
+		}
+	}
+
+	delete param;
+}
+
 #define JABBER_NETWORK_BUFFER_SIZE 2048
 
 void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)

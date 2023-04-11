@@ -188,6 +188,9 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	// XEP-0224 support (Attention/Nudge)
 	CreateProtoService(PS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
+	// Offline file transfer
+	CreateProtoService(PS_OFFLINEFILE, &CJabberProto::OnOfflineFile);
+
 	// service to get from protocol chat buddy info
 	CreateProtoService(MS_GC_PROTO_GETTOOLTIPTEXT, &CJabberProto::JabberGCGetToolTipText);
 
@@ -807,6 +810,20 @@ HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName,
 
 	m_ThreadInfo->send(iq);
 	return (HANDLE)pInfo->GetIqId();
+}
+
+MEVENT CJabberProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+{
+	MEVENT hEvent = CSuper::RecvFile(hContact, pre);
+	if (hEvent) {
+		auto *ft = (filetransfer *)pre->lParam;
+		if (ft && ft->type == FT_HTTP && ft->httpPath) {
+			DBVARIANT dbv = { DBVT_UTF8 };
+			dbv.pszVal = ft->httpPath;
+			db_event_setJson(hEvent, "u", &dbv);
+		}
+	}
+	return hEvent;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

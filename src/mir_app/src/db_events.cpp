@@ -297,6 +297,13 @@ DB::FILE_BLOB::FILE_BLOB(const DB::EventInfo &dbei)
 	if (root) {
 		m_wszFileName = root["f"].as_mstring().Detach();
 		m_wszDescription = root["d"].as_mstring().Detach();
+
+		CMStringA szProtoString(root["u"].as_mstring());
+		if (!szProtoString.IsEmpty()) {
+			m_szProtoString = szProtoString.Detach();
+			m_iFileSize = root["fs"].as_int();
+			m_iTransferred = root["ft"].as_int();
+		}		
 	}
 }
 
@@ -307,6 +314,8 @@ void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 {
 	JSONNode root;
 	root << WCHAR_PARAM("f", m_wszFileName) << WCHAR_PARAM("d", m_wszDescription ? m_wszDescription : L"");
+	if (isOffline())
+		root << CHAR_PARAM("u", m_szProtoString) << INT_PARAM("fs", m_iFileSize) << INT_PARAM("ft", m_iTransferred);
 
 	std::string text = root.write();
 	dbei.cbBlob = (int)text.size() + 1;

@@ -506,6 +506,11 @@ MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventById(szModule, szId);
 }
 
+MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
+{
+	return (g_pCurrDb == nullptr) ? 1 : g_pCurrDb->SetEventJson(hDbEvent, szSetting, dbv);
+}
+
 MIR_CORE_DLL(int) db_event_updateId(MEVENT hDbEvent, const char *szId)
 {
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->UpdateEventId(hDbEvent, szId);

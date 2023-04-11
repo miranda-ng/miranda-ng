@@ -788,6 +788,23 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// Offline file processing
+
+#define PS_OFFLINEFILE "/OfflineFile"
+
+struct OFDTHREAD
+{
+	__forceinline OFDTHREAD(MEVENT _1, const CMStringW &_2) :
+		hDbEvent(_1),
+		wszPath(_2)
+	{}
+
+	MEVENT hDbEvent;
+	CMStringW wszPath;
+	bool bOpen = true;
+};
+
+///////////////////////////////////////////////////////////////////////////////
 // Contacts have been received
 // wParam = 0
 // lParam = (LPARAM)(PROTORECVEVENT*)&pre

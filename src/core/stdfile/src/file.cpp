@@ -391,7 +391,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
-	return 0;
+	return hdbe;
 }
 
 int LoadSendRecvFileModule(void)

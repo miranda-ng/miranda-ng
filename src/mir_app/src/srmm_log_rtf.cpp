@@ -154,6 +154,30 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 		if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr)
 			wszText.Insert(0, L"mailto:");
 
+		MEVENT hDbEvent;
+		if (swscanf(tr.lpstrText, L"ofile:%u", &hDbEvent) == 1) {
+			if (pLink->msg != WM_LBUTTONUP)
+				return false;
+
+			DB::EventInfo dbei(hDbEvent);
+			if (!dbei)
+				return false;
+
+			DB::FILE_BLOB blob(dbei);
+
+			wchar_t tszTempPath[MAX_PATH];
+			GetTempPathW(_countof(tszTempPath), tszTempPath);
+			CMStringW tszFilePath(FORMAT, L"%s%s", tszTempPath, blob.getName());
+
+			if (_waccess(tszFilePath, 0)) {
+				OFDTHREAD *dt = new OFDTHREAD(hDbEvent, tszFilePath);
+				CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)dt, 0);
+			}
+			else ShellExecute(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+
+			return TRUE;
+		}
+
 		if (pLink->msg == WM_RBUTTONDOWN) {
 			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 			HMENU hSubMenu = GetSubMenu(hMenu, 6);

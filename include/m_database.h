@@ -369,6 +369,10 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId);
 
+// Sets a value to the JSON field in the blob
+
+MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv);
+
 // Updates the server ID associated with an event
 // Returns 0 on success or a failure otherwise
 
@@ -702,6 +706,8 @@ namespace DB
 	class MIR_APP_EXPORT FILE_BLOB : public MNonCopyable
 	{
 		ptrW m_wszFileName, m_wszDescription;
+		ptrA m_szProtoString;
+		uint32_t m_iFileSize = 0, m_iTransferred = 0;
 
 	public:
 		explicit FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr = nullptr);
@@ -710,8 +716,14 @@ namespace DB
 
 		void write(EventInfo &dbei);
 
+		__forceinline const char* getUrl() const { return m_szProtoString; }
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
 		__forceinline const wchar_t* getDescr() const { return m_wszDescription; }
+		
+		__forceinline bool isCompleted() const { return m_iFileSize == 0 || m_iFileSize == m_iTransferred; }
+		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
+
+		__forceinline void setSize(uint32_t iSize) { m_iFileSize = m_iTransferred = iSize; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////
