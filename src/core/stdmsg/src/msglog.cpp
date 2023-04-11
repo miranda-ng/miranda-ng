@@ -528,7 +528,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	}
 
 	m_rtf.SetDraw(true);
-	if (bottomScroll) {
+	if (bottomScroll || AtBottom()) {
 		ScrollToBottom();
 		RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 	}
