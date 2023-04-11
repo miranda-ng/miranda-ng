@@ -303,7 +303,6 @@ void CMsgDialog::onClick_NickList(CCtrlButton *pButton)
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 	UpdateFilterButton();
 
-	m_pLog->ScrollToBottom();
 	Resize();
 }
 
