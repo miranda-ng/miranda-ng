@@ -432,16 +432,14 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 	bool skipToNext = false, skipFont = false;
 	bool isBold = false, isItalic = false, isUnderline = false;
 
-	DBEVENTINFO dbei = {};
+	DB::EventInfo dbei;
 	if (streamData->dbei != nullptr)
-		dbei = *(streamData->dbei);
+		memcpy(&dbei, streamData->dbei, sizeof(DBEVENTINFO));
 	else {
 		dbei.cbBlob = -1;
 		db_event_get(hDbEvent, &dbei);
-		if (!DbEventIsShown(&dbei)) {
-			mir_free(dbei.pBlob);
+		if (!DbEventIsShown(&dbei))
 			return nullptr;
-		}
 	}
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
@@ -455,10 +453,9 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 	}
 
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
-	if (msg.IsEmpty()) {
-		mir_free(dbei.pBlob);
+	if (msg.IsEmpty())
 		return nullptr;
-	}
+
 	msg.TrimRight();
 	dat->FormatRaw(msg, 1, FALSE);
 
@@ -854,20 +851,8 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC)));
 						str.AppendChar(' ');
 					}
-					{
-						char *szFileName = (char *)dbei.pBlob + sizeof(uint32_t);
-						ptrW tszFileName(DbEvent_GetString(&dbei, szFileName));
 
-						char *szDescr = szFileName + mir_strlen(szFileName) + 1;
-						if (*szDescr != 0) {
-							ptrW tszDescr(DbEvent_GetString(&dbei, szDescr));
-
-							wchar_t buf[1000];
-							mir_snwprintf(buf, L"%s (%s)", tszFileName.get(), tszDescr.get());
-							AppendUnicodeToBuffer(str, buf, 0);
-						}
-						else AppendUnicodeToBuffer(str, tszFileName, 0);
-					}
+					AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), 0);
 					break;
 
 				default:
@@ -1000,8 +985,8 @@ skip:
 
 	str.Append("\\par");
 
-	if (streamData->dbei == nullptr)
-		mir_free(dbei.pBlob);
+	if (streamData->dbei != nullptr)
+		dbei.pBlob = 0;
 
 	dat->m_iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->m_lastEventTime = dbei.timestamp;

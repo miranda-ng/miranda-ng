@@ -238,10 +238,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}
 		else if (dbei.eventType == EVENTTYPE_FILE) {
-			// blob is: sequenceid(uint32_t),filename(ASCIIZ),description(ASCIIZ)
-			char* filename = ((char *)dbei.pBlob) + sizeof(uint32_t);
-			char* descr = filename + mir_strlen(filename) + 1;
-			eventData->szText.w = DbEvent_GetString(&dbei, filename);
+			DB::FILE_BLOB blob(dbei);
+			eventData->szText.w = mir_wstrdup(blob.getName());
 			/*if (*descr != '\0') {
 				CMStringW tmp(FORMAT, L"%s (%s)", eventData->szText.w, ptrW(DbEvent_GetString(&dbei, descr)).get());
 				mir_free((void*)eventData->szText.w);

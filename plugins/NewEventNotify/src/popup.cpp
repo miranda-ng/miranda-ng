@@ -144,14 +144,14 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t* ShortenPreview(DBEVENTINFO *dbe)
+static wchar_t* ShortenPreview(DB::EventInfo &dbei)
 {
 	bool	fAddEllipsis = false;
 	size_t iPreviewLimit = g_plugin.iLimitPreview;
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	wchar_t *buf = DbEvent_GetTextW(dbe, CP_ACP);
+	wchar_t *buf = DbEvent_GetTextW(&dbei, CP_ACP);
 	if (mir_wstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
@@ -168,15 +168,15 @@ static wchar_t* ShortenPreview(DBEVENTINFO *dbe)
 	return buf;
 }
 
-static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
+static wchar_t* GetEventPreview(DB::EventInfo &dbei)
 {
 	wchar_t *comment1 = nullptr;
 	wchar_t *comment2 = nullptr;
 	char *commentFix = nullptr;
-	char *pBlob = (char *)dbei->pBlob;
+	char *pBlob = (char *)dbei.pBlob;
 
 	// now get text
-	switch (dbei->eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
 		if (pBlob)
 			comment1 = ShortenPreview(dbei);
@@ -185,13 +185,13 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_FILE:
 		if (pBlob) {
-			char *p = pBlob + sizeof(uint32_t);
+			DB::FILE_BLOB blob(dbei);
+
 			// filenames
-			comment2 = DbEvent_GetString(dbei, p);
+			comment2 = mir_wstrdup(blob.getName());
 			// description
-			p += mir_strlen(p) + 1;
-			if (*p)
-				comment1 = DbEvent_GetString(dbei, p);
+			if (*blob.getDescr())
+				comment1 = mir_wstrdup(blob.getDescr());
 		}
 		commentFix = POPUP_COMMENT_FILE;
 		break;
@@ -203,7 +203,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		if (pBlob) {
 			// count contacts in event
 			char* pcBlob = pBlob;
-			char* pcEnd = pBlob + dbei->cbBlob;
+			char* pcEnd = pBlob + dbei.cbBlob;
 			int nContacts;
 			wchar_t szBuf[512];
 
@@ -241,13 +241,13 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 			mir_snprintf(szUin, "%d", *((uint32_t*)pBlob));
 			if (mir_strlen(pszNick) > 0) {
-				if (dbei->flags & DBEF_UTF)
+				if (dbei.flags & DBEF_UTF)
 					szNick = mir_utf8decodeW(pszNick);
 				else
 					szNick = mir_a2u(pszNick);
 			}
 			else if (mir_strlen(pszEmail) > 0) {
-				if (dbei->flags & DBEF_UTF)
+				if (dbei.flags & DBEF_UTF)
 					szNick = mir_utf8decodeW(pszEmail);
 				else
 					szNick = mir_a2u(pszEmail);
@@ -267,13 +267,13 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_AUTHREQUEST:
 		if (pBlob) {
-			DB::AUTH_BLOB blob(dbei->pBlob);
+			DB::AUTH_BLOB blob(dbei.pBlob);
 
 			wchar_t *szNick = nullptr;
 			if (blob.get_nick())
-				szNick = dbei->getString(blob.get_nick());
+				szNick = dbei.getString(blob.get_nick());
 			else if (blob.get_email())
-				szNick = dbei->getString(blob.get_email());
+				szNick = dbei.getString(blob.get_email());
 			else if (blob.get_uin()) {
 				char szUin[16];
 				szNick = mir_a2u(itoa(blob.get_uin(), szUin, 10));
@@ -287,9 +287,9 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	default:
 		// support for custom database event types
-		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei->szModule, dbei->eventType);
+		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei.szModule, dbei.eventType);
 		if (pei && pBlob) {
-			comment1 = DbEvent_GetTextW(dbei, CP_ACP);
+			comment1 = DbEvent_GetTextW(&dbei, CP_ACP);
 			commentFix = pei->descr;
 		}
 		else commentFix = POPUP_COMMENT_OTHER;
@@ -392,7 +392,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	}
 	else { // get the needed event data
 		wcsncpy(pudw.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
-		wcsncpy(pudw.lpwzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
+		wcsncpy(pudw.lpwzText, ptrW(GetEventPreview(dbe)), MAX_SECONDLINE);
 	}
 
 	// send data to popup plugin
@@ -450,7 +450,7 @@ int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent)
 		}
 
 		// prepare event preview
-		wszText.Append(ptrW(GetEventPreview(&dbe)));
+		wszText.Append(ptrW(GetEventPreview(dbe)));
 		wszText.AppendChar('\n');
 	}
 

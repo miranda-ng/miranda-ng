@@ -127,8 +127,10 @@ void ItemData::load(bool bFullLoad)
 			wchar_t buf[MAX_PATH];
 			CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
 			{
+				DB::FILE_BLOB blob(dbe);
+
 				CMStringW wszFileName(buf);
-				wszFileName.Append(ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
+				wszFileName.Append(blob.getName());
 
 				// if a filename contains spaces, URL will be broken
 				if (wszFileName.Find(' ') != -1) {

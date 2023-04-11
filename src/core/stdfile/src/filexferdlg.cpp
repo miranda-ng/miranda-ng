@@ -78,24 +78,6 @@ static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 	EnableWindow(hwndButton, enabled);
 }
 
-void FillSendData(FileDlgData *dat, DBEVENTINFO &dbei)
-{
-	dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
-	dbei.eventType = EVENTTYPE_FILE;
-	dbei.flags = DBEF_SENT;
-	dbei.timestamp = time(0);
-	char *szFileNames = mir_utf8encodeW(dat->szFilenames), *szMsg = mir_utf8encodeW(dat->szMsg);
-	dbei.flags |= DBEF_UTF;
-
-	dbei.cbBlob = int(sizeof(uint32_t) + mir_strlen(szFileNames) + mir_strlen(szMsg) + 2);
-	dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob);
-	*(PDWORD)dbei.pBlob = 0;
-	mir_strcpy((char*)dbei.pBlob + sizeof(uint32_t), szFileNames);
-	mir_strcpy((char*)dbei.pBlob + sizeof(uint32_t) + mir_strlen(szFileNames) + 1, szMsg);
-
-	mir_free(szFileNames), mir_free(szMsg);
-}
-
 static void __cdecl RunVirusScannerThread(virusscanthreadstartinfo *info)
 {
 	DBVARIANT dbv;
@@ -650,11 +632,17 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						dat->fs = nullptr; /* protocol will free structure */
 						SetFtStatus(hwndDlg, LPGENW("Transfer completed."), FTS_TEXT);
 
-						DBEVENTINFO dbei = {};
-						FillSendData(dat, dbei);
+						DB::EventInfo dbei;
+						dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
+						dbei.eventType = EVENTTYPE_FILE;
+						dbei.flags = DBEF_SENT;
+						dbei.timestamp = time(0);
+						dbei.flags |= DBEF_UTF;
+
+						DB::FILE_BLOB blob(dat->szFilenames, dat->szMsg);
+						blob.write(dbei);
 						db_event_add(dat->hContact, &dbei);
-						if (dbei.pBlob)
-							mir_free(dbei.pBlob);
+
 						dat->files = nullptr;   //protocol library frees this
 					}
 					else {

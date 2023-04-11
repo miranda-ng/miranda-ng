@@ -162,7 +162,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_txn* StartTran();
 
 	bool CheckEvent(DBCachedContact *cc, const DBEvent *dbe, DBCachedContact *&cc2);
-	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
+	bool EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
 	int  PrepareCheck(void);
 	void TouchFile(void);
 
@@ -249,7 +249,7 @@ public:
 	STDMETHODIMP_(int)      GetEventCount(MCONTACT contactID) override;
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     DeleteEvent(MEVENT hDbEvent) override;
-	STDMETHODIMP_(BOOL)     EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(BOOL)     EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(int)      GetBlobSize(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent) override;

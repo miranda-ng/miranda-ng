@@ -98,7 +98,7 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 	return (dbei->flags & DBEF_UTF) ? mir_utf8decodeW(in) : mir_a2u(in);
 }
 
-static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatype)
+static INT_PTR DbEventGetTextWorker(DB::EventInfo *dbei, int codepage, int datatype)
 {
 	if (dbei == nullptr || dbei->szModule == nullptr)
 		return 0;
@@ -162,13 +162,12 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 	}
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
-		char *buf = LPSTR(dbei->pBlob) + sizeof(uint32_t);
-		ptrW tszFileName(getEventString(dbei, buf));
-		ptrW tszDescription(getEventString(dbei, buf));
-		CMStringW wszText(tszFileName.get());
-		if (mir_wstrlen(tszDescription) > 0) {
+		DB::FILE_BLOB blob(*dbei);
+
+		CMStringW wszText(blob.getName());
+		if (mir_wstrlen(blob.getDescr()) > 0) {
 			wszText.Append(L": ");
-			wszText.Append(tszDescription);
+			wszText.Append(blob.getDescr());
 		}
 		
 		switch (datatype) {
@@ -208,12 +207,12 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 
 MIR_APP_DLL(char*) DbEvent_GetTextA(DBEVENTINFO *dbei, int codepage)
 {
-	return (char*)DbEventGetTextWorker(dbei, codepage, DBVT_ASCIIZ);
+	return (char*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_ASCIIZ);
 }
 
 MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
 {
-	return (wchar_t*)DbEventGetTextWorker(dbei, codepage, DBVT_WCHAR);
+	return (wchar_t*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_WCHAR);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -285,6 +284,38 @@ DB::EventInfo::~EventInfo()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// File blob helper
+
+DB::FILE_BLOB::FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr) :
+	m_wszFileName(mir_wstrdup(pwszName)),
+	m_wszDescription(mir_wstrdup(pwszDescr))
+{}
+
+DB::FILE_BLOB::FILE_BLOB(const DB::EventInfo &dbei)
+{
+	JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
+	if (root) {
+		m_wszFileName = root["f"].as_mstring().Detach();
+		m_wszDescription = root["d"].as_mstring().Detach();
+	}
+}
+
+DB::FILE_BLOB::~FILE_BLOB()
+{}
+
+void DB::FILE_BLOB::write(DB::EventInfo &dbei)
+{
+	JSONNode root;
+	root << WCHAR_PARAM("f", m_wszFileName) << WCHAR_PARAM("d", m_wszDescription ? m_wszDescription : L"");
+
+	std::string text = root.write();
+	dbei.cbBlob = (int)text.size() + 1;
+	dbei.pBlob = (uint8_t*)mir_realloc(dbei.pBlob, dbei.cbBlob);
+	memcpy(dbei.pBlob, text.c_str(), dbei.cbBlob);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Auth blob helper
 
 DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
 	m_dwUin(0),

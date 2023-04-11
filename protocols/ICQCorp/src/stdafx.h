@@ -28,16 +28,16 @@
 #include <time.h>
 
 #include <newpluginapi.h>
-#include <m_contacts.h>
-#include <m_protosvc.h>
-#include <m_langpack.h>
-#include <m_database.h>
-#include <m_options.h>
-#include <statusmodes.h>
 #include <m_clist.h>
-#include <m_userinfo.h>
-#include <m_timezones.h>
+#include <m_contacts.h>
+#include <m_database.h>
+#include <m_langpack.h>
 #include <m_netlib.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <m_timezones.h>
+#include <m_userinfo.h>
+#include <statusmodes.h>
 
 #include "user.h"
 #include "transfer.h"

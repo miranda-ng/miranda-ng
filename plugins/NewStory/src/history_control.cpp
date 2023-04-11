@@ -179,7 +179,7 @@ struct NewstoryListData : public MZeroedObject
 					ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 					pItem->dbe.cbBlob = (int)mir_strlen(szUtf) + 1;
 					pItem->dbe.pBlob = (uint8_t *)szUtf.get();
-					db_event_edit(pItem->hContact, pItem->hEvent, &pItem->dbe);
+					db_event_edit(pItem->hEvent, &pItem->dbe);
 
 					if (auto *ppro = Proto_GetInstance(pItem->hContact))
 						ppro->OnEventEdited(pItem->hContact, pItem->hEvent);

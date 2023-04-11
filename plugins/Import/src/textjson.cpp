@@ -156,23 +156,10 @@ public:
 		}
 
 		if (dbei->eventType == EVENTTYPE_FILE) {
-			std::string szFile = (*node)["file"].as_string();
-			std::string szDescr = (*node)["descr"].as_string();
-
 			dbei->flags |= DBEF_UTF;
-			MBinBuffer buf;
-			uint32_t tmp = 0;
-			buf.append(&tmp, sizeof(tmp));
-			buf.append(szFile.c_str(), szFile.size());
-			if (!szDescr.empty()) {
-				buf.append(&tmp, 1);
-				buf.append(szDescr.c_str(), szDescr.size());
-			}
-			buf.append(&tmp, 1);
 
-			dbei->cbBlob = (int)buf.length();
-			dbei->pBlob = (uint8_t*)mir_alloc(dbei->cbBlob);
-			memcpy(dbei->pBlob, buf.data(), buf.length());
+			DB::FILE_BLOB blob((*node)["file"].as_mstring(), (*node)["descr"].as_mstring());
+			blob.write(*(DB::EventInfo*)dbei);
 		}
 		else {
 			std::string szBody = (*node)["body"].as_string();
@@ -180,7 +167,6 @@ public:
 				int offset;
 				switch (dbei->eventType) {
 				case EVENTTYPE_ADDED:
-				case EVENTTYPE_FILE:
 					offset = sizeof(uint32_t);
 					break;
 

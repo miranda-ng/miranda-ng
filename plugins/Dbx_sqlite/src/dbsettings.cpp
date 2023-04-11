@@ -60,7 +60,7 @@ void CDbxSQLite::InitSettings()
 	FillContactSettings();
 
 	DBVARIANT dbv = { DBVT_BYTE };
-	if (GetContactSetting(0, "Compatibility", "Sqlite", &dbv))
+	if (GetContactSettingWorker(0, "Compatibility", "Sqlite", &dbv, 0))
 		dbv.bVal = 0;
 
 	if (dbv.bVal < 1) {

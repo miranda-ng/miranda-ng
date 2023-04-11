@@ -223,7 +223,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	// if it's possible to find an existing event by its id, do that
 	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && pre->szMsgId != nullptr) {
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, pre->szMsgId);
-		if (hDbEvent == 0 || db_event_edit(hContact, hDbEvent, &dbei)) {
+		if (hDbEvent == 0 || db_event_edit(hDbEvent, &dbei)) {
 			dbei.szId = pre->szMsgId;
 			hDbEvent = db_event_add(hContact, &dbei);
 		}

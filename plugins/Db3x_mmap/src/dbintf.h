@@ -210,7 +210,7 @@ public:
 	STDMETHODIMP_(int)      GetEventCount(MCONTACT contactID) override;
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     DeleteEvent(MEVENT hDbEvent) override;
-	STDMETHODIMP_(BOOL)     EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(BOOL)     EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(int)      GetBlobSize(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent) override;

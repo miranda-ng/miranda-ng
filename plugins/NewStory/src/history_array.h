@@ -10,7 +10,7 @@ struct ItemData
 	bool bLoaded;
 	int savedTop;
 
-	DBEVENTINFO dbe;
+	DB::EventInfo dbe;
 	wchar_t *wtext;
 	wchar_t *wszNick;
 

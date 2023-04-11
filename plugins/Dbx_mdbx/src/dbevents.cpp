@@ -137,7 +137,7 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbei)
+BOOL CDbxMDBX::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 1;
 	if (dbei->timestamp == 0) return 1;
@@ -150,19 +150,19 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 
 	DBEvent *dbe = (DBEvent*)data.iov_base;
 	tmp.timestamp = dbe->timestamp;
-	return !EditEvent(contactID, hDbEvent, &tmp, false);
+	return !EditEvent(dbe->dwContactID, hDbEvent, &tmp, false);
 }
 
-bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbei, bool bNew)
+bool CDbxMDBX::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei, bool bNew)
 {
 	DBEvent dbe;
-	dbe.dwContactID = contactID; // store native or subcontact's id
+	dbe.dwContactID = hContact; // store native or subcontact's id
 	dbe.iModuleId = GetModuleID(dbei->szModule);
 
-	MCONTACT contactNotifyID = contactID;
+	MCONTACT contactNotifyID = hContact;
 	DBCachedContact *cc, *ccSub = nullptr;
-	if (contactID != 0) {
-		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
+	if (hContact != 0) {
+		if ((cc = m_cache->GetCachedContact(hContact)) == nullptr)
 			return false;
 
 		if (cc->IsSub()) {
@@ -172,10 +172,10 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 
 			// set default sub to the event's source
 			if (!(dbei->flags & DBEF_SENT))
-				db_mc_setDefault(cc->contactID, contactID, false);
-			contactID = cc->contactID; // and add an event to a metahistory
+				db_mc_setDefault(cc->contactID, hContact, false);
+			hContact = cc->contactID; // and add an event to a metahistory
 			if (db_mc_isEnabled())
-				contactNotifyID = contactID;
+				contactNotifyID = hContact;
 		}
 	}
 	else cc = &m_ccDummy;
@@ -224,15 +224,15 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 			return false;
 
 		// add a sorting key
-		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
+		DBEventSortingKey key2 = { hContact, hDbEvent, dbe.timestamp };
 		key.iov_len = sizeof(key2); key.iov_base = &key2;
 		data.iov_len = 1; data.iov_base = (char*)("");
 		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return false;
 
 		cc->Advance(hDbEvent, dbe);
-		if (contactID != 0) {
-			MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
+		if (hContact != 0) {
+			MDBX_val keyc = { &hContact, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
 			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
 				return false;
 

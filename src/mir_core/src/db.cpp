@@ -426,9 +426,9 @@ MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer)
 	return g_pCurrDb->DeleteEvent(hDbEvent);
 }
 
-MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei)
+MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {
-	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->EditEvent(hContact, hDbEvent, dbei);
+	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->EditEvent(hDbEvent, dbei);
 }
 
 MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact)

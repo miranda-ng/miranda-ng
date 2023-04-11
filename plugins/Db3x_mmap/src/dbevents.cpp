@@ -263,7 +263,7 @@ BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 	return 0;
 }
 
-BOOL CDb3Mmap::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
+BOOL CDb3Mmap::EditEvent(MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

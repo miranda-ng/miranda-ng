@@ -101,7 +101,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 				if (opts->bCheckUtf && dbei.eventType == EVENTTYPE_MESSAGE) {
 					if (ConvertOldEvent(dbei)) {
-						db_event_edit(cc, hEvent, &dbei);
+						db_event_edit(hEvent, &dbei);
 						nUtfCount++;
 					}
 				}

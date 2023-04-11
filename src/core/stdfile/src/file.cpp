@@ -356,7 +356,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (pre->fileCount == 0)
 		return 0;
 
-	DBEVENTINFO dbei = {};
+	DB::EventInfo dbei;
 	dbei.szModule = Proto_GetBaseAccountName(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_FILE;
@@ -364,47 +364,33 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (pre->dwFlags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;
 
-	bool bUnicode = (pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE;
+	if ((pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE) {
+		CMStringW wszFiles;
 
-	const char *szDescr, **pszFiles;
-	if (bUnicode) {
-		pszFiles = (const char**)alloca(pre->fileCount * sizeof(char*));
-		for (int i = 0; i < pre->fileCount; i++)
-			pszFiles[i] = mir_utf8encodeW(pre->files.w[i]);
+		for (int i = 0; i < pre->fileCount; i++) {
+			if (i != 0)
+				wszFiles.AppendChar(',');
+			wszFiles.Append(pre->files.w[i]);
+		}
 		
-		szDescr = mir_utf8encodeW(pre->descr.w);
+		DB::FILE_BLOB blob(wszFiles, pre->descr.w);
+		blob.write(dbei);
 	}
 	else {
-		pszFiles = pre->files.a;
-		szDescr = pre->descr.a;
+		CMStringW wszFiles;
+
+		for (int i = 0; i < pre->fileCount; i++) {
+			if (i != 0)
+				wszFiles.AppendChar(',');
+			wszFiles.Append(_A2T(pre->files.a[i]));
+		}
+
+		DB::FILE_BLOB blob(wszFiles, _A2T(pre->descr.a));
+		blob.write(dbei);
 	}
-
-	dbei.cbBlob = sizeof(uint32_t);
-
-	for (int i = 0; i < pre->fileCount; i++)
-		dbei.cbBlob += (int)mir_strlen(pszFiles[i]) + 1;
-
-	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
-
-	if ((dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob)) == nullptr)
-		return 0;
-
-	*(uint32_t*)dbei.pBlob = 0;
-	uint8_t* p = dbei.pBlob + sizeof(uint32_t);
-	for (int i = 0; i < pre->fileCount; i++) {
-		mir_strcpy((char*)p, pszFiles[i]);
-		p += mir_strlen(pszFiles[i]) + 1;
-		if (bUnicode)
-			mir_free((void*)pszFiles[i]);
-	}
-
-	mir_strcpy((char*)p, (szDescr == nullptr) ? "" : szDescr);
-	if (bUnicode)
-		mir_free((void*)szDescr);
 
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
-	mir_free(dbei.pBlob);
 	return 0;
 }
 

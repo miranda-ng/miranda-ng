@@ -11,16 +11,45 @@ static const char add_event_sort_query[] = "INSERT INTO events_srt(id, contact_i
 
 void CDbxSQLite::InitEvents()
 {
-	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "SELECT DISTINCT module FROM events;", -1, &stmt, nullptr);
 	int rc = 0;
-	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-		const char *module = (char*)sqlite3_column_text(stmt, 0);
-		if (mir_strlen(module) > 0)
-			m_modules.insert(mir_strdup(module));
+	{
+		sqlite3_stmt *stmt = nullptr;
+		sqlite3_prepare_v2(m_db, "SELECT DISTINCT module FROM events;", -1, &stmt, nullptr);
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+			const char *module = (char *)sqlite3_column_text(stmt, 0);
+			if (mir_strlen(module) > 0)
+				m_modules.insert(mir_strdup(module));
+		}
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_finalize(stmt);
 	}
-	logError(rc, __FILE__, __LINE__);
-	sqlite3_finalize(stmt);
+
+	// Events convertor
+	DBVARIANT dbv = { DBVT_BYTE };
+	if (GetContactSettingWorker(0, "Compatibility", "DbEvents", &dbv, 0))
+		dbv.bVal = 0;
+	
+	if (dbv.bVal < 1) {
+		sqlite3_stmt *stmt = nullptr;
+		sqlite3_prepare_v2(m_db, "SELECT id FROM events WHERE type=1002;", -1, &stmt, nullptr);
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+			MEVENT hEvent = sqlite3_column_int(stmt, 0);
+
+			DB::EventInfo dbei;
+			dbei.cbBlob = -1;
+			GetEvent(hEvent, &dbei);
+
+			const char *p = (const char*)dbei.pBlob + sizeof(uint32_t);
+			DB::FILE_BLOB blob(DbEvent_GetString(&dbei, p), DbEvent_GetString(&dbei, p + mir_strlen(p) + 1));
+			blob.write(dbei);
+			EditEvent(hEvent, &dbei);
+		}
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_finalize(stmt);
+
+		dbv.bVal = 1;
+		WriteContactSetting(0, "Compatibility", "DbEvents", &dbv);
+	}
 }
 
 void CDbxSQLite::UninitEvents()
@@ -222,16 +251,12 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei)
+BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr)
 		return 1;
 
 	if (dbei->timestamp == 0)
-		return 1;
-
-	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
-	if (cc == nullptr)
 		return 1;
 
 	DBEVENTINFO tmp = *dbei;
@@ -266,7 +291,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	lock.unlock();
 
 	DBFlush();
-	NotifyEventHooks(g_hevEventEdited, hContact, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevEventEdited, 0, hDbEvent);
 	return 0;
 }
 

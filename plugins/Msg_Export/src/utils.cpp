@@ -629,7 +629,7 @@ static wchar_t* getEventString(DBEVENTINFO &dbei, char *&buf)
 	return (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(in) : mir_a2u(in);
 }
 
-static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
+static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DB::EventInfo &dbei, bool bAppendOnly)
 {
 	wstring sLocalUser;
 	wstring sRemoteUser;
@@ -779,13 +779,11 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		pRoot.push_back(JSONNode("flags", flags));
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
-			char *p = (char*)dbei.pBlob + sizeof(uint32_t);
-			ptrW wszFileName(getEventString(dbei, p));
-			ptrW wszDescr(getEventString(dbei, p));
+			DB::FILE_BLOB blob(dbei);
 
-			pRoot << WCHAR_PARAM("file", wszFileName);
-			if (mir_wstrlen(wszDescr))
-				pRoot << WCHAR_PARAM("descr", wszDescr);
+			pRoot << WCHAR_PARAM("file", blob.getName());
+			if (mir_wstrlen(blob.getDescr()))
+				pRoot << WCHAR_PARAM("descr", blob.getDescr());
 		}
 		else {
 			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
@@ -824,18 +822,16 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		case EVENTTYPE_FILE:
 			{
-				char *p = (char*)dbei.pBlob + sizeof(uint32_t);
-				ptrW wszFileName(getEventString(dbei, p));
-				ptrW wszDescr(getEventString(dbei, p));
+				DB::FILE_BLOB blob(dbei);
 
 				const wchar_t *pszType = LPGENW("File: ");
 				bWriteTextToFile(hFile, pszType, bWriteUTF8Format);
-				bWriteIndentedToFile(hFile, nIndent, wszFileName, bWriteUTF8Format);
+				bWriteIndentedToFile(hFile, nIndent, blob.getName(), bWriteUTF8Format);
 
-				if (mir_wstrlen(wszDescr)) {
+				if (mir_wstrlen(blob.getDescr())) {
 					bWriteNewLine(hFile, nIndent);
 					bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format);
-					bWriteIndentedToFile(hFile, nIndent, wszDescr, bWriteUTF8Format);
+					bWriteIndentedToFile(hFile, nIndent, blob.getDescr(), bWriteUTF8Format);
 				}
 			}
 			break;

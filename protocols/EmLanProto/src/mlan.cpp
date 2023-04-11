@@ -907,13 +907,12 @@ void CMLan::RecvFile(CCSDATA *ccs)
 	char *szFile = pre->szMessage + sizeof(uint32_t);
 	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
-	DBEVENTINFO dbei = {};
+	DB::EventInfo dbei;
 	dbei.szModule = MODULENAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = uint32_t(sizeof(uint32_t) + mir_strlen(szFile) + mir_strlen(szDesc) + 2);
-	dbei.pBlob = (uint8_t*)pre->szMessage;
+	DB::FILE_BLOB(_A2T(szFile), _A2T(szDesc)).write(dbei);
 	db_event_add(ccs->hContact, &dbei);
 }
 

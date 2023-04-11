@@ -108,17 +108,7 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 	else
 		evt->szNick.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
-	if (evt->eventType == EVENTTYPE_FILE) {
-		char *filename = ((char*)dbei.pBlob) + sizeof(uint32_t);
-		char *descr = filename + mir_strlen(filename) + 1;
-		evt->szText.w = DbEvent_GetString(&dbei, filename);
-		if (*descr != 0) {
-			ptrW wszDescr(DbEvent_GetString(&dbei, descr));
-			CMStringW tmp(FORMAT, L"%s (%s)", evt->szText.w, wszDescr.get());
-			replaceStrW(evt->szText.w, tmp.Detach());
-		}
-	}
-	else evt->szText.w = DbEvent_GetTextW(&dbei, CP_UTF8);
+	evt->szText.w = DbEvent_GetTextW(&dbei, CP_UTF8);
 
 	if (!m_bUseRtl && Utils_IsRtl(evt->szText.w))
 		evt->dwFlags |= IEEDF_RTL;

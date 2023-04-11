@@ -44,7 +44,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::DeleteEvent(MEVENT)
 	return FALSE;
 }
 
-BOOL CDbxSQLite::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
+BOOL CDbxSQLite::EditEvent(MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

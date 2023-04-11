@@ -294,7 +294,7 @@ EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer = f
 // Edits an event in the database
 // Returns 0 on success, or nonzero on error
 
-EXTERN_C MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei);
 
 // Tries to find an event by its id if present
 // if an event is found, it's edited, otherwise a new event is added
@@ -694,10 +694,29 @@ namespace DB
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////
+	// Helper for file transfer events
+
+	#pragma warning(push)
+	#pragma warning(disable : 4251)
+
+	class MIR_APP_EXPORT FILE_BLOB : public MNonCopyable
+	{
+		ptrW m_wszFileName, m_wszDescription;
+
+	public:
+		explicit FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr = nullptr);
+		explicit FILE_BLOB(const EventInfo &dbei);
+		~FILE_BLOB();
+
+		void write(EventInfo &dbei);
+
+		__forceinline const wchar_t* getName() const { return m_wszFileName; }
+		__forceinline const wchar_t* getDescr() const { return m_wszDescription; }
+	};
+
+	/////////////////////////////////////////////////////////////////////////////////////////
 	// Helper to process the auth req body
 	// blob is: 0(uint32_t), hContact(uint32_t), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8)
-
-	#pragma warning(disable : 4251)
 
 	class MIR_APP_EXPORT AUTH_BLOB
 	{
@@ -728,6 +747,8 @@ namespace DB
 		__forceinline uint32_t get_uin() const { return m_dwUin; }
 		__forceinline void set_uin(uint32_t dwValue) { m_dwUin = dwValue; }
 	};
+
+	#pragma warning(pop)
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Event cursors

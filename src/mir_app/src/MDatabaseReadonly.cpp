@@ -108,7 +108,7 @@ BOOL MDatabaseReadonly::DeleteEvent(MEVENT)
 	return 1;
 }
 
-BOOL MDatabaseReadonly::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
+BOOL MDatabaseReadonly::EditEvent(MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

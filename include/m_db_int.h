@@ -122,7 +122,7 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(int, GetEventCount)(MCONTACT contactID) PURE;
 	STDMETHOD_(MEVENT, AddEvent)(MCONTACT contactID, const DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(BOOL, DeleteEvent)(MEVENT hDbEvent) PURE;
-	STDMETHOD_(BOOL, EditEvent)(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) PURE;
+	STDMETHOD_(BOOL, EditEvent)(MEVENT hDbEvent, const DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(int, GetBlobSize)(MEVENT hDbEvent) PURE;
 	STDMETHOD_(BOOL, GetEvent)(MEVENT hDbEvent, DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(BOOL, MarkEventRead)(MCONTACT contactID, MEVENT hDbEvent) PURE;
@@ -170,7 +170,7 @@ interface MIR_APP_EXPORT MIDatabase
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma warning(push)
-#pragma warning(disable:4275)
+#pragma warning(disable:4275 4251)
 
 struct MICryptoEngine;
 struct CRYPTO_PROVIDER;
@@ -284,7 +284,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(MEVENT) AddEvent(MCONTACT, const DBEVENTINFO*) override;
 	STDMETHODIMP_(BOOL) DeleteEvent(MEVENT) override;
-	STDMETHODIMP_(BOOL) EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(BOOL) EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(int) GetBlobSize(MEVENT) override;
 	STDMETHODIMP_(BOOL) MarkEventRead(MCONTACT, MEVENT) override;
 	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT) override;

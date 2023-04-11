@@ -935,46 +935,13 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	}
 
 	if (!bUseSelection) {
-		DBEVENTINFO dbei = {};
-		dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-		wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   // URLs are made one char bigger for crlf
-		dbei.pBlob = (uint8_t*)szText;
-		db_event_get(hDBEvent, &dbei);
-		int iSize = int(mir_strlen((char*)dbei.pBlob)) + 1;
+		DB::EventInfo dbei(hDBEvent);
 
-		bool bNeedsFree = false;
-		wchar_t *szConverted;
-		if (dbei.flags & DBEF_UTF) {
-			szConverted = mir_utf8decodeW((char*)szText);
-			bNeedsFree = true;
-		}
-		else {
-			if (iSize != (int)dbei.cbBlob)
-				szConverted = (wchar_t*)&dbei.pBlob[iSize];
-			else {
-				szConverted = (wchar_t*)mir_alloc(sizeof(wchar_t) * iSize);
-				bNeedsFree = true;
-				MultiByteToWideChar(CP_ACP, 0, (char*)dbei.pBlob, -1, szConverted, iSize);
-			}
-		}
-
-		if (dbei.eventType == EVENTTYPE_FILE) {
-			size_t iDescr = mir_strlen((char *)(szText + sizeof(uint32_t)));
-			memmove(szText, szText + sizeof(uint32_t), iDescr);
-			memmove(szText + iDescr + 2, szText + sizeof(uint32_t) + iDescr, dbei.cbBlob - iDescr - sizeof(uint32_t) - 1);
-			szText[iDescr] = '\r';
-			szText[iDescr + 1] = '\n';
-			szConverted = (wchar_t*)mir_alloc(sizeof(wchar_t)* (1 + mir_strlen((char *)szText)));
-			MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + (int)mir_strlen((char *)szText));
-			bNeedsFree = true;
-		}
-
+		ptrW szConverted(DbEvent_GetTextW(&dbei, CP_ACP));
 		if (szConverted != nullptr)
 			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(szConverted)));
 
-		mir_free(szText);
-		if (bNeedsFree)
-			mir_free(szConverted);
+		mir_free(szConverted);
 	}
 
 	SetFocus(m_message.GetHwnd());
