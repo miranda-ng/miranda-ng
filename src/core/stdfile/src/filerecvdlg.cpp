@@ -251,7 +251,8 @@ public:
 
 		DB::FILE_BLOB blob(dbei);
 		SetDlgItemText(m_hwnd, IDC_FILENAMES, blob.getName());
-		SetDlgItemText(m_hwnd, IDC_MSG, blob.getDescr());
+		if (mir_wstrlen(blob.getDescr()))
+			SetDlgItemText(m_hwnd, IDC_MSG, blob.getDescr());
 
 		wchar_t datetimestr[64];
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"t d", datetimestr, _countof(datetimestr), 0);

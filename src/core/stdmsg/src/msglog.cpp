@@ -332,7 +332,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 				buf.Append(": ");
 				AppendToBufferWithRTF(buf, blob.getName());
 
-				if (*blob.getDescr() != 0) {
+				if (mir_wstrlen(blob.getDescr())) {
 					buf.Append(" (");
 					AppendToBufferWithRTF(buf, blob.getDescr());
 					buf.Append(")");

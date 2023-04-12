@@ -190,8 +190,7 @@ static wchar_t* GetEventPreview(DB::EventInfo &dbei)
 			// filenames
 			comment2 = mir_wstrdup(blob.getName());
 			// description
-			if (*blob.getDescr())
-				comment1 = mir_wstrdup(blob.getDescr());
+			comment1 = mir_wstrdup(blob.getDescr());
 		}
 		commentFix = POPUP_COMMENT_FILE;
 		break;

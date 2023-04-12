@@ -165,7 +165,7 @@ static INT_PTR DbEventGetTextWorker(DB::EventInfo *dbei, int codepage, int datat
 		DB::FILE_BLOB blob(*dbei);
 
 		CMStringW wszText(blob.getName());
-		if (mir_wstrlen(blob.getDescr()) > 0) {
+		if (mir_wstrlen(blob.getDescr())) {
 			wszText.Append(L": ");
 			wszText.Append(blob.getDescr());
 		}
