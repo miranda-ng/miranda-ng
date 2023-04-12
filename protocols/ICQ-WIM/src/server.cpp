@@ -140,7 +140,7 @@ IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &b
 			return nullptr;
 
 		// is it a sticker?
-		if (pFileInfo->bIsSticker) {
+		if (pFileInfo && pFileInfo->bIsSticker) {
 			if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
 				auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
 				pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
@@ -479,8 +479,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
 		pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
-		if (!pFileInfo)
+		if (!pFileInfo) {
+			debugLogA("Some shit happened, report this case to developers");
 			return;
+		}
 
 		for (auto &jt : it["parts"]) {
 			CMStringW wszDescr(jt["captionedContent"]["caption"].as_mstring());
