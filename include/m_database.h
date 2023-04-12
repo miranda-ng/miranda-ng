@@ -720,10 +720,11 @@ namespace DB
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
 		__forceinline const wchar_t* getDescr() const { return m_wszDescription; }
 		
+		__forceinline uint32_t getSize() const { return m_iFileSize; }
+		__forceinline uint32_t getTransferred() const { return m_iTransferred; }
+
 		__forceinline bool isCompleted() const { return m_iFileSize == 0 || m_iFileSize == m_iTransferred; }
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
-
-		__forceinline void setSize(uint32_t iSize) { m_iFileSize = m_iTransferred = iSize; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

@@ -46,19 +46,18 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 
 			// download the page
 			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
-			if (nlhrReply) {
-				if (nlhrReply->resultCode == 200) {
-					FILE *f = _wfopen(param->wszPath, L"wb");
-					fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f);
-					fclose(f);
+			if (nlhrReply && nlhrReply->resultCode == 200) {
+				FILE *f = _wfopen(param->wszPath, L"wb");
+				fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f);
+				fclose(f);
 
-					blob.setSize(nlhrReply->dataLength);
-					blob.write(dbei);
-					db_event_edit(param->hDbEvent, &dbei);
+				DBVARIANT dbv = { DBVT_DWORD };
+				dbv.dVal = nlhrReply->dataLength;
+				db_event_setJson(param->hDbEvent, "ft", &dbv);
+				db_event_setJson(param->hDbEvent, "fs", &dbv);
 
-					if (param->bOpen)
-						ShellExecute(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
-				}
+				if (param->bOpen)
+					ShellExecute(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
 			}
 		}
 	}

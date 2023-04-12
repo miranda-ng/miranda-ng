@@ -195,7 +195,7 @@ bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
 
 bool DbEventIsShown(const DBEVENTINFO *dbei)
 {
-	return (dbei->eventType == EVENTTYPE_MESSAGE) || DbEventIsForMsgWindow(dbei);
+	return dbei->eventType == EVENTTYPE_MESSAGE || dbei->eventType == EVENTTYPE_FILE || DbEventIsForMsgWindow(dbei);
 }
 
 static bool CreateRTFFromDbEvent(LogStreamData *dat)
@@ -303,18 +303,40 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		break;
 
 	case EVENTTYPE_FILE:
+		SetToStyle(MSGFONTID_NOTICE, buf);
 		{
 			DB::FILE_BLOB blob(dbei);
-			
-			SetToStyle(MSGFONTID_NOTICE, buf);
-			AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-			buf.Append(": ");
-			AppendToBufferWithRTF(buf, blob.getName());
+			if (blob.isOffline()) {
+				AppendToBufferWithRTF(buf, TranslateT("Offline file"));
+				buf.Append(" {\\field{\\*\\fldinst HYPERLINK \"");
+				buf.AppendFormat("ofile:%ul", dat->hDbEvent);
+				buf.Append("\"}{\\fldrslt{\\ul ");
+				AppendToBufferWithRTF(buf, blob.getName());
+				buf.AppendFormat("}}} | %uKB", blob.getSize() / 1024);
+				
+				CMStringA szHost;
+				if (const char *b = strstr(blob.getUrl(), "://"))
+					for (b = b + 3; *b != 0 && *b != '/' && *b != ':'; b++)
+						szHost.AppendChar(*b);
 
-			if (*blob.getDescr() != 0) {
-				buf.Append(" (");
-				AppendToBufferWithRTF(buf, blob.getDescr());
-				buf.Append(")");
+				if (!szHost.IsEmpty())
+					buf.AppendFormat(" on %s", szHost.c_str());
+
+				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred()) {
+					buf.AppendChar(' ');
+					AppendToBufferWithRTF(buf, TranslateT("Completed"));
+				}
+			}
+			else {
+				AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+				buf.Append(": ");
+				AppendToBufferWithRTF(buf, blob.getName());
+
+				if (*blob.getDescr() != 0) {
+					buf.Append(" (");
+					AppendToBufferWithRTF(buf, blob.getDescr());
+					buf.Append(")");
+				}
 			}
 		}
 		break;

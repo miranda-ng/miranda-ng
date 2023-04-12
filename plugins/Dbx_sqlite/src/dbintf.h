@@ -94,7 +94,7 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	void UninitEvents();
 	CQuery qEvCount, qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact, qEvGetContact2;
 	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
-	CQuery qEvGetById, qEvUpdateId;
+	CQuery qEvGetById, qEvUpdateId, qEvSetJson;
 	int DeleteEventMain(MEVENT);
 	int DeleteEventSrt(MEVENT, MCONTACT, uint32_t);
 
@@ -127,6 +127,7 @@ public:
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     DeleteEvent(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(int)      SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(int)      GetBlobSize(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent) override;

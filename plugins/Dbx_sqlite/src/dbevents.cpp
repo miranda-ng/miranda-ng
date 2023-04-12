@@ -295,6 +295,41 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	return 0;
 }
 
+int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
+{
+	if (hDbEvent == 0)
+		return 1;
+
+	{	mir_cslock lock(m_csDbAccess);
+		sqlite3_stmt *stmt = InitQuery("UPDATE events SET body=json_set(body, '$.?', ?) WHERE id = ?;", qEvEdit);
+		sqlite3_bind_text(stmt, 1, szSetting, (int)mir_strlen(szSetting), nullptr);
+		switch (dbv->type) {
+		case DBVT_BYTE:
+			sqlite3_bind_int(stmt, 2, dbv->bVal);
+			break;
+		case DBVT_WORD:
+			sqlite3_bind_int(stmt, 2, dbv->wVal);
+			break;
+		case DBVT_DWORD:
+			sqlite3_bind_int(stmt, 2, dbv->dVal);
+			break;
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			sqlite3_bind_text(stmt, 2, dbv->pszVal, (int)mir_strlen(dbv->pszVal), nullptr);
+			break;
+		default:
+			return 2;
+		}
+		sqlite3_bind_int64(stmt, 3, hDbEvent);
+		int rc = sqlite3_step(stmt);
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(stmt);
+	}
+
+	DBFlush();
+	return 0;
+}
+
 int CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)
