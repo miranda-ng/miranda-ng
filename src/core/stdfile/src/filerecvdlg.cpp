@@ -247,18 +247,11 @@ public:
 		if (!dbei)
 			return false;
 
-		dat->fs = m_lParam ? (HANDLE)m_lParam : (HANDLE)*(PDWORD)dbei.pBlob;
+		dat->fs = (HANDLE)m_lParam;
 
-		char *str = (char *)dbei.pBlob + 4;
-		ptrW ptszFileName(DbEvent_GetString(&dbei, str));
-		SetDlgItemText(m_hwnd, IDC_FILENAMES, ptszFileName);
-
-		int len = (int)mir_strlen(str) + 1;
-		if (len + 4 < dbei.cbBlob) {
-			str += len;
-			ptrW pwszDescription(DbEvent_GetString(&dbei, str));
-			SetDlgItemText(m_hwnd, IDC_MSG, pwszDescription);
-		}
+		DB::FILE_BLOB blob(dbei);
+		SetDlgItemText(m_hwnd, IDC_FILENAMES, blob.getName());
+		SetDlgItemText(m_hwnd, IDC_MSG, blob.getDescr());
 
 		wchar_t datetimestr[64];
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"t d", datetimestr, _countof(datetimestr), 0);

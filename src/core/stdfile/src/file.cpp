@@ -118,16 +118,10 @@ static void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 
 static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	uint32_t dwSignature;
-
 	DBEVENTINFO dbei = {};
-	dbei.cbBlob = sizeof(uint32_t);
-	dbei.pBlob = (uint8_t*)&dwSignature;
 	db_event_get(lParam, &dbei);
-	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
-		return 0;
-
-	PushFileEvent(wParam, lParam, 0);
+	if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_FILE)
+		PushFileEvent(wParam, lParam, 0);
 	return 0;
 }
 
@@ -274,7 +268,7 @@ static void RemoveUnreadFileEvents(void)
 		while (hDbEvent) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
+			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_FILE)
 				db_event_markRead(hContact, hDbEvent);
 			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
