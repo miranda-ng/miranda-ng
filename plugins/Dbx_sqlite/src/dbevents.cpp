@@ -40,7 +40,7 @@ void CDbxSQLite::InitEvents()
 			GetEvent(hEvent, &dbei);
 
 			const char *p = (const char*)dbei.pBlob + sizeof(uint32_t);
-			DB::FILE_BLOB blob(DbEvent_GetString(&dbei, p), DbEvent_GetString(&dbei, p + mir_strlen(p) + 1));
+			DB::FILE_BLOB blob(dbei.getString(p), dbei.getString(p + mir_strlen(p) + 1));
 			blob.write(dbei);
 			EditEvent(hEvent, &dbei);
 		}

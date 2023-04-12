@@ -205,7 +205,6 @@ Srmm_ModifyIcon @280
 Srmm_RemoveIcon @281
 ExtraIcon_AddIcon @282
 DbEvent_GetIcon @283
-DbEvent_GetString @284
 DbEvent_GetTextA @285
 DbEvent_GetTextW @286
 DbEvent_GetType @287
@@ -849,3 +848,4 @@ Chat_IsMuted @941 NONAME
 ?SetEventJson@MDatabaseCommon@@UEAAHIPEBDPEAUDBVARIANT@@@Z @964 NONAME
 ?getSize@FILE_BLOB@DB@@QEBAIXZ @965 NONAME
 ?getTransferred@FILE_BLOB@DB@@QEBAIXZ @966 NONAME
+?getString@EventInfo@DB@@QEBAPEA_WPEBD@Z @967 NONAME

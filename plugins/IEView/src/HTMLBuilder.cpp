@@ -238,25 +238,19 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}
 		else if (dbei.eventType == EVENTTYPE_FILE) {
-			DB::FILE_BLOB blob(dbei);
-			eventData->szText.w = mir_wstrdup(blob.getName());
-			/*if (*descr != '\0') {
-				CMStringW tmp(FORMAT, L"%s (%s)", eventData->szText.w, ptrW(DbEvent_GetString(&dbei, descr)).get());
-				mir_free((void*)eventData->szText.w);
-				eventData->szText.w = tmp.Detach();
-			}*/
+			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			// blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->szText.w = mir_wstrdup(TranslateT(" requested authorization"));
-			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
+			eventData->szNick.w = dbei.getString((char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else if (dbei.eventType == EVENTTYPE_ADDED) {
 			//blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->szText.w = mir_wstrdup(TranslateT(" was added."));
-			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
+			eventData->szNick.w = dbei.getString((char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else { // custom event

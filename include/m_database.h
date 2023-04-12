@@ -195,10 +195,6 @@ struct DBEVENTINFO
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
 	}
 
-	wchar_t* getString(const char *str) const {
-		return (flags & DBEF_UTF) ? mir_utf8decodeW(str) : mir_a2u(str);
-	}
-
 	bool __forceinline operator==(const DBEVENTINFO &e) {
 		return (timestamp == e.timestamp && eventType == e.eventType && cbBlob == e.cbBlob && (flags & DBEF_SENT) == (e.flags & DBEF_SENT));
 	}
@@ -540,13 +536,6 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
 EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Converts the event's string to wchar_t* depending on the event's format
-// returns wchar_t* - the converted string
-// Caller must free the result using mir_free
-
-EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Database events
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -695,6 +684,8 @@ namespace DB
 		~EventInfo();
 
 		__forceinline operator bool() const { return bValid; }
+
+		wchar_t* getString(const char *str) const;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

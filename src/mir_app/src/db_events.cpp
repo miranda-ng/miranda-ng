@@ -254,16 +254,6 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
-{
-	if (dbei->flags & DBEF_UTF)
-		return mir_utf8decodeW(str);
-
-	return mir_a2u(str);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
 {
 	memset(this, 0, sizeof(*this));
@@ -281,6 +271,14 @@ DB::EventInfo::EventInfo() :
 DB::EventInfo::~EventInfo()
 {
 	mir_free(pBlob);
+}
+
+wchar_t* DB::EventInfo::getString(const char *str) const
+{
+	if (flags & DBEF_UTF)
+		return mir_utf8decodeW(str);
+
+	return mir_a2u(str);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
