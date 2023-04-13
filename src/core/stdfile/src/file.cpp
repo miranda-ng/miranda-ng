@@ -93,29 +93,6 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
-{
-	CLISTEVENT cle = {};
-	cle.hContact = hContact;
-	cle.hDbEvent = hdbe;
-	cle.lParam = lParam;
-	if (g_plugin.bAutoAccept && Contact::OnList(hContact)) {
-		LaunchRecvDialog(&cle);
-	}
-	else {
-		Skin_PlaySound("RecvFile");
-
-		wchar_t szTooltip[256];
-		mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
-		cle.szTooltip.w = szTooltip;
-
-		cle.flags |= CLEF_UNICODE;
-		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		cle.pszService = "SRFile/RecvFile";
-		g_clistApi.pfnAddEvent(&cle);
-	}
-}
-
 int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput)
 {
 	HKEY hKey;
@@ -375,7 +352,27 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	}
 
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
-	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
+
+	CLISTEVENT cle = {};
+	cle.hContact = ccs->hContact;
+	cle.hDbEvent = hdbe;
+	cle.lParam = pre->lParam;
+	
+	if (g_plugin.bAutoAccept && Contact::OnList(ccs->hContact))
+		LaunchRecvDialog(&cle);
+	else {
+		Skin_PlaySound("RecvFile");
+
+		wchar_t szTooltip[256];
+		mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(ccs->hContact));
+		cle.szTooltip.w = szTooltip;
+
+		cle.flags |= CLEF_UNICODE;
+		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+		cle.pszService = "SRFile/RecvFile";
+		g_clistApi.pfnAddEvent(&cle);
+	}
+	
 	return hdbe;
 }
 
