@@ -116,15 +116,6 @@ static void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 	}
 }
 
-static int FileEventAdded(WPARAM wParam, LPARAM lParam)
-{
-	DBEVENTINFO dbei = {};
-	db_event_get(lParam, &dbei);
-	if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_FILE)
-		PushFileEvent(wParam, lParam, 0);
-	return 0;
-}
-
 int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput)
 {
 	HKEY hKey;
@@ -401,7 +392,6 @@ int LoadSendRecvFileModule(void)
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, SRFileModulesLoaded);
-	HookEvent(ME_DB_EVENT_ADDED, FileEventAdded);
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
