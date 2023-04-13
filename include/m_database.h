@@ -698,7 +698,7 @@ namespace DB
 	{
 		ptrW m_wszFileName, m_wszDescription;
 		ptrA m_szProtoString;
-		uint32_t m_iFileSize = 0, m_iTransferred = 0;
+		int64_t m_iFileSize = -1, m_iTransferred = -1;
 
 	public:
 		explicit FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr = nullptr);
@@ -714,7 +714,7 @@ namespace DB
 		__forceinline uint32_t getSize() const { return m_iFileSize; }
 		__forceinline uint32_t getTransferred() const { return m_iTransferred; }
 
-		__forceinline bool isCompleted() const { return m_iFileSize == 0 || m_iFileSize == m_iTransferred; }
+		bool isCompleted() const;
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
 	};
 

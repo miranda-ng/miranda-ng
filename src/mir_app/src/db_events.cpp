@@ -308,6 +308,14 @@ DB::FILE_BLOB::FILE_BLOB(const DB::EventInfo &dbei)
 DB::FILE_BLOB::~FILE_BLOB()
 {}
 
+bool DB::FILE_BLOB::isCompleted() const
+{
+	if (m_iFileSize == -1)
+		return true;
+
+	return m_iFileSize != 0 && m_iFileSize == m_iTransferred;
+}
+
 void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 {
 	JSONNode root;
