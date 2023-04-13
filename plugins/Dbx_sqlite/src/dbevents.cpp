@@ -301,7 +301,7 @@ int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *
 		return 1;
 
 	{	mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = InitQuery("UPDATE events SET body=json_set(body, '$.?', ?) WHERE id = ?;", qEvEdit);
+		sqlite3_stmt *stmt = InitQuery("UPDATE events SET data=json_set(data, '$.?', ?) WHERE id = ?;", qEvEdit);
 		sqlite3_bind_text(stmt, 1, szSetting, (int)mir_strlen(szSetting), nullptr);
 		switch (dbv->type) {
 		case DBVT_BYTE:
