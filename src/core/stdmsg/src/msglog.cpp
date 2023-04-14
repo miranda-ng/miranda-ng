@@ -522,10 +522,6 @@ public:
 
 		bool bFlag = false;
 
-		EDITSTREAM stream = {};
-		stream.pfnCallback = Srmm_LogStreamCallback;
-		stream.dwCookie = (DWORD_PTR)&streamData;
-
 		SCROLLINFO scroll;
 		scroll.cbSize = sizeof(SCROLLINFO);
 		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
@@ -562,8 +558,11 @@ public:
 		}
 
 		// stream in the event(s)
-		streamData.lin = lin;
 		streamData.bRedraw = bRedraw;
+
+		EDITSTREAM stream = {};
+		stream.pfnCallback = Srmm_LogStreamCallback;
+		stream.dwCookie = (DWORD_PTR)&streamData;
 		m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 		// do smileys

@@ -1330,10 +1330,6 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	streamData.bStripFormat = FALSE;
 	streamData.dat = &m_pDlg;
 
-	EDITSTREAM stream = {};
-	stream.pfnCallback = Srmm_LogStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-
 	POINT point = { 0 };
 	m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
@@ -1365,8 +1361,11 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	}
 
 	// stream in the event(s)
-	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
+
+	EDITSTREAM stream = {};
+	stream.pfnCallback = Srmm_LogStreamCallback;
+	stream.dwCookie = (DWORD_PTR)&streamData;
 	m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// for new added events, only replace in message or action events.
