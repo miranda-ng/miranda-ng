@@ -115,15 +115,3 @@ void Utils::appendIcon(CMStringA &str, const char *iconFile)
 {
 	str.AppendFormat("<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
 }
-
-bool Utils::DbEventIsForMsgWindow(DBEVENTINFO *dbei)
-{
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-	return et && (et->flags & DETF_MSGWINDOW);
-}
-
-bool Utils::DbEventIsForHistory(DBEVENTINFO *dbei)
-{
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-	return et && (et->flags & DETF_HISTORY);
-}

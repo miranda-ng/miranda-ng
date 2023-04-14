@@ -538,7 +538,7 @@ void CMsgDialog::EnableSending(bool bMode) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
+void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 {
 	if (m_hDbEventFirst == 0)
 		m_hDbEventFirst = hDbEvent;
@@ -546,7 +546,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
 	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	bool bDisableNotify = (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ));
 
-	if (!DbEventIsShown(&dbei))
+	if (!DbEventIsShown(dbei))
 		return;
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
@@ -655,7 +655,7 @@ bool CMsgDialog::GetFirstEvent()
 	if (m_bActualHistory)
 		historyMode = LOADHISTORY_COUNT;
 
-	DBEVENTINFO dbei = {};
+	DB::EventInfo dbei;
 	DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
 
 	switch (historyMode) {
@@ -676,7 +676,7 @@ bool CMsgDialog::GetFirstEvent()
 			dbei.cbBlob = 0;
 			m_hDbEventFirst = hPrevEvent;
 			db_event_get(m_hDbEventFirst, &dbei);
-			if (!DbEventIsShown(&dbei))
+			if (!DbEventIsShown(dbei))
 				i++;
 		}
 		break;

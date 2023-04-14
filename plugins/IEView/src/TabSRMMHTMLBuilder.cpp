@@ -82,9 +82,9 @@ TabSRMMHTMLBuilder::TabSRMMHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool TabSRMMHTMLBuilder::isDbEventShown(uint32_t dwFlags, DBEVENTINFO *dbei)
+bool TabSRMMHTMLBuilder::isDbEventShown(uint32_t dwFlags, const DB::EventInfo &dbei)
 {
-	switch (dbei->eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
 	case EVENTTYPE_FILE:
@@ -96,12 +96,12 @@ bool TabSRMMHTMLBuilder::isDbEventShown(uint32_t dwFlags, DBEVENTINFO *dbei)
 	case EVENTTYPE_AUTHREQUEST:
 		return 0;
 	default:
-		return Utils::DbEventIsForMsgWindow(dbei);
+		return dbei.isSrmm();
 	}
 	return 1;
 }
 
-bool TabSRMMHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
+bool TabSRMMHTMLBuilder::isDbEventShown(const DB::EventInfo &dbei)
 {
 	uint32_t dwFlags2 = db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWFILES, 0) ? MWF_SHOW_FILEEVENTS : 0;

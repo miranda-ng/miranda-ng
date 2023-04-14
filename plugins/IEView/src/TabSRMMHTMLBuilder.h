@@ -31,8 +31,8 @@ protected:
 	virtual void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);
 	char *timestampToString(uint32_t dwFlags, time_t check, int isGroupBreak);
 	time_t 		getStartedTime();
-	virtual bool isDbEventShown(uint32_t dwFlags, DBEVENTINFO * dbei);
-	bool isDbEventShown(DBEVENTINFO * dbei);
+	virtual bool isDbEventShown(uint32_t dwFlags, const DB::EventInfo &dbei);
+	bool isDbEventShown(const DB::EventInfo &dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);
 public:
 	TabSRMMHTMLBuilder();

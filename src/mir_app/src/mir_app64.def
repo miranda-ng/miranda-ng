@@ -851,3 +851,5 @@ Chat_IsMuted @941 NONAME
 ?getString@EventInfo@DB@@QEBAPEA_WPEBD@Z @967 NONAME
 ?InsertFileLink@CRtfLogWindow@@IEAAXAEAV?$CMStringT@DV?$ChTraitsCRT@D@@@@IAEBVFILE_BLOB@DB@@@Z @968 NONAME
 ?GetDialog@CSrmmLogWindow@@QEBAAEAVCMsgDialog@@XZ @969 NONAME
+?isHistory@EventInfo@DB@@QEBA_NXZ @970 NONAME
+?isSrmm@EventInfo@DB@@QEBA_NXZ @971 NONAME

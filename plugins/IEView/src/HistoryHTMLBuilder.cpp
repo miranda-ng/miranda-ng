@@ -69,14 +69,15 @@ HistoryHTMLBuilder::HistoryHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO *dbei)
+bool HistoryHTMLBuilder::isDbEventShown(const DB::EventInfo &dbei)
 {
-	switch (dbei->eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
 	case EVENTTYPE_FILE:
 		return 1;
+	
 	default:
-		return Utils::DbEventIsForHistory(dbei);
+		return dbei.isHistory();
 	}
 }
 

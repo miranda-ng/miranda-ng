@@ -52,18 +52,12 @@ struct LogStreamData
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 
-bool DbEventIsCustomForMsgWindow(const DBEVENTINFO &dbei)
+bool DbEventIsMessageOrCustom(const DB::EventInfo &dbei)
 {
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei.szModule, dbei.eventType);
-	return et && (et->flags & DETF_MSGWINDOW);
+	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm();
 }
 
-bool DbEventIsMessageOrCustom(const DBEVENTINFO &dbei)
-{
-	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || DbEventIsCustomForMsgWindow(dbei);
-}
-
-bool DbEventIsShown(const DBEVENTINFO &dbei)
+bool DbEventIsShown(const DB::EventInfo &dbei)
 {
 	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -75,7 +69,7 @@ bool DbEventIsShown(const DBEVENTINFO &dbei)
 		return 0;
 	}
 
-	return DbEventIsCustomForMsgWindow(dbei);
+	return dbei.isSrmm();
 }
 
 static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *line)
@@ -861,7 +855,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 					if (dbei && DbEventIsShown(dbei)) {
 						dat->buffer = dat->pLog->CreateRTFFromEvent(dbei, dat);
 
-						if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei))) {
+						if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
 							db_event_markRead(dat->hContact, dat->hDbEvent);
 							g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
 						}

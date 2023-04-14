@@ -405,18 +405,12 @@ static char *CreateRTFTail()
 	return mir_strdup("}");
 }
 
-bool DbEventIsShown(const DBEVENTINFO *dbei)
+bool DbEventIsShown(const DB::EventInfo &dbei)
 {
-	if (!IsCustomEvent(dbei->eventType) || DbEventIsForMsgWindow(dbei))
+	if (!IsCustomEvent(dbei.eventType) || dbei.isSrmm())
 		return 1;
 
-	return IsStatusEvent(dbei->eventType);
-}
-
-bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
-{
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-	return et && (et->flags & DETF_MSGWINDOW);
+	return IsStatusEvent(dbei.eventType);
 }
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
@@ -637,7 +631,7 @@ char* CLogWindow::CreateRTFFromDbEvent(LogStreamData *streamData)
 	else {
 		dbei.cbBlob = -1;
 		db_event_get(streamData->hDbEvent, &dbei);
-		if (!DbEventIsShown(&dbei))
+		if (!DbEventIsShown(dbei))
 			return nullptr;
 	}
 
@@ -647,7 +641,7 @@ char* CLogWindow::CreateRTFFromDbEvent(LogStreamData *streamData)
 
 	BOOL isSent = (dbei.flags & DBEF_SENT);
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
 		db_event_markRead(streamData->hContact, streamData->hDbEvent);
 		g_clistApi.pfnRemoveEvent(streamData->hContact, streamData->hDbEvent);
 	}

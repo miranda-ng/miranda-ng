@@ -30,7 +30,7 @@ class HistoryHTMLBuilder :public TemplateHTMLBuilder
 protected:
 	void loadMsgDlgFont(const char *, LOGFONTA *lf, COLORREF *colour, COLORREF *bkgColour);
 	char *timestampToString(time_t check);
-	bool isDbEventShown(DBEVENTINFO *dbei);
+	bool isDbEventShown(const DB::EventInfo &dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);
 	const char *getTemplateFilename(ProtocolSettings *);
 	int getFlags(ProtocolSettings *);

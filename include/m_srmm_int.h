@@ -256,7 +256,7 @@ public:
 	virtual void AddLog();
 	virtual void CloseTab() {}
 	virtual void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) PURE;
-	virtual void EventAdded(MEVENT, const DBEVENTINFO &dbei) PURE;
+	virtual void EventAdded(MEVENT, const DB::EventInfo &dbei) PURE;
 	virtual bool GetFirstEvent() PURE;
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;

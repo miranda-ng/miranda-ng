@@ -1209,14 +1209,14 @@ void CMsgDialog::DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
+void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 {
 	if (m_hDbEventFirst == 0)
 		m_hDbEventFirst = hDbEvent;
 
 	bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
 	bool isActive = IsActive();
-	if (DbEventIsShown(&dbei)) {
+	if (DbEventIsShown(dbei)) {
 		// Sounds *only* for sent messages, not for custom events
 		if (isMessage && !isSent) {
 			if (isActive)
@@ -1255,10 +1255,10 @@ bool CMsgDialog::GetFirstEvent()
 			if (hPrevEvent == 0)
 				break;
 
-			DBEVENTINFO dbei = {};
 			m_hDbEventFirst = hPrevEvent;
-			db_event_get(hPrevEvent, &dbei);
-			if (!DbEventIsShown(&dbei))
+
+			DB::EventInfo dbei(hPrevEvent, false);
+			if (!DbEventIsShown(dbei))
 				i++;
 		}
 		break;

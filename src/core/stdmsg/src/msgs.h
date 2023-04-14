@@ -138,7 +138,7 @@ public:
 
 	void CloseTab() override;
 	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
-	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
+	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
@@ -158,8 +158,7 @@ extern LIST<CMsgDialog> g_arDialogs;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei);
-bool DbEventIsShown(const DBEVENTINFO *dbei);
+bool DbEventIsShown(const DB::EventInfo &dbei);
 int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);
 INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *msg);
 

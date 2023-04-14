@@ -30,7 +30,7 @@ class ScriverHTMLBuilder :public TemplateHTMLBuilder
 protected:
 	void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);
 	char *timestampToString(uint32_t dwFlags, time_t check, int groupStart);
-	bool isDbEventShown(DBEVENTINFO * dbei);
+	bool isDbEventShown(const DB::EventInfo &dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);
 public:
 	ScriverHTMLBuilder();

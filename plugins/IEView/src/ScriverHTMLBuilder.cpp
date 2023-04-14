@@ -68,15 +68,15 @@ ScriverHTMLBuilder::ScriverHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO *dbei)
+bool ScriverHTMLBuilder::isDbEventShown(const DB::EventInfo &dbei)
 {
-	switch (dbei->eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
 	case EVENTTYPE_FILE:
 		return 1;
 	default:
-		return Utils::DbEventIsForMsgWindow(dbei);
+		return dbei.isSrmm();
 	}
 }
 

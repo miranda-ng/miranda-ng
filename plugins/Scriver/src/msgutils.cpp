@@ -73,7 +73,7 @@ void CMsgDialog::DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis)
 	SelectObject(dis->hDC, hOldFont);
 }
 
-void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
+void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 {
 	if (m_hDbEventFirst == 0)
 		m_hDbEventFirst = hDbEvent;
@@ -101,7 +101,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
 		else
 			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
-		if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(dbei)) {
+		if (!(dbei.flags & DBEF_SENT) && !dbei.isSrmm()) {
 			if (!bIsActive) {
 				m_iShowUnread = 1;
 				UpdateIcon();
@@ -121,15 +121,14 @@ bool CMsgDialog::GetFirstEvent()
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {
-			DBEVENTINFO dbei = {};
-			db_event_get(m_hDbEventFirst, &dbei);
+			DB::EventInfo dbei(m_hDbEventFirst, false);
 			if (DbEventIsMessageOrCustom(dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
 				notifyUnread = true;
 		}
 
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
 
-		DBEVENTINFO dbei = {};
+		DB::EventInfo dbei;
 		MEVENT hPrevEvent;
 		switch (historyMode) {
 		case LOADHISTORY_COUNT:

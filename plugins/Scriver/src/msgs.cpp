@@ -84,8 +84,8 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
-	DBEVENTINFO dbei = {};
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent, false);
+	if (!dbei)
 		return 0;
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
@@ -236,8 +236,8 @@ static void RestoreUnreadMessageAlerts(void)
 
 	for (auto &hContact : Contacts()) {
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = {};
-			if (db_event_get(hDbEvent, &dbei))
+			DB::EventInfo dbei(hDbEvent, false);
+			if (!dbei)
 				continue;
 			if (dbei.markedRead() || !DbEventIsMessageOrCustom(dbei) || !Proto_GetBaseAccountName(hContact))
 				continue;

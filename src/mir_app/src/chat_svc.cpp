@@ -842,8 +842,8 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	else {
 		g_clistApi.pfnRemoveEvent(hContact, 1);
 
-		DBEVENTINFO dbei = {};
-		if (!db_event_get(hDbEvent, &dbei)) {
+		DB::EventInfo dbei(hDbEvent, false);
+		if (dbei) {
 			if (auto *pDlg = Srmm_FindDialog(hContact))
 				pDlg->EventAdded(hDbEvent, dbei);
 

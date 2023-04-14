@@ -1071,8 +1071,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				MEVENT hDbEvent = m_hDbUnreadEventFirst;
 				m_hDbUnreadEventFirst = 0;
 				while (hDbEvent != 0) {
-					DBEVENTINFO dbei = {};
-					db_event_get(hDbEvent, &dbei);
+					DB::EventInfo dbei(hDbEvent, false);
 					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(dbei))
 						g_clistApi.pfnRemoveEvent(m_hContact, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);

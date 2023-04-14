@@ -273,6 +273,20 @@ DB::EventInfo::~EventInfo()
 	mir_free(pBlob);
 }
 
+// could be displayed in a SRMM window
+bool DB::EventInfo::isSrmm() const
+{
+	auto *et = DbEvent_GetType(szModule, eventType);
+	return et && et->flags & DETF_MSGWINDOW;
+}
+
+// could be displayed in a history window
+bool DB::EventInfo::isHistory() const
+{
+	auto *et = DbEvent_GetType(szModule, eventType);
+	return et && et->flags & DETF_HISTORY;
+}
+
 wchar_t* DB::EventInfo::getString(const char *str) const
 {
 	if (flags & DBEF_UTF)

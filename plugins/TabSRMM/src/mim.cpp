@@ -373,15 +373,14 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
-	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
+	DB::EventInfo dbei(hDbEvent, false);
 
 	auto *pDlg = Srmm_FindDialog(hContact);
 	if (pDlg == nullptr)
 		pDlg = Srmm_FindDialog(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
-	bool isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
+	bool isShownCustomEvent = dbei.isSrmm();
 	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 

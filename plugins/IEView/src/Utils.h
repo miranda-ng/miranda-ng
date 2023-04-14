@@ -30,9 +30,7 @@ namespace Utils
 	void convertPath(char *path);
 	void convertPath(wchar_t *path);
 	char *escapeString(const char *a);
-	int   detectURL(const wchar_t *text);
-	bool DbEventIsForMsgWindow(DBEVENTINFO *dbei);
-	bool DbEventIsForHistory(DBEVENTINFO *dbei);
+	int  detectURL(const wchar_t *text);
 };
 
 #endif

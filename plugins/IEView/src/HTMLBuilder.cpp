@@ -209,7 +209,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			g_clistApi.pfnRemoveEvent(event->hContact, hDbEvent);
 		}
 
-		if (!isDbEventShown(&dbei)) {
+		if (!isDbEventShown(dbei)) {
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
@@ -230,7 +230,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->szNick.w = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
-		if (dbei.eventType == EVENTTYPE_MESSAGE || Utils::DbEventIsForMsgWindow(&dbei)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm()) {
 			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;

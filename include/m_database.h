@@ -685,6 +685,9 @@ namespace DB
 
 		__forceinline operator bool() const { return bValid; }
 
+		bool isSrmm() const; // could be displayed in a SRMM window
+		bool isHistory() const; // could be displayed in a history window
+
 		wchar_t* getString(const char *str) const;
 	};
 

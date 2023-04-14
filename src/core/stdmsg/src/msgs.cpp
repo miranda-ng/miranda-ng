@@ -70,11 +70,11 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
-	DBEVENTINFO dbei = {};
-	if (db_event_get(hDbEvent, &dbei))
+	DB::EventInfo dbei(hDbEvent, false);
+	if (!dbei)
 		return 0;
 
-	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
+	if (dbei.markedRead() || !DbEventIsShown(dbei))
 		return 0;
 
 	bool bPopup = false;
@@ -265,12 +265,11 @@ static void RestoreUnreadMessageAlerts(void)
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			bool autoPopup = false;
 
-			DBEVENTINFO dbei = {};
-			dbei.cbBlob = 0;
-			if (db_event_get(hDbEvent, &dbei))
+			DB::EventInfo dbei(hDbEvent, false);
+			if (!dbei)
 				continue;
 
-			if (!dbei.markedRead() && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+			if (!dbei.markedRead() && DbEventIsShown(dbei)) {
 				int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;
 				if (windowAlreadyExists)
 					continue;

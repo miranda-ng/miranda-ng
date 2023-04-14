@@ -131,7 +131,7 @@ public:
 
 	void CloseTab() override;
 	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
-	void EventAdded(MEVENT, const DBEVENTINFO &dbei) override;
+	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
 	bool GetFirstEvent() override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;
@@ -192,9 +192,8 @@ public:
 #define EVENTTYPE_JABBER_CHATSTATES	2000
 #define EVENTTYPE_JABBER_PRESENCE	2001
 
-bool DbEventIsShown(const DBEVENTINFO &dbei);
-bool DbEventIsCustomForMsgWindow(const DBEVENTINFO &dbei);
-bool DbEventIsMessageOrCustom(const DBEVENTINFO &dbei);
+bool DbEventIsShown(const DB::EventInfo &dbei);
+bool DbEventIsMessageOrCustom(const DB::EventInfo &dbei);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 int IsAutoPopup(MCONTACT hContact);

@@ -62,14 +62,14 @@ protected:
 	virtual char*    getEncodedContactName(MCONTACT hContact, const char *szProto);
 	virtual void     getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut);
 
-	virtual uint32_t    getLastEventTime();
+	virtual uint32_t getLastEventTime();
 	virtual void     setLastEventTime(uint32_t);
 
 	virtual int      getLastEventType();
 	virtual void     setLastEventType(int);
 
 	virtual bool     isSameDate(time_t time1, time_t time2);
-	virtual bool     isDbEventShown(DBEVENTINFO * dbei) = 0;
+	virtual bool     isDbEventShown(const DB::EventInfo &dbei) = 0;
 
 	virtual ProtocolSettings *getSRMMProtocolSettings(MCONTACT hContact);
 	virtual ProtocolSettings *getHistoryProtocolSettings(MCONTACT hContact);

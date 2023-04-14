@@ -189,15 +189,9 @@ static void SetToStyle(int style, CMStringA &dest)
 	dest.AppendFormat("\\f%u\\cf%u\\b%d\\i%d\\fs%u ", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
 }
 
-bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
+bool DbEventIsShown(const DB::EventInfo &dbei)
 {
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-	return et && (et->flags & DETF_MSGWINDOW);
-}
-
-bool DbEventIsShown(const DBEVENTINFO *dbei)
-{
-	return dbei->eventType == EVENTTYPE_MESSAGE || dbei->eventType == EVENTTYPE_FILE || DbEventIsForMsgWindow(dbei);
+	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm();
 }
 
 #define RTFPICTHEADERMAXSIZE   78
@@ -288,10 +282,10 @@ public:
 		if (!dbei)
 			return false;
 
-		if (!DbEventIsShown(&dbei))
+		if (!DbEventIsShown(dbei))
 			return false;
 
-		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
 			db_event_markRead(dat->hContact, dat->hDbEvent);
 			g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
 		}
