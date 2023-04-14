@@ -31,26 +31,10 @@ static int logPixelSY;
 static char* pLogIconBmpBits[3];
 static HIMAGELIST g_hImageList;
 
-#define STREAMSTAGE_HEADER  0
-#define STREAMSTAGE_EVENTS  1
-#define STREAMSTAGE_TAIL    2
-#define STREAMSTAGE_STOP    3
-
-struct LogStreamData
+struct RtfLogStreamData : public RtfLogStreamBase
 {
-	int      stage;
-	MCONTACT hContact;
-	MEVENT   hDbEvent, hDbEventLast;
-	char    *buffer;
-	size_t   bufferOffset, bufferLen;
-	int      eventsToInsert;
-	int      isFirst;
-	class CLogWindow *pLog;
 	GlobalMessageData *gdat;
-	DB::EventInfo *dbei;
 };
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 
 bool DbEventIsMessageOrCustom(const DB::EventInfo &dbei)
 {
@@ -106,51 +90,6 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *line)
 		buf.AppendChar(' ');
 
 	buf.AppendChar('}');
-}
-
-// mir_free() the return value
-static char* CreateRTFHeader()
-{
-	HDC hdc = GetDC(nullptr);
-	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(nullptr, hdc);
-
-	CMStringA buf;
-
-	buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (int i = 0; i < fontOptionsListSize; i++) {
-		LOGFONT lf;
-		LoadMsgDlgFont(i, &lf, nullptr);
-		buf.AppendFormat("{\\f%u\\fnil\\fcharset%u %S;}", i, lf.lfCharSet, lf.lfFaceName);
-	}
-	buf.Append("}{\\colortbl ");
-
-	COLORREF colour;
-	for (int i = 0; i < fontOptionsListSize; i++) {
-		LoadMsgDlgFont(i, nullptr, &colour);
-		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	}
-	if (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr)
-		colour = RGB(0, 0, 255);
-	else
-		colour = GetSysColor(COLOR_HOTLIGHT);
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = g_plugin.getDword(SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = g_plugin.getDword(SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	buf.Append("}");
-	return buf.Detach();
-}
-
-// mir_free() the return value
-static char* CreateRTFTail()
-{
-	return mir_strdup("}");
 }
 
 // return value is static
@@ -222,7 +161,7 @@ int isSameDate(time_t time1, time_t time2)
 	return 0;
 }
 
-static void AppendWithCustomLinks(DBEVENTINFO &dbei, int style, CMStringA &buf)
+static void AppendWithCustomLinks(const DB::EventInfo &dbei, int style, CMStringA &buf)
 {
 	if (dbei.pBlob == nullptr)
 		return;
@@ -322,6 +261,13 @@ void FreeMsgLogIcons(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLogWindow - built-in log window
 
+const char *szBuiltinEvents[] = {
+	"O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies",
+	"to tiny bits, in Thy mercy",
+	"Lorem ipsum dolor sit amet,",
+	"consectetur adipisicing elit",
+};
+
 class CLogWindow : public CRtfLogWindow
 {
 	typedef CRtfLogWindow CSuper;
@@ -372,12 +318,63 @@ public:
 		m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 	}
 
-	char* CreateRTFFromEvent(DB::EventInfo &dbei, LogStreamData *streamData)
+	void CreateRtfHeader(RtfLogStreamData *streamData) override
 	{
+		HDC hdc = GetDC(nullptr);
+		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		ReleaseDC(nullptr, hdc);
+
+		auto &buf = streamData->buf;
+
+		buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
+		for (int i = 0; i < fontOptionsListSize; i++) {
+			LOGFONT lf;
+			LoadMsgDlgFont(i, &lf, nullptr);
+			buf.AppendFormat("{\\f%u\\fnil\\fcharset%u %S;}", i, lf.lfCharSet, lf.lfFaceName);
+		}
+		buf.Append("}{\\colortbl ");
+
+		COLORREF colour;
+		for (int i = 0; i < fontOptionsListSize; i++) {
+			LoadMsgDlgFont(i, nullptr, &colour);
+			buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		}
+		if (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr)
+			colour = RGB(0, 0, 255);
+		else
+			colour = GetSysColor(COLOR_HOTLIGHT);
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		colour = g_plugin.getDword(SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		colour = g_plugin.getDword(SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		colour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		buf.Append("}");
+	}
+
+	bool CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbei) override
+	{
+		if (!DbEventIsShown(dbei))
+			return false;
+
+		if (streamData->dbei) {
+			if (streamData->eventsToInsert == _countof(szBuiltinEvents))
+				return false;
+
+			dbei.flags = DBEF_UTF | ((streamData->eventsToInsert < 2) ? DBEF_SENT : 0);
+			dbei.pBlob = (uint8_t *)TranslateU(szBuiltinEvents[streamData->eventsToInsert]);
+			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
+		}
+
 		int style, showColon = 0;
 		int isGroupBreak = TRUE;
 		int highlight = 0;
+
 		auto *gdat = streamData->gdat;
+		auto &buf = streamData->buf;
 
 		if ((gdat->flags.bGroupMessages) && dbei.flags == LOWORD(m_lastEventType) &&
 			dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(m_lastEventType) == EVENTTYPE_MESSAGE &&
@@ -385,21 +382,21 @@ public:
 			isGroupBreak = FALSE;
 		}
 
+		bool bIsRtl = (dbei.flags & DBEF_RTL) != 0;
 		ptrW wszText(DbEvent_GetTextW(&dbei, CP_UTF8)), wszNick;
 		
 		// test contact
-		if (m_pDlg.m_hContact != 0) {
+		if (streamData->dbei == 0) {
 			if (dbei.flags & DBEF_SENT)
 				wszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_pDlg.m_szProto);
 			else
 				wszNick = mir_wstrdup(Clist_GetContactDisplayName(m_pDlg.m_hContact));
+
+			if (!m_pDlg.m_bUseRtl && Utils_IsRtl(wszText))
+				bIsRtl = true;
 		}
 		else wszNick = mir_wstrdup((dbei.flags & DBEF_SENT) ? TranslateT("Me") : TranslateT("My contact"));
 
-		if (!m_pDlg.m_bUseRtl && Utils_IsRtl(wszText))
-			dbei.flags |= DBEF_RTL;
-
-		CMStringA buf;
 		if (!streamData->isFirst && !m_isMixed) {
 			if (isGroupBreak || gdat->flags.bMarkFollowups)
 				buf.Append("\\par");
@@ -407,13 +404,13 @@ public:
 				buf.Append("\\line");
 		}
 
-		if (dbei.flags & DBEF_RTL)
+		if (bIsRtl)
 			m_isMixed = 1;
 
 		if (!streamData->isFirst && isGroupBreak && (gdat->flags.bDrawLines))
 			buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
 
-		buf.Append((dbei.flags & DBEF_RTL) ? "\\rtlpar" : "\\ltrpar");
+		buf.Append(bIsRtl ? "\\rtlpar" : "\\ltrpar");
 
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
 			highlight = fontOptionsListSize + 2 + ((dbei.flags & DBEF_SENT) ? 1 : 0);
@@ -429,7 +426,7 @@ public:
 		}
 		streamData->isFirst = FALSE;
 		if (m_isMixed) {
-			if (dbei.flags & DBEF_RTL)
+			if (bIsRtl)
 				buf.Append("\\ltrch\\rtlch");
 			else
 				buf.Append("\\rtlch\\ltrch");
@@ -505,7 +502,7 @@ public:
 			showColon = 1;
 		}
 		if (showColon && dbei.eventType == EVENTTYPE_MESSAGE) {
-			if (dbei.flags & DBEF_RTL)
+			if (bIsRtl)
 				buf.AppendFormat("\\~%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 			else
 				buf.AppendFormat("%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
@@ -549,7 +546,7 @@ public:
 
 		m_lastEventTime = dbei.timestamp;
 		m_lastEventType = MAKELONG(dbei.flags, dbei.eventType);
-		return buf.Detach();
+		return true;
 	}
 
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
@@ -561,7 +558,7 @@ public:
 		m_rtf.SetDraw(false);
 		m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
-		LogStreamData streamData = {};
+		RtfLogStreamData streamData = {};
 		streamData.hContact = m_pDlg.m_hContact;
 		streamData.hDbEvent = hDbEventFirst;
 		streamData.hDbEventLast = m_pDlg.m_hDbEventLast;
@@ -570,9 +567,6 @@ public:
 		streamData.isFirst = bAppend ? m_rtf.GetRichTextLength() == 0 : 1;
 		streamData.gdat = &g_dat;
 
-		EDITSTREAM stream = {};
-		stream.pfnCallback = LogStreamInEvents;
-		stream.dwCookie = (DWORD_PTR)&streamData;
 		sel.cpMin = 0;
 
 		POINT scrollPos;
@@ -606,7 +600,8 @@ public:
 			m_isMixed = 0;
 		}
 
-		m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+		StreamRtfEvents(&streamData, bAppend);
+
 		if (bottomScroll) {
 			sel.cpMin = sel.cpMax = -1;
 			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
@@ -814,91 +809,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const char *szBuiltinEvents[] = {
-	"O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies",
-	"to tiny bits, in Thy mercy",
-	"Lorem ipsum dolor sit amet,",
-	"consectetur adipisicing elit",
-};
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData *)dwCookie;
-
-	if (dat->buffer == nullptr) {
-		dat->bufferOffset = 0;
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			dat->buffer = CreateRTFHeader();
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-		
-		case STREAMSTAGE_EVENTS:
-			// predefined text event
-			if (dat->dbei != nullptr) {
-				dat->dbei->flags = DBEF_UTF | ((dat->eventsToInsert < 2) ? DBEF_SENT : 0);
-				dat->dbei->pBlob = (uint8_t *)TranslateU(szBuiltinEvents[dat->eventsToInsert++]);
-				dat->dbei->cbBlob = (int)mir_strlen((char *)dat->dbei->pBlob);
-				dat->buffer = dat->pLog->CreateRTFFromEvent(*dat->dbei, dat);
-				if (dat->eventsToInsert == _countof(szBuiltinEvents)) {
-					dat->dbei->pBlob = nullptr;
-					dat->dbei = nullptr;
-				}
-			}
-			// usual database event
-			else if (dat->eventsToInsert) {
-				do {
-					dat->buffer = nullptr;
-
-					DB::EventInfo dbei(dat->hDbEvent);
-					if (dbei && DbEventIsShown(dbei)) {
-						dat->buffer = dat->pLog->CreateRTFFromEvent(dbei, dat);
-
-						if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
-							db_event_markRead(dat->hContact, dat->hDbEvent);
-							g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
-						}
-						else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
-							db_event_markRead(dat->hContact, dat->hDbEvent);
-					}
-
-					if (dat->buffer)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (dat->buffer == nullptr && dat->hDbEvent);
-			}
-			if (dat->buffer)
-				break;
-
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			dat->buffer = CreateRTFTail();
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-		dat->bufferLen = mir_strlen(dat->buffer);
-	}
-	*pcb = min(cb, LONG(dat->bufferLen - dat->bufferOffset));
-	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
-	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen) {
-		mir_free(dat->buffer);
-		dat->buffer = nullptr;
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
+void StreamInTestEvents(CDlgBase *pDlg, GlobalMessageData *gdat)
 {
 	DB::EventInfo dbei;
 	dbei.flags = DBEF_UTF;
@@ -906,22 +817,19 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 	dbei.timestamp = time(0);
 	dbei.szModule = SRMM_MODULE;
 
-	CMsgDialog *dat = new CMsgDialog(0, false);
+	auto *pLog = new CLogWindow(*(CMsgDialog*)pDlg);
 
-	LogStreamData streamData = {};
+	RtfLogStreamData streamData = {};
 	streamData.isFirst = TRUE;
 	streamData.dbei = &dbei;
-	streamData.pLog = new CLogWindow(*dat);
+	streamData.pLog = pLog;
 	streamData.gdat = gdat;
+	pLog->StreamRtfEvents(&streamData, false);
 
-	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
-	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
+	SendDlgItemMessage(pDlg->GetHwnd(), IDC_SRMM_LOG, EM_HIDESELECTION, FALSE, 0);
 
-	delete streamData.pLog;
-	delete dat;
+	dbei.pBlob = nullptr;
+	delete pLog;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

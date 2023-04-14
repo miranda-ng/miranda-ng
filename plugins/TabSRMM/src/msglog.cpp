@@ -80,22 +80,9 @@ COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 
 static HICON Logicons[NR_LOGICONS];
 
-#define STREAMSTAGE_HEADER  0
-#define STREAMSTAGE_EVENTS  1
-#define STREAMSTAGE_TAIL    2
-#define STREAMSTAGE_STOP    3
-struct LogStreamData
+struct RtfLogStreamData : public RtfLogStreamBase
 {
-	int stage;
-	MCONTACT hContact;
-	MEVENT hDbEvent, hDbEventLast;
-	char *buffer;
-	int bufferOffset, bufferLen;
-	int eventsToInsert;
-	int isEmpty;
 	int isAppend;
-	class CLogWindow *pLog;
-	DBEVENTINFO *dbei;
 };
 
 __forceinline char* GetRTFFont(uint32_t dwIndex)
@@ -303,68 +290,6 @@ static void AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 	str.AppendChar('}');
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// mir_free() the return value
-
-static char* CreateRTFHeader(CLogWindow *pLog)
-{
-	int i;
-	CMStringA str;
-	auto &dat = pLog->GetDialog();
-	TLogTheme *theme = &dat.m_pContainer->m_theme;
-	LOGFONTW *logFonts = theme->logFonts;
-	COLORREF *fontColors = theme->fontColors;
-
-	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
-
-	for (i = 0; i < MSGDLGFONTCOUNT; i++)
-		str.AppendFormat("{\\f%u\\fnil\\fcharset%u %S;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
-	str.AppendFormat("{\\f%u\\fnil\\fcharset%u %s;}", MSGDLGFONTCOUNT, logFonts[i].lfCharSet, "Arial");
-
-	str.Append("}{\\colortbl ");
-	for (i = 0; i < MSGDLGFONTCOUNT; i++)
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
-
-	COLORREF colour = (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr) ? RGB(0, 0, 255) : GetSysColor(COLOR_HOTLIGHT);
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-
-	// OnO: Create incoming and outcoming colours
-	colour = theme->inbg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->outbg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->bg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->hgrid;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->oldinbg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->oldoutbg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = theme->statbg;
-	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-
-	// custom template colors...
-	for (i = 1; i <= 5; i++) {
-		colour = theme->custom_colors[i - 1];
-		if (colour == 0)
-			colour = RGB(1, 1, 1);
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	}
-
-	// bbcode colors...
-	for (auto &p : Utils::rtf_clrs)
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(p->clr), GetGValue(p->clr), GetBValue(p->clr));
-
-	// paragraph header
-	str.AppendFormat("}");
-
-	// indent
-	if (!(dat.m_dwFlags & MWF_LOG_INDENT))
-		str.AppendFormat("\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
-	return str.Detach();
-}
-
 static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CMsgDialog *dat, int iFontIDOffset)
 {
 	if (!skipFont) {
@@ -399,69 +324,12 @@ static wchar_t* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, wchar_
 	return szResult;
 }
 
-// mir_free() the return value
-static char *CreateRTFTail()
-{
-	return mir_strdup("}");
-}
-
 bool DbEventIsShown(const DB::EventInfo &dbei)
 {
 	if (!IsCustomEvent(dbei.eventType) || dbei.isSrmm())
 		return 1;
 
 	return IsStatusEvent(dbei.eventType);
-}
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData*)dwCookie;
-
-	if (dat->buffer == nullptr) {
-		dat->bufferOffset = 0;
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			mir_free(dat->buffer);
-			dat->buffer = CreateRTFHeader(dat->pLog);
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-
-		case STREAMSTAGE_EVENTS:
-			if (dat->eventsToInsert) {
-				do {
-					mir_free(dat->buffer);
-					dat->buffer = dat->pLog->CreateRTFFromDbEvent(dat);
-					if (dat->buffer)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (dat->buffer == nullptr && dat->hDbEvent);
-
-				if (dat->buffer)
-					break;
-			}
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			mir_free(dat->buffer);
-			dat->buffer = CreateRTFTail();
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-		dat->bufferLen = (int)mir_strlen(dat->buffer);
-	}
-	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
-	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
-	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen)
-		replaceStr(dat->buffer, nullptr);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -618,22 +486,78 @@ void CLogWindow::Attach()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* CLogWindow::CreateRTFFromDbEvent(LogStreamData *streamData)
+void CLogWindow::CreateRtfHeader(RtfLogStreamData *streamData)
 {
+	int i;
+	auto &str = streamData->buf;
+	auto &dat = m_pDlg;
+	TLogTheme *theme = &dat.m_pContainer->m_theme;
+	LOGFONTW *logFonts = theme->logFonts;
+	COLORREF *fontColors = theme->fontColors;
+
+	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
+
+	for (i = 0; i < MSGDLGFONTCOUNT; i++)
+		str.AppendFormat("{\\f%u\\fnil\\fcharset%u %S;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
+	str.AppendFormat("{\\f%u\\fnil\\fcharset%u %s;}", MSGDLGFONTCOUNT, logFonts[i].lfCharSet, "Arial");
+
+	str.Append("}{\\colortbl ");
+	for (i = 0; i < MSGDLGFONTCOUNT; i++)
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
+
+	COLORREF colour = (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr) ? RGB(0, 0, 255) : GetSysColor(COLOR_HOTLIGHT);
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+
+	// OnO: Create incoming and outcoming colours
+	colour = theme->inbg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->outbg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->bg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->hgrid;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->oldinbg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->oldoutbg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	colour = theme->statbg;
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+
+	// custom template colors...
+	for (i = 1; i <= 5; i++) {
+		colour = theme->custom_colors[i - 1];
+		if (colour == 0)
+			colour = RGB(1, 1, 1);
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	}
+
+	// bbcode colors...
+	for (auto &p : Utils::rtf_clrs)
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(p->clr), GetGValue(p->clr), GetBValue(p->clr));
+
+	// paragraph header
+	str.AppendFormat("}");
+
+	// indent
+	if (!(dat.m_dwFlags & MWF_LOG_INDENT))
+		str.AppendFormat("\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbei)
+{
+	if (!DbEventIsShown(dbei))
+		return false;
+
+	if (streamData->dbei && streamData->eventsToInsert > 0)
+		return false;
+
 	HANDLE hTimeZone = nullptr;
 	struct tm event_time = { 0 };
 	bool skipToNext = false, skipFont = false;
 	bool isBold = false, isItalic = false, isUnderline = false;
-
-	DB::EventInfo dbei;
-	if (streamData->dbei != nullptr)
-		memcpy(&dbei, streamData->dbei, sizeof(DBEVENTINFO));
-	else {
-		dbei.cbBlob = -1;
-		db_event_get(streamData->hDbEvent, &dbei);
-		if (!DbEventIsShown(dbei))
-			return nullptr;
-	}
 
 	auto *dat = &m_pDlg;
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
@@ -653,7 +577,7 @@ char* CLogWindow::CreateRTFFromDbEvent(LogStreamData *streamData)
 	msg.TrimRight();
 	dat->FormatRaw(msg, 1, FALSE);
 
-	CMStringA str;
+	auto &str = streamData->buf;
 
 	// means: last \\par was deleted to avoid new line at end of log
 	if (dat->m_bLastParaDeleted) {
@@ -1184,9 +1108,6 @@ skip:
 
 	str.Append("\\par");
 
-	if (streamData->dbei != nullptr)
-		dbei.pBlob = 0;
-
 	dat->m_iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->m_lastEventTime = dbei.timestamp;
 	return str.Detach();
@@ -1199,7 +1120,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend)
 	LogEvents(hDbEventFirst, count, fAppend, nullptr);
 }
 
-void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVENTINFO *dbei_s)
+void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::EventInfo *dbei_s)
 {
 	CHARRANGE oldSel, sel;
 
@@ -1228,7 +1149,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
 	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
-	LogStreamData streamData = { 0 };
+	RtfLogStreamData streamData = { 0 };
 	streamData.hContact = m_pDlg.m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.pLog = this;
@@ -1236,10 +1157,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	streamData.isEmpty = fAppend ? GetWindowTextLength(m_rtf.GetHwnd()) == 0 : 1;
 	streamData.dbei = dbei_s;
 	streamData.isAppend = fAppend;
-
-	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	LONG startAt;
 	if (fAppend) {
@@ -1262,7 +1179,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	// begin to draw
 	m_rtf.SetDraw(false);
-	m_rtf.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	StreamRtfEvents(&streamData, true);
 
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 
@@ -1287,8 +1204,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	if (streamData.dbei != nullptr)
 		isSent = (streamData.dbei->flags & DBEF_SENT) != 0;
 	else {
-		DBEVENTINFO dbei = {};
-		db_event_get(hDbEventFirst, &dbei);
+		DB::EventInfo dbei(hDbEventFirst, false);
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}
 
@@ -1306,7 +1222,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	m_rtf.SetDraw(true);
 	InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);
 	EnableWindow(GetDlgItem(m_pDlg.m_hwnd, IDC_QUOTE), m_pDlg.m_hDbEventLast != 0);
-	mir_free(streamData.buffer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

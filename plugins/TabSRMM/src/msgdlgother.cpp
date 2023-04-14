@@ -1413,7 +1413,7 @@ void CMsgDialog::LoadSplitter()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::LogEvent(DBEVENTINFO &dbei)
+void CMsgDialog::LogEvent(DB::EventInfo &dbei)
 {
 	if (m_iLogMode != WANT_BUILTIN_LOG) {
 		dbei.flags |= DBEF_TEMPORARY;
@@ -1424,7 +1424,7 @@ void CMsgDialog::LogEvent(DBEVENTINFO &dbei)
 			db_event_delete(hDbEvent);
 		}
 	}
-	else LOG()->LogEvents(0, 1, true, &dbei);
+	else LOG()->LogEvents(0, 0, true, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

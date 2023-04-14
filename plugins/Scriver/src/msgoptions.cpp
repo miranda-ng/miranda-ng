@@ -296,12 +296,12 @@ public:
 
 	void onChange_Cascade(CCtrlCheck *pCheck)
 	{
-		chkSavePerContact.SetState(!pCheck->GetState());
+		chkSavePerContact.SetState(!pCheck->IsChecked());
 	}
 
 	void onChange_SavePerContact(CCtrlCheck *pCheck)
 	{
-		chkCascade.SetState(!pCheck->GetState());
+		chkCascade.SetState(!pCheck->IsChecked());
 	}
 };
 
@@ -528,7 +528,7 @@ class CLogOptionsDlg : public CBaseOptionDlg
 		pf2.dxOffset = (gdat.flags.bIndentText) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
 		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 
-		StreamInTestEvents(m_rtf.GetHwnd(), &gdat);
+		StreamInTestEvents(this, &gdat);
 	}
 
 public:

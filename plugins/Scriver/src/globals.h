@@ -135,6 +135,6 @@ int ImageList_AddIcon_Ex2(HIMAGELIST hIml, HICON hIcon);
 int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id);
 int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char *szProto, int status);
 
-void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat);
+void StreamInTestEvents(CDlgBase *pDlg, GlobalMessageData *gdat);
 
 #endif

@@ -27,6 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "chat.h"
 
+#define STREAMSTAGE_HEADER  0
+#define STREAMSTAGE_EVENTS  1
+#define STREAMSTAGE_TAIL    2
+#define STREAMSTAGE_STOP    3
+
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
@@ -57,6 +62,13 @@ void CRtfLogWindow::Attach()
 	m_rtf.SetReadOnly(true);
 
 	mir_subclassWindow(m_rtf.GetHwnd(), stubLogProc);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CRtfLogWindow::CreateRtfTail(RtfLogStreamData *dat)
+{
+	dat->buf = "}";
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -259,6 +271,98 @@ void CRtfLogWindow::ScrollToBottom()
 	si.nPos = si.nMax - si.nPage;
 	SetScrollInfo(m_rtf.GetHwnd(), SB_VERT, &si, TRUE);
 	m_rtf.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define EVENTTYPE_JABBER_CHATSTATES     2000
+#define EVENTTYPE_JABBER_PRESENCE       2001
+
+static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
+{
+	DB::EventInfo dbei(dat->hDbEvent);
+	if (!dbei)
+		return false;
+
+	if (!dat->pLog->CreateRtfEvent(dat, dbei))
+		return false;
+
+	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
+		db_event_markRead(dat->hContact, dat->hDbEvent);
+		g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
+	}
+	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
+		db_event_markRead(dat->hContact, dat->hDbEvent);
+	}
+
+	return true;
+}
+
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	auto *dat = (RtfLogStreamData *)dwCookie;
+
+	if (dat->buf.IsEmpty()) {
+		switch (dat->stage) {
+		case STREAMSTAGE_HEADER:
+			dat->pLog->CreateRtfHeader(dat);
+			dat->stage = STREAMSTAGE_EVENTS;
+			break;
+
+		case STREAMSTAGE_EVENTS:
+			if (dat->dbei) {
+				if (dat->pLog->CreateRtfEvent(dat, *dat->dbei)) {
+					dat->eventsToInsert++;
+					break;
+				}
+			}
+			else if (dat->eventsToInsert) {
+				bool bOk;
+				do {
+					bOk = CreateRtfFromDbEvent(dat);
+					if (bOk)
+						dat->hDbEventLast = dat->hDbEvent;
+
+					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+					if (--dat->eventsToInsert == 0)
+						break;
+				} while (!bOk && dat->hDbEvent);
+
+				if (bOk) {
+					dat->isEmpty = false;
+					break;
+				}
+			}
+			dat->stage = STREAMSTAGE_TAIL;
+			__fallthrough;
+
+		case STREAMSTAGE_TAIL:
+			dat->pLog->CreateRtfTail(dat);
+			dat->stage = STREAMSTAGE_STOP;
+			break;
+
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
+		}
+	}
+
+	*pcb = min(cb, dat->buf.GetLength());
+	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
+	if (dat->buf.GetLength() == *pcb)
+		dat->buf.Empty();
+	else
+		dat->buf.Delete(0, *pcb);
+
+	return 0;
+}
+
+void CRtfLogWindow::StreamRtfEvents(RtfLogStreamData *dat, bool bAppend)
+{
+	EDITSTREAM stream = {};
+	stream.pfnCallback = LogStreamInEvents;
+	stream.dwCookie = (DWORD_PTR)dat;
+	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

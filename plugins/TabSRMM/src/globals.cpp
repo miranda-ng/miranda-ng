@@ -494,10 +494,9 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	else
 		text.Format(TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 
-	T2Utf szMsg(text);
-	DBEVENTINFO dbei = {};
-	dbei.pBlob = (uint8_t*)(char*)szMsg;
-	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;
+	DB::EventInfo dbei;
+	dbei.pBlob = (uint8_t*)T2Utf(text).detach();
+	dbei.cbBlob = (int)mir_strlen((char*)dbei.pBlob);
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(0);

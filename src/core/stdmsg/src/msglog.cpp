@@ -29,20 +29,8 @@ extern IconItem iconList[];
 
 static char *pLogIconBmpBits[3];
 
-#define STREAMSTAGE_HEADER  0
-#define STREAMSTAGE_EVENTS  1
-#define STREAMSTAGE_TAIL    2
-#define STREAMSTAGE_STOP    3
-
-struct LogStreamData
+struct RtfLogStreamData : public RtfLogStreamBase
 {
-	int stage;
-	MEVENT hDbEvent, hDbEventLast;
-	MCONTACT hContact;
-	CMStringA buf;
-	int eventsToInsert;
-	bool isEmpty;
-	class CLogWindow *pLog;
 };
 
 static int logPixelSY;
@@ -146,39 +134,6 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 	buf.AppendChar('}');
 }
 
-#define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
-
-static void CreateRTFHeader(CMStringA &buffer)
-{
-	HDC hdc = GetDC(nullptr);
-	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(nullptr, hdc);
-
-	buffer.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
-
-	LOGFONT lf;
-	for (int i = 0; LoadMsgDlgFont(i, &lf, nullptr); i++)
-		buffer.AppendFormat(FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
-
-	buffer.Append("}{\\colortbl ");
-	COLORREF colour;
-	for (int i = 0; LoadMsgDlgFont(i, nullptr, &colour); i++)
-		buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-
-	if (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr)
-		colour = RGB(0, 0, 255);
-	else
-		colour = GetSysColor(COLOR_HOTLIGHT);
-	buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	buffer.Append("}");
-}
-
-// mir_free() the return value
-static void CreateRTFTail(CMStringA &buffer)
-{
-	buffer = "}";
-}
-
 //return value is static
 static void SetToStyle(int style, CMStringA &dest)
 {
@@ -276,22 +231,39 @@ public:
 		m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 	}
 
-	bool CreateRTFFromDbEvent(LogStreamData *dat)
-	{
-		DB::EventInfo dbei(dat->hDbEvent);
-		if (!dbei)
-			return false;
+	#define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
+	void CreateRtfHeader(RtfLogStreamData *dat) override
+	{
+		HDC hdc = GetDC(nullptr);
+		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		ReleaseDC(nullptr, hdc);
+
+		auto &buffer = dat->buf;
+		buffer.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
+
+		LOGFONT lf;
+		for (int i = 0; LoadMsgDlgFont(i, &lf, nullptr); i++)
+			buffer.AppendFormat(FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
+
+		buffer.Append("}{\\colortbl ");
+		COLORREF colour;
+		for (int i = 0; LoadMsgDlgFont(i, nullptr, &colour); i++)
+			buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+
+		if (GetSysColorBrush(COLOR_HOTLIGHT) == nullptr)
+			colour = RGB(0, 0, 255);
+		else
+			colour = GetSysColor(COLOR_HOTLIGHT);
+		buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		buffer.Append("}");
+	}
+
+
+	bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) override
+	{
 		if (!DbEventIsShown(dbei))
 			return false;
-
-		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
-			db_event_markRead(dat->hContact, dat->hDbEvent);
-			g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
-		}
-		else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
-			db_event_markRead(dat->hContact, dat->hDbEvent);
-		}
 
 		CMStringA &buf = dat->buf;
 		bool bIsRtl = m_pDlg.m_bIsAutoRTL;
@@ -426,16 +398,12 @@ public:
 		m_rtf.SetDraw(false);
 		m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
-		LogStreamData streamData = {};
+		RtfLogStreamData streamData = {};
 		streamData.hContact = m_pDlg.m_hContact;
 		streamData.hDbEvent = hDbEventFirst;
 		streamData.pLog = this;
 		streamData.eventsToInsert = count;
 		streamData.isEmpty = !bAppend || GetWindowTextLength(m_rtf.GetHwnd()) == 0;
-
-		EDITSTREAM stream = {};
-		stream.pfnCallback = LogStreamInEvents;
-		stream.dwCookie = (DWORD_PTR)&streamData;
 
 		if (!streamData.isEmpty) {
 			bottomScroll = GetFocus() != m_rtf.GetHwnd() && AtBottom();
@@ -462,7 +430,6 @@ public:
 		mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
 		mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
-		m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
 		if (bottomScroll) {
 			sel.cpMin = sel.cpMax = -1;
 			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
@@ -705,57 +672,6 @@ public:
 		return CSuper::WndProc(msg, wParam, lParam);
 	}
 };
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData *)dwCookie;
-
-	if (dat->buf.IsEmpty()) {
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			CreateRTFHeader(dat->buf);
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-
-		case STREAMSTAGE_EVENTS:
-			if (dat->eventsToInsert) {
-				bool bOk;
-				do {
-					bOk = dat->pLog->CreateRTFFromDbEvent(dat);
-					if (bOk)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (!bOk && dat->hDbEvent);
-
-				if (bOk) {
-					dat->isEmpty = false;
-					break;
-				}
-			}
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			CreateRTFTail(dat->buf);
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-	}
-
-	*pcb = min(cb, dat->buf.GetLength());
-	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
-	if (dat->buf.GetLength() == *pcb)
-		dat->buf.Empty();
-	else
-		dat->buf.Delete(0, *pcb);
-
-	return 0;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point

@@ -631,7 +631,7 @@ public:
 		return ((CLogWindow *)m_pLog);
 	}
 
-	void LogEvent(DBEVENTINFO &dbei);
+	void LogEvent(DB::EventInfo &dbei);
 
 	void DM_OptionsApplied(bool bRemakeLog = true);
 	void DM_RecalcPictureSize(void);
@@ -687,7 +687,8 @@ public:
 		CSuper(pDlg)
 	{}
 
-	char *CreateRTFFromDbEvent(struct LogStreamData *streamData);
+	void CreateRtfHeader(RtfLogStreamData *streamData) override;
+	bool CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbei) override;
 
 	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override;
 	void Attach() override;
@@ -706,7 +707,7 @@ public:
 		return m_rtf.GetRichTextRtf(bText, bSelection);
 	}
 
-	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DBEVENTINFO *dbei);
+	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DB::EventInfo *dbei);
 	void  ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
 	void  ScrollToBottom(bool, bool);
 

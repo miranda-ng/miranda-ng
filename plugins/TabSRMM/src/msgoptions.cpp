@@ -622,15 +622,15 @@ public:
 
 		T2Utf szText((iIndex == 6) ? TranslateT("is now offline (was online)") : TranslateT("The quick brown fox jumps over the lazy dog."));
 
-		DBEVENTINFO dbei = {};
+		DB::EventInfo dbei;
 		dbei.szModule = m_szProto;
 		dbei.timestamp = time(0);
 		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
 			dbei.szModule = (char *)TranslateT("Sample error message");
-		dbei.pBlob = (uint8_t *)szText.get();
-		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
+		dbei.pBlob = (uint8_t *)szText.detach();
+		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);
 		m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(0) - 1 : 0;
@@ -639,10 +639,10 @@ public:
 		m_dwFlags = (m_bRtl ? m_dwFlags | MWF_LOG_RTL : m_dwFlags & ~MWF_LOG_RTL);
 		m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
 		mir_snwprintf(m_wszMyNickname, TranslateT("My Nickname"));
-		LOG()->LogEvents(0, 1, false, &dbei);
+		LOG()->LogEvents(0, 0, false, &dbei);
 		if (m_bFirstUse) {
 			if (m_bRtl)
-				LOG()->LogEvents(0, 1, false, &dbei);
+				LOG()->LogEvents(0, 0, false, &dbei);
 			m_bFirstUse = false;
 		}
 		if (m_bChanged)

@@ -148,6 +148,25 @@ EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard built-in RTF logger class
 
+struct RtfLogStreamBase
+{
+	int       stage;
+	MCONTACT  hContact;
+	MEVENT    hDbEvent, hDbEventLast;
+	int       eventsToInsert;
+	int       isFirst, isEmpty;
+
+	CMStringA buf;
+	DB::EventInfo *dbei;
+	class CRtfLogWindow *pLog;
+};
+
+#ifdef SRMM_OWN_STRUCTURES
+	struct RtfLogStreamData;
+#else
+	struct RtfLogStreamData : public RtfLogStreamBase {};
+#endif
+
 class MIR_APP_EXPORT CRtfLogWindow : public CSrmmLogWindow
 {
 protected:
@@ -159,8 +178,15 @@ public:
 	CRtfLogWindow(CMsgDialog &pDlg);
 	~CRtfLogWindow() override;
 
-	virtual void    AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) = 0;
+	virtual void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) = 0;
+
+	virtual void CreateRtfHeader(RtfLogStreamData *dat) = 0;
+	virtual bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) = 0;
+	virtual void CreateRtfTail(RtfLogStreamData *dat);
+
 	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void StreamRtfEvents(RtfLogStreamData *dat, bool bAppend);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	void     Attach() override;
