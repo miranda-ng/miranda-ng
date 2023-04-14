@@ -29,23 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
 
-struct EventData
-{
-	int cbSize;
-	int iType;
-	uint32_t	dwFlags;
-	const char *fontName;
-	int fontSize;
-	int fontStyle;
-	COLORREF	color;
-	MAllStrings szNick;     // Nick, usage depends on type of event
-	MAllStrings szText;     // Text, usage depends on type of event
-	uint32_t	time;
-	uint32_t	eventType;
-	BOOL  custom;
-	EventData *next;
-};
-
 struct ToolbarButton
 {
 	wchar_t *name;
@@ -97,9 +80,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	HICON  m_hStatusIcon, m_hStatusIconBig, m_hStatusIconOverlay;
 
 	char  *m_szProto;
-	time_t m_startTime, m_lastEventTime;
-	int    m_lastEventType;
-	int    m_isMixed;
 	bool   m_bUseRtl;
 
 	HBITMAP m_hbmpAvatarPic;
@@ -192,9 +172,6 @@ public:
 
 	wchar_t *m_wszInitialText;
 
-	char* CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, struct LogStreamData *streamData);
-	EventData *GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent);
-
 	void Reattach(HWND hwndContainer);
 };
 
@@ -216,8 +193,8 @@ public:
 #define EVENTTYPE_JABBER_PRESENCE	2001
 
 bool DbEventIsShown(const DBEVENTINFO &dbei);
-bool DbEventIsCustomForMsgWindow(const DBEVENTINFO *dbei);
-bool DbEventIsMessageOrCustom(const DBEVENTINFO *dbei);
+bool DbEventIsCustomForMsgWindow(const DBEVENTINFO &dbei);
+bool DbEventIsMessageOrCustom(const DBEVENTINFO &dbei);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 int IsAutoPopup(MCONTACT hContact);

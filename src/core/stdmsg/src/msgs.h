@@ -31,23 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_JABBER_CHATSTATES     2000
 #define EVENTTYPE_JABBER_PRESENCE       2001
 
-class CLogWindow : public CRtfLogWindow
-{
-	typedef CRtfLogWindow CSuper;
-
-public:
-	CLogWindow(CMsgDialog &pDlg) :
-		CSuper(pDlg)
-	{}
-
-	void Attach() override;
-	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(struct LOGINFO *, bool) override;
-	void UpdateOptions() override;
-
-	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-};
-
 class CMsgDialog : public CSrmmBaseDialog
 {
 	friend class CLogWindow;

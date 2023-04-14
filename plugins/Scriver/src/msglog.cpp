@@ -45,20 +45,22 @@ struct LogStreamData
 	size_t   bufferOffset, bufferLen;
 	int      eventsToInsert;
 	int      isFirst;
-	CMsgDialog *dlgDat;
+	class CLogWindow *pLog;
 	GlobalMessageData *gdat;
-	EventData *events;
+	DB::EventInfo *dbei;
 };
 
-bool DbEventIsCustomForMsgWindow(const DBEVENTINFO *dbei)
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+
+bool DbEventIsCustomForMsgWindow(const DBEVENTINFO &dbei)
 {
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei.szModule, dbei.eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-bool DbEventIsMessageOrCustom(const DBEVENTINFO* dbei)
+bool DbEventIsMessageOrCustom(const DBEVENTINFO &dbei)
 {
-	return dbei->eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei);
+	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || DbEventIsCustomForMsgWindow(dbei);
 }
 
 bool DbEventIsShown(const DBEVENTINFO &dbei)
@@ -73,107 +75,15 @@ bool DbEventIsShown(const DBEVENTINFO &dbei)
 		return 0;
 	}
 
-	return DbEventIsCustomForMsgWindow(&dbei);
+	return DbEventIsCustomForMsgWindow(dbei);
 }
 
-EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
+static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *line)
 {
-	DB::EventInfo dbei(hDbEvent);
-	if (!dbei)
-		return nullptr;
+	buf.Append("{\\uc1 ");
 
-	if (!DbEventIsShown(dbei))
-		return nullptr;
-
-	EventData *evt = (EventData*)mir_calloc(sizeof(EventData));
-	evt->custom = DbEventIsCustomForMsgWindow(&dbei);
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || evt->custom)) {
-		db_event_markRead(hContact, hDbEvent);
-		g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
-	}
-	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
-		db_event_markRead(hContact, hDbEvent);
-
-	evt->eventType = dbei.eventType;
-	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
-	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-
-	if (m_bUseRtl)
-		evt->dwFlags |= IEEDF_RTL;
-
-	evt->time = dbei.timestamp;
-	evt->szNick.w = nullptr;
-	if (evt->dwFlags & IEEDF_SENT)
-		evt->szNick.w = Contact::GetInfo(CNF_DISPLAY, 0, m_szProto);
-	else
-		evt->szNick.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
-
-	evt->szText.w = DbEvent_GetTextW(&dbei, CP_UTF8);
-
-	if (!m_bUseRtl && Utils_IsRtl(evt->szText.w))
-		evt->dwFlags |= IEEDF_RTL;
-
-	return evt;
-}
-
-static EventData* GetTestEvent(uint32_t flags)
-{
-	EventData *evt = (EventData *)mir_calloc(sizeof(EventData));
-	evt->eventType = EVENTTYPE_MESSAGE;
-	evt->dwFlags = IEEDF_READ | flags;
-	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-	evt->time = time(0);
-	return evt;
-}
-
-static EventData* GetTestEvents()
-{
-	EventData *evt, *firstEvent, *prevEvent;
-	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->szNick.w = mir_wstrdup(TranslateT("Me"));
-	evt->szText.w = mir_wstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
-
-	evt = GetTestEvent(IEEDF_SENT);
-	evt->szNick.w = mir_wstrdup(TranslateT("Me"));
-	evt->szText.w = mir_wstrdup(TranslateT("to tiny bits, in Thy mercy"));
-	prevEvent->next = evt;
-	prevEvent = evt;
-
-	evt = GetTestEvent(0);
-	evt->szNick.w = mir_wstrdup(TranslateT("My contact"));
-	evt->szText.w = mir_wstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
-	prevEvent->next = evt;
-	prevEvent = evt;
-
-	evt = GetTestEvent(0);
-	evt->szNick.w = mir_wstrdup(TranslateT("My contact"));
-	evt->szText.w = mir_wstrdup(TranslateT("consectetur adipisicing elit"));
-	prevEvent->next = evt;
-	prevEvent = evt;
-	return firstEvent;
-}
-
-static void freeEvent(EventData *evt)
-{
-	mir_free(evt->szNick.w);
-	mir_free(evt->szText.w);
-	mir_free(evt);
-}
-
-static int AppendUnicodeOrAnsiiToBufferL(CMStringA &buf, const wchar_t *line, size_t maxLen, BOOL isAnsii)
-{
-	if (maxLen == -1)
-		maxLen = mir_wstrlen(line);
-
-	const wchar_t *maxLine = line + maxLen;
-
-	if (isAnsii)
-		buf.Append("{");
-	else
-		buf.Append("{\\uc1 ");
-
-	int wasEOL = 0, textCharsCount = 0;
-	for (; line < maxLine; line++, textCharsCount++) {
+	int wasEOL = 0;
+	for (; *line; line++) {
 		wasEOL = 0;
 		if (*line == '\r' && line[1] == '\n') {
 			buf.Append("\\line ");
@@ -194,9 +104,6 @@ static int AppendUnicodeOrAnsiiToBufferL(CMStringA &buf, const wchar_t *line, si
 		else if (*line < 128) {
 			buf.AppendChar((char)*line);
 		}
-		else if (isAnsii) {
-			buf.AppendFormat("\\'%02x", (*line) & 0xFF);
-		}
 		else {
 			buf.AppendFormat("\\u%d ?", *line);
 		}
@@ -205,18 +112,6 @@ static int AppendUnicodeOrAnsiiToBufferL(CMStringA &buf, const wchar_t *line, si
 		buf.AppendChar(' ');
 
 	buf.AppendChar('}');
-
-	return textCharsCount;
-}
-
-static int AppendAnsiToBuffer(CMStringA &buf, const char *line)
-{
-	return AppendUnicodeOrAnsiiToBufferL(buf, _A2T(line), -1, true);
-}
-
-static int AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *line)
-{
-	return AppendUnicodeOrAnsiiToBufferL(buf, line, -1, false);
 }
 
 // mir_free() the return value
@@ -333,276 +228,22 @@ int isSameDate(time_t time1, time_t time2)
 	return 0;
 }
 
-static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
+static void AppendWithCustomLinks(DBEVENTINFO &dbei, int style, CMStringA &buf)
 {
-	if (evt->szText.w == nullptr)
+	if (dbei.pBlob == nullptr)
 		return;
 
-	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
 	wchar_t *wText;
-	size_t len;
-	if (isAnsii) {
-		len = mir_strlen(evt->szText.a);
-		wText = mir_a2u(evt->szText.a);
-	}
-	else {
-		wText = evt->szText.w;
-		len = (int)mir_wstrlen(evt->szText.w);
-	}
-
-	if (len > 0) {
-		buf.AppendFormat("%s ", SetToStyle(style));
-		AppendUnicodeOrAnsiiToBufferL(buf, wText, len, isAnsii);
-	}
-
-	if (isAnsii)
-		mir_free(wText);
-}
-
-// mir_free() the return value
-char* CMsgDialog::CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
-{
-	int style, showColon = 0;
-	int isGroupBreak = TRUE;
-	int highlight = 0;
-
-	if ((gdat->flags.bGroupMessages) && evt->dwFlags == LOWORD(m_lastEventType) &&
-		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(m_lastEventType) == EVENTTYPE_MESSAGE &&
-		(isSameDate(evt->time, m_lastEventTime)) && ((((int)evt->time < m_startTime) == (m_lastEventTime < m_startTime)) || !(evt->dwFlags & IEEDF_READ))) {
-		isGroupBreak = FALSE;
-	}
-
-	CMStringA buf;
-	if (!streamData->isFirst && !m_isMixed) {
-		if (isGroupBreak || gdat->flags.bMarkFollowups)
-			buf.Append("\\par");
-		else
-			buf.Append("\\line");
-	}
-
-	if (evt->dwFlags & IEEDF_RTL)
-		m_isMixed = 1;
-
-	if (!streamData->isFirst && isGroupBreak && (gdat->flags.bDrawLines))
-		buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
-
-	buf.Append((evt->dwFlags & IEEDF_RTL) ? "\\rtlpar" : "\\ltrpar");
-
-	if (evt->eventType == EVENTTYPE_MESSAGE)
-		highlight = fontOptionsListSize + 2 + ((evt->dwFlags & IEEDF_SENT) ? 1 : 0);
+	if ((dbei.flags & DBEF_UTF) == 0)
+		wText = mir_a2u((char*)dbei.pBlob);
 	else
-		highlight = fontOptionsListSize + 1;
+		wText = mir_utf8decodeW((char *)dbei.pBlob);
 
-	buf.AppendFormat("\\highlight%d\\cf%d", highlight, highlight);
-	if (!streamData->isFirst && m_isMixed) {
-		if (isGroupBreak)
-			buf.Append("\\sl-1 \\par\\sl0");
-		else
-			buf.Append("\\sl-1 \\line\\sl0");
-	}
-	streamData->isFirst = FALSE;
-	if (m_isMixed) {
-		if (evt->dwFlags & IEEDF_RTL)
-			buf.Append("\\ltrch\\rtlch");
-		else
-			buf.Append("\\rtlch\\ltrch");
-	}
-	if ((gdat->flags.bShowIcons) && isGroupBreak) {
-		int i = LOGICON_MSG_NOTICE;
-
-		switch (evt->eventType) {
-		case EVENTTYPE_MESSAGE:
-			if (evt->dwFlags & IEEDF_SENT)
-				i = LOGICON_MSG_OUT;
-			else
-				i = LOGICON_MSG_IN;
-			break;
-
-		default:
-			i = LOGICON_MSG_NOTICE;
-			break;
-		}
-
-		buf.Append("\\fs1  ");
-		buf.Append(pLogIconBmpBits[i]);
-		buf.AppendChar(' ');
-	}
-
-	if (gdat->flags.bShowTime && (evt->eventType != EVENTTYPE_MESSAGE ||
-		(gdat->flags.bMarkFollowups || isGroupBreak || !(gdat->flags.bGroupMessages)))) {
-		wchar_t *timestampString = nullptr;
-		if (gdat->flags.bGroupMessages && evt->eventType == EVENTTYPE_MESSAGE) {
-			if (isGroupBreak) {
-				if (!gdat->flags.bMarkFollowups)
-					timestampString = TimestampToString(gdat->flags, evt->time, 0);
-				else if (gdat->flags.bShowDate)
-					timestampString = TimestampToString(gdat->flags, evt->time, 1);
-			}
-			else if (gdat->flags.bMarkFollowups)
-				timestampString = TimestampToString(gdat->flags, evt->time, 2);
-		}
-		else timestampString = TimestampToString(gdat->flags, evt->time, 0);
-
-		if (timestampString != nullptr) {
-			buf.AppendFormat("%s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-			AppendUnicodeToBuffer(buf, timestampString);
-		}
-		if (evt->eventType != EVENTTYPE_MESSAGE)
-			buf.AppendFormat("%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
-		showColon = 1;
-	}
-	if ((!(gdat->flags.bHideNames) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || evt->eventType == EVENTTYPE_JABBER_CHATSTATES || evt->eventType == EVENTTYPE_JABBER_PRESENCE) {
-		if (evt->eventType == EVENTTYPE_MESSAGE) {
-			if (showColon)
-				buf.AppendFormat(" %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-			else
-				buf.AppendFormat("%s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-		}
-		else buf.AppendFormat("%s ", SetToStyle(MSGFONTID_NOTICE));
-
-		if (evt->dwFlags & IEEDF_UNICODE_NICK)
-			AppendUnicodeToBuffer(buf, evt->szNick.w);
-		else
-			AppendAnsiToBuffer(buf, evt->szNick.a);
-
-		showColon = 1;
-		if (evt->eventType == EVENTTYPE_MESSAGE && gdat->flags.bGroupMessages) {
-			if (gdat->flags.bMarkFollowups)
-				buf.Append("\\par");
-			else
-				buf.Append("\\line");
-			showColon = 0;
-		}
-	}
-
-	if (gdat->flags.bShowTime && gdat->flags.bGroupMessages && gdat->flags.bMarkFollowups && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
-		buf.AppendFormat(" %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-		AppendUnicodeToBuffer(buf, TimestampToString(gdat->flags, evt->time, 2));
-		showColon = 1;
-	}
-	if (showColon && evt->eventType == EVENTTYPE_MESSAGE) {
-		if (evt->dwFlags & IEEDF_RTL)
-			buf.AppendFormat("\\~%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
-		else
-			buf.AppendFormat("%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
-	}
-	switch (evt->eventType) {
-	case EVENTTYPE_JABBER_CHATSTATES:
-	case EVENTTYPE_JABBER_PRESENCE:
-	case EVENTTYPE_FILE:
-		style = MSGFONTID_NOTICE;
+	if (wText) {
 		buf.AppendFormat("%s ", SetToStyle(style));
-		if (evt->eventType == EVENTTYPE_FILE) {
-			if (evt->dwFlags & IEEDF_SENT)
-				AppendUnicodeToBuffer(buf, TranslateT("File sent"));
-			else
-				AppendUnicodeToBuffer(buf, TranslateT("File received"));
-			AppendUnicodeToBuffer(buf, L":");
-		}
-		AppendUnicodeToBuffer(buf, L" ");
-
-		if (evt->szText.w != nullptr) {
-			if (evt->dwFlags & IEEDF_UNICODE_TEXT)
-				AppendUnicodeToBuffer(buf, evt->szText.w);
-			else
-				AppendAnsiToBuffer(buf, evt->szText.a);
-		}
-		break;
-
-	default:
-		if (gdat->flags.bMsgOnNewline && showColon)
-			buf.Append("\\line");
-
-		style = evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
-		AppendWithCustomLinks(evt, style, buf);
-		break;
+		AppendUnicodeToBuffer(buf, wText);
+		mir_free(wText);
 	}
-
-	if (m_isMixed)
-		buf.Append("\\par");
-
-	m_lastEventTime = evt->time;
-	m_lastEventType = MAKELONG(evt->dwFlags, evt->eventType);
-	return buf.Detach();
-}
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData*)dwCookie;
-
-	if (dat->buffer == nullptr) {
-		dat->bufferOffset = 0;
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			dat->buffer = CreateRTFHeader();
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-		case STREAMSTAGE_EVENTS:
-			if (dat->events != nullptr) {
-				EventData *evt = dat->events;
-				dat->buffer = nullptr;
-				dat->buffer = dat->dlgDat->CreateRTFFromEvent(evt, dat->gdat, dat);
-				dat->events = evt->next;
-				freeEvent(evt);
-			}
-			else if (dat->eventsToInsert) {
-				do {
-					EventData *evt = dat->dlgDat->GetEventFromDB(dat->hContact, dat->hDbEvent);
-					dat->buffer = nullptr;
-					if (evt != nullptr) {
-						dat->buffer = dat->dlgDat->CreateRTFFromEvent(evt, dat->gdat, dat);
-						freeEvent(evt);
-					}
-					if (dat->buffer)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (dat->buffer == nullptr && dat->hDbEvent);
-			}
-			if (dat->buffer)
-				break;
-
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			dat->buffer = CreateRTFTail();
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-		dat->bufferLen = mir_strlen(dat->buffer);
-	}
-	*pcb = min(cb, LONG(dat->bufferLen - dat->bufferOffset));
-	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
-	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen) {
-		mir_free(dat->buffer);
-		dat->buffer = nullptr;
-	}
-	return 0;
-}
-
-void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
-{
-	CMsgDialog *dat = new CMsgDialog(0, false);
-
-	LogStreamData streamData = { 0 };
-	streamData.isFirst = TRUE;
-	streamData.events = GetTestEvents();
-	streamData.dlgDat = dat;
-	streamData.gdat = gdat;
-
-	EDITSTREAM stream = { 0 };
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
-	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
-
-	delete dat;
 }
 
 #define RTFPICTHEADERMAXSIZE   78
@@ -691,10 +332,21 @@ class CLogWindow : public CRtfLogWindow
 {
 	typedef CRtfLogWindow CSuper;
 
+	int    m_isMixed = 0;
+	int    m_lastEventType = -1;
+	time_t m_startTime, m_lastEventTime;
+
 public:
 	CLogWindow(CMsgDialog &pDlg) :
 		CSuper(pDlg)
-	{}
+	{
+		m_lastEventTime = m_startTime = time(0);
+	}
+
+	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override
+	{
+		AppendUnicodeToBuffer(str, pwszBuf);
+	}
 
 	void Attach() override
 	{
@@ -726,8 +378,191 @@ public:
 		m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 	}
 
+	char* CreateRTFFromEvent(DB::EventInfo &dbei, LogStreamData *streamData)
+	{
+		int style, showColon = 0;
+		int isGroupBreak = TRUE;
+		int highlight = 0;
+		auto *gdat = streamData->gdat;
+
+		if ((gdat->flags.bGroupMessages) && dbei.flags == LOWORD(m_lastEventType) &&
+			dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(m_lastEventType) == EVENTTYPE_MESSAGE &&
+			(isSameDate(dbei.timestamp, m_lastEventTime)) && ((((int)dbei.timestamp < m_startTime) == (m_lastEventTime < m_startTime)) || !(dbei.flags & DBEF_READ))) {
+			isGroupBreak = FALSE;
+		}
+
+		ptrW wszText(DbEvent_GetTextW(&dbei, CP_UTF8)), wszNick;
+		
+		// test contact
+		if (m_pDlg.m_hContact != 0) {
+			if (dbei.flags & DBEF_SENT)
+				wszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_pDlg.m_szProto);
+			else
+				wszNick = mir_wstrdup(Clist_GetContactDisplayName(m_pDlg.m_hContact));
+		}
+		else wszNick = mir_wstrdup((dbei.flags & DBEF_SENT) ? TranslateT("Me") : TranslateT("My contact"));
+
+		if (!m_pDlg.m_bUseRtl && Utils_IsRtl(wszText))
+			dbei.flags |= DBEF_RTL;
+
+		CMStringA buf;
+		if (!streamData->isFirst && !m_isMixed) {
+			if (isGroupBreak || gdat->flags.bMarkFollowups)
+				buf.Append("\\par");
+			else
+				buf.Append("\\line");
+		}
+
+		if (dbei.flags & DBEF_RTL)
+			m_isMixed = 1;
+
+		if (!streamData->isFirst && isGroupBreak && (gdat->flags.bDrawLines))
+			buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
+
+		buf.Append((dbei.flags & DBEF_RTL) ? "\\rtlpar" : "\\ltrpar");
+
+		if (dbei.eventType == EVENTTYPE_MESSAGE)
+			highlight = fontOptionsListSize + 2 + ((dbei.flags & DBEF_SENT) ? 1 : 0);
+		else
+			highlight = fontOptionsListSize + 1;
+
+		buf.AppendFormat("\\highlight%d\\cf%d", highlight, highlight);
+		if (!streamData->isFirst && m_isMixed) {
+			if (isGroupBreak)
+				buf.Append("\\sl-1 \\par\\sl0");
+			else
+				buf.Append("\\sl-1 \\line\\sl0");
+		}
+		streamData->isFirst = FALSE;
+		if (m_isMixed) {
+			if (dbei.flags & DBEF_RTL)
+				buf.Append("\\ltrch\\rtlch");
+			else
+				buf.Append("\\rtlch\\ltrch");
+		}
+		if ((gdat->flags.bShowIcons) && isGroupBreak) {
+			int i = LOGICON_MSG_NOTICE;
+
+			switch (dbei.eventType) {
+			case EVENTTYPE_MESSAGE:
+				if (dbei.flags & DBEF_SENT)
+					i = LOGICON_MSG_OUT;
+				else
+					i = LOGICON_MSG_IN;
+				break;
+
+			default:
+				i = LOGICON_MSG_NOTICE;
+				break;
+			}
+
+			buf.Append("\\fs1  ");
+			buf.Append(pLogIconBmpBits[i]);
+			buf.AppendChar(' ');
+		}
+
+		if (gdat->flags.bShowTime && (dbei.eventType != EVENTTYPE_MESSAGE ||
+			(gdat->flags.bMarkFollowups || isGroupBreak || !(gdat->flags.bGroupMessages)))) {
+			wchar_t *timestampString = nullptr;
+			if (gdat->flags.bGroupMessages && dbei.eventType == EVENTTYPE_MESSAGE) {
+				if (isGroupBreak) {
+					if (!gdat->flags.bMarkFollowups)
+						timestampString = TimestampToString(gdat->flags, dbei.timestamp, 0);
+					else if (gdat->flags.bShowDate)
+						timestampString = TimestampToString(gdat->flags, dbei.timestamp, 1);
+				}
+				else if (gdat->flags.bMarkFollowups)
+					timestampString = TimestampToString(gdat->flags, dbei.timestamp, 2);
+			}
+			else timestampString = TimestampToString(gdat->flags, dbei.timestamp, 0);
+
+			if (timestampString != nullptr) {
+				buf.AppendFormat("%s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+				AppendUnicodeToBuffer(buf, timestampString);
+			}
+			if (dbei.eventType != EVENTTYPE_MESSAGE)
+				buf.AppendFormat("%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+			showColon = 1;
+		}
+		if ((!(gdat->flags.bHideNames) && dbei.eventType == EVENTTYPE_MESSAGE && isGroupBreak) || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
+			if (dbei.eventType == EVENTTYPE_MESSAGE) {
+				if (showColon)
+					buf.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+				else
+					buf.AppendFormat("%s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+			}
+			else buf.AppendFormat("%s ", SetToStyle(MSGFONTID_NOTICE));
+
+			AppendUnicodeToBuffer(buf, wszNick);
+
+			showColon = 1;
+			if (dbei.eventType == EVENTTYPE_MESSAGE && gdat->flags.bGroupMessages) {
+				if (gdat->flags.bMarkFollowups)
+					buf.Append("\\par");
+				else
+					buf.Append("\\line");
+				showColon = 0;
+			}
+		}
+
+		if (gdat->flags.bShowTime && gdat->flags.bGroupMessages && gdat->flags.bMarkFollowups && dbei.eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
+			buf.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+			AppendUnicodeToBuffer(buf, TimestampToString(gdat->flags, dbei.timestamp, 2));
+			showColon = 1;
+		}
+		if (showColon && dbei.eventType == EVENTTYPE_MESSAGE) {
+			if (dbei.flags & DBEF_RTL)
+				buf.AppendFormat("\\~%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+			else
+				buf.AppendFormat("%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+		}
+		switch (dbei.eventType) {
+		case EVENTTYPE_JABBER_CHATSTATES:
+		case EVENTTYPE_JABBER_PRESENCE:
+		case EVENTTYPE_FILE:
+			style = MSGFONTID_NOTICE;
+			buf.AppendFormat("%s ", SetToStyle(style));
+			if (dbei.eventType == EVENTTYPE_FILE) {
+				DB::FILE_BLOB blob(dbei);
+				if (blob.isOffline()) {
+					InsertFileLink(buf, streamData->hDbEvent, blob);
+					break;
+				}
+
+				if (dbei.flags & DBEF_SENT)
+					AppendUnicodeToBuffer(buf, TranslateT("File sent"));
+				else
+					AppendUnicodeToBuffer(buf, TranslateT("File received"));
+				AppendUnicodeToBuffer(buf, L":");
+			}
+			AppendUnicodeToBuffer(buf, L" ");
+
+			if (wszText != nullptr)
+				AppendUnicodeToBuffer(buf, wszText);
+			break;
+
+		default:
+			if (gdat->flags.bMsgOnNewline && showColon)
+				buf.Append("\\line");
+
+			style = dbei.flags & DBEF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
+			AppendWithCustomLinks(dbei, style, buf);
+			break;
+		}
+
+		if (m_isMixed)
+			buf.Append("\\par");
+
+		m_lastEventTime = dbei.timestamp;
+		m_lastEventType = MAKELONG(dbei.flags, dbei.eventType);
+		return buf.Detach();
+	}
+
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
 	{
+		if (!bAppend)
+			m_lastEventType = -1;
+
 		CHARRANGE oldSel, sel;
 		m_rtf.SetDraw(false);
 		m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
@@ -736,7 +571,7 @@ public:
 		streamData.hContact = m_pDlg.m_hContact;
 		streamData.hDbEvent = hDbEventFirst;
 		streamData.hDbEventLast = m_pDlg.m_hDbEventLast;
-		streamData.dlgDat = &m_pDlg;
+		streamData.pLog = this;
 		streamData.eventsToInsert = count;
 		streamData.isFirst = bAppend ? m_rtf.GetRichTextLength() == 0 : 1;
 		streamData.gdat = &g_dat;
@@ -774,7 +609,7 @@ public:
 			sel.cpMax = m_rtf.GetRichTextLength();
 			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 			fi.chrg.cpMin = 0;
-			m_pDlg.m_isMixed = 0;
+			m_isMixed = 0;
 		}
 
 		m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
@@ -816,6 +651,8 @@ public:
 
 		m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
 
 	void LogEvents(struct LOGINFO *lin, bool bRedraw) override
 	{
@@ -981,6 +818,121 @@ public:
 		return CSuper::WndProc(msg, wParam, lParam);
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const char *szBuiltinEvents[] = {
+	"O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies",
+	"to tiny bits, in Thy mercy",
+	"Lorem ipsum dolor sit amet,",
+	"consectetur adipisicing elit",
+};
+
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	LogStreamData *dat = (LogStreamData *)dwCookie;
+
+	if (dat->buffer == nullptr) {
+		dat->bufferOffset = 0;
+		switch (dat->stage) {
+		case STREAMSTAGE_HEADER:
+			dat->buffer = CreateRTFHeader();
+			dat->stage = STREAMSTAGE_EVENTS;
+			break;
+		
+		case STREAMSTAGE_EVENTS:
+			// predefined text event
+			if (dat->dbei != nullptr) {
+				dat->dbei->flags = DBEF_UTF | ((dat->eventsToInsert < 2) ? DBEF_SENT : 0);
+				dat->dbei->pBlob = (uint8_t *)TranslateU(szBuiltinEvents[dat->eventsToInsert++]);
+				dat->dbei->cbBlob = (int)mir_strlen((char *)dat->dbei->pBlob);
+				dat->buffer = dat->pLog->CreateRTFFromEvent(*dat->dbei, dat);
+				if (dat->eventsToInsert == _countof(szBuiltinEvents)) {
+					dat->dbei->pBlob = nullptr;
+					dat->dbei = nullptr;
+				}
+			}
+			// usual database event
+			else if (dat->eventsToInsert) {
+				do {
+					dat->buffer = nullptr;
+
+					DB::EventInfo dbei(dat->hDbEvent);
+					if (dbei && DbEventIsShown(dbei)) {
+						dat->buffer = dat->pLog->CreateRTFFromEvent(dbei, dat);
+
+						if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei))) {
+							db_event_markRead(dat->hContact, dat->hDbEvent);
+							g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
+						}
+						else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
+							db_event_markRead(dat->hContact, dat->hDbEvent);
+					}
+
+					if (dat->buffer)
+						dat->hDbEventLast = dat->hDbEvent;
+					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+					if (--dat->eventsToInsert == 0)
+						break;
+				} while (dat->buffer == nullptr && dat->hDbEvent);
+			}
+			if (dat->buffer)
+				break;
+
+			dat->stage = STREAMSTAGE_TAIL;
+			__fallthrough;
+
+		case STREAMSTAGE_TAIL:
+			dat->buffer = CreateRTFTail();
+			dat->stage = STREAMSTAGE_STOP;
+			break;
+
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
+		}
+		dat->bufferLen = mir_strlen(dat->buffer);
+	}
+	*pcb = min(cb, LONG(dat->bufferLen - dat->bufferOffset));
+	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
+	dat->bufferOffset += *pcb;
+	if (dat->bufferOffset == dat->bufferLen) {
+		mir_free(dat->buffer);
+		dat->buffer = nullptr;
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
+{
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.timestamp = time(0);
+	dbei.szModule = SRMM_MODULE;
+
+	CMsgDialog *dat = new CMsgDialog(0, false);
+
+	LogStreamData streamData = {};
+	streamData.isFirst = TRUE;
+	streamData.dbei = &dbei;
+	streamData.pLog = new CLogWindow(*dat);
+	streamData.gdat = gdat;
+
+	EDITSTREAM stream = { 0 };
+	stream.pfnCallback = LogStreamInEvents;
+	stream.dwCookie = (DWORD_PTR)&streamData;
+	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
+	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
+
+	delete streamData.pLog;
+	delete dat;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 CSrmmLogWindow* logBuilder(CMsgDialog &pDlg)
 {

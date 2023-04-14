@@ -517,8 +517,8 @@ __forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO *dbei)
 // Function returns a pointer to a string in the required format.
 // This string should be freed by a call of mir_free
 
-EXTERN_C MIR_APP_DLL(char*) DbEvent_GetTextA(DBEVENTINFO *dbei, int codepage);
-EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage);
+EXTERN_C MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage);
+EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei, int codepage);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves the event's icon

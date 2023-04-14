@@ -94,7 +94,7 @@ struct LogStreamData
 	int eventsToInsert;
 	int isEmpty;
 	int isAppend;
-	CMsgDialog *dlgDat;
+	class CLogWindow *pLog;
 	DBEVENTINFO *dbei;
 };
 
@@ -234,12 +234,11 @@ static int TSAPI GetColorIndex(char *rtffont)
 	return 0;
 }
 
-static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
+static void AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 {
 	str.Append("{\\uc1 ");
 
-	int textCharsCount = 0;
-	for (; *line; line++, textCharsCount++) {
+	for (; *line; line++) {
 		if (*line == 127 && line[1] != 0) {
 			wchar_t code = line[2];
 			if (((code == '0' || code == '1') && line[3] == ' ') || (line[1] == 'c' && code == 'x')) {
@@ -302,17 +301,19 @@ static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 	}
 
 	str.AppendChar('}');
-	return textCharsCount;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// mir_free() the return value
 
-static void Build_RTF_Header(CMStringA &str, CMsgDialog *dat)
+static char* CreateRTFHeader(CLogWindow *pLog)
 {
 	int i;
-	LOGFONTW *logFonts = dat->m_pContainer->m_theme.logFonts;
-	COLORREF *fontColors = dat->m_pContainer->m_theme.fontColors;
-	TLogTheme *theme = &dat->m_pContainer->m_theme;
+	CMStringA str;
+	auto &dat = pLog->GetDialog();
+	TLogTheme *theme = &dat.m_pContainer->m_theme;
+	LOGFONTW *logFonts = theme->logFonts;
+	COLORREF *fontColors = theme->fontColors;
 
 	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
@@ -359,15 +360,8 @@ static void Build_RTF_Header(CMStringA &str, CMsgDialog *dat)
 	str.AppendFormat("}");
 
 	// indent
-	if (!(dat->m_dwFlags & MWF_LOG_INDENT))
+	if (!(dat.m_dwFlags & MWF_LOG_INDENT))
 		str.AppendFormat("\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
-}
-
-// mir_free() the return value
-static char* CreateRTFHeader(CMsgDialog *dat)
-{
-	CMStringA str;
-	Build_RTF_Header(str, dat);
 	return str.Detach();
 }
 
@@ -425,7 +419,212 @@ bool DbEventIsForMsgWindow(const DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	LogStreamData *dat = (LogStreamData*)dwCookie;
+
+	if (dat->buffer == nullptr) {
+		dat->bufferOffset = 0;
+		switch (dat->stage) {
+		case STREAMSTAGE_HEADER:
+			mir_free(dat->buffer);
+			dat->buffer = CreateRTFHeader(dat->pLog);
+			dat->stage = STREAMSTAGE_EVENTS;
+			break;
+
+		case STREAMSTAGE_EVENTS:
+			if (dat->eventsToInsert) {
+				do {
+					mir_free(dat->buffer);
+					dat->buffer = dat->pLog->CreateRTFFromDbEvent(dat);
+					if (dat->buffer)
+						dat->hDbEventLast = dat->hDbEvent;
+					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+					if (--dat->eventsToInsert == 0)
+						break;
+				} while (dat->buffer == nullptr && dat->hDbEvent);
+
+				if (dat->buffer)
+					break;
+			}
+			dat->stage = STREAMSTAGE_TAIL;
+			__fallthrough;
+
+		case STREAMSTAGE_TAIL:
+			mir_free(dat->buffer);
+			dat->buffer = CreateRTFTail();
+			dat->stage = STREAMSTAGE_STOP;
+			break;
+
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
+		}
+		dat->bufferLen = (int)mir_strlen(dat->buffer);
+	}
+	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
+	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
+	dat->bufferOffset += *pcb;
+	if (dat->bufferOffset == dat->bufferLen)
+		replaceStr(dat->buffer, nullptr);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	bool isCtrl, isShift, isAlt;
+
+	switch (msg) {
+	case WM_KILLFOCUS:
+		if (wParam != (WPARAM)m_rtf.GetHwnd() && 0 != wParam) {
+			CHARRANGE cr;
+			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&cr);
+			if (cr.cpMax != cr.cpMin) {
+				cr.cpMin = cr.cpMax;
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
+			}
+		}
+		break;
+
+	case WM_CHAR:
+		m_pDlg.KbdState(isShift, isCtrl, isAlt);
+		if (wParam == 0x03 && isCtrl) // Ctrl+C
+			return m_pDlg.WMCopyHandler(msg, wParam, lParam);
+		if (wParam == 0x11 && isCtrl) // Ctrl+Q
+			m_pDlg.m_btnQuote.Click();
+		break;
+
+	case WM_LBUTTONUP:
+		if (m_pDlg.isChat() && g_Settings.bClickableNicks) {
+			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
+		}
+		
+		if (g_plugin.bAutoCopy) {
+			CHARRANGE sel;
+			SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin != sel.cpMax) {
+				SendMessage(m_rtf.GetHwnd(), WM_COPY, 0, 0);
+				sel.cpMin = sel.cpMax;
+				SendMessage(m_rtf.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
+				SetFocus(m_pDlg.m_message.GetHwnd());
+			}
+		}
+		break;
+
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONDBLCLK:
+	case WM_RBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONDBLCLK:
+		if (m_pDlg.isChat() && g_Settings.bClickableNicks) {
+			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
+		}
+		break;
+
+	case WM_SETCURSOR:
+		if (g_Settings.bClickableNicks && m_pDlg.isChat() && (LOWORD(lParam) == HTCLIENT)) {
+			POINT pt;
+			GetCursorPos(&pt);
+			ScreenToClient(m_rtf.GetHwnd(), &pt);
+			if (CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, FALSE))
+				return TRUE;
+		}
+		break;
+
+	case WM_SYSKEYUP:
+		if (wParam == VK_MENU) {
+			m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam);
+			return 0;
+		}
+		break;
+
+	case WM_SYSKEYDOWN:
+		m_pDlg.m_bkeyProcessed = false;
+		if (m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam)) {
+			m_pDlg.m_bkeyProcessed = true;
+			return 0;
+		}
+		break;
+
+	case WM_SYSCHAR:
+		if (m_pDlg.m_bkeyProcessed) {
+			m_pDlg.m_bkeyProcessed = false;
+			return 0;
+		}
+		break;
+
+	case WM_KEYDOWN:
+		m_pDlg.KbdState(isShift, isCtrl, isAlt);
+		if (wParam == VK_INSERT && isCtrl)
+			return m_pDlg.WMCopyHandler(msg, wParam, lParam);
+
+		if (wParam == 0x57 && isCtrl) { // ctrl-w (close window)
+			PostMessage(m_pDlg.m_hwnd, WM_CLOSE, 0, 1);
+			return TRUE;
+		}
+
+		break;
+
+	case WM_COPY:
+		return m_pDlg.WMCopyHandler(msg, wParam, lParam);
+
+	case WM_NCCALCSIZE:
+		return CSkin::NcCalcRichEditFrame(m_rtf.GetHwnd(), &m_pDlg, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
+
+	case WM_NCPAINT:
+		return CSkin::DrawRichEditFrame(m_rtf.GetHwnd(), &m_pDlg, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
+
+	case WM_CONTEXTMENU:
+		if (!m_pDlg.isChat()) {
+			POINT pt;
+			if (lParam == 0xFFFFFFFF) {
+				CHARRANGE sel;
+				m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				m_rtf.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
+				ClientToScreen(m_rtf.GetHwnd(), &pt);
+			}
+			else {
+				pt.x = GET_X_LPARAM(lParam);
+				pt.y = GET_Y_LPARAM(lParam);
+			}
+
+			m_pDlg.ShowPopupMenu(m_rtf, pt);
+			return TRUE;
+		}
+	}
+
+	return CSuper::WndProc(msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CLogWindow::AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf)
+{
+	AppendUnicodeToBuffer(str, pwszBuf, 0);
+}
+
+void CLogWindow::Attach()
+{
+	CSuper::Attach();
+
+	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
+	m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+	m_rtf.SendMsg(EM_EXLIMITTEXT, 0, 0x7FFFFFFF);
+	m_rtf.SendMsg(EM_SETUNDOLIMIT, 0, 0);
+	m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
+	m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
+	m_rtf.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+	m_rtf.SendMsg(EM_SETLANGOPTIONS, 0, m_rtf.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
+	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+char* CLogWindow::CreateRTFFromDbEvent(LogStreamData *streamData)
 {
 	HANDLE hTimeZone = nullptr;
 	struct tm event_time = { 0 };
@@ -437,19 +636,20 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 		memcpy(&dbei, streamData->dbei, sizeof(DBEVENTINFO));
 	else {
 		dbei.cbBlob = -1;
-		db_event_get(hDbEvent, &dbei);
+		db_event_get(streamData->hDbEvent, &dbei);
 		if (!DbEventIsShown(&dbei))
 			return nullptr;
 	}
 
+	auto *dat = &m_pDlg;
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	BOOL isSent = (dbei.flags & DBEF_SENT);
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-		db_event_markRead(hContact, hDbEvent);
-		g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+		db_event_markRead(streamData->hContact, streamData->hDbEvent);
+		g_clistApi.pfnRemoveEvent(streamData->hContact, streamData->hDbEvent);
 	}
 
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
@@ -549,7 +749,7 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 			memmove(dat->m_hHistoryEvents, &dat->m_hHistoryEvents[1], sizeof(HANDLE) * (dat->m_maxHistory - 1));
 			dat->m_curHistory--;
 		}
-		dat->m_hHistoryEvents[dat->m_curHistory++] = hDbEvent;
+		dat->m_hHistoryEvents[dat->m_curHistory++] = streamData->hDbEvent;
 	}
 
 	str.Append("\\ul0\\b0\\i0\\v0 ");
@@ -851,8 +1051,13 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC)));
 						str.AppendChar(' ');
 					}
-
-					AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), 0);
+					{
+						DB::FILE_BLOB blob(dbei);
+						if (blob.isOffline())
+							InsertFileLink(str, streamData->hDbEvent, blob);
+						else
+							AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), 0);
+					}
 					break;
 
 				default:
@@ -981,7 +1186,7 @@ skip:
 	}
 
 	if (dat->m_hHistoryEvents)
-		str.AppendFormat(dat->m_szMicroLf, MSGDLGFONTCOUNT + 1 + ((isSent) ? 1 : 0), hDbEvent);
+		str.AppendFormat(dat->m_szMicroLf, MSGDLGFONTCOUNT + 1 + ((isSent) ? 1 : 0), streamData->hDbEvent);
 
 	str.Append("\\par");
 
@@ -993,203 +1198,7 @@ skip:
 	return str.Detach();
 }
 
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData*)dwCookie;
-
-	if (dat->buffer == nullptr) {
-		dat->bufferOffset = 0;
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			mir_free(dat->buffer);
-			dat->buffer = CreateRTFHeader(dat->dlgDat);
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-
-		case STREAMSTAGE_EVENTS:
-			if (dat->eventsToInsert) {
-				do {
-					mir_free(dat->buffer);
-					dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
-					if (dat->buffer)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (dat->buffer == nullptr && dat->hDbEvent);
-
-				if (dat->buffer)
-					break;
-			}
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			mir_free(dat->buffer);
-			dat->buffer = CreateRTFTail();
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-		dat->bufferLen = (int)mir_strlen(dat->buffer);
-	}
-	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
-	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
-	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen)
-		replaceStr(dat->buffer, nullptr);
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	bool isCtrl, isShift, isAlt;
-
-	switch (msg) {
-	case WM_KILLFOCUS:
-		if (wParam != (WPARAM)m_rtf.GetHwnd() && 0 != wParam) {
-			CHARRANGE cr;
-			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&cr);
-			if (cr.cpMax != cr.cpMin) {
-				cr.cpMin = cr.cpMax;
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
-			}
-		}
-		break;
-
-	case WM_CHAR:
-		m_pDlg.KbdState(isShift, isCtrl, isAlt);
-		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return m_pDlg.WMCopyHandler(msg, wParam, lParam);
-		if (wParam == 0x11 && isCtrl) // Ctrl+Q
-			m_pDlg.m_btnQuote.Click();
-		break;
-
-	case WM_LBUTTONUP:
-		if (m_pDlg.isChat() && g_Settings.bClickableNicks) {
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
-		}
-		
-		if (g_plugin.bAutoCopy) {
-			CHARRANGE sel;
-			SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				SendMessage(m_rtf.GetHwnd(), WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				SendMessage(m_rtf.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
-				SetFocus(m_pDlg.m_message.GetHwnd());
-			}
-		}
-		break;
-
-	case WM_LBUTTONDOWN:
-	case WM_LBUTTONDBLCLK:
-	case WM_RBUTTONUP:
-	case WM_RBUTTONDOWN:
-	case WM_RBUTTONDBLCLK:
-		if (m_pDlg.isChat() && g_Settings.bClickableNicks) {
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
-		}
-		break;
-
-	case WM_SETCURSOR:
-		if (g_Settings.bClickableNicks && m_pDlg.isChat() && (LOWORD(lParam) == HTCLIENT)) {
-			POINT pt;
-			GetCursorPos(&pt);
-			ScreenToClient(m_rtf.GetHwnd(), &pt);
-			if (CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, FALSE))
-				return TRUE;
-		}
-		break;
-
-	case WM_SYSKEYUP:
-		if (wParam == VK_MENU) {
-			m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam);
-			return 0;
-		}
-		break;
-
-	case WM_SYSKEYDOWN:
-		m_pDlg.m_bkeyProcessed = false;
-		if (m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam)) {
-			m_pDlg.m_bkeyProcessed = true;
-			return 0;
-		}
-		break;
-
-	case WM_SYSCHAR:
-		if (m_pDlg.m_bkeyProcessed) {
-			m_pDlg.m_bkeyProcessed = false;
-			return 0;
-		}
-		break;
-
-	case WM_KEYDOWN:
-		m_pDlg.KbdState(isShift, isCtrl, isAlt);
-		if (wParam == VK_INSERT && isCtrl)
-			return m_pDlg.WMCopyHandler(msg, wParam, lParam);
-
-		if (wParam == 0x57 && isCtrl) { // ctrl-w (close window)
-			PostMessage(m_pDlg.m_hwnd, WM_CLOSE, 0, 1);
-			return TRUE;
-		}
-
-		break;
-
-	case WM_COPY:
-		return m_pDlg.WMCopyHandler(msg, wParam, lParam);
-
-	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_rtf.GetHwnd(), &m_pDlg, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
-
-	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_rtf.GetHwnd(), &m_pDlg, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
-
-	case WM_CONTEXTMENU:
-		if (!m_pDlg.isChat()) {
-			POINT pt;
-			if (lParam == 0xFFFFFFFF) {
-				CHARRANGE sel;
-				m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				m_rtf.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-				ClientToScreen(m_rtf.GetHwnd(), &pt);
-			}
-			else {
-				pt.x = GET_X_LPARAM(lParam);
-				pt.y = GET_Y_LPARAM(lParam);
-			}
-
-			m_pDlg.ShowPopupMenu(m_rtf, pt);
-			return TRUE;
-		}
-	}
-
-	return CSuper::WndProc(msg, wParam, lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CLogWindow::Attach()
-{
-	CSuper::Attach();
-
-	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
-	m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
-	m_rtf.SendMsg(EM_EXLIMITTEXT, 0, 0x7FFFFFFF);
-	m_rtf.SendMsg(EM_SETUNDOLIMIT, 0, 0);
-	m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
-	m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
-	m_rtf.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-	m_rtf.SendMsg(EM_SETLANGOPTIONS, 0, m_rtf.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
-	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
-}
 
 void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend)
 {
@@ -1228,7 +1237,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	LogStreamData streamData = { 0 };
 	streamData.hContact = m_pDlg.m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
-	streamData.dlgDat = &m_pDlg;
+	streamData.pLog = this;
 	streamData.eventsToInsert = count;
 	streamData.isEmpty = fAppend ? GetWindowTextLength(m_rtf.GetHwnd()) == 0 : 1;
 	streamData.dbei = dbei_s;
@@ -1305,6 +1314,8 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	EnableWindow(GetDlgItem(m_pDlg.m_hwnd, IDC_QUOTE), m_pDlg.m_hDbEventLast != 0);
 	mir_free(streamData.buffer);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 {
@@ -1460,6 +1471,8 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CLogWindow::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 {
 	wchar_t trbuffer[40];
@@ -1582,6 +1595,8 @@ void CLogWindow::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CLogWindow::ScrollToBottom()
 {
 	ScrollToBottom(false, false);
@@ -1605,6 +1620,8 @@ void CLogWindow::ScrollToBottom(bool bImmediate, bool bRedraw)
 	if (bRedraw)
 		InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CLogWindow::UpdateOptions()
 {
@@ -1632,6 +1649,9 @@ void CLogWindow::UpdateOptions()
 			SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 CSrmmLogWindow *logBuilder(CMsgDialog &pDlg)
 {

@@ -849,3 +849,5 @@ Chat_IsMuted @941 NONAME
 ?getSize@FILE_BLOB@DB@@QBEIXZ @965 NONAME
 ?getTransferred@FILE_BLOB@DB@@QBEIXZ @966 NONAME
 ?getString@EventInfo@DB@@QBEPA_WPBD@Z @967 NONAME
+?InsertFileLink@CRtfLogWindow@@IAEXAAV?$CMStringT@DV?$ChTraitsCRT@D@@@@IABVFILE_BLOB@DB@@@Z @968 NONAME
+?GetDialog@CSrmmLogWindow@@QBEAAVCMsgDialog@@XZ @969 NONAME

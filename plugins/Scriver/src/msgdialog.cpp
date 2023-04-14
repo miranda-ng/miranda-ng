@@ -171,10 +171,6 @@ bool CMsgDialog::OnInitDialog()
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	timerType.Start(1000);
 
-	m_lastEventType = -1;
-	m_lastEventTime = time(0);
-	m_startTime = time(0);
-
 	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
 
 	PARAFORMAT2 pf2;
@@ -434,7 +430,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		if (!dbei)
 			return;
 
-		if (DbEventIsMessageOrCustom(&dbei)) {
+		if (DbEventIsMessageOrCustom(dbei)) {
 			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
 			if (buffer != nullptr) {
 				CMStringW quotedBuffer(GetQuotedTextW(buffer));
@@ -1077,7 +1073,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				while (hDbEvent != 0) {
 					DBEVENTINFO dbei = {};
 					db_event_get(hDbEvent, &dbei);
-					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(&dbei))
+					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(dbei))
 						g_clistApi.pfnRemoveEvent(m_hContact, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);
 				}
@@ -1140,7 +1136,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case DM_REMAKELOG:
-		m_lastEventType = -1;
 		if (wParam == 0 || wParam == m_hContact)
 			m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
 

@@ -91,7 +91,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
 
-	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
+	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(dbei))
 		return 0;
 
 	/* does a window for the contact exist? */
@@ -239,7 +239,7 @@ static void RestoreUnreadMessageAlerts(void)
 			DBEVENTINFO dbei = {};
 			if (db_event_get(hDbEvent, &dbei))
 				continue;
-			if (dbei.markedRead() || !DbEventIsMessageOrCustom(&dbei) || !Proto_GetBaseAccountName(hContact))
+			if (dbei.markedRead() || !DbEventIsMessageOrCustom(dbei) || !Proto_GetBaseAccountName(hContact))
 				continue;
 
 			int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;

@@ -91,14 +91,14 @@ MIR_APP_DLL(DBEVENTTYPEDESCR*) DbEvent_GetType(const char *szModule, int eventTy
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
+static wchar_t* getEventString(const DB::EventInfo *dbei, LPSTR &buf)
 {
 	LPSTR in = buf;
 	buf += mir_strlen(buf) + 1;
-	return (dbei->flags & DBEF_UTF) ? mir_utf8decodeW(in) : mir_a2u(in);
+	return dbei->getString(in);
 }
 
-static INT_PTR DbEventGetTextWorker(DB::EventInfo *dbei, int codepage, int datatype)
+static INT_PTR DbEventGetTextWorker(const DB::EventInfo *dbei, int codepage, int datatype)
 {
 	if (dbei == nullptr || dbei->szModule == nullptr)
 		return 0;
@@ -205,12 +205,12 @@ static INT_PTR DbEventGetTextWorker(DB::EventInfo *dbei, int codepage, int datat
 	return 0;
 }
 
-MIR_APP_DLL(char*) DbEvent_GetTextA(DBEVENTINFO *dbei, int codepage)
+MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage)
 {
 	return (char*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_ASCIIZ);
 }
 
-MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
+MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei, int codepage)
 {
 	return (wchar_t*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_WCHAR);
 }

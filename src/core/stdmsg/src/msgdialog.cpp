@@ -922,7 +922,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				((CLogWindow *)m_pLog)->WndProc(msg, wParam, lParam);
+				((CRtfLogWindow *)m_pLog)->WndProc(msg, wParam, lParam);
 				return TRUE;
 			}
 		}

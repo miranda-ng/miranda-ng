@@ -42,7 +42,7 @@ struct LogStreamData
 	CMStringA buf;
 	int eventsToInsert;
 	bool isEmpty;
-	CMsgDialog *dlgDat;
+	class CLogWindow *pLog;
 };
 
 static int logPixelSY;
@@ -50,6 +50,8 @@ static char szSep2[40], szSep2_RTL[50];
 
 static const wchar_t *bbcodes[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[/b]", L"[/i]", L"[/u]", L"[/s]" };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
+
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 
 static void AppendPlainUnicode(CMStringA &buf, const wchar_t *str)
 {
@@ -198,214 +200,6 @@ bool DbEventIsShown(const DBEVENTINFO *dbei)
 	return dbei->eventType == EVENTTYPE_MESSAGE || dbei->eventType == EVENTTYPE_FILE || DbEventIsForMsgWindow(dbei);
 }
 
-static bool CreateRTFFromDbEvent(LogStreamData *dat)
-{
-	DB::EventInfo dbei(dat->hDbEvent);
-	if (!dbei)
-		return false;
-
-	if (!DbEventIsShown(&dbei))
-		return false;
-	
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-		db_event_markRead(dat->hContact, dat->hDbEvent);
-		g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
-	}
-	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
-		db_event_markRead(dat->hContact, dat->hDbEvent);
-	}
-
-	CMStringA &buf = dat->buf;
-	bool bIsRtl = dat->dlgDat->m_bIsAutoRTL;
-	if (!bIsRtl && !dat->isEmpty)
-		buf.Append("\\par");
-
-	if (dbei.flags & DBEF_RTL) {
-		buf.Append("\\rtlpar");
-		bIsRtl = true;
-	}
-	else buf.Append("\\ltrpar");
-
-	dat->isEmpty = false;
-
-	if (bIsRtl) {
-		if (dbei.flags & DBEF_RTL)
-			buf.Append("\\ltrch\\rtlch");
-		else
-			buf.Append("\\rtlch\\ltrch");
-	}
-
-	if (g_plugin.bShowIcons) {
-		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
-		
-		buf.Append("\\f0\\fs14");
-		buf.Append(pLogIconBmpBits[i]);
-	}
-
-	int showColon = 0;
-	if (g_plugin.bShowTime) {
-		const wchar_t* szFormat;
-		wchar_t str[64];
-
-		if (g_plugin.bShowSecs)
-			szFormat = g_plugin.bShowDate ? L"d s" : L"s";
-		else
-			szFormat = g_plugin.bShowDate ? L"d t" : L"t";
-
-		TimeZone_PrintTimeStamp(nullptr, dbei.timestamp, szFormat, str, _countof(str), 0);
-
-		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
-		AppendToBufferWithRTF(buf, str);
-		showColon = 1;
-	}
-
-	if (g_plugin.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
-		wchar_t *szName;
-
-		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule))
-				szName = NEWWSTR_ALLOCA(p);
-			else
-				szName = TranslateT("Me");
-		}
-		else szName = Clist_GetContactDisplayName(dat->hContact);
-
-		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
-		AppendToBufferWithRTF(buf, szName);
-		showColon = 1;
-	}
-
-	if (showColon)
-		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON, buf);
-
-	wchar_t *msg, *szName;
-	switch (dbei.eventType) {
-	case EVENTTYPE_JABBER_CHATSTATES:
-	case EVENTTYPE_JABBER_PRESENCE:
-		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
-				szName = NEWWSTR_ALLOCA(p);
-				mir_free(p);
-			}
-			else szName = L"";
-		}
-		else szName = Clist_GetContactDisplayName(dat->hContact);
-
-		SetToStyle(MSGFONTID_NOTICE, buf);
-		AppendToBufferWithRTF(buf, szName);
-		AppendToBufferWithRTF(buf, L" ");
-
-		msg = DbEvent_GetTextW(&dbei, CP_ACP);
-		if (msg) {
-			AppendToBufferWithRTF(buf, msg);
-			mir_free(msg);
-		}
-		break;
-
-	case EVENTTYPE_FILE:
-		SetToStyle(MSGFONTID_NOTICE, buf);
-		{
-			DB::FILE_BLOB blob(dbei);
-			if (blob.isOffline()) {
-				AppendToBufferWithRTF(buf, TranslateT("Offline file"));
-				buf.Append(" {\\field{\\*\\fldinst HYPERLINK \"");
-				buf.AppendFormat("ofile:%ul", dat->hDbEvent);
-				buf.Append("\"}{\\fldrslt{\\ul ");
-				AppendToBufferWithRTF(buf, blob.getName());
-				buf.AppendFormat("}}} | %uKB", blob.getSize() / 1024);
-				
-				CMStringA szHost;
-				if (const char *b = strstr(blob.getUrl(), "://"))
-					for (b = b + 3; *b != 0 && *b != '/' && *b != ':'; b++)
-						szHost.AppendChar(*b);
-
-				if (!szHost.IsEmpty())
-					buf.AppendFormat(" on %s", szHost.c_str());
-
-				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred()) {
-					buf.AppendChar(' ');
-					AppendToBufferWithRTF(buf, TranslateT("Completed"));
-				}
-			}
-			else {
-				AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-				buf.Append(": ");
-				AppendToBufferWithRTF(buf, blob.getName());
-
-				if (mir_wstrlen(blob.getDescr())) {
-					buf.Append(" (");
-					AppendToBufferWithRTF(buf, blob.getDescr());
-					buf.Append(")");
-				}
-			}
-		}
-		break;
-
-	case EVENTTYPE_MESSAGE:
-	default:
-		msg = DbEvent_GetTextW(&dbei, CP_ACP);
-		SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
-		AppendToBufferWithRTF(buf, msg);
-		mir_free(msg);
-	}
-
-	if (bIsRtl)
-		buf.Append("\\par");
-
-	return true;
-}
-
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LogStreamData *dat = (LogStreamData*)dwCookie;
-
-	if (dat->buf.IsEmpty()) {
-		switch (dat->stage) {
-		case STREAMSTAGE_HEADER:
-			CreateRTFHeader(dat->buf);
-			dat->stage = STREAMSTAGE_EVENTS;
-			break;
-
-		case STREAMSTAGE_EVENTS:
-			if (dat->eventsToInsert) {
-				bool bOk;
-				do {
-					bOk = CreateRTFFromDbEvent(dat);
-					if (bOk)
-						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
-					if (--dat->eventsToInsert == 0)
-						break;
-				} while (!bOk && dat->hDbEvent);
-
-				if (bOk) {
-					dat->isEmpty = false;
-					break;
-				}
-			}
-			dat->stage = STREAMSTAGE_TAIL;
-			__fallthrough;
-
-		case STREAMSTAGE_TAIL:
-			CreateRTFTail(dat->buf);
-			dat->stage = STREAMSTAGE_STOP;
-			break;
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-	}
-
-	*pcb = min(cb, dat->buf.GetLength());
-	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
-	if (dat->buf.GetLength() == *pcb)
-		dat->buf.Empty();
-	else
-		dat->buf.Delete(0, *pcb);
-
-	return 0;
-}
-
 #define RTFPICTHEADERMAXSIZE   78
 void LoadMsgLogIcons(void)
 {
@@ -461,204 +255,519 @@ void FreeMsgLogIcons(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Log window class
 
-void CLogWindow::Attach()
+class CLogWindow : public CRtfLogWindow
 {
-	CSuper::Attach();
+	typedef CRtfLogWindow CSuper;
 
-	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-	m_rtf.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
-	m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
-	m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
-}
+public:
+	CLogWindow(CMsgDialog &pDlg) :
+		CSuper(pDlg)
+	{}
 
-void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
-{
-	CHARRANGE oldSel, sel;
-	BOOL bottomScroll = TRUE;
-	POINT scrollPos;
-
-	m_rtf.SetDraw(false);
-	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
-
-	LogStreamData streamData = {};
-	streamData.hContact = m_pDlg.m_hContact;
-	streamData.hDbEvent = hDbEventFirst;
-	streamData.dlgDat = &m_pDlg;
-	streamData.eventsToInsert = count;
-	streamData.isEmpty = !bAppend || GetWindowTextLength(m_rtf.GetHwnd()) == 0;
-
-	EDITSTREAM stream = {};
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-
-	if (!streamData.isEmpty) {
-		bottomScroll = GetFocus() != m_rtf.GetHwnd() && AtBottom();
-		if (!bottomScroll)
-			m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
+	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf)
+	{
+		AppendToBufferWithRTF(str, pwszBuf);
 	}
 
-	FINDTEXTEXA fi;
-	if (bAppend) {
-		sel.cpMin = sel.cpMax = -1;
-		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		fi.chrg.cpMin = 0;
-	}
-	else {
-		GETTEXTLENGTHEX gtxl = { 0 };
-		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
-		gtxl.codepage = 1200;
-		fi.chrg.cpMin = m_rtf.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+	void Attach() override
+	{
+		CSuper::Attach();
 
+		// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
+		m_rtf.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+		m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
+		m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
+		m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+	}
+
+	bool CreateRTFFromDbEvent(LogStreamData *dat)
+	{
+		DB::EventInfo dbei(dat->hDbEvent);
+		if (!dbei)
+			return false;
+
+		if (!DbEventIsShown(&dbei))
+			return false;
+
+		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+			db_event_markRead(dat->hContact, dat->hDbEvent);
+			g_clistApi.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
+		}
+		else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
+			db_event_markRead(dat->hContact, dat->hDbEvent);
+		}
+
+		CMStringA &buf = dat->buf;
+		bool bIsRtl = m_pDlg.m_bIsAutoRTL;
+		if (!bIsRtl && !dat->isEmpty)
+			buf.Append("\\par");
+
+		if (dbei.flags & DBEF_RTL) {
+			buf.Append("\\rtlpar");
+			bIsRtl = true;
+		}
+		else buf.Append("\\ltrpar");
+
+		dat->isEmpty = false;
+
+		if (bIsRtl) {
+			if (dbei.flags & DBEF_RTL)
+				buf.Append("\\ltrch\\rtlch");
+			else
+				buf.Append("\\rtlch\\ltrch");
+		}
+
+		if (g_plugin.bShowIcons) {
+			int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN) : LOGICON_MSG_NOTICE);
+
+			buf.Append("\\f0\\fs14");
+			buf.Append(pLogIconBmpBits[i]);
+		}
+
+		int showColon = 0;
+		if (g_plugin.bShowTime) {
+			const wchar_t *szFormat;
+			wchar_t str[64];
+
+			if (g_plugin.bShowSecs)
+				szFormat = g_plugin.bShowDate ? L"d s" : L"s";
+			else
+				szFormat = g_plugin.bShowDate ? L"d t" : L"t";
+
+			TimeZone_PrintTimeStamp(nullptr, dbei.timestamp, szFormat, str, _countof(str), 0);
+
+			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
+			AppendToBufferWithRTF(buf, str);
+			showColon = 1;
+		}
+
+		if (g_plugin.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+			wchar_t *szName;
+
+			if (dbei.flags & DBEF_SENT) {
+				if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule))
+					szName = NEWWSTR_ALLOCA(p);
+				else
+					szName = TranslateT("Me");
+			}
+			else szName = Clist_GetContactDisplayName(dat->hContact);
+
+			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
+			AppendToBufferWithRTF(buf, szName);
+			showColon = 1;
+		}
+
+		if (showColon)
+			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON, buf);
+
+		wchar_t *msg, *szName;
+		switch (dbei.eventType) {
+		case EVENTTYPE_JABBER_CHATSTATES:
+		case EVENTTYPE_JABBER_PRESENCE:
+			if (dbei.flags & DBEF_SENT) {
+				if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
+					szName = NEWWSTR_ALLOCA(p);
+					mir_free(p);
+				}
+				else szName = L"";
+			}
+			else szName = Clist_GetContactDisplayName(dat->hContact);
+
+			SetToStyle(MSGFONTID_NOTICE, buf);
+			AppendToBufferWithRTF(buf, szName);
+			AppendToBufferWithRTF(buf, L" ");
+
+			msg = DbEvent_GetTextW(&dbei, CP_ACP);
+			if (msg) {
+				AppendToBufferWithRTF(buf, msg);
+				mir_free(msg);
+			}
+			break;
+
+		case EVENTTYPE_FILE:
+			SetToStyle(MSGFONTID_NOTICE, buf);
+			{
+				DB::FILE_BLOB blob(dbei);
+				if (blob.isOffline()) {
+					InsertFileLink(buf, dat->hDbEvent, blob);
+				}
+				else {
+					AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+					buf.Append(": ");
+					AppendToBufferWithRTF(buf, blob.getName());
+
+					if (mir_wstrlen(blob.getDescr())) {
+						buf.Append(" (");
+						AppendToBufferWithRTF(buf, blob.getDescr());
+						buf.Append(")");
+					}
+				}
+			}
+			break;
+
+		case EVENTTYPE_MESSAGE:
+		default:
+			msg = DbEvent_GetTextW(&dbei, CP_ACP);
+			SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
+			AppendToBufferWithRTF(buf, msg);
+			mir_free(msg);
+		}
+
+		if (bIsRtl)
+			buf.Append("\\par");
+
+		return true;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
+	{
+		CHARRANGE oldSel, sel;
+		BOOL bottomScroll = TRUE;
+		POINT scrollPos;
+
+		m_rtf.SetDraw(false);
+		m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
+
+		LogStreamData streamData = {};
+		streamData.hContact = m_pDlg.m_hContact;
+		streamData.hDbEvent = hDbEventFirst;
+		streamData.pLog = this;
+		streamData.eventsToInsert = count;
+		streamData.isEmpty = !bAppend || GetWindowTextLength(m_rtf.GetHwnd()) == 0;
+
+		EDITSTREAM stream = {};
+		stream.pfnCallback = LogStreamInEvents;
+		stream.dwCookie = (DWORD_PTR)&streamData;
+
+		if (!streamData.isEmpty) {
+			bottomScroll = GetFocus() != m_rtf.GetHwnd() && AtBottom();
+			if (!bottomScroll)
+				m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
+		}
+
+		FINDTEXTEXA fi;
+		if (bAppend) {
+			sel.cpMin = sel.cpMax = -1;
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			fi.chrg.cpMin = 0;
+		}
+		else {
+			GETTEXTLENGTHEX gtxl = { 0 };
+			gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
+			gtxl.codepage = 1200;
+			fi.chrg.cpMin = m_rtf.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+
+			sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		}
+
+		mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
+		mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
+
+		m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+		if (bottomScroll) {
+			sel.cpMin = sel.cpMax = -1;
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		}
+		else {
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+			m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
+		}
+
+		if (g_plugin.bSmileyInstalled) {
+			SMADD_RICHEDIT3 smre;
+			smre.cbSize = sizeof(SMADD_RICHEDIT3);
+			smre.hwndRichEditControl = m_rtf.GetHwnd();
+
+			MCONTACT hContact = db_mc_getSrmmSub(m_pDlg.m_hContact);
+			smre.Protocolname = (hContact != 0) ? Proto_GetBaseAccountName(hContact) : m_pDlg.m_szProto;
+
+			if (fi.chrg.cpMin > 0) {
+				sel.cpMin = fi.chrg.cpMin;
+				sel.cpMax = -1;
+				smre.rangeToReplace = &sel;
+			}
+			else smre.rangeToReplace = nullptr;
+
+			smre.disableRedraw = TRUE;
+			smre.hContact = m_pDlg.m_hContact;
+			smre.flags = 0;
+			CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
+		}
+
+		m_rtf.SetDraw(true);
+		if (bottomScroll || AtBottom()) {
+			ScrollToBottom();
+			RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+		}
+
+		m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	void LogEvents(struct LOGINFO *lin, bool bRedraw) override
+	{
+		auto *si = m_pDlg.m_si;
+		if (lin == nullptr || si == nullptr)
+			return;
+
+		if (!bRedraw && si->iType == GCW_CHATROOM && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
+			return;
+
+		LOGSTREAMDATA streamData;
+		memset(&streamData, 0, sizeof(streamData));
+		streamData.hwnd = m_rtf.GetHwnd();
+		streamData.si = si;
+		streamData.lin = lin;
+		streamData.bStripFormat = FALSE;
+
+		bool bFlag = false;
+
+		EDITSTREAM stream = {};
+		stream.pfnCallback = Srmm_LogStreamCallback;
+		stream.dwCookie = (DWORD_PTR)&streamData;
+
+		SCROLLINFO scroll;
+		scroll.cbSize = sizeof(SCROLLINFO);
+		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
+		GetScrollInfo(m_rtf.GetHwnd(), SB_VERT, &scroll);
+
+		POINT point = {};
+		m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
+
+		// do not scroll to bottom if there is a selection
+		CHARRANGE oldsel, sel;
+		m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
+		if (oldsel.cpMax != oldsel.cpMin)
+			m_rtf.SetDraw(false);
+
+		//set the insertion point at the bottom
 		sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-	}
 
-	mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
-	mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
+		// fix for the indent... must be a M$ bug
+		if (sel.cpMax == 0)
+			bRedraw = TRUE;
 
-	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
-	if (bottomScroll) {
-		sel.cpMin = sel.cpMax = -1;
-		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-	}
-	else {
-		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
-		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
-	}
+		// should the event(s) be appended to the current log
+		WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
 
-	if (g_plugin.bSmileyInstalled) {
-		SMADD_RICHEDIT3 smre;
-		smre.cbSize = sizeof(SMADD_RICHEDIT3);
-		smre.hwndRichEditControl = m_rtf.GetHwnd();
-
-		MCONTACT hContact = db_mc_getSrmmSub(m_pDlg.m_hContact);
-		smre.Protocolname = (hContact != 0) ? Proto_GetBaseAccountName(hContact) : m_pDlg.m_szProto;
-
-		if (fi.chrg.cpMin > 0) {
-			sel.cpMin = fi.chrg.cpMin;
-			sel.cpMax = -1;
-			smre.rangeToReplace = &sel;
+		//get the number of pixels per logical inch
+		if (bRedraw) {
+			HDC hdc = GetDC(nullptr);
+			g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+			g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+			ReleaseDC(nullptr, hdc);
+			m_rtf.SetDraw(false);
+			bFlag = true;
 		}
-		else smre.rangeToReplace = nullptr;
 
-		smre.disableRedraw = TRUE;
-		smre.hContact = m_pDlg.m_hContact;
-		smre.flags = 0;
-		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
+		// stream in the event(s)
+		streamData.lin = lin;
+		streamData.bRedraw = bRedraw;
+		m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
+
+		// do smileys
+		if (g_plugin.bSmileyInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
+			CHARRANGE newsel;
+			newsel.cpMax = -1;
+			newsel.cpMin = sel.cpMin;
+			if (newsel.cpMin < 0)
+				newsel.cpMin = 0;
+
+			SMADD_RICHEDIT3 sm = {};
+			sm.cbSize = sizeof(sm);
+			sm.hwndRichEditControl = m_rtf.GetHwnd();
+			sm.Protocolname = si->pszModule;
+			sm.rangeToReplace = bRedraw ? nullptr : &newsel;
+			sm.disableRedraw = TRUE;
+			sm.hContact = si->hContact;
+			CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
+		}
+
+		// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
+		if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
+			ScrollToBottom();
+		else
+			m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
+
+		// do we need to restore the selection
+		if (oldsel.cpMax != oldsel.cpMin) {
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
+			m_rtf.SetDraw(true);
+			InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
+		}
+
+		// need to invalidate the window
+		if (bFlag) {
+			sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
+			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			m_rtf.SetDraw(true);
+			InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
+		}
 	}
 
-	m_rtf.SetDraw(true);
-	if (bottomScroll || AtBottom()) {
-		ScrollToBottom();
-		RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	void UpdateOptions() override
+	{
+		if (m_pDlg.isChat())
+			m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+		else {
+			// configure message history for proper RTL formatting
+			PARAFORMAT2 pf2;
+			memset(&pf2, 0, sizeof(pf2));
+			pf2.cbSize = sizeof(pf2);
+
+			pf2.wEffects = PFE_RTLPARA;
+			pf2.dwMask = PFM_RTLPARA;
+			m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
+			pf2.wEffects = 0;
+			m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
+			m_rtf.SendMsg(EM_SETLANGOPTIONS, 0, m_rtf.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+			m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+		}
 	}
 
-	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
-}
+	/////////////////////////////////////////////////////////////////////////////////////////
 
-void CLogWindow::UpdateOptions()
+	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		CHARRANGE sel;
+
+		switch (msg) {
+		case WM_CONTEXTMENU:
+			// we display context menu here only for private chats, group chats are processed by the core
+			if (!m_pDlg.isChat()) {
+				POINT pt;
+				GetCursorPos(&pt);
+
+				SetFocus(m_rtf.GetHwnd());
+
+				HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
+				HMENU hSubMenu = GetSubMenu(hMenu, 0);
+				TranslateMenu(hSubMenu);
+
+				CHARRANGE all = { 0, -1 };
+				m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				if (sel.cpMin == sel.cpMax)
+					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlg.m_hwnd, nullptr)) {
+				case IDM_COPY:
+					m_rtf.SendMsg(WM_COPY, 0, 0);
+					break;
+				case IDM_COPYALL:
+					m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+					m_rtf.SendMsg(WM_COPY, 0, 0);
+					m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+					break;
+				case IDM_SELECTALL:
+					m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+					break;
+				case IDM_CLEAR:
+					Clear();
+					m_pDlg.m_hDbEventFirst = 0;
+					break;
+				}
+				DestroyMenu(hSubMenu);
+				DestroyMenu(hMenu);
+				return TRUE;
+			}
+			break;
+
+		case WM_LBUTTONUP:
+			if (g_plugin.bAutoCopy) {
+				m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				if (sel.cpMin != sel.cpMax) {
+					m_rtf.SendMsg(WM_COPY, 0, 0);
+					sel.cpMin = sel.cpMax;
+					m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+				}
+				SetFocus(m_pDlg.m_message.GetHwnd());
+			}
+			break;
+
+		case WM_KEYDOWN:
+			bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+			if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
+				m_pDlg.CloseTab();
+				return TRUE;
+			}
+
+			if (m_pDlg.ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+				return FALSE;
+		}
+
+		return CSuper::WndProc(msg, wParam, lParam);
+	}
+};
+
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	if (m_pDlg.isChat())
-		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
-	else {
-		// configure message history for proper RTL formatting
-		PARAFORMAT2 pf2;
-		memset(&pf2, 0, sizeof(pf2));
-		pf2.cbSize = sizeof(pf2);
+	LogStreamData *dat = (LogStreamData *)dwCookie;
 
-		pf2.wEffects = PFE_RTLPARA;
-		pf2.dwMask = PFM_RTLPARA;
-		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+	if (dat->buf.IsEmpty()) {
+		switch (dat->stage) {
+		case STREAMSTAGE_HEADER:
+			CreateRTFHeader(dat->buf);
+			dat->stage = STREAMSTAGE_EVENTS;
+			break;
 
-		pf2.wEffects = 0;
-		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+		case STREAMSTAGE_EVENTS:
+			if (dat->eventsToInsert) {
+				bool bOk;
+				do {
+					bOk = dat->pLog->CreateRTFFromDbEvent(dat);
+					if (bOk)
+						dat->hDbEventLast = dat->hDbEvent;
+					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+					if (--dat->eventsToInsert == 0)
+						break;
+				} while (!bOk && dat->hDbEvent);
 
-		m_rtf.SendMsg(EM_SETLANGOPTIONS, 0, m_rtf.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+				if (bOk) {
+					dat->isEmpty = false;
+					break;
+				}
+			}
+			dat->stage = STREAMSTAGE_TAIL;
+			__fallthrough;
+
+		case STREAMSTAGE_TAIL:
+			CreateRTFTail(dat->buf);
+			dat->stage = STREAMSTAGE_STOP;
+			break;
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
+		}
 	}
+
+	*pcb = min(cb, dat->buf.GetLength());
+	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
+	if (dat->buf.GetLength() == *pcb)
+		dat->buf.Empty();
+	else
+		dat->buf.Delete(0, *pcb);
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
-static const CHARRANGE rangeAll = { 0, -1 };
-
-INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CHARRANGE sel;
-
-	switch (msg) {
-	case WM_CONTEXTMENU:
-		// we display context menu here only for private chats, group chats are processed by the core
-		if (!m_pDlg.isChat()) {
-			POINT pt;
-			GetCursorPos(&pt);
-
-			SetFocus(m_rtf.GetHwnd());
-
-			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 0);
-			TranslateMenu(hSubMenu);
-
-			CHARRANGE all = { 0, -1 };
-			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin == sel.cpMax)
-				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-
-			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlg.m_hwnd, nullptr)) {
-			case IDM_COPY:
-				m_rtf.SendMsg(WM_COPY, 0, 0);
-				break;
-			case IDM_COPYALL:
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_rtf.SendMsg(WM_COPY, 0, 0);
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-				break;
-			case IDM_SELECTALL:
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				break;
-			case IDM_CLEAR:
-				Clear();
-				m_pDlg.m_hDbEventFirst = 0;
-				break;
-			}
-			DestroyMenu(hSubMenu);
-			DestroyMenu(hMenu);
-			return TRUE;
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (g_plugin.bAutoCopy) {
-			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				m_rtf.SendMsg(WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-			SetFocus(m_pDlg.m_message.GetHwnd());
-		}
-		break;
-	
-	case WM_KEYDOWN:
-		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
-
-		if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
-			m_pDlg.CloseTab();
-			return TRUE;
-		}
-
-		if (m_pDlg.ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-			return FALSE;
-	}
-
-	return CSuper::WndProc(msg, wParam, lParam);
-}
-
-CSrmmLogWindow *logBuilder(CMsgDialog &pDlg)
+CSrmmLogWindow* logBuilder(CMsgDialog &pDlg)
 {
 	return new CLogWindow(pDlg);
 }

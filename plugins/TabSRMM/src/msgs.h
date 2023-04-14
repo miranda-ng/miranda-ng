@@ -371,42 +371,6 @@ struct TContainerData : public MZeroedObject
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// CLogWindow - built-in log window
-
-class CLogWindow : public CRtfLogWindow
-{
-	typedef CRtfLogWindow CSuper;
-
-public:
-	CLogWindow(CMsgDialog &pDlg) :
-		CSuper(pDlg)
-	{
-	}
-
-	void Attach() override;
-	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(struct LOGINFO *, bool) override;
-	void ScrollToBottom() override;
-	void UpdateOptions() override;
-
-	void DisableStaticEdge()
-	{
-		SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
-	}
-
-	char* GetRichTextRtf(bool bText, bool bSelection)
-	{
-		return m_rtf.GetRichTextRtf(bText, bSelection);
-	}
-
-	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DBEVENTINFO *dbei);
-	void  ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
-	void  ScrollToBottom(bool, bool);
-
-	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // CMsgDialog - SRMM window class
 
 class CMsgDialog : public CSrmmBaseDialog
@@ -710,6 +674,44 @@ public:
 };
 
 extern LIST<void> g_arUnreadWindows;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CLogWindow - built-in log window
+
+class CLogWindow : public CRtfLogWindow
+{
+	typedef CRtfLogWindow CSuper;
+
+public:
+	CLogWindow(CMsgDialog &pDlg) :
+		CSuper(pDlg)
+	{}
+
+	char *CreateRTFFromDbEvent(struct LogStreamData *streamData);
+
+	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override;
+	void Attach() override;
+	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
+	void LogEvents(struct LOGINFO *, bool) override;
+	void ScrollToBottom() override;
+	void UpdateOptions() override;
+
+	void DisableStaticEdge()
+	{
+		SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+	}
+
+	char *GetRichTextRtf(bool bText, bool bSelection)
+	{
+		return m_rtf.GetRichTextRtf(bText, bSelection);
+	}
+
+	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DBEVENTINFO *dbei);
+	void  ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void  ScrollToBottom(bool, bool);
+
+	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
 

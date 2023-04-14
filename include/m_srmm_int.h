@@ -134,6 +134,10 @@ public:
 	virtual void     UpdateOptions() {};
 
 	virtual INT_PTR Notify(WPARAM, LPARAM) { return 0; }
+
+	__inline CMsgDialog& GetDialog() const
+	{	return m_pDlg;
+	}
 };
 
 typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
@@ -149,10 +153,13 @@ class MIR_APP_EXPORT CRtfLogWindow : public CSrmmLogWindow
 protected:
 	CCtrlRichEdit &m_rtf;
 
+	void InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE_BLOB &blob);
+
 public:
 	CRtfLogWindow(CMsgDialog &pDlg);
 	~CRtfLogWindow() override;
 
+	virtual void    AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) = 0;
 	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	////////////////////////////////////////////////////////////////////////////////////////

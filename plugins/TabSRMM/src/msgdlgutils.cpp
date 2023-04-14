@@ -320,6 +320,9 @@ bool IsStringValidLink(wchar_t *pszText)
 	if (pszText[0] == '\\' && pszText[1] == '\\')
 		return true;
 
+	if (!mir_wstrncmp(pszText, L"ofile:", 6))
+		return true;
+
 	if (mir_wstrlen(pszText) < 5 || wcschr(pszText, '"'))
 		return false;
 

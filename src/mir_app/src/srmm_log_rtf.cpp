@@ -124,6 +124,31 @@ wchar_t* CRtfLogWindow::GetSelection()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE_BLOB &blob)
+{
+	AppendUnicodeString(buf, TranslateT("Offline file"));
+	buf.Append(" {\\field{\\*\\fldinst HYPERLINK \"");
+	buf.AppendFormat("ofile:%ul", hEvent);
+	buf.Append("\"}{\\fldrslt{\\ul ");
+	AppendUnicodeString(buf, blob.getName());
+	buf.AppendFormat("}}} | %uKB", blob.getSize() / 1024);
+
+	CMStringA szHost;
+	if (const char *b = strstr(blob.getUrl(), "://"))
+		for (b = b + 3; *b != 0 && *b != '/' && *b != ':'; b++)
+			szHost.AppendChar(*b);
+
+	if (!szHost.IsEmpty())
+		buf.AppendFormat(" on %s", szHost.c_str());
+
+	if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred()) {
+		buf.AppendChar(' ');
+		AppendUnicodeString(buf, TranslateT("Completed"));
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 {
 	LPNMHDR hdr = (LPNMHDR)lParam;

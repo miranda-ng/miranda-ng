@@ -28,7 +28,6 @@ void CMsgDialog::ClearLog()
 	CSuper::ClearLog();
 
 	m_hDbEventFirst = 0;
-	m_lastEventType = -1;
 }
 
 void CMsgDialog::CloseTab()
@@ -102,7 +101,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DBEVENTINFO &dbei)
 		else
 			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
-		if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
+		if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(dbei)) {
 			if (!bIsActive) {
 				m_iShowUnread = 1;
 				UpdateIcon();
@@ -124,7 +123,7 @@ bool CMsgDialog::GetFirstEvent()
 		if (m_hDbEventFirst != 0) {
 			DBEVENTINFO dbei = {};
 			db_event_get(m_hDbEventFirst, &dbei);
-			if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
+			if (DbEventIsMessageOrCustom(dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
 				notifyUnread = true;
 		}
 
