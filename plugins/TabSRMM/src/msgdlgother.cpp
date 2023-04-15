@@ -2498,8 +2498,7 @@ LBL_SkipEnd:
 void CMsgDialog::tabClearLog()
 {
 	if (isChat()) {
-		g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
-		m_si->iEventCount = 0;
+		m_si->arEvents.destroy();
 		m_si->LastTime = 0;
 		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 	}

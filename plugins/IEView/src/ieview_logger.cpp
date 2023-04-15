@@ -103,7 +103,7 @@ public:
 		HandleIEEvent(0, LPARAM(&event));
 	}
 
-	void LogEvents(LOGINFO *pLog, bool bRedraw) override
+	void LogEvents(SESSION_INFO *si, int iStart, bool bRedraw) override
 	{
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK;
@@ -116,13 +116,15 @@ public:
 		event.eventData = &ied;
 		event.count = 1;
 
-		while (pLog) {
-			ied.szNick.w = pLog->ptszNick;
-			ied.szText.w = pLog->ptszText;
-			ied.time = pLog->time;
-			ied.bIsMe = pLog->bIsMe;
+		for (int i = iStart; i < si->arEvents.getCount(); i++) {
+			auto &lin = si->arEvents[i];
 
-			switch (pLog->iType) {
+			ied.szNick.w = lin.ptszNick;
+			ied.szText.w = lin.ptszText;
+			ied.time = lin.time;
+			ied.bIsMe = lin.bIsMe;
+
+			switch (lin.iType) {
 			case GC_EVENT_MESSAGE:
 				ied.iType = IEED_GC_EVENT_MESSAGE;
 				ied.dwData = IEEDD_GC_SHOW_NICK;
@@ -165,8 +167,6 @@ public:
 			ied.dwData |= IEEDD_GC_SHOW_TIME | IEEDD_GC_SHOW_ICON;
 			ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 			HandleIEEvent(0, LPARAM(&event));
-
-			pLog = pLog->prev;
 		}
 
 		if (bRedraw)

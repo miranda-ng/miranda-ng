@@ -359,10 +359,26 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void CRtfLogWindow::StreamRtfEvents(RtfLogStreamData *dat, bool bAppend)
 {
-	EDITSTREAM stream = {};
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)dat;
-	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+	if (Contact::IsGroupChat(dat->hContact)) {
+		if (auto *si = SM_FindSessionByContact(dat->hContact)) {
+			bool bDone = false;
+
+			for (MEVENT hDbEvent = dat->hDbEvent; hDbEvent && dat->eventsToInsert; dat->eventsToInsert--) {
+				Chat_EventToGC(si, dat->hDbEvent);
+				dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+				bDone = true;
+			}
+
+			if (bDone && si->pDlg)
+				si->pDlg->RedrawLog();
+		}
+	}
+	else {
+		EDITSTREAM stream = {};
+		stream.pfnCallback = LogStreamInEvents;
+		stream.dwCookie = (DWORD_PTR)dat;
+		m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -505,8 +521,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			case IDM_CLEAR:
 				m_rtf.SetText(L"");
 				if (auto *si = m_pDlg.m_si) {
-					g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-					si->iEventCount = 0;
+					si->arEvents.destroy();
 					si->LastTime = 0;
 				}
 				PostMessage(m_pDlg.m_hwnd, WM_MOUSEACTIVATE, 0, 0);

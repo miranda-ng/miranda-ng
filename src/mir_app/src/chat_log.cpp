@@ -30,11 +30,11 @@ char *pLogIconBmpBits[14];
 #define RTFCACHELINESIZE 128
 static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT][RTFCACHELINESIZE];
 
-static int EventToIndex(LOGINFO *lin)
+static int EventToIndex(const LOGINFO &lin)
 {
-	switch (lin->iType) {
+	switch (lin.iType) {
 		case GC_EVENT_MESSAGE:
-			if (lin->bIsMe)
+			if (lin.bIsMe)
 				return 10;
 			else
 				return 9;
@@ -54,11 +54,11 @@ static int EventToIndex(LOGINFO *lin)
 	return 0;
 }
 
-static int EventToIcon(LOGINFO *lin)
+static int EventToIcon(const LOGINFO &lin)
 {
-	switch (lin->iType) {
+	switch (lin.iType) {
 		case GC_EVENT_MESSAGE:
-			if (lin->bIsMe)
+			if (lin.bIsMe)
 				return ICON_MESSAGEOUT;
 			else
 				return ICON_MESSAGE;
@@ -89,6 +89,7 @@ char* Log_SetStyle(int style)
 static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &buf, const wchar_t *line)
 {
 	int textCharsCount = 0;
+	auto &lin = streamData->si->arEvents[streamData->iStartEvent];
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
@@ -129,7 +130,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &
 			case 'C':
 			case 'F':
 				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
-					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
+					int j = lin.bIsHighlighted ? 16 : EventToIndex(lin);
 					if (*line == 'C')
 						mir_snprintf(szTemp, "\\cf%u ", j + 1);
 					else
@@ -154,7 +155,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &
 
 			case 'r':
 				if (!streamData->bStripFormat) {
-					int index = EventToIndex(streamData->lin);
+					int index = EventToIndex(lin);
 					mir_snprintf(szTemp, "%s ", Log_SetStyle(index));
 				}
 				break;
@@ -252,16 +253,16 @@ MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINF
 	return false;
 }
 
-static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
+static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData, const LOGINFO &lin)
 {
 	CMStringW wszCaption;
-	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, streamData->lin, wszCaption);
+	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
 	if (!wszCaption.IsEmpty())
 		Log_AppendRTF(streamData, !bTextUsed, buf, wszCaption);
-	if (!bTextUsed && streamData->lin->ptszText) {
+	if (!bTextUsed && lin.ptszText) {
 		if (!wszCaption.IsEmpty())
 			Log_AppendRTF(streamData, false, buf, L" ");
-		Log_AppendRTF(streamData, false, buf, streamData->lin->ptszText);
+		Log_AppendRTF(streamData, false, buf, lin.ptszText);
 	}
 }
 
@@ -287,20 +288,22 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		buf.Append(header);
 
 	// ### RTF BODY (one iteration per event that should be streamed in)
-	for (LOGINFO *lin = streamData->lin; lin; lin = lin->prev) {
+	for (int i = 0; i < si->arEvents.getCount(); i++) {
+		auto &lin = si->arEvents[i];
+
 		// filter
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
-			if (!(si->pDlg->m_iLogFilterFlags & lin->iType))
+			if (!(si->pDlg->m_iLogFilterFlags & lin.iType))
 				continue;
 
 		// create new line, and set font and color
-		if (lin->next != nullptr)
+		if (i != 0)
 			buf.Append("\\par ");
 		buf.AppendFormat("%s ", Log_SetStyle(0));
 
 		// Insert icon
-		if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
-			int iIndex = (lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
+		if ((lin.iType & g_Settings->dwIconFlags) || lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
+			int iIndex = (lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
 			buf.Append("\\f0\\fs14");
 			buf.Append(pLogIconBmpBits[iIndex]);
 		}
@@ -309,12 +312,12 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			LOGFONT &lf = g_chatApi.aFonts[0].lf;
 
 			// colored timestamps
-			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
+			if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+				int iii = lin.bIsHighlighted ? 16 : (lin.bIsMe ? 2 : 1);
 				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 			}
 			else {
-				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
+				int iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
 				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 			}
 		}
@@ -323,33 +326,32 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		if (g_Settings->dwIconFlags)
 			buf.Append("\\tab ");
 
-		//insert timestamp
+		// insert timestamp
 		if (g_Settings->bShowTime) {
 			wchar_t szTimeStamp[100], szOldTimeStamp[100];
 
-			wcsncpy_s(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), _TRUNCATE);
+			wcsncpy_s(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin.time), _TRUNCATE);
 			wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
 			if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
-				si->LastTime = lin->time;
+				si->LastTime = lin.time;
 				Log_AppendRTF(streamData, true, buf, szTimeStamp);
 			}
 			buf.Append("\\tab ");
 		}
 
 		// Insert the nick
-		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-			buf.AppendFormat("%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
+		if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+			buf.AppendFormat("%s ", Log_SetStyle(lin.bIsMe ? 2 : 1));
 
-			CMStringW tmp((lin->bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
-			tmp.Replace(L"%n", lin->ptszNick);
+			CMStringW tmp((lin.bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
+			tmp.Replace(L"%n", lin.ptszNick);
 			Log_AppendRTF(streamData, TRUE, buf, tmp);
 			buf.AppendChar(' ');
 		}
 
 		// Insert the message
-		buf.AppendFormat("%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
-		streamData->lin = lin;
-		AddEventToBuffer(buf, streamData);
+		buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
+		AddEventToBuffer(buf, streamData, lin);
 	}
 
 	// ### RTF END

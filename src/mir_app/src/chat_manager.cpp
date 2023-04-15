@@ -56,76 +56,24 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 static LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Log manager functions
-//	Necessary to keep track of events in a window log
-
-static LOGINFO* LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
-{
-	if (!ppLogListStart || !ppLogListEnd)
-		return nullptr;
-
-	LOGINFO *node = (LOGINFO *)mir_calloc(sizeof(LOGINFO));
-	if (*ppLogListStart == nullptr) { // list is empty
-		*ppLogListStart = node;
-		*ppLogListEnd = node;
-		node->next = nullptr;
-		node->prev = nullptr;
-	}
-	else {
-		ppLogListStart[0]->prev = node;
-		node->next = *ppLogListStart;
-		*ppLogListStart = node;
-		ppLogListStart[0]->prev = nullptr;
-	}
-
-	return node;
-}
-
-static BOOL LM_TrimLog(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount)
-{
-	LOGINFO *pTemp = *ppLogListEnd;
-	while (pTemp != nullptr && iCount > 0) {
-		*ppLogListEnd = pTemp->prev;
-		if (*ppLogListEnd == nullptr)
-			*ppLogListStart = nullptr;
-
-		mir_free(pTemp->ptszNick);
-		mir_free(pTemp->ptszUserInfo);
-		mir_free(pTemp->ptszText);
-		mir_free(pTemp->ptszStatus);
-		mir_free(pTemp);
-		pTemp = *ppLogListEnd;
-		iCount--;
-	}
-	ppLogListEnd[0]->next = nullptr;
-
-	return TRUE;
-}
-
-static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
-{
-	while (*ppLogListStart != nullptr) {
-		LOGINFO *pLast = ppLogListStart[0]->next;
-		mir_free(ppLogListStart[0]->ptszText);
-		mir_free(ppLogListStart[0]->ptszNick);
-		mir_free(ppLogListStart[0]->ptszStatus);
-		mir_free(ppLogListStart[0]->ptszUserInfo);
-		mir_free(*ppLogListStart);
-		*ppLogListStart = pLast;
-	}
-	*ppLogListStart = nullptr;
-	*ppLogListEnd = nullptr;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
+static int CompareEvents(const LOGINFO *p1, const LOGINFO *p2)
+{
+	if (p1->time != p2->time)
+		return (p1->time < p2->time) ? -1 : 1;
+
+	return (int)p1->hEvent - (int)p2->hEvent;
+}
+
 SESSION_INFO::SESSION_INFO() :
 	arKeys(10, CompareKeys),
-	arUsers(10, CompareUser)
-{}
+	arUsers(10, CompareUser),
+	arEvents(10, CompareEvents)
+{
+	iLastEvent = MAXINT/2;
+}
 
 SESSION_INFO::~SESSION_INFO()
 {}
@@ -186,8 +134,8 @@ void SM_FreeSession(SESSION_INFO *si)
 
 	UM_RemoveAll(si);
 	g_chatApi.TM_RemoveAll(&si->pStatuses);
-	g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 
+	si->arEvents.destroy();
 	si->iStatusCount = 0;
 
 	mir_free(si->pszModule);
@@ -251,23 +199,32 @@ BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 	if (si == nullptr)
 		return TRUE;
 
-	LOGINFO *li = LM_AddEvent(&si->pLog, &si->pLogEnd);
-	si->iEventCount++;
+	LOGINFO *li = new LOGINFO();
+	li->time = gce->time;
+	li->bIsHighlighted = bIsHighlighted;
+	if (si->pMI->bDatabase && gce->hEvent) {
+		li->hEvent = gce->hEvent;
+		if (si->arEvents.find(li)) {
+			delete li;
+			return TRUE;
+		}
+	}
+	else li->hEvent = si->iLastEvent++;
 
 	li->iType = gce->iType;
 	li->ptszNick = mir_wstrdup(gce->pszNick.w);
 	li->ptszText = mir_wstrdup(gce->pszText.w);
 	li->ptszStatus = mir_wstrdup(gce->pszStatus.w);
 	li->ptszUserInfo = mir_wstrdup(gce->pszUserInfo.w);
-
 	li->bIsMe = gce->bIsMe;
-	li->time = gce->time;
-	li->bIsHighlighted = bIsHighlighted;
+	
+	si->arEvents.insert(li);
 
-	if (g_Settings->iEventLimit > 0 && si->iEventCount > g_Settings->iEventLimit + 20) {
-		LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
+	if (g_Settings->iEventLimit > 0 && si->arEvents.getCount() > g_Settings->iEventLimit + 20) {
+		for (int i = si->arEvents.getCount() - g_Settings->iEventLimit; i >= 0; i--)
+			si->arEvents.remove(0);
+
 		si->bTrimmed = true;
-		si->iEventCount = g_Settings->iEventLimit;
 		return FALSE;
 	}
 	return TRUE;
@@ -880,8 +837,6 @@ static void ResetApi()
 	g_chatApi.UM_TakeStatus = ::UM_TakeStatus;
 	g_chatApi.UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;
 	g_chatApi.UM_RemoveUser = ::UM_RemoveUser;
-
-	g_chatApi.LM_RemoveAll = ::LM_RemoveAll;
 
 	g_chatApi.SetOffline = ::SetOffline;
 	g_chatApi.SetAllOffline = ::SetAllOffline;

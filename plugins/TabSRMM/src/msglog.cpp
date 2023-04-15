@@ -1226,13 +1226,13 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
+void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
 {
-	auto *si = m_pDlg.m_si;
-	if (m_rtf.GetHwnd() == nullptr || lin == nullptr || si == nullptr)
+	if (m_rtf.GetHwnd() == nullptr || si == nullptr)
 		return;
 
-	if (!bRedraw && m_pDlg.AllowTyping() && !(m_pDlg.m_iLogFilterFlags & lin->iType))
+	auto &lin = si->arEvents[iStart];
+	if (!bRedraw && m_pDlg.AllowTyping() && !(m_pDlg.m_iLogFilterFlags & lin.iType))
 		return;
 
 	bool bFlag = false, bDoReplace, bAtBottom = AtBottom();
@@ -1241,7 +1241,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = m_rtf.GetHwnd();
 	streamData.si = si;
-	streamData.lin = lin;
+	streamData.iStartEvent = iStart;
 	streamData.bStripFormat = FALSE;
 	streamData.dat = &m_pDlg;
 
@@ -1285,7 +1285,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 
 	// for new added events, only replace in message or action events.
 	// no need to replace smileys or math formulas elsewhere
-	bDoReplace = (bRedraw || (lin->ptszText && (lin->iType == GC_EVENT_MESSAGE || lin->iType == GC_EVENT_ACTION)));
+	bDoReplace = (bRedraw || (lin.ptszText && (lin.iType == GC_EVENT_MESSAGE || lin.iType == GC_EVENT_ACTION)));
 
 	// replace marked nicknames with hyperlinks to make the nicks clickable
 	if (g_Settings.bClickableNicks) {
@@ -1344,7 +1344,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	// this uses hidden marks in the rich text to find the events which should be deleted
 	if (si->bTrimmed) {
 		wchar_t szPattern[50];
-		mir_snwprintf(szPattern, L"~-+%p+-~", si->pLogEnd);
+		mir_snwprintf(szPattern, L"~-+%p+-~", &lin);
 
 		FINDTEXTEX fi;
 		fi.lpstrText = szPattern;

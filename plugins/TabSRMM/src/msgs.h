@@ -693,7 +693,7 @@ public:
 	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override;
 	void Attach() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(struct LOGINFO *, bool) override;
+	void LogEvents(SESSION_INFO *si, int iStart, bool) override;
 	void ScrollToBottom() override;
 	void UpdateOptions() override;
 

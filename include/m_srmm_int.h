@@ -128,7 +128,7 @@ public:
 	virtual HWND     GetHwnd() = 0;
 	virtual wchar_t* GetSelection() = 0;
 	virtual void     LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) = 0;
-	virtual void     LogEvents(struct LOGINFO *, bool) = 0;
+	virtual void     LogEvents(struct SESSION_INFO *si, int iStart, bool bAppend) = 0;
 	virtual void     Resize() = 0;
 	virtual void     ScrollToBottom() = 0;
 	virtual void     UpdateOptions() {};

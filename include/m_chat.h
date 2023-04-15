@@ -381,6 +381,7 @@ struct GCEVENT
 
 	INT_PTR      dwItemData;       // User specified data.
 	uint32_t     time;             // Timestamp of the event
+	MEVENT       hEvent;           // Database event
 };
 
 MIR_APP_DLL(int) Chat_Event(GCEVENT*);

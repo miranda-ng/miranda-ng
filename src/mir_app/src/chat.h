@@ -129,6 +129,7 @@ int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* 
 
 CSrmmLogWindow *Srmm_GetLogWindow(CMsgDialog *pDlg);
 
+void          Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent);
 void          Chat_RemoveContact(MCONTACT hContact);
 
 CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);

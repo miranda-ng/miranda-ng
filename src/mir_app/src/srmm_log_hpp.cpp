@@ -109,7 +109,7 @@ public:
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 
-	void CHppLogWindow::LogEvents(LOGINFO *pLog, bool)
+	void CHppLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool) override
 	{
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT;
@@ -122,14 +122,16 @@ public:
 		event.eventData = &ied;
 		event.count = 1;
 
-		while (pLog) {
-			if (pLog->ptszText) {
-				ied.szNick.w = pLog->ptszNick;
-				ied.szText.w = pLog->ptszText;
-				ied.time = pLog->time;
-				ied.bIsMe = pLog->bIsMe;
+		for (int i=iStart; i < si->arEvents.getCount(); i++) {
+			auto &pLog = si->arEvents[i];
+		
+			if (pLog.ptszText) {
+				ied.szNick.w = pLog.ptszNick;
+				ied.szText.w = pLog.ptszText;
+				ied.time = pLog.time;
+				ied.bIsMe = pLog.bIsMe;
 
-				switch (pLog->iType) {
+				switch (pLog.iType) {
 				case GC_EVENT_MESSAGE:
 					ied.iType = IEED_GC_EVENT_MESSAGE;
 					ied.dwData = IEEDD_GC_SHOW_NICK;
@@ -173,8 +175,6 @@ public:
 				ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 				CallService(MS_HPP_EG_EVENT, 0, (LPARAM) & event);
 			}
-
-			pLog = pLog->prev;
 		}
 	}
 

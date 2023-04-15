@@ -74,7 +74,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 			m_bBGSet = true;
 		}
 
-		m_bFilterEnabled = m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
+		m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
 		m_iLogFilterFlags = Chat::iFilterFlags;
 		m_bNicklistEnabled = Chat::bShowNicklist;
 	}
@@ -581,8 +581,9 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CSrmmBaseDialog::AddLog()
 {
-	if (m_si->pLogEnd)
-		m_pLog->LogEvents(m_si->pLog, false);
+	int iEventCount = m_si->arEvents.getCount();
+	if (iEventCount)
+		m_pLog->LogEvents(m_si, iEventCount-1, false);
 	else
 		m_pLog->Clear();
 }
@@ -617,8 +618,10 @@ void CSrmmBaseDialog::UpdateOptions()
 void RedrawLog2(SESSION_INFO *si)
 {
 	si->LastTime = 0;
-	if (si->pLog)
-		si->pDlg->log()->LogEvents(si->pLogEnd, TRUE);
+
+	int iEventCount = si->arEvents.getCount();
+	if (iEventCount)
+		si->pDlg->log()->LogEvents(si, 0, TRUE);
 }
 
 static void __cdecl phase2(SESSION_INFO *si)
@@ -631,22 +634,23 @@ static void __cdecl phase2(SESSION_INFO *si)
 void CSrmmBaseDialog::RedrawLog()
 {
 	m_si->LastTime = 0;
-	if (m_si->pLog) {
-		LOGINFO *pLog = m_si->pLog;
-		if (m_si->iEventCount > 60) {
+
+	int iEventCount = m_si->arEvents.getCount();
+	if (iEventCount) {
+		if (iEventCount > 60) {
 			int index = 0;
 			while (index < 59) {
-				if (pLog->next == nullptr)
+				if (iEventCount == 0)
 					break;
 
-				pLog = pLog->next;
-				if (m_si->iType != GCW_CHATROOM || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
+				iEventCount--;
+				if (m_si->iType != GCW_CHATROOM || (m_iLogFilterFlags & m_si->arEvents[iEventCount].iType) != 0)
 					index++;
 			}
-			m_pLog->LogEvents(pLog, true);
+			m_pLog->LogEvents(m_si, iEventCount, true);
 			mir_forkThread<SESSION_INFO>(phase2, m_si);
 		}
-		else m_pLog->LogEvents(m_si->pLogEnd, true);
+		else m_pLog->LogEvents(m_si, 0, true);
 	}
 	else ClearLog();
 }
@@ -684,7 +688,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 	}
 
 	m_si->bHistoryInit = true;
-	m_pLog->LogEvents(m_si->pLogEnd, false);
+	m_pLog->LogEvents(m_si, 0, false);
 }
 
 void CSrmmBaseDialog::UpdateFilterButton()

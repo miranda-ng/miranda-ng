@@ -111,17 +111,17 @@ struct FONTINFO
 
 struct LOGINFO
 {
-	wchar_t *ptszText;
-	wchar_t *ptszNick;
-	wchar_t *ptszUID;
-	wchar_t *ptszStatus;
-	wchar_t *ptszUserInfo;
+	ptrW     ptszText;
+	ptrW     ptszNick;
+	ptrW     ptszUID;
+	ptrW     ptszStatus;
+	ptrW     ptszUserInfo;
 	bool     bIsMe;
 	bool     bIsHighlighted;
 	bool     bSimple;
 	time_t   time;
+	MEVENT   hEvent;
 	int      iType;
-	LOGINFO *next, *prev;
 };
 
 struct STATUSINFO
@@ -153,9 +153,9 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	wchar_t*    ptszTopic;
 
 	int         iType;
-	int         iEventCount;
-	int         iStatusCount;
+	int         iStatusCount, iLastEvent;
 	int         iTrayFlags, iPopupFlags;
+	int         currentHovered;
 
 	uint16_t    wStatus;
 	uint16_t    wState;
@@ -163,10 +163,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	void*       pItemData;
 	time_t      LastTime;
 
-	int         currentHovered;
-
 	CMsgDialog *pDlg;
-	LOGINFO *pLog, *pLogEnd;
 	USERINFO *pMe;
 	STATUSINFO *pStatuses;
 	MODULEINFO *pMI;
@@ -174,6 +171,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 
 	LIST<USERINFO> arKeys;
 	OBJLIST<USERINFO> arUsers;
+	OBJLIST<LOGINFO> arEvents;
 
 	wchar_t pszLogFileName[MAX_PATH];
 
@@ -196,10 +194,9 @@ struct GCLogStreamDataBase
 {
 	char*         buffer;
 	int           bufferOffset, bufferLen;
+	int           iStartEvent;
+	bool          bStripFormat, bRedraw;
 	HWND          hwnd;
-	LOGINFO*      lin;
-	BOOL          bStripFormat;
-	BOOL          bRedraw;
 	SESSION_INFO *si;
 };
 
@@ -300,8 +297,6 @@ struct CHAT_MANAGER
 	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 	BOOL          (*UM_RemoveUser)(SESSION_INFO *si, const wchar_t *pszUID);
-
-	BOOL          (*LM_RemoveAll)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
 
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);

@@ -471,20 +471,20 @@ public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
-	void LogEvents(struct LOGINFO *lin, bool bRedraw) override
+	void LogEvents(SESSION_INFO *si, int iStart, bool bRedraw) override
 	{
-		auto *si = m_pDlg.m_si;
-		if (lin == nullptr || si == nullptr)
+		if (si == nullptr)
 			return;
 
-		if (!bRedraw && si->iType == GCW_CHATROOM && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
+		auto &lin = si->arEvents[iStart];
+		if (!bRedraw && si->iType == GCW_CHATROOM && (m_pDlg.m_iLogFilterFlags & lin.iType) == 0)
 			return;
 
 		LOGSTREAMDATA streamData;
 		memset(&streamData, 0, sizeof(streamData));
 		streamData.hwnd = m_rtf.GetHwnd();
 		streamData.si = si;
-		streamData.lin = lin;
+		streamData.iStartEvent = iStart;
 		streamData.bStripFormat = FALSE;
 
 		bool bFlag = false;
@@ -533,7 +533,7 @@ public:
 		m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 		// do smileys
-		if (g_plugin.bSmileyInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
+		if (g_plugin.bSmileyInstalled && (bRedraw || (lin.ptszText && lin.iType != GC_EVENT_JOIN && lin.iType != GC_EVENT_NICK && lin.iType != GC_EVENT_ADDSTATUS && lin.iType != GC_EVENT_REMOVESTATUS))) {
 			CHARRANGE newsel;
 			newsel.cpMax = -1;
 			newsel.cpMin = sel.cpMin;

@@ -329,8 +329,7 @@ static int RoomControlHandler(int iCommand, SESSION_INFO *si)
 		break;
 
 	case WINDOW_CLEARLOG:
-		g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-		si->iEventCount = 0;
+		si->arEvents.destroy();
 		si->LastTime = 0;
 		if (si->pDlg)
 			si->pDlg->ClearLog();
@@ -821,23 +820,8 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	if (Contact::IsGroupChat(hContact)) {
-		if (auto *si = SM_FindSessionByContact(hContact)) {
-			DB::EventInfo dbei(hDbEvent);
-			if (dbei) {
-				auto *szProto = Proto_GetBaseAccountName(si->hContact);
-				if (si && !mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
-					CMStringA szText((char *)dbei.pBlob);
-					szText.Replace("%", "%%");
-
-					GCEVENT gce = { si, GC_EVENT_MESSAGE };
-					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-					gce.pszUID.a = dbei.szUserId;
-					gce.pszText.a = szText;
-					gce.time = dbei.timestamp;
-					Chat_Event(&gce);
-				}
-			}
-		}
+		if (auto *si = SM_FindSessionByContact(hContact))
+			Chat_EventToGC(si, hDbEvent);
 	}
 	else {
 		g_clistApi.pfnRemoveEvent(hContact, 1);

@@ -737,6 +737,28 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 	return si->pszLogFileName;
 }
 
+void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
+{
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
+		return;
+
+	auto *szProto = Proto_GetBaseAccountName(si->hContact);
+	if (mir_strcmp(szProto, dbei.szModule) || dbei.eventType != EVENTTYPE_MESSAGE || !dbei.szUserId)
+		return;
+
+	CMStringA szText((char *)dbei.pBlob);
+	szText.Replace("%", "%%");
+
+	GCEVENT gce = { si, GC_EVENT_MESSAGE };
+	gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+	gce.pszUID.a = dbei.szUserId;
+	gce.pszText.a = szText;
+	gce.time = dbei.timestamp;
+	gce.hEvent = hDbEvent;
+	Chat_Event(&gce);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(wchar_t*) Chat_GetGroup()
