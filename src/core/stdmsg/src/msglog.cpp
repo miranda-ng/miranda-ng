@@ -430,6 +430,8 @@ public:
 		mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
 		mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
+		StreamRtfEvents(&streamData, bAppend);
+
 		if (bottomScroll) {
 			sel.cpMin = sel.cpMax = -1;
 			m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
