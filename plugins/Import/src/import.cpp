@@ -32,6 +32,11 @@ static bool CompareDb(DBVARIANT &dbv1, DBVARIANT &dbv2)
 		case DBVT_ASCIIZ:
 		case DBVT_UTF8:
 			return 0 == mir_strcmp(dbv1.pszVal, dbv2.pszVal);
+
+		case DBVT_BLOB:
+			if (dbv1.cpbVal == dbv2.cpbVal)
+				return 0 == memcmp(dbv1.pbVal, dbv2.pbVal, dbv1.cpbVal);
+			break;
 		}
 	}
 	return false;
