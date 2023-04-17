@@ -138,8 +138,7 @@ wchar_t* CRtfLogWindow::GetSelection()
 
 void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE_BLOB &blob)
 {
-	AppendUnicodeString(buf, TranslateT("Offline file"));
-	buf.Append(" {\\field{\\*\\fldinst HYPERLINK \"");
+	buf.Append("{\\field{\\*\\fldinst HYPERLINK \"");
 	buf.AppendFormat("ofile:%ul", hEvent);
 	buf.Append("\"}{\\fldrslt{\\ul ");
 	AppendUnicodeString(buf, blob.getName());
