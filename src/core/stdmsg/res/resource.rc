@@ -412,6 +412,10 @@ IDI_NICKLIST2           ICON                    "nicklist2.ico"
 
 IDI_FILTER2             ICON                    "filter2.ico"
 
+IDI_SECURE              ICON                    "unverified.ico"
+
+IDI_SECURE_STRONG       ICON                    "private.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

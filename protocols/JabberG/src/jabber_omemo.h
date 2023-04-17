@@ -27,6 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <map>
 #include <list>
 
+
+#define FP_BAD 0
+#define FP_TOFU 1
+#define FP_VERIFIED 2
+#define FP_ABSENT -1
+
 struct CJabberProto;
 struct signal_crypto_provider;
 

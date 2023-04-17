@@ -23,9 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 IconItem iconList[] =
 {
-	{ LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10 },
-	{ LPGEN("Outgoing message (10x10)"), "OUTGOING", IDI_OUTGOING, 10 },
-	{ LPGEN("Notice (10x10)"),           "NOTICE",   IDI_NOTICE,   10 },
+	{ LPGEN("Incoming message (10x10)"),   "INCOMING",   IDI_INCOMING,      10 },
+	{ LPGEN("Outgoing message (10x10)"),   "OUTGOING",   IDI_OUTGOING,      10 },
+	{ LPGEN("Notice (10x10)"),             "NOTICE",     IDI_NOTICE,        10 },
+	{ LPGEN("Encrypted (10x10)"),          "UNVERIFIED", IDI_SECURE,        10 },
+	{ LPGEN("Encrypted verified (10x10)"), "PRIVATE",    IDI_SECURE_STRONG, 10 },
 };
 
 static void InitIcons(void)

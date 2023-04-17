@@ -81,6 +81,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	uint16_t m_wMinute = 0;
 	bool m_bIsMeta = false, m_bWindowCascaded = false, m_bNoActivate = false;
 	int m_iBBarHeight = 28;
+	CMStringA m_sEncryption;
 
 public:
 	CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact);

@@ -831,7 +831,11 @@ public:
 			if (!fp.isEmpty()) {
 				fp_hex = omemo::hex_string(fp.data(), fp.length());
 				int8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex);
-				wsStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
+				if (trusted > FP_VERIFIED)
+					trusted = FP_ABSENT;
+				
+				const wchar_t *status[] = { L"Bad", L"TOFU", L"Verified" };
+				wsStatus = TranslateW(status[trusted]);
 			}
 			MBinBuffer session(ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix));
 
@@ -868,9 +872,7 @@ public:
 		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
 		switch (nReturnCmd) {
 		case 1:
-			ppro->setByte(m_hContact, TrustSettingName, !trusted);
-			if (trusted)
-				ppro->delSetting(m_hContact, "OmemoSignalSession_" + suffix);
+			ppro->setByte(m_hContact, TrustSettingName, trusted ? FP_BAD : FP_VERIFIED);
 			OnRefresh();
 			break;
 		case 2:

@@ -1007,6 +1007,14 @@ complete:
 		return 0;
 	}
 
+	int db_enum_settings_fps_cb(const char *szSetting, void *lParam)
+	{
+		if (strstr(szSetting, "OmemoFingerprintTrusted_") == szSetting)
+			(*(uint32_t*)lParam)++;
+
+		return 0;
+	}
+
 	int is_trusted_identity(const signal_protocol_address * address, uint8_t * key_data, size_t key_len, void * user_data)
 	{
 		/**
@@ -1027,10 +1035,28 @@ complete:
 		*/
 
 		auto *proto = (CJabberProto *)user_data;
-		CMStringA TrustSettingName("OmemoFingerprintTrusted_");
-		TrustSettingName.Append(omemo::hex_string(key_data, key_len));
+		CMStringA fp_hex(omemo::hex_string(key_data, key_len));
+		CMStringA TrustSettingName("OmemoFingerprintTrusted_" + fp_hex);
 
-		return proto->getByte(proto->HContactFromJID(address->name), TrustSettingName);
+		MCONTACT hContact = proto->HContactFromJID(address->name);
+		char val = proto->getByte(hContact, TrustSettingName, FP_ABSENT);
+		if (val != FP_ABSENT)
+			return (bool)val;
+		else {
+			uint32_t count = 0;
+			db_enum_settings(hContact, db_enum_settings_fps_cb, proto->m_szModuleName, &count);
+			db_set_blob(hContact, proto->m_szModuleName, TrustSettingName, key_data, (int)key_len);
+			if (count == 0) {
+				proto->setByte(hContact, TrustSettingName, FP_TOFU);
+				return true;
+			}
+			else {
+				proto->setByte(hContact, TrustSettingName, FP_BAD);
+				return false;
+			}
+		}
+
+		return false;
 	}
 
 	bool omemo_impl::create_session_store()
@@ -1119,27 +1145,20 @@ complete:
 			return false; // TODO: cleanup
 		}
 		mir_free(key_buf); // TODO: check this
-		bool fp_trusted = false;
-		{
-			// check fingerprint
-			SignalBuffer buf(identity_key_p);
-			ptrA fingerprint((char *)mir_alloc((buf.len() * 2) + 1));
-			bin2hex(buf.data(), buf.len(), fingerprint);
 
-			CMStringA szSetting(FORMAT, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
-			char val = proto->getByte(hContact, szSetting, -1);
-			if (val == 1)
-				fp_trusted = true;
-			if (val == -1) {
-				CMStringW szMsg(FORMAT, L"%s\n\n", TranslateT("Do you want to create OMEMO session with new device:"));
-				int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), _A2T(jid), MB_YESNO);
-				if (ret == IDYES) {
-					proto->setByte(hContact, szSetting, 1);
-					fp_trusted = true;
-				}
-				else if (ret == IDNO)
-					proto->setByte(hContact, szSetting, 0);
-			}
+		// check fingerprint
+		SignalBuffer buf(identity_key_p);
+		ptrA fingerprint((char *)mir_alloc((buf.len() * 2) + 1));
+		bin2hex(buf.data(), buf.len(), fingerprint);
+		CMStringA szSetting(FORMAT, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
+		char val = proto->getByte(hContact, szSetting, -1);
+		if (val == -1) {
+			CMStringW szMsg(FORMAT, L"%s\n\n", TranslateT("Do you want to create OMEMO session with new device:"));
+			int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), _A2T(jid), MB_YESNO);
+			if (ret == IDYES)
+				proto->setByte(hContact, szSetting, FP_TOFU);
+			else if (ret == IDNO)
+				proto->setByte(hContact, szSetting, FP_BAD);
 		}
 
 		key_buf = (uint8_t*)mir_base64_decode(signed_pre_key_signature, &key_buf_len);
@@ -1307,10 +1326,6 @@ uint32_t JabberGetLastContactMessageTime(MCONTACT hContact);
 bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime)
 {
 	MCONTACT hContact = HContactFromJID(jid);
-	if (!OmemoCheckSession(hContact)) {
-		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched");
-		return false;
-	}
 
 	auto *header_node = XmlFirstChild(node, "header");
 	if (!header_node) {
@@ -1513,7 +1528,8 @@ bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 			OmemoSendBundle();
 		}
 
-		OmemoCheckSession(0);
+		if (m_bEnableCarbons && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_CARBONS))
+			OmemoCheckSession(0);
 	}
 	else {
 		// store device id's

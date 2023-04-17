@@ -727,6 +727,40 @@ static const CHARRANGE rangeAll = { 0, -1 };
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
+	case WM_NCPAINT:
+		if (!m_sEncryption.IsEmpty()) {
+			RECT rect;
+			GetWindowRect(m_message.GetHwnd(), &rect);
+			HRGN region = NULL;
+			if (wParam == NULLREGION) {
+				region = CreateRectRgn(rect.left, rect.top, rect.right, rect.bottom);
+				HRGN region2 = CreateRectRgn(rect.left + 1, rect.top + 1, rect.right - 1, rect.bottom - 1);
+				CombineRgn(region, region, (HRGN)region2, RGN_DIFF);
+			}
+			else {
+				HRGN copy = CreateRectRgn(0, 0, 0, 0);
+				if (CombineRgn(copy, (HRGN)wParam, NULL, RGN_COPY))
+					region = copy;
+				else
+					DeleteObject(copy);
+			}
+			
+			HDC dc = GetDCEx(m_message.GetHwnd(), region, DCX_WINDOW | DCX_CACHE | DCX_INTERSECTRGN | DCX_LOCKWINDOWUPDATE);
+			if (region)
+				DeleteObject(region);
+
+			HPEN pen = CreatePen(PS_INSIDEFRAME, 1, RGB(0, 220, 0));
+			HGDIOBJ old = SelectObject(dc, pen);
+			int width = rect.right - rect.left;
+			int height = rect.bottom - rect.top;
+			Rectangle(dc, 0, 0, width, height);
+			SelectObject(dc, old);
+			ReleaseDC(m_message.GetHwnd(), dc);
+			DeleteObject(pen);
+			return 0;
+		}
+		break;
+
 	case EM_REPLACESEL:
 		PostMessage(m_message.GetHwnd(), EM_ACTIVATE, 0, 0);
 		break;
@@ -855,6 +889,13 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 		break;
+
+	case WM_SETFOCUS: {
+		const char* enc = (const char*)CallProtoService(m_szProto, PS_GETCAPS, PFLAG_GETCURRENTENCRYPTION, m_hContact);
+		if (!m_sEncryption.IsEmpty() ^ (bool)enc)
+			RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+		m_sEncryption = enc;
+	}
 
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;

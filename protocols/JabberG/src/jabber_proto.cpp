@@ -630,6 +630,10 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 			JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
 		}
+		break;
+
+	case PFLAG_GETCURRENTENCRYPTION:
+		return (INT_PTR)((OmemoIsEnabled(hContact) && m_bUseOMEMO && !isChatRoom(hContact)) ? "OMEMO" : nullptr);
 	}
 	return 0;
 }

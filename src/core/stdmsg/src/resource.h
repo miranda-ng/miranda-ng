@@ -42,6 +42,8 @@
 #define IDI_OVERLAY                     160
 #define IDI_NICKLIST2                   161
 #define IDI_FILTER2                     162
+#define IDI_SECURE                      163
+#define IDI_SECURE_STRONG               164
 #define IDR_CONTEXT                     180
 #define IDC_DROP                        183
 #define IDC_HYPERLINKHAND               214

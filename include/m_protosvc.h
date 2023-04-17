@@ -144,6 +144,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
 #define PFLAG_MAXLENOFMESSAGE       400 // return the maximum length of an instant message, lParam = (LPARAM)hContact
+#define PFLAG_GETCURRENTENCRYPTION  800 // returns current encryption name
 
 ///////////////////////////////////////////////////////////////////////////////
 // A protocol might not support this cap, it allows a protocol to say that
@@ -722,6 +723,7 @@ struct PROTOFILERESUME
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
 #define PREF_SENT        16     // message will be created with the DBEF_SENT flag
 #define PREF_ENCRYPTED   32     // message is encrypted
+#define PREF_ENCRYPTED_STRONG 64// message is encrypted with verified key
 
 struct PROTORECVEVENT
 {

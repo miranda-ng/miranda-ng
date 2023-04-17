@@ -27,7 +27,7 @@ extern IconItem iconList[];
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
 
-static char *pLogIconBmpBits[3];
+static char *pLogIconBmpBits[5];
 
 struct RtfLogStreamData : public RtfLogStreamBase
 {
@@ -290,6 +290,11 @@ public:
 
 			buf.Append("\\f0\\fs14");
 			buf.Append(pLogIconBmpBits[i]);
+
+			if (dbei.eventType == EVENTTYPE_MESSAGE && dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG)) {
+				buf.Append("\\f0\\fs14");
+				buf.Append(pLogIconBmpBits[dbei.flags & DBEF_SECURE ? 3 : 4]);
+			}
 		}
 
 		int showColon = 0;
