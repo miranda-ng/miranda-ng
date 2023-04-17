@@ -177,6 +177,7 @@ struct DBVARIANT
 #define DBEF_UTF       0x0010  // event contains a text in utf-8
 #define DBEF_ENCRYPTED 0x0020  // event is encrypted (never reported outside a driver)
 #define DBEF_HAS_ID    0x0040  // event has unique server id
+#define DBEF_SECURE    0x0080  // event is encrypted
 
 struct DBEVENTINFO
 {

@@ -717,7 +717,6 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), m_proto->m_bShowTransport);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically download files passed via HTTP File Upload"), m_proto->m_bAutoLoadOOB);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);

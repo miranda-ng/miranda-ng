@@ -1431,10 +1431,38 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 	if (!msgTime || m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
-	PROTORECVEVENT recv = {};
-	recv.timestamp = (uint32_t)msgTime;
-	recv.szMessage = result.GetBuffer();
-	ProtoChainRecvMsg(hContact, &recv);
+	char protocol[7], hexkey[89], suburl[5001];
+	int ret = sscanf(result.GetBuffer(), "%6[^:]://%5000[^#]#%88s", protocol, suburl, hexkey);
+	protocol[6] = hexkey[88] = suburl[5000] = 0;
+	if (ret == 3 && !strcmp(protocol, "aesgcm") && strlen(hexkey) == 88) {
+		CMStringA szName;
+		const char *b = strrchr(suburl, '/') + 1;
+		while (*b != 0 && *b != '#' && *b != '?')
+			szName.AppendChar(*b++);
+
+		ptrW pwszName(mir_utf8decodeW(szName.c_str()));
+
+		JSONNode root;
+		root << WCHAR_PARAM("f", pwszName) << CHAR_PARAM("u", result.GetBuffer());
+
+		DBEVENTINFO dbei = {};
+		dbei.szModule = Proto_GetBaseAccountName(hContact);
+		dbei.timestamp = msgTime;
+		dbei.eventType = EVENTTYPE_FILE;
+		dbei.flags = DBEF_SECURE;
+
+		std::string text = root.write();
+		dbei.cbBlob = (int)text.size() + 1;
+		dbei.pBlob = (uint8_t *)text.c_str();
+		db_event_add(hContact, &dbei);
+	}
+	else {
+		PROTORECVEVENT recv = {};
+		recv.timestamp = (uint32_t)msgTime;
+		recv.szMessage = result.GetBuffer();
+		recv.flags = PREF_ENCRYPTED;
+		ProtoChainRecvMsg(hContact, &recv);
+	}
 
 	return true;
 }

@@ -721,6 +721,7 @@ struct PROTOFILERESUME
 #define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
 #define PREF_SENT        16     // message will be created with the DBEF_SENT flag
+#define PREF_ENCRYPTED   32     // message is encrypted
 
 struct PROTORECVEVENT
 {

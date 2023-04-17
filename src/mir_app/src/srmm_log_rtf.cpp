@@ -143,7 +143,13 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 	buf.AppendFormat("ofile:%ul", hEvent);
 	buf.Append("\"}{\\fldrslt{\\ul ");
 	AppendUnicodeString(buf, blob.getName());
-	buf.AppendFormat("}}} | %uKB", blob.getSize() / 1024);
+	buf.AppendFormat("}}}");
+
+	if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
+		buf.Append(" \\u10004? ");
+
+	if (uint32_t size = blob.getSize())
+		buf.AppendFormat(" %uKB", size < 1024 ? 1 : blob.getSize() / 1024);
 
 	CMStringA szHost;
 	if (const char *b = strstr(blob.getUrl(), "://"))
@@ -152,11 +158,6 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 
 	if (!szHost.IsEmpty())
 		buf.AppendFormat(" on %s", szHost.c_str());
-
-	if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred()) {
-		buf.AppendChar(' ');
-		AppendUnicodeString(buf, TranslateT("Completed"));
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

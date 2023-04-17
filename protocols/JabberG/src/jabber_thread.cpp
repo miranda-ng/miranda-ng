@@ -1324,7 +1324,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				szMessage += tempstring;
 			}
 		}
-		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2) && m_bAutoLoadOOB) {
+		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
 			if (auto *url = XmlGetChildText(xNode, "url")) {
 				// create incoming file transfer instead of writing message
 				CMStringA szName;

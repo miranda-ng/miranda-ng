@@ -34,9 +34,25 @@ INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
 void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 {
 	DB::EventInfo dbei(param->hDbEvent);
-	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+	if (m_bJabberOnline && dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
-		if (blob.isOffline()) {
+		if (const char *url = blob.getUrl()) {
+			bool encrypted = false;
+			// OMEMO encryped file?                                                            
+			char protocol[7], hexkey[100], suburl[5001], newurl[5001];
+			int ret = sscanf(url, "%6[^:]://%5000[^#]#%88s", protocol, suburl, hexkey);
+			protocol[6] = hexkey[88] = 0;
+			if (ret == 3 && !strcmp(protocol, "aesgcm") && strlen(hexkey) == 88) {
+				mir_snprintf(newurl, "https://%s", suburl);
+				url = newurl;
+				encrypted = true;
+			}
+			else if (ret != 2 || (strcmp(protocol, "https") && strcmp(protocol, "http"))) {
+				debugLogA("Wrong url");
+				delete param;
+				return;
+			}
+
 			// initialize the netlib request
 			NETLIBHTTPREQUEST nlhr = {};
 			nlhr.cbSize = sizeof(nlhr);
@@ -48,16 +64,44 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 			if (nlhrReply && nlhrReply->resultCode == 200) {
 				FILE *f = _wfopen(param->wszPath, L"wb");
-				fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f);
-				fclose(f);
+				size_t written = 0;
+				if (f) {
+					if (encrypted) {
+						int payload_len = nlhrReply->dataLength - 16;
+						if (payload_len > 0) {
+							uint8_t ivkey[44];
+							hex2bin(hexkey, ivkey, 44);
+							EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+							EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, NULL);
+							EVP_DecryptInit(ctx, EVP_aes_256_gcm(), ivkey + 12, ivkey);
+							EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, nlhrReply->pData + payload_len);
 
-				DBVARIANT dbv = { DBVT_DWORD };
-				dbv.dVal = nlhrReply->dataLength;
-				db_event_setJson(param->hDbEvent, "ft", &dbv);
-				db_event_setJson(param->hDbEvent, "fs", &dbv);
+							int outl = 0, round_len = 0;
+							uint8_t *out = (uint8_t *)mir_alloc(payload_len);
+							EVP_DecryptUpdate(ctx, out, &outl, (uint8_t *)nlhrReply->pData, (int)payload_len);
+							int dec_success = EVP_DecryptFinal(ctx, out + outl, &round_len);
+							outl += round_len;
+							EVP_CIPHER_CTX_free(ctx);
+							if (dec_success && outl == payload_len)
+								if (fwrite(out, 1, payload_len, f) == payload_len)
+									written = payload_len;
+							mir_free(out);
+						}
+					}
+					else if (fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f) == nlhrReply->dataLength)
+						written = nlhrReply->dataLength;
+					fclose(f);
+				}
 
-				if (param->bOpen)
-					ShellExecute(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+				if (written) {
+					DBVARIANT dbv = { DBVT_DWORD };
+					dbv.dVal = nlhrReply->dataLength;
+					db_event_setJson(param->hDbEvent, "ft", &dbv);
+					db_event_setJson(param->hDbEvent, "fs", &dbv);
+
+					if (param->bOpen)
+						ShellExecuteW(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+				}
 			}
 		}
 	}
