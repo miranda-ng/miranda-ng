@@ -745,18 +745,19 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					DeleteObject(copy);
 			}
 			
-			HDC dc = GetDCEx(m_message.GetHwnd(), region, DCX_WINDOW | DCX_CACHE | DCX_INTERSECTRGN | DCX_LOCKWINDOWUPDATE);
+			if (HDC hdc = GetDCEx(m_message.GetHwnd(), region, DCX_WINDOW | DCX_CACHE | DCX_INTERSECTRGN | DCX_LOCKWINDOWUPDATE)) {
+				HPEN pen = CreatePen(PS_INSIDEFRAME, 1, RGB(0, 220, 0));
+				HGDIOBJ old = SelectObject(hdc, pen);
+				int width = rect.right - rect.left;
+				int height = rect.bottom - rect.top;
+				Rectangle(hdc, 0, 0, width, height);
+				SelectObject(hdc, old);
+				ReleaseDC(m_message.GetHwnd(), hdc);
+				DeleteObject(pen);
+			}
+
 			if (region)
 				DeleteObject(region);
-
-			HPEN pen = CreatePen(PS_INSIDEFRAME, 1, RGB(0, 220, 0));
-			HGDIOBJ old = SelectObject(dc, pen);
-			int width = rect.right - rect.left;
-			int height = rect.bottom - rect.top;
-			Rectangle(dc, 0, 0, width, height);
-			SelectObject(dc, old);
-			ReleaseDC(m_message.GetHwnd(), dc);
-			DeleteObject(pen);
 			return 0;
 		}
 		break;
