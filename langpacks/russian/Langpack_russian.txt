@@ -370,6 +370,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 Запрос всегда будет показан, если человек не в списке контактов
 [Automatically popup window when:]
 Открывать окно, если:
+[Don't steal focus]
+Не перехватывать фокус
 [Maximum number of flashes (0 = indefinite)]
 Максимальное количество миганий (0 = бесконечно)
 [Close the message window on send]
@@ -428,6 +430,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 События, полученные менее чем
 [minutes old]
 минут назад
+[Automatically copy selected text]
+Автоматически копировать выделенный текст
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]
@@ -1364,12 +1368,12 @@ Google Карты
 Отправить e-mail
 [&E-mail]
 &E-mail
-[File from %s]
-Файл от %s
 [bytes]
 байт
 [&File]
 &Файл
+[File from %s]
+Файл от %s
 [File &transfers...]
 Передачи &файлов...
 [Incoming]
@@ -10319,7 +10323,7 @@ SFTP (FTP через SSH)
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -12678,7 +12682,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -14192,6 +14196,8 @@ Jabber vCard: добавление телефона
 Видео
 [Modem]
 Модем
+[Enable OMEMO]
+Включить OMEMO
 [Load]
 Загрузить
 [Save]
@@ -15414,8 +15420,6 @@ OMEMO не поддерживает шифрование приватных со
 Добавлять контакт после подтверждения авторизации
 [Automatically accept authorization requests]
 Автоматически принимать запросы авторизации
-[Automatically download files passed via HTTP File Upload]
-Автоматически принимать файлы, полученные через HTTP File Upload
 [Fix incorrect timestamps in incoming messages]
 Исправлять время во входящих сообщениях
 [Enable XMPP link processing (requires AssocMgr)]
@@ -15812,10 +15816,14 @@ XML (кодировка UTF-8)
 ID устройства
 [Fingerprint]
 Отпечаток
-[Trusted]
-Доверенное
-[UNTRUSTED]
-НЕДОВЕРЕННОЕ
+[This device]
+Это устройство
+[Untrust]
+Не доверять
+[Trust]
+Доверять
+[Kill session]
+Завершить сеанс
 [Photo]
 Фото
 [Redirect]
@@ -22803,6 +22811,8 @@ IP токена не совпадает
 событий
 [minutes]
 минут
+[Automatically copy selected text]
+Автоматически копировать выделенный текст
 [Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -23185,22 +23195,14 @@ ID текущего контакта (если определён). Наприм
 Действие: Вставить и отправить
 [User menu - %s]
 Меню пользователя - %s
-[Me]
-Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-Благослови, Господи, свою ручную гранату, каковою можешь Ты в своей милости
-[to tiny bits, in Thy mercy]
-разносить врагов Твоих на маленькие кусочки
-[My contact]
-Мой контакт
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
 [Today]
 Сегодня
 [Yesterday]
 Вчера
+[Me]
+Я
+[My contact]
+Мой контакт
 [File sent]
 Отправлен файл
 [File received]
@@ -25939,7 +25941,7 @@ URI объект
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -25972,8 +25974,6 @@ URI объект
 Блокировать запросы авторизации
 [Answer is not case sensitive]
 Не учитывать регистр ответа
-[Remove all temporary contacts after restart]
-Удалять все временные контакты после перезапуска
 [Log Spammers to system history]
 Записывать спамеров в системную историю
 [StopSpam automatic message:\r\n]
@@ -25988,10 +25988,6 @@ URI объект
 Сообщения
 [Accounts]
 Учётные записи
-[Not In List]
-Не в списке
-[Complete]
-Готово
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 Здравствуйте! Вы говорите с антиспам-ботом. Пожалуйста, напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.\r\nSpammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.
 [StopSpam: send a message and reply to an anti-spam bot question.]
@@ -26000,8 +25996,6 @@ StopSpam: отправьте сообщение и ответьте на воп�
 Поздравляем! Вы прошли тест, теперь можете отправлять сообщения пользователю.\r\nCongratulations! You just passed human/robot test. Now you can write me a message.
 [StopSpam]
 Антиспам
-[Remove Temporary Contacts]
-Удалить временные контакты
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
@@ -27919,8 +27913,12 @@ TabSRMM: %s
 Введите пароль
 [ (hint: %s)]
  (подсказка: %s)
+[Secret code expired]
+Код просрочен
 [Error]
 Ошибка
+[Invalid secret code]
+Неверный код
 [Invalid password]
 Неверный пароль
 [Creator]

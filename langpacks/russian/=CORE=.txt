@@ -420,6 +420,8 @@
 События, полученные менее чем
 [minutes old]
 минут назад
+[Automatically copy selected text]
+Автоматически копировать выделенный текст
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]
@@ -1371,12 +1373,12 @@ Google Карты
 [&E-mail]
 &E-mail
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Файл от %s
 [bytes]
 байт
 [&File]
 &Файл
+[File from %s]
+Файл от %s
 [File &transfers...]
 Передачи &файлов...
 [Incoming]
@@ -1619,6 +1621,10 @@ Google Карты
 Входящее сообщение (10x10)
 [Outgoing message (10x10)]
 Исходящее сообщение (10x10)
+[Encrypted (10x10)]
+Зашифрованное (10x10)
+[Encrypted verified (10x10)]
+Зашифрованное проверенное (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s набирает текст...
@@ -2809,6 +2815,9 @@ ANSI плагин
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Просмотрщик журнала сообщений
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+Журнал History++
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Copy all]
 Копировать всё
