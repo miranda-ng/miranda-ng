@@ -734,8 +734,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			HRGN region = NULL;
 			if (wParam == NULLREGION) {
 				region = CreateRectRgn(rect.left, rect.top, rect.right, rect.bottom);
-				HRGN region2 = CreateRectRgn(rect.left + 1, rect.top + 1, rect.right - 1, rect.bottom - 1);
-				CombineRgn(region, region, (HRGN)region2, RGN_DIFF);
 			}
 			else {
 				HRGN copy = CreateRectRgn(0, 0, 0, 0);
@@ -743,6 +741,12 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					region = copy;
 				else
 					DeleteObject(copy);
+			}
+
+			if (region) {
+				HRGN region2 = CreateRectRgn(rect.left + 1, rect.top + 1, rect.right - 1, rect.bottom - 1);
+				CombineRgn(region, region, region2, RGN_DIFF);
+				DeleteObject(region2);
 			}
 			
 			if (HDC hdc = GetDCEx(m_message.GetHwnd(), region, DCX_WINDOW | DCX_CACHE | DCX_INTERSECTRGN | DCX_LOCKWINDOWUPDATE)) {
@@ -755,9 +759,9 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				ReleaseDC(m_message.GetHwnd(), hdc);
 				DeleteObject(pen);
 			}
-
-			if (region)
+			else if (region)
 				DeleteObject(region);
+
 			return 0;
 		}
 		break;

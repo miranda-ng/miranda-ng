@@ -201,11 +201,14 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 			GetTempPathW(_countof(tszTempPath), tszTempPath);
 			CMStringW tszFilePath(FORMAT, L"%s%s", tszTempPath, blob.getName());
 
-			if (_waccess(tszFilePath, 0)) {
+			struct _stat st = {};
+			_wstat(tszFilePath, &st);
+			if (st.st_size && st.st_size == blob.getSize() && st.st_size == blob.getTransferred())
+				ShellExecute(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+			else {
 				OFDTHREAD *dt = new OFDTHREAD(hDbEvent, tszFilePath);
 				CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)dt, 0);
 			}
-			else ShellExecute(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
 
 			return TRUE;
 		}

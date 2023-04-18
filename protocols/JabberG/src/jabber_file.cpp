@@ -95,7 +95,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 
 				if (written) {
 					DBVARIANT dbv = { DBVT_DWORD };
-					dbv.dVal = nlhrReply->dataLength;
+					dbv.dVal = written;
 					db_event_setJson(param->hDbEvent, "ft", &dbv);
 					db_event_setJson(param->hDbEvent, "fs", &dbv);
 
