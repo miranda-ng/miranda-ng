@@ -230,33 +230,39 @@ BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 	return TRUE;
 }
 
-BOOL SM_RemoveUser(SESSION_INFO *pSI, const wchar_t *pszUID)
+BOOL SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 {
-	if (!pSI || !pszUID)
+	if (!si || !pszUID)
 		return FALSE;
 
-	for (auto &si : g_arSessions) {
-		if (si != pSI || mir_strcmpi(si->pszModule, pSI->pszModule))
-			continue;
+	USERINFO *ui = UM_FindUser(si, pszUID);
+	if (!ui)
+		return FALSE;
 
-		USERINFO *ui = UM_FindUser(si, pszUID);
-		if (ui) {
-			if (g_chatApi.OnRemoveUser)
-				g_chatApi.OnRemoveUser(si, ui);
+	if (g_chatApi.OnRemoveUser)
+		g_chatApi.OnRemoveUser(si, ui);
 
-			if (si->pMe == ui)
-				si->pMe = nullptr;
-			g_chatApi.UM_RemoveUser(si, pszUID);
+	if (si->pMe == ui)
+		si->pMe = nullptr;
+	
+	auto &arKeys = si->getKeyList();
+	if (arKeys.remove(ui) == -1)
+		DebugBreak();
 
-			if (si->pDlg)
-				si->pDlg->UpdateNickList();
-
-			// !!!!!!!!!! if (pszID)
-				return TRUE;
+	auto &arUsers = si->getUserList();
+	for (auto &it : arUsers) {
+		if (!mir_wstrcmpi(it->pszUID, pszUID)) {
+			mir_free(it->pszNick);
+			mir_free(it->pszUID);
+			arUsers.removeItem(&it);
+			break;
 		}
 	}
+	
+	if (si->pDlg)
+		si->pDlg->UpdateNickList();
 
-	return FALSE;
+	return TRUE;
 }
 
 static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
@@ -440,7 +446,6 @@ GCModuleInfoBase::~GCModuleInfoBase()
 
 	mir_free(pszModule);
 	mir_free(ptszModDispName);
-	mir_free(pszHeader);
 }
 
 MODULEINFO* MM_AddModule(const char *pszModule)
@@ -472,12 +477,6 @@ static void MM_IconsChanged()
 	for (auto &mi : g_arModules)
 		if (g_chatApi.OnCreateModule) // recreate icons
 			g_chatApi.OnCreateModule(mi);
-}
-
-static void MM_FontsChanged()
-{
-	for (auto &mi : g_arModules)
-		mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 }
 
 MODULEINFO* MM_FindModule(const char *pszModule)
@@ -754,28 +753,6 @@ static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t* pszOrig
 	return pszName;
 }
 
-static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
-{
-	auto *pUser = UM_FindUser(si, pszUID);
-	if (pUser == nullptr)
-		return FALSE;
-
-	auto &arKeys = si->getKeyList();
-	if (arKeys.remove(pUser) == -1)
-		DebugBreak();
-
-	auto &arUsers = si->getUserList();
-	for (auto &ui : arUsers) {
-		if (!mir_wstrcmpi(ui->pszUID, pszUID)) {
-			mir_free(ui->pszNick);
-			mir_free(ui->pszUID);
-			arUsers.removeItem(&ui);
-			break;
-		}
-	}
-	return TRUE;
-}
-
 BOOL UM_RemoveAll(SESSION_INFO *si)
 {
 	if (!si)
@@ -820,7 +797,6 @@ static void ResetApi()
 	g_chatApi.SM_InvalidateLogDirectories = ::SM_InvalidateLogDirectories;
 
 	g_chatApi.MM_CreateModule = ::MM_CreateModule;
-	g_chatApi.MM_FontsChanged = ::MM_FontsChanged;
 	g_chatApi.MM_IconsChanged = ::MM_IconsChanged;
 	g_chatApi.MM_RemoveAll = ::MM_RemoveAll;
 
@@ -836,14 +812,11 @@ static void ResetApi()
 	g_chatApi.UM_SetContactStatus = ::UM_SetContactStatus;
 	g_chatApi.UM_TakeStatus = ::UM_TakeStatus;
 	g_chatApi.UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;
-	g_chatApi.UM_RemoveUser = ::UM_RemoveUser;
 
 	g_chatApi.SetOffline = ::SetOffline;
 	g_chatApi.SetAllOffline = ::SetAllOffline;
 	g_chatApi.DoRtfToTags = ::DoRtfToTags;
 
-	g_chatApi.Log_CreateRTF = ::Log_CreateRTF;
-	g_chatApi.Log_CreateRtfHeader = ::Log_CreateRtfHeader;
 	g_chatApi.LoadMsgDlgFont = ::LoadMsgDlgFont;
 	g_chatApi.MakeTimeStamp = ::MakeTimeStamp;
 

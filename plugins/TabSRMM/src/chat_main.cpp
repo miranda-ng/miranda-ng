@@ -376,8 +376,6 @@ int Chat_Load()
 	g_chatApi.IsHighlighted = IsHighlighted;
 	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
 	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.ShowPopup = ShowPopup;
-	g_chatApi.Log_CreateRTF = Log_CreateRTF;
-	g_chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
 	g_chatApi.UM_CompareItem = UM_CompareItem;
 	g_chatApi.ReloadSettings();
 

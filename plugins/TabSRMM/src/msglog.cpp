@@ -1226,24 +1226,22 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
+void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
 {
 	if (m_rtf.GetHwnd() == nullptr || si == nullptr)
 		return;
 
 	auto &lin = si->arEvents[iStart];
-	if (!bRedraw && m_pDlg.AllowTyping() && !(m_pDlg.m_iLogFilterFlags & lin.iType))
+	if (!bAppend && m_pDlg.AllowTyping() && !(m_pDlg.m_iLogFilterFlags & lin.iType))
 		return;
 
 	bool bFlag = false, bDoReplace, bAtBottom = AtBottom();
 
-	LOGSTREAMDATA streamData;
-	memset(&streamData, 0, sizeof(streamData));
-	streamData.hwnd = m_rtf.GetHwnd();
+	RtfChatLogStreamData streamData;
+	streamData.pLog = this;
 	streamData.si = si;
 	streamData.iStartEvent = iStart;
 	streamData.bStripFormat = FALSE;
-	streamData.dat = &m_pDlg;
 
 	POINT point = { 0 };
 	m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
@@ -1260,13 +1258,13 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
-		bRedraw = TRUE;
+		bAppend = TRUE;
 
 	// should the event(s) be appended to the current log
-	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
+	WPARAM wp = bAppend ? SF_RTF : SFF_SELECTION | SF_RTF;
 
 	// get the number of pixels per logical inch
-	if (bRedraw) {
+	if (bAppend) {
 		HDC hdc = GetDC(nullptr);
 		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
@@ -1275,22 +1273,16 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
 		bFlag = true;
 	}
 
-	// stream in the event(s)
-	streamData.bRedraw = bRedraw;
-
-	EDITSTREAM stream = {};
-	stream.pfnCallback = Srmm_LogStreamCallback;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-	m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
+	StreamChatRtfEvents(&streamData, bAppend);
 
 	// for new added events, only replace in message or action events.
 	// no need to replace smileys or math formulas elsewhere
-	bDoReplace = (bRedraw || (lin.ptszText && (lin.iType == GC_EVENT_MESSAGE || lin.iType == GC_EVENT_ACTION)));
+	bDoReplace = (bAppend || (lin.ptszText && (lin.iType == GC_EVENT_MESSAGE || lin.iType == GC_EVENT_ACTION)));
 
 	// replace marked nicknames with hyperlinks to make the nicks clickable
 	if (g_Settings.bClickableNicks) {
 		FINDTEXTEX fi, fi2;
-		fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
+		fi.chrg.cpMin = bAppend ? 0 : sel.cpMin;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = CLICKNICK_BEGIN;
 
@@ -1334,7 +1326,7 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
 		sm.hwndRichEditControl = m_rtf.GetHwnd();
 		sm.Protocolname = si->pszModule;
-		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
+		sm.rangeToReplace = bAppend ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
 		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
@@ -1358,7 +1350,7 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bRedraw)
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
-	if (bRedraw || bAtBottom)
+	if (bAppend || bAtBottom)
 		ScrollToBottom(false, false);
 	else
 		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);

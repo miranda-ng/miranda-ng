@@ -314,7 +314,6 @@ Srmm_FindDialog @406 NONAME
 ??2CSrmmBaseDialog@@SAPEAX_K@Z @409 NONAME
 ??3CSrmmBaseDialog@@SAXPEAX@Z @410 NONAME
 ?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME
-Srmm_LogStreamCallback @412
 ?RunUserMenu@CSrmmBaseDialog@@IEAAXPEAUHWND__@@PEAUUSERINFO@@AEBUtagPOINT@@@Z @414 NONAME
 ?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME
 ?CloseTab@CSrmmBaseDialog@@UEAAXXZ @416 NONAME
@@ -855,3 +854,7 @@ Chat_IsMuted @941 NONAME
 ?isSrmm@EventInfo@DB@@QEBA_NXZ @971 NONAME
 ?CreateRtfTail@CRtfLogWindow@@UEAAXPEAURtfLogStreamData@@@Z @972 NONAME
 ?StreamRtfEvents@CRtfLogWindow@@QEAAXPEAURtfLogStreamData@@_N@Z @973 NONAME
+?CreateChatRtfEvent@CRtfLogWindow@@UEAAXPEAURtfChatLogStreamData@@AEBULOGINFO@@@Z @974 NONAME
+?CreateChatRtfHeader@CRtfLogWindow@@UEAAXPEAURtfChatLogStreamData@@@Z @975 NONAME
+?CreateChatRtfTail@CRtfLogWindow@@UEAAXPEAURtfChatLogStreamData@@@Z @976 NONAME
+?StreamChatRtfEvents@CRtfLogWindow@@QEAAXPEAURtfChatLogStreamData@@_N@Z @977 NONAME

@@ -27,11 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "chat.h"
 
-#define STREAMSTAGE_HEADER  0
-#define STREAMSTAGE_EVENTS  1
-#define STREAMSTAGE_TAIL    2
-#define STREAMSTAGE_STOP    3
-
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
@@ -303,10 +298,10 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	auto *dat = (RtfLogStreamData *)dwCookie;
 
 	if (dat->buf.IsEmpty()) {
-		switch (dat->stage) {
+		switch (dat->iStage) {
 		case STREAMSTAGE_HEADER:
 			dat->pLog->CreateRtfHeader(dat);
-			dat->stage = STREAMSTAGE_EVENTS;
+			dat->iStage = STREAMSTAGE_EVENTS;
 			break;
 
 		case STREAMSTAGE_EVENTS:
@@ -333,12 +328,12 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 					break;
 				}
 			}
-			dat->stage = STREAMSTAGE_TAIL;
+			dat->iStage = STREAMSTAGE_TAIL;
 			__fallthrough;
 
 		case STREAMSTAGE_TAIL:
 			dat->pLog->CreateRtfTail(dat);
-			dat->stage = STREAMSTAGE_STOP;
+			dat->iStage = STREAMSTAGE_STOP;
 			break;
 
 		case STREAMSTAGE_STOP:

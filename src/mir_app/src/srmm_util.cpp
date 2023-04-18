@@ -28,34 +28,6 @@ const char *g_pszHotkeySection;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
-	if (lstrdat) {
-		// create the RTF
-		if (lstrdat->buffer == nullptr) {
-			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = g_chatApi.Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
-		}
-
-		// give the RTF to the RE control
-		*pcb = min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
-		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
-		lstrdat->bufferOffset += *pcb;
-
-		// free stuff if the streaming operation is complete
-		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
-			mir_free(lstrdat->buffer);
-			lstrdat->buffer = nullptr;
-		}
-	}
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
 	if (hContact == 0)

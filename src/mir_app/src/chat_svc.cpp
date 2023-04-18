@@ -103,7 +103,6 @@ static int FontsChanged(WPARAM, LPARAM)
 	SetIndentSize();
 	g_Settings->bLogIndentEnabled = Chat::bLogIndentEnabled;
 
-	g_chatApi.MM_FontsChanged();
 	Chat_UpdateOptions();
 	return 0;
 }
@@ -189,7 +188,6 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bDatabase = (gcr->dwFlags & GC_DATABASE) != 0;
 	mi->bPersistent = (gcr->dwFlags & GC_PERSISTENT) != 0;
 	mi->iMaxText = gcr->iMaxText;
-	mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 
 	g_chatApi.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
@@ -550,7 +548,7 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 			if (isOk)
 				si->pDlg->AddLog();
 			else
-				RedrawLog2(si);
+				si->pDlg->RedrawLog();
 		}
 
 		if (!(gce.dwFlags & GCEF_NOTNOTIFY))

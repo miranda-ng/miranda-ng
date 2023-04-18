@@ -578,7 +578,7 @@ public:
 			TextOutW(dis->hDC, dis->rcItem.left, dis->rcItem.top, pwszName, (int)mir_wstrlen(pwszName));
 		}
 
-		return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
+		return CSuper::DlgProc(uMsg, wParam, lParam);
 	}
 
 	void onChange_Text(CCtrlEdit *)

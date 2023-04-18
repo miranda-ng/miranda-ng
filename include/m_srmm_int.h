@@ -150,14 +150,24 @@ EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 
 struct RtfLogStreamBase
 {
-	int       stage;
+	int       iStage;
 	MCONTACT  hContact;
 	MEVENT    hDbEvent, hDbEventLast;
 	int       eventsToInsert;
-	int       isFirst, isEmpty;
+	bool      isFirst, isEmpty;
 
 	CMStringA buf;
 	DB::EventInfo *dbei;
+	class CRtfLogWindow *pLog;
+};
+
+struct RtfChatLogStreamData
+{
+	int   iStage = 0, iStartEvent = 0;
+	bool  bStripFormat, bAppend = false, bIsFirst = false;
+	
+	CMStringA buf;
+	struct SESSION_INFO *si;
 	class CRtfLogWindow *pLog;
 };
 
@@ -180,13 +190,17 @@ public:
 
 	virtual void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) = 0;
 
+	void StreamRtfEvents(RtfLogStreamData *dat, bool bAppend);
 	virtual void CreateRtfHeader(RtfLogStreamData *dat) = 0;
 	virtual bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) = 0;
 	virtual void CreateRtfTail(RtfLogStreamData *dat);
 
-	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	void StreamChatRtfEvents(RtfChatLogStreamData *dat, bool bAppend);
+	virtual void CreateChatRtfHeader(RtfChatLogStreamData *dat);
+	virtual void CreateChatRtfEvent(RtfChatLogStreamData *dat, const struct LOGINFO &lin);
+	virtual void CreateChatRtfTail(RtfChatLogStreamData *dat);
 
-	void StreamRtfEvents(RtfLogStreamData *dat, bool bAppend);
+	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	void     Attach() override;
@@ -315,13 +329,7 @@ class CMsgDialog : public CSrmmBaseDialog {};
 #endif 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// receives LOGSTREAMDATA* as the first parameter
-
-#ifdef _WINDOWS
-EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, uint8_t *pbBuff, LONG cb, LONG *pcb);
-#endif
-
-/////////////////////////////////////////////////////////////////////////////////////////
+// adds an event to SRMM message log
 
 MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent);
 

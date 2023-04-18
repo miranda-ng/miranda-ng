@@ -50,11 +50,6 @@ struct MODULEINFO : public GCModuleInfoBase
 	HICON hOfflineIcon, hOfflineTalkIcon, hOfflineIconBig;
 };
 
-struct LOGSTREAMDATA : public GCLogStreamDataBase
-{
-	BOOL isFirst;
-};
-
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	HFONT MessageBoxFont;

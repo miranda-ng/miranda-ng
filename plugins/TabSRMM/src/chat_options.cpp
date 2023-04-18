@@ -126,7 +126,7 @@ static FontOptionsList IP_fontOptionsList[] =
 	{ LPGENW("Window caption (skinned mode)"), RGB(255, 255, 255), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 };
 
-void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour)
+void LoadMsgDlgFont(int section, int i, LOGFONTW *lf, COLORREF* colour)
 {
 	char str[32];
 	int db_idx = (section == FONTSECTION_IM) ? i : i + 100;
@@ -394,8 +394,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 {
 	g_chatApi.ReloadSettings();
 	g_chatApi.MM_IconsChanged();
-	g_chatApi.MM_FontsChanged();
-
+	
 	PluginConfig.reloadSettings();
 	CSkin::initAeroEffect();
 	CacheMsgLogIcons();
@@ -469,7 +468,7 @@ protected:
 	{
 		g_chatApi.ReloadSettings();
 		g_chatApi.MM_IconsChanged();
-		g_chatApi.MM_FontsChanged();
+
 		Chat_UpdateOptions();
 		Chat_ReconfigureFilters();
 

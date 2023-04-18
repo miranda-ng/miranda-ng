@@ -74,7 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct SESSION_INFO;
 struct MODULEINFO;
-struct LOGSTREAMDATA;
 
 class CMsgDialog;
 
@@ -94,7 +93,6 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 
 	char*    pszModule;
 	wchar_t* ptszModDispName;
-	char*    pszHeader;
 	
 	bool     bBold, bItalics, bUnderline;
 	bool     bColor, bBkgColor;
@@ -190,16 +188,6 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	const char* getSoundName(int iEventType) const;
 };
 
-struct GCLogStreamDataBase
-{
-	char*         buffer;
-	int           bufferOffset, bufferLen;
-	int           iStartEvent;
-	bool          bStripFormat, bRedraw;
-	HWND          hwnd;
-	SESSION_INFO *si;
-};
-
 struct GlobalLogSettingsBase
 {
 	bool     bShowTime;
@@ -245,7 +233,6 @@ struct GlobalLogSettingsBase
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef SRMM_OWN_STRUCTURES
-struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 struct MODULEINFO : public GCModuleInfoBase {};
 #endif
 
@@ -280,7 +267,6 @@ struct CHAT_MANAGER
 	void          (*SM_InvalidateLogDirectories)(void);
 
 	MODULEINFO*   (*MM_CreateModule)(void);
-	void          (*MM_FontsChanged)(void);
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
@@ -296,13 +282,10 @@ struct CHAT_MANAGER
 	USERINFO*     (*UM_SetContactStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
-	BOOL          (*UM_RemoveUser)(SESSION_INFO *si, const wchar_t *pszUID);
 
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
 
-	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
-	char*         (*Log_CreateRtfHeader)(void);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	wchar_t*      (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
 

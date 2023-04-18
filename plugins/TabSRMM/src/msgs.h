@@ -690,6 +690,9 @@ public:
 	void CreateRtfHeader(RtfLogStreamData *streamData) override;
 	bool CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbei) override;
 
+	void CreateChatRtfHeader(RtfChatLogStreamData *dat) override;
+	void CreateChatRtfEvent(RtfChatLogStreamData *dat, const LOGINFO &lin) override;
+
 	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override;
 	void Attach() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;

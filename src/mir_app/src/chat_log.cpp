@@ -86,7 +86,7 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &buf, const wchar_t *line)
+static int Log_AppendRTF(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA &buf, const wchar_t *line)
 {
 	int textCharsCount = 0;
 	auto &lin = streamData->si->arEvents[streamData->iStartEvent];
@@ -253,19 +253,6 @@ MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINF
 	return false;
 }
 
-static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData, const LOGINFO &lin)
-{
-	CMStringW wszCaption;
-	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
-	if (!wszCaption.IsEmpty())
-		Log_AppendRTF(streamData, !bTextUsed, buf, wszCaption);
-	if (!bTextUsed && lin.ptszText) {
-		if (!wszCaption.IsEmpty())
-			Log_AppendRTF(streamData, false, buf, L" ");
-		Log_AppendRTF(streamData, false, buf, lin.ptszText);
-	}
-}
-
 wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 {
 	static wchar_t szTime[100];
@@ -274,106 +261,79 @@ wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 	return szTime;
 }
 
-char* Log_CreateRTF(LOGSTREAMDATA *streamData)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat event streamer
+
+static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	SESSION_INFO *si = streamData->si;
-	MODULEINFO *mi = si->pMI;
+	RtfChatLogStreamData *dat = (RtfChatLogStreamData *)dwCookie;
 
-	// guesstimate amount of memory for the RTF
-	CMStringA buf;
+	if (dat->buf.IsEmpty()) {
+		switch (dat->iStage) {
+		case STREAMSTAGE_HEADER:
+			dat->pLog->CreateChatRtfHeader(dat);
+			dat->iStage = STREAMSTAGE_EVENTS;
+			break;
 
-	// ### RTF HEADER
-	char *header = mi->pszHeader;
-	if (header)
-		buf.Append(header);
-
-	// ### RTF BODY (one iteration per event that should be streamed in)
-	for (int i = 0; i < si->arEvents.getCount(); i++) {
-		auto &lin = si->arEvents[i];
-
-		// filter
-		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
-			if (!(si->pDlg->m_iLogFilterFlags & lin.iType))
-				continue;
-
-		// create new line, and set font and color
-		if (i != 0)
-			buf.Append("\\par ");
-		buf.AppendFormat("%s ", Log_SetStyle(0));
-
-		// Insert icon
-		if ((lin.iType & g_Settings->dwIconFlags) || lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
-			int iIndex = (lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
-			buf.Append("\\f0\\fs14");
-			buf.Append(pLogIconBmpBits[iIndex]);
-		}
-
-		if (g_Settings->bTimeStampEventColour) {
-			LOGFONT &lf = g_chatApi.aFonts[0].lf;
-
-			// colored timestamps
-			if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
-				int iii = lin.bIsHighlighted ? 16 : (lin.bIsMe ? 2 : 1);
-				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
+		case STREAMSTAGE_EVENTS:
+			{
+				auto &events = dat->si->arEvents;
+				if (dat->iStartEvent < events.getCount()) {
+					auto *si = dat->si;
+					auto &lin = events[dat->iStartEvent];
+					if (si->iType == GCW_SERVER || (si->pDlg->m_iLogFilterFlags & lin.iType) != 0)
+						dat->pLog->CreateChatRtfEvent(dat, lin);
+					dat->iStartEvent++;
+					break;
+				}
 			}
-			else {
-				int iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
-				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
-			}
+
+			dat->iStage = STREAMSTAGE_TAIL;
+			__fallthrough;
+
+		case STREAMSTAGE_TAIL:
+			dat->pLog->CreateChatRtfTail(dat);
+			dat->iStage = STREAMSTAGE_STOP;
+			break;
+
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
 		}
-		else buf.AppendFormat("%s ", Log_SetStyle(0));
-
-		if (g_Settings->dwIconFlags)
-			buf.Append("\\tab ");
-
-		// insert timestamp
-		if (g_Settings->bShowTime) {
-			wchar_t szTimeStamp[100], szOldTimeStamp[100];
-
-			wcsncpy_s(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin.time), _TRUNCATE);
-			wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
-			if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
-				si->LastTime = lin.time;
-				Log_AppendRTF(streamData, true, buf, szTimeStamp);
-			}
-			buf.Append("\\tab ");
-		}
-
-		// Insert the nick
-		if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
-			buf.AppendFormat("%s ", Log_SetStyle(lin.bIsMe ? 2 : 1));
-
-			CMStringW tmp((lin.bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
-			tmp.Replace(L"%n", lin.ptszNick);
-			Log_AppendRTF(streamData, TRUE, buf, tmp);
-			buf.AppendChar(' ');
-		}
-
-		// Insert the message
-		buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
-		AddEventToBuffer(buf, streamData, lin);
 	}
 
-	// ### RTF END
-	if (streamData->bRedraw)
-		buf.Append("\\par}");
+	*pcb = min(cb, dat->buf.GetLength());
+	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
+	if (dat->buf.GetLength() == *pcb)
+		dat->buf.Empty();
 	else
-		buf.Append("}");
-	return buf.Detach();
+		dat->buf.Delete(0, *pcb);
+
+	return 0;
 }
 
-char* Log_CreateRtfHeader()
+void CRtfLogWindow::StreamChatRtfEvents(RtfChatLogStreamData *streamData, bool bAppend)
 {
-	// guesstimate amount of memory for the RTF header
-	CMStringA buf;
+	streamData->bAppend = bAppend;
+
+	EDITSTREAM stream = {};
+	stream.pfnCallback = ChatLogStreamCallback;
+	stream.dwCookie = (DWORD_PTR)streamData;
+	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat event header
+
+void CRtfLogWindow::CreateChatRtfHeader(RtfChatLogStreamData *streamData)
+{
+	CMStringA &buf = streamData->buf;
 
 	// get the number of pixels per logical inch
 	HDC hdc = GetDC(nullptr);
 	g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 	ReleaseDC(nullptr, hdc);
-
-	// ### RTF HEADER
 
 	// font table
 	buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
@@ -406,7 +366,94 @@ char* Log_CreateRtfHeader()
 	}
 
 	buf.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);
-	return buf.Detach();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat event body
+
+void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGINFO &lin)
+{
+	SESSION_INFO *si = streamData->si;
+	CMStringA &buf = streamData->buf;
+
+	// create new line, and set font and color
+	if (streamData->iStartEvent != 0)
+		buf.Append("\\par ");
+	buf.AppendFormat("%s ", Log_SetStyle(0));
+
+	// Insert icon
+	if ((lin.iType & g_Settings->dwIconFlags) || lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
+		int iIndex = (lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
+		buf.Append("\\f0\\fs14");
+		buf.Append(pLogIconBmpBits[iIndex]);
+	}
+
+	if (g_Settings->bTimeStampEventColour) {
+		LOGFONT &lf = g_chatApi.aFonts[0].lf;
+
+		// colored timestamps
+		if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+			int iii = lin.bIsHighlighted ? 16 : (lin.bIsMe ? 2 : 1);
+			buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
+		}
+		else {
+			int iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+			buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
+		}
+	}
+	else buf.AppendFormat("%s ", Log_SetStyle(0));
+
+	if (g_Settings->dwIconFlags)
+		buf.Append("\\tab ");
+
+	// insert timestamp
+	if (g_Settings->bShowTime) {
+		wchar_t szTimeStamp[100], szOldTimeStamp[100];
+
+		wcsncpy_s(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin.time), _TRUNCATE);
+		wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
+		if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
+			si->LastTime = lin.time;
+			Log_AppendRTF(streamData, true, buf, szTimeStamp);
+		}
+		buf.Append("\\tab ");
+	}
+
+	// Insert the nick
+	if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+		buf.AppendFormat("%s ", Log_SetStyle(lin.bIsMe ? 2 : 1));
+
+		CMStringW tmp((lin.bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
+		tmp.Replace(L"%n", lin.ptszNick);
+		Log_AppendRTF(streamData, TRUE, buf, tmp);
+		buf.AppendChar(' ');
+	}
+
+	// Insert the message
+	buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
+
+	CMStringW wszCaption;
+	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
+	if (!wszCaption.IsEmpty())
+		Log_AppendRTF(streamData, !bTextUsed, buf, wszCaption);
+	if (!bTextUsed && lin.ptszText) {
+		if (!wszCaption.IsEmpty())
+			Log_AppendRTF(streamData, false, buf, L" ");
+		Log_AppendRTF(streamData, false, buf, lin.ptszText);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat event tail
+
+void CRtfLogWindow::CreateChatRtfTail(RtfChatLogStreamData *streamData)
+{
+	CMStringA &str = streamData->buf;
+
+	if (streamData->bAppend)
+		str.Append("\\par}");
+	else
+		str.Append("}");;
 }
 
 #define RTFPICTHEADERMAXSIZE 78

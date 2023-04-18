@@ -50,12 +50,6 @@ struct MODULEINFO : public GCModuleInfoBase
 	wchar_t tszIdleMsg[60];
 };
 
-struct LOGSTREAMDATA : public GCLogStreamDataBase
-{
-	int crCount;
-	CMsgDialog *dat;
-};
-
 struct TMUCSettings : public GlobalLogSettingsBase
 {
 	HICON    hIconOverlay;
@@ -80,10 +74,6 @@ extern TMUCSettings g_Settings;
 #pragma comment(lib,"comctl32.lib")
 
 //////////////////////////////////////////////////////////////////////////////////
-
-// log.c
-char* Log_CreateRtfHeader(void);
-char* Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };

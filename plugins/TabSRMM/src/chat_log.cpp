@@ -133,7 +133,7 @@ static int EventToIcon(const LOGINFO &lin)
 	return 0;
 }
 
-static void Log_AppendRTF(LOGSTREAMDATA *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &str, const wchar_t *line)
+static void Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &str, const wchar_t *line)
 {
 	int textCharsCount = 0;
 
@@ -220,23 +220,10 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, const LOGINFO &lin, bool si
 	str += res;
 }
 
-static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData, const LOGINFO &lin)
-{
-	if (streamData == nullptr)
-		return;
+/////////////////////////////////////////////////////////////////////////////////////////
+// RTF header
 
-	CMStringW wszCaption;
-	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
-	if (!wszCaption.IsEmpty())
-		Log_AppendRTF(streamData, lin, !bTextUsed, str, wszCaption);
-	if (!bTextUsed && lin.ptszText) {
-		if (!wszCaption.IsEmpty())
-			Log_AppendRTF(streamData, lin, false, str, L" ");
-		Log_AppendRTF(streamData, lin, false, str, lin.ptszText);
-	}
-}
-
-char* Log_CreateRtfHeader(void)
+void CLogWindow::CreateChatRtfHeader(RtfChatLogStreamData *streamData)
 {
 	// get the number of pixels per logical inch
 	if (g_chatApi.logPixelSY == 0) {
@@ -247,9 +234,10 @@ char* Log_CreateRtfHeader(void)
 	}
 
 	// ### RTF HEADER
+	CMStringA &str = streamData->buf;
 
 	// font table
-	CMStringA str("{\\rtf1\\ansi\\deff0{\\fonttbl");
+	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
 		str.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, g_chatApi.aFonts[i].lf.lfCharSet, g_chatApi.aFonts[i].lf.lfFaceName);
 
@@ -298,140 +286,122 @@ char* Log_CreateRtfHeader(void)
 			iIndent += iSize;
 	}
 	str.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);
-
-	return str.Detach();
 }
 
-char* Log_CreateRTF(LOGSTREAMDATA *streamData)
+/////////////////////////////////////////////////////////////////////////////////////////
+// RTF event
+
+void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGINFO &lin)
 {
 	SESSION_INFO *si = streamData->si;
-	MODULEINFO *mi = si->pMI;
+	CMStringA &str = streamData->buf;
 
-	// ### RTF HEADER
+	if (streamData->iStartEvent != 0)
+		str.Append("\\par ");
 
-	if (mi->pszHeader == nullptr)
-		mi->pszHeader = Log_CreateRtfHeader();
+	if (m_pDlg.m_bDividerWanted) {
+		static char szStyle_div[128] = "\0";
+		if (szStyle_div[0] == 0)
+			mir_snprintf(szStyle_div, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", 17, 18, 0, 0, 5);
 
-	char *header = mi->pszHeader;
-	streamData->crCount = 0;
+		if (streamData->iStartEvent != si->arEvents.getCount() - 1 || !streamData->bAppend)
+			str.AppendFormat("\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
+		m_pDlg.m_bDividerWanted = false;
+	}
+	// create new line, and set font and color
+	str.AppendFormat("\\ql\\sl0%s ", g_chatApi.Log_SetStyle(0));
+	str.AppendFormat("\\v~-+%p+-~\\v0 ", &lin);
 
-	CMStringA str;
-	if (header)
-		str.Append(header);
-
-	// ### RTF BODY (one iteration per event that should be streamed in)
-	int iEventCount = si->arEvents.getCount();
-	for (int i = streamData->iStartEvent; i < iEventCount; i++) {
-		auto &lin = si->arEvents[i];
-
-		// filter
-		if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || (si->pDlg->m_iLogFilterFlags & lin.iType) != 0) {
-			if (i != 0)
-				str.Append("\\par ");
-
-			if (streamData->dat->m_bDividerWanted) {
-				static char szStyle_div[128] = "\0";
-				if (szStyle_div[0] == 0)
-					mir_snprintf(szStyle_div, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", 17, 18, 0, 0, 5);
-
-				if (i != iEventCount - 1 || !streamData->bRedraw)
-					str.AppendFormat("\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
-				streamData->dat->m_bDividerWanted = false;
-			}
-			// create new line, and set font and color
-			str.AppendFormat("\\ql\\sl0%s ", g_chatApi.Log_SetStyle(0));
-			str.AppendFormat("\\v~-+%p+-~\\v0 ", &lin);
-
-			// Insert icon
-			if (g_Settings.bLogSymbols)                // use symbols
-				str.AppendFormat("%s %c", g_chatApi.Log_SetStyle(17), EventToSymbol(lin));
-			else if (g_Settings.dwIconFlags) {
-				int iIndex = lin.bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
-				str.Append("\\f0\\fs14");
-				str.Append(g_chatApi.pLogIconBmpBits[iIndex]);
-			}
-
-			if (g_Settings.bTimeStampEventColour) {
-				// colored timestamps
-				static char szStyle[256];
-				LOGFONT &F = g_chatApi.aFonts[0].lf;
-				int iii;
-				if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
-					iii = lin.bIsHighlighted ? 16 : (lin.bIsMe ? 2 : 1);
-					mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
-						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
-					str.Append(szStyle);
-				}
-				else {
-					iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
-					mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
-						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
-					str.Append(szStyle);
-				}
-			}
-			else str.Append(g_chatApi.Log_SetStyle(0));
-			str.AppendChar(' ');
-
-			// insert a TAB if necessary to put the timestamp in the right position
-			if (g_Settings.dwIconFlags)
-				str.Append("\\tab ");
-
-			// insert timestamp
-			if (g_Settings.bShowTime) {
-				wchar_t szTimeStamp[30], szOldTimeStamp[30];
-
-				wcsncpy_s(szTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, lin.time), _TRUNCATE);
-				wcsncpy_s(szOldTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
-				if (!g_Settings.bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
-					si->LastTime = lin.time;
-					Log_AppendRTF(streamData, lin, TRUE, str, szTimeStamp);
-				}
-				str.Append("\\tab ");
-			}
-
-			// Insert the nick
-			if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
-				char pszIndicator[3] = "\0\0";
-				int  crNickIndex = 0;
-
-				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
-					pszIndicator[0] = GetIndicator(si, lin.ptszNick, &crNickIndex);
-
-				str.Append(g_chatApi.Log_SetStyle(lin.bIsMe ? 2 : 1));
-				str.AppendChar(' ');
-
-				if (g_Settings.bLogClassicIndicators)
-					str.Append(pszIndicator);
-
-				CMStringW pszTemp(lin.bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick);
-				if (!lin.bIsMe) {
-					if (g_Settings.bClickableNicks)
-						pszTemp.Replace(L"%n", CLICKNICK_BEGIN L"%n" CLICKNICK_END);
-
-					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
-						str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + Utils::rtf_clrs.getCount() + streamData->crCount + crNickIndex);
-				}
-				pszTemp.Replace(L"%n", lin.ptszNick);
-
-				if (g_Settings.bNewLineAfterNames)
-					pszTemp.AppendChar('\n');
-
-				Log_AppendRTF(streamData, lin, TRUE, str, pszTemp);
-				str.AppendChar(' ');
-			}
-
-			// Insert the message
-			str.Append(g_chatApi.Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
-			str.AppendChar(' ');
-
-			AddEventToBuffer(str, streamData, lin);
-		}
+	// Insert icon
+	if (g_Settings.bLogSymbols)                // use symbols
+		str.AppendFormat("%s %c", g_chatApi.Log_SetStyle(17), EventToSymbol(lin));
+	else if (g_Settings.dwIconFlags) {
+		int iIndex = lin.bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
+		str.Append("\\f0\\fs14");
+		str.Append(g_chatApi.pLogIconBmpBits[iIndex]);
 	}
 
-	// ### RTF END
-	if (streamData->bRedraw)
-		str.Append("\\par}");
-	else
-		str.Append("}");
-	return str.Detach();
+	if (g_Settings.bTimeStampEventColour) {
+		// colored timestamps
+		static char szStyle[256];
+		LOGFONT &F = g_chatApi.aFonts[0].lf;
+		int iii;
+		if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+			iii = lin.bIsHighlighted ? 16 : (lin.bIsMe ? 2 : 1);
+			mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
+				iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
+			str.Append(szStyle);
+		}
+		else {
+			iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+			mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
+				iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
+			str.Append(szStyle);
+		}
+	}
+	else str.Append(g_chatApi.Log_SetStyle(0));
+	str.AppendChar(' ');
+
+	// insert a TAB if necessary to put the timestamp in the right position
+	if (g_Settings.dwIconFlags)
+		str.Append("\\tab ");
+
+	// insert timestamp
+	if (g_Settings.bShowTime) {
+		wchar_t szTimeStamp[30], szOldTimeStamp[30];
+
+		wcsncpy_s(szTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, lin.time), _TRUNCATE);
+		wcsncpy_s(szOldTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
+		if (!g_Settings.bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
+			si->LastTime = lin.time;
+			Log_AppendRTF(streamData, lin, TRUE, str, szTimeStamp);
+		}
+		str.Append("\\tab ");
+	}
+
+	// Insert the nick
+	if (lin.ptszNick && lin.iType == GC_EVENT_MESSAGE) {
+		char pszIndicator[3] = "\0\0";
+		int  crNickIndex = 0;
+
+		if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
+			pszIndicator[0] = GetIndicator(si, lin.ptszNick, &crNickIndex);
+
+		str.Append(g_chatApi.Log_SetStyle(lin.bIsMe ? 2 : 1));
+		str.AppendChar(' ');
+
+		if (g_Settings.bLogClassicIndicators)
+			str.Append(pszIndicator);
+
+		CMStringW pszTemp(lin.bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick);
+		if (!lin.bIsMe) {
+			if (g_Settings.bClickableNicks)
+				pszTemp.Replace(L"%n", CLICKNICK_BEGIN L"%n" CLICKNICK_END);
+
+			if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
+				str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + Utils::rtf_clrs.getCount() + crNickIndex);
+		}
+		pszTemp.Replace(L"%n", lin.ptszNick);
+
+		if (g_Settings.bNewLineAfterNames)
+			pszTemp.AppendChar('\n');
+
+		Log_AppendRTF(streamData, lin, TRUE, str, pszTemp);
+		str.AppendChar(' ');
+	}
+
+	// Insert the message
+	str.Append(g_chatApi.Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
+	str.AppendChar(' ');
+
+
+	CMStringW wszCaption;
+	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
+	if (!wszCaption.IsEmpty())
+		Log_AppendRTF(streamData, lin, !bTextUsed, str, wszCaption);
+	if (!bTextUsed && lin.ptszText) {
+		if (!wszCaption.IsEmpty())
+			Log_AppendRTF(streamData, lin, false, str, L" ");
+		Log_AppendRTF(streamData, lin, false, str, lin.ptszText);
+	}
 }

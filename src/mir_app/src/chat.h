@@ -25,6 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_fontservice.h>
 
+#define STREAMSTAGE_HEADER  0
+#define STREAMSTAGE_EVENTS  1
+#define STREAMSTAGE_TAIL    2
+#define STREAMSTAGE_STOP    3
+
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
@@ -53,12 +58,11 @@ extern const char *g_pszHotkeySection;
 // log.c
 void          LoadMsgLogBitmaps(void);
 void          FreeMsgLogBitmaps(void);
-void          RedrawLog2(SESSION_INFO *si);
 void          ValidateFilename (wchar_t *filename);
 wchar_t*      MakeTimeStamp(wchar_t *pszStamp, time_t time);
 wchar_t*      GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
 char*         Log_CreateRtfHeader();
-char*         Log_CreateRTF(LOGSTREAMDATA *streamData);
+char*         Log_CreateRTF(RtfChatLogStreamData *streamData);
 char*         Log_SetStyle(int style);
 
 // chat_manager.cpp
