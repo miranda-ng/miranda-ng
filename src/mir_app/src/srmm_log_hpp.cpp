@@ -218,7 +218,7 @@ static CSrmmLogWindow *logBuilder(CMsgDialog &pDlg)
 
 MIR_APP_DLL(void) RegisterHppLogger()
 {
-	hLogger = RegisterSrmmLog(&g_plugin, "hpp", L"History++", &logBuilder);
+	hLogger = RegisterSrmmLog(&g_plugin, "hpp", LPGENW("History++ log window"), &logBuilder);
 }
 
 MIR_APP_DLL(void) UnregisterHppLogger()
