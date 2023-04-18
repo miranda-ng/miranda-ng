@@ -439,18 +439,20 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 			SendLater::addContact(hContact);
 
-		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = {};
-			if (db_event_get(hDbEvent, &dbei))
-				continue;
-			if (Proto_GetBaseAccountName(hContact) == nullptr)
-				continue;
-
-			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
-				if (Srmm_FindWindow(hContact) != nullptr)
+		if (!Contact::IsGroupChat(hContact)) {
+			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+				DBEVENTINFO dbei = {};
+				if (db_event_get(hDbEvent, &dbei))
+					continue;
+				if (Proto_GetBaseAccountName(hContact) == nullptr)
 					continue;
 
-				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+				if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
+					if (Srmm_FindWindow(hContact) != nullptr)
+						continue;
+
+					arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+				}
 			}
 		}
 	}
