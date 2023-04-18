@@ -165,8 +165,6 @@ private:
 	static void OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_CONNECTION status, void *arg);
 
 	// contacts search
-	void __cdecl SearchByNameAsync(void *arg);
-
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	HANDLE OnSearchAdvanced(HWND owner);
