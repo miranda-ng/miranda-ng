@@ -62,6 +62,7 @@
 [Events in the last]
 [events]
 [minutes]
+[Automatically copy selected text]
 [Typing notification options]
 [Send typing notifications to the following users when you are typing a message to them:]
 [Show typing notification switch in the status bar]
@@ -259,14 +260,10 @@
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-[to tiny bits, in Thy mercy]
-[My contact]
-[Lorem ipsum dolor sit amet,]
-[consectetur adipisicing elit]
 [Today]
 [Yesterday]
+[Me]
+[My contact]
 [File sent]
 [File received]
 ;file \plugins\Scriver\src\msgoptions.cpp

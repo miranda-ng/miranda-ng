@@ -214,6 +214,7 @@
 [Load number of previous events]
 [Load previous events less than]
 [minutes old]
+[Automatically copy selected text]
 [Use a tabbed interface]
 [Close tab on double click]
 [Show tabs at the bottom]
@@ -697,9 +698,9 @@
 [Send e-mail]
 [&E-mail]
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
 [bytes]
 [&File]
+[File from %s]
 [File &transfers...]
 [Incoming]
 [Complete]
@@ -826,6 +827,8 @@
 ;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 [Outgoing message (10x10)]
+[Encrypted (10x10)]
+[Encrypted verified (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 [Last message received on %s at %s.]
@@ -1461,6 +1464,8 @@
 [Enable the event filter (Ctrl+F)]
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Copy all]
 [Look up '%s':]
