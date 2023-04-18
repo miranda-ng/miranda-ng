@@ -86,7 +86,8 @@ HANDLE CToxProto::OnSearchAdvanced(HWND owner)
 	wchar_t text[MAX_PATH];
 	GetDlgItemText(owner, IDC_SEARCH, text, _countof(text));
 
-	const std::string query = T2Utf(text).str();
+	std::string query = T2Utf(text).str();
+	query = std::regex_replace(query, std::regex("\\s"), "");
 	if (std::regex_search(query, match, regex)) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
