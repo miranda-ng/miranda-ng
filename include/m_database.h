@@ -716,8 +716,8 @@ namespace DB
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
 		__forceinline const wchar_t* getDescr() const { return m_wszDescription; }
 		
-		__forceinline uint32_t getSize() const { return m_iFileSize; }
-		__forceinline uint32_t getTransferred() const { return m_iTransferred; }
+		__forceinline int64_t getSize() const { return m_iFileSize; }
+		__forceinline int64_t getTransferred() const { return m_iTransferred; }
 
 		bool isCompleted() const;
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
