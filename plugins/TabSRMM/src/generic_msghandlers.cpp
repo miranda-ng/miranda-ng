@@ -910,11 +910,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 			}
 			UpdateWindowIcon();
 			HandleIconFeedback(this, (HICON)-1);
-			CMsgDialog *dat_active = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
-			if (dat_active && !dat_active->isChat())
-				m_pContainer->UpdateTitle(0);
-			else
-				m_pContainer->UpdateTitle(0, dat_active);
+
 			if (!m_pContainer->cfg.flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
 				m_pContainer->ReflashContainer();
 		}
@@ -937,12 +933,10 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 			SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		}
-		if (IsIconic(hwndContainer) || !IsActive()) {
-			SetWindowText(hwndContainer, m_wszStatusBar);
-			m_pContainer->cfg.flags.m_bNeedsUpdateTitle = true;
+
+		if (IsIconic(hwndContainer) || !IsActive())
 			if (!m_pContainer->cfg.flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
 				m_pContainer->ReflashContainer();
-		}
 
 		if (m_pContainer->m_hwndActive != m_hwnd) {
 			if (m_bCanFlashTab)
