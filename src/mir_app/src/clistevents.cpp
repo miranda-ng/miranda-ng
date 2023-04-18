@@ -127,6 +127,9 @@ static void ShowEventsInTray()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Adds an event to the contact list's queue
+
 static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	ShowEventsInTray();
@@ -187,8 +190,10 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	return (CListEvent*)CallFunctionSync(DoAddEvent, cle);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
+
 int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 {
 	// Find the event that should be removed
@@ -235,6 +240,8 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 {
 	if (hContact == INVALID_CONTACT_ID) {
@@ -251,6 +258,8 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 	return nullptr;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int EventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	for (auto &it : g_cliEvents) {
@@ -264,6 +273,8 @@ int EventsProcessContactDoubleClick(MCONTACT hContact)
 
 	return 1;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 {
@@ -331,6 +342,9 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
 static int CListEventMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
@@ -348,8 +362,6 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 	}
 	return 0;
 }
-
-/***************************************************************************************/
 
 int InitCListEvents(void)
 {

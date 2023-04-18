@@ -660,30 +660,31 @@ void CSrmmBaseDialog::UpdateChatLog()
 	if (!m_si->pMI->bDatabase || m_si->bHistoryInit)
 		return;
 
+	m_pLog->Clear();
 	GetFirstEvent();
 
 	auto *szProto = Proto_GetBaseAccountName(m_hContact);
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
-		if (dbei) {
-			if (!mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
-				auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
-				if (pUser == nullptr)
-					continue;
+		if (dbei && !mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
+			auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
+			if (pUser == nullptr)
+				continue;
 
-				Utf2T wszUserId(dbei.szUserId);
-				CMStringW wszText(Utf2T((char*)dbei.pBlob));
-				wszText.Replace(L"%", L"%%");
+			Utf2T wszUserId(dbei.szUserId);
+			CMStringW wszText(Utf2T((char*)dbei.pBlob));
+			wszText.Replace(L"%", L"%%");
 
-				GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.pszUserInfo.w = wszUserId;
-				gce.pszText.w = wszText;
-				gce.time = dbei.timestamp;
-				if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
-					gce.pszNick.w = ui->pszNick;
-				SM_AddEvent(m_si, &gce, false);
-			}
+			GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.pszUserInfo.w = wszUserId;
+			gce.pszText.w = wszText;
+			gce.time = dbei.timestamp;
+			gce.hEvent = hDbEvent;
+
+			if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
+				gce.pszNick.w = ui->pszNick;
+			SM_AddEvent(m_si, &gce, false);
 		}
 	}
 
