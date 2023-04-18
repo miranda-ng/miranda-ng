@@ -77,6 +77,17 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 
 	if (!Contact::IsGroupChat(ret))
 		ProtoBroadcastAck(ret, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->m_msgid, (LPARAM)msgId.c_str());
+	else {
+		T2Utf szOwnId(m_szOwnId);
+
+		PROTORECVEVENT pre = {};
+		pre.szMsgId = msgId.c_str();
+		pre.timestamp = time(0);
+		pre.szMessage = pOwn->m_szText;
+		pre.flags = PREF_SENT | PREF_CREATEREAD;
+		pre.szUserId = szOwnId;
+		ProtoChainRecvMsg(pOwn->m_hContact, &pre);
+	}
 
 	if (bRemove) {
 		mir_cslock lck(m_csOwnIds);
@@ -847,7 +858,7 @@ LBL_Error:
 		int id = InterlockedIncrement(&m_msgId);
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
 
-		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId);
+		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId, T2Utf(wszUrl));
 		pReq->pUserInfo = pOwn;
 		{
 			mir_cslock lck(m_csOwnIds);

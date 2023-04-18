@@ -493,7 +493,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 	int id = InterlockedIncrement(&m_msgId);
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
 
-	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId);
+	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId, pszSrc);
 	pReq->pUserInfo = pOwn;
 	{
 		mir_cslock lck(m_csOwnIds);

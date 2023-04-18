@@ -124,8 +124,10 @@ struct IcqUser : public MZeroedObject
 
 struct IcqOwnMessage
 {
-	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid)
-		: m_hContact(_hContact), m_msgid(_msgid)
+	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid, const char *pszText) :
+		m_msgid(_msgid),
+		m_hContact(_hContact),
+		m_szText(mir_strdup(pszText))
 	{
 		strncpy_s(m_guid, guid, _TRUNCATE);
 	}
@@ -133,6 +135,7 @@ struct IcqOwnMessage
 	MCONTACT m_hContact;
 	int m_msgid;
 	char m_guid[50];
+	ptrA m_szText;
 };
 
 struct IcqConn

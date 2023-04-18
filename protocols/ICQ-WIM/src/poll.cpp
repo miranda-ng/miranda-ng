@@ -260,7 +260,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 void CIcqProto::ProcessImState(const JSONNode &ev)
 {
 	for (auto &it : ev["imStates"]) {
-		if (it["state"].as_mstring() != L"sent")
+		if (it["state"].as_mstring() != L"delivered")
 			continue;
 
 		CMStringA reqId(it["sendReqId"].as_mstring());

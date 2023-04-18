@@ -229,9 +229,7 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	SESSION_INFO *si = Chat_Find(gch->si->ptszID, gch->si->pszModule);
-	if (si == nullptr)
-		return 1;
+	SESSION_INFO *si = gch->si;
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
