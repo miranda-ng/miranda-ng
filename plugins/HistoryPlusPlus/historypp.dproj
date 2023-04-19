@@ -8,7 +8,7 @@
 			<AppType>Library</AppType>
 			<FrameworkType>VCL</FrameworkType>
 			<ProjectVersion>13.4</ProjectVersion>
-			<Platform Condition="'$(Platform)'==''">Win64</Platform>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -98,6 +98,8 @@
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<Debugger_HostApplication>W:\miranda-ng\bin17\Debug\Miranda32.exe</Debugger_HostApplication>
+			<Debugger_CWD>W:\miranda-ng\bin17\Debug</Debugger_CWD>
 			<DCC_UnitSearchPath>..\..\include\delphi;..\..\plugins\ExternalAPI\delphi;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<DCC_BplOutput>..\..\bin15\Release\Plugins\</DCC_BplOutput>
@@ -123,9 +125,9 @@
 			<DCC_DcuOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcuOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-			<Debugger_CWD>D:\Myranda\bin17\Debug64</Debugger_CWD>
+			<Debugger_CWD>W:\miranda-ng\bin17\Debug64</Debugger_CWD>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
-			<Debugger_HostApplication>D:\Myranda\bin17\Debug64\Miranda64.exe</Debugger_HostApplication>
+			<Debugger_HostApplication>W:\miranda-ng\bin17\Debug64\Miranda64.exe</Debugger_HostApplication>
 			<BRCC_OutputDir>..\..\bin15\temp\res\</BRCC_OutputDir>
 			<DCC_ExeOutput>..\..\bin17\Debug64\Plugins\</DCC_ExeOutput>
 			<DCC_BplOutput>..\..\bin17\Debug64\Plugins\</DCC_BplOutput>

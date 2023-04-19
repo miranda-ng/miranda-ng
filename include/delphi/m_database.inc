@@ -83,7 +83,7 @@ hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
 }
-function db_event_delete(hDbEvent:TMEVENT):int; stdcall; external CoreDLL;
+function db_event_delete(hDbEvent:TMEVENT; flags:int=0):int; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the first event in the chain for hContact
