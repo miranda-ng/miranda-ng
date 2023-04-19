@@ -36,6 +36,7 @@ type
     Text: String;
     Sent: Boolean;
     Time: DWord;
+    HEvent: TMEVENT;
   end;
 
   TExtItem = record
@@ -957,7 +958,7 @@ end;
 
 procedure TExternalGrid.GridItemDelete(Sender: TObject; Index: Integer);
 begin
-  if (FGridState = gsDelete) and (Items[Index].hDBEvent <> 0) and (not Items[Index].Custom) then
+  if (FGridState = gsDelete) and (Items[Index].hDBEvent <> 0) then
     db_event_delete(Items[Index].hDBEvent);
   if Index <> High(Items) then
   begin

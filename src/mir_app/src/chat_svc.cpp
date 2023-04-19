@@ -854,6 +854,19 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 	return 0;
 }	
 
+static int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent)
+{
+	if (Contact::IsGroupChat(hContact))
+		if (auto *si = SM_FindSessionByContact(hContact))
+			for (auto &it : si->arEvents.rev_iter())
+				if (it->hEvent == hDbEvent) {
+					si->arEvents.removeItem(&it);
+					break;
+				}
+
+	return 0;
+}
+
 static INT_PTR MuteChat(WPARAM hContact, LPARAM param)
 {
 	Chat_Mute(hContact, param);
@@ -1020,6 +1033,7 @@ int LoadChatModule(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
+	HookEvent(ME_DB_EVENT_DELETED, OnEventDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 

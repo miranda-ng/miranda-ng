@@ -132,8 +132,8 @@ type
     dwData   :dword;     // dword data e.g. status
     bIsMe    :bool;      // TRUE if the event is related to the user
     time     :dword;     // Time of the event
+    hEvent   :TMEVENT;   // Database event handle, if present
     next     :PtagIEVIEWEVENTDATA;
-    Text2    :TChar;     // Text, usage depends on type of event
   end;
   PIEVIEWEVENTDATA = PtagIEVIEWEVENTDATA;
   TIEVIEWEVENTDATA = TtagIEVIEWEVENTDATA;

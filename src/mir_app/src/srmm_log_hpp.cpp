@@ -120,19 +120,11 @@ public:
 
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT;
-
-		IEVIEWEVENT event = {};
-		event.hwnd = m_hwnd;
-		event.hContact = m_pDlg.m_hContact;
-		event.codepage = CP_ACP;
-		event.iType = IEE_LOG_MEM_EVENTS;
-		event.eventData = &ied;
-		event.count = 1;
-
 		ied.szNick.w = lin->ptszNick;
 		ied.szText.w = lin->ptszText;
 		ied.time = lin->time;
 		ied.bIsMe = lin->bIsMe;
+		ied.hEvent = lin->hEvent;
 
 		switch (lin->iType) {
 		case GC_EVENT_MESSAGE:
@@ -176,6 +168,14 @@ public:
 		ied.dwData |= g_Settings->bShowTime ? IEEDD_GC_SHOW_TIME : 0;
 		ied.dwData |= IEEDD_GC_SHOW_ICON;
 		ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+
+		IEVIEWEVENT event = {};
+		event.hwnd = m_hwnd;
+		event.hContact = m_pDlg.m_hContact;
+		event.codepage = CP_ACP;
+		event.iType = IEE_LOG_MEM_EVENTS;
+		event.eventData = &ied;
+		event.count = 1;
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 

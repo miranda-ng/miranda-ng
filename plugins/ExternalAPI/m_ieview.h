@@ -123,6 +123,7 @@ struct IEVIEWEVENTDATA
 	uint32_t     dwData;            // DWORD data e.g. status see IEEDD_* values
 	int          bIsMe;             // TRUE if the event is related to the user
 	uint32_t     time;              // Time of the event
+	MEVENT       hEvent;            // Database event handle, if present
 	IEVIEWEVENTDATA *next;
 };
 

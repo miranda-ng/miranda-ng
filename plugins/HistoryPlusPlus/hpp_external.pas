@@ -189,6 +189,7 @@ begin
             CustomItem.Nick := AnsiToWideString(AnsiString(customEvent.Nick.a),UsedCodepage);
           CustomItem.Sent := boolean(customEvent.bIsMe);
           CustomItem.Time := customEvent.time;
+          CustomItem.hEvent := customEvent.hEvent;
           ExtGrid.AddCustomEvent(event.hContact, CustomItem, UsedCodepage,
                              boolean(event.dwFlags and IEEF_RTL),
                              not boolean(event.dwFlags and IEEF_NO_SCROLLING));
