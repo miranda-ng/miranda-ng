@@ -86,10 +86,9 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static int Log_AppendRTF(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA &buf, const wchar_t *line)
+static int Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &buf, const wchar_t *line)
 {
 	int textCharsCount = 0;
-	auto &lin = streamData->si->arEvents[streamData->iStartEvent];
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
@@ -267,6 +266,7 @@ wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	RtfChatLogStreamData *dat = (RtfChatLogStreamData *)dwCookie;
+	auto *si = dat->si;
 
 	if (dat->buf.IsEmpty()) {
 		switch (dat->iStage) {
@@ -276,17 +276,17 @@ static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 			break;
 
 		case STREAMSTAGE_EVENTS:
-			{
-				auto &events = dat->si->arEvents;
-				if (dat->iStartEvent < events.getCount()) {
-					auto *si = dat->si;
-					auto &lin = events[dat->iStartEvent];
+			if (!dat->lin) {
+				auto &events = si->arEvents;
+				if (dat->idx < events.getCount()) {
+					auto &lin = events[dat->idx];
 					if (si->iType == GCW_SERVER || (si->pDlg->m_iLogFilterFlags & lin.iType) != 0)
 						dat->pLog->CreateChatRtfEvent(dat, lin);
-					dat->iStartEvent++;
+					dat->idx++;
 					break;
 				}
 			}
+			else dat->pLog->CreateChatRtfEvent(dat, *dat->lin);
 
 			dat->iStage = STREAMSTAGE_TAIL;
 			__fallthrough;
@@ -312,14 +312,16 @@ static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 	return 0;
 }
 
-void CRtfLogWindow::StreamChatRtfEvents(RtfChatLogStreamData *streamData, bool bAppend)
+void CRtfLogWindow::StreamChatRtfEvents(RtfChatLogStreamData *streamData, bool bRedraw)
 {
-	streamData->bAppend = bAppend;
+	streamData->bRedraw = bRedraw;
+	if (streamData->lin)
+		streamData->idx = streamData->si->arEvents.getCount()-1;
 
 	EDITSTREAM stream = {};
 	stream.pfnCallback = ChatLogStreamCallback;
 	stream.dwCookie = (DWORD_PTR)streamData;
-	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	m_rtf.SendMsg(EM_STREAMIN, (bRedraw) ? SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -377,7 +379,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 	CMStringA &buf = streamData->buf;
 
 	// create new line, and set font and color
-	if (streamData->iStartEvent != 0)
+	if (streamData->idx != 0)
 		buf.Append("\\par ");
 	buf.AppendFormat("%s ", Log_SetStyle(0));
 
@@ -414,7 +416,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 		wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
 		if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 			si->LastTime = lin.time;
-			Log_AppendRTF(streamData, true, buf, szTimeStamp);
+			Log_AppendRTF(streamData, lin, true, buf, szTimeStamp);
 		}
 		buf.Append("\\tab ");
 	}
@@ -425,7 +427,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 
 		CMStringW tmp((lin.bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
 		tmp.Replace(L"%n", lin.ptszNick);
-		Log_AppendRTF(streamData, TRUE, buf, tmp);
+		Log_AppendRTF(streamData, lin, true, buf, tmp);
 		buf.AppendChar(' ');
 	}
 
@@ -435,11 +437,11 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 	CMStringW wszCaption;
 	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
 	if (!wszCaption.IsEmpty())
-		Log_AppendRTF(streamData, !bTextUsed, buf, wszCaption);
+		Log_AppendRTF(streamData, lin, !bTextUsed, buf, wszCaption);
 	if (!bTextUsed && lin.ptszText) {
 		if (!wszCaption.IsEmpty())
-			Log_AppendRTF(streamData, false, buf, L" ");
-		Log_AppendRTF(streamData, false, buf, lin.ptszText);
+			Log_AppendRTF(streamData, lin, false, buf, L" ");
+		Log_AppendRTF(streamData, lin, false, buf, lin.ptszText);
 	}
 }
 
@@ -450,7 +452,7 @@ void CRtfLogWindow::CreateChatRtfTail(RtfChatLogStreamData *streamData)
 {
 	CMStringA &str = streamData->buf;
 
-	if (streamData->bAppend)
+	if (streamData->bRedraw)
 		str.Append("\\par}");
 	else
 		str.Append("}");;

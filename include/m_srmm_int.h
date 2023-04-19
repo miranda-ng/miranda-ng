@@ -128,7 +128,7 @@ public:
 	virtual HWND     GetHwnd() = 0;
 	virtual wchar_t* GetSelection() = 0;
 	virtual void     LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) = 0;
-	virtual void     LogEvents(struct SESSION_INFO *si, int iStart, bool bAppend) = 0;
+	virtual void     LogEvents(const struct LOGINFO *lin) = 0;
 	virtual void     Resize() = 0;
 	virtual void     ScrollToBottom() = 0;
 	virtual void     UpdateOptions() {};
@@ -163,11 +163,12 @@ struct RtfLogStreamBase
 
 struct RtfChatLogStreamData
 {
-	int   iStage = 0, iStartEvent = 0;
-	bool  bStripFormat, bAppend = false, bIsFirst = false;
+	int   iStage = 0, idx = 0;
+	bool  bStripFormat, bRedraw, bIsFirst = false;
 	
 	CMStringA buf;
 	struct SESSION_INFO *si;
+	const struct LOGINFO *lin;
 	class CRtfLogWindow *pLog;
 };
 
@@ -195,7 +196,7 @@ public:
 	virtual bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) = 0;
 	virtual void CreateRtfTail(RtfLogStreamData *dat);
 
-	void StreamChatRtfEvents(RtfChatLogStreamData *dat, bool bAppend);
+	void StreamChatRtfEvents(RtfChatLogStreamData *dat, bool bRedraw);
 	virtual void CreateChatRtfHeader(RtfChatLogStreamData *dat);
 	virtual void CreateChatRtfEvent(RtfChatLogStreamData *dat, const struct LOGINFO &lin);
 	virtual void CreateChatRtfTail(RtfChatLogStreamData *dat);
@@ -293,7 +294,7 @@ public:
 	void RedrawLog();
 	void ShowColorChooser(int iCtrlId);
 
-	virtual void AddLog();
+	virtual void AddLog(const LOGINFO &lin);
 	virtual void CloseTab() {}
 	virtual void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) PURE;
 	virtual void EventAdded(MEVENT, const DB::EventInfo &dbei) PURE;

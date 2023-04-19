@@ -95,6 +95,8 @@ public:
 		return (wchar_t *)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////
+
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
 	{
 		if (!bAppend)
@@ -109,8 +111,13 @@ public:
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 
-	void CHppLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool) override
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	void LogEvent(const LOGINFO *lin)
 	{
+		if (!lin->ptszText)
+			return;
+
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT;
 
@@ -122,60 +129,63 @@ public:
 		event.eventData = &ied;
 		event.count = 1;
 
-		for (int i=iStart; i < si->arEvents.getCount(); i++) {
-			auto &pLog = si->arEvents[i];
-		
-			if (pLog.ptszText) {
-				ied.szNick.w = pLog.ptszNick;
-				ied.szText.w = pLog.ptszText;
-				ied.time = pLog.time;
-				ied.bIsMe = pLog.bIsMe;
+		ied.szNick.w = lin->ptszNick;
+		ied.szText.w = lin->ptszText;
+		ied.time = lin->time;
+		ied.bIsMe = lin->bIsMe;
 
-				switch (pLog.iType) {
-				case GC_EVENT_MESSAGE:
-					ied.iType = IEED_GC_EVENT_MESSAGE;
-					ied.dwData = IEEDD_GC_SHOW_NICK;
-					break;
-				case GC_EVENT_ACTION:
-					ied.iType = IEED_GC_EVENT_ACTION;
-					break;
-				case GC_EVENT_JOIN:
-					ied.iType = IEED_GC_EVENT_JOIN;
-					break;
-				case GC_EVENT_PART:
-					ied.iType = IEED_GC_EVENT_PART;
-					break;
-				case GC_EVENT_QUIT:
-					ied.iType = IEED_GC_EVENT_QUIT;
-					break;
-				case GC_EVENT_NICK:
-					ied.iType = IEED_GC_EVENT_NICK;
-					break;
-				case GC_EVENT_KICK:
-					ied.iType = IEED_GC_EVENT_KICK;
-					break;
-				case GC_EVENT_NOTICE:
-					ied.iType = IEED_GC_EVENT_NOTICE;
-					break;
-				case GC_EVENT_TOPIC:
-					ied.iType = IEED_GC_EVENT_TOPIC;
-					break;
-				case GC_EVENT_INFORMATION:
-					ied.iType = IEED_GC_EVENT_INFORMATION;
-					break;
-				case GC_EVENT_ADDSTATUS:
-					ied.iType = IEED_GC_EVENT_ADDSTATUS;
-					break;
-				case GC_EVENT_REMOVESTATUS:
-					ied.iType = IEED_GC_EVENT_REMOVESTATUS;
-					break;
-				}
-				ied.dwData |= g_Settings->bShowTime ? IEEDD_GC_SHOW_TIME : 0;
-				ied.dwData |= IEEDD_GC_SHOW_ICON;
-				ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-				CallService(MS_HPP_EG_EVENT, 0, (LPARAM) & event);
-			}
+		switch (lin->iType) {
+		case GC_EVENT_MESSAGE:
+			ied.iType = IEED_GC_EVENT_MESSAGE;
+			ied.dwData = IEEDD_GC_SHOW_NICK;
+			break;
+		case GC_EVENT_ACTION:
+			ied.iType = IEED_GC_EVENT_ACTION;
+			break;
+		case GC_EVENT_JOIN:
+			ied.iType = IEED_GC_EVENT_JOIN;
+			break;
+		case GC_EVENT_PART:
+			ied.iType = IEED_GC_EVENT_PART;
+			break;
+		case GC_EVENT_QUIT:
+			ied.iType = IEED_GC_EVENT_QUIT;
+			break;
+		case GC_EVENT_NICK:
+			ied.iType = IEED_GC_EVENT_NICK;
+			break;
+		case GC_EVENT_KICK:
+			ied.iType = IEED_GC_EVENT_KICK;
+			break;
+		case GC_EVENT_NOTICE:
+			ied.iType = IEED_GC_EVENT_NOTICE;
+			break;
+		case GC_EVENT_TOPIC:
+			ied.iType = IEED_GC_EVENT_TOPIC;
+			break;
+		case GC_EVENT_INFORMATION:
+			ied.iType = IEED_GC_EVENT_INFORMATION;
+			break;
+		case GC_EVENT_ADDSTATUS:
+			ied.iType = IEED_GC_EVENT_ADDSTATUS;
+			break;
+		case GC_EVENT_REMOVESTATUS:
+			ied.iType = IEED_GC_EVENT_REMOVESTATUS;
+			break;
 		}
+		ied.dwData |= g_Settings->bShowTime ? IEEDD_GC_SHOW_TIME : 0;
+		ied.dwData |= IEEDD_GC_SHOW_ICON;
+		ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
+	}
+
+	void LogEvents(const LOGINFO *lin) override
+	{
+		if (lin == nullptr) {
+			for (auto &it : m_pDlg.getChat()->arEvents)
+				LogEvent(it);
+		}
+		else LogEvent(lin);
 	}
 
 	void Resize() override

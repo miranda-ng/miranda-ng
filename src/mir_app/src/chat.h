@@ -61,15 +61,13 @@ void          FreeMsgLogBitmaps(void);
 void          ValidateFilename (wchar_t *filename);
 wchar_t*      MakeTimeStamp(wchar_t *pszStamp, time_t time);
 wchar_t*      GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
-char*         Log_CreateRtfHeader();
-char*         Log_CreateRTF(RtfChatLogStreamData *streamData);
 char*         Log_SetStyle(int style);
 
 // chat_manager.cpp
 MODULEINFO*   MM_AddModule(const char *pszModule);
 MODULEINFO*   MM_FindModule(const char *pszModule);
 
-BOOL          SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted);
+LOGINFO*      SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted);
 BOOL          SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce);
 void          SM_FreeSession(SESSION_INFO *si);
 char*         SM_GetUsers(SESSION_INFO *si);

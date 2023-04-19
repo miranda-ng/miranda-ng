@@ -296,7 +296,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 	SESSION_INFO *si = streamData->si;
 	CMStringA &str = streamData->buf;
 
-	if (streamData->iStartEvent != 0)
+	if (streamData->idx != 0)
 		str.Append("\\par ");
 
 	if (m_pDlg.m_bDividerWanted) {
@@ -304,7 +304,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 		if (szStyle_div[0] == 0)
 			mir_snprintf(szStyle_div, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", 17, 18, 0, 0, 5);
 
-		if (streamData->iStartEvent != si->arEvents.getCount() - 1 || !streamData->bAppend)
+		if (streamData->idx != si->arEvents.getCount()-1 || !streamData->bRedraw)
 			str.AppendFormat("\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
 		m_pDlg.m_bDividerWanted = false;
 	}

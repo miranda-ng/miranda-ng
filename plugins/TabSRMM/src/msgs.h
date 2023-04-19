@@ -593,7 +593,7 @@ public:
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void AddLog() override;
+	void AddLog(const LOGINFO &lin) override;
 	void CloseTab() override;
 	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
 	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
@@ -696,7 +696,7 @@ public:
 	void AppendUnicodeString(CMStringA &str, const wchar_t *pwszBuf) override;
 	void Attach() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(SESSION_INFO *si, int iStart, bool) override;
+	void LogEvents(const LOGINFO *lin) override;
 	void ScrollToBottom() override;
 	void UpdateOptions() override;
 

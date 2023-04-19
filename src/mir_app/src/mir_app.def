@@ -324,7 +324,7 @@ Chat_UpdateOptions @418 NONAME
 ?ShowColorChooser@CSrmmBaseDialog@@QAEXH@Z @421 NONAME
 ?ShowFilterMenu@CSrmmBaseDialog@@UAEXXZ @422 NONAME
 ?OnInitDialog@CSrmmBaseDialog@@MAE_NXZ @423 NONAME
-?AddLog@CSrmmBaseDialog@@UAEXXZ @425 NONAME
+?AddLog@CSrmmBaseDialog@@UAEXABULOGINFO@@@Z @425 NONAME
 ?UpdateNickList@CSrmmBaseDialog@@UAEXXZ @428 NONAME
 ?onClick_BIU@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @430 NONAME
 ?onClick_BkColor@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @431 NONAME

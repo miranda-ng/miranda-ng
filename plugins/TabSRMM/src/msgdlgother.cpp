@@ -41,7 +41,7 @@ void CMsgDialog::ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::AddLog()
+void CMsgDialog::AddLog(const LOGINFO &lin)
 {
 	if (g_plugin.bUseDividers) {
 		if (g_plugin.bDividersUsePopupConfig) {
@@ -56,7 +56,7 @@ void CMsgDialog::AddLog()
 		}
 	}
 
-	CSuper::AddLog();
+	CSuper::AddLog(lin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

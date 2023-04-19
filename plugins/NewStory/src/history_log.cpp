@@ -60,10 +60,13 @@ public:
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
-	void LogEvents(SESSION_INFO *si, int iStart, bool) override
+	void LogEvents(const LOGINFO *lin) override
 	{
-		for (int i=iStart; i < si->arEvents.getCount(); i++)
-			SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)&si->arEvents[i]);
+		if (lin == nullptr) {
+			for (auto &it: m_pDlg.getChat()->arEvents)
+				SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)it);
+		}
+		else SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)lin);
 	}
 
 	void Resize() override

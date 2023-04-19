@@ -259,7 +259,6 @@ public:
 		buffer.Append("}");
 	}
 
-
 	bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) override
 	{
 		if (!DbEventIsShown(dbei))
@@ -478,19 +477,15 @@ public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
-	void LogEvents(SESSION_INFO *si, int iStart, bool bAppend) override
+	void LogEvents(const LOGINFO *lin) override
 	{
-		if (si == nullptr)
-			return;
-
-		auto &lin = si->arEvents[iStart];
-		if (!bAppend && si->iType == GCW_CHATROOM && (m_pDlg.m_iLogFilterFlags & lin.iType) == 0)
-			return;
+		auto *si = m_pDlg.getChat();
+		bool bRedraw = lin == nullptr;
 
 		RtfChatLogStreamData streamData;
 		streamData.pLog = this;
 		streamData.si = si;
-		streamData.iStartEvent = iStart;
+		streamData.lin = lin;
 		streamData.bStripFormat = false;
 
 		bool bFlag = false;
@@ -515,10 +510,10 @@ public:
 
 		// fix for the indent... must be a M$ bug
 		if (sel.cpMax == 0)
-			bAppend = true;
+			bRedraw = true;
 
 		// get the number of pixels per logical inch
-		if (bAppend) {
+		if (bRedraw) {
 			HDC hdc = GetDC(nullptr);
 			g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 			g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
@@ -528,10 +523,10 @@ public:
 		}
 
 		// stream in the event(s)
-		StreamChatRtfEvents(&streamData, bAppend);
+		StreamChatRtfEvents(&streamData, bRedraw);
 
 		// do smileys
-		if (g_plugin.bSmileyInstalled && (bAppend || (lin.ptszText && lin.iType != GC_EVENT_JOIN && lin.iType != GC_EVENT_NICK && lin.iType != GC_EVENT_ADDSTATUS && lin.iType != GC_EVENT_REMOVESTATUS))) {
+		if (g_plugin.bSmileyInstalled && (bRedraw || (lin && lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
 			CHARRANGE newsel;
 			newsel.cpMax = -1;
 			newsel.cpMin = sel.cpMin;
@@ -542,14 +537,14 @@ public:
 			sm.cbSize = sizeof(sm);
 			sm.hwndRichEditControl = m_rtf.GetHwnd();
 			sm.Protocolname = si->pszModule;
-			sm.rangeToReplace = bAppend ? nullptr : &newsel;
+			sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 			sm.disableRedraw = TRUE;
 			sm.hContact = si->hContact;
 			CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 		}
 
 		// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
-		if (bAppend || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
+		if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
 			ScrollToBottom();
 		else
 			m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);

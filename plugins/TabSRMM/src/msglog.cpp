@@ -1226,21 +1226,20 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
+void CLogWindow::LogEvents(const LOGINFO *lin)
 {
-	if (m_rtf.GetHwnd() == nullptr || si == nullptr)
+	if (m_rtf.GetHwnd() == nullptr)
 		return;
 
-	auto &lin = si->arEvents[iStart];
-	if (!bAppend && m_pDlg.AllowTyping() && !(m_pDlg.m_iLogFilterFlags & lin.iType))
-		return;
+	auto si = m_pDlg.getChat();
+	bool bRedraw = lin == nullptr;
 
 	bool bFlag = false, bDoReplace, bAtBottom = AtBottom();
 
 	RtfChatLogStreamData streamData;
 	streamData.pLog = this;
 	streamData.si = si;
-	streamData.iStartEvent = iStart;
+	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
 
 	POINT point = { 0 };
@@ -1258,13 +1257,10 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
-		bAppend = TRUE;
-
-	// should the event(s) be appended to the current log
-	WPARAM wp = bAppend ? SF_RTF : SFF_SELECTION | SF_RTF;
+		bRedraw = TRUE;
 
 	// get the number of pixels per logical inch
-	if (bAppend) {
+	if (bRedraw) {
 		HDC hdc = GetDC(nullptr);
 		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
@@ -1273,16 +1269,16 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
 		bFlag = true;
 	}
 
-	StreamChatRtfEvents(&streamData, bAppend);
+	StreamChatRtfEvents(&streamData, bRedraw);
 
 	// for new added events, only replace in message or action events.
 	// no need to replace smileys or math formulas elsewhere
-	bDoReplace = (bAppend || (lin.ptszText && (lin.iType == GC_EVENT_MESSAGE || lin.iType == GC_EVENT_ACTION)));
+	bDoReplace = (bRedraw || (lin && lin->ptszText && (lin->iType == GC_EVENT_MESSAGE || lin->iType == GC_EVENT_ACTION)));
 
 	// replace marked nicknames with hyperlinks to make the nicks clickable
 	if (g_Settings.bClickableNicks) {
 		FINDTEXTEX fi, fi2;
-		fi.chrg.cpMin = bAppend ? 0 : sel.cpMin;
+		fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = CLICKNICK_BEGIN;
 
@@ -1326,7 +1322,7 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
 		SMADD_RICHEDIT3 sm = { sizeof(sm) };
 		sm.hwndRichEditControl = m_rtf.GetHwnd();
 		sm.Protocolname = si->pszModule;
-		sm.rangeToReplace = bAppend ? nullptr : &newsel;
+		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
 		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
@@ -1350,7 +1346,7 @@ void CLogWindow::LogEvents(SESSION_INFO *si, int iStart, bool bAppend)
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
-	if (bAppend || bAtBottom)
+	if (bRedraw || bAtBottom)
 		ScrollToBottom(false, false);
 	else
 		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);

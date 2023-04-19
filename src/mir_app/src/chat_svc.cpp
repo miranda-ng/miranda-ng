@@ -543,12 +543,13 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 			if (USERINFO *ui = g_chatApi.UM_FindUser(si, gce.pszUID.w))
 				gce.pszNick.w = ui->pszNick;
 
-		int isOk = SM_AddEvent(si, &gce, bIsHighlighted);
-		if (si->pDlg) {
-			if (isOk)
-				si->pDlg->AddLog();
-			else
-				si->pDlg->RedrawLog();
+		if (auto *lin = SM_AddEvent(si, &gce, bIsHighlighted)) {
+			if (si->pDlg) {
+				if (!si->bTrimmed)
+					si->pDlg->AddLog(*lin);
+				else
+					si->pDlg->RedrawLog();
+			}
 		}
 
 		if (!(gce.dwFlags & GCEF_NOTNOTIFY))

@@ -103,7 +103,9 @@ public:
 		HandleIEEvent(0, LPARAM(&event));
 	}
 
-	void LogEvents(SESSION_INFO *si, int iStart, bool bRedraw) override
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	void LogEvent(const LOGINFO *lin)
 	{
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK;
@@ -116,60 +118,65 @@ public:
 		event.eventData = &ied;
 		event.count = 1;
 
-		for (int i = iStart; i < si->arEvents.getCount(); i++) {
-			auto &lin = si->arEvents[i];
+		ied.szNick.w = lin->ptszNick;
+		ied.szText.w = lin->ptszText;
+		ied.time = lin->time;
+		ied.bIsMe = lin->bIsMe;
 
-			ied.szNick.w = lin.ptszNick;
-			ied.szText.w = lin.ptszText;
-			ied.time = lin.time;
-			ied.bIsMe = lin.bIsMe;
-
-			switch (lin.iType) {
-			case GC_EVENT_MESSAGE:
-				ied.iType = IEED_GC_EVENT_MESSAGE;
-				ied.dwData = IEEDD_GC_SHOW_NICK;
-				break;
-			case GC_EVENT_ACTION:
-				ied.iType = IEED_GC_EVENT_ACTION;
-				break;
-			case GC_EVENT_JOIN:
-				ied.iType = IEED_GC_EVENT_JOIN;
-				break;
-			case GC_EVENT_PART:
-				ied.iType = IEED_GC_EVENT_PART;
-				break;
-			case GC_EVENT_QUIT:
-				ied.iType = IEED_GC_EVENT_QUIT;
-				break;
-			case GC_EVENT_NICK:
-				ied.iType = IEED_GC_EVENT_NICK;
-				break;
-			case GC_EVENT_KICK:
-				ied.iType = IEED_GC_EVENT_KICK;
-				break;
-			case GC_EVENT_NOTICE:
-				ied.iType = IEED_GC_EVENT_NOTICE;
-				break;
-			case GC_EVENT_TOPIC:
-				ied.iType = IEED_GC_EVENT_TOPIC;
-				break;
-			case GC_EVENT_INFORMATION:
-				ied.iType = IEED_GC_EVENT_INFORMATION;
-				break;
-			case GC_EVENT_ADDSTATUS:
-				ied.iType = IEED_GC_EVENT_ADDSTATUS;
-				break;
-			case GC_EVENT_REMOVESTATUS:
-				ied.iType = IEED_GC_EVENT_REMOVESTATUS;
-				break;
-			}
-
-			ied.dwData |= IEEDD_GC_SHOW_TIME | IEEDD_GC_SHOW_ICON;
-			ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-			HandleIEEvent(0, LPARAM(&event));
+		switch (lin->iType) {
+		case GC_EVENT_MESSAGE:
+			ied.iType = IEED_GC_EVENT_MESSAGE;
+			ied.dwData = IEEDD_GC_SHOW_NICK;
+			break;
+		case GC_EVENT_ACTION:
+			ied.iType = IEED_GC_EVENT_ACTION;
+			break;
+		case GC_EVENT_JOIN:
+			ied.iType = IEED_GC_EVENT_JOIN;
+			break;
+		case GC_EVENT_PART:
+			ied.iType = IEED_GC_EVENT_PART;
+			break;
+		case GC_EVENT_QUIT:
+			ied.iType = IEED_GC_EVENT_QUIT;
+			break;
+		case GC_EVENT_NICK:
+			ied.iType = IEED_GC_EVENT_NICK;
+			break;
+		case GC_EVENT_KICK:
+			ied.iType = IEED_GC_EVENT_KICK;
+			break;
+		case GC_EVENT_NOTICE:
+			ied.iType = IEED_GC_EVENT_NOTICE;
+			break;
+		case GC_EVENT_TOPIC:
+			ied.iType = IEED_GC_EVENT_TOPIC;
+			break;
+		case GC_EVENT_INFORMATION:
+			ied.iType = IEED_GC_EVENT_INFORMATION;
+			break;
+		case GC_EVENT_ADDSTATUS:
+			ied.iType = IEED_GC_EVENT_ADDSTATUS;
+			break;
+		case GC_EVENT_REMOVESTATUS:
+			ied.iType = IEED_GC_EVENT_REMOVESTATUS;
+			break;
 		}
 
-		if (bRedraw)
+		ied.dwData |= IEEDD_GC_SHOW_TIME | IEEDD_GC_SHOW_ICON;
+		ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+		HandleIEEvent(0, LPARAM(&event));
+	}
+
+	void LogEvents(const LOGINFO *lin) override
+	{
+		if (lin == nullptr) {
+			for (auto &it : m_pDlg.getChat()->arEvents)
+				LogEvent(it);
+		}
+		else LogEvent(lin);
+
+		if (lin)
 			ScrollToBottom();
 	}
 

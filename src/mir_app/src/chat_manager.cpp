@@ -194,10 +194,10 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 	return g_chatApi.hStatusIcons[0];
 }
 
-BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
+LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 {
 	if (si == nullptr)
-		return TRUE;
+		return nullptr;
 
 	LOGINFO *li = new LOGINFO();
 	li->time = gce->time;
@@ -206,7 +206,7 @@ BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 		li->hEvent = gce->hEvent;
 		if (si->arEvents.find(li)) {
 			delete li;
-			return TRUE;
+			return nullptr;
 		}
 	}
 	else li->hEvent = si->iLastEvent++;
@@ -225,9 +225,8 @@ BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 			si->arEvents.remove(0);
 
 		si->bTrimmed = true;
-		return FALSE;
 	}
-	return TRUE;
+	return li;
 }
 
 BOOL SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
