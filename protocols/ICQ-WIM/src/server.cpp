@@ -1110,10 +1110,10 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	int srvTS = data["ts"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
 
-	OnLoggedIn();
-
 	for (auto &it : data["events"])
 		ProcessEvent(it);
+
+	OnLoggedIn();
 
 	ForkThread(&CIcqProto::PollThread);
 }
