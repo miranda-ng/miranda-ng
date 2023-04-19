@@ -797,14 +797,15 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 struct OFDTHREAD
 {
-	__forceinline OFDTHREAD(MEVENT _1, const CMStringW &_2) :
+	__forceinline OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
 		hDbEvent(_1),
-		wszPath(_2)
+		wszPath(_2),
+		bOpen(_3)
 	{}
 
 	MEVENT hDbEvent;
 	CMStringW wszPath;
-	bool bOpen = true;
+	bool bOpen;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

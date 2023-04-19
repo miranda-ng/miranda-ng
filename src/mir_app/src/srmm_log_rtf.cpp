@@ -143,7 +143,7 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 		buf.Append(" \\u10004? ");
 
 	if (uint32_t size = blob.getSize())
-		buf.AppendFormat(" %uKB", size < 1024 ? 1 : blob.getSize() / 1024);
+		buf.AppendFormat(" %uKB", size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 	CMStringA szHost;
 	if (const char *b = strstr(blob.getUrl(), "://"))
@@ -188,25 +188,41 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 
 		MEVENT hDbEvent;
 		if (swscanf(tr.lpstrText, L"ofile:%u", &hDbEvent) == 1) {
-			if (pLink->msg != WM_LBUTTONUP)
-				return false;
-
 			DB::EventInfo dbei(hDbEvent);
 			if (!dbei)
 				return false;
-
 			DB::FILE_BLOB blob(dbei);
 
-			wchar_t tszTempPath[MAX_PATH];
-			GetTempPathW(_countof(tszTempPath), tszTempPath);
-			CMStringW tszFilePath(FORMAT, L"%s%s", tszTempPath, blob.getName());
+			int nCmd = 2;
+			if (pLink->msg == WM_RBUTTONDOWN) {
+				HMENU hMenu = CreatePopupMenu();
+				AppendMenu(hMenu, MF_STRING | MF_GRAYED, (UINT_PTR)1, TranslateT("Get size"));
+				AppendMenu(hMenu, MF_STRING, (UINT_PTR)3, TranslateT("Download"));
+				if (blob.getUrl() != nullptr)
+					AppendMenu(hMenu, MF_STRING, (UINT_PTR)4, TranslateT("Copy URL"));
+				POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
+				ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
+				nCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlg.m_hwnd, nullptr);
+				DestroyMenu(hMenu);
+
+				if (nCmd <= 0 || nCmd > 3) {
+					if (nCmd == 4)
+						Utils_ClipboardCopy(blob.getUrl());
+					return TRUE;
+				}
+			}
+
+			CMStringW tszFilePath(FORMAT, VARSW(L"%miranda_userdata%\\dlFiles\\%u\\"), m_pDlg.m_hContact);
+			CreateDirectoryTreeW(tszFilePath);
+			tszFilePath.Append(blob.getName());
 
 			struct _stat st = {};
 			_wstat(tszFilePath, &st);
-			if (st.st_size && st.st_size == blob.getSize() && st.st_size == blob.getTransferred())
+			if (nCmd == 2 && st.st_size && st.st_size == blob.getSize() && st.st_size == blob.getTransferred())
 				ShellExecute(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
 			else {
-				OFDTHREAD *dt = new OFDTHREAD(hDbEvent, tszFilePath);
+				// TODO implement metadata getting when path == nullptr
+				OFDTHREAD *dt = new OFDTHREAD(hDbEvent, nCmd == 1 ? CMStringW() : tszFilePath, nCmd == 2);
 				CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)dt, 0);
 			}
 
