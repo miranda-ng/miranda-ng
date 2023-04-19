@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma comment(lib, "Secur32.lib")
 
 HMODULE hMsftedit;
+HANDLE g_hevEventEdited;
 
 CMPlugin g_plugin;
 
@@ -122,10 +123,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	#ifdef _WIN64
-	bPlatform = true;
+		bPlatform = true;
 	#else
-	bPlatform = false;
+		bPlatform = false;
 	#endif
+
+	g_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
 
 	Miranda_GetVersionText(szCoreVersion, _countof(szCoreVersion));
 
