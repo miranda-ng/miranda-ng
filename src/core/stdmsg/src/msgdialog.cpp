@@ -166,20 +166,6 @@ bool CMsgDialog::OnInitDialog()
 
 		OnOptionsApplied(false);
 
-		// restore saved msg if any...
-		if (m_hContact) {
-			DBVARIANT dbv;
-			if (!db_get_ws(m_hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
-				if (dbv.pwszVal[0]) {
-					m_message.SetText(dbv.pwszVal);
-					m_btnOk.Enable(true);
-					UpdateReadChars();
-					PostMessage(m_message.GetHwnd(), EM_SETSEL, -1, -1);
-				}
-				db_free(&dbv);
-			}
-		}
-
 		uint32_t dwFlags = SWP_NOMOVE | SWP_NOSIZE;
 		if (!g_Settings.bTabsEnable)
 			dwFlags |= SWP_SHOWWINDOW;
@@ -195,6 +181,20 @@ bool CMsgDialog::OnInitDialog()
 		}
 
 		UpdateAvatar();
+	}
+
+	// restore saved msg if any...
+	if (m_hContact) {
+		DBVARIANT dbv;
+		if (!db_get_ws(m_hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
+			if (dbv.pwszVal[0]) {
+				m_message.SetText(dbv.pwszVal);
+				m_btnOk.Enable(true);
+				UpdateReadChars();
+				PostMessage(m_message.GetHwnd(), EM_SETSEL, -1, -1);
+			}
+			db_free(&dbv);
+		}
 	}
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
