@@ -147,7 +147,7 @@ MIR_CORE_DLL(void) Utils_ClipboardCopy(const char *pszText)
 
 	EmptyClipboard();
 
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen);
+	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen+1);
 	if (hData) {
 		mir_strcpy((char *)GlobalLock(hData), pszText);
 		GlobalUnlock(hData);
