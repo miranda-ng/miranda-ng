@@ -308,7 +308,7 @@ var
   RTLMode: TRTLMode;
 begin
   SetLength(Items, Length(Items) + 1);
-  Items[High(Items)].hDBEvent := 0;
+  Items[High(Items)].hDBEvent := CustomItem.hEvent;
   Items[High(Items)].hContact := hContact;
   Items[High(Items)].Codepage := Codepage;
   Items[High(Items)].Custom := True;

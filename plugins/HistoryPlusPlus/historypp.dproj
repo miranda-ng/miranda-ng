@@ -114,31 +114,31 @@
 			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
 			<DCC_UnitSearchPath>..\..\include\delphi;..\..\plugins\ExternalAPI\delphi;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-			<DCC_BplOutput>..\..\bin16\Debug\Plugins\</DCC_BplOutput>
+			<DCC_BplOutput>..\..\bin17\Debug\Plugins\</DCC_BplOutput>
 			<BRCC_OutputDir>..\..\bin15\temp\res\</BRCC_OutputDir>
-			<DCC_ExeOutput>..\..\bin16\Debug\Plugins\</DCC_ExeOutput>
+			<DCC_ExeOutput>..\..\bin17\Debug\Plugins\</DCC_ExeOutput>
 			<VerInfo_Locale>1033</VerInfo_Locale>
-			<DCC_DcpOutput>..\..\bin16\Debug\Obj\hpp\</DCC_DcpOutput>
+			<DCC_DcpOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcpOutput>
 			<Manifest_File>None</Manifest_File>
-			<DCC_DcuOutput>..\..\bin16\Debug\Obj\hpp\</DCC_DcuOutput>
+			<DCC_DcuOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcuOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-			<Debugger_CWD>D:\Myranda\bin16\Debug64</Debugger_CWD>
+			<Debugger_CWD>D:\Myranda\bin17\Debug64</Debugger_CWD>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
-			<Debugger_HostApplication>D:\Myranda\bin16\Debug64\Miranda64.exe</Debugger_HostApplication>
+			<Debugger_HostApplication>D:\Myranda\bin17\Debug64\Miranda64.exe</Debugger_HostApplication>
 			<BRCC_OutputDir>..\..\bin15\temp\res\</BRCC_OutputDir>
-			<DCC_ExeOutput>..\..\bin16\Debug64\Plugins\</DCC_ExeOutput>
-			<DCC_BplOutput>..\..\bin16\Debug64\Plugins\</DCC_BplOutput>
-			<DCC_DcuOutput>..\..\bin16\Debug64\Obj\hpp\</DCC_DcuOutput>
-			<DCC_DcpOutput>..\..\bin16\Debug64\Obj\hpp\</DCC_DcpOutput>
+			<DCC_ExeOutput>..\..\bin17\Debug64\Plugins\</DCC_ExeOutput>
+			<DCC_BplOutput>..\..\bin17\Debug64\Plugins\</DCC_BplOutput>
+			<DCC_DcuOutput>..\..\bin17\Debug64\Obj\hpp\</DCC_DcuOutput>
+			<DCC_DcpOutput>..\..\bin17\Debug64\Obj\hpp\</DCC_DcpOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-			<DCC_BplOutput>..\..\bin16\Debug\Plugins\</DCC_BplOutput>
-			<DCC_ExeOutput>..\..\bin16\Debug\Plugins\</DCC_ExeOutput>
-			<DCC_DcpOutput>..\..\bin16\Debug\Obj\hpp\</DCC_DcpOutput>
-			<DCC_DcuOutput>..\..\bin16\Debug\Obj\hpp\</DCC_DcuOutput>
-			<Debugger_CWD>W:\miranda-ng\bin16\Debug</Debugger_CWD>
-			<Debugger_HostApplication>W:\miranda-ng\bin16\Debug\Miranda32.exe</Debugger_HostApplication>
+			<DCC_BplOutput>..\..\bin17\Debug\Plugins\</DCC_BplOutput>
+			<DCC_ExeOutput>..\..\bin17\Debug\Plugins\</DCC_ExeOutput>
+			<DCC_DcpOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcpOutput>
+			<DCC_DcuOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcuOutput>
+			<Debugger_CWD>W:\miranda-ng\bin17\Debug</Debugger_CWD>
+			<Debugger_HostApplication>W:\miranda-ng\bin17\Debug\Miranda32.exe</Debugger_HostApplication>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 		</PropertyGroup>
 		<ItemGroup>
