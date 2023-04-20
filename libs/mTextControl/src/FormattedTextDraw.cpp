@@ -348,7 +348,7 @@ void CFormattedTextDraw::TxSetFocus()
 void CFormattedTextDraw::TxSetCursor(HCURSOR hcur, BOOL fText)
 {
 	if (fText)
-		SetCursor(LoadCursor(nullptr, MAKEINTRESOURCE(IDC_ARROW)));
+		SetCursor(LoadCursorW(nullptr, MAKEINTRESOURCEW(IDC_ARROW)));
 	else
 		SetCursor(hcur);
 }
@@ -368,23 +368,23 @@ BOOL CFormattedTextDraw::TxClientToScreen(LPPOINT lppt)
 	return ClientToScreen(m_hwndParent, lppt);
 }
 
-HRESULT	CFormattedTextDraw::TxActivate(LONG *)
+HRESULT CFormattedTextDraw::TxActivate(LONG *)
 {
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxDeactivate(LONG)
+HRESULT CFormattedTextDraw::TxDeactivate(LONG)
 {
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetClientRect(LPRECT prc)
+HRESULT CFormattedTextDraw::TxGetClientRect(LPRECT prc)
 {
 	*prc = m_rcClient;
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetViewInset(LPRECT prc)
+HRESULT CFormattedTextDraw::TxGetViewInset(LPRECT prc)
 {
 	*prc = m_rcViewInset;
 	return S_OK;
@@ -407,7 +407,7 @@ COLORREF CFormattedTextDraw::TxGetSysColor(int nIndex)
 	return GetSysColor(nIndex);
 }
 
-HRESULT	CFormattedTextDraw::TxGetBackStyle(TXTBACKSTYLE *pstyle)
+HRESULT CFormattedTextDraw::TxGetBackStyle(TXTBACKSTYLE *pstyle)
 {
 	*pstyle = TXTBACK_TRANSPARENT;
 	return S_OK;
@@ -419,24 +419,24 @@ HRESULT	CFormattedTextDraw::TxGetMaxLength(DWORD *plength)
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetScrollBars(DWORD *pdwScrollBar)
+HRESULT CFormattedTextDraw::TxGetScrollBars(DWORD *pdwScrollBar)
 {
 	*pdwScrollBar = m_dwScrollbar;
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetPasswordChar(wchar_t *)
+HRESULT CFormattedTextDraw::TxGetPasswordChar(wchar_t *)
 {
 	return S_FALSE;
 }
 
-HRESULT	CFormattedTextDraw::TxGetAcceleratorPos(LONG *pcp)
+HRESULT CFormattedTextDraw::TxGetAcceleratorPos(LONG *pcp)
 {
 	*pcp = -1;
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetExtent(LPSIZEL)
+HRESULT CFormattedTextDraw::TxGetExtent(LPSIZEL)
 {
 	return E_NOTIMPL;
 }
@@ -453,13 +453,13 @@ HRESULT	CFormattedTextDraw::OnTxParaFormatChange(const PARAFORMAT *ppf)
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetPropertyBits(DWORD, DWORD *pdwBits)
+HRESULT CFormattedTextDraw::TxGetPropertyBits(DWORD, DWORD *pdwBits)
 {
 	*pdwBits = m_dwPropertyBits;
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxNotify(DWORD, void *)
+HRESULT CFormattedTextDraw::TxNotify(DWORD, void *)
 {
 	return S_OK;
 }
@@ -472,36 +472,38 @@ HIMC CFormattedTextDraw::TxImmGetContext()
 void CFormattedTextDraw::TxImmReleaseContext(HIMC)
 {}
 
-HRESULT	CFormattedTextDraw::TxGetSelectionBarWidth(LONG *lSelBarWidth)
+HRESULT CFormattedTextDraw::TxGetSelectionBarWidth(LONG *lSelBarWidth)
 {
 	*lSelBarWidth = 100;
 	return S_OK;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// custom functions
+// Takes an HFONT and fills in a CHARFORMAT2W structure with the corresponding info
 
 HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W *pCF, HFONT hFont)
-// Takes an HFONT and fills in a CHARFORMAT2W structure with the corresponding info
 {
 	// Get LOGFONT for default font
 	if (!hFont)
 		hFont = (HFONT)GetStockObject(SYSTEM_FONT);
 
 	// Get LOGFONT for passed hfont
-	LOGFONT lf;
-	if (!GetObject(hFont, sizeof(LOGFONT), &lf))
+	LOGFONTW lf;
+	if (!GetObjectW(hFont, sizeof(LOGFONT), &lf))
 		return E_FAIL;
 
 	// Set CHARFORMAT structure
 	memset(pCF, 0, sizeof(CHARFORMAT2W));
 	pCF->cbSize = sizeof(CHARFORMAT2W);
+	pCF->yHeight = -lf.lfHeight;
 
-	HWND hWnd = GetDesktopWindow();
-	HDC hDC = GetDC(hWnd);
-	LONG yPixPerInch = GetDeviceCaps(hDC, LOGPIXELSY);
-	pCF->yHeight = -lf.lfHeight * LY_PER_INCH / yPixPerInch;
-	ReleaseDC(hWnd, hDC);
+	if (HWND hWnd = GetDesktopWindow()) {
+		if (HDC hDC = GetDC(hWnd)) {
+			LONG yPixPerInch = GetDeviceCaps(hDC, LOGPIXELSY);
+			pCF->yHeight = -lf.lfHeight * LY_PER_INCH / yPixPerInch;
+			ReleaseDC(hWnd, hDC);
+		}
+	}
 
 	pCF->yOffset = 0;
 	pCF->crTextColor = 0;
