@@ -1342,6 +1342,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(szName);
 
 				PROTORECVFILE pre = {};
+				pre.dwFlags = PRFF_UTF;
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
 				pre.files.a = &pszName;

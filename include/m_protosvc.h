@@ -769,6 +769,7 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 // lParam = (LPARAM)(PROTORECVFILE*)&prf
 
 #define PRFF_UNICODE 1
+#define PRFF_UTF     2
 
 struct PROTORECVFILE
 {

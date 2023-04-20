@@ -339,15 +339,20 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		blob.write(dbei);
 	}
 	else {
+		bool bUtf = (pre->dwFlags & PRFF_UTF) != 0;
 		CMStringW wszFiles;
 
 		for (int i = 0; i < pre->fileCount; i++) {
 			if (i != 0)
 				wszFiles.AppendChar(',');
-			wszFiles.Append(_A2T(pre->files.a[i]));
+
+			if (bUtf)
+				wszFiles.Append(Utf2T(pre->files.a[i]));
+			else
+				wszFiles.Append(_A2T(pre->files.a[i]));
 		}
 
-		DB::FILE_BLOB blob(wszFiles, _A2T(pre->descr.a));
+		DB::FILE_BLOB blob(wszFiles, bUtf ? Utf2T(pre->descr.a).get() : _A2T(pre->descr.a));
 		blob.write(dbei);
 	}
 

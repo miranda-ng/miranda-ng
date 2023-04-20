@@ -321,6 +321,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 			str2 = ft->httpPath;
 
 		PROTORECVFILE pre = {};
+		pre.dwFlags = PRFF_UTF;
 		pre.timestamp = time(0);
 		pre.descr.a = desc;
 		pre.files.a = &str2;
