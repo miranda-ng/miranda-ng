@@ -1731,12 +1731,18 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 
 	const char *jid = XmlGetAttr(iqNode, "from");
 	MCONTACT hContact;
-	if (jid)
+	if (jid) {
 		hContact = HContactFromJID(jid);
+		if (!hContact)
+			return;
+	}
 	else {
 		hContact = 0;
 		jid = m_szJabberJID;
 	}
+
+	if (!OmemoIsEnabled(hContact))
+		return;
 
 	const char *type = XmlGetAttr(iqNode, "type");
 	if (mir_strcmp(type, "result")) {
@@ -1904,7 +1910,10 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 
 bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
 {
-	return !getByte(hContact, "bDisableOmemo");
+	if (!m_bUseOMEMO) // no OMEMO at all
+		return false;
+
+	return !getByte(hContact, "bDisableOmemo") && !isChatRoom(hContact);
 }
 
 void CJabberProto::OmemoRequestDeviceList(const char *szBareJid)

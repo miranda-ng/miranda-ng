@@ -947,7 +947,7 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 	if (!hContact)
 		return;
 
-	if (m_bUseOMEMO) {
+	if (OmemoIsEnabled(hContact)) {
 		auto *itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist");
 		if (itemsNode) {
 			OmemoHandleDeviceList(from, itemsNode);
@@ -1278,7 +1278,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 	
-	if (m_bUseOMEMO && OmemoIsEnabled(hContact)) {
+	if (OmemoIsEnabled(hContact)) {
 		if (auto *encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
 			if (!OmemoHandleMessage(encNode, from, msgTime))
 				OmemoPutMessageToIncommingQueue(encNode, from, msgTime);

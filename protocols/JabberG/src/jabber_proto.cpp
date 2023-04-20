@@ -210,10 +210,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
 
-	if (m_bUseOMEMO) {
-		db_set_resident(m_szModuleName, "OmemoSessionChecked");
+	if (m_bUseOMEMO)
 		OmemoInitDevice();
-	}
 
 	// avatars
 	CreateDirectoryTreeW(GetAvatarPath());
@@ -633,7 +631,7 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 		break;
 
 	case PFLAG_GETCURRENTENCRYPTION:
-		return (INT_PTR)((OmemoIsEnabled(hContact) && m_bUseOMEMO && !isChatRoom(hContact)) ? "OMEMO" : nullptr);
+		return (INT_PTR)((OmemoIsEnabled(hContact)) ? "OMEMO" : nullptr);
 	}
 	return 0;
 }
@@ -936,7 +934,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 		return -1;
 	}
 
-	if (m_bUseOMEMO && OmemoIsEnabled(hContact)) {
+	if (OmemoIsEnabled(hContact)) {
 		if (!OmemoCheckSession(hContact)) {
 			OmemoPutMessageToOutgoingQueue(hContact, pszSrc);
 			int id = SerialNext();
@@ -964,7 +962,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 		msgType = "chat";
 
 	// omemo enabled in options, omemo enabled for contact
-	if (m_bUseOMEMO && OmemoIsEnabled(hContact) && !mir_strcmp(msgType, "chat")) {
+	if (OmemoIsEnabled(hContact) && !mir_strcmp(msgType, "chat")) {
 		if (!OmemoEncryptMessage(m, pszSrc, hContact)) {
 			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("No valid OMEMO session exists"));
 			return 0;

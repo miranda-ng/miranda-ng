@@ -140,7 +140,7 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 
 			char szSize[100];
 			int tsize = st.st_size;
-			if (m_bUseOMEMO && OmemoIsEnabled(ft->std.hContact) && !isChatRoom(ft->std.hContact))
+			if (OmemoIsEnabled(ft->std.hContact))
 				tsize += 16;
 			_i64toa(tsize, szSize, 10);
 
@@ -696,7 +696,7 @@ LBL_Fail:
 				}
 
 				unsigned char key[32], iv[12], tag[16];
-				bool enOmemo = m_bUseOMEMO && OmemoIsEnabled(ft->std.hContact) && !isChatRoom(ft->std.hContact);
+				bool enOmemo = OmemoIsEnabled(ft->std.hContact);
 				if (enOmemo) {
 					Utils_GetRandom(key, _countof(key));
 					Utils_GetRandom(iv, _countof(iv));
