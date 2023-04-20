@@ -50,8 +50,8 @@ void HistoryWrite(MCONTACT hContact)
 	if (historyLast >= historyMax)
 		historyLast = historyMax - 1;
 
-	ptrW str(g_plugin.getWStringA("HistoryStamp"));
-	g_plugin.setWString(hContact, BuildSetting(historyLast), ParseString(str ? str : DEFAULT_HISTORYSTAMP, hContact));
+	ptrW str(g_plugin.getWStringA("HistoryStamp", DEFAULT_HISTORYSTAMP));
+	g_plugin.setWString(hContact, BuildSetting(historyLast), ParseString(str, hContact));
 
 	historyLast = (historyLast + 1) % historyMax;
 	g_plugin.setWord(hContact, "HistoryLast", historyLast);
