@@ -26,20 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma comment(lib, "Shlwapi.lib")
 
-struct fakeLOGINFO : public LOGINFO
-{
-	fakeLOGINFO(const GCEVENT *gce)
-	{
-		bSimple = true;
-		bIsMe = gce->bIsMe;
-		iType = gce->iType;
-		ptszText = (wchar_t *)gce->pszText.w;
-		ptszNick = (wchar_t *)gce->pszNick.w;
-		ptszStatus = (wchar_t *)gce->pszStatus.w;
-		ptszUserInfo = (wchar_t *)gce->pszUserInfo.w;
-	}
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int GetRichTextLength(HWND hwnd)
@@ -302,7 +288,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	if (si == nullptr || !(si->iPopupFlags & gce->iType))
 		return FALSE;
 
-	fakeLOGINFO lin(gce);
+	LOGINFO lin(gce);
 	CMStringW wszText, wszNick;
 	g_chatApi.CreateNick(si, &lin, wszNick);
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, &lin, wszText);
@@ -508,7 +494,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		pszNick = szTemp;
 	}
 
-	fakeLOGINFO lin(gce);
+	LOGINFO lin(gce);
 	CMStringW buf;
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, &lin, buf);
 

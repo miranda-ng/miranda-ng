@@ -56,6 +56,24 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 static LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//	LOGINFO members
+
+LOGINFO::LOGINFO(const GCEVENT *gce) :
+	ptszNick(mir_wstrdup(gce->pszNick.w)),
+	ptszText(mir_wstrdup(gce->pszText.w)),
+	ptszStatus(mir_wstrdup(gce->pszStatus.w)),
+	ptszUserInfo(mir_wstrdup(gce->pszUserInfo.w))
+{
+	time = gce->time;
+	iType = gce->iType;
+	bIsMe = gce->bIsMe;
+}
+
+LOGINFO::~LOGINFO()
+{
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
@@ -199,8 +217,7 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 	if (si == nullptr)
 		return nullptr;
 
-	LOGINFO *li = new LOGINFO();
-	li->time = gce->time;
+	LOGINFO *li = new LOGINFO(gce);
 	li->bIsHighlighted = bIsHighlighted;
 	if (si->pMI->bDatabase && gce->hEvent) {
 		li->hEvent = gce->hEvent;
@@ -210,13 +227,6 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 		}
 	}
 	else li->hEvent = si->iLastEvent++;
-
-	li->iType = gce->iType;
-	li->ptszNick = mir_wstrdup(gce->pszNick.w);
-	li->ptszText = mir_wstrdup(gce->pszText.w);
-	li->ptszStatus = mir_wstrdup(gce->pszStatus.w);
-	li->ptszUserInfo = mir_wstrdup(gce->pszUserInfo.w);
-	li->bIsMe = gce->bIsMe;
 	
 	si->arEvents.insert(li);
 

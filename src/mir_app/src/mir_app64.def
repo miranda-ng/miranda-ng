@@ -858,3 +858,5 @@ Chat_IsMuted @941 NONAME
 ?CreateChatRtfHeader@CRtfLogWindow@@UEAAXPEAURtfChatLogStreamData@@@Z @975 NONAME
 ?CreateChatRtfTail@CRtfLogWindow@@UEAAXPEAURtfChatLogStreamData@@@Z @976 NONAME
 ?StreamChatRtfEvents@CRtfLogWindow@@QEAAXPEAURtfChatLogStreamData@@_N@Z @977 NONAME
+??0LOGINFO@@QEAA@PEBUGCEVENT@@@Z @978 NONAME
+??1LOGINFO@@QEAA@XZ @979 NONAME

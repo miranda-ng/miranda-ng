@@ -107,8 +107,11 @@ struct FONTINFO
 	COLORREF color;
 };
 
-struct LOGINFO
+struct MIR_APP_EXPORT LOGINFO : public MZeroedObject, public MNonCopyable
 {
+	LOGINFO(const GCEVENT*);
+	~LOGINFO();
+
 	ptrW     ptszText;
 	ptrW     ptszNick;
 	ptrW     ptszUID;
