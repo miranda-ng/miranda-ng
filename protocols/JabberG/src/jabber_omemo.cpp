@@ -1726,7 +1726,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 
 void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *)
 {
-	if (iqNode == nullptr)
+	if (iqNode == nullptr || !m_bUseOMEMO)
 		return;
 
 	const char *jid = XmlGetAttr(iqNode, "from");

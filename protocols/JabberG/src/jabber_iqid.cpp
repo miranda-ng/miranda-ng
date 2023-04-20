@@ -1129,6 +1129,9 @@ void CJabberProto::OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 
 void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo*)
 {
+	if (!m_bUseOMEMO)
+		return;
+
 	const char *from = XmlGetAttr(iqNode, "from"); //replies for our jid don't contain "from"
 	bool res = false;
 	if (auto *pubsubNode = XmlGetChildByTag(iqNode, "pubsub", "xmlns", JABBER_FEAT_PUBSUB))
