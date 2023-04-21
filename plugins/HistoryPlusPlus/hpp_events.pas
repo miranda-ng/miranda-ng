@@ -101,6 +101,7 @@ function TimestampToDateTime(const Timestamp: DWord): TDateTime;
 function TimestampToString(const Timestamp: DWord): String;
 // general routine
 function ReadEvent(hDBEvent: THandle; UseCP: Cardinal = CP_ACP): THistoryItem;
+function GetOldEventInfo(hDBEvent: THANDLE): TOldDBEventInfo;
 function GetEventInfo(hDBEvent: THANDLE): TDBEventInfo;
 function GetEventTimestamp(hDBEvent: THandle): DWord;
 function GetEventMessageType(hDBEvent: THandle): TMessageTypes;
@@ -403,6 +404,40 @@ begin
   end
   else
     Result.cbBlob := 0;
+end;
+
+function GetOldEventInfo(hDBEvent: THANDLE): TOldDBEventInfo;
+var
+  BlobSize: integer;
+  dbei: TDBEventInfo;
+begin
+  ZeroMemory(@Result, SizeOf(Result));
+  BlobSize := db_event_getBlobSize(hDBEvent);
+  if BlobSize > 0 then
+  begin
+    EventBuffer.Allocate(BlobSize+2); // cheat, for possible crash avoid
+    Result.pBlob := EventBuffer.Buffer;
+  end
+  else
+    BlobSize := 0;
+
+  dbei.cbBlob := BlobSize;
+  dbei.pBlob := Result.pBlob;
+  if db_event_get(hDBEvent, @dbei) = 0 then
+  begin
+    Result.cbBlob := BlobSize;
+    if BlobSize > 0 then
+    begin
+      PAnsiChar(Result.pBlob)[BlobSize  ]:=#0;
+      PAnsiChar(Result.pBlob)[BlobSize+1]:=#0;
+    end;
+  end
+  else
+    Result.cbBlob := 0;
+
+  Result.flags := dbei.flags;
+  Result.timestamp := dbei.timestamp;
+  Result.eventType := dbei.eventType;
 end;
 
 function GetMessageType(EventInfo: TDBEventInfo; var EventIndex: Integer): TMessageTypes;

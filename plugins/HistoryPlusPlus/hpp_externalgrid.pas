@@ -1226,15 +1226,15 @@ begin
     begin
       ZeroMemory(@DBEventInfo, SizeOf(DBEventInfo));
       DBEventInfo.cbSize := SizeOf(DBEventInfo);
-      DBEventInfo.d.timestamp := Items[Index].CustomEvent.Time;
-      DBEventInfo.d.flags := DBEF_READ or DBEF_UTF;
+      DBEventInfo.timestamp := Items[Index].CustomEvent.Time;
+      DBEventInfo.flags := DBEF_READ or DBEF_UTF;
       if Items[Index].CustomEvent.Sent then
-        DBEventInfo.d.flags := DBEventInfo.d.flags or DBEF_SENT;
-      DBEventInfo.d.EventType := EVENTTYPE_MESSAGE;
+        DBEventInfo.flags := DBEventInfo.flags or DBEF_SENT;
+      DBEventInfo.EventType := EVENTTYPE_MESSAGE;
       TextUTF := Items[Index].CustomEvent.Text + #0;
-      DBEventInfo.d.cbBlob := Length(TextUTF) + 1;
-      DBEventInfo.d.pBlob := Pointer(TextUTF);
-      Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.d.cbBlob);
+      DBEventInfo.cbBlob := Length(TextUTF) + 1;
+      DBEventInfo.pBlob := Pointer(TextUTF);
+      Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.cbBlob);
     end
     else
     begin
@@ -1242,9 +1242,9 @@ begin
       if hDBEvent <> 0 then
       begin
         DBEventInfo.cbSize := SizeOf(DBEventInfo);
-        DBEventInfo.d := GetEventInfo(hDBEvent);
-        DBEventInfo.d.szModule := nil;
-        Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.d.cbBlob);
+        DBEventInfo := GetOldEventInfo(hDBEvent);
+        DBEventInfo.szModule := nil;
+        Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.cbBlob);
       end;
     end;
     if Item.Size > 0 then
@@ -1252,7 +1252,7 @@ begin
       GetMem(Item.Buffer, Item.Size);
       DataOffset := PAnsiChar(Item.Buffer) + DBEventInfo.cbSize;
       Move(DBEventInfo, Item.Buffer^, DBEventInfo.cbSize);
-      Move(DBEventInfo.d.pBlob^, DataOffset^, DBEventInfo.d.cbBlob);
+      Move(DBEventInfo.pBlob^, DataOffset^, DBEventInfo.cbBlob);
     end;
   end
   else if Stage = ssDone then

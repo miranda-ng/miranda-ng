@@ -3820,18 +3820,18 @@ begin
     hDBEvent := History[GridIndexToHistory(Index)];
     if hDBEvent <> 0 then
     begin
-      DBEventInfo.d := GetEventInfo(hDBEvent);
-      DBEventInfo.d.szModule := nil;
+      DBEventInfo := GetOldEventInfo(hDBEvent);
+      DBEventInfo.szModule := nil;
       DBEventInfo.cbSize := sizeof(DBEventInfo);
 
-      Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.d.cbBlob);
+      Item.Size := sizeof(DBEventInfo) + Cardinal(DBEventInfo.cbBlob);
     end;
     if Item.Size > 0 then
     begin
       GetMem(Item.Buffer, Item.Size);
       DataOffset := PAnsiChar(Item.Buffer) + sizeof(DBEventInfo);
       Move(DBEventInfo, Item.Buffer^, sizeof(DBEventInfo));
-      Move(DBEventInfo.d.pBlob^, DataOffset^, DBEventInfo.d.cbBlob);
+      Move(DBEventInfo.pBlob^, DataOffset^, DBEventInfo.cbBlob);
     end;
   end
   else if Stage = ssDone then
