@@ -36,6 +36,6 @@ const
     wParam : TMCONTACT
     lParam : 0
   }
-  MS_HISTORY_EMPTY:PAnsiChar = 'History/Empty';
+  MS_HISTORY_EMPTY:PAnsiChar = 'History/EmptyHistory';
 
 {$ENDIF}
