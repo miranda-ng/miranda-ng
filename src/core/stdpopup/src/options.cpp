@@ -85,13 +85,21 @@ void SaveOptions()
 class CMainOptDlg : public CDlgBase
 {
 	CCtrlCheck chkTimeout, chkNoTimeout;
+	CCtrlCombo cmbPlacement, cmbIcon, cmbTime, cmbAva, cmbAnimate;
 	CCtrlButton btnPreview;
+	CCtrlListView m_statuses;
 
 public: 
 	CMainOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT1),
+		cmbAva(this, IDC_CMB_AV),
+		cmbIcon(this, IDC_CMB_ICON),
+		cmbTime(this, IDC_CMB_TIME),
+		m_statuses(this, IDC_LST_STATUS),
 		btnPreview(this, IDC_BTN_PREVIEW),
+		cmbAnimate(this, IDC_CMB_ANIMATE),
 		chkTimeout(this, IDC_RAD_TIMEOUT),
+		cmbPlacement(this, IDC_CMB_PLACEMENT),
 		chkNoTimeout(this, IDC_RAD_NOTIMEOUT)
 	{
 		btnPreview.OnClick = Callback(this, &CMainOptDlg::onClick_Preview);
@@ -101,78 +109,72 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom right"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom left"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top right"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top left"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_SETCURSEL, (int)options.location, 0);
+		cmbPlacement.AddString(TranslateT("Bottom right"));
+		cmbPlacement.AddString(TranslateT("Bottom left"));
+		cmbPlacement.AddString(TranslateT("Top right"));
+		cmbPlacement.AddString(TranslateT("Top left"));
+		cmbPlacement.SetCurSel(options.location);
 
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on left"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on right"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ICON, CB_SETCURSEL, (options.right_icon ? 1 : 0), 0);
+		cmbIcon.AddString(TranslateT("Icon on left"));
+		cmbIcon.AddString(TranslateT("Icon on right"));
+		cmbIcon.SetCurSel(options.right_icon ? 1 : 0);
 
-		SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("No time"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time on left"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time on right"));
+		cmbTime.AddString(TranslateT("No time"));
+		cmbTime.AddString(TranslateT("Time on left"));
+		cmbTime.AddString(TranslateT("Time on right"));
 		if (ServiceExists(MS_AV_DRAWAVATAR))
-			SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time above avatar"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_SETCURSEL, (int)options.time_layout, 0);
+			cmbTime.AddString(TranslateT("Time above avatar"));
+		cmbTime.SetCurSel(options.time_layout);
 
-		SendDlgItemMessage(m_hwnd, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("No avatar"));
+		cmbAva.AddString(TranslateT("No avatar"));
 		if (ServiceExists(MS_AV_DRAWAVATAR)) {
-			SendDlgItemMessage(m_hwnd, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left avatar"));
-			SendDlgItemMessage(m_hwnd, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right avatar"));
+			cmbAva.AddString(TranslateT("Left avatar"));
+			cmbAva.AddString(TranslateT("Right avatar"));
 		}
 		else {
-			HWND hw = GetDlgItem(m_hwnd, IDC_CMB_AV);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(m_hwnd, IDC_SPIN_AVSIZE);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(m_hwnd, IDC_ED_AVSIZE);
-			EnableWindow(hw, FALSE);
+			cmbAva.Disable();
+			EnableWindow(GetDlgItem(m_hwnd, IDC_SPIN_AVSIZE), FALSE);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_ED_AVSIZE), FALSE);
 		}
-		SendDlgItemMessage(m_hwnd, IDC_CMB_AV, CB_SETCURSEL, (int)options.av_layout, 0);
+		cmbAva.SetCurSel(options.av_layout);
 
 		CheckDlgButton(m_hwnd, IDC_CHK_GLOBALHOVER, options.global_hover ? BST_CHECKED : BST_UNCHECKED);
 
-		{
-			// initialise and fill listbox
-			HWND hwndList = GetDlgItem(m_hwnd, IDC_LST_STATUS);
-			ListView_DeleteAllItems(hwndList);
+		// initialise and fill listbox
+		m_statuses.DeleteAllItems();
 
-			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+		m_statuses.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-			LVCOLUMN lvc = { 0 };
-			// Initialize the LVCOLUMN structure.
-			// The mask specifies that the format, width, text, and
-			// subitem members of the structure are valid. 
-			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-			lvc.fmt = LVCFMT_LEFT;
+		LVCOLUMN lvc = { 0 };
+		// Initialize the LVCOLUMN structure.
+		// The mask specifies that the format, width, text, and
+		// subitem members of the structure are valid. 
+		lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+		lvc.fmt = LVCFMT_LEFT;
 
-			lvc.iSubItem = 0;
-			lvc.pszText = TranslateT("Status");
-			lvc.cx = 200;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 0, &lvc);
+		lvc.iSubItem = 0;
+		lvc.pszText = TranslateT("Status");
+		lvc.cx = 200;
+		m_statuses.InsertColumn(0, &lvc);
 
-			LVITEM lvI = { 0 };
+		// Some code to create the list-view control.
+		// Initialize LVITEM members that are common to all
+		// items. 
+		LVITEM lvI = { 0 };
+		lvI.mask = LVIF_TEXT;
 
-			// Some code to create the list-view control.
-			// Initialize LVITEM members that are common to all
-			// items. 
-			lvI.mask = LVIF_TEXT;
-
-			int i = 0;
-			for (; i < _countof(options.disable_status); i++) {
-				lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
-				lvI.iItem = i;
-				ListView_InsertItem(hwndList, &lvI);
-				ListView_SetCheckState(hwndList, i, options.disable_status[i]);
-			}
-			lvI.pszText = TranslateT("Full-screen app running");
+		int i = 0;
+		for (; i < _countof(options.disable_status); i++) {
+			lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 			lvI.iItem = i;
-			ListView_InsertItem(hwndList, &lvI);
-			ListView_SetCheckState(hwndList, i, options.disable_full_screen);
+			m_statuses.InsertItem(&lvI);
+			m_statuses.SetCheckState(i, options.disable_status[i]);
 		}
+
+		lvI.pszText = TranslateT("Full-screen app running");
+		lvI.iItem = i;
+		m_statuses.InsertItem(&lvI);
+		m_statuses.SetCheckState(i, options.disable_full_screen);
 
 		SendDlgItemMessage(m_hwnd, IDC_SPIN_TIMEOUT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 1));
 		SendDlgItemMessage(m_hwnd, IDC_SPIN_WIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
@@ -233,10 +235,10 @@ public:
 		CheckDlgButton(m_hwnd, IDC_CHK_ROUNDCORNERS, options.round ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CHK_ROUNDCORNERSAV, options.av_round ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("No animate"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Horizontal animate"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Vertical animate"));
-		SendDlgItemMessage(m_hwnd, IDC_CMB_ANIMATE, CB_SETCURSEL, options.animate, 0);
+		cmbAnimate.AddString(TranslateT("No animate"));
+		cmbAnimate.AddString(TranslateT("Horizontal animate"));
+		cmbAnimate.AddString(TranslateT("Vertical animate"));
+		cmbAnimate.SetCurSel(options.animate);
 
 		CheckDlgButton(m_hwnd, IDC_CHK_TRANSBG, options.trans_bg ? BST_CHECKED : BST_UNCHECKED);
 		return true;
@@ -271,24 +273,24 @@ public:
 		new_val = GetDlgItemInt(m_hwnd, IDC_ED_PADDING, &trans, FALSE);
 		if (trans) options.padding = new_val;
 
-		options.location = (PopupLocation)SendDlgItemMessage(m_hwnd, IDC_CMB_PLACEMENT, CB_GETCURSEL, 0, 0);
-		options.right_icon = (SendDlgItemMessage(m_hwnd, IDC_CMB_ICON, CB_GETCURSEL, 0, 0) == 1);
-		options.av_layout = (PopupAvLayout)SendDlgItemMessage(m_hwnd, IDC_CMB_AV, CB_GETCURSEL, 0, 0);
-		options.time_layout = (PopupTimeLayout)SendDlgItemMessage(m_hwnd, IDC_CMB_TIME, CB_GETCURSEL, 0, 0);
+		options.location = (PopupLocation)cmbPlacement.GetCurSel();
+		options.right_icon = cmbIcon.GetCurSel() == 1;
+		options.av_layout = (PopupAvLayout)cmbAva.GetCurSel();
+		options.time_layout = (PopupTimeLayout)cmbTime.GetCurSel();
+		options.animate = cmbAnimate.GetCurSel();
 
 		new_val = GetDlgItemInt(m_hwnd, IDC_ED_TRANS, &trans, FALSE);
 		if (trans) options.opacity = new_val;
 		options.border = IsDlgButtonChecked(m_hwnd, IDC_CHK_BORDER) && IsWindowEnabled(GetDlgItem(m_hwnd, IDC_CHK_BORDER)) ? true : false;
 		options.round = IsDlgButtonChecked(m_hwnd, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(m_hwnd, IDC_CHK_ROUNDCORNERS)) ? true : false;
 		options.av_round = IsDlgButtonChecked(m_hwnd, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(m_hwnd, IDC_CHK_ROUNDCORNERSAV)) ? true : false;
-		options.animate = SendDlgItemMessage(m_hwnd, IDC_CMB_ANIMATE, CB_GETCURSEL, 0, 0);
 		options.trans_bg = IsDlgButtonChecked(m_hwnd, IDC_CHK_TRANSBG) ? true : false;
 		options.global_hover = IsDlgButtonChecked(m_hwnd, IDC_CHK_GLOBALHOVER) ? true : false;
 
 		int i = 0;
 		for (; i < _countof(options.disable_status); i++)
-			options.disable_status[i] = (ListView_GetCheckState(GetDlgItem(m_hwnd, IDC_LST_STATUS), i) == 1);
-		options.disable_full_screen = (ListView_GetCheckState(GetDlgItem(m_hwnd, IDC_LST_STATUS), i) == 1);
+			options.disable_status[i] = (m_statuses.GetCheckState(i) == 1);
+		options.disable_full_screen = (m_statuses.GetCheckState(i) == 1);
 
 		SaveOptions();
 		return true;
@@ -344,7 +346,7 @@ class CClassesOptDlg : public CDlgBase
 	CCtrlButton btnPreview;
 	CCtrlListBox m_list;
 
-	POPUPCLASS *getCurData()
+	POPUPCLASS* getCurData()
 	{
 		int index = m_list.GetCurSel();
 		return (index != -1) ? (POPUPCLASS *)m_list.GetItemData(index) : nullptr;
