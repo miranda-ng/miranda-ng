@@ -147,12 +147,8 @@ bool IsSmileyProto(char *proto)
 
 void ReportError(const wchar_t *errmsg)
 {
-	static const wchar_t title[] = L"Miranda SmileyAdd";
-
-	POPUPDATAW ppd;
-	mir_wstrcpy(ppd.lpwzContactName, title);
+	POPUPDATAW ppd = {};
+	mir_wstrcpy(ppd.lpwzContactName, L"Miranda SmileyAdd");
 	mir_wstrcpy(ppd.lpwzText, errmsg);
-	ppd.iSeconds = -1;
-	if (PUAddPopupW(&ppd) == INVALID_HANDLE_VALUE)
-		MessageBox(nullptr, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
+	PUAddPopupW(&ppd);
 }
