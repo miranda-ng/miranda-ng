@@ -13,20 +13,7 @@ struct CQuery
 
 struct DBCachedContact : public DBCachedContactBase
 {
-	int32_t  m_count;
-
-	DBCachedContact() :
-		m_count(-1)
-	{}
-
-	__forceinline void AddEvent()
-	{
-		m_count = HasCount() ? m_count + 1 : 1;
-	}
-
-	__forceinline bool HasCount() const {
-		return m_count > -1;
-	}
+	int32_t m_count = 0;
 };
 
 struct CDbxSQLiteEventCursor : public DB::EventCursor
@@ -92,7 +79,7 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	LIST<char> m_modules;
 	void InitEvents();
 	void UninitEvents();
-	CQuery qEvCount, qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact, qEvGetContact2;
+	CQuery qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact, qEvGetContact2;
 	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
 	CQuery qEvGetById, qEvUpdateId, qEvSetJson;
 	int DeleteEventMain(MEVENT);

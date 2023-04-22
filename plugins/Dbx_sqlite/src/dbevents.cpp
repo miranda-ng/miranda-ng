@@ -62,20 +62,7 @@ void CDbxSQLite::UninitEvents()
 int CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
 	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
-	if (cc == nullptr)
-		return 0;
-
-	if (cc->HasCount())
-		return cc->m_count;
-
-	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT COUNT(1) FROM events_srt WHERE contact_id = ? LIMIT 1;", qEvCount);
-	sqlite3_bind_int64(stmt, 1, hContact);
-	int rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	cc->m_count = (rc != SQLITE_ROW) ? 0 : sqlite3_column_int64(stmt, 0);
-	sqlite3_reset(stmt);
-	return cc->m_count;
+	return (cc == nullptr) ? 0 : cc->m_count;
 }
 
 MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
@@ -159,7 +146,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 
-	cc->AddEvent();
+	cc->m_count++;
 	if (ccSub != nullptr) {
 		stmt = InitQuery(add_event_sort_query, qEvAddSrt);
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
@@ -168,7 +155,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 		rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt); //is this necessary ?
-		ccSub->AddEvent();
+		ccSub->m_count++;
 	}
 
 	char *module = m_modules.find((char *)tmp.szModule);
@@ -242,8 +229,10 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	if (cc->HasCount())
-		cc->m_count--;
+	cc->m_count--;
+	if (cc->IsSub())
+		if (auto *ccSub = m_cache->GetCachedContact(cc->parentID))
+			ccSub->m_count--;
 
 	lock.unlock();
 
