@@ -242,6 +242,9 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (rc != SQLITE_DONE)
 		return 1;
 
+	if (cc->HasCount())
+		cc->m_count--;
+
 	lock.unlock();
 
 	DBFlush();
