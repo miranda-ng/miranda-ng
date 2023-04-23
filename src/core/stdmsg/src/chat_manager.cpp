@@ -199,6 +199,7 @@ void Load_ChatModule()
 	g_chatApi.OnFlashWindow = OnFlashWindow;
 	g_chatApi.OnFlashHighlight = OnFlashHighlight;
 	g_chatApi.ShowRoom = ShowRoom;
+	g_chatApi.DbEventIsShown = DbEventIsShown;
 
 	Srmm_CreateHotkey(LPGEN("Messaging"), LPGEN("Send message"));
 

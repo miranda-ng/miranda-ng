@@ -43,32 +43,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <newpluginapi.h>
 #include <m_system.h>
-#include <m_database.h>
-#include <m_langpack.h>
+#include <m_avatars.h>
 #include <m_button.h>
+#include <m_chat_int.h>
 #include <m_clistint.h>
 #include <m_clc.h>
-#include <m_gui.h>
-#include <m_options.h>
-#include <m_protosvc.h>
-#include <m_utils.h>
-#include <m_skin.h>
 #include <m_contacts.h>
-#include <m_userinfo.h>
+#include <m_database.h>
+#include <m_file.h>
+#include <m_fontservice.h>
+#include <m_gui.h>
 #include <m_history.h>
 #include <m_hotkeys.h>
-#include <m_chat_int.h>
-#include <m_message.h>
-#include <m_file.h>
 #include <m_icolib.h>
-#include <m_fontservice.h>
-#include <m_timezones.h>
-#include <m_avatars.h>
+#include <m_langpack.h>
+#include <m_message.h>
 #include <m_metacontacts.h>
-#include <m_ieview.h>
-#include <m_smileyadd.h>
+#include <m_options.h>
 #include <m_popup.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
+#include <m_smileyadd.h>
 #include <m_srmm_int.h>
+#include <m_timezones.h>
+#include <m_utils.h>
+#include <m_userinfo.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // tabs.cpp

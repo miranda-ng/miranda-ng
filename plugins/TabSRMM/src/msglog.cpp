@@ -327,7 +327,7 @@ static wchar_t* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, wchar_
 bool DbEventIsShown(const DB::EventInfo &dbei)
 {
 	if (!IsCustomEvent(dbei.eventType) || dbei.isSrmm())
-		return 1;
+		return true;
 
 	return IsStatusEvent(dbei.eventType);
 }

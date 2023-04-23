@@ -730,7 +730,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 		return;
 
 	auto *szProto = Proto_GetBaseAccountName(si->hContact);
-	if (mir_strcmp(szProto, dbei.szModule) || dbei.eventType != EVENTTYPE_MESSAGE || !dbei.szUserId)
+	if (mir_strcmp(szProto, dbei.szModule) || !g_chatApi.DbEventIsShown(dbei) || !dbei.szUserId)
 		return;
 
 	CMStringA szText((char *)dbei.pBlob);

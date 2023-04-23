@@ -365,9 +365,10 @@ int Chat_Load()
 	g_chatApi.OnCreateSession = OnCreateSession;
 	g_chatApi.OnReplaceSession = OnReplaceSession;
 
-	g_chatApi.OnChangeNick = OnChangeNick;
 	g_chatApi.ShowRoom = stubShowRoom;
+	g_chatApi.OnChangeNick = OnChangeNick;
 	g_chatApi.OnLoadSettings = OnLoadSettings;
+	g_chatApi.DbEventIsShown = DbEventIsShown;
 
 	Srmm_CreateHotkey(TABSRMM_HK_SECTION_GENERIC, LPGEN("Send message"));
 

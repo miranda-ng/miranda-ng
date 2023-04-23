@@ -319,6 +319,8 @@ struct CHAT_MANAGER
 	MIR_APP_DLL(HICON) getIcon(int iEventType) const;
 
 	// user-defined custom callbacks
+	bool (*DbEventIsShown)(const DB::EventInfo &dbei);
+
 	void (*OnCreateModule)(MODULEINFO*);
 	void (*OnDestroyModule)(MODULEINFO*);
 

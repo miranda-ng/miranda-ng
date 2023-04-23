@@ -24,9 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include "chat.h"
-#include "resource.h"
 #include "skin.h"
-#include <m_history.h>
 
 CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_INFO *si) :
 	CDlgBase(pPlugin, idDialog),
@@ -633,13 +631,13 @@ void CSrmmBaseDialog::UpdateChatLog()
 	auto *szProto = Proto_GetBaseAccountName(m_hContact);
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
-		if (dbei && !mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
+		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
 			auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
 			if (pUser == nullptr)
 				continue;
 
 			Utf2T wszUserId(dbei.szUserId);
-			CMStringW wszText(Utf2T((char*)dbei.pBlob));
+			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei, CP_ACP)));
 			wszText.Replace(L"%", L"%%");
 
 			GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
