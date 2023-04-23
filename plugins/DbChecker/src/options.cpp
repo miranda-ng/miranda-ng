@@ -23,7 +23,8 @@ COptionsPageDlg::COptionsPageDlg() :
 	btnFile(this, IDC_OPENFILE),
 	chkFixUtf(this, IDC_FIX_UTF8),
 	chkMarkRead(this, IDC_MARKREAD),
-	chkRemoveDups(this, IDC_REMOVE_DUPS)
+	chkRemoveDups(this, IDC_REMOVE_DUPS),
+	chkFixServerIds(this, IDC_FIX_SERVER_IDS)
 {
 }
 
@@ -37,6 +38,7 @@ bool COptionsPageDlg::OnInitDialog()
 	chkFixUtf.SetState(opts->bCheckUtf);
 	chkMarkRead.SetState(opts->bMarkRead);
 	chkRemoveDups.SetState(opts->bCheckDups);
+	chkFixServerIds.SetState(opts->bCheckServerIds);
 
 	if (opts->dbChecker != nullptr) {
 		edtFile.Disable();
@@ -91,8 +93,10 @@ LBL_Error:
 		opts->db = pDb;
 	}
 
-	opts->bCheckUtf = chkFixUtf.GetState();
-	opts->bMarkRead = chkMarkRead.GetState();
-	opts->bCheckDups = chkRemoveDups.GetState();
+	opts->bCheckUtf = chkFixUtf.IsChecked();
+	opts->bMarkRead = chkMarkRead.IsChecked();
+	opts->bCheckDups = chkRemoveDups.IsChecked();
+	opts->bCheckServerIds = chkFixServerIds.IsChecked();
+
 	changePage(new CProgressPageDlg());
 }

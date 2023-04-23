@@ -83,14 +83,14 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	uint32_t sp = 0;
 
-	if (opts->bMarkRead || opts->bCheckUtf || opts->bCheckDups) {
-		int nCount = 0, nUtfCount = 0, nDups = 0;
+	if (opts->bMarkRead || opts->bCheckUtf || opts->bCheckDups || opts->bCheckServerIds) {
+		int nCount = 0, nUtfCount = 0, nDups = 0, nIds = 0;
 
 		for (auto &cc : Contacts()) {
 			DB::ECPTR pCursor(DB::Events(cc));
 			DBEVENTINFO dboldev = {};
 			while (MEVENT hEvent = pCursor.FetchNext()) {
-				DB::EventInfo dbei(hEvent, opts->bCheckUtf || opts->bCheckDups);
+				DB::EventInfo dbei(hEvent, opts->bCheckUtf || opts->bCheckDups || opts->bCheckServerIds);
 				if (!dbei)
 					continue;
 
@@ -99,10 +99,23 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 					nCount++;
 				}
 
-				if (opts->bCheckUtf && dbei.eventType == EVENTTYPE_MESSAGE) {
-					if (ConvertOldEvent(dbei)) {
-						db_event_edit(hEvent, &dbei);
-						nUtfCount++;
+				if (dbei.eventType == EVENTTYPE_MESSAGE) {
+					if (opts->bCheckUtf) {
+						if (ConvertOldEvent(dbei)) {
+							db_event_edit(hEvent, &dbei);
+							nUtfCount++;
+						}
+					}
+
+					if (opts->bCheckServerIds) {
+						// if a blob is longer than its text part, there's a nessage id after text
+						int iMsgLen = (int)mir_strlen((char *)dbei.pBlob);
+						if (dbei.cbBlob - iMsgLen > 2) {
+							dbei.cbBlob = iMsgLen;
+							dbei.szId = (char *)dbei.pBlob + iMsgLen + 1;
+							db_event_edit(hEvent, &dbei);
+							nIds++;
+						}
 					}
 				}
 
@@ -133,6 +146,9 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 		if (nDups)
 			AddToStatus(STATUS_MESSAGE, TranslateT("%d duplicate events removed"), nDups);
+
+		if (nIds)
+			AddToStatus(STATUS_MESSAGE, TranslateT("%d server message ids fixed"), nIds);
 	}
 
 	DBCHeckCallback callback;

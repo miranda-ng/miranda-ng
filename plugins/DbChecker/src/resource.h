@@ -23,6 +23,7 @@
 #define IDC_OPENFILE                    1015
 #define IDC_FIX_UTF8                    1016
 #define IDC_REMOVE_DUPS                 1017
+#define IDC_FIX_SERVER_IDS              1018
 
 // Next default values for new objects
 // 
