@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by stopspam.rc
+// Used by W:\miranda-ng\plugins\StopSpamMod\res\stopspam.rc
 //
 #define IDD_MESSAGES                    101
 #define IDD_MAIN                        103
@@ -46,7 +46,6 @@
 #define IDC_AUTOAUTH                    1025
 #define IDC_REQAUTH                     1026
 #define IDC_LOGSPAMTOFILE               1027
-#define ID_REMOVE_TMP_ALL               1027
 #define ID_LOGSPAMTOFILE                1027
 #define IDC_REGEX                       1028
 #define IDC_CHECK1                      1029
@@ -59,7 +58,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1032
 #define _APS_NEXT_SYMED_VALUE           101

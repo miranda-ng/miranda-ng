@@ -33,7 +33,6 @@ BOOL gbHideContacts = 1;
 BOOL gbIgnoreContacts = 0;
 BOOL gbExclude = 1;
 BOOL gbDelExcluded = 0;
-BOOL gbDelAllTempory = 0;
 BOOL gbHistoryLog = 0;
 BOOL gbCaseInsensitive = 0;
 BOOL gbRegexMatch = 0;
@@ -98,7 +97,6 @@ void InitVars()
 	gbIgnoreContacts = g_plugin.getByte("IgnoreContacts", 0);
 	gbExclude = g_plugin.getByte("ExcludeContacts", 1);
 	gbDelExcluded = g_plugin.getByte("DelExcluded", 0);
-	gbDelAllTempory = g_plugin.getByte("DelAllTempory", 0);
 	gbCaseInsensitive = g_plugin.getByte("CaseInsensitive", 0);
 	gbRegexMatch = g_plugin.getByte("RegexMatch", 0);
 	gbInvisDisable = g_plugin.getByte("DisableInInvis", 0);
@@ -118,7 +116,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		gbVarsServiceExist = TRUE;
 
 	InitVars();
-	if(gbDelAllTempory || gbDelExcluded)
+	if(gbDelExcluded)
 		mir_forkthread(&CleanThread);
 	
 	// Folders plugin support

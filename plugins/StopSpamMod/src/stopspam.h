@@ -28,4 +28,3 @@ extern BOOL gbAutoAddToServerList;
 extern BOOL gbAutoReqAuth; 
 extern wstring gbAutoAuthGroup;
 extern BOOL gbLogToFile;
-extern BOOL gbDelAllTempory;

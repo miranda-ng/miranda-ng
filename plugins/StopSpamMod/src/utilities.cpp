@@ -236,36 +236,6 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 
 mir_cs clean_mutex;
 
-void __cdecl CleanProtocolTmpThread(void *param)
-{
-	const char *szProto = (const char*)param;
-
-	while (true) {
-		int status = Proto_GetStatus(szProto);
-		if (status > ID_STATUS_OFFLINE)
-			break;
-		Sleep(2000);
-	}
-
-	std::list<MCONTACT> contacts;
-	for (auto &hContact : Contacts(szProto))
-		if (!Contact::OnList(hContact) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
-			contacts.push_back(hContact);
-
-	Sleep(5000);
-	{
-		mir_cslock lck(clean_mutex);
-
-		std::list<MCONTACT>::iterator end = contacts.end();
-		for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
-			LogSpamToFile(*i, L"Deleted");
-			HistoryLogFunc(*i, "Deleted");
-			db_delete_contact(*i);
-		}
-	}
-	mir_free(param);
-}
-
 void __cdecl CleanProtocolExclThread(void *param)
 {
 	const char *szProto = (const char*)param;
@@ -303,12 +273,8 @@ void __cdecl CleanThread(void*)
 			protocols.push_back(pa->szModuleName);
 
 	std::list<std::string>::iterator end = protocols.end();
-	for (std::list<std::string>::iterator i = protocols.begin(); i != end; ++i) {
-		if (gbDelAllTempory)
-			mir_forkthread(CleanProtocolTmpThread, mir_strdup((*i).c_str()));
-		if (gbDelExcluded)
-			mir_forkthread(CleanProtocolExclThread, mir_strdup((*i).c_str()));
-	}
+	for (std::list<std::string>::iterator i = protocols.begin(); i != end; ++i)
+		mir_forkthread(CleanProtocolExclThread, mir_strdup((*i).c_str()));
 }
 
 void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)

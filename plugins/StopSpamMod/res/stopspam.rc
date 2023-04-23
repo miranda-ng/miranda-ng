@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -73,14 +73,14 @@ BEGIN
     CONTROL         "Log spam to file",ID_LOGSPAMTOFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,162,290,10
 END
 
-IDD_ADVANCED DIALOGEX 0, 0, 309, 219
+IDD_ADVANCED DIALOGEX 0, 0, 309, 191
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Case insensitive answer checking",IDC_CASE_INSENSITIVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,279,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,55,279,10
     CONTROL         "Disable question in invisible mode",IDC_INVIS_DISABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,287,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,287,10
     CONTROL         "Exclude contacts which we sending something from spam check",ID_EXCLUDE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,33,287,8
     CONTROL         "Remove Excluded contacts after restart",ID_REMOVE_TMP,
@@ -89,20 +89,18 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,16,196,10
     EDITTEXT        ID_SPECIALGROUPNAME,217,15,79,12,ES_AUTOHSCROLL
     CONTROL         "Ignore URL in messages and auth requests",ID_IGNOREURL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,100,287,10
-    CONTROL         "Add contact to server list",IDC_ADDTOSRVLST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,146,187,10
-    EDITTEXT        IDC_AUTOADDGROUP,210,144,76,14,ES_AUTOHSCROLL
-    GROUPBOX        "After congratulation (ICQ only)",IDC_STATIC,15,135,278,51
-    CONTROL         "Automatically grant authorization",IDC_AUTOAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,158,263,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,287,10
+    CONTROL         "Add contact to server list",IDC_ADDTOSRVLST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,124,187,10
+    EDITTEXT        IDC_AUTOADDGROUP,210,122,76,14,ES_AUTOHSCROLL
+    GROUPBOX        "After congratulation (ICQ only)",IDC_STATIC,15,113,278,51
+    CONTROL         "Automatically grant authorization",IDC_AUTOAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,136,263,10
     CONTROL         "Request authorization from contacts which pass StopSpam test",IDC_REQAUTH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,170,267,10
-    CONTROL         "Remove all temporary contacts after restart",ID_REMOVE_TMP_ALL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,55,287,8
-    CONTROL         "Use regex for answers checking",IDC_REGEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,111,287,10
-    CONTROL         "Log Spammers to system history",IDC_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,121,218,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,148,267,10
+    CONTROL         "Use regex for answers checking",IDC_REGEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,88,287,10
+    CONTROL         "Log Spammers to system history",IDC_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,99,218,10
     CONTROL         "Use math expression in question",IDC_MATH_QUESTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,188,129,10
-    PUSHBUTTON      "Details...",IDC_MATH_DETAILS,152,187,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,129,10
+    PUSHBUTTON      "Details...",IDC_MATH_DETAILS,152,168,50,14
 END
 
 
@@ -143,7 +141,7 @@ BEGIN
         RIGHTMARGIN, 302
         VERTGUIDE, 15
         TOPMARGIN, 7
-        BOTTOMMARGIN, 212
+        BOTTOMMARGIN, 182
         HORZGUIDE, 11
     END
 END
@@ -175,7 +173,18 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ADVANCED AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

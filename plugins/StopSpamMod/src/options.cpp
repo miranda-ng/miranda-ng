@@ -198,12 +198,27 @@ private:
 
 class COptAdvancedDlg : public CDlgBase
 {
+	CCtrlEdit edit_SPECIALGROUPNAME, edit_AUTOADDGROUP;
+	CCtrlCheck chk_INVIS_DISABLE, chk_CASE_INSENSITIVE, chk_SPECIALGROUP, chk_EXCLUDE, chk_REMOVE_TMP;
+	CCtrlCheck chk_IGNOREURL, chk_AUTOAUTH, chk_ADDTOSRVLST, chk_REQAUTH, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
+	CCtrlButton btn_MATH_DETAILS;
+
 public:
 	COptAdvancedDlg() : CDlgBase(g_plugin, IDD_ADVANCED),
-		chk_INVIS_DISABLE(this, IDC_INVIS_DISABLE), chk_CASE_INSENSITIVE(this, IDC_CASE_INSENSITIVE), chk_SPECIALGROUP(this, ID_SPECIALGROUP), chk_EXCLUDE(this, ID_EXCLUDE),
-		chk_REMOVE_TMP(this, ID_REMOVE_TMP), chk_REMOVE_TMP_ALL(this, ID_REMOVE_TMP_ALL), chk_IGNOREURL(this, ID_IGNOREURL), chk_AUTOAUTH(this, IDC_AUTOAUTH), chk_ADDTOSRVLST(this, IDC_ADDTOSRVLST),
-		chk_REQAUTH(this, IDC_REQAUTH), chk_REGEX(this, IDC_REGEX), chk_HISTORY_LOG(this, IDC_HISTORY_LOG), chk_MATH_QUESTION(this, IDC_MATH_QUESTION),
-		edit_SPECIALGROUPNAME(this, ID_SPECIALGROUPNAME), edit_AUTOADDGROUP(this, IDC_AUTOADDGROUP),
+		chk_INVIS_DISABLE(this, IDC_INVIS_DISABLE),
+		chk_CASE_INSENSITIVE(this, IDC_CASE_INSENSITIVE),
+		chk_SPECIALGROUP(this, ID_SPECIALGROUP),
+		chk_EXCLUDE(this, ID_EXCLUDE),
+		chk_REMOVE_TMP(this, ID_REMOVE_TMP),
+		chk_IGNOREURL(this, ID_IGNOREURL),
+		chk_AUTOAUTH(this, IDC_AUTOAUTH),
+		chk_ADDTOSRVLST(this, IDC_ADDTOSRVLST),
+		chk_REQAUTH(this, IDC_REQAUTH),
+		chk_REGEX(this, IDC_REGEX),
+		chk_HISTORY_LOG(this, IDC_HISTORY_LOG),
+		chk_MATH_QUESTION(this, IDC_MATH_QUESTION),
+		edit_SPECIALGROUPNAME(this, ID_SPECIALGROUPNAME),
+		edit_AUTOADDGROUP(this, IDC_AUTOADDGROUP),
 		btn_MATH_DETAILS(this, IDC_MATH_DETAILS)
 	{
 		btn_MATH_DETAILS.OnClick = Callback(this, &COptAdvancedDlg::onClick_MATH_DETAILS);
@@ -216,7 +231,6 @@ public:
 		chk_SPECIALGROUP.SetState(gbSpecialGroup);
 		chk_EXCLUDE.SetState(gbExclude);
 		chk_REMOVE_TMP.SetState(gbDelExcluded);
-		chk_REMOVE_TMP_ALL.SetState(gbDelAllTempory);
 		chk_IGNOREURL.SetState(gbIgnoreURL);
 		chk_AUTOAUTH.SetState(gbAutoAuth);
 		chk_ADDTOSRVLST.SetState(gbAutoAddToServerList);
@@ -246,7 +260,6 @@ public:
 		g_plugin.setByte("SpecialGroup", gbSpecialGroup = chk_SPECIALGROUP.GetState());
 		g_plugin.setByte("ExcludeContacts", gbExclude = chk_EXCLUDE.GetState());
 		g_plugin.setByte("DelExcluded", gbDelExcluded = chk_REMOVE_TMP.GetState());
-		g_plugin.setByte("DelAllTempory", gbDelAllTempory = chk_REMOVE_TMP_ALL.GetState());
 		g_plugin.setByte("IgnoreURL", gbIgnoreURL = chk_IGNOREURL.GetState());
 
 		g_plugin.setByte("AutoAuth", gbAutoAuth = chk_AUTOAUTH.GetState());
@@ -273,11 +286,6 @@ public:
 	{
 		MessageBox(m_hwnd, TranslateT("If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces."), TranslateT("Info"), MB_OK);
 	}
-
-private:
-	CCtrlCheck chk_INVIS_DISABLE, chk_CASE_INSENSITIVE, chk_SPECIALGROUP, chk_EXCLUDE, chk_REMOVE_TMP, chk_REMOVE_TMP_ALL, chk_IGNOREURL, chk_AUTOAUTH, chk_ADDTOSRVLST, chk_REQAUTH, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
-	CCtrlEdit edit_SPECIALGROUPNAME, edit_AUTOADDGROUP;
-	CCtrlButton btn_MATH_DETAILS;
 };
 
 int OnOptInit(WPARAM w, LPARAM l)
