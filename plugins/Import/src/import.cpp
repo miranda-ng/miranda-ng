@@ -100,6 +100,21 @@ MCONTACT CImportBatch::HContactFromID(const char *pszProtoName, const char *pszS
 	return INVALID_CONTACT_ID;
 }
 
+MCONTACT CImportBatch::HContactFromBlobID(const char *pszProtoName, const char *pszSetting, const DBVARIANT &id)
+{
+	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
+		DBVARIANT dbv = { DBVT_BLOB };
+		if (db_get_s(hContact, pszProtoName, pszSetting, &dbv, 0))
+			continue;
+
+		bool bEqual = (dbv.cpbVal == id.cpbVal && !memcmp(dbv.pbVal, id.pbVal, id.cpbVal));
+		srcDb->FreeVariant(&dbv);
+		if (bEqual)
+			return hContact;
+	}
+	return INVALID_CONTACT_ID;
+}
+
 MCONTACT CImportBatch::HContactFromNumericID(const char *pszProtoName, const char *pszSetting, uint32_t dwID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
@@ -728,7 +743,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 	if (!myGet(hSrc, cc->szProto, (m_pPattern != nullptr) ? "ID" : pszUniqueSetting, &dbv)) {
 		// Does the contact already exist?
 		MCONTACT hDst;
-		wchar_t id[40];
+		wchar_t id[100];
 		switch (dbv.type) {
 		case DBVT_DWORD:
 			pszUniqueID = _ltow(dbv.dVal, id, 10);
@@ -745,6 +760,14 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 			pszUniqueID = NEWWSTR_ALLOCA(dbv.pwszVal);
 			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
 			break;
+
+		case DBVT_BLOB:
+			if (dbv.cpbVal < _countof(id) / 2) {
+				pszUniqueID = bin2hexW(dbv.pbVal, dbv.cpbVal, id);
+				hDst = HContactFromBlobID(szDstModuleName, pszUniqueSetting, dbv);
+				break;
+			}
+			else __fallthrough;
 
 		default:
 			hDst = INVALID_CONTACT_ID;
