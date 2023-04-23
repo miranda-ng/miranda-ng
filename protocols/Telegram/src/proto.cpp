@@ -307,6 +307,26 @@ int CTelegramProto::FileResume(HANDLE hTransfer, int, const wchar_t *pwszFilenam
 	return 0;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+// RecvFile - writes down an incoming file transfer to db
+
+MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+{
+	MEVENT hEvent = CSuper::RecvFile(hContact, pre);
+	if (hEvent) {
+		if (auto *ft = (TG_FILE_REQUEST *)pre->lParam) {
+			DBVARIANT dbv = { DBVT_UTF8 };
+			dbv.pszVal = ft->m_uniqueId.GetBuffer();
+			db_event_setJson(hEvent, "u", &dbv);
+
+			dbv.type = DBVT_DWORD;
+			dbv.dVal = ft->m_fileId;
+			db_event_setJson(hEvent, "id", &dbv);
+		}
+	}
+	return hEvent;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)

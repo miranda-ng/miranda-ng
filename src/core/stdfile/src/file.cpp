@@ -321,6 +321,8 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	DB::EventInfo dbei;
 	dbei.szModule = Proto_GetBaseAccountName(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
+	dbei.szId = pre->szId;
+	dbei.szUserId = pre->szUserId;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_UTF;
 	if (pre->dwFlags & PREF_CREATEREAD)

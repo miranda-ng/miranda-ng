@@ -779,6 +779,8 @@ struct PROTORECVFILE
 	int fileCount;          // number of files being transferred
 	MAllCStringArray files; // array of file names
 	LPARAM lParam;          // extra space for the network level protocol module
+	const char *szId;       // server message id
+	const char *szUserId;   // groupchat user id
 };
 
 #define PSR_FILE       "/RecvFile"

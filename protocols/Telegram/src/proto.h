@@ -84,7 +84,7 @@ struct TG_USER : public MZeroedObject
 		hContact(_2),
 		isGroupChat(_3)
 	{
-		chatId = (isGroupChat) ? -1 :id;
+		chatId = (isGroupChat) ? -1 : id;
 	}
 
 	int64_t   id, chatId;
@@ -223,7 +223,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
-	CMStringA GetMessageText(TG_USER *pUser, TD::MessageContent *pBody);
+	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -245,6 +245,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_LogMenu(GCHOOK *gch);
 
+	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
+
 	// Search
 	TD::array<TD::int53> m_searchIds;
 
@@ -262,6 +264,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddUser(int64_t id, bool bIsChat);
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
+	
 	int64_t  GetId(MCONTACT);
 	void     SetId(MCONTACT, int64_t id);
 
@@ -288,6 +291,8 @@ public:
 	int      FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+
+	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;

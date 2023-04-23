@@ -222,8 +222,30 @@ void CTelegramProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBody)
+bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest)
 {
+	if (pUser->isGroupChat) {
+		if (auto *pSender = GetSender(pMsg->sender_id_.get())) {
+			_i64toa(pSender->id, dest, 10);
+			if (pUser->m_si && !pSender->wszFirstName.IsEmpty())
+				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(dest), pSender->getDisplayName(), ID_STATUS_ONLINE);
+			return true;
+		}
+	}
+
+	*dest = 0;
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
+{
+	const TD::MessageContent *pBody = pMsg->content_.get();
+
+	char szId[100], szUserId[100];
+	_i64toa(pMsg->id_, szId, 10);
+
 	switch (pBody->get_id()) {
 	case TD::messageDocument::ID:
 		{
@@ -253,6 +275,10 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, TD::MessageContent *pBo
 			pre.timestamp = time(0);
 			pre.files.a = &pszFileName;
 			pre.lParam = (LPARAM)pRequest;
+			pre.szId = szId;
+			if (GetGcUserId(pUser, pMsg, szUserId))
+				pre.szUserId = szUserId;
+
 			if (!pDoc->caption_->text_.empty())
 				pre.descr.a = pDoc->caption_->text_.c_str();
 			ProtoChainRecvFile(pUser->hContact, &pre);
