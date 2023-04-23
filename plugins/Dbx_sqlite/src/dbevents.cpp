@@ -331,7 +331,7 @@ int CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 		return -1;
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT LENGTH(data) FROM events WHERE id = ? LIMIT 1;", qEvBlobSize);
+	sqlite3_stmt *stmt = InitQuery("SELECT LENGTH(CAST(data AS BLOB)) AS l FROM events WHERE id = ? LIMIT 1;", qEvBlobSize);
 	sqlite3_bind_int(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -361,7 +361,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, length(data), data FROM events WHERE id = ? LIMIT 1;", qEvGet);
+	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, LENGTH(CAST(data AS BLOB)) AS l, data FROM events WHERE id = ? LIMIT 1;", qEvGet);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
