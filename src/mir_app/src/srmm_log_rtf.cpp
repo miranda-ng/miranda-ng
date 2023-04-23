@@ -377,9 +377,10 @@ void CRtfLogWindow::StreamRtfEvents(RtfLogStreamData *dat, bool bAppend)
 		if (auto *si = SM_FindSessionByContact(dat->hContact)) {
 			bool bDone = false;
 
-			for (MEVENT hDbEvent = dat->hDbEvent; hDbEvent && dat->eventsToInsert; dat->eventsToInsert--) {
+			while (dat->hDbEvent && dat->eventsToInsert) {
 				Chat_EventToGC(si, dat->hDbEvent);
 				dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
+				dat->eventsToInsert--;
 				bDone = true;
 			}
 
