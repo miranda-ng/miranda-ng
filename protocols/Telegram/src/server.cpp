@@ -581,13 +581,20 @@ void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 		if (pUser->hContact == INVALID_CONTACT_ID)
 			return;
 
-		if (pObj->status_->get_id() == TD::userStatusOnline::ID)
+		switch (pObj->status_->get_id()) {
+		case TD::userStatusOnline::ID:
 			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
-		else if (pObj->status_->get_id() == TD::userStatusOffline::ID) {
+			break;
+
+		case TD::userStatusRecently::ID:
+		case TD::userStatusOffline::ID:
 			setWord(pUser->hContact, "Status", ID_STATUS_AWAY);
 			pUser->m_timer1 = time(0);
+			break;
+
+		default:
+			debugLogA("!!!!! Unknown status packet, report it to the developers");
 		}
-		else debugLogA("!!!!! Unknown status packet, report it to the developers");
 	}
 }
 
