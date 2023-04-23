@@ -145,10 +145,11 @@ int CDbxSQLite::Load()
 	InitContacts();
 	InitEncryption();
 	InitSettings();
-	InitEvents();
 
 	if (InitCrypt())
 		return EGROKPRF_CANTREAD;
+
+	InitEvents();
 
 	m_bTranStarted = true;
 	rc = sqlite3_exec(m_db, "begin transaction;", nullptr, nullptr, nullptr);
