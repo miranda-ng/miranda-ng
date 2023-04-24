@@ -278,38 +278,6 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-HANDLE CTelegramProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *pwszSavePath)
-{
-	auto *ft = (TG_FILE_REQUEST *)hTransfer;
-	if (ft == nullptr)
-		return nullptr;
-
-	ft->m_destPath = pwszSavePath;
-	ft->pfts.szCurrentFile.w = ft->m_fileName.GetBuffer();
-	ft->pfts.szWorkingDir.w = ft->m_destPath.GetBuffer();
-	SendQuery(new TD::downloadFile(ft->m_fileId, 5, 0, 0, false));
-	return ft;
-}
-
-int CTelegramProto::FileCancel(MCONTACT, HANDLE hTransfer)
-{
-	auto *ft = (TG_FILE_REQUEST *)hTransfer;
-	delete ft;
-	return 1;
-}
-
-int CTelegramProto::FileResume(HANDLE hTransfer, int, const wchar_t *pwszFilename)
-{
-	auto *ft = (TG_FILE_REQUEST *)hTransfer;
-	if (ft == nullptr)
-		return 1;
-
-	ft->m_destPath = pwszFilename;
-	return 0;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile - writes down an incoming file transfer to db
 

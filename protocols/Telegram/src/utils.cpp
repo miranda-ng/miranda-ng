@@ -270,7 +270,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 			auto *pszFileName = pDoc->document_->file_name_.c_str();
 			PROTORECVFILE pre = {};
-			pre.dwFlags = PRFF_UTF;
+			pre.dwFlags = PRFF_UTF | PRFF_SILENT;
 			pre.fileCount = 1;
 			pre.timestamp = time(0);
 			pre.files.a = &pszFileName;

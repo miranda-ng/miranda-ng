@@ -286,10 +286,6 @@ public:
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
 		
-	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
-	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int      FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
-
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
 	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;

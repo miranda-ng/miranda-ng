@@ -768,8 +768,10 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 // wParam = 0
 // lParam = (LPARAM)(PROTORECVFILE*)&prf
 
-#define PRFF_UNICODE 1
-#define PRFF_UTF     2
+#define PRFF_UNICODE 0x0001 // in all MAllCStrings .w is valid
+#define PRFF_UTF     0x0002 // in all MAllCStrings .a contains text in UTF8
+#define PRFF_SILENT  0x0004 // do not show file send/receive dialog
+
 
 struct PROTORECVFILE
 {
