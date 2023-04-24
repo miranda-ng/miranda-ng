@@ -73,6 +73,54 @@ LOGINFO::~LOGINFO()
 {
 }
 
+int LOGINFO::getIndex() const
+{
+	switch (iType) {
+	case GC_EVENT_MESSAGE:
+		if (bIsMe)
+			return 10;
+		else
+			return 9;
+
+	case GC_EVENT_JOIN: return 3;
+	case GC_EVENT_PART: return 4;
+	case GC_EVENT_QUIT: return 5;
+	case GC_EVENT_NICK: return 7;
+	case GC_EVENT_KICK: return 6;
+	case GC_EVENT_NOTICE: return 8;
+	case GC_EVENT_TOPIC: return 11;
+	case GC_EVENT_INFORMATION:return 12;
+	case GC_EVENT_ADDSTATUS: return 13;
+	case GC_EVENT_REMOVESTATUS: return 14;
+	case GC_EVENT_ACTION: return 15;
+	}
+	return 0;
+}
+
+int LOGINFO::getIcon() const
+{
+	switch (iType) {
+	case GC_EVENT_MESSAGE:
+		if (bIsMe)
+			return ICON_MESSAGEOUT;
+		else
+			return ICON_MESSAGE;
+
+	case GC_EVENT_JOIN: return ICON_JOIN;
+	case GC_EVENT_PART: return ICON_PART;
+	case GC_EVENT_QUIT: return ICON_QUIT;
+	case GC_EVENT_NICK: return ICON_NICK;
+	case GC_EVENT_KICK: return ICON_KICK;
+	case GC_EVENT_NOTICE: return ICON_NOTICE;
+	case GC_EVENT_TOPIC: return ICON_TOPIC;
+	case GC_EVENT_INFORMATION:return ICON_INFO;
+	case GC_EVENT_ADDSTATUS: return ICON_ADDSTATUS;
+	case GC_EVENT_REMOVESTATUS: return ICON_REMSTATUS;
+	case GC_EVENT_ACTION: return ICON_ACTION;
+	}
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Session Manager functions
 //	Keeps track of all sessions and its windows

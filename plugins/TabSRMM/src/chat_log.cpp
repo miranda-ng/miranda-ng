@@ -34,41 +34,6 @@
  * the srmm module and then modified to fit the chat module.
  */
 
-static int EventToIndex(const LOGINFO &lin)
-{
-	switch (lin.iType) {
-	case GC_EVENT_MESSAGE:
-		if (lin.bIsMe)
-			return 10;
-		else
-			return 9;
-
-	case GC_EVENT_JOIN:
-		return 3;
-	case GC_EVENT_PART:
-		return 4;
-	case GC_EVENT_QUIT:
-		return 5;
-	case GC_EVENT_NICK:
-		return 7;
-	case GC_EVENT_KICK:
-		return 6;
-	case GC_EVENT_NOTICE:
-		return 8;
-	case GC_EVENT_TOPIC:
-		return 11;
-	case GC_EVENT_INFORMATION:
-		return 12;
-	case GC_EVENT_ADDSTATUS:
-		return 13;
-	case GC_EVENT_REMOVESTATUS:
-		return 14;
-	case GC_EVENT_ACTION:
-		return 15;
-	}
-	return 0;
-}
-
 static uint8_t EventToSymbol(const LOGINFO &lin)
 {
 	switch (lin.iType) {
@@ -96,41 +61,6 @@ static uint8_t EventToSymbol(const LOGINFO &lin)
 		return 0x60;
 	}
 	return 0x73;
-}
-
-static int EventToIcon(const LOGINFO &lin)
-{
-	switch (lin.iType) {
-	case GC_EVENT_MESSAGE:
-		if (lin.bIsMe)
-			return ICON_MESSAGEOUT;
-		else
-			return ICON_MESSAGE;
-
-	case GC_EVENT_JOIN:
-		return ICON_JOIN;
-	case GC_EVENT_PART:
-		return ICON_PART;
-	case GC_EVENT_QUIT:
-		return ICON_QUIT;
-	case GC_EVENT_NICK:
-		return ICON_NICK;
-	case GC_EVENT_KICK:
-		return ICON_KICK;
-	case GC_EVENT_NOTICE:
-		return ICON_NOTICE;
-	case GC_EVENT_TOPIC:
-		return ICON_TOPIC;
-	case GC_EVENT_INFORMATION:
-		return ICON_INFO;
-	case GC_EVENT_ADDSTATUS:
-		return ICON_ADDSTATUS;
-	case GC_EVENT_REMOVESTATUS:
-		return ICON_REMSTATUS;
-	case GC_EVENT_ACTION:
-		return ICON_ACTION;
-	}
-	return 0;
 }
 
 static void Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &str, const wchar_t *line)
@@ -175,7 +105,7 @@ static void Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, 
 			case 'C':
 			case 'F':
 				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
-					int j = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+					int j = lin.bIsHighlighted ? 16 : lin.getIndex();
 					if (*line == 'C')
 						res.AppendFormat("\\cf%u ", j + 1);
 					else
@@ -197,10 +127,8 @@ static void Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, 
 				break;
 
 			case 'r':
-				if (!streamData->bStripFormat) {
-					int index = EventToIndex(lin);
-					res.AppendFormat("%s ", g_chatApi.Log_SetStyle(index));
-				}
+				if (!streamData->bStripFormat)
+					res.AppendFormat("%s ", g_chatApi.Log_SetStyle(lin.getIndex()));
 				break;
 			}
 		}
@@ -316,7 +244,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 	if (g_Settings.bLogSymbols)                // use symbols
 		str.AppendFormat("%s %c", g_chatApi.Log_SetStyle(17), EventToSymbol(lin));
 	else if (g_Settings.dwIconFlags) {
-		int iIndex = lin.bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
+		int iIndex = lin.bIsHighlighted ? ICON_HIGHLIGHT : lin.getIcon();
 		str.Append("\\f0\\fs14");
 		str.Append(g_chatApi.pLogIconBmpBits[iIndex]);
 	}
@@ -333,7 +261,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 			str.Append(szStyle);
 		}
 		else {
-			iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+			iii = lin.bIsHighlighted ? 16 : lin.getIndex();
 			mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
 				iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
 			str.Append(szStyle);
@@ -391,17 +319,5 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 	}
 
 	// Insert the message
-	str.Append(g_chatApi.Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
-	str.AppendChar(' ');
-
-
-	CMStringW wszCaption;
-	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
-	if (!wszCaption.IsEmpty())
-		Log_AppendRTF(streamData, lin, !bTextUsed, str, wszCaption);
-	if (!bTextUsed && lin.ptszText) {
-		if (!wszCaption.IsEmpty())
-			Log_AppendRTF(streamData, lin, false, str, L" ");
-		Log_AppendRTF(streamData, lin, false, str, lin.ptszText);
-	}
+	CreateChatRtfMessage(streamData, lin, str);
 }

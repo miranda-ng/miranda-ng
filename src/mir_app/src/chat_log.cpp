@@ -30,54 +30,6 @@ char *pLogIconBmpBits[14];
 #define RTFCACHELINESIZE 128
 static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT][RTFCACHELINESIZE];
 
-static int EventToIndex(const LOGINFO &lin)
-{
-	switch (lin.iType) {
-		case GC_EVENT_MESSAGE:
-			if (lin.bIsMe)
-				return 10;
-			else
-				return 9;
-
-		case GC_EVENT_JOIN: return 3;
-		case GC_EVENT_PART: return 4;
-		case GC_EVENT_QUIT: return 5;
-		case GC_EVENT_NICK: return 7;
-		case GC_EVENT_KICK: return 6;
-		case GC_EVENT_NOTICE: return 8;
-		case GC_EVENT_TOPIC: return 11;
-		case GC_EVENT_INFORMATION:return 12;
-		case GC_EVENT_ADDSTATUS: return 13;
-		case GC_EVENT_REMOVESTATUS: return 14;
-		case GC_EVENT_ACTION: return 15;
-	}
-	return 0;
-}
-
-static int EventToIcon(const LOGINFO &lin)
-{
-	switch (lin.iType) {
-		case GC_EVENT_MESSAGE:
-			if (lin.bIsMe)
-				return ICON_MESSAGEOUT;
-			else
-				return ICON_MESSAGE;
-
-		case GC_EVENT_JOIN: return ICON_JOIN;
-		case GC_EVENT_PART: return ICON_PART;
-		case GC_EVENT_QUIT: return ICON_QUIT;
-		case GC_EVENT_NICK: return ICON_NICK;
-		case GC_EVENT_KICK: return ICON_KICK;
-		case GC_EVENT_NOTICE: return ICON_NOTICE;
-		case GC_EVENT_TOPIC: return ICON_TOPIC;
-		case GC_EVENT_INFORMATION:return ICON_INFO;
-		case GC_EVENT_ADDSTATUS: return ICON_ADDSTATUS;
-		case GC_EVENT_REMOVESTATUS: return ICON_REMSTATUS;
-		case GC_EVENT_ACTION: return ICON_ACTION;
-	}
-	return 0;
-}
-
 char* Log_SetStyle(int style)
 {
 	if (style < OPTIONS_FONTCOUNT)
@@ -129,7 +81,7 @@ static int Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, b
 			case 'C':
 			case 'F':
 				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
-					int j = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+					int j = lin.bIsHighlighted ? 16 : lin.getIndex();
 					if (*line == 'C')
 						mir_snprintf(szTemp, "\\cf%u ", j + 1);
 					else
@@ -153,10 +105,8 @@ static int Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, b
 				break;
 
 			case 'r':
-				if (!streamData->bStripFormat) {
-					int index = EventToIndex(lin);
-					mir_snprintf(szTemp, "%s ", Log_SetStyle(index));
-				}
+				if (!streamData->bStripFormat)
+					mir_snprintf(szTemp, "%s ", Log_SetStyle(lin.getIndex()));
 				break;
 			}
 
@@ -385,7 +335,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 
 	// Insert icon
 	if ((lin.iType & g_Settings->dwIconFlags) || lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
-		int iIndex = (lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
+		int iIndex = (lin.bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : lin.getIcon();
 		buf.Append("\\f0\\fs14");
 		buf.Append(pLogIconBmpBits[iIndex]);
 	}
@@ -399,7 +349,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 			buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 		}
 		else {
-			int iii = lin.bIsHighlighted ? 16 : EventToIndex(lin);
+			int iii = lin.bIsHighlighted ? 16 : lin.getIndex();
 			buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 		}
 	}
@@ -432,12 +382,22 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 	}
 
 	// Insert the message
-	buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : EventToIndex(lin)));
+	CreateChatRtfMessage(streamData, lin, buf);
+	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat event message
+
+void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const LOGINFO &lin, CMStringA &buf)
+{
+	buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : lin.getIndex()));
 
 	CMStringW wszCaption;
 	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
 	if (!wszCaption.IsEmpty())
 		Log_AppendRTF(streamData, lin, !bTextUsed, buf, wszCaption);
+
 	if (!bTextUsed && lin.ptszText) {
 		if (!wszCaption.IsEmpty())
 			Log_AppendRTF(streamData, lin, false, buf, L" ");

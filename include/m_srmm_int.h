@@ -194,12 +194,13 @@ public:
 	void StreamRtfEvents(RtfLogStreamData *dat, bool bAppend);
 	virtual void CreateRtfHeader(RtfLogStreamData *dat) = 0;
 	virtual bool CreateRtfEvent(RtfLogStreamData *dat, DB::EventInfo &dbei) = 0;
-	virtual void CreateRtfTail(RtfLogStreamData *dat);
+	void CreateRtfTail(RtfLogStreamData *dat);
 
 	void StreamChatRtfEvents(RtfChatLogStreamData *dat, bool bRedraw);
 	virtual void CreateChatRtfHeader(RtfChatLogStreamData *dat);
 	virtual void CreateChatRtfEvent(RtfChatLogStreamData *dat, const struct LOGINFO &lin);
-	virtual void CreateChatRtfTail(RtfChatLogStreamData *dat);
+	void CreateChatRtfMessage(RtfChatLogStreamData *dat, const struct LOGINFO &lin, CMStringA &buf);
+	void CreateChatRtfTail(RtfChatLogStreamData *dat);
 
 	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 

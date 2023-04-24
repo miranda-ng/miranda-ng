@@ -112,6 +112,9 @@ struct MIR_APP_EXPORT LOGINFO : public MZeroedObject, public MNonCopyable
 	LOGINFO(const GCEVENT*);
 	~LOGINFO();
 
+	int getIcon() const;
+	int getIndex() const;
+
 	ptrW     ptszText;
 	ptrW     ptszNick;
 	ptrW     ptszUID;
