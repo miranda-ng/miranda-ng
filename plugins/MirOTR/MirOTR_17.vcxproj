@@ -230,13 +230,13 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ekhtml\ekhtml_16.vcxproj">
+    <ProjectReference Include="ekhtml\ekhtml_17.vcxproj">
       <Project>{2c050caf-d8aa-468a-b1a7-89f3be99d3c8}</Project>
     </ProjectReference>
-    <ProjectReference Include="Libgcrypt\Libgcrypt_16.vcxproj">
+    <ProjectReference Include="Libgcrypt\Libgcrypt_17.vcxproj">
       <Project>{40fe7861-e54e-4da9-be4d-a5178014e477}</Project>
     </ProjectReference>
-    <ProjectReference Include="libotr\libotr_16.vcxproj">
+    <ProjectReference Include="libotr\libotr_17.vcxproj">
       <Project>{1423fc8f-aa52-4562-8275-4bf0838ca378}</Project>
     </ProjectReference>
   </ItemGroup>

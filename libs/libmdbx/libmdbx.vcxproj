@@ -28,6 +28,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>MDBX_BUILD_SHARED_LIBRARY=1;MDBX_TXN_CHECKOWNER=0;LIBMDBX_EXPORTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
