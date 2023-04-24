@@ -77,6 +77,24 @@ INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::file::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::chats::ID);
+		return;
+	}
+
+	auto *pFile = (TD::file*)response.object.get();
+
+	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
+	ft->m_fileId = pFile->id_;
+	ft->m_uniqueId = pFile->remote_->unique_id_.c_str();
+
+	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
+}
 
 INT_PTR __cdecl CTelegramProto::OfflineFile(WPARAM param, LPARAM)
 {
@@ -92,21 +110,13 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
 		if (root) {
-			int iFileId = root["id"].as_int();
-			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, iFileId, root["u"].as_string().c_str());
+			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
 			ft->m_fileName = ofd->wszPath;
+			ft->m_bOpen = ofd->bOpen;
+			ft->m_hEvent = ofd->hDbEvent;
 			m_arFiles.insert(ft);
 
-			SendQuery(new TD::downloadFile(iFileId, 10, 0, 0, true));
-
-			DBVARIANT dbv = { DBVT_DWORD };
-			dbv.dVal = ft->pfts.currentFileSize;
-			db_event_setJson(ofd->hDbEvent, "ft", &dbv);
-			db_event_setJson(ofd->hDbEvent, "fs", &dbv);
-			NotifyEventHooks(g_plugin.m_hevEventEdited, 0, ofd->hDbEvent);
-
-			if (ofd->bOpen)
-				ShellExecuteW(nullptr, L"open", ofd->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+			SendQuery(new TD::getRemoteFile(root["u"].as_string(), 0), &CTelegramProto::OnGetFileInfo, ft);
 		}
 	}
 
@@ -133,7 +143,10 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		Utf2T wszExistingFile(pFile->local_->path_.c_str());
 
 		if (auto *F = PopFile(pFile->remote_->unique_id_.c_str())) {
-			CMStringW wszFullName = F->m_destPath + L"\\" + F->m_fileName;
+			CMStringW wszFullName = F->m_destPath;
+			if (!wszFullName.IsEmpty())
+				wszFullName += L"\\";
+			wszFullName += F->m_fileName;
 
 			if (F->m_type == F->AVATAR) {
 				if (F->m_fileName.Right(5).MakeLower() == L".webp") {
@@ -153,12 +166,17 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 				m_arFiles.remove(F);
 			}
 			else { // FILE
-				F->pfts.currentFileProgress = pFile->local_->downloaded_size_;
-				ProtoBroadcastAck(F->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, F, (LPARAM)&F->pfts);
-
 				if (pFile->local_->is_downloading_completed_) {
 					MoveFileW(wszExistingFile, wszFullName);
-					ProtoBroadcastAck(F->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, F);
+
+					DBVARIANT dbv = { DBVT_DWORD };
+					dbv.dVal = pFile->local_->downloaded_size_;
+					db_event_setJson(F->m_hEvent, "ft", &dbv);
+					db_event_setJson(F->m_hEvent, "fs", &dbv);
+					NotifyEventHooks(g_plugin.m_hevEventEdited, 0, F->m_hEvent);
+
+					if (F->m_bOpen)
+						ShellExecuteW(nullptr, L"open", wszFullName, nullptr, nullptr, SW_SHOWDEFAULT);
 
 					mir_cslock lck(m_csFiles);
 					m_arFiles.remove(F);

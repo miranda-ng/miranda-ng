@@ -71,10 +71,11 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	{}
 
 	Type m_type;
+	bool m_bOpen = false;
+	MEVENT m_hEvent = 0;
 	TD::int53 m_fileId;
 	CMStringA m_uniqueId;
 	CMStringW m_destPath, m_fileName;
-	PROTOFILETRANSFERSTATUS pfts;
 };
 
 struct TG_USER : public MZeroedObject
@@ -192,6 +193,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	}
 
 	void OnEndSession(td::ClientManager::Response &response);
+	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSearchResults(td::ClientManager::Response &response);
 	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
 	void OnUpdateAuth(td::ClientManager::Response &response);

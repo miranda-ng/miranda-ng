@@ -257,12 +257,9 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				break;
 			}
 			
-			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFile->id_, pFile->remote_->unique_id_.c_str());
+			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFile->id_, pFile->remote_->id_.c_str());
 			pRequest->m_fileName = Utf2T(pDoc->document_->file_name_.c_str());
 			pRequest->m_destPath = GetProtoFolder() + L"\\tmpfiles";
-			pRequest->pfts.flags = PFTS_UNICODE;
-			pRequest->pfts.hContact = pUser->hContact;
-			pRequest->pfts.currentFileSize = pFile->size_;
 			{
 				mir_cslock lck(m_csFiles);
 				m_arFiles.insert(pRequest);
