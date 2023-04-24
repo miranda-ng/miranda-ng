@@ -112,7 +112,7 @@ void CMSimpleStringT<BaseType>::Append(PCXSTR pszSrc, int nLength)
 	}
 
 	//Make sure we don't read pass end of the terminating NULL
-	int nSrcLength = StringLength(pszSrc);
+	int nSrcLength = StringLengthN(pszSrc, nLength);
 	nLength = nLength > nSrcLength ? nSrcLength : nLength;
 
 	int nNewLength = nOldLength + nLength;
