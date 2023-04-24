@@ -190,7 +190,7 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 			if (pos != -1) {
 				auto wszWord = wszText.Left(pos);
 				wszWord.Trim();
-				if (auto *si = g_chatApi.SM_FindSession(gch->si->ptszID, gch->si->pszModule)) {
+				if (auto *si = Chat_Find(gch->si->ptszID, gch->si->pszModule)) {
 					USERINFO *pUser = nullptr;
 
 					for (auto &U : si->getUserList())

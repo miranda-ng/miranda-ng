@@ -289,7 +289,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 			continue;
 
 		CMStringW wszOldNick;
-		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = Chat_Find(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
 			USERINFO *ui = g_chatApi.UM_FindUser(si, wszUserId);
 			if (ui != nullptr)
@@ -337,7 +337,7 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 		if (it->pGuild != pGuild)
 			continue;
 
-		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = Chat_Find(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
 			g_chatApi.TM_RemoveAll(&si->pStatuses);
 			BuildStatusList(pGuild, si);
