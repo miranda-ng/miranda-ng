@@ -137,11 +137,14 @@ static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 		case STREAMSTAGE_EVENTS:
 			if (!dat->lin) {
 				auto &events = si->arEvents;
+LBL_Next:
 				if (dat->idx < events.getCount()) {
 					auto &lin = events[dat->idx];
 					if (si->iType == GCW_SERVER || (si->pDlg->m_iLogFilterFlags & lin.iType) != 0)
 						dat->pLog->CreateChatRtfEvent(dat, lin);
 					dat->idx++;
+					if (dat->buf.IsEmpty())
+						goto LBL_Next;
 					break;
 				}
 			}
