@@ -49,14 +49,11 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
-      <Project>{01F9E227-06F5-4BED-907F-402CA7DFAFE6}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
