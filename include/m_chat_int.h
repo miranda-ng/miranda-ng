@@ -115,6 +115,8 @@ struct MIR_APP_EXPORT LOGINFO : public MZeroedObject, public MNonCopyable
 	int getIcon() const;
 	int getIndex() const;
 
+	void write(struct RtfChatLogStreamData *streamData, bool simpleMode, CMStringA &str, const wchar_t *line) const;
+
 	ptrW     ptszText;
 	ptrW     ptszNick;
 	ptrW     ptszUID;

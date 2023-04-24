@@ -38,97 +38,6 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static int Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &buf, const wchar_t *line)
-{
-	int textCharsCount = 0;
-
-	for (; *line; line++, textCharsCount++) {
-		if (*line == '\r' && line[1] == '\n') {
-			buf.Append("\\par ");
-			line++;
-		}
-		else if (*line == '\n') {
-			buf.Append("\\line ");
-		}
-		else if (*line == '%' && !simpleMode) {
-			char szTemp[200];
-
-			szTemp[0] = '\0';
-			switch (*++line) {
-			case '\0':
-			case '%':
-				buf.AppendChar('%');
-				break;
-
-			case 'c':
-			case 'f':
-				if (g_Settings->bStripFormat || streamData->bStripFormat)
-					line += 2;
-
-				else if (line[1] != '\0' && line[2] != '\0') {
-					wchar_t szTemp3[3], c = *line;
-					int col;
-					szTemp3[0] = line[1];
-					szTemp3[1] = line[2];
-					szTemp3[2] = '\0';
-					line += 2;
-
-					col = _wtoi(szTemp3);
-					col += (OPTIONS_FONTCOUNT + 1);
-					mir_snprintf(szTemp, (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
-				}
-				break;
-			case 'C':
-			case 'F':
-				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
-					int j = lin.bIsHighlighted ? 16 : lin.getIndex();
-					if (*line == 'C')
-						mir_snprintf(szTemp, "\\cf%u ", j + 1);
-					else
-						mir_snprintf(szTemp, "\\highlight0 ");
-				}
-				break;
-			case 'b':
-			case 'u':
-			case 'i':
-				if (!streamData->bStripFormat)
-					mir_snprintf(szTemp, (*line == 'u') ? "\\%cl " : "\\%c ", *line);
-				break;
-
-			case 'B':
-			case 'U':
-			case 'I':
-				if (!streamData->bStripFormat) {
-					mir_snprintf(szTemp, (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line);
-					CharLowerA(szTemp);
-				}
-				break;
-
-			case 'r':
-				if (!streamData->bStripFormat)
-					mir_snprintf(szTemp, "%s ", Log_SetStyle(lin.getIndex()));
-				break;
-			}
-
-			if (szTemp[0])
-				buf.Append(szTemp);
-		}
-		else if (*line == '\t' && !streamData->bStripFormat) {
-			buf.Append("\\tab ");
-		}
-		else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
-			buf.AppendChar('\\');
-			buf.AppendChar(*line);
-		}
-		else if (*line > 0 && *line < 128) {
-			buf.AppendChar(*line);
-		}
-		else buf.AppendFormat("\\u%u ?", (uint16_t)*line);
-	}
-
-	return textCharsCount;
-}
-
 MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res)
 {
 	CMStringW wszNick;
@@ -366,7 +275,7 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 		wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
 		if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 			si->LastTime = lin.time;
-			Log_AppendRTF(streamData, lin, true, buf, szTimeStamp);
+			lin.write(streamData, true, buf, szTimeStamp);
 		}
 		buf.Append("\\tab ");
 	}
@@ -377,13 +286,12 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 
 		CMStringW tmp((lin.bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
 		tmp.Replace(L"%n", lin.ptszNick);
-		Log_AppendRTF(streamData, lin, true, buf, tmp);
+		lin.write(streamData, true, buf, tmp);
 		buf.AppendChar(' ');
 	}
 
 	// Insert the message
 	CreateChatRtfMessage(streamData, lin, buf);
-	
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -396,12 +304,12 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 	CMStringW wszCaption;
 	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
 	if (!wszCaption.IsEmpty())
-		Log_AppendRTF(streamData, lin, !bTextUsed, buf, wszCaption);
+		lin.write(streamData, !bTextUsed, buf, wszCaption);
 
 	if (!bTextUsed && lin.ptszText) {
 		if (!wszCaption.IsEmpty())
-			Log_AppendRTF(streamData, lin, false, buf, L" ");
-		Log_AppendRTF(streamData, lin, false, buf, lin.ptszText);
+			lin.write(streamData, false, buf, L" ");
+		lin.write(streamData, false, buf, lin.ptszText);
 	}
 }
 

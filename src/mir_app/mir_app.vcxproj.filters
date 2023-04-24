@@ -401,6 +401,9 @@
     <ClCompile Include="src\clc.cpp">
       <Filter>Source Files\MetaContacts</Filter>
     </ClCompile>
+    <ClCompile Include="src\chat_loginfo.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">

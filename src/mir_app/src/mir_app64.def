@@ -863,3 +863,4 @@ Chat_IsMuted @941 NONAME
 ?CreateChatRtfMessage@CRtfLogWindow@@QEAAXPEAURtfChatLogStreamData@@AEBULOGINFO@@AEAV?$CMStringT@DV?$ChTraitsCRT@D@@@@@Z @980 NONAME
 ?getIcon@LOGINFO@@QEBAHXZ @981 NONAME
 ?getIndex@LOGINFO@@QEBAHXZ @982 NONAME
+?write@LOGINFO@@QEBAXPEAURtfChatLogStreamData@@_NAEAV?$CMStringT@DV?$ChTraitsCRT@D@@@@PEB_W@Z @983 NONAME

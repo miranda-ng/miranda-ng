@@ -63,91 +63,6 @@ static uint8_t EventToSymbol(const LOGINFO &lin)
 	return 0x73;
 }
 
-static void Log_AppendRTF(RtfChatLogStreamData *streamData, const LOGINFO &lin, bool simpleMode, CMStringA &str, const wchar_t *line)
-{
-	int textCharsCount = 0;
-
-	CMStringA res;
-
-	for (; *line; line++, textCharsCount++) {
-		if (*line == '\r' && line[1] == '\n') {
-			res.Append("\\par ");
-			line++;
-		}
-		else if (*line == '\n') {
-			res.Append("\\line ");
-		}
-		else if (*line == '%' && !simpleMode) {
-			char szTemp[200]; szTemp[0] = '\0';
-			switch (*++line) {
-			case '\0':
-			case '%':
-				res.AppendChar('%');
-				break;
-
-			case 'c':
-			case 'f':
-				if (g_Settings.bStripFormat || streamData->bStripFormat)
-					line += 2;
-				else if (line[1] != '\0' && line[2] != '\0') {
-					wchar_t szTemp3[3], c = *line;
-					int col;
-					szTemp3[0] = line[1];
-					szTemp3[1] = line[2];
-					szTemp3[2] = '\0';
-					line += 2;
-
-					col = _wtoi(szTemp3);
-					col += (OPTIONS_FONTCOUNT + 1);
-					res.AppendFormat((c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
-				}
-				break;
-			case 'C':
-			case 'F':
-				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
-					int j = lin.bIsHighlighted ? 16 : lin.getIndex();
-					if (*line == 'C')
-						res.AppendFormat("\\cf%u ", j + 1);
-					else
-						res.Append("\\highlight0 ");
-				}
-				break;
-			case 'b':
-			case 'u':
-			case 'i':
-				if (!streamData->bStripFormat)
-					res.AppendFormat((*line == 'u') ? "\\%cl " : "\\%c ", *line);
-				break;
-
-			case 'B':
-			case 'U':
-			case 'I':
-				if (!streamData->bStripFormat)
-					res.AppendFormat((*line == 'U') ? "\\%cl0 " : "\\%c0 ", tolower(*line));
-				break;
-
-			case 'r':
-				if (!streamData->bStripFormat)
-					res.AppendFormat("%s ", g_chatApi.Log_SetStyle(lin.getIndex()));
-				break;
-			}
-		}
-		else if (*line == '\t' && !streamData->bStripFormat) {
-			res.Append("\\tab ");
-		}
-		else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
-			res.AppendChar('\\');
-			res.AppendChar(*line);
-		}
-		else if (*line > 0 && *line < 128) {
-			res.AppendChar((char)*line);
-		}
-		else res.AppendFormat("\\u%u ?", (uint16_t)*line);
-	}
-
-	str += res;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // RTF header
 
@@ -282,7 +197,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 		wcsncpy_s(szOldTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
 		if (!g_Settings.bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 			si->LastTime = lin.time;
-			Log_AppendRTF(streamData, lin, TRUE, str, szTimeStamp);
+			lin.write(streamData, true, str, szTimeStamp);
 		}
 		str.Append("\\tab ");
 	}
@@ -314,7 +229,7 @@ void CLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const LOGI
 		if (g_Settings.bNewLineAfterNames)
 			pszTemp.AppendChar('\n');
 
-		Log_AppendRTF(streamData, lin, TRUE, str, pszTemp);
+		lin.write(streamData, true, str, pszTemp);
 		str.AppendChar(' ');
 	}
 
