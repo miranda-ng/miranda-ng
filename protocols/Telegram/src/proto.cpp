@@ -68,6 +68,9 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	// default contacts group
 	m_iBaseGroup = Clist_GroupCreate(0, m_wszDefaultGroup);
 
+	// Offline file transfer
+	CreateProtoService(PS_OFFLINEFILE, &CTelegramProto::OfflineFile);
+
 	// create standard network connection
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE;

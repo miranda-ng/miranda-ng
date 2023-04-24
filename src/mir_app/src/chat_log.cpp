@@ -303,14 +303,28 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 
 	CMStringW wszCaption;
 	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
-	if (!wszCaption.IsEmpty())
+	if (!wszCaption.IsEmpty()) {
+		wszCaption.AppendChar(' ');
 		lin.write(streamData, !bTextUsed, buf, wszCaption);
-
-	if (!bTextUsed && lin.ptszText) {
-		if (!wszCaption.IsEmpty())
-			lin.write(streamData, false, buf, L" ");
-		lin.write(streamData, false, buf, lin.ptszText);
 	}
+	if (bTextUsed)
+		return;
+
+	if (lin.hEvent) {
+		DB::EventInfo dbei(lin.hEvent);
+		if (dbei) {
+			if (dbei.eventType == EVENTTYPE_FILE) {
+				DB::FILE_BLOB blob(dbei);
+				if (blob.isOffline())
+					InsertFileLink(buf, lin.hEvent, blob);
+				else
+					lin.write(streamData, false, buf, ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+			}
+			return;
+		}
+	}
+	if (lin.ptszText)
+		lin.write(streamData, false, buf, lin.ptszText);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -21,6 +21,7 @@
 #include <m_extraicons.h>
 #include <m_history.h>
 #include <m_icolib.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
@@ -47,7 +48,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CTelegramProto>
 {
 	CMPlugin();
 
-	HANDLE m_hIcon;
+	HANDLE m_hIcon, m_hevEventEdited;
 
 	int Load() override;
 };

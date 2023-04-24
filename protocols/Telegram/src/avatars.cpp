@@ -77,6 +77,42 @@ INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+
+INT_PTR __cdecl CTelegramProto::OfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread((MyThreadFunc)&CTelegramProto::OfflineFileThread, (void *)param);
+	return 0;
+}
+
+void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
+{
+	auto *ofd = (OFDTHREAD *)pParam;
+
+	DB::EventInfo dbei(ofd->hDbEvent);
+	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
+		if (root) {
+			int iFileId = root["id"].as_int();
+			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, iFileId, root["u"].as_string().c_str());
+			ft->m_fileName = ofd->wszPath;
+			m_arFiles.insert(ft);
+
+			SendQuery(new TD::downloadFile(iFileId, 10, 0, 0, true));
+
+			DBVARIANT dbv = { DBVT_DWORD };
+			dbv.dVal = ft->pfts.currentFileSize;
+			db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+			db_event_setJson(ofd->hDbEvent, "fs", &dbv);
+			NotifyEventHooks(g_plugin.m_hevEventEdited, 0, ofd->hDbEvent);
+
+			if (ofd->bOpen)
+				ShellExecuteW(nullptr, L"open", ofd->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+		}
+	}
+
+	delete ofd;
+}
+
 TG_FILE_REQUEST* CTelegramProto::PopFile(const char *pszUniqueId)
 {
 	mir_cslock lck(m_csFiles);
