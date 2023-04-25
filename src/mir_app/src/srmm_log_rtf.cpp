@@ -137,7 +137,12 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 	buf.AppendFormat("ofile:%ul", hEvent);
 	buf.Append("\"}{\\fldrslt{\\ul ");
 	AppendUnicodeString(buf, blob.getName());
-	buf.AppendFormat("}}}");
+	buf.Append("}}}");
+
+	if (auto *pwszDescr = blob.getDescr()) {
+		buf.Append(" - ");
+		AppendUnicodeString(buf, pwszDescr);
+	}
 
 	if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
 		buf.Append(" \\u10004? ");
