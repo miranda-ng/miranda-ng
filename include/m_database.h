@@ -721,6 +721,9 @@ namespace DB
 
 		bool isCompleted() const;
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
+
+		__forceinline void setUrl(const char *pszUrl) { m_szProtoString = mir_strdup(pszUrl); }
+		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

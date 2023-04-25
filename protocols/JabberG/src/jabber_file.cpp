@@ -95,7 +95,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 
 				if (written) {
 					DBVARIANT dbv = { DBVT_DWORD };
-					dbv.dVal = written;
+					dbv.dVal = (DWORD)written;
 					db_event_setJson(param->hDbEvent, "ft", &dbv);
 					db_event_setJson(param->hDbEvent, "fs", &dbv);
 					NotifyEventHooks(g_hevEventEdited, 0, param->hDbEvent);
@@ -109,6 +109,15 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 
 	delete param;
 }
+
+void CJabberProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+{
+	if (auto *ft = (filetransfer *)pHandle)
+		if (ft->type == FT_HTTP && ft->httpPath)
+			blob.setUrl(ft->httpPath);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #define JABBER_NETWORK_BUFFER_SIZE 2048
 

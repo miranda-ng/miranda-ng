@@ -73,7 +73,7 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	Type m_type;
 	bool m_bOpen = false;
 	MEVENT m_hEvent = 0;
-	TD::int53 m_fileId;
+	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId;
 	CMStringW m_destPath, m_fileName;
 };
@@ -290,8 +290,6 @@ public:
 		
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
-
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
@@ -299,6 +297,7 @@ public:
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
+	void     OnCreateOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
 	void     OnEventDeleted(MCONTACT, MEVENT) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -318,6 +317,7 @@ public:
 
 	INT_PTR __cdecl AddByPhone(WPARAM, LPARAM);
 	INT_PTR __cdecl OfflineFile(WPARAM, LPARAM);
+	INT_PTR __cdecl PreCreateOfflineFile(WPARAM, LPARAM);
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	

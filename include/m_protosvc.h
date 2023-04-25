@@ -772,7 +772,6 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 #define PRFF_UTF     0x0002 // in all MAllCStrings .a contains text in UTF8
 #define PRFF_SILENT  0x0004 // do not show file send/receive dialog
 
-
 struct PROTORECVFILE
 {
 	uint32_t dwFlags;       // PRFF_*
@@ -794,6 +793,13 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
 	return Proto_ChainRecv(0, &ccs);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// Offline file's blob preparation
+// wParam = (DB::FILEBLOB*) blob to patch
+// lParam = (HANDLE) pointer to custom file transfer, passed to PROTORECVFILE.lParam
+
+#define PS_PRECREATE_OFFLINEFILE "/PreCreateOfflineFile"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Offline file processing

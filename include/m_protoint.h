@@ -266,6 +266,9 @@ public:
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
+	// called when an offline file is being created
+	virtual void OnCreateOfflineFile(DB::FILE_BLOB &blob, void *ft);
+
 	// called when an event is altered in database
 	virtual void OnEventDeleted(MCONTACT, MEVENT);
 

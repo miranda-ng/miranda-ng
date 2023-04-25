@@ -135,8 +135,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
-
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
@@ -153,6 +151,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle);
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;

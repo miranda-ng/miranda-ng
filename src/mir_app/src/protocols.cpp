@@ -43,38 +43,39 @@ static int __cdecl CompareServiceItems(const void *p1, const void *p2)
 
 static TServiceListItem serviceItems[] = 
 {
-	{ PS_ADDTOLIST,          1 },
-	{ PS_ADDTOLISTBYEVENT,   2 },
-	{ PS_AUTHALLOW,          3 },
-	{ PS_AUTHDENY,           4 },
-	{ PSR_AUTH,              5 },
-	{ PSS_AUTHREQUEST,       6 },
-	{ PSS_FILEALLOW,         8 },
-	{ PSS_FILECANCEL,        9 },
-	{ PSS_FILEDENY,         10 },
-	{ PS_FILERESUME,        11 },
-	{ PS_GETCAPS,           12 },
-	{ PS_LOADICON,          13 },
-	{ PSS_GETINFO,          14 },
-	{ PS_BASICSEARCH,       15 },
-	{ PS_SEARCHBYEMAIL,     16 },
-	{ PS_SEARCHBYNAME,      17 },
-	{ PS_SEARCHBYADVANCED,  18 },
-	{ PS_CREATEADVSEARCHUI, 19 },
-	{ PSR_CONTACTS,         20 },
-	{ PSR_FILE,             21 },
-	{ PSR_MESSAGE,          22 },
-	{ PSS_CONTACTS,         23 },
-	{ PSS_FILE,             24 },
-	{ PSS_MESSAGE,          25 },
-	{ PSS_SETAPPARENTMODE,  26 },
-	{ PS_SETSTATUS,         27 },
-	{ PSS_GETAWAYMSG,       28 },
-	{ PSR_AWAYMSG,          29 },
-	{ PS_SETAWAYMSG,        30 },
-	{ PSS_USERISTYPING,     31 },
-	{ PS_GETNAME,           32 },
-	{ PS_GETSTATUS,         33 }
+	{ PS_ADDTOLIST,             1 },
+	{ PS_ADDTOLISTBYEVENT,      2 },
+	{ PS_AUTHALLOW,             3 },
+	{ PS_AUTHDENY,              4 },
+	{ PSR_AUTH,                 5 },
+	{ PSS_AUTHREQUEST,          6 },
+	{ PS_PRECREATE_OFFLINEFILE, 7 },
+	{ PSS_FILEALLOW,            8 },
+	{ PSS_FILECANCEL,           9 },
+	{ PSS_FILEDENY,            10 },
+	{ PS_FILERESUME,           11 },
+	{ PS_GETCAPS,              12 },
+	{ PS_LOADICON,             13 },
+	{ PSS_GETINFO,             14 },
+	{ PS_BASICSEARCH,          15 },
+	{ PS_SEARCHBYEMAIL,        16 },
+	{ PS_SEARCHBYNAME,         17 },
+	{ PS_SEARCHBYADVANCED,     18 },
+	{ PS_CREATEADVSEARCHUI,    19 },
+	{ PSR_CONTACTS,            20 },
+	{ PSR_FILE,                21 },
+	{ PSR_MESSAGE,             22 },
+	{ PSS_CONTACTS,            23 },
+	{ PSS_FILE,                24 },
+	{ PSS_MESSAGE,             25 },
+	{ PSS_SETAPPARENTMODE,     26 },
+	{ PS_SETSTATUS,            27 },
+	{ PSS_GETAWAYMSG,          28 },
+	{ PSR_AWAYMSG,             29 },
+	{ PS_SETAWAYMSG,           30 },
+	{ PSS_USERISTYPING,        31 },
+	{ PS_GETNAME,              32 },
+	{ PS_GETSTATUS,            33 },
 };
 
 //------------------------------------------------------------------------------------
@@ -400,6 +401,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (wchar_t *)lParam);
 			case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT *)lParam);
 			case  6: return (INT_PTR)ppi->AuthRequest(hContact, (wchar_t *)lParam);
+			case  7: ppi->OnCreateOfflineFile(*(DB::FILE_BLOB *)wParam, (void *)lParam); return 0;
 			case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t *)lParam);
 			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t *)lParam);

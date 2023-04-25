@@ -706,23 +706,6 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// RecvFile - writes down an incoming file transfer to db
-
-MEVENT CJabberProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
-{
-	MEVENT hEvent = CSuper::RecvFile(hContact, pre);
-	if (hEvent) {
-		auto *ft = (filetransfer *)pre->lParam;
-		if (ft && ft->type == FT_HTTP && ft->httpPath) {
-			DBVARIANT dbv = { DBVT_UTF8 };
-			dbv.pszVal = ft->httpPath;
-			db_event_setJson(hEvent, "u", &dbv);
-		}
-	}
-	return hEvent;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SearchBasic - searches the contact by JID
 
 struct JABBER_SEARCH_BASIC

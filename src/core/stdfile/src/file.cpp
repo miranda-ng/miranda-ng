@@ -355,6 +355,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		}
 
 		DB::FILE_BLOB blob(wszFiles, bUtf ? Utf2T(pre->descr.a).get() : _A2T(pre->descr.a));
+		CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
 		blob.write(dbei);
 	}
 

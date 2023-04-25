@@ -76,6 +76,7 @@ INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Offline file downloader
 
 void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo)
 {
@@ -94,12 +95,6 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 	ft->m_uniqueId = pFile->remote_->unique_id_.c_str();
 
 	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
-}
-
-INT_PTR __cdecl CTelegramProto::OfflineFile(WPARAM param, LPARAM)
-{
-	ForkThread((MyThreadFunc)&CTelegramProto::OfflineFileThread, (void *)param);
-	return 0;
 }
 
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
@@ -123,6 +118,25 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 	delete ofd;
 }
 
+INT_PTR __cdecl CTelegramProto::OfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread((MyThreadFunc)&CTelegramProto::OfflineFileThread, (void *)param);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Offline file pre-creator
+
+void CTelegramProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+{
+	if (auto *ft = (TG_FILE_REQUEST *)pHandle) {
+		blob.setUrl(ft->m_uniqueId.GetBuffer());
+		blob.setSize(ft->m_fileSize);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 TG_FILE_REQUEST* CTelegramProto::PopFile(const char *pszUniqueId)
 {
 	mir_cslock lck(m_csFiles);
@@ -133,6 +147,9 @@ TG_FILE_REQUEST* CTelegramProto::PopFile(const char *pszUniqueId)
 
 	return nullptr;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// handles file info updates
 
 void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 {
