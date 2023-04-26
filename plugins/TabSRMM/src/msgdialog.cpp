@@ -1079,8 +1079,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	int  iSplitterX = m_pContainer->cfg.iSplitterX;
 
-	RECT rc, rcButton;
-	GetClientRect(m_pLog->GetHwnd(), &rc);
+	RECT rcButton;
 	GetClientRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rcButton);
 
 	if (m_bIsAutosizingInput)
@@ -1183,6 +1182,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_CONTACTPIC:
+		RECT rc;
 		GetClientRect(m_message.GetHwnd(), &rc);
 		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		urc->rcItem.left = urc->rcItem.right - (m_pic.cx + 2);

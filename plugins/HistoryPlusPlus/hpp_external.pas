@@ -67,76 +67,60 @@ uses
 var
   hExtOptChanged: THandle;
 
-function _ExtWindow(wParam:WPARAM; lParam: LPARAM): uint_ptr;
+function ExtWindowNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 var
   par: PIEVIEWWINDOW;
   ExtGrid: TExternalGrid;
-  ControlID: Cardinal;
 begin
   Result := 0;
-  //try
-    par := PIEVIEWWINDOW(lParam);
-    Assert(par <> nil, 'Empty IEVIEWWINDOW structure');
-    case par.iType of
-      IEW_CREATE: begin
-        {$IFDEF DEBUG}
-        OutputDebugString('IEW_CREATE');
-        {$ENDIF}
-        case par.dwMode of
-          IEWM_TABSRMM: ControlID := 1006;  // IDC_LOG from tabSRMM
-          IEWM_SCRIVER: ControlID := 1001;  // IDC_LOG from Scriver
-          IEWM_MUCC:    ControlID := 0;
-          IEWM_CHAT:    ControlID := 0;
-          IEWM_HISTORY: ControlID := 0;
-        else            ControlID := 0;
+
+  par := PIEVIEWWINDOW(lParam);
+  Assert(par <> nil, 'Empty IEVIEWWINDOW structure');
+  case par.iType of
+    IEW_CREATE: begin
+      {$IFDEF DEBUG}
+      OutputDebugString('IEW_CREATE');
+      {$ENDIF}
+      ExtGrid := TExternalGrid.Create(par.Parent);
+      case par.dwMode of
+        IEWM_MUCC,IEWM_CHAT: begin
+          ExtGrid.ShowHeaders   := False;
+          ExtGrid.GroupLinked   := False;
+          ExtGrid.ShowBookmarks := False;
         end;
-        ExtGrid := TExternalGrid.Create(par.Parent,ControlID);
-        case par.dwMode of
-          IEWM_MUCC,IEWM_CHAT: begin
-            ExtGrid.ShowHeaders   := False;
-            ExtGrid.GroupLinked   := False;
-            ExtGrid.ShowBookmarks := False;
-          end;
-          IEWM_HISTORY:
-            ExtGrid.GroupLinked := False;
-        end;
-        ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
-        ExternalGrids.Add(ExtGrid);
-        par.Hwnd := ExtGrid.GridHandle;
+        IEWM_HISTORY:
+          ExtGrid.GroupLinked := False;
       end;
-      IEW_DESTROY: begin
-        {$IFDEF DEBUG}
-        OutputDebugString('IEW_DESTROY');
-        {$ENDIF}
-        ExternalGrids.Delete(par.Hwnd);
-      end;
-      IEW_SETPOS: begin
-        {$IFDEF DEBUG}
-        OutputDebugString('IEW_SETPOS');
-        {$ENDIF}
-        ExtGrid := ExternalGrids.Find(par.Hwnd);
-        if ExtGrid <> nil then
-          ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
-      end;
-      IEW_SCROLLBOTTOM: begin
-        {$IFDEF DEBUG}
-        OutputDebugString('IEW_SCROLLBOTTOM');
-        {$ENDIF}
-        ExtGrid := ExternalGrids.Find(par.Hwnd);
-        if ExtGrid <> nil then
-          ExtGrid.ScrollToBottom;
-      end;
+      ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
+      ExternalGrids.Add(ExtGrid);
+      par.Hwnd := ExtGrid.GridHandle;
     end;
-  //except
-  //end;
+    IEW_DESTROY: begin
+      {$IFDEF DEBUG}
+      OutputDebugString('IEW_DESTROY');
+      {$ENDIF}
+      ExternalGrids.Delete(par.Hwnd);
+    end;
+    IEW_SETPOS: begin
+      {$IFDEF DEBUG}
+      OutputDebugString('IEW_SETPOS');
+      {$ENDIF}
+      ExtGrid := ExternalGrids.Find(par.Hwnd);
+      if ExtGrid <> nil then
+        ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
+    end;
+    IEW_SCROLLBOTTOM: begin
+      {$IFDEF DEBUG}
+      OutputDebugString('IEW_SCROLLBOTTOM');
+      {$ENDIF}
+      ExtGrid := ExternalGrids.Find(par.Hwnd);
+      if ExtGrid <> nil then
+        ExtGrid.ScrollToBottom;
+    end;
+  end;
 end;
 
-function ExtWindowNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
-begin
-  Result := _ExtWindow(wParam,lParam);
-end;
-
-function _ExtEvent(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
+function ExtEventNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 var
   event: PIEVIEWEVENT;
   customEvent: PIEVIEWEVENTDATA;
@@ -147,78 +131,70 @@ var
   CustomItem: TExtCustomItem;
 begin
   Result := 0;
-  //try
-    {$IFDEF DEBUG}
-    OutputDebugString('MS_IEVIEW_EVENT');
-    {$ENDIF}
-    event := PIEVIEWEVENT(lParam);
-    Assert(event <> nil, 'Empty IEVIEWEVENT structure');
-    ExtGrid := ExternalGrids.Find(event.Hwnd);
-    if ExtGrid = nil then exit;
-    case event.iType of
-      IEE_LOG_DB_EVENTS: begin
-        UsedCodepage := event.Codepage;
-        eventCount := event.Count;
-        hDBNext := event.Event.hDBEventFirst;
-        ExtGrid.BeginUpdate;
-        while (eventCount <> 0) and (hDBNext <> 0) do
-        begin
-          ExtGrid.AddEvent(event.hContact, hDBNext, UsedCodepage,
+
+  {$IFDEF DEBUG}
+  OutputDebugString('MS_IEVIEW_EVENT');
+  {$ENDIF}
+  event := PIEVIEWEVENT(lParam);
+  Assert(event <> nil, 'Empty IEVIEWEVENT structure');
+  ExtGrid := ExternalGrids.Find(event.Hwnd);
+  if ExtGrid = nil then exit;
+  case event.iType of
+    IEE_LOG_DB_EVENTS: begin
+      UsedCodepage := event.Codepage;
+      eventCount := event.Count;
+      hDBNext := event.Event.hDBEventFirst;
+      ExtGrid.BeginUpdate;
+      while (eventCount <> 0) and (hDBNext <> 0) do
+      begin
+        ExtGrid.AddEvent(event.hContact, hDBNext, UsedCodepage,
+                         boolean(event.dwFlags and IEEF_RTL),
+                         not boolean(event.dwFlags and IEEF_NO_SCROLLING));
+        if eventCount > 0 then Dec(eventCount);
+        if eventCount <> 0 then
+          hDBNext := db_event_next(event.hContact,hDBNext);
+      end;
+      ExtGrid.EndUpdate;
+    end;
+    IEE_LOG_MEM_EVENTS: begin
+      UsedCodepage := event.Codepage;
+      eventCount := event.Count;
+      customEvent := event.Event.eventData;
+      ExtGrid.BeginUpdate;
+      while (eventCount <> 0) and (customEvent <> nil) do
+      begin
+        if boolean(customEvent.dwFlags and IEEDF_UNICODE_TEXT) then
+          SetString(CustomItem.Text,customEvent.Text.w,lstrlenW(customEvent.Text.w))
+        else
+          CustomItem.Text := AnsiToWideString(AnsiString(customEvent.Text.a),UsedCodepage);
+        if boolean(customEvent.dwFlags and IEEDF_UNICODE_NICK) then
+          SetString(CustomItem.Nick,customEvent.Nick.w,lstrlenW(customEvent.Nick.w))
+        else
+          CustomItem.Nick := AnsiToWideString(AnsiString(customEvent.Nick.a),UsedCodepage);
+        CustomItem.Sent := boolean(customEvent.bIsMe);
+        CustomItem.Time := customEvent.time;
+        CustomItem.hEvent := customEvent.hEvent;
+        ExtGrid.AddCustomEvent(event.hContact, CustomItem, UsedCodepage,
                            boolean(event.dwFlags and IEEF_RTL),
                            not boolean(event.dwFlags and IEEF_NO_SCROLLING));
-          if eventCount > 0 then Dec(eventCount);
-          if eventCount <> 0 then
-            hDBNext := db_event_next(event.hContact,hDBNext);
-        end;
-        ExtGrid.EndUpdate;
+        if eventCount > 0 then Dec(eventCount);
+        customEvent := customEvent.next;
       end;
-      IEE_LOG_MEM_EVENTS: begin
-        UsedCodepage := event.Codepage;
-        eventCount := event.Count;
-        customEvent := event.Event.eventData;
-        ExtGrid.BeginUpdate;
-        while (eventCount <> 0) and (customEvent <> nil) do
-        begin
-          if boolean(customEvent.dwFlags and IEEDF_UNICODE_TEXT) then
-            SetString(CustomItem.Text,customEvent.Text.w,lstrlenW(customEvent.Text.w))
-          else
-            CustomItem.Text := AnsiToWideString(AnsiString(customEvent.Text.a),UsedCodepage);
-          if boolean(customEvent.dwFlags and IEEDF_UNICODE_NICK) then
-            SetString(CustomItem.Nick,customEvent.Nick.w,lstrlenW(customEvent.Nick.w))
-          else
-            CustomItem.Nick := AnsiToWideString(AnsiString(customEvent.Nick.a),UsedCodepage);
-          CustomItem.Sent := boolean(customEvent.bIsMe);
-          CustomItem.Time := customEvent.time;
-          CustomItem.hEvent := customEvent.hEvent;
-          ExtGrid.AddCustomEvent(event.hContact, CustomItem, UsedCodepage,
-                             boolean(event.dwFlags and IEEF_RTL),
-                             not boolean(event.dwFlags and IEEF_NO_SCROLLING));
-          if eventCount > 0 then Dec(eventCount);
-          customEvent := customEvent.next;
-        end;
-        ExtGrid.EndUpdate;
-      end;
-      IEE_CLEAR_LOG: begin
-        ExtGrid.BeginUpdate;
-        ExtGrid.Clear;
-        ExtGrid.EndUpdate;
-      end;
-      IEE_GET_SELECTION: begin
-        Result := uint_ptr(ExtGrid.GetSelection());
-      end;
-      IEE_SAVE_DOCUMENT: begin
-        ExtGrid.SaveSelected;
-      end;
+      ExtGrid.EndUpdate;
     end;
-  //except
-  //end;
+    IEE_CLEAR_LOG: begin
+      ExtGrid.BeginUpdate;
+      ExtGrid.Clear;
+      ExtGrid.EndUpdate;
+    end;
+    IEE_GET_SELECTION: begin
+      Result := uint_ptr(ExtGrid.GetSelection());
+    end;
+    IEE_SAVE_DOCUMENT: begin
+      ExtGrid.SaveSelected;
+    end;
+  end;
 end;
-
-function ExtEventNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
-begin
-  Result := _ExtEvent(wParam,lParam);
-end;
-
 
 function ExtNavigate(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin

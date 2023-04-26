@@ -198,7 +198,7 @@ public:
 
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 		ieWindow.iType = IEW_SETPOS;
-		ieWindow.parent = m_hwnd;
+		ieWindow.parent = m_pDlg.GetHwnd();
 		ieWindow.hwnd = m_hwnd;
 		ieWindow.x = pt.x;
 		ieWindow.y = pt.y;

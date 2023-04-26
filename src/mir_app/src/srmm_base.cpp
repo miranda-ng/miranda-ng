@@ -486,12 +486,11 @@ bool CSrmmBaseDialog::OnInitDialog()
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	m_pLog = Srmm_GetLogWindow((CMsgDialog*)this);
-	if (m_pLog->GetType() != 0) { // custom log type
-		HWND hwndLog = GetDlgItem(m_hwnd, IDC_SRMM_LOG);
-		EnableWindow(hwndLog, FALSE);
-		ShowWindow(hwndLog, SW_HIDE);
-	}
 	m_pLog->Attach();
+	if (m_pLog->GetType() != 0) { // custom log type
+		DestroyWindow(GetDlgItem(m_hwnd, IDC_SRMM_LOG));
+		SetWindowLong(m_pLog->GetHwnd(), GWLP_ID, IDC_SRMM_LOG);
+	}
 
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);

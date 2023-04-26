@@ -458,7 +458,6 @@ begin
   TranslateMenu(pmLink.Items);
 
   CreateEventsFilterMenu;
-  // SetEventFilter(GetDBInt(hppDBName,'RecentLogFilter',GetShowAllEventsIndex));
   SetEventFilter(GetShowAllEventsIndex);
 end;
 
@@ -692,11 +691,6 @@ begin
       exit;
     end;
 end;
-
-// procedure TExternalGrid.HMIcons2Changed(var M: TMessage);
-// begin
-// Grid.Repaint;
-// end;
 
 procedure TExternalGrid.GridSelectRequest(Sender: TObject);
 begin
@@ -1214,7 +1208,6 @@ end;
 procedure TExternalGrid.GridMCData(Sender: TObject; Index: Integer; var Item: TMCItem; Stage: TSaveStage);
 var
   DBEventInfo: TOldDBEventInfo;
-  dbei : TDBEventInfo;
   hDBEvent: THandle;
   DataOffset: PAnsiChar;
   TextUTF: Utf8String;

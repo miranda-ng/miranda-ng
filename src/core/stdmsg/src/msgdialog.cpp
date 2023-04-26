@@ -573,11 +573,10 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 				}
 			}
-			else {
-				SetupStatusBar();
-			}
+			else SetupStatusBar();
 
 			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
+			m_pLog->Resize();
 			SetButtonsPos();
 		}
 		return TRUE;
