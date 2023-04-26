@@ -255,7 +255,6 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		}
 	}
 
-	dat->bWasLoaded = true;
 	dat->hInst = ppb->getInst();
 	NotifyFastHook(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
 	return true;
@@ -267,7 +266,6 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 		if (!Plugin_UnloadDyn(p))
 			return false;
 
-		dat->bWasLoaded = false;
 		dat->hInst = nullptr;
 	}
 	
@@ -376,6 +374,7 @@ public:
 		CMStringW bufRestart(TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 		bufRestart.AppendChar('\n');
 
+		g_bLoadStd = false;
 		for (int iRow = 0; iRow != -1;) {
 			wchar_t buf[1024];
 			m_plugList.GetItemText(iRow, 0, buf, _countof(buf));
@@ -413,12 +412,15 @@ public:
 							}
 						}
 					}
+
+					dat->bWasLoaded = dat->hInst != nullptr;
 				}
 			}
 			SetPluginOnWhiteList(_T2A(buf), (iState & 0x2000) != 0);
 
 			iRow = m_plugList.GetNextItem(iRow, LVNI_ALL);
 		}
+
 		LoadStdPlugins();
 
 		ShowWindow(GetDlgItem(m_hwnd, IDC_RESTART), needRestart);

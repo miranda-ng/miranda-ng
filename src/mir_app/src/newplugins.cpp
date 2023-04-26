@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define PLUGINDISABLELIST "PluginDisable"
 
-bool g_bReadyToInitClist = false;
+bool g_bReadyToInitClist = false, g_bLoadStd = false;
 
 void LoadExtraIconsModule();
 void freePluginInstance(HINSTANCE hInst);
@@ -317,15 +317,17 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	if (!p->bIsCore)
 		for (auto &it : pluginDefault)
 			if (it.pImpl == p) {
-				if (!it.Preload()) {
-					MessageBoxW(nullptr,
-						CMStringW(FORMAT, TranslateT("Plugin %S cannot be unloaded because the core plugin is missing"), p->pluginname),
-						L"Miranda", MB_ICONERROR | MB_OK);
-					it.pImpl = p;
-					return false;
-				}
+				if (g_bLoadStd) {
+					if (!it.Preload()) {
+						MessageBoxW(nullptr,
+							CMStringW(FORMAT, TranslateT("Plugin %S cannot be unloaded because the core plugin is missing"), p->pluginname),
+							L"Miranda", MB_ICONERROR | MB_OK);
+						it.pImpl = p;
+						return false;
+					}
 
-				stdPlugin = &it;
+					stdPlugin = &it;
+				}
 				break;
 			}
 
@@ -530,9 +532,13 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		}
 	}
 
+	// if this plugin already failed, don't try to load it twice
+	if (p->bFailed)
+		return false;
+
 	// contact list is loaded via clistlink, db - via DATABASELINK
 	// so we should call Load() only for usual plugins
-	if (!p->bFailed && !p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
+	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
 		if (p->load() != 0) {
 			p->bFailed = true;
 			return false;
@@ -758,6 +764,8 @@ int LoadNewPluginsModule(void)
 
 int LoadStdPlugins()
 {
+	g_bLoadStd = true;
+
 	for (auto &it : pluginDefault) {
 		if (it.pImpl)
 			continue;
