@@ -810,7 +810,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							}
 						}
 
-						SaveViewMode(szFilterName, L"", g_CluiData.protoFilter, 0, -1, 0, 0, 0, 0);
+						SaveViewMode(szFilterName, L"", g_CluiData.protoFilter, 0, -1, 0, 0, 0);
 						ApplyViewMode(szFilterName);
 					}
 					Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);

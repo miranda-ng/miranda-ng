@@ -8,6 +8,9 @@
 #define IDI_MIRANDA                     102
 #define IDD_OPT_ROWTMPL                 103
 #define IDI_SMS                         104
+#define IDD_OPT_VIEWMODES               105
+#define IDD_OPT_VIEWMODES1              106
+#define IDD_OPT_VIEWMODES2              107
 #define IDD_OPT_CLIST                   126
 #define IDD_OPT_SOUND                   134
 #define IDD_OPT_HOTKEYS                 134
@@ -392,7 +395,6 @@
 #define IDC_RIGHTMARGINSPIN             11803
 #define IDC_TOPMARGINSPIN               11804
 #define IDC_BOTTOMMARGINSPIN            11805
-#define IDD_OPT_VIEWMODES               19100
 #define IDC_VIEWMODES                   19102
 #define IDC_PROTOCOLS                   19103
 #define IDC_ADDVIEWMODE                 19104
