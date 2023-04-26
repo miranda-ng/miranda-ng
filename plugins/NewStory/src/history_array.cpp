@@ -104,54 +104,55 @@ void ItemData::load(bool bFullLoad)
 	if (!bFullLoad || bLoaded)
 		return;
 
-	dbe.cbBlob = db_event_getBlobSize(hEvent);
-	mir_ptr<uint8_t> pData((uint8_t *)mir_calloc(dbe.cbBlob + 1));
-	dbe.pBlob = pData;
-	if (!db_event_get(hEvent, &dbe)) {
-		bLoaded = true;
+	dbe.cbBlob = -1;
+	if (db_event_get(hEvent, &dbe))
+		return;
 
-		switch (dbe.eventType) {
-		case EVENTTYPE_MESSAGE:
-			if (!(dbe.flags & DBEF_SENT)) {
-				if (!dbe.markedRead())
-					db_event_markRead(hContact, hEvent);
-				g_clistApi.pfnRemoveEvent(hContact, hEvent);
-			}
-			__fallthrough;
+	bLoaded = true;
 
-		case EVENTTYPE_STATUSCHANGE:
-			wtext = mir_utf8decodeW((char *)dbe.pBlob);
-			break;
-
-		case EVENTTYPE_FILE:
-			wchar_t buf[MAX_PATH];
-			CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
-			{
-				DB::FILE_BLOB blob(dbe);
-
-				CMStringW wszFileName(buf);
-				wszFileName.Append(blob.getName());
-
-				// if a filename contains spaces, URL will be broken
-				if (wszFileName.Find(' ') != -1) {
-					wchar_t wszShortPath[MAX_PATH];
-					if (GetShortPathNameW(wszFileName, wszShortPath, _countof(wszShortPath))) {
-						wszFileName = wszShortPath;
-						wszFileName.MakeLower();
-					}
-				}
-
-				wszFileName.Replace('\\', '/');
-				wszFileName.Insert(0, L"file://");
-				wtext = wszFileName.Detach();
-			}
-			break;
-
-		default:
-			wtext = DbEvent_GetTextW(&dbe, CP_ACP);
-			break;
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:
+		if (!(dbe.flags & DBEF_SENT)) {
+			if (!dbe.markedRead())
+				db_event_markRead(hContact, hEvent);
+			g_clistApi.pfnRemoveEvent(hContact, hEvent);
 		}
+		__fallthrough;
+
+	case EVENTTYPE_STATUSCHANGE:
+		wtext = mir_utf8decodeW((char *)dbe.pBlob);
+		break;
+
+	case EVENTTYPE_FILE:
+		wchar_t buf[MAX_PATH];
+		CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
+		{
+			DB::FILE_BLOB blob(dbe);
+
+			CMStringW wszFileName(buf);
+			wszFileName.Append(blob.getName());
+
+			// if a filename contains spaces, URL will be broken
+			if (wszFileName.Find(' ') != -1) {
+				wchar_t wszShortPath[MAX_PATH];
+				if (GetShortPathNameW(wszFileName, wszShortPath, _countof(wszShortPath))) {
+					wszFileName = wszShortPath;
+					wszFileName.MakeLower();
+				}
+			}
+
+			wszFileName.Replace('\\', '/');
+			wszFileName.Insert(0, L"file://");
+			wtext = wszFileName.Detach();
+		}
+		break;
+
+	default:
+		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+		break;
 	}
+
+	mir_free(dbe.pBlob);
 	dbe.pBlob = nullptr;
 }
 
