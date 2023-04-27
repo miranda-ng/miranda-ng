@@ -101,24 +101,30 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#define CLVM_FILTER_PROTOS			1
-#define CLVM_FILTER_GROUPS			2
-#define CLVM_FILTER_STATUS			4
-#define CLVM_FILTER_VARIABLES		8
-#define CLVM_STICKY_CONTACTS		16
-#define CLVM_FILTER_STICKYSTATUS	32
-#define CLVM_FILTER_LASTMSG			64
-#define CLVM_FILTER_LASTMSG_OLDERTHAN 128
-#define CLVM_FILTER_LASTMSG_NEWERTHAN 256
+#define CLVM_FILTER_PROTOS             0x0001
+#define CLVM_FILTER_GROUPS             0x0002
+#define CLVM_FILTER_STATUS             0x0004
+#define CLVM_FILTER_VARIABLES          0x0008
+#define CLVM_STICKY_CONTACTS           0x0010
+#define CLVM_FILTER_STICKYSTATUS       0x0020
+#define CLVM_FILTER_LASTMSG            0x0040
+#define CLVM_FILTER_LASTMSG_OLDERTHAN  0x0080
+#define CLVM_FILTER_LASTMSG_NEWERTHAN  0x0100
 
-#define CLVM_PROTOGROUP_OP		1
-#define CLVM_GROUPSTATUS_OP		2
-#define CLVM_AUTOCLEAR			4
-#define CLVM_INCLUDED_UNGROUPED 8
-#define CLVM_USELASTMSG			16
+#define CLVM_PROTOGROUP_OP             0x0001
+#define CLVM_GROUPSTATUS_OP       		0x0002
+#define CLVM_AUTOCLEAR            		0x0004
+#define CLVM_INCLUDED_UNGROUPED 			0x0008
+#define CLVM_USELASTMSG         			0x0010
 
-#define CLVM_USEGROUPS			32
-#define CLVM_DONOTUSEGROUPS		64
+#define CLVM_USEGROUPS                 0x0020
+#define CLVM_DONOTUSEGROUPS            0x0040
+
+#define CLVM_FOLDGROUPS                0x0080
+#define CLVM_UNFOLDGROUPS              0x0100
+
+#define CLVM_HIDEEMPTYGROUPS           0x0200
+#define CLVM_SHOWEMPTYGROUPS           0x0400
 
 //changes the 'use groups' flag and call CLUI    v0.8.0.16+
 //wParam=newValue

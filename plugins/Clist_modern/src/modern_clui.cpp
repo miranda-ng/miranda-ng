@@ -72,7 +72,9 @@ RECT    g_rcEdgeSizingRect = { 0 };
 
 static uint8_t bAlphaEnd;
 static int bOldHideOffline;
+static int bOldHideEmptyGroups;
 static int bOldUseGroups;
+static int bOldFoldGroups;
 
 static uint16_t wBehindEdgeShowDelay,
 wBehindEdgeHideDelay,
@@ -301,11 +303,17 @@ CLUI::CLUI() :
 
 	LoadCLUIFramesModule();
 
-	g_CluiData.boldHideOffline = -1;
+	g_CluiData.bOldHideEmptyGroups = -1;
+	bOldHideEmptyGroups = Clist::HideEmptyGroups;
+
+	g_CluiData.bOldHideOffline = -1;
 	bOldHideOffline = Clist::HideOffline;
 
 	g_CluiData.bOldUseGroups = -1;
 	bOldUseGroups = Clist::UseGroups;
+
+	g_CluiData.bOldFoldGroups = -1;
+	bOldFoldGroups = -1;
 }
 
 CLUI::~CLUI()
@@ -441,6 +449,7 @@ HRESULT CLUI::CreateCLC()
 	if (g_CluiData.current_viewmode[0] == '\0') {
 		g_clistApi.pfnSetHideOffline((bOldHideOffline == -1) ? false : bOldHideOffline);
 		CallService(MS_CLIST_SETUSEGROUPS, (bOldUseGroups == -1) ? false : bOldUseGroups, 0);
+		SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, (bOldHideEmptyGroups == -1) ? false : bOldHideEmptyGroups, 0);
 	}
 	nLastRequiredHeight = 0;
 	mutex_bDisableAutoUpdate = 0;

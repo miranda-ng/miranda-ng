@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\plugins\Clist_modern\res\resource.rc
+// Used by W:\miranda-ng\plugins\Clist_modern\res\resource.rc
 //
 #define IDC_ALWAYS_VISIBLEICON          0
 #define IDC_APPLY                       3
@@ -422,6 +422,8 @@
 #define IDC_SELECTMODE                  19126
 #define IDC_CONFIGUREMODES              19127
 #define IDC_USEGROUPS                   19128
+#define IDC_HIDEEMPTYGROUPS             19129
+#define IDC_FOLD_GROUPS                 19130
 #define POPUP_NEWSUBGROUP               40004
 #define POPUP_GROUPSHOWOFFLINE          40019
 #define IDC_FRAME_META                  40054
@@ -443,7 +445,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        512
 #define _APS_NEXT_COMMAND_VALUE         40022
-#define _APS_NEXT_CONTROL_VALUE         2025
+#define _APS_NEXT_CONTROL_VALUE         2026
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

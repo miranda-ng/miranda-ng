@@ -11,9 +11,9 @@ struct CLUIDATA
 
 	// NotifyArea menu
 	HMENU    hMenuNotify;
-	uint16_t     wNextMenuID;
+	uint16_t wNextMenuID;
 	int      iIconNotify;
-	uint32_t    dwFlags;
+	uint32_t dwFlags;
 	int      hIconNotify;
 	MCONTACT hUpdateContact;
 
@@ -21,15 +21,17 @@ struct CLUIDATA
 	wchar_t  groupFilter[2048];
 	char     protoFilter[2048];
 	char     varFilter[2048];
-	uint32_t    lastMsgFilter;
+	uint32_t lastMsgFilter;
 	char     current_viewmode[256], old_viewmode[256];
-	uint8_t     boldHideOffline;
-	uint8_t     bOldUseGroups;
-	uint32_t    statusMaskFilter;
-	uint32_t    stickyMaskFilter;
-	uint32_t    filterFlags;
-	uint32_t    bFilterEffective;
-	uint32_t    t_now;
+	int      bOldHideOffline;
+	int      bOldHideEmptyGroups;
+	int      bOldUseGroups;
+	int      bOldFoldGroups;
+	uint32_t statusMaskFilter;
+	uint32_t stickyMaskFilter;
+	uint32_t filterFlags;
+	uint32_t bFilterEffective;
+	uint32_t t_now;
 
 	// Modern Global Variables
 	int      fDocked;

@@ -117,8 +117,7 @@ void DeleteViewMode(char *szName)
 	}
 
 	for (auto &hContact : Contacts())
-		if (db_get_dw(hContact, CLVM_MODULE, szName, -1) != -1)
-			db_set_dw(hContact, CLVM_MODULE, szName, 0);
+		db_unset(hContact, CLVM_MODULE, szName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -188,37 +187,60 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+static int __cdecl FillModes(const char *szsetting, void *param)
+{
+	if (uint8_t(szsetting[0]) == 246)
+		return 1;
+	if (szsetting[0] == 13)
+		return 1;
+
+	ptrW temp(mir_utf8decodeW(szsetting));
+	if (temp != nullptr) {
+		auto *modes = (CCtrlCombo *)param;
+		modes->AddString(temp);
+	}
+	return 1;
+}
+
 class CViewModeSetupDlg1 : public CViewModePage
 {
 	int m_iCurrItem = -1;
 
-	CCtrlCheck chkLastMsg;
-	CCtrlCombo cmbProtoGroup, cmbGroupStatus, cmbLastMsgOp, cmbcmbLastMsgUnit;
+	CCtrlCheck chkLastMsg, chkUseGroups;
+	CCtrlCombo cmbModes, cmbProtoGroup, cmbGroupStatus, cmbLastMsgOp, cmbcmbLastMsgUnit;
 	CCtrlMButton btnAdd, btnRename, btnDelete;
-	CCtrlListBox modes;
 	CCtrlListView protocols, groups, statuses;
 
-	static int __cdecl FillModes(const char *szsetting, void *param)
+public:
+	CViewModeSetupDlg1(CViewModeSetupDlg *_1) :
+		CViewModePage(IDD_OPT_VIEWMODES1, _1),
+		groups(this, IDC_GROUPS),
+		statuses(this, IDC_STATUSMODES),
+		protocols(this, IDC_PROTOCOLS),
+		btnAdd(this, IDC_ADDVIEWMODE, SKINICON_OTHER_ADDCONTACT, LPGEN("Add view mode")),
+		btnRename(this, IDC_RENAMEVIEWMODE, SKINICON_OTHER_RENAME, LPGEN("Rename view mode")),
+		btnDelete(this, IDC_DELETEVIEWMODE, SKINICON_OTHER_DELETE, LPGEN("Remove view mode")),
+		cmbModes(this, IDC_VIEWMODES),
+		chkLastMsg(this, IDC_LASTMSG),
+		chkUseGroups(this, IDC_USEGROUPS),
+		cmbProtoGroup(this, IDC_PROTOGROUPOP),
+		cmbGroupStatus(this, IDC_GROUPSTATUSOP),
+		cmbLastMsgOp(this, IDC_LASTMESSAGEOP),
+		cmbcmbLastMsgUnit(this, IDC_LASTMESSAGEUNIT)
 	{
-		if (uint8_t(szsetting[0]) == 246)
-			return 1;
-		if (szsetting[0] == 13)
-			return 1;
+		btnAdd.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Add);
+		btnRename.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Rename);
+		btnDelete.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Delete);
 
-		ptrW temp(mir_utf8decodeW(szsetting));
-		if (temp != nullptr) {
-			CCtrlListBox *modes = (CCtrlListBox *)param;
-			modes->AddString(temp);
-		}
-		return 1;
+		chkLastMsg.OnChange = Callback(this, &CViewModeSetupDlg1::onChange_LastMsg);
+		chkUseGroups.OnChange = Callback(this, &CViewModeSetupDlg1::onChange_UseGroups);
+
+		cmbModes.OnSelChanged = Callback(this, &CViewModeSetupDlg1::onSelChanged_Mode);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////
-	// fills dialog with data
-
-	void FillDialog()
+	bool OnInitDialog() override
 	{
-		db_enum_settings(0, FillModes, CLVM_MODULE, &modes);
+		db_enum_settings(0, FillModes, CLVM_MODULE, &cmbModes);
 
 		// fill protocols...
 		protocols.SetExtendedListViewStyle(LVS_EX_CHECKBOXES);
@@ -280,7 +302,7 @@ class CViewModeSetupDlg1 : public CViewModePage
 
 		cmbProtoGroup.AddString(TranslateT("And"));
 		cmbProtoGroup.AddString(TranslateT("Or"));
-		
+
 		cmbGroupStatus.AddString(TranslateT("And"));
 		cmbGroupStatus.AddString(TranslateT("Or"));
 
@@ -294,10 +316,127 @@ class CViewModeSetupDlg1 : public CViewModePage
 		cmbcmbLastMsgUnit.SetCurSel(0);
 
 		SetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, 0, 0);
+
+		int index = 0;
+
+		if (g_CluiData.current_viewmode[0] != '\0') {
+			wchar_t *temp = mir_utf8decodeW(g_CluiData.current_viewmode);
+			if (temp) {
+				index = cmbModes.FindString(temp);
+				mir_free(temp);
+			}
+			if (index == -1)
+				index = 0;
+		}
+
+		if (cmbModes.SetCurSel(0) != LB_ERR) {
+			m_iCurrItem = index;
+			pOwner->UpdateFilters();
+		}
+		else m_iCurrItem = -1;
+
+		SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
+		return true;
+	}
+
+	void onChange_LastMsg(CCtrlCheck *)
+	{
+		bool bUseLastMsg = chkLastMsg.GetState();
+		cmbLastMsgOp.Enable(bUseLastMsg);
+		cmbcmbLastMsgUnit.Enable(bUseLastMsg);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_LASTMSGVALUE), bUseLastMsg);
+	}
+
+	void onChange_UseGroups(CCtrlCheck *)
+	{
+		bool bEnabled = chkUseGroups.IsChecked();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_FOLD_GROUPS), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_HIDEEMPTYGROUPS), bEnabled);
+	}
+
+	void onClick_Add(CCtrlButton *)
+	{
+		ENTER_STRING es = {};
+		es.caption = LPGENW("Enter view mode name");
+		if (!EnterString(&es))
+			return;
+
+		T2Utf szUTF8Buf(es.ptszResult);
+
+		if (db_get_dw(0, CLVM_MODULE, szUTF8Buf, -1) != -1)
+			MessageBox(nullptr, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
+		else {
+			int iNewItem = cmbModes.AddString(es.ptszResult);
+			if (iNewItem != LB_ERR) {
+				cmbModes.SetCurSel(iNewItem);
+				SaveViewMode(szUTF8Buf, L"", "", 0, -1, 0, 0, 0);
+				m_iCurrItem = iNewItem;
+				cmbProtoGroup.SetCurSel(0);
+				cmbGroupStatus.SetCurSel(0);
+			}
+		}
+
+		pOwner->UpdateFilters();
+	}
+
+	void onClick_Rename(CCtrlButton *)
+	{
+		ENTER_STRING es = {};
+		es.caption = LPGENW("Enter new view mode name");
+		if (!EnterString(&es))
+			return;
+
+		int idx = cmbModes.GetCurSel();
+		ptrW szTempBuf(cmbModes.GetItemText(idx));
+		if (!mir_wstrlen(szTempBuf))
+			return;
+
+		DeleteViewMode(T2Utf(szTempBuf));
+		cmbModes.DeleteString(idx);
+		cmbModes.InsertString(es.ptszResult, idx);
+		cmbModes.SetCurSel(idx);
+		SaveState();
+	}
+
+	void onClick_Delete(CCtrlButton *)
+	{
+		if (IDYES != MessageBox(nullptr, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION))
+			return;
+
+		int idx = cmbModes.GetCurSel();
+		ptrW szTempBuf(cmbModes.GetItemText(idx));
+		if (!mir_wstrlen(szTempBuf))
+			return;
+
+		DeleteViewMode(T2Utf(szTempBuf));
+
+		cmbModes.DeleteString(idx);
+		if (cmbModes.SetCurSel(0) != LB_ERR) {
+			m_iCurrItem = 0;
+			pOwner->UpdateFilters();
+		}
+		else m_iCurrItem = -1;
+	}
+
+	void onSelChanged_Mode(CCtrlCombo *)
+	{
+		SaveState();
+		m_iCurrItem = cmbModes.GetCurSel();
+		pOwner->UpdateFilters();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// saves the state of the filter definitions for the current item
+
+	uint32_t SaveTriState(int iCtrlId, uint32_t ifChecked, uint32_t ifUnchecked)
+	{
+		switch (IsDlgButtonChecked(m_hwnd, iCtrlId)) {
+		case BST_CHECKED: return ifChecked;
+		case BST_UNCHECKED: return ifUnchecked;
+		default: 
+			return 0;
+		}
+	}
 
 	void SaveState() override
 	{
@@ -306,7 +445,7 @@ class CViewModeSetupDlg1 : public CViewModePage
 			return;
 		}
 
-		ptrW szTempModeName(modes.GetItemText(m_iCurrItem));
+		ptrW szTempModeName(cmbModes.GetItemText(m_iCurrItem));
 		if (!szTempModeName) {
 			pOwner->szModeName.Empty();
 			return;
@@ -353,8 +492,9 @@ class CViewModeSetupDlg1 : public CViewModePage
 			(cmbGroupStatus.GetCurSel() == 1 ? CLVM_GROUPSTATUS_OP : 0) |
 			(IsDlgButtonChecked(m_hwnd, IDC_AUTOCLEAR) ? CLVM_AUTOCLEAR : 0) |
 			(chkLastMsg.GetState() ? CLVM_USELASTMSG : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_USEGROUPS) == BST_CHECKED ? CLVM_USEGROUPS : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_USEGROUPS) == BST_UNCHECKED ? CLVM_DONOTUSEGROUPS : 0));
+			SaveTriState(IDC_USEGROUPS, CLVM_USEGROUPS, CLVM_DONOTUSEGROUPS) |
+			SaveTriState(IDC_HIDEEMPTYGROUPS, CLVM_HIDEEMPTYGROUPS, CLVM_SHOWEMPTYGROUPS) |
+			SaveTriState(IDC_FOLD_GROUPS, CLVM_FOLDGROUPS, CLVM_UNFOLDGROUPS));
 
 		pOwner->options = SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
 
@@ -366,7 +506,13 @@ class CViewModeSetupDlg1 : public CViewModePage
 	////////////////////////////////////////////////////////////////////////////////////////
 	// updates the filter list boxes with the data taken from the filtering string
 
-	void UpdateFilters()
+	void UpdateTriState(int iCtrlId, uint32_t ifChecked, uint32_t ifUnchecked)
+	{
+		int iStatus = ifChecked ? BST_CHECKED : (ifUnchecked ? BST_UNCHECKED : BST_INDETERMINATE);
+		CheckDlgButton(m_hwnd, iCtrlId, iStatus);
+	}
+
+	void UpdateFilters() override
 	{
 		char szSetting[128];
 		uint32_t dwFlags;
@@ -375,7 +521,7 @@ class CViewModeSetupDlg1 : public CViewModePage
 		if (m_iCurrItem == LB_ERR)
 			return;
 
-		ptrW szTempBuf(modes.GetItemText(m_iCurrItem));
+		ptrW szTempBuf(cmbModes.GetItemText(m_iCurrItem));
 		T2Utf szBuf(szTempBuf);
 		pOwner->szModeName = szBuf.get();
 		{
@@ -451,12 +597,12 @@ class CViewModeSetupDlg1 : public CViewModePage
 		cmbGroupStatus.SetCurSel(dwFlags & CLVM_GROUPSTATUS_OP ? 1 : 0);
 		CheckDlgButton(m_hwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? BST_CHECKED : BST_UNCHECKED);
 
+		UpdateTriState(IDC_USEGROUPS, dwFlags & CLVM_USEGROUPS, dwFlags & CLVM_DONOTUSEGROUPS);
+		UpdateTriState(IDC_FOLD_GROUPS, dwFlags & CLVM_FOLDGROUPS, dwFlags & CLVM_UNFOLDGROUPS);
+		UpdateTriState(IDC_HIDEEMPTYGROUPS, dwFlags & CLVM_HIDEEMPTYGROUPS, dwFlags & CLVM_SHOWEMPTYGROUPS);
+
 		int useLastMsg = dwFlags & CLVM_USELASTMSG;
-		int useGroupsState = (dwFlags & CLVM_USEGROUPS) ? BST_CHECKED : (dwFlags & CLVM_DONOTUSEGROUPS) ? BST_UNCHECKED : BST_INDETERMINATE;
-
 		chkLastMsg.SetState(useLastMsg);
-		CheckDlgButton(m_hwnd, IDC_USEGROUPS, useGroupsState ? BST_CHECKED : BST_UNCHECKED);
-
 		cmbLastMsgOp.Enable(useLastMsg);
 		cmbcmbLastMsgUnit.Enable(useLastMsg);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LASTMSGVALUE), useLastMsg);
@@ -467,137 +613,6 @@ class CViewModeSetupDlg1 : public CViewModePage
 		SetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
 		cmbLastMsgOp.SetCurSel(LOBYTE(HIWORD(lmdat)));
 		cmbcmbLastMsgUnit.SetCurSel(HIBYTE(HIWORD(lmdat)));
-	}
-
-public:
-	CViewModeSetupDlg1(CViewModeSetupDlg *_1) :
-		CViewModePage(IDD_OPT_VIEWMODES1, _1),
-		modes(this, IDC_VIEWMODES),
-		groups(this, IDC_GROUPS),
-		statuses(this, IDC_STATUSMODES),
-		protocols(this, IDC_PROTOCOLS),
-		btnAdd(this, IDC_ADDVIEWMODE, SKINICON_OTHER_ADDCONTACT, LPGEN("Add view mode")),
-		btnRename(this, IDC_RENAMEVIEWMODE, SKINICON_OTHER_RENAME, LPGEN("Rename view mode")),
-		btnDelete(this, IDC_DELETEVIEWMODE, SKINICON_OTHER_DELETE, LPGEN("Remove view mode")),
-		chkLastMsg(this, IDC_LASTMSG),
-		cmbProtoGroup(this, IDC_PROTOGROUPOP),
-		cmbGroupStatus(this, IDC_GROUPSTATUSOP),
-		cmbLastMsgOp(this, IDC_LASTMESSAGEOP),
-		cmbcmbLastMsgUnit(this, IDC_LASTMESSAGEUNIT)
-	{
-		btnAdd.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Add);
-		btnRename.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Rename);
-		btnDelete.OnClick = Callback(this, &CViewModeSetupDlg1::onClick_Delete);
-
-		chkLastMsg.OnChange = Callback(this, &CViewModeSetupDlg1::onChange_LastMsg);
-
-		modes.OnSelChange = Callback(this, &CViewModeSetupDlg1::onSelChange_List);
-	}
-
-	bool OnInitDialog() override
-	{
-		FillDialog();
-
-		int index = 0;
-
-		if (g_CluiData.current_viewmode[0] != '\0') {
-			wchar_t *temp = mir_utf8decodeW(g_CluiData.current_viewmode);
-			if (temp) {
-				index = modes.FindString(temp);
-				mir_free(temp);
-			}
-			if (index == -1)
-				index = 0;
-		}
-
-		if (modes.SetCurSel(0) != LB_ERR) {
-			m_iCurrItem = index;
-			pOwner->UpdateFilters();
-		}
-		else m_iCurrItem = -1;
-
-		SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
-		return true;
-	}
-
-	void onChange_LastMsg(CCtrlCheck *)
-	{
-		bool bUseLastMsg = chkLastMsg.GetState();
-		cmbLastMsgOp.Enable(bUseLastMsg);
-		cmbcmbLastMsgUnit.Enable(bUseLastMsg);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LASTMSGVALUE), bUseLastMsg);
-		pOwner->btnApply.Enable();
-	}
-
-	void onClick_Add(CCtrlButton *)
-	{
-		ENTER_STRING es = {};
-		es.caption = LPGENW("Enter view mode name");
-		if (!EnterString(&es))
-			return;
-
-		T2Utf szUTF8Buf(es.ptszResult);
-
-		if (db_get_dw(0, CLVM_MODULE, szUTF8Buf, -1) != -1)
-			MessageBox(nullptr, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
-		else {
-			int iNewItem = modes.AddString(es.ptszResult);
-			if (iNewItem != LB_ERR) {
-				modes.SetCurSel(iNewItem);
-				SaveViewMode(szUTF8Buf, L"", "", 0, -1, 0, 0, 0);
-				m_iCurrItem = iNewItem;
-				cmbProtoGroup.SetCurSel(0);
-				cmbGroupStatus.SetCurSel(0);
-			}
-		}
-
-		pOwner->UpdateFilters();
-	}
-
-	void onClick_Rename(CCtrlButton *)
-	{
-		ENTER_STRING es = {};
-		es.caption = LPGENW("Enter new view mode name");
-		if (!EnterString(&es))
-			return;
-
-		int idx = modes.GetCurSel();
-		ptrW szTempBuf(modes.GetItemText(idx));
-		if (!mir_wstrlen(szTempBuf))
-			return;
-
-		DeleteViewMode(T2Utf(szTempBuf));
-		modes.DeleteString(idx);
-		modes.InsertString(es.ptszResult, idx);
-		modes.SetCurSel(idx);
-		SaveState();
-	}
-
-	void onClick_Delete(CCtrlButton *)
-	{
-		if (IDYES != MessageBox(nullptr, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION))
-			return;
-
-		int idx = modes.GetCurSel();
-		ptrW szTempBuf(modes.GetItemText(idx));
-		if (!mir_wstrlen(szTempBuf))
-			return;
-
-		DeleteViewMode(T2Utf(szTempBuf));
-
-		modes.DeleteString(idx);
-		if (modes.SetCurSel(0) != LB_ERR) {
-			m_iCurrItem = 0;
-			pOwner->UpdateFilters();
-		}
-		else m_iCurrItem = -1;
-	}
-
-	void onSelChange_List(CCtrlListBox*)
-	{
-		SaveState();
-		m_iCurrItem = modes.GetCurSel();
-		pOwner->UpdateFilters();
 	}
 };
 
@@ -1248,18 +1263,24 @@ void ApplyViewMode(const char *szName)
 		mir_snprintf(szSetting, "%c_LastMode", 246);
 		db_unset(0, CLVM_MODULE, szSetting);
 
-		if (g_CluiData.bOldUseGroups != (uint8_t)-1)
+		if (g_CluiData.bOldUseGroups != -1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
 
 		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 
-		if (g_CluiData.boldHideOffline != (uint8_t)-1)
-			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
-		if (g_CluiData.bOldUseGroups != (uint8_t)-1)
-			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
-		g_CluiData.boldHideOffline = (uint8_t)-1;
-		g_CluiData.bOldUseGroups = (uint8_t)-1;
+		if (g_CluiData.bOldHideOffline != -1)
+			g_clistApi.pfnSetHideOffline(g_CluiData.bOldHideOffline);
+		if (g_CluiData.bOldHideEmptyGroups != -1)
+			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, g_CluiData.bOldHideEmptyGroups, 0);
+		if (g_CluiData.bOldFoldGroups != -1)
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
+
+		g_CluiData.bOldUseGroups = -1;
+		g_CluiData.bOldHideOffline = -1;
+		g_CluiData.bOldHideEmptyGroups = -1;
+		g_CluiData.bOldFoldGroups = -1;
+
 		g_CluiData.current_viewmode[0] = 0;
 		g_CluiData.old_viewmode[0] = 0;
 
@@ -1335,31 +1356,47 @@ void ApplyViewMode(const char *szName)
 			g_CluiData.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			if (g_CluiData.boldHideOffline == (uint8_t)-1)
-				g_CluiData.boldHideOffline = Clist::HideOffline;
+			if (g_CluiData.bOldHideOffline == -1)
+				g_CluiData.bOldHideOffline = Clist::HideOffline;
 
 			g_clistApi.pfnSetHideOffline(false);
 		}
-		else if (g_CluiData.boldHideOffline != (uint8_t)-1) {
-			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
-			g_CluiData.boldHideOffline = -1;
+		else if (g_CluiData.bOldHideOffline != -1) {
+			g_clistApi.pfnSetHideOffline(g_CluiData.bOldHideOffline);
+			g_CluiData.bOldHideOffline = -1;
 		}
 
-		int bUseGroups = -1;
-		if (g_CluiData.filterFlags & CLVM_USEGROUPS)
-			bUseGroups = 1;
-		else if (g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS)
-			bUseGroups = 0;
-
+		int bUseGroups = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
 		if (bUseGroups != -1) {
-			if (g_CluiData.bOldUseGroups == (uint8_t)-1)
+			if (g_CluiData.bOldUseGroups == -1)
 				g_CluiData.bOldUseGroups = Clist::UseGroups;
 
 			CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
 		}
-		else if (g_CluiData.bOldUseGroups != (uint8_t)-1) {
+		else if (g_CluiData.bOldUseGroups != -1) {
 			CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
 			g_CluiData.bOldUseGroups = -1;
+		}
+
+		int bOldHideEmptyGroups = (g_CluiData.filterFlags & CLVM_HIDEEMPTYGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_SHOWEMPTYGROUPS) ? 0 : -1);
+		if (bOldHideEmptyGroups != -1) {
+			if (g_CluiData.bOldHideEmptyGroups == -1)
+				g_CluiData.bOldHideEmptyGroups = Clist::HideEmptyGroups;
+
+			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, bOldHideEmptyGroups, 0);
+		}
+		else if (g_CluiData.bOldHideEmptyGroups != -1) {
+			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, g_CluiData.bOldHideEmptyGroups, 0);
+			g_CluiData.bOldHideEmptyGroups = -1;
+		}
+
+		int bOldFoldGroups = (g_CluiData.filterFlags & CLVM_FOLDGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_UNFOLDGROUPS) ? 0 : -1);
+		if (bOldFoldGroups != -1) {
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
+		}
+		else if (g_CluiData.bOldFoldGroups != -1) {
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
+			g_CluiData.bOldFoldGroups = -1;
 		}
 
 		SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));
