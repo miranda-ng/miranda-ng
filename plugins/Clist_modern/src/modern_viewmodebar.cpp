@@ -31,18 +31,9 @@ $Id: viewmodes.c 2998 2006-06-01 07:11:52Z nightwish2004 $
 #include "cluiframes.h"
 #include "m_skinbutton.h"
 
-#define TIMERID_VIEWMODEEXPIRE 100
-
-typedef int(__cdecl *pfnEnumCallback)(char *szName);
 HWND  g_ViewModeOptDlg = nullptr;
-HMENU hViewModeMenu = nullptr;
 
 static HWND hwndSelector = nullptr;
-static HIMAGELIST himlViewModes = nullptr;
-static int nullImage;
-static uint32_t stickyStatusMask = 0;
-
-static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES };
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
 static void DeleteViewMode(char * szName);
@@ -50,6 +41,8 @@ static void DeleteViewMode(char * szName);
 /////////////////////////////////////////////////////////////////////////////////////////
 // enumerate all view modes, call the callback function with the mode name
 // useful for filling lists, menus and so on..
+
+typedef int (__cdecl *pfnEnumCallback)(char *szName);
 
 static int CLVM_EnumProc(const char *szSetting, void *lParam)
 {
@@ -407,8 +400,7 @@ class CViewModeSetupDlg1 : public CViewModePage
 
 		mir_snprintf(szSetting, "%c%s_SM", 246, szBuf.get());
 		uint32_t statusMask = db_get_dw(0, CLVM_MODULE, szSetting, 0);
-		mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf.get());
-		stickyStatusMask = db_get_dw(0, CLVM_MODULE, szSetting, -1);
+
 		dwFlags = db_get_dw(0, CLVM_MODULE, szBuf, 0);
 		{
 			char szMask[256];
@@ -504,18 +496,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
-
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
-			HICON hIcon = Skin_LoadProtoIcon(nullptr, i);
-			ImageList_AddIcon(himlViewModes, hIcon);
-			IcoLib_ReleaseIcon(hIcon);
-		}
-
-		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_SMALLDOT), IMAGE_ICON, 16, 16, 0);
-		nullImage = ImageList_AddIcon(himlViewModes, hIcon);
-		DestroyIcon(hIcon);
-
 		FillDialog();
 
 		int index = 0;
@@ -538,12 +518,6 @@ public:
 
 		SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		ImageList_RemoveAll(himlViewModes);
-		ImageList_Destroy(himlViewModes);
 	}
 
 	void onChange_LastMsg(CCtrlCheck *)
@@ -634,7 +608,10 @@ class CViewModeSetupDlg2 : public CViewModePage
 	CCtrlClc clist;
 	CCtrlButton btnClearAll;
 	
+	int nullImage;
+	uint32_t stickyStatusMask = 0;
 	HANDLE hInfoItem = nullptr;
+	HIMAGELIST himlViewModes;
 
 	uint32_t GetMaskForItem(HANDLE hItem)
 	{
@@ -722,6 +699,20 @@ public:
 
 	bool OnInitDialog() override
 	{
+		// fill icons
+		himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
+
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
+			HICON hIcon = Skin_LoadProtoIcon(nullptr, i);
+			ImageList_AddIcon(himlViewModes, hIcon);
+			IcoLib_ReleaseIcon(hIcon);
+		}
+
+		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_SMALLDOT), IMAGE_ICON, 16, 16, 0);
+		nullImage = ImageList_AddIcon(himlViewModes, hIcon);
+		DestroyIcon(hIcon);
+
+		// init clist
 		SetWindowLong(clist.GetHwnd(), GWL_STYLE, GetWindowLong(clist.GetHwnd(), GWL_STYLE) & ~CLS_SHOWHIDDEN);
 		clist.SetExtraImageList(himlViewModes);
 		clist.SetExtraColumns(ID_STATUS_MAX - ID_STATUS_OFFLINE);
@@ -734,6 +725,12 @@ public:
 
 		UpdateFilters();
 		return true;
+	}
+
+	void OnDestroy() override
+	{
+		ImageList_RemoveAll(himlViewModes);
+		ImageList_Destroy(himlViewModes);
 	}
 
 	void SaveState() override
@@ -758,6 +755,13 @@ public:
 
 	void UpdateFilters() override
 	{
+		if (pOwner->szModeName.IsEmpty())
+			return;
+
+		char szSetting[256];
+		mir_snprintf(szSetting, "%c%s_SSM", 246, pOwner->szModeName.c_str());
+		stickyStatusMask = db_get_dw(0, CLVM_MODULE, szSetting, -1);
+
 		onListRebuilt_Clist(0);
 
 		CMStringW wszHelp(FORMAT, L"%s: %s", TranslateT("Editing view mode"), Utf2T(pOwner->szModeName).get());
@@ -864,6 +868,7 @@ void CViewModeSetupDlg::UpdateFilters()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int menuCounter = 0;
+static HMENU hViewModeMenu = nullptr;
 
 static int FillMenuCallback(char *szSetting)
 {
@@ -900,6 +905,10 @@ void BuildViewModeMenu()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+#define TIMERID_VIEWMODEEXPIRE 100
+
+static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES };
 
 LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
