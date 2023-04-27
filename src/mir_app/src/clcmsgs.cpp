@@ -105,9 +105,16 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_EXPAND:
-		if (Clist_FindItem(hwnd, dat, wParam, &contact))
-			if (contact->type == CLCIT_GROUP)
-				g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, lParam);
+		if (wParam) {
+			if (Clist_FindItem(hwnd, dat, wParam, &contact))
+				if (contact->type == CLCIT_GROUP)
+					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, lParam);
+		}
+		else {
+			for (auto &it: dat->list.cl)
+				if (it->type == CLCIT_GROUP)
+					g_clistApi.pfnSetGroupExpand(hwnd, dat, it->group, lParam);
+		}
 		break;
 
 	case CLM_FINDCONTACT:
