@@ -396,17 +396,20 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
-	int dbHidden = Contact::IsHidden(hContact); // default hidden state, always respect it.
+	// default hidden state, always respect it.
+	if (Contact::IsHidden(hContact))
+		return 1;
+
 	int filterResult = 1;
 	int searchResult = 0;
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
 	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != nullptr && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
-		return -1; //subcontact
+		return -1; // subcontact
 
 	if (pdnce && pdnce->m_bIsUnknown && dat != nullptr && !dat->bForceInDialog)
-		return 1; //'Unknown contact'
+		return 1; // 'Unknown contact'
 
 	if (dat != nullptr && dat->bFilterSearch && pdnce && pdnce->tszName) {
 		// search filtering
@@ -415,66 +418,67 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		searchResult = wcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
 
-	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr) {
-		if (szProto == nullptr)
-			szProto = Proto_GetBaseAccountName(hContact);
-		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
-		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
-			if (uint32_t dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode)) {
-				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
-					uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
-				}
-				return searchResult;
-			}
-		}
+	if (!pdnce || !g_CluiData.bFilterEffective || dat == nullptr)
+		return searchResult;
 
-		// check the proto, use it as a base filter result for all further checks
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
-			char szTemp[64];
-			mir_snprintf(szTemp, "%s|", szProto);
-			if (db_mc_isMeta(hContact)) {
-				for (int i = db_mc_getSubCount(hContact) - 1; i >= 0; i--) {
-					mir_snprintf(szTemp, "%s|", Proto_GetBaseAccountName(db_mc_getSub(hContact, i)));
-					if (strstr(g_CluiData.protoFilter, szTemp) != 0) {
-						filterResult = 1;
-						break;
-					}
-				}
-			}
-			else filterResult = strstr(g_CluiData.protoFilter, szTemp) != 0;
-		}
+	if (szProto == nullptr)
+		szProto = Proto_GetBaseAccountName(hContact);
 
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			ptrW tszGroup(Clist_GetGroup(hContact));
-			if (tszGroup != nullptr) {
-				wchar_t szGroupMask[256];
-				mir_snwprintf(szGroupMask, L"%s|", tszGroup.get());
-				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
+	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
+	if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
+		if (uint32_t dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode)) {
+			if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
+				uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
 			}
-			else if (g_CluiData.filterFlags & CLVM_INCLUDED_UNGROUPED)
-				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;
-			else
-				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
+			return searchResult;
 		}
-
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
-		}
-
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
-			if (pdnce->dwLastMsgTime != -1) {
-				uint32_t now = g_CluiData.t_now;
-				now -= g_CluiData.lastMsgFilter;
-				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
-					filterResult = filterResult & (pdnce->dwLastMsgTime < now);
-				else if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_NEWERTHAN)
-					filterResult = filterResult & (pdnce->dwLastMsgTime > now);
-			}
-		}
-		return (dbHidden | !filterResult | searchResult);
 	}
 
-	return dbHidden | searchResult;
+	// check the proto, use it as a base filter result for all further checks
+	if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
+		char szTemp[64];
+		mir_snprintf(szTemp, "%s|", szProto);
+		if (db_mc_isMeta(hContact)) {
+			for (int i = db_mc_getSubCount(hContact) - 1; i >= 0; i--) {
+				mir_snprintf(szTemp, "%s|", Proto_GetBaseAccountName(db_mc_getSub(hContact, i)));
+				if (strstr(g_CluiData.protoFilter, szTemp) != 0) {
+					filterResult = 1;
+					break;
+				}
+			}
+		}
+		else filterResult = strstr(g_CluiData.protoFilter, szTemp) != 0;
+	}
+
+	if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
+		ptrW tszGroup(Clist_GetGroup(hContact));
+		if (tszGroup != nullptr) {
+			wchar_t szGroupMask[256];
+			mir_snwprintf(szGroupMask, L"%s|", tszGroup.get());
+			filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
+		}
+		else if (g_CluiData.filterFlags & CLVM_INCLUDED_UNGROUPED)
+			filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;
+		else
+			filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
+	}
+
+	if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
+		uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
+	}
+
+	if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
+		if (pdnce->dwLastMsgTime != -1) {
+			uint32_t now = g_CluiData.t_now;
+			now -= g_CluiData.lastMsgFilter;
+			if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
+				filterResult = filterResult & (pdnce->dwLastMsgTime < now);
+			else if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_NEWERTHAN)
+				filterResult = filterResult & (pdnce->dwLastMsgTime > now);
+		}
+	}
+
+	return (filterResult ? 0 : 1) | searchResult;
 }

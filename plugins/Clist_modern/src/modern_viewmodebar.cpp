@@ -146,6 +146,8 @@ public:
 
 		ShowWindow(m_hwnd, SW_SHOWNORMAL);
 		SetWindowText(m_hwnd, TranslateT("Configure view modes"));
+		
+		UpdateFilters();
 		return true;
 	}
 
@@ -329,11 +331,7 @@ public:
 				index = 0;
 		}
 
-		if (cmbModes.SetCurSel(0) != LB_ERR) {
-			m_iCurrItem = index;
-			pOwner->UpdateFilters();
-		}
-		else m_iCurrItem = -1;
+		m_iCurrItem = cmbModes.SetCurSel(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
 		return true;
@@ -737,8 +735,6 @@ public:
 		cii.hParentGroup = nullptr;
 		cii.pszText = TranslateT("*** All contacts ***");
 		hInfoItem = clist.AddInfoItem(&cii);
-
-		UpdateFilters();
 		return true;
 	}
 
@@ -850,7 +846,7 @@ CViewModeSetupDlg::CViewModeSetupDlg() :
 
 	m_tab.SetPageOwner();
 	m_tab.AddPage(LPGENW("Filtering"), nullptr, m_pages[0]);
-	m_tab.AddPage(LPGENW("New profile"), nullptr, m_pages[1]);
+	m_tab.AddPage(LPGENW("Sticky contacts"), nullptr, m_pages[1]);
 
 	btnApply.OnClick = Callback(this, &CViewModeSetupDlg::onClick_Apply);
 }
