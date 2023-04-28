@@ -302,10 +302,12 @@ void CRtfLogWindow::CreateChatRtfEvent(RtfChatLogStreamData *streamData, const L
 
 void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const LOGINFO &lin, CMStringA &buf)
 {
+	auto *si = streamData->si;
+
 	buf.AppendFormat("%s ", Log_SetStyle(lin.bIsHighlighted ? 16 : lin.getIndex()));
 
 	CMStringW wszCaption;
-	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, &lin, wszCaption);
+	bool bTextUsed = Chat_GetDefaultEventDescr(si, &lin, wszCaption);
 	if (!wszCaption.IsEmpty()) {
 		wszCaption.AppendChar(' ');
 		lin.write(streamData, !bTextUsed, buf, wszCaption);
@@ -316,6 +318,13 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 	if (lin.hEvent) {
 		DB::EventInfo dbei(lin.hEvent);
 		if (dbei) {
+			if (!dbei.markedRead()) {
+				if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm()) {
+					db_event_markRead(si->hContact, lin.hEvent);
+					g_clistApi.pfnRemoveEvent(si->hContact, lin.hEvent);
+				}
+			}
+
 			if (dbei.eventType == EVENTTYPE_FILE) {
 				DB::FILE_BLOB blob(dbei);
 				if (blob.isOffline()) {
