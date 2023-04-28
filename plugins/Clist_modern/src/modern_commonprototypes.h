@@ -190,7 +190,8 @@ void    UnLoadContactListModule();                                             /
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
 void    ApplyViewMode(const char *Name);
-void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, uint32_t statusMask, uint32_t stickyStatusMask, unsigned int options, unsigned int operators, unsigned int lmdat);
+void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, unsigned dwStatusMask, unsigned dwStickyStatusMask,
+							unsigned stickies, unsigned options, unsigned operators, unsigned lmdat);
 
 // cluiframes.c
 int     ExtraImage_ExtraIDToColumnNum(int extra);

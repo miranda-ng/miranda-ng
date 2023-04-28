@@ -36,13 +36,13 @@ HWND  g_ViewModeOptDlg = nullptr;
 static HWND hwndSelector = nullptr;
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
-static void DeleteViewMode(char * szName);
+static void DeleteViewMode(char *szName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // enumerate all view modes, call the callback function with the mode name
 // useful for filling lists, menus and so on..
 
-typedef int (__cdecl *pfnEnumCallback)(char *szName);
+typedef int(__cdecl *pfnEnumCallback)(char *szName);
 
 static int CLVM_EnumProc(const char *szSetting, void *lParam)
 {
@@ -66,8 +66,8 @@ static int DeleteAutoModesCallback(char *szsetting)
 	return 1;
 }
 
-void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, uint32_t dwStatusMask, uint32_t dwStickyStatusMask,
-	unsigned int options, unsigned int operators, unsigned int lmdat)
+void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, unsigned dwStatusMask, unsigned dwStickyStatusMask,
+	unsigned stickies, unsigned options, unsigned operators, unsigned lmdat)
 {
 	CLVM_EnumModes(DeleteAutoModesCallback);
 
@@ -85,7 +85,7 @@ void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *sz
 	mir_snprintf(szSetting, "%c%s_LM", 246, name);
 	db_set_dw(0, CLVM_MODULE, szSetting, lmdat);
 
-	db_set_dw(0, CLVM_MODULE, name, MAKELONG((unsigned short)operators, 0));
+	db_set_dw(0, CLVM_MODULE, name, MAKELONG((unsigned short)operators, (unsigned short)stickies));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ public:
 
 	CMStringW newGroupFilter;
 	CMStringA newProtoFilter, szModeName;
-	uint32_t statusMask, operators, lmdat, options, dwGlobalMask;
+	unsigned statusMask, operators, lmdat, options, iStickies, iStickiesMask;
 
 	CViewModeSetupDlg();
 
@@ -369,7 +369,7 @@ public:
 			int iNewItem = cmbModes.AddString(es.ptszResult);
 			if (iNewItem != LB_ERR) {
 				cmbModes.SetCurSel(iNewItem);
-				SaveViewMode(szUTF8Buf, L"", "", 0, -1, 0, 0, 0);
+				SaveViewMode(szUTF8Buf, L"", "", 0, -1, 0, 0, 0, 0);
 				m_iCurrItem = iNewItem;
 				cmbProtoGroup.SetCurSel(0);
 				cmbGroupStatus.SetCurSel(0);
@@ -433,7 +433,7 @@ public:
 		switch (IsDlgButtonChecked(m_hwnd, iCtrlId)) {
 		case BST_CHECKED: return ifChecked;
 		case BST_UNCHECKED: return ifUnchecked;
-		default: 
+		default:
 			return 0;
 		}
 	}
@@ -622,7 +622,7 @@ class CViewModeSetupDlg2 : public CViewModePage
 {
 	CCtrlClc clist;
 	CCtrlButton btnClearAll;
-	
+
 	int nullImage;
 	uint32_t stickyStatusMask = 0;
 	HANDLE hInfoItem = nullptr;
@@ -750,7 +750,8 @@ public:
 
 	void SaveState() override
 	{
-		pOwner->dwGlobalMask = GetMaskForItem(hInfoItem);
+		pOwner->iStickiesMask = GetMaskForItem(hInfoItem);
+		pOwner->iStickies = 0;
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = clist.FindContact(hContact);
@@ -760,11 +761,9 @@ public:
 			if (clist.GetCheck(hItem)) {
 				uint32_t dwLocalMask = GetMaskForItem(hItem);
 				db_set_dw(hContact, CLVM_MODULE, pOwner->szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
+				pOwner->iStickies++;
 			}
-			else {
-				if (db_get_dw(hContact, CLVM_MODULE, pOwner->szModeName, 0))
-					db_set_dw(hContact, CLVM_MODULE, pOwner->szModeName, 0);
-			}
+			else db_unset(hContact, CLVM_MODULE, pOwner->szModeName);
 		}
 	}
 
@@ -860,13 +859,13 @@ bool CViewModeSetupDlg::OnApply()
 {
 	newGroupFilter.Empty();
 	newProtoFilter.Empty();
-	statusMask = dwGlobalMask = options = operators = lmdat = 0;
+	statusMask = iStickiesMask = options = operators = lmdat = iStickies = 0;
 
 	for (auto &it : m_pages)
 		it->SaveState();
 
 	if (!szModeName.IsEmpty()) {
-		SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options, operators, lmdat);
+		SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, iStickiesMask, iStickies, options, operators, lmdat);
 
 		if (g_CluiData.bFilterEffective)
 			ApplyViewMode(g_CluiData.current_viewmode);
@@ -1124,25 +1123,13 @@ clvm_config_command:
 	return TRUE;
 }
 
-static int hCLVMFrame;
 HWND g_hwndViewModeFrame;
 
-struct view_mode_t
-{
-	HBITMAP  hBmpBackground;
-	COLORREF bkColour;
-	int      useWinColors;
-	int      backgroundBmpUse;
-
-	view_mode_t() :
-		hBmpBackground(nullptr),
-		bkColour(CLCDEFAULT_BKCOLOUR),
-		useWinColors(CLCDEFAULT_USEWINDOWSCOLOURS),
-		backgroundBmpUse(CLCDEFAULT_USEBITMAP)
-	{}
-};
-
-static view_mode_t view_mode;
+static int hCLVMFrame;
+static int g_useWinColors = CLCDEFAULT_USEWINDOWSCOLOURS;
+static int g_backgroundBmpUse = CLCDEFAULT_USEBITMAP;
+static HBITMAP g_hBmpBackground = nullptr;
+static COLORREF g_bkColour = CLCDEFAULT_BKCOLOUR;
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
@@ -1154,32 +1141,32 @@ static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 		else
 			GetClientRect(hwnd, &rc);
 
-		if (!view_mode.hBmpBackground && !view_mode.useWinColors) {
-			HBRUSH hbr = CreateSolidBrush(view_mode.bkColour);
+		if (!g_hBmpBackground && !g_useWinColors) {
+			HBRUSH hbr = CreateSolidBrush(g_bkColour);
 			FillRect(hdc, &rc, hbr);
 			DeleteObject(hbr);
 		}
-		else DrawBackGround(hwnd, hdc, view_mode.hBmpBackground, view_mode.bkColour, view_mode.backgroundBmpUse);
+		else DrawBackGround(hwnd, hdc, g_hBmpBackground, g_bkColour, g_backgroundBmpUse);
 	}
 	return TRUE;
 }
 
 static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 {
-	if (view_mode.hBmpBackground) {
-		DeleteObject(view_mode.hBmpBackground);
-		view_mode.hBmpBackground = nullptr;
+	if (g_hBmpBackground) {
+		DeleteObject(g_hBmpBackground);
+		g_hBmpBackground = nullptr;
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
-		view_mode.bkColour = cliGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
+		g_bkColour = cliGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(0, "ViewMode", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrW tszBitmapName(db_get_wsa(0, "ViewMode", "BkBitmap"));
 			if (tszBitmapName)
-				view_mode.hBmpBackground = Bitmap_Load(tszBitmapName);
+				g_hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
-		view_mode.useWinColors = db_get_b(0, "ViewMode", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		view_mode.backgroundBmpUse = db_get_w(0, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		g_useWinColors = db_get_b(0, "ViewMode", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		g_backgroundBmpUse = db_get_w(0, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 	PostMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 	return 0;
@@ -1187,7 +1174,7 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 
 static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t, void *)
 {
-	RECT MyRect = { 0 };
+	RECT MyRect;
 	GetWindowRect(hWnd, &MyRect);
 	SkinDrawGlyph(hDC, &MyRect, &MyRect, "ViewMode,ID=Background");
 
@@ -1240,8 +1227,6 @@ void CreateViewModeFrame()
 
 void ApplyViewMode(const char *szName)
 {
-	DBVARIANT dbv = { 0 };
-
 	g_CluiData.bFilterEffective = 0;
 
 	char szSetting[256];
@@ -1260,7 +1245,6 @@ void ApplyViewMode(const char *szName)
 		g_CluiData.bFilterEffective = 0;
 
 		// remove last applied view mode
-		mir_snprintf(szSetting, "%c_LastMode", 246);
 		db_unset(0, CLVM_MODULE, szSetting);
 
 		if (g_CluiData.bOldUseGroups != -1)
@@ -1300,7 +1284,6 @@ void ApplyViewMode(const char *szName)
 			wcsncpy_s(g_CluiData.groupFilter, wszGroupFilter.get(), _TRUNCATE);
 			g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 		}
-		mir_free(dbv.pwszVal);
 
 		mir_snprintf(szSetting, "%c%s_SM", 246, szName);
 		g_CluiData.statusMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);

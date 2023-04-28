@@ -420,12 +420,12 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 			szProto = Proto_GetBaseAccountName(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
-			if (uint32_t dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) {
+			if (uint32_t dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode)) {
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
 					uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
 				}
-				return 0 | searchResult;
+				return searchResult;
 			}
 		}
 
