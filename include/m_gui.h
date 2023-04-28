@@ -1418,6 +1418,7 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 	bool m_bOwnPages = false;
 
 	struct TPageInfo;
+	void CreatePage(CDlgBase *pDlg);
 	void InsertPage(TPageInfo *pPage);
 	void ShowPage(CDlgBase *pDlg);
 

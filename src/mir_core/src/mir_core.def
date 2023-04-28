@@ -1552,3 +1552,4 @@ db_event_updateId @1772
 ?db_get_usm@@YG?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD00@Z @1773 NONAME
 ?SetPageOwner@CCtrlPages@@QAEXXZ @1774 NONAME
 ?db_event_setJson@@YGHIPBDPAUDBVARIANT@@@Z @1775 NONAME
+?CreatePage@CCtrlPages@@AAEXPAVCDlgBase@@@Z @1776 NONAME

@@ -59,8 +59,11 @@ void CCtrlPages::OnInit()
 	CSuper::OnInit();
 	Subclass();
 
-	for (auto &it : m_pages)
+	for (auto &it : m_pages) {
 		InsertPage(it);
+		if (m_bOwnPages)
+			CreatePage(it->m_pDlg);
+	}
 	m_pages.destroy();
 
 	::SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ::GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
@@ -180,6 +183,26 @@ void CCtrlPages::CheckRowCount()
 	}
 }
 
+void CCtrlPages::CreatePage(CDlgBase *pDlg)
+{
+	pDlg->SetParent(m_bOwnPages ? m_hwnd : GetParent()->GetHwnd());
+	pDlg->Create();
+
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+	TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE);
+
+	EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
+
+	PSHNOTIFY pshn;
+	pshn.hdr.code = PSN_INFOCHANGED;
+	pshn.hdr.hwndFrom = pDlg->GetHwnd();
+	pshn.hdr.idFrom = 0;
+	pshn.lParam = 0;
+	SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+}
+
 int CCtrlPages::GetCount()
 {
 	return TabCtrl_GetItemCount(m_hwnd);
@@ -265,24 +288,9 @@ void CCtrlPages::RemovePage(int iPage)
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
 {
-	if (pDlg->GetHwnd() == nullptr) {
-		pDlg->SetParent(m_bOwnPages ? m_hwnd : GetParent()->GetHwnd());
-		pDlg->Create();
+	if (pDlg->GetHwnd() == nullptr)
+		CreatePage(pDlg);
 
-		RECT rc;
-		GetClientRect(m_hwnd, &rc);
-		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-		SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE);
-
-		EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
-
-		PSHNOTIFY pshn;
-		pshn.hdr.code = PSN_INFOCHANGED;
-		pshn.hdr.hwndFrom = pDlg->GetHwnd();
-		pshn.hdr.idFrom = 0;
-		pshn.lParam = 0;
-		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
-	}
 	ShowWindow(pDlg->GetHwnd(), SW_SHOW);
 }
 
