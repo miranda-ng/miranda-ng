@@ -224,14 +224,15 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
 	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
 	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
-	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
 	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
-
+	CreateProtoService(PS_CHATCHANGETOPIC, &CVkProto::SvcChatChangeTopic);
+	CreateProtoService(PS_CHATINVITEUSER, &CVkProto::SvcChatInviteUser);
+	CreateProtoService(PS_CHATDESTROY, &CVkProto::SvcChatDestroy);
 
 	// Contact Menu Items
 	CMenuItem mi(&g_plugin);
@@ -286,19 +287,33 @@ void CVkProto::InitMenus()
 	SET_UID(mi, 0x56454cb9, 0xd80, 0x4050, 0xbe, 0xfc, 0x2c, 0xf6, 0x10, 0x2a, 0x7d, 0x19);
 	m_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = PS_DESTROYKICKCHAT;
-	mi.position = -200001000 + CMI_DESTROYKICKCHAT;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FRIENDDEL);
-	mi.name.w = LPGENW("Destroy room");
-	SET_UID(mi, 0x4fa6e75a, 0x30cd, 0x4482, 0xae, 0x8f, 0x0, 0x38, 0xd0, 0x17, 0x33, 0xcd);
-	m_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi, m_szModuleName);
-
 	mi.pszService = PS_OPENBROADCAST;
 	mi.position = -200001000 + CMI_OPENBROADCAST;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BROADCAST);
 	mi.name.w = LPGENW("Open broadcast");
 	SET_UID(mi, 0x85251a06, 0xf734, 0x4985, 0x8c, 0x36, 0x6f, 0x66, 0x46, 0xf9, 0xa0, 0x10);
 	m_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+			
+	mi.pszService = PS_CHATCHANGETOPIC;
+	mi.position = -200001000 + CMI_CHATCHANGETOPIC;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_STATUS);
+	mi.name.w = LPGENW("View/change title");
+	SET_UID(mi, 0x104a176, 0xb66c, 0x45b6, 0xb8, 0x51, 0x30, 0x28, 0x36, 0x86, 0xfb, 0x4a);
+	m_hContactMenuItems[CMI_CHATCHANGETOPIC] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = PS_CHATINVITEUSER;
+	mi.position = -200001000 + CMI_CHATINVITEUSER;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FRIENDADD);
+	mi.name.w = LPGENW("Invite a user");
+	SET_UID(mi, 0xeeb5b4ce, 0xc151, 0x4f73, 0x8d, 0x75, 0x1a, 0x45, 0x55, 0x4c, 0x5f, 0x52);
+	m_hContactMenuItems[CMI_CHATINVITEUSER] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = PS_CHATDESTROY;
+	mi.position = -200001000 + CMI_CHATDESTROY;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FRIENDDEL);
+	mi.name.w = LPGENW("Destroy room");
+	SET_UID(mi, 0x4fa6e75a, 0x30cd, 0x4482, 0xae, 0x8f, 0x0, 0x38, 0xd0, 0x17, 0x33, 0xcd);
+	m_hContactMenuItems[CMI_CHATDESTROY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_LOADVKNEWS;
 	mi.position = -200001000 + CMI_LOADVKNEWS;
@@ -367,14 +382,18 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
 	bool bIsGroup = IsGroupUser(hContact);
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], !isChatRoom(hContact) && userID != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off"));
 	Menu_ShowItem(m_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
+
+	Menu_ShowItem(m_hContactMenuItems[CMI_CHATCHANGETOPIC], isChatRoom(hContact));
+	Menu_ShowItem(m_hContactMenuItems[CMI_CHATINVITEUSER], isChatRoom(hContact));
+	Menu_ShowItem(m_hContactMenuItems[CMI_CHATDESTROY], isChatRoom(hContact));
+
 	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_LOADVKNEWS], userID == VK_FEED_USER);
 	for (int i = 0; i < CHMI_COUNT; i++)

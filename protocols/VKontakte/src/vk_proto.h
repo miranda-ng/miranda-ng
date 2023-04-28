@@ -33,11 +33,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_DELETEFRIEND "/DeleteFriend"
 #define PS_BANUSER "/BanUser"
 #define PS_REPORTABUSE "/ReportAbuse"
-#define PS_DESTROYKICKCHAT "/DestroyKickChat"
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
 #define PS_WALLPOST "/WallPost"
 #define PS_MARKMESSAGESASREAD "/MarkMessagesAsRead"
+#define PS_CHATCHANGETOPIC "/ChatChangeTopic"
+#define PS_CHATINVITEUSER "/ChatInviteUser"
+#define PS_CHATDESTROY "/ChatDestroy"
+
+
 
 #define MAXHISTORYMIDSPERONE 100
 #define MAX_RETRIES 10
@@ -95,11 +99,13 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcWallPost(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcMarkMessagesAsRead(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcSetStatusMsg(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcChatChangeTopic(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcChatInviteUser(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcChatDestroy(WPARAM hContact, LPARAM);
 
 	//==== History Menus ==================================================================
 
@@ -138,6 +144,9 @@ private:
 	//==== Enums =========================================================================
 
 	enum CLMenuIndexes {
+		CMI_CHATDESTROY,	
+		CMI_CHATCHANGETOPIC,
+		CMI_CHATINVITEUSER,
 		CMI_VISITPROFILE,
 		CMI_MARKMESSAGESASREAD,
 		CMI_WALLPOST,
@@ -145,7 +154,6 @@ private:
 		CMI_DELETEFRIEND,
 		CMI_BANUSER,
 		CMI_REPORTABUSE,
-		CMI_DESTROYKICKCHAT,
 		CMI_OPENBROADCAST,
 		CMI_LOADVKNEWS,
 		CMI_GETSERVERHISTORY,

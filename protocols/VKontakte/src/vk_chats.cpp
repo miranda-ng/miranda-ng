@@ -29,6 +29,81 @@ static LPCWSTR sttStatuses[] = { LPGENW("Participants"), LPGENW("Owners") };
 extern JSONNode nullNode;
 
 
+INT_PTR __cdecl CVkProto::SvcChatChangeTopic(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcChatChangeTopic");
+	if (!IsOnline())
+		return 1;
+	
+	CVkChatInfo* cc = GetChatByContact(hContact);
+	if (!cc)
+		return 1;
+		
+	if (LPTSTR pwszNew = ChangeChatTopic(cc)) {
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.editChat.json", true, &CVkProto::OnReceiveSmth)
+			<< WCHAR_PARAM("title", pwszNew)
+			<< INT_PARAM("chat_id", cc->m_iChatId));
+		mir_free(pwszNew);
+	}
+
+	return 0;
+}
+
+INT_PTR __cdecl CVkProto::SvcChatInviteUser(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcChatInviteUser");
+	if (!IsOnline())
+		return 1;
+
+	CVkChatInfo* cc = GetChatByContact(hContact);
+	if (!cc)
+		return 1;
+
+	CVkInviteChatForm dlg(this);
+	if (dlg.DoModal() && dlg.m_hContact != 0) {
+		LONG uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
+
+		if (uid < 0)
+			MsgPopup(TranslateT("Adding bots to MUC is not supported"), TranslateT("Not supported"));
+		else if (uid != VK_INVALID_USER)
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
+				<< INT_PARAM("user_id", uid)
+				<< INT_PARAM("chat_id", cc->m_iChatId));
+	}
+
+	return 0;
+}
+
+INT_PTR __cdecl CVkProto::SvcChatDestroy(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcChatDestroy");
+	if (!IsOnline())
+		return 1;
+
+	CVkChatInfo* cc = GetChatByContact(hContact);
+	if (!cc)
+		return 1;
+	if (IDYES == MessageBoxW(nullptr,
+		TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
+		TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)
+		) {
+		if (!getBool(hContact, "off"))
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyChat", true, &CVkProto::OnChatDestroy)
+				<< INT_PARAM("chatid", cc->m_iChatId)
+				<< INT_PARAM("userid", m_myUserId)
+			)->pUserInfo = cc;
+		else {
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyKickChat", true, &CVkProto::OnReceiveSmth)
+				<< INT_PARAM("chatid", cc->m_iChatId)
+			);
+			DeleteContact(hContact);
+		}
+	}
+
+	return 0;
+}
+
+
 CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnItem)
 {
 	debugLogW(L"CVkProto::AppendConversationChat %d", iChatId);
@@ -449,7 +524,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG mid, LONG uid, int msgTim
 		_itoa(mid, szMid, 10);
 
 		T2Utf pszBody(pwszBody);
-
+		
 		PROTORECVEVENT pre = {};
 		pre.szMsgId = szMid;
 		pre.timestamp = msgTime;
@@ -547,6 +622,10 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		NickMenuHook(cc, gch);
 		break;
+
+	case GC_USER_TYPNOTIFY:
+		UserIsTyping(cc->m_si->hContact, (int)gch->dwData);
+		break;
 	}
 	return 1;
 }
@@ -591,40 +670,15 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 	switch (gch->dwData) {
 	case IDM_TOPIC:
-		if (LPTSTR pwszNew = ChangeChatTopic(cc)) {
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.editChat.json", true, &CVkProto::OnReceiveSmth)
-				<< WCHAR_PARAM("title", pwszNew)
-				<< INT_PARAM("chat_id", cc->m_iChatId));
-			mir_free(pwszNew);
-		}
+		SvcChatChangeTopic(cc->m_si->hContact, 0);
 		break;
 
 	case IDM_INVITE:
-		{
-			CVkInviteChatForm dlg(this);
-			if (dlg.DoModal() && dlg.m_hContact != 0) {
-				LONG uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
-
-				if (uid < 0)
-					MsgPopup(TranslateT("Adding bots to MUC is not supported"), TranslateT("Not supported"));
-				else if (uid != VK_INVALID_USER)
-					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
-						<< INT_PARAM("user_id", uid)
-						<< INT_PARAM("chat_id", cc->m_iChatId));
-			}
-		}
+		SvcChatInviteUser(cc->m_si->hContact, 0);
 		break;
 
 	case IDM_DESTROY:
-		if (IDYES == MessageBoxW(nullptr,
-			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
-			TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)
-			)
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyChat", true, &CVkProto::OnChatDestroy)
-				<< INT_PARAM("chatid", cc->m_iChatId)
-				<< INT_PARAM("userid", m_myUserId)
-			)->pUserInfo = cc;
-
+		SvcChatDestroy(cc->m_si->hContact, 0);
 		break;
 	}
 }
@@ -726,27 +780,6 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	LeaveChat(cc->m_iChatId);
 }
 
-INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
-{
-	debugLogA("CVkProto::SvcDestroyKickChat");
-	if (!IsOnline())
-		return 1;
-
-	if (!getBool(hContact, "off"))
-		return 1;
-
-	int chat_id = getDword(hContact, "ID", VK_INVALID_USER);
-	if (chat_id == VK_INVALID_USER)
-		return 1;
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.DestroyKickChat", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("chatid", chat_id)
-	);
-
-	DeleteContact(hContact);
-
-	return 0;
-}
 
 void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {

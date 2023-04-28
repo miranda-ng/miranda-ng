@@ -156,12 +156,12 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 		return;
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || userID == VK_FEED_USER || isChatRoom(hContact))
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 		<< INT_PARAM("mark_conversation_as_read", 1)
-		<< INT_PARAM("peer_id", userID));
+		<< INT_PARAM("peer_id", isChatRoom(hContact) ? VK_CHAT_FLAG + userID : userID));
 }
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
