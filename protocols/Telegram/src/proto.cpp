@@ -280,6 +280,21 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+{
+	MEVENT hEvent = CSuper::RecvFile(hContact, pre);
+	if (hEvent)
+		if (auto *ft = (TG_FILE_REQUEST *)pre->lParam) {
+			DBVARIANT dbv = { DBVT_DWORD };
+			dbv.dVal = ft->m_type;
+			db_event_setJson(hEvent, "t", &dbv);
+		}
+
+	return hEvent;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
 	m_searchIds.clear();

@@ -239,46 +239,102 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CTelegramProto::GetMessageFile(
+	TG_FILE_REQUEST::Type fileType,
+	TG_USER *pUser,
+	const TD::file *pFile,
+	const char *pszFileName,
+	const std::string &caption,
+	const char *pszId,
+	const char *pszUserId)
+{
+	if (pFile->get_id() != TD::file::ID) {
+		debugLogA("Document contains unsupported type %d, exiting", pFile->get_id());
+		return false;
+	}
+
+	auto *pRequest = new TG_FILE_REQUEST(fileType, pFile->id_, pFile->remote_->id_.c_str());
+	pRequest->m_fileName = Utf2T(pszFileName);
+	pRequest->m_fileSize = pFile->size_;
+	{
+		mir_cslock lck(m_csFiles);
+		m_arFiles.insert(pRequest);
+	}
+
+	PROTORECVFILE pre = {};
+	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
+	pre.fileCount = 1;
+	pre.timestamp = time(0);
+	pre.files.a = &pszFileName;
+	pre.lParam = (LPARAM)pRequest;
+	pre.szId = pszId;
+	pre.szUserId = pszUserId;
+
+	if (!caption.empty())
+		pre.descr.a = caption.c_str();
+	ProtoChainRecvFile(pUser->hContact, &pre);
+	return true;
+}
+
 CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
 
-	char szId[100], szUserId[100];
+	char szId[100], szUserId[100], *pszUserId = nullptr;
 	_i64toa(pMsg->id_, szId, 10);
+	if (GetGcUserId(pUser, pMsg, szUserId))
+		pszUserId = szUserId;
 
 	switch (pBody->get_id()) {
-	case TD::messageDocument::ID:
+	case TD::messagePhoto::ID:
 		{
-			auto *pDoc = ((TD::messageDocument *)pBody);
-			auto *pFile = pDoc->document_->document_.get();
+			auto *pDoc = (TD::messagePhoto *)pBody;
+			TD::photoSize *pPhoto = nullptr;
 
-			if (pFile->get_id() != TD::file::ID) {
-				debugLogA("Document contains unsupported type %d, exiting", pDoc->document_->get_id());
+			const char *types[] = { "x", "m", "s" };
+			for (auto *pType : types)
+				for (auto &it: pDoc->photo_->sizes_)
+					if (it->type_ == pType) {
+						pPhoto = it.get();
+						break;
+					}
+
+			if (pPhoto == nullptr) {
+				debugLogA("cannot find photo, exiting");
 				break;
 			}
-			
-			auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, pFile->id_, pFile->remote_->id_.c_str());
-			pRequest->m_fileName = Utf2T(pDoc->document_->file_name_.c_str());
-			pRequest->m_fileSize = pFile->size_;
-			{
-				mir_cslock lck(m_csFiles);
-				m_arFiles.insert(pRequest);
+
+			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
+			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szId, pszUserId);
+		}
+		break;
+
+	case TD::messageVideo::ID:
+		{
+			auto *pDoc = (TD::messageVideo *)pBody;
+			auto *pVideo = pDoc->video_.get();
+			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
+			std::string caption = fileName.c_str();
+			if (!pDoc->caption_->text_.empty()) {
+				caption += " ";
+				caption += pDoc->caption_->text_;
 			}
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId);
+		}
+		break;
 
-			auto *pszFileName = pDoc->document_->file_name_.c_str();
-			PROTORECVFILE pre = {};
-			pre.dwFlags = PRFF_UTF | PRFF_SILENT;
-			pre.fileCount = 1;
-			pre.timestamp = time(0);
-			pre.files.a = &pszFileName;
-			pre.lParam = (LPARAM)pRequest;
-			pre.szId = szId;
-			if (GetGcUserId(pUser, pMsg, szUserId))
-				pre.szUserId = szUserId;
+	case TD::messageVoiceNote::ID:
+		{
+			auto *pDoc = (TD::messageVoiceNote *)pBody;
+			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice note"), pDoc->voice_note_->duration_, TranslateU("seconds"));
+			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId);
+		}
+		break;
 
-			if (!pDoc->caption_->text_.empty())
-				pre.descr.a = pDoc->caption_->text_.c_str();
-			ProtoChainRecvFile(pUser->hContact, &pre);
+	case TD::messageDocument::ID:
+		{
+			auto *pDoc = (TD::messageDocument *)pBody;
+			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szId, pszUserId);
 		}
 		break;
 

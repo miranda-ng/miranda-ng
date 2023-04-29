@@ -62,7 +62,7 @@ struct TG_REQUEST_FULL : public TG_REQUEST_BASE
 
 struct TG_FILE_REQUEST : public MZeroedObject
 {
-	enum Type { AVATAR = 1, FILE = 2 };
+	enum Type { AVATAR = 1, FILE = 2, PICTURE = 3, VIDEO = 4, VOICE = 5 };
 
 	TG_FILE_REQUEST(Type _1, TD::int53 _2, const char *_3) :
 		m_type(_1),
@@ -225,6 +225,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
+	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser);
 	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
@@ -289,6 +290,8 @@ public:
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
 		
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+
+	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;

@@ -105,7 +105,7 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
 		if (root) {
-			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
+			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::Type(root["t"].as_int()), 0, "");
 			ft->m_fileName = ofd->wszPath;
 			ft->m_bOpen = ofd->bOpen;
 			ft->m_hEvent = ofd->hDbEvent;
@@ -182,14 +182,29 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 				mir_cslock lck(m_csFiles);
 				m_arFiles.remove(F);
 			}
-			else { // FILE
+			else { // FILE, PICTURE, VIDEO, VOICE
 				if (pFile->local_->is_downloading_completed_) {
-					MoveFileW(wszExistingFile, wszFullName);
-
 					DBVARIANT dbv = { DBVT_DWORD };
 					dbv.dVal = pFile->local_->downloaded_size_;
 					db_event_setJson(F->m_hEvent, "ft", &dbv);
 					db_event_setJson(F->m_hEvent, "fs", &dbv);
+
+					if (F->m_type != F->FILE) {
+						auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
+						if (!pSlash)
+							pSlash = pFile->local_->path_.c_str();
+						else
+							pSlash++;
+
+						dbv.type = DBVT_UTF8;
+						dbv.pszVal = (char*)pSlash;
+						db_event_setJson(F->m_hEvent, "f", &dbv);
+
+						wszFullName.Truncate(wszFullName.ReverseFind('\\') + 1);
+						wszFullName.Append(Utf2T(pSlash));
+					}
+
+					MoveFileW(wszExistingFile, wszFullName);
 					NotifyEventHooks(g_plugin.m_hevEventEdited, 0, F->m_hEvent);
 
 					if (F->m_bOpen)
