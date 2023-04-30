@@ -104,6 +104,40 @@ MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// downloads or launches offline file
+
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
+{
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
+		return;
+
+	DB::FILE_BLOB blob(dbei);
+	if (!blob.isOffline())
+		return;
+
+	CMStringW tszFilePath(Srmm_GetOfflineFileName(db_event_getContact(hDbEvent)));
+	CreateDirectoryTreeW(tszFilePath);
+	tszFilePath.Append(blob.getName());
+
+	struct _stat st = {};
+	_wstat(tszFilePath, &st);
+	if (st.st_size && st.st_size == blob.getSize() && blob.isCompleted()) {
+		if (bOpen)
+			ShellExecuteW(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+	}
+	else {
+		OFDTHREAD *dt = new OFDTHREAD(hDbEvent, tszFilePath, bOpen);
+		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)dt, 0);
+	}
+}
+
+MIR_APP_DLL(CMStringW) Srmm_GetOfflineFileName(MCONTACT hContact)
+{
+	return CMStringW(FORMAT, VARSW(L"%miranda_userdata%\\dlFiles\\%u\\"), hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // serializes all thread-unsafe operation to the first thread
 
 struct SSTParam

@@ -243,9 +243,11 @@ Srmm_ResetToolbar @335
 Srmm_SetButtonState @336
 Srmm_UpdateToolbarIcons @337
 Srmm_RedrawToolbarIcons @338
-Srmm_GetNthButton @339
-Srmm_GetButtonCount @340
-Srmm_ClickToolbarIcon @341
+?Srmm_GetNthButton@@YAPEAUCustomButtonData@@H@Z @339 NONAME
+?Srmm_GetButtonCount@@YAHXZ @340 NONAME
+?Srmm_ClickToolbarIcon@@YAXIHPEAUHWND__@@H@Z @341 NONAME
+?Srmm_DownloadOfflineFile@@YAXI_N@Z @342 NONAME
+?Srmm_GetOfflineFileName@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@I@Z @343 NONAME
 Miranda_OkToExit @344
 Miranda_GetVersion @345
 Miranda_GetFileVersion @346
@@ -347,8 +349,8 @@ stubNicklistProc @448 NONAME
 Chat_GetTextPixelSize @449 NONAME
 ?NotifyEvent@CSrmmBaseDialog@@IEAAHH@Z @450 NONAME
 Srmm_GetWindowData @451
-Srmm_FindWindow @452
-Srmm_Broadcast @453
+?Srmm_FindWindow@@YAPEAUHWND__@@I@Z @452 NONAME
+?Srmm_Broadcast@@YAXI_K_J@Z @453 NONAME
 Hotkey_Register @454
 Hotkey_Subclass @455
 Hotkey_Unregister @456
@@ -686,8 +688,8 @@ UnregisterHppLogger @786
 ?ScrollToBottom@CRtfLogWindow@@UEAAXXZ @802 NONAME
 ?UpdateOptions@CSrmmLogWindow@@UEAAXXZ @803 NONAME
 ?WndProc@CRtfLogWindow@@UEAA_JI_K_J@Z @804 NONAME
-RegisterSrmmLog @805 NONAME
-UnregisterSrmmLog @806 NONAME
+?RegisterSrmmLog@@YAPEAXPEAUCMPlugin@@PEBDPEB_WP6APEAVCSrmmLogWindow@@AEAVCMsgDialog@@@Z@Z @805 NONAME
+?UnregisterSrmmLog@@YAXPEAX@Z @806 NONAME
 ?GetType@CRtfLogWindow@@UEAAHXZ @807 NONAME
 WebSocket_InitHeader @809 NONAME
 WebSocket_Connect @810 NONAME

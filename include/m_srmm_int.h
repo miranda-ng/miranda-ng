@@ -72,13 +72,13 @@ struct CustomButtonData : public MZeroedObject
 };
 
 // gets the required button or NULL, if i is out of boundaries
-EXTERN_C MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i);
+MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i);
 
 // retrieves total number of toolbar buttons
-EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonCount(void);
+MIR_APP_DLL(int) Srmm_GetButtonCount(void);
 
 // emulates a click on a toolbar button
-EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwndFrom, BOOL code);
+MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwndFrom, BOOL code);
 
 // these messages are sent to the message windows if toolbar buttons are changed
 #define WM_CBD_FIRST   (WM_USER+0x600)
@@ -142,8 +142,8 @@ public:
 
 typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 
-EXTERN_C MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
-EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
+MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
+MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard built-in RTF logger class
@@ -338,17 +338,27 @@ MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent);
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows
 
-EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
+MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates plugin-specific hot key for sending messages
 
-EXTERN_C MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescription);
+MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescription);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// downloads or launches offline file
+
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieves offline file's name
+
+MIR_APP_DLL(CMStringW) Srmm_GetOfflineFileName(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a SRMM window using hContact
 
-EXTERN_C MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
+MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
+MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
 
 #endif // M_MESSAGE_H__
