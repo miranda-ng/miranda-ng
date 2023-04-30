@@ -338,9 +338,11 @@ public:
 		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)&m_plugList);
 
 		// some plugins could be just loaded by Plugin Updater, load them first
+		g_bLoadStd = false;
 		for (auto &it : arPluginList)
 			if (!it->bWasLoaded && !it->bRequiresRestart && it->bWasChecked && !it->hInst)
 				LoadPluginDynamically(it);
+		g_bLoadStd = true;
 
 		// set checkboxes for all loaded plugins
 		for (auto &it : arPluginList) {
