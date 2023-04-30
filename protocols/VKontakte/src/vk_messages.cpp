@@ -214,17 +214,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			CMStringW wszPeerType(jnPeer["type"].as_mstring());
 			int iUserId = jnPeer["id"].as_int();
 
-			if (wszPeerType == L"user" || wszPeerType == L"group") {
-				MCONTACT hContact = FindUser(iUserId, true);
-				setDword(hContact, "in_read", jnItem["in_read"].as_int());
-				setDword(hContact, "out_read", jnItem["out_read"].as_int());
-				if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
-					MarkMessagesRead(hContact);
-			}
-			else {
-				MCONTACT hContact = FindChat(iUserId % VK_CHAT_FLAG);
+			MCONTACT hContact = (wszPeerType == L"chat") ? FindChat(iUserId % VK_CHAT_FLAG) : FindUser(iUserId, true);
+			setDword(hContact, "in_read", jnItem["in_read"].as_int());
+			setDword(hContact, "out_read", jnItem["out_read"].as_int());
+			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
 				MarkMessagesRead(hContact);
-			}
 		}
 	}
 
