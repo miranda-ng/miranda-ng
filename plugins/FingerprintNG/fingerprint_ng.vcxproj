@@ -30,10 +30,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\masks.cpp" />
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\prepare.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="src\finger_groups.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />

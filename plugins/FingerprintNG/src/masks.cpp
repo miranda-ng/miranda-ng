@@ -46,11 +46,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 *    In order to get "Unknown" client, last mask should be "?*".
 */
 
-KN_FP_MASK def_kn_fp_mask[] =
-{// {"Client_IconName",         L"|^*Mask*|*names*",                         L"Icon caption",                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
-	//#########################################################################################################################################################################
-	//#################################   MIRANDA   ###########################################################################################################################
-	//#########################################################################################################################################################################
+static KN_FP_MASK def_kn_fp_mask[] =
+{
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// MIRANDA
 
 	{ "client_Miranda_NG", L"|*nightly.miranda.im*" L"|*Miranda*NG*" _A2W(MIRANDA_VERSION_CORE_STRING) L"*", L"Miranda NG", IDI_MIRANDA_NG, MIRANDA_CASE },
 
@@ -72,9 +71,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Miranda_unknown", L"*Miranda*", LPGENW("Miranda (unknown)"), IDI_MIRANDA_UNKNOWN, MIRANDA_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   MULTI-PROTOCOL   ####################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// MULTI-PROTOCOL
+
 	{ "client_1&1", L"|*Pocket*Web*|*1&1*|*1*?nd*1", L"1&1", IDI_1UND1, MULTI_CASE, TRUE },
 	{ "client_Asia", L"*Asia*", L"Asia", IDI_ASIA, MULTI_CASE, TRUE },
 	{ "client_Adium", L"|*Adium*"
@@ -189,17 +188,17 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Yeigo", L"*Yeigo*", L"Yeigo", IDI_YEIGO, MULTI_CASE, TRUE },
 	{ "client_Yoono", L"*Yoono*", L"Yoono", IDI_YOONO, MULTI_CASE, TRUE },
 
-	//#########################################################################################################################################################################
-	//#################################   ICQ   ###############################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// ICQ
+
 	{ "client_Mandarin_IM", L"Mandarin IM*", L"Mandarin IM", IDI_MANDARIN_IM, ICQ_CASE, TRUE },
 	{ "client_R&Q", L"|R&Q*|&RQ*", L"R&Q", IDI_RANDQ, ICQ_CASE, TRUE },
 
 	{ "client_ICQ_all", L"|ICQ?|ICQ?.?|ICQ *|ICQ2*|ICQ", L"ICQ client", IDI_ICQ, ICQ_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   JABBER   ############################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// JABBER
+
 	{ "client_Akeni", L"*Akeni*", L"Akeni", IDI_AKENI, JABBER_CASE, TRUE },
 	{ "client_Ambrosia", L"*Ambrosia*", L"Ambrosia XMPP Server", IDI_AMBROSIA, JABBER_CASE, TRUE },
 	{ "client_AnothRSSBot", L"|*Anothrbot*|*Anothr Rss Bot*", L"Anothr Rss Bot", IDI_ANOTHRSSBOT, JABBER_CASE, TRUE },
@@ -396,7 +395,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_schuelervz", L"*schuelervz*", L"SchulerVZ", IDI_SCHULERVZ, JABBER_CASE, TRUE },
 	{ "client_studivz", L"*studivz*", L"StudiVZ", IDI_STUDIVZ, JABBER_CASE, TRUE },
 	{ "client_tkchat", L"*tkchat*", L"tkchat", IDI_TKCHAT, JABBER_CASE, TRUE },
-	//  {"client_uJabber",          L"*uJabber*",                                L"uJabber",                      IDI_UJABBER,             JABBER_CASE,        TRUE    },
 	{ "client_uKeeper", L"*uKeeper*", L"uKeeper", IDI_UKEEPER, JABBER_CASE, TRUE },
 	{ "client_whoisbot", L"whoisbot", L"Swissjabber Whois Bot", IDI_WHOISBOT, JABBER_CASE, TRUE },
 	{ "client_xeus2", L"*xeus 2*", L"xeus 2", IDI_XEUS2, JABBER_CASE, TRUE },
@@ -405,9 +403,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	L"|*Я.Онлайн*|*Яндекс*", L"Ya.Online", IDI_YAONLINE, JABBER_CASE, TRUE },
 	{ "client_yaxim", L"*yaxim*", L"yaxim", IDI_YAXIM, JABBER_CASE, TRUE },
 
-	//#########################################################################################################################################################################
-	//#################################   IRC   ###############################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// IRC
+
 	{ "client_AmIRC", L"*AmIRC*", L"AmIRC", IDI_AMIRC, IRC_CASE, TRUE },
 	{ "client_Babbel", L"*Babbel*", L"Babbel", IDI_BABBEL, IRC_CASE, TRUE },
 	{ "client_BersIRC", L"*BersIRC*", L"BersIRC", IDI_BERSIRC, IRC_CASE, TRUE },
@@ -474,9 +472,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_IRCUnknown", L"*IRC*", L"Unknown IRC client", IDI_IRC, IRC_CASE, TRUE },
 
-	//#########################################################################################################################################################################
-	//#################################   WEATHER   ###########################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// WEATHER
+
 	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
 	{ "client_gismeteo", L"*gismeteo*", L"GisMeteo", IDI_GISMETEO, WEATHER_CASE, TRUE },
 	{ "client_intelli", L"*intellicast*", L"Intellicast", IDI_INTELLI, WEATHER_CASE, TRUE },
@@ -491,40 +489,40 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_weather_cn", L"*weather.com.cn*", L"Weather CN", IDI_WEATHER_CN, WEATHER_CASE, TRUE },
 	{ "client_weather", L"*weather*", L"Weather", IDI_WEATHER, WEATHER_CASE, TRUE },
 
-	//#########################################################################################################################################################################
-	//#################################   RSS   ###############################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// RSS
+
 	{ "client_rss09x", L"*RSS*0.9*", L"RSS 0.9x", IDI_RSS09, RSS_CASE, TRUE },
 	{ "client_rss2", L"*RSS*2.*", L"RSS 2", IDI_RSS2, RSS_CASE, TRUE },
 	{ "client_rss1", L"*RSS*1.*", L"RSS 1", IDI_RSS1, RSS_CASE, TRUE },
 	{ "client_atom3", L"*Atom*3*", L"Atom 3", IDI_ATOM3, RSS_CASE, TRUE },
 	{ "client_atom1", L"*Atom*1*", L"Atom 1", IDI_ATOM1, RSS_CASE, TRUE },
 
-	//#########################################################################################################################################################################
-	//#################################   GADU-GADU   #########################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// GADU-GADU
+
 	{ "client_GG", L"|Gadu-Gadu*|GG*", LPGENW("Gadu-Gadu client"), IDI_GG, GG_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   Facebook   ##########################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// Facebook
+
 	{ "client_Facebook_other", L"*Facebook*other*", L"Facebook (other)", IDI_FACEBOOK_OTHER, FACEBOOK_CASE },
 	{ "client_Facebook_app", L"*Facebook*App*", L"Facebook App", IDI_FACEBOOK_APP, FACEBOOK_CASE },
 	{ "client_Facebook_mess", L"*Facebook*Messenger*", L"Facebook Messenger", IDI_FACEBOOK_MESSENGER, FACEBOOK_CASE },
 	{ "client_Facebook", L"*Facebook*", L"Facebook", IDI_FACEBOOK, FACEBOOK_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   VKontakte   #########################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// VKontakte
+
 	{ "client_VK", L"|*VKontakte*|*vk.com*", L"VKontakte", IDI_VK, VK_CASE },
 	{ "client_VK_Kate", L"*Kate*Mobile*", L"Kate Mobile", IDI_VK_KATE, VK_CASE },
 	{ "client_VK_Messenger", L"VK Messenger*", L"VK Messenger", IDI_VK_MESSENGER, VK_CASE },
 	{ "client_VK_Phoenix_Full", L"Phoenix*Full*", L"Phoenix Full", IDI_VK_PHOENIX_FULL, VK_CASE },
 	{ "client_VK_Phoenix_Lite", L"Phoenix*Lite*", L"Phoenix Lite", IDI_VK_PHOENIX_LITE, VK_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   OTHER CLIENTS   #####################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// OTHER CLIENTS
+
 	{ "client_Android", L"Android*", L"Android", IDI_ANDROID, MULTI_CASE, TRUE },
 
 	{ "client_Pidgin", L"|*Pidgin*|*libpurple*|Purple*", L"Pidgin (libpurple)", IDI_PIDGIN, MULTI_CASE },
@@ -543,27 +541,22 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Steam", L"*Steam*", L"Steam", IDI_STEAM, OTHER_PROTOS_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   UNDEFINED CLIENTS   #################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// UNDEFINED CLIENTS
 
 	{ "client_Notfound", L"Notfound", LPGENW("Client not found"), IDI_NOTFOUND, OTHERS_CASE, TRUE },
 	{ "client_Unknown", L"|*Unknown*|...", LPGENW("Unknown client"), IDI_UNKNOWN, OTHERS_CASE, TRUE },
 	{ "client_Undetected", L"?*", LPGENW("Undetected client"), IDI_UNDETECTED, OTHERS_CASE, TRUE },
-
 };
 
-int DEFAULT_KN_FP_MASK_COUNT = _countof(def_kn_fp_mask);
+/////////////////////////////////////////////////////////////////////////////////////////
+// OVERLAYS LAYER #1
 
-//#########################################################################################################################################################################
-//#################################   OVERLAYS LAYER #1   #################################################################################################################
-//#########################################################################################################################################################################
+static KN_FP_MASK def_kn_fp_overlays_mask[] =
+{
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// MIRANDA PACKS OVERLAYS
 
-KN_FP_MASK def_kn_fp_overlays_mask[] =
-{// {"Client_IconName",         L"|^*Mask*|*names*",                         L"Icon caption",                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
-	//#########################################################################################################################################################################
-	//#################################   MIRANDA PACKS OVERLAYS   ############################################################################################################
-	//#########################################################################################################################################################################
 	{ "client_AF_pack", L"*AF*Pack*", L"AF", IDI_MIRANDA_AF, MIRANDA_PACKS_CASE },
 	{ "client_AlfaMaR_pack", L"*AlfaMaR*", L"AlfaMaR", IDI_MIRANDA_ALFAMAR, MIRANDA_PACKS_CASE },
 	{ "client_Amatory_pack", L"*Amatory*", L"Amatory", IDI_MIRANDA_AMATORY, MIRANDA_PACKS_CASE },
@@ -605,9 +598,9 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_dmikos_pack", L"*dmikos*", L"Dmikos", IDI_MIRANDA_DMIKOS, MIRANDA_PACKS_CASE },
 	{ "client_zeleboba_pack", L"*zeleboba*", L"zeleboba's", IDI_MIRANDA_ZELEBOBA, MIRANDA_PACKS_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   PROTO OVERLAYS   ####################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// PROTO OVERLAYS
+
 	{ "client_ICQ_overlay", L"|^ICQ|^ICQ*|*ICQ*", LPGENW("ICQ overlay"), IDI_ICQ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", L"|^IRC*|Miranda*IRC*", LPGENW("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", L"*JGmail*", LPGENW("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
@@ -616,9 +609,9 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   CLIENT VERSION OVERLAYS   ###########################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// CLIENT VERSION OVERLAYS
+
 	{ "client_ICQ8_over", L"ICQ*8*", LPGENW("ICQ v8.x overlay"), IDI_ICQ8_OVERLAY, ICQ_CASE },
 
 	{ "client_GG_11", L"|Gadu-Gadu*11*|GG*11*", LPGENW("Gadu-Gadu v11 client"), IDI_GG11_OVERLAY, GG_CASE },
@@ -626,9 +619,9 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_GG_9", L"|Gadu-Gadu*9*|GG*9*", LPGENW("Gadu-Gadu v9 client"), IDI_GG9_OVERLAY, GG_CASE },
 	{ "client_GG_8", L"|Gadu-Gadu*8*|GG*8*", LPGENW("Gadu-Gadu v8 client"), IDI_GG8_OVERLAY, GG_CASE },
 
-	//#########################################################################################################################################################################
-	//#################################   PLATFORM OVERLAYS   #################################################################################################################
-	//#########################################################################################################################################################################
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// PLATFORM OVERLAYS
+	
 	{ "client_on_Win32", L"|*Win*|* WM *|wmagent*|*Vista*", LPGENW("Windows overlay"), IDI_PLATFORM_WIN, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_iOS", L"|*ipad*|*iphone*|*iOS*", LPGENW("iOS overlay (iPhone/iPad)"), IDI_PLATFORM_IOS, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Mac", L"|^*smack*|* Mac *|*mac*|*OSX*", LPGENW("MacOS overlay"), IDI_PLATFORM_MAC, OVERLAYS_PLATFORM_CASE },
@@ -645,14 +638,11 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 
 int DEFAULT_KN_FP_OVERLAYS_COUNT = _countof(def_kn_fp_overlays_mask);
 
-//#########################################################################################################################################################################
-//#########################################################################################################################################################################
-//#################################   OVERLAYS LAYER #2   #################################################################################################################
-//#########################################################################################################################################################################
-//#########################################################################################################################################################################
+/////////////////////////////////////////////////////////////////////////////////////////
+// OVERLAYS LAYER #2
 
-KN_FP_MASK def_kn_fp_overlays2_mask[] =
-{// {"Client_IconName",         L"|^*Mask*|*names*",                         L"Icon caption",                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
+static KN_FP_MASK def_kn_fp_overlays2_mask1[] =
+{
 	{ "client_debug_overlay", L"|*[*debug*]*|*test*|*тест*", LPGENW("debug overlay"), IDI_DEBUG_OVERLAY, OVERLAYS_RESOURCE_CASE },
 	{ "client_office_overlay", L"|*[*office*]*|*[*офис*]*", LPGENW("office overlay"), IDI_OFFICE_OVERLAY, OVERLAYS_RESOURCE_CASE },
 	{ "client_mobile_overlay", L"|*[*mobile*]*|*[*pda*]*", LPGENW("mobile overlay"), IDI_MOBILE_OVERLAY, OVERLAYS_RESOURCE_CASE },
@@ -664,12 +654,11 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
 	{ "client_note_overlay", L"|*[*note*]*|*[*laptop*]*"
 	L"|*[*нетбу*]*|*[*ноут*]*|*[*ноте*]*"
 	L"|*[*кирпич*]*|*[*portable*]*"
-	L"|*[*flash*]*|*[*usb*]*", LPGENW("notebook overlay"), IDI_NOTEBOOK_OVERLAY, OVERLAYS_RESOURCE_CASE },
+	L"|*[*flash*]*|*[*usb*]*", LPGENW("notebook overlay"), IDI_NOTEBOOK_OVERLAY, OVERLAYS_RESOURCE_CASE }
+};
 
-	//  {"client_MirNG_09_over",    L"*Miranda*NG*\?.\?\?.9.*",                  L"Miranda NG v0.9 #2 overlay",    IDI_MIRANDA_NG_V9,       MIRANDA_VERSION_CASE        },
-	//  {"client_MirNG_08_over",    L"*Miranda*NG*\?.\?\?.8.*",                  L"Miranda NG v0.8 #2 overlay",    IDI_MIRANDA_NG_V8,       MIRANDA_VERSION_CASE        },
-	//  {"client_MirNG_07_over",    L"*Miranda*NG*\?.\?\?.7.*",                  L"Miranda NG v0.7 #2 overlay",    IDI_MIRANDA_NG_V7,       MIRANDA_VERSION_CASE        },
-
+static KN_FP_MASK def_kn_fp_overlays2_mask0[] =
+{
 	{ "client_MirNG_06_over", L"*Miranda*NG*\?.\?\?.6.*", LPGENW("Miranda NG v0.6 #2 overlay"), IDI_MIRANDA_NG_V6, MIRANDA_VERSION_CASE },
 	{ "client_MirNG_05_over", L"*Miranda*NG*\?.\?\?.5.*", LPGENW("Miranda NG v0.5 #2 overlay"), IDI_MIRANDA_NG_V5, MIRANDA_VERSION_CASE },
 	{ "client_MirNG_04_over", L"*Miranda*NG*\?.\?\?.4.*", LPGENW("Miranda NG v0.4 #2 overlay"), IDI_MIRANDA_NG_V4, MIRANDA_VERSION_CASE },
@@ -686,31 +675,66 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
 	{ "client_MirIM_04_over", L"*Miranda*0.4.*", LPGENW("Miranda IM v0.4 #2 overlay"), IDI_MIRANDA_IM_V4, MIRANDA_VERSION_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS2_COUNT = _countof(def_kn_fp_overlays2_mask);
+/////////////////////////////////////////////////////////////////////////////////////////
+// OVERLAYS LAYER #3
 
-//#########################################################################################################################################################################
-//#########################################################################################################################################################################
-//##############################   OVERLAYS LAYER #3   ####################################################################################################################
-//#########################################################################################################################################################################
-KN_FP_MASK def_kn_fp_overlays3_mask[] =
-{// {"Client_IconName",         L"|^*Mask*|*names*",                         L"Icon caption",                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
+static KN_FP_MASK def_kn_fp_overlays3_mask1[] =
+{
 	{ "client_platform_x64", L"|*x64*|*64*bit*", LPGENW("x64 overlay"), IDI_PLATFORM_X64, OVERLAYS_PLATFORM_CASE },
 	{ "client_platform_x32", L"|*x32*|*32*bit*|*x86*", LPGENW("x32 overlay"), IDI_PLATFORM_X32, OVERLAYS_PLATFORM_CASE },
+};
 
+static KN_FP_MASK def_kn_fp_overlays3_mask0[] =
+{
 	{ "client_Unicode", L"*unicode*", LPGENW("Unicode overlay"), IDI_UNICODE_CLIENT, OVERLAYS_UNICODE_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS3_COUNT = _countof(def_kn_fp_overlays3_mask);
+/////////////////////////////////////////////////////////////////////////////////////////
+// OVERLAYS LAYER #4
 
-//#########################################################################################################################################################################
-//#########################################################################################################################################################################
-//##############################   OVERLAYS LAYER #4   ####################################################################################################################
-//#########################################################################################################################################################################
-KN_FP_MASK def_kn_fp_overlays4_mask[] =
-{// {"Client_IconName",         L"|^*Mask*|*names*",                         L"Icon caption",                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
+static KN_FP_MASK def_kn_fp_overlays4_mask[] =
+{
 	{ "client_NewGPG_over", L"*New*GPG*", LPGENW("NewGPG overlay"), IDI_NEWGPG_OVERLAY, OVERLAYS_SECURITY_CASE },
 	{ "client_MirOTR_over", L"*Mir*OTR*", LPGENW("MirOTR overlay"), IDI_MIROTR_OVERLAY, OVERLAYS_SECURITY_CASE },
 	{ "client_SecureIM_over", L"*Secure*IM*", LPGENW("SecureIM overlay"), IDI_SECUREIM_OVERLAY, OVERLAYS_SECURITY_CASE },
 };
 
 int DEFAULT_KN_FP_OVERLAYS4_COUNT = _countof(def_kn_fp_overlays4_mask);
+
+/*
+*	Register icons
+*/
+
+void RegisterIcons()
+{
+	if (hHeap)
+		HeapDestroy(hHeap);
+	hHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
+
+	for (auto &it : def_kn_fp_mask)
+		Prepare(&it, true, g_arCommon);
+
+	for (auto &it : def_kn_fp_overlays_mask)
+		Prepare(&it, true, g_overlay1);
+
+	bool bEnabled = g_plugin.getByte("GroupMirandaVersion") != 0;
+	for (auto &it : def_kn_fp_overlays2_mask1)
+		Prepare(&it, true, g_overlay2);
+	for (auto &it : def_kn_fp_overlays2_mask0)
+		Prepare(&it, bEnabled, g_overlay2);
+
+	bEnabled = g_plugin.getByte("GroupOverlaysUnicode", 1);
+	for (auto &it : def_kn_fp_overlays3_mask1)
+		Prepare(&it, true, g_overlay3);
+	for (auto &it : def_kn_fp_overlays3_mask0)
+		Prepare(&it, bEnabled, g_overlay3);
+
+	for (auto &it : def_kn_fp_overlays4_mask)
+		Prepare(&it, true, g_overlay4);
+
+	int iCount = g_arCommon.getCount();
+	g_pUnknown = g_arCommon[iCount - 2];
+	g_pNotFound = g_arCommon[iCount - 3];
+
+	RegisterCustomIcons();
+}

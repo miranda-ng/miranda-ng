@@ -60,6 +60,7 @@ int CMPlugin::Load(void)
 int CMPlugin::Unload()
 {
 	HeapDestroy(hHeap);
+	UnregisterCustomIcons();
 	ClearFI();
 	return 0;
 }

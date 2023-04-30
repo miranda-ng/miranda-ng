@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //Start of header
 // Native include
 #include <windows.h>
+#include <io.h>
 #include <malloc.h>
 
 // Miranda IM SDK includes
@@ -32,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_icolib.h>
+#include <m_json.h>
 #include <m_options.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
@@ -56,15 +58,16 @@ struct RGBA
 
 struct KN_FP_MASK
 {
-	LPSTR	szIconName;
-	LPTSTR	szMask;
-	LPTSTR	szClientDescription;
-	int		iIconIndex;
-	int		iSectionFlag;
-	BOOL	fNotUseOverlay;
+	LPSTR    szIconName;
+	LPTSTR   szMask;
+	LPTSTR   szClientDescription;
+	int      iIconIndex;
+	int      iSectionFlag;
+	BOOL     fNotUseOverlay;
 
-	HANDLE	hIcolibItem;
-	LPTSTR	szMaskUpper;
+	int      idx;
+	HANDLE   hIcolibItem;
+	LPTSTR   szMaskUpper;
 };
 
 struct FOUNDINFO
@@ -118,6 +121,12 @@ void ClearFI();
 
 void InitFingerModule(void);
 
+void Prepare(KN_FP_MASK *mask, bool bEnable, LIST<KN_FP_MASK> &dest);
+
+void RegisterIcons();
+void RegisterCustomIcons();
+void UnregisterCustomIcons();
+
 int  OnOptInitialise(WPARAM wParam, LPARAM lParam);
 int  OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 
@@ -132,18 +141,6 @@ void RegisterIcons();
 
 extern HANDLE hHeap;
 
-extern KN_FP_MASK
-def_kn_fp_mask[],
-def_kn_fp_overlays_mask[],
-def_kn_fp_overlays1_mask[],
-def_kn_fp_overlays2_mask[],
-def_kn_fp_overlays3_mask[],
-def_kn_fp_overlays4_mask[];
+extern LIST<KN_FP_MASK> g_arCommon, g_overlay1, g_overlay2, g_overlay3, g_overlay4;
 
-extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP_OVERLAYS2_COUNT, DEFAULT_KN_FP_OVERLAYS3_COUNT, DEFAULT_KN_FP_OVERLAYS4_COUNT;
-
-#define UNKNOWN_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 2)								// second from end
-#define NOTFOUND_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 3)								// third from end
-// the last count is how many masks from 2nd layer is used as Miranda version overlays	(counting from the end)
-#define DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT (DEFAULT_KN_FP_OVERLAYS2_COUNT - 13)
-#define DEFAULT_KN_FP_OVERLAYS3_NO_UNICODE_COUNT (DEFAULT_KN_FP_OVERLAYS3_COUNT - 1)
+extern KN_FP_MASK *g_pNotFound, *g_pUnknown;
