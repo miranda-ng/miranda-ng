@@ -230,6 +230,7 @@ static KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Cudumar", L"*Cudumar*", L"Cudumar", IDI_CUDUMAR, JABBER_CASE, TRUE },
 	{ "client_CyclopsChat", L"*Cyclops*", L"Cyclops Chat", IDI_CYCLOPS_CHAT, JABBER_CASE, TRUE },
 	{ "client_Desyr", L"*Desyr*", L"Desyr Messenger", IDI_DESYR, JABBER_CASE, TRUE },
+	{ "client_Dino", L"*Dino*", L"Dino", IDI_DINO, JABBER_CASE, TRUE },
 	{ "client_EMess", L"*EMess*", L"EMess", IDI_EMESS, JABBER_CASE, TRUE },
 	{ "client_Elmer_Bot", L"*Elmer*", L"Elmer Bot", IDI_ELMER, JABBER_CASE, TRUE },
 	{ "client_Emacs", L"|*Jabber.el*|*Emacs*", L"Emacs (Jabber.el)", IDI_EMACS, JABBER_CASE, TRUE },
