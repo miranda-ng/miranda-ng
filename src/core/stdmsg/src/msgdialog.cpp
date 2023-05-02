@@ -896,6 +896,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SETFOCUS: {
 		const char* enc = (const char*)CallProtoService(m_szProto, PS_GETCAPS, PFLAG_GETCURRENTENCRYPTION, m_hContact);
+		if (enc == (const char *)CALLSERVICE_NOTFOUND)
+			enc = nullptr;
 		if (!m_sEncryption.IsEmpty() ^ (bool)enc)
 			RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
 		m_sEncryption = enc;
