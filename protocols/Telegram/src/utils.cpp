@@ -246,7 +246,8 @@ bool CTelegramProto::GetMessageFile(
 	const char *pszFileName,
 	const std::string &caption,
 	const char *pszId,
-	const char *pszUserId)
+	const char *pszUserId,
+	time_t timestamp)
 {
 	if (pFile->get_id() != TD::file::ID) {
 		debugLogA("Document contains unsupported type %d, exiting", pFile->get_id());
@@ -264,7 +265,7 @@ bool CTelegramProto::GetMessageFile(
 	PROTORECVFILE pre = {};
 	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
 	pre.fileCount = 1;
-	pre.timestamp = time(0);
+	pre.timestamp = timestamp;
 	pre.files.a = &pszFileName;
 	pre.lParam = (LPARAM)pRequest;
 	pre.szId = pszId;
@@ -305,7 +306,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 
 			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
-			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szId, pszUserId);
+			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg->date_);
 		}
 		break;
 
@@ -319,7 +320,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg->date_);
 		}
 		break;
 
@@ -327,14 +328,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		{
 			auto *pDoc = (TD::messageVoiceNote *)pBody;
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice note"), pDoc->voice_note_->duration_, TranslateU("seconds"));
-			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId);
+			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg->date_);
 		}
 		break;
 
 	case TD::messageDocument::ID:
 		{
 			auto *pDoc = (TD::messageDocument *)pBody;
-			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szId, pszUserId);
+			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szId, pszUserId, pMsg->date_);
 		}
 		break;
 
