@@ -5,20 +5,20 @@ if "%1" == "64" (set fpcpl=64) else (set fpcpl=)
 pushd ..\plugins
 
 pushd Actman
-call make.bat fpc%fpcpl% 16
+call make.bat fpc%fpcpl% 17
 if errorlevel 1 goto :Error
 popd
 
 pushd mRadio
-call make.bat fpc%fpcpl% 16
+call make.bat fpc%fpcpl% 17
 if errorlevel 1 goto :Error
 popd
 
 pushd Watrack
-call make.bat fpc%fpcpl% 16
+call make.bat fpc%fpcpl% 17
 if errorlevel 1 goto :Error
 cd icons
-call makeicons.bat fpc%fpcpl% 16
+call makeicons.bat fpc%fpcpl% 17
 if errorlevel 1 goto :Error
 popd
 
