@@ -175,8 +175,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
 	int64_t m_iQueryId;
-	CMStringA m_szFullPhone;
-
+	
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 
 	mir_cs m_csFiles;
@@ -221,6 +220,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
+	void ProcessOption(TD::updateOption *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);

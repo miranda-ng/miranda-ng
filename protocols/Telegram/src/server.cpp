@@ -25,8 +25,6 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 void __cdecl CTelegramProto::ServerThread(void *)
 {
 	m_bTerminated = m_bAuthorized = false;
-	m_szFullPhone.Format("%d%S", (int)m_iCountry, (wchar_t *)m_szOwnPhone);
-
 	m_pClientManager = std::make_unique<td::ClientManager>();
 	m_iClientId = m_pClientManager->create_client_id();
 
@@ -182,6 +180,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessMessage((TD::updateNewMessage *)response.object.get());
 		break;
 
+	case TD::updateOption::ID:
+		ProcessOption((TD::updateOption *)response.object.get());
+		break;
+
 	case TD::updateSupergroup::ID:
 		ProcessSuperGroup((TD::updateSupergroup *)response.object.get());
 		break;
@@ -330,13 +332,14 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 
 	if (auto *pUser = FindUser(chatId)) {
 		pUser->chatId = pChat->id_;
+		MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
 		if (!m_arChats.find(pUser))
 			m_arChats.insert(pUser);
 
 		if (!szTitle.empty()) {
-			if (pUser->hContact != INVALID_CONTACT_ID)
-				setUString(pUser->hContact, "Nick", szTitle.c_str());
+			if (hContact != INVALID_CONTACT_ID)
+				setUString(hContact, "Nick", szTitle.c_str());
 			else if (pUser->wszNick.IsEmpty())
 				pUser->wszFirstName = Utf2T(szTitle.c_str());
 		}
@@ -569,6 +572,21 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
+void CTelegramProto::ProcessOption(TD::updateOption *pObj)
+{
+	TD::int53 iValue = 0;
+	if (pObj->value_->get_id() == TD::optionValueInteger::ID)
+		iValue = ((TD::optionValueInteger *)pObj->value_.get())->value_;
+
+	if (pObj->name_ == "my_id") {
+		m_iOwnId = iValue;
+		SetId(0, m_iOwnId);
+
+		auto *pUser = AddUser(iValue, false);
+		setWString(pUser->hContact, "Nick", TranslateT("Saved messages"));
+	}
+}
+
 void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 {
 	if (auto *pUser = FindUser(pObj->user_id_)) {
@@ -621,17 +639,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
 
-	if (pUser->phone_number_ == m_szFullPhone.c_str()) {
-		m_iOwnId = pUser->id_;
-		SetId(0, m_iOwnId);
-
-		if (!FindUser(pUser->id_)) {
-			auto *pMe = new TG_USER(pUser->id_, 0);
-			m_arUsers.insert(pMe);
-			m_arChats.insert(pMe);
-		}
-	}
-	else if (!pUser->is_contact_) {
+	if (!pUser->is_contact_) {
 		auto *pu = AddFakeUser(pUser->id_, false);
 		if (pu->hContact != INVALID_CONTACT_ID)
 			Contact::RemoveFromList(pu->hContact);
@@ -655,31 +663,33 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 
 	auto *pu = AddUser(pUser->id_, false);
-	UpdateString(pu->hContact, "FirstName", pUser->first_name_);
-	UpdateString(pu->hContact, "LastName", pUser->last_name_);
-	UpdateString(pu->hContact, "Phone", pUser->phone_number_);
+	MCONTACT hContact = (pUser->id_ == m_iOwnId) ? 0 : pu->hContact;
+	UpdateString(hContact, "FirstName", pUser->first_name_);
+	UpdateString(hContact, "LastName", pUser->last_name_);
+	if (hContact)
+		UpdateString(hContact, "Phone", pUser->phone_number_);
+
 	if (pUser->usernames_)
-		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
-	if (pu->hContact == 0)
-		pu->wszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName);
-	Contact::PutOnList(pu->hContact);
+		UpdateString(hContact, "Nick", pUser->usernames_->editable_username_);
+
+	Contact::PutOnList(hContact);
 
 	if (pUser->is_premium_)
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, "tg_premium");
 	else
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, nullptr);
 
 	if (auto *pPhoto = pUser->profile_photo_.get()) {
 		if (auto *pSmall = pPhoto->small_.get()) {
 			auto remoteId = pSmall->remote_->unique_id_;
-			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
+			auto storedId = getMStringA(hContact, DBKEY_AVATAR_HASH);
 			if (remoteId != storedId.c_str()) {
 				if (!remoteId.empty()) {
 					pu->szAvatarHash = remoteId.c_str();
-					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+					setString(hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
 					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
 				}
-				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);
+				else delSetting(hContact, DBKEY_AVATAR_HASH);
 			}
 		}
 	}
@@ -687,7 +697,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {
 			auto *pOffline = (TD::userStatusOffline *)pUser->status_.get();
-			setDword(pu->hContact, "LastSeen", pOffline->was_online_);
+			setDword(hContact, "LastSeen", pOffline->was_online_);
 		}
 	}
 }

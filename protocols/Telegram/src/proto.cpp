@@ -52,7 +52,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_bUsePopups(this, "UsePopups", true),
 	m_bHideGroupchats(this, "HideChats", true)
 {
-	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
+	m_iOwnId = GetId(0);
 
 	CreateProtoService(PS_GETAVATARCAPS, &CTelegramProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
@@ -123,21 +123,13 @@ int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
 
 void CTelegramProto::OnModulesLoaded()
 {
-	CMStringA szId(getMStringA(DBKEY_ID));
-	if (!szId.IsEmpty()) {
-		auto *pUser = new TG_USER(_atoi64(szId.c_str()), 0);
-		m_arUsers.insert(pUser);
-		m_arChats.insert(pUser);
-	}
-
 	int iCompatLevel = getByte(DBKEY_COMPAT);
 	VARSW cachePath(L"%miranda_userdata%\\ChatCache");
 
 	for (auto &cc : AccContacts()) {
-		bool isGroupChat = isChatRoom(cc);
-		szId = getMStringA(cc, DBKEY_ID);
-		if (!szId.IsEmpty()) {
-			auto *pUser = new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat);
+		if (int64_t id = GetId(cc)) {
+			bool isGroupChat = isChatRoom(cc);
+			auto *pUser = new TG_USER(id, cc, isGroupChat);
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
 			m_arUsers.insert(pUser);
 			if (!isGroupChat)

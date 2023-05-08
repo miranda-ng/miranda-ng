@@ -123,7 +123,11 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 		break;
 
 	case TD::authorizationStateWaitPhoneNumber::ID:
-		SendQuery(new TD::setAuthenticationPhoneNumber(m_szFullPhone.c_str(), nullptr), &CTelegramProto::OnUpdateAuth);
+		{
+			CMStringA m_szFullPhone;
+			m_szFullPhone.Format("%d%S", (int)m_iCountry, (wchar_t *)m_szOwnPhone);
+			SendQuery(new TD::setAuthenticationPhoneNumber(m_szFullPhone.c_str(), nullptr), &CTelegramProto::OnUpdateAuth);
+		}
 		break;
 
 	case TD::authorizationStateWaitCode::ID:
