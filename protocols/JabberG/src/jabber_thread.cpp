@@ -266,8 +266,11 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 
 	// quit all chatrooms (will send quit message)
 	LISTFOREACH(i, this, LIST_CHATROOM)
-		if (auto *item = ListGetItemPtrFromIndex(i))
+		if (auto *item = ListGetItemPtrFromIndex(i)) {
+			if (item->si)
+				item->si->arEvents.destroy();
 			GcQuit(item, 0, nullptr);
+		}
 
 	ListRemoveList(LIST_CHATROOM);
 	ListRemoveList(LIST_BOOKMARK);
