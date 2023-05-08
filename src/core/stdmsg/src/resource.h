@@ -146,6 +146,7 @@
 #define IDC_AVATARHEIGHT                1613
 #define IDC_SHOWSECS                    1614
 #define IDC_POPLIST                     1616
+#define IDC_FRAME                       1617
 #define IDC_USETABS                     1620
 #define IDC_CLOSETABS                   1621
 #define IDC_TABSBOTTOM                  1623

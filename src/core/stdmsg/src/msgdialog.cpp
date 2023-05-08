@@ -85,6 +85,8 @@ void CMsgDialog::Init()
 
 	timerFlash.OnEvent = Callback(this, &CMsgDialog::OnFlash);
 	timerType.OnEvent = Callback(this, &CMsgDialog::OnType);
+
+	m_hFrameBrush = CreateSolidBrush(0x00ff00);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -248,6 +250,7 @@ void CMsgDialog::OnDestroy()
 	}		 
 
 	Window_FreeIcon_IcoLib(m_hwnd);
+	DeleteBrush(m_hFrameBrush);
 
 	CSuper::OnDestroy();
 
@@ -479,11 +482,16 @@ LBL_CalcBottom:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
+	case IDC_FRAME:
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = underTB;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		if (g_plugin.bShowAvatar && m_avatarPic)
 			urc->rcItem.left = m_avatarWidth + 4;
+		if (urc->wId == IDC_FRAME) {
+			urc->rcItem.left--; urc->rcItem.top--;
+			urc->rcItem.right++; urc->rcItem.bottom++;
+		}
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_AVATAR:
@@ -698,6 +706,10 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) == WA_ACTIVE)
 			OnActivate();
 		break;
+
+	case WM_CTLCOLORSTATIC:
+		if (lParam == (LPARAM)GetDlgItem(m_hwnd, IDC_FRAME))
+			return (INT_PTR)m_hFrameBrush;
 	}
 
 	return CSuper::DlgProc(uMsg, wParam, lParam);
@@ -726,45 +738,6 @@ static const CHARRANGE rangeAll = { 0, -1 };
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_NCPAINT:
-		if (!m_sEncryption.IsEmpty()) {
-			RECT rect;
-			GetWindowRect(m_message.GetHwnd(), &rect);
-			HRGN region = NULL;
-			if (wParam == NULLREGION) {
-				region = CreateRectRgn(rect.left, rect.top, rect.right, rect.bottom);
-			}
-			else {
-				HRGN copy = CreateRectRgn(0, 0, 0, 0);
-				if (CombineRgn(copy, (HRGN)wParam, NULL, RGN_COPY))
-					region = copy;
-				else
-					DeleteObject(copy);
-			}
-
-			if (region) {
-				HRGN region2 = CreateRectRgn(rect.left + 1, rect.top + 1, rect.right - 1, rect.bottom - 1);
-				CombineRgn(region, region, region2, RGN_DIFF);
-				DeleteObject(region2);
-			}
-			
-			if (HDC hdc = GetDCEx(m_message.GetHwnd(), region, DCX_WINDOW | DCX_CACHE | DCX_INTERSECTRGN | DCX_LOCKWINDOWUPDATE)) {
-				HPEN pen = CreatePen(PS_INSIDEFRAME, 1, RGB(0, 220, 0));
-				HGDIOBJ old = SelectObject(hdc, pen);
-				int width = rect.right - rect.left;
-				int height = rect.bottom - rect.top;
-				Rectangle(hdc, 0, 0, width, height);
-				SelectObject(hdc, old);
-				ReleaseDC(m_message.GetHwnd(), hdc);
-				DeleteObject(pen);
-			}
-			else if (region)
-				DeleteObject(region);
-
-			return 0;
-		}
-		break;
-
 	case EM_REPLACESEL:
 		PostMessage(m_message.GetHwnd(), EM_ACTIVATE, 0, 0);
 		break;
@@ -898,9 +871,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		const char* enc = (const char*)CallProtoService(m_szProto, PS_GETCAPS, PFLAG_GETCURRENTENCRYPTION, m_hContact);
 		if (enc == (const char *)CALLSERVICE_NOTFOUND)
 			enc = nullptr;
-		if (!m_sEncryption.IsEmpty() ^ (bool)enc)
-			RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
-		m_sEncryption = enc;
+		ShowWindow(GetDlgItem(m_hwnd, IDC_FRAME), enc ? SW_SHOW : SW_HIDE);
 	}
 
 	case WM_KEYDOWN:
