@@ -166,12 +166,12 @@ public:
 
 		for (auto &it : netlibUser) {
 			tvis.item.pszText = it->user.szDescriptiveName.w;
-			tvis.item.lParam = netlibUser.indexOf(&it);
+			tvis.item.lParam = (LPARAM)it;
 			tvis.item.state = INDEXTOSTATEIMAGEMASK(it->toLog ? 2 : 1);
 			treeFilter.InsertItem(&tvis);
 		}
 
-		tvis.item.lParam = -1;
+		tvis.item.lParam = 0;
 		tvis.item.pszText = TranslateT("(Miranda core logging)");
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((logOptions.toLog) ? 2 : 1);
 		treeFilter.InsertItem(&tvis);
@@ -214,16 +214,14 @@ public:
 			treeFilter.GetItem(&tvi);
 			bool checked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2);
 
-			if (tvi.lParam == -1) {
+			auto *pNetUser = (HNETLIBUSER)tvi.lParam;
+			if (pNetUser == nullptr) {
 				logOptions.toLog = checked;
 				db_set_dw(0, "Netlib", "NLlog", checked);
 			}
-			else if (tvi.lParam < netlibUser.getCount()) {
-				netlibUser[tvi.lParam]->toLog = checked;
-				if (checked)
-					db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
-				else
-					db_unset(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog");
+			else {
+				pNetUser->toLog = checked;
+				db_set_dw(0, pNetUser->user.szSettingsModule, "NLlog", checked);
 			}
 
 			tvi.hItem = treeFilter.GetNextSibling(tvi.hItem);
