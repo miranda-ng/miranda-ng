@@ -229,7 +229,7 @@ void RegisterCustomIcons()
 		_wcsupr_s(pMask->szMaskUpper, iMaskLen);
 		pMask->szMask = pMask->szMaskUpper;
 
-		pMask->iIconIndex = it["iconFile"].as_int();
+		pMask->iIconIndex = it["iconIndex"].as_int();
 		pMask->szIconName = szName.Detach();
 		pMask->szClientDescription = szDescription.Detach();
 
@@ -243,6 +243,6 @@ void RegisterCustomIcons()
 		pMask->hIcolibItem = g_plugin.addIcon(&sid);
 
 		pMask->idx = g_arCommon.getCount();
-		g_arCommon.insert(pMask);
+		g_arCommon.insert(pMask, 0);
 	}
 }
