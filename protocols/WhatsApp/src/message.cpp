@@ -96,8 +96,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	key.remotejid = szChatId.GetBuffer();
 	key.id = (char*)msgId;
 	key.fromme = bFromMe; key.has_fromme = true;
-	if (participant)
-		key.participant = (char*)participant;
+	key.participant = (char*)participant;
 
 	Wa__WebMessageInfo msg;
 	msg.key = &key;
@@ -300,15 +299,15 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			break;
 
 		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_ANNOUNCE:
-			debugLogA("Groupchat announce", participant);
+			debugLogA("Groupchat announce");
 			break;
 
 		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_RESTRICT:
-			debugLogA("Groupchat restriction", participant);
+			debugLogA("Groupchat restriction");
 			break;
 
 		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_SUBJECT:
-			debugLogA("Groupchat subject was changed", participant);
+			debugLogA("Groupchat subject was changed");
 			break;
 		}
 	}
