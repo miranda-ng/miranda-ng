@@ -638,8 +638,9 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
+	bool bIsMe = pUser->id_ == m_iOwnId;
 
-	if (!pUser->is_contact_) {
+	if (!bIsMe && !pUser->is_contact_) {
 		auto *pu = AddFakeUser(pUser->id_, false);
 		if (pu->hContact != INVALID_CONTACT_ID)
 			Contact::RemoveFromList(pu->hContact);
@@ -663,7 +664,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 
 	auto *pu = AddUser(pUser->id_, false);
-	MCONTACT hContact = (pUser->id_ == m_iOwnId) ? 0 : pu->hContact;
+	MCONTACT hContact = (bIsMe) ? 0 : pu->hContact;
 	UpdateString(hContact, "FirstName", pUser->first_name_);
 	UpdateString(hContact, "LastName", pUser->last_name_);
 	if (hContact)
