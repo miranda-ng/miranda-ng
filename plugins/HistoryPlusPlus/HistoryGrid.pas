@@ -4890,6 +4890,11 @@ begin
   end;
 end;
 
+function TimestampToDdMmYyyy(const Timestamp: DWord): String;
+begin
+  Result := FormatDateTime('dd.mm.yyyy hh:nn:ss',TimestampToDateTime(Timestamp));
+end;
+
 procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: TSaveFormat);
 
   procedure MesTypeToStyle(mt: TMessageTypes; out mes_id, type_id: Utf8String);
@@ -4924,7 +4929,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
     if FullHeader then
     begin
-      Time := GetTime(Items[Item].Time);
+      Time := TimestampToDdMmYyyy(Items[Item].Time);
       if mtIncoming in FItems[Item].MessageType then
         nick := ContactName
       else
@@ -5003,7 +5008,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
     if FullHeader then
     begin
-      Time := GetTime(FItems[Item].Time);
+      Time := TimestampToDdMmYyyy(FItems[Item].Time);
       if mtIncoming in FItems[Item].MessageType then
         nick := ContactName
       else
@@ -5033,7 +5038,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
     if FullHeader then
     begin
-      Time := GetTime(FItems[Item].Time);
+      Time := TimestampToDdMmYyyy(FItems[Item].Time);
       if mtIncoming in FItems[Item].MessageType then
         nick := ContactName
       else
@@ -5069,7 +5074,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
         Text := ProfileName;
       if Assigned(FGetNameData) then
         FGetNameData(Self, Item, Text);
-      Text := Text + ' [' + GetTime(FItems[Item].Time) + ']:';
+      Text := Text + ' [' + TimestampToDdMmYyyy(FItems[Item].Time) + ']:';
       RTFStream := '{\rtf1\par\b1 ' + FormatString2RTF(Text) + '\b0\par}';
       SetRichRTF(FRichSave.Handle, RTFStream, True, False, False);
     end;
