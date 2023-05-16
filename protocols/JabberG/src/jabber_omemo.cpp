@@ -370,11 +370,28 @@ complete:
 		if (proto->m_bUseOMEMO)
 			init();
 	}
-	
+
+	int db_enum_settings_trash_cb(const char *szSetting, void *lParam)
+	{
+		if (strstr(szSetting, "OmemoPreKey") == szSetting)
+			((CJabberProto *)lParam)->delSetting(szSetting);
+		return 0;
+	}
+
 	void omemo_impl::init()
 	{
 		if (provider)
 			return;
+
+		// some db cleanup
+		if (!proto->getMStringA("OmemoFingerprintOwn").IsEmpty()) {
+			db_enum_settings(0, &db_enum_settings_trash_cb, proto->m_szModuleName, proto);
+
+			proto->delSetting(CMStringA(FORMAT, "OmemoSignalPreKey_%d512", GetOwnDeviceId()));
+			proto->delSetting("OmemoSignedPreKeyPublic");
+			proto->delSetting("OmemoSignedPreKeySignature");
+			proto->delSetting("OmemoFingerprintOwn");
+		}
 
 		if (!global_context)
 			signal_context_create(&global_context, this);
@@ -419,28 +436,6 @@ complete:
 		}
 	}
 
-	struct omemo_device
-	{
-		uint32_t id;
-		ratchet_identity_key_pair *device_key;
-	};
-
-	omemo_device* omemo_impl::create_device()
-	{
-		omemo_device *dev = (omemo_device*)mir_alloc(sizeof(omemo_device));
-		for (dev->id = 0; dev->id == 0;)
-			Utils_GetRandom((void*)&(dev->id), 4);
-
-		dev->id &= ~0x80000000;
-
-		if (signal_protocol_key_helper_generate_identity_key_pair(&(dev->device_key), global_context)) {
-			proto->debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
-			//TODO: handle error
-		}
-
-		return dev;
-	}
-
 	bool omemo_impl::IsFirstRun()
 	{
 		// TODO: more sanity checks
@@ -470,47 +465,42 @@ complete:
 
 	void omemo_impl::RefreshDevice()
 	{
+		int32_t dev_id = 0;
+		ratchet_identity_key_pair *device_key;
+
 		// generate and save device id
-		omemo_device *new_dev = create_device();
-		proto->setDword("OmemoDeviceId", new_dev->id);
+		do {
+			Utils_GetRandom((void *)&(dev_id), 4);
+			dev_id &= ~0x80000000;
+		} while (!dev_id);
+		proto->setDword("OmemoDeviceId", dev_id);
 
 		// generate and save device key
-		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
-		{
-			SignalBuffer buf(public_key);
-			ptrA key(mir_base64_encode(buf.data(), buf.len()));
-			ptrA fingerprint((char*)mir_alloc((buf.len() * 2) + 1));
-			bin2hex(buf.data(), buf.len(), fingerprint);
-			proto->setString("OmemoFingerprintOwn", fingerprint);
-			proto->setString("OmemoDevicePublicKey", key);
+		if (signal_protocol_key_helper_generate_identity_key_pair(&device_key, global_context)) {
+			proto->debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
+			//TODO: handle error
 		}
-
-		proto->setString("OmemoDevicePrivateKey", 
-			SignalBuffer(ratchet_identity_key_pair_get_private(new_dev->device_key)).toBase64());
+		proto->setString("OmemoDevicePublicKey",
+			SignalBuffer(ratchet_identity_key_pair_get_public(device_key)).toBase64());
+		proto->setString("OmemoDevicePrivateKey",
+			SignalBuffer(ratchet_identity_key_pair_get_private(device_key)).toBase64());
 
 		// generate and save signed pre key
 		session_signed_pre_key *signed_pre_key;
 		{
 			const unsigned int signed_pre_key_id = 1;
-			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(0), global_context);
-			SIGNAL_UNREF(new_dev->device_key);
+			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, device_key, signed_pre_key_id, time(0), global_context);
+			SIGNAL_UNREF(device_key);
 
 			SignalBuffer buf(signed_pre_key);
-			CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+			CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", dev_id, signed_pre_key_id);
 			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
+			SIGNAL_UNREF(signed_pre_key);
 		}
-
-		// TODO: store signed_pre_key for libsignal data backend too
-		// TODO: dynamic signed pre_key id and setting name ?
-		ec_key_pair *signed_pre_key_pair = session_signed_pre_key_get_key_pair(signed_pre_key);
-		proto->setString("OmemoSignedPreKeyPublic", SignalBuffer(ec_key_pair_get_public(signed_pre_key_pair)).toBase64());
-
-		ptrA signature(mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), session_signed_pre_key_get_signature_len(signed_pre_key)));
-		proto->setString("OmemoSignedPreKeySignature", signature);
 
 		// generate and save pre keys set
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
-		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 100, global_context);
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, 1, 100, global_context);
 		CMStringA szSetting;
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
@@ -519,10 +509,6 @@ complete:
 			SignalBuffer buf(pre_key);
 			szSetting.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
 			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
-
-			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 	}
@@ -786,15 +772,6 @@ complete:
 
 		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		db_set_blob(0, proto->m_szModuleName, szSetting, record, (unsigned int)record_len); //TODO: check return value
-		{ //store base64 encoded keys for bundle (private key does not required ?)
-			session_pre_key *prekey = nullptr;
-			session_pre_key_deserialize(&prekey, record, record_len, global_context); //TODO: handle error
-			if (prekey) {
-				ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
-				szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-				proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
-			}
-		}
 
 		//TODO: resend bundle ?
 		return 0;
@@ -837,12 +814,6 @@ complete:
 		auto *proto = (CJabberProto *)user_data;
 
 		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-		db_unset(0, proto->m_szModuleName, szSetting);
-
-		szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-		db_unset(0, proto->m_szModuleName, szSetting);
-		
-		szSetting.Format("OmemoPreKey%uPrivate", pre_key_id);
 		db_unset(0, proto->m_szModuleName, szSetting);
 		return 0;
 	}
@@ -1204,19 +1175,10 @@ complete:
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, global_context);
 		
-		CMStringA szSetting;
-		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
-			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
-			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
+		SignalBuffer buf(signal_protocol_key_helper_key_list_element(keys_root));
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), id);
+		db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
 
-			SignalBuffer buf(pre_key);
-			szSetting.Format("%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
-
-			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
-		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 
 		//	proto->OmemoAnnounceDevice();
@@ -1589,20 +1551,6 @@ void CJabberProto::OmemoAnnounceDevice(bool include_cache)
 	m_ThreadInfo->send(iq);
 }
 
-struct db_enum_settings_prekeys_cb_data
-{
-	std::list<char*> settings; //TODO: check this
-};
-
-int db_enum_settings_prekeys_cb(const char *szSetting, void *lParam)
-{
-	db_enum_settings_prekeys_cb_data *data = (db_enum_settings_prekeys_cb_data*)lParam;
-	if (strstr(szSetting, "OmemoPreKey") && strstr(szSetting, "Public")) //TODO: suboptimal code, use different names for simple searching
-		data->settings.push_back(mir_strdup(szSetting));
-
-	return 0;
-}
-
 void CJabberProto::OmemoSendBundle()
 {
 	// get own device id
@@ -1613,19 +1561,22 @@ void CJabberProto::OmemoSendBundle()
 	XmlNodeIq iq("set", SerialNext());
 	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 
-	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("publish");
-	{
-		char attr_val[128];
-		mir_snprintf(attr_val, "%s.bundles:%u", JABBER_FEAT_OMEMO, own_id);
-		publish_node << XATTR("node", attr_val);
-	}
+	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") 
+		<< XCHILD("publish") << XATTR("node", CMStringA(FORMAT, "%s.bundles:%u", JABBER_FEAT_OMEMO, own_id));
+	
 	TiXmlElement *bundle_node = publish_node << XCHILD("item") << XATTR("id", "current") << XCHILDNS("bundle", JABBER_FEAT_OMEMO);
 
+	session_signed_pre_key *sspk;
+	signal_protocol_signed_pre_key_load_key(m_omemo.store_context, &sspk, 1);
+
 	// add signed pre key public
-	bundle_node << XCHILD("signedPreKeyPublic", ptrA(getUStringA("OmemoSignedPreKeyPublic"))) << XATTRI("signedPreKeyId", 1);
+	CMStringA spkey_pub(SignalBuffer(ec_key_pair_get_public(session_signed_pre_key_get_key_pair(sspk))).toBase64());
+	bundle_node << XCHILD("signedPreKeyPublic", spkey_pub) << XATTRI("signedPreKeyId", 1);
 
 	// add pre key signature
-	bundle_node << XCHILD("signedPreKeySignature", ptrA(getUStringA("OmemoSignedPreKeySignature")));
+	ptrA signature(mir_base64_encode(session_signed_pre_key_get_signature(sspk), session_signed_pre_key_get_signature_len(sspk)));
+	bundle_node << XCHILD("signedPreKeySignature", signature);
+	SIGNAL_UNREF(sspk);
 
 	// add identity key
 	// it is must be a public key right ?, standart is a bit confusing...
@@ -1634,35 +1585,17 @@ void CJabberProto::OmemoSendBundle()
 	// add prekeys
 	TiXmlElement *prekeys_node = XmlAddChild(bundle_node, "prekeys");
 
-	db_enum_settings_prekeys_cb_data *ud = new db_enum_settings_prekeys_cb_data;
-	db_enum_settings(0, &db_enum_settings_prekeys_cb, m_szModuleName, ud);
-	for (std::list<char*>::iterator i = ud->settings.begin(), end = ud->settings.end(); i != end; i++) {
-		ptrA val(getUStringA(*i));
-		if (val) {
-			unsigned int key_id = 0;
-			char *p = *i, buf[5] = { 0 };
-			p += strlen("OmemoPreKey");
-			int i2 = 0;
-			for (char c = 0; c != 'P'; i2++, c = p[i2])
-				;
-			memcpy(buf, p, i2);
-			buf[i2 + 1] = 0;
-			key_id = atoi(buf);
-			prekeys_node << XCHILD("preKeyPublic", val) << XATTRI("preKeyId", key_id);
-		}
-		mir_free(*i);
-	}
-	ud->settings.clear();
-	delete ud;
-	
 	CMStringA szSetting;
-	for (int i = 0;; i++) {
-		szSetting.Format("OmemoPreKey%dPublic", i);
-		ptrA val(getUStringA(szSetting));
-		if (val == nullptr)
+	for (int i = 1;; i++) {
+		session_pre_key *pre_key;
+		signal_protocol_pre_key_load_key(m_omemo.store_context, &pre_key, i);
+		if (!pre_key)
 			break;
 
-		prekeys_node << XCHILD("preKeyPublic", val) << XATTRI("preKeyId", i + 1);
+		CMStringA val(SignalBuffer(ec_key_pair_get_public(session_pre_key_get_key_pair(pre_key))).toBase64());
+		SIGNAL_UNREF(pre_key);
+
+		prekeys_node << XCHILD("preKeyPublic", val) << XATTRI("preKeyId", i);
 	}
 
 	// send bundle
@@ -1794,19 +1727,24 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	auto *prekey_node = XmlFirstChild(prekeys, "preKeyPublic");
-	if (!prekey_node) {
-		debugLogA("Jabber OMEMO: error: device bundle does not contain preKeyPublic node");
+	int PKs = XmlGetChildCount(prekeys);
+	if (PKs < 1)
 		return;
-	}
+	uint8_t nPK;
+	Utils_GetRandom(&nPK, 1);
+	nPK %= PKs;
 
-	const char *preKeyPublic = prekey_node->GetText();
+	auto prekey_node = TiXmlEnum(prekeys).begin();
+	for (int i = 0; i < nPK; i++)
+		++prekey_node;
+
+	const char *preKeyPublic = (*prekey_node)->GetText();
 	if (!preKeyPublic) {
 		debugLogA("Jabber OMEMO: error: failed to get preKeyPublic data");
 		return;
 	}
 
-	const char *preKeyId = XmlGetAttr(prekey_node, "preKeyId");
+	const char *preKeyId = XmlGetAttr(*prekey_node, "preKeyId");
 	if (!preKeyId) {
 		debugLogA("Jabber OMEMO: error: failed to get preKeyId data");
 		return;

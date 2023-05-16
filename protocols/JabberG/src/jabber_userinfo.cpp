@@ -814,8 +814,9 @@ public:
 		if (m_hContact == 0) {
 			// GetOwnDeviceId() creates own keys if they don't exist
 			CMStringA str1(FORMAT, "%d", ppro->m_omemo.GetOwnDeviceId());
-			CMStringA str2(ppro->getMStringA("OmemoFingerprintOwn"));
-			AddListItem(str1, TranslateT("This device"), str2);
+			size_t fplen;
+			mir_ptr<void> fp(mir_base64_decode(ptrA(ppro->getStringA("OmemoDevicePublicKey")), &fplen));
+			AddListItem(str1, TranslateT("This device"), omemo::hex_string((uint8_t *)fp.get(), fplen));
 		}
 
 		for (int i = 0;; i++) {

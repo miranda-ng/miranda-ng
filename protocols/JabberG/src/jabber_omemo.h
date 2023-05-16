@@ -44,8 +44,6 @@ namespace omemo
 	CMStringW FormatFingerprint(const char* pszHexString);
 	CMStringA hex_string(const uint8_t* pData, const size_t length);
 
-	struct omemo_device;
-
 	struct omemo_impl
 	{
 		omemo_impl(CJabberProto *p);
@@ -56,7 +54,6 @@ namespace omemo
 		bool IsFirstRun();
 		int GetOwnDeviceId();
 		void RefreshDevice();
-		omemo_device* create_device();
 		bool create_session_store();
 		bool build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
 			const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key);
