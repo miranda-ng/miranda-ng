@@ -226,6 +226,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessUser(TD::updateUser *pObj);
 
 	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, time_t);
+	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
 	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
