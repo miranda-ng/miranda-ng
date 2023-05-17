@@ -9,7 +9,7 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 		pUserInfo = fup;
 		
 		AddHeader("Authorization", CMStringA(FORMAT, "skype_token %s", ppro->m_szApiToken.get()));
-		AddHeader("Content-Type", "text/json");
+		AddHeader("Content-Type", "application/json");
 		AddHeader("X-Client-Version", "0/0.0.0.0");
 
 		CMStringA szContact(ppro->getId(fup->hContact));
