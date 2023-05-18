@@ -295,6 +295,19 @@ CMStringA CTelegramProto::GetMessageSticker(const TD::file *pFile, const char *p
 	return CMStringA(FORMAT, "STK{%s}", pFileId);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const TD::photoSize* GetBiggestPhoto(const TD::photo *pPhoto)
+{
+	const char *types[] = {"y", "x", "m", "s"};
+	for (auto *pType : types)
+		for (auto &it : pPhoto->sizes_)
+			if (it->type_ == pType)
+				return it.get();
+
+	return nullptr;
+}
+
 CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
@@ -308,16 +321,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messagePhoto::ID:
 		{
 			auto *pDoc = (TD::messagePhoto *)pBody;
-			TD::photoSize *pPhoto = nullptr;
-
-			const char *types[] = { "x", "m", "s" };
-			for (auto *pType : types)
-				for (auto &it: pDoc->photo_->sizes_)
-					if (it->type_ == pType) {
-						pPhoto = it.get();
-						break;
-					}
-
+			auto *pPhoto = GetBiggestPhoto(pDoc->photo_.get());
 			if (pPhoto == nullptr) {
 				debugLogA("cannot find photo, exiting");
 				break;
