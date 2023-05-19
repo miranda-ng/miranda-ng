@@ -346,6 +346,20 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		}
 		break;
 
+	case TD::messageAnimation::ID:
+		{
+			auto *pDoc = (TD::messageAnimation *)pBody;
+			auto *pVideo = pDoc->animation_.get();
+			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
+			std::string caption = fileName.c_str();
+			if (!pDoc->caption_->text_.empty()) {
+				caption += " ";
+				caption += pDoc->caption_->text_;
+			}
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg->date_);
+		}
+		break;
+
 	case TD::messageVoiceNote::ID:
 		{
 			auto *pDoc = (TD::messageVoiceNote *)pBody;
