@@ -1147,7 +1147,7 @@ void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJab
 			delSetting(szSetting);
 		}
 
-		OmemoAnnounceDevice(false); //Publish own device if we can't retrieve up to date list 
+		OmemoAnnounceDevice(false, true); //Publish own device if we can't retrieve up to date list 
 		OmemoSendBundle();
 	}
 }

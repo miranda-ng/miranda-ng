@@ -51,18 +51,18 @@ namespace omemo
 
 		void init();
 		void deinit();
-		bool IsFirstRun();
 		int GetOwnDeviceId();
-		void RefreshDevice();
+		void RefreshPrekeys(ratchet_identity_key_pair *device_key, int32_t dev_id);
 		bool create_session_store();
-		bool build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
+		bool build_session(const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
 			const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key);
 
 		__forceinline void lock() { _signal_cs.Lock(); }
 		__forceinline void unlock() { _signal_cs.Unlock(); }
 
 		std::map<MCONTACT, bool> session_checked;
-		signal_protocol_store_context *store_context;
+		signal_context *global_context = nullptr;
+		signal_protocol_store_context *store_context = nullptr;
 		std::list<struct incoming_message> incoming_messages;
 		std::list<struct outgoing_message> outgoing_messages;
 
@@ -75,7 +75,6 @@ namespace omemo
 	private:
 		CJabberProto *proto;
 		mir_cs _signal_cs;
-		signal_crypto_provider *provider = nullptr;
 	};
 };
 

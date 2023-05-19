@@ -337,8 +337,6 @@ complete:
 		omi->unlock();
 	}
 
-	signal_context *global_context = nullptr;
-
 	struct incoming_message
 	{
 		incoming_message(TiXmlElement *x, char *j, time_t t)
@@ -380,7 +378,7 @@ complete:
 
 	void omemo_impl::init()
 	{
-		if (provider)
+		if (global_context)
 			return;
 
 		// some db cleanup
@@ -393,23 +391,22 @@ complete:
 			proto->delSetting("OmemoFingerprintOwn");
 		}
 
-		if (!global_context)
-			signal_context_create(&global_context, this);
+		signal_context_create(&global_context, this);
 
-		provider = new signal_crypto_provider;
-		provider->random_func = &random_func;
-		provider->hmac_sha256_init_func = &hmac_sha256_init_func;
-		provider->hmac_sha256_update_func = &hmac_sha256_update_func;
-		provider->hmac_sha256_final_func = &hmac_sha256_final_func;
-		provider->hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
-		provider->sha512_digest_init_func = &sha512_digest_init_func;
-		provider->sha512_digest_update_func = &sha512_digest_update_func;
-		provider->sha512_digest_final_func = &sha512_digest_final_func;
-		provider->sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
-		provider->encrypt_func = &encrypt_func;
-		provider->decrypt_func = &decrypt_func;
+		signal_crypto_provider provider;
+		provider.random_func = &random_func;
+		provider.hmac_sha256_init_func = &hmac_sha256_init_func;
+		provider.hmac_sha256_update_func = &hmac_sha256_update_func;
+		provider.hmac_sha256_final_func = &hmac_sha256_final_func;
+		provider.hmac_sha256_cleanup_func = &hmac_sha256_cleanup_func;
+		provider.sha512_digest_init_func = &sha512_digest_init_func;
+		provider.sha512_digest_update_func = &sha512_digest_update_func;
+		provider.sha512_digest_final_func = &sha512_digest_final_func;
+		provider.sha512_digest_cleanup_func = &sha512_digest_cleanup_func;
+		provider.encrypt_func = &encrypt_func;
+		provider.decrypt_func = &decrypt_func;
 
-		if (signal_context_set_crypto_provider(global_context, provider)) {
+		if (signal_context_set_crypto_provider(global_context, &provider)) {
 			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
 			//TODO: handle error
 		}
@@ -424,33 +421,15 @@ complete:
 
 	omemo_impl::~omemo_impl()
 	{
-		if (proto->m_bUseOMEMO)
-			deinit();
+		deinit();
 	}
 
 	void omemo_impl::deinit()
 	{
-		if (provider) {
-			signal_protocol_store_context_destroy(store_context);
-			delete provider; provider = nullptr;			
-		}
-	}
-
-	bool omemo_impl::IsFirstRun()
-	{
-		// TODO: more sanity checks
-		// TODO: check and if necessary refresh prekeys
-		unsigned int id = proto->getDword("OmemoDeviceId", 0);
-		if (id == 0)
-			return true;
-		ptrA buf(proto->getStringA("OmemoDevicePublicKey"));
-		if (!buf || !buf[0])
-			return true;
-		ptrA buf2(proto->getStringA("OmemoDevicePrivateKey")); //ptrA reinitialization always return "" or random trash
-		if (!buf2 || !buf2[0])
-			return true;
-
-		return false;
+		signal_protocol_store_context_destroy(store_context);
+		signal_context_destroy(global_context);
+		global_context = nullptr;
+		store_context = nullptr;
 	}
 
 	int omemo_impl::GetOwnDeviceId()
@@ -463,34 +442,16 @@ complete:
 		return own_id;
 	}
 
-	void omemo_impl::RefreshDevice()
+	void omemo_impl::RefreshPrekeys(ratchet_identity_key_pair *device_key, int32_t dev_id)
 	{
-		int32_t dev_id = 0;
-		ratchet_identity_key_pair *device_key;
-
-		// generate and save device id
-		do {
-			Utils_GetRandom((void *)&(dev_id), 4);
-			dev_id &= ~0x80000000;
-		} while (!dev_id);
-		proto->setDword("OmemoDeviceId", dev_id);
-
-		// generate and save device key
-		if (signal_protocol_key_helper_generate_identity_key_pair(&device_key, global_context)) {
-			proto->debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
-			//TODO: handle error
-		}
-		proto->setString("OmemoDevicePublicKey",
-			SignalBuffer(ratchet_identity_key_pair_get_public(device_key)).toBase64());
-		proto->setString("OmemoDevicePrivateKey",
-			SignalBuffer(ratchet_identity_key_pair_get_private(device_key)).toBase64());
+		if (!device_key || !dev_id)
+			return;
 
 		// generate and save signed pre key
 		session_signed_pre_key *signed_pre_key;
 		{
 			const unsigned int signed_pre_key_id = 1;
 			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, device_key, signed_pre_key_id, time(0), global_context);
-			SIGNAL_UNREF(device_key);
 
 			SignalBuffer buf(signed_pre_key);
 			CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", dev_id, signed_pre_key_id);
@@ -1011,23 +972,18 @@ complete:
 
 		MCONTACT hContact = proto->HContactFromJID(address->name);
 		char val = proto->getByte(hContact, TrustSettingName, FP_ABSENT);
-		if (val != FP_ABSENT)
-			return (bool)val;
-		else {
+		if (val == FP_ABSENT) {
 			uint32_t count = 0;
 			db_enum_settings(hContact, db_enum_settings_fps_cb, proto->m_szModuleName, &count);
 			db_set_blob(hContact, proto->m_szModuleName, TrustSettingName, key_data, (int)key_len);
-			if (count == 0) {
-				proto->setByte(hContact, TrustSettingName, FP_TOFU);
-				return true;
-			}
-			else {
-				proto->setByte(hContact, TrustSettingName, FP_BAD);
-				return false;
-			}
-		}
 
-		return false;
+			proto->MsgPopup(hContact, FormatFingerprint(fp_hex),
+				(count == 0) ? TranslateT("Trust on first use") : TranslateT("Unknown device added"));
+			proto->setByte(hContact, TrustSettingName, count == 0 ? FP_TOFU : FP_BAD);
+		}
+		//always return true to decrypt incoming messages from untrusted devices
+		//we must check trust manually when send messages
+		return true;
 	}
 
 	bool omemo_impl::create_session_store()
@@ -1075,7 +1031,7 @@ complete:
 		return true; //success
 	}
 
-	bool omemo_impl::build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
+	bool omemo_impl::build_session(const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
 		const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key)
 	{
 		// Instantiate a session_builder for a recipient address.
@@ -1117,21 +1073,6 @@ complete:
 		}
 		mir_free(key_buf); // TODO: check this
 
-		// check fingerprint
-		SignalBuffer buf(identity_key_p);
-		ptrA fingerprint((char *)mir_alloc((buf.len() * 2) + 1));
-		bin2hex(buf.data(), buf.len(), fingerprint);
-		CMStringA szSetting(FORMAT, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
-		char val = proto->getByte(hContact, szSetting, -1);
-		if (val == -1) {
-			CMStringW szMsg(FORMAT, L"%s\n\n", TranslateT("Do you want to create OMEMO session with new device:"));
-			int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), _A2T(jid), MB_YESNO);
-			if (ret == IDYES)
-				proto->setByte(hContact, szSetting, FP_TOFU);
-			else if (ret == IDNO)
-				proto->setByte(hContact, szSetting, FP_BAD);
-		}
-
 		key_buf = (uint8_t*)mir_base64_decode(signed_pre_key_signature, &key_buf_len);
 		session_pre_key_bundle *retrieved_pre_key;
 		uint32_t registration_id = 0;
@@ -1150,11 +1091,9 @@ complete:
 			break;
 		case SG_ERR_INVALID_KEY:
 			proto->debugLogA("Jabber OMEMO: session_builder_process_pre_key_bundle failure SG_ERR_INVALID_KEY");
-			return false; //failure
 			break;
 		default:
 			proto->debugLogA("Jabber OMEMO: session_builder_process_pre_key_bundle failed with unknown error");
-			return false; //failure
 			break;
 		}
 
@@ -1164,7 +1103,7 @@ complete:
 		SIGNAL_UNREF(prekey);
 		session_builder_free(builder);
 
-		return true; //success
+		return ret == SG_SUCCESS; //success
 	}
 
 	void OmemoRefreshUsedPreKey(CJabberProto *proto, pre_key_signal_message *psm)
@@ -1173,8 +1112,8 @@ complete:
 
 		// generate and save pre keys set
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
-		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, global_context);
-		
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, proto->m_omemo.global_context);
+
 		SignalBuffer buf(signal_protocol_key_helper_key_list_element(keys_root));
 		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), id);
 		db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
@@ -1249,8 +1188,30 @@ complete:
 
 void CJabberProto::OmemoInitDevice()
 {
-	if (m_omemo.IsFirstRun())
-		m_omemo.RefreshDevice();
+	ratchet_identity_key_pair *device_key;
+	int32_t dev_id = getDword("OmemoDeviceId");
+
+	if (!dev_id || signal_protocol_identity_get_key_pair(m_omemo.store_context, &device_key) < 0) {
+		// generate and save device id
+		do {
+			Utils_GetRandom((void *)&(dev_id), 4);
+			dev_id &= ~0x80000000;
+		} while (!dev_id);
+		setDword("OmemoDeviceId", dev_id);
+
+		// generate and save device key
+		if (signal_protocol_key_helper_generate_identity_key_pair(&device_key, m_omemo.global_context)) {
+			debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
+			//TODO: handle error
+		}
+		setString("OmemoDevicePublicKey",
+			SignalBuffer(ratchet_identity_key_pair_get_public(device_key)).toBase64());
+		setString("OmemoDevicePrivateKey",
+			SignalBuffer(ratchet_identity_key_pair_get_private(device_key)).toBase64());
+
+		m_omemo.RefreshPrekeys(device_key, dev_id);
+	}
+	SIGNAL_UNREF(device_key);
 }
 
 void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char* pszSrc)
@@ -1275,7 +1236,7 @@ void CJabberProto::OmemoHandleMessageQueue()
 	std::list<omemo::incoming_message> tmp = m_omemo.incoming_messages;
 	m_omemo.incoming_messages.clear();
 	for (auto &i : tmp) {
-		if (!OmemoHandleMessage(i.node, i.jid, i.msgTime))
+		if (!OmemoHandleMessage(i.node, i.jid, i.msgTime, false))
 			OmemoPutMessageToIncommingQueue(i.node, i.jid, i.msgTime);
 
 		m_omemo.doc.DeleteNode(i.node);
@@ -1285,10 +1246,8 @@ void CJabberProto::OmemoHandleMessageQueue()
 
 uint32_t JabberGetLastContactMessageTime(MCONTACT hContact);
 
-bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime)
+bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon)
 {
-	MCONTACT hContact = HContactFromJID(jid);
-
 	auto *header_node = XmlFirstChild(node, "header");
 	if (!header_node) {
 		debugLogA("Jabber OMEMO: error: omemo message does not contain header");
@@ -1322,6 +1281,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 	}
 
 	CMStringA result;
+	auto *payload_base64 = XmlGetChildText(node, "payload");
 	if (encrypted_key_base64) {
 		size_t encrypted_key_len;
 		mir_ptr<uint8_t> encrypted_key((uint8_t *)mir_base64_decode(encrypted_key_base64, &encrypted_key_len));
@@ -1331,9 +1291,9 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 
 		session_cipher *cipher;
 		char szBareJid[JABBER_MAX_JID_LEN];
-		JabberStripJid(jid, szBareJid, _countof(szBareJid));
-		signal_protocol_address address = { szBareJid, mir_strlen(szBareJid), sender_dev_id_int };
-		if(session_cipher_create(&cipher, m_omemo.store_context, &address, omemo::global_context) != SG_SUCCESS)
+		JabberStripJid(isCarbon ? m_szJabberJID : jid, szBareJid, _countof(szBareJid));
+		signal_protocol_address address = {szBareJid, mir_strlen(szBareJid), sender_dev_id_int};
+		if (session_cipher_create(&cipher, m_omemo.store_context, &address, m_omemo.global_context) != SG_SUCCESS)
 			debugLogA("Jabber OMEMO: error: Cannot create session cipher for decrypt");
 
 		signal_buffer *decrypted_key = nullptr;
@@ -1341,7 +1301,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		if (isprekey) {
 			//try to decrypt as  pre_key_signal_message
 			pre_key_signal_message *pm = nullptr;
-			int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, omemo::global_context);
+			int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, m_omemo.global_context);
 			if (ret == SG_SUCCESS && pm) {
 				ret = session_cipher_decrypt_pre_key_signal_message(cipher, pm, nullptr, &decrypted_key);
 				if (ret == SG_SUCCESS) {
@@ -1355,7 +1315,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		}
 		else { //try to decrypt as signal message
 			signal_message *sm = nullptr;
-			int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, omemo::global_context);
+			int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, m_omemo.global_context);
 			if (ret == SG_SUCCESS && sm) {
 				ret = session_cipher_decrypt_signal_message(cipher, sm, nullptr, &decrypted_key);
 				if (ret == SG_SUCCESS)
@@ -1368,7 +1328,6 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		}
 		session_cipher_free(cipher);
 		if (decrypted) {
-			auto *payload_base64 = XmlGetChildText(node, "payload");
 			if (!payload_base64) {
 				signal_buffer_free(decrypted_key);
 				debugLogA("Jabber OMEMO: Session accept message received");
@@ -1402,11 +1361,24 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		}
 		else result = "<< Undecryptable incomming OMEMO message >>";
 	}
-	else result = "<< OMEMO message is not encrypted for this device >>";
+	else {
+		if (payload_base64)
+			result = "<< OMEMO message is not encrypted for this device >>";
+		else
+			return true;
+	}
+
+
+	MCONTACT hContact = HContactFromJID(jid);
+	MCONTACT carbonContact = isCarbon ? 0 : hContact;
 
 	time_t now = time(0);
-	if (!msgTime || m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
+	if (!msgTime || m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(carbonContact))))
 		msgTime = now;
+
+	CMStringA suffix(m_omemo.dbGetSuffix(carbonContact, sender_dev_id_int));
+	MBinBuffer fp(getBlob(carbonContact, CMStringA(omemo::IdentityPrefix) + suffix));
+	uint8_t trusted = getByte(carbonContact, "OmemoFingerprintTrusted_" + omemo::hex_string(fp.data(), fp.length()));
 
 	char protocol[7], hexkey[89], suburl[5001];
 	int ret = sscanf(result.GetBuffer(), "%6[^:]://%5000[^#]#%88s", protocol, suburl, hexkey);
@@ -1426,7 +1398,10 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		dbei.szModule = Proto_GetBaseAccountName(hContact);
 		dbei.timestamp = msgTime;
 		dbei.eventType = EVENTTYPE_FILE;
-		dbei.flags = DBEF_SECURE;
+		if (trusted)
+			dbei.flags = DBEF_SECURE;
+		if (isCarbon)
+			dbei.flags = DBEF_SENT;
 
 		std::string text = root.write();
 		dbei.cbBlob = (int)text.size() + 1;
@@ -1437,7 +1412,10 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		PROTORECVEVENT recv = {};
 		recv.timestamp = (uint32_t)msgTime;
 		recv.szMessage = result.GetBuffer();
-		recv.flags = PREF_ENCRYPTED;
+		if (trusted)
+			recv.flags = PREF_ENCRYPTED;
+		if (isCarbon)
+			recv.flags = PREF_SENT;
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 
@@ -1486,12 +1464,9 @@ bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 			val = getDword(szSetting, 0);
 		}
 		if (!own_device_listed) {
-			OmemoAnnounceDevice(true);
+			OmemoAnnounceDevice(true, true);
 			OmemoSendBundle();
 		}
-
-		if (m_bEnableCarbons && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_CARBONS))
-			OmemoCheckSession(0);
 	}
 	else {
 		// store device id's
@@ -1519,19 +1494,15 @@ bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 	return true;
 }
 
-void CJabberProto::OmemoAnnounceDevice(bool include_cache)
+void CJabberProto::OmemoAnnounceDevice(bool include_cache, bool include_own)
 {
-	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
-	unsigned int own_id = m_omemo.GetOwnDeviceId();
-
-	// add own device id
 	// construct node
 	char szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq("set", SerialNext());
 	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
 		<< XCHILD("publish") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
-	TiXmlElement *list_node = publish_node << XCHILD("item") << XATTR ("id", "current")
+	TiXmlElement *list_node = publish_node << XCHILD("item") << XATTR("id", "current")
 		<< XCHILDNS("list", JABBER_FEAT_OMEMO);
 	if (include_cache) { //use cache only if it is fresh
 		CMStringA szSetting;
@@ -1544,7 +1515,8 @@ void CJabberProto::OmemoAnnounceDevice(bool include_cache)
 			list_node << XCHILD("device") << XATTRI64("id", val);
 		}
 	}
-	list_node << XCHILD("device") << XATTRI64("id", own_id);
+	if (include_own)
+		list_node << XCHILD("device") << XATTRI64("id", m_omemo.GetOwnDeviceId());
 
 	// send device list back
 	// TODO handle response
@@ -1605,51 +1577,45 @@ void CJabberProto::OmemoSendBundle()
 
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 {
-	//if (m_omemo.session_checked[hContact])
-	//	return true;
-	
-	CMStringA szSetting;
-	
-	ptrA jid(ContactToJID(hContact));
-	if (strchr(jid, '/')) {
-		int ret = MessageBoxW(nullptr, TranslateT("OMEMO can not encrypt private messages in public groupchats. Continue using plain text?"), _A2T(jid), MB_YESNO);
-		if (ret == IDYES)
-			setByte(hContact, "bDisableOmemo", 1);
+	{	ptrA jid(ContactToJID(hContact));
+		if (strchr(jid, '/')) {
+			int ret = MessageBoxW(nullptr, TranslateT("OMEMO can not encrypt private messages in public groupchats. Continue using plain text?"), _A2T(jid), MB_YESNO);
+			if (ret == IDYES)
+				setByte(hContact, "bDisableOmemo", 1);
 
-		return true;
-	}
-
-	for (int i = 0;; i++) {
-		int device_id = m_omemo.dbGetDeviceId(hContact, i);
-		if (device_id == 0)
-			break;
-		
-		signal_protocol_address address = { jid, mir_strlen(jid), device_id };
-		// ignore untrusted identity
-		CMStringA suffix(m_omemo.dbGetSuffix(hContact, device_id));
-		MBinBuffer fp(getBlob(hContact, CMStringA(omemo::IdentityPrefix) + suffix));
-		if (!fp.isEmpty())
-			if (!getByte(hContact, "OmemoFingerprintTrusted_" + omemo::hex_string(fp.data(), fp.length())))
-				continue;
-
-		if (!signal_protocol_session_contains_session(m_omemo.store_context, &address)) {
-			unsigned int* _id = new unsigned int;
-			*_id = device_id;
-			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, _id));
-
-			char szBareJid[JABBER_MAX_JID_LEN];
-			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
-			TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
-			CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
-			XmlAddAttr(items, "node", szBundle);
-			m_ThreadInfo->send(iq);
-
-			m_omemo.session_checked[hContact] = false;
-			return false;
+			return true;
 		}
 	}
 
-	if(!m_omemo.session_checked[hContact]) {
+	bool enCarbons = hContact && m_bEnableCarbons && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_CARBONS);
+	for (int c = 0; c < (enCarbons ? 2 : 1); c++) {
+		MCONTACT _hContact = !c ? hContact : 0;
+		ptrA jid(ContactToJID(_hContact));
+		for (int i = 0;; i++) {
+			int device_id = m_omemo.dbGetDeviceId(_hContact, i);
+			if (device_id == 0)
+				break;
+
+			signal_protocol_address address = {jid, mir_strlen(jid), device_id};
+			if (!signal_protocol_session_contains_session(m_omemo.store_context, &address)) {
+				unsigned int *_id = new unsigned int;
+				*_id = device_id;
+				XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, _id));
+
+				char szBareJid[JABBER_MAX_JID_LEN];
+				iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
+				TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
+				CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
+				XmlAddAttr(items, "node", szBundle);
+				m_ThreadInfo->send(iq);
+
+				m_omemo.session_checked[_hContact] = false;
+				return false;
+			}
+		}
+	}
+
+	if (!m_omemo.session_checked[hContact]) {
 		m_omemo.session_checked[hContact] = true;
 		OmemoHandleMessageQueue();
 	}
@@ -1750,7 +1716,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	if (!m_omemo.build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic->GetText(), signedPreKeySignature->GetText(), identityKey->GetText())) {
+	if (!m_omemo.build_session(jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic->GetText(), signedPreKeySignature->GetText(), identityKey->GetText())) {
 		debugLogA("Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
 	}
@@ -1792,48 +1758,56 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 
 	TiXmlElement *header = encrypted << XCHILD("header");
 	header << XATTRI64("sid", m_omemo.GetOwnDeviceId());
+	
 	int session_count = 0;
-	char key_plus_tag[32] = { 0 };
+	char key_plus_tag[32];
 	memcpy(key_plus_tag, key, 16);
-	{
-		char *ptr = key_plus_tag + 16;
-		memcpy(ptr, tag, 16);
-	}
+	memcpy(key_plus_tag + 16, tag, 16);
 
-	ptrA jid(getStringA(hContact, "jid"));
-	for (int i = 0;; i++) {
-		int device_id = m_omemo.dbGetDeviceId(hContact, i);
-		if (device_id == 0)
-			break;
+	bool enCarbons = m_bEnableCarbons && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_CARBONS);
+	for (int c = 0; c < (enCarbons ? 2 : 1); c++) {
+		MCONTACT _hContact = !c ? hContact : 0;
+		ptrA jid(getStringA(_hContact, "jid"));
+		for (int i = 0;; i++) {
+			int device_id = m_omemo.dbGetDeviceId(_hContact, i);
+			if (device_id == 0)
+				break;
 
-		session_cipher *scipher;
-		signal_protocol_address address = { jid, mir_strlen(jid), device_id };
-		if (session_cipher_create(&scipher, m_omemo.store_context, &address, omemo::global_context) != SG_SUCCESS) {
-			debugLogA("Jabber OMEMO: error: Cannot create session cipher for encrypt");
-			continue;
-		}
+			// ignore untrusted identity
+			CMStringA suffix(m_omemo.dbGetSuffix(_hContact, device_id));
+			MBinBuffer fp(getBlob(_hContact, CMStringA(omemo::IdentityPrefix) + suffix));
+			if (!getByte(_hContact, "OmemoFingerprintTrusted_" + omemo::hex_string(fp.data(), fp.length())))
+				continue;
 
-		ciphertext_message *encrypted_key;
-		if (session_cipher_encrypt(scipher, (uint8_t*)key_plus_tag, 32, &encrypted_key) != SG_SUCCESS) {
-			// TODO: handle encryption error
+			session_cipher *scipher;
+			signal_protocol_address address = {jid, mir_strlen(jid), device_id};
+			if (session_cipher_create(&scipher, m_omemo.store_context, &address, m_omemo.global_context) != SG_SUCCESS) {
+				debugLogA("Jabber OMEMO: error: Cannot create session cipher for encrypt");
+				continue;
+			}
+
+			ciphertext_message *encrypted_key;
+			if (session_cipher_encrypt(scipher, (uint8_t*)key_plus_tag, 32, &encrypted_key) != SG_SUCCESS) {
+				// TODO: handle encryption error
+				session_cipher_free(scipher);
+				debugLogA("Jabber OMEMO: Session_cipher_encrypt failed. Untrusted device?");
+				continue;
+			}
+
+			TiXmlElement *key_node = header << XCHILD("key");
+			key_node << XATTRI64("rid", device_id);
+			int msg_type = ciphertext_message_get_type(encrypted_key);
+			if (msg_type == CIPHERTEXT_PREKEY_TYPE)
+				key_node << XATTR("prekey", "true");
+
+			signal_buffer *serialized_encrypted_key = ciphertext_message_get_serialized(encrypted_key);
+			ptrA key_base64(mir_base64_encode(signal_buffer_data(serialized_encrypted_key), signal_buffer_len(serialized_encrypted_key)));
+			key_node->SetText(key_base64.get());
+
+			SIGNAL_UNREF(encrypted_key);
 			session_cipher_free(scipher);
-			debugLogA("Jabber OMEMO: Session_cipher_encrypt failed. Untrusted device?");
-			continue;
+			session_count++;
 		}
-
-		TiXmlElement *key_node = header << XCHILD("key");
-		key_node << XATTRI64("rid", device_id);
-		int msg_type = ciphertext_message_get_type(encrypted_key);
-		if (msg_type == CIPHERTEXT_PREKEY_TYPE)
-			key_node << XATTR("prekey", "true");
-
-		signal_buffer *serialized_encrypted_key = ciphertext_message_get_serialized(encrypted_key);
-		ptrA key_base64(mir_base64_encode(signal_buffer_data(serialized_encrypted_key), signal_buffer_len(serialized_encrypted_key)));
-		key_node->SetText(key_base64.get());
-
-		SIGNAL_UNREF(encrypted_key);
-		session_cipher_free(scipher);
-		session_count++;
 	}
 
 	TiXmlElement *iv_node = header << XCHILD("iv");
@@ -1867,5 +1841,16 @@ void CJabberProto::OmemoRequestDeviceList(const char *szBareJid)
 		iq << XATTR("to", szBareJid);
 	iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
 		<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
+	m_ThreadInfo->send(iq);
+}
+
+void CJabberProto::OmemoDeleteBundle(int device_id)
+{
+	if (!m_bJabberOnline)
+		return;
+
+	XmlNodeIq iq("set", SerialNext());
+	iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub#owner")
+		<< XCHILD("delete") << XATTR("node", CMStringA(FORMAT, "%s.bundles:%u", JABBER_FEAT_OMEMO, device_id));
 	m_ThreadInfo->send(iq);
 }

@@ -722,14 +722,15 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
 
-	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime);
+	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon);
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char *pszSrc);
 	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
 	void       OmemoHandleMessageQueue();
 	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
 	void       OmemoInitDevice();
-	void       OmemoAnnounceDevice(bool include_cache);
+	void       OmemoAnnounceDevice(bool include_cache, bool include_own);
 	void       OmemoSendBundle();
+	void       OmemoDeleteBundle(int device_id);
 	bool       OmemoCheckSession(MCONTACT hContact);
 	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
 	bool       OmemoIsEnabled(MCONTACT hContact);

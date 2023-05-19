@@ -856,8 +856,7 @@ public:
 		wchar_t wszText[16];
 		m_list.GetItemText(pos->iCurr, 0, wszText, _countof(wszText));
 		int device_id = wcstol(wszText, NULL, 10);
-		if (device_id == ppro->m_omemo.GetOwnDeviceId())
-			return;
+		bool owndevice = (device_id == ppro->m_omemo.GetOwnDeviceId());
 
 		CMStringA suffix(ppro->m_omemo.dbGetSuffix(m_hContact, device_id));
 		MBinBuffer fp(ppro->getBlob(m_hContact, CMStringA(omemo::IdentityPrefix) + suffix));
@@ -868,19 +867,70 @@ public:
 		bool ses = !ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix).isEmpty();
 
 		HMENU hMenu = CreatePopupMenu();
-		AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
-		AppendMenu(hMenu, MF_STRING | (ses ? 0 : MF_GRAYED), (UINT_PTR)2, TranslateT("Kill session"));
+		if (!owndevice) {
+			AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
+			AppendMenu(hMenu, MF_STRING | (ses ? 0 : MF_GRAYED), (UINT_PTR)2, TranslateT("Kill session"));
+		}
+		if (m_hContact == 0)
+			AppendMenu(hMenu, MF_STRING | (!owndevice && !ppro->m_bJabberOnline ? MF_GRAYED : 0), (UINT_PTR)3, TranslateT("Remove device"));
+
 		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
 		switch (nReturnCmd) {
 		case 1:
 			ppro->setByte(m_hContact, TrustSettingName, trusted ? FP_BAD : FP_VERIFIED);
-			OnRefresh();
 			break;
 		case 2:
 			ppro->delSetting(m_hContact, "OmemoSignalSession_" + suffix);
-			OnRefresh();
+			break;
+		case 3:
+			if (device_id == ppro->m_omemo.GetOwnDeviceId()) {
+				int ret = MessageBoxW(0, TranslateT("Remove device master key completely?\n"
+					"Press NO to regenerate prekeys only"), nullptr, MB_ICONWARNING | MB_YESNOCANCEL);
+				switch (ret) {
+				case IDYES:
+					ppro->delSetting("OmemoDeviceId");
+					ppro->delSetting("OmemoDevicePublicKey");
+					ppro->delSetting("OmemoDevicePrivateKey");
+					ppro->OmemoDeleteBundle(device_id);
+					ppro->OmemoAnnounceDevice(true, true);
+					ppro->OmemoInitDevice();
+					break;
+				case IDNO:
+					ratchet_identity_key_pair *device_key;
+					if (signal_protocol_identity_get_key_pair(ppro->m_omemo.store_context, &device_key) >= 0) {
+						ppro->m_omemo.RefreshPrekeys(device_key, device_id);
+						SIGNAL_UNREF(device_key);
+					}
+					break;
+				}
+			}
+			else {
+				int ret = MessageBoxW(0, CMStringW(FORMAT, TranslateT("Delete device %d from the announce?"), device_id), nullptr, MB_ICONQUESTION | MB_YESNO);
+				int idx = pos->iCurr - 1;
+				if (ret == IDYES && idx >= 0
+					&& device_id == ppro->m_omemo.dbGetDeviceId(m_hContact, idx)) {
+					ppro->delSetting(omemo::IdentityPrefix + suffix);
+					ppro->delSetting("OmemoSignalSession_" + suffix);
+
+					while (true) {
+						CMStringA sCurrSetting(FORMAT, "OmemoDeviceId%d", idx);
+						CMStringA sNextSetting(FORMAT, "OmemoDeviceId%d", idx + 1);
+						uint32_t val = ppro->getDword(sNextSetting);
+						if (val == 0) {
+							ppro->delSetting(sCurrSetting);
+							break;
+						}
+
+						ppro->setDword(sCurrSetting, val);
+						idx++;
+					}
+					ppro->OmemoDeleteBundle(device_id);
+					ppro->OmemoAnnounceDevice(true, true);
+				}
+			}
 			break;
 		}
+		OnRefresh();
 		DestroyMenu(hMenu);
 	}
 
