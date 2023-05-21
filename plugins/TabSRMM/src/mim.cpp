@@ -291,7 +291,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM nSecs)
 			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
 		if (fShowOnClist) {
-			g_clistApi.pfnRemoveEvent(hContact, 1);
+			Clist_RemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;

@@ -101,7 +101,7 @@ void InitClistCore()
 
 	g_clistApi.pfnAddEvent = fnAddEvent;
 	g_clistApi.pfnGetImlIconIndex = fnGetImlIconIndex;
-	g_clistApi.pfnRemoveEvent = fnRemoveEvent;
+	g_clistApi.pfnFreeEvent = fnRemoveEvent;
 
 	g_clistApi.pfnInvalidateDisplayNameCacheEntry = fnInvalidateDisplayNameCacheEntry;
 	g_clistApi.pfnCreateCacheItem = fnCreateCacheItem;

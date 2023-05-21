@@ -137,7 +137,7 @@ static void AddEvent(MCONTACT hContact, HICON hIcon, int type, const wchar_t *pw
 	}
 	else {
 		if (Clist_GetEvent(hContact, 0))
-			g_clistApi.pfnRemoveEvent(hContact, GC_FAKE_EVENT);
+			Clist_RemoveEvent(hContact, GC_FAKE_EVENT);
 		g_clistApi.pfnAddEvent(&cle);
 	}
 }
@@ -229,7 +229,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		SESSION_INFO *si = (SESSION_INFO*)PUGetPluginData(hWnd);
 		if (si->hContact)
 			if (Clist_GetEvent(si->hContact, 0))
-				g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
+				Clist_RemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 		if (si->pDlg && si->pDlg->timerFlash.Stop())
 			FlashWindow(si->pDlg->GetHwnd(), FALSE);

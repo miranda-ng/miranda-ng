@@ -74,7 +74,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 		cle.lParam = (LPARAM)pdci;
 
 		if (Clist_GetEvent(hContact, 0))
-			g_clistApi.pfnRemoveEvent(hContact, -100);
+			Clist_RemoveEvent(hContact, -100);
 		g_clistApi.pfnAddEvent(&cle);
 	}
 	return TRUE;

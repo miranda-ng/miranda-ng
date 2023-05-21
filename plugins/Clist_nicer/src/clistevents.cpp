@@ -161,7 +161,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
 						if (cle1 != nullptr)
-							g_clistApi.pfnRemoveEvent(cle->hContact, cle->hDbEvent);
+							Clist_RemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
 			}
@@ -312,20 +312,8 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 // wParam=(MCONTACT)hContact
 // lParam=(LPARAM)(HANDLE)hDbEvent
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
+int RemoveEvent(CListEvent *e)
 {
-	// Find the event that should be removed
-	CListEvent *e = nullptr;
-	for (auto &it : *g_clistApi.events)
-		if (it->hContact == hContact && it->hDbEvent == hDbEvent) {
-			e = it;
-			break;
-		}
-
-	// Event was not found
-	if (e == nullptr)
-		return 1;
-
 	// remove event from the notify menu
 	int iMenuId = e->menuId;
 	if (iMenuId > 0) {
@@ -334,14 +322,17 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 		mii.fMask = MIIM_DATA;
 		if (GetMenuItemInfo(cfg::dat.hMenuNotify, iMenuId, FALSE, &mii) != 0) {
 			struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-			if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) {
+			if (nmi && nmi->hContact == e->hContact && nmi->hDbEvent == e->hDbEvent) {
 				free(nmi);
 				DeleteMenu(cfg::dat.hMenuNotify, iMenuId, MF_BYCOMMAND);
 			}
 		}
 	}
 
-	int res = coreCli.pfnRemoveEvent(hContact, hDbEvent);
+	// save variables, because core call frees the structure
+	auto hContact = e->hContact;
+	auto hDbEvent = e->hDbEvent;
+	int res = coreCli.pfnFreeEvent(e);
 
 	if (g_clistApi.events->getCount() == 0) {
 		cfg::dat.bEventAreaEnabled = FALSE;

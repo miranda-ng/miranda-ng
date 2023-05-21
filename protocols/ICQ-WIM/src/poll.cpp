@@ -307,7 +307,7 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			
 			// we've read/removed some messages from server
 			if (iOldCount > m_unreadEmails) {
-				g_clistApi.pfnRemoveEvent(0, ICQ_FAKE_EVENT_ID);
+				Clist_RemoveEvent(0, ICQ_FAKE_EVENT_ID);
 				return;
 			}
 

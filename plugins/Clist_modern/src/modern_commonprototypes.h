@@ -214,7 +214,7 @@ int      cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int      cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 int      cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int      cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
-int      cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
+int      cli_RemoveEvent(CListEvent *cle);
 void     cli_FreeContact(ClcContact*);
 void     cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT  cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);

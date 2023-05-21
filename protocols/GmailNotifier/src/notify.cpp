@@ -73,7 +73,7 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 	if (proto && !mir_strcmp(proto, MODULENAME)) {
 		Account *curAcc = GetAccountByContact(hContact);
 		PUDeletePopup(curAcc->popUpHwnd);
-		g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
+		Clist_RemoveEvent(curAcc->hContact, 1);
 		if (GetKeyState(VK_SHIFT) >> 8 || optionWindowIsOpen)
 			return FALSE;
 
@@ -114,7 +114,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		curAcc->popUpHwnd = nullptr;
-		g_clistApi.pfnRemoveEvent(hContact, 1);
+		Clist_RemoveEvent(hContact, 1);
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -128,7 +128,7 @@ void NotifyUser(Account *curAcc)
 	switch (curAcc->results_num) {
 	case 0:
 		PUDeletePopup(curAcc->popUpHwnd);
-		g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
+		Clist_RemoveEvent(curAcc->hContact, 1);
 		if (curAcc->oldResults_num != 0)
 			g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_NONEW);
 		break;
@@ -156,7 +156,7 @@ void NotifyUser(Account *curAcc)
 			}
 		}
 		if (g_plugin.bNotifierOnTray && newMails > 0) {
-			g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
+			Clist_RemoveEvent(curAcc->hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = curAcc->hContact;

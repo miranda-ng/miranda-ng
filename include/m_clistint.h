@@ -273,6 +273,7 @@ EXTERN_C MIR_APP_DLL(int)       Clist_IsHiddenMode(ClcData *dat, int status);
 EXTERN_C MIR_APP_DLL(void)      Clist_LoadContactTree(void);
 EXTERN_C MIR_APP_DLL(void)      Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(void)      Clist_RecalculateGroupCheckboxes(ClcData *dat);
+EXTERN_C MIR_APP_DLL(int)       Clist_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 EXTERN_C MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 EXTERN_C MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
@@ -397,7 +398,7 @@ struct CLIST_INTERFACE
 
 	CListEvent* (*pfnAddEvent)(CLISTEVENT*);
 
-	int      (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
+	int      (*pfnFreeEvent)(CListEvent *);
 	int      (*pfnGetImlIconIndex)(HICON hIcon);
 
 	/*************************************************************************************

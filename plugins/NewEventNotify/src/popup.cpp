@@ -82,7 +82,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 	if (mask & MASK_REMOVE) {
 		if (pdata) {
 			for (auto &it: pdata->events) {
-				g_clistApi.pfnRemoveEvent(pdata->hContact, it);
+				Clist_RemoveEvent(pdata->hContact, it);
 				db_event_markRead(pdata->hContact, it);
 			}
 		}

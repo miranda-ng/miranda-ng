@@ -163,14 +163,14 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			g_clistApi.pfnRemoveEvent(PUGetContact(hWnd), 0);
+			Clist_RemoveEvent(PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionReturned", PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		g_clistApi.pfnRemoveEvent(PUGetContact(hWnd), 0);
+		Clist_RemoveEvent(PUGetContact(hWnd), 0);
 		setLastSeen(PUGetContact(hWnd));
 		PUDeletePopup(hWnd);
 		break;
@@ -188,14 +188,14 @@ LRESULT CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			g_clistApi.pfnRemoveEvent(PUGetContact(hWnd), 0);
+			Clist_RemoveEvent(PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionStillAbsent", (WPARAM)PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		g_clistApi.pfnRemoveEvent(PUGetContact(hWnd), 0);
+		Clist_RemoveEvent(PUGetContact(hWnd), 0);
 		PUDeletePopup(hWnd);
 		break;
 

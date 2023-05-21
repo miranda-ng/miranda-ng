@@ -268,7 +268,7 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 		int iEvent = 0;
 		while (auto *cle = Clist_GetEvent(ack->hContact, iEvent++))
 			if (cle->lParam == (LPARAM)ack->hProcess)
-				g_clistApi.pfnRemoveEvent(ack->hContact, cle->hDbEvent);
+				Clist_RemoveEvent(ack->hContact, cle->hDbEvent);
 	}
 	return 0;
 }

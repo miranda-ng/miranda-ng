@@ -52,7 +52,7 @@ ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, uint
 ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 LRESULT     ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-int         RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
+int         RemoveEvent(CListEvent *);
 INT_PTR     TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 void        RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 
@@ -196,7 +196,7 @@ int CMPlugin::Load()
 	g_clistApi.pfnAddContactToGroup = AddContactToGroup;
 
 	g_clistApi.pfnAddEvent = AddEvent;
-	g_clistApi.pfnRemoveEvent = RemoveEvent;
+	g_clistApi.pfnFreeEvent = RemoveEvent;
 
 	g_clistApi.pfnAddGroup = AddGroup;
 	g_clistApi.pfnAddInfoItemToGroup = AddInfoItemToGroup;

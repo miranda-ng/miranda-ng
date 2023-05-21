@@ -93,6 +93,11 @@ const
   function Clist_GetContactDisplayName(hContact:TMCONTACT; mode:int):PWideChar; stdcall; external AppDll;
 
   {
+    removes an event
+  }
+  function Clist_RemoveEvent(hContact:TMCONTACT;hDbEvent:TMEVENT) : integer; stdcall; external AppDll;
+
+  {
     wParam : 0
     lParam : 0
     Affect : Toggles the show/hide status of the contact list

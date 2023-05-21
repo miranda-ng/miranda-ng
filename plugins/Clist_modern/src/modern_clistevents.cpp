@@ -155,19 +155,11 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 }
 
 
-int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
+int cli_RemoveEvent(CListEvent *pEvent)
 {
-	// Find the event that should be removed
-	CListEvent *pEvent = nullptr;
-	for (auto &it : *g_clistApi.events)
-		if (it->hContact == hContact && it->hDbEvent == hDbEvent) {
-			pEvent = it;
-			break;
-		}
-
-	// Event was not found
-	if (pEvent == nullptr)
-		return 1;
+	// save variables because pEvent should be freed
+	auto hContact = pEvent->hContact;
+	auto hDbEvent = pEvent->hDbEvent;
 
 	// remove event from the notify menu
 	int iMenuId = pEvent->menuId;
@@ -184,7 +176,7 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 		}
 	}
 
-	int res = corecli.pfnRemoveEvent(hContact, hDbEvent);
+	int res = corecli.pfnFreeEvent(pEvent);
 
 	if (g_clistApi.events->getCount() == 0) {
 		g_CluiData.bNotifyActive = false;
@@ -407,7 +399,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
 						if (cle1 != nullptr)
-							g_clistApi.pfnRemoveEvent(cle->hContact, cle->hDbEvent);
+							Clist_RemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
 			}

@@ -562,7 +562,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 				db_event_markRead(hContact, hDbEvent, true);
 				if (bRemoveCListEvents)
-					g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+					Clist_RemoveEvent(hContact, hDbEvent);
 			}
 		}
 

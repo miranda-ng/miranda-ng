@@ -1042,7 +1042,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 
 				if (Clist_GetEvent(m_hContact, 0))
-					g_clistApi.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
+					Clist_RemoveEvent(m_hContact, GC_FAKE_EVENT);
 			}
 
 			FixTabIcons();
@@ -1064,7 +1064,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			if (Clist_GetEvent(m_hContact, 0))
-				g_clistApi.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
+				Clist_RemoveEvent(m_hContact, GC_FAKE_EVENT);
 		}
 		else {
 			if (m_hDbUnreadEventFirst != 0) {
@@ -1073,7 +1073,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				while (hDbEvent != 0) {
 					DB::EventInfo dbei(hDbEvent, false);
 					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(dbei))
-						g_clistApi.pfnRemoveEvent(m_hContact, hDbEvent);
+						Clist_RemoveEvent(m_hContact, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);
 				}
 			}

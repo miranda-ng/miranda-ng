@@ -567,7 +567,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
 		db_event_markRead(streamData->hContact, streamData->hDbEvent);
-		g_clistApi.pfnRemoveEvent(streamData->hContact, streamData->hDbEvent);
+		Clist_RemoveEvent(streamData->hContact, streamData->hDbEvent);
 	}
 
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));

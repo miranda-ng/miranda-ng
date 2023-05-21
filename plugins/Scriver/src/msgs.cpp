@@ -183,7 +183,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 		if (g_dat.flags2.bShowTypingClist) {
-			g_clistApi.pfnRemoveEvent(hContact, 1);
+			Clist_RemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;

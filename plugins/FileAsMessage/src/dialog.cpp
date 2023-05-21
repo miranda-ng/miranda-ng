@@ -67,7 +67,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 	{
 		PUDeletePopup(hWnd);
-		g_clistApi.pfnRemoveEvent(hContact, 0);
+		Clist_RemoveEvent(hContact, 0);
 
 		if (IsWindow(hDlg)) {
 			ShowWindow(hDlg, SW_SHOWNORMAL);
@@ -488,7 +488,7 @@ void FILEECHO::onRecvTimer()
 		setState(STATE_FINISHED);
 		if (db_get_b(0, "SRFile", "AutoClose", 0)) {
 			PostMessage(hDlg, WM_CLOSE, 0, 0);
-			g_clistApi.pfnRemoveEvent(hContact, 0);
+			Clist_RemoveEvent(hContact, 0);
 		}
 		Skin_PlaySound("FileDone");
 		destroyTransfer();

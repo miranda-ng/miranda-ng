@@ -118,7 +118,7 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 				break;
 
 			if ((ULONG)pev->lParam == p->uid && !pev->hContact && pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder")) {
-				if (!g_clistApi.pfnRemoveEvent(pev->hContact, pev->hDbEvent)) {
+				if (!Clist_RemoveEvent(pev->hContact, pev->hDbEvent)) {
 					p->bSystemEventQueued = false;
 					if (QueuedReminderCount)
 						QueuedReminderCount--;

@@ -161,7 +161,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 	// remove events for a contact
 	for (auto &it : g_cliEvents.rev_iter())
 		if (it->hContact == hContact)
-			g_clistApi.pfnRemoveEvent(hContact, it->hDbEvent);
+			Clist_RemoveEvent(hContact, it->hDbEvent);
 
 	Chat_RemoveContact(hContact);
 	return 0;

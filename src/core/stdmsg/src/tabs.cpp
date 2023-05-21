@@ -477,7 +477,7 @@ void CTabbedWindow::TabClicked()
 			si->wState &= ~GC_EVENT_HIGHLIGHT;
 
 			if (Clist_GetEvent(si->hContact, 0))
-				g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
+				Clist_RemoveEvent(si->hContact, GC_FAKE_EVENT);
 		}
 
 		if (!si->pDlg) {

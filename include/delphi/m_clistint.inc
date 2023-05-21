@@ -85,44 +85,6 @@ type
 
   (* clistmod.c *)
     pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
-    pfnShowHide                        : procedure; cdecl;
-                                       
-  (* clistsettings.c *)
-    pfnCreateCacheItem                 : procedure; cdecl;
-    pfnCheckCacheItem                  : procedure; cdecl;
-    pfnFreeCacheItem                   : procedure; cdecl;
-
-    pfnInvalidateDisplayNameCacheEntry : procedure; cdecl;
-
-  (* clisttray.c *)
-    pfnTrayIconPauseAutoHide           : procedure; cdecl;
-    pfnTrayIconProcessMessage          : procedure; cdecl;
-                                       
-  (* clui.c *)                         
-    pfnContactListWndProc              : procedure; cdecl;
-                                       
-    pfnCluiProtocolStatusChanged       : procedure; cdecl;
-    pfnLoadCluiGlobalOpts              : procedure; cdecl;
-    pfnInvalidateRect                  : procedure; cdecl;
-    pfnOnCreateClc                     : procedure; cdecl;
-                                       
-  (* contact.c *)                      
-    pfnCompareContacts                 : procedure; cdecl;
-    pfnSetHideOffline                  : procedure; cdecl;
-                                      
-  (* docking.c *)                     
-    pfnDocking_ProcessWindowMessage    : procedure; cdecl;
-
-  (*************************************************************************************
-  * version 2 - events processing
-  *************************************************************************************)
-
-    bzzz : pointer;
-
-    pfnAddEvent                        : procedure; cdecl;
-    pfnGetEvent                        : procedure; cdecl;
-
-    pfnRemoveEvent                     : function (hContact:TMCONTACT; hDbEvent:TMEVENT):int; cdecl;
   end;
 
 function Clist_GetInterface : PCLIST_INTERFACE; stdcall; external AppDll;

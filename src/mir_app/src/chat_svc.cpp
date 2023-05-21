@@ -823,7 +823,7 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			Chat_EventToGC(si, hDbEvent);
 	}
 	else {
-		g_clistApi.pfnRemoveEvent(hContact, 1);
+		Clist_RemoveEvent(hContact, 1);
 
 		DB::EventInfo dbei(hDbEvent, false);
 		if (dbei) {

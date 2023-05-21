@@ -533,7 +533,7 @@ begin
   begin
     if (not Item.IsRead) then
       db_event_markRead(Items[Index].hContact, Items[Index].hDBEvent);
-    cli^.pfnRemoveEvent(Items[Index].hContact, Items[Index].hDBEvent);
+    Clist_RemoveEvent(Items[Index].hContact, Items[Index].hDBEvent);
   end
   else if (not Item.IsRead) and (MessageTypesToDWord(Item.MessageType) and
     MessageTypesToDWord([mtStatus, mtNickChange, mtAvatarChange]) > 0) then

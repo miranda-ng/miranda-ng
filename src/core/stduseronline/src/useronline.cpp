@@ -41,7 +41,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		// Remove the event from the queue if it exists since they are now offline
 		MEVENT lastEvent = g_plugin.getDword(hContact, "LastEvent");
 		if (lastEvent) {
-			g_clistApi.pfnRemoveEvent(hContact, lastEvent);
+			Clist_RemoveEvent(hContact, lastEvent);
 			g_plugin.setDword(hContact, "LastEvent", 0);
 		}
 	}

@@ -870,3 +870,5 @@ Chat_IsMuted @941 NONAME
 ?setSize@FILE_BLOB@DB@@QAEX_J@Z @985 NONAME
 ?setUrl@FILE_BLOB@DB@@QAEXPBD@Z @986 NONAME
 ?Clist_GetEvent@@YGPAUCListEvent@@IH@Z @987 NONAME
+?Clist_FindEvent@@YGPAUCListEvent@@II@Z @988 NONAME
+Clist_RemoveEvent @989

@@ -115,7 +115,7 @@ void ItemData::load(bool bFullLoad)
 		if (!(dbe.flags & DBEF_SENT)) {
 			if (!dbe.markedRead())
 				db_event_markRead(hContact, hEvent);
-			g_clistApi.pfnRemoveEvent(hContact, hEvent);
+			Clist_RemoveEvent(hContact, hEvent);
 		}
 		__fallthrough;
 

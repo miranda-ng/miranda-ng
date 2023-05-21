@@ -321,7 +321,7 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 			if (!dbei.markedRead()) {
 				if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm()) {
 					db_event_markRead(si->hContact, lin.hEvent);
-					g_clistApi.pfnRemoveEvent(si->hContact, lin.hEvent);
+					Clist_RemoveEvent(si->hContact, lin.hEvent);
 				}
 			}
 

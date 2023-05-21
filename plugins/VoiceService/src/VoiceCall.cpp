@@ -193,7 +193,7 @@ void VoiceCall::CreateDisplayName()
 void VoiceCall::RemoveNotifications()
 {
 	if (clistBlinking) {
-		g_clistApi.pfnRemoveEvent(hContact, MEVENT(1001));
+		Clist_RemoveEvent(hContact, MEVENT(1001));
 		clistBlinking = false;
 	}
 

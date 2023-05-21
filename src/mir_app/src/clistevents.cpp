@@ -146,7 +146,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 		// decrease eflashes in any case - no need to collect all events
 		if (e.flags & CLEF_ONLYAFEW)
 			if (0 >= --e.flashesDone)
-				g_clistApi.pfnRemoveEvent(e.hContact, e.hDbEvent);
+				Clist_RemoveEvent(e.hContact, e.hDbEvent);
 	}
 
 	if (g_cliEvents.getCount() == 0) {
@@ -194,24 +194,14 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
 
-int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
+int fnRemoveEvent(CListEvent *pEvent)
 {
-	// Find the event that should be removed
-	CListEvent *pEvent = nullptr;
-	for (auto &it : g_cliEvents) {
-		if (it->hContact == hContact && it->hDbEvent == dbEvent) {
-			pEvent = it;
-			break;
-		}
-	}
-
-	// Event was not found
-	if (pEvent == nullptr)
-		return 1;
+	// save hContact, because pEvent should be freed
+	auto hContact = pEvent->hContact;
 
 	// Update contact's icon
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	Clist_ChangeContactIcon(pEvent->hContact, Clist_GetContactIcon(pEvent->hContact));
+	Clist_ChangeContactIcon(hContact, Clist_GetContactIcon(hContact));
 
 	// Free any memory allocated to the event
 	g_cliEvents.remove(pEvent);
@@ -242,6 +232,30 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(CListEvent *) Clist_FindEvent(MCONTACT hContact, MEVENT hDbEvent)
+{
+	for (auto &it : g_cliEvents) {
+		if ((hContact == it->hContact || hContact == -1) && it->hDbEvent == hDbEvent)
+			return it;
+	}
+
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Clist_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
+{
+	if (auto *pEvent = Clist_FindEvent(hContact, hDbEvent)) {
+		g_clistApi.pfnFreeEvent(pEvent);
+		return 0;
+	}
+
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(CListEvent *) Clist_GetEvent(MCONTACT hContact, int idx)
 {
 	if (hContact == INVALID_CONTACT_ID) {
@@ -264,9 +278,8 @@ int EventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	for (auto &it : g_cliEvents) {
 		if (it->hContact == hContact) {
-			MEVENT hDbEvent = it->hDbEvent;
 			CallService(it->pszService, 0, (LPARAM)it);
-			g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+			g_clistApi.pfnFreeEvent(it);
 			return 0;
 		}
 	}
@@ -338,7 +351,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 	MCONTACT hContact = pEvent->hContact;
 	MEVENT hDbEvent = pEvent->hDbEvent;
 	CallService(pEvent->pszService, 0, (LPARAM)pEvent);
-	g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+	Clist_RemoveEvent(hContact, hDbEvent);
 	return 0;
 }
 
@@ -347,7 +360,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 
 static int CListEventMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 {
-	g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+	Clist_RemoveEvent(hContact, hDbEvent);
 	return 0;
 }
 

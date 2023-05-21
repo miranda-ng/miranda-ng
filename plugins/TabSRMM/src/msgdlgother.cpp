@@ -2954,7 +2954,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
 		if (Clist_GetEvent(m_si->hContact, 0))
-			g_clistApi.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+			Clist_RemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
@@ -2983,7 +2983,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		if (m_bFlashClist) {
 			m_bFlashClist = false;
 			if (m_hFlashingEvent != 0)
-				g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
+				Clist_RemoveEvent(m_hContact, m_hFlashingEvent);
 			m_hFlashingEvent = 0;
 		}
 		m_pContainer->cfg.flags.m_bNeedsUpdateTitle = false;
