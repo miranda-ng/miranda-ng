@@ -293,12 +293,13 @@ MIR_APP_DLL(CListEvent *) Clist_GetEvent(MCONTACT hContact, int idx)
 
 int EventsProcessContactDoubleClick(MCONTACT hContact)
 {
-	for (auto &it : g_cliEvents) {
-		if (it->hContact == hContact) {
-			CallService(it->pszService, 0, (LPARAM)it);
-			g_clistApi.pfnFreeEvent(it);
-			return 0;
-		}
+	if (auto *pEvent = Clist_GetEvent(hContact, 0)) {
+		CallService(pEvent->pszService, 0, (LPARAM)pEvent);
+
+		// if the event is still alive, free it
+		if (g_cliEvents.indexOf(pEvent))
+			g_clistApi.pfnFreeEvent(pEvent);
+		return 0;
 	}
 
 	return 1;
