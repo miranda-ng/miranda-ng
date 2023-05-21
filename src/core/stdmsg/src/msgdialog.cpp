@@ -272,7 +272,7 @@ void CMsgDialog::OnActivate()
 
 		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-		if (g_clistApi.pfnGetEvent(m_hContact, 0))
+		if (Clist_GetEvent(m_hContact, 0))
 			g_clistApi.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 	}
 	else {

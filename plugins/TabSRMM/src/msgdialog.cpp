@@ -695,7 +695,7 @@ void CMsgDialog::OnDestroy()
 		DestroyWindow(m_hwndPanelPicParent);
 
 	if (m_si) {
-		if (g_clistApi.pfnGetEvent(m_si->hContact, 0))
+		if (Clist_GetEvent(m_si->hContact, 0))
 			g_clistApi.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 		m_si->wState &= ~STATE_TALK;
 		m_si->pDlg = nullptr;

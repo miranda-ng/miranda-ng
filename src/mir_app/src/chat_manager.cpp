@@ -113,7 +113,7 @@ static SESSION_INFO* SM_CreateSession(void)
 
 void SM_FreeSession(SESSION_INFO *si)
 {
-	if (g_clistApi.pfnGetEvent(si->hContact, 0))
+	if (Clist_GetEvent(si->hContact, 0))
 		g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 	si->wState &= ~STATE_TALK;
 	db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);

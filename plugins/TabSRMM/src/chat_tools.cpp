@@ -40,7 +40,7 @@ static void __stdcall Chat_DismissPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
 	if (si->hContact)
-		if (g_clistApi.pfnGetEvent(si->hContact, 0))
+		if (Clist_GetEvent(si->hContact, 0))
 			g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
 	if (si->pDlg && si->pDlg->timerFlash.Stop())

@@ -113,7 +113,7 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 {
 	if (p->bSystemEventQueued) {
 		for (int i = 0;; i++) {
-			CLISTEVENT *pev = g_clistApi.pfnGetEvent(-1, i);
+			auto *pev = Clist_GetEvent(-1, i);
 			if (!pev)
 				break;
 

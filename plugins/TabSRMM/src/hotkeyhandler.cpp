@@ -157,7 +157,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_HOTKEY:
 		{
-			CLISTEVENT *cli = g_clistApi.pfnGetEvent(-1, 0);
+			auto *cli = Clist_GetEvent(-1, 0);
 			if (cli != nullptr) {
 				if (strncmp(cli->pszService, MS_MSG_TYPINGMESSAGE, mir_strlen(cli->pszService))) {
 					CallService(cli->pszService, 0, (LPARAM)cli);
@@ -220,7 +220,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (lParam == 0)
 			HandleMenuEntryFromhContact(wParam);
 		else {
-			CLISTEVENT *cle = g_clistApi.pfnGetEvent(wParam, 0);
+			auto *cle = Clist_GetEvent(wParam, 0);
 			if (cle) {
 				if (ServiceExists(cle->pszService)) {
 					CallService(cle->pszService, 0, (LPARAM)cle);

@@ -242,7 +242,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
+MIR_APP_DLL(CListEvent *) Clist_GetEvent(MCONTACT hContact, int idx)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		if (idx >= g_cliEvents.getCount())

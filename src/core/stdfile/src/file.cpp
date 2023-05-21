@@ -266,7 +266,7 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_FILE) {
 		int iEvent = 0;
-		while (CLISTEVENT *cle = g_clistApi.pfnGetEvent(ack->hContact, iEvent++))
+		while (auto *cle = Clist_GetEvent(ack->hContact, iEvent++))
 			if (cle->lParam == (LPARAM)ack->hProcess)
 				g_clistApi.pfnRemoveEvent(ack->hContact, cle->hDbEvent);
 	}

@@ -2953,7 +2953,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
-		if (g_clistApi.pfnGetEvent(m_si->hContact, 0))
+		if (Clist_GetEvent(m_si->hContact, 0))
 			g_clistApi.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 
 		UpdateTitle();

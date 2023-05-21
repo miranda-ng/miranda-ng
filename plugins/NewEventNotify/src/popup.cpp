@@ -63,7 +63,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 
 				MEVENT hEvent = pdata->events[0];
 				for (int idx = 0;; idx++) {
-					CLISTEVENT *cle = g_clistApi.pfnGetEvent(pdata->hContact, idx);
+					auto *cle = Clist_GetEvent(pdata->hContact, idx);
 					if (cle == nullptr) {
 						CallFunctionSync(DoDefaultHandling, pdata);
 						break;

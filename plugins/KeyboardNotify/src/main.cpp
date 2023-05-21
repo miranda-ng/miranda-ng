@@ -239,13 +239,11 @@ BOOL metaCheckProtocol(const char *szProto, MCONTACT hContact, uint16_t eventTyp
 
 BOOL checkUnopenEvents()
 {
-	int nIndex;
-	CLISTEVENT *pCLEvent;
-
 	if (nExternCount && bFlashOnOther)
 		return TRUE;
 
-	for (nIndex = 0; pCLEvent = g_clistApi.pfnGetEvent(-1, nIndex); nIndex++) {
+	int nIndex = 0;
+	while (auto *pCLEvent = Clist_GetEvent(-1, nIndex)) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
@@ -254,6 +252,7 @@ BOOL checkUnopenEvents()
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
 				return TRUE;
+		nIndex++;
 	}
 
 	return FALSE;
@@ -426,26 +425,27 @@ static int OnGcEvent(WPARAM, LPARAM lParam)
 
 static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 {
-	int nIndex;
-	CLISTEVENT *pCLEvent;
-
 	if (!bReminderDisabled && nExternCount && bFlashOnOther) {
 		SetEvent(hFlashEvent);
 		return;
 	}
 
-	for (nIndex = 0; !bReminderDisabled && (pCLEvent = g_clistApi.pfnGetEvent(-1, nIndex)); nIndex++) {
-		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
+	int nIndex = 0;
+	while (auto *pCLEvent = Clist_GetEvent(-1, nIndex)) {
+		if (bReminderDisabled)
+			break;
 
+		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
-			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
+			 (einfo.eventType == EVENTTYPE_FILE && bFlashOnFile) ||
+			 (einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule)) {
-
 				SetEvent(hFlashEvent);
 				return;
 			}
+
+		nIndex++;
 	}
 }
 
@@ -847,10 +847,8 @@ BOOL CheckMsgWnd(MCONTACT hContact, BOOL *focus)
 
 void countUnopenEvents(int *msgCount, int *fileCount, int *otherCount)
 {
-	int nIndex;
-	CLISTEVENT *pCLEvent;
-
-	for (nIndex = 0; pCLEvent = g_clistApi.pfnGetEvent(-1, nIndex); nIndex++) {
+	int nIndex = 0;
+	while (auto *pCLEvent = Clist_GetEvent(-1, nIndex)) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType)) {
@@ -868,7 +866,9 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *otherCount)
 					(*otherCount)++;
 			}
 		}
+		nIndex++;
 	}
+	
 	if (bFlashOnOther)
 		(*otherCount) += nExternCount;
 }

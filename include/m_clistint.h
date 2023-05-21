@@ -286,6 +286,8 @@ EXTERN_C MIR_APP_DLL(int)       Clist_TrayIconSetBaseInfo(HICON hIcon, const cha
 EXTERN_C MIR_APP_DLL(void)      Clist_TrayIconUpdateBase(const char *szChangedProto);
 EXTERN_C MIR_APP_DLL(void)      Clist_TraySetTimer();
 
+MIR_APP_DLL(CListEvent*) Clist_GetEvent(MCONTACT hContact, int idx);
+
 EXTERN_C MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact);
 
 // calculates account's index by its position in status bar
@@ -394,7 +396,6 @@ struct CLIST_INTERFACE
 	OBJLIST<CListEvent> *events;
 
 	CListEvent* (*pfnAddEvent)(CLISTEVENT*);
-	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);
 
 	int      (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
 	int      (*pfnGetImlIconIndex)(HICON hIcon);
