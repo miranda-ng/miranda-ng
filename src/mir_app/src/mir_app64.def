@@ -871,6 +871,6 @@ Chat_IsMuted @941 NONAME
 ?setUrl@FILE_BLOB@DB@@QEAAXPEBD@Z @986 NONAME
 ?Clist_GetEvent@@YAPEAUCListEvent@@IH@Z @987 NONAME
 ?Clist_FindEvent@@YAPEAUCListEvent@@II@Z @988 NONAME
-?Clist_RemoveEvent@@YAHII@Z @989 NONAME
+Clist_RemoveEvent @989
 ?Clist_GetEventByMenu@@YAPEAUCListEvent@@H@Z @990 NONAME
 ?Clist_GetEventCount@@YAHXZ @991 NONAME
