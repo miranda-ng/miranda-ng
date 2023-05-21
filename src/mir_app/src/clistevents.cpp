@@ -234,12 +234,29 @@ int fnRemoveEvent(CListEvent *pEvent)
 
 MIR_APP_DLL(CListEvent *) Clist_FindEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
-	for (auto &it : g_cliEvents) {
+	for (auto &it : g_cliEvents)
 		if ((hContact == it->hContact || hContact == -1) && it->hDbEvent == hDbEvent)
 			return it;
-	}
 
 	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(CListEvent *) Clist_GetEventByMenu(int iMenuId)
+{
+	for (auto &it : g_cliEvents)
+		if (it->menuId == iMenuId)
+			return it;
+
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Clist_GetEventCount(void)
+{
+	return g_cliEvents.getCount();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -358,9 +375,9 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point
 
-static int CListEventMarkedRead(WPARAM hContact, LPARAM hDbEvent)
+static int CListEventMarkedRead(WPARAM, LPARAM hDbEvent)
 {
-	Clist_RemoveEvent(hContact, hDbEvent);
+	Clist_RemoveEvent(INVALID_CONTACT_ID, hDbEvent);
 	return 0;
 }
 
@@ -378,8 +395,6 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 
 int InitCListEvents(void)
 {
-	g_clistApi.events = &g_cliEvents;
-
 	if (db_get_b(0, MODULENAME, "DisableTrayFlash")) {
 		Clist::EnableTrayFlash = false;
 		db_unset(0, MODULENAME, "DisableTrayFlash");

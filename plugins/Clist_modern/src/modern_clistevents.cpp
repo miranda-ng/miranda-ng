@@ -54,15 +54,6 @@ struct NotifyMenuItemExData
 	MEVENT hDbEvent;
 };
 
-static CLISTEVENT* MyGetEvent(int iSelection)
-{
-	for (auto &it : *g_clistApi.events)
-		if (it->menuId == iSelection)
-			return it;
-
-	return nullptr;
-}
-
 static void EventArea_HideShowNotifyFrame()
 {
 	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;
@@ -142,7 +133,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		g_CluiData.hUpdateContact = p->hContact;
 	}
 
-	if (g_clistApi.events->getCount() > 0) {
+	if (Clist_GetEventCount() > 0) {
 		g_CluiData.bEventAreaEnabled = true;
 		if (g_CluiData.bNotifyActive == false) {
 			g_CluiData.bNotifyActive = true;
@@ -178,7 +169,7 @@ int cli_RemoveEvent(CListEvent *pEvent)
 
 	int res = corecli.pfnFreeEvent(pEvent);
 
-	if (g_clistApi.events->getCount() == 0) {
+	if (Clist_GetEventCount() == 0) {
 		g_CluiData.bNotifyActive = false;
 		EventArea_HideShowNotifyFrame();
 	}
@@ -245,8 +236,6 @@ static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 
 void EventArea_ConfigureEventArea()
 {
-	int iCount = g_clistApi.events->getCount();
-
 	g_CluiData.dwFlags &= ~(CLUI_FRAME_AUTOHIDENOTIFY | CLUI_FRAME_SHOWALWAYS);
 	if (db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
 	if (db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 2) g_CluiData.dwFlags |= CLUI_FRAME_SHOWALWAYS;
@@ -254,7 +243,7 @@ void EventArea_ConfigureEventArea()
 	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
 		g_CluiData.bNotifyActive = true;
 	else if (g_CluiData.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
-		g_CluiData.bNotifyActive = iCount > 0;
+		g_CluiData.bNotifyActive = Clist_GetEventCount() > 0;
 	else
 		g_CluiData.bNotifyActive = false;
 
@@ -391,13 +380,13 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			if (result != 0) {
 				NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)mii.dwItemData;
 				if (nmi) {
-					CLISTEVENT *cle = MyGetEvent(iSelection);
+					auto *cle = Clist_GetEventByMenu(iSelection);
 					if (cle) {
-						CLISTEVENT *cle1 = nullptr;
 						CallService(cle->pszService, (WPARAM)nullptr, (LPARAM)cle);
+
 						// re-obtain the pointer, it may already be invalid/point to another event if the
 						// event we're interested in was removed by the service (nasty one...)
-						cle1 = MyGetEvent(iSelection);
+						auto cle1 = Clist_GetEventByMenu(iSelection);
 						if (cle1 != nullptr)
 							Clist_RemoveEvent(cle->hContact, cle->hDbEvent);
 					}

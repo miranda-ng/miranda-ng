@@ -183,12 +183,12 @@ Clist_GroupRename @258
 Clist_EndRebuild @259
 Clist_GroupAdded @260
 ?GetInfo@Contact@@YGPA_WHIPBD@Z @261 NONAME
-Clist_ContactToHItem @262
+Clist_ContactToHItem @262 NONAME
 Clist_ContactToItemHandle @263
 Window_SetSkinIcon_IcoLib @264
 Window_SetIcon_IcoLib @265
-Clist_Broadcast @266
-Clist_BroadcastAsync @267
+Clist_Broadcast @266 NONAME
+Clist_BroadcastAsync @267 NONAME
 Clist_MenuProcessCommand @268
 Clist_IsDocked @269
 Clist_MenuProcessHotkey @270
@@ -218,7 +218,7 @@ Chat_GetDefaultEventDescr @295
 FindDatabasePlugin @296
 RegisterDatabasePlugin @298
 Chat_CustomizeApi @299
-Clist_FindItem @314
+Clist_FindItem @314 NONAME
 Colour_Get @315
 Colour_GetW @316
 Colour_Register @317
@@ -445,7 +445,7 @@ Proto_SetUniqueId @549
 ?SetUniqueId@CMPluginBase@@IAEXPBDH@Z @555 NONAME
 Clist_GetProtocolVisibility @556
 ?Accounts@@YGAAU?$LIST@UPROTOACCOUNT@@@@XZ @557 NONAME
-Clist_InitAutoRebuild @558
+Clist_InitAutoRebuild @558 NONAME
 Clist_GetContactIcon @559
 Clist_GetAccountIndex @560
 Menu_ReloadProtoMenus @561
@@ -453,41 +453,41 @@ Menu_GetProtocolMenu @562
 ExtraIcon_Reload @563
 ExtraIcon_SetAll @564
 Clist_GetStatusModeDescription @565
-Clist_LoadContactTree @566
-Clist_ChangeContactIcon @567
-Clist_DrawMenuItem @568
-Clist_TrayIconUpdateBase @569
-Clist_TrayIconSetBaseInfo @570
-Clist_TrayIconRemove @571
-Clist_TrayIconMakeTooltip @572
-Clist_TrayIconIconsChanged @573
-Clist_TrayIconDestroy @574
-Clist_TrayIconAdd @575
-Clist_TraySetTimer @576
+Clist_LoadContactTree @566 NONAME
+Clist_ChangeContactIcon @567 NONAME
+Clist_DrawMenuItem @568 NONAME
+Clist_TrayIconUpdateBase @569 NONAME
+Clist_TrayIconSetBaseInfo @570 NONAME
+Clist_TrayIconRemove @571 NONAME
+Clist_TrayIconMakeTooltip @572 NONAME
+Clist_TrayIconIconsChanged @573 NONAME
+Clist_TrayIconDestroy @574 NONAME
+Clist_TrayIconAdd @575 NONAME
+Clist_TraySetTimer @576 NONAME
 Clist_GetContactDisplayName @577
 Clist_GetCacheEntry @578
-Clist_EventsProcessTrayDoubleClick @579
-Clist_InvalidateItem @580
-Clist_SetGroupChildCheckboxes @581
-Clist_RecalculateGroupCheckboxes @582
-Clist_GetFontSetting @583
-Clist_GetDefaultExStyle @584
-Clist_NotifyNewContact @585
-Clist_HideInfoTip @586
-Clist_IsHiddenMode @587
-Clist_ClcStatusToPf2 @588
-Clist_CalcEipPosition @589
-Clist_DeleteFromContactList @590
-Clist_EndRename @591
-Clist_DoSelectionDefaultAction @592
-Clist_EnsureVisible @593
-Clist_GetGroupCountsText @594
-Clist_SaveStateAndRebuildList @595
-Clist_DeleteItemFromTree @596
-Clist_RemoveItemFromGroup @597
-Clist_ClcOptionsChanged @598
-Clist_GetRealStatus @599
-Clist_GetGeneralizedStatus @600
+Clist_EventsProcessTrayDoubleClick @579 NONAME
+Clist_InvalidateItem @580 NONAME
+Clist_SetGroupChildCheckboxes @581 NONAME
+Clist_RecalculateGroupCheckboxes @582 NONAME
+Clist_GetFontSetting @583 NONAME
+Clist_GetDefaultExStyle @584 NONAME
+Clist_NotifyNewContact @585 NONAME
+Clist_HideInfoTip @586 NONAME
+Clist_IsHiddenMode @587 NONAME
+Clist_ClcStatusToPf2 @588 NONAME
+Clist_CalcEipPosition @589 NONAME
+Clist_DeleteFromContactList @590 NONAME
+Clist_EndRename @591 NONAME
+Clist_DoSelectionDefaultAction @592 NONAME
+Clist_EnsureVisible @593 NONAME
+Clist_GetGroupCountsText @594 NONAME
+Clist_SaveStateAndRebuildList @595 NONAME
+Clist_DeleteItemFromTree @596 NONAME
+Clist_RemoveItemFromGroup @597 NONAME
+Clist_ClcOptionsChanged @598 NONAME
+Clist_GetRealStatus @599 NONAME
+Clist_GetGeneralizedStatus @600 NONAME
 Proto_GetStatus @601
 ?getCache@MDatabaseCommon@@QBEPAUMIDatabaseCache@@XZ @602 NONAME
 ?Compact@MDatabaseCommon@@UAGHXZ @603 NONAME
@@ -871,4 +871,6 @@ Chat_IsMuted @941 NONAME
 ?setUrl@FILE_BLOB@DB@@QAEXPBD@Z @986 NONAME
 ?Clist_GetEvent@@YGPAUCListEvent@@IH@Z @987 NONAME
 ?Clist_FindEvent@@YGPAUCListEvent@@II@Z @988 NONAME
-Clist_RemoveEvent @989
+?Clist_RemoveEvent@@YGHII@Z @989 NONAME
+?Clist_GetEventByMenu@@YGPAUCListEvent@@H@Z @990 NONAME
+?Clist_GetEventCount@@YGHXZ @991 NONAME

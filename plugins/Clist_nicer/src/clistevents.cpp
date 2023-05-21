@@ -64,15 +64,6 @@ void HideShowNotifyFrame()
 	}
 }
 
-static CLISTEVENT* MyGetEvent(int iSelection)
-{
-	for (auto &p : *g_clistApi.events)
-		if (p->menuId == iSelection)
-			return p;
-
-	return nullptr;
-}
-
 LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -153,13 +144,13 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			if (result != 0) {
 				nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 				if (nmi) {
-					CLISTEVENT *cle = MyGetEvent(iSelection);
+					auto *cle = Clist_GetEventByMenu(iSelection);
 					if (cle) {
-						CLISTEVENT *cle1 = nullptr;
 						CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
+
 						// re-obtain the pointer, it may already be invalid/point to another event if the
 						// event we're interested in was removed by the service (nasty one...)
-						cle1 = MyGetEvent(iSelection);
+						auto *cle1 = Clist_GetEventByMenu(iSelection);
 						if (cle1 != nullptr)
 							Clist_RemoveEvent(cle->hContact, cle->hDbEvent);
 					}
@@ -296,7 +287,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		}
 	}
 
-	if (g_clistApi.events->getCount() > 0) {
+	if (Clist_GetEventCount() > 0) {
 		cfg::dat.bEventAreaEnabled = TRUE;
 		if (cfg::dat.notifyActive == 0) {
 			cfg::dat.notifyActive = 1;
@@ -334,7 +325,7 @@ int RemoveEvent(CListEvent *e)
 	auto hDbEvent = e->hDbEvent;
 	int res = coreCli.pfnFreeEvent(e);
 
-	if (g_clistApi.events->getCount() == 0) {
+	if (Clist_GetEventCount() == 0) {
 		cfg::dat.bEventAreaEnabled = FALSE;
 		if (cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY) {
 			cfg::dat.notifyActive = 0;
