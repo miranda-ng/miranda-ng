@@ -447,12 +447,9 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				if (Proto_GetBaseAccountName(hContact) == nullptr)
 					continue;
 
-				if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
-					if (Srmm_FindWindow(hContact) != nullptr)
-						continue;
-
-					arEvents.insert(new MSavedEvent(hContact, hDbEvent));
-				}
+				if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE)
+					if (!Srmm_FindWindow(hContact))
+						arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}
 		}
 	}
