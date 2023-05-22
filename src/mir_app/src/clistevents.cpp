@@ -76,7 +76,7 @@ static const char* GetEventProtocol(const CListEvent &ev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int fnGetImlIconIndex(HICON hIcon)
+static int fnGetImlIconIndex(HICON hIcon)
 {
 	auto *p = arImlIcons.find((CListImlIcon*)&hIcon);
 	if (p != nullptr)

@@ -118,9 +118,7 @@ void RegisterFileDropping(HWND hwnd);
 void UnregisterFileDropping(HWND hwnd);
 
 /* clistevents.c */
-struct CListEvent* fnAddEvent(CLISTEVENT *cle);
-
-int  fnGetImlIconIndex(HICON hIcon);
+CListEvent* fnAddEvent(CLISTEVENT *cle);
 int  fnRemoveEvent(CListEvent *pEvent);
 
 int  EventsProcessContactDoubleClick(MCONTACT hContact);

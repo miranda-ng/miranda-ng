@@ -397,9 +397,7 @@ struct CLIST_INTERFACE
 	 *************************************************************************************/
 
 	CListEvent* (*pfnAddEvent)(CLISTEVENT*);
-
-	int      (*pfnFreeEvent)(CListEvent *);
-	int      (*pfnGetImlIconIndex)(HICON hIcon);
+	int         (*pfnFreeEvent)(CListEvent *);
 
 	/*************************************************************************************
 	 * version 3 additions

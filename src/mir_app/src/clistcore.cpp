@@ -100,7 +100,6 @@ void InitClistCore()
 	g_clistApi.pfnRowHitTest = fnRowHitTest;
 
 	g_clistApi.pfnAddEvent = fnAddEvent;
-	g_clistApi.pfnGetImlIconIndex = fnGetImlIconIndex;
 	g_clistApi.pfnFreeEvent = fnRemoveEvent;
 
 	g_clistApi.pfnInvalidateDisplayNameCacheEntry = fnInvalidateDisplayNameCacheEntry;
