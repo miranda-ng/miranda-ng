@@ -320,16 +320,8 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 	if (contact->pce->szProto == nullptr || contact->hContact == 0)
 		return;
 
-	TExtraCache *p = contact->pExtra;
-	if (p == nullptr)
-		return;
-
-	p->msgFrequency = g_plugin.getDword(contact->hContact, "mf_freq", 0x7fffffff);
-	if (p->valid)
-		return;
-
-	p->valid = TRUE;
-	p->isChatRoom = Contact::IsGroupChat(contact->hContact, contact->pce->szProto);
+	if (auto *p = contact->pExtra)
+		p->msgFrequency = g_plugin.getDword(contact->hContact, "mf_freq", 0x7fffffff);
 }
 
 void LoadSkinItemToCache(TExtraCache *cEntry)

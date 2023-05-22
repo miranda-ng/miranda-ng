@@ -105,16 +105,14 @@ typedef struct _OrderTreeData
 struct TExtraCache
 {
 	MCONTACT	hContact;
-	HANDLE		hTimeZone;
-	uint8_t		valid;
-	wchar_t		*statusMsg;
-	uint8_t		bStatusMsgValid;
-	uint32_t		dwCFlags;
-	uint32_t		dwDFlags; // display flags for caching only
-	StatusItems_t	*status_item, *proto_status_item;
-	uint32_t		dwLastMsgTime;
-	uint32_t		msgFrequency;
-	BOOL		isChatRoom;
+	HANDLE	hTimeZone;
+	wchar_t *statusMsg;
+	uint8_t	bStatusMsgValid;
+	uint32_t dwCFlags;
+	uint32_t dwDFlags; // display flags for caching only
+	uint32_t dwLastMsgTime;
+	uint32_t msgFrequency;
+	StatusItems_t *status_item, *proto_status_item;
 };
 
 struct ClcCacheEntry : public ClcCacheEntryBase
@@ -123,16 +121,16 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 struct ClcContact : public ClcContactBase
 {
 	BOOL     bIsMeta;
-	uint8_t     xStatus;
+	uint8_t  xStatus;
 	int      xStatusIcon;
 	MCONTACT	hSubContact;
 	char    *metaProto;
-	uint32_t    codePage;
-	uint16_t     wStatus;
+	uint32_t codePage;
+	uint16_t wStatus;
 	int      avatarLeft, extraIconRightBegin;
 	int      isRtl;
-	uint32_t    cFlags;
-	uint8_t     bSecondLine;
+	uint32_t cFlags;
+	uint8_t  bSecondLine;
 
 	AVATARCACHEENTRY *ace;
 	TExtraCache *pExtra;
