@@ -1133,6 +1133,9 @@ void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJab
 		return;
 
 	const char *from = XmlGetAttr(iqNode, "from"); //replies for our jid don't contain "from"
+	if (IsMyOwnJID(from))
+		from = nullptr;
+
 	bool res = false;
 	if (auto *pubsubNode = XmlGetChildByTag(iqNode, "pubsub", "xmlns", JABBER_FEAT_PUBSUB))
 		if (auto *itemsNode = XmlGetChildByTag(pubsubNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist"))
