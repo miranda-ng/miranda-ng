@@ -8,6 +8,7 @@ struct ItemData
 
 	bool bSelected;
 	bool bLoaded;
+	bool bRtf;
 	int savedTop;
 
 	DB::EventInfo dbe;

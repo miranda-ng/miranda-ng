@@ -42,17 +42,18 @@ enum
 	// text object flags
 	MTEXT_FLG_CHAR        = 0x00000000,
 	MTEXT_FLG_WCHAR       = 0x00000001,
-	MTEXT_FLG_BIDI_RTL    = 0x00000002
+	MTEXT_FLG_BIDI_RTL    = 0x00000002,
+	MTEXT_FLG_RTF         = 0x00000004,
 };
 
 // subscribe to MText services
-MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options);
+MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options);
 
 // allocate text object (unicode)
 MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
 
 // allocate text object (advanced)
-MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, void *text, DWORD flags);
+MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, void *text, uint32_t flags);
 
 // destroys text object
 MTEXTCONTROL_DLL(int) MTextDestroy(HText text);

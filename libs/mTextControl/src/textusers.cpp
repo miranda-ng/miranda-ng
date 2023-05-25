@@ -24,7 +24,7 @@ HANDLE htuDefault = nullptr;
 static TextUser *textUserFirst = nullptr;
 static TextUser *textUserLast = nullptr;
 
-MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options)
+MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options)
 {
 	TextUser *textUserNew = new TextUser;
 	textUserNew->name = new char[mir_strlen(userTitle) + 1];

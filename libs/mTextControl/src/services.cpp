@@ -92,10 +92,18 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint
 	InitRichEdit(result->ftd->getTextService());
 
 	MText_InitFormatting0(result->ftd, result->options);
-	if (flags & MTEXT_FLG_WCHAR)
-		result->ftd->putTextW((wchar_t *)text);
-	else
-		result->ftd->putTextA((char *)text);
+	if (flags & MTEXT_FLG_RTF) {
+		if (flags & MTEXT_FLG_WCHAR)
+			result->ftd->putRTFTextW((wchar_t *)text);
+		else
+			result->ftd->putRTFTextA((char *)text);
+	}
+	else {
+		if (flags & MTEXT_FLG_WCHAR)
+			result->ftd->putTextW((wchar_t *)text);
+		else
+			result->ftd->putTextA((char *)text);
+	}
 	MText_InitFormatting1(result);
 	delete result;
 

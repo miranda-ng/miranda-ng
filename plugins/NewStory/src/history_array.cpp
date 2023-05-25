@@ -49,7 +49,10 @@ bool Filter::check(ItemData *item)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
+		if (bRtf)
+			data = MTextCreateEx(htuLog, this->wtext, MTEXT_FLG_WCHAR | MTEXT_FLG_RTF);
+		else
+			data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
@@ -124,12 +127,18 @@ void ItemData::load(bool bFullLoad)
 		break;
 
 	case EVENTTYPE_FILE:
-		wchar_t buf[MAX_PATH];
-		CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
 		{
+			CMStringW wszFileName;
 			DB::FILE_BLOB blob(dbe);
+			if (blob.isOffline()) {
+				wszFileName = Srmm_GetOfflineFileName(hContact);
+			}
+			else {
+				wchar_t buf[MAX_PATH];
+				CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
 
-			CMStringW wszFileName(buf);
+				wszFileName = buf;
+			}
 			wszFileName.Append(blob.getName());
 
 			// if a filename contains spaces, URL will be broken

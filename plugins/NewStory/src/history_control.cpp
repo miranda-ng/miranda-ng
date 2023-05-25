@@ -119,6 +119,9 @@ struct NewstoryListData : public MZeroedObject
 		}
 
 		ItemData *item = items[index];
+		if (item->dbe.eventType != EVENTTYPE_MESSAGE)
+			return;
+
 		int fontid, colorid;
 		item->getFontColor(fontid, colorid);
 
@@ -946,7 +949,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 void InitNewstoryControl()
 {
-	htuLog = MTextRegister("Newstory", MTEXT_FANCY_DEFAULT | MTEXT_SYSTEM_HICONS);
+	htuLog = MTextRegister("Newstory", MTEXT_FANCY_DEFAULT | MTEXT_SYSTEM_HICONS | MTEXT_FANCY_SMILEYS);
 
 	WNDCLASS wndclass = {};
 	wndclass.style = /*CS_HREDRAW | CS_VREDRAW | */CS_DBLCLKS | CS_GLOBALCLASS;
