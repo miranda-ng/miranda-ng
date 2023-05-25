@@ -346,7 +346,7 @@ Chat_DoEventHook @445 NONAME
 _stubLogProc@16 @446 NONAME
 _stubMessageProc@16 @447 NONAME
 _stubNicklistProc@16 @448 NONAME
-Chat_GetTextPixelSize @449 NONAME
+?Chat_GetTextPixelSize@@YGHPB_WPAUHFONT__@@_N@Z @449 NONAME
 ?NotifyEvent@CSrmmBaseDialog@@IAEHH@Z @450 NONAME
 Srmm_GetWindowData @451
 ?Srmm_FindWindow@@YGPAUHWND__@@I@Z @452 NONAME
@@ -874,3 +874,4 @@ Chat_IsMuted @941 NONAME
 Clist_RemoveEvent @989
 ?Clist_GetEventByMenu@@YGPAUCListEvent@@H@Z @990 NONAME
 ?Clist_GetEventCount@@YGHXZ @991 NONAME
+?Chat_EmptyHistory@@YGXPAUSESSION_INFO@@@Z @992 NONAME

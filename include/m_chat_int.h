@@ -352,29 +352,32 @@ struct CHAT_MANAGER
 
 extern MIR_APP_EXPORT CHAT_MANAGER g_chatApi;
 
-EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pData);
+MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pData);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // updates options for all windows
-EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
+MIR_APP_DLL(void) Chat_UpdateOptions();
 
 // runs ME_GC_EVENT with the parameters passed
-EXTERN_C MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
+MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
+
+// wipes chat's history
+MIR_APP_DLL(void) Chat_EmptyHistory(SESSION_INFO *si);
 
 // creates custom popup menu for a group chat
-EXTERN_C MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID);
+MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID);
 
 // calculates width or height of a string
-EXTERN_C MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
+MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
 
 // creates a default description of a group chat event
 // returns true if lin->ptszText is already utilized, you need to add it manually then otherwise
-EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
+MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
 
 // sets mute mode for a group chat
-EXTERN_C MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode);
+MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact);
+MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode);
 
 // resets filters for all session
 MIR_APP_DLL(void) Chat_ReconfigureFilters();

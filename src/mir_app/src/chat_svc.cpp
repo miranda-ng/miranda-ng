@@ -763,6 +763,13 @@ MIR_APP_DLL(int) Chat_SetUserInfo(SESSION_INFO *si, void *pItemData)
 	return GC_EVENT_ERROR;
 }
 
+MIR_APP_DLL(void) Chat_EmptyHistory(SESSION_INFO *si)
+{
+	mir_cslock lck(csChat);
+	if (g_arSessions.indexOf(si) != -1)
+		si->arEvents.destroy();
+}
+
 MIR_APP_DLL(void) Chat_UpdateOptions()
 {
 	for (auto &si : g_arSessions)

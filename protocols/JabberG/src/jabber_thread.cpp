@@ -268,7 +268,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 	LISTFOREACH(i, this, LIST_CHATROOM)
 		if (auto *item = ListGetItemPtrFromIndex(i)) {
 			if (item->si)
-				item->si->arEvents.destroy();
+				Chat_EmptyHistory(item->si);
 			GcQuit(item, 0, nullptr);
 		}
 
