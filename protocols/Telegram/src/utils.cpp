@@ -363,7 +363,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageVoiceNote::ID:
 		{
 			auto *pDoc = (TD::messageVoiceNote *)pBody;
-			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice note"), pDoc->voice_note_->duration_, TranslateU("seconds"));
+			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
 			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg->date_);
 		}
 		break;
