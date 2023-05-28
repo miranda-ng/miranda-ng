@@ -209,7 +209,8 @@ class CUserInfoDlg : public CDlgBase
 		}
 
 		m_tree.SendMsg(WM_SETREDRAW, TRUE, 0);
-		m_tree.SelectItem(m_pCurrent->hItem);
+		if (m_pCurrent)
+			m_tree.SelectItem(m_pCurrent->hItem);
 		SetFocus(m_tree.GetHwnd());
 	}
 
