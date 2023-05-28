@@ -25,6 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+typedef HRESULT(STDAPICALLTYPE* pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, uint32_t, LPRECT, const struct _DTTOPTS*);
+static pfnDrawThemeTextEx drawThemeTextEx;
+
+typedef HRESULT(STDAPICALLTYPE* pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, uint32_t);
+static pfnSetWindowThemeAttribute setWindowThemeAttribute;
+
+typedef HRESULT(STDAPICALLTYPE* pfnDwmExtendFrameIntoClientArea)(HWND hwnd, const MARGINS* margins);
+static pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
+
 typedef HRESULT(STDAPICALLTYPE* pfnDwmIsCompositionEnabled)(BOOL*);
 static pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
@@ -113,6 +122,7 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 
 static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 {
+	int iTopSpace = IsAeroMode() ? 0 : 3;
 	PAINTSTRUCT ps;
 
 	int titleLength = GetWindowTextLength(hwndDlg) + 1;
@@ -137,13 +147,26 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
-	if (IsVSMode())
-		MHeaderbar_FillRect(tempDC, 0, 0, mit->width, mit->height, GetSysColor(COLOR_WINDOW));
-	else
-		MHeaderbar_DrawGradient(tempDC, 0, 0, mit->width, mit->height, &mit->rgbBkgTop, &mit->rgbBkgBottom);
+	if (IsAeroMode()) {
+		RECT temprc = { 0, 0, mit->width, mit->width };
+		FillRect(tempDC, &temprc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-	MHeaderbar_FillRect(tempDC, 0, mit->height-2, mit->width, 1, GetSysColor(COLOR_BTNSHADOW));
-	MHeaderbar_FillRect(tempDC, 0, mit->height-1, mit->width, 1, GetSysColor(COLOR_BTNHIGHLIGHT));
+		MARGINS margins = { 0, 0, mit->height, 0 };
+		dwmExtendFrameIntoClientArea(GetParent(hwndDlg), &margins);
+
+		WTA_OPTIONS opts;
+		opts.dwFlags = opts.dwMask = WTNCA_NOSYSMENU | WTNCA_NODRAWICON;
+		setWindowThemeAttribute(GetParent(hwndDlg), WTA_NONCLIENT, &opts, sizeof(opts));
+	}
+	else {
+		if (IsVSMode())
+			MHeaderbar_FillRect(tempDC, 0, 0, mit->width, mit->height, GetSysColor(COLOR_WINDOW));
+		else
+			MHeaderbar_DrawGradient(tempDC, 0, 0, mit->width, mit->height, &mit->rgbBkgTop, &mit->rgbBkgBottom);
+
+		MHeaderbar_FillRect(tempDC, 0, mit->height-2, mit->width, 1, GetSysColor(COLOR_BTNSHADOW));
+		MHeaderbar_FillRect(tempDC, 0, mit->height-1, mit->width, 1, GetSysColor(COLOR_BTNHIGHLIGHT));
+	}
 
 	HFONT hFont = mit->hFont;
 	SetBkMode(tempDC, TRANSPARENT);
@@ -155,28 +178,50 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	HFONT hFntBold = CreateFontIndirect(&lf), hOldFont;
 
 	if (mit->hIcon)
-		DrawIcon(tempDC, 10, 3, mit->hIcon);
+		DrawIcon(tempDC, 10, iTopSpace, mit->hIcon);
 	else {
 		HICON hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_BIG, 0);
 		if (hIcon == nullptr)
 			hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_SMALL, 0);
-		DrawIcon(tempDC, 10, 3, hIcon);
+		DrawIcon(tempDC, 10, iTopSpace, hIcon);
 	}
 
 	RECT textRect;
 	textRect.left = 50;
 	textRect.right = mit->width;
-	textRect.top = 5;
-	textRect.bottom = g_iIconY + 1;
+	textRect.top = 2 + iTopSpace;
+	textRect.bottom = g_iIconY - 2 + iTopSpace;
 
-	textRect.left = 50;
-	hOldFont = (HFONT)SelectObject(tempDC, hFntBold);
-	DrawText(tempDC, szTitle, -1, &textRect, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS);
+	if (IsAeroMode()) {
+		DTTOPTS dto = { 0 };
+		dto.dwSize = sizeof(dto);
+		dto.dwFlags = DTT_COMPOSITED | DTT_GLOWSIZE;
+		dto.iGlowSize = 10;
 
-	if (szSubTitle) {
-		textRect.left = 66;
-		SelectObject(tempDC, hFont);
-		DrawText(tempDC, szSubTitle, -1, &textRect, DT_BOTTOM | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS);
+		HANDLE hTheme = OpenThemeData(hwndDlg, L"Window");
+		textRect.left = 50;
+		hOldFont = (HFONT)SelectObject(tempDC, hFntBold);
+
+		drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szTitle, -1, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
+
+		if (szSubTitle) {
+			textRect.left = 66;
+			SelectObject(tempDC, hFont);
+
+			drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szSubTitle, -1, DT_BOTTOM | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
+		}
+		CloseThemeData(hTheme);
+	}
+	else {
+		textRect.left = 50;
+		hOldFont = (HFONT)SelectObject(tempDC, hFntBold);
+		DrawText(tempDC, szTitle, -1, &textRect, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS);
+
+		if (szSubTitle) {
+			textRect.left = 66;
+			SelectObject(tempDC, hFont);
+			DrawText(tempDC, szSubTitle, -1, &textRect, DT_BOTTOM | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS);
+		}
 	}
 
 	DeleteObject(hFntBold);
@@ -295,9 +340,17 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 int LoadHeaderbarModule()
 {
 	if (IsWinVerVistaPlus()) {
+		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
+		if (hThemeAPI) {
+			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
+			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
+		}
+
 		HINSTANCE hDwmApi = LoadLibrary(L"dwmapi.dll");
-		if (hDwmApi)
+		if (hDwmApi) {
+			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
+		}
 	}
 
 	WNDCLASSEX wc = { 0 };
