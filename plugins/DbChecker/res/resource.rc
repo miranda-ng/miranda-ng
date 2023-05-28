@@ -49,7 +49,7 @@ BEGIN
     CONTROL         "Mark all events as read",IDC_MARKREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,69,248,10
     CONTROL         "Fix UTF-8 encoding in old events",IDC_FIX_UTF8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,83,248,10
     CONTROL         "Remove duplicate events",IDC_REMOVE_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,248,10
-    CONTROL         "Fix server message ids",IDC_FIX_SERVER_IDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,111,248,10
+    CONTROL         "Fix server message IDs",IDC_FIX_SERVER_IDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,111,248,10
 END
 
 IDD_OPENERROR DIALOGEX 0, 0, 262, 143
