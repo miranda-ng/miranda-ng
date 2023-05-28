@@ -122,7 +122,8 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 
 static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 {
-	int iTopSpace = IsAeroMode() ? 0 : 3;
+	bool bUseAero = IsAeroMode() && !IsWinVer10Plus();
+	int iTopSpace = bUseAero ? 0 : 3;
 	PAINTSTRUCT ps;
 
 	int titleLength = GetWindowTextLength(hwndDlg) + 1;
@@ -147,7 +148,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
-	if (IsAeroMode()) {
+	if (bUseAero) {
 		RECT temprc = { 0, 0, mit->width, mit->width };
 		FillRect(tempDC, &temprc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
@@ -192,7 +193,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	textRect.top = 2 + iTopSpace;
 	textRect.bottom = g_iIconY - 2 + iTopSpace;
 
-	if (IsAeroMode()) {
+	if (bUseAero) {
 		DTTOPTS dto = { 0 };
 		dto.dwSize = sizeof(dto);
 		dto.dwFlags = DTT_COMPOSITED | DTT_GLOWSIZE;
