@@ -80,12 +80,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		GroupMenuExecParam *mmep = (GroupMenuExecParam *)wParam;
-		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
-			//bug in help.c,it used wparam as parent window handle without reason.
-			mmep->Param1 = 0;
-			CallService(mmep->szServiceName, mmep->Param1, lParam);
-		}
-		else CallService(mmep->szServiceName, mmep->Param1, mmep->Param2);
+		CallService(mmep->szServiceName, mmep->Param1, mmep->Param2);
 	}
 	return 1;
 }
@@ -223,12 +218,7 @@ static INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam *)wParam;
-		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
-			//bug in help.c,it used wparam as parent window handle without reason.
-			mmep->Param1 = 0;
-			CallService(mmep->szServiceName, mmep->Param1, lParam);
-		}
-		else CallService(mmep->szServiceName, mmep->Param1, lParam);
+		CallService(mmep->szServiceName, mmep->Param1, lParam);
 	}
 	return 1;
 }
