@@ -124,6 +124,7 @@ struct TG_BASIC_GROUP
 
 class CTelegramProto : public PROTO<CTelegramProto>
 {
+	friend class CForwardDlg;
 	friend class CAddPhoneContactDlg;
 
 	class CProtoImpl
@@ -271,6 +272,14 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	
 	int64_t  GetId(MCONTACT);
 	void     SetId(MCONTACT, int64_t id);
+
+	// Menus
+	HGENMENU hmiForward;
+
+	void InitMenus();
+
+	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
+	int     __cdecl OnPrebuildMenu(WPARAM, LPARAM);
 
 	// Popups
 	HANDLE m_hPopupClass;

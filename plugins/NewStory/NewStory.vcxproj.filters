@@ -38,6 +38,9 @@
     <ClCompile Include="src\history_menus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\history_svc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\calendartool.h">

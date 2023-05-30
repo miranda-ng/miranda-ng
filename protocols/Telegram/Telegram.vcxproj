@@ -31,6 +31,7 @@
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\groupchat.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\menus.cpp" />
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\server.cpp" />

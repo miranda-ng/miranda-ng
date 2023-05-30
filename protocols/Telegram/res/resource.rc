@@ -129,6 +129,16 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,284,85,50,14
 END
 
+IDD_FORWARD DIALOGEX 0, 0, 215, 267
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Forward message"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,8,4,201,239,WS_EX_CLIENTEDGE
+    DEFPUSHBUTTON   "Forward",IDOK,104,248,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,158,248,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -141,6 +151,7 @@ IDI_TELEGRAM            ICON                    "telegram.ico"
 
 IDI_PREMIUM             ICON                    "premium.ico"
 
+IDI_FORWARD             ICON                    "forward.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -162,6 +173,11 @@ BEGIN
     BEGIN
         BOTTOMMARGIN, 84
     END
+
+    IDD_FORWARD, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 262
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -182,6 +198,11 @@ BEGIN
 END
 
 IDD_ADD_PHONE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FORWARD AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

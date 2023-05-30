@@ -29,6 +29,9 @@
     <ClCompile Include="src\add_phone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\menus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cxx">

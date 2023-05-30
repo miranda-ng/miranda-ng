@@ -1013,12 +1013,6 @@ public:
 			PostMessage(m_hwnd, WM_USER + 0x600, mktime(&tm_sel), 0);
 		}
 	}
-
-	// case UM_REBUILDLIST:
-	//			if (showFlags & HIST_TIMETREE)
-	//				ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), SW_SHOW);
-	//			ShowWindow(GetDlgItem(m_hwnd, IDC_HISTORYCONTROL), SW_SHOW);
-	//			ShowWindow(GetDlgItem(m_hwnd, IDC_SEARCHICON), SW_SHOW);
 };
 
 INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)

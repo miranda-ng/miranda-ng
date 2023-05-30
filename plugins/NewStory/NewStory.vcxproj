@@ -38,6 +38,7 @@
     <ClCompile Include="src\history_control.cpp" />
     <ClCompile Include="src\history_log.cpp" />
     <ClCompile Include="src\history_menus.cpp" />
+    <ClCompile Include="src\history_svc.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cxx">

@@ -25,6 +25,7 @@
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
+#include <m_NewStory.h>
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_skin.h>

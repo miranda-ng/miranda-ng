@@ -76,6 +76,8 @@ Boston, MA 02111-1307, USA.
 #include "history_control.h"
 #include "templates.h"
 
+void InitServices();
+
 int OptionsInitialize(WPARAM, LPARAM);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
