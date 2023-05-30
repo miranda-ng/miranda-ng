@@ -241,20 +241,6 @@ BEGIN
     END
 END
 
-IDR_CONTEXTMENU MENU
-BEGIN
-    POPUP ""
-    BEGIN
-        MENUITEM "Copy",                        ID_CONTEXT_COPY
-        MENUITEM SEPARATOR
-        MENUITEM "Edit",                        ID_CONTEXT_EDIT
-        MENUITEM "Delete",                      ID_CONTEXT_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "Select all",                  ID_CONTEXT_SELECTALL
-    END
-END
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //

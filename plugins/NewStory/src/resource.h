@@ -7,7 +7,6 @@
 #define IDD_OPT_ADVANCED                103
 #define IDD_CALENDARTOOL                104
 #define IDR_POPUPS                      105
-#define IDR_CONTEXTMENU                 106
 #define ICO_NEWSTORY                    107
 #define ICO_USERINFO                    108
 #define ICO_USERMENU                    109
@@ -101,10 +100,6 @@
 #define ID_FILTER_AUTO                  40012
 #define ID_LOGOPTIONS_OPTIONS           40013
 #define ID_LOGOPTIONS_TEMPLATES         40014
-#define ID_CONTEXT_COPY                 40015
-#define ID_CONTEXT_EDIT                 40016
-#define ID_CONTEXT_DELETE               40017
-#define ID_CONTEXT_SELECTALL            40018
 
 // Next default values for new objects
 // 

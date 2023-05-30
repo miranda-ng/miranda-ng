@@ -82,7 +82,50 @@ enum
 	NSM_LAST
 };
 
+struct NewstoryListData : public MZeroedObject
+{
+	NewstoryListData(HWND _1) :
+		hwnd(_1),
+		redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
+	{
+		redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
+	}
+
+	HistoryArray items;
+
+	int scrollTopItem; // topmost item
+	int scrollTopPixel; // y coord of topmost item, this should be negative or zero
+	int caret;
+	int selStart = -1;
+	int cachedWindowHeight;
+	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
+	int cachedMaxTopPixel;
+
+	RECT rcLastPaint;
+
+	bool bWasShift;
+
+	HWND hwnd;
+	HWND hwndEditBox;
+
+	CTimer redrawTimer;
+	CSrmmBaseDialog *pMsgDlg = nullptr;
+
+	void OnContextMenu(int index, POINT pt);
+	void OnTimer(CTimer *pTimer);
+	void BeginEditItem(int index, bool bReadOnly);
+	void DeleteItems(void);
+	void EndEditItem(bool bAccept);
+	void EnsureVisible(int item);
+	void FixScrollPosition();
+	int GetItemFromPixel(int yPos);
+	int LayoutItem(int index);
+	int PaintItem(HDC hdc, int index, int top, int width);
+	void RecalcScrollBar();
+	void ScrollListBy(int scrollItems, int scrollPixels);
+	void SetPos(int pos);
+};
+
 void InitNewstoryControl();
-//void DestroyNewstoryControl();
 
 #endif // __history_control_h__

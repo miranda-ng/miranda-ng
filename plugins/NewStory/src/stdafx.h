@@ -55,6 +55,7 @@ Boston, MA 02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_timezones.h>
 
+#include "m_NewStory.h"
 #include "m_smileyadd.h"
 #ifndef MTEXT_NOHELPERS
 #define MTEXT_NOHELPERS

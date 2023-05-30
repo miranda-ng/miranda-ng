@@ -45,6 +45,7 @@
     </ClCompile>
     <ClCompile Include="src\templates.cpp" />
     <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="..\ExternalAPI\m_NewStory.h" />
     <ClInclude Include="src\calendartool.h" />
     <ClInclude Include="src\fonts.h" />
     <ClInclude Include="src\history.h" />

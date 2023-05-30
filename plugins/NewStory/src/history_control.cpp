@@ -10,425 +10,367 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 /////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
 
-struct NewstoryListData : public MZeroedObject
+void NewstoryListData::OnContextMenu(int index, POINT pt)
 {
-	NewstoryListData(HWND _1) :
-		hwnd(_1),
-		redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
-	{
-		redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
-	}
-
-	HistoryArray items;
-
-	int scrollTopItem; // topmost item
-	int scrollTopPixel; // y coord of topmost item, this should be negative or zero
-	int caret;
-	int selStart = -1;
-	int cachedWindowHeight;
-	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
-	int cachedMaxTopPixel;
-
-	RECT rcLastPaint;
-	
-	bool bWasShift;
-
-	HWND hwnd;
-	HWND hwndEditBox;
-
-	CTimer redrawTimer;
-	CSrmmBaseDialog *pMsgDlg = nullptr;
-
-	void OnContextMenu(int index, POINT pt)
-	{
-		ItemData* item = items[index];
-		if (item == nullptr)
-			return;
+	ItemData *item = items[index];
+	if (item == nullptr)
+		return;
 		
-		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
-		TranslateMenu(hMenu);
+	HMENU hMenu = NSMenu_Build(item);
 
-		HMENU hSubMenu = GetSubMenu(hMenu, 0);
-		UINT ret;
-		if (pMsgDlg != nullptr && pMsgDlg->isChat()) {
-			EnableMenuItem(hSubMenu, 2, MF_BYPOSITION | MF_GRAYED);
+	if (pMsgDlg != nullptr && pMsgDlg->isChat()) {
+		EnableMenuItem(hMenu, 2, MF_BYPOSITION | MF_GRAYED);
+		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
+	}
+		
+	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
+	Menu_DestroyNestedMenu(hMenu);
+}
 
-			pMsgDlg->m_bInMenu = true;
-			ret = Chat_CreateMenu(hwnd, hSubMenu, pt, pMsgDlg->getChat(), nullptr);
-			pMsgDlg->m_bInMenu = false;
+void NewstoryListData::OnTimer(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	scrollTopItem = items.getCount();
+	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
+{
+	if (hwndEditBox)
+		EndEditItem(false);
+
+	if (scrollTopItem > index)
+		return;
+
+	RECT rc; GetClientRect(hwnd, &rc);
+	int height = rc.bottom - rc.top;
+
+	int top = scrollTopPixel;
+	int idx = scrollTopItem;
+	int itemHeight = LayoutItem(idx);
+	while (top < height) {
+		if (idx == index)
+			break;
+
+		top += itemHeight;
+		idx++;
+		itemHeight = LayoutItem(idx);
+	}
+
+	ItemData *item = items[index];
+	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
+		return;
+
+	int fontid, colorid;
+	item->getFontColor(fontid, colorid);
+
+	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
+	if (bReadOnly) 
+		dwStyle |= ES_READONLY;
+
+	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
+	SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
+	OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
+	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
+	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
+	SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
+	ShowWindow(hwndEditBox, SW_SHOW);
+	SetFocus(hwndEditBox);
+}
+
+void NewstoryListData::DeleteItems(void)
+{
+	if (IDYES != MessageBoxW(hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+		return;
+
+	db_set_safety_mode(false);
+
+	int firstSel = -1;
+	int eventCount = items.getCount();
+	for (int i = eventCount - 1; i >= 0; i--) {
+		auto *p = items.get(i, false);
+		if (p->hEvent && p->bSelected) {
+			db_event_delete(p->hEvent);
+			items.remove(i);
+			firstSel = i;
 		}
-		else ret = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+	}
+	db_set_safety_mode(true);
 
-		switch(ret) {
-		case ID_CONTEXT_COPY:
-			SendMessage(hwnd, NSM_COPY, 0, 0);
-			break;
+	if (firstSel != -1) {
+		SendMessage(hwnd, NSM_SETCARET, firstSel, 0);
+		SendMessage(hwnd, NSM_SELECTITEMS, firstSel, firstSel);
+	}
+}
 
-		case ID_CONTEXT_EDIT:
-			BeginEditItem(index, false);
-			break;
+void NewstoryListData::EndEditItem(bool bAccept)
+{
+	if (hwndEditBox == nullptr)
+		return;
 
-		case ID_CONTEXT_DELETE:
-			DeleteItems();
-			break;
+	if (bAccept) {
+		if ((GetWindowLong(hwndEditBox, GWL_STYLE) & ES_READONLY) == 0) {
+			auto *pItem = (ItemData *)GetWindowLongPtrW(hwndEditBox, GWLP_USERDATA);
 
-		case ID_CONTEXT_SELECTALL:
-			SendMessage(hwnd, NSM_SELECTITEMS, 0, items.getCount() - 1);
-			break;
+			int iTextLen = GetWindowTextLengthW(hwndEditBox);
+			replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
+			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen);
+			pItem->wtext[iTextLen] = 0;
 
-		default:
-			if (pMsgDlg != nullptr) {
-				PostMessage(pMsgDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
-				Chat_DoEventHook(pMsgDlg->getChat(), GC_USER_LOGMENU, nullptr, nullptr, ret);
+			if (pItem->hContact && pItem->hEvent) {
+				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
+				pItem->dbe.cbBlob = (int)mir_strlen(szUtf) + 1;
+				pItem->dbe.pBlob = (uint8_t *)szUtf.get();
+				db_event_edit(pItem->hEvent, &pItem->dbe);
+
+				if (auto *ppro = Proto_GetInstance(pItem->hContact))
+					ppro->OnEventEdited(pItem->hContact, pItem->hEvent);
 			}
+
+			MTextDestroy(pItem->data); pItem->data = 0;
+			pItem->checkCreate(hwnd);
 		}
-
-		DestroyMenu(hMenu);
 	}
 
-	void OnTimer(CTimer *pTimer)
-	{
-		pTimer->Stop();
+	DestroyWindow(hwndEditBox);
+	hwndEditBox = 0;
+}
 
-		scrollTopItem = items.getCount();
-		FixScrollPosition();
-		InvalidateRect(hwnd, 0, FALSE);
+void NewstoryListData::EnsureVisible(int item)
+{
+	if (scrollTopItem >= item) {
+		scrollTopItem = item;
+		scrollTopPixel = 0;
 	}
-
-	void BeginEditItem(int index, bool bReadOnly)
-	{
-		if (hwndEditBox)
-			EndEditItem(false);
-
-		if (scrollTopItem > index)
-			return;
-
-		RECT rc; GetClientRect(hwnd, &rc);
+	else {
+		RECT rc;
+		GetClientRect(hwnd, &rc);
 		int height = rc.bottom - rc.top;
-
 		int top = scrollTopPixel;
 		int idx = scrollTopItem;
 		int itemHeight = LayoutItem(idx);
+		bool found = false;
 		while (top < height) {
-			if (idx == index)
+			if (idx == item) {
+				itemHeight = LayoutItem(idx);
+				if (top + itemHeight > height)
+					ScrollListBy(0, height - top - itemHeight);
+				found = true;
 				break;
-
+			}
 			top += itemHeight;
 			idx++;
 			itemHeight = LayoutItem(idx);
 		}
-
-		ItemData *item = items[index];
-		if (item->dbe.eventType != EVENTTYPE_MESSAGE)
-			return;
-
-		int fontid, colorid;
-		item->getFontColor(fontid, colorid);
-
-		uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
-		if (bReadOnly) 
-			dwStyle |= ES_READONLY;
-
-		hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
-		SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
-		OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
-		SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
-		SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
-		SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
-		ShowWindow(hwndEditBox, SW_SHOW);
-		SetFocus(hwndEditBox);
-	}
-
-	void DeleteItems(void)
-	{
-		if (IDYES != MessageBoxW(hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
-			return;
-
-		db_set_safety_mode(false);
-
-		int firstSel = -1;
-		int eventCount = items.getCount();
-		for (int i = eventCount - 1; i >= 0; i--) {
-			auto *p = items.get(i, false);
-			if (p->hEvent && p->bSelected) {
-				db_event_delete(p->hEvent);
-				items.remove(i);
-				firstSel = i;
-			}
-		}
-		db_set_safety_mode(true);
-
-		if (firstSel != -1) {
-			SendMessage(hwnd, NSM_SETCARET, firstSel, 0);
-			SendMessage(hwnd, NSM_SELECTITEMS, firstSel, firstSel);
-		}
-	}
-
-	void EndEditItem(bool bAccept)
-	{
-		if (hwndEditBox == nullptr)
-			return;
-
-		if (bAccept) {
-			if ((GetWindowLong(hwndEditBox, GWL_STYLE) & ES_READONLY) == 0) {
-				auto *pItem = (ItemData *)GetWindowLongPtrW(hwndEditBox, GWLP_USERDATA);
-
-				int iTextLen = GetWindowTextLengthW(hwndEditBox);
-				replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
-				GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen);
-				pItem->wtext[iTextLen] = 0;
-
-				if (pItem->hContact && pItem->hEvent) {
-					ptrA szUtf(mir_utf8encodeW(pItem->wtext));
-					pItem->dbe.cbBlob = (int)mir_strlen(szUtf) + 1;
-					pItem->dbe.pBlob = (uint8_t *)szUtf.get();
-					db_event_edit(pItem->hEvent, &pItem->dbe);
-
-					if (auto *ppro = Proto_GetInstance(pItem->hContact))
-						ppro->OnEventEdited(pItem->hContact, pItem->hEvent);
-				}
-
-				MTextDestroy(pItem->data); pItem->data = 0;
-				pItem->checkCreate(hwnd);
-			}
-		}
-
-		DestroyWindow(hwndEditBox);
-		hwndEditBox = 0;
-	}
-
-	void EnsureVisible(int item)
-	{
-		if (scrollTopItem >= item) {
+		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
 		}
-		else {
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			int height = rc.bottom - rc.top;
-			int top = scrollTopPixel;
-			int idx = scrollTopItem;
-			int itemHeight = LayoutItem(idx);
-			bool found = false;
-			while (top < height) {
-				if (idx == item) {
-					itemHeight = LayoutItem(idx);
-					if (top + itemHeight > height)
-						ScrollListBy(0, height - top - itemHeight);
-					found = true;
-					break;
-				}
-				top += itemHeight;
-				idx++;
-				itemHeight = LayoutItem(idx);
+	}
+	FixScrollPosition();
+}
+
+void NewstoryListData::FixScrollPosition()
+{
+	EndEditItem(false);
+
+	RECT rc;
+	GetWindowRect(hwnd, &rc);
+	int windowHeight = rc.bottom - rc.top;
+
+	if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
+		int maxTopItem = 0;
+		int tmp = 0;
+		for (maxTopItem = items.getCount(); (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
+			tmp += LayoutItem(maxTopItem - 1);
+		cachedMaxTopItem = maxTopItem;
+		cachedWindowHeight = windowHeight;
+		cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
+	}
+
+	if (scrollTopItem < 0)
+		scrollTopItem = 0;
+
+	if ((scrollTopItem > cachedMaxTopItem) ||
+		((scrollTopItem == cachedMaxTopItem) && (scrollTopPixel < cachedMaxTopPixel))) {
+		scrollTopItem = cachedMaxTopItem;
+		scrollTopPixel = cachedMaxTopPixel;
+	}
+
+	if (g_plugin.bOptVScroll)
+		RecalcScrollBar();
+}
+
+int NewstoryListData::GetItemFromPixel(int yPos)
+{
+	int count = items.getCount();
+	if (!count)
+		return -1;
+		
+	RECT rc;
+	GetClientRect(hwnd, &rc);
+
+	int height = rc.bottom - rc.top;
+	int current = scrollTopItem;
+	int top = scrollTopPixel;
+	int bottom = top + LayoutItem(current);
+	while (top <= height) {
+		if (yPos >= top && yPos <= bottom)
+			return current;
+		if (++current >= count)
+			break;
+		top = bottom;
+		bottom = top + LayoutItem(current);
+	}
+
+	return -1;
+}
+
+int NewstoryListData::LayoutItem(int index)
+{
+	HDC hdc = GetDC(hwnd);
+	RECT rc; GetClientRect(hwnd, &rc);
+	int width = rc.right - rc.left;
+
+	ItemData *item = items[index];
+	if (!item) {
+		DeleteDC(hdc);
+		return 0;
+	}
+
+	int fontid, colorid;
+	item->getFontColor(fontid, colorid);
+	item->checkCreate(hwnd);
+
+	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+
+	SIZE sz;
+	sz.cx = width - 6;
+	MTextMeasure(hdc, &sz, (HANDLE)item->data);
+
+	SelectObject(hdc, hfnt);
+
+	ReleaseDC(hwnd, hdc);
+	return sz.cy + 5;
+}
+
+int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
+{
+	auto *item = items[index];
+	item->savedTop = top;
+
+	//	LOGFONT lfText;
+	COLORREF clText, clBack, clLine;
+	int fontid, colorid;
+	item->getFontColor(fontid, colorid);
+
+	clText = g_fontTable[fontid].cl;
+	if (item->bSelected) {
+		MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
+		clText = g_colorTable[COLOR_SELTEXT].cl;
+		clBack = g_colorTable[COLOR_SELBACK].cl;
+		clLine = g_colorTable[COLOR_SELFRAME].cl;
+	}
+	else {
+		MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
+		clLine = g_colorTable[COLOR_FRAME].cl;
+		clBack = g_colorTable[colorid].cl;
+	}
+
+	item->checkCreate(hwnd);
+
+	SIZE sz;
+	sz.cx = width - 6;
+	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+	MTextMeasure(hdc, &sz, item->data);
+	SelectObject(hdc, hfnt);
+	int height = sz.cy + 5;
+
+	RECT rc;
+	SetRect(&rc, 0, top, width, top + height);
+
+	HBRUSH hbr;
+	hbr = CreateSolidBrush(clBack);
+	FillRect(hdc, &rc, hbr);
+
+	SetTextColor(hdc, clText);
+	SetBkMode(hdc, TRANSPARENT);
+
+	POINT pos;
+	pos.x = 3;
+	pos.y = top + 2;
+	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+	MTextDisplay(hdc, pos, sz, item->data);
+	SelectObject(hdc, hfnt);
+
+	DeleteObject(hbr);
+
+	HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
+	MoveToEx(hdc, rc.left, rc.bottom - 1, 0);
+	LineTo(hdc, rc.right, rc.bottom - 1);
+	DeleteObject(SelectObject(hdc, hpn));
+	return height;
+}
+
+void NewstoryListData::RecalcScrollBar()
+{
+	SCROLLINFO si = { 0 };
+	RECT clRect;
+	GetClientRect(hwnd, &clRect);
+	si.cbSize = sizeof(si);
+	si.fMask = SIF_ALL;
+	si.nMin = 0;
+	si.nMax = items.getCount() * AVERAGE_ITEM_HEIGHT;
+	si.nPage = clRect.bottom;
+	si.nPos = scrollTopItem * AVERAGE_ITEM_HEIGHT;
+	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+}
+
+void NewstoryListData::ScrollListBy(int scrollItems, int scrollPixels)
+{
+	if (scrollItems) {
+		scrollTopItem += scrollItems;
+		scrollTopPixel = 0;
+	}
+	else if (scrollPixels) {
+		scrollTopPixel += scrollPixels;
+		if (scrollTopPixel > 0) {
+			while ((scrollTopPixel > 0) && scrollTopItem) {
+				scrollTopItem--;
+				int itemHeight = LayoutItem(scrollTopItem);
+				scrollTopPixel -= itemHeight;
 			}
-			if (!found) {
-				scrollTopItem = item;
+
+			if (scrollTopPixel > 0) {
 				scrollTopPixel = 0;
 			}
 		}
-		FixScrollPosition();
-	}
-
-	void FixScrollPosition()
-	{
-		EndEditItem(false);
-
-		RECT rc;
-		GetWindowRect(hwnd, &rc);
-		int windowHeight = rc.bottom - rc.top;
-
-		if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
-			int maxTopItem = 0;
-			int tmp = 0;
-			for (maxTopItem = items.getCount(); (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
-				tmp += LayoutItem(maxTopItem - 1);
-			cachedMaxTopItem = maxTopItem;
-			cachedWindowHeight = windowHeight;
-			cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
-		}
-
-		if (scrollTopItem < 0)
-			scrollTopItem = 0;
-
-		if ((scrollTopItem > cachedMaxTopItem) ||
-			((scrollTopItem == cachedMaxTopItem) && (scrollTopPixel < cachedMaxTopPixel))) {
-			scrollTopItem = cachedMaxTopItem;
-			scrollTopPixel = cachedMaxTopPixel;
-		}
-
-		if (g_plugin.bOptVScroll)
-			RecalcScrollBar();
-	}
-
-	int GetItemFromPixel(int yPos)
-	{
-		int count = items.getCount();
-		if (!count)
-			return -1;
-		
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-
-		int height = rc.bottom - rc.top;
-		int current = scrollTopItem;
-		int top = scrollTopPixel;
-		int bottom = top + LayoutItem(current);
-		while (top <= height) {
-			if (yPos >= top && yPos <= bottom)
-				return current;
-			if (++current >= count)
-				break;
-			top = bottom;
-			bottom = top + LayoutItem(current);
-		}
-
-		return -1;
-	}
-
-	int LayoutItem(int index)
-	{
-		HDC hdc = GetDC(hwnd);
-		RECT rc; GetClientRect(hwnd, &rc);
-		int width = rc.right - rc.left;
-
-		ItemData *item = items[index];
-		if (!item) {
-			DeleteDC(hdc);
-			return 0;
-		}
-
-		int fontid, colorid;
-		item->getFontColor(fontid, colorid);
-		item->checkCreate(hwnd);
-
-		HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-
-		SIZE sz;
-		sz.cx = width - 6;
-		MTextMeasure(hdc, &sz, (HANDLE)item->data);
-
-		SelectObject(hdc, hfnt);
-
-		ReleaseDC(hwnd, hdc);
-		return sz.cy + 5;
-	}
-
-	int PaintItem(HDC hdc, int index, int top, int width)
-	{
-		auto *item = items[index];
-		item->savedTop = top;
-
-		//	LOGFONT lfText;
-		COLORREF clText, clBack, clLine;
-		int fontid, colorid;
-		item->getFontColor(fontid, colorid);
-
-		clText = g_fontTable[fontid].cl;
-		if (item->bSelected) {
-			MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
-			clText = g_colorTable[COLOR_SELTEXT].cl;
-			clBack = g_colorTable[COLOR_SELBACK].cl;
-			clLine = g_colorTable[COLOR_SELFRAME].cl;
-		}
-		else {
-			MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
-			clLine = g_colorTable[COLOR_FRAME].cl;
-			clBack = g_colorTable[colorid].cl;
-		}
-
-		item->checkCreate(hwnd);
-
-		SIZE sz;
-		sz.cx = width - 6;
-		HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-		MTextMeasure(hdc, &sz, item->data);
-		SelectObject(hdc, hfnt);
-		int height = sz.cy + 5;
-
-		RECT rc;
-		SetRect(&rc, 0, top, width, top + height);
-
-		HBRUSH hbr;
-		hbr = CreateSolidBrush(clBack);
-		FillRect(hdc, &rc, hbr);
-
-		SetTextColor(hdc, clText);
-		SetBkMode(hdc, TRANSPARENT);
-
-		POINT pos;
-		pos.x = 3;
-		pos.y = top + 2;
-		hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-		MTextDisplay(hdc, pos, sz, item->data);
-		SelectObject(hdc, hfnt);
-
-		DeleteObject(hbr);
-
-		HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
-		MoveToEx(hdc, rc.left, rc.bottom - 1, 0);
-		LineTo(hdc, rc.right, rc.bottom - 1);
-		DeleteObject(SelectObject(hdc, hpn));
-		return height;
-	}
-
-	void RecalcScrollBar()
-	{
-		SCROLLINFO si = { 0 };
-		RECT clRect;
-		GetClientRect(hwnd, &clRect);
-		si.cbSize = sizeof(si);
-		si.fMask = SIF_ALL;
-		si.nMin = 0;
-		si.nMax = items.getCount() * AVERAGE_ITEM_HEIGHT;
-		si.nPage = clRect.bottom;
-		si.nPos = scrollTopItem * AVERAGE_ITEM_HEIGHT;
-		SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
-	}
-
-	void ScrollListBy(int scrollItems, int scrollPixels)
-	{
-		if (scrollItems) {
-			scrollTopItem += scrollItems;
-			scrollTopPixel = 0;
-		}
-		else if (scrollPixels) {
-			scrollTopPixel += scrollPixels;
-			if (scrollTopPixel > 0) {
-				while ((scrollTopPixel > 0) && scrollTopItem) {
-					scrollTopItem--;
-					int itemHeight = LayoutItem(scrollTopItem);
-					scrollTopPixel -= itemHeight;
-				}
-
-				if (scrollTopPixel > 0) {
-					scrollTopPixel = 0;
-				}
-			}
-			else if (scrollTopPixel < 0) {
-				int maxItem = items.getCount();
-				int itemHeight = LayoutItem(scrollTopItem);
-				while ((-scrollTopPixel > itemHeight) && (scrollTopItem < maxItem)) {
-					scrollTopPixel += itemHeight;
-					scrollTopItem++;
-					itemHeight = LayoutItem(scrollTopItem);
-				}
+		else if (scrollTopPixel < 0) {
+			int maxItem = items.getCount();
+			int itemHeight = LayoutItem(scrollTopItem);
+			while ((-scrollTopPixel > itemHeight) && (scrollTopItem < maxItem)) {
+				scrollTopPixel += itemHeight;
+				scrollTopItem++;
+				itemHeight = LayoutItem(scrollTopItem);
 			}
 		}
-
-		FixScrollPosition();
 	}
 
-	void SetPos(int pos)
-	{
-		caret = pos;
-		SendMessage(hwnd, NSM_SELECTITEMS2, (selStart == -1) ? pos : selStart, pos);
-		SendMessage(hwnd, NSM_SETCARET, pos, TRUE);
-	}
-};
+	FixScrollPosition();
+}
 
-// Edit box
+void NewstoryListData::SetPos(int pos)
+{
+	caret = pos;
+	SendMessage(hwnd, NSM_SELECTITEMS2, (selStart == -1) ? pos : selStart, pos);
+	SendMessage(hwnd, NSM_SETCARET, pos, TRUE);
+}
+
+/////////////////////////////////////////////////////////////////////////
+// Edit box window procedure
+
 static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	auto *pData = (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0);
@@ -464,7 +406,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 }
 
 /////////////////////////////////////////////////////////////////////////
-// WndProc
+// NewStory history control window procedure
 
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -658,6 +600,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_SIZE:
 		InvalidateRect(hwnd, 0, FALSE);
+		break;
+
+	case WM_COMMAND:
+		if (NSMenu_Process(LOWORD(wParam), data))
+			return 1;
 		break;
 
 	case WM_ERASEBKGND:

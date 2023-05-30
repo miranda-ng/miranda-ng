@@ -77,7 +77,6 @@ static int evtModulesLoaded(WPARAM, LPARAM)
 	InitFonts();
 	InitNewstoryControl();
 	InitHistory();
-	InitMenus();
 
 	LoadTemplates();
 	return 0;
@@ -101,6 +100,8 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, evtPreShutdown);
+
+	InitMenus();
 	return 0;
 }
 
