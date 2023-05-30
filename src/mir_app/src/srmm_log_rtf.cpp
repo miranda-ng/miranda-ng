@@ -504,7 +504,8 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else ModifyMenu(hSubMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
 
-			UINT uID = Chat_CreateMenu(m_rtf.GetHwnd(), hSubMenu, pt, m_pDlg.m_si, nullptr);
+			Chat_CreateMenu(hSubMenu, m_pDlg.m_si, nullptr);
+			UINT uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_rtf.GetHwnd(), nullptr);
 			m_pDlg.m_bInMenu = false;
 			DestroyMenu(hMenu);
 

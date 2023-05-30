@@ -97,7 +97,8 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 		mir_wstrncpy(szTemp + 40, L"...", 4);
 	ModifyMenu(hMenu, 0, MF_STRING | MF_BYPOSITION, IDM_SENDMESSAGE, szTemp);
 
-	UINT uID = Chat_CreateMenu(hwndOwner, hSubMenu, pt, m_si, uinew.pszUID);
+	Chat_CreateMenu(hSubMenu, m_si, uinew.pszUID);
+	UINT uID = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndOwner, nullptr);
 	switch (uID) {
 	case 0:
 		break;

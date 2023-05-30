@@ -76,7 +76,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *g
 // called with:
 // wparam - ownerdata
 // lparam - lparam from winproc
-INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
+INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM)
 {
 	if (wParam != 0) {
 		GroupMenuExecParam *mmep = (GroupMenuExecParam *)wParam;

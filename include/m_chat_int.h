@@ -366,7 +366,7 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 MIR_APP_DLL(void) Chat_EmptyHistory(SESSION_INFO *si);
 
 // creates custom popup menu for a group chat
-MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID);
+MIR_APP_DLL(void) Chat_CreateMenu(HMENU hMenu, SESSION_INFO *si, const wchar_t *pszUID);
 
 // calculates width or height of a string
 MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);

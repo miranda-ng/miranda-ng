@@ -812,7 +812,7 @@ MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID)
+MIR_APP_DLL(void) Chat_CreateMenu(HMENU hMenu, SESSION_INFO *si, const wchar_t *pszUID)
 {
 	if (si) {
 		GCMENUITEMS gcmi = {};
@@ -823,8 +823,6 @@ MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO
 		gcmi.Type = (pszUID == nullptr) ? MENU_ON_LOG : MENU_ON_NICKLIST;
 		NotifyEventHooks(hevBuildMenuEvent, 0, (WPARAM)&gcmi);
 	}
-
-	return TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
