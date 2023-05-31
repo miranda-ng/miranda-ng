@@ -261,6 +261,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	// Users
 	int64_t m_iOwnId;
 	MGROUP m_iBaseGroup;
+	MCONTACT m_iSavedMessages;
 	LIST<TG_USER> m_arChats;
 	OBJLIST<TG_USER> m_arUsers;
 

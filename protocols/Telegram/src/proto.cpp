@@ -137,11 +137,11 @@ void CTelegramProto::OnModulesLoaded()
 			m_arUsers.insert(pUser);
 			if (!isGroupChat)
 				m_arChats.insert(pUser);
-			else if (iCompatLevel < 2)
+			else if (iCompatLevel < 3)
 				_wremove(CMStringW(FORMAT, L"%s\\%d.json", cachePath.get(), cc));
 		}
 	}
-	setByte(DBKEY_COMPAT, 2);
+	setByte(DBKEY_COMPAT, 3);
 
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS);
 	if (m_bSmileyAdd) {

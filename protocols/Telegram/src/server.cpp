@@ -49,6 +49,8 @@ void CTelegramProto::LogOut()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
+	setWord(m_iSavedMessages, "Status", ID_STATUS_OFFLINE);
+
 	m_impl.m_keepAlive.Stop();
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 	for (auto &it : m_arUsers)
@@ -63,6 +65,8 @@ void CTelegramProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	setWord(m_iSavedMessages, "Status", ID_STATUS_ONLINE);
 
 	if (m_bUnregister) {
 		SendQuery(new TD::terminateSession());
@@ -569,7 +573,7 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 		pre.flags |= PREF_SENT;
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		pre.szUserId = szUserId;
-	ProtoChainRecvMsg(pUser->hContact, &pre);
+	ProtoChainRecvMsg((pUser->hContact) ? pUser->hContact : m_iSavedMessages, &pre);
 }
 
 void CTelegramProto::ProcessOption(TD::updateOption *pObj)
@@ -582,8 +586,21 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 		m_iOwnId = iValue;
 		SetId(0, m_iOwnId);
 
-		auto *pUser = AddUser(iValue, false);
-		setWString(pUser->hContact, "Nick", TranslateT("Saved messages"));
+		if (auto *pUser = FindUser(iValue)) {
+			m_iSavedMessages = pUser->hContact;
+			pUser->hContact = 0;
+		}
+		else {
+			m_iSavedMessages = db_add_contact();
+			Proto_AddToContact(m_iSavedMessages, m_szModuleName);
+			SetId(m_iSavedMessages, m_iOwnId);
+			Clist_SetGroup(m_iSavedMessages, m_wszDefaultGroup);
+			setWString(m_iSavedMessages, "Nick", TranslateT("Saved messages"));
+
+			pUser = new TG_USER(m_iOwnId, 0);
+			m_arUsers.insert(pUser);
+			m_arChats.insert(pUser);
+		}
 	}
 }
 
@@ -664,33 +681,36 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 
 	auto *pu = AddUser(pUser->id_, false);
-	MCONTACT hContact = (bIsMe) ? 0 : pu->hContact;
-	UpdateString(hContact, "FirstName", pUser->first_name_);
-	UpdateString(hContact, "LastName", pUser->last_name_);
-	if (hContact)
-		UpdateString(hContact, "Phone", pUser->phone_number_);
+	UpdateString(pu->hContact, "FirstName", pUser->first_name_);
+	UpdateString(pu->hContact, "LastName", pUser->last_name_);
+	if (pu->hContact)
+		UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 
 	if (pUser->usernames_)
-		UpdateString(hContact, "Nick", pUser->usernames_->editable_username_);
+		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
 
-	Contact::PutOnList(hContact);
+	Contact::PutOnList(pu->hContact);
+
+	if (bIsMe)
+		pu->wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
 
 	if (pUser->is_premium_)
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, "tg_premium");
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
 	else
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, nullptr);
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
 	if (auto *pPhoto = pUser->profile_photo_.get()) {
 		if (auto *pSmall = pPhoto->small_.get()) {
 			auto remoteId = pSmall->remote_->unique_id_;
-			auto storedId = getMStringA(hContact, DBKEY_AVATAR_HASH);
+			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
 			if (remoteId != storedId.c_str()) {
 				if (!remoteId.empty()) {
-					pu->szAvatarHash = remoteId.c_str();
-					setString(hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+					if (pu)
+						pu->szAvatarHash = remoteId.c_str();
+					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
 					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
 				}
-				else delSetting(hContact, DBKEY_AVATAR_HASH);
+				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);
 			}
 		}
 	}
@@ -698,7 +718,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {
 			auto *pOffline = (TD::userStatusOffline *)pUser->status_.get();
-			setDword(hContact, "LastSeen", pOffline->was_online_);
+			setDword(pu->hContact, "LastSeen", pOffline->was_online_);
 		}
 	}
 }
