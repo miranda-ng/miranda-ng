@@ -858,6 +858,9 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
 	}
 
+	auto wszOfflineFileDir = Srmm_GetOfflineFileName(hContact);
+	wszOfflineFileDir.Truncate(wszOfflineFileDir.GetLength() - 1);
+	DeleteDirectoryTreeW(wszOfflineFileDir);
 	return 0;
 }	
 
