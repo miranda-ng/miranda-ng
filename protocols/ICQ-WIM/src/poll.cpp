@@ -233,6 +233,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			else
 				debugLogA("Proceeding with empty cache for %d", hContact);
 
+			for (auto &it : ev["intro"]["messages"])
+				ParseMessage(hContact, lastMsgId, it, false, false);
+
 			for (auto &it : ev["tail"]["messages"])
 				ParseMessage(hContact, lastMsgId, it, false, true);
 
