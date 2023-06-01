@@ -73,6 +73,8 @@ IDI_SESSIONLIST         ICON                    "slist.ico"
 IDI_CONFIGSIDEBAR       ICON                    "sbaroptions.ico"
 IDI_RECENTLIST          ICON                    "recentlist.ico"
 IDI_USERPREFS           ICON                    "userprefs.ico"
+IDI_SECURE              ICON                    "unverified.ico"
+IDI_STRONG              ICON                    "private.ico"
 
 IDI_TOPICBUT            ICON                    "chat\\topicbut.ico"
 IDI_JOIN                ICON                    "chat\\join.ico"
@@ -98,7 +100,6 @@ IDI_OVERLAY             ICON                    "chat\\overlay.ico"
 IDI_FILTER2             ICON                    "chat\\filter2.ico"
 IDI_SHOWNICKLIST        ICON                    "chat\\nicklist_show.ico"
 IDI_HIDENICKLIST        ICON                    "chat\\nicklist_hide.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -467,7 +467,9 @@ static TIconDesc _logicons[] =
 	{ "tabSRMM_error", LPGEN("Message delivery error"), &PluginConfig.g_iconErr, -IDI_MSGERROR, 1 },
 	{ "tabSRMM_in", LPGEN("Incoming message"), &PluginConfig.g_iconIn, -IDI_ICONIN, 0 },
 	{ "tabSRMM_out", LPGEN("Outgoing message"), &PluginConfig.g_iconOut, -IDI_ICONOUT, 0 },
-	{ "tabSRMM_status", LPGEN("Status change"), &PluginConfig.g_iconStatus, -IDI_STATUSCHANGE, 0 }
+	{ "tabSRMM_status", LPGEN("Status change"), &PluginConfig.g_iconStatus, -IDI_STATUSCHANGE, 0 },
+	{ "tabSRMM_secure", LPGEN("Secure message"), &PluginConfig.g_iconSecure, -IDI_SECURE, 0 },
+	{ "tabSRMM_strong", LPGEN("Secure message (verified)"), &PluginConfig.g_iconStrong, -IDI_STRONG, 0 },
 };
 
 static TIconDesc _deficons[] =

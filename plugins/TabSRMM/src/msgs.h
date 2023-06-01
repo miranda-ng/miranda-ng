@@ -170,7 +170,6 @@ struct TitleBtn {
 #define BTN_MAX 1
 #define BTN_CLOSE 2
 
-#define NR_LOGICONS 7
 #define NR_BUTTONBARICONS 37//MaD: 29
 
 class CContactCache;

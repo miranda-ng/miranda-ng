@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern IconItem iconList[];
-
 #define LOGICON_MSG_IN      0
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
@@ -147,6 +145,23 @@ static void SetToStyle(int style, CMStringA &dest)
 bool DbEventIsShown(const DB::EventInfo &dbei)
 {
 	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Log icons
+
+static IconItem iconList[] =
+{
+	{LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10},
+	{LPGEN("Outgoing message (10x10)"), "OUTGOING", IDI_OUTGOING, 10},
+	{LPGEN("Notice (10x10)"), "NOTICE", IDI_NOTICE, 10},
+	{LPGEN("Encrypted (10x10)"), "UNVERIFIED", IDI_SECURE, 10},
+	{LPGEN("Encrypted verified (10x10)"), "PRIVATE", IDI_SECURE_STRONG, 10},
+};
+
+void InitIcons(void)
+{
+	g_plugin.registerIcon(LPGEN("Messaging"), iconList, "SRMM");
 }
 
 #define RTFPICTHEADERMAXSIZE   78

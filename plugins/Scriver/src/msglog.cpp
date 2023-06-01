@@ -26,9 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOGICON_MSG_IN      0
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
+#define LOGICON_MSG_SECURE  3
+#define LOGICON_MSG_STRONG  4
+#define LOGICON_MSG_MAX     5
 
 static int logPixelSY;
-static char* pLogIconBmpBits[3];
+static char* pLogIconBmpBits[LOGICON_MSG_MAX];
 static HIMAGELIST g_hImageList;
 
 struct RtfLogStreamData : public RtfLogStreamBase
@@ -183,7 +186,6 @@ static void AppendWithCustomLinks(const DB::EventInfo &dbei, int style, CMString
 
 void LoadMsgLogIcons(void)
 {
-	HICON hIcon = nullptr;
 	RECT rc;
 
 	g_hImageList = ImageList_Create(10, 10, ILC_COLOR32 | ILC_MASK, _countof(pLogIconBmpBits), 0);
@@ -205,29 +207,38 @@ void LoadMsgLogIcons(void)
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	uint8_t *pBmpBits = (uint8_t*)mir_alloc(widthBytes * bih.biHeight);
-	HBRUSH hBrush = hBkgBrush;
+	HBRUSH hBrush;
 	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		switch (i) {
 		case LOGICON_MSG_IN:
 			g_plugin.addImgListIcon(g_hImageList, IDI_INCOMING);
-			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_IN, ILD_NORMAL);
 			hBrush = hInBkgBrush;
 			break;
 		case LOGICON_MSG_OUT:
 			g_plugin.addImgListIcon(g_hImageList, IDI_OUTGOING);
-			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_OUT, ILD_NORMAL);
 			hBrush = hOutBkgBrush;
 			break;
 		case LOGICON_MSG_NOTICE:
 			g_plugin.addImgListIcon(g_hImageList, IDI_NOTICE);
-			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_NOTICE, ILD_NORMAL);
 			hBrush = hBkgBrush;
+			break;
+		case LOGICON_MSG_SECURE:
+			g_plugin.addImgListIcon(g_hImageList, IDI_SECURE);
+			hBrush = hInBkgBrush;
+			break;
+		case LOGICON_MSG_STRONG:
+			g_plugin.addImgListIcon(g_hImageList, IDI_STRONG);
+			hBrush = hInBkgBrush;
+			break;
+		default:
+			hBrush = nullptr; // warning fix, we never get here
 			break;
 		}
 
 		pLogIconBmpBits[i] = (char*)mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
 		size_t rtfHeaderSize = sprintf(pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (UINT)bih.biWidth, (UINT)bih.biHeight); //!!!!!!!!!!!
 
+		HICON hIcon = ImageList_GetIcon(g_hImageList, i, ILD_NORMAL);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
@@ -440,7 +451,9 @@ public:
 
 			switch (dbei.eventType) {
 			case EVENTTYPE_MESSAGE:
-				if (dbei.flags & DBEF_SENT)
+				if (dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG))
+					i = (dbei.flags & DBEF_SECURE) ? LOGICON_MSG_SECURE : LOGICON_MSG_STRONG;
+				else if (dbei.flags & DBEF_SENT)
 					i = LOGICON_MSG_OUT;
 				else
 					i = LOGICON_MSG_IN;

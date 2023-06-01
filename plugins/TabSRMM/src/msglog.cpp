@@ -70,15 +70,18 @@ char *rtfFonts;
 LOGFONTW logfonts[MSGDLGFONTCOUNT + 2];
 COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 
-#define LOGICON_MSG  0
-#define LOGICON_URL  1
-#define LOGICON_FILE 2
-#define LOGICON_OUT 3
-#define LOGICON_IN 4
+#define LOGICON_MSG    0
+#define LOGICON_URL    1
+#define LOGICON_FILE   2
+#define LOGICON_OUT    3
+#define LOGICON_IN     4
 #define LOGICON_STATUS 5
-#define LOGICON_ERROR 6
+#define LOGICON_ERROR  6
+#define LOGICON_SECURE 7
+#define LOGICON_STRONG 8
+#define LOGICON_MAX    9
 
-static HICON Logicons[NR_LOGICONS];
+static HICON Logicons[LOGICON_MAX];
 
 struct RtfLogStreamData : public RtfLogStreamBase
 {
@@ -160,6 +163,8 @@ void TSAPI CacheMsgLogIcons()
 	Logicons[4] = PluginConfig.g_iconIn;
 	Logicons[5] = PluginConfig.g_iconStatus;
 	Logicons[6] = PluginConfig.g_iconErr;
+	Logicons[7] = PluginConfig.g_iconSecure;
+	Logicons[8] = PluginConfig.g_iconStrong;
 }
 
 struct TLogIcon
@@ -735,8 +740,12 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 			case 'I':
 				if (dwEffectiveFlags & MWF_LOG_SHOWICONS) {
 					int icon;
-					if ((dwEffectiveFlags & MWF_LOG_INOUTICONS) && dbei.eventType == EVENTTYPE_MESSAGE)
-						icon = isSent ? LOGICON_OUT : LOGICON_IN;
+					if ((dwEffectiveFlags & MWF_LOG_INOUTICONS) && dbei.eventType == EVENTTYPE_MESSAGE) {
+						if (dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG))
+							icon = (dbei.flags & DBEF_SECURE) ? LOGICON_SECURE : LOGICON_STRONG;
+						else
+							icon = isSent ? LOGICON_OUT : LOGICON_IN;
+					}
 					else {
 						switch (dbei.eventType) {
 						case EVENTTYPE_FILE:
@@ -1432,7 +1441,7 @@ void CLogWindow::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 				m_rtf.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 				int bIconIndex = trbuffer[0] - '0';
-				if (bIconIndex >= NR_LOGICONS) {
+				if (bIconIndex >= LOGICON_MAX) {
 					fi.chrg.cpMin = fi.chrgText.cpMax + 6;
 					continue;
 				}

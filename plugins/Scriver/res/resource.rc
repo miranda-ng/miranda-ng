@@ -486,6 +486,9 @@ IDI_YAHOO               ICON                    "yahoo.ico"
 
 IDI_FOODNETWORK         ICON                    "foodnetwork.ico"
 
+IDI_SECURE              ICON                    "unverified.ico"
+
+IDI_STRONG              ICON                    "private.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
