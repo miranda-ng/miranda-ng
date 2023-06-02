@@ -342,6 +342,7 @@ public:
 	CMOption<wchar_t*> m_wszDeviceName;    // how do you see this session in Device List
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 	CMOption<bool>     m_bUsePopups;
+	CMOption<bool>     m_bCompressFiles;   // embed pictures & videos into a message on send
 	CMOption<uint32_t> m_iTimeDiff1;		   // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;		   // set this status to m_iStatus2 after this interval of secs

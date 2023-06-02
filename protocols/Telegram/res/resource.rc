@@ -94,6 +94,7 @@ BEGIN
     EDITTEXT        IDC_DEVICE_NAME,87,60,211,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,83,294,10
+    CONTROL         "Compress files on send",IDC_COMPRESS_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,97,294,10
 END
 
 IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86
@@ -152,6 +153,7 @@ IDI_TELEGRAM            ICON                    "telegram.ico"
 IDI_PREMIUM             ICON                    "premium.ico"
 
 IDI_FORWARD             ICON                    "forward.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

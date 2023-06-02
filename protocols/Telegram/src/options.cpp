@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 class COptionsDlg : public CTelegramDlgBase
 {
-	CCtrlCheck chkHideChats, chkUsePopups;
+	CCtrlCheck chkHideChats, chkUsePopups, chkCompressFiles;
 	CCtrlCombo cmbCountry;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
@@ -35,6 +35,7 @@ public:
 		edtPhone(this, IDC_PHONE),
 		edtGroup(this, IDC_DEFGROUP),
 		edtDeviceName(this, IDC_DEVICE_NAME),
+		chkCompressFiles(this, IDC_COMPRESS_FILES),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(edtPhone, ppro->m_szOwnPhone);
@@ -42,8 +43,10 @@ public:
 		CreateLink(edtDeviceName, ppro->m_wszDeviceName);
 		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 
-		if (bFullDlg)
+		if (bFullDlg) {
 			CreateLink(chkUsePopups, ppro->m_bUsePopups);
+			CreateLink(chkCompressFiles, ppro->m_bCompressFiles);
+		}
 
 		cmbCountry.OnChange = Callback(this, &COptionsDlg::onChange_Country);
 	}

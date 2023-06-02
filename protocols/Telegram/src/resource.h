@@ -15,6 +15,7 @@
 #define IDC_HIDECHATS                   1003
 #define IDC_POPUPS                      1004
 #define IDC_DEFGROUP2                   1004
+#define IDC_HIDECHATS2                  1004
 #define IDC_DEVICE_NAME                 1005
 #define IDC_DIFF1                       1006
 #define IDC_DIFF2                       1007
@@ -27,6 +28,7 @@
 #define IDC_FIRST_NAME                  1014
 #define IDC_LAST_NAME                   1015
 #define IDC_CLIST                       1016
+#define IDC_COMPRESS_FILES              1017
 
 // Next default values for new objects
 // 
