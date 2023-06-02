@@ -451,10 +451,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 {
 	IcqFileTransfer *pTransfer = nullptr;
 
-	for (int i = 0; ; i++) {
-		if (ppszFiles[i] == nullptr)
-			break;
-
+	for (int i = 0; ppszFiles[i] != 0; i++) {
 		struct _stat statbuf;
 		if (_wstat(ppszFiles[0], &statbuf)) {
 			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
