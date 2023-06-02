@@ -118,7 +118,7 @@ void InitMenus()
 
 	hEventPreBuildMenu = CreateHookableEvent(ME_NS_PREBUILDMENU);
 
-	hMenuObject = Menu_AddObject("NSMenu", LPGEN("NewStory item menu"), nullptr, "NSMenu/ExecService");
+	hMenuObject = Menu_AddObject("NSMenu", "NewStory item menu", nullptr, "NSMenu/ExecService");
 	Menu_ConfigureObject(hMenuObject, MCO_OPT_USERDEFINEDITEMS, INT_PTR(FALSE));
 	Menu_ConfigureObject(hMenuObject, MCO_OPT_FREE_SERVICE, INT_PTR("NSMenu/FreeOwnerData"));
 	Menu_ConfigureObject(hMenuObject, MCO_OPT_ONADD_SERVICE, INT_PTR("NSMenu/OnAddService"));
