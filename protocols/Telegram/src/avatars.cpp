@@ -118,7 +118,7 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 	delete ofd;
 }
 
-INT_PTR __cdecl CTelegramProto::OfflineFile(WPARAM param, LPARAM)
+INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
 {
 	ForkThread((MyThreadFunc)&CTelegramProto::OfflineFileThread, (void *)param);
 	return 0;

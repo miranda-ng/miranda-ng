@@ -89,7 +89,7 @@ public:
 	}
 };
 
-INT_PTR CTelegramProto::AddByPhone(WPARAM, LPARAM)
+INT_PTR CTelegramProto::SvcAddByPhone(WPARAM, LPARAM)
 {
 	(new CAddPhoneContactDlg(this))->Show();
 	return 0;

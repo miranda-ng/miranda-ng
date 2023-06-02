@@ -273,6 +273,59 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandl
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::messages::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::messages::ID);
+		return;
+	}
+
+	auto *pUser = (TG_USER *)pUserInfo;
+	TD::int53 lastMsgId = INT64_MAX;
+	auto *pMessages = (TD::messages *)response.object.get();
+	for (auto &it : pMessages->messages_) {
+		auto *pMsg = it.get();
+		if (pMsg->id_ < lastMsgId)
+			lastMsgId = pMsg->id_;
+
+		char szMsgId[100], szUserId[100];
+		_i64toa(pMsg->id_, szMsgId, 10);
+		if (db_event_getById(m_szModuleName, szMsgId))
+			continue;
+
+		CMStringA szBody = GetMessageText(pUser, pMsg);
+
+		DBEVENTINFO dbei = {};
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.szModule = m_szModuleName;
+		dbei.timestamp = pMsg->date_;
+		dbei.cbBlob = szBody.GetLength();
+		dbei.pBlob = (uint8_t*)szBody.c_str();
+		dbei.szId = szMsgId;
+		dbei.flags = DBEF_READ | DBEF_UTF | DBEF_HAS_ID;
+		if (pMsg->is_outgoing_)
+			dbei.flags |= DBEF_SENT;
+		if (this->GetGcUserId(pUser, pMsg, szUserId))
+			dbei.szUserId = szUserId;
+		db_event_add(pUser->hContact, &dbei);
+	}
+
+	if (lastMsgId != INT64_MAX)
+		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+}
+
+INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
+{
+	if (auto *pUser = FindUser(GetId(hContact)))
+		SendQuery(new TD::getChatHistory(pUser->chatId, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 {
 	auto *pBasicGroup = pObj->basic_group_.get();

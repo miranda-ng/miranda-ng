@@ -194,6 +194,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSearchResults(td::ClientManager::Response &response);
 	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
 	void OnUpdateAuth(td::ClientManager::Response &response);
@@ -329,9 +330,9 @@ public:
 
 	// Services //////////////////////////////////////////////////////////////////////////
 
-	INT_PTR __cdecl AddByPhone(WPARAM, LPARAM);
-	INT_PTR __cdecl OfflineFile(WPARAM, LPARAM);
-	INT_PTR __cdecl PreCreateOfflineFile(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcAddByPhone(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	

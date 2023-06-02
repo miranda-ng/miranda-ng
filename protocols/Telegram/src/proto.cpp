@@ -58,6 +58,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CTelegramProto::SvcLoadServerHistory);
 
 	HookProtoEvent(ME_HISTORY_EMPTY, &CTelegramProto::OnEmptyHistory);
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
@@ -72,7 +73,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	InitMenus();
 
 	// Offline file transfer
-	CreateProtoService(PS_OFFLINEFILE, &CTelegramProto::OfflineFile);
+	CreateProtoService(PS_OFFLINEFILE, &CTelegramProto::SvcOfflineFile);
 
 	// create standard network connection
 	NETLIBUSER nlu = {};
@@ -166,7 +167,7 @@ void CTelegramProto::OnBuildProtoMenu()
 
 	// Groups uploader
 	mi.pszService = "/UploadGroups";
-	CreateProtoService(mi.pszService, &CTelegramProto::AddByPhone);
+	CreateProtoService(mi.pszService, &CTelegramProto::SvcAddByPhone);
 	mi.name.a = LPGEN("Add phone contact");
 	mi.position = 200001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
