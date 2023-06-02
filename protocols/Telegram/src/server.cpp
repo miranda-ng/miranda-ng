@@ -176,12 +176,20 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessFile((TD::updateFile *)response.object.get());
 		break;
 
+	case TD::updateMessageContent::ID:
+		ProcessMessageContent((TD::updateMessageContent *)response.object.get());
+		break;
+
+	case TD::updateMessageSendSucceeded::ID:
+		ProcessMessage(((TD::updateMessageSendSucceeded *)response.object.get())->message_.get());
+		break;
+
 	case TD::updateNewChat::ID:
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
 
 	case TD::updateNewMessage::ID:
-		ProcessMessage((TD::updateNewMessage *)response.object.get());
+		ProcessMessage(((TD::updateNewMessage *)response.object.get())->message_.get());
 		break;
 
 	case TD::updateOption::ID:
@@ -588,15 +596,17 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 	}
 }
 
-void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
+void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 {
-	auto *pMessage = pObj->message_.get();
-
 	auto *pUser = FindChat(pMessage->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("message from unknown chat/user, ignored");
 		return;
 	}
+
+	if (pMessage->sending_state_)
+		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
+			return;
 
 	CMStringA szText(GetMessageText(pUser, pMessage));
 	if (szText.IsEmpty()) {
@@ -627,6 +637,31 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		pre.szUserId = szUserId;
 	ProtoChainRecvMsg((pUser->hContact) ? pUser->hContact : m_iSavedMessages, &pre);
+}
+
+void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
+{
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("message from unknown chat/user, ignored");
+		return;
+	}
+
+	char szMsgId[100];
+	_i64toa(pObj->message_id_, szMsgId, 10);
+	
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+	if (hDbEvent == 0) {
+		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
+		return;
+	}
+
+	/*
+	CMStringA szText(GetMessageText(pUser, pObj->new_content_.get()));
+	if (szText.IsEmpty()) {
+		debugLogA("this message was not processed, ignored");
+		return;
+	}*/
 }
 
 void CTelegramProto::ProcessOption(TD::updateOption *pObj)

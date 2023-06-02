@@ -70,12 +70,15 @@ struct TG_FILE_REQUEST : public MZeroedObject
 		m_uniqueId(_3)
 	{}
 
+	void AutoDetectType();
+
 	Type m_type;
 	bool m_bOpen = false;
 	MEVENT m_hEvent = 0;
+	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId;
-	CMStringW m_destPath, m_fileName;
+	CMStringW m_destPath, m_fileName, m_wszDescr;
 };
 
 struct TG_USER : public MZeroedObject
@@ -196,6 +199,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSearchResults(td::ClientManager::Response &response);
+	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
 	void OnUpdateAuth(td::ClientManager::Response &response);
 
@@ -221,7 +225,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
-	void ProcessMessage(TD::updateNewMessage *pObj);
+	void ProcessMessage(const TD::message *pMsg);
+	void ProcessMessageContent(TD::updateMessageContent *pObj);
 	void ProcessOption(TD::updateOption *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
@@ -303,6 +308,7 @@ public:
 		
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;

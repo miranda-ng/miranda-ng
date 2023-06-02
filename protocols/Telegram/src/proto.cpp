@@ -331,6 +331,90 @@ HANDLE CTelegramProto::SearchByName(const wchar_t *nick, const wchar_t *firstNam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
+{
+	auto *pUser = FindUser(GetId(hContact));
+	if (pUser == nullptr) {
+		debugLogA("request from unknown contact %d, ignored", hContact);
+		return nullptr;
+	}
+
+	TG_FILE_REQUEST *pTransfer = nullptr;
+
+	for (int i = 0; ppszFiles[i] != 0; i++) {
+		struct _stat statbuf;
+		if (_wstat(ppszFiles[0], &statbuf)) {
+			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
+			continue;
+		}
+
+		pTransfer = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
+		pTransfer->m_fileName = ppszFiles[i];
+		if (m_bCompressFiles)
+			pTransfer->AutoDetectType();
+		
+		pTransfer->m_hContact = hContact;
+		pTransfer->m_fileSize = statbuf.st_size;
+		if (mir_wstrlen(szDescription))
+			pTransfer->m_wszDescr = szDescription;
+
+		// create a message with embedded file
+		auto *pMessage = new TD::sendMessage();
+		pMessage->chat_id_ = pUser->chatId;
+		auto caption = TD::make_object<TD::formattedText>();
+		caption->text_ = T2Utf(szDescription).get();
+
+		if (pTransfer->m_type == TG_FILE_REQUEST::FILE) {
+			auto pContent = TD::make_object<TD::inputMessageDocument>();
+			pContent->document_= makeFile(pTransfer->m_fileName);
+			pContent->caption_ = std::move(caption);
+			pContent->thumbnail_ = 0;
+			pMessage->input_message_content_ = std::move(pContent);
+		}
+		else if (pTransfer->m_type == TG_FILE_REQUEST::PICTURE) {
+			auto pContent = TD::make_object<TD::inputMessagePhoto>();
+			pContent->photo_ = makeFile(pTransfer->m_fileName);
+			pContent->thumbnail_ = 0;
+			pContent->caption_ = std::move(caption);
+			pContent->ttl_ = 0;
+			pContent->height_ = 0;
+			pContent->width_ = 0;
+			pMessage->input_message_content_ = std::move(pContent);
+		}
+		else if (pTransfer->m_type == TG_FILE_REQUEST::VOICE) {
+			auto pContent = TD::make_object<TD::inputMessageVoiceNote>();
+			pContent->voice_note_ = makeFile(pTransfer->m_fileName);
+			pContent->caption_ = std::move(caption);
+			pContent->duration_ = 0;
+			pMessage->input_message_content_ = std::move(pContent);
+		}
+		else if (pTransfer->m_type == TG_FILE_REQUEST::VIDEO) {
+			auto pContent = TD::make_object<TD::inputMessageVideo>();
+			pContent->video_ = makeFile(pTransfer->m_fileName);
+			pContent->caption_ = std::move(caption);
+			pContent->duration_ = 0;
+			pContent->height_ = 0;
+			pContent->width_ = 0;
+			pContent->ttl_ = 0;
+			pMessage->input_message_content_ = std::move(pContent);
+		}
+		else return nullptr;
+
+		SendQuery(pMessage, &CTelegramProto::OnSendFile, pTransfer);
+	}
+
+	return pTransfer;
+}
+
+void CTelegramProto::OnSendFile(td::ClientManager::Response &, void *pUserInfo)
+{
+	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
+	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+	delete ft;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CTelegramProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));

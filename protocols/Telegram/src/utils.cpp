@@ -22,6 +22,31 @@ const char *getName(const TD::usernames *pName)
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
 }
 
+TD::object_ptr<TD::inputFileLocal> makeFile(const CMStringW &wszFile)
+{
+	std::string szPath = T2Utf(wszFile);
+	return TD::make_object<TD::inputFileLocal>(std::move(szPath));
+}
+
+void TG_FILE_REQUEST::AutoDetectType()
+{
+	if (ProtoGetAvatarFileFormat(m_fileName) != PA_FORMAT_UNKNOWN) {
+		m_type = this->PICTURE;
+		return;
+	}
+
+	int idx = m_fileName.ReverseFind('.');
+	if (idx == -1 || m_fileName.Find('\\', idx) != -1)
+		return;
+
+	auto wszExt = m_fileName.Right(m_fileName.GetLength() - idx);
+	wszExt.MakeLower();
+	if (wszExt == L"mp4" || wszExt == L"webm")
+		m_type = this->VIDEO;
+	else if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
+		m_type = this->VOICE;
+}
+
 CMStringW TG_USER::getDisplayName() const
 {
 	if (!wszFirstName.IsEmpty())
