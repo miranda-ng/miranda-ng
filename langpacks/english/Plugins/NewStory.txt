@@ -39,10 +39,6 @@
 [Log options]
 [Options]
 [Templates]
-[Copy]
-[Edit]
-[Delete]
-[Select all]
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 [Outgoing messages]
@@ -71,6 +67,7 @@
 [Homepage]
 [About]
 [History search results]
+[Copy]
 [Export...]
 [Delete...]
 [Search...]
@@ -91,6 +88,9 @@
 [Are you sure to remove selected event(s)?]
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
+[Edit]
+[Delete]
+[Select all]
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 [Search]

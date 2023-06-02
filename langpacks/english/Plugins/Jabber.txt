@@ -516,7 +516,8 @@
 [Are you sure?]
 [Incoming note]
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Do you want to create OMEMO session with new device:]
+[Trust on first use]
+[Unknown device added]
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -957,6 +958,9 @@
 [Untrust]
 [Trust]
 [Kill session]
+[Remove device]
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+[Delete device %d from the announce?]
 [Photo]
 ;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]

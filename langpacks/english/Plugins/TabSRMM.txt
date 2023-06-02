@@ -819,6 +819,8 @@
 [Incoming message]
 [Outgoing message]
 [Status change]
+[Secure message]
+[Secure message (verified)]
 [Static container icon]
 [Sounds (status bar)]
 [Pulldown Arrow]

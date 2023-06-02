@@ -824,11 +824,6 @@
 [Chat log]
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-[Outgoing message (10x10)]
-[Encrypted (10x10)]
-[Encrypted verified (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 [Last message received on %s at %s.]
@@ -838,6 +833,10 @@
 [%s: message session (%u users)]
 [Message session]
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+[Outgoing message (10x10)]
+[Encrypted (10x10)]
+[Encrypted verified (10x10)]
 [Me]
 [File sent]
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -1467,6 +1466,9 @@
 ;file \src\mir_app\src\srmm_log_hpp.cpp
 [History++ log window]
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+[Download]
+[Copy URL]
 [Copy all]
 [Look up '%s':]
 [No word to look up]

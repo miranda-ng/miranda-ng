@@ -19,6 +19,8 @@
 [Last name:]
 [Phone:]
 [Cancel]
+[Forward message]
+[Forward]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]
@@ -38,6 +40,8 @@
 [&Leave chat session]
 ;file \protocols\Telegram\src\main.cpp
 [Premium user]
+[Telegram Premium user]
+;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 [Account]
@@ -45,8 +49,13 @@
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
+[Saved messages]
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 [Chat rooms]
 [%s error notifications]
 [Errors]
+[Picture]
+[Video]
+[seconds]
+[Voice message]
