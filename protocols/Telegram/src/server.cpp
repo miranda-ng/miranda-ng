@@ -227,7 +227,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *
 	if (pUser) {
 		char szMsgId[100];
 		_i64toa(pMessage->id_, szMsgId, 10);
-		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pUserInfo, (LPARAM)szMsgId);
+		ProtoBroadcastAck(pUser->hContact ? pUser->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pUserInfo, (LPARAM)szMsgId);
 	}
 }
 
@@ -627,6 +627,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 	char szId[100], szUserId[100];
 	_i64toa(pMessage->id_, szId, 10);
+	if (db_event_getById(m_szModuleName, szId))
+		return;
 
 	PROTORECVEVENT pre = {};
 	pre.szMessage = szText.GetBuffer();
