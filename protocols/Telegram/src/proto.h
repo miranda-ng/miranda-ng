@@ -125,6 +125,19 @@ struct TG_BASIC_GROUP
 	TD::object_ptr<TD::basicGroup> group;
 };
 
+struct TG_OWN_MESSAGE
+{
+	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, int64_t _3) :
+		hContact(_1),
+		hAck(_2),
+		tmpMsgId(_3)
+	{}
+
+	int64_t  tmpMsgId;
+	HANDLE   hAck;
+	MCONTACT hContact;
+};
+
 class CTelegramProto : public PROTO<CTelegramProto>
 {
 	friend class CForwardDlg;
@@ -179,7 +192,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
 	int64_t m_iQueryId;
-	
+
+	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 
 	mir_cs m_csFiles;

@@ -181,7 +181,18 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateMessageSendSucceeded::ID:
-		ProcessMessage(((TD::updateMessageSendSucceeded *)response.object.get())->message_.get());
+		{
+			auto *pMessage = (TD::updateMessageSendSucceeded *)response.object.get();
+			ProcessMessage(pMessage->message_.get());
+
+			if (auto *pOwnMsg = m_arOwnMsg.find((TG_OWN_MESSAGE *)&pMessage->old_message_id_)) {
+				char szMsgId[100];
+				_i64toa(pMessage->message_->id_, szMsgId, 10);
+				ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId);
+
+				m_arOwnMsg.remove(pOwnMsg);
+			}
+		}
 		break;
 
 	case TD::updateNewChat::ID:
@@ -189,7 +200,11 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateNewMessage::ID:
-		ProcessMessage(((TD::updateNewMessage *)response.object.get())->message_.get());
+		{
+			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
+			if (!m_arOwnMsg.find((TG_OWN_MESSAGE*)&pMessage->id_))
+				ProcessMessage(pMessage);
+		}
 		break;
 
 	case TD::updateOption::ID:
@@ -224,11 +239,8 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *
 
 	auto *pMessage = ((TD::message *)response.object.get());
 	auto *pUser = FindChat(pMessage->chat_id_);
-	if (pUser) {
-		char szMsgId[100];
-		_i64toa(pMessage->id_, szMsgId, 10);
-		ProtoBroadcastAck(pUser->hContact ? pUser->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pUserInfo, (LPARAM)szMsgId);
-	}
+	if (pUser)
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(pUser->hContact, pUserInfo, pMessage->id_));
 }
 
 int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)

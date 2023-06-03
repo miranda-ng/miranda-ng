@@ -24,6 +24,10 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 {	return CompareId(p1->id, p2->id);
 }
 
+static int CompareOwnMsg(const TG_OWN_MESSAGE *p1, const TG_OWN_MESSAGE *p2)
+{	return CompareId(p1->tmpMsgId, p2->tmpMsgId);
+}
+
 static int CompareBasicGroups(const TG_BASIC_GROUP *p1, const TG_BASIC_GROUP *p2)
 {	return CompareId(p1->id, p2->id);
 }
@@ -38,6 +42,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_arFiles(1, PtrKeySortT),
 	m_arChats(100, CompareChats),
 	m_arUsers(100, CompareUsers),
+	m_arOwnMsg(1, CompareOwnMsg),
 	m_arRequests(10, CompareRequests),
 	m_arBasicGroups(10, CompareBasicGroups),
 	m_arSuperGroups(10, CompareSuperGroups),
