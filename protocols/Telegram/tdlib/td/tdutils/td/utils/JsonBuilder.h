@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -222,11 +222,11 @@ class JsonScope {
     jb_->scope_ = this;
     CHECK(is_active());
   }
-  JsonScope(const JsonScope &other) = delete;
+  JsonScope(const JsonScope &) = delete;
+  JsonScope &operator=(const JsonScope &) = delete;
   JsonScope(JsonScope &&other) noexcept : sb_(other.sb_), jb_(other.jb_), save_scope_(other.save_scope_) {
     other.jb_ = nullptr;
   }
-  JsonScope &operator=(const JsonScope &) = delete;
   JsonScope &operator=(JsonScope &&) = delete;
   ~JsonScope() {
     if (jb_) {
@@ -342,7 +342,10 @@ class JsonArrayScope final : public JsonScope {
     jb->inc_offset();
     *sb_ << "[";
   }
-  JsonArrayScope(JsonArrayScope &&other) = default;
+  JsonArrayScope(const JsonArrayScope &) = delete;
+  JsonArrayScope &operator=(const JsonArrayScope &) = delete;
+  JsonArrayScope(JsonArrayScope &&) = default;
+  JsonArrayScope &operator=(JsonArrayScope &&) = delete;
   ~JsonArrayScope() {
     if (jb_) {
       leave();
@@ -383,7 +386,10 @@ class JsonObjectScope final : public JsonScope {
     jb->inc_offset();
     *sb_ << "{";
   }
-  JsonObjectScope(JsonObjectScope &&other) = default;
+  JsonObjectScope(const JsonObjectScope &) = delete;
+  JsonObjectScope &operator=(const JsonObjectScope &) = delete;
+  JsonObjectScope(JsonObjectScope &&) = default;
+  JsonObjectScope &operator=(JsonObjectScope &&) = delete;
   ~JsonObjectScope() {
     if (jb_) {
       leave();
@@ -470,8 +476,8 @@ class JsonValue final : private Jsonable {
     init(std::move(other));
     return *this;
   }
-  JsonValue(const JsonValue &other) = delete;
-  JsonValue &operator=(const JsonValue &other) = delete;
+  JsonValue(const JsonValue &) = delete;
+  JsonValue &operator=(const JsonValue &) = delete;
 
   Type type() const {
     return type_;

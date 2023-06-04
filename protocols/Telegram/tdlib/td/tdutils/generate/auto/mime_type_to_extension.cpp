@@ -1,5 +1,5 @@
-/* ANSI-C code produced by gperf version 3.1 */
-/* Command-line: 'W:\\Test\\td\\vcpkg\\installed\\x64-windows\\tools\\gperf.exe' -m100 --output-file=auto/mime_type_to_extension.cpp auto/mime_type_to_extension.gperf  */
+/* ANSI-C code produced by gperf version 3.0.1 */
+/* Command-line: 'C:\\Util\\gperf.exe' -m100 --output-file=auto/mime_type_to_extension.cpp auto/mime_type_to_extension.gperf  */
 /* Computed positions: -k'1,6-7,9-10,13-18,20,23,25-26,31,36,$' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -26,7 +26,7 @@
       && ('w' == 119) && ('x' == 120) && ('y' == 121) && ('z' == 122) \
       && ('{' == 123) && ('|' == 124) && ('}' == 125) && ('~' == 126))
 /* The character set is not based on ISO-646.  */
-#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gperf@gnu.org>."
+#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
 #endif
 
 #line 12 "auto/mime_type_to_extension.gperf"
@@ -86,7 +86,7 @@ inline
 #endif
 #endif
 static unsigned int
-mime_type_hash (register const char *str, register size_t len)
+mime_type_hash (register const char *str, register unsigned int len)
 {
   static const unsigned short asso_values[] =
     {
@@ -117,7 +117,7 @@ mime_type_hash (register const char *str, register size_t len)
       4686, 4686, 4686, 4686, 4686, 4686, 4686, 4686, 4686, 4686,
       4686, 4686, 4686, 4686, 4686, 4686
     };
-  register unsigned int hval = len;
+  register int hval = len;
 
   switch (hval)
     {
@@ -195,8 +195,11 @@ mime_type_hash (register const char *str, register size_t len)
   return hval + asso_values[(unsigned char)str[len - 1]];
 }
 
+#ifdef __GNUC__
+__inline
+#endif
 const struct mime_type_and_extension *
-search_mime_type (register const char *str, register size_t len)
+search_mime_type (register const char *str, register unsigned int len)
 {
   enum
     {
@@ -3007,9 +3010,9 @@ search_mime_type (register const char *str, register size_t len)
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
     {
-      register unsigned int key = mime_type_hash (str, len);
+      register int key = mime_type_hash (str, len);
 
-      if (key <= MAX_HASH_VALUE)
+      if (key <= MAX_HASH_VALUE && key >= 0)
         {
           register const char *s = wordlist[key].mime_type;
 

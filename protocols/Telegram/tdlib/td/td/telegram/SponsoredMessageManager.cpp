@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -97,10 +97,12 @@ struct SponsoredMessageManager::SponsoredMessage {
   string start_param;
   string invite_hash;
   unique_ptr<MessageContent> content;
+  string sponsor_info;
+  string additional_info;
 
   SponsoredMessage(int64 local_id, bool is_recommended, bool show_dialog_photo, DialogId sponsor_dialog_id,
                    ServerMessageId server_message_id, string start_param, string invite_hash,
-                   unique_ptr<MessageContent> content)
+                   unique_ptr<MessageContent> content, string sponsor_info, string additional_info)
       : local_id(local_id)
       , is_recommended(is_recommended)
       , show_dialog_photo(show_dialog_photo)
@@ -108,7 +110,9 @@ struct SponsoredMessageManager::SponsoredMessage {
       , server_message_id(server_message_id)
       , start_param(std::move(start_param))
       , invite_hash(std::move(invite_hash))
-      , content(std::move(content)) {
+      , content(std::move(content))
+      , sponsor_info(std::move(sponsor_info))
+      , additional_info(std::move(additional_info)) {
   }
 };
 
@@ -161,29 +165,41 @@ td_api::object_ptr<td_api::sponsoredMessage> SponsoredMessageManager::get_sponso
     case DialogType::User: {
       auto user_id = sponsored_message.sponsor_dialog_id.get_user_id();
       if (!td_->contacts_manager_->is_user_bot(user_id)) {
-        break;
+        LOG(ERROR) << "Sponsor " << user_id << " is not a bot";
+        return nullptr;
       }
       auto bot_username = td_->contacts_manager_->get_user_first_username(user_id);
       if (bot_username.empty()) {
-        break;
+        LOG(ERROR) << "Sponsor " << user_id << " has no username";
+        return nullptr;
       }
       link = td_api::make_object<td_api::internalLinkTypeBotStart>(bot_username, sponsored_message.start_param, false);
       break;
     }
-    case DialogType::Channel:
+    case DialogType::Channel: {
+      auto channel_id = sponsored_message.sponsor_dialog_id.get_channel_id();
+      if (!td_->contacts_manager_->is_broadcast_channel(channel_id)) {
+        LOG(ERROR) << "Sponsor " << channel_id << " is not a channel";
+        return nullptr;
+      }
       if (sponsored_message.server_message_id.is_valid()) {
-        auto channel_id = sponsored_message.sponsor_dialog_id.get_channel_id();
-        auto t_me = td_->option_manager_->get_option_string("t_me_url", "https://t.me/");
         link = td_api::make_object<td_api::internalLinkTypeMessage>(
-            PSTRING() << t_me << "c/" << channel_id.get() << '/' << sponsored_message.server_message_id.get());
+            PSTRING() << LinkManager::get_t_me_url() << "c/" << channel_id.get() << '/'
+                      << sponsored_message.server_message_id.get());
       }
       break;
+    }
     case DialogType::None: {
       CHECK(!sponsored_message.invite_hash.empty());
       auto invite_link = LinkManager::get_dialog_invite_link(sponsored_message.invite_hash, false);
       chat_invite_link_info = td_->contacts_manager_->get_chat_invite_link_info_object(invite_link);
       if (chat_invite_link_info == nullptr) {
         LOG(ERROR) << "Failed to get invite link info for " << invite_link;
+        return nullptr;
+      }
+      if (chat_invite_link_info->type_->get_id() != td_api::chatTypeSupergroup::ID ||
+          !static_cast<const td_api::chatTypeSupergroup *>(chat_invite_link_info->type_.get())->is_channel_) {
+        LOG(ERROR) << "Receive sponsor chat of a wrong type " << to_string(chat_invite_link_info->type_);
         return nullptr;
       }
       link = td_api::make_object<td_api::internalLinkTypeChatInvite>(
@@ -193,9 +209,11 @@ td_api::object_ptr<td_api::sponsoredMessage> SponsoredMessageManager::get_sponso
       break;
   }
   return td_api::make_object<td_api::sponsoredMessage>(
-      sponsored_message.local_id, sponsored_message.is_recommended, sponsored_message.sponsor_dialog_id.get(),
+      sponsored_message.local_id, sponsored_message.is_recommended,
+      td_->messages_manager_->get_chat_id_object(sponsored_message.sponsor_dialog_id, "sponsoredMessage"),
       std::move(chat_invite_link_info), sponsored_message.show_dialog_photo, std::move(link),
-      get_message_content_object(sponsored_message.content.get(), td_, dialog_id, 0, false, true, -1));
+      get_message_content_object(sponsored_message.content.get(), td_, dialog_id, 0, false, true, -1),
+      sponsored_message.sponsor_info, sponsored_message.additional_info);
 }
 
 td_api::object_ptr<td_api::sponsoredMessages> SponsoredMessageManager::get_sponsored_messages_object(
@@ -203,6 +221,7 @@ td_api::object_ptr<td_api::sponsoredMessages> SponsoredMessageManager::get_spons
   auto messages = transform(sponsored_messages.messages, [this, dialog_id](const SponsoredMessage &message) {
     return get_sponsored_message_object(dialog_id, message);
   });
+  td::remove_if(messages, [](const auto &message) { return message == nullptr; });
   return td_api::make_object<td_api::sponsoredMessages>(std::move(messages), sponsored_messages.messages_between);
 }
 
@@ -244,9 +263,7 @@ void SponsoredMessageManager::get_dialog_sponsored_messages(
 
 void SponsoredMessageManager::on_get_dialog_sponsored_messages(
     DialogId dialog_id, Result<telegram_api::object_ptr<telegram_api::messages_SponsoredMessages>> &&result) {
-  if (result.is_ok() && G()->close_flag()) {
-    result = Global::request_aborted_error();
-  }
+  G()->ignore_result_if_closing(result);
 
   auto &messages = dialog_sponsored_messages_[dialog_id];
   CHECK(messages != nullptr);
@@ -315,7 +332,7 @@ void SponsoredMessageManager::on_get_dialog_sponsored_messages(
         auto content = get_message_content(td_, std::move(message_text), nullptr, sponsor_dialog_id, true, UserId(),
                                            &ttl, &disable_web_page_preview, "on_get_dialog_sponsored_messages");
         if (ttl != 0) {
-          LOG(ERROR) << "Receive sponsored message with TTL " << ttl;
+          LOG(ERROR) << "Receive sponsored message with self-destruct time " << ttl;
           continue;
         }
         CHECK(disable_web_page_preview);
@@ -334,7 +351,8 @@ void SponsoredMessageManager::on_get_dialog_sponsored_messages(
         CHECK(is_inserted);
         messages->messages.emplace_back(
             local_id, sponsored_message->recommended_, sponsored_message->show_peer_photo_, sponsor_dialog_id,
-            server_message_id, std::move(sponsored_message->start_param_), std::move(invite_hash), std::move(content));
+            server_message_id, std::move(sponsored_message->start_param_), std::move(invite_hash), std::move(content),
+            std::move(sponsored_message->sponsor_info_), std::move(sponsored_message->additional_info_));
       }
       messages->messages_between = sponsored_messages->posts_between_;
       break;

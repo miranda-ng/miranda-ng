@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -80,7 +80,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   }
 
   void resend(DcId new_dc_id) {
-    VLOG(net_query) << "Resend" << *this;
+    VLOG(net_query) << "Resend " << *this;
     {
       auto guard = lock();
       get_data_unsafe().resend_count_++;
@@ -130,7 +130,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   }
 
   void set_ok(BufferSlice slice) {
-    VLOG(net_query) << "Got answer " << *this;
+    VLOG(net_query) << "Receive answer " << *this;
     CHECK(state_ == State::Query);
     answer_ = std::move(slice);
     state_ = State::OK;
@@ -311,8 +311,8 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
       this->store(other.load(std::memory_order_relaxed), std::memory_order_relaxed);
       return *this;
     }
-    movable_atomic(const movable_atomic &other) = delete;
-    movable_atomic &operator=(const movable_atomic &other) = delete;
+    movable_atomic(const movable_atomic &) = delete;
+    movable_atomic &operator=(const movable_atomic &) = delete;
     ~movable_atomic() = default;
   };
 
@@ -323,7 +323,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   ActorShared<NetQueryCallback> callback_;
 
   void set_error_impl(Status status, string source = string()) {
-    VLOG(net_query) << "Got error " << *this << " " << status;
+    VLOG(net_query) << "Receive error " << *this << " " << status;
     status_ = std::move(status);
     state_ = State::Error;
     source_ = std::move(source);

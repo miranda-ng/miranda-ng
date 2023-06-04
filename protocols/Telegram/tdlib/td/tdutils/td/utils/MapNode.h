@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -45,8 +45,8 @@ struct MapNode {
     new (&second) ValueT(std::move(value));
     DCHECK(!empty());
   }
-  MapNode(const MapNode &other) = delete;
-  MapNode &operator=(const MapNode &other) = delete;
+  MapNode(const MapNode &) = delete;
+  MapNode &operator=(const MapNode &) = delete;
   MapNode(MapNode &&other) noexcept {
     *this = std::move(other);
   }
@@ -107,10 +107,10 @@ struct MapNode<KeyT, ValueT, typename std::enable_if_t<(sizeof(KeyT) + sizeof(Va
       new (&second) ValueT(std::forward<ArgsT>(args)...);
       DCHECK(!is_hash_table_key_empty(first));
     }
-    Impl(const Impl &other) = delete;
-    Impl &operator=(const Impl &other) = delete;
-    Impl(Impl &&other) = delete;
-    void operator=(Impl &&other) = delete;
+    Impl(const Impl &) = delete;
+    Impl &operator=(const Impl &) = delete;
+    Impl(Impl &&) = delete;
+    Impl &operator=(Impl &&) = delete;
     ~Impl() {
       second.~ValueT();
     }

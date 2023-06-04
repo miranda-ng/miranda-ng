@@ -1,12 +1,10 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
-
-#include "td/telegram/TdParameters.h"
 
 #include "td/db/binlog/BinlogEvent.h"
 #include "td/db/binlog/BinlogInterface.h"
@@ -50,10 +48,17 @@ class TdDb {
   TdDb &operator=(TdDb &&) = delete;
   ~TdDb();
 
-  struct OpenedDatabase {
-    string database_directory;
-    string files_directory;
+  struct Parameters {
+    DbKey encryption_key_;
+    string database_directory_;
+    string files_directory_;
+    bool is_test_dc_ = false;
+    bool use_file_database_ = false;
+    bool use_chat_info_database_ = false;
+    bool use_message_database_ = false;
+  };
 
+  struct OpenedDatabase {
     unique_ptr<TdDb> database;
 
     vector<BinlogEvent> to_secret_chats_manager;
@@ -67,10 +72,44 @@ class TdDb {
     vector<BinlogEvent> to_messages_manager;
     vector<BinlogEvent> to_notification_manager;
     vector<BinlogEvent> to_notification_settings_manager;
-  };
-  static void open(int32 scheduler_id, TdParameters parameters, DbKey key, Promise<OpenedDatabase> &&promise);
 
-  static Status destroy(const TdParameters &parameters);
+    int64 since_last_open = 0;
+  };
+  static void open(int32 scheduler_id, Parameters parameters, Promise<OpenedDatabase> &&promise);
+
+  static Status destroy(const Parameters &parameters);
+
+  Slice get_database_directory() const {
+    return parameters_.database_directory_;
+  }
+
+  Slice get_files_directory() const {
+    return parameters_.files_directory_;
+  }
+
+  bool is_test_dc() const {
+    return parameters_.is_test_dc_;
+  }
+
+  bool use_file_database() const {
+    return parameters_.use_file_database_;
+  }
+
+  bool use_sqlite_pmc() const {
+    return parameters_.use_file_database_;
+  }
+
+  bool use_chat_info_database() const {
+    return parameters_.use_chat_info_database_;
+  }
+
+  bool use_message_database() const {
+    return parameters_.use_message_database_;
+  }
+
+  bool was_dialog_db_created() const {
+    return was_dialog_db_created_;
+  }
 
   std::shared_ptr<FileDbInterface> get_file_db_shared();
   std::shared_ptr<SqliteConnectionSafe> &get_sqlite_connection_safe();
@@ -86,9 +125,6 @@ class TdDb {
 
   SqliteKeyValue *get_sqlite_sync_pmc();
   SqliteKeyValueAsyncInterface *get_sqlite_pmc();
-
-  CSlice binlog_path() const;
-  CSlice sqlite_path() const;
 
   void flush_all();
 
@@ -111,7 +147,10 @@ class TdDb {
   Result<string> get_stats();
 
  private:
-  string sqlite_path_;
+  Parameters parameters_;
+
+  bool was_dialog_db_created_ = false;
+
   std::shared_ptr<SqliteConnectionSafe> sql_connection_;
 
   std::shared_ptr<FileDbInterface> file_db_;
@@ -132,11 +171,11 @@ class TdDb {
   std::shared_ptr<BinlogKeyValue<ConcurrentBinlog>> config_pmc_;
   std::shared_ptr<ConcurrentBinlog> binlog_;
 
-  static void open_impl(TdParameters parameters, DbKey key, Promise<OpenedDatabase> &&promise);
+  static void open_impl(Parameters parameters, Promise<OpenedDatabase> &&promise);
 
-  static Status check_parameters(TdParameters &parameters);
+  static Status check_parameters(Parameters &parameters);
 
-  Status init_sqlite(const TdParameters &parameters, const DbKey &key, const DbKey &old_key,
+  Status init_sqlite(const Parameters &parameters, const DbKey &key, const DbKey &old_key,
                      BinlogKeyValue<Binlog> &binlog_pmc);
 
   void do_close(Promise<> on_finished, bool destroy_flag);

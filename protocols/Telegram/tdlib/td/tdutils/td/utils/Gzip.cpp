@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,10 +25,10 @@ class Gzip::Impl {
 
   // z_stream is not copyable nor movable
   Impl() = default;
-  Impl(const Impl &other) = delete;
-  Impl &operator=(const Impl &other) = delete;
-  Impl(Impl &&other) = delete;
-  Impl &operator=(Impl &&other) = delete;
+  Impl(const Impl &) = delete;
+  Impl &operator=(const Impl &) = delete;
+  Impl(Impl &&) = delete;
+  Impl &operator=(Impl &&) = delete;
   ~Impl() = default;
 };
 

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -128,8 +128,8 @@ size_t RSA::size() const {
 }
 
 bool RSA::encrypt(Slice from, MutableSlice to) const {
-  CHECK(from.size() == 256)
-  CHECK(to.size() == 256)
+  CHECK(from.size() == 256);
+  CHECK(to.size() == 256);
   int bits = n_.get_num_bits();
   CHECK(bits >= 2041 && bits <= 2048);
 

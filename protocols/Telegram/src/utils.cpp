@@ -403,7 +403,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageAnimatedEmoji::ID:
 		if (m_bSmileyAdd) {
 			auto *pSticker = ((TD::messageAnimatedEmoji *)pBody)->animated_emoji_->sticker_.get();
-			if (pSticker->type_->get_id() != TD::stickerTypeRegular::ID)
+			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID)
 				break;
 
 			const char *pwszFileExt;
@@ -424,7 +424,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageSticker::ID:
 		if (m_bSmileyAdd) {
 			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
-			if (pSticker->type_->get_id() != TD::stickerTypeRegular::ID)
+			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID)
 				break;
 
 			const char *pwszFileExt;

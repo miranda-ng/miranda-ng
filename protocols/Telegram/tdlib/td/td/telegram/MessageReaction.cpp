@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -134,8 +134,10 @@ class GetMessagesReactionsQuery final : public Td::ResultHandler {
     auto input_peer = td_->messages_manager_->get_input_peer(dialog_id_, AccessRights::Read);
     CHECK(input_peer != nullptr);
 
-    send_query(G()->net_query_creator().create(telegram_api::messages_getMessagesReactions(
-        std::move(input_peer), MessagesManager::get_server_message_ids(message_ids_))));
+    send_query(
+        G()->net_query_creator().create(telegram_api::messages_getMessagesReactions(
+                                            std::move(input_peer), MessageId::get_server_message_ids(message_ids_)),
+                                        {{dialog_id_}}));
   }
 
   void on_result(BufferSlice packet) final {
@@ -304,7 +306,7 @@ class GetMessageReactionsListQuery final : public Td::ResultHandler {
       auto message_sender = get_min_message_sender_object(td_, dialog_id, "GetMessageReactionsListQuery");
       if (message_sender != nullptr) {
         reactions.push_back(td_api::make_object<td_api::addedReaction>(get_reaction_type_object(reaction_str),
-                                                                       std::move(message_sender)));
+                                                                       std::move(message_sender), reaction->date_));
       }
     }
 
@@ -824,9 +826,7 @@ void MessageReactions::add_dependencies(Dependencies &dependencies) const {
   for (const auto &reaction : reactions_) {
     const auto &dialog_ids = reaction.get_recent_chooser_dialog_ids();
     for (auto dialog_id : dialog_ids) {
-      // don't load the dialog itself
-      // it will be created in get_message_reaction_object if needed
-      dependencies.add_dialog_dependencies(dialog_id);
+      dependencies.add_message_sender_dependencies(dialog_id);
     }
   }
 }
@@ -879,7 +879,8 @@ bool is_active_reaction(const string &reaction, const FlatHashMap<string, size_t
 }
 
 void reload_message_reactions(Td *td, DialogId dialog_id, vector<MessageId> &&message_ids) {
-  if (!td->messages_manager_->have_input_peer(dialog_id, AccessRights::Read) || message_ids.empty()) {
+  if (!td->messages_manager_->have_input_peer(dialog_id, AccessRights::Read) ||
+      dialog_id.get_type() == DialogType::SecretChat || message_ids.empty()) {
     return;
   }
 
@@ -943,13 +944,11 @@ void send_set_default_reaction_query(Td *td) {
   td->create_handler<SetDefaultReactionQuery>()->send(td->option_manager_->get_option_string("default_reaction"));
 }
 
-void send_update_default_reaction_type(const string &default_reaction) {
+td_api::object_ptr<td_api::updateDefaultReactionType> get_update_default_reaction_type(const string &default_reaction) {
   if (default_reaction.empty()) {
-    LOG(ERROR) << "Have no default reaction";
-    return;
+    return nullptr;
   }
-  send_closure(G()->td(), &Td::send_update,
-               td_api::make_object<td_api::updateDefaultReactionType>(get_reaction_type_object(default_reaction)));
+  return td_api::make_object<td_api::updateDefaultReactionType>(get_reaction_type_object(default_reaction));
 }
 
 void report_message_reactions(Td *td, FullMessageId full_message_id, DialogId chooser_dialog_id,
@@ -960,6 +959,9 @@ void report_message_reactions(Td *td, FullMessageId full_message_id, DialogId ch
   }
   if (!td->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
     return promise.set_error(Status::Error(400, "Can't access the chat"));
+  }
+  if (dialog_id.get_type() == DialogType::SecretChat) {
+    return promise.set_error(Status::Error(400, "Reactions can't be reported in the chat"));
   }
 
   if (!td->messages_manager_->have_message_force(full_message_id, "report_user_reactions")) {

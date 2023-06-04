@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -71,6 +71,8 @@ class OptionManager {
   string get_option(Slice name) const;
 
   static bool is_internal_option(Slice name);
+
+  td_api::object_ptr<td_api::Update> get_internal_option_update(Slice name) const;
 
   static const vector<Slice> &get_synchronous_options();
 

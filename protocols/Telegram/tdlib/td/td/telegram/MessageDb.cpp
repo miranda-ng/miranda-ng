@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -206,11 +206,7 @@ class MessageDbImpl final : public MessageDbSyncInterface {
 
     TRY_RESULT_ASSIGN(
         get_expiring_messages_stmt_,
-        db_.get_statement(
-            "SELECT dialog_id, message_id, data FROM messages WHERE ?1 < ttl_expires_at AND ttl_expires_at <= ?2"));
-    TRY_RESULT_ASSIGN(get_expiring_messages_helper_stmt_,
-                      db_.get_statement("SELECT MAX(ttl_expires_at), COUNT(*) FROM (SELECT ttl_expires_at FROM "
-                                        "messages WHERE ?1 < ttl_expires_at LIMIT ?2) AS T"));
+        db_.get_statement("SELECT dialog_id, message_id, data FROM messages WHERE ttl_expires_at <= ?1 LIMIT ?2"));
 
     TRY_RESULT_ASSIGN(get_messages_stmt_.asc_stmt_,
                       db_.get_statement("SELECT data, message_id FROM messages WHERE dialog_id = ?1 AND message_id > "
@@ -285,7 +281,6 @@ class MessageDbImpl final : public MessageDbSyncInterface {
     // LOG(ERROR) << get_message_by_unique_message_id_stmt_.explain().ok();
 
     // LOG(ERROR) << get_expiring_messages_stmt_.explain().ok();
-    // LOG(ERROR) << get_expiring_messages_helper_stmt_.explain().ok();
 
     // LOG(FATAL) << "EXPLAINED";
 
@@ -565,7 +560,7 @@ class MessageDbImpl final : public MessageDbSyncInterface {
           prev_found_message_id = message_id;
         }
 
-        // left_message_id is always an id of suitable message, let's return it
+        // left_message_id is always an identifier of suitable message, let's return it
         return get_message({dialog_id, MessageId(left_message_id)});
       }
     }
@@ -573,40 +568,25 @@ class MessageDbImpl final : public MessageDbSyncInterface {
     return Status::Error("Not found");
   }
 
-  std::pair<vector<MessageDbMessage>, int32> get_expiring_messages(int32 expires_from, int32 expires_till,
-                                                                   int32 limit) final {
+  vector<MessageDbMessage> get_expiring_messages(int32 expires_till, int32 limit) final {
     SCOPE_EXIT {
       get_expiring_messages_stmt_.reset();
-      get_expiring_messages_helper_stmt_.reset();
     };
 
     vector<MessageDbMessage> messages;
-    // load messages
-    if (expires_from <= expires_till) {
-      get_expiring_messages_stmt_.bind_int32(1, expires_from).ensure();
-      get_expiring_messages_stmt_.bind_int32(2, expires_till).ensure();
+    get_expiring_messages_stmt_.bind_int32(1, expires_till).ensure();
+    get_expiring_messages_stmt_.bind_int32(2, limit).ensure();
+    get_expiring_messages_stmt_.step().ensure();
+
+    while (get_expiring_messages_stmt_.has_row()) {
+      DialogId dialog_id(get_expiring_messages_stmt_.view_int64(0));
+      MessageId message_id(get_expiring_messages_stmt_.view_int64(1));
+      BufferSlice data(get_expiring_messages_stmt_.view_blob(2));
+      messages.push_back(MessageDbMessage{dialog_id, message_id, std::move(data)});
       get_expiring_messages_stmt_.step().ensure();
-
-      while (get_expiring_messages_stmt_.has_row()) {
-        DialogId dialog_id(get_expiring_messages_stmt_.view_int64(0));
-        MessageId message_id(get_expiring_messages_stmt_.view_int64(1));
-        BufferSlice data(get_expiring_messages_stmt_.view_blob(2));
-        messages.push_back(MessageDbMessage{dialog_id, message_id, std::move(data)});
-        get_expiring_messages_stmt_.step().ensure();
-      }
     }
 
-    // calc next expires_till
-    get_expiring_messages_helper_stmt_.bind_int32(1, expires_till).ensure();
-    get_expiring_messages_helper_stmt_.bind_int32(2, limit).ensure();
-    get_expiring_messages_helper_stmt_.step().ensure();
-    CHECK(get_expiring_messages_helper_stmt_.has_row());
-    int32 count = get_expiring_messages_helper_stmt_.view_int32(1);
-    int32 next_expires_till = -1;
-    if (count != 0) {
-      next_expires_till = get_expiring_messages_helper_stmt_.view_int32(0);
-    }
-    return std::make_pair(std::move(messages), next_expires_till);
+    return messages;
   }
 
   MessageDbCalendar get_dialog_message_calendar(MessageDbDialogCalendarQuery query) final {
@@ -856,7 +836,6 @@ class MessageDbImpl final : public MessageDbSyncInterface {
   SqliteStatement get_message_by_random_id_stmt_;
   SqliteStatement get_message_by_unique_message_id_stmt_;
   SqliteStatement get_expiring_messages_stmt_;
-  SqliteStatement get_expiring_messages_helper_stmt_;
 
   struct GetMessagesStmt {
     SqliteStatement asc_stmt_;
@@ -1072,9 +1051,8 @@ class MessageDbAsync final : public MessageDbAsyncInterface {
   void get_messages_fts(MessageDbFtsQuery query, Promise<MessageDbFtsResult> promise) final {
     send_closure_later(impl_, &Impl::get_messages_fts, std::move(query), std::move(promise));
   }
-  void get_expiring_messages(int32 expires_from, int32 expires_till, int32 limit,
-                             Promise<std::pair<vector<MessageDbMessage>, int32>> promise) final {
-    send_closure_later(impl_, &Impl::get_expiring_messages, expires_from, expires_till, limit, std::move(promise));
+  void get_expiring_messages(int32 expires_till, int32 limit, Promise<vector<MessageDbMessage>> promise) final {
+    send_closure_later(impl_, &Impl::get_expiring_messages, expires_till, limit, std::move(promise));
   }
 
   void close(Promise<> promise) final {
@@ -1184,10 +1162,9 @@ class MessageDbAsync final : public MessageDbAsyncInterface {
       add_read_query();
       promise.set_value(sync_db_->get_messages_fts(std::move(query)));
     }
-    void get_expiring_messages(int32 expires_from, int32 expires_till, int32 limit,
-                               Promise<std::pair<vector<MessageDbMessage>, int32>> promise) {
+    void get_expiring_messages(int32 expires_till, int32 limit, Promise<vector<MessageDbMessage>> promise) {
       add_read_query();
-      promise.set_value(sync_db_->get_expiring_messages(expires_from, expires_till, limit));
+      promise.set_value(sync_db_->get_expiring_messages(expires_till, limit));
     }
 
     void close(Promise<> promise) {

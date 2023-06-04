@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,14 +61,20 @@ td_api::object_ptr<td_api::chatNotificationSettings> get_chat_notification_setti
     const DialogNotificationSettings *notification_settings);
 
 Result<DialogNotificationSettings> get_dialog_notification_settings(
-    td_api::object_ptr<td_api::chatNotificationSettings> &&notification_settings, bool old_silent_send_message);
+    td_api::object_ptr<td_api::chatNotificationSettings> &&notification_settings,
+    const DialogNotificationSettings *old_settings);
 
 DialogNotificationSettings get_dialog_notification_settings(tl_object_ptr<telegram_api::peerNotifySettings> &&settings,
-                                                            bool old_use_default_disable_pinned_message_notifications,
-                                                            bool old_disable_pinned_message_notifications,
-                                                            bool old_use_default_disable_mention_notifications,
-                                                            bool old_disable_mention_notifications);
+                                                            const DialogNotificationSettings *old_settings);
 
 bool are_default_dialog_notification_settings(const DialogNotificationSettings &settings, bool compare_sound);
+
+struct NeedUpdateDialogNotificationSettings {
+  bool need_update_server = false;
+  bool need_update_local = false;
+  bool are_changed = false;
+};
+NeedUpdateDialogNotificationSettings need_update_dialog_notification_settings(
+    const DialogNotificationSettings *current_settings, const DialogNotificationSettings &new_settings);
 
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,7 +32,24 @@ inline size_t utf8_length(Slice str) {
 size_t utf8_utf16_length(Slice str);
 
 /// appends a Unicode character using UTF-8 encoding
-void append_utf8_character(string &str, uint32 ch);
+template <class T>
+void append_utf8_character(T &str, uint32 code) {
+  if (code <= 0x7f) {
+    str.push_back(static_cast<char>(code));
+  } else if (code <= 0x7ff) {
+    str.push_back(static_cast<char>(0xc0 | (code >> 6)));  // implementation-defined
+    str.push_back(static_cast<char>(0x80 | (code & 0x3f)));
+  } else if (code <= 0xffff) {
+    str.push_back(static_cast<char>(0xe0 | (code >> 12)));  // implementation-defined
+    str.push_back(static_cast<char>(0x80 | ((code >> 6) & 0x3f)));
+    str.push_back(static_cast<char>(0x80 | (code & 0x3f)));
+  } else {
+    str.push_back(static_cast<char>(0xf0 | (code >> 18)));  // implementation-defined
+    str.push_back(static_cast<char>(0x80 | ((code >> 12) & 0x3f)));
+    str.push_back(static_cast<char>(0x80 | ((code >> 6) & 0x3f)));
+    str.push_back(static_cast<char>(0x80 | (code & 0x3f)));
+  }
+}
 
 /// moves pointer one UTF-8 character back
 inline const unsigned char *prev_utf8_unsafe(const unsigned char *ptr) {
@@ -44,6 +61,9 @@ inline const unsigned char *prev_utf8_unsafe(const unsigned char *ptr) {
 
 /// moves pointer one UTF-8 character forward and saves code of the skipped character in *code
 const unsigned char *next_utf8_unsafe(const unsigned char *ptr, uint32 *code);
+
+/// appends a Unicode character using UTF-8 encoding and returns updated pointer
+unsigned char *append_utf8_character_unsafe(unsigned char *ptr, uint32 code);
 
 /// truncates UTF-8 string to the given length in Unicode characters
 template <class T>

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -105,10 +105,10 @@ class LambdaPromise : public PromiseInterface<ValueT> {
       state_ = State::Complete;
     }
   }
-  LambdaPromise(const LambdaPromise &other) = delete;
-  LambdaPromise &operator=(const LambdaPromise &other) = delete;
-  LambdaPromise(LambdaPromise &&other) = default;
-  LambdaPromise &operator=(LambdaPromise &&other) = default;
+  LambdaPromise(const LambdaPromise &) = delete;
+  LambdaPromise &operator=(const LambdaPromise &) = delete;
+  LambdaPromise(LambdaPromise &&) = default;
+  LambdaPromise &operator=(LambdaPromise &&) = default;
   ~LambdaPromise() override {
     if (state_.get() == State::Ready) {
       do_error(Status::Error("Lost promise"));
@@ -258,10 +258,10 @@ class SafePromise {
  public:
   SafePromise(Promise<T> promise, Result<T> result) : promise_(std::move(promise)), result_(std::move(result)) {
   }
-  SafePromise(const SafePromise &other) = delete;
-  SafePromise &operator=(const SafePromise &other) = delete;
-  SafePromise(SafePromise &&other) = default;
-  SafePromise &operator=(SafePromise &&other) = default;
+  SafePromise(const SafePromise &) = delete;
+  SafePromise &operator=(const SafePromise &) = delete;
+  SafePromise(SafePromise &&) = default;
+  SafePromise &operator=(SafePromise &&) = default;
   ~SafePromise() {
     if (promise_) {
       promise_.set_result(std::move(result_));

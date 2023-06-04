@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -241,7 +241,7 @@ class TestPingActor final : public td::Actor {
       return stop();
     }
     if (ping_connection_->was_pong()) {
-      LOG(INFO) << "GOT PONG";
+      LOG(INFO) << "Receive pong";
       return stop();
     }
   }
@@ -604,7 +604,7 @@ class FastPingTestActor final : public td::Actor {
       if (iteration_ % 2 == 0) {
         auth_data = td::make_unique<td::mtproto::AuthData>();
         auth_data->set_tmp_auth_key(handshake_->get_auth_key());
-        auth_data->set_server_time_difference(handshake_->get_server_time_diff());
+        auth_data->reset_server_time_difference(handshake_->get_server_time_diff());
         auth_data->set_server_salt(handshake_->get_server_salt(), td::Time::now());
         auth_data->set_future_salts({td::mtproto::ServerSalt{0u, 1e20, 1e30}}, td::Time::now());
         auth_data->set_use_pfs(true);

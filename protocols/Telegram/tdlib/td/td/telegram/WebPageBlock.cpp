@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -2059,7 +2059,6 @@ unique_ptr<WebPageBlock> get_web_page_block(Td *td, tl_object_ptr<telegram_api::
       bool is_looped = page_block->loop_;
       auto animations_it = animations.find(page_block->video_id_);
       if (animations_it != animations.end()) {
-        LOG_IF(ERROR, !is_looped) << "Receive non-looped animation";
         return make_unique<WebPageBlockAnimation>(
             animations_it->second, get_page_block_caption(std::move(page_block->caption_), documents), need_autoplay);
       }

@@ -112,7 +112,7 @@ void CTelegramProto::SendMarkRead()
 	m_impl.m_markRead.Stop();
 
 	mir_cslock lck(m_csMarkRead);
-	SendQuery(new TD::viewMessages(m_markChatId, 0, std::move(m_markIds), true));
+	SendQuery(new TD::viewMessages(m_markChatId, std::move(m_markIds), 0, true));
 	m_markChatId = 0;
 }
 
@@ -144,8 +144,8 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessBasicGroup((TD::updateBasicGroup*)response.object.get());
 		break;
 
-	case TD::updateChatFilters::ID:
-		ProcessGroups((TD::updateChatFilters *)response.object.get());
+	case TD::updateChatFolders::ID:
+		ProcessGroups((TD::updateChatFolders *)response.object.get());
 		break;
 
 	case TD::updateChatLastMessage::ID:
@@ -486,9 +486,9 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 
 	auto *pPos = (TD::chatPosition *)pObj->position_.get();
 	if (pPos->list_) {
-		auto *pList = (TD::chatListFilter *)pPos->list_.get();
+		auto *pList = (TD::chatListFolder *)pPos->list_.get();
 
-		CMStringA szSetting(FORMAT, "ChatFilter%d", pList->chat_filter_id_);
+		CMStringA szSetting(FORMAT, "ChatFilter%d", pList->chat_folder_id_);
 		CMStringW wszGroup(getMStringW(szSetting));
 		if (!wszGroup.IsEmpty()) {
 			ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
@@ -551,10 +551,10 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 	}
 }
 
-void CTelegramProto::ProcessGroups(TD::updateChatFilters *pObj)
+void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
 {
-	for (auto &grp : pObj->chat_filters_) {
-		if (grp->icon_name_ != "Custom")
+	for (auto &grp : pObj->chat_folders_) {
+		if (grp->icon_->name_!= "Custom")
 			continue;
 
 		CMStringA szSetting(FORMAT, "ChatFilter%d", grp->id_);

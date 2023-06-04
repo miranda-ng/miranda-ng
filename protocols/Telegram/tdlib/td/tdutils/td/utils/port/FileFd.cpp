@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -41,198 +41,8 @@
 #include <limits>
 #endif
 
-#if TD_PORT_WINDOWS
-#define STATUS_INVALID_INFO_CLASS  0xC0000003L
-
-typedef enum _FILE_INFORMATION_CLASS
-{
-   FileDirectoryInformation = 1,
-   FileFullDirectoryInformation,
-   FileBothDirectoryInformation,
-   FileBasicInformation,
-   FileStandardInformation,
-   FileInternalInformation,
-   FileEaInformation,
-   FileAccessInformation,
-   FileNameInformation,
-   FileRenameInformation,
-   FileLinkInformation,
-   FileNamesInformation,
-   FileDispositionInformation,
-   FilePositionInformation,
-   FileFullEaInformation,
-   FileModeInformation,
-   FileAlignmentInformation,
-   FileAllInformation,
-   FileAllocationInformation,
-   FileEndOfFileInformation,
-   FileAlternateNameInformation,
-   FileStreamInformation,
-   FilePipeInformation,
-   FilePipeLocalInformation,
-   FilePipeRemoteInformation,
-   FileMailslotQueryInformation,
-   FileMailslotSetInformation,
-   FileCompressionInformation,
-   FileCopyOnWriteInformation,
-   FileCompletionInformation,
-   FileMoveClusterInformation,
-   FileQuotaInformation,
-   FileReparsePointInformation,
-   FileNetworkOpenInformation,
-   FileObjectIdInformation,
-   FileTrackingInformation,
-   FileOleDirectoryInformation,
-   FileContentIndexInformation,
-   FileInheritContentIndexInformation,
-   FileOleInformation,
-   FileMaximumInformation
-} FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
-
-
-#ifdef WIN32_LEAN_AND_MEAN
+#if TD_PORT_WINDOWS && defined(WIN32_LEAN_AND_MEAN)
 #include <winioctl.h>
-#endif // WIN32_LEAN_AND_MEAN
-
-typedef struct _IO_STATUS_BLOCK
-{
-   union {
-      NTSTATUS Status;
-      PVOID Pointer;
-   } DUMMYUNIONNAME;
-
-   ULONG_PTR Information;
-} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
-
-typedef NTSTATUS (CALLBACK *pfnNtQueryDirectoryFile)(
-   HANDLE                 FileHandle,
-   HANDLE                 Event,
-   PVOID                  ApcRoutine,
-   PVOID                  ApcContext,
-   PIO_STATUS_BLOCK       IoStatusBlock,
-   PVOID                  FileInformation,
-   ULONG                  Length,
-   FILE_INFORMATION_CLASS FileInformationClass,
-   BOOLEAN                ReturnSingleEntry,
-   WCHAR*                 FileName,
-   BOOLEAN                RestartScan);
-
-static pfnNtQueryDirectoryFile fnNtQueryDirectoryFile = nullptr;
-
-typedef NTSTATUS (CALLBACK *pfnNtQueryInformationFile)(
-   HANDLE                 FileHandle,
-   PIO_STATUS_BLOCK       IoStatusBlock,
-   PVOID                  FileInformation,
-   ULONG                  Length,
-   FILE_INFORMATION_CLASS FileInformationClass);
-
-static pfnNtQueryInformationFile fnNtQueryInformationFile = nullptr;
-
-static BOOL bNtdllInited = false;
-
-static BOOL WINAPI GetFileInformationByHandleExStub(
-   _In_  HANDLE hFile,
-   _In_  FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
-   _Out_writes_bytes_(dwBufferSize) LPVOID lpFileInformation,
-   _In_  DWORD dwBufferSize)
-{
-   FILE_INFORMATION_CLASS NtFileInformationClass;
-   DWORD cbMinBufferSize;
-   BOOLEAN RestartScan = false;
-
-   switch (FileInformationClass) // Purosham Sahanu InformationClass 
-   {
-   case FileBasicInfo:
-      NtFileInformationClass = FileBasicInformation;
-      cbMinBufferSize = sizeof(FILE_BASIC_INFO);
-      break;
-   case FileStandardInfo:
-      NtFileInformationClass = FileStandardInformation;
-      cbMinBufferSize = sizeof(FILE_STANDARD_INFO);
-      break;
-   case FileNameInfo:
-      NtFileInformationClass = FileNameInformation;
-      cbMinBufferSize = sizeof(FILE_NAME_INFO);
-      break;
-   case FileStreamInfo:
-      NtFileInformationClass = FileStreamInformation;
-      cbMinBufferSize = sizeof(FILE_STREAM_INFO);
-      break;
-   case FileCompressionInfo:
-      NtFileInformationClass = FileCompressionInformation;
-      cbMinBufferSize = sizeof(FILE_COMPRESSION_INFO);
-      break;
-   default:
-      SetLastError(ERROR_INVALID_PARAMETER);
-      return FALSE;
-      break;
-   }
-
-   if (cbMinBufferSize > dwBufferSize) {
-      SetLastError(ERROR_BAD_LENGTH);
-      return FALSE;
-   }
-
-   if (!bNtdllInited) {
-      bNtdllInited = true;
-
-      HINSTANCE hdll = LoadLibraryA("ntdll.dll");
-      fnNtQueryDirectoryFile = (pfnNtQueryDirectoryFile)GetProcAddress(hdll, "NtQueryDirectoryFile");
-      fnNtQueryInformationFile = (pfnNtQueryInformationFile)GetProcAddress(hdll, "NtQueryInformationFile");
-   }
-
-   int Status = ERROR_SUCCESS;
-   IO_STATUS_BLOCK IoStatusBlock;
-   if (fnNtQueryDirectoryFile) {
-      Status = fnNtQueryDirectoryFile(
-         hFile,
-         nullptr,
-         nullptr,
-         nullptr,
-         &IoStatusBlock,
-         lpFileInformation,
-         dwBufferSize,
-         NtFileInformationClass,
-         false,
-         nullptr,
-         RestartScan
-      );
-
-      if (STATUS_PENDING == Status) {
-         if (WaitForSingleObjectEx(hFile, 0, FALSE) == WAIT_FAILED) {
-            return FALSE;
-         }
-
-         Status = IoStatusBlock.Status;
-      }
-      else if (Status == STATUS_INVALID_INFO_CLASS)
-         goto LBL_CheckFile;
-   }
-   else {
-LBL_CheckFile:
-      if (!fnNtQueryInformationFile) {
-         SetLastError(ERROR_INVALID_FUNCTION);
-         return FALSE;
-      }
-
-      Status = fnNtQueryInformationFile(hFile, &IoStatusBlock, lpFileInformation, dwBufferSize, NtFileInformationClass);
-   }
-
-   if (Status >= ERROR_SUCCESS) {
-      if (FileStreamInfo == FileInformationClass && IoStatusBlock.Information == 0) {
-         SetLastError(ERROR_HANDLE_EOF);
-         return FALSE;
-      }
-      else {
-         return TRUE;
-      }
-   }
-   else {
-      SetLastError(Status);
-      return FALSE;
-   }
-}
-
 #endif
 
 namespace td {
@@ -347,11 +157,25 @@ Result<FileFd> FileFd::open(CSlice filepath, int32 flags, int32 mode) {
   }
 #endif
 
-  int native_fd = detail::skip_eintr([&] { return ::open(filepath.c_str(), native_flags, static_cast<mode_t>(mode)); });
-  if (native_fd < 0) {
-    return OS_ERROR(PSLICE() << "File \"" << filepath << "\" can't be " << PrintFlags{flags});
+  while (true) {
+    int native_fd =
+        detail::skip_eintr([&] { return ::open(filepath.c_str(), native_flags, static_cast<mode_t>(mode)); });
+    if (native_fd < 0) {
+      return OS_ERROR(PSLICE() << "File \"" << filepath << "\" can't be " << PrintFlags{flags});
+    }
+    // Avoid the use of low-numbered file descriptors, which can be used directly by some other functions
+    constexpr int MINIMUM_FILE_DESCRIPTOR = 3;
+    if (native_fd < MINIMUM_FILE_DESCRIPTOR) {
+      ::close(native_fd);
+      LOG(ERROR) << "Receive " << native_fd << " as a file descriptor";
+      int dummy_fd = detail::skip_eintr([&] { return ::open("/dev/null", O_RDONLY, 0); });
+      if (dummy_fd < 0) {
+        return OS_ERROR("Can't open /dev/null");
+      }
+      continue;
+    }
+    return from_native_fd(NativeFd(native_fd));
   }
-  return from_native_fd(NativeFd(native_fd));
 #elif TD_PORT_WINDOWS
   // TODO: support modes
   auto r_filepath = to_wstring(filepath);
@@ -372,6 +196,8 @@ Result<FileFd> FileFd::open(CSlice filepath, int32 flags, int32 mode) {
   // TODO: share mode
   DWORD share_mode = FILE_SHARE_READ | FILE_SHARE_DELETE | FILE_SHARE_WRITE;
 
+  DWORD native_flags = 0;
+
   DWORD creation_disposition = 0;
   if (flags & Create) {
     if (flags & Truncate) {
@@ -387,18 +213,29 @@ Result<FileFd> FileFd::open(CSlice filepath, int32 flags, int32 mode) {
     } else {
       creation_disposition = OPEN_EXISTING;
     }
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
+    native_flags |= FILE_FLAG_OPEN_REPARSE_POINT;
+#endif
   }
 
-  DWORD native_flags = 0;
   if (flags & Direct) {
     native_flags |= FILE_FLAG_WRITE_THROUGH | FILE_FLAG_NO_BUFFERING;
   }
   if (flags & WinStat) {
     native_flags |= FILE_FLAG_BACKUP_SEMANTICS;
   }
-
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
   auto handle =
       CreateFile(w_filepath.c_str(), desired_access, share_mode, nullptr, creation_disposition, native_flags, nullptr);
+#else
+  CREATEFILE2_EXTENDED_PARAMETERS extended_parameters;
+  std::memset(&extended_parameters, 0, sizeof(extended_parameters));
+  extended_parameters.dwSize = sizeof(extended_parameters);
+  extended_parameters.dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
+  extended_parameters.dwFileFlags = native_flags;
+  auto handle = td::CreateFile2FromAppW(w_filepath.c_str(), desired_access, share_mode, creation_disposition,
+                                        &extended_parameters);
+#endif
   if (handle == INVALID_HANDLE_VALUE) {
     return OS_ERROR(PSLICE() << "File \"" << filepath << "\" can't be " << PrintFlags{flags});
   }
@@ -722,10 +559,10 @@ struct FileSize {
 
 Result<FileSize> get_file_size(const FileFd &file_fd) {
   FILE_STANDARD_INFO standard_info;
-  if (!GetFileInformationByHandleExStub(file_fd.get_native_fd().fd(), FileStandardInfo, &standard_info, sizeof(standard_info))) {
+  if (!GetFileInformationByHandleEx(file_fd.get_native_fd().fd(), FileStandardInfo, &standard_info,
+                                    sizeof(standard_info))) {
     return OS_ERROR("Get FileStandardInfo failed");
   }
-
   FileSize res;
   res.size_ = standard_info.EndOfFile.QuadPart;
   res.real_size_ = standard_info.AllocationSize.QuadPart;
@@ -767,15 +604,26 @@ Result<Stat> FileFd::stat() const {
   Stat res;
 
   FILE_BASIC_INFO basic_info;
-  auto status = GetFileInformationByHandleExStub(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
+  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
   if (!status) {
-     return OS_ERROR("Get FileStandardInfo failed");
+    return OS_ERROR("Get FileBasicInfo failed");
   }
-
   res.atime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastAccessTime.QuadPart);
   res.mtime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastWriteTime.QuadPart);
   res.is_dir_ = (basic_info.FileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-  res.is_reg_ = !res.is_dir_;  // TODO this is still wrong
+  if ((basic_info.FileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
+    FILE_ATTRIBUTE_TAG_INFO tag_info;
+    status = GetFileInformationByHandleEx(get_native_fd().fd(), FileAttributeTagInfo, &tag_info, sizeof(tag_info));
+    if (!status) {
+      return OS_ERROR("Get FileAttributeTagInfo failed");
+    }
+    res.is_reg_ = false;
+    res.is_symbolic_link_ =
+        (tag_info.FileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0 && tag_info.ReparseTag == IO_REPARSE_TAG_SYMLINK;
+  } else {
+    res.is_reg_ = !res.is_dir_;
+    res.is_symbolic_link_ = false;
+  }
 
   TRY_RESULT(file_size, get_file_size(*this));
   res.size_ = file_size.size_;
@@ -799,6 +647,16 @@ Status FileFd::sync() {
     return OS_ERROR("Sync failed");
   }
   return Status::OK();
+}
+
+Status FileFd::sync_barrier() {
+  CHECK(!empty());
+#if TD_DARWIN && defined(F_BARRIERFSYNC)
+  if (detail::skip_eintr([&] { return fcntl(get_native_fd().fd(), F_BARRIERFSYNC); }) != -1) {
+    return Status::OK();
+  }
+#endif
+  return sync();
 }
 
 Status FileFd::seek(int64 position) {

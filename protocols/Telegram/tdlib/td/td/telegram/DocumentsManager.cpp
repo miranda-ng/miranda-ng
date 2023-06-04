@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -72,8 +72,7 @@ tl_object_ptr<td_api::document> DocumentsManager::get_document_object(FileId fil
 
 Document DocumentsManager::on_get_document(RemoteDocument remote_document, DialogId owner_dialog_id,
                                            MultiPromiseActor *load_data_multipromise_ptr,
-                                           Document::Type default_document_type, bool is_background, bool is_pattern,
-                                           bool is_ringtone) {
+                                           Document::Type default_document_type, Subtype document_subtype) {
   tl_object_ptr<telegram_api::documentAttributeAnimated> animated;
   tl_object_ptr<telegram_api::documentAttributeVideo> video;
   tl_object_ptr<telegram_api::documentAttributeAudio> audio;
@@ -235,27 +234,34 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
                  << ", has_stickers = " << has_stickers;
   }
 
-  if (is_background) {
-    if (document_type != Document::Type::General) {
-      LOG(ERROR) << "Receive background of type " << document_type;
-      document_type = Document::Type::General;
-    }
-    file_type = FileType::Background;
-    if (is_pattern) {
+  switch (document_subtype) {
+    case Subtype::Background:
+      if (document_type != Document::Type::General) {
+        LOG(ERROR) << "Receive background of type " << document_type;
+        document_type = Document::Type::General;
+      }
+      file_type = FileType::Background;
+      default_extension = Slice("jpg");
+      break;
+    case Subtype::Pattern:
+      if (document_type != Document::Type::General) {
+        LOG(ERROR) << "Receive background of type " << document_type;
+        document_type = Document::Type::General;
+      }
+      file_type = FileType::Background;
       default_extension = Slice("png");
       thumbnail_format = PhotoFormat::Png;
-    } else {
-      default_extension = Slice("jpg");
-    }
-  }
-
-  if (is_ringtone) {
-    if (document_type != Document::Type::Audio) {
-      LOG(ERROR) << "Receive notification tone of type " << document_type;
-      document_type = Document::Type::Audio;
-    }
-    file_type = FileType::Ringtone;
-    default_extension = Slice("mp3");
+      break;
+    case Subtype::Ringtone:
+      if (document_type != Document::Type::Audio) {
+        LOG(ERROR) << "Receive notification tone of type " << document_type;
+        document_type = Document::Type::Audio;
+      }
+      file_type = FileType::Ringtone;
+      default_extension = Slice("mp3");
+      break;
+    default:
+      break;
   }
 
   int64 id;
@@ -298,7 +304,7 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
     access_hash = document->access_hash_;
     dc_id = document->dc_id_;
     size = document->size_;
-    if (is_ringtone) {
+    if (document_subtype == Subtype::Ringtone) {
       date = document->date_;
     }
     mime_type = std::move(document->mime_type_);
@@ -319,10 +325,10 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
     }
 
     if (document_type != Document::Type::VoiceNote) {
-      for (auto &thumb : document->thumbs_) {
+      for (auto &thumbnail_ptr : document->thumbs_) {
         auto photo_size = get_photo_size(td_->file_manager_.get(), PhotoSizeSource::thumbnail(FileType::Thumbnail, 0),
                                          id, access_hash, file_reference, DcId::create(dc_id), owner_dialog_id,
-                                         std::move(thumb), thumbnail_format);
+                                         std::move(thumbnail_ptr), thumbnail_format);
         if (photo_size.get_offset() == 0) {
           if (!thumbnail.file_id.is_valid()) {
             thumbnail = std::move(photo_size.get<0>());
@@ -332,19 +338,23 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
         }
       }
     }
-    for (auto &thumb : document->video_thumbs_) {
-      if (thumb->type_ == "v") {
+    for (auto &thumbnail_ptr : document->video_thumbs_) {
+      if (thumbnail_ptr->get_id() != telegram_api::videoSize::ID) {
+        continue;
+      }
+      auto video_size = move_tl_object_as<telegram_api::videoSize>(thumbnail_ptr);
+      if (video_size->type_ == "v") {
         if (!animated_thumbnail.file_id.is_valid()) {
           animated_thumbnail =
-              get_animation_size(td_->file_manager_.get(), PhotoSizeSource::thumbnail(FileType::Thumbnail, 0), id,
-                                 access_hash, file_reference, DcId::create(dc_id), owner_dialog_id, std::move(thumb));
+              get_animation_size(td_, PhotoSizeSource::thumbnail(FileType::Thumbnail, 0), id, access_hash,
+                                 file_reference, DcId::create(dc_id), owner_dialog_id, std::move(video_size));
         }
-      } else if (thumb->type_ == "f") {
+      } else if (video_size->type_ == "f") {
         if (!premium_animation_file_id.is_valid()) {
           premium_animation_file_id =
               register_photo_size(td_->file_manager_.get(), PhotoSizeSource::thumbnail(FileType::Thumbnail, 'f'), id,
-                                  access_hash, file_reference, owner_dialog_id, thumb->size_, DcId::create(dc_id),
-                                  get_sticker_format_photo_format(sticker_format));
+                                  access_hash, file_reference, owner_dialog_id, video_size->size_, DcId::create(dc_id),
+                                  get_sticker_format_photo_format(sticker_format), "on_get_document");
         }
       }
     }
@@ -654,11 +664,11 @@ tl_object_ptr<telegram_api::InputMedia> DocumentsManager::get_input_media(
     return nullptr;
   }
   if (file_view.has_remote_location() && !file_view.main_remote_location().is_web() && input_file == nullptr) {
-    return make_tl_object<telegram_api::inputMediaDocument>(0, file_view.main_remote_location().as_input_document(), 0,
-                                                            string());
+    return make_tl_object<telegram_api::inputMediaDocument>(
+        0, false /*ignored*/, file_view.main_remote_location().as_input_document(), 0, string());
   }
   if (file_view.has_url()) {
-    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, file_view.url(), 0);
+    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, false /*ignored*/, file_view.url(), 0);
   }
 
   if (input_file != nullptr) {
@@ -673,12 +683,14 @@ tl_object_ptr<telegram_api::InputMedia> DocumentsManager::get_input_media(
     if (input_thumbnail != nullptr) {
       flags |= telegram_api::inputMediaUploadedDocument::THUMB_MASK;
     }
-    if (file_view.get_type() == FileType::DocumentAsFile) {
+    auto file_type = file_view.get_type();
+    if (file_type == FileType::DocumentAsFile) {
       flags |= telegram_api::inputMediaUploadedDocument::FORCE_FILE_MASK;
     }
     return make_tl_object<telegram_api::inputMediaUploadedDocument>(
-        flags, false /*ignored*/, false /*ignored*/, std::move(input_file), std::move(input_thumbnail),
-        document->mime_type, std::move(attributes), vector<tl_object_ptr<telegram_api::InputDocument>>(), 0);
+        flags, false /*ignored*/, false /*ignored*/, false /*ignored*/, std::move(input_file),
+        std::move(input_thumbnail), document->mime_type, std::move(attributes),
+        vector<tl_object_ptr<telegram_api::InputDocument>>(), 0);
   } else {
     CHECK(!file_view.has_remote_location());
   }

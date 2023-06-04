@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -122,7 +122,9 @@ std::string TD_TL_writer_jni_h::gen_output_begin() const {
          "  }\n"
          "\n"
          "  return to_string(*value);\n"
-         "}\n\n";
+         "}\n\n"
+
+         "void set_package_name(const char *new_package_name);\n\n";
 }
 
 std::string TD_TL_writer_jni_h::gen_class_begin(const std::string &class_name, const std::string &base_class_name,
@@ -157,7 +159,7 @@ std::string TD_TL_writer_jni_h::gen_additional_function(const std::string &funct
   if (function_name == "init_jni_vars") {
     return "\n"
            "  static void " +
-           function_name + "(JNIEnv *env, const char *package_name);\n";
+           function_name + "(JNIEnv *env);\n";
   }
 
   return TD_TL_writer_h::gen_additional_function(function_name, t, is_function);
@@ -170,7 +172,7 @@ std::string TD_TL_writer_jni_h::gen_additional_proxy_function_begin(const std::s
   if (function_name == "init_jni_vars") {
     return "\n"
            "  static void " +
-           function_name + "(JNIEnv *env, const char *package_name);\n";
+           function_name + "(JNIEnv *env);\n";
   }
 
   return TD_TL_writer_h::gen_additional_proxy_function_begin(function_name, type, class_name, arity, is_function);

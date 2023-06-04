@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,6 +14,7 @@
 #include "td/utils/port/path.h"
 #include "td/utils/port/signals.h"
 #include "td/utils/port/sleep.h"
+#include "td/utils/port/Stat.h"
 #include "td/utils/port/thread.h"
 #include "td/utils/port/thread_local.h"
 #include "td/utils/Random.h"
@@ -54,7 +55,7 @@ TEST(Port, files) {
   const int ITER_COUNT = 1000;
   for (int i = 0; i < ITER_COUNT; i++) {
     td::walk_path(main_dir, [&](td::CSlice name, td::WalkPath::Type type) {
-      if (type == td::WalkPath::Type::NotDir) {
+      if (type == td::WalkPath::Type::RegularFile) {
         ASSERT_TRUE(name == fd_path || name == fd2_path);
       }
       cnt++;
@@ -105,6 +106,7 @@ TEST(Port, files) {
   fd.seek(0).ensure();
   ASSERT_EQ(13u, fd.read(buf_slice.substr(0, 13)).move_as_ok());
   ASSERT_STREQ("Habcd world?!", buf_slice.substr(0, 13));
+  td::rmrf(main_dir).ensure();
 }
 
 TEST(Port, SparseFiles) {
@@ -167,6 +169,14 @@ TEST(Port, Writev) {
   td::string content(expected_content.size(), '\0');
   ASSERT_EQ(content.size(), fd.read(content).move_as_ok());
   ASSERT_EQ(expected_content, content);
+
+  auto stat = td::stat(test_file_path).move_as_ok();
+  CHECK(!stat.is_dir_);
+  CHECK(stat.is_reg_);
+  CHECK(!stat.is_symbolic_link_);
+  CHECK(stat.size_ == static_cast<td::int64>(expected_content.size()));
+
+  td::unlink(test_file_path).ignore();
 }
 
 #if TD_PORT_POSIX && !TD_THREAD_UNSUPPORTED

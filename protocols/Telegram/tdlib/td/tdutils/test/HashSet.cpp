@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -90,6 +90,20 @@ struct AHash {
 
 static bool operator==(const A &lhs, const A &rhs) {
   return lhs.a == rhs.a;
+}
+
+TEST(FlatHashSet, init) {
+  td::FlatHashSet<td::Slice, td::SliceHash> s{"1", "22", "333", "4444"};
+  ASSERT_TRUE(s.size() == 4);
+  td::string str("1");
+  ASSERT_TRUE(s.count(str) == 1);
+  ASSERT_TRUE(s.count("1") == 1);
+  ASSERT_TRUE(s.count("22") == 1);
+  ASSERT_TRUE(s.count("333") == 1);
+  ASSERT_TRUE(s.count("4444") == 1);
+  ASSERT_TRUE(s.count("4") == 0);
+  ASSERT_TRUE(s.count("222") == 0);
+  ASSERT_TRUE(s.count("") == 0);
 }
 
 TEST(FlatHashSet, foreach) {

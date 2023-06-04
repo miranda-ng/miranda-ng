@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,6 @@ namespace td {
 extern int VERBOSITY_NAME(mtproto);
 
 namespace mtproto_api {
-
 class rpc_error;
 class new_session_created;
 class bad_msg_notification;
@@ -54,15 +53,14 @@ namespace mtproto {
 class AuthData;
 
 struct MsgInfo {
-  uint64 session_id;
-  int64 message_id;
+  uint64 message_id;
   int32 seq_no;
   size_t size;
 };
 
-inline StringBuilder &operator<<(StringBuilder &stream, const MsgInfo &id) {
-  return stream << "[session_id:" << format::as_hex(id.session_id) << "] [msg_id:" << format::as_hex(id.message_id)
-                << "] [seq_no:" << format::as_hex(id.seq_no) << "]";
+inline StringBuilder &operator<<(StringBuilder &string_builder, const MsgInfo &info) {
+  return string_builder << "[msg_id:" << format::as_hex(info.message_id) << "] [seq_no:" << format::as_hex(info.seq_no)
+                        << "]";
 }
 
 class SessionConnection final
@@ -81,13 +79,13 @@ class SessionConnection final
   unique_ptr<RawConnection> move_as_raw_connection();
 
   // Interface
-  Result<uint64> TD_WARN_UNUSED_RESULT send_query(BufferSlice buffer, bool gzip_flag, int64 message_id = 0,
+  Result<uint64> TD_WARN_UNUSED_RESULT send_query(BufferSlice buffer, bool gzip_flag, uint64 message_id = 0,
                                                   std::vector<uint64> invoke_after_id = {}, bool use_quick_ack = false);
   std::pair<uint64, BufferSlice> encrypted_bind(int64 perm_key, int64 nonce, int32 expires_at);
 
-  void get_state_info(int64 message_id);
-  void resend_answer(int64 message_id);
-  void cancel_answer(int64 message_id);
+  void get_state_info(uint64 message_id);
+  void resend_answer(uint64 message_id);
+  void cancel_answer(uint64 message_id);
   void destroy_key();
 
   void set_online(bool online_flag, bool is_main);
@@ -106,7 +104,7 @@ class SessionConnection final
     virtual void on_auth_key_updated() = 0;
     virtual void on_tmp_auth_key_updated() = 0;
     virtual void on_server_salt_updated() = 0;
-    virtual void on_server_time_difference_updated() = 0;
+    virtual void on_server_time_difference_updated(bool force) = 0;
 
     virtual void on_session_created(uint64 unique_id, uint64 first_id) = 0;
     virtual void on_session_failed(Status status) = 0;
@@ -185,7 +183,9 @@ class SessionConnection final
   double last_read_at_ = 0;
   double last_ping_at_ = 0;
   double last_pong_at_ = 0;
-  int64 cur_ping_id_ = 0;
+  double real_last_read_at_ = 0;
+  double real_last_pong_at_ = 0;
+  uint64 cur_ping_id_ = 0;
   uint64 last_ping_message_id_ = 0;
   uint64 last_ping_container_id_ = 0;
 
@@ -195,7 +195,6 @@ class SessionConnection final
   bool need_destroy_auth_key_ = false;
   bool sent_destroy_auth_key_ = false;
 
-  double wakeup_at_ = 0;
   double flush_packet_at_ = 0;
 
   double last_get_future_salt_at_ = 0;
@@ -204,7 +203,7 @@ class SessionConnection final
   bool connected_flag_ = false;
 
   uint64 container_id_ = 0;
-  int64 main_message_id_ = 0;
+  uint64 main_message_id_ = 0;
   double created_at_ = 0;
 
   unique_ptr<RawConnection> raw_connection_;
@@ -220,6 +219,8 @@ class SessionConnection final
       to = from;
     };
   }
+
+  void reset_server_time_difference(uint64 message_id);
 
   static Status parse_message(TlParser &parser, MsgInfo *info, Slice *packet,
                               bool crypto_flag = true) TD_WARN_UNUSED_RESULT;
@@ -241,7 +242,7 @@ class SessionConnection final
   Status on_packet(const MsgInfo &info, const mtproto_api::pong &pong) TD_WARN_UNUSED_RESULT;
   Status on_packet(const MsgInfo &info, const mtproto_api::future_salts &salts) TD_WARN_UNUSED_RESULT;
 
-  Status on_msgs_state_info(const vector<int64> &ids, Slice info) TD_WARN_UNUSED_RESULT;
+  Status on_msgs_state_info(const vector<int64> &message_ids, Slice info) TD_WARN_UNUSED_RESULT;
   Status on_packet(const MsgInfo &info, const mtproto_api::msgs_state_info &msgs_state_info) TD_WARN_UNUSED_RESULT;
   Status on_packet(const MsgInfo &info, const mtproto_api::msgs_all_info &msgs_all_info) TD_WARN_UNUSED_RESULT;
   Status on_packet(const MsgInfo &info, const mtproto_api::msg_detailed_info &msg_detailed_info) TD_WARN_UNUSED_RESULT;

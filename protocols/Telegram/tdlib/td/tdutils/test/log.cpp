@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -168,7 +168,7 @@ TEST(Log, Bench) {
     class AsyncFileLog final : public td::LogInterface {
      public:
       AsyncFileLog() {
-        file_log_.init("tmplog", std::numeric_limits<td::int64>::max()).ensure();
+        file_log_.init("tmplog", std::numeric_limits<td::int64>::max(), false).ensure();
       }
       void do_append(int log_level, td::CSlice slice) final {
         static_cast<td::LogInterface &>(file_log_).do_append(log_level, slice);

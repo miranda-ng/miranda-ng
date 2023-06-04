@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,12 +61,11 @@ ScopeNotificationSettings get_scope_notification_settings(tl_object_ptr<telegram
   if (settings == nullptr) {
     return ScopeNotificationSettings();
   }
-  auto mute_until = (settings->flags_ & telegram_api::peerNotifySettings::MUTE_UNTIL_MASK) == 0 ||
-                            settings->mute_until_ <= G()->unix_time()
-                        ? 0
-                        : settings->mute_until_;
-  auto show_preview =
-      (settings->flags_ & telegram_api::peerNotifySettings::SHOW_PREVIEWS_MASK) == 0 ? false : settings->show_previews_;
+  auto mute_until = settings->mute_until_;
+  if (mute_until <= G()->unix_time()) {
+    mute_until = 0;
+  }
+  auto show_preview = settings->show_previews_;
   return {mute_until, get_notification_sound(settings.get()), show_preview, old_disable_pinned_message_notifications,
           old_disable_mention_notifications};
 }

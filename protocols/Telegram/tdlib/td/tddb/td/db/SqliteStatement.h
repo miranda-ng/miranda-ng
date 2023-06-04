@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -26,10 +26,10 @@ extern int VERBOSITY_NAME(sqlite);
 class SqliteStatement {
  public:
   SqliteStatement() = default;
-  SqliteStatement(const SqliteStatement &other) = delete;
-  SqliteStatement &operator=(const SqliteStatement &other) = delete;
-  SqliteStatement(SqliteStatement &&other) = default;
-  SqliteStatement &operator=(SqliteStatement &&other) = default;
+  SqliteStatement(const SqliteStatement &) = delete;
+  SqliteStatement &operator=(const SqliteStatement &) = delete;
+  SqliteStatement(SqliteStatement &&) = default;
+  SqliteStatement &operator=(SqliteStatement &&) = default;
   ~SqliteStatement();
 
   Status bind_blob(int id, Slice blob) TD_WARN_UNUSED_RESULT;
@@ -51,7 +51,7 @@ class SqliteStatement {
     return state_ != State::Finish;
   }
   bool has_row() const {
-    return state_ == State::GotRow;
+    return state_ == State::HaveRow;
   }
   bool empty() const {
     return !stmt_;
@@ -76,7 +76,7 @@ class SqliteStatement {
     void operator()(sqlite3_stmt *stmt);
   };
 
-  enum class State { Start, GotRow, Finish };
+  enum class State { Start, HaveRow, Finish };
   State state_ = State::Start;
 
   std::unique_ptr<sqlite3_stmt, StmtDeleter> stmt_;

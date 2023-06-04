@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -338,6 +338,17 @@ string get_emoji_fingerprint(uint64 num) {
 bool check_currency_amount(int64 amount) {
   constexpr int64 MAX_AMOUNT = 9999'9999'9999;
   return -MAX_AMOUNT <= amount && amount <= MAX_AMOUNT;
+}
+
+Status validate_bot_language_code(const string &language_code) {
+  if (language_code.empty()) {
+    return Status::OK();
+  }
+  if (language_code.size() == 2 && 'a' <= language_code[0] && language_code[0] <= 'z' && 'a' <= language_code[1] &&
+      language_code[1] <= 'z') {
+    return Status::OK();
+  }
+  return Status::Error(400, "Invalid language code specified");
 }
 
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,7 +8,6 @@
 
 #include "td/telegram/Global.h"
 #include "td/telegram/TdDb.h"
-#include "td/telegram/TdParameters.h"
 
 #include "td/db/SqliteKeyValueAsync.h"
 
@@ -23,7 +22,7 @@ HashtagHints::HashtagHints(string mode, ActorShared<> parent) : mode_(std::move(
 }
 
 void HashtagHints::start_up() {
-  if (G()->parameters().use_file_db) {  // TODO hashtag hints should not depend on use_file_db
+  if (G()->use_sqlite_pmc()) {  // TODO hashtag hints should not depend on use_sqlite_pmc
     G()->td_db()->get_sqlite_pmc()->get(get_key(),
                                         PromiseCreator::lambda([actor_id = actor_id(this)](Result<string> res) {
                                           send_closure(actor_id, &HashtagHints::from_db, std::move(res), false);

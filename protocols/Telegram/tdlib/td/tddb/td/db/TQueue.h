@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,9 +61,9 @@ class TQueue {
   struct RawEvent {
     uint64 log_event_id{0};
     EventId event_id;
+    int32 expires_at{0};
     string data;
     int64 extra{0};
-    int32 expires_at{0};
   };
 
   using QueueId = int64;
@@ -83,6 +83,7 @@ class TQueue {
     virtual uint64 push(QueueId queue_id, const RawEvent &event) = 0;
     virtual void pop(uint64 log_event_id) = 0;
     virtual void close(Promise<> promise) = 0;
+    virtual void pop_batch(std::vector<uint64> log_event_ids);
   };
 
   static unique_ptr<TQueue> create();
@@ -104,7 +105,7 @@ class TQueue {
 
   virtual void forget(QueueId queue_id, EventId event_id) = 0;
 
-  virtual void clear(QueueId queue_id, size_t keep_count) = 0;
+  virtual std::map<EventId, RawEvent> clear(QueueId queue_id, size_t keep_count) = 0;
 
   virtual EventId get_head(QueueId queue_id) const = 0;
   virtual EventId get_tail(QueueId queue_id) const = 0;
@@ -128,6 +129,7 @@ class TQueueBinlog final : public TQueue::StorageCallback {
  public:
   uint64 push(QueueId queue_id, const RawEvent &event) final;
   void pop(uint64 log_event_id) final;
+  void pop_batch(std::vector<uint64> log_event_ids) final;
   Status replay(const BinlogEvent &binlog_event, TQueue &q) const TD_WARN_UNUSED_RESULT;
 
   void set_binlog(std::shared_ptr<BinlogT> binlog) {

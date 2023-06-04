@@ -129,7 +129,8 @@ class DoxygenTlDocumentationGenerator extends TlDocumentationGenerator
             preg_match('/class [A-Za-z0-9_]*;/', $line) || $tline === 'if (value == nullptr) {' ||
             strpos($tline, 'result += ') === 0 || strpos($tline, 'result = ') || strpos($tline, ' : values') ||
             strpos($line, 'JNIEnv') || strpos($line, 'jfieldID') || $tline === 'virtual ~Object() {' ||
-            $tline === 'virtual void store(TlStorerToString &s, const char *field_name) const = 0;';
+            $tline === 'virtual void store(TlStorerToString &s, const char *field_name) const = 0;' ||
+            $tline === 'void set_package_name(const char *new_package_name);';
     }
 
     protected function isHeaderLine($line)
@@ -231,7 +232,7 @@ EOT
  * A function to create a dynamically allocated TDLib API object. Can be treated as an analogue of std::make_unique.
  * Usage example:
  * \\code
- * auto get_authorization_state_request = td::td_api::make_object<td::td_api::getAuthorizationState>();
+ * auto get_me_request = td::td_api::make_object<td::td_api::getMe>();
  * auto message_text = td::td_api::make_object<td::td_api::formattedText>("Hello, world!!!",
  *                     td::td_api::array<td::td_api::object_ptr<td::td_api::textEntity>>());
  * auto send_message_request = td::td_api::make_object<td::td_api::sendMessage>(chat_id, 0, 0, nullptr, nullptr,

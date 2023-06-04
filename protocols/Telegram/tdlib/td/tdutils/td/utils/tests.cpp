@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -84,7 +84,7 @@ class RegressionTesterImpl final : public RegressionTester {
       auto wa_path = db_cache_dir_ + "WA";
       write_file(wa_path, result).ensure();
       return Status::Error(PSLICE() << "Test " << name << " changed: " << tag("expected", old_test_info.result_hash)
-                                    << tag("got", hash));
+                                    << tag("received", hash));
     }
     auto result_cache_path = db_cache_dir_ + hash;
     if (stat(result_cache_path).is_error()) {
@@ -182,6 +182,10 @@ void TestsRunner::add_substr_filter(string str) {
   substr_filters_.push_back(std::move(str));
 }
 
+void TestsRunner::set_offset(string str) {
+  offset_ = std::move(str);
+}
+
 void TestsRunner::set_regression_tester(unique_ptr<RegressionTester> regression_tester) {
   regression_tester_ = std::move(regression_tester);
 }
@@ -202,6 +206,7 @@ bool TestsRunner::run_all_step() {
     state_.it = 0;
   }
 
+  bool skip_tests = true;
   while (state_.it != state_.end) {
     auto &name = tests_[state_.it].first;
     auto &test = tests_[state_.it].second.test;
@@ -214,7 +219,10 @@ bool TestsRunner::run_all_step() {
           break;
         }
       }
-      if (!ok) {
+      if (name.find(offset_) != string::npos) {
+        skip_tests = false;
+      }
+      if (!ok || skip_tests) {
         ++state_.it;
         continue;
       }

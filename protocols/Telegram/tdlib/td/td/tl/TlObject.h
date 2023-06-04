@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -39,14 +39,14 @@ class TlObject {
    * Appends the object to the storer serializing object, a buffer of fixed length.
    * \param[in] s Storer to which the object will be appended.
    */
-  virtual void store(TlStorerUnsafe &) const {
+  virtual void store(TlStorerUnsafe &s) const {
   }
 
   /**
    * Appends the object to the storer, calculating the TL-length of the serialized object.
    * \param[in] s Storer to which the object will be appended.
    */
-  virtual void store(TlStorerCalcLength &) const {
+  virtual void store(TlStorerCalcLength &s) const {
   }
 
   /**
@@ -97,8 +97,8 @@ class unique_ptr {
   using element_type = T;
 
   unique_ptr() noexcept = default;
-  unique_ptr(const unique_ptr &other) = delete;
-  unique_ptr &operator=(const unique_ptr &other) = delete;
+  unique_ptr(const unique_ptr &) = delete;
+  unique_ptr &operator=(const unique_ptr &) = delete;
   unique_ptr(unique_ptr &&other) noexcept : ptr_(other.release()) {
   }
   unique_ptr &operator=(unique_ptr &&other) noexcept {
@@ -187,7 +187,7 @@ using tl_object_ptr = tl::unique_ptr<Type>;
  * A function to create a dynamically allocated TL-object. Can be treated as an analogue of std::make_unique.
  * Usage example:
  * \code
- * auto get_authorization_state_request = td::make_tl_object<td::td_api::getAuthorizationState>();
+ * auto get_me_request = td::make_tl_object<td::td_api::getMe>();
  * auto message_text = td::make_tl_object<td::td_api::formattedText>("Hello, world!!!",
  *                     td::td_api::array<td::tl_object_ptr<td::td_api::textEntity>>());
  * auto send_message_request = td::make_tl_object<td::td_api::sendMessage>(chat_id, 0, 0, nullptr, nullptr,

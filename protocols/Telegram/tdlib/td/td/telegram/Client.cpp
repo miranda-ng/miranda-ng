@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -653,8 +653,8 @@ Client::Response Client::execute(Request &&request) {
   return response;
 }
 
-Client::Client(Client &&other) noexcept = default;
-Client &Client::operator=(Client &&other) noexcept = default;
+Client::Client(Client &&) noexcept = default;
+Client &Client::operator=(Client &&) noexcept = default;
 Client::~Client() = default;
 
 ClientManager::ClientManager() : impl_(std::make_unique<Impl>()) {
@@ -706,8 +706,8 @@ void ClientManager::set_log_message_callback(int max_verbosity_level, LogMessage
   }
 }
 
-ClientManager::ClientManager(ClientManager &&other) noexcept = default;
-ClientManager &ClientManager::operator=(ClientManager &&other) noexcept = default;
+ClientManager::ClientManager(ClientManager &&) noexcept = default;
+ClientManager &ClientManager::operator=(ClientManager &&) noexcept = default;
 ClientManager::~ClientManager() = default;
 
 ClientManager *ClientManager::get_manager_singleton() {

@@ -53,14 +53,12 @@
     <ClCompile Include="td\tdutils\td\utils\port\detail\Iocp.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\detail\NativeFd.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\FileFd.cpp" />
-    <ClCompile Include="td\tdutils\td\utils\port\inet_ntop.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\IPAddress.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\MemoryMapping.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\path.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\platform.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\PollFlags.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\rlimit.cpp" />
-    <ClCompile Include="td\tdutils\td\utils\port\RwMutex.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\ServerSocketFd.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\signals.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\sleep.cpp" />
@@ -167,7 +165,6 @@
     <ClInclude Include="td\tdutils\td\utils\port\PollBase.h" />
     <ClInclude Include="td\tdutils\td\utils\port\PollFlags.h" />
     <ClInclude Include="td\tdutils\td\utils\port\rlimit.h" />
-    <ClInclude Include="td\tdutils\td\utils\port\RwMutex.h" />
     <ClInclude Include="td\tdutils\td\utils\port\ServerSocketFd.h" />
     <ClInclude Include="td\tdutils\td\utils\port\signals.h" />
     <ClInclude Include="td\tdutils\td\utils\port\sleep.h" />
@@ -278,6 +275,7 @@
     <ClInclude Include="td\tdutils\td\utils\uint128.h" />
     <ClInclude Include="td\tdutils\td\utils\unicode.h" />
     <ClInclude Include="td\tdutils\td\utils\unique_ptr.h" />
+    <ClInclude Include="td\tdutils\td\utils\unique_value_ptr.h" />
     <ClInclude Include="td\tdutils\td\utils\utf8.h" />
     <ClInclude Include="td\tdutils\td\utils\Variant.h" />
     <ClInclude Include="td\tdutils\td\utils\VectorQueue.h" />

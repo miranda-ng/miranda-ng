@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,8 +23,8 @@ class ActorId {
   explicit ActorId(ObjectPool<ActorInfo>::WeakPtr ptr) : ptr_(ptr) {
   }
   ActorId() = default;
-  ActorId(const ActorId &other) = default;
-  ActorId &operator=(const ActorId &other) = default;
+  ActorId(const ActorId &) = default;
+  ActorId &operator=(const ActorId &) = default;
   ActorId(ActorId &&other) noexcept : ptr_(other.ptr_) {
     other.clear();
   }
@@ -79,8 +79,8 @@ class ActorOwn {
   ActorOwn &operator=(ActorOwn<OtherActorType> &&other);
   ActorOwn(ActorOwn &&other) noexcept;
   ActorOwn &operator=(ActorOwn &&other) noexcept;
-  ActorOwn(const ActorOwn &other) = delete;
-  ActorOwn &operator=(const ActorOwn &other) = delete;
+  ActorOwn(const ActorOwn &) = delete;
+  ActorOwn &operator=(const ActorOwn &) = delete;
   ~ActorOwn();
 
   bool empty() const;
@@ -111,8 +111,8 @@ class ActorShared {
   ActorShared &operator=(ActorShared<OtherActorType> &&other);
   ActorShared(ActorShared &&other) noexcept;
   ActorShared &operator=(ActorShared &&other) noexcept;
-  ActorShared(const ActorShared &other) = delete;
-  ActorShared &operator=(const ActorShared &other) = delete;
+  ActorShared(const ActorShared &) = delete;
+  ActorShared &operator=(const ActorShared &) = delete;
   ~ActorShared();
 
   uint64 token() const;

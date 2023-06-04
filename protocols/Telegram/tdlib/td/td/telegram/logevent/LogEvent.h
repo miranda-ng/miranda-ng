@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -102,6 +102,7 @@ class LogEvent {
     DeleteDialogMessagesByDateOnServer = 0x123,
     ReadAllDialogReactionsOnServer = 0x124,
     DeleteTopicHistoryOnServer = 0x125,
+    ToggleDialogIsTranslatableOnServer = 0x126,
     GetChannelDifference = 0x140,
     AddMessagePushNotification = 0x200,
     EditMessagePushNotification = 0x201,
@@ -205,7 +206,7 @@ BufferSlice log_event_store_impl(const T &data, const char *file, int line) {
   store(data, storer_calc_length);
 
   BufferSlice value_buffer{storer_calc_length.get_length()};
-  auto ptr = value_buffer.as_slice().ubegin();
+  auto ptr = value_buffer.as_mutable_slice().ubegin();
   LOG_CHECK(is_aligned_pointer<4>(ptr)) << ptr;
 
   LogEventStorerUnsafe storer_unsafe(ptr);

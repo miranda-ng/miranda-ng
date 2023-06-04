@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -224,7 +224,7 @@ void set_default_reaction(Td *td, string reaction, Promise<Unit> &&promise);
 
 void send_set_default_reaction_query(Td *td);
 
-void send_update_default_reaction_type(const string &default_reaction);
+td_api::object_ptr<td_api::updateDefaultReactionType> get_update_default_reaction_type(const string &default_reaction);
 
 void report_message_reactions(Td *td, FullMessageId full_message_id, DialogId chooser_dialog_id,
                               Promise<Unit> &&promise);

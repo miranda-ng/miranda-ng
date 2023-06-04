@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,9 +28,9 @@ void ClientActor::request(uint64 id, td_api::object_ptr<td_api::Function> reques
 
 ClientActor::~ClientActor() = default;
 
-ClientActor::ClientActor(ClientActor &&other) noexcept = default;
+ClientActor::ClientActor(ClientActor &&) noexcept = default;
 
-ClientActor &ClientActor::operator=(ClientActor &&other) noexcept = default;
+ClientActor &ClientActor::operator=(ClientActor &&) noexcept = default;
 
 td_api::object_ptr<td_api::Object> ClientActor::execute(td_api::object_ptr<td_api::Function> request) {
   return Td::static_request(std::move(request));

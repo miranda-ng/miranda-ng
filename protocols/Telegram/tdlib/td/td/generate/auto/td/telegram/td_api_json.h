@@ -16,6 +16,8 @@ void to_json(JsonValueScope &jv, const Object &object);
 
 void to_json(JsonValueScope &jv, const Function &object);
 
+Result<int32> tl_constructor_from_string(td_api::AutosaveSettingsScope *object, const std::string &str);
+
 Result<int32> tl_constructor_from_string(td_api::BackgroundFill *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::BackgroundType *object, const std::string &str);
@@ -36,17 +38,25 @@ Result<int32> tl_constructor_from_string(td_api::ChatMemberStatus *object, const
 
 Result<int32> tl_constructor_from_string(td_api::ChatMembersFilter *object, const std::string &str);
 
+Result<int32> tl_constructor_from_string(td_api::ChatPhotoStickerType *object, const std::string &str);
+
 Result<int32> tl_constructor_from_string(td_api::ChatReportReason *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::DeviceToken *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::EmailAddressAuthentication *object, const std::string &str);
 
+Result<int32> tl_constructor_from_string(td_api::EmojiCategoryType *object, const std::string &str);
+
 Result<int32> tl_constructor_from_string(td_api::FileType *object, const std::string &str);
+
+Result<int32> tl_constructor_from_string(td_api::FirebaseAuthenticationSettings *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::GroupCallVideoQuality *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::InlineKeyboardButtonType *object, const std::string &str);
+
+Result<int32> tl_constructor_from_string(td_api::InlineQueryResultsButtonType *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::InputBackground *object, const std::string &str);
 
@@ -66,6 +76,8 @@ Result<int32> tl_constructor_from_string(td_api::InputPassportElement *object, c
 
 Result<int32> tl_constructor_from_string(td_api::InputPassportElementErrorSource *object, const std::string &str);
 
+Result<int32> tl_constructor_from_string(td_api::InternalLinkType *object, const std::string &str);
+
 Result<int32> tl_constructor_from_string(td_api::JsonValue *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::KeyboardButtonType *object, const std::string &str);
@@ -79,6 +91,8 @@ Result<int32> tl_constructor_from_string(td_api::MaskPoint *object, const std::s
 Result<int32> tl_constructor_from_string(td_api::MessageSchedulingState *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::MessageSender *object, const std::string &str);
+
+Result<int32> tl_constructor_from_string(td_api::MessageSource *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::NetworkStatisticsEntry *object, const std::string &str);
 
@@ -118,6 +132,8 @@ Result<int32> tl_constructor_from_string(td_api::SuggestedAction *object, const 
 
 Result<int32> tl_constructor_from_string(td_api::SupergroupMembersFilter *object, const std::string &str);
 
+Result<int32> tl_constructor_from_string(td_api::TargetChat *object, const std::string &str);
+
 Result<int32> tl_constructor_from_string(td_api::TextEntityType *object, const std::string &str);
 
 Result<int32> tl_constructor_from_string(td_api::TextParseMode *object, const std::string &str);
@@ -137,6 +153,14 @@ Status from_json(td_api::accountTtl &to, JsonObject &from);
 Status from_json(td_api::address &to, JsonObject &from);
 
 Status from_json(td_api::autoDownloadSettings &to, JsonObject &from);
+
+Status from_json(td_api::autosaveSettingsScopePrivateChats &to, JsonObject &from);
+
+Status from_json(td_api::autosaveSettingsScopeGroupChats &to, JsonObject &from);
+
+Status from_json(td_api::autosaveSettingsScopeChannelChats &to, JsonObject &from);
+
+Status from_json(td_api::autosaveSettingsScopeChat &to, JsonObject &from);
 
 Status from_json(td_api::backgroundFillSolid &to, JsonObject &from);
 
@@ -232,7 +256,9 @@ Status from_json(td_api::chatAvailableReactionsSome &to, JsonObject &from);
 
 Status from_json(td_api::chatEventLogFilters &to, JsonObject &from);
 
-Status from_json(td_api::chatFilter &to, JsonObject &from);
+Status from_json(td_api::chatFolder &to, JsonObject &from);
+
+Status from_json(td_api::chatFolderIcon &to, JsonObject &from);
 
 Status from_json(td_api::chatInviteLinkMember &to, JsonObject &from);
 
@@ -242,7 +268,7 @@ Status from_json(td_api::chatListMain &to, JsonObject &from);
 
 Status from_json(td_api::chatListArchive &to, JsonObject &from);
 
-Status from_json(td_api::chatListFilter &to, JsonObject &from);
+Status from_json(td_api::chatListFolder &to, JsonObject &from);
 
 Status from_json(td_api::chatLocation &to, JsonObject &from);
 
@@ -275,6 +301,12 @@ Status from_json(td_api::chatMembersFilterBots &to, JsonObject &from);
 Status from_json(td_api::chatNotificationSettings &to, JsonObject &from);
 
 Status from_json(td_api::chatPermissions &to, JsonObject &from);
+
+Status from_json(td_api::chatPhotoSticker &to, JsonObject &from);
+
+Status from_json(td_api::chatPhotoStickerTypeRegularOrMask &to, JsonObject &from);
+
+Status from_json(td_api::chatPhotoStickerTypeCustomEmoji &to, JsonObject &from);
 
 Status from_json(td_api::chatReportReasonSpam &to, JsonObject &from);
 
@@ -322,6 +354,8 @@ Status from_json(td_api::deviceTokenBlackBerryPush &to, JsonObject &from);
 
 Status from_json(td_api::deviceTokenTizenPush &to, JsonObject &from);
 
+Status from_json(td_api::deviceTokenHuaweiPush &to, JsonObject &from);
+
 Status from_json(td_api::draftMessage &to, JsonObject &from);
 
 Status from_json(td_api::emailAddressAuthenticationCode &to, JsonObject &from);
@@ -329,6 +363,12 @@ Status from_json(td_api::emailAddressAuthenticationCode &to, JsonObject &from);
 Status from_json(td_api::emailAddressAuthenticationAppleId &to, JsonObject &from);
 
 Status from_json(td_api::emailAddressAuthenticationGoogleId &to, JsonObject &from);
+
+Status from_json(td_api::emojiCategoryTypeDefault &to, JsonObject &from);
+
+Status from_json(td_api::emojiCategoryTypeEmojiStatus &to, JsonObject &from);
+
+Status from_json(td_api::emojiCategoryTypeChatPhoto &to, JsonObject &from);
 
 Status from_json(td_api::emojiStatus &to, JsonObject &from);
 
@@ -368,6 +408,10 @@ Status from_json(td_api::fileTypeVoiceNote &to, JsonObject &from);
 
 Status from_json(td_api::fileTypeWallpaper &to, JsonObject &from);
 
+Status from_json(td_api::firebaseAuthenticationSettingsAndroid &to, JsonObject &from);
+
+Status from_json(td_api::firebaseAuthenticationSettingsIos &to, JsonObject &from);
+
 Status from_json(td_api::formattedText &to, JsonObject &from);
 
 Status from_json(td_api::forumTopicIcon &to, JsonObject &from);
@@ -398,15 +442,25 @@ Status from_json(td_api::inlineKeyboardButtonTypeBuy &to, JsonObject &from);
 
 Status from_json(td_api::inlineKeyboardButtonTypeUser &to, JsonObject &from);
 
+Status from_json(td_api::inlineQueryResultsButton &to, JsonObject &from);
+
+Status from_json(td_api::inlineQueryResultsButtonTypeStartBot &to, JsonObject &from);
+
+Status from_json(td_api::inlineQueryResultsButtonTypeWebApp &to, JsonObject &from);
+
 Status from_json(td_api::inputBackgroundLocal &to, JsonObject &from);
 
 Status from_json(td_api::inputBackgroundRemote &to, JsonObject &from);
+
+Status from_json(td_api::inputBackgroundPrevious &to, JsonObject &from);
 
 Status from_json(td_api::inputChatPhotoPrevious &to, JsonObject &from);
 
 Status from_json(td_api::inputChatPhotoStatic &to, JsonObject &from);
 
 Status from_json(td_api::inputChatPhotoAnimation &to, JsonObject &from);
+
+Status from_json(td_api::inputChatPhotoSticker &to, JsonObject &from);
 
 Status from_json(td_api::inputCredentialsSaved &to, JsonObject &from);
 
@@ -540,6 +594,82 @@ Status from_json(td_api::inputSticker &to, JsonObject &from);
 
 Status from_json(td_api::inputThumbnail &to, JsonObject &from);
 
+Status from_json(td_api::internalLinkTypeActiveSessions &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeAttachmentMenuBot &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeAuthenticationCode &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeBackground &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeBotAddToChannel &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeBotStart &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeBotStartInGroup &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeChangePhoneNumber &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeChatFolderInvite &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeChatFolderSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeChatInvite &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeDefaultMessageAutoDeleteTimerSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeEditProfileSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeGame &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeInstantView &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeInvoice &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeLanguagePack &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeLanguageSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeMessage &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeMessageDraft &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypePassportDataRequest &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypePhoneNumberConfirmation &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypePremiumFeatures &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypePrivacyAndSecuritySettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeProxy &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypePublicChat &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeQrCodeAuthentication &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeRestorePurchases &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeStickerSet &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeTheme &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeThemeSettings &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeUnknownDeepLink &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeUnsupportedProxy &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeUserPhoneNumber &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeUserToken &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeVideoChat &to, JsonObject &from);
+
+Status from_json(td_api::internalLinkTypeWebApp &to, JsonObject &from);
+
 Status from_json(td_api::invoice &to, JsonObject &from);
 
 Status from_json(td_api::jsonObjectMember &to, JsonObject &from);
@@ -565,6 +695,10 @@ Status from_json(td_api::keyboardButtonTypeRequestPhoneNumber &to, JsonObject &f
 Status from_json(td_api::keyboardButtonTypeRequestLocation &to, JsonObject &from);
 
 Status from_json(td_api::keyboardButtonTypeRequestPoll &to, JsonObject &from);
+
+Status from_json(td_api::keyboardButtonTypeRequestUser &to, JsonObject &from);
+
+Status from_json(td_api::keyboardButtonTypeRequestChat &to, JsonObject &from);
 
 Status from_json(td_api::keyboardButtonTypeWebApp &to, JsonObject &from);
 
@@ -598,6 +732,8 @@ Status from_json(td_api::maskPointChin &to, JsonObject &from);
 
 Status from_json(td_api::maskPosition &to, JsonObject &from);
 
+Status from_json(td_api::messageAutoDeleteTime &to, JsonObject &from);
+
 Status from_json(td_api::messageCopyOptions &to, JsonObject &from);
 
 Status from_json(td_api::messageSchedulingStateSendAtDate &to, JsonObject &from);
@@ -609,6 +745,24 @@ Status from_json(td_api::messageSendOptions &to, JsonObject &from);
 Status from_json(td_api::messageSenderUser &to, JsonObject &from);
 
 Status from_json(td_api::messageSenderChat &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceChatHistory &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceMessageThreadHistory &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceForumTopicHistory &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceHistoryPreview &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceChatList &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceSearch &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceChatEventLog &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceNotification &to, JsonObject &from);
+
+Status from_json(td_api::messageSourceOther &to, JsonObject &from);
 
 Status from_json(td_api::networkStatisticsEntryFile &to, JsonObject &from);
 
@@ -702,6 +856,8 @@ Status from_json(td_api::premiumFeatureForumTopicIcon &to, JsonObject &from);
 
 Status from_json(td_api::premiumFeatureAppIcons &to, JsonObject &from);
 
+Status from_json(td_api::premiumFeatureRealTimeChatTranslation &to, JsonObject &from);
+
 Status from_json(td_api::premiumLimitTypeSupergroupCount &to, JsonObject &from);
 
 Status from_json(td_api::premiumLimitTypePinnedChatCount &to, JsonObject &from);
@@ -712,15 +868,19 @@ Status from_json(td_api::premiumLimitTypeSavedAnimationCount &to, JsonObject &fr
 
 Status from_json(td_api::premiumLimitTypeFavoriteStickerCount &to, JsonObject &from);
 
-Status from_json(td_api::premiumLimitTypeChatFilterCount &to, JsonObject &from);
+Status from_json(td_api::premiumLimitTypeChatFolderCount &to, JsonObject &from);
 
-Status from_json(td_api::premiumLimitTypeChatFilterChosenChatCount &to, JsonObject &from);
+Status from_json(td_api::premiumLimitTypeChatFolderChosenChatCount &to, JsonObject &from);
 
 Status from_json(td_api::premiumLimitTypePinnedArchivedChatCount &to, JsonObject &from);
 
 Status from_json(td_api::premiumLimitTypeCaptionLength &to, JsonObject &from);
 
 Status from_json(td_api::premiumLimitTypeBioLength &to, JsonObject &from);
+
+Status from_json(td_api::premiumLimitTypeChatFolderInviteLinkCount &to, JsonObject &from);
+
+Status from_json(td_api::premiumLimitTypeShareableChatFolderCount &to, JsonObject &from);
 
 Status from_json(td_api::premiumSourceLimitExceeded &to, JsonObject &from);
 
@@ -751,6 +911,8 @@ Status from_json(td_api::replyMarkupForceReply &to, JsonObject &from);
 Status from_json(td_api::replyMarkupShowKeyboard &to, JsonObject &from);
 
 Status from_json(td_api::replyMarkupInlineKeyboard &to, JsonObject &from);
+
+Status from_json(td_api::scopeAutosaveSettings &to, JsonObject &from);
 
 Status from_json(td_api::scopeNotificationSettings &to, JsonObject &from);
 
@@ -818,6 +980,10 @@ Status from_json(td_api::suggestedActionConvertToBroadcastGroup &to, JsonObject 
 
 Status from_json(td_api::suggestedActionSetPassword &to, JsonObject &from);
 
+Status from_json(td_api::suggestedActionUpgradePremium &to, JsonObject &from);
+
+Status from_json(td_api::suggestedActionSubscribeToAnnualPremium &to, JsonObject &from);
+
 Status from_json(td_api::supergroupMembersFilterRecent &to, JsonObject &from);
 
 Status from_json(td_api::supergroupMembersFilterContacts &to, JsonObject &from);
@@ -833,6 +999,12 @@ Status from_json(td_api::supergroupMembersFilterBanned &to, JsonObject &from);
 Status from_json(td_api::supergroupMembersFilterMention &to, JsonObject &from);
 
 Status from_json(td_api::supergroupMembersFilterBots &to, JsonObject &from);
+
+Status from_json(td_api::targetChatCurrent &to, JsonObject &from);
+
+Status from_json(td_api::targetChatChosen &to, JsonObject &from);
+
+Status from_json(td_api::targetChatInternalLink &to, JsonObject &from);
 
 Status from_json(td_api::testInt &to, JsonObject &from);
 
@@ -942,6 +1114,10 @@ Status from_json(td_api::acceptCall &to, JsonObject &from);
 
 Status from_json(td_api::acceptTermsOfService &to, JsonObject &from);
 
+Status from_json(td_api::addApplicationChangelog &to, JsonObject &from);
+
+Status from_json(td_api::addChatFolderByInviteLink &to, JsonObject &from);
+
 Status from_json(td_api::addChatMember &to, JsonObject &from);
 
 Status from_json(td_api::addChatMembers &to, JsonObject &from);
@@ -1024,6 +1200,8 @@ Status from_json(td_api::checkAuthenticationPasswordRecoveryCode &to, JsonObject
 
 Status from_json(td_api::checkChangePhoneNumberCode &to, JsonObject &from);
 
+Status from_json(td_api::checkChatFolderInviteLink &to, JsonObject &from);
+
 Status from_json(td_api::checkChatInviteLink &to, JsonObject &from);
 
 Status from_json(td_api::checkChatUsername &to, JsonObject &from);
@@ -1047,6 +1225,8 @@ Status from_json(td_api::checkStickerSetName &to, JsonObject &from);
 Status from_json(td_api::cleanFileName &to, JsonObject &from);
 
 Status from_json(td_api::clearAllDraftMessages &to, JsonObject &from);
+
+Status from_json(td_api::clearAutosaveSettingsExceptions &to, JsonObject &from);
 
 Status from_json(td_api::clearImportedContacts &to, JsonObject &from);
 
@@ -1076,7 +1256,9 @@ Status from_json(td_api::createBasicGroupChat &to, JsonObject &from);
 
 Status from_json(td_api::createCall &to, JsonObject &from);
 
-Status from_json(td_api::createChatFilter &to, JsonObject &from);
+Status from_json(td_api::createChatFolder &to, JsonObject &from);
+
+Status from_json(td_api::createChatFolderInviteLink &to, JsonObject &from);
 
 Status from_json(td_api::createChatInviteLink &to, JsonObject &from);
 
@@ -1110,7 +1292,9 @@ Status from_json(td_api::deleteAllRevokedChatInviteLinks &to, JsonObject &from);
 
 Status from_json(td_api::deleteChat &to, JsonObject &from);
 
-Status from_json(td_api::deleteChatFilter &to, JsonObject &from);
+Status from_json(td_api::deleteChatFolder &to, JsonObject &from);
+
+Status from_json(td_api::deleteChatFolderInviteLink &to, JsonObject &from);
 
 Status from_json(td_api::deleteChatHistory &to, JsonObject &from);
 
@@ -1140,6 +1324,8 @@ Status from_json(td_api::deleteSavedCredentials &to, JsonObject &from);
 
 Status from_json(td_api::deleteSavedOrderInfo &to, JsonObject &from);
 
+Status from_json(td_api::deleteStickerSet &to, JsonObject &from);
+
 Status from_json(td_api::destroy &to, JsonObject &from);
 
 Status from_json(td_api::disableAllSupergroupUsernames &to, JsonObject &from);
@@ -1154,7 +1340,9 @@ Status from_json(td_api::disconnectWebsite &to, JsonObject &from);
 
 Status from_json(td_api::downloadFile &to, JsonObject &from);
 
-Status from_json(td_api::editChatFilter &to, JsonObject &from);
+Status from_json(td_api::editChatFolder &to, JsonObject &from);
+
+Status from_json(td_api::editChatFolderInviteLink &to, JsonObject &from);
 
 Status from_json(td_api::editChatInviteLink &to, JsonObject &from);
 
@@ -1222,6 +1410,8 @@ Status from_json(td_api::getAuthorizationState &to, JsonObject &from);
 
 Status from_json(td_api::getAutoDownloadSettingsPresets &to, JsonObject &from);
 
+Status from_json(td_api::getAutosaveSettings &to, JsonObject &from);
+
 Status from_json(td_api::getBackgroundUrl &to, JsonObject &from);
 
 Status from_json(td_api::getBackgrounds &to, JsonObject &from);
@@ -1233,6 +1423,12 @@ Status from_json(td_api::getBasicGroup &to, JsonObject &from);
 Status from_json(td_api::getBasicGroupFullInfo &to, JsonObject &from);
 
 Status from_json(td_api::getBlockedMessageSenders &to, JsonObject &from);
+
+Status from_json(td_api::getBotInfoDescription &to, JsonObject &from);
+
+Status from_json(td_api::getBotInfoShortDescription &to, JsonObject &from);
+
+Status from_json(td_api::getBotName &to, JsonObject &from);
 
 Status from_json(td_api::getCallbackQueryAnswer &to, JsonObject &from);
 
@@ -1246,9 +1442,15 @@ Status from_json(td_api::getChatAvailableMessageSenders &to, JsonObject &from);
 
 Status from_json(td_api::getChatEventLog &to, JsonObject &from);
 
-Status from_json(td_api::getChatFilter &to, JsonObject &from);
+Status from_json(td_api::getChatFolder &to, JsonObject &from);
 
-Status from_json(td_api::getChatFilterDefaultIconName &to, JsonObject &from);
+Status from_json(td_api::getChatFolderChatsToLeave &to, JsonObject &from);
+
+Status from_json(td_api::getChatFolderDefaultIconName &to, JsonObject &from);
+
+Status from_json(td_api::getChatFolderInviteLinks &to, JsonObject &from);
+
+Status from_json(td_api::getChatFolderNewChats &to, JsonObject &from);
 
 Status from_json(td_api::getChatHistory &to, JsonObject &from);
 
@@ -1288,6 +1490,8 @@ Status from_json(td_api::getChatStatistics &to, JsonObject &from);
 
 Status from_json(td_api::getChats &to, JsonObject &from);
 
+Status from_json(td_api::getChatsForChatFolderInviteLink &to, JsonObject &from);
+
 Status from_json(td_api::getCommands &to, JsonObject &from);
 
 Status from_json(td_api::getConnectedWebsites &to, JsonObject &from);
@@ -1310,7 +1514,15 @@ Status from_json(td_api::getDatabaseStatistics &to, JsonObject &from);
 
 Status from_json(td_api::getDeepLinkInfo &to, JsonObject &from);
 
+Status from_json(td_api::getDefaultChatPhotoCustomEmojiStickers &to, JsonObject &from);
+
 Status from_json(td_api::getDefaultEmojiStatuses &to, JsonObject &from);
+
+Status from_json(td_api::getDefaultMessageAutoDeleteTime &to, JsonObject &from);
+
+Status from_json(td_api::getDefaultProfilePhotoCustomEmojiStickers &to, JsonObject &from);
+
+Status from_json(td_api::getEmojiCategories &to, JsonObject &from);
 
 Status from_json(td_api::getEmojiReaction &to, JsonObject &from);
 
@@ -1330,7 +1542,13 @@ Status from_json(td_api::getFileExtension &to, JsonObject &from);
 
 Status from_json(td_api::getFileMimeType &to, JsonObject &from);
 
+Status from_json(td_api::getForumTopic &to, JsonObject &from);
+
 Status from_json(td_api::getForumTopicDefaultIcons &to, JsonObject &from);
+
+Status from_json(td_api::getForumTopicLink &to, JsonObject &from);
+
+Status from_json(td_api::getForumTopics &to, JsonObject &from);
 
 Status from_json(td_api::getGameHighScores &to, JsonObject &from);
 
@@ -1353,6 +1571,8 @@ Status from_json(td_api::getInlineGameHighScores &to, JsonObject &from);
 Status from_json(td_api::getInlineQueryResults &to, JsonObject &from);
 
 Status from_json(td_api::getInstalledStickerSets &to, JsonObject &from);
+
+Status from_json(td_api::getInternalLink &to, JsonObject &from);
 
 Status from_json(td_api::getInternalLinkType &to, JsonObject &from);
 
@@ -1468,7 +1688,7 @@ Status from_json(td_api::getRecentlyOpenedChats &to, JsonObject &from);
 
 Status from_json(td_api::getRecentlyVisitedTMeUrls &to, JsonObject &from);
 
-Status from_json(td_api::getRecommendedChatFilters &to, JsonObject &from);
+Status from_json(td_api::getRecommendedChatFolders &to, JsonObject &from);
 
 Status from_json(td_api::getRecoveryEmailAddress &to, JsonObject &from);
 
@@ -1512,6 +1732,8 @@ Status from_json(td_api::getSupergroupFullInfo &to, JsonObject &from);
 
 Status from_json(td_api::getSupergroupMembers &to, JsonObject &from);
 
+Status from_json(td_api::getSupportName &to, JsonObject &from);
+
 Status from_json(td_api::getSupportUser &to, JsonObject &from);
 
 Status from_json(td_api::getTemporaryPasswordState &to, JsonObject &from);
@@ -1530,6 +1752,8 @@ Status from_json(td_api::getUser &to, JsonObject &from);
 
 Status from_json(td_api::getUserFullInfo &to, JsonObject &from);
 
+Status from_json(td_api::getUserLink &to, JsonObject &from);
+
 Status from_json(td_api::getUserPrivacySettingRules &to, JsonObject &from);
 
 Status from_json(td_api::getUserProfilePhotos &to, JsonObject &from);
@@ -1539,6 +1763,8 @@ Status from_json(td_api::getUserSupportInfo &to, JsonObject &from);
 Status from_json(td_api::getVideoChatAvailableParticipants &to, JsonObject &from);
 
 Status from_json(td_api::getVideoChatRtmpUrl &to, JsonObject &from);
+
+Status from_json(td_api::getWebAppLinkUrl &to, JsonObject &from);
 
 Status from_json(td_api::getWebAppUrl &to, JsonObject &from);
 
@@ -1588,6 +1814,8 @@ Status from_json(td_api::pingProxy &to, JsonObject &from);
 
 Status from_json(td_api::preliminaryUploadFile &to, JsonObject &from);
 
+Status from_json(td_api::processChatFolderNewChats &to, JsonObject &from);
+
 Status from_json(td_api::processChatJoinRequest &to, JsonObject &from);
 
 Status from_json(td_api::processChatJoinRequests &to, JsonObject &from);
@@ -1603,6 +1831,8 @@ Status from_json(td_api::readAllChatReactions &to, JsonObject &from);
 Status from_json(td_api::readAllMessageThreadMentions &to, JsonObject &from);
 
 Status from_json(td_api::readAllMessageThreadReactions &to, JsonObject &from);
+
+Status from_json(td_api::readChatList &to, JsonObject &from);
 
 Status from_json(td_api::readFilePart &to, JsonObject &from);
 
@@ -1650,9 +1880,11 @@ Status from_json(td_api::removeStickerFromSet &to, JsonObject &from);
 
 Status from_json(td_api::removeTopChat &to, JsonObject &from);
 
+Status from_json(td_api::reorderActiveBotUsernames &to, JsonObject &from);
+
 Status from_json(td_api::reorderActiveUsernames &to, JsonObject &from);
 
-Status from_json(td_api::reorderChatFilters &to, JsonObject &from);
+Status from_json(td_api::reorderChatFolders &to, JsonObject &from);
 
 Status from_json(td_api::reorderInstalledStickerSets &to, JsonObject &from);
 
@@ -1667,6 +1899,8 @@ Status from_json(td_api::reportChat &to, JsonObject &from);
 Status from_json(td_api::reportChatPhoto &to, JsonObject &from);
 
 Status from_json(td_api::reportMessageReactions &to, JsonObject &from);
+
+Status from_json(td_api::reportSupergroupAntiSpamFalsePositive &to, JsonObject &from);
 
 Status from_json(td_api::reportSupergroupSpam &to, JsonObject &from);
 
@@ -1693,6 +1927,8 @@ Status from_json(td_api::resendPhoneNumberVerificationCode &to, JsonObject &from
 Status from_json(td_api::resendRecoveryEmailAddressCode &to, JsonObject &from);
 
 Status from_json(td_api::resetAllNotificationSettings &to, JsonObject &from);
+
+Status from_json(td_api::resetAuthenticationEmailAddress &to, JsonObject &from);
 
 Status from_json(td_api::resetBackgrounds &to, JsonObject &from);
 
@@ -1750,6 +1986,12 @@ Status from_json(td_api::searchStickers &to, JsonObject &from);
 
 Status from_json(td_api::searchUserByPhoneNumber &to, JsonObject &from);
 
+Status from_json(td_api::searchUserByToken &to, JsonObject &from);
+
+Status from_json(td_api::searchWebApp &to, JsonObject &from);
+
+Status from_json(td_api::sendAuthenticationFirebaseSms &to, JsonObject &from);
+
 Status from_json(td_api::sendBotStartMessage &to, JsonObject &from);
 
 Status from_json(td_api::sendCallDebugInformation &to, JsonObject &from);
@@ -1794,13 +2036,25 @@ Status from_json(td_api::setAuthenticationPhoneNumber &to, JsonObject &from);
 
 Status from_json(td_api::setAutoDownloadSettings &to, JsonObject &from);
 
+Status from_json(td_api::setAutosaveSettings &to, JsonObject &from);
+
 Status from_json(td_api::setBackground &to, JsonObject &from);
 
 Status from_json(td_api::setBio &to, JsonObject &from);
 
+Status from_json(td_api::setBotInfoDescription &to, JsonObject &from);
+
+Status from_json(td_api::setBotInfoShortDescription &to, JsonObject &from);
+
+Status from_json(td_api::setBotName &to, JsonObject &from);
+
+Status from_json(td_api::setBotProfilePhoto &to, JsonObject &from);
+
 Status from_json(td_api::setBotUpdatesStatus &to, JsonObject &from);
 
 Status from_json(td_api::setChatAvailableReactions &to, JsonObject &from);
+
+Status from_json(td_api::setChatBackground &to, JsonObject &from);
 
 Status from_json(td_api::setChatClientData &to, JsonObject &from);
 
@@ -1814,9 +2068,9 @@ Status from_json(td_api::setChatLocation &to, JsonObject &from);
 
 Status from_json(td_api::setChatMemberStatus &to, JsonObject &from);
 
-Status from_json(td_api::setChatMessageSender &to, JsonObject &from);
+Status from_json(td_api::setChatMessageAutoDeleteTime &to, JsonObject &from);
 
-Status from_json(td_api::setChatMessageTtl &to, JsonObject &from);
+Status from_json(td_api::setChatMessageSender &to, JsonObject &from);
 
 Status from_json(td_api::setChatNotificationSettings &to, JsonObject &from);
 
@@ -1832,6 +2086,8 @@ Status from_json(td_api::setChatTitle &to, JsonObject &from);
 
 Status from_json(td_api::setCommands &to, JsonObject &from);
 
+Status from_json(td_api::setCustomEmojiStickerSetThumbnail &to, JsonObject &from);
+
 Status from_json(td_api::setCustomLanguagePack &to, JsonObject &from);
 
 Status from_json(td_api::setCustomLanguagePackString &to, JsonObject &from);
@@ -1842,11 +2098,15 @@ Status from_json(td_api::setDefaultChannelAdministratorRights &to, JsonObject &f
 
 Status from_json(td_api::setDefaultGroupAdministratorRights &to, JsonObject &from);
 
+Status from_json(td_api::setDefaultMessageAutoDeleteTime &to, JsonObject &from);
+
 Status from_json(td_api::setDefaultReactionType &to, JsonObject &from);
 
 Status from_json(td_api::setEmojiStatus &to, JsonObject &from);
 
 Status from_json(td_api::setFileGenerationProgress &to, JsonObject &from);
+
+Status from_json(td_api::setForumTopicNotificationSettings &to, JsonObject &from);
 
 Status from_json(td_api::setGameScore &to, JsonObject &from);
 
@@ -1886,6 +2146,8 @@ Status from_json(td_api::setPassword &to, JsonObject &from);
 
 Status from_json(td_api::setPinnedChats &to, JsonObject &from);
 
+Status from_json(td_api::setPinnedForumTopics &to, JsonObject &from);
+
 Status from_json(td_api::setPollAnswer &to, JsonObject &from);
 
 Status from_json(td_api::setProfilePhoto &to, JsonObject &from);
@@ -1894,15 +2156,25 @@ Status from_json(td_api::setRecoveryEmailAddress &to, JsonObject &from);
 
 Status from_json(td_api::setScopeNotificationSettings &to, JsonObject &from);
 
+Status from_json(td_api::setStickerEmojis &to, JsonObject &from);
+
+Status from_json(td_api::setStickerKeywords &to, JsonObject &from);
+
+Status from_json(td_api::setStickerMaskPosition &to, JsonObject &from);
+
 Status from_json(td_api::setStickerPositionInSet &to, JsonObject &from);
 
 Status from_json(td_api::setStickerSetThumbnail &to, JsonObject &from);
+
+Status from_json(td_api::setStickerSetTitle &to, JsonObject &from);
 
 Status from_json(td_api::setSupergroupStickerSet &to, JsonObject &from);
 
 Status from_json(td_api::setSupergroupUsername &to, JsonObject &from);
 
 Status from_json(td_api::setTdlibParameters &to, JsonObject &from);
+
+Status from_json(td_api::setUserPersonalProfilePhoto &to, JsonObject &from);
 
 Status from_json(td_api::setUserPrivacySettingRules &to, JsonObject &from);
 
@@ -1912,7 +2184,11 @@ Status from_json(td_api::setUsername &to, JsonObject &from);
 
 Status from_json(td_api::setVideoChatDefaultParticipant &to, JsonObject &from);
 
+Status from_json(td_api::shareChatWithBot &to, JsonObject &from);
+
 Status from_json(td_api::sharePhoneNumber &to, JsonObject &from);
+
+Status from_json(td_api::shareUserWithBot &to, JsonObject &from);
 
 Status from_json(td_api::startGroupCallRecording &to, JsonObject &from);
 
@@ -1921,6 +2197,8 @@ Status from_json(td_api::startGroupCallScreenSharing &to, JsonObject &from);
 Status from_json(td_api::startScheduledGroupCall &to, JsonObject &from);
 
 Status from_json(td_api::stopPoll &to, JsonObject &from);
+
+Status from_json(td_api::suggestUserProfilePhoto &to, JsonObject &from);
 
 Status from_json(td_api::synchronizeLanguagePack &to, JsonObject &from);
 
@@ -1958,6 +2236,8 @@ Status from_json(td_api::toggleAllDownloadsArePaused &to, JsonObject &from);
 
 Status from_json(td_api::toggleBotIsAddedToAttachmentMenu &to, JsonObject &from);
 
+Status from_json(td_api::toggleBotUsernameIsActive &to, JsonObject &from);
+
 Status from_json(td_api::toggleChatDefaultDisableNotification &to, JsonObject &from);
 
 Status from_json(td_api::toggleChatHasProtectedContent &to, JsonObject &from);
@@ -1966,9 +2246,15 @@ Status from_json(td_api::toggleChatIsMarkedAsUnread &to, JsonObject &from);
 
 Status from_json(td_api::toggleChatIsPinned &to, JsonObject &from);
 
+Status from_json(td_api::toggleChatIsTranslatable &to, JsonObject &from);
+
 Status from_json(td_api::toggleDownloadIsPaused &to, JsonObject &from);
 
 Status from_json(td_api::toggleForumTopicIsClosed &to, JsonObject &from);
+
+Status from_json(td_api::toggleForumTopicIsPinned &to, JsonObject &from);
+
+Status from_json(td_api::toggleGeneralForumTopicIsHidden &to, JsonObject &from);
 
 Status from_json(td_api::toggleGroupCallEnabledStartNotification &to, JsonObject &from);
 
@@ -1990,6 +2276,10 @@ Status from_json(td_api::toggleSessionCanAcceptCalls &to, JsonObject &from);
 
 Status from_json(td_api::toggleSessionCanAcceptSecretChats &to, JsonObject &from);
 
+Status from_json(td_api::toggleSupergroupHasAggressiveAntiSpamEnabled &to, JsonObject &from);
+
+Status from_json(td_api::toggleSupergroupHasHiddenMembers &to, JsonObject &from);
+
 Status from_json(td_api::toggleSupergroupIsAllHistoryAvailable &to, JsonObject &from);
 
 Status from_json(td_api::toggleSupergroupIsBroadcastGroup &to, JsonObject &from);
@@ -2007,6 +2297,8 @@ Status from_json(td_api::toggleSupergroupUsernameIsActive &to, JsonObject &from)
 Status from_json(td_api::toggleUsernameIsActive &to, JsonObject &from);
 
 Status from_json(td_api::transferChatOwnership &to, JsonObject &from);
+
+Status from_json(td_api::translateMessageText &to, JsonObject &from);
 
 Status from_json(td_api::translateText &to, JsonObject &from);
 
@@ -2066,6 +2358,12 @@ void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFlashCall &
 
 void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeMissedCall &object);
 
+void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFragment &object);
+
+void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFirebaseAndroid &object);
+
+void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFirebaseIos &object);
+
 void to_json(JsonValueScope &jv, const td_api::AuthorizationState &object);
 
 void to_json(JsonValueScope &jv, const td_api::authorizationStateWaitTdlibParameters &object);
@@ -2095,6 +2393,20 @@ void to_json(JsonValueScope &jv, const td_api::authorizationStateClosed &object)
 void to_json(JsonValueScope &jv, const td_api::autoDownloadSettings &object);
 
 void to_json(JsonValueScope &jv, const td_api::autoDownloadSettingsPresets &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettings &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettingsException &object);
+
+void to_json(JsonValueScope &jv, const td_api::AutosaveSettingsScope &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettingsScopePrivateChats &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettingsScopeGroupChats &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettingsScopeChannelChats &object);
+
+void to_json(JsonValueScope &jv, const td_api::autosaveSettingsScopeChat &object);
 
 void to_json(JsonValueScope &jv, const td_api::availableReaction &object);
 
@@ -2258,6 +2570,8 @@ void to_json(JsonValueScope &jv, const td_api::chatAvailableReactionsAll &object
 
 void to_json(JsonValueScope &jv, const td_api::chatAvailableReactionsSome &object);
 
+void to_json(JsonValueScope &jv, const td_api::chatBackground &object);
+
 void to_json(JsonValueScope &jv, const td_api::chatEvent &object);
 
 void to_json(JsonValueScope &jv, const td_api::ChatEventAction &object);
@@ -2294,7 +2608,7 @@ void to_json(JsonValueScope &jv, const td_api::chatEventLinkedChatChanged &objec
 
 void to_json(JsonValueScope &jv, const td_api::chatEventLocationChanged &object);
 
-void to_json(JsonValueScope &jv, const td_api::chatEventMessageTtlChanged &object);
+void to_json(JsonValueScope &jv, const td_api::chatEventMessageAutoDeleteTimeChanged &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatEventPermissionsChanged &object);
 
@@ -2315,6 +2629,8 @@ void to_json(JsonValueScope &jv, const td_api::chatEventHasProtectedContentToggl
 void to_json(JsonValueScope &jv, const td_api::chatEventInvitesToggled &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatEventIsAllHistoryAvailableToggled &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatEventHasAggressiveAntiSpamEnabledToggled &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatEventSignMessagesToggled &object);
 
@@ -2342,15 +2658,25 @@ void to_json(JsonValueScope &jv, const td_api::chatEventForumTopicEdited &object
 
 void to_json(JsonValueScope &jv, const td_api::chatEventForumTopicToggleIsClosed &object);
 
+void to_json(JsonValueScope &jv, const td_api::chatEventForumTopicToggleIsHidden &object);
+
 void to_json(JsonValueScope &jv, const td_api::chatEventForumTopicDeleted &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatEventForumTopicPinned &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatEvents &object);
 
-void to_json(JsonValueScope &jv, const td_api::chatFilter &object);
+void to_json(JsonValueScope &jv, const td_api::chatFolder &object);
 
-void to_json(JsonValueScope &jv, const td_api::chatFilterInfo &object);
+void to_json(JsonValueScope &jv, const td_api::chatFolderIcon &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatFolderInfo &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatFolderInviteLink &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatFolderInviteLinkInfo &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatFolderInviteLinks &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatInviteLink &object);
 
@@ -2378,7 +2704,7 @@ void to_json(JsonValueScope &jv, const td_api::chatListMain &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatListArchive &object);
 
-void to_json(JsonValueScope &jv, const td_api::chatListFilter &object);
+void to_json(JsonValueScope &jv, const td_api::chatListFolder &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatLists &object);
 
@@ -2415,6 +2741,14 @@ void to_json(JsonValueScope &jv, const td_api::chatPermissions &object);
 void to_json(JsonValueScope &jv, const td_api::chatPhoto &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatPhotoInfo &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatPhotoSticker &object);
+
+void to_json(JsonValueScope &jv, const td_api::ChatPhotoStickerType &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatPhotoStickerTypeRegularOrMask &object);
+
+void to_json(JsonValueScope &jv, const td_api::chatPhotoStickerTypeCustomEmoji &object);
 
 void to_json(JsonValueScope &jv, const td_api::chatPhotos &object);
 
@@ -2464,7 +2798,9 @@ void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultUsernameIn
 
 void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultUsernameOccupied &object);
 
-void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultPublicChatsTooMuch &object);
+void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultUsernamePurchasable &object);
+
+void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultPublicChatsTooMany &object);
 
 void to_json(JsonValueScope &jv, const td_api::checkChatUsernameResultPublicGroupsUnavailable &object);
 
@@ -2528,6 +2864,16 @@ void to_json(JsonValueScope &jv, const td_api::draftMessage &object);
 
 void to_json(JsonValueScope &jv, const td_api::emailAddressAuthenticationCodeInfo &object);
 
+void to_json(JsonValueScope &jv, const td_api::EmailAddressResetState &object);
+
+void to_json(JsonValueScope &jv, const td_api::emailAddressResetStateAvailable &object);
+
+void to_json(JsonValueScope &jv, const td_api::emailAddressResetStatePending &object);
+
+void to_json(JsonValueScope &jv, const td_api::emojiCategories &object);
+
+void to_json(JsonValueScope &jv, const td_api::emojiCategory &object);
+
 void to_json(JsonValueScope &jv, const td_api::emojiReaction &object);
 
 void to_json(JsonValueScope &jv, const td_api::emojiStatus &object);
@@ -2588,13 +2934,21 @@ void to_json(JsonValueScope &jv, const td_api::fileTypeWallpaper &object);
 
 void to_json(JsonValueScope &jv, const td_api::formattedText &object);
 
+void to_json(JsonValueScope &jv, const td_api::forumTopic &object);
+
 void to_json(JsonValueScope &jv, const td_api::forumTopicIcon &object);
 
 void to_json(JsonValueScope &jv, const td_api::forumTopicInfo &object);
 
+void to_json(JsonValueScope &jv, const td_api::forumTopics &object);
+
+void to_json(JsonValueScope &jv, const td_api::foundChatMessages &object);
+
 void to_json(JsonValueScope &jv, const td_api::foundFileDownloads &object);
 
 void to_json(JsonValueScope &jv, const td_api::foundMessages &object);
+
+void to_json(JsonValueScope &jv, const td_api::foundWebApp &object);
 
 void to_json(JsonValueScope &jv, const td_api::game &object);
 
@@ -2676,6 +3030,14 @@ void to_json(JsonValueScope &jv, const td_api::inlineQueryResultVoiceNote &objec
 
 void to_json(JsonValueScope &jv, const td_api::inlineQueryResults &object);
 
+void to_json(JsonValueScope &jv, const td_api::inlineQueryResultsButton &object);
+
+void to_json(JsonValueScope &jv, const td_api::InlineQueryResultsButtonType &object);
+
+void to_json(JsonValueScope &jv, const td_api::inlineQueryResultsButtonTypeStartBot &object);
+
+void to_json(JsonValueScope &jv, const td_api::inlineQueryResultsButtonTypeWebApp &object);
+
 void to_json(JsonValueScope &jv, const td_api::InputFile &object);
 
 void to_json(JsonValueScope &jv, const td_api::inputFileId &object);
@@ -2734,17 +3096,23 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeAuthenticationCod
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBackground &object);
 
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBotAddToChannel &object);
+
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBotStart &object);
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBotStartInGroup &object);
 
-void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBotAddToChannel &object);
-
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChangePhoneNumber &object);
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChatFolderInvite &object);
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChatFolderSettings &object);
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChatInvite &object);
 
-void to_json(JsonValueScope &jv, const td_api::internalLinkTypeFilterSettings &object);
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeDefaultMessageAutoDeleteTimerSettings &object);
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeEditProfileSettings &object);
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeGame &object);
 
@@ -2790,7 +3158,11 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeUnsupportedProxy 
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeUserPhoneNumber &object);
 
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeUserToken &object);
+
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeVideoChat &object);
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeWebApp &object);
 
 void to_json(JsonValueScope &jv, const td_api::invoice &object);
 
@@ -2821,6 +3193,10 @@ void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestPhoneNum
 void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestLocation &object);
 
 void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestPoll &object);
+
+void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestUser &object);
+
+void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestChat &object);
 
 void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeWebApp &object);
 
@@ -2877,6 +3253,8 @@ void to_json(JsonValueScope &jv, const td_api::maskPointChin &object);
 void to_json(JsonValueScope &jv, const td_api::maskPosition &object);
 
 void to_json(JsonValueScope &jv, const td_api::message &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageAutoDeleteTime &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageCalendar &object);
 
@@ -2958,15 +3336,21 @@ void to_json(JsonValueScope &jv, const td_api::messagePinMessage &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageScreenshotTaken &object);
 
+void to_json(JsonValueScope &jv, const td_api::messageChatSetBackground &object);
+
 void to_json(JsonValueScope &jv, const td_api::messageChatSetTheme &object);
 
-void to_json(JsonValueScope &jv, const td_api::messageChatSetTtl &object);
+void to_json(JsonValueScope &jv, const td_api::messageChatSetMessageAutoDeleteTime &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageForumTopicCreated &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageForumTopicEdited &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageForumTopicIsClosedToggled &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageForumTopicIsHiddenToggled &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageSuggestProfilePhoto &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageCustomServiceAction &object);
 
@@ -2980,7 +3364,13 @@ void to_json(JsonValueScope &jv, const td_api::messageGiftedPremium &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageContactRegistered &object);
 
+void to_json(JsonValueScope &jv, const td_api::messageUserShared &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageChatShared &object);
+
 void to_json(JsonValueScope &jv, const td_api::messageWebsiteConnected &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageBotWriteAccessAllowed &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageWebAppDataSent &object);
 
@@ -3065,6 +3455,10 @@ void to_json(JsonValueScope &jv, const td_api::messageSendingStateFailed &object
 void to_json(JsonValueScope &jv, const td_api::messageStatistics &object);
 
 void to_json(JsonValueScope &jv, const td_api::messageThreadInfo &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageViewer &object);
+
+void to_json(JsonValueScope &jv, const td_api::messageViewers &object);
 
 void to_json(JsonValueScope &jv, const td_api::messages &object);
 
@@ -3382,6 +3776,8 @@ void to_json(JsonValueScope &jv, const td_api::premiumFeatureForumTopicIcon &obj
 
 void to_json(JsonValueScope &jv, const td_api::premiumFeatureAppIcons &object);
 
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureRealTimeChatTranslation &object);
+
 void to_json(JsonValueScope &jv, const td_api::premiumFeaturePromotionAnimation &object);
 
 void to_json(JsonValueScope &jv, const td_api::premiumFeatures &object);
@@ -3400,9 +3796,9 @@ void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeSavedAnimationCou
 
 void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeFavoriteStickerCount &object);
 
-void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFilterCount &object);
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFolderCount &object);
 
-void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFilterChosenChatCount &object);
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFolderChosenChatCount &object);
 
 void to_json(JsonValueScope &jv, const td_api::premiumLimitTypePinnedArchivedChatCount &object);
 
@@ -3410,9 +3806,15 @@ void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeCaptionLength &ob
 
 void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeBioLength &object);
 
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFolderInviteLinkCount &object);
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeShareableChatFolderCount &object);
+
 void to_json(JsonValueScope &jv, const td_api::premiumPaymentOption &object);
 
 void to_json(JsonValueScope &jv, const td_api::premiumState &object);
+
+void to_json(JsonValueScope &jv, const td_api::premiumStatePaymentOption &object);
 
 void to_json(JsonValueScope &jv, const td_api::profilePhoto &object);
 
@@ -3474,6 +3876,8 @@ void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatChangePhoto
 
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatChangeTitle &object);
 
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatSetBackground &object);
+
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatSetTheme &object);
 
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatDeleteMember &object);
@@ -3483,6 +3887,8 @@ void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatJoinByLink 
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentChatJoinByRequest &object);
 
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentRecurringPayment &object);
+
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentSuggestProfilePhoto &object);
 
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentMessageForwards &object);
 
@@ -3496,9 +3902,9 @@ void to_json(JsonValueScope &jv, const td_api::reactionTypeEmoji &object);
 
 void to_json(JsonValueScope &jv, const td_api::reactionTypeCustomEmoji &object);
 
-void to_json(JsonValueScope &jv, const td_api::recommendedChatFilter &object);
+void to_json(JsonValueScope &jv, const td_api::recommendedChatFolder &object);
 
-void to_json(JsonValueScope &jv, const td_api::recommendedChatFilters &object);
+void to_json(JsonValueScope &jv, const td_api::recommendedChatFolders &object);
 
 void to_json(JsonValueScope &jv, const td_api::recoveryEmailAddress &object);
 
@@ -3561,6 +3967,8 @@ void to_json(JsonValueScope &jv, const td_api::richTexts &object);
 void to_json(JsonValueScope &jv, const td_api::rtmpUrl &object);
 
 void to_json(JsonValueScope &jv, const td_api::savedCredentials &object);
+
+void to_json(JsonValueScope &jv, const td_api::scopeAutosaveSettings &object);
 
 void to_json(JsonValueScope &jv, const td_api::scopeNotificationSettings &object);
 
@@ -3652,6 +4060,14 @@ void to_json(JsonValueScope &jv, const td_api::stickerFormatTgs &object);
 
 void to_json(JsonValueScope &jv, const td_api::stickerFormatWebm &object);
 
+void to_json(JsonValueScope &jv, const td_api::StickerFullType &object);
+
+void to_json(JsonValueScope &jv, const td_api::stickerFullTypeRegular &object);
+
+void to_json(JsonValueScope &jv, const td_api::stickerFullTypeMask &object);
+
+void to_json(JsonValueScope &jv, const td_api::stickerFullTypeCustomEmoji &object);
+
 void to_json(JsonValueScope &jv, const td_api::stickerSet &object);
 
 void to_json(JsonValueScope &jv, const td_api::stickerSetInfo &object);
@@ -3689,6 +4105,10 @@ void to_json(JsonValueScope &jv, const td_api::suggestedActionViewChecksHint &ob
 void to_json(JsonValueScope &jv, const td_api::suggestedActionConvertToBroadcastGroup &object);
 
 void to_json(JsonValueScope &jv, const td_api::suggestedActionSetPassword &object);
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionUpgradePremium &object);
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionSubscribeToAnnualPremium &object);
 
 void to_json(JsonValueScope &jv, const td_api::supergroup &object);
 
@@ -3858,13 +4278,15 @@ void to_json(JsonValueScope &jv, const td_api::updateChatDraftMessage &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatMessageSender &object);
 
-void to_json(JsonValueScope &jv, const td_api::updateChatMessageTtl &object);
+void to_json(JsonValueScope &jv, const td_api::updateChatMessageAutoDeleteTime &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatNotificationSettings &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatPendingJoinRequests &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatReplyMarkup &object);
+
+void to_json(JsonValueScope &jv, const td_api::updateChatBackground &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatTheme &object);
 
@@ -3878,13 +4300,15 @@ void to_json(JsonValueScope &jv, const td_api::updateChatDefaultDisableNotificat
 
 void to_json(JsonValueScope &jv, const td_api::updateChatHasProtectedContent &object);
 
-void to_json(JsonValueScope &jv, const td_api::updateChatHasScheduledMessages &object);
-
-void to_json(JsonValueScope &jv, const td_api::updateChatIsBlocked &object);
+void to_json(JsonValueScope &jv, const td_api::updateChatIsTranslatable &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatIsMarkedAsUnread &object);
 
-void to_json(JsonValueScope &jv, const td_api::updateChatFilters &object);
+void to_json(JsonValueScope &jv, const td_api::updateChatIsBlocked &object);
+
+void to_json(JsonValueScope &jv, const td_api::updateChatHasScheduledMessages &object);
+
+void to_json(JsonValueScope &jv, const td_api::updateChatFolders &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateChatOnlineMemberCount &object);
 
@@ -3994,6 +4418,10 @@ void to_json(JsonValueScope &jv, const td_api::updateAnimationSearchParameters &
 
 void to_json(JsonValueScope &jv, const td_api::updateSuggestedActions &object);
 
+void to_json(JsonValueScope &jv, const td_api::updateAddChatMembersPrivacyForbidden &object);
+
+void to_json(JsonValueScope &jv, const td_api::updateAutosaveSettings &object);
+
 void to_json(JsonValueScope &jv, const td_api::updateNewInlineQuery &object);
 
 void to_json(JsonValueScope &jv, const td_api::updateNewChosenInlineResult &object);
@@ -4023,6 +4451,8 @@ void to_json(JsonValueScope &jv, const td_api::updates &object);
 void to_json(JsonValueScope &jv, const td_api::user &object);
 
 void to_json(JsonValueScope &jv, const td_api::userFullInfo &object);
+
+void to_json(JsonValueScope &jv, const td_api::userLink &object);
 
 void to_json(JsonValueScope &jv, const td_api::UserPrivacySetting &object);
 
@@ -4111,6 +4541,8 @@ void to_json(JsonValueScope &jv, const td_api::videoChat &object);
 void to_json(JsonValueScope &jv, const td_api::videoNote &object);
 
 void to_json(JsonValueScope &jv, const td_api::voiceNote &object);
+
+void to_json(JsonValueScope &jv, const td_api::webApp &object);
 
 void to_json(JsonValueScope &jv, const td_api::webAppInfo &object);
 

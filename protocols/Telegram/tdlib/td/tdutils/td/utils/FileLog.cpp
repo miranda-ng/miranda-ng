@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -128,7 +128,12 @@ void FileLog::do_after_rotation() {
   if (!Stderr().empty() && redirect_stderr_) {
     fd_.get_native_fd().duplicate(Stderr().get_native_fd()).ignore();
   }
-  size_ = 0;
+  auto r_size = fd_.get_size();
+  if (r_fd.is_error()) {
+    process_fatal_error(PSLICE() << "Failed to get log size: " << r_fd.error() << " in " << __FILE__ << " at "
+                                 << __LINE__ << '\n');
+  }
+  size_ = r_size.move_as_ok();
 }
 
 Result<unique_ptr<LogInterface>> FileLog::create(string path, int64 rotate_threshold, bool redirect_stderr) {

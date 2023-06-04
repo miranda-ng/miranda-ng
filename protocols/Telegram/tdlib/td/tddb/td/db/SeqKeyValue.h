@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -41,6 +41,23 @@ class SeqKeyValue {
     }
     map_.erase(it);
     return next_seq_no();
+  }
+
+  SeqNo erase_batch(vector<string> keys) {
+    size_t count = 0;
+    for (auto &key : keys) {
+      auto it = map_.find(key);
+      if (it != map_.end()) {
+        map_.erase(it);
+        count++;
+      }
+    }
+    if (count == 0) {
+      return 0;
+    }
+    SeqNo result = current_id_ + 1;
+    current_id_ += count;
+    return result;
   }
 
   SeqNo seq_no() const {

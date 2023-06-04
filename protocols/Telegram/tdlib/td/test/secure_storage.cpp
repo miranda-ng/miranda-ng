@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,6 +7,7 @@
 #include "td/telegram/SecureStorage.h"
 
 #include "td/utils/buffer.h"
+#include "td/utils/common.h"
 #include "td/utils/filesystem.h"
 #include "td/utils/port/path.h"
 #include "td/utils/SliceBuilder.h"
@@ -66,5 +67,8 @@ TEST(SecureStorage, simple) {
     auto hash = td::secure_storage::encrypt_file(value_secret, value_path, encrypted_path).move_as_ok();
     td::secure_storage::decrypt_file(value_secret, hash, encrypted_path, decrypted_path).ensure();
     ASSERT_TRUE(td::read_file(decrypted_path).move_as_ok().as_slice() == file_value);
+    td::unlink(value_path).ignore();
+    td::unlink(encrypted_path).ignore();
+    td::unlink(decrypted_path).ignore();
   }
 }

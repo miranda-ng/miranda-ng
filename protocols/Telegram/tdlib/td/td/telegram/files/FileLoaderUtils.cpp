@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,7 +8,6 @@
 
 #include "td/telegram/Global.h"
 #include "td/telegram/TdDb.h"
-#include "td/telegram/TdParameters.h"
 
 #include "td/utils/common.h"
 #include "td/utils/filesystem.h"
@@ -27,7 +26,7 @@
 
 namespace td {
 
-int VERBOSITY_NAME(file_loader) = VERBOSITY_NAME(DEBUG) + 2;
+int VERBOSITY_NAME(file_loader) = VERBOSITY_NAME(DEBUG);
 
 namespace {
 
@@ -105,7 +104,7 @@ bool for_suggested_file_name(CSlice name, bool use_pmc, bool use_random, F &&cal
   auto stem = path_view.file_stem();
   auto ext = path_view.extension();
   bool active = true;
-  if (!stem.empty() && !G()->parameters().ignore_file_names) {
+  if (!stem.empty() && !G()->get_option_boolean("ignore_file_names")) {
     active = callback(PSLICE() << stem << Ext{ext});
     for (int i = 0; active && i < 10; i++) {
       active = callback(PSLICE() << stem << "_(" << i << ")" << Ext{ext});
@@ -332,7 +331,7 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
   if (size > MAX_FILE_SIZE) {
     return get_file_size_error("");
   }
-  if (location.file_type_ == FileType::Photo && size > MAX_PHOTO_SIZE) {
+  if (get_file_type_class(location.file_type_) == FileTypeClass::Photo && size > MAX_PHOTO_SIZE) {
     return get_file_size_error(" for a photo");
   }
   if (location.file_type_ == FileType::VideoNote &&

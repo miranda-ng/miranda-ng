@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,20 +18,20 @@ namespace td {
 template <class T>
 class EpochBasedMemoryReclamation {
  public:
-  EpochBasedMemoryReclamation(const EpochBasedMemoryReclamation &other) = delete;
-  EpochBasedMemoryReclamation &operator=(const EpochBasedMemoryReclamation &other) = delete;
-  EpochBasedMemoryReclamation(EpochBasedMemoryReclamation &&other) = delete;
-  EpochBasedMemoryReclamation &operator=(EpochBasedMemoryReclamation &&other) = delete;
+  EpochBasedMemoryReclamation(const EpochBasedMemoryReclamation &) = delete;
+  EpochBasedMemoryReclamation &operator=(const EpochBasedMemoryReclamation &) = delete;
+  EpochBasedMemoryReclamation(EpochBasedMemoryReclamation &&) = delete;
+  EpochBasedMemoryReclamation &operator=(EpochBasedMemoryReclamation &&) = delete;
   ~EpochBasedMemoryReclamation() = default;
 
   class Locker {
    public:
     Locker(size_t thread_id, EpochBasedMemoryReclamation *ebmr) : thread_id_(thread_id), ebmr_(ebmr) {
     }
-    Locker(const Locker &other) = delete;
-    Locker &operator=(const Locker &other) = delete;
-    Locker(Locker &&other) = default;
-    Locker &operator=(Locker &&other) = delete;
+    Locker(const Locker &) = delete;
+    Locker &operator=(const Locker &) = delete;
+    Locker(Locker &&) = default;
+    Locker &operator=(Locker &&) = delete;
 
     ~Locker() {
       if (ebmr_) {

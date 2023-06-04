@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
   td::OptionParser options;
   options.add_option('f', "filter", "run only specified tests",
                      [&](td::Slice filter) { runner.add_substr_filter(filter.str()); });
+  options.add_option('o', "offset", "run tests from the specified test",
+                     [&](td::Slice offset) { runner.set_offset(offset.str()); });
   options.add_option('s', "stress", "run tests infinitely", [&] { runner.set_stress_flag(true); });
   options.add_checked_option('v', "verbosity", "log verbosity level",
                              td::OptionParser::parse_integer(default_verbosity_level));

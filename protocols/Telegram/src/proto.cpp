@@ -381,7 +381,6 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 			pContent->photo_ = makeFile(pTransfer->m_fileName);
 			pContent->thumbnail_ = 0;
 			pContent->caption_ = std::move(caption);
-			pContent->ttl_ = 0;
 			pContent->height_ = 0;
 			pContent->width_ = 0;
 			pMessage->input_message_content_ = std::move(pContent);
@@ -400,7 +399,6 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 			pContent->duration_ = 0;
 			pContent->height_ = 0;
 			pContent->width_ = 0;
-			pContent->ttl_ = 0;
 			pMessage->input_message_content_ = std::move(pContent);
 		}
 		else return nullptr;

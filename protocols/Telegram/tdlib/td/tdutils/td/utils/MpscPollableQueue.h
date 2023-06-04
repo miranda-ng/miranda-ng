@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,6 +33,8 @@ class MpscPollableQueue {
       auto guard = lock_.lock();
       if (writer_vector_.empty()) {
         if (i == 1) {
+          reader_vector_.clear();
+          reader_pos_ = 0;
           wait_event_fd_ = true;
           return 0;
         }

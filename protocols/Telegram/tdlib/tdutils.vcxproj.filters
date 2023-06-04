@@ -75,8 +75,6 @@
     <ClCompile Include="td\tdutils\td\utils\port\user.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\detail\Iocp.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\detail\NativeFd.cpp" />
-    <ClCompile Include="td\tdutils\td\utils\port\RwMutex.cpp" />
-    <ClCompile Include="td\tdutils\td\utils\port\inet_ntop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="td\tdutils\td\utils\port\Clocks.h" />
@@ -90,7 +88,6 @@
     <ClInclude Include="td\tdutils\td\utils\port\platform.h" />
     <ClInclude Include="td\tdutils\td\utils\port\Poll.h" />
     <ClInclude Include="td\tdutils\td\utils\port\PollBase.h" />
-    <ClInclude Include="td\tdutils\td\utils\port\RwMutex.h" />
     <ClInclude Include="td\tdutils\td\utils\port\ServerSocketFd.h" />
     <ClInclude Include="td\tdutils\td\utils\port\signals.h" />
     <ClInclude Include="td\tdutils\td\utils\port\sleep.h" />
@@ -248,6 +245,7 @@
     <ClInclude Include="td\tdutils\td\utils\port\detail\NativeFd.h" />
     <ClInclude Include="td\tdutils\td\utils\port\detail\PollableFd.h" />
     <ClInclude Include="td\tdutils\td\utils\port\detail\skip_eintr.h" />
+    <ClInclude Include="td\tdutils\td\utils\unique_value_ptr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="td\tdutils\td\utils\config.h.in" />

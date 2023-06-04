@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -67,7 +67,7 @@ class RequestActor : public Actor {
   void raw_event(const Event::Raw &event) final {
     if (future_.is_error()) {
       auto error = future_.move_as_error();
-      if (error == Status::Error<FutureActor<T>::HANGUP_ERROR_CODE>()) {
+      if (error.is_static() && error.code() == FutureActor<T>::HANGUP_ERROR_CODE) {
         // dropping query due to closing or lost promise
         if (G()->close_flag()) {
           do_send_error(Global::request_aborted_error());

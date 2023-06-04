@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -35,8 +35,8 @@ MessageExtendedMedia::MessageExtendedMedia(
       dimensions_ = get_dimensions(media->w_, media->h_, "MessageExtendedMedia");
       if (media->thumb_ != nullptr) {
         if (media->thumb_->get_id() == telegram_api::photoStrippedSize::ID) {
-          auto thumb = move_tl_object_as<telegram_api::photoStrippedSize>(media->thumb_);
-          minithumbnail_ = thumb->bytes_.as_slice().str();
+          auto thumbnail = move_tl_object_as<telegram_api::photoStrippedSize>(media->thumb_);
+          minithumbnail_ = thumbnail->bytes_.as_slice().str();
         } else {
           LOG(ERROR) << "Receive " << to_string(media->thumb_);
         }
@@ -53,7 +53,7 @@ MessageExtendedMedia::MessageExtendedMedia(
             break;
           }
 
-          photo_ = get_photo(td->file_manager_.get(), std::move(photo->photo_), owner_dialog_id);
+          photo_ = get_photo(td, std::move(photo->photo_), owner_dialog_id);
           if (photo_.is_empty()) {
             break;
           }
@@ -74,7 +74,7 @@ MessageExtendedMedia::MessageExtendedMedia(
           CHECK(document_id == telegram_api::document::ID);
 
           auto parsed_document = td->documents_manager_->on_get_document(
-              move_tl_object_as<telegram_api::document>(document_ptr), owner_dialog_id, nullptr);
+              move_tl_object_as<telegram_api::document>(document_ptr), owner_dialog_id);
           if (parsed_document.empty() || parsed_document.type != Document::Type::Video) {
             break;
           }
@@ -125,7 +125,6 @@ Result<MessageExtendedMedia> MessageExtendedMedia::get_message_extended_media(
     result.type_ = Type::Photo;
     result.photo_ = *get_message_content_photo(content);
   } else {
-    CHECK(content_type == MessageContentType::Video);
     result.type_ = Type::Video;
     result.video_file_id_ = get_message_content_upload_file_id(content);
   }
@@ -283,9 +282,10 @@ telegram_api::object_ptr<telegram_api::InputMedia> MessageExtendedMedia::get_inp
     case Type::Preview:
       break;
     case Type::Photo:
-      return photo_get_input_media(td->file_manager_.get(), photo_, std::move(input_file), 0);
+      return photo_get_input_media(td->file_manager_.get(), photo_, std::move(input_file), 0, false);
     case Type::Video:
-      return td->videos_manager_->get_input_media(video_file_id_, std::move(input_file), std::move(input_thumbnail), 0);
+      return td->videos_manager_->get_input_media(video_file_id_, std::move(input_file), std::move(input_thumbnail), 0,
+                                                  false);
     default:
       UNREACHABLE();
       break;

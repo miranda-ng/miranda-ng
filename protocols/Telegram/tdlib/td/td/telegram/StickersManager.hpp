@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,6 +12,7 @@
 #include "td/telegram/misc.h"
 #include "td/telegram/PhotoSize.hpp"
 #include "td/telegram/StickerFormat.h"
+#include "td/telegram/StickerMaskPosition.hpp"
 #include "td/telegram/StickersManager.h"
 #include "td/telegram/Td.h"
 
@@ -47,6 +48,7 @@ void StickersManager::store_sticker(FileId file_id, bool in_sticker_set, StorerT
   STORE_FLAG(is_emoji);
   STORE_FLAG(sticker->is_premium_);
   STORE_FLAG(has_emoji_receive_date);
+  STORE_FLAG(sticker->has_text_color_);
   END_STORE_FLAGS();
   if (!in_sticker_set) {
     store(sticker->set_id_.get(), storer);
@@ -62,10 +64,7 @@ void StickersManager::store_sticker(FileId file_id, bool in_sticker_set, StorerT
   store(sticker->m_thumbnail_, storer);
   store(file_id, storer);
   if (is_mask) {
-    store(sticker->point_, storer);
-    store(sticker->x_shift_, storer);
-    store(sticker->y_shift_, storer);
-    store(sticker->scale_, storer);
+    store(sticker->mask_position_, storer);
   }
   if (has_minithumbnail) {
     store(sticker->minithumbnail_, storer);
@@ -105,6 +104,7 @@ FileId StickersManager::parse_sticker(bool in_sticker_set, ParserT &parser) {
   PARSE_FLAG(is_emoji);
   PARSE_FLAG(sticker->is_premium_);
   PARSE_FLAG(has_emoji_receive_date);
+  PARSE_FLAG(sticker->has_text_color_);
   END_PARSE_FLAGS();
   if (is_webm) {
     sticker->format_ = StickerFormat::Webm;
@@ -147,10 +147,7 @@ FileId StickersManager::parse_sticker(bool in_sticker_set, ParserT &parser) {
   add_sticker_thumbnail(sticker.get(), thumbnail);
   parse(sticker->file_id_, parser);
   if (is_mask) {
-    parse(sticker->point_, parser);
-    parse(sticker->x_shift_, parser);
-    parse(sticker->y_shift_, parser);
-    parse(sticker->scale_, parser);
+    parse(sticker->mask_position_, parser);
   }
   if (has_minithumbnail) {
     parse(sticker->minithumbnail_, parser);
@@ -205,6 +202,7 @@ void StickersManager::store_sticker_set(const StickerSet *sticker_set, bool with
   STORE_FLAG(is_emojis);
   STORE_FLAG(has_thumbnail_document_id);
   STORE_FLAG(sticker_set->are_keywords_loaded_);
+  STORE_FLAG(sticker_set->is_sticker_has_text_color_loaded_);
   END_STORE_FLAGS();
   store(sticker_set->id_.get(), storer);
   store(sticker_set->access_hash_, storer);
@@ -287,12 +285,15 @@ void StickersManager::parse_sticker_set(StickerSet *sticker_set, ParserT &parser
   PARSE_FLAG(is_emojis);
   PARSE_FLAG(has_thumbnail_document_id);
   PARSE_FLAG(sticker_set->are_keywords_loaded_);
+  PARSE_FLAG(sticker_set->is_sticker_has_text_color_loaded_);
   END_PARSE_FLAGS();
   int64 sticker_set_id;
   int64 access_hash;
   parse(sticker_set_id, parser);
   parse(access_hash, parser);
-  CHECK(sticker_set->id_.get() == sticker_set_id);
+  if (sticker_set->id_.get() != sticker_set_id) {
+    return parser.set_error("Invalid sticker set data stored in the database");
+  }
   (void)access_hash;  // unused, because only known sticker sets with access hash can be loaded from database
 
   StickerFormat sticker_format = StickerFormat::Unknown;
@@ -304,6 +305,9 @@ void StickersManager::parse_sticker_set(StickerSet *sticker_set, ParserT &parser
     sticker_format = StickerFormat::Webp;
   }
   auto sticker_type = ::td::get_sticker_type(is_masks, is_emojis);
+  if (!is_emojis) {
+    sticker_set->is_sticker_has_text_color_loaded_ = true;
+  }
 
   if (sticker_set->is_inited_) {
     string title;
@@ -350,15 +354,19 @@ void StickersManager::parse_sticker_set(StickerSet *sticker_set, ParserT &parser
       }
       on_update_sticker_set(sticker_set, is_installed, is_archived, false, true);
     } else {
-      if (sticker_set->title_ != title) {
-        LOG(INFO) << "Title of " << sticker_set->id_ << " has changed";
+      if (sticker_set->title_ != title || sticker_set->minithumbnail_ != minithumbnail ||
+          sticker_set->thumbnail_ != thumbnail || sticker_set->thumbnail_document_id_ != thumbnail_document_id ||
+          sticker_set->is_official_ != is_official) {
+        sticker_set->is_changed_ = true;
       }
       if (sticker_set->short_name_ != short_name) {
-        LOG(ERROR) << "Short name of " << sticker_set->id_ << " has changed from \"" << short_name << "\" to \""
-                   << sticker_set->short_name_ << "\"";
+        LOG(INFO) << "Short name of " << sticker_set->id_ << " has changed from \"" << short_name << "\" to \""
+                  << sticker_set->short_name_ << "\"";
+        sticker_set->is_changed_ = true;
       }
-      if (sticker_set->sticker_count_ != sticker_count || sticker_set->hash_ != hash) {
+      if (sticker_set->is_loaded_ && (sticker_set->sticker_count_ != sticker_count || sticker_set->hash_ != hash)) {
         sticker_set->is_loaded_ = false;
+        sticker_set->is_changed_ = true;
       }
       if (sticker_set->sticker_format_ != sticker_format) {
         LOG(ERROR) << "Sticker format of " << sticker_set->id_ << " has changed from \"" << sticker_format << "\" to \""

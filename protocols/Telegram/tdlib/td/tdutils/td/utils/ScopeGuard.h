@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,10 +18,10 @@ namespace td {
 class Guard {
  public:
   Guard() = default;
-  Guard(const Guard &other) = delete;
-  Guard &operator=(const Guard &other) = delete;
-  Guard(Guard &&other) = default;
-  Guard &operator=(Guard &&other) = default;
+  Guard(const Guard &) = delete;
+  Guard &operator=(const Guard &) = delete;
+  Guard(Guard &&) = default;
+  Guard &operator=(Guard &&) = default;
   virtual ~Guard() = default;
   virtual void dismiss() {
     std::abort();
@@ -35,12 +35,12 @@ class LambdaGuard final : public Guard {
   }
   explicit LambdaGuard(FunctionT &&func) : func_(std::move(func)) {
   }
-  LambdaGuard(const LambdaGuard &other) = delete;
-  LambdaGuard &operator=(const LambdaGuard &other) = delete;
+  LambdaGuard(const LambdaGuard &) = delete;
+  LambdaGuard &operator=(const LambdaGuard &) = delete;
   LambdaGuard(LambdaGuard &&other) : func_(std::move(other.func_)), dismissed_(other.dismissed_) {
     other.dismissed_ = true;
   }
-  LambdaGuard &operator=(LambdaGuard &&other) = delete;
+  LambdaGuard &operator=(LambdaGuard &&) = delete;
 
   void dismiss() final {
     dismissed_ = true;

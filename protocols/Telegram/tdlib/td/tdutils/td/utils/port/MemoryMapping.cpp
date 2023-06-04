@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -91,8 +91,8 @@ Result<MemoryMapping> MemoryMapping::create_from_file(const FileFd &file_fd, con
 #endif
 }
 
-MemoryMapping::MemoryMapping(MemoryMapping &&other) noexcept = default;
-MemoryMapping &MemoryMapping::operator=(MemoryMapping &&other) noexcept = default;
+MemoryMapping::MemoryMapping(MemoryMapping &&) noexcept = default;
+MemoryMapping &MemoryMapping::operator=(MemoryMapping &&) noexcept = default;
 MemoryMapping::~MemoryMapping() = default;
 
 MemoryMapping::MemoryMapping(unique_ptr<Impl> impl) : impl_(std::move(impl)) {

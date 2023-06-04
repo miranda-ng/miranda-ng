@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -107,10 +107,10 @@ class MultiPromiseActorSafe final : public MultiPromiseInterface {
   size_t promise_count() const final;
   explicit MultiPromiseActorSafe(string name) : multi_promise_(td::make_unique<MultiPromiseActor>(std::move(name))) {
   }
-  MultiPromiseActorSafe(const MultiPromiseActorSafe &other) = delete;
-  MultiPromiseActorSafe &operator=(const MultiPromiseActorSafe &other) = delete;
-  MultiPromiseActorSafe(MultiPromiseActorSafe &&other) = delete;
-  MultiPromiseActorSafe &operator=(MultiPromiseActorSafe &&other) = delete;
+  MultiPromiseActorSafe(const MultiPromiseActorSafe &) = delete;
+  MultiPromiseActorSafe &operator=(const MultiPromiseActorSafe &) = delete;
+  MultiPromiseActorSafe(MultiPromiseActorSafe &&) = delete;
+  MultiPromiseActorSafe &operator=(MultiPromiseActorSafe &&) = delete;
   ~MultiPromiseActorSafe() final;
 
  private:

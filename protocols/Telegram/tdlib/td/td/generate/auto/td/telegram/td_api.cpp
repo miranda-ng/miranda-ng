@@ -38,11 +38,13 @@ void accountTtl::store(TlStorerToString &s, const char *field_name) const {
 addedReaction::addedReaction()
   : type_()
   , sender_id_()
+  , date_()
 {}
 
-addedReaction::addedReaction(object_ptr<ReactionType> &&type_, object_ptr<MessageSender> &&sender_id_)
+addedReaction::addedReaction(object_ptr<ReactionType> &&type_, object_ptr<MessageSender> &&sender_id_, int32 date_)
   : type_(std::move(type_))
   , sender_id_(std::move(sender_id_))
+  , date_(date_)
 {}
 
 const std::int32_t addedReaction::ID;
@@ -52,6 +54,7 @@ void addedReaction::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "addedReaction");
     s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
     s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
+    s.store_field("date", date_);
     s.store_class_end();
   }
 }
@@ -235,6 +238,7 @@ attachmentMenuBot::attachmentMenuBot()
   , supports_group_chats_()
   , supports_channel_chats_()
   , supports_settings_()
+  , request_write_access_()
   , name_()
   , name_color_()
   , default_icon_()
@@ -246,7 +250,7 @@ attachmentMenuBot::attachmentMenuBot()
   , web_app_placeholder_()
 {}
 
-attachmentMenuBot::attachmentMenuBot(int53 bot_user_id_, bool supports_self_chat_, bool supports_user_chats_, bool supports_bot_chats_, bool supports_group_chats_, bool supports_channel_chats_, bool supports_settings_, string const &name_, object_ptr<attachmentMenuBotColor> &&name_color_, object_ptr<file> &&default_icon_, object_ptr<file> &&ios_static_icon_, object_ptr<file> &&ios_animated_icon_, object_ptr<file> &&android_icon_, object_ptr<file> &&macos_icon_, object_ptr<attachmentMenuBotColor> &&icon_color_, object_ptr<file> &&web_app_placeholder_)
+attachmentMenuBot::attachmentMenuBot(int53 bot_user_id_, bool supports_self_chat_, bool supports_user_chats_, bool supports_bot_chats_, bool supports_group_chats_, bool supports_channel_chats_, bool supports_settings_, bool request_write_access_, string const &name_, object_ptr<attachmentMenuBotColor> &&name_color_, object_ptr<file> &&default_icon_, object_ptr<file> &&ios_static_icon_, object_ptr<file> &&ios_animated_icon_, object_ptr<file> &&android_icon_, object_ptr<file> &&macos_icon_, object_ptr<attachmentMenuBotColor> &&icon_color_, object_ptr<file> &&web_app_placeholder_)
   : bot_user_id_(bot_user_id_)
   , supports_self_chat_(supports_self_chat_)
   , supports_user_chats_(supports_user_chats_)
@@ -254,6 +258,7 @@ attachmentMenuBot::attachmentMenuBot(int53 bot_user_id_, bool supports_self_chat
   , supports_group_chats_(supports_group_chats_)
   , supports_channel_chats_(supports_channel_chats_)
   , supports_settings_(supports_settings_)
+  , request_write_access_(request_write_access_)
   , name_(name_)
   , name_color_(std::move(name_color_))
   , default_icon_(std::move(default_icon_))
@@ -277,6 +282,7 @@ void attachmentMenuBot::store(TlStorerToString &s, const char *field_name) const
     s.store_field("supports_group_chats", supports_group_chats_);
     s.store_field("supports_channel_chats", supports_channel_chats_);
     s.store_field("supports_settings", supports_settings_);
+    s.store_field("request_write_access", request_write_access_);
     s.store_field("name", name_);
     s.store_object_field("name_color", static_cast<const BaseObject *>(name_color_.get()));
     s.store_object_field("default_icon", static_cast<const BaseObject *>(default_icon_.get()));
@@ -473,6 +479,72 @@ void authenticationCodeTypeMissedCall::store(TlStorerToString &s, const char *fi
   }
 }
 
+authenticationCodeTypeFragment::authenticationCodeTypeFragment()
+  : url_()
+  , length_()
+{}
+
+authenticationCodeTypeFragment::authenticationCodeTypeFragment(string const &url_, int32 length_)
+  : url_(url_)
+  , length_(length_)
+{}
+
+const std::int32_t authenticationCodeTypeFragment::ID;
+
+void authenticationCodeTypeFragment::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "authenticationCodeTypeFragment");
+    s.store_field("url", url_);
+    s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
+authenticationCodeTypeFirebaseAndroid::authenticationCodeTypeFirebaseAndroid()
+  : nonce_()
+  , length_()
+{}
+
+authenticationCodeTypeFirebaseAndroid::authenticationCodeTypeFirebaseAndroid(bytes const &nonce_, int32 length_)
+  : nonce_(std::move(nonce_))
+  , length_(length_)
+{}
+
+const std::int32_t authenticationCodeTypeFirebaseAndroid::ID;
+
+void authenticationCodeTypeFirebaseAndroid::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "authenticationCodeTypeFirebaseAndroid");
+    s.store_bytes_field("nonce", nonce_);
+    s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
+authenticationCodeTypeFirebaseIos::authenticationCodeTypeFirebaseIos()
+  : receipt_()
+  , push_timeout_()
+  , length_()
+{}
+
+authenticationCodeTypeFirebaseIos::authenticationCodeTypeFirebaseIos(string const &receipt_, int32 push_timeout_, int32 length_)
+  : receipt_(receipt_)
+  , push_timeout_(push_timeout_)
+  , length_(length_)
+{}
+
+const std::int32_t authenticationCodeTypeFirebaseIos::ID;
+
+void authenticationCodeTypeFirebaseIos::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "authenticationCodeTypeFirebaseIos");
+    s.store_field("receipt", receipt_);
+    s.store_field("push_timeout", push_timeout_);
+    s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
 authorizationStateWaitTdlibParameters::authorizationStateWaitTdlibParameters() {
 }
 
@@ -522,14 +594,14 @@ authorizationStateWaitEmailCode::authorizationStateWaitEmailCode()
   : allow_apple_id_()
   , allow_google_id_()
   , code_info_()
-  , next_phone_number_authorization_date_()
+  , email_address_reset_state_()
 {}
 
-authorizationStateWaitEmailCode::authorizationStateWaitEmailCode(bool allow_apple_id_, bool allow_google_id_, object_ptr<emailAddressAuthenticationCodeInfo> &&code_info_, int32 next_phone_number_authorization_date_)
+authorizationStateWaitEmailCode::authorizationStateWaitEmailCode(bool allow_apple_id_, bool allow_google_id_, object_ptr<emailAddressAuthenticationCodeInfo> &&code_info_, object_ptr<EmailAddressResetState> &&email_address_reset_state_)
   : allow_apple_id_(allow_apple_id_)
   , allow_google_id_(allow_google_id_)
   , code_info_(std::move(code_info_))
-  , next_phone_number_authorization_date_(next_phone_number_authorization_date_)
+  , email_address_reset_state_(std::move(email_address_reset_state_))
 {}
 
 const std::int32_t authorizationStateWaitEmailCode::ID;
@@ -540,7 +612,7 @@ void authorizationStateWaitEmailCode::store(TlStorerToString &s, const char *fie
     s.store_field("allow_apple_id", allow_apple_id_);
     s.store_field("allow_google_id", allow_google_id_);
     s.store_object_field("code_info", static_cast<const BaseObject *>(code_info_.get()));
-    s.store_field("next_phone_number_authorization_date", next_phone_number_authorization_date_);
+    s.store_object_field("email_address_reset_state", static_cast<const BaseObject *>(email_address_reset_state_.get()));
     s.store_class_end();
   }
 }
@@ -602,12 +674,14 @@ void authorizationStateWaitRegistration::store(TlStorerToString &s, const char *
 authorizationStateWaitPassword::authorizationStateWaitPassword()
   : password_hint_()
   , has_recovery_email_address_()
+  , has_passport_data_()
   , recovery_email_address_pattern_()
 {}
 
-authorizationStateWaitPassword::authorizationStateWaitPassword(string const &password_hint_, bool has_recovery_email_address_, string const &recovery_email_address_pattern_)
+authorizationStateWaitPassword::authorizationStateWaitPassword(string const &password_hint_, bool has_recovery_email_address_, bool has_passport_data_, string const &recovery_email_address_pattern_)
   : password_hint_(password_hint_)
   , has_recovery_email_address_(has_recovery_email_address_)
+  , has_passport_data_(has_passport_data_)
   , recovery_email_address_pattern_(recovery_email_address_pattern_)
 {}
 
@@ -618,6 +692,7 @@ void authorizationStateWaitPassword::store(TlStorerToString &s, const char *fiel
     s.store_class_begin(field_name, "authorizationStateWaitPassword");
     s.store_field("password_hint", password_hint_);
     s.store_field("has_recovery_email_address", has_recovery_email_address_);
+    s.store_field("has_passport_data", has_passport_data_);
     s.store_field("recovery_email_address_pattern", recovery_email_address_pattern_);
     s.store_class_end();
   }
@@ -730,6 +805,108 @@ void autoDownloadSettingsPresets::store(TlStorerToString &s, const char *field_n
     s.store_object_field("low", static_cast<const BaseObject *>(low_.get()));
     s.store_object_field("medium", static_cast<const BaseObject *>(medium_.get()));
     s.store_object_field("high", static_cast<const BaseObject *>(high_.get()));
+    s.store_class_end();
+  }
+}
+
+autosaveSettings::autosaveSettings()
+  : private_chat_settings_()
+  , group_settings_()
+  , channel_settings_()
+  , exceptions_()
+{}
+
+autosaveSettings::autosaveSettings(object_ptr<scopeAutosaveSettings> &&private_chat_settings_, object_ptr<scopeAutosaveSettings> &&group_settings_, object_ptr<scopeAutosaveSettings> &&channel_settings_, array<object_ptr<autosaveSettingsException>> &&exceptions_)
+  : private_chat_settings_(std::move(private_chat_settings_))
+  , group_settings_(std::move(group_settings_))
+  , channel_settings_(std::move(channel_settings_))
+  , exceptions_(std::move(exceptions_))
+{}
+
+const std::int32_t autosaveSettings::ID;
+
+void autosaveSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettings");
+    s.store_object_field("private_chat_settings", static_cast<const BaseObject *>(private_chat_settings_.get()));
+    s.store_object_field("group_settings", static_cast<const BaseObject *>(group_settings_.get()));
+    s.store_object_field("channel_settings", static_cast<const BaseObject *>(channel_settings_.get()));
+    { s.store_vector_begin("exceptions", exceptions_.size()); for (const auto &_value : exceptions_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+autosaveSettingsException::autosaveSettingsException()
+  : chat_id_()
+  , settings_()
+{}
+
+autosaveSettingsException::autosaveSettingsException(int53 chat_id_, object_ptr<scopeAutosaveSettings> &&settings_)
+  : chat_id_(chat_id_)
+  , settings_(std::move(settings_))
+{}
+
+const std::int32_t autosaveSettingsException::ID;
+
+void autosaveSettingsException::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettingsException");
+    s.store_field("chat_id", chat_id_);
+    s.store_object_field("settings", static_cast<const BaseObject *>(settings_.get()));
+    s.store_class_end();
+  }
+}
+
+autosaveSettingsScopePrivateChats::autosaveSettingsScopePrivateChats() {
+}
+
+const std::int32_t autosaveSettingsScopePrivateChats::ID;
+
+void autosaveSettingsScopePrivateChats::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettingsScopePrivateChats");
+    s.store_class_end();
+  }
+}
+
+autosaveSettingsScopeGroupChats::autosaveSettingsScopeGroupChats() {
+}
+
+const std::int32_t autosaveSettingsScopeGroupChats::ID;
+
+void autosaveSettingsScopeGroupChats::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettingsScopeGroupChats");
+    s.store_class_end();
+  }
+}
+
+autosaveSettingsScopeChannelChats::autosaveSettingsScopeChannelChats() {
+}
+
+const std::int32_t autosaveSettingsScopeChannelChats::ID;
+
+void autosaveSettingsScopeChannelChats::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettingsScopeChannelChats");
+    s.store_class_end();
+  }
+}
+
+autosaveSettingsScopeChat::autosaveSettingsScopeChat()
+  : chat_id_()
+{}
+
+autosaveSettingsScopeChat::autosaveSettingsScopeChat(int53 chat_id_)
+  : chat_id_(chat_id_)
+{}
+
+const std::int32_t autosaveSettingsScopeChat::ID;
+
+void autosaveSettingsScopeChat::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "autosaveSettingsScopeChat");
+    s.store_field("chat_id", chat_id_);
     s.store_class_end();
   }
 }
@@ -1036,15 +1213,19 @@ basicGroupFullInfo::basicGroupFullInfo()
   , description_()
   , creator_user_id_()
   , members_()
+  , can_hide_members_()
+  , can_toggle_aggressive_anti_spam_()
   , invite_link_()
   , bot_commands_()
 {}
 
-basicGroupFullInfo::basicGroupFullInfo(object_ptr<chatPhoto> &&photo_, string const &description_, int53 creator_user_id_, array<object_ptr<chatMember>> &&members_, object_ptr<chatInviteLink> &&invite_link_, array<object_ptr<botCommands>> &&bot_commands_)
+basicGroupFullInfo::basicGroupFullInfo(object_ptr<chatPhoto> &&photo_, string const &description_, int53 creator_user_id_, array<object_ptr<chatMember>> &&members_, bool can_hide_members_, bool can_toggle_aggressive_anti_spam_, object_ptr<chatInviteLink> &&invite_link_, array<object_ptr<botCommands>> &&bot_commands_)
   : photo_(std::move(photo_))
   , description_(description_)
   , creator_user_id_(creator_user_id_)
   , members_(std::move(members_))
+  , can_hide_members_(can_hide_members_)
+  , can_toggle_aggressive_anti_spam_(can_toggle_aggressive_anti_spam_)
   , invite_link_(std::move(invite_link_))
   , bot_commands_(std::move(bot_commands_))
 {}
@@ -1058,6 +1239,8 @@ void basicGroupFullInfo::store(TlStorerToString &s, const char *field_name) cons
     s.store_field("description", description_);
     s.store_field("creator_user_id", creator_user_id_);
     { s.store_vector_begin("members", members_.size()); for (const auto &_value : members_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("can_hide_members", can_hide_members_);
+    s.store_field("can_toggle_aggressive_anti_spam", can_toggle_aggressive_anti_spam_);
     s.store_object_field("invite_link", static_cast<const BaseObject *>(invite_link_.get()));
     { s.store_vector_begin("bot_commands", bot_commands_.size()); for (const auto &_value : bot_commands_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
@@ -1212,7 +1395,7 @@ void botCommands::store(TlStorerToString &s, const char *field_name) const {
 }
 
 botInfo::botInfo()
-  : share_text_()
+  : short_description_()
   , description_()
   , photo_()
   , animation_()
@@ -1220,10 +1403,14 @@ botInfo::botInfo()
   , commands_()
   , default_group_administrator_rights_()
   , default_channel_administrator_rights_()
+  , edit_commands_link_()
+  , edit_description_link_()
+  , edit_description_media_link_()
+  , edit_settings_link_()
 {}
 
-botInfo::botInfo(string const &share_text_, string const &description_, object_ptr<photo> &&photo_, object_ptr<animation> &&animation_, object_ptr<botMenuButton> &&menu_button_, array<object_ptr<botCommand>> &&commands_, object_ptr<chatAdministratorRights> &&default_group_administrator_rights_, object_ptr<chatAdministratorRights> &&default_channel_administrator_rights_)
-  : share_text_(share_text_)
+botInfo::botInfo(string const &short_description_, string const &description_, object_ptr<photo> &&photo_, object_ptr<animation> &&animation_, object_ptr<botMenuButton> &&menu_button_, array<object_ptr<botCommand>> &&commands_, object_ptr<chatAdministratorRights> &&default_group_administrator_rights_, object_ptr<chatAdministratorRights> &&default_channel_administrator_rights_, object_ptr<InternalLinkType> &&edit_commands_link_, object_ptr<InternalLinkType> &&edit_description_link_, object_ptr<InternalLinkType> &&edit_description_media_link_, object_ptr<InternalLinkType> &&edit_settings_link_)
+  : short_description_(short_description_)
   , description_(description_)
   , photo_(std::move(photo_))
   , animation_(std::move(animation_))
@@ -1231,6 +1418,10 @@ botInfo::botInfo(string const &share_text_, string const &description_, object_p
   , commands_(std::move(commands_))
   , default_group_administrator_rights_(std::move(default_group_administrator_rights_))
   , default_channel_administrator_rights_(std::move(default_channel_administrator_rights_))
+  , edit_commands_link_(std::move(edit_commands_link_))
+  , edit_description_link_(std::move(edit_description_link_))
+  , edit_description_media_link_(std::move(edit_description_media_link_))
+  , edit_settings_link_(std::move(edit_settings_link_))
 {}
 
 const std::int32_t botInfo::ID;
@@ -1238,7 +1429,7 @@ const std::int32_t botInfo::ID;
 void botInfo::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "botInfo");
-    s.store_field("share_text", share_text_);
+    s.store_field("short_description", short_description_);
     s.store_field("description", description_);
     s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
     s.store_object_field("animation", static_cast<const BaseObject *>(animation_.get()));
@@ -1246,6 +1437,10 @@ void botInfo::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("commands", commands_.size()); for (const auto &_value : commands_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_object_field("default_group_administrator_rights", static_cast<const BaseObject *>(default_group_administrator_rights_.get()));
     s.store_object_field("default_channel_administrator_rights", static_cast<const BaseObject *>(default_channel_administrator_rights_.get()));
+    s.store_object_field("edit_commands_link", static_cast<const BaseObject *>(edit_commands_link_.get()));
+    s.store_object_field("edit_description_link", static_cast<const BaseObject *>(edit_description_link_.get()));
+    s.store_object_field("edit_description_media_link", static_cast<const BaseObject *>(edit_description_media_link_.get()));
+    s.store_object_field("edit_settings_link", static_cast<const BaseObject *>(edit_settings_link_.get()));
     s.store_class_end();
   }
 }
@@ -1869,6 +2064,7 @@ chat::chat()
   , positions_()
   , message_sender_id_()
   , has_protected_content_()
+  , is_translatable_()
   , is_marked_as_unread_()
   , is_blocked_()
   , has_scheduled_messages_()
@@ -1883,7 +2079,8 @@ chat::chat()
   , unread_reaction_count_()
   , notification_settings_()
   , available_reactions_()
-  , message_ttl_()
+  , message_auto_delete_time_()
+  , background_()
   , theme_name_()
   , action_bar_()
   , video_chat_()
@@ -1893,7 +2090,7 @@ chat::chat()
   , client_data_()
 {}
 
-chat::chat(int53 id_, object_ptr<ChatType> &&type_, string const &title_, object_ptr<chatPhotoInfo> &&photo_, object_ptr<chatPermissions> &&permissions_, object_ptr<message> &&last_message_, array<object_ptr<chatPosition>> &&positions_, object_ptr<MessageSender> &&message_sender_id_, bool has_protected_content_, bool is_marked_as_unread_, bool is_blocked_, bool has_scheduled_messages_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_be_reported_, bool default_disable_notification_, int32 unread_count_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, object_ptr<chatNotificationSettings> &&notification_settings_, object_ptr<ChatAvailableReactions> &&available_reactions_, int32 message_ttl_, string const &theme_name_, object_ptr<ChatActionBar> &&action_bar_, object_ptr<videoChat> &&video_chat_, object_ptr<chatJoinRequestsInfo> &&pending_join_requests_, int53 reply_markup_message_id_, object_ptr<draftMessage> &&draft_message_, string const &client_data_)
+chat::chat(int53 id_, object_ptr<ChatType> &&type_, string const &title_, object_ptr<chatPhotoInfo> &&photo_, object_ptr<chatPermissions> &&permissions_, object_ptr<message> &&last_message_, array<object_ptr<chatPosition>> &&positions_, object_ptr<MessageSender> &&message_sender_id_, bool has_protected_content_, bool is_translatable_, bool is_marked_as_unread_, bool is_blocked_, bool has_scheduled_messages_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_be_reported_, bool default_disable_notification_, int32 unread_count_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, object_ptr<chatNotificationSettings> &&notification_settings_, object_ptr<ChatAvailableReactions> &&available_reactions_, int32 message_auto_delete_time_, object_ptr<chatBackground> &&background_, string const &theme_name_, object_ptr<ChatActionBar> &&action_bar_, object_ptr<videoChat> &&video_chat_, object_ptr<chatJoinRequestsInfo> &&pending_join_requests_, int53 reply_markup_message_id_, object_ptr<draftMessage> &&draft_message_, string const &client_data_)
   : id_(id_)
   , type_(std::move(type_))
   , title_(title_)
@@ -1903,6 +2100,7 @@ chat::chat(int53 id_, object_ptr<ChatType> &&type_, string const &title_, object
   , positions_(std::move(positions_))
   , message_sender_id_(std::move(message_sender_id_))
   , has_protected_content_(has_protected_content_)
+  , is_translatable_(is_translatable_)
   , is_marked_as_unread_(is_marked_as_unread_)
   , is_blocked_(is_blocked_)
   , has_scheduled_messages_(has_scheduled_messages_)
@@ -1917,7 +2115,8 @@ chat::chat(int53 id_, object_ptr<ChatType> &&type_, string const &title_, object
   , unread_reaction_count_(unread_reaction_count_)
   , notification_settings_(std::move(notification_settings_))
   , available_reactions_(std::move(available_reactions_))
-  , message_ttl_(message_ttl_)
+  , message_auto_delete_time_(message_auto_delete_time_)
+  , background_(std::move(background_))
   , theme_name_(theme_name_)
   , action_bar_(std::move(action_bar_))
   , video_chat_(std::move(video_chat_))
@@ -1941,6 +2140,7 @@ void chat::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("positions", positions_.size()); for (const auto &_value : positions_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_object_field("message_sender_id", static_cast<const BaseObject *>(message_sender_id_.get()));
     s.store_field("has_protected_content", has_protected_content_);
+    s.store_field("is_translatable", is_translatable_);
     s.store_field("is_marked_as_unread", is_marked_as_unread_);
     s.store_field("is_blocked", is_blocked_);
     s.store_field("has_scheduled_messages", has_scheduled_messages_);
@@ -1955,7 +2155,8 @@ void chat::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("unread_reaction_count", unread_reaction_count_);
     s.store_object_field("notification_settings", static_cast<const BaseObject *>(notification_settings_.get()));
     s.store_object_field("available_reactions", static_cast<const BaseObject *>(available_reactions_.get()));
-    s.store_field("message_ttl", message_ttl_);
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
     s.store_field("theme_name", theme_name_);
     s.store_object_field("action_bar", static_cast<const BaseObject *>(action_bar_.get()));
     s.store_object_field("video_chat", static_cast<const BaseObject *>(video_chat_.get()));
@@ -2417,6 +2618,27 @@ void chatAvailableReactionsSome::store(TlStorerToString &s, const char *field_na
   }
 }
 
+chatBackground::chatBackground()
+  : background_()
+  , dark_theme_dimming_()
+{}
+
+chatBackground::chatBackground(object_ptr<background> &&background_, int32 dark_theme_dimming_)
+  : background_(std::move(background_))
+  , dark_theme_dimming_(dark_theme_dimming_)
+{}
+
+const std::int32_t chatBackground::ID;
+
+void chatBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatBackground");
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
+    s.store_field("dark_theme_dimming", dark_theme_dimming_);
+    s.store_class_end();
+  }
+}
+
 chatEvent::chatEvent()
   : id_()
   , date_()
@@ -2467,10 +2689,12 @@ void chatEventMessageEdited::store(TlStorerToString &s, const char *field_name) 
 
 chatEventMessageDeleted::chatEventMessageDeleted()
   : message_()
+  , can_report_anti_spam_false_positive_()
 {}
 
-chatEventMessageDeleted::chatEventMessageDeleted(object_ptr<message> &&message_)
+chatEventMessageDeleted::chatEventMessageDeleted(object_ptr<message> &&message_, bool can_report_anti_spam_false_positive_)
   : message_(std::move(message_))
+  , can_report_anti_spam_false_positive_(can_report_anti_spam_false_positive_)
 {}
 
 const std::int32_t chatEventMessageDeleted::ID;
@@ -2479,6 +2703,7 @@ void chatEventMessageDeleted::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "chatEventMessageDeleted");
     s.store_object_field("message", static_cast<const BaseObject *>(message_.get()));
+    s.store_field("can_report_anti_spam_false_positive", can_report_anti_spam_false_positive_);
     s.store_class_end();
   }
 }
@@ -2551,10 +2776,12 @@ void chatEventMemberJoined::store(TlStorerToString &s, const char *field_name) c
 
 chatEventMemberJoinedByInviteLink::chatEventMemberJoinedByInviteLink()
   : invite_link_()
+  , via_chat_folder_invite_link_()
 {}
 
-chatEventMemberJoinedByInviteLink::chatEventMemberJoinedByInviteLink(object_ptr<chatInviteLink> &&invite_link_)
+chatEventMemberJoinedByInviteLink::chatEventMemberJoinedByInviteLink(object_ptr<chatInviteLink> &&invite_link_, bool via_chat_folder_invite_link_)
   : invite_link_(std::move(invite_link_))
+  , via_chat_folder_invite_link_(via_chat_folder_invite_link_)
 {}
 
 const std::int32_t chatEventMemberJoinedByInviteLink::ID;
@@ -2563,6 +2790,7 @@ void chatEventMemberJoinedByInviteLink::store(TlStorerToString &s, const char *f
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "chatEventMemberJoinedByInviteLink");
     s.store_object_field("invite_link", static_cast<const BaseObject *>(invite_link_.get()));
+    s.store_field("via_chat_folder_invite_link", via_chat_folder_invite_link_);
     s.store_class_end();
   }
 }
@@ -2753,23 +2981,23 @@ void chatEventLocationChanged::store(TlStorerToString &s, const char *field_name
   }
 }
 
-chatEventMessageTtlChanged::chatEventMessageTtlChanged()
-  : old_message_ttl_()
-  , new_message_ttl_()
+chatEventMessageAutoDeleteTimeChanged::chatEventMessageAutoDeleteTimeChanged()
+  : old_message_auto_delete_time_()
+  , new_message_auto_delete_time_()
 {}
 
-chatEventMessageTtlChanged::chatEventMessageTtlChanged(int32 old_message_ttl_, int32 new_message_ttl_)
-  : old_message_ttl_(old_message_ttl_)
-  , new_message_ttl_(new_message_ttl_)
+chatEventMessageAutoDeleteTimeChanged::chatEventMessageAutoDeleteTimeChanged(int32 old_message_auto_delete_time_, int32 new_message_auto_delete_time_)
+  : old_message_auto_delete_time_(old_message_auto_delete_time_)
+  , new_message_auto_delete_time_(new_message_auto_delete_time_)
 {}
 
-const std::int32_t chatEventMessageTtlChanged::ID;
+const std::int32_t chatEventMessageAutoDeleteTimeChanged::ID;
 
-void chatEventMessageTtlChanged::store(TlStorerToString &s, const char *field_name) const {
+void chatEventMessageAutoDeleteTimeChanged::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "chatEventMessageTtlChanged");
-    s.store_field("old_message_ttl", old_message_ttl_);
-    s.store_field("new_message_ttl", new_message_ttl_);
+    s.store_class_begin(field_name, "chatEventMessageAutoDeleteTimeChanged");
+    s.store_field("old_message_auto_delete_time", old_message_auto_delete_time_);
+    s.store_field("new_message_auto_delete_time", new_message_auto_delete_time_);
     s.store_class_end();
   }
 }
@@ -2971,6 +3199,24 @@ void chatEventIsAllHistoryAvailableToggled::store(TlStorerToString &s, const cha
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "chatEventIsAllHistoryAvailableToggled");
     s.store_field("is_all_history_available", is_all_history_available_);
+    s.store_class_end();
+  }
+}
+
+chatEventHasAggressiveAntiSpamEnabledToggled::chatEventHasAggressiveAntiSpamEnabledToggled()
+  : has_aggressive_anti_spam_enabled_()
+{}
+
+chatEventHasAggressiveAntiSpamEnabledToggled::chatEventHasAggressiveAntiSpamEnabledToggled(bool has_aggressive_anti_spam_enabled_)
+  : has_aggressive_anti_spam_enabled_(has_aggressive_anti_spam_enabled_)
+{}
+
+const std::int32_t chatEventHasAggressiveAntiSpamEnabledToggled::ID;
+
+void chatEventHasAggressiveAntiSpamEnabledToggled::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatEventHasAggressiveAntiSpamEnabledToggled");
+    s.store_field("has_aggressive_anti_spam_enabled", has_aggressive_anti_spam_enabled_);
     s.store_class_end();
   }
 }
@@ -3221,6 +3467,24 @@ void chatEventForumTopicToggleIsClosed::store(TlStorerToString &s, const char *f
   }
 }
 
+chatEventForumTopicToggleIsHidden::chatEventForumTopicToggleIsHidden()
+  : topic_info_()
+{}
+
+chatEventForumTopicToggleIsHidden::chatEventForumTopicToggleIsHidden(object_ptr<forumTopicInfo> &&topic_info_)
+  : topic_info_(std::move(topic_info_))
+{}
+
+const std::int32_t chatEventForumTopicToggleIsHidden::ID;
+
+void chatEventForumTopicToggleIsHidden::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatEventForumTopicToggleIsHidden");
+    s.store_object_field("topic_info", static_cast<const BaseObject *>(topic_info_.get()));
+    s.store_class_end();
+  }
+}
+
 chatEventForumTopicDeleted::chatEventForumTopicDeleted()
   : topic_info_()
 {}
@@ -3332,9 +3596,10 @@ void chatEvents::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-chatFilter::chatFilter()
+chatFolder::chatFolder()
   : title_()
-  , icon_name_()
+  , icon_()
+  , is_shareable_()
   , pinned_chat_ids_()
   , included_chat_ids_()
   , excluded_chat_ids_()
@@ -3348,9 +3613,10 @@ chatFilter::chatFilter()
   , include_channels_()
 {}
 
-chatFilter::chatFilter(string const &title_, string const &icon_name_, array<int53> &&pinned_chat_ids_, array<int53> &&included_chat_ids_, array<int53> &&excluded_chat_ids_, bool exclude_muted_, bool exclude_read_, bool exclude_archived_, bool include_contacts_, bool include_non_contacts_, bool include_bots_, bool include_groups_, bool include_channels_)
+chatFolder::chatFolder(string const &title_, object_ptr<chatFolderIcon> &&icon_, bool is_shareable_, array<int53> &&pinned_chat_ids_, array<int53> &&included_chat_ids_, array<int53> &&excluded_chat_ids_, bool exclude_muted_, bool exclude_read_, bool exclude_archived_, bool include_contacts_, bool include_non_contacts_, bool include_bots_, bool include_groups_, bool include_channels_)
   : title_(title_)
-  , icon_name_(icon_name_)
+  , icon_(std::move(icon_))
+  , is_shareable_(is_shareable_)
   , pinned_chat_ids_(std::move(pinned_chat_ids_))
   , included_chat_ids_(std::move(included_chat_ids_))
   , excluded_chat_ids_(std::move(excluded_chat_ids_))
@@ -3364,13 +3630,14 @@ chatFilter::chatFilter(string const &title_, string const &icon_name_, array<int
   , include_channels_(include_channels_)
 {}
 
-const std::int32_t chatFilter::ID;
+const std::int32_t chatFolder::ID;
 
-void chatFilter::store(TlStorerToString &s, const char *field_name) const {
+void chatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "chatFilter");
+    s.store_class_begin(field_name, "chatFolder");
     s.store_field("title", title_);
-    s.store_field("icon_name", icon_name_);
+    s.store_object_field("icon", static_cast<const BaseObject *>(icon_.get()));
+    s.store_field("is_shareable", is_shareable_);
     { s.store_vector_begin("pinned_chat_ids", pinned_chat_ids_.size()); for (const auto &_value : pinned_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
     { s.store_vector_begin("included_chat_ids", included_chat_ids_.size()); for (const auto &_value : included_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
     { s.store_vector_begin("excluded_chat_ids", excluded_chat_ids_.size()); for (const auto &_value : excluded_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
@@ -3386,26 +3653,113 @@ void chatFilter::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-chatFilterInfo::chatFilterInfo()
+chatFolderIcon::chatFolderIcon()
+  : name_()
+{}
+
+chatFolderIcon::chatFolderIcon(string const &name_)
+  : name_(name_)
+{}
+
+const std::int32_t chatFolderIcon::ID;
+
+void chatFolderIcon::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatFolderIcon");
+    s.store_field("name", name_);
+    s.store_class_end();
+  }
+}
+
+chatFolderInfo::chatFolderInfo()
   : id_()
   , title_()
-  , icon_name_()
+  , icon_()
+  , has_my_invite_links_()
 {}
 
-chatFilterInfo::chatFilterInfo(int32 id_, string const &title_, string const &icon_name_)
+chatFolderInfo::chatFolderInfo(int32 id_, string const &title_, object_ptr<chatFolderIcon> &&icon_, bool has_my_invite_links_)
   : id_(id_)
   , title_(title_)
-  , icon_name_(icon_name_)
+  , icon_(std::move(icon_))
+  , has_my_invite_links_(has_my_invite_links_)
 {}
 
-const std::int32_t chatFilterInfo::ID;
+const std::int32_t chatFolderInfo::ID;
 
-void chatFilterInfo::store(TlStorerToString &s, const char *field_name) const {
+void chatFolderInfo::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "chatFilterInfo");
+    s.store_class_begin(field_name, "chatFolderInfo");
     s.store_field("id", id_);
     s.store_field("title", title_);
-    s.store_field("icon_name", icon_name_);
+    s.store_object_field("icon", static_cast<const BaseObject *>(icon_.get()));
+    s.store_field("has_my_invite_links", has_my_invite_links_);
+    s.store_class_end();
+  }
+}
+
+chatFolderInviteLink::chatFolderInviteLink()
+  : invite_link_()
+  , name_()
+  , chat_ids_()
+{}
+
+chatFolderInviteLink::chatFolderInviteLink(string const &invite_link_, string const &name_, array<int53> &&chat_ids_)
+  : invite_link_(invite_link_)
+  , name_(name_)
+  , chat_ids_(std::move(chat_ids_))
+{}
+
+const std::int32_t chatFolderInviteLink::ID;
+
+void chatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatFolderInviteLink");
+    s.store_field("invite_link", invite_link_);
+    s.store_field("name", name_);
+    { s.store_vector_begin("chat_ids", chat_ids_.size()); for (const auto &_value : chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+chatFolderInviteLinkInfo::chatFolderInviteLinkInfo()
+  : chat_folder_info_()
+  , missing_chat_ids_()
+  , added_chat_ids_()
+{}
+
+chatFolderInviteLinkInfo::chatFolderInviteLinkInfo(object_ptr<chatFolderInfo> &&chat_folder_info_, array<int53> &&missing_chat_ids_, array<int53> &&added_chat_ids_)
+  : chat_folder_info_(std::move(chat_folder_info_))
+  , missing_chat_ids_(std::move(missing_chat_ids_))
+  , added_chat_ids_(std::move(added_chat_ids_))
+{}
+
+const std::int32_t chatFolderInviteLinkInfo::ID;
+
+void chatFolderInviteLinkInfo::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatFolderInviteLinkInfo");
+    s.store_object_field("chat_folder_info", static_cast<const BaseObject *>(chat_folder_info_.get()));
+    { s.store_vector_begin("missing_chat_ids", missing_chat_ids_.size()); for (const auto &_value : missing_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    { s.store_vector_begin("added_chat_ids", added_chat_ids_.size()); for (const auto &_value : added_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+chatFolderInviteLinks::chatFolderInviteLinks()
+  : invite_links_()
+{}
+
+chatFolderInviteLinks::chatFolderInviteLinks(array<object_ptr<chatFolderInviteLink>> &&invite_links_)
+  : invite_links_(std::move(invite_links_))
+{}
+
+const std::int32_t chatFolderInviteLinks::ID;
+
+void chatFolderInviteLinks::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatFolderInviteLinks");
+    { s.store_vector_begin("invite_links", invite_links_.size()); for (const auto &_value : invite_links_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -3551,12 +3905,14 @@ void chatInviteLinkInfo::store(TlStorerToString &s, const char *field_name) cons
 chatInviteLinkMember::chatInviteLinkMember()
   : user_id_()
   , joined_chat_date_()
+  , via_chat_folder_invite_link_()
   , approver_user_id_()
 {}
 
-chatInviteLinkMember::chatInviteLinkMember(int53 user_id_, int32 joined_chat_date_, int53 approver_user_id_)
+chatInviteLinkMember::chatInviteLinkMember(int53 user_id_, int32 joined_chat_date_, bool via_chat_folder_invite_link_, int53 approver_user_id_)
   : user_id_(user_id_)
   , joined_chat_date_(joined_chat_date_)
+  , via_chat_folder_invite_link_(via_chat_folder_invite_link_)
   , approver_user_id_(approver_user_id_)
 {}
 
@@ -3567,6 +3923,7 @@ void chatInviteLinkMember::store(TlStorerToString &s, const char *field_name) co
     s.store_class_begin(field_name, "chatInviteLinkMember");
     s.store_field("user_id", user_id_);
     s.store_field("joined_chat_date", joined_chat_date_);
+    s.store_field("via_chat_folder_invite_link", via_chat_folder_invite_link_);
     s.store_field("approver_user_id", approver_user_id_);
     s.store_class_end();
   }
@@ -3704,20 +4061,20 @@ void chatListArchive::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-chatListFilter::chatListFilter()
-  : chat_filter_id_()
+chatListFolder::chatListFolder()
+  : chat_folder_id_()
 {}
 
-chatListFilter::chatListFilter(int32 chat_filter_id_)
-  : chat_filter_id_(chat_filter_id_)
+chatListFolder::chatListFolder(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
 {}
 
-const std::int32_t chatListFilter::ID;
+const std::int32_t chatListFolder::ID;
 
-void chatListFilter::store(TlStorerToString &s, const char *field_name) const {
+void chatListFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "chatListFilter");
-    s.store_field("chat_filter_id", chat_filter_id_);
+    s.store_class_begin(field_name, "chatListFolder");
+    s.store_field("chat_folder_id", chat_folder_id_);
     s.store_class_end();
   }
 }
@@ -4119,8 +4476,13 @@ void chatNotificationSettings::store(TlStorerToString &s, const char *field_name
 }
 
 chatPermissions::chatPermissions()
-  : can_send_messages_()
-  , can_send_media_messages_()
+  : can_send_basic_messages_()
+  , can_send_audios_()
+  , can_send_documents_()
+  , can_send_photos_()
+  , can_send_videos_()
+  , can_send_video_notes_()
+  , can_send_voice_notes_()
   , can_send_polls_()
   , can_send_other_messages_()
   , can_add_web_page_previews_()
@@ -4130,9 +4492,14 @@ chatPermissions::chatPermissions()
   , can_manage_topics_()
 {}
 
-chatPermissions::chatPermissions(bool can_send_messages_, bool can_send_media_messages_, bool can_send_polls_, bool can_send_other_messages_, bool can_add_web_page_previews_, bool can_change_info_, bool can_invite_users_, bool can_pin_messages_, bool can_manage_topics_)
-  : can_send_messages_(can_send_messages_)
-  , can_send_media_messages_(can_send_media_messages_)
+chatPermissions::chatPermissions(bool can_send_basic_messages_, bool can_send_audios_, bool can_send_documents_, bool can_send_photos_, bool can_send_videos_, bool can_send_video_notes_, bool can_send_voice_notes_, bool can_send_polls_, bool can_send_other_messages_, bool can_add_web_page_previews_, bool can_change_info_, bool can_invite_users_, bool can_pin_messages_, bool can_manage_topics_)
+  : can_send_basic_messages_(can_send_basic_messages_)
+  , can_send_audios_(can_send_audios_)
+  , can_send_documents_(can_send_documents_)
+  , can_send_photos_(can_send_photos_)
+  , can_send_videos_(can_send_videos_)
+  , can_send_video_notes_(can_send_video_notes_)
+  , can_send_voice_notes_(can_send_voice_notes_)
   , can_send_polls_(can_send_polls_)
   , can_send_other_messages_(can_send_other_messages_)
   , can_add_web_page_previews_(can_add_web_page_previews_)
@@ -4147,8 +4514,13 @@ const std::int32_t chatPermissions::ID;
 void chatPermissions::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "chatPermissions");
-    s.store_field("can_send_messages", can_send_messages_);
-    s.store_field("can_send_media_messages", can_send_media_messages_);
+    s.store_field("can_send_basic_messages", can_send_basic_messages_);
+    s.store_field("can_send_audios", can_send_audios_);
+    s.store_field("can_send_documents", can_send_documents_);
+    s.store_field("can_send_photos", can_send_photos_);
+    s.store_field("can_send_videos", can_send_videos_);
+    s.store_field("can_send_video_notes", can_send_video_notes_);
+    s.store_field("can_send_voice_notes", can_send_voice_notes_);
     s.store_field("can_send_polls", can_send_polls_);
     s.store_field("can_send_other_messages", can_send_other_messages_);
     s.store_field("can_add_web_page_previews", can_add_web_page_previews_);
@@ -4167,15 +4539,17 @@ chatPhoto::chatPhoto()
   , sizes_()
   , animation_()
   , small_animation_()
+  , sticker_()
 {}
 
-chatPhoto::chatPhoto(int64 id_, int32 added_date_, object_ptr<minithumbnail> &&minithumbnail_, array<object_ptr<photoSize>> &&sizes_, object_ptr<animatedChatPhoto> &&animation_, object_ptr<animatedChatPhoto> &&small_animation_)
+chatPhoto::chatPhoto(int64 id_, int32 added_date_, object_ptr<minithumbnail> &&minithumbnail_, array<object_ptr<photoSize>> &&sizes_, object_ptr<animatedChatPhoto> &&animation_, object_ptr<animatedChatPhoto> &&small_animation_, object_ptr<chatPhotoSticker> &&sticker_)
   : id_(id_)
   , added_date_(added_date_)
   , minithumbnail_(std::move(minithumbnail_))
   , sizes_(std::move(sizes_))
   , animation_(std::move(animation_))
   , small_animation_(std::move(small_animation_))
+  , sticker_(std::move(sticker_))
 {}
 
 const std::int32_t chatPhoto::ID;
@@ -4189,6 +4563,7 @@ void chatPhoto::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("sizes", sizes_.size()); for (const auto &_value : sizes_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_object_field("animation", static_cast<const BaseObject *>(animation_.get()));
     s.store_object_field("small_animation", static_cast<const BaseObject *>(small_animation_.get()));
+    s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_class_end();
   }
 }
@@ -4198,13 +4573,15 @@ chatPhotoInfo::chatPhotoInfo()
   , big_()
   , minithumbnail_()
   , has_animation_()
+  , is_personal_()
 {}
 
-chatPhotoInfo::chatPhotoInfo(object_ptr<file> &&small_, object_ptr<file> &&big_, object_ptr<minithumbnail> &&minithumbnail_, bool has_animation_)
+chatPhotoInfo::chatPhotoInfo(object_ptr<file> &&small_, object_ptr<file> &&big_, object_ptr<minithumbnail> &&minithumbnail_, bool has_animation_, bool is_personal_)
   : small_(std::move(small_))
   , big_(std::move(big_))
   , minithumbnail_(std::move(minithumbnail_))
   , has_animation_(has_animation_)
+  , is_personal_(is_personal_)
 {}
 
 const std::int32_t chatPhotoInfo::ID;
@@ -4216,6 +4593,67 @@ void chatPhotoInfo::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("big", static_cast<const BaseObject *>(big_.get()));
     s.store_object_field("minithumbnail", static_cast<const BaseObject *>(minithumbnail_.get()));
     s.store_field("has_animation", has_animation_);
+    s.store_field("is_personal", is_personal_);
+    s.store_class_end();
+  }
+}
+
+chatPhotoSticker::chatPhotoSticker()
+  : type_()
+  , background_fill_()
+{}
+
+chatPhotoSticker::chatPhotoSticker(object_ptr<ChatPhotoStickerType> &&type_, object_ptr<BackgroundFill> &&background_fill_)
+  : type_(std::move(type_))
+  , background_fill_(std::move(background_fill_))
+{}
+
+const std::int32_t chatPhotoSticker::ID;
+
+void chatPhotoSticker::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatPhotoSticker");
+    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
+    s.store_object_field("background_fill", static_cast<const BaseObject *>(background_fill_.get()));
+    s.store_class_end();
+  }
+}
+
+chatPhotoStickerTypeRegularOrMask::chatPhotoStickerTypeRegularOrMask()
+  : sticker_set_id_()
+  , sticker_id_()
+{}
+
+chatPhotoStickerTypeRegularOrMask::chatPhotoStickerTypeRegularOrMask(int64 sticker_set_id_, int64 sticker_id_)
+  : sticker_set_id_(sticker_set_id_)
+  , sticker_id_(sticker_id_)
+{}
+
+const std::int32_t chatPhotoStickerTypeRegularOrMask::ID;
+
+void chatPhotoStickerTypeRegularOrMask::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatPhotoStickerTypeRegularOrMask");
+    s.store_field("sticker_set_id", sticker_set_id_);
+    s.store_field("sticker_id", sticker_id_);
+    s.store_class_end();
+  }
+}
+
+chatPhotoStickerTypeCustomEmoji::chatPhotoStickerTypeCustomEmoji()
+  : custom_emoji_id_()
+{}
+
+chatPhotoStickerTypeCustomEmoji::chatPhotoStickerTypeCustomEmoji(int64 custom_emoji_id_)
+  : custom_emoji_id_(custom_emoji_id_)
+{}
+
+const std::int32_t chatPhotoStickerTypeCustomEmoji::ID;
+
+void chatPhotoStickerTypeCustomEmoji::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "chatPhotoStickerTypeCustomEmoji");
+    s.store_field("custom_emoji_id", custom_emoji_id_);
     s.store_class_end();
   }
 }
@@ -4820,14 +5258,26 @@ void checkChatUsernameResultUsernameOccupied::store(TlStorerToString &s, const c
   }
 }
 
-checkChatUsernameResultPublicChatsTooMuch::checkChatUsernameResultPublicChatsTooMuch() {
+checkChatUsernameResultUsernamePurchasable::checkChatUsernameResultUsernamePurchasable() {
 }
 
-const std::int32_t checkChatUsernameResultPublicChatsTooMuch::ID;
+const std::int32_t checkChatUsernameResultUsernamePurchasable::ID;
 
-void checkChatUsernameResultPublicChatsTooMuch::store(TlStorerToString &s, const char *field_name) const {
+void checkChatUsernameResultUsernamePurchasable::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "checkChatUsernameResultPublicChatsTooMuch");
+    s.store_class_begin(field_name, "checkChatUsernameResultUsernamePurchasable");
+    s.store_class_end();
+  }
+}
+
+checkChatUsernameResultPublicChatsTooMany::checkChatUsernameResultPublicChatsTooMany() {
+}
+
+const std::int32_t checkChatUsernameResultPublicChatsTooMany::ID;
+
+void checkChatUsernameResultPublicChatsTooMany::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "checkChatUsernameResultPublicChatsTooMany");
     s.store_class_end();
   }
 }
@@ -5453,6 +5903,27 @@ void deviceTokenTizenPush::store(TlStorerToString &s, const char *field_name) co
   }
 }
 
+deviceTokenHuaweiPush::deviceTokenHuaweiPush()
+  : token_()
+  , encrypt_()
+{}
+
+deviceTokenHuaweiPush::deviceTokenHuaweiPush(string const &token_, bool encrypt_)
+  : token_(token_)
+  , encrypt_(encrypt_)
+{}
+
+const std::int32_t deviceTokenHuaweiPush::ID;
+
+void deviceTokenHuaweiPush::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "deviceTokenHuaweiPush");
+    s.store_field("token", token_);
+    s.store_field("encrypt", encrypt_);
+    s.store_class_end();
+  }
+}
+
 diceStickersRegular::diceStickersRegular()
   : sticker_()
 {}
@@ -5650,6 +6121,120 @@ void emailAddressAuthenticationCodeInfo::store(TlStorerToString &s, const char *
     s.store_class_begin(field_name, "emailAddressAuthenticationCodeInfo");
     s.store_field("email_address_pattern", email_address_pattern_);
     s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
+emailAddressResetStateAvailable::emailAddressResetStateAvailable()
+  : wait_period_()
+{}
+
+emailAddressResetStateAvailable::emailAddressResetStateAvailable(int32 wait_period_)
+  : wait_period_(wait_period_)
+{}
+
+const std::int32_t emailAddressResetStateAvailable::ID;
+
+void emailAddressResetStateAvailable::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emailAddressResetStateAvailable");
+    s.store_field("wait_period", wait_period_);
+    s.store_class_end();
+  }
+}
+
+emailAddressResetStatePending::emailAddressResetStatePending()
+  : reset_in_()
+{}
+
+emailAddressResetStatePending::emailAddressResetStatePending(int32 reset_in_)
+  : reset_in_(reset_in_)
+{}
+
+const std::int32_t emailAddressResetStatePending::ID;
+
+void emailAddressResetStatePending::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emailAddressResetStatePending");
+    s.store_field("reset_in", reset_in_);
+    s.store_class_end();
+  }
+}
+
+emojiCategories::emojiCategories()
+  : categories_()
+{}
+
+emojiCategories::emojiCategories(array<object_ptr<emojiCategory>> &&categories_)
+  : categories_(std::move(categories_))
+{}
+
+const std::int32_t emojiCategories::ID;
+
+void emojiCategories::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emojiCategories");
+    { s.store_vector_begin("categories", categories_.size()); for (const auto &_value : categories_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+emojiCategory::emojiCategory()
+  : name_()
+  , icon_()
+  , emojis_()
+{}
+
+emojiCategory::emojiCategory(string const &name_, object_ptr<sticker> &&icon_, array<string> &&emojis_)
+  : name_(name_)
+  , icon_(std::move(icon_))
+  , emojis_(std::move(emojis_))
+{}
+
+const std::int32_t emojiCategory::ID;
+
+void emojiCategory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emojiCategory");
+    s.store_field("name", name_);
+    s.store_object_field("icon", static_cast<const BaseObject *>(icon_.get()));
+    { s.store_vector_begin("emojis", emojis_.size()); for (const auto &_value : emojis_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+emojiCategoryTypeDefault::emojiCategoryTypeDefault() {
+}
+
+const std::int32_t emojiCategoryTypeDefault::ID;
+
+void emojiCategoryTypeDefault::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emojiCategoryTypeDefault");
+    s.store_class_end();
+  }
+}
+
+emojiCategoryTypeEmojiStatus::emojiCategoryTypeEmojiStatus() {
+}
+
+const std::int32_t emojiCategoryTypeEmojiStatus::ID;
+
+void emojiCategoryTypeEmojiStatus::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emojiCategoryTypeEmojiStatus");
+    s.store_class_end();
+  }
+}
+
+emojiCategoryTypeChatPhoto::emojiCategoryTypeChatPhoto() {
+}
+
+const std::int32_t emojiCategoryTypeChatPhoto::ID;
+
+void emojiCategoryTypeChatPhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "emojiCategoryTypeChatPhoto");
     s.store_class_end();
   }
 }
@@ -6140,6 +6725,39 @@ void fileTypeWallpaper::store(TlStorerToString &s, const char *field_name) const
   }
 }
 
+firebaseAuthenticationSettingsAndroid::firebaseAuthenticationSettingsAndroid() {
+}
+
+const std::int32_t firebaseAuthenticationSettingsAndroid::ID;
+
+void firebaseAuthenticationSettingsAndroid::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "firebaseAuthenticationSettingsAndroid");
+    s.store_class_end();
+  }
+}
+
+firebaseAuthenticationSettingsIos::firebaseAuthenticationSettingsIos()
+  : device_token_()
+  , is_app_sandbox_()
+{}
+
+firebaseAuthenticationSettingsIos::firebaseAuthenticationSettingsIos(string const &device_token_, bool is_app_sandbox_)
+  : device_token_(device_token_)
+  , is_app_sandbox_(is_app_sandbox_)
+{}
+
+const std::int32_t firebaseAuthenticationSettingsIos::ID;
+
+void firebaseAuthenticationSettingsIos::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "firebaseAuthenticationSettingsIos");
+    s.store_field("device_token", device_token_);
+    s.store_field("is_app_sandbox", is_app_sandbox_);
+    s.store_class_end();
+  }
+}
+
 formattedText::formattedText()
   : text_()
   , entities_()
@@ -6233,18 +6851,22 @@ forumTopicInfo::forumTopicInfo()
   , icon_()
   , creation_date_()
   , creator_id_()
+  , is_general_()
   , is_outgoing_()
   , is_closed_()
+  , is_hidden_()
 {}
 
-forumTopicInfo::forumTopicInfo(int53 message_thread_id_, string const &name_, object_ptr<forumTopicIcon> &&icon_, int32 creation_date_, object_ptr<MessageSender> &&creator_id_, bool is_outgoing_, bool is_closed_)
+forumTopicInfo::forumTopicInfo(int53 message_thread_id_, string const &name_, object_ptr<forumTopicIcon> &&icon_, int32 creation_date_, object_ptr<MessageSender> &&creator_id_, bool is_general_, bool is_outgoing_, bool is_closed_, bool is_hidden_)
   : message_thread_id_(message_thread_id_)
   , name_(name_)
   , icon_(std::move(icon_))
   , creation_date_(creation_date_)
   , creator_id_(std::move(creator_id_))
+  , is_general_(is_general_)
   , is_outgoing_(is_outgoing_)
   , is_closed_(is_closed_)
+  , is_hidden_(is_hidden_)
 {}
 
 const std::int32_t forumTopicInfo::ID;
@@ -6257,8 +6879,64 @@ void forumTopicInfo::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("icon", static_cast<const BaseObject *>(icon_.get()));
     s.store_field("creation_date", creation_date_);
     s.store_object_field("creator_id", static_cast<const BaseObject *>(creator_id_.get()));
+    s.store_field("is_general", is_general_);
     s.store_field("is_outgoing", is_outgoing_);
     s.store_field("is_closed", is_closed_);
+    s.store_field("is_hidden", is_hidden_);
+    s.store_class_end();
+  }
+}
+
+forumTopics::forumTopics()
+  : total_count_()
+  , topics_()
+  , next_offset_date_()
+  , next_offset_message_id_()
+  , next_offset_message_thread_id_()
+{}
+
+forumTopics::forumTopics(int32 total_count_, array<object_ptr<forumTopic>> &&topics_, int32 next_offset_date_, int53 next_offset_message_id_, int53 next_offset_message_thread_id_)
+  : total_count_(total_count_)
+  , topics_(std::move(topics_))
+  , next_offset_date_(next_offset_date_)
+  , next_offset_message_id_(next_offset_message_id_)
+  , next_offset_message_thread_id_(next_offset_message_thread_id_)
+{}
+
+const std::int32_t forumTopics::ID;
+
+void forumTopics::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "forumTopics");
+    s.store_field("total_count", total_count_);
+    { s.store_vector_begin("topics", topics_.size()); for (const auto &_value : topics_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("next_offset_date", next_offset_date_);
+    s.store_field("next_offset_message_id", next_offset_message_id_);
+    s.store_field("next_offset_message_thread_id", next_offset_message_thread_id_);
+    s.store_class_end();
+  }
+}
+
+foundChatMessages::foundChatMessages()
+  : total_count_()
+  , messages_()
+  , next_from_message_id_()
+{}
+
+foundChatMessages::foundChatMessages(int32 total_count_, array<object_ptr<message>> &&messages_, int53 next_from_message_id_)
+  : total_count_(total_count_)
+  , messages_(std::move(messages_))
+  , next_from_message_id_(next_from_message_id_)
+{}
+
+const std::int32_t foundChatMessages::ID;
+
+void foundChatMessages::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "foundChatMessages");
+    s.store_field("total_count", total_count_);
+    { s.store_vector_begin("messages", messages_.size()); for (const auto &_value : messages_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("next_from_message_id", next_from_message_id_);
     s.store_class_end();
   }
 }
@@ -6307,6 +6985,30 @@ void foundMessages::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("total_count", total_count_);
     { s.store_vector_begin("messages", messages_.size()); for (const auto &_value : messages_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("next_offset", next_offset_);
+    s.store_class_end();
+  }
+}
+
+foundWebApp::foundWebApp()
+  : web_app_()
+  , request_write_access_()
+  , skip_confirmation_()
+{}
+
+foundWebApp::foundWebApp(object_ptr<webApp> &&web_app_, bool request_write_access_, bool skip_confirmation_)
+  : web_app_(std::move(web_app_))
+  , request_write_access_(request_write_access_)
+  , skip_confirmation_(skip_confirmation_)
+{}
+
+const std::int32_t foundWebApp::ID;
+
+void foundWebApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "foundWebApp");
+    s.store_object_field("web_app", static_cast<const BaseObject *>(web_app_.get()));
+    s.store_field("request_write_access", request_write_access_);
+    s.store_field("skip_confirmation", skip_confirmation_);
     s.store_class_end();
   }
 }
@@ -6919,12 +7621,12 @@ void inlineKeyboardButtonTypeCallbackGame::store(TlStorerToString &s, const char
 
 inlineKeyboardButtonTypeSwitchInline::inlineKeyboardButtonTypeSwitchInline()
   : query_()
-  , in_current_chat_()
+  , target_chat_()
 {}
 
-inlineKeyboardButtonTypeSwitchInline::inlineKeyboardButtonTypeSwitchInline(string const &query_, bool in_current_chat_)
+inlineKeyboardButtonTypeSwitchInline::inlineKeyboardButtonTypeSwitchInline(string const &query_, object_ptr<TargetChat> &&target_chat_)
   : query_(query_)
-  , in_current_chat_(in_current_chat_)
+  , target_chat_(std::move(target_chat_))
 {}
 
 const std::int32_t inlineKeyboardButtonTypeSwitchInline::ID;
@@ -6933,7 +7635,7 @@ void inlineKeyboardButtonTypeSwitchInline::store(TlStorerToString &s, const char
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "inlineKeyboardButtonTypeSwitchInline");
     s.store_field("query", query_);
-    s.store_field("in_current_chat", in_current_chat_);
+    s.store_object_field("target_chat", static_cast<const BaseObject *>(target_chat_.get()));
     s.store_class_end();
   }
 }
@@ -7270,18 +7972,16 @@ void inlineQueryResultVoiceNote::store(TlStorerToString &s, const char *field_na
 
 inlineQueryResults::inlineQueryResults()
   : inline_query_id_()
-  , next_offset_()
+  , button_()
   , results_()
-  , switch_pm_text_()
-  , switch_pm_parameter_()
+  , next_offset_()
 {}
 
-inlineQueryResults::inlineQueryResults(int64 inline_query_id_, string const &next_offset_, array<object_ptr<InlineQueryResult>> &&results_, string const &switch_pm_text_, string const &switch_pm_parameter_)
+inlineQueryResults::inlineQueryResults(int64 inline_query_id_, object_ptr<inlineQueryResultsButton> &&button_, array<object_ptr<InlineQueryResult>> &&results_, string const &next_offset_)
   : inline_query_id_(inline_query_id_)
-  , next_offset_(next_offset_)
+  , button_(std::move(button_))
   , results_(std::move(results_))
-  , switch_pm_text_(switch_pm_text_)
-  , switch_pm_parameter_(switch_pm_parameter_)
+  , next_offset_(next_offset_)
 {}
 
 const std::int32_t inlineQueryResults::ID;
@@ -7290,10 +7990,66 @@ void inlineQueryResults::store(TlStorerToString &s, const char *field_name) cons
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "inlineQueryResults");
     s.store_field("inline_query_id", inline_query_id_);
-    s.store_field("next_offset", next_offset_);
+    s.store_object_field("button", static_cast<const BaseObject *>(button_.get()));
     { s.store_vector_begin("results", results_.size()); for (const auto &_value : results_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
-    s.store_field("switch_pm_text", switch_pm_text_);
-    s.store_field("switch_pm_parameter", switch_pm_parameter_);
+    s.store_field("next_offset", next_offset_);
+    s.store_class_end();
+  }
+}
+
+inlineQueryResultsButton::inlineQueryResultsButton()
+  : text_()
+  , type_()
+{}
+
+inlineQueryResultsButton::inlineQueryResultsButton(string const &text_, object_ptr<InlineQueryResultsButtonType> &&type_)
+  : text_(text_)
+  , type_(std::move(type_))
+{}
+
+const std::int32_t inlineQueryResultsButton::ID;
+
+void inlineQueryResultsButton::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inlineQueryResultsButton");
+    s.store_field("text", text_);
+    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
+    s.store_class_end();
+  }
+}
+
+inlineQueryResultsButtonTypeStartBot::inlineQueryResultsButtonTypeStartBot()
+  : parameter_()
+{}
+
+inlineQueryResultsButtonTypeStartBot::inlineQueryResultsButtonTypeStartBot(string const &parameter_)
+  : parameter_(parameter_)
+{}
+
+const std::int32_t inlineQueryResultsButtonTypeStartBot::ID;
+
+void inlineQueryResultsButtonTypeStartBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inlineQueryResultsButtonTypeStartBot");
+    s.store_field("parameter", parameter_);
+    s.store_class_end();
+  }
+}
+
+inlineQueryResultsButtonTypeWebApp::inlineQueryResultsButtonTypeWebApp()
+  : url_()
+{}
+
+inlineQueryResultsButtonTypeWebApp::inlineQueryResultsButtonTypeWebApp(string const &url_)
+  : url_(url_)
+{}
+
+const std::int32_t inlineQueryResultsButtonTypeWebApp::ID;
+
+void inlineQueryResultsButtonTypeWebApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inlineQueryResultsButtonTypeWebApp");
+    s.store_field("url", url_);
     s.store_class_end();
   }
 }
@@ -7330,6 +8086,24 @@ void inputBackgroundRemote::store(TlStorerToString &s, const char *field_name) c
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "inputBackgroundRemote");
     s.store_field("background_id", background_id_);
+    s.store_class_end();
+  }
+}
+
+inputBackgroundPrevious::inputBackgroundPrevious()
+  : message_id_()
+{}
+
+inputBackgroundPrevious::inputBackgroundPrevious(int53 message_id_)
+  : message_id_(message_id_)
+{}
+
+const std::int32_t inputBackgroundPrevious::ID;
+
+void inputBackgroundPrevious::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputBackgroundPrevious");
+    s.store_field("message_id", message_id_);
     s.store_class_end();
   }
 }
@@ -7387,6 +8161,24 @@ void inputChatPhotoAnimation::store(TlStorerToString &s, const char *field_name)
     s.store_class_begin(field_name, "inputChatPhotoAnimation");
     s.store_object_field("animation", static_cast<const BaseObject *>(animation_.get()));
     s.store_field("main_frame_timestamp", main_frame_timestamp_);
+    s.store_class_end();
+  }
+}
+
+inputChatPhotoSticker::inputChatPhotoSticker()
+  : sticker_()
+{}
+
+inputChatPhotoSticker::inputChatPhotoSticker(object_ptr<chatPhotoSticker> &&sticker_)
+  : sticker_(std::move(sticker_))
+{}
+
+const std::int32_t inputChatPhotoSticker::ID;
+
+void inputChatPhotoSticker::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputChatPhotoSticker");
+    s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_class_end();
   }
 }
@@ -8119,9 +8911,10 @@ inputMessageAnimation::inputMessageAnimation()
   , width_()
   , height_()
   , caption_()
+  , has_spoiler_()
 {}
 
-inputMessageAnimation::inputMessageAnimation(object_ptr<InputFile> &&animation_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 duration_, int32 width_, int32 height_, object_ptr<formattedText> &&caption_)
+inputMessageAnimation::inputMessageAnimation(object_ptr<InputFile> &&animation_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 duration_, int32 width_, int32 height_, object_ptr<formattedText> &&caption_, bool has_spoiler_)
   : animation_(std::move(animation_))
   , thumbnail_(std::move(thumbnail_))
   , added_sticker_file_ids_(std::move(added_sticker_file_ids_))
@@ -8129,6 +8922,7 @@ inputMessageAnimation::inputMessageAnimation(object_ptr<InputFile> &&animation_,
   , width_(width_)
   , height_(height_)
   , caption_(std::move(caption_))
+  , has_spoiler_(has_spoiler_)
 {}
 
 const std::int32_t inputMessageAnimation::ID;
@@ -8143,6 +8937,7 @@ void inputMessageAnimation::store(TlStorerToString &s, const char *field_name) c
     s.store_field("width", width_);
     s.store_field("height", height_);
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_class_end();
   }
 }
@@ -8214,17 +9009,19 @@ inputMessagePhoto::inputMessagePhoto()
   , width_()
   , height_()
   , caption_()
-  , ttl_()
+  , self_destruct_time_()
+  , has_spoiler_()
 {}
 
-inputMessagePhoto::inputMessagePhoto(object_ptr<InputFile> &&photo_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 width_, int32 height_, object_ptr<formattedText> &&caption_, int32 ttl_)
+inputMessagePhoto::inputMessagePhoto(object_ptr<InputFile> &&photo_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 width_, int32 height_, object_ptr<formattedText> &&caption_, int32 self_destruct_time_, bool has_spoiler_)
   : photo_(std::move(photo_))
   , thumbnail_(std::move(thumbnail_))
   , added_sticker_file_ids_(std::move(added_sticker_file_ids_))
   , width_(width_)
   , height_(height_)
   , caption_(std::move(caption_))
-  , ttl_(ttl_)
+  , self_destruct_time_(self_destruct_time_)
+  , has_spoiler_(has_spoiler_)
 {}
 
 const std::int32_t inputMessagePhoto::ID;
@@ -8238,7 +9035,8 @@ void inputMessagePhoto::store(TlStorerToString &s, const char *field_name) const
     s.store_field("width", width_);
     s.store_field("height", height_);
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
-    s.store_field("ttl", ttl_);
+    s.store_field("self_destruct_time", self_destruct_time_);
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_class_end();
   }
 }
@@ -8282,10 +9080,11 @@ inputMessageVideo::inputMessageVideo()
   , height_()
   , supports_streaming_()
   , caption_()
-  , ttl_()
+  , self_destruct_time_()
+  , has_spoiler_()
 {}
 
-inputMessageVideo::inputMessageVideo(object_ptr<InputFile> &&video_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 duration_, int32 width_, int32 height_, bool supports_streaming_, object_ptr<formattedText> &&caption_, int32 ttl_)
+inputMessageVideo::inputMessageVideo(object_ptr<InputFile> &&video_, object_ptr<inputThumbnail> &&thumbnail_, array<int32> &&added_sticker_file_ids_, int32 duration_, int32 width_, int32 height_, bool supports_streaming_, object_ptr<formattedText> &&caption_, int32 self_destruct_time_, bool has_spoiler_)
   : video_(std::move(video_))
   , thumbnail_(std::move(thumbnail_))
   , added_sticker_file_ids_(std::move(added_sticker_file_ids_))
@@ -8294,7 +9093,8 @@ inputMessageVideo::inputMessageVideo(object_ptr<InputFile> &&video_, object_ptr<
   , height_(height_)
   , supports_streaming_(supports_streaming_)
   , caption_(std::move(caption_))
-  , ttl_(ttl_)
+  , self_destruct_time_(self_destruct_time_)
+  , has_spoiler_(has_spoiler_)
 {}
 
 const std::int32_t inputMessageVideo::ID;
@@ -8310,7 +9110,8 @@ void inputMessageVideo::store(TlStorerToString &s, const char *field_name) const
     s.store_field("height", height_);
     s.store_field("supports_streaming", supports_streaming_);
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
-    s.store_field("ttl", ttl_);
+    s.store_field("self_destruct_time", self_destruct_time_);
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_class_end();
   }
 }
@@ -9035,15 +9836,15 @@ void inputPersonalDocument::store(TlStorerToString &s, const char *field_name) c
 inputSticker::inputSticker()
   : sticker_()
   , emojis_()
-  , format_()
   , mask_position_()
+  , keywords_()
 {}
 
-inputSticker::inputSticker(object_ptr<InputFile> &&sticker_, string const &emojis_, object_ptr<StickerFormat> &&format_, object_ptr<maskPosition> &&mask_position_)
+inputSticker::inputSticker(object_ptr<InputFile> &&sticker_, string const &emojis_, object_ptr<maskPosition> &&mask_position_, array<string> &&keywords_)
   : sticker_(std::move(sticker_))
   , emojis_(emojis_)
-  , format_(std::move(format_))
   , mask_position_(std::move(mask_position_))
+  , keywords_(std::move(keywords_))
 {}
 
 const std::int32_t inputSticker::ID;
@@ -9053,8 +9854,8 @@ void inputSticker::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "inputSticker");
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_field("emojis", emojis_);
-    s.store_object_field("format", static_cast<const BaseObject *>(format_.get()));
     s.store_object_field("mask_position", static_cast<const BaseObject *>(mask_position_.get()));
+    { s.store_vector_begin("keywords", keywords_.size()); for (const auto &_value : keywords_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -9155,6 +9956,27 @@ void internalLinkTypeBackground::store(TlStorerToString &s, const char *field_na
   }
 }
 
+internalLinkTypeBotAddToChannel::internalLinkTypeBotAddToChannel()
+  : bot_username_()
+  , administrator_rights_()
+{}
+
+internalLinkTypeBotAddToChannel::internalLinkTypeBotAddToChannel(string const &bot_username_, object_ptr<chatAdministratorRights> &&administrator_rights_)
+  : bot_username_(bot_username_)
+  , administrator_rights_(std::move(administrator_rights_))
+{}
+
+const std::int32_t internalLinkTypeBotAddToChannel::ID;
+
+void internalLinkTypeBotAddToChannel::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeBotAddToChannel");
+    s.store_field("bot_username", bot_username_);
+    s.store_object_field("administrator_rights", static_cast<const BaseObject *>(administrator_rights_.get()));
+    s.store_class_end();
+  }
+}
+
 internalLinkTypeBotStart::internalLinkTypeBotStart()
   : bot_username_()
   , start_parameter_()
@@ -9203,27 +10025,6 @@ void internalLinkTypeBotStartInGroup::store(TlStorerToString &s, const char *fie
   }
 }
 
-internalLinkTypeBotAddToChannel::internalLinkTypeBotAddToChannel()
-  : bot_username_()
-  , administrator_rights_()
-{}
-
-internalLinkTypeBotAddToChannel::internalLinkTypeBotAddToChannel(string const &bot_username_, object_ptr<chatAdministratorRights> &&administrator_rights_)
-  : bot_username_(bot_username_)
-  , administrator_rights_(std::move(administrator_rights_))
-{}
-
-const std::int32_t internalLinkTypeBotAddToChannel::ID;
-
-void internalLinkTypeBotAddToChannel::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "internalLinkTypeBotAddToChannel");
-    s.store_field("bot_username", bot_username_);
-    s.store_object_field("administrator_rights", static_cast<const BaseObject *>(administrator_rights_.get()));
-    s.store_class_end();
-  }
-}
-
 internalLinkTypeChangePhoneNumber::internalLinkTypeChangePhoneNumber() {
 }
 
@@ -9232,6 +10033,36 @@ const std::int32_t internalLinkTypeChangePhoneNumber::ID;
 void internalLinkTypeChangePhoneNumber::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "internalLinkTypeChangePhoneNumber");
+    s.store_class_end();
+  }
+}
+
+internalLinkTypeChatFolderInvite::internalLinkTypeChatFolderInvite()
+  : invite_link_()
+{}
+
+internalLinkTypeChatFolderInvite::internalLinkTypeChatFolderInvite(string const &invite_link_)
+  : invite_link_(invite_link_)
+{}
+
+const std::int32_t internalLinkTypeChatFolderInvite::ID;
+
+void internalLinkTypeChatFolderInvite::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeChatFolderInvite");
+    s.store_field("invite_link", invite_link_);
+    s.store_class_end();
+  }
+}
+
+internalLinkTypeChatFolderSettings::internalLinkTypeChatFolderSettings() {
+}
+
+const std::int32_t internalLinkTypeChatFolderSettings::ID;
+
+void internalLinkTypeChatFolderSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeChatFolderSettings");
     s.store_class_end();
   }
 }
@@ -9254,14 +10085,26 @@ void internalLinkTypeChatInvite::store(TlStorerToString &s, const char *field_na
   }
 }
 
-internalLinkTypeFilterSettings::internalLinkTypeFilterSettings() {
+internalLinkTypeDefaultMessageAutoDeleteTimerSettings::internalLinkTypeDefaultMessageAutoDeleteTimerSettings() {
 }
 
-const std::int32_t internalLinkTypeFilterSettings::ID;
+const std::int32_t internalLinkTypeDefaultMessageAutoDeleteTimerSettings::ID;
 
-void internalLinkTypeFilterSettings::store(TlStorerToString &s, const char *field_name) const {
+void internalLinkTypeDefaultMessageAutoDeleteTimerSettings::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "internalLinkTypeFilterSettings");
+    s.store_class_begin(field_name, "internalLinkTypeDefaultMessageAutoDeleteTimerSettings");
+    s.store_class_end();
+  }
+}
+
+internalLinkTypeEditProfileSettings::internalLinkTypeEditProfileSettings() {
+}
+
+const std::int32_t internalLinkTypeEditProfileSettings::ID;
+
+void internalLinkTypeEditProfileSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeEditProfileSettings");
     s.store_class_end();
   }
 }
@@ -9556,10 +10399,12 @@ void internalLinkTypeSettings::store(TlStorerToString &s, const char *field_name
 
 internalLinkTypeStickerSet::internalLinkTypeStickerSet()
   : sticker_set_name_()
+  , expect_custom_emoji_()
 {}
 
-internalLinkTypeStickerSet::internalLinkTypeStickerSet(string const &sticker_set_name_)
+internalLinkTypeStickerSet::internalLinkTypeStickerSet(string const &sticker_set_name_, bool expect_custom_emoji_)
   : sticker_set_name_(sticker_set_name_)
+  , expect_custom_emoji_(expect_custom_emoji_)
 {}
 
 const std::int32_t internalLinkTypeStickerSet::ID;
@@ -9568,6 +10413,7 @@ void internalLinkTypeStickerSet::store(TlStorerToString &s, const char *field_na
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "internalLinkTypeStickerSet");
     s.store_field("sticker_set_name", sticker_set_name_);
+    s.store_field("expect_custom_emoji", expect_custom_emoji_);
     s.store_class_end();
   }
 }
@@ -9650,6 +10496,24 @@ void internalLinkTypeUserPhoneNumber::store(TlStorerToString &s, const char *fie
   }
 }
 
+internalLinkTypeUserToken::internalLinkTypeUserToken()
+  : token_()
+{}
+
+internalLinkTypeUserToken::internalLinkTypeUserToken(string const &token_)
+  : token_(token_)
+{}
+
+const std::int32_t internalLinkTypeUserToken::ID;
+
+void internalLinkTypeUserToken::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeUserToken");
+    s.store_field("token", token_);
+    s.store_class_end();
+  }
+}
+
 internalLinkTypeVideoChat::internalLinkTypeVideoChat()
   : chat_username_()
   , invite_hash_()
@@ -9670,6 +10534,30 @@ void internalLinkTypeVideoChat::store(TlStorerToString &s, const char *field_nam
     s.store_field("chat_username", chat_username_);
     s.store_field("invite_hash", invite_hash_);
     s.store_field("is_live_stream", is_live_stream_);
+    s.store_class_end();
+  }
+}
+
+internalLinkTypeWebApp::internalLinkTypeWebApp()
+  : bot_username_()
+  , web_app_short_name_()
+  , start_parameter_()
+{}
+
+internalLinkTypeWebApp::internalLinkTypeWebApp(string const &bot_username_, string const &web_app_short_name_, string const &start_parameter_)
+  : bot_username_(bot_username_)
+  , web_app_short_name_(web_app_short_name_)
+  , start_parameter_(start_parameter_)
+{}
+
+const std::int32_t internalLinkTypeWebApp::ID;
+
+void internalLinkTypeWebApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "internalLinkTypeWebApp");
+    s.store_field("bot_username", bot_username_);
+    s.store_field("web_app_short_name", web_app_short_name_);
+    s.store_field("start_parameter", start_parameter_);
     s.store_class_end();
   }
 }
@@ -9925,6 +10813,81 @@ void keyboardButtonTypeRequestPoll::store(TlStorerToString &s, const char *field
     s.store_class_begin(field_name, "keyboardButtonTypeRequestPoll");
     s.store_field("force_regular", force_regular_);
     s.store_field("force_quiz", force_quiz_);
+    s.store_class_end();
+  }
+}
+
+keyboardButtonTypeRequestUser::keyboardButtonTypeRequestUser()
+  : id_()
+  , restrict_user_is_bot_()
+  , user_is_bot_()
+  , restrict_user_is_premium_()
+  , user_is_premium_()
+{}
+
+keyboardButtonTypeRequestUser::keyboardButtonTypeRequestUser(int32 id_, bool restrict_user_is_bot_, bool user_is_bot_, bool restrict_user_is_premium_, bool user_is_premium_)
+  : id_(id_)
+  , restrict_user_is_bot_(restrict_user_is_bot_)
+  , user_is_bot_(user_is_bot_)
+  , restrict_user_is_premium_(restrict_user_is_premium_)
+  , user_is_premium_(user_is_premium_)
+{}
+
+const std::int32_t keyboardButtonTypeRequestUser::ID;
+
+void keyboardButtonTypeRequestUser::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "keyboardButtonTypeRequestUser");
+    s.store_field("id", id_);
+    s.store_field("restrict_user_is_bot", restrict_user_is_bot_);
+    s.store_field("user_is_bot", user_is_bot_);
+    s.store_field("restrict_user_is_premium", restrict_user_is_premium_);
+    s.store_field("user_is_premium", user_is_premium_);
+    s.store_class_end();
+  }
+}
+
+keyboardButtonTypeRequestChat::keyboardButtonTypeRequestChat()
+  : id_()
+  , chat_is_channel_()
+  , restrict_chat_is_forum_()
+  , chat_is_forum_()
+  , restrict_chat_has_username_()
+  , chat_has_username_()
+  , chat_is_created_()
+  , user_administrator_rights_()
+  , bot_administrator_rights_()
+  , bot_is_member_()
+{}
+
+keyboardButtonTypeRequestChat::keyboardButtonTypeRequestChat(int32 id_, bool chat_is_channel_, bool restrict_chat_is_forum_, bool chat_is_forum_, bool restrict_chat_has_username_, bool chat_has_username_, bool chat_is_created_, object_ptr<chatAdministratorRights> &&user_administrator_rights_, object_ptr<chatAdministratorRights> &&bot_administrator_rights_, bool bot_is_member_)
+  : id_(id_)
+  , chat_is_channel_(chat_is_channel_)
+  , restrict_chat_is_forum_(restrict_chat_is_forum_)
+  , chat_is_forum_(chat_is_forum_)
+  , restrict_chat_has_username_(restrict_chat_has_username_)
+  , chat_has_username_(chat_has_username_)
+  , chat_is_created_(chat_is_created_)
+  , user_administrator_rights_(std::move(user_administrator_rights_))
+  , bot_administrator_rights_(std::move(bot_administrator_rights_))
+  , bot_is_member_(bot_is_member_)
+{}
+
+const std::int32_t keyboardButtonTypeRequestChat::ID;
+
+void keyboardButtonTypeRequestChat::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "keyboardButtonTypeRequestChat");
+    s.store_field("id", id_);
+    s.store_field("chat_is_channel", chat_is_channel_);
+    s.store_field("restrict_chat_is_forum", restrict_chat_is_forum_);
+    s.store_field("chat_is_forum", chat_is_forum_);
+    s.store_field("restrict_chat_has_username", restrict_chat_has_username_);
+    s.store_field("chat_has_username", chat_has_username_);
+    s.store_field("chat_is_created", chat_is_created_);
+    s.store_object_field("user_administrator_rights", static_cast<const BaseObject *>(user_administrator_rights_.get()));
+    s.store_object_field("bot_administrator_rights", static_cast<const BaseObject *>(bot_administrator_rights_.get()));
+    s.store_field("bot_is_member", bot_is_member_);
     s.store_class_end();
   }
 }
@@ -10291,12 +11254,12 @@ void logVerbosityLevel::store(TlStorerToString &s, const char *field_name) const
 
 loginUrlInfoOpen::loginUrlInfoOpen()
   : url_()
-  , skip_confirm_()
+  , skip_confirmation_()
 {}
 
-loginUrlInfoOpen::loginUrlInfoOpen(string const &url_, bool skip_confirm_)
+loginUrlInfoOpen::loginUrlInfoOpen(string const &url_, bool skip_confirmation_)
   : url_(url_)
-  , skip_confirm_(skip_confirm_)
+  , skip_confirmation_(skip_confirmation_)
 {}
 
 const std::int32_t loginUrlInfoOpen::ID;
@@ -10305,7 +11268,7 @@ void loginUrlInfoOpen::store(TlStorerToString &s, const char *field_name) const 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "loginUrlInfoOpen");
     s.store_field("url", url_);
-    s.store_field("skip_confirm", skip_confirm_);
+    s.store_field("skip_confirmation", skip_confirmation_);
     s.store_class_end();
   }
 }
@@ -10443,8 +11406,9 @@ message::message()
   , reply_in_chat_id_()
   , reply_to_message_id_()
   , message_thread_id_()
-  , ttl_()
-  , ttl_expires_in_()
+  , self_destruct_time_()
+  , self_destruct_in_()
+  , auto_delete_in_()
   , via_bot_user_id_()
   , author_signature_()
   , media_album_id_()
@@ -10453,7 +11417,7 @@ message::message()
   , reply_markup_()
 {}
 
-message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_id_, object_ptr<MessageSendingState> &&sending_state_, object_ptr<MessageSchedulingState> &&scheduling_state_, bool is_outgoing_, bool is_pinned_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_saved_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_get_added_reactions_, bool can_get_statistics_, bool can_get_message_thread_, bool can_get_viewers_, bool can_get_media_timestamp_links_, bool can_report_reactions_, bool has_timestamped_media_, bool is_channel_post_, bool is_topic_message_, bool contains_unread_mention_, int32 date_, int32 edit_date_, object_ptr<messageForwardInfo> &&forward_info_, object_ptr<messageInteractionInfo> &&interaction_info_, array<object_ptr<unreadReaction>> &&unread_reactions_, int53 reply_in_chat_id_, int53 reply_to_message_id_, int53 message_thread_id_, int32 ttl_, double ttl_expires_in_, int53 via_bot_user_id_, string const &author_signature_, int64 media_album_id_, string const &restriction_reason_, object_ptr<MessageContent> &&content_, object_ptr<ReplyMarkup> &&reply_markup_)
+message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_id_, object_ptr<MessageSendingState> &&sending_state_, object_ptr<MessageSchedulingState> &&scheduling_state_, bool is_outgoing_, bool is_pinned_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_saved_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_get_added_reactions_, bool can_get_statistics_, bool can_get_message_thread_, bool can_get_viewers_, bool can_get_media_timestamp_links_, bool can_report_reactions_, bool has_timestamped_media_, bool is_channel_post_, bool is_topic_message_, bool contains_unread_mention_, int32 date_, int32 edit_date_, object_ptr<messageForwardInfo> &&forward_info_, object_ptr<messageInteractionInfo> &&interaction_info_, array<object_ptr<unreadReaction>> &&unread_reactions_, int53 reply_in_chat_id_, int53 reply_to_message_id_, int53 message_thread_id_, int32 self_destruct_time_, double self_destruct_in_, double auto_delete_in_, int53 via_bot_user_id_, string const &author_signature_, int64 media_album_id_, string const &restriction_reason_, object_ptr<MessageContent> &&content_, object_ptr<ReplyMarkup> &&reply_markup_)
   : id_(id_)
   , sender_id_(std::move(sender_id_))
   , chat_id_(chat_id_)
@@ -10484,8 +11448,9 @@ message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_i
   , reply_in_chat_id_(reply_in_chat_id_)
   , reply_to_message_id_(reply_to_message_id_)
   , message_thread_id_(message_thread_id_)
-  , ttl_(ttl_)
-  , ttl_expires_in_(ttl_expires_in_)
+  , self_destruct_time_(self_destruct_time_)
+  , self_destruct_in_(self_destruct_in_)
+  , auto_delete_in_(auto_delete_in_)
   , via_bot_user_id_(via_bot_user_id_)
   , author_signature_(author_signature_)
   , media_album_id_(media_album_id_)
@@ -10529,14 +11494,33 @@ void message::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("reply_in_chat_id", reply_in_chat_id_);
     s.store_field("reply_to_message_id", reply_to_message_id_);
     s.store_field("message_thread_id", message_thread_id_);
-    s.store_field("ttl", ttl_);
-    s.store_field("ttl_expires_in", ttl_expires_in_);
+    s.store_field("self_destruct_time", self_destruct_time_);
+    s.store_field("self_destruct_in", self_destruct_in_);
+    s.store_field("auto_delete_in", auto_delete_in_);
     s.store_field("via_bot_user_id", via_bot_user_id_);
     s.store_field("author_signature", author_signature_);
     s.store_field("media_album_id", media_album_id_);
     s.store_field("restriction_reason", restriction_reason_);
     s.store_object_field("content", static_cast<const BaseObject *>(content_.get()));
     s.store_object_field("reply_markup", static_cast<const BaseObject *>(reply_markup_.get()));
+    s.store_class_end();
+  }
+}
+
+messageAutoDeleteTime::messageAutoDeleteTime()
+  : time_()
+{}
+
+messageAutoDeleteTime::messageAutoDeleteTime(int32 time_)
+  : time_(time_)
+{}
+
+const std::int32_t messageAutoDeleteTime::ID;
+
+void messageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageAutoDeleteTime");
+    s.store_field("time", time_);
     s.store_class_end();
   }
 }
@@ -10607,12 +11591,14 @@ void messageText::store(TlStorerToString &s, const char *field_name) const {
 messageAnimation::messageAnimation()
   : animation_()
   , caption_()
+  , has_spoiler_()
   , is_secret_()
 {}
 
-messageAnimation::messageAnimation(object_ptr<animation> &&animation_, object_ptr<formattedText> &&caption_, bool is_secret_)
+messageAnimation::messageAnimation(object_ptr<animation> &&animation_, object_ptr<formattedText> &&caption_, bool has_spoiler_, bool is_secret_)
   : animation_(std::move(animation_))
   , caption_(std::move(caption_))
+  , has_spoiler_(has_spoiler_)
   , is_secret_(is_secret_)
 {}
 
@@ -10623,6 +11609,7 @@ void messageAnimation::store(TlStorerToString &s, const char *field_name) const 
     s.store_class_begin(field_name, "messageAnimation");
     s.store_object_field("animation", static_cast<const BaseObject *>(animation_.get()));
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_field("is_secret", is_secret_);
     s.store_class_end();
   }
@@ -10673,12 +11660,14 @@ void messageDocument::store(TlStorerToString &s, const char *field_name) const {
 messagePhoto::messagePhoto()
   : photo_()
   , caption_()
+  , has_spoiler_()
   , is_secret_()
 {}
 
-messagePhoto::messagePhoto(object_ptr<photo> &&photo_, object_ptr<formattedText> &&caption_, bool is_secret_)
+messagePhoto::messagePhoto(object_ptr<photo> &&photo_, object_ptr<formattedText> &&caption_, bool has_spoiler_, bool is_secret_)
   : photo_(std::move(photo_))
   , caption_(std::move(caption_))
+  , has_spoiler_(has_spoiler_)
   , is_secret_(is_secret_)
 {}
 
@@ -10689,6 +11678,7 @@ void messagePhoto::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "messagePhoto");
     s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_field("is_secret", is_secret_);
     s.store_class_end();
   }
@@ -10730,12 +11720,14 @@ void messageSticker::store(TlStorerToString &s, const char *field_name) const {
 messageVideo::messageVideo()
   : video_()
   , caption_()
+  , has_spoiler_()
   , is_secret_()
 {}
 
-messageVideo::messageVideo(object_ptr<video> &&video_, object_ptr<formattedText> &&caption_, bool is_secret_)
+messageVideo::messageVideo(object_ptr<video> &&video_, object_ptr<formattedText> &&caption_, bool has_spoiler_, bool is_secret_)
   : video_(std::move(video_))
   , caption_(std::move(caption_))
+  , has_spoiler_(has_spoiler_)
   , is_secret_(is_secret_)
 {}
 
@@ -10746,6 +11738,7 @@ void messageVideo::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "messageVideo");
     s.store_object_field("video", static_cast<const BaseObject *>(video_.get()));
     s.store_object_field("caption", static_cast<const BaseObject *>(caption_.get()));
+    s.store_field("has_spoiler", has_spoiler_);
     s.store_field("is_secret", is_secret_);
     s.store_class_end();
   }
@@ -11327,6 +12320,27 @@ void messageScreenshotTaken::store(TlStorerToString &s, const char *field_name) 
   }
 }
 
+messageChatSetBackground::messageChatSetBackground()
+  : old_background_message_id_()
+  , background_()
+{}
+
+messageChatSetBackground::messageChatSetBackground(int53 old_background_message_id_, object_ptr<chatBackground> &&background_)
+  : old_background_message_id_(old_background_message_id_)
+  , background_(std::move(background_))
+{}
+
+const std::int32_t messageChatSetBackground::ID;
+
+void messageChatSetBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageChatSetBackground");
+    s.store_field("old_background_message_id", old_background_message_id_);
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
+    s.store_class_end();
+  }
+}
+
 messageChatSetTheme::messageChatSetTheme()
   : theme_name_()
 {}
@@ -11345,20 +12359,23 @@ void messageChatSetTheme::store(TlStorerToString &s, const char *field_name) con
   }
 }
 
-messageChatSetTtl::messageChatSetTtl()
-  : ttl_()
+messageChatSetMessageAutoDeleteTime::messageChatSetMessageAutoDeleteTime()
+  : message_auto_delete_time_()
+  , from_user_id_()
 {}
 
-messageChatSetTtl::messageChatSetTtl(int32 ttl_)
-  : ttl_(ttl_)
+messageChatSetMessageAutoDeleteTime::messageChatSetMessageAutoDeleteTime(int32 message_auto_delete_time_, int53 from_user_id_)
+  : message_auto_delete_time_(message_auto_delete_time_)
+  , from_user_id_(from_user_id_)
 {}
 
-const std::int32_t messageChatSetTtl::ID;
+const std::int32_t messageChatSetMessageAutoDeleteTime::ID;
 
-void messageChatSetTtl::store(TlStorerToString &s, const char *field_name) const {
+void messageChatSetMessageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "messageChatSetTtl");
-    s.store_field("ttl", ttl_);
+    s.store_class_begin(field_name, "messageChatSetMessageAutoDeleteTime");
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
+    s.store_field("from_user_id", from_user_id_);
     s.store_class_end();
   }
 }
@@ -11422,6 +12439,42 @@ void messageForumTopicIsClosedToggled::store(TlStorerToString &s, const char *fi
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageForumTopicIsClosedToggled");
     s.store_field("is_closed", is_closed_);
+    s.store_class_end();
+  }
+}
+
+messageForumTopicIsHiddenToggled::messageForumTopicIsHiddenToggled()
+  : is_hidden_()
+{}
+
+messageForumTopicIsHiddenToggled::messageForumTopicIsHiddenToggled(bool is_hidden_)
+  : is_hidden_(is_hidden_)
+{}
+
+const std::int32_t messageForumTopicIsHiddenToggled::ID;
+
+void messageForumTopicIsHiddenToggled::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageForumTopicIsHiddenToggled");
+    s.store_field("is_hidden", is_hidden_);
+    s.store_class_end();
+  }
+}
+
+messageSuggestProfilePhoto::messageSuggestProfilePhoto()
+  : photo_()
+{}
+
+messageSuggestProfilePhoto::messageSuggestProfilePhoto(object_ptr<chatPhoto> &&photo_)
+  : photo_(std::move(photo_))
+{}
+
+const std::int32_t messageSuggestProfilePhoto::ID;
+
+void messageSuggestProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSuggestProfilePhoto");
+    s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
     s.store_class_end();
   }
 }
@@ -11547,15 +12600,21 @@ void messagePaymentSuccessfulBot::store(TlStorerToString &s, const char *field_n
 }
 
 messageGiftedPremium::messageGiftedPremium()
-  : currency_()
+  : gifter_user_id_()
+  , currency_()
   , amount_()
+  , cryptocurrency_()
+  , cryptocurrency_amount_()
   , month_count_()
   , sticker_()
 {}
 
-messageGiftedPremium::messageGiftedPremium(string const &currency_, int53 amount_, int32 month_count_, object_ptr<sticker> &&sticker_)
-  : currency_(currency_)
+messageGiftedPremium::messageGiftedPremium(int53 gifter_user_id_, string const &currency_, int53 amount_, string const &cryptocurrency_, int64 cryptocurrency_amount_, int32 month_count_, object_ptr<sticker> &&sticker_)
+  : gifter_user_id_(gifter_user_id_)
+  , currency_(currency_)
   , amount_(amount_)
+  , cryptocurrency_(cryptocurrency_)
+  , cryptocurrency_amount_(cryptocurrency_amount_)
   , month_count_(month_count_)
   , sticker_(std::move(sticker_))
 {}
@@ -11565,8 +12624,11 @@ const std::int32_t messageGiftedPremium::ID;
 void messageGiftedPremium::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageGiftedPremium");
+    s.store_field("gifter_user_id", gifter_user_id_);
     s.store_field("currency", currency_);
     s.store_field("amount", amount_);
+    s.store_field("cryptocurrency", cryptocurrency_);
+    s.store_field("cryptocurrency_amount", cryptocurrency_amount_);
     s.store_field("month_count", month_count_);
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_class_end();
@@ -11585,6 +12647,48 @@ void messageContactRegistered::store(TlStorerToString &s, const char *field_name
   }
 }
 
+messageUserShared::messageUserShared()
+  : user_id_()
+  , button_id_()
+{}
+
+messageUserShared::messageUserShared(int53 user_id_, int32 button_id_)
+  : user_id_(user_id_)
+  , button_id_(button_id_)
+{}
+
+const std::int32_t messageUserShared::ID;
+
+void messageUserShared::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageUserShared");
+    s.store_field("user_id", user_id_);
+    s.store_field("button_id", button_id_);
+    s.store_class_end();
+  }
+}
+
+messageChatShared::messageChatShared()
+  : chat_id_()
+  , button_id_()
+{}
+
+messageChatShared::messageChatShared(int53 chat_id_, int32 button_id_)
+  : chat_id_(chat_id_)
+  , button_id_(button_id_)
+{}
+
+const std::int32_t messageChatShared::ID;
+
+void messageChatShared::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageChatShared");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("button_id", button_id_);
+    s.store_class_end();
+  }
+}
+
 messageWebsiteConnected::messageWebsiteConnected()
   : domain_name_()
 {}
@@ -11599,6 +12703,24 @@ void messageWebsiteConnected::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageWebsiteConnected");
     s.store_field("domain_name", domain_name_);
+    s.store_class_end();
+  }
+}
+
+messageBotWriteAccessAllowed::messageBotWriteAccessAllowed()
+  : web_app_()
+{}
+
+messageBotWriteAccessAllowed::messageBotWriteAccessAllowed(object_ptr<webApp> &&web_app_)
+  : web_app_(std::move(web_app_))
+{}
+
+const std::int32_t messageBotWriteAccessAllowed::ID;
+
+void messageBotWriteAccessAllowed::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageBotWriteAccessAllowed");
+    s.store_object_field("web_app", static_cast<const BaseObject *>(web_app_.get()));
     s.store_class_end();
   }
 }
@@ -12227,14 +13349,16 @@ messageSendOptions::messageSendOptions()
   , protect_content_()
   , update_order_of_installed_sticker_sets_()
   , scheduling_state_()
+  , sending_id_()
 {}
 
-messageSendOptions::messageSendOptions(bool disable_notification_, bool from_background_, bool protect_content_, bool update_order_of_installed_sticker_sets_, object_ptr<MessageSchedulingState> &&scheduling_state_)
+messageSendOptions::messageSendOptions(bool disable_notification_, bool from_background_, bool protect_content_, bool update_order_of_installed_sticker_sets_, object_ptr<MessageSchedulingState> &&scheduling_state_, int32 sending_id_)
   : disable_notification_(disable_notification_)
   , from_background_(from_background_)
   , protect_content_(protect_content_)
   , update_order_of_installed_sticker_sets_(update_order_of_installed_sticker_sets_)
   , scheduling_state_(std::move(scheduling_state_))
+  , sending_id_(sending_id_)
 {}
 
 const std::int32_t messageSendOptions::ID;
@@ -12247,6 +13371,7 @@ void messageSendOptions::store(TlStorerToString &s, const char *field_name) cons
     s.store_field("protect_content", protect_content_);
     s.store_field("update_order_of_installed_sticker_sets", update_order_of_installed_sticker_sets_);
     s.store_object_field("scheduling_state", static_cast<const BaseObject *>(scheduling_state_.get()));
+    s.store_field("sending_id", sending_id_);
     s.store_class_end();
   }
 }
@@ -12308,14 +13433,20 @@ void messageSenders::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-messageSendingStatePending::messageSendingStatePending() {
-}
+messageSendingStatePending::messageSendingStatePending()
+  : sending_id_()
+{}
+
+messageSendingStatePending::messageSendingStatePending(int32 sending_id_)
+  : sending_id_(sending_id_)
+{}
 
 const std::int32_t messageSendingStatePending::ID;
 
 void messageSendingStatePending::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageSendingStatePending");
+    s.store_field("sending_id", sending_id_);
     s.store_class_end();
   }
 }
@@ -12346,6 +13477,114 @@ void messageSendingStateFailed::store(TlStorerToString &s, const char *field_nam
     s.store_field("can_retry", can_retry_);
     s.store_field("need_another_sender", need_another_sender_);
     s.store_field("retry_after", retry_after_);
+    s.store_class_end();
+  }
+}
+
+messageSourceChatHistory::messageSourceChatHistory() {
+}
+
+const std::int32_t messageSourceChatHistory::ID;
+
+void messageSourceChatHistory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceChatHistory");
+    s.store_class_end();
+  }
+}
+
+messageSourceMessageThreadHistory::messageSourceMessageThreadHistory() {
+}
+
+const std::int32_t messageSourceMessageThreadHistory::ID;
+
+void messageSourceMessageThreadHistory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceMessageThreadHistory");
+    s.store_class_end();
+  }
+}
+
+messageSourceForumTopicHistory::messageSourceForumTopicHistory() {
+}
+
+const std::int32_t messageSourceForumTopicHistory::ID;
+
+void messageSourceForumTopicHistory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceForumTopicHistory");
+    s.store_class_end();
+  }
+}
+
+messageSourceHistoryPreview::messageSourceHistoryPreview() {
+}
+
+const std::int32_t messageSourceHistoryPreview::ID;
+
+void messageSourceHistoryPreview::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceHistoryPreview");
+    s.store_class_end();
+  }
+}
+
+messageSourceChatList::messageSourceChatList() {
+}
+
+const std::int32_t messageSourceChatList::ID;
+
+void messageSourceChatList::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceChatList");
+    s.store_class_end();
+  }
+}
+
+messageSourceSearch::messageSourceSearch() {
+}
+
+const std::int32_t messageSourceSearch::ID;
+
+void messageSourceSearch::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceSearch");
+    s.store_class_end();
+  }
+}
+
+messageSourceChatEventLog::messageSourceChatEventLog() {
+}
+
+const std::int32_t messageSourceChatEventLog::ID;
+
+void messageSourceChatEventLog::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceChatEventLog");
+    s.store_class_end();
+  }
+}
+
+messageSourceNotification::messageSourceNotification() {
+}
+
+const std::int32_t messageSourceNotification::ID;
+
+void messageSourceNotification::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceNotification");
+    s.store_class_end();
+  }
+}
+
+messageSourceOther::messageSourceOther() {
+}
+
+const std::int32_t messageSourceOther::ID;
+
+void messageSourceOther::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageSourceOther");
     s.store_class_end();
   }
 }
@@ -12397,6 +13636,45 @@ void messageThreadInfo::store(TlStorerToString &s, const char *field_name) const
     s.store_field("unread_message_count", unread_message_count_);
     { s.store_vector_begin("messages", messages_.size()); for (const auto &_value : messages_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_object_field("draft_message", static_cast<const BaseObject *>(draft_message_.get()));
+    s.store_class_end();
+  }
+}
+
+messageViewer::messageViewer()
+  : user_id_()
+  , view_date_()
+{}
+
+messageViewer::messageViewer(int53 user_id_, int32 view_date_)
+  : user_id_(user_id_)
+  , view_date_(view_date_)
+{}
+
+const std::int32_t messageViewer::ID;
+
+void messageViewer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageViewer");
+    s.store_field("user_id", user_id_);
+    s.store_field("view_date", view_date_);
+    s.store_class_end();
+  }
+}
+
+messageViewers::messageViewers()
+  : viewers_()
+{}
+
+messageViewers::messageViewers(array<object_ptr<messageViewer>> &&viewers_)
+  : viewers_(std::move(viewers_))
+{}
+
+const std::int32_t messageViewers::ID;
+
+void messageViewers::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageViewers");
+    { s.store_vector_begin("viewers", viewers_.size()); for (const auto &_value : viewers_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -14734,14 +16012,16 @@ phoneNumberAuthenticationSettings::phoneNumberAuthenticationSettings()
   , allow_missed_call_()
   , is_current_phone_number_()
   , allow_sms_retriever_api_()
+  , firebase_authentication_settings_()
   , authentication_tokens_()
 {}
 
-phoneNumberAuthenticationSettings::phoneNumberAuthenticationSettings(bool allow_flash_call_, bool allow_missed_call_, bool is_current_phone_number_, bool allow_sms_retriever_api_, array<string> &&authentication_tokens_)
+phoneNumberAuthenticationSettings::phoneNumberAuthenticationSettings(bool allow_flash_call_, bool allow_missed_call_, bool is_current_phone_number_, bool allow_sms_retriever_api_, object_ptr<FirebaseAuthenticationSettings> &&firebase_authentication_settings_, array<string> &&authentication_tokens_)
   : allow_flash_call_(allow_flash_call_)
   , allow_missed_call_(allow_missed_call_)
   , is_current_phone_number_(is_current_phone_number_)
   , allow_sms_retriever_api_(allow_sms_retriever_api_)
+  , firebase_authentication_settings_(std::move(firebase_authentication_settings_))
   , authentication_tokens_(std::move(authentication_tokens_))
 {}
 
@@ -14754,6 +16034,7 @@ void phoneNumberAuthenticationSettings::store(TlStorerToString &s, const char *f
     s.store_field("allow_missed_call", allow_missed_call_);
     s.store_field("is_current_phone_number", is_current_phone_number_);
     s.store_field("allow_sms_retriever_api", allow_sms_retriever_api_);
+    s.store_object_field("firebase_authentication_settings", static_cast<const BaseObject *>(firebase_authentication_settings_.get()));
     { s.store_vector_begin("authentication_tokens", authentication_tokens_.size()); for (const auto &_value : authentication_tokens_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
@@ -14763,12 +16044,14 @@ phoneNumberInfo::phoneNumberInfo()
   : country_()
   , country_calling_code_()
   , formatted_phone_number_()
+  , is_anonymous_()
 {}
 
-phoneNumberInfo::phoneNumberInfo(object_ptr<countryInfo> &&country_, string const &country_calling_code_, string const &formatted_phone_number_)
+phoneNumberInfo::phoneNumberInfo(object_ptr<countryInfo> &&country_, string const &country_calling_code_, string const &formatted_phone_number_, bool is_anonymous_)
   : country_(std::move(country_))
   , country_calling_code_(country_calling_code_)
   , formatted_phone_number_(formatted_phone_number_)
+  , is_anonymous_(is_anonymous_)
 {}
 
 const std::int32_t phoneNumberInfo::ID;
@@ -14779,6 +16062,7 @@ void phoneNumberInfo::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("country", static_cast<const BaseObject *>(country_.get()));
     s.store_field("country_calling_code", country_calling_code_);
     s.store_field("formatted_phone_number", formatted_phone_number_);
+    s.store_field("is_anonymous", is_anonymous_);
     s.store_class_end();
   }
 }
@@ -15140,6 +16424,18 @@ void premiumFeatureAppIcons::store(TlStorerToString &s, const char *field_name) 
   }
 }
 
+premiumFeatureRealTimeChatTranslation::premiumFeatureRealTimeChatTranslation() {
+}
+
+const std::int32_t premiumFeatureRealTimeChatTranslation::ID;
+
+void premiumFeatureRealTimeChatTranslation::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumFeatureRealTimeChatTranslation");
+    s.store_class_end();
+  }
+}
+
 premiumFeaturePromotionAnimation::premiumFeaturePromotionAnimation()
   : feature_()
   , animation_()
@@ -15269,26 +16565,26 @@ void premiumLimitTypeFavoriteStickerCount::store(TlStorerToString &s, const char
   }
 }
 
-premiumLimitTypeChatFilterCount::premiumLimitTypeChatFilterCount() {
+premiumLimitTypeChatFolderCount::premiumLimitTypeChatFolderCount() {
 }
 
-const std::int32_t premiumLimitTypeChatFilterCount::ID;
+const std::int32_t premiumLimitTypeChatFolderCount::ID;
 
-void premiumLimitTypeChatFilterCount::store(TlStorerToString &s, const char *field_name) const {
+void premiumLimitTypeChatFolderCount::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "premiumLimitTypeChatFilterCount");
+    s.store_class_begin(field_name, "premiumLimitTypeChatFolderCount");
     s.store_class_end();
   }
 }
 
-premiumLimitTypeChatFilterChosenChatCount::premiumLimitTypeChatFilterChosenChatCount() {
+premiumLimitTypeChatFolderChosenChatCount::premiumLimitTypeChatFolderChosenChatCount() {
 }
 
-const std::int32_t premiumLimitTypeChatFilterChosenChatCount::ID;
+const std::int32_t premiumLimitTypeChatFolderChosenChatCount::ID;
 
-void premiumLimitTypeChatFilterChosenChatCount::store(TlStorerToString &s, const char *field_name) const {
+void premiumLimitTypeChatFolderChosenChatCount::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "premiumLimitTypeChatFilterChosenChatCount");
+    s.store_class_begin(field_name, "premiumLimitTypeChatFolderChosenChatCount");
     s.store_class_end();
   }
 }
@@ -15325,6 +16621,30 @@ const std::int32_t premiumLimitTypeBioLength::ID;
 void premiumLimitTypeBioLength::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "premiumLimitTypeBioLength");
+    s.store_class_end();
+  }
+}
+
+premiumLimitTypeChatFolderInviteLinkCount::premiumLimitTypeChatFolderInviteLinkCount() {
+}
+
+const std::int32_t premiumLimitTypeChatFolderInviteLinkCount::ID;
+
+void premiumLimitTypeChatFolderInviteLinkCount::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumLimitTypeChatFolderInviteLinkCount");
+    s.store_class_end();
+  }
+}
+
+premiumLimitTypeShareableChatFolderCount::premiumLimitTypeShareableChatFolderCount() {
+}
+
+const std::int32_t premiumLimitTypeShareableChatFolderCount::ID;
+
+void premiumLimitTypeShareableChatFolderCount::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumLimitTypeShareableChatFolderCount");
     s.store_class_end();
   }
 }
@@ -15434,7 +16754,7 @@ premiumState::premiumState()
   , animations_()
 {}
 
-premiumState::premiumState(object_ptr<formattedText> &&state_, array<object_ptr<premiumPaymentOption>> &&payment_options_, array<object_ptr<premiumFeaturePromotionAnimation>> &&animations_)
+premiumState::premiumState(object_ptr<formattedText> &&state_, array<object_ptr<premiumStatePaymentOption>> &&payment_options_, array<object_ptr<premiumFeaturePromotionAnimation>> &&animations_)
   : state_(std::move(state_))
   , payment_options_(std::move(payment_options_))
   , animations_(std::move(animations_))
@@ -15452,20 +16772,49 @@ void premiumState::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+premiumStatePaymentOption::premiumStatePaymentOption()
+  : payment_option_()
+  , is_current_()
+  , is_upgrade_()
+  , last_transaction_id_()
+{}
+
+premiumStatePaymentOption::premiumStatePaymentOption(object_ptr<premiumPaymentOption> &&payment_option_, bool is_current_, bool is_upgrade_, string const &last_transaction_id_)
+  : payment_option_(std::move(payment_option_))
+  , is_current_(is_current_)
+  , is_upgrade_(is_upgrade_)
+  , last_transaction_id_(last_transaction_id_)
+{}
+
+const std::int32_t premiumStatePaymentOption::ID;
+
+void premiumStatePaymentOption::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumStatePaymentOption");
+    s.store_object_field("payment_option", static_cast<const BaseObject *>(payment_option_.get()));
+    s.store_field("is_current", is_current_);
+    s.store_field("is_upgrade", is_upgrade_);
+    s.store_field("last_transaction_id", last_transaction_id_);
+    s.store_class_end();
+  }
+}
+
 profilePhoto::profilePhoto()
   : id_()
   , small_()
   , big_()
   , minithumbnail_()
   , has_animation_()
+  , is_personal_()
 {}
 
-profilePhoto::profilePhoto(int64 id_, object_ptr<file> &&small_, object_ptr<file> &&big_, object_ptr<minithumbnail> &&minithumbnail_, bool has_animation_)
+profilePhoto::profilePhoto(int64 id_, object_ptr<file> &&small_, object_ptr<file> &&big_, object_ptr<minithumbnail> &&minithumbnail_, bool has_animation_, bool is_personal_)
   : id_(id_)
   , small_(std::move(small_))
   , big_(std::move(big_))
   , minithumbnail_(std::move(minithumbnail_))
   , has_animation_(has_animation_)
+  , is_personal_(is_personal_)
 {}
 
 const std::int32_t profilePhoto::ID;
@@ -15478,6 +16827,7 @@ void profilePhoto::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("big", static_cast<const BaseObject *>(big_.get()));
     s.store_object_field("minithumbnail", static_cast<const BaseObject *>(minithumbnail_.get()));
     s.store_field("has_animation", has_animation_);
+    s.store_field("is_personal", is_personal_);
     s.store_class_end();
   }
 }
@@ -16067,6 +17417,24 @@ void pushMessageContentChatChangeTitle::store(TlStorerToString &s, const char *f
   }
 }
 
+pushMessageContentChatSetBackground::pushMessageContentChatSetBackground()
+  : is_same_()
+{}
+
+pushMessageContentChatSetBackground::pushMessageContentChatSetBackground(bool is_same_)
+  : is_same_(is_same_)
+{}
+
+const std::int32_t pushMessageContentChatSetBackground::ID;
+
+void pushMessageContentChatSetBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "pushMessageContentChatSetBackground");
+    s.store_field("is_same", is_same_);
+    s.store_class_end();
+  }
+}
+
 pushMessageContentChatSetTheme::pushMessageContentChatSetTheme()
   : theme_name_()
 {}
@@ -16147,6 +17515,18 @@ void pushMessageContentRecurringPayment::store(TlStorerToString &s, const char *
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "pushMessageContentRecurringPayment");
     s.store_field("amount", amount_);
+    s.store_class_end();
+  }
+}
+
+pushMessageContentSuggestProfilePhoto::pushMessageContentSuggestProfilePhoto() {
+}
+
+const std::int32_t pushMessageContentSuggestProfilePhoto::ID;
+
+void pushMessageContentSuggestProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "pushMessageContentSuggestProfilePhoto");
     s.store_class_end();
   }
 }
@@ -16253,41 +17633,41 @@ void reactionTypeCustomEmoji::store(TlStorerToString &s, const char *field_name)
   }
 }
 
-recommendedChatFilter::recommendedChatFilter()
-  : filter_()
+recommendedChatFolder::recommendedChatFolder()
+  : folder_()
   , description_()
 {}
 
-recommendedChatFilter::recommendedChatFilter(object_ptr<chatFilter> &&filter_, string const &description_)
-  : filter_(std::move(filter_))
+recommendedChatFolder::recommendedChatFolder(object_ptr<chatFolder> &&folder_, string const &description_)
+  : folder_(std::move(folder_))
   , description_(description_)
 {}
 
-const std::int32_t recommendedChatFilter::ID;
+const std::int32_t recommendedChatFolder::ID;
 
-void recommendedChatFilter::store(TlStorerToString &s, const char *field_name) const {
+void recommendedChatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "recommendedChatFilter");
-    s.store_object_field("filter", static_cast<const BaseObject *>(filter_.get()));
+    s.store_class_begin(field_name, "recommendedChatFolder");
+    s.store_object_field("folder", static_cast<const BaseObject *>(folder_.get()));
     s.store_field("description", description_);
     s.store_class_end();
   }
 }
 
-recommendedChatFilters::recommendedChatFilters()
-  : chat_filters_()
+recommendedChatFolders::recommendedChatFolders()
+  : chat_folders_()
 {}
 
-recommendedChatFilters::recommendedChatFilters(array<object_ptr<recommendedChatFilter>> &&chat_filters_)
-  : chat_filters_(std::move(chat_filters_))
+recommendedChatFolders::recommendedChatFolders(array<object_ptr<recommendedChatFolder>> &&chat_folders_)
+  : chat_folders_(std::move(chat_folders_))
 {}
 
-const std::int32_t recommendedChatFilters::ID;
+const std::int32_t recommendedChatFolders::ID;
 
-void recommendedChatFilters::store(TlStorerToString &s, const char *field_name) const {
+void recommendedChatFolders::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "recommendedChatFilters");
-    { s.store_vector_begin("chat_filters", chat_filters_.size()); for (const auto &_value : chat_filters_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_begin(field_name, "recommendedChatFolders");
+    { s.store_vector_begin("chat_folders", chat_folders_.size()); for (const auto &_value : chat_folders_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -16381,14 +17761,16 @@ void replyMarkupForceReply::store(TlStorerToString &s, const char *field_name) c
 
 replyMarkupShowKeyboard::replyMarkupShowKeyboard()
   : rows_()
+  , is_persistent_()
   , resize_keyboard_()
   , one_time_()
   , is_personal_()
   , input_field_placeholder_()
 {}
 
-replyMarkupShowKeyboard::replyMarkupShowKeyboard(array<array<object_ptr<keyboardButton>>> &&rows_, bool resize_keyboard_, bool one_time_, bool is_personal_, string const &input_field_placeholder_)
+replyMarkupShowKeyboard::replyMarkupShowKeyboard(array<array<object_ptr<keyboardButton>>> &&rows_, bool is_persistent_, bool resize_keyboard_, bool one_time_, bool is_personal_, string const &input_field_placeholder_)
   : rows_(std::move(rows_))
+  , is_persistent_(is_persistent_)
   , resize_keyboard_(resize_keyboard_)
   , one_time_(one_time_)
   , is_personal_(is_personal_)
@@ -16401,6 +17783,7 @@ void replyMarkupShowKeyboard::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "replyMarkupShowKeyboard");
     { s.store_vector_begin("rows", rows_.size()); for (const auto &_value : rows_) { { s.store_vector_begin("", _value.size()); for (const auto &_value2 : _value) { s.store_object_field("", static_cast<const BaseObject *>(_value2.get())); } s.store_class_end(); } } s.store_class_end(); }
+    s.store_field("is_persistent", is_persistent_);
     s.store_field("resize_keyboard", resize_keyboard_);
     s.store_field("one_time", one_time_);
     s.store_field("is_personal", is_personal_);
@@ -16849,6 +18232,30 @@ void savedCredentials::store(TlStorerToString &s, const char *field_name) const 
     s.store_class_begin(field_name, "savedCredentials");
     s.store_field("id", id_);
     s.store_field("title", title_);
+    s.store_class_end();
+  }
+}
+
+scopeAutosaveSettings::scopeAutosaveSettings()
+  : autosave_photos_()
+  , autosave_videos_()
+  , max_video_file_size_()
+{}
+
+scopeAutosaveSettings::scopeAutosaveSettings(bool autosave_photos_, bool autosave_videos_, int53 max_video_file_size_)
+  : autosave_photos_(autosave_photos_)
+  , autosave_videos_(autosave_videos_)
+  , max_video_file_size_(max_video_file_size_)
+{}
+
+const std::int32_t scopeAutosaveSettings::ID;
+
+void scopeAutosaveSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "scopeAutosaveSettings");
+    s.store_field("autosave_photos", autosave_photos_);
+    s.store_field("autosave_videos", autosave_videos_);
+    s.store_field("max_video_file_size", max_video_file_size_);
     s.store_class_end();
   }
 }
@@ -17572,9 +18979,11 @@ sponsoredMessage::sponsoredMessage()
   , show_chat_photo_()
   , link_()
   , content_()
+  , sponsor_info_()
+  , additional_info_()
 {}
 
-sponsoredMessage::sponsoredMessage(int53 message_id_, bool is_recommended_, int53 sponsor_chat_id_, object_ptr<chatInviteLinkInfo> &&sponsor_chat_info_, bool show_chat_photo_, object_ptr<InternalLinkType> &&link_, object_ptr<MessageContent> &&content_)
+sponsoredMessage::sponsoredMessage(int53 message_id_, bool is_recommended_, int53 sponsor_chat_id_, object_ptr<chatInviteLinkInfo> &&sponsor_chat_info_, bool show_chat_photo_, object_ptr<InternalLinkType> &&link_, object_ptr<MessageContent> &&content_, string const &sponsor_info_, string const &additional_info_)
   : message_id_(message_id_)
   , is_recommended_(is_recommended_)
   , sponsor_chat_id_(sponsor_chat_id_)
@@ -17582,6 +18991,8 @@ sponsoredMessage::sponsoredMessage(int53 message_id_, bool is_recommended_, int5
   , show_chat_photo_(show_chat_photo_)
   , link_(std::move(link_))
   , content_(std::move(content_))
+  , sponsor_info_(sponsor_info_)
+  , additional_info_(additional_info_)
 {}
 
 const std::int32_t sponsoredMessage::ID;
@@ -17596,6 +19007,8 @@ void sponsoredMessage::store(TlStorerToString &s, const char *field_name) const 
     s.store_field("show_chat_photo", show_chat_photo_);
     s.store_object_field("link", static_cast<const BaseObject *>(link_.get()));
     s.store_object_field("content", static_cast<const BaseObject *>(content_.get()));
+    s.store_field("sponsor_info", sponsor_info_);
+    s.store_field("additional_info", additional_info_);
     s.store_class_end();
   }
 }
@@ -17703,34 +19116,28 @@ void statisticalValue::store(TlStorerToString &s, const char *field_name) const 
 }
 
 sticker::sticker()
-  : set_id_()
+  : id_()
+  , set_id_()
   , width_()
   , height_()
   , emoji_()
   , format_()
-  , type_()
-  , mask_position_()
-  , custom_emoji_id_()
+  , full_type_()
   , outline_()
   , thumbnail_()
-  , is_premium_()
-  , premium_animation_()
   , sticker_()
 {}
 
-sticker::sticker(int64 set_id_, int32 width_, int32 height_, string const &emoji_, object_ptr<StickerFormat> &&format_, object_ptr<StickerType> &&type_, object_ptr<maskPosition> &&mask_position_, int64 custom_emoji_id_, array<object_ptr<closedVectorPath>> &&outline_, object_ptr<thumbnail> &&thumbnail_, bool is_premium_, object_ptr<file> &&premium_animation_, object_ptr<file> &&sticker_)
-  : set_id_(set_id_)
+sticker::sticker(int64 id_, int64 set_id_, int32 width_, int32 height_, string const &emoji_, object_ptr<StickerFormat> &&format_, object_ptr<StickerFullType> &&full_type_, array<object_ptr<closedVectorPath>> &&outline_, object_ptr<thumbnail> &&thumbnail_, object_ptr<file> &&sticker_)
+  : id_(id_)
+  , set_id_(set_id_)
   , width_(width_)
   , height_(height_)
   , emoji_(emoji_)
   , format_(std::move(format_))
-  , type_(std::move(type_))
-  , mask_position_(std::move(mask_position_))
-  , custom_emoji_id_(custom_emoji_id_)
+  , full_type_(std::move(full_type_))
   , outline_(std::move(outline_))
   , thumbnail_(std::move(thumbnail_))
-  , is_premium_(is_premium_)
-  , premium_animation_(std::move(premium_animation_))
   , sticker_(std::move(sticker_))
 {}
 
@@ -17739,18 +19146,15 @@ const std::int32_t sticker::ID;
 void sticker::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "sticker");
+    s.store_field("id", id_);
     s.store_field("set_id", set_id_);
     s.store_field("width", width_);
     s.store_field("height", height_);
     s.store_field("emoji", emoji_);
     s.store_object_field("format", static_cast<const BaseObject *>(format_.get()));
-    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
-    s.store_object_field("mask_position", static_cast<const BaseObject *>(mask_position_.get()));
-    s.store_field("custom_emoji_id", custom_emoji_id_);
+    s.store_object_field("full_type", static_cast<const BaseObject *>(full_type_.get()));
     { s.store_vector_begin("outline", outline_.size()); for (const auto &_value : outline_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_object_field("thumbnail", static_cast<const BaseObject *>(thumbnail_.get()));
-    s.store_field("is_premium", is_premium_);
-    s.store_object_field("premium_animation", static_cast<const BaseObject *>(premium_animation_.get()));
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_class_end();
   }
@@ -17788,6 +19192,63 @@ const std::int32_t stickerFormatWebm::ID;
 void stickerFormatWebm::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "stickerFormatWebm");
+    s.store_class_end();
+  }
+}
+
+stickerFullTypeRegular::stickerFullTypeRegular()
+  : premium_animation_()
+{}
+
+stickerFullTypeRegular::stickerFullTypeRegular(object_ptr<file> &&premium_animation_)
+  : premium_animation_(std::move(premium_animation_))
+{}
+
+const std::int32_t stickerFullTypeRegular::ID;
+
+void stickerFullTypeRegular::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "stickerFullTypeRegular");
+    s.store_object_field("premium_animation", static_cast<const BaseObject *>(premium_animation_.get()));
+    s.store_class_end();
+  }
+}
+
+stickerFullTypeMask::stickerFullTypeMask()
+  : mask_position_()
+{}
+
+stickerFullTypeMask::stickerFullTypeMask(object_ptr<maskPosition> &&mask_position_)
+  : mask_position_(std::move(mask_position_))
+{}
+
+const std::int32_t stickerFullTypeMask::ID;
+
+void stickerFullTypeMask::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "stickerFullTypeMask");
+    s.store_object_field("mask_position", static_cast<const BaseObject *>(mask_position_.get()));
+    s.store_class_end();
+  }
+}
+
+stickerFullTypeCustomEmoji::stickerFullTypeCustomEmoji()
+  : custom_emoji_id_()
+  , needs_repainting_()
+{}
+
+stickerFullTypeCustomEmoji::stickerFullTypeCustomEmoji(int64 custom_emoji_id_, bool needs_repainting_)
+  : custom_emoji_id_(custom_emoji_id_)
+  , needs_repainting_(needs_repainting_)
+{}
+
+const std::int32_t stickerFullTypeCustomEmoji::ID;
+
+void stickerFullTypeCustomEmoji::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "stickerFullTypeCustomEmoji");
+    s.store_field("custom_emoji_id", custom_emoji_id_);
+    s.store_field("needs_repainting", needs_repainting_);
     s.store_class_end();
   }
 }
@@ -18082,10 +19543,12 @@ void storageStatisticsFast::store(TlStorerToString &s, const char *field_name) c
 
 storePaymentPurposePremiumSubscription::storePaymentPurposePremiumSubscription()
   : is_restore_()
+  , is_upgrade_()
 {}
 
-storePaymentPurposePremiumSubscription::storePaymentPurposePremiumSubscription(bool is_restore_)
+storePaymentPurposePremiumSubscription::storePaymentPurposePremiumSubscription(bool is_restore_, bool is_upgrade_)
   : is_restore_(is_restore_)
+  , is_upgrade_(is_upgrade_)
 {}
 
 const std::int32_t storePaymentPurposePremiumSubscription::ID;
@@ -18094,6 +19557,7 @@ void storePaymentPurposePremiumSubscription::store(TlStorerToString &s, const ch
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "storePaymentPurposePremiumSubscription");
     s.store_field("is_restore", is_restore_);
+    s.store_field("is_upgrade", is_upgrade_);
     s.store_class_end();
   }
 }
@@ -18206,6 +19670,30 @@ void suggestedActionSetPassword::store(TlStorerToString &s, const char *field_na
   }
 }
 
+suggestedActionUpgradePremium::suggestedActionUpgradePremium() {
+}
+
+const std::int32_t suggestedActionUpgradePremium::ID;
+
+void suggestedActionUpgradePremium::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "suggestedActionUpgradePremium");
+    s.store_class_end();
+  }
+}
+
+suggestedActionSubscribeToAnnualPremium::suggestedActionSubscribeToAnnualPremium() {
+}
+
+const std::int32_t suggestedActionSubscribeToAnnualPremium::ID;
+
+void suggestedActionSubscribeToAnnualPremium::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "suggestedActionSubscribeToAnnualPremium");
+    s.store_class_end();
+  }
+}
+
 supergroup::supergroup()
   : id_()
   , usernames_()
@@ -18286,11 +19774,15 @@ supergroupFullInfo::supergroupFullInfo()
   , slow_mode_delay_()
   , slow_mode_delay_expires_in_()
   , can_get_members_()
+  , has_hidden_members_()
+  , can_hide_members_()
   , can_set_username_()
   , can_set_sticker_set_()
   , can_set_location_()
   , can_get_statistics_()
+  , can_toggle_aggressive_anti_spam_()
   , is_all_history_available_()
+  , has_aggressive_anti_spam_enabled_()
   , sticker_set_id_()
   , location_()
   , invite_link_()
@@ -18299,7 +19791,7 @@ supergroupFullInfo::supergroupFullInfo()
   , upgraded_from_max_message_id_()
 {}
 
-supergroupFullInfo::supergroupFullInfo(object_ptr<chatPhoto> &&photo_, string const &description_, int32 member_count_, int32 administrator_count_, int32 restricted_count_, int32 banned_count_, int53 linked_chat_id_, int32 slow_mode_delay_, double slow_mode_delay_expires_in_, bool can_get_members_, bool can_set_username_, bool can_set_sticker_set_, bool can_set_location_, bool can_get_statistics_, bool is_all_history_available_, int64 sticker_set_id_, object_ptr<chatLocation> &&location_, object_ptr<chatInviteLink> &&invite_link_, array<object_ptr<botCommands>> &&bot_commands_, int53 upgraded_from_basic_group_id_, int53 upgraded_from_max_message_id_)
+supergroupFullInfo::supergroupFullInfo(object_ptr<chatPhoto> &&photo_, string const &description_, int32 member_count_, int32 administrator_count_, int32 restricted_count_, int32 banned_count_, int53 linked_chat_id_, int32 slow_mode_delay_, double slow_mode_delay_expires_in_, bool can_get_members_, bool has_hidden_members_, bool can_hide_members_, bool can_set_username_, bool can_set_sticker_set_, bool can_set_location_, bool can_get_statistics_, bool can_toggle_aggressive_anti_spam_, bool is_all_history_available_, bool has_aggressive_anti_spam_enabled_, int64 sticker_set_id_, object_ptr<chatLocation> &&location_, object_ptr<chatInviteLink> &&invite_link_, array<object_ptr<botCommands>> &&bot_commands_, int53 upgraded_from_basic_group_id_, int53 upgraded_from_max_message_id_)
   : photo_(std::move(photo_))
   , description_(description_)
   , member_count_(member_count_)
@@ -18310,11 +19802,15 @@ supergroupFullInfo::supergroupFullInfo(object_ptr<chatPhoto> &&photo_, string co
   , slow_mode_delay_(slow_mode_delay_)
   , slow_mode_delay_expires_in_(slow_mode_delay_expires_in_)
   , can_get_members_(can_get_members_)
+  , has_hidden_members_(has_hidden_members_)
+  , can_hide_members_(can_hide_members_)
   , can_set_username_(can_set_username_)
   , can_set_sticker_set_(can_set_sticker_set_)
   , can_set_location_(can_set_location_)
   , can_get_statistics_(can_get_statistics_)
+  , can_toggle_aggressive_anti_spam_(can_toggle_aggressive_anti_spam_)
   , is_all_history_available_(is_all_history_available_)
+  , has_aggressive_anti_spam_enabled_(has_aggressive_anti_spam_enabled_)
   , sticker_set_id_(sticker_set_id_)
   , location_(std::move(location_))
   , invite_link_(std::move(invite_link_))
@@ -18338,11 +19834,15 @@ void supergroupFullInfo::store(TlStorerToString &s, const char *field_name) cons
     s.store_field("slow_mode_delay", slow_mode_delay_);
     s.store_field("slow_mode_delay_expires_in", slow_mode_delay_expires_in_);
     s.store_field("can_get_members", can_get_members_);
+    s.store_field("has_hidden_members", has_hidden_members_);
+    s.store_field("can_hide_members", can_hide_members_);
     s.store_field("can_set_username", can_set_username_);
     s.store_field("can_set_sticker_set", can_set_sticker_set_);
     s.store_field("can_set_location", can_set_location_);
     s.store_field("can_get_statistics", can_get_statistics_);
+    s.store_field("can_toggle_aggressive_anti_spam", can_toggle_aggressive_anti_spam_);
     s.store_field("is_all_history_available", is_all_history_available_);
+    s.store_field("has_aggressive_anti_spam_enabled", has_aggressive_anti_spam_enabled_);
     s.store_field("sticker_set_id", sticker_set_id_);
     s.store_object_field("location", static_cast<const BaseObject *>(location_.get()));
     s.store_object_field("invite_link", static_cast<const BaseObject *>(invite_link_.get()));
@@ -20045,23 +21545,23 @@ void updateChatMessageSender::store(TlStorerToString &s, const char *field_name)
   }
 }
 
-updateChatMessageTtl::updateChatMessageTtl()
+updateChatMessageAutoDeleteTime::updateChatMessageAutoDeleteTime()
   : chat_id_()
-  , message_ttl_()
+  , message_auto_delete_time_()
 {}
 
-updateChatMessageTtl::updateChatMessageTtl(int53 chat_id_, int32 message_ttl_)
+updateChatMessageAutoDeleteTime::updateChatMessageAutoDeleteTime(int53 chat_id_, int32 message_auto_delete_time_)
   : chat_id_(chat_id_)
-  , message_ttl_(message_ttl_)
+  , message_auto_delete_time_(message_auto_delete_time_)
 {}
 
-const std::int32_t updateChatMessageTtl::ID;
+const std::int32_t updateChatMessageAutoDeleteTime::ID;
 
-void updateChatMessageTtl::store(TlStorerToString &s, const char *field_name) const {
+void updateChatMessageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "updateChatMessageTtl");
+    s.store_class_begin(field_name, "updateChatMessageAutoDeleteTime");
     s.store_field("chat_id", chat_id_);
-    s.store_field("message_ttl", message_ttl_);
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
     s.store_class_end();
   }
 }
@@ -20125,6 +21625,27 @@ void updateChatReplyMarkup::store(TlStorerToString &s, const char *field_name) c
     s.store_class_begin(field_name, "updateChatReplyMarkup");
     s.store_field("chat_id", chat_id_);
     s.store_field("reply_markup_message_id", reply_markup_message_id_);
+    s.store_class_end();
+  }
+}
+
+updateChatBackground::updateChatBackground()
+  : chat_id_()
+  , background_()
+{}
+
+updateChatBackground::updateChatBackground(int53 chat_id_, object_ptr<chatBackground> &&background_)
+  : chat_id_(chat_id_)
+  , background_(std::move(background_))
+{}
+
+const std::int32_t updateChatBackground::ID;
+
+void updateChatBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateChatBackground");
+    s.store_field("chat_id", chat_id_);
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
     s.store_class_end();
   }
 }
@@ -20255,44 +21776,23 @@ void updateChatHasProtectedContent::store(TlStorerToString &s, const char *field
   }
 }
 
-updateChatHasScheduledMessages::updateChatHasScheduledMessages()
+updateChatIsTranslatable::updateChatIsTranslatable()
   : chat_id_()
-  , has_scheduled_messages_()
+  , is_translatable_()
 {}
 
-updateChatHasScheduledMessages::updateChatHasScheduledMessages(int53 chat_id_, bool has_scheduled_messages_)
+updateChatIsTranslatable::updateChatIsTranslatable(int53 chat_id_, bool is_translatable_)
   : chat_id_(chat_id_)
-  , has_scheduled_messages_(has_scheduled_messages_)
+  , is_translatable_(is_translatable_)
 {}
 
-const std::int32_t updateChatHasScheduledMessages::ID;
+const std::int32_t updateChatIsTranslatable::ID;
 
-void updateChatHasScheduledMessages::store(TlStorerToString &s, const char *field_name) const {
+void updateChatIsTranslatable::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "updateChatHasScheduledMessages");
+    s.store_class_begin(field_name, "updateChatIsTranslatable");
     s.store_field("chat_id", chat_id_);
-    s.store_field("has_scheduled_messages", has_scheduled_messages_);
-    s.store_class_end();
-  }
-}
-
-updateChatIsBlocked::updateChatIsBlocked()
-  : chat_id_()
-  , is_blocked_()
-{}
-
-updateChatIsBlocked::updateChatIsBlocked(int53 chat_id_, bool is_blocked_)
-  : chat_id_(chat_id_)
-  , is_blocked_(is_blocked_)
-{}
-
-const std::int32_t updateChatIsBlocked::ID;
-
-void updateChatIsBlocked::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "updateChatIsBlocked");
-    s.store_field("chat_id", chat_id_);
-    s.store_field("is_blocked", is_blocked_);
+    s.store_field("is_translatable", is_translatable_);
     s.store_class_end();
   }
 }
@@ -20318,22 +21818,64 @@ void updateChatIsMarkedAsUnread::store(TlStorerToString &s, const char *field_na
   }
 }
 
-updateChatFilters::updateChatFilters()
-  : chat_filters_()
+updateChatIsBlocked::updateChatIsBlocked()
+  : chat_id_()
+  , is_blocked_()
+{}
+
+updateChatIsBlocked::updateChatIsBlocked(int53 chat_id_, bool is_blocked_)
+  : chat_id_(chat_id_)
+  , is_blocked_(is_blocked_)
+{}
+
+const std::int32_t updateChatIsBlocked::ID;
+
+void updateChatIsBlocked::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateChatIsBlocked");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("is_blocked", is_blocked_);
+    s.store_class_end();
+  }
+}
+
+updateChatHasScheduledMessages::updateChatHasScheduledMessages()
+  : chat_id_()
+  , has_scheduled_messages_()
+{}
+
+updateChatHasScheduledMessages::updateChatHasScheduledMessages(int53 chat_id_, bool has_scheduled_messages_)
+  : chat_id_(chat_id_)
+  , has_scheduled_messages_(has_scheduled_messages_)
+{}
+
+const std::int32_t updateChatHasScheduledMessages::ID;
+
+void updateChatHasScheduledMessages::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateChatHasScheduledMessages");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("has_scheduled_messages", has_scheduled_messages_);
+    s.store_class_end();
+  }
+}
+
+updateChatFolders::updateChatFolders()
+  : chat_folders_()
   , main_chat_list_position_()
 {}
 
-updateChatFilters::updateChatFilters(array<object_ptr<chatFilterInfo>> &&chat_filters_, int32 main_chat_list_position_)
-  : chat_filters_(std::move(chat_filters_))
+updateChatFolders::updateChatFolders(array<object_ptr<chatFolderInfo>> &&chat_folders_, int32 main_chat_list_position_)
+  : chat_folders_(std::move(chat_folders_))
   , main_chat_list_position_(main_chat_list_position_)
 {}
 
-const std::int32_t updateChatFilters::ID;
+const std::int32_t updateChatFolders::ID;
 
-void updateChatFilters::store(TlStorerToString &s, const char *field_name) const {
+void updateChatFolders::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "updateChatFilters");
-    { s.store_vector_begin("chat_filters", chat_filters_.size()); for (const auto &_value : chat_filters_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_begin(field_name, "updateChatFolders");
+    { s.store_vector_begin("chat_folders", chat_folders_.size()); for (const auto &_value : chat_folders_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("main_chat_list_position", main_chat_list_position_);
     s.store_class_end();
   }
@@ -21476,6 +23018,48 @@ void updateSuggestedActions::store(TlStorerToString &s, const char *field_name) 
   }
 }
 
+updateAddChatMembersPrivacyForbidden::updateAddChatMembersPrivacyForbidden()
+  : chat_id_()
+  , user_ids_()
+{}
+
+updateAddChatMembersPrivacyForbidden::updateAddChatMembersPrivacyForbidden(int53 chat_id_, array<int53> &&user_ids_)
+  : chat_id_(chat_id_)
+  , user_ids_(std::move(user_ids_))
+{}
+
+const std::int32_t updateAddChatMembersPrivacyForbidden::ID;
+
+void updateAddChatMembersPrivacyForbidden::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateAddChatMembersPrivacyForbidden");
+    s.store_field("chat_id", chat_id_);
+    { s.store_vector_begin("user_ids", user_ids_.size()); for (const auto &_value : user_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+updateAutosaveSettings::updateAutosaveSettings()
+  : scope_()
+  , settings_()
+{}
+
+updateAutosaveSettings::updateAutosaveSettings(object_ptr<AutosaveSettingsScope> &&scope_, object_ptr<scopeAutosaveSettings> &&settings_)
+  : scope_(std::move(scope_))
+  , settings_(std::move(settings_))
+{}
+
+const std::int32_t updateAutosaveSettings::ID;
+
+void updateAutosaveSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateAutosaveSettings");
+    s.store_object_field("scope", static_cast<const BaseObject *>(scope_.get()));
+    s.store_object_field("settings", static_cast<const BaseObject *>(settings_.get()));
+    s.store_class_end();
+  }
+}
+
 updateNewInlineQuery::updateNewInlineQuery()
   : id_()
   , sender_user_id_()
@@ -21754,15 +23338,17 @@ updateChatMember::updateChatMember()
   , actor_user_id_()
   , date_()
   , invite_link_()
+  , via_chat_folder_invite_link_()
   , old_chat_member_()
   , new_chat_member_()
 {}
 
-updateChatMember::updateChatMember(int53 chat_id_, int53 actor_user_id_, int32 date_, object_ptr<chatInviteLink> &&invite_link_, object_ptr<chatMember> &&old_chat_member_, object_ptr<chatMember> &&new_chat_member_)
+updateChatMember::updateChatMember(int53 chat_id_, int53 actor_user_id_, int32 date_, object_ptr<chatInviteLink> &&invite_link_, bool via_chat_folder_invite_link_, object_ptr<chatMember> &&old_chat_member_, object_ptr<chatMember> &&new_chat_member_)
   : chat_id_(chat_id_)
   , actor_user_id_(actor_user_id_)
   , date_(date_)
   , invite_link_(std::move(invite_link_))
+  , via_chat_folder_invite_link_(via_chat_folder_invite_link_)
   , old_chat_member_(std::move(old_chat_member_))
   , new_chat_member_(std::move(new_chat_member_))
 {}
@@ -21776,6 +23362,7 @@ void updateChatMember::store(TlStorerToString &s, const char *field_name) const 
     s.store_field("actor_user_id", actor_user_id_);
     s.store_field("date", date_);
     s.store_object_field("invite_link", static_cast<const BaseObject *>(invite_link_.get()));
+    s.store_field("via_chat_folder_invite_link", via_chat_folder_invite_link_);
     s.store_object_field("old_chat_member", static_cast<const BaseObject *>(old_chat_member_.get()));
     s.store_object_field("new_chat_member", static_cast<const BaseObject *>(new_chat_member_.get()));
     s.store_class_end();
@@ -21785,12 +23372,14 @@ void updateChatMember::store(TlStorerToString &s, const char *field_name) const 
 updateNewChatJoinRequest::updateNewChatJoinRequest()
   : chat_id_()
   , request_()
+  , user_chat_id_()
   , invite_link_()
 {}
 
-updateNewChatJoinRequest::updateNewChatJoinRequest(int53 chat_id_, object_ptr<chatJoinRequest> &&request_, object_ptr<chatInviteLink> &&invite_link_)
+updateNewChatJoinRequest::updateNewChatJoinRequest(int53 chat_id_, object_ptr<chatJoinRequest> &&request_, int53 user_chat_id_, object_ptr<chatInviteLink> &&invite_link_)
   : chat_id_(chat_id_)
   , request_(std::move(request_))
+  , user_chat_id_(user_chat_id_)
   , invite_link_(std::move(invite_link_))
 {}
 
@@ -21801,6 +23390,7 @@ void updateNewChatJoinRequest::store(TlStorerToString &s, const char *field_name
     s.store_class_begin(field_name, "updateNewChatJoinRequest");
     s.store_field("chat_id", chat_id_);
     s.store_object_field("request", static_cast<const BaseObject *>(request_.get()));
+    s.store_field("user_chat_id", user_chat_id_);
     s.store_object_field("invite_link", static_cast<const BaseObject *>(invite_link_.get()));
     s.store_class_end();
   }
@@ -21900,7 +23490,9 @@ void user::store(TlStorerToString &s, const char *field_name) const {
 }
 
 userFullInfo::userFullInfo()
-  : photo_()
+  : personal_photo_()
+  , photo_()
+  , public_photo_()
   , is_blocked_()
   , can_be_called_()
   , supports_video_calls_()
@@ -21914,8 +23506,10 @@ userFullInfo::userFullInfo()
   , bot_info_()
 {}
 
-userFullInfo::userFullInfo(object_ptr<chatPhoto> &&photo_, bool is_blocked_, bool can_be_called_, bool supports_video_calls_, bool has_private_calls_, bool has_private_forwards_, bool has_restricted_voice_and_video_note_messages_, bool need_phone_number_privacy_exception_, object_ptr<formattedText> &&bio_, array<object_ptr<premiumPaymentOption>> &&premium_gift_options_, int32 group_in_common_count_, object_ptr<botInfo> &&bot_info_)
-  : photo_(std::move(photo_))
+userFullInfo::userFullInfo(object_ptr<chatPhoto> &&personal_photo_, object_ptr<chatPhoto> &&photo_, object_ptr<chatPhoto> &&public_photo_, bool is_blocked_, bool can_be_called_, bool supports_video_calls_, bool has_private_calls_, bool has_private_forwards_, bool has_restricted_voice_and_video_note_messages_, bool need_phone_number_privacy_exception_, object_ptr<formattedText> &&bio_, array<object_ptr<premiumPaymentOption>> &&premium_gift_options_, int32 group_in_common_count_, object_ptr<botInfo> &&bot_info_)
+  : personal_photo_(std::move(personal_photo_))
+  , photo_(std::move(photo_))
+  , public_photo_(std::move(public_photo_))
   , is_blocked_(is_blocked_)
   , can_be_called_(can_be_called_)
   , supports_video_calls_(supports_video_calls_)
@@ -21934,7 +23528,9 @@ const std::int32_t userFullInfo::ID;
 void userFullInfo::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "userFullInfo");
+    s.store_object_field("personal_photo", static_cast<const BaseObject *>(personal_photo_.get()));
     s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
+    s.store_object_field("public_photo", static_cast<const BaseObject *>(public_photo_.get()));
     s.store_field("is_blocked", is_blocked_);
     s.store_field("can_be_called", can_be_called_);
     s.store_field("supports_video_calls", supports_video_calls_);
@@ -21946,6 +23542,27 @@ void userFullInfo::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("premium_gift_options", premium_gift_options_.size()); for (const auto &_value : premium_gift_options_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("group_in_common_count", group_in_common_count_);
     s.store_object_field("bot_info", static_cast<const BaseObject *>(bot_info_.get()));
+    s.store_class_end();
+  }
+}
+
+userLink::userLink()
+  : url_()
+  , expires_in_()
+{}
+
+userLink::userLink(string const &url_, int32 expires_in_)
+  : url_(url_)
+  , expires_in_(expires_in_)
+{}
+
+const std::int32_t userLink::ID;
+
+void userLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "userLink");
+    s.store_field("url", url_);
+    s.store_field("expires_in", expires_in_);
     s.store_class_end();
   }
 }
@@ -22329,7 +23946,8 @@ void userTypeDeleted::store(TlStorerToString &s, const char *field_name) const {
 }
 
 userTypeBot::userTypeBot()
-  : can_join_groups_()
+  : can_be_edited_()
+  , can_join_groups_()
   , can_read_all_group_messages_()
   , is_inline_()
   , inline_query_placeholder_()
@@ -22337,8 +23955,9 @@ userTypeBot::userTypeBot()
   , can_be_added_to_attachment_menu_()
 {}
 
-userTypeBot::userTypeBot(bool can_join_groups_, bool can_read_all_group_messages_, bool is_inline_, string const &inline_query_placeholder_, bool need_location_, bool can_be_added_to_attachment_menu_)
-  : can_join_groups_(can_join_groups_)
+userTypeBot::userTypeBot(bool can_be_edited_, bool can_join_groups_, bool can_read_all_group_messages_, bool is_inline_, string const &inline_query_placeholder_, bool need_location_, bool can_be_added_to_attachment_menu_)
+  : can_be_edited_(can_be_edited_)
+  , can_join_groups_(can_join_groups_)
   , can_read_all_group_messages_(can_read_all_group_messages_)
   , is_inline_(is_inline_)
   , inline_query_placeholder_(inline_query_placeholder_)
@@ -22351,6 +23970,7 @@ const std::int32_t userTypeBot::ID;
 void userTypeBot::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "userTypeBot");
+    s.store_field("can_be_edited", can_be_edited_);
     s.store_field("can_join_groups", can_join_groups_);
     s.store_field("can_read_all_group_messages", can_read_all_group_messages_);
     s.store_field("is_inline", is_inline_);
@@ -22649,6 +24269,36 @@ void voiceNote::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+webApp::webApp()
+  : short_name_()
+  , title_()
+  , description_()
+  , photo_()
+  , animation_()
+{}
+
+webApp::webApp(string const &short_name_, string const &title_, string const &description_, object_ptr<photo> &&photo_, object_ptr<animation> &&animation_)
+  : short_name_(short_name_)
+  , title_(title_)
+  , description_(description_)
+  , photo_(std::move(photo_))
+  , animation_(std::move(animation_))
+{}
+
+const std::int32_t webApp::ID;
+
+void webApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "webApp");
+    s.store_field("short_name", short_name_);
+    s.store_field("title", title_);
+    s.store_field("description", description_);
+    s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
+    s.store_object_field("animation", static_cast<const BaseObject *>(animation_.get()));
+    s.store_class_end();
+  }
+}
+
 webAppInfo::webAppInfo()
   : launch_id_()
   , url_()
@@ -22816,6 +24466,45 @@ void acceptTermsOfService::store(TlStorerToString &s, const char *field_name) co
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "acceptTermsOfService");
     s.store_field("terms_of_service_id", terms_of_service_id_);
+    s.store_class_end();
+  }
+}
+
+addApplicationChangelog::addApplicationChangelog()
+  : previous_application_version_()
+{}
+
+addApplicationChangelog::addApplicationChangelog(string const &previous_application_version_)
+  : previous_application_version_(previous_application_version_)
+{}
+
+const std::int32_t addApplicationChangelog::ID;
+
+void addApplicationChangelog::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "addApplicationChangelog");
+    s.store_field("previous_application_version", previous_application_version_);
+    s.store_class_end();
+  }
+}
+
+addChatFolderByInviteLink::addChatFolderByInviteLink()
+  : invite_link_()
+  , chat_ids_()
+{}
+
+addChatFolderByInviteLink::addChatFolderByInviteLink(string const &invite_link_, array<int53> &&chat_ids_)
+  : invite_link_(invite_link_)
+  , chat_ids_(std::move(chat_ids_))
+{}
+
+const std::int32_t addChatFolderByInviteLink::ID;
+
+void addChatFolderByInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "addChatFolderByInviteLink");
+    s.store_field("invite_link", invite_link_);
+    { s.store_vector_begin("chat_ids", chat_ids_.size()); for (const auto &_value : chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -23249,21 +24938,19 @@ void answerCustomQuery::store(TlStorerToString &s, const char *field_name) const
 answerInlineQuery::answerInlineQuery()
   : inline_query_id_()
   , is_personal_()
+  , button_()
   , results_()
   , cache_time_()
   , next_offset_()
-  , switch_pm_text_()
-  , switch_pm_parameter_()
 {}
 
-answerInlineQuery::answerInlineQuery(int64 inline_query_id_, bool is_personal_, array<object_ptr<InputInlineQueryResult>> &&results_, int32 cache_time_, string const &next_offset_, string const &switch_pm_text_, string const &switch_pm_parameter_)
+answerInlineQuery::answerInlineQuery(int64 inline_query_id_, bool is_personal_, object_ptr<inlineQueryResultsButton> &&button_, array<object_ptr<InputInlineQueryResult>> &&results_, int32 cache_time_, string const &next_offset_)
   : inline_query_id_(inline_query_id_)
   , is_personal_(is_personal_)
+  , button_(std::move(button_))
   , results_(std::move(results_))
   , cache_time_(cache_time_)
   , next_offset_(next_offset_)
-  , switch_pm_text_(switch_pm_text_)
-  , switch_pm_parameter_(switch_pm_parameter_)
 {}
 
 const std::int32_t answerInlineQuery::ID;
@@ -23273,11 +24960,10 @@ void answerInlineQuery::store(TlStorerToString &s, const char *field_name) const
     s.store_class_begin(field_name, "answerInlineQuery");
     s.store_field("inline_query_id", inline_query_id_);
     s.store_field("is_personal", is_personal_);
+    s.store_object_field("button", static_cast<const BaseObject *>(button_.get()));
     { s.store_vector_begin("results", results_.size()); for (const auto &_value : results_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("cache_time", cache_time_);
     s.store_field("next_offset", next_offset_);
-    s.store_field("switch_pm_text", switch_pm_text_);
-    s.store_field("switch_pm_parameter", switch_pm_parameter_);
     s.store_class_end();
   }
 }
@@ -23702,6 +25388,24 @@ void checkChangePhoneNumberCode::store(TlStorerToString &s, const char *field_na
   }
 }
 
+checkChatFolderInviteLink::checkChatFolderInviteLink()
+  : invite_link_()
+{}
+
+checkChatFolderInviteLink::checkChatFolderInviteLink(string const &invite_link_)
+  : invite_link_(invite_link_)
+{}
+
+const std::int32_t checkChatFolderInviteLink::ID;
+
+void checkChatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "checkChatFolderInviteLink");
+    s.store_field("invite_link", invite_link_);
+    s.store_class_end();
+  }
+}
+
 checkChatInviteLink::checkChatInviteLink()
   : invite_link_()
 {}
@@ -23917,6 +25621,18 @@ void clearAllDraftMessages::store(TlStorerToString &s, const char *field_name) c
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "clearAllDraftMessages");
     s.store_field("exclude_secret_chats", exclude_secret_chats_);
+    s.store_class_end();
+  }
+}
+
+clearAutosaveSettingsExceptions::clearAutosaveSettingsExceptions() {
+}
+
+const std::int32_t clearAutosaveSettingsExceptions::ID;
+
+void clearAutosaveSettingsExceptions::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "clearAutosaveSettingsExceptions");
     s.store_class_end();
   }
 }
@@ -24149,20 +25865,44 @@ void createCall::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-createChatFilter::createChatFilter()
-  : filter_()
+createChatFolder::createChatFolder()
+  : folder_()
 {}
 
-createChatFilter::createChatFilter(object_ptr<chatFilter> &&filter_)
-  : filter_(std::move(filter_))
+createChatFolder::createChatFolder(object_ptr<chatFolder> &&folder_)
+  : folder_(std::move(folder_))
 {}
 
-const std::int32_t createChatFilter::ID;
+const std::int32_t createChatFolder::ID;
 
-void createChatFilter::store(TlStorerToString &s, const char *field_name) const {
+void createChatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "createChatFilter");
-    s.store_object_field("filter", static_cast<const BaseObject *>(filter_.get()));
+    s.store_class_begin(field_name, "createChatFolder");
+    s.store_object_field("folder", static_cast<const BaseObject *>(folder_.get()));
+    s.store_class_end();
+  }
+}
+
+createChatFolderInviteLink::createChatFolderInviteLink()
+  : chat_folder_id_()
+  , name_()
+  , chat_ids_()
+{}
+
+createChatFolderInviteLink::createChatFolderInviteLink(int32 chat_folder_id_, string const &name_, array<int53> &&chat_ids_)
+  : chat_folder_id_(chat_folder_id_)
+  , name_(name_)
+  , chat_ids_(std::move(chat_ids_))
+{}
+
+const std::int32_t createChatFolderInviteLink::ID;
+
+void createChatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "createChatFolderInviteLink");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_field("name", name_);
+    { s.store_vector_begin("chat_ids", chat_ids_.size()); for (const auto &_value : chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -24242,11 +25982,13 @@ void createInvoiceLink::store(TlStorerToString &s, const char *field_name) const
 createNewBasicGroupChat::createNewBasicGroupChat()
   : user_ids_()
   , title_()
+  , message_auto_delete_time_()
 {}
 
-createNewBasicGroupChat::createNewBasicGroupChat(array<int53> &&user_ids_, string const &title_)
+createNewBasicGroupChat::createNewBasicGroupChat(array<int53> &&user_ids_, string const &title_, int32 message_auto_delete_time_)
   : user_ids_(std::move(user_ids_))
   , title_(title_)
+  , message_auto_delete_time_(message_auto_delete_time_)
 {}
 
 const std::int32_t createNewBasicGroupChat::ID;
@@ -24256,6 +25998,7 @@ void createNewBasicGroupChat::store(TlStorerToString &s, const char *field_name)
     s.store_class_begin(field_name, "createNewBasicGroupChat");
     { s.store_vector_begin("user_ids", user_ids_.size()); for (const auto &_value : user_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_field("title", title_);
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
     s.store_class_end();
   }
 }
@@ -24282,16 +26025,20 @@ createNewStickerSet::createNewStickerSet()
   : user_id_()
   , title_()
   , name_()
+  , sticker_format_()
   , sticker_type_()
+  , needs_repainting_()
   , stickers_()
   , source_()
 {}
 
-createNewStickerSet::createNewStickerSet(int53 user_id_, string const &title_, string const &name_, object_ptr<StickerType> &&sticker_type_, array<object_ptr<inputSticker>> &&stickers_, string const &source_)
+createNewStickerSet::createNewStickerSet(int53 user_id_, string const &title_, string const &name_, object_ptr<StickerFormat> &&sticker_format_, object_ptr<StickerType> &&sticker_type_, bool needs_repainting_, array<object_ptr<inputSticker>> &&stickers_, string const &source_)
   : user_id_(user_id_)
   , title_(title_)
   , name_(name_)
+  , sticker_format_(std::move(sticker_format_))
   , sticker_type_(std::move(sticker_type_))
+  , needs_repainting_(needs_repainting_)
   , stickers_(std::move(stickers_))
   , source_(source_)
 {}
@@ -24304,7 +26051,9 @@ void createNewStickerSet::store(TlStorerToString &s, const char *field_name) con
     s.store_field("user_id", user_id_);
     s.store_field("title", title_);
     s.store_field("name", name_);
+    s.store_object_field("sticker_format", static_cast<const BaseObject *>(sticker_format_.get()));
     s.store_object_field("sticker_type", static_cast<const BaseObject *>(sticker_type_.get()));
+    s.store_field("needs_repainting", needs_repainting_);
     { s.store_vector_begin("stickers", stickers_.size()); for (const auto &_value : stickers_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("source", source_);
     s.store_class_end();
@@ -24313,17 +26062,21 @@ void createNewStickerSet::store(TlStorerToString &s, const char *field_name) con
 
 createNewSupergroupChat::createNewSupergroupChat()
   : title_()
+  , is_forum_()
   , is_channel_()
   , description_()
   , location_()
+  , message_auto_delete_time_()
   , for_import_()
 {}
 
-createNewSupergroupChat::createNewSupergroupChat(string const &title_, bool is_channel_, string const &description_, object_ptr<chatLocation> &&location_, bool for_import_)
+createNewSupergroupChat::createNewSupergroupChat(string const &title_, bool is_forum_, bool is_channel_, string const &description_, object_ptr<chatLocation> &&location_, int32 message_auto_delete_time_, bool for_import_)
   : title_(title_)
+  , is_forum_(is_forum_)
   , is_channel_(is_channel_)
   , description_(description_)
   , location_(std::move(location_))
+  , message_auto_delete_time_(message_auto_delete_time_)
   , for_import_(for_import_)
 {}
 
@@ -24333,9 +26086,11 @@ void createNewSupergroupChat::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "createNewSupergroupChat");
     s.store_field("title", title_);
+    s.store_field("is_forum", is_forum_);
     s.store_field("is_channel", is_channel_);
     s.store_field("description", description_);
     s.store_object_field("location", static_cast<const BaseObject *>(location_.get()));
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
     s.store_field("for_import", for_import_);
     s.store_class_end();
   }
@@ -24527,20 +26282,44 @@ void deleteChat::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-deleteChatFilter::deleteChatFilter()
-  : chat_filter_id_()
+deleteChatFolder::deleteChatFolder()
+  : chat_folder_id_()
+  , leave_chat_ids_()
 {}
 
-deleteChatFilter::deleteChatFilter(int32 chat_filter_id_)
-  : chat_filter_id_(chat_filter_id_)
+deleteChatFolder::deleteChatFolder(int32 chat_folder_id_, array<int53> &&leave_chat_ids_)
+  : chat_folder_id_(chat_folder_id_)
+  , leave_chat_ids_(std::move(leave_chat_ids_))
 {}
 
-const std::int32_t deleteChatFilter::ID;
+const std::int32_t deleteChatFolder::ID;
 
-void deleteChatFilter::store(TlStorerToString &s, const char *field_name) const {
+void deleteChatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "deleteChatFilter");
-    s.store_field("chat_filter_id", chat_filter_id_);
+    s.store_class_begin(field_name, "deleteChatFolder");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    { s.store_vector_begin("leave_chat_ids", leave_chat_ids_.size()); for (const auto &_value : leave_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+deleteChatFolderInviteLink::deleteChatFolderInviteLink()
+  : chat_folder_id_()
+  , invite_link_()
+{}
+
+deleteChatFolderInviteLink::deleteChatFolderInviteLink(int32 chat_folder_id_, string const &invite_link_)
+  : chat_folder_id_(chat_folder_id_)
+  , invite_link_(invite_link_)
+{}
+
+const std::int32_t deleteChatFolderInviteLink::ID;
+
+void deleteChatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "deleteChatFolderInviteLink");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_field("invite_link", invite_link_);
     s.store_class_end();
   }
 }
@@ -24821,6 +26600,24 @@ void deleteSavedOrderInfo::store(TlStorerToString &s, const char *field_name) co
   }
 }
 
+deleteStickerSet::deleteStickerSet()
+  : name_()
+{}
+
+deleteStickerSet::deleteStickerSet(string const &name_)
+  : name_(name_)
+{}
+
+const std::int32_t deleteStickerSet::ID;
+
+void deleteStickerSet::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "deleteStickerSet");
+    s.store_field("name", name_);
+    s.store_class_end();
+  }
+}
+
 destroy::destroy() {
 }
 
@@ -24953,23 +26750,50 @@ void downloadFile::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-editChatFilter::editChatFilter()
-  : chat_filter_id_()
-  , filter_()
+editChatFolder::editChatFolder()
+  : chat_folder_id_()
+  , folder_()
 {}
 
-editChatFilter::editChatFilter(int32 chat_filter_id_, object_ptr<chatFilter> &&filter_)
-  : chat_filter_id_(chat_filter_id_)
-  , filter_(std::move(filter_))
+editChatFolder::editChatFolder(int32 chat_folder_id_, object_ptr<chatFolder> &&folder_)
+  : chat_folder_id_(chat_folder_id_)
+  , folder_(std::move(folder_))
 {}
 
-const std::int32_t editChatFilter::ID;
+const std::int32_t editChatFolder::ID;
 
-void editChatFilter::store(TlStorerToString &s, const char *field_name) const {
+void editChatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "editChatFilter");
-    s.store_field("chat_filter_id", chat_filter_id_);
-    s.store_object_field("filter", static_cast<const BaseObject *>(filter_.get()));
+    s.store_class_begin(field_name, "editChatFolder");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_object_field("folder", static_cast<const BaseObject *>(folder_.get()));
+    s.store_class_end();
+  }
+}
+
+editChatFolderInviteLink::editChatFolderInviteLink()
+  : chat_folder_id_()
+  , invite_link_()
+  , name_()
+  , chat_ids_()
+{}
+
+editChatFolderInviteLink::editChatFolderInviteLink(int32 chat_folder_id_, string const &invite_link_, string const &name_, array<int53> &&chat_ids_)
+  : chat_folder_id_(chat_folder_id_)
+  , invite_link_(invite_link_)
+  , name_(name_)
+  , chat_ids_(std::move(chat_ids_))
+{}
+
+const std::int32_t editChatFolderInviteLink::ID;
+
+void editChatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "editChatFolderInviteLink");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_field("invite_link", invite_link_);
+    s.store_field("name", name_);
+    { s.store_vector_begin("chat_ids", chat_ids_.size()); for (const auto &_value : chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -25029,13 +26853,15 @@ editForumTopic::editForumTopic()
   : chat_id_()
   , message_thread_id_()
   , name_()
+  , edit_icon_custom_emoji_()
   , icon_custom_emoji_id_()
 {}
 
-editForumTopic::editForumTopic(int53 chat_id_, int53 message_thread_id_, string const &name_, int64 icon_custom_emoji_id_)
+editForumTopic::editForumTopic(int53 chat_id_, int53 message_thread_id_, string const &name_, bool edit_icon_custom_emoji_, int64 icon_custom_emoji_id_)
   : chat_id_(chat_id_)
   , message_thread_id_(message_thread_id_)
   , name_(name_)
+  , edit_icon_custom_emoji_(edit_icon_custom_emoji_)
   , icon_custom_emoji_id_(icon_custom_emoji_id_)
 {}
 
@@ -25047,6 +26873,7 @@ void editForumTopic::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("chat_id", chat_id_);
     s.store_field("message_thread_id", message_thread_id_);
     s.store_field("name", name_);
+    s.store_field("edit_icon_custom_emoji", edit_icon_custom_emoji_);
     s.store_field("icon_custom_emoji_id", icon_custom_emoji_id_);
     s.store_class_end();
   }
@@ -25679,6 +27506,18 @@ void getAutoDownloadSettingsPresets::store(TlStorerToString &s, const char *fiel
   }
 }
 
+getAutosaveSettings::getAutosaveSettings() {
+}
+
+const std::int32_t getAutosaveSettings::ID;
+
+void getAutosaveSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getAutosaveSettings");
+    s.store_class_end();
+  }
+}
+
 getBackgroundUrl::getBackgroundUrl()
   : name_()
   , type_()
@@ -25789,6 +27628,69 @@ void getBlockedMessageSenders::store(TlStorerToString &s, const char *field_name
     s.store_class_begin(field_name, "getBlockedMessageSenders");
     s.store_field("offset", offset_);
     s.store_field("limit", limit_);
+    s.store_class_end();
+  }
+}
+
+getBotInfoDescription::getBotInfoDescription()
+  : bot_user_id_()
+  , language_code_()
+{}
+
+getBotInfoDescription::getBotInfoDescription(int53 bot_user_id_, string const &language_code_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+{}
+
+const std::int32_t getBotInfoDescription::ID;
+
+void getBotInfoDescription::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getBotInfoDescription");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
+    s.store_class_end();
+  }
+}
+
+getBotInfoShortDescription::getBotInfoShortDescription()
+  : bot_user_id_()
+  , language_code_()
+{}
+
+getBotInfoShortDescription::getBotInfoShortDescription(int53 bot_user_id_, string const &language_code_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+{}
+
+const std::int32_t getBotInfoShortDescription::ID;
+
+void getBotInfoShortDescription::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getBotInfoShortDescription");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
+    s.store_class_end();
+  }
+}
+
+getBotName::getBotName()
+  : bot_user_id_()
+  , language_code_()
+{}
+
+getBotName::getBotName(int53 bot_user_id_, string const &language_code_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+{}
+
+const std::int32_t getBotName::ID;
+
+void getBotName::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getBotName");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
     s.store_class_end();
   }
 }
@@ -25928,38 +27830,92 @@ void getChatEventLog::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
-getChatFilter::getChatFilter()
-  : chat_filter_id_()
+getChatFolder::getChatFolder()
+  : chat_folder_id_()
 {}
 
-getChatFilter::getChatFilter(int32 chat_filter_id_)
-  : chat_filter_id_(chat_filter_id_)
+getChatFolder::getChatFolder(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
 {}
 
-const std::int32_t getChatFilter::ID;
+const std::int32_t getChatFolder::ID;
 
-void getChatFilter::store(TlStorerToString &s, const char *field_name) const {
+void getChatFolder::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "getChatFilter");
-    s.store_field("chat_filter_id", chat_filter_id_);
+    s.store_class_begin(field_name, "getChatFolder");
+    s.store_field("chat_folder_id", chat_folder_id_);
     s.store_class_end();
   }
 }
 
-getChatFilterDefaultIconName::getChatFilterDefaultIconName()
-  : filter_()
+getChatFolderChatsToLeave::getChatFolderChatsToLeave()
+  : chat_folder_id_()
 {}
 
-getChatFilterDefaultIconName::getChatFilterDefaultIconName(object_ptr<chatFilter> &&filter_)
-  : filter_(std::move(filter_))
+getChatFolderChatsToLeave::getChatFolderChatsToLeave(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
 {}
 
-const std::int32_t getChatFilterDefaultIconName::ID;
+const std::int32_t getChatFolderChatsToLeave::ID;
 
-void getChatFilterDefaultIconName::store(TlStorerToString &s, const char *field_name) const {
+void getChatFolderChatsToLeave::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "getChatFilterDefaultIconName");
-    s.store_object_field("filter", static_cast<const BaseObject *>(filter_.get()));
+    s.store_class_begin(field_name, "getChatFolderChatsToLeave");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_class_end();
+  }
+}
+
+getChatFolderDefaultIconName::getChatFolderDefaultIconName()
+  : folder_()
+{}
+
+getChatFolderDefaultIconName::getChatFolderDefaultIconName(object_ptr<chatFolder> &&folder_)
+  : folder_(std::move(folder_))
+{}
+
+const std::int32_t getChatFolderDefaultIconName::ID;
+
+void getChatFolderDefaultIconName::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getChatFolderDefaultIconName");
+    s.store_object_field("folder", static_cast<const BaseObject *>(folder_.get()));
+    s.store_class_end();
+  }
+}
+
+getChatFolderInviteLinks::getChatFolderInviteLinks()
+  : chat_folder_id_()
+{}
+
+getChatFolderInviteLinks::getChatFolderInviteLinks(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
+{}
+
+const std::int32_t getChatFolderInviteLinks::ID;
+
+void getChatFolderInviteLinks::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getChatFolderInviteLinks");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_class_end();
+  }
+}
+
+getChatFolderNewChats::getChatFolderNewChats()
+  : chat_folder_id_()
+{}
+
+getChatFolderNewChats::getChatFolderNewChats(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
+{}
+
+const std::int32_t getChatFolderNewChats::ID;
+
+void getChatFolderNewChats::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getChatFolderNewChats");
+    s.store_field("chat_folder_id", chat_folder_id_);
     s.store_class_end();
   }
 }
@@ -26402,6 +28358,24 @@ void getChats::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getChatsForChatFolderInviteLink::getChatsForChatFolderInviteLink()
+  : chat_folder_id_()
+{}
+
+getChatsForChatFolderInviteLink::getChatsForChatFolderInviteLink(int32 chat_folder_id_)
+  : chat_folder_id_(chat_folder_id_)
+{}
+
+const std::int32_t getChatsForChatFolderInviteLink::ID;
+
+void getChatsForChatFolderInviteLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getChatsForChatFolderInviteLink");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    s.store_class_end();
+  }
+}
+
 getCommands::getCommands()
   : scope_()
   , language_code_()
@@ -26561,6 +28535,18 @@ void getDeepLinkInfo::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getDefaultChatPhotoCustomEmojiStickers::getDefaultChatPhotoCustomEmojiStickers() {
+}
+
+const std::int32_t getDefaultChatPhotoCustomEmojiStickers::ID;
+
+void getDefaultChatPhotoCustomEmojiStickers::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getDefaultChatPhotoCustomEmojiStickers");
+    s.store_class_end();
+  }
+}
+
 getDefaultEmojiStatuses::getDefaultEmojiStatuses() {
 }
 
@@ -26569,6 +28555,48 @@ const std::int32_t getDefaultEmojiStatuses::ID;
 void getDefaultEmojiStatuses::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getDefaultEmojiStatuses");
+    s.store_class_end();
+  }
+}
+
+getDefaultMessageAutoDeleteTime::getDefaultMessageAutoDeleteTime() {
+}
+
+const std::int32_t getDefaultMessageAutoDeleteTime::ID;
+
+void getDefaultMessageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getDefaultMessageAutoDeleteTime");
+    s.store_class_end();
+  }
+}
+
+getDefaultProfilePhotoCustomEmojiStickers::getDefaultProfilePhotoCustomEmojiStickers() {
+}
+
+const std::int32_t getDefaultProfilePhotoCustomEmojiStickers::ID;
+
+void getDefaultProfilePhotoCustomEmojiStickers::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getDefaultProfilePhotoCustomEmojiStickers");
+    s.store_class_end();
+  }
+}
+
+getEmojiCategories::getEmojiCategories()
+  : type_()
+{}
+
+getEmojiCategories::getEmojiCategories(object_ptr<EmojiCategoryType> &&type_)
+  : type_(std::move(type_))
+{}
+
+const std::int32_t getEmojiCategories::ID;
+
+void getEmojiCategories::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getEmojiCategories");
+    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
     s.store_class_end();
   }
 }
@@ -26735,6 +28763,27 @@ void getFileMimeType::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getForumTopic::getForumTopic()
+  : chat_id_()
+  , message_thread_id_()
+{}
+
+getForumTopic::getForumTopic(int53 chat_id_, int53 message_thread_id_)
+  : chat_id_(chat_id_)
+  , message_thread_id_(message_thread_id_)
+{}
+
+const std::int32_t getForumTopic::ID;
+
+void getForumTopic::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getForumTopic");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_thread_id", message_thread_id_);
+    s.store_class_end();
+  }
+}
+
 getForumTopicDefaultIcons::getForumTopicDefaultIcons() {
 }
 
@@ -26743,6 +28792,60 @@ const std::int32_t getForumTopicDefaultIcons::ID;
 void getForumTopicDefaultIcons::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getForumTopicDefaultIcons");
+    s.store_class_end();
+  }
+}
+
+getForumTopicLink::getForumTopicLink()
+  : chat_id_()
+  , message_thread_id_()
+{}
+
+getForumTopicLink::getForumTopicLink(int53 chat_id_, int53 message_thread_id_)
+  : chat_id_(chat_id_)
+  , message_thread_id_(message_thread_id_)
+{}
+
+const std::int32_t getForumTopicLink::ID;
+
+void getForumTopicLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getForumTopicLink");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_thread_id", message_thread_id_);
+    s.store_class_end();
+  }
+}
+
+getForumTopics::getForumTopics()
+  : chat_id_()
+  , query_()
+  , offset_date_()
+  , offset_message_id_()
+  , offset_message_thread_id_()
+  , limit_()
+{}
+
+getForumTopics::getForumTopics(int53 chat_id_, string const &query_, int32 offset_date_, int53 offset_message_id_, int53 offset_message_thread_id_, int32 limit_)
+  : chat_id_(chat_id_)
+  , query_(query_)
+  , offset_date_(offset_date_)
+  , offset_message_id_(offset_message_id_)
+  , offset_message_thread_id_(offset_message_thread_id_)
+  , limit_(limit_)
+{}
+
+const std::int32_t getForumTopics::ID;
+
+void getForumTopics::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getForumTopics");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("query", query_);
+    s.store_field("offset_date", offset_date_);
+    s.store_field("offset_message_id", offset_message_id_);
+    s.store_field("offset_message_thread_id", offset_message_thread_id_);
+    s.store_field("limit", limit_);
     s.store_class_end();
   }
 }
@@ -26971,6 +29074,27 @@ void getInstalledStickerSets::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getInstalledStickerSets");
     s.store_object_field("sticker_type", static_cast<const BaseObject *>(sticker_type_.get()));
+    s.store_class_end();
+  }
+}
+
+getInternalLink::getInternalLink()
+  : type_()
+  , is_http_()
+{}
+
+getInternalLink::getInternalLink(object_ptr<InternalLinkType> &&type_, bool is_http_)
+  : type_(std::move(type_))
+  , is_http_(is_http_)
+{}
+
+const std::int32_t getInternalLink::ID;
+
+void getInternalLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getInternalLink");
+    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
+    s.store_field("is_http", is_http_);
     s.store_class_end();
   }
 }
@@ -27711,12 +29835,12 @@ void getPassportAuthorizationForm::store(TlStorerToString &s, const char *field_
 }
 
 getPassportAuthorizationFormAvailableElements::getPassportAuthorizationFormAvailableElements()
-  : autorization_form_id_()
+  : authorization_form_id_()
   , password_()
 {}
 
-getPassportAuthorizationFormAvailableElements::getPassportAuthorizationFormAvailableElements(int32 autorization_form_id_, string const &password_)
-  : autorization_form_id_(autorization_form_id_)
+getPassportAuthorizationFormAvailableElements::getPassportAuthorizationFormAvailableElements(int32 authorization_form_id_, string const &password_)
+  : authorization_form_id_(authorization_form_id_)
   , password_(password_)
 {}
 
@@ -27725,7 +29849,7 @@ const std::int32_t getPassportAuthorizationFormAvailableElements::ID;
 void getPassportAuthorizationFormAvailableElements::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getPassportAuthorizationFormAvailableElements");
-    s.store_field("autorization_form_id", autorization_form_id_);
+    s.store_field("authorization_form_id", authorization_form_id_);
     s.store_field("password", password_);
     s.store_class_end();
   }
@@ -28097,14 +30221,14 @@ void getRecentlyVisitedTMeUrls::store(TlStorerToString &s, const char *field_nam
   }
 }
 
-getRecommendedChatFilters::getRecommendedChatFilters() {
+getRecommendedChatFolders::getRecommendedChatFolders() {
 }
 
-const std::int32_t getRecommendedChatFilters::ID;
+const std::int32_t getRecommendedChatFolders::ID;
 
-void getRecommendedChatFilters::store(TlStorerToString &s, const char *field_name) const {
+void getRecommendedChatFolders::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "getRecommendedChatFilters");
+    s.store_class_begin(field_name, "getRecommendedChatFolders");
     s.store_class_end();
   }
 }
@@ -28490,6 +30614,18 @@ void getSupergroupMembers::store(TlStorerToString &s, const char *field_name) co
   }
 }
 
+getSupportName::getSupportName() {
+}
+
+const std::int32_t getSupportName::ID;
+
+void getSupportName::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getSupportName");
+    s.store_class_end();
+  }
+}
+
 getSupportUser::getSupportUser() {
 }
 
@@ -28643,6 +30779,18 @@ void getUserFullInfo::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getUserLink::getUserLink() {
+}
+
+const std::int32_t getUserLink::ID;
+
+void getUserLink::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getUserLink");
+    s.store_class_end();
+  }
+}
+
 getUserPrivacySettingRules::getUserPrivacySettingRules()
   : setting_()
 {}
@@ -28735,6 +30883,42 @@ void getVideoChatRtmpUrl::store(TlStorerToString &s, const char *field_name) con
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getVideoChatRtmpUrl");
     s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
+getWebAppLinkUrl::getWebAppLinkUrl()
+  : chat_id_()
+  , bot_user_id_()
+  , web_app_short_name_()
+  , start_parameter_()
+  , theme_()
+  , application_name_()
+  , allow_write_access_()
+{}
+
+getWebAppLinkUrl::getWebAppLinkUrl(int53 chat_id_, int53 bot_user_id_, string const &web_app_short_name_, string const &start_parameter_, object_ptr<themeParameters> &&theme_, string const &application_name_, bool allow_write_access_)
+  : chat_id_(chat_id_)
+  , bot_user_id_(bot_user_id_)
+  , web_app_short_name_(web_app_short_name_)
+  , start_parameter_(start_parameter_)
+  , theme_(std::move(theme_))
+  , application_name_(application_name_)
+  , allow_write_access_(allow_write_access_)
+{}
+
+const std::int32_t getWebAppLinkUrl::ID;
+
+void getWebAppLinkUrl::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getWebAppLinkUrl");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("web_app_short_name", web_app_short_name_);
+    s.store_field("start_parameter", start_parameter_);
+    s.store_object_field("theme", static_cast<const BaseObject *>(theme_.get()));
+    s.store_field("application_name", application_name_);
+    s.store_field("allow_write_access", allow_write_access_);
     s.store_class_end();
   }
 }
@@ -29273,6 +31457,27 @@ void preliminaryUploadFile::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
+processChatFolderNewChats::processChatFolderNewChats()
+  : chat_folder_id_()
+  , added_chat_ids_()
+{}
+
+processChatFolderNewChats::processChatFolderNewChats(int32 chat_folder_id_, array<int53> &&added_chat_ids_)
+  : chat_folder_id_(chat_folder_id_)
+  , added_chat_ids_(std::move(added_chat_ids_))
+{}
+
+const std::int32_t processChatFolderNewChats::ID;
+
+void processChatFolderNewChats::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "processChatFolderNewChats");
+    s.store_field("chat_folder_id", chat_folder_id_);
+    { s.store_vector_begin("added_chat_ids", added_chat_ids_.size()); for (const auto &_value : added_chat_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
 processChatJoinRequest::processChatJoinRequest()
   : chat_id_()
   , user_id_()
@@ -29437,6 +31642,24 @@ void readAllMessageThreadReactions::store(TlStorerToString &s, const char *field
     s.store_class_begin(field_name, "readAllMessageThreadReactions");
     s.store_field("chat_id", chat_id_);
     s.store_field("message_thread_id", message_thread_id_);
+    s.store_class_end();
+  }
+}
+
+readChatList::readChatList()
+  : chat_list_()
+{}
+
+readChatList::readChatList(object_ptr<ChatList> &&chat_list_)
+  : chat_list_(std::move(chat_list_))
+{}
+
+const std::int32_t readChatList::ID;
+
+void readChatList::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "readChatList");
+    s.store_object_field("chat_list", static_cast<const BaseObject *>(chat_list_.get()));
     s.store_class_end();
   }
 }
@@ -29909,6 +32132,27 @@ void removeTopChat::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+reorderActiveBotUsernames::reorderActiveBotUsernames()
+  : bot_user_id_()
+  , usernames_()
+{}
+
+reorderActiveBotUsernames::reorderActiveBotUsernames(int53 bot_user_id_, array<string> &&usernames_)
+  : bot_user_id_(bot_user_id_)
+  , usernames_(std::move(usernames_))
+{}
+
+const std::int32_t reorderActiveBotUsernames::ID;
+
+void reorderActiveBotUsernames::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "reorderActiveBotUsernames");
+    s.store_field("bot_user_id", bot_user_id_);
+    { s.store_vector_begin("usernames", usernames_.size()); for (const auto &_value : usernames_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
 reorderActiveUsernames::reorderActiveUsernames()
   : usernames_()
 {}
@@ -29927,22 +32171,22 @@ void reorderActiveUsernames::store(TlStorerToString &s, const char *field_name) 
   }
 }
 
-reorderChatFilters::reorderChatFilters()
-  : chat_filter_ids_()
+reorderChatFolders::reorderChatFolders()
+  : chat_folder_ids_()
   , main_chat_list_position_()
 {}
 
-reorderChatFilters::reorderChatFilters(array<int32> &&chat_filter_ids_, int32 main_chat_list_position_)
-  : chat_filter_ids_(std::move(chat_filter_ids_))
+reorderChatFolders::reorderChatFolders(array<int32> &&chat_folder_ids_, int32 main_chat_list_position_)
+  : chat_folder_ids_(std::move(chat_folder_ids_))
   , main_chat_list_position_(main_chat_list_position_)
 {}
 
-const std::int32_t reorderChatFilters::ID;
+const std::int32_t reorderChatFolders::ID;
 
-void reorderChatFilters::store(TlStorerToString &s, const char *field_name) const {
+void reorderChatFolders::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "reorderChatFilters");
-    { s.store_vector_begin("chat_filter_ids", chat_filter_ids_.size()); for (const auto &_value : chat_filter_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_begin(field_name, "reorderChatFolders");
+    { s.store_vector_begin("chat_folder_ids", chat_folder_ids_.size()); for (const auto &_value : chat_folder_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_field("main_chat_list_position", main_chat_list_position_);
     s.store_class_end();
   }
@@ -30100,6 +32344,27 @@ void reportMessageReactions::store(TlStorerToString &s, const char *field_name) 
     s.store_field("chat_id", chat_id_);
     s.store_field("message_id", message_id_);
     s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
+    s.store_class_end();
+  }
+}
+
+reportSupergroupAntiSpamFalsePositive::reportSupergroupAntiSpamFalsePositive()
+  : supergroup_id_()
+  , message_id_()
+{}
+
+reportSupergroupAntiSpamFalsePositive::reportSupergroupAntiSpamFalsePositive(int53 supergroup_id_, int53 message_id_)
+  : supergroup_id_(supergroup_id_)
+  , message_id_(message_id_)
+{}
+
+const std::int32_t reportSupergroupAntiSpamFalsePositive::ID;
+
+void reportSupergroupAntiSpamFalsePositive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "reportSupergroupAntiSpamFalsePositive");
+    s.store_field("supergroup_id", supergroup_id_);
+    s.store_field("message_id", message_id_);
     s.store_class_end();
   }
 }
@@ -30284,6 +32549,18 @@ void resetAllNotificationSettings::store(TlStorerToString &s, const char *field_
   }
 }
 
+resetAuthenticationEmailAddress::resetAuthenticationEmailAddress() {
+}
+
+const std::int32_t resetAuthenticationEmailAddress::ID;
+
+void resetAuthenticationEmailAddress::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "resetAuthenticationEmailAddress");
+    s.store_class_end();
+  }
+}
+
 resetBackgrounds::resetBackgrounds() {
 }
 
@@ -30402,13 +32679,13 @@ void searchBackground::store(TlStorerToString &s, const char *field_name) const 
 }
 
 searchCallMessages::searchCallMessages()
-  : from_message_id_()
+  : offset_()
   , limit_()
   , only_missed_()
 {}
 
-searchCallMessages::searchCallMessages(int53 from_message_id_, int32 limit_, bool only_missed_)
-  : from_message_id_(from_message_id_)
+searchCallMessages::searchCallMessages(string const &offset_, int32 limit_, bool only_missed_)
+  : offset_(offset_)
   , limit_(limit_)
   , only_missed_(only_missed_)
 {}
@@ -30418,7 +32695,7 @@ const std::int32_t searchCallMessages::ID;
 void searchCallMessages::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "searchCallMessages");
-    s.store_field("from_message_id", from_message_id_);
+    s.store_field("offset", offset_);
     s.store_field("limit", limit_);
     s.store_field("only_missed", only_missed_);
     s.store_class_end();
@@ -30695,21 +32972,17 @@ void searchInstalledStickerSets::store(TlStorerToString &s, const char *field_na
 searchMessages::searchMessages()
   : chat_list_()
   , query_()
-  , offset_date_()
-  , offset_chat_id_()
-  , offset_message_id_()
+  , offset_()
   , limit_()
   , filter_()
   , min_date_()
   , max_date_()
 {}
 
-searchMessages::searchMessages(object_ptr<ChatList> &&chat_list_, string const &query_, int32 offset_date_, int53 offset_chat_id_, int53 offset_message_id_, int32 limit_, object_ptr<SearchMessagesFilter> &&filter_, int32 min_date_, int32 max_date_)
+searchMessages::searchMessages(object_ptr<ChatList> &&chat_list_, string const &query_, string const &offset_, int32 limit_, object_ptr<SearchMessagesFilter> &&filter_, int32 min_date_, int32 max_date_)
   : chat_list_(std::move(chat_list_))
   , query_(query_)
-  , offset_date_(offset_date_)
-  , offset_chat_id_(offset_chat_id_)
-  , offset_message_id_(offset_message_id_)
+  , offset_(offset_)
   , limit_(limit_)
   , filter_(std::move(filter_))
   , min_date_(min_date_)
@@ -30723,9 +32996,7 @@ void searchMessages::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "searchMessages");
     s.store_object_field("chat_list", static_cast<const BaseObject *>(chat_list_.get()));
     s.store_field("query", query_);
-    s.store_field("offset_date", offset_date_);
-    s.store_field("offset_chat_id", offset_chat_id_);
-    s.store_field("offset_message_id", offset_message_id_);
+    s.store_field("offset", offset_);
     s.store_field("limit", limit_);
     s.store_object_field("filter", static_cast<const BaseObject *>(filter_.get()));
     s.store_field("min_date", min_date_);
@@ -30858,12 +33129,14 @@ void searchStickerSets::store(TlStorerToString &s, const char *field_name) const
 }
 
 searchStickers::searchStickers()
-  : emoji_()
+  : sticker_type_()
+  , emojis_()
   , limit_()
 {}
 
-searchStickers::searchStickers(string const &emoji_, int32 limit_)
-  : emoji_(emoji_)
+searchStickers::searchStickers(object_ptr<StickerType> &&sticker_type_, string const &emojis_, int32 limit_)
+  : sticker_type_(std::move(sticker_type_))
+  , emojis_(emojis_)
   , limit_(limit_)
 {}
 
@@ -30872,7 +33145,8 @@ const std::int32_t searchStickers::ID;
 void searchStickers::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "searchStickers");
-    s.store_field("emoji", emoji_);
+    s.store_object_field("sticker_type", static_cast<const BaseObject *>(sticker_type_.get()));
+    s.store_field("emojis", emojis_);
     s.store_field("limit", limit_);
     s.store_class_end();
   }
@@ -30892,6 +33166,63 @@ void searchUserByPhoneNumber::store(TlStorerToString &s, const char *field_name)
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "searchUserByPhoneNumber");
     s.store_field("phone_number", phone_number_);
+    s.store_class_end();
+  }
+}
+
+searchUserByToken::searchUserByToken()
+  : token_()
+{}
+
+searchUserByToken::searchUserByToken(string const &token_)
+  : token_(token_)
+{}
+
+const std::int32_t searchUserByToken::ID;
+
+void searchUserByToken::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "searchUserByToken");
+    s.store_field("token", token_);
+    s.store_class_end();
+  }
+}
+
+searchWebApp::searchWebApp()
+  : bot_user_id_()
+  , web_app_short_name_()
+{}
+
+searchWebApp::searchWebApp(int53 bot_user_id_, string const &web_app_short_name_)
+  : bot_user_id_(bot_user_id_)
+  , web_app_short_name_(web_app_short_name_)
+{}
+
+const std::int32_t searchWebApp::ID;
+
+void searchWebApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "searchWebApp");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("web_app_short_name", web_app_short_name_);
+    s.store_class_end();
+  }
+}
+
+sendAuthenticationFirebaseSms::sendAuthenticationFirebaseSms()
+  : token_()
+{}
+
+sendAuthenticationFirebaseSms::sendAuthenticationFirebaseSms(string const &token_)
+  : token_(token_)
+{}
+
+const std::int32_t sendAuthenticationFirebaseSms::ID;
+
+void sendAuthenticationFirebaseSms::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "sendAuthenticationFirebaseSms");
+    s.store_field("token", token_);
     s.store_class_end();
   }
 }
@@ -31194,12 +33525,12 @@ void sendMessageAlbum::store(TlStorerToString &s, const char *field_name) const 
 }
 
 sendPassportAuthorizationForm::sendPassportAuthorizationForm()
-  : autorization_form_id_()
+  : authorization_form_id_()
   , types_()
 {}
 
-sendPassportAuthorizationForm::sendPassportAuthorizationForm(int32 autorization_form_id_, array<object_ptr<PassportElementType>> &&types_)
-  : autorization_form_id_(autorization_form_id_)
+sendPassportAuthorizationForm::sendPassportAuthorizationForm(int32 authorization_form_id_, array<object_ptr<PassportElementType>> &&types_)
+  : authorization_form_id_(authorization_form_id_)
   , types_(std::move(types_))
 {}
 
@@ -31208,7 +33539,7 @@ const std::int32_t sendPassportAuthorizationForm::ID;
 void sendPassportAuthorizationForm::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "sendPassportAuthorizationForm");
-    s.store_field("autorization_form_id", autorization_form_id_);
+    s.store_field("authorization_form_id", authorization_form_id_);
     { s.store_vector_begin("types", types_.size()); for (const auto &_value : types_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
@@ -31412,6 +33743,27 @@ void setAutoDownloadSettings::store(TlStorerToString &s, const char *field_name)
   }
 }
 
+setAutosaveSettings::setAutosaveSettings()
+  : scope_()
+  , settings_()
+{}
+
+setAutosaveSettings::setAutosaveSettings(object_ptr<AutosaveSettingsScope> &&scope_, object_ptr<scopeAutosaveSettings> &&settings_)
+  : scope_(std::move(scope_))
+  , settings_(std::move(settings_))
+{}
+
+const std::int32_t setAutosaveSettings::ID;
+
+void setAutosaveSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setAutosaveSettings");
+    s.store_object_field("scope", static_cast<const BaseObject *>(scope_.get()));
+    s.store_object_field("settings", static_cast<const BaseObject *>(settings_.get()));
+    s.store_class_end();
+  }
+}
+
 setBackground::setBackground()
   : background_()
   , type_()
@@ -31454,6 +33806,99 @@ void setBio::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+setBotInfoDescription::setBotInfoDescription()
+  : bot_user_id_()
+  , language_code_()
+  , description_()
+{}
+
+setBotInfoDescription::setBotInfoDescription(int53 bot_user_id_, string const &language_code_, string const &description_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+  , description_(description_)
+{}
+
+const std::int32_t setBotInfoDescription::ID;
+
+void setBotInfoDescription::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setBotInfoDescription");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
+    s.store_field("description", description_);
+    s.store_class_end();
+  }
+}
+
+setBotInfoShortDescription::setBotInfoShortDescription()
+  : bot_user_id_()
+  , language_code_()
+  , short_description_()
+{}
+
+setBotInfoShortDescription::setBotInfoShortDescription(int53 bot_user_id_, string const &language_code_, string const &short_description_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+  , short_description_(short_description_)
+{}
+
+const std::int32_t setBotInfoShortDescription::ID;
+
+void setBotInfoShortDescription::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setBotInfoShortDescription");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
+    s.store_field("short_description", short_description_);
+    s.store_class_end();
+  }
+}
+
+setBotName::setBotName()
+  : bot_user_id_()
+  , language_code_()
+  , name_()
+{}
+
+setBotName::setBotName(int53 bot_user_id_, string const &language_code_, string const &name_)
+  : bot_user_id_(bot_user_id_)
+  , language_code_(language_code_)
+  , name_(name_)
+{}
+
+const std::int32_t setBotName::ID;
+
+void setBotName::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setBotName");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("language_code", language_code_);
+    s.store_field("name", name_);
+    s.store_class_end();
+  }
+}
+
+setBotProfilePhoto::setBotProfilePhoto()
+  : bot_user_id_()
+  , photo_()
+{}
+
+setBotProfilePhoto::setBotProfilePhoto(int53 bot_user_id_, object_ptr<InputChatPhoto> &&photo_)
+  : bot_user_id_(bot_user_id_)
+  , photo_(std::move(photo_))
+{}
+
+const std::int32_t setBotProfilePhoto::ID;
+
+void setBotProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setBotProfilePhoto");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
+    s.store_class_end();
+  }
+}
+
 setBotUpdatesStatus::setBotUpdatesStatus()
   : pending_update_count_()
   , error_message_()
@@ -31492,6 +33937,33 @@ void setChatAvailableReactions::store(TlStorerToString &s, const char *field_nam
     s.store_class_begin(field_name, "setChatAvailableReactions");
     s.store_field("chat_id", chat_id_);
     s.store_object_field("available_reactions", static_cast<const BaseObject *>(available_reactions_.get()));
+    s.store_class_end();
+  }
+}
+
+setChatBackground::setChatBackground()
+  : chat_id_()
+  , background_()
+  , type_()
+  , dark_theme_dimming_()
+{}
+
+setChatBackground::setChatBackground(int53 chat_id_, object_ptr<InputBackground> &&background_, object_ptr<BackgroundType> &&type_, int32 dark_theme_dimming_)
+  : chat_id_(chat_id_)
+  , background_(std::move(background_))
+  , type_(std::move(type_))
+  , dark_theme_dimming_(dark_theme_dimming_)
+{}
+
+const std::int32_t setChatBackground::ID;
+
+void setChatBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setChatBackground");
+    s.store_field("chat_id", chat_id_);
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
+    s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
+    s.store_field("dark_theme_dimming", dark_theme_dimming_);
     s.store_class_end();
   }
 }
@@ -31628,6 +34100,27 @@ void setChatMemberStatus::store(TlStorerToString &s, const char *field_name) con
   }
 }
 
+setChatMessageAutoDeleteTime::setChatMessageAutoDeleteTime()
+  : chat_id_()
+  , message_auto_delete_time_()
+{}
+
+setChatMessageAutoDeleteTime::setChatMessageAutoDeleteTime(int53 chat_id_, int32 message_auto_delete_time_)
+  : chat_id_(chat_id_)
+  , message_auto_delete_time_(message_auto_delete_time_)
+{}
+
+const std::int32_t setChatMessageAutoDeleteTime::ID;
+
+void setChatMessageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setChatMessageAutoDeleteTime");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_auto_delete_time", message_auto_delete_time_);
+    s.store_class_end();
+  }
+}
+
 setChatMessageSender::setChatMessageSender()
   : chat_id_()
   , message_sender_id_()
@@ -31645,27 +34138,6 @@ void setChatMessageSender::store(TlStorerToString &s, const char *field_name) co
     s.store_class_begin(field_name, "setChatMessageSender");
     s.store_field("chat_id", chat_id_);
     s.store_object_field("message_sender_id", static_cast<const BaseObject *>(message_sender_id_.get()));
-    s.store_class_end();
-  }
-}
-
-setChatMessageTtl::setChatMessageTtl()
-  : chat_id_()
-  , ttl_()
-{}
-
-setChatMessageTtl::setChatMessageTtl(int53 chat_id_, int32 ttl_)
-  : chat_id_(chat_id_)
-  , ttl_(ttl_)
-{}
-
-const std::int32_t setChatMessageTtl::ID;
-
-void setChatMessageTtl::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "setChatMessageTtl");
-    s.store_field("chat_id", chat_id_);
-    s.store_field("ttl", ttl_);
     s.store_class_end();
   }
 }
@@ -31820,6 +34292,27 @@ void setCommands::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+setCustomEmojiStickerSetThumbnail::setCustomEmojiStickerSetThumbnail()
+  : name_()
+  , custom_emoji_id_()
+{}
+
+setCustomEmojiStickerSetThumbnail::setCustomEmojiStickerSetThumbnail(string const &name_, int64 custom_emoji_id_)
+  : name_(name_)
+  , custom_emoji_id_(custom_emoji_id_)
+{}
+
+const std::int32_t setCustomEmojiStickerSetThumbnail::ID;
+
+void setCustomEmojiStickerSetThumbnail::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setCustomEmojiStickerSetThumbnail");
+    s.store_field("name", name_);
+    s.store_field("custom_emoji_id", custom_emoji_id_);
+    s.store_class_end();
+  }
+}
+
 setCustomLanguagePack::setCustomLanguagePack()
   : info_()
   , strings_()
@@ -31916,6 +34409,24 @@ void setDefaultGroupAdministratorRights::store(TlStorerToString &s, const char *
   }
 }
 
+setDefaultMessageAutoDeleteTime::setDefaultMessageAutoDeleteTime()
+  : message_auto_delete_time_()
+{}
+
+setDefaultMessageAutoDeleteTime::setDefaultMessageAutoDeleteTime(object_ptr<messageAutoDeleteTime> &&message_auto_delete_time_)
+  : message_auto_delete_time_(std::move(message_auto_delete_time_))
+{}
+
+const std::int32_t setDefaultMessageAutoDeleteTime::ID;
+
+void setDefaultMessageAutoDeleteTime::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setDefaultMessageAutoDeleteTime");
+    s.store_object_field("message_auto_delete_time", static_cast<const BaseObject *>(message_auto_delete_time_.get()));
+    s.store_class_end();
+  }
+}
+
 setDefaultReactionType::setDefaultReactionType()
   : reaction_type_()
 {}
@@ -31975,6 +34486,30 @@ void setFileGenerationProgress::store(TlStorerToString &s, const char *field_nam
     s.store_field("generation_id", generation_id_);
     s.store_field("expected_size", expected_size_);
     s.store_field("local_prefix_size", local_prefix_size_);
+    s.store_class_end();
+  }
+}
+
+setForumTopicNotificationSettings::setForumTopicNotificationSettings()
+  : chat_id_()
+  , message_thread_id_()
+  , notification_settings_()
+{}
+
+setForumTopicNotificationSettings::setForumTopicNotificationSettings(int53 chat_id_, int53 message_thread_id_, object_ptr<chatNotificationSettings> &&notification_settings_)
+  : chat_id_(chat_id_)
+  , message_thread_id_(message_thread_id_)
+  , notification_settings_(std::move(notification_settings_))
+{}
+
+const std::int32_t setForumTopicNotificationSettings::ID;
+
+void setForumTopicNotificationSettings::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setForumTopicNotificationSettings");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_thread_id", message_thread_id_);
+    s.store_object_field("notification_settings", static_cast<const BaseObject *>(notification_settings_.get()));
     s.store_class_end();
   }
 }
@@ -32396,6 +34931,27 @@ void setPinnedChats::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+setPinnedForumTopics::setPinnedForumTopics()
+  : chat_id_()
+  , message_thread_ids_()
+{}
+
+setPinnedForumTopics::setPinnedForumTopics(int53 chat_id_, array<int53> &&message_thread_ids_)
+  : chat_id_(chat_id_)
+  , message_thread_ids_(std::move(message_thread_ids_))
+{}
+
+const std::int32_t setPinnedForumTopics::ID;
+
+void setPinnedForumTopics::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setPinnedForumTopics");
+    s.store_field("chat_id", chat_id_);
+    { s.store_vector_begin("message_thread_ids", message_thread_ids_.size()); for (const auto &_value : message_thread_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
 setPollAnswer::setPollAnswer()
   : chat_id_()
   , message_id_()
@@ -32422,10 +34978,12 @@ void setPollAnswer::store(TlStorerToString &s, const char *field_name) const {
 
 setProfilePhoto::setProfilePhoto()
   : photo_()
+  , is_public_()
 {}
 
-setProfilePhoto::setProfilePhoto(object_ptr<InputChatPhoto> &&photo_)
+setProfilePhoto::setProfilePhoto(object_ptr<InputChatPhoto> &&photo_, bool is_public_)
   : photo_(std::move(photo_))
+  , is_public_(is_public_)
 {}
 
 const std::int32_t setProfilePhoto::ID;
@@ -32434,6 +34992,7 @@ void setProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "setProfilePhoto");
     s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
+    s.store_field("is_public", is_public_);
     s.store_class_end();
   }
 }
@@ -32480,6 +35039,69 @@ void setScopeNotificationSettings::store(TlStorerToString &s, const char *field_
   }
 }
 
+setStickerEmojis::setStickerEmojis()
+  : sticker_()
+  , emojis_()
+{}
+
+setStickerEmojis::setStickerEmojis(object_ptr<InputFile> &&sticker_, string const &emojis_)
+  : sticker_(std::move(sticker_))
+  , emojis_(emojis_)
+{}
+
+const std::int32_t setStickerEmojis::ID;
+
+void setStickerEmojis::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setStickerEmojis");
+    s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
+    s.store_field("emojis", emojis_);
+    s.store_class_end();
+  }
+}
+
+setStickerKeywords::setStickerKeywords()
+  : sticker_()
+  , keywords_()
+{}
+
+setStickerKeywords::setStickerKeywords(object_ptr<InputFile> &&sticker_, array<string> &&keywords_)
+  : sticker_(std::move(sticker_))
+  , keywords_(std::move(keywords_))
+{}
+
+const std::int32_t setStickerKeywords::ID;
+
+void setStickerKeywords::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setStickerKeywords");
+    s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
+    { s.store_vector_begin("keywords", keywords_.size()); for (const auto &_value : keywords_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+setStickerMaskPosition::setStickerMaskPosition()
+  : sticker_()
+  , mask_position_()
+{}
+
+setStickerMaskPosition::setStickerMaskPosition(object_ptr<InputFile> &&sticker_, object_ptr<maskPosition> &&mask_position_)
+  : sticker_(std::move(sticker_))
+  , mask_position_(std::move(mask_position_))
+{}
+
+const std::int32_t setStickerMaskPosition::ID;
+
+void setStickerMaskPosition::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setStickerMaskPosition");
+    s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
+    s.store_object_field("mask_position", static_cast<const BaseObject *>(mask_position_.get()));
+    s.store_class_end();
+  }
+}
+
 setStickerPositionInSet::setStickerPositionInSet()
   : sticker_()
   , position_()
@@ -32521,6 +35143,27 @@ void setStickerSetThumbnail::store(TlStorerToString &s, const char *field_name) 
     s.store_field("user_id", user_id_);
     s.store_field("name", name_);
     s.store_object_field("thumbnail", static_cast<const BaseObject *>(thumbnail_.get()));
+    s.store_class_end();
+  }
+}
+
+setStickerSetTitle::setStickerSetTitle()
+  : name_()
+  , title_()
+{}
+
+setStickerSetTitle::setStickerSetTitle(string const &name_, string const &title_)
+  : name_(name_)
+  , title_(title_)
+{}
+
+const std::int32_t setStickerSetTitle::ID;
+
+void setStickerSetTitle::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setStickerSetTitle");
+    s.store_field("name", name_);
+    s.store_field("title", title_);
     s.store_class_end();
   }
 }
@@ -32630,6 +35273,27 @@ void setTdlibParameters::store(TlStorerToString &s, const char *field_name) cons
   }
 }
 
+setUserPersonalProfilePhoto::setUserPersonalProfilePhoto()
+  : user_id_()
+  , photo_()
+{}
+
+setUserPersonalProfilePhoto::setUserPersonalProfilePhoto(int53 user_id_, object_ptr<InputChatPhoto> &&photo_)
+  : user_id_(user_id_)
+  , photo_(std::move(photo_))
+{}
+
+const std::int32_t setUserPersonalProfilePhoto::ID;
+
+void setUserPersonalProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setUserPersonalProfilePhoto");
+    s.store_field("user_id", user_id_);
+    s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
+    s.store_class_end();
+  }
+}
+
 setUserPrivacySettingRules::setUserPrivacySettingRules()
   : setting_()
   , rules_()
@@ -32711,6 +35375,36 @@ void setVideoChatDefaultParticipant::store(TlStorerToString &s, const char *fiel
   }
 }
 
+shareChatWithBot::shareChatWithBot()
+  : chat_id_()
+  , message_id_()
+  , button_id_()
+  , shared_chat_id_()
+  , only_check_()
+{}
+
+shareChatWithBot::shareChatWithBot(int53 chat_id_, int53 message_id_, int32 button_id_, int53 shared_chat_id_, bool only_check_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , button_id_(button_id_)
+  , shared_chat_id_(shared_chat_id_)
+  , only_check_(only_check_)
+{}
+
+const std::int32_t shareChatWithBot::ID;
+
+void shareChatWithBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "shareChatWithBot");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("button_id", button_id_);
+    s.store_field("shared_chat_id", shared_chat_id_);
+    s.store_field("only_check", only_check_);
+    s.store_class_end();
+  }
+}
+
 sharePhoneNumber::sharePhoneNumber()
   : user_id_()
 {}
@@ -32725,6 +35419,36 @@ void sharePhoneNumber::store(TlStorerToString &s, const char *field_name) const 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "sharePhoneNumber");
     s.store_field("user_id", user_id_);
+    s.store_class_end();
+  }
+}
+
+shareUserWithBot::shareUserWithBot()
+  : chat_id_()
+  , message_id_()
+  , button_id_()
+  , shared_user_id_()
+  , only_check_()
+{}
+
+shareUserWithBot::shareUserWithBot(int53 chat_id_, int53 message_id_, int32 button_id_, int53 shared_user_id_, bool only_check_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , button_id_(button_id_)
+  , shared_user_id_(shared_user_id_)
+  , only_check_(only_check_)
+{}
+
+const std::int32_t shareUserWithBot::ID;
+
+void shareUserWithBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "shareUserWithBot");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("button_id", button_id_);
+    s.store_field("shared_user_id", shared_user_id_);
+    s.store_field("only_check", only_check_);
     s.store_class_end();
   }
 }
@@ -32818,6 +35542,27 @@ void stopPoll::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("chat_id", chat_id_);
     s.store_field("message_id", message_id_);
     s.store_object_field("reply_markup", static_cast<const BaseObject *>(reply_markup_.get()));
+    s.store_class_end();
+  }
+}
+
+suggestUserProfilePhoto::suggestUserProfilePhoto()
+  : user_id_()
+  , photo_()
+{}
+
+suggestUserProfilePhoto::suggestUserProfilePhoto(int53 user_id_, object_ptr<InputChatPhoto> &&photo_)
+  : user_id_(user_id_)
+  , photo_(std::move(photo_))
+{}
+
+const std::int32_t suggestUserProfilePhoto::ID;
+
+void suggestUserProfilePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "suggestUserProfilePhoto");
+    s.store_field("user_id", user_id_);
+    s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get()));
     s.store_class_end();
   }
 }
@@ -33113,11 +35858,13 @@ void toggleAllDownloadsArePaused::store(TlStorerToString &s, const char *field_n
 toggleBotIsAddedToAttachmentMenu::toggleBotIsAddedToAttachmentMenu()
   : bot_user_id_()
   , is_added_()
+  , allow_write_access_()
 {}
 
-toggleBotIsAddedToAttachmentMenu::toggleBotIsAddedToAttachmentMenu(int53 bot_user_id_, bool is_added_)
+toggleBotIsAddedToAttachmentMenu::toggleBotIsAddedToAttachmentMenu(int53 bot_user_id_, bool is_added_, bool allow_write_access_)
   : bot_user_id_(bot_user_id_)
   , is_added_(is_added_)
+  , allow_write_access_(allow_write_access_)
 {}
 
 const std::int32_t toggleBotIsAddedToAttachmentMenu::ID;
@@ -33127,6 +35874,31 @@ void toggleBotIsAddedToAttachmentMenu::store(TlStorerToString &s, const char *fi
     s.store_class_begin(field_name, "toggleBotIsAddedToAttachmentMenu");
     s.store_field("bot_user_id", bot_user_id_);
     s.store_field("is_added", is_added_);
+    s.store_field("allow_write_access", allow_write_access_);
+    s.store_class_end();
+  }
+}
+
+toggleBotUsernameIsActive::toggleBotUsernameIsActive()
+  : bot_user_id_()
+  , username_()
+  , is_active_()
+{}
+
+toggleBotUsernameIsActive::toggleBotUsernameIsActive(int53 bot_user_id_, string const &username_, bool is_active_)
+  : bot_user_id_(bot_user_id_)
+  , username_(username_)
+  , is_active_(is_active_)
+{}
+
+const std::int32_t toggleBotUsernameIsActive::ID;
+
+void toggleBotUsernameIsActive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleBotUsernameIsActive");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("username", username_);
+    s.store_field("is_active", is_active_);
     s.store_class_end();
   }
 }
@@ -33218,6 +35990,27 @@ void toggleChatIsPinned::store(TlStorerToString &s, const char *field_name) cons
   }
 }
 
+toggleChatIsTranslatable::toggleChatIsTranslatable()
+  : chat_id_()
+  , is_translatable_()
+{}
+
+toggleChatIsTranslatable::toggleChatIsTranslatable(int53 chat_id_, bool is_translatable_)
+  : chat_id_(chat_id_)
+  , is_translatable_(is_translatable_)
+{}
+
+const std::int32_t toggleChatIsTranslatable::ID;
+
+void toggleChatIsTranslatable::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleChatIsTranslatable");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("is_translatable", is_translatable_);
+    s.store_class_end();
+  }
+}
+
 toggleDownloadIsPaused::toggleDownloadIsPaused()
   : file_id_()
   , is_paused_()
@@ -33259,6 +36052,51 @@ void toggleForumTopicIsClosed::store(TlStorerToString &s, const char *field_name
     s.store_field("chat_id", chat_id_);
     s.store_field("message_thread_id", message_thread_id_);
     s.store_field("is_closed", is_closed_);
+    s.store_class_end();
+  }
+}
+
+toggleForumTopicIsPinned::toggleForumTopicIsPinned()
+  : chat_id_()
+  , message_thread_id_()
+  , is_pinned_()
+{}
+
+toggleForumTopicIsPinned::toggleForumTopicIsPinned(int53 chat_id_, int53 message_thread_id_, bool is_pinned_)
+  : chat_id_(chat_id_)
+  , message_thread_id_(message_thread_id_)
+  , is_pinned_(is_pinned_)
+{}
+
+const std::int32_t toggleForumTopicIsPinned::ID;
+
+void toggleForumTopicIsPinned::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleForumTopicIsPinned");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_thread_id", message_thread_id_);
+    s.store_field("is_pinned", is_pinned_);
+    s.store_class_end();
+  }
+}
+
+toggleGeneralForumTopicIsHidden::toggleGeneralForumTopicIsHidden()
+  : chat_id_()
+  , is_hidden_()
+{}
+
+toggleGeneralForumTopicIsHidden::toggleGeneralForumTopicIsHidden(int53 chat_id_, bool is_hidden_)
+  : chat_id_(chat_id_)
+  , is_hidden_(is_hidden_)
+{}
+
+const std::int32_t toggleGeneralForumTopicIsHidden::ID;
+
+void toggleGeneralForumTopicIsHidden::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleGeneralForumTopicIsHidden");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("is_hidden", is_hidden_);
     s.store_class_end();
   }
 }
@@ -33479,6 +36317,48 @@ void toggleSessionCanAcceptSecretChats::store(TlStorerToString &s, const char *f
   }
 }
 
+toggleSupergroupHasAggressiveAntiSpamEnabled::toggleSupergroupHasAggressiveAntiSpamEnabled()
+  : supergroup_id_()
+  , has_aggressive_anti_spam_enabled_()
+{}
+
+toggleSupergroupHasAggressiveAntiSpamEnabled::toggleSupergroupHasAggressiveAntiSpamEnabled(int53 supergroup_id_, bool has_aggressive_anti_spam_enabled_)
+  : supergroup_id_(supergroup_id_)
+  , has_aggressive_anti_spam_enabled_(has_aggressive_anti_spam_enabled_)
+{}
+
+const std::int32_t toggleSupergroupHasAggressiveAntiSpamEnabled::ID;
+
+void toggleSupergroupHasAggressiveAntiSpamEnabled::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleSupergroupHasAggressiveAntiSpamEnabled");
+    s.store_field("supergroup_id", supergroup_id_);
+    s.store_field("has_aggressive_anti_spam_enabled", has_aggressive_anti_spam_enabled_);
+    s.store_class_end();
+  }
+}
+
+toggleSupergroupHasHiddenMembers::toggleSupergroupHasHiddenMembers()
+  : supergroup_id_()
+  , has_hidden_members_()
+{}
+
+toggleSupergroupHasHiddenMembers::toggleSupergroupHasHiddenMembers(int53 supergroup_id_, bool has_hidden_members_)
+  : supergroup_id_(supergroup_id_)
+  , has_hidden_members_(has_hidden_members_)
+{}
+
+const std::int32_t toggleSupergroupHasHiddenMembers::ID;
+
+void toggleSupergroupHasHiddenMembers::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleSupergroupHasHiddenMembers");
+    s.store_field("supergroup_id", supergroup_id_);
+    s.store_field("has_hidden_members", has_hidden_members_);
+    s.store_class_end();
+  }
+}
+
 toggleSupergroupIsAllHistoryAvailable::toggleSupergroupIsAllHistoryAvailable()
   : supergroup_id_()
   , is_all_history_available_()
@@ -33671,15 +36551,37 @@ void transferChatOwnership::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
-translateText::translateText()
-  : text_()
-  , from_language_code_()
+translateMessageText::translateMessageText()
+  : chat_id_()
+  , message_id_()
   , to_language_code_()
 {}
 
-translateText::translateText(string const &text_, string const &from_language_code_, string const &to_language_code_)
-  : text_(text_)
-  , from_language_code_(from_language_code_)
+translateMessageText::translateMessageText(int53 chat_id_, int53 message_id_, string const &to_language_code_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , to_language_code_(to_language_code_)
+{}
+
+const std::int32_t translateMessageText::ID;
+
+void translateMessageText::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "translateMessageText");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("to_language_code", to_language_code_);
+    s.store_class_end();
+  }
+}
+
+translateText::translateText()
+  : text_()
+  , to_language_code_()
+{}
+
+translateText::translateText(object_ptr<formattedText> &&text_, string const &to_language_code_)
+  : text_(std::move(text_))
   , to_language_code_(to_language_code_)
 {}
 
@@ -33688,8 +36590,7 @@ const std::int32_t translateText::ID;
 void translateText::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "translateText");
-    s.store_field("text", text_);
-    s.store_field("from_language_code", from_language_code_);
+    s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
     s.store_field("to_language_code", to_language_code_);
     s.store_class_end();
   }
@@ -33775,11 +36676,13 @@ void upgradeBasicGroupChatToSupergroupChat::store(TlStorerToString &s, const cha
 
 uploadStickerFile::uploadStickerFile()
   : user_id_()
+  , sticker_format_()
   , sticker_()
 {}
 
-uploadStickerFile::uploadStickerFile(int53 user_id_, object_ptr<inputSticker> &&sticker_)
+uploadStickerFile::uploadStickerFile(int53 user_id_, object_ptr<StickerFormat> &&sticker_format_, object_ptr<InputFile> &&sticker_)
   : user_id_(user_id_)
+  , sticker_format_(std::move(sticker_format_))
   , sticker_(std::move(sticker_))
 {}
 
@@ -33789,6 +36692,7 @@ void uploadStickerFile::store(TlStorerToString &s, const char *field_name) const
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "uploadStickerFile");
     s.store_field("user_id", user_id_);
+    s.store_object_field("sticker_format", static_cast<const BaseObject *>(sticker_format_.get()));
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
     s.store_class_end();
   }
@@ -33820,15 +36724,15 @@ void validateOrderInfo::store(TlStorerToString &s, const char *field_name) const
 
 viewMessages::viewMessages()
   : chat_id_()
-  , message_thread_id_()
   , message_ids_()
+  , source_()
   , force_read_()
 {}
 
-viewMessages::viewMessages(int53 chat_id_, int53 message_thread_id_, array<int53> &&message_ids_, bool force_read_)
+viewMessages::viewMessages(int53 chat_id_, array<int53> &&message_ids_, object_ptr<MessageSource> &&source_, bool force_read_)
   : chat_id_(chat_id_)
-  , message_thread_id_(message_thread_id_)
   , message_ids_(std::move(message_ids_))
+  , source_(std::move(source_))
   , force_read_(force_read_)
 {}
 
@@ -33838,8 +36742,8 @@ void viewMessages::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "viewMessages");
     s.store_field("chat_id", chat_id_);
-    s.store_field("message_thread_id", message_thread_id_);
     { s.store_vector_begin("message_ids", message_ids_.size()); for (const auto &_value : message_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_object_field("source", static_cast<const BaseObject *>(source_.get()));
     s.store_field("force_read", force_read_);
     s.store_class_end();
   }

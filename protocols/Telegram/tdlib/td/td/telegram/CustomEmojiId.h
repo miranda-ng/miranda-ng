@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,7 +20,7 @@ class CustomEmojiId {
  public:
   CustomEmojiId() = default;
 
-  explicit CustomEmojiId(int64 custom_emoji_id) : id(custom_emoji_id) {
+  explicit constexpr CustomEmojiId(int64 custom_emoji_id) : id(custom_emoji_id) {
   }
   template <class T, typename = std::enable_if_t<std::is_convertible<T, int64>::value>>
   CustomEmojiId(T custom_emoji_id) = delete;
@@ -39,6 +39,15 @@ class CustomEmojiId {
 
   bool operator!=(const CustomEmojiId &other) const {
     return id != other.id;
+  }
+
+  static vector<CustomEmojiId> get_custom_emoji_ids(const vector<int64> &document_ids) {
+    vector<CustomEmojiId> custom_emoji_ids;
+    custom_emoji_ids.reserve(document_ids.size());
+    for (auto &document_id : document_ids) {
+      custom_emoji_ids.emplace_back(document_id);
+    }
+    return custom_emoji_ids;
   }
 
   template <class StorerT>

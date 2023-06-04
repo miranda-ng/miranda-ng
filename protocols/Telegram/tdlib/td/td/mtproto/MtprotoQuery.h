@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,11 +13,11 @@ namespace td {
 namespace mtproto {
 
 struct MtprotoQuery {
-  int64 message_id;
+  uint64 message_id;
   int32 seq_no;
   BufferSlice packet;
   bool gzip_flag;
-  std::vector<uint64> invoke_after_ids;
+  vector<uint64> invoke_after_ids;
   bool use_quick_ack;
 };
 

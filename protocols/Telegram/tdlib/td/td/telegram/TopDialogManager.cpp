@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,7 +19,6 @@
 #include "td/telegram/StateManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
-#include "td/telegram/TdParameters.h"
 
 #include "td/actor/PromiseFuture.h"
 
@@ -269,7 +268,8 @@ void TopDialogManager::remove_dialog(TopDialogCategory category, DialogId dialog
   promise.set_value(Unit());
 }
 
-void TopDialogManager::get_top_dialogs(TopDialogCategory category, int32 limit, Promise<vector<DialogId>> promise) {
+void TopDialogManager::get_top_dialogs(TopDialogCategory category, int32 limit,
+                                       Promise<td_api::object_ptr<td_api::chats>> &&promise) {
   if (category == TopDialogCategory::Size) {
     return promise.set_error(Status::Error(400, "Top chat category must be non-empty"));
   }
@@ -413,23 +413,24 @@ void TopDialogManager::on_load_dialogs(GetTopDialogsQuery &&query, vector<Dialog
     }
   }
 
-  query.promise.set_value(std::move(result));
+  query.promise.set_value(
+      td_->messages_manager_->get_chats_object(-1, std::move(result), "TopDialogManager::on_load_dialogs"));
 }
 
 void TopDialogManager::do_get_top_peers() {
-  std::vector<uint64> ids;
+  std::vector<uint64> peer_ids;
   for (auto &category : by_category_) {
     for (auto &top_dialog : category.dialogs) {
       auto dialog_id = top_dialog.dialog_id;
       switch (dialog_id.get_type()) {
         case DialogType::User:
-          ids.push_back(dialog_id.get_user_id().get());
+          peer_ids.push_back(dialog_id.get_user_id().get());
           break;
         case DialogType::Chat:
-          ids.push_back(dialog_id.get_chat_id().get());
+          peer_ids.push_back(dialog_id.get_chat_id().get());
           break;
         case DialogType::Channel:
-          ids.push_back(dialog_id.get_channel_id().get());
+          peer_ids.push_back(dialog_id.get_channel_id().get());
           break;
         default:
           break;
@@ -440,7 +441,7 @@ void TopDialogManager::do_get_top_peers() {
       [actor_id = actor_id(this)](Result<telegram_api::object_ptr<telegram_api::contacts_TopPeers>> result) {
         send_closure(actor_id, &TopDialogManager::on_get_top_peers, std::move(result));
       });
-  td_->create_handler<GetTopPeersQuery>(std::move(promise))->send(get_vector_hash(ids));
+  td_->create_handler<GetTopPeersQuery>(std::move(promise))->send(get_vector_hash(peer_ids));
 }
 
 void TopDialogManager::on_get_top_peers(Result<telegram_api::object_ptr<telegram_api::contacts_TopPeers>> result) {
@@ -529,7 +530,7 @@ void TopDialogManager::init() {
     return;
   }
 
-  is_active_ = G()->parameters().use_chat_info_db && !td_->auth_manager_->is_bot();
+  is_active_ = G()->use_chat_info_database() && !td_->auth_manager_->is_bot();
   is_enabled_ = !G()->get_option_boolean("disable_top_chats");
   update_rating_e_decay();
 

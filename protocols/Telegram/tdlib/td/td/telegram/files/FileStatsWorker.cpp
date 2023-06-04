@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,7 +15,6 @@
 #include "td/telegram/Global.h"
 #include "td/telegram/logevent/LogEvent.h"
 #include "td/telegram/TdDb.h"
-#include "td/telegram/TdParameters.h"
 
 #include "td/db/SqliteKeyValue.h"
 
@@ -112,7 +111,7 @@ void scan_fs(CancellationToken &token, CallbackT &&callback) {
       if (token) {
         return WalkPath::Action::Abort;
       }
-      if (type != WalkPath::Type::NotDir) {
+      if (type != WalkPath::Type::RegularFile) {
         return WalkPath::Action::Continue;
       }
       auto r_stat = stat(path);
@@ -146,7 +145,7 @@ void scan_fs(CancellationToken &token, CallbackT &&callback) {
 }  // namespace
 
 void FileStatsWorker::get_stats(bool need_all_files, bool split_by_owner_dialog_id, Promise<FileStats> promise) {
-  if (!G()->parameters().use_chat_info_db) {
+  if (!G()->use_chat_info_database()) {
     split_by_owner_dialog_id = false;
   }
   if (!split_by_owner_dialog_id) {

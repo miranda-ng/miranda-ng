@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -62,24 +62,6 @@ bool check_utf8(CSlice str) {
   return false;
 }
 
-void append_utf8_character(string &str, uint32 ch) {
-  if (ch <= 0x7f) {
-    str.push_back(static_cast<char>(ch));
-  } else if (ch <= 0x7ff) {
-    str.push_back(static_cast<char>(0xc0 | (ch >> 6)));  // implementation-defined
-    str.push_back(static_cast<char>(0x80 | (ch & 0x3f)));
-  } else if (ch <= 0xffff) {
-    str.push_back(static_cast<char>(0xe0 | (ch >> 12)));  // implementation-defined
-    str.push_back(static_cast<char>(0x80 | ((ch >> 6) & 0x3f)));
-    str.push_back(static_cast<char>(0x80 | (ch & 0x3f)));
-  } else {
-    str.push_back(static_cast<char>(0xf0 | (ch >> 18)));  // implementation-defined
-    str.push_back(static_cast<char>(0x80 | ((ch >> 12) & 0x3f)));
-    str.push_back(static_cast<char>(0x80 | ((ch >> 6) & 0x3f)));
-    str.push_back(static_cast<char>(0x80 | (ch & 0x3f)));
-  }
-}
-
 const unsigned char *next_utf8_unsafe(const unsigned char *ptr, uint32 *code) {
   uint32 a = ptr[0];
   if ((a & 0x80) == 0) {
@@ -97,6 +79,25 @@ const unsigned char *next_utf8_unsafe(const unsigned char *ptr, uint32 *code) {
   }
   UNREACHABLE();
   *code = 0;
+  return ptr;
+}
+
+unsigned char *append_utf8_character_unsafe(unsigned char *ptr, uint32 code) {
+  if (code <= 0x7f) {
+    *ptr++ = static_cast<unsigned char>(code);
+  } else if (code <= 0x7ff) {
+    *ptr++ = static_cast<unsigned char>(0xc0 | (code >> 6));
+    *ptr++ = static_cast<unsigned char>(0x80 | (code & 0x3f));
+  } else if (code <= 0xffff) {
+    *ptr++ = static_cast<unsigned char>(0xe0 | (code >> 12));
+    *ptr++ = static_cast<unsigned char>(0x80 | ((code >> 6) & 0x3f));
+    *ptr++ = static_cast<unsigned char>(0x80 | (code & 0x3f));
+  } else {
+    *ptr++ = static_cast<unsigned char>(0xf0 | (code >> 18));
+    *ptr++ = static_cast<unsigned char>(0x80 | ((code >> 12) & 0x3f));
+    *ptr++ = static_cast<unsigned char>(0x80 | ((code >> 6) & 0x3f));
+    *ptr++ = static_cast<unsigned char>(0x80 | (code & 0x3f));
+  }
   return ptr;
 }
 

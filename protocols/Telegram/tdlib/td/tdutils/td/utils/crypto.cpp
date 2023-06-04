@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,7 +13,6 @@
 #include "td/utils/Destructor.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
-#include "td/utils/port/RwMutex.h"
 #include "td/utils/port/thread_local.h"
 #include "td/utils/Random.h"
 #include "td/utils/ScopeGuard.h"
@@ -319,10 +318,10 @@ class Evp {
     ctx_ = EVP_CIPHER_CTX_new();
     LOG_IF(FATAL, ctx_ == nullptr);
   }
-  Evp(const Evp &from) = delete;
-  Evp &operator=(const Evp &from) = delete;
-  Evp(Evp &&from) = delete;
-  Evp &operator=(Evp &&from) = delete;
+  Evp(const Evp &) = delete;
+  Evp &operator=(const Evp &) = delete;
+  Evp(Evp &&) = delete;
+  Evp &operator=(Evp &&) = delete;
   ~Evp() {
     CHECK(ctx_ != nullptr);
     EVP_CIPHER_CTX_free(ctx_);
@@ -436,8 +435,8 @@ struct AesState::Impl {
 };
 
 AesState::AesState() = default;
-AesState::AesState(AesState &&from) noexcept = default;
-AesState &AesState::operator=(AesState &&from) noexcept = default;
+AesState::AesState(AesState &&) noexcept = default;
+AesState &AesState::operator=(AesState &&) noexcept = default;
 AesState::~AesState() = default;
 
 void AesState::init(Slice key, bool encrypt) {
@@ -555,8 +554,8 @@ class AesIgeStateImpl {
 };
 
 AesIgeState::AesIgeState() = default;
-AesIgeState::AesIgeState(AesIgeState &&from) noexcept = default;
-AesIgeState &AesIgeState::operator=(AesIgeState &&from) noexcept = default;
+AesIgeState::AesIgeState(AesIgeState &&) noexcept = default;
+AesIgeState &AesIgeState::operator=(AesIgeState &&) noexcept = default;
 AesIgeState::~AesIgeState() = default;
 
 void AesIgeState::init(Slice key, Slice iv, bool encrypt) {
@@ -620,8 +619,8 @@ AesCbcState::AesCbcState(Slice key256, Slice iv128) : raw_{SecureString(key256),
   CHECK(raw_.iv.size() == 16);
 }
 
-AesCbcState::AesCbcState(AesCbcState &&from) noexcept = default;
-AesCbcState &AesCbcState::operator=(AesCbcState &&from) noexcept = default;
+AesCbcState::AesCbcState(AesCbcState &&) noexcept = default;
+AesCbcState &AesCbcState::operator=(AesCbcState &&) noexcept = default;
 AesCbcState::~AesCbcState() = default;
 
 void AesCbcState::encrypt(Slice from, MutableSlice to) {
@@ -674,8 +673,8 @@ struct AesCtrState::Impl {
 };
 
 AesCtrState::AesCtrState() = default;
-AesCtrState::AesCtrState(AesCtrState &&from) noexcept = default;
-AesCtrState &AesCtrState::operator=(AesCtrState &&from) noexcept = default;
+AesCtrState::AesCtrState(AesCtrState &&) noexcept = default;
+AesCtrState &AesCtrState::operator=(AesCtrState &&) noexcept = default;
 AesCtrState::~AesCtrState() = default;
 
 void AesCtrState::init(Slice key, Slice iv) {
@@ -828,10 +827,10 @@ class Sha256State::Impl {
   ~Impl() = default;
 #endif
 
-  Impl(const Impl &from) = delete;
-  Impl &operator=(const Impl &from) = delete;
-  Impl(Impl &&from) = delete;
-  Impl &operator=(Impl &&from) = delete;
+  Impl(const Impl &) = delete;
+  Impl &operator=(const Impl &) = delete;
+  Impl(Impl &&) = delete;
+  Impl &operator=(Impl &&) = delete;
 };
 
 Sha256State::Sha256State() = default;
@@ -1043,7 +1042,7 @@ Result<BufferSlice> rsa_encrypt_pkcs1_oaep(Slice public_key, Slice data) {
   int outlen = RSA_size(rsa);
   BufferSlice res(outlen);
   if (RSA_public_encrypt(narrow_cast<int>(data.size()), const_cast<unsigned char *>(data.ubegin()),
-                         res.as_slice().ubegin(), rsa, RSA_PKCS1_OAEP_PADDING) != outlen) {
+                         res.as_mutable_slice().ubegin(), rsa, RSA_PKCS1_OAEP_PADDING) != outlen) {
 #else
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new(pkey, nullptr);
   if (!ctx) {
@@ -1065,7 +1064,7 @@ Result<BufferSlice> rsa_encrypt_pkcs1_oaep(Slice public_key, Slice data) {
     return Status::Error("Cannot calculate encrypted length");
   }
   BufferSlice res(outlen);
-  if (EVP_PKEY_encrypt(ctx, res.as_slice().ubegin(), &outlen, data.ubegin(), data.size()) <= 0) {
+  if (EVP_PKEY_encrypt(ctx, res.as_mutable_slice().ubegin(), &outlen, data.ubegin(), data.size()) <= 0) {
 #endif
     return Status::Error("Cannot encrypt");
   }
@@ -1095,7 +1094,7 @@ Result<BufferSlice> rsa_decrypt_pkcs1_oaep(Slice private_key, Slice data) {
   size_t outlen = RSA_size(rsa);
   BufferSlice res(outlen);
   auto inlen = RSA_private_decrypt(narrow_cast<int>(data.size()), const_cast<unsigned char *>(data.ubegin()),
-                                   res.as_slice().ubegin(), rsa, RSA_PKCS1_OAEP_PADDING);
+                                   res.as_mutable_slice().ubegin(), rsa, RSA_PKCS1_OAEP_PADDING);
   if (inlen == -1) {
     return Status::Error("Cannot decrypt");
   }
@@ -1121,7 +1120,7 @@ Result<BufferSlice> rsa_decrypt_pkcs1_oaep(Slice private_key, Slice data) {
     return Status::Error("Cannot calculate decrypted length");
   }
   BufferSlice res(outlen);
-  if (EVP_PKEY_decrypt(ctx, res.as_slice().ubegin(), &outlen, data.ubegin(), data.size()) <= 0) {
+  if (EVP_PKEY_decrypt(ctx, res.as_mutable_slice().ubegin(), &outlen, data.ubegin(), data.size()) <= 0) {
     return Status::Error("Cannot decrypt");
   }
 #endif

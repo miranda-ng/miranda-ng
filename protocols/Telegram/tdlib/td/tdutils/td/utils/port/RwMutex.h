@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,17 +13,6 @@
 
 #if TD_PORT_POSIX
 #include <pthread.h>
-#endif
-
-#if TD_PORT_WINDOWS
-union winlock_t {
-	struct {
-		long volatile readerCount;
-		long volatile writerCount;
-	};
-
-	SRWLOCK rwlock;
-};
 #endif
 
 #include <memory>
@@ -94,15 +83,9 @@ class RwMutex {
 #if TD_PORT_POSIX
   pthread_rwlock_t mutex_;
 #elif TD_PORT_WINDOWS
-  winlock_t mutex_;
+  unique_ptr<SRWLOCK> mutex_;
 #endif
 };
-
-void InitializeLock(winlock_t&);
-void AcquireLockShared(winlock_t&);
-void AcquireLockExclusive(winlock_t&);
-void ReleaseLockShared(winlock_t&);
-void ReleaseLockExclusive(winlock_t&);
 
 inline void RwMutex::init() {
   CHECK(empty());
@@ -110,7 +93,8 @@ inline void RwMutex::init() {
 #if TD_PORT_POSIX
   pthread_rwlock_init(&mutex_, nullptr);
 #elif TD_PORT_WINDOWS
-  InitializeLock(mutex_);
+  mutex_ = make_unique<SRWLOCK>();
+  InitializeSRWLock(mutex_.get());
 #endif
 }
 
@@ -118,6 +102,8 @@ inline void RwMutex::clear() {
   if (is_valid_) {
 #if TD_PORT_POSIX
     pthread_rwlock_destroy(&mutex_);
+#elif TD_PORT_WINDOWS
+    mutex_.release();
 #endif
     is_valid_ = false;
   }
@@ -129,7 +115,7 @@ inline void RwMutex::lock_read_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_rdlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  AcquireLockShared(mutex_);
+  AcquireSRWLockShared(mutex_.get());
 #endif
 }
 
@@ -138,7 +124,7 @@ inline void RwMutex::lock_write_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_wrlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  AcquireLockExclusive(mutex_);
+  AcquireSRWLockExclusive(mutex_.get());
 #endif
 }
 
@@ -147,7 +133,7 @@ inline void RwMutex::unlock_read_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_unlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  ReleaseLockShared(mutex_);
+  ReleaseSRWLockShared(mutex_.get());
 #endif
 }
 
@@ -156,7 +142,7 @@ inline void RwMutex::unlock_write_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_unlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  ReleaseLockExclusive(mutex_);
+  ReleaseSRWLockExclusive(mutex_.get());
 #endif
 }
 

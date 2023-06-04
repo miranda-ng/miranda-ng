@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -54,7 +54,7 @@ class RawConnectionDefault final : public RawConnection {
     return transport_->get_type();
   }
 
-  size_t send_crypto(const Storer &storer, int64 session_id, int64 salt, const AuthKey &auth_key,
+  size_t send_crypto(const Storer &storer, uint64 session_id, int64 salt, const AuthKey &auth_key,
                      uint64 quick_ack_token) final {
     PacketInfo info;
     info.version = 2;
@@ -65,7 +65,7 @@ class RawConnectionDefault final : public RawConnection {
 
     auto packet = BufferWriter{Transport::write(storer, auth_key, &info), transport_->max_prepend_size(),
                                transport_->max_append_size()};
-    Transport::write(storer, auth_key, &info, packet.as_slice());
+    Transport::write(storer, auth_key, &info, packet.as_mutable_slice());
 
     bool use_quick_ack = false;
     if (quick_ack_token != 0 && transport_->support_quick_ack()) {
@@ -89,7 +89,7 @@ class RawConnectionDefault final : public RawConnection {
     info.no_crypto_flag = true;
     auto packet = BufferWriter{Transport::write(storer, AuthKey(), &info), transport_->max_prepend_size(),
                                transport_->max_append_size()};
-    Transport::write(storer, AuthKey(), &info, packet.as_slice());
+    Transport::write(storer, AuthKey(), &info, packet.as_mutable_slice());
     LOG(INFO) << "Send handshake packet: " << format::as_hex_dump<4>(packet.as_slice());
     transport_->write(std::move(packet), false);
     return info.message_id;
@@ -142,25 +142,26 @@ class RawConnectionDefault final : public RawConnection {
 
   ConnectionManager::ConnectionToken connection_token_;
 
+  void on_read(size_t size, Callback &callback) {
+    if (size <= 0) {
+      return;
+    }
+
+    if (stats_callback_) {
+      stats_callback_->on_read(size);
+    }
+    callback.on_read(size);
+  }
+
   Status flush_read(const AuthKey &auth_key, Callback &callback) {
     auto r = socket_fd_.flush_read();
     if (r.is_ok()) {
-      if (stats_callback_) {
-        stats_callback_->on_read(r.ok());
-      }
-      callback.on_read(r.ok());
+      on_read(r.ok(), callback);
     }
     while (transport_->can_read()) {
       BufferSlice packet;
       uint32 quick_ack = 0;
       TRY_RESULT(wait_size, transport_->read_next(&packet, &quick_ack));
-      if (!is_aligned_pointer<4>(packet.as_slice().ubegin())) {
-        BufferSlice new_packet(packet.size());
-        new_packet.as_slice().copy_from(packet.as_slice());
-        packet = std::move(new_packet);
-      }
-      LOG_CHECK(is_aligned_pointer<4>(packet.as_slice().ubegin()))
-          << packet.as_slice().ubegin() << ' ' << packet.size() << ' ' << wait_size;
       if (wait_size != 0) {
         constexpr size_t MAX_PACKET_SIZE = (1 << 22) + 1024;
         if (wait_size > MAX_PACKET_SIZE) {
@@ -168,26 +169,33 @@ class RawConnectionDefault final : public RawConnection {
         }
         break;
       }
-
       if (quick_ack != 0) {
         TRY_STATUS(on_quick_ack(quick_ack, callback));
         continue;
       }
 
+      auto old_pointer = packet.as_slice().ubegin();
+      if (!is_aligned_pointer<4>(old_pointer)) {
+        BufferSlice new_packet(packet.size());
+        new_packet.as_mutable_slice().copy_from(packet.as_slice());
+        packet = std::move(new_packet);
+      }
+      LOG_CHECK(is_aligned_pointer<4>(packet.as_slice().ubegin()))
+          << old_pointer << ' ' << packet.as_slice().ubegin() << ' ' << BufferSlice(0).as_slice().ubegin() << ' '
+          << packet.size() << ' ' << wait_size << ' ' << quick_ack;
+
       PacketInfo info;
       info.version = 2;
 
-      TRY_RESULT(read_result, Transport::read(packet.as_slice(), auth_key, &info));
+      TRY_RESULT(read_result, Transport::read(packet.as_mutable_slice(), auth_key, &info));
       switch (read_result.type()) {
-        case Transport::ReadResult::Quickack: {
+        case Transport::ReadResult::Quickack:
           TRY_STATUS(on_quick_ack(read_result.quick_ack(), callback));
           break;
-        }
-        case Transport::ReadResult::Error: {
+        case Transport::ReadResult::Error:
           TRY_STATUS(on_read_mtproto_error(read_result.error()));
           break;
-        }
-        case Transport::ReadResult::Packet: {
+        case Transport::ReadResult::Packet:
           // If a packet was successfully decrypted, then it is ok to assume that the connection is alive
           if (!auth_key.empty()) {
             if (stats_callback_) {
@@ -197,7 +205,6 @@ class RawConnectionDefault final : public RawConnection {
 
           TRY_STATUS(callback.on_raw_packet(info, packet.from_slice(read_result.packet())));
           break;
-        }
         case Transport::ReadResult::Nop:
           break;
         default:
@@ -289,7 +296,7 @@ class RawConnectionHttp final : public RawConnection {
     return mtproto::TransportType{mtproto::TransportType::Http, 0, mtproto::ProxySecret()};
   }
 
-  size_t send_crypto(const Storer &storer, int64 session_id, int64 salt, const AuthKey &auth_key,
+  size_t send_crypto(const Storer &storer, uint64 session_id, int64 salt, const AuthKey &auth_key,
                      uint64 quick_ack_token) final {
     PacketInfo info;
     info.version = 2;
@@ -299,7 +306,7 @@ class RawConnectionHttp final : public RawConnection {
     info.use_random_padding = false;
 
     auto packet = BufferWriter{Transport::write(storer, auth_key, &info), 0, 0};
-    Transport::write(storer, auth_key, &info, packet.as_slice());
+    Transport::write(storer, auth_key, &info, packet.as_mutable_slice());
 
     auto packet_size = packet.size();
     send_packet(packet.as_buffer_slice());
@@ -311,7 +318,7 @@ class RawConnectionHttp final : public RawConnection {
 
     info.no_crypto_flag = true;
     auto packet = BufferWriter{Transport::write(storer, AuthKey(), &info), 0, 0};
-    Transport::write(storer, AuthKey(), &info, packet.as_slice());
+    Transport::write(storer, AuthKey(), &info, packet.as_mutable_slice());
     LOG(INFO) << "Send handshake packet: " << format::as_hex_dump<4>(packet.as_slice());
     send_packet(packet.as_buffer_slice());
     return info.message_id;
@@ -365,6 +372,17 @@ class RawConnectionHttp final : public RawConnection {
   std::shared_ptr<MpscPollableQueue<Result<BufferSlice>>> answers_;
   std::vector<BufferSlice> to_send_;
 
+  void on_read(size_t size, Callback &callback) {
+    if (size <= 0) {
+      return;
+    }
+
+    if (stats_callback_) {
+      stats_callback_->on_read(size);
+    }
+    callback.on_read(size);
+  }
+
   void send_packet(BufferSlice packet) {
     CHECK(mode_ == Send);
     mode_ = Receive;
@@ -379,17 +397,14 @@ class RawConnectionHttp final : public RawConnection {
       }
       for (int i = 0; i < packets_n; i++) {
         TRY_RESULT(packet, answers_->reader_get_unsafe());
-        if (stats_callback_) {
-          stats_callback_->on_read(packet.size());
-        }
-        callback.on_read(packet.size());
+        on_read(packet.size(), callback);
         CHECK(mode_ == Receive);
         mode_ = Send;
 
         PacketInfo info;
         info.version = 2;
 
-        TRY_RESULT(read_result, Transport::read(packet.as_slice(), auth_key, &info));
+        TRY_RESULT(read_result, Transport::read(packet.as_mutable_slice(), auth_key, &info));
         switch (read_result.type()) {
           case Transport::ReadResult::Quickack: {
             break;

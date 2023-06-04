@@ -1,7 +1,7 @@
 **/*build*/
 **/.*.swp
 **/.DS_Store
-db_backup
-*.pyc
+**/auto/
 docs/
+tdlib/
 vcpkg/

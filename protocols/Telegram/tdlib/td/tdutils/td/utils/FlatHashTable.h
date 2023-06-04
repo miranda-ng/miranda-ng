@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -51,7 +51,7 @@ class FlatHashTable {
   struct Iterator {
     using iterator_category = std::forward_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value_type = FlatHashTable::value_type;
+    using value_type = typename NodeT::public_type;
     using pointer = value_type *;
     using reference = value_type &;
 
@@ -108,7 +108,7 @@ class FlatHashTable {
   struct ConstIterator {
     using iterator_category = std::forward_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value_type = FlatHashTable::value_type;
+    using value_type = typename NodeT::public_type;
     using pointer = const value_type *;
     using reference = const value_type &;
 
@@ -198,8 +198,8 @@ class FlatHashTable {
   };
 
   FlatHashTable() = default;
-  FlatHashTable(const FlatHashTable &other) = delete;
-  FlatHashTable &operator=(const FlatHashTable &other) = delete;
+  FlatHashTable(const FlatHashTable &) = delete;
+  FlatHashTable &operator=(const FlatHashTable &) = delete;
 
   FlatHashTable(std::initializer_list<NodeT> nodes) {
     if (nodes.size() == 0) {
@@ -224,6 +224,13 @@ class FlatHashTable {
       }
     }
     used_node_count_ = used_nodes;
+  }
+
+  template <class T>
+  FlatHashTable(std::initializer_list<T> keys) {
+    for (auto &key : keys) {
+      emplace(KeyT(key));
+    }
   }
 
   FlatHashTable(FlatHashTable &&other) noexcept
