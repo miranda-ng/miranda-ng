@@ -337,19 +337,6 @@ complete:
 		omi->unlock();
 	}
 
-	struct incoming_message
-	{
-		incoming_message(TiXmlElement *x, char *j, time_t t)
-		{
-			node = x;
-			jid = j;
-			msgTime = t;
-		}
-		TiXmlElement *node;
-		char *jid;
-		time_t msgTime;
-	};
-
 	struct outgoing_message
 	{
 		outgoing_message(MCONTACT h, char* p)
@@ -973,14 +960,10 @@ complete:
 		MCONTACT hContact = proto->HContactFromJID(address->name);
 		char val = proto->getByte(hContact, TrustSettingName, FP_ABSENT);
 		if (val == FP_ABSENT) {
-			uint32_t count = 0;
-			db_enum_settings(hContact, db_enum_settings_fps_cb, proto->m_szModuleName, &count);
-			db_set_blob(hContact, proto->m_szModuleName, TrustSettingName, key_data, (int)key_len);
-
-			proto->MsgPopup(hContact, FormatFingerprint(fp_hex),
-				(count == 0) ? TranslateT("Trust on first use") : TranslateT("Unknown device added"));
-			proto->setByte(hContact, TrustSettingName, count == 0 ? FP_TOFU : FP_BAD);
+			//proto->setByte(hContact, TrustSettingName, FP_BAD);
+			proto->MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Unknown device added"));
 		}
+
 		//always return true to decrypt incoming messages from untrusted devices
 		//we must check trust manually when send messages
 		return true;
@@ -1220,12 +1203,6 @@ void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char*
 	m_omemo.outgoing_messages.push_back(omemo::outgoing_message(hContact, msg));
 }
 
-void CJabberProto::OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime)
-{
-	TiXmlElement *node_ = node->DeepClone(&m_omemo.doc)->ToElement();
-	m_omemo.incoming_messages.push_back(omemo::incoming_message(node_, mir_strdup(jid), msgTime));
-}
-
 void CJabberProto::OmemoHandleMessageQueue()
 {
 	for (auto &i : m_omemo.outgoing_messages) {
@@ -1233,15 +1210,6 @@ void CJabberProto::OmemoHandleMessageQueue()
 		mir_free(i.pszSrc);
 	}
 	m_omemo.outgoing_messages.clear();
-	std::list<omemo::incoming_message> tmp = m_omemo.incoming_messages;
-	m_omemo.incoming_messages.clear();
-	for (auto &i : tmp) {
-		if (!OmemoHandleMessage(i.node, i.jid, i.msgTime, false))
-			OmemoPutMessageToIncommingQueue(i.node, i.jid, i.msgTime);
-
-		m_omemo.doc.DeleteNode(i.node);
-		mir_free(i.jid);
-	}
 }
 
 uint32_t JabberGetLastContactMessageTime(MCONTACT hContact);
@@ -1427,70 +1395,53 @@ bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 	if (!node)
 		return false;
 
-	node = XmlFirstChild(node, "item"); //get <item> node
-	if (!node) {
-		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <item> node");
-		return false;
-	}
-	node = XmlGetChildByTag(node, "list", "xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
-	if (!node) {
-		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <list> node");
-		return false;
-	}
+	node = XmlGetChildByTag(XmlFirstChild(node, "item"), "list", "xmlns", JABBER_FEAT_OMEMO);
 
-	CMStringA szSetting;
-	if (from == nullptr) {
-		//check if our device exist
-		bool own_device_listed = false;
-		uint32_t own_id = m_omemo.GetOwnDeviceId();
-		int i = 0;
-		for (auto *list_item : TiXmlFilter(node, "device")) {
-			uint32_t current_id = list_item->IntAttribute("id");
-			if (current_id == own_id) {
-				own_device_listed = true;
-			} else {
-				szSetting.Format("OmemoDeviceId%d", i++);
-				setDword(szSetting, current_id);
-			}
-		}
-
-		uint32_t val = 0;
-		szSetting.Format("OmemoDeviceId%d", i);
-		val = getDword(szSetting, 0);
-		while (val) {
-			delSetting(szSetting);
-			i++;
-			szSetting.Format("OmemoDeviceId%d", i);
-			val = getDword(szSetting, 0);
-		}
-		if (!own_device_listed) {
-			OmemoAnnounceDevice(true, true);
-			OmemoSendBundle();
-		}
-	}
-	else {
-		// store device id's
-		MCONTACT hContact = HContactFromJID(from);
+	MCONTACT hContact = 0;
+	if (from) {
+		hContact = HContactFromJID(from);
 		if (!hContact)
 			return true; //unknown jid
-		
-		int i = 0;
-		for (auto *list_item : TiXmlFilter(node, "device")) {
-			uint32_t current_id = list_item->IntAttribute("id");
-			szSetting.Format("OmemoDeviceId%d", i++);
-			setDword(hContact, szSetting, current_id);
-		}
+	}
 
-		szSetting.Format("OmemoDeviceId%d", i);
-		uint32_t val = getDword(hContact, szSetting, 0);
-		while (val) {
-			delSetting(hContact, szSetting);
-			i++;
-			szSetting.Format("OmemoDeviceId%d", i);
-			val = getDword(hContact, szSetting, 0);
+	//remove session and pubkey if a device doesn't exist anymore
+	for (int i = 0;; i++) {
+		int device_id = m_omemo.dbGetDeviceId(hContact, i);
+		if (device_id == 0)
+			break;
+
+		if (!XmlGetChildByTag(node, "device", "id", CMStringA(FORMAT, "%d", device_id))) {
+			CMStringA suffix(m_omemo.dbGetSuffix(hContact, device_id));
+			delSetting(hContact, omemo::IdentityPrefix + suffix);
+			delSetting(hContact, "OmemoSignalSession_" + suffix);
 		}
 	}
-	
+
+	//check if our device exist
+	bool own_device_listed = false;
+	int own_id = m_omemo.GetOwnDeviceId();
+	int i = 0;
+	for (auto *list_item : TiXmlFilter(node, "device")) {
+		int current_id = list_item->IntAttribute("id");
+		if (hContact == 0 && current_id == own_id)
+			own_device_listed = true;
+		else
+			setDword(hContact, CMStringA(FORMAT, "OmemoDeviceId%d", i++), current_id);
+	}
+
+	for (;; i++) {
+		CMStringA szSetting(FORMAT, "OmemoDeviceId%d", i);
+		int device_id = getDword(hContact, szSetting);
+		if (device_id == 0)
+			break;
+		delSetting(hContact, szSetting);
+	}
+
+	if (hContact == 0 && !own_device_listed) {
+		OmemoAnnounceDevice(true, true);
+		OmemoSendBundle();
+	}
+
 	return true;
 }
 
@@ -1575,7 +1526,7 @@ void CJabberProto::OmemoSendBundle()
 	m_ThreadInfo->send(iq);
 }
 
-bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
+bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
 {
 	{	ptrA jid(ContactToJID(hContact));
 		if (strchr(jid, '/')) {
@@ -1587,10 +1538,15 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 		}
 	}
 
+	bool ok = true;
 	bool enCarbons = hContact && m_bEnableCarbons && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_CARBONS);
 	for (int c = 0; c < (enCarbons ? 2 : 1); c++) {
 		MCONTACT _hContact = !c ? hContact : 0;
 		ptrA jid(ContactToJID(_hContact));
+
+		uint32_t count = 0;
+		db_enum_settings(hContact, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
+
 		for (int i = 0;; i++) {
 			int device_id = m_omemo.dbGetDeviceId(_hContact, i);
 			if (device_id == 0)
@@ -1598,33 +1554,38 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 
 			signal_protocol_address address = {jid, mir_strlen(jid), device_id};
 			if (!signal_protocol_session_contains_session(m_omemo.store_context, &address)) {
-				unsigned int *_id = new unsigned int;
-				*_id = device_id;
-				XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, _id));
+				bool *autotrust = new bool;
+				*autotrust = !count;
+				if (requestBundles) {
+					XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, autotrust));
 
-				char szBareJid[JABBER_MAX_JID_LEN];
-				iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
-				TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
-				CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
-				XmlAddAttr(items, "node", szBundle);
-				m_ThreadInfo->send(iq);
+					char szBareJid[JABBER_MAX_JID_LEN];
+					iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
+					TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
+					CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
+					XmlAddAttr(items, "node", szBundle);
+					m_ThreadInfo->send(iq);
+				}
 
-				m_omemo.session_checked[_hContact] = false;
-				return false;
+				ok = false;
 			}
 		}
 	}
 
-	if (!m_omemo.session_checked[hContact]) {
-		m_omemo.session_checked[hContact] = true;
+	if (ok && !requestBundles)
 		OmemoHandleMessageQueue();
-	}
 
-	return true;
+	return ok;
 }
 
-void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *IqInfo)
 {
+	bool autotrust = 0;
+	if (bool *ud = (bool *)IqInfo->GetUserData()) {
+		autotrust = *ud;
+		delete ud;
+	}
+
 	if (iqNode == nullptr || !m_bUseOMEMO)
 		return;
 
@@ -1632,7 +1593,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 	MCONTACT hContact;
 	if (jid) {
 		hContact = HContactFromJID(jid);
-		if (!hContact)
+		if (!hContact && !IsMyOwnJID(jid))
 			return;
 	}
 	else {
@@ -1716,12 +1677,21 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
+	if (autotrust) {
+		size_t key_len;
+		uint8_t *key_buf = (uint8_t *)mir_base64_decode(identityKey->GetText(), &key_len);
+		CMStringA fp_hex(omemo::hex_string(key_buf, key_len));
+		mir_free(key_buf);
+		setByte(hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_TOFU);
+		MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Trust on first use"));
+	}
+
 	if (!m_omemo.build_session(jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic->GetText(), signedPreKeySignature->GetText(), identityKey->GetText())) {
 		debugLogA("Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
 	}
 
-	OmemoCheckSession(hContact);
+	OmemoCheckSession(hContact, false);
 }
 
 int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)

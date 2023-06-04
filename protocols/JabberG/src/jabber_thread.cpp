@@ -1281,11 +1281,9 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 	
-	if (OmemoIsEnabled(hContact)) {
+	if (m_bUseOMEMO) {
 		if (auto *encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
-			if (!OmemoHandleMessage(encNode, from, msgTime, bWasSent))
-				OmemoPutMessageToIncommingQueue(encNode, from, msgTime);
-			debugLogA("OMEMO processing finished, returning");
+			OmemoHandleMessage(encNode, from, msgTime, bWasSent);
 			return; //we do not want any additional processing
 		}
 	}

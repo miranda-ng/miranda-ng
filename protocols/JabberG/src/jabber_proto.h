@@ -731,7 +731,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OmemoAnnounceDevice(bool include_cache, bool include_own);
 	void       OmemoSendBundle();
 	void       OmemoDeleteBundle(int device_id);
-	bool       OmemoCheckSession(MCONTACT hContact);
+	bool       OmemoCheckSession(MCONTACT hContact, bool requestBundles);
 	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
 	bool       OmemoIsEnabled(MCONTACT hContact);
 	void       OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);

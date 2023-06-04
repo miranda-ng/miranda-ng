@@ -921,7 +921,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 	}
 
 	if (OmemoIsEnabled(hContact)) {
-		if (!OmemoCheckSession(hContact)) {
+		if (!OmemoCheckSession(hContact, true)) {
 			OmemoPutMessageToOutgoingQueue(hContact, pszSrc);
 			int id = SerialNext();
 			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);

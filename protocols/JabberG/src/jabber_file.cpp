@@ -83,12 +83,12 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 							outl += round_len;
 							EVP_CIPHER_CTX_free(ctx);
 							if (dec_success && outl == payload_len)
-								if (fwrite(out, 1, payload_len, f) == payload_len)
+								if (fwrite(out, 1, payload_len, f) == size_t(payload_len))
 									written = payload_len;
 							mir_free(out);
 						}
 					}
-					else if (fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f) == nlhrReply->dataLength)
+					else if (fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f) == size_t(nlhrReply->dataLength))
 						written = nlhrReply->dataLength;
 					fclose(f);
 				}
