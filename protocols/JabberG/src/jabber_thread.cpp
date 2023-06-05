@@ -2094,18 +2094,17 @@ int ThreadData::recv(char *buf, size_t len)
 	if (this == nullptr)
 		return 0;
 
-	if (bShutdown)
-		return SOCKET_ERROR;
-
 	// this select() is still required because shitty openssl is not thread safe
-	if (zRecvReady) {
+	int nSelRes;
+	do {
 		NETLIBSELECT nls = {};
-		nls.dwTimeout = INFINITE;
+		nls.dwTimeout = 500;
 		nls.hReadConns[0] = s;
-		int nSelRes = Netlib_Select(&nls);
+		nSelRes = Netlib_Select(&nls);
 		if (nSelRes == SOCKET_ERROR) // error
 			return SOCKET_ERROR;
 	}
+		while (nSelRes == 0 && !bShutdown);
 
 	if (useZlib)
 		return zlibRecv(buf, (long)len);
