@@ -43,231 +43,237 @@ protobuf_c_text_to_string_internal(CMStringA &str,
 
 	f = d->fields;
 	for (unsigned i = 0; i < d->n_fields; i++) {
+		auto &F = f[i];
+
 		/* Decide if something needs to be done for this field. */
-		switch (f[i].label) {
+		switch (F.label) {
 		case PROTOBUF_C_LABEL_OPTIONAL:
-			if (f[i].type == PROTOBUF_C_TYPE_STRING) {
-				if (!STRUCT_MEMBER(char *, m, f[i].offset)
-					|| (STRUCT_MEMBER(char *, m, f[i].offset)
-						== (char *)f[i].default_value)) {
+			if (F.flags & PROTOBUF_C_FIELD_FLAG_ONEOF)
+				if (STRUCT_MEMBER(unsigned, m, F.quantifier_offset) != F.id)
+					continue;
+
+			if (F.type == PROTOBUF_C_TYPE_STRING) {
+				if (!STRUCT_MEMBER(char *, m, F.offset)
+					|| (STRUCT_MEMBER(char *, m, F.offset)
+						== (char *)F.default_value)) {
 					continue;
 				}
 			}
-			else if (f[i].type == PROTOBUF_C_TYPE_MESSAGE) {
-				if (!STRUCT_MEMBER(char *, m, f[i].offset)) {
+			else if (F.type == PROTOBUF_C_TYPE_MESSAGE) {
+				if (!STRUCT_MEMBER(char *, m, F.offset)) {
 					continue;
 				}
 			}
 			else {
-				if (!STRUCT_MEMBER(protobuf_c_boolean, m, f[i].quantifier_offset)) {
+				if (!STRUCT_MEMBER(protobuf_c_boolean, m, F.quantifier_offset)) {
 					continue;
 				}
 			}
 			break;
 		case PROTOBUF_C_LABEL_REPEATED:
-			if (!STRUCT_MEMBER(size_t, m, f[i].quantifier_offset)) {
+			if (!STRUCT_MEMBER(size_t, m, F.quantifier_offset)) {
 				continue;
 			}
 			break;
 		}
 
-		quantifier_offset = STRUCT_MEMBER(size_t, m, f[i].quantifier_offset);
+		quantifier_offset = STRUCT_MEMBER(size_t, m, F.quantifier_offset);
 		/* Field exists and has data, dump it. */
-		switch (f[i].type) {
+		switch (F.type) {
 		case PROTOBUF_C_TYPE_INT32:
 		case PROTOBUF_C_TYPE_UINT32:
 		case PROTOBUF_C_TYPE_FIXED32:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %u\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(uint32_t *, m, f[i].offset)[j]);
+						level, "", F.name,
+						STRUCT_MEMBER(uint32_t *, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %u\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(uint32_t, m, f[i].offset));
+					level, "", F.name,
+					STRUCT_MEMBER(uint32_t, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_SINT32:
 		case PROTOBUF_C_TYPE_SFIXED32:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %d\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(int32_t *, m, f[i].offset)[j]);
+						level, "", F.name,
+						STRUCT_MEMBER(int32_t *, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %d\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(int32_t, m, f[i].offset));
+					level, "", F.name,
+					STRUCT_MEMBER(int32_t, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_INT64:
 		case PROTOBUF_C_TYPE_UINT64:
 		case PROTOBUF_C_TYPE_FIXED64:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %lu\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(uint64_t *, m, f[i].offset)[j]);
+						level, "", F.name,
+						STRUCT_MEMBER(uint64_t *, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %lu\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(uint64_t, m, f[i].offset));
+					level, "", F.name,
+					STRUCT_MEMBER(uint64_t, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_SINT64:
 		case PROTOBUF_C_TYPE_SFIXED64:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %ld\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(int64_t *, m, f[i].offset)[j]);
+						level, "", F.name,
+						STRUCT_MEMBER(int64_t *, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %ld\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(int64_t, m, f[i].offset));
+					level, "", F.name,
+					STRUCT_MEMBER(int64_t, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_FLOAT:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
-					float_var = STRUCT_MEMBER(float *, m, f[i].offset)[j];
+					float_var = STRUCT_MEMBER(float *, m, F.offset)[j];
 					str.AppendFormat(
 						"%*s%s: %g\n",
-						level, "", f[i].name,
+						level, "", F.name,
 						float_var);
 				}
 			}
 			else {
-				float_var = STRUCT_MEMBER(float, m, f[i].offset);
+				float_var = STRUCT_MEMBER(float, m, F.offset);
 				str.AppendFormat(
 					"%*s%s: %g\n",
-					level, "", f[i].name,
+					level, "", F.name,
 					float_var);
 			}
 			break;
 		case PROTOBUF_C_TYPE_DOUBLE:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %g\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(double *, m, f[i].offset)[j]);
+						level, "", F.name,
+						STRUCT_MEMBER(double *, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %g\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(double, m, f[i].offset));
+					level, "", F.name,
+					STRUCT_MEMBER(double, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_BOOL:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
 						"%*s%s: %s\n",
-						level, "", f[i].name,
-						STRUCT_MEMBER(protobuf_c_boolean *, m, f[i].offset)[j] ?
+						level, "", F.name,
+						STRUCT_MEMBER(protobuf_c_boolean *, m, F.offset)[j] ?
 						"true" : "false");
 				}
 			}
 			else {
 				str.AppendFormat(
 					"%*s%s: %s\n",
-					level, "", f[i].name,
-					STRUCT_MEMBER(protobuf_c_boolean, m, f[i].offset) ?
+					level, "", F.name,
+					STRUCT_MEMBER(protobuf_c_boolean, m, F.offset) ?
 					"true" : "false");
 			}
 			break;
 		case PROTOBUF_C_TYPE_ENUM:
-			enumd = (ProtobufCEnumDescriptor *)f[i].descriptor;
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			enumd = (ProtobufCEnumDescriptor *)F.descriptor;
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					enumv = protobuf_c_enum_descriptor_get_value(
-						enumd, STRUCT_MEMBER(int *, m, f[i].offset)[j]);
+						enumd, STRUCT_MEMBER(int *, m, F.offset)[j]);
 					str.AppendFormat(
 						"%*s%s: %s\n",
-						level, "", f[i].name,
+						level, "", F.name,
 						enumv ? enumv->name : "unknown");
 				}
 			}
 			else {
 				enumv = protobuf_c_enum_descriptor_get_value(
-					enumd, STRUCT_MEMBER(int, m, f[i].offset));
+					enumd, STRUCT_MEMBER(int, m, F.offset));
 				str.AppendFormat(
 					"%*s%s: %s\n",
-					level, "", f[i].name,
+					level, "", F.name,
 					enumv ? enumv->name : "unknown");
 			}
 			break;
 		case PROTOBUF_C_TYPE_STRING:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
-						"%*s%s: \"%s\"\n", level, "", f[i].name, STRUCT_MEMBER(unsigned char **, m, f[i].offset)[j]);
+						"%*s%s: \"%s\"\n", level, "", F.name, STRUCT_MEMBER(unsigned char **, m, F.offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
-					"%*s%s: \"%s\"\n", level, "", f[i].name, STRUCT_MEMBER(unsigned char *, m, f[i].offset));
+					"%*s%s: \"%s\"\n", level, "", F.name, STRUCT_MEMBER(unsigned char *, m, F.offset));
 			}
 			break;
 		case PROTOBUF_C_TYPE_BYTES:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
-					ProtobufCBinaryData &pData = STRUCT_MEMBER(ProtobufCBinaryData *, m, f[i].offset)[j];
+					ProtobufCBinaryData &pData = STRUCT_MEMBER(ProtobufCBinaryData *, m, F.offset)[j];
 					ptrA tmp((char *)mir_alloc(pData.len * 2 + 1));
 					bin2hex(pData.data, pData.len, tmp);
 					str.AppendFormat(
-						"%*s%s: \"%s\"\n", level, "", f[i].name, tmp.get());
+						"%*s%s: \"%s\"\n", level, "", F.name, tmp.get());
 				}
 			}
 			else {
-				ProtobufCBinaryData &pData = STRUCT_MEMBER(ProtobufCBinaryData, m, f[i].offset);
+				ProtobufCBinaryData &pData = STRUCT_MEMBER(ProtobufCBinaryData, m, F.offset);
 				ptrA tmp((char *)mir_alloc(pData.len * 2 + 1));
 				bin2hex(pData.data, pData.len, tmp);
 				str.AppendFormat(
-					"%*s%s: \"%s\"\n", level, "", f[i].name, tmp.get());
+					"%*s%s: \"%s\"\n", level, "", F.name, tmp.get());
 			}
 			break;
 
 		case PROTOBUF_C_TYPE_MESSAGE:
-			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
+			if (F.label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0;
-					j < STRUCT_MEMBER(size_t, m, f[i].quantifier_offset);
+					j < STRUCT_MEMBER(size_t, m, F.quantifier_offset);
 					j++) {
 					str.AppendFormat(
-						"%*s%s {\n", level, "", f[i].name);
+						"%*s%s {\n", level, "", F.name);
 					protobuf_c_text_to_string_internal(str, level + 2,
-						STRUCT_MEMBER(ProtobufCMessage **, m, f[i].offset)[j],
-						(ProtobufCMessageDescriptor *)f[i].descriptor);
+						STRUCT_MEMBER(ProtobufCMessage **, m, F.offset)[j],
+						(ProtobufCMessageDescriptor *)F.descriptor);
 					str.AppendFormat(
 						"%*s}\n", level, "");
 				}
 			}
 			else {
 				str.AppendFormat(
-					"%*s%s {\n", level, "", f[i].name);
+					"%*s%s {\n", level, "", F.name);
 				protobuf_c_text_to_string_internal(str, level + 2,
-					STRUCT_MEMBER(ProtobufCMessage *, m, f[i].offset),
-					(ProtobufCMessageDescriptor *)f[i].descriptor);
+					STRUCT_MEMBER(ProtobufCMessage *, m, F.offset),
+					(ProtobufCMessageDescriptor *)F.descriptor);
 				str.AppendFormat(
 					"%*s}\n", level, "");
 			}

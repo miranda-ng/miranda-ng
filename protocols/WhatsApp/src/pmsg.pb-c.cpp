@@ -288,6 +288,45 @@ void   wa__auto_download_settings__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__avatar_user_settings__get_packed_size
+                     (const Wa__AvatarUserSettings *message)
+{
+  assert(message->descriptor == &wa__avatar_user_settings__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__avatar_user_settings__pack
+                     (const Wa__AvatarUserSettings *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__avatar_user_settings__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__avatar_user_settings__pack_to_buffer
+                     (const Wa__AvatarUserSettings *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__avatar_user_settings__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__AvatarUserSettings *
+       wa__avatar_user_settings__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__AvatarUserSettings *)
+     protobuf_c_message_unpack (&wa__avatar_user_settings__descriptor,
+                                allocator, len, data);
+}
+void   wa__avatar_user_settings__free_unpacked
+                     (Wa__AvatarUserSettings *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__avatar_user_settings__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 size_t wa__biz_account_link_info__get_packed_size
                      (const Wa__BizAccountLinkInfo *message)
 {
@@ -328,6 +367,12 @@ void   wa__biz_account_link_info__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__biz_account_payload__get_packed_size
+                     (const Wa__BizAccountPayload *message)
+{
+  assert(message->descriptor == &wa__biz_account_payload__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
 size_t wa__biz_account_payload__pack
                      (const Wa__BizAccountPayload *message,
                       uint8_t       *out)
@@ -439,86 +484,6 @@ void   wa__cert_chain__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__cert_chain__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
-size_t wa__chain__get_packed_size
-                     (const Wa__Chain *message)
-{
-  assert(message->descriptor == &wa__chain__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__chain__pack
-                     (const Wa__Chain *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__chain__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__chain__pack_to_buffer
-                     (const Wa__Chain *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__chain__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__Chain *
-       wa__chain__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__Chain *)
-     protobuf_c_message_unpack (&wa__chain__descriptor,
-                                allocator, len, data);
-}
-void   wa__chain__free_unpacked
-                     (Wa__Chain *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__chain__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
-size_t wa__chain_key__get_packed_size
-                     (const Wa__ChainKey *message)
-{
-  assert(message->descriptor == &wa__chain_key__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__chain_key__pack
-                     (const Wa__ChainKey *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__chain_key__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__chain_key__pack_to_buffer
-                     (const Wa__ChainKey *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__chain_key__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__ChainKey *
-       wa__chain_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__ChainKey *)
-     protobuf_c_message_unpack (&wa__chain_key__descriptor,
-                                allocator, len, data);
-}
-void   wa__chain_key__free_unpacked
-                     (Wa__ChainKey *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__chain_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -642,6 +607,45 @@ void   wa__conversation__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__device_consistency_code_message__get_packed_size
+                     (const Wa__DeviceConsistencyCodeMessage *message)
+{
+  assert(message->descriptor == &wa__device_consistency_code_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__device_consistency_code_message__pack
+                     (const Wa__DeviceConsistencyCodeMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__device_consistency_code_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__device_consistency_code_message__pack_to_buffer
+                     (const Wa__DeviceConsistencyCodeMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__device_consistency_code_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__DeviceConsistencyCodeMessage *
+       wa__device_consistency_code_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__DeviceConsistencyCodeMessage *)
+     protobuf_c_message_unpack (&wa__device_consistency_code_message__descriptor,
+                                allocator, len, data);
+}
+void   wa__device_consistency_code_message__free_unpacked
+                     (Wa__DeviceConsistencyCodeMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__device_consistency_code_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 size_t wa__device_list_metadata__get_packed_size
                      (const Wa__DeviceListMetadata *message)
 {
@@ -919,6 +923,46 @@ void   wa__global_settings__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__global_settings__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t wa__group_mention__get_packed_size
+                     (const Wa__GroupMention *message)
+{
+  assert(message->descriptor == &wa__group_mention__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__group_mention__pack
+                     (const Wa__GroupMention *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__group_mention__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__group_mention__pack_to_buffer
+                     (const Wa__GroupMention *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__group_mention__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__GroupMention *
+       wa__group_mention__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__GroupMention *)
+     protobuf_c_message_unpack (&wa__group_mention__descriptor,
+                                allocator, len, data);
+}
+void   wa__group_mention__free_unpacked
+                     (Wa__GroupMention *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__group_mention__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -1242,6 +1286,46 @@ void   wa__keep_in_chat__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__key_exchange_message__get_packed_size
+                     (const Wa__KeyExchangeMessage *message)
+{
+  assert(message->descriptor == &wa__key_exchange_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__key_exchange_message__pack
+                     (const Wa__KeyExchangeMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__key_exchange_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__key_exchange_message__pack_to_buffer
+                     (const Wa__KeyExchangeMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__key_exchange_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__KeyExchangeMessage *
+       wa__key_exchange_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__KeyExchangeMessage *)
+     protobuf_c_message_unpack (&wa__key_exchange_message__descriptor,
+                                allocator, len, data);
+}
+void   wa__key_exchange_message__free_unpacked
+                     (Wa__KeyExchangeMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__key_exchange_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
 size_t wa__key_id__get_packed_size
                      (const Wa__KeyId *message)
 {
@@ -1441,6 +1525,7 @@ void   wa__media_retry_notification__free_unpacked
   assert(message->descriptor == &wa__media_retry_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 size_t wa__message__get_packed_size
                      (const Wa__Message *message)
 {
@@ -1478,6 +1563,46 @@ void   wa__message__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t wa__message_add_on_context_info__get_packed_size
+                     (const Wa__MessageAddOnContextInfo *message)
+{
+  assert(message->descriptor == &wa__message_add_on_context_info__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__message_add_on_context_info__pack
+                     (const Wa__MessageAddOnContextInfo *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__message_add_on_context_info__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__message_add_on_context_info__pack_to_buffer
+                     (const Wa__MessageAddOnContextInfo *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__message_add_on_context_info__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__MessageAddOnContextInfo *
+       wa__message_add_on_context_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__MessageAddOnContextInfo *)
+     protobuf_c_message_unpack (&wa__message_add_on_context_info__descriptor,
+                                allocator, len, data);
+}
+void   wa__message_add_on_context_info__free_unpacked
+                     (Wa__MessageAddOnContextInfo *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__message_add_on_context_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -1761,6 +1886,46 @@ void   wa__notification_message_info__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__notification_settings__get_packed_size
+                     (const Wa__NotificationSettings *message)
+{
+  assert(message->descriptor == &wa__notification_settings__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__notification_settings__pack
+                     (const Wa__NotificationSettings *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__notification_settings__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__notification_settings__pack_to_buffer
+                     (const Wa__NotificationSettings *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__notification_settings__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__NotificationSettings *
+       wa__notification_settings__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__NotificationSettings *)
+     protobuf_c_message_unpack (&wa__notification_settings__descriptor,
+                                allocator, len, data);
+}
+void   wa__notification_settings__free_unpacked
+                     (Wa__NotificationSettings *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__notification_settings__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
 size_t wa__past_participant__get_packed_size
                      (const Wa__PastParticipant *message)
 {
@@ -1792,13 +1957,13 @@ Wa__PastParticipant *
                                 allocator, len, data);
 }
 void   wa__past_participant__free_unpacked
-(Wa__PastParticipant *message,
-   ProtobufCAllocator *allocator)
+                     (Wa__PastParticipant *message,
+                      ProtobufCAllocator *allocator)
 {
-   if (!message)
-      return;
-   assert(message->descriptor == &wa__past_participant__descriptor);
-   protobuf_c_message_free_unpacked((ProtobufCMessage *)message, allocator);
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__past_participant__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
 size_t wa__past_participants__get_packed_size
@@ -1921,86 +2086,6 @@ void   wa__payment_info__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
-size_t wa__pending_key_exchange__get_packed_size
-                     (const Wa__PendingKeyExchange *message)
-{
-  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__pending_key_exchange__pack
-                     (const Wa__PendingKeyExchange *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__pending_key_exchange__pack_to_buffer
-                     (const Wa__PendingKeyExchange *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__PendingKeyExchange *
-       wa__pending_key_exchange__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__PendingKeyExchange *)
-     protobuf_c_message_unpack (&wa__pending_key_exchange__descriptor,
-                                allocator, len, data);
-}
-void   wa__pending_key_exchange__free_unpacked
-                     (Wa__PendingKeyExchange *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
-size_t wa__pending_pre_key__get_packed_size
-                     (const Wa__PendingPreKey *message)
-{
-  assert(message->descriptor == &wa__pending_pre_key__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__pending_pre_key__pack
-                     (const Wa__PendingPreKey *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__pending_pre_key__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__pending_pre_key__pack_to_buffer
-                     (const Wa__PendingPreKey *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__pending_pre_key__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__PendingPreKey *
-       wa__pending_pre_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__PendingPreKey *)
-     protobuf_c_message_unpack (&wa__pending_pre_key__descriptor,
-                                allocator, len, data);
-}
-void   wa__pending_pre_key__free_unpacked
-                     (Wa__PendingPreKey *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__pending_pre_key__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
 size_t wa__photo_change__get_packed_size
                      (const Wa__PhotoChange *message)
 {
@@ -2038,6 +2123,46 @@ void   wa__photo_change__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__photo_change__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t wa__pin_in_chat__get_packed_size
+                     (const Wa__PinInChat *message)
+{
+  assert(message->descriptor == &wa__pin_in_chat__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__pin_in_chat__pack
+                     (const Wa__PinInChat *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__pin_in_chat__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__pin_in_chat__pack_to_buffer
+                     (const Wa__PinInChat *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__pin_in_chat__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__PinInChat *
+       wa__pin_in_chat__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__PinInChat *)
+     protobuf_c_message_unpack (&wa__pin_in_chat__descriptor,
+                                allocator, len, data);
+}
+void   wa__pin_in_chat__free_unpacked
+                     (Wa__PinInChat *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__pin_in_chat__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -2241,6 +2366,46 @@ void   wa__pre_key_record_structure__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t wa__pre_key_signal_message__get_packed_size
+                     (const Wa__PreKeySignalMessage *message)
+{
+  assert(message->descriptor == &wa__pre_key_signal_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__pre_key_signal_message__pack
+                     (const Wa__PreKeySignalMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__pre_key_signal_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__pre_key_signal_message__pack_to_buffer
+                     (const Wa__PreKeySignalMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__pre_key_signal_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__PreKeySignalMessage *
+       wa__pre_key_signal_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__PreKeySignalMessage *)
+     protobuf_c_message_unpack (&wa__pre_key_signal_message__descriptor,
+                                allocator, len, data);
+}
+void   wa__pre_key_signal_message__free_unpacked
+                     (Wa__PreKeySignalMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__pre_key_signal_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
 size_t wa__pushname__get_packed_size
                      (const Wa__Pushname *message)
 {
@@ -2401,43 +2566,83 @@ void   wa__record_structure__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
-size_t wa__sender_chain_key__get_packed_size
-                     (const Wa__SenderChainKey *message)
+size_t wa__sender_key_distribution_message__get_packed_size
+                     (const Wa__SenderKeyDistributionMessage *message)
 {
-  assert(message->descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_key_distribution_message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t wa__sender_chain_key__pack
-                     (const Wa__SenderChainKey *message,
+size_t wa__sender_key_distribution_message__pack
+                     (const Wa__SenderKeyDistributionMessage *message,
                       uint8_t       *out)
 {
-  assert(message->descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_key_distribution_message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t wa__sender_chain_key__pack_to_buffer
-                     (const Wa__SenderChainKey *message,
+size_t wa__sender_key_distribution_message__pack_to_buffer
+                     (const Wa__SenderKeyDistributionMessage *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_key_distribution_message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-Wa__SenderChainKey *
-       wa__sender_chain_key__unpack
+Wa__SenderKeyDistributionMessage *
+       wa__sender_key_distribution_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (Wa__SenderChainKey *)
-     protobuf_c_message_unpack (&wa__sender_chain_key__descriptor,
+  return (Wa__SenderKeyDistributionMessage *)
+     protobuf_c_message_unpack (&wa__sender_key_distribution_message__descriptor,
                                 allocator, len, data);
 }
-void   wa__sender_chain_key__free_unpacked
-                     (Wa__SenderChainKey *message,
+void   wa__sender_key_distribution_message__free_unpacked
+                     (Wa__SenderKeyDistributionMessage *message,
                       ProtobufCAllocator *allocator)
 {
   if(!message)
     return;
-  assert(message->descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_key_distribution_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t wa__sender_key_message__get_packed_size
+                     (const Wa__SenderKeyMessage *message)
+{
+  assert(message->descriptor == &wa__sender_key_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__sender_key_message__pack
+                     (const Wa__SenderKeyMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__sender_key_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__sender_key_message__pack_to_buffer
+                     (const Wa__SenderKeyMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__sender_key_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__SenderKeyMessage *
+       wa__sender_key_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__SenderKeyMessage *)
+     protobuf_c_message_unpack (&wa__sender_key_message__descriptor,
+                                allocator, len, data);
+}
+void   wa__sender_key_message__free_unpacked
+                     (Wa__SenderKeyMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__sender_key_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -2521,86 +2726,6 @@ void   wa__sender_key_state_structure__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
-size_t wa__sender_message_key__get_packed_size
-                     (const Wa__SenderMessageKey *message)
-{
-  assert(message->descriptor == &wa__sender_message_key__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__sender_message_key__pack
-                     (const Wa__SenderMessageKey *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__sender_message_key__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__sender_message_key__pack_to_buffer
-                     (const Wa__SenderMessageKey *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__sender_message_key__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__SenderMessageKey *
-       wa__sender_message_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__SenderMessageKey *)
-     protobuf_c_message_unpack (&wa__sender_message_key__descriptor,
-                                allocator, len, data);
-}
-void   wa__sender_message_key__free_unpacked
-                     (Wa__SenderMessageKey *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__sender_message_key__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
-size_t wa__sender_signing_key__get_packed_size
-                     (const Wa__SenderSigningKey *message)
-{
-  assert(message->descriptor == &wa__sender_signing_key__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t wa__sender_signing_key__pack
-                     (const Wa__SenderSigningKey *message,
-                      uint8_t       *out)
-{
-  assert(message->descriptor == &wa__sender_signing_key__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t wa__sender_signing_key__pack_to_buffer
-                     (const Wa__SenderSigningKey *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->descriptor == &wa__sender_signing_key__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Wa__SenderSigningKey *
-       wa__sender_signing_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Wa__SenderSigningKey *)
-     protobuf_c_message_unpack (&wa__sender_signing_key__descriptor,
-                                allocator, len, data);
-}
-void   wa__sender_signing_key__free_unpacked
-                     (Wa__SenderSigningKey *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->descriptor == &wa__sender_signing_key__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-
 size_t wa__server_error_receipt__get_packed_size
                      (const Wa__ServerErrorReceipt *message)
 {
@@ -2678,6 +2803,46 @@ void   wa__session_structure__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__session_structure__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t wa__signal_message__get_packed_size
+                     (const Wa__SignalMessage *message)
+{
+  assert(message->descriptor == &wa__signal_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__signal_message__pack
+                     (const Wa__SignalMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__signal_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__signal_message__pack_to_buffer
+                     (const Wa__SignalMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__signal_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__SignalMessage *
+       wa__signal_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__SignalMessage *)
+     protobuf_c_message_unpack (&wa__signal_message__descriptor,
+                                allocator, len, data);
+}
+void   wa__signal_message__free_unpacked
+                     (Wa__SignalMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__signal_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
@@ -2840,6 +3005,7 @@ void   wa__sync_action_data__free_unpacked
   assert(message->descriptor == &wa__sync_action_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 size_t wa__sync_action_value__get_packed_size
                      (const Wa__SyncActionValue *message)
 {
@@ -3479,7 +3645,7 @@ void   wa__web_notifications_info__free_unpacked
   assert(message->descriptor == &wa__web_notifications_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor wa__advdevice_identity__field_descriptors[3] =
+static const ProtobufCFieldDescriptor wa__advdevice_identity__field_descriptors[5] =
 {
   {
     "rawId",
@@ -3517,8 +3683,34 @@ static const ProtobufCFieldDescriptor wa__advdevice_identity__field_descriptors[
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "accountType",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__ADVDeviceIdentity, has_accounttype),
+    offsetof(Wa__ADVDeviceIdentity, accounttype),
+    &wa__advencryption_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "deviceType",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__ADVDeviceIdentity, has_devicetype),
+    offsetof(Wa__ADVDeviceIdentity, devicetype),
+    &wa__advencryption_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__advdevice_identity__field_indices_by_name[] = {
+  3,   /* field[3] = accountType */
+  4,   /* field[4] = deviceType */
   2,   /* field[2] = keyIndex */
   0,   /* field[0] = rawId */
   1,   /* field[1] = timestamp */
@@ -3526,7 +3718,7 @@ static const unsigned wa__advdevice_identity__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__advdevice_identity__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__advdevice_identity__descriptor =
 {
@@ -3536,13 +3728,13 @@ const ProtobufCMessageDescriptor wa__advdevice_identity__descriptor =
   "Wa__ADVDeviceIdentity",
   "wa",
   sizeof(Wa__ADVDeviceIdentity),
-  3,
+  5,
   wa__advdevice_identity__field_descriptors,
   wa__advdevice_identity__field_indices_by_name,
   1,  wa__advdevice_identity__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__advkey_index_list__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__advkey_index_list__field_descriptors[5] =
 {
   {
     "rawId",
@@ -3592,8 +3784,21 @@ static const ProtobufCFieldDescriptor wa__advkey_index_list__field_descriptors[4
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "accountType",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__ADVKeyIndexList, has_accounttype),
+    offsetof(Wa__ADVKeyIndexList, accounttype),
+    &wa__advencryption_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__advkey_index_list__field_indices_by_name[] = {
+  4,   /* field[4] = accountType */
   2,   /* field[2] = currentIndex */
   0,   /* field[0] = rawId */
   1,   /* field[1] = timestamp */
@@ -3602,7 +3807,7 @@ static const unsigned wa__advkey_index_list__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__advkey_index_list__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__advkey_index_list__descriptor =
 {
@@ -3612,7 +3817,7 @@ const ProtobufCMessageDescriptor wa__advkey_index_list__descriptor =
   "Wa__ADVKeyIndexList",
   "wa",
   sizeof(Wa__ADVKeyIndexList),
-  4,
+  5,
   wa__advkey_index_list__field_descriptors,
   wa__advkey_index_list__field_indices_by_name,
   1,  wa__advkey_index_list__number_ranges,
@@ -3918,6 +4123,56 @@ const ProtobufCMessageDescriptor wa__auto_download_settings__descriptor =
   wa__auto_download_settings__field_descriptors,
   wa__auto_download_settings__field_indices_by_name,
   1,  wa__auto_download_settings__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__avatar_user_settings__field_descriptors[2] =
+{
+  {
+    "fbid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__AvatarUserSettings, fbid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "password",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__AvatarUserSettings, password),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__avatar_user_settings__field_indices_by_name[] = {
+  0,   /* field[0] = fbid */
+  1,   /* field[1] = password */
+};
+static const ProtobufCIntRange wa__avatar_user_settings__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__avatar_user_settings__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.AvatarUserSettings",
+  "AvatarUserSettings",
+  "Wa__AvatarUserSettings",
+  "wa",
+  sizeof(Wa__AvatarUserSettings),
+  2,
+  wa__avatar_user_settings__field_descriptors,
+  wa__avatar_user_settings__field_indices_by_name,
+  1,  wa__avatar_user_settings__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__biz_account_link_info__account_type__enum_values_by_number[1] =
@@ -4516,132 +4771,6 @@ const ProtobufCMessageDescriptor wa__cert_chain__descriptor =
   1,  wa__cert_chain__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__chain__field_descriptors[4] =
-{
-  {
-    "senderRatchetKey",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__Chain, has_senderratchetkey),
-    offsetof(Wa__Chain, senderratchetkey),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "senderRatchetKeyPrivate",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__Chain, has_senderratchetkeyprivate),
-    offsetof(Wa__Chain, senderratchetkeyprivate),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "chainKey",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Chain, chainkey),
-    &wa__chain_key__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "messageKeys",
-    4,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Wa__Chain, n_messagekeys),
-    offsetof(Wa__Chain, messagekeys),
-    &wa__message_key__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__chain__field_indices_by_name[] = {
-  2,   /* field[2] = chainKey */
-  3,   /* field[3] = messageKeys */
-  0,   /* field[0] = senderRatchetKey */
-  1,   /* field[1] = senderRatchetKeyPrivate */
-};
-static const ProtobufCIntRange wa__chain__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 4 }
-};
-const ProtobufCMessageDescriptor wa__chain__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Chain",
-  "Chain",
-  "Wa__Chain",
-  "wa",
-  sizeof(Wa__Chain),
-  4,
-  wa__chain__field_descriptors,
-  wa__chain__field_indices_by_name,
-  1,  wa__chain__number_ranges,
-  NULL,NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__chain_key__field_descriptors[2] =
-{
-  {
-    "index",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(Wa__ChainKey, has_index),
-    offsetof(Wa__ChainKey, index),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "key",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__ChainKey, has_key),
-    offsetof(Wa__ChainKey, key),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__chain_key__field_indices_by_name[] = {
-  0,   /* field[0] = index */
-  1,   /* field[1] = key */
-};
-static const ProtobufCIntRange wa__chain_key__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__chain_key__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.ChainKey",
-  "ChainKey",
-  "Wa__ChainKey",
-  "wa",
-  sizeof(Wa__ChainKey),
-  2,
-  wa__chain_key__field_descriptors,
-  wa__chain_key__field_indices_by_name,
-  1,  wa__chain_key__number_ranges,
-  NULL,NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCEnumValue wa__client_payload__dnssource__dnsresolution_method__enum_values_by_number[5] =
 {
   { "SYSTEM", "WA__CLIENT_PAYLOAD__DNSSOURCE__DNSRESOLUTION_METHOD__SYSTEM", 0 },
@@ -4854,6 +4983,69 @@ const ProtobufCMessageDescriptor wa__client_payload__device_pairing_registration
   1,  wa__client_payload__device_pairing_registration_data__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor wa__client_payload__interop_data__field_descriptors[3] =
+{
+  {
+    "accountId",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT64,
+    offsetof(Wa__ClientPayload__InteropData, has_accountid),
+    offsetof(Wa__ClientPayload__InteropData, accountid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "integratorId",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__ClientPayload__InteropData, has_integratorid),
+    offsetof(Wa__ClientPayload__InteropData, integratorid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "token",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__ClientPayload__InteropData, has_token),
+    offsetof(Wa__ClientPayload__InteropData, token),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__client_payload__interop_data__field_indices_by_name[] = {
+  0,   /* field[0] = accountId */
+  1,   /* field[1] = integratorId */
+  2,   /* field[2] = token */
+};
+static const ProtobufCIntRange wa__client_payload__interop_data__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__client_payload__interop_data__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.ClientPayload.InteropData",
+  "InteropData",
+  "Wa__ClientPayload__InteropData",
+  "wa",
+  sizeof(Wa__ClientPayload__InteropData),
+  3,
+  wa__client_payload__interop_data__field_descriptors,
+  wa__client_payload__interop_data__field_indices_by_name,
+  1,  wa__client_payload__interop_data__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor wa__client_payload__user_agent__app_version__field_descriptors[5] =
 {
   {
@@ -4943,7 +5135,7 @@ const ProtobufCMessageDescriptor wa__client_payload__user_agent__app_version__de
   1,  wa__client_payload__user_agent__app_version__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__client_payload__user_agent__platform__enum_values_by_number[29] =
+static const ProtobufCEnumValue wa__client_payload__user_agent__platform__enum_values_by_number[34] =
 {
   { "ANDROID", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__ANDROID", 0 },
   { "IOS", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__IOS", 1 },
@@ -4974,17 +5166,24 @@ static const ProtobufCEnumValue wa__client_payload__user_agent__platform__enum_v
   { "OCULUS_CALL", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__OCULUS_CALL", 26 },
   { "MILAN", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__MILAN", 27 },
   { "CAPI", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__CAPI", 28 },
+  { "WEAROS", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__WEAROS", 29 },
+  { "ARDEVICE", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__ARDEVICE", 30 },
+  { "VRDEVICE", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__VRDEVICE", 31 },
+  { "BLUE_WEB", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__BLUE_WEB", 32 },
+  { "IPAD", "WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__IPAD", 33 },
 };
 static const ProtobufCIntRange wa__client_payload__user_agent__platform__value_ranges[] = {
-{0, 0},{0, 29}
+{0, 0},{0, 34}
 };
-static const ProtobufCEnumValueIndex wa__client_payload__user_agent__platform__enum_values_by_name[29] =
+static const ProtobufCEnumValueIndex wa__client_payload__user_agent__platform__enum_values_by_name[34] =
 {
   { "ANDROID", 0 },
+  { "ARDEVICE", 30 },
   { "BLACKBERRY", 3 },
   { "BLACKBERRYX", 4 },
   { "BLUE_ANDROID", 18 },
   { "BLUE_IPHONE", 19 },
+  { "BLUE_WEB", 32 },
   { "CAPI", 28 },
   { "ENTERPRISE", 9 },
   { "FBLITE_ANDROID", 20 },
@@ -4992,6 +5191,7 @@ static const ProtobufCEnumValueIndex wa__client_payload__user_agent__platform__e
   { "GREEN_IPHONE", 17 },
   { "IGLITE_ANDROID", 22 },
   { "IOS", 1 },
+  { "IPAD", 33 },
   { "KAIOS", 11 },
   { "MACOS", 24 },
   { "MILAN", 27 },
@@ -5006,6 +5206,8 @@ static const ProtobufCEnumValueIndex wa__client_payload__user_agent__platform__e
   { "SMB_ANDROID", 10 },
   { "SMB_IOS", 12 },
   { "TIZEN", 8 },
+  { "VRDEVICE", 31 },
+  { "WEAROS", 29 },
   { "WEB", 14 },
   { "WINDOWS", 13 },
   { "WINDOWS_PHONE", 2 },
@@ -5017,9 +5219,9 @@ const ProtobufCEnumDescriptor wa__client_payload__user_agent__platform__descript
   "Platform",
   "Wa__ClientPayload__UserAgent__Platform",
   "wa",
-  29,
+  34,
   wa__client_payload__user_agent__platform__enum_values_by_number,
-  29,
+  34,
   wa__client_payload__user_agent__platform__enum_values_by_name,
   1,
   wa__client_payload__user_agent__platform__value_ranges,
@@ -5057,7 +5259,7 @@ const ProtobufCEnumDescriptor wa__client_payload__user_agent__release_channel__d
   wa__client_payload__user_agent__release_channel__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__client_payload__user_agent__field_descriptors[13] =
+static const ProtobufCFieldDescriptor wa__client_payload__user_agent__field_descriptors[14] =
 {
   {
     "platform",
@@ -5215,11 +5417,24 @@ static const ProtobufCFieldDescriptor wa__client_payload__user_agent__field_desc
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "deviceExpId",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ClientPayload__UserAgent, deviceexpid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__client_payload__user_agent__field_indices_by_name[] = {
   1,   /* field[1] = appVersion */
   6,   /* field[6] = device */
   12,   /* field[12] = deviceBoard */
+  13,   /* field[13] = deviceExpId */
   11,   /* field[11] = localeCountryIso31661Alpha2 */
   10,   /* field[10] = localeLanguageIso6391 */
   5,   /* field[5] = manufacturer */
@@ -5234,7 +5449,7 @@ static const unsigned wa__client_payload__user_agent__field_indices_by_name[] = 
 static const ProtobufCIntRange wa__client_payload__user_agent__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 13 }
+  { 0, 14 }
 };
 const ProtobufCMessageDescriptor wa__client_payload__user_agent__descriptor =
 {
@@ -5244,7 +5459,7 @@ const ProtobufCMessageDescriptor wa__client_payload__user_agent__descriptor =
   "Wa__ClientPayload__UserAgent",
   "wa",
   sizeof(Wa__ClientPayload__UserAgent),
-  13,
+  14,
   wa__client_payload__user_agent__field_descriptors,
   wa__client_payload__user_agent__field_indices_by_name,
   1,  wa__client_payload__user_agent__number_ranges,
@@ -5423,7 +5638,7 @@ static const ProtobufCEnumValue wa__client_payload__web_info__web_sub_platform__
   { "APP_STORE", "WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__APP_STORE", 1 },
   { "WIN_STORE", "WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WIN_STORE", 2 },
   { "DARWIN", "WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__DARWIN", 3 },
-  { "WINDA", "WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WINDA", 4 },
+  { "WIN32", "WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WIN32", 4 },
 };
 static const ProtobufCIntRange wa__client_payload__web_info__web_sub_platform__value_ranges[] = {
 {0, 0},{0, 5}
@@ -5433,7 +5648,7 @@ static const ProtobufCEnumValueIndex wa__client_payload__web_info__web_sub_platf
   { "APP_STORE", 1 },
   { "DARWIN", 3 },
   { "WEB_BROWSER", 0 },
-  { "WINDA", 4 },
+  { "WIN32", 4 },
   { "WIN_STORE", 2 },
 };
 const ProtobufCEnumDescriptor wa__client_payload__web_info__web_sub_platform__descriptor =
@@ -5527,7 +5742,7 @@ const ProtobufCMessageDescriptor wa__client_payload__web_info__descriptor =
   1,  wa__client_payload__web_info__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__client_payload__connect_reason__enum_values_by_number[6] =
+static const ProtobufCEnumValue wa__client_payload__connect_reason__enum_values_by_number[7] =
 {
   { "PUSH", "WA__CLIENT_PAYLOAD__CONNECT_REASON__PUSH", 0 },
   { "USER_ACTIVATED", "WA__CLIENT_PAYLOAD__CONNECT_REASON__USER_ACTIVATED", 1 },
@@ -5535,17 +5750,19 @@ static const ProtobufCEnumValue wa__client_payload__connect_reason__enum_values_
   { "ERROR_RECONNECT", "WA__CLIENT_PAYLOAD__CONNECT_REASON__ERROR_RECONNECT", 3 },
   { "NETWORK_SWITCH", "WA__CLIENT_PAYLOAD__CONNECT_REASON__NETWORK_SWITCH", 4 },
   { "PING_RECONNECT", "WA__CLIENT_PAYLOAD__CONNECT_REASON__PING_RECONNECT", 5 },
+  { "UNKNOWN", "WA__CLIENT_PAYLOAD__CONNECT_REASON__UNKNOWN", 6 },
 };
 static const ProtobufCIntRange wa__client_payload__connect_reason__value_ranges[] = {
-{0, 0},{0, 6}
+{0, 0},{0, 7}
 };
-static const ProtobufCEnumValueIndex wa__client_payload__connect_reason__enum_values_by_name[6] =
+static const ProtobufCEnumValueIndex wa__client_payload__connect_reason__enum_values_by_name[7] =
 {
   { "ERROR_RECONNECT", 3 },
   { "NETWORK_SWITCH", 4 },
   { "PING_RECONNECT", 5 },
   { "PUSH", 0 },
   { "SCHEDULED", 2 },
+  { "UNKNOWN", 6 },
   { "USER_ACTIVATED", 1 },
 };
 const ProtobufCEnumDescriptor wa__client_payload__connect_reason__descriptor =
@@ -5555,9 +5772,9 @@ const ProtobufCEnumDescriptor wa__client_payload__connect_reason__descriptor =
   "ConnectReason",
   "Wa__ClientPayload__ConnectReason",
   "wa",
-  6,
+  7,
   wa__client_payload__connect_reason__enum_values_by_number,
-  6,
+  7,
   wa__client_payload__connect_reason__enum_values_by_name,
   1,
   wa__client_payload__connect_reason__value_ranges,
@@ -5647,16 +5864,18 @@ const ProtobufCEnumDescriptor wa__client_payload__iosapp_extension__descriptor =
   wa__client_payload__iosapp_extension__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue wa__client_payload__product__enum_values_by_number[2] =
+static const ProtobufCEnumValue wa__client_payload__product__enum_values_by_number[3] =
 {
   { "WHATSAPP", "WA__CLIENT_PAYLOAD__PRODUCT__WHATSAPP", 0 },
   { "MESSENGER", "WA__CLIENT_PAYLOAD__PRODUCT__MESSENGER", 1 },
+  { "INTEROP", "WA__CLIENT_PAYLOAD__PRODUCT__INTEROP", 2 },
 };
 static const ProtobufCIntRange wa__client_payload__product__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex wa__client_payload__product__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex wa__client_payload__product__enum_values_by_name[3] =
 {
+  { "INTEROP", 2 },
   { "MESSENGER", 1 },
   { "WHATSAPP", 0 },
 };
@@ -5667,15 +5886,15 @@ const ProtobufCEnumDescriptor wa__client_payload__product__descriptor =
   "Product",
   "Wa__ClientPayload__Product",
   "wa",
-  2,
+  3,
   wa__client_payload__product__enum_values_by_number,
-  2,
+  3,
   wa__client_payload__product__enum_values_by_name,
   1,
   wa__client_payload__product__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__client_payload__field_descriptors[24] =
+static const ProtobufCFieldDescriptor wa__client_payload__field_descriptors[27] =
 {
   {
     "username",
@@ -5965,6 +6184,42 @@ static const ProtobufCFieldDescriptor wa__client_payload__field_descriptors[24] 
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "yearClass",
+    36,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__ClientPayload, has_yearclass),
+    offsetof(Wa__ClientPayload, yearclass),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "memClass",
+    37,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__ClientPayload, has_memclass),
+    offsetof(Wa__ClientPayload, memclass),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "interopData",
+    38,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ClientPayload, interopdata),
+    &wa__client_payload__interop_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__client_payload__field_indices_by_name[] = {
   11,   /* field[11] = connectAttemptCount */
@@ -5977,8 +6232,10 @@ static const unsigned wa__client_payload__field_indices_by_name[] = {
   15,   /* field[15] = fbCat */
   21,   /* field[21] = fbDeviceId */
   16,   /* field[16] = fbUserAgent */
+  26,   /* field[26] = interopData */
   19,   /* field[19] = iosAppExtension */
   18,   /* field[18] = lc */
+  25,   /* field[25] = memClass */
   17,   /* field[17] = oc */
   23,   /* field[23] = paddingBytes */
   1,   /* field[1] = passive */
@@ -5991,8 +6248,9 @@ static const unsigned wa__client_payload__field_indices_by_name[] = {
   2,   /* field[2] = userAgent */
   0,   /* field[0] = username */
   3,   /* field[3] = webInfo */
+  24,   /* field[24] = yearClass */
 };
-static const ProtobufCIntRange wa__client_payload__number_ranges[7 + 1] =
+static const ProtobufCIntRange wa__client_payload__number_ranges[8 + 1] =
 {
   { 1, 0 },
   { 3, 1 },
@@ -6001,7 +6259,8 @@ static const ProtobufCIntRange wa__client_payload__number_ranges[7 + 1] =
   { 12, 7 },
   { 18, 12 },
   { 30, 19 },
-  { 0, 24 }
+  { 36, 24 },
+  { 0, 27 }
 };
 const ProtobufCMessageDescriptor wa__client_payload__descriptor =
 {
@@ -6011,10 +6270,10 @@ const ProtobufCMessageDescriptor wa__client_payload__descriptor =
   "Wa__ClientPayload",
   "wa",
   sizeof(Wa__ClientPayload),
-  24,
+  27,
   wa__client_payload__field_descriptors,
   wa__client_payload__field_indices_by_name,
-  7,  wa__client_payload__number_ranges,
+  8,  wa__client_payload__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__context_info__ad_reply_info__media_type__enum_values_by_number[3] =
@@ -6154,7 +6413,7 @@ const ProtobufCEnumDescriptor wa__context_info__external_ad_reply_info__media_ty
   wa__context_info__external_ad_reply_info__media_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__context_info__external_ad_reply_info__field_descriptors[12] =
+static const ProtobufCFieldDescriptor wa__context_info__external_ad_reply_info__field_descriptors[14] =
 {
   {
     "title",
@@ -6300,12 +6559,38 @@ static const ProtobufCFieldDescriptor wa__context_info__external_ad_reply_info__
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "ctwaClid",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo__ExternalAdReplyInfo, ctwaclid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ref",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo__ExternalAdReplyInfo, ref),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__context_info__external_ad_reply_info__field_indices_by_name[] = {
   1,   /* field[1] = body */
   9,   /* field[9] = containsAutoReply */
+  12,   /* field[12] = ctwaClid */
   2,   /* field[2] = mediaType */
   4,   /* field[4] = mediaUrl */
+  13,   /* field[13] = ref */
   10,   /* field[10] = renderLargerThumbnail */
   11,   /* field[11] = showAdAttribution */
   7,   /* field[7] = sourceId */
@@ -6318,7 +6603,7 @@ static const unsigned wa__context_info__external_ad_reply_info__field_indices_by
 static const ProtobufCIntRange wa__context_info__external_ad_reply_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 12 }
+  { 0, 14 }
 };
 const ProtobufCMessageDescriptor wa__context_info__external_ad_reply_info__descriptor =
 {
@@ -6328,13 +6613,63 @@ const ProtobufCMessageDescriptor wa__context_info__external_ad_reply_info__descr
   "Wa__ContextInfo__ExternalAdReplyInfo",
   "wa",
   sizeof(Wa__ContextInfo__ExternalAdReplyInfo),
-  12,
+  14,
   wa__context_info__external_ad_reply_info__field_descriptors,
   wa__context_info__external_ad_reply_info__field_indices_by_name,
   1,  wa__context_info__external_ad_reply_info__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__context_info__field_descriptors[23] =
+static const ProtobufCFieldDescriptor wa__context_info__utminfo__field_descriptors[2] =
+{
+  {
+    "utmSource",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo__UTMInfo, utmsource),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "utmCampaign",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo__UTMInfo, utmcampaign),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__context_info__utminfo__field_indices_by_name[] = {
+  1,   /* field[1] = utmCampaign */
+  0,   /* field[0] = utmSource */
+};
+static const ProtobufCIntRange wa__context_info__utminfo__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__context_info__utminfo__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.ContextInfo.UTMInfo",
+  "UTMInfo",
+  "Wa__ContextInfo__UTMInfo",
+  "wa",
+  sizeof(Wa__ContextInfo__UTMInfo),
+  2,
+  wa__context_info__utminfo__field_descriptors,
+  wa__context_info__utminfo__field_indices_by_name,
+  1,  wa__context_info__utminfo__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__context_info__field_descriptors[28] =
 {
   {
     "stanzaId",
@@ -6612,6 +6947,66 @@ static const ProtobufCFieldDescriptor wa__context_info__field_descriptors[23] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "trustBannerType",
+    37,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo, trustbannertype),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "trustBannerAction",
+    38,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__ContextInfo, has_trustbanneraction),
+    offsetof(Wa__ContextInfo, trustbanneraction),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isSampled",
+    39,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__ContextInfo, has_issampled),
+    offsetof(Wa__ContextInfo, issampled),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "groupMentions",
+    40,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__ContextInfo, n_groupmentions),
+    offsetof(Wa__ContextInfo, groupmentions),
+    &wa__group_mention__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "utm",
+    41,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__ContextInfo, utm),
+    &wa__context_info__utminfo__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__context_info__field_indices_by_name[] = {
   20,   /* field[20] = actionLink */
@@ -6627,8 +7022,10 @@ static const unsigned wa__context_info__field_indices_by_name[] = {
   12,   /* field[12] = expiration */
   15,   /* field[15] = externalAdReply */
   8,   /* field[8] = forwardingScore */
+  26,   /* field[26] = groupMentions */
   21,   /* field[21] = groupSubject */
   9,   /* field[9] = isForwarded */
+  25,   /* field[25] = isSampled */
   4,   /* field[4] = mentionedJid */
   22,   /* field[22] = parentGroupJid */
   1,   /* field[1] = participant */
@@ -6637,13 +7034,17 @@ static const unsigned wa__context_info__field_indices_by_name[] = {
   2,   /* field[2] = quotedMessage */
   3,   /* field[3] = remoteJid */
   0,   /* field[0] = stanzaId */
+  24,   /* field[24] = trustBannerAction */
+  23,   /* field[23] = trustBannerType */
+  27,   /* field[27] = utm */
 };
-static const ProtobufCIntRange wa__context_info__number_ranges[3 + 1] =
+static const ProtobufCIntRange wa__context_info__number_ranges[4 + 1] =
 {
   { 1, 0 },
   { 15, 4 },
   { 18, 5 },
-  { 0, 23 }
+  { 37, 23 },
+  { 0, 28 }
 };
 const ProtobufCMessageDescriptor wa__context_info__descriptor =
 {
@@ -6653,24 +7054,26 @@ const ProtobufCMessageDescriptor wa__context_info__descriptor =
   "Wa__ContextInfo",
   "wa",
   sizeof(Wa__ContextInfo),
-  23,
+  28,
   wa__context_info__field_descriptors,
   wa__context_info__field_indices_by_name,
-  3,  wa__context_info__number_ranges,
+  4,  wa__context_info__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__conversation__end_of_history_transfer_type__enum_values_by_number[2] =
+static const ProtobufCEnumValue wa__conversation__end_of_history_transfer_type__enum_values_by_number[3] =
 {
   { "COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY", "WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY", 0 },
   { "COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY", "WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY", 1 },
+  { "COMPLETE_ON_DEMAND_SYNC_BUT_MORE_MSG_REMAIN_ON_PRIMARY", "WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_ON_DEMAND_SYNC_BUT_MORE_MSG_REMAIN_ON_PRIMARY", 2 },
 };
 static const ProtobufCIntRange wa__conversation__end_of_history_transfer_type__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex wa__conversation__end_of_history_transfer_type__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex wa__conversation__end_of_history_transfer_type__enum_values_by_name[3] =
 {
   { "COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY", 1 },
   { "COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY", 0 },
+  { "COMPLETE_ON_DEMAND_SYNC_BUT_MORE_MSG_REMAIN_ON_PRIMARY", 2 },
 };
 const ProtobufCEnumDescriptor wa__conversation__end_of_history_transfer_type__descriptor =
 {
@@ -6679,15 +7082,15 @@ const ProtobufCEnumDescriptor wa__conversation__end_of_history_transfer_type__de
   "EndOfHistoryTransferType",
   "Wa__Conversation__EndOfHistoryTransferType",
   "wa",
-  2,
+  3,
   wa__conversation__end_of_history_transfer_type__enum_values_by_number,
-  2,
+  3,
   wa__conversation__end_of_history_transfer_type__enum_values_by_name,
   1,
   wa__conversation__end_of_history_transfer_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__conversation__field_descriptors[40] =
+static const ProtobufCFieldDescriptor wa__conversation__field_descriptors[42] =
 {
   {
     "id",
@@ -7158,12 +7561,36 @@ static const ProtobufCFieldDescriptor wa__conversation__field_descriptors[40] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "selfPnExposed",
+    "shareOwnPn",
     40,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_BOOL,
-    offsetof(Wa__Conversation, has_selfpnexposed),
-    offsetof(Wa__Conversation, selfpnexposed),
+    offsetof(Wa__Conversation, has_shareownpn),
+    offsetof(Wa__Conversation, shareownpn),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pnhDuplicateLidThread",
+    41,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Conversation, has_pnhduplicatelidthread),
+    offsetof(Wa__Conversation, pnhduplicatelidthread),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "lidJid",
+    42,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Conversation, lidjid),
     NULL,
     NULL,
     0,             /* flags */
@@ -7187,6 +7614,7 @@ static const unsigned wa__conversation__field_indices_by_name[] = {
   35,   /* field[35] = isDefaultSubgroup */
   34,   /* field[34] = isParentGroup */
   4,   /* field[4] = lastMsgTimestamp */
+  41,   /* field[41] = lidJid */
   18,   /* field[18] = markedAsUnread */
   26,   /* field[26] = mediaVisibility */
   1,   /* field[1] = messages */
@@ -7200,8 +7628,9 @@ static const unsigned wa__conversation__field_indices_by_name[] = {
   19,   /* field[19] = participant */
   23,   /* field[23] = pinned */
   38,   /* field[38] = pnJid */
+  40,   /* field[40] = pnhDuplicateLidThread */
   6,   /* field[6] = readOnly */
-  39,   /* field[39] = selfPnExposed */
+  39,   /* field[39] = shareOwnPn */
   33,   /* field[33] = support */
   28,   /* field[28] = suspended */
   20,   /* field[20] = tcToken */
@@ -7215,7 +7644,7 @@ static const unsigned wa__conversation__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__conversation__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 40 }
+  { 0, 42 }
 };
 const ProtobufCMessageDescriptor wa__conversation__descriptor =
 {
@@ -7225,10 +7654,60 @@ const ProtobufCMessageDescriptor wa__conversation__descriptor =
   "Wa__Conversation",
   "wa",
   sizeof(Wa__Conversation),
-  40,
+  42,
   wa__conversation__field_descriptors,
   wa__conversation__field_indices_by_name,
   1,  wa__conversation__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__device_consistency_code_message__field_descriptors[2] =
+{
+  {
+    "generation",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceConsistencyCodeMessage, has_generation),
+    offsetof(Wa__DeviceConsistencyCodeMessage, generation),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signature",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__DeviceConsistencyCodeMessage, has_signature),
+    offsetof(Wa__DeviceConsistencyCodeMessage, signature),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__device_consistency_code_message__field_indices_by_name[] = {
+  0,   /* field[0] = generation */
+  1,   /* field[1] = signature */
+};
+static const ProtobufCIntRange wa__device_consistency_code_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__device_consistency_code_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.DeviceConsistencyCodeMessage",
+  "DeviceConsistencyCodeMessage",
+  "Wa__DeviceConsistencyCodeMessage",
+  "wa",
+  sizeof(Wa__DeviceConsistencyCodeMessage),
+  2,
+  wa__device_consistency_code_message__field_descriptors,
+  wa__device_consistency_code_message__field_indices_by_name,
+  1,  wa__device_consistency_code_message__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__device_list_metadata__field_descriptors[6] =
@@ -7423,7 +7902,96 @@ const ProtobufCMessageDescriptor wa__device_props__app_version__descriptor =
   1,  wa__device_props__app_version__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__device_props__platform_type__enum_values_by_number[14] =
+static const ProtobufCFieldDescriptor wa__device_props__history_sync_config__field_descriptors[5] =
+{
+  {
+    "fullSyncDaysLimit",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_fullsyncdayslimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, fullsyncdayslimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "fullSyncSizeMbLimit",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_fullsyncsizemblimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, fullsyncsizemblimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "storageQuotaMb",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_storagequotamb),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, storagequotamb),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "inlineInitialPayloadInE2EeMsg",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_inlineinitialpayloadine2eemsg),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, inlineinitialpayloadine2eemsg),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "recentSyncDaysLimit",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_recentsyncdayslimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, recentsyncdayslimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__device_props__history_sync_config__field_indices_by_name[] = {
+  0,   /* field[0] = fullSyncDaysLimit */
+  1,   /* field[1] = fullSyncSizeMbLimit */
+  3,   /* field[3] = inlineInitialPayloadInE2EeMsg */
+  4,   /* field[4] = recentSyncDaysLimit */
+  2,   /* field[2] = storageQuotaMb */
+};
+static const ProtobufCIntRange wa__device_props__history_sync_config__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
+const ProtobufCMessageDescriptor wa__device_props__history_sync_config__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.DeviceProps.HistorySyncConfig",
+  "HistorySyncConfig",
+  "Wa__DeviceProps__HistorySyncConfig",
+  "wa",
+  sizeof(Wa__DeviceProps__HistorySyncConfig),
+  5,
+  wa__device_props__history_sync_config__field_descriptors,
+  wa__device_props__history_sync_config__field_indices_by_name,
+  1,  wa__device_props__history_sync_config__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__device_props__platform_type__enum_values_by_number[21] =
 {
   { "UNKNOWN", "WA__DEVICE_PROPS__PLATFORM_TYPE__UNKNOWN", 0 },
   { "CHROME", "WA__DEVICE_PROPS__PLATFORM_TYPE__CHROME", 1 },
@@ -7439,26 +8007,40 @@ static const ProtobufCEnumValue wa__device_props__platform_type__enum_values_by_
   { "ALOHA", "WA__DEVICE_PROPS__PLATFORM_TYPE__ALOHA", 11 },
   { "CATALINA", "WA__DEVICE_PROPS__PLATFORM_TYPE__CATALINA", 12 },
   { "TCL_TV", "WA__DEVICE_PROPS__PLATFORM_TYPE__TCL_TV", 13 },
+  { "IOS_PHONE", "WA__DEVICE_PROPS__PLATFORM_TYPE__IOS_PHONE", 14 },
+  { "IOS_CATALYST", "WA__DEVICE_PROPS__PLATFORM_TYPE__IOS_CATALYST", 15 },
+  { "ANDROID_PHONE", "WA__DEVICE_PROPS__PLATFORM_TYPE__ANDROID_PHONE", 16 },
+  { "ANDROID_AMBIGUOUS", "WA__DEVICE_PROPS__PLATFORM_TYPE__ANDROID_AMBIGUOUS", 17 },
+  { "WEAR_OS", "WA__DEVICE_PROPS__PLATFORM_TYPE__WEAR_OS", 18 },
+  { "AR_WRIST", "WA__DEVICE_PROPS__PLATFORM_TYPE__AR_WRIST", 19 },
+  { "AR_DEVICE", "WA__DEVICE_PROPS__PLATFORM_TYPE__AR_DEVICE", 20 },
 };
 static const ProtobufCIntRange wa__device_props__platform_type__value_ranges[] = {
-{0, 0},{0, 14}
+{0, 0},{0, 21}
 };
-static const ProtobufCEnumValueIndex wa__device_props__platform_type__enum_values_by_name[14] =
+static const ProtobufCEnumValueIndex wa__device_props__platform_type__enum_values_by_name[21] =
 {
   { "ALOHA", 11 },
+  { "ANDROID_AMBIGUOUS", 17 },
+  { "ANDROID_PHONE", 16 },
   { "ANDROID_TABLET", 9 },
+  { "AR_DEVICE", 20 },
+  { "AR_WRIST", 19 },
   { "CATALINA", 12 },
   { "CHROME", 1 },
   { "DESKTOP", 7 },
   { "EDGE", 6 },
   { "FIREFOX", 2 },
   { "IE", 3 },
+  { "IOS_CATALYST", 15 },
+  { "IOS_PHONE", 14 },
   { "IPAD", 8 },
   { "OHANA", 10 },
   { "OPERA", 4 },
   { "SAFARI", 5 },
   { "TCL_TV", 13 },
   { "UNKNOWN", 0 },
+  { "WEAR_OS", 18 },
 };
 const ProtobufCEnumDescriptor wa__device_props__platform_type__descriptor =
 {
@@ -7467,15 +8049,15 @@ const ProtobufCEnumDescriptor wa__device_props__platform_type__descriptor =
   "PlatformType",
   "Wa__DeviceProps__PlatformType",
   "wa",
-  14,
+  21,
   wa__device_props__platform_type__enum_values_by_number,
-  14,
+  21,
   wa__device_props__platform_type__enum_values_by_name,
   1,
   wa__device_props__platform_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[5] =
 {
   {
     "os",
@@ -7525,8 +8107,21 @@ static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[4] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "historySyncConfig",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__DeviceProps, historysyncconfig),
+    &wa__device_props__history_sync_config__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__device_props__field_indices_by_name[] = {
+  4,   /* field[4] = historySyncConfig */
   0,   /* field[0] = os */
   2,   /* field[2] = platformType */
   3,   /* field[3] = requireFullSync */
@@ -7535,7 +8130,7 @@ static const unsigned wa__device_props__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__device_props__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__device_props__descriptor =
 {
@@ -7545,7 +8140,7 @@ const ProtobufCMessageDescriptor wa__device_props__descriptor =
   "Wa__DeviceProps",
   "wa",
   sizeof(Wa__DeviceProps),
-  4,
+  5,
   wa__device_props__field_descriptors,
   wa__device_props__field_indices_by_name,
   1,  wa__device_props__number_ranges,
@@ -7820,7 +8415,7 @@ const ProtobufCMessageDescriptor wa__external_blob_reference__descriptor =
   1,  wa__external_blob_reference__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__global_settings__field_descriptors[10] =
+static const ProtobufCFieldDescriptor wa__global_settings__field_descriptors[18] =
 {
   {
     "lightThemeWallpaper",
@@ -7942,23 +8537,127 @@ static const ProtobufCFieldDescriptor wa__global_settings__field_descriptors[10]
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "avatarUserSettings",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__GlobalSettings, avatarusersettings),
+    &wa__avatar_user_settings__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "fontSize",
+    12,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__GlobalSettings, has_fontsize),
+    offsetof(Wa__GlobalSettings, fontsize),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "securityNotifications",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__GlobalSettings, has_securitynotifications),
+    offsetof(Wa__GlobalSettings, securitynotifications),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "autoUnarchiveChats",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__GlobalSettings, has_autounarchivechats),
+    offsetof(Wa__GlobalSettings, autounarchivechats),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "videoQualityMode",
+    15,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__GlobalSettings, has_videoqualitymode),
+    offsetof(Wa__GlobalSettings, videoqualitymode),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "photoQualityMode",
+    16,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__GlobalSettings, has_photoqualitymode),
+    offsetof(Wa__GlobalSettings, photoqualitymode),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "individualNotificationSettings",
+    17,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__GlobalSettings, individualnotificationsettings),
+    &wa__notification_settings__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "groupNotificationSettings",
+    18,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__GlobalSettings, groupnotificationsettings),
+    &wa__notification_settings__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__global_settings__field_indices_by_name[] = {
   4,   /* field[4] = autoDownloadCellular */
   5,   /* field[5] = autoDownloadRoaming */
   3,   /* field[3] = autoDownloadWiFi */
+  13,   /* field[13] = autoUnarchiveChats */
+  10,   /* field[10] = avatarUserSettings */
   2,   /* field[2] = darkThemeWallpaper */
   8,   /* field[8] = disappearingModeDuration */
   9,   /* field[9] = disappearingModeTimestamp */
+  11,   /* field[11] = fontSize */
+  17,   /* field[17] = groupNotificationSettings */
+  16,   /* field[16] = individualNotificationSettings */
   0,   /* field[0] = lightThemeWallpaper */
   1,   /* field[1] = mediaVisibility */
+  15,   /* field[15] = photoQualityMode */
+  12,   /* field[12] = securityNotifications */
   7,   /* field[7] = showGroupNotificationsPreview */
   6,   /* field[6] = showIndividualNotificationsPreview */
+  14,   /* field[14] = videoQualityMode */
 };
 static const ProtobufCIntRange wa__global_settings__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 10 }
+  { 0, 18 }
 };
 const ProtobufCMessageDescriptor wa__global_settings__descriptor =
 {
@@ -7968,10 +8667,60 @@ const ProtobufCMessageDescriptor wa__global_settings__descriptor =
   "Wa__GlobalSettings",
   "wa",
   sizeof(Wa__GlobalSettings),
-  10,
+  18,
   wa__global_settings__field_descriptors,
   wa__global_settings__field_indices_by_name,
   1,  wa__global_settings__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__group_mention__field_descriptors[2] =
+{
+  {
+    "groupJid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__GroupMention, groupjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "groupSubject",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__GroupMention, groupsubject),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__group_mention__field_indices_by_name[] = {
+  0,   /* field[0] = groupJid */
+  1,   /* field[1] = groupSubject */
+};
+static const ProtobufCIntRange wa__group_mention__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__group_mention__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.GroupMention",
+  "GroupMention",
+  "Wa__GroupMention",
+  "wa",
+  sizeof(Wa__GroupMention),
+  2,
+  wa__group_mention__field_descriptors,
+  wa__group_mention__field_indices_by_name,
+  1,  wa__group_mention__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__group_participant__rank__enum_values_by_number[3] =
@@ -8293,26 +9042,28 @@ const ProtobufCMessageDescriptor wa__handshake_message__descriptor =
   1,  wa__handshake_message__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__history_sync__history_sync_type__enum_values_by_number[6] =
+static const ProtobufCEnumValue wa__history_sync__history_sync_type__enum_values_by_number[7] =
 {
   { "INITIAL_BOOTSTRAP", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3", 1 },
   { "FULL", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__FULL", 2 },
   { "RECENT", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__RECENT", 3 },
   { "PUSH_NAME", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME", 4 },
-  { "UNBLOCKING_DATA", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__UNBLOCKING_DATA", 5 },
+  { "NON_BLOCKING_DATA", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__ON_DEMAND", 6 },
 };
 static const ProtobufCIntRange wa__history_sync__history_sync_type__value_ranges[] = {
-{0, 0},{0, 6}
+{0, 0},{0, 7}
 };
-static const ProtobufCEnumValueIndex wa__history_sync__history_sync_type__enum_values_by_name[6] =
+static const ProtobufCEnumValueIndex wa__history_sync__history_sync_type__enum_values_by_name[7] =
 {
   { "FULL", 2 },
   { "INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", 1 },
+  { "NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", 6 },
   { "PUSH_NAME", 4 },
   { "RECENT", 3 },
-  { "UNBLOCKING_DATA", 5 },
 };
 const ProtobufCEnumDescriptor wa__history_sync__history_sync_type__descriptor =
 {
@@ -8321,9 +9072,9 @@ const ProtobufCEnumDescriptor wa__history_sync__history_sync_type__descriptor =
   "HistorySyncType",
   "Wa__HistorySync__HistorySyncType",
   "wa",
-  6,
+  7,
   wa__history_sync__history_sync_type__enum_values_by_number,
-  6,
+  7,
   wa__history_sync__history_sync_type__enum_values_by_name,
   1,
   wa__history_sync__history_sync_type__value_ranges,
@@ -8821,8 +9572,7 @@ const ProtobufCMessageDescriptor wa__identity_key_pair_structure__descriptor =
   wa__identity_key_pair_structure__field_descriptors,
   wa__identity_key_pair_structure__field_indices_by_name,
   1,  wa__identity_key_pair_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__interactive_annotation__field_descriptors[2] =
 {
@@ -8872,10 +9622,9 @@ const ProtobufCMessageDescriptor wa__interactive_annotation__descriptor =
   wa__interactive_annotation__field_descriptors,
   wa__interactive_annotation__field_indices_by_name,
   1,  wa__interactive_annotation__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__keep_in_chat__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__keep_in_chat__field_descriptors[6] =
 {
   {
     "keepType",
@@ -8925,17 +9674,43 @@ static const ProtobufCFieldDescriptor wa__keep_in_chat__field_descriptors[4] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "clientTimestampMs",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__KeepInChat, has_clienttimestampms),
+    offsetof(Wa__KeepInChat, clienttimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "serverTimestampMs",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__KeepInChat, has_servertimestampms),
+    offsetof(Wa__KeepInChat, servertimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__keep_in_chat__field_indices_by_name[] = {
+  4,   /* field[4] = clientTimestampMs */
   3,   /* field[3] = deviceJid */
   0,   /* field[0] = keepType */
   2,   /* field[2] = key */
   1,   /* field[1] = serverTimestamp */
+  5,   /* field[5] = serverTimestampMs */
 };
 static const ProtobufCIntRange wa__keep_in_chat__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 6 }
 };
 const ProtobufCMessageDescriptor wa__keep_in_chat__descriptor =
 {
@@ -8945,12 +9720,100 @@ const ProtobufCMessageDescriptor wa__keep_in_chat__descriptor =
   "Wa__KeepInChat",
   "wa",
   sizeof(Wa__KeepInChat),
-  4,
+  6,
   wa__keep_in_chat__field_descriptors,
   wa__keep_in_chat__field_indices_by_name,
   1,  wa__keep_in_chat__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__key_exchange_message__field_descriptors[5] =
+{
+  {
+    "id",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__KeyExchangeMessage, has_id),
+    offsetof(Wa__KeyExchangeMessage, id),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "baseKey",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__KeyExchangeMessage, has_basekey),
+    offsetof(Wa__KeyExchangeMessage, basekey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ratchetKey",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__KeyExchangeMessage, has_ratchetkey),
+    offsetof(Wa__KeyExchangeMessage, ratchetkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "identityKey",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__KeyExchangeMessage, has_identitykey),
+    offsetof(Wa__KeyExchangeMessage, identitykey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "baseKeySignature",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__KeyExchangeMessage, has_basekeysignature),
+    offsetof(Wa__KeyExchangeMessage, basekeysignature),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__key_exchange_message__field_indices_by_name[] = {
+  1,   /* field[1] = baseKey */
+  4,   /* field[4] = baseKeySignature */
+  0,   /* field[0] = id */
+  3,   /* field[3] = identityKey */
+  2,   /* field[2] = ratchetKey */
+};
+static const ProtobufCIntRange wa__key_exchange_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
+const ProtobufCMessageDescriptor wa__key_exchange_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.KeyExchangeMessage",
+  "KeyExchangeMessage",
+  "Wa__KeyExchangeMessage",
+  "wa",
+  sizeof(Wa__KeyExchangeMessage),
+  5,
+  wa__key_exchange_message__field_descriptors,
+  wa__key_exchange_message__field_indices_by_name,
+  1,  wa__key_exchange_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__key_id__field_descriptors[1] =
 {
@@ -8987,8 +9850,7 @@ const ProtobufCMessageDescriptor wa__key_id__descriptor =
   wa__key_id__field_descriptors,
   wa__key_id__field_indices_by_name,
   1,  wa__key_id__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__localized_name__field_descriptors[3] =
 {
@@ -9051,8 +9913,7 @@ const ProtobufCMessageDescriptor wa__localized_name__descriptor =
   wa__localized_name__field_descriptors,
   wa__localized_name__field_indices_by_name,
   1,  wa__localized_name__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__location__field_descriptors[3] =
 {
@@ -9115,8 +9976,7 @@ const ProtobufCMessageDescriptor wa__location__descriptor =
   wa__location__field_descriptors,
   wa__location__field_indices_by_name,
   1,  wa__location__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__media_data__field_descriptors[1] =
 {
@@ -9153,8 +10013,7 @@ const ProtobufCMessageDescriptor wa__media_data__descriptor =
   wa__media_data__field_descriptors,
   wa__media_data__field_indices_by_name,
   1,  wa__media_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__media_retry_notification__result_type__enum_values_by_number[4] =
 {
@@ -9249,8 +10108,7 @@ const ProtobufCMessageDescriptor wa__media_retry_notification__descriptor =
   wa__media_retry_notification__field_descriptors,
   wa__media_retry_notification__field_indices_by_name,
   1,  wa__media_retry_notification__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_fatal_exception_notification__field_descriptors[2] =
 {
@@ -9300,8 +10158,57 @@ const ProtobufCMessageDescriptor wa__message__app_state_fatal_exception_notifica
   wa__message__app_state_fatal_exception_notification__field_descriptors,
   wa__message__app_state_fatal_exception_notification__field_indices_by_name,
   1,  wa__message__app_state_fatal_exception_notification__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__app_state_sync_key__field_descriptors[2] =
+{
+  {
+    "keyId",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__AppStateSyncKey, keyid),
+    &wa__message__app_state_sync_key_id__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "keyData",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__AppStateSyncKey, keydata),
+    &wa__message__app_state_sync_key_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__app_state_sync_key__field_indices_by_name[] = {
+  1,   /* field[1] = keyData */
+  0,   /* field[0] = keyId */
+};
+static const ProtobufCIntRange wa__message__app_state_sync_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__message__app_state_sync_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.AppStateSyncKey",
+  "AppStateSyncKey",
+  "Wa__Message__AppStateSyncKey",
+  "wa",
+  sizeof(Wa__Message__AppStateSyncKey),
+  2,
+  wa__message__app_state_sync_key__field_descriptors,
+  wa__message__app_state_sync_key__field_indices_by_name,
+  1,  wa__message__app_state_sync_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_sync_key_data__field_descriptors[3] =
 {
@@ -9364,8 +10271,7 @@ const ProtobufCMessageDescriptor wa__message__app_state_sync_key_data__descripto
   wa__message__app_state_sync_key_data__field_descriptors,
   wa__message__app_state_sync_key_data__field_indices_by_name,
   1,  wa__message__app_state_sync_key_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_sync_key_fingerprint__field_descriptors[3] =
 {
@@ -9428,8 +10334,7 @@ const ProtobufCMessageDescriptor wa__message__app_state_sync_key_fingerprint__de
   wa__message__app_state_sync_key_fingerprint__field_descriptors,
   wa__message__app_state_sync_key_fingerprint__field_indices_by_name,
   1,  wa__message__app_state_sync_key_fingerprint__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_sync_key_id__field_descriptors[1] =
 {
@@ -9466,8 +10371,7 @@ const ProtobufCMessageDescriptor wa__message__app_state_sync_key_id__descriptor 
   wa__message__app_state_sync_key_id__field_descriptors,
   wa__message__app_state_sync_key_id__field_indices_by_name,
   1,  wa__message__app_state_sync_key_id__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_sync_key_request__field_descriptors[1] =
 {
@@ -9504,8 +10408,7 @@ const ProtobufCMessageDescriptor wa__message__app_state_sync_key_request__descri
   wa__message__app_state_sync_key_request__field_descriptors,
   wa__message__app_state_sync_key_request__field_indices_by_name,
   1,  wa__message__app_state_sync_key_request__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__app_state_sync_key_share__field_descriptors[1] =
 {
@@ -9542,61 +10445,9 @@ const ProtobufCMessageDescriptor wa__message__app_state_sync_key_share__descript
   wa__message__app_state_sync_key_share__field_descriptors,
   wa__message__app_state_sync_key_share__field_indices_by_name,
   1,  wa__message__app_state_sync_key_share__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message__app_state_sync_key__field_descriptors[2] =
-{
-  {
-    "keyId",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__AppStateSyncKey, keyid),
-    &wa__message__app_state_sync_key_id__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "keyData",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__AppStateSyncKey, keydata),
-    &wa__message__app_state_sync_key_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__message__app_state_sync_key__field_indices_by_name[] = {
-  1,   /* field[1] = keyData */
-  0,   /* field[0] = keyId */
-};
-static const ProtobufCIntRange wa__message__app_state_sync_key__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__message__app_state_sync_key__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.AppStateSyncKey",
-  "AppStateSyncKey",
-  "Wa__Message__AppStateSyncKey",
-  "wa",
-  sizeof(Wa__Message__AppStateSyncKey),
-  2,
-  wa__message__app_state_sync_key__field_descriptors,
-  wa__message__app_state_sync_key__field_indices_by_name,
-  1,  wa__message__app_state_sync_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__message__audio_message__field_descriptors[13] =
+static const ProtobufCFieldDescriptor wa__message__audio_message__field_descriptors[15] =
 {
   {
     "url",
@@ -9754,8 +10605,33 @@ static const ProtobufCFieldDescriptor wa__message__audio_message__field_descript
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "backgroundArgb",
+    20,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_FIXED32,
+    offsetof(Wa__Message__AudioMessage, has_backgroundargb),
+    offsetof(Wa__Message__AudioMessage, backgroundargb),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "viewOnce",
+    21,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Message__AudioMessage, has_viewonce),
+    offsetof(Wa__Message__AudioMessage, viewonce),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__audio_message__field_indices_by_name[] = {
+  13,   /* field[13] = backgroundArgb */
   10,   /* field[10] = contextInfo */
   8,   /* field[8] = directPath */
   7,   /* field[7] = fileEncSha256 */
@@ -9768,13 +10644,14 @@ static const unsigned wa__message__audio_message__field_indices_by_name[] = {
   4,   /* field[4] = seconds */
   11,   /* field[11] = streamingSidecar */
   0,   /* field[0] = url */
+  14,   /* field[14] = viewOnce */
   12,   /* field[12] = waveform */
 };
 static const ProtobufCIntRange wa__message__audio_message__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 17, 10 },
-  { 0, 13 }
+  { 0, 15 }
 };
 const ProtobufCMessageDescriptor wa__message__audio_message__descriptor =
 {
@@ -9784,12 +10661,11 @@ const ProtobufCMessageDescriptor wa__message__audio_message__descriptor =
   "Wa__Message__AudioMessage",
   "wa",
   sizeof(Wa__Message__AudioMessage),
-  13,
+  15,
   wa__message__audio_message__field_descriptors,
   wa__message__audio_message__field_indices_by_name,
   2,  wa__message__audio_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__buttons_message__button__button_text__field_descriptors[1] =
 {
@@ -9826,8 +10702,7 @@ const ProtobufCMessageDescriptor wa__message__buttons_message__button__button_te
   wa__message__buttons_message__button__button_text__field_descriptors,
   wa__message__buttons_message__button__button_text__field_indices_by_name,
   1,  wa__message__buttons_message__button__button_text__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__buttons_message__button__native_flow_info__field_descriptors[2] =
 {
@@ -9877,8 +10752,7 @@ const ProtobufCMessageDescriptor wa__message__buttons_message__button__native_fl
   wa__message__buttons_message__button__native_flow_info__field_descriptors,
   wa__message__buttons_message__button__native_flow_info__field_indices_by_name,
   1,  wa__message__buttons_message__button__native_flow_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__buttons_message__button__type__enum_values_by_number[3] =
 {
@@ -9984,8 +10858,7 @@ const ProtobufCMessageDescriptor wa__message__buttons_message__button__descripto
   wa__message__buttons_message__button__field_descriptors,
   wa__message__buttons_message__button__field_indices_by_name,
   1,  wa__message__buttons_message__button__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__buttons_message__header_type__enum_values_by_number[7] =
 {
@@ -10177,8 +11050,7 @@ const ProtobufCMessageDescriptor wa__message__buttons_message__descriptor =
   wa__message__buttons_message__field_descriptors,
   wa__message__buttons_message__field_indices_by_name,
   1,  wa__message__buttons_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__buttons_response_message__type__enum_values_by_number[2] =
 {
@@ -10282,8 +11154,7 @@ const ProtobufCMessageDescriptor wa__message__buttons_response_message__descript
   wa__message__buttons_response_message__field_descriptors,
   wa__message__buttons_response_message__field_indices_by_name,
   1,  wa__message__buttons_response_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__call__field_descriptors[4] =
 {
@@ -10359,8 +11230,7 @@ const ProtobufCMessageDescriptor wa__message__call__descriptor =
   wa__message__call__field_descriptors,
   wa__message__call__field_indices_by_name,
   1,  wa__message__call__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__cancel_payment_request_message__field_descriptors[1] =
 {
@@ -10397,8 +11267,7 @@ const ProtobufCMessageDescriptor wa__message__cancel_payment_request_message__de
   wa__message__cancel_payment_request_message__field_descriptors,
   wa__message__cancel_payment_request_message__field_indices_by_name,
   1,  wa__message__cancel_payment_request_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__chat__field_descriptors[2] =
 {
@@ -10448,8 +11317,7 @@ const ProtobufCMessageDescriptor wa__message__chat__descriptor =
   wa__message__chat__field_descriptors,
   wa__message__chat__field_indices_by_name,
   1,  wa__message__chat__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__contact_message__field_descriptors[3] =
 {
@@ -10513,8 +11381,7 @@ const ProtobufCMessageDescriptor wa__message__contact_message__descriptor =
   wa__message__contact_message__field_descriptors,
   wa__message__contact_message__field_indices_by_name,
   2,  wa__message__contact_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__contacts_array_message__field_descriptors[3] =
 {
@@ -10578,8 +11445,7 @@ const ProtobufCMessageDescriptor wa__message__contacts_array_message__descriptor
   wa__message__contacts_array_message__field_descriptors,
   wa__message__contacts_array_message__field_indices_by_name,
   2,  wa__message__contacts_array_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__decline_payment_request_message__field_descriptors[1] =
 {
@@ -10616,8 +11482,7 @@ const ProtobufCMessageDescriptor wa__message__decline_payment_request_message__d
   wa__message__decline_payment_request_message__field_descriptors,
   wa__message__decline_payment_request_message__field_indices_by_name,
   1,  wa__message__decline_payment_request_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__device_sent_message__field_descriptors[3] =
 {
@@ -10680,8 +11545,7 @@ const ProtobufCMessageDescriptor wa__message__device_sent_message__descriptor =
   wa__message__device_sent_message__field_descriptors,
   wa__message__device_sent_message__field_indices_by_name,
   1,  wa__message__device_sent_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__document_message__field_descriptors[20] =
 {
@@ -10965,10 +11829,72 @@ const ProtobufCMessageDescriptor wa__message__document_message__descriptor =
   wa__message__document_message__field_descriptors,
   wa__message__document_message__field_indices_by_name,
   1,  wa__message__document_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__message__extended_text_message__font_type__enum_values_by_number[6] =
+static const ProtobufCFieldDescriptor wa__message__enc_reaction_message__field_descriptors[3] =
+{
+  {
+    "targetMessageKey",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__EncReactionMessage, targetmessagekey),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "encPayload",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__EncReactionMessage, has_encpayload),
+    offsetof(Wa__Message__EncReactionMessage, encpayload),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "encIv",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__EncReactionMessage, has_enciv),
+    offsetof(Wa__Message__EncReactionMessage, enciv),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__enc_reaction_message__field_indices_by_name[] = {
+  2,   /* field[2] = encIv */
+  1,   /* field[1] = encPayload */
+  0,   /* field[0] = targetMessageKey */
+};
+static const ProtobufCIntRange wa__message__enc_reaction_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__message__enc_reaction_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.EncReactionMessage",
+  "EncReactionMessage",
+  "Wa__Message__EncReactionMessage",
+  "wa",
+  sizeof(Wa__Message__EncReactionMessage),
+  3,
+  wa__message__enc_reaction_message__field_descriptors,
+  wa__message__enc_reaction_message__field_indices_by_name,
+  1,  wa__message__enc_reaction_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__message__extended_text_message__font_type__enum_values_by_number[11] =
 {
   { "SANS_SERIF", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SANS_SERIF", 0 },
   { "SERIF", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SERIF", 1 },
@@ -10976,18 +11902,28 @@ static const ProtobufCEnumValue wa__message__extended_text_message__font_type__e
   { "BRYNDAN_WRITE", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__BRYNDAN_WRITE", 3 },
   { "BEBASNEUE_REGULAR", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__BEBASNEUE_REGULAR", 4 },
   { "OSWALD_HEAVY", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__OSWALD_HEAVY", 5 },
+  { "SYSTEM_BOLD", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SYSTEM_BOLD", 6 },
+  { "MORNINGBREEZE_REGULAR", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__MORNINGBREEZE_REGULAR", 7 },
+  { "CALISTOGA_REGULAR", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__CALISTOGA_REGULAR", 8 },
+  { "EXO2_EXTRABOLD", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__EXO2_EXTRABOLD", 9 },
+  { "COURIERPRIME_BOLD", "WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__COURIERPRIME_BOLD", 10 },
 };
 static const ProtobufCIntRange wa__message__extended_text_message__font_type__value_ranges[] = {
-{0, 0},{0, 6}
+{0, 0},{0, 11}
 };
-static const ProtobufCEnumValueIndex wa__message__extended_text_message__font_type__enum_values_by_name[6] =
+static const ProtobufCEnumValueIndex wa__message__extended_text_message__font_type__enum_values_by_name[11] =
 {
   { "BEBASNEUE_REGULAR", 4 },
   { "BRYNDAN_WRITE", 3 },
+  { "CALISTOGA_REGULAR", 8 },
+  { "COURIERPRIME_BOLD", 10 },
+  { "EXO2_EXTRABOLD", 9 },
+  { "MORNINGBREEZE_REGULAR", 7 },
   { "NORICAN_REGULAR", 2 },
   { "OSWALD_HEAVY", 5 },
   { "SANS_SERIF", 0 },
   { "SERIF", 1 },
+  { "SYSTEM_BOLD", 6 },
 };
 const ProtobufCEnumDescriptor wa__message__extended_text_message__font_type__descriptor =
 {
@@ -10996,9 +11932,9 @@ const ProtobufCEnumDescriptor wa__message__extended_text_message__font_type__des
   "FontType",
   "Wa__Message__ExtendedTextMessage__FontType",
   "wa",
-  6,
+  11,
   wa__message__extended_text_message__font_type__enum_values_by_number,
-  6,
+  11,
   wa__message__extended_text_message__font_type__enum_values_by_name,
   1,
   wa__message__extended_text_message__font_type__value_ranges,
@@ -11064,7 +12000,7 @@ const ProtobufCEnumDescriptor wa__message__extended_text_message__preview_type__
   wa__message__extended_text_message__preview_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__message__extended_text_message__field_descriptors[23] =
+static const ProtobufCFieldDescriptor wa__message__extended_text_message__field_descriptors[24] =
 {
   {
     "text",
@@ -11342,6 +12278,18 @@ static const ProtobufCFieldDescriptor wa__message__extended_text_message__field_
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "viewOnce",
+    30,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Message__ExtendedTextMessage, has_viewonce),
+    offsetof(Wa__Message__ExtendedTextMessage, viewonce),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__extended_text_message__field_indices_by_name[] = {
   6,   /* field[6] = backgroundArgb */
@@ -11367,13 +12315,14 @@ static const unsigned wa__message__extended_text_message__field_indices_by_name[
   13,   /* field[13] = thumbnailSha256 */
   18,   /* field[18] = thumbnailWidth */
   4,   /* field[4] = title */
+  23,   /* field[23] = viewOnce */
 };
 static const ProtobufCIntRange wa__message__extended_text_message__number_ranges[3 + 1] =
 {
   { 1, 0 },
   { 4, 2 },
   { 16, 9 },
-  { 0, 23 }
+  { 0, 24 }
 };
 const ProtobufCMessageDescriptor wa__message__extended_text_message__descriptor =
 {
@@ -11383,12 +12332,11 @@ const ProtobufCMessageDescriptor wa__message__extended_text_message__descriptor 
   "Wa__Message__ExtendedTextMessage",
   "wa",
   sizeof(Wa__Message__ExtendedTextMessage),
-  23,
+  24,
   wa__message__extended_text_message__field_descriptors,
   wa__message__extended_text_message__field_indices_by_name,
   3,  wa__message__extended_text_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__future_proof_message__field_descriptors[1] =
 {
@@ -11425,8 +12373,7 @@ const ProtobufCMessageDescriptor wa__message__future_proof_message__descriptor =
   wa__message__future_proof_message__field_descriptors,
   wa__message__future_proof_message__field_indices_by_name,
   1,  wa__message__future_proof_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__group_invite_message__group_type__enum_values_by_number[2] =
 {
@@ -11582,8 +12529,7 @@ const ProtobufCMessageDescriptor wa__message__group_invite_message__descriptor =
   wa__message__group_invite_message__field_descriptors,
   wa__message__group_invite_message__field_indices_by_name,
   1,  wa__message__group_invite_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__highly_structured_message__hsmlocalizable_parameter__hsmcurrency__field_descriptors[2] =
 {
@@ -11633,8 +12579,7 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__hsmloca
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmcurrency__field_descriptors,
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmcurrency__field_indices_by_name,
   1,  wa__message__highly_structured_message__hsmlocalizable_parameter__hsmcurrency__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_component__calendar_type__enum_values_by_number[2] =
 {
@@ -11815,8 +12760,7 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__hsmloca
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_component__field_descriptors,
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_component__field_indices_by_name,
   1,  wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_component__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_unix_epoch__field_descriptors[1] =
 {
@@ -11853,8 +12797,7 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__hsmloca
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_unix_epoch__field_descriptors,
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_unix_epoch__field_indices_by_name,
   1,  wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__hsmdate_time_unix_epoch__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__field_descriptors[2] =
 {
@@ -11904,8 +12847,7 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__hsmloca
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__field_descriptors,
   wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__field_indices_by_name,
   1,  wa__message__highly_structured_message__hsmlocalizable_parameter__hsmdate_time__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__highly_structured_message__hsmlocalizable_parameter__field_descriptors[3] =
 {
@@ -11968,8 +12910,7 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__hsmloca
   wa__message__highly_structured_message__hsmlocalizable_parameter__field_descriptors,
   wa__message__highly_structured_message__hsmlocalizable_parameter__field_indices_by_name,
   1,  wa__message__highly_structured_message__hsmlocalizable_parameter__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__highly_structured_message__field_descriptors[9] =
 {
@@ -12110,25 +13051,28 @@ const ProtobufCMessageDescriptor wa__message__highly_structured_message__descrip
   wa__message__highly_structured_message__field_descriptors,
   wa__message__highly_structured_message__field_indices_by_name,
   1,  wa__message__highly_structured_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__message__history_sync_notification__history_sync_type__enum_values_by_number[5] =
+static const ProtobufCEnumValue wa__message__history_sync_notification__history_sync_type__enum_values_by_number[7] =
 {
   { "INITIAL_BOOTSTRAP", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3", 1 },
   { "FULL", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__FULL", 2 },
   { "RECENT", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__RECENT", 3 },
   { "PUSH_NAME", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__PUSH_NAME", 4 },
+  { "NON_BLOCKING_DATA", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", "WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__ON_DEMAND", 6 },
 };
 static const ProtobufCIntRange wa__message__history_sync_notification__history_sync_type__value_ranges[] = {
-{0, 0},{0, 5}
+{0, 0},{0, 7}
 };
-static const ProtobufCEnumValueIndex wa__message__history_sync_notification__history_sync_type__enum_values_by_name[5] =
+static const ProtobufCEnumValueIndex wa__message__history_sync_notification__history_sync_type__enum_values_by_name[7] =
 {
   { "FULL", 2 },
   { "INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", 1 },
+  { "NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", 6 },
   { "PUSH_NAME", 4 },
   { "RECENT", 3 },
 };
@@ -12139,15 +13083,15 @@ const ProtobufCEnumDescriptor wa__message__history_sync_notification__history_sy
   "HistorySyncType",
   "Wa__Message__HistorySyncNotification__HistorySyncType",
   "wa",
-  5,
+  7,
   wa__message__history_sync_notification__history_sync_type__enum_values_by_number,
-  5,
+  7,
   wa__message__history_sync_notification__history_sync_type__enum_values_by_name,
   1,
   wa__message__history_sync_notification__history_sync_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__message__history_sync_notification__field_descriptors[9] =
+static const ProtobufCFieldDescriptor wa__message__history_sync_notification__field_descriptors[12] =
 {
   {
     "fileSha256",
@@ -12257,6 +13201,42 @@ static const ProtobufCFieldDescriptor wa__message__history_sync_notification__fi
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "oldestMsgInChunkTimestampSec",
+    10,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__HistorySyncNotification, has_oldestmsginchunktimestampsec),
+    offsetof(Wa__Message__HistorySyncNotification, oldestmsginchunktimestampsec),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "initialHistBootstrapInlinePayload",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__HistorySyncNotification, has_initialhistbootstrapinlinepayload),
+    offsetof(Wa__Message__HistorySyncNotification, initialhistbootstrapinlinepayload),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "peerDataRequestSessionId",
+    12,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__HistorySyncNotification, peerdatarequestsessionid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__history_sync_notification__field_indices_by_name[] = {
   6,   /* field[6] = chunkOrder */
@@ -12264,15 +13244,18 @@ static const unsigned wa__message__history_sync_notification__field_indices_by_n
   3,   /* field[3] = fileEncSha256 */
   1,   /* field[1] = fileLength */
   0,   /* field[0] = fileSha256 */
+  10,   /* field[10] = initialHistBootstrapInlinePayload */
   2,   /* field[2] = mediaKey */
+  9,   /* field[9] = oldestMsgInChunkTimestampSec */
   7,   /* field[7] = originalMessageId */
+  11,   /* field[11] = peerDataRequestSessionId */
   8,   /* field[8] = progress */
   5,   /* field[5] = syncType */
 };
 static const ProtobufCIntRange wa__message__history_sync_notification__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 9 }
+  { 0, 12 }
 };
 const ProtobufCMessageDescriptor wa__message__history_sync_notification__descriptor =
 {
@@ -12282,12 +13265,11 @@ const ProtobufCMessageDescriptor wa__message__history_sync_notification__descrip
   "Wa__Message__HistorySyncNotification",
   "wa",
   sizeof(Wa__Message__HistorySyncNotification),
-  9,
+  12,
   wa__message__history_sync_notification__field_descriptors,
   wa__message__history_sync_notification__field_indices_by_name,
   1,  wa__message__history_sync_notification__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__image_message__field_descriptors[26] =
 {
@@ -12650,8 +13632,7 @@ const ProtobufCMessageDescriptor wa__message__image_message__descriptor =
   wa__message__image_message__field_descriptors,
   wa__message__image_message__field_indices_by_name,
   2,  wa__message__image_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__initial_security_notification_setting_sync__field_descriptors[1] =
 {
@@ -12688,8 +13669,7 @@ const ProtobufCMessageDescriptor wa__message__initial_security_notification_sett
   wa__message__initial_security_notification_setting_sync__field_descriptors,
   wa__message__initial_security_notification_setting_sync__field_indices_by_name,
   1,  wa__message__initial_security_notification_setting_sync__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__body__field_descriptors[1] =
 {
@@ -12726,8 +13706,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__body__descrip
   wa__message__interactive_message__body__field_descriptors,
   wa__message__interactive_message__body__field_indices_by_name,
   1,  wa__message__interactive_message__body__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__collection_message__field_descriptors[3] =
 {
@@ -12790,8 +13769,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__collection_me
   wa__message__interactive_message__collection_message__field_descriptors,
   wa__message__interactive_message__collection_message__field_indices_by_name,
   1,  wa__message__interactive_message__collection_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__footer__field_descriptors[1] =
 {
@@ -12828,10 +13806,9 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__footer__descr
   wa__message__interactive_message__footer__field_descriptors,
   wa__message__interactive_message__footer__field_indices_by_name,
   1,  wa__message__interactive_message__footer__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message__interactive_message__header__field_descriptors[7] =
+static const ProtobufCFieldDescriptor wa__message__interactive_message__header__field_descriptors[8] =
 {
   {
     "title",
@@ -12917,12 +13894,25 @@ static const ProtobufCFieldDescriptor wa__message__interactive_message__header__
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "locationMessage",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__InteractiveMessage__Header, media_case),
+    offsetof(Wa__Message__InteractiveMessage__Header, locationmessage),
+    &wa__message__location_message__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__interactive_message__header__field_indices_by_name[] = {
   2,   /* field[2] = documentMessage */
   4,   /* field[4] = hasMediaAttachment */
   3,   /* field[3] = imageMessage */
   5,   /* field[5] = jpegThumbnail */
+  7,   /* field[7] = locationMessage */
   1,   /* field[1] = subtitle */
   0,   /* field[0] = title */
   6,   /* field[6] = videoMessage */
@@ -12930,7 +13920,7 @@ static const unsigned wa__message__interactive_message__header__field_indices_by
 static const ProtobufCIntRange wa__message__interactive_message__header__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 7 }
+  { 0, 8 }
 };
 const ProtobufCMessageDescriptor wa__message__interactive_message__header__descriptor =
 {
@@ -12940,12 +13930,11 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__header__descr
   "Wa__Message__InteractiveMessage__Header",
   "wa",
   sizeof(Wa__Message__InteractiveMessage__Header),
-  7,
+  8,
   wa__message__interactive_message__header__field_descriptors,
   wa__message__interactive_message__header__field_indices_by_name,
   1,  wa__message__interactive_message__header__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__native_flow_message__native_flow_button__field_descriptors[2] =
 {
@@ -12995,8 +13984,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__native_flow_m
   wa__message__interactive_message__native_flow_message__native_flow_button__field_descriptors,
   wa__message__interactive_message__native_flow_message__native_flow_button__field_indices_by_name,
   1,  wa__message__interactive_message__native_flow_message__native_flow_button__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__native_flow_message__field_descriptors[3] =
 {
@@ -13059,8 +14047,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__native_flow_m
   wa__message__interactive_message__native_flow_message__field_descriptors,
   wa__message__interactive_message__native_flow_message__field_indices_by_name,
   1,  wa__message__interactive_message__native_flow_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__interactive_message__shop_message__surface__enum_values_by_number[4] =
 {
@@ -13155,8 +14142,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__shop_message_
   wa__message__interactive_message__shop_message__field_descriptors,
   wa__message__interactive_message__shop_message__field_indices_by_name,
   1,  wa__message__interactive_message__shop_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_message__field_descriptors[7] =
 {
@@ -13272,10 +14258,37 @@ const ProtobufCMessageDescriptor wa__message__interactive_message__descriptor =
   wa__message__interactive_message__field_descriptors,
   wa__message__interactive_message__field_indices_by_name,
   2,  wa__message__interactive_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message__interactive_response_message__body__field_descriptors[1] =
+static const ProtobufCEnumValue wa__message__interactive_response_message__body__format__enum_values_by_number[2] =
+{
+  { "DEFAULT", "WA__MESSAGE__INTERACTIVE_RESPONSE_MESSAGE__BODY__FORMAT__DEFAULT", 0 },
+  { "EXTENSIONS_1", "WA__MESSAGE__INTERACTIVE_RESPONSE_MESSAGE__BODY__FORMAT__EXTENSIONS_1", 1 },
+};
+static const ProtobufCIntRange wa__message__interactive_response_message__body__format__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex wa__message__interactive_response_message__body__format__enum_values_by_name[2] =
+{
+  { "DEFAULT", 0 },
+  { "EXTENSIONS_1", 1 },
+};
+const ProtobufCEnumDescriptor wa__message__interactive_response_message__body__format__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.Message.InteractiveResponseMessage.Body.Format",
+  "Format",
+  "Wa__Message__InteractiveResponseMessage__Body__Format",
+  "wa",
+  2,
+  wa__message__interactive_response_message__body__format__enum_values_by_number,
+  2,
+  wa__message__interactive_response_message__body__format__enum_values_by_name,
+  1,
+  wa__message__interactive_response_message__body__format__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__message__interactive_response_message__body__field_descriptors[2] =
 {
   {
     "text",
@@ -13289,14 +14302,27 @@ static const ProtobufCFieldDescriptor wa__message__interactive_response_message_
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "format",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__InteractiveResponseMessage__Body, has_format),
+    offsetof(Wa__Message__InteractiveResponseMessage__Body, format),
+    &wa__message__interactive_response_message__body__format__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__interactive_response_message__body__field_indices_by_name[] = {
+  1,   /* field[1] = format */
   0,   /* field[0] = text */
 };
 static const ProtobufCIntRange wa__message__interactive_response_message__body__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor wa__message__interactive_response_message__body__descriptor =
 {
@@ -13306,12 +14332,11 @@ const ProtobufCMessageDescriptor wa__message__interactive_response_message__body
   "Wa__Message__InteractiveResponseMessage__Body",
   "wa",
   sizeof(Wa__Message__InteractiveResponseMessage__Body),
-  1,
+  2,
   wa__message__interactive_response_message__body__field_descriptors,
   wa__message__interactive_response_message__body__field_indices_by_name,
   1,  wa__message__interactive_response_message__body__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_response_message__native_flow_response_message__field_descriptors[3] =
 {
@@ -13374,8 +14399,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_response_message__nati
   wa__message__interactive_response_message__native_flow_response_message__field_descriptors,
   wa__message__interactive_response_message__native_flow_response_message__field_indices_by_name,
   1,  wa__message__interactive_response_message__native_flow_response_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__interactive_response_message__field_descriptors[3] =
 {
@@ -13439,8 +14463,7 @@ const ProtobufCMessageDescriptor wa__message__interactive_response_message__desc
   wa__message__interactive_response_message__field_descriptors,
   wa__message__interactive_response_message__field_indices_by_name,
   2,  wa__message__interactive_response_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__invoice_message__attachment_type__enum_values_by_number[2] =
 {
@@ -13622,8 +14645,7 @@ const ProtobufCMessageDescriptor wa__message__invoice_message__descriptor =
   wa__message__invoice_message__field_descriptors,
   wa__message__invoice_message__field_indices_by_name,
   1,  wa__message__invoice_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__keep_in_chat_message__field_descriptors[3] =
 {
@@ -13686,8 +14708,44 @@ const ProtobufCMessageDescriptor wa__message__keep_in_chat_message__descriptor =
   wa__message__keep_in_chat_message__field_descriptors,
   wa__message__keep_in_chat_message__field_indices_by_name,
   1,  wa__message__keep_in_chat_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__list_message__product__field_descriptors[1] =
+{
+  {
+    "productId",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__ListMessage__Product, productid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__list_message__product__field_indices_by_name[] = {
+  0,   /* field[0] = productId */
+};
+static const ProtobufCIntRange wa__message__list_message__product__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__message__list_message__product__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.ListMessage.Product",
+  "Product",
+  "Wa__Message__ListMessage__Product",
+  "wa",
+  sizeof(Wa__Message__ListMessage__Product),
+  1,
+  wa__message__list_message__product__field_descriptors,
+  wa__message__list_message__product__field_indices_by_name,
+  1,  wa__message__list_message__product__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_message__product_list_header_image__field_descriptors[2] =
 {
@@ -13737,8 +14795,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__product_list_header_
   wa__message__list_message__product_list_header_image__field_descriptors,
   wa__message__list_message__product_list_header_image__field_indices_by_name,
   1,  wa__message__list_message__product_list_header_image__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_message__product_list_info__field_descriptors[3] =
 {
@@ -13801,8 +14858,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__product_list_info__d
   wa__message__list_message__product_list_info__field_descriptors,
   wa__message__list_message__product_list_info__field_indices_by_name,
   1,  wa__message__list_message__product_list_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_message__product_section__field_descriptors[2] =
 {
@@ -13852,46 +14908,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__product_section__des
   wa__message__list_message__product_section__field_descriptors,
   wa__message__list_message__product_section__field_indices_by_name,
   1,  wa__message__list_message__product_section__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__message__list_message__product__field_descriptors[1] =
-{
-  {
-    "productId",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__ListMessage__Product, productid),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__message__list_message__product__field_indices_by_name[] = {
-  0,   /* field[0] = productId */
-};
-static const ProtobufCIntRange wa__message__list_message__product__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 1 }
-};
-const ProtobufCMessageDescriptor wa__message__list_message__product__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.ListMessage.Product",
-  "Product",
-  "Wa__Message__ListMessage__Product",
-  "wa",
-  sizeof(Wa__Message__ListMessage__Product),
-  1,
-  wa__message__list_message__product__field_descriptors,
-  wa__message__list_message__product__field_indices_by_name,
-  1,  wa__message__list_message__product__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_message__row__field_descriptors[3] =
 {
@@ -13954,8 +14971,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__row__descriptor =
   wa__message__list_message__row__field_descriptors,
   wa__message__list_message__row__field_indices_by_name,
   1,  wa__message__list_message__row__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_message__section__field_descriptors[2] =
 {
@@ -14005,8 +15021,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__section__descriptor 
   wa__message__list_message__section__field_descriptors,
   wa__message__list_message__section__field_indices_by_name,
   1,  wa__message__list_message__section__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__list_message__list_type__enum_values_by_number[3] =
 {
@@ -14164,8 +15179,7 @@ const ProtobufCMessageDescriptor wa__message__list_message__descriptor =
   wa__message__list_message__field_descriptors,
   wa__message__list_message__field_indices_by_name,
   1,  wa__message__list_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__list_response_message__single_select_reply__field_descriptors[1] =
 {
@@ -14202,8 +15216,7 @@ const ProtobufCMessageDescriptor wa__message__list_response_message__single_sele
   wa__message__list_response_message__single_select_reply__field_descriptors,
   wa__message__list_response_message__single_select_reply__field_indices_by_name,
   1,  wa__message__list_response_message__single_select_reply__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__list_response_message__list_type__enum_values_by_number[2] =
 {
@@ -14320,8 +15333,7 @@ const ProtobufCMessageDescriptor wa__message__list_response_message__descriptor 
   wa__message__list_response_message__field_descriptors,
   wa__message__list_response_message__field_indices_by_name,
   1,  wa__message__list_response_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__live_location_message__field_descriptors[10] =
 {
@@ -14476,8 +15488,7 @@ const ProtobufCMessageDescriptor wa__message__live_location_message__descriptor 
   wa__message__live_location_message__field_descriptors,
   wa__message__live_location_message__field_indices_by_name,
   2,  wa__message__live_location_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__location_message__field_descriptors[12] =
 {
@@ -14659,8 +15670,7 @@ const ProtobufCMessageDescriptor wa__message__location_message__descriptor =
   wa__message__location_message__field_descriptors,
   wa__message__location_message__field_indices_by_name,
   3,  wa__message__location_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__order_message__order_status__enum_values_by_number[1] =
 {
@@ -14893,8 +15903,7 @@ const ProtobufCMessageDescriptor wa__message__order_message__descriptor =
   wa__message__order_message__field_descriptors,
   wa__message__order_message__field_indices_by_name,
   2,  wa__message__order_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__payment_invite_message__service_type__enum_values_by_number[4] =
 {
@@ -14976,8 +15985,821 @@ const ProtobufCMessageDescriptor wa__message__payment_invite_message__descriptor
   wa__message__payment_invite_message__field_descriptors,
   wa__message__payment_invite_message__field_indices_by_name,
   1,  wa__message__payment_invite_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_message__history_sync_on_demand_request__field_descriptors[5] =
+{
+  {
+    "chatJid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, chatjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "oldestMsgId",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, oldestmsgid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "oldestMsgFromMe",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, has_oldestmsgfromme),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, oldestmsgfromme),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "onDemandMsgCount",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, has_ondemandmsgcount),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, ondemandmsgcount),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "oldestMsgTimestampMs",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, has_oldestmsgtimestampms),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest, oldestmsgtimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_message__history_sync_on_demand_request__field_indices_by_name[] = {
+  0,   /* field[0] = chatJid */
+  2,   /* field[2] = oldestMsgFromMe */
+  1,   /* field[1] = oldestMsgId */
+  4,   /* field[4] = oldestMsgTimestampMs */
+  3,   /* field[3] = onDemandMsgCount */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_message__history_sync_on_demand_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__history_sync_on_demand_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest",
+  "HistorySyncOnDemandRequest",
+  "Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest),
+  5,
+  wa__message__peer_data_operation_request_message__history_sync_on_demand_request__field_descriptors,
+  wa__message__peer_data_operation_request_message__history_sync_on_demand_request__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_message__history_sync_on_demand_request__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_message__placeholder_message_resend_request__field_descriptors[1] =
+{
+  {
+    "messageKey",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest, messagekey),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_message__placeholder_message_resend_request__field_indices_by_name[] = {
+  0,   /* field[0] = messageKey */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_message__placeholder_message_resend_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__placeholder_message_resend_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestMessage.PlaceholderMessageResendRequest",
+  "PlaceholderMessageResendRequest",
+  "Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest),
+  1,
+  wa__message__peer_data_operation_request_message__placeholder_message_resend_request__field_descriptors,
+  wa__message__peer_data_operation_request_message__placeholder_message_resend_request__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_message__placeholder_message_resend_request__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_message__request_sticker_reupload__field_descriptors[1] =
+{
+  {
+    "fileSha256",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload, filesha256),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_message__request_sticker_reupload__field_indices_by_name[] = {
+  0,   /* field[0] = fileSha256 */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_message__request_sticker_reupload__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__request_sticker_reupload__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestMessage.RequestStickerReupload",
+  "RequestStickerReupload",
+  "Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload),
+  1,
+  wa__message__peer_data_operation_request_message__request_sticker_reupload__field_descriptors,
+  wa__message__peer_data_operation_request_message__request_sticker_reupload__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_message__request_sticker_reupload__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_message__request_url_preview__field_descriptors[2] =
+{
+  {
+    "url",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview, url),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "includeHqThumbnail",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview, has_includehqthumbnail),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview, includehqthumbnail),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_message__request_url_preview__field_indices_by_name[] = {
+  1,   /* field[1] = includeHqThumbnail */
+  0,   /* field[0] = url */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_message__request_url_preview__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__request_url_preview__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestMessage.RequestUrlPreview",
+  "RequestUrlPreview",
+  "Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview),
+  2,
+  wa__message__peer_data_operation_request_message__request_url_preview__field_descriptors,
+  wa__message__peer_data_operation_request_message__request_url_preview__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_message__request_url_preview__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_message__field_descriptors[5] =
+{
+  {
+    "peerDataOperationRequestType",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, has_peerdataoperationrequesttype),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, peerdataoperationrequesttype),
+    &wa__message__peer_data_operation_request_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "requestStickerReupload",
+    2,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, n_requeststickerreupload),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, requeststickerreupload),
+    &wa__message__peer_data_operation_request_message__request_sticker_reupload__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "requestUrlPreview",
+    3,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, n_requesturlpreview),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, requesturlpreview),
+    &wa__message__peer_data_operation_request_message__request_url_preview__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "historySyncOnDemandRequest",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, historysyncondemandrequest),
+    &wa__message__peer_data_operation_request_message__history_sync_on_demand_request__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "placeholderMessageResendRequest",
+    5,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, n_placeholdermessageresendrequest),
+    offsetof(Wa__Message__PeerDataOperationRequestMessage, placeholdermessageresendrequest),
+    &wa__message__peer_data_operation_request_message__placeholder_message_resend_request__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_message__field_indices_by_name[] = {
+  3,   /* field[3] = historySyncOnDemandRequest */
+  0,   /* field[0] = peerDataOperationRequestType */
+  4,   /* field[4] = placeholderMessageResendRequest */
+  1,   /* field[1] = requestStickerReupload */
+  2,   /* field[2] = requestUrlPreview */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestMessage",
+  "PeerDataOperationRequestMessage",
+  "Wa__Message__PeerDataOperationRequestMessage",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestMessage),
+  5,
+  wa__message__peer_data_operation_request_message__field_descriptors,
+  wa__message__peer_data_operation_request_message__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__field_descriptors[7] =
+{
+  {
+    "directPath",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, directpath),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "thumbHash",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, thumbhash),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "encThumbHash",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, encthumbhash),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mediaKey",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, has_mediakey),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, mediakey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mediaKeyTimestampMs",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, has_mediakeytimestampms),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, mediakeytimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "thumbWidth",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, has_thumbwidth),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, thumbwidth),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "thumbHeight",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, has_thumbheight),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail, thumbheight),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__field_indices_by_name[] = {
+  0,   /* field[0] = directPath */
+  2,   /* field[2] = encThumbHash */
+  3,   /* field[3] = mediaKey */
+  4,   /* field[4] = mediaKeyTimestampMs */
+  1,   /* field[1] = thumbHash */
+  6,   /* field[6] = thumbHeight */
+  5,   /* field[5] = thumbWidth */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 7 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestResponseMessage.PeerDataOperationResult.LinkPreviewResponse.LinkPreviewHighQualityThumbnail",
+  "LinkPreviewHighQualityThumbnail",
+  "Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail),
+  7,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__field_descriptors,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__field_descriptors[8] =
+{
+  {
+    "url",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, url),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "title",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, title),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "description",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, description),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "thumbData",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, has_thumbdata),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, thumbdata),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "canonicalUrl",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, canonicalurl),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "matchText",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, matchtext),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "previewType",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, previewtype),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "hqThumbnail",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse, hqthumbnail),
+    &wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__field_indices_by_name[] = {
+  4,   /* field[4] = canonicalUrl */
+  2,   /* field[2] = description */
+  7,   /* field[7] = hqThumbnail */
+  5,   /* field[5] = matchText */
+  6,   /* field[6] = previewType */
+  3,   /* field[3] = thumbData */
+  1,   /* field[1] = title */
+  0,   /* field[0] = url */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 8 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestResponseMessage.PeerDataOperationResult.LinkPreviewResponse",
+  "LinkPreviewResponse",
+  "Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse),
+  8,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__field_descriptors,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__field_descriptors[1] =
+{
+  {
+    "webMessageInfoBytes",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse, has_webmessageinfobytes),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse, webmessageinfobytes),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__field_indices_by_name[] = {
+  0,   /* field[0] = webMessageInfoBytes */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestResponseMessage.PeerDataOperationResult.PlaceholderMessageResendResponse",
+  "PlaceholderMessageResendResponse",
+  "Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse),
+  1,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__field_descriptors,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__field_descriptors[4] =
+{
+  {
+    "mediaUploadResult",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult, has_mediauploadresult),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult, mediauploadresult),
+    &wa__media_retry_notification__result_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "stickerMessage",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult, stickermessage),
+    &wa__message__sticker_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "linkPreviewResponse",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult, linkpreviewresponse),
+    &wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "placeholderMessageResendResponse",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult, placeholdermessageresendresponse),
+    &wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_response_message__peer_data_operation_result__field_indices_by_name[] = {
+  2,   /* field[2] = linkPreviewResponse */
+  0,   /* field[0] = mediaUploadResult */
+  3,   /* field[3] = placeholderMessageResendResponse */
+  1,   /* field[1] = stickerMessage */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_response_message__peer_data_operation_result__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestResponseMessage.PeerDataOperationResult",
+  "PeerDataOperationResult",
+  "Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult),
+  4,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__field_descriptors,
+  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_response_message__peer_data_operation_result__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message__peer_data_operation_request_response_message__field_descriptors[3] =
+{
+  {
+    "peerDataOperationRequestType",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage, has_peerdataoperationrequesttype),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage, peerdataoperationrequesttype),
+    &wa__message__peer_data_operation_request_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "stanzaId",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage, stanzaid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "peerDataOperationResult",
+    3,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage, n_peerdataoperationresult),
+    offsetof(Wa__Message__PeerDataOperationRequestResponseMessage, peerdataoperationresult),
+    &wa__message__peer_data_operation_request_response_message__peer_data_operation_result__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__peer_data_operation_request_response_message__field_indices_by_name[] = {
+  0,   /* field[0] = peerDataOperationRequestType */
+  2,   /* field[2] = peerDataOperationResult */
+  1,   /* field[1] = stanzaId */
+};
+static const ProtobufCIntRange wa__message__peer_data_operation_request_response_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PeerDataOperationRequestResponseMessage",
+  "PeerDataOperationRequestResponseMessage",
+  "Wa__Message__PeerDataOperationRequestResponseMessage",
+  "wa",
+  sizeof(Wa__Message__PeerDataOperationRequestResponseMessage),
+  3,
+  wa__message__peer_data_operation_request_response_message__field_descriptors,
+  wa__message__peer_data_operation_request_response_message__field_indices_by_name,
+  1,  wa__message__peer_data_operation_request_response_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__message__pin_in_chat_message__type__enum_values_by_number[3] =
+{
+  { "UNKNOWN_TYPE", "WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__UNKNOWN_TYPE", 0 },
+  { "PIN_FOR_ALL", "WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__PIN_FOR_ALL", 1 },
+  { "UNPIN_FOR_ALL", "WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__UNPIN_FOR_ALL", 2 },
+};
+static const ProtobufCIntRange wa__message__pin_in_chat_message__type__value_ranges[] = {
+{0, 0},{0, 3}
+};
+static const ProtobufCEnumValueIndex wa__message__pin_in_chat_message__type__enum_values_by_name[3] =
+{
+  { "PIN_FOR_ALL", 1 },
+  { "UNKNOWN_TYPE", 0 },
+  { "UNPIN_FOR_ALL", 2 },
+};
+const ProtobufCEnumDescriptor wa__message__pin_in_chat_message__type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.Message.PinInChatMessage.Type",
+  "Type",
+  "Wa__Message__PinInChatMessage__Type",
+  "wa",
+  3,
+  wa__message__pin_in_chat_message__type__enum_values_by_number,
+  3,
+  wa__message__pin_in_chat_message__type__enum_values_by_name,
+  1,
+  wa__message__pin_in_chat_message__type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__message__pin_in_chat_message__field_descriptors[3] =
+{
+  {
+    "key",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__PinInChatMessage, key),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "type",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__PinInChatMessage, has_type),
+    offsetof(Wa__Message__PinInChatMessage, type),
+    &wa__message__pin_in_chat_message__type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "senderTimestampMs",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__PinInChatMessage, has_sendertimestampms),
+    offsetof(Wa__Message__PinInChatMessage, sendertimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__pin_in_chat_message__field_indices_by_name[] = {
+  0,   /* field[0] = key */
+  2,   /* field[2] = senderTimestampMs */
+  1,   /* field[1] = type */
+};
+static const ProtobufCIntRange wa__message__pin_in_chat_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__message__pin_in_chat_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PinInChatMessage",
+  "PinInChatMessage",
+  "Wa__Message__PinInChatMessage",
+  "wa",
+  sizeof(Wa__Message__PinInChatMessage),
+  3,
+  wa__message__pin_in_chat_message__field_descriptors,
+  wa__message__pin_in_chat_message__field_indices_by_name,
+  1,  wa__message__pin_in_chat_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__poll_creation_message__option__field_descriptors[1] =
 {
@@ -15014,8 +16836,7 @@ const ProtobufCMessageDescriptor wa__message__poll_creation_message__option__des
   wa__message__poll_creation_message__option__field_descriptors,
   wa__message__poll_creation_message__option__field_indices_by_name,
   1,  wa__message__poll_creation_message__option__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__poll_creation_message__field_descriptors[5] =
 {
@@ -15104,8 +16925,7 @@ const ProtobufCMessageDescriptor wa__message__poll_creation_message__descriptor 
   wa__message__poll_creation_message__field_descriptors,
   wa__message__poll_creation_message__field_indices_by_name,
   1,  wa__message__poll_creation_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__poll_enc_value__field_descriptors[2] =
 {
@@ -15155,26 +16975,7 @@ const ProtobufCMessageDescriptor wa__message__poll_enc_value__descriptor =
   wa__message__poll_enc_value__field_descriptors,
   wa__message__poll_enc_value__field_indices_by_name,
   1,  wa__message__poll_enc_value__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-#define wa__message__poll_update_message_metadata__field_descriptors NULL
-#define wa__message__poll_update_message_metadata__field_indices_by_name NULL
-#define wa__message__poll_update_message_metadata__number_ranges NULL
-const ProtobufCMessageDescriptor wa__message__poll_update_message_metadata__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.PollUpdateMessageMetadata",
-  "PollUpdateMessageMetadata",
-  "Wa__Message__PollUpdateMessageMetadata",
-  "wa",
-  sizeof(Wa__Message__PollUpdateMessageMetadata),
-  0,
-  wa__message__poll_update_message_metadata__field_descriptors,
-  wa__message__poll_update_message_metadata__field_indices_by_name,
-  0,  wa__message__poll_update_message_metadata__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__poll_update_message__field_descriptors[4] =
 {
@@ -15250,8 +17051,24 @@ const ProtobufCMessageDescriptor wa__message__poll_update_message__descriptor =
   wa__message__poll_update_message__field_descriptors,
   wa__message__poll_update_message__field_indices_by_name,
   1,  wa__message__poll_update_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+#define wa__message__poll_update_message_metadata__field_descriptors NULL
+#define wa__message__poll_update_message_metadata__field_indices_by_name NULL
+#define wa__message__poll_update_message_metadata__number_ranges NULL
+const ProtobufCMessageDescriptor wa__message__poll_update_message_metadata__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.PollUpdateMessageMetadata",
+  "PollUpdateMessageMetadata",
+  "Wa__Message__PollUpdateMessageMetadata",
+  "wa",
+  sizeof(Wa__Message__PollUpdateMessageMetadata),
+  0,
+  wa__message__poll_update_message_metadata__field_descriptors,
+  wa__message__poll_update_message_metadata__field_indices_by_name,
+  0,  wa__message__poll_update_message_metadata__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__poll_vote_message__field_descriptors[1] =
 {
@@ -15288,8 +17105,7 @@ const ProtobufCMessageDescriptor wa__message__poll_vote_message__descriptor =
   wa__message__poll_vote_message__field_descriptors,
   wa__message__poll_vote_message__field_indices_by_name,
   1,  wa__message__poll_vote_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__product_message__catalog_snapshot__field_descriptors[3] =
 {
@@ -15352,8 +17168,7 @@ const ProtobufCMessageDescriptor wa__message__product_message__catalog_snapshot_
   wa__message__product_message__catalog_snapshot__field_descriptors,
   wa__message__product_message__catalog_snapshot__field_indices_by_name,
   1,  wa__message__product_message__catalog_snapshot__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__product_message__product_snapshot__field_descriptors[11] =
 {
@@ -15521,8 +17336,7 @@ const ProtobufCMessageDescriptor wa__message__product_message__product_snapshot_
   wa__message__product_message__product_snapshot__field_descriptors,
   wa__message__product_message__product_snapshot__field_indices_by_name,
   2,  wa__message__product_message__product_snapshot__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__product_message__field_descriptors[6] =
 {
@@ -15626,10 +17440,9 @@ const ProtobufCMessageDescriptor wa__message__product_message__descriptor =
   wa__message__product_message__field_descriptors,
   wa__message__product_message__field_indices_by_name,
   3,  wa__message__product_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__message__protocol_message__type__enum_values_by_number[12] =
+static const ProtobufCEnumValue wa__message__protocol_message__type__enum_values_by_number[13] =
 {
   { "REVOKE", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REVOKE", 0 },
   { "EPHEMERAL_SETTING", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__EPHEMERAL_SETTING", 3 },
@@ -15641,13 +17454,14 @@ static const ProtobufCEnumValue wa__message__protocol_message__type__enum_values
   { "INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC", 9 },
   { "APP_STATE_FATAL_EXCEPTION_NOTIFICATION", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_FATAL_EXCEPTION_NOTIFICATION", 10 },
   { "SHARE_PHONE_NUMBER", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__SHARE_PHONE_NUMBER", 11 },
-  { "REQUEST_MEDIA_UPLOAD_MESSAGE", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REQUEST_MEDIA_UPLOAD_MESSAGE", 12 },
-  { "REQUEST_MEDIA_UPLOAD_RESPONSE_MESSAGE", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REQUEST_MEDIA_UPLOAD_RESPONSE_MESSAGE", 13 },
+  { "MESSAGE_EDIT", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__MESSAGE_EDIT", 14 },
+  { "PEER_DATA_OPERATION_REQUEST_MESSAGE", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__PEER_DATA_OPERATION_REQUEST_MESSAGE", 16 },
+  { "PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE", "WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE", 17 },
 };
 static const ProtobufCIntRange wa__message__protocol_message__type__value_ranges[] = {
-{0, 0},{3, 1},{0, 12}
+{0, 0},{3, 1},{14, 10},{16, 11},{0, 13}
 };
-static const ProtobufCEnumValueIndex wa__message__protocol_message__type__enum_values_by_name[12] =
+static const ProtobufCEnumValueIndex wa__message__protocol_message__type__enum_values_by_name[13] =
 {
   { "APP_STATE_FATAL_EXCEPTION_NOTIFICATION", 8 },
   { "APP_STATE_SYNC_KEY_REQUEST", 5 },
@@ -15656,9 +17470,10 @@ static const ProtobufCEnumValueIndex wa__message__protocol_message__type__enum_v
   { "EPHEMERAL_SYNC_RESPONSE", 2 },
   { "HISTORY_SYNC_NOTIFICATION", 3 },
   { "INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC", 7 },
+  { "MESSAGE_EDIT", 10 },
   { "MSG_FANOUT_BACKFILL_REQUEST", 6 },
-  { "REQUEST_MEDIA_UPLOAD_MESSAGE", 10 },
-  { "REQUEST_MEDIA_UPLOAD_RESPONSE_MESSAGE", 11 },
+  { "PEER_DATA_OPERATION_REQUEST_MESSAGE", 11 },
+  { "PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE", 12 },
   { "REVOKE", 0 },
   { "SHARE_PHONE_NUMBER", 9 },
 };
@@ -15669,15 +17484,15 @@ const ProtobufCEnumDescriptor wa__message__protocol_message__type__descriptor =
   "Type",
   "Wa__Message__ProtocolMessage__Type",
   "wa",
-  12,
+  13,
   wa__message__protocol_message__type__enum_values_by_number,
-  12,
+  13,
   wa__message__protocol_message__type__enum_values_by_name,
-  2,
+  4,
   wa__message__protocol_message__type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__message__protocol_message__field_descriptors[12] =
+static const ProtobufCFieldDescriptor wa__message__protocol_message__field_descriptors[14] =
 {
   {
     "key",
@@ -15800,25 +17615,49 @@ static const ProtobufCFieldDescriptor wa__message__protocol_message__field_descr
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "requestMediaUploadMessage",
-    12,
+    "editedMessage",
+    14,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(Wa__Message__ProtocolMessage, requestmediauploadmessage),
-    &wa__message__request_media_upload_message__descriptor,
+    offsetof(Wa__Message__ProtocolMessage, editedmessage),
+    &wa__message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "requestMediaUploadResponseMessage",
-    13,
+    "timestampMs",
+    15,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__ProtocolMessage, has_timestampms),
+    offsetof(Wa__Message__ProtocolMessage, timestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "peerDataOperationRequestMessage",
+    16,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(Wa__Message__ProtocolMessage, requestmediauploadresponsemessage),
-    &wa__message__request_media_upload_response_message__descriptor,
+    offsetof(Wa__Message__ProtocolMessage, peerdataoperationrequestmessage),
+    &wa__message__peer_data_operation_request_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "peerDataOperationRequestResponseMessage",
+    17,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__ProtocolMessage, peerdataoperationrequestresponsemessage),
+    &wa__message__peer_data_operation_request_response_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -15829,20 +17668,23 @@ static const unsigned wa__message__protocol_message__field_indices_by_name[] = {
   6,   /* field[6] = appStateSyncKeyRequest */
   5,   /* field[5] = appStateSyncKeyShare */
   9,   /* field[9] = disappearingMode */
+  10,   /* field[10] = editedMessage */
   2,   /* field[2] = ephemeralExpiration */
   3,   /* field[3] = ephemeralSettingTimestamp */
   4,   /* field[4] = historySyncNotification */
   7,   /* field[7] = initialSecurityNotificationSettingSync */
   0,   /* field[0] = key */
-  10,   /* field[10] = requestMediaUploadMessage */
-  11,   /* field[11] = requestMediaUploadResponseMessage */
+  12,   /* field[12] = peerDataOperationRequestMessage */
+  13,   /* field[13] = peerDataOperationRequestResponseMessage */
+  11,   /* field[11] = timestampMs */
   1,   /* field[1] = type */
 };
-static const ProtobufCIntRange wa__message__protocol_message__number_ranges[2 + 1] =
+static const ProtobufCIntRange wa__message__protocol_message__number_ranges[3 + 1] =
 {
   { 1, 0 },
   { 4, 2 },
-  { 0, 12 }
+  { 14, 10 },
+  { 0, 14 }
 };
 const ProtobufCMessageDescriptor wa__message__protocol_message__descriptor =
 {
@@ -15852,12 +17694,11 @@ const ProtobufCMessageDescriptor wa__message__protocol_message__descriptor =
   "Wa__Message__ProtocolMessage",
   "wa",
   sizeof(Wa__Message__ProtocolMessage),
-  12,
+  14,
   wa__message__protocol_message__field_descriptors,
   wa__message__protocol_message__field_indices_by_name,
-  2,  wa__message__protocol_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  3,  wa__message__protocol_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__reaction_message__field_descriptors[4] =
 {
@@ -15933,187 +17774,7 @@ const ProtobufCMessageDescriptor wa__message__reaction_message__descriptor =
   wa__message__reaction_message__field_descriptors,
   wa__message__reaction_message__field_indices_by_name,
   1,  wa__message__reaction_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__message__request_media_upload_message__field_descriptors[2] =
-{
-  {
-    "fileSha256",
-    1,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_STRING,
-    offsetof(Wa__Message__RequestMediaUploadMessage, n_filesha256),
-    offsetof(Wa__Message__RequestMediaUploadMessage, filesha256),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "rmrSource",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_ENUM,
-    offsetof(Wa__Message__RequestMediaUploadMessage, has_rmrsource),
-    offsetof(Wa__Message__RequestMediaUploadMessage, rmrsource),
-    &wa__message__rmr_source__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__message__request_media_upload_message__field_indices_by_name[] = {
-  0,   /* field[0] = fileSha256 */
-  1,   /* field[1] = rmrSource */
-};
-static const ProtobufCIntRange wa__message__request_media_upload_message__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__message__request_media_upload_message__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.RequestMediaUploadMessage",
-  "RequestMediaUploadMessage",
-  "Wa__Message__RequestMediaUploadMessage",
-  "wa",
-  sizeof(Wa__Message__RequestMediaUploadMessage),
-  2,
-  wa__message__request_media_upload_message__field_descriptors,
-  wa__message__request_media_upload_message__field_indices_by_name,
-  1,  wa__message__request_media_upload_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__message__request_media_upload_response_message__request_media_upload_result__field_descriptors[3] =
-{
-  {
-    "fileSha256",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult, filesha256),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "mediaUploadResult",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_ENUM,
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult, has_mediauploadresult),
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult, mediauploadresult),
-    &wa__media_retry_notification__result_type__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "stickerMessage",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult, stickermessage),
-    &wa__message__sticker_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__message__request_media_upload_response_message__request_media_upload_result__field_indices_by_name[] = {
-  0,   /* field[0] = fileSha256 */
-  1,   /* field[1] = mediaUploadResult */
-  2,   /* field[2] = stickerMessage */
-};
-static const ProtobufCIntRange wa__message__request_media_upload_response_message__request_media_upload_result__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 3 }
-};
-const ProtobufCMessageDescriptor wa__message__request_media_upload_response_message__request_media_upload_result__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.RequestMediaUploadResponseMessage.RequestMediaUploadResult",
-  "RequestMediaUploadResult",
-  "Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult",
-  "wa",
-  sizeof(Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult),
-  3,
-  wa__message__request_media_upload_response_message__request_media_upload_result__field_descriptors,
-  wa__message__request_media_upload_response_message__request_media_upload_result__field_indices_by_name,
-  1,  wa__message__request_media_upload_response_message__request_media_upload_result__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__message__request_media_upload_response_message__field_descriptors[3] =
-{
-  {
-    "rmrSource",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_ENUM,
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage, has_rmrsource),
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage, rmrsource),
-    &wa__message__rmr_source__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "stanzaId",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage, stanzaid),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "reuploadResult",
-    3,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage, n_reuploadresult),
-    offsetof(Wa__Message__RequestMediaUploadResponseMessage, reuploadresult),
-    &wa__message__request_media_upload_response_message__request_media_upload_result__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__message__request_media_upload_response_message__field_indices_by_name[] = {
-  2,   /* field[2] = reuploadResult */
-  0,   /* field[0] = rmrSource */
-  1,   /* field[1] = stanzaId */
-};
-static const ProtobufCIntRange wa__message__request_media_upload_response_message__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 3 }
-};
-const ProtobufCMessageDescriptor wa__message__request_media_upload_response_message__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.Message.RequestMediaUploadResponseMessage",
-  "RequestMediaUploadResponseMessage",
-  "Wa__Message__RequestMediaUploadResponseMessage",
-  "wa",
-  sizeof(Wa__Message__RequestMediaUploadResponseMessage),
-  3,
-  wa__message__request_media_upload_response_message__field_descriptors,
-  wa__message__request_media_upload_response_message__field_indices_by_name,
-  1,  wa__message__request_media_upload_response_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__request_payment_message__field_descriptors[7] =
 {
@@ -16228,8 +17889,7 @@ const ProtobufCMessageDescriptor wa__message__request_payment_message__descripto
   wa__message__request_payment_message__field_descriptors,
   wa__message__request_payment_message__field_indices_by_name,
   1,  wa__message__request_payment_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__request_phone_number_message__field_descriptors[1] =
 {
@@ -16266,8 +17926,178 @@ const ProtobufCMessageDescriptor wa__message__request_phone_number_message__desc
   wa__message__request_phone_number_message__field_descriptors,
   wa__message__request_phone_number_message__field_indices_by_name,
   1,  wa__message__request_phone_number_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__message__scheduled_call_creation_message__call_type__enum_values_by_number[3] =
+{
+  { "UNKNOWN", "WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__UNKNOWN", 0 },
+  { "VOICE", "WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__VOICE", 1 },
+  { "VIDEO", "WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__VIDEO", 2 },
+};
+static const ProtobufCIntRange wa__message__scheduled_call_creation_message__call_type__value_ranges[] = {
+{0, 0},{0, 3}
+};
+static const ProtobufCEnumValueIndex wa__message__scheduled_call_creation_message__call_type__enum_values_by_name[3] =
+{
+  { "UNKNOWN", 0 },
+  { "VIDEO", 2 },
+  { "VOICE", 1 },
+};
+const ProtobufCEnumDescriptor wa__message__scheduled_call_creation_message__call_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.Message.ScheduledCallCreationMessage.CallType",
+  "CallType",
+  "Wa__Message__ScheduledCallCreationMessage__CallType",
+  "wa",
+  3,
+  wa__message__scheduled_call_creation_message__call_type__enum_values_by_number,
+  3,
+  wa__message__scheduled_call_creation_message__call_type__enum_values_by_name,
+  1,
+  wa__message__scheduled_call_creation_message__call_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__message__scheduled_call_creation_message__field_descriptors[3] =
+{
+  {
+    "scheduledTimestampMs",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__ScheduledCallCreationMessage, has_scheduledtimestampms),
+    offsetof(Wa__Message__ScheduledCallCreationMessage, scheduledtimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callType",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__ScheduledCallCreationMessage, has_calltype),
+    offsetof(Wa__Message__ScheduledCallCreationMessage, calltype),
+    &wa__message__scheduled_call_creation_message__call_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "title",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__ScheduledCallCreationMessage, title),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__scheduled_call_creation_message__field_indices_by_name[] = {
+  1,   /* field[1] = callType */
+  0,   /* field[0] = scheduledTimestampMs */
+  2,   /* field[2] = title */
+};
+static const ProtobufCIntRange wa__message__scheduled_call_creation_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__message__scheduled_call_creation_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.ScheduledCallCreationMessage",
+  "ScheduledCallCreationMessage",
+  "Wa__Message__ScheduledCallCreationMessage",
+  "wa",
+  sizeof(Wa__Message__ScheduledCallCreationMessage),
+  3,
+  wa__message__scheduled_call_creation_message__field_descriptors,
+  wa__message__scheduled_call_creation_message__field_indices_by_name,
+  1,  wa__message__scheduled_call_creation_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__message__scheduled_call_edit_message__edit_type__enum_values_by_number[2] =
+{
+  { "UNKNOWN", "WA__MESSAGE__SCHEDULED_CALL_EDIT_MESSAGE__EDIT_TYPE__UNKNOWN", 0 },
+  { "CANCEL", "WA__MESSAGE__SCHEDULED_CALL_EDIT_MESSAGE__EDIT_TYPE__CANCEL", 1 },
+};
+static const ProtobufCIntRange wa__message__scheduled_call_edit_message__edit_type__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex wa__message__scheduled_call_edit_message__edit_type__enum_values_by_name[2] =
+{
+  { "CANCEL", 1 },
+  { "UNKNOWN", 0 },
+};
+const ProtobufCEnumDescriptor wa__message__scheduled_call_edit_message__edit_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.Message.ScheduledCallEditMessage.EditType",
+  "EditType",
+  "Wa__Message__ScheduledCallEditMessage__EditType",
+  "wa",
+  2,
+  wa__message__scheduled_call_edit_message__edit_type__enum_values_by_number,
+  2,
+  wa__message__scheduled_call_edit_message__edit_type__enum_values_by_name,
+  1,
+  wa__message__scheduled_call_edit_message__edit_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__message__scheduled_call_edit_message__field_descriptors[2] =
+{
+  {
+    "key",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__ScheduledCallEditMessage, key),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "editType",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__Message__ScheduledCallEditMessage, has_edittype),
+    offsetof(Wa__Message__ScheduledCallEditMessage, edittype),
+    &wa__message__scheduled_call_edit_message__edit_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message__scheduled_call_edit_message__field_indices_by_name[] = {
+  1,   /* field[1] = editType */
+  0,   /* field[0] = key */
+};
+static const ProtobufCIntRange wa__message__scheduled_call_edit_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__message__scheduled_call_edit_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Message.ScheduledCallEditMessage",
+  "ScheduledCallEditMessage",
+  "Wa__Message__ScheduledCallEditMessage",
+  "wa",
+  sizeof(Wa__Message__ScheduledCallEditMessage),
+  2,
+  wa__message__scheduled_call_edit_message__field_descriptors,
+  wa__message__scheduled_call_edit_message__field_indices_by_name,
+  1,  wa__message__scheduled_call_edit_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__send_payment_message__field_descriptors[3] =
 {
@@ -16330,8 +18160,7 @@ const ProtobufCMessageDescriptor wa__message__send_payment_message__descriptor =
   wa__message__send_payment_message__field_descriptors,
   wa__message__send_payment_message__field_indices_by_name,
   1,  wa__message__send_payment_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__sender_key_distribution_message__field_descriptors[2] =
 {
@@ -16381,10 +18210,9 @@ const ProtobufCMessageDescriptor wa__message__sender_key_distribution_message__d
   wa__message__sender_key_distribution_message__field_descriptors,
   wa__message__sender_key_distribution_message__field_indices_by_name,
   1,  wa__message__sender_key_distribution_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message__sticker_message__field_descriptors[15] =
+static const ProtobufCFieldDescriptor wa__message__sticker_message__field_descriptors[17] =
 {
   {
     "url",
@@ -16566,6 +18394,30 @@ static const ProtobufCFieldDescriptor wa__message__sticker_message__field_descri
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "stickerSentTs",
+    18,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__Message__StickerMessage, has_stickersentts),
+    offsetof(Wa__Message__StickerMessage, stickersentts),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isAvatar",
+    19,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Message__StickerMessage, has_isavatar),
+    offsetof(Wa__Message__StickerMessage, isavatar),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__sticker_message__field_indices_by_name[] = {
   14,   /* field[14] = contextInfo */
@@ -16577,10 +18429,12 @@ static const unsigned wa__message__sticker_message__field_indices_by_name[] = {
   11,   /* field[11] = firstFrameSidecar */
   5,   /* field[5] = height */
   12,   /* field[12] = isAnimated */
+  16,   /* field[16] = isAvatar */
   3,   /* field[3] = mediaKey */
   9,   /* field[9] = mediaKeyTimestamp */
   4,   /* field[4] = mimetype */
   13,   /* field[13] = pngThumbnail */
+  15,   /* field[15] = stickerSentTs */
   0,   /* field[0] = url */
   6,   /* field[6] = width */
 };
@@ -16588,7 +18442,7 @@ static const ProtobufCIntRange wa__message__sticker_message__number_ranges[2 + 1
 {
   { 1, 0 },
   { 16, 13 },
-  { 0, 15 }
+  { 0, 17 }
 };
 const ProtobufCMessageDescriptor wa__message__sticker_message__descriptor =
 {
@@ -16598,12 +18452,11 @@ const ProtobufCMessageDescriptor wa__message__sticker_message__descriptor =
   "Wa__Message__StickerMessage",
   "wa",
   sizeof(Wa__Message__StickerMessage),
-  15,
+  17,
   wa__message__sticker_message__field_descriptors,
   wa__message__sticker_message__field_indices_by_name,
   2,  wa__message__sticker_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__sticker_sync_rmrmessage__field_descriptors[3] =
 {
@@ -16666,8 +18519,7 @@ const ProtobufCMessageDescriptor wa__message__sticker_sync_rmrmessage__descripto
   wa__message__sticker_sync_rmrmessage__field_descriptors,
   wa__message__sticker_sync_rmrmessage__field_indices_by_name,
   1,  wa__message__sticker_sync_rmrmessage__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__template_button_reply_message__field_descriptors[4] =
 {
@@ -16743,8 +18595,7 @@ const ProtobufCMessageDescriptor wa__message__template_button_reply_message__des
   wa__message__template_button_reply_message__field_descriptors,
   wa__message__template_button_reply_message__field_indices_by_name,
   1,  wa__message__template_button_reply_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__template_message__four_row_template__field_descriptors[8] =
 {
@@ -16872,8 +18723,7 @@ const ProtobufCMessageDescriptor wa__message__template_message__four_row_templat
   wa__message__template_message__four_row_template__field_descriptors,
   wa__message__template_message__four_row_template__field_indices_by_name,
   1,  wa__message__template_message__four_row_template__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message__template_message__hydrated_four_row_template__field_descriptors[9] =
 {
@@ -17014,10 +18864,9 @@ const ProtobufCMessageDescriptor wa__message__template_message__hydrated_four_ro
   wa__message__template_message__hydrated_four_row_template__field_descriptors,
   wa__message__template_message__hydrated_four_row_template__field_indices_by_name,
   1,  wa__message__template_message__hydrated_four_row_template__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message__template_message__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__message__template_message__field_descriptors[6] =
 {
   {
     "fourRowTemplate",
@@ -17067,17 +18916,44 @@ static const ProtobufCFieldDescriptor wa__message__template_message__field_descr
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "interactiveMessageTemplate",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__Message__TemplateMessage, format_case),
+    offsetof(Wa__Message__TemplateMessage, interactivemessagetemplate),
+    &wa__message__interactive_message__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "templateId",
+    9,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message__TemplateMessage, templateid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__template_message__field_indices_by_name[] = {
   2,   /* field[2] = contextInfo */
   0,   /* field[0] = fourRowTemplate */
   1,   /* field[1] = hydratedFourRowTemplate */
   3,   /* field[3] = hydratedTemplate */
+  4,   /* field[4] = interactiveMessageTemplate */
+  5,   /* field[5] = templateId */
 };
-static const ProtobufCIntRange wa__message__template_message__number_ranges[1 + 1] =
+static const ProtobufCIntRange wa__message__template_message__number_ranges[2 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 9, 5 },
+  { 0, 6 }
 };
 const ProtobufCMessageDescriptor wa__message__template_message__descriptor =
 {
@@ -17087,12 +18963,11 @@ const ProtobufCMessageDescriptor wa__message__template_message__descriptor =
   "Wa__Message__TemplateMessage",
   "wa",
   sizeof(Wa__Message__TemplateMessage),
-  4,
+  6,
   wa__message__template_message__field_descriptors,
   wa__message__template_message__field_indices_by_name,
-  1,  wa__message__template_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  2,  wa__message__template_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__message__video_message__attribution__enum_values_by_number[3] =
 {
@@ -17446,38 +19321,43 @@ const ProtobufCMessageDescriptor wa__message__video_message__descriptor =
   wa__message__video_message__field_descriptors,
   wa__message__video_message__field_indices_by_name,
   2,  wa__message__video_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__message__rmr_source__enum_values_by_number[2] =
+static const ProtobufCEnumValue wa__message__peer_data_operation_request_type__enum_values_by_number[5] =
 {
-  { "FAVORITE_STICKER", "WA__MESSAGE__RMR_SOURCE__FAVORITE_STICKER", 0 },
-  { "RECENT_STICKER", "WA__MESSAGE__RMR_SOURCE__RECENT_STICKER", 1 },
+  { "UPLOAD_STICKER", "WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__UPLOAD_STICKER", 0 },
+  { "SEND_RECENT_STICKER_BOOTSTRAP", "WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__SEND_RECENT_STICKER_BOOTSTRAP", 1 },
+  { "GENERATE_LINK_PREVIEW", "WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__GENERATE_LINK_PREVIEW", 2 },
+  { "HISTORY_SYNC_ON_DEMAND", "WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__HISTORY_SYNC_ON_DEMAND", 3 },
+  { "PLACEHOLDER_MESSAGE_RESEND", "WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__PLACEHOLDER_MESSAGE_RESEND", 4 },
 };
-static const ProtobufCIntRange wa__message__rmr_source__value_ranges[] = {
-{0, 0},{0, 2}
+static const ProtobufCIntRange wa__message__peer_data_operation_request_type__value_ranges[] = {
+{0, 0},{0, 5}
 };
-static const ProtobufCEnumValueIndex wa__message__rmr_source__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex wa__message__peer_data_operation_request_type__enum_values_by_name[5] =
 {
-  { "FAVORITE_STICKER", 0 },
-  { "RECENT_STICKER", 1 },
+  { "GENERATE_LINK_PREVIEW", 2 },
+  { "HISTORY_SYNC_ON_DEMAND", 3 },
+  { "PLACEHOLDER_MESSAGE_RESEND", 4 },
+  { "SEND_RECENT_STICKER_BOOTSTRAP", 1 },
+  { "UPLOAD_STICKER", 0 },
 };
-const ProtobufCEnumDescriptor wa__message__rmr_source__descriptor =
+const ProtobufCEnumDescriptor wa__message__peer_data_operation_request_type__descriptor =
 {
   PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "wa.Message.RmrSource",
-  "RmrSource",
-  "Wa__Message__RmrSource",
+  "wa.Message.PeerDataOperationRequestType",
+  "PeerDataOperationRequestType",
+  "Wa__Message__PeerDataOperationRequestType",
   "wa",
-  2,
-  wa__message__rmr_source__enum_values_by_number,
-  2,
-  wa__message__rmr_source__enum_values_by_name,
+  5,
+  wa__message__peer_data_operation_request_type__enum_values_by_number,
+  5,
+  wa__message__peer_data_operation_request_type__enum_values_by_name,
   1,
-  wa__message__rmr_source__value_ranges,
+  wa__message__peer_data_operation_request_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__message__field_descriptors[46] =
+static const ProtobufCFieldDescriptor wa__message__field_descriptors[56] =
 {
   {
     "conversation",
@@ -18031,6 +19911,126 @@ static const ProtobufCFieldDescriptor wa__message__field_descriptors[46] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "encReactionMessage",
+    56,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, encreactionmessage),
+    &wa__message__enc_reaction_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "editedMessage",
+    58,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, editedmessage),
+    &wa__message__future_proof_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "viewOnceMessageV2Extension",
+    59,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, viewoncemessagev2extension),
+    &wa__message__future_proof_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pollCreationMessageV2",
+    60,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, pollcreationmessagev2),
+    &wa__message__poll_creation_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "scheduledCallCreationMessage",
+    61,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, scheduledcallcreationmessage),
+    &wa__message__scheduled_call_creation_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "groupMentionedMessage",
+    62,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, groupmentionedmessage),
+    &wa__message__future_proof_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pinInChatMessage",
+    63,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, pininchatmessage),
+    &wa__message__pin_in_chat_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pollCreationMessageV3",
+    64,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, pollcreationmessagev3),
+    &wa__message__poll_creation_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "scheduledCallEditMessage",
+    65,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, scheduledcalleditmessage),
+    &wa__message__scheduled_call_edit_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ptvMessage",
+    66,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Message, ptvmessage),
+    &wa__message__video_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message__field_indices_by_name[] = {
   7,   /* field[7] = audioMessage */
@@ -18046,10 +20046,13 @@ static const unsigned wa__message__field_indices_by_name[] = {
   25,   /* field[25] = deviceSentMessage */
   6,   /* field[6] = documentMessage */
   43,   /* field[43] = documentWithCaptionMessage */
+  47,   /* field[47] = editedMessage */
+  46,   /* field[46] = encReactionMessage */
   31,   /* field[31] = ephemeralMessage */
   5,   /* field[5] = extendedTextMessage */
   14,   /* field[14] = fastRatchetKeySenderKeyDistributionMessage */
   22,   /* field[22] = groupInviteMessage */
+  51,   /* field[51] = groupMentionedMessage */
   13,   /* field[13] = highlyStructuredMessage */
   2,   /* field[2] = imageMessage */
   36,   /* field[36] = interactiveMessage */
@@ -18063,13 +20066,19 @@ static const unsigned wa__message__field_indices_by_name[] = {
   26,   /* field[26] = messageContextInfo */
   29,   /* field[29] = orderMessage */
   35,   /* field[35] = paymentInviteMessage */
+  52,   /* field[52] = pinInChatMessage */
   40,   /* field[40] = pollCreationMessage */
+  49,   /* field[49] = pollCreationMessageV2 */
+  53,   /* field[53] = pollCreationMessageV3 */
   41,   /* field[41] = pollUpdateMessage */
   24,   /* field[24] = productMessage */
   11,   /* field[11] = protocolMessage */
+  55,   /* field[55] = ptvMessage */
   37,   /* field[37] = reactionMessage */
   17,   /* field[17] = requestPaymentMessage */
   44,   /* field[44] = requestPhoneNumberMessage */
+  50,   /* field[50] = scheduledCallCreationMessage */
+  54,   /* field[54] = scheduledCallEditMessage */
   15,   /* field[15] = sendPaymentMessage */
   1,   /* field[1] = senderKeyDistributionMessage */
   21,   /* field[21] = stickerMessage */
@@ -18079,8 +20088,9 @@ static const unsigned wa__message__field_indices_by_name[] = {
   8,   /* field[8] = videoMessage */
   28,   /* field[28] = viewOnceMessage */
   45,   /* field[45] = viewOnceMessageV2 */
+  48,   /* field[48] = viewOnceMessageV2Extension */
 };
-static const ProtobufCIntRange wa__message__number_ranges[6 + 1] =
+static const ProtobufCIntRange wa__message__number_ranges[7 + 1] =
 {
   { 1, 0 },
   { 18, 16 },
@@ -18088,7 +20098,8 @@ static const ProtobufCIntRange wa__message__number_ranges[6 + 1] =
   { 28, 22 },
   { 35, 26 },
   { 53, 43 },
-  { 0, 46 }
+  { 58, 47 },
+  { 0, 56 }
 };
 const ProtobufCMessageDescriptor wa__message__descriptor =
 {
@@ -18098,14 +20109,50 @@ const ProtobufCMessageDescriptor wa__message__descriptor =
   "Wa__Message",
   "wa",
   sizeof(Wa__Message),
-  46,
+  56,
   wa__message__field_descriptors,
   wa__message__field_indices_by_name,
-  6,  wa__message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  7,  wa__message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__message_context_info__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__message_add_on_context_info__field_descriptors[1] =
+{
+  {
+    "messageAddOnDurationInSecs",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__MessageAddOnContextInfo, has_messageaddondurationinsecs),
+    offsetof(Wa__MessageAddOnContextInfo, messageaddondurationinsecs),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__message_add_on_context_info__field_indices_by_name[] = {
+  0,   /* field[0] = messageAddOnDurationInSecs */
+};
+static const ProtobufCIntRange wa__message_add_on_context_info__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__message_add_on_context_info__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.MessageAddOnContextInfo",
+  "MessageAddOnContextInfo",
+  "Wa__MessageAddOnContextInfo",
+  "wa",
+  sizeof(Wa__MessageAddOnContextInfo),
+  1,
+  wa__message_add_on_context_info__field_descriptors,
+  wa__message_add_on_context_info__field_indices_by_name,
+  1,  wa__message_add_on_context_info__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__message_context_info__field_descriptors[5] =
 {
   {
     "deviceListMetadata",
@@ -18155,17 +20202,30 @@ static const ProtobufCFieldDescriptor wa__message_context_info__field_descriptor
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "messageAddOnDurationInSecs",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__MessageContextInfo, has_messageaddondurationinsecs),
+    offsetof(Wa__MessageContextInfo, messageaddondurationinsecs),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__message_context_info__field_indices_by_name[] = {
   0,   /* field[0] = deviceListMetadata */
   1,   /* field[1] = deviceListMetadataVersion */
+  4,   /* field[4] = messageAddOnDurationInSecs */
   2,   /* field[2] = messageSecret */
   3,   /* field[3] = paddingBytes */
 };
 static const ProtobufCIntRange wa__message_context_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__message_context_info__descriptor =
 {
@@ -18175,12 +20235,11 @@ const ProtobufCMessageDescriptor wa__message_context_info__descriptor =
   "Wa__MessageContextInfo",
   "wa",
   sizeof(Wa__MessageContextInfo),
-  4,
+  5,
   wa__message_context_info__field_descriptors,
   wa__message_context_info__field_indices_by_name,
   1,  wa__message_context_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__message_key__field_descriptors[4] =
 {
@@ -18256,8 +20315,7 @@ const ProtobufCMessageDescriptor wa__message_key__descriptor =
   wa__message_key__field_descriptors,
   wa__message_key__field_indices_by_name,
   1,  wa__message_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__money__field_descriptors[3] =
 {
@@ -18320,8 +20378,7 @@ const ProtobufCMessageDescriptor wa__money__descriptor =
   wa__money__field_descriptors,
   wa__money__field_indices_by_name,
   1,  wa__money__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__msg_opaque_data__poll_option__field_descriptors[1] =
 {
@@ -18358,10 +20415,9 @@ const ProtobufCMessageDescriptor wa__msg_opaque_data__poll_option__descriptor =
   wa__msg_opaque_data__poll_option__field_descriptors,
   wa__msg_opaque_data__poll_option__field_indices_by_name,
   1,  wa__msg_opaque_data__poll_option__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__msg_opaque_data__field_descriptors[21] =
+static const ProtobufCFieldDescriptor wa__msg_opaque_data__field_descriptors[26] =
 {
   {
     "body",
@@ -18615,6 +20671,66 @@ static const ProtobufCFieldDescriptor wa__msg_opaque_data__field_descriptors[21]
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "encReactionTargetMessageKey",
+    25,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__MsgOpaqueData, encreactiontargetmessagekey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "encReactionEncPayload",
+    26,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__MsgOpaqueData, has_encreactionencpayload),
+    offsetof(Wa__MsgOpaqueData, encreactionencpayload),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "encReactionEncIv",
+    27,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__MsgOpaqueData, has_encreactionenciv),
+    offsetof(Wa__MsgOpaqueData, encreactionenciv),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isSentCagPollCreation",
+    28,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__MsgOpaqueData, has_issentcagpollcreation),
+    offsetof(Wa__MsgOpaqueData, issentcagpollcreation),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "originalSelfAuthor",
+    51,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__MsgOpaqueData, originalselfauthor),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__msg_opaque_data__field_indices_by_name[] = {
   0,   /* field[0] = body */
@@ -18623,13 +20739,18 @@ static const unsigned wa__msg_opaque_data__field_indices_by_name[] = {
   12,   /* field[12] = clientUrl */
   10,   /* field[10] = description */
   20,   /* field[20] = encPollVote */
+  23,   /* field[23] = encReactionEncIv */
+  22,   /* field[22] = encReactionEncPayload */
+  21,   /* field[21] = encReactionTargetMessageKey */
   11,   /* field[11] = futureproofBuffer */
   3,   /* field[3] = isLive */
+  24,   /* field[24] = isSentCagPollCreation */
   4,   /* field[4] = lat */
   2,   /* field[2] = lng */
   13,   /* field[13] = loc */
   8,   /* field[8] = matchedText */
   17,   /* field[17] = messageSecret */
+  25,   /* field[25] = originalSelfAuthor */
   5,   /* field[5] = paymentAmount1000 */
   6,   /* field[6] = paymentNoteMsgBody */
   14,   /* field[14] = pollName */
@@ -18639,13 +20760,14 @@ static const unsigned wa__msg_opaque_data__field_indices_by_name[] = {
   18,   /* field[18] = senderTimestampMs */
   9,   /* field[9] = title */
 };
-static const ProtobufCIntRange wa__msg_opaque_data__number_ranges[4 + 1] =
+static const ProtobufCIntRange wa__msg_opaque_data__number_ranges[5 + 1] =
 {
   { 1, 0 },
   { 3, 1 },
   { 5, 2 },
   { 20, 16 },
-  { 0, 21 }
+  { 51, 25 },
+  { 0, 26 }
 };
 const ProtobufCMessageDescriptor wa__msg_opaque_data__descriptor =
 {
@@ -18655,12 +20777,11 @@ const ProtobufCMessageDescriptor wa__msg_opaque_data__descriptor =
   "Wa__MsgOpaqueData",
   "wa",
   sizeof(Wa__MsgOpaqueData),
-  21,
+  26,
   wa__msg_opaque_data__field_descriptors,
   wa__msg_opaque_data__field_indices_by_name,
-  4,  wa__msg_opaque_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  5,  wa__msg_opaque_data__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__msg_row_opaque_data__field_descriptors[2] =
 {
@@ -18710,8 +20831,7 @@ const ProtobufCMessageDescriptor wa__msg_row_opaque_data__descriptor =
   wa__msg_row_opaque_data__field_descriptors,
   wa__msg_row_opaque_data__field_indices_by_name,
   1,  wa__msg_row_opaque_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__noise_certificate__details__field_descriptors[5] =
 {
@@ -18800,8 +20920,7 @@ const ProtobufCMessageDescriptor wa__noise_certificate__details__descriptor =
   wa__noise_certificate__details__field_descriptors,
   wa__noise_certificate__details__field_indices_by_name,
   1,  wa__noise_certificate__details__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__noise_certificate__field_descriptors[2] =
 {
@@ -18851,8 +20970,7 @@ const ProtobufCMessageDescriptor wa__noise_certificate__descriptor =
   wa__noise_certificate__field_descriptors,
   wa__noise_certificate__field_indices_by_name,
   1,  wa__noise_certificate__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__notification_message_info__field_descriptors[4] =
 {
@@ -18928,8 +21046,109 @@ const ProtobufCMessageDescriptor wa__notification_message_info__descriptor =
   wa__notification_message_info__field_descriptors,
   wa__notification_message_info__field_indices_by_name,
   1,  wa__notification_message_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__notification_settings__field_descriptors[6] =
+{
+  {
+    "messageVibrate",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__NotificationSettings, messagevibrate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "messagePopup",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__NotificationSettings, messagepopup),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "messageLight",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__NotificationSettings, messagelight),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "lowPriorityNotifications",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__NotificationSettings, has_lowprioritynotifications),
+    offsetof(Wa__NotificationSettings, lowprioritynotifications),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "reactionsMuted",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__NotificationSettings, has_reactionsmuted),
+    offsetof(Wa__NotificationSettings, reactionsmuted),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callVibrate",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__NotificationSettings, callvibrate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__notification_settings__field_indices_by_name[] = {
+  5,   /* field[5] = callVibrate */
+  3,   /* field[3] = lowPriorityNotifications */
+  2,   /* field[2] = messageLight */
+  1,   /* field[1] = messagePopup */
+  0,   /* field[0] = messageVibrate */
+  4,   /* field[4] = reactionsMuted */
+};
+static const ProtobufCIntRange wa__notification_settings__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 6 }
+};
+const ProtobufCMessageDescriptor wa__notification_settings__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.NotificationSettings",
+  "NotificationSettings",
+  "Wa__NotificationSettings",
+  "wa",
+  sizeof(Wa__NotificationSettings),
+  6,
+  wa__notification_settings__field_descriptors,
+  wa__notification_settings__field_indices_by_name,
+  1,  wa__notification_settings__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__past_participant__leave_reason__enum_values_by_number[2] =
 {
@@ -18964,7 +21183,7 @@ static const ProtobufCFieldDescriptor wa__past_participant__field_descriptors[3]
   {
     "userJid",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
     offsetof(Wa__PastParticipant, userjid),
@@ -18976,9 +21195,9 @@ static const ProtobufCFieldDescriptor wa__past_participant__field_descriptors[3]
   {
     "leaveReason",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
+    offsetof(Wa__PastParticipant, has_leavereason),
     offsetof(Wa__PastParticipant, leavereason),
     &wa__past_participant__leave_reason__descriptor,
     NULL,
@@ -18988,9 +21207,9 @@ static const ProtobufCFieldDescriptor wa__past_participant__field_descriptors[3]
   {
     "leaveTs",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT64,
-    0,   /* quantifier_offset */
+    offsetof(Wa__PastParticipant, has_leavets),
     offsetof(Wa__PastParticipant, leavets),
     NULL,
     NULL,
@@ -19020,15 +21239,14 @@ const ProtobufCMessageDescriptor wa__past_participant__descriptor =
   wa__past_participant__field_descriptors,
   wa__past_participant__field_indices_by_name,
   1,  wa__past_participant__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__past_participants__field_descriptors[2] =
 {
   {
     "groupJid",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
     offsetof(Wa__PastParticipants, groupjid),
@@ -19071,8 +21289,7 @@ const ProtobufCMessageDescriptor wa__past_participants__descriptor =
   wa__past_participants__field_descriptors,
   wa__past_participants__field_indices_by_name,
   1,  wa__past_participants__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__payment_background__media_data__field_descriptors[5] =
 {
@@ -19161,8 +21378,7 @@ const ProtobufCMessageDescriptor wa__payment_background__media_data__descriptor 
   wa__payment_background__media_data__field_descriptors,
   wa__payment_background__media_data__field_indices_by_name,
   1,  wa__payment_background__media_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__payment_background__type__enum_values_by_number[2] =
 {
@@ -19344,8 +21560,7 @@ const ProtobufCMessageDescriptor wa__payment_background__descriptor =
   wa__payment_background__field_descriptors,
   wa__payment_background__field_indices_by_name,
   1,  wa__payment_background__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__payment_info__currency__enum_values_by_number[2] =
 {
@@ -19702,189 +21917,7 @@ const ProtobufCMessageDescriptor wa__payment_info__descriptor =
   wa__payment_info__field_descriptors,
   wa__payment_info__field_indices_by_name,
   1,  wa__payment_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__pending_key_exchange__field_descriptors[7] =
-{
-  {
-    "sequence",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(Wa__PendingKeyExchange, has_sequence),
-    offsetof(Wa__PendingKeyExchange, sequence),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localBaseKey",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localbasekey),
-    offsetof(Wa__PendingKeyExchange, localbasekey),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localBaseKeyPrivate",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localbasekeyprivate),
-    offsetof(Wa__PendingKeyExchange, localbasekeyprivate),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localRatchetKey",
-    4,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localratchetkey),
-    offsetof(Wa__PendingKeyExchange, localratchetkey),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localRatchetKeyPrivate",
-    5,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localratchetkeyprivate),
-    offsetof(Wa__PendingKeyExchange, localratchetkeyprivate),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localIdentityKey",
-    7,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localidentitykey),
-    offsetof(Wa__PendingKeyExchange, localidentitykey),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "localIdentityKeyPrivate",
-    8,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingKeyExchange, has_localidentitykeyprivate),
-    offsetof(Wa__PendingKeyExchange, localidentitykeyprivate),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__pending_key_exchange__field_indices_by_name[] = {
-  1,   /* field[1] = localBaseKey */
-  2,   /* field[2] = localBaseKeyPrivate */
-  5,   /* field[5] = localIdentityKey */
-  6,   /* field[6] = localIdentityKeyPrivate */
-  3,   /* field[3] = localRatchetKey */
-  4,   /* field[4] = localRatchetKeyPrivate */
-  0,   /* field[0] = sequence */
-};
-static const ProtobufCIntRange wa__pending_key_exchange__number_ranges[2 + 1] =
-{
-  { 1, 0 },
-  { 7, 5 },
-  { 0, 7 }
-};
-const ProtobufCMessageDescriptor wa__pending_key_exchange__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.PendingKeyExchange",
-  "PendingKeyExchange",
-  "Wa__PendingKeyExchange",
-  "wa",
-  sizeof(Wa__PendingKeyExchange),
-  7,
-  wa__pending_key_exchange__field_descriptors,
-  wa__pending_key_exchange__field_indices_by_name,
-  2,  wa__pending_key_exchange__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__pending_pre_key__field_descriptors[3] =
-{
-  {
-    "preKeyId",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(Wa__PendingPreKey, has_prekeyid),
-    offsetof(Wa__PendingPreKey, prekeyid),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "baseKey",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__PendingPreKey, has_basekey),
-    offsetof(Wa__PendingPreKey, basekey),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "signedPreKeyId",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_INT32,
-    offsetof(Wa__PendingPreKey, has_signedprekeyid),
-    offsetof(Wa__PendingPreKey, signedprekeyid),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__pending_pre_key__field_indices_by_name[] = {
-  1,   /* field[1] = baseKey */
-  0,   /* field[0] = preKeyId */
-  2,   /* field[2] = signedPreKeyId */
-};
-static const ProtobufCIntRange wa__pending_pre_key__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 3 }
-};
-const ProtobufCMessageDescriptor wa__pending_pre_key__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.PendingPreKey",
-  "PendingPreKey",
-  "Wa__PendingPreKey",
-  "wa",
-  sizeof(Wa__PendingPreKey),
-  3,
-  wa__pending_pre_key__field_descriptors,
-  wa__pending_pre_key__field_indices_by_name,
-  1,  wa__pending_pre_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__photo_change__field_descriptors[3] =
 {
@@ -19947,8 +21980,126 @@ const ProtobufCMessageDescriptor wa__photo_change__descriptor =
   wa__photo_change__field_descriptors,
   wa__photo_change__field_indices_by_name,
   1,  wa__photo_change__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__pin_in_chat__type__enum_values_by_number[3] =
+{
+  { "UNKNOWN_TYPE", "WA__PIN_IN_CHAT__TYPE__UNKNOWN_TYPE", 0 },
+  { "PIN_FOR_ALL", "WA__PIN_IN_CHAT__TYPE__PIN_FOR_ALL", 1 },
+  { "UNPIN_FOR_ALL", "WA__PIN_IN_CHAT__TYPE__UNPIN_FOR_ALL", 2 },
+};
+static const ProtobufCIntRange wa__pin_in_chat__type__value_ranges[] = {
+{0, 0},{0, 3}
+};
+static const ProtobufCEnumValueIndex wa__pin_in_chat__type__enum_values_by_name[3] =
+{
+  { "PIN_FOR_ALL", 1 },
+  { "UNKNOWN_TYPE", 0 },
+  { "UNPIN_FOR_ALL", 2 },
+};
+const ProtobufCEnumDescriptor wa__pin_in_chat__type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.PinInChat.Type",
+  "Type",
+  "Wa__PinInChat__Type",
+  "wa",
+  3,
+  wa__pin_in_chat__type__enum_values_by_number,
+  3,
+  wa__pin_in_chat__type__enum_values_by_name,
+  1,
+  wa__pin_in_chat__type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__pin_in_chat__field_descriptors[5] =
+{
+  {
+    "type",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__PinInChat, has_type),
+    offsetof(Wa__PinInChat, type),
+    &wa__pin_in_chat__type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "key",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__PinInChat, key),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "senderTimestampMs",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__PinInChat, has_sendertimestampms),
+    offsetof(Wa__PinInChat, sendertimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "serverTimestampMs",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__PinInChat, has_servertimestampms),
+    offsetof(Wa__PinInChat, servertimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "messageAddOnContextInfo",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__PinInChat, messageaddoncontextinfo),
+    &wa__message_add_on_context_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__pin_in_chat__field_indices_by_name[] = {
+  1,   /* field[1] = key */
+  4,   /* field[4] = messageAddOnContextInfo */
+  2,   /* field[2] = senderTimestampMs */
+  3,   /* field[3] = serverTimestampMs */
+  0,   /* field[0] = type */
+};
+static const ProtobufCIntRange wa__pin_in_chat__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
+const ProtobufCMessageDescriptor wa__pin_in_chat__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.PinInChat",
+  "PinInChat",
+  "Wa__PinInChat",
+  "wa",
+  sizeof(Wa__PinInChat),
+  5,
+  wa__pin_in_chat__field_descriptors,
+  wa__pin_in_chat__field_indices_by_name,
+  1,  wa__pin_in_chat__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__point__field_descriptors[4] =
 {
@@ -20024,8 +22175,7 @@ const ProtobufCMessageDescriptor wa__point__descriptor =
   wa__point__field_descriptors,
   wa__point__field_indices_by_name,
   1,  wa__point__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__poll_additional_metadata__field_descriptors[1] =
 {
@@ -20062,8 +22212,7 @@ const ProtobufCMessageDescriptor wa__poll_additional_metadata__descriptor =
   wa__poll_additional_metadata__field_descriptors,
   wa__poll_additional_metadata__field_indices_by_name,
   1,  wa__poll_additional_metadata__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__poll_enc_value__field_descriptors[2] =
 {
@@ -20113,10 +22262,9 @@ const ProtobufCMessageDescriptor wa__poll_enc_value__descriptor =
   wa__poll_enc_value__field_descriptors,
   wa__poll_enc_value__field_indices_by_name,
   1,  wa__poll_enc_value__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__poll_update__field_descriptors[3] =
+static const ProtobufCFieldDescriptor wa__poll_update__field_descriptors[5] =
 {
   {
     "pollUpdateMessageKey",
@@ -20154,16 +22302,42 @@ static const ProtobufCFieldDescriptor wa__poll_update__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "serverTimestampMs",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__PollUpdate, has_servertimestampms),
+    offsetof(Wa__PollUpdate, servertimestampms),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "unread",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__PollUpdate, has_unread),
+    offsetof(Wa__PollUpdate, unread),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__poll_update__field_indices_by_name[] = {
   0,   /* field[0] = pollUpdateMessageKey */
   2,   /* field[2] = senderTimestampMs */
+  3,   /* field[3] = serverTimestampMs */
+  4,   /* field[4] = unread */
   1,   /* field[1] = vote */
 };
 static const ProtobufCIntRange wa__poll_update__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__poll_update__descriptor =
 {
@@ -20173,12 +22347,11 @@ const ProtobufCMessageDescriptor wa__poll_update__descriptor =
   "Wa__PollUpdate",
   "wa",
   sizeof(Wa__PollUpdate),
-  3,
+  5,
   wa__poll_update__field_descriptors,
   wa__poll_update__field_indices_by_name,
   1,  wa__poll_update__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__pre_key_record_structure__field_descriptors[3] =
 {
@@ -20241,8 +22414,109 @@ const ProtobufCMessageDescriptor wa__pre_key_record_structure__descriptor =
   wa__pre_key_record_structure__field_descriptors,
   wa__pre_key_record_structure__field_indices_by_name,
   1,  wa__pre_key_record_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__pre_key_signal_message__field_descriptors[6] =
+{
+  {
+    "preKeyId",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__PreKeySignalMessage, has_prekeyid),
+    offsetof(Wa__PreKeySignalMessage, prekeyid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "baseKey",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__PreKeySignalMessage, has_basekey),
+    offsetof(Wa__PreKeySignalMessage, basekey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "identityKey",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__PreKeySignalMessage, has_identitykey),
+    offsetof(Wa__PreKeySignalMessage, identitykey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "message",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__PreKeySignalMessage, has_message),
+    offsetof(Wa__PreKeySignalMessage, message),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "registrationId",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__PreKeySignalMessage, has_registrationid),
+    offsetof(Wa__PreKeySignalMessage, registrationid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signedPreKeyId",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__PreKeySignalMessage, has_signedprekeyid),
+    offsetof(Wa__PreKeySignalMessage, signedprekeyid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__pre_key_signal_message__field_indices_by_name[] = {
+  1,   /* field[1] = baseKey */
+  2,   /* field[2] = identityKey */
+  3,   /* field[3] = message */
+  0,   /* field[0] = preKeyId */
+  4,   /* field[4] = registrationId */
+  5,   /* field[5] = signedPreKeyId */
+};
+static const ProtobufCIntRange wa__pre_key_signal_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 6 }
+};
+const ProtobufCMessageDescriptor wa__pre_key_signal_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.PreKeySignalMessage",
+  "PreKeySignalMessage",
+  "Wa__PreKeySignalMessage",
+  "wa",
+  sizeof(Wa__PreKeySignalMessage),
+  6,
+  wa__pre_key_signal_message__field_descriptors,
+  wa__pre_key_signal_message__field_indices_by_name,
+  1,  wa__pre_key_signal_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__pushname__field_descriptors[2] =
 {
@@ -20292,8 +22566,7 @@ const ProtobufCMessageDescriptor wa__pushname__descriptor =
   wa__pushname__field_descriptors,
   wa__pushname__field_indices_by_name,
   1,  wa__pushname__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__reaction__field_descriptors[5] =
 {
@@ -20382,8 +22655,7 @@ const ProtobufCMessageDescriptor wa__reaction__descriptor =
   wa__reaction__field_descriptors,
   wa__reaction__field_indices_by_name,
   1,  wa__reaction__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__recent_emoji_weight__field_descriptors[2] =
 {
@@ -20433,8 +22705,7 @@ const ProtobufCMessageDescriptor wa__recent_emoji_weight__descriptor =
   wa__recent_emoji_weight__field_descriptors,
   wa__recent_emoji_weight__field_indices_by_name,
   1,  wa__recent_emoji_weight__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__record_structure__field_descriptors[2] =
 {
@@ -20484,59 +22755,146 @@ const ProtobufCMessageDescriptor wa__record_structure__descriptor =
   wa__record_structure__field_descriptors,
   wa__record_structure__field_indices_by_name,
   1,  wa__record_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__sender_chain_key__field_descriptors[2] =
+static const ProtobufCFieldDescriptor wa__sender_key_distribution_message__field_descriptors[4] =
 {
   {
-    "iteration",
+    "id",
     1,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    offsetof(Wa__SenderChainKey, has_iteration),
-    offsetof(Wa__SenderChainKey, iteration),
+    offsetof(Wa__SenderKeyDistributionMessage, has_id),
+    offsetof(Wa__SenderKeyDistributionMessage, id),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "seed",
+    "iteration",
     2,
     PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SenderKeyDistributionMessage, has_iteration),
+    offsetof(Wa__SenderKeyDistributionMessage, iteration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "chainKey",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__SenderChainKey, has_seed),
-    offsetof(Wa__SenderChainKey, seed),
+    offsetof(Wa__SenderKeyDistributionMessage, has_chainkey),
+    offsetof(Wa__SenderKeyDistributionMessage, chainkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signingKey",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyDistributionMessage, has_signingkey),
+    offsetof(Wa__SenderKeyDistributionMessage, signingkey),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned wa__sender_chain_key__field_indices_by_name[] = {
-  0,   /* field[0] = iteration */
-  1,   /* field[1] = seed */
+static const unsigned wa__sender_key_distribution_message__field_indices_by_name[] = {
+  2,   /* field[2] = chainKey */
+  0,   /* field[0] = id */
+  1,   /* field[1] = iteration */
+  3,   /* field[3] = signingKey */
 };
-static const ProtobufCIntRange wa__sender_chain_key__number_ranges[1 + 1] =
+static const ProtobufCIntRange wa__sender_key_distribution_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 4 }
 };
-const ProtobufCMessageDescriptor wa__sender_chain_key__descriptor =
+const ProtobufCMessageDescriptor wa__sender_key_distribution_message__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.SenderChainKey",
-  "SenderChainKey",
-  "Wa__SenderChainKey",
+  "wa.SenderKeyDistributionMessage",
+  "SenderKeyDistributionMessage",
+  "Wa__SenderKeyDistributionMessage",
   "wa",
-  sizeof(Wa__SenderChainKey),
-  2,
-  wa__sender_chain_key__field_descriptors,
-  wa__sender_chain_key__field_indices_by_name,
-  1,  wa__sender_chain_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  sizeof(Wa__SenderKeyDistributionMessage),
+  4,
+  wa__sender_key_distribution_message__field_descriptors,
+  wa__sender_key_distribution_message__field_indices_by_name,
+  1,  wa__sender_key_distribution_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sender_key_message__field_descriptors[3] =
+{
+  {
+    "id",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SenderKeyMessage, has_id),
+    offsetof(Wa__SenderKeyMessage, id),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "iteration",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SenderKeyMessage, has_iteration),
+    offsetof(Wa__SenderKeyMessage, iteration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ciphertext",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyMessage, has_ciphertext),
+    offsetof(Wa__SenderKeyMessage, ciphertext),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sender_key_message__field_indices_by_name[] = {
+  2,   /* field[2] = ciphertext */
+  0,   /* field[0] = id */
+  1,   /* field[1] = iteration */
+};
+static const ProtobufCIntRange wa__sender_key_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__sender_key_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SenderKeyMessage",
+  "SenderKeyMessage",
+  "Wa__SenderKeyMessage",
+  "wa",
+  sizeof(Wa__SenderKeyMessage),
+  3,
+  wa__sender_key_message__field_descriptors,
+  wa__sender_key_message__field_indices_by_name,
+  1,  wa__sender_key_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sender_key_record_structure__field_descriptors[1] =
 {
@@ -20573,8 +22931,157 @@ const ProtobufCMessageDescriptor wa__sender_key_record_structure__descriptor =
   wa__sender_key_record_structure__field_descriptors,
   wa__sender_key_record_structure__field_indices_by_name,
   1,  wa__sender_key_record_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sender_key_state_structure__sender_chain_key__field_descriptors[2] =
+{
+  {
+    "iteration",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SenderKeyStateStructure__SenderChainKey, has_iteration),
+    offsetof(Wa__SenderKeyStateStructure__SenderChainKey, iteration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "seed",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyStateStructure__SenderChainKey, has_seed),
+    offsetof(Wa__SenderKeyStateStructure__SenderChainKey, seed),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sender_key_state_structure__sender_chain_key__field_indices_by_name[] = {
+  0,   /* field[0] = iteration */
+  1,   /* field[1] = seed */
+};
+static const ProtobufCIntRange wa__sender_key_state_structure__sender_chain_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_chain_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SenderKeyStateStructure.SenderChainKey",
+  "SenderChainKey",
+  "Wa__SenderKeyStateStructure__SenderChainKey",
+  "wa",
+  sizeof(Wa__SenderKeyStateStructure__SenderChainKey),
+  2,
+  wa__sender_key_state_structure__sender_chain_key__field_descriptors,
+  wa__sender_key_state_structure__sender_chain_key__field_indices_by_name,
+  1,  wa__sender_key_state_structure__sender_chain_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sender_key_state_structure__sender_message_key__field_descriptors[2] =
+{
+  {
+    "iteration",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SenderKeyStateStructure__SenderMessageKey, has_iteration),
+    offsetof(Wa__SenderKeyStateStructure__SenderMessageKey, iteration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "seed",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyStateStructure__SenderMessageKey, has_seed),
+    offsetof(Wa__SenderKeyStateStructure__SenderMessageKey, seed),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sender_key_state_structure__sender_message_key__field_indices_by_name[] = {
+  0,   /* field[0] = iteration */
+  1,   /* field[1] = seed */
+};
+static const ProtobufCIntRange wa__sender_key_state_structure__sender_message_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_message_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SenderKeyStateStructure.SenderMessageKey",
+  "SenderMessageKey",
+  "Wa__SenderKeyStateStructure__SenderMessageKey",
+  "wa",
+  sizeof(Wa__SenderKeyStateStructure__SenderMessageKey),
+  2,
+  wa__sender_key_state_structure__sender_message_key__field_descriptors,
+  wa__sender_key_state_structure__sender_message_key__field_indices_by_name,
+  1,  wa__sender_key_state_structure__sender_message_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sender_key_state_structure__sender_signing_key__field_descriptors[2] =
+{
+  {
+    "public",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyStateStructure__SenderSigningKey, has_public_),
+    offsetof(Wa__SenderKeyStateStructure__SenderSigningKey, public_),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "private",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SenderKeyStateStructure__SenderSigningKey, has_private_),
+    offsetof(Wa__SenderKeyStateStructure__SenderSigningKey, private_),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sender_key_state_structure__sender_signing_key__field_indices_by_name[] = {
+  1,   /* field[1] = private */
+  0,   /* field[0] = public */
+};
+static const ProtobufCIntRange wa__sender_key_state_structure__sender_signing_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_signing_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SenderKeyStateStructure.SenderSigningKey",
+  "SenderSigningKey",
+  "Wa__SenderKeyStateStructure__SenderSigningKey",
+  "wa",
+  sizeof(Wa__SenderKeyStateStructure__SenderSigningKey),
+  2,
+  wa__sender_key_state_structure__sender_signing_key__field_descriptors,
+  wa__sender_key_state_structure__sender_signing_key__field_indices_by_name,
+  1,  wa__sender_key_state_structure__sender_signing_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sender_key_state_structure__field_descriptors[4] =
 {
@@ -20597,7 +23104,7 @@ static const ProtobufCFieldDescriptor wa__sender_key_state_structure__field_desc
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Wa__SenderKeyStateStructure, senderchainkey),
-    &wa__sender_chain_key__descriptor,
+    &wa__sender_key_state_structure__sender_chain_key__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20609,7 +23116,7 @@ static const ProtobufCFieldDescriptor wa__sender_key_state_structure__field_desc
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Wa__SenderKeyStateStructure, sendersigningkey),
-    &wa__sender_signing_key__descriptor,
+    &wa__sender_key_state_structure__sender_signing_key__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20621,7 +23128,7 @@ static const ProtobufCFieldDescriptor wa__sender_key_state_structure__field_desc
     PROTOBUF_C_TYPE_MESSAGE,
     offsetof(Wa__SenderKeyStateStructure, n_sendermessagekeys),
     offsetof(Wa__SenderKeyStateStructure, sendermessagekeys),
-    &wa__sender_message_key__descriptor,
+    &wa__sender_key_state_structure__sender_message_key__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20650,110 +23157,7 @@ const ProtobufCMessageDescriptor wa__sender_key_state_structure__descriptor =
   wa__sender_key_state_structure__field_descriptors,
   wa__sender_key_state_structure__field_indices_by_name,
   1,  wa__sender_key_state_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__sender_message_key__field_descriptors[2] =
-{
-  {
-    "iteration",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(Wa__SenderMessageKey, has_iteration),
-    offsetof(Wa__SenderMessageKey, iteration),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "seed",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__SenderMessageKey, has_seed),
-    offsetof(Wa__SenderMessageKey, seed),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__sender_message_key__field_indices_by_name[] = {
-  0,   /* field[0] = iteration */
-  1,   /* field[1] = seed */
-};
-static const ProtobufCIntRange wa__sender_message_key__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__sender_message_key__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.SenderMessageKey",
-  "SenderMessageKey",
-  "Wa__SenderMessageKey",
-  "wa",
-  sizeof(Wa__SenderMessageKey),
-  2,
-  wa__sender_message_key__field_descriptors,
-  wa__sender_message_key__field_indices_by_name,
-  1,  wa__sender_message_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__sender_signing_key__field_descriptors[2] =
-{
-  {
-    "public",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__SenderSigningKey, has_public_),
-    offsetof(Wa__SenderSigningKey, public_),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "private",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Wa__SenderSigningKey, has_private_),
-    offsetof(Wa__SenderSigningKey, private_),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__sender_signing_key__field_indices_by_name[] = {
-  1,   /* field[1] = private */
-  0,   /* field[0] = public */
-};
-static const ProtobufCIntRange wa__sender_signing_key__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__sender_signing_key__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.SenderSigningKey",
-  "SenderSigningKey",
-  "Wa__SenderSigningKey",
-  "wa",
-  sizeof(Wa__SenderSigningKey),
-  2,
-  wa__sender_signing_key__field_descriptors,
-  wa__sender_signing_key__field_indices_by_name,
-  1,  wa__sender_signing_key__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__server_error_receipt__field_descriptors[1] =
 {
@@ -20790,8 +23194,388 @@ const ProtobufCMessageDescriptor wa__server_error_receipt__descriptor =
   wa__server_error_receipt__field_descriptors,
   wa__server_error_receipt__field_indices_by_name,
   1,  wa__server_error_receipt__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__session_structure__chain__chain_key__field_descriptors[2] =
+{
+  {
+    "index",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SessionStructure__Chain__ChainKey, has_index),
+    offsetof(Wa__SessionStructure__Chain__ChainKey, index),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "key",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain__ChainKey, has_key),
+    offsetof(Wa__SessionStructure__Chain__ChainKey, key),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__session_structure__chain__chain_key__field_indices_by_name[] = {
+  0,   /* field[0] = index */
+  1,   /* field[1] = key */
+};
+static const ProtobufCIntRange wa__session_structure__chain__chain_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__session_structure__chain__chain_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SessionStructure.Chain.ChainKey",
+  "ChainKey",
+  "Wa__SessionStructure__Chain__ChainKey",
+  "wa",
+  sizeof(Wa__SessionStructure__Chain__ChainKey),
+  2,
+  wa__session_structure__chain__chain_key__field_descriptors,
+  wa__session_structure__chain__chain_key__field_indices_by_name,
+  1,  wa__session_structure__chain__chain_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__session_structure__chain__message_key__field_descriptors[4] =
+{
+  {
+    "index",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SessionStructure__Chain__MessageKey, has_index),
+    offsetof(Wa__SessionStructure__Chain__MessageKey, index),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "cipherKey",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain__MessageKey, has_cipherkey),
+    offsetof(Wa__SessionStructure__Chain__MessageKey, cipherkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "macKey",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain__MessageKey, has_mackey),
+    offsetof(Wa__SessionStructure__Chain__MessageKey, mackey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "iv",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain__MessageKey, has_iv),
+    offsetof(Wa__SessionStructure__Chain__MessageKey, iv),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__session_structure__chain__message_key__field_indices_by_name[] = {
+  1,   /* field[1] = cipherKey */
+  0,   /* field[0] = index */
+  3,   /* field[3] = iv */
+  2,   /* field[2] = macKey */
+};
+static const ProtobufCIntRange wa__session_structure__chain__message_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor wa__session_structure__chain__message_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SessionStructure.Chain.MessageKey",
+  "MessageKey",
+  "Wa__SessionStructure__Chain__MessageKey",
+  "wa",
+  sizeof(Wa__SessionStructure__Chain__MessageKey),
+  4,
+  wa__session_structure__chain__message_key__field_descriptors,
+  wa__session_structure__chain__message_key__field_indices_by_name,
+  1,  wa__session_structure__chain__message_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__session_structure__chain__field_descriptors[4] =
+{
+  {
+    "senderRatchetKey",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain, has_senderratchetkey),
+    offsetof(Wa__SessionStructure__Chain, senderratchetkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "senderRatchetKeyPrivate",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__Chain, has_senderratchetkeyprivate),
+    offsetof(Wa__SessionStructure__Chain, senderratchetkeyprivate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "chainKey",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SessionStructure__Chain, chainkey),
+    &wa__session_structure__chain__chain_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "messageKeys",
+    4,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__SessionStructure__Chain, n_messagekeys),
+    offsetof(Wa__SessionStructure__Chain, messagekeys),
+    &wa__session_structure__chain__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__session_structure__chain__field_indices_by_name[] = {
+  2,   /* field[2] = chainKey */
+  3,   /* field[3] = messageKeys */
+  0,   /* field[0] = senderRatchetKey */
+  1,   /* field[1] = senderRatchetKeyPrivate */
+};
+static const ProtobufCIntRange wa__session_structure__chain__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor wa__session_structure__chain__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SessionStructure.Chain",
+  "Chain",
+  "Wa__SessionStructure__Chain",
+  "wa",
+  sizeof(Wa__SessionStructure__Chain),
+  4,
+  wa__session_structure__chain__field_descriptors,
+  wa__session_structure__chain__field_indices_by_name,
+  1,  wa__session_structure__chain__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__session_structure__pending_key_exchange__field_descriptors[7] =
+{
+  {
+    "sequence",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_sequence),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, sequence),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localBaseKey",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localbasekey),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localbasekey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localBaseKeyPrivate",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localbasekeyprivate),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localbasekeyprivate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localRatchetKey",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localratchetkey),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localratchetkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localRatchetKeyPrivate",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localratchetkeyprivate),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localratchetkeyprivate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localIdentityKey",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localidentitykey),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localidentitykey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "localIdentityKeyPrivate",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingKeyExchange, has_localidentitykeyprivate),
+    offsetof(Wa__SessionStructure__PendingKeyExchange, localidentitykeyprivate),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__session_structure__pending_key_exchange__field_indices_by_name[] = {
+  1,   /* field[1] = localBaseKey */
+  2,   /* field[2] = localBaseKeyPrivate */
+  5,   /* field[5] = localIdentityKey */
+  6,   /* field[6] = localIdentityKeyPrivate */
+  3,   /* field[3] = localRatchetKey */
+  4,   /* field[4] = localRatchetKeyPrivate */
+  0,   /* field[0] = sequence */
+};
+static const ProtobufCIntRange wa__session_structure__pending_key_exchange__number_ranges[2 + 1] =
+{
+  { 1, 0 },
+  { 7, 5 },
+  { 0, 7 }
+};
+const ProtobufCMessageDescriptor wa__session_structure__pending_key_exchange__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SessionStructure.PendingKeyExchange",
+  "PendingKeyExchange",
+  "Wa__SessionStructure__PendingKeyExchange",
+  "wa",
+  sizeof(Wa__SessionStructure__PendingKeyExchange),
+  7,
+  wa__session_structure__pending_key_exchange__field_descriptors,
+  wa__session_structure__pending_key_exchange__field_indices_by_name,
+  2,  wa__session_structure__pending_key_exchange__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__session_structure__pending_pre_key__field_descriptors[3] =
+{
+  {
+    "preKeyId",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SessionStructure__PendingPreKey, has_prekeyid),
+    offsetof(Wa__SessionStructure__PendingPreKey, prekeyid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "baseKey",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SessionStructure__PendingPreKey, has_basekey),
+    offsetof(Wa__SessionStructure__PendingPreKey, basekey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signedPreKeyId",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__SessionStructure__PendingPreKey, has_signedprekeyid),
+    offsetof(Wa__SessionStructure__PendingPreKey, signedprekeyid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__session_structure__pending_pre_key__field_indices_by_name[] = {
+  1,   /* field[1] = baseKey */
+  0,   /* field[0] = preKeyId */
+  2,   /* field[2] = signedPreKeyId */
+};
+static const ProtobufCIntRange wa__session_structure__pending_pre_key__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor wa__session_structure__pending_pre_key__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SessionStructure.PendingPreKey",
+  "PendingPreKey",
+  "Wa__SessionStructure__PendingPreKey",
+  "wa",
+  sizeof(Wa__SessionStructure__PendingPreKey),
+  3,
+  wa__session_structure__pending_pre_key__field_descriptors,
+  wa__session_structure__pending_pre_key__field_indices_by_name,
+  1,  wa__session_structure__pending_pre_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__session_structure__field_descriptors[13] =
 {
@@ -20862,7 +23646,7 @@ static const ProtobufCFieldDescriptor wa__session_structure__field_descriptors[1
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Wa__SessionStructure, senderchain),
-    &wa__chain__descriptor,
+    &wa__session_structure__chain__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20874,7 +23658,7 @@ static const ProtobufCFieldDescriptor wa__session_structure__field_descriptors[1
     PROTOBUF_C_TYPE_MESSAGE,
     offsetof(Wa__SessionStructure, n_receiverchains),
     offsetof(Wa__SessionStructure, receiverchains),
-    &wa__chain__descriptor,
+    &wa__session_structure__chain__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20886,7 +23670,7 @@ static const ProtobufCFieldDescriptor wa__session_structure__field_descriptors[1
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Wa__SessionStructure, pendingkeyexchange),
-    &wa__pending_key_exchange__descriptor,
+    &wa__session_structure__pending_key_exchange__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20898,7 +23682,7 @@ static const ProtobufCFieldDescriptor wa__session_structure__field_descriptors[1
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Wa__SessionStructure, pendingprekey),
-    &wa__pending_pre_key__descriptor,
+    &wa__session_structure__pending_pre_key__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -20984,8 +23768,83 @@ const ProtobufCMessageDescriptor wa__session_structure__descriptor =
   wa__session_structure__field_descriptors,
   wa__session_structure__field_indices_by_name,
   1,  wa__session_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__signal_message__field_descriptors[4] =
+{
+  {
+    "ratchetKey",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SignalMessage, has_ratchetkey),
+    offsetof(Wa__SignalMessage, ratchetkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "counter",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SignalMessage, has_counter),
+    offsetof(Wa__SignalMessage, counter),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "previousCounter",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__SignalMessage, has_previouscounter),
+    offsetof(Wa__SignalMessage, previouscounter),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ciphertext",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__SignalMessage, has_ciphertext),
+    offsetof(Wa__SignalMessage, ciphertext),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__signal_message__field_indices_by_name[] = {
+  3,   /* field[3] = ciphertext */
+  1,   /* field[1] = counter */
+  2,   /* field[2] = previousCounter */
+  0,   /* field[0] = ratchetKey */
+};
+static const ProtobufCIntRange wa__signal_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor wa__signal_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SignalMessage",
+  "SignalMessage",
+  "Wa__SignalMessage",
+  "wa",
+  sizeof(Wa__SignalMessage),
+  4,
+  wa__signal_message__field_descriptors,
+  wa__signal_message__field_indices_by_name,
+  1,  wa__signal_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__signed_pre_key_record_structure__field_descriptors[5] =
 {
@@ -21074,8 +23933,7 @@ const ProtobufCMessageDescriptor wa__signed_pre_key_record_structure__descriptor
   wa__signed_pre_key_record_structure__field_descriptors,
   wa__signed_pre_key_record_structure__field_indices_by_name,
   1,  wa__signed_pre_key_record_structure__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__status_psa__field_descriptors[2] =
 {
@@ -21125,10 +23983,9 @@ const ProtobufCMessageDescriptor wa__status_psa__descriptor =
   wa__status_psa__field_descriptors,
   wa__status_psa__field_indices_by_name,
   1,  wa__status_psa__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__sticker_metadata__field_descriptors[10] =
+static const ProtobufCFieldDescriptor wa__sticker_metadata__field_descriptors[11] =
 {
   {
     "url",
@@ -21250,6 +24107,18 @@ static const ProtobufCFieldDescriptor wa__sticker_metadata__field_descriptors[10
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "lastStickerSentTs",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__StickerMetadata, has_laststickersentts),
+    offsetof(Wa__StickerMetadata, laststickersentts),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__sticker_metadata__field_indices_by_name[] = {
   7,   /* field[7] = directPath */
@@ -21257,6 +24126,7 @@ static const unsigned wa__sticker_metadata__field_indices_by_name[] = {
   8,   /* field[8] = fileLength */
   1,   /* field[1] = fileSha256 */
   5,   /* field[5] = height */
+  10,   /* field[10] = lastStickerSentTs */
   3,   /* field[3] = mediaKey */
   4,   /* field[4] = mimetype */
   0,   /* field[0] = url */
@@ -21266,7 +24136,7 @@ static const unsigned wa__sticker_metadata__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__sticker_metadata__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 10 }
+  { 0, 11 }
 };
 const ProtobufCMessageDescriptor wa__sticker_metadata__descriptor =
 {
@@ -21276,12 +24146,11 @@ const ProtobufCMessageDescriptor wa__sticker_metadata__descriptor =
   "Wa__StickerMetadata",
   "wa",
   sizeof(Wa__StickerMetadata),
-  10,
+  11,
   wa__sticker_metadata__field_descriptors,
   wa__sticker_metadata__field_indices_by_name,
   1,  wa__sticker_metadata__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_data__field_descriptors[4] =
 {
@@ -21357,8 +24226,7 @@ const ProtobufCMessageDescriptor wa__sync_action_data__descriptor =
   wa__sync_action_data__field_descriptors,
   wa__sync_action_data__field_indices_by_name,
   1,  wa__sync_action_data__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__agent_action__field_descriptors[3] =
 {
@@ -21421,8 +24289,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__agent_action__descriptor
   wa__sync_action_value__agent_action__field_descriptors,
   wa__sync_action_value__agent_action__field_indices_by_name,
   1,  wa__sync_action_value__agent_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__android_unsupported_actions__field_descriptors[1] =
 {
@@ -21459,8 +24326,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__android_unsupported_acti
   wa__sync_action_value__android_unsupported_actions__field_descriptors,
   wa__sync_action_value__android_unsupported_actions__field_indices_by_name,
   1,  wa__sync_action_value__android_unsupported_actions__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__archive_chat_action__field_descriptors[2] =
 {
@@ -21510,8 +24376,81 @@ const ProtobufCMessageDescriptor wa__sync_action_value__archive_chat_action__des
   wa__sync_action_value__archive_chat_action__field_descriptors,
   wa__sync_action_value__archive_chat_action__field_indices_by_name,
   1,  wa__sync_action_value__archive_chat_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__chat_assignment_action__field_descriptors[1] =
+{
+  {
+    "deviceAgentID",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__ChatAssignmentAction, deviceagentid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__chat_assignment_action__field_indices_by_name[] = {
+  0,   /* field[0] = deviceAgentID */
+};
+static const ProtobufCIntRange wa__sync_action_value__chat_assignment_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__chat_assignment_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.ChatAssignmentAction",
+  "ChatAssignmentAction",
+  "Wa__SyncActionValue__ChatAssignmentAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__ChatAssignmentAction),
+  1,
+  wa__sync_action_value__chat_assignment_action__field_descriptors,
+  wa__sync_action_value__chat_assignment_action__field_indices_by_name,
+  1,  wa__sync_action_value__chat_assignment_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__chat_assignment_opened_status_action__field_descriptors[1] =
+{
+  {
+    "chatOpened",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__SyncActionValue__ChatAssignmentOpenedStatusAction, has_chatopened),
+    offsetof(Wa__SyncActionValue__ChatAssignmentOpenedStatusAction, chatopened),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__chat_assignment_opened_status_action__field_indices_by_name[] = {
+  0,   /* field[0] = chatOpened */
+};
+static const ProtobufCIntRange wa__sync_action_value__chat_assignment_opened_status_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__chat_assignment_opened_status_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.ChatAssignmentOpenedStatusAction",
+  "ChatAssignmentOpenedStatusAction",
+  "Wa__SyncActionValue__ChatAssignmentOpenedStatusAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__ChatAssignmentOpenedStatusAction),
+  1,
+  wa__sync_action_value__chat_assignment_opened_status_action__field_descriptors,
+  wa__sync_action_value__chat_assignment_opened_status_action__field_indices_by_name,
+  1,  wa__sync_action_value__chat_assignment_opened_status_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__clear_chat_action__field_descriptors[1] =
 {
@@ -21548,10 +24487,9 @@ const ProtobufCMessageDescriptor wa__sync_action_value__clear_chat_action__descr
   wa__sync_action_value__clear_chat_action__field_descriptors,
   wa__sync_action_value__clear_chat_action__field_indices_by_name,
   1,  wa__sync_action_value__clear_chat_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__sync_action_value__contact_action__field_descriptors[2] =
+static const ProtobufCFieldDescriptor wa__sync_action_value__contact_action__field_descriptors[3] =
 {
   {
     "fullName",
@@ -21577,15 +24515,28 @@ static const ProtobufCFieldDescriptor wa__sync_action_value__contact_action__fie
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "lidJid",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__ContactAction, lidjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__sync_action_value__contact_action__field_indices_by_name[] = {
   1,   /* field[1] = firstName */
   0,   /* field[0] = fullName */
+  2,   /* field[2] = lidJid */
 };
 static const ProtobufCIntRange wa__sync_action_value__contact_action__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor wa__sync_action_value__contact_action__descriptor =
 {
@@ -21595,12 +24546,11 @@ const ProtobufCMessageDescriptor wa__sync_action_value__contact_action__descript
   "Wa__SyncActionValue__ContactAction",
   "wa",
   sizeof(Wa__SyncActionValue__ContactAction),
-  2,
+  3,
   wa__sync_action_value__contact_action__field_descriptors,
   wa__sync_action_value__contact_action__field_indices_by_name,
   1,  wa__sync_action_value__contact_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__delete_chat_action__field_descriptors[1] =
 {
@@ -21637,8 +24587,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__delete_chat_action__desc
   wa__sync_action_value__delete_chat_action__field_descriptors,
   wa__sync_action_value__delete_chat_action__field_indices_by_name,
   1,  wa__sync_action_value__delete_chat_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__delete_message_for_me_action__field_descriptors[2] =
 {
@@ -21688,8 +24637,44 @@ const ProtobufCMessageDescriptor wa__sync_action_value__delete_message_for_me_ac
   wa__sync_action_value__delete_message_for_me_action__field_descriptors,
   wa__sync_action_value__delete_message_for_me_action__field_indices_by_name,
   1,  wa__sync_action_value__delete_message_for_me_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__external_web_beta_action__field_descriptors[1] =
+{
+  {
+    "isOptIn",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__SyncActionValue__ExternalWebBetaAction, has_isoptin),
+    offsetof(Wa__SyncActionValue__ExternalWebBetaAction, isoptin),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__external_web_beta_action__field_indices_by_name[] = {
+  0,   /* field[0] = isOptIn */
+};
+static const ProtobufCIntRange wa__sync_action_value__external_web_beta_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__external_web_beta_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.ExternalWebBetaAction",
+  "ExternalWebBetaAction",
+  "Wa__SyncActionValue__ExternalWebBetaAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__ExternalWebBetaAction),
+  1,
+  wa__sync_action_value__external_web_beta_action__field_descriptors,
+  wa__sync_action_value__external_web_beta_action__field_indices_by_name,
+  1,  wa__sync_action_value__external_web_beta_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__key_expiration__field_descriptors[1] =
 {
@@ -21726,8 +24711,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__key_expiration__descript
   wa__sync_action_value__key_expiration__field_descriptors,
   wa__sync_action_value__key_expiration__field_indices_by_name,
   1,  wa__sync_action_value__key_expiration__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__label_association_action__field_descriptors[1] =
 {
@@ -21764,8 +24748,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__label_association_action
   wa__sync_action_value__label_association_action__field_descriptors,
   wa__sync_action_value__label_association_action__field_indices_by_name,
   1,  wa__sync_action_value__label_association_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__label_edit_action__field_descriptors[4] =
 {
@@ -21841,8 +24824,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__label_edit_action__descr
   wa__sync_action_value__label_edit_action__field_descriptors,
   wa__sync_action_value__label_edit_action__field_indices_by_name,
   1,  wa__sync_action_value__label_edit_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__locale_setting__field_descriptors[1] =
 {
@@ -21879,8 +24861,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__locale_setting__descript
   wa__sync_action_value__locale_setting__field_descriptors,
   wa__sync_action_value__locale_setting__field_indices_by_name,
   1,  wa__sync_action_value__locale_setting__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__mark_chat_as_read_action__field_descriptors[2] =
 {
@@ -21930,10 +24911,187 @@ const ProtobufCMessageDescriptor wa__sync_action_value__mark_chat_as_read_action
   wa__sync_action_value__mark_chat_as_read_action__field_descriptors,
   wa__sync_action_value__mark_chat_as_read_action__field_indices_by_name,
   1,  wa__sync_action_value__mark_chat_as_read_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__sync_action_value__mute_action__field_descriptors[2] =
+static const ProtobufCEnumValue wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__enum_values_by_number[1] =
+{
+  { "PERSONALIZED", "WA__SYNC_ACTION_VALUE__MARKETING_MESSAGE_ACTION__MARKETING_MESSAGE_PROTOTYPE_TYPE__PERSONALIZED", 0 },
+};
+static const ProtobufCIntRange wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__value_ranges[] = {
+{0, 0},{0, 1}
+};
+static const ProtobufCEnumValueIndex wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__enum_values_by_name[1] =
+{
+  { "PERSONALIZED", 0 },
+};
+const ProtobufCEnumDescriptor wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.MarketingMessageAction.MarketingMessagePrototypeType",
+  "MarketingMessagePrototypeType",
+  "Wa__SyncActionValue__MarketingMessageAction__MarketingMessagePrototypeType",
+  "wa",
+  1,
+  wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__enum_values_by_number,
+  1,
+  wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__enum_values_by_name,
+  1,
+  wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__marketing_message_action__field_descriptors[7] =
+{
+  {
+    "name",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, name),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "message",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, message),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "type",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, has_type),
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, type),
+    &wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "createdAt",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, has_createdat),
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, createdat),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "lastSentAt",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, has_lastsentat),
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, lastsentat),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isDeleted",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, has_isdeleted),
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, isdeleted),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mediaId",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__MarketingMessageAction, mediaid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__marketing_message_action__field_indices_by_name[] = {
+  3,   /* field[3] = createdAt */
+  5,   /* field[5] = isDeleted */
+  4,   /* field[4] = lastSentAt */
+  6,   /* field[6] = mediaId */
+  1,   /* field[1] = message */
+  0,   /* field[0] = name */
+  2,   /* field[2] = type */
+};
+static const ProtobufCIntRange wa__sync_action_value__marketing_message_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 7 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__marketing_message_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.MarketingMessageAction",
+  "MarketingMessageAction",
+  "Wa__SyncActionValue__MarketingMessageAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__MarketingMessageAction),
+  7,
+  wa__sync_action_value__marketing_message_action__field_descriptors,
+  wa__sync_action_value__marketing_message_action__field_indices_by_name,
+  1,  wa__sync_action_value__marketing_message_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__marketing_message_broadcast_action__field_descriptors[1] =
+{
+  {
+    "repliedCount",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Wa__SyncActionValue__MarketingMessageBroadcastAction, has_repliedcount),
+    offsetof(Wa__SyncActionValue__MarketingMessageBroadcastAction, repliedcount),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__marketing_message_broadcast_action__field_indices_by_name[] = {
+  0,   /* field[0] = repliedCount */
+};
+static const ProtobufCIntRange wa__sync_action_value__marketing_message_broadcast_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__marketing_message_broadcast_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.MarketingMessageBroadcastAction",
+  "MarketingMessageBroadcastAction",
+  "Wa__SyncActionValue__MarketingMessageBroadcastAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__MarketingMessageBroadcastAction),
+  1,
+  wa__sync_action_value__marketing_message_broadcast_action__field_descriptors,
+  wa__sync_action_value__marketing_message_broadcast_action__field_indices_by_name,
+  1,  wa__sync_action_value__marketing_message_broadcast_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__mute_action__field_descriptors[3] =
 {
   {
     "muted",
@@ -21959,15 +25117,28 @@ static const ProtobufCFieldDescriptor wa__sync_action_value__mute_action__field_
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "autoMuted",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__SyncActionValue__MuteAction, has_automuted),
+    offsetof(Wa__SyncActionValue__MuteAction, automuted),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__sync_action_value__mute_action__field_indices_by_name[] = {
+  2,   /* field[2] = autoMuted */
   1,   /* field[1] = muteEndTimestamp */
   0,   /* field[0] = muted */
 };
 static const ProtobufCIntRange wa__sync_action_value__mute_action__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor wa__sync_action_value__mute_action__descriptor =
 {
@@ -21977,12 +25148,11 @@ const ProtobufCMessageDescriptor wa__sync_action_value__mute_action__descriptor 
   "Wa__SyncActionValue__MuteAction",
   "wa",
   sizeof(Wa__SyncActionValue__MuteAction),
-  2,
+  3,
   wa__sync_action_value__mute_action__field_descriptors,
   wa__sync_action_value__mute_action__field_indices_by_name,
   1,  wa__sync_action_value__mute_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__nux_action__field_descriptors[1] =
 {
@@ -22019,8 +25189,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__nux_action__descriptor =
   wa__sync_action_value__nux_action__field_descriptors,
   wa__sync_action_value__nux_action__field_indices_by_name,
   1,  wa__sync_action_value__nux_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__pin_action__field_descriptors[1] =
 {
@@ -22057,8 +25226,44 @@ const ProtobufCMessageDescriptor wa__sync_action_value__pin_action__descriptor =
   wa__sync_action_value__pin_action__field_descriptors,
   wa__sync_action_value__pin_action__field_indices_by_name,
   1,  wa__sync_action_value__pin_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__pn_for_lid_chat_action__field_descriptors[1] =
+{
+  {
+    "pnJid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__PnForLidChatAction, pnjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__pn_for_lid_chat_action__field_indices_by_name[] = {
+  0,   /* field[0] = pnJid */
+};
+static const ProtobufCIntRange wa__sync_action_value__pn_for_lid_chat_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__pn_for_lid_chat_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.PnForLidChatAction",
+  "PnForLidChatAction",
+  "Wa__SyncActionValue__PnForLidChatAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__PnForLidChatAction),
+  1,
+  wa__sync_action_value__pn_for_lid_chat_action__field_descriptors,
+  wa__sync_action_value__pn_for_lid_chat_action__field_indices_by_name,
+  1,  wa__sync_action_value__pn_for_lid_chat_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__primary_feature__field_descriptors[1] =
 {
@@ -22095,8 +25300,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__primary_feature__descrip
   wa__sync_action_value__primary_feature__field_descriptors,
   wa__sync_action_value__primary_feature__field_indices_by_name,
   1,  wa__sync_action_value__primary_feature__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__primary_version_action__field_descriptors[1] =
 {
@@ -22133,8 +25337,44 @@ const ProtobufCMessageDescriptor wa__sync_action_value__primary_version_action__
   wa__sync_action_value__primary_version_action__field_descriptors,
   wa__sync_action_value__primary_version_action__field_indices_by_name,
   1,  wa__sync_action_value__primary_version_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__privacy_setting_relay_all_calls__field_descriptors[1] =
+{
+  {
+    "isEnabled",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__SyncActionValue__PrivacySettingRelayAllCalls, has_isenabled),
+    offsetof(Wa__SyncActionValue__PrivacySettingRelayAllCalls, isenabled),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__privacy_setting_relay_all_calls__field_indices_by_name[] = {
+  0,   /* field[0] = isEnabled */
+};
+static const ProtobufCIntRange wa__sync_action_value__privacy_setting_relay_all_calls__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__privacy_setting_relay_all_calls__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.PrivacySettingRelayAllCalls",
+  "PrivacySettingRelayAllCalls",
+  "Wa__SyncActionValue__PrivacySettingRelayAllCalls",
+  "wa",
+  sizeof(Wa__SyncActionValue__PrivacySettingRelayAllCalls),
+  1,
+  wa__sync_action_value__privacy_setting_relay_all_calls__field_descriptors,
+  wa__sync_action_value__privacy_setting_relay_all_calls__field_indices_by_name,
+  1,  wa__sync_action_value__privacy_setting_relay_all_calls__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__push_name_setting__field_descriptors[1] =
 {
@@ -22171,8 +25411,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__push_name_setting__descr
   wa__sync_action_value__push_name_setting__field_descriptors,
   wa__sync_action_value__push_name_setting__field_indices_by_name,
   1,  wa__sync_action_value__push_name_setting__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__quick_reply_action__field_descriptors[5] =
 {
@@ -22261,8 +25500,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__quick_reply_action__desc
   wa__sync_action_value__quick_reply_action__field_descriptors,
   wa__sync_action_value__quick_reply_action__field_indices_by_name,
   1,  wa__sync_action_value__quick_reply_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__recent_emoji_weights_action__field_descriptors[1] =
 {
@@ -22299,8 +25537,44 @@ const ProtobufCMessageDescriptor wa__sync_action_value__recent_emoji_weights_act
   wa__sync_action_value__recent_emoji_weights_action__field_descriptors,
   wa__sync_action_value__recent_emoji_weights_action__field_indices_by_name,
   1,  wa__sync_action_value__recent_emoji_weights_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__remove_recent_sticker_action__field_descriptors[1] =
+{
+  {
+    "lastStickerSentTs",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__SyncActionValue__RemoveRecentStickerAction, has_laststickersentts),
+    offsetof(Wa__SyncActionValue__RemoveRecentStickerAction, laststickersentts),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__remove_recent_sticker_action__field_indices_by_name[] = {
+  0,   /* field[0] = lastStickerSentTs */
+};
+static const ProtobufCIntRange wa__sync_action_value__remove_recent_sticker_action__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__remove_recent_sticker_action__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.RemoveRecentStickerAction",
+  "RemoveRecentStickerAction",
+  "Wa__SyncActionValue__RemoveRecentStickerAction",
+  "wa",
+  sizeof(Wa__SyncActionValue__RemoveRecentStickerAction),
+  1,
+  wa__sync_action_value__remove_recent_sticker_action__field_descriptors,
+  wa__sync_action_value__remove_recent_sticker_action__field_indices_by_name,
+  1,  wa__sync_action_value__remove_recent_sticker_action__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__security_notification_setting__field_descriptors[1] =
 {
@@ -22337,8 +25611,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__security_notification_se
   wa__sync_action_value__security_notification_setting__field_descriptors,
   wa__sync_action_value__security_notification_setting__field_indices_by_name,
   1,  wa__sync_action_value__security_notification_setting__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__star_action__field_descriptors[1] =
 {
@@ -22375,8 +25648,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__star_action__descriptor 
   wa__sync_action_value__star_action__field_descriptors,
   wa__sync_action_value__star_action__field_indices_by_name,
   1,  wa__sync_action_value__star_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__sticker_action__field_descriptors[10] =
 {
@@ -22530,8 +25802,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__sticker_action__descript
   wa__sync_action_value__sticker_action__field_descriptors,
   wa__sync_action_value__sticker_action__field_indices_by_name,
   1,  wa__sync_action_value__sticker_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__subscription_action__field_descriptors[3] =
 {
@@ -22594,8 +25865,57 @@ const ProtobufCMessageDescriptor wa__sync_action_value__subscription_action__des
   wa__sync_action_value__subscription_action__field_descriptors,
   wa__sync_action_value__subscription_action__field_indices_by_name,
   1,  wa__sync_action_value__subscription_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__sync_action_value__sync_action_message__field_descriptors[2] =
+{
+  {
+    "key",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue__SyncActionMessage, key),
+    &wa__message_key__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "timestamp",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__SyncActionValue__SyncActionMessage, has_timestamp),
+    offsetof(Wa__SyncActionValue__SyncActionMessage, timestamp),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__sync_action_value__sync_action_message__field_indices_by_name[] = {
+  0,   /* field[0] = key */
+  1,   /* field[1] = timestamp */
+};
+static const ProtobufCIntRange wa__sync_action_value__sync_action_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.SyncActionValue.SyncActionMessage",
+  "SyncActionMessage",
+  "Wa__SyncActionValue__SyncActionMessage",
+  "wa",
+  sizeof(Wa__SyncActionValue__SyncActionMessage),
+  2,
+  wa__sync_action_value__sync_action_message__field_descriptors,
+  wa__sync_action_value__sync_action_message__field_indices_by_name,
+  1,  wa__sync_action_value__sync_action_message__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__sync_action_message_range__field_descriptors[3] =
 {
@@ -22658,59 +25978,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message_rang
   wa__sync_action_value__sync_action_message_range__field_descriptors,
   wa__sync_action_value__sync_action_message_range__field_indices_by_name,
   1,  wa__sync_action_value__sync_action_message_range__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor wa__sync_action_value__sync_action_message__field_descriptors[2] =
-{
-  {
-    "key",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Wa__SyncActionValue__SyncActionMessage, key),
-    &wa__message_key__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "timestamp",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_INT64,
-    offsetof(Wa__SyncActionValue__SyncActionMessage, has_timestamp),
-    offsetof(Wa__SyncActionValue__SyncActionMessage, timestamp),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned wa__sync_action_value__sync_action_message__field_indices_by_name[] = {
-  0,   /* field[0] = key */
-  1,   /* field[1] = timestamp */
-};
-static const ProtobufCIntRange wa__sync_action_value__sync_action_message__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "wa.SyncActionValue.SyncActionMessage",
-  "SyncActionMessage",
-  "Wa__SyncActionValue__SyncActionMessage",
-  "wa",
-  sizeof(Wa__SyncActionValue__SyncActionMessage),
-  2,
-  wa__sync_action_value__sync_action_message__field_descriptors,
-  wa__sync_action_value__sync_action_message__field_indices_by_name,
-  1,  wa__sync_action_value__sync_action_message__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__time_format_action__field_descriptors[1] =
 {
@@ -22747,8 +26015,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__time_format_action__desc
   wa__sync_action_value__time_format_action__field_descriptors,
   wa__sync_action_value__time_format_action__field_indices_by_name,
   1,  wa__sync_action_value__time_format_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__unarchive_chats_setting__field_descriptors[1] =
 {
@@ -22785,8 +26052,7 @@ const ProtobufCMessageDescriptor wa__sync_action_value__unarchive_chats_setting_
   wa__sync_action_value__unarchive_chats_setting__field_descriptors,
   wa__sync_action_value__unarchive_chats_setting__field_indices_by_name,
   1,  wa__sync_action_value__unarchive_chats_setting__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__sync_action_value__user_status_mute_action__field_descriptors[1] =
 {
@@ -22823,10 +26089,9 @@ const ProtobufCMessageDescriptor wa__sync_action_value__user_status_mute_action_
   wa__sync_action_value__user_status_mute_action__field_descriptors,
   wa__sync_action_value__user_status_mute_action__field_indices_by_name,
   1,  wa__sync_action_value__user_status_mute_action__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor wa__sync_action_value__field_descriptors[28] =
+static const ProtobufCFieldDescriptor wa__sync_action_value__field_descriptors[36] =
 {
   {
     "timestamp",
@@ -23164,28 +26429,132 @@ static const ProtobufCFieldDescriptor wa__sync_action_value__field_descriptors[2
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "removeRecentStickerAction",
+    34,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, removerecentstickeraction),
+    &wa__sync_action_value__remove_recent_sticker_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "chatAssignment",
+    35,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, chatassignment),
+    &wa__sync_action_value__chat_assignment_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "chatAssignmentOpenedStatus",
+    36,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, chatassignmentopenedstatus),
+    &wa__sync_action_value__chat_assignment_opened_status_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pnForLidChatAction",
+    37,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, pnforlidchataction),
+    &wa__sync_action_value__pn_for_lid_chat_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "marketingMessageAction",
+    38,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, marketingmessageaction),
+    &wa__sync_action_value__marketing_message_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "marketingMessageBroadcastAction",
+    39,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, marketingmessagebroadcastaction),
+    &wa__sync_action_value__marketing_message_broadcast_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "externalWebBetaAction",
+    40,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, externalwebbetaaction),
+    &wa__sync_action_value__external_web_beta_action__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "privacySettingRelayAllCalls",
+    41,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__SyncActionValue, privacysettingrelayallcalls),
+    &wa__sync_action_value__privacy_setting_relay_all_calls__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__sync_action_value__field_indices_by_name[] = {
   21,   /* field[21] = agentAction */
   20,   /* field[20] = androidUnsupportedActions */
   12,   /* field[12] = archiveChatAction */
+  29,   /* field[29] = chatAssignment */
+  30,   /* field[30] = chatAssignmentOpenedStatus */
   16,   /* field[16] = clearChatAction */
   2,   /* field[2] = contactAction */
   17,   /* field[17] = deleteChatAction */
   13,   /* field[13] = deleteMessageForMeAction */
+  34,   /* field[34] = externalWebBetaAction */
   14,   /* field[14] = keyExpiration */
   10,   /* field[10] = labelAssociationAction */
   9,   /* field[9] = labelEditAction */
   11,   /* field[11] = localeSetting */
   15,   /* field[15] = markChatAsReadAction */
+  32,   /* field[32] = marketingMessageAction */
+  33,   /* field[33] = marketingMessageBroadcastAction */
   3,   /* field[3] = muteAction */
   25,   /* field[25] = nuxAction */
   4,   /* field[4] = pinAction */
+  31,   /* field[31] = pnForLidChatAction */
   19,   /* field[19] = primaryFeature */
   26,   /* field[26] = primaryVersionAction */
+  35,   /* field[35] = privacySettingRelayAllCalls */
   6,   /* field[6] = pushNameSetting */
   7,   /* field[7] = quickReplyAction */
   8,   /* field[8] = recentEmojiWeightsAction */
+  28,   /* field[28] = removeRecentStickerAction */
   5,   /* field[5] = securityNotificationSetting */
   1,   /* field[1] = starAction */
   27,   /* field[27] = stickerAction */
@@ -23201,7 +26570,7 @@ static const ProtobufCIntRange wa__sync_action_value__number_ranges[4 + 1] =
   { 11, 8 },
   { 14, 9 },
   { 26, 20 },
-  { 0, 28 }
+  { 0, 36 }
 };
 const ProtobufCMessageDescriptor wa__sync_action_value__descriptor =
 {
@@ -23211,12 +26580,11 @@ const ProtobufCMessageDescriptor wa__sync_action_value__descriptor =
   "Wa__SyncActionValue",
   "wa",
   sizeof(Wa__SyncActionValue),
-  28,
+  36,
   wa__sync_action_value__field_descriptors,
   wa__sync_action_value__field_indices_by_name,
   4,  wa__sync_action_value__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_index__field_descriptors[1] =
 {
@@ -23253,8 +26621,7 @@ const ProtobufCMessageDescriptor wa__syncd_index__descriptor =
   wa__syncd_index__field_descriptors,
   wa__syncd_index__field_indices_by_name,
   1,  wa__syncd_index__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__syncd_mutation__syncd_operation__enum_values_by_number[2] =
 {
@@ -23332,8 +26699,7 @@ const ProtobufCMessageDescriptor wa__syncd_mutation__descriptor =
   wa__syncd_mutation__field_descriptors,
   wa__syncd_mutation__field_indices_by_name,
   1,  wa__syncd_mutation__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_mutations__field_descriptors[1] =
 {
@@ -23370,8 +26736,7 @@ const ProtobufCMessageDescriptor wa__syncd_mutations__descriptor =
   wa__syncd_mutations__field_descriptors,
   wa__syncd_mutations__field_indices_by_name,
   1,  wa__syncd_mutations__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_patch__field_descriptors[8] =
 {
@@ -23499,8 +26864,7 @@ const ProtobufCMessageDescriptor wa__syncd_patch__descriptor =
   wa__syncd_patch__field_descriptors,
   wa__syncd_patch__field_indices_by_name,
   1,  wa__syncd_patch__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_record__field_descriptors[3] =
 {
@@ -23563,8 +26927,7 @@ const ProtobufCMessageDescriptor wa__syncd_record__descriptor =
   wa__syncd_record__field_descriptors,
   wa__syncd_record__field_indices_by_name,
   1,  wa__syncd_record__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_snapshot__field_descriptors[4] =
 {
@@ -23640,8 +27003,7 @@ const ProtobufCMessageDescriptor wa__syncd_snapshot__descriptor =
   wa__syncd_snapshot__field_descriptors,
   wa__syncd_snapshot__field_indices_by_name,
   1,  wa__syncd_snapshot__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_value__field_descriptors[1] =
 {
@@ -23678,8 +27040,7 @@ const ProtobufCMessageDescriptor wa__syncd_value__descriptor =
   wa__syncd_value__field_descriptors,
   wa__syncd_value__field_indices_by_name,
   1,  wa__syncd_value__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__syncd_version__field_descriptors[1] =
 {
@@ -23716,8 +27077,7 @@ const ProtobufCMessageDescriptor wa__syncd_version__descriptor =
   wa__syncd_version__field_descriptors,
   wa__syncd_version__field_indices_by_name,
   1,  wa__syncd_version__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__template_button__call_button__field_descriptors[2] =
 {
@@ -23767,8 +27127,7 @@ const ProtobufCMessageDescriptor wa__template_button__call_button__descriptor =
   wa__template_button__call_button__field_descriptors,
   wa__template_button__call_button__field_indices_by_name,
   1,  wa__template_button__call_button__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__template_button__quick_reply_button__field_descriptors[2] =
 {
@@ -23818,8 +27177,7 @@ const ProtobufCMessageDescriptor wa__template_button__quick_reply_button__descri
   wa__template_button__quick_reply_button__field_descriptors,
   wa__template_button__quick_reply_button__field_indices_by_name,
   1,  wa__template_button__quick_reply_button__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__template_button__urlbutton__field_descriptors[2] =
 {
@@ -23869,8 +27227,7 @@ const ProtobufCMessageDescriptor wa__template_button__urlbutton__descriptor =
   wa__template_button__urlbutton__field_descriptors,
   wa__template_button__urlbutton__field_indices_by_name,
   1,  wa__template_button__urlbutton__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__template_button__field_descriptors[4] =
 {
@@ -23946,8 +27303,7 @@ const ProtobufCMessageDescriptor wa__template_button__descriptor =
   wa__template_button__field_descriptors,
   wa__template_button__field_indices_by_name,
   1,  wa__template_button__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__user_receipt__field_descriptors[6] =
 {
@@ -24049,8 +27405,7 @@ const ProtobufCMessageDescriptor wa__user_receipt__descriptor =
   wa__user_receipt__field_descriptors,
   wa__user_receipt__field_indices_by_name,
   1,  wa__user_receipt__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__verified_name_certificate__details__field_descriptors[5] =
 {
@@ -24142,8 +27497,7 @@ const ProtobufCMessageDescriptor wa__verified_name_certificate__details__descrip
   wa__verified_name_certificate__details__field_descriptors,
   wa__verified_name_certificate__details__field_indices_by_name,
   4,  wa__verified_name_certificate__details__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__verified_name_certificate__field_descriptors[3] =
 {
@@ -24206,8 +27560,7 @@ const ProtobufCMessageDescriptor wa__verified_name_certificate__descriptor =
   wa__verified_name_certificate__field_descriptors,
   wa__verified_name_certificate__field_indices_by_name,
   1,  wa__verified_name_certificate__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__wallpaper_settings__field_descriptors[2] =
 {
@@ -24257,8 +27610,7 @@ const ProtobufCMessageDescriptor wa__wallpaper_settings__descriptor =
   wa__wallpaper_settings__field_descriptors,
   wa__wallpaper_settings__field_indices_by_name,
   1,  wa__wallpaper_settings__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__web_features__flag__enum_values_by_number[4] =
 {
@@ -24902,8 +28254,7 @@ const ProtobufCMessageDescriptor wa__web_features__descriptor =
   wa__web_features__field_descriptors,
   wa__web_features__field_indices_by_name,
   4,  wa__web_features__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue wa__web_message_info__biz_privacy_status__enum_values_by_number[4] =
 {
@@ -24973,7 +28324,7 @@ const ProtobufCEnumDescriptor wa__web_message_info__status__descriptor =
   wa__web_message_info__status__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue wa__web_message_info__stub_type__enum_values_by_number[150] =
+static const ProtobufCEnumValue wa__web_message_info__stub_type__enum_values_by_number[183] =
 {
   { "UNKNOWN", "WA__WEB_MESSAGE_INFO__STUB_TYPE__UNKNOWN", 0 },
   { "REVOKE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__REVOKE", 1 },
@@ -25125,13 +28476,48 @@ static const ProtobufCEnumValue wa__web_message_info__stub_type__enum_values_by_
   { "COMMUNITY_PARTICIPANT_PROMOTE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_PROMOTE", 147 },
   { "COMMUNITY_PARTICIPANT_DEMOTE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_DEMOTE", 148 },
   { "COMMUNITY_PARENT_GROUP_DELETED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARENT_GROUP_DELETED", 149 },
+  { "COMMUNITY_LINK_PARENT_GROUP_MEMBERSHIP_APPROVAL", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_LINK_PARENT_GROUP_MEMBERSHIP_APPROVAL", 150 },
+  { "GROUP_PARTICIPANT_JOINED_GROUP_AND_PARENT_GROUP", "WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_JOINED_GROUP_AND_PARENT_GROUP", 151 },
+  { "MASKED_THREAD_CREATED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__MASKED_THREAD_CREATED", 152 },
+  { "MASKED_THREAD_UNMASKED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__MASKED_THREAD_UNMASKED", 153 },
+  { "BIZ_CHAT_ASSIGNMENT", "WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_CHAT_ASSIGNMENT", 154 },
+  { "CHAT_PSA", "WA__WEB_MESSAGE_INFO__STUB_TYPE__CHAT_PSA", 155 },
+  { "CHAT_POLL_CREATION_MESSAGE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__CHAT_POLL_CREATION_MESSAGE", 156 },
+  { "CAG_MASKED_THREAD_CREATED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_MASKED_THREAD_CREATED", 157 },
+  { "COMMUNITY_PARENT_GROUP_SUBJECT_CHANGED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARENT_GROUP_SUBJECT_CHANGED", 158 },
+  { "CAG_INVITE_AUTO_ADD", "WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_INVITE_AUTO_ADD", 159 },
+  { "BIZ_CHAT_ASSIGNMENT_UNASSIGN", "WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_CHAT_ASSIGNMENT_UNASSIGN", 160 },
+  { "CAG_INVITE_AUTO_JOINED", "WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_INVITE_AUTO_JOINED", 161 },
+  { "SCHEDULED_CALL_START_MESSAGE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SCHEDULED_CALL_START_MESSAGE", 162 },
+  { "COMMUNITY_INVITE_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_INVITE_RICH", 163 },
+  { "COMMUNITY_INVITE_AUTO_ADD_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_INVITE_AUTO_ADD_RICH", 164 },
+  { "SUB_GROUP_INVITE_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SUB_GROUP_INVITE_RICH", 165 },
+  { "SUB_GROUP_PARTICIPANT_ADD_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SUB_GROUP_PARTICIPANT_ADD_RICH", 166 },
+  { "COMMUNITY_LINK_PARENT_GROUP_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_LINK_PARENT_GROUP_RICH", 167 },
+  { "COMMUNITY_PARTICIPANT_ADD_RICH", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_ADD_RICH", 168 },
+  { "SILENCED_UNKNOWN_CALLER_AUDIO", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SILENCED_UNKNOWN_CALLER_AUDIO", 169 },
+  { "SILENCED_UNKNOWN_CALLER_VIDEO", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SILENCED_UNKNOWN_CALLER_VIDEO", 170 },
+  { "GROUP_MEMBER_ADD_MODE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_MEMBER_ADD_MODE", 171 },
+  { "GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD", "WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD", 172 },
+  { "COMMUNITY_CHANGE_DESCRIPTION", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_CHANGE_DESCRIPTION", 173 },
+  { "SENDER_INVITE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__SENDER_INVITE", 174 },
+  { "RECEIVER_INVITE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__RECEIVER_INVITE", 175 },
+  { "COMMUNITY_ALLOW_MEMBER_ADDED_GROUPS", "WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_ALLOW_MEMBER_ADDED_GROUPS", 176 },
+  { "PINNED_MESSAGE_IN_CHAT", "WA__WEB_MESSAGE_INFO__STUB_TYPE__PINNED_MESSAGE_IN_CHAT", 177 },
+  { "PAYMENT_INVITE_SETUP_INVITER", "WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITER", 178 },
+  { "PAYMENT_INVITE_SETUP_INVITEE_RECEIVE_ONLY", "WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITEE_RECEIVE_ONLY", 179 },
+  { "PAYMENT_INVITE_SETUP_INVITEE_SEND_AND_RECEIVE", "WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITEE_SEND_AND_RECEIVE", 180 },
+  { "LINKED_GROUP_CALL_START", "WA__WEB_MESSAGE_INFO__STUB_TYPE__LINKED_GROUP_CALL_START", 181 },
+  { "REPORT_TO_ADMIN_ENABLED_STATUS", "WA__WEB_MESSAGE_INFO__STUB_TYPE__REPORT_TO_ADMIN_ENABLED_STATUS", 182 },
 };
 static const ProtobufCIntRange wa__web_message_info__stub_type__value_ranges[] = {
-{0, 0},{0, 150}
+{0, 0},{0, 183}
 };
-static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_values_by_name[150] =
+static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_values_by_name[183] =
 {
   { "ADMIN_REVOKE", 132 },
+  { "BIZ_CHAT_ASSIGNMENT", 154 },
+  { "BIZ_CHAT_ASSIGNMENT_UNASSIGN", 160 },
   { "BIZ_INTRO_BOTTOM", 63 },
   { "BIZ_INTRO_TOP", 62 },
   { "BIZ_MOVE_TO_CONSUMER_APP", 65 },
@@ -25190,17 +28576,30 @@ static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_value
   { "BROADCAST_ADD", 35 },
   { "BROADCAST_CREATE", 34 },
   { "BROADCAST_REMOVE", 36 },
+  { "CAG_INVITE_AUTO_ADD", 159 },
+  { "CAG_INVITE_AUTO_JOINED", 161 },
+  { "CAG_MASKED_THREAD_CREATED", 157 },
   { "CALL_MISSED_GROUP_VIDEO", 46 },
   { "CALL_MISSED_GROUP_VOICE", 45 },
   { "CALL_MISSED_VIDEO", 41 },
   { "CALL_MISSED_VOICE", 40 },
   { "CHANGE_EPHEMERAL_SETTING", 72 },
+  { "CHAT_POLL_CREATION_MESSAGE", 156 },
+  { "CHAT_PSA", 155 },
   { "CIPHERTEXT", 2 },
+  { "COMMUNITY_ALLOW_MEMBER_ADDED_GROUPS", 176 },
+  { "COMMUNITY_CHANGE_DESCRIPTION", 173 },
   { "COMMUNITY_CREATE", 142 },
+  { "COMMUNITY_INVITE_AUTO_ADD_RICH", 164 },
+  { "COMMUNITY_INVITE_RICH", 163 },
   { "COMMUNITY_LINK_PARENT_GROUP", 134 },
+  { "COMMUNITY_LINK_PARENT_GROUP_MEMBERSHIP_APPROVAL", 150 },
+  { "COMMUNITY_LINK_PARENT_GROUP_RICH", 167 },
   { "COMMUNITY_LINK_SIBLING_GROUP", 135 },
   { "COMMUNITY_LINK_SUB_GROUP", 136 },
   { "COMMUNITY_PARENT_GROUP_DELETED", 149 },
+  { "COMMUNITY_PARENT_GROUP_SUBJECT_CHANGED", 158 },
+  { "COMMUNITY_PARTICIPANT_ADD_RICH", 168 },
   { "COMMUNITY_PARTICIPANT_DEMOTE", 148 },
   { "COMMUNITY_PARTICIPANT_PROMOTE", 147 },
   { "COMMUNITY_UNLINK_PARENT_GROUP", 137 },
@@ -25233,12 +28632,15 @@ static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_value
   { "GROUP_INVITE_LINK_GROWTH_LOCKED", 133 },
   { "GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE", 145 },
   { "GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST", 144 },
+  { "GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD", 172 },
+  { "GROUP_MEMBER_ADD_MODE", 171 },
   { "GROUP_PARTICIPANT_ACCEPT", 140 },
   { "GROUP_PARTICIPANT_ADD", 27 },
   { "GROUP_PARTICIPANT_ADD_REQUEST_JOIN", 71 },
   { "GROUP_PARTICIPANT_CHANGE_NUMBER", 33 },
   { "GROUP_PARTICIPANT_DEMOTE", 30 },
   { "GROUP_PARTICIPANT_INVITE", 31 },
+  { "GROUP_PARTICIPANT_JOINED_GROUP_AND_PARENT_GROUP", 151 },
   { "GROUP_PARTICIPANT_LEAVE", 32 },
   { "GROUP_PARTICIPANT_LINKED_GROUP_JOIN", 141 },
   { "GROUP_PARTICIPANT_PROMOTE", 29 },
@@ -25246,6 +28648,9 @@ static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_value
   { "GROUP_V4_ADD_INVITE_SENT", 70 },
   { "INDIVIDUAL_CHANGE_NUMBER", 42 },
   { "INTEGRITY_UNLINK_PARENT_GROUP", 146 },
+  { "LINKED_GROUP_CALL_START", 181 },
+  { "MASKED_THREAD_CREATED", 152 },
+  { "MASKED_THREAD_UNMASKED", 153 },
   { "NON_VERIFIED_TRANSITION", 4 },
   { "OVERSIZED", 68 },
   { "PAYMENT_ACTION_ACCOUNT_SETUP_REMINDER", 54 },
@@ -25256,12 +28661,24 @@ static const ProtobufCEnumValueIndex wa__web_message_info__stub_type__enum_value
   { "PAYMENT_ACTION_SEND_PAYMENT_REMINDER", 55 },
   { "PAYMENT_CIPHERTEXT", 47 },
   { "PAYMENT_FUTUREPROOF", 48 },
+  { "PAYMENT_INVITE_SETUP_INVITEE_RECEIVE_ONLY", 179 },
+  { "PAYMENT_INVITE_SETUP_INVITEE_SEND_AND_RECEIVE", 180 },
+  { "PAYMENT_INVITE_SETUP_INVITER", 178 },
   { "PAYMENT_TRANSACTION_STATUS_RECEIVER_PENDING_SETUP", 52 },
   { "PAYMENT_TRANSACTION_STATUS_RECEIVER_SUCCESS_AFTER_HICCUP", 53 },
   { "PAYMENT_TRANSACTION_STATUS_UPDATE_FAILED", 49 },
   { "PAYMENT_TRANSACTION_STATUS_UPDATE_REFUNDED", 50 },
   { "PAYMENT_TRANSACTION_STATUS_UPDATE_REFUND_FAILED", 51 },
+  { "PINNED_MESSAGE_IN_CHAT", 177 },
+  { "RECEIVER_INVITE", 175 },
+  { "REPORT_TO_ADMIN_ENABLED_STATUS", 182 },
   { "REVOKE", 1 },
+  { "SCHEDULED_CALL_START_MESSAGE", 162 },
+  { "SENDER_INVITE", 174 },
+  { "SILENCED_UNKNOWN_CALLER_AUDIO", 169 },
+  { "SILENCED_UNKNOWN_CALLER_VIDEO", 170 },
+  { "SUB_GROUP_INVITE_RICH", 165 },
+  { "SUB_GROUP_PARTICIPANT_ADD_RICH", 166 },
   { "SYNCING", 125 },
   { "SYNC_FAILED", 124 },
   { "UNKNOWN", 0 },
@@ -25289,15 +28706,15 @@ const ProtobufCEnumDescriptor wa__web_message_info__stub_type__descriptor =
   "StubType",
   "Wa__WebMessageInfo__StubType",
   "wa",
-  150,
+  183,
   wa__web_message_info__stub_type__enum_values_by_number,
-  150,
+  183,
   wa__web_message_info__stub_type__enum_values_by_name,
   1,
   wa__web_message_info__stub_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__web_message_info__field_descriptors[43] =
+static const ProtobufCFieldDescriptor wa__web_message_info__field_descriptors[44] =
 {
   {
     "key",
@@ -25815,6 +29232,18 @@ static const ProtobufCFieldDescriptor wa__web_message_info__field_descriptors[43
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "pinInChat",
+    54,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__WebMessageInfo, pininchat),
+    &wa__pin_in_chat__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__web_message_info__field_indices_by_name[] = {
   37,   /* field[37] = agentId */
@@ -25845,6 +29274,7 @@ static const unsigned wa__web_message_info__field_indices_by_name[] = {
   4,   /* field[4] = participant */
   19,   /* field[19] = paymentInfo */
   29,   /* field[29] = photoChange */
+  43,   /* field[43] = pinInChat */
   36,   /* field[36] = pollAdditionalMetadata */
   35,   /* field[35] = pollUpdates */
   9,   /* field[9] = pushName */
@@ -25861,11 +29291,12 @@ static const unsigned wa__web_message_info__field_indices_by_name[] = {
   30,   /* field[30] = userReceipt */
   27,   /* field[27] = verifiedBizName */
 };
-static const ProtobufCIntRange wa__web_message_info__number_ranges[2 + 1] =
+static const ProtobufCIntRange wa__web_message_info__number_ranges[3 + 1] =
 {
   { 1, 0 },
   { 16, 6 },
-  { 0, 43 }
+  { 54, 43 },
+  { 0, 44 }
 };
 const ProtobufCMessageDescriptor wa__web_message_info__descriptor =
 {
@@ -25875,12 +29306,11 @@ const ProtobufCMessageDescriptor wa__web_message_info__descriptor =
   "Wa__WebMessageInfo",
   "wa",
   sizeof(Wa__WebMessageInfo),
-  43,
+  44,
   wa__web_message_info__field_descriptors,
   wa__web_message_info__field_indices_by_name,
-  2,  wa__web_message_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  3,  wa__web_message_info__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__web_notifications_info__field_descriptors[4] =
 {
@@ -25956,8 +29386,35 @@ const ProtobufCMessageDescriptor wa__web_notifications_info__descriptor =
   wa__web_notifications_info__field_descriptors,
   wa__web_notifications_info__field_indices_by_name,
   1,  wa__web_notifications_info__number_ranges,
-  NULL,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__advencryption_type__enum_values_by_number[2] =
+{
+  { "E2EE", "WA__ADVENCRYPTION_TYPE__E2EE", 0 },
+  { "HOSTED", "WA__ADVENCRYPTION_TYPE__HOSTED", 1 },
+};
+static const ProtobufCIntRange wa__advencryption_type__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex wa__advencryption_type__enum_values_by_name[2] =
+{
+  { "E2EE", 0 },
+  { "HOSTED", 1 },
+};
+const ProtobufCEnumDescriptor wa__advencryption_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.ADVEncryptionType",
+  "ADVEncryptionType",
+  "Wa__ADVEncryptionType",
+  "wa",
+  2,
+  wa__advencryption_type__enum_values_by_number,
+  2,
+  wa__advencryption_type__enum_values_by_name,
+  1,
+  wa__advencryption_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue wa__keep_type__enum_values_by_number[3] =
 {
