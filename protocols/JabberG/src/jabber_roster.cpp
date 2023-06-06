@@ -297,7 +297,7 @@ public:
 			// now it is require to process whole contact list to add not in roster contacts
 			for (auto &hContact : m_proto->AccContacts()) {
 				ptrW tszJid(m_proto->getWStringA(hContact, "jid"));
-				if (tszJid == nullptr)
+				if (tszJid == nullptr || Contact::IsGroupChat(hContact))
 					continue;
 
 				LVFINDINFO lvfi = { 0 };
