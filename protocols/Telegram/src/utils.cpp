@@ -443,7 +443,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 			
 			if (!m_bSmileyAdd)
-				return CMStringA(FORMAT, "%s: %s", TranslateU("You received a sticker"), pSticker->emoji_.c_str());
+				return CMStringA(FORMAT, "%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
 					
 			const char *pwszFileExt;
 			switch (pSticker->format_->get_id()) {
