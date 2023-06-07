@@ -301,7 +301,9 @@ MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
-	m_searchIds.clear();
+	int iCount = ::InterlockedDecrement(&m_iSearchCount);
+	if (iCount == 0)
+		m_searchIds.clear();
 
 	if (!response.object)
 		return;
@@ -321,7 +323,7 @@ void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 		}
 	}
 
-	if (m_searchIds.empty())
+	if (iCount == 0)
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
 }
 
@@ -331,8 +333,10 @@ HANDLE CTelegramProto::SearchByName(const wchar_t *nick, const wchar_t *firstNam
 	if (szQuery.GetLength() == 2)
 		return nullptr;
 
+	m_iSearchCount = 2;
 	szQuery.Trim();
 	SendQuery(new TD::searchPublicChats(szQuery.c_str()), &CTelegramProto::OnSearchResults);
+	SendQuery(new TD::searchChatsOnServer(szQuery.c_str(), 100), &CTelegramProto::OnSearchResults);
 	return this;
 }
 
