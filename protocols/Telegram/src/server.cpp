@@ -317,6 +317,8 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 			continue;
 
 		CMStringA szBody = GetMessageText(pUser, pMsg);
+		if (szBody.IsEmpty())
+			continue;
 
 		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
@@ -330,7 +332,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
 			dbei.szUserId = szUserId;
-		db_event_add(pUser->hContact, &dbei);
+		db_event_add(GetRealContact(pUser), &dbei);
 	}
 
 	if (lastMsgId != INT64_MAX)
@@ -650,7 +652,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		pre.flags |= PREF_SENT;
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		pre.szUserId = szUserId;
-	ProtoChainRecvMsg((pUser->hContact) ? pUser->hContact : m_iSavedMessages, &pre);
+	ProtoChainRecvMsg(GetRealContact(pUser), &pre);
 }
 
 void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)

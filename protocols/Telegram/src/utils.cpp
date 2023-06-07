@@ -55,6 +55,11 @@ CMStringW TG_USER::getDisplayName() const
 	return wszNick;
 }
 
+MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser)
+{
+	return (pUser->hContact != 0) ? pUser->hContact : m_iSavedMessages;
+}
+
 TG_USER* CTelegramProto::GetSender(const TD::MessageSender *pSender)
 {
 	switch (pSender->get_id()) {

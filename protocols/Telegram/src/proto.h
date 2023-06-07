@@ -294,6 +294,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	int64_t  GetId(MCONTACT);
 	void     SetId(MCONTACT, int64_t id);
 
+	MCONTACT GetRealContact(const TG_USER *pUser);
+
 	// Menus
 	HGENMENU hmiForward;
 
