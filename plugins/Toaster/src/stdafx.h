@@ -29,7 +29,7 @@
 #include "version.h"
 #include "resource.h"
 
-const wchar_t AppUserModelID[] = L"MirandaNG";
+const wchar_t AppUserModelID[] = L"Miranda NG";
 
 #define MODULENAME "Toaster"
 #define CHECKHR(x) if (FAILED(x)) return x;
