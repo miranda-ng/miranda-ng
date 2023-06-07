@@ -191,7 +191,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	thisUser->settings.enableUPnP = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLEnableUPnP", 1); //default to on
 	thisUser->settings.validateSSL = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLValidateSSL", 0);
 
-	thisUser->toLog = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 0);
+	thisUser->toLog = db_get_dw(0, thisUser->user.szSettingsModule, "NLlog");
 
 	mir_cslock lck(csNetlibUser);
 	netlibUser.insert(thisUser);
