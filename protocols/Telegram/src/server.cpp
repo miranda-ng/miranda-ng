@@ -1,4 +1,4 @@
-/*
+-/*
 Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
@@ -74,6 +74,7 @@ void CTelegramProto::OnLoggedIn()
 	}
 	else {
 		m_impl.m_keepAlive.Start(1000);
+		setByte(DBKEY_AUTHORIZED, 1);
 
 		SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
 	}

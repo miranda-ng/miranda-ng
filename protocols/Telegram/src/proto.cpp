@@ -182,8 +182,10 @@ void CTelegramProto::OnBuildProtoMenu()
 
 void CTelegramProto::OnErase()
 {
-	m_bUnregister = true;
-	ServerThread(0);
+	if (getByte(DBKEY_AUTHORIZED)) {
+		m_bUnregister = true;
+		ServerThread(0);
+	}
 
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }

@@ -99,12 +99,12 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 		break;
 
 	case TD::authorizationStateWaitTdlibParameters::ID:
-		if (!m_bUnregister) {
-			MFileVersion v;
-			char text[100];
-			Miranda_GetFileVersion(&v);
-			mir_snprintf(text, "%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
-
+		MFileVersion v;
+		Miranda_GetFileVersion(&v);
+	
+		char text[100];
+		mir_snprintf(text, "%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
+		{
 			CMStringW wszPath(GetProtoFolder());
 
 			auto *request = new TD::setTdlibParameters();
@@ -119,7 +119,6 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->enable_storage_optimizer_ = true;
 			SendQuery(request, &CTelegramProto::OnUpdateAuth);
 		}
-		else LogOut();
 		break;
 
 	case TD::authorizationStateWaitPhoneNumber::ID:

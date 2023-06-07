@@ -4,6 +4,7 @@
 
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
+#define DBKEY_AUTHORIZED "Authorized"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
 #define DBKEY_AVATAR_TYPE "AvatarType"
