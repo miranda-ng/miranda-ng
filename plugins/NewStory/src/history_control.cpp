@@ -462,8 +462,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				std::swap(start, end);
 
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, false);
-				p->bSelected = true;
+				if (auto *p = data->items.get(i, false))
+					p->bSelected = true;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
