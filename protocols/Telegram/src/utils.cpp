@@ -427,11 +427,16 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageSticker::ID:
-		if (m_bSmileyAdd) {
+		{
 			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
-			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID)
+			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID) {
+				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
-
+			}
+			
+			if (!m_bSmileyAdd)
+				return CMStringA(FORMAT, "%s: %s", TranslateU("You received a sticker"), pSticker->emoji_.c_str());
+					
 			const char *pwszFileExt;
 			switch (pSticker->format_->get_id()) {
 			case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
@@ -442,8 +447,6 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 			return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
 		}
-		else debugLogA("SmileyAdd plugin isn't installed, skipping sticker");
-		break;
 
 	case TD::messageText::ID:
 		auto pText = ((TD::messageText *)pBody)->text_.get();
