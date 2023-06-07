@@ -325,7 +325,9 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	dbei.szUserId = pre->szUserId;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_UTF;
-	if (pre->dwFlags & PREF_CREATEREAD)
+	if (pre->dwFlags & PRFF_SENT)
+		dbei.flags |= DBEF_SENT;
+	if (pre->dwFlags & PRFF_READ)
 		dbei.flags |= DBEF_READ;
 
 	if ((pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE) {

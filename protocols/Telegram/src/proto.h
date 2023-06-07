@@ -246,7 +246,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
-	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, time_t);
+	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
 	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg);
 
