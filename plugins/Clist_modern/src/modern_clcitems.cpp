@@ -325,6 +325,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 		return nullptr;
 
 	pdnce->hContact = hContact;
+	pdnce->m_iStatus = ID_STATUS_OFFLINE;
 	pdnce->szProto = Proto_GetBaseAccountName(hContact);
 	pdnce->bIsHidden = Contact::IsHidden(hContact);
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
