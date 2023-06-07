@@ -339,6 +339,13 @@ static const TD::photoSize* GetBiggestPhoto(const TD::photo *pPhoto)
 	return nullptr;
 }
 
+static const char *getFormattedText(TD::object_ptr<TD::formattedText> &pText)
+{
+	if (pText->get_id() == TD::formattedText::ID)
+		return pText->text_.c_str();
+	return nullptr;
+}
+
 CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
@@ -449,10 +456,20 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
 		}
 
+	case TD::messageInvoice::ID:
+		{
+			auto *pInvoice = ((TD::messageInvoice *)pBody);
+			CMStringA ret(FORMAT, "%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
+			if (!pInvoice->title_.empty())
+				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
+			if (auto *pszText = getFormattedText(pInvoice->description_))
+				ret.AppendFormat("\r\n%s", ((TD::formattedText *)pInvoice->description_.get())->text_.c_str());
+			return ret;
+		}
+
 	case TD::messageText::ID:
-		auto pText = ((TD::messageText *)pBody)->text_.get();
-		if (pText->get_id() == TD::formattedText::ID)
-			return CMStringA(((TD::formattedText *)pText)->text_.c_str());
+		if (auto *pszText = getFormattedText(((TD::messageText *)pBody)->text_))
+			return CMStringA(pszText);
 		break;
 	}
 
