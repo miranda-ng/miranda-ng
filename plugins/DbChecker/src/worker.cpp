@@ -148,7 +148,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 			AddToStatus(STATUS_MESSAGE, TranslateT("%d duplicate events removed"), nDups);
 
 		if (nIds)
-			AddToStatus(STATUS_MESSAGE, TranslateT("%d server message IDs fixed"), nIds);
+			AddToStatus(STATUS_MESSAGE, TranslateT("%d server event IDs fixed"), nIds);
 	}
 
 	DBCHeckCallback callback;
