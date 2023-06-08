@@ -40,7 +40,6 @@
 [Visitor]
 [&Leave chat session]
 ;file \protocols\Telegram\src\main.cpp
-[Premium user]
 [Telegram Premium user]
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
