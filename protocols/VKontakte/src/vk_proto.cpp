@@ -297,7 +297,7 @@ void CVkProto::InitMenus()
 	mi.pszService = PS_CHATCHANGETOPIC;
 	mi.position = -200001000 + CMI_CHATCHANGETOPIC;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_STATUS);
-	mi.name.w = LPGENW("View/change title");
+	mi.name.w = LPGENW("View/change topic");
 	SET_UID(mi, 0x104a176, 0xb66c, 0x45b6, 0xb8, 0x51, 0x30, 0x28, 0x36, 0x86, 0xfb, 0x4a);
 	m_hContactMenuItems[CMI_CHATCHANGETOPIC] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 

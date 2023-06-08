@@ -870,7 +870,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
-	{ LPGENW("View/change &title"), IDM_TOPIC, MENU_ITEM },
+	{ LPGENW("View/change &topic"), IDM_TOPIC, MENU_ITEM },
 	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("&Destroy room"), IDM_DESTROY, MENU_ITEM }
 };
