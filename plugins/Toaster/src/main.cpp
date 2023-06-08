@@ -46,13 +46,13 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	HookEvent(ME_SYSTEM_SHUTDOWN, &OnShutdown);
 
-	InitServices();
-
 	if (GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH) != 0) {
 		wcscat_s(wszTempDir, L"\\Miranda.Toaster");
 		CreateDirectoryTreeW(wszTempDir);
 	}
 	else MessageBox(nullptr, TranslateT("Failed to create temporary directory"), _T(MODULENAME), MB_OK | MB_ICONERROR);
+
+	InitServices();
 
 	return 0;
 }

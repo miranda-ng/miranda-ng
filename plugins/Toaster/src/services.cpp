@@ -2,6 +2,7 @@
 
 std::map<std::string, ClassData*> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
+ptrW g_wszAppIcon;
 
 void __stdcall ShowToastNotification(void *p)
 {
@@ -203,4 +204,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetPopupContact);
 
 	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, HideToast);
+
+	g_wszAppIcon = ToasterImage(IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_OTHER_MIRANDA), true)).Save();
 }
