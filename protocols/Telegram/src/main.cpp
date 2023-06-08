@@ -40,7 +40,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Premium user"), "premuim", IDI_PREMIUM },
+	{ LPGEN("Telegram Premium user"), "premuim", IDI_PREMIUM },
 	{ LPGEN("Forward"),      "forward", IDI_FORWARD },
 };
 
