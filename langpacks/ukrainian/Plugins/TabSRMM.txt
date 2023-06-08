@@ -1027,14 +1027,9 @@ ID поточного контакту (якщо визначено). Напри
 Формат журналу
 [Highlighting]
 Підсвічування
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s пише:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Бесіда...
-[Message from %s]
-Повідомлення від %s
 [Default container]
 Діалоги
 [Attach to]
@@ -1618,6 +1613,10 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Вихідні повідомлення
 [Status change]
 Зміна статусу
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Статичний значок контейнера
 [Sounds (status bar)]

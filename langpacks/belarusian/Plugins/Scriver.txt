@@ -118,6 +118,8 @@
 падзеі(й)
 [minutes]
 хвілін(ы)
+[Automatically copy selected text]
+Аўтаматычна капіяваць вылучаны тэкст
 [Typing notification options]
 Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@ KB
 [Action: Send message]
 Дзеянне: Адправіць
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Выгляд і функцыянальнасць вокнаў чата
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@ KB
 Паказваць абразок статусу, пасля абразка роляў
 [Add ':' to auto-completed names]
 Дадаваць ":" да імёнаў кантактаў
+[Icons to display in the message log]
+Абразкі лога паведамленняў
+[Show icon for topic changes]
+Змены тэмы
+[Show icon for users joining]
+Новыя удзельнікі
+[Show icon for users disconnecting]
+Адключэнні ўдзельнікаў
+[Show icon for messages]
+Паведамленні
+[Show icon for actions]
+Дзеянні
+[Show icon for highlights]
+Падсветленыя паведамленні
+[Show icon for users leaving]
+Выйсці ўдзельнікаў
+[Show icon for users kicking other user]
+Выспяткі
+[Show icon for notices]
+Абразок абвесткі
+[Show icon for name changes]
+Змены нікаў
+[Show icon for information messages]
+Інфармацыйныя паведамленні
+[Show icon for status changes]
+Змены статусаў
+[Appearance]
+Знешні выгляд
 [Prefix all events with a timestamp]
 Падстаўляць час ва ўсе падзеі
-[Only prefix with timestamp if it has changed]
-Падстаўляць час, калі ёсць змены
 [Timestamp has same color as the event]
 Паказваць час тым жа колерам што і падзею
 [Indent the second line of a message]
@@ -278,8 +308,6 @@ KB
 Забараніць колеры паведамленняў
 [Enable 'event filter' for new rooms]
 Уключаць "фільтр падзей" для новых чатаў
-[Appearance and functionality of chat windows]
-Выгляд і функцыянальнасць вокнаў чата
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі пазначана)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +358,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 поўная назва дня тыдня
 [Variables]
 Зменныя
-[Appearance]
-Знешні выгляд
 [Select folder]
 Абраць тэчку
 [Message sessions]
@@ -481,29 +507,15 @@ ID бягучага кантакту (калі вызначаны). Напрык
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Меню кантакта - %s
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
-[Status]
-Статус
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My contact]
-Мае кантакты
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 Сёння
 [Yesterday]
 Учора
+[Me]
+Я
+[My contact]
+Мае кантакты
 [File sent]
 Пасылка файла
 [File received]
@@ -570,8 +582,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Typing notify]
 Набірае тэкст
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Паведамленне ад %s
 [%s is typing a message]
 %s набірае тэкст
 [Typing notification]

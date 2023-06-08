@@ -36,7 +36,7 @@ Pravé tlačítko
 Levé tlačítko
 [Preview]
 Náhled
-[Show incoming call dialog immediately ]
+[Show incoming call dialog immediately]
 
 [Catch focus on this dialog]
 

@@ -72,14 +72,6 @@ Verlaufseinstellungen
 Einstellungen
 [Templates]
 Vorlagen
-[Copy]
-Kopieren
-[Edit]
-Bearbeiten
-[Delete]
-Löschen
-[Select all]
-Alles auswählen
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 Eingehende Nachrichten
@@ -134,6 +126,8 @@ Homepage
 Über
 [History search results]
 Verlaufssuchergebnisse
+[Copy]
+Kopieren
 [Export...]
 Exportieren...
 [Delete...]
@@ -172,6 +166,12 @@ Möchten Sie die ausgewählten Ereignisse wirklich löschen?
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
 Benutzerverlauf
+[Edit]
+Bearbeiten
+[Delete]
+Löschen
+[Select all]
+Alles auswählen
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Haupticon

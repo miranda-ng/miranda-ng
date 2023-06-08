@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -55,25 +55,6 @@ Zobrazit ikonu klienta ve stavovém řádku komunikačního okna
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint
-;file \plugins\FingerprintNG\src\finger_groups.h
-[Client icons]
-Ikony klientů
-[Pack overlays]
-Překryvné ikony
-[Multi-proto clients]
-Více-protokoloví klienti
-[Other protocols]
-Ostatní protokoly
-[Overlays]
-Překryvné
-[Resource]
-Zdroj
-[Platform]
-Platforma
-[Security]
-Zabezpečení
-[Protocol]
-Protokol
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Miranda NG stabilní
@@ -198,3 +179,22 @@ Nezjištěný klient
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Ikony
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+Ikony klientů
+[Pack overlays]
+Překryvné ikony
+[Multi-proto clients]
+Více-protokoloví klienti
+[Other protocols]
+Ostatní protokoly
+[Overlays]
+Překryvné
+[Resource]
+Zdroj
+[Platform]
+Platforma
+[Security]
+Zabezpečení
+[Protocol]
+Protokol

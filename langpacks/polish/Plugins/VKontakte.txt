@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,6 +352,14 @@ Użytkownik został dezaktywowany (zbanowany)
 Uczestnicy
 [Owners]
 Właściciele
+[Adding bots to MUC is not supported]
+
+[Not supported]
+Nie obsługiwane
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
+[Warning]
+Ostrzeżenie
 [Message link]
 Link wiadomości
 [create chat]
@@ -380,14 +388,6 @@ akcja czatu niewspierana
 Nieznany
 [Enter new chat title]
 Wprowadź nową nazwę czatu
-[Adding bots to MUC is not supported]
-
-[Not supported]
-Nie obsługiwane
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
-[Warning]
-Ostrzeżenie
 [You've been kicked by ]
 Zostałeś wykopany przez\s
 [Chat]
@@ -396,8 +396,8 @@ Czat
 
 [&Invite a user]
 &Zaproś użytkownika
-[View/change &title]
-Pokaż/zmień &nazwę
+[View/change &topic]
+Pokaż/zmień &temat
 [&Destroy room]
 &Zniszcz pokój
 [&User details]
@@ -566,10 +566,14 @@ Dodaj jako znajomego
 Usuń z listy znajomych
 [Ban user]
 Zbanuj użytkownika
-[Destroy room]
-Zniszcz pokój
 [Open broadcast]
 Otwórz transmisję
+[View/change topic]
+
+[Invite a user]
+
+[Destroy room]
+Zniszcz pokój
 [Reload messages from vk.com...]
 Załaduj wiadomości ponownie z vk.com.,,
 [for last week]

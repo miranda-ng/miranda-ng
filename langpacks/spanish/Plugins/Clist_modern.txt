@@ -52,6 +52,8 @@ Reiniciar puede ser necesario para que todos los cambios surtan efecto
 
 [Download more skins]
 
+[Cancel]
+Cancelar
 [Available view modes]
 Modos de visualización disponibles
 [Include protocols]
@@ -60,16 +62,12 @@ Incluir protocolos
 Incluir grupos
 [Show contacts in groups]
 Mostrar contactos en grupos
+[Hide empty groups]
+Ocultar grupos vacíos
+[Show groups folded]
+
 [Include status modes]
 Incluir modos de estado
-[Cancel]
-Cancelar
-[Sticky contacts]
-Contactos pegajosos
-[Clear all]
-Limpiar todo
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Usando la lista de contactos en el lado izquierdo, puede seleccionar los contactos que serán "pegajosos" para este modo de vista. Estos contactos ignoran las reglas de filtrado estándar y sólo usan el filtro de modo de estado abajo.
 [Protocol]
 Protocolo
 [Group]
@@ -82,10 +80,12 @@ Limpiar automáticamente este modo de vista después de
 segundos
 [View mode options]
 Opciones de modo de vista
-[Editing view mode]
-Modo de vista de edición
 [Last message]
 Último mensaje
+[Sticky contacts]
+Contactos pegajosos
+[Clear all]
+Limpiar todo
 [Status bar]
 Barra de estado
 [Show status bar]
@@ -834,6 +834,14 @@ Actualizar barra de herramientas
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Todos los contactos
+[Configure view modes]
+Configurar modos de vista
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -850,20 +858,6 @@ Minutos
 Horas
 [Days]
 Días
-[Configuring view mode: %s]
-Configurando modo de vista: %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Filtrando
-[*** All contacts ***]
-*** Todos los contactos ***
-[Configure view modes]
-Configurar modos de vista
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Nombre duplicado
 ¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
 [Delete a view mode]
 Eliminar un modo de vista
+[Configuring view mode: %s]
+Configurando modo de vista: %s
+[*** All contacts ***]
+*** Todos los contactos ***
+[Editing view mode]
+Modo de vista de edición
+[Filtering]
+Filtrando
 [Setup view modes...]
 Configuración de Modos de Vista
 [Select a view mode]

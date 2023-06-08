@@ -18,16 +18,32 @@ Domyślna grupa:
 
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
+[Compress files on send]
+
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
+[Add phone contact]
+
+[First name:]
+Imię:
+[Last name:]
+Nazwisko:
+[Phone:]
+Telefon:
+[Cancel]
+Anuluj
+[Forward message]
+
+[Forward]
 
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 
 [Enter verification code received by email]
 
-[Enter the secret code sent to your Telegram on another device]
+[Enter the secret code sent to another device]
 
 [Enter password]
 Wprowadź hasło
@@ -52,9 +68,12 @@ Uczestnik
 
 [Visitor]
 Gość
+[&Leave chat session]
+&Opuść pokój
 ;file \protocols\Telegram\src\main.cpp
-[Premium user]
+[Telegram Premium user]
 
+;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 Protokoły
@@ -62,8 +81,11 @@ Protokoły
 Konto
 [Advanced]
 Zaawansowane
+;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
+
+[Saved messages]
 
 ;file \protocols\Telegram\src\utils.cpp
 [none]
@@ -74,3 +96,17 @@ Pokoje czatu
 
 [Errors]
 Błędy
+[Picture]
+
+[Video]
+Wideo
+[seconds]
+s
+[Voice message]
+
+[SmileyAdd plugin required to support stickers]
+Wtyczka SmileyAdd jest wymagana do obsługi naklejek
+[You received an invoice]
+
+[Title]
+Nazwa

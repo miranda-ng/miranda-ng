@@ -359,8 +359,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 Запит буде показано завжди, якщо відправник поза списком контактів
 [Automatically popup window when:]
 Відкривати вікно, якщо:
-[In background]
-У фоні
 [Maximum number of flashes (0 = indefinite)]
 Максимальна кількість блимань (0 = безкінечно)
 [Close the message window on send]
@@ -419,6 +417,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 Події, отримані пізніше ніж
 [minutes old]
 хвилин тому
+[Automatically copy selected text]
+Автоматично копіювати виділений текст
 [Use a tabbed interface]
 Увімкнути вкладки
 [Close tab on double click]
@@ -1123,18 +1123,16 @@ UIN, E-mail тощо
 Завжди показувати статус у підказці
 [Default settings for known event types]
 Налаштування для відомих типів подій
-[Show when filter is active]
-Показувати при ввімк. фільтрі
 [Popup]
 Спливаюче вікно
 [Sound]
 Звук
 [Log to file]
 Запис у файл
-[Show icons in tray only when the chat room is not active]
-Показувати значки лише коли вікно чату неактивне
 [Highlight event]
 Підсвічування
+[Show icons in tray only when the chat room is not active]
+Показувати значки лише коли вікно чату неактивне
 [Show popups only when the chat room is not active]
 Показувати сплив. вікна лише коли вікно чату неактивне
 [Show button menus when right clicking the buttons]
@@ -1337,12 +1335,12 @@ UIN, E-mail тощо
 Надіслати E-mail
 [&E-mail]
 &Пошта
-[File from %s]
-Файл від %s
 [bytes]
 байт
 [&File]
 Ф&айл
+[File from %s]
+Файл від %s
 [File &transfers...]
 &Передача файлів...
 [Incoming]
@@ -1451,62 +1449,6 @@ UIN, E-mail тощо
 Повідомлення
 [Send message]
 Відправити
-[Flash window when someone speaks]
-Блимання вікна, якщо є нове повідомлення
-[Flash window when a word is highlighted]
-Блимання вікна, якщо є підсвічене повідомлення
-[Show list of users in the chat room]
-Показувати в кімнаті чату список користувачів
-[Show the topic of the room on your contact list (if supported)]
-Показувати тему кімнати в списку контактів (якщо підтримується)
-[Do not play sounds when the chat room is focused]
-Без звуків, якщо вікно чату активне
-[Do not pop up the window when joining a chat room]
-Не відкривати вікно чату при вході до кімнати
-[Show contact statuses if protocol supports them]
-Показувати статуси (якщо підтримується протоколом)
-[Display contact status icon before user role icon]
-Показувати значок статусу перед значком ролі
-[Prefix all events with a timestamp]
-Показувати час для всіх подій
-[Only prefix with timestamp if it has changed]
-Показувати час, якщо він змінився
-[Timestamp has same color as the event]
-Час того ж кольору, що й подія
-[Indent the second line of a message]
-Відступ другого рядка повідомлення
-[Limit user names in the message log to 20 characters]
-Обмежити імена в журналі до 20 символів
-[Add ':' to auto-completed user names]
-Додавати двокрапку (:) до імен користувачів при автозавершенні
-[Strip colors from messages in the log]
-Заборонити кольори в журналі
-[Enable the 'event filter' for new rooms]
-Увімкнути "Фільтр подій" для нових кімнат
-[Show icon for topic changes]
-Зміни теми
-[Show icon for users joining]
-Входи до чату
-[Show icon for users disconnecting]
-Відключення користувачів
-[Show icon for messages]
-Повідомлення
-[Show icon for actions]
-Дії
-[Show icon for highlights]
-Підсвічені повідомлення
-[Show icon for users leaving]
-Виходи з чату
-[Show icon for users kicking other user]
-Стусани
-[Show icon for notices]
-Приватні повідомлення
-[Show icon for name changes]
-Зміни ніків
-[Show icon for information messages]
-Інформаційні повідомлення
-[Show icon for status changes]
-Зміни статусів
 [Window icon]
 Значок вікна
 [Bold]
@@ -1563,18 +1505,70 @@ UIN, E-mail тощо
 Журнал чатів
 [Appearance and functionality of chat room windows]
 Інтерфейс та функції вікон чатів
+[Flash window when someone speaks]
+Блимання вікна, якщо є нове повідомлення
+[Flash window when a word is highlighted]
+Блимання вікна, якщо є підсвічене повідомлення
+[Show list of users in the chat room]
+Показувати в кімнаті чату список користувачів
+[Show the topic of the room on your contact list (if supported)]
+Показувати тему кімнати в списку контактів (якщо підтримується)
+[Do not play sounds when the chat room is focused]
+Без звуків, якщо вікно чату активне
+[Do not pop up the window when joining a chat room]
+Не відкривати вікно чату при вході до кімнати
+[Show contact statuses if protocol supports them]
+Показувати статуси (якщо підтримується протоколом)
+[Display contact status icon before user role icon]
+Показувати значок статусу перед значком ролі
 [Appearance of the message log]
 Вигляд журналу повідомлень
+[Prefix all events with a timestamp]
+Показувати час для всіх подій
+[Only prefix with timestamp if it has changed]
+Показувати час, якщо він змінився
+[Timestamp has same color as the event]
+Час того ж кольору, що й подія
+[Indent the second line of a message]
+Відступ другого рядка повідомлення
+[Limit user names in the message log to 20 characters]
+Обмежити імена в журналі до 20 символів
+[Add ':' to auto-completed user names]
+Додавати двокрапку (:) до імен користувачів при автозавершенні
+[Strip colors from messages in the log]
+Заборонити кольори в журналі
+[Enable the 'event filter' for new rooms]
+Увімкнути "Фільтр подій" для нових кімнат
 [Icons to display in the message log]
 Значки в журналі повідомлень
+[Show icon for topic changes]
+Зміни теми
+[Show icon for users joining]
+Входи до чату
+[Show icon for users disconnecting]
+Відключення користувачів
+[Show icon for messages]
+Повідомлення
+[Show icon for actions]
+Дії
+[Show icon for highlights]
+Підсвічені повідомлення
+[Show icon for users leaving]
+Виходи з чату
+[Show icon for users kicking other user]
+Стусани
+[Show icon for notices]
+Приватні повідомлення
+[Show icon for name changes]
+Зміни ніків
+[Show icon for information messages]
+Інформаційні повідомлення
+[Show icon for status changes]
+Зміни статусів
 [Chat log]
 Журнал чату
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
-[Incoming message (10x10)]
-Вхідне повідомлення (10x10)
-[Outgoing message (10x10)]
-Вихідне повідомлення (10x10)
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [Last message received on %s at %s.]
@@ -1589,6 +1583,10 @@ UIN, E-mail тощо
 %s - Бесіда (%u)
 [Message session]
 Вікно повідомлень
+[Incoming message (10x10)]
+Вхідне повідомлення (10x10)
+[Outgoing message (10x10)]
+Вихідне повідомлення (10x10)
 [Me]
 Я
 [File sent]
@@ -1623,8 +1621,6 @@ UIN, E-mail тощо
 Журнал
 [Typing notify]
 Сповіщення про друк
-[Message from %s]
-Повідомлення від %s
 [%s is typing a message]
 %s друкує вам повідомлення
 [Typing notification]
@@ -1993,8 +1989,6 @@ UIN, E-mail тощо
 %s вмикає статус "%s" для %s у %s
 [%s disables '%s' status for %s in %s]
 %s вимикає статус "%s" для %s у %s
-[%s says]
-%s каже
 [Chat rooms]
 Чати
 [Events and filters]
@@ -2597,6 +2591,10 @@ ANSI-плагін
 Нік
 [Unique ID]
 Унікальний ID
+[Download]
+Завантажити
+[Copy URL]
+Копіювати посилання
 [Copy all]
 Копіювати все
 [Look up '%s':]
@@ -2609,6 +2607,8 @@ ANSI-плагін
 <Роздільник>
 [Toolbar]
 Панель кнопок
+[Message from %s]
+Повідомлення від %s
 [Unspecified]
 <не вказано>
 [Afghanistan]
@@ -6011,6 +6011,8 @@ Windows не активна
 Папка скінів
 [Download more skins]
 Завантажити скіни
+[Cancel]
+Скасувати
 [Available view modes]
 Доступні режими перегляду
 [Include protocols]
@@ -6019,16 +6021,10 @@ Windows не активна
 Включити групи
 [Show contacts in groups]
 Показувати контакти в групах
+[Hide empty groups]
+Сховати порожні групи
 [Include status modes]
 Включити статуси
-[Cancel]
-Скасувати
-[Sticky contacts]
-Закріплені контакти
-[Clear all]
-Очистити
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-У списку ліворуч виберіть контакти, які будуть закріплені за цим режимом перегляду. Ці контакти ігноруватимуть стандартні правила фільтру і використовуватимуть лише фільтр статусу нижче.
 [Protocol]
 Протокол
 [Group]
@@ -6043,6 +6039,10 @@ Windows не активна
 Налаштування режиму перегляду
 [Last message]
 Останнє повідомлення
+[Sticky contacts]
+Закріплені контакти
+[Clear all]
+Очистити
 [Status bar]
 Панель статусів
 [Show status bar]
@@ -6767,6 +6767,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Оновлення панелі кнопок
 [All contacts]
 Усі контакти
+[Configure view modes]
+Налаштування режимів перегляду
 [Ungrouped contacts]
 Контакти поза групами
 [And]
@@ -6783,14 +6785,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Годин
 [Days]
 Днів
-[Configuring view mode: %s]
-Налаштування режиму перегляду: %s
-[Filtering]
-Фільтрація
-[*** All contacts ***]
-*** Усі контакти ***
-[Configure view modes]
-Налаштування режимів перегляду
 [A view mode with this name does already exist]
 Режим перегляду з таким ім'ям уже існує
 [Duplicate name]
@@ -6799,6 +6793,12 @@ Angeli-Ka (графіка), FYR (шаблон)
 Справді видалити режим? Результат цієї дії є незворотним!
 [Delete a view mode]
 Видалення режиму перегляду
+[Configuring view mode: %s]
+Налаштування режиму перегляду: %s
+[*** All contacts ***]
+*** Усі контакти ***
+[Filtering]
+Фільтрація
 [Setup view modes...]
 Налаштувати режими перегляду...
 [Select a view mode]
@@ -8397,7 +8397,7 @@ ID користувача
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -8450,7 +8450,7 @@ ID користувача
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8765,8 +8765,6 @@ ID користувача
 Редагувати налаштування (%s)
 [New setting (%s)]
 Нове налаштування (%s)
-[<UNKNOWN>]
-<НЕВІДОМО>
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення (%s): "%s"
 #muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
@@ -9283,7 +9281,7 @@ ID запису
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -9334,24 +9332,6 @@ ID запису
 Показувати значок клієнта на панелі статусу вікна повідомлень
 [Fingerprint]
 Значки клієнтів
-[Client icons]
-Клієнти
-[Pack overlays]
-Оверлеї збірок
-[Multi-proto clients]
-Мультипротокол
-[Other protocols]
-Інші протоколи
-[Overlays]
-Оверлеї
-[Resource]
-Ресурс
-[Platform]
-Операційна система
-[Security]
-Безпека
-[Protocol]
-Протокол
 [Miranda NG stable]
 Стабільна Miranda NG
 [Miranda IM (old versions)]
@@ -9474,6 +9454,24 @@ Gadu-Gadu v8 клієнт
 Оверлей SecureIM
 [Icons]
 Значки
+[Client icons]
+Клієнти
+[Pack overlays]
+Оверлеї збірок
+[Multi-proto clients]
+Мультипротокол
+[Other protocols]
+Інші протоколи
+[Overlays]
+Оверлеї
+[Resource]
+Ресурс
+[Platform]
+Операційна система
+[Security]
+Безпека
+[Protocol]
+Протокол
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
@@ -9924,7 +9922,7 @@ FTP-сервер 5
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -12265,7 +12263,7 @@ HTTP Новий розшарений файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -12306,6 +12304,10 @@ UIN/пошта:
 Введіть пароль:
 [Remember this session password]
 Запам'ятати пароль сеансу
+[admin]
+адмін
+[member]
+користувач
 [&Invite a user]
 &Запросити користувача
 [Name]
@@ -12328,10 +12330,6 @@ UIN/пошта/телефон
 Невдале з'єднання.\nВаш логін або пароль не прийняті сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Помилка підключення.\nСервер тимчасово недоступний (%d).
-[admin]
-адмін
-[member]
-користувач
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -12606,7 +12604,7 @@ RTL за замовчанням
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -13879,10 +13877,6 @@ XML-консоль
 Надіслати
 [Jabber Link Protocol]
 Протокол Jabber
-[Frame title]
-Заголовок фрейму
-[Frame text]
-Текст фрейму
 [Jabber Activity]
 Заняття Jabber
 [Jabber Mood]
@@ -15213,8 +15207,6 @@ XML (кодування UTF-8)
 <Немає фото>
 [Fingerprint]
 Відбиток
-[Unknown]
-Невідомо
 [Photo]
 Фото
 [Redirect]
@@ -18198,14 +18190,6 @@ URL сторінки з коментарями до новини.
 Налаштування
 [Templates]
 Шаблони
-[Copy]
-Копіювати
-[Edit]
-Редагувати
-[Delete]
-Видалити
-[Select all]
-Вибрати все
 [Incoming messages]
 Вхідні повідомлення
 [Outgoing messages]
@@ -18246,6 +18230,8 @@ URL сторінки з коментарями до новини.
 Сайт
 [About]
 Інформація
+[Copy]
+Копіювати
 [Export...]
 Експорт...
 [Send message]
@@ -18262,6 +18248,12 @@ URL сторінки з коментарями до новини.
 Бесіди
 [Complete]
 Завершено
+[Edit]
+Редагувати
+[Delete]
+Видалити
+[Select all]
+Вибрати все
 [Main icon]
 Головний значок
 [Search]
@@ -20238,7 +20230,7 @@ TCP-з'єднання
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.4
+;  Version: 0.2.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21802,6 +21794,8 @@ IP токену не збігається
 подій
 [minutes]
 хвилин
+[Automatically copy selected text]
+Автоматично копіювати виділений текст
 [Typing notification options]
 Налаштування сповіщень про друк
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -21928,6 +21922,8 @@ IP токену не збігається
 Чати
 [Action: Send message]
 Дія: Надіслати
+[Appearance and functionality of chat windows]
+Інтерфейс і функціональність вікон чатів
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash when a word is highlighted]
@@ -21946,10 +21942,36 @@ IP токену не збігається
 Показувати значок статусу перед значком ролі
 [Add ':' to auto-completed names]
 Додавати двокрапку (:) до імен користувачів при автозавершенні
+[Icons to display in the message log]
+Значки в журналі повідомлень
+[Show icon for topic changes]
+Зміни теми
+[Show icon for users joining]
+Входи до чату
+[Show icon for users disconnecting]
+Відключення користувачів
+[Show icon for messages]
+Повідомлення
+[Show icon for actions]
+Дії
+[Show icon for highlights]
+Підсвічені повідомлення
+[Show icon for users leaving]
+Виходи з чату
+[Show icon for users kicking other user]
+Стусани
+[Show icon for notices]
+Приватні повідомлення
+[Show icon for name changes]
+Зміни ніків
+[Show icon for information messages]
+Інформаційні повідомлення
+[Show icon for status changes]
+Зміни статусів
+[Appearance]
+Зовнішній вигляд
 [Prefix all events with a timestamp]
 Показувати час для всіх подій
-[Only prefix with timestamp if it has changed]
-Показувати час, якщо він змінився
 [Timestamp has same color as the event]
 Час того ж кольору, що й подія
 [Indent the second line of a message]
@@ -21960,8 +21982,6 @@ IP токену не збігається
 Заборонити кольори в журналі
 [Enable 'event filter' for new rooms]
 Увімкнути "Фільтр подій" для нових кімнат
-[Appearance and functionality of chat windows]
-Інтерфейс і функціональність вікон чатів
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -22012,8 +22032,6 @@ ID поточного контакту (якщо визначено). Напри
 повна назва дня тижня
 [Variables]
 Змінні
-[Appearance]
-Зовнішній вигляд
 [Select folder]
 Вибрати папку
 [Message sessions]
@@ -22160,20 +22178,14 @@ ID поточного контакту (якщо визначено). Напри
 Дія: Вставити й надіслати
 [User menu - %s]
 Меню користувача - %s
-[Nickname]
-Нік
-[Unique ID]
-Унікальний ID
-[Status]
-Статус
-[Me]
-Я
-[My contact]
-Співрозмовник
 [Today]
 Сьогодні
 [Yesterday]
 Вчора
+[Me]
+Я
+[My contact]
+Співрозмовник
 [File sent]
 Надіслано файл
 [File received]
@@ -22236,8 +22248,6 @@ ID поточного контакту (якщо визначено). Напри
 Журнал подій
 [Typing notify]
 Сповіщення про друк
-[Message from %s]
-Повідомлення від %s
 [%s is typing a message]
 %s друкує вам повідомлення
 [Typing notification]
@@ -23225,7 +23235,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -23238,8 +23248,6 @@ Upload Pie (1 тижд)
 Відновити останню сесію
 [Do nothing]
 Нічого не робити
-[Only if last session present]
-Тільки якщо доступна остання сесія
 [Startup delay]
 Затримка відкриття
 [ms]
@@ -23290,8 +23298,6 @@ Upload Pie (1 тижд)
 Введіть назву сесії:
 [Save and Close]
 Зберегти та закрити
-[adv.]
-дод.
 [Sessions Manager]
 Менеджер сесій
 [Cancel]
@@ -23692,7 +23698,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -24882,7 +24888,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -24915,8 +24921,6 @@ Upload Pie (1 тижд)
 Блокувати запити авторизації
 [Answer is not case sensitive]
 Не враховувати регістр відповіді
-[Remove all temporary contacts after restart]
-Видаляти всі тимчасові контакти після перезапуску
 [Log Spammers to system history]
 Записувати спамерів в системну історію
 [StopSpam automatic message:\r\n]
@@ -24931,10 +24935,6 @@ Upload Pie (1 тижд)
 Повідомлення
 [Accounts]
 Облікові записи
-[Not In List]
-Не в списку
-[Complete]
-Готово
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 Доброго дня! З вами говорить антиспам-бот. Будь ласка, напишіть слово "nospam" без лапок, щоб пройти перевірку на спам./r/nSpammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.
 [StopSpam: send a message and reply to an anti-spam bot question.]
@@ -24943,13 +24943,11 @@ StopSpam: надішліть повідомлення і дайте відпов
 Вітаємо! Ви пройшли тест, тепер можете відправляти повідомлення користувачеві./r/nCongratulations! You just passed human/robot test. Now you can write me a message.
 [StopSpam]
 Антиспам
-[Remove Temporary Contacts]
-Видалити тимчасові контакти
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -25006,8 +25004,6 @@ StopSpam: надішліть повідомлення і дайте відпов
 Авторизувати автоматично
 [Request authorization from contacts which pass StopSpam test]
 Запитувати авторизацію в контактів, які пройшли перевірку антиспаму
-[Remove all temporary contacts after restart]
-Видаляти всі тимчасові контакти після перезапуску
 [Use regex for answers checking]
 Використовувати регулярні вирази для перевірки відповідей
 [Log Spammers to system history]
@@ -26057,12 +26053,8 @@ ID поточного контакту (якщо визначено). Напри
 Формат журналу
 [Highlighting]
 Підсвічування
-[%s%s says:%s %s]
-%s%s пише:%s %s
 [Message session...]
 Бесіда...
-[Message from %s]
-Повідомлення від %s
 [Default container]
 Діалоги
 [Attach to]
@@ -26814,6 +26806,14 @@ TabSRMM: %s
 Група:
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[First name:]
+Ім'я:
+[Last name:]
+Прізвище:
+[Phone:]
+Телефон:
+[Cancel]
+Скасувати
 [Enter password]
 Введіть пароль
 [Error]
@@ -26824,6 +26824,8 @@ TabSRMM: %s
 Учасник
 [Visitor]
 Відвідувач
+[&Leave chat session]
+&Вийти з чату
 [Network]
 Мережа
 [Account]
@@ -26836,6 +26838,12 @@ TabSRMM: %s
 Чати
 [Errors]
 Помилки
+[Video]
+Відео
+[seconds]
+секунд
+[Title]
+Заголовок
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -29725,7 +29733,7 @@ X, і зберігає Y як змінну з ім'ям X
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -30038,6 +30046,12 @@ X, і зберігає Y як змінну з ім'ям X
 Учасники
 [Owners]
 Власники
+[Not supported]
+Не підтримується
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
+[Warning]
+Попередження
 [create chat]
 створив(ла) чат
 [kick user]
@@ -30060,20 +30074,14 @@ X, і зберігає Y як змінну з ім'ям X
 Невідомий
 [Enter new chat title]
 Введіть назву нового чату
-[Not supported]
-Не підтримується
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
-[Warning]
-Попередження
 [You've been kicked by ]
 Вас вигнав користувач\s
 [Chat]
 Чат
 [&Invite a user]
 &Запросити користувача
-[View/change &title]
-Перегляд/зміна &назви
+[View/change &topic]
+Перегляд/зміна &теми
 [&Destroy room]
 &Видалити кімнату
 [&User details]
@@ -30216,10 +30224,10 @@ ID отримувача помилковий або невідомий
 Видалити із друзів
 [Ban user]
 Забанити
-[Destroy room]
-Видалити кімнату
 [Open broadcast]
 Відкрити трансляцію
+[Destroy room]
+Видалити кімнату
 [Reload messages from vk.com...]
 Завантажити історію з сайту...
 [for last week]

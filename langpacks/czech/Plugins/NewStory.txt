@@ -72,14 +72,6 @@ Možnosti záznamu
 Možnosti
 [Templates]
 Šablony
-[Copy]
-Zkopírovat
-[Edit]
-Upravit
-[Delete]
-Smazat
-[Select all]
-Vybrat vše
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 Příchozí zprávy
@@ -134,6 +126,8 @@ Dom. stránka
 Informace
 [History search results]
 
+[Copy]
+Zkopírovat
 [Export...]
 Exportovat...
 [Delete...]
@@ -172,6 +166,12 @@ Dokončeno
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
 
+[Edit]
+Upravit
+[Delete]
+Smazat
+[Select all]
+Vybrat vše
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Hlavní ikona

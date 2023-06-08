@@ -118,6 +118,8 @@ Předchozí události starší méně než
 událostí
 [minutes]
 min.
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@ Skupinové rozhovory
 [Action: Send message]
 Odeslat zprávu
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Nastavení vzhledu a funkcí komunikačních oken
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@ Zobrazit stav účastníků (je-li to podporováno)
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Add ':' to auto-completed names]
 Přidat ':' k automaticky doplněným jménům
+[Icons to display in the message log]
+Možnosti zobrazení ikon v záznamu komunikace
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o změně tématu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o příchodu uživatelů
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojení uživatelů
+[Show icon for messages]
+Zobrazit ikonu k textu zprávy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zvýraznění
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uživatelů
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutí
+[Show icon for notices]
+Zobrazit ikonu k textu poznámky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o změně jména
+[Show icon for information messages]
+Zobrazit ikonu k textu informativní zprávy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o změně stavu
+[Appearance]
+Vzhled
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
-[Only prefix with timestamp if it has changed]
-Informaci o čase přidat pouze pokud se změní
 [Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
@@ -278,8 +308,6 @@ Omezit délku jmen v záznamu na 20 znaků
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
 Aktivovat filtrování událostí pro nové místnosti
-[Appearance and functionality of chat windows]
-Nastavení vzhledu a funkcí komunikačních oken
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +358,6 @@ zkrácené jméno dne v týdnu
 plné jméno dne v týdnu
 [Variables]
 Proměnné
-[Appearance]
-Vzhled
 [Select folder]
 Vyberte požadovanou složku
 [Message sessions]
@@ -481,29 +507,15 @@ Vložit text a poslat
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Uživatelské menu - %s
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[Status]
-Stavy
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Já
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
-[to tiny bits, in Thy mercy]
-to tiny bits, in Thy mercy
-[My contact]
-Můj kontakt
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
 [Today]
 Dnes
 [Yesterday]
 Včera
+[Me]
+Já
+[My contact]
+Můj kontakt
 [File sent]
 Odeslaný soubor
 [File received]
@@ -570,8 +582,6 @@ Záznam událostí
 [Typing notify]
 Psaní zprávy
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Zpráva od: %s
 [%s is typing a message]
 %s píše zprávu
 [Typing notification]

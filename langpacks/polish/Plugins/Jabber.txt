@@ -178,6 +178,8 @@ Telefon komórkowy
 Wideo
 [Modem]
 Modem
+[Enable OMEMO]
+Włącz OMEMO
 [Load]
 Wczytaj
 [Save]
@@ -379,10 +381,6 @@ Wyślij
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Powiązanie protokołu Jabbera
-[Frame title]
-Ramka tytułu
-[Frame text]
-Ramka tekstu
 [Jabber Activity]
 Aktywność
 [Jabber Mood]
@@ -1005,9 +1003,11 @@ Jesteś pewien?
 [Incoming note]
 Przychodząca notatka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Do you want to create OMEMO session with new device:]
-Czy chcesz utworzyć sesję OMEMO z nowym urządzeniem:
+[Unknown device added]
+
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+
+[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1430,6 +1430,8 @@ Włącz historię po stronie serwera (XEP-0136)
 Włącz zarządzanie archiwum wiadomości (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Włącz kopie wiadomości do zasobów (XEP-0280)
+[Enable HTTP File Upload (XEP-0363)]
+ 
 [Enable VOIP (experimental)]
 
 [Server options]
@@ -1452,8 +1454,6 @@ Pokazuj agenty transportów na liście kontaktów
 Automatycznie dodaj kontakt po autoryzacji
 [Automatically accept authorization requests]
 Automatycznie akceptuj prośby o autoryzację
-[Automatically download files passed via HTTP File Upload]
-
 [Fix incorrect timestamps in incoming messages]
 Naprawiaj błędne czasy przychodzących wiadomości
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1871,14 +1871,20 @@ Nieznany format
 
 [Fingerprint]
 Odcisk
-[Own device]
+[This device]
 
-[Trusted]
+[Untrust]
 
-[UNTRUSTED]
+[Trust]
 
-[Unknown]
-Nieznany
+[Kill session]
+
+[Remove device]
+
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+
+[Delete device %d from the announce?]
+
 [Photo]
 Zdjęcie
 ;file \protocols\JabberG\src\jabber_util.cpp

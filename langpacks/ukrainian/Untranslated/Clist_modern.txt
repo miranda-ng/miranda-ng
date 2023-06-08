@@ -1,4 +1,4 @@
-[Editing view mode]
+[Show groups folded]
 [Show account names]
 [Last online]
 [Contract meta]
@@ -8,3 +8,4 @@
 [Remove view mode]
 [Enter view mode name]
 [Enter new view mode name]
+[Editing view mode]

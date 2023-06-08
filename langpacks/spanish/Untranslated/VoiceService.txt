@@ -2,7 +2,7 @@
 [Enable popups]
 [On right click:]
 [On left click:]
-[Show incoming call dialog immediately ]
+[Show incoming call dialog immediately]
 [Catch focus on this dialog]
 [New Voice Call]
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]

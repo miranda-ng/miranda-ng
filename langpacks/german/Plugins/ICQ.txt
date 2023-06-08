@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -22,8 +22,6 @@ Chatfenster bei der Erzeugung nicht öffnen
 Benachrichtigungen mittels Systemtray-Symbol
 [Launch mailbox in a browser on click]
 Beim anklicken Postfach im Browser öffnen
-[Show error popups]
-Fehler-Popups anzeigen
 [Notifications]
 Benachrichtigung
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -65,6 +63,10 @@ Passwort eingeben:
 [Remember this session password]
 Dieses Sitzungspasswort merken
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
+[admin]
+Administrator
+[member]
+Mitglied
 [&Invite a user]
 Benutzer e&inladen
 [&Leave/destroy chat]
@@ -96,6 +98,8 @@ Sie haben eine E-Mail von %s erhalten: %s
 [You have %d unread emails]
 Sie haben %d ungelesene E-Mails
 ;file \protocols\ICQ-WIM\src\proto.cpp
+[%s error notifications]
+%s Fehlerbenachrichtigungen
 [Synchronize server groups]
 Servergruppen synchronisieren
 [Edit my web profile]
@@ -113,10 +117,6 @@ Verbindung fehlgeschlagen.\nDer Anmeldename oder das Password wurden abgelehnt (
 Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Verbindung fehlgeschlagen.\nUnbekannter Fehler beim Anmelden: %d
-[admin]
-Administrator
-[member]
-Mitglied
 [Unknown sticker]
 Unbekannter Sticker
 [User sent a sticker:]

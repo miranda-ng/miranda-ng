@@ -1027,14 +1027,9 @@ UIN
 Формат на дневника
 [Highlighting]
 Отличаване
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s каза:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Разговор...
-[Message from %s]
-Съобщение от %s
 [Default container]
 Стандартен контейнер
 [Attach to]
@@ -1618,6 +1613,10 @@ Latin I
 Изходящо съобщение
 [Status change]
 Промяна на състояние
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Статична икона за контейнера
 [Sounds (status bar)]

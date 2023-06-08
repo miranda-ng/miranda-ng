@@ -52,6 +52,8 @@
 
 [Download more skins]
 Запампаваць скіны
+[Cancel]
+Скасаваць
 [Available view modes]
 Даступныя рэжымы выгляду
 [Include protocols]
@@ -60,16 +62,12 @@
 Уключыць гурты
 [Show contacts in groups]
 Паказваць кантакты ў гуртах
+[Hide empty groups]
+Схаваць пустыя гурты
+[Show groups folded]
+
 [Include status modes]
 Уключыць статусы
-[Cancel]
-Скасаваць
-[Sticky contacts]
-Замацаваныя кантакты
-[Clear all]
-Сцерці ўсё
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Пры карыстанні спісам кантактаў з левага боку, вы можаце абраць кантакты, якія будуць замацаваны за гэтым рэжымам прагляду. Гэтыя кантакты ібудуць ігнараваць стандартныя правілы фільтра і выкарыстоўваць толькі фільтр статусу ніжэй.
 [Protocol]
 Пратакол
 [Group]
@@ -82,10 +80,12 @@
 секунд(ы)
 [View mode options]
 Налады рэжыму выгляду
-[Editing view mode]
-Рэжым прагляду па змаўчанні
 [Last message]
 Апошняе паведамленне
+[Sticky contacts]
+Замацаваныя кантакты
+[Clear all]
+Сцерці ўсё
 [Status bar]
 Панэль статусу
 [Show status bar]
@@ -834,6 +834,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Усе кантакты
+[Configure view modes]
+Налада рэжымаў выгляду
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 Кантакты па-за гуртамі
 [And]
@@ -850,20 +858,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Гадзін
 [Days]
 Дзён
-[Configuring view mode: %s]
-Налада рэжыму прагляду: %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Фільтраванне
-[*** All contacts ***]
-*** Усе кантакты ***
-[Configure view modes]
-Налада рэжымаў выгляду
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 Сапраўды выдаліць рэжым? Адмена не магчымая!
 [Delete a view mode]
 Выдаленне рэжыму прагляду
+[Configuring view mode: %s]
+Налада рэжыму прагляду: %s
+[*** All contacts ***]
+*** Усе кантакты ***
+[Editing view mode]
+Рэжым прагляду па змаўчанні
+[Filtering]
+Фільтраванне
 [Setup view modes...]
 Наладзіць рэжымы выгляду...
 [Select a view mode]

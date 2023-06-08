@@ -1027,14 +1027,9 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Фармат лога
 [Highlighting]
 Падсвятленне
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s піша:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Гутарка...
-[Message from %s]
-Паведамленне ад %s
 [Default container]
 Кантэйнер по змаўчанню
 [Attach to]
@@ -1618,6 +1613,10 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Зыходнае
 [Status change]
 Змена статусу
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Статычны абразок
 [Sounds (status bar)]

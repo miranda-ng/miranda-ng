@@ -17,6 +17,7 @@
 [Old password is not valid]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
 [Unable to initialize Tox core]
+[Invalid search string]
 [One of the arguments is missing]
 [Unable to allocate enough memory]
 [Unable to bind to a port]

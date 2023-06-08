@@ -52,6 +52,8 @@ UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest 
 Folder skórek
 [Download more skins]
 Pobierz więcej skórek
+[Cancel]
+Anuluj
 [Available view modes]
 Dostępne tryby widoku
 [Include protocols]
@@ -60,16 +62,12 @@ Uwzględnione protokoły
 Uwzględnione grupy
 [Show contacts in groups]
 Pokaż kontakty w grupach
+[Hide empty groups]
+Ukryj puste grupy
+[Show groups folded]
+
 [Include status modes]
 Uwzględniony tryby statusu
-[Cancel]
-Anuluj
-[Sticky contacts]
-Przyklejone kontakty
-[Clear all]
-Wyczyść wszystko
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Używając listy kontaktów po lewej stronie, możesz wybrać kontakty, które będą "przyklejone" do tego widoku. Te kontakty będą ignorować standardowe reguły filtrowania i używać tylko poniższego filtru trybu statusu.
 [Protocol]
 Protokół
 [Group]
@@ -82,10 +80,12 @@ Automatycznie wyczyść ten tryb widoku po
 s
 [View mode options]
 Opcje trybu widoku
-[Editing view mode]
-Edytowanie trybu widoku
 [Last message]
 Ostatnia wiadomość
+[Sticky contacts]
+Przyklejone kontakty
+[Clear all]
+Wyczyść wszystko
 [Status bar]
 Pasek statusu
 [Show status bar]
@@ -834,6 +834,14 @@ Aktualizacja paska narzędzi
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Wszystkie kontakty
+[Configure view modes]
+Ustaw tryb widoku
+[Add view mode]
+Dodaj tryb widoku
+[Rename view mode]
+Edytuj tryb widoku
+[Remove view mode]
+Usuń tryb widoku
 [Ungrouped contacts]
 Niepogrupowane kontakty
 [And]
@@ -850,20 +858,6 @@ Minuty
 Godzin
 [Days]
 Dni
-[Configuring view mode: %s]
-Konfigurowanie trybu widoku: %s
-[Add view mode]
-Dodaj tryb widoku
-[Rename view mode]
-Edytuj tryb widoku
-[Remove view mode]
-Usuń tryb widoku
-[Filtering]
-Filtrowanie
-[*** All contacts ***]
-*** Wszystkie kontakty ***
-[Configure view modes]
-Ustaw tryb widoku
 [Enter view mode name]
 Wpisz nazwę trybu widoku
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Wpisz nową nazwę trybu widoku
 Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
 [Delete a view mode]
 Usuwanie trybu widoku
+[Configuring view mode: %s]
+Konfigurowanie trybu widoku: %s
+[*** All contacts ***]
+*** Wszystkie kontakty ***
+[Editing view mode]
+Edytowanie trybu widoku
+[Filtering]
+Filtrowanie
 [Setup view modes...]
 Ustaw tryby widoku...
 [Select a view mode]

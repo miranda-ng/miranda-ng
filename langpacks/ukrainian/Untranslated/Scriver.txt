@@ -1,7 +1,3 @@
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-[to tiny bits, in Thy mercy]
-[Lorem ipsum dolor sit amet,]
-[consectetur adipisicing elit]
 [Unused]
 [Scriver internal log]

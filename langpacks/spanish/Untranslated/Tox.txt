@@ -59,6 +59,7 @@
 [Contact already in your contact list]
 [Unable to initialize Tox core]
 [Query]
+[Invalid search string]
 [One of the arguments is missing]
 [Unable to allocate enough memory]
 [Unable to bind to a port]

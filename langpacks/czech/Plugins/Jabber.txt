@@ -178,6 +178,8 @@ Mobil
 Video
 [Modem]
 Modem
+[Enable OMEMO]
+
 [Load]
 Načíst
 [Save]
@@ -379,10 +381,6 @@ Poslat
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Odkaz protokolu Jabber
-[Frame title]
-Záhlaví rámečku
-[Frame text]
-Text rámečku
 [Jabber Activity]
 Jabber aktivita
 [Jabber Mood]
@@ -1005,9 +1003,11 @@ Opravdu chcete pokračovat?
 [Incoming note]
 Příchozí poznámka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Do you want to create OMEMO session with new device:]
+[Unknown device added]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+
+[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1430,6 +1430,8 @@ Povolit historii na serveru
 
 [Enable carbon copies (XEP-0280)]
 
+[Enable HTTP File Upload (XEP-0363)]
+
 [Enable VOIP (experimental)]
 
 [Server options]
@@ -1452,8 +1454,6 @@ Zobrazit transporty v seznamu kontaktů
 Automaticky přidat kontakt po úspěšné autorizaci
 [Automatically accept authorization requests]
 Automaticky přijímat žádosti o autorizaci
-[Automatically download files passed via HTTP File Upload]
-
 [Fix incorrect timestamps in incoming messages]
 Opravovat neplatné datum příchozích zpráv
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1871,14 +1871,20 @@ neznámý formát
 
 [Fingerprint]
 Otisk
-[Own device]
+[This device]
 
-[Trusted]
+[Untrust]
 
-[UNTRUSTED]
+[Trust]
 
-[Unknown]
-Neznámý
+[Kill session]
+
+[Remove device]
+
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+
+[Delete device %d from the announce?]
+
 [Photo]
 Fotka
 ;file \protocols\JabberG\src\jabber_util.cpp

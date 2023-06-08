@@ -359,8 +359,6 @@ Zmień nazwę (dodaj " (1)", itp.)
 Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 [Automatically popup window when:]
 Automatycznie pokazuj okno gdy:
-[In background]
-W tle
 [Maximum number of flashes (0 = indefinite)]
 Maksymalna liczba mignięć (0 = nieokreślone)
 [Close the message window on send]
@@ -419,6 +417,8 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
 [Use a tabbed interface]
 Użyj kart
 [Close tab on double click]
@@ -1137,18 +1137,16 @@ Pokaż/ukryj listę po pojedynczym kliknięciu
 Zawsze pokazuj status w podpowiedzi
 [Default settings for known event types]
 Domyślne ustawienia dla zdarzeń
-[Show when filter is active]
-Pokaż kiedy filtr jest wł.
 [Popup]
 Powiadomienia
 [Sound]
 Dźwięk
 [Log to file]
 Zapisuj w pliku
-[Show icons in tray only when the chat room is not active]
-Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Highlight event]
 Podświetlenie
+[Show icons in tray only when the chat room is not active]
+Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Show popups only when the chat room is not active]
 Pokazuj powiadomienia tylko, gdy pokój nie jest aktywny
 [Show button menus when right clicking the buttons]
@@ -1357,12 +1355,12 @@ Użytkownik nie zarejestrował adresu e-mail
 Wyślij e-mail
 [&E-mail]
 &E-mail
-[File from %s]
-Plik od %s
 [bytes]
 bajty
 [&File]
 &Plik
+[File from %s]
+Plik od %s
 [File &transfers...]
 &Transfery plików...
 [Incoming]
@@ -1471,62 +1469,6 @@ Tło listy użytkowników (zaznaczenie)
 Wiadomości
 [Send message]
 Wyślij wiadomość
-[Flash window when someone speaks]
-Migaj oknem, gdy ktoś mówi
-[Flash window when a word is highlighted]
-Migaj oknem, gdy jakieś słowo jest podświetlone
-[Show list of users in the chat room]
-Pokaż listę użytkowników w pokoju
-[Show the topic of the room on your contact list (if supported)]
-Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
-[Do not play sounds when the chat room is focused]
-Nie odtwarzaj dźwięków, gdy pokój czatu jest aktywny
-[Do not pop up the window when joining a chat room]
-Nie pokazuj okna po dołączeniu do pokoju czatu
-[Show contact statuses if protocol supports them]
-Pokazuj statusy kontaktów jeśli protokół je obsługuje
-[Display contact status icon before user role icon]
-Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
-[Prefix all events with a timestamp]
-Poprzedź wszystkie zdarzenia czasem
-[Only prefix with timestamp if it has changed]
-Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same color as the event]
-Czas ma taki sam kolor jak zdarzenie
-[Indent the second line of a message]
-Wcinaj drugą linię wiadomości
-[Limit user names in the message log to 20 characters]
-Ogranicz nazwy użytkowników do 20 znaków w dzienniku
-[Add ':' to auto-completed user names]
-Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
-[Strip colors from messages in the log]
-Usuń kolory z wiadomości w dzienniku
-[Enable the 'event filter' for new rooms]
-Włącz "filtr zdarzeń" dla nowych pokoi
-[Show icon for topic changes]
-Pokaż ikony zmian tematu
-[Show icon for users joining]
-Pokaż ikony dołączających użytkowników
-[Show icon for users disconnecting]
-Pokaż ikony rozłączonych użytkowników
-[Show icon for messages]
-Pokaż ikony wiadomości
-[Show icon for actions]
-Pokaż ikony zdarzeń
-[Show icon for highlights]
-Pokaż ikony podświetleń
-[Show icon for users leaving]
-Pokaż ikony wychodzących użytkowników
-[Show icon for users kicking other user]
-Pokaż ikony wyrzucanych użytkowników
-[Show icon for notices]
-Pokaż ikony powiadomień
-[Show icon for name changes]
-Pokaż ikony zmian nazwy
-[Show icon for information messages]
-Pokaż ikony wiadomości informacyjnych
-[Show icon for status changes]
-Pokaż ikony zmian statusu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1583,18 +1525,70 @@ Informacja (10x10)
 Dziennik czatu
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
+[Flash window when someone speaks]
+Migaj oknem, gdy ktoś mówi
+[Flash window when a word is highlighted]
+Migaj oknem, gdy jakieś słowo jest podświetlone
+[Show list of users in the chat room]
+Pokaż listę użytkowników w pokoju
+[Show the topic of the room on your contact list (if supported)]
+Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
+[Do not play sounds when the chat room is focused]
+Nie odtwarzaj dźwięków, gdy pokój czatu jest aktywny
+[Do not pop up the window when joining a chat room]
+Nie pokazuj okna po dołączeniu do pokoju czatu
+[Show contact statuses if protocol supports them]
+Pokazuj statusy kontaktów jeśli protokół je obsługuje
+[Display contact status icon before user role icon]
+Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
 [Appearance of the message log]
 Wygląd dziennika wiadomości
+[Prefix all events with a timestamp]
+Poprzedź wszystkie zdarzenia czasem
+[Only prefix with timestamp if it has changed]
+Dodawaj czas tylko jeśli uległ zmianie
+[Timestamp has same color as the event]
+Czas ma taki sam kolor jak zdarzenie
+[Indent the second line of a message]
+Wcinaj drugą linię wiadomości
+[Limit user names in the message log to 20 characters]
+Ogranicz nazwy użytkowników do 20 znaków w dzienniku
+[Add ':' to auto-completed user names]
+Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
+[Strip colors from messages in the log]
+Usuń kolory z wiadomości w dzienniku
+[Enable the 'event filter' for new rooms]
+Włącz "filtr zdarzeń" dla nowych pokoi
 [Icons to display in the message log]
 Ikony wyświetlane w dzienniku wiadomości
+[Show icon for topic changes]
+Pokaż ikony zmian tematu
+[Show icon for users joining]
+Pokaż ikony dołączających użytkowników
+[Show icon for users disconnecting]
+Pokaż ikony rozłączonych użytkowników
+[Show icon for messages]
+Pokaż ikony wiadomości
+[Show icon for actions]
+Pokaż ikony zdarzeń
+[Show icon for highlights]
+Pokaż ikony podświetleń
+[Show icon for users leaving]
+Pokaż ikony wychodzących użytkowników
+[Show icon for users kicking other user]
+Pokaż ikony wyrzucanych użytkowników
+[Show icon for notices]
+Pokaż ikony powiadomień
+[Show icon for name changes]
+Pokaż ikony zmian nazwy
+[Show icon for information messages]
+Pokaż ikony wiadomości informacyjnych
+[Show icon for status changes]
+Pokaż ikony zmian statusu
 [Chat log]
 Dziennik czatu
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
-[Incoming message (10x10)]
-Przychodząca wiadomość (10x10)
-[Outgoing message (10x10)]
-Wychodząca wiadomość (10x10)
 [%s is typing a message...]
 %s pisze wiadomość...
 [Last message received on %s at %s.]
@@ -1609,6 +1603,10 @@ Ostatnia wiadomość %s o %s.
 %s: Rozmowa (%u użytkowników)
 [Message session]
 Sesja rozmowy
+[Incoming message (10x10)]
+Przychodząca wiadomość (10x10)
+[Outgoing message (10x10)]
+Wychodząca wiadomość (10x10)
 [Me]
 Ja
 [File sent]
@@ -1643,8 +1641,6 @@ Dziennik wiadomości
 Dziennik wiadomości
 [Typing notify]
 Pisanie
-[Message from %s]
-Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
 [Typing notification]
@@ -2019,8 +2015,6 @@ Informacja w %s
 %s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
 %s wyłącza status "%s" dla %s w %s
-[%s says]
-%s mówi
 [Chat rooms]
 Pokoje czatu
 [Events and filters]
@@ -2689,6 +2683,10 @@ Nick
 Unikalne ID
 [Log viewer]
 Dziennik wiadomości
+[Download]
+Pobierz
+[Copy URL]
+Kopiuj link
 [Copy all]
 Kopiuj wszystko
 [Look up '%s':]
@@ -2703,6 +2701,8 @@ Usuń historię
 <Separator>
 [Toolbar]
 Pasek narzędzi
+[Message from %s]
+Wiadomość od %s
 [Unspecified]
 Nieokreślone
 [Afghanistan]
@@ -6219,6 +6219,8 @@ UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest 
 Folder skórek
 [Download more skins]
 Pobierz więcej skórek
+[Cancel]
+Anuluj
 [Available view modes]
 Dostępne tryby widoku
 [Include protocols]
@@ -6227,16 +6229,10 @@ Uwzględnione protokoły
 Uwzględnione grupy
 [Show contacts in groups]
 Pokaż kontakty w grupach
+[Hide empty groups]
+Ukryj puste grupy
 [Include status modes]
 Uwzględniony tryby statusu
-[Cancel]
-Anuluj
-[Sticky contacts]
-Przyklejone kontakty
-[Clear all]
-Wyczyść wszystko
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Używając listy kontaktów po lewej stronie, możesz wybrać kontakty, które będą "przyklejone" do tego widoku. Te kontakty będą ignorować standardowe reguły filtrowania i używać tylko poniższego filtru trybu statusu.
 [Protocol]
 Protokół
 [Group]
@@ -6249,10 +6245,12 @@ Automatycznie wyczyść ten tryb widoku po
 s
 [View mode options]
 Opcje trybu widoku
-[Editing view mode]
-Edytowanie trybu widoku
 [Last message]
 Ostatnia wiadomość
+[Sticky contacts]
+Przyklejone kontakty
+[Clear all]
+Wyczyść wszystko
 [Status bar]
 Pasek statusu
 [Show status bar]
@@ -6979,6 +6977,14 @@ Tło paska narzędzi
 Aktualizacja paska narzędzi
 [All contacts]
 Wszystkie kontakty
+[Configure view modes]
+Ustaw tryb widoku
+[Add view mode]
+Dodaj tryb widoku
+[Rename view mode]
+Edytuj tryb widoku
+[Remove view mode]
+Usuń tryb widoku
 [Ungrouped contacts]
 Niepogrupowane kontakty
 [And]
@@ -6995,20 +7001,6 @@ Minuty
 Godzin
 [Days]
 Dni
-[Configuring view mode: %s]
-Konfigurowanie trybu widoku: %s
-[Add view mode]
-Dodaj tryb widoku
-[Rename view mode]
-Edytuj tryb widoku
-[Remove view mode]
-Usuń tryb widoku
-[Filtering]
-Filtrowanie
-[*** All contacts ***]
-*** Wszystkie kontakty ***
-[Configure view modes]
-Ustaw tryb widoku
 [Enter view mode name]
 Wpisz nazwę trybu widoku
 [A view mode with this name does already exist]
@@ -7021,6 +7013,14 @@ Wpisz nową nazwę trybu widoku
 Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
 [Delete a view mode]
 Usuwanie trybu widoku
+[Configuring view mode: %s]
+Konfigurowanie trybu widoku: %s
+[*** All contacts ***]
+*** Wszystkie kontakty ***
+[Editing view mode]
+Edytowanie trybu widoku
+[Filtering]
+Filtrowanie
 [Setup view modes...]
 Ustaw tryby widoku...
 [Select a view mode]
@@ -8679,7 +8679,7 @@ Dokonaj &transliteracji
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -8742,7 +8742,7 @@ Wszystkie zadania zakończono pomyślnie
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9061,8 +9061,6 @@ Nieznany typ DBVariant!
 Edytuj ustawienie (%s)
 [New setting (%s)]
 Nowe ustawienie (%s)
-[<UNKNOWN>]
-<NIEZNANY>
 [[UNLOADED]]
 \[ODŁĄCZONE]
 [*** resident ***]
@@ -9635,7 +9633,7 @@ File As Message
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -9686,24 +9684,6 @@ Inne ikony
 Pokaż ikonę klienta w pasku stanu okna rozmowy
 [Fingerprint]
 Ikony klientów
-[Client icons]
-Ikony klientów
-[Pack overlays]
-Nakładki paczek
-[Multi-proto clients]
-Multikomunikatory
-[Other protocols]
-Inne protokoły
-[Overlays]
-Nakładki
-[Resource]
-Zasób
-[Platform]
-Platformy
-[Security]
-Bezpieczeństwo
-[Protocol]
-Protokół
 [Miranda NG stable]
 Stabilna Miranda NG
 [Miranda IM (old versions)]
@@ -9826,6 +9806,24 @@ Nakładka MirOTR
 Nakładka SecureIM
 [Icons]
 Ikony
+[Client icons]
+Ikony klientów
+[Pack overlays]
+Nakładki paczek
+[Multi-proto clients]
+Multikomunikatory
+[Other protocols]
+Inne protokoły
+[Overlays]
+Nakładki
+[Resource]
+Zasób
+[Platform]
+Platformy
+[Security]
+Bezpieczeństwo
+[Protocol]
+Protokół
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
@@ -10294,7 +10292,7 @@ Zaawansowane
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -12683,7 +12681,7 @@ Sprzętowe skróty klawiszowe
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -12692,8 +12690,6 @@ Zapewnia obsługę protokołu ICQ.
 Hasło:
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
-[Show error popups]
-Pokaż powiadomienia o błędach
 [Notifications]
 Powiadomienia
 [Send group chat invitation]
@@ -12724,6 +12720,10 @@ Wpisz hasło ICQ
 Wpisz hasło:
 [Remember this session password]
 Zapamiętaj hasło dla tej sesji
+[admin]
+admin
+[member]
+członek
 [&Invite a user]
 &Zaproś
 [&Leave/destroy chat]
@@ -12746,10 +12746,6 @@ Zaawansowane
 Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
-[admin]
-admin
-[member]
-członek
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -13034,7 +13030,7 @@ Ikony
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -14337,10 +14333,6 @@ Wyczyść
 Wyślij
 [Jabber Link Protocol]
 Powiązanie protokołu Jabbera
-[Frame title]
-Ramka tytułu
-[Frame text]
-Ramka tekstu
 [Jabber Activity]
 Aktywność
 [Jabber Mood]
@@ -14925,8 +14917,6 @@ Notatki nie są zapisywane, zamknąć okno bez wysyłania danych do serwera?
 Jesteś pewien?
 [Incoming note]
 Przychodząca notatka
-[Do you want to create OMEMO session with new device:]
-Czy chcesz utworzyć sesję OMEMO z nowym urządzeniem:
 [Afar]
 Afar
 [Abkhazian]
@@ -15763,8 +15753,6 @@ Nieznany format
 <Brak zdjęcia>
 [Fingerprint]
 Odcisk
-[Unknown]
-Nieznany
 [Photo]
 Zdjęcie
 [Redirect]
@@ -18862,14 +18850,6 @@ Opcje dziennika
 Opcje
 [Templates]
 Szablony
-[Copy]
-Kopiuj
-[Edit]
-Edytuj
-[Delete]
-Usuń
-[Select all]
-Zaznacz wszystko
 [Incoming messages]
 Przychodzące wiadomości
 [Outgoing messages]
@@ -18922,6 +18902,8 @@ Strona WWW
 O wtyczce
 [History search results]
 Wyniki wyszukiwania w historii
+[Copy]
+Kopiuj
 [Export...]
 Eksportuj...
 [Delete...]
@@ -18958,6 +18940,12 @@ Eksport historii
 Czy na pewno chcesz usunąć wybrane wydarzenia?
 [User history]
 Historia użytkownika
+[Edit]
+Edytuj
+[Delete]
+Usuń
+[Select all]
+Zaznacz wszystko
 [Main icon]
 Główna ikona
 [Search]
@@ -21144,7 +21132,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.4
+;  Version: 0.2.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22830,6 +22818,8 @@ Zdarzenia z ostatnich
 zdarzeń
 [minutes]
 minut
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -22956,6 +22946,8 @@ Wiadomości
 Czaty
 [Action: Send message]
 Akcja: Wysyła wiadomość
+[Appearance and functionality of chat windows]
+Wygląd i zachowanie okien rozmowy
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
 [Flash when a word is highlighted]
@@ -22974,10 +22966,36 @@ Pokaż statusy kontaktów (jeśli obsługiwane)
 Wyświetlaj ikonę statusu przed ikoną roli kontaktu
 [Add ':' to auto-completed names]
 Dodawaj ":" do automatycznie uzupełnianych nazw
+[Icons to display in the message log]
+Ikony wyświetlane w dzienniku wiadomości
+[Show icon for topic changes]
+Pokaż ikony zmian tematu
+[Show icon for users joining]
+Pokaż ikony dołączających użytkowników
+[Show icon for users disconnecting]
+Pokaż ikony rozłączonych użytkowników
+[Show icon for messages]
+Pokaż ikony wiadomości
+[Show icon for actions]
+Pokaż ikony zdarzeń
+[Show icon for highlights]
+Pokaż ikony podświetleń
+[Show icon for users leaving]
+Pokaż ikony wychodzących użytkowników
+[Show icon for users kicking other user]
+Pokaż ikony wyrzucanych użytkowników
+[Show icon for notices]
+Pokaż ikony powiadomień
+[Show icon for name changes]
+Pokaż ikony zmian nazwy
+[Show icon for information messages]
+Pokaż ikony wiadomości informacyjnych
+[Show icon for status changes]
+Pokaż ikony zmian statusu
+[Appearance]
+Personalizacja
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
-[Only prefix with timestamp if it has changed]
-Dodawaj czas tylko jeśli uległ zmianie
 [Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
@@ -22988,8 +23006,6 @@ Ogranicz długość nazwy użytkowników do 20 znaków
 Usuń kolor z wiadomości
 [Enable 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
-[Appearance and functionality of chat windows]
-Wygląd i zachowanie okien rozmowy
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -23040,8 +23056,6 @@ skrócona nazwa dnia tygodnia
 pełna nazwa dnia roboczego
 [Variables]
 Zmienne
-[Appearance]
-Personalizacja
 [Select folder]
 Wybierz folder
 [Message sessions]
@@ -23188,28 +23202,14 @@ Akcja: Wyślij do wszystkich
 Akcja: Wklej i wyślij
 [User menu - %s]
 Menu kontaktu - %s
-[Nickname]
-Nick
-[Unique ID]
-Unikalne ID
-[Status]
-Status
-[Me]
-Ja
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Panie mój. Niech błogosławiony będzie ręczny granat Twój, którym twój majestat rozerwie wrogów Twych
-[to tiny bits, in Thy mercy]
-na drobne kawałki, w litości Twej
-[My contact]
-Mój kontakt
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
 [Today]
 Dzisiaj
 [Yesterday]
 Wczoraj
+[Me]
+Ja
+[My contact]
+Mój kontakt
 [File sent]
 Wysłano plik
 [File received]
@@ -23274,8 +23274,6 @@ Niewidoczny
 Dziennik zdarzeń
 [Typing notify]
 Powiadomienie o pisaniu
-[Message from %s]
-Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
 [Typing notification]
@@ -24289,7 +24287,7 @@ Wysłać zrzut ekranu?
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -24302,8 +24300,6 @@ Otwórz menedżer sesji
 Przywróć ostatnią sesję
 [Do nothing]
 Nic nie rób
-[Only if last session present]
-Tylko jeśli to ostatnia sesja
 [Startup delay]
 Opóźnienie
 [ms]
@@ -24354,8 +24350,6 @@ Zapisz sesję
 Nazwa sesji:
 [Save and Close]
 Zapisz i zamknij
-[adv.]
-+
 [Sessions Manager]
 Menedżer sesji
 [Cancel]
@@ -24800,7 +24794,7 @@ Wtyczki
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -26016,7 +26010,7 @@ rozmówca zakończył sesję rozmowy
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -26049,8 +26043,6 @@ Dodaj kontakt na stałe
 Włącz blokowanie próśb o autoryzację
 [Answer is not case sensitive]
 Nie sprawdzaj wielkości liter
-[Remove all temporary contacts after restart]
-Usuń wszystkie tymczasowe kontakty po ponownym uruchomieniu
 [Log Spammers to system history]
 Dziennik spamu w historii systemowej
 [StopSpam automatic message:\r\n]
@@ -26065,10 +26057,6 @@ Ogólne
 Wiadomości
 [Accounts]
 Konta
-[Not In List]
-Z Poza Listy
-[Complete]
-Zakończony
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 Spamerzy sprawili, że musiałem zainstalować drobny system antyspamowy, z którym teraz rozmawiasz. Odpowiedz wiadomością o treści "niespam" bez cudzysłowu i spacji, jeśli chcesz ze mną porozmawiać.
 [StopSpam: send a message and reply to an anti-spam bot question.]
@@ -26077,13 +26065,11 @@ StopSpam: wyślij wiadomość i odpowiedz na pytania bota.
 Gratulacje! Przeszedłeś test. Teraz możesz napisać do mnie wiadomość.
 [StopSpam]
 StopSpam
-[Remove Temporary Contacts]
-Usuń tymczasowe kontakty
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -26140,8 +26126,6 @@ Po potwierdzeniu (tyko ICQ)
 Automatycznie udzielaj autoryzacji
 [Request authorization from contacts which pass StopSpam test]
 Wymagaj autoryzacji od kontaktów, które zdały test StopSpam
-[Remove all temporary contacts after restart]
-Usuń wszystkie tymczasowe kontakty po ponownym uruchomieniu
 [Use regex for answers checking]
 Użyj regex dla kontroli odpowiedzi
 [Log Spammers to system history]
@@ -27195,12 +27179,8 @@ Ustawienia
 Formatowanie dziennika
 [Highlighting]
 Podświetlanie
-[%s%s says:%s %s]
-%s%s mówi: %s %s
 [Message session...]
 Sesja rozmowy...
-[Message from %s]
-Wiadomość od %s
 [Default container]
 Domyślny kontener
 [Attach to]
@@ -27962,6 +27942,14 @@ Numer telefonu:
 Domyślna grupa:
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
+[First name:]
+Imię:
+[Last name:]
+Nazwisko:
+[Phone:]
+Telefon:
+[Cancel]
+Anuluj
 [Enter password]
 Wprowadź hasło
 [Error]
@@ -27972,6 +27960,8 @@ Admin
 Uczestnik
 [Visitor]
 Gość
+[&Leave chat session]
+&Opuść pokój
 [Network]
 Protokoły
 [Account]
@@ -27984,6 +27974,14 @@ brak
 Pokoje czatu
 [Errors]
 Błędy
+[Video]
+Wideo
+[seconds]
+s
+[SmileyAdd plugin required to support stickers]
+Wtyczka SmileyAdd jest wymagana do obsługi naklejek
+[Title]
+Nazwa
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -30901,7 +30899,7 @@ przechowuje "y" jako zmienną o nazwie "x"
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31228,6 +31226,12 @@ Użytkownik został dezaktywowany (zbanowany)
 Uczestnicy
 [Owners]
 Właściciele
+[Not supported]
+Nie obsługiwane
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
+[Warning]
+Ostrzeżenie
 [Message link]
 Link wiadomości
 [create chat]
@@ -31252,20 +31256,14 @@ akcja czatu niewspierana
 Nieznany
 [Enter new chat title]
 Wprowadź nową nazwę czatu
-[Not supported]
-Nie obsługiwane
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
-[Warning]
-Ostrzeżenie
 [You've been kicked by ]
 Zostałeś wykopany przez\s
 [Chat]
 Czat
 [&Invite a user]
 &Zaproś użytkownika
-[View/change &title]
-Pokaż/zmień &nazwę
+[View/change &topic]
+Pokaż/zmień &temat
 [&Destroy room]
 &Zniszcz pokój
 [&User details]
@@ -31406,10 +31404,10 @@ Dodaj jako znajomego
 Usuń z listy znajomych
 [Ban user]
 Zbanuj użytkownika
-[Destroy room]
-Zniszcz pokój
 [Open broadcast]
 Otwórz transmisję
+[Destroy room]
+Zniszcz pokój
 [Reload messages from vk.com...]
 Załaduj wiadomości ponownie z vk.com.,,
 [for last week]

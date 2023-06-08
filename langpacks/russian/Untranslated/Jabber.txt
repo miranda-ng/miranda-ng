@@ -9,6 +9,7 @@
 [Items request error]
 [<no nick>]
 [has set the subject to:]
+[Trust on first use]
 [Use TLS 1.3 bindings (if possible)]
 [Set New Password for %s@%s]
 [Extended away (Not available)]
@@ -16,3 +17,5 @@
 [SSL intialization failed]
 [Message redirected from: %s\r\n]
 [Please switch online to see more details.]
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+[Delete device %d from the announce?]

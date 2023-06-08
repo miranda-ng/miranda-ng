@@ -72,14 +72,6 @@ Opciones de registro
 Opciones
 [Templates]
 Plantillas
-[Copy]
-Copiar
-[Edit]
-Editar
-[Delete]
-Eliminar
-[Select all]
-Seleccionar todo
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 Mensajes entrantes
@@ -134,6 +126,8 @@ Sitio web
 Acerca de...
 [History search results]
 
+[Copy]
+Copiar
 [Export...]
 Exportar...
 [Delete...]
@@ -172,6 +166,12 @@ Completo
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
 
+[Edit]
+Editar
+[Delete]
+Eliminar
+[Select all]
+Seleccionar todo
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Icono principal

@@ -1616,15 +1616,6 @@ Google Карты
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Входящее сообщение (10x10)
-[Outgoing message (10x10)]
-Исходящее сообщение (10x10)
-[Encrypted (10x10)]
-Зашифрованное (10x10)
-[Encrypted verified (10x10)]
-Зашифрованное проверенное (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s набирает текст...
@@ -1641,6 +1632,14 @@ Google Карты
 [Message session]
 Беседа
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Входящее сообщение (10x10)
+[Outgoing message (10x10)]
+Исходящее сообщение (10x10)
+[Encrypted (10x10)]
+Зашифрованное (10x10)
+[Encrypted verified (10x10)]
+Зашифрованное проверенное (10x10)
 [Me]
 Я
 [File sent]
@@ -2819,6 +2818,12 @@ ANSI плагин
 [History++ log window]
 Журнал History++
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+Без имени
+[Download]
+Скачать
+[Copy URL]
+Копировать ссылку
 [Copy all]
 Копировать всё
 [Look up '%s':]

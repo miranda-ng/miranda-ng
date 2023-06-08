@@ -52,6 +52,8 @@ ATTENTION : \tDes skins peuvent modifier votre profil. Un retour ne sera pas pos
 
 [Download more skins]
 
+[Cancel]
+Annuler
 [Available view modes]
 Mode d'affichages disponibles
 [Include protocols]
@@ -60,16 +62,12 @@ Protocoles inclus
 Groupes inclus
 [Show contacts in groups]
 Afficher les contacts dans des groupes
+[Hide empty groups]
+Cacher les groupes vides
+[Show groups folded]
+
 [Include status modes]
 Inclure les états
-[Cancel]
-Annuler
-[Sticky contacts]
-
-[Clear all]
-Tout effacer
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Utilisation de la liste de contacts sur le côté gauche, vous pouvez sélectionner les contacts qui seront "collant" pour ce mode d'affichage. Ces contacts vont ignorer les règles de filtrage standard et utiliser uniquement le filtre de mode d'état ci-dessous.
 [Protocol]
 Protocole
 [Group]
@@ -82,10 +80,12 @@ Revenir au mode d'affichage par défaut après
 secondes
 [View mode options]
 Paramètres des modes d'affichages
-[Editing view mode]
-
 [Last message]
 Dernier message
+[Sticky contacts]
+
+[Clear all]
+Tout effacer
 [Status bar]
 Barre d'état
 [Show status bar]
@@ -834,6 +834,14 @@ Minimiser
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 tous les contacts
+[Configure view modes]
+Configurer les modes d'affichages
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 Contacts non-groupés
 [And]
@@ -850,20 +858,6 @@ Minutes
 Heures
 [Days]
 Jours
-[Configuring view mode: %s]
-Configurer le mode d'affichage : %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Filtres
-[*** All contacts ***]
-*** Tous les contacts ***
-[Configure view modes]
-Configurer les modes d'affichages
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Nom en double
 Effacer ce mode d'affichage? Ne pourra pas être récupérer
 [Delete a view mode]
 Effacer un mode d'affichage
+[Configuring view mode: %s]
+Configurer le mode d'affichage : %s
+[*** All contacts ***]
+*** Tous les contacts ***
+[Editing view mode]
+
+[Filtering]
+Filtres
 [Setup view modes...]
 Configurer les modes d'affichages
 [Select a view mode]

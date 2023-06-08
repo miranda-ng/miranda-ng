@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -36,8 +36,6 @@
 Блакаваць запыты аўтарызацыі
 [Answer is not case sensitive]
 Не улічваць рэгістр адказу
-[Remove all temporary contacts after restart]
-Выдаляць усе часовыя кантакты пасля перазапуску
 [Log Spammers to system history]
 Запісваць у сістэмную гісторыю
 ;file \plugins\StopSpamPlus\src\events.cpp
@@ -54,11 +52,6 @@
 Паведамленні
 [Accounts]
 Конты
-;file \plugins\StopSpamPlus\src\services.cpp
-[Not In List]
-Не ў спісе
-[Complete]
-Зроблена
 ;file \plugins\StopSpamPlus\src\settings.cpp
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 Прывітанне! Вы гавораце з с анты-спам ботам. Клі ласка, напішыце "nospam" без двукоссяў, каб прайсці праверку.\r\nSpammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.
@@ -69,6 +62,3 @@ StopSpam: адпраўце паведамленне і адкажыце на п�
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 Антыспам
-;file \plugins\StopSpamPlus\src\stopspam.cpp
-[Remove Temporary Contacts]
-Выдаліць часовыя кантакты

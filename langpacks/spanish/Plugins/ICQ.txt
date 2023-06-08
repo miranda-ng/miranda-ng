@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -21,8 +21,6 @@ Contraseña:
 [Use tray icon notifications]
 
 [Launch mailbox in a browser on click]
-
-[Show error popups]
 
 [Notifications]
 Notificaciones
@@ -65,6 +63,10 @@ Número de teléfono:
 [Remember this session password]
 
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
+[admin]
+
+[member]
+
 [&Invite a user]
 
 [&Leave/destroy chat]
@@ -96,6 +98,8 @@ Avanzado
 [You have %d unread emails]
 
 ;file \protocols\ICQ-WIM\src\proto.cpp
+[%s error notifications]
+
 [Synchronize server groups]
 
 [Edit my web profile]
@@ -112,10 +116,6 @@ Avanzado
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 
 [Connection failed.\nUnknown error during sign on: %d]
-
-[admin]
-
-[member]
 
 [Unknown sticker]
 

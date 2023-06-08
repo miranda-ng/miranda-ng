@@ -360,8 +360,8 @@ Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatycznie pokazuj okno gdy:
-[In background]
-W tle
+[Don't steal focus]
+
 [Maximum number of flashes (0 = indefinite)]
 Maksymalna liczba mignięć (0 = nieokreślone)
 [Close the message window on send]
@@ -420,6 +420,8 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
 [Use a tabbed interface]
 Użyj kart
 [Close tab on double click]
@@ -1142,18 +1144,16 @@ Pokaż/ukryj listę po pojedynczym kliknięciu
 Zawsze pokazuj status w podpowiedzi
 [Default settings for known event types]
 Domyślne ustawienia dla zdarzeń
-[Show when filter is active]
-Pokaż kiedy filtr jest wł.
 [Popup]
 Powiadomienia
 [Sound]
 Dźwięk
 [Log to file]
 Zapisuj w pliku
-[Show icons in tray only when the chat room is not active]
-Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Highlight event]
 Podświetlenie
+[Show icons in tray only when the chat room is not active]
+Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Show popups only when the chat room is not active]
 Pokazuj powiadomienia tylko, gdy pokój nie jest aktywny
 [Show button menus when right clicking the buttons]
@@ -1373,12 +1373,12 @@ Wyślij e-mail
 [&E-mail]
 &E-mail
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Plik od %s
 [bytes]
 bajty
 [&File]
 &Plik
+[File from %s]
+Plik od %s
 [File &transfers...]
 &Transfery plików...
 [Incoming]
@@ -1495,62 +1495,6 @@ Wiadomości
 [Send message]
 Wyślij wiadomość
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Migaj oknem, gdy ktoś mówi
-[Flash window when a word is highlighted]
-Migaj oknem, gdy jakieś słowo jest podświetlone
-[Show list of users in the chat room]
-Pokaż listę użytkowników w pokoju
-[Show the topic of the room on your contact list (if supported)]
-Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
-[Do not play sounds when the chat room is focused]
-Nie odtwarzaj dźwięków, gdy pokój czatu jest aktywny
-[Do not pop up the window when joining a chat room]
-Nie pokazuj okna po dołączeniu do pokoju czatu
-[Show contact statuses if protocol supports them]
-Pokazuj statusy kontaktów jeśli protokół je obsługuje
-[Display contact status icon before user role icon]
-Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
-[Prefix all events with a timestamp]
-Poprzedź wszystkie zdarzenia czasem
-[Only prefix with timestamp if it has changed]
-Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same color as the event]
-Czas ma taki sam kolor jak zdarzenie
-[Indent the second line of a message]
-Wcinaj drugą linię wiadomości
-[Limit user names in the message log to 20 characters]
-Ogranicz nazwy użytkowników do 20 znaków w dzienniku
-[Add ':' to auto-completed user names]
-Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
-[Strip colors from messages in the log]
-Usuń kolory z wiadomości w dzienniku
-[Enable the 'event filter' for new rooms]
-Włącz "filtr zdarzeń" dla nowych pokoi
-[Show icon for topic changes]
-Pokaż ikony zmian tematu
-[Show icon for users joining]
-Pokaż ikony dołączających użytkowników
-[Show icon for users disconnecting]
-Pokaż ikony rozłączonych użytkowników
-[Show icon for messages]
-Pokaż ikony wiadomości
-[Show icon for actions]
-Pokaż ikony zdarzeń
-[Show icon for highlights]
-Pokaż ikony podświetleń
-[Show icon for users leaving]
-Pokaż ikony wychodzących użytkowników
-[Show icon for users kicking other user]
-Pokaż ikony wyrzucanych użytkowników
-[Show icon for notices]
-Pokaż ikony powiadomień
-[Show icon for name changes]
-Pokaż ikony zmian nazwy
-[Show icon for information messages]
-Pokaż ikony wiadomości informacyjnych
-[Show icon for status changes]
-Pokaż ikony zmian statusu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1607,20 +1551,71 @@ Informacja (10x10)
 Dziennik czatu
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
+[Flash window when someone speaks]
+Migaj oknem, gdy ktoś mówi
+[Flash window when a word is highlighted]
+Migaj oknem, gdy jakieś słowo jest podświetlone
+[Show list of users in the chat room]
+Pokaż listę użytkowników w pokoju
+[Show the topic of the room on your contact list (if supported)]
+Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
+[Do not play sounds when the chat room is focused]
+Nie odtwarzaj dźwięków, gdy pokój czatu jest aktywny
+[Do not pop up the window when joining a chat room]
+Nie pokazuj okna po dołączeniu do pokoju czatu
+[Show contact statuses if protocol supports them]
+Pokazuj statusy kontaktów jeśli protokół je obsługuje
+[Display contact status icon before user role icon]
+Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
 [Appearance of the message log]
 Wygląd dziennika wiadomości
+[Prefix all events with a timestamp]
+Poprzedź wszystkie zdarzenia czasem
+[Only prefix with timestamp if it has changed]
+Dodawaj czas tylko jeśli uległ zmianie
+[Timestamp has same color as the event]
+Czas ma taki sam kolor jak zdarzenie
+[Indent the second line of a message]
+Wcinaj drugą linię wiadomości
+[Limit user names in the message log to 20 characters]
+Ogranicz nazwy użytkowników do 20 znaków w dzienniku
+[Add ':' to auto-completed user names]
+Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
+[Strip colors from messages in the log]
+Usuń kolory z wiadomości w dzienniku
+[Enable the 'event filter' for new rooms]
+Włącz "filtr zdarzeń" dla nowych pokoi
 [Icons to display in the message log]
 Ikony wyświetlane w dzienniku wiadomości
+[Show icon for topic changes]
+Pokaż ikony zmian tematu
+[Show icon for users joining]
+Pokaż ikony dołączających użytkowników
+[Show icon for users disconnecting]
+Pokaż ikony rozłączonych użytkowników
+[Show icon for messages]
+Pokaż ikony wiadomości
+[Show icon for actions]
+Pokaż ikony zdarzeń
+[Show icon for highlights]
+Pokaż ikony podświetleń
+[Show icon for users leaving]
+Pokaż ikony wychodzących użytkowników
+[Show icon for users kicking other user]
+Pokaż ikony wyrzucanych użytkowników
+[Show icon for notices]
+Pokaż ikony powiadomień
+[Show icon for name changes]
+Pokaż ikony zmian nazwy
+[Show icon for information messages]
+Pokaż ikony wiadomości informacyjnych
+[Show icon for status changes]
+Pokaż ikony zmian statusu
 [Chat log]
 Dziennik czatu
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Przychodząca wiadomość (10x10)
-[Outgoing message (10x10)]
-Wychodząca wiadomość (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s pisze wiadomość...
@@ -1637,6 +1632,14 @@ Ostatnia wiadomość %s o %s.
 [Message session]
 Sesja rozmowy
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Przychodząca wiadomość (10x10)
+[Outgoing message (10x10)]
+Wychodząca wiadomość (10x10)
+[Encrypted (10x10)]
+
+[Encrypted verified (10x10)]
+
 [Me]
 Ja
 [File sent]
@@ -1673,8 +1676,6 @@ Dziennik wiadomości
 [Typing notify]
 Pisanie
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
 [Typing notification]
@@ -2071,8 +2072,6 @@ Informacja w %s
 %s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
 %s wyłącza status "%s" dla %s w %s
-[%s says]
-%s mówi
 [Chat rooms]
 Pokoje czatu
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,10 +2807,23 @@ Odznacz wszystko
 Nick
 [Unique ID]
 Unikalne ID
+[Disable the event filter (Ctrl+F)]
+
+[Enable the event filter (Ctrl+F)]
+
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Dziennik wiadomości
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+
+[Download]
+Pobierz
+[Copy URL]
+Kopiuj link
 [Copy all]
 Kopiuj wszystko
 [Look up '%s':]
@@ -2830,6 +2842,9 @@ Usuń historię
 <Separator>
 [Toolbar]
 Pasek narzędzi
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Wiadomość od %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Nieokreślone

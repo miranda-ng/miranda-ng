@@ -118,6 +118,8 @@ Zdarzenia z ostatnich
 zdarzeń
 [minutes]
 minut
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@ Czaty
 [Action: Send message]
 Akcja: Wysyła wiadomość
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Wygląd i zachowanie okien rozmowy
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@ Pokaż statusy kontaktów (jeśli obsługiwane)
 Wyświetlaj ikonę statusu przed ikoną roli kontaktu
 [Add ':' to auto-completed names]
 Dodawaj ":" do automatycznie uzupełnianych nazw
+[Icons to display in the message log]
+Ikony wyświetlane w dzienniku wiadomości
+[Show icon for topic changes]
+Pokaż ikony zmian tematu
+[Show icon for users joining]
+Pokaż ikony dołączających użytkowników
+[Show icon for users disconnecting]
+Pokaż ikony rozłączonych użytkowników
+[Show icon for messages]
+Pokaż ikony wiadomości
+[Show icon for actions]
+Pokaż ikony zdarzeń
+[Show icon for highlights]
+Pokaż ikony podświetleń
+[Show icon for users leaving]
+Pokaż ikony wychodzących użytkowników
+[Show icon for users kicking other user]
+Pokaż ikony wyrzucanych użytkowników
+[Show icon for notices]
+Pokaż ikony powiadomień
+[Show icon for name changes]
+Pokaż ikony zmian nazwy
+[Show icon for information messages]
+Pokaż ikony wiadomości informacyjnych
+[Show icon for status changes]
+Pokaż ikony zmian statusu
+[Appearance]
+Personalizacja
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
-[Only prefix with timestamp if it has changed]
-Dodawaj czas tylko jeśli uległ zmianie
 [Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
@@ -278,8 +308,6 @@ Ogranicz długość nazwy użytkowników do 20 znaków
 Usuń kolor z wiadomości
 [Enable 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
-[Appearance and functionality of chat windows]
-Wygląd i zachowanie okien rozmowy
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +358,6 @@ skrócona nazwa dnia tygodnia
 pełna nazwa dnia roboczego
 [Variables]
 Zmienne
-[Appearance]
-Personalizacja
 [Select folder]
 Wybierz folder
 [Message sessions]
@@ -481,29 +507,15 @@ Akcja: Wklej i wyślij
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Menu kontaktu - %s
-[Nickname]
-Nick
-[Unique ID]
-Unikalne ID
-[Status]
-Status
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Ja
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Panie mój. Niech błogosławiony będzie ręczny granat Twój, którym twój majestat rozerwie wrogów Twych
-[to tiny bits, in Thy mercy]
-na drobne kawałki, w litości Twej
-[My contact]
-Mój kontakt
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
 [Today]
 Dzisiaj
 [Yesterday]
 Wczoraj
+[Me]
+Ja
+[My contact]
+Mój kontakt
 [File sent]
 Wysłano plik
 [File received]
@@ -570,8 +582,6 @@ Dziennik zdarzeń
 [Typing notify]
 Powiadomienie o pisaniu
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
 [Typing notification]

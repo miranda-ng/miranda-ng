@@ -360,8 +360,8 @@ Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automaticky vyvolat okno při:
-[In background]
-Na pozadí
+[Don't steal focus]
+
 [Maximum number of flashes (0 = indefinite)]
 
 [Close the message window on send]
@@ -420,6 +420,8 @@ Konkrétní počet předchozích událostí
 Předchozí události starší méně než
 [minutes old]
 min.
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Use a tabbed interface]
 Použít systém záložek
 [Close tab on double click]
@@ -1142,18 +1144,16 @@ Zařídit vše jedním kliknutím myši
 Vždy zobrazit stav v tipu
 [Default settings for known event types]
 Výchozí nastavení pro známé typy událostí
-[Show when filter is active]
-Zobrazit při aktivním filtru
 [Popup]
 Oznámení
 [Sound]
 Zvuk
 [Log to file]
 Uložit záznam
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 [Highlight event]
 Zvýraznit událost
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 [Show popups only when the chat room is not active]
 Zobrazit oznámení pouze při neaktivním okně s diskusí
 [Show button menus when right clicking the buttons]
@@ -1373,12 +1373,12 @@ Poslat e-mail
 [&E-mail]
 &E-mail
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Soubor od: %s
 [bytes]
 bajtů
 [&File]
 &Soubor
+[File from %s]
+Soubor od: %s
 [File &transfers...]
 Př&enos souborů...
 [Incoming]
@@ -1495,62 +1495,6 @@ Rozhovor
 [Send message]
 Poslat zprávu
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Zablikat oknem při přijetí zprávy
-[Flash window when a word is highlighted]
-Zablikat oknem při zvýraznění slova
-[Show list of users in the chat room]
-Zobrazit seznam uživatelů v místnosti
-[Show the topic of the room on your contact list (if supported)]
-Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
-[Do not play sounds when the chat room is focused]
-Nepřehrávat zvuky, je-li okno místnosti aktivní
-[Do not pop up the window when joining a chat room]
-Neaktivovat okno po příchodu do místnosti
-[Show contact statuses if protocol supports them]
-Zobrazit stav kontaktu, pokud je protokol podporuje
-[Display contact status icon before user role icon]
-Zobrazit ikonu stavu kontaktu před ikonou jeho role
-[Prefix all events with a timestamp]
-Před každou událost přidat časový údaj
-[Only prefix with timestamp if it has changed]
-Časový údaj přidat pouze pokud se změní
-[Timestamp has same color as the event]
-Pro časový údaj použít stejnou barvu jakou má příslušná událost
-[Indent the second line of a message]
-Odsadit druhý řádek dlouhé zprávy
-[Limit user names in the message log to 20 characters]
-Omezit délku jmen v záznamu na 20 znaků
-[Add ':' to auto-completed user names]
-Přidávat ':' k automaticky doplněným jménům
-[Strip colors from messages in the log]
-Záznam ukládat bez kódů definujících barvy
-[Enable the 'event filter' for new rooms]
-Aktivovat filtr událostí pro nové místnosti
-[Show icon for topic changes]
-Zobrazit ikonu k informaci o změně tématu
-[Show icon for users joining]
-Zobrazit ikonu k informaci o příchodu uživatelů
-[Show icon for users disconnecting]
-Zobrazit ikonu k informaci o odpojení uživatelů
-[Show icon for messages]
-Zobrazit ikonu k textu zprávy
-[Show icon for actions]
-Zobrazit ikonu k textu akce
-[Show icon for highlights]
-Zobrazit ikonu ke zvýraznění
-[Show icon for users leaving]
-Zobrazit ikonu k informaci o odchodu uživatelů
-[Show icon for users kicking other user]
-Zobrazit ikonu k informaci o vykopnutí
-[Show icon for notices]
-Zobrazit ikonu k textu poznámky
-[Show icon for name changes]
-Zobrazit ikonu k informaci o změně jména
-[Show icon for information messages]
-Zobrazit ikonu k textu informativní zprávy
-[Show icon for status changes]
-Zobrazit ikonu k informaci o změně stavu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1607,20 +1551,71 @@ Informace (10x10)
 Záznam rozhovorů
 [Appearance and functionality of chat room windows]
 Nastavení vzhledu a funkcí komunikačních oken
+[Flash window when someone speaks]
+Zablikat oknem při přijetí zprávy
+[Flash window when a word is highlighted]
+Zablikat oknem při zvýraznění slova
+[Show list of users in the chat room]
+Zobrazit seznam uživatelů v místnosti
+[Show the topic of the room on your contact list (if supported)]
+Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
+[Do not play sounds when the chat room is focused]
+Nepřehrávat zvuky, je-li okno místnosti aktivní
+[Do not pop up the window when joining a chat room]
+Neaktivovat okno po příchodu do místnosti
+[Show contact statuses if protocol supports them]
+Zobrazit stav kontaktu, pokud je protokol podporuje
+[Display contact status icon before user role icon]
+Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
+[Prefix all events with a timestamp]
+Před každou událost přidat časový údaj
+[Only prefix with timestamp if it has changed]
+Časový údaj přidat pouze pokud se změní
+[Timestamp has same color as the event]
+Pro časový údaj použít stejnou barvu jakou má příslušná událost
+[Indent the second line of a message]
+Odsadit druhý řádek dlouhé zprávy
+[Limit user names in the message log to 20 characters]
+Omezit délku jmen v záznamu na 20 znaků
+[Add ':' to auto-completed user names]
+Přidávat ':' k automaticky doplněným jménům
+[Strip colors from messages in the log]
+Záznam ukládat bez kódů definujících barvy
+[Enable the 'event filter' for new rooms]
+Aktivovat filtr událostí pro nové místnosti
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o změně tématu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o příchodu uživatelů
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojení uživatelů
+[Show icon for messages]
+Zobrazit ikonu k textu zprávy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zvýraznění
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uživatelů
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutí
+[Show icon for notices]
+Zobrazit ikonu k textu poznámky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o změně jména
+[Show icon for information messages]
+Zobrazit ikonu k textu informativní zprávy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o změně stavu
 [Chat log]
 Záznam diskuse
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Příchozí zpráva (10x10)
-[Outgoing message (10x10)]
-Odchozí zpráva (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s píše zprávu...
@@ -1637,6 +1632,14 @@ Poslední zpráva přijata %s v %s.
 [Message session]
 Rozhovor
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Příchozí zpráva (10x10)
+[Outgoing message (10x10)]
+Odchozí zpráva (10x10)
+[Encrypted (10x10)]
+
+[Encrypted verified (10x10)]
+
 [Me]
 Já
 [File sent]
@@ -1673,8 +1676,6 @@ Záznam rozhovoru
 [Typing notify]
 Psaní zprávy
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Zpráva od: %s
 [%s is typing a message]
 %s píše zprávu
 [Typing notification]
@@ -2071,8 +2072,6 @@ Informace (na %s)
 %s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
 %s aktivuje stav '%s' pro %s v %s
-[%s says]
-%s píše
 [Chat rooms]
 Místnosti chatu
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,10 +2807,23 @@ Soubory WAV
 Přezdívka
 [Unique ID]
 Identifikátor
+[Disable the event filter (Ctrl+F)]
+
+[Enable the event filter (Ctrl+F)]
+
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+
+[Download]
+Stáhnout
+[Copy URL]
+
 [Copy all]
 Zkopírovat vše
 [Look up '%s':]
@@ -2830,6 +2842,9 @@ Vymazání historie
 <oddělovač>
 [Toolbar]
 Lišta tlačítek
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Zpráva od: %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 <neuvedeno>

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -338,8 +338,6 @@ Edytuj ustawienie (%s)
 [New setting (%s)]
 Nowe ustawienie (%s)
 ;file \plugins\DbEditorPP\src\utils.cpp
-[<UNKNOWN>]
-<NIEZNANY>
 [[UNLOADED]]
 \[ODŁĄCZONE]
 ;file \plugins\DbEditorPP\src\watchedvars.cpp

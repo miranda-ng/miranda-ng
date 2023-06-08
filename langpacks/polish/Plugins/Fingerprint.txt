@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -55,25 +55,6 @@ Pokaż ikonę klienta w pasku stanu okna rozmowy
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Ikony klientów
-;file \plugins\FingerprintNG\src\finger_groups.h
-[Client icons]
-Ikony klientów
-[Pack overlays]
-Nakładki paczek
-[Multi-proto clients]
-Multikomunikatory
-[Other protocols]
-Inne protokoły
-[Overlays]
-Nakładki
-[Resource]
-Zasób
-[Platform]
-Platformy
-[Security]
-Bezpieczeństwo
-[Protocol]
-Protokół
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Stabilna Miranda NG
@@ -198,3 +179,22 @@ Nakładka SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Ikony
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+Ikony klientów
+[Pack overlays]
+Nakładki paczek
+[Multi-proto clients]
+Multikomunikatory
+[Other protocols]
+Inne protokoły
+[Overlays]
+Nakładki
+[Resource]
+Zasób
+[Platform]
+Platformy
+[Security]
+Bezpieczeństwo
+[Protocol]
+Protokół

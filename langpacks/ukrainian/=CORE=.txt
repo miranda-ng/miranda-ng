@@ -360,8 +360,8 @@
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Відкривати вікно, якщо:
-[In background]
-У фоні
+[Don't steal focus]
+
 [Maximum number of flashes (0 = indefinite)]
 Максимальна кількість блимань (0 = безкінечно)
 [Close the message window on send]
@@ -420,6 +420,8 @@
 Події, отримані пізніше ніж
 [minutes old]
 хвилин тому
+[Automatically copy selected text]
+Автоматично копіювати виділений текст
 [Use a tabbed interface]
 Увімкнути вкладки
 [Close tab on double click]
@@ -1142,18 +1144,16 @@ UIN, E-mail тощо
 Завжди показувати статус у підказці
 [Default settings for known event types]
 Налаштування для відомих типів подій
-[Show when filter is active]
-Показувати при ввімк. фільтрі
 [Popup]
 Спливаюче вікно
 [Sound]
 Звук
 [Log to file]
 Запис у файл
-[Show icons in tray only when the chat room is not active]
-Показувати значки лише коли вікно чату неактивне
 [Highlight event]
 Підсвічування
+[Show icons in tray only when the chat room is not active]
+Показувати значки лише коли вікно чату неактивне
 [Show popups only when the chat room is not active]
 Показувати сплив. вікна лише коли вікно чату неактивне
 [Show button menus when right clicking the buttons]
@@ -1373,12 +1373,12 @@ UIN, E-mail тощо
 [&E-mail]
 &Пошта
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Файл від %s
 [bytes]
 байт
 [&File]
 Ф&айл
+[File from %s]
+Файл від %s
 [File &transfers...]
 &Передача файлів...
 [Incoming]
@@ -1495,62 +1495,6 @@ UIN, E-mail тощо
 [Send message]
 Відправити
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Блимання вікна, якщо є нове повідомлення
-[Flash window when a word is highlighted]
-Блимання вікна, якщо є підсвічене повідомлення
-[Show list of users in the chat room]
-Показувати в кімнаті чату список користувачів
-[Show the topic of the room on your contact list (if supported)]
-Показувати тему кімнати в списку контактів (якщо підтримується)
-[Do not play sounds when the chat room is focused]
-Без звуків, якщо вікно чату активне
-[Do not pop up the window when joining a chat room]
-Не відкривати вікно чату при вході до кімнати
-[Show contact statuses if protocol supports them]
-Показувати статуси (якщо підтримується протоколом)
-[Display contact status icon before user role icon]
-Показувати значок статусу перед значком ролі
-[Prefix all events with a timestamp]
-Показувати час для всіх подій
-[Only prefix with timestamp if it has changed]
-Показувати час, якщо він змінився
-[Timestamp has same color as the event]
-Час того ж кольору, що й подія
-[Indent the second line of a message]
-Відступ другого рядка повідомлення
-[Limit user names in the message log to 20 characters]
-Обмежити імена в журналі до 20 символів
-[Add ':' to auto-completed user names]
-Додавати двокрапку (:) до імен користувачів при автозавершенні
-[Strip colors from messages in the log]
-Заборонити кольори в журналі
-[Enable the 'event filter' for new rooms]
-Увімкнути "Фільтр подій" для нових кімнат
-[Show icon for topic changes]
-Зміни теми
-[Show icon for users joining]
-Входи до чату
-[Show icon for users disconnecting]
-Відключення користувачів
-[Show icon for messages]
-Повідомлення
-[Show icon for actions]
-Дії
-[Show icon for highlights]
-Підсвічені повідомлення
-[Show icon for users leaving]
-Виходи з чату
-[Show icon for users kicking other user]
-Стусани
-[Show icon for notices]
-Приватні повідомлення
-[Show icon for name changes]
-Зміни ніків
-[Show icon for information messages]
-Інформаційні повідомлення
-[Show icon for status changes]
-Зміни статусів
 [Window icon]
 Значок вікна
 [Bold]
@@ -1607,20 +1551,71 @@ UIN, E-mail тощо
 Журнал чатів
 [Appearance and functionality of chat room windows]
 Інтерфейс та функції вікон чатів
+[Flash window when someone speaks]
+Блимання вікна, якщо є нове повідомлення
+[Flash window when a word is highlighted]
+Блимання вікна, якщо є підсвічене повідомлення
+[Show list of users in the chat room]
+Показувати в кімнаті чату список користувачів
+[Show the topic of the room on your contact list (if supported)]
+Показувати тему кімнати в списку контактів (якщо підтримується)
+[Do not play sounds when the chat room is focused]
+Без звуків, якщо вікно чату активне
+[Do not pop up the window when joining a chat room]
+Не відкривати вікно чату при вході до кімнати
+[Show contact statuses if protocol supports them]
+Показувати статуси (якщо підтримується протоколом)
+[Display contact status icon before user role icon]
+Показувати значок статусу перед значком ролі
 [Appearance of the message log]
 Вигляд журналу повідомлень
+[Prefix all events with a timestamp]
+Показувати час для всіх подій
+[Only prefix with timestamp if it has changed]
+Показувати час, якщо він змінився
+[Timestamp has same color as the event]
+Час того ж кольору, що й подія
+[Indent the second line of a message]
+Відступ другого рядка повідомлення
+[Limit user names in the message log to 20 characters]
+Обмежити імена в журналі до 20 символів
+[Add ':' to auto-completed user names]
+Додавати двокрапку (:) до імен користувачів при автозавершенні
+[Strip colors from messages in the log]
+Заборонити кольори в журналі
+[Enable the 'event filter' for new rooms]
+Увімкнути "Фільтр подій" для нових кімнат
 [Icons to display in the message log]
 Значки в журналі повідомлень
+[Show icon for topic changes]
+Зміни теми
+[Show icon for users joining]
+Входи до чату
+[Show icon for users disconnecting]
+Відключення користувачів
+[Show icon for messages]
+Повідомлення
+[Show icon for actions]
+Дії
+[Show icon for highlights]
+Підсвічені повідомлення
+[Show icon for users leaving]
+Виходи з чату
+[Show icon for users kicking other user]
+Стусани
+[Show icon for notices]
+Приватні повідомлення
+[Show icon for name changes]
+Зміни ніків
+[Show icon for information messages]
+Інформаційні повідомлення
+[Show icon for status changes]
+Зміни статусів
 [Chat log]
 Журнал чату
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Вхідне повідомлення (10x10)
-[Outgoing message (10x10)]
-Вихідне повідомлення (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s друкує вам повідомлення...
@@ -1637,6 +1632,14 @@ UIN, E-mail тощо
 [Message session]
 Вікно повідомлень
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Вхідне повідомлення (10x10)
+[Outgoing message (10x10)]
+Вихідне повідомлення (10x10)
+[Encrypted (10x10)]
+
+[Encrypted verified (10x10)]
+
 [Me]
 Я
 [File sent]
@@ -1673,8 +1676,6 @@ UIN, E-mail тощо
 [Typing notify]
 Сповіщення про друк
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Повідомлення від %s
 [%s is typing a message]
 %s друкує вам повідомлення
 [Typing notification]
@@ -2071,8 +2072,6 @@ UIN, E-mail тощо
 %s вмикає статус "%s" для %s у %s
 [%s disables '%s' status for %s in %s]
 %s вимикає статус "%s" для %s у %s
-[%s says]
-%s каже
 [Chat rooms]
 Чати
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,10 +2807,23 @@ ANSI-плагін
 Нік
 [Unique ID]
 Унікальний ID
+[Disable the event filter (Ctrl+F)]
+
+[Enable the event filter (Ctrl+F)]
+
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+
+[Download]
+Завантажити
+[Copy URL]
+Копіювати посилання
 [Copy all]
 Копіювати все
 [Look up '%s':]
@@ -2830,6 +2842,9 @@ ANSI-плагін
 <Роздільник>
 [Toolbar]
 Панель кнопок
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Повідомлення від %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 <не вказано>

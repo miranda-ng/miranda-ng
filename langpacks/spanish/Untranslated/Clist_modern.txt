@@ -1,5 +1,6 @@
 [Skin folder]
 [Download more skins]
+[Show groups folded]
 [Show account names]
 [Use xStatus icon]
 [Icon mode]

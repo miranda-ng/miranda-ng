@@ -1,3 +1,4 @@
+[Show groups folded]
 [Show account names]
 [Contract meta]
 [Expand meta]

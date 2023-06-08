@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,6 +352,14 @@
 Учасники
 [Owners]
 Власники
+[Adding bots to MUC is not supported]
+
+[Not supported]
+Не підтримується
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
+[Warning]
+Попередження
 [Message link]
 
 [create chat]
@@ -380,14 +388,6 @@
 Невідомий
 [Enter new chat title]
 Введіть назву нового чату
-[Adding bots to MUC is not supported]
-
-[Not supported]
-Не підтримується
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
-[Warning]
-Попередження
 [You've been kicked by ]
 Вас вигнав користувач\s
 [Chat]
@@ -396,8 +396,8 @@
 
 [&Invite a user]
 &Запросити користувача
-[View/change &title]
-Перегляд/зміна &назви
+[View/change &topic]
+Перегляд/зміна &теми
 [&Destroy room]
 &Видалити кімнату
 [&User details]
@@ -566,10 +566,14 @@ ID отримувача помилковий або невідомий
 Видалити із друзів
 [Ban user]
 Забанити
-[Destroy room]
-Видалити кімнату
 [Open broadcast]
 Відкрити трансляцію
+[View/change topic]
+
+[Invite a user]
+
+[Destroy room]
+Видалити кімнату
 [Reload messages from vk.com...]
 Завантажити історію з сайту...
 [for last week]

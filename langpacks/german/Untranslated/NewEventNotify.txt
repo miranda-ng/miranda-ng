@@ -1,2 +1,0 @@
-[No popups for read messages (conflicts with anti-spam plugin)]
-[Event types]

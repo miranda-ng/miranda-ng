@@ -9,5 +9,7 @@
 [Sample error message]
 [My Nickname]
 [Do nothing (ignore Esc key)]
+[Secure message]
+[Secure message (verified)]
 [tabSRMM internal log]
 [Save file|Unable to save temporary file]

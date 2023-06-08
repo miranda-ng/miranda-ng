@@ -1027,14 +1027,9 @@ Ustawienia
 Formatowanie dziennika
 [Highlighting]
 Podświetlanie
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s mówi: %s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Sesja rozmowy...
-[Message from %s]
-Wiadomość od %s
 [Default container]
 Domyślny kontener
 [Attach to]
@@ -1618,6 +1613,10 @@ Przychodząca wiadomość
 Wychodząca wiadomość
 [Status change]
 Zmiana statusu
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Statyczna ikona kontenera
 [Sounds (status bar)]

@@ -52,6 +52,8 @@
 
 [Download more skins]
 Сваляне на още облици
+[Cancel]
+Отказ
 [Available view modes]
 Налични режими за преглед
 [Include protocols]
@@ -60,16 +62,12 @@
 Включени групи
 [Show contacts in groups]
 Показване на контактите в групи
+[Hide empty groups]
+Скриване на празните групи
+[Show groups folded]
+
 [Include status modes]
 Включени състояния
-[Cancel]
-Отказ
-[Sticky contacts]
-Постоянни видими контакти
-[Clear all]
-Изчисти всички
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Поставяйки списъка с контакти на лявата страна ще можете да изберете контакти, които ще се виждат постоянно при този режим за преглед. За тях няма да важат филтрите, а само посоченият по-долу режим.
 [Protocol]
 Протокол
 [Group]
@@ -82,10 +80,12 @@
 секунди
 [View mode options]
 Настройки на режима за преглед
-[Editing view mode]
-Редактиране на режима за преглед
 [Last message]
 Последно съобщение
+[Sticky contacts]
+Постоянни видими контакти
+[Clear all]
+Изчисти всички
 [Status bar]
 Лента за състояние
 [Show status bar]
@@ -834,6 +834,14 @@ Angeli-Ka (изображения), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Всички контакти
+[Configure view modes]
+Настройване на режимите за преглед
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 Негрупирани контакти
 [And]
@@ -850,20 +858,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Часове
 [Days]
 Дни
-[Configuring view mode: %s]
-Настройвате режим за преглед: %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Филтриране
-[*** All contacts ***]
-*** Всички контакти ***
-[Configure view modes]
-Настройване на режимите за преглед
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Angeli-Ka (изображения), FYR (шаблон)
 Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
 [Delete a view mode]
 Изтриване на режим за преглед
+[Configuring view mode: %s]
+Настройвате режим за преглед: %s
+[*** All contacts ***]
+*** Всички контакти ***
+[Editing view mode]
+Редактиране на режима за преглед
+[Filtering]
+Филтриране
 [Setup view modes...]
 Настройване на режимите за преглед...
 [Select a view mode]

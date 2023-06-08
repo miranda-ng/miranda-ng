@@ -118,6 +118,8 @@ Ereignisse in den letzten
 Ereignisse
 [minutes]
 Minuten
+[Automatically copy selected text]
+Markierten Text automatisch kopieren
 [Typing notification options]
 Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@ Gruppenchats
 [Action: Send message]
 Aktion: Nachricht senden
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Erscheinungsbild und Funktionen der Chatfenster
 [Flash when someone speaks]
 Blinken, wenn jemand schreibt
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@ Kontaktstatus zeigen (falls unterstützt)
 Statusicon vor Rollenicon zeigen
 [Add ':' to auto-completed names]
 Autom. vervollständigten Namen ':' anfügen
+[Icons to display in the message log]
+Folgende Icons im Verlaufsfenster anzeigen
+[Show icon for topic changes]
+Icon für Themenänderungen anzeigen
+[Show icon for users joining]
+Icon für beitretende Benutzer anzeigen
+[Show icon for users disconnecting]
+Icon anzeigen, wenn Benutzer Verbindung unterbricht
+[Show icon for messages]
+Icon für Nachrichten anzeigen
+[Show icon for actions]
+Icon für Aktionen anzeigen
+[Show icon for highlights]
+Icon für Hervorhebungen anzeigen
+[Show icon for users leaving]
+Icon für verlassende Benutzer anzeigen
+[Show icon for users kicking other user]
+Icon anzeigen, wenn Benutzer gekickt wird
+[Show icon for notices]
+Icon für Notizen anzeigen
+[Show icon for name changes]
+Icon für Namensänderungen anzeigen
+[Show icon for information messages]
+Icon für Informationsnachrichten anzeigen
+[Show icon for status changes]
+Icon für Statusänderungen anzeigen
+[Appearance]
+Erscheinungsbild
 [Prefix all events with a timestamp]
 Zeitstempel bei allen Ereignissen
-[Only prefix with timestamp if it has changed]
-Zeitstempel nur bei Änderungen
 [Timestamp has same color as the event]
 Zeitstempel hat die gleiche Farbe wie das Ereignis
 [Indent the second line of a message]
@@ -278,8 +308,6 @@ Benutzernamen auf 20 Zeichen beschränken
 Farben aus Nachrichten entfernen
 [Enable 'event filter' for new rooms]
 Ereignisfilter für neue Räume aktivieren
-[Appearance and functionality of chat windows]
-Erscheinungsbild und Funktionen der Chatfenster
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +358,6 @@ abgekürzter Wochentag
 voller Wochentag
 [Variables]
 Variablen
-[Appearance]
-Erscheinungsbild
 [Select folder]
 Ordner wählen
 [Message sessions]
@@ -481,29 +507,15 @@ Aktion: Einfügen und senden
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Benutzermenü - %s
-[Nickname]
-Nickname
-[Unique ID]
-Unique ID
-[Status]
-Status
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Ich
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Herr, segne diese deine Handgranate, mit ihr darfst du deine Feinde schlagen
-[to tiny bits, in Thy mercy]
-in winzige Stücke, in deiner Barmherzigkeit
-[My contact]
-Mein Kontakt
-[Lorem ipsum dolor sit amet,]
-Hallo Welt! Liebe ist,
-[consectetur adipisicing elit]
-sie zu erhalten.
 [Today]
 Heute
 [Yesterday]
 Gestern
+[Me]
+Ich
+[My contact]
+Mein Kontakt
 [File sent]
 Datei gesendet
 [File received]
@@ -570,8 +582,6 @@ Ereignisverlauf
 [Typing notify]
 Tippbenachrichtigungen
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Nachricht von %s
 [%s is typing a message]
 %s tippt eine Nachricht
 [Typing notification]

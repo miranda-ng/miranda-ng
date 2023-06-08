@@ -18,16 +18,32 @@
 
 [Do not open chat windows on creation]
 
+[Compress files on send]
+
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
+[Add phone contact]
+
+[First name:]
+Име:
+[Last name:]
+Фамилия:
+[Phone:]
+Телефон:
+[Cancel]
+Отказ
+[Forward message]
+
+[Forward]
 
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 
 [Enter verification code received by email]
 
-[Enter the secret code sent to your Telegram on another device]
+[Enter the secret code sent to another device]
 
 [Enter password]
 Въведете парола
@@ -52,9 +68,12 @@
 
 [Visitor]
 Посетител
+[&Leave chat session]
+Напускане от разговора
 ;file \protocols\Telegram\src\main.cpp
-[Premium user]
+[Telegram Premium user]
 
+;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 Мрежа
@@ -62,8 +81,11 @@
 Акаунт
 [Advanced]
 Разширени
+;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
+
+[Saved messages]
 
 ;file \protocols\Telegram\src\utils.cpp
 [none]
@@ -74,3 +96,17 @@
 
 [Errors]
 Грешки
+[Picture]
+
+[Video]
+Видео
+[seconds]
+секунди
+[Voice message]
+
+[SmileyAdd plugin required to support stickers]
+
+[You received an invoice]
+
+[Title]
+Заглавие

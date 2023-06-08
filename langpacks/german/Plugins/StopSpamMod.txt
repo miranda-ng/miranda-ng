@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -60,8 +60,6 @@ Nach Gratulation (nur ICQ)
 Automatisch Autorisierung gewähren
 [Request authorization from contacts which pass StopSpam test]
 Autorisierung von Kontakten, die den Spam-Test bestanden haben, anfragen
-[Remove all temporary contacts after restart]
-Alle temporären Kontakte nach einem Neustart entfernen
 [Use regex for answers checking]
 Prüfe Antwort mit regulärem Ausdruck
 [Log Spammers to system history]

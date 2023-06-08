@@ -10,3 +10,4 @@
 [New password is not equal to confirmation]
 [Old password is not valid]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+[Invalid search string]

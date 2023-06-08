@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,6 +352,14 @@ Benutzer wurde deaktiviert (gebannt)
 Teilnehmer
 [Owners]
 Besitzer
+[Adding bots to MUC is not supported]
+Bots zu einem Mehrbenutzerchat hinzuzufügen wird nicht unterstützt.
+[Not supported]
+Wird nicht unterstützt
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
+[Warning]
+Warnung
 [Message link]
 Nachrichtenlink
 [create chat]
@@ -380,14 +388,6 @@ Chataktion nicht unterstützt
 Unbekannt
 [Enter new chat title]
 Neuen Chattitel eingeben
-[Adding bots to MUC is not supported]
-Bots zu einem Mehrbenutzerchat hinzuzufügen wird nicht unterstützt.
-[Not supported]
-Wird nicht unterstützt
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
-[Warning]
-Warnung
 [You've been kicked by ]
 Sie wurden gekickt von\s
 [Chat]
@@ -396,8 +396,8 @@ Chat
 Bots kicken wird nicht unterstützt
 [&Invite a user]
 Benutzer e&inladen
-[View/change &title]
-&Titel ansehen/ändern
+[View/change &topic]
+&Thema setzen
 [&Destroy room]
 Raum &zerstören
 [&User details]
@@ -566,10 +566,14 @@ Als Freund hinzufügen
 Von Freundesliste löschen
 [Ban user]
 Benutzer bannen
-[Destroy room]
-Raum zerstören
 [Open broadcast]
 Übertragung öffnen
+[View/change topic]
+
+[Invite a user]
+
+[Destroy room]
+Raum zerstören
 [Reload messages from vk.com...]
 Nachrichten von vk.com neu laden...
 [for last week]

@@ -118,6 +118,8 @@
 подій
 [minutes]
 хвилин
+[Automatically copy selected text]
+Автоматично копіювати виділений текст
 [Typing notification options]
 Налаштування сповіщень про друк
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@
 [Action: Send message]
 Дія: Надіслати
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+Інтерфейс і функціональність вікон чатів
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@
 Показувати значок статусу перед значком ролі
 [Add ':' to auto-completed names]
 Додавати двокрапку (:) до імен користувачів при автозавершенні
+[Icons to display in the message log]
+Значки в журналі повідомлень
+[Show icon for topic changes]
+Зміни теми
+[Show icon for users joining]
+Входи до чату
+[Show icon for users disconnecting]
+Відключення користувачів
+[Show icon for messages]
+Повідомлення
+[Show icon for actions]
+Дії
+[Show icon for highlights]
+Підсвічені повідомлення
+[Show icon for users leaving]
+Виходи з чату
+[Show icon for users kicking other user]
+Стусани
+[Show icon for notices]
+Приватні повідомлення
+[Show icon for name changes]
+Зміни ніків
+[Show icon for information messages]
+Інформаційні повідомлення
+[Show icon for status changes]
+Зміни статусів
+[Appearance]
+Зовнішній вигляд
 [Prefix all events with a timestamp]
 Показувати час для всіх подій
-[Only prefix with timestamp if it has changed]
-Показувати час, якщо він змінився
 [Timestamp has same color as the event]
 Час того ж кольору, що й подія
 [Indent the second line of a message]
@@ -278,8 +308,6 @@
 Заборонити кольори в журналі
 [Enable 'event filter' for new rooms]
 Увімкнути "Фільтр подій" для нових кімнат
-[Appearance and functionality of chat windows]
-Інтерфейс і функціональність вікон чатів
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -330,8 +358,6 @@ ID поточного контакту (якщо визначено). Напри
 повна назва дня тижня
 [Variables]
 Змінні
-[Appearance]
-Зовнішній вигляд
 [Select folder]
 Вибрати папку
 [Message sessions]
@@ -481,29 +507,15 @@ ID поточного контакту (якщо визначено). Напри
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Меню користувача - %s
-[Nickname]
-Нік
-[Unique ID]
-Унікальний ID
-[Status]
-Статус
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My contact]
-Співрозмовник
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 Сьогодні
 [Yesterday]
 Вчора
+[Me]
+Я
+[My contact]
+Співрозмовник
 [File sent]
 Надіслано файл
 [File received]
@@ -570,8 +582,6 @@ ID поточного контакту (якщо визначено). Напри
 [Typing notify]
 Сповіщення про друк
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Повідомлення від %s
 [%s is typing a message]
 %s друкує вам повідомлення
 [Typing notification]

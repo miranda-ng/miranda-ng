@@ -164,6 +164,8 @@ Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Zapytanie
+[Invalid search string]
+
 ;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
 Brakuje jednego z argumentów

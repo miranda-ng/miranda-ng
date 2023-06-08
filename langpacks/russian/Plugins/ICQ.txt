@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.1
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -22,8 +22,6 @@ UIN/почта:
 Уведомления в трее
 [Launch mailbox in a browser on click]
 Открыть почту в браузере при нажатии
-[Show error popups]
-Показывать всплывающие окна с сообщениями об ошибках
 [Notifications]
 Уведомления
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -100,6 +98,8 @@ UIN/почта:
 [You have %d unread emails]
 Непрочитанных писем: %d
 ;file \protocols\ICQ-WIM\src\proto.cpp
+[%s error notifications]
+Уведомления об ошибках %s
 [Synchronize server groups]
 Синхронизировать группы с сервером
 [Edit my web profile]

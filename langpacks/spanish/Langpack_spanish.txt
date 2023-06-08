@@ -367,8 +367,6 @@ Renombrar (añadir " (1)", etc.)
 Siempre que se pregunte sobre archivos de personas que no están en la lista
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
-[In background]
-En segundo plano
 [Close the message window on send]
 Cerrar la ventana de mensaje al enviar
 [Minimize the message window on send]
@@ -1203,12 +1201,12 @@ El usuario no ha registrado una dirección de correo electrónico
 Enviar e-mail
 [&E-mail]
 E-mail
-[File from %s]
-Archivo de %s
 [bytes]
 bytes
 [&File]
 &Archivo
+[File from %s]
+Archivo de %s
 [File &transfers...]
 &Transferencias de archivos...
 [Incoming]
@@ -1313,62 +1311,6 @@ Fondo de lista de usuarios (seleccionado)
 Mensajería
 [Send message]
 Enviar mensaje
-[Flash window when someone speaks]
-Parpadear ventana cuando alguien habla
-[Flash window when a word is highlighted]
-Parpadear ventana cuando se resalta una palabra
-[Show list of users in the chat room]
-Mostrar lista de usuarios en la sala de chat
-[Show the topic of the room on your contact list (if supported)]
-Mostrar el tema de la sala en su lista de contactos (si es compatible)
-[Do not play sounds when the chat room is focused]
-No reproducir sonidos cuando la sala de chat esta enfocada
-[Do not pop up the window when joining a chat room]
-No abrir la ventana al unirse a una sala de chat
-[Show contact statuses if protocol supports them]
-Mostrar estados de contacto si el protocolo lo soporta
-[Display contact status icon before user role icon]
-Mostrar icono de estado de contacto antes icono de función de usuario
-[Prefix all events with a timestamp]
-Prefijo de todos los eventos con una fecha y hora
-[Only prefix with timestamp if it has changed]
-Sólo prefijo de marca de tiempo si ha cambiado
-[Timestamp has same color as the event]
-La marca de tiempo tiene mismo color que evento
-[Indent the second line of a message]
-Sangría de la segunda línea de un mensaje
-[Limit user names in the message log to 20 characters]
-Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
-[Add ':' to auto-completed user names]
-Añadir ':' a los nombres de usuario auto-completado
-[Strip colors from messages in the log]
-Quitar los colores de los mensajes en el registro
-[Enable the 'event filter' for new rooms]
-Habilitar el "filtro de eventos" para nuevas salas
-[Show icon for topic changes]
-Mostrar icono de cambios de temas
-[Show icon for users joining]
-Mostrar icono para usuarios entrando
-[Show icon for users disconnecting]
-Mostrar icono para usuarios que se desconectan
-[Show icon for messages]
-Mostrar icono para mensajes
-[Show icon for actions]
-Mostrar icono para acciones
-[Show icon for highlights]
-Mostrar icono para destacados
-[Show icon for users leaving]
-Mostrar icono para usuarios que salen
-[Show icon for users kicking other user]
-Mostrar icono para usuarios que sacan a otro usuario
-[Show icon for notices]
-Mostrar icono de notificaciones
-[Show icon for name changes]
-Mostrar icono de cambio de nombre
-[Show icon for information messages]
-Mostrar icono de mensajes de información
-[Show icon for status changes]
-Mostrar icono de cambia de estado
 [Window icon]
 Icono de ventana
 [Bold]
@@ -1425,18 +1367,70 @@ Información (10x10)
 Registro de Grupo de Chats
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de ventanas de chat
+[Flash window when someone speaks]
+Parpadear ventana cuando alguien habla
+[Flash window when a word is highlighted]
+Parpadear ventana cuando se resalta una palabra
+[Show list of users in the chat room]
+Mostrar lista de usuarios en la sala de chat
+[Show the topic of the room on your contact list (if supported)]
+Mostrar el tema de la sala en su lista de contactos (si es compatible)
+[Do not play sounds when the chat room is focused]
+No reproducir sonidos cuando la sala de chat esta enfocada
+[Do not pop up the window when joining a chat room]
+No abrir la ventana al unirse a una sala de chat
+[Show contact statuses if protocol supports them]
+Mostrar estados de contacto si el protocolo lo soporta
+[Display contact status icon before user role icon]
+Mostrar icono de estado de contacto antes icono de función de usuario
 [Appearance of the message log]
 Apariencia del registro de mensajes
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una fecha y hora
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
+[Indent the second line of a message]
+Sangría de la segunda línea de un mensaje
+[Limit user names in the message log to 20 characters]
+Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
+[Add ':' to auto-completed user names]
+Añadir ':' a los nombres de usuario auto-completado
+[Strip colors from messages in the log]
+Quitar los colores de los mensajes en el registro
+[Enable the 'event filter' for new rooms]
+Habilitar el "filtro de eventos" para nuevas salas
 [Icons to display in the message log]
 Iconos a mostrar en el registro de mensajes
+[Show icon for topic changes]
+Mostrar icono de cambios de temas
+[Show icon for users joining]
+Mostrar icono para usuarios entrando
+[Show icon for users disconnecting]
+Mostrar icono para usuarios que se desconectan
+[Show icon for messages]
+Mostrar icono para mensajes
+[Show icon for actions]
+Mostrar icono para acciones
+[Show icon for highlights]
+Mostrar icono para destacados
+[Show icon for users leaving]
+Mostrar icono para usuarios que salen
+[Show icon for users kicking other user]
+Mostrar icono para usuarios que sacan a otro usuario
+[Show icon for notices]
+Mostrar icono de notificaciones
+[Show icon for name changes]
+Mostrar icono de cambio de nombre
+[Show icon for information messages]
+Mostrar icono de mensajes de información
+[Show icon for status changes]
+Mostrar icono de cambia de estado
 [Chat log]
 Registro de chat
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
-[Incoming message (10x10)]
-Mensaje entrante (10x10)
-[Outgoing message (10x10)]
-Mensaje saliente (10x10)
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [Last message received on %s at %s.]
@@ -1451,6 +1445,10 @@ Mensaje saliente (10x10)
 %s: sesión de mensaje (%u usuarios)
 [Message session]
 Sesión de mensaje
+[Incoming message (10x10)]
+Mensaje entrante (10x10)
+[Outgoing message (10x10)]
+Mensaje saliente (10x10)
 [File sent]
 Archivo enviado
 [Outgoing messages]
@@ -1483,8 +1481,6 @@ Registro de mensaje
 Registro de mensajería
 [Typing notify]
 Notificación de escritura
-[Message from %s]
-Mensaje de
 [%s is typing a message]
 %s está escribiendo un mensaje
 [Typing notification]
@@ -1749,8 +1745,6 @@ Información en %s
 %s habilita '%s' de estado para %s en %s
 [%s disables '%s' status for %s in %s]
 %s deshabilita '%s' de estado para %s en %s
-[%s says]
-%s dice
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2211,6 +2205,8 @@ Archivos WAV
 Apodo
 [Unique ID]
 ID único
+[Download]
+Descargar
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]
@@ -2219,6 +2215,8 @@ Ni una palabra para buscar
 <Separador>
 [Toolbar]
 Barra de herramientas
+[Message from %s]
+Mensaje de
 [Unspecified]
 <Sin especificar>
 [Afghanistan]
@@ -3875,6 +3873,8 @@ Vista previa de la piel
 ADVERTENCIA: \tLas pieles pueden modificar su perfil actual. Rollback no es posible. \n\t\tPor favor RESPALDE su base de datos antes de aplicar la piel.
 [* Restart may be required for all changes to take effect]
 Reiniciar puede ser necesario para que todos los cambios surtan efecto
+[Cancel]
+Cancelar
 [Available view modes]
 Modos de visualización disponibles
 [Include protocols]
@@ -3883,16 +3883,10 @@ Incluir protocolos
 Incluir grupos
 [Show contacts in groups]
 Mostrar contactos en grupos
+[Hide empty groups]
+Ocultar grupos vacíos
 [Include status modes]
 Incluir modos de estado
-[Cancel]
-Cancelar
-[Sticky contacts]
-Contactos pegajosos
-[Clear all]
-Limpiar todo
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Usando la lista de contactos en el lado izquierdo, puede seleccionar los contactos que serán "pegajosos" para este modo de vista. Estos contactos ignoran las reglas de filtrado estándar y sólo usan el filtro de modo de estado abajo.
 [Protocol]
 Protocolo
 [Group]
@@ -3905,10 +3899,12 @@ Limpiar automáticamente este modo de vista después de
 segundos
 [View mode options]
 Opciones de modo de vista
-[Editing view mode]
-Modo de vista de edición
 [Last message]
 Último mensaje
+[Sticky contacts]
+Contactos pegajosos
+[Clear all]
+Limpiar todo
 [Status bar]
 Barra de estado
 [Show status bar]
@@ -3967,6 +3963,8 @@ Espacio a la izquierda
 Espacio a la derecha
 [Contact list sorting]
 Clasificación de la lista de contacto
+[Move offline users to bottom]
+Mover usuario fuera de línea al final
 [1st:]
 1ro:
 [2nd:]
@@ -4261,6 +4259,8 @@ Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBa
 Actualizar barra de herramientas
 [All contacts]
 Todos los contactos
+[Configure view modes]
+Configurar modos de vista
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -4277,14 +4277,6 @@ Minutos
 Horas
 [Days]
 Días
-[Configuring view mode: %s]
-Configurando modo de vista: %s
-[Filtering]
-Filtrando
-[*** All contacts ***]
-*** Todos los contactos ***
-[Configure view modes]
-Configurar modos de vista
 [A view mode with this name does already exist]
 Ya existe un modo de vista con ese nombre
 [Duplicate name]
@@ -4293,6 +4285,14 @@ Nombre duplicado
 ¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
 [Delete a view mode]
 Eliminar un modo de vista
+[Configuring view mode: %s]
+Configurando modo de vista: %s
+[*** All contacts ***]
+*** Todos los contactos ***
+[Editing view mode]
+Modo de vista de edición
+[Filtering]
+Filtrando
 [Setup view modes...]
 Configuración de Modos de Vista
 [Select a view mode]
@@ -4977,7 +4977,7 @@ Reemplaza (sólo para los contactos seleccionados) las letras del cirílico en l
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 [Cancel]
@@ -4990,7 +4990,7 @@ Error
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]
@@ -5043,8 +5043,6 @@ Tamaño
 Contactos
 [Popups]
 Ventanas emergentes
-[<UNKNOWN>]
-<DESCONOCIDO>
 #muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
 ;============================================================
 ;  File: Dbx_mdbx.dll
@@ -5269,13 +5267,13 @@ Eventos
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
-[Protocol]
-Protocolo
 [Icons]
 Iconos
+[Protocol]
+Protocolo
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
@@ -5486,7 +5484,7 @@ Avanzado
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -5755,7 +5753,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -5918,7 +5916,7 @@ Iconos
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Cancel]
@@ -6331,8 +6329,6 @@ Versión
 Sistema
 [Copy]
 Copiar
-[Unknown]
-Desconocido
 [Photo]
 Foto
 [Unknown error]
@@ -7066,14 +7062,6 @@ Opciones de registro
 Opciones
 [Templates]
 Plantillas
-[Copy]
-Copiar
-[Edit]
-Editar
-[Delete]
-Eliminar
-[Select all]
-Seleccionar todo
 [Incoming messages]
 Mensajes entrantes
 [Outgoing messages]
@@ -7106,6 +7094,8 @@ Telefono
 Sitio web
 [About]
 Acerca de...
+[Copy]
+Copiar
 [Export...]
 Exportar...
 [Send message]
@@ -7114,6 +7104,12 @@ Enviar mensaje
 Menú del usuario
 [Complete]
 Completo
+[Edit]
+Editar
+[Delete]
+Eliminar
+[Select all]
+Seleccionar todo
 [Main icon]
 Icono principal
 [Search]
@@ -7644,7 +7640,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.4
+;  Version: 0.2.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -8294,18 +8290,42 @@ Mensajería
 Grupo de chats
 [Do not pop up the window when joining a chat room]
 No abrir la ventana al unirse a una sala de chat
+[Icons to display in the message log]
+Iconos a mostrar en el registro de mensajes
+[Show icon for topic changes]
+Mostrar icono de cambios de temas
+[Show icon for users joining]
+Mostrar icono para usuarios entrando
+[Show icon for users disconnecting]
+Mostrar icono para usuarios que se desconectan
+[Show icon for messages]
+Mostrar icono para mensajes
+[Show icon for actions]
+Mostrar icono para acciones
+[Show icon for highlights]
+Mostrar icono para destacados
+[Show icon for users leaving]
+Mostrar icono para usuarios que salen
+[Show icon for users kicking other user]
+Mostrar icono para usuarios que sacan a otro usuario
+[Show icon for notices]
+Mostrar icono de notificaciones
+[Show icon for name changes]
+Mostrar icono de cambio de nombre
+[Show icon for information messages]
+Mostrar icono de mensajes de información
+[Show icon for status changes]
+Mostrar icono de cambia de estado
+[Appearance]
+Apariencia
 [Prefix all events with a timestamp]
 Prefijo de todos los eventos con una fecha y hora
-[Only prefix with timestamp if it has changed]
-Sólo prefijo de marca de tiempo si ha cambiado
 [Timestamp has same color as the event]
 La marca de tiempo tiene mismo color que evento
 [Indent the second line of a message]
 Sangría de la segunda línea de un mensaje
 [Variables]
 Variables
-[Appearance]
-Apariencia
 [Select folder]
 Seleccionar carpeta
 [Message sessions]
@@ -8376,12 +8396,6 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
-[Status]
-Estado
 [File sent]
 Archivo enviado
 [File received]
@@ -8428,8 +8442,6 @@ Invisible
 ** Contactos desconocidos **
 [Typing notify]
 Notificación de escritura
-[Message from %s]
-Mensaje de
 [%s is typing a message]
 %s está escribiendo un mensaje
 [Typing notification]
@@ -8697,7 +8709,7 @@ E-mail
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Do nothing]
@@ -8836,7 +8848,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -9430,7 +9442,7 @@ No puede enviar mensajes cuando no esté conectado.
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Divider:]
@@ -9443,13 +9455,11 @@ General
 Mensajes
 [Accounts]
 Cuentas
-[Complete]
-Completo
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Info]
@@ -9705,8 +9715,6 @@ Todos los archivos
 Seleccionar carpeta
 [Settings]
 Ajustes
-[Message from %s]
-Mensaje de
 [Notifications]
 Notificaciones
 [disabled]
@@ -9806,8 +9814,18 @@ País:
 Número de teléfono:
 [Default group:]
 Grupo predeterminado:
+[First name:]
+Primer nombre:
+[Last name:]
+Apellido:
+[Phone:]
+Teléfono:
+[Cancel]
+Cancelar
 [Error]
 Error
+[&Leave chat session]
+&Abandonar sesión de charla
 [Network]
 Red
 [Account]
@@ -9818,6 +9836,10 @@ Avanzado
 Ninguno
 [Errors]
 Errores
+[Video]
+Vídeo
+[seconds]
+segundos
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -10423,7 +10445,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10480,10 +10502,10 @@ Enlace
 (Contacto desconocido)
 [Text]
 Texto
-[Unknown]
-Desconocido
 [Warning]
 Advertencia
+[Unknown]
+Desconocido
 [Chat]
 Chat
 [%s is typing a message...]

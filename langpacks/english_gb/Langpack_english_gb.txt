@@ -442,14 +442,14 @@ Text colour
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Background color]
@@ -562,7 +562,7 @@ Cancelled by user
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
@@ -617,7 +617,7 @@ Error occurred when initialising libcurl.\nAborting file upload...
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Send messages slower, but with full acknowledgment]
@@ -716,7 +716,7 @@ Customise
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 ;#muuid for ICQCorp not found, please specify manually!
@@ -755,7 +755,7 @@ Authorisation
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports only contacts and history, and a few settings. Ideal for synchronizing.]
@@ -1145,7 +1145,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.4
+;  Version: 0.2.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Colors]
@@ -1352,7 +1352,7 @@ The user cancelled one of the dialog boxes
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Show Favorite Sessions Menu]
@@ -1401,7 +1401,7 @@ Synchronise if current status differs from previous one
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Automatic messages synchronization]
@@ -1507,14 +1507,14 @@ Show chat state events (i.e. user closed chat session)
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Automatically grant authorization]
@@ -1744,7 +1744,7 @@ Mail order catalogue
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]

@@ -52,6 +52,8 @@ UPOZORNĚNÍ:\tSkiny mohou pozměnit váš datový profil, návrat není možný
 Složka se skiny
 [Download more skins]
 Stáhnout další skiny
+[Cancel]
+Zrušit
 [Available view modes]
 Přehled režimů zobrazení
 [Include protocols]
@@ -60,16 +62,12 @@ Včetně protokolů
 Včetně skupin
 [Show contacts in groups]
 Zobrazit kontakty ve skupinách
+[Hide empty groups]
+Skrýt prázdné skupiny
+[Show groups folded]
+
 [Include status modes]
 Včetně stavu
-[Cancel]
-Zrušit
-[Sticky contacts]
-Trvalé kontakty
-[Clear all]
-Odstranit vše
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Za použití seznamu kontaktů po levé straně můžete vybrat ty kontakty, které budou 'přilepené'. Na tyto kontakty nebude platit žádné ze standardních filtrovacích pravidel, kromě filtrování dle stavu níže.
 [Protocol]
 Protokol
 [Group]
@@ -82,10 +80,12 @@ Automaticky vymazat vybraný režim zobrazení po
 sek.
 [View mode options]
 Možnosti režimu zobrazení
-[Editing view mode]
-Úprava pohledu
 [Last message]
 Poslední zpráva
+[Sticky contacts]
+Trvalé kontakty
+[Clear all]
+Odstranit vše
 [Status bar]
 Stavová lišta
 [Show status bar]
@@ -834,6 +834,14 @@ Aktualizace lišty tlačítek
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Všechny kontakty
+[Configure view modes]
+Konfigurace režimu zobrazení
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 Nesdružené kontakty
 [And]
@@ -850,20 +858,6 @@ minut
 hodin
 [Days]
 dnů
-[Configuring view mode: %s]
-Konfigurace pohledu: %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Filtrování
-[*** All contacts ***]
-*** všechny kontakty ***
-[Configure view modes]
-Konfigurace režimu zobrazení
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Duplicitní jméno
 Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
 [Delete a view mode]
 Odstranit režim zobrazení
+[Configuring view mode: %s]
+Konfigurace pohledu: %s
+[*** All contacts ***]
+*** všechny kontakty ***
+[Editing view mode]
+Úprava pohledu
+[Filtering]
+Filtrování
 [Setup view modes...]
 Nastavit režimy zobrazení...
 [Select a view mode]

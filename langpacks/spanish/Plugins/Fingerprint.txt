@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -55,25 +55,6 @@
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 
-;file \plugins\FingerprintNG\src\finger_groups.h
-[Client icons]
-
-[Pack overlays]
-
-[Multi-proto clients]
-
-[Other protocols]
-
-[Overlays]
-
-[Resource]
-
-[Platform]
-
-[Security]
-
-[Protocol]
-Protocolo
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 
@@ -198,3 +179,22 @@ Protocolo
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Iconos
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+
+[Pack overlays]
+
+[Multi-proto clients]
+
+[Other protocols]
+
+[Overlays]
+
+[Resource]
+
+[Platform]
+
+[Security]
+
+[Protocol]
+Protocolo

@@ -362,8 +362,6 @@ Přejmenovat (přidá " (1)" atd.)
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
 [Automatically popup window when:]
 Automaticky vyvolat okno při:
-[In background]
-Na pozadí
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Minimize the message window on send]
@@ -420,6 +418,8 @@ Konkrétní počet předchozích událostí
 Předchozí události starší méně než
 [minutes old]
 min.
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Use a tabbed interface]
 Použít systém záložek
 [Close tab on double click]
@@ -1126,18 +1126,16 @@ Zařídit vše jedním kliknutím myši
 Vždy zobrazit stav v tipu
 [Default settings for known event types]
 Výchozí nastavení pro známé typy událostí
-[Show when filter is active]
-Zobrazit při aktivním filtru
 [Popup]
 Oznámení
 [Sound]
 Zvuk
 [Log to file]
 Uložit záznam
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 [Highlight event]
 Zvýraznit událost
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 [Show popups only when the chat room is not active]
 Zobrazit oznámení pouze při neaktivním okně s diskusí
 [Show button menus when right clicking the buttons]
@@ -1342,12 +1340,12 @@ Uživatel nemá zaregistrovanou e-mailovou adresu
 Poslat e-mail
 [&E-mail]
 &E-mail
-[File from %s]
-Soubor od: %s
 [bytes]
 bajtů
 [&File]
 &Soubor
+[File from %s]
+Soubor od: %s
 [File &transfers...]
 Př&enos souborů...
 [Incoming]
@@ -1456,62 +1454,6 @@ Pozadí seznamu účastníků (vybraný)
 Rozhovor
 [Send message]
 Poslat zprávu
-[Flash window when someone speaks]
-Zablikat oknem při přijetí zprávy
-[Flash window when a word is highlighted]
-Zablikat oknem při zvýraznění slova
-[Show list of users in the chat room]
-Zobrazit seznam uživatelů v místnosti
-[Show the topic of the room on your contact list (if supported)]
-Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
-[Do not play sounds when the chat room is focused]
-Nepřehrávat zvuky, je-li okno místnosti aktivní
-[Do not pop up the window when joining a chat room]
-Neaktivovat okno po příchodu do místnosti
-[Show contact statuses if protocol supports them]
-Zobrazit stav kontaktu, pokud je protokol podporuje
-[Display contact status icon before user role icon]
-Zobrazit ikonu stavu kontaktu před ikonou jeho role
-[Prefix all events with a timestamp]
-Před každou událost přidat časový údaj
-[Only prefix with timestamp if it has changed]
-Časový údaj přidat pouze pokud se změní
-[Timestamp has same color as the event]
-Pro časový údaj použít stejnou barvu jakou má příslušná událost
-[Indent the second line of a message]
-Odsadit druhý řádek dlouhé zprávy
-[Limit user names in the message log to 20 characters]
-Omezit délku jmen v záznamu na 20 znaků
-[Add ':' to auto-completed user names]
-Přidávat ':' k automaticky doplněným jménům
-[Strip colors from messages in the log]
-Záznam ukládat bez kódů definujících barvy
-[Enable the 'event filter' for new rooms]
-Aktivovat filtr událostí pro nové místnosti
-[Show icon for topic changes]
-Zobrazit ikonu k informaci o změně tématu
-[Show icon for users joining]
-Zobrazit ikonu k informaci o příchodu uživatelů
-[Show icon for users disconnecting]
-Zobrazit ikonu k informaci o odpojení uživatelů
-[Show icon for messages]
-Zobrazit ikonu k textu zprávy
-[Show icon for actions]
-Zobrazit ikonu k textu akce
-[Show icon for highlights]
-Zobrazit ikonu ke zvýraznění
-[Show icon for users leaving]
-Zobrazit ikonu k informaci o odchodu uživatelů
-[Show icon for users kicking other user]
-Zobrazit ikonu k informaci o vykopnutí
-[Show icon for notices]
-Zobrazit ikonu k textu poznámky
-[Show icon for name changes]
-Zobrazit ikonu k informaci o změně jména
-[Show icon for information messages]
-Zobrazit ikonu k textu informativní zprávy
-[Show icon for status changes]
-Zobrazit ikonu k informaci o změně stavu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1568,18 +1510,70 @@ Informace (10x10)
 Záznam rozhovorů
 [Appearance and functionality of chat room windows]
 Nastavení vzhledu a funkcí komunikačních oken
+[Flash window when someone speaks]
+Zablikat oknem při přijetí zprávy
+[Flash window when a word is highlighted]
+Zablikat oknem při zvýraznění slova
+[Show list of users in the chat room]
+Zobrazit seznam uživatelů v místnosti
+[Show the topic of the room on your contact list (if supported)]
+Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
+[Do not play sounds when the chat room is focused]
+Nepřehrávat zvuky, je-li okno místnosti aktivní
+[Do not pop up the window when joining a chat room]
+Neaktivovat okno po příchodu do místnosti
+[Show contact statuses if protocol supports them]
+Zobrazit stav kontaktu, pokud je protokol podporuje
+[Display contact status icon before user role icon]
+Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
+[Prefix all events with a timestamp]
+Před každou událost přidat časový údaj
+[Only prefix with timestamp if it has changed]
+Časový údaj přidat pouze pokud se změní
+[Timestamp has same color as the event]
+Pro časový údaj použít stejnou barvu jakou má příslušná událost
+[Indent the second line of a message]
+Odsadit druhý řádek dlouhé zprávy
+[Limit user names in the message log to 20 characters]
+Omezit délku jmen v záznamu na 20 znaků
+[Add ':' to auto-completed user names]
+Přidávat ':' k automaticky doplněným jménům
+[Strip colors from messages in the log]
+Záznam ukládat bez kódů definujících barvy
+[Enable the 'event filter' for new rooms]
+Aktivovat filtr událostí pro nové místnosti
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o změně tématu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o příchodu uživatelů
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojení uživatelů
+[Show icon for messages]
+Zobrazit ikonu k textu zprávy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zvýraznění
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uživatelů
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutí
+[Show icon for notices]
+Zobrazit ikonu k textu poznámky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o změně jména
+[Show icon for information messages]
+Zobrazit ikonu k textu informativní zprávy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o změně stavu
 [Chat log]
 Záznam diskuse
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
-[Incoming message (10x10)]
-Příchozí zpráva (10x10)
-[Outgoing message (10x10)]
-Odchozí zpráva (10x10)
 [%s is typing a message...]
 %s píše zprávu...
 [Last message received on %s at %s.]
@@ -1594,6 +1588,10 @@ Poslední zpráva přijata %s v %s.
 %s: rozhovor (účastníků: %u)
 [Message session]
 Rozhovor
+[Incoming message (10x10)]
+Příchozí zpráva (10x10)
+[Outgoing message (10x10)]
+Odchozí zpráva (10x10)
 [Me]
 Já
 [File sent]
@@ -1628,8 +1626,6 @@ Záznam komunikace
 Záznam rozhovoru
 [Typing notify]
 Psaní zprávy
-[Message from %s]
-Zpráva od: %s
 [%s is typing a message]
 %s píše zprávu
 [Typing notification]
@@ -1996,8 +1992,6 @@ Informace (na %s)
 %s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
 %s aktivuje stav '%s' pro %s v %s
-[%s says]
-%s píše
 [Chat rooms]
 Místnosti chatu
 [Events and filters]
@@ -2638,6 +2632,8 @@ Soubory WAV
 Přezdívka
 [Unique ID]
 Identifikátor
+[Download]
+Stáhnout
 [Copy all]
 Zkopírovat vše
 [Look up '%s':]
@@ -2650,6 +2646,8 @@ Vymazání historie
 <oddělovač>
 [Toolbar]
 Lišta tlačítek
+[Message from %s]
+Zpráva od: %s
 [Unspecified]
 <neuvedeno>
 [Afghanistan]
@@ -5608,6 +5606,8 @@ UPOZORNĚNÍ:\tSkiny mohou pozměnit váš datový profil, návrat není možný
 Složka se skiny
 [Download more skins]
 Stáhnout další skiny
+[Cancel]
+Zrušit
 [Available view modes]
 Přehled režimů zobrazení
 [Include protocols]
@@ -5616,16 +5616,10 @@ Včetně protokolů
 Včetně skupin
 [Show contacts in groups]
 Zobrazit kontakty ve skupinách
+[Hide empty groups]
+Skrýt prázdné skupiny
 [Include status modes]
 Včetně stavu
-[Cancel]
-Zrušit
-[Sticky contacts]
-Trvalé kontakty
-[Clear all]
-Odstranit vše
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Za použití seznamu kontaktů po levé straně můžete vybrat ty kontakty, které budou 'přilepené'. Na tyto kontakty nebude platit žádné ze standardních filtrovacích pravidel, kromě filtrování dle stavu níže.
 [Protocol]
 Protokol
 [Group]
@@ -5638,10 +5632,12 @@ Automaticky vymazat vybraný režim zobrazení po
 sek.
 [View mode options]
 Možnosti režimu zobrazení
-[Editing view mode]
-Úprava pohledu
 [Last message]
 Poslední zpráva
+[Sticky contacts]
+Trvalé kontakty
+[Clear all]
+Odstranit vše
 [Status bar]
 Stavová lišta
 [Show status bar]
@@ -6368,6 +6364,8 @@ Pozadí tlačítkové lišty
 Aktualizace lišty tlačítek
 [All contacts]
 Všechny kontakty
+[Configure view modes]
+Konfigurace režimu zobrazení
 [Ungrouped contacts]
 Nesdružené kontakty
 [And]
@@ -6384,14 +6382,6 @@ minut
 hodin
 [Days]
 dnů
-[Configuring view mode: %s]
-Konfigurace pohledu: %s
-[Filtering]
-Filtrování
-[*** All contacts ***]
-*** všechny kontakty ***
-[Configure view modes]
-Konfigurace režimu zobrazení
 [A view mode with this name does already exist]
 Režim zobrazení s tímto názvem již existuje
 [Duplicate name]
@@ -6400,6 +6390,14 @@ Duplicitní jméno
 Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
 [Delete a view mode]
 Odstranit režim zobrazení
+[Configuring view mode: %s]
+Konfigurace pohledu: %s
+[*** All contacts ***]
+*** všechny kontakty ***
+[Editing view mode]
+Úprava pohledu
+[Filtering]
+Filtrování
 [Setup view modes...]
 Nastavit režimy zobrazení...
 [Select a view mode]
@@ -7710,7 +7708,7 @@ Nahrazuje (pouze pro zvolené kontakty) znaky azbuky v odchozích zprávách jej
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -7761,7 +7759,7 @@ Všechny úlohy byly úspěšně dokončeny
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.3
+;  Version: 4.1.0.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8080,8 +8078,6 @@ Neznámý typ DBVariant!
 Upravit nastavení (%s)
 [New setting (%s)]
 Nové nastavení (%s)
-[<UNKNOWN>]
-<NEZNÁMÝ>
 [[UNLOADED]]
 \[NENAČTENÝ]
 [*** resident ***]
@@ -8616,7 +8612,7 @@ Soubor jako zpráva
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Select protocols]
@@ -8647,24 +8643,6 @@ Ostatní ikony
 Zobrazit ikonu klienta ve stavovém řádku komunikačního okna
 [Fingerprint]
 Fingerprint
-[Client icons]
-Ikony klientů
-[Pack overlays]
-Překryvné ikony
-[Multi-proto clients]
-Více-protokoloví klienti
-[Other protocols]
-Ostatní protokoly
-[Overlays]
-Překryvné
-[Resource]
-Zdroj
-[Platform]
-Platforma
-[Security]
-Zabezpečení
-[Protocol]
-Protokol
 [Miranda NG stable]
 Miranda NG stabilní
 [Miranda IM (old versions)]
@@ -8691,6 +8669,24 @@ Neznámý klient
 Nezjištěný klient
 [Icons]
 Ikony
+[Client icons]
+Ikony klientů
+[Pack overlays]
+Překryvné ikony
+[Multi-proto clients]
+Více-protokoloví klienti
+[Other protocols]
+Ostatní protokoly
+[Overlays]
+Překryvné
+[Resource]
+Zdroj
+[Platform]
+Platforma
+[Security]
+Zabezpečení
+[Protocol]
+Protokol
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
@@ -8993,7 +8989,7 @@ Extra
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: Gadu-Gadu protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
@@ -10866,7 +10862,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -10905,6 +10901,10 @@ Zadejte heslo pro ICQ
 Zadejte heslo:
 [Remember this session password]
 Zapamatovat heslo této relace
+[admin]
+admin
+[member]
+člen
 [&Invite a user]
 Pozvat už&ivatele
 [Name]
@@ -10921,10 +10921,6 @@ Sítě
 Obecné
 [Advanced]
 Extra
-[admin]
-admin
-[member]
-člen
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -11187,7 +11183,7 @@ Ikony
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.11.1
+;  Version: 0.96.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -12322,10 +12318,6 @@ Vyčistit
 Poslat
 [Jabber Link Protocol]
 Odkaz protokolu Jabber
-[Frame title]
-Záhlaví rámečku
-[Frame text]
-Text rámečku
 [Jabber Activity]
 Jabber aktivita
 [Jabber Mood]
@@ -13324,8 +13316,6 @@ neznámý formát
 <foto není>
 [Fingerprint]
 Otisk
-[Unknown]
-Neznámý
 [Photo]
 Fotka
 [Not found]
@@ -15819,14 +15809,6 @@ Možnosti záznamu
 Možnosti
 [Templates]
 Šablony
-[Copy]
-Zkopírovat
-[Edit]
-Upravit
-[Delete]
-Smazat
-[Select all]
-Vybrat vše
 [Incoming messages]
 Příchozí zprávy
 [Outgoing messages]
@@ -15867,6 +15849,8 @@ Telefon
 Dom. stránka
 [About]
 Informace
+[Copy]
+Zkopírovat
 [Export...]
 Exportovat...
 [Search...]
@@ -15885,6 +15869,12 @@ Najít předchozí
 Konverzace
 [Complete]
 Dokončeno
+[Edit]
+Upravit
+[Delete]
+Smazat
+[Select all]
+Vybrat vše
 [Main icon]
 Hlavní ikona
 [Search]
@@ -17291,7 +17281,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.4
+;  Version: 0.2.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -18509,6 +18499,8 @@ Předchozí události starší méně než
 událostí
 [minutes]
 min.
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -18635,6 +18627,8 @@ Rozhovor
 Skupinové rozhovory
 [Action: Send message]
 Odeslat zprávu
+[Appearance and functionality of chat windows]
+Nastavení vzhledu a funkcí komunikačních oken
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
 [Flash when a word is highlighted]
@@ -18653,10 +18647,36 @@ Zobrazit stav účastníků (je-li to podporováno)
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Add ':' to auto-completed names]
 Přidat ':' k automaticky doplněným jménům
+[Icons to display in the message log]
+Možnosti zobrazení ikon v záznamu komunikace
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o změně tématu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o příchodu uživatelů
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojení uživatelů
+[Show icon for messages]
+Zobrazit ikonu k textu zprávy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zvýraznění
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uživatelů
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutí
+[Show icon for notices]
+Zobrazit ikonu k textu poznámky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o změně jména
+[Show icon for information messages]
+Zobrazit ikonu k textu informativní zprávy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o změně stavu
+[Appearance]
+Vzhled
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
-[Only prefix with timestamp if it has changed]
-Informaci o čase přidat pouze pokud se změní
 [Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
@@ -18667,8 +18687,6 @@ Omezit délku jmen v záznamu na 20 znaků
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
 Aktivovat filtrování událostí pro nové místnosti
-[Appearance and functionality of chat windows]
-Nastavení vzhledu a funkcí komunikačních oken
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -18719,8 +18737,6 @@ zkrácené jméno dne v týdnu
 plné jméno dne v týdnu
 [Variables]
 Proměnné
-[Appearance]
-Vzhled
 [Select folder]
 Vyberte požadovanou složku
 [Message sessions]
@@ -18867,28 +18883,14 @@ Poslat všem
 Vložit text a poslat
 [User menu - %s]
 Uživatelské menu - %s
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[Status]
-Stavy
-[Me]
-Já
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
-[to tiny bits, in Thy mercy]
-to tiny bits, in Thy mercy
-[My contact]
-Můj kontakt
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
 [Today]
 Dnes
 [Yesterday]
 Včera
+[Me]
+Já
+[My contact]
+Můj kontakt
 [File sent]
 Odeslaný soubor
 [File received]
@@ -18951,8 +18953,6 @@ Neviditelný
 Záznam událostí
 [Typing notify]
 Psaní zprávy
-[Message from %s]
-Zpráva od: %s
 [%s is typing a message]
 %s píše zprávu
 [Typing notification]
@@ -19816,7 +19816,7 @@ Odeslat obrázek?
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -19829,8 +19829,6 @@ Otevřít okno správce relací
 Obnovit poslední relaci
 [Do nothing]
 Nedělat nic
-[Only if last session present]
-Pouze pokud existuje poslední relace
 [Startup delay]
 Zpoždění po startu
 [ms]
@@ -19881,8 +19879,6 @@ Uložit relaci
 Zadejte název relace:
 [Save and Close]
 Uložit a zavřít
-[adv.]
-rozš.
 [Sessions Manager]
 Správce relací
 [Cancel]
@@ -20279,7 +20275,7 @@ Doplňky
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.3
+;  Version: 0.96.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -21357,7 +21353,7 @@ ukončil komunikaci
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -21390,8 +21386,6 @@ Automaticky přidat kontakt po správné odpovědi
 Povolit blokování žádostí o autorizaci
 [Answer is not case sensitive]
 Odpověď není závislá na velikosti písmen
-[Remove all temporary contacts after restart]
-Odstranit všechny dočasné kontakty po restartu
 [Log Spammers to system history]
 Ukládat spammery do historie systému
 [StopSpam automatic message:\r\n]
@@ -21406,21 +21400,15 @@ Obecné
 Zprávy
 [Accounts]
 Účty
-[Not In List]
-Není v seznamu
-[Complete]
-Dokončeno
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Gratuluji! Právě jste prošli testem člověk/robot. Teď už mi můžete poslat zprávu.
 [StopSpam]
 StopSpam
-[Remove Temporary Contacts]
-Odstranit dočasné kontakty
 #muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -21447,8 +21435,6 @@ Povolit ochranu proti spamu StopSpam-StopSpam
 Automaticky přidat kontakt po správné odpovědi
 [Enable auth. requests blocking]
 Povolit blokování žádostí o autorizaci
-[Remove all temporary contacts after restart]
-Odstranit všechny dočasné kontakty po restartu
 [Log Spammers to system history]
 Ukládat spammery do historie systému
 [StopSpam]
@@ -22482,12 +22468,8 @@ Nastavení
 Formát záznamu
 [Highlighting]
 Zvýrazňování
-[%s%s says:%s %s]
-%s%s říká:%s %s
 [Message session...]
 Rozhovor...
-[Message from %s]
-Zpráva od: %s
 [Default container]
 Výchozí kontejner
 [Attach to]
@@ -23225,6 +23207,16 @@ Telefon:
 Výchozí skupina:
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[First name:]
+Jméno:
+[Last name:]
+Příjmení:
+[Phone:]
+Telefon:
+[Cancel]
+Zrušit
+[Forward]
+Další
 [Enter password]
 Zadejte heslo
 [Error]
@@ -23235,6 +23227,8 @@ Admin
 Účastník
 [Visitor]
 Přihlížející
+[&Leave chat session]
+&Opustit diskusi
 [Network]
 Sítě
 [Account]
@@ -23247,6 +23241,12 @@ Extra
 Místnosti chatu
 [Errors]
 Chyby
+[Video]
+Video
+[seconds]
+sek.
+[Title]
+Název
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -25898,7 +25898,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -26003,18 +26003,20 @@ Zpráva od
 Účastníci
 [Owners]
 Vlastníci
-[Unknown]
-neznámý
 [Not supported]
 Není podporováno
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
 Upozornění
+[Unknown]
+neznámý
 [Chat]
 Diskuse
 [&Invite a user]
 Pozvat už&ivatele
+[View/change &topic]
+Zobrazit/změnit &téma
 [&Destroy room]
 Zruši&t místnost
 [&User details]

@@ -1,4 +1,3 @@
-[Hexadecimal]
 [Decimal]
 [Delete &resident settings]
 [&Inline edit]

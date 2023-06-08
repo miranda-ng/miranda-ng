@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -12,12 +12,12 @@ Správce relací pro Mirandu NG.
 Akce při spuštění
 [Open Sessions Manager dialog]
 Otevřít okno správce relací
+[Open dialog if last session present]
+
 [Restore Last Session]
 Obnovit poslední relaci
 [Do nothing]
 Nedělat nic
-[Only if last session present]
-Pouze pokud existuje poslední relace
 [Startup delay]
 Zpoždění po startu
 [ms]
@@ -68,8 +68,6 @@ Uložit relaci
 Zadejte název relace:
 [Save and Close]
 Uložit a zavřít
-[adv.]
-rozš.
 [Sessions Manager]
 Správce relací
 [Cancel]
@@ -117,9 +115,13 @@ Načíst poslední relaci
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Zobrazit
+[Do you want to save changes?]
+
 [Message sessions]
 Komunikace
 ;file \plugins\Sessions\Src\SaveSessions.cpp
+[More contacts]
+
 [Session name is empty, enter the name and try again]
 Nezadali jste název relace, zadejte jej a zkuste to znovu
 [Current session is empty!]

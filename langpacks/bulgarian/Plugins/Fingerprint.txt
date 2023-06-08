@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -55,25 +55,6 @@ Weather клиенти
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint
-;file \plugins\FingerprintNG\src\finger_groups.h
-[Client icons]
-Икони за клиенти
-[Pack overlays]
-Насложени икони за пакети
-[Multi-proto clients]
-Мултипротоколни клиенти
-[Other protocols]
-Други протоколи
-[Overlays]
-Насложени икони за
-[Resource]
-Източник
-[Platform]
-Платформа
-[Security]
-Сигурност
-[Protocol]
-Протокол
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Miranda NG (стабилна версия)
@@ -198,3 +179,22 @@ SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Икони
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+Икони за клиенти
+[Pack overlays]
+Насложени икони за пакети
+[Multi-proto clients]
+Мултипротоколни клиенти
+[Other protocols]
+Други протоколи
+[Overlays]
+Насложени икони за
+[Resource]
+Източник
+[Platform]
+Платформа
+[Security]
+Сигурност
+[Protocol]
+Протокол

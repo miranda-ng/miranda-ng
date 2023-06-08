@@ -3,4 +3,6 @@
 [Colorize nicknames in member list (you need to adjust colors)]
 [is now offline (was online)]
 [Sample error message]
+[Secure message]
+[Secure message (verified)]
 [tabSRMM internal log]

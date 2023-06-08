@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.2
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,6 +352,14 @@ Texte
 
 [Owners]
 
+[Adding bots to MUC is not supported]
+
+[Not supported]
+Non supporté
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Avertissement
 [Message link]
 
 [create chat]
@@ -380,14 +388,6 @@ Texte
 Inconnu
 [Enter new chat title]
 
-[Adding bots to MUC is not supported]
-
-[Not supported]
-Non supporté
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
-[Warning]
-Avertissement
 [You've been kicked by ]
 
 [Chat]
@@ -396,7 +396,7 @@ Avertissement
 
 [&Invite a user]
 
-[View/change &title]
+[View/change &topic]
 
 [&Destroy room]
 
@@ -566,9 +566,13 @@ Italien
 
 [Ban user]
 
-[Destroy room]
-
 [Open broadcast]
+
+[View/change topic]
+
+[Invite a user]
+
+[Destroy room]
 
 [Reload messages from vk.com...]
 

@@ -18,16 +18,32 @@ Groupes :
 
 [Do not open chat windows on creation]
 
+[Compress files on send]
+
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
+[Add phone contact]
+
+[First name:]
+Prénom :
+[Last name:]
+Nom :
+[Phone:]
+Téléphone :
+[Cancel]
+Annuler
+[Forward message]
+
+[Forward]
 
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 
 [Enter verification code received by email]
 
-[Enter the secret code sent to your Telegram on another device]
+[Enter the secret code sent to another device]
 
 [Enter password]
 Entrez le passe
@@ -52,9 +68,12 @@ Erreur
 
 [Visitor]
 Visiteur
-;file \protocols\Telegram\src\main.cpp
-[Premium user]
+[&Leave chat session]
 
+;file \protocols\Telegram\src\main.cpp
+[Telegram Premium user]
+
+;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 Réseau
@@ -62,8 +81,11 @@ Réseau
 Compte
 [Advanced]
 Avancé
+;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [%d member(s)]
+
+[Saved messages]
 
 ;file \protocols\Telegram\src\utils.cpp
 [none]
@@ -74,3 +96,17 @@ aucun
 
 [Errors]
 Erreurs
+[Picture]
+
+[Video]
+Video
+[seconds]
+secondes
+[Voice message]
+
+[SmileyAdd plugin required to support stickers]
+
+[You received an invoice]
+
+[Title]
+

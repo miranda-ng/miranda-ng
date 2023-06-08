@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.3
+;  Version: 0.1.14.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,6 +352,14 @@ URL:
 Участники
 [Owners]
 Владельцы
+[Adding bots to MUC is not supported]
+Добавление ботов в групповые чаты не поддерживается
+[Not supported]
+Не поддерживается
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
 [Message link]
 Ссылка на сообщение
 [create chat]
@@ -380,14 +388,6 @@ URL:
 Неизвестный
 [Enter new chat title]
 Введите новый заголовок чата
-[Adding bots to MUC is not supported]
-Добавление ботов в групповые чаты не поддерживается
-[Not supported]
-Не поддерживается
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
-[Warning]
-Предупреждение
 [You've been kicked by ]
 Вы были выкинуты пользователем\s
 [Chat]
@@ -396,8 +396,8 @@ URL:
 Выкидывание ботов не поддерживается
 [&Invite a user]
 &Пригласить пользователя
-[View/change &title]
-Просмотр/смена &заголовка
+[View/change &topic]
+Просмотр/смена &темы
 [&Destroy room]
 &Удалить комнату чата
 [&User details]
@@ -566,10 +566,14 @@ ID получателя ошибочен или неизвестен
 Удалить из списка друзей
 [Ban user]
 Забанить пользователя
-[Destroy room]
-Удалить комнату чата
 [Open broadcast]
 Открыть трансляцию
+[View/change topic]
+Просмотреть/изменить тему
+[Invite a user]
+Пригласить пользователя
+[Destroy room]
+Удалить комнату чата
 [Reload messages from vk.com...]
 Загрузить историю с сайта...
 [for last week]

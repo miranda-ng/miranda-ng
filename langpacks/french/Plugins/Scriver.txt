@@ -118,6 +118,8 @@ Derniers
 Évènements
 [minutes]
 minutes
+[Automatically copy selected text]
+Copier le texte sélectionné
 [Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -246,6 +248,8 @@ Groupe chats
 [Action: Send message]
 
 ;file \plugins\Scriver\src\chat_options.cpp
+[Appearance and functionality of chat windows]
+
 [Flash when someone speaks]
 
 [Flash when a word is highlighted]
@@ -264,10 +268,36 @@ Ne pas afficher automatiquement la fenêtre en joignant un salon
 
 [Add ':' to auto-completed names]
 
+[Icons to display in the message log]
+Icônes à afficher dans le journal des messages
+[Show icon for topic changes]
+Changements de sujet
+[Show icon for users joining]
+Usagers entrants
+[Show icon for users disconnecting]
+Usagers qui se déconnectent
+[Show icon for messages]
+Messages
+[Show icon for actions]
+Actions
+[Show icon for highlights]
+Texte surligné
+[Show icon for users leaving]
+Usagers sortants
+[Show icon for users kicking other user]
+Exclusions
+[Show icon for notices]
+
+[Show icon for name changes]
+Changements de nom
+[Show icon for information messages]
+Messages d'information
+[Show icon for status changes]
+Changements d'état du contact
+[Appearance]
+Apparence
 [Prefix all events with a timestamp]
 Afficher date/heure pour tous les évènements
-[Only prefix with timestamp if it has changed]
-N'afficher l'heure que si elle change
 [Timestamp has same color as the event]
 Date/heure de la même couleur que l'évènement
 [Indent the second line of a message]
@@ -277,8 +307,6 @@ Mettre la deuxième ligne d'un message en retrait
 [Strip colors from messages]
 
 [Enable 'event filter' for new rooms]
-
-[Appearance and functionality of chat windows]
 
 [nick of current contact (if defined)]
 
@@ -330,8 +358,6 @@ Mettre la deuxième ligne d'un message en retrait
 
 [Variables]
 
-[Appearance]
-Apparence
 [Select folder]
 Sélectionnez un répertoire
 [Message sessions]
@@ -481,28 +507,14 @@ Coréen (Johab)
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User menu - %s]
 Menu contact - %s
-[Nickname]
-Pseudo
-[Unique ID]
-ID unique
-[Status]
-État
 ;file \plugins\Scriver\src\msglog.cpp
-[Me]
-
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My contact]
-
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 
 [Yesterday]
+
+[Me]
+
+[My contact]
 
 [File sent]
 Fichier envoyé
@@ -570,8 +582,6 @@ Invisible
 [Typing notify]
 Notification de frappe
 ;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Message de %s
 [%s is typing a message]
 %s écrit un message
 [Typing notification]

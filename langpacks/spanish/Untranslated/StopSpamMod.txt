@@ -25,7 +25,6 @@
 [After congratulation (ICQ only)]
 [Automatically grant authorization]
 [Request authorization from contacts which pass StopSpam test]
-[Remove all temporary contacts after restart]
 [Use regex for answers checking]
 [Log Spammers to system history]
 [Use math expression in question]

@@ -1027,14 +1027,9 @@ Nastavení
 Formát záznamu
 [Highlighting]
 Zvýrazňování
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s říká:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Rozhovor...
-[Message from %s]
-Zpráva od: %s
 [Default container]
 Výchozí kontejner
 [Attach to]
@@ -1618,6 +1613,10 @@ Příchozí zpráva
 Odchozí zpráva
 [Status change]
 Změna stavu
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Použít pro kontejner statickou ikonu
 [Sounds (status bar)]

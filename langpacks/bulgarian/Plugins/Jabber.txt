@@ -178,6 +178,8 @@ Jabber vCard: Добавяне на телефон
 Видео
 [Modem]
 Модем
+[Enable OMEMO]
+
 [Load]
 Зареди
 [Save]
@@ -379,10 +381,6 @@ XML конзола
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Протокол за Jabber връзки
-[Frame title]
-Заглавие на рамката
-[Frame text]
-Текст в рамката
 [Jabber Activity]
 Jabber дейност
 [Jabber Mood]
@@ -1005,9 +1003,11 @@ Jabber източник
 [Incoming note]
 Входяща бележка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Do you want to create OMEMO session with new device:]
+[Unknown device added]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+
+[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1430,6 +1430,8 @@ Jabber източник
 
 [Enable carbon copies (XEP-0280)]
 
+[Enable HTTP File Upload (XEP-0363)]
+
 [Enable VOIP (experimental)]
 
 [Server options]
@@ -1452,8 +1454,6 @@ Jabber източник
 Автоматично добавяне на контакт след упълномощаването му
 [Automatically accept authorization requests]
 Автоматично приемане на молбите за упълномощаване
-[Automatically download files passed via HTTP File Upload]
-
 [Fix incorrect timestamps in incoming messages]
 Поправяне на грешните времеви марки във входящите съобщения
 [Enable XMPP link processing (requires AssocMgr)]
@@ -1871,14 +1871,20 @@ XML (кодиран с UTF-8)
 
 [Fingerprint]
 Отпечатък
-[Own device]
+[This device]
 
-[Trusted]
+[Untrust]
 
-[UNTRUSTED]
+[Trust]
 
-[Unknown]
-Неизвестно
+[Kill session]
+
+[Remove device]
+
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+
+[Delete device %d from the announce?]
+
 [Photo]
 Снимка
 ;file \protocols\JabberG\src\jabber_util.cpp

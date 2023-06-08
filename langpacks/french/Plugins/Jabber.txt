@@ -178,6 +178,8 @@ Portable
 Video
 [Modem]
 Modem
+[Enable OMEMO]
+
 [Load]
 Charger
 [Save]
@@ -379,10 +381,6 @@ Dialogue
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Raccourci du protocole Jabber
-[Frame title]
-
-[Frame text]
-
 [Jabber Activity]
 
 [Jabber Mood]
@@ -1005,9 +1003,11 @@ Etes-vous sûr?
 [Incoming note]
 
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Do you want to create OMEMO session with new device:]
+[Unknown device added]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+
+[Trust on first use]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1430,6 +1430,8 @@ Envoi de message
 
 [Enable carbon copies (XEP-0280)]
 
+[Enable HTTP File Upload (XEP-0363)]
+
 [Enable VOIP (experimental)]
 
 [Server options]
@@ -1451,8 +1453,6 @@ Voir les services de transports dans ma liste de contact
 [Automatically add contact when accept authorization]
 Ajouter auto. un contact après une autorisation acceptée
 [Automatically accept authorization requests]
-
-[Automatically download files passed via HTTP File Upload]
 
 [Fix incorrect timestamps in incoming messages]
 
@@ -1871,14 +1871,20 @@ Format inconnu
 
 [Fingerprint]
 
-[Own device]
+[This device]
 
-[Trusted]
+[Untrust]
 
-[UNTRUSTED]
+[Trust]
 
-[Unknown]
-Inconnu
+[Kill session]
+
+[Remove device]
+
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+
+[Delete device %d from the announce?]
+
 [Photo]
 Photo
 ;file \protocols\JabberG\src\jabber_util.cpp

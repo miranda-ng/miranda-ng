@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.2.3
+;  Version: 0.96.3.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -22,8 +22,6 @@ Nie otwieraj okien czatów po ich utworzeniu
 
 [Launch mailbox in a browser on click]
 
-[Show error popups]
-Pokaż powiadomienia o błędach
 [Notifications]
 Powiadomienia
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -65,6 +63,10 @@ Wpisz hasło:
 [Remember this session password]
 Zapamiętaj hasło dla tej sesji
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
+[admin]
+admin
+[member]
+członek
 [&Invite a user]
 &Zaproś
 [&Leave/destroy chat]
@@ -96,6 +98,8 @@ Zaawansowane
 [You have %d unread emails]
 
 ;file \protocols\ICQ-WIM\src\proto.cpp
+[%s error notifications]
+
 [Synchronize server groups]
 
 [Edit my web profile]
@@ -113,10 +117,6 @@ Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 
-[admin]
-admin
-[member]
-członek
 [Unknown sticker]
 
 [User sent a sticker:]

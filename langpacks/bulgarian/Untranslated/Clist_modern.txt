@@ -1,5 +1,6 @@
 [Tile vertically according to row height]
 [Skin folder]
+[Show groups folded]
 [Show account names]
 [Move offline users to bottom]
 [Place offline users out of groups]

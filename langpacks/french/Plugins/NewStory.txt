@@ -72,14 +72,6 @@ Options du journal
 Paramètres
 [Templates]
 Modèles
-[Copy]
-Copier
-[Edit]
-Éditer
-[Delete]
-Effacer
-[Select all]
-Tout sélectionner
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 Messages reçus
@@ -134,6 +126,8 @@ Page web
 À propos
 [History search results]
 
+[Copy]
+Copier
 [Export...]
 Exportation...
 [Delete...]
@@ -172,6 +166,12 @@ Terminé
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
 
+[Edit]
+Éditer
+[Delete]
+Effacer
+[Select all]
+Tout sélectionner
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 

@@ -10,6 +10,7 @@
 [New password is not equal to confirmation]
 [Old password is not valid]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+[Invalid search string]
 [The friend ID did not designate a valid friend]
 [This client is currently not connected to the friend]
 [An allocation error occurred while increasing the send queue size]

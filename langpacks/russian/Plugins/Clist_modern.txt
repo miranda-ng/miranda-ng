@@ -52,6 +52,8 @@
 Папка скинов
 [Download more skins]
 Скачать скины
+[Cancel]
+Отмена
 [Available view modes]
 Доступные режимы вида
 [Include protocols]
@@ -60,16 +62,12 @@
 Включить группы
 [Show contacts in groups]
 Показывать контакты в группах
+[Hide empty groups]
+Скрыть пустые группы
+[Show groups folded]
+Показывать группы свёрнутыми
 [Include status modes]
 Включить статусы
-[Cancel]
-Отмена
-[Sticky contacts]
-Закреплённые контакты
-[Clear all]
-Очистить
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Используя список контактов с левой стороны, вы можете выбрать контакты, которые будут закреплены за этим режимом просмотра. Эти контакты будут игнорировать стандартные правила фильтра и использовать только фильтр статуса ниже.
 [Protocol]
 Протокол
 [Group]
@@ -82,10 +80,12 @@
 секунд
 [View mode options]
 Настройки режима вида
-[Editing view mode]
-Режим просмотра по умолчанию
 [Last message]
 Последнее сообщение
+[Sticky contacts]
+Закреплённые контакты
+[Clear all]
+Очистить
 [Status bar]
 Панель статусов
 [Show status bar]
@@ -834,6 +834,14 @@ Angeli-Ka (графика), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Все контакты
+[Configure view modes]
+Настройка режимов вида
+[Add view mode]
+Добавить режим вида
+[Rename view mode]
+Переименовать режим вида
+[Remove view mode]
+Удалить режим вида
 [Ungrouped contacts]
 Контакты вне групп
 [And]
@@ -850,20 +858,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Часов
 [Days]
 Дней
-[Configuring view mode: %s]
-Настройка режима вида: %s
-[Add view mode]
-Добавить режим вида
-[Rename view mode]
-Переименовать режим вида
-[Remove view mode]
-Удалить режим вида
-[Filtering]
-Фильтрация
-[*** All contacts ***]
-*** Все контакты ***
-[Configure view modes]
-Настройка режимов вида
 [Enter view mode name]
 Введите имя режима вида
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Angeli-Ka (графика), FYR (шаблон)
 Действительно удалить режим? Отмена не возможна!
 [Delete a view mode]
 Удаление режима просмотра
+[Configuring view mode: %s]
+Настройка режима вида: %s
+[*** All contacts ***]
+*** Все контакты ***
+[Editing view mode]
+Режим просмотра по умолчанию
+[Filtering]
+Фильтрация
 [Setup view modes...]
 Настроить режимы вида...
 [Select a view mode]

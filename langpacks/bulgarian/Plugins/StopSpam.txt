@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -36,8 +36,6 @@
 Блокиране на молбите за упълномощаване
 [Answer is not case sensitive]
 Без различаване на малки от главни букви
-[Remove all temporary contacts after restart]
-Премахване на временните контакти след рестартиране
 [Log Spammers to system history]
 Вписване на спамърите в системната история
 ;file \plugins\StopSpamPlus\src\events.cpp
@@ -54,11 +52,6 @@
 Съобщения
 [Accounts]
 Акаунти
-;file \plugins\StopSpamPlus\src\services.cpp
-[Not In List]
-Не е в списъка
-[Complete]
-Завършен
 ;file \plugins\StopSpamPlus\src\settings.cpp
 [Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
 Заради спамъри съм инсталирал приставка за борба с нежелани съобщения. Ако желаете да се свържете с мен, моля отговерете със следния текст: nospam.\r\nSpammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.
@@ -69,6 +62,3 @@ StopSpam: изпратете съобщение и отговорете на в�
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 StopSpam
-;file \plugins\StopSpamPlus\src\stopspam.cpp
-[Remove Temporary Contacts]
-Премахване на временните контакти

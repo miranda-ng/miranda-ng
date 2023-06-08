@@ -12,6 +12,7 @@
 [E-mail notification]
 [You received e-mail from %s: %s]
 [You have %d unread emails]
+[%s error notifications]
 [Synchronize server groups]
 [Edit my web profile]
 [UIN/e-mail/phone]

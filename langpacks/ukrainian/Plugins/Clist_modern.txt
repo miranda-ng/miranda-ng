@@ -52,6 +52,8 @@
 Папка скінів
 [Download more skins]
 Завантажити скіни
+[Cancel]
+Скасувати
 [Available view modes]
 Доступні режими перегляду
 [Include protocols]
@@ -60,16 +62,12 @@
 Включити групи
 [Show contacts in groups]
 Показувати контакти в групах
+[Hide empty groups]
+Сховати порожні групи
+[Show groups folded]
+
 [Include status modes]
 Включити статуси
-[Cancel]
-Скасувати
-[Sticky contacts]
-Закріплені контакти
-[Clear all]
-Очистити
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-У списку ліворуч виберіть контакти, які будуть закріплені за цим режимом перегляду. Ці контакти ігноруватимуть стандартні правила фільтру і використовуватимуть лише фільтр статусу нижче.
 [Protocol]
 Протокол
 [Group]
@@ -82,10 +80,12 @@
 секунд
 [View mode options]
 Налаштування режиму перегляду
-[Editing view mode]
-
 [Last message]
 Останнє повідомлення
+[Sticky contacts]
+Закріплені контакти
+[Clear all]
+Очистити
 [Status bar]
 Панель статусів
 [Show status bar]
@@ -834,6 +834,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Усі контакти
+[Configure view modes]
+Налаштування режимів перегляду
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Ungrouped contacts]
 Контакти поза групами
 [And]
@@ -850,20 +858,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Годин
 [Days]
 Днів
-[Configuring view mode: %s]
-Налаштування режиму перегляду: %s
-[Add view mode]
-
-[Rename view mode]
-
-[Remove view mode]
-
-[Filtering]
-Фільтрація
-[*** All contacts ***]
-*** Усі контакти ***
-[Configure view modes]
-Налаштування режимів перегляду
 [Enter view mode name]
 
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 Справді видалити режим? Результат цієї дії є незворотним!
 [Delete a view mode]
 Видалення режиму перегляду
+[Configuring view mode: %s]
+Налаштування режиму перегляду: %s
+[*** All contacts ***]
+*** Усі контакти ***
+[Editing view mode]
+
+[Filtering]
+Фільтрація
 [Setup view modes...]
 Налаштувати режими перегляду...
 [Select a view mode]

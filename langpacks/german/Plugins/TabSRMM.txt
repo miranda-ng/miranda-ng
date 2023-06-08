@@ -1027,14 +1027,9 @@ Einstellungen
 Verlaufsformatierung
 [Highlighting]
 Hervorhebungen
-;file \plugins\TabSRMM\src\chat_tools.cpp
-[%s%s says:%s %s]
-%s%s sagt:%s %s
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Nachrichtensitzung...
-[Message from %s]
-Nachricht von %s
 [Default container]
 Standardcontainer
 [Attach to]
@@ -1618,6 +1613,10 @@ Eingehende Nachricht
 Ausgehende Nachricht
 [Status change]
 Statusänderung
+[Secure message]
+
+[Secure message (verified)]
+
 [Static container icon]
 Statisches Containericon
 [Sounds (status bar)]

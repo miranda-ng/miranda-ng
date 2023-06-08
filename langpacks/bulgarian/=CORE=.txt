@@ -360,8 +360,8 @@
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Изскачане на прозореца при състояние:
-[In background]
-без фокусиране (на заден план)
+[Don't steal focus]
+
 [Maximum number of flashes (0 = indefinite)]
 Максимален брой мигания (0 = = безкрайност)
 [Close the message window on send]
@@ -420,6 +420,8 @@
 Събития от преди
 [minutes old]
 минути
+[Automatically copy selected text]
+Автокопиране на маркирания текст
 [Use a tabbed interface]
 Ползване на табове
 [Close tab on double click]
@@ -1142,18 +1144,16 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на състоянието в подсказка
 [Default settings for known event types]
 Стандартни настройки за видовете събития
-[Show when filter is active]
-Показване при включен филтър
 [Popup]
 Рopup
 [Sound]
 Звук
 [Log to file]
 Запис във файл
-[Show icons in tray only when the chat room is not active]
-Показване на икони в трея само при неактивна чат стая
 [Highlight event]
 Отличаване на събитие
+[Show icons in tray only when the chat room is not active]
+Показване на икони в трея само при неактивна чат стая
 [Show popups only when the chat room is not active]
 Показване на popups, когато чат стаята е активна
 [Show button menus when right clicking the buttons]
@@ -1373,12 +1373,12 @@ Google Translate
 [&E-mail]
 Имейл
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Файл от %s
 [bytes]
 байта
 [&File]
 Файл
+[File from %s]
+Файл от %s
 [File &transfers...]
 Обмен на файлове...
 [Incoming]
@@ -1495,62 +1495,6 @@ Google Translate
 [Send message]
 Изпращане на съобщение
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Мигане на прозореца при ново съобщение
-[Flash window when a word is highlighted]
-Мигане на прозореца при отличаване на дума
-[Show list of users in the chat room]
-Списък с потребители в чат стаята
-[Show the topic of the room on your contact list (if supported)]
-Показване на темата на стаята в списъка с контакти (ако се поддържа)
-[Do not play sounds when the chat room is focused]
-Без звук, когато чат стаята е на фокус
-[Do not pop up the window when joining a chat room]
-Без изскачане на прозореца при влизане в чат стая
-[Show contact statuses if protocol supports them]
-Показване състоянието на потребителите (ако се поддържа от протокола)
-[Display contact status icon before user role icon]
-Иконата за състояние на потребителя пред иконата на протокола
-[Prefix all events with a timestamp]
-Времева марка като представка за всички събития
-[Only prefix with timestamp if it has changed]
-Представка (времева марка) само ако времето е различно
-[Timestamp has same color as the event]
-Еднакъв цвят на времевата марка и събитието
-[Indent the second line of a message]
-Отстъп на втория ред от всяко съобщение
-[Limit user names in the message log to 20 characters]
-Ограничаване на потребителските имена в дневника за съобщения до 20 знака
-[Add ':' to auto-completed user names]
-Добавяне на ":" след автодовършените потребителски имена
-[Strip colors from messages in the log]
-Премахване на цветовете от съобщенията в дневника
-[Enable the 'event filter' for new rooms]
-Включване на филтъра за събития в нови стаи
-[Show icon for topic changes]
-Смяна на темата (topic)
-[Show icon for users joining]
-Влизане на потребител
-[Show icon for users disconnecting]
-Излизане от мрежата на потребители
-[Show icon for messages]
-Съобщение
-[Show icon for actions]
-Действия
-[Show icon for highlights]
-Отличаване
-[Show icon for users leaving]
-Излизане на потребител
-[Show icon for users kicking other user]
-Потребител изгонва друг потребител
-[Show icon for notices]
-Известие
-[Show icon for name changes]
-Промяна на прякор
-[Show icon for information messages]
-Информационни съобщения
-[Show icon for status changes]
-Промяна на състояние
 [Window icon]
 Икона на прозореца
 [Bold]
@@ -1607,20 +1551,71 @@ Google Translate
 Дневник за груповите чатове
 [Appearance and functionality of chat room windows]
 Външен вид и функционалност на чат стаите
+[Flash window when someone speaks]
+Мигане на прозореца при ново съобщение
+[Flash window when a word is highlighted]
+Мигане на прозореца при отличаване на дума
+[Show list of users in the chat room]
+Списък с потребители в чат стаята
+[Show the topic of the room on your contact list (if supported)]
+Показване на темата на стаята в списъка с контакти (ако се поддържа)
+[Do not play sounds when the chat room is focused]
+Без звук, когато чат стаята е на фокус
+[Do not pop up the window when joining a chat room]
+Без изскачане на прозореца при влизане в чат стая
+[Show contact statuses if protocol supports them]
+Показване състоянието на потребителите (ако се поддържа от протокола)
+[Display contact status icon before user role icon]
+Иконата за състояние на потребителя пред иконата на протокола
 [Appearance of the message log]
 Външен вид на дневника за съобщения
+[Prefix all events with a timestamp]
+Времева марка като представка за всички събития
+[Only prefix with timestamp if it has changed]
+Представка (времева марка) само ако времето е различно
+[Timestamp has same color as the event]
+Еднакъв цвят на времевата марка и събитието
+[Indent the second line of a message]
+Отстъп на втория ред от всяко съобщение
+[Limit user names in the message log to 20 characters]
+Ограничаване на потребителските имена в дневника за съобщения до 20 знака
+[Add ':' to auto-completed user names]
+Добавяне на ":" след автодовършените потребителски имена
+[Strip colors from messages in the log]
+Премахване на цветовете от съобщенията в дневника
+[Enable the 'event filter' for new rooms]
+Включване на филтъра за събития в нови стаи
 [Icons to display in the message log]
 Икони за изобразяване в дневника за съобщения
+[Show icon for topic changes]
+Смяна на темата (topic)
+[Show icon for users joining]
+Влизане на потребител
+[Show icon for users disconnecting]
+Излизане от мрежата на потребители
+[Show icon for messages]
+Съобщение
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Отличаване
+[Show icon for users leaving]
+Излизане на потребител
+[Show icon for users kicking other user]
+Потребител изгонва друг потребител
+[Show icon for notices]
+Известие
+[Show icon for name changes]
+Промяна на прякор
+[Show icon for information messages]
+Информационни съобщения
+[Show icon for status changes]
+Промяна на състояние
 [Chat log]
 Чат дневник
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Входящо съобщение (10х10)
-[Outgoing message (10x10)]
-Изходящо съобщение (10х10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s пише съобщение...
@@ -1637,6 +1632,14 @@ Google Translate
 [Message session]
 Разговор
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Входящо съобщение (10х10)
+[Outgoing message (10x10)]
+Изходящо съобщение (10х10)
+[Encrypted (10x10)]
+
+[Encrypted verified (10x10)]
+
 [Me]
 Аз
 [File sent]
@@ -1673,8 +1676,6 @@ Google Translate
 [Typing notify]
 Уведомяване при писане
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Съобщение от %s
 [%s is typing a message]
 %s пише съобщение
 [Typing notification]
@@ -2071,8 +2072,6 @@ Popups са изключени
 %s даде статут "%s" на %s в %s
 [%s disables '%s' status for %s in %s]
 %s отне статута "%s" на %s в %s
-[%s says]
-%s каза
 [Chat rooms]
 
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,10 +2807,23 @@ WAV файлове
 Прякор
 [Unique ID]
 Уникален ID
+[Disable the event filter (Ctrl+F)]
+
+[Enable the event filter (Ctrl+F)]
+
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+
+[Download]
+Сваляне
+[Copy URL]
+Копиране на URL
 [Copy all]
 Копиране на всичко
 [Look up '%s':]
@@ -2830,6 +2842,9 @@ WAV файлове
 <Разделител>
 [Toolbar]
 Лента с инструменти
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Съобщение от %s
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Неуточнено

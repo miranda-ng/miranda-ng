@@ -45,6 +45,8 @@
 [Do nothing (ignore Esc key)]
 [Window layout tweaks]
 [Image tag]
+[Secure message]
+[Secure message (verified)]
 [Deferred]
 [Message window warning]
 [tabSRMM internal log]

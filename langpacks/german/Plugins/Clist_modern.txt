@@ -52,6 +52,8 @@ WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich,
 Skinverzeichnis
 [Download more skins]
 Weitere Skins herunterladen
+[Cancel]
+Abbrechen
 [Available view modes]
 Verfügbare Kontaktfilter
 [Include protocols]
@@ -60,16 +62,12 @@ Protokolle auswählen
 Gruppen auswählen
 [Show contacts in groups]
 Kontakte gruppiert anzeigen
+[Hide empty groups]
+Leere Gruppen ausblenden
+[Show groups folded]
+
 [Include status modes]
 Statusmodus auswählen
-[Cancel]
-Abbrechen
-[Sticky contacts]
-Wichtige Kontakte
-[Clear all]
-Alles löschen
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-In der Kontaktliste auf der linken Seite können Sie Kontakte auswählen, die in diesem Kontaktfilter "fest" sind. Diese Kontakte werden die Standardfilterregeln ignorieren und nur den Statusfilter unten benutzen.
 [Protocol]
 Protokoll
 [Group]
@@ -82,10 +80,12 @@ Diesen Kontaktfilter automatisch löschen nach
 Sekunden
 [View mode options]
 Kontaktfiltereinstellungen
-[Editing view mode]
-Kontaktfilter bearbeiten
 [Last message]
 Letzte Nachricht
+[Sticky contacts]
+Wichtige Kontakte
+[Clear all]
+Alles löschen
 [Status bar]
 Statusleiste
 [Show status bar]
@@ -834,6 +834,14 @@ Toolbar aktualisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [All contacts]
 Alle Kontakte
+[Configure view modes]
+Kontaktfilter einrichten
+[Add view mode]
+Kontaktfilter hinzufügen
+[Rename view mode]
+Kontaktfilter umbenennen
+[Remove view mode]
+Kontaktfilter entfernen
 [Ungrouped contacts]
 Nicht gruppierte Kontakte
 [And]
@@ -850,20 +858,6 @@ Minuten
 Stunden
 [Days]
 Tage
-[Configuring view mode: %s]
-Diesen Kontaktfilter einrichten: %s
-[Add view mode]
-Kontaktfilter hinzufügen
-[Rename view mode]
-Kontaktfilter umbenennen
-[Remove view mode]
-Kontaktfilter entfernen
-[Filtering]
-Filtern
-[*** All contacts ***]
-*** Alle Kontakte ***
-[Configure view modes]
-Kontaktfilter einrichten
 [Enter view mode name]
 Namen des Kontaktfilters eingeben
 [A view mode with this name does already exist]
@@ -876,6 +870,14 @@ Namen des neuen Kontaktfilters eingeben
 Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
 [Delete a view mode]
 Kontaktfilter löschen
+[Configuring view mode: %s]
+Diesen Kontaktfilter einrichten: %s
+[*** All contacts ***]
+*** Alle Kontakte ***
+[Editing view mode]
+Kontaktfilter bearbeiten
+[Filtering]
+Filtern
 [Setup view modes...]
 Kontaktfilter einstellen...
 [Select a view mode]

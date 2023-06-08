@@ -22,6 +22,8 @@
 [Display metacontact icons]
 [On tab control]
 [On the button bar]
+[Secure message]
+[Secure message (verified)]
 [Sent OK]
 [Suspended]
 [tabSRMM internal log]

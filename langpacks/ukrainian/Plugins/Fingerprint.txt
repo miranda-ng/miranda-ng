@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
-;  Version: 0.2.0.1
+;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -55,25 +55,6 @@
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Значки клієнтів
-;file \plugins\FingerprintNG\src\finger_groups.h
-[Client icons]
-Клієнти
-[Pack overlays]
-Оверлеї збірок
-[Multi-proto clients]
-Мультипротокол
-[Other protocols]
-Інші протоколи
-[Overlays]
-Оверлеї
-[Resource]
-Ресурс
-[Platform]
-Операційна система
-[Security]
-Безпека
-[Protocol]
-Протокол
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Стабільна Miranda NG
@@ -198,3 +179,22 @@ Gadu-Gadu v8 клієнт
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Значки
+;file \plugins\FingerprintNG\src\prepare.cpp
+[Client icons]
+Клієнти
+[Pack overlays]
+Оверлеї збірок
+[Multi-proto clients]
+Мультипротокол
+[Other protocols]
+Інші протоколи
+[Overlays]
+Оверлеї
+[Resource]
+Ресурс
+[Platform]
+Операційна система
+[Security]
+Безпека
+[Protocol]
+Протокол

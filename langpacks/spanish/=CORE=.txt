@@ -360,8 +360,8 @@ Siempre que se pregunte sobre archivos de personas que no están en la lista
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
-[In background]
-En segundo plano
+[Don't steal focus]
+
 [Maximum number of flashes (0 = indefinite)]
 
 [Close the message window on send]
@@ -420,6 +420,8 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
+[Automatically copy selected text]
+
 [Use a tabbed interface]
 Usar interfaz con pestañas
 [Close tab on double click]
@@ -1142,18 +1144,16 @@ Interfaz simple clic
 Mostrar estado sobre herramientas
 [Default settings for known event types]
 
-[Show when filter is active]
-
 [Popup]
 Ventana emergente
 [Sound]
 
 [Log to file]
 
-[Show icons in tray only when the chat room is not active]
-Mostrar iconos en la bandeja sólo cuando el chat no está activo
 [Highlight event]
 
+[Show icons in tray only when the chat room is not active]
+Mostrar iconos en la bandeja sólo cuando el chat no está activo
 [Show popups only when the chat room is not active]
 Mostrar ventanas emergentes cuando el chat no está activo
 [Show button menus when right clicking the buttons]
@@ -1373,12 +1373,12 @@ Enviar e-mail
 [&E-mail]
 E-mail
 ;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Archivo de %s
 [bytes]
 bytes
 [&File]
 &Archivo
+[File from %s]
+Archivo de %s
 [File &transfers...]
 &Transferencias de archivos...
 [Incoming]
@@ -1495,62 +1495,6 @@ Mensajería
 [Send message]
 Enviar mensaje
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Flash window when someone speaks]
-Parpadear ventana cuando alguien habla
-[Flash window when a word is highlighted]
-Parpadear ventana cuando se resalta una palabra
-[Show list of users in the chat room]
-Mostrar lista de usuarios en la sala de chat
-[Show the topic of the room on your contact list (if supported)]
-Mostrar el tema de la sala en su lista de contactos (si es compatible)
-[Do not play sounds when the chat room is focused]
-No reproducir sonidos cuando la sala de chat esta enfocada
-[Do not pop up the window when joining a chat room]
-No abrir la ventana al unirse a una sala de chat
-[Show contact statuses if protocol supports them]
-Mostrar estados de contacto si el protocolo lo soporta
-[Display contact status icon before user role icon]
-Mostrar icono de estado de contacto antes icono de función de usuario
-[Prefix all events with a timestamp]
-Prefijo de todos los eventos con una fecha y hora
-[Only prefix with timestamp if it has changed]
-Sólo prefijo de marca de tiempo si ha cambiado
-[Timestamp has same color as the event]
-La marca de tiempo tiene mismo color que evento
-[Indent the second line of a message]
-Sangría de la segunda línea de un mensaje
-[Limit user names in the message log to 20 characters]
-Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
-[Add ':' to auto-completed user names]
-Añadir ':' a los nombres de usuario auto-completado
-[Strip colors from messages in the log]
-Quitar los colores de los mensajes en el registro
-[Enable the 'event filter' for new rooms]
-Habilitar el "filtro de eventos" para nuevas salas
-[Show icon for topic changes]
-Mostrar icono de cambios de temas
-[Show icon for users joining]
-Mostrar icono para usuarios entrando
-[Show icon for users disconnecting]
-Mostrar icono para usuarios que se desconectan
-[Show icon for messages]
-Mostrar icono para mensajes
-[Show icon for actions]
-Mostrar icono para acciones
-[Show icon for highlights]
-Mostrar icono para destacados
-[Show icon for users leaving]
-Mostrar icono para usuarios que salen
-[Show icon for users kicking other user]
-Mostrar icono para usuarios que sacan a otro usuario
-[Show icon for notices]
-Mostrar icono de notificaciones
-[Show icon for name changes]
-Mostrar icono de cambio de nombre
-[Show icon for information messages]
-Mostrar icono de mensajes de información
-[Show icon for status changes]
-Mostrar icono de cambia de estado
 [Window icon]
 Icono de ventana
 [Bold]
@@ -1607,20 +1551,71 @@ Información (10x10)
 Registro de Grupo de Chats
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de ventanas de chat
+[Flash window when someone speaks]
+Parpadear ventana cuando alguien habla
+[Flash window when a word is highlighted]
+Parpadear ventana cuando se resalta una palabra
+[Show list of users in the chat room]
+Mostrar lista de usuarios en la sala de chat
+[Show the topic of the room on your contact list (if supported)]
+Mostrar el tema de la sala en su lista de contactos (si es compatible)
+[Do not play sounds when the chat room is focused]
+No reproducir sonidos cuando la sala de chat esta enfocada
+[Do not pop up the window when joining a chat room]
+No abrir la ventana al unirse a una sala de chat
+[Show contact statuses if protocol supports them]
+Mostrar estados de contacto si el protocolo lo soporta
+[Display contact status icon before user role icon]
+Mostrar icono de estado de contacto antes icono de función de usuario
 [Appearance of the message log]
 Apariencia del registro de mensajes
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una fecha y hora
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
+[Indent the second line of a message]
+Sangría de la segunda línea de un mensaje
+[Limit user names in the message log to 20 characters]
+Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
+[Add ':' to auto-completed user names]
+Añadir ':' a los nombres de usuario auto-completado
+[Strip colors from messages in the log]
+Quitar los colores de los mensajes en el registro
+[Enable the 'event filter' for new rooms]
+Habilitar el "filtro de eventos" para nuevas salas
 [Icons to display in the message log]
 Iconos a mostrar en el registro de mensajes
+[Show icon for topic changes]
+Mostrar icono de cambios de temas
+[Show icon for users joining]
+Mostrar icono para usuarios entrando
+[Show icon for users disconnecting]
+Mostrar icono para usuarios que se desconectan
+[Show icon for messages]
+Mostrar icono para mensajes
+[Show icon for actions]
+Mostrar icono para acciones
+[Show icon for highlights]
+Mostrar icono para destacados
+[Show icon for users leaving]
+Mostrar icono para usuarios que salen
+[Show icon for users kicking other user]
+Mostrar icono para usuarios que sacan a otro usuario
+[Show icon for notices]
+Mostrar icono de notificaciones
+[Show icon for name changes]
+Mostrar icono de cambio de nombre
+[Show icon for information messages]
+Mostrar icono de mensajes de información
+[Show icon for status changes]
+Mostrar icono de cambia de estado
 [Chat log]
 Registro de chat
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
-;file \src\core\stdmsg\src\globals.cpp
-[Incoming message (10x10)]
-Mensaje entrante (10x10)
-[Outgoing message (10x10)]
-Mensaje saliente (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [%s is typing a message...]
 %s está escribiendo un mensaje...
@@ -1637,6 +1632,14 @@ Mensaje saliente (10x10)
 [Message session]
 Sesión de mensaje
 ;file \src\core\stdmsg\src\msglog.cpp
+[Incoming message (10x10)]
+Mensaje entrante (10x10)
+[Outgoing message (10x10)]
+Mensaje saliente (10x10)
+[Encrypted (10x10)]
+
+[Encrypted verified (10x10)]
+
 [Me]
 
 [File sent]
@@ -1673,8 +1676,6 @@ Registro de mensajería
 [Typing notify]
 Notificación de escritura
 ;file \src\core\stdmsg\src\msgs.cpp
-[Message from %s]
-Mensaje de
 [%s is typing a message]
 %s está escribiendo un mensaje
 [Typing notification]
@@ -2071,8 +2072,6 @@ Información en %s
 %s habilita '%s' de estado para %s en %s
 [%s disables '%s' status for %s in %s]
 %s deshabilita '%s' de estado para %s en %s
-[%s says]
-%s dice
 [Chat rooms]
 
 ;file \src\mir_app\src\chat_ui.cpp
@@ -2808,10 +2807,23 @@ Archivos WAV
 Apodo
 [Unique ID]
 ID único
+[Disable the event filter (Ctrl+F)]
+
+[Enable the event filter (Ctrl+F)]
+
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_hpp.cpp
+[History++ log window]
+
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Unnamed]
+
+[Download]
+Descargar
+[Copy URL]
+
 [Copy all]
 
 [Look up '%s':]
@@ -2830,6 +2842,9 @@ Ni una palabra para buscar
 <Separador>
 [Toolbar]
 Barra de herramientas
+;file \src\mir_app\src\srmm_util.cpp
+[Message from %s]
+Mensaje de
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 <Sin especificar>

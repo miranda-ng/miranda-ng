@@ -72,14 +72,6 @@
 Настройки
 [Templates]
 Шаблони
-[Copy]
-Копиране
-[Edit]
-Редактиране
-[Delete]
-Изтриване
-[Select all]
-Избор - всичко
 ;file \plugins\NewStory\src\fonts.cpp
 [Incoming messages]
 Входящите съобщения
@@ -134,6 +126,8 @@
 Относно
 [History search results]
 
+[Copy]
+Копиране
 [Export...]
 Износ...
 [Delete...]
@@ -172,6 +166,12 @@
 ;file \plugins\NewStory\src\history_menus.cpp
 [User history]
 
+[Edit]
+Редактиране
+[Delete]
+Изтриване
+[Select all]
+Избор - всичко
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Главна икона
