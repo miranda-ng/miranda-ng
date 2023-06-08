@@ -361,14 +361,14 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		blob.write(dbei);
 	}
 
-	bool bShow = (pre->dwFlags & PRFF_SILENT) == 0;
+	bool bShow = (pre->dwFlags & (PRFF_SILENT | PRFF_SENT)) == 0;
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 
 	CLISTEVENT cle = {};
 	cle.hContact = ccs->hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = pre->lParam;
-	
+
 	if (bShow && g_plugin.bAutoAccept && Contact::OnList(ccs->hContact))
 		LaunchRecvDialog(&cle);
 	else {
