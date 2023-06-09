@@ -41,6 +41,9 @@
     <ClCompile Include="src\base64.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\bufq.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\bufref.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -48,6 +51,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\cf-https-connect.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cf-h1-proxy.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cf-h2-proxy.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cf-haproxy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\cf-socket.c">
@@ -131,6 +143,9 @@
     <ClCompile Include="src\dynbuf.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\dynhds.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\easy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -170,9 +185,6 @@
     <ClCompile Include="src\gopher.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\h2h3.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\hash.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -204,6 +216,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\http.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\http1.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\http2.c">
@@ -468,8 +483,12 @@
     <ClInclude Include="src\amigaos.h" />
     <ClInclude Include="src\arpa_telnet.h" />
     <ClInclude Include="src\asyn.h" />
+    <ClInclude Include="src\bufq.h" />
     <ClInclude Include="src\bufref.h" />
     <ClInclude Include="src\c-hyper.h" />
+    <ClInclude Include="src\cf-h1-proxy.h" />
+    <ClInclude Include="src\cf-h2-proxy.h" />
+    <ClInclude Include="src\cf-haproxy.h" />
     <ClInclude Include="src\cf-https-connect.h" />
     <ClInclude Include="src\cf-socket.h" />
     <ClInclude Include="src\cfilters.h" />
@@ -520,6 +539,7 @@
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
     <ClInclude Include="src\dynbuf.h" />
+    <ClInclude Include="src\dynhds.h" />
     <ClInclude Include="src\easyif.h" />
     <ClInclude Include="src\easy_lock.h" />
     <ClInclude Include="src\easyoptions.h" />
@@ -533,13 +553,13 @@
     <ClInclude Include="src\functypes.h" />
     <ClInclude Include="src\getinfo.h" />
     <ClInclude Include="src\gopher.h" />
-    <ClInclude Include="src\h2h3.h" />
     <ClInclude Include="src\hash.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
     <ClInclude Include="src\http_aws_sigv4.h" />
     <ClInclude Include="src\http.h" />
+    <ClInclude Include="src\http1.h" />
     <ClInclude Include="src\http2.h" />
     <ClInclude Include="src\http_chunks.h" />
     <ClInclude Include="src\http_digest.h" />

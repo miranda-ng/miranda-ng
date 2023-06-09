@@ -17,10 +17,22 @@
     <ClCompile Include="src\base64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\bufq.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\bufref.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\c-hyper.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cf-h1-proxy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cf-h2-proxy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cf-haproxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cf-https-connect.c">
@@ -107,6 +119,9 @@
     <ClCompile Include="src\dynbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dynhds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\easy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -146,9 +161,6 @@
     <ClCompile Include="src\gopher.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\h2h3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\hash.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,6 +192,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\http.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\http1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\http2.c">
@@ -487,10 +502,22 @@
     <ClInclude Include="src\asyn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\bufq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\bufref.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\c-hyper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cf-h1-proxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cf-h2-proxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cf-haproxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\cf-https-connect.h">
@@ -643,6 +670,9 @@
     <ClInclude Include="src\dynbuf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\dynhds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\easyif.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -682,9 +712,6 @@
     <ClInclude Include="src\gopher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\h2h3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -701,6 +728,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\http.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\http1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\http2.h">
