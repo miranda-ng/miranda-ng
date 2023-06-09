@@ -1,8 +1,8 @@
-#ifndef _LIBSSH2_SFTP_H
-#define _LIBSSH2_SFTP_H
+#ifndef __LIBSSH2_SFTP_H
+#define __LIBSSH2_SFTP_H
 /*
- * Copyright (C) 2010 - 2012 by Daniel Stenberg
- * Author: Daniel Stenberg <daniel@haxx.se>
+ * Copyright (C) Daniel Stenberg
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
  * with or without modification, are permitted provided
@@ -37,6 +37,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 /*
@@ -66,10 +67,6 @@ struct sftp_zombie_requests {
     struct list_node node;
     uint32_t request_id;
 };
-
-#ifndef MIN
-#define MIN(x,y) ((x)<(y)?(x):(y))
-#endif
 
 struct _LIBSSH2_SFTP_PACKET
 {
@@ -153,9 +150,10 @@ struct _LIBSSH2_SFTP
     uint32_t last_errno;
 
     /* Holder for partial packet, use in libssh2_sftp_packet_read() */
-    unsigned char partial_size[4];      /* buffer for size field   */
-    size_t partial_size_len;            /* size field length       */
-    unsigned char *partial_packet;      /* The data                */
+    unsigned char packet_header[9];
+    /* packet size (4) packet type (1) request id (4) */
+    size_t packet_header_len;           /* packet_header length    */
+    unsigned char *partial_packet;      /* The data, with header   */
     uint32_t partial_len;               /* Desired number of bytes */
     size_t partial_received;            /* Bytes received so far   */
 
@@ -235,4 +233,4 @@ struct _LIBSSH2_SFTP
     uint32_t symlink_request_id;
 };
 
-#endif
+#endif /* __LIBSSH2_SFTP_H */

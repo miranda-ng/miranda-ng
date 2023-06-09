@@ -1,7 +1,6 @@
 #ifndef __LIBSSH2_COMP_H
 #define __LIBSSH2_COMP_H
-
-/* Copyright (C) 2009-2010 by Daniel Stenberg
+/* Copyright (C) Daniel Stenberg
  *
  * Redistribution and use in source and binary forms,
  * with or without modification, are permitted provided
@@ -36,6 +35,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include "libssh2_priv.h"

@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>LIBSSH2_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244;4310;4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir).\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -47,6 +47,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\agent.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\agent_win.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\bcrypt_pbkdf.c">
@@ -62,6 +65,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\crypt.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\crypto.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\global.c">
@@ -85,13 +91,7 @@
     <ClCompile Include="src\mac.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\mbedtls.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\misc.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\openssl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\packet.c">
@@ -118,13 +118,12 @@
     <ClCompile Include="src\userauth.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\userauth_kbd_packet.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\version.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\wincng.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClInclude Include="src\blf.h" />
     <ClInclude Include="src\channel.h" />
     <ClInclude Include="src\comp.h" />
     <ClInclude Include="src\crypto.h" />
@@ -132,7 +131,6 @@
     <ClInclude Include="src\libssh2_config.h" />
     <ClInclude Include="src\libssh2_priv.h" />
     <ClInclude Include="src\mac.h" />
-    <ClInclude Include="src\mbedtls.h" />
     <ClInclude Include="src\misc.h" />
     <ClInclude Include="src\openssl.h" />
     <ClInclude Include="src\packet.h" />
@@ -140,6 +138,6 @@
     <ClInclude Include="src\sftp.h" />
     <ClInclude Include="src\transport.h" />
     <ClInclude Include="src\userauth.h" />
-    <ClInclude Include="src\wincng.h" />
+    <ClInclude Include="src\userauth_kbd_packet.h" />
   </ItemGroup>
 </Project>

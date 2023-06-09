@@ -25,6 +25,7 @@
 #define HAVE_SELECT
 
 #define LIBSSH2_OPENSSL
+#define LIBSSH2_CRYPTO_C
 
 #ifdef _MSC_VER
 #if _MSC_VER < 1900

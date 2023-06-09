@@ -41,13 +41,7 @@
     <ClCompile Include="src\mac.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\mbedtls.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\misc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\openssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\packet.c">
@@ -77,14 +71,17 @@
     <ClCompile Include="src\version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wincng.c">
+    <ClCompile Include="src\agent_win.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\userauth_kbd_packet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\blf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -104,9 +101,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mac.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mbedtls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\misc.h">
@@ -130,7 +124,7 @@
     <ClInclude Include="src\userauth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\wincng.h">
+    <ClInclude Include="src\userauth_kbd_packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
