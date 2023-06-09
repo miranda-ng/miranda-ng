@@ -22,7 +22,7 @@ mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
-char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.30";
+char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko";
 char szVKUserAgentCH[] = "\"Microsoft Edge\";v =\"95\", \"Chromium\";v =\"95\", \";Not A Brand\";v = \"99\"";
 
 static char szVKTokenBeg[] = "access_token=";
