@@ -7,7 +7,6 @@
 #endif
 
 #include "pmsg.pb-c.h"
-
 size_t wa__advdevice_identity__get_packed_size
                      (const Wa__ADVDeviceIdentity *message)
 {
@@ -327,6 +326,7 @@ void   wa__avatar_user_settings__free_unpacked
   assert(message->descriptor == &wa__avatar_user_settings__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 size_t wa__biz_account_link_info__get_packed_size
                      (const Wa__BizAccountLinkInfo *message)
 {
@@ -646,6 +646,7 @@ void   wa__device_consistency_code_message__free_unpacked
   assert(message->descriptor == &wa__device_consistency_code_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 size_t wa__device_list_metadata__get_packed_size
                      (const Wa__DeviceListMetadata *message)
 {
@@ -3645,6 +3646,7 @@ void   wa__web_notifications_info__free_unpacked
   assert(message->descriptor == &wa__web_notifications_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 static const ProtobufCFieldDescriptor wa__advdevice_identity__field_descriptors[5] =
 {
   {
