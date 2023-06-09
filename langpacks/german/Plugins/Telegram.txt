@@ -19,13 +19,13 @@ Gerätename:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Compress files on send]
-
+Dateien beim Senden komprimieren
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
 [Add phone contact]
-
+Telefonkontakt hinzufügen
 [First name:]
 Vorname:
 [Last name:]
@@ -35,16 +35,16 @@ Telefon:
 [Cancel]
 Abbrechen
 [Forward message]
-
+Nachricht weiterleiten
 [Forward]
-Später
+Weiterleiten
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben
 [Enter verification code received by email]
 Geben Sie den per E-Mail empfangenen Überprüfungscode ein
 [Enter the secret code sent to another device]
-
+eben Sie den Geheimcode ein, der an ein anderes Gerät gesendet wurde
 [Enter password]
 Passwort eingeben
 [ (hint: %s)]
@@ -69,10 +69,10 @@ SuperAdministrator
 [Visitor]
 Besucher
 [&Leave chat session]
-Chat ver&lassen
+Chatsitzung ver&lassen
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
-
+Telegram-Premiumnutzer
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
@@ -86,7 +86,7 @@ Erweitert
 [%d member(s)]
 %d Mitglieder
 [Saved messages]
-
+Gespeicherte Nachrichten
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 Keine
@@ -97,16 +97,16 @@ Chaträume
 [Errors]
 Fehler
 [Picture]
-
+Bild
 [Video]
 Video
 [seconds]
 Sekunden
 [Voice message]
-
+Sprachnachricht
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You received an invoice]
-
+Sie haben eine Rechnung empfangen
 [Title]
 Titel

@@ -1614,9 +1614,9 @@ Ausgehende Nachricht
 [Status change]
 Statusänderung
 [Secure message]
-
+Sichere Nachricht
 [Secure message (verified)]
-
+Sichere Nachricht (verifiziert)
 [Static container icon]
 Statisches Containericon
 [Sounds (status bar)]

@@ -179,7 +179,7 @@ Video
 [Modem]
 Modem
 [Enable OMEMO]
-
+OMEMO aktivieren
 [Load]
 Laden
 [Save]
@@ -1004,11 +1004,11 @@ Sind Sie sich sicher?
 Eingehende Notiz
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Unknown device added]
-
+Unbekanntes Gerät hinzugefügt
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO kann keine privaten Nachrichten in öffentlichen Gruppenchats verschlüsseln. Im Klartext fortfahren?
 [Trust on first use]
-
+Bei erster Verwendung vertrauen
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch
@@ -1427,11 +1427,11 @@ Senden von Chatstatus aktivieren (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
 [Enable Message Archive Management (XEP-0313)]
-Message Archive Management unterstützen (XEP-0313)
+Message Archive Management aktivieren (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Durchschlagskopien aktivieren (XEP-0280)
 [Enable HTTP File Upload (XEP-0363)]
-
+HTTP File Upload aktivieren (XEP-0363)
 [Enable VOIP (experimental)]
 VOIP aktivieren (experimentell)
 [Server options]
@@ -1872,19 +1872,19 @@ Geräte-ID
 [Fingerprint]
 Fingerabdruck
 [This device]
-
+Dieses Gerät
 [Untrust]
-
+Misstrauen
 [Trust]
-
+Vertrauen
 [Kill session]
-
+Sitzung beenden
 [Remove device]
-
+Gerät entfernen
 [Remove device master key completely?\nPress NO to regenerate prekeys only]
-
+Master Key dieses Gerätes komplett entfernen?\nKlicken Sie Nein um nur Prekeys zu regenerieren.
 [Delete device %d from the announce?]
-
+Gerät %d aus der Anzeige löschen
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1943,7 +1943,7 @@ Kontakte
 Hinweis
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Client's program does not support voice calls]
-Das Programm des gegenübers unterstützt keine Sprachanrufe
+Das Programm des Gegenübers unterstützt keine Sprachanrufe
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

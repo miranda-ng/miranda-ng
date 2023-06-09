@@ -13,7 +13,7 @@ Aktion beim Start
 [Open Sessions Manager dialog]
 Öffne Sitzungsmanager
 [Open dialog if last session present]
-
+Dialog öffnen wenn letzte Sitzung vorhanden
 [Restore Last Session]
 Letzte Sitzung wiederherstellen
 [Do nothing]
@@ -116,12 +116,12 @@ Lade letzte Sitzung
 [View]
 Anzeigen
 [Do you want to save changes?]
-
+Möchten Sie die Änderungen speichern?
 [Message sessions]
 Nachrichtensitzungen
 ;file \plugins\Sessions\Src\SaveSessions.cpp
 [More contacts]
-
+Weitere Kontakte
 [Session name is empty, enter the name and try again]
 Sitzungsname ist leer, geben Sie einen Namen ein und versuchen Sie es erneut.
 [Current session is empty!]

@@ -27,7 +27,7 @@ UTF-8-Kodierung in alten Ereignissen korrigieren
 [Remove duplicate events]
 Duplizierte Ereignisse entfernen
 [Fix server event IDs]
-
+Server-Ereignis-IDs korrigieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -68,7 +68,7 @@ Datenbankverarbeitungsfunktion gestartet
 [%d duplicate events removed]
 %d duplizierte Ereignisse wurden entfernt
 [%d server event IDs fixed]
-
+%d Server-Ereignis-IDs wurden korrigiert
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]

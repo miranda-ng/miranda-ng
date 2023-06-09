@@ -1,7 +1,0 @@
-[Don't steal focus]
-[Encrypted (10x10)]
-[Encrypted verified (10x10)]
-[Disable the event filter (Ctrl+F)]
-[Enable the event filter (Ctrl+F)]
-[History++ log window]
-[Unnamed]

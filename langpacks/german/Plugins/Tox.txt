@@ -165,7 +165,7 @@ Konnte Tox-Core nicht initialisieren.
 [Query]
 Query
 [Invalid search string]
-
+Ungültige Sucheingabe
 ;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
 Eines der Argumente fehlt.

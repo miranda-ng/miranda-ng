@@ -65,7 +65,7 @@ Kontakte gruppiert anzeigen
 [Hide empty groups]
 Leere Gruppen ausblenden
 [Show groups folded]
-
+Gruppen zusammengeklappt anzeigen
 [Include status modes]
 Statusmodus auswählen
 [Protocol]

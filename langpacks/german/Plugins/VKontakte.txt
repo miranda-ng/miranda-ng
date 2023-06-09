@@ -397,7 +397,7 @@ Bots kicken wird nicht unterstützt
 [&Invite a user]
 Benutzer e&inladen
 [View/change &topic]
-&Thema setzen
+&Thema ansehen/ändern
 [&Destroy room]
 Raum &zerstören
 [&User details]
@@ -569,9 +569,9 @@ Benutzer bannen
 [Open broadcast]
 Übertragung öffnen
 [View/change topic]
-
+Thema ansehen/ändern
 [Invite a user]
-
+Benutzer einladen
 [Destroy room]
 Raum zerstören
 [Reload messages from vk.com...]

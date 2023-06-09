@@ -361,7 +361,7 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
 [Don't steal focus]
-
+Fokus nicht wegnehmen
 [Maximum number of flashes (0 = indefinite)]
 Maximale Anzahl Blinken (0 bedeutet unendlich)
 [Close the message window on send]
@@ -1637,9 +1637,9 @@ Eingehende Nachricht (10x10)
 [Outgoing message (10x10)]
 Ausgehende Nachricht (10x10)
 [Encrypted (10x10)]
-
+Verschlüsselt (10x10)
 [Encrypted verified (10x10)]
-
+Verschlüsselt verifiziert (10x10)
 [Me]
 Ich
 [File sent]
@@ -2808,18 +2808,18 @@ Nickname
 [Unique ID]
 Unique ID
 [Disable the event filter (Ctrl+F)]
-
+Ereignisfilter deaktivieren (Strg+F)
 [Enable the event filter (Ctrl+F)]
-
+Ereignisfilter aktivieren (Strg+F)
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Verlaufsbetrachter
 ;file \src\mir_app\src\srmm_log_hpp.cpp
 [History++ log window]
-
+History++ Verlaufsbetrachter
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
-
+Unbenannt
 [Download]
 Herunterladen
 [Copy URL]
