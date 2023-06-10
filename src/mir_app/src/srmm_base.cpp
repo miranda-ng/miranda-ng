@@ -98,7 +98,7 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 	ModifyMenu(hMenu, 0, MF_STRING | MF_BYPOSITION, IDM_SENDMESSAGE, szTemp);
 
 	Chat_CreateMenu(hSubMenu, m_si, uinew.pszUID);
-	UINT uID = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndOwner, nullptr);
+	UINT uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndOwner, nullptr);
 	switch (uID) {
 	case 0:
 		break;
@@ -462,7 +462,10 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			}
 			else ScreenToClient(m_nickList.GetHwnd(), &pt);
 
-			int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y)));
+			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+			if (HIWORD(item) != 0) // clicked outside the client area
+				break;
+
 			USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
 			if (ui != nullptr) {
 				if (pt.x == -1 && pt.y == -1)
