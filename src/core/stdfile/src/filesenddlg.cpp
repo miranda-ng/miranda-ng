@@ -224,7 +224,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Button_SetSkin_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User menu"));
 
 			char *szProto = Proto_GetBaseAccountName(dat->hContact);
-			Button_SetIcon_IcoLib(hwndDlg, IDC_PROTOCOL, Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE));
+			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, STM_SETICON, LPARAM(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE)), 0);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 

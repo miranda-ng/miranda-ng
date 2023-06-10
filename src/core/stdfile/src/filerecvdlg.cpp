@@ -220,7 +220,7 @@ public:
 		EnumChildWindows(m_hwnd, ClipSiblingsChildEnumProc, 0);
 
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_FILE);
-		Button_SetIcon_IcoLib(m_hwnd, IDC_PROTOCOL, Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE));
+		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, STM_SETICON, LPARAM(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE)), 0);
 
 		wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 		SetDlgItemText(m_hwnd, IDC_FROM, contactName);
