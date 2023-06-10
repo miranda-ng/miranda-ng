@@ -223,6 +223,9 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Button_SetSkin_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View user's history"));
 			Button_SetSkin_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User menu"));
 
+			char *szProto = Proto_GetBaseAccountName(dat->hContact);
+			Button_SetIcon_IcoLib(hwndDlg, IDC_PROTOCOL, Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE));
+
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
 			if (fsd->ppFiles != nullptr && fsd->ppFiles[0] != nullptr) {
@@ -253,19 +256,6 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return Menu_MeasureItem(lParam);
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto = Proto_GetBaseAccountName(dat->hContact);
-				if (szProto) {
-					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-					if (hIcon) {
-						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
-						DestroyIcon(hIcon);
-					}
-				}
-			}
-		}
 		return Menu_DrawItem(lParam);
 
 	case M_FILECHOOSEDONE:
