@@ -440,7 +440,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 	if (info.conn.useSSL) {
 		debugLogA("Intializing SSL connection");
 		if (!Netlib_StartSsl(info.s, nullptr)) {
-			MsgPopup(0, TranslateT("Error"), TranslateT("SSL intialization failed"));
+			MsgPopup(0, TranslateT("Error"), TranslateT("SSL initialization failed"));
 			if (!info.bIsReg)
 				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			else
