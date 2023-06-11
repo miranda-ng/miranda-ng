@@ -9,7 +9,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти до режиму очікування, якщо неактивні:
@@ -10819,8 +10819,6 @@ Enter для подробиць події
 Заголовок бесіди
 [Divider]
 Роздільник
-[Incoming url]
-Вхідне посилання
 [Outgoing contacts]
 Вихідні контакти
 [Outgoing file]
@@ -10949,8 +10947,8 @@ Enter для подробиць події
 Це вхідне повідомлення
 [Incoming URL Sample]
 Це вхідний URL
-[Incoming Url]
-Вхідний URL
+[Incoming URL]
+Вхідне посилання
 [Make sure you have CAPS LOCK turned off.]
 Переконайтеся, що CAPS LOCK вимкнено.
 [Miranda's settings used]
@@ -10971,7 +10969,7 @@ Enter для подробиць події
 Це вихідне повідомлення
 [Outgoing URL Sample]
 Це вихідний URL
-[Outgoing Url]
+[Outgoing URL]
 Вихідний URL
 [Recent at bottom]
 Останні внизу
@@ -13679,6 +13677,8 @@ Jabber vCard: додавання телефону
 Відео
 [Modem]
 Модем
+[Enable OMEMO]
+Увімкнути OMEMO
 [Load]
 Завантажити
 [Save]
@@ -14837,6 +14837,8 @@ xHTML-формат повідомлень чату
 Автоматично зберігати прийняті нотатки
 [Enable server-side history (XEP-0136)]
 Увімкнути історію на сервері (XEP-0136) (тільки при підтримці на стороні сервера)
+[Enable HTTP File Upload (XEP-0363)]
+Увімкнути HTTP File Upload (XEP-0363)
 [Server options]
 Налаштування сервера
 [Disable SASL authentication (for old servers)]

@@ -17,7 +17,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -5601,8 +5601,6 @@ Red
 &Seleccionar todo
 [Other event]
 Otros eventos
-[Incoming url]
-URL entrante
 [Outgoing contacts]
 Contactos salientes
 [Outgoing file]
@@ -5611,9 +5609,9 @@ Archivo saliente
 Barra de herramientas
 [and]
 y
-[Incoming Url]
+[Incoming URL]
 URL entrante
-[Outgoing Url]
+[Outgoing URL]
 URL saliente
 [Authorization request]
 Solicitud de autorización

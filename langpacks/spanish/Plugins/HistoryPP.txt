@@ -403,8 +403,6 @@ Otros eventos
 
 [Divider]
 
-[Incoming url]
-URL entrante
 [Outgoing contacts]
 Contactos salientes
 [Outgoing file]
@@ -535,7 +533,7 @@ y
 
 [Incoming URL Sample]
 
-[Incoming Url]
+[Incoming URL]
 URL entrante
 [Make sure you have CAPS LOCK turned off.]
 
@@ -557,7 +555,7 @@ URL entrante
 
 [Outgoing URL Sample]
 
-[Outgoing Url]
+[Outgoing URL]
 URL saliente
 [Recent at bottom]
 

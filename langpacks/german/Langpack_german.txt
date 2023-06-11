@@ -14,7 +14,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Untätig werden, wenn keine Aktion innerhalb von:
@@ -368,6 +368,8 @@ Umbenennen (Zusatz: (1), (2), ...)
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
+[Don't steal focus]
+Fokus nicht wegnehmen
 [Maximum number of flashes (0 = indefinite)]
 Maximale Anzahl Blinken (0 bedeutet unendlich)
 [Close the message window on send]
@@ -1616,6 +1618,10 @@ Nachrichtensitzung
 Eingehende Nachricht (10x10)
 [Outgoing message (10x10)]
 Ausgehende Nachricht (10x10)
+[Encrypted (10x10)]
+Verschlüsselt (10x10)
+[Encrypted verified (10x10)]
+Verschlüsselt verifiziert (10x10)
 [Me]
 Ich
 [File sent]
@@ -2706,8 +2712,16 @@ Alle abwählen
 Nickname
 [Unique ID]
 Unique ID
+[Disable the event filter (Ctrl+F)]
+Ereignisfilter deaktivieren (Strg+F)
+[Enable the event filter (Ctrl+F)]
+Ereignisfilter aktivieren (Strg+F)
 [Log viewer]
 Verlaufsbetrachter
+[History++ log window]
+History++ Verlaufsbetrachter
+[Unnamed]
+Unbenannt
 [Download]
 Herunterladen
 [Copy URL]
@@ -6248,6 +6262,8 @@ Gruppen auswählen
 Kontakte gruppiert anzeigen
 [Hide empty groups]
 Leere Gruppen ausblenden
+[Show groups folded]
+Gruppen zusammengeklappt anzeigen
 [Include status modes]
 Statusmodus auswählen
 [Protocol]
@@ -8729,6 +8745,8 @@ Alle Ereignisse als gelesen markieren
 UTF-8-Kodierung in alten Ereignissen korrigieren
 [Remove duplicate events]
 Duplizierte Ereignisse entfernen
+[Fix server event IDs]
+Server-Ereignis-IDs korrigieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -8763,6 +8781,8 @@ Datenbankverarbeitungsfunktion gestartet
 %d Ereignisse wurden als gelesen markiert
 [%d duplicate events removed]
 %d duplizierte Ereignisse wurden entfernt
+[%d server event IDs fixed]
+%d Server-Ereignis-IDs wurden korrigiert
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]
@@ -11242,8 +11262,6 @@ Entferne Filter
 Gesprächskopf
 [Divider]
 Trennlinie
-[Incoming url]
-Eingehende URL
 [Outgoing contacts]
 Ausgehende Kontakte
 [Outgoing file]
@@ -11374,8 +11392,8 @@ Eingehende Dateiübertragung:
 Beispiel eingehende Nachricht
 [Incoming URL Sample]
 Beispiel eingehende URL
-[Incoming Url]
-Eingehender URL
+[Incoming URL]
+Eingehende URL
 [Make sure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Miranda's settings used]
@@ -11396,7 +11414,7 @@ Ausgehende Dateiübertragung:
 Beispiel ausgehende Nachricht
 [Outgoing URL Sample]
 Beispiel Ausgehende URL
-[Outgoing Url]
+[Outgoing URL]
 Ausgehende URL
 [Recent at bottom]
 Neuste nach unten
@@ -14242,6 +14260,8 @@ Mobiltelefon
 Video
 [Modem]
 Modem
+[Enable OMEMO]
+OMEMO aktivieren
 [Load]
 Laden
 [Save]
@@ -15042,8 +15062,12 @@ Notizen wurden nicht gespeichert. Fenster schließen, ohne diese auf den Server 
 Sind Sie sich sicher?
 [Incoming note]
 Eingehende Notiz
+[Unknown device added]
+Unbekanntes Gerät hinzugefügt
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO kann keine privaten Nachrichten in öffentlichen Gruppenchats verschlüsseln. Im Klartext fortfahren?
+[Trust on first use]
+Bei erster Verwendung vertrauen
 [Afar]
 Afarisch
 [Abkhazian]
@@ -15461,9 +15485,11 @@ Senden von Chatstatus aktivieren (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
 [Enable Message Archive Management (XEP-0313)]
-Message Archive Management unterstützen (XEP-0313)
+Message Archive Management aktivieren (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Durchschlagskopien aktivieren (XEP-0280)
+[Enable HTTP File Upload (XEP-0363)]
+HTTP File Upload aktivieren (XEP-0363)
 [Enable VOIP (experimental)]
 VOIP aktivieren (experimentell)
 [Server options]
@@ -15894,6 +15920,20 @@ Unbekanntes Format
 Geräte-ID
 [Fingerprint]
 Fingerabdruck
+[This device]
+Dieses Gerät
+[Untrust]
+Misstrauen
+[Trust]
+Vertrauen
+[Kill session]
+Sitzung beenden
+[Remove device]
+Gerät entfernen
+[Remove device master key completely?\nPress NO to regenerate prekeys only]
+Master Key dieses Gerätes komplett entfernen?\nKlicken Sie Nein um nur Prekeys zu regenerieren.
+[Delete device %d from the announce?]
+Gerät %d aus der Anzeige löschen
 [Photo]
 Foto
 [Redirect]
@@ -15949,7 +15989,7 @@ Kontakte
 [Note]
 Hinweis
 [Client's program does not support voice calls]
-Das Programm des gegenübers unterstützt keine Sprachanrufe
+Das Programm des Gegenübers unterstützt keine Sprachanrufe
 [<advanced status slot>]
 <erweiterter Statusslot>
 [Afraid]
@@ -24473,6 +24513,8 @@ Sitzungsmanager für Miranda NG.
 Aktion beim Start
 [Open Sessions Manager dialog]
 Öffne Sitzungsmanager
+[Open dialog if last session present]
+Dialog öffnen wenn letzte Sitzung vorhanden
 [Restore Last Session]
 Letzte Sitzung wiederherstellen
 [Do nothing]
@@ -24571,8 +24613,12 @@ Lade Sitzung
 Lade letzte Sitzung
 [View]
 Anzeigen
+[Do you want to save changes?]
+Möchten Sie die Änderungen speichern?
 [Message sessions]
 Nachrichtensitzungen
+[More contacts]
+Weitere Kontakte
 [Session name is empty, enter the name and try again]
 Sitzungsname ist leer, geben Sie einen Namen ein und versuchen Sie es erneut.
 [Current session is empty!]
@@ -27904,6 +27950,10 @@ Eingehende Nachricht
 Ausgehende Nachricht
 [Status change]
 Statusänderung
+[Secure message]
+Sichere Nachricht
+[Secure message (verified)]
+Sichere Nachricht (verifiziert)
 [Static container icon]
 Statisches Containericon
 [Sounds (status bar)]
@@ -28103,10 +28153,14 @@ Standardgruppe:
 Gerätename:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
+[Compress files on send]
+Dateien beim Senden komprimieren
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
+[Add phone contact]
+Telefonkontakt hinzufügen
 [First name:]
 Vorname:
 [Last name:]
@@ -28115,12 +28169,16 @@ Nachname:
 Telefon:
 [Cancel]
 Abbrechen
+[Forward message]
+Nachricht weiterleiten
 [Forward]
-Später
+Weiterleiten
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben
 [Enter verification code received by email]
 Geben Sie den per E-Mail empfangenen Überprüfungscode ein
+[Enter the secret code sent to another device]
+eben Sie den Geheimcode ein, der an ein anderes Gerät gesendet wurde
 [Enter password]
 Passwort eingeben
 [ (hint: %s)]
@@ -28144,7 +28202,9 @@ SuperAdministrator
 [Visitor]
 Besucher
 [&Leave chat session]
-Chat ver&lassen
+Chatsitzung ver&lassen
+[Telegram Premium user]
+Telegram-Premiumnutzer
 [Network]
 Netzwerk
 [Account]
@@ -28153,6 +28213,8 @@ Konto
 Erweitert
 [%d member(s)]
 %d Mitglieder
+[Saved messages]
+Gespeicherte Nachrichten
 [none]
 Keine
 [Chat rooms]
@@ -28161,12 +28223,18 @@ Chaträume
 %s Fehlerbenachrichtigungen
 [Errors]
 Fehler
+[Picture]
+Bild
 [Video]
 Video
 [seconds]
 Sekunden
+[Voice message]
+Sprachnachricht
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
+[You received an invoice]
+Sie haben eine Rechnung empfangen
 [Title]
 Titel
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -29244,6 +29312,8 @@ Der Kontakt ist bereits in Ihrer Kontaktliste.
 Konnte Tox-Core nicht initialisieren.
 [Query]
 Query
+[Invalid search string]
+Ungültige Sucheingabe
 [One of the arguments is missing]
 Eines der Argumente fehlt.
 [Unable to allocate enough memory]
@@ -31490,7 +31560,7 @@ Bots kicken wird nicht unterstützt
 [&Invite a user]
 Benutzer e&inladen
 [View/change &topic]
-&Thema setzen
+&Thema ansehen/ändern
 [&Destroy room]
 Raum &zerstören
 [&User details]
@@ -31653,6 +31723,10 @@ Von Freundesliste löschen
 Benutzer bannen
 [Open broadcast]
 Übertragung öffnen
+[View/change topic]
+Thema ansehen/ändern
+[Invite a user]
+Benutzer einladen
 [Destroy room]
 Raum zerstören
 [Reload messages from vk.com...]

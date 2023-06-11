@@ -1,3 +1,0 @@
-[Open dialog if last session present]
-[Do you want to save changes?]
-[More contacts]

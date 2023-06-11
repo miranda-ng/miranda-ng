@@ -9,7 +9,6 @@
 [Unknown device added]
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 [Trust on first use]
-[Enable HTTP File Upload (XEP-0363)]
 [Enable VOIP (experimental)]
 [Use Stream Management (XEP-0198) if possible (experimental)]
 [Use TLS 1.3 bindings (if possible)]

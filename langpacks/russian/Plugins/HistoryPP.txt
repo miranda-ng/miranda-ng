@@ -403,8 +403,6 @@ Enter для подробностей события
 Заголовок беседы
 [Divider]
 Разделитель
-[Incoming url]
-Входящая ссылка
 [Outgoing contacts]
 Исходящие контакты
 [Outgoing file]
@@ -535,7 +533,7 @@ HTML файл
 Это входящее сообщение
 [Incoming URL Sample]
 Это входящий URL
-[Incoming Url]
+[Incoming URL]
 Входящий URL
 [Make sure you have CAPS LOCK turned off.]
 Убедитесь, что CAPS LOCK выключен.
@@ -557,7 +555,7 @@ HTML файл
 Это исходящее сообщение
 [Outgoing URL Sample]
 Это исходящий URL
-[Outgoing Url]
+[Outgoing URL]
 Исходящий URL
 [Recent at bottom]
 Последние внизу

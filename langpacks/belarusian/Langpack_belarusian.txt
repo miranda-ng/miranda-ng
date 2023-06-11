@@ -8,7 +8,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
@@ -10414,8 +10414,6 @@ Enter для падрабязнасцяў падзеі
 Загаловак гутаркі
 [Divider]
 Падзельнік
-[Incoming url]
-Уваходная спасылка
 [Outgoing contacts]
 Выходныя кантакты
 [Outgoing file]
@@ -10546,8 +10544,8 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Гэта ўваходнае паведамленне
 [Incoming URL Sample]
 Гэта ўваходны URL
-[Incoming Url]
-Уваходны URL
+[Incoming URL]
+Уваходная спасылка
 [Make sure you have CAPS LOCK turned off.]
 Пераканаецеся, што Caps Lock выключаны.
 [Miranda's settings used]
@@ -10568,7 +10566,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Гэта выходнае паведамленне
 [Outgoing URL Sample]
 Гэта выходны URL
-[Outgoing Url]
+[Outgoing URL]
 Выходны URL
 [Recent at bottom]
 Апошнія ўнізе

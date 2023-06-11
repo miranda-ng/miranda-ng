@@ -12,7 +12,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -9878,8 +9878,6 @@ Zrušit filtrování
 Záhlaví konverzace
 [Divider]
 Oddělovač
-[Incoming url]
-Příchozí odkaz
 [Outgoing contacts]
 Odchozí kontakty
 [Outgoing file]
@@ -9966,9 +9964,9 @@ a
 Žádost o autorizaci: %s (%s%s%d): %s
 [Authorization Request Sample]
 Ukázková žádost o autorizaci
-[Incoming Url]
+[Incoming URL]
 Příchozí odkaz
-[Outgoing Url]
+[Outgoing URL]
 Odchozí odkaz
 [Recent at bottom]
 Nejnovější dole

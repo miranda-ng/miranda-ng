@@ -9,7 +9,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -7401,8 +7401,6 @@ Aligner à droite
 Tapez Entrée pour ouvrir l'évènement
 [History search]
 Recherche
-[Incoming url]
-Lien reçu
 [Outgoing contacts]
 Envoi de contacts
 [Outgoing file]
@@ -7453,9 +7451,9 @@ La version de Emoticons n'est pas supportée.
 Tout &effacer
 [and]
 Et
-[Incoming Url]
+[Incoming URL]
 Lien reçu
-[Outgoing Url]
+[Outgoing URL]
 Lien envoyé
 [Authorization request]
 Demande d'autorisation

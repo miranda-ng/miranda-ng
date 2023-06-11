@@ -403,8 +403,6 @@ Enter отваря подробности за събитието
 Горен колонтитул на съобщенията
 [Divider]
 Разделител
-[Incoming url]
-Входящ url адрес
 [Outgoing contacts]
 Изходящи контакти
 [Outgoing file]
@@ -535,7 +533,7 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Пример за входящо съобщение
 [Incoming URL Sample]
 Входящо съобщение
-[Incoming Url]
+[Incoming URL]
 Входящ url адрес
 [Make sure you have CAPS LOCK turned off.]
 
@@ -557,7 +555,7 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Пример за изходящо съобщение
 [Outgoing URL Sample]
 Пример за изходящ url адрес
-[Outgoing Url]
+[Outgoing URL]
 Изходящ url адрес
 [Recent at bottom]
 Скорошните на дъното

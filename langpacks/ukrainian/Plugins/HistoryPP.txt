@@ -403,8 +403,6 @@ Enter для подробиць події
 Заголовок бесіди
 [Divider]
 Роздільник
-[Incoming url]
-Вхідне посилання
 [Outgoing contacts]
 Вихідні контакти
 [Outgoing file]
@@ -535,7 +533,7 @@ Enter для подробиць події
 Це вхідне повідомлення
 [Incoming URL Sample]
 Це вхідний URL
-[Incoming Url]
+[Incoming URL]
 Вхідний URL
 [Make sure you have CAPS LOCK turned off.]
 Переконайтеся, що CAPS LOCK вимкнено.
@@ -557,7 +555,7 @@ Enter для подробиць події
 Це вихідне повідомлення
 [Outgoing URL Sample]
 Це вихідний URL
-[Outgoing Url]
+[Outgoing URL]
 Вихідний URL
 [Recent at bottom]
 Останні внизу

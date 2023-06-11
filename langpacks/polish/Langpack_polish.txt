@@ -7,7 +7,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -11199,8 +11199,6 @@ Wyczyść filtr In-place
 Nagłówek rozmowy
 [Divider]
 Separator
-[Incoming url]
-Przychodzący link
 [Outgoing contacts]
 Wychodzący kontakt
 [Outgoing file]
@@ -11331,7 +11329,7 @@ Przychodzący transfer pliku:
 Przykładowa wiadomość przychodząca
 [Incoming URL Sample]
 Przykładowy, przychodzący link
-[Incoming Url]
+[Incoming URL]
 Przychodzący link
 [Make sure you have CAPS LOCK turned off.]
 Upewnij się, że masz wyłączony klawisz Caps Lock.
@@ -11353,7 +11351,7 @@ Wychodzący transfer pliku:
 Fragment wychodzącej wiadomości
 [Outgoing URL Sample]
 Fragment wychodzącego linku
-[Outgoing Url]
+[Outgoing URL]
 Wychodzący link
 [Recent at bottom]
 Ostatnie na dole
@@ -14133,6 +14131,8 @@ Telefon komórkowy
 Wideo
 [Modem]
 Modem
+[Enable OMEMO]
+Włącz OMEMO
 [Load]
 Wczytaj
 [Save]
@@ -15337,6 +15337,8 @@ Włącz historię po stronie serwera (XEP-0136)
 Włącz zarządzanie archiwum wiadomości (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Włącz kopie wiadomości do zasobów (XEP-0280)
+[Enable HTTP File Upload (XEP-0363)]
+ 
 [Server options]
 Opcje serwera
 [Disable SASL authentication (for old servers)]

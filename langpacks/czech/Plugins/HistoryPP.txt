@@ -403,8 +403,6 @@ Zrušit filtrování
 Záhlaví konverzace
 [Divider]
 Oddělovač
-[Incoming url]
-Příchozí odkaz
 [Outgoing contacts]
 Odchozí kontakty
 [Outgoing file]
@@ -535,7 +533,7 @@ Ukázková žádost o autorizaci
 
 [Incoming URL Sample]
 
-[Incoming Url]
+[Incoming URL]
 Příchozí odkaz
 [Make sure you have CAPS LOCK turned off.]
 
@@ -557,7 +555,7 @@ Příchozí odkaz
 
 [Outgoing URL Sample]
 
-[Outgoing Url]
+[Outgoing URL]
 Odchozí odkaz
 [Recent at bottom]
 Nejnovější dole

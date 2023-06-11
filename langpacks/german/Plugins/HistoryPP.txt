@@ -403,8 +403,6 @@ Entferne Filter
 Gesprächskopf
 [Divider]
 Trennlinie
-[Incoming url]
-Eingehende URL
 [Outgoing contacts]
 Ausgehende Kontakte
 [Outgoing file]
@@ -535,8 +533,8 @@ Eingehende Dateiübertragung:
 Beispiel eingehende Nachricht
 [Incoming URL Sample]
 Beispiel eingehende URL
-[Incoming Url]
-Eingehender URL
+[Incoming URL]
+Eingehende URL
 [Make sure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Miranda's settings used]
@@ -557,7 +555,7 @@ Ausgehende Dateiübertragung:
 Beispiel ausgehende Nachricht
 [Outgoing URL Sample]
 Beispiel Ausgehende URL
-[Outgoing Url]
+[Outgoing URL]
 Ausgehende URL
 [Recent at bottom]
 Neuste nach unten

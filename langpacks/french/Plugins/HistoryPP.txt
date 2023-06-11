@@ -403,8 +403,6 @@ Recherche
 
 [Divider]
 
-[Incoming url]
-Lien reçu
 [Outgoing contacts]
 Envoi de contacts
 [Outgoing file]
@@ -535,7 +533,7 @@ Et
 
 [Incoming URL Sample]
 
-[Incoming Url]
+[Incoming URL]
 Lien reçu
 [Make sure you have CAPS LOCK turned off.]
 
@@ -557,7 +555,7 @@ Lien reçu
 
 [Outgoing URL Sample]
 
-[Outgoing Url]
+[Outgoing URL]
 Lien envoyé
 [Recent at bottom]
 

@@ -403,8 +403,6 @@ Wyczyść filtr In-place
 Nagłówek rozmowy
 [Divider]
 Separator
-[Incoming url]
-Przychodzący link
 [Outgoing contacts]
 Wychodzący kontakt
 [Outgoing file]
@@ -535,7 +533,7 @@ Przychodzący transfer pliku:
 Przykładowa wiadomość przychodząca
 [Incoming URL Sample]
 Przykładowy, przychodzący link
-[Incoming Url]
+[Incoming URL]
 Przychodzący link
 [Make sure you have CAPS LOCK turned off.]
 Upewnij się, że masz wyłączony klawisz Caps Lock.
@@ -557,7 +555,7 @@ Wychodzący transfer pliku:
 Fragment wychodzącej wiadomości
 [Outgoing URL Sample]
 Fragment wychodzącego linku
-[Outgoing Url]
+[Outgoing URL]
 Wychodzący link
 [Recent at bottom]
 Ostatnie na dole

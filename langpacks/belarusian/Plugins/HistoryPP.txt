@@ -403,8 +403,6 @@ Enter для падрабязнасцяў падзеі
 Загаловак гутаркі
 [Divider]
 Падзельнік
-[Incoming url]
-Уваходная спасылка
 [Outgoing contacts]
 Выходныя кантакты
 [Outgoing file]
@@ -535,7 +533,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Гэта ўваходнае паведамленне
 [Incoming URL Sample]
 Гэта ўваходны URL
-[Incoming Url]
+[Incoming URL]
 Уваходны URL
 [Make sure you have CAPS LOCK turned off.]
 Пераканаецеся, што Caps Lock выключаны.
@@ -557,7 +555,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Гэта выходнае паведамленне
 [Outgoing URL Sample]
 Гэта выходны URL
-[Outgoing Url]
+[Outgoing URL]
 Выходны URL
 [Recent at bottom]
 Апошнія ўнізе
