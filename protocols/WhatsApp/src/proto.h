@@ -8,8 +8,17 @@ Copyright © 2019-23 George Hazan
 #if !defined(PROTO_H)
 #define PROTO_H
 
+#define WA_PROTO_MAJOR 2
+#define WA_PROTO_MINOR 2323
+#define WA_PROTO_BUILD 4
+#define WA_APPVERSION  WA_PROTO_MAJOR,WA_PROTO_MINOR,WA_PROTO_BUILD
+
+#define WA_STRINGIFY_IMPL(x)      #x
+#define WA_STRINGIFY(x)           WA_STRINGIFY_IMPL(x)
+
+#define WA_APPVERSION_STRING      WA_STRINGIFY(WA_APPVERSION)
+
 #define S_WHATSAPP_NET "@s.whatsapp.net"
-#define APP_VERSION "2.2230.15"
 #define KEY_BUNDLE_TYPE "\x05"
 
 class WhatsAppProto;
