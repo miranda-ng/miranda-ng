@@ -303,7 +303,7 @@ bool CTelegramProto::GetMessageFile(
 	if (!caption.empty())
 		pre.descr.a = caption.c_str();
 	if (pMsg->is_outgoing_)
-		pre.dwFlags = PRFF_SENT;
+		pre.dwFlags |= PRFF_SENT;
 	ProtoChainRecvFile(pUser->hContact, &pre);
 	return true;
 }
