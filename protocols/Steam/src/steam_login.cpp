@@ -27,6 +27,12 @@ void CSteamProto::Login()
 		SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 }
 
+void CSteamProto::LoginFailed()
+{
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iStatus);
+}
+
 void CSteamProto::Logout()
 {
 	ptrA token(getStringA("TokenSecret"));
@@ -36,6 +42,21 @@ void CSteamProto::Logout()
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
+}
+
+void CSteamProto::OnGotHosts(const JSONNode &root, void*)
+{
+	db_delete_module(0, STEAM_MODULE);
+
+	int i = 0;
+	CMStringA szSetting;
+	for (auto &it : root["response"]["serverlist_websockets"]) {
+		szSetting.Format("Host%d", i++);
+		db_set_ws(0, STEAM_MODULE, szSetting, it.as_mstring());
+	}
+
+	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT, i);
+	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_DATE, time(0));
 }
 
 void CSteamProto::OnGotRsaKey(const JSONNode &root, void *)

@@ -79,7 +79,6 @@ extern HANDLE hExtraXStatus;
 #include "api/login.h"
 #include "api/message.h"
 #include "api/pending.h"
-#include "api/poll.h"
 #include "api/rsa_key.h"
 #include "api/search.h"
 #include "api/session.h"

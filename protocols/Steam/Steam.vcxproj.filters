@@ -113,9 +113,6 @@
     <ClInclude Include="src\api\pending.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\poll.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\rsa_key.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>

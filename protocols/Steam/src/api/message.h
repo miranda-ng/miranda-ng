@@ -5,7 +5,7 @@ class SendMessageRequest : public HttpRequest
 {
 public:
 	SendMessageRequest(const char *token, const char *umqId, const char *steamId, const char *text) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
+		HttpRequest(REQUEST_POST, "/ISteamWebUserPresenceOAuth/Message/v0001")
 	{
 		this
 			<< CHAR_PARAM("access_token", token)
@@ -20,7 +20,7 @@ class SendTypingRequest : public HttpRequest
 {
 public:
 	SendTypingRequest(const char *token, const char *umqId, const char *steamId) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
+		HttpRequest(REQUEST_POST, "/ISteamWebUserPresenceOAuth/Message/v0001")
 	{
 		this
 			<< CHAR_PARAM("access_token", token)

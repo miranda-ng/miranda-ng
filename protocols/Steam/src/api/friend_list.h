@@ -5,7 +5,7 @@ class GetFriendListRequest : public HttpRequest
 {
 public:
 	GetFriendListRequest(const char *token, const char *steamId, const char *relationship) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetFriendList/v0001")
+		HttpRequest(REQUEST_GET, "/ISteamUserOAuth/GetFriendList/v0001")
 	{
 		this << CHAR_PARAM("access_token", token) << CHAR_PARAM("steamid", steamId) << CHAR_PARAM("relationship", relationship);
 	}

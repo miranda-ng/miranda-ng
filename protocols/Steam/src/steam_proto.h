@@ -36,6 +36,8 @@ typedef void(CSteamProto::*JsonCallback)(const JSONNode&, void*);
 struct HttpRequest : public MTHttpRequest<CSteamProto>
 {
 	HttpRequest(int iRequestType, const char *pszUrl);
+
+	NETLIBHTTPREQUEST* Get();
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -73,6 +75,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	bool IsMe(const char *steamId);
 
 	void Login();
+	void LoginFailed();
 	void Logout();
 
 	void OnGotRsaKey(const JSONNode &root, void *);
@@ -83,6 +86,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnAuthorizationError(const JSONNode &root);
 	void OnAuthorizationSuccess(const JSONNode &root);
 	void OnGotSession(const HttpResponse &response, void *);
+
+	void OnGotHosts(const JSONNode &root, void *);
 
 	void OnLoggedOn(const HttpResponse &response, void *);
 	void OnReLogin(const JSONNode &root, void *);

@@ -1,9 +1,15 @@
 #ifndef _STEAM_REQUEST_SESSION_H_
 #define _STEAM_REQUEST_SESSION_H_
 
-class GetSessionRequest : public HttpRequest
+struct GetHostsRequest : public HttpRequest
 {
-public:
+	GetHostsRequest() :
+		HttpRequest(REQUEST_GET, "/ISteamDirectory/GetCMList/v0001?cellid=0")
+	{}
+};
+
+struct GetSessionRequest : public HttpRequest
+{
 	GetSessionRequest(const char *token, const char *steamId, const char *cookie) :
 		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobileloginsucceeded")
 	{
@@ -23,9 +29,8 @@ public:
 	}
 };
 
-class GetSessionRequest2 : public HttpRequest
+struct GetSessionRequest2 : public HttpRequest
 {
-public:
 	GetSessionRequest2(const char *token, const char *steamId) :
 		HttpRequest(REQUEST_GET, STEAM_WEB_URL "/mobilesettings/GetManifest/v0001")
 	{

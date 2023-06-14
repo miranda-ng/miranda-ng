@@ -2,7 +2,7 @@
 
 bool CSteamProto::SendRequest(HttpRequest *request)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request);
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	delete request;
 	return response.IsSuccess();
@@ -10,7 +10,7 @@ bool CSteamProto::SendRequest(HttpRequest *request)
 
 bool CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	if (callback)
 		(this->*callback)(response, param);
@@ -20,7 +20,7 @@ bool CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void 
 
 bool CSteamProto::SendRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	if (callback) {
 		JSONNode root = JSONNode::parse(response.data());
@@ -35,10 +35,21 @@ bool CSteamProto::SendRequest(HttpRequest *request, JsonCallback callback, void 
 
 HttpRequest::HttpRequest(int iRequestType, const char *szUrl)
 {
+	flags = NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_DUMPASTEXT;
 	requestType = iRequestType;
 	timeout = 30000;
 	if (szUrl)
 		m_szUrl = szUrl;
+}
+
+NETLIBHTTPREQUEST* HttpRequest::Get()
+{
+	if (m_szUrl[0]== '/') {
+		m_szUrl.Insert(0, STEAM_API_URL);
+		AddHeader("User-Agent", "Valve/Steam HTTP Client 1.0");
+	}
+	szUrl = m_szUrl.GetBuffer();
+	return this;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@ class GetAppInfoRequest : public HttpRequest
 {
 public:
 	GetAppInfoRequest(const char *token, const char *appIds) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamGameOAuth/GetAppInfo/v0001")
+		HttpRequest(REQUEST_GET, "/ISteamGameOAuth/GetAppInfo/v0001")
 	{
 		this << CHAR_PARAM("access_token", token) << CHAR_PARAM("appIds", appIds);
 	}

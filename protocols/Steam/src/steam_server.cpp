@@ -22,6 +22,9 @@ void __cdecl CSteamProto::ServerThread(void *)
 	// load web socket servers first if needed
 	int iTimeDiff = db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_DATE);
 	if (!db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT) || time(0) - iTimeDiff > 3600 * 24 * 7) { // once a week
-		// if (!SendRequest())
+		if (!SendRequest(new GetHostsRequest(), &CSteamProto::OnGotHosts)) {
+			LoginFailed();
+			return;
+		}
 	}
 }
