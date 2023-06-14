@@ -371,7 +371,6 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 
 	char *szHost = nullptr, *szNewUrl = nullptr;
 	char *pszProxyAuthHdr = nullptr, *pszAuthHdr = nullptr;
-	int i, doneHostHeader, doneContentLengthHeader, doneProxyAuthHeader, doneAuthHeader;
 	int bytesSent = 0;
 	bool lastFirstLineFail = false;
 
@@ -475,14 +474,14 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 		CMStringA httpRequest(FORMAT, "%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
 
 		// HTTP headers
-		doneHostHeader = doneContentLengthHeader = doneProxyAuthHeader = doneAuthHeader = 0;
-		for (i = 0; i < nlhr->headersCount; i++) {
+		bool doneHostHeader = false, doneContentLengthHeader = false, doneProxyAuthHeader = false, doneAuthHeader = false, doneConnection = false;
+		for (int i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
-			if (!mir_strcmpi(p.szName, "Host")) doneHostHeader = 1;
-			else if (!mir_strcmpi(p.szName, "Content-Length")) doneContentLengthHeader = 1;
-			else if (!mir_strcmpi(p.szName, "Proxy-Authorization")) doneProxyAuthHeader = 1;
-			else if (!mir_strcmpi(p.szName, "Authorization")) doneAuthHeader = 1;
-			else if (!mir_strcmpi(p.szName, "Connection")) continue;
+			if (!mir_strcmpi(p.szName, "Host")) doneHostHeader = true;
+			else if (!mir_strcmpi(p.szName, "Content-Length")) doneContentLengthHeader = true;
+			else if (!mir_strcmpi(p.szName, "Proxy-Authorization")) doneProxyAuthHeader = true;
+			else if (!mir_strcmpi(p.szName, "Authorization")) doneAuthHeader = true;
+			else if (!mir_strcmpi(p.szName, "Connection")) doneConnection = true;
 			if (p.szValue == nullptr) continue;
 			httpRequest.AppendFormat("%s: %s\r\n", p.szName, p.szValue);
 		}
@@ -492,7 +491,8 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 			httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Authorization", pszProxyAuthHdr);
 		if (pszAuthHdr && !doneAuthHeader)
 			httpRequest.AppendFormat("%s: %s\r\n", "Authorization", pszAuthHdr);
-		httpRequest.AppendFormat("%s: %s\r\n", "Connection", "Keep-Alive");
+		if (!doneConnection)
+			httpRequest.AppendFormat("%s: %s\r\n", "Connection", "Keep-Alive");
 		httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Connection", "Keep-Alive");
 
 		// Add Sticky Headers
