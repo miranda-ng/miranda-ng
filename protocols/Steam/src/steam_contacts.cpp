@@ -209,7 +209,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 		CMStringW message(gameInfo);
 		if (gameId && message.IsEmpty()) {
 			ptrA token(getStringA("TokenSecret"));
-			PushRequest(new GetAppInfoRequest(token, appId.c_str()), &CSteamProto::OnGotAppInfo, (void*)hContact);
+			SendRequest(new GetAppInfoRequest(token, appId.c_str()), &CSteamProto::OnGotAppInfo, (void*)hContact);
 		}
 		else {
 			if (!gameId)
@@ -442,10 +442,10 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 	friendsMap.clear();
 
 	if (!steamIds.empty())
-		PushRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
+		SendRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
 
 	// Load last conversations
-	PushRequest(new GetConversationsRequest(this), &CSteamProto::OnGotConversations);
+	SendRequest(new GetConversationsRequest(this), &CSteamProto::OnGotConversations);
 }
 
 void CSteamProto::OnGotBlockList(const JSONNode &root, void *)
@@ -732,5 +732,5 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
 	// remove trailing ","
 	steamIds.pop_back();
 
-	PushRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
+	SendRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
 }

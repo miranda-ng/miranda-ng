@@ -1,11 +1,8 @@
 #include "stdafx.h"
 
 CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
-	PROTO<CSteamProto>(protoName, userName),
-	m_requestQueue(1), hAuthProcess(1), hMessageProcess(1)
+	PROTO<CSteamProto>(protoName, userName)
 {
-	m_hRequestsQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
 	// default group
 	m_defaultGroup = getWStringA("DefaultGroup");
 	if (m_defaultGroup == nullptr)
@@ -86,10 +83,6 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 
 CSteamProto::~CSteamProto()
 {
-	if (m_hRequestsQueueEvent) {
-		CloseHandle(m_hRequestsQueueEvent);
-		m_hRequestsQueueEvent = nullptr;
-	}
 }
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
@@ -130,7 +123,7 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 		ptrA steamId(getStringA("SteamID"));
 		char *who = getStringA(hContact, "SteamID");
 
-		PushRequest(
+		SendRequest(
 			new ApprovePendingRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnPendingApproved,
 			who);
@@ -160,7 +153,7 @@ int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 		ptrA steamId(getStringA("SteamID"));
 		char *who = getStringA(hContact, "SteamID");
 
-		PushRequest(
+		SendRequest(
 			new IgnorePendingRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnPendingIgnoreded,
 			who);
@@ -185,7 +178,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 		ptrA steamId(getStringA("SteamID"));
 		ptrA who(getStringA(hContact, "SteamID"));
 
-		PushRequest(
+		SendRequest(
 			new AddFriendRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnFriendAdded,
 			param);
@@ -220,7 +213,7 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 		return nullptr;
 
 	ptrA steamId(mir_u2a(id));
-	PushRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnSearchResults, (HANDLE)STEAM_SEARCH_BYID);
+	SendRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnSearchResults, (HANDLE)STEAM_SEARCH_BYID);
 
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
@@ -237,7 +230,7 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA keywords(mir_utf8encodeW(rtrimw(keywordsT)));
 
-	PushRequest(
+	SendRequest(
 		new SearchRequest(token, keywords),
 		&CSteamProto::OnSearchByNameStarted,
 		(HANDLE)STEAM_SEARCH_BYNAME);
@@ -297,10 +290,9 @@ int CSteamProto::SetStatus(int new_status)
 
 		Logout();
 	}
-	else if (m_hRequestQueueThread == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (m_hServerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
-		m_isTerminated = false;
-		ForkThread(&CSteamProto::RequestQueueThread);
+		ForkThread(&CSteamProto::ServerThread);
 
 		Login();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -348,6 +340,6 @@ void CSteamProto::OnContactDeleted(MCONTACT hContact)
 		ptrA sessionId(getStringA("SessionID"));
 		ptrA steamId(getStringA("SteamID"));
 		char *who = getStringA(hContact, "SteamID");
-		PushRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
+		SendRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
 }

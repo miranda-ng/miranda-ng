@@ -63,65 +63,21 @@ class CSteamProto : public PROTO<CSteamProto>
 	time_t m_idleTS;
 	HWND m_hwndGuard;
 
-	// requests
-	bool m_isTerminated;
-	mir_cs m_requestQueueLock;
-	HANDLE m_hRequestsQueueEvent;
-	HANDLE m_hRequestQueueThread;
-	LIST<RequestQueueItem> m_requestQueue;
-
 	// polling
-	ULONG hAuthProcess;
-	ULONG hMessageProcess;
+	ULONG hAuthProcess = 1;
+	ULONG hMessageProcess = 1;
 	mir_cs m_addContactLock;
 	mir_cs m_setStatusLock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
-public:
-	// PROTO_INTERFACE
-	CSteamProto(const char *protoName, const wchar_t *userName);
-	~CSteamProto();
+	// connection
+	HANDLE m_hServerThread;
+	void __cdecl ServerThread(void *);
 
-	// PROTO_INTERFACE
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
-	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
-
-	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;
-	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
-	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
-
-	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
-	HANDLE   GetAwayMsg(MCONTACT hContact) override;
-
-	HANDLE   SearchBasic(const wchar_t *id) override;
-	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-
-	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
-
-	int      SetStatus(int iNewStatus) override;
-
-	int      UserIsTyping(MCONTACT hContact, int type) override;
-
-	void     OnContactDeleted(MCONTACT) override;
-	MWindow  OnCreateAccMgrUI(MWindow) override;
-	void     OnModulesLoaded() override;
-
-	// menus
-	static void InitMenus();
-
-protected:
 	// requests
-	void SendRequest(HttpRequest *request);
-	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
-	void SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
-	void PushRequest(HttpRequest *request);
-	void PushRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
-	void PushRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
-	void PushToRequestQueue(RequestQueueItem *item);
-	RequestQueueItem *PopFromRequestQueue();
-	void ProcessRequestQueue();
-	void __cdecl RequestQueueThread(void*);
+	bool SendRequest(HttpRequest *request);
+	bool SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
+	bool SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 
 	// login
 	bool IsOnline();
@@ -130,17 +86,17 @@ protected:
 	void Login();
 	void Logout();
 
-	void OnGotRsaKey(const JSONNode &root, void*);
+	void OnGotRsaKey(const JSONNode &root, void *);
 
 	void OnGotCaptcha(const HttpResponse &response, void *arg);
-	
-	void OnAuthorization(const HttpResponse &response, void*);
+
+	void OnAuthorization(const HttpResponse &response, void *);
 	void OnAuthorizationError(const JSONNode &root);
 	void OnAuthorizationSuccess(const JSONNode &root);
-	void OnGotSession(const HttpResponse &response, void*);
+	void OnGotSession(const HttpResponse &response, void *);
 
-	void OnLoggedOn(const HttpResponse &response, void*);
-	void OnReLogin(const JSONNode &root, void*);
+	void OnLoggedOn(const HttpResponse &response, void *);
+	void OnReLogin(const JSONNode &root, void *);
 
 	void HandleTokenExpired();
 	void DeleteAuthSettings();
@@ -164,9 +120,9 @@ protected:
 	MCONTACT GetContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
 
-	void OnGotFriendList(const JSONNode &root, void*);
-	void OnGotBlockList(const JSONNode &root, void*);
-	void OnGotUserSummaries(const JSONNode &root, void*);
+	void OnGotFriendList(const JSONNode &root, void *);
+	void OnGotBlockList(const JSONNode &root, void *);
+	void OnGotUserSummaries(const JSONNode &root, void *);
 	void OnGotAvatar(const HttpResponse &response, void *arg);
 
 	void OnFriendAdded(const HttpResponse &response, void *arg);
@@ -189,7 +145,7 @@ protected:
 
 	// history
 	void OnGotConversations(const JSONNode &root, void *arg);
-	void OnGotHistoryMessages(const JSONNode &root, void*);
+	void OnGotHistoryMessages(const JSONNode &root, void *);
 
 	// menus
 	static int hChooserMenu;
@@ -210,7 +166,7 @@ protected:
 	void OnInitStatusMenu();
 
 	// avatars
-	wchar_t* GetAvatarFilePath(MCONTACT hContact);
+	wchar_t *GetAvatarFilePath(MCONTACT hContact);
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
 	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
 
@@ -272,6 +228,39 @@ protected:
 		mir_snprintf(accountId, "%llu", steamId - 76561197960265728ll);
 		return accountId;
 	}
+
+public:
+	// PROTO_INTERFACE
+	CSteamProto(const char *protoName, const wchar_t *userName);
+	~CSteamProto();
+
+	// PROTO_INTERFACE
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
+
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
+
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
+
+	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+
+	int      SetStatus(int iNewStatus) override;
+
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+
+	void     OnContactDeleted(MCONTACT) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnModulesLoaded() override;
+
+	// menus
+	static void InitMenus();
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>

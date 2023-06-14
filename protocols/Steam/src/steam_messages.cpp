@@ -17,7 +17,7 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, "SteamID"));
-	PushRequest(new SendMessageRequest(token, umqid, steamId, message), &CSteamProto::OnMessageSent, param);
+	SendRequest(new SendMessageRequest(token, umqid, steamId, message), &CSteamProto::OnMessageSent, param);
 	return hMessage;
 }
 
@@ -80,6 +80,6 @@ int CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, "SteamID"));
-	PushRequest(new SendTypingRequest(token, umqid, steamId));
+	SendRequest(new SendTypingRequest(token, umqid, steamId));
 	return 0;
 }

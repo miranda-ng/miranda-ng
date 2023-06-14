@@ -22,7 +22,7 @@ INT_PTR CSteamProto::AuthRevokeCommand(WPARAM hContact, LPARAM)
 	ptrA sessionId(getStringA("SessionID"));
 	ptrA steamId(getStringA("SteamID"));
 	char *who = getStringA(hContact, "SteamID");
-	PushRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, who);
+	SendRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, who);
 	return 0;
 }
 
@@ -32,7 +32,7 @@ int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 	ptrA sessionId(getStringA("SessionID"));
 	ptrA steamId(getStringA("SteamID"));
 	char *who = getStringA(hContact, "SteamID");
-	PushRequest(new BlockFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendBlocked, who);
+	SendRequest(new BlockFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendBlocked, who);
 	return 0;
 }
 
@@ -42,7 +42,7 @@ int CSteamProto::UnblockCommand(WPARAM hContact, LPARAM)
 	ptrA sessionId(getStringA("SessionID"));
 	ptrA steamId(getStringA("SteamID"));
 	char *who = getStringA(hContact, "SteamID");
-	PushRequest(new UnblockFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendUnblocked, who);
+	SendRequest(new UnblockFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendUnblocked, who);
 	return 0;
 }
 
@@ -59,7 +59,7 @@ INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));
-	PushRequest(new GetFriendListRequest(token, steamId, "ignoredfriend"), &CSteamProto::OnGotBlockList);
+	SendRequest(new GetFriendListRequest(token, steamId, "ignoredfriend"), &CSteamProto::OnGotBlockList);
 	return 0;
 }
 

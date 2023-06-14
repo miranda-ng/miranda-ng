@@ -67,7 +67,7 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 
 		if (needLoad) {
-			PushRequest(new GetAvatarRequest(avatarUrl), &CSteamProto::OnGotAvatar, (void *)pai->hContact);
+			SendRequest(new GetAvatarRequest(avatarUrl), &CSteamProto::OnGotAvatar, (void *)pai->hContact);
 			return GAIR_WAITFOR;
 		}
 		if (fileExist)

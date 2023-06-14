@@ -42,6 +42,7 @@
     <ClCompile Include="src\steam_options.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\steam_request.cpp" />
+    <ClCompile Include="src\steam_server.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />
     <ClCompile Include="src\steam_xstatus.cpp" />
     <ClInclude Include="src\api\app_info.h" />
