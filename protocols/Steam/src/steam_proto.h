@@ -3,12 +3,19 @@
 
 #define STEAM_SEARCH_BYID 1001
 #define STEAM_SEARCH_BYNAME 1002
-#define STEAM_TYPING_TIME 10
+
+#define STEAM_PROTOCOL_VERSION 65580
+#define STEAM_PROTOCOL_MASK 0x80000000
 
 // Global settings for all accounts: hosts' list
 #define STEAM_MODULE "Steam"
 #define DBKEY_HOSTS_COUNT "HostsCount"
 #define DBKEY_HOSTS_DATE  "HostsDate"
+
+enum EMsg
+{
+	ClientHello = 9805,
+};
 
 struct SendAuthParam
 {
@@ -65,6 +72,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	HNETLIBCONN m_hServerConn;
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
+
+	void WSSend(int msgType, const ProtobufCppMessage &msg);
 
 	// requests
 	bool SendRequest(HttpRequest *request);

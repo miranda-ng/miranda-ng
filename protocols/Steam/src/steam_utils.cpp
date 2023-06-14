@@ -1,5 +1,43 @@
 #include "stdafx.h"
 
+static bool sttIncludesSessionId(const ProtobufCppMessage &msg)
+{
+	if (!mir_strcmp(msg.descriptor->short_name, "CMsgClientHello"))
+		return false;
+	if (!mir_strcmp(msg.descriptor->short_name, "CMsgServiceMethodCallFromClientNonAuthed"))
+		return false;
+	return true;
+}
+
+void CSteamProto::WSSend(int msgType, const ProtobufCppMessage &msg)
+{
+	msgType |= STEAM_PROTOCOL_MASK;
+
+	CMsgProtoBufHeader hdr;
+	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
+	if (sttIncludesSessionId(msg)) {
+	}
+	else {
+		hdr.client_sessionid = 0;
+		hdr.steamid = 0;
+	}
+	hdr.jobid_source = hdr.jobid_target = -1;
+
+	unsigned hdrLen = (unsigned)protobuf_c_message_get_packed_size(&hdr);
+	MBinBuffer hdrbuf(hdrLen);
+	protobuf_c_message_pack(&hdr, (uint8_t *)hdrbuf.data());
+	hdrbuf.appendBefore(&hdrLen, sizeof(hdrLen));
+	hdrbuf.appendBefore(&msgType, sizeof(msgType));
+	Netlib_Dump(m_hServerConn, hdrbuf.data(), hdrbuf.length(), true, 0);
+
+	MBinBuffer body(protobuf_c_message_get_packed_size(&msg));
+	protobuf_c_message_pack(&msg, body.data());
+	Netlib_Dump(m_hServerConn, body.data(), body.length(), true, 0);
+
+	hdrbuf.append(body);
+	WebSocket_SendBinary(m_hServerConn, hdrbuf.data(), hdrbuf.length());
+}
+
 uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
 {
 	switch (state) {

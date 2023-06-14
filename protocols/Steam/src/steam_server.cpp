@@ -58,6 +58,9 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 	m_hServerConn = pReply->nlc;
 	debugLogA("Websocket connection succeeded");
 
+	// Send init packets
+	Login();
+
 	bool bExit = false;
 	int offset = 0;
 	MBinBuffer netbuf;
@@ -67,7 +70,7 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 			break;
 
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
+		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, 0);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
 			bExit = !m_bTerminated;
@@ -92,7 +95,7 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 			size_t currPacketSize = bufSize - hdr.headerSize;
 			netbuf.append(buf, bufSize);
 			while (currPacketSize < hdr.payloadSize) {
-				int result = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
+				int result = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), 0);
 				if (result == 0) {
 					debugLogA("Gateway connection gracefully closed");
 					bExit = !m_bTerminated;

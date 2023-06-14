@@ -39,6 +39,11 @@
 #include "resource.h"
 #include "version.h"
 
+#include "protobuf-c/protobuf-c.h"
+
+#include "protobuf-c/steammessages_auth.steamclient.pb-c.h"
+#include "protobuf-c/steammessages_clientserver_login.pb-c.h"
+
 #define MODULE "Steam"
 #define DB_KEY_LASTMSGTS "LastMessageTS"
 

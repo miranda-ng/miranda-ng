@@ -4,6 +4,9 @@
     <Filter Include="Header Files\api">
       <UniqueIdentifier>{f07fed5a-9010-4d64-9586-bdf123a38be8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\protobuf">
+      <UniqueIdentifier>{bd3e8143-14ec-48be-9951-3882851e8716}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -56,6 +59,24 @@
     </ClCompile>
     <ClCompile Include="src\steam_server.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_login.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_base.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\protobuf-c.c">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\enums.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +139,21 @@
     </ClInclude>
     <ClInclude Include="src\api\session.h">
       <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\enums.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

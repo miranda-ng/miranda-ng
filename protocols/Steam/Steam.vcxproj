@@ -27,6 +27,24 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\protobuf-c\enums.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\protobuf-c.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_base.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_login.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -60,6 +78,11 @@
     <ClInclude Include="src\api\search.h" />
     <ClInclude Include="src\api\session.h" />
     <ClInclude Include="src\http_request.h" />
+    <ClInclude Include="src\protobuf-c\enums.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\steam_dialogs.h" />
@@ -80,6 +103,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

@@ -13,6 +13,10 @@ bool CSteamProto::IsMe(const char *steamId)
 
 void CSteamProto::Login()
 {
+	CMsgClientHello hello;
+	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
+	WSSend(EMsg::ClientHello, hello);
+
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 	if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0) {
@@ -22,9 +26,12 @@ void CSteamProto::Login()
 
 	T2Utf username(getWStringA("Username"));
 	if (username == NULL)
-		SetStatus(ID_STATUS_OFFLINE);
-	else
-		SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
+		LoginFailed();
+	else {
+		CAuthenticationGetPasswordRSAPublicKeyRequest request;
+		request.account_name = username.get();
+		WSSend(0, request);
+	}
 }
 
 void CSteamProto::LoginFailed()
