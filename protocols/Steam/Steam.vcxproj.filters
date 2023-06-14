@@ -42,9 +42,6 @@
     <ClCompile Include="src\steam_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\steam_polling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\steam_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

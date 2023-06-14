@@ -40,7 +40,6 @@
     <ClCompile Include="src\steam_menus.cpp" />
     <ClCompile Include="src\steam_messages.cpp" />
     <ClCompile Include="src\steam_options.cpp" />
-    <ClCompile Include="src\steam_polling.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\steam_request.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />

@@ -71,13 +71,11 @@ class CSteamProto : public PROTO<CSteamProto>
 	LIST<RequestQueueItem> m_requestQueue;
 
 	// polling
-	HANDLE m_hPollingThread;
 	ULONG hAuthProcess;
 	ULONG hMessageProcess;
 	mir_cs m_addContactLock;
 	mir_cs m_setStatusLock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
-	std::map<std::string, time_t> m_typingTimestamps;
 
 public:
 	// PROTO_INTERFACE
@@ -124,11 +122,6 @@ protected:
 	RequestQueueItem *PopFromRequestQueue();
 	void ProcessRequestQueue();
 	void __cdecl RequestQueueThread(void*);
-
-	// pooling
-	void ParsePollData(const JSONNode &data);
-	void OnGotPoll(const HttpResponse &response, void *arg);
-	void __cdecl PollingThread(void*);
 
 	// login
 	bool IsOnline();

@@ -2,7 +2,7 @@
 
 bool CSteamProto::IsOnline()
 {
-	return m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread;
+	return m_iStatus > ID_STATUS_OFFLINE;
 }
 
 bool CSteamProto::IsMe(const char *steamId)
@@ -360,9 +360,6 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
-
-	// start polling thread
-	m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, nullptr, nullptr);
 }
 
 void CSteamProto::OnReLogin(const JSONNode &root, void*)
