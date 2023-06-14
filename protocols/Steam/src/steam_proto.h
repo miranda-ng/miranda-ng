@@ -50,7 +50,7 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	ptrW m_password;
 	ptrW m_defaultGroup;
-	bool isLoginAgain;
+	bool isLoginAgain, m_bTerminated;
 	time_t m_idleTS;
 	HWND m_hwndGuard;
 
@@ -62,8 +62,9 @@ class CSteamProto : public PROTO<CSteamProto>
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
 	// connection
-	HANDLE m_hServerThread;
+	HNETLIBCONN m_hServerConn;
 	void __cdecl ServerThread(void *);
+	bool ServerThreadStub(const char *szHost);
 
 	// requests
 	bool SendRequest(HttpRequest *request);

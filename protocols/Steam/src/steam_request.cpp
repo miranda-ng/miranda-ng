@@ -46,7 +46,7 @@ NETLIBHTTPREQUEST* HttpRequest::Get()
 {
 	if (m_szUrl[0]== '/') {
 		m_szUrl.Insert(0, STEAM_API_URL);
-		AddHeader("User-Agent", "Valve/Steam HTTP Client 1.0");
+		AddHeader("User-Agent", STEAM_USER_AGENT);
 	}
 	szUrl = m_szUrl.GetBuffer();
 	return this;

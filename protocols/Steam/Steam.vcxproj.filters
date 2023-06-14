@@ -71,9 +71,6 @@
     <ClInclude Include="src\steam_dialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\steam_options.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\steam_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>

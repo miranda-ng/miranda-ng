@@ -1,6 +1,8 @@
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
+#define STEAM_USER_AGENT "Valve/Steam HTTP Client 1.0"
+
 class HttpResponse
 {
 	NETLIBHTTPREQUEST *m_response;
