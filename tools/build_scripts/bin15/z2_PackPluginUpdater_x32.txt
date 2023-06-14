@@ -133,7 +133,6 @@ Plugins\startposition.dll
 Plugins\startupsilence.dll
 Plugins\statuschange.dll
 Plugins\statusmanager.dll
-Plugins\steam.dll
 Plugins\stopspam.dll
 Plugins\stopspammod.dll
 Plugins\tabsrmm.dll
