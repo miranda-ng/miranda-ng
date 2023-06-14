@@ -137,7 +137,7 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 		wszTitle = jnChatSettings["title"].as_mstring();
 		vkChatInfo->m_wszTopic = mir_wstrdup(!wszTitle.IsEmpty() ? wszTitle : L"");
 		wszState = jnChatSettings["state"].as_mstring();
-		wszAvatar = jnChatSettings["photo"] ? jnChatSettings["photo"]["photo_100"].as_mstring() : "";
+		wszAvatar = jnChatSettings["photo"] ? jnChatSettings["photo"]["photo_100"].as_mstring() : L"";
 	}
 
 	CMStringW sid;
