@@ -131,12 +131,13 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 	if (vkChatInfo != nullptr)
 		return vkChatInfo;
 
-	CMStringW wszTitle, wszState;
+	CMStringW wszTitle, wszState, wszAvatar;
 	vkChatInfo = new CVkChatInfo(iChatId);
 	if (jnChatSettings) {
 		wszTitle = jnChatSettings["title"].as_mstring();
 		vkChatInfo->m_wszTopic = mir_wstrdup(!wszTitle.IsEmpty() ? wszTitle : L"");
 		wszState = jnChatSettings["state"].as_mstring();
+		wszAvatar = jnChatSettings["photo"] ? jnChatSettings["photo"]["photo_100"].as_mstring() : "";
 	}
 
 	CMStringW sid;
@@ -159,6 +160,11 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 
 	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", iChatId);
 	setWString(si->hContact, "Homepage", wszHomepage);
+
+	if (!wszAvatar.IsEmpty()) {
+		SetAvatarUrl(si->hContact, wszAvatar);
+		ReloadAvatarInfo(si->hContact);
+	}
 
 	db_unset(si->hContact, m_szModuleName, "off");
 
@@ -208,6 +214,13 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (jnInfo) {
 		if (jnInfo["title"])
 			SetChatTitle(cc, jnInfo["title"].as_mstring());
+
+		
+		CMStringW wszValue = jnInfo["photo_100"].as_mstring();
+		if (!wszValue.IsEmpty()) {
+			SetAvatarUrl(cc->m_si->hContact, wszValue);
+			ReloadAvatarInfo(cc->m_si->hContact);
+		}
 
 		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool()) {
 			setByte(cc->m_si->hContact, "kicked", jnInfo["kicked"].as_bool());
