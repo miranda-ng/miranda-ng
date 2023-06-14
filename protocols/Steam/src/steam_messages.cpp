@@ -30,7 +30,7 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 	time_t timestamp = NULL;
 
 	if (response) {
-		JSONNode root = JSONNode::parse(response.Content);
+		JSONNode root = JSONNode::parse(response.data());
 		const JSONNode &node = root["error"];
 		if (node)
 			error = node.as_string();

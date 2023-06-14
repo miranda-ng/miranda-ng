@@ -5,7 +5,7 @@ class GetAvatarRequest : public HttpRequest
 {
 public:
 	GetAvatarRequest(const char *url) :
-		HttpRequest(HttpGet, url)
+		HttpRequest(REQUEST_GET, url)
 	{
 		flags = NLHRF_HTTP11 | NLHRF_NODUMP;
 	}

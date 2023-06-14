@@ -5,11 +5,11 @@ class GetRsaKeyRequest : public HttpRequest
 {
 public:
 	GetRsaKeyRequest(const char *username) :
-		HttpRequest(HttpPost, STEAM_WEB_URL "/mobilelogin/getrsakey/")
+		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/getrsakey/")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		Content = new FormUrlEncodedContent(this)
+		this
 			<< CHAR_PARAM("username", username)
 			<< INT64_PARAM("donotcache", now());
 	}

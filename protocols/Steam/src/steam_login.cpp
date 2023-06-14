@@ -114,7 +114,7 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 		return;
 	}
 
-	CSteamCaptchaDialog captchaDialog(this, response.Content, response.Content.size());
+	CSteamCaptchaDialog captchaDialog(this, (const uint8_t*)response.data(), response.length());
 	if (!captchaDialog.DoModal()) {
 		DeleteAuthSettings();
 		SetStatus(ID_STATUS_OFFLINE);
@@ -135,7 +135,7 @@ void CSteamProto::OnAuthorization(const HttpResponse &response, void *)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.Content);
+	JSONNode root = JSONNode::parse(response.data());
 	if (root.isnull()) {
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -279,11 +279,11 @@ void CSteamProto::OnGotSession(const HttpResponse &response, void *)
 		return;
 	}
 
-	for (auto &header : response.Headers) {
-		if (mir_strcmpi(header.szName, "Set-Cookie"))
+	for (auto &header : response.Headers()) {
+		if (mir_strcmpi(header->szName, "Set-Cookie"))
 			continue;
 
-		std::string cookies = header.szValue;
+		std::string cookies = header->szValue;
 		size_t start = cookies.find("sessionid=") + 10;
 		size_t end = cookies.substr(start).find(';');
 		std::string sessionId = cookies.substr(start, end - start + 10);
@@ -329,7 +329,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.Content);
+	JSONNode root = JSONNode::parse(response.data());
 	json_string error = root["error"].as_string();
 	if (error != "OK") {
 		// Probably expired TokenSecret

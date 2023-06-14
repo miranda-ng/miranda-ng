@@ -5,11 +5,9 @@ class GetUserSummariesRequest : public HttpRequest
 {
 public:
 	GetUserSummariesRequest(CSteamProto *ppro, const char *steamIds) :
-		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0002")
+		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0002")
 	{
-		Uri
-			<< CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"))
-			<< CHAR_PARAM("steamids", steamIds);
+		this << CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret")) << CHAR_PARAM("steamids", steamIds);
 	}
 
 	//{

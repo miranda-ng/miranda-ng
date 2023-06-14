@@ -5,15 +5,17 @@ class ApprovePendingRequest : public HttpRequest
 {
 public:
 	ApprovePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(REQUEST_POST, "")
 	{
+		m_szUrl.Format(STEAM_WEB_URL "/profiles/%s/home_process", steamId);
+
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
 			steamId, token, sessionId);
 
-		Headers << CHAR_PARAM("Cookie", cookie);
+		AddHeader("Cookie", cookie);
 
-		Content = new FormUrlEncodedContent(this)
+		this
 			<< CHAR_PARAM("sessionID", sessionId)
 			<< CHAR_PARAM("id", who)
 			<< CHAR_PARAM("perform", "accept")
@@ -28,15 +30,17 @@ class IgnorePendingRequest : public HttpRequest
 {
 public:
 	IgnorePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(REQUEST_POST, "")
 	{
+		m_szUrl.Format(STEAM_WEB_URL "/profiles/%s/home_process", steamId);
+
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
 			steamId, token, sessionId);
 
-		Headers << CHAR_PARAM("Cookie", cookie);
+		AddHeader("Cookie", cookie);
 
-		Content = new FormUrlEncodedContent(this)
+		this
 			<< CHAR_PARAM("sessionID", sessionId)
 			<< CHAR_PARAM("id", who)
 			<< CHAR_PARAM("perform", "ignore")
@@ -51,15 +55,17 @@ class BlockPendingRequest : public HttpRequest
 {
 public:
 	BlockPendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(REQUEST_POST, "")
 	{
+		m_szUrl.Format(STEAM_WEB_URL "/profiles/%s/home_process", steamId);
+
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
 			steamId, token, sessionId);
 
-		Headers << CHAR_PARAM("Cookie", cookie);
+		AddHeader("Cookie", cookie);
 
-		Content = new FormUrlEncodedContent(this)
+		this
 			<< CHAR_PARAM("sessionID", sessionId)
 			<< CHAR_PARAM("id", who)
 			<< CHAR_PARAM("perform", "block")

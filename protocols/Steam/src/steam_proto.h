@@ -5,6 +5,11 @@
 #define STEAM_SEARCH_BYNAME 1002
 #define STEAM_TYPING_TIME 10
 
+// Global settings for all accounts: hosts' list
+#define STEAM_MODULE "Steam"
+#define DBKEY_HOSTS_COUNT "HostsCount"
+#define DBKEY_HOSTS_DATE  "HostsDate"
+
 struct SendAuthParam
 {
 	MCONTACT hContact;
@@ -28,25 +33,9 @@ enum
 typedef void(CSteamProto::*HttpCallback)(const HttpResponse&, void*);
 typedef void(CSteamProto::*JsonCallback)(const JSONNode&, void*);
 
-struct RequestQueueItem
+struct HttpRequest : public MTHttpRequest<CSteamProto>
 {
-	HttpRequest *request;
-	HttpCallback httpCallback;
-	JsonCallback jsonCallback;
-	void *param;
-
-	RequestQueueItem(HttpRequest *request)
-		: request(request), httpCallback(nullptr), jsonCallback(nullptr), param(nullptr)
-	{
-	}
-	RequestQueueItem(HttpRequest *request, HttpCallback callback, void *param)
-		: request(request), httpCallback(callback), jsonCallback(nullptr), param(param)
-	{
-	}
-	RequestQueueItem(HttpRequest *request, JsonCallback callback, void *param)
-		: request(request), httpCallback(nullptr), jsonCallback(callback), param(param)
-	{
-	}
+	HttpRequest(int iRequestType, const char *pszUrl);
 };
 
 class CSteamProto : public PROTO<CSteamProto>

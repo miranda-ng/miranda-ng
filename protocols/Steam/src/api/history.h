@@ -5,9 +5,9 @@ class GetConversationsRequest : public HttpRequest
 {
 public:
 	GetConversationsRequest(CSteamProto *ppro) :
-		HttpRequest(HttpGet, STEAM_API_URL "/IFriendMessagesService/GetActiveMessageSessions/v0001")
+		HttpRequest(REQUEST_GET, STEAM_API_URL "/IFriendMessagesService/GetActiveMessageSessions/v0001")
 	{
-		Uri << CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"));
+		this << CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"));
 	}
 
 	//{
@@ -30,9 +30,9 @@ class GetHistoryMessagesRequest : public HttpRequest
 {
 public:
 	GetHistoryMessagesRequest(const char *token, const char *steamId, const char *who, time_t since) :
-		HttpRequest(HttpGet, STEAM_API_URL "/IFriendMessagesService/GetRecentMessages/v0001")
+		HttpRequest(REQUEST_GET, STEAM_API_URL "/IFriendMessagesService/GetRecentMessages/v0001")
 	{
-		Uri
+		this
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("steamid1", steamId)
 			<< CHAR_PARAM("steamid2", who)

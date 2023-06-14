@@ -5,15 +5,14 @@ class AuthorizationRequest : public HttpRequest
 {
 public:
 	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *twoFactorCode, const char *guardCode, const char *guardId = "", const char *captchaId = "-1", const char *captchaText = "") :
-		HttpRequest(HttpPost, STEAM_WEB_URL "/mobilelogin/dologin/")
+		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin/")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		Headers
-			<< CHAR_PARAM("Referer", STEAM_WEB_URL "/mobilelogin/dologin?oauth_client_id=3638BFB1&oauth_scope=read_profile%20write_profile%20read_client%20write_client")
-			<< CHAR_PARAM("Cookie", "mobileClientVersion=1291812;forceMobile=1;mobileClient=ios");
+		AddHeader("Referer", STEAM_WEB_URL "/mobilelogin/dologin?oauth_client_id=3638BFB1&oauth_scope=read_profile%20write_profile%20read_client%20write_client");
+		AddHeader("Cookie", "mobileClientVersion=1291812;forceMobile=1;mobileClient=ios");
 
-		Content = new FormUrlEncodedContent(this)
+		this 
 			<< CHAR_PARAM("oauth_client_id", "3638BFB1")
 			<< CHAR_PARAM("loginfriendlyname", "Miranda NG")
 			<< CHAR_PARAM("password", password)
@@ -24,7 +23,7 @@ public:
 			<< CHAR_PARAM("captchagid", captchaId)
 			<< CHAR_PARAM("captcha_text", captchaText)
 			<< CHAR_PARAM("rsatimestamp", timestamp)
-			<< BOOL_PARAM("rememberlogin", false)
+			<< INT_PARAM("rememberlogin", 0)
 			<< INT64_PARAM("donotcache", now());
 	}
 };

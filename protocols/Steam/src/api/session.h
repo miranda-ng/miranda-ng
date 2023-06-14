@@ -5,11 +5,11 @@ class GetSessionRequest : public HttpRequest
 {
 public:
 	GetSessionRequest(const char *token, const char *steamId, const char *cookie) :
-		HttpRequest(HttpPost, STEAM_WEB_URL "/mobileloginsucceeded")
+		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobileloginsucceeded")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		Content = new FormUrlEncodedContent(this)
+		this
 			<< CHAR_PARAM("oauth_token", token)
 			<< CHAR_PARAM("steamid", steamId)
 			<< CHAR_PARAM("webcookie", cookie);
@@ -27,14 +27,14 @@ class GetSessionRequest2 : public HttpRequest
 {
 public:
 	GetSessionRequest2(const char *token, const char *steamId) :
-		HttpRequest(HttpGet, STEAM_WEB_URL "/mobilesettings/GetManifest/v0001")
+		HttpRequest(REQUEST_GET, STEAM_WEB_URL "/mobilesettings/GetManifest/v0001")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPHEADERS;
 
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s||oauth:%s", steamId, token);
 
-		Headers << CHAR_PARAM("Cookie", cookie);
+		AddHeader("Cookie", cookie);
 	}
 };
 

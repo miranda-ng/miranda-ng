@@ -5,9 +5,9 @@ class SearchRequest : public HttpRequest
 {
 public:
 	SearchRequest(const char *token, const char *text, int offset = 0, int count = 30) :
-		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/Search/v0001")
+		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001")
 	{
-		Uri
+		this
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("keywords", text)
 			<< INT_PARAM("offset", offset)

@@ -491,7 +491,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 
 	FILE *file = _wfopen(ai.filename, L"wb");
 	if (file) {
-		fwrite((const char *)response.Content, sizeof(char), response.Content.size(), file);
+		fwrite(response.data(), sizeof(char), response.length(), file);
 		fclose(file);
 
 		if (ai.hContact)
@@ -505,7 +505,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam *)arg;
 
-	if (!response.IsSuccess() || mir_strcmp(response.Content, "true")) {
+	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
 
 		ptrW steamId(getWStringA(param->hContact, "SteamID"));
 		ptrW who(getWStringA(param->hContact, "Nick"));
@@ -515,7 +515,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 		wchar_t message[MAX_PATH];
 		mir_snwprintf(message, L"Error adding friend %s", who.get());
 
-		JSONNode root = JSONNode::parse(response.Content);
+		JSONNode root = JSONNode::parse(response.data());
 		if (root) {
 			int success = root["success"].as_int();
 			if (success == 1) {
@@ -568,7 +568,7 @@ void CSteamProto::OnFriendBlocked(const HttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.Content, "true")) {
+	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
 		debugLogA(__FUNCTION__ ": failed to ignore friend %s", (char *)steamId);
 		return;
 	}
@@ -582,7 +582,7 @@ void CSteamProto::OnFriendUnblocked(const HttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.Content, "true")) {
+	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
 		debugLogA(__FUNCTION__ ": failed to unignore friend %s", (char *)steamId);
 		return;
 	}
@@ -596,7 +596,7 @@ void CSteamProto::OnFriendRemoved(const HttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.Content, "true")) {
+	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
 		debugLogA(__FUNCTION__ ": failed to remove friend %s", (char *)steamId);
 		return;
 	}
@@ -658,7 +658,7 @@ void CSteamProto::OnSearchResults(const HttpResponse &response, void *arg)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.Content);
+	JSONNode root = JSONNode::parse(response.data());
 	if (root.isnull()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		debugLogA(__FUNCTION__ ": no data");
@@ -706,7 +706,7 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.Content);
+	JSONNode root = JSONNode::parse(response.data());
 	if (root.isnull()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
 		debugLogA(__FUNCTION__ ": no data");
