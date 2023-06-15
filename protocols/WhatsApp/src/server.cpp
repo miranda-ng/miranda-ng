@@ -191,7 +191,7 @@ void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 			auto b = rdr.readInt8();
 			if (b & 2) {
 				buf.remove(1);
-				buf = unzip(buf);
+				buf = Utils_Unzip(buf);
 				rdr = WAReader(buf.data(), buf.length());
 			}
 

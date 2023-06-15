@@ -362,44 +362,6 @@ void WhatsAppProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MBinBuffer WhatsAppProto::unzip(const MBinBuffer &src)
-{
-	z_stream strm = {};
-	inflateInit(&strm);
-
-	strm.avail_in = (uInt)src.length();
-	strm.next_in = (Bytef *)src.data();
-
-	MBinBuffer res;
-	Bytef buf[2048];
-
-	while (strm.avail_in > 0) {
-		strm.avail_out = sizeof(buf);
-		strm.next_out = buf;
-
-		int ret = inflate(&strm, Z_NO_FLUSH);
-		switch (ret) {
-		case Z_NEED_DICT:
-			ret = Z_DATA_ERROR;
-			__fallthrough;
-
-		case Z_DATA_ERROR:
-		case Z_MEM_ERROR:
-			inflateEnd(&strm);
-			return res;
-		}
-
-		res.append(buf, sizeof(buf) - strm.avail_out);
-		if (ret == Z_STREAM_END)
-			break;
-	}
-
-	inflateEnd(&strm);
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void bin2file(const MBinBuffer &buf, const wchar_t *pwszFileName)
 {
 	int fileId = _wopen(pwszFileName, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);

@@ -875,3 +875,4 @@ Clist_RemoveEvent @989
 ?Clist_GetEventByMenu@@YAPEAUCListEvent@@H@Z @990 NONAME
 ?Clist_GetEventCount@@YAHXZ @991 NONAME
 ?Chat_EmptyHistory@@YAXPEAUSESSION_INFO@@@Z @992 NONAME
+?Utils_Unzip@@YA?AVMBinBuffer@@PEBX_K@Z @993 NONAME

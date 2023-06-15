@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "..\..\libs\zlib\src\zlib.h"
 
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
 
@@ -368,6 +369,47 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 	for (int i=0; ppFiles[i]; i++)
 		mir_free(ppFiles[i]);
 	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(MBinBuffer) Utils_Unzip(const void *pData, size_t cbLen)
+{
+	MBinBuffer res;
+	if (pData == nullptr || cbLen == 0)
+		return res;
+
+	z_stream strm = {};
+	inflateInit(&strm);
+
+	strm.avail_in = (uInt)cbLen;
+	strm.next_in = (Bytef *)pData;
+
+	Bytef buf[2048];
+
+	while (strm.avail_in > 0) {
+		strm.avail_out = sizeof(buf);
+		strm.next_out = buf;
+
+		int ret = inflate(&strm, Z_NO_FLUSH);
+		switch (ret) {
+		case Z_NEED_DICT:
+			ret = Z_DATA_ERROR;
+			__fallthrough;
+
+		case Z_DATA_ERROR:
+		case Z_MEM_ERROR:
+			inflateEnd(&strm);
+			return res;
+		}
+
+		res.append(buf, sizeof(buf) - strm.avail_out);
+		if (ret == Z_STREAM_END)
+			break;
+	}
+
+	inflateEnd(&strm);
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

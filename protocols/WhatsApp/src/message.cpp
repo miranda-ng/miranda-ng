@@ -254,7 +254,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			if (auto *pHist = protoMsg->historysyncnotification) {
 				MBinBuffer buf(DownloadEncryptedFile(directPath2url(pHist->directpath), pHist->mediakey, "History"));
 				if (!buf.isEmpty()) {
-					MBinBuffer inflate(unzip(unpadBuffer16(buf)));
+					MBinBuffer inflate(Utils_Unzip(unpadBuffer16(buf)));
 
 					proto::HistorySync sync(inflate);
 					if (sync)

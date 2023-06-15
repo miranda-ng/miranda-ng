@@ -435,9 +435,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	// Binary packets
 	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);
 
-	// unzip operations
-	MBinBuffer unzip(const MBinBuffer &src);
-
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
 	void      ServerFetchAvatar(const char *jid);
