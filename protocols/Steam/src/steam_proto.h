@@ -14,6 +14,7 @@
 
 enum EMsg
 {
+	ServiceMethodCallFromClientNonAuthed = 9804,
 	ClientHello = 9805,
 };
 
@@ -73,7 +74,9 @@ class CSteamProto : public PROTO<CSteamProto>
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
 
-	void WSSend(int msgType, const ProtobufCppMessage &msg);
+	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
+	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
+	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg);
 
 	// requests
 	bool SendRequest(HttpRequest *request);

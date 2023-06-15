@@ -1,33 +1,42 @@
 #include "stdafx.h"
 
-static bool sttIncludesSessionId(const ProtobufCppMessage &msg)
+static int64_t getRandomInt()
 {
-	if (!mir_strcmp(msg.descriptor->short_name, "CMsgClientHello"))
-		return false;
-	if (!mir_strcmp(msg.descriptor->short_name, "CMsgServiceMethodCallFromClientNonAuthed"))
-		return false;
-	return true;
+	int64_t ret;
+	Utils_GetRandom(&ret, sizeof(ret));
+	return (ret >= 0) ? ret : -ret;
 }
 
-void CSteamProto::WSSend(int msgType, const ProtobufCppMessage &msg)
+void CSteamProto::WSSend(EMsg msgType, const ProtobufCppMessage &msg)
 {
-	msgType |= STEAM_PROTOCOL_MASK;
-
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
-	if (sttIncludesSessionId(msg)) {
-	}
-	else {
-		hdr.client_sessionid = 0;
-		hdr.steamid = 0;
-	}
-	hdr.jobid_source = hdr.jobid_target = -1;
 
+	switch (msgType) {
+	case EMsg::ClientHello:
+		hdr.jobid_source = -1;
+		break;
+
+	default:
+		hdr.jobid_source = getRandomInt();
+		break;
+	}
+	
+	hdr.jobid_target = -1;
+
+	WSSendHeader(msgType, hdr, msg);
+}
+
+void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
+{
 	unsigned hdrLen = (unsigned)protobuf_c_message_get_packed_size(&hdr);
 	MBinBuffer hdrbuf(hdrLen);
 	protobuf_c_message_pack(&hdr, (uint8_t *)hdrbuf.data());
 	hdrbuf.appendBefore(&hdrLen, sizeof(hdrLen));
-	hdrbuf.appendBefore(&msgType, sizeof(msgType));
+
+	unsigned type = (unsigned)msgType;
+	type |= STEAM_PROTOCOL_MASK;
+	hdrbuf.appendBefore(&type, sizeof(type));
 	Netlib_Dump(m_hServerConn, hdrbuf.data(), hdrbuf.length(), true, 0);
 
 	MBinBuffer body(protobuf_c_message_get_packed_size(&msg));
@@ -37,6 +46,20 @@ void CSteamProto::WSSend(int msgType, const ProtobufCppMessage &msg)
 	hdrbuf.append(body);
 	WebSocket_SendBinary(m_hServerConn, hdrbuf.data(), hdrbuf.length());
 }
+
+void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg)
+{
+	CMsgProtoBufHeader hdr;
+	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
+	hdr.jobid_source = getRandomInt();
+	hdr.jobid_target = -1;
+	hdr.target_job_name = (char*)pszServiceName;
+	hdr.realm = 1; hdr.has_realm = true;
+
+	WSSendHeader(EMsg::ServiceMethodCallFromClientNonAuthed, hdr, msg);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
 {

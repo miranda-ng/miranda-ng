@@ -30,7 +30,7 @@ void CSteamProto::Login()
 	else {
 		CAuthenticationGetPasswordRSAPublicKeyRequest request;
 		request.account_name = username.get();
-		WSSend(0, request);
+		WSSendService("Authentication.GetPasswordRSAPublicKey#1", request);
 	}
 }
 
