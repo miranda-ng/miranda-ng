@@ -1108,6 +1108,8 @@ protobuf_c_service_invoke_internal(
 PROTOBUF_C__END_DECLS
 
 #ifdef __cplusplus
+#ifndef BASE_PROTOBUF_CLASS
+#define BASE_PROTOBUF_CLASS
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
 
 struct ProtobufCppMessage : public ProtobufCMessage
@@ -1117,6 +1119,7 @@ struct ProtobufCppMessage : public ProtobufCMessage
 		message_init_generic(&descr, this);
 	}
 };
-#endif
+#endif // BASE_PROTOBUF_CLASS
+#endif // __cplusplus
 
 #endif /* PROTOBUF_C_H */

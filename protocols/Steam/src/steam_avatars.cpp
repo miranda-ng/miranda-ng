@@ -2,7 +2,7 @@
 
 wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
-	ptrA steamId(getStringA(hContact, "SteamID"));
+	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
 	if (steamId == NULL)
 		return nullptr;
 

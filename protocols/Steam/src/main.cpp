@@ -23,7 +23,7 @@ PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CSteamProto>("STEAM", pluginInfoEx)
 {
-	SetUniqueId("SteamID");
+	SetUniqueId(DBKEY_STEAM_ID);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

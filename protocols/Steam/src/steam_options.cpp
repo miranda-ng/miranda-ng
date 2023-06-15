@@ -51,7 +51,7 @@ public:
 			m_proto->SetStatus(ID_STATUS_OFFLINE);
 
 		if (m_username.IsChanged()) {
-			m_proto->delSetting("SteamID");
+			m_proto->delSetting(DBKEY_STEAM_ID);
 			m_proto->delSetting("TokenSecret");
 		}
 		if (m_password.IsChanged())

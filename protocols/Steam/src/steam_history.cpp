@@ -22,7 +22,7 @@ void CSteamProto::OnGotConversations(const JSONNode &root, void *)
 		time_t lastMessageTS = _wtoi64(session["last_message"].as_mstring());
 		if (lastMessageTS > storedMessageTS) {
 			ptrA token(getStringA("TokenSecret"));
-			ptrA steamId(getStringA("SteamID"));
+			ptrA steamId(getStringA(DBKEY_STEAM_ID));
 			SendRequest(new GetHistoryMessagesRequest(token, steamId, who, storedMessageTS), &CSteamProto::OnGotHistoryMessages, (void*)hContact);
 		}
 	}

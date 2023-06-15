@@ -8,15 +8,14 @@
 #define STEAM_PROTOCOL_MASK 0x80000000
 
 // Global settings for all accounts: hosts' list
-#define STEAM_MODULE "Steam"
-#define DBKEY_HOSTS_COUNT "HostsCount"
-#define DBKEY_HOSTS_DATE  "HostsDate"
+#define STEAM_MODULE       "Steam"
+#define DBKEY_HOSTS_COUNT  "HostsCount"
+#define DBKEY_HOSTS_DATE   "HostsDate"
 
-enum EMsg
-{
-	ServiceMethodCallFromClientNonAuthed = 9804,
-	ClientHello = 9805,
-};
+#define DBKEY_CLIENT_ID    "ClientID"
+#define DBKEY_STEAM_ID     "SteamID"
+#define DBKEY_ACCOUNT_NAME "Username"
+#define DBKEY_MACHINE_ID   "MachineId"
 
 struct SendAuthParam
 {
@@ -38,14 +37,26 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
-typedef void(CSteamProto::*HttpCallback)(const HttpResponse&, void*);
-typedef void(CSteamProto::*JsonCallback)(const JSONNode&, void*);
+typedef void (CSteamProto::*MsgCallback)(const uint8_t *pBuf, size_t cbLen);
+typedef void (CSteamProto::*HttpCallback)(const HttpResponse &, void *);
+typedef void (CSteamProto::*JsonCallback)(const JSONNode &, void *);
 
 struct HttpRequest : public MTHttpRequest<CSteamProto>
 {
 	HttpRequest(int iRequestType, const char *pszUrl);
 
 	NETLIBHTTPREQUEST* Get();
+};
+
+struct ProtoRequest
+{
+   ProtoRequest(int64_t _1, MsgCallback _2) :
+      id(_1),
+      pCallback(_2)
+   {}
+
+   int64_t id;
+   MsgCallback pCallback;
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -58,11 +69,18 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	ptrW m_password;
 	ptrW m_defaultGroup;
-	bool isLoginAgain, m_bTerminated;
-	time_t m_idleTS;
+	bool m_bTerminated;
 	HWND m_hwndGuard;
+	time_t m_idleTS;
+
+	int64_t  GetId(const char *pszSetting);
+	void     SetId(const char *pszSetting, int64_t id);
+
+   int64_t  GetId(MCONTACT, const char *pszSetting);
+   void     SetId(MCONTACT, const char *pszSetting, int64_t id);
 
 	// polling
+	CMStringA m_szRefreshToken, m_szAccessToken;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
 	mir_cs m_addContactLock;
@@ -74,9 +92,16 @@ class CSteamProto : public PROTO<CSteamProto>
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
 
+   mir_cs m_csRequests;
+   OBJLIST<ProtoRequest> m_arRequests;
+
+   void ProcessMulti(const uint8_t *buf, size_t cbLen);
+   void ProcessPacket(const uint8_t *buf, size_t cbLen);
+   void ProcessMessage(const uint8_t *buf, size_t cbLen);
+
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
-	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg);
+	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback = 0);
 
 	// requests
 	bool SendRequest(HttpRequest *request);
@@ -91,21 +116,17 @@ class CSteamProto : public PROTO<CSteamProto>
 	void LoginFailed();
 	void Logout();
 
-	void OnGotRsaKey(const JSONNode &root, void *);
+   void OnAuthorization(const uint8_t *buf, size_t cbLen);
+	void OnGotRsaKey(const uint8_t *buf, size_t cbLen);
+	void OnLoggedOn(const uint8_t *buf, size_t cbLen);
+	void OnPollSession(const uint8_t *buf, size_t cbLen);
 
 	void OnGotCaptcha(const HttpResponse &response, void *arg);
 
-	void OnAuthorization(const HttpResponse &response, void *);
 	void OnAuthorizationError(const JSONNode &root);
-	void OnAuthorizationSuccess(const JSONNode &root);
-	void OnGotSession(const HttpResponse &response, void *);
 
 	void OnGotHosts(const JSONNode &root, void *);
 
-	void OnLoggedOn(const HttpResponse &response, void *);
-	void OnReLogin(const JSONNode &root, void *);
-
-	void HandleTokenExpired();
 	void DeleteAuthSettings();
 
 	// contacts

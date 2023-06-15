@@ -39,10 +39,9 @@
 #include "resource.h"
 #include "version.h"
 
-#include "protobuf-c/protobuf-c.h"
-
 #include "protobuf-c/steammessages_auth.steamclient.pb-c.h"
 #include "protobuf-c/steammessages_clientserver_login.pb-c.h"
+#include "proto.h"
 
 #define MODULE "Steam"
 #define DB_KEY_LASTMSGTS "LastMessageTS"
@@ -74,14 +73,11 @@ extern HANDLE hExtraXStatus;
 #include "steam_proto.h"
 
 #include "api/app_info.h"
-#include "api/authorization.h"
-#include "api/authorization.h"
 #include "api/avatar.h"
 #include "api/captcha.h"
 #include "api/friend.h"
 #include "api/friend_list.h"
 #include "api/history.h"
-#include "api/login.h"
 #include "api/message.h"
 #include "api/pending.h"
 #include "api/rsa_key.h"

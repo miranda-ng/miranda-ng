@@ -29,12 +29,12 @@ void CSteamProto::WSSend(EMsg msgType, const ProtobufCppMessage &msg)
 
 void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
 {
-	unsigned hdrLen = (unsigned)protobuf_c_message_get_packed_size(&hdr);
+	uint32_t hdrLen = (uint32_t)protobuf_c_message_get_packed_size(&hdr);
 	MBinBuffer hdrbuf(hdrLen);
 	protobuf_c_message_pack(&hdr, (uint8_t *)hdrbuf.data());
 	hdrbuf.appendBefore(&hdrLen, sizeof(hdrLen));
 
-	unsigned type = (unsigned)msgType;
+	uint32_t type = (uint32_t)msgType;
 	type |= STEAM_PROTOCOL_MASK;
 	hdrbuf.appendBefore(&type, sizeof(type));
 	Netlib_Dump(m_hServerConn, hdrbuf.data(), hdrbuf.length(), true, 0);
@@ -47,7 +47,7 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	WebSocket_SendBinary(m_hServerConn, hdrbuf.data(), hdrbuf.length());
 }
 
-void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg)
+void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)
 {
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
@@ -56,7 +56,40 @@ void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMes
 	hdr.target_job_name = (char*)pszServiceName;
 	hdr.realm = 1; hdr.has_realm = true;
 
+	if (pCallback) {
+		mir_cslock lck(m_csRequests);
+		m_arRequests.insert(new ProtoRequest(hdr.jobid_source, pCallback));
+	}
+
 	WSSendHeader(EMsg::ServiceMethodCallFromClientNonAuthed, hdr, msg);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int64_t CSteamProto::GetId(MCONTACT hContact, const char *pszSetting)
+{
+	return _atoi64(getMStringA(hContact, pszSetting));
+}
+
+void CSteamProto::SetId(MCONTACT hContact, const char *pszSetting, int64_t id)
+{
+	char szId[100];
+	_i64toa(id, szId, 10);
+	setString(hContact, pszSetting, szId);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int64_t CSteamProto::GetId(const char *pszSetting)
+{
+	return _atoi64(getMStringA(pszSetting));
+}
+
+void CSteamProto::SetId(const char *pszSetting, int64_t id)
+{
+	char szId[100];
+	_i64toa(id, szId, 10);
+	setString(pszSetting, szId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

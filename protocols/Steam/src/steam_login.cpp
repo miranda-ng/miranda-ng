@@ -1,138 +1,6 @@
 #include "stdafx.h"
 
-bool CSteamProto::IsOnline()
-{
-	return m_iStatus > ID_STATUS_OFFLINE && m_hServerConn != nullptr;
-}
-
-bool CSteamProto::IsMe(const char *steamId)
-{
-	ptrA mySteamId(getStringA("SteamID"));
-	return mir_strcmp(steamId, mySteamId) == 0;
-}
-
-void CSteamProto::Login()
-{
-	CMsgClientHello hello;
-	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
-	WSSend(EMsg::ClientHello, hello);
-
-	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
-	if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0) {
-		SendRequest(new LogonRequest(token), &CSteamProto::OnLoggedOn);
-		return;
-	}
-
-	T2Utf username(getWStringA("Username"));
-	if (username == NULL)
-		LoginFailed();
-	else {
-		CAuthenticationGetPasswordRSAPublicKeyRequest request;
-		request.account_name = username.get();
-		WSSendService("Authentication.GetPasswordRSAPublicKey#1", request);
-	}
-}
-
-void CSteamProto::LoginFailed()
-{
-	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iStatus);
-}
-
-void CSteamProto::Logout()
-{
-	ptrA token(getStringA("TokenSecret"));
-	if (mir_strlen(token) > 0) {
-		ptrA umqid(getStringA("UMQID"));
-		SendRequest(new LogoffRequest(token, umqid));
-	}
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
-}
-
-void CSteamProto::OnGotHosts(const JSONNode &root, void*)
-{
-	db_delete_module(0, STEAM_MODULE);
-
-	int i = 0;
-	CMStringA szSetting;
-	for (auto &it : root["response"]["serverlist_websockets"]) {
-		szSetting.Format("Host%d", i++);
-		db_set_ws(0, STEAM_MODULE, szSetting, it.as_mstring());
-	}
-
-	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT, i);
-	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_DATE, time(0));
-}
-
-void CSteamProto::OnGotRsaKey(const JSONNode &root, void *)
-{
-	if (root.isnull()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	if (!root["success"].as_bool()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	// load rsa key parts
-	json_string modulus = root["publickey_mod"].as_string();
-	json_string exp = root["publickey_exp"].as_string();
-	DWORD exponent = strtoul(exp.c_str(), nullptr, 16); // default "010001" = 0x10001
-
-	json_string timestamp = root["timestamp"].as_string();
-
-	// encrcrypt password
-	ptrA base64RsaEncryptedPassword;
-	ptrA szPassword(getStringA("Password"));
-
-	DWORD error = 0;
-	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, nullptr, encryptedSize)) != 0) {
-		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	uint8_t *encryptedPassword = (uint8_t *)mir_calloc(encryptedSize);
-	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, encryptedPassword, encryptedSize)) != 0) {
-		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	base64RsaEncryptedPassword = mir_base64_encode(encryptedPassword, encryptedSize);
-	mir_free(encryptedPassword);
-
-	// run authorization request
-	T2Utf username(getWStringA("Username"));
-
-	ptrA twoFactorCode(getStringA("TwoFactorCode"));
-	if (!twoFactorCode)
-		twoFactorCode = mir_strdup("");
-
-	ptrA guardId(getStringA("GuardId"));
-	if (!guardId)
-		guardId = mir_strdup("");
-	ptrA guardCode(getStringA("GuardCode"));
-	if (!guardCode)
-		guardCode = mir_strdup("");
-
-	ptrA captchaId(getStringA("CaptchaId"));
-	if (!captchaId)
-		captchaId = mir_strdup("-1");
-	ptrA captchaText(getStringA("CaptchaText"));
-	if (!captchaText)
-		captchaText = mir_strdup("");
-
-	SendRequest(
-		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp.c_str(), twoFactorCode, guardCode, guardId, captchaId, captchaText),
-		&CSteamProto::OnAuthorization);
-}
-
+/*
 void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 {
 	ptrA captchaId((char *)arg);
@@ -142,7 +10,7 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 		return;
 	}
 
-	CSteamCaptchaDialog captchaDialog(this, (const uint8_t*)response.data(), response.length());
+	CSteamCaptchaDialog captchaDialog(this, (const uint8_t *)response.data(), response.length());
 	if (!captchaDialog.DoModal()) {
 		DeleteAuthSettings();
 		SetStatus(ID_STATUS_OFFLINE);
@@ -152,38 +20,8 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 	setString("CaptchaId", captchaId);
 	setString("CaptchaText", captchaDialog.GetCaptchaText());
 
-	T2Utf username(getWStringA("Username"));
-	SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
-}
-
-void CSteamProto::OnAuthorization(const HttpResponse &response, void *)
-{
-	if (!response) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	JSONNode root = JSONNode::parse(response.data());
-	if (root.isnull()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	if (!root["success"].as_bool()) {
-		OnAuthorizationError(root);
-		return;
-	}
-
-	OnAuthorizationSuccess(root);
-}
-
-void CSteamProto::DeleteAuthSettings()
-{
-	delSetting("TwoFactorCode");
-	delSetting("GuardId");
-	delSetting("GuardCode");
-	delSetting("CaptchaId");
-	delSetting("CaptchaText");
+	ptrA username(getUStringA("Username"));
+	// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 }
 
 void CSteamProto::OnAuthorizationError(const JSONNode &root)
@@ -222,7 +60,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 
 		setString("TwoFactorCode", twoFactorDialog.GetTwoFactorCode());
 
-		SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
+		// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 	}
 
 	if (root["emailauth_needed"].as_bool()) {
@@ -254,7 +92,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 		setString("GuardId", guardId.c_str());
 		setString("GuardCode", guardDialog.GetGuardCode());
 
-		SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
+		// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 		return;
 	}
 
@@ -272,134 +110,222 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 	SetStatus(ID_STATUS_OFFLINE);
 	ShowNotification(message);
 }
+*/
 
-void CSteamProto::OnAuthorizationSuccess(const JSONNode &root)
+void CSteamProto::DeleteAuthSettings()
 {
-	DeleteAuthSettings();
-
-	if (!root["login_complete"].as_bool()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	json_string oauth = root["oauth"].as_string();
-	JSONNode node = JSONNode::parse(oauth.c_str());
-	if (node.isnull()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	json_string steamId = node["steamid"].as_string();
-	setString("SteamID", steamId.c_str());
-
-	json_string token = node["oauth_token"].as_string();
-	setString("TokenSecret", token.c_str());
-
-	SendRequest(new GetSessionRequest2(token.c_str(), steamId.c_str()), &CSteamProto::OnGotSession);
-
-	SendRequest(new LogonRequest(token.c_str()), &CSteamProto::OnLoggedOn);
+	delSetting("TwoFactorCode");
+	delSetting("GuardId");
+	delSetting("GuardCode");
+	delSetting("CaptchaId");
+	delSetting("CaptchaText");
 }
 
-void CSteamProto::OnGotSession(const HttpResponse &response, void *)
+bool CSteamProto::IsOnline()
 {
-	if (!response) {
-		debugLogA(__FUNCTION__ ": failed to get session id");
-		return;
-	}
-
-	for (auto &header : response.Headers()) {
-		if (mir_strcmpi(header->szName, "Set-Cookie"))
-			continue;
-
-		std::string cookies = header->szValue;
-		size_t start = cookies.find("sessionid=") + 10;
-		size_t end = cookies.substr(start).find(';');
-		std::string sessionId = cookies.substr(start, end - start + 10);
-		setString("SessionID", sessionId.c_str());
-		break;
-	}
+	return m_iStatus > ID_STATUS_OFFLINE && m_hServerConn != nullptr;
 }
 
-void CSteamProto::HandleTokenExpired()
+bool CSteamProto::IsMe(const char *steamId)
 {
-	// Delete expired token
-	delSetting("TokenSecret");
-
-	// Try to relogin automatically (but only once)
-	if (isLoginAgain) {
-		// Notify error to user
-		debugLogA(__FUNCTION__ ": cannot obtain connection token");
-		ShowNotification(TranslateT("Cannot obtain connection token."));
-		// Just go offline; it also resets the isLoginAgain to false
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	// Remember we are trying to relogin
-	isLoginAgain = true;
-
-	Login();
+	ptrA mySteamId(getStringA(DBKEY_STEAM_ID));
+	return mir_strcmp(steamId, mySteamId) == 0;
 }
 
-void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
+void CSteamProto::Login()
 {
-	if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED) {
-		// Probably expired TokenSecret
-		SetStatus(ID_STATUS_OFFLINE);
-		HandleTokenExpired();
-		return;
-	}
+	CMsgClientHello hello;
+	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
+	WSSend(EMsg::ClientHello, hello);
 
-	if (!response.IsSuccess()) {
-		// Probably timeout or no connection, we can do nothing here
-		debugLogA(__FUNCTION__ ": unknown login error");
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	JSONNode root = JSONNode::parse(response.data());
-	json_string error = root["error"].as_string();
-	if (error != "OK") {
-		// Probably expired TokenSecret
-		HandleTokenExpired();
-		return;
-	}
-
-	json_string umqId = root["umqid"].as_string();
-	setString("UMQID", umqId.c_str());
-
-	long messageId = root["umqid"].as_int();
-	setDword("MessageID", messageId);
-
-	// load contact list
 	ptrA token(getStringA("TokenSecret"));
-	ptrA steamId(getStringA("SteamID"));
+	ptrA sessionId(getStringA("SessionID"));
+	if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0) {
+		// SendRequest(new LogonRequest(token), &CSteamProto::OnLoggedOn);
+		return;
+	}
 
-	SendRequest(new GetSessionRequest2(token, steamId), &CSteamProto::OnGotSession);
+	ptrA username(getUStringA("Username"));
+	if (username == NULL)
+		LoginFailed();
+	else {
+		CAuthenticationGetPasswordRSAPublicKeyRequest request;
+		request.account_name = username.get();
+		WSSendService("Authentication.GetPasswordRSAPublicKey#1", request, &CSteamProto::OnGotRsaKey);
+	}
+}
 
-	// send this request immediately, so we can start polling thread with already loaded all contacts
-	SendRequest(new GetFriendListRequest(token, steamId, "friend,ignoredfriend,requestrecipient"), &CSteamProto::OnGotFriendList);
+void CSteamProto::LoginFailed()
+{
+	m_bTerminated = true;
+
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
+}
+
+void CSteamProto::Logout()
+{
+	m_bTerminated = true;
+
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
+}
+
+void CSteamProto::OnGotHosts(const JSONNode &root, void*)
+{
+	db_delete_module(0, STEAM_MODULE);
+
+	int i = 0;
+	CMStringA szSetting;
+	for (auto &it : root["response"]["serverlist_websockets"]) {
+		szSetting.Format("Host%d", i++);
+		db_set_ws(0, STEAM_MODULE, szSetting, it.as_mstring());
+	}
+
+	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT, i);
+	db_set_dw(0, STEAM_MODULE, DBKEY_HOSTS_DATE, time(0));
+}
+
+void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
+{
+	proto::AuthenticationGetPasswordRSAPublicKeyResponse reply(buf, cbLen);
+	if (reply == nullptr || !reply->publickey_exp || !reply->publickey_mod) {
+		LoginFailed();
+		return;
+	}
+
+	// load rsa key parts
+	DWORD exponent = strtoul(reply->publickey_exp, nullptr, 16); // default "010001" = 0x10001
+
+	// encrypt password
+	ptrA szPassword(getStringA("Password"));
+
+	DWORD error = 0;
+	DWORD encryptedSize = 0;
+	if ((error = RsaEncrypt(reply->publickey_mod, exponent, szPassword, nullptr, encryptedSize)) != 0) {
+		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	uint8_t *encryptedPassword = (uint8_t *)mir_calloc(encryptedSize);
+	if ((error = RsaEncrypt(reply->publickey_mod, exponent, szPassword, encryptedPassword, encryptedSize)) != 0) {
+		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	ptrA base64RsaEncryptedPassword(mir_base64_encode(encryptedPassword, encryptedSize));
+	mir_free(encryptedPassword);
+
+	// run authorization request
+	ptrA userName(getUStringA("Username"));
+	ptrA deviceName(getUStringA("DeviceName"));
+	
+	CAuthenticationDeviceDetails details;
+	details.device_friendly_name = deviceName.get();
+	details.os_type = 1; details.has_os_type = true;
+	details.platform_type = EAUTH_TOKEN_PLATFORM_TYPE__k_EAuthTokenPlatformType_SteamClient; details.has_platform_type = true;
+
+	CAuthenticationBeginAuthSessionViaCredentialsRequest request;
+	request.account_name = userName.get();
+	request.device_friendly_name = deviceName.get();
+	request.encrypted_password = base64RsaEncryptedPassword;
+	request.encryption_timestamp = reply->timestamp; request.has_encryption_timestamp = true;
+	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Ephemeral; request.has_persistence = true;
+	request.platform_type = EAUTH_TOKEN_PLATFORM_TYPE__k_EAuthTokenPlatformType_SteamClient; request.has_platform_type = true;
+	request.remember_login = 0; request.has_remember_login = true;
+	request.device_details = &details;
+
+	WSSendService("Authentication.BeginAuthSessionViaCredentials#1", request, &CSteamProto::OnAuthorization);
+}
+
+void CSteamProto::OnAuthorization(const uint8_t *buf, size_t cbLen)
+{
+	proto::AuthenticationBeginAuthSessionViaCredentialsResponse reply(buf, cbLen);
+	if (reply == nullptr) {
+		LoginFailed();
+		return;
+	}
+
+	// Success
+	if (reply->has_client_id && reply->has_steamid) {
+		DeleteAuthSettings();
+		SetId(DBKEY_STEAM_ID, reply->steamid);
+		SetId(DBKEY_CLIENT_ID, reply->client_id);
+
+		CAuthenticationPollAuthSessionStatusRequest request;
+		request.client_id = reply->client_id; request.has_client_id = true;
+		request.request_id = reply->request_id; request.has_request_id = true;
+		WSSendService("Authentication.PollAuthSessionStatus#1", request, &CSteamProto::OnPollSession);
+	}
+	else {
+		debugLogA("Something went wrong: %s", reply->extended_error_message);
+		LoginFailed();
+	}
+}
+
+void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
+{
+	proto::AuthenticationPollAuthSessionStatusResponse reply(buf, cbLen);
+	if (reply == nullptr || !reply->access_token || !reply->refresh_token) {
+		LoginFailed();
+		return;
+	}
+
+	m_szAccessToken = reply->access_token;
+	m_szRefreshToken = reply->refresh_token;
+
+	ptrA szAccountName(getUStringA(DBKEY_ACCOUNT_NAME));
+	
+	MBinBuffer machineId(getBlob(DBKEY_MACHINE_ID));
+	if (!machineId.length()) {
+		uint8_t random[100], hashOut[20];
+		Utils_GetRandom(random, sizeof(random));
+		mir_sha1_hash(random, sizeof(random), hashOut);
+
+		db_set_blob(0, m_szModuleName, DBKEY_MACHINE_ID, hashOut, sizeof(hashOut));
+		machineId.append(hashOut, sizeof(hashOut));
+	}
+
+	CMsgIPAddress privateIp;
+	privateIp.ip_case = CMSG_IPADDRESS__IP_V4;
+	privateIp.v4 = 0;
+
+	CMsgClientLogon request;
+	request.access_token = reply->access_token;
+	request.account_name = szAccountName.get();
+	request.client_language = "english";
+	request.client_os_type = 16; request.has_client_os_type = true;
+	request.should_remember_password = false; request.has_should_remember_password = true;
+	request.obfuscated_private_ip = &privateIp;
+	request.protocol_version = STEAM_PROTOCOL_VERSION; request.has_protocol_version = true;
+	request.supports_rate_limit_response = request.has_supports_rate_limit_response = true;
+	request.machine_name = "";
+	request.steamguard_dont_remember_computer = false; request.has_steamguard_dont_remember_computer = true;
+	request.chat_mode = 2; request.has_chat_mode = true;
+	request.cell_id = 7; request.has_cell_id = true;
+	request.machine_id.data = machineId.data();
+	request.machine_id.len = machineId.length();
+	WSSend(EMsg::ClientLogon, request);
+}
+
+void CSteamProto::OnLoggedOn(const uint8_t *buf, size_t cbLen)
+{
+	proto::MsgClientLogonResponse reply(buf, cbLen);
+	if (reply == nullptr || !reply->has_eresult) {
+		LoginFailed();
+		return;
+	}
+
+	if (reply->eresult != 1) {
+		debugLogA("Login failed with error %d", reply->eresult);
+		LoginFailed();
+		return;
+	}
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
-}
 
-void CSteamProto::OnReLogin(const JSONNode &root, void*)
-{
-	if (root.isnull()) {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	json_string error = root["error"].as_string();
-	if (error != "OK") {
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	json_string umqId = root["umqid"].as_string();
-	setString("UMQID", umqId.c_str());
-
-	long messageId = root["message"].as_int();
-	setDword("MessageID", messageId);
+	// load contact list
+	// SendRequest(new GetFriendListRequest(token, steamId, "friend,ignoredfriend,requestrecipient"), &CSteamProto::OnGotFriendList);
 }

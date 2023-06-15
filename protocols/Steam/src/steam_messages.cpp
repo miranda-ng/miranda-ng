@@ -16,7 +16,7 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(hContact, "SteamID"));
+	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
 	SendRequest(new SendMessageRequest(token, umqid, steamId, message), &CSteamProto::OnMessageSent, param);
 	return hMessage;
 }
@@ -26,7 +26,7 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 	SendMessageParam *param = (SendMessageParam *)arg;
 
 	std::string error = Translate("Unknown error");
-	ptrW steamId(getWStringA(param->hContact, "SteamID"));
+	ptrW steamId(getWStringA(param->hContact, DBKEY_STEAM_ID));
 	time_t timestamp = NULL;
 
 	if (response) {
@@ -79,7 +79,7 @@ int CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(hContact, "SteamID"));
+	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
 	SendRequest(new SendTypingRequest(token, umqid, steamId));
 	return 0;
 }

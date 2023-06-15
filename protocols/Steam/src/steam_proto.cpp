@@ -1,7 +1,15 @@
 #include "stdafx.h"
 
+static int CompareRequests(const ProtoRequest *p1, const ProtoRequest *p2)
+{
+	if (p1->id == p2->id)
+		return 0;
+	return (p1->id < p2->id) ? -1 : 1;
+}
+
 CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
-	PROTO<CSteamProto>(protoName, userName)
+	PROTO<CSteamProto>(protoName, userName),
+	m_arRequests(10, CompareRequests)
 {
 	// default group
 	m_defaultGroup = getWStringA("DefaultGroup");
@@ -120,8 +128,8 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA("SteamID"));
-		char *who = getStringA(hContact, "SteamID");
+		ptrA steamId(getStringA(DBKEY_STEAM_ID));
+		char *who = getStringA(hContact, DBKEY_STEAM_ID);
 
 		SendRequest(
 			new ApprovePendingRequest(token, sessionId, steamId, who),
@@ -150,8 +158,8 @@ int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA("SteamID"));
-		char *who = getStringA(hContact, "SteamID");
+		ptrA steamId(getStringA(DBKEY_STEAM_ID));
+		char *who = getStringA(hContact, DBKEY_STEAM_ID);
 
 		SendRequest(
 			new IgnorePendingRequest(token, sessionId, steamId, who),
@@ -175,8 +183,8 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA("SteamID"));
-		ptrA who(getStringA(hContact, "SteamID"));
+		ptrA steamId(getStringA(DBKEY_STEAM_ID));
+		ptrA who(getStringA(hContact, DBKEY_STEAM_ID));
 
 		SendRequest(
 			new AddFriendRequest(token, sessionId, steamId, who),
@@ -201,7 +209,7 @@ INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)TranslateT("SteamID");
+		return (INT_PTR)TranslateT(DBKEY_STEAM_ID);
 	default:
 		return 0;
 	}
@@ -280,9 +288,6 @@ int CSteamProto::SetStatus(int new_status)
 	m_iDesiredStatus = new_status;
 
 	if (new_status == ID_STATUS_OFFLINE) {
-		// Reset relogin flag
-		isLoginAgain = false;
-
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 		if (!Miranda_IsTerminated())
@@ -338,8 +343,8 @@ void CSteamProto::OnContactDeleted(MCONTACT hContact)
 	if (!getByte(hContact, "Auth", 0)) {
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA("SteamID"));
-		char *who = getStringA(hContact, "SteamID");
+		ptrA steamId(getStringA(DBKEY_STEAM_ID));
+		char *who = getStringA(hContact, DBKEY_STEAM_ID);
 		SendRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
 }

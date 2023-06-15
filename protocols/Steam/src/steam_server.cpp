@@ -117,14 +117,8 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 			case 0: // text packet
 			case 1: // binary packet
 			case 2: // continuation
-				if (hdr.bIsFinal) {
-					// process a packet here
-					CMStringA szJson((char *)netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
-					debugLogA("JSON received:\n%s", szJson.c_str());
-					JSONNode root = JSONNode::parse(szJson);
-	//				if (root)
-//						bExit = ProcessMessage(root);
-				}
+				if (hdr.bIsFinal)
+					ProcessPacket((const uint8_t *)netbuf.data() + hdr.headerSize, hdr.payloadSize);
 				break;
 
 			case 8: // close
@@ -166,4 +160,103 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 	Netlib_CloseHandle(m_hServerConn);
 	m_hServerConn = nullptr;
 	return bExit;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSteamProto::ProcessPacket(const uint8_t *buf, size_t cbLen)
+{
+	uint32_t dwSign = *(uint32_t *)buf;
+	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
+
+	// now process the body
+	if (msgType == EMsg::Multi) {
+		buf += 8; cbLen -= 8;
+		ProcessMulti(buf, cbLen);
+	}
+	else ProcessMessage(buf, cbLen);
+}
+
+void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)
+{
+	proto::MsgMulti pMulti(buf, cbLen);
+	if (pMulti == nullptr) {
+		debugLogA("Unable to decode multi message, exiting");
+		return;
+	}
+
+	debugLogA("processing %s multi message of size %d", (pMulti->size_unzipped) ? "zipped" : "normal", pMulti->message_body.len);
+	
+	ptrA tmp;
+	if (pMulti->size_unzipped) {
+		tmp = (char *)mir_alloc(pMulti->size_unzipped + 1);
+		cbLen = FreeImage_ZLibGUnzip((uint8_t*)tmp.get(), pMulti->size_unzipped, pMulti->message_body.data, (unsigned)pMulti->message_body.len);
+		if (!cbLen) {
+			debugLogA("Unable to unzip multi message, exiting");
+			return;
+		}
+
+		buf = (const uint8_t *)tmp.get();
+	}
+	else {
+		buf = pMulti->message_body.data;
+		cbLen = pMulti->message_body.len;
+	}
+
+	while ((int)cbLen > 0) {
+		uint32_t cbPacketLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+		ProcessMessage(buf, cbPacketLen);
+		buf += cbPacketLen; cbLen -= cbPacketLen;
+	}
+}
+
+void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
+{
+	uint32_t dwSign = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
+	bool bIsProto = (dwSign & STEAM_PROTOCOL_MASK) != 0;
+
+	CMsgProtoBufHeader hdr;
+
+	if (msgType == EMsg::ChannelEncryptRequest || msgType == EMsg::ChannelEncryptResult) {
+		hdr.has_jobid_source = hdr.has_jobid_target = true;
+		hdr.jobid_source = *(int64_t *)buf; buf += sizeof(int64_t);
+		hdr.jobid_target = *(int64_t *)buf; buf += sizeof(int64_t);
+	}
+	else if (bIsProto) {
+		uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+		proto::MsgProtoBufHeader tmpHeader(buf, hdrLen);
+		if (tmpHeader == nullptr) {
+			debugLogA("Unable to decode message header, exiting");
+			return;
+		}
+
+		memcpy(&hdr, tmpHeader, sizeof(hdr));
+		buf += hdrLen; cbLen -= hdrLen;
+	}
+	else {
+		debugLogA("Got unknown header, exiting");
+		return;
+	}
+
+	MsgCallback pCallback = 0;
+	{
+		mir_cslock lck(m_csRequests);
+		if (auto *pReq = m_arRequests.find((ProtoRequest *)&hdr.jobid_target)) {
+			pCallback = pReq->pCallback;
+			m_arRequests.remove(pReq);
+		}
+	}
+
+	if (pCallback) {
+		(this->*pCallback)(buf, cbLen);
+		return;
+	}
+
+	// persistent callbacks
+	switch (msgType) {
+	case EMsg::ClientLogOnResponse:
+		OnLoggedOn(buf, cbLen);
+		break;
+	}
 }

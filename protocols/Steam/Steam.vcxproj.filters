@@ -104,9 +104,6 @@
     <ClInclude Include="src\api\app_info.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\authorization.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\avatar.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
@@ -120,9 +117,6 @@
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="src\api\history.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\login.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="src\api\message.h">
@@ -153,6 +147,12 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\protobuf-c\enums.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\protobuf-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\proto.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

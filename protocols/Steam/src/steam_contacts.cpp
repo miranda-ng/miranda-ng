@@ -65,7 +65,7 @@ MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 MCONTACT CSteamProto::GetContact(const char *steamId)
 {
 	for (auto &hContact : AccContacts()) {
-		ptrA cSteamId(getStringA(hContact, "SteamID"));
+		ptrA cSteamId(getStringA(hContact, DBKEY_STEAM_ID));
 		if (!mir_strcmp(cSteamId, steamId))
 			return hContact;
 	}
@@ -293,7 +293,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 		return;
 
 	// create auth request event
-	ptrA steamId(getUStringA(hContact, "SteamID"));
+	ptrA steamId(getUStringA(hContact, DBKEY_STEAM_ID));
 	SendRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnGotUserSummaries);
 
 	ptrA nickName(getUStringA(hContact, "Nick"));
@@ -332,7 +332,7 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 	hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	setString(hContact, "SteamID", steamId);
+	setString(hContact, DBKEY_STEAM_ID, steamId);
 	if (mir_wstrlen(nick)) {
 		setWString(hContact, "Nick", nick);
 		db_set_ws(hContact, "CList", "MyHandle", nick);
@@ -386,7 +386,7 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 		return;
 
 	// Comma-separated list of steam ids to update summaries
-	std::string steamIds = (char *)ptrA(getStringA("SteamID"));
+	std::string steamIds = (char *)ptrA(getStringA(DBKEY_STEAM_ID));
 
 	// Remember contacts on server
 	std::map<json_string, const JSONNode*> friendsMap;
@@ -402,7 +402,7 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
-		ptrA steamId(getStringA(hContact, "SteamID"));
+		ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
 		if (steamId == nullptr)
 			continue;
 
@@ -481,7 +481,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 	GetDbAvatarInfo(ai);
 
 	if (!response.IsSuccess()) {
-		ptrA steamId(getStringA(ai.hContact, "SteamID"));
+		ptrA steamId(getStringA(ai.hContact, DBKEY_STEAM_ID));
 		debugLogA(__FUNCTION__ ": failed to get avatar %s", steamId.get());
 
 		if (ai.hContact)
@@ -507,7 +507,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 
 	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
 
-		ptrW steamId(getWStringA(param->hContact, "SteamID"));
+		ptrW steamId(getWStringA(param->hContact, DBKEY_STEAM_ID));
 		ptrW who(getWStringA(param->hContact, "Nick"));
 		if (!who)
 			who = mir_wstrdup(steamId);
