@@ -58,7 +58,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 			nlhr.cbSize = sizeof(nlhr);
 			nlhr.requestType = REQUEST_GET;
 			nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
-			nlhr.szUrl = (char*)blob.getUrl();
+			nlhr.szUrl = (char*)url;
 
 			// download the page
 			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
