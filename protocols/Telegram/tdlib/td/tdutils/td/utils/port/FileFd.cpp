@@ -596,7 +596,11 @@ Result<Stat> FileFd::stat() const {
   Stat res;
 
   FILE_BASIC_INFO basic_info;
+  #ifdef _WIN64
+  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
+  #else
   auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, 0x24);
+  #endif
   if (!status) {
     return OS_ERROR("Get FileBasicInfo failed");
   }
