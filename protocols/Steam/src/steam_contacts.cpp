@@ -346,7 +346,9 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 	setByte(hContact, "Auth", 1);
 
 	// move to default group
-	Clist_SetGroup(hContact, m_defaultGroup);
+	if (!Clist_GroupExists(m_wszGroupName))
+		Clist_GroupCreate(0, m_wszGroupName);
+	Clist_SetGroup(hContact, m_wszGroupName);
 
 	return hContact;
 }

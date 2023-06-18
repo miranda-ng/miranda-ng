@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\c++\miranda-ng\protocols\Steam\res\Resource.rc
+// Used by W:\miranda-ng\protocols\Steam\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -20,8 +20,9 @@
 #define IDC_SL                          1003
 #define IDC_USERNAME                    1003
 #define IDC_SAVEPASS                    1004
-#define IDC_PROTOPIC                    1004
-#define IDC_CAPTCHA                     1004
+#define IDC_PROTOPIC                    1005
+#define IDC_CAPTCHA                     1006
+#define IDC_DEVICE_NAME                 1007
 #define IDC_REGISTER                    1018
 #define IDC_DEFAULT_GROUP               1020
 #define IDC_GROUP                       1021
@@ -41,7 +42,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_RESOURCE_VALUE        127
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1087
 #define _APS_NEXT_SYMED_VALUE           101

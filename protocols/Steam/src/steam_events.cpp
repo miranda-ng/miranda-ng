@@ -2,8 +2,6 @@
 
 void CSteamProto::OnModulesLoaded()
 {
-	Clist_GroupCreate(0, m_defaultGroup);
-
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSteamProto::OnPreCreateMessage);
 

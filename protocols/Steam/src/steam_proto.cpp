@@ -9,13 +9,10 @@ static int CompareRequests(const ProtoRequest *p1, const ProtoRequest *p2)
 
 CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSteamProto>(protoName, userName),
-	m_arRequests(10, CompareRequests)
+	m_arRequests(10, CompareRequests),
+	m_wszGroupName(this, "DefaultGroup", L"Steam"),
+	m_wszDeviceName(this, "DeviceName", L"Miranda NG")
 {
-	// default group
-	m_defaultGroup = getWStringA("DefaultGroup");
-	if (m_defaultGroup == nullptr)
-		m_defaultGroup = mir_wstrdup(L"Steam");
-
 	// icons
 	wchar_t filePath[MAX_PATH];
 	GetModuleFileName(g_plugin.getInst(), filePath, MAX_PATH);

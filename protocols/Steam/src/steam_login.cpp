@@ -138,13 +138,6 @@ void CSteamProto::Login()
 	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
 	WSSend(EMsg::ClientHello, hello);
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
-	if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0) {
-		// SendRequest(new LogonRequest(token), &CSteamProto::OnLoggedOn);
-		return;
-	}
-
 	ptrA username(getUStringA("Username"));
 	if (username == NULL)
 		LoginFailed();
@@ -193,48 +186,34 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 		return;
 	}
 
-	// load rsa key parts
-	DWORD exponent = strtoul(reply->publickey_exp, nullptr, 16); // default "010001" = 0x10001
-
 	// encrypt password
 	ptrA szPassword(getStringA("Password"));
 
-	DWORD error = 0;
-	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(reply->publickey_mod, exponent, szPassword, nullptr, encryptedSize)) != 0) {
-		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	uint8_t *encryptedPassword = (uint8_t *)mir_calloc(encryptedSize);
-	if ((error = RsaEncrypt(reply->publickey_mod, exponent, szPassword, encryptedPassword, encryptedSize)) != 0) {
-		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	ptrA base64RsaEncryptedPassword(mir_base64_encode(encryptedPassword, encryptedSize));
-	mir_free(encryptedPassword);
+	MBinBuffer encPassword(RsaEncrypt(reply->publickey_mod, reply->publickey_exp, szPassword));
+	ptrA base64RsaEncryptedPassword(mir_base64_encode(encPassword.data(), encPassword.length()));
 
 	// run authorization request
 	ptrA userName(getUStringA("Username"));
-	ptrA deviceName(getUStringA("DeviceName"));
+	T2Utf deviceName(m_wszDeviceName);
 	
 	CAuthenticationDeviceDetails details;
 	details.device_friendly_name = deviceName.get();
-	details.os_type = 1; details.has_os_type = true;
+	details.os_type = 16; details.has_os_type = true;
 	details.platform_type = EAUTH_TOKEN_PLATFORM_TYPE__k_EAuthTokenPlatformType_SteamClient; details.has_platform_type = true;
 
 	CAuthenticationBeginAuthSessionViaCredentialsRequest request;
 	request.account_name = userName.get();
-	request.device_friendly_name = deviceName.get();
+	request.website_id = "Client";
 	request.encrypted_password = base64RsaEncryptedPassword;
 	request.encryption_timestamp = reply->timestamp; request.has_encryption_timestamp = true;
-	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Ephemeral; request.has_persistence = true;
-	request.platform_type = EAUTH_TOKEN_PLATFORM_TYPE__k_EAuthTokenPlatformType_SteamClient; request.has_platform_type = true;
+	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Persistent; request.has_persistence = true;
 	request.remember_login = 0; request.has_remember_login = true;
+	request.language = 1; request.has_language = true;
+	request.qos_level = 2; request.has_qos_level = true;
+
 	request.device_details = &details;
+	request.device_friendly_name = details.device_friendly_name;
+	request.platform_type = details.platform_type; request.has_platform_type = true;
 
 	WSSendService("Authentication.BeginAuthSessionViaCredentials#1", request, &CSteamProto::OnAuthorization);
 }

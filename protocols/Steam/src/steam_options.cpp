@@ -2,16 +2,17 @@
 
 class CSteamOptionsMain : public CSteamDlgBase
 {
-	CCtrlEdit m_username, m_password, m_group;
+	CCtrlEdit m_username, m_password, m_group, m_deviceName;
 	CCtrlCheck m_biggerAvatars, m_showChatEvents;
 	CCtrlSpin m_pollingErrorLimit;
 
 public:
 	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL) :
 		CSteamDlgBase(proto, idDialog),
+		m_group(this, IDC_GROUP),
 		m_username(this, IDC_USERNAME),
 		m_password(this, IDC_PASSWORD),
-		m_group(this, IDC_GROUP),
+		m_deviceName(this, IDC_DEVICE_NAME),		
 		m_biggerAvatars(this, IDC_BIGGER_AVATARS),
 		m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS),
 		m_pollingErrorLimit(this, IDC_POLLINGERRORLIMITSPIN, 255)
@@ -20,7 +21,8 @@ public:
 
 		CreateLink(m_username, "Username", L"");
 		CreateLink(m_password, "Password", L"");
-		CreateLink(m_group, "DefaultGroup", L"Steam");
+		CreateLink(m_group, m_proto->m_wszGroupName);
+		CreateLink(m_deviceName, m_proto->m_wszDeviceName);
 
 		if (idDialog == IDD_OPT_MAIN) {
 			CreateLink(m_biggerAvatars, "UseBigAvatars", DBVT_BYTE, FALSE);
@@ -41,21 +43,8 @@ public:
 
 	bool OnApply() override
 	{
-		ptrW group(m_group.GetText());
-		if (mir_wstrcmp(group, m_proto->m_defaultGroup)) {
-			m_proto->m_defaultGroup = mir_wstrdup(group);
-			Clist_GroupCreate(0, group);
-		}
-
-		if (m_proto->IsOnline()) // may be we should show message box with warning?
-			m_proto->SetStatus(ID_STATUS_OFFLINE);
-
-		if (m_username.IsChanged()) {
+		if (m_username.IsChanged())
 			m_proto->delSetting(DBKEY_STEAM_ID);
-			m_proto->delSetting("TokenSecret");
-		}
-		if (m_password.IsChanged())
-			m_proto->delSetting("TokenSecret");
 		return true;
 	}
 };

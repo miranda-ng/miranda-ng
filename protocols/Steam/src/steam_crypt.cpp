@@ -1,104 +1,22 @@
 #include "stdafx.h"
 
-#pragma comment(lib, "crypt32.lib")
+#include <openssl/rsa.h>
 
-int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encryptedData, DWORD &encryptedSize)
+MBinBuffer RsaEncrypt(const char *pszModulus, const char *exponent, const char *data)
 {
-	uint32_t cchModulus = (uint32_t)mir_strlen(pszModulus);
-	int result;
-	HCRYPTKEY phKey = 0;
-	HCRYPTPROV hCSP = 0;
+	//pszModulus = "cb23284f3078f97f9667624b4f882cd7d68aefd6b22f136b5808dfc3ae19d6df7f278d71049a4d61d2bedb4fe958e84140e3ba261b80cf29b37d2aca3ab456cf26fbeca4eded69d51982b38f9ec1003c3e41b22c757150736d2df976908abfdc5da7c9bbc5f4626f6752c41141534867d14cddc4e4278aa456824bfe131880aaf17a125569a365f802af859107a9e916e2442ceff6ff2feb77c6dc0b87639c9f1b34f681f2383a599f8dca8f6558cc60cdb5318fe58888604d4b66ab5175e0dadf1deb499937cb090094adb46b52752954ffc915fbbf41999bb5c301c40e1f1a6e45c23bb10529a356d753ee0d42003d82bf3e5eb5556fa27e394780034dcf5b";
 
-	__try {
-		// convert hex string to byte array
-		DWORD cbLen = 0, dwSkip = 0, dwFlags = 0;
-		if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, nullptr, &cbLen, &dwSkip, &dwFlags)) {
-			result = GetLastError();
-			__leave;
-		}
+	BIGNUM *N = BN_new(), *E = BN_new();
+	BN_hex2bn(&N, pszModulus);
+	BN_hex2bn(&E, exponent);
 
-		// allocate a new buffer.
-		mir_ptr<uint8_t> pbBuffer((uint8_t *)mir_alloc(cbLen));
-		if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, pbBuffer, &cbLen, &dwSkip, &dwFlags)) {
-			result = GetLastError();
-			__leave;
-		}
+	auto rsa = RSA_new();
+	RSA_set0_key(rsa, N, E, NULL);
 
-		// reverse byte array, because of microsoft
-		for (int i = 0; i < (int)(cbLen / 2); ++i) {
-			uint8_t temp = pbBuffer[cbLen - i - 1];
-			pbBuffer[cbLen - i - 1] = pbBuffer[i];
-			pbBuffer[i] = temp;
-		}
+	MBinBuffer ret(RSA_size(rsa));
+	memset(ret.data(), 0, ret.length());
+	RSA_public_encrypt((int)mir_strlen(data), (BYTE*)data, ret.data(), rsa, RSA_PKCS1_PADDING);
 
-		if (!CryptAcquireContext(&hCSP, nullptr, nullptr, PROV_RSA_AES, CRYPT_SILENT) &&
-			!CryptAcquireContext(&hCSP, nullptr, nullptr, PROV_RSA_AES, CRYPT_SILENT | CRYPT_NEWKEYSET)) {
-			result = GetLastError();
-			__leave;
-		}
-
-		// Move the key into the key container.
-		uint32_t cbKeyBlob = sizeof(PUBLICKEYSTRUC) + sizeof(RSAPUBKEY) + cbLen;
-		mir_ptr<uint8_t> pKeyBlob((uint8_t *)mir_alloc(cbKeyBlob));
-
-		// Fill in the data.
-		PUBLICKEYSTRUC *pPublicKey = (PUBLICKEYSTRUC *)pKeyBlob.get();
-		pPublicKey->bType = PUBLICKEYBLOB;
-		pPublicKey->bVersion = CUR_BLOB_VERSION;  // Always use this value.
-		pPublicKey->reserved = 0;                 // Must be zero.
-		pPublicKey->aiKeyAlg = CALG_RSA_KEYX;     // RSA public-key key exchange. 
-
-		// The next block of data is the RSAPUBKEY structure.
-		RSAPUBKEY *pRsaPubKey = (RSAPUBKEY *)(pKeyBlob + sizeof(PUBLICKEYSTRUC));
-		pRsaPubKey->magic = 0x31415352; // RSA1 // Use public key
-		pRsaPubKey->bitlen = cbLen * 8;  // Number of bits in the modulus.
-		pRsaPubKey->pubexp = exponent; // Exponent.
-
-		// Copy the modulus into the blob. Put the modulus directly after the
-		// RSAPUBKEY structure in the blob.
-		uint8_t *pKey = (uint8_t *)(((uint8_t *)pRsaPubKey) + sizeof(RSAPUBKEY));
-		memcpy(pKey, pbBuffer, cbLen);
-
-		// Now import public key	
-		if (!CryptImportKey(hCSP, pKeyBlob, cbKeyBlob, 0, 0, &phKey)) {
-			result = GetLastError();
-			__leave;
-		}
-
-		DWORD dataSize = (DWORD)mir_strlen(data);
-
-		// if data is not allocated just renurn size
-		if (encryptedData == nullptr) {
-			// get length of encrypted data
-			if (!CryptEncrypt(phKey, 0, TRUE, 0, nullptr, &encryptedSize, dataSize))
-				result = GetLastError();
-			__leave;
-		}
-
-		// encrypt password
-		memcpy(encryptedData, data, dataSize);
-		if (!CryptEncrypt(phKey, 0, TRUE, 0, encryptedData, &dataSize, encryptedSize)) {
-			result = GetLastError();
-			__leave;
-		}
-
-		// reverse byte array again
-		for (int i = 0; i < (int)(encryptedSize / 2); ++i) {
-			uint8_t temp = encryptedData[encryptedSize - i - 1];
-			encryptedData[encryptedSize - i - 1] = encryptedData[i];
-			encryptedData[i] = temp;
-		}
-	}
-	__finally
-	{
-		result = 0;
-	};
-
-	if (phKey)
-		CryptDestroyKey(phKey);
-
-	if (hCSP)
-		CryptReleaseContext(hCSP, 0);
-
-	return 0;
+	RSA_free(rsa);
+	return ret;
 }

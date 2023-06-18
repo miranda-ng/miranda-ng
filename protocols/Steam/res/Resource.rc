@@ -63,6 +63,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_STEAM               ICON                    "steam.ico"
+
 IDI_GAMING              ICON                    "gaming.ico"
 
 #endif    // Russian (Russia) resources
@@ -70,7 +71,7 @@ IDI_GAMING              ICON                    "gaming.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -86,12 +87,14 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Username:",IDC_STATIC,7,8,49,12
+    LTEXT           "Username",IDC_STATIC,7,8,49,12
     EDITTEXT        IDC_USERNAME,60,7,121,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,7,24,49,12
+    LTEXT           "Password",IDC_STATIC,7,24,49,12
     EDITTEXT        IDC_PASSWORD,60,23,121,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Default group",IDC_STATIC,7,40,49,8
     EDITTEXT        IDC_GROUP,60,39,121,14,ES_AUTOHSCROLL
-    LTEXT           "Default group:",IDC_STATIC,7,40,49,8
+    LTEXT           "Device name",IDC_STATIC,7,59,49,8
+    EDITTEXT        IDC_DEVICE_NAME,60,57,121,14,ES_AUTOHSCROLL
 END
 
 IDD_OPT_MAIN DIALOGEX 0, 0, 305, 230
@@ -99,22 +102,24 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Account",IDC_STATIC,7,7,291,44
-    LTEXT           "Username:",IDC_STATIC,15,19,81,8
+    GROUPBOX        "Account",IDC_STATIC,7,7,291,64
+    LTEXT           "Username:",IDC_STATIC,15,20,81,8
     EDITTEXT        IDC_USERNAME,102,17,189,13,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,15,35,81,8
+    LTEXT           "Password:",IDC_STATIC,15,36,81,8
     EDITTEXT        IDC_PASSWORD,102,33,189,13,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Contacts",IDC_STATIC,7,57,291,50
-    LTEXT           "Default group:",IDC_STATIC,15,71,81,8
-    EDITTEXT        IDC_GROUP,102,69,189,14,ES_AUTOHSCROLL
-    CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,90,271,10
-    GROUPBOX        "Message sessions",IDC_STATIC,7,115,291,32
+    LTEXT           "Device name",IDC_STATIC,15,53,81,8
+    EDITTEXT        IDC_DEVICE_NAME,102,50,189,13,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Contacts",IDC_STATIC,7,74,291,50
+    LTEXT           "Default group:",IDC_STATIC,15,89,81,8
+    EDITTEXT        IDC_GROUP,102,86,189,14,ES_AUTOHSCROLL
+    CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,107,271,10
+    GROUPBOX        "Message sessions",IDC_STATIC,7,127,291,32
     CONTROL         "Show chat state events (i.e., user closed chat session)",IDC_SHOW_CHAT_EVENTS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,129,271,10
-    GROUPBOX        "Connection",IDC_STATIC,7,155,291,68
-    LTEXT           "Error limit before logout:",IDC_STATIC,15,167,81,8
-    EDITTEXT        IDC_POLLINGERRORLIMIT,102,166,60,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_POLLINGERRORLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,152,166,10,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,141,271,10
+    GROUPBOX        "Connection",IDC_STATIC,7,162,291,53
+    LTEXT           "Error limit before logout:",IDC_STATIC,15,179,81,8
+    EDITTEXT        IDC_POLLINGERRORLIMIT,102,177,60,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_POLLINGERRORLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,152,176,10,14
 END
 
 IDD_CAPTCHA DIALOGEX 0, 0, 143, 81
@@ -198,12 +203,6 @@ BEGIN
     IDD_OPT_MAIN, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        VERTGUIDE, 15
-        VERTGUIDE, 96
-        VERTGUIDE, 102
-        VERTGUIDE, 162
-        VERTGUIDE, 291
-        VERTGUIDE, 298
         TOPMARGIN, 7
         BOTTOMMARGIN, 223
     END
@@ -277,7 +276,12 @@ BEGIN
     0
 END
 
-#endif    // English resources
+IDD_ACCMGR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

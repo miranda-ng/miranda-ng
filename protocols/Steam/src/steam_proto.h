@@ -68,7 +68,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	friend class PollRequest;
 
 	ptrW m_password;
-	ptrW m_defaultGroup;
 	bool m_bTerminated;
 	HWND m_hwndGuard;
 	time_t m_idleTS;
@@ -218,9 +217,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	// utils
 	static uint16_t SteamToMirandaStatus(PersonaState state);
 	static PersonaState MirandaToSteamState(int status);
-
-	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encrypted, DWORD &encryptedSize);
-
+		
 	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
@@ -258,9 +255,13 @@ class CSteamProto : public PROTO<CSteamProto>
 	}
 
 public:
-	// PROTO_INTERFACE
+	// constructor
 	CSteamProto(const char *protoName, const wchar_t *userName);
 	~CSteamProto();
+
+	// options
+	CMOption<wchar_t*> m_wszGroupName;   // default group for this account's contacts
+	CMOption<wchar_t*> m_wszDeviceName;  // how do you see this account in the Device List
 
 	// PROTO_INTERFACE
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
@@ -300,5 +301,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);
 void SetContactExtraIcon(MCONTACT hContact, int status);
+
+MBinBuffer RsaEncrypt(const char *pszModulus, const char *exponent, const char *data);
 
 #endif //_STEAM_PROTO_H_
