@@ -168,9 +168,10 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	uint16_t    wCommandsNum;
 	void*       pItemData;
 	time_t      LastTime;
+	mir_cs      csLock;
 
 	CMsgDialog *pDlg;
-	USERINFO *pMe;
+	USERINFO   *pMe;
 	STATUSINFO *pStatuses;
 	MODULEINFO *pMI;
 	SESSION_INFO *pParent;

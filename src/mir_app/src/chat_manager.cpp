@@ -226,6 +226,7 @@ BOOL SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 	if (!si || !pszUID)
 		return FALSE;
 
+	mir_cslock lck(si->csLock);
 	USERINFO *ui = UM_FindUser(si, pszUID);
 	if (!ui)
 		return FALSE;
@@ -586,6 +587,7 @@ static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
 	if (!si || !pszUID)
 		return nullptr;
 
+	mir_cslock lck(si->csLock);
 	USERINFO tmp;
 	tmp.pszUID = (wchar_t*)pszUID;
 	return si->getKeyList().find(&tmp);
@@ -619,9 +621,10 @@ void UM_SortUser(SESSION_INFO *si)
 
 USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus)
 {
-	if (pszNick == nullptr)
+	if (!si || !pszUID || !pszNick)
 		return nullptr;
 
+	mir_cslock lck(si->csLock);
 	auto *pUser = UM_FindUser(si, pszUID);
 	if (pUser == nullptr) {
 		pUser = new USERINFO();
