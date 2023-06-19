@@ -87,7 +87,6 @@ STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, 
 uint16_t      TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 
 USERINFO*     UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
-USERINFO*     UM_FindUserFromIndex(SESSION_INFO *si, int index);
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);
 void          UM_SortKeys(SESSION_INFO *si);

@@ -239,7 +239,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 // process mouse - hovering for the nickname list.fires events so the protocol can
 // show the userinfo - tooltip.
 
-static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
+static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem, SESSION_INFO *parentdat)
 {
 	static int currentHovered = -1;
 	static HWND hwndToolTip = nullptr;
@@ -250,6 +250,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 
 	currentHovered = hoveredItem;
 
+	MWindow hwnd = listBox.GetHwnd();
 	if (oldParent != hwnd && hwndToolTip) {
 		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
 		DestroyWindow(hwndToolTip);
@@ -281,9 +282,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	ti.rect = clientRect;
 
 	CMStringW wszBuf;
-
-	USERINFO *ui1 = g_chatApi.UM_FindUserFromIndex(parentdat, currentHovered);
-	if (ui1) {
+	if (auto *ui1 = (USERINFO *)listBox.GetItemData(currentHovered)) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			if (p != nullptr) {
@@ -323,8 +322,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 		return;
 	}
 
-	USERINFO *ui1 = g_chatApi.UM_FindUserFromIndex(si, si->currentHovered);
-	if (ui1) {
+	if (auto *ui1 = (USERINFO *)SendMessage(hwnd, LB_GETITEMDATA, 0, 0)) {
 		CMStringW wszBuf;
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
@@ -406,7 +404,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 					if (nItemUnderMouse != -1)
 						SetTimer(m_nickList.GetHwnd(), (UINT_PTR)m_si, 450, ChatTimerProc);
 				}
-				else ProcessNickListHovering(m_nickList.GetHwnd(), (int)nItemUnderMouse, m_si);
+				else ProcessNickListHovering(m_nickList, (int)nItemUnderMouse, m_si);
 			}
 			else {
 				if (bTooltipExists) {
@@ -416,7 +414,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 						m_si->bHasToolTip = false;
 					}
 				}
-				else ProcessNickListHovering(m_nickList.GetHwnd(), -1, nullptr);
+				else ProcessNickListHovering(m_nickList, -1, nullptr);
 			}
 		}
 		break;
@@ -466,7 +464,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			if (HIWORD(item) != 0) // clicked outside the client area
 				break;
 
-			if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item)) {
+			if (auto *ui = (USERINFO *)m_nickList.GetItemData(item)) {
 				if (pt.x == -1 && pt.y == -1)
 					pt.y += height - 4;
 				ClientToScreen(m_nickList.GetHwnd(), &pt);
@@ -474,6 +472,15 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 				RunUserMenu(m_nickList.GetHwnd(), ui, pt);
 				return TRUE;
 			}
+		}
+		break;
+
+	case WM_KEYDOWN:
+		if (wParam == VK_RETURN) {
+			int index = m_nickList.GetCurSel();
+			if (index != LB_ERR)
+				if (auto *ui = (USERINFO *)m_nickList.GetItemData(index))
+					Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 		}
 		break;
 	}
@@ -557,8 +564,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
 			if (dis->CtlID == IDC_SRMM_NICKLIST) {
-				USERINFO *ui = UM_FindUserFromIndex(m_si, dis->itemID);
-				if (ui != nullptr)
+				if (auto *ui = (USERINFO *)m_nickList.GetItemData(dis->itemID))
 					DrawNickList(ui, dis);
 				return TRUE;
 			}
@@ -669,6 +675,23 @@ void CSrmmBaseDialog::UpdateFilterButton()
 	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable the event filter (Ctrl+F)") : TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
 }
 
+void CSrmmBaseDialog::UpdateNickList()
+{
+	int idx = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+
+	m_nickList.SetDraw(false);
+	m_nickList.ResetContent();
+	for (auto &ui : m_si->getUserList())
+		m_nickList.AddString(ui->pszNick, LPARAM(ui));
+
+	m_nickList.SendMsg(LB_SETTOPINDEX, idx, 0);
+	m_nickList.SetDraw(true);
+	InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
+	UpdateWindow(m_nickList.GetHwnd());
+
+	UpdateTitle();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)
@@ -761,7 +784,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 	ScreenToClient(pList->GetHwnd(), &hti.pt);
 
 	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = UM_FindUserFromIndex(m_si, item);
+	auto *ui = (USERINFO *)m_nickList.GetItemData(item);
 	if (ui == nullptr)
 		return;
 

@@ -2573,15 +2573,6 @@ void CMsgDialog::UpdateFilterButton()
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled), 0);
 }
 
-void CMsgDialog::UpdateNickList()
-{
-	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-	m_nickList.SendMsg(LB_SETCOUNT, m_si->getUserList().getCount(), 0);
-	m_nickList.SendMsg(LB_SETTOPINDEX, i, 0);
-	UpdateTitle();
-	m_hTabIcon = m_hTabStatusIcon;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsgDialog::UpdateOptions()

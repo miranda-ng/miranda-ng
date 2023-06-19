@@ -651,20 +651,6 @@ static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 	return mir_wstrcmpi(u1->pszNick, u2->pszNick);
 }
 
-USERINFO* UM_FindUserFromIndex(SESSION_INFO *si, int index)
-{
-	if (!si)
-		return nullptr;
-
-	int i = 0;
-	for (auto &ui : si->getUserList()) {
-		if (i == index)
-			return ui;
-		i++;
-	}
-	return nullptr;
-}
-
 static USERINFO* UM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
 {
 	USERINFO *ui = UM_FindUser(si, pszUID);
@@ -794,7 +780,6 @@ static void ResetApi()
 	g_chatApi.UM_AddUser = ::UM_AddUser;
 	g_chatApi.UM_CompareItem = ::UM_CompareItem;
 	g_chatApi.UM_FindUser = ::UM_FindUser;
-	g_chatApi.UM_FindUserFromIndex = ::UM_FindUserFromIndex;
 	g_chatApi.UM_GiveStatus = ::UM_GiveStatus;
 	g_chatApi.UM_SetContactStatus = ::UM_SetContactStatus;
 	g_chatApi.UM_TakeStatus = ::UM_TakeStatus;

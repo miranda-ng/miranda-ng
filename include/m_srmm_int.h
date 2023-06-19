@@ -294,6 +294,7 @@ public:
 	void ClearLog();
 	void RedrawLog();
 	void ShowColorChooser(int iCtrlId);
+	void UpdateNickList(void);
 
 	virtual void AddLog(const LOGINFO &lin);
 	virtual void CloseTab() {}
@@ -305,7 +306,6 @@ public:
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void UpdateFilterButton();
-	virtual void UpdateNickList() {}
 	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() PURE;

@@ -574,25 +574,6 @@ void CMsgDialog::UpdateFilterButton()
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST2 : IDI_NICKLIST));
 }
 
-void CMsgDialog::UpdateNickList()
-{
-	m_nickList.SetDraw(false);
-	m_nickList.ResetContent();
-	for (auto &ui : m_si->getUserList()) {
-		char szIndicator = SM_GetStatusIndicator(m_si, ui);
-		if (szIndicator > '\0') {
-			wchar_t ptszBuf[128];
-			mir_snwprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
-			m_nickList.AddString(ptszBuf);
-		}
-		else m_nickList.AddString(ui->pszNick);
-	}
-	m_nickList.SetDraw(true);
-	InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
-	UpdateWindow(m_nickList.GetHwnd());
-	UpdateTitle();
-}
-
 void CMsgDialog::UpdateOptions()
 {
 	GetAvatar();

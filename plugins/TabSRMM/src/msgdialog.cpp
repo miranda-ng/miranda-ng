@@ -993,7 +993,7 @@ void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
 	ScreenToClient(pList->GetHwnd(), &hti.pt);
 
 	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item);
+	auto *ui = (USERINFO *)pList->GetItemData(item);
 	if (ui == nullptr)
 		return;
 
@@ -2017,7 +2017,7 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int i, iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (i = 0; i < iItems; i++) {
-				if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i)) {
+				if (auto *ui = (USERINFO *)m_nickList.GetItemData(i)) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETSEL, FALSE, -1);
 						m_nickList.SendMsg(LB_SETSEL, TRUE, i);

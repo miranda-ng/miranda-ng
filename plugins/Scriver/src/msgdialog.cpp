@@ -870,15 +870,6 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_KEYDOWN:
-		if (wParam == VK_RETURN) {
-			int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
-			if (index != LB_ERR) {
-				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, index);
-				Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
-			}
-			break;
-		}
-
 		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT || wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END)
 			m_wszSearch[0] = 0;
 		break;
@@ -910,11 +901,11 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (m_wszSearch[0]) {
 			// iterate over the (sorted) list of nicknames and search for the
 			// string we have
-			int iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
+			int iItems = m_nickList.GetCount();
 			for (int i = 0; i < iItems; i++) {
-				if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i)) {
+				if (auto *ui = (USERINFO*)m_nickList.GetItemData(i)) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
-						m_nickList.SendMsg(LB_SETCURSEL, i, 0);
+						m_nickList.SetCurSel(i);
 						InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
 						return 0;
 					}

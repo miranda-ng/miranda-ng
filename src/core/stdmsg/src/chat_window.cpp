@@ -50,15 +50,6 @@ void CMsgDialog::UpdateFilterButton()
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
 }
 
-void CMsgDialog::UpdateNickList()
-{
-	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-	m_nickList.SendMsg(LB_SETCOUNT, m_si->getUserList().getCount(), 0);
-	m_nickList.SendMsg(LB_SETTOPINDEX, i, 0);
-
-	UpdateTitle();
-}
-
 void CMsgDialog::UpdateOptions()
 {
 	UpdateFilterButton();
