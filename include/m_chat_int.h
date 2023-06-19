@@ -271,7 +271,6 @@ struct CHAT_MANAGER
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
 	int           (*SM_GetCount)(const char *pszModule);
 	SESSION_INFO* (*SM_FindSessionByIndex)(const char *pszModule, int iItem);
-	USERINFO*     (*SM_GetUserFromIndex)(const wchar_t *pszID, const char *pszModule, int index);
 	void          (*SM_InvalidateLogDirectories)(void);
 
 	MODULEINFO*   (*MM_CreateModule)(void);

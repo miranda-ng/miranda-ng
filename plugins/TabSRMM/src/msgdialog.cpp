@@ -2017,8 +2017,7 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int i, iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (i = 0; i < iItems; i++) {
-				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i);
-				if (ui) {
+				if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i)) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETSEL, FALSE, -1);
 						m_nickList.SendMsg(LB_SETSEL, TRUE, i);

@@ -282,7 +282,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 
 	CMStringW wszBuf;
 
-	USERINFO *ui1 = g_chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+	USERINFO *ui1 = g_chatApi.UM_FindUserFromIndex(parentdat, currentHovered);
 	if (ui1) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
@@ -323,7 +323,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 		return;
 	}
 
-	USERINFO *ui1 = g_chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
+	USERINFO *ui1 = g_chatApi.UM_FindUserFromIndex(si, si->currentHovered);
 	if (ui1) {
 		CMStringW wszBuf;
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
@@ -466,8 +466,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			if (HIWORD(item) != 0) // clicked outside the client area
 				break;
 
-			USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
-			if (ui != nullptr) {
+			if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item)) {
 				if (pt.x == -1 && pt.y == -1)
 					pt.y += height - 4;
 				ClientToScreen(m_nickList.GetHwnd(), &pt);

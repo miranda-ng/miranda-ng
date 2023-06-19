@@ -257,12 +257,6 @@ BOOL SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 	return TRUE;
 }
 
-static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
-{
-	SESSION_INFO *si = Chat_Find(pszID, pszModule);
-	return (si == nullptr) ? nullptr : UM_FindUserFromIndex(si, index);
-}
-
 BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
 	if (si == nullptr)
@@ -787,7 +781,6 @@ static void ResetApi()
 	g_chatApi.SM_GetStatusIcon = ::SM_GetStatusIcon;
 	g_chatApi.SM_GetCount = ::SM_GetCount;
 	g_chatApi.SM_FindSessionByIndex = ::SM_FindSessionByIndex;
-	g_chatApi.SM_GetUserFromIndex = ::SM_GetUserFromIndex;
 	g_chatApi.SM_InvalidateLogDirectories = ::SM_InvalidateLogDirectories;
 
 	g_chatApi.MM_CreateModule = ::MM_CreateModule;

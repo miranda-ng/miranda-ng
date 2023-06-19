@@ -873,7 +873,7 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_RETURN) {
 			int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
-				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, index);
 				Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 			}
 			break;
@@ -912,8 +912,7 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (int i = 0; i < iItems; i++) {
-				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i);
-				if (ui) {
+				if (USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i)) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETCURSEL, i, 0);
 						InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
