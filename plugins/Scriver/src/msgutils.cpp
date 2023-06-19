@@ -723,7 +723,7 @@ void CMsgDialog::UpdateTitle()
 		tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIconBig : m_si->pMI->hOfflineIconBig;
 		tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? g_plugin.getIcon(IDI_OVERLAY) : nullptr;
 
-		int nUsers = m_si->getUserList().getCount();
+		int nUsers = m_nickList.GetCount();
 		switch (m_si->iType) {
 		case GCW_CHATROOM:
 			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"), m_si->ptszName, nUsers);

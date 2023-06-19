@@ -1488,7 +1488,7 @@ void CMsgDialog::UpdateTitle()
 {
 	wchar_t newtitle[256];
 	if (isChat()) {
-		int nUsers = m_si->getUserList().getCount();
+		int nUsers = m_nickList.GetCount();
 
 		switch (m_si->iType) {
 		case GCW_CHATROOM:

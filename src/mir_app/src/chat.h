@@ -90,7 +90,6 @@ USERINFO*     UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t 
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);
 void          UM_SortKeys(SESSION_INFO *si);
-void          UM_SortUser(SESSION_INFO *si);
 
 // clist.c
 MCONTACT      AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);

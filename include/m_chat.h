@@ -443,7 +443,6 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule);
 #define GCF_NAME      0x0020   // pszName is valid
 #define GCF_TYPE      0x0040   // iType is valid
 #define GCF_COUNT     0x0080   // iCount is valid
-#define GCF_USERS     0x0100   // pszUsers is valid
 
 struct GC_INFO
 {
@@ -455,8 +454,6 @@ struct GC_INFO
 	LPTSTR    pszName;      // display name of the session
 	void*     pItemData;    // user specified data.
 	int       iCount;       // count of users in the nicklist
-	LPSTR     pszUsers;     // space separated string containing the UID's of the users in the user list.
-	                        // NOTE. Use Mirandas mmi_free() on the returned string.
 	MCONTACT  hContact;     // hContact for the session (can be NULL)
 };
 

@@ -28,14 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID);
 
-static int CompareKeys(const USERINFO *u1, const USERINFO *u2)
-{
-	return mir_wstrcmp(u1->pszUID, u2->pszUID);
-}
-
 static int CompareUser(const USERINFO *u1, const USERINFO *u2)
 {
-	return g_chatApi.UM_CompareItem(u1, u2);
+	return mir_wstrcmp(u1->pszUID, u2->pszUID);
 }
 
 static int compareSessions(const SESSION_INFO *p1, const SESSION_INFO *p2)
@@ -68,7 +63,6 @@ static int CompareEvents(const LOGINFO *p1, const LOGINFO *p2)
 }
 
 SESSION_INFO::SESSION_INFO() :
-	arKeys(10, CompareKeys),
 	arUsers(10, CompareUser),
 	arEvents(10, CompareEvents)
 {
@@ -237,10 +231,6 @@ BOOL SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 	if (si->pMe == ui)
 		si->pMe = nullptr;
 	
-	auto &arKeys = si->getKeyList();
-	if (arKeys.remove(ui) == -1)
-		DebugBreak();
-
 	auto &arUsers = si->getUserList();
 	for (auto &it : arUsers) {
 		if (!mir_wstrcmpi(it->pszUID, pszUID)) {
@@ -263,11 +253,8 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 		return FALSE;
 	
 	USERINFO *ui = g_chatApi.UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
-	if (ui) {
-		UM_SortUser(si);
-		if (si->pDlg)
-			si->pDlg->UpdateNickList();
-	}
+	if (ui && si->pDlg)
+		si->pDlg->UpdateNickList();
 	return TRUE;
 }
 
@@ -277,11 +264,8 @@ BOOL SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStat
 		return FALSE;
 
 	USERINFO *ui = g_chatApi.UM_SetContactStatus(si, pszUID, wStatus);
-	if (ui) {
-		UM_SortUser(si);
-		if (si->pDlg)
-			si->pDlg->UpdateNickList();
-	}
+	if (ui && si->pDlg)
+		si->pDlg->UpdateNickList();
 	return TRUE;
 }
 
@@ -291,11 +275,8 @@ BOOL SM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 		return FALSE;
 
 	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
-	if (ui) {
-		UM_SortUser(si);
-		if (si->pDlg)
-			si->pDlg->UpdateNickList();
-	}
+	if (ui && si->pDlg)
+		si->pDlg->UpdateNickList();
 	return TRUE;
 }
 
@@ -344,7 +325,6 @@ BOOL SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce)
 	USERINFO *ui = UM_FindUser(si, gce->pszUID.w);
 	if (ui) {
 		replaceStrW(ui->pszNick, gce->pszText.w);
-		UM_SortUser(si);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 		if (g_chatApi.OnChangeNick)
@@ -397,19 +377,6 @@ SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 		}
 	}
 	return nullptr;
-}
-
-char* SM_GetUsers(SESSION_INFO *si)
-{
-	if (si == nullptr)
-		return nullptr;
-
-	CMStringA res;
-	
-	for (auto &it : si->getUserList())
-		res.AppendFormat("%S ", it->pszNick);
-
-	return res.Detach();
 }
 
 static void SM_InvalidateLogDirectories()
@@ -584,31 +551,19 @@ static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
 	mir_cslock lck(si->csLock);
 	USERINFO tmp;
 	tmp.pszUID = (wchar_t*)pszUID;
-	return si->getKeyList().find(&tmp);
+	return si->getUserList().find(&tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int compareKeysStub(const void *p1, const void *p2)
 {
-	return CompareKeys(*(USERINFO**)p1, *(USERINFO**)p2);
+	return CompareUser(*(USERINFO**)p1, *(USERINFO**)p2);
 }
 
 void UM_SortKeys(SESSION_INFO *si)
 {
-	qsort(si->arKeys.getArray(), si->arKeys.getCount(), sizeof(void*), compareKeysStub);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static int compareStub(const void *p1, const void *p2)
-{
-	return CompareUser(*(USERINFO**)p1, *(USERINFO**)p2);
-}
-
-void UM_SortUser(SESSION_INFO *si)
-{
-	qsort(si->arUsers.getArray(), si->arUsers.getCount(), sizeof(void*), compareStub);
+	qsort(si->arUsers.getArray(), si->arUsers.getCount(), sizeof(void*), compareKeysStub);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -623,7 +578,6 @@ USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *psz
 	if (pUser == nullptr) {
 		pUser = new USERINFO();
 		replaceStrW(pUser->pszUID, pszUID);
-		si->getKeyList().insert(pUser);
 		si->getUserList().insert(pUser);
 	}
 	
@@ -737,7 +691,6 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 			mir_free(ui->pszUID);
 			mir_free(ui->pszNick);
 		}
-		si->arKeys.destroy();
 		si->arUsers.destroy();
 	}
 	return TRUE;

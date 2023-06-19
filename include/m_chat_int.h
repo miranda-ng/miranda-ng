@@ -176,7 +176,6 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	MODULEINFO *pMI;
 	SESSION_INFO *pParent;
 
-	LIST<USERINFO> arKeys;
 	OBJLIST<USERINFO> arUsers;
 	OBJLIST<LOGINFO> arEvents;
 
@@ -188,10 +187,6 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 
 	__forceinline OBJLIST<USERINFO>& getUserList()
 	{	return (pParent != nullptr) ? pParent->arUsers : arUsers;
-	}
-
-	__forceinline LIST<USERINFO>& getKeyList()
-	{	return (pParent != nullptr) ? pParent->arKeys : arKeys;
 	}
 
 	const char* getSoundName(int iEventType) const;

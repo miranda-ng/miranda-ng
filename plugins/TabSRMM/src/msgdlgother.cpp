@@ -2725,7 +2725,7 @@ void CMsgDialog::UpdateTitle()
 
 		CMStringW wszTitle;
 		HICON hIcon = nullptr;
-		int nUsers = m_si->getUserList().getCount();
+		int nUsers = m_nickList.GetCount();
 
 		switch (m_si->iType) {
 		case GCW_CHATROOM:

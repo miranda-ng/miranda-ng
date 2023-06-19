@@ -425,7 +425,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			if (dc == nullptr)
 				break;
 
-			int nUsers = m_si->getUserList().getCount();
+			int nUsers = m_nickList.GetCount();
 
 			int index = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
 			if (index == LB_ERR || nUsers <= 0)
@@ -675,13 +675,26 @@ void CSrmmBaseDialog::UpdateFilterButton()
 	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable the event filter (Ctrl+F)") : TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int compareStub(const void *p1, const void *p2)
+{
+	return g_chatApi.UM_CompareItem(*(USERINFO **)p1, *(USERINFO **)p2);
+}
+
 void CSrmmBaseDialog::UpdateNickList()
 {
 	int idx = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
 
 	m_nickList.SetDraw(false);
 	m_nickList.ResetContent();
-	for (auto &ui : m_si->getUserList())
+
+	auto &fromList = m_si->getUserList();
+	LIST<USERINFO> tmpList(fromList.getCount());
+	List_Copy((SortedList *)&fromList, (SortedList *)&tmpList, sizeof(void *));
+	qsort(tmpList.getArray(), tmpList.getCount(), sizeof(void *), compareStub);
+
+	for (auto &ui : tmpList)
 		m_nickList.AddString(ui->pszNick, LPARAM(ui));
 
 	m_nickList.SendMsg(LB_SETTOPINDEX, idx, 0);

@@ -158,7 +158,6 @@ MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 	if (gci->Flags & GCF_HCONTACT) gci->hContact = si->hContact;
 	if (gci->Flags & GCF_TYPE)     gci->iType = si->iType;
 	if (gci->Flags & GCF_COUNT)    gci->iCount = si->getUserList().getCount();
-	if (gci->Flags & GCF_USERS)    gci->pszUsers = SM_GetUsers(si);
 	if (gci->Flags & GCF_ID)       gci->pszID = si->ptszID;
 	if (gci->Flags & GCF_NAME)     gci->pszName = si->ptszName;
 	return 0;
