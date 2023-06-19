@@ -98,7 +98,6 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	// autocomplete
 	void   TabAutoComplete(void);
-	wchar_t m_wszSearch[255];
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
 

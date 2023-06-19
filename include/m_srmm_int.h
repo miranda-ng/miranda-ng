@@ -268,6 +268,9 @@ protected:
 	const USERINFO* m_pUserTyping = nullptr;
 
 	CCtrlListBox m_nickList;
+	int m_iNickSearch = -1;
+	CMStringW m_wszNickSearch;
+
 	CCtrlButton m_btnColor, m_btnBkColor, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;

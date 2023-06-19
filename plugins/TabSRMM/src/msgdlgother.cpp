@@ -501,14 +501,14 @@ void CMsgDialog::DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis)
 	}
 
 	SIZE sz;
-	if (m_iSearchItem != -1 && m_iSearchItem == index && m_wszSearch[0]) {
+	if (m_iNickSearch != -1 && m_iNickSearch == index && !m_wszNickSearch.IsEmpty()) {
 		COLORREF clr_orig = GetTextColor(dis->hDC);
-		GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(m_wszSearch), &sz);
+		GetTextExtentPoint32(dis->hDC, ui->pszNick, m_wszNickSearch.GetLength(), &sz);
 		SetTextColor(dis->hDC, RGB(250, 250, 0));
-		TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_wstrlen(m_wszSearch));
+		TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, m_wszNickSearch.GetLength());
 		SetTextColor(dis->hDC, clr_orig);
 		x_offset += sz.cx;
-		TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_wstrlen(m_wszSearch), int(mir_wstrlen(ui->pszNick) - mir_wstrlen(m_wszSearch)));
+		TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + m_wszNickSearch.GetLength(), int(mir_wstrlen(ui->pszNick) - m_wszNickSearch.GetLength()));
 	}
 	else {
 		GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(ui->pszNick), &sz);

@@ -868,55 +868,6 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-
-	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT || wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END)
-			m_wszSearch[0] = 0;
-		break;
-
-	case WM_CHAR:
-	case WM_UNICHAR:
-		/*
-		* simple incremental search for the user (nick) - list control
-		* typing esc or movement keys will clear the current search string
-		*/
-		if (wParam == 27 && m_wszSearch[0]) {						// escape - reset everything
-			m_wszSearch[0] = 0;
-			break;
-		}
-		else if (wParam == '\b' && m_wszSearch[0])					// backspace
-			m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
-		else if (wParam < ' ')
-			break;
-		else {
-			wchar_t szNew[2];
-			szNew[0] = (wchar_t)wParam;
-			szNew[1] = '\0';
-			if (mir_wstrlen(m_wszSearch) >= _countof(m_wszSearch) - 2) {
-				MessageBeep(MB_OK);
-				break;
-			}
-			mir_wstrcat(m_wszSearch, szNew);
-		}
-		if (m_wszSearch[0]) {
-			// iterate over the (sorted) list of nicknames and search for the
-			// string we have
-			int iItems = m_nickList.GetCount();
-			for (int i = 0; i < iItems; i++) {
-				if (auto *ui = (USERINFO*)m_nickList.GetItemData(i)) {
-					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
-						m_nickList.SetCurSel(i);
-						InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
-						return 0;
-					}
-				}
-			}
-
-			MessageBeep(MB_OK);
-			m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
-			return 0;
-		}
-		break;
 	}
 
 	return CSuper::WndProc_Nicklist(msg, wParam, lParam);

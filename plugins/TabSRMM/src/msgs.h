@@ -553,9 +553,7 @@ public:
 	bool TabAutoComplete();
 
 	HWND m_hwndFilter;
-	int m_iSearchItem;
 	BOOL m_iSavedSpaces;
-	wchar_t m_wszSearch[255];
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
 

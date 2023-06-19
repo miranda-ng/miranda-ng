@@ -482,6 +482,44 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 				if (auto *ui = (USERINFO *)m_nickList.GetItemData(index))
 					Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 		}
+
+		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT || wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END) {
+			m_wszNickSearch.Empty();
+			m_iNickSearch = -1;
+		}
+		break;
+
+
+	case WM_SETFOCUS:
+	case WM_KILLFOCUS:
+		m_wszNickSearch.Empty();
+		m_iNickSearch = -1;
+		break;
+
+	case WM_CHAR:
+	case WM_UNICHAR:
+		// simple incremental search for the user (nick) - list control
+		// typing esc or movement keys will clear the current search string
+		if (wParam == 27 && !m_wszNickSearch.IsEmpty()) { // escape - reset everything
+			m_wszNickSearch.Empty();
+			m_iNickSearch = -1;
+			break;
+		}
+		if (wParam == '\b' && !m_wszNickSearch.IsEmpty())					// backspace
+			m_wszNickSearch.Truncate(m_wszNickSearch.GetLength() - 1);
+		else if (wParam < ' ')
+			break;
+		else
+			m_wszNickSearch.AppendChar((wchar_t)wParam);
+
+		if (!m_wszNickSearch.IsEmpty()) {
+			m_iNickSearch = m_nickList.SendMsg(LB_FINDSTRING, -1, LPARAM(m_wszNickSearch.c_str()));
+			if (m_iNickSearch == LB_ERR) {
+				MessageBeep(MB_OK);
+				m_wszNickSearch.Truncate(m_wszNickSearch.GetLength() - 1);
+				return 0;
+			}
+		}
 		break;
 	}
 
