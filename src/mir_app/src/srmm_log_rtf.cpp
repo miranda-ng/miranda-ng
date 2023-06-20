@@ -548,28 +548,28 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					CMStringW szURL;
 					switch (uID) {
 					case IDM_SEARCH_WIKIPEDIA:
-						szURL.Format(L"http://en.wikipedia.org/wiki/%s", pszWord);
+						szURL.Format(L"https://en.wikipedia.org/wiki/%s", pszWord);
 						break;
 					case IDM_SEARCH_YAHOO:
-						szURL.Format(L"http://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
+						szURL.Format(L"https://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
 						break;
 					case IDM_SEARCH_FOODNETWORK:
-						szURL.Format(L"http://www.foodnetwork.com/search/%s-", pszWord);
+						szURL.Format(L"https://www.foodnetwork.com/search/%s-", pszWord);
 						break;
 					case IDM_SEARCH_BING:
-						szURL.Format(L"http://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
+						szURL.Format(L"https://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
 						break;
 					case IDM_SEARCH_GOOGLE_MAPS:
-						szURL.Format(L"http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord);
 						break;
 					case IDM_SEARCH_GOOGLE_TRANSLATE:
-						szURL.Format(L"http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord);
 						break;
 					case IDM_SEARCH_YANDEX:
-						szURL.Format(L"http://yandex.ru/yandsearch?text=%s", pszWord);
+						szURL.Format(L"https://yandex.ru/yandsearch?text=%s", pszWord);
 						break;
 					case IDM_SEARCH_GOOGLE:
-						szURL.Format(L"http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord);
 						break;
 					}
 					Utils_OpenUrlW(szURL);
