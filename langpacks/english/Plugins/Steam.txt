@@ -7,11 +7,15 @@
 ;============================================================
 [Steam protocol support for Miranda NG.]
 ;file \protocols\Steam\res\Resource.rc
+[Username]
+[Password]
+[Default group]
+[Device name]
+[Account]
 [Username:]
 [Password:]
-[Default group:]
-[Account]
 [Contacts]
+[Default group:]
 [Use bigger avatars]
 [Message sessions]
 [Show chat state events (i.e., user closed chat session)]
@@ -37,8 +41,6 @@
 [%s is back in your contact list]
 [%s has been removed from your contact list]
 [%s has added you to contact list]
-;file \protocols\Steam\src\steam_login.cpp
-[Cannot obtain connection token.]
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 [Unblock]

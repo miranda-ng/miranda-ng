@@ -835,8 +835,8 @@
 ;file \src\core\stdmsg\src\msglog.cpp
 [Incoming message (10x10)]
 [Outgoing message (10x10)]
-[Encrypted (10x10)]
-[Encrypted verified (10x10)]
+[Secure message (10x10)]
+[Secure verified message (10x10)]
 [Me]
 [File sent]
 ;file \src\core\stdmsg\src\msgoptions.cpp

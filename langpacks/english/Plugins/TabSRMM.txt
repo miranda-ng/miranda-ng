@@ -820,7 +820,7 @@
 [Outgoing message]
 [Status change]
 [Secure message]
-[Secure message (verified)]
+[Secure verified message]
 [Static container icon]
 [Sounds (status bar)]
 [Pulldown Arrow]
