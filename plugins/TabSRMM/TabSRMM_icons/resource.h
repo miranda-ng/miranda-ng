@@ -34,8 +34,8 @@
 #define IDI_ICONOUT         111         /* outgoing message icon */
 #define IDI_STATUSCHANGE    112         /* status changes */
 #define IDI_MSGERROR        113         /* error message */
-#define IDI_SECURE          114         /* encrypted message */
-#define IDI_STRONG          115         /* strongly encrypted message */
+#define IDI_SECURE          114         /* secure message */
+#define IDI_STRONG          115         /* strongly secure message */
 
  // misc icons, status bar etc.
            
