@@ -41,8 +41,8 @@ static IconItem iconList1[] =
 	{ LPGEN("Incoming message (10x10)"),  "INCOMING",      IDI_INCOMING, 10}, // 12
 	{ LPGEN("Outgoing message (10x10)"),  "OUTGOING",      IDI_OUTGOING, 10}, // 13  
 	{ LPGEN("Notice (10x10)"),            "NOTICE",        IDI_NOTICE,   10}, // 14
-	{ LPGEN("Secure message"),            "SECURE",        IDI_SECURE,   10}, // 15
-	{ LPGEN("Secure message (verified)"), "STRONG",        IDI_STRONG,   10}, // 16 
+	{ LPGEN("Secure message (10x10)"),            "SECURE",        IDI_SECURE,   10}, // 15
+	{ LPGEN("Secure message (verified) (10x10)"), "STRONG",        IDI_STRONG,   10}, // 16 
 };
 
 static IconItem iconList2[] =
