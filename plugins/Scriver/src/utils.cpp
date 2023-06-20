@@ -116,7 +116,7 @@ void SearchWord(wchar_t *word, int engine)
 			mir_snprintf(szURL, "http://search.yahoo.com/search?p=%s&ei=UTF-8", wordURL.c_str());
 			break;
 		case SEARCHENGINE_FOODNETWORK:
-			mir_snprintf(szURL, "http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", wordURL.c_str());
+			mir_snprintf(szURL, "http://www.foodnetwork.com/search/%s-", wordURL.c_str());
 			break;
 		case SEARCHENGINE_BING:
 			mir_snprintf(szURL, "http://www.bing.com/search?q=%s&form=OSDSRC", wordURL.c_str());

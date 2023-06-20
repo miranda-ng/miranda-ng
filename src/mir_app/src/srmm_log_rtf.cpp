@@ -554,7 +554,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						szURL.Format(L"http://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
 						break;
 					case IDM_SEARCH_FOODNETWORK:
-						szURL.Format(L"http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", pszWord);
+						szURL.Format(L"http://www.foodnetwork.com/search/%s-", pszWord);
 						break;
 					case IDM_SEARCH_BING:
 						szURL.Format(L"http://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
