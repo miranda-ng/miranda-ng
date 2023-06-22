@@ -786,8 +786,17 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 
 	auto *pu = AddUser(pUser->id_, false);
-	UpdateString(pu->hContact, "FirstName", pUser->first_name_);
-	UpdateString(pu->hContact, "LastName", pUser->last_name_);
+	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
+	if (szLastName.empty()) {
+		size_t p = szFirstName.rfind(' ');
+		if (p != -1) {
+			szLastName = szFirstName.substr(p + 1);
+			szFirstName = szFirstName.substr(0, p);
+		}
+	}
+
+	setUString(pu->hContact, "FirstName", szFirstName.c_str());
+	setUString(pu->hContact, "LastName", szLastName.c_str());
 	if (pu->hContact)
 		UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 
