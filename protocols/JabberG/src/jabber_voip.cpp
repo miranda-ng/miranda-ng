@@ -490,7 +490,12 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	
 	auto r = ListGetBestResource(jid);
 	if (r) {
-		if (!(r->m_pCaps->GetCaps() & JABBER_CAPS_JINGLE)) {
+		bool bFound = false;
+		if (auto *pFeature = FindFeature(JABBER_FEAT_JINGLE))
+			if (!(r->m_pCaps->GetCaps() & pFeature->jcbCap))
+				bFound = true;
+
+		if (!bFound) {
 			MsgPopup(hContact, TranslateT("Client's program does not support voice calls"), TranslateT("Error"));
 			return false;
 		}

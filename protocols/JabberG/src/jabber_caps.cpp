@@ -74,15 +74,10 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] =
 	{ JABBER_FEAT_USER_ACTIVITY,           JABBER_CAPS_USER_ACTIVITY,           LPGEN("Can report information about user activity") },
 	{ JABBER_FEAT_USER_ACTIVITY_NOTIFY,    JABBER_CAPS_USER_ACTIVITY_NOTIFY,    LPGEN("Receives information about user activity") },
 	{ JABBER_FEAT_MIRANDA_NOTES,           JABBER_CAPS_MIRANDA_NOTES,           LPGEN("Supports Miranda NG notes extension") },
-	{ JABBER_FEAT_JINGLE,                  JABBER_CAPS_JINGLE,                  LPGEN("Supports Jingle") },
 	{ JABBER_FEAT_ROSTER_EXCHANGE,         JABBER_CAPS_ROSTER_EXCHANGE,         LPGEN("Supports Roster Exchange") },
 	{ JABBER_FEAT_DIRECT_MUC_INVITE,       JABBER_CAPS_DIRECT_MUC_INVITE,       LPGEN("Supports direct chat invitations (XEP-0249)") },
 	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY, JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY, LPGEN("Receives information about OMEMO devices") },
 	{ JABBER_FEAT_CARBONS,				   JABBER_CAPS_CARBONS,                 LPGEN("Supports message carbons (XEP-0280)")},
-	{ JABBER_FEAT_JINGLE_ICEUDP,		   JABBER_CAPS_JINGLE_ICEUDP,           LPGEN("Jingle ICE-UDP Transport") },
-	{ JABBER_FEAT_JINGLE_RTP,			   JABBER_CAPS_JINGLE_RTP,              LPGEN("Jingle RTP") },
-	{ JABBER_FEAT_JINGLE_DTLS,			   JABBER_CAPS_JINGLE_DTLS,             LPGEN("Jingle DTLS") },
-	{ JABBER_FEAT_JINGLE_RTPAUDIO, 		   JABBER_CAPS_JINGLE_RTPAUDIO,         LPGEN("Jingle RTP Audio") },
 };
 
 const int g_cJabberFeatCapPairs = _countof(g_JabberFeatCapPairs);
@@ -94,7 +89,6 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] =
 	{ JABBER_EXT_NEWGPG,            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
 	{ JABBER_EXT_OMEMO,             JABBER_CAPS_OMEMO,                                            },
 	{ JABBER_EXT_NUDGE,             JABBER_CAPS_ATTENTION,            "NUDGE/Send"                },
-	{ JABBER_EXT_JINGLE,            JABBER_CAPS_JINGLE,               MS_JINGLE_SERVICE           },
 	{ JABBER_EXT_COMMANDS,          JABBER_CAPS_COMMANDS                                          },
 	{ JABBER_EXT_USER_ACTIVITY,     JABBER_CAPS_USER_ACTIVITY_NOTIFY                              },
 	{ JABBER_EXT_USER_MOOD,         JABBER_CAPS_USER_MOOD_NOTIFY                                  },
@@ -351,8 +345,6 @@ JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 	if (!m_bMsgAck)
 		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
-	if (hasJingle())
-		jcb |= JABBER_CAPS_JINGLE | JABBER_CAPS_JINGLE_ICEUDP | JABBER_CAPS_JINGLE_RTP | JABBER_CAPS_JINGLE_DTLS | JABBER_CAPS_JINGLE_RTPAUDIO;
 
 	return jcb;
 }
@@ -417,8 +409,8 @@ void CJabberProto::UpdateFeatHash()
 /////////////////////////////////////////////////////////////////////////////////////////
 //  CJabberClientPartialCaps class
 
-CJabberClientPartialCaps::CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer)
-	: m_parent(pParent),
+CJabberClientPartialCaps::CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer) :
+	m_parent(pParent),
 	m_szHash(mir_strdup(szHash)),
 	m_szSoftVer(mir_strdup(szVer))
 {

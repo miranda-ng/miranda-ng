@@ -190,18 +190,18 @@ JabberFeatCapPairDynamic *CJabberProto::FindFeature(const char *szFeature)
 	return nullptr;
 }
 
-int CJabberProto::RegisterFeature(const char *szFeature, const char *szDescription)
+int CJabberProto::RegisterFeature(const char *pszFeature, const char *pszDescription, const char *pszExt)
 {
-	if (!szFeature)
+	if (!pszFeature)
 		return false;
 
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
 	for (int i = 0; i < g_cJabberFeatCapPairs; i++)
-		if (!mir_strcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
+		if (!mir_strcmp(g_JabberFeatCapPairs[i].szFeature, pszFeature))
 			return false;
 
 	mir_cslock lck(m_csLists);
-	JabberFeatCapPairDynamic *fcp = FindFeature(szFeature);
+	JabberFeatCapPairDynamic *fcp = FindFeature(pszFeature);
 	if (!fcp) { // if the feature is not registered yet, allocate new bit for it
 		JabberCapsBits jcb = JABBER_CAPS_OTHER_SPECIAL; // set all bits not included in g_JabberFeatCapPairs
 
@@ -220,26 +220,17 @@ int CJabberProto::RegisterFeature(const char *szFeature, const char *szDescripti
 		if (!jcb)
 			return false;
 
-		// remove unnecessary symbols from szFeature to make the string shorter, and use it as szExt
-		LPSTR szExt = mir_strdup(szFeature);
-		LPSTR pSrc, pDst;
-		for (pSrc = szExt, pDst = szExt; *pSrc; pSrc++)
-			if (wcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
-				*pDst++ = *pSrc;
-		*pDst = 0;
-		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, szExt, jcb);
+		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, "", jcb);
 
 		fcp = new JabberFeatCapPairDynamic();
-		fcp->szExt = szExt; // will be deallocated along with other values of JabberFeatCapPairDynamic in CJabberProto destructor
-		fcp->szFeature = mir_strdup(szFeature);
-		fcp->szDescription = szDescription ? mir_strdup(szDescription) : nullptr;
+		fcp->szExt = mir_strdup(pszExt);
+		fcp->szFeature = mir_strdup(pszFeature);
+		fcp->szDescription = mir_strdup(pszDescription);
 		fcp->jcbCap = jcb;
 		m_lstJabberFeatCapPairsDynamic.insert(fcp);
 	}
-	else if (szDescription) { // update description
-		if (fcp->szDescription)
-			mir_free(fcp->szDescription);
-		fcp->szDescription = mir_strdup(szDescription);
+	else if (pszDescription) { // update description
+		fcp->szDescription = mir_strdup(pszDescription);
 	}
 	return true;
 }

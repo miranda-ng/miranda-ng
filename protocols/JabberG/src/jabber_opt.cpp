@@ -707,7 +707,7 @@ public:
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
 		if (mir_strlen(ptrA(m_proto->getStringA("HttpUpload"))))
 			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), m_proto->m_bUseHttpUpload);
-		if (g_plugin.bJingle)
+		if (m_proto->hasJingle())
 			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
 
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (experimental)"), m_proto->m_bEnableStreamMgmt);

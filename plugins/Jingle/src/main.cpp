@@ -2,6 +2,8 @@
 
 CMPlugin g_plugin;
 
+OBJLIST<CJabberAccount> g_arJabber(1);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -23,7 +25,7 @@ CMPlugin::CMPlugin() :
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Load (hook ModulesLoaded)
+// Load
 
 static INT_PTR FakeService(WPARAM, LPARAM)
 {
@@ -40,6 +42,8 @@ int CMPlugin::Load()
 {
 	SetEnvironmentVariableW(L"GST_PLUGIN_PATH", VARSW(L"%miranda_path%\\Libs\\gst_plugins"));
 
-	CreateServiceFunction(MS_JINGLE_SERVICE, &FakeService);
+	CreateServiceFunction("JINGLE/SERVICE", &FakeService);
+
+	CJabberAccount::InitHooks();
 	return 0;
 }

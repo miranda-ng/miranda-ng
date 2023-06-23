@@ -283,12 +283,7 @@ CJabberProto::~CJabberProto()
 	for (auto &it : m_lstTransports)
 		mir_free(it);
 
-	for (auto &it : m_lstJabberFeatCapPairsDynamic) {
-		mir_free(it->szExt);
-		mir_free(it->szFeature);
-		mir_free(it->szDescription);
-		delete it;
-	}
+	m_lstJabberFeatCapPairsDynamic.destroy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -31,8 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_xml.h>
 
-#define MS_JINGLE_SERVICE "Jabber/Jingle"
-
 // Iq type flags
 enum
 {
@@ -140,7 +138,7 @@ struct IJabberInterface
 
 // Entity capabilities support (see xep-0115)
 	// Registers feature so that it's displayed with proper description in other users' details. Call this function in your ME_SYSTEM_MODULESLOADED handler. Returns TRUE on success or FALSE on error.
-	virtual int STDMETHODCALLTYPE RegisterFeature(LPCSTR szFeature, LPCSTR szDescription) = 0;
+	virtual int STDMETHODCALLTYPE RegisterFeature(LPCSTR szFeature, LPCSTR szDescription, LPCSTR ext = 0) = 0;
 
 	// Adds features to the list of features supported by the client. szFeatures is a list of features separated by \0 character and terminated with two \0 characters. You can call this function at any time. Returns TRUE on success or FALSE on error.
 	virtual int STDMETHODCALLTYPE	AddFeatures(LPCSTR szFeatures) = 0;

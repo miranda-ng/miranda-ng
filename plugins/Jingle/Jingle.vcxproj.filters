@@ -8,7 +8,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\voip.cpp">
+    <ClCompile Include="src\account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -17,6 +17,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\account.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalAPI\m_jingle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

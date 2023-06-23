@@ -165,9 +165,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_MIRANDA_NOTES               "http://miranda-ng.org/storage#notes"
 #define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
 
-#define JABBER_FEAT_JINGLE                      "urn:xmpp:jingle:1"
-#define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<40)
-
 #define JABBER_FEAT_ROSTER_EXCHANGE             "http://jabber.org/protocol/rosterx"
 #define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<41)
 
@@ -194,15 +191,6 @@ typedef unsigned __int64 JabberCapsBits;
 
 #define JABBER_FEAT_BITS                        "urn:xmpp:bob"
 #define JABBER_CAPS_BITS                        ((JabberCapsBits)1<<50)
-
-#define JABBER_FEAT_JINGLE_ICEUDP               "urn:xmpp:jingle:transports:ice-udp:1"
-#define JABBER_CAPS_JINGLE_ICEUDP               ((JabberCapsBits)1<<51)
-#define JABBER_FEAT_JINGLE_RTP                  "urn:xmpp:jingle:apps:rtp:1"
-#define JABBER_CAPS_JINGLE_RTP                  ((JabberCapsBits)1<<52)
-#define JABBER_FEAT_JINGLE_DTLS                 "urn:xmpp:jingle:apps:dtls:0"
-#define JABBER_CAPS_JINGLE_DTLS                 ((JabberCapsBits)1<<53)
-#define JABBER_FEAT_JINGLE_RTPAUDIO             "urn:xmpp:jingle:apps:rtp:audio"
-#define JABBER_CAPS_JINGLE_RTPAUDIO             ((JabberCapsBits)1<<54)
 
 #define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
@@ -237,7 +225,6 @@ typedef unsigned __int64 JabberCapsBits;
 
 #define JABBER_EXT_SECUREIM                     "secureim"
 #define JABBER_EXT_MIROTR                       "mirotr"
-#define JABBER_EXT_JINGLE                       "jingle"
 #define JABBER_EXT_NEWGPG                       "new_gpg"
 #define JABBER_EXT_OMEMO                        "omemo"
 #define JABBER_EXT_NUDGE                        "nudge"
@@ -381,10 +368,8 @@ struct JabberFeatCapPairExt
 
 struct JabberFeatCapPairDynamic
 {
-	char *szExt;
-	char *szFeature;
+	ptrA szFeature, szDescription, szExt;
 	JabberCapsBits jcbCap;
-	char *szDescription;
 };
 
 extern const int g_cJabberFeatCapPairs;

@@ -307,9 +307,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	mir_cs m_csLists;
 	BOOL   m_bListInitialised;
 
-	LIST<JabberFeatCapPairDynamic> m_lstJabberFeatCapPairsDynamic; // list of features registered through IJabberNetInterface::RegisterFeature()
-	JabberCapsBits m_uEnabledFeatCapsDynamic;
-
+	// menus
 	HGENMENU m_hMenuRoot;
 	HGENMENU m_hMenuChangePassword;
 	HGENMENU m_hMenuGroupchat;
@@ -424,6 +422,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
+	OBJLIST<JabberFeatCapPairDynamic> m_lstJabberFeatCapPairsDynamic; // list of features registered through IJabberNetInterface::RegisterFeature()
+	JabberCapsBits m_uEnabledFeatCapsDynamic;
 
 	CMStringA  m_szFeaturesCrc;
 
@@ -724,7 +724,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon);
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char *pszSrc);
-	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
 	void       OmemoHandleMessageQueue();
 	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
 	void       OmemoInitDevice();
@@ -920,7 +919,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	struct _GstElement *m_webrtc1 = NULL;
 
 	__forceinline bool hasJingle()
-	{	return g_plugin.bJingle && m_bEnableVOIP;
+	{	return FindFeature(JABBER_FEAT_JINGLE) != 0 && m_bEnableVOIP;
 	}
 
 	//---- jabber_xml.c ------------------------------------------------------------------
@@ -990,7 +989,7 @@ public:
 	HJHANDLER  STDMETHODCALLTYPE AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority) override;
 	int        STDMETHODCALLTYPE RemoveHandler(HJHANDLER hHandler) override;
 				  
-	int        STDMETHODCALLTYPE RegisterFeature(const char *szFeature, const char *szDescription) override;
+	int        STDMETHODCALLTYPE RegisterFeature(const char *szFeature, const char *szDescription, const char *ext = 0) override;
 	int        STDMETHODCALLTYPE AddFeatures(const char *szFeatures) override;    // Adds features to the list of features returned by the client.
 	int        STDMETHODCALLTYPE RemoveFeatures(const char *szFeatures) override; // Removes features from the list of features returned by the client.
 	char*      STDMETHODCALLTYPE GetResourceFeatures(const char *jid) override;   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
