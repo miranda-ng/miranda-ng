@@ -437,7 +437,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageSticker::ID:
 		{
 			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
-			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID) {
+			switch(pSticker->full_type_->get_id()) {
+			case TD::stickerTypeRegular::ID:
+			case TD::stickerFullTypeRegular::ID:
+				break;
+
+			default:
 				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
 			}
