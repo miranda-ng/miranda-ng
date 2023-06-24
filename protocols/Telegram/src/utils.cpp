@@ -339,6 +339,17 @@ static const TD::photoSize* GetBiggestPhoto(const TD::photo *pPhoto)
 	return nullptr;
 }
 
+static bool checkStickerType(uint32_t ID)
+{
+	switch (ID) {
+	case TD::stickerTypeRegular::ID:
+	case TD::stickerFullTypeRegular::ID:
+		return true;
+	default:
+		return false;
+	}	
+}
+
 static const char *getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
 	if (pText->get_id() == TD::formattedText::ID)
@@ -416,8 +427,10 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageAnimatedEmoji::ID:
 		if (m_bSmileyAdd) {
 			auto *pSticker = ((TD::messageAnimatedEmoji *)pBody)->animated_emoji_->sticker_.get();
-			if (pSticker->full_type_->get_id() != TD::stickerTypeRegular::ID)
+			if (!checkStickerType(pSticker->full_type_->get_id())) {
+				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
+			}
 
 			const char *pwszFileExt;
 			switch (pSticker->thumbnail_->format_->get_id()) {
@@ -437,12 +450,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageSticker::ID:
 		{
 			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
-			switch(pSticker->full_type_->get_id()) {
-			case TD::stickerTypeRegular::ID:
-			case TD::stickerFullTypeRegular::ID:
-				break;
-
-			default:
+			if (!checkStickerType(pSticker->full_type_->get_id())) {
 				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
 			}
