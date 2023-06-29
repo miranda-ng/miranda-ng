@@ -426,24 +426,26 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	case TD::messageAnimatedEmoji::ID:
 		if (m_bSmileyAdd) {
-			auto *pSticker = ((TD::messageAnimatedEmoji *)pBody)->animated_emoji_->sticker_.get();
-			if (!checkStickerType(pSticker->full_type_->get_id())) {
-				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
-				break;
-			}
+			if (auto *pAnimated = ((TD::messageAnimatedEmoji *)pBody)->animated_emoji_.get()) {
+				auto *pSticker = pAnimated->sticker_.get();
+				if (!checkStickerType(pSticker->full_type_->get_id())) {
+					debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
+					break;
+				}
 
-			const char *pwszFileExt;
-			switch (pSticker->thumbnail_->format_->get_id()) {
-			case TD::thumbnailFormatGif::ID: pwszFileExt = "gif"; break;
-			case TD::thumbnailFormatPng::ID: pwszFileExt = "png"; break;
-			case TD::thumbnailFormatTgs::ID: pwszFileExt = "tga"; break;
-			case TD::thumbnailFormatJpeg::ID: pwszFileExt = "jpg"; break;
-			case TD::thumbnailFormatWebm::ID: pwszFileExt = "webm"; break;
-			case TD::thumbnailFormatWebp::ID: pwszFileExt = "webp"; break;
-			default:pwszFileExt = "jpeg"; break;
-			}
+				const char *pwszFileExt;
+				switch (pSticker->thumbnail_->format_->get_id()) {
+				case TD::thumbnailFormatGif::ID: pwszFileExt = "gif"; break;
+				case TD::thumbnailFormatPng::ID: pwszFileExt = "png"; break;
+				case TD::thumbnailFormatTgs::ID: pwszFileExt = "tga"; break;
+				case TD::thumbnailFormatJpeg::ID: pwszFileExt = "jpg"; break;
+				case TD::thumbnailFormatWebm::ID: pwszFileExt = "webm"; break;
+				case TD::thumbnailFormatWebp::ID: pwszFileExt = "webp"; break;
+				default:pwszFileExt = "jpeg"; break;
+				}
 
-			return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+				return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+			}
 		}
 		break;
 
