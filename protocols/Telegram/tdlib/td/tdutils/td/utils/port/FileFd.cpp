@@ -599,9 +599,7 @@ Result<Stat> FileFd::stat() const {
   #ifdef _WIN64
   auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
   #else
-  BOOL bIsWow64 = FALSE;
-  IsWow64Process(GetCurrentProcess(), &bIsWow64);
-  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, bIsWow64 ? 0x28 : 0x24);
+  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, 0x28);
   #endif
   if (!status) {
     return OS_ERROR("Get FileBasicInfo failed");
