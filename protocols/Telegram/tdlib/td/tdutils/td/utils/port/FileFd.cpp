@@ -595,12 +595,14 @@ Result<Stat> FileFd::stat() const {
 #elif TD_PORT_WINDOWS
   Stat res;
 
-  FILE_BASIC_INFO basic_info;
   #ifdef _WIN64
-  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
+  FILE_BASIC_INFO basic_info;
   #else
-  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, 0x28);
+  struct __boo : public FILE_BASIC_INFO {
+	  DWORD __tmp;
+  } basic_info;
   #endif
+  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
   if (!status) {
     return OS_ERROR("Get FileBasicInfo failed");
   }
