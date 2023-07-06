@@ -53,7 +53,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideChats", true),
 	m_bUseGuildGroups(this, "UseGuildGroups", false),
-	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true)
+	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true),
+	m_bSyncMarkRead(this, "SendMarkRead", true)
 {
 	// Services
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
@@ -597,7 +598,7 @@ void CDiscordProto::SendMarkRead()
 
 void CDiscordProto::OnMarkRead(MCONTACT hContact, MEVENT)
 {
-	if (m_bOnline) {
+	if (m_bOnline && m_bSyncMarkRead) {
 		m_impl.m_markRead.Start(200);
 
 		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
