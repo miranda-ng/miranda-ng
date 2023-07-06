@@ -422,7 +422,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
-	OBJLIST<JabberFeatCapPairDynamic> m_lstJabberFeatCapPairsDynamic; // list of features registered through IJabberNetInterface::RegisterFeature()
 	JabberCapsBits m_uEnabledFeatCapsDynamic;
 
 	CMStringA  m_szFeaturesCrc;
@@ -437,6 +436,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	LIST<char> GetSortedFeatStrings(JabberCapsBits jcb);
 	JabberCapsBits GetOwnCaps(bool IncludeDynamic = true);
+
+	// dynamic list of features registered through IJabberNetInterface::RegisterFeature()
+	OBJLIST<JabberFeatCapPairDynamic> m_lstJabberFeatCapPairsDynamic;
+	JabberFeatCapPairDynamic *FindFeature(const char *szFeature);
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
@@ -967,8 +970,6 @@ private:
 
 	int        m_nMenuResourceItems;
 	HGENMENU*  m_phMenuResourceItems;
-
-	JabberFeatCapPairDynamic* FindFeature(const char *szFeature);
 
 public:
 	uint32_t   STDMETHODCALLTYPE GetFlags() const override;                      // Set of JIF_* flags.
