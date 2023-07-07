@@ -236,6 +236,8 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	CSrmmBaseDialog(const CSrmmBaseDialog &) = delete;
 	CSrmmBaseDialog &operator=(const CSrmmBaseDialog &) = delete;
 
+	void OnNickListTimer(CTimer *);
+
 protected:
 	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, struct SESSION_INFO *si = nullptr);
 
@@ -292,7 +294,7 @@ public:
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;
-	CTimer timerFlash, timerType;
+	CTimer timerFlash, timerType, timerNickList;
 
 	void ClearLog();
 	void RedrawLog();

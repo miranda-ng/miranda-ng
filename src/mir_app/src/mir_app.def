@@ -875,3 +875,4 @@ Clist_RemoveEvent @989
 ?Clist_GetEventCount@@YGHXZ @991 NONAME
 ?Chat_EmptyHistory@@YGXPAUSESSION_INFO@@@Z @992 NONAME
 ?Utils_Unzip@@YG?AVMBinBuffer@@PBXI@Z @993 NONAME
+?OnNickListTimer@CSrmmBaseDialog@@AAEXPAVCTimer@@@Z @994 NONAME

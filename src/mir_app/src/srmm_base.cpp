@@ -30,6 +30,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	CDlgBase(pPlugin, idDialog),
 	timerFlash(this, 1),
 	timerType(this, 2),
+	timerNickList(this, 3),
 
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
@@ -58,7 +59,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
-	m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
+	m_nickList.OnDblClick = Callback(this, &CSrmmBaseDialog::onDblClick_List);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -75,6 +76,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 		m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
 		m_iLogFilterFlags = Chat::iFilterFlags;
 		m_bNicklistEnabled = Chat::bShowNicklist;
+
+		timerNickList.OnEvent = Callback(this, &CSrmmBaseDialog::OnNickListTimer);
 	}
 }
 
@@ -239,16 +242,10 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 // process mouse - hovering for the nickname list.fires events so the protocol can
 // show the userinfo - tooltip.
 
-static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem, SESSION_INFO *parentdat)
+static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem, SESSION_INFO *si)
 {
-	static int currentHovered = -1;
 	static HWND hwndToolTip = nullptr;
 	static HWND oldParent = nullptr;
-
-	if (hoveredItem == currentHovered)
-		return;
-
-	currentHovered = hoveredItem;
 
 	MWindow hwnd = listBox.GetHwnd();
 	if (oldParent != hwnd && hwndToolTip) {
@@ -282,9 +279,9 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 	ti.rect = clientRect;
 
 	CMStringW wszBuf;
-	if (auto *ui1 = (USERINFO *)listBox.GetItemData(currentHovered)) {
-		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+	if (auto *ui1 = (USERINFO *)listBox.GetItemData(si->currentHovered)) {
+		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
 			if (p != nullptr) {
 				wszBuf = p;
 				mir_free(p);
@@ -295,7 +292,7 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 			wszBuf.Format(L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
+				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui1->Status));
 		ti.lpszText = wszBuf.GetBuffer();
 	}
 
@@ -304,28 +301,14 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
 }
 
-static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
+void CSrmmBaseDialog::OnNickListTimer(CTimer *pTimer)
 {
-	SESSION_INFO *si = (SESSION_INFO*)idEvent;
+	pTimer->Stop();
 
-	POINT pt;
-	GetCursorPos(&pt);
-	ScreenToClient(hwnd, &pt);
-
-	uint32_t nItemUnderMouse = (uint32_t)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
-	if (HIWORD(nItemUnderMouse) == 1)
-		nItemUnderMouse = (uint32_t)(-1);
-	else
-		nItemUnderMouse &= 0xFFFF;
-	if (((int)nItemUnderMouse != si->currentHovered) || (nItemUnderMouse == -1)) {
-		KillTimer(hwnd, idEvent);
-		return;
-	}
-
-	if (auto *ui1 = (USERINFO *)SendMessage(hwnd, LB_GETITEMDATA, 0, 0)) {
+	if (auto *ui1 = (USERINFO *)m_nickList.SendMsg(LB_GETITEMDATA, m_si->currentHovered, 0)) {
 		CMStringW wszBuf;
-		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
+		if (ProtoServiceExists(m_si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t *)CallProtoService(m_si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)m_si->ptszID, (LPARAM)ui1->pszUID);
 			if (p) {
 				wszBuf = p;
 				mir_free(p);
@@ -335,13 +318,12 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
 				TranslateT("Nick"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+				TranslateT("Status"), g_chatApi.TM_WordToString(m_si->pStatuses, ui1->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
 		Tipper_ShowTip(wszBuf, &ti);
-		si->bHasToolTip = true;
+		m_si->bHasToolTip = true;
 	}
-	KillTimer(hwnd, idEvent);
 }
 
 EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -383,18 +365,18 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			GetClientRect(m_nickList.GetHwnd(), &clientRect);
 			if (PtInRect(&clientRect, pt)) {
 				// hit test item under mouse
-				uint32_t nItemUnderMouse = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, lParam);
+				int nItemUnderMouse = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, lParam);
 				if (HIWORD(nItemUnderMouse) == 1)
-					nItemUnderMouse = (uint32_t)(-1);
+					nItemUnderMouse = -1;
 				else
 					nItemUnderMouse &= 0xFFFF;
 
-				if (bTooltipExists) {
-					if ((int)nItemUnderMouse == m_si->currentHovered)
-						break;
-					m_si->currentHovered = (int)nItemUnderMouse;
+				if (nItemUnderMouse == m_si->currentHovered)
+					break;
+				m_si->currentHovered = nItemUnderMouse;
 
-					KillTimer(m_nickList.GetHwnd(), 1);
+				if (bTooltipExists) {
+					timerNickList.Stop();
 
 					if (m_si->bHasToolTip) {
 						Tipper_Hide();
@@ -402,13 +384,14 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 					}
 
 					if (nItemUnderMouse != -1)
-						SetTimer(m_nickList.GetHwnd(), (UINT_PTR)m_si, 450, ChatTimerProc);
+						timerNickList.Start(450);
 				}
-				else ProcessNickListHovering(m_nickList, (int)nItemUnderMouse, m_si);
+				else ProcessNickListHovering(m_nickList, nItemUnderMouse, m_si);
 			}
 			else {
 				if (bTooltipExists) {
-					KillTimer(m_nickList.GetHwnd(), 1);
+					timerNickList.Stop();
+
 					if (m_si->bHasToolTip) {
 						Tipper_Hide();
 						m_si->bHasToolTip = false;
