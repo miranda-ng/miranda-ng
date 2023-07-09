@@ -144,47 +144,8 @@ struct IcqConn
 	int lastTs, timeout;
 };
 
-struct IcqFileTransfer : public MZeroedObject
+struct IcqFileTransfer : public MZeroedObject, public MShareable
 {
-	// create an object for receiving
-	IcqFileTransfer(MCONTACT hContact, const char *pszUrl) :
-		m_szHost(pszUrl)
-	{
-		pfts.hContact = hContact;
-		pfts.totalFiles = 1;
-		pfts.flags = PFTS_UNICODE | PFTS_RECEIVING;
-
-		ptrW pwszFileName(mir_utf8decodeW(pszUrl));
-		if (pwszFileName == nullptr)
-			pwszFileName = mir_a2u(pszUrl);
-
-		const wchar_t *p = wcsrchr(pwszFileName, '/');
-		m_wszFileName = (p == nullptr) ? pwszFileName : p + 1;
-		m_wszShortName = m_wszFileName;
-	}
-
-	// create an object for sending
-	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName) :
-		m_wszFileName(pwszFileName)
-	{
-		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
-		pfts.hContact = hContact;
-		pfts.szCurrentFile.w = m_wszFileName.GetBuffer();
-
-		const wchar_t *p = wcsrchr(pfts.szCurrentFile.w, '\\');
-		if (pwszFileName != nullptr)
-			p++;
-		else
-			p = pfts.szCurrentFile.w;
-		m_wszShortName = p;
-	}
-
-	~IcqFileTransfer()
-	{
-		if (m_fileId >= 0)
-			_close(m_fileId);
-	}
-
 	bool m_bCanceled = false, m_bStarted = false;
 	int m_fileId = -1;
 	CMStringA m_szHost;
@@ -193,26 +154,15 @@ struct IcqFileTransfer : public MZeroedObject
 	PROTOFILETRANSFERSTATUS pfts;
 	HANDLE hWaitEvent;
 
-	void FillHeaders(AsyncHttpRequest *pReq)
-	{
-		pReq->AddHeader("Content-Type", "application/octet-stream");
-		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszShortName).get()));
+	// create an object for receiving
+	IcqFileTransfer(MCONTACT hContact, const char *pszUrl);
 
-		uint32_t dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
-		if (dwPortion > 1000000)
-			dwPortion = 1000000;
+	// create an object for sending
+	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName);
 
-		pReq->AddHeader("Content-Range", CMStringA(FORMAT, "bytes %lld-%lld/%lld", pfts.currentFileProgress, pfts.currentFileProgress + dwPortion - 1, pfts.currentFileSize));
-		pReq->AddHeader("Content-Length", CMStringA(FORMAT, "%d", dwPortion));
+	~IcqFileTransfer() override;
 
-		pReq->dataLength = dwPortion;
-		pReq->pData = (char*)mir_alloc(dwPortion);
-		_lseek(m_fileId, pfts.currentFileProgress, SEEK_SET);
-		_read(m_fileId, pReq->pData, dwPortion);
-
-		pfts.currentFileProgress += dwPortion;
-		pfts.totalProgress += dwPortion;
-	}
+	void FillHeaders(AsyncHttpRequest *pReq);
 };
 
 class CIcqProto : public PROTO<CIcqProto>

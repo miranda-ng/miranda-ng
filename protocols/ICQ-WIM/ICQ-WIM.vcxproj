@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\file.cpp" />
     <ClCompile Include="src\groupchats.cpp" />
     <ClCompile Include="src\groups.cpp" />
     <ClCompile Include="src\http.cpp" />

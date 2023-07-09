@@ -351,6 +351,7 @@ HANDLE CIcqProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *pwszSaveP
 	auto *ft = (IcqFileTransfer *)hTransfer;
 	ft->m_wszFileName.Insert(0, pwszSavePath);
 	ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+	ft->Acquire();
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, ft->m_szHost, &CIcqProto::OnFileRecv);
 	pReq->pUserInfo = ft;
@@ -370,7 +371,7 @@ int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	if (ft->pfts.currentFileTime != 0)
 		ft->m_bCanceled = true;
 	else
-		delete ft;
+		ft->Release();
 	return 0;
 }
 
