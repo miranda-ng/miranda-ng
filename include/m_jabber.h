@@ -116,8 +116,11 @@ struct IJabberInterface
 	// Returns Jabber module name. DO NOT free the returned string.
 	virtual char* STDMETHODCALLTYPE GetModuleName() const = 0;
 
+	// Returns our full JID.
+	virtual char* STDMETHODCALLTYPE GetFullJid() const = 0;
+
 	// Returns id that can be used for next message sent through SendXmlNode().
-	virtual int STDMETHODCALLTYPE	SerialNext() = 0;
+	virtual char* STDMETHODCALLTYPE GetSerialNext() = 0;
 
 
 	// Registers incoming <presence/> handler. Returns handler handle on success or NULL on error.
@@ -149,8 +152,8 @@ struct IJabberInterface
 	// Returns features supported by JID in format "feature1\0feature2\0...\0featureN\0\0" (a list of features separated by \0 character and terminated with two \0 characters), or NULL on error. JID may contain resource name to get features of a specific resource. If there's no resource name, GetResourceFeatures() returns features for the same resource as IJabberSysInterface::GetBestResourceName() returns. If a feature you're checking for is not supported by Jabber plugin natively, you must register it with RegisterFeature(), otherwise GetContactFeatures() won't be able to return it. You must free returned string using mir_free().
 	virtual char* STDMETHODCALLTYPE GetResourceFeatures(LPCSTR jid) = 0;
 
-	// Returns the connection handle
-	virtual HNETLIBUSER STDMETHODCALLTYPE GetHandle(void) = 0;
+	// Sends a stanza
+	virtual void STDMETHODCALLTYPE SendXml(const TiXmlElement *pXml) = 0;
 };
 
 /*

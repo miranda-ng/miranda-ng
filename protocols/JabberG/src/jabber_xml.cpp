@@ -69,6 +69,7 @@ CMStringA XmlNodeHash::getResult()
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
 
+#ifdef _JABBER_H_
 XmlNodeIq::XmlNodeIq(const char *type, int id, const char *to) :
 	XmlNode("iq")
 {
@@ -79,6 +80,7 @@ XmlNodeIq::XmlNodeIq(const char *type, int id, const char *to) :
 	if (id != -1)
 		XmlAddAttrID(*this, id);
 }
+#endif 
 
 XmlNodeIq::XmlNodeIq(const char *type, const char *idStr, const char *to) :
 	XmlNode("iq")
@@ -105,6 +107,7 @@ XmlNodeIq::XmlNodeIq(const char *type, TiXmlElement *node, const char *to) :
 	}
 }
 
+#ifdef _JABBER_H_
 XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	XmlNode("iq")
 {
@@ -131,6 +134,7 @@ XmlNodeIq::XmlNodeIq(const char *type, CJabberIqInfo *pInfo) :
 			m_hXml->SetAttribute("id", pInfo->GetIdStr());
 	}
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNode class members
@@ -165,7 +169,9 @@ TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XQUERY &child)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _JABBER_H_
 void XmlAddAttrID(TiXmlElement *hXml, int id)
 {
 	hXml->SetAttribute("id", ptrA(JabberId2string(id)).get());
 }
+#endif

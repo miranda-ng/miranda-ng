@@ -54,7 +54,7 @@ class strm_mgmt
 public:
 	strm_mgmt(CJabberProto *proto);
 	void EnableStrmMgmt();
-	void HandleOutgoingNode(TiXmlElement *node);
+	void HandleOutgoingNode(const TiXmlElement *node);
 	bool HandleIncommingNode(const TiXmlElement *node);
 	void HandleConnectionLost();
 	void OnProcessEnabled(const TiXmlElement *node, ThreadData *info);

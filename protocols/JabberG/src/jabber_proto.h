@@ -159,10 +159,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//====| Services |====================================================================
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
-	INT_PTR  __cdecl JabberVOIP_call(WPARAM hContact, LPARAM);
-	INT_PTR  __cdecl JabberVOIP_answercall(WPARAM hContact, LPARAM);
-	INT_PTR  __cdecl JabberVOIP_dropcall(WPARAM hContact, LPARAM);
-
 	//====| Events |======================================================================
 	void __cdecl OnAddContactForever(MCONTACT hContact);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
@@ -854,7 +850,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void       CheckKeepAlive(void);
 
-	bool       OnProcessJingle(const TiXmlElement *node);
 	void       OnProcessIq(const TiXmlElement *node);
 	void       SetRegConfig(CJabberFormDlg *pDlg, void *from);
 	void       CancelRegConfig(CJabberFormDlg *pDlg, void *from);
@@ -877,6 +872,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SendVisibleInvisiblePresence(bool invisible);
 	void       SendPresenceTo(int status, const char* to, const TiXmlElement *extra = nullptr, const char *msg = nullptr);
 	void       SendPresence(int iStatus, bool bSendToAll);
+
+	int        SerialNext();  // Returns id that can be used for next message sent through SendXmlNode().
 
 	// returns buf or nullptr on error
 	char*      GetClientJID(MCONTACT hContact, char *dest, size_t destLen);
@@ -905,21 +902,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SetServerVcard(bool bPhotoChanged, wchar_t* szPhotoFileName);
 
 	//---- jabber_voip.c -----------------------------------------------------------------
-
-	void InitVoip(bool bEnable);
-	bool OnICECandidate(const TiXmlElement *Node);
-	bool OnRTPDescription(const TiXmlElement *Node);
-	bool VOIPCreatePipeline();
-	bool VOIPTerminateSession(const char *reason = "cancel");
-	bool VOIPCallIinitiate(MCONTACT hContact);
-
-	CMStringA m_voipSession, m_voipPeerJid;
-	CMStringA m_voipICEPwd, m_voipICEUfrag, m_medianame;
-	bool m_isOutgoing;
-	TiXmlDocument m_offerDoc; const TiXmlElement *m_offerNode;
-	HANDLE m_hVoiceEvent;
-	struct _GstElement *m_pipe1 = NULL;
-	struct _GstElement *m_webrtc1 = NULL;
 
 	__forceinline bool hasJingle()
 	{	return FindFeature(JABBER_FEAT_JINGLE) != 0 && m_bEnableVOIP;
@@ -981,8 +963,8 @@ public:
 	char*      STDMETHODCALLTYPE GetBestResourceName(const char *jid) override;  // Returns best resource name for given JID. You must free the result using mir_free().
 	char*      STDMETHODCALLTYPE GetResourceList(const char *jid) override;      // Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
 	char*      STDMETHODCALLTYPE GetModuleName() const override;                 // Returns Jabber module name.
-				  
-	int        STDMETHODCALLTYPE SerialNext() override;           // Returns id that can be used for next message sent through SendXmlNode().
+	char*      STDMETHODCALLTYPE GetFullJid() const override;                    // Returns full JID of the current session
+	char*      STDMETHODCALLTYPE GetSerialNext() override;
 				  
 	HJHANDLER  STDMETHODCALLTYPE AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority) override;
 	HJHANDLER  STDMETHODCALLTYPE AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, const char *szXmlns, const char *szTag, void *pUserData, int iPriority) override;
@@ -994,8 +976,8 @@ public:
 	int        STDMETHODCALLTYPE AddFeatures(const char *szFeatures) override;    // Adds features to the list of features returned by the client.
 	int        STDMETHODCALLTYPE RemoveFeatures(const char *szFeatures) override; // Removes features from the list of features returned by the client.
 	char*      STDMETHODCALLTYPE GetResourceFeatures(const char *jid) override;   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
-	
-	HNETLIBUSER STDMETHODCALLTYPE GetHandle() override;  // Returns connection handle
+
+	void       STDMETHODCALLTYPE SendXml(const TiXmlElement *pXml) override;
 };
 
 #endif

@@ -60,7 +60,7 @@ bool CJabberSendManager::DeletePermanentHandler(CJabberSendPermanentInfo *pInfo)
 	return m_arHandlers.remove(pInfo) == 1;
 }
 
-bool CJabberSendManager::HandleSendPermanent(TiXmlElement *node, ThreadData *pThreadData)
+bool CJabberSendManager::HandleSendPermanent(const TiXmlElement *node, ThreadData *pThreadData)
 {
 	for (auto &pInfo : m_arHandlers) {
 		CJabberSendInfo sendInfo;

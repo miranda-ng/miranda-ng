@@ -26,6 +26,8 @@
 #include <m_voice.h>
 #include <m_voiceservice.h>
 
+#include "../../protocols/JabberG/src/jabber_xml.h"
+
 #include "account.h"
 #include "resource.h"
 #include "version.h"

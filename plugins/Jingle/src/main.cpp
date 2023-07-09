@@ -27,22 +27,9 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static INT_PTR FakeService(WPARAM, LPARAM)
-{
-	g_assertion_message(0, 0, 0, 0, 0);
-	g_object_unref(0);
-	gst_bin_add(0, 0);
-	gst_rtp_header_extension_set_id(0, 0);
-	gst_sdp_message_as_text(0);
-	gst_webrtc_session_description_free(0);
-	return 0;
-}
-
 int CMPlugin::Load()
 {
 	SetEnvironmentVariableW(L"GST_PLUGIN_PATH", VARSW(L"%miranda_path%\\Libs\\gst_plugins"));
-
-	CreateServiceFunction("JINGLE/SERVICE", &FakeService);
 
 	CJabberAccount::InitHooks();
 	return 0;

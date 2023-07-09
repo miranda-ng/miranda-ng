@@ -389,8 +389,8 @@ struct ThreadData
 	void  shutdown(void);
 	int   recv(char* buf, size_t len);
 	int   send(char* buffer, int bufsize = -1);
-	int   send(TiXmlElement *node);
-	int   send_no_strm_mgmt(TiXmlElement *node);
+	int   send(const TiXmlElement *node);
+	int   send_no_strm_mgmt(const TiXmlElement *node);
 
 private:
 	bool  bShutdown;

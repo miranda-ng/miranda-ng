@@ -161,9 +161,6 @@
     <ClCompile Include="src\jabber_mam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_voip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\utils\mir_signal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

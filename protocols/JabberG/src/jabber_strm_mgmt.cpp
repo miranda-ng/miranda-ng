@@ -163,7 +163,7 @@ void strm_mgmt::CheckState()
 		EnableStrmMgmt();
 }
 
-void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
+void strm_mgmt::HandleOutgoingNode(const TiXmlElement *node)
 {
 	if (!m_bHalfEnabled)
 		return;

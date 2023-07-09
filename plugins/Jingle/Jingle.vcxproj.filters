@@ -11,6 +11,12 @@
     <ClCompile Include="src\account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\voip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\protocols\JabberG\src\jabber_xml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">

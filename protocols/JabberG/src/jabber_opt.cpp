@@ -763,8 +763,6 @@ public:
 		else
 			m_proto->m_omemo.deinit();
 
-		m_proto->InitVoip(m_proto->hasJingle());
-
 		m_proto->UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
 		return true;

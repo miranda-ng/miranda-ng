@@ -99,7 +99,7 @@ public:
 	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = nullptr, SEND_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberSendPermanentInfo *pInfo);
 
-	bool HandleSendPermanent(TiXmlElement *node, ThreadData *pThreadData);
+	bool HandleSendPermanent(const TiXmlElement *node, ThreadData *pThreadData);
 };
 
 #endif

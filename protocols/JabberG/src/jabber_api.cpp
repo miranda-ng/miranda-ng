@@ -103,6 +103,16 @@ char* CJabberProto::GetModuleName() const
 	return m_szModuleName;
 }
 
+char* CJabberProto::GetFullJid() const
+{
+	return (m_ThreadInfo) ? m_ThreadInfo->fullJID : "";
+}
+	  
+char* CJabberProto::GetSerialNext()
+{
+	return JabberId2string(SerialNext());
+}
+
 typedef struct
 {
 	JABBER_HANDLER_FUNC Func;
@@ -317,7 +327,8 @@ char* CJabberProto::GetResourceFeatures(const char *jid)
 	return res.Detach();
 }
 
-HNETLIBUSER CJabberProto::GetHandle()
+void CJabberProto::SendXml(const TiXmlElement *pXml)
 {
-	return m_hNetlibUser;
+	if (m_ThreadInfo)
+		m_ThreadInfo->send(pXml);
 }

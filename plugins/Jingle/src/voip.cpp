@@ -9,15 +9,6 @@
 #define GST_USE_UNSTABLE_API
 #include <gst/webrtc/webrtc.h>
 
-#pragma comment(lib, "glib-2.0.lib")
-#pragma comment(lib, "gobject-2.0.lib")
-#pragma comment(lib, "gstreamer-1.0.lib")
-#pragma comment(lib, "gstrtp-1.0.lib")
-#pragma comment(lib, "gstsdp-1.0.lib")
-#pragma comment(lib, "gstwebrtc-1.0.lib")
-
-static std::list<CMStringA> remotecands;
-
 bool GetCandidateProp(char *output, byte maxlen, const char *candidate, const char *prop)
 {
 	const char *pprop = strstr(candidate, prop);
@@ -120,7 +111,7 @@ static void on_incoming_stream_cb(GstElement */*webrtc*/, GstPad *pad, GstElemen
 void on_offer_created_cb(GstPromise *promise, gpointer user_data)
 {
 	GstWebRTCSessionDescription *offer = NULL;
-	CJabberProto *jproto = (CJabberProto *)user_data;
+	CJabberAccount *jproto = (CJabberAccount *)user_data;
 
 	GstStructure const *reply = gst_promise_get_reply(promise);
 	gst_structure_get(reply, jproto->m_isOutgoing ? "offer" : "answer", GST_TYPE_WEBRTC_SESSION_DESCRIPTION, &offer, NULL);
@@ -154,15 +145,15 @@ void on_offer_created_cb(GstPromise *promise, gpointer user_data)
 	jproto->m_voipICEUfrag = gst_sdp_media_get_attribute_val(media_audio, "ice-ufrag");
 	jproto->m_medianame = gst_sdp_media_get_attribute_val(media_audio, "mid");
 
-	//send it all
+	// send it all
 	bool outgoing = jproto->m_isOutgoing;
-	XmlNodeIq iq("set", jproto->SerialNext(), jproto->m_voipPeerJid);
+	XmlNodeIq iq("set", jproto->m_api->GetSerialNext(), jproto->m_voipPeerJid);
 	TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
 	rjNode << XATTR("sid", jproto->m_voipSession)
 		<< XATTR("action", outgoing ? "session-initiate" : "session-accept")
-		<< XATTR("initiator", outgoing ? jproto->m_ThreadInfo->fullJID : jproto->m_voipPeerJid);
+		<< XATTR("initiator", outgoing ? jproto->m_api->GetFullJid() : jproto->m_voipPeerJid);
 	if (!outgoing)
-		rjNode << XATTR("responder", jproto->m_ThreadInfo->fullJID);
+		rjNode << XATTR("responder", jproto->m_api->GetFullJid());
 
 	TiXmlElement *content = rjNode << XCHILD("content") << XATTR("creator", "initiator") << XATTR("name", jproto->m_medianame);
 	TiXmlElement *description = content << XCHILDNS("description", JABBER_FEAT_JINGLE_RTP) << XATTR("media", "audio");
@@ -194,14 +185,14 @@ void on_offer_created_cb(GstPromise *promise, gpointer user_data)
 			<< XATTR("setup", gst_sdp_media_get_attribute_val(media_audio, "setup"));
 	}
 
-	jproto->m_ThreadInfo->send(iq);
+	jproto->m_api->SendXml(iq);
 
 	gst_webrtc_session_description_free(offer);
 }
 
 void on_negotiation_needed_cb(GstElement *webrtcbin, gpointer user_data)
 {
-	if (((CJabberProto *)user_data)->m_isOutgoing) {
+	if (((CJabberAccount *)user_data)->m_isOutgoing) {
 		gst_print("Creating negotiation offer\n");
 
 		GstPromise *promise = gst_promise_new_with_change_func(on_offer_created_cb, user_data, NULL);
@@ -213,13 +204,13 @@ static void on_offer_set(GstPromise *promise, gpointer user_data)
 {
 	gst_promise_unref(promise);
 	promise = gst_promise_new_with_change_func(on_offer_created_cb, user_data, NULL);
-	g_signal_emit_by_name(((CJabberProto *)user_data)->m_webrtc1, "create-answer", NULL, promise);
+	g_signal_emit_by_name(((CJabberAccount *)user_data)->m_webrtc1, "create-answer", NULL, promise);
 }
 
-void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guint mline_index, gchar *candidate, CJabberProto *jproto)
+void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guint mline_index, gchar *candidate, CJabberAccount *jproto)
 {
 	// parse candidate and send
-	char foundation[11], component[11], protocol[4], priority[11], ip[40], port[6], type[6];
+	char foundation[11], component[11], protocol[4] = "", priority[11], ip[40], port[6], type[6];
 	int ret = sscanf(candidate, "candidate:%10s %10s %3s %10s %39s %5s typ %5s",
 		foundation, component, protocol, priority, ip, port, type);
 	if (ret != 7 || strcmp(protocol, "UDP"))
@@ -228,7 +219,7 @@ void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guin
 	gst_print("VOIP - Wanna send ice candidate(m-line_index=%d):\r\n%s\r\n", mline_index, candidate);
 	for (char *p = protocol; *p; ++p) *p = tolower(*p);
 
-	XmlNodeIq iq("set", jproto->SerialNext(), jproto->m_voipPeerJid);
+	XmlNodeIq iq("set", jproto->m_api->GetSerialNext(), jproto->m_voipPeerJid);
 	TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
 	rjNode << XATTR("action", "transport-info") << XATTR("sid", jproto->m_voipSession);
 
@@ -248,13 +239,13 @@ void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guin
 	if (GetCandidateProp(attr, 255, candidate, "rport"))
 		candidateNode << XATTR("rel-port", attr);
 
-	jproto->m_ThreadInfo->send(iq);
+	jproto->m_api->SendXml(iq);
 }
 
 static gboolean check_plugins(void)
 {
 	const gchar *needed[] = { "opus", "nice", "webrtc", "dtls", "srtp", "rtpmanager"
-		/*"vpx", "videotestsrc", "audiotestsrc",*/  };
+		/*"vpx", "videotestsrc", "audiotestsrc",*/ };
 
 	GstRegistry *registry = gst_registry_get();
 	gboolean ret = TRUE;
@@ -275,9 +266,9 @@ void dbgprint(const gchar *string)
 	OutputDebugStringA(string);
 }
 
-bool CJabberProto::VOIPCreatePipeline(void)
+bool CJabberAccount::VOIPCreatePipeline(void)
 {
-	if (!hasJingle())
+	if (!m_bEnableVOIP)
 		goto err;
 
 	//gstreamer init
@@ -347,7 +338,7 @@ err:
 	return false;
 }
 
-bool CJabberProto::VOIPTerminateSession(const char *reason)
+bool CJabberAccount::VOIPTerminateSession(const char *reason)
 {
 	if (m_pipe1) {
 		gst_element_set_state(GST_ELEMENT(m_pipe1), GST_STATE_NULL);
@@ -356,15 +347,15 @@ bool CJabberProto::VOIPTerminateSession(const char *reason)
 		gst_print("Pipeline stopped\n");
 	}
 
-	if (m_ThreadInfo && reason && !m_voipSession.IsEmpty() && !m_voipPeerJid.IsEmpty()) {
-		XmlNodeIq iq("set", SerialNext(), m_voipPeerJid);
+	if (reason && !m_voipSession.IsEmpty() && !m_voipPeerJid.IsEmpty()) {
+		XmlNodeIq iq("set", m_api->GetSerialNext(), m_voipPeerJid);
 
 		TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
 		jingleNode << XATTR("action", "session-terminate") << XATTR("sid", m_voipSession);
-		jingleNode << XATTR("initiator", m_isOutgoing ? m_ThreadInfo->fullJID : m_voipPeerJid);
+		jingleNode << XATTR("initiator", m_isOutgoing ? m_api->GetFullJid() : m_voipPeerJid);
 		jingleNode << XCHILD("reason") << XCHILD(reason);
 
-		m_ThreadInfo->send(iq);
+		m_api->SendXml(iq);
 	}
 
 	m_voipICEPwd.Empty();
@@ -377,7 +368,7 @@ bool CJabberProto::VOIPTerminateSession(const char *reason)
 	return true;
 }
 
-bool CJabberProto::OnRTPDescription(const TiXmlElement *jingleNode)
+bool CJabberAccount::OnRTPDescription(const TiXmlElement *jingleNode)
 {
 	if (!jingleNode)
 		return false;
@@ -444,9 +435,9 @@ bool CJabberProto::OnRTPDescription(const TiXmlElement *jingleNode)
 	return true;
 }
 
-bool CJabberProto::OnICECandidate(const TiXmlElement *Node)
+bool CJabberAccount::OnICECandidate(const TiXmlElement *Node)
 {
-	if (!hasJingle())
+	if (!m_bEnableVOIP)
 		return false;
 
 	CMStringA scandidate;
@@ -473,7 +464,7 @@ bool CJabberProto::OnICECandidate(const TiXmlElement *Node)
 	return true;
 }
 
-bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
+bool CJabberAccount::VOIPCallIinitiate(MCONTACT hContact)
 {
 	if (!m_voipSession.IsEmpty()) {
 		VOIPTerminateSession();
@@ -481,26 +472,26 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 		return false;
 	}
 
-	if (!hasJingle())
+	if (!m_bEnableVOIP)
 		return false;
 
-	CMStringA jid(getMStringA(hContact, "jid"));
+	CMStringA jid(db_get_sm(hContact, m_szModuleName, "jid"));
 	if (jid.IsEmpty())
 		return false;
-	
-	auto r = ListGetBestResource(jid);
-	if (r) {
+
+	ptrA szResource(m_api->GetBestResourceName(jid));
+	if (szResource) {
+		jid.AppendFormat("/%s", szResource.get());
 		bool bFound = false;
-		if (auto *pFeature = FindFeature(JABBER_FEAT_JINGLE))
-			if (!(r->m_pCaps->GetCaps() & pFeature->jcbCap))
+		ptrA szFeatures(m_api->GetResourceFeatures(jid));
+		for (auto *p = szFeatures.get(); *p; p += mir_strlen(p))
+			if (!mir_strcmp(p, JABBER_FEAT_JINGLE))
 				bFound = true;
 
 		if (!bFound) {
-			MsgPopup(hContact, TranslateT("Client's program does not support voice calls"), TranslateT("Error"));
+			// MsgPopup(hContact, TranslateT("Client's program does not support voice calls"), TranslateT("Error"));
 			return false;
 		}
-
-		jid = MakeJid(jid, r->m_szResourceName);
 	}
 
 	unsigned char tmp[16];
@@ -513,77 +504,17 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	return true;
 }
 
-INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
-{
-	if (VOIPCallIinitiate(hContact)) {
-		VOICE_CALL vc = {};
-		vc.cbSize = sizeof(VOICE_CALL);
-		vc.moduleName = m_szModuleName;
-		vc.id = m_voipSession;                // Protocol especific ID for this call
-		vc.hContact = hContact;       // Contact associated with the call (can be NULL)
-		vc.state = VOICE_STATE_READY;
-		vc.szNumber.a = m_voipPeerJid;
-		NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
-	}
-
-	return 0;
-}
-
-INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM id, LPARAM)
-{
-	if(strcmp((const char *)id, m_voipSession))
-		return 0;
-
-/*	CMStringA question(FORMAT, "Proceed call with %s?\r\n"
-		"It will disclose IP address to the peer and his server", m_voipPeerJid.c_str());
-	if (MessageBoxA(0, question.c_str(), "Outgoing call", MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return 0;*/
-
-	VOICE_CALL vc = {};
-	vc.cbSize = sizeof(VOICE_CALL);
-	vc.moduleName = m_szModuleName;
-	vc.hContact = HContactFromJID(m_voipPeerJid);// Contact associated with the call (can be NULL)
-	vc.szNumber.a = m_voipPeerJid;
-	vc.id = m_voipSession;
-	vc.state = VOICE_STATE_ENDED;
-
-	if (VOIPCreatePipeline()) {
-		if (m_isOutgoing)
-			vc.state = VOICE_STATE_CALLING;
-		else if (OnRTPDescription(m_offerNode))
-			vc.state = VOICE_STATE_TALKING;
-		else
-			VOIPTerminateSession();
-	}
-	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
-
-	return 0;
-}
-
-INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM id, LPARAM)
-{
-	VOICE_CALL vc = {};
-	vc.cbSize = sizeof(VOICE_CALL);
-	vc.moduleName = m_szModuleName;
-	vc.id = (char*)id;
-	vc.state = VOICE_STATE_ENDED;
-	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
-
-	VOIPTerminateSession();
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // module entry point
 
-void CJabberProto::InitVoip(bool bEnable)
+void CJabberAccount::InitVoip(bool bEnable)
 {
 	// Voip
 	VOICE_MODULE vsr = {};
 	vsr.cbSize = sizeof(VOICE_MODULE);
 	vsr.description = L"XMPP/DTLS-SRTP";
-	vsr.name = m_szModuleName;
-	vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
+	vsr.name = (char*)m_szModuleName;
+	vsr.icon = g_plugin.getIconHandle(IDI_MAIN);
 	vsr.flags = 3;
 	if (bEnable)
 		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);

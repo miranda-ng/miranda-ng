@@ -178,12 +178,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	CreateProtoService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
 
-	// Voice 
-	m_hVoiceEvent = CreateProtoEvent(PE_VOICE_CALL_STATE);
-	CreateProtoService(PS_VOICE_CALL, &CJabberProto::JabberVOIP_call);
-	CreateProtoService(PS_VOICE_ANSWERCALL, &CJabberProto::JabberVOIP_answercall);
-	CreateProtoService(PS_VOICE_DROPCALL, &CJabberProto::JabberVOIP_dropcall);
-
 	// XEP-0224 support (Attention/Nudge)
 	CreateProtoService(PS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
@@ -261,11 +255,6 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
-	DestroyHookableEvent(m_hVoiceEvent);
-
-	// Voice
-	if (hasJingle())
-		InitVoip(false);
 
 	// Lists & strings
 	ListWipe();
@@ -322,10 +311,6 @@ void CJabberProto::OnModulesLoaded()
 	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
-
-	// Voip
-	if (hasJingle())
-		InitVoip(true);
 
 	// Set all contacts to offline
 	for (auto &hContact : AccContacts()) {
