@@ -92,5 +92,4 @@ Plugins\PluginUpdater.dll
 Plugins\StatusManager.dll
 Plugins\TabSRMM.dll
 Plugins\TopToolBar.dll
-Plugins\VoiceService.dll
 Plugins\Import\*.ini
