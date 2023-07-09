@@ -109,7 +109,6 @@ Source: "Files\Plugins\Facebook.dll"; DestDir: "{app}\Plugins"; Components: prot
 Source: "Files\Plugins\ICQ.dll"; DestDir: "{app}\Plugins"; Components: protocols\icq; Flags: ignoreversion; AfterInstall: ShowPercent()  
 Source: "Files\Plugins\IRC.dll"; DestDir: "{app}\Plugins"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Jabber.dll"; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\VoiceService.dll "; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libsignal.mir"; DestDir: "{app}\Libs"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Clists
