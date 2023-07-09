@@ -1553,3 +1553,8 @@ db_event_updateId @1772
 ?SetPageOwner@CCtrlPages@@QEAAXXZ @1774 NONAME
 ?db_event_setJson@@YAHIPEBDPEAUDBVARIANT@@@Z @1775 NONAME
 ?CreatePage@CCtrlPages@@AEAAXPEAVCDlgBase@@@Z @1776 NONAME
+??0MShareable@@IEAA@XZ @1777 NONAME
+??1MShareable@@MEAA@XZ @1778 NONAME
+??_7MShareable@@6B@ @1779 NONAME
+?Acquire@MShareable@@QEAAXXZ @1780 NONAME
+?Release@MShareable@@QEAAXXZ @1781 NONAME

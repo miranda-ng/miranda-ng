@@ -257,6 +257,23 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// basic class for classes with usage counter
+
+class MIR_CORE_EXPORT MShareable : public MNonCopyable
+{
+	unsigned volatile m_iUseCount;
+
+protected:
+	MShareable();
+	virtual ~MShareable();
+
+public:
+	void Acquire();
+	void Release();
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
 // general lists' templates
 
 #define	NumericKeySortT -1
