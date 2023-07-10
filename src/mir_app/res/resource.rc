@@ -385,7 +385,7 @@ BEGIN
     LTEXT           "e.g., Workplace",IDC_STATIC,62,35,77,9
     LTEXT           "You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.",IDC_STATIC,4,46,207,24
     LTEXT           "Driver",IDC_STATIC,20,77,37,9
-    LTEXT           "Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll",IDC_NODBDRIVERS,4,104,203,22,NOT WS_VISIBLE
+    LTEXT           "Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll",IDC_NODBDRIVERS,4,104,203,22,NOT WS_VISIBLE
 END
 
 IDD_OPT_PLUGINS DIALOGEX 0, 0, 316, 252
