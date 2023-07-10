@@ -124,6 +124,42 @@ void CIcqProto::CheckPassword()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	IcqFileInfo **res = (IcqFileInfo **)pReq->pUserInfo;
+	*res = nullptr;
+
+	RobustReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+	auto &pData = root.result();
+	auto &pInfo = pData["info"];
+	std::string szUrl(pInfo["dlink"].as_string());
+	if (szUrl.empty())
+		return;
+
+	OnMarkRead(pReq->hContact, 0);
+
+	bool bIsSticker;
+	CMStringW wszDescr(pInfo["file_name"].as_mstring());
+	if (!mir_wstrncmp(wszDescr, L"dnld", 4)) {
+		bIsSticker = true;
+
+		std::string szPreview = pData["previews"]["192"].as_string();
+		if (!szPreview.empty())
+			szUrl = szPreview;
+	}
+	else bIsSticker = false;
+
+	mir_urlDecode(&*szUrl.begin());
+
+	*res = new IcqFileInfo(szUrl, wszDescr, pInfo["file_size"].as_int());
+	res[0]->bIsSticker = bIsSticker;
+}
+
 IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &bIsFile)
 {
 	CMStringW wszUrl(wszText.Mid(26));
@@ -522,17 +558,20 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// convert a file info into Miranda's file transfer
 	if (bIsFileTransfer) {
-		auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
-		ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
-		ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+		ptrW pwszFileName(mir_utf8decodeW(pFileInfo->szUrl));
+		if (pwszFileName == nullptr)
+			pwszFileName = mir_a2u(pFileInfo->szUrl);
+
+		const wchar_t *p = wcsrchr(pwszFileName, '/');
+		const wchar_t *m_wszShortName = (p == nullptr) ? pwszFileName : p + 1;
 
 		PROTORECVFILE pre = {};
-		pre.dwFlags = PRFF_UNICODE;
+		pre.dwFlags = PRFF_UNICODE | PRFF_SILENT;
 		pre.fileCount = 1;
 		pre.timestamp = iMsgTime;
-		pre.files.w = &ft->m_wszShortName;
+		pre.files.w = &m_wszShortName;
 		pre.descr.w = pFileInfo->wszDescr;
-		pre.lParam = (LPARAM)ft;
+		pre.lParam = (LPARAM)pFileInfo;
 		ProtoChainRecvFile(hContact, &pre);
 
 		delete pFileInfo;
@@ -941,80 +980,6 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// File info request
-
-void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	IcqFileInfo **res = (IcqFileInfo **)pReq->pUserInfo;
-	*res = nullptr;
-
-	RobustReply root(pReply);
-	if (root.error() != 200)
-		return;
-
-	auto &pData = root.result();
-	auto &pInfo = pData["info"] ;
-	std::string szUrl(pInfo["dlink"].as_string());
-	if (szUrl.empty())
-		return;
-
-	OnMarkRead(pReq->hContact, 0);
-
-	bool bIsSticker;
-	CMStringW wszDescr(pInfo["file_name"].as_mstring());
-	if (!mir_wstrncmp(wszDescr, L"dnld", 4)) {
-		bIsSticker = true;
-
-		std::string szPreview = pData["previews"]["192"].as_string();
-		if (!szPreview.empty())
-			szUrl = szPreview;
-	}
-	else bIsSticker = false;
-
-	mir_urlDecode(&*szUrl.begin());
-
-	*res = new IcqFileInfo(szUrl, wszDescr, pInfo["file_size"].as_int());
-	res[0]->bIsSticker = bIsSticker;
-}
-
-void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	auto *ft = (IcqFileTransfer*)pReq->pUserInfo;
-
-	if (pReply->resultCode != 200) {
-LBL_Error:
-		FileCancel(pReq->hContact, ft);
-		return;
-	}
-
-	ft->hWaitEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	if (ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->pfts))
-		WaitForSingleObject(ft->hWaitEvent, INFINITE);
-	CloseHandle(ft->hWaitEvent);
-
-	debugLogW(L"Saving to [%s]", ft->pfts.szCurrentFile.w);
-	int fileId = _wopen(ft->pfts.szCurrentFile.w, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-	if (fileId == -1) {
-		debugLogW(L"Cannot open [%s] for writing", ft->pfts.szCurrentFile.w);
-		goto LBL_Error;
-	}
-
-	int result = _write(fileId, pReply->pData, pReply->dataLength);
-	_close(fileId);
-	if (result != pReply->dataLength) {
-		debugLogW(L"Error writing data into [%s]", ft->pfts.szCurrentFile.w);
-		goto LBL_Error;
-	}
-
-	ft->pfts.totalProgress += pReply->dataLength;
-	ft->pfts.currentFileProgress += pReply->dataLength;
-	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
-
-	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-	delete ft;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

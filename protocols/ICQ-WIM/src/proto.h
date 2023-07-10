@@ -144,7 +144,7 @@ struct IcqConn
 	int lastTs, timeout;
 };
 
-struct IcqFileTransfer : public MZeroedObject, public MShareable
+struct IcqFileTransfer : public MZeroedObject
 {
 	bool m_bCanceled = false, m_bStarted = false;
 	int m_fileId = -1;
@@ -152,15 +152,11 @@ struct IcqFileTransfer : public MZeroedObject, public MShareable
 	CMStringW m_wszFileName, m_wszDescr;
 	const wchar_t *m_wszShortName;
 	PROTOFILETRANSFERSTATUS pfts;
-	HANDLE hWaitEvent;
-
-	// create an object for receiving
-	IcqFileTransfer(MCONTACT hContact, const char *pszUrl);
 
 	// create an object for sending
 	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName);
 
-	~IcqFileTransfer() override;
+	~IcqFileTransfer();
 
 	void FillHeaders(AsyncHttpRequest *pReq);
 };
@@ -353,6 +349,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE    m_hWorkerThread;
 	void      __cdecl ServerThread(void*);
 	void      __cdecl PollThread(void*);
+	void      __cdecl OfflineFileThread(void*);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// services
@@ -362,6 +359,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
+	INT_PTR   __cdecl SvcOfflineFile(WPARAM, LPARAM);
+
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
 	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
@@ -390,10 +389,6 @@ class CIcqProto : public PROTO<CIcqProto>
 			    
 	HANDLE    SearchBasic(const wchar_t *id) override;
 
-	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
-	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int       FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
-
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;
 			    
@@ -406,6 +401,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnContactAdded(MCONTACT) override;
 	void      OnContactDeleted(MCONTACT) override;
 	MWindow   OnCreateAccMgrUI(MWindow) override;
+	void      OnCreateOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
 	void      OnEventEdited(MCONTACT, MEVENT) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;

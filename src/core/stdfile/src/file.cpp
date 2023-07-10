@@ -340,6 +340,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		}
 		
 		DB::FILE_BLOB blob(wszFiles, pre->descr.w);
+		CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
 		blob.write(dbei);
 	}
 	else {

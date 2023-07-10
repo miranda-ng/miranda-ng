@@ -17,23 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-// create an object for receiving
-IcqFileTransfer::IcqFileTransfer(MCONTACT hContact, const char *pszUrl) :
-	m_szHost(pszUrl)
-{
-	pfts.hContact = hContact;
-	pfts.totalFiles = 1;
-	pfts.flags = PFTS_UNICODE | PFTS_RECEIVING;
-
-	ptrW pwszFileName(mir_utf8decodeW(pszUrl));
-	if (pwszFileName == nullptr)
-		pwszFileName = mir_a2u(pszUrl);
-
-	const wchar_t *p = wcsrchr(pwszFileName, '/');
-	m_wszFileName = (p == nullptr) ? pwszFileName : p + 1;
-	m_wszShortName = m_wszFileName;
-}
-
 // create an object for sending
 IcqFileTransfer::IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName) :
 	m_wszFileName(pwszFileName)

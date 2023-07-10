@@ -74,6 +74,9 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::GetEmailCount);
 	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::GotoInbox);
 
+	// offline file transfer
+	CreateProtoService(PS_OFFLINEFILE, &CIcqProto::SvcOfflineFile);
+
 	// events
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::OnGroupChange);
 	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
@@ -165,10 +168,72 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
 }
 
+void CIcqProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *hTransfer)
+{
+	if (auto *pFileInfo = (IcqFileInfo *)hTransfer) {
+		blob.setUrl(pFileInfo->szUrl);
+		blob.setSize(pFileInfo->dwFileSize);
+	}
+}
+
 void CIcqProto::OnEventEdited(MCONTACT, MEVENT)
 {
 
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	if (pReply->resultCode != 200)
+		return;
+
+	auto *ofd = (OFDTHREAD *)pReq->pUserInfo;
+	debugLogW(L"Saving to [%s]", ofd->wszPath.c_str());
+	int fileId = _wopen(ofd->wszPath, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+	if (fileId == -1) {
+		debugLogW(L"Cannot open [%s] for writing", ofd->wszPath.c_str());
+		return;
+	}
+
+	int result = _write(fileId, pReply->pData, pReply->dataLength);
+	_close(fileId);
+	if (result != pReply->dataLength) {
+		debugLogW(L"Error writing data into [%s]", ofd->wszPath.c_str());
+		return;
+	}
+
+	delete ofd;
+}
+
+void __cdecl CIcqProto::OfflineFileThread(void *pParam)
+{
+	auto *ofd = (OFDTHREAD *)pParam;
+
+	DB::EventInfo dbei(ofd->hDbEvent);
+	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
+		if (m_bOnline && root) {
+			auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, root["u"].as_string().c_str(), &CIcqProto::OnFileRecv);
+			pReq->pUserInfo = ofd;
+			pReq->AddHeader("Sec-Fetch-User", "?1");
+			pReq->AddHeader("Sec-Fetch-Site", "cross-site");
+			pReq->AddHeader("Sec-Fetch-Mode", "navigate");
+			Push(pReq);
+			return;
+		}
+	}
+
+	delete ofd;
+}
+
+INT_PTR __cdecl CIcqProto::SvcOfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread((MyThreadFunc)&CIcqProto::OfflineFileThread, (void *)param);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 {
@@ -337,56 +402,6 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 	pReq << AIMSID(this) << WCHAR_PARAM("authorizationMsg", szMessage) << WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", wszGroup) << INT_PARAM("preAuthorized", 1);
 	pReq->hContact = hContact;
 	Push(pReq);
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// File operations
-
-HANDLE CIcqProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *pwszSavePath)
-{
-	if (!m_bOnline)
-		return nullptr;
-
-	auto *ft = (IcqFileTransfer *)hTransfer;
-	ft->m_wszFileName.Insert(0, pwszSavePath);
-	ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
-	ft->Acquire();
-
-	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, ft->m_szHost, &CIcqProto::OnFileRecv);
-	pReq->pUserInfo = ft;
-	pReq->AddHeader("Sec-Fetch-User", "?1");
-	pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-	pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-	Push(pReq);
-	
-	return hTransfer;
-}
-
-int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
-{
-	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, hTransfer);
-
-	auto *ft = (IcqFileTransfer *)hTransfer;
-	if (ft->pfts.currentFileTime != 0)
-		ft->m_bCanceled = true;
-	else
-		ft->Release();
-	return 0;
-}
-
-int CIcqProto::FileResume(HANDLE hTransfer, int, const wchar_t *szFilename)
-{
-	auto *ft = (IcqFileTransfer *)hTransfer;
-	if (!m_bOnline || ft == nullptr)
-		return 1;
-
-	if (szFilename != nullptr) {
-		ft->m_wszFileName = szFilename;
-		ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
-	}
-
-	::SetEvent(ft->hWaitEvent);
 	return 0;
 }
 
