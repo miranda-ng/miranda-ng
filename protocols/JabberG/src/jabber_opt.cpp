@@ -689,6 +689,11 @@ public:
 		CreateLink(m_txtDirect, "BsDirectAddr", L"");
 
 		m_chkDirect.OnChange = m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
+	}
+
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
 
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use message delivery receipts (XEP-0184)"), m_proto->m_bMsgAck);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
@@ -724,16 +729,12 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
 
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), m_proto->m_bAllowTimeReplies); 
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), m_proto->m_bAllowTimeReplies);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)"), m_proto->m_bUseOMEMO);
-	}
-
-	bool OnInitDialog() override
-	{
-		CSuper::OnInitDialog();
+		m_options.OnInit();
 
 		chkDirect_OnChange(&m_chkDirect);
 		return true;
