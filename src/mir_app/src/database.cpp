@@ -481,7 +481,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t tszNoDrivers[] = LPGENW("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_sqlite.dll");
+static wchar_t tszNoDrivers[] = LPGENW("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install DBX_Sqlite or Cancel to exit");
 static wchar_t tszUnknownFormat[] = LPGENW("Miranda was unable to open '%s', it's in an unknown format.");
 static wchar_t tszProfileLocked[] = LPGENW("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance");
 static wchar_t tszNoSuitableDriver[] = LPGENW("Miranda was unable to open '%s'\nThere is no suitable database driver installed");
@@ -501,9 +501,9 @@ int LoadDatabaseModule(void)
 	ptszFileName = (ptszFileName) ? ptszFileName + 1 : szProfile.c_str();
 
 	if (arDbPlugins.getCount() == 0) {
-		MessageBoxW(nullptr,
-			CMStringW(FORMAT, TranslateW(tszNoDrivers), ptszFileName),
-			TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
+		CMStringW wszError(FORMAT, TranslateW(tszNoDrivers), ptszFileName);
+		if (IDYES == MessageBoxW(nullptr, wszError, TranslateT("No profile support installed!"), MB_YESNOCANCEL | MB_ICONERROR))
+			Utils_OpenUrl("https://miranda-ng.org/p/Dbx_sqlite");
 		return 1;
 	}
 
