@@ -270,7 +270,7 @@ static INT_PTR __cdecl JabberVOIP_dropcall(void *pThis, WPARAM id, LPARAM)
 CJabberAccount::CJabberAccount(IJabberInterface *_1) :
 	m_api(_1),
 	m_szModuleName(m_api->GetModuleName()),
-	m_bEnableVOIP(m_szModuleName, "EnableVOIP", false)
+	m_bEnableVOIP(m_api->GetModuleName(), "EnableVOIP", false)
 {
 	CMStringA tmp(m_szModuleName);
 	m_hVoiceEvent = CreateHookableEvent(tmp + PE_VOICE_CALL_STATE);
