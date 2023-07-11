@@ -45,6 +45,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
 	m_arGroups(10, NumericKeySortT),
+	m_arLastSeenQueue(10, NumericKeySortT),
 	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
@@ -300,6 +301,41 @@ INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
 {
 	Utils_OpenUrl("https://e.mail.ru/messages/inbox");
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	const JSONNode &results = root.results();
+	for (auto &it : results["entries"]) {
+		if (auto *pUser = FindUser(it["sn"].as_mstring())) {
+			int iLastSeen = it["lastseen"].as_int();
+			if (iLastSeen != 0) {
+				setDword(pUser->m_hContact, DB_KEY_LASTSEEN, iLastSeen);
+				ProcessStatus(pUser, ID_STATUS_OFFLINE);
+			}
+			else ProcessStatus(pUser, ID_STATUS_ONLINE);
+		}
+	}
+}
+
+void CIcqProto::SendLastSeen()
+{
+	mir_cslock lck(m_csLastSeenQueue);
+
+	auto *pReq = new AsyncRapiRequest(this, "getUserLastseen", &CIcqProto::OnLastSeen);
+	JSONNode ids(JSON_ARRAY); ids.set_name("ids"); 
+	for (auto &it: m_arLastSeenQueue)
+		ids << WCHAR_PARAM("", GetUserId(it->m_hContact));
+	pReq->params.push_back(ids);
+	Push(pReq);
+
+	m_arLastSeenQueue.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

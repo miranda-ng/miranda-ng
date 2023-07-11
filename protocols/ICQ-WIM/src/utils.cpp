@@ -281,6 +281,8 @@ bool IsValidType(const JSONNode &n)
 	return type == "icq" || type == "aim" || type == "interop" || type == "";
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 {
 	CMStringW wszStatus = presence["state"].as_mstring();
@@ -298,15 +300,42 @@ int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 	else if (wszStatus == L"dnd")
 		iStatus = ID_STATUS_DND;
 	else
-		iStatus = -1;
+		return -1;
 
 	int iLastSeen = presence["lastseen"].as_int();
 	if (iLastSeen != 0)
 		setDword(hContact, DB_KEY_LASTSEEN, iLastSeen);
-	else if (getDword(hContact, DB_KEY_ONLINETS))
-		iStatus = ID_STATUS_ONLINE;
+	else {
+		if (getDword(hContact, DB_KEY_ONLINETS))
+			iStatus = ID_STATUS_ONLINE;
+		else {
+			if (auto *pUser = FindUser(GetUserId(hContact))) {
+				mir_cslock lck(m_csLastSeenQueue);
+				m_arLastSeenQueue.insert(pUser);
+				m_impl.m_lastSeen.Start(500);
+			}
+			return -1;
+		}
+	}
 
 	return iStatus;
+}
+
+void CIcqProto::ProcessStatus(IcqUser *pUser, int iStatus)
+{
+	// major crutch dedicated to the official client behaviour to go offline
+	// when its window gets closed. we change the status of a contact to the
+	// first chosen one from options and initialize a timer
+	if (iStatus == ID_STATUS_OFFLINE) {
+		if (m_iTimeDiff1) {
+			iStatus = m_iStatus1;
+			pUser->m_timer1 = time(0);
+		}
+	}
+	// if a client returns back online, we clear timers not to play with statuses anymore
+	else pUser->m_timer1 = pUser->m_timer2 = 0;
+
+	setWord(pUser->m_hContact, "Status", iStatus);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

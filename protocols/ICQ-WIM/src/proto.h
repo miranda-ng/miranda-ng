@@ -170,7 +170,7 @@ class CIcqProto : public PROTO<CIcqProto>
 		friend class CIcqProto;
 
 		CIcqProto &m_proto;
-		CTimer m_heartBeat, m_markRead;
+		CTimer m_heartBeat, m_markRead, m_lastSeen;
 		
 		void OnHeartBeat(CTimer *) {
 			m_proto.CheckStatus();
@@ -181,12 +181,19 @@ class CIcqProto : public PROTO<CIcqProto>
 			pTimer->Stop();
 		}
 
+		void OnLastSeen(CTimer *pTimer) {
+			m_proto.SendLastSeen();
+			pTimer->Stop();
+		}
+
 		CIcqProtoImpl(CIcqProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+			m_lastSeen(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
 		{
 			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
+			m_lastSeen.OnEvent = Callback(this, &CIcqProtoImpl::OnLastSeen);
 			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
 		}
 	} m_impl;
@@ -200,106 +207,112 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool         m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462;
-	int          m_iTimeShift;
-				    
-	MCONTACT     CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
-	void         CheckPassword(void);
-	void         ConnectionFailed(int iReason, int iErrorCode = 0);
-	void         EmailNotification(const wchar_t *pwszText);
-	void         GetPermitDeny();
-	wchar_t*     GetUIN(MCONTACT hContact);
-	void         MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
-	bool         RetrievePassword();
-	void         RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
-	void         RetrieveUserInfo(MCONTACT hContact);
-	void         SendMrimLogin(NETLIBHTTPREQUEST *pReply);
-	void         SetServerStatus(int iNewStatus);
-	void         ShutdownSession(void);
-	void         StartSession(void);
-				    
-	void         CheckAvatarChange(MCONTACT hContact, const JSONNode&);
-	IcqFileInfo* CheckFile(MCONTACT hContact, CMStringW &wszFileName, bool &bIsFile);
-	void         CheckLastId(MCONTACT hContact, const JSONNode&);
-	void         Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
-	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
-	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
-	void         ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
-	int          StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
-				    
-	void         OnLoggedIn(void);
-	void         OnLoggedOut(void);
+	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462;
+	int           m_iTimeShift;
+				     
+	MCONTACT      CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
+	void          CheckPassword(void);
+	void          ConnectionFailed(int iReason, int iErrorCode = 0);
+	void          EmailNotification(const wchar_t *pwszText);
+	void          GetPermitDeny();
+	wchar_t*      GetUIN(MCONTACT hContact);
+	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
+	bool          RetrievePassword();
+	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
+	void          RetrieveUserInfo(MCONTACT hContact);
+	void          SendMrimLogin(NETLIBHTTPREQUEST *pReply);
+	void          SetServerStatus(int iNewStatus);
+	void          ShutdownSession(void);
+	void          StartSession(void);
+				     
+	void          CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	IcqFileInfo*  CheckFile(MCONTACT hContact, CMStringW &wszFileName, bool &bIsFile);
+	void          CheckLastId(MCONTACT hContact, const JSONNode&);
+	void          Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
+	void          Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
+	MCONTACT      ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
+	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
+	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
+	void          ProcessStatus(IcqUser *pUser, int iStatus);
+				     
+	void          OnLoggedIn(void);
+	void          OnLoggedOut(void);
 
-	mir_cs       m_csMarkReadQueue;
+	mir_cs        m_csMarkReadQueue;
 	LIST<IcqUser> m_arMarkReadQueue;
-	void         SendMarkRead();
+	void          SendMarkRead();
 
-	__int64   getId(MCONTACT hContact, const char *szSetting);
-	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
+	mir_cs        m_csLastSeenQueue;
+	LIST<IcqUser> m_arLastSeenQueue;
+	void          SendLastSeen();
 
-	void      OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void      OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	__int64       getId(MCONTACT hContact, const char *szSetting);
+	void          setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
+				     
+	void          OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+				     
+	void          ProcessBuddyList(const JSONNode &pRoot);
+	void          ProcessDiff(const JSONNode &pRoot);
+	void          ProcessEvent(const JSONNode &pRoot);
+	void          ProcessGroupChat(const JSONNode &pRoot);
+	void          ProcessHistData(const JSONNode &pRoot);
+	void          ProcessImState(const JSONNode &pRoot);
+	void          ProcessMyInfo(const JSONNode &pRoot);
+	void          ProcessNotification(const JSONNode &pRoot);
+	void          ProcessPermissions(const JSONNode &pRoot);
+	void          ProcessPresence(const JSONNode &pRoot);
+	void          ProcessSessionEnd(const JSONNode &pRoot);
+	void          ProcessTyping(const JSONNode &pRoot);
 
-	void      ProcessBuddyList(const JSONNode &pRoot);
-	void      ProcessDiff(const JSONNode &pRoot);
-	void      ProcessEvent(const JSONNode &pRoot);
-	void      ProcessGroupChat(const JSONNode &pRoot);
-	void      ProcessHistData(const JSONNode &pRoot);
-	void      ProcessImState(const JSONNode &pRoot);
-	void      ProcessMyInfo(const JSONNode &pRoot);
-	void      ProcessNotification(const JSONNode &pRoot);
-	void      ProcessPermissions(const JSONNode &pRoot);
-	void      ProcessPresence(const JSONNode &pRoot);
-	void      ProcessSessionEnd(const JSONNode &pRoot);
-	void      ProcessTyping(const JSONNode &pRoot);
+	IcqConn       m_ConnPool[CONN_LAST];
+	CMStringA     m_szPassword;
+	CMStringA     m_szSessionKey;
+	CMStringA     m_szAToken;
+	CMStringA     m_szRToken;
+	CMStringA     m_fetchBaseURL;
+	CMStringA     m_aimsid;
+	CMStringA     m_szMraCookie;
+	LONG          m_msgId = 1;
+	int           m_iRClientId;
+	HGENMENU      m_hUploadGroups;
 
-	IcqConn   m_ConnPool[CONN_LAST];
-	CMStringA m_szPassword;
-	CMStringA m_szSessionKey;
-	CMStringA m_szAToken;
-	CMStringA m_szRToken;
-	CMStringA m_fetchBaseURL;
-	CMStringA m_aimsid;
-	CMStringA m_szMraCookie;
-	LONG      m_msgId = 1;
-	int       m_iRClientId;
-	HGENMENU  m_hUploadGroups;
-
-	mir_cs    m_csOwnIds;
+	mir_cs        m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
 	OBJLIST<IcqGroup> m_arGroups;
 
-	int       m_unreadEmails = -1;
-	CMStringA m_szMailBox;
+	int           m_unreadEmails = -1;
+	CMStringA     m_szMailBox;
 
-	bool      m_bIgnoreListEmpty = true;
-	bool      m_bRememberPwd; // store password in a database
-	bool      m_bDlgActive;
+	bool          m_bIgnoreListEmpty = true;
+	bool          m_bRememberPwd; // store password in a database
+	bool          m_bDlgActive;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
