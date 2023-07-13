@@ -319,8 +319,11 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
-	if (pre->fileCount == 0)
+	if (!pre || !pre->fileCount)
 		return 0;
+
+	bool bSilent = (pre->dwFlags & PRFF_SILENT) != 0;
+	bool bSent = (pre->dwFlags & PRFF_SENT) != 0;
 
 	DB::EventInfo dbei;
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
@@ -329,27 +332,24 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	dbei.szUserId = pre->szUserId;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_UTF;
-	if (pre->dwFlags & PRFF_SENT)
+	if (bSent)
 		dbei.flags |= DBEF_SENT;
 	if (pre->dwFlags & PRFF_READ)
 		dbei.flags |= DBEF_READ;
 
-	if ((pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE) {
-		CMStringW wszFiles;
+	CMStringW wszFiles, wszDescr;
 
+	if ((pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE) {
 		for (int i = 0; i < pre->fileCount; i++) {
 			if (i != 0)
 				wszFiles.AppendChar(',');
 			wszFiles.Append(pre->files.w[i]);
 		}
 		
-		DB::FILE_BLOB blob(wszFiles, pre->descr.w);
-		CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
-		blob.write(dbei);
+		wszDescr = pre->descr.w;
 	}
 	else {
 		bool bUtf = (pre->dwFlags & PRFF_UTF) != 0;
-		CMStringW wszFiles;
 
 		for (int i = 0; i < pre->fileCount; i++) {
 			if (i != 0)
@@ -361,13 +361,13 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 				wszFiles.Append(_A2T(pre->files.a[i]));
 		}
 
-		DB::FILE_BLOB blob(wszFiles, bUtf ? Utf2T(pre->descr.a).get() : _A2T(pre->descr.a));
-		CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
-		blob.write(dbei);
+		wszDescr = (bUtf) ? Utf2T(pre->descr.a).get() : _A2T(pre->descr.a);
 	}
 
-	bool bSilent = (pre->dwFlags & PRFF_SILENT) != 0;
-	bool bSent = (pre->dwFlags & PRFF_SENT) != 0;
+	DB::FILE_BLOB blob(wszFiles, wszDescr);
+	CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
+	blob.write(dbei);
+
 	MEVENT hdbe = db_event_add(hContact, &dbei);
 
 	CLISTEVENT cle = {};
