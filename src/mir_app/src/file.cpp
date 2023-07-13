@@ -366,7 +366,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 		blob.write(dbei);
 	}
 
-	bool bShow = (pre->dwFlags & (PRFF_SILENT | PRFF_SENT)) == 0;
+	bool bSilent = (pre->dwFlags & PRFF_SILENT) != 0;
+	bool bSent = (pre->dwFlags & PRFF_SENT) != 0;
 	MEVENT hdbe = db_event_add(hContact, &dbei);
 
 	CLISTEVENT cle = {};
@@ -374,19 +375,19 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	cle.hDbEvent = hdbe;
 	cle.lParam = pre->lParam;
 
-	if (bShow && File::bAutoAccept && Contact::OnList(hContact))
+	if (!bSent && !bSilent && File::bAutoAccept && Contact::OnList(hContact))
 		LaunchRecvDialog(&cle);
 	else {
 		Skin_PlaySound("RecvFile");
 
-		if (bShow) {
+		if (!bSent) {
 			wchar_t szTooltip[256];
 			mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
-			cle.szTooltip.w = szTooltip;
 
+			cle.szTooltip.w = szTooltip;
 			cle.flags |= CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-			cle.pszService = "SRFile/RecvFile";
+			cle.pszService = (bSilent) ? MS_MSG_READMESSAGE : "SRFile/RecvFile";
 			g_clistApi.pfnAddEvent(&cle);
 		}
 	}
