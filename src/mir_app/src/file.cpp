@@ -139,7 +139,24 @@ void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unit
 	}
 }
 
-// Tripple redirection sucks but is needed to nullify the array pointer
+CMStringW FindUniqueFileName(const wchar_t *pszOriginalFile)
+{
+	const wchar_t *pszExtension, *pszFilename;
+	if ((pszFilename = wcsrchr(pszOriginalFile, '\\')) == nullptr)
+		pszFilename = pszOriginalFile;
+	if ((pszExtension = wcsrchr(pszFilename + 1, '.')) == nullptr)
+		pszExtension = pszFilename + mir_wstrlen(pszFilename);
+
+	CMStringW buf;
+	for (int i = 1;; i++) {
+		buf.Format(L"%.*s (%d)%s", unsigned(pszExtension - pszOriginalFile), pszOriginalFile, i, pszExtension);
+		if (_waccess(buf, 0) != 0)
+			break;
+	}
+	return buf;
+}
+
+// Triple redirection sucks but is needed to nullify the array pointer
 void FreeFilesMatrix(wchar_t ***files)
 {
 	if (*files == nullptr)

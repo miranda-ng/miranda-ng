@@ -444,8 +444,13 @@ struct CUSTOMSEARCHRESULTS
 
 struct PROTOFILERESUME
 {
-	int action;    // a FILERESUME_ flag
-	const wchar_t *szFilename;  // full path. Only valid if action == FILERESUME_RENAME
+	~PROTOFILERESUME()
+	{
+		mir_free(szFilename);
+	}
+
+	int action;               // a FILERESUME_ flag
+	wchar_t *szFilename = 0;  // full path. Only valid if action == FILERESUME_RENAME
 };
 
 #define PS_FILERESUME     "/FileResume"

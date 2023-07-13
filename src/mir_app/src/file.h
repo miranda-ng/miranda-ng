@@ -90,6 +90,8 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 
 MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre);
 
+CMStringW FindUniqueFileName(const wchar_t *pszOriginalFile);
+
 // filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

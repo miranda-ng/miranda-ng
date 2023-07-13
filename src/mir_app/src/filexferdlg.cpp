@@ -452,40 +452,30 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		EnableWindow(hwndDlg, TRUE);
 		{
 			PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
-			wchar_t *szOriginalFilename = (wchar_t *)wParam;
+			ptrW szOriginalFilename((wchar_t *)wParam);
 			char *szProto = Proto_GetBaseAccountName(dat->hContact);
 
 			switch (pfr->action) {
 			case FILERESUME_CANCEL:
-				if (dat->fs) ProtoChainSend(dat->hContact, PSS_FILECANCEL, (WPARAM)dat->fs, 0);
-				dat->fs = nullptr;
-				mir_free(szOriginalFilename);
-				if (pfr->szFilename) mir_free((char *)pfr->szFilename);
-				mir_free(pfr);
+				if (dat->fs) {
+					ProtoChainSend(dat->hContact, PSS_FILECANCEL, (WPARAM)dat->fs, 0);
+					dat->fs = nullptr;
+				}
+				delete pfr;
 				return 0;
+
 			case FILERESUME_RESUMEALL:
 			case FILERESUME_OVERWRITEALL:
 				dat->resumeBehaviour = pfr->action;
 				pfr->action &= ~FILERESUMEF_ALL;
 				break;
+
 			case FILERESUME_RENAMEALL:
 				pfr->action = FILERESUME_RENAME;
-				{
-					wchar_t *pszExtension, *pszFilename;
-					if ((pszFilename = wcsrchr(szOriginalFilename, '\\')) == nullptr) pszFilename = szOriginalFilename;
-					if ((pszExtension = wcsrchr(pszFilename + 1, '.')) == nullptr) pszExtension = pszFilename + mir_wstrlen(pszFilename);
-					if (pfr->szFilename) mir_free((wchar_t *)pfr->szFilename);
-					size_t size = (pszExtension - szOriginalFilename) + 21 + mir_wstrlen(pszExtension);
-					pfr->szFilename = (wchar_t *)mir_alloc(sizeof(wchar_t) * size);
-					for (int i = 1;; i++) {
-						mir_snwprintf((wchar_t *)pfr->szFilename, size, L"%.*s (%u)%s", unsigned(pszExtension - szOriginalFilename), szOriginalFilename, i, pszExtension);
-						if (_waccess(pfr->szFilename, 0) != 0)
-							break;
-					}
-				}
+				replaceStrW(pfr->szFilename, FindUniqueFileName(szOriginalFilename).Detach());
 				break;
 			}
-			mir_free(szOriginalFilename);
+
 			CallProtoService(szProto, PS_FILERESUME, (WPARAM)dat->fs, (LPARAM)pfr);
 			delete pfr;
 		}

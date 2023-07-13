@@ -242,7 +242,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		{
-			PROTOFILERESUME pfr = {};
+			auto *pfr = new PROTOFILERESUME();
 			switch (LOWORD(wParam)) {
 			case IDC_OPENFILE:
 				ShellExecute(hwndDlg, NULL, fts->szCurrentFile.w, NULL, NULL, SW_SHOW);
@@ -262,20 +262,20 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				DoAnnoyingShellCommand(hwndDlg, fts->szCurrentFile.w, C_PROPERTIES, NULL);
 				return FALSE;
 			case IDC_RESUME:
-				pfr.action = FILERESUME_RESUME;
+				pfr->action = FILERESUME_RESUME;
 				break;
 			case IDC_RESUMEALL:
-				pfr.action = FILERESUME_RESUMEALL;
+				pfr->action = FILERESUME_RESUMEALL;
 				break;
 			case IDC_OVERWRITE:
-				pfr.action = FILERESUME_OVERWRITE;
+				pfr->action = FILERESUME_OVERWRITE;
 				break;
 			case IDC_OVERWRITEALL:
-				pfr.action = FILERESUME_OVERWRITEALL;
+				pfr->action = FILERESUME_OVERWRITEALL;
 				break;
 
 			case IDC_AUTORENAME:
-				pfr.action = FILERESUME_RENAMEALL;
+				pfr->action = FILERESUME_RENAMEALL;
 				break;
 
 			case IDC_SAVEAS:
@@ -293,27 +293,29 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.lpstrFile = str;
 					ofn.nMaxFile = _countof(str);
 					ofn.nMaxFileTitle = MAX_PATH;
-					if (!GetSaveFileName(&ofn))
+					if (!GetSaveFileName(&ofn)) {
+						delete pfr;
 						return FALSE;
+					}
 
-					pfr.szFilename = mir_wstrdup(str);
-					pfr.action = FILERESUME_RENAME;
+					pfr->szFilename = mir_wstrdup(str);
+					pfr->action = FILERESUME_RENAME;
 				}
 				break;
 
 			case IDC_SKIP:
-				pfr.action = FILERESUME_SKIP;
+				pfr->action = FILERESUME_SKIP;
 				break;
 
 			case IDCANCEL:
-				pfr.action = FILERESUME_CANCEL;
+				pfr->action = FILERESUME_CANCEL;
 				break;
 
 			default:
 				return FALSE;
 			}
 
-			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)new PROTOFILERESUME(pfr));
+			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)pfr);
 			DestroyWindow(hwndDlg);
 		}
 		break;
