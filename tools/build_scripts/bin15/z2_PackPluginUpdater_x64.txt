@@ -170,7 +170,6 @@ Core\stdaway.dll
 Core\stdclist.dll
 Core\stdcrypt.dll
 Core\stdemail.dll
-Core\stdfile.dll
 Core\stdmsg.dll
 Core\stdpopup.dll
 Core\stduihist.dll

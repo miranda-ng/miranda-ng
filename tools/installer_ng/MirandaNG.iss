@@ -79,7 +79,6 @@ Source: "Files\Core\StdAway.dll"; DestDir: "{app}\Core"; Components: program; Fl
 Source: "Files\Core\StdClist.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdCrypt.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdEmail.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Core\StdFile.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdMsg.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdPopup.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdUIHist.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
