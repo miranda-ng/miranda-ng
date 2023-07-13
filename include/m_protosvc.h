@@ -786,9 +786,7 @@ struct PROTORECVFILE
 	const char *szUserId;   // groupchat user id
 };
 
-#define PSR_FILE       "/RecvFile"
-
-#define MS_PROTO_RECVFILET "Proto/RecvFileT"
+#define PSR_FILE "/RecvFile"
 
 __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {

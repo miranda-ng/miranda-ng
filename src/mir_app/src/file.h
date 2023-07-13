@@ -75,19 +75,22 @@ struct FileDlgData : public MZeroedObject
 	wchar_t szMsg[450], szFilenames[1024];
 };
 
-//file.c
+// file.c
 #define UNITS_BYTES     1   // 0 <= size<1000: "%d bytes"
 #define UNITS_KBPOINT1	2	// 1000 <= size<100*1024: "%.1f KB"
 #define UNITS_KBPOINT0  3   // 100*1024 <= size<1024*1024: "%d KB"
 #define UNITS_MBPOINT2  4   // 1024*1024 <= size: "%.2f MB"
 #define UNITS_GBPOINT3  5   // 1024*1024*1024 <= size: "%.3f GB"
 
+int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
+
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 void FreeFilesMatrix(wchar_t ***files);	  //loving that triple indirection
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
-int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
+
+MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre);
 
 // filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

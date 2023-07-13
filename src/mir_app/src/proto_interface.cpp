@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "file.h"
 
 static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr, hServerHist = nullptr;
 
@@ -198,10 +199,9 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
+MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
-	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
+	return Proto_RecvFile(hContact, pre);
 }
 
 MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)

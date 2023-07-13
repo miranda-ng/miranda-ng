@@ -317,15 +317,13 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
+MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVFILE* pre = (PROTORECVFILE*)ccs->lParam;
 	if (pre->fileCount == 0)
 		return 0;
 
 	DB::EventInfo dbei;
-	dbei.szModule = Proto_GetBaseAccountName(ccs->hContact);
+	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.szId = pre->szId;
 	dbei.szUserId = pre->szUserId;
@@ -369,21 +367,21 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	}
 
 	bool bShow = (pre->dwFlags & (PRFF_SILENT | PRFF_SENT)) == 0;
-	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
+	MEVENT hdbe = db_event_add(hContact, &dbei);
 
 	CLISTEVENT cle = {};
-	cle.hContact = ccs->hContact;
+	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = pre->lParam;
 
-	if (bShow && File::bAutoAccept && Contact::OnList(ccs->hContact))
+	if (bShow && File::bAutoAccept && Contact::OnList(hContact))
 		LaunchRecvDialog(&cle);
 	else {
 		Skin_PlaySound("RecvFile");
 
 		if (bShow) {
 			wchar_t szTooltip[256];
-			mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(ccs->hContact));
+			mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
 			cle.szTooltip.w = szTooltip;
 
 			cle.flags |= CLEF_UNICODE;
@@ -415,8 +413,6 @@ int LoadSendRecvFileModule(void)
 
 	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
 	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);
-
-	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFileT);
 
 	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
 	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES, SendSpecificFiles);
