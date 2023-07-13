@@ -206,7 +206,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			struct _stati64 statbuf;
 			auto *dat = (TDlgProcFileExistsParam *)lParam;
 
-			SetPropA(hwndDlg, "Miranda.Preshutdown", HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN));
+			WindowList_Add(g_hFileWindows, hwndDlg);
 			SetPropA(hwndDlg, "Miranda.ParentWnd", dat->hwndParent);
 
 			fts = (PROTOFILETRANSFERSTATUS *)mir_alloc(sizeof(PROTOFILETRANSFERSTATUS));
@@ -322,13 +322,8 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
 		break;
 
-	case M_PRESHUTDOWN:
-		PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-		break;
-
 	case WM_DESTROY:
-		UnhookEvent(GetPropA(hwndDlg, "Miranda.Preshutdown")); // GetProp() will return NULL if it couldnt find anything
-		RemovePropA(hwndDlg, "Miranda.Preshutdown");
+		WindowList_Remove(g_hFileWindows, hwndDlg);
 		RemovePropA(hwndDlg, "Miranda.ParentWnd");
 		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_EXISTINGICON, STM_GETICON, 0, 0));
 		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_NEWICON, STM_GETICON, 0, 0));

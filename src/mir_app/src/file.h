@@ -39,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FILERESUME_CANCEL       0xFFFFFFFF
 
 #define M_FILEEXISTSDLGREPLY   (WM_USER+200)
-#define M_PRESHUTDOWN		   (WM_USER+201)
 
 struct FileSendData
 {
@@ -68,7 +67,6 @@ struct FileDlgData : public MZeroedObject
 	int waitingForAcceptance;
 	PROTOFILETRANSFERSTATUS transferStatus;
 	int *fileVirusScanned;
-	HANDLE hPreshutdownEvent;
 	uint32_t dwTicks;
 
 	wchar_t szSavePath[MAX_PATH];
@@ -115,7 +113,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // fileopts.c
-int FileOptInitialise(WPARAM wParam, LPARAM lParam);
+int SRFileOptInitialise(WPARAM wParam, LPARAM lParam);
 
 // ftmanager.c
 #define WM_FT_ADD			(WM_USER+701)
@@ -132,6 +130,7 @@ void FtMgr_Destroy();
 void FtMgr_AddTransfer(FileDlgData *dat);
 
 extern HANDLE hDlgSucceeded, hDlgCanceled;
+extern MWindowList g_hFileWindows;
 
 namespace File
 {

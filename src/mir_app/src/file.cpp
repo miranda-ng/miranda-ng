@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "file.h"
 
+MWindowList g_hFileWindows;
 HANDLE hDlgSucceeded, hDlgCanceled;
 
 wchar_t* PFTS_StringToTchar(int flags, const wchar_t* s);
@@ -293,6 +294,16 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static int SRFilePreShutdown(WPARAM, LPARAM)
+{
+	if (g_hFileWindows) {
+		WindowList_Broadcast(g_hFileWindows, WM_CLOSE, 0, 1);
+		WindowList_Destroy(g_hFileWindows);
+		g_hFileWindows = 0;
+	}
+	return 0;
+}
+
 INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 {
 	FtMgr_Show(true, true);
@@ -397,6 +408,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 int LoadSendRecvFileModule(void)
 {
+	g_hFileWindows = WindowList_Create();
+
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
 	CMenuItem mi(&g_plugin);
@@ -408,7 +421,8 @@ int LoadSendRecvFileModule(void)
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, SRFileModulesLoaded);
-	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, SRFilePreShutdown);
+	HookEvent(ME_OPT_INITIALISE, SRFileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 

@@ -204,6 +204,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		WindowList_Add(g_hFileWindows, hwndDlg);
 		{
 			FileSendData *fsd = (FileSendData *)lParam;
 
@@ -211,7 +212,6 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = fsd->hContact;
 			dat->send = 1;
-			dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
 			dat->fs = nullptr;
 			dat->dwTicks = GetTickCount();
 
@@ -321,6 +321,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_DESTROY:
+		WindowList_Remove(g_hFileWindows, hwndDlg);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_DETAILS);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_HISTORY);

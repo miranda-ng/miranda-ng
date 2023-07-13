@@ -211,10 +211,9 @@ public:
 	bool OnInitDialog() override
 	{
 		char *szProto = Proto_GetBaseAccountName(dat->hContact);
+		WindowList_Add(g_hFileWindows, m_hwnd);
 
 		dat->hNotifyEvent = HookEventMessage(ME_PROTO_ACK, m_hwnd, HM_RECVEVENT);
-		dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, m_hwnd, M_PRESHUTDOWN);
-
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)dat);
 
 		EnumChildWindows(m_hwnd, ClipSiblingsChildEnumProc, 0);
@@ -320,6 +319,7 @@ public:
 
 	void OnDestroy() override
 	{
+		WindowList_Remove(g_hFileWindows, m_hwnd);
 		Window_FreeIcon_IcoLib(m_hwnd);
 
 		delete dat; dat = nullptr;

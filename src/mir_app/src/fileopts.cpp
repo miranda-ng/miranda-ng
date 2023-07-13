@@ -228,7 +228,7 @@ public:
 	}
 };
 
-int FileOptInitialise(WPARAM wParam, LPARAM)
+int SRFileOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900000000;

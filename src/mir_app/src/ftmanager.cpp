@@ -34,11 +34,11 @@ struct TFtMgrData
 	HWND hwndIncoming;
 	HWND hwndOutgoing;
 
-	HANDLE hhkPreshutdown;
 	TBPFLAG errorState;
 };
 
 #define M_CALCPROGRESS (WM_USER + 200)
+#define M_PRESHUTDOWN  (WM_USER + 201)
 
 struct TFtProgressData
 {
@@ -264,6 +264,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		WindowList_Add(g_hFileWindows, hwnd);
 		{
 			TranslateDialogDefault(hwnd);
 			Window_SetSkinIcon_IcoLib(hwnd, SKINICON_EVENT_FILE);
@@ -271,8 +272,6 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			dat = (TFtMgrData *)mir_calloc(sizeof(struct TFtMgrData));
 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
-
-			dat->hhkPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwnd, M_PRESHUTDOWN);
 
 			dat->hwndIncoming = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
 			dat->hwndOutgoing = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
@@ -390,13 +389,12 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 
-	case M_PRESHUTDOWN:
-		SendMessage(dat->hwndIncoming, M_PRESHUTDOWN, 0, 0);
-		SendMessage(dat->hwndOutgoing, M_PRESHUTDOWN, 0, 0);
-		DestroyWindow(hwnd);
-		break;
-
 	case WM_CLOSE:
+		if (lParam) {
+			SendMessage(dat->hwndIncoming, M_PRESHUTDOWN, 0, 0);
+			SendMessage(dat->hwndOutgoing, M_PRESHUTDOWN, 0, 0);
+		}
+
 		ShowWindow(hwnd, SW_HIDE);
 		if (File::bAutoClear) {
 			PostMessage(dat->hwndIncoming, WM_FT_CLEANUP, 0, 0);
@@ -405,7 +403,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return TRUE; /* Disable default IDCANCEL notification */
 
 	case WM_DESTROY:
-		UnhookEvent(dat->hhkPreshutdown);
+		WindowList_Remove(g_hFileWindows, hwnd);
 		Window_FreeIcon_IcoLib(hwnd);
 		DestroyWindow(dat->hwndIncoming);
 		DestroyWindow(dat->hwndOutgoing);
