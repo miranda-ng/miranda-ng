@@ -478,7 +478,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					size_t size = (pszExtension - szOriginalFilename) + 21 + mir_wstrlen(pszExtension);
 					pfr->szFilename = (wchar_t *)mir_alloc(sizeof(wchar_t) * size);
 					for (int i = 1;; i++) {
-						mir_snwprintf((wchar_t *)pfr->szFilename, size, L"%.*s (%u)%s", pszExtension - szOriginalFilename, szOriginalFilename, i, pszExtension);
+						mir_snwprintf((wchar_t *)pfr->szFilename, size, L"%.*s (%u)%s", unsigned(pszExtension - szOriginalFilename), szOriginalFilename, i, pszExtension);
 						if (_waccess(pfr->szFilename, 0) != 0)
 							break;
 					}
