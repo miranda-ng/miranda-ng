@@ -408,7 +408,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	else {
 		Skin_PlaySound("RecvFile");
 
-		if (!bSent) {
+		if (!bSent && !Contact::IsGroupChat(hContact)) {
 			wchar_t szTooltip[256];
 			mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
 
