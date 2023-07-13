@@ -32,6 +32,7 @@ INT_PTR CheckRestart();		// core: IDD_WAITRESTART
 int  LoadSystemModule(void);		// core: m_system.h services
 int  LoadNewPluginsModuleInfos(void); // core: preloading plugins
 int  LoadSendRecvAuthModule(void); // core: auth dialogs
+int  LoadSendRecvFileModule(void); // code: file send/recv
 int  LoadNewPluginsModule(void);	// core: N.O. plugins
 int  LoadNetlibModule(void);		// core: network
 int  LoadProtocolsModule(void);	// core: protocol manager
@@ -127,6 +128,7 @@ int LoadDefaultModules(void)
 	if (LoadChatModule()) return 1;
 	if (LoadSendRecvAuthModule()) return 1;
 	if (LoadDescButtonModule()) return 1;
+	if (LoadSendRecvFileModule()) return 1;
 	if (LoadOptionsModule()) return 1;
 	if (LoadProtocolsModule()) return 1;
 

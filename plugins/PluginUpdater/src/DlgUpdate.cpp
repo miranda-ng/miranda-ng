@@ -527,6 +527,7 @@ static renameTable[] =
 	{ L"stdchat.dll",                    nullptr },
 	{ L"stdurl.dll",                     nullptr },
 	{ L"stdidle.dll",                    nullptr },
+	{ L"stdfile.dll",                    nullptr },
 	{ L"stdhelp.dll",                    nullptr },
 	{ L"stdauth.dll",                    nullptr },
 	{ L"stdssl.dll",                     nullptr },

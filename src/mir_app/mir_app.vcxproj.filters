@@ -404,6 +404,27 @@
     <ClCompile Include="src\chat_loginfo.cpp">
       <Filter>Source Files\Chats</Filter>
     </ClCompile>
+    <ClCompile Include="src\file.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fileexistsdlg.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fileopts.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filerecvdlg.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filesenddlg.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filexferdlg.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ftmanager.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">
@@ -466,6 +487,9 @@
     <ClInclude Include="src\profilemanager.h">
       <Filter>Source Files\Database</Filter>
     </ClInclude>
+    <ClInclude Include="src\file.h">
+      <Filter>Source Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -509,6 +533,9 @@
     </Filter>
     <Filter Include="Source Files\Plugins">
       <UniqueIdentifier>{2f5b2fe9-25c8-4029-8a52-f34a11f984a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File">
+      <UniqueIdentifier>{bf5fc3bb-4d3d-4237-a43b-94cb18041b25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

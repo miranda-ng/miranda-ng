@@ -114,6 +114,7 @@ static const MUUID pluginBannedList[] =
 	{ 0x8d0a046d, 0x8ea9, 0x4c55, { 0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd } },  // stdauth
 	{ 0x9d6c3213, 0x02b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe1, 0x4f, 0x8d, 0x65 } },  // stdchat
 	{ 0x1e64fd80, 0x299e, 0x48a0, { 0x94, 0x41, 0xde, 0x28, 0x68, 0x56, 0x3b, 0x6f } },  // stdhelp
+	{ 0x39698dce, 0x7ed4, 0x4334, { 0xac, 0x4c, 0xba, 0x8b, 0x37, 0xa8, 0x6f, 0x13 } },  // stdfile
 	{ 0x53ac190b, 0xe223, 0x4341, { 0x82, 0x5f, 0x70, 0x9d, 0x85, 0x20, 0x21, 0x5b } },  // stdidle
 	{ 0x312C4F84, 0x75BE, 0x4404, { 0xBC, 0xB1, 0xC1, 0x03, 0xDB, 0xE5, 0xA3, 0xB8 } },  // stdssl
 	{ 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 } },  // modernopt
@@ -151,12 +152,11 @@ static MuuidReplacement pluginDefault[] =
 	{ MIID_SRMM,       L"stdmsg",        nullptr }, // 1
 	{ MIID_UIUSERINFO, L"stduserinfo",   nullptr }, // 2
 	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 3
-	{ MIID_SRFILE,     L"stdfile",       nullptr }, // 4
-	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 5
-	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 6
-	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 7
-	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 8
-	{ MIID_POPUP,      L"stdpopup",      nullptr }, // 9
+	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 4
+	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 5
+	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 6
+	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 7
+	{ MIID_POPUP,      L"stdpopup",      nullptr }, // 8
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)

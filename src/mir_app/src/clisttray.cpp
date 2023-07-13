@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TOOLTIP_TOLERANCE 5
 
-static ITaskbarList3* pTaskbarInterface;
+ITaskbarList3* pTaskbarInterface;
 
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
