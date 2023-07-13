@@ -74,12 +74,11 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	void AutoDetectType();
 
 	Type m_type;
-	bool m_bOpen = false;
-	MEVENT m_hEvent = 0;
 	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
+	OFDTHREAD *ofd;
 };
 
 struct TG_USER : public MZeroedObject

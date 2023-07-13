@@ -106,6 +106,19 @@ MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // downloads or launches offline file
 
+OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
+	hDbEvent(_1),
+	wszPath(_2),
+	bOpen(_3)
+{
+}
+
+void OFDTHREAD::Finish()
+{
+	if (bOpen)
+		ShellExecuteW(nullptr, L"open", wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+}
+
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
 {
 	DB::EventInfo dbei(hDbEvent);

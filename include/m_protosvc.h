@@ -444,8 +444,7 @@ struct CUSTOMSEARCHRESULTS
 
 struct PROTOFILERESUME
 {
-	~PROTOFILERESUME()
-	{
+	~PROTOFILERESUME() {
 		mir_free(szFilename);
 	}
 
@@ -811,13 +810,11 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 #define PS_OFFLINEFILE "/OfflineFile"
 
-struct OFDTHREAD
+struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 {
-	__forceinline OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
-		hDbEvent(_1),
-		wszPath(_2),
-		bOpen(_3)
-	{}
+	OFDTHREAD(MEVENT, const CMStringW &, bool);
+
+	void Finish();
 
 	MEVENT hDbEvent;
 	CMStringW wszPath;

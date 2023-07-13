@@ -100,8 +100,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 					db_event_setJson(param->hDbEvent, "fs", &dbv);
 					NotifyEventHooks(g_hevEventEdited, 0, param->hDbEvent);
 
-					if (param->bOpen)
-						ShellExecuteW(nullptr, L"open", param->wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+					param->Finish();
 				}
 			}
 		}

@@ -204,6 +204,7 @@ void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 	}
 
+	ofd->Finish();
 	delete ofd;
 }
 
