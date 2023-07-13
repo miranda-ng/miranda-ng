@@ -136,12 +136,11 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
 	struct _stat st = {};
 	_wstat(tszFilePath, &st);
 	if (st.st_size && st.st_size == blob.getSize() && blob.isCompleted()) {
-		if (bOpen)
-			ShellExecuteW(nullptr, L"open", tszFilePath.c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+		OFDTHREAD(hDbEvent, tszFilePath, bOpen).Finish();
 	}
 	else {
-		OFDTHREAD *dt = new OFDTHREAD(hDbEvent, tszFilePath, bOpen);
-		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)dt, 0);
+		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, tszFilePath, bOpen);
+		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
 	}
 }
 
