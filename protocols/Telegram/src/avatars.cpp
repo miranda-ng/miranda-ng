@@ -189,21 +189,18 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 						CMStringW wszFullName(F->ofd->wszPath);
 
-						// let's replace fake file name with the real one
-						if (F->m_type != F->FILE) {
-							auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
-							if (!pSlash)
-								pSlash = pFile->local_->path_.c_str();
-							else
-								pSlash++;
+						auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
+						if (!pSlash)
+							pSlash = pFile->local_->path_.c_str();
+						else
+							pSlash++;
 
-							dbv.type = DBVT_UTF8;
-							dbv.pszVal = (char *)pSlash;
-							db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
+						dbv.type = DBVT_UTF8;
+						dbv.pszVal = (char *)pSlash;
+						db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
 
-							wszFullName.Truncate(wszFullName.ReverseFind('\\') + 1);
-							wszFullName.Append(Utf2T(pSlash));
-						}
+						wszFullName.Truncate(wszFullName.ReverseFind('\\') + 1);
+						wszFullName.Append(Utf2T(pSlash));
 
 						MoveFileW(wszExistingFile, wszFullName);
 						NotifyEventHooks(g_plugin.m_hevEventEdited, 0, F->ofd->hDbEvent);
