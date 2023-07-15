@@ -112,8 +112,7 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 			SendQuery(new TD::getRemoteFile(root["u"].as_string(), 0), &CTelegramProto::OnGetFileInfo, ft);
 		}
 	}
-
-	delete ofd;
+	else delete ofd;
 }
 
 INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
@@ -158,12 +157,12 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		Utf2T wszExistingFile(pFile->local_->path_.c_str());
 
 		if (auto *F = PopFile(pFile->remote_->unique_id_.c_str())) {
-			CMStringW wszFullName = F->m_destPath;
-			if (!wszFullName.IsEmpty())
-				wszFullName += L"\\";
-			wszFullName += F->m_fileName;
-
 			if (F->m_type == F->AVATAR) {
+				CMStringW wszFullName = F->m_destPath;
+				if (!wszFullName.IsEmpty())
+					wszFullName += L"\\";
+				wszFullName += F->m_fileName;
+
 				if (F->m_fileName.Right(5).MakeLower() == L".webp") {
 					if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
 						wszFullName.Truncate(wszFullName.GetLength() - 5);
@@ -188,6 +187,9 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 						db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
 						db_event_setJson(F->ofd->hDbEvent, "fs", &dbv);
 
+						CMStringW wszFullName(F->ofd->wszPath);
+
+						// let's replace fake file name with the real one
 						if (F->m_type != F->FILE) {
 							auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
 							if (!pSlash)
