@@ -71,6 +71,10 @@ struct TG_FILE_REQUEST : public MZeroedObject
 		m_uniqueId(_3)
 	{}
 
+	~TG_FILE_REQUEST()
+	{	delete ofd;
+	}
+
 	void AutoDetectType();
 
 	Type m_type;
@@ -78,7 +82,7 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
-	OFDTHREAD *ofd;
+	OFDTHREAD *ofd = 0;
 };
 
 struct TG_USER : public MZeroedObject

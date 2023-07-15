@@ -219,7 +219,6 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 		for (auto &it : m_arUsers) {
 			if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
-	
 				PROTO_AVATAR_INFORMATION pai;
 				pai.hContact = it->hContact;
 				pai.format = ProtoGetAvatarFileFormat(wszExistingFile);
