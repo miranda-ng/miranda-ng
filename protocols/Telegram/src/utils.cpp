@@ -425,29 +425,33 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
-		if (m_bSmileyAdd) {
-			if (auto *pAnimated = ((TD::messageAnimatedEmoji *)pBody)->animated_emoji_.get()) {
-				auto *pSticker = pAnimated->sticker_.get();
-				if (!checkStickerType(pSticker->full_type_->get_id())) {
-					debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
-					break;
-				}
+		{
+			auto *pObj = (TD::messageAnimatedEmoji *)pBody;
+			if (m_bSmileyAdd) {
+				if (auto *pAnimated = pObj->animated_emoji_.get()) {
+					if (auto *pSticker = pAnimated->sticker_.get()) {
+						if (!checkStickerType(pSticker->full_type_->get_id())) {
+							debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
+							break;
+						}
 
-				const char *pwszFileExt;
-				switch (pSticker->thumbnail_->format_->get_id()) {
-				case TD::thumbnailFormatGif::ID: pwszFileExt = "gif"; break;
-				case TD::thumbnailFormatPng::ID: pwszFileExt = "png"; break;
-				case TD::thumbnailFormatTgs::ID: pwszFileExt = "tga"; break;
-				case TD::thumbnailFormatJpeg::ID: pwszFileExt = "jpg"; break;
-				case TD::thumbnailFormatWebm::ID: pwszFileExt = "webm"; break;
-				case TD::thumbnailFormatWebp::ID: pwszFileExt = "webp"; break;
-				default:pwszFileExt = "jpeg"; break;
-				}
+						const char *pwszFileExt;
+						switch (pSticker->thumbnail_->format_->get_id()) {
+						case TD::thumbnailFormatGif::ID: pwszFileExt = "gif"; break;
+						case TD::thumbnailFormatPng::ID: pwszFileExt = "png"; break;
+						case TD::thumbnailFormatTgs::ID: pwszFileExt = "tga"; break;
+						case TD::thumbnailFormatJpeg::ID: pwszFileExt = "jpg"; break;
+						case TD::thumbnailFormatWebm::ID: pwszFileExt = "webm"; break;
+						case TD::thumbnailFormatWebp::ID: pwszFileExt = "webp"; break;
+						default:pwszFileExt = "jpeg"; break;
+						}
 
-				return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+						return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+					}
+				}
 			}
+			return pObj->emoji_.c_str();
 		}
-		break;
 
 	case TD::messageSticker::ID:
 		{
