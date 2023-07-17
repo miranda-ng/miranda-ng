@@ -36,6 +36,13 @@ CMOption<bool> File::bAutoClear(SRFILEMODULE, "AutoClear", true);
 CMOption<bool> File::bAutoClose(SRFILEMODULE, "AutoClose", false);
 CMOption<bool> File::bAutoAccept(SRFILEMODULE, "AutoAccept", false);
 CMOption<bool> File::bReverseOrder(SRFILEMODULE, "ReverseOrder", false);
+CMOption<bool> File::bWarnBeforeOpening(SRFILEMODULE, "WarnBeforeOpening", true);
+
+CMOption<uint8_t> File::iUseScanner(SRFILEMODULE, "UseScanner", VIRUSSCAN_DISABLE);
+CMOption<uint8_t> File::iIfExists(SRFILEMODULE, "IfExists", FILERESUME_ASK);
+
+CMOption<wchar_t*> File::wszSaveDir(SRFILEMODULE, "RecvFilesDirAdv", L"");
+CMOption<wchar_t*> File::wszScanCmdLine(SRFILEMODULE, "ScanCmdLine", L"");
 
 static HGENMENU hSRFileMenuItem;
 

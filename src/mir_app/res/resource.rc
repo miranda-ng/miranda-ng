@@ -815,13 +815,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
-
     CONTROL         "Window",IDC_ICON1,"MButtonClass",WS_TABSTOP,109,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Popup",IDC_ICON2,"MButtonClass",WS_TABSTOP,149,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Tray",IDC_ICON3,"MButtonClass",WS_TABSTOP,189,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Sound",IDC_ICON4,"MButtonClass",WS_TABSTOP,229,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Log to file",IDC_ICON5,"MButtonClass",WS_TABSTOP,269,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
-    
     LTEXT           "Actions",IDC_STATIC,22,28,80,10
     LTEXT           "Messages",IDC_STATIC,22,38,80,10
     LTEXT           "Nick changes",IDC_STATIC,22,48,80,10
@@ -834,7 +832,6 @@ BEGIN
     LTEXT           "User kicks",IDC_STATIC,22,118,80,10
     LTEXT           "Notices",IDC_STATIC,22,128,80,10
     LTEXT           "Highlight event",IDC_STATIC,22,138,80,10
-
     CONTROL         "",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,28,21,10
     CONTROL         "",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,38,21,10
     CONTROL         "",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,48,21,10
@@ -1125,44 +1122,55 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
-IDD_OPT_FILETRANSFER DIALOGEX 0, 0, 313, 243
+IDD_OPT_FILEGENERAL DIALOGEX 0, 0, 313, 243
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Receiving files",IDC_STATIC,0,0,313,99
-    LTEXT           "Received files folder:",IDC_STATIC,8,15,82,8
-    EDITTEXT        IDC_FILEDIR,92,13,190,12,ES_AUTOHSCROLL
+    GROUPBOX        "Receiving files",IDC_STATIC,5,2,302,131
+    LTEXT           "Received files folder:",IDC_STATIC,12,15,82,8
+    EDITTEXT        IDC_FILEDIR,95,13,190,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_FILEDIRBROWSE,287,12,15,13
-    LTEXT           "Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%",IDC_STATIC,8,26,294,11,WS_DISABLED
+    LTEXT           "Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%",IDC_STATIC,12,26,291,11,WS_DISABLED
     CONTROL         "Auto-accept incoming files from people on my contact list",IDC_AUTOACCEPT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,36,294,10
-    CONTROL         "Minimize the file transfer window",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,48,285,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,36,287,10
+    CONTROL         "Minimize the file transfer window",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,48,279,10
     CONTROL         "Close window when transfer completes",IDC_AUTOCLOSE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,60,294,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,60,289,10
     CONTROL         "Clear completed transfers on window closing",IDC_AUTOCLEAR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,72,294,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,72,289,10
     CONTROL         "Sort file transfers in the reverse order",IDC_REVERSE_ORDER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,84,286,10
-    GROUPBOX        "Virus scanner",IDC_VIRUSSCANNERGROUP,0,100,313,93
-    LTEXT           "Scan files:",IDC_STATIC,8,112,43,9,SS_CENTERIMAGE
-    CONTROL         "Never, do not use virus scanning",IDC_NOSCANNER,"Button",BS_AUTORADIOBUTTON,52,112,250,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,84,287,10
+    LTEXT           "You will always be asked about files from people not on your contact list",IDC_STATIC,13,117,296,10
+    LTEXT           "If incoming files already exist",IDC_STATIC,14,102,172,8
+    COMBOBOX        IDC_FILEEXISTS,193,100,100,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Offline files",IDC_STATIC,5,134,302,43
+    CONTROL         "Download offline files automatically",IDC_OFFLINE_AUTO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,148,288,10
+    RTEXT           "Only if their size is less than",IDC_STATIC,12,162,153,8
+    EDITTEXT        IDC_OFFLINE_AUTOSIZE,169,160,40,12,ES_AUTOHSCROLL
+    LTEXT           "KBytes (0 - always)",IDC_STATIC,212,162,91,8
+    CONTROL         "",IDC_OFFLINE_AUTOSIZE_SPIN,"msctls_updown32",UDS_ARROWKEYS,198,159,11,14
+END
+
+IDD_OPT_FILESECURITY DIALOGEX 0, 0, 313, 243
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Virus scanner",IDC_STATIC,0,1,313,93
+    LTEXT           "Scan files:",IDC_STATIC,8,13,43,9,SS_CENTERIMAGE
+    CONTROL         "Never, do not use virus scanning",IDC_NOSCANNER,"Button",BS_AUTORADIOBUTTON,52,13,250,10
     CONTROL         "When all files have been downloaded",IDC_SCANAFTERDL,
-                    "Button",BS_AUTORADIOBUTTON,52,124,250,10
+                    "Button",BS_AUTORADIOBUTTON,52,25,250,10
     CONTROL         "As each file finishes downloading",IDC_SCANDURINGDL,
-                    "Button",BS_AUTORADIOBUTTON,52,136,250,10
-    LTEXT           "Command line:",IDC_ST_CMDLINE,7,152,62,8
-    COMBOBOX        IDC_SCANCMDLINE,70,151,213,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "...",IDC_SCANCMDLINEBROWSE,287,151,15,13
-    LTEXT           "%f will be replaced by the file or folder name to be scanned",IDC_ST_CMDLINEHELP,70,165,232,8
+                    "Button",BS_AUTORADIOBUTTON,52,37,250,10
+    LTEXT           "Command line:",IDC_ST_CMDLINE,7,53,62,8
+    COMBOBOX        IDC_SCANCMDLINE,70,52,213,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "...",IDC_SCANCMDLINEBROWSE,287,52,15,13
+    LTEXT           "%f will be replaced by the file or folder name to be scanned",IDC_ST_CMDLINEHELP,70,66,232,8
     CONTROL         "Warn me before opening a file that has not been scanned",IDC_WARNBEFOREOPENING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,178,294,10
-    GROUPBOX        "If incoming files already exist",IDC_STATIC,0,197,313,41
-    CONTROL         "Ask me",IDC_ASK,"Button",BS_AUTORADIOBUTTON,8,210,73,10
-    CONTROL         "Resume",IDC_RESUME,"Button",BS_AUTORADIOBUTTON,82,210,125,10
-    CONTROL         "Overwrite",IDC_OVERWRITE,"Button",BS_AUTORADIOBUTTON,8,222,73,10
-    CONTROL         "Rename (append "" (1)"", etc.)",IDC_RENAME,"Button",BS_AUTORADIOBUTTON,82,222,125,10
-    LTEXT           "You will always be asked about files from people not on your contact list",IDC_STATIC,212,208,90,24
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,79,294,10
 END
 
 
@@ -1405,6 +1413,14 @@ BEGIN
     IDD_OPT_CHAT_EVENTS, DIALOG
     BEGIN
         BOTTOMMARGIN, 194
+    END
+
+    IDD_OPT_FILEGENERAL, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_FILESECURITY, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1814,6 +1830,16 @@ BEGIN
 END
 
 IDD_OPT_POPUPOPTION AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_FILESECURITY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_FILEGENERAL AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

@@ -80,32 +80,29 @@ static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 
 static void __cdecl RunVirusScannerThread(virusscanthreadstartinfo *info)
 {
-	DBVARIANT dbv;
-	if (!g_plugin.getWString("ScanCmdLine", &dbv)) {
-		if (dbv.pwszVal[0]) {
-			STARTUPINFO si = { 0 };
-			si.cb = sizeof(si);
-			wchar_t *pszReplace = wcsstr(dbv.pwszVal, L"%f");
-			wchar_t szCmdLine[768];
-			if (pszReplace) {
-				if (info->szFile[mir_wstrlen(info->szFile) - 1] == '\\')
-					info->szFile[mir_wstrlen(info->szFile) - 1] = '\0';
-				*pszReplace = 0;
-				mir_snwprintf(szCmdLine, L"%s\"%s\"%s", dbv.pwszVal, info->szFile, pszReplace + 2);
-			}
-			else
-				wcsncpy_s(szCmdLine, dbv.pwszVal, _TRUNCATE);
-
-			PROCESS_INFORMATION pi;
-			if (CreateProcess(nullptr, szCmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
-				if (WaitForSingleObject(pi.hProcess, 3600 * 1000) == WAIT_OBJECT_0)
-					PostMessage(info->hwndReply, M_VIRUSSCANDONE, info->returnCode, 0);
-				CloseHandle(pi.hProcess);
-				CloseHandle(pi.hThread);
-			}
+	ptrW pwszScanLine(File::wszScanCmdLine);
+	if (mir_wstrlen(pwszScanLine)) {
+		STARTUPINFO si = { 0 };
+		si.cb = sizeof(si);
+		wchar_t *pszReplace = wcsstr(pwszScanLine, L"%f");
+		wchar_t szCmdLine[768];
+		if (pszReplace) {
+			if (info->szFile[mir_wstrlen(info->szFile) - 1] == '\\')
+				info->szFile[mir_wstrlen(info->szFile) - 1] = '\0';
+			*pszReplace = 0;
+			mir_snwprintf(szCmdLine, L"%s\"%s\"%s", pwszScanLine.get(), info->szFile, pszReplace + 2);
 		}
-		db_free(&dbv);
+		else wcsncpy_s(szCmdLine, pwszScanLine, _TRUNCATE);
+
+		PROCESS_INFORMATION pi;
+		if (CreateProcess(nullptr, szCmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+			if (WaitForSingleObject(pi.hProcess, 3600 * 1000) == WAIT_OBJECT_0)
+				PostMessage(info->hwndReply, M_VIRUSSCANDONE, info->returnCode, 0);
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+		}
 	}
+
 	mir_free(info->szFile);
 	mir_free(info);
 }
@@ -245,7 +242,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (!Contact::OnList(dat->hContact))
 				dat->resumeBehaviour = FILERESUME_ASK;
 			else
-				dat->resumeBehaviour = g_plugin.getByte("IfExists", FILERESUME_ASK);
+				dat->resumeBehaviour = File::iIfExists;
 			SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT);
 		}
 
@@ -505,7 +502,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, "");
 				if (dat->transferStatus.currentFileNumber == 1 && dat->transferStatus.totalFiles > 1 && !dat->send)
 					SetOpenFileButtonStyle(GetDlgItem(hwndDlg, IDC_OPENFILE), 1);
-				if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
+				if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && File::iUseScanner == VIRUSSCAN_DURINGDL) {
 					if (GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber]) & FILE_ATTRIBUTE_DIRECTORY)
 						PostMessage(hwndDlg, M_VIRUSSCANDONE, dat->transferStatus.currentFileNumber, 0);
 					else {
@@ -642,7 +639,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							LPGENW("Transfer completed, open folder."),
 							FTS_OPEN);
 
-						int useScanner = g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE);
+						int useScanner = File::iUseScanner;
 						if (useScanner != VIRUSSCAN_DISABLE) {
 							auto *vstsi = (virusscanthreadstartinfo *)mir_alloc(sizeof(virusscanthreadstartinfo));
 							vstsi->hwndReply = hwndDlg;

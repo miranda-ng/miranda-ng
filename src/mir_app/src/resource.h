@@ -131,8 +131,9 @@
 #define IDD_OPT_NETLIB                  246
 #define IDD_NETLIBLOGOPTS               247
 #define IDD_FILETRANSFERINFO            249
-#define IDD_OPT_FILETRANSFER            250
-#define IDD_FILEEXISTS                  251
+#define IDD_OPT_FILEGENERAL             250
+#define IDD_OPT_FILESECURITY            251
+#define IDD_FILEEXISTS                  253
 #define IDD_DELETECONTACT               254
 #define IDD_ADDCONTACT                  257
 #define IDD_OPT_CONTACT                 261
@@ -504,8 +505,6 @@
 #define IDC_SAVEAS                      1513
 #define IDC_AUTORENAME                  1514
 #define IDC_ASK                         1516
-#define IDC_RENAME                      1519
-#define IDC_VIRUSSCANNERGROUP           1520
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
 #define IDC_MYHANDLE                    1540
@@ -602,6 +601,10 @@
 #define IDC_TREE                        1753
 #define IDC_BKG                         1754
 #define IDC_TEXT                        1755
+#define IDC_FILEEXISTS                  1755
+#define IDC_OFFLINE_AUTO                1756
+#define IDC_OFFLINE_AUTOSIZE            1757
+#define IDC_OFFLINE_AUTOSIZE_SPIN       1758
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -708,7 +711,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        336
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1755
+#define _APS_NEXT_CONTROL_VALUE         1759
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

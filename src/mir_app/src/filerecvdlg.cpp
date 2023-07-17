@@ -125,9 +125,8 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(g_plugin.getWStringA("RecvFilesDirAdv"));
-	if (tszRecvPath)
-		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
+	if (mir_wstrlen(File::wszSaveDir))
+		wcsncpy_s(tszTemp, File::wszSaveDir, _TRUNCATE);
 	else
 		mir_snwprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
@@ -165,9 +164,8 @@ void GetReceivedFilesDir(wchar_t *szDir, int cchDir)
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(g_plugin.getWStringA("RecvFilesDirAdv"));
-	if (tszRecvPath)
-		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
+	if (mir_wstrlen(File::wszSaveDir))
+		wcsncpy_s(tszTemp, File::wszSaveDir, _TRUNCATE);
 	else
 		mir_snwprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
