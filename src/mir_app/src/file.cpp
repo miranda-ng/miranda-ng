@@ -410,25 +410,34 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 	MEVENT hdbe = db_event_add(hContact, &dbei);
 
-	CLISTEVENT cle = {};
-	cle.hContact = hContact;
-	cle.hDbEvent = hdbe;
-	cle.lParam = pre->lParam;
+	// yes, we can receive a file that was sent from another device. let's ignore it
+	if (!bSent) {
+		CLISTEVENT cle = {};
+		cle.hContact = hContact;
+		cle.hDbEvent = hdbe;
+		cle.lParam = pre->lParam;
 
-	if (!bSent && !bSilent && File::bAutoAccept && Contact::OnList(hContact))
-		LaunchRecvDialog(&cle);
-	else {
-		Skin_PlaySound("RecvFile");
+		if (!bSilent && File::bAutoAccept && Contact::OnList(hContact))
+			LaunchRecvDialog(&cle);
+		else {
+			Skin_PlaySound("RecvFile");
 
-		if (!bSent && !Contact::IsGroupChat(hContact)) {
-			wchar_t szTooltip[256];
-			mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
+			// load offline files always (if OfflineSize = 0) 
+			// or if they are less than a limit (if a transfer has specified file size)
+			if (bSilent && File::bOfflineAuto)
+				if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))
+					Srmm_DownloadOfflineFile(hdbe, false);
 
-			cle.szTooltip.w = szTooltip;
-			cle.flags |= CLEF_UNICODE;
-			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-			cle.pszService = (bSilent) ? MS_MSG_READMESSAGE : "SRFile/RecvFile";
-			g_clistApi.pfnAddEvent(&cle);
+			if (!Contact::IsGroupChat(hContact)) {
+				wchar_t szTooltip[256];
+				mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
+
+				cle.szTooltip.w = szTooltip;
+				cle.flags |= CLEF_UNICODE;
+				cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+				cle.pszService = (bSilent) ? MS_MSG_READMESSAGE : "SRFile/RecvFile";
+				g_clistApi.pfnAddEvent(&cle);
+			}
 		}
 	}
 	
