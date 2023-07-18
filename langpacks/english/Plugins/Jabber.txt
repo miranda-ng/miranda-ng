@@ -986,8 +986,6 @@
 [Jabber vCard: Edit Phone Number]
 [Contacts]
 [Note]
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 [Afraid]
