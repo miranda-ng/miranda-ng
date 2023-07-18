@@ -457,6 +457,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
 				PROTORECVFILE pre = {};
+				pre.dwFlags = PRFF_UTF;
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
 				pre.files.a = &filename;
