@@ -231,11 +231,11 @@ public:
 			char idstr[32];
 			mir_snprintf(idstr, "MruDir%d", i);
 
-			DBVARIANT dbv;
-			if (g_plugin.getWString(idstr, &dbv))
+			ptrW wszValue(db_get_wsa(0, SRFILEMODULE, idstr));
+			if (wszValue)
+				SendDlgItemMessage(m_hwnd, IDC_FILEDIR, CB_ADDSTRING, 0, wszValue);
+			else
 				break;
-			SendDlgItemMessage(m_hwnd, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.pwszVal);
-			db_free(&dbv);
 		}
 
 		db_event_markRead(dat->hContact, dat->hDbEvent);
@@ -283,16 +283,18 @@ public:
 		GetContactReceivedFilesDir(NULL, szDefaultRecvDir, _countof(szDefaultRecvDir), TRUE);
 		if (wcsnicmp(szRecvDir, szDefaultRecvDir, mir_wstrlen(szDefaultRecvDir))) {
 			char idstr[32];
-			int i;
-			DBVARIANT dbv;
-			for (i = MAX_MRU_DIRS - 2; i >= 0; i--) {
+			ptrW wszValue;
+			
+			for (int i = MAX_MRU_DIRS - 2; i >= 0; i--) {
 				mir_snprintf(idstr, "MruDir%d", i);
-				if (g_plugin.getWString(idstr, &dbv)) continue;
+				wszValue = db_get_wsa(0, SRFILEMODULE, idstr);
+				if (!wszValue)
+					continue;
+				
 				mir_snprintf(idstr, "MruDir%d", i + 1);
-				g_plugin.setWString(idstr, dbv.pwszVal);
-				db_free(&dbv);
+				db_set_ws(0, SRFILEMODULE, idstr, wszValue);
 			}
-			g_plugin.setWString(idstr, szRecvDir);
+			db_set_ws(0, SRFILEMODULE, idstr, szRecvDir);
 		}
 
 		EnableWindow(GetDlgItem(m_hwnd, IDC_FILENAMES), FALSE);

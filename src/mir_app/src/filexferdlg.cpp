@@ -31,7 +31,7 @@ static int CheckVirusScanned(HWND hwnd, FileDlgData *dat, int i)
 	if (dat->send) return 1;
 	if (dat->fileVirusScanned == nullptr) return 0;
 	if (dat->fileVirusScanned[i]) return 1;
-	if (g_plugin.getByte("WarnBeforeOpening", 1) == 0) return 1;
+	if (!File::bWarnBeforeOpening) return 1;
 
 	return IDYES == MessageBox(hwnd,
 		TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"),

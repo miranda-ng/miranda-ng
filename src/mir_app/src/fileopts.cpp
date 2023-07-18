@@ -30,9 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CFileGeneralOptsDlg : public CDlgBase
 {
-	CCtrlButton btnFileDir;
-	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder;
+	CCtrlSpin spinSize;
+	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder, chkOfflineAuto;
 	CCtrlCombo cmbFileExists;
+	CCtrlButton btnFileDir;
 
 public:
 	CFileGeneralOptsDlg() :
@@ -42,18 +43,23 @@ public:
 		chkAutoClear(this, IDC_AUTOCLEAR),
 		chkAutoClose(this, IDC_AUTOCLOSE),
 		chkAutoAccept(this, IDC_AUTOACCEPT),
+		chkOfflineAuto(this, IDC_OFFLINE_AUTO),
 		cmbFileExists(this, IDC_FILEEXISTS),
-		chkReverseOrder(this, IDC_REVERSE_ORDER)
+		chkReverseOrder(this, IDC_REVERSE_ORDER),
+		spinSize(this, IDC_OFFLINE_AUTOSIZE_SPIN, 10000)
 	{
+		CreateLink(spinSize, File::iOfflineSize);
 		CreateLink(chkAutoMin, File::bAutoMin);
 		CreateLink(chkAutoClear, File::bAutoClear);
 		CreateLink(chkAutoClose, File::bAutoClose);
 		CreateLink(chkAutoAccept, File::bAutoAccept);
+		CreateLink(chkOfflineAuto, File::bOfflineAuto);
 		CreateLink(chkReverseOrder, File::bReverseOrder);
 
 		btnFileDir.OnClick = Callback(this, &CFileGeneralOptsDlg::onClick_FileDir);
 
 		chkAutoAccept.OnChange = Callback(this, &CFileGeneralOptsDlg::onChange_AutoAccept);
+		chkOfflineAuto.OnChange = Callback(this, &CFileGeneralOptsDlg::onChange_OfflineAuto);
 	}
 
 	bool OnInitDialog() override
@@ -86,6 +92,11 @@ public:
 	void onChange_AutoAccept(CCtrlCheck *)
 	{
 		chkAutoMin.Enable(chkAutoAccept.GetState());
+	}
+
+	void onChange_OfflineAuto(CCtrlCheck *)
+	{
+		EnableWindow(GetDlgItem(m_hwnd, IDC_OFFLINE_AUTOSIZE), chkOfflineAuto.IsChecked());
 	}
 
 	void onClick_FileDir(CCtrlButton*)
