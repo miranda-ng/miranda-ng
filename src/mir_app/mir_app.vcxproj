@@ -82,6 +82,7 @@
     <ClCompile Include="src\fileopts.cpp" />
     <ClCompile Include="src\filerecvdlg.cpp" />
     <ClCompile Include="src\filesenddlg.cpp" />
+    <ClCompile Include="src\fileutils.cpp" />
     <ClCompile Include="src\filexferdlg.cpp" />
     <ClCompile Include="src\filter.cpp" />
     <ClCompile Include="src\findadd.cpp" />

@@ -142,3 +142,8 @@ namespace File
 	extern CMOption<uint32_t> iOfflineSize;
 	extern CMOption<wchar_t*> wszSaveDir, wszScanCmdLine;
 };
+
+// fieutils.c
+
+wchar_t *PFTS_StringToTchar(int flags, const MAllStrings s);
+int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const MAllStrings s, wchar_t *r);

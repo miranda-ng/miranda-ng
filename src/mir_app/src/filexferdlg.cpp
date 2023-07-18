@@ -47,32 +47,6 @@ struct virusscanthreadstartinfo
 	HWND hwndReply;
 };
 
-wchar_t* PFTS_StringToTchar(int flags, const wchar_t *s)
-{
-	if (flags & PFTS_UTF)
-		return mir_utf8decodeW((char*)s);
-	if (flags & PFTS_UNICODE)
-		return mir_wstrdup(s);
-	return mir_a2u((char*)s);
-}
-
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const wchar_t *s, wchar_t *r)
-{
-	if (ft->flags & PFTS_UTF) {
-		wchar_t *ts = mir_utf8decodeW((char*)s);
-		int res = mir_wstrcmp(ts, r);
-		mir_free(ts);
-		return res;
-	}
-	if (ft->flags & PFTS_UNICODE)
-		return mir_wstrcmp(s, r);
-
-	wchar_t *ts = mir_a2u((char*)s);
-	int res = mir_wstrcmp(ts, r);
-	mir_free(ts);
-	return res;
-}
-
 static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 {
 	EnableWindow(hwndButton, enabled);
@@ -553,7 +527,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						if (dat->files == nullptr)
 							dat->files = (wchar_t **)mir_calloc((fts->totalFiles + 1) * sizeof(wchar_t *));
 						if (fts->currentFileNumber < fts->totalFiles && dat->files[fts->currentFileNumber] == nullptr)
-							dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->szCurrentFile.w);
+							dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->szCurrentFile);
 					}
 
 					/* HACK: for 0.3.3, limit updates to around 1.1 ack per second */

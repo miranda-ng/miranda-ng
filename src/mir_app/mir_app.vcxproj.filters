@@ -425,6 +425,9 @@
     <ClCompile Include="src\ftmanager.cpp">
       <Filter>Source Files\File</Filter>
     </ClCompile>
+    <ClCompile Include="src\fileutils.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">

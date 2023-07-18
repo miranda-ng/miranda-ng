@@ -28,9 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MWindowList g_hFileWindows;
 HANDLE hDlgSucceeded, hDlgCanceled;
 
-wchar_t* PFTS_StringToTchar(int flags, const wchar_t* s);
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const wchar_t* s, wchar_t *r);
-
 CMOption<bool> File::bAutoMin(SRFILEMODULE, "AutoMin", false);
 CMOption<bool> File::bAutoClear(SRFILEMODULE, "AutoClear", true);
 CMOption<bool> File::bAutoClose(SRFILEMODULE, "AutoClose", false);
@@ -198,13 +195,16 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src)
 {
 	*dest = *src;
-	if (src->szCurrentFile.w) dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile.w);
+	if (src->szCurrentFile.w) dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile);
 	if (src->pszFiles.w) {
 		dest->pszFiles.w = (wchar_t**)mir_alloc(sizeof(wchar_t*)*src->totalFiles);
-		for (int i = 0; i < src->totalFiles; i++)
-			dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, src->pszFiles.w[i]);
+		for (int i = 0; i < src->totalFiles; i++) {
+			MAllStrings s = { src->pszFiles.a[i] };
+			dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, s);
+		}
 	}
-	if (src->szWorkingDir.w) dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir.w);
+	if (src->szWorkingDir.w)
+		dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir);
 	dest->flags &= ~PFTS_UTF;
 	dest->flags |= PFTS_UNICODE;
 }
@@ -222,14 +222,16 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	if (src->pszFiles.w) {
 		if (!dest->pszFiles.w)
 			dest->pszFiles.w = (wchar_t**)mir_calloc(sizeof(wchar_t*)*src->totalFiles);
-		for (int i = 0; i < src->totalFiles; i++)
-			if (!dest->pszFiles.w[i] || !src->pszFiles.w[i] || PFTS_CompareWithTchar(src, src->pszFiles.w[i], dest->pszFiles.w[i])) {
+		for (int i = 0; i < src->totalFiles; i++) {
+			MAllStrings fname; fname.w = src->pszFiles.w[i];
+			if (!dest->pszFiles.w[i] || !fname.w || PFTS_CompareWithTchar(src, fname, dest->pszFiles.w[i])) {
 				mir_free(dest->pszFiles.w[i]);
-				if (src->pszFiles.w[i])
-					dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, src->pszFiles.w[i]);
+				if (fname.w)
+					dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, fname);
 				else
 					dest->pszFiles.w[i] = nullptr;
 			}
+		}
 	}
 	else if (dest->pszFiles.w) {
 		for (int i = 0; i < dest->totalFiles; i++)
@@ -241,18 +243,18 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->currentFileNumber = src->currentFileNumber;
 	dest->totalBytes = src->totalBytes;
 	dest->totalProgress = src->totalProgress;
-	if (src->szWorkingDir.w && (!dest->szWorkingDir.w || PFTS_CompareWithTchar(src, src->szWorkingDir.w, dest->szWorkingDir.w))) {
+	if (src->szWorkingDir.w && (!dest->szWorkingDir.w || PFTS_CompareWithTchar(src, src->szWorkingDir, dest->szWorkingDir.w))) {
 		mir_free(dest->szWorkingDir.w);
 		if (src->szWorkingDir.w)
-			dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir.w);
+			dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir);
 		else
 			dest->szWorkingDir.w = nullptr;
 	}
 
-	if (!dest->szCurrentFile.w || !src->szCurrentFile.w || PFTS_CompareWithTchar(src, src->szCurrentFile.w, dest->szCurrentFile.w)) {
+	if (!dest->szCurrentFile.w || !src->szCurrentFile.w || PFTS_CompareWithTchar(src, src->szCurrentFile, dest->szCurrentFile.w)) {
 		mir_free(dest->szCurrentFile.w);
 		if (src->szCurrentFile.w)
-			dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile.w);
+			dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile);
 		else
 			dest->szCurrentFile.w = nullptr;
 	}
