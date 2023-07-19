@@ -324,7 +324,15 @@ public:
 		}
 		Netlib_CloseHandle(nlc);
 
-		RemoveBackupFolders();
+		int iFileCount = 0; // considering files . & ..
+		for (auto &it : MFilePath(wszBackupFolder).search())
+			if (mir_wstrcmp(it.getPath(), L".") && mir_wstrcmp(it.getPath(), L".."))
+				iFileCount++;
+
+		if (iFileCount == 0)
+			PU::SafeDeleteDirectory(wszBackupFolder);
+		else
+			RemoveBackupFolders();
 
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Download complete"), POPUP_TYPE_INFO);
 

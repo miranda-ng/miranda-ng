@@ -103,10 +103,7 @@ static BOOL EnumProfilesForList(const wchar_t *tszFullPath, wchar_t *profile, CC
 static int findProfiles(CCtrlListView &list, const wchar_t *szProfile)
 {
 	// find in Miranda NG profile subfolders
-	MFilePath searchspec;
-	searchspec.Format(L"%s\\*.*", g_profileDir);
-	
-	for (auto &it: searchspec.search()) {
+	for (auto &it: MFilePath(g_profileDir).search()) {
 		// find all subfolders except "." and ".."
 		if (!it.isDir() || !wcscmp(it.getPath(), L".") || !wcscmp(it.getPath(), L".."))
 			continue;

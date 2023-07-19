@@ -618,8 +618,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 
 	int count = 0;
 
-	MFilePath wszBuf;
-	wszBuf.Format(L"%s\\*", pwszFolder);
+	MFilePath wszBuf(pwszFolder);
 	for (auto &ff: wszBuf.search()) {
 		TFileName wszNewName;
 

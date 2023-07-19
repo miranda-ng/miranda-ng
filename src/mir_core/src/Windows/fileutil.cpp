@@ -74,5 +74,9 @@ bool MFilePath::move(const wchar_t *pwszDest)
 
 MFilePath::MFileIterator MFilePath::search()
 {
+	DWORD dwAttr = GetFileAttributesW(c_str());
+	if (dwAttr != -1 && (dwAttr & FILE_ATTRIBUTE_DIRECTORY))
+		return MFileIterator(*this + L"\\*");
+
 	return MFileIterator(c_str());
 }
