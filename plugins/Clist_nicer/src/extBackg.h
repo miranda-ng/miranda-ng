@@ -80,7 +80,6 @@ void LoadExtBkSettingsFromDB();
 void IMG_LoadItems();
 void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc);
 void IMG_InitDecoder();
-void LoadPerContactSkins(const wchar_t *file);
 
 static void SaveCompleteStructToDB();
 StatusItems_t *GetProtocolStatusItem(const char *szProto);

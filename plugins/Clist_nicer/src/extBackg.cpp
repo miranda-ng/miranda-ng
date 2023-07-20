@@ -1273,7 +1273,7 @@ void IMG_LoadItems()
 void LoadPerContactSkins(wchar_t *tszFileName)
 {
 	char szItem[100];
-	ptrA szSections(LPSTR(calloc(3002, 1)));
+	ptrA szSections(LPSTR(mir_calloc(3002)));
 	char *p = szSections;
 
 	StatusItems_t *items = nullptr, *this_item;
@@ -1562,9 +1562,19 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_UNLOAD:
+			db_delete_module(0, "CLC");
+			db_delete_module(0, "CLCExt");
 			IMG_DeleteItems();
+			LoadExtBkSettingsFromDB();
+
+			ReloadThemedOptions();
+			ReloadSkinItemsToCache();
+
+			db_set_b(0, "CLUI", "useskin", 0);
+			IMG_LoadItems();
 			ConfigureFrame();
 			SetButtonStates();
+
 			SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 			PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			break;
