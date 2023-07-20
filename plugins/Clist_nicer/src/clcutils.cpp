@@ -35,68 +35,6 @@ extern int /*g_isConnecting,*/ during_sizing;
 
 extern void ( *saveRecalcScrollBar )(HWND hwnd, struct ClcData *dat);
 
-static int MY_pathIsAbsolute(const wchar_t *path)
-{
-	if (!path || !(mir_wstrlen(path) > 2))
-		return 0;
-
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
-
-	return 0;
-}
-
-size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut)
-{
-	size_t dwSrcLen, dwProfilePathLen;
-
-	if (!pSrc || !pOut)
-		return 0;
-	dwSrcLen = mir_wstrlen(pSrc);
-	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
-		return 0;
-	if (!MY_pathIsAbsolute(pSrc))
-		goto path_not_abs;
-
-	wchar_t szTmp[MAX_PATH];
-	memcpy(szTmp, pSrc, (dwSrcLen * sizeof(wchar_t)));
-	szTmp[dwSrcLen] = 0;
-	wcslwr(szTmp);
-	if (wcsstr(szTmp, cfg::dat.tszProfilePath)) {
-		dwProfilePathLen = mir_wstrlen(cfg::dat.tszProfilePath);
-		memcpy(pOut, (pSrc + (dwProfilePathLen - 1)), ((dwSrcLen - (dwProfilePathLen - 1)) * sizeof(wchar_t)));
-		pOut[0] = '.';
-		pOut[dwSrcLen] = 0;
-		return (dwSrcLen - (dwProfilePathLen - 1));
-	}
-
-path_not_abs:
-	memcpy(pOut, pSrc, (dwSrcLen * sizeof(wchar_t)));
-	pOut[dwSrcLen] = 0;
-	return dwSrcLen;
-}
-
-size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut)
-{
-	size_t dwSrcLen;
-
-	if (!pSrc || !pOut)
-		return 0;
-	dwSrcLen = mir_wstrlen(pSrc);
-	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
-		return 0;
-
-	if (MY_pathIsAbsolute(pSrc) && pSrc[0] != '.') {
-		memcpy(pOut, pSrc, (dwSrcLen * sizeof(wchar_t)));
-		pOut[dwSrcLen] = 0;
-		return dwSrcLen;
-	}
-	if (pSrc[0] == '.')
-		return (mir_snwprintf(pOut, MAX_PATH, L"%s\\%s", cfg::dat.tszProfilePath, pSrc));
-
-	return 0;
-}
-
 /*
  * performs hit-testing for reversed (mirrored) contact rows when using RTL
  * shares all the init stuff with HitTest()

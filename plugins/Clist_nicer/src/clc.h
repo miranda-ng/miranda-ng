@@ -378,8 +378,6 @@ void   BeginRenameSelection(HWND hwnd, struct ClcData *dat);
 int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
 void   ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void   RecalcScrollBar(HWND hwnd, struct ClcData *dat);
-size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
-size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 
 int    GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void   LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);

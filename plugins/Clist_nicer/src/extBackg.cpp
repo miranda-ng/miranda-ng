@@ -1219,7 +1219,7 @@ void IMG_LoadItems()
 		return;
 
 	wchar_t tszFileName[MAX_PATH];
-	MY_pathToAbsolute(dbv.pwszVal, tszFileName);
+	PathToAbsoluteW(dbv.pwszVal, tszFileName);
 
 	// TODO: rewrite the skin loading in wchar_t manner
 	char szFileName[MAX_PATH];
@@ -1489,11 +1489,11 @@ void extbk_import(char *file, HWND hwndDlg)
 static void ApplyCLUISkin()
 {
 	DBVARIANT dbv = { 0 };
-	wchar_t tszFinalName[MAX_PATH];
-	char szFinalName[MAX_PATH];
 	if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
-		MY_pathToAbsolute(dbv.pwszVal, tszFinalName);
+		wchar_t tszFinalName[MAX_PATH];
+		PathToAbsoluteW(dbv.pwszVal, tszFinalName);
 
+		char szFinalName[MAX_PATH];
 		WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, nullptr, nullptr);
 
 		if (db_get_b(0, "CLUI", "skin_changed", 0)) {
@@ -1565,13 +1565,14 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			db_delete_module(0, "CLC");
 			db_delete_module(0, "CLCExt");
 			IMG_DeleteItems();
+			
 			LoadExtBkSettingsFromDB();
+			IMG_LoadItems();
 
 			ReloadThemedOptions();
 			ReloadSkinItemsToCache();
 
 			db_set_b(0, "CLUI", "useskin", 0);
-			IMG_LoadItems();
 			ConfigureFrame();
 			SetButtonStates();
 
@@ -1600,20 +1601,13 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				ofn.lpstrDefExt = L"";
 				if (!GetOpenFileName(&ofn))
 					break;
-				MY_pathToRelative(str, final_path);
-				if (PathFileExists(str)) {
-					int skinChanged = 0;
-					DBVARIANT dbv = { 0 };
+				
+				PathToRelativeW(str, final_path);
+				if (PathFileExistsW(str)) {
+					auto wszOld = db_get_wsm(0, "CLC", "AdvancedSkin");
 
-					if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
-						if (mir_wstrcmp(dbv.pwszVal, final_path))
-							skinChanged = TRUE;
-						db_free(&dbv);
-					}
-					else
-						skinChanged = TRUE;
 					db_set_ws(0, "CLC", "AdvancedSkin", final_path);
-					db_set_b(0, "CLUI", "skin_changed", (uint8_t)skinChanged);
+					db_set_b(0, "CLUI", "skin_changed", wszOld != final_path);
 					SetDlgItemText(hwndDlg, IDC_SKINFILENAME, final_path);
 				}
 			}
@@ -1628,7 +1622,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			wchar_t tszFilename[MAX_PATH], tszFinalPath[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_SKINFILE, tszFilename, _countof(tszFilename));
 			tszFilename[MAX_PATH - 1] = 0;
-			MY_pathToAbsolute(tszFilename, tszFinalPath);
+			PathToAbsoluteW(tszFilename, tszFinalPath);
 			if (PathFileExists(tszFinalPath)) {
 				LoadPerContactSkins(tszFinalPath);
 				ReloadSkinItemsToCache();
