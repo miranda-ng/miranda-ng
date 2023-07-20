@@ -1,5 +1,3 @@
-#ifndef HEADER_CURL_HTTP1_H
-#define HEADER_CURL_HTTP1_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -26,36 +24,39 @@
 
 #include "curl_setup.h"
 
-#ifndef CURL_DISABLE_HTTP
-#include "bufq.h"
-#include "http.h"
+#if defined(__APPLE__)
 
-#define H1_PARSE_OPT_NONE       (0)
-#define H1_PARSE_OPT_STRICT     (1 << 0)
+#if !defined(TARGET_OS_OSX) || TARGET_OS_OSX
 
-#define H1_PARSE_DEFAULT_MAX_LINE_LEN   DYN_HTTP_REQUEST
+#include <curl/curl.h>
 
-struct h1_req_parser {
-  struct httpreq *req;
-  struct dynbuf scratch;
-  size_t scratch_skip;
-  const char *line;
-  size_t max_line_len;
-  size_t line_len;
-  bool done;
-};
+#include "macos.h"
 
-void Curl_h1_req_parse_init(struct h1_req_parser *parser, size_t max_line_len);
-void Curl_h1_req_parse_free(struct h1_req_parser *parser);
+#if defined(ENABLE_IPV6) && defined(CURL_OSX_CALL_COPYPROXIES)
+#include <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+#endif
 
-ssize_t Curl_h1_req_parse_read(struct h1_req_parser *parser,
-                               const char *buf, size_t buflen,
-                               const char *scheme_default, int options,
-                               CURLcode *err);
+CURLcode Curl_macos_init(void)
+{
+#if defined(ENABLE_IPV6) && defined(CURL_OSX_CALL_COPYPROXIES)
+  {
+    /*
+     * The automagic conversion from IPv4 literals to IPv6 literals only
+     * works if the SCDynamicStoreCopyProxies system function gets called
+     * first. As Curl currently doesn't support system-wide HTTP proxies, we
+     * therefore don't use any value this function might return.
+     *
+     * This function is only available on a macOS and is not needed for
+     * IPv4-only builds, hence the conditions above.
+     */
+    CFDictionaryRef dict = SCDynamicStoreCopyProxies(NULL);
+    if(dict)
+      CFRelease(dict);
+  }
+#endif
+  return CURLE_OK;
+}
 
-CURLcode Curl_h1_req_dprint(const struct httpreq *req,
-                            struct dynbuf *dbuf);
+#endif /* TARGET_OS_OSX */
 
-
-#endif /* !CURL_DISABLE_HTTP */
-#endif /* HEADER_CURL_HTTP1_H */
+#endif /* __APPLE__ */

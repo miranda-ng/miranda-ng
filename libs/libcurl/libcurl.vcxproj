@@ -263,6 +263,9 @@
     <ClCompile Include="src\llist.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\macos.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\md4.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -572,6 +575,7 @@
     <ClInclude Include="src\inet_ntop.h" />
     <ClInclude Include="src\inet_pton.h" />
     <ClInclude Include="src\llist.h" />
+    <ClInclude Include="src\macos.h" />
     <ClInclude Include="src\memdebug.h" />
     <ClInclude Include="src\mime.h" />
     <ClInclude Include="src\mqtt.h" />

@@ -239,6 +239,9 @@
     <ClCompile Include="src\llist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\macos.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\md4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -767,6 +770,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\llist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\macos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\memdebug.h">

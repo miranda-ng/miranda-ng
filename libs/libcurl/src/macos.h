@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_HTTP1_H
-#define HEADER_CURL_HTTP1_H
+#ifndef HEADER_CURL_MACOS_H
+#define HEADER_CURL_MACOS_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -23,39 +23,16 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-
 #include "curl_setup.h"
 
-#ifndef CURL_DISABLE_HTTP
-#include "bufq.h"
-#include "http.h"
+#if defined(__APPLE__) && (!defined(TARGET_OS_OSX) || TARGET_OS_OSX)
 
-#define H1_PARSE_OPT_NONE       (0)
-#define H1_PARSE_OPT_STRICT     (1 << 0)
+CURLcode Curl_macos_init(void);
 
-#define H1_PARSE_DEFAULT_MAX_LINE_LEN   DYN_HTTP_REQUEST
+#else
 
-struct h1_req_parser {
-  struct httpreq *req;
-  struct dynbuf scratch;
-  size_t scratch_skip;
-  const char *line;
-  size_t max_line_len;
-  size_t line_len;
-  bool done;
-};
+#define Curl_macos_init() CURLE_OK
 
-void Curl_h1_req_parse_init(struct h1_req_parser *parser, size_t max_line_len);
-void Curl_h1_req_parse_free(struct h1_req_parser *parser);
+#endif
 
-ssize_t Curl_h1_req_parse_read(struct h1_req_parser *parser,
-                               const char *buf, size_t buflen,
-                               const char *scheme_default, int options,
-                               CURLcode *err);
-
-CURLcode Curl_h1_req_dprint(const struct httpreq *req,
-                            struct dynbuf *dbuf);
-
-
-#endif /* !CURL_DISABLE_HTTP */
-#endif /* HEADER_CURL_HTTP1_H */
+#endif /* HEADER_CURL_MACOS_H */

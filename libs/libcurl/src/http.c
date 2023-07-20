@@ -2667,11 +2667,7 @@ CURLcode Curl_http_bodysend(struct Curl_easy *data, struct connectdata *conn,
 #ifndef USE_HYPER
     /* With Hyper the body is always passed on separately */
     if(data->set.postfields) {
-
-      /* In HTTP2, we send request body in DATA frame regardless of
-         its size. */
-      if(conn->httpversion < 20 &&
-         !data->state.expect100header &&
+      if(!data->state.expect100header &&
          (http->postsize < MAX_INITIAL_POST_SIZE)) {
         /* if we don't use expect: 100  AND
            postsize is less than MAX_INITIAL_POST_SIZE
@@ -2832,16 +2828,18 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
     }
     if(co) {
       struct Cookie *store = co;
+      size_t clen = 8; /* hold the size of the generated Cookie: header */
       /* now loop through all cookies that matched */
       while(co) {
         if(co->value) {
-          if(0 == count) {
+          size_t add;
+          if(!count) {
             result = Curl_dyn_addn(r, STRCONST("Cookie: "));
             if(result)
               break;
           }
-          if((Curl_dyn_len(r) + strlen(co->name) + strlen(co->value) + 1) >=
-             MAX_COOKIE_HEADER_LEN) {
+          add = strlen(co->name) + strlen(co->value) + 1;
+          if(clen + add >= MAX_COOKIE_HEADER_LEN) {
             infof(data, "Restricted outgoing cookies due to header size, "
                   "'%s' not sent", co->name);
             linecap = TRUE;
@@ -2851,6 +2849,7 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
                                  co->name, co->value);
           if(result)
             break;
+          clen += add + (count ? 2 : 0);
           count++;
         }
         co = co->next; /* next cookie please */
