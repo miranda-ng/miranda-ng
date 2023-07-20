@@ -172,7 +172,7 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 void CIcqProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *hTransfer)
 {
 	if (auto *pFileInfo = (IcqFileInfo *)hTransfer) {
-		blob.setUrl(pFileInfo->szUrl);
+		blob.setUrl(pFileInfo->szOrigUrl);
 		blob.setSize(pFileInfo->dwFileSize);
 	}
 }
@@ -216,12 +216,15 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
 		if (m_bOnline && root) {
-			auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, root["u"].as_string().c_str(), &CIcqProto::OnFileRecv);
-			pReq->pUserInfo = ofd;
-			pReq->AddHeader("Sec-Fetch-User", "?1");
-			pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-			pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-			Push(pReq);
+			MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
+			if (auto *pFileInfo = RetrieveFileInfo(hContact, fileText2url(root["u"].as_mstring()))) {
+				auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
+				pReq->pUserInfo = ofd;
+				pReq->AddHeader("Sec-Fetch-User", "?1");
+				pReq->AddHeader("Sec-Fetch-Site", "cross-site");
+				pReq->AddHeader("Sec-Fetch-Mode", "navigate");
+				Push(pReq);
+			}
 			return;
 		}
 	}

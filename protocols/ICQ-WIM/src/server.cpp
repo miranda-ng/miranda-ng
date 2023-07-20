@@ -160,50 +160,56 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	res[0]->bIsSticker = bIsSticker;
 }
 
+IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl)
+{
+	IcqFileInfo *pFileInfo = nullptr;
+	CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
+	pReq->hContact = hContact;
+	pReq->pUserInfo = &pFileInfo;
+	pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "192,600,xlarge");
+	if (!ExecuteRequest(pReq))
+		return nullptr;
+
+	return pFileInfo;
+}
+
 IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &bIsFile)
 {
-	CMStringW wszUrl(wszText.Mid(26));
-	int idx = wszUrl.Find(' ');
-	if (idx != -1)
-		wszUrl.Truncate(idx);
-
 	bIsFile = false;
-	IcqFileInfo *pFileInfo = nullptr;
+	CMStringW wszUrl(fileText2url(wszText));
 
 	// is it already downloaded sticker?
 	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
 	if (!_waccess(wszLoadedPath, 0)) {
-		pFileInfo = (IcqFileInfo *)this;
 		wszText.Format(L"STK{%s}", wszUrl.c_str());
+		return (IcqFileInfo *)this;
+	}
+
+	// download file info
+	auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl);
+	if (!pFileInfo)
+		return nullptr;
+
+	// is it a sticker?
+	if (pFileInfo->bIsSticker) {
+		if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+			auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
+			pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+			pNew->pUserInfo = wszUrl.GetBuffer();
+			pNew->AddHeader("Sec-Fetch-User", "?1");
+			pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+			pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+			if (!ExecuteRequest(pNew))
+				return nullptr;
+
+			wszText.Format(L"STK{%s}", wszUrl.c_str());
+		}
+		else wszText = TranslateT("SmileyAdd plugin required to support stickers");
 	}
 	else {
-		// download file info
-		CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
-		pReq->hContact = hContact;
-		pReq->pUserInfo = &pFileInfo;
-		pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "192,600,xlarge");
-		if (!ExecuteRequest(pReq))
-			return nullptr;
-
-		// is it a sticker?
-		if (pFileInfo && pFileInfo->bIsSticker) {
-			if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
-				auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
-				pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-				pNew->pUserInfo = wszUrl.GetBuffer();
-				pNew->AddHeader("Sec-Fetch-User", "?1");
-				pNew->AddHeader("Sec-Fetch-Site", "cross-site");
-				pNew->AddHeader("Sec-Fetch-Mode", "navigate");
-				if (!ExecuteRequest(pNew))
-					return nullptr;
-
-				wszText.Format(L"STK{%s}", wszUrl.c_str());
-				delete pFileInfo;
-			}
-			else wszText = TranslateT("SmileyAdd plugin required to support stickers");
-		}
-		else bIsFile = true;
+		pFileInfo->szOrigUrl = wszText;
+		bIsFile = true;
 	}
 
 	return pFileInfo;
@@ -522,10 +528,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	bool bIsOutgoing = it["outgoing"].as_bool(), bIsFileTransfer = false;
-	IcqFileInfo *pFileInfo = nullptr;
+	std::unique_ptr<IcqFileInfo> pFileInfo = nullptr;
 
 	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-		pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
+		pFileInfo.reset(CheckFile(hContact, wszText, bIsFileTransfer));
 		if (!pFileInfo) {
 			debugLogA("Some shit happened, report this case to developers");
 			return;
@@ -571,10 +577,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		pre.timestamp = iMsgTime;
 		pre.files.w = &m_wszShortName;
 		pre.descr.w = pFileInfo->wszDescr;
-		pre.lParam = (LPARAM)pFileInfo;
+		pre.lParam = (LPARAM)pFileInfo.release();
 		ProtoChainRecvFile(hContact, &pre);
-
-		delete pFileInfo;
 		return;
 	}
 

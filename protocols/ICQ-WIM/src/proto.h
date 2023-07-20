@@ -78,7 +78,7 @@ struct IcqFileInfo
 		dwFileSize(dwSize)
 	{}
 
-	CMStringA szUrl;
+	CMStringA szUrl, szOrigUrl;
 	CMStringW wszDescr;
 	uint32_t dwFileSize;
 	bool bIsSticker = false;
@@ -232,6 +232,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
 	MCONTACT      ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
 	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
+	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
 				     

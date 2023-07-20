@@ -32,6 +32,8 @@
 // Windows includes
 #include <windows.h>
 
+#include <memory>
+
 // Standard includes
 #include <stdio.h>
 #include <time.h>
@@ -105,5 +107,7 @@ bool IsValidType(const JSONNode &aimid);
 
 void RefreshGroups(void);
 wchar_t* time2text(time_t time);
+
+CMStringW fileText2url(const CMStringW &wszText);
 
 extern bool g_bSecureIM, g_bMessageState;
