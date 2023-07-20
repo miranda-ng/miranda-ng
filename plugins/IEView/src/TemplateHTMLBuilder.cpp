@@ -68,7 +68,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 
 TemplateMap *TemplateHTMLBuilder::getTemplateMap(ProtocolSettings * protoSettings)
 {
-	return TemplateMap::getTemplateMap(protoSettings->getSRMMTemplateFilename());
+	return TemplateMap::getTemplateMap(_T2A(protoSettings->getSRMMTemplateFilename()));
 }
 
 int TemplateHTMLBuilder::getFlags(ProtocolSettings * protoSettings)
@@ -129,7 +129,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	char tempBase[1024] = { 0 };
 
 	strncpy_s(tempBase, "file://", _TRUNCATE);
-	mir_strncat(tempBase, tmpm->getFilename(), _countof(tempBase) - mir_strlen(tempBase));
+	mir_strncat(tempBase, _T2A(tmpm->getFilename()), _countof(tempBase) - mir_strlen(tempBase));
 	char *pathrun = tempBase + mir_strlen(tempBase);
 	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase))
 		pathrun--;
@@ -147,12 +147,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameIn = mir_strdup("&nbsp;");
 	}
 	mir_snprintf(tempStr, "%snoavatar.png", tempBase);
-	wchar_t szNoAvatarPath[MAX_PATH];
-	wcsncpy_s(szNoAvatarPath, _A2T(protoSettings->getSRMMTemplateFilename()), _TRUNCATE);
-	wchar_t *szNoAvatarPathTmp = wcsrchr(szNoAvatarPath, '\\');
-	if (szNoAvatarPathTmp != nullptr)
-		*szNoAvatarPathTmp = 0;
-	mir_wstrcat(szNoAvatarPath, L"\\noavatar.png");
+	
+	CMStringW szNoAvatarPath(protoSettings->getSRMMTemplateFilename());
+	int idx = szNoAvatarPath.Find('\\');
+	if (idx != -1)
+		szNoAvatarPath.Delete(0, idx);
+	szNoAvatarPath.Append(L"\\noavatar.png");
+	
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -292,7 +293,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm != nullptr) {
 		strncpy_s(tempBase, "file://", _TRUNCATE);
-		mir_strcat(tempBase, tmpm->getFilename());
+		mir_strcat(tempBase, _T2A(tmpm->getFilename()));
 
 		char* pathrun = nullptr;
 		if (pathrun = strrchr(tempBase, '\\'))
@@ -316,12 +317,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameIn = mir_strdup("&nbsp;");
 	}
 
-	wchar_t szNoAvatarPath[MAX_PATH];
-	wcsncpy_s(szNoAvatarPath, _A2T(protoSettings->getSRMMTemplateFilename()), _TRUNCATE);
-	wchar_t *szNoAvatarPathTmp = wcsrchr(szNoAvatarPath, '\\');
-	if (szNoAvatarPathTmp != nullptr)
-		*szNoAvatarPathTmp = 0;
-	mir_wstrcat(szNoAvatarPath, L"\\noavatar.png");
+	CMStringW szNoAvatarPath(protoSettings->getSRMMTemplateFilename());
+	int idx = szNoAvatarPath.Find('\\');
+	if (idx != -1)
+		szNoAvatarPath.Delete(0, idx);
+	szNoAvatarPath.Append(L"\\noavatar.png");
+	
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else

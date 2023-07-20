@@ -151,22 +151,17 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 char* TabSRMMHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int isGroupBreak)
 {
 	static char szResult[512];
-	char str[80];
 	const char *szFormat;
-
-	struct tm tm_now, tm_today;
-	time_t now = time(0);
-	time_t today;
-
 	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
 		szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
 		szResult[0] = '\0';
 	}
 	else {
-		tm_now = *localtime(&now);
-		tm_today = tm_now;
+		time_t now = time(0);
+		struct tm tm_now = *localtime(&now);
+		struct tm tm_today = tm_now;
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
-		today = mktime(&tm_today);
+		time_t today = mktime(&tm_today);
 
 		if (dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
 			szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
@@ -186,6 +181,8 @@ char* TabSRMMHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int 
 			szResult[0] = '\0';
 		}
 	}
+
+	char str[80];
 	TimeZone_ToString(check, szFormat, str, _countof(str));
 	mir_strncat(szResult, str, _countof(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
@@ -208,11 +205,11 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 	CMStringA str;
 	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
-		const char *externalCSS = protoSettings->getSRMMCssFilename();
-		if (strncmp(externalCSS, "http://", 7))
-			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"file://%s\"/></head><body class=\"body\">\n", externalCSS);
+		auto *externalCSS = protoSettings->getSRMMCssFilename();
+		if (wcsncmp(externalCSS, L"http://", 7))
+			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"file://%S\"/></head><body class=\"body\">\n", externalCSS);
 		else
-			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%S\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
 		HDC hdc = GetDC(nullptr);

@@ -130,8 +130,10 @@ MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *path)
 
 MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t *pBase)
 {
-	if (!pSrc || !pSrc[0] || wcslen(pSrc) > MAX_PATH)
+	if (!pSrc || !pSrc[0] || wcslen(pSrc) > MAX_PATH) {
+		*pOut = 0;
 		return 0;
+	}
 
 	if (!PathIsAbsoluteW(pSrc))
 		wcsncpy_s(pOut, MAX_PATH, pSrc, _TRUNCATE);

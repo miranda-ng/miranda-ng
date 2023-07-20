@@ -41,97 +41,106 @@ static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem)
 	return tvi.lParam;
 }
 
+static wchar_t* GetFilePathW(HWND hwndDlg, int iCtrlId, wchar_t *pDest)
+{
+	wchar_t tmp[MAX_PATH];
+	GetDlgItemTextW(hwndDlg, iCtrlId, tmp, _countof(tmp));
+	PathToAbsoluteW(tmp, pDest);
+	return pDest;
+}
+
+static void ShowFilePathW(HWND hwndDlg, int iCtrlId, const wchar_t *src)
+{
+	wchar_t tmp[MAX_PATH];
+	PathToRelativeW(src, tmp);
+	SetDlgItemTextW(hwndDlg, iCtrlId, tmp);
+}
+
 static void SaveSRMMProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		int i = Options::MODE_COMPATIBLE;
-		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
-			i = Options::MODE_TEMPLATE;
-		else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
-			i = Options::MODE_CSS;
+	if (proto == nullptr)
+		return;
 
-		proto->setSRMMMode(i);
-		i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
-		proto->setSRMMFlags(i);
+	int i = Options::MODE_COMPATIBLE;
+	if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
+		i = Options::MODE_TEMPLATE;
+	else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
+		i = Options::MODE_CSS;
 
-		char path[MAX_PATH];
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, _countof(path));
-		proto->setSRMMBackgroundFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, _countof(path));
-		proto->setSRMMCssFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, _countof(path));
-		proto->setSRMMTemplateFilename(path);
-	}
+	proto->setSRMMMode(i);
+	i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
+	proto->setSRMMFlags(i);
+
+	wchar_t path[MAX_PATH];
+	proto->setSRMMBackgroundFilename(GetFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path));
+	proto->setSRMMCssFilename(GetFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path));
+	proto->setSRMMTemplateFilename(GetFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path));
 }
 
 static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		int i = Options::MODE_COMPATIBLE;
-		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
-			i = Options::MODE_TEMPLATE;
-		else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
-			i = Options::MODE_CSS;
+	if (proto == nullptr)
+		return;
 
-		proto->setChatMode(i);
-		i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
-		proto->setChatFlags(i);
+	int i = Options::MODE_COMPATIBLE;
+	if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
+		i = Options::MODE_TEMPLATE;
+	else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
+		i = Options::MODE_CSS;
 
-		char path[MAX_PATH];
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, _countof(path));
-		proto->setChatBackgroundFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, _countof(path));
-		proto->setChatCssFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, _countof(path));
-		proto->setChatTemplateFilename(path);
-	}
+	proto->setChatMode(i);
+	i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
+	proto->setChatFlags(i);
+
+	wchar_t path[MAX_PATH];
+	proto->setChatBackgroundFilename(GetFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path));
+	proto->setChatCssFilename(GetFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path));
+	proto->setChatTemplateFilename(GetFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path));
 }
 
 static void SaveHistoryProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		int i = Options::MODE_COMPATIBLE;
-		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
-			i = Options::MODE_TEMPLATE;
-		else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
-			i = Options::MODE_CSS;
+	if (proto == nullptr)
+		return;
 
-		proto->setHistoryMode(i);
-		i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
-		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
-		proto->setHistoryFlags(i);
+	int i = Options::MODE_COMPATIBLE;
+	if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
+		i = Options::MODE_TEMPLATE;
+	else if (IsDlgButtonChecked(hwndDlg, IDC_MODE_CSS))
+		i = Options::MODE_CSS;
 
-		char path[MAX_PATH];
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, _countof(path));
-		proto->setHistoryBackgroundFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, _countof(path));
-		proto->setHistoryCssFilename(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, _countof(path));
-		proto->setHistoryTemplateFilename(path);
-	}
+	proto->setHistoryMode(i);
+	i = IsDlgButtonChecked(hwndDlg, IDC_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_ENABLED : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE) ? Options::LOG_IMAGE_SCROLL : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_NICKNAMES) ? Options::LOG_SHOW_NICKNAMES : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_TIME) ? Options::LOG_SHOW_TIME : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_DATE) ? Options::LOG_SHOW_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_SHOW_SECONDS) ? Options::LOG_SHOW_SECONDS : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_LONG_DATE) ? Options::LOG_LONG_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
+	i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
+	proto->setHistoryFlags(i);
+
+	wchar_t path[MAX_PATH];
+	proto->setHistoryBackgroundFilename(GetFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path));
+	proto->setHistoryCssFilename(GetFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path));
+	proto->setHistoryTemplateFilename(GetFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path));
 }
 
 static void UpdateControlsState(HWND hwndDlg)
@@ -172,7 +181,7 @@ static void SetIcon(HWND hwnd, uint32_t id, int index, bool condition)
 		DestroyIcon(hIcon);
 }
 
-static void UpdateTemplateIcons(HWND hwnd, const char *path)
+static void UpdateTemplateIcons(HWND hwnd, const wchar_t *path)
 {
 	TemplateMap *tmap = TemplateMap::loadTemplates(path, path, true);
 	if (tmap != nullptr) {
@@ -188,86 +197,89 @@ static void UpdateTemplateIcons(HWND hwnd, const char *path)
 
 static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
-		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isSRMMEnable());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getSRMMMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getSRMMMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getSRMMMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getSRMMFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getSRMMFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getSRMMFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getSRMMFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getSRMMFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getSRMMFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getSRMMFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getSRMMFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
+	if (proto == nullptr)
+		return;
 
-		SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getSRMMBackgroundFilename());
-		SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getSRMMCssFilename());
-		SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getSRMMTemplateFilename());
+	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
+	TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isSRMMEnable());
+	CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getSRMMMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getSRMMMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getSRMMMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getSRMMFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getSRMMFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getSRMMFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getSRMMFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getSRMMFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getSRMMFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getSRMMFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getSRMMFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 
-		UpdateTemplateIcons(hwndDlg, proto->getSRMMTemplateFilename());
-		srmmCurrentProtoItem = proto;
-		UpdateControlsState(hwndDlg);
-	}
+	ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getSRMMBackgroundFilename());
+	ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getSRMMCssFilename());
+	ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getSRMMTemplateFilename());
+
+	UpdateTemplateIcons(hwndDlg, proto->getSRMMTemplateFilename());
+	srmmCurrentProtoItem = proto;
+	UpdateControlsState(hwndDlg);
 }
 
 static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
-		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isChatEnable());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getChatMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getChatMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getChatMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getChatFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getChatFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getChatFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getChatFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getChatFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getChatFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getChatFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getChatFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getChatFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
+	if (proto == nullptr)
+		return;
 
-		SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getChatBackgroundFilename());
-		SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getChatCssFilename());
-		SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getChatTemplateFilename());
+	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
+	TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isChatEnable());
+	CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getChatMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getChatMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getChatMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getChatFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getChatFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getChatFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getChatFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getChatFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getChatFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getChatFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getChatFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getChatFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 
-		UpdateTemplateIcons(hwndDlg, proto->getChatTemplateFilename());
-		chatCurrentProtoItem = proto;
-		UpdateControlsState(hwndDlg);
-	}
+	ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getChatBackgroundFilename());
+	ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getChatCssFilename());
+	ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getChatTemplateFilename());
+
+	UpdateTemplateIcons(hwndDlg, proto->getChatTemplateFilename());
+	chatCurrentProtoItem = proto;
+	UpdateControlsState(hwndDlg);
 }
 
 static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != nullptr) {
-		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
-		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isHistoryEnable());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getHistoryMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getHistoryMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getHistoryMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getHistoryFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getHistoryFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getHistoryFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getHistoryFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getHistoryFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getHistoryFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getHistoryFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getHistoryFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
+	if (proto == nullptr)
+		return;
 
-		SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getHistoryBackgroundFilename());
-		SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getHistoryCssFilename());
-		SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getHistoryTemplateFilename());
+	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
+	TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isHistoryEnable());
+	CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getHistoryMode() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getHistoryMode() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getHistoryMode() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getHistoryFlags() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getHistoryFlags() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getHistoryFlags() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getHistoryFlags() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getHistoryFlags() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getHistoryFlags() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getHistoryFlags() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getHistoryFlags() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 
-		UpdateTemplateIcons(hwndDlg, proto->getHistoryTemplateFilename());
-		historyCurrentProtoItem = proto;
-		UpdateControlsState(hwndDlg);
-	}
+	ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getHistoryBackgroundFilename());
+	ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getHistoryCssFilename());
+	ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getHistoryTemplateFilename());
+
+	UpdateTemplateIcons(hwndDlg, proto->getHistoryTemplateFilename());
+	historyCurrentProtoItem = proto;
+	UpdateControlsState(hwndDlg);
 }
 
 static void RefreshProtoIcons()
@@ -346,11 +358,11 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 	TreeView_SelectItem(hProtoList, hItem);
 }
 
-static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int maxLen)
+static bool BrowseFile(HWND hwndDlg, wchar_t *filter, wchar_t *defExt, wchar_t *path, int maxLen)
 {
-	GetWindowTextA(hwndDlg, path, maxLen);
+	GetWindowTextW(hwndDlg, path, maxLen);
 	
-	OPENFILENAMEA ofn = {};
+	OPENFILENAME ofn = {};
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hwndDlg;
 	ofn.lpstrFilter = filter;
@@ -359,8 +371,8 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int
 	ofn.nMaxFile = maxLen;
 	ofn.nMaxFileTitle = maxLen;
 	ofn.lpstrDefExt = defExt;
-	if (GetOpenFileNameA(&ofn)) {
-		SetWindowTextA(hwndDlg, path);
+	if (GetOpenFileNameW(&ofn)) {
+		SetWindowTextW(hwndDlg, path);
 		return true;
 	}
 	return false;
@@ -494,7 +506,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bChecked;
-	char path[MAX_PATH], filter[MAX_PATH];
+	wchar_t path[MAX_PATH], filter[MAX_PATH];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -535,31 +547,32 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			MarkChanges(2, hwndDlg);
 			break;
 		case IDC_BROWSE_TEMPLATES:
-			mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s (*.*)%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.ivt)%c*.ivt%c%s (*.*)%c*.*%c%c", TranslateT("Template"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"ivt", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 				UpdateTemplateIcons(hwndDlg, path);
 				MarkChanges(2, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_BACKGROUND_IMAGE:
-			mir_snprintf(filter, "%s (*.jpg,*.jpeg,*.gif,*.png,*.bmp)%c*.jpg;*.jpeg;*.gif;*.png;*.bmp%c%s (*.*)%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.jpg,*.jpeg,*.gif,*.png,*.bmp)%c*.jpg;*.jpeg;*.gif;*.png;*.bmp%c%s (*.*)%c*.*%c%c", 
+				TranslateT("All Images"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"jpg", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 				MarkChanges(2, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS:
-			mir_snprintf(filter, "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", TranslateT("Style Sheet"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 				MarkChanges(2, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS_RTL:
-			mir_snprintf(filter, "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 				MarkChanges(2, hwndDlg);
 			}
 			break;
@@ -636,7 +649,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bChecked = FALSE;
-	char path[MAX_PATH], filter[MAX_PATH];
+	wchar_t path[MAX_PATH], filter[MAX_PATH];
 	switch (msg) {
 	case WM_INITDIALOG:
 		MarkInitialized(4);
@@ -676,31 +689,31 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			MarkChanges(4, hwndDlg);
 			break;
 		case IDC_BROWSE_TEMPLATES:
-			mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", TranslateT("Template"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"ivt", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 				UpdateTemplateIcons(hwndDlg, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_BACKGROUND_IMAGE:
-			mir_snprintf(filter, "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", TranslateT("All Images"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"jpg", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS:
-			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.ivt%c%s%c*.*%c%c", TranslateT("Style Sheet"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS_RTL:
-			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.ivt%c%s%c*.*%c%c", TranslateT("Style Sheet"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
@@ -773,7 +786,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bChecked;
-	char path[MAX_PATH], filter[MAX_PATH];
+	wchar_t path[MAX_PATH], filter[MAX_PATH];
 	switch (msg) {
 	case WM_INITDIALOG:
 		MarkInitialized(8);
@@ -813,31 +826,31 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			MarkChanges(8, hwndDlg);
 			break;
 		case IDC_BROWSE_TEMPLATES:
-			mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", TranslateT("Template"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"ivt", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 				UpdateTemplateIcons(hwndDlg, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_BACKGROUND_IMAGE:
-			mir_snprintf(filter, "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", TranslateT("All Images"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"jpg", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS:
-			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS_RTL:
-			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
-			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
-				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
+			mir_snwprintf(filter, L"%s (*.css)%c*.ivt%c%s%c*.*%c%c", TranslateT("Style Sheet"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			if (BrowseFile(hwndDlg, filter, L"css", path, _countof(path))) {
+				ShowFilePathW(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
@@ -980,24 +993,24 @@ void ProtocolSettings::readFromDb()
 	setSRMMFlags(g_plugin.getDword(dbsName, 16128));
 
 	DBVARIANT dbv;
-	char tmpPath[MAX_PATH];
+	wchar_t tmpPath[MAX_PATH];
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		PathToAbsoluteW(dbv.pwszVal, tmpPath);
 		setSRMMBackgroundFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		PathToAbsoluteW(dbv.pwszVal, tmpPath);
 		setSRMMCssFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		PathToAbsoluteW(dbv.pwszVal, tmpPath);
 		setSRMMTemplateFilename(tmpPath);
 		db_free(&dbv);
 	}
@@ -1013,26 +1026,26 @@ void ProtocolSettings::readFromDb()
 	setChatFlags(g_plugin.getDword(dbsName, 16128));
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		if (strncmp(tmpPath, "http://", 7))
-			PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		if (wcsncmp(tmpPath, L"http://", 7))
+			PathToAbsoluteW(dbv.pwszVal, tmpPath);
 
 		setChatBackgroundFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		if (strncmp(tmpPath, "http://", 7))
-			PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		if (wcsncmp(tmpPath, L"http://", 7))
+			PathToAbsoluteW(dbv.pwszVal, tmpPath);
 
 		setChatCssFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		PathToAbsoluteW(dbv.pwszVal, tmpPath);
 		setChatTemplateFilename(tmpPath);
 		db_free(&dbv);
 	}
@@ -1048,26 +1061,26 @@ void ProtocolSettings::readFromDb()
 	setHistoryFlags(g_plugin.getDword(dbsName, 16128));
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		if (strncmp(tmpPath, "http://", 7))
-			PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		if (wcsncmp(tmpPath, L"http://", 7))
+			PathToAbsoluteW(dbv.pwszVal, tmpPath);
 
 		setHistoryBackgroundFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		if (strncmp(tmpPath, "http://", 7))
-			PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		if (wcsncmp(tmpPath, L"http://", 7))
+			PathToAbsoluteW(dbv.pwszVal, tmpPath);
 
 		setHistoryCssFilename(tmpPath);
 		db_free(&dbv);
 	}
 
 	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
-	if (!g_plugin.getString(dbsName, &dbv)) {
-		PathToAbsolute(dbv.pszVal, tmpPath);
+	if (!g_plugin.getWString(dbsName, &dbv)) {
+		PathToAbsoluteW(dbv.pwszVal, tmpPath);
 		setHistoryTemplateFilename(tmpPath);
 		db_free(&dbv);
 	}
@@ -1075,19 +1088,19 @@ void ProtocolSettings::readFromDb()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void ProtocolSettings::setSRMMTemplateFilename(const char *filename)
+void ProtocolSettings::setSRMMTemplateFilename(const wchar_t *filename)
 {
 	srmmTemplateFilename = filename;
 	TemplateMap::loadTemplates(getSRMMTemplateFilename(), getSRMMTemplateFilename(), false);
 }
 
-void ProtocolSettings::setChatTemplateFilename(const char *filename)
+void ProtocolSettings::setChatTemplateFilename(const wchar_t *filename)
 {
 	chatTemplateFilename = filename;
 	TemplateMap::loadTemplates(getChatTemplateFilename(), getChatTemplateFilename(), false);
 }
 
-void ProtocolSettings::setHistoryTemplateFilename(const char *filename)
+void ProtocolSettings::setHistoryTemplateFilename(const wchar_t *filename)
 {
 	historyTemplateFilename = filename;
 	TemplateMap::loadTemplates(getHistoryTemplateFilename(), getHistoryTemplateFilename(), false);
@@ -1161,7 +1174,8 @@ void Options::saveProtocolSettings()
 			szProto = "_default_";
 
 		/* SRMM settings */
-		char dbsName[256], tmpPath[MAX_PATH];
+		char dbsName[256];
+		wchar_t tmpPath[MAX_PATH];
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_ENABLE);
 		g_plugin.setByte(dbsName, it->isSRMMEnable());
 		
@@ -1172,16 +1186,16 @@ void Options::saveProtocolSettings()
 		g_plugin.setDword(dbsName, it->getSRMMFlags());
 		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
-		PathToRelative(it->getSRMMBackgroundFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getSRMMBackgroundFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
-		PathToRelative(it->getSRMMCssFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getSRMMCssFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
-		PathToRelative(it->getSRMMTemplateFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getSRMMTemplateFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		/* Group Chat settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_ENABLE);
@@ -1194,16 +1208,16 @@ void Options::saveProtocolSettings()
 		g_plugin.setDword(dbsName, it->getChatFlags());
 		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
-		PathToRelative(it->getChatBackgroundFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getChatBackgroundFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
-		PathToRelative(it->getChatCssFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getChatCssFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
-		PathToRelative(it->getChatTemplateFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getChatTemplateFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		/* History settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_ENABLE);
@@ -1216,16 +1230,16 @@ void Options::saveProtocolSettings()
 		g_plugin.setDword(dbsName, it->getHistoryFlags());
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
-		PathToRelative(it->getHistoryBackgroundFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getHistoryBackgroundFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
-		PathToRelative(it->getHistoryCssFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getHistoryCssFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
-		PathToRelative(it->getHistoryTemplateFilename(), tmpPath);
-		g_plugin.setString(dbsName, tmpPath);
+		PathToRelativeW(it->getHistoryTemplateFilename(), tmpPath);
+		g_plugin.setWString(dbsName, tmpPath);
 	}
 
 	reload();

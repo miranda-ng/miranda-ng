@@ -134,7 +134,7 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA *lf, COL
 	}
 }
 
-const char *HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings *protoSettings)
+const wchar_t* HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings *protoSettings)
 {
 	return protoSettings->getHistoryTemplateFilename();
 }
@@ -161,8 +161,8 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 	CMStringA str;
 	if (protoSettings->getHistoryMode() == Options::MODE_CSS) {
-		const char *externalCSS = protoSettings->getHistoryCssFilename();
-		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+		auto *externalCSS = protoSettings->getHistoryCssFilename();
+		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%S\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
 		str.Append("<html><head>");

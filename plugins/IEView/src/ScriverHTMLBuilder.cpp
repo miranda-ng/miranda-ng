@@ -182,11 +182,11 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 	CMStringA str;
 	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
-		const char *externalCSS = protoSettings->getSRMMCssFilename();
-		if (strncmp(externalCSS, "http://", 7))
-			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"file://%s\"/></head><body class=\"body\">\n", externalCSS);
+		auto *externalCSS = protoSettings->getSRMMCssFilename();
+		if (wcsncmp(externalCSS, L"http://", 7))
+			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"file://%S\"/></head><body class=\"body\">\n", externalCSS);
 		else
-			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%S\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
 		HDC hdc = GetDC(nullptr);

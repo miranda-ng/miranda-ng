@@ -54,24 +54,24 @@ class ProtocolSettings
 	bool srmmEnable;
 	int  srmmMode;
 	int  srmmFlags;
-	CMStringA srmmBackgroundFilename;
-	CMStringA srmmCssFilename;
-	CMStringA srmmTemplateFilename;
+	CMStringW srmmBackgroundFilename;
+	CMStringW srmmCssFilename;
+	CMStringW srmmTemplateFilename;
 
 	bool chatEnable;
 	int  chatMode;
 	int  chatFlags;
-	CMStringA chatBackgroundFilename;
-	CMStringA chatCssFilename;
-	CMStringA chatTemplateFilename;
+	CMStringW chatBackgroundFilename;
+	CMStringW chatCssFilename;
+	CMStringW chatTemplateFilename;
 
 	bool historyEnable;
 	int historyMode;
 	int historyFlags;
-	CMStringA historyBackgroundFilename;
-	CMStringA historyCssFilename;
-	CMStringA historyCssFilenameRtl;
-	CMStringA historyTemplateFilename;
+	CMStringW historyBackgroundFilename;
+	CMStringW historyCssFilename;
+	CMStringW historyCssFilenameRtl;
+	CMStringW historyTemplateFilename;
 
 public:
 	ProtocolSettings(const char *protocolName);
@@ -90,14 +90,14 @@ public:
 	__forceinline void setSRMMFlags(int flags) { this->srmmFlags = flags; }
 	__forceinline int getSRMMFlags() { return srmmFlags; }
 	
-	__forceinline void setSRMMBackgroundFilename(const char *filename) { srmmBackgroundFilename = filename; }
-	__forceinline const char* getSRMMBackgroundFilename() { return srmmBackgroundFilename; }
+	__forceinline void setSRMMBackgroundFilename(const wchar_t *filename) { srmmBackgroundFilename = filename; }
+	__forceinline const wchar_t* getSRMMBackgroundFilename() { return srmmBackgroundFilename; }
 
-	__forceinline void setSRMMCssFilename(const char *filename) { srmmCssFilename = filename; }
-	__forceinline const char* getSRMMCssFilename() { return srmmCssFilename; }
+	__forceinline void setSRMMCssFilename(const wchar_t *filename) { srmmCssFilename = filename; }
+	__forceinline const wchar_t* getSRMMCssFilename() { return srmmCssFilename; }
 	
-	              void setSRMMTemplateFilename(const char *filename);
-	__forceinline const char* getSRMMTemplateFilename() { return srmmTemplateFilename; }
+	              void setSRMMTemplateFilename(const wchar_t *filename);
+	__forceinline const wchar_t* getSRMMTemplateFilename() { return srmmTemplateFilename; }
 
 	__forceinline void setChatEnable(bool enable) { this->chatEnable = enable; }
 	__forceinline bool isChatEnable() { return chatEnable; }
@@ -108,14 +108,14 @@ public:
 	__forceinline void setChatFlags(int flags) { this->chatFlags = flags; }
 	__forceinline int getChatFlags() { return chatFlags; }
 	
-	__forceinline void setChatBackgroundFilename(const char *filename) { chatBackgroundFilename = filename; }
-	__forceinline const char* getChatBackgroundFilename() { return chatBackgroundFilename; }
+	__forceinline void setChatBackgroundFilename(const wchar_t *filename) { chatBackgroundFilename = filename; }
+	__forceinline const wchar_t* getChatBackgroundFilename() { return chatBackgroundFilename; }
 	
-	__forceinline void setChatCssFilename(const char *filename) { chatCssFilename = filename; }
-	__forceinline const char* getChatCssFilename() { return chatCssFilename; }
+	__forceinline void setChatCssFilename(const wchar_t *filename) { chatCssFilename = filename; }
+	__forceinline const wchar_t* getChatCssFilename() { return chatCssFilename; }
 
-	              void setChatTemplateFilename(const char *filename);
-	__forceinline const char* getChatTemplateFilename() { return chatTemplateFilename; }
+	              void setChatTemplateFilename(const wchar_t *filename);
+	__forceinline const wchar_t* getChatTemplateFilename() { return chatTemplateFilename; }
 
 	__forceinline void setHistoryEnable(bool enable) { this->historyEnable = enable; }
 	__forceinline bool isHistoryEnable() { return historyEnable; }
@@ -126,14 +126,14 @@ public:
 	__forceinline void setHistoryFlags(int flags) { this->historyFlags = flags; }
 	__forceinline int getHistoryFlags() { return historyFlags; }
 	
-	__forceinline void setHistoryBackgroundFilename(const char *filename) { historyBackgroundFilename = filename; }
-	__forceinline const char* getHistoryBackgroundFilename() { return historyBackgroundFilename; }
+	__forceinline void setHistoryBackgroundFilename(const wchar_t *filename) { historyBackgroundFilename = filename; }
+	__forceinline const wchar_t* getHistoryBackgroundFilename() { return historyBackgroundFilename; }
 	
-	__forceinline void setHistoryCssFilename(const char *filename) { historyCssFilename = filename; }
-	__forceinline const char* getHistoryCssFilename() { return historyCssFilename; }
+	__forceinline void setHistoryCssFilename(const wchar_t *filename) { historyCssFilename = filename; }
+	__forceinline const wchar_t* getHistoryCssFilename() { return historyCssFilename; }
 	
-	              void setHistoryTemplateFilename(const char *filename);
-	__forceinline const char* getHistoryTemplateFilename() { return historyTemplateFilename; }
+	              void setHistoryTemplateFilename(const wchar_t *filename);
+	__forceinline const wchar_t* getHistoryTemplateFilename() { return historyTemplateFilename; }
 };
 
 namespace Options

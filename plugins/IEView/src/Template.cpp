@@ -226,7 +226,7 @@ TemplateMap::~TemplateMap()
 	clear();
 }
 
-TemplateMap* TemplateMap::add(const char *id, const char *filename)
+TemplateMap* TemplateMap::add(const char *id, const wchar_t *filename)
 {
 	TemplateMap *map;
 	for (map = m_mapList; map != nullptr; map = map->m_next) {
@@ -313,21 +313,21 @@ static TokenDef templateNames[] = {
 	TokenDef("<!--hMessageOutGroupEndRTL-->")
 };
 
-TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename, bool onlyInfo)
+TemplateMap* TemplateMap::loadTemplateFile(const wchar_t *id, const wchar_t *filename, bool onlyInfo)
 {
 	char lastTemplate[1024], tmp2[1024];
-	if (filename == nullptr || mir_strlen(filename) == 0)
+	if (filename == nullptr || mir_wstrlen(filename) == 0)
 		return nullptr;
 
-	FILE *fh = fopen(filename, "rt");
+	FILE *fh = _wfopen(filename, L"rt");
 	if (fh == nullptr)
 		return nullptr;
 
 	TemplateMap *tmap;
 	if (!onlyInfo)
-		tmap = TemplateMap::add(id, filename);
+		tmap = TemplateMap::add(_T2A(id), filename);
 	else
-		tmap = new TemplateMap(id);
+		tmap = new TemplateMap(_T2A(id));
 
 	char store[4096];
 	bool wasTemplate = false;
@@ -407,13 +407,13 @@ TemplateMap* TemplateMap::getTemplateMap(const char *proto)
 	return nullptr;
 }
 
-void TemplateMap::setFilename(const char *filename)
+void TemplateMap::setFilename(const wchar_t *filename)
 {
-	replaceStr(m_filename, filename);
+	replaceStrW(m_filename, filename);
 	Utils::convertPath(m_filename);
 }
 
-TemplateMap* TemplateMap::loadTemplates(const char *id, const char *filename, bool onlyInfo)
+TemplateMap* TemplateMap::loadTemplates(const wchar_t *id, const wchar_t *filename, bool onlyInfo)
 {
 	return loadTemplateFile(id, filename, onlyInfo);
 }

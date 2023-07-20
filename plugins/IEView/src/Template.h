@@ -98,7 +98,7 @@ class TemplateMap
 {
 	static TemplateMap *m_mapList;
 	char *m_name;
-	char *m_filename;
+	wchar_t *m_filename;
 	bool  m_grouping;
 	bool  m_rtl;
 	Template *m_entries;
@@ -106,21 +106,21 @@ class TemplateMap
 	
 	TemplateMap(const char *name);
 	void addTemplate(const char *name, const char *text);
-	void setFilename(const char *filename);
+	void setFilename(const wchar_t *filename);
 	void clear();
 
-	static TemplateMap* add(const char *id, const char *filename);
-	static TemplateMap* loadTemplateFile(const char *proto, const char *filename, bool onlyInfo);
+	static TemplateMap* add(const char *id, const wchar_t *filename);
+	static TemplateMap* loadTemplateFile(const wchar_t *proto, const wchar_t *filename, bool onlyInfo);
 
 public:
 	~TemplateMap();
 	static Template* getTemplate(const char *id, const char *name);
 	static TemplateMap* getTemplateMap(const char *id);
-	static TemplateMap* loadTemplates(const char *id, const char *filename, bool onlyInfo);
+	static TemplateMap* loadTemplates(const wchar_t *id, const wchar_t *filename, bool onlyInfo);
 	static void dropTemplates();
 	Template* getTemplate(const char *text);
 
-	__forceinline const char* getFilename() { return m_filename; }
+	__forceinline const wchar_t* getFilename() { return m_filename; }
 
 	__forceinline bool isGrouping() const { return m_grouping; }
 	__forceinline bool isRTL() const { return m_rtl; }

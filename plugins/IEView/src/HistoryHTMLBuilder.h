@@ -32,7 +32,7 @@ protected:
 	char *timestampToString(time_t check);
 	bool isDbEventShown(const DB::EventInfo &dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);
-	const char *getTemplateFilename(ProtocolSettings *);
+	const wchar_t *getTemplateFilename(ProtocolSettings *);
 	int getFlags(ProtocolSettings *);
 
 public:
