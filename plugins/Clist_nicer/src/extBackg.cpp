@@ -1513,45 +1513,45 @@ static void ApplyCLUISkin()
 static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_INITDIALOG: {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		CheckDlgButton(hwndDlg, IDC_EQUALSELECTION, (db_get_b(0, "CLCExt", "EXBK_EqualSelection", 1) == 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SELBLEND, db_get_b(0, "CLCExt", "EXBK_SelBlend", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SETALLBUTTONSKINNED, db_get_b(0, "CLCExt", "bskinned", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
+		SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETPOS, 0, cfg::dat.cornerRadius);
+
+		SendDlgItemMessage(hwndDlg, IDC_GRPPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(20, 0));
+		SendDlgItemMessage(hwndDlg, IDC_GRPPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.group_padding);
+
+		SendDlgItemMessage(hwndDlg, IDC_LASTITEMPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(40, 0));
+		SendDlgItemMessage(hwndDlg, IDC_LASTITEMPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.titleBarHeight);
+
+		CheckDlgButton(hwndDlg, IDC_APPLYINDENTBG, cfg::dat.bApplyIndentToBg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USEPERPROTO, cfg::dat.bUsePerProto ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OVERRIDEPERSTATUSCOLOR, cfg::dat.bOverridePerStatusColors ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FASTGRADIENT, cfg::dat.bWantFastGradients ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNORESELFORGROUPS, db_get_b(0, "CLC", "IgnoreSelforGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
+		{
 			DBVARIANT dbv;
-			TranslateDialogDefault(hwndDlg);
-
-			CheckDlgButton(hwndDlg, IDC_EQUALSELECTION, (db_get_b(0, "CLCExt", "EXBK_EqualSelection", 1) == 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SELBLEND, db_get_b(0, "CLCExt", "EXBK_SelBlend", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SETALLBUTTONSKINNED, db_get_b(0, "CLCExt", "bskinned", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
-			SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETPOS, 0, cfg::dat.cornerRadius);
-
-			SendDlgItemMessage(hwndDlg, IDC_GRPPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(20, 0));
-			SendDlgItemMessage(hwndDlg, IDC_GRPPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.group_padding);
-
-			SendDlgItemMessage(hwndDlg, IDC_LASTITEMPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(40, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LASTITEMPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.titleBarHeight);
-
-			CheckDlgButton(hwndDlg, IDC_APPLYINDENTBG, cfg::dat.bApplyIndentToBg ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_USEPERPROTO, cfg::dat.bUsePerProto ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OVERRIDEPERSTATUSCOLOR, cfg::dat.bOverridePerStatusColors ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FASTGRADIENT, cfg::dat.bWantFastGradients ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IGNORESELFORGROUPS, db_get_b(0, "CLC", "IgnoreSelforGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			if (!db_get_s(0, "CLC", "ContactSkins", &dbv)) {
-				SetDlgItemTextA(hwndDlg, IDC_SKINFILE, dbv.pszVal);
+			if (!db_get_ws(0, "CLC", "ContactSkins", &dbv)) {
+				SetDlgItemTextW(hwndDlg, IDC_SKINFILE, dbv.pwszVal);
 				db_free(&dbv);
 				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, TRUE);
 			}
-			else
-				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, FALSE);
+			else Utils::enableDlgControl(hwndDlg, IDC_RELOAD, FALSE);
+
 			CheckDlgButton(hwndDlg, IDC_USESKIN, db_get_b(0, "CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, dbv.pwszVal);
 				db_free(&dbv);
 			}
-			else
-				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, L"");
-			return TRUE;
+			else SetDlgItemText(hwndDlg, IDC_SKINFILENAME, L"");
 		}
+		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_USESKIN:
@@ -1679,8 +1679,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				SKINDESCRIPTION sd = { 0 };
 				sd.cbSize = sizeof(sd);
 				sd.StatusItems = arStatusItems.getArray();
-				sd.hWndParent = hwnd;
-				sd.hWndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
+				sd.hwndParent = hwnd;
+				sd.hwndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
 				sd.pfnSaveCompleteStruct = SaveCompleteStructToDB;
 				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount();
 				sd.firstItem = ID_STATUS_OFFLINE;

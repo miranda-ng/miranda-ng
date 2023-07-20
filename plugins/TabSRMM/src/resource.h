@@ -62,7 +62,6 @@
 #define IDD_OPTIONS3                    407
 #define IDD_OPTIONS4                    408
 #define IDC_EXCEPTION_DETAILS           1000
-#define IDC_UNLOAD                      1000
 #define IDC_READNEXT                    1000
 #define IDC_MINIMIZE                    1000
 #define IDC_COPY_EXCEPTION              1001

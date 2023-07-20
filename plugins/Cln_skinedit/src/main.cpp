@@ -879,14 +879,14 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 	if (psd->cbSize != sizeof(SKINDESCRIPTION))
 		return 0;
 
-	iTabs = TabCtrl_GetItemCount(psd->hWndTab);
-	GetClientRect(psd->hWndParent, &rcClient);
+	iTabs = TabCtrl_GetItemCount(psd->hwndTab);
+	GetClientRect(psd->hwndParent, &rcClient);
 
 	tci.mask = TCIF_PARAM | TCIF_TEXT;
-	tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hWndParent, SkinEdit_ExtBkDlgProc, (LPARAM)psd);
+	tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hwndParent, SkinEdit_ExtBkDlgProc, (LPARAM)psd);
 
 	tci.pszText = TranslateT("Skin items");
-	TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
+	TabCtrl_InsertItem(psd->hwndTab, iTabs++, &tci);
 	MoveWindow((HWND)tci.lParam, 5, 25, rcClient.right - 9, rcClient.bottom - 60, 1);
 	psd->hwndSkinEdit = (HWND)tci.lParam;
 	return (INT_PTR)psd->hwndSkinEdit;
