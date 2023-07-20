@@ -137,10 +137,6 @@ HRESULT PreLoadContactListModule()
 	return S_OK;
 }
 
-INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam);
-INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam);
-INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam);
-
 HRESULT CluiLoadModule()
 {
 	InitAwayMsgModule();
@@ -148,11 +144,6 @@ HRESULT CluiLoadModule()
 	HookEvent(ME_SYSTEM_SHUTDOWN, CListMod_ContactListShutdownProc);
 	HookEvent(ME_OPT_INITIALISE, CListOptInit);
 	HookEvent(ME_OPT_INITIALISE, SkinOptInit);
-
-	CreateServiceFunction("ModernSkinSel/Active", SvcActiveSkin);
-	CreateServiceFunction("ModernSkinSel/Preview", SvcPreviewSkin);
-	CreateServiceFunction("ModernSkinSel/Apply", SvcApplySkin);
-
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 
 	CreateServiceFunction(MS_CLIST_TOGGLEHIDEOFFLINE, ToggleHideOffline);
