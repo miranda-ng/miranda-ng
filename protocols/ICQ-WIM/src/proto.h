@@ -226,7 +226,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          StartSession(void);
 				     
 	void          CheckAvatarChange(MCONTACT hContact, const JSONNode&);
-	IcqFileInfo*  CheckFile(MCONTACT hContact, CMStringW &wszFileName, bool &bIsFile);
+	bool          CheckFile(MCONTACT hContact, CMStringW &wszFileName, IcqFileInfo* &pFileInfo);
 	void          CheckLastId(MCONTACT hContact, const JSONNode&);
 	void          Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
 	void          Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);

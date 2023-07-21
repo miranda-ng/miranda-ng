@@ -364,6 +364,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 	bool bSilent = (pre->dwFlags & PRFF_SILENT) != 0;
 	bool bSent = (pre->dwFlags & PRFF_SENT) != 0;
+	bool bRead = (pre->dwFlags & PRFF_READ) != 0;
 
 	DB::EventInfo dbei;
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
@@ -374,7 +375,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	dbei.flags = DBEF_UTF;
 	if (bSent)
 		dbei.flags |= DBEF_SENT;
-	if (pre->dwFlags & PRFF_READ)
+	if (bRead)
 		dbei.flags |= DBEF_READ;
 
 	CMStringW wszFiles, wszDescr;
@@ -411,7 +412,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	MEVENT hdbe = db_event_add(hContact, &dbei);
 
 	// yes, we can receive a file that was sent from another device. let's ignore it
-	if (!bSent) {
+	// also do not notify about events been already read
+	if (!bSent && !bRead) {
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hdbe;

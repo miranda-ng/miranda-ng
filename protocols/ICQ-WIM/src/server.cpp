@@ -174,22 +174,22 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 	return pFileInfo;
 }
 
-IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &bIsFile)
+bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
-	bIsFile = false;
+	pFileInfo = nullptr;
 	CMStringW wszUrl(fileText2url(wszText));
 
 	// is it already downloaded sticker?
 	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
 	if (!_waccess(wszLoadedPath, 0)) {
 		wszText.Format(L"STK{%s}", wszUrl.c_str());
-		return (IcqFileInfo *)this;
+		return true;
 	}
 
 	// download file info
-	auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl);
+	pFileInfo = RetrieveFileInfo(hContact, wszUrl);
 	if (!pFileInfo)
-		return nullptr;
+		return false;
 
 	// is it a sticker?
 	if (pFileInfo->bIsSticker) {
@@ -201,18 +201,15 @@ IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &b
 			pNew->AddHeader("Sec-Fetch-Site", "cross-site");
 			pNew->AddHeader("Sec-Fetch-Mode", "navigate");
 			if (!ExecuteRequest(pNew))
-				return nullptr;
+				return false;
 
 			wszText.Format(L"STK{%s}", wszUrl.c_str());
 		}
 		else wszText = TranslateT("SmileyAdd plugin required to support stickers");
 	}
-	else {
-		pFileInfo->szOrigUrl = wszText;
-		bIsFile = true;
-	}
+	else pFileInfo->szOrigUrl = wszText;
 
-	return pFileInfo;
+	return true;
 }
 
 void CIcqProto::CheckStatus()
@@ -463,12 +460,21 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead, bool bLocalTime)
 {
-	CMStringA szMsgId(it["msgId"].as_mstring());
+	CMStringA szMsgId(it["msgId"].as_mstring()), szSender;
 	__int64 msgId = _atoi64(szMsgId);
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
 
+	// ignore duplicates
+	if (db_event_getById(m_szModuleName, szMsgId)) {
+		debugLogA("Message %s already exists", szMsgId.c_str());
+		return;
+	}
+
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
+
+	if (auto &node = it["chat"]["sender"])
+		szSender = node.as_mstring();
 
 	CMStringW wszText;
 	const JSONNode &sticker = it["sticker"];
@@ -527,12 +533,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		}
 	}
 
-	bool bIsOutgoing = it["outgoing"].as_bool(), bIsFileTransfer = false;
-	std::unique_ptr<IcqFileInfo> pFileInfo = nullptr;
+	bool bIsOutgoing = it["outgoing"].as_bool();
+	IcqFileInfo *pFileInfo = nullptr;
 
-	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-		pFileInfo.reset(CheckFile(hContact, wszText, bIsFileTransfer));
-		if (!pFileInfo) {
+	if (!bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+		if (!CheckFile(hContact, wszText, pFileInfo)) {
 			debugLogA("Some shit happened, report this case to developers");
 			return;
 		}
@@ -555,15 +560,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	else if (Contact::IsGroupChat(hContact))
 		bCreateRead = true;
 
-	// ignore duplicates
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-	if (hDbEvent != 0) {
-		debugLogA("Message %s already exists", szMsgId.c_str());
-		return;
-	}
-
 	// convert a file info into Miranda's file transfer
-	if (bIsFileTransfer) {
+	if (pFileInfo) {
 		ptrW pwszFileName(mir_utf8decodeW(pFileInfo->szUrl));
 		if (pwszFileName == nullptr)
 			pwszFileName = mir_a2u(pFileInfo->szUrl);
@@ -574,10 +572,15 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		PROTORECVFILE pre = {};
 		pre.dwFlags = PRFF_UNICODE | PRFF_SILENT;
 		pre.fileCount = 1;
+		pre.szId = szMsgId;
 		pre.timestamp = iMsgTime;
 		pre.files.w = &m_wszShortName;
 		pre.descr.w = pFileInfo->wszDescr;
-		pre.lParam = (LPARAM)pFileInfo.release();
+		pre.lParam = (LPARAM)pFileInfo;
+		if (bCreateRead)
+			pre.dwFlags |= PRFF_READ;
+		if (isChatRoom(hContact))
+			pre.szUserId = szSender;
 		ProtoChainRecvFile(hContact, &pre);
 		return;
 	}
@@ -592,7 +595,6 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	debugLogA("Adding message %d:%lld (CR=%d)", hContact, msgId, bCreateRead);
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
-	CMStringA szSender(it["chat"]["sender"].as_mstring());
 
 	PROTORECVEVENT pre = {};
 	pre.szMsgId = szMsgId;
