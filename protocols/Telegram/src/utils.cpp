@@ -304,7 +304,7 @@ bool CTelegramProto::GetMessageFile(
 		pre.descr.a = caption.c_str();
 	if (pMsg->is_outgoing_)
 		pre.dwFlags |= PRFF_SENT;
-	ProtoChainRecvFile(pUser->hContact, &pre);
+	ProtoChainRecvFile(GetRealContact(pUser), &pre);
 	return true;
 }
 
