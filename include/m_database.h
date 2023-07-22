@@ -701,7 +701,7 @@ namespace DB
 
 	class MIR_APP_EXPORT FILE_BLOB : public MNonCopyable
 	{
-		ptrW m_wszFileName, m_wszDescription;
+		ptrW m_wszFileName, m_wszDescription, m_wszLocalName;
 		ptrA m_szProtoString;
 		int64_t m_iFileSize = -1, m_iTransferred = -1;
 
@@ -713,6 +713,7 @@ namespace DB
 		void write(EventInfo &dbei);
 
 		__forceinline const char* getUrl() const { return m_szProtoString; }
+		__forceinline const wchar_t* getLocalName() const { return m_wszLocalName; }
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
 		__forceinline const wchar_t* getDescr() const { return m_wszDescription; }
 		
@@ -724,6 +725,7 @@ namespace DB
 
 		__forceinline void setUrl(const char *pszUrl) { m_szProtoString = mir_strdup(pszUrl); }
 		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
+		__forceinline void setLocalName(const wchar_t *pszFileName) { m_wszLocalName = mir_wstrdup(pszFileName); }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

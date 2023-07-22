@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "chat.h"
+#include "file.h"
 
 const char *g_pszHotkeySection;
 
@@ -115,8 +116,18 @@ OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
 
 void OFDTHREAD::Finish()
 {
+	DBVARIANT dbv = { DBVT_WCHAR };
+	dbv.pwszVal = wszPath.GetBuffer();
+	db_event_setJson(hDbEvent, "lf", &dbv);
+
 	if (bOpen)
 		ShellExecuteW(nullptr, L"open", wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+}
+
+void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
+{
+	if (mir_wstrlen(pwszNewName))
+		wszPath = FindUniqueFileName(pwszNewName);
 }
 
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
@@ -129,24 +140,26 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
 	if (!blob.isOffline())
 		return;
 
-	CMStringW tszFilePath(Srmm_GetOfflineFileName(db_event_getContact(hDbEvent)));
-	CreateDirectoryTreeW(tszFilePath);
-	tszFilePath.Append(blob.getName());
+	if (!mir_wstrlen(blob.getLocalName())) {
+		wchar_t wszReceiveFolder[MAX_PATH];
+		GetContactReceivedFilesDir(db_event_getContact(hDbEvent), wszReceiveFolder, _countof(wszReceiveFolder), true);
+		CreateDirectoryTreeW(wszReceiveFolder);
+
+		MFilePath wszFullName(wszReceiveFolder);
+		wszFullName.AppendFormat(L"\\%s", blob.getName());
+		blob.setLocalName(FindUniqueFileName(wszFullName));
+	}
 
 	struct _stat st = {};
-	_wstat(tszFilePath, &st);
+	_wstat(blob.getLocalName(), &st);
 	if (st.st_size && st.st_size == blob.getSize() && blob.isCompleted()) {
-		OFDTHREAD(hDbEvent, tszFilePath, bOpen).Finish();
+		if (bOpen)
+			ShellExecuteW(nullptr, L"open", blob.getLocalName(), nullptr, nullptr, SW_SHOWDEFAULT);
 	}
 	else {
-		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, tszFilePath, bOpen);
+		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), bOpen);
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
 	}
-}
-
-MIR_APP_DLL(CMStringW) Srmm_GetOfflineFileName(MCONTACT hContact)
-{
-	return CMStringW(FORMAT, VARSW(L"%miranda_userdata%\\dlFiles\\%u\\"), hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

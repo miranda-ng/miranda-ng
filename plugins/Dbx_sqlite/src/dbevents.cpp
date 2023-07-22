@@ -287,6 +287,13 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void str2json(CMStringA &str)
+{
+	str.Replace("\\", "\\\\");
+}
+
 int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
 {
 	if (hDbEvent == 0)
@@ -310,7 +317,18 @@ int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *
 			break;
 		case DBVT_ASCIIZ:
 		case DBVT_UTF8:
-			sqlite3_bind_text(stmt, 2, dbv->pszVal, (int)mir_strlen(dbv->pszVal), nullptr);
+			{
+				tmp = dbv->pszVal;
+				str2json(tmp);
+				sqlite3_bind_text(stmt, 2, tmp, tmp.GetLength(), nullptr);
+			}
+			break;
+		case DBVT_WCHAR:
+			{
+				tmp = T2Utf(dbv->pwszVal).get();
+				str2json(tmp);
+				sqlite3_bind_text(stmt, 2, tmp, tmp.GetLength(), nullptr);
+			}
 			break;
 		default:
 			return 2;

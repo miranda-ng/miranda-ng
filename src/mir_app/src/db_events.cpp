@@ -310,6 +310,12 @@ DB::FILE_BLOB::FILE_BLOB(const DB::EventInfo &dbei)
 		m_wszFileName = root["f"].as_mstring().Detach();
 		m_wszDescription = root["d"].as_mstring().Detach();
 
+		if (auto &node = root["lf"]) {
+			CMStringW tmp = node.as_mstring();
+			tmp.Replace(L"\\\\", L"\\");
+			m_wszLocalName = tmp.Detach();
+		}
+
 		CMStringA szProtoString(root["u"].as_mstring());
 		if (!szProtoString.IsEmpty()) {
 			m_szProtoString = szProtoString.Detach();

@@ -23,26 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "file.h"
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files);
-
-static void FreeFilesMatrix(wchar_t ***files)
-{
-	if (*files == nullptr)
-		return;
-
-	// Free each filename in the pointer array
-	wchar_t **pFile = *files;
-	while (*pFile != nullptr) {
-		mir_free(*pFile);
-		*pFile = nullptr;
-		pFile++;
-	}
-
-	// Free the array itself
-	mir_free(*files);
-	*files = nullptr;
-}
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 {

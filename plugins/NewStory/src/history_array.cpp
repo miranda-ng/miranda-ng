@@ -131,15 +131,15 @@ void ItemData::load(bool bFullLoad)
 			CMStringW wszFileName;
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
-				wszFileName = Srmm_GetOfflineFileName(hContact);
+				wszFileName = blob.getLocalName();
 			}
 			else {
 				wchar_t buf[MAX_PATH];
 				CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
 
 				wszFileName = buf;
+				wszFileName.Append(blob.getName());
 			}
-			wszFileName.Append(blob.getName());
 
 			// if a filename contains spaces, URL will be broken
 			if (wszFileName.Find(' ') != -1) {

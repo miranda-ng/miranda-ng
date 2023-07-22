@@ -815,6 +815,7 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 	OFDTHREAD(MEVENT, const CMStringW &, bool);
 
 	void Finish();
+	void ResetFileName(const wchar_t *pwszNewName);
 
 	MEVENT hDbEvent;
 	CMStringW wszPath;

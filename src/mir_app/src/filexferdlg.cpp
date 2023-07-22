@@ -443,7 +443,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			case FILERESUME_RENAMEALL:
 				pfr->action = FILERESUME_RENAME;
-				replaceStrW(pfr->szFilename, FindUniqueFileName(szOriginalFilename).Detach());
+				replaceStrW(pfr->szFilename, CreateUniqueFileName(szOriginalFilename).Detach());
 				break;
 			}
 

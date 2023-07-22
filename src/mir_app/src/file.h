@@ -74,23 +74,7 @@ struct FileDlgData : public MZeroedObject
 };
 
 // file.c
-#define UNITS_BYTES     1   // 0 <= size<1000: "%d bytes"
-#define UNITS_KBPOINT1	2	// 1000 <= size<100*1024: "%.1f KB"
-#define UNITS_KBPOINT0  3   // 100*1024 <= size<1024*1024: "%d KB"
-#define UNITS_MBPOINT2  4   // 1024*1024 <= size: "%.2f MB"
-#define UNITS_GBPOINT3  5   // 1024*1024*1024 <= size: "%.3f GB"
-
-int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
-
-void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
-void FreeFilesMatrix(wchar_t ***files);	  //loving that triple indirection
-void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
-void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
-void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
-
 MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre);
-
-CMStringW FindUniqueFileName(const wchar_t *pszOriginalFile);
 
 // filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -101,7 +85,7 @@ void RemoveInvalidFilenameChars(wchar_t *tszString);
 void RemoveInvalidPathChars(wchar_t *tszString);
 void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL substVars);
 void GetReceivedFilesDir(wchar_t *szDir, int cchDir);
-int BrowseForFolder(HWND hwnd, wchar_t *szPath);
+int  BrowseForFolder(HWND hwnd, wchar_t *szPath);
 
 // fileexistsdlg.c
 struct TDlgProcFileExistsParam
@@ -144,6 +128,16 @@ namespace File
 };
 
 // fieutils.c
+void FreeFilesMatrix(wchar_t ***files);	  //loving that triple indirection
+void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
+void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
+void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 
 wchar_t *PFTS_StringToTchar(int flags, const MAllStrings s);
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const MAllStrings s, wchar_t *r);
+int  PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const MAllStrings s, wchar_t *r);
+
+CMStringW CreateUniqueFileName(const wchar_t *pszOriginalFile);
+CMStringW FindUniqueFileName(const wchar_t *pszOriginalFile);
+
+int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
+void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);

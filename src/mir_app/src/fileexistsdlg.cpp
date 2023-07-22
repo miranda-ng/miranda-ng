@@ -163,14 +163,14 @@ void __cdecl LoadIconsAndTypesThread(void *param)
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0] = '\0';
 		if (!mir_wstrcmp(szExtension, L"EXE"))
-			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"2", szIconFile, _countof(szIconFile));
+			GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"2", szIconFile, _countof(szIconFile));
 		else {
 			wchar_t szTypeName[MAX_PATH];
-			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, _countof(szTypeName))) {
+			if (GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, _countof(szTypeName))) {
 				mir_wstrcat(szTypeName, L"\\DefaultIcon");
-				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, _countof(szIconFile))) {
+				if (GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, _countof(szIconFile))) {
 					if (wcsstr(szIconFile, L"%1"))
-						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"0", szIconFile, _countof(szIconFile));
+						GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"0", szIconFile, _countof(szIconFile));
 					else szIconFile[0] = '\0';
 				}
 			}

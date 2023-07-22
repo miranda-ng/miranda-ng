@@ -247,7 +247,6 @@ Srmm_RedrawToolbarIcons @338
 ?Srmm_GetButtonCount@@YAHXZ @340 NONAME
 ?Srmm_ClickToolbarIcon@@YAXIHPEAUHWND__@@H@Z @341 NONAME
 ?Srmm_DownloadOfflineFile@@YAXI_N@Z @342 NONAME
-?Srmm_GetOfflineFileName@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@I@Z @343 NONAME
 Miranda_OkToExit @344
 Miranda_GetVersion @345
 Miranda_GetFileVersion @346
@@ -879,3 +878,6 @@ Clist_RemoveEvent @989
 ??0OFDTHREAD@@QEAA@IAEBV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@_N@Z @995 NONAME
 ??1OFDTHREAD@@QEAA@XZ @996 NONAME
 ?Finish@OFDTHREAD@@QEAAXXZ @997 NONAME
+?getLocalName@FILE_BLOB@DB@@QEBAPEB_WXZ @998 NONAME
+?setLocalName@FILE_BLOB@DB@@QEAAXPEB_W@Z @999 NONAME
+?ResetFileName@OFDTHREAD@@QEAAXPEB_W@Z @1000 NONAME

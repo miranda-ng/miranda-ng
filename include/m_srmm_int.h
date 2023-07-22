@@ -356,11 +356,6 @@ MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescr
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// retrieves offline file's name
-
-MIR_APP_DLL(CMStringW) Srmm_GetOfflineFileName(MCONTACT hContact);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // finds a SRMM window using hContact
 
 MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);

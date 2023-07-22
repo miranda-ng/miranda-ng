@@ -172,7 +172,7 @@ public:
 
 		for (int i = 0; i < _countof(virusScanners); i++) {
 			wchar_t szScanExe[MAX_PATH];
-			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe)))
+			if (GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe)))
 				cmbScanCmdLine.AddString(virusScanners[i].szProductName, i);
 		}
 
@@ -214,7 +214,7 @@ public:
 			return;
 
 		wchar_t szScanExe[MAX_PATH], str[512];
-		if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
+		if (GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
 			mir_snwprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
 		else
 			str[0] = 0;
