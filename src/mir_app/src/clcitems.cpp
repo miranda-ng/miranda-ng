@@ -606,7 +606,7 @@ struct SavedContactState_t
 struct SavedGroupState_t
 {
 	int groupId;
-	bool bExpanded, bSaveExpanded;
+	bool bExpanded;
 };
 
 struct SavedInfoState_t
