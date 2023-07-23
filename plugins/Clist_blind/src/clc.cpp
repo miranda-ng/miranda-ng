@@ -133,7 +133,7 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, bool call_ori
 			{
 				CMStringW wszText(template_group);
 				wszText.Replace(L"%name%", item->szText);
-				wszText.Replace(L"%mode%", item->group->expanded ? TranslateT("Expanded") : TranslateT("Collapsed"));
+				wszText.Replace(L"%mode%", item->group->bExpanded ? TranslateT("Expanded") : TranslateT("Collapsed"));
 
 				wchar_t *szCounts = Clist_GetGroupCountsText(dat, item);
 				wchar_t count[128];
@@ -178,7 +178,7 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, bool call_ori
 		lvi.lParam = LPARAM(item);
 		ListView_InsertItem(dat->hwnd_list, &lvi);
 
-		if (item->type == CLCIT_GROUP && item->group->expanded) {
+		if (item->type == CLCIT_GROUP && item->group->bExpanded) {
 			group = item->group;
 			level++;
 			group->scanIndex = 0;
@@ -319,9 +319,8 @@ static void RebuildEntireList(HWND hwnd, ClcData *dat)
 	RebuildEntireListInternal(hwnd, dat, true);
 }
 
-static void SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
+static void OnGroupExpanded(ClcData *dat, ClcGroup*)
 {
-	coreCli.pfnSetGroupExpand(hwnd, dat, group, newState);
 	dat->bNeedsRebuild = true;
 }
 
@@ -358,7 +357,7 @@ void InitClc()
 	g_clistApi.pfnContactListWndProc = ContactListWndProc;
 	g_clistApi.pfnContactListControlWndProc = ContactListControlWndProc;
 	g_clistApi.pfnRebuildEntireList = RebuildEntireList;
-	g_clistApi.pfnSetGroupExpand = SetGroupExpand;
+	g_clistApi.pfnOnGroupExpanded = OnGroupExpanded;
 	g_clistApi.pfnRecalcScrollBar = RecalcScrollBar;
 	g_clistApi.pfnScrollTo = ScrollTo;
 	g_clistApi.pfnLoadClcOptions = LoadClcOptions;

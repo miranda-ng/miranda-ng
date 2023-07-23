@@ -434,6 +434,7 @@ struct CLIST_INTERFACE
 	 * Miranda NG additions
 	 *************************************************************************************/
 	void     (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
+	void     (*pfnOnGroupExpanded)(ClcData *dat, ClcGroup *pGroup);
 };
 
 // retrieves the pointer to a CLIST_INTERFACE structure

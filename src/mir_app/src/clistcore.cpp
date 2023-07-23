@@ -56,6 +56,10 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 	return false;
 }
 
+static void fnOnGroupExpanded(ClcData *, ClcGroup *)
+{
+}
+
 void InitClistCore()
 {
 	g_clistApi.menuProtos = &g_menuProtos;
@@ -129,6 +133,7 @@ void InitClistCore()
 
 	g_clistApi.pfnTrayCalcChanged = fnTrayCalcChanged;
 	g_clistApi.pfnSetContactCheckboxes = fnSetContactCheckboxes;
+	g_clistApi.pfnOnGroupExpanded = fnOnGroupExpanded;
 }
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)

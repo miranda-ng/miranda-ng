@@ -297,6 +297,8 @@ MIR_APP_DLL(void) Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group,
 		group->bExpanded = newState != 0;
 	}
 
+	g_clistApi.pfnOnGroupExpanded(dat, group);
+
 	g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 	int contentCount = g_clistApi.pfnGetGroupContentsCount(group, 1);
 	int groupy = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
