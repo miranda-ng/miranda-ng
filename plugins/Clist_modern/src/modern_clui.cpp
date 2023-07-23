@@ -74,7 +74,6 @@ static uint8_t bAlphaEnd;
 static int bOldHideOffline;
 static int bOldHideEmptyGroups;
 static int bOldUseGroups;
-static int bOldFoldGroups;
 
 static uint16_t wBehindEdgeShowDelay,
 wBehindEdgeHideDelay,
@@ -313,7 +312,6 @@ CLUI::CLUI() :
 	bOldUseGroups = Clist::UseGroups;
 
 	g_CluiData.bOldFoldGroups = -1;
-	bOldFoldGroups = -1;
 }
 
 CLUI::~CLUI()

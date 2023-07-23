@@ -33,6 +33,7 @@ $Id: viewmodes.c 2998 2006-06-01 07:11:52Z nightwish2004 $
 
 HWND  g_ViewModeOptDlg = nullptr;
 
+static int iOldFoldGroups = -1;
 static HWND hwndSelector = nullptr;
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
@@ -598,6 +599,7 @@ public:
 		UpdateTriState(IDC_USEGROUPS, dwFlags & CLVM_USEGROUPS, dwFlags & CLVM_DONOTUSEGROUPS);
 		UpdateTriState(IDC_FOLD_GROUPS, dwFlags & CLVM_FOLDGROUPS, dwFlags & CLVM_UNFOLDGROUPS);
 		UpdateTriState(IDC_HIDEEMPTYGROUPS, dwFlags & CLVM_HIDEEMPTYGROUPS, dwFlags & CLVM_SHOWEMPTYGROUPS);
+		onChange_UseGroups(0);
 
 		int useLastMsg = dwFlags & CLVM_USELASTMSG;
 		chkLastMsg.SetState(useLastMsg);
@@ -1345,37 +1347,40 @@ void ApplyViewMode(const char *szName)
 			g_CluiData.bOldHideOffline = -1;
 		}
 
-		int bUseGroups = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
-		if (bUseGroups != -1) {
+		int iValue = (g_CluiData.filterFlags & CLVM_FOLDGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_UNFOLDGROUPS) ? 0 : -1);
+		if (iValue != -1) {
+			if (g_CluiData.bOldFoldGroups == -1)
+				g_CluiData.bOldFoldGroups = !Clist::UseGroups;
+
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, iValue ? CLE_COLLAPSE : CLE_EXPAND);
+		}
+		else if (g_CluiData.bOldFoldGroups != -1) {
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
+			g_CluiData.bOldFoldGroups = -1;
+		}
+
+		iValue = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
+		if (iValue != -1) {
 			if (g_CluiData.bOldUseGroups == -1)
 				g_CluiData.bOldUseGroups = Clist::UseGroups;
 
-			CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
+			CallService(MS_CLIST_SETUSEGROUPS, iValue, 0);
 		}
 		else if (g_CluiData.bOldUseGroups != -1) {
 			CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
 			g_CluiData.bOldUseGroups = -1;
 		}
 
-		int bOldHideEmptyGroups = (g_CluiData.filterFlags & CLVM_HIDEEMPTYGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_SHOWEMPTYGROUPS) ? 0 : -1);
-		if (bOldHideEmptyGroups != -1) {
+		iValue = (g_CluiData.filterFlags & CLVM_HIDEEMPTYGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_SHOWEMPTYGROUPS) ? 0 : -1);
+		if (iValue != -1) {
 			if (g_CluiData.bOldHideEmptyGroups == -1)
 				g_CluiData.bOldHideEmptyGroups = Clist::HideEmptyGroups;
 
-			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, bOldHideEmptyGroups, 0);
+			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, iValue, 0);
 		}
 		else if (g_CluiData.bOldHideEmptyGroups != -1) {
 			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, g_CluiData.bOldHideEmptyGroups, 0);
 			g_CluiData.bOldHideEmptyGroups = -1;
-		}
-
-		int bOldFoldGroups = (g_CluiData.filterFlags & CLVM_FOLDGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_UNFOLDGROUPS) ? 0 : -1);
-		if (bOldFoldGroups != -1) {
-			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
-		}
-		else if (g_CluiData.bOldFoldGroups != -1) {
-			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
-			g_CluiData.bOldFoldGroups = -1;
 		}
 
 		SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));
