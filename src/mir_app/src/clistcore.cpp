@@ -87,7 +87,6 @@ void InitClistCore()
 	g_clistApi.pfnHitTest = fnHitTest;	
 	g_clistApi.pfnScrollTo = fnScrollTo;	
 	g_clistApi.pfnRecalcScrollBar = fnRecalcScrollBar;	
-	g_clistApi.pfnSetGroupExpand = fnSetGroupExpand;
 	g_clistApi.pfnFindRowByText = fnFindRowByText;	
 	g_clistApi.pfnBeginRenameSelection = fnBeginRenameSelection;
 	g_clistApi.pfnIsVisibleContact = fnIsVisibleContact;

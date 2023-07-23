@@ -373,7 +373,6 @@ uint32_t INTSORT_GetLastMsgTime(MCONTACT hContact);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // clcutils.c
-void   SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void   BeginRenameSelection(HWND hwnd, struct ClcData *dat);
 int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
 void   ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);

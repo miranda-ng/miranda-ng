@@ -118,7 +118,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 		return 0;
 
 	bool showOfflineinGroup = CLCItems_IsShowOfflineGroup(group);
-	bool gray2 = group->hideOffline == 0;
+	bool gray2 = !group->bHideOffline;
 
 	Menu_EnableItem(hShowOfflineUsersHereMenuItem, gray2);
 	Menu_SetChecked(hShowOfflineUsersHereMenuItem, showOfflineinGroup && gray2);

@@ -375,46 +375,6 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 }
 
-void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)
-{
-	int contentCount;
-	int groupy;
-	int newy;
-	int posy;
-	RECT clRect;
-	NMCLISTCONTROL nm;
-
-	if (newState == -1)
-		group->expanded ^= 1;
-	else {
-		if (group->expanded == (newState != 0))
-			return;
-		group->expanded = newState != 0;
-	}
-	InvalidateRect(hwnd, nullptr, FALSE);
-	contentCount = g_clistApi.pfnGetGroupContentsCount(group, 1);
-
-	groupy = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
-	if (dat->selection > groupy && dat->selection < groupy + contentCount) dat->selection = groupy;
-	g_clistApi.pfnRecalcScrollBar(hwnd, dat);
-
-	GetClientRect(hwnd, &clRect);
-	newy = dat->yScroll;
-	posy = RowHeight::getItemBottomY(dat, groupy + contentCount);
-	if (posy >= newy + clRect.bottom)
-		newy = posy - clRect.bottom;
-	posy = RowHeight::getItemTopY(dat, groupy);
-	if (newy > posy) newy = posy;
-	ScrollTo(hwnd, dat, newy, 0);
-
-	nm.hdr.code = CLN_EXPANDED;
-	nm.hdr.hwndFrom = hwnd;
-	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-	nm.hItem = (HANDLE)group->groupId;
-	nm.action = (group->expanded);
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
-}
-
 static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {

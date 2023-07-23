@@ -239,7 +239,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_
 				int contactScanIndex = group->scanIndex;
 				int foundindex;
 				for (; group; group = group->parent)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, group, 1);
+					Clist_SetGroupExpand(hwnd, dat, group, 1);
 				foundindex = g_clistApi.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
 				if (fReturnAsFound)
 					return foundindex;
@@ -253,7 +253,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_
 				group->scanIndex = contactScanIndex;
 			}
 			if (cc->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->bExpanded) {
 					group = cc->group;
 					group->scanIndex = 0;
 					continue;
@@ -278,7 +278,7 @@ static bool clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 
 	if (!group)
 		return false;
-	if (group->hideOffline)
+	if (group->bHideOffline)
 		return false;
 
 	if (CLCItems_IsShowOfflineGroup(group))
@@ -556,14 +556,14 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			}
 			else if (contact->type == CLCIT_GROUP) {
 				if (changeGroupExpand == 1) {
-					if (!contact->group->expanded) {
+					if (!contact->group->bExpanded) {
 						dat->selection--;
 						selMoved = 1;
 					}
-					else g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 0);
+					else Clist_SetGroupExpand(hwnd, dat, contact->group, 0);
 				}
 				else if (changeGroupExpand == 2) {
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 1);
+					Clist_SetGroupExpand(hwnd, dat, contact->group, 1);
 					dat->selection++;
 					selMoved = 1;
 				}
@@ -755,7 +755,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			ClcGroup *selgroup;
 			ClcContact *selcontact;
 			dat->selection = cliGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
-			g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+			Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
 			if (dat->selection != -1) {
 				dat->selection = cliGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				if (dat->selection == -1)
@@ -1374,10 +1374,10 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		if (contact && contact->iImage == lParam)
 			return 0;
 
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline) && clcItemNotHiddenOffline(group, contact))
+		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline) && clcItemNotHiddenOffline(group, contact))
 			shouldShow = TRUE;
 
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline)) { // CLVM changed
+		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->bHideOffline)) { // CLVM changed
 			if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
 			Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);

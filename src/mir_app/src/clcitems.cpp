@@ -70,8 +70,8 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 				if (pNextField == nullptr && flags != (uint32_t)-1) {
 					cc->groupId = (uint16_t)groupId;
 					group = cc->group;
-					group->expanded = (flags & GROUPF_EXPANDED) != 0;
-					group->hideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+					group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
+					group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
 					group->groupId = groupId;
 				}
 				else group = cc->group;
@@ -96,12 +96,11 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 			group = cc->group;
 
 			if (flags == (uint32_t)-1 || pNextField != nullptr) {
-				group->expanded = 0;
-				group->hideOffline = 0;
+				group->bExpanded = group->bHideOffline = false;
 			}
 			else {
-				group->expanded = (flags & GROUPF_EXPANDED) != 0;
-				group->hideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+				group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
+				group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
 			}
 			group->groupId = pNextField ? 0 : groupId;
 			group->totalMembers = 0;
@@ -264,7 +263,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	}
 
 	if (checkHideOffline) {
-		if (Clist_IsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+		if (Clist_IsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
 			if (updateTotalCount)
 				group->totalMembers++;
 			return;
@@ -349,8 +348,8 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
-	dat->list.expanded = 1;
-	dat->list.hideOffline = db_get_b(0, "CLC", "HideOfflineRoot", 0) && (style & CLS_USEGROUPS);
+	dat->list.bExpanded = true;
+	dat->list.bHideOffline = db_get_b(0, "CLC", "HideOfflineRoot", 0) && (style & CLS_USEGROUPS);
 	dat->list.cl.destroy();
 	dat->list.totalMembers = 0;
 	dat->selection = -1;
@@ -391,7 +390,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 					if (wcsstr(lowered_name, lowered_search))
 						g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 				}
-				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
 					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr) {
 						if (!Clist_IsHiddenMode(dat, ID_STATUS_OFFLINE) || g_clistApi.pfnIsVisibleContact(pce, group))
@@ -451,7 +450,7 @@ int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 		}
 
 		ClcContact *cc = group->cl[group->scanIndex];
-		if (cc->type == CLCIT_GROUP && (!visibleOnly || cc->group->expanded)) {
+		if (cc->type == CLCIT_GROUP && (!visibleOnly || cc->group->bExpanded)) {
 			group = cc->group;
 			group->scanIndex = 0;
 			count += group->cl.getCount();
@@ -606,7 +605,8 @@ struct SavedContactState_t
 
 struct SavedGroupState_t
 {
-	int groupId, expanded;
+	int groupId;
+	bool bExpanded, bSaveExpanded;
 };
 
 struct SavedInfoState_t
@@ -646,7 +646,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 			SavedGroupState_t *p = new SavedGroupState_t;
 			p->groupId = group->groupId;
-			p->expanded = group->expanded;
+			p->bExpanded = group->bExpanded;
 			saveGroup.insert(p);
 			continue;
 		}
@@ -687,7 +687,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			SavedGroupState_t tmp, *p;
 			tmp.groupId = group->groupId;
 			if ((p = saveGroup.find(&tmp)) != nullptr)
-				group->expanded = p->expanded;
+				group->bExpanded = p->bExpanded;
 			continue;
 		}
 		else if (cc->type == CLCIT_CONTACT) {

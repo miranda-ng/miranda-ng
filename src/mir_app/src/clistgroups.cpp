@@ -32,13 +32,16 @@ struct CGroupInternal
 	CGroupInternal(int _id, const wchar_t *_name) :
 		groupId(_id),
 		groupName(mir_wstrdup(_name))
-	{}
+	{
+		bSaveExpanded = (groupName[0] & GROUPF_EXPANDED) != 0;
+	}
 
 	~CGroupInternal()
 	{	mir_free(groupName);
 	}
 
-	int    groupId, oldId;
+	int groupId, oldId = -1;
+	bool bSaveExpanded;
 	wchar_t *groupName;
 
 	void save()
@@ -394,6 +397,25 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNewName)
 {
 	return 0 != RenameGroupWithMove(hGroup-1, ptszNewName, 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Clist_GroupSaveExpanded()
+{
+	for (auto &it : arByIds)
+		it->bSaveExpanded = (it->groupName[0] & GROUPF_EXPANDED) != 0;
+}
+
+MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
+{
+	for (auto &it : arByIds) {
+		if (it->bSaveExpanded)
+			it->groupName[0] |= GROUPF_EXPANDED;
+		else
+			it->groupName[0] &= ~GROUPF_EXPANDED;
+		it->save();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

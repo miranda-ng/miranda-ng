@@ -420,6 +420,12 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFl
 EXTERN_C MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// saves & restores the state flag for all groups
+
+EXTERN_C MIR_APP_DLL(void) Clist_GroupSaveExpanded();
+EXTERN_C MIR_APP_DLL(void) Clist_GroupRestoreExpanded();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // changes the flags for a group
 // iNewFlags = MAKELPARAM(flags, flagsMask)
 // returns 0 on success, nonzero on failure

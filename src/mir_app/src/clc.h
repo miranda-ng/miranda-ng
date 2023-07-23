@@ -76,7 +76,6 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 int  fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t * flags);
 void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat);
-void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 int  fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 
 void fnBeginRenameSelection(HWND hwnd, ClcData *dat);

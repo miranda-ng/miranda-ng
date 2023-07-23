@@ -340,7 +340,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				if (contact->iImage == (uint16_t)lParam)
 					break;
-				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
+				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					Clist_RemoveItemFromGroup(hwnd, group, contact, 0);
@@ -665,7 +665,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					hMenu = Menu_BuildSubGroupMenu(contact->group);
 					ClientToScreen(hwnd, &pt);
 					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_clistApi.hwndContactList, nullptr);
-					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
+					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->bHideOffline ? MF_CHECKED : MF_UNCHECKED);
 					DestroyMenu(hMenu);
 					return 0;
 				}

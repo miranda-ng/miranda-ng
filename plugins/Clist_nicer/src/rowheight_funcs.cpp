@@ -152,7 +152,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		// Calc row height
 		getRowHeight(dat, cc, line_num, dwStyle);
 
-		if (cc->type == CLCIT_GROUP && (cc->group->expanded & 0x0000ffff)) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			group->scanIndex = 0;
 			continue;

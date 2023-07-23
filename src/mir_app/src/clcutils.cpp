@@ -287,42 +287,41 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
+MIR_APP_DLL(void) Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 {
-	int contentCount;
-	int groupy;
-	int newY, posY;
-	RECT clRect;
-	NMCLISTCONTROL nm;
-
 	if (newState == -1)
-		group->expanded ^= 1;
+		group->bExpanded = !group->bExpanded;
 	else {
-		if (group->expanded == (newState != 0))
+		if (group->bExpanded == (newState != 0))
 			return;
-		group->expanded = newState != 0;
+		group->bExpanded = newState != 0;
 	}
+
 	g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
-	contentCount = g_clistApi.pfnGetGroupContentsCount(group, 1);
-	groupy = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
+	int contentCount = g_clistApi.pfnGetGroupContentsCount(group, 1);
+	int groupy = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
 	if (dat->selection > groupy && dat->selection < groupy + contentCount)
 		dat->selection = groupy;
+	
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
-	newY = dat->yScroll;
-	posY = g_clistApi.pfnGetRowBottomY(dat, groupy + contentCount);
+	int newY = dat->yScroll;
+	int posY = g_clistApi.pfnGetRowBottomY(dat, groupy + contentCount);
 	if (posY >= newY + clRect.bottom)
 		newY = posY - clRect.bottom;
 	posY = g_clistApi.pfnGetRowTopY(dat, groupy);
 	if (newY > posY)
 		newY = posY;
 	g_clistApi.pfnRecalcScrollBar(hwnd, dat);
-	if (group->expanded)
+	if (group->bExpanded)
 		g_clistApi.pfnScrollTo(hwnd, dat, newY, 0);
+
+	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_EXPANDED;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.hItem = (HANDLE)group->groupId;
-	nm.action = group->expanded;
+	nm.action = group->bExpanded;
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
@@ -339,7 +338,7 @@ MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 		return;
 
 	if (contact->type == CLCIT_GROUP)
-		g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+		Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
 	if (contact->type == CLCIT_CONTACT)
 		Clist_ContactDoubleClicked(contact->hContact);
 
@@ -375,11 +374,11 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, group, 1);
+					Clist_SetGroupExpand(hwnd, dat, group, 1);
 				return g_clistApi.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
 			}
 			if (cc->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->bExpanded) {
 					group = cc->group;
 					group->scanIndex = 0;
 					continue;

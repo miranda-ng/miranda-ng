@@ -243,7 +243,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
 	ClcGroup *group = (ClcGroup*)wParam;
 	if (group != nullptr) // contact->group
-		Menu_SetChecked(hHideOfflineUsersHereMenuItem, group->hideOffline != 0);
+		Menu_SetChecked(hHideOfflineUsersHereMenuItem, group->bHideOffline != 0);
 	return 0;
 }
 

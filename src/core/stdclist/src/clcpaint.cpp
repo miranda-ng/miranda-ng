@@ -312,7 +312,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 
 			// icon
 			if (cc->type == CLCIT_GROUP)
-				iImage = cc->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+				iImage = cc->group->bExpanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 			else if (cc->type == CLCIT_CONTACT)
 				iImage = cc->iImage;
 
@@ -423,7 +423,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 
 		index++;
 		y += dat->rowHeight;
-		if (cc->type == CLCIT_GROUP && cc->group->expanded) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			indent++;
 			group->scanIndex = 0;

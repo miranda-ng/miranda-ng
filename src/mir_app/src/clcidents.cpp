@@ -62,7 +62,7 @@ int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 		if (cc->type == CLCIT_GROUP) {
 			if (cc->group == subgroup && contactIndex == -1)
 				return count - 1;
-			if (cc->group->expanded) {
+			if (cc->group->bExpanded) {
 				group = cc->group;
 				group->scanIndex = 0;
 				continue;
@@ -90,7 +90,7 @@ ClcContact* fnFindItem(uint32_t dwItem, ClcContact *cc)
 MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0;
-	int nowVisible = 1;
+	bool nowVisible = true;
 	ClcGroup *group = &dat->list;
 
 	group->scanIndex = 0;
@@ -99,10 +99,10 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcCo
 			if ((group = group->parent) == nullptr)
 				break;
 
-			nowVisible = 1;
+			nowVisible = true;
 			for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
-				if (!group->expanded) {
-					nowVisible = 0;
+				if (!group->bExpanded) {
+					nowVisible = false;
 					break;
 				}
 			group->scanIndex++;
@@ -142,7 +142,7 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcCo
 		if (cc->type == CLCIT_GROUP) {
 			group = cc->group;
 			group->scanIndex = 0;
-			nowVisible &= group->expanded;
+			nowVisible &= group->bExpanded;
 			continue;
 		}
 		group->scanIndex++;
@@ -180,7 +180,7 @@ int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup 
 			return index;
 		}
 		index++;
-		if (cc->type == CLCIT_GROUP && cc->group->expanded) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			group->scanIndex = 0;
 			continue;

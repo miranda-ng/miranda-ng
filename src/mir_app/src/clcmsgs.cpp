@@ -100,7 +100,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			break;
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
-			g_clistApi.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
+			Clist_SetGroupExpand(hwnd, dat, tgroup, 1);
 		Clist_EnsureVisible(hwnd, dat, g_clistApi.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact)), 0);
 		break;
 
@@ -108,12 +108,20 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		if (wParam) {
 			if (Clist_FindItem(hwnd, dat, wParam, &contact))
 				if (contact->type == CLCIT_GROUP)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, lParam);
+					Clist_SetGroupExpand(hwnd, dat, contact->group, lParam);
 		}
 		else {
-			for (auto &it: dat->list.cl)
-				if (it->type == CLCIT_GROUP)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, it->group, lParam);
+			for (auto &it : dat->list.cl) {
+				if (it->type == CLCIT_GROUP) {
+					auto *pGroup = it->group;
+					if (lParam == -1) {
+						uint32_t flags;
+						if (Clist_GroupGetName(pGroup->groupId, &flags))
+							Clist_SetGroupExpand(hwnd, dat, pGroup, (flags & GROUPF_EXPANDED) != 0);
+					}
+					else Clist_SetGroupExpand(hwnd, dat, it->group, lParam);
+				}
+			}
 		}
 		break;
 
@@ -146,7 +154,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			return CLE_INVALID;
 		if (contact->type != CLCIT_GROUP)
 			return CLE_INVALID;
-		return contact->group->expanded;
+		return contact->group->bExpanded;
 
 	case CLM_SETEXTRASPACE:
 		dat->extraColumnSpacing = (int)wParam;
@@ -303,7 +311,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			break;
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
-			g_clistApi.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
+			Clist_SetGroupExpand(hwnd, dat, tgroup, 1);
 		dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
 		Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		break;

@@ -62,7 +62,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 			wchar_t *szCounts = Clist_GetGroupCountsText(dat, contact);
 			// Has the count?
 			if (szCounts && szCounts[0])
-				tmp = max(tmp, dat->fontModernInfo[contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS].fontHeight);
+				tmp = max(tmp, dat->fontModernInfo[contact->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS].fontHeight);
 		}
 		tmp = max(tmp, ICON_HEIGHT);
 		tmp = max(tmp, dat->row_min_heigh);
@@ -101,7 +101,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 						if (szCounts && mir_wstrlen(szCounts) > 0) {
 							RECT count_rc = { 0 };
 							// calc width and height
-							g_clcPainter.ChangeToFont(hdc, dat, contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+							g_clcPainter.ChangeToFont(hdc, dat, contact->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 							ske_DrawText(hdc, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
 							size.cx += count_rc.right - count_rc.left;
 							count_rc.right = 0;
@@ -441,7 +441,7 @@ void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 		}
 
 		if (subindex == -1) {
-			if (group->cl[group->scanIndex]->type == CLCIT_GROUP && group->cl[group->scanIndex]->group->expanded) {
+			if (group->cl[group->scanIndex]->type == CLCIT_GROUP && group->cl[group->scanIndex]->group->bExpanded) {
 				group = group->cl[group->scanIndex]->group;
 				indent++;
 				group->scanIndex = 0;

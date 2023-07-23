@@ -881,3 +881,6 @@ Clist_RemoveEvent @989
 ?getLocalName@FILE_BLOB@DB@@QEBAPEB_WXZ @998 NONAME
 ?setLocalName@FILE_BLOB@DB@@QEAAXPEB_W@Z @999 NONAME
 ?ResetFileName@OFDTHREAD@@QEAAXPEB_W@Z @1000 NONAME
+?Clist_SetGroupExpand@@YAXPEAUHWND__@@PEAUClcData@@PEAUClcGroup@@H@Z @1001 NONAME
+Clist_GroupRestoreExpanded @1002 NONAME
+Clist_GroupSaveExpanded @1003 NONAME

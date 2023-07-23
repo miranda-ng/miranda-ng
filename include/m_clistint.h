@@ -84,7 +84,8 @@ struct ClcGroup : public MZeroedObject
 	{}
 
 	LIST<ClcContact> cl;
-	int expanded, hideOffline, groupId;
+	int groupId;
+	bool bExpanded, bHideOffline;
 	ClcGroup *parent;
 	int scanIndex;
 	int totalMembers;
@@ -278,6 +279,7 @@ MIR_APP_DLL(int)       Clist_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
+MIR_APP_DLL(void)      Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 								        
 MIR_APP_DLL(int)       Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 MIR_APP_DLL(int)       Clist_TrayIconDestroy(HWND hwnd);
@@ -350,7 +352,6 @@ struct CLIST_INTERFACE
 	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t * flags);
 	void           (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 	void           (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
-	void           (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 	int            (*pfnFindRowByText)(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 	void           (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);

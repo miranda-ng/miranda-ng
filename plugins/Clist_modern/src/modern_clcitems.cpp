@@ -196,7 +196,7 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 {
 	if (!group) return false;
-	if (group->hideOffline) return false;
+	if (group->bHideOffline) return false;
 
 	uint32_t groupFlags = 0;
 	Clist_GroupGetName(group->groupId, &groupFlags);
@@ -296,7 +296,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 			return lastcount;
 
 		ClcContact *cc = group->cl[group->scanIndex];
-		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			group->scanIndex = 0;
 			continue;
@@ -376,7 +376,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 		}
 
 		ClcContact *cc = group->cl[group->scanIndex];
-		if (cc->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || cc->group->expanded)) {
+		if (cc->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || cc->group->bExpanded)) {
 			group = cc->group;
 			group->scanIndex = 0;
 			count += group->cl.getCount();

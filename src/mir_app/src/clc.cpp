@@ -391,7 +391,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					else
 						eq = !mir_wstrcmp(szFullName, ptrW(mir_utf8decodeW(dbcws->value.pszVal + 1)));
 
-					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
+					if (eq && contact->group->bHideOffline == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
 						break;  //only expanded has changed: no action reqd
 				}
 			}
@@ -498,7 +498,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			else { // item in list already
 				if (contact->iImage == (uint16_t)lParam)
 					break;
-				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
@@ -709,7 +709,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (changeGroupExpand == 1) {
 					switch (contact->type) {
 					case CLCIT_GROUP:
-						if (contact->group->expanded)
+						if (contact->group->bExpanded)
 							break;
 						__fallthrough;
 					case CLCIT_CONTACT:
@@ -721,7 +721,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				}
 
 				if (contact->type == CLCIT_GROUP)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
+					Clist_SetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
 				return 0;
 			}
 			
@@ -904,7 +904,7 @@ LBL_MoveSelection:
 				ClcGroup *selgroup;
 				ClcContact *selcontact;
 				dat->selection = g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
-				g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+				Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
 				if (dat->selection != -1) {
 					dat->selection =
 						g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
@@ -1245,7 +1245,7 @@ LBL_MoveSelection:
 				Clist_GroupDelete(contact->groupId);
 				break;
 			case POPUP_GROUPHIDEOFFLINE:
-				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
+				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->bHideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 				break;
 			}
 

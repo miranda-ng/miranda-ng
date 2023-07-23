@@ -1255,8 +1255,10 @@ void ApplyViewMode(const char *szName)
 			g_clistApi.pfnSetHideOffline(g_CluiData.bOldHideOffline);
 		if (g_CluiData.bOldHideEmptyGroups != -1)
 			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, g_CluiData.bOldHideEmptyGroups, 0);
-		if (g_CluiData.bOldFoldGroups != -1)
-			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
+		if (g_CluiData.bOldFoldGroups != -1) {
+			Clist_GroupRestoreExpanded();
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, -1);
+		}
 
 		g_CluiData.bOldUseGroups = -1;
 		g_CluiData.bOldHideOffline = -1;
@@ -1347,19 +1349,7 @@ void ApplyViewMode(const char *szName)
 			g_CluiData.bOldHideOffline = -1;
 		}
 
-		int iValue = (g_CluiData.filterFlags & CLVM_FOLDGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_UNFOLDGROUPS) ? 0 : -1);
-		if (iValue != -1) {
-			if (g_CluiData.bOldFoldGroups == -1)
-				g_CluiData.bOldFoldGroups = !Clist::UseGroups;
-
-			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, iValue ? CLE_COLLAPSE : CLE_EXPAND);
-		}
-		else if (g_CluiData.bOldFoldGroups != -1) {
-			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, g_CluiData.bOldFoldGroups ? CLE_COLLAPSE : CLE_EXPAND);
-			g_CluiData.bOldFoldGroups = -1;
-		}
-
-		iValue = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
+		int iValue = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
 		if (iValue != -1) {
 			if (g_CluiData.bOldUseGroups == -1)
 				g_CluiData.bOldUseGroups = Clist::UseGroups;
@@ -1381,6 +1371,20 @@ void ApplyViewMode(const char *szName)
 		else if (g_CluiData.bOldHideEmptyGroups != -1) {
 			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, g_CluiData.bOldHideEmptyGroups, 0);
 			g_CluiData.bOldHideEmptyGroups = -1;
+		}
+
+		iValue = (g_CluiData.filterFlags & CLVM_FOLDGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_UNFOLDGROUPS) ? 0 : -1);
+		if (iValue != -1) {
+			if (g_CluiData.bOldFoldGroups == -1)
+				Clist_GroupSaveExpanded();
+
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, iValue ? CLE_COLLAPSE : CLE_EXPAND);
+			g_CluiData.bOldFoldGroups = 1;
+		}
+		else if (g_CluiData.bOldFoldGroups != -1) {
+			Clist_GroupRestoreExpanded();
+			SendMessage(g_clistApi.hwndContactTree, CLM_EXPAND, 0, -1);
+			g_CluiData.bOldFoldGroups = -1;
 		}
 
 		SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));

@@ -147,7 +147,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 {
 	switch (contact->type) {
 	case CLCIT_GROUP:
-		return (contact->group->expanded) ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS;
+		return (contact->group->bExpanded) ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS;
 
 	case CLCIT_INFO:
 		return (contact->flags & CLCIIF_GROUPFONT) ? FONTID_OPENGROUPS : FONTID_CONTACTS;
@@ -489,7 +489,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	case CLCIT_GROUP:
 		_AddParamShort(mpModernMask, hi_Type, hi_Group);
 		if (Drawing->group) {
-			_AddParamShort(mpModernMask, hi_Open, Drawing->group->expanded ? hi_True : hi_False);
+			_AddParamShort(mpModernMask, hi_Open, Drawing->group->bExpanded ? hi_True : hi_False);
 			_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.getCount() == 0) ? hi_True : hi_False);
 		}
 		break;
@@ -617,7 +617,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			int iImage = -1;
 			// Get image
 			if (Drawing->type == CLCIT_GROUP) {
-				iImage = Drawing->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+				iImage = Drawing->group->bExpanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 			}
 			else if (Drawing->type == CLCIT_CONTACT)
 				iImage = Drawing->iImage;
@@ -726,7 +726,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				// Has to draw the count?
 				if (szCounts && mir_wstrlen(szCounts) > 0) {
 					// calc width and height
-					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+					ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 					ske_DrawText(hdcMem, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
 					count_size.cx = count_rc.right - count_rc.left;
 					space_width = count_size.cx;
@@ -740,7 +740,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				{
 					SIZE grp_size = { 0 };
 					int wid = fr_rc.right - fr_rc.left;
-					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
+					ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
 					GetTextSize(&grp_size, hdcMem, fr_rc, Drawing->szText, Drawing->ssText.plText, 0, dat->text_resize_smileys ? 0 : Drawing->ssText.iMaxSmileyHeight);
 
 					if (wid - count_size.cx > grp_size.cx) {
@@ -768,7 +768,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				}
 
 				uTextFormat |= DT_VCENTER;
-				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
+				ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
 				if (selected)
 					SetTextColor(hdcMem, dat->selTextColour);
 				else if (hottrack)
@@ -782,7 +782,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				}
 
 				if (szCounts && mir_wstrlen(szCounts) > 0) {
-					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+					ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 					if (selected)
 						SetTextColor(hdcMem, dat->selTextColour);
 					else if (hottrack)
@@ -809,7 +809,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					space_size.cx = space_rc.right - space_rc.left;
 					space_size.cy = min(space_rc.bottom - space_rc.top, fr_rc.bottom - fr_rc.top);
 
-					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+					ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 					DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, DT_CALCRECT);
 
 					counts_size.cx = counts_rc.right - counts_rc.left;
@@ -854,7 +854,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, idx, (int)mir_wstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 			}
 			if (Drawing->type == CLCIT_GROUP && szCounts && szCounts[0] && counts_rc.right - counts_rc.left > 0) {
-				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+				ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 				if (dat->text_rtl != 0) _RTLRect(&counts_rc, free_row_rc.right);
 				ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, uTextFormat);
 				if (dat->text_rtl == 0)
@@ -1295,7 +1295,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 		}
 
 		if (cc && subindex == -1) {
-			if (cc->type == CLCIT_GROUP && cc->group->expanded) {
+			if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 				group = cc->group;
 				indent++;
 				group->scanIndex = 0;
@@ -1577,7 +1577,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				// Get image
 				iImage = -1;
 				if (Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon)
-					iImage = Drawing->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+					iImage = Drawing->group->bExpanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 				else if (Drawing->type == CLCIT_CONTACT)
 					iImage = Drawing->iImage;
 
@@ -1702,7 +1702,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				space_size.cx = space_rc.right - space_rc.left;
 				space_size.cy = min(space_rc.bottom - space_rc.top, free_height);
 
-				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+				ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 				DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, DT_CALCRECT);
 
 				counts_size.cx = counts_rc.right - counts_rc.left;
@@ -1734,7 +1734,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 				selection_text_rc = text_rc;
 				full_text_width = text_width;
-				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
+				ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPS : FONTID_CLOSEDGROUPS, nullptr);
 			}
 
 			if (dat->row_align_group_mode == 1) { // center
@@ -2113,7 +2113,7 @@ void CLCPaint::_DrawContactIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 	int iImage = -1;
 	// Get image
 	if (Drawing->type == CLCIT_GROUP) {
-		if (!dat->row_hide_group_icon) iImage = Drawing->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+		if (!dat->row_hide_group_icon) iImage = Drawing->group->bExpanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 		else iImage = -1;
 	}
 	else if (Drawing->type == CLCIT_CONTACT)
@@ -2176,7 +2176,7 @@ void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing
 
 		// Has to draw the count?
 		if (szCounts && szCounts[0]) {
-			ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
+			ChangeToFont(hdcMem, dat, Drawing->group->bExpanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, nullptr);
 			if (selected)
 				SetTextColor(hdcMem, dat->selTextColour);
 			else if (hottrack)

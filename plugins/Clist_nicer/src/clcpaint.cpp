@@ -718,7 +718,7 @@ set_bg_l:
 				oldGroupColor = SetTextColor(hdcMem, sempty->TEXTCOLOR);
 			}
 		}
-		else if (contact->group->expanded) {
+		else if (contact->group->bExpanded) {
 			if (!sexpanded->IGNORED) {
 				rc.left = sexpanded->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + sexpanded->MARGIN_TOP;
@@ -815,7 +815,7 @@ bgskipped:
 
 	int iImage;
 	if (type == CLCIT_GROUP)
-		iImage = (contact->group->expanded) ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+		iImage = (contact->group->bExpanded) ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 	else if (type == CLCIT_CONTACT)
 		iImage = contact->iImage;
 	else
@@ -1374,7 +1374,7 @@ bgdone:
 		if (cc->cFlags & ECF_AVATAR)
 			g_list_avatars++;
 
-		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			group->scanIndex = 0;
 			continue;
@@ -1409,7 +1409,7 @@ bgdone:
 		}
 		index++;
 		y += dat->row_heights[line_num];
-		if (cc->type == CLCIT_GROUP && (cc->group->expanded)) {
+		if (cc->type == CLCIT_GROUP && cc->group->bExpanded) {
 			group = cc->group;
 			indent++;
 			group->scanIndex = 0;

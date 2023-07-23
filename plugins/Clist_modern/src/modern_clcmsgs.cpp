@@ -188,7 +188,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
-				g_clistApi.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
+				Clist_SetGroupExpand(hwnd, dat, tgroup, 1);
 
 			if (!contact->iSubNumber) {
 				index = group->cl.indexOf(contact);

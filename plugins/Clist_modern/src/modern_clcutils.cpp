@@ -342,7 +342,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 			ok = 1;
 		}
 		else if ((pt.y + dat->yScroll >= cliGetRowTopY(dat, hit + 1) - dat->insertionMarkHitHeight)
-			|| (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.getCount() > 0)) {
+			|| (contact->type == CLCIT_GROUP && contact->group->bExpanded && contact->group->cl.getCount() > 0)) {
 			//could be insertion mark (below)
 			topItem = hit; bottomItem = hit + 1;
 			topcontact = contact; topgroup = group;
@@ -648,12 +648,12 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				ClcGroup *ccGroup = group;
 				int ccScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
-					g_clistApi.pfnSetGroupExpand(hwnd, dat, group, 1);
+					Clist_SetGroupExpand(hwnd, dat, group, 1);
 				return g_clistApi.pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount);
 			}
 			
 			if (cc->type == CLCIT_GROUP) {
-				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
+				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->bExpanded) {
 					group = cc->group;
 					group->scanIndex = 0;
 					SubCount = 0;
@@ -679,7 +679,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 						ClcGroup *ccGroup = group;
 						int ccScanIndex = group->scanIndex;
 						for (; group; group = group->parent)
-							g_clistApi.pfnSetGroupExpand(hwnd, dat, group, 1);
+							Clist_SetGroupExpand(hwnd, dat, group, 1);
 						if (!cc->bSubExpanded)
 							ExpandMetaContact(hwnd, cc, dat);
 						return g_clistApi.pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount + i + 1);
