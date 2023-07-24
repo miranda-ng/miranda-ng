@@ -700,6 +700,10 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 HWND CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
+	CMStringA szServerName(getMStringA("Jud"));
+	if (!m_bJabberOnline || szServerName.IsEmpty())
+		return nullptr;
+
 	if (parent && g_plugin.getInst()) {
 		ptrW szServer(getWStringA("LoginServer"));
 		if (szServer == nullptr || mir_wstrcmpi(szServer, L"S.ms"))

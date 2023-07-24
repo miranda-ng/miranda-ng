@@ -754,8 +754,8 @@ HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 
 HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 {
-	ptrA szServerName(getStringA("Jud"));
-	if (!m_bJabberOnline || email == nullptr || szServerName == nullptr)
+	CMStringA szServerName(getMStringA("Jud"));
+	if (!m_bJabberOnline || email == nullptr || szServerName.IsEmpty())
 		return nullptr;
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, szServerName);
@@ -768,8 +768,8 @@ HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 
 HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
-	ptrA szServerName(getStringA("Jud"));
-	if (!m_bJabberOnline || szServerName == nullptr)
+	CMStringA szServerName(getMStringA("Jud"));
+	if (!m_bJabberOnline || szServerName.IsEmpty())
 		return nullptr;
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultExtSearch, JABBER_IQ_TYPE_SET, szServerName);
