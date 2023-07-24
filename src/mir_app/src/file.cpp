@@ -175,6 +175,18 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+static int SRFileEventDeleted(WPARAM /*hContact*/, LPARAM hDbEvent)
+{
+	DB::EventInfo dbei(hDbEvent);
+	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+		if (auto *pwszName = blob.getLocalName())
+			DeleteFileW(pwszName);
+	}
+
+	return 0;
+}
+
 INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 {
 	FtMgr_Show(true, true);
@@ -314,6 +326,7 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, SRFileModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SRFilePreShutdown);
 	HookEvent(ME_OPT_INITIALISE, SRFileOptInitialise);
+	HookEvent(ME_DB_EVENT_DELETED, SRFileEventDeleted);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 

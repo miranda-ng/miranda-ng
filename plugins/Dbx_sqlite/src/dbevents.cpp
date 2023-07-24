@@ -220,6 +220,8 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (cc == nullptr)
 		return 1;
 
+	NotifyEventHooks(g_hevEventDeleted, hContact, hDbEvent);
+
 	mir_cslockfull lock(m_csDbAccess);
 	int rc = DeleteEventMain(hDbEvent);
 	if (rc != SQLITE_DONE)
@@ -237,7 +239,6 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	lock.unlock();
 
 	DBFlush();
-	NotifyEventHooks(g_hevEventDeleted, hContact, hDbEvent);
 	return 0;
 }
 
