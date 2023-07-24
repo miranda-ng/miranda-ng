@@ -197,12 +197,16 @@ void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	int result = _write(fileId, pReply->pData, pReply->dataLength);
+	int cbWritten = _write(fileId, pReply->pData, pReply->dataLength);
 	_close(fileId);
-	if (result != pReply->dataLength) {
-		debugLogW(L"Error writing data into [%s]", ofd->wszPath.c_str());
+	if (cbWritten != pReply->dataLength) {
+		debugLogW(L"Error writing data into [%s]: %d instead of %d", ofd->wszPath.c_str(), cbWritten, pReply->dataLength);
 		return;
 	}
+
+	DBVARIANT dbv = { DBVT_DWORD };
+	dbv.dVal = cbWritten;
+	db_event_setJson(ofd->hDbEvent, "ft", &dbv);
 
 	ofd->Finish();
 	delete ofd;
