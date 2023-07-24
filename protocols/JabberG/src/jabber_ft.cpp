@@ -653,146 +653,151 @@ LBL_Fail:
 		return;
 	}
 
-	if (auto *slotNode = XmlFirstChild(iqNode, "slot")) {
-		if (auto *putNode = XmlFirstChild(slotNode, "put")) {
-			const char *szXmlns = slotNode->Attribute("xmlns"), *szUrl = nullptr;
-			uint8_t version = 0;
-			if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD)) {
-				szUrl = putNode->GetText();
-				debugLogA("%s: setting url to %s", szXmlns, szUrl);
-				version = 1;
-			}
-			else if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD0)) {
-				szUrl = putNode->Attribute("url");
-				debugLogA("%s: setting url to %s", szXmlns, szUrl);
-			}
-			else debugLogA("missing url location");
-
-			if (szUrl) {
-				NETLIBHTTPHEADER hdr[10];
-
-				NETLIBHTTPREQUEST nlhr = {};
-				nlhr.cbSize = sizeof(nlhr);
-				nlhr.requestType = REQUEST_PUT;
-				nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
-				nlhr.szUrl = (char *)szUrl;
-
-				for (auto *it : TiXmlFilter(putNode, "header")) {
-					auto *szName = it->Attribute("name");
-					auto *szValue = it->GetText();
-					if (szName && szValue && nlhr.headersCount < _countof(hdr)) {
-						nlhr.headers = hdr;
-						hdr[nlhr.headersCount].szName = (char *)szName;
-						hdr[nlhr.headersCount].szValue = (char *)szValue;
-						nlhr.headersCount++;
-					}
-				}
-
-				const wchar_t *pwszFileName = ft->std.pszFiles.w[ft->std.currentFileNumber];
-
-				int fileId = _wopen(pwszFileName, _O_BINARY | _O_RDONLY);
-				if (fileId < 0) {
-					debugLogA("error opening file %S", pwszFileName);
-					goto LBL_Fail;
-				}
-
-				unsigned char key[32], iv[12], tag[16];
-				bool enOmemo = OmemoIsEnabled(ft->std.hContact);
-				if (enOmemo) {
-					Utils_GetRandom(key, _countof(key));
-					Utils_GetRandom(iv, _countof(iv));
-
-					EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-					EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof(iv), nullptr);
-					EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
-
-					int tmp_len = 0, outl;
-					//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
-					unsigned char *out = (unsigned char *)mir_alloc(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
-					unsigned char *in = (unsigned char *)mir_alloc(128 * 1024);
-					for (;;) {
-						int inl = _read(fileId, in, 128 * 1024);
-						if (inl == 0)
-							break;
-						EVP_EncryptUpdate(ctx, out + tmp_len, &outl, in, inl);
-						tmp_len += outl;
-					}
-					mir_free(in);
-
-					EVP_EncryptFinal(ctx, out + tmp_len, &outl);
-					tmp_len += outl;
-					EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof(tag), tag);
-					EVP_CIPHER_CTX_free(ctx);
-
-					memcpy(out + tmp_len, tag, _countof(tag));
-					nlhr.dataLength = tmp_len + _countof(tag);
-					nlhr.pData = (char *)out;
-				}
-				else {
-					nlhr.dataLength = _filelength(fileId);
-					nlhr.pData = new char[nlhr.dataLength];
-					_read(fileId, nlhr.pData, nlhr.dataLength);
-				}
-				_close(fileId);
-
-				NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
-				if (res == nullptr) {
-					debugLogA("error uploading file %S", pwszFileName);
-					goto LBL_Fail;
-				}
-
-				switch (res->resultCode) {
-				case 200: // ok
-				case 201: // created
-					break;
-
-				default:
-					debugLogA("error uploading file %S: error %d", pwszFileName, res->resultCode);
-					Netlib_FreeHttpRequest(res);
-					goto LBL_Fail;
-				}
-
-				Netlib_FreeHttpRequest(res);
-
-				// this parameter is optional, if not specified we simply use upload URL
-				CMStringA szMessage;
-				if (auto *szGetUrl = version ? XmlGetChildText(slotNode, "get") : XmlGetAttr(XmlFirstChild(slotNode, "get"), "url"))
-					szMessage = szGetUrl;
-				else
-					szMessage = szUrl;
-
-				XmlNode m("message");
-				if (enOmemo) {
-					int i = szMessage.Find("://");
-					char szIv[2*_countof(iv) + 1], szKey[2*_countof(key) + 1];
-					bin2hex(iv, _countof(iv), szIv);
-					bin2hex(key, _countof(key), szKey);
-					szMessage.Format("aesgcm%s#%s%s", szMessage.Mid(i).c_str(), szIv, szKey);
-				}
-				else m << XCHILDNS("x", JABBER_FEAT_OOB2) << XCHILD("url", szMessage.c_str());
-
-				if (m_bEmbraceUrls && ProtoGetAvatarFormat(_A2T(szMessage)) != PA_FORMAT_UNKNOWN) {
-					szMessage.Insert(0, "[img]");
-					szMessage.Append("[/img]");
-				}
-
-				int ret = SendMsgEx(ft->std.hContact, szMessage.c_str(), m);
-				if (ret != -1 && !isChatRoom(ft->std.hContact)) {
-					PROTORECVEVENT recv = {};
-					recv.flags = PREF_CREATEREAD | PREF_SENT;
-					recv.szMessage = szMessage.GetBuffer();
-					recv.timestamp = time(0);
-					ProtoChainRecvMsg(ft->std.hContact, &recv);
-				}
-
-				FtSendFinal(true, ft);
-				return;
-			}
-		}
-		else debugLogA("missing put node");
+	auto *slotNode = XmlFirstChild(iqNode, "slot");
+	if (!slotNode) {
+		debugLogA("wrong or not recognizable http slot received");
+		goto LBL_Fail;
 	}
-	else debugLogA("wrong or not recognizable http slot received");
-	goto LBL_Fail;
+
+	auto *putNode = XmlFirstChild(slotNode, "put");
+	if (!putNode) {
+		debugLogA("missing put node");
+		goto LBL_Fail;
+	}
+
+	const char *szXmlns = slotNode->Attribute("xmlns"), *szUrl = nullptr;
+	uint8_t version = 0;
+	if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD)) {
+		szUrl = putNode->GetText();
+		debugLogA("%s: setting url to %s", szXmlns, szUrl);
+		version = 1;
+	}
+	else if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD0)) {
+		szUrl = putNode->Attribute("url");
+		debugLogA("%s: setting url to %s", szXmlns, szUrl);
+	}
+	else debugLogA("missing url location");
+
+	if (!szUrl)
+		goto LBL_Fail;
+	
+	NETLIBHTTPHEADER hdr[10];
+
+	NETLIBHTTPREQUEST nlhr = {};
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_PUT;
+	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
+	nlhr.szUrl = (char *)szUrl;
+
+	for (auto *it : TiXmlFilter(putNode, "header")) {
+		auto *szName = it->Attribute("name");
+		auto *szValue = it->GetText();
+		if (szName && szValue && nlhr.headersCount < _countof(hdr)) {
+			nlhr.headers = hdr;
+			hdr[nlhr.headersCount].szName = (char *)szName;
+			hdr[nlhr.headersCount].szValue = (char *)szValue;
+			nlhr.headersCount++;
+		}
+	}
+
+	const wchar_t *pwszFileName = ft->std.pszFiles.w[ft->std.currentFileNumber];
+
+	int fileId = _wopen(pwszFileName, _O_BINARY | _O_RDONLY);
+	if (fileId < 0) {
+		debugLogA("error opening file %S", pwszFileName);
+		goto LBL_Fail;
+	}
+
+	unsigned char key[32], iv[12], tag[16];
+	bool enOmemo = OmemoIsEnabled(ft->std.hContact);
+	if (enOmemo) {
+		Utils_GetRandom(key, _countof(key));
+		Utils_GetRandom(iv, _countof(iv));
+
+		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof(iv), nullptr);
+		EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
+
+		int tmp_len = 0, outl;
+		//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
+		unsigned char *out = (unsigned char *)mir_alloc(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		unsigned char *in = (unsigned char *)mir_alloc(128 * 1024);
+		for (;;) {
+			int inl = _read(fileId, in, 128 * 1024);
+			if (inl == 0)
+				break;
+			EVP_EncryptUpdate(ctx, out + tmp_len, &outl, in, inl);
+			tmp_len += outl;
+		}
+		mir_free(in);
+
+		EVP_EncryptFinal(ctx, out + tmp_len, &outl);
+		tmp_len += outl;
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof(tag), tag);
+		EVP_CIPHER_CTX_free(ctx);
+
+		memcpy(out + tmp_len, tag, _countof(tag));
+		nlhr.dataLength = tmp_len + _countof(tag);
+		nlhr.pData = (char *)out;
+	}
+	else {
+		nlhr.dataLength = _filelength(fileId);
+		nlhr.pData = new char[nlhr.dataLength];
+		_read(fileId, nlhr.pData, nlhr.dataLength);
+	}
+	_close(fileId);
+
+	NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	if (res == nullptr) {
+		debugLogA("error uploading file %S", pwszFileName);
+		goto LBL_Fail;
+	}
+
+	switch (res->resultCode) {
+	case 200: // ok
+	case 201: // created
+		break;
+
+	default:
+		debugLogA("error uploading file %S: error %d", pwszFileName, res->resultCode);
+		Netlib_FreeHttpRequest(res);
+		goto LBL_Fail;
+	}
+
+	Netlib_FreeHttpRequest(res);
+
+	// this parameter is optional, if not specified we simply use upload URL
+	CMStringA szMessage;
+	if (auto *szGetUrl = version ? XmlGetChildText(slotNode, "get") : XmlGetAttr(XmlFirstChild(slotNode, "get"), "url"))
+		szMessage = szGetUrl;
+	else
+		szMessage = szUrl;
+
+	XmlNode m("message");
+	if (enOmemo) {
+		int i = szMessage.Find("://");
+		char szIv[2*_countof(iv) + 1], szKey[2*_countof(key) + 1];
+		bin2hex(iv, _countof(iv), szIv);
+		bin2hex(key, _countof(key), szKey);
+		szMessage.Format("aesgcm%s#%s%s", szMessage.Mid(i).c_str(), szIv, szKey);
+	}
+	else m << XCHILDNS("x", JABBER_FEAT_OOB2) << XCHILD("url", szMessage.c_str());
+
+	if (m_bEmbraceUrls && ProtoGetAvatarFormat(_A2T(szMessage)) != PA_FORMAT_UNKNOWN) {
+		szMessage.Insert(0, "[img]");
+		szMessage.Append("[/img]");
+	}
+
+	int ret = SendMsgEx(ft->std.hContact, szMessage.c_str(), m);
+	if (ret != -1 && !isChatRoom(ft->std.hContact)) {
+		PROTORECVEVENT recv = {};
+		recv.flags = PREF_CREATEREAD | PREF_SENT;
+		recv.szMessage = szMessage.GetBuffer();
+		recv.timestamp = time(0);
+		ProtoChainRecvMsg(ft->std.hContact, &recv);
+	}
+
+	FtSendFinal(true, ft);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
