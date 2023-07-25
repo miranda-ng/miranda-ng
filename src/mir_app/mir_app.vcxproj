@@ -160,6 +160,7 @@
     <ClCompile Include="src\srmm_log.cpp" />
     <ClCompile Include="src\srmm_log_hpp.cpp" />
     <ClCompile Include="src\srmm_log_rtf.cpp" />
+    <ClCompile Include="src\srmm_main.cpp" />
     <ClCompile Include="src\srmm_statusicon.cpp" />
     <ClCompile Include="src\srmm_toolbar.cpp" />
     <ClCompile Include="src\srmm_util.cpp" />

@@ -23,14 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HCURSOR g_hCurHyperlinkHand;
-HANDLE hHookSrmmEvent;
-
-static HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookEmptyHistory;
+extern HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookEmptyHistory;
 static mir_cs csIcons;
-
-void LoadSrmmToolbarModule();
-void UnloadSrmmToolbarModule();
 
 void SafeDestroyIcon(HICON hIcon)
 {
@@ -264,81 +258,4 @@ void KillModuleSrmmIcons(CMPluginBase *pPlugin)
 	for (auto &it : arIcons.rev_iter())
 		if (it->pPlugin == pPlugin)
 			arIcons.removeItem(&it);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static HGENMENU hmiEmpty;
-
-static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
-{
-	if (NotifyEventHooks(hHookEmptyHistory))
-		return 2;
-
-	if (lParam == 0)
-		if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNO | MB_ICONQUESTION))
-			return 1;
-
-	DB::ECPTR pCursor(DB::Events(hContact));
-	while (pCursor.FetchNext())
-		pCursor.DeleteEvent();
-	return 0;
-}
-
-static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
-{
-	Menu_ShowItem(hmiEmpty, db_event_first(hContact) != 0);
-	return 0;
-}
-
-void SrmmModulesLoaded()
-{
-	// menu item
-	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0x0d4306aa, 0xe31e, 0x46ee, 0x89, 0x88, 0x3a, 0x2e, 0x05, 0xa6, 0xf3, 0xbc);
-	mi.pszService = MS_HISTORY_EMPTY;
-	mi.name.a = LPGEN("Empty history");
-	mi.position = 1000090001;
-	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
-	hmiEmpty = Menu_AddContactMenuItem(&mi);
-
-	// create menu item in main menu for empty system history
-	SET_UID(mi, 0x633AD23C, 0x24B5, 0x4914, 0xB2, 0x40, 0xAD, 0x9F, 0xAC, 0xB5, 0x64, 0xED);
-	mi.position = 500060002;
-	mi.name.a = LPGEN("Empty system history");
-	mi.pszService = MS_HISTORY_EMPTY;
-	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
-	Menu_AddMainMenuItem(&mi);
-
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int LoadSrmmModule()
-{
-	g_hCurHyperlinkHand = LoadCursor(nullptr, IDC_HAND);
-
-	LoadSrmmToolbarModule();
-
-	CreateServiceFunction(MS_HISTORY_EMPTY, svcEmptyHistory);
-	hHookEmptyHistory = CreateHookableEvent(ME_HISTORY_EMPTY);
-
-	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
-	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
-	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-	return 0;
-}
-
-void UnloadSrmmModule()
-{
-	arIcons.destroy();
-
-	DestroyHookableEvent(hHookIconsChanged);
-	DestroyHookableEvent(hHookSrmmEvent);
-	DestroyHookableEvent(hHookIconPressedEvt);
-
-	DestroyCursor(g_hCurHyperlinkHand);
-
-	UnloadSrmmToolbarModule();
 }

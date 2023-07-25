@@ -597,6 +597,7 @@ public:
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
+	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
 	void UpdateFilterButton() override;
@@ -647,7 +648,6 @@ public:
 	void LimitMessageText(int iLen);
 	int  LoadLocalFlags(void);
 	void NotifyDeliveryFailure(void) const;
-	void RemakeLog(void);
 	void SaveSplitter(void);
 	void SelectContainer(void);
 	void SetDialogToType(void);

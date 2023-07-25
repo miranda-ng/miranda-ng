@@ -312,7 +312,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	CSuper(g_plugin, iDlgId),
 	m_pPanel(this),
-	timerAwayMsg(this, 4),
+	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)
@@ -329,7 +329,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 	CSuper(g_plugin, IDD_CHANNEL, si),
 	m_pPanel(this),
-	timerAwayMsg(this, 4),
+	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)

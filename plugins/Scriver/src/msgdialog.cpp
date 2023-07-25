@@ -1077,7 +1077,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_REMAKELOG:
 		if (wParam == 0 || wParam == m_hContact)
-			m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
+			RemakeLog();
 
 		InvalidateRect(m_pLog->GetHwnd(), nullptr, FALSE);
 		break;

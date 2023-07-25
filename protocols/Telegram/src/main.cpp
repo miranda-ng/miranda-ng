@@ -49,7 +49,5 @@ int CMPlugin::Load()
 	registerIcon("Protocols/Telegram", iconList, "tg");
 	
 	m_hIcon = ExtraIcon_RegisterIcolib("tg_premium", LPGEN("Telegram Premium user"), getIconHandle(IDI_PREMIUM));
-
-	m_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
 	return 0;
 }

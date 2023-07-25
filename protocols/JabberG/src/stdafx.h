@@ -508,7 +508,7 @@ extern unsigned int g_nTempFileId;
 extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
-extern HANDLE hExtListInit, hDiscoInfoResult, g_hevEventEdited;
+extern HANDLE hExtListInit, hDiscoInfoResult;
 
 /*******************************************************************
  * Function declarations

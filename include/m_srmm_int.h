@@ -237,6 +237,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	CSrmmBaseDialog &operator=(const CSrmmBaseDialog &) = delete;
 
 	void OnNickListTimer(CTimer *);
+	void OnRedrawTimer(CTimer *);
 
 protected:
 	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, struct SESSION_INFO *si = nullptr);
@@ -294,10 +295,11 @@ public:
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;
-	CTimer timerFlash, timerType, timerNickList;
+	CTimer timerFlash, timerType, timerNickList, timerRedraw;
 
 	void ClearLog();
 	void RedrawLog();
+	void ScheduleRedrawLog();
 	void ShowColorChooser(int iCtrlId);
 	void UpdateNickList(void);
 
@@ -308,6 +310,7 @@ public:
 	virtual bool GetFirstEvent() PURE;
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;
+	virtual void RemakeLog() PURE;
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void UpdateFilterButton();

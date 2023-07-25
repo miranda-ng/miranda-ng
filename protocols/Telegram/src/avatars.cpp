@@ -204,8 +204,6 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 						F->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
 
 						MoveFileW(wszExistingFile, F->ofd->wszPath);
-						NotifyEventHooks(g_plugin.m_hevEventEdited, 0, F->ofd->hDbEvent);
-
 						F->ofd->Finish();
 					}
 

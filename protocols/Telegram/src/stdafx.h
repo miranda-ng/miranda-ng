@@ -49,7 +49,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CTelegramProto>
 {
 	CMPlugin();
 
-	HANDLE m_hIcon, m_hevEventEdited;
+	HANDLE m_hIcon;
 
 	int Load() override;
 };

@@ -31,9 +31,9 @@ INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
 	return 0;
 }
 
-void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
+void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 {
-	DB::EventInfo dbei(param->hDbEvent);
+	DB::EventInfo dbei(ofd->hDbEvent);
 	if (m_bJabberOnline && dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
 		if (const char *url = blob.getUrl()) {
@@ -49,7 +49,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 			}
 			else if (ret != 2 || (strcmp(protocol, "https") && strcmp(protocol, "http"))) {
 				debugLogA("Wrong url");
-				delete param;
+				delete ofd;
 				return;
 			}
 
@@ -63,7 +63,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 			// download the page
 			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 			if (nlhrReply && nlhrReply->resultCode == 200) {
-				FILE *f = _wfopen(param->wszPath, L"wb");
+				FILE *f = _wfopen(ofd->wszPath, L"wb");
 				size_t written = 0;
 				if (f) {
 					if (encrypted) {
@@ -96,17 +96,16 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *param)
 				if (written) {
 					DBVARIANT dbv = { DBVT_DWORD };
 					dbv.dVal = (DWORD)written;
-					db_event_setJson(param->hDbEvent, "ft", &dbv);
-					db_event_setJson(param->hDbEvent, "fs", &dbv);
-					NotifyEventHooks(g_hevEventEdited, 0, param->hDbEvent);
+					db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+					db_event_setJson(ofd->hDbEvent, "fs", &dbv);
 
-					param->Finish();
+					ofd->Finish();
 				}
 			}
 		}
 	}
 
-	delete param;
+	delete ofd;
 }
 
 void CJabberProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle)

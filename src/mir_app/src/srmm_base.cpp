@@ -31,6 +31,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	timerFlash(this, 1),
 	timerType(this, 2),
 	timerNickList(this, 3),
+	timerRedraw(this, 4),
 
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
@@ -60,6 +61,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
 	m_nickList.OnDblClick = Callback(this, &CSrmmBaseDialog::onDblClick_List);
+
+	timerRedraw.OnEvent = Callback(this, &CSrmmBaseDialog::OnRedrawTimer);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -651,6 +654,23 @@ void CSrmmBaseDialog::RedrawLog()
 	else
 		ClearLog();
 }
+
+void CSrmmBaseDialog::OnRedrawTimer(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	if (isChat())
+		RedrawLog();
+	else 
+		RemakeLog();
+}
+
+void CSrmmBaseDialog::ScheduleRedrawLog()
+{
+	timerRedraw.Start(100);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmBaseDialog::UpdateChatLog()
 {

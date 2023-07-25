@@ -344,7 +344,10 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
+void CMsgDialog::RemakeLog()
+{
+	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
+}
 
 void CMsgDialog::SetDialogToType()
 {

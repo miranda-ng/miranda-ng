@@ -120,6 +120,8 @@ void OFDTHREAD::Finish()
 	dbv.pwszVal = wszPath.GetBuffer();
 	db_event_setJson(hDbEvent, "lf", &dbv);
 
+	NotifyEventHooks(g_hevEventEdited, db_event_getContact(hDbEvent), hDbEvent);
+
 	if (bOpen)
 		ShellExecuteW(nullptr, L"open", wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
 }

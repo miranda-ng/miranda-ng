@@ -428,6 +428,9 @@
     <ClCompile Include="src\fileutils.cpp">
       <Filter>Source Files\File</Filter>
     </ClCompile>
+    <ClCompile Include="src\srmm_main.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">
