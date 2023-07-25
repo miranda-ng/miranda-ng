@@ -32,7 +32,7 @@ void BuildProtoMenus();
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
 
 static bool bModuleInitialized = false;
-static HANDLE hHooks[4];
+static HANDLE hHooks[2];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 {
@@ -217,8 +217,8 @@ int LoadAccountsModule(void)
 			pa->bDynDisabled = true;
 	}
 
-	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
-	hHooks[3] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
+	hHooks[0] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
+	hHooks[1] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
 	return 0;
 }
 
