@@ -339,8 +339,7 @@ public:
 
 	bool OnApply() override
 	{
-		CMsgDialog *dat = Srmm_FindDialog(m_hContact);
-		if (dat) {
+		if (auto *dat = Srmm_FindDialog(m_hContact)) {
 			uint32_t dwOldFlags = (dat->m_dwFlags & MWF_LOG_ALL);
 			dat->SetDialogToType();
 			dat->LoadLocalFlags();

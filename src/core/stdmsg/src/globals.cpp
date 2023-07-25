@@ -40,11 +40,10 @@ static int OnShutdown(WPARAM, LPARAM)
 
 static int OnMetaChanged(WPARAM hMeta, LPARAM)
 {
-	if (hMeta) {
-		auto *pDlg = Srmm_FindDialog(hMeta);
-		if (pDlg != nullptr)
+	if (hMeta)
+		if (auto *pDlg = Srmm_FindDialog(hMeta))
 			pDlg->UpdateAvatar();
-	}
+
 	return 0;
 }
 

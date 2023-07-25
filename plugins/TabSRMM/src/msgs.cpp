@@ -145,8 +145,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	if (0 == (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
-	auto *pDlg = Srmm_FindDialog(hContact);
-	if (pDlg) {
+	if (auto *pDlg = Srmm_FindDialog(hContact)) {
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
