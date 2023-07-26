@@ -151,8 +151,22 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static int OnToolbarButtonPressed(WPARAM, LPARAM lParam)
+{
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (mir_strcmp(cbcd->pszModule, SRFILEMODULE))
+		return 0;
+
+	if (cbcd->dwButtonId == 1) {
+		CallService(MS_FILE_SENDFILE, cbcd->hContact);
+		return 0;
+	}
+	return 1;
+}
+
 static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
+	// Send File contact menu item
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x7f8dcf77, 0xe448, 0x4505, 0xb0, 0x56, 0xb, 0xb1, 0xab, 0xac, 0x64, 0x9d);
 	mi.position = -2000020000;
@@ -160,6 +174,18 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("&File");
 	mi.pszService = MS_FILE_SENDFILE;
 	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
+
+	// SRMM toolbar button
+	BBButton bbd = {};
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 50;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_EVENT_FILE);
+	bbd.pszModuleName = SRFILEMODULE;
+	bbd.pwszTooltip = LPGENW("Send file");
+	Srmm_AddButton(&bbd, &g_plugin);
+
+	HookEvent(ME_MSG_BUTTONPRESSED, OnToolbarButtonPressed);
 
 	RemoveUnreadFileEvents();
 	return 0;
