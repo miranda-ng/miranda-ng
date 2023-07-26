@@ -783,21 +783,29 @@ LBL_Fail:
 	}
 	else m << XCHILDNS("x", JABBER_FEAT_OOB2) << XCHILD("url", szMessage.c_str());
 
-	if (m_bEmbraceUrls && ProtoGetAvatarFormat(_A2T(szMessage)) != PA_FORMAT_UNKNOWN) {
-		szMessage.Insert(0, "[img]");
-		szMessage.Append("[/img]");
-	}
-
 	int ret = SendMsgEx(ft->std.hContact, szMessage.c_str(), m);
-	if (ret != -1 && !isChatRoom(ft->std.hContact)) {
-		PROTORECVEVENT recv = {};
-		recv.flags = PREF_CREATEREAD | PREF_SENT;
-		recv.szMessage = szMessage.GetBuffer();
-		recv.timestamp = time(0);
-		ProtoChainRecvMsg(ft->std.hContact, &recv);
-	}
+	if (ret != -1 && !isChatRoom(ft->std.hContact))
+		ft->szUrl = mir_strdup(szMessage);
 
 	FtSendFinal(true, ft);
+}
+
+void CJabberProto::OnSendOfflineFile(DB::EventInfo &/*dbei*/, DB::FILE_BLOB &blob, void *hTransfer)
+{
+	auto *ft = (filetransfer *)hTransfer;
+	if (!ft->szUrl)
+		return;
+
+	auto *p = wcsrchr(ft->std.szCurrentFile.w, '\\');
+	if (p == nullptr)
+		p = ft->std.szCurrentFile.w;
+	else
+		p++;
+	blob.setName(p);
+
+	blob.setUrl(ft->szUrl);
+	blob.complete(ft->std.totalBytes);
+	blob.setLocalName(ft->std.szCurrentFile.w);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

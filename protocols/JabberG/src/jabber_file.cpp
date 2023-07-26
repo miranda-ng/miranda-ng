@@ -25,12 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_caps.h"
 
-INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
-{
-	ForkThread((MyThreadFunc)&CJabberProto::OfflineFileThread, (void*)param);
-	return 0;
-}
-
 void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 {
 	DB::EventInfo dbei(ofd->hDbEvent);
@@ -106,6 +100,12 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 	}
 
 	delete ofd;
+}
+
+INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread((MyThreadFunc)&CJabberProto::OfflineFileThread, (void *)param);
+	return 0;
 }
 
 void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)

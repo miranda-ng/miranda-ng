@@ -445,6 +445,7 @@ struct filetransfer : public MZeroedObject
 	HANDLE hFileEvent;
 	unsigned __int64 *fileSize;
 	wchar_t *szDescription;
+	ptrA szUrl;
 
 	CJabberProto *ppro;
 };

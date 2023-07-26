@@ -154,6 +154,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void     OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft) override;
 	void     OnShutdown() override;
 
 	//====| Services |====================================================================
@@ -225,7 +226,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bManualConnect;
 	CMOption<bool> m_bMsgAck;
 	CMOption<bool> m_bProcessXMPPLinks;
-	CMOption<bool> m_bEmbraceUrls;
 	CMOption<bool> m_bRcMarkMessagesAsRead;
 	CMOption<bool> m_bRosterSync;
 	CMOption<bool> m_bSavePassword;
