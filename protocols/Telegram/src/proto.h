@@ -80,7 +80,7 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	Type m_type;
 	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
-	CMStringA m_uniqueId;
+	CMStringA m_uniqueId, m_szUserId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
 	OFDTHREAD *ofd = 0;
 };
@@ -137,7 +137,7 @@ struct TG_OWN_MESSAGE
 		tmpMsgId(_3)
 	{}
 
-	int64_t  tmpMsgId;
+	int64_t  tmpMsgId, tmpFileId = -1;
 	HANDLE   hAck;
 	MCONTACT hContact;
 };
@@ -340,12 +340,13 @@ public:
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
-	void     OnCreateOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void     OnErase() override;
 	void     OnEventDeleted(MCONTACT, MEVENT) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void     OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer) override;
 	void     OnShutdown() override;
-	void     OnErase() override;
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	

@@ -151,9 +151,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
-	void     OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle);
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
 	void     OnShutdown() override;
 
 	//====| Services |====================================================================

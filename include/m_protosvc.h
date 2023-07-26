@@ -799,13 +799,6 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Offline file's blob preparation
-// wParam = (DB::FILEBLOB*) blob to patch
-// lParam = (HANDLE) pointer to custom file transfer, passed to PROTORECVFILE.lParam
-
-#define PS_PRECREATE_OFFLINEFILE "/PreCreateOfflineFile"
-
-///////////////////////////////////////////////////////////////////////////////
 // Offline file processing
 
 #define PS_OFFLINEFILE "/OfflineFile"

@@ -1,4 +1,4 @@
--/*
+/*
 Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
@@ -184,12 +184,24 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 	case TD::updateMessageSendSucceeded::ID:
 		{
 			auto *pMessage = (TD::updateMessageSendSucceeded *)response.object.get();
+
+			if (pMessage->old_message_id_) {
+				char szId[100];
+				_i64toa(pMessage->old_message_id_, szId, 10);
+				if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
+					_i64toa(pMessage->message_->id_, szId, 10);
+					db_event_updateId(hDbEvent, szId);
+				}
+			}
+
 			ProcessMessage(pMessage->message_.get());
 
 			if (auto *pOwnMsg = m_arOwnMsg.find((TG_OWN_MESSAGE *)&pMessage->old_message_id_)) {
-				char szMsgId[100];
-				_i64toa(pMessage->message_->id_, szMsgId, 10);
-				ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId);
+				if (pOwnMsg->hAck) {
+					char szMsgId[100];
+					_i64toa(pMessage->message_->id_, szMsgId, 10);
+					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId);
+				}
 
 				m_arOwnMsg.remove(pOwnMsg);
 			}
@@ -623,6 +635,11 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
 			return;
 
+	char szId[100], szUserId[100];
+	_i64toa(pMessage->id_, szId, 10);
+	if (db_event_getById(m_szModuleName, szId))
+		return;
+
 	CMStringA szText(GetMessageText(pUser, pMessage));
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
@@ -639,11 +656,6 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		AddUser(pUser->id, false);
 		Contact::RemoveFromList(pUser->hContact);
 	}
-
-	char szId[100], szUserId[100];
-	_i64toa(pMessage->id_, szId, 10);
-	if (db_event_getById(m_szModuleName, szId))
-		return;
 
 	PROTORECVEVENT pre = {};
 	pre.szMessage = szText.GetBuffer();

@@ -169,12 +169,28 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
 }
 
-void CIcqProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *hTransfer)
+void CIcqProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft)
 {
-	if (auto *pFileInfo = (IcqFileInfo *)hTransfer) {
+	if (auto *pFileInfo = (IcqFileInfo *)ft) {
 		blob.setUrl(pFileInfo->szOrigUrl);
 		blob.setSize(pFileInfo->dwFileSize);
 	}
+}
+
+void CIcqProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer)
+{	
+	auto *ft = (IcqFileTransfer *)hTransfer;
+
+	auto *p = wcsrchr(ft->m_wszFileName, '\\');
+	if (p == nullptr)
+		p = ft->m_wszFileName;
+	else
+		p++;
+	blob.setName(p);
+
+	blob.setUrl("boo");
+	blob.complete(ft->pfts.currentFileSize);
+	blob.setLocalName(ft->m_wszFileName);
 }
 
 void CIcqProto::OnEventEdited(MCONTACT, MEVENT)

@@ -260,7 +260,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	}
 
 	DB::FILE_BLOB blob(wszFiles, wszDescr);
-	CallProtoService(dbei.szModule, PS_PRECREATE_OFFLINEFILE, WPARAM(&blob), pre->lParam);
+	if (auto *ppro = Proto_GetContactInstance(hContact))
+		ppro->OnReceiveOfflineFile(blob, (void*)pre->lParam);
 	blob.write(dbei);
 
 	MEVENT hdbe = db_event_add(hContact, &dbei);

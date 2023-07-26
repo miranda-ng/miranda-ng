@@ -49,7 +49,6 @@ static TServiceListItem serviceItems[] =
 	{ PS_AUTHDENY,              4 },
 	{ PSR_AUTH,                 5 },
 	{ PSS_AUTHREQUEST,          6 },
-	{ PS_PRECREATE_OFFLINEFILE, 7 },
 	{ PSS_FILEALLOW,            8 },
 	{ PSS_FILECANCEL,           9 },
 	{ PSS_FILEDENY,            10 },
@@ -401,7 +400,6 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (wchar_t *)lParam);
 			case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT *)lParam);
 			case  6: return (INT_PTR)ppi->AuthRequest(hContact, (wchar_t *)lParam);
-			case  7: ppi->OnCreateOfflineFile(*(DB::FILE_BLOB *)wParam, (void *)lParam); return 0;
 			case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t *)lParam);
 			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t *)lParam);

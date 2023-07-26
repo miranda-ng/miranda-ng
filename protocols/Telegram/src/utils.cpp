@@ -330,7 +330,7 @@ CMStringA CTelegramProto::GetMessageSticker(const TD::file *pFile, const char *p
 
 static const TD::photoSize* GetBiggestPhoto(const TD::photo *pPhoto)
 {
-	const char *types[] = {"y", "x", "m", "s"};
+	const char *types[] = { "y", "x", "m", "s" };
 	for (auto *pType : types)
 		for (auto &it : pPhoto->sizes_)
 			if (it->type_ == pType)

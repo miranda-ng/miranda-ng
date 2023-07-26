@@ -134,6 +134,12 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	return ret;
 }
 
+MIR_APP_DLL(PROTO_INTERFACE *) Proto_GetContactInstance(MCONTACT hContact)
+{
+	auto *pa = Proto_GetContactAccount(hContact);
+	return (pa) ? pa->ppro : nullptr;
+}
+
 MIR_APP_DLL(PROTOACCOUNT*) Proto_GetContactAccount(MCONTACT hContact)
 {
 	if (hContact == 0)

@@ -415,11 +415,36 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 	return pTransfer;
 }
 
-void CTelegramProto::OnSendFile(td::ClientManager::Response &, void *pUserInfo)
+void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUserInfo)
 {
 	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
+
+	if (response.object->get_id() == TD::message::ID) {
+		auto *pMsg = (TD::message *)response.object.get();
+		ft->m_uniqueId.Format("%lld", pMsg->id_);
+
+		if (auto *pUser = FindChat(pMsg->chat_id_)) {
+			char szUserId[100];
+			if (this->GetGcUserId(pUser, pMsg, szUserId))
+				ft->m_szUserId = szUserId;
+
+			auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, pMsg->id_);
+			const TD::MessageContent *pBody = pMsg->content_.get();
+			switch (pBody->get_id()) {
+			case TD::messagePhoto::ID:
+				pOwnMsg->tmpFileId = ((TD::messagePhoto*)pBody)->photo_->sizes_[0]->photo_->id_;
+				break;
+
+			case TD::messageDocument::ID:
+				pOwnMsg->tmpFileId = ((TD::messageDocument *)pBody)->document_->document_->id_;
+				break;
+			}
+			m_arOwnMsg.insert(pOwnMsg);
+		}
+	}
+
 	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-	delete ft;
+	delete ft;  
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

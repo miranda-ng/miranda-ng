@@ -340,8 +340,11 @@ void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 {
 	JSONNode root;
 	root << WCHAR_PARAM("f", m_wszFileName) << WCHAR_PARAM("d", m_wszDescription ? m_wszDescription : L"");
-	if (isOffline())
+	if (isOffline()) {
 		root << CHAR_PARAM("u", m_szProtoString) << INT_PARAM("fs", m_iFileSize) << INT_PARAM("ft", m_iTransferred);
+		if (mir_wstrlen(m_wszLocalName))
+			root << WCHAR_PARAM("lf", m_wszLocalName);
+	}
 
 	std::string text = root.write();
 	dbei.cbBlob = (int)text.size() + 1;

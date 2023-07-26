@@ -80,9 +80,6 @@ MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
 	return nullptr; // error
 }
 
-void PROTO_INTERFACE::OnCreateOfflineFile(DB::FILE_BLOB&, void *)
-{}
-
 void PROTO_INTERFACE::OnEventDeleted(MCONTACT, MEVENT)
 {}
 
@@ -102,6 +99,12 @@ bool PROTO_INTERFACE::IsReadyToExit()
 {
 	return true;
 }
+
+void PROTO_INTERFACE::OnReceiveOfflineFile(DB::FILE_BLOB &, void *)
+{}
+
+void PROTO_INTERFACE::OnSendOfflineFile(DB::EventInfo &, DB::FILE_BLOB &, void *)
+{}
 
 void PROTO_INTERFACE::OnShutdown()
 {}

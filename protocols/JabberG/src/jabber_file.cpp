@@ -108,7 +108,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 	delete ofd;
 }
 
-void CJabberProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 {
 	if (auto *ft = (filetransfer *)pHandle)
 		if (ft->type == FT_HTTP && ft->httpPath)

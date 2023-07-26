@@ -266,9 +266,6 @@ public:
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
-	// called when an offline file is being created
-	virtual void OnCreateOfflineFile(DB::FILE_BLOB &blob, void *ft);
-
 	// called when an event is altered in database
 	virtual void OnEventDeleted(MCONTACT, MEVENT);
 
@@ -283,6 +280,12 @@ public:
 
 	// the analog of ME_SYSTEM_MODULESLOADED for an account
 	virtual void OnModulesLoaded(void);
+
+	// called when an offline file is being received
+	virtual void OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft);
+
+	// prepares an event of the file being sent
+	virtual void OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft);
 
 	// same for ME_SYSTEM_SHUTDOWN
 	virtual void OnShutdown(void);

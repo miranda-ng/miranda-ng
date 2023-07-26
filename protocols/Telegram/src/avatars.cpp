@@ -124,12 +124,32 @@ INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Offline file pre-creator
 
-void CTelegramProto::OnCreateOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 {
 	if (auto *ft = (TG_FILE_REQUEST *)pHandle) {
 		blob.setUrl(ft->m_uniqueId.GetBuffer());
 		blob.setSize(ft->m_fileSize);
 	}
+}
+
+void CTelegramProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer)
+{
+	auto *ft = (TG_FILE_REQUEST *)hTransfer;
+
+	dbei.szId = ft->m_uniqueId;
+	if (!ft->m_szUserId.IsEmpty())
+		dbei.szUserId = ft->m_szUserId;
+
+	auto *p = wcsrchr(ft->m_fileName, '\\');
+	if (p == nullptr)
+		p = ft->m_fileName;
+	else
+		p++;
+	blob.setName(p);
+
+	blob.setUrl("boo");
+	blob.complete(ft->m_fileSize);
+	blob.setLocalName(ft->m_fileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +234,21 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 			delete F;
 			return;
+		}
+
+		for (auto &it : m_arOwnMsg) {
+			if (it->tmpFileId == pFile->id_) {
+				if (!pFile->remote_->id_.empty()) {
+					char szId[100];
+					_i64toa(it->tmpMsgId, szId, 10);
+					if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
+						DBVARIANT dbv = { DBVT_UTF8 };
+						dbv.pszVal = (char *)pFile->remote_->id_.c_str();
+						db_event_setJson(hDbEvent, "u", &dbv);
+					}
+				}
+				return;
+			}
 		}
 
 		for (auto &it : m_arUsers) {
