@@ -720,10 +720,12 @@ namespace DB
 		__forceinline int64_t getSize() const { return m_iFileSize; }
 		__forceinline int64_t getTransferred() const { return m_iTransferred; }
 
+		__forceinline void complete(int64_t iSize) { m_iFileSize = m_iTransferred = iSize; }
 		bool isCompleted() const;
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
 
 		__forceinline void setUrl(const char *pszUrl) { m_szProtoString = mir_strdup(pszUrl); }
+		__forceinline void setName(const wchar_t *pszFileName) { m_wszFileName = mir_wstrdup(pszFileName); }
 		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
 		__forceinline void setLocalName(const wchar_t *pszFileName) { m_wszLocalName = mir_wstrdup(pszFileName); }
 	};

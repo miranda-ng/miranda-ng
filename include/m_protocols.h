@@ -298,10 +298,16 @@ EXTERN_C MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber = nullptr);
 EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *pszModuleName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// retrieves an account's interface associated with a contact's id
+// retrieves an account associated with a contact's id
 // returns PROTOACCOUNT* or NULL on error
 
 EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_GetContactAccount(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieves an account's interface associated with a contact's id
+// returns PROTOACCOUNT* or NULL on error
+
+MIR_APP_DLL(PROTO_INTERFACE*) Proto_GetContactInstance(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns last status reported by a protocol
