@@ -132,6 +132,22 @@ void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
 		wszPath = FindUniqueFileName(pwszNewName);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MCONTACT hContact)
+{
+	wchar_t wszReceiveFolder[MAX_PATH];
+	if (dbei.flags & DBEF_SENT) // don't mix sent & received files
+		mir_snwprintf(wszReceiveFolder, L"%s\\dlFiles\\%d", VARSW(L"%miranda_userdata%").get(), hContact);
+	else
+		GetContactReceivedFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+	CreateDirectoryTreeW(wszReceiveFolder);
+
+	MFilePath wszFullName(wszReceiveFolder);
+	wszFullName.AppendFormat(L"\\%s", blob.getName());
+	blob.setLocalName(FindUniqueFileName(wszFullName));
+}
+
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen)
 {
 	DB::EventInfo dbei(hDbEvent);
@@ -142,19 +158,21 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, b
 	if (!blob.isOffline())
 		return;
 
-	if (!mir_wstrlen(blob.getLocalName())) {
-		wchar_t wszReceiveFolder[MAX_PATH];
-		GetContactReceivedFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
-		CreateDirectoryTreeW(wszReceiveFolder);
-
-		MFilePath wszFullName(wszReceiveFolder);
-		wszFullName.AppendFormat(L"\\%s", blob.getName());
-		blob.setLocalName(FindUniqueFileName(wszFullName));
+	// local name was never created, make new one
+	bool bDownloaded = false;
+	if (!mir_wstrlen(blob.getLocalName()))
+		GenerateLocalName(dbei, blob, hContact);
+	else {
+		struct _stat st;
+		if (-1 == _wstat(blob.getLocalName(), &st)) {
+			// file doesn't exist? expired? deleted? generate a new one in a local folder
+			GenerateLocalName(dbei, blob, hContact);
+		}
+		else if (st.st_size && st.st_size == blob.getSize() && blob.isCompleted())
+			bDownloaded = true;
 	}
 
-	struct _stat st = {};
-	_wstat(blob.getLocalName(), &st);
-	if (st.st_size && st.st_size == blob.getSize() && blob.isCompleted()) {
+	if (bDownloaded) {
 		if (bOpen)
 			ShellExecuteW(nullptr, L"open", blob.getLocalName(), nullptr, nullptr, SW_SHOWDEFAULT);
 	}
