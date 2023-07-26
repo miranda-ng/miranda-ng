@@ -331,10 +331,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_TRANSFERCOMPLETED:
-			if (dat->transferStatus.currentFileNumber <= 1 && CheckVirusScanned(hwndDlg, dat, 0)) {
+			if (dat->transferStatus.currentFileNumber <= 1 && CheckVirusScanned(hwndDlg, dat, 0))
 				ShellExecute(NULL, NULL, dat->files[0], NULL, NULL, SW_SHOW);
-				break;
-			}
+			break;
 
 		case IDC_OPENFOLDER:
 			{
@@ -596,15 +595,14 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						DB::EventInfo dbei;
 						dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
 						dbei.eventType = EVENTTYPE_FILE;
-						dbei.flags = DBEF_SENT;
+						dbei.flags = DBEF_SENT | DBEF_UTF;
 						dbei.timestamp = time(0);
-						dbei.flags |= DBEF_UTF;
 
 						DB::FILE_BLOB blob(dat->szFilenames, dat->szMsg);
 						blob.write(dbei);
 						db_event_add(dat->hContact, &dbei);
 
-						dat->files = nullptr;   //protocol library frees this
+						dat->files = nullptr;   // protocol library frees this
 					}
 					else {
 						SetFtStatus(hwndDlg,

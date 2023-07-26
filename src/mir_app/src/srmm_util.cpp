@@ -132,7 +132,7 @@ void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
 		wszPath = FindUniqueFileName(pwszNewName);
 }
 
-MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen)
 {
 	DB::EventInfo dbei(hDbEvent);
 	if (!dbei)
@@ -144,7 +144,7 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MEVENT hDbEvent, bool bOpen)
 
 	if (!mir_wstrlen(blob.getLocalName())) {
 		wchar_t wszReceiveFolder[MAX_PATH];
-		GetContactReceivedFilesDir(db_event_getContact(hDbEvent), wszReceiveFolder, _countof(wszReceiveFolder), true);
+		GetContactReceivedFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
 		CreateDirectoryTreeW(wszReceiveFolder);
 
 		MFilePath wszFullName(wszReceiveFolder);

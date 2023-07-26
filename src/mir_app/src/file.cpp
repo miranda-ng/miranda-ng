@@ -280,7 +280,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 			// or if they are less than a limit (if a transfer has specified file size)
 			if (bSilent && File::bOfflineAuto)
 				if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))
-					Srmm_DownloadOfflineFile(hdbe, false);
+					Srmm_DownloadOfflineFile(hContact, hdbe, false);
 
 			bool bShow = !Contact::IsGroupChat(hContact);
 			if (bShow && blob.isOffline()) {

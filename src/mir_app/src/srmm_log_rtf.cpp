@@ -236,7 +236,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 				}
 			}
 
-			Srmm_DownloadOfflineFile(hDbEvent, nCmd == 2);
+			Srmm_DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2);
 			return TRUE;
 		}
 
