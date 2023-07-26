@@ -534,9 +534,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	bool bIsOutgoing = it["outgoing"].as_bool();
+	bool bIsChat = Contact::IsGroupChat(hContact);
 	IcqFileInfo *pFileInfo = nullptr;
 
-	if (!bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+	if (wszText.Left(26) == L"https://files.icq.net/get/") {
 		if (!CheckFile(hContact, wszText, pFileInfo)) {
 			debugLogA("Some shit happened, report this case to developers");
 			return;
@@ -553,11 +554,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	CMStringA reqId(it["reqId"].as_mstring());
 	if (CheckOwnMessage(reqId, szMsgId, true)) {
 		debugLogA("Skipping our own message %s", szMsgId.c_str());
-		if (!Contact::IsGroupChat(hContact)) // prevent duplicates in private chats 
+		if (!bIsChat) // prevent duplicates in private chats 
 			return;
 		bIsOutgoing = bCreateRead = true;
 	}
-	else if (Contact::IsGroupChat(hContact))
+	else if (bIsChat)
 		bCreateRead = true;
 
 	// convert a file info into Miranda's file transfer
@@ -579,6 +580,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		pre.lParam = (LPARAM)pFileInfo;
 		if (bCreateRead)
 			pre.dwFlags |= PRFF_READ;
+		if (bIsOutgoing)
+			pre.dwFlags |= PRFF_SENT;
 		if (isChatRoom(hContact))
 			pre.szUserId = szSender;
 		ProtoChainRecvFile(hContact, &pre);
