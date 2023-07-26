@@ -61,6 +61,16 @@
 #  ifndef NOGDI
 #    define NOGDI
 #  endif
+/* Detect Windows App environment which has a restricted access
+ * to the Win32 APIs. */
+# if (defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0602)) || \
+  defined(WINAPI_FAMILY)
+#  include <winapifamily.h>
+#  if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) &&  \
+     !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#    define CURL_WINDOWS_APP
+#  endif
+# endif
 #endif
 
 /*
@@ -288,6 +298,7 @@
 #  if defined(HAVE_PROTO_BSDSOCKET_H) && \
     (!defined(__amigaos4__) || defined(USE_AMISSL))
      /* use bsdsocket.library directly, instead of libc networking functions */
+#    define _SYS_MBUF_H /* m_len define clashes with curl */
 #    include <proto/bsdsocket.h>
 #    ifdef __amigaos4__
        int Curl_amiga_select(int nfds, fd_set *readfds, fd_set *writefds,

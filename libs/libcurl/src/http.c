@@ -1308,7 +1308,7 @@ CURLcode Curl_buffer_send(struct dynbuf *in,
       || IS_HTTPS_PROXY(conn->http_proxy.proxytype)
 #endif
        )
-     && conn->httpversion != 20) {
+     && conn->httpversion < 20) {
     /* Make sure this doesn't send more body bytes than what the max send
        speed says. The request bytes do not count to the max speed.
     */
@@ -3380,6 +3380,9 @@ CURLcode Curl_http(struct Curl_easy *data, bool *done)
     }
   }
 
+  if(data->req.upload_done)
+    Curl_conn_ev_data_done_send(data);
+
   if((conn->httpversion >= 20) && data->req.upload_chunky)
     /* upload_chunky was set above to set up the request in a chunky fashion,
        but is disabled here again to avoid that the chunked encoded version is
@@ -4568,8 +4571,8 @@ CURLcode Curl_http_req_make(struct httpreq **preq,
     if(!req->path)
       goto out;
   }
-  Curl_dynhds_init(&req->headers, 0, DYN_H2_HEADERS);
-  Curl_dynhds_init(&req->trailers, 0, DYN_H2_TRAILERS);
+  Curl_dynhds_init(&req->headers, 0, DYN_HTTP_REQUEST);
+  Curl_dynhds_init(&req->trailers, 0, DYN_HTTP_REQUEST);
   result = CURLE_OK;
 
 out:
@@ -4726,8 +4729,8 @@ CURLcode Curl_http_req_make2(struct httpreq **preq,
   if(result)
     goto out;
 
-  Curl_dynhds_init(&req->headers, 0, DYN_H2_HEADERS);
-  Curl_dynhds_init(&req->trailers, 0, DYN_H2_TRAILERS);
+  Curl_dynhds_init(&req->headers, 0, DYN_HTTP_REQUEST);
+  Curl_dynhds_init(&req->trailers, 0, DYN_HTTP_REQUEST);
   result = CURLE_OK;
 
 out:
@@ -4857,8 +4860,8 @@ CURLcode Curl_http_resp_make(struct http_resp **presp,
     if(!resp->description)
       goto out;
   }
-  Curl_dynhds_init(&resp->headers, 0, DYN_H2_HEADERS);
-  Curl_dynhds_init(&resp->trailers, 0, DYN_H2_TRAILERS);
+  Curl_dynhds_init(&resp->headers, 0, DYN_HTTP_REQUEST);
+  Curl_dynhds_init(&resp->trailers, 0, DYN_HTTP_REQUEST);
   result = CURLE_OK;
 
 out:
