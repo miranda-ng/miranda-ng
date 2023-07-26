@@ -258,7 +258,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *
 
 int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 {
-	int ret = m_iMsgId++;
+	int ret = ++m_iMsgId;
 
 	auto pContent = TD::make_object<TD::inputMessageText>();
 	pContent->text_ = TD::make_object<TD::formattedText>();
