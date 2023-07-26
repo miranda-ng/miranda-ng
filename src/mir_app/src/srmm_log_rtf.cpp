@@ -30,14 +30,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
+static int OnRedrawLog(void *pObj, WPARAM hContact, LPARAM)
+{
+	auto *pLog = (CRtfLogWindow *)pObj;
+	auto &pDlg = pLog->GetDialog();
+
+	if (pDlg.m_hContact == hContact)
+		pDlg.ScheduleRedrawLog();
+	else if (auto hParent = db_mc_getMeta(hContact))
+		if (pDlg.m_hContact == hParent)
+			pDlg.ScheduleRedrawLog();
+
+	return 0;
+}
+
 CRtfLogWindow::CRtfLogWindow(CMsgDialog &pDlg) :
 	CSrmmLogWindow(pDlg),
 	m_rtf(*(CCtrlRichEdit*)pDlg.FindControl(IDC_SRMM_LOG))
 {
+	hevEdited = HookEventObj(ME_DB_EVENT_EDITED, OnRedrawLog, this);
+	hevDelete = HookEventObj(ME_DB_EVENT_DELETED, OnRedrawLog, this);
 }
 
 CRtfLogWindow::~CRtfLogWindow()
 {
+	UnhookEvent(hevEdited);
+	UnhookEvent(hevDelete);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

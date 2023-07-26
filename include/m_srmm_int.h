@@ -180,6 +180,8 @@ struct RtfChatLogStreamData
 
 class MIR_APP_EXPORT CRtfLogWindow : public CSrmmLogWindow
 {
+	HANDLE hevDelete, hevEdited;
+
 protected:
 	CCtrlRichEdit &m_rtf;
 

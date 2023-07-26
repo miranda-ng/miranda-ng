@@ -52,21 +52,6 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Built-in hook to redraw RTF-based event logs on event's change/deletion
-
-static int OnRedrawLog(WPARAM hContact, LPARAM)
-{
-	if (auto *pDlg = Srmm_FindDialog(hContact))
-		pDlg->ScheduleRedrawLog();
-
-	if (db_mc_isSub(hContact))
-		if (auto *pDlg = Srmm_FindDialog(db_mc_getMeta(hContact)))
-			pDlg->ScheduleRedrawLog();
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 void SrmmModulesLoaded()
 {
@@ -104,9 +89,6 @@ int LoadSrmmModule()
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-
-	HookEvent(ME_DB_EVENT_EDITED, OnRedrawLog);
-	HookEvent(ME_DB_EVENT_DELETED, OnRedrawLog);
 	return 0;
 }
 
