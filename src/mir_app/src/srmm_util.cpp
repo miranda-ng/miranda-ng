@@ -114,6 +114,11 @@ OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
 {
 }
 
+OFDTHREAD::~OFDTHREAD()
+{
+	delete pCallback;
+}
+
 void OFDTHREAD::Finish()
 {
 	DBVARIANT dbv = { DBVT_WCHAR };
@@ -129,8 +134,7 @@ void OFDTHREAD::Finish()
 
 	NotifyEventHooks(g_hevEventEdited, db_event_getContact(hDbEvent), hDbEvent);
 
-	if (bOpen)
-		ShellExecuteW(nullptr, L"open", wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+	pCallback->Invoke(*this);
 }
 
 void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
@@ -155,7 +159,7 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 	blob.setLocalName(FindUniqueFileName(wszFullName));
 }
 
-MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen)
+void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Callback *pCallback)
 {
 	DB::EventInfo dbei(hDbEvent);
 	if (!dbei)
@@ -180,11 +184,13 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, b
 	}
 
 	if (bDownloaded) {
-		if (bOpen)
-			ShellExecuteW(nullptr, L"open", blob.getLocalName(), nullptr, nullptr, SW_SHOWDEFAULT);
+		OFDTHREAD ofd(hDbEvent, blob.getLocalName(), bOpen);
+		pCallback->Invoke(ofd);
+		delete pCallback;
 	}
 	else {
 		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), bOpen);
+		ofd->pCallback = pCallback;
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
 	}
 }

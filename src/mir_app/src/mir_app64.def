@@ -246,7 +246,6 @@ Srmm_RedrawToolbarIcons @338
 ?Srmm_GetNthButton@@YAPEAUCustomButtonData@@H@Z @339 NONAME
 ?Srmm_GetButtonCount@@YAHXZ @340 NONAME
 ?Srmm_ClickToolbarIcon@@YAXIHPEAUHWND__@@H@Z @341 NONAME
-?Srmm_DownloadOfflineFile@@YAXII_N@Z @342 NONAME
 Miranda_OkToExit @344
 Miranda_GetVersion @345
 Miranda_GetFileVersion @346

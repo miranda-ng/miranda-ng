@@ -807,6 +807,7 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 {
 	OFDTHREAD(MEVENT, const CMStringW &, bool);
+	~OFDTHREAD();
 
 	void Finish();
 	void ResetFileName(const wchar_t *pwszNewName);
@@ -814,6 +815,7 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 	MEVENT hDbEvent;
 	MFilePath wszPath;
 	bool bOpen;
+	struct OFD_Callback *pCallback = nullptr;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

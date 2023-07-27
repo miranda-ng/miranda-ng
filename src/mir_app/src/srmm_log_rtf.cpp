@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "chat.h"
+#include "file.h"
 
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
@@ -223,20 +224,46 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Download"));
 				if (blob.getUrl() != nullptr)
 					AppendMenu(hMenu, MF_STRING, 4, TranslateT("Copy URL"));
+				AppendMenu(hMenu, MF_STRING, 5, TranslateT("Save as"));
 
 				POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
 				ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
 				nCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlg.m_hwnd, nullptr);
 				DestroyMenu(hMenu);
-
-				if (nCmd <= 0 || nCmd > 3) {
-					if (nCmd == 4)
-						Utils_ClipboardCopy(blob.getUrl());
-					return TRUE;
-				}
 			}
 
-			Srmm_DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2);
+			switch (nCmd) {
+			case 2:
+			case 3:
+				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2, new OFD_Download());
+				break;
+
+			case 4:
+				Utils_ClipboardCopy(blob.getUrl());
+				break;
+
+			case 5:
+				wchar_t str[MAX_PATH];
+				mir_wstrncpy(str, blob.getName(), _countof(str));
+				{
+					wchar_t filter[512];
+					mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+
+					OPENFILENAME ofn = {};
+					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
+					ofn.lpstrFilter = filter;
+					ofn.lpstrFile = str;
+					ofn.nMaxFile = _countof(str);
+					ofn.nMaxFileTitle = MAX_PATH;
+					if (!GetSaveFileNameW(&ofn))
+						break;
+				}
+
+				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2, new OFD_SaveAs(str));
+				break;
+			}
+
 			return TRUE;
 		}
 

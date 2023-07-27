@@ -141,3 +141,38 @@ MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile);
 
 int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
+
+// downloads or launches offline file
+struct OFD_Callback
+{
+	virtual ~OFD_Callback() {}
+	virtual void Invoke(const OFDTHREAD &ofd) = 0;
+};
+
+struct OFD_Download : public OFD_Callback
+{
+	void Invoke(const OFDTHREAD &ofd) override
+	{
+		if (ofd.bOpen)
+			ShellExecuteW(nullptr, L"open", ofd.wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
+	}
+};
+
+class OFD_SaveAs : public OFD_Callback
+{
+	ptrW m_path;
+
+public:
+	OFD_SaveAs(const wchar_t *pwszPath) :
+		m_path(mir_wstrdup(pwszPath))
+	{}
+
+	~OFD_SaveAs() {}
+
+	void Invoke(const OFDTHREAD &ofd) override
+	{
+		CopyFileW(ofd.wszPath, m_path, false);
+	}
+};
+
+void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Callback *pCallback);
