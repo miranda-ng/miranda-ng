@@ -150,7 +150,7 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringW CreateUniqueFileName(const wchar_t *pszOriginalFile)
+MFilePath CreateUniqueFileName(const wchar_t *pszOriginalFile)
 {
 	const wchar_t *pszExtension, *pszFilename;
 	if ((pszFilename = wcsrchr(pszOriginalFile, '\\')) == nullptr)
@@ -158,7 +158,7 @@ CMStringW CreateUniqueFileName(const wchar_t *pszOriginalFile)
 	if ((pszExtension = wcsrchr(pszFilename + 1, '.')) == nullptr)
 		pszExtension = pszFilename + mir_wstrlen(pszFilename);
 
-	CMStringW buf;
+	MFilePath buf;
 	for (int i = 1;; i++) {
 		buf.Format(L"%.*s (%d)%s", unsigned(pszExtension - pszOriginalFile), pszOriginalFile, i, pszExtension);
 		if (_waccess(buf, 0) != 0)
@@ -167,7 +167,7 @@ CMStringW CreateUniqueFileName(const wchar_t *pszOriginalFile)
 	return buf;
 }
 
-CMStringW FindUniqueFileName(const wchar_t *pszOriginalFile)
+MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile)
 {
 	if (_waccess(pszOriginalFile, 0))
 		return pszOriginalFile;

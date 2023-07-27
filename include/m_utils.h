@@ -305,7 +305,11 @@ public:
 	MFilePath(): CMStringW() {}
 	MFilePath(const wchar_t *init) : CMStringW(init) {}
 
+	CMStringW getExtension() const;
+
+	bool isExecutable() const;
 	bool isExist() const;
+
 	bool move(const wchar_t *pwszDest);
 
 	MFileIterator search();

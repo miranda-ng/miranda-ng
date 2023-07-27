@@ -120,6 +120,13 @@ void OFDTHREAD::Finish()
 	dbv.pwszVal = wszPath.GetBuffer();
 	db_event_setJson(hDbEvent, "lf", &dbv);
 
+	// if the file is executable, protect it from automatic opening
+	if (wszPath.isExecutable())
+		if (FILE *out = _wfopen(wszPath + L":Zone.Identifier", L"wt")) {
+			fputs("[ZoneTransfer]\r\nZoneId = 3\r\n", out);
+			fclose(out);
+		}
+
 	NotifyEventHooks(g_hevEventEdited, db_event_getContact(hDbEvent), hDbEvent);
 
 	if (bOpen)

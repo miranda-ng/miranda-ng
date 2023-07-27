@@ -62,6 +62,25 @@ bool MFilePath::MFileIterator::isDir() const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringW MFilePath::getExtension() const
+{
+	int idx = ReverseFind('.');
+	return (idx == -1) ? L"" : Right(GetLength() - idx - 1);
+}
+
+bool MFilePath::isExecutable() const
+{
+	CMStringW wszExt = getExtension(), wszEnv;
+	wszExt.MakeUpper();
+	wszEnv.GetEnvironmentVariableW(L"PATHEXT");
+
+	for (auto *p = wcstok(wszEnv.GetBuffer(), L";"); p; p = wcstok(0, L";"))
+		if (wszExt == p + 1)
+			return true;
+
+	return false;
+}
+
 bool MFilePath::isExist() const
 {
 	return _waccess(c_str(), 0) == 0;

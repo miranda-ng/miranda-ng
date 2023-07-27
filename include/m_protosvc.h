@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_PROTOSVC_H__ 1
 
 #include "m_protocols.h"
+#include "m_utils.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // WARNING:
@@ -811,7 +812,7 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 	void ResetFileName(const wchar_t *pwszNewName);
 
 	MEVENT hDbEvent;
-	CMStringW wszPath;
+	MFilePath wszPath;
 	bool bOpen;
 };
 
