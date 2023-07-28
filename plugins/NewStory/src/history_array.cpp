@@ -49,7 +49,7 @@ bool Filter::check(ItemData *item)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		if (bRtf)
+		if (m_bRtf)
 			data = MTextCreateEx(htuLog, this->wtext, MTEXT_FLG_WCHAR | MTEXT_FLG_RTF);
 		else
 			data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
@@ -104,14 +104,14 @@ bool ItemData::isLinkChar(int idx) const
 
 void ItemData::load(bool bFullLoad)
 {
-	if (!bFullLoad || bLoaded)
+	if (!bFullLoad || m_bLoaded)
 		return;
 
 	dbe.cbBlob = -1;
 	if (db_event_get(hEvent, &dbe))
 		return;
 
-	bLoaded = true;
+	m_bLoaded = true;
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -128,18 +128,33 @@ void ItemData::load(bool bFullLoad)
 
 	case EVENTTYPE_FILE:
 		{
-			CMStringW wszFileName;
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
-				wszFileName = blob.getLocalName();
-			}
-			else {
-				wchar_t buf[MAX_PATH];
-				CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
+				m_bOfflineFile = true;
 
-				wszFileName = buf;
-				wszFileName.Append(blob.getName());
+				CMStringW buf;
+				buf.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));
+
+				if (auto *pwszDescr = blob.getDescr()) {
+					buf.Append(L" - ");
+					buf.Append(pwszDescr);
+				}
+
+				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
+					buf.AppendFormat(L" %c ", 10004);
+
+				if (uint32_t size = blob.getSize())
+					buf.AppendFormat(L" %uKB", size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
+
+				wtext = buf.Detach();
+				break;
 			}
+
+			wchar_t buf[MAX_PATH];
+			CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
+
+			CMStringW wszFileName = buf;
+			wszFileName.Append(blob.getName());
 
 			// if a filename contains spaces, URL will be broken
 			if (wszFileName.Find(' ') != -1) {
@@ -168,7 +183,7 @@ void ItemData::load(bool bFullLoad)
 bool ItemData::isGrouped() const
 {
 	if (pPrev && g_plugin.bMsgGrouping) {
-		if (!pPrev->bLoaded)
+		if (!pPrev->m_bLoaded)
 			pPrev->load(true);
 
 		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
@@ -290,7 +305,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
-	p.bLoaded = true;
+	p.m_bLoaded = true;
 	p.dbe.eventType = EVENTTYPE_MESSAGE;
 	p.dbe.timestamp = lin->time;
 
@@ -346,7 +361,7 @@ ItemData* HistoryArray::get(int id, bool bLoad)
 		return nullptr;
 
 	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
-	if (bLoad && !p->bLoaded)
+	if (bLoad && !p->m_bLoaded)
 		p->load(true);
 	return p;
 }

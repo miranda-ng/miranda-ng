@@ -195,6 +195,11 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Cal
 	}
 }
 
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen)
+{
+	DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_Download());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // serializes all thread-unsafe operation to the first thread
 

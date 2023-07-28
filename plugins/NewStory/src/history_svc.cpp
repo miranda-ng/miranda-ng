@@ -24,7 +24,7 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 	if (pData && pRet) {
 		for (int i = pData->items.getCount(); i >= 0; i--) {
 			auto *p = pData->items.get(i);
-			if (p->bSelected)
+			if (p->m_bSelected)
 				pRet->push_back(p->hEvent);
 		}
 	}

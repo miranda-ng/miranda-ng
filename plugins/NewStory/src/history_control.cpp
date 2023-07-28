@@ -91,7 +91,7 @@ void NewstoryListData::DeleteItems(void)
 	int eventCount = items.getCount();
 	for (int i = eventCount - 1; i >= 0; i--) {
 		auto *p = items.get(i, false);
-		if (p->hEvent && p->bSelected) {
+		if (p->hEvent && p->m_bSelected) {
 			db_event_delete(p->hEvent);
 			items.remove(i);
 			firstSel = i;
@@ -267,7 +267,7 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	item->getFontColor(fontid, colorid);
 
 	clText = g_fontTable[fontid].cl;
-	if (item->bSelected) {
+	if (item->m_bSelected) {
 		MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
 		clText = g_colorTable[COLOR_SELTEXT].cl;
 		clBack = g_colorTable[COLOR_SELBACK].cl;
@@ -463,7 +463,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			for (int i = start; i <= end; ++i) {
 				if (auto *p = data->items.get(i, false))
-					p->bSelected = true;
+					p->m_bSelected = true;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
@@ -479,7 +479,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, false);
-				p->bSelected = !p->bSelected;
+				p->m_bSelected = !p->m_bSelected;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
@@ -497,9 +497,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			for (int i = 0; i < count; ++i) {
 				auto *p = data->items.get(i, false);
 				if ((i >= start) && (i <= end))
-					p->bSelected = true;
+					p->m_bSelected = true;
 				else
-					p->bSelected = false;
+					p->m_bSelected = false;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
@@ -515,7 +515,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, false);
-				p->bSelected = false;
+				p->m_bSelected = false;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
@@ -589,7 +589,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
 				ItemData *p = data->items.get(i, false);
-				if (p->bSelected)
+				if (p->m_bSelected)
 					res.Append(ptrW(TplFormatString(p->getCopyTemplate(), p->hContact, p)));
 			}
 
@@ -791,14 +791,32 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					Utils_OpenUrlW(wszUrl);
 					return 0;
 				}
-					
-				if (data->caret == idx) {
-					data->BeginEditItem(idx, true);
-					return 0;
-				}
 
 				SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
 				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+			}
+		}
+		SetFocus(hwnd);
+		return 0;
+
+	case WM_LBUTTONDBLCLK:
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		idx = data->GetItemFromPixel(pt.y);
+		if (idx >= 0) {
+			if (data->caret != idx)
+				data->EndEditItem(false);
+
+			auto *pItem = data->items[idx];
+			pt.y -= pItem->savedTop;
+
+			if (pItem->m_bOfflineFile) {
+				Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, true);
+				return 0;
+			}
+
+			if (data->caret == idx) {
+				data->BeginEditItem(idx, true);
+				return 0;
 			}
 		}
 

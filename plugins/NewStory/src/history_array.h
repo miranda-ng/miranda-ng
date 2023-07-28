@@ -1,14 +1,15 @@
 #ifndef __history_array__
 #define __history_array__
 
-struct ItemData
+struct ItemData : public MZeroedObject
 {
 	MCONTACT hContact;
 	MEVENT hEvent;
 
-	bool bSelected;
-	bool bLoaded;
-	bool bRtf;
+	bool m_bRtf;
+	bool m_bSelected;
+	bool m_bLoaded;
+	bool m_bOfflineFile;
 	int savedTop;
 
 	DB::EventInfo dbe;
@@ -18,7 +19,7 @@ struct ItemData
 	HANDLE data;
 	ItemData *pPrev;
 
-	ItemData() { memset(this, 0, sizeof(*this)); }
+	ItemData() {}
 	~ItemData();
 
 	void checkCreate(HWND hwnd);
