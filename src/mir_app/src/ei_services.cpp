@@ -466,6 +466,7 @@ static IconItem iconList[] =
 	{ LPGEN("Male"),          "gender_male",   IDI_MALE     },
 	{ LPGEN("Female"),		  "gender_female", IDI_FEMALE   },
 	{ LPGEN("Database"),      "database",      IDI_DATABASE },
+	{ LPGEN("Attach"),        "attach",        IDI_ATTACH   },
 };
 
 void LoadExtraIconsModule()

@@ -180,7 +180,7 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 50;
-	bbd.hIcon = Skin_GetIconHandle(SKINICON_EVENT_FILE);
+	bbd.hIcon = g_plugin.getIconHandle(IDI_ATTACH);
 	bbd.pszModuleName = SRFILEMODULE;
 	bbd.pwszTooltip = LPGENW("Send file");
 	Srmm_AddButton(&bbd, &g_plugin);

@@ -45,6 +45,7 @@
 #define IDI_RECVMSG                     136
 #define IDD_OPTIONSPOPUP                137
 #define IDI_URL                         138
+#define IDI_ATTACH                      139
 #define IDI_MCMENUOFF                   144
 #define IDI_MCMENU                      145
 #define IDI_MCCONVERT                   146
