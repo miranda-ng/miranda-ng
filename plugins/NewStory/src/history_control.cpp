@@ -596,13 +596,29 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
 				ItemData *p = data->items.get(i, false);
-				if (p->m_bSelected)
-					res.Append(ptrW(TplFormatString(p->getCopyTemplate(), p->hContact, p)));
+				if (!p->m_bSelected)
+					continue;
+
+				if (p->m_bOfflineFile) {
+					DB::EventInfo dbei(p->hEvent);
+					DB::FILE_BLOB blob(dbei);
+					if (p->m_bOfflineDownloaded)
+						res.Append(blob.getLocalName());
+					else
+						res.Append(_A2T(blob.getUrl()));
+					res.Append(L"\r\n");
+				}
+				else res.Append(ptrW(TplFormatString(p->getCopyTemplate(), p->hContact, p)));
 			}
 
 			Utils_ClipboardCopy(res);
 		}
 		InvalidateRect(hwnd, 0, FALSE);
+		break;
+
+	case NSM_DOWNLOAD:
+		if (auto *p = data->items[data->caret])
+			Srmm_DownloadOfflineFile(p->hContact, p->hEvent, lParam);
 		break;
 
 	case UM_EDITEVENT:
@@ -835,7 +851,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			pt.y -= pItem->savedTop;
 
 			if (pItem->m_bOfflineFile) {
-				Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, true);
+				Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
 

@@ -243,24 +243,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 				break;
 
 			case 5:
-				wchar_t str[MAX_PATH];
-				mir_wstrncpy(str, blob.getName(), _countof(str));
-				{
-					wchar_t filter[512];
-					mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
-
-					OPENFILENAME ofn = {};
-					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-					ofn.lpstrFilter = filter;
-					ofn.lpstrFile = str;
-					ofn.nMaxFile = _countof(str);
-					ofn.nMaxFileTitle = MAX_PATH;
-					if (!GetSaveFileNameW(&ofn))
-						break;
-				}
-
-				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2, new OFD_SaveAs(str));
+				Srmm_DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, OFD_RUN | OFD_SAVEAS);
 				break;
 			}
 

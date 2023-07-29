@@ -215,6 +215,7 @@ void ItemData::load(bool bFullLoad)
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
 				m_bOfflineFile = true;
+				m_bOfflineDownloaded = blob.isCompleted();
 
 				CMStringW buf;
 				buf.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));

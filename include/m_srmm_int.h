@@ -357,8 +357,9 @@ MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescr
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // downloads or launches offline file
+// iCommand = combination of OFD_* constants
 
-MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen);
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, int iCommand);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a SRMM window using hContact

@@ -804,6 +804,10 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 #define PS_OFFLINEFILE "/OfflineFile"
 
+#define OFD_DOWNLOAD 0x0001
+#define OFD_SAVEAS   0x0002
+#define OFD_RUN      0x1000
+
 struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 {
 	OFDTHREAD(MEVENT, const CMStringW &, bool);

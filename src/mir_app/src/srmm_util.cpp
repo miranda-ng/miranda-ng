@@ -195,9 +195,38 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Cal
 	}
 }
 
-MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen)
+MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, int iCommand)
 {
-	DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_Download());
+	bool bOpen = false;
+	if (iCommand & OFD_RUN) {
+		bOpen = true;
+		iCommand &= ~OFD_RUN;
+	}
+
+	if (iCommand == OFD_SAVEAS) {
+		DB::EventInfo dbei(hDbEvent);
+		if (!dbei)
+			return;
+
+		DB::FILE_BLOB blob(dbei);
+
+		wchar_t str[MAX_PATH];
+		mir_wstrncpy(str, blob.getName(), _countof(str));
+
+		wchar_t filter[512];
+		mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+
+		OPENFILENAME ofn = {};
+		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
+		ofn.lpstrFilter = filter;
+		ofn.lpstrFile = str;
+		ofn.nMaxFile = _countof(str);
+		ofn.nMaxFileTitle = MAX_PATH;
+		if (GetSaveFileNameW(&ofn))
+			DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_SaveAs(str));
+	}
+	else DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_Download());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -9,7 +9,7 @@ struct ItemData : public MZeroedObject
 	bool m_bRtf;
 	bool m_bSelected;
 	bool m_bLoaded;
-	bool m_bOfflineFile;
+	bool m_bOfflineFile, m_bOfflineDownloaded;
 	int savedTop;
 
 	DB::EventInfo dbe;

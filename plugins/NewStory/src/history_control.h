@@ -67,6 +67,7 @@ enum
 	//
 	NSM_COPY,
 	NSM_EXPORT,
+	NSM_DOWNLOAD,
 
 	//
 	NSM_GETCOUNT,
