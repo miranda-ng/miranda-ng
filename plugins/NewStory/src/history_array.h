@@ -23,6 +23,7 @@ struct ItemData : public MZeroedObject
 	~ItemData();
 
 	void checkCreate(HWND hwnd);
+	void setText();
 
 	void load(bool bFullLoad);
 	bool isGrouped() const;
@@ -130,6 +131,7 @@ public:
 	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
 	void addChatEvent(SESSION_INFO *si, LOGINFO *pEvent);
 	void clear();
+	int  find(MEVENT hEvent);
 	int  getCount() const;
 	void reset()
 	{

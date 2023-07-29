@@ -77,7 +77,8 @@ enum
 	NSM_SEEKTIME,
 
 	// 
-	NSM_SET_SRMM, // act inside SRMM dialog
+	NSM_SET_SRMM,     // act inside SRMM dialog
+	NSM_SET_CONTACT,
 
 	NSM_LAST
 };
@@ -118,10 +119,11 @@ struct NewstoryListData : public MZeroedObject
 	void EndEditItem(bool bAccept);
 	void EnsureVisible(int item);
 	void FixScrollPosition();
-	int GetItemFromPixel(int yPos);
-	int LayoutItem(int index);
-	int PaintItem(HDC hdc, int index, int top, int width);
+	int  GetItemFromPixel(int yPos);
+	int  LayoutItem(int index);
+	int  PaintItem(HDC hdc, int index, int top, int width);
 	void RecalcScrollBar();
+	void ScheduleDraw();
 	void ScrollListBy(int scrollItems, int scrollPixels);
 	void SetPos(int pos);
 };

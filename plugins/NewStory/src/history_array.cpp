@@ -46,16 +46,32 @@ bool Filter::check(ItemData *item)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event
 
+ItemData::~ItemData()
+{
+	mir_free(wtext);
+	if (data)
+		MTextDestroy(data);
+}
+
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		if (m_bRtf)
-			data = MTextCreateEx(htuLog, this->wtext, MTEXT_FLG_WCHAR | MTEXT_FLG_RTF);
-		else
-			data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
+		setText();
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
+}
+
+bool ItemData::isGrouped() const
+{
+	if (pPrev && g_plugin.bMsgGrouping) {
+		if (!pPrev->m_bLoaded)
+			pPrev->load(true);
+
+		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
+			return true;
+	}
+	return false;
 }
 
 bool ItemData::isLink(POINT pt, CMStringW &url) const
@@ -102,9 +118,77 @@ bool ItemData::isLinkChar(int idx) const
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
 }
 
+int ItemData::getTemplate() const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:         return isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
+	case EVENTTYPE_FILE:            return TPL_FILE;
+	case EVENTTYPE_STATUSCHANGE:    return TPL_SIGN;
+	case EVENTTYPE_AUTHREQUEST:     return TPL_AUTH;
+	case EVENTTYPE_ADDED:           return TPL_ADDED;
+	case EVENTTYPE_JABBER_PRESENCE: return TPL_PRESENCE;
+	default:
+		return TPL_OTHER;
+	}
+}
+
+int ItemData::getCopyTemplate() const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:         return TPL_COPY_MESSAGE;
+	case EVENTTYPE_FILE:            return TPL_COPY_FILE;
+	case EVENTTYPE_STATUSCHANGE:    return TPL_COPY_SIGN;
+	case EVENTTYPE_AUTHREQUEST:     return TPL_COPY_AUTH;
+	case EVENTTYPE_ADDED:           return TPL_COPY_ADDED;
+	case EVENTTYPE_JABBER_PRESENCE: return TPL_COPY_PRESENCE;
+	default:
+		return TPL_COPY_OTHER;
+	}
+}
+
+void ItemData::getFontColor(int &fontId, int &colorId) const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
+		break;
+
+	case EVENTTYPE_FILE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
+		break;
+
+	case EVENTTYPE_STATUSCHANGE:
+		fontId = FONT_STATUS;
+		colorId = COLOR_STATUS;
+		break;
+
+	case EVENTTYPE_AUTHREQUEST:
+		fontId = FONT_INOTHER;
+		colorId = COLOR_INOTHER;
+		break;
+
+	case EVENTTYPE_ADDED:
+		fontId = FONT_INOTHER;
+		colorId = COLOR_INOTHER;
+		break;
+
+	case EVENTTYPE_JABBER_PRESENCE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		break;
+
+	default:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		break;
+	}
+}
+
 void ItemData::load(bool bFullLoad)
 {
-	if (!bFullLoad || m_bLoaded)
+	if (!bFullLoad && m_bLoaded)
 		return;
 
 	dbe.cbBlob = -1;
@@ -180,91 +264,12 @@ void ItemData::load(bool bFullLoad)
 	dbe.pBlob = nullptr;
 }
 
-bool ItemData::isGrouped() const
+void ItemData::setText()
 {
-	if (pPrev && g_plugin.bMsgGrouping) {
-		if (!pPrev->m_bLoaded)
-			pPrev->load(true);
-
-		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
-			return true;
-	}
-	return false;
-}
-
-ItemData::~ItemData()
-{
-	mir_free(wtext);
-	if (data)
-		MTextDestroy(data);
-}
-
-int ItemData::getTemplate() const
-{
-	switch (dbe.eventType) {
-	case EVENTTYPE_MESSAGE:         return isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
-	case EVENTTYPE_FILE:            return TPL_FILE;
-	case EVENTTYPE_STATUSCHANGE:    return TPL_SIGN;
-	case EVENTTYPE_AUTHREQUEST:     return TPL_AUTH;
-	case EVENTTYPE_ADDED:           return TPL_ADDED;
-	case EVENTTYPE_JABBER_PRESENCE: return TPL_PRESENCE;
-	default:
-		return TPL_OTHER;
-	}
-}
-
-int ItemData::getCopyTemplate() const
-{
-	switch (dbe.eventType) {
-	case EVENTTYPE_MESSAGE:         return TPL_COPY_MESSAGE;
-	case EVENTTYPE_FILE:            return TPL_COPY_FILE;
-	case EVENTTYPE_STATUSCHANGE:    return TPL_COPY_SIGN;
-	case EVENTTYPE_AUTHREQUEST:     return TPL_COPY_AUTH;
-	case EVENTTYPE_ADDED:           return TPL_COPY_ADDED;
-	case EVENTTYPE_JABBER_PRESENCE: return TPL_COPY_PRESENCE;
-	default:
-		return TPL_COPY_OTHER;
-	}
-}
-
-void ItemData::getFontColor(int &fontId, int &colorId) const
-{
-	switch (dbe.eventType) {
-	case EVENTTYPE_MESSAGE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
-		break;
-
-	case EVENTTYPE_FILE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
-		break;
-
-	case EVENTTYPE_STATUSCHANGE:
-		fontId = FONT_STATUS;
-		colorId = COLOR_STATUS;
-		break;
-
-	case EVENTTYPE_AUTHREQUEST:
-		fontId = FONT_INOTHER;
-		colorId = COLOR_INOTHER;
-		break;
-
-	case EVENTTYPE_ADDED:
-		fontId = FONT_INOTHER;
-		colorId = COLOR_INOTHER;
-		break;
-
-	case EVENTTYPE_JABBER_PRESENCE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-		break;
-
-	default:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-		break;
-	}
+	if (m_bRtf)
+		data = MTextCreateEx(htuLog, this->wtext, MTEXT_FLG_WCHAR | MTEXT_FLG_RTF);
+	else
+		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
 }
 
 // Array
@@ -352,6 +357,19 @@ ItemData& HistoryArray::allocateItem()
 
 	auto &p = pages[pages.getCount() - 1];
 	return p.data[iLastPageCounter++];
+}
+
+int HistoryArray::find(MEVENT hEvent)
+{
+	int i = 0;
+	for (auto &it : pages)
+		for (auto &p : it->data) {
+			if (p.hEvent == hEvent)
+				return i;
+			i++;
+		}
+
+	return -1;
 }
 
 ItemData* HistoryArray::get(int id, bool bLoad)

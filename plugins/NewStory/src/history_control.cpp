@@ -328,6 +328,12 @@ void NewstoryListData::RecalcScrollBar()
 	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 }
 
+void NewstoryListData::ScheduleDraw()
+{
+	redrawTimer.Stop();
+	redrawTimer.Start(100);
+}
+
 void NewstoryListData::ScrollListBy(int scrollItems, int scrollPixels)
 {
 	if (scrollItems) {
@@ -428,16 +434,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case NSM_ADDEVENTS:
 		if (auto *p = (ADDEVENTS *)wParam)
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
-
-		data->redrawTimer.Stop();
-		data->redrawTimer.Start(100);
+		data->ScheduleDraw();
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
-
-		data->redrawTimer.Stop();
-		data->redrawTimer.Start(100);
+		data->ScheduleDraw();
 		break;
 
 	case NSM_CLEAR:
@@ -512,7 +514,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
-				
+
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, false);
 				p->m_bSelected = false;
@@ -580,6 +582,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SET_SRMM:
 		data->pMsgDlg = (CSrmmBaseDialog *)lParam;
+		lParam = data->pMsgDlg->m_hContact;
+		__fallthrough;
+
+	case NSM_SET_CONTACT:
+		WindowList_Add(g_hNewstoryLogs, hwnd, lParam);
 		break;
 
 	case NSM_COPY:
@@ -595,8 +602,26 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			Utils_ClipboardCopy(res);
 		}
-		__fallthrough;
-		// End of history list control messages
+		InvalidateRect(hwnd, 0, FALSE);
+		break;
+
+	case UM_EDITEVENT:
+		idx = data->items.find(lParam);
+		if (idx != -1) {
+			auto *p = data->items[idx];
+			p->load(true);
+			p->setText();
+			data->ScheduleDraw();
+		}
+		break;
+
+	case UM_REMOVEEVENT:
+		idx = data->items.find(lParam);
+		if (idx != -1) {
+			data->items.remove(idx);
+			data->ScheduleDraw();
+		}
+		break;
 
 	case WM_SIZE:
 		InvalidateRect(hwnd, 0, FALSE);
@@ -900,10 +925,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			if (s_scrollTopItem != data->scrollTopItem || s_scrollTopPixel != data->scrollTopPixel)
 				InvalidateRect(hwnd, 0, FALSE);
-			break;
 		}
+		break;
 
 	case WM_DESTROY:
+		WindowList_Add(g_hNewstoryLogs, hwnd);
 		delete data;
 		SetWindowLongPtr(hwnd, 0, 0);
 		break;

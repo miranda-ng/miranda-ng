@@ -27,7 +27,7 @@ enum
 	UM_GETEVENTHANDLE
 };
 
-extern MWindowList hNewstoryWindows;
+extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;
 
 void InitHistory();
 void InitMenus();

@@ -6,32 +6,33 @@
 
 #include "stdafx.h"
 
-MWindowList hNewstoryWindows = 0;
+MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
 
-int evtEventAdded(WPARAM wParam, LPARAM lParam)
+int evtEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
-	SendMessage(hwnd, UM_ADDEVENT, wParam, lParam);
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_ADDEVENT, hContact, lParam);
 	return 0;
 }
 
-int evtEventDeleted(WPARAM wParam, LPARAM lParam)
+int evtEventDeleted(WPARAM hContact, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
-	SendMessage(hwnd, UM_REMOVEEVENT, wParam, lParam);
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_REMOVEEVENT, hContact, lParam);
 	return 0;
 }
 
-int evtEventEdited(WPARAM wParam, LPARAM lParam)
+int evtEventEdited(WPARAM hContact, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
-	SendMessage(hwnd, UM_EDITEVENT, wParam, lParam);
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_EDITEVENT, hContact, lParam);
 	return 0;
 }
 
 void InitHistory()
 {
-	hNewstoryWindows = WindowList_Create();
+	g_hNewstoryLogs = WindowList_Create();
+	g_hNewstoryWindows = WindowList_Create();
 
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
@@ -538,7 +539,7 @@ public:
 		Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 
-		WindowList_Add(hNewstoryWindows, m_hwnd, m_hContact);
+		WindowList_Add(g_hNewstoryWindows, m_hwnd, m_hContact);
 
 		UpdateTitle();
 
@@ -580,7 +581,7 @@ public:
 	
 		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		Window_FreeIcon_IcoLib(m_hwnd);
-		WindowList_Remove(hNewstoryWindows, m_hwnd);
+		WindowList_Remove(g_hNewstoryWindows, m_hwnd);
 		if (m_hwndStatus != nullptr) {
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
@@ -1017,7 +1018,7 @@ public:
 
 INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
 {
-	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, hContact);
+	HWND hwnd = (HWND)WindowList_Find(g_hNewstoryWindows, hContact);
 	if (hwnd && IsWindow(hwnd)) {
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		SetFocus(hwnd);

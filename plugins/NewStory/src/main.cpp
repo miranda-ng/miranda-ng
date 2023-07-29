@@ -84,7 +84,7 @@ static int evtModulesLoaded(WPARAM, LPARAM)
 
 static int evtPreShutdown(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(hNewstoryWindows, WM_CLOSE, 0, 0);
+	WindowList_Broadcast(g_hNewstoryWindows, WM_CLOSE, 0, 0);
 	return 0;
 }
 
@@ -108,6 +108,9 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	WindowList_Destroy(g_hNewstoryLogs);
+	WindowList_Destroy(g_hNewstoryWindows);
+
 	UnregisterSrmmLog(m_log);
 	UnregisterClass(_T(NEWSTORYLIST_CLASS), g_plugin.getInst());
 	DestroyFonts();
