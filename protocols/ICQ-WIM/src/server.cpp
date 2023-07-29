@@ -177,6 +177,11 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
 	pFileInfo = nullptr;
+
+	int idx = wszText.Find(' ');
+	if (idx != -1)
+		wszText.Truncate(idx);
+
 	CMStringW wszUrl(fileText2url(wszText));
 
 	// is it already downloaded sticker?

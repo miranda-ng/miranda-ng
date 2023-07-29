@@ -247,11 +247,7 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 
 CMStringW fileText2url(const CMStringW &wszText)
 {
-	CMStringW wszUrl(wszText.Mid(26));
-	int idx = wszUrl.Find(' ');
-	if (idx != -1)
-		wszUrl.Truncate(idx);
-	return wszUrl;
+	return wszText.Mid(26);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
