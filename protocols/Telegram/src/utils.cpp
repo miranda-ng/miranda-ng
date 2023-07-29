@@ -292,8 +292,9 @@ bool CTelegramProto::GetMessageFile(
 		m_arFiles.insert(pRequest);
 	}
 
+	MCONTACT hContact = GetRealContact(pUser);
 	PROTORECVFILE pre = {};
-	pre.dwFlags = PRFF_UTF | PRFF_SILENT | PRFF_READ;
+	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
 	pre.fileCount = 1;
 	pre.timestamp = pMsg->date_;
 	pre.files.a = &pszFileName;
@@ -304,7 +305,9 @@ bool CTelegramProto::GetMessageFile(
 		pre.descr.a = caption.c_str();
 	if (pMsg->is_outgoing_)
 		pre.dwFlags |= PRFF_SENT;
-	ProtoChainRecvFile(GetRealContact(pUser), &pre);
+	if (Contact::IsGroupChat(hContact))
+		pre.dwFlags |= PRFF_READ;
+	ProtoChainRecvFile(hContact, &pre);
 	return true;
 }
 
