@@ -484,7 +484,7 @@ bool CJabberAccount::VOIPCallIinitiate(MCONTACT hContact)
 		jid.AppendFormat("/%s", szResource.get());
 		bool bFound = false;
 		ptrA szFeatures(m_api->GetResourceFeatures(jid));
-		for (auto *p = szFeatures.get(); *p; p += mir_strlen(p))
+		for (auto *p = szFeatures.get(); *p; p += mir_strlen(p)+1)
 			if (!mir_strcmp(p, JABBER_FEAT_JINGLE))
 				bFound = true;
 

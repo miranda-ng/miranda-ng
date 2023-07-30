@@ -112,18 +112,9 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
 		JabberCapsBits jcbCaps = 0;
 
-		for (auto *feature : TiXmlFilter(query, "feature")) {
-			const char *featureName = XmlGetAttr(feature, "var");
-			if (!featureName)
-				continue;
-
-			for (auto &it : g_JabberFeatCapPairs) {
-				if (!mir_strcmp(it.szFeature, featureName)) {
-					jcbCaps |= it.jcbCap;
-					break;
-				}
-			}
-		}
+		for (auto *feature : TiXmlFilter(query, "feature"))
+			if (auto *featureName = XmlGetAttr(feature, "var"))
+				jcbCaps += GetFeatureCaps(featureName);
 
 		// no XEP-0115 support? store info & exit
 		CJabberClientPartialCaps *pCaps = r->m_pCaps;
@@ -327,6 +318,19 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 
 	m_ThreadInfo->send(iq);
 	return true;
+}
+
+JabberCapsBits CJabberProto::GetFeatureCaps(const char *pszFeature)
+{
+	for (auto &it : g_JabberFeatCapPairs)
+		if (!mir_strcmp(it.szFeature, pszFeature))
+			return it.jcbCap;
+
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (!mir_strcmp(it->szFeature, pszFeature))
+			return it->jcbCap;
+
+	return 0;
 }
 
 JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)

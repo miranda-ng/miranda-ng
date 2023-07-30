@@ -426,6 +426,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       RequestOldCapsInfo(pResourceStatus &r, const char *fullJid);
 	void       UpdateFeatHash();
 
+	JabberCapsBits GetFeatureCaps(const char *pszFeature);
 	JabberCapsBits GetTotalJidCapabilities(const char *jid);
 	JabberCapsBits GetResourceCapabilities(const char *jid);
 	JabberCapsBits GetResourceCapabilities(const char *jid, pResourceStatus &r);
