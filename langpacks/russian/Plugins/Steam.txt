@@ -8,16 +8,24 @@
 [Steam protocol support for Miranda NG.]
 Поддержка протокола Steam в Miranda NG.
 ;file \protocols\Steam\res\Resource.rc
+[Username]
+Имя пользователя
+[Password]
+Пароль
+[Default group]
+Группа
+[Device name]
+Имя устройства
+[Account]
+Учётная запись
 [Username:]
 Пользователь:
 [Password:]
 Пароль:
-[Default group:]
-Группа:
-[Account]
-Учётная запись
 [Contacts]
 Контакты
+[Default group:]
+Группа:
 [Use bigger avatars]
 Большие аватары
 [Message sessions]
@@ -66,9 +74,6 @@
 %s удалён из вашего списка контактов
 [%s has added you to contact list]
 %s добавил(а) вас в список контактов
-;file \protocols\Steam\src\steam_login.cpp
-[Cannot obtain connection token.]
-Не удалось получить токен соединения.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Выбор меню Steam

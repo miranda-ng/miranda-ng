@@ -508,8 +508,6 @@ xHTML формат чат сообщений
 Приём информации о занятии пользователя
 [Supports Miranda NG notes extension]
 Поддержка заметок Miranda NG
-[Supports Jingle]
-Поддержка Jingle
 [Supports Roster Exchange]
 Поддержка обмена ростера
 [Supports direct chat invitations (XEP-0249)]
@@ -518,14 +516,6 @@ xHTML формат чат сообщений
 Получение сведений об устройствах OMEMO
 [Supports message carbons (XEP-0280)]
 Поддержка копирования сообщений на все ресурсы (XEP-0280)
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-Jingle RTP
-[Jingle DTLS]
-Jingle DTLS
-[Jingle RTP Audio]
-
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
@@ -1458,8 +1448,6 @@ OMEMO не поддерживает шифрование приватных со
 Исправлять время во входящих сообщениях
 [Enable XMPP link processing (requires AssocMgr)]
 Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
-[Embrace picture URLs with [img]]
-Оборачивать ссылки на изображения в тег [img]
 [Ignore server roster (groups and nick names)]
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]
@@ -1794,7 +1782,7 @@ XML (кодировка UTF-8)
 Ошибка: Не хватает памяти
 [Error: Cannot connect to the server]
 Ошибка: Невозможно подключиться к серверу
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Ошибка: Соединение потеряно
@@ -1941,9 +1929,6 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-Клиент собеседника не поддерживает голосовые вызовы
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>

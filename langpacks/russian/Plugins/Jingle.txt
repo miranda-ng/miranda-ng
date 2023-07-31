@@ -2,8 +2,19 @@
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.0.0.1
+;  Version: 0.0.0.2
 ;  Authors: George Hazan
 ;============================================================
 [Jingle support for Jabber protocol.]
 Поддержка Jingle для протокола Jabber.
+;file \plugins\Jingle\src\account.cpp
+[Supports Jingle]
+Поддержка Jingle
+[Jingle ICE-UDP Transport]
+Транспорт Jingle ICE-UDP
+[Jingle RTP]
+Jingle RTP
+[Jingle DTLS]
+Jingle DTLS
+[Jingle RTP Audio]
+

@@ -750,6 +750,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Show/Hide offline users]
 Показать/Скрыть отключённых
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Стандартный скин%
+[Default Skin]
+Стандартный скин
 [( unknown )]
 ( неизвестно )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Выберите скин из списка
 [Please select skin to apply]
 Пожалуйста, выберите скин
-[Default Skin]
-Стандартный скин
-[%Default Skin%]
-%Стандартный скин%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

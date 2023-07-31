@@ -160,12 +160,23 @@
 Готово
 [History export]
 Экспорт истории
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+Без имени
 ;file \plugins\NewStory\src\history_control.cpp
 [Are you sure to remove selected event(s)?]
 Уверены, что хотите удалить выбранные события?
 ;file \plugins\NewStory\src\history_menus.cpp
+[Copy file name]
+Копировать имя файла
+[Copy URL]
+Копировать ссылку
 [User history]
 История пользователя
+[Save as]
+Сохранить как
+[Download]
+Скачать
 [Edit]
 Изменить
 [Delete]
