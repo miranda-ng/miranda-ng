@@ -177,12 +177,12 @@ public:
 // ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
 // ignore temporary bits.
 
-static struct _checkboxes
+struct
 {
 	UINT	uId;
 	UINT	uFlag;
 }
-checkboxes[] = {
+static checkboxes[] = {
 	{ IDC_UPREFS_GRID,            MWF_LOG_GRID            },
 	{ IDC_UPREFS_SHOWICONS,       MWF_LOG_SHOWICONS       },
 	{ IDC_UPREFS_SHOWSYMBOLS,     MWF_LOG_SYMBOLS         },
@@ -196,7 +196,6 @@ checkboxes[] = {
 	{ IDC_UPREFS_BBCODE,          MWF_LOG_BBCODE          },
 	{ IDC_UPREFS_RTL,             MWF_LOG_RTL             },
 	{ IDC_UPREFS_NORMALTEMPLATES, MWF_LOG_NORMALTEMPLATES },
-	{ 0, 0 },
 };
 
 int CMsgDialog::LoadLocalFlags()
@@ -211,8 +210,8 @@ int CMsgDialog::LoadLocalFlags()
 	else
 		m_dwFlags |= (dwGlobal & MWF_LOG_ALL);
 
-	for (int i = 0; checkboxes[i].uId; i++) {
-		uint32_t	maskval = checkboxes[i].uFlag;
+	for (auto &it : checkboxes) {
+		uint32_t	maskval = it.uFlag;
 		if (dwMask & maskval)
 			m_dwFlags = (dwLocal & maskval) ? m_dwFlags | maskval : m_dwFlags & ~maskval;
 	}
@@ -243,20 +242,16 @@ public:
 
 	bool OnInitDialog() override
 	{
-		uint32_t	dwLocalFlags, dwLocalMask, maskval;
+		uint32_t	dwLocalFlags = M.GetDword(m_hContact, "mwflags", 0);
+		uint32_t	dwLocalMask = M.GetDword(m_hContact, "mwmask", 0);
 
-		dwLocalFlags = M.GetDword(m_hContact, "mwflags", 0);
-		dwLocalMask = M.GetDword(m_hContact, "mwmask", 0);
-
-		int i = 0;
-		while (checkboxes[i].uId) {
-			maskval = checkboxes[i].uFlag;
+		for (auto &it : checkboxes) {
+			uint32_t	maskval = it.uFlag;
 
 			if (dwLocalMask & maskval)
-				CheckDlgButton(m_hwnd, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, it.uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
 			else
-				CheckDlgButton(m_hwnd, checkboxes[i].uId, BST_INDETERMINATE);
-			i++;
+				CheckDlgButton(m_hwnd, it.uId, BST_INDETERMINATE);
 		}
 
 		if (M.GetByte("logstatuschanges", 0) == M.GetByte(m_hContact, "logstatuschanges", 0))
@@ -268,20 +263,18 @@ public:
 
 	bool OnApply() override
 	{
-		uint32_t dwMask = 0, dwFlags = 0, maskval;
+		uint32_t dwMask = 0, dwFlags = 0;
 
-		int i = 0;
-		while (checkboxes[i].uId) {
-			maskval = checkboxes[i].uFlag;
+		for (auto &it : checkboxes) {
+			uint32_t maskval = it.uFlag;
 
-			int state = IsDlgButtonChecked(m_hwnd, checkboxes[i].uId);
+			int state = IsDlgButtonChecked(m_hwnd, it.uId);
 			if (state != BST_INDETERMINATE) {
 				dwMask |= maskval;
 				dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
 			}
-			i++;
 		}
-		
+
 		int state = IsDlgButtonChecked(m_hwnd, IDC_UPREFS_LOGSTATUS);
 		if (state != BST_INDETERMINATE)
 			db_set_b(m_hContact, SRMSGMOD_T, "logstatuschanges", (uint8_t)state);
