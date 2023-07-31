@@ -407,7 +407,6 @@ public:
 		pwszSection = LPGENW("Other options");
 		treeOpts.AddOption(pwszSection, LPGENW("Automatically split long messages (experimental, use with care)"), g_plugin.bAutoSplit);
 		treeOpts.AddOption(pwszSection, LPGENW("Use the same splitter height for all sessions"), g_plugin.bUseSameSplitSize);
-		treeOpts.AddOption(pwszSection, LPGENW("Automatically copy selected text"), g_plugin.bAutoCopy);
 	}
 
 	bool OnInitDialog() override
@@ -768,15 +767,18 @@ public:
 
 		auto *pwszSection = LPGENW("Message log appearance");
 		logOpts.AddOption(pwszSection, LPGENW("Draw grid lines"), m_flags, MWF_LOG_GRID);
-		logOpts.AddOption(pwszSection, LPGENW("Log status changes"), g_plugin.bLogStatusChanges);
 		logOpts.AddOption(pwszSection, LPGENW("Use message grouping"), m_flags, MWF_LOG_GROUPMODE);
 		logOpts.AddOption(pwszSection, LPGENW("Indent message body"), m_flags, MWF_LOG_INDENT);
 		logOpts.AddOption(pwszSection, LPGENW("Simple text formatting (*bold*, etc.)"), m_flags, MWF_LOG_TEXTFORMAT);
 		logOpts.AddOption(pwszSection, LPGENW("Support BBCode formatting"), m_flags, MWF_LOG_BBCODE);
-		logOpts.AddOption(pwszSection, LPGENW("Place a separator in the log after a window lost its foreground status"), g_plugin.bUseDividers);
-		logOpts.AddOption(pwszSection, LPGENW("Only place a separator when an incoming event is announced with a popup"), g_plugin.bDividersUsePopupConfig);
 		logOpts.AddOption(pwszSection, LPGENW("RTL is default text direction"), m_flags, MWF_LOG_RTL);
 		logOpts.AddOption(pwszSection, LPGENW("Use normal templates (uncheck to use simple templates if your template set supports them)"), m_flags, MWF_LOG_NORMALTEMPLATES);
+
+		auto *pwszSection = LPGENW("Message log options");
+		logOpts.AddOption(pwszSection, LPGENW("Log status changes"), g_plugin.bLogStatusChanges);
+		logOpts.AddOption(pwszSection, LPGENW("Automatically copy selected text"), g_plugin.bAutoCopy);
+		logOpts.AddOption(pwszSection, LPGENW("Place a separator in the log after a window lost its foreground status"), g_plugin.bUseDividers);
+		logOpts.AddOption(pwszSection, LPGENW("Only place a separator when an incoming event is announced with a popup"), g_plugin.bDividersUsePopupConfig);
 
 		pwszSection = LPGENW("Support for external plugins");
 		logOpts.AddOption(pwszSection, LPGENW("Show events at the new line (IEView Compatibility Mode)"), m_flags, MWF_LOG_NEWLINE);
