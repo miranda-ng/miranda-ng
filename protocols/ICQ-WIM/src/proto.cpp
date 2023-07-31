@@ -75,7 +75,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::GetEmailCount);
 	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::GotoInbox);
 
-	// offline file transfer
+	// cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CIcqProto::SvcOfflineFile);
 
 	// events

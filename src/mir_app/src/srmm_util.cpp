@@ -105,7 +105,7 @@ MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// downloads or launches offline file
+// downloads or launches cloud file
 
 OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
 	hDbEvent(_1),

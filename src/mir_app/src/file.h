@@ -142,7 +142,7 @@ MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile);
 int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 
-// downloads or launches offline file
+// downloads or launches cloud file
 struct OFD_Callback
 {
 	virtual ~OFD_Callback() {}

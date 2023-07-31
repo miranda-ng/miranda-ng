@@ -78,7 +78,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	// menus
 	InitMenus();
 
-	// Offline file transfer
+	// Cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CTelegramProto::SvcOfflineFile);
 
 	// create standard network connection

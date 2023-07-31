@@ -800,7 +800,7 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Offline file processing
+//Cloud file processing
 
 #define PS_OFFLINEFILE "/OfflineFile"
 

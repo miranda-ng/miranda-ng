@@ -180,7 +180,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	// XEP-0224 support (Attention/Nudge)
 	CreateProtoService(PS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
-	// Offline file transfer
+	// Cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CJabberProto::OnOfflineFile);
 
 	// service to get from protocol chat buddy info

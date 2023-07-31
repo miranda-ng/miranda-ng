@@ -303,7 +303,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 		if (!bSilent && File::bAutoAccept && Contact::OnList(hContact))
 			LaunchRecvDialog(&cle);
 		else {
-			// load offline files always (if OfflineSize = 0) 
+			// load cloud files always (if OfflineSize = 0) 
 			// or if they are less than a limit (if a transfer has specified file size)
 			if (bSilent && File::bOfflineAuto)
 				if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))

@@ -281,7 +281,7 @@ public:
 	// the analog of ME_SYSTEM_MODULESLOADED for an account
 	virtual void OnModulesLoaded(void);
 
-	// called when an offline file is being received
+	// called when an cloud file is being received
 	virtual void OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft);
 
 	// prepares an event of the file being sent

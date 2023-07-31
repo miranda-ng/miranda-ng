@@ -12054,7 +12054,7 @@ const
   {* Use this flag to create compressed file. Has effect only on NTFS, and
      only if ofAttrCompressed is not specified also. }
   ofAttrOffline    = {$IFDEF LIN} 0 {$ELSE} $10000000 {$ENDIF};
-  {* Use this flag to create offline file. }
+  {* Use this flag to create cloud file. }
 
 {$IFDEF _D3orHigher}
 function WFileCreate(const FileName: KOLWideString; OpenFlags: DWord): THandle;

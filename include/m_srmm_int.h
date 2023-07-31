@@ -356,7 +356,7 @@ MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
 MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescription);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// downloads or launches offline file
+// downloads or launches cloud file
 // iCommand = combination of OFD_* constants
 
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, int iCommand);

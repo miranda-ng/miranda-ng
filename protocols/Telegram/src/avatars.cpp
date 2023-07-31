@@ -76,7 +76,7 @@ INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Offline file downloader
+// Cloud file downloader
 
 void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo)
 {
@@ -122,7 +122,7 @@ INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Offline file pre-creator
+// Cloud file pre-creator
 
 void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 {
