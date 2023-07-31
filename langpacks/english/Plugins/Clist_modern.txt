@@ -384,6 +384,8 @@
 [Restore last status]
 [Show/Hide offline users]
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+[Default Skin]
 [( unknown )]
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -397,8 +399,6 @@
 [graphics by Angeli-Ka\ntemplate by FYR]
 [Select skin from list]
 [Please select skin to apply]
-[Default Skin]
-[%Default Skin%]
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

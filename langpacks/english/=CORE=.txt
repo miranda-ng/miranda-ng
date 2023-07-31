@@ -597,8 +597,8 @@
 [Sort file transfers in the reverse order]
 [You will always be asked about files from people not on your contact list]
 [If incoming files already exist]
-[Offline files]
-[Download offline files automatically]
+[Cloud files]
+[Download cloud files automatically]
 [Only if their size is less than]
 [KBytes (0 - always)]
 [Virus scanner]
@@ -1062,7 +1062,7 @@
 [Database]
 [Database compaction failed]
 [Compact database]
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install DBX_Sqlite or Cancel to exit]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
 [Miranda was unable to open '%s', it's in an unknown format.]
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
@@ -1097,9 +1097,10 @@
 [Extra icons]
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
+[Attach]
 ;file \src\mir_app\src\file.cpp
-[bytes]
 [&File]
+[Send file]
 [File from %s]
 [File &transfers...]
 [Incoming]
@@ -1122,6 +1123,8 @@
 ;file \src\mir_app\src\filesenddlg.cpp
 [%d files]
 [%d directories]
+;file \src\mir_app\src\fileutils.cpp
+[bytes]
 ;file \src\mir_app\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 [of]
@@ -1473,10 +1476,11 @@
 [Unnamed]
 [Download]
 [Copy URL]
+[Save as]
 [Copy all]
 [Look up '%s':]
 [No word to look up]
-;file \src\mir_app\src\srmm_statusicon.cpp
+;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to remove all events from history?]
 [Empty history]
 [Empty system history]

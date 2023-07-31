@@ -84,10 +84,16 @@
 [Export %s history]
 [Complete]
 [History export]
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
 ;file \plugins\NewStory\src\history_control.cpp
 [Are you sure to remove selected event(s)?]
 ;file \plugins\NewStory\src\history_menus.cpp
+[Copy file name]
+[Copy URL]
 [User history]
+[Save as]
+[Download]
 [Edit]
 [Delete]
 [Select all]
