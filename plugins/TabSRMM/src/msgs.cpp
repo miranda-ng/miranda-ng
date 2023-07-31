@@ -433,7 +433,7 @@ void TSAPI CreateImageList(bool bInitial)
 
 static TIconDesc _toolbaricons[] =
 {
-	{ "tabSRMM_mlog", LPGEN("Message Log Options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 },
+	{ "tabSRMM_mlog", LPGEN("Message Log options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 },
 	{ "tabSRMM_multi", LPGEN("Image tag"), &PluginConfig.g_buttonBarIcons[3], -IDI_IMAGETAG, 1 },
 	{ "tabSRMM_quote", LPGEN("Quote text"), &PluginConfig.g_buttonBarIcons[8], -IDI_QUOTE, 1 },
 	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[7], -IDI_SAVE, 1 },

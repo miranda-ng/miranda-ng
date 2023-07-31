@@ -774,7 +774,7 @@ public:
 		logOpts.AddOption(pwszSection, LPGENW("RTL is default text direction"), m_flags, MWF_LOG_RTL);
 		logOpts.AddOption(pwszSection, LPGENW("Use normal templates (uncheck to use simple templates if your template set supports them)"), m_flags, MWF_LOG_NORMALTEMPLATES);
 
-		pwszSection = LPGENW("Message log options");
+		pwszSection = LPGENW("Message log control");
 		logOpts.AddOption(pwszSection, LPGENW("Log status changes"), g_plugin.bLogStatusChanges);
 		logOpts.AddOption(pwszSection, LPGENW("Automatically copy selected text"), g_plugin.bAutoCopy);
 		logOpts.AddOption(pwszSection, LPGENW("Place a separator in the log after a window lost its foreground status"), g_plugin.bUseDividers);
