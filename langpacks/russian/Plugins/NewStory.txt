@@ -306,6 +306,8 @@
 Интерфейс
 [Window title]
 Заголовок окна
+[%N - history [%c messages total]]
+%N - история [всего сообщений: %c]
 [Message log]
 Журнал
 [Grouped messages]
