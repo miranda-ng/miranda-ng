@@ -1,7 +1,7 @@
 #ifndef __history_array__
 #define __history_array__
 
-struct ItemData : public MZeroedObject
+struct ItemData
 {
 	MCONTACT hContact;
 	MEVENT hEvent;
@@ -19,7 +19,7 @@ struct ItemData : public MZeroedObject
 	HANDLE data;
 	ItemData *pPrev;
 
-	ItemData() {}
+	ItemData() { memset(this, 0, sizeof(*this)); }
 	~ItemData();
 
 	void checkCreate(HWND hwnd);

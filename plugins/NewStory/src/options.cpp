@@ -210,7 +210,7 @@ public:
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
-	void onSelChanged(CCtrlTreeView::TEventInfo*)
+	void onSelChanged(CCtrlTreeView::TEventInfo *)
 	{
 		TVITEMEX tvi;
 		tvi.hItem = m_tree.GetSelection();
@@ -226,10 +226,8 @@ public:
 			bthVarHelp.Disable();
 
 			HTREEITEM hItem = m_tree.GetChild(tvi.hItem);
-			if (hItem) {
+			if (hItem)
 				m_tree.Expand(tvi.hItem, TVE_EXPAND);
-				m_tree.SelectItem(hItem);
-			}
 			return;
 		}
 
