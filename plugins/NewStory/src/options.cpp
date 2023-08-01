@@ -164,7 +164,7 @@ public:
 		if (m_curr) {
 			replaceStrW(m_curr->tmpValue, nullptr);
 			replaceStrW(m_curr->value, nullptr);
-			m_edit.SetText(m_curr->defvalue);
+			m_edit.SetText(TranslateW(m_curr->defvalue));
 		}
 
 		UpdatePreview(0);
@@ -178,7 +178,7 @@ public:
 		if (m_curr->value)
 			m_edit.SetText(m_curr->value);
 		else
-			m_edit.SetText(m_curr->defvalue);
+			m_edit.SetText(TranslateW(m_curr->defvalue));
 
 		UpdatePreview(0);
 	}
@@ -250,7 +250,7 @@ public:
 		else if (m_curr->value)
 			m_edit.SetText(m_curr->value);
 		else
-			m_edit.SetText(m_curr->defvalue);
+			m_edit.SetText(TranslateW(m_curr->defvalue));
 
 		UpdatePreview(0);
 	}

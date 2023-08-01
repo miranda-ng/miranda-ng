@@ -348,7 +348,7 @@ void CTwitterProto::UpdateAvatar(MCONTACT hContact, const CMStringA &url, bool f
 
 void CTwitterProto::UpdateFriends()
 {
-	auto *req = new AsyncHttpRequest(REQUEST_GET, "/friends/list.json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, CMStringA(FORMAT, "/2/users/%s/followers", m_szMyId.c_str()));
 	http::response resp = Execute(req);
 	if (resp.code != 200) {
 		debugLogA("Friend list reading failed");

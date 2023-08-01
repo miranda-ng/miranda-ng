@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 http::response CTwitterProto::Execute(AsyncHttpRequest *pReq)
 {
 	if (pReq->m_szUrl[0] == '/')
-		pReq->m_szUrl.Insert(0, TWITTER_BASE_URL);
+		pReq->m_szUrl.Insert(0, "https://api.twitter.com/2");
 
 	bool bIsJson = false;
 	if (!pReq->m_szParam.IsEmpty()) {
