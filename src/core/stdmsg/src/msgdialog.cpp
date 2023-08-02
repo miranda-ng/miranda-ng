@@ -144,6 +144,7 @@ bool CMsgDialog::OnInitDialog()
 		UpdateStatusBar();
 		UpdateTitle();
 		UpdateChatLog();
+		RedrawLog();
 	}
 	else {
 		m_nickList.Hide();
@@ -179,6 +180,7 @@ bool CMsgDialog::OnInitDialog()
 			SetForegroundWindow(m_hwnd);
 			SetFocus(m_message.GetHwnd());
 		}
+		RemakeLog();
 	}
 
 	// restore saved msg if any...
@@ -194,8 +196,6 @@ bool CMsgDialog::OnInitDialog()
 			db_free(&dbv);
 		}
 	}
-
-	PostMessage(m_hwnd, DM_REDRAW, 0, 0);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
@@ -533,13 +533,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case HM_AVATARACK:
 		UpdateAvatar();
-		break;
-
-	case DM_REDRAW:
-		if (isChat())
-			RedrawLog();
-		else
-			RemakeLog();
 		break;
 
 	case DM_OPTIONSAPPLIED:
