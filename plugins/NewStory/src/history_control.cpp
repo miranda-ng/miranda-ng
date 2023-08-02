@@ -54,10 +54,10 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
-void NewstoryListData::AddSelection(int first, int last)
+void NewstoryListData::AddSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, first);
-	int end = min(totalCount - 1, max(0, last));
+	int start = min(totalCount - 1, iFirst);
+	int end = min(totalCount - 1, max(0, iLast));
 	if (start > end)
 		std::swap(start, end);
 
@@ -110,6 +110,21 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
+}
+
+void NewstoryListData::ClearSelection(int iFirst, int iLast)
+{
+	int start = min(totalCount - 1, iFirst);
+	int end = min(totalCount - 1, max(0, iLast));
+	if (start > end)
+		std::swap(start, end);
+
+	for (int i = start; i <= end; ++i) {
+		auto *p = GetItem(i);
+		p->m_bSelected = false;
+	}
+
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::DeleteItems(void)
@@ -393,10 +408,10 @@ void NewstoryListData::SetPos(int pos)
 	SetCaret(pos, true);
 }
 
-void NewstoryListData::SetSelection(int first, int last)
+void NewstoryListData::SetSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, first);
-	int end = min(totalCount - 1, max(0, last));
+	int start = min(totalCount - 1, iFirst);
+	int end = min(totalCount - 1, max(0, iLast));
 	if (start > end)
 		std::swap(start, end);
 
@@ -407,6 +422,21 @@ void NewstoryListData::SetSelection(int first, int last)
 			p->m_bSelected = true;
 		else
 			p->m_bSelected = false;
+	}
+
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::ToggleSelection(int iFirst, int iLast)
+{
+	int start = min(totalCount - 1, iFirst);
+	int end = min(totalCount - 1, max(0, iLast));
+	if (start > end)
+		std::swap(start, end);
+
+	for (int i = start; i <= end; ++i) {
+		auto *p = GetItem(i);
+		p->m_bSelected = !p->m_bSelected;
 	}
 
 	InvalidateRect(hwnd, 0, FALSE);
@@ -498,41 +528,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case NSM_SELECTITEMS:
 		data->AddSelection(wParam, lParam);
 		return 0;
-
-	case NSM_TOGGLEITEMS:
-		{
-			int start = min(data->totalCount - 1, (int)wParam);
-			int end = min(data->totalCount - 1, max(0, lParam));
-			if (start > end)
-				std::swap(start, end);
-
-			for (int i = start; i <= end; ++i) {
-				auto *p = data->GetItem(i);
-				p->m_bSelected = !p->m_bSelected;
-			}
-
-			InvalidateRect(hwnd, 0, FALSE);
-			return 0;
-		}
-
-	case NSM_DESELECTITEMS:
-		{
-			int start = min(data->totalCount - 1, (int)wParam);
-			int end = min(data->totalCount - 1, max(0, lParam));
-			if (start > end)
-				std::swap(start, end);
-
-			for (int i = start; i <= end; ++i) {
-				auto *p = data->GetItem(i);
-				p->m_bSelected = false;
-			}
-
-			InvalidateRect(hwnd, 0, FALSE);
-			return 0;
-		}
-
-	case NSM_GETITEMFROMPIXEL:
-		return data->GetItemFromPixel(lParam);
 
 	case NSM_GETCARET:
 		return data->caret;
@@ -807,7 +802,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *pItem = data->LoadItem(idx);
 
 			if (wParam & MK_CONTROL) {
-				SendMessage(hwnd, NSM_TOGGLEITEMS, idx, idx);
+				data->ToggleSelection(idx, idx);
 				data->SetCaret(idx, true);
 			}
 			else if (wParam & MK_SHIFT) {

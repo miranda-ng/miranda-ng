@@ -15,24 +15,9 @@ enum
 	NSM_FIRST = WM_USER + 100,
 
 	// wParam = fist item
-	// lParam = last item
+	// lParam = iLast item
 	// result = number of total selected items
 	NSM_SELECTITEMS = NSM_FIRST,
-
-	// wParam = fist item
-	// lParam = last item
-	// result = number of total selected items
-	NSM_TOGGLEITEMS,
-
-	// wParam = fist item
-	// lParam = last item
-	// result = number of total selected items
-	NSM_DESELECTITEMS,
-
-	// wParam = x in control
-	// lParam = y in control
-	// result = id
-	NSM_GETITEMFROMPIXEL,
 
 	// add one or more events
 	NSM_ADDEVENTS,
@@ -103,8 +88,9 @@ struct NewstoryListData : public MZeroedObject
 	void      OnResize(int newWidth);
 	void      OnTimer(CTimer *pTimer);
 
-	void      AddSelection(int first, int last);
+	void      AddSelection(int iFirst, int iLast);
 	void      BeginEditItem(int index, bool bReadOnly);
+	void      ClearSelection(int iFirst, int iLast);
 	void      DeleteItems(void);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
@@ -118,7 +104,8 @@ struct NewstoryListData : public MZeroedObject
 	void      ScheduleDraw();
 	void      SetCaret(int idx, bool bEnsureVisible);
 	void      SetPos(int pos);
-	void      SetSelection(int first, int last);
+	void      SetSelection(int iFirst, int iLast);
+	void      ToggleSelection(int iFirst, int iLast);
 
 	void LineUp()
 	{
