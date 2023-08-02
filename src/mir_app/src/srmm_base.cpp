@@ -122,7 +122,7 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK stubButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_RBUTTONUP:
@@ -148,7 +148,7 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 	}
 
-	return mir_callNextSubclass(hwnd, Srmm_ButtonSubclassProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, stubButtonSubclassProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -542,9 +542,9 @@ bool CSrmmBaseDialog::OnInitDialog()
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
-	mir_subclassWindow(m_btnFilter.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnColor.GetHwnd(), Srmm_ButtonSubclassProc);
-	mir_subclassWindow(m_btnBkColor.GetHwnd(), Srmm_ButtonSubclassProc);
+	mir_subclassWindow(m_btnFilter.GetHwnd(), stubButtonSubclassProc);
+	mir_subclassWindow(m_btnColor.GetHwnd(), stubButtonSubclassProc);
+	mir_subclassWindow(m_btnBkColor.GetHwnd(), stubButtonSubclassProc);
 
 	LoadSettings();
 	return true;
