@@ -140,7 +140,7 @@ static DWORD CALLBACK ChatLogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 LBL_Next:
 				if (dat->idx < events.getCount()) {
 					auto &lin = events[dat->idx];
-					if (si->iType == GCW_SERVER || (si->pDlg->m_iLogFilterFlags & lin.iType) != 0)
+					if (si->pDlg->IsSuitableEvent(lin))
 						dat->pLog->CreateChatRtfEvent(dat, lin);
 					dat->idx++;
 					if (dat->buf.IsEmpty())
@@ -418,4 +418,19 @@ void FreeMsgLogBitmaps(void)
 {
 	for (int i = 0; i < _countof(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSimpleLogWindow::LogChatEvents(const struct LOGINFO *lin)
+{
+	if (lin == nullptr) {
+		for (auto &it : m_pDlg.getChat()->arEvents)
+			if (m_pDlg.IsSuitableEvent(*it))
+				LogChatEvent(*it);
+	}
+	else LogChatEvent(*lin);
+
+	if (lin)
+		ScrollToBottom();
 }

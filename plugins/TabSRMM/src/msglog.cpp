@@ -1235,7 +1235,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CLogWindow::LogEvents(const LOGINFO *lin)
+void CLogWindow::LogChatEvents(const LOGINFO *lin)
 {
 	if (m_rtf.GetHwnd() == nullptr)
 		return;

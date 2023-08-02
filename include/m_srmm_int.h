@@ -103,6 +103,7 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwnd
 // SRMM log window container
 
 class CMsgDialog;
+struct LOGINFO;
 
 class MIR_APP_EXPORT CSrmmLogWindow
 {
@@ -112,7 +113,7 @@ class MIR_APP_EXPORT CSrmmLogWindow
 protected:
 	CMsgDialog &m_pDlg;
 
-	CSrmmLogWindow(CMsgDialog &pDlg) :
+	__forceinline CSrmmLogWindow(CMsgDialog &pDlg) :
 		m_pDlg(pDlg)
 	{}
 
@@ -128,14 +129,14 @@ public:
 	virtual HWND     GetHwnd() = 0;
 	virtual wchar_t* GetSelection() = 0;
 	virtual void     LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) = 0;
-	virtual void     LogEvents(const struct LOGINFO *lin) = 0;
+	virtual void     LogChatEvents(const LOGINFO *lin) = 0;
 	virtual void     Resize() = 0;
 	virtual void     ScrollToBottom() = 0;
 	virtual void     UpdateOptions() {};
 
 	virtual INT_PTR Notify(WPARAM, LPARAM) { return 0; }
 
-	__inline CMsgDialog& GetDialog() const
+	__forceinline CMsgDialog& GetDialog() const
 	{	return m_pDlg;
 	}
 };
@@ -144,6 +145,24 @@ typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 
 MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
 MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Simple single-event based logger
+
+class MIR_APP_EXPORT CSimpleLogWindow : public CSrmmLogWindow
+{
+	CSimpleLogWindow(const CSimpleLogWindow &) = delete;
+	CSimpleLogWindow &operator=(const CSimpleLogWindow &) = delete;
+
+	void LogChatEvents(const struct LOGINFO *lin) override;
+
+protected:
+	__forceinline CSimpleLogWindow(CMsgDialog &pDlg) :
+		CSrmmLogWindow(pDlg)
+	{}
+
+	virtual void LogChatEvent(const LOGINFO &lin) = 0;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard built-in RTF logger class
@@ -300,6 +319,7 @@ public:
 	CTimer timerFlash, timerType, timerNickList, timerRedraw;
 
 	void ClearLog();
+	bool IsSuitableEvent(const LOGINFO &lin) const;
 	void RedrawLog();
 	void ScheduleRedrawLog();
 	void ShowColorChooser(int iCtrlId);

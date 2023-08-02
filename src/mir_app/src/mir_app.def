@@ -890,3 +890,8 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Proto_GetContactInstance@@YGPAUPROTO_INTERFACE@@I@Z @1007 NONAME
 ?complete@FILE_BLOB@DB@@QAEX_J@Z @1008 NONAME
 ?setName@FILE_BLOB@DB@@QAEXPB_W@Z @1009 NONAME
+??0CSimpleLogWindow@@IAE@AAVCMsgDialog@@@Z @1010 NONAME
+??1CSimpleLogWindow@@UAE@XZ @1011 NONAME
+??_7CSimpleLogWindow@@6B@ @1012 NONAME
+?IsSuitableEvent@CSrmmBaseDialog@@QBE_NABULOGINFO@@@Z @1013 NONAME
+?LogChatEvents@CSimpleLogWindow@@EAEXPBULOGINFO@@@Z @1014 NONAME

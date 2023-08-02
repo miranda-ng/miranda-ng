@@ -27,13 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CIeviewLogWindow class
 
-class CIeviewLogWindow : public CSrmmLogWindow
+class CIeviewLogWindow : public CSimpleLogWindow
 {
 	HWND m_hwnd = nullptr;
 
 public:
 	CIeviewLogWindow(CMsgDialog &pDlg) :
-		CSrmmLogWindow(pDlg)
+		CSimpleLogWindow(pDlg)
 	{
 	}
 
@@ -105,7 +105,7 @@ public:
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	void LogEvent(const LOGINFO *lin)
+	void LogChatEvent(const LOGINFO &lin) override
 	{
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK;
@@ -118,12 +118,12 @@ public:
 		event.eventData = &ied;
 		event.count = 1;
 
-		ied.szNick.w = lin->ptszNick;
-		ied.szText.w = lin->ptszText;
-		ied.time = lin->time;
-		ied.bIsMe = lin->bIsMe;
+		ied.szNick.w = lin.ptszNick;
+		ied.szText.w = lin.ptszText;
+		ied.time = lin.time;
+		ied.bIsMe = lin.bIsMe;
 
-		switch (lin->iType) {
+		switch (lin.iType) {
 		case GC_EVENT_MESSAGE:
 			ied.iType = IEED_GC_EVENT_MESSAGE;
 			ied.dwData = IEEDD_GC_SHOW_NICK;
@@ -167,19 +167,7 @@ public:
 		ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 		HandleIEEvent(0, LPARAM(&event));
 	}
-
-	void LogEvents(const LOGINFO *lin) override
-	{
-		if (lin == nullptr) {
-			for (auto &it : m_pDlg.getChat()->arEvents)
-				LogEvent(it);
-		}
-		else LogEvent(lin);
-
-		if (lin)
-			ScrollToBottom();
-	}
-
+	
 	void Resize() override
 	{
 		RECT rcRichEdit;

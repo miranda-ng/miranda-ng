@@ -662,7 +662,7 @@ public:
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	void LogEvents(const LOGINFO *lin) override
+	void LogChatEvents(const LOGINFO *lin) override
 	{
 		if (m_rtf.GetHwnd() == nullptr)
 			return;

@@ -492,7 +492,7 @@ public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
-	void LogEvents(const LOGINFO *lin) override
+	void LogChatEvents(const LOGINFO *lin) override
 	{
 		auto *si = m_pDlg.getChat();
 		bool bRedraw = lin == nullptr;

@@ -614,8 +614,8 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CSrmmBaseDialog::AddLog(const LOGINFO &lin)
 {
-	if (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType))
-		m_pLog->LogEvents(&lin);
+	if (IsSuitableEvent(lin))
+		m_pLog->LogChatEvents(&lin);
 }
 
 bool CSrmmBaseDialog::AllowTyping() const
@@ -626,6 +626,11 @@ bool CSrmmBaseDialog::AllowTyping() const
 void CSrmmBaseDialog::ClearLog()
 {
 	m_pLog->Clear();
+}
+
+bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
+{
+	return (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType));
 }
 
 void CSrmmBaseDialog::UpdateOptions()
@@ -650,7 +655,7 @@ void CSrmmBaseDialog::RedrawLog()
 	m_si->LastTime = 0;
 
 	if (m_si->arEvents.getCount())
-		m_pLog->LogEvents(nullptr);
+		m_pLog->LogChatEvents(nullptr);
 	else
 		ClearLog();
 }
@@ -706,7 +711,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 	}
 
 	m_si->bHistoryInit = true;
-	m_pLog->LogEvents(nullptr);
+	m_pLog->LogChatEvents(nullptr);
 }
 
 void CSrmmBaseDialog::UpdateFilterButton()

@@ -179,7 +179,7 @@ public:
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 
-	void LogEvents(const LOGINFO *lin) override
+	void LogChatEvents(const LOGINFO *lin) override
 	{
 		if (lin == nullptr) {
 			for (auto &it : m_pDlg.getChat()->arEvents)

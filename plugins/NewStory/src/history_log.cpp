@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-class CNewStoryLogWindow : public CSrmmLogWindow
+class CNewStoryLogWindow : public CSimpleLogWindow
 {
 	HWND m_hwnd = nullptr;
 
 public:
 	CNewStoryLogWindow(CMsgDialog &pDlg) :
-		CSrmmLogWindow(pDlg)
+		CSimpleLogWindow(pDlg)
 	{
 	}
 
@@ -60,13 +60,9 @@ public:
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
-	void LogEvents(const LOGINFO *lin) override
+	void LogChatEvent(const LOGINFO &lin) override
 	{
-		if (lin == nullptr) {
-			for (auto &it: m_pDlg.getChat()->arEvents)
-				SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)it);
-		}
-		else SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)lin);
+		SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)&lin);
 	}
 
 	void Resize() override
