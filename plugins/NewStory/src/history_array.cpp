@@ -46,6 +46,12 @@ bool Filter::check(ItemData *item)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event
 
+ItemData::ItemData()
+{
+	memset(this, 0, sizeof(*this));
+	savedHeight = -1;
+}
+
 ItemData::~ItemData()
 {
 	mir_free(wtext);

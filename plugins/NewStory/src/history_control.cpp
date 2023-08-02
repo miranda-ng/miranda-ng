@@ -27,6 +27,16 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 	Menu_DestroyNestedMenu(hMenu);
 }
 
+void NewstoryListData::OnResize(int newWidth)
+{
+	if (newWidth == cachedWindowWidth)
+		return;
+
+	int count = items.getCount();
+	for (int i = 0; i < count; i++)
+		items[i]->savedHeight = -1;
+}
+
 void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
@@ -44,24 +54,24 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	if (scrollTopItem > index)
 		return;
 
+	ItemData *item = items[index];
+	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
+		return;
+
 	RECT rc; GetClientRect(hwnd, &rc);
 	int height = rc.bottom - rc.top;
 
 	int top = scrollTopPixel;
 	int idx = scrollTopItem;
-	int itemHeight = LayoutItem(idx);
+	int itemHeight = GetItemHeight(idx);
 	while (top < height) {
 		if (idx == index)
 			break;
 
 		top += itemHeight;
 		idx++;
-		itemHeight = LayoutItem(idx);
+		itemHeight = GetItemHeight(idx);
 	}
-
-	ItemData *item = items[index];
-	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
-		return;
 
 	int fontid, colorid;
 	item->getFontColor(fontid, colorid);
@@ -130,6 +140,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			}
 
 			MTextDestroy(pItem->data); pItem->data = 0;
+			pItem->savedHeight = -1;
 			pItem->checkCreate(hwnd);
 		}
 	}
@@ -150,19 +161,17 @@ void NewstoryListData::EnsureVisible(int item)
 		int height = rc.bottom - rc.top;
 		int top = scrollTopPixel;
 		int idx = scrollTopItem;
-		int itemHeight = LayoutItem(idx);
+		int itemHeight = GetItemHeight(idx);
 		bool found = false;
 		while (top < height) {
 			if (idx == item) {
-				itemHeight = LayoutItem(idx);
-				if (top + itemHeight > height)
-					ScrollListBy(0, height - top - itemHeight);
+				itemHeight = GetItemHeight(idx);
 				found = true;
 				break;
 			}
 			top += itemHeight;
 			idx++;
-			itemHeight = LayoutItem(idx);
+			itemHeight = GetItemHeight(idx);
 		}
 		if (!found) {
 			scrollTopItem = item;
@@ -184,7 +193,7 @@ void NewstoryListData::FixScrollPosition()
 		int maxTopItem = 0;
 		int tmp = 0;
 		for (maxTopItem = items.getCount(); (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
-			tmp += LayoutItem(maxTopItem - 1);
+			tmp += GetItemHeight(maxTopItem - 1);
 		cachedMaxTopItem = maxTopItem;
 		cachedWindowHeight = windowHeight;
 		cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
@@ -215,45 +224,45 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 	int height = rc.bottom - rc.top;
 	int current = scrollTopItem;
 	int top = scrollTopPixel;
-	int bottom = top + LayoutItem(current);
+	int bottom = top + GetItemHeight(current);
 	while (top <= height) {
 		if (yPos >= top && yPos <= bottom)
 			return current;
 		if (++current >= count)
 			break;
 		top = bottom;
-		bottom = top + LayoutItem(current);
+		bottom = top + GetItemHeight(current);
 	}
 
 	return -1;
 }
 
-int NewstoryListData::LayoutItem(int index)
+int NewstoryListData::GetItemHeight(int index)
 {
-	HDC hdc = GetDC(hwnd);
-	RECT rc; GetClientRect(hwnd, &rc);
-	int width = rc.right - rc.left;
-
 	ItemData *item = items[index];
-	if (!item) {
-		DeleteDC(hdc);
+	if (!item)
 		return 0;
-	}
+
+	if (item->savedHeight >= 0)
+		return item->savedHeight;
 
 	int fontid, colorid;
 	item->getFontColor(fontid, colorid);
 	item->checkCreate(hwnd);
 
-	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+	HDC hdc = GetDC(hwnd);
+	HFONT hOldFont = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+
+	RECT rc; GetClientRect(hwnd, &rc);
+	int width = rc.right - rc.left;
 
 	SIZE sz;
 	sz.cx = width - 6;
 	MTextMeasure(hdc, &sz, (HANDLE)item->data);
 
-	SelectObject(hdc, hfnt);
-
+	SelectObject(hdc, hOldFont);
 	ReleaseDC(hwnd, hdc);
-	return sz.cy + 5;
+	return item->savedHeight = sz.cy + 5;
 }
 
 int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
@@ -316,15 +325,13 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 
 void NewstoryListData::RecalcScrollBar()
 {
-	SCROLLINFO si = { 0 };
-	RECT clRect;
-	GetClientRect(hwnd, &clRect);
+	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = items.getCount() * AVERAGE_ITEM_HEIGHT;
-	si.nPage = clRect.bottom;
-	si.nPos = scrollTopItem * AVERAGE_ITEM_HEIGHT;
+	si.nMax = items.getCount();
+	si.nPage = si.nMax / 10;
+	si.nPos = caret;
 	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 }
 
@@ -332,39 +339,6 @@ void NewstoryListData::ScheduleDraw()
 {
 	redrawTimer.Stop();
 	redrawTimer.Start(100);
-}
-
-void NewstoryListData::ScrollListBy(int scrollItems, int scrollPixels)
-{
-	if (scrollItems) {
-		scrollTopItem += scrollItems;
-		scrollTopPixel = 0;
-	}
-	else if (scrollPixels) {
-		scrollTopPixel += scrollPixels;
-		if (scrollTopPixel > 0) {
-			while ((scrollTopPixel > 0) && scrollTopItem) {
-				scrollTopItem--;
-				int itemHeight = LayoutItem(scrollTopItem);
-				scrollTopPixel -= itemHeight;
-			}
-
-			if (scrollTopPixel > 0) {
-				scrollTopPixel = 0;
-			}
-		}
-		else if (scrollTopPixel < 0) {
-			int maxItem = items.getCount();
-			int itemHeight = LayoutItem(scrollTopItem);
-			while ((-scrollTopPixel > itemHeight) && (scrollTopItem < maxItem)) {
-				scrollTopPixel += itemHeight;
-				scrollTopItem++;
-				itemHeight = LayoutItem(scrollTopItem);
-			}
-		}
-	}
-
-	FixScrollPosition();
 }
 
 void NewstoryListData::SetPos(int pos)
@@ -444,10 +418,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_CLEAR:
 		data->items.clear();
-
-		data->redrawTimer.Stop();
-		data->redrawTimer.Start(100);
-		InvalidateRect(hwnd, nullptr, FALSE);
+		data->ScheduleDraw();
 		break;
 
 	case NSM_GETARRAY:
@@ -640,6 +611,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_SIZE:
+		data->OnResize(LOWORD(lParam));
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
@@ -746,38 +718,27 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (wParam) {
 			case VK_UP:
-				if (data->caret > 0)
-					data->SetPos(data->caret - 1);
+				data->LineUp();
 				break;
 
 			case VK_DOWN:
-				if (data->caret < data->items.getCount()-1)
-					data->SetPos(data->caret + 1);
+				data->LineDown();
 				break;
 
 			case VK_PRIOR:
-				if (!isCtrl && data->caret > 10)
-					data->SetPos(data->caret - 10);
-				else
-					data->SetPos(0);
+				data->PageUp();
 				break;
 
 			case VK_NEXT:
-				if (int count = data->items.getCount()) {
-					if (!isCtrl && data->caret + 10 < count-1)
-						data->SetPos(data->caret + 10);
-					else
-						data->SetPos(count - 1);
-				}
+				data->PageDown();
 				break;
 
 			case VK_HOME:
-				data->SetPos(0);
+				data->ScrollTop();
 				break;
 
 			case VK_END:
-				if (int count = data->items.getCount())
-					data->SetPos(count - 1);
+				data->ScrollBottom();
 				break;
 
 			case VK_F2:
@@ -874,18 +835,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_MOUSEWHEEL:
-		{
-			int s_scrollTopItem = data->scrollTopItem;
-			int s_scrollTopPixel = data->scrollTopPixel;
-
-			UINT scrollLines;
-			if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
-				scrollLines = 3;
-			data->ScrollListBy(0, (short)HIWORD(wParam) * 10 * (signed)scrollLines / WHEEL_DELTA);
-
-			if (s_scrollTopItem != data->scrollTopItem || s_scrollTopPixel != data->scrollTopPixel)
-				InvalidateRect(hwnd, 0, FALSE);
-		}
+		if ((int)HIWORD(wParam) < 0)
+			data->LineUp();
+		else
+			data->LineDown();
 		return TRUE;
 
 	case WM_VSCROLL:
@@ -895,24 +848,22 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (LOWORD(wParam)) {
 			case SB_LINEUP:
-				data->ScrollListBy(0, -10);
+				data->LineUp();
 				break;
 			case SB_LINEDOWN:
-				data->ScrollListBy(0, 10);
+				data->LineDown();
 				break;
 			case SB_PAGEUP:
-				data->ScrollListBy(-10, 0);
+				data->PageUp();
 				break;
 			case SB_PAGEDOWN:
-				data->ScrollListBy(10, 0);
+				data->PageDown();
 				break;
 			case SB_BOTTOM:
-				data->scrollTopItem = data->items.getCount() - 1;
-				data->scrollTopPixel = 0;
+				data->ScrollBottom();
 				break;
 			case SB_TOP:
-				data->scrollTopItem = 0;
-				data->scrollTopPixel = 0;
+				data->ScrollTop();
 				break;
 			case SB_THUMBTRACK:
 				{
@@ -920,18 +871,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					si.cbSize = sizeof(si);
 					si.fMask = SIF_TRACKPOS | SIF_RANGE;
 					GetScrollInfo(hwnd, SB_VERT, &si);
-					int pos = si.nTrackPos;
-
-					if (pos == si.nMax) {
-						data->scrollTopItem = data->items.getCount();
-						data->scrollTopPixel = -1000;
-					}
-					else {
-						data->scrollTopItem = pos / AVERAGE_ITEM_HEIGHT;
-						int itemHeight = data->LayoutItem(data->scrollTopItem);
-						data->scrollTopPixel = -pos % AVERAGE_ITEM_HEIGHT * itemHeight / AVERAGE_ITEM_HEIGHT;
-					}
-					data->FixScrollPosition();
+					data->SetPos(data->items.getCount() * si.nTrackPos / si.nMax);
+					//data->FixScrollPosition();
 				}
 				break;
 

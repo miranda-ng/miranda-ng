@@ -102,6 +102,7 @@ struct NewstoryListData : public MZeroedObject
 	int cachedWindowHeight;
 	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
 	int cachedMaxTopPixel;
+	int cachedWindowWidth = -1;
 
 	RECT rcLastPaint;
 
@@ -114,6 +115,7 @@ struct NewstoryListData : public MZeroedObject
 	CSrmmBaseDialog *pMsgDlg = nullptr;
 
 	void OnContextMenu(int index, POINT pt);
+	void OnResize(int newWidth);
 	void OnTimer(CTimer *pTimer);
 	void BeginEditItem(int index, bool bReadOnly);
 	void DeleteItems(void);
@@ -121,12 +123,52 @@ struct NewstoryListData : public MZeroedObject
 	void EnsureVisible(int item);
 	void FixScrollPosition();
 	int  GetItemFromPixel(int yPos);
-	int  LayoutItem(int index);
+	int  GetItemHeight(int index);
 	int  PaintItem(HDC hdc, int index, int top, int width);
 	void RecalcScrollBar();
 	void ScheduleDraw();
-	void ScrollListBy(int scrollItems, int scrollPixels);
 	void SetPos(int pos);
+
+	void LineUp()
+	{
+		if (caret > 0)
+			SetPos(caret - 1);
+	}
+
+	void LineDown()
+	{
+		if (caret < items.getCount() - 1)
+			SetPos(caret + 1);
+	}
+
+	void PageUp()
+	{
+		if (caret > 10)
+			SetPos(caret - 10);
+		else
+			SetPos(0);
+	}
+
+	void PageDown()
+	{
+		if (int count = items.getCount()) {
+			if (caret + 10 < count - 1)
+				SetPos(caret + 10);
+			else
+				SetPos(count - 1);
+		}
+	}
+
+	void ScrollTop()
+	{
+		SetPos(0);
+	}
+
+	void ScrollBottom()
+	{
+		if (int count = items.getCount())
+			SetPos(count - 1);
+	}
 };
 
 void InitNewstoryControl();

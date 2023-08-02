@@ -10,7 +10,8 @@ struct ItemData
 	bool m_bSelected;
 	bool m_bLoaded;
 	bool m_bOfflineFile, m_bOfflineDownloaded;
-	int savedTop;
+	
+	int savedTop, savedHeight;
 
 	DB::EventInfo dbe;
 	wchar_t *wtext;
@@ -19,7 +20,7 @@ struct ItemData
 	HANDLE data;
 	ItemData *pPrev;
 
-	ItemData() { memset(this, 0, sizeof(*this)); }
+	ItemData();
 	~ItemData();
 
 	void checkCreate(HWND hwnd);
