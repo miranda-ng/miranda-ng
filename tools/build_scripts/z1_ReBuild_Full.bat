@@ -33,7 +33,10 @@ if "%comp%"=="bin15" (
 )
 
 MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
+if errorlevel 1 exit
+
 MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
+if errorlevel 1 exit
 
 call pascal.bat %tp%
 
@@ -106,7 +109,7 @@ copy /V /Y ..\..\docs\mirandaboot.ini
 copy /V /Y %SourceDir%\tools\build_scripts\redist\x%tp%\bass\*.dll "Plugins\BASS"
 
 popd
-exit
+goto :eof
 
 rem the subroutine itself starts here
 :checksum

@@ -30,9 +30,9 @@ popd
 
 echo Building v%MirVer% > version.txt
 
-start /min /wait z1_ReBuild_Full.bat 32 %comp%
+call z1_ReBuild_Full.bat 32 %comp%
 
-start /min /wait z1_ReBuild_Full.bat 64 %comp%
+call z1_ReBuild_Full.bat 64 %comp%
 
 call z2_PackPluginUpdater.bat 32 DEV_STABLE %comp%
 
