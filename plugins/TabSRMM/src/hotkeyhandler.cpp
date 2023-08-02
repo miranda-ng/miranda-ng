@@ -182,31 +182,24 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->CtlType == ODT_MENU) {
 				HWND hWnd = Srmm_FindWindow((MCONTACT)dis->itemID);
+				if (hWnd == nullptr)
+					if (SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID))
+						hWnd = si->pDlg->GetHwnd();
+
+				CMsgDialog *dat = (hWnd) ? (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA) : nullptr;
+
+				HICON hIcon;
 				uint32_t idle = 0;
-
-				if (hWnd == nullptr) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
-					hWnd = si ? si->pDlg->GetHwnd() : nullptr;
+				if (dis->itemData > 0)
+					hIcon = (dis->itemData & 0x10000000) ? g_chatApi.getIcon(GC_EVENT_HIGHLIGHT) : PluginConfig.g_IconMsgEvent;
+				else if (dat != nullptr) {
+					hIcon = dat->GetMyContactIcon(nullptr);
+					idle = dat->m_idle;
 				}
+				else hIcon = PluginConfig.g_iconContainer;
 
-				CMsgDialog *dat = nullptr;
-				if (hWnd)
-					dat = (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-				{
-					HICON hIcon;
-
-					if (dis->itemData > 0)
-						hIcon = (dis->itemData & 0x10000000) ? g_chatApi.getIcon(GC_EVENT_HIGHLIGHT) : PluginConfig.g_IconMsgEvent;
-					else if (dat != nullptr) {
-						hIcon = dat->GetMyContactIcon(nullptr);
-						idle = dat->m_idle;
-					}
-					else hIcon = PluginConfig.g_iconContainer;
-
-					DrawMenuItem(dis, hIcon, idle);
-					return TRUE;
-				}
+				DrawMenuItem(dis, hIcon, idle);
+				return TRUE;
 			}
 		}
 		break;

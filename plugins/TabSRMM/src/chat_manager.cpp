@@ -72,15 +72,6 @@ int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-SESSION_INFO* SM_FindSessionByHWND(HWND hWnd)
-{
-	for (auto &si : g_chatApi.arSessions)
-		if (si->pDlg && si->pDlg->GetHwnd() == hWnd)
-			return si;
-
-	return nullptr;
-}
-
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
 {
 	for (auto &si : g_chatApi.arSessions)

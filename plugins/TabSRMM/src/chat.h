@@ -86,7 +86,6 @@ HICON LoadIconEx(char *pszIcoLibName);
 void ShowRoom(TContainerData *pContainer, SESSION_INFO *si);
 
 // manager.c
-SESSION_INFO* SM_FindSessionByHWND(HWND h);
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 
