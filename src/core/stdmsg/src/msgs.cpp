@@ -50,20 +50,80 @@ int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 	return sendId;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int SRMMStatusToPf2(int status)
 {
 	switch (status) {
-		case ID_STATUS_ONLINE:     return PF2_ONLINE;
-		case ID_STATUS_AWAY:       return PF2_SHORTAWAY;
-		case ID_STATUS_DND:        return PF2_HEAVYDND;
-		case ID_STATUS_NA:         return PF2_LONGAWAY;
-		case ID_STATUS_OCCUPIED:   return PF2_LIGHTDND;
-		case ID_STATUS_FREECHAT:   return PF2_FREECHAT;
-		case ID_STATUS_INVISIBLE:  return PF2_INVISIBLE;
-		case ID_STATUS_OFFLINE:    return MODEF_OFFLINE;
+	case ID_STATUS_ONLINE:     return PF2_ONLINE;
+	case ID_STATUS_AWAY:       return PF2_SHORTAWAY;
+	case ID_STATUS_DND:        return PF2_HEAVYDND;
+	case ID_STATUS_NA:         return PF2_LONGAWAY;
+	case ID_STATUS_OCCUPIED:   return PF2_LIGHTDND;
+	case ID_STATUS_FREECHAT:   return PF2_FREECHAT;
+	case ID_STATUS_INVISIBLE:  return PF2_INVISIBLE;
+	case ID_STATUS_OFFLINE:    return MODEF_OFFLINE;
 	}
 	return 0;
 }
+
+struct CAutoPopup : public MAsyncObject
+{
+	MCONTACT hContact;
+	MEVENT hDbEvent;
+
+	CAutoPopup(MCONTACT _1, MEVENT _2) :
+		hContact(_1),
+		hDbEvent(_2)
+	{}
+
+	void Invoke() override
+	{
+		bool bPopup = false;
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto && (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
+			bPopup = true;
+
+		/* does a window for the contact exist? */
+		CTabbedWindow *pContainer = nullptr;
+		auto *pDlg = Srmm_FindDialog(hContact);
+		if (!pDlg) {
+			if (bPopup) {
+				pDlg = GetContainer()->AddPage(hContact, nullptr, true);
+				pContainer = pDlg->getOwner();
+			}
+
+			Skin_PlaySound("AlertMsg");
+			Srmm_AddEvent(hContact, hDbEvent);
+		}
+		else {
+			pContainer = pDlg->getOwner();
+			if (bPopup)
+				ShowWindow(pContainer->GetHwnd(), SW_RESTORE);
+
+			if (pContainer->CurrPage() != pDlg)
+				Srmm_AddEvent(hContact, hDbEvent);
+		}
+
+		if (pContainer) {
+			if (bPopup && g_Settings.bTabsEnable && GetForegroundWindow() != pContainer->GetHwnd())
+				g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
+
+			if (!g_plugin.bDoNotStealFocus) {
+				SetForegroundWindow(pContainer->GetHwnd());
+				Skin_PlaySound("RecvMsgActive");
+			}
+			else {
+				if (GetForegroundWindow() == GetParent(pContainer->GetHwnd()))
+					Skin_PlaySound("RecvMsgActive");
+				else
+					Skin_PlaySound("RecvMsgInactive");
+			}
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
@@ -77,48 +137,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.markedRead() || !DbEventIsShown(dbei))
 		return 0;
 
-	bool bPopup = false;
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto && (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
-		bPopup = true;
-
-	/* does a window for the contact exist? */
-	CTabbedWindow *pContainer = nullptr;
-	auto *pDlg = Srmm_FindDialog(hContact);
-	if (!pDlg) {
-		if (bPopup) {
-			pDlg = GetContainer()->AddPage(hContact, nullptr, true);
-			pContainer = pDlg->getOwner();
-		}
-		
-		Skin_PlaySound("AlertMsg");
-		Srmm_AddEvent(hContact, hDbEvent);
-	}
-	else {
-		pContainer = pDlg->getOwner();
-		if (bPopup)
-			ShowWindow(pContainer->GetHwnd(), SW_RESTORE);
-
-		if (pContainer->CurrPage() != pDlg)
-			Srmm_AddEvent(hContact, hDbEvent);
-	}
-
-	if (!pContainer)
-		return 0;
-
-	if (bPopup && g_Settings.bTabsEnable && GetForegroundWindow() != pContainer->GetHwnd())
-		g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
-
-	if (!g_plugin.bDoNotStealFocus) {
-		SetForegroundWindow(pContainer->GetHwnd());
-		Skin_PlaySound("RecvMsgActive");
-	}
-	else {
-		if (GetForegroundWindow() == GetParent(pContainer->GetHwnd()))
-			Skin_PlaySound("RecvMsgActive");
-		else
-			Skin_PlaySound("RecvMsgInactive");
-	}
+	Utils_InvokeAsync(new CAutoPopup(hContact, hDbEvent));
 	return 0;
 }
 

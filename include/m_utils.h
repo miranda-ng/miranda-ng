@@ -460,6 +460,18 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// delays execution of the required action
+
+struct MAsyncObject : public MNonCopyable
+{
+	virtual ~MAsyncObject() {}
+
+	virtual void Invoke() = 0;
+};
+
+MIR_APP_DLL(void) Utils_InvokeAsync(MAsyncObject *pObj);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // compatibility functions
 
 #ifndef _WINDOWS

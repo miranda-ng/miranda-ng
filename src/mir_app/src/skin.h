@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBMODULENAME "SkinHotKeys"
 
 #define WM_HOTKEYUNREGISTERED   (WM_USER+721)
+#define WM_INVOKEASYNC          (WM_USER+722)
 
 enum THotkeyType { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL };
 
@@ -65,7 +66,7 @@ struct THotkeyItem
 };
 
 extern LIST<THotkeyItem> hotkeys;
-extern HWND g_hwndHkOptions, g_hwndHotkeyHost;
+extern HWND g_hwndHkOptions;
 extern uint32_t g_pid, g_hkid;
 extern HANDLE hEvChanged;
 

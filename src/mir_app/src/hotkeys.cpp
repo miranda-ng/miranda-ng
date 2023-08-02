@@ -42,7 +42,7 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 
 LIST<THotkeyItem> hotkeys(10, sttCompareHotkeys);
 uint32_t g_pid = 0, g_hkid = 1;
-HWND g_hwndHotkeyHost = nullptr, g_hwndHkOptions = nullptr;
+HWND g_hwndHkOptions = nullptr;
 HANDLE hEvChanged = nullptr;
 
 static BOOL bModuleInitialized = FALSE;
@@ -67,6 +67,15 @@ static void sttWordToModAndVk(uint16_t w, uint8_t *mod, uint8_t *vk)
 	*vk = LOBYTE(w);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static HWND g_hwndHotkeyHost = nullptr;
+
+MIR_APP_DLL(void) Utils_InvokeAsync(MAsyncObject *pObj)
+{
+	PostMessageW(g_hwndHotkeyHost, WM_INVOKEASYNC, 0, LPARAM(pObj));
+}
+
 static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_HOTKEY && g_hwndHkOptions == nullptr) {
@@ -83,8 +92,17 @@ static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return FALSE;
 	}
 
+	if (msg == WM_INVOKEASYNC) {
+		if (auto *pObj = (MAsyncObject *)lParam) {
+			pObj->Invoke();
+			delete pObj;
+		}
+	}
+
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 {

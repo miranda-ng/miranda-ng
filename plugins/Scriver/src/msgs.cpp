@@ -79,6 +79,39 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CAutoPpopup : public MAsyncObject
+{
+	MCONTACT hContact;
+	MEVENT hDbEvent;
+
+	CAutoPpopup(MCONTACT _1, MEVENT _2) :
+		hContact(_1),
+		hDbEvent(_2)
+	{}
+
+	void Invoke() override
+	{
+		/* does a window for the contact exist? */
+		HWND hwnd = Srmm_FindWindow(hContact);
+		if (hwnd == nullptr)
+			hwnd = Srmm_FindWindow(db_event_getContact(hDbEvent));
+
+		if (hwnd == nullptr) {
+			/* new message */
+			Skin_PlaySound("AlertMsg");
+			if (IsAutoPopup(hContact)) {
+				(new CMsgDialog(hContact, true))->Show();
+				return;
+			}
+		}
+
+		if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd)))
+			Srmm_AddEvent(hContact, hDbEvent);
+	}
+};
+
 static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
@@ -94,23 +127,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(dbei))
 		return 0;
 
-	/* does a window for the contact exist? */
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd == nullptr)
-		hwnd = Srmm_FindWindow(db_event_getContact(hDbEvent));
-
-	if (hwnd == nullptr) {
-		/* new message */
-		Skin_PlaySound("AlertMsg");
-		if (IsAutoPopup(hContact)) {
-			(new CMsgDialog(hContact, true))->Show();
-			return 0;
-		}
-	}
-
-	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd)))
-		Srmm_AddEvent(hContact, hDbEvent);
-
+	Utils_InvokeAsync(new CAutoPpopup(hContact, hDbEvent));
 	return 0;
 }
 
