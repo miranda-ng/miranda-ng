@@ -143,7 +143,6 @@ public:
 	//	bool preloadEvents(int count = 10);
 
 	ItemData* get(int id, bool bLoad = false);
-	ItemData* operator[] (int id) { return get(id, true); }
 
 	void remove(int idx);
 

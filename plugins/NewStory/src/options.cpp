@@ -1,22 +1,42 @@
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Basic options page class
+
+class CBaseOptsDlg : public CDlgBase
+{
+protected:
+	CBaseOptsDlg(int iDlgId) :
+		CDlgBase(g_plugin, iDlgId)
+	{
+		m_OnFinishWizard = Callback(this, &CBaseOptsDlg::OnFinish);
+	}
+
+	void OnFinish(void *)
+	{
+		WindowList_BroadcastAsync(g_hNewstoryLogs, NSM_SET_OPTIONS, 0, 0);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // General options dialog
 
-class CGeneralOptsDlg : public CDlgBase
+class CGeneralOptsDlg : public CBaseOptsDlg
 {
-	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge;
+	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder;
 
 public:
 	CGeneralOptsDlg() :
-		CDlgBase(g_plugin, IDD_OPT_ADVANCED),
+		CBaseOptsDlg(IDD_OPT_ADVANCED),
 		chkVScroll(this, IDC_VSCROLL),
 		chkDrawEdge(this, IDC_DRAWEDGE),
-		chkGrouping(this, IDC_GROUPING)
+		chkGrouping(this, IDC_GROUPING),
+		chkSortOrder(this, IDC_SORT_ASCENDING)
 	{
 		CreateLink(chkVScroll, g_plugin.bOptVScroll);
 		CreateLink(chkGrouping, g_bOptGrouping);
 		CreateLink(chkDrawEdge, g_bOptDrawEdge);
+		CreateLink(chkSortOrder, g_plugin.bSortAscending);
 	}
 
 	bool OnApply() override
@@ -30,7 +50,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Template options dialog
 
-class CTemplateOptsDlg : public CDlgBase
+class CTemplateOptsDlg : public CBaseOptsDlg
 {
 	MCONTACT m_hContact;
 	MEVENT m_hDbEVent;
@@ -57,7 +77,7 @@ class CTemplateOptsDlg : public CDlgBase
 
 public:
 	CTemplateOptsDlg() :
-		CDlgBase(g_plugin, IDD_OPT_TEMPLATES),
+		CBaseOptsDlg(IDD_OPT_TEMPLATES),
 		m_edit(this, IDC_EDITTEMPLATE),
 		m_tree(this, IDC_TEMPLATES),
 		preview(this, IDC_PREVIEW),

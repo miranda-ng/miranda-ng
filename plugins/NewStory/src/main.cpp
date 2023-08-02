@@ -34,7 +34,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
-	bOptVScroll(MODULENAME, "VScroll", true)
+	bOptVScroll(MODULENAME, "VScroll", true),
+	bSortAscending(MODULENAME, "SortAscending", true)
 {
 }
 

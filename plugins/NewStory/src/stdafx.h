@@ -84,7 +84,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE m_log;
 
-	CMOption<bool> bOptVScroll;
+	CMOption<bool> bOptVScroll, bSortAscending;
 	bool bMsgGrouping, bDrawEdge; // thesw options are a copy of static CMOption to keep performance high
 
 	CMPlugin();

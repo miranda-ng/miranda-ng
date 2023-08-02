@@ -27,16 +27,7 @@ enum
 	// wParam = fist item
 	// lParam = last item
 	// result = number of total selected items
-	// select items wParam - lParam and deselect all other
-	NSM_SELECTITEMS2,
-
-	// wParam = fist item
-	// lParam = last item
-	// result = number of total selected items
 	NSM_DESELECTITEMS,
-
-	// wParam = item id
-	NSM_ENSUREVISIBLE,
 
 	// wParam = x in control
 	// lParam = y in control
@@ -49,9 +40,6 @@ enum
 
 	// clear log
 	NSM_CLEAR,
-
-	// wParam = id
-	NSM_SETCARET,
 
 	// result = id
 	NSM_GETCARET,
@@ -79,19 +67,15 @@ enum
 
 	// 
 	NSM_SET_SRMM,     // act inside SRMM dialog
-	NSM_SET_CONTACT,
+	NSM_SET_CONTACT,  // set hContact
+	NSM_SET_OPTIONS,  // options were changed
 
 	NSM_LAST
 };
 
 struct NewstoryListData : public MZeroedObject
 {
-	NewstoryListData(HWND _1) :
-		hwnd(_1),
-		redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
-	{
-		redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
-	}
+	NewstoryListData(HWND);
 
 	HistoryArray items;
 
@@ -103,10 +87,11 @@ struct NewstoryListData : public MZeroedObject
 	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
 	int cachedMaxTopPixel;
 	int cachedWindowWidth = -1;
+	int totalCount;
 
 	RECT rcLastPaint;
 
-	bool bWasShift;
+	bool bWasShift, bSortAscending;
 
 	HWND hwnd;
 	HWND hwndEditBox;
@@ -114,20 +99,26 @@ struct NewstoryListData : public MZeroedObject
 	CTimer redrawTimer;
 	CSrmmBaseDialog *pMsgDlg = nullptr;
 
-	void OnContextMenu(int index, POINT pt);
-	void OnResize(int newWidth);
-	void OnTimer(CTimer *pTimer);
-	void BeginEditItem(int index, bool bReadOnly);
-	void DeleteItems(void);
-	void EndEditItem(bool bAccept);
-	void EnsureVisible(int item);
-	void FixScrollPosition();
-	int  GetItemFromPixel(int yPos);
-	int  GetItemHeight(int index);
-	int  PaintItem(HDC hdc, int index, int top, int width);
-	void RecalcScrollBar();
-	void ScheduleDraw();
-	void SetPos(int pos);
+	void      OnContextMenu(int index, POINT pt);
+	void      OnResize(int newWidth);
+	void      OnTimer(CTimer *pTimer);
+
+	void      AddSelection(int first, int last);
+	void      BeginEditItem(int index, bool bReadOnly);
+	void      DeleteItems(void);
+	void      EndEditItem(bool bAccept);
+	void      EnsureVisible(int item);
+	void      FixScrollPosition();
+	ItemData* GetItem(int idx);
+	int       GetItemFromPixel(int yPos);
+	int       GetItemHeight(int index);
+	ItemData* LoadItem(int idx);
+	int       PaintItem(HDC hdc, int index, int top, int width);
+	void      RecalcScrollBar();
+	void      ScheduleDraw();
+	void      SetCaret(int idx, bool bEnsureVisible);
+	void      SetPos(int pos);
+	void      SetSelection(int first, int last);
 
 	void LineUp()
 	{
@@ -137,7 +128,7 @@ struct NewstoryListData : public MZeroedObject
 
 	void LineDown()
 	{
-		if (caret < items.getCount() - 1)
+		if (caret < totalCount - 1)
 			SetPos(caret + 1);
 	}
 
@@ -151,11 +142,11 @@ struct NewstoryListData : public MZeroedObject
 
 	void PageDown()
 	{
-		if (int count = items.getCount()) {
-			if (caret + 10 < count - 1)
+		if (totalCount) {
+			if (caret + 10 < totalCount - 1)
 				SetPos(caret + 10);
 			else
-				SetPos(count - 1);
+				SetPos(totalCount - 1);
 		}
 	}
 
@@ -166,8 +157,8 @@ struct NewstoryListData : public MZeroedObject
 
 	void ScrollBottom()
 	{
-		if (int count = items.getCount())
-			SetPos(count - 1);
+		if (totalCount)
+			SetPos(totalCount - 1);
 	}
 };
 

@@ -46,7 +46,7 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case 4:
-		SendMessage(pData->hwnd, NSM_SELECTITEMS, 0, pData->items.getCount() - 1);
+		SendMessage(pData->hwnd, NSM_SELECTITEMS, 0, pData->totalCount - 1);
 		break;
 
 	case 5:

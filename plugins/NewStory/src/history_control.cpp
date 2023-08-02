@@ -10,9 +10,18 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 /////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
 
+NewstoryListData::NewstoryListData(HWND _1) :
+	hwnd(_1),
+	redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
+{
+	bSortAscending = g_plugin.bSortAscending;
+
+	redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
+}
+
 void NewstoryListData::OnContextMenu(int index, POINT pt)
 {
-	ItemData *item = items[index];
+	ItemData *item = LoadItem(index);
 	if (item == nullptr)
 		return;
 		
@@ -32,17 +41,30 @@ void NewstoryListData::OnResize(int newWidth)
 	if (newWidth == cachedWindowWidth)
 		return;
 
-	int count = items.getCount();
-	for (int i = 0; i < count; i++)
-		items[i]->savedHeight = -1;
+	for (int i = 0; i < totalCount; i++)
+		LoadItem(i)->savedHeight = -1;
 }
 
 void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
-	scrollTopItem = items.getCount();
+	scrollTopItem = totalCount;
 	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::AddSelection(int first, int last)
+{
+	int start = min(totalCount - 1, first);
+	int end = min(totalCount - 1, max(0, last));
+	if (start > end)
+		std::swap(start, end);
+
+	for (int i = start; i <= end; ++i)
+		if (auto *p = GetItem(i))
+			p->m_bSelected = true;
+
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -54,7 +76,7 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	if (scrollTopItem > index)
 		return;
 
-	ItemData *item = items[index];
+	ItemData *item = LoadItem(index);
 	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
 		return;
 
@@ -98,9 +120,8 @@ void NewstoryListData::DeleteItems(void)
 	db_set_safety_mode(false);
 
 	int firstSel = -1;
-	int eventCount = items.getCount();
-	for (int i = eventCount - 1; i >= 0; i--) {
-		auto *p = items.get(i, false);
+	for (int i = totalCount - 1; i >= 0; i--) {
+		auto *p = GetItem(i);
 		if (p->hEvent && p->m_bSelected) {
 			db_event_delete(p->hEvent);
 			items.remove(i);
@@ -110,8 +131,8 @@ void NewstoryListData::DeleteItems(void)
 	db_set_safety_mode(true);
 
 	if (firstSel != -1) {
-		SendMessage(hwnd, NSM_SETCARET, firstSel, 0);
-		SendMessage(hwnd, NSM_SELECTITEMS, firstSel, firstSel);
+		SetCaret(firstSel, false);
+		SetSelection(firstSel, firstSel);
 	}
 }
 
@@ -192,7 +213,7 @@ void NewstoryListData::FixScrollPosition()
 	if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
 		int maxTopItem = 0;
 		int tmp = 0;
-		for (maxTopItem = items.getCount(); (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
+		for (maxTopItem = totalCount; (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
 			tmp += GetItemHeight(maxTopItem - 1);
 		cachedMaxTopItem = maxTopItem;
 		cachedWindowHeight = windowHeight;
@@ -212,10 +233,17 @@ void NewstoryListData::FixScrollPosition()
 		RecalcScrollBar();
 }
 
+ItemData* NewstoryListData::GetItem(int idx)
+{
+	if (totalCount == 0)
+		return nullptr;
+
+	return (bSortAscending) ? items.get(idx, false) : items.get(totalCount - 1 - idx, false);
+}
+
 int NewstoryListData::GetItemFromPixel(int yPos)
 {
-	int count = items.getCount();
-	if (!count)
+	if (!totalCount)
 		return -1;
 		
 	RECT rc;
@@ -228,7 +256,7 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 	while (top <= height) {
 		if (yPos >= top && yPos <= bottom)
 			return current;
-		if (++current >= count)
+		if (++current >= totalCount)
 			break;
 		top = bottom;
 		bottom = top + GetItemHeight(current);
@@ -239,7 +267,7 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 
 int NewstoryListData::GetItemHeight(int index)
 {
-	ItemData *item = items[index];
+	auto *item = LoadItem(index);
 	if (!item)
 		return 0;
 
@@ -265,9 +293,17 @@ int NewstoryListData::GetItemHeight(int index)
 	return item->savedHeight = sz.cy + 5;
 }
 
+ItemData *NewstoryListData::LoadItem(int idx)
+{
+	if (totalCount == 0)
+		return nullptr;
+
+	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
+}
+
 int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 {
-	auto *item = items[index];
+	auto *item = LoadItem(index);
 	item->savedTop = top;
 
 	//	LOGFONT lfText;
@@ -329,7 +365,7 @@ void NewstoryListData::RecalcScrollBar()
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = items.getCount();
+	si.nMax = totalCount-1;
 	si.nPage = si.nMax / 10;
 	si.nPos = caret;
 	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
@@ -341,11 +377,39 @@ void NewstoryListData::ScheduleDraw()
 	redrawTimer.Start(100);
 }
 
+void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
+{
+	if (idx < totalCount) {
+		caret = idx;
+		if (bEnsureVisible)
+			EnsureVisible(idx);
+	}
+}
+
 void NewstoryListData::SetPos(int pos)
 {
 	caret = pos;
-	SendMessage(hwnd, NSM_SELECTITEMS2, (selStart == -1) ? pos : selStart, pos);
-	SendMessage(hwnd, NSM_SETCARET, pos, TRUE);
+	SetSelection((selStart == -1) ? pos : selStart, pos);
+	SetCaret(pos, true);
+}
+
+void NewstoryListData::SetSelection(int first, int last)
+{
+	int start = min(totalCount - 1, first);
+	int end = min(totalCount - 1, max(0, last));
+	if (start > end)
+		std::swap(start, end);
+
+	int count = totalCount;
+	for (int i = 0; i < count; ++i) {
+		auto *p = GetItem(i);
+		if ((i >= start) && (i <= end))
+			p->m_bSelected = true;
+		else
+			p->m_bSelected = false;
+	}
+
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -406,18 +470,22 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		// History list control messages
 	case NSM_ADDEVENTS:
-		if (auto *p = (ADDEVENTS *)wParam)
+		if (auto *p = (ADDEVENTS *)wParam) {
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
+			data->totalCount = data->items.getCount();
+		}
 		data->ScheduleDraw();
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
+		data->totalCount++;
 		data->ScheduleDraw();
 		break;
 
 	case NSM_CLEAR:
 		data->items.clear();
+		data->totalCount = 0;
 		data->ScheduleDraw();
 		break;
 
@@ -425,54 +493,22 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return (LRESULT)&data->items;
 
 	case NSM_GETCOUNT:
-		return data->items.getCount();
+		return data->totalCount;
 
 	case NSM_SELECTITEMS:
-		{
-			int start = min(data->items.getCount() - 1, (int)wParam);
-			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end)
-				std::swap(start, end);
-
-			for (int i = start; i <= end; ++i) {
-				if (auto *p = data->items.get(i, false))
-					p->m_bSelected = true;
-			}
-
-			InvalidateRect(hwnd, 0, FALSE);
-			return 0;
-		}
+		data->AddSelection(wParam, lParam);
+		return 0;
 
 	case NSM_TOGGLEITEMS:
 		{
-			int start = min(data->items.getCount() - 1, (int)wParam);
-			int end = min(data->items.getCount() - 1, max(0, lParam));
+			int start = min(data->totalCount - 1, (int)wParam);
+			int end = min(data->totalCount - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
 
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, false);
+				auto *p = data->GetItem(i);
 				p->m_bSelected = !p->m_bSelected;
-			}
-
-			InvalidateRect(hwnd, 0, FALSE);
-			return 0;
-		}
-
-	case NSM_SELECTITEMS2:
-		{
-			int start = min(data->items.getCount() - 1, (int)wParam);
-			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end)
-				std::swap(start, end);
-
-			int count = data->items.getCount();
-			for (int i = 0; i < count; ++i) {
-				auto *p = data->items.get(i, false);
-				if ((i >= start) && (i <= end))
-					p->m_bSelected = true;
-				else
-					p->m_bSelected = false;
 			}
 
 			InvalidateRect(hwnd, 0, FALSE);
@@ -481,13 +517,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_DESELECTITEMS:
 		{
-			int start = min(data->items.getCount() - 1, (int)wParam);
-			int end = min(data->items.getCount() - 1, max(0, lParam));
+			int start = min(data->totalCount - 1, (int)wParam);
+			int end = min(data->totalCount - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
 
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, false);
+				auto *p = data->GetItem(i);
 				p->m_bSelected = false;
 			}
 
@@ -495,19 +531,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			return 0;
 		}
 
-	case NSM_ENSUREVISIBLE:
-		data->EnsureVisible(wParam);
-		return 0;
-
 	case NSM_GETITEMFROMPIXEL:
 		return data->GetItemFromPixel(lParam);
-
-	case NSM_SETCARET:
-		if ((int)wParam < data->items.getCount()) {
-			data->caret = wParam;
-			if (lParam)
-				SendMessage(hwnd, NSM_ENSUREVISIBLE, data->caret, 0);
-		}
 
 	case NSM_GETCARET:
 		return data->caret;
@@ -515,40 +540,40 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case NSM_FINDNEXT:
 		idx = data->items.FindNext(data->caret, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
 		if (idx >= 0) {
-			SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
-			SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+			data->SetSelection(idx, idx);
+			data->SetCaret(idx, true);
 		}
 		return idx;
 
 	case NSM_FINDPREV:
 		idx = data->items.FindPrev(data->caret, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
 		if (idx >= 0) {
-			SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
-			SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+			data->SetSelection(idx, idx);
+			data->SetCaret(idx, true);
 		}
 		return idx;
 
 	case NSM_SEEKTIME:
 		{
-			int eventCount = data->items.getCount();
+			int eventCount = data->totalCount;
 			for (int i = 0; i < eventCount; i++) {
-				auto *p = data->items.get(i, false);
+				auto *p = data->GetItem(i);
 				if (p->dbe.timestamp >= wParam) {
-					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
-					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
+					data->SetSelection(i, i);
+					data->SetCaret(i, true);
 					break;
 				}
 
 				if (i == eventCount - 1) {
-					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
-					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
+					data->SetSelection(i, i);
+					data->SetCaret(i, true);
 				}
 			}
 		}
 		return TRUE;
 
 	case NSM_SEEKEND:
-		SendMessage(hwnd, NSM_SETCARET, data->items.getCount() - 1, 1);
+		data->SetCaret(data->totalCount - 1, true);
 		break;
 
 	case NSM_SET_SRMM:
@@ -564,9 +589,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			CMStringW res;
 
-			int eventCount = data->items.getCount();
+			int eventCount = data->totalCount;
 			for (int i = 0; i < eventCount; i++) {
-				ItemData *p = data->items.get(i, false);
+				ItemData *p = data->GetItem(i);
 				if (!p->m_bSelected)
 					continue;
 
@@ -588,14 +613,19 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case NSM_DOWNLOAD:
-		if (auto *p = data->items[data->caret])
+		if (auto *p = data->LoadItem(data->caret))
 			Srmm_DownloadOfflineFile(p->hContact, p->hEvent, lParam);
+		break;
+
+	case NSM_SET_OPTIONS:
+		data->bSortAscending = g_plugin.bSortAscending;
+		data->ScheduleDraw();
 		break;
 
 	case UM_EDITEVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
-			auto *p = data->items[idx];
+			auto *p = data->LoadItem(idx);
 			p->load(true);
 			p->setText();
 			data->ScheduleDraw();
@@ -642,7 +672,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				int width = rc.right - rc.left;
 				int top = data->scrollTopPixel;
 				idx = data->scrollTopItem;
-				while ((top < height) && (idx < data->items.getCount()))
+				while ((top < height) && (idx < data->totalCount))
 					top += data->PaintItem(hdc, idx++, top, width);
 
 				if (top <= height) {
@@ -677,9 +707,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			if (data->caret != idx)
 				data->EndEditItem(false);
-			SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
-			SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
-
+			data->SetSelection(idx, idx);
+			data->SetCaret(idx, true);
 			data->OnContextMenu(idx, pt);
 		}
 		break;
@@ -762,7 +791,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case 'A':
 				if (isCtrl)
-					SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
+					data->AddSelection(0, data->totalCount);
 				break;
 			}
 		}
@@ -775,15 +804,15 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (data->caret != idx)
 				data->EndEditItem(false);
 
-			auto *pItem = data->items[idx];
+			auto *pItem = data->LoadItem(idx);
 
 			if (wParam & MK_CONTROL) {
 				SendMessage(hwnd, NSM_TOGGLEITEMS, idx, idx);
-				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+				data->SetCaret(idx, true);
 			}
 			else if (wParam & MK_SHIFT) {
-				SendMessage(hwnd, NSM_SELECTITEMS, data->caret, idx);
-				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+				data->AddSelection(data->caret, idx);
+				data->SetCaret(idx, true);
 			}
 			else {
 				pt.y -= pItem->savedTop;
@@ -794,8 +823,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					return 0;
 				}
 
-				SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
-				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+				data->SetSelection(idx, idx);
+				data->SetCaret(idx, true);
 			}
 		}
 		SetFocus(hwnd);
@@ -808,7 +837,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (data->caret != idx)
 				data->EndEditItem(false);
 
-			auto *pItem = data->items[idx];
+			auto *pItem = data->LoadItem(idx);
 			pt.y -= pItem->savedTop;
 
 			if (pItem->m_bOfflineFile) {
@@ -829,7 +858,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		idx = data->GetItemFromPixel(pt.y);
 		if (idx >= 0) {
-			auto *pItem = data->items[idx];
+			auto *pItem = data->LoadItem(idx);
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
 		}
 		break;
@@ -871,8 +900,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					si.cbSize = sizeof(si);
 					si.fMask = SIF_TRACKPOS | SIF_RANGE;
 					GetScrollInfo(hwnd, SB_VERT, &si);
-					data->SetPos(data->items.getCount() * si.nTrackPos / si.nMax);
-					//data->FixScrollPosition();
+					data->SetPos(data->totalCount * si.nTrackPos / si.nMax);
+					data->FixScrollPosition();
 				}
 				break;
 

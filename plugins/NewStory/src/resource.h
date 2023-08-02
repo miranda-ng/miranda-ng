@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\plugins\NewStory\res\resource.rc
+// Used by W:\miranda-ng\plugins\NewStory\res\resource.rc
 //
 #define IDD_HISTORY                     101
 #define IDD_OPT_TEMPLATES               102
@@ -86,6 +86,7 @@
 #define IDC_VARHELP                     1055
 #define IDC_VSCROLL                     1056
 #define IDC_DRAWEDGE                    1057
+#define IDC_SORT_ASCENDING              1058
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003

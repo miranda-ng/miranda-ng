@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <winres.h>
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -139,9 +139,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Group messages",IDC_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,9,289,14
-    GROUPBOX        "Log window",IDC_STATIC,0,0,307,52
+    GROUPBOX        "Log window",IDC_STATIC,0,0,307,65
     CONTROL         "Enable vertical scroll bar",IDC_VSCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,289,14
     CONTROL         "Draw window edge",IDC_DRAWEDGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,35,289,14
+    CONTROL         "Ascending events sort order",IDC_SORT_ASCENDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,289,14
 END
 
 IDD_OPT_TEMPLATES DIALOGEX 0, 0, 307, 223
