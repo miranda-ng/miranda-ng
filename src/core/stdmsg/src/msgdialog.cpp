@@ -135,11 +135,11 @@ bool CMsgDialog::OnInitDialog()
 	m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
+	OnOptionsApplied(false);
+	UpdateAvatar();
 
 	if (isChat()) {
-		OnOptionsApplied(false);
 		OnActivate();
-		UpdateAvatar();
 		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
@@ -166,8 +166,6 @@ bool CMsgDialog::OnInitDialog()
 		if (bUpdate)
 			UpdateLastMessage();
 
-		OnOptionsApplied(false);
-
 		uint32_t dwFlags = SWP_NOMOVE | SWP_NOSIZE;
 		if (!g_Settings.bTabsEnable)
 			dwFlags |= SWP_SHOWWINDOW;
@@ -181,8 +179,6 @@ bool CMsgDialog::OnInitDialog()
 			SetForegroundWindow(m_hwnd);
 			SetFocus(m_message.GetHwnd());
 		}
-
-		UpdateAvatar();
 	}
 
 	// restore saved msg if any...
@@ -198,6 +194,8 @@ bool CMsgDialog::OnInitDialog()
 			db_free(&dbv);
 		}
 	}
+
+	PostMessage(m_hwnd, DM_REDRAW, 0, 0);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
@@ -537,8 +535,19 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		UpdateAvatar();
 		break;
 
+	case DM_REDRAW:
+		if (isChat())
+			RedrawLog();
+		else
+			RemakeLog();
+		break;
+
 	case DM_OPTIONSAPPLIED:
 		OnOptionsApplied(wParam != 0);
+		if (isChat())
+			RedrawLog();
+		else
+			RemakeLog();
 		break;
 
 	case DM_NEWTIMEZONE:
@@ -1136,11 +1145,6 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (WPARAM)&cf);
 
 	m_pLog->Clear();
-	if (isChat())
-		RedrawLog();
-	else
-		RemakeLog();
-
 	FixTabIcons();
 }
 
