@@ -896,3 +896,6 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?IsSuitableEvent@CSrmmBaseDialog@@QEBA_NAEBULOGINFO@@@Z @1013 NONAME
 ?LogChatEvents@CSimpleLogWindow@@EEAAXPEBULOGINFO@@@Z @1014 NONAME
 ?Utils_InvokeAsync@@YAXPEAUMAsyncObject@@@Z @1015 NONAME
+??0MAsyncObject@@QEAA@XZ @1016 NONAME
+??1MAsyncObject@@UEAA@XZ @1017 NONAME
+??_7MAsyncObject@@6B@ @1018 NONAME

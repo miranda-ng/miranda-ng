@@ -462,7 +462,7 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 /////////////////////////////////////////////////////////////////////////////////////////
 // delays execution of the required action
 
-struct MAsyncObject : public MNonCopyable
+struct MIR_APP_EXPORT MAsyncObject : public MNonCopyable
 {
 	virtual ~MAsyncObject() {}
 
