@@ -859,10 +859,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_MOUSEWHEEL:
-		if ((int)HIWORD(wParam) < 0)
-			data->LineUp();
-		else
+		if ((short)HIWORD(wParam) < 0)
 			data->LineDown();
+		else
+			data->LineUp();
 		return TRUE;
 
 	case WM_VSCROLL:
