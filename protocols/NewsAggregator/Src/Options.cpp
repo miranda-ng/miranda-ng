@@ -675,7 +675,7 @@ bool CFeedEditor::OnInitDialog()
 		}
 	}
 	else if (m_iItem == -1 && m_hContact == NULL) {
-		m_feedurl.SetText(L"http://");
+		m_feedurl.SetText(L"https://");
 		m_tagedit.SetText(TAGSDEFAULT);
 		m_checktime.SetInt(DEFAULT_UPDATE_TIME);
 		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "AddDlg");
