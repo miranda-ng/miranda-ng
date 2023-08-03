@@ -415,7 +415,7 @@ public:
 		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump to date")),
 		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User info")),
 		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User menu")),
-		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
+		btnFindNext(this, IDOK, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
 		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous")),
 		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(ICO_TIMETREE), LPGEN("Conversations"))
 	{
@@ -573,6 +573,11 @@ public:
 		ShowHideControls();
 		TimeTreeBuild();
 		return true;
+	}
+
+	bool OnApply() override
+	{
+		return false;
 	}
 
 	void OnDestroy() override

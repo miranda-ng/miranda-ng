@@ -38,7 +38,6 @@
 #define IDC_TIMETREE                    1007
 #define IDC_FILTER                      1008
 #define IDC_FINDPREV                    1009
-#define IDC_FINDNEXT                    1010
 #define IDC_SEARCHTEXT                  1011
 #define IDC_SEARCHICON                  1012
 #define IDC_LOGOPTIONS                  1013

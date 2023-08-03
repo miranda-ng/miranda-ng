@@ -750,11 +750,17 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case VK_PRIOR:
-				data->PageUp();
+				if (isCtrl)
+					data->ScrollTop();
+				else
+					data->PageUp();
 				break;
 
 			case VK_NEXT:
-				data->PageDown();
+				if (isCtrl)
+					data->ScrollBottom();
+				else
+					data->PageDown();
 				break;
 
 			case VK_HOME:
