@@ -122,8 +122,7 @@ class CHistoryDlg : public CDlgBase
 {
 	HMENU m_hMenu;
 	uint16_t showFlags;
-	bool gonnaRedraw;
-	bool isContactHistory;
+	bool m_bSearchChanged = false;
 	MCONTACT m_hContact;
 	int lastYear = -1, lastMonth = -1, lastDay = -1;
 	HTREEITEM hLastYear = 0, hLastMonth = 0, hLastDay = 0;
@@ -146,6 +145,41 @@ class CHistoryDlg : public CDlgBase
 	HWND m_hwndChkDateFrom, m_hwndChkDateTo;
 	HWND m_hwndDateFrom, m_hwndDateTo;
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
+
+	void DoGlobalSearch()
+	{
+		ptrW wszPattern(edtSearchText.GetText());
+		if (!mir_wstrlen(wszPattern))
+			return;
+
+		// clear messages array first
+		m_histControl.SendMsg(NSM_CLEAR, 0, 0);
+
+		CharLowerW(wszPattern);
+		DoSearchContact(0, wszPattern);
+		for (auto &hContact : Contacts())
+			DoSearchContact(hContact, wszPattern);
+	}
+
+	void DoSearchContact(MCONTACT hContact, const wchar_t *pwszPattern)
+	{
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
+			DB::EventInfo dbei(hDbEvent);
+			if (!dbei)
+				continue;
+			
+			ptrW pwszText(DbEvent_GetTextW(&dbei, CP_UTF8));
+			if (!mir_wstrlen(pwszText))
+				continue;
+
+			CharLowerW(pwszText);
+			if (wcsstr(pwszText, pwszPattern)) {
+				ADDEVENTS tmp = { hContact, hDbEvent, 1 };
+				m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
+			}
+		}
+	}
 
 	void ShowHideControls()
 	{
@@ -329,10 +363,18 @@ class CHistoryDlg : public CDlgBase
 
 	void UpdateTitle()
 	{
-		if (m_hContact != INVALID_CONTACT_ID)
+		switch (m_hContact) {
+		case INVALID_CONTACT_ID:
+			SetWindowText(m_hwnd, TranslateT("Global history search"));
+			break;
+
+		case 0:
+			SetWindowText(m_hwnd, TranslateT("System history"));
+			break;
+
+		default:
 			SetWindowText(m_hwnd, ptrW(TplFormatString(TPL_TITLE, m_hContact, 0)));
-		else 
-			SetWindowText(m_hwnd, TranslateT("History search results"));
+		}
 	}
 
 	void TimeTreeBuild()
@@ -431,15 +473,13 @@ public:
 		btnOptions.OnClick = Callback(this, &CHistoryDlg::onClick_Options);
 		btnSendMsg.OnClick = Callback(this, &CHistoryDlg::onClick_Message);
 		btnCalendar.OnClick = Callback(this, &CHistoryDlg::onClick_Calendar);
-		btnFindNext.OnClick = Callback(this, &CHistoryDlg::onClick_FindNext);
 		btnFindPrev.OnClick = Callback(this, &CHistoryDlg::onClick_FindPrev);
 		btnUserInfo.OnClick = Callback(this, &CHistoryDlg::onClick_UserInfo);
 		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
 		btnTimeTree.OnClick = Callback(this, &CHistoryDlg::onClick_TimeTree);
 
-		showFlags = g_plugin.getWord(m_hContact, "showFlags", 0x7f);
+		showFlags = g_plugin.getWord(0, "showFlags", 0x7f);
 		m_dwOptions = g_plugin.getDword(0, "dwOptions");
-		m_autoClose = CLOSE_ON_CANCEL;
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		TranslateMenu(m_hMenu);
@@ -536,15 +576,29 @@ public:
 		ibTotal.hwndTxtOut = GetDlgItem(m_hwnd, IDC_TXT_TOTAL_OUT);
 
 		// Ask for layout
-		Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 
 		WindowList_Add(g_hNewstoryWindows, m_hwnd, m_hContact);
 
 		UpdateTitle();
 
-		ADDEVENTS tmp = { m_hContact, 0, -1 };
-		m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
+		if (m_hContact != INVALID_CONTACT_ID) {
+			btnSendMsg.Disable();
+			btnUserInfo.Disable();
+			btnUserMenu.Disable();
+
+			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
+
+			ADDEVENTS tmp = { m_hContact, 0, -1 };
+			m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
+
+			SetFocus(m_histControl.GetHwnd());
+		}
+		else {
+			Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
+			m_dwOptions |= WND_OPT_SEARCHBAR;
+		}
+
 		m_histControl.SendMsg(NSM_SET_CONTACT, m_hContact, 0);
 		m_histControl.SendMsg(NSM_SEEKEND, 0, 0);
 
@@ -568,8 +622,6 @@ public:
 		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 
-		SetFocus(m_histControl.GetHwnd());
-
 		ShowHideControls();
 		TimeTreeBuild();
 		return true;
@@ -577,17 +629,29 @@ public:
 
 	bool OnApply() override
 	{
+		if (m_bSearchChanged) {
+			m_bSearchChanged = false;
+			if (m_hContact == INVALID_CONTACT_ID)
+				DoGlobalSearch();
+		}
+
+		m_histControl.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
 		return false;
 	}
 
 	void OnDestroy() override
 	{
-		g_plugin.setWord(m_hContact, "showFlags", showFlags);
+		if (m_hContact != INVALID_CONTACT_ID)
+			Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
+		else
+			Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
+
+		g_plugin.setWord(0, "showFlags", showFlags);
 		g_plugin.setDword(0, "dwOptions", m_dwOptions);
 	
-		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		Window_FreeIcon_IcoLib(m_hwnd);
 		WindowList_Remove(g_hNewstoryWindows, m_hwnd);
+		
 		if (m_hwndStatus != nullptr) {
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
@@ -771,11 +835,6 @@ public:
 		LayoutHistoryWnd();
 	}
 
-	void onClick_FindNext(CCtrlButton *)
-	{
-		m_histControl.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
-	}
-
 	void onClick_FindPrev(CCtrlButton *)
 	{
 		m_histControl.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
@@ -831,6 +890,8 @@ public:
 
 	void onChange_SearchText(CCtrlEdit*)
 	{
+		m_bSearchChanged = true;
+
 		if (m_bInitialized)
 			if (showFlags & HIST_AUTO_FILTER)
 				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
@@ -1025,11 +1086,18 @@ public:
 INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
 {
 	HWND hwnd = (HWND)WindowList_Find(g_hNewstoryWindows, hContact);
-	if (hwnd && IsWindow(hwnd)) {
-		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		SetFocus(hwnd);
+	if (!hwnd) {
+		auto *pDlg = new CHistoryDlg(hContact);
+		pDlg->Create();
+		hwnd = pDlg->GetHwnd();
 	}
-	else (new CHistoryDlg(hContact))->Show();
 
+	SetForegroundWindow(hwnd);
+	SetFocus(hwnd);
 	return 0;
+}
+
+INT_PTR svcGlobalSearch(WPARAM, LPARAM)
+{
+	return svcShowNewstory(INVALID_CONTACT_ID, 0);
 }

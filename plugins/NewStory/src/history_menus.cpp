@@ -114,18 +114,25 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 void InitMenus()
 {
-	// Contact menu items
-	{
+	{	// Contact menu items
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x21);
-		mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 		mi.name.a = LPGEN("User history");
 		mi.position = 1000090000;
-		mi.hIcon = g_plugin.getIcon(ICO_NEWSTORY);
+		mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+		mi.hIcolibItem = g_plugin.getIconHandle(ICO_NEWSTORY);
 		hmiHistory = Menu_AddContactMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, svcShowNewstory);
 
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+
+		// Main menu items
+		SET_UID(mi, 0x1848519e, 0x639d, 0x497a, 0xa5, 0x37, 0x6b, 0x76, 0x17, 0x2a, 0x6, 0xd9);
+		mi.name.a = LPGEN("Global search");
+		mi.position = 500060001;
+		mi.pszService = "NewStory/GlobalSearch";
+		Menu_AddMainMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, svcGlobalSearch);
 	}
 
 	// Init history item's menu

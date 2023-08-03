@@ -32,7 +32,8 @@ extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;
 void InitHistory();
 void InitMenus();
 
-INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam);
+INT_PTR svcShowNewstory(WPARAM, LPARAM);
+INT_PTR svcGlobalSearch(WPARAM, LPARAM);
 
 CSrmmLogWindow* __cdecl NewStory_Stub(CMsgDialog &pDlg);
 
