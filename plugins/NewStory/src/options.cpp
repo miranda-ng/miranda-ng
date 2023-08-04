@@ -83,9 +83,9 @@ public:
 		preview(this, IDC_PREVIEW),
 		gpreview(this, IDC_GPREVIEW),
 		btnReset(this, IDC_RESET, Skin_LoadIcon(SKINICON_OTHER_UNDO), LPGEN("Reset to default")),
-		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(ICO_RESET), LPGEN("Cancel edit")),
-		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Variables help")),
-		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update preview"))
+		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(IDI_RESET), LPGEN("Cancel edit")),
+		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(IDI_VARHELP), LPGEN("Variables help")),
+		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(IDI_PREVIEW), LPGEN("Update preview"))
 	{
 		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
 		btnDiscard.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Discard);
@@ -100,7 +100,7 @@ public:
 		HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 1);
 		m_tree.SetImageList(himgTree, TVSIL_NORMAL);
 
-		ImageList_AddIcon(himgTree, g_plugin.getIcon(ICO_TPLGROUP));
+		ImageList_AddIcon(himgTree, g_plugin.getIcon(IDI_TPLGROUP));
 
 		m_hContact = db_add_contact();
 		Proto_AddToContact(m_hContact, META_PROTO);
@@ -111,7 +111,8 @@ public:
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = (uint8_t *)Translate("The quick brown fox jumps over the lazy dog.");
 		dbei.cbBlob = (uint32_t)strlen((char *)dbei.pBlob);
-		dbei.flags = DBEF_TEMPORARY;
+		dbei.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
+		dbei.szModule = MODULENAME;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.timestamp = time(0);
 		m_hDbEVent = db_event_add(m_hContact, &dbei);

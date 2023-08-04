@@ -428,6 +428,20 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
+void NewstoryListData::ToggleBookmark()
+{
+	if (auto *p = GetItem(caret)) {
+		if (p->dbe.flags & DBEF_BOOKMARK)
+			p->dbe.flags &= ~DBEF_BOOKMARK;
+		else
+			p->dbe.flags |= DBEF_BOOKMARK;
+		db_event_edit(p->hEvent, &p->dbe);
+
+		p->setText();
+		InvalidateRect(hwnd, 0, FALSE);
+	}
+}
+
 void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 {
 	int start = min(totalCount - 1, iFirst);
@@ -749,6 +763,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->bWasShift = isShift;
 
 			switch (wParam) {
+			case 'B':
+				if (isCtrl)
+					data->ToggleBookmark();
+				break;
+
 			case VK_UP:
 				data->LineUp();
 				break;

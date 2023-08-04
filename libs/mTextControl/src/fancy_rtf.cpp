@@ -88,12 +88,11 @@ static bool bbCodeImageFunc(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *t
 	ts->TxSendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle, &lResult);
 	td->Freeze(&cnt);
 
-	#ifdef _WIN64
-	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi64(txt)));
-	#else
-	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi(txt)));
-	#endif
+	HICON hIcon;
+	if (!swscanf(txt, L"%p", &hIcon))
+		return false;
 
+	bool res = InsertBitmap(RichEditOle, CacheIconToEmf(hIcon));
 	td->Unfreeze(&cnt);
 	RichEditOle->Release();
 	return res;

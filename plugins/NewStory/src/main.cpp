@@ -49,30 +49,31 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 static IconItem icons[] =
 {
-	{ LPGEN("Main icon"),         "main",      ICO_NEWSTORY   },
-	{ LPGEN("User info"),         "userinfo",  ICO_USERINFO   },
-	{ LPGEN("User menu"),         "usermenu",  ICO_USERMENU   },
-	{ LPGEN("Search"),            "search",    ICO_SEARCH     },
-	{ LPGEN("Options"),           "options",   ICO_OPTIONS    },
-	{ LPGEN("Filter"),            "filter",    ICO_FILTER     },
-	{ LPGEN("Export"),            "export",    ICO_EXPORT     },
-	{ LPGEN("Copy"),              "copy",      ICO_COPY       },
-	{ LPGEN("Send message"),      "message",   ICO_SENDMSG    },
+	{ LPGEN("Main icon"),         "main",      IDI_NEWSTORY   },
+	{ LPGEN("User info"),         "userinfo",  IDI_USERINFO   },
+	{ LPGEN("User menu"),         "usermenu",  IDI_USERMENU   },
+	{ LPGEN("Search"),            "search",    IDI_SEARCH     },
+	{ LPGEN("Options"),           "options",   IDI_OPTIONS    },
+	{ LPGEN("Filter"),            "filter",    IDI_FILTER     },
+	{ LPGEN("Export"),            "export",    IDI_EXPORT     },
+	{ LPGEN("Copy"),              "copy",      IDI_COPY       },
+	{ LPGEN("Bookmark"),          "bookmark",  IDI_BOOKMARK   },
+	{ LPGEN("Send message"),      "message",   IDI_SENDMSG    },
 
-	{ LPGEN("Incoming message"),  "msgin",     ICO_MSGIN      },
-	{ LPGEN("Outgoing message"),  "msgout",    ICO_MSGOUT     },
-	{ LPGEN("User signed in"),    "signin",    ICO_SIGNIN     },
-	{ LPGEN("Unknown event"),     "unknown",   ICO_UNKNOWN    },
+	{ LPGEN("Incoming message"),  "msgin",     IDI_MSGIN      },
+	{ LPGEN("Outgoing message"),  "msgout",    IDI_MSGOUT     },
+	{ LPGEN("User signed in"),    "signin",    IDI_SIGNIN     },
+	{ LPGEN("Unknown event"),     "unknown",   IDI_UNKNOWN    },
 
-	{ LPGEN("Find previous"),     "findprev",  ICO_FINDPREV   },
-	{ LPGEN("Find next"),         "findnext",  ICO_FINDNEXT   },
-	{ LPGEN("Jump to date"),      "calendar",  ICO_CALENDAR   },
-	{ LPGEN("Conversations"),     "timetree",  ICO_TIMETREE   },
+	{ LPGEN("Find previous"),     "findprev",  IDI_FINDPREV   },
+	{ LPGEN("Find next"),         "findnext",  IDI_FINDNEXT   },
+	{ LPGEN("Jump to date"),      "calendar",  IDI_CALENDAR   },
+	{ LPGEN("Conversations"),     "timetree",  IDI_TIMETREE   },
 
-	{ LPGEN("Template group"),    "tplgroup",  ICO_TPLGROUP   },
-	{ LPGEN("Cancel edit"),       "reset",     ICO_RESET      },
-	{ LPGEN("Update preview"),    "preview",   ICO_PREVIEW    },
-	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    }
+	{ LPGEN("Template group"),    "tplgroup",  IDI_TPLGROUP   },
+	{ LPGEN("Cancel edit"),       "reset",     IDI_RESET      },
+	{ LPGEN("Update preview"),    "preview",   IDI_PREVIEW    },
+	{ LPGEN("Help"),              "varhelp",   IDI_VARHELP    }
 };
 
 static int evtEventAdded(WPARAM hContact, LPARAM lParam)

@@ -451,7 +451,7 @@ public:
 
 			switch (dbei.eventType) {
 			case EVENTTYPE_MESSAGE:
-				if (dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG))
+				if (dbei.flags & (DBEF_SECURE | DBEF_STRONG))
 					i = (dbei.flags & DBEF_SECURE) ? LOGICON_MSG_SECURE : LOGICON_MSG_STRONG;
 				else if (dbei.flags & DBEF_SENT)
 					i = LOGICON_MSG_OUT;

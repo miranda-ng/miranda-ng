@@ -160,28 +160,33 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 	//  %I: Icon
 	switch (item->dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		hIcon = g_plugin.getIcon(ICO_SENDMSG);
+		hIcon = g_plugin.getIcon(IDI_SENDMSG);
 		break;
 	case EVENTTYPE_FILE:
 		hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		break;
 	case EVENTTYPE_STATUSCHANGE:
-		hIcon = g_plugin.getIcon(ICO_SIGNIN);
+		hIcon = g_plugin.getIcon(IDI_SIGNIN);
 		break;
 	default:
-		hIcon = g_plugin.getIcon(ICO_UNKNOWN);
+		hIcon = g_plugin.getIcon(IDI_UNKNOWN);
 		break;
 	}
-	mir_snwprintf(buf, L"[$hicon=%d$]", hIcon);
+	mir_snwprintf(buf, L"[$hicon=%p$]", hIcon);
 	vars->SetVar('I', buf, true);
+
+	if (item->dbe.flags & DBEF_BOOKMARK) {
+		mir_snwprintf(buf, L"[$hicon=%p$]", g_plugin.getIcon(IDI_BOOKMARK));
+		vars->SetVar('B', buf, true);
+	}
 
 	//  %i: Direction icon
 	if (item->dbe.flags & DBEF_SENT)
-		hIcon = g_plugin.getIcon(ICO_MSGOUT);
+		hIcon = g_plugin.getIcon(IDI_MSGOUT);
 	else
-		hIcon = g_plugin.getIcon(ICO_MSGIN);
+		hIcon = g_plugin.getIcon(IDI_MSGIN);
 
-	mir_snwprintf(buf, L"[$hicon=%d$]", hIcon);
+	mir_snwprintf(buf, L"[$hicon=%p$]", hIcon);
 	vars->SetVar('i', buf, true);
 
 	// %D: direction symbol
@@ -297,40 +302,40 @@ HICON TemplateInfo::getIcon() const
 
 TemplateInfo templates[TPL_COUNT] =
 {
-	{ "tpl/interface/title", LPGENW("Interface"), ICO_NEWSTORY, LPGENW("Window title"),
+	{ "tpl/interface/title", LPGENW("Interface"), IDI_NEWSTORY, LPGENW("Window title"),
 		LPGENW("%N - history [%c messages total]"), 0, 0,
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
-	{ "tpl/msglog/msg", LPGENW("Message log"), ICO_SENDMSG, LPGENW("Messages"),
-	L"%I%i[b][color=red]%N[/color], %t:[/b]\x0d\x0a%M", 0, 0,
+	{ "tpl/msglog/msg", LPGENW("Message log"), IDI_SENDMSG, LPGENW("Messages"),
+	L"%I%i%B[b][color=red]%N[/color], %t:[/b]\x0d\x0a%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
-	{ "tpl/msglog/msg_grp", LPGENW("Message log"), ICO_SENDMSG, LPGENW("Grouped messages"),
-		L"%I%i[b]%t:[/b] %M", 0, 0,
+	{ "tpl/msglog/msg_grp", LPGENW("Message log"), IDI_SENDMSG, LPGENW("Grouped messages"),
+		L"%I%i%B[b]%t:[/b] %M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/msglog/file", LPGENW("Message log"), -SKINICON_EVENT_FILE, LPGENW("Files"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/msglog/status", LPGENW("Message log"), ICO_SIGNIN, LPGENW("Status changes"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+	{ "tpl/msglog/status", LPGENW("Message log"), IDI_SIGNIN, LPGENW("Status changes"),
+		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
-	{ "tpl/msglog/presense", LPGENW("Message log"), ICO_UNKNOWN, LPGENW("Presence requests"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+	{ "tpl/msglog/presense", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Presence requests"),
+		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
-	{ "tpl/msglog/other", LPGENW("Message log"), ICO_UNKNOWN, LPGENW("Other events"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+	{ "tpl/msglog/other", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Other events"),
+		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
 
-	{ "tpl/msglog/authrq", LPGENW("Message log"), ICO_UNKNOWN, LPGENW("Authorization requests"),
+	{ "tpl/msglog/authrq", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Authorization requests"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAuth, 0 } },
-	{ "tpl/msglog/added", LPGENW("Message log"), ICO_UNKNOWN, LPGENW("'You were added' events"),
+	{ "tpl/msglog/added", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("'You were added' events"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAdded, 0 } },
-	{ "tpl/msglog/deleted", LPGENW("Message log"), ICO_UNKNOWN, LPGENW("'You were deleted' events"),
+	{ "tpl/msglog/deleted", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("'You were deleted' events"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfDeleted, 0 } },
 
-	{ "tpl/copy/msg", LPGENW("Clipboard"), ICO_SENDMSG, LPGENW("Messages"),
+	{ "tpl/copy/msg", LPGENW("Clipboard"), IDI_SENDMSG, LPGENW("Messages"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/copy/file", LPGENW("Clipboard"), -SKINICON_EVENT_FILE, LPGENW("Files"),
@@ -339,23 +344,23 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/copy/url", LPGENW("Clipboard"), -SKINICON_EVENT_URL, LPGENW("URLs"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
-	{ "tpl/copy/status", LPGENW("Clipboard"), ICO_SIGNIN, LPGENW("Status changes"),
+	{ "tpl/copy/status", LPGENW("Clipboard"), IDI_SIGNIN, LPGENW("Status changes"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
-	{ "tpl/copy/presence", LPGENW("Clipboard"), ICO_UNKNOWN, LPGENW("Presence requests"),
+	{ "tpl/copy/presence", LPGENW("Clipboard"), IDI_UNKNOWN, LPGENW("Presence requests"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
-	{ "tpl/copy/other", LPGENW("Clipboard"), ICO_UNKNOWN, LPGENW("Other events"),
+	{ "tpl/copy/other", LPGENW("Clipboard"), IDI_UNKNOWN, LPGENW("Other events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
 
-	{ "tpl/copy/authrq", LPGENW("Clipboard"), ICO_UNKNOWN, LPGENW("Authorization requests"),
+	{ "tpl/copy/authrq", LPGENW("Clipboard"), IDI_UNKNOWN, LPGENW("Authorization requests"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAuth, 0 } },
-	{ "tpl/copy/added", LPGENW("Clipboard"), ICO_UNKNOWN, LPGENW("'You were added' events"),
+	{ "tpl/copy/added", LPGENW("Clipboard"), IDI_UNKNOWN, LPGENW("'You were added' events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAdded, 0 } },
-	{ "tpl/copy/deleted", LPGENW("Clipboard"), ICO_UNKNOWN, LPGENW("'You were deleted' events"),
+	{ "tpl/copy/deleted", LPGENW("Clipboard"), IDI_UNKNOWN, LPGENW("'You were deleted' events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfDeleted, 0 } }
 };

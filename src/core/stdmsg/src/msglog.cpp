@@ -305,7 +305,7 @@ public:
 			buf.Append("\\f0\\fs14");
 			buf.Append(pLogIconBmpBits[i]);
 
-			if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG)) {
+			if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && dbei.flags & (DBEF_SECURE | DBEF_STRONG)) {
 				buf.Append("\\f0\\fs14");
 				buf.Append(pLogIconBmpBits[dbei.flags & DBEF_SECURE ? 3 : 4]);
 			}

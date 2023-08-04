@@ -26,48 +26,49 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_NEWSTORY            ICON                    "newstory.ico"
+IDI_NEWSTORY            ICON                    "newstory.ico"
 
-ICO_USERINFO            ICON                    "userinfo.ico"
+IDI_USERINFO            ICON                    "userinfo.ico"
 
-ICO_USERMENU            ICON                    "usermenu.ico"
+IDI_USERMENU            ICON                    "usermenu.ico"
 
-ICO_SEARCH              ICON                    "search.ico"
+IDI_SEARCH              ICON                    "search.ico"
 
-ICO_OPTIONS             ICON                    "options.ico"
+IDI_OPTIONS             ICON                    "options.ico"
 
-ICO_FILTER              ICON                    "filter.ico"
+IDI_FILTER              ICON                    "filter.ico"
 
-ICO_EXPORT              ICON                    "export.ico"
+IDI_EXPORT              ICON                    "export.ico"
 
-ICO_COPY                ICON                    "copy.ico"
+IDI_COPY                ICON                    "copy.ico"
 
-ICO_SENDMSG             ICON                    "sendmsg.ico"
+IDI_SENDMSG             ICON                    "sendmsg.ico"
 
-ICO_MSGIN               ICON                    "msgin.ico"
+IDI_MSGIN               ICON                    "msgin.ico"
 
-ICO_MSGOUT              ICON                    "msgout.ico"
+IDI_MSGOUT              ICON                    "msgout.ico"
 
-ICO_SIGNIN              ICON                    "signin.ico"
+IDI_SIGNIN              ICON                    "signin.ico"
 
-ICO_UNKNOWN             ICON                    "unknown.ico"
+IDI_UNKNOWN             ICON                    "unknown.ico"
 
-ICO_FINDPREV            ICON                    "findprev.ico"
+IDI_FINDPREV            ICON                    "findprev.ico"
 
-ICO_FINDNEXT            ICON                    "findnext.ico"
+IDI_FINDNEXT            ICON                    "findnext.ico"
 
-ICO_CALENDAR            ICON                    "calendar.ico"
+IDI_CALENDAR            ICON                    "calendar.ico"
 
-ICO_RESET               ICON                    "reset.ico"
+IDI_RESET               ICON                    "reset.ico"
 
-ICO_PREVIEW             ICON                    "reload.ico"
+IDI_PREVIEW             ICON                    "reload.ico"
 
-ICO_VARHELP             ICON                    "vars.ico"
+IDI_VARHELP             ICON                    "vars.ico"
 
-ICO_TPLGROUP            ICON                    "folder.ico"
+IDI_TPLGROUP            ICON                    "folder.ico"
 
-ICO_TIMETREE            ICON                    "timetree.ico"
+IDI_TIMETREE            ICON                    "timetree.ico"
 
+IDI_BOOKMARK            ICON                    "star.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

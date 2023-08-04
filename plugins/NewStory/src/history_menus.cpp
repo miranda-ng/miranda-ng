@@ -57,6 +57,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		SendMessage(pData->hwnd, NSM_DOWNLOAD, 0, OFD_DOWNLOAD);
 		break;
 
+	case 7:
+		pData->ToggleBookmark();
+		break;
+
 	default:
 		if (auto *pDlg = pData->pMsgDlg) {
 			PostMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
@@ -120,7 +124,7 @@ void InitMenus()
 		mi.name.a = LPGEN("User history");
 		mi.position = 1000090000;
 		mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-		mi.hIcolibItem = g_plugin.getIconHandle(ICO_NEWSTORY);
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_NEWSTORY);
 		hmiHistory = Menu_AddContactMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, svcShowNewstory);
 
@@ -170,6 +174,10 @@ void InitMenus()
 	mi.position = 200001;
 	mi.name.a = LPGEN("Delete");
 	Menu_AddNewStoryMenuItem(&mi, 3);
+
+	mi.position = 200002;
+	mi.name.a = LPGEN("Toggle bookmark");
+	Menu_AddNewStoryMenuItem(&mi, 7);
 
 	mi.position = 300000;
 	mi.name.a = LPGEN("Select all");

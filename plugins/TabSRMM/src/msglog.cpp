@@ -741,7 +741,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 				if (dwEffectiveFlags & MWF_LOG_SHOWICONS) {
 					int icon;
 					if ((dwEffectiveFlags & MWF_LOG_INOUTICONS) && dbei.eventType == EVENTTYPE_MESSAGE) {
-						if (dbei.flags & (DBEF_SECURE | DBEF_SECURE_STRONG))
+						if (dbei.flags & (DBEF_SECURE | DBEF_STRONG))
 							icon = (dbei.flags & DBEF_SECURE) ? LOGICON_SECURE : LOGICON_STRONG;
 						else
 							icon = isSent ? LOGICON_OUT : LOGICON_IN;

@@ -279,19 +279,19 @@ public:
 		m_timeTree(this, IDC_TIMETREEVIEW),
 		m_histControl(this, IDC_HISTORYCONTROL),
 		edtSearchText(this, IDC_SEARCHTEXT),
-		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
-		btnExport(this, IDC_EXPORT, g_plugin.getIcon(ICO_EXPORT), LPGEN("Export...")),
+		btnCopy(this, IDC_COPY, g_plugin.getIcon(IDI_COPY), LPGEN("Copy")),
+		btnExport(this, IDC_EXPORT, g_plugin.getIcon(IDI_EXPORT), LPGEN("Export...")),
 		btnDelete(this, IDC_DELETE, Skin_LoadIcon(SKINICON_OTHER_DELETE), LPGEN("Delete...")),
-		btnFilter(this, IDC_FILTER, g_plugin.getIcon(ICO_FILTER), LPGEN("Filter")),
-		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(ICO_SEARCH), LPGEN("Search...")),
-		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(ICO_OPTIONS), LPGEN("Options")),
-		btnSendMsg(this, IDC_MESSAGE, g_plugin.getIcon(ICO_SENDMSG), LPGEN("Send message")),
-		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump to date")),
-		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User info")),
-		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User menu")),
-		btnFindNext(this, IDOK, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
-		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous")),
-		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(ICO_TIMETREE), LPGEN("Conversations"))
+		btnFilter(this, IDC_FILTER, g_plugin.getIcon(IDI_FILTER), LPGEN("Filter")),
+		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(IDI_SEARCH), LPGEN("Search...")),
+		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(IDI_OPTIONS), LPGEN("Options")),
+		btnSendMsg(this, IDC_MESSAGE, g_plugin.getIcon(IDI_SENDMSG), LPGEN("Send message")),
+		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(IDI_CALENDAR), LPGEN("Jump to date")),
+		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(IDI_USERINFO), LPGEN("User info")),
+		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(IDI_USERMENU), LPGEN("User menu")),
+		btnFindNext(this, IDOK, g_plugin.getIcon(IDI_FINDNEXT), LPGEN("Find next")),
+		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(IDI_FINDPREV), LPGEN("Find previous")),
+		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(IDI_TIMETREE), LPGEN("Conversations"))
 	{
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
@@ -439,25 +439,25 @@ public:
 		m_histControl.SendMsg(NSM_SET_CONTACT, m_hContact, 0);
 		m_histControl.SendMsg(NSM_SEEKEND, 0, 0);
 
-		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NEWSTORY));
 
-		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_SEARCH), 0);
+		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_SEARCH), 0);
 
-		SendMessage(ibMessages.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_SENDMSG), 0);
-		SendMessage(ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
-		SendMessage(ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(ibMessages.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(IDI_SENDMSG), 0);
+		SendMessage(ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
+		SendMessage(ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
 		
 		SendMessage(ibFiles.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_FILE), 0);
-		SendMessage(ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
-		SendMessage(ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
+		SendMessage(ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
 		
 		SendMessage(ibUrls.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL), 0);
-		SendMessage(ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
-		SendMessage(ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
+		SendMessage(ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
 		
-		SendMessage(ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_UNKNOWN), 0);
-		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
-		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(IDI_UNKNOWN), 0);
+		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
+		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
 
 		ShowHideControls();
 		TimeTreeBuild();

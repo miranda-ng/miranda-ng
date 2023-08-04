@@ -105,6 +105,7 @@ struct NewstoryListData : public MZeroedObject
 	void      SetCaret(int idx, bool bEnsureVisible);
 	void      SetPos(int pos);
 	void      SetSelection(int iFirst, int iLast);
+	void      ToggleBookmark();
 	void      ToggleSelection(int iFirst, int iLast);
 
 	void LineUp()

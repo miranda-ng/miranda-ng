@@ -228,7 +228,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	if (pre->flags & PREF_ENCRYPTED)
 		dbei.flags |= DBEF_SECURE;
 	if (pre->flags & PREF_ENCRYPTED_STRONG)
-		dbei.flags |= DBEF_SECURE_STRONG;
+		dbei.flags |= DBEF_STRONG;
 
 	// if it's possible to find an existing event by its id, do that
 	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && pre->szMsgId != nullptr) {
