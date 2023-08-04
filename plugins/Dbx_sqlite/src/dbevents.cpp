@@ -254,7 +254,7 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 
 	DBEVENTINFO tmp = *dbei;
 	mir_ptr<uint8_t> pCryptBlob;
-	if (m_bEncrypted) {
+	if (m_bEncrypted && tmp.pBlob) {
 		size_t len;
 		uint8_t *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
 		if (pResult != nullptr) {
@@ -265,14 +265,21 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	}
 
 	mir_cslockfull lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ?, is_read = ? WHERE id = ?;", qEvEdit);
-	sqlite3_bind_text(stmt, 1, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
-	sqlite3_bind_int64(stmt, 2, tmp.timestamp);
-	sqlite3_bind_int(stmt, 3, tmp.eventType);
-	sqlite3_bind_int64(stmt, 4, tmp.flags);
-	sqlite3_bind_blob(stmt, 5, tmp.pBlob, tmp.cbBlob, nullptr);
-	sqlite3_bind_int(stmt, 6, tmp.markedRead());
-	sqlite3_bind_int64(stmt, 7, hDbEvent);
+	sqlite3_stmt *stmt;
+	if (tmp.pBlob)
+		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ?, is_read = ? WHERE id = ?;", qEvEdit1);
+	else
+		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, is_read = ? WHERE id = ?;", qEvEdit2);
+
+	int i = 1;
+	sqlite3_bind_text(stmt, i++, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
+	sqlite3_bind_int64(stmt, i++, tmp.timestamp);
+	sqlite3_bind_int(stmt, i++, tmp.eventType);
+	sqlite3_bind_int64(stmt, i++, tmp.flags);
+	if (tmp.pBlob)
+		sqlite3_bind_blob(stmt, i++, tmp.pBlob, tmp.cbBlob, nullptr);
+	sqlite3_bind_int(stmt, i++, tmp.markedRead());
+	sqlite3_bind_int64(stmt, i++, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
