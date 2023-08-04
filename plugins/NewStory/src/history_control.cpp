@@ -140,6 +140,7 @@ void NewstoryListData::DeleteItems(void)
 		if (p->hEvent && p->m_bSelected) {
 			db_event_delete(p->hEvent);
 			items.remove(i);
+			totalCount--;
 			firstSel = i;
 		}
 	}
@@ -638,6 +639,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			data->items.remove(idx);
 			data->ScheduleDraw();
+			data->totalCount--;
 		}
 		break;
 
