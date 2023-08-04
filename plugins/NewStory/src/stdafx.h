@@ -30,30 +30,31 @@ Boston, MA 02111-1307, USA.
 #include <malloc.h>
 
 //Miranda headers
-#include "newpluginapi.h"
-#include "m_chat_int.h"
-#include "m_clc.h"
-#include "m_clistint.h"
-#include "m_file.h"
-#include "m_options.h"
-#include "m_skin.h"
-#include "m_langpack.h"
-#include "m_database.h"
-#include "m_protocols.h"
-#include "m_protosvc.h"
-#include "m_utils.h"
-#include "m_history.h"
-#include "m_button.h"
-#include "m_message.h"
-#include "m_userinfo.h"
-#include "m_icolib.h"
-#include "m_fontservice.h"
-#include "m_text.h"
-#include "m_contacts.h"
-#include "m_srmm_int.h"
+#include <newpluginapi.h>
+#include <m_button.h>
+#include <m_chat_int.h>
+#include <m_clc.h>
+#include <m_clistint.h>
+#include <m_contacts.h>
+#include <m_database.h>
+#include <m_file.h>
+#include <m_fontservice.h>
+#include <m_history.h>
+#include <m_hotkeys.h>
 #include <m_json.h>
+#include <m_langpack.h>
+#include <m_message.h>
 #include <m_metacontacts.h>
+#include <m_icolib.h>
+#include <m_options.h>
+#include <m_protocols.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
+#include <m_srmm_int.h>
+#include <m_text.h>
 #include <m_timezones.h>
+#include <m_userinfo.h>
+#include <m_utils.h>
 
 #include "m_NewStory.h"
 #include "m_smileyadd.h"
@@ -79,6 +80,13 @@ Boston, MA 02111-1307, USA.
 void InitServices();
 
 int OptionsInitialize(WPARAM, LPARAM);
+
+enum
+{
+	HOTKEY_BOOKMARK = 1,
+	HOTKEY_SEEK_FORWARD = 2,
+	HOTKEY_SEEK_BACK = 3,
+};
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

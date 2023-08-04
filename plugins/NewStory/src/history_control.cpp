@@ -7,6 +7,30 @@ HANDLE htuLog = 0;
 static WNDPROC OldEditWndProc;
 static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 
+void InitHotkeys()
+{
+	HOTKEYDESC hkd = {};
+	hkd.szSection.a = MODULENAME;
+
+	hkd.szDescription.a = LPGEN("Toggle bookmark");
+	hkd.pszName = "ns_bookmark";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'B') | HKF_MIRANDA_LOCAL;
+	hkd.lParam = HOTKEY_BOOKMARK;
+	g_plugin.addHotkey(&hkd);
+
+	hkd.szDescription.a = LPGEN("Search forward");
+	hkd.pszName = "ns_seek_forward";
+	hkd.DefHotKey = HOTKEYCODE(0, VK_F3) | HKF_MIRANDA_LOCAL;
+	hkd.lParam = HOTKEY_SEEK_FORWARD;
+	g_plugin.addHotkey(&hkd);
+
+	hkd.szDescription.a = LPGEN("Search backward");
+	hkd.pszName = "ns_seek_back";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_F3) | HKF_MIRANDA_LOCAL;
+	hkd.lParam = HOTKEY_SEEK_BACK;
+	g_plugin.addHotkey(&hkd);
+}
+
 /////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
 
@@ -503,6 +527,19 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	POINT pt;
 	NewstoryListData *data = (NewstoryListData *)GetWindowLongPtr(hwnd, 0);
 
+	MSG message = { hwnd, msg, wParam, lParam };
+	switch (Hotkey_Check(&message, MODULENAME)) {
+	case HOTKEY_SEEK_FORWARD:
+		PostMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDOK, BN_CLICKED), 1);
+		break;
+	case HOTKEY_SEEK_BACK:
+		PostMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDC_FINDPREV, BN_CLICKED), 1);
+		break;
+	case HOTKEY_BOOKMARK:
+		data->ToggleBookmark();
+		return 0;
+	}
+
 	switch (msg) {
 	case WM_CREATE:
 		data = new NewstoryListData(hwnd);
@@ -763,11 +800,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->bWasShift = isShift;
 
 			switch (wParam) {
-			case 'B':
-				if (isCtrl)
-					data->ToggleBookmark();
-				break;
-
 			case VK_UP:
 				data->LineUp();
 				break;

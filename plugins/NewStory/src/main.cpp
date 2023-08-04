@@ -133,6 +133,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, evtPreShutdown);
 
 	InitMenus();
+	InitHotkeys();
 	InitServices();
 	return 0;
 }

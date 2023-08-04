@@ -30,6 +30,7 @@ enum
 extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;
 
 void InitMenus();
+void InitHotkeys();
 
 INT_PTR svcShowNewstory(WPARAM, LPARAM);
 INT_PTR svcGlobalSearch(WPARAM, LPARAM);

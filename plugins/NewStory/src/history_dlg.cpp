@@ -877,6 +877,16 @@ public:
 			return result;
 		}
 
+		MSG message = { m_hwnd, msg, wParam, lParam };
+		switch (Hotkey_Check(&message, MODULENAME)) {
+		case HOTKEY_SEEK_FORWARD:
+			btnFindNext.Click();
+			break;
+		case HOTKEY_SEEK_BACK:
+			btnFindPrev.Click();
+			break;
+		}
+
 		switch (msg) {
 		case WM_CHARTOITEM:
 			if (!((GetKeyState(VK_CONTROL) & 0x80) || (GetKeyState(VK_MENU) & 0x80))) {
