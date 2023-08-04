@@ -1,2 +1,4 @@
+[Ascending events sort order]
 [Use custom filter...]
 [Auto search]
+[Global search]

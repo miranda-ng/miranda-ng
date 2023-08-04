@@ -18971,8 +18971,10 @@ URL страницы с комментариями к новости.
 Сайт
 [About]
 Информация
-[History search results]
-Результаты поиска в истории
+[Global history search]
+Поиск по всей истории
+[System history]
+Системная история
 [Copy]
 Копировать
 [Export...]
@@ -19139,14 +19141,14 @@ URL страницы с комментариями к новости.
 Ноябрь
 [December]
 Декабрь
-[System history]
-Системная история
 [System event]
 Системное событие
 [Interface]
 Интерфейс
 [Window title]
 Заголовок окна
+[%N - history [%c messages total]]
+%N - история [всего сообщений: %c]
 [Message log]
 Журнал
 [Grouped messages]

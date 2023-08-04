@@ -32,6 +32,8 @@
 Включить вертикальную полосу прокрутки
 [Draw window edge]
 Отрисовывать границу окна
+[Ascending events sort order]
+
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -124,8 +126,10 @@
 Сайт
 [About]
 Информация
-[History search results]
-Результаты поиска в истории
+[Global history search]
+Поиск по всей истории
+[System history]
+Системная история
 [Copy]
 Копировать
 [Export...]
@@ -173,6 +177,8 @@
 Копировать ссылку
 [User history]
 История пользователя
+[Global search]
+
 [Save as]
 Сохранить как
 [Download]
@@ -298,8 +304,6 @@
 Ноябрь
 [December]
 Декабрь
-[System history]
-Системная история
 [System event]
 Системное событие
 [Interface]
