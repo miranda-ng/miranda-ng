@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-UINT_PTR CVkProto::m_timer;
+UINT_PTR CVkProto::m_Timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
@@ -70,7 +70,7 @@ void CVkProto::ShutdownSession()
 	debugLogA("CVkProto::ShutdownSession");
 	m_bTerminated = true;
 	if (m_hWorkerThread)
-		SetEvent(m_evRequestsQueue);
+		SetEvent(m_hEvRequestsQueue);
 	OnLoggedOut();
 }
 
@@ -102,17 +102,17 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 static void CALLBACK VKSetTimer(void*)
 {
 	mir_cslock lck(CVkProto::m_csTimer);
-	if (CVkProto::m_timer)
+	if (CVkProto::m_Timer)
 		return;
-	CVkProto::m_timer = SetTimer(nullptr, 0, 60000, TimerProc);
+	CVkProto::m_Timer = SetTimer(nullptr, 0, 60000, TimerProc);
 }
 
 static void CALLBACK VKUnsetTimer(void*)
 {
 	mir_cslock lck(CVkProto::m_csTimer);
-	if (CVkProto::m_timer)
-		KillTimer(nullptr, CVkProto::m_timer);
-	CVkProto::m_timer = 0;
+	if (CVkProto::m_Timer)
+		KillTimer(nullptr, CVkProto::m_Timer);
+	CVkProto::m_Timer = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -139,16 +139,16 @@ void CVkProto::OnLoggedIn()
 
 void CVkProto::ClosePollingConnection(bool bShutdown)
 {
-	if (!m_pollingConn)
+	if (!m_hPollingConn)
 		return;
 
 	debugLogA("CVkProto::ClosePollingConnection %d", bShutdown ? 1 : 0);
 
 	if (bShutdown)
-		Netlib_Shutdown(m_pollingConn);
+		Netlib_Shutdown(m_hPollingConn);
 	else
-		Netlib_CloseHandle(m_pollingConn);
-	m_pollingConn = nullptr;
+		Netlib_CloseHandle(m_hPollingConn);
+	m_hPollingConn = nullptr;
 }
 
 void CVkProto::CloseAPIConnection(bool bShutdown)
@@ -251,13 +251,13 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 				pRedirectReq->requestType = REQUEST_GET;
 				pRedirectReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 				pRedirectReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
-				pRedirectReq->AddHeader("Referer", m_prevUrl);
+				pRedirectReq->AddHeader("Referer", m_szPrevUrl);
 				pRedirectReq->Redirect(reply);
 				if (!pRedirectReq->m_szUrl.IsEmpty()) {
 					if (pRedirectReq->m_szUrl[0] == '/')
 						pRedirectReq->m_szUrl = szVKLoginDomain + pRedirectReq->m_szUrl;
 					ApplyCookies(pRedirectReq);
-					m_prevUrl = pRedirectReq->m_szUrl;
+					m_szPrevUrl = pRedirectReq->m_szUrl;
 				}
 
 				pRedirectReq->m_bApiReq = false;
@@ -327,11 +327,11 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	CMStringA szAction, szBody;
 	bool bSuccess = AutoFillForm(reply->pData, szAction, szBody);
 	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
-		if (m_prevError) {
+		if (m_bPrevError) {
 			ConnectionFailed(LOGINERR_NOSERVER);
 			return;
 		}
-		m_prevError = true;
+		m_bPrevError = true;
 	}
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
@@ -341,7 +341,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	pReq->m_szUrl = szAction;
 	if (!pReq->m_szUrl.IsEmpty() && pReq->m_szUrl[0] == '/')
 		pReq->m_szUrl = szVKLoginDomain + pReq->m_szUrl;
-	m_prevUrl = pReq->m_szUrl;
+	m_szPrevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
@@ -396,37 +396,38 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	const JSONNode &jnUser = *(jnResponse.begin());
 
-	m_myUserId = jnUser["id"].as_int();
-	setDword("ID", m_myUserId);
+	m_iMyUserId = jnUser["id"].as_int();
+	
+	WriteVKUserID(0, m_iMyUserId);
 
 	OnLoggedIn();
-	RetrieveUserInfo(m_myUserId);
+	RetrieveUserInfo(m_iMyUserId);
 	TrackVisitor();
 	RetrieveUnreadMessages();
 	RetrieveFriends(m_vkOptions.bLoadOnlyFriends);
 	RetrievePollingInfo();
 }
 
-MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactType vkContactType)
+MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactType vkContactType)
 {
 	if (!jnItem) {
 		debugLogA("CVkProto::SetContactInfo pItem == nullptr");
 		return INVALID_CONTACT_ID;
 	}
 
-	LONG userid = jnItem["id"].as_int();
-	debugLogA("CVkProto::SetContactInfo %d", userid);
-	if (userid == 0 || userid == VK_FEED_USER)
+	VKUserID_t iUserId = jnItem["id"].as_int();
+	debugLogA("CVkProto::SetContactInfo %d", iUserId);
+	if (iUserId == 0 || iUserId == VK_FEED_USER)
 		return 0;
 
-	MCONTACT hContact = FindUser(userid, flag);
+	MCONTACT hContact = FindUser(iUserId, bFlag);
 
-	if (userid == m_myUserId) {
+	if (iUserId == m_iMyUserId) {
 		if (hContact != 0)
 			if (vkContactType == VKContactType::vkContactSelf)
 				hContact = 0;
 			else
-				SetContactInfo(jnItem, flag, VKContactType::vkContactSelf);
+				SetContactInfo(jnItem, bFlag, VKContactType::vkContactSelf);
 	}
 	else if (hContact == 0)
 		return 0;
@@ -501,10 +502,10 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 
 	const JSONNode &jnLastSeen = jnItem["last_seen"];
 	if (jnLastSeen) {
-		int iLastSeen = jnLastSeen["time"].as_int();
+		time_t tLastSeen = jnLastSeen["time"].as_int();
 		int iOldLastSeen = db_get_dw(hContact, "BuddyExpectator", "LastSeen");
-		if (iLastSeen && iLastSeen > iOldLastSeen) {
-			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)iLastSeen);
+		if (tLastSeen && tLastSeen > iOldLastSeen) {
+			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)tLastSeen);
 			db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 		}
 	}
@@ -644,33 +645,33 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 	return hContact;
 }
 
-void CVkProto::RetrieveUserInfo(LONG userID)
+void CVkProto::RetrieveUserInfo(VKUserID_t iUserId)
 {
-	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
-	if (userID == VK_FEED_USER || !IsOnline())
+	debugLogA("CVkProto::RetrieveUserInfo (%d)", iUserId);
+	if (iUserId == VK_FEED_USER || !IsOnline())
 		return;
 
-	if (userID < 0) {
-		RetrieveGroupInfo(userID);
+	if (iUserId < 0) {
+		RetrieveGroupInfo(iUserId);
 		return;
 	}
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserInfo)
-		<< INT_PARAM("userid", userID)
+		<< INT_PARAM("userid", iUserId)
 		<< CHAR_PARAM("fields", szFieldsName)
 	);
 
 }
 
-void CVkProto::RetrieveGroupInfo(LONG groupID)
+void CVkProto::RetrieveGroupInfo(VKUserID_t iGroupId)
 {
-	debugLogA("CVkProto::RetrieveGroupInfo (%d)", groupID);
-	if (groupID >= VK_INVALID_USER || !IsOnline())
+	debugLogA("CVkProto::RetrieveGroupInfo (%d)", iGroupId);
+	if (GetVKPeerType(iGroupId) != VKPeerType::vkPeerGroup || !IsOnline())
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/groups.getById.json", true, &CVkProto::OnReceiveGroupInfo)
 		<< CHAR_PARAM("fields", "description")
-		<< INT_PARAM("group_id", -1 * groupID));
+		<< INT_PARAM("group_id", -1 * iGroupId));
 }
 
 void CVkProto::RetrieveGroupInfo(CMStringA& groupIDs)
@@ -693,8 +694,8 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	CMStringA userIDs;
 	int i = 0;
 	for (auto &hContact : AccContacts()) {
-		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-		if (userID == VK_INVALID_USER || userID == VK_FEED_USER || userID < 0)
+		VKUserID_t iUserId = ReadVKUserID(hContact);
+		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER || iUserId < 0)
 			continue;
 
 		bool bIsFriend = !getBool(hContact, "Auth", true);
@@ -703,7 +704,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
-		userIDs.AppendFormat("%i", userID);
+		userIDs.AppendFormat("%i", iUserId);
 
 		if (i == MAX_CONTACTS_PER_REQUEST)
 			break;
@@ -756,8 +757,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (jnResponse["freeoffline"].as_bool())
 		for (auto &it : arContacts) {
 			MCONTACT cc = (UINT_PTR)it;
-			LONG userID = getDword(cc, "ID", VK_INVALID_USER);
-			if (userID == m_myUserId || userID == VK_FEED_USER)
+			VKUserID_t iUserId = ReadVKUserID(cc);
+			if (iUserId == m_iMyUserId || iUserId == VK_FEED_USER)
 				continue;
 
 			int iContactStatus = getWord(cc, "Status", ID_STATUS_OFFLINE);
@@ -784,13 +785,13 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	debugLogA("CVkProto::OnReceiveUserInfo AuthRequests");
 	for (auto it : jnItems) {
-		LONG userid = it.as_int();
-		if (userid == 0)
+		VKUserID_t iUserId = it.as_int();
+		if (iUserId == 0)
 			break;
 
-		MCONTACT hContact = FindUser(userid, true);
+		MCONTACT hContact = FindUser(iUserId, true);
 		if (!IsAuthContactLater(hContact)) {
-			RetrieveUserInfo(userid);
+			RetrieveUserInfo(iUserId);
 			AddAuthContactLater(hContact);
 			CVkDBAddAuthRequestThreadParam *param = new CVkDBAddAuthRequestThreadParam(hContact, false);
 			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)param);
@@ -811,7 +812,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 
 	for (auto &jnItem : jnResponse) {
-		int iGroupId = (-1)*jnItem["id"].as_int();
+		VKUserID_t iGroupId = (-1)*jnItem["id"].as_int();
 		bool bIsMember = jnItem["is_member"].as_bool();
 
 		MCONTACT hContact = FindUser(iGroupId, true);
@@ -922,9 +923,9 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (bCleanContacts)
 		for (auto &it : arContacts) {
 			MCONTACT hContact = (UINT_PTR)it;
-			LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+			VKUserID_t iUserId = ReadVKUserID(hContact);
 			bool bIsFriendGroup = IsGroupUser(hContact) && getBool(hContact, "friend");
-			if (userID == m_myUserId || userID == VK_FEED_USER || bIsFriendGroup)
+			if (iUserId == m_iMyUserId || iUserId == VK_FEED_USER || bIsFriendGroup)
 				continue;
 			if (!IsAuthContactLater(hContact))
 				DeleteContact(hContact);
@@ -938,8 +939,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcAddAsFriend");
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
 	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
 	return 0;
@@ -959,8 +960,8 @@ INT_PTR CVkProto::SvcWipeNonFriendContacts(WPARAM, LPARAM)
 INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 {
 	debugLogA("CVkProto::SvcDeleteFriend");
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
 
 	if (flag == 0) {
@@ -971,7 +972,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 			return 1;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
-		<< INT_PARAM("user_id", userID))->pUserInfo = new CVkSendMsgParam(hContact);
+		<< INT_PARAM("user_id", iUserId))->pUserInfo = new CVkSendMsgParam(hContact);
 
 	return 0;
 }
@@ -987,25 +988,25 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 			CMStringW wszNick(db_get_wsm(param->hContact, m_szModuleName, "Nick"));
 			if (wszNick.IsEmpty())
 				wszNick = TranslateT("(Unknown contact)");
-			CMStringW msgformat, msg;
+			CMStringW wszMsgFormat, wszMsg;
 
 			if (jnResponse["success"].as_bool()) {
 				if (jnResponse["friend_deleted"].as_bool())
-					msgformat = TranslateT("User %s was deleted from your friend list");
+					wszMsgFormat = TranslateT("User %s was deleted from your friend list");
 				else if (jnResponse["out_request_deleted"].as_bool())
-					msgformat = TranslateT("Your request to the user %s was deleted");
+					wszMsgFormat = TranslateT("Your request to the user %s was deleted");
 				else if (jnResponse["in_request_deleted"].as_bool())
-					msgformat = TranslateT("Friend request from the user %s declined");
+					wszMsgFormat = TranslateT("Friend request from the user %s declined");
 				else if (jnResponse["suggestion_deleted"].as_bool())
-					msgformat = TranslateT("Friend request suggestion for the user %s deleted");
+					wszMsgFormat = TranslateT("Friend request suggestion for the user %s deleted");
 
-				msg.AppendFormat(msgformat, wszNick.c_str());
-				MsgPopup(param->hContact, msg, wszNick);
+				wszMsg.AppendFormat(wszMsgFormat, wszNick.c_str());
+				MsgPopup(param->hContact, wszMsg, wszNick);
 				setByte(param->hContact, "Auth", 1);
 			}
 			else {
-				msg = TranslateT("User or request was not deleted");
-				MsgPopup(param->hContact, msg, wszNick);
+				wszMsg = TranslateT("User or request was not deleted");
+				MsgPopup(param->hContact, wszMsg, wszNick);
 			}
 		}
 	}
@@ -1019,11 +1020,11 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcBanUser");
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
 
-	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
+	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", iUserId);
 	CMStringW wszVarWarning;
 
 	if (m_vkOptions.bReportAbuse) {
@@ -1077,8 +1078,8 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcReportAbuse");
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (!IsOnline() || iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
 
 	CMStringW wszNick(db_get_wsm(hContact, m_szModuleName, "Nick")),
@@ -1087,7 +1088,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 		return 1;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("user_id", userID)
+		<< INT_PARAM("user_id", iUserId)
 		<< CHAR_PARAM("type", "spam"));
 
 	return 0;
@@ -1114,14 +1115,14 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 		return 0;
 	}
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	VKUserID_t iUserId = ReadVKUserID(hContact);
 	ptrW wszDomain(db_get_wsa(hContact, m_szModuleName, "domain"));
 
 	CMStringW wszUrl("https://vk.com/");
 	if (wszDomain)
 		wszUrl.Append(wszDomain);
 	else
-		wszUrl.AppendFormat(L"id%i", userID);
+		wszUrl.AppendFormat(L"id%i", iUserId);
 
 	Utils_OpenUrlW(wszUrl);
 	return 0;

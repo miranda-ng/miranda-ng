@@ -48,18 +48,18 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	char ts[32];
 	itoa(jnResponse["ts"].as_int(), ts, 10);
 
-	m_pollingTs = mir_strdup(ts);
-	m_pollingKey = mir_u2a(jnResponse["key"].as_mstring());
-	m_pollingServer = mir_u2a(jnResponse["server"].as_mstring());
+	m_szPollingTs = mir_strdup(ts);
+	m_szPollingKey = mir_u2a(jnResponse["key"].as_mstring());
+	m_szPollingServer = mir_u2a(jnResponse["server"].as_mstring());
 
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is nullptr");
 		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = '%s' m_pollingKey = '%s' m_pollingServer = '%s'",
-			m_pollingTs ? m_pollingTs.get() : "<nullptr>",
-			m_pollingKey ? m_pollingKey.get() : "<nullptr>",
-			m_pollingServer ? m_pollingServer.get() : "<nullptr>");
+			m_szPollingTs ? m_szPollingTs.get() : "<nullptr>",
+			m_szPollingKey ? m_szPollingKey.get() : "<nullptr>",
+			m_szPollingServer ? m_szPollingServer.get() : "<nullptr>");
 
-		if (m_pollingTs != nullptr && m_pollingKey != nullptr && m_pollingServer != nullptr) {
+		if (m_szPollingTs != nullptr && m_szPollingKey != nullptr && m_szPollingServer != nullptr) {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread starting...");
 			m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, nullptr, nullptr);
 		}
@@ -77,10 +77,13 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 {
 	debugLogA("CVkProto::PollUpdates");
-	CMStringA mids;
-	int msgid, uid, flags, platform;
+	CMStringA szMids;
+	
+	VKMessageID_t iMessageId;
+	int iFlags, iPlatform;
+	VKUserID_t iUserId;
 	MCONTACT hContact;
-	UINT datetime = 0;
+	time_t tDateTime = 0;
 	CMStringW wszMsg;
 
 	for (auto &it : jnUpdates) {
@@ -89,18 +92,18 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		case VKPOLL_MSG_DELFLAGS:
 			if (jnChild.size() < 4)
 				break;
-			msgid = jnChild[1].as_int();
-			flags = jnChild[2].as_int();
-			uid = jnChild[3].as_int();
-			hContact = FindUser(uid);
+			iMessageId = jnChild[1].as_int();
+			iFlags = jnChild[2].as_int();
+			iUserId = jnChild[3].as_int();
+			hContact = FindUser(iUserId);
 
-			if (hContact != 0 && (flags & VKFLAG_MSGDELETED)) {
-				if (!mids.IsEmpty())
-					mids.AppendChar(',');
-				mids.AppendFormat("%d", msgid);
+			if (hContact != 0 && (iFlags & VKFLAG_MSGDELETED)) {
+				if (!szMids.IsEmpty())
+					szMids.AppendChar(',');
+				szMids.AppendFormat("%d", iMessageId);
 			}
 
-			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !IsMessageExist(msgid, vkIN)) {
+			if (hContact != 0 && (iFlags & VKFLAG_MSGUNREAD) && !IsMessageExist(iMessageId, vkIN)) {
 				setDword(hContact, "LastMsgReadTime", time(0));
 				if (g_bMessageState)
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
@@ -117,16 +120,16 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		case VKPOLL_MSG_ADDFLAGS:
 			if (jnChild.size() < 4)
 				break;
-			msgid = jnChild[1].as_int();
-			flags = jnChild[2].as_int();
-			uid = jnChild[3].as_int();
-			hContact = FindUser(uid);
+			iMessageId = jnChild[1].as_int();
+			iFlags = jnChild[2].as_int();
+			iUserId = jnChild[3].as_int();
+			hContact = FindUser(iUserId);
 
-			if (hContact != 0 && (flags & VKFLAG_MSGDELETED) && IsMessageExist(msgid, vkALL) && GetMessageFromDb(msgid, datetime, wszMsg)) {
+			if (hContact != 0 && (iFlags & VKFLAG_MSGDELETED) && IsMessageExist(iMessageId, vkALL) && GetMessageFromDb(iMessageId, tDateTime, wszMsg)) {
 				wchar_t ttime[64];
-				time_t delete_time = time(0);
+				time_t tDeleteTime = time(0);
 				_locale_t locale = _create_locale(LC_ALL, "");
-				_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&delete_time), locale);
+				_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&tDeleteTime), locale);
 				_free_locale(locale);
 
 				wszMsg = SetBBCString(
@@ -135,16 +138,16 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					wszMsg;
 
 				PROTORECVEVENT recv = {};
-				if (uid == m_myUserId)
+				if (iUserId == m_iMyUserId)
 					recv.flags |= PREF_SENT;
-				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
+				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval)
 					SetInvisible(hContact);
 
 				char szMid[40];
-				_itoa(msgid, szMid, 10);
+				_itoa(iMessageId, szMid, 10);
 
 				T2Utf pszMsg(wszMsg);
-				recv.timestamp = datetime;
+				recv.timestamp = tDateTime;
 				recv.szMessage = pszMsg;
 				recv.szMsgId = szMid;
 				ProtoChainRecvMsg(hContact, &recv);
@@ -152,27 +155,27 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			break;
 
 		case VKPOLL_MSG_EDITED:
-			msgid = jnChild[1].as_int();
-			if (!mids.IsEmpty())
-				mids.AppendChar(',');
-			mids.AppendFormat("%d", msgid);
+			iMessageId = jnChild[1].as_int();
+			if (!szMids.IsEmpty())
+				szMids.AppendChar(',');
+			szMids.AppendFormat("%d", iMessageId);
 			break;
 
 		case VKPOLL_MSG_ADDED: // new message
-			msgid = jnChild[1].as_int();
+			iMessageId = jnChild[1].as_int();
 				// skip outgoing messages sent from a client
-			flags = jnChild[2].as_int();
-			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && IsMessageExist(msgid, vkOUT))
+			iFlags = jnChild[2].as_int();
+			if (iFlags & VKFLAG_MSGOUTBOX && !(iFlags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && IsMessageExist(iMessageId, vkOUT))
 				break;
 
-			if (!mids.IsEmpty())
-				mids.AppendChar(',');
-			mids.AppendFormat("%d", msgid);
+			if (!szMids.IsEmpty())
+				szMids.AppendChar(',');
+			szMids.AppendFormat("%d", iMessageId);
 			break;
 
 		case VKPOLL_READ_ALL_OUT:
-			uid = jnChild[1].as_int();
-			hContact = FindUser(uid);
+			iUserId = jnChild[1].as_int();
+			hContact = FindUser(iUserId);
 			if (hContact != 0) {
 				setDword(hContact, "LastMsgReadTime", time(0));
 				if (g_bMessageState)
@@ -185,24 +188,24 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			}
 			break;
 		case VKPOLL_READ_ALL_IN:
-			uid = jnChild[1].as_int();
-			hContact = FindUser(uid);
+			iUserId = jnChild[1].as_int();
+			hContact = FindUser(iUserId);
 			if (hContact != 0 && m_vkOptions.bSyncReadMessageStatusFromServer)
 				MarkDialogAsRead(hContact);
 			break;
 
 		case VKPOLL_USR_ONLINE:
-			uid = -jnChild[1].as_int();
-			if ((hContact = FindUser(uid)) != 0) {
+			iUserId = -jnChild[1].as_int();
+			if ((hContact = FindUser(iUserId)) != 0) {
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
-				platform = jnChild[2].as_int();
-				SetMirVer(hContact, platform);
+				iPlatform = jnChild[2].as_int();
+				SetMirVer(hContact, iPlatform);
 			}
 			break;
 
 		case VKPOLL_USR_OFFLINE:
-			uid = -jnChild[1].as_int();
-			if ((hContact = FindUser(uid)) != 0) {
+			iUserId = -jnChild[1].as_int();
+			if ((hContact = FindUser(iUserId)) != 0) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
 				SetMirVer(hContact, -1);
@@ -210,8 +213,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			break;
 
 		case VKPOLL_USR_UTN:
-			uid = jnChild[1].as_int();
-			hContact = FindUser(uid);
+			iUserId = jnChild[1].as_int();
+			hContact = FindUser(iUserId);
 			if (hContact != 0) {
 				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
@@ -224,15 +227,15 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			break;
 
 		case VKPOLL_CHAT_CHANGED:
-			int chat_id = jnChild[1].as_int();
-			CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&chat_id);
+			VKUserID_t iChatId = jnChild[1].as_int();
+			CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&iChatId);
 			if (cc)
 				RetrieveChatInfo(cc);
 			break;
 		}
 	}
 
-	RetrieveMessagesByIds(mids);
+	RetrieveMessagesByIds(szMids);
 }
 
 int CVkProto::PollServer()
@@ -248,7 +251,7 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
 
-	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106, 2);
+	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_szPollingServer, m_szPollingKey, m_szPollingTs, m_szAccessToken, 106, 2);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	NETLIBHTTPREQUEST req = {};
 	req.cbSize = sizeof(req);
@@ -256,7 +259,7 @@ int CVkProto::PollServer()
 	req.szUrl = szReqUrl.GetBuffer();
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
-	req.nlc = m_pollingConn;
+	req.nlc = m_hPollingConn;
 	time_t tLocalPoolThreadTimer;
 	{
 		mir_cslock lck(m_csPoolThreadTimer);
@@ -298,7 +301,7 @@ int CVkProto::PollServer()
 		else if (CheckJsonResult(nullptr, jnRoot)) {
 			char ts[32];
 			itoa(jnRoot["ts"].as_int(), ts, 10);
-			m_pollingTs = mir_strdup(ts);
+			m_szPollingTs = mir_strdup(ts);
 			const JSONNode &jnUpdates = jnRoot["updates"];
 			if (jnUpdates)
 				PollUpdates(jnUpdates);
@@ -313,7 +316,7 @@ int CVkProto::PollServer()
 		return 0;
 	}
 
-	m_pollingConn = reply->nlc;
+	m_hPollingConn = reply->nlc;
 
 	debugLogA("CVkProto::PollServer return %d", retVal);
 	return retVal;

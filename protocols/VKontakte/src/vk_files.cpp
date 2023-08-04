@@ -21,8 +21,8 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 {
 	debugLogA("CVkProto::SendFile");
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (!IsOnline() || ((userID == VK_INVALID_USER || userID == VK_FEED_USER) && !isChatRoom(hContact)) || !files || !files[0])
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (!IsOnline() || ((iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER) && !isChatRoom(hContact)) || !files || !files[0])
 		return (HANDLE)nullptr;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
@@ -155,7 +155,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 
-	FILE *pFile = _wfopen(fup->FileName, L"rb");
+	FILE *pFile = _wfopen(fup->wszFileName, L"rb");
 	if (pFile == nullptr) {
 		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
 		return;
@@ -325,19 +325,20 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	int id, owner_id;
+	int id; 
+	VKUserID_t iOwnerId;
 	if ((fup->GetType() == CVkFileUploadParam::typeDoc) || (fup->GetType() == CVkFileUploadParam::typeAudioMsg)) {
 		CMStringA wszType(jnResponse["type"].as_mstring());
 		const JSONNode& jnDoc = jnResponse[wszType];
 		id = jnDoc["id"].as_int();
-		owner_id = jnDoc["owner_id"].as_int();
+		iOwnerId = jnDoc["owner_id"].as_int();
 	}
 	else {
 		id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["id"].as_int() : (*jnResponse.begin())["id"].as_int();
-		owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int();
+		iOwnerId = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int();
 	}
 
-	if ((id == 0) || (owner_id == 0)) {
+	if ((id == 0) || (iOwnerId == 0)) {
 		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
@@ -346,14 +347,14 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
-		Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
+		Attachment.AppendFormat(L"photo%d_%d", iOwnerId, id);
 		break;
 	case CVkFileUploadParam::typeAudio:
-		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
+		Attachment.AppendFormat(L"audio%d_%d", iOwnerId, id);
 		break;
 	case CVkFileUploadParam::typeDoc:
 	case CVkFileUploadParam::typeAudioMsg:
-		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
+		Attachment.AppendFormat(L"doc%d_%d", iOwnerId, id);
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -375,20 +376,20 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	}
 	else {
-		LONG userID = getDword(fup->hContact, "ID", VK_INVALID_USER);
-		if (userID == VK_INVALID_USER || userID == VK_FEED_USER) {
+		VKUserID_t iUserId = ReadVKUserID(fup->hContact);
+		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;
 		}
 
 		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
-		pMsgReq << INT_PARAM("user_id", userID);
+		pMsgReq << INT_PARAM("user_id", iUserId);
 		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	}
 
-	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
-	pMsgReq << WCHAR_PARAM("message", fup->Desc) << WCHAR_PARAM("attachment", Attachment);
-	pMsgReq << INT_PARAM("random_id", ((LONG)time(0)) * 100 + uMsgId % 100);
+	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
+	pMsgReq << WCHAR_PARAM("message", fup->wszDesc) << WCHAR_PARAM("attachment", Attachment);
+	pMsgReq << INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	Push(pMsgReq);

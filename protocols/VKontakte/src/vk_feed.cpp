@@ -89,7 +89,7 @@ void CVkProto::AddCListEvent(bool bNews)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CVkUserInfo* CVkProto::GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers)
+CVkUserInfo* CVkProto::GetVkUserInfo(VKUserID_t iUserId, OBJLIST<CVkUserInfo> &vkUsers)
 {
 	debugLogA("CVkProto::GetVkUserInfo %d", iUserId);
 
@@ -122,7 +122,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 		for (auto  &jnProfile : jnProfiles) {
 			if (!jnProfile["id"])
 				continue;
-			LONG UserId = jnProfile["id"].as_int();
+			VKUserID_t UserId = jnProfile["id"].as_int();
 
 			CMStringW wszNick(jnProfile["first_name"].as_mstring());
 			wszNick.AppendChar(' ');
@@ -141,7 +141,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 		for (auto &jnProfile : jnGroups) {
 			if (!jnProfile["id"])
 				continue;
-			LONG UserId = -jnProfile["id"].as_int();
+			VKUserID_t UserId = -jnProfile["id"].as_int();
 
 			CMStringW wszNick(jnProfile["name"].as_mstring());
 			CMStringW wszLink = L"https://vk.com/";
@@ -153,7 +153,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost)
+CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool bIsRepost)
 {
 	if (!jnItem || jnItem["type"].as_mstring() == L"friends_recomm")
 		return nullptr;
@@ -161,8 +161,8 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	bool bPostLink = true;
 	CVKNewsItem *vkNewsItem = new CVKNewsItem();
 
-	LONG iSourceId = !jnItem["source_id"] ? jnItem["owner_id"].as_int() : jnItem["source_id"].as_int();
-	LONG iPostId = jnItem["post_id"].as_int();
+	VKUserID_t iSourceId = !jnItem["source_id"] ? jnItem["owner_id"].as_int() : jnItem["source_id"].as_int();
+	VKMessageID_t iPostId = jnItem["post_id"].as_int();
 	CMStringW wszText(jnItem["text"].as_mstring());
 	CMStringW wszPopupText(wszText);
 
@@ -243,7 +243,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 
 	CMStringW wszResFormat, wszTitleFormat;
 
-	if (!isRepost) {
+	if (!bIsRepost) {
 		wszResFormat = Translate("News from %s\n%s");
 		wszTitleFormat = Translate("News from %s");
 	}
@@ -281,7 +281,7 @@ CMStringW CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedba
 		return wszRes;
 
 	CMStringW wszFormat;
-	LONG iUserId = 0;
+	VKUserID_t iUserId = 0;
 
 	if (vkFeedbackType == vkComment) {
 		iUserId = jnFeedback["from_id"].as_int();
@@ -330,8 +330,8 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 
 	if (vkParentType == vkPhoto) {
 		CMStringW wszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews());
-		LONG iOwnerId = jnParent["owner_id"].as_int();
-		LONG iId = jnParent["id"].as_int();
+		VKUserID_t iOwnerId = jnParent["owner_id"].as_int();
+		int iId = jnParent["id"].as_int();
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);
 		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/photo%s", vkNotificationItem->wszId.c_str());
 		vkNotificationItem->wszText.AppendFormat(L"\n%s", wszPhoto.c_str());
@@ -344,8 +344,8 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		vkNotificationItem->wszText.AppendFormat(L"\n%s", SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->wszLink).c_str());
 	}
 	else if (vkParentType == vkVideo) {
-		LONG iOwnerId = jnParent["owner_id"].as_int();
-		LONG iId = jnParent["id"].as_int();
+		VKUserID_t iOwnerId = jnParent["owner_id"].as_int();
+		int iId = jnParent["id"].as_int();
 		CMStringW wszTitle(jnParent["title"].as_mstring());
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);
 		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/video%s", vkNotificationItem->wszId.c_str());
@@ -364,8 +364,8 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		vkNotificationItem->wszText.AppendFormat(L"\n%s", SetBBCString(wszTitle, m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->wszLink).c_str());
 	}
 	else if (vkParentType == vkPost) {
-		LONG iToId = jnParent["to_id"].as_int();
-		LONG iId = jnParent["id"].as_int();
+		VKUserID_t iToId = jnParent["to_id"].as_int();
+		int iId = jnParent["id"].as_int();
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iToId, iId);
 		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/wall%s%s", vkNotificationItem->wszId.c_str(), pwszReplyLink ? pwszReplyLink : L"");
 
@@ -387,8 +387,8 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		vkNotificationItem->wszText.AppendFormat(L"\n%s", SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNotificationItem->wszLink).c_str());
 	}
 	else if (vkParentType == vkTopic) {
-		LONG iOwnerId = jnParent["owner_id"].as_int();
-		LONG iId = jnParent["id"].as_int();
+		VKUserID_t iOwnerId = jnParent["owner_id"].as_int();
+		int iId = jnParent["id"].as_int();
 		CMStringW wszTitle(jnParent["title"].as_mstring());
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);
 		vkNotificationItem->wszLink.AppendFormat(L"https://vk.com/topic%s%s",
@@ -427,7 +427,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 			return GetVkParent(jnVideo, vkVideo, wszText);
 		}
 
-		LONG iId = jnParent["id"].as_int();
+		int iId = jnParent["id"].as_int();
 
 		const JSONNode &jnPost = jnParent["post"];
 		if (jnPost) {
@@ -510,7 +510,7 @@ void CVkProto::OnFriendAccepted(const JSONNode & jnFeedback)
 		if (!jnUserItem["from_id"])
 			continue;
 
-		LONG iUserId = jnUserItem["from_id"].as_int();
+		VKUserID_t iUserId = jnUserItem["from_id"].as_int();
 		MCONTACT hContact = FindUser(iUserId, true);
 
 		RetrieveUserInfo(iUserId);
@@ -532,14 +532,14 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	if (!jnItem["id"])
 		return nullptr;
 
-	LONG iGroupId = jnItem["id"].as_int();
+	VKUserID_t iGroupId = jnItem["id"].as_int();
 	CMStringW wszId(FORMAT, L"%d,", iGroupId);
 	CMStringW wszIds(ptrW(db_get_wsa(0, m_szModuleName, "InviteGroupIds")));
 
 	if (wszIds.Find(wszId, 0) != -1)
 		return nullptr;
 
-	LONG iUserId = !jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
+	VKUserID_t iUserId = !jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
 	CVKNewsItem *vkNotification = new CVKNewsItem();
 	vkNotification->tDate = time(0);
 	vkNotification->vkUser = GetVkUserInfo(iUserId, vkUsers);
@@ -626,19 +626,19 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
 {
 	int compareId = p1->wszId.Compare(p2->wszId);
-	LONG compareUserId = p1->vkUser->m_UserId - p2->vkUser->m_UserId;
-	LONG compareDate = (LONG)p1->tDate - (LONG)p2->tDate;
+	VKUserID_t compareUserId = p1->vkUser->m_UserId - p2->vkUser->m_UserId;
+	time_t compareDate = p1->tDate - p2->tDate;
 
-	return compareId ? (compareDate ? compareDate : compareUserId) : 0;
+	return compareId ? (compareDate ? (int)compareDate : (int)compareUserId) : 0;
 }
 
 static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
 {
 	int compareType = p1->wszType.Compare(p2->wszType);
 	int compareId = p1->wszId.Compare(p2->wszId);
-	LONG compareDate = (LONG)p1->tDate - (LONG)p2->tDate;
+	time_t compareDate = p1->tDate - p2->tDate;
 
-	return compareType ? compareDate : (compareId ? compareDate : 0);
+	return compareType ? compareDate : (compareId ? (int)compareDate : 0);
 }
 
 void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -704,7 +704,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		return;
 
 	CMStringW code(FORMAT, L"return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s",
-		(LONG)(tLastNotificationsTime + 1),
+		(long)(tLastNotificationsTime + 1),
 		m_vkOptions.bNotificationFilterInvites ? L",\"groupinvates\":API.groups.getInvites({\"extended\":1})};" : L"};");
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
@@ -714,16 +714,16 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	setDword("LastNotificationsReqTime", (uint32_t)time(0));
 }
 
-bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
+bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& bIsCommented)
 {
-	isCommented = false;
+	bIsCommented = false;
 	if (vkNotificationItem->vkParentType == vkNull)
 		return false;
 
 	if (vkNotificationItem->wszType == L"mention_comments"
 		|| vkNotificationItem->wszType == L"mention_comment_photo"
 		|| vkNotificationItem->wszType == L"mention_comment_video") {
-		isCommented = true;
+		bIsCommented = true;
 		return (m_vkOptions.bNotificationFilterMentions != 0);
 	}
 
@@ -732,7 +732,7 @@ bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isComme
 	result = (vkNotificationItem->vkFeedbackType == vkComment && m_vkOptions.bNotificationFilterComments) || result;
 	result = (vkNotificationItem->vkParentType == vkInvite && m_vkOptions.bNotificationFilterInvites) || result;
 
-	isCommented = (vkNotificationItem->vkFeedbackType == vkComment);
+	bIsCommented = (vkNotificationItem->vkFeedbackType == vkComment);
 
 	return result;
 }

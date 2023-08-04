@@ -133,10 +133,16 @@ struct CVkProto : public PROTO<CVkProto>
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
 
 	static mir_cs m_csTimer;
-	static UINT_PTR m_timer;
+	static UINT_PTR m_Timer;
 	CVKOptions m_vkOptions;
 
+	VKUserID_t ReadVKUserIDFromString(MCONTACT hContact);
+	VKUserID_t ReadVKUserID(MCONTACT hContact);
+	void WriteVKUserID(MCONTACT hContact, VKUserID_t iUserId);
+
 private:
+
+	VKPeerType GetVKPeerType(VKUserID_t iPeerId);
 
 	friend struct AsyncHttpRequest;
 	friend class CVkUserItem;
@@ -185,7 +191,7 @@ private:
 	//====================================================================================
 
 	bool
-		m_prevError,
+		m_bPrevError,
 		m_bOnline,
 		m_bNeedSendOnline,
 		m_bSetBroadcast,
@@ -194,26 +200,26 @@ private:
 		m_bTerminated,
 		m_bErr404Return;
 
-	LONG m_myUserId;
+	VKUserID_t m_iMyUserId;
 
 	ptrA
-		m_pollingServer,
-		m_pollingKey,
-		m_pollingTs,
+		m_szPollingServer,
+		m_szPollingKey,
+		m_szPollingTs,
 		m_szAccessToken;
 
 	HNETLIBCONN
-		m_pollingConn,
+		m_hPollingConn,
 		m_hAPIConnection;
 
 	HANDLE
 		m_hPollingThread,
 		m_hPopupClassError,
 		m_hPopupClassNotification,
-		m_evRequestsQueue,
+		m_hEvRequestsQueue,
 		m_hWorkerThread;
 
-	ULONG m_msgId;
+	long m_iMsgId;
 
 	mir_cs
 		m_csChatTyping,
@@ -234,7 +240,7 @@ private:
 	OBJLIST<CVkCookie> m_cookies;
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 
-	CMStringA m_prevUrl;
+	CMStringA m_szPrevUrl;
 
 	HGENMENU
 		m_hContactMenuItems[CMI_COUNT],
@@ -281,9 +287,9 @@ private:
 	void AddFeedSpecialUser();
 	void AddFeedEvent(CVKNewsItem& vkNewsItem);
 	void AddCListEvent(bool bNews);
-	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
+	CVkUserInfo* GetVkUserInfo(VKUserID_t iUserId, OBJLIST<CVkUserInfo> &vkUsers);
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);
-	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
+	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool bIsRepost = false);
 	CVKNewsItem* GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	void OnFriendAccepted(const JSONNode &jnFeedback);
@@ -292,7 +298,7 @@ private:
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
-	bool FilterNotification(CVKNewsItem *vkNotificationItem, bool& isCommented);
+	bool FilterNotification(CVKNewsItem *vkNotificationItem, bool& bIsCommented);
 	void NotificationMarkAsViewed();
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadEvents();
@@ -302,33 +308,33 @@ private:
 	//====================================================================================
 
 	void SetServerStatus(int);
-	void RetrieveUsersInfo(bool flag = false, bool bRepeat = false);
+	void RetrieveUsersInfo(bool bFlag = false, bool bRepeat = false);
 	void RetrieveStatusMsg(const CMStringW &StatusMsg);
 	void RetrieveStatusMusic(const CMStringW &StatusMsg);
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, VKContactType vkContactType = VKContactType::vkContactNormal);
+	MCONTACT SetContactInfo(const JSONNode &jnItem, bool bFlag = false, VKContactType vkContactType = VKContactType::vkContactNormal);
 	void TrackVisitor();
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void RetrieveUserInfo(LONG userId);
-	void RetrieveGroupInfo(LONG groupID);
+	void RetrieveUserInfo(VKUserID_t iUserId);
+	void RetrieveGroupInfo(VKUserID_t iGroupID);
 	void RetrieveGroupInfo(CMStringA & groupIDs);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGroupInfo(NETLIBHTTPREQUEST * reply, AsyncHttpRequest * pReq);
 	void RetrieveFriends(bool bCleanNonFriendContacts = false);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void MarkMessagesRead(const MCONTACT hContact);
-	void RetrieveMessagesByIds(const CMStringA &mids);
+	void RetrieveMessagesByIds(const CMStringA &szMids);
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, bool bFriendsOnly);
-	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
-	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);
+	void GetServerHistoryLastNDay(MCONTACT hContact, int iNDay);
+	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, time_t tTime, VKMessageID_t iLastMsgId, bool bOnce = false);
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
-	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);
+	void GetHistoryDlg(MCONTACT hContact, VKMessageID_t iLastMsg);
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void __cdecl PollingThread(void*);
@@ -339,11 +345,10 @@ private:
 
 	//==== Misc ==========================================================================
 
-	void SetAllContactStatuses(int status);
-	MCONTACT FindUser(LONG userid, bool bCreate = false);
-	MCONTACT FindChat(LONG dwUserid);
+	void SetAllContactStatuses(int iStatus);
+	MCONTACT FindUser(VKUserID_t iUserId, bool bCreate = false);
+	MCONTACT FindChat(VKUserID_t iUserId);
 	bool IsGroupUser(MCONTACT hContact);
-	bool CheckMid(LIST<void> &lList, int guid);
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -357,14 +362,14 @@ private:
 	void __cdecl DBAddAuthRequestThread(void *p);
 	void DBAddAuthRequest(const MCONTACT hContact, bool bAdded = false);
 	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);
-	void SetMirVer(MCONTACT hContact, int platform);
+	void SetMirVer(MCONTACT hContact, int iPlatform);
 	void __cdecl ContactTypingThread(void *p);
 	int IsHystoryMessageExist(MCONTACT hContact);
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	void CheckUpdate();
-	char* GetStickerId(const char *Msg, int& stickerid);
-	CMStringA GetAttachmentsFromMessage(const char * Msg);
+	char* GetStickerId(const char *szMsg, int& iStickerid);
+	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
 	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
@@ -375,11 +380,11 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
-	MEVENT GetMessageFromDb(UINT iMsgId, UINT& timestamp, CMStringW& msg);
-	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg);
+	MEVENT GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg);
+	MEVENT GetMessageFromDb(const char * szMessageId, time_t& tTimeStamp, CMStringW& wszMsg);
 	int DeleteContact(MCONTACT hContact);
-	bool IsMessageExist(UINT iMsgId, VKMesType vkType = vkALL);
-	CMStringW UserProfileUrl(LONG iUserId);
+	bool IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType = vkALL);
+	CMStringW UserProfileUrl(VKUserID_t iUserId);
 	void InitQueue();
 	void UninitQueue();
 	bool ExecuteRequest(AsyncHttpRequest*);
@@ -397,12 +402,14 @@ private:
 	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void __cdecl ChatContactTypingThread(void *p);
-	void StopChatContactTyping(int iChatId, LONG iUserId);
+
+	void StopChatContactTyping(VKUserID_t iChatId, VKUserID_t iUserId);
+
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	CVkChatInfo* AppendConversationChat(int iChatId, const JSONNode& jnItem);
+	CVkChatInfo* AppendConversationChat(VKUserID_t iChatId, const JSONNode& jnItem);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
-	void AppendChatConversationMessage(int id, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, LONG mid, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
+	void AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
+	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -410,8 +417,8 @@ private:
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
-	void KickFromChat(int chat_id, LONG user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers);
-	void LeaveChat(int chat_id, bool close_window = true, bool delete_chat = false);
+	void KickFromChat(VKUserID_t iChatId, VKUserID_t iUserId, const JSONNode &jnMsg, const JSONNode &jnFUsers);
+	void LeaveChat(VKUserID_t iChatId, bool bCloseWindow = true, bool bDeleteChat = false);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
@@ -422,6 +429,11 @@ private:
 	CVkChatInfo* GetChatByContact(MCONTACT hContact);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	void __cdecl GetAwayMsgThread(void* p);
+	
+	void CVkProto::WriteQSWord(MCONTACT hContact, const char* szParam, uint64_t uValue);
+	uint64_t CVkProto::ReadQSWord(MCONTACT hContact, const char* szParam, uint64_t uDefaultValue = 0);
+
+	bool bIint64IDCompatibility;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>

@@ -195,11 +195,11 @@ bool CVkGCCreateForm::OnApply()
 
 		HANDLE hItem = m_clc.FindContact(hContact);
 		if (hItem && m_clc.GetCheck(hItem)) {
-			int uid = m_proto->getDword(hContact, "ID");
-			if (uid != 0) {
+			VKUserID_t iUserId = m_proto->ReadVKUserID(hContact);
+			if (iUserId != 0) {
 				if (!szUIds.IsEmpty())
 					szUIds.AppendChar(',');
-				szUIds.AppendFormat("%d", uid);
+				szUIds.AppendFormat("%d", iUserId);
 			}
 		}
 	}
@@ -214,7 +214,7 @@ void CVkGCCreateForm::FilterList(CCtrlClc*)
 {
 	for (auto &hContact : Contacts()) {
 		char *proto = Proto_GetBaseAccountName(hContact);
-		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->getDword(hContact, "ID") == VK_FEED_USER)
+		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->ReadVKUserID(hContact) == VK_FEED_USER)
 			if (HANDLE hItem = m_clc.FindContact(hContact))
 				m_clc.DeleteItem(hItem);
 	}

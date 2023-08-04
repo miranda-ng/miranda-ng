@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ULONG AsyncHttpRequest::m_reqCount = 0;
+ULONG AsyncHttpRequest::m_uReqCount = 0;
 
 AsyncHttpRequest::AsyncHttpRequest()
 {
@@ -31,7 +31,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	bNeedsRestart = false;
 	bIsMainConn = false;
 	m_pFunc = nullptr;
-	m_reqNum = ::InterlockedIncrement(&m_reqCount);
+	m_uReqNum = ::InterlockedIncrement(&m_uReqCount);
 	m_priority = rpLow;
 }
 
@@ -61,7 +61,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	m_iRetry = MAX_RETRIES;
 	m_iErrorCode = 0;
 	bNeedsRestart = false;
-	m_reqNum = ::InterlockedIncrement(&m_reqCount);
+	m_uReqNum = ::InterlockedIncrement(&m_uReqCount);
 	m_priority = rpPriority;
 }
 
@@ -75,73 +75,73 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files) :
 	hContact(_hContact),
-	Desc(mir_wstrdup(_desc)),
-	FileName(mir_wstrdup(_files[0])),
-	atr(nullptr),
-	fname(nullptr),
-	filetype(typeInvalid)
+	wszDesc(mir_wstrdup(_desc)),
+	wszFileName(mir_wstrdup(_files[0])),
+	szAtr(nullptr),
+	szFname(nullptr),
+	vkFileType(typeInvalid)
 {}
 
 CVkFileUploadParam::~CVkFileUploadParam()
 {
-	mir_free(Desc);
-	mir_free(FileName);
-	mir_free(atr);
-	mir_free(fname);
+	mir_free(wszDesc);
+	mir_free(wszFileName);
+	mir_free(szAtr);
+	mir_free(szFname);
 }
 
 CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 {
-	if (filetype != typeInvalid)
-		return filetype;
+	if (vkFileType != typeInvalid)
+		return vkFileType;
 
-	if (atr)
-		mir_free(atr);
-	if (fname)
-		mir_free(fname);
+	if (szAtr)
+		mir_free(szAtr);
+	if (szFname)
+		mir_free(szFname);
 
 	wchar_t img[] = L".jpg .jpeg .png .bmp";
 	wchar_t audio[] = L".mp3";
 	wchar_t audiomsg[] = L".ogg";
 
 	wchar_t DRIVE[3], DIR[256], FNAME[256], EXT[256];
-	_wsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
+	_wsplitpath(wszFileName, DRIVE, DIR, FNAME, EXT);
 
 	T2Utf pszFNAME(FNAME), pszEXT(EXT);
 	CMStringA fn(FORMAT, "%s%s", pszFNAME, pszEXT);
-	fname = mir_strdup(fn);
+	szFname = mir_strdup(fn);
 
 	if (wlstrstr(img, EXT)) {
-		filetype = CVkFileUploadParam::typeImg;
-		atr = mir_strdup("photo");
+		vkFileType = CVkFileUploadParam::typeImg;
+		szAtr = mir_strdup("photo");
 	}
 	else if (wlstrstr(audio, EXT)) {
-		filetype = CVkFileUploadParam::typeAudio;
-		atr = mir_strdup("file");
+		vkFileType = CVkFileUploadParam::typeAudio;
+		szAtr = mir_strdup("file");
 	}
 	else if (wlstrstr(audiomsg, EXT)) {
-		filetype = CVkFileUploadParam::typeAudioMsg;
-		atr = mir_strdup("file");
+		vkFileType = CVkFileUploadParam::typeAudioMsg;
+		szAtr = mir_strdup("file");
 	}
 	else {
-		filetype = CVkFileUploadParam::typeDoc;
-		atr = mir_strdup("file");
+		vkFileType = CVkFileUploadParam::typeDoc;
+		szAtr = mir_strdup("file");
 	}
 
-	return filetype;
+	return vkFileType;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CVkChatUser* CVkChatInfo::GetUserById(LPCWSTR pwszId)
 {
-	int user_id = _wtoi(pwszId);
-	return m_users.find((CVkChatUser*)&user_id);
+	VKUserID_t iUserId = _wtol(pwszId);
+	return m_users.find((CVkChatUser*)&iUserId);
 }
 
-CVkChatUser* CVkChatInfo::GetUserById(int user_id)
+CVkChatUser* CVkChatInfo::GetUserById(VKUserID_t iUserId)
 {
-	return m_users.find((CVkChatUser*)&user_id);
+	return m_users.find((CVkChatUser*)&iUserId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

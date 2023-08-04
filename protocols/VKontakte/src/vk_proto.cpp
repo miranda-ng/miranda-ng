@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
 {
 	if (p1->m_priority == p2->m_priority)
-		return (int)p1->m_reqNum - (int)p2->m_reqNum;
+		return (int)p1->m_uReqNum - (int)p2->m_uReqNum;
 	return (int)p2->m_priority - (int)p1->m_priority;
 }
 
@@ -30,19 +30,20 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	PROTO<CVkProto>(szModuleName, pwszUserName),
 	m_arRequestsQueue(10, sttCompareAsyncHttpRequest),
 	m_cookies(5),
-	m_msgId(1),
+	m_iMsgId(1),
 	m_chats(1, NumericKeySortT),
 	m_ChatsTyping(1, NumericKeySortT),
 	m_iLoadHistoryTask(0),
 	m_bNotifyForEndLoadingHistory(false),
 	m_bNotifyForEndLoadingHistoryAllContact(false),
 	m_hAPIConnection(nullptr),
-	m_pollingConn(nullptr),
+	m_hPollingConn(nullptr),
 	m_bSetBroadcast(false),
 	m_bNeedSendOnline(false),
 	m_bErr404Return(false),
 	m_vkOptions(this)
 {
+	bIint64IDCompatibility = false;
 	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);
 
 	InitQueue();
@@ -377,27 +378,27 @@ void CVkProto::InitMenus()
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	VKUserID_t iUserId = ReadVKUserID(hContact);
 	bool bisFriend = !getBool(hContact, "Auth", true);
 	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
 	bool bIsGroup = IsGroupUser(hContact);
-	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], userID != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], iUserId != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], iUserId != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
-	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
-	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && iUserId != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATCHANGETOPIC], isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATINVITEUSER], isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATDESTROY], isChatRoom(hContact));
 
-	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_LOADVKNEWS], userID == VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && iUserId != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_LOADVKNEWS], iUserId == VK_FEED_USER);
 	for (int i = 0; i < CHMI_COUNT; i++)
-		Menu_ShowItem(m_hContactHistoryMenuItems[i], !isChatRoom(hContact) && userID != VK_FEED_USER);
+		Menu_ShowItem(m_hContactHistoryMenuItems[i], !isChatRoom(hContact) && iUserId != VK_FEED_USER);
 	return 0;
 }
 
@@ -512,7 +513,7 @@ void CVkProto::OnShutdown()
 	debugLogA("CVkProto::OnPreShutdown");
 
 	m_bTerminated = true;
-	SetEvent(m_evRequestsQueue);
+	SetEvent(m_hEvRequestsQueue);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -549,12 +550,12 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	debugLogA("CVkProto::AddToList");
 
-	int uid = _wtoi(psr->id.w);
-	if (!uid)
+	VKUserID_t iUserId = _wtol(psr->id.w);
+	if (!iUserId)
 		return 0;
 
-	MCONTACT hContact = FindUser(uid, true);
-	RetrieveUserInfo(uid);
+	MCONTACT hContact = FindUser(iUserId, true);
+	RetrieveUserInfo(iUserId);
 	return hContact;
 }
 
@@ -564,11 +565,11 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	if (!IsOnline())
 		return 1;
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || !hContact || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || !hContact || iUserId == VK_FEED_USER)
 		return 1;
 
-	if (userID < 0)
+	if (iUserId < 0)
 		return 1;
 
 
@@ -577,7 +578,7 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 		wcsncpy_s(msg, _countof(msg), message, _TRUNCATE);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
-		<< INT_PARAM("user_id", userID)
+		<< INT_PARAM("user_id", iUserId)
 		<< WCHAR_PARAM("text", msg))->pUserInfo = new CVkSendMsgParam(hContact);
 
 	return 0;
@@ -650,8 +651,8 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
-		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-		if (userID == VK_INVALID_USER || !IsOnline() || userID == VK_FEED_USER)
+		VKUserID_t iUserId = ReadVKUserID(hContact);
+		if (iUserId == VK_INVALID_USER || !IsOnline() || iUserId == VK_FEED_USER)
 			return 1;
 
 		if (!IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "Deactivated"))))
@@ -664,7 +665,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 			return 1;
 
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
-			<< INT_PARAM("user_id", userID)
+			<< INT_PARAM("user_id", iUserId)
 			<< CHAR_PARAM("type", "typing"));
 		return 0;
 	}
@@ -674,10 +675,10 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 int CVkProto::GetInfo(MCONTACT hContact, int)
 {
 	debugLogA("CVkProto::GetInfo");
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return 1;
-	RetrieveUserInfo(userID);
+	RetrieveUserInfo(iUserId);
 	return 0;
 }
 
@@ -689,8 +690,8 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return;
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return;
 
 	CONTACTDELETE_FORM_PARAMS *param = new CONTACTDELETE_FORM_PARAMS(pwszNick, true, !getBool(hContact, "Auth", true), true);
@@ -701,7 +702,7 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
 		return;
 
-	CMStringA code(FORMAT, "var userID=\"%d\";", userID);
+	CMStringA code(FORMAT, "var userID=\"%d\";", iUserId);
 
 	if (param->bDeleteDialog)
 		code += "API.messages.deleteConversation({\"peer_id\":userID});";

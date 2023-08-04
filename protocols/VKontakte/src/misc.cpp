@@ -121,9 +121,9 @@ void CVkProto::CheckUpdate()
 {
 	if (getByte("Compatibility") < 1) {
 		for (auto &cc : AccContacts()) {
-			LONG userId = getDword(cc, "vk_chat_id", VK_INVALID_USER);
-			if (userId != VK_INVALID_USER) {
-				setDword(cc, "ID", userId);
+			VKUserID_t iUserId = getDword(cc, "vk_chat_id", VK_INVALID_USER);
+			if (iUserId != VK_INVALID_USER) {
+				WriteVKUserID(cc, iUserId);
 				delSetting(cc, "vk_chat_id");
 				delSetting(cc, "ChatRoomID");
 			}
@@ -131,6 +131,80 @@ void CVkProto::CheckUpdate()
 		setByte("Compatibility", 1);
 	}
 }
+
+//////////////////////// bIint64IDCompatibility /////////////////////////////////////////
+
+void CVkProto::WriteQSWord(MCONTACT hContact, const char *szParam, uint64_t uValue)
+{
+	if (!bIint64IDCompatibility)
+		db_unset(hContact, m_szModuleName, szParam);
+
+	char szValue[40];
+	_ltoa(uValue, szValue, 10);
+	setString(hContact, szParam, szValue);
+}
+
+uint64_t CVkProto::ReadQSWord(MCONTACT hContact, const char* szParam, uint64_t uDefaultValue)
+{
+	if (!bIint64IDCompatibility) {
+		uint64_t uValue = getDword(hContact, szParam, uDefaultValue);
+		if (uValue != uDefaultValue) {
+			WriteQSWord(hContact, szParam, uValue);
+			return uValue;
+		}
+	}
+
+	ptrA szValue(getStringA(hContact, szParam));
+	return szValue ? strtol(szValue, nullptr, 10) : uDefaultValue;
+}
+
+VKUserID_t CVkProto::ReadVKUserIDFromString(MCONTACT hContact)
+{
+	ptrA szID(getStringA(hContact, "ID"));
+	return szID ? strtol(szID, nullptr, 10) : VK_INVALID_USER;
+}
+
+VKUserID_t CVkProto::ReadVKUserID(MCONTACT hContact)
+{
+	if (bIint64IDCompatibility)
+		return ReadVKUserIDFromString(hContact);
+	
+	VKUserID_t iUserId = getDword(hContact, "ID", VK_INVALID_USER);
+	return iUserId ? iUserId : ReadVKUserIDFromString(hContact);
+}
+
+void CVkProto::WriteVKUserID(MCONTACT hContact, VKUserID_t iUserId)
+{
+	if (bIint64IDCompatibility || iUserId > 0xFFFFFFFF) {
+		char szID[40];
+		_ltoa(iUserId, szID, 10);
+		setString(hContact, "ID", szID);
+	}
+	else 
+		setDword(hContact, "ID", iUserId);
+}
+
+VKPeerType CVkProto::GetVKPeerType(VKUserID_t iPeerId)
+{
+	if (VK_INVALID_USER == iPeerId)
+		return VKPeerType::vkPeerError;
+
+	if (iPeerId == VK_FEED_USER)
+		return VKPeerType::vkPeerFeed;
+
+	if (iPeerId < VK_INVALID_USER)
+		return VKPeerType::vkPeerGroup;
+
+	if ((iPeerId < VK_USERID_MAX1) || (iPeerId >= VK_USERID_MIN2 && iPeerId < VK_USERID_MAX2))
+		return VKPeerType::vkPeerUser;
+
+	if (iPeerId > VK_CHAT_MIN && iPeerId < VK_CHAT_MAX)
+		return VKPeerType::vkPeerMUC;
+
+	return VKPeerType::vkPeerError;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::ClearAccessToken()
 {
@@ -166,7 +240,7 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
+MCONTACT CVkProto::FindUser(VKUserID_t dwUserid, bool bCreate)
 {
 	if (!dwUserid)
 		return 0;
@@ -175,7 +249,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 		if (isChatRoom(hContact))
 			continue;
 
-		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
+		VKUserID_t dbUserid = ReadVKUserID(hContact);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
 
@@ -188,27 +262,27 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 
 	MCONTACT hNewContact = db_add_contact();
 	Proto_AddToContact(hNewContact, m_szModuleName);
-	setDword(hNewContact, "ID", dwUserid);
+	WriteVKUserID(hNewContact, dwUserid);
 	Clist_SetGroup(hNewContact, m_vkOptions.pwszDefaultGroup);
-	if (dwUserid < 0)
+	if (GetVKPeerType(dwUserid) == VKPeerType::vkPeerGroup)
 		setByte(hNewContact, "IsGroup", 1);
 	return hNewContact;
 }
 
-MCONTACT CVkProto::FindChat(LONG dwUserid)
+MCONTACT CVkProto::FindChat(VKUserID_t iUserId)
 {
-	if (!dwUserid)
+	if (!iUserId)
 		return 0;
 
 	for (auto &hContact : AccContacts()) {
 		if (!isChatRoom(hContact))
 			continue;
 
-		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
+		VKUserID_t dbUserid = ReadVKUserID(hContact);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
 
-		if (dbUserid == dwUserid)
+		if (dbUserid == iUserId)
 			return hContact;
 	}
 
@@ -220,22 +294,10 @@ bool CVkProto::IsGroupUser(MCONTACT hContact)
 	if (getBool(hContact, "IsGroup", false))
 		return true;
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	return (userID < 0);
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	return GetVKPeerType(iUserId) == VKPeerType::vkPeerGroup;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-bool CVkProto::CheckMid(LIST<void> &lList, int guid)
-{
-	for (auto &it : lList)
-		if ((INT_PTR)it == guid) {
-			lList.removeItem(&it);
-			return true;
-		}
-
-	return false;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -324,8 +386,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMStringW msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
-			MsgPopup(msg, TranslateT("Error"), true);
+			CMStringW wszMsg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
+			MsgPopup(wszMsg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
 		break;
@@ -658,11 +720,11 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::SetMirVer(MCONTACT hContact, int platform)
+void CVkProto::SetMirVer(MCONTACT hContact, int iPlatform)
 {
 	if (hContact == 0 || hContact == INVALID_CONTACT_ID)
 		return;
-	if (platform == -1) {
+	if (iPlatform == -1) {
 		db_unset(hContact, m_szModuleName, "MirVer");
 		return;
 	}
@@ -670,7 +732,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	CMStringW MirVer, OldMirVer(ptrW(db_get_wsa(hContact, m_szModuleName, "MirVer")));
 	bool bSetFlag = true;
 
-	switch (platform) {
+	switch (iPlatform) {
 	case VK_APP_ID:
 		MirVer = L"Miranda NG VKontakte";
 		break;
@@ -790,13 +852,13 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 {
-	time_t time = getDword(hContact, "LastMsgReadTime");
-	if (!time)
+	time_t tTime = getDword(hContact, "LastMsgReadTime");
+	if (!tTime)
 		return;
 
 	wchar_t ttime[64];
 	_locale_t locale = _create_locale(LC_ALL, "");
-	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
+	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&tTime), locale);
 	_free_locale(locale);
 
 	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), g_plugin.getIcon(IDI_READMSG));
@@ -808,8 +870,8 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	if (!IsOnline())
 		return;
 
-	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return;
 
 	MEVENT hDBEvent = db_event_firstUnread(hContact);
@@ -827,28 +889,28 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	}
 }
 
-char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
+char* CVkProto::GetStickerId(const char *szMsg, int &iStickerId)
 {
-	stickerid = 0;
-	char *retMsg = nullptr;
+	iStickerId = 0;
+	char *szRetMsg = nullptr;
 
 	int iRes = 0;
-	const char *tmpMsg = strstr(Msg, "[sticker");
-	if (tmpMsg)
-		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid) == 1 ? 1 : sscanf(tmpMsg, "[sticker-%d]", &stickerid);
+	const char *szTmpMsg = strstr(szMsg, "[sticker");
+	if (szTmpMsg)
+		iRes = sscanf(szTmpMsg, "[sticker:%d]", &iStickerId) == 1 ? 1 : sscanf(szTmpMsg, "[sticker-%d]", &iStickerId);
 
 	if (iRes == 1) {
 		char HeadMsg[32] = { 0 };
-		mir_snprintf(HeadMsg, "[sticker:%d]", stickerid);
+		mir_snprintf(HeadMsg, "[sticker:%d]", iStickerId);
 		size_t retLen = mir_strlen(HeadMsg);
-		if (retLen < mir_strlen(Msg)) {
-			CMStringA szMsg(Msg, int(mir_strlen(Msg) - mir_strlen(tmpMsg)));
-			szMsg.Append(&tmpMsg[retLen]);
-			retMsg = mir_strdup(szMsg.Trim());
+		if (retLen < mir_strlen(szMsg)) {
+			CMStringA szRMsg(szMsg, int(mir_strlen(szMsg) - mir_strlen(szTmpMsg)));
+			szRMsg.Append(&szTmpMsg[retLen]);
+			szRetMsg = mir_strdup(szRMsg.Trim());
 		}
 	}
 
-	return retMsg;
+	return szRetMsg;
 }
 
 const char* FindVKUrls(const char *Msg)
@@ -870,12 +932,12 @@ const char* FindVKUrls(const char *Msg)
 }
 
 
-CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
+CMStringA CVkProto::GetAttachmentsFromMessage(const char *szMsg)
 {
-	if (IsEmpty(Msg))
+	if (IsEmpty(szMsg))
 		return CMStringA();
 
-	const char *pos = FindVKUrls(Msg);
+	const char *pos = FindVKUrls(szMsg);
 	if (!pos)
 		return CMStringA();
 
@@ -888,7 +950,7 @@ CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
 			pos = pos2 + mir_strlen(szVKLinkParam[i]);
 	}
 
-	if (pos >= (Msg + mir_strlen(Msg)))
+	if (pos >= (szMsg + mir_strlen(szMsg)))
 		return CMStringA();
 
 	int iRes = 0,
@@ -1194,7 +1256,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			CMStringW wszTitle(jnVideo["title"].as_mstring());
 			int iVideoId = jnVideo["id"].as_int();
-			int iOwnerId = jnVideo["owner_id"].as_int();
+			VKUserID_t iOwnerId = jnVideo["owner_id"].as_int();
 			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
 
 			res.AppendFormat(L"%s: %s",
@@ -1222,7 +1284,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			CMStringW wszText(jnWall["text"].as_mstring());
 			int iWallId = jnWall["id"].as_int();
-			int iFromId = jnWall["from_id"].as_int();
+			VKUserID_t iFromId = jnWall["from_id"].as_int();
 			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d", iFromId, iWallId);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszUrl).c_str(),
@@ -1233,7 +1295,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				for (auto& jnCopyHystoryItem : jnCopyHystory) {
 					CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
 					int iCHid = jnCopyHystoryItem["id"].as_int();
-					int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
+					VKUserID_t iCHfromID = jnCopyHystoryItem["from_id"].as_int();
 					CMStringW wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
 					wszCHText.Replace(L"\n", L"\n\t\t");
 					res.AppendFormat(L"\n\t\t%s: %s",
@@ -1267,8 +1329,8 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			CMStringW wszText(jnWallReply["text"].as_mstring());
 			int iWallReplyId = jnWallReply["id"].as_int();
-			int iFromId = jnWallReply["from_id"].as_int();
-			int iFromOwnerId = jnWallReply["owner_id"].as_int();
+			VKUserID_t iFromId = jnWallReply["from_id"].as_int();
+			VKUserID_t iFromOwnerId = jnWallReply["owner_id"].as_int();
 			int iPostOwnerId = jnWallReply["post_id"].as_int();
 			int iThreadId = jnWallReply["reply_to_comment"].as_int();
 
@@ -1276,7 +1338,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			CMStringW wszFromNick, wszFromUrl;
 			MCONTACT hFromContact = FindUser(iFromId);
-			if (hFromContact || iFromId == m_myUserId)
+			if (hFromContact || iFromId == m_iMyUserId)
 				wszFromNick = ptrW(db_get_wsa(hFromContact, m_szModuleName, "Nick"));
 			else
 				wszFromNick = TranslateT("(Unknown contact)");
@@ -1302,7 +1364,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (!jnStory)
 				continue;
 			int iStoryId = jnStory["id"].as_int();
-			int iOwnerID = jnStory["owner_id"].as_int();
+			VKUserID_t iOwnerID = jnStory["owner_id"].as_int();
 			CMStringW wszUrl(FORMAT, L"https://vk.com/story%d_%d", iOwnerID, iStoryId);
 
 			res.AppendFormat(L"%s",
@@ -1325,7 +1387,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 				CMStringW wszTitle(jnVideo["title"].as_mstring());
 				int iVideoId = jnVideo["id"].as_int();
-				int iOwnerId = jnVideo["owner_id"].as_int();
+				VKUserID_t iOwnerId = jnVideo["owner_id"].as_int();
 				CMStringW wszVideoUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
 
 				res.AppendFormat(L"\n\t%s: %s",
@@ -1427,14 +1489,14 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			const JSONNode& jnMarket = jnAttach["market"];
 
 			int id = jnMarket["id"].as_int();
-			int ownerID = jnMarket["owner_id"].as_int();
+			VKUserID_t iOwnerID = jnMarket["owner_id"].as_int();
 			CMStringW wszTitle(jnMarket["title"].as_mstring());
 			CMStringW wszDescription(jnMarket["description"].as_mstring());
 			CMStringW wszPhoto(jnMarket["thumb_photo"].as_mstring());
 			CMStringW wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
-				ownerID > 0 ? L"id" : L"club",
-				ownerID > 0 ? ownerID : (-1) * ownerID,
-				ownerID,
+				iOwnerID > 0 ? L"id" : L"club",
+				iOwnerID > 0 ? iOwnerID : (-1) * iOwnerID,
+				iOwnerID,
 				id);
 
 			res.AppendFormat(L"%s: %s",
@@ -1490,10 +1552,10 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC)
 {
-	LONG uid = jnMsg["from_id"].as_int();
+	VKUserID_t iUserId = jnMsg["from_id"].as_int();
 	CMStringW wszBody(jnMsg["text"].as_mstring());
 
-	CVkUserInfo* vkUser = vkUsers.find((CVkUserInfo*)&uid);
+	CVkUserInfo* vkUser = vkUsers.find((CVkUserInfo*)&iUserId);
 	CMStringW wszNick, wszUrl;
 
 	if (vkUser) {
@@ -1501,12 +1563,12 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 		wszUrl = vkUser->m_wszLink;
 	}
 	else {
-		MCONTACT hContact = FindUser(uid);
-		if (hContact || uid == m_myUserId)
+		MCONTACT hContact = FindUser(iUserId);
+		if (hContact || iUserId == m_iMyUserId)
 			wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
 		else
 			wszNick = TranslateT("(Unknown contact)");
-		wszUrl = UserProfileUrl(uid);
+		wszUrl = UserProfileUrl(iUserId);
 	}
 
 	time_t datetime = (time_t)jnMsg["date"].as_int();
@@ -1560,7 +1622,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 	OBJLIST<CVkUserInfo> vkUsers(2, NumericKeySortT);
 
 	for (auto &jnUser : jnFUsers) {
-		int iUserId = jnUser["id"].as_int();
+		VKUserID_t iUserId = jnUser["id"].as_int();
 		CMStringW wszNick(jnUser["name"].as_mstring());
 
 		if (!wszNick.IsEmpty())
@@ -1590,16 +1652,16 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 
 void CVkProto::SetInvisible(MCONTACT hContact)
 {
-	debugLogA("CVkProto::SetInvisible %d", getDword(hContact, "ID", VK_INVALID_USER));
+	debugLogA("CVkProto::SetInvisible %d", ReadVKUserID(hContact));
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
-		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
+		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", ReadVKUserID(hContact));
 	}
-	time_t now = time(0);
-	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)now);
-	setDword(hContact, "InvisibleTS", (uint32_t)now);
+	time_t tNow = time(0);
+	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)tNow);
+	setDword(hContact, "InvisibleTS", (uint32_t)tNow);
 }
 
 CMStringW CVkProto::RemoveBBC(CMStringW& wszSrc)
@@ -1754,25 +1816,25 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 }
 
 
-MEVENT CVkProto::GetMessageFromDb(UINT iMsgId, UINT &timestamp, CMStringW &msg)
+MEVENT CVkProto::GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg)
 {
 	char szMid[40];
-	_itoa(iMsgId, szMid, 10);
-	return GetMessageFromDb(szMid, timestamp, msg);
+	_ltoa(iMessageId, szMid, 10);
+	return GetMessageFromDb(szMid, tTimeStamp, wszMsg);
 }
 
-MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStringW &msg)
+MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, CMStringW& wszMsg)
 {
-	if (messageId == nullptr)
+	if (szMessageId == nullptr)
 		return 0;
 
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, messageId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMessageId);
 	if (!hDbEvent)
 		return 0;
 
 	DB::EventInfo dbei(hDbEvent);
-	msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
-	timestamp = dbei.timestamp;
+	wszMsg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
+	tTimeStamp = dbei.timestamp;
 
 	return hDbEvent;
 }
@@ -1783,10 +1845,10 @@ int CVkProto::DeleteContact(MCONTACT hContact)
 	return db_delete_contact(hContact, true);
 }
 
-bool CVkProto::IsMessageExist(UINT iMsgId, VKMesType vkType)
+bool CVkProto::IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType)
 {
 	char szMid[40];
-	_itoa(iMsgId, szMid, 10);
+	_ltoa(iMessageId, szMid, 10);
 
 	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMid);
 
@@ -1803,7 +1865,18 @@ bool CVkProto::IsMessageExist(UINT iMsgId, VKMesType vkType)
 	return ((vkType == vkOUT) == (bool)(dbei.flags & DBEF_SENT));
 }
 
-CMStringW CVkProto::UserProfileUrl(LONG iUserId)
+CMStringW CVkProto::UserProfileUrl(VKUserID_t iUserId)
 {
-	return CMStringW(FORMAT, L"https://vk.com/%s%d", iUserId > 0 ? L"id" : L"club", iUserId > 0 ? iUserId : -1 * iUserId);
+	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerError)
+		return CMStringW(L"https://vk.com/");
+
+	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerFeed)
+		return CMStringW(L"https://vk.com/feed");
+
+	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerMUC)
+		return CMStringW(L"https://vk.com/im?sel=c%d", iUserId - VK_CHAT_MIN);
+	
+	bool bIsUser = GetVKPeerType(iUserId) == VKPeerType::vkPeerUser;
+
+	return CMStringW(FORMAT, L"https://vk.com/%s%d", bIsUser ? L"id" : L"club", bIsUser ? iUserId : -1 * iUserId);
 }

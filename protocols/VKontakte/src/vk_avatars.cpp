@@ -145,8 +145,8 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 			szFileType = p;
 	}
 
-	LONG id = getDword(hContact, "ID", VK_INVALID_USER);
-	wszPath.AppendFormat(L"%d%s", id, szFileType);
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	wszPath.AppendFormat(L"%d%s", iUserId, szFileType);
 
 	wcsncpy_s(pwszDest, cbLen, wszPath, _TRUNCATE);
 }

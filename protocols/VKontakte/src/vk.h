@@ -93,7 +93,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_FEED_USER 2147483647L
 #define VK_INVALID_USER 0L
-#define VK_CHAT_FLAG 2000000000
+
+#define VK_CHAT_MIN 2000000000
+#define VK_CHAT_MAX VK_CHAT_MIN + 100000000
+#define VK_USERID_MAX1 1900000000
+#define VK_USERID_MIN2 200000000000
+#define VK_USERID_MAX2 1000000000000
+
 
 #if defined(_DEBUG)
 	#define VK_NODUMPHEADERS 0
@@ -113,3 +119,6 @@ char* ExpUrlEncode(const char *szUrl, bool strict = false);
 
 bool IsEmpty(LPCWSTR str);
 bool IsEmpty(LPCSTR str);
+
+typedef long VKUserID_t;
+typedef long VKMessageID_t;

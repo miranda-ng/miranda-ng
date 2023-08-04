@@ -30,32 +30,32 @@ struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 	int m_iRetry;
 	int m_iErrorCode;
 	RequestPriority m_priority;
-	static ULONG m_reqCount;
-	ULONG m_reqNum;
+	static ULONG m_uReqCount;
+	ULONG m_uReqNum;
 	bool m_bApiReq;
 	bool bNeedsRestart, bIsMainConn;
 };
 
 struct CVkFileUploadParam : public MZeroedObject {
 	enum VKFileType { typeInvalid, typeImg, typeAudio, typeAudioMsg, typeDoc, typeNotSupported };
-	wchar_t *FileName;
-	wchar_t *Desc;
-	char *atr;
-	char *fname;
+	wchar_t *wszFileName;
+	wchar_t *wszDesc;
+	char *szAtr;
+	char *szFname;
 	MCONTACT hContact;
-	VKFileType filetype;
+	VKFileType vkFileType;
 
 	CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files);
 	~CVkFileUploadParam();
 	VKFileType GetType();
-	__forceinline bool IsAccess() { return ::_waccess(FileName, 0) == 0; }
-	__forceinline char* atrName() { GetType();  return atr; }
-	__forceinline char* fileName() { GetType();  return fname; }
+	__forceinline bool IsAccess() { return ::_waccess(wszFileName, 0) == 0; }
+	__forceinline char* atrName() { GetType();  return szAtr; }
+	__forceinline char* fileName() { GetType();  return szFname; }
 };
 
 struct CVkSendMsgParam : public MZeroedObject
 {
-	CVkSendMsgParam(MCONTACT _hContact, int _iMsgID = 0, int _iCount = 0) :
+	CVkSendMsgParam(MCONTACT _hContact, VKMessageID_t _iMsgID = 0, int _iCount = 0) :
 		hContact(_hContact),
 		iMsgID(_iMsgID),
 		iCount(_iCount),
@@ -70,7 +70,7 @@ struct CVkSendMsgParam : public MZeroedObject
 	{}
 
 	MCONTACT hContact;
-	int iMsgID;
+	VKMessageID_t iMsgID;
 	int iCount;
 	CVkFileUploadParam *pFUP;
 };
@@ -88,41 +88,44 @@ struct CVkDBAddAuthRequestThreadParam : public MZeroedObject
 
 struct CVkChatMessage : public MZeroedObject
 {
-	CVkChatMessage(int _id) :
-		m_mid(_id),
-		m_uid(0),
-		m_date(0),
+	CVkChatMessage(VKUserID_t _id) :
+		m_iMessageId(_id),
+		m_iUserId(0),
+		m_tDate(0),
 		m_bHistory(false),
 		m_bIsAction(false)
 	{}
 
-	int m_mid, m_uid, m_date;
+	VKMessageID_t m_iMessageId;
+	VKUserID_t m_iUserId; 
+	time_t m_tDate;
 	bool m_bHistory, m_bIsAction;
 	ptrW m_wszBody;
 };
 
 struct CVkChatUser : public MZeroedObject
 {
-	CVkChatUser(LONG _id) :
-		m_uid(_id),
+	CVkChatUser(VKUserID_t _id) :
+		m_iUserId(_id),
 		m_bDel(false),
 		m_bUnknown(false)
 	{}
 
-	LONG m_uid;
+	VKUserID_t m_iUserId;
 	bool m_bDel, m_bUnknown;
 	ptrW m_wszNick;
 };
 
 struct CVkChatInfo : public MZeroedObject
 {
-	CVkChatInfo(int _id) :
+	CVkChatInfo(VKUserID_t _id) :
 		m_users(10, NumericKeySortT),
 		m_msgs(10, NumericKeySortT),
 		m_iChatId(_id)
 	{}
 
-	int m_iChatId, m_iAdminId = 0;
+	VKUserID_t m_iChatId;
+	VKUserID_t m_iAdminId = 0;
 	bool m_bHistoryRead = false;
 	ptrW m_wszTopic;
 	SESSION_INFO *m_si = nullptr;
@@ -130,16 +133,16 @@ struct CVkChatInfo : public MZeroedObject
 	OBJLIST<CVkChatMessage> m_msgs;
 
 	CVkChatUser* GetUserById(LPCWSTR);
-	CVkChatUser* GetUserById(int user_id);
+	CVkChatUser* GetUserById(VKUserID_t iUserId);
 };
 
 struct CVkUserInfo : public MZeroedObject {
-	CVkUserInfo(LONG _UserId) :
+	CVkUserInfo(VKUserID_t _UserId) :
 		m_UserId(_UserId),
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool _bIsGroup, const CMStringW& _wszUserNick, const CMStringW& _wszLink, MCONTACT _hContact = 0) :
+	CVkUserInfo(VKUserID_t _UserId, bool _bIsGroup, const CMStringW& _wszUserNick, const CMStringW& _wszLink, MCONTACT _hContact = 0) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_wszUserNick(_wszUserNick),
@@ -147,7 +150,7 @@ struct CVkUserInfo : public MZeroedObject {
 		m_hContact(_hContact)
 	{}
 
-	LONG m_UserId;
+	VKUserID_t m_UserId;
 	MCONTACT m_hContact;
 	CMStringW m_wszUserNick;
 	CMStringW m_wszLink;
@@ -195,13 +198,13 @@ struct CVKBBCItem {
 };
 
 struct CVKChatContactTypingParam {
-	CVKChatContactTypingParam(int pChatId, int pUserId) :
+	CVKChatContactTypingParam(VKUserID_t pChatId, VKUserID_t pUserId) :
 		m_ChatId(pChatId),
 		m_UserId(pUserId)
 	{}
 
-	int m_ChatId;
-	LONG m_UserId;
+	VKUserID_t m_ChatId;
+	VKUserID_t m_UserId;
 };
 
 struct CVKInteres {
@@ -340,3 +343,5 @@ struct CVKImageSizeItem {
 		iSizeW(0)
 	{}
 };
+
+enum VKPeerType : uint8_t { vkPeerError = 0 , vkPeerUser, vkPeerGroup, vkPeerMUC, vkPeerFeed};

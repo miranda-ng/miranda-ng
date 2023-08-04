@@ -20,14 +20,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CVkProto::InitQueue()
 {
 	debugLogA("CVkProto::InitQueue");
-	m_evRequestsQueue = CreateEvent(nullptr, false, false, nullptr);
+	m_hEvRequestsQueue = CreateEvent(nullptr, false, false, nullptr);
 }
 
 void CVkProto::UninitQueue()
 {
 	debugLogA("CVkProto::UninitQueue");
 	m_arRequestsQueue.destroy();
-	CloseHandle(m_evRequestsQueue);
+	CloseHandle(m_hEvRequestsQueue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +124,7 @@ AsyncHttpRequest* CVkProto::Push(MHttpRequest *p, int iTimeout)
 		mir_cslock lck(m_csRequestsQueue);
 		m_arRequestsQueue.insert(pReq);
 	}
-	SetEvent(m_evRequestsQueue);
+	SetEvent(m_hEvRequestsQueue);
 	return pReq;
 }
 
@@ -133,7 +133,7 @@ AsyncHttpRequest* CVkProto::Push(MHttpRequest *p, int iTimeout)
 void CVkProto::WorkerThread(void*)
 {
 	debugLogA("CVkProto::WorkerThread: entering");
-	m_bTerminated = m_prevError = false;
+	m_bTerminated = m_bPrevError = false;
 	m_szAccessToken = getStringA("AccessToken");
 
 	extern char szScore[];
@@ -186,12 +186,12 @@ void CVkProto::WorkerThread(void*)
 	CloseAPIConnection();
 
 	while (true) {
-		WaitForSingleObject(m_evRequestsQueue, 1000);
+		WaitForSingleObject(m_hEvRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
 
 		AsyncHttpRequest *pReq;
-		ULONG uTime[3] = { 0, 0, 0 };
+		time_t tTime[3] = { 0, 0, 0 };
 		long lWaitingTime = 0;
 
 		while (true) {
@@ -203,8 +203,8 @@ void CVkProto::WorkerThread(void*)
 				pReq = m_arRequestsQueue[0];
 				m_arRequestsQueue.remove(0);
 
-				ULONG utime = GetTickCount();
-				lWaitingTime = (utime - uTime[0]) > 1500 ? 0 : 1500 - (utime - uTime[0]);
+				ULONGLONG utime = GetTickCount64();
+				lWaitingTime = (utime - tTime[0]) > 1500 ? 0 : 1500 - (utime - tTime[0]);
 
 				if (!(pReq->m_bApiReq))
 					lWaitingTime = 0;
@@ -219,9 +219,9 @@ void CVkProto::WorkerThread(void*)
 			}
 
 			if (pReq->m_bApiReq) {
-				uTime[0] = uTime[1];
-				uTime[1] = uTime[2];
-				uTime[2] = GetTickCount();
+				tTime[0] = tTime[1];
+				tTime[1] = tTime[2];
+				tTime[2] = GetTickCount();
 				// There can be maximum 3 requests to API methods per second from a client
 				// see https://vk.com/dev/api_requests
 			}
