@@ -113,6 +113,13 @@ class CHistoryDlg : public CDlgBase
 	HWND m_hwndDateFrom, m_hwndDateTo;
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
 
+	OBJLIST<SearchResult> m_arResults;
+
+	static int stubSortResults(const void *p1, const void *p2)
+	{
+		return int((*(SearchResult **)p1)->ts) - int((*(SearchResult **)p2)->ts);
+	}
+
 	void DoGlobalSearch()
 	{
 		ptrW wszPattern(edtSearchText.GetText());
@@ -126,6 +133,12 @@ class CHistoryDlg : public CDlgBase
 		DoSearchContact(0, wszPattern);
 		for (auto &hContact : Contacts())
 			DoSearchContact(hContact, wszPattern);
+
+		qsort(m_arResults.getArray(), m_arResults.getCount(), sizeof(void *), stubSortResults);
+		m_histControl.SendMsg(NSM_ADDRESULTS, WPARAM(&m_arResults), 0);
+		m_arResults.destroy();
+
+		TimeTreeBuild();
 	}
 
 	void DoSearchContact(MCONTACT hContact, const wchar_t *pwszPattern)
@@ -141,10 +154,8 @@ class CHistoryDlg : public CDlgBase
 				continue;
 
 			CharLowerW(pwszText);
-			if (wcsstr(pwszText, pwszPattern)) {
-				ADDEVENTS tmp = { hContact, hDbEvent, 1 };
-				m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
-			}
+			if (wcsstr(pwszText, pwszPattern))
+				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.timestamp));
 		}
 	}
 
@@ -275,6 +286,7 @@ class CHistoryDlg : public CDlgBase
 public:
 	CHistoryDlg(MCONTACT _hContact) :
 		CDlgBase(g_plugin, IDD_HISTORY),
+		m_arResults(10000),
 		m_hContact(_hContact),
 		m_timeTree(this, IDC_TIMETREEVIEW),
 		m_histControl(this, IDC_HISTORYCONTROL),

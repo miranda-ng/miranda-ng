@@ -565,6 +565,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		data->ScheduleDraw();
 		break;
 
+	case NSM_ADDRESULTS:
+		if (auto *pResults = (OBJLIST<SearchResult>*)wParam) {
+			data->items.addResults(pResults);
+			data->totalCount = data->items.getCount();
+			data->ScheduleDraw();
+		}
+		break;
+
 	case NSM_CLEAR:
 		data->items.clear();
 		data->totalCount = 0;

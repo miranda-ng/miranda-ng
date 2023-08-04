@@ -117,6 +117,19 @@ struct ItemBlock : public MZeroedObject
 	ItemData data[HIST_BLOCK_SIZE];
 };
 
+struct SearchResult
+{
+	SearchResult(MCONTACT _1, MEVENT _2, uint32_t _3) :
+		hContact(_1),
+		hEvent(_2),
+		ts(_3)
+	{}
+
+	MCONTACT hContact;
+	MEVENT hEvent;
+	uint32_t ts;
+};
+
 class HistoryArray
 {
 	LIST<wchar_t> strings;
@@ -131,6 +144,7 @@ public:
 
 	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
 	void addChatEvent(SESSION_INFO *si, LOGINFO *pEvent);
+	void addResults(OBJLIST<SearchResult> *pArray);
 	void clear();
 	int  find(MEVENT hEvent);
 	int  getCount() const;

@@ -353,6 +353,19 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	return true;
 }
 
+void HistoryArray::addResults(OBJLIST<SearchResult> *pArray)
+{
+	int numItems = getCount();
+	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
+
+	for (auto &it : *pArray) {
+		auto &p = allocateItem();
+		p.hContact = it->hContact;
+		p.hEvent = it->hEvent;
+		p.pPrev = pPrev; pPrev = &p;
+	}
+}
+
 ItemData& HistoryArray::allocateItem()
 {
 	if (iLastPageCounter == HIST_BLOCK_SIZE) {
