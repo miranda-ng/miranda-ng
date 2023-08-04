@@ -8,13 +8,13 @@
     <ClCompile Include="src\fonts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\history.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\history_array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\history_control.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\history_dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\history_log.cpp">

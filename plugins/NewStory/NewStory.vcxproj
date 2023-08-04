@@ -33,9 +33,9 @@
   <ItemGroup>
     <ClCompile Include="src\calendartool.cpp" />
     <ClCompile Include="src\fonts.cpp" />
-    <ClCompile Include="src\history.cpp" />
     <ClCompile Include="src\history_array.cpp" />
     <ClCompile Include="src\history_control.cpp" />
+    <ClCompile Include="src\history_dlg.cpp" />
     <ClCompile Include="src\history_log.cpp" />
     <ClCompile Include="src\history_menus.cpp" />
     <ClCompile Include="src\history_svc.cpp" />

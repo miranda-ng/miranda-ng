@@ -6,39 +6,6 @@
 
 #include "stdafx.h"
 
-MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
-
-int evtEventAdded(WPARAM hContact, LPARAM lParam)
-{
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_ADDEVENT, hContact, lParam);
-	return 0;
-}
-
-int evtEventDeleted(WPARAM hContact, LPARAM lParam)
-{
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_REMOVEEVENT, hContact, lParam);
-	return 0;
-}
-
-int evtEventEdited(WPARAM hContact, LPARAM lParam)
-{
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_EDITEVENT, hContact, lParam);
-	return 0;
-}
-
-void InitHistory()
-{
-	g_hNewstoryLogs = WindowList_Create();
-	g_hNewstoryWindows = WindowList_Create();
-
-	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
-	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
-	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Main history dialog
 
@@ -103,7 +70,7 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
 
-const char* pSettings[] =
+static const char* pSettings[] =
 {
 	LPGEN("FirstName"),
 	LPGEN("LastName"),
@@ -224,141 +191,6 @@ class CHistoryDlg : public CDlgBase
 
 		cmd = (m_dwOptions & WND_OPT_TIMETREE) ? SW_SHOW : SW_HIDE;
 		ShowWindow(m_timeTree.GetHwnd(), cmd);
-	}
-
-	void LayoutHistoryWnd()
-	{
-		int i;
-		RECT rc;
-		GetClientRect(m_hwnd, &rc);
-		int x, y; // tmp vars
-		int w = rc.right - rc.left;
-		int h = rc.bottom - rc.top;
-
-		HDWP hDwp = BeginDeferWindowPos(51);
-
-		// toolbar
-		int hToolBar = TBTN_SIZE + WND_SPACING;
-		x = WND_SPACING;
-		int btnReverse = -1;
-		for (i = 0; i < TBTN_COUNT; ++i) {
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
-				x, WND_SPACING,
-				TBTN_SIZE, TBTN_SIZE,
-				SWP_NOZORDER);
-			x += TBTN_SIZE + tbtnSpacing[i];
-			if (tbtnSpacing[i] < 0) {
-				btnReverse = i;
-				break;
-			}
-		}
-		x = w - WND_SPACING - TBTN_SIZE;
-		for (i = TBTN_COUNT - 1; i > btnReverse; --i) {
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
-				x, WND_SPACING,
-				TBTN_SIZE, TBTN_SIZE,
-				SWP_NOZORDER);
-			x -= TBTN_SIZE + tbtnSpacing[i - 1];
-		}
-
-		// infobar
-		//	hDwp = DeferWindowPos(hDwp, hwndIcoProtocol, 0,
-		//		w-100+WND_SPACING, WND_SPACING,
-		//		16, 16,
-		//		SWP_NOZORDER);
-		//	hDwp = DeferWindowPos(hDwp, hwndTxtNickname, 0,
-		//		w-100+WND_SPACING*2+16, WND_SPACING,
-		//		100, 16,
-		//		SWP_NOZORDER);
-		//	hDwp = DeferWindowPos(hDwp, hwndTxtUID, 0,
-		//		w-100+WND_SPACING*2+16, WND_SPACING*2+16,
-		//		100, 16,
-		//		SWP_NOZORDER);
-
-		// filter bar
-		int hFilterBar = 0;
-		if (m_dwOptions & WND_OPT_FILTERBAR) {
-			hFilterBar = WND_SPACING + (16 + WND_SPACING) * 3;
-			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 0, WND_SPACING * 2 + hToolBar, 75, &ibMessages);
-			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 1, WND_SPACING * 2 + hToolBar, 75, &ibFiles);
-			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 2, WND_SPACING * 2 + hToolBar, 75, &ibUrls);
-			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 3, WND_SPACING * 2 + hToolBar, 75, &ibTotal);
-
-			GetWindowRect(m_hwndChkDateFrom, &rc);
-			x = rc.right - rc.left;
-			GetWindowRect(m_hwndDateFrom, &rc);
-			y = hToolBar + WND_SPACING + (WND_SPACING + (16 + WND_SPACING) * 3 - (rc.bottom - rc.top) * 2 - WND_SPACING) / 2;
-			hDwp = DeferWindowPos(hDwp, m_hwndChkDateFrom, 0,
-				w - x - (rc.right - rc.left) - WND_SPACING * 2, y,
-				x, rc.bottom - rc.top,
-				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, m_hwndDateFrom, 0,
-				w - (rc.right - rc.left) - WND_SPACING, y,
-				rc.right - rc.left, rc.bottom - rc.top,
-				SWP_NOZORDER);
-
-			hDwp = DeferWindowPos(hDwp, m_hwndChkDateTo, 0,
-				w - x - (rc.right - rc.left) - WND_SPACING * 2, y + (rc.bottom - rc.top) + WND_SPACING,
-				x, rc.bottom - rc.top,
-				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, m_hwndDateTo, 0,
-				w - (rc.right - rc.left) - WND_SPACING, y + (rc.bottom - rc.top) + WND_SPACING,
-				rc.right - rc.left, rc.bottom - rc.top,
-				SWP_NOZORDER);
-
-			hDwp = DeferWindowPos(hDwp, GetDlgItem(m_hwnd, IDC_IB_SEPARATOR), 0,
-				WND_SPACING, hToolBar + WND_SPACING,
-				w - WND_SPACING * 2, 2,
-				SWP_NOZORDER);
-		}
-
-		// general
-		GetWindowRect(m_hwndStatus, &rc);
-		int hStatus = rc.bottom - rc.top;
-		hDwp = DeferWindowPos(hDwp, m_hwndStatus, 0,
-			0, h - hStatus,
-			w, hStatus,
-			SWP_NOZORDER);
-
-		// search bar
-		int hSearch = 0;
-		if (m_dwOptions & WND_OPT_SEARCHBAR) {
-			GetWindowRect(edtSearchText.GetHwnd(), &rc);
-			hSearch = rc.bottom - rc.top;
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnCloseSearch, 0,
-				WND_SPACING, h - hSearch - hStatus - WND_SPACING,
-				TBTN_SIZE, hSearch, SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, edtSearchText.GetHwnd(), 0,
-				TBTN_SIZE + WND_SPACING * 2, h - hSearch - hStatus - WND_SPACING,
-				w - WND_SPACING * 4 - TBTN_SIZE * 3, hSearch,
-				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, btnFindPrev.GetHwnd(), 0,
-				w - WND_SPACING - TBTN_SIZE * 2, h - hSearch - hStatus - WND_SPACING,
-				TBTN_SIZE, hSearch,
-				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, btnFindNext.GetHwnd(), 0,
-				w - WND_SPACING - TBTN_SIZE * 1, h - hSearch - hStatus - WND_SPACING,
-				TBTN_SIZE, hSearch,
-				SWP_NOZORDER);
-			hSearch += WND_SPACING;
-		}
-
-		// time tree bar
-		int hTimeTree = 0;
-		if (m_dwOptions & WND_OPT_TIMETREE) {
-			hTimeTree = 100; // need to calculate correctly
-			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
-				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
-				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
-				SWP_NOZORDER);
-		}
-
-		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
-			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
-			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
-			SWP_NOZORDER);
-
-		EndDeferWindowPos(hDwp);
 	}
 
 	void UpdateTitle()
@@ -515,8 +347,8 @@ public:
 		SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
 		// filterbar
-		SendMessage(m_hwndBtnToolbar[TBTN_FILTER], BUTTONSETASPUSHBTN, 0, 0);
-		SendMessage(m_hwndBtnToolbar[TBTN_SEARCH], BUTTONSETASPUSHBTN, 0, 0);
+		btnFilter.MakePush();
+		btnSearch.MakePush();
 
 		m_hwndChkDateFrom = GetDlgItem(m_hwnd, IDC_CHK_DATE_FROM);
 		m_hwndChkDateTo = GetDlgItem(m_hwnd, IDC_CHK_DATE_TO);
@@ -529,6 +361,7 @@ public:
 		SendMessage(ibMessages.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(ibMessages.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibMessages.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+
 		ibMessages.hwndTxtIn = GetDlgItem(m_hwnd, IDC_TXT_MESSAGES_IN);
 		ibMessages.hwndIcoOut = GetDlgItem(m_hwnd, IDC_ICO_MESSAGES_OUT);
 		SendMessage(ibMessages.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
@@ -540,11 +373,13 @@ public:
 		ibFiles.hwndTxt = GetDlgItem(m_hwnd, IDC_TXT_FILES);
 		ibFiles.hwndIcoIn = GetDlgItem(m_hwnd, IDC_ICO_FILES_IN);
 		SendMessage(ibFiles.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
+
 		SendMessage(ibFiles.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibFiles.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+
 		ibFiles.hwndTxtIn = GetDlgItem(m_hwnd, IDC_TXT_FILES_IN);
 		ibFiles.hwndIcoOut = GetDlgItem(m_hwnd, IDC_ICO_FILES_OUT);
-		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);  
 		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibFiles.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
 		ibFiles.hwndTxtOut = GetDlgItem(m_hwnd, IDC_TXT_FILES_OUT);
@@ -555,6 +390,7 @@ public:
 		SendMessage(ibUrls.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(ibUrls.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibUrls.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+
 		ibUrls.hwndTxtIn = GetDlgItem(m_hwnd, IDC_TXT_URLS_IN);
 		ibUrls.hwndIcoOut = GetDlgItem(m_hwnd, IDC_ICO_URLS_OUT);
 		SendMessage(ibUrls.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
@@ -568,6 +404,7 @@ public:
 		SendMessage(ibTotal.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(ibTotal.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibTotal.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+
 		ibTotal.hwndTxtIn = GetDlgItem(m_hwnd, IDC_TXT_TOTAL_IN);
 		ibTotal.hwndIcoOut = GetDlgItem(m_hwnd, IDC_ICO_TOTAL_OUT);
 		SendMessage(ibTotal.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
@@ -583,10 +420,6 @@ public:
 		UpdateTitle();
 
 		if (m_hContact != INVALID_CONTACT_ID) {
-			btnSendMsg.Disable();
-			btnUserInfo.Disable();
-			btnUserMenu.Disable();
-
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 
 			ADDEVENTS tmp = { m_hContact, 0, -1 };
@@ -595,6 +428,10 @@ public:
 			SetFocus(m_histControl.GetHwnd());
 		}
 		else {
+			btnSendMsg.Disable();
+			btnUserInfo.Disable();
+			btnUserMenu.Disable();
+
 			Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
 			m_dwOptions |= WND_OPT_SEARCHBAR;
 		}
@@ -637,6 +474,141 @@ public:
 
 		m_histControl.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
 		return false;
+	}
+
+	void OnResize() override
+	{
+		int i;
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		int x, y; // tmp vars
+		int w = rc.right - rc.left;
+		int h = rc.bottom - rc.top;
+
+		HDWP hDwp = BeginDeferWindowPos(51);
+
+		// toolbar
+		int hToolBar = TBTN_SIZE + WND_SPACING;
+		x = WND_SPACING;
+		int btnReverse = -1;
+		for (i = 0; i < TBTN_COUNT; ++i) {
+			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
+				x, WND_SPACING,
+				TBTN_SIZE, TBTN_SIZE,
+				SWP_NOZORDER);
+			x += TBTN_SIZE + tbtnSpacing[i];
+			if (tbtnSpacing[i] < 0) {
+				btnReverse = i;
+				break;
+			}
+		}
+		x = w - WND_SPACING - TBTN_SIZE;
+		for (i = TBTN_COUNT - 1; i > btnReverse; --i) {
+			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
+				x, WND_SPACING,
+				TBTN_SIZE, TBTN_SIZE,
+				SWP_NOZORDER);
+			x -= TBTN_SIZE + tbtnSpacing[i - 1];
+		}
+
+		// infobar
+		//	hDwp = DeferWindowPos(hDwp, hwndIcoProtocol, 0,
+		//		w-100+WND_SPACING, WND_SPACING,
+		//		16, 16,
+		//		SWP_NOZORDER);
+		//	hDwp = DeferWindowPos(hDwp, hwndTxtNickname, 0,
+		//		w-100+WND_SPACING*2+16, WND_SPACING,
+		//		100, 16,
+		//		SWP_NOZORDER);
+		//	hDwp = DeferWindowPos(hDwp, hwndTxtUID, 0,
+		//		w-100+WND_SPACING*2+16, WND_SPACING*2+16,
+		//		100, 16,
+		//		SWP_NOZORDER);
+
+		// filter bar
+		int hFilterBar = 0;
+		if (m_dwOptions & WND_OPT_FILTERBAR) {
+			hFilterBar = WND_SPACING + (16 + WND_SPACING) * 3;
+			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 0, WND_SPACING * 2 + hToolBar, 75, &ibMessages);
+			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 1, WND_SPACING * 2 + hToolBar, 75, &ibFiles);
+			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 2, WND_SPACING * 2 + hToolBar, 75, &ibUrls);
+			LayoutFilterBar(hDwp, WND_SPACING + (WND_SPACING + 75) * 3, WND_SPACING * 2 + hToolBar, 75, &ibTotal);
+
+			GetWindowRect(m_hwndChkDateFrom, &rc);
+			x = rc.right - rc.left;
+			GetWindowRect(m_hwndDateFrom, &rc);
+			y = hToolBar + WND_SPACING + (WND_SPACING + (16 + WND_SPACING) * 3 - (rc.bottom - rc.top) * 2 - WND_SPACING) / 2;
+			hDwp = DeferWindowPos(hDwp, m_hwndChkDateFrom, 0,
+				w - x - (rc.right - rc.left) - WND_SPACING * 2, y,
+				x, rc.bottom - rc.top,
+				SWP_NOZORDER);
+			hDwp = DeferWindowPos(hDwp, m_hwndDateFrom, 0,
+				w - (rc.right - rc.left) - WND_SPACING, y,
+				rc.right - rc.left, rc.bottom - rc.top,
+				SWP_NOZORDER);
+
+			hDwp = DeferWindowPos(hDwp, m_hwndChkDateTo, 0,
+				w - x - (rc.right - rc.left) - WND_SPACING * 2, y + (rc.bottom - rc.top) + WND_SPACING,
+				x, rc.bottom - rc.top,
+				SWP_NOZORDER);
+			hDwp = DeferWindowPos(hDwp, m_hwndDateTo, 0,
+				w - (rc.right - rc.left) - WND_SPACING, y + (rc.bottom - rc.top) + WND_SPACING,
+				rc.right - rc.left, rc.bottom - rc.top,
+				SWP_NOZORDER);
+
+			hDwp = DeferWindowPos(hDwp, GetDlgItem(m_hwnd, IDC_IB_SEPARATOR), 0,
+				WND_SPACING, hToolBar + WND_SPACING,
+				w - WND_SPACING * 2, 2,
+				SWP_NOZORDER);
+		}
+
+		// general
+		GetWindowRect(m_hwndStatus, &rc);
+		int hStatus = rc.bottom - rc.top;
+		hDwp = DeferWindowPos(hDwp, m_hwndStatus, 0,
+			0, h - hStatus,
+			w, hStatus,
+			SWP_NOZORDER);
+
+		// search bar
+		int hSearch = 0;
+		if (m_dwOptions & WND_OPT_SEARCHBAR) {
+			GetWindowRect(edtSearchText.GetHwnd(), &rc);
+			hSearch = rc.bottom - rc.top;
+			hDwp = DeferWindowPos(hDwp, m_hwndBtnCloseSearch, 0,
+				WND_SPACING, h - hSearch - hStatus - WND_SPACING,
+				TBTN_SIZE, hSearch, SWP_NOZORDER);
+			hDwp = DeferWindowPos(hDwp, edtSearchText.GetHwnd(), 0,
+				TBTN_SIZE + WND_SPACING * 2, h - hSearch - hStatus - WND_SPACING,
+				w - WND_SPACING * 4 - TBTN_SIZE * 3, hSearch,
+				SWP_NOZORDER);
+			hDwp = DeferWindowPos(hDwp, btnFindPrev.GetHwnd(), 0,
+				w - WND_SPACING - TBTN_SIZE * 2, h - hSearch - hStatus - WND_SPACING,
+				TBTN_SIZE, hSearch,
+				SWP_NOZORDER);
+			hDwp = DeferWindowPos(hDwp, btnFindNext.GetHwnd(), 0,
+				w - WND_SPACING - TBTN_SIZE * 1, h - hSearch - hStatus - WND_SPACING,
+				TBTN_SIZE, hSearch,
+				SWP_NOZORDER);
+			hSearch += WND_SPACING;
+		}
+
+		// time tree bar
+		int hTimeTree = 0;
+		if (m_dwOptions & WND_OPT_TIMETREE) {
+			hTimeTree = 100; // need to calculate correctly
+			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
+				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
+				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
+				SWP_NOZORDER);
+		}
+
+		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
+			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
+			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
+			SWP_NOZORDER);
+
+		EndDeferWindowPos(hDwp);
 	}
 
 	void OnDestroy() override
@@ -687,7 +659,7 @@ public:
 		else
 			m_dwOptions |= WND_OPT_TIMETREE;
 
-		LayoutHistoryWnd();
+		OnResize();
 		ShowHideControls();
 		TimeTreeBuild();
 	}
@@ -781,41 +753,41 @@ public:
 		DB::ECPTR pCursor(DB::Events(m_hContact));
 		while (MEVENT hDbEvent = pCursor.FetchNext()) {
 			DB::EventInfo dbei(hDbEvent);
-			if (dbei) {
-				if (bAppendOnly) {
-					SetFilePointer(hFile, -3, nullptr, FILE_END);
-					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
-				}
+			if (!dbei)
+				continue;
 
-				JSONNode pRoot2;
-				pRoot2.push_back(JSONNode("type", dbei.eventType));
-
-				if (mir_strcmp(dbei.szModule, proto))
-					pRoot2.push_back(JSONNode("module", dbei.szModule));
-
-				pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
-
-				wchar_t szTemp[500];
-				TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-				pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-				std::string flags;
-				if (dbei.flags & DBEF_SENT)
-					flags += "m";
-				if (dbei.flags & DBEF_READ)
-					flags += "r";
-				pRoot2.push_back(JSONNode("flags", flags));
-
-				ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-				if (msg)
-					pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
-
-				output = pRoot2.write_formatted();
-				output += "\n]}";
-
-				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
+			if (bAppendOnly) {
+				SetFilePointer(hFile, -3, nullptr, FILE_END);
+				WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
 			}
 
+			JSONNode pRoot2;
+			pRoot2.push_back(JSONNode("type", dbei.eventType));
+
+			if (mir_strcmp(dbei.szModule, proto))
+				pRoot2.push_back(JSONNode("module", dbei.szModule));
+
+			pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+
+			wchar_t szTemp[500];
+			TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+			pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+
+			std::string flags;
+			if (dbei.flags & DBEF_SENT)
+				flags += "m";
+			if (dbei.flags & DBEF_READ)
+				flags += "r";
+			pRoot2.push_back(JSONNode("flags", flags));
+
+			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+			if (msg)
+				pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+			output = pRoot2.write_formatted();
+			output += "\n]}";
+
+			WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
 			bAppendOnly = true;
 		}
 
@@ -832,7 +804,7 @@ public:
 			m_dwOptions |= WND_OPT_FILTERBAR;
 
 		ShowHideControls();
-		LayoutHistoryWnd();
+		OnResize();
 	}
 
 	void onClick_FindPrev(CCtrlButton *)
@@ -870,7 +842,7 @@ public:
 			m_dwOptions |= WND_OPT_SEARCHBAR;
 
 		ShowHideControls();
-		LayoutHistoryWnd();
+		OnResize();
 	}
 
 	void onClick_UserInfo(CCtrlButton *)
@@ -906,20 +878,6 @@ public:
 		}
 
 		switch (msg) {
-		case WM_MEASUREITEM:
-			LPMEASUREITEMSTRUCT lpmis;
-			lpmis = (LPMEASUREITEMSTRUCT)lParam;
-
-			if (lpmis->CtlType == ODT_MENU)
-				return Menu_MeasureItem(lParam);
-
-			lpmis->itemHeight = 25;
-			return TRUE;
-
-		case WM_SIZE:
-			LayoutHistoryWnd();
-			return TRUE;
-
 		case WM_CHARTOITEM:
 			if (!((GetKeyState(VK_CONTROL) & 0x80) || (GetKeyState(VK_MENU) & 0x80))) {
 				wchar_t s[] = { LOWORD(wParam), 0 };
@@ -928,15 +886,6 @@ public:
 				SetFocus(GetDlgItem(m_hwnd, IDC_SEARCHTEXT));
 			}
 			return -1;
-
-		case WM_DRAWITEM:
-			LPDRAWITEMSTRUCT lpdis;
-			lpdis = (LPDRAWITEMSTRUCT)lParam;
-
-			if (lpdis->CtlType == ODT_MENU)
-				return Menu_DrawItem(lParam);
-
-			return (lpdis->itemID != -1);
 
 		case WM_COMMAND:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))

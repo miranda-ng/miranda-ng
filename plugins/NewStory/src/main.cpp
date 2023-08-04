@@ -16,6 +16,8 @@ CMPlugin g_plugin;
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
 CMOption<bool> g_bOptDrawEdge(MODULENAME, "DrawEdge", true);
 
+MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
@@ -73,11 +75,32 @@ static IconItem icons[] =
 	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    }
 };
 
+static int evtEventAdded(WPARAM hContact, LPARAM lParam)
+{
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_ADDEVENT, hContact, lParam);
+	return 0;
+}
+
+static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
+{
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_REMOVEEVENT, hContact, lParam);
+	return 0;
+}
+
+static int evtEventEdited(WPARAM hContact, LPARAM lParam)
+{
+	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
+		SendMessage(hwnd, UM_EDITEVENT, hContact, lParam);
+	return 0;
+}
+
 static int evtModulesLoaded(WPARAM, LPARAM)
 {
 	InitFonts();
 	InitNewstoryControl();
-	InitHistory();
+
 
 	LoadTemplates();
 	return 0;
@@ -98,6 +121,12 @@ int CMPlugin::Load()
 
 	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
 
+	g_hNewstoryLogs = WindowList_Create();
+	g_hNewstoryWindows = WindowList_Create();
+
+	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
+	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
+	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, evtPreShutdown);
@@ -115,6 +144,5 @@ int CMPlugin::Unload()
 	UnregisterSrmmLog(m_log);
 	UnregisterClass(_T(NEWSTORYLIST_CLASS), g_plugin.getInst());
 	DestroyFonts();
-
 	return 0;
 }

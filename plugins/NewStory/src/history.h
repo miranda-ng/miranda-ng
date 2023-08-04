@@ -29,7 +29,6 @@ enum
 
 extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;
 
-void InitHistory();
 void InitMenus();
 
 INT_PTR svcShowNewstory(WPARAM, LPARAM);
