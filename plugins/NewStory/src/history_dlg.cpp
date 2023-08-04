@@ -1037,7 +1037,7 @@ INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
 	HWND hwnd = (HWND)WindowList_Find(g_hNewstoryWindows, hContact);
 	if (!hwnd) {
 		auto *pDlg = new CHistoryDlg(hContact);
-		pDlg->Create();
+		pDlg->Show();
 		hwnd = pDlg->GetHwnd();
 	}
 
