@@ -18,6 +18,7 @@ fast.
 - Skype
 - Steam
 - Tox
+- Telegram
 - Twitter
 - VKontakte
 
