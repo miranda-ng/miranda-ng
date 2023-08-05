@@ -17,8 +17,8 @@ fast.
 - Sametime
 - Skype
 - Steam
-- Tox
 - Telegram
+- Tox
 - Twitter
 - VKontakte
 
