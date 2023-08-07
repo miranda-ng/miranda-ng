@@ -1,0 +1,60 @@
+From cb2a5788eb5b86596c2cccb6cec83e5bfb494e5a Mon Sep 17 00:00:00 2001
+From: George Hazan <ghazan@miranda.im>
+Date: Mon, 27 Jun 2022 17:42:24 +0300
+Subject: [PATCH] my changes
+
+---
+ Configurations/00-base-templates.conf | 2 +-
+ Configurations/10-main.conf           | 2 --
+ util/mkdef.pl                         | 2 +-
+ 3 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/Configurations/00-base-templates.conf b/Configurations/00-base-templates.conf
+index e01dc63a8b..557ee04245 100644
+--- a/Configurations/00-base-templates.conf
++++ b/Configurations/00-base-templates.conf
+@@ -144,7 +144,7 @@ my %targets=(
+         mtinflag        => "-manifest ",
+         mtoutflag       => "-outputresource:",
+ 
+-        shared_extension => ".dll",
++        shared_extension => ".mir",
+ 
+         build_file      => "makefile",
+         build_scheme    => [ "unified", "windows" ],
+diff --git a/Configurations/10-main.conf b/Configurations/10-main.conf
+index 2fcb96a047..41b8357f4c 100644
+--- a/Configurations/10-main.conf
++++ b/Configurations/10-main.conf
+@@ -1317,7 +1317,6 @@ my %targets = (
+         bn_asm_src       => sub { return undef unless @_;
+                                   my $r=join(" ",@_); $r=~s|bn-ia64.s|bn_asm.c|; $r; },
+         perlasm_scheme   => "ias",
+-        multilib         => "-ia64",
+     },
+     "VC-WIN64A" => {
+         inherit_from     => [ "VC-WIN64-common", asm("x86_64_asm"),
+@@ -1330,7 +1329,6 @@ my %targets = (
+         bn_asm_src       => sub { return undef unless @_;
+                                   my $r=join(" ",@_); $r=~s|asm/x86_64-gcc|bn_asm|; $r; },
+         perlasm_scheme   => "auto",
+-        multilib         => "-x64",
+     },
+     "VC-WIN32" => {
+         inherit_from     => [ "VC-noCE-common", asm("x86_asm"),
+diff --git a/util/mkdef.pl b/util/mkdef.pl
+index 3ac79821b0..f1c6e24f10 100755
+--- a/util/mkdef.pl
++++ b/util/mkdef.pl
+@@ -1156,7 +1156,7 @@ sub print_def_file
+ ; Definition file for the DLL version of the $name library from OpenSSL
+ ;
+ 
+-LIBRARY         $libname	$liboptions
++LIBRARY         $libname.mir	$liboptions
+ 
+ EOF
+ 
+-- 
+2.36.1.windows.1
+
