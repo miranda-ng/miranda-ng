@@ -429,6 +429,7 @@ public:
 
 		WindowList_Add(g_hNewstoryWindows, m_hwnd, m_hContact);
 
+		ShowHideControls();
 		UpdateTitle();
 
 		if (m_hContact != INVALID_CONTACT_ID) {
@@ -437,6 +438,7 @@ public:
 			ADDEVENTS tmp = { m_hContact, 0, -1 };
 			m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
 
+			TimeTreeBuild();
 			SetFocus(m_histControl.GetHwnd());
 		}
 		else {
@@ -470,9 +472,6 @@ public:
 		SendMessage(ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(IDI_UNKNOWN), 0);
 		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
 		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
-
-		ShowHideControls();
-		TimeTreeBuild();
 		return true;
 	}
 
@@ -553,25 +552,25 @@ public:
 			hDwp = DeferWindowPos(hDwp, m_hwndChkDateFrom, 0,
 				w - x - (rc.right - rc.left) - WND_SPACING * 2, y,
 				x, rc.bottom - rc.top,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, m_hwndDateFrom, 0,
 				w - (rc.right - rc.left) - WND_SPACING, y,
 				rc.right - rc.left, rc.bottom - rc.top,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 
 			hDwp = DeferWindowPos(hDwp, m_hwndChkDateTo, 0,
 				w - x - (rc.right - rc.left) - WND_SPACING * 2, y + (rc.bottom - rc.top) + WND_SPACING,
 				x, rc.bottom - rc.top,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, m_hwndDateTo, 0,
 				w - (rc.right - rc.left) - WND_SPACING, y + (rc.bottom - rc.top) + WND_SPACING,
 				rc.right - rc.left, rc.bottom - rc.top,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 
 			hDwp = DeferWindowPos(hDwp, GetDlgItem(m_hwnd, IDC_IB_SEPARATOR), 0,
 				WND_SPACING, hToolBar + WND_SPACING,
 				w - WND_SPACING * 2, 2,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
 		// general
@@ -580,7 +579,7 @@ public:
 		hDwp = DeferWindowPos(hDwp, m_hwndStatus, 0,
 			0, h - hStatus,
 			w, hStatus,
-			SWP_NOZORDER);
+			SWP_NOZORDER | SWP_NOACTIVATE);
 
 		// search bar
 		int hSearch = 0;
@@ -589,19 +588,19 @@ public:
 			hSearch = rc.bottom - rc.top;
 			hDwp = DeferWindowPos(hDwp, m_hwndBtnCloseSearch, 0,
 				WND_SPACING, h - hSearch - hStatus - WND_SPACING,
-				TBTN_SIZE, hSearch, SWP_NOZORDER);
+				TBTN_SIZE, hSearch, SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, edtSearchText.GetHwnd(), 0,
 				TBTN_SIZE + WND_SPACING * 2, h - hSearch - hStatus - WND_SPACING,
 				w - WND_SPACING * 4 - TBTN_SIZE * 3, hSearch,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, btnFindPrev.GetHwnd(), 0,
 				w - WND_SPACING - TBTN_SIZE * 2, h - hSearch - hStatus - WND_SPACING,
 				TBTN_SIZE, hSearch,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, btnFindNext.GetHwnd(), 0,
 				w - WND_SPACING - TBTN_SIZE * 1, h - hSearch - hStatus - WND_SPACING,
 				TBTN_SIZE, hSearch,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 			hSearch += WND_SPACING;
 		}
 
@@ -612,13 +611,13 @@ public:
 			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
 				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
 				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
-				SWP_NOZORDER);
+				SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
 		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
 			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
 			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
-			SWP_NOZORDER);
+			SWP_NOZORDER | SWP_NOACTIVATE);
 
 		EndDeferWindowPos(hDwp);
 	}

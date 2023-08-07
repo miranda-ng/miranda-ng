@@ -31,7 +31,7 @@ void InitHotkeys()
 	g_plugin.addHotkey(&hkd);
 }
 
-/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
 
 NewstoryListData::NewstoryListData(HWND _1) :
@@ -215,6 +215,7 @@ void NewstoryListData::EnsureVisible(int item)
 	if (scrollTopItem >= item) {
 		scrollTopItem = item;
 		scrollTopPixel = 0;
+		InvalidateRect(hwnd, 0, FALSE);
 	}
 	else {
 		RECT rc;
@@ -237,6 +238,7 @@ void NewstoryListData::EnsureVisible(int item)
 		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
+			InvalidateRect(hwnd, 0, FALSE);
 		}
 	}
 	FixScrollPosition();
@@ -268,9 +270,6 @@ void NewstoryListData::FixScrollPosition()
 		scrollTopItem = cachedMaxTopItem;
 		scrollTopPixel = cachedMaxTopPixel;
 	}
-
-	if (g_plugin.bOptVScroll)
-		RecalcScrollBar();
 }
 
 ItemData* NewstoryListData::GetItem(int idx)
@@ -333,7 +332,7 @@ int NewstoryListData::GetItemHeight(int index)
 	return item->savedHeight = sz.cy + 5;
 }
 
-ItemData *NewstoryListData::LoadItem(int idx)
+ItemData* NewstoryListData::LoadItem(int idx)
 {
 	if (totalCount == 0)
 		return nullptr;
@@ -406,9 +405,14 @@ void NewstoryListData::RecalcScrollBar()
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
 	si.nMax = totalCount-1;
-	si.nPage = si.nMax / 10;
-	si.nPos = caret;
-	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+	si.nPage = cachedMaxDrawnItem - scrollTopItem;
+	si.nPos = scrollTopItem;
+
+	if (cachedScrollbarPage != si.nPage || si.nPos != cachedScrollbarPos) {
+		cachedScrollbarPos = si.nPos;
+		cachedScrollbarPage = si.nPage;
+		SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+	}
 }
 
 void NewstoryListData::ScheduleDraw()
@@ -428,9 +432,8 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 
 void NewstoryListData::SetPos(int pos)
 {
-	caret = pos;
 	SetSelection((selStart == -1) ? pos : selStart, pos);
-	SetCaret(pos, true);
+	SetCaret(pos);
 }
 
 void NewstoryListData::SetSelection(int iFirst, int iLast)
@@ -481,7 +484,72 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
-/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Navigation
+
+void NewstoryListData::LineUp()
+{
+	if (scrollTopItem <= 0)
+		return;
+
+	if (scrollTopPixel == 0)
+		scrollTopItem--;
+	else {
+		cachedMaxTopItem = -1;
+		scrollTopPixel = 0;
+	}
+	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::LineDown()
+{
+	if (cachedMaxDrawnItem >= totalCount)
+		return;
+
+	scrollTopItem++;
+	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::PageUp()
+{
+	if (scrollTopItem <= 0)
+		return;
+
+	if (scrollTopPixel == 0)
+		scrollTopItem -= 10;
+	else {
+		cachedMaxTopItem -= 9;
+		scrollTopPixel = 0;
+	}
+	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::PageDown()
+{
+	if (cachedMaxDrawnItem >= totalCount)
+		return;
+
+	scrollTopItem = cachedMaxDrawnItem - 1;
+	FixScrollPosition();
+	InvalidateRect(hwnd, 0, FALSE);
+}
+
+void NewstoryListData::ScrollTop()
+{
+	SetPos(0);
+}
+
+void NewstoryListData::ScrollBottom()
+{
+	if (totalCount)
+		SetPos(totalCount - 1);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Edit box window procedure
 
 static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -518,7 +586,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return CallWindowProc(OldEditWndProc, hwnd, msg, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // NewStory history control window procedure
 
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -546,8 +614,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 		if (!g_plugin.bOptVScroll)
 			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
-		else
-			data->RecalcScrollBar();
 		break;
 
 		// History list control messages
@@ -599,7 +665,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		if (idx >= 0) {
 			data->SetSelection(idx, idx);
-			data->SetCaret(idx, true);
+			data->SetCaret(idx);
 		}
 		return idx;
 
@@ -610,7 +676,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		if (idx >= 0) {
 			data->SetSelection(idx, idx);
-			data->SetCaret(idx, true);
+			data->SetCaret(idx);
 		}
 		return idx;
 
@@ -621,20 +687,20 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				auto *p = data->GetItem(i);
 				if (p->dbe.timestamp >= wParam) {
 					data->SetSelection(i, i);
-					data->SetCaret(i, true);
+					data->SetCaret(i);
 					break;
 				}
 
 				if (i == eventCount - 1) {
 					data->SetSelection(i, i);
-					data->SetCaret(i, true);
+					data->SetCaret(i);
 				}
 			}
 		}
 		return TRUE;
 
 	case NSM_SEEKEND:
-		data->SetCaret(data->totalCount - 1, true);
+		data->SetCaret(data->totalCount - 1);
 		break;
 
 	case NSM_SET_SRMM:
@@ -736,6 +802,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				idx = data->scrollTopItem;
 				while ((top < height) && (idx < data->totalCount))
 					top += data->PaintItem(hdc, idx++, top, width);
+				data->cachedMaxDrawnItem = idx;
 
 				if (top <= height) {
 					RECT rc2;
@@ -746,6 +813,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					DeleteObject(hbr);
 				}
 
+				if (g_plugin.bOptVScroll)
+					data->RecalcScrollBar();
 				if (g_plugin.bDrawEdge)
 					DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
 
@@ -770,7 +839,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (data->caret != idx)
 				data->EndEditItem(false);
 			data->SetSelection(idx, idx);
-			data->SetCaret(idx, true);
+			data->SetCaret(idx);
 			data->OnContextMenu(idx, pt);
 		}
 		break;
@@ -876,11 +945,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			if (wParam & MK_CONTROL) {
 				data->ToggleSelection(idx, idx);
-				data->SetCaret(idx, true);
+				data->SetCaret(idx);
 			}
 			else if (wParam & MK_SHIFT) {
 				data->AddSelection(data->caret, idx);
-				data->SetCaret(idx, true);
+				data->SetCaret(idx);
 			}
 			else {
 				pt.y -= pItem->savedTop;
@@ -892,7 +961,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				data->SetSelection(idx, idx);
-				data->SetCaret(idx, true);
+				data->SetCaret(idx);
 			}
 		}
 		SetFocus(hwnd);
@@ -936,6 +1005,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->LineDown();
 		else
 			data->LineUp();
+		if (GetFocus() != hwnd)
+			OutputDebugStringA(CMStringA(FORMAT, "Currently focused window is %p", GetFocus()));
 		return TRUE;
 
 	case WM_VSCROLL:
