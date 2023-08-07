@@ -325,11 +325,17 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	case GC_EVENT_TOPIC:
 	case GC_EVENT_INFORMATION:
 		p.dbe.eventType = EVENTTYPE_MESSAGE;
+		if (lin->bIsMe)
+			p.dbe.flags |= DBEF_SENT;
 		break;
 
 	case GC_EVENT_SETCONTACTSTATUS:
 		p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
 		break;
+
+	case GC_EVENT_JOIN:
+		p.dbe.flags |= DBEF_SENT;
+		__fallthrough;
 
 	default:
 		p.dbe.eventType = EVENTTYPE_OTHER;
