@@ -504,7 +504,7 @@ void NewstoryListData::LineUp()
 
 void NewstoryListData::LineDown()
 {
-	if (cachedMaxDrawnItem >= totalCount)
+	if (cachedMaxDrawnItem >= totalCount && cachedMaxTopPixel >= 0)
 		return;
 
 	scrollTopItem++;
@@ -520,7 +520,7 @@ void NewstoryListData::PageUp()
 	if (scrollTopPixel == 0)
 		scrollTopItem -= 10;
 	else {
-		cachedMaxTopItem -= 9;
+		scrollTopItem -= 9;
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
@@ -529,7 +529,7 @@ void NewstoryListData::PageUp()
 
 void NewstoryListData::PageDown()
 {
-	if (cachedMaxDrawnItem >= totalCount)
+	if (cachedMaxDrawnItem >= totalCount && cachedMaxTopPixel >= 0)
 		return;
 
 	scrollTopItem = cachedMaxDrawnItem - 1;
