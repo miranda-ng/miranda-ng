@@ -318,8 +318,23 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
 	p.m_bLoaded = true;
-	p.dbe.eventType = EVENTTYPE_MESSAGE;
 	p.dbe.timestamp = lin->time;
+
+	switch (lin->iType) {
+	case GC_EVENT_MESSAGE:
+	case GC_EVENT_TOPIC:
+	case GC_EVENT_INFORMATION:
+		p.dbe.eventType = EVENTTYPE_MESSAGE;
+		break;
+
+	case GC_EVENT_SETCONTACTSTATUS:
+		p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
+		break;
+
+	default:
+		p.dbe.eventType = EVENTTYPE_OTHER;
+		break;
+	}
 
 	if (lin->ptszNick) {
 		p.wszNick = strings.find(lin->ptszNick);

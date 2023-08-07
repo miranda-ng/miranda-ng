@@ -1,6 +1,7 @@
 #ifndef __history_h__
 #define __history_h__
 
+#define EVENTTYPE_OTHER 12345
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_JABBER_PRESENCE 2001
 
