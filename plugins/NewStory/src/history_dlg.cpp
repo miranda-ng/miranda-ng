@@ -691,7 +691,7 @@ public:
 				if (FirstTime)
 					SubContactsList.Append(subid);
 				else
-					SubContactsList.AppendFormat(L"\r\n%s", subid);
+					SubContactsList.AppendFormat(L"\r\n%s", subid.get());
 				FirstTime = false;
 			}
 			MessageText.AppendFormat(TranslateT("It is metacontact. For export use one of this subcontacts:\r\n%s"), SubContactsList.c_str());
@@ -721,18 +721,16 @@ public:
 		if (!GetSaveFileName(&ofn))
 			return;
 
-		//create file
+		// create file
+		CreatePathToFileW(FileName);
 		if (PathFileExistsW(FileName))
-			DeleteFile(FileName);
-		HANDLE hFile = CreateFile(FileName, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-		if (hFile == INVALID_HANDLE_VALUE) {
-			// this might be because the path isent created 
-			// so we will try to create it 
-			if (!CreatePathToFileW(FileName))
-				hFile = CreateFile(FileName, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-		}
+			DeleteFileW(FileName);
 
-		//export contact info
+		FILE *out = _wfopen(FileName, L"wt");
+		if (out == NULL)
+			return;
+
+		// export contact info
 		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 		pInfo.set_name("info");
 		if (proto)
@@ -754,10 +752,8 @@ public:
 		pRoot.push_back(pHist);
 
 		std::string output = pRoot.write_formatted();
-		DWORD dwBytesWritten;
-		WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
-
-		SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
+		fputs(output.c_str(), out);
+		fseek(out, -3, SEEK_CUR);
 
 		// export events
 		bool bAppendOnly = false;
@@ -768,8 +764,8 @@ public:
 				continue;
 
 			if (bAppendOnly) {
-				SetFilePointer(hFile, -3, nullptr, FILE_END);
-				WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
+				fseek(out, -3, SEEK_END);
+				fputs(",", out);
 			}
 
 			JSONNode pRoot2;
@@ -797,13 +793,13 @@ public:
 
 			output = pRoot2.write_formatted();
 			output += "\n]}";
+			fputs(output.c_str(), out);
 
-			WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
 			bAppendOnly = true;
 		}
 
 		// Close the file
-		CloseHandle(hFile);
+		fclose(out);
 		MessageBox(m_hwnd, TranslateT("Complete"), TranslateT("History export"), MB_OK | MB_ICONINFORMATION);
 	}
 
