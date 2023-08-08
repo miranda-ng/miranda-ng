@@ -838,7 +838,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			if (data->caret != idx)
 				data->EndEditItem(false);
-			data->SetSelection(idx, idx);
 			data->SetCaret(idx);
 			data->OnContextMenu(idx, pt);
 		}
