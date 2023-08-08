@@ -5,7 +5,7 @@ extern HANDLE htuLog;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Filters
 
-bool Filter::check(ItemData *item)
+bool Filter::check(ItemData *item) const
 {
 	if (!item) return false;
 	if (!(flags & EVENTONLY)) {
@@ -429,6 +429,16 @@ int HistoryArray::getCount() const
 {
 	int nPages = pages.getCount();
 	return (nPages == 0) ? 0 : (nPages - 1) * HIST_BLOCK_SIZE + iLastPageCounter;
+}
+
+int HistoryArray::find(int id, int dir, const Filter &filter)
+{
+	int count = getCount();
+	for (int i = id + dir; i >= 0 && i < count; i += dir)
+		if (filter.check(get(i)))
+			return i;
+	
+	return -1;
 }
 
 void HistoryArray::remove(int id)

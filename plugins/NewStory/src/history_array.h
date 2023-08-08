@@ -45,8 +45,7 @@ struct ItemData
 class Filter
 {
 	uint16_t flags;
-	int *refCount;
-	wchar_t *text;
+	ptrW text;
 
 public:
 	enum
@@ -61,36 +60,13 @@ public:
 		EVENTONLY = 0x100,
 	};
 
-	Filter(uint16_t aFlags, wchar_t *wText)
+	__forceinline Filter(uint16_t aFlags, wchar_t *wText) :
+		flags(aFlags),
+		text(mir_wstrdup(wText))
 	{
-		refCount = new int(0);
-		flags = aFlags;
-		text = new wchar_t[mir_wstrlen(wText) + 1];
-		mir_wstrcpy(text, wText);
 	}
-	Filter(const Filter &other)
-	{
-		flags = other.flags;
-		refCount = other.refCount;
-		text = other.text;
-		++ *refCount;
-	}
-	Filter &operator=(const Filter &other)
-	{
-		flags = other.flags;
-		refCount = other.refCount;
-		text = other.text;
-		++ *refCount;
-	}
-	~Filter()
-	{
-		if (!-- * refCount) {
-			delete refCount;
-			delete[] text;
-		}
-	}
-	
-	bool check(ItemData *item);
+
+	bool check(ItemData *item) const;
 };
 
 enum
@@ -147,29 +123,19 @@ public:
 	void addResults(OBJLIST<SearchResult> *pArray);
 	void clear();
 	int  find(MEVENT hEvent);
+	int  find(int id, int dir, const Filter &filter);
 	int  getCount() const;
+	void remove(int idx);
 	void reset()
 	{
 		clear();
 		pages.insert(new ItemBlock());
 	}
 
-	//	bool preloadEvents(int count = 10);
-
 	ItemData* get(int id, bool bLoad = false);
-
-	void remove(int idx);
-
-	int FindRel(int id, int dir, Filter filter)
-	{
-		int count = getCount();
-		for (int i = id + dir; (i >= 0) && (i < count); i += dir)
-			if (filter.check(get(i)))
-				return i;
-		return -1;
-	}
-	int FindNext(int id, Filter filter) { return FindRel(id, +1, filter); }
-	int FindPrev(int id, Filter filter) { return FindRel(id, -1, filter); }
+	
+	__forceinline int FindNext(int id, const Filter &filter) { return find(id, +1, filter); }
+	__forceinline int FindPrev(int id, const Filter &filter) { return find(id, -1, filter); }
 };
 
 #endif // __history_array__
