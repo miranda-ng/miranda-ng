@@ -1,6 +1,13 @@
 #ifndef __history_array__
 #define __history_array__
 
+enum
+{
+	GROUPING_NONE = 0,
+	GROUPING_HEAD = 1,
+	GROUPING_ITEM = 2,
+};
+
 struct ItemData
 {
 	MCONTACT hContact;
@@ -10,6 +17,7 @@ struct ItemData
 	bool m_bSelected;
 	bool m_bLoaded;
 	bool m_bOfflineFile, m_bOfflineDownloaded;
+	uint8_t m_grouping;
 	
 	int savedTop, savedHeight;
 
@@ -23,11 +31,11 @@ struct ItemData
 	ItemData();
 	~ItemData();
 
+	void checkPrev();
 	void checkCreate(HWND hwnd);
 	void setText();
 
 	void load(bool bFullLoad);
-	bool isGrouped() const;
 	bool isLink(POINT pt, CMStringW &url) const;
 	bool isLinkChar(int idx) const;
 

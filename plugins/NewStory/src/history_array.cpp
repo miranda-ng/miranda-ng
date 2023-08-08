@@ -49,6 +49,7 @@ bool Filter::check(ItemData *item) const
 ItemData::ItemData()
 {
 	memset(this, 0, sizeof(*this));
+	m_grouping = g_plugin.bMsgGrouping ? -1 : GROUPING_NONE;
 	savedHeight = -1;
 }
 
@@ -59,25 +60,39 @@ ItemData::~ItemData()
 		MTextDestroy(data);
 }
 
+void ItemData::checkPrev()
+{
+	// not set yet
+	if (m_grouping != (uint8_t)-1)
+		return;
+
+	m_grouping = GROUPING_NONE;
+	if (!pPrev)
+		return;
+
+	// we don't group anything but messages
+	load(false);
+	if (dbe.eventType != EVENTTYPE_MESSAGE)
+		return;
+
+	pPrev->load(false);
+	if (pPrev->hContact == hContact && pPrev->dbe.eventType == dbe.eventType && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT)) {
+		if (pPrev->m_grouping != GROUPING_ITEM) {
+			pPrev->m_grouping = GROUPING_HEAD;
+			pPrev->setText();
+		}
+		m_grouping = GROUPING_ITEM;
+	}
+}
+
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
+		checkPrev();
 		setText();
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
-}
-
-bool ItemData::isGrouped() const
-{
-	if (pPrev && g_plugin.bMsgGrouping) {
-		if (!pPrev->m_bLoaded)
-			pPrev->load(true);
-
-		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
-			return true;
-	}
-	return false;
 }
 
 bool ItemData::isLink(POINT pt, CMStringW &url) const
@@ -127,7 +142,13 @@ bool ItemData::isLinkChar(int idx) const
 int ItemData::getTemplate() const
 {
 	switch (dbe.eventType) {
-	case EVENTTYPE_MESSAGE:         return isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
+	case EVENTTYPE_MESSAGE:
+		switch (m_grouping) {
+		case GROUPING_HEAD: return TPL_MSG_HEAD;
+		case GROUPING_ITEM: return TPL_MSG_GRP;
+		}
+		return TPL_MESSAGE;
+
 	case EVENTTYPE_FILE:            return TPL_FILE;
 	case EVENTTYPE_STATUSCHANGE:    return TPL_SIGN;
 	case EVENTTYPE_AUTHREQUEST:     return TPL_AUTH;
