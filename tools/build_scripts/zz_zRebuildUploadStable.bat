@@ -30,10 +30,13 @@ popd
 
 echo Building v%MirVer% > version.txt
 
+title Building 32-bit version...
 call z1_ReBuild_Full.bat 32 %comp%
 
+title Building 64-bit version...
 call z1_ReBuild_Full.bat 64 %comp%
 
+title Packing...
 call z2_PackPluginUpdater.bat 32 DEV_STABLE %comp%
 
 call z2_PackPluginUpdater.bat 64 DEV_STABLE %comp%

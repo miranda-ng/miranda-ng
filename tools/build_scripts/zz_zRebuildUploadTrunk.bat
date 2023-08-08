@@ -7,10 +7,13 @@ if not %GIT_STATUS%==0 goto :Error
 
 xcopy /S /Y tools\build_scripts\*.* . >nul
 
+title Building 32-bit version...
 call z1_ReBuild_Full.bat 32 %comp%
 
+title Building 64-bit version...
 call z1_ReBuild_Full.bat 64 %comp%
 
+title Packing...
 call z2_PackPluginUpdater.bat 32 DEV_N_STABLE %comp%
 
 call z2_PackPluginUpdater.bat 64 DEV_N_STABLE %comp%
