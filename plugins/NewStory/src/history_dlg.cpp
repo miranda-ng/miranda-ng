@@ -751,9 +751,8 @@ public:
 		pHist.set_name("history");
 		pRoot.push_back(pHist);
 
-		std::string output = pRoot.write_formatted();
-		fputs(output.c_str(), out);
-		fseek(out, -3, SEEK_CUR);
+		fputs(pRoot.write_formatted().c_str(), out);
+		fseek(out, -4, SEEK_CUR);
 
 		// export events
 		bool bAppendOnly = false;
@@ -764,7 +763,7 @@ public:
 				continue;
 
 			if (bAppendOnly) {
-				fseek(out, -3, SEEK_END);
+				fseek(out, -4, SEEK_END);
 				fputs(",", out);
 			}
 
@@ -791,9 +790,8 @@ public:
 			if (msg)
 				pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
 
-			output = pRoot2.write_formatted();
-			output += "\n]}";
-			fputs(output.c_str(), out);
+			fputs(pRoot2.write_formatted().c_str(), out);
+			fputs("\n]}", out);
 
 			bAppendOnly = true;
 		}
