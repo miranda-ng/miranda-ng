@@ -60,35 +60,30 @@ ItemData::~ItemData()
 		MTextDestroy(data);
 }
 
-void ItemData::checkPrev()
+ItemData* ItemData::checkPrev(ItemData *pPrev)
 {
-	// not set yet
-	if (m_grouping != (uint8_t)-1)
-		return;
-
 	m_grouping = GROUPING_NONE;
-	if (!pPrev)
-		return;
+	if (!pPrev || !g_plugin.bMsgGrouping)
+		return this;
 
 	// we don't group anything but messages
-	load(false);
+	if (db_event_get(hEvent, &dbe))
+		return this;
+	
 	if (dbe.eventType != EVENTTYPE_MESSAGE)
-		return;
+		return this;
 
-	pPrev->load(false);
 	if (pPrev->hContact == hContact && pPrev->dbe.eventType == dbe.eventType && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT)) {
-		if (pPrev->m_grouping != GROUPING_ITEM) {
+		if (pPrev->m_grouping != GROUPING_ITEM)
 			pPrev->m_grouping = GROUPING_HEAD;
-			pPrev->setText();
-		}
 		m_grouping = GROUPING_ITEM;
 	}
+	return this;
 }
 
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		checkPrev();
 		setText();
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
@@ -389,7 +384,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
-		p.pPrev = pPrev; pPrev = &p;
+		pPrev = p.checkPrev(pPrev);
 	}
 
 	return true;
@@ -404,7 +399,7 @@ void HistoryArray::addResults(OBJLIST<SearchResult> *pArray)
 		auto &p = allocateItem();
 		p.hContact = it->hContact;
 		p.hEvent = it->hEvent;
-		p.pPrev = pPrev; pPrev = &p;
+		pPrev = p.checkPrev(pPrev);
 	}
 }
 

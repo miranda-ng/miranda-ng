@@ -26,12 +26,11 @@ struct ItemData
 	wchar_t *wszNick;
 
 	HANDLE data;
-	ItemData *pPrev;
 
 	ItemData();
 	~ItemData();
 
-	void checkPrev();
+	ItemData* checkPrev(ItemData *pPrev);
 	void checkCreate(HWND hwnd);
 	void setText();
 
