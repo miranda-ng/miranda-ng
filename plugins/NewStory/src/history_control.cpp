@@ -89,7 +89,7 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 		if (auto *p = GetItem(i))
 			p->m_bSelected = true;
 
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
@@ -148,7 +148,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 		p->m_bSelected = false;
 	}
 
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::DeleteItems(void)
@@ -215,7 +215,7 @@ void NewstoryListData::EnsureVisible(int item)
 	if (scrollTopItem >= item) {
 		scrollTopItem = item;
 		scrollTopPixel = 0;
-		InvalidateRect(hwnd, 0, FALSE);
+		ScheduleDraw();
 	}
 	else {
 		RECT rc;
@@ -238,7 +238,7 @@ void NewstoryListData::EnsureVisible(int item)
 		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
-			InvalidateRect(hwnd, 0, FALSE);
+			ScheduleDraw();
 		}
 	}
 	FixScrollPosition();
@@ -452,7 +452,7 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 			p->m_bSelected = false;
 	}
 
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::ToggleBookmark()
@@ -465,7 +465,7 @@ void NewstoryListData::ToggleBookmark()
 		db_event_edit(p->hEvent, &p->dbe);
 
 		p->setText();
-		InvalidateRect(hwnd, 0, FALSE);
+		ScheduleDraw();
 	}
 }
 
@@ -481,7 +481,7 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 		p->m_bSelected = !p->m_bSelected;
 	}
 
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -499,7 +499,7 @@ void NewstoryListData::LineUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::LineDown()
@@ -509,7 +509,7 @@ void NewstoryListData::LineDown()
 
 	scrollTopItem++;
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::PageUp()
@@ -524,7 +524,7 @@ void NewstoryListData::PageUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::PageDown()
@@ -534,7 +534,7 @@ void NewstoryListData::PageDown()
 
 	scrollTopItem = cachedMaxDrawnItem - 1;
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	ScheduleDraw();
 }
 
 void NewstoryListData::ScrollTop()
@@ -622,12 +622,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
 			data->totalCount = data->items.getCount();
 		}
+		data->hasData = true;
 		data->ScheduleDraw();
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
 		data->totalCount++;
+		data->hasData = true;
 		data->ScheduleDraw();
 		break;
 
@@ -635,6 +637,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (auto *pResults = (OBJLIST<SearchResult>*)wParam) {
 			data->items.addResults(pResults);
 			data->totalCount = data->items.getCount();
+			data->hasData = true;
 			data->ScheduleDraw();
 		}
 		break;
@@ -736,7 +739,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			Utils_ClipboardCopy(res);
 		}
-		InvalidateRect(hwnd, 0, FALSE);
+		data->ScheduleDraw();
 		break;
 
 	case NSM_DOWNLOAD:
@@ -770,7 +773,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_SIZE:
 		data->OnResize(LOWORD(lParam));
-		InvalidateRect(hwnd, 0, FALSE);
+		data->ScheduleDraw();
 		break;
 
 	case WM_COMMAND:
@@ -782,8 +785,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return 1;
 
 	case WM_PAINT:
-		PAINTSTRUCT ps;
-		{
+		if (data->hasData) {
+			PAINTSTRUCT ps;
 			HDC hdcWindow = BeginPaint(hwnd, &ps);
 
 			/* we get so many InvalidateRect()'s that there is no point painting,
@@ -822,8 +825,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				DeleteObject(SelectObject(hdc, hbmSave));
 				DeleteDC(hdc);
 			}
+			EndPaint(hwnd, &ps);
 		}
-		EndPaint(hwnd, &ps);
 		break;
 
 	case WM_CONTEXTMENU:
@@ -1048,7 +1051,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			if (s_scrollTopItem != data->scrollTopItem || s_scrollTopPixel != data->scrollTopPixel)
-				InvalidateRect(hwnd, 0, FALSE);
+				data->ScheduleDraw();
 		}
 		break;
 

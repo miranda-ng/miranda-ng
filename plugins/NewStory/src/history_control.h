@@ -80,7 +80,7 @@ struct NewstoryListData : public MZeroedObject
 
 	RECT rcLastPaint;
 
-	bool bWasShift, bSortAscending;
+	bool bWasShift, bSortAscending, hasData;
 
 	HWND hwnd;
 	HWND hwndEditBox;
