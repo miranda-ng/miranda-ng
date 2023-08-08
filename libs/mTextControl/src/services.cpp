@@ -115,7 +115,8 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint
 
 MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, TextObject *text)
 {
-	if (!text) return 0;
+	if (!text || !dc)
+		return 0;
 
 	long lWidth = sz->cx, lHeight = sz->cy;
 	text->ftd->get_NaturalSize(dc, &lWidth, &lHeight);
@@ -129,7 +130,8 @@ MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, TextObject *text)
 
 MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, TextObject *text)
 {
-	if (!text) return 0;
+	if (!text || !dc)
+		return 0;
 
 	COLORREF cl = GetTextColor(dc);
 
