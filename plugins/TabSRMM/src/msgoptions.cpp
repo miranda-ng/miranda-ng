@@ -1480,9 +1480,11 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pDialog = new COptContainersDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.a = LPGEN("Message log");
-	odp.pDialog = new COptLogDlg();
-	g_plugin.addOptions(wParam, &odp);
+	if (!Srmm_IsCustomLogUsed()) {
+		odp.szTab.a = LPGEN("Message log");
+		odp.pDialog = new COptLogDlg();
+		g_plugin.addOptions(wParam, &odp);
+	}
 
 	odp.szTab.a = LPGEN("Advanced tweaks");
 	odp.pDialog = new COptAdvancedDlg();

@@ -363,7 +363,9 @@ void ChatOptInitialize(WPARAM wParam)
 	odp.szTab.a = LPGEN("General");
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pDialog = new CLogOptsDlg();
-	odp.szTab.a = LPGEN("Log formatting");
-	g_plugin.addOptions(wParam, &odp);
+	if (!Chat::bEnableCustomLogs) {
+		odp.pDialog = new CLogOptsDlg();
+		odp.szTab.a = LPGEN("Log formatting");
+		g_plugin.addOptions(wParam, &odp);
+	}
 }

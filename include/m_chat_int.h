@@ -400,7 +400,8 @@ namespace Chat
 		bDoubleClick4Privat,
 		bLogIndentEnabled,
 		bLogLimitNames,
-		bStripFormat;
+		bStripFormat,
+		bEnableCustomLogs;
 
 	extern MIR_APP_EXPORT CMOption<uint32_t>
 		iPopupFlags,

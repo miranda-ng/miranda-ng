@@ -805,9 +805,11 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Layout");
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pDialog = new CLogOptionsDlg();
-	odp.szTab.a = LPGEN("Event log");
-	g_plugin.addOptions(wParam, &odp);
+	if (!Srmm_IsCustomLogUsed()) {
+		odp.pDialog = new CLogOptionsDlg();
+		odp.szTab.a = LPGEN("Event log");
+		g_plugin.addOptions(wParam, &odp);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	odp.szGroup.a = LPGEN("Message sessions");

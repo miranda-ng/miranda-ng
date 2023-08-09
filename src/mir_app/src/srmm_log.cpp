@@ -44,7 +44,7 @@ struct LoggerClass
 
 static OBJLIST<LoggerClass> g_arLogClasses(1, PtrKeySortT);
 
-static CMOption<uint8_t> g_bEnableCustomLogs("SRMM", "EnableCustomLogs", 0);
+static CMOption<char *> g_logger(SRMM_MODULE, "Logger", "built-in");
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,14 +55,14 @@ static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 		return true;
 
 	// if custom log viewers are disable, use build-in one
-	if (!g_bEnableCustomLogs)
+	if (!Chat::bEnableCustomLogs)
 		return false;
 
 	// check if custom viewers are forbidden for this particular account
 	auto *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
 	if (szProto) {
 		// hidden setting !!!!!!!!
-		CMStringA szProtoList(db_get_sm(0, "SRMM", "DisableCustomLogsForProto"));
+		CMStringA szProtoList(db_get_sm(0, SRMM_MODULE, "DisableCustomLogsForProto"));
 
 		int iStart = 0;
 		while (true) {
@@ -84,7 +84,7 @@ CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 	if (sttEnableCustomLogs(pDlg)) {
 		CMStringA szViewerName(db_get_sm(pDlg->m_hContact, SRMSGMOD, "Logger"));
 		if (szViewerName.IsEmpty())
-			szViewerName = db_get_sm(0, "SRMM", "Logger", "built-in");
+			szViewerName = g_logger;
 
 		for (auto &it : g_arLogClasses)
 			if (szViewerName == it->szShortName)
@@ -96,6 +96,11 @@ CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 			return it->pfnBuilder(*pDlg);
 
 	return nullptr; // shall never happen
+}
+
+MIR_APP_DLL(bool) Srmm_IsCustomLogUsed()
+{
+	return mir_strcmp(g_logger, "built-in") != 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +119,7 @@ public:
 		m_list(this, IDC_LIST),
 		chkCustomLogs(this, IDC_ENABLE_CUSTOM)
 	{
-		CreateLink(chkCustomLogs, g_bEnableCustomLogs);
+		CreateLink(chkCustomLogs, Chat::bEnableCustomLogs);
 
 		m_list.OnSelChange = Callback(this, &CSrmmLogOptionsDlg::onChange_List);
 	}
@@ -122,11 +127,10 @@ public:
 	bool OnInitDialog() override
 	{
 		pDialog = this;
-		ptrA szCurr(db_get_sa(0, "SRMM", "Logger", "built-in"));
 
 		for (auto &it : g_arLogClasses) {
 			int idx = m_list.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
-			if (!mir_strcmp(szCurr, it->szShortName))
+			if (!mir_strcmp(g_logger, it->szShortName))
 				m_list.SetCurSel(idx);
 		}
 
@@ -139,8 +143,8 @@ public:
 		if (idx == -1)
 			return false;
 
-		auto *pLogger = (LoggerClass *)m_list.GetItemData(idx);
-		db_set_s(0, "SRMM", "Logger", pLogger->szShortName);
+		if (auto *pLogger = (LoggerClass *)m_list.GetItemData(idx))
+			g_logger = pLogger->szShortName;
 		return true;
 	}
 

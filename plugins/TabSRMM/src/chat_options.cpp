@@ -895,9 +895,11 @@ void Chat_Options(WPARAM wParam)
 	odp.pDialog = new CChatSettingsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.a = LPGEN("Log formatting");
-	odp.pDialog = new CChatLogOptionDlg();
-	g_plugin.addOptions(wParam, &odp);
+	if (!Chat::bEnableCustomLogs) {
+		odp.szTab.a = LPGEN("Log formatting");
+		odp.pDialog = new CChatLogOptionDlg();
+		g_plugin.addOptions(wParam, &odp);
+	}
 
 	odp.szTab.a = LPGEN("Highlighting");
 	odp.pDialog = new CHighlighOptionDlg();

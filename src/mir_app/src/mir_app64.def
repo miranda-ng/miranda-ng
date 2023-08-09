@@ -899,3 +899,5 @@ Clist_GroupSaveExpanded @1003 NONAME
 ??0MAsyncObject@@QEAA@XZ @1016 NONAME
 ??1MAsyncObject@@UEAA@XZ @1017 NONAME
 ??_7MAsyncObject@@6B@ @1018 NONAME
+?bEnableCustomLogs@Chat@@3V?$CMOption@_N@@A @1019 NONAME
+?Srmm_IsCustomLogUsed@@YA_NXZ @1020 NONAME

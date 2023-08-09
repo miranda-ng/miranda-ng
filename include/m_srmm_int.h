@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_gui.h>
 
+#define SRMM_MODULE "SRMM"
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // toolbar button internal representation
 
@@ -145,6 +147,8 @@ typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 
 MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
 MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
+
+MIR_APP_DLL(bool) Srmm_IsCustomLogUsed();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Simple single-event based logger

@@ -29,6 +29,7 @@ CMOption<bool> Chat::bPopupOnJoin(CHAT_MODULE, "PopupOnJoin", false);
 CMOption<bool> Chat::bDoubleClick4Privat(CHAT_MODULE, "DoubleClick4Privat", false);
 CMOption<bool> Chat::bShowContactStatus(CHAT_MODULE, "ShowContactStatus", true);
 CMOption<bool> Chat::bContactStatusFirst(CHAT_MODULE, "ContactStatusFirst", false);
+CMOption<bool> Chat::bEnableCustomLogs(SRMM_MODULE, "EnableCustomLogs", false);
 
 CMOption<bool> Chat::bFlashWindow(CHAT_MODULE, "FlashWindow", false);
 CMOption<bool> Chat::bFlashWindowHighlight(CHAT_MODULE, "FlashWindowHighlight", false);
@@ -778,15 +779,15 @@ MIR_APP_DLL(void) Chat_UpdateOptions()
 
 MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact)
 {
-	return db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	return db_get_b(hContact, SRMM_MODULE, "MuteMode", CHATMODE_NORMAL);
 }
 
 MIR_APP_DLL(void) Chat_Mute(MCONTACT hContact, int mode)
 {
 	if (mode != CHATMODE_NORMAL)
-		db_set_b(hContact, "SRMM", "MuteMode", mode);
+		db_set_b(hContact, SRMM_MODULE, "MuteMode", mode);
 	else
-		db_unset(hContact, "SRMM", "MuteMode");
+		db_unset(hContact, SRMM_MODULE, "MuteMode");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
