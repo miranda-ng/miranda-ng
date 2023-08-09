@@ -497,7 +497,7 @@ void NewstoryListData::LineUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::LineDown()
@@ -507,7 +507,7 @@ void NewstoryListData::LineDown()
 
 	scrollTopItem++;
 	FixScrollPosition();
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::PageUp()

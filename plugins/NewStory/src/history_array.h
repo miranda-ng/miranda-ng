@@ -35,6 +35,7 @@ struct ItemData
 	void setText();
 
 	void load(bool bFullLoad);
+	bool isEqual(const ItemData *p) const;
 	bool isLink(POINT pt, CMStringW &url) const;
 	bool isLinkChar(int idx) const;
 

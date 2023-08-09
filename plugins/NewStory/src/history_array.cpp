@@ -60,6 +60,19 @@ ItemData::~ItemData()
 		MTextDestroy(data);
 }
 
+bool ItemData::isEqual(const ItemData *p) const
+{
+	if (p->hContact != hContact)
+		return false;
+	if (p->dbe.eventType != dbe.eventType)
+		return false;
+	if ((p->dbe.flags & DBEF_SENT) != (dbe.flags & DBEF_SENT))
+		return false;
+	if (p->dbe.timestamp / 86400 != dbe.timestamp / 86400)
+		return false;
+	return true;
+}
+
 ItemData* ItemData::checkPrev(ItemData *pPrev)
 {
 	m_grouping = GROUPING_NONE;
@@ -73,9 +86,12 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 	if (dbe.eventType != EVENTTYPE_MESSAGE)
 		return this;
 
-	if (pPrev->hContact == hContact && pPrev->dbe.eventType == dbe.eventType && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT)) {
-		if (pPrev->m_grouping != GROUPING_ITEM)
+	if (isEqual(pPrev)) {
+		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
+			if (pPrev->m_bLoaded)
+				pPrev->setText();
+		}
 		m_grouping = GROUPING_ITEM;
 	}
 	return this;
