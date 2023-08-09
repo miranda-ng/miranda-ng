@@ -73,8 +73,6 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
-	scrollTopItem = totalCount;
-	FixScrollPosition();
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -89,7 +87,7 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 		if (auto *p = GetItem(i))
 			p->m_bSelected = true;
 
-	ScheduleDraw();
+	ScrollBottom();
 }
 
 void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
@@ -623,14 +621,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->totalCount = data->items.getCount();
 		}
 		data->hasData = true;
-		data->ScheduleDraw();
+		data->ScrollBottom();
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
 		data->totalCount++;
 		data->hasData = true;
-		data->ScheduleDraw();
+		data->ScrollBottom();
 		break;
 
 	case NSM_ADDRESULTS:
@@ -638,7 +636,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->items.addResults(pResults);
 			data->totalCount = data->items.getCount();
 			data->hasData = true;
-			data->ScheduleDraw();
+			data->ScrollBottom();
 		}
 		break;
 
