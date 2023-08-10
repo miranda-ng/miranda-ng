@@ -11,17 +11,6 @@
 #define HOST_BORDER 0
 #endif
 
-struct COOKIE
-{
-	bool isUnicode;
-	union
-	{
-		char *ansi;
-		wchar_t *unicode;
-	};
-	size_t cbSize, cbCount;
-};
-
 /////////////////////////////////////////////////////////////////////////////
 // CFormattedTextDraw
 
@@ -40,7 +29,6 @@ class CFormattedTextDraw : public ITextHost, public MZeroedObject
 	uint32_t       m_dwScrollbar;		// Scroll bar style
 	uint32_t       m_dwPropertyBits;	// Property bits
 	uint32_t       m_dwMaxLength;
-	COOKIE         m_editCookie;
 
 	ITextServices *m_spTextServices;
 	ITextDocument *m_spTextDocument;

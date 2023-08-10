@@ -24,9 +24,20 @@ const IID IID_ITextDocument = {
 /////////////////////////////////////////////////////////////////////////////
 // CallBack functions
 
+struct STREAMDATA
+{
+	bool isUnicode;
+	union
+	{
+		char *ansi;
+		wchar_t *unicode;
+	};
+	size_t cbSize, cbCount;
+};
+
 static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	COOKIE *pCookie = (COOKIE *)dwCookie;
+	STREAMDATA *pCookie = (STREAMDATA *)dwCookie;
 	if (pCookie->isUnicode) {
 		if ((pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t) < (size_t)cb)
 			*pcb = LONG(pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t);
@@ -96,18 +107,18 @@ HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_editCookie.isUnicode = false;
-	m_editCookie.ansi = newVal;
-	m_editCookie.cbSize = mir_strlen(m_editCookie.ansi);
-	m_editCookie.cbCount = 0;
+	STREAMDATA streamData = {};
+	streamData.isUnicode = false;
+	streamData.ansi = newVal;
+	streamData.cbSize = mir_strlen(newVal);
 
 	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&m_editCookie;
+	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF, (LPARAM)&editStream, &lResult);
 	return S_OK;
 }
 
@@ -116,20 +127,19 @@ HRESULT CFormattedTextDraw::putRTFTextW(wchar_t *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_editCookie.isUnicode = true;
-	m_editCookie.unicode = newVal;
-	m_editCookie.cbSize = mir_wstrlen(m_editCookie.unicode);
-	m_editCookie.cbCount = 0;
+	STREAMDATA streamData = {};
+	streamData.isUnicode = true;
+	streamData.unicode = newVal;
+	streamData.cbSize = mir_wstrlen(newVal);
 
 	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&m_editCookie;
+	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF | SF_UNICODE), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF | SF_UNICODE, (LPARAM)&editStream, &lResult);
 	return S_OK;
-
 }
 
 HRESULT CFormattedTextDraw::putTextA(char *newVal)
@@ -137,25 +147,25 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_editCookie.isUnicode = false;
-	m_editCookie.ansi = newVal;
-	m_editCookie.cbSize = mir_strlen(m_editCookie.ansi);
-	m_editCookie.cbCount = 0;
+	STREAMDATA streamData = {};
+	streamData.isUnicode = false;
+	streamData.ansi = newVal;
+	streamData.cbSize = mir_strlen(newVal);
 
 	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&m_editCookie;
+	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_TEXT, (LPARAM)&editStream, &lResult);
 
 	CHARFORMAT cf;
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
 	wcsncpy_s(cf.szFaceName, L"MS Shell Dlg", _TRUNCATE);
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
+	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
 
 	return S_OK;
 }
@@ -165,25 +175,25 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_editCookie.isUnicode = true;
-	m_editCookie.unicode = newVal;
-	m_editCookie.cbSize = mir_wstrlen(m_editCookie.unicode);
-	m_editCookie.cbCount = 0;
+	STREAMDATA streamData = {};
+	streamData.isUnicode = true;
+	streamData.unicode = newVal;
+	streamData.cbSize = mir_wstrlen(newVal);
 
 	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&m_editCookie;
+	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT | SF_UNICODE), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_TEXT | SF_UNICODE, (LPARAM)&editStream, &lResult);
 
 	CHARFORMAT cf;
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
 	wcsncpy_s(cf.szFaceName, L"MS Shell Dlg", _TRUNCATE);
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
+	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
 	return S_OK;
 }
 
