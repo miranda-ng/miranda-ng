@@ -42,7 +42,7 @@
 #include <tox.h>
 #include <toxencryptsave.h>
 
-struct CToxProto;
+class CToxProto;
 
 #define now() time(0)
 

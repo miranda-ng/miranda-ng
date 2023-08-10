@@ -1,11 +1,9 @@
 #include "stdafx.h"
 
-CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
-	: PROTO<CToxProto>(protoName, userName),
+CToxProto::CToxProto(const char* protoName, const wchar_t* userName) :
+	PROTO<CToxProto>(protoName, userName),
 	m_tox(nullptr),
-	m_hTimerQueue(nullptr),
-	m_hPollingTimer(nullptr),
-	m_hCheckingTimer(nullptr),
+	m_impl(*this),
 	hMessageProcess(1)
 {
 	InitNetlib();
@@ -38,13 +36,10 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::OnPrebuildContactMenu);
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountRenamed);
-
-	m_hTimerQueue = CreateTimerQueue();
 }
 
 CToxProto::~CToxProto()
 {
-	DeleteTimerQueue(m_hTimerQueue);
 }
 
 void CToxProto::OnModulesLoaded()
@@ -154,6 +149,13 @@ HANDLE CToxProto::SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppsz
 	return OnSendFile(m_tox, hContact, msg, ppszFiles);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CToxProto::InitThread(void *)
+{
+	InitToxCore(m_tox);
+}
+
 int CToxProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
@@ -168,15 +170,9 @@ int CToxProto::SetStatus(int iNewStatus)
 
 	// logout
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		/*if (m_toxThread != nullptr) {
-			m_toxThread->Terminate();
-			SetEvent(hTerminateEvent);
-		}*/
+		m_impl.timerPoll.Stop();
+		m_impl.timerCheck.Stop();
 
-		DeleteTimerQueueTimer(m_hTimerQueue, m_hCheckingTimer, nullptr);
-		DeleteTimerQueueTimer(m_hTimerQueue, m_hPollingTimer, nullptr);
-		m_hPollingTimer = nullptr;
-		m_hCheckingTimer = nullptr;
 		if (m_tox) {
 			UninitToxCore(m_tox);
 			tox_kill(m_tox);
@@ -218,9 +214,10 @@ int CToxProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		InitToxCore(m_tox);
-		CreateTimerQueueTimer(&m_hPollingTimer, m_hTimerQueue, &CToxProto::OnToxPoll, this, TOX_DEFAULT_INTERVAL, TOX_DEFAULT_INTERVAL, WT_EXECUTEINPERSISTENTTHREAD);
-		CreateTimerQueueTimer(&m_hCheckingTimer, m_hTimerQueue, &CToxProto::OnToxCheck, this, TOX_CHECKING_INTERVAL, TOX_CHECKING_INTERVAL, WT_EXECUTEINPERSISTENTTHREAD);
+		m_impl.timerPoll.Start(TOX_DEFAULT_INTERVAL);
+		m_impl.timerCheck.Start(TOX_CHECKING_INTERVAL);
+
+		ForkThread(&CToxProto::InitThread);
 		return 0;
 	}
 	
@@ -231,6 +228,8 @@ int CToxProto::SetStatus(int iNewStatus)
 	
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
 {

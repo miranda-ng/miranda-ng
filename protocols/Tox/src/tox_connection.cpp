@@ -58,26 +58,24 @@ void CToxProto::CheckConnection()
 	}
 }
 
-void CToxProto::OnToxCheck(void *arg, uint8_t)
+void CToxProto::OnToxCheck()
 {
-	CToxProto *proto = (CToxProto*)arg;
-	if (proto->m_tox == nullptr)
+	if (m_tox == nullptr)
 		return;
 
 	// int retriesCount = proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
-	if (proto->m_iStatus < ID_STATUS_ONLINE)
-		proto->TryConnect();
+	if (m_iStatus < ID_STATUS_ONLINE)
+		TryConnect();
 	else
-		proto->CheckConnection();
+		CheckConnection();
 }
 
-void CToxProto::OnToxPoll(void *arg, uint8_t)
+void CToxProto::OnToxPoll()
 {
-	CToxProto *proto = (CToxProto*)arg;
-	if (proto->m_tox)
-		tox_iterate(proto->m_tox, arg);
+	if (m_tox)
+		tox_iterate(m_tox, this);
 
-	/*uint32_t interval = tox_iteration_interval(proto->m_tox);
+	/*uint32_t interval = tox_iteration_interval(m_tox);
 	interval = interval
 		? interval
 		: TOX_DEFAULT_INTERVAL;*/

@@ -1,13 +1,39 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-struct CToxProto : public PROTO<CToxProto>
+class CToxProto : public PROTO<CToxProto>
 {
 	friend class CToxEnterPasswordDlg;
 	friend class CToxCreatePasswordDlg;
 	friend class CToxChangePasswordDlg;
 	friend class CToxOptionsMain;
 	friend class CToxOptionsNodeList;
+
+	class Impl
+	{
+		friend class CToxProto;
+
+		CToxProto &m_proto;
+		CTimer timerCheck, timerPoll;
+
+		void OnCheck(CTimer *) {
+			m_proto.OnToxCheck();
+		}
+
+		void OnPoll(CTimer *) {
+			m_proto.OnToxPoll();
+		}
+
+		Impl(CToxProto &ppro) :
+			m_proto(ppro),
+			timerPoll(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			timerCheck(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+		{
+			timerPoll.OnEvent = Callback(this, &Impl::OnPoll);
+			timerCheck.OnEvent = Callback(this, &Impl::OnCheck);
+		}
+	}
+	m_impl;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -70,9 +96,6 @@ private:
 	ULONG hMessageProcess;
 
 	int m_retriesCount;
-	HANDLE m_hTimerQueue;
-	HANDLE m_hPollingTimer;
-	HANDLE m_hCheckingTimer;
 
 	static HANDLE hProfileFolderPath;
 
@@ -108,12 +131,13 @@ private:
 
 	// tox connection
 	bool IsOnline();
+	void __cdecl InitThread(void *);
 
 	void TryConnect();
 	void CheckConnection();
 
-	static void __stdcall OnToxCheck(void*, uint8_t);
-	static void __stdcall OnToxPoll(void*, uint8_t);
+	void OnToxCheck();
+	void OnToxPoll();
 
 	// accounts
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
