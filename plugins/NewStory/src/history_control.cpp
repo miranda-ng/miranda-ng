@@ -621,7 +621,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
 		break;
 
-	// History list control messages
+		// History list control messages
 	case NSM_ADDEVENTS:
 		if (auto *p = (ADDEVENTS *)wParam) {
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
@@ -967,12 +967,20 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					return 0;
 				}
 
+				data->selStart = idx;
 				data->SetSelection(idx, idx);
 				data->SetCaret(idx);
 			}
 		}
 		SetFocus(hwnd);
 		return 0;
+
+	case WM_LBUTTONUP:
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		idx = data->GetItemFromPixel(pt.y);
+		if (idx >= 0)
+			data->selStart = -1;
+		break;
 
 	case WM_LBUTTONDBLCLK:
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
@@ -1004,6 +1012,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx >= 0) {
 			auto *pItem = data->LoadItem(idx);
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
+
+			if (data->selStart != -1)
+				data->SetSelection(data->selStart, idx);
 		}
 		break;
 
