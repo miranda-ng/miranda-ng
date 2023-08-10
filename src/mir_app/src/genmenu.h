@@ -98,6 +98,7 @@ struct TIntMenuObject : public MZeroedObject
 	bool m_bUseUserDefinedItems;
 
 	void freeItem(TMO_IntMenuItem*);
+	CMStringA getModule() const;
 };
 
 extern LIST<TIntMenuObject> g_menus;
@@ -113,7 +114,11 @@ int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 typedef int (*pfnWalkFunc)(TMO_IntMenuItem*, void*);
 
 // returns the item, on which pfnWalkFunc returned TRUE
-TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void*);
+TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void* = nullptr);
+
+__forceinline TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *pimi, pfnWalkFunc pFunc, const char *pszParam) {
+	return MO_RecursiveWalkMenu(pimi, pFunc, (void *)pszParam);
+}
 
 //general stuff
 int InitGenMenu();

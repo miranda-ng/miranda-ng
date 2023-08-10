@@ -37,8 +37,8 @@ MIR_APP_DLL(void) Menu_SetVisible(TMO_IntMenuItem *pimi, bool bVisible)
 	if ((pimi = MO_GetIntMenuItem(pimi)) == nullptr)
 		return;
 
-	char szModule[256], menuItemName[256];
-	mir_snprintf(szModule, "%s_Items", pimi->parent->pszName);
+	char menuItemName[256];
+	auto szModule(pimi->parent->getModule());
 	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
 	ptrW wszValue(db_get_wsa(0, szModule, menuItemName, L"1;;;"));
@@ -146,8 +146,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		if (pmo == nullptr)
 			return;
 
-		char szModule[256];
-		mir_snprintf(szModule, "%s_Items", pmo->pszName);
+		auto szModule(pmo->getModule());
 		db_delete_module(0, szModule);
 		SaveTreeInternal(nullptr, m_menuItems.GetRoot(), szModule);
 		db_set_b(0, szModule, "MenuFormat", 1);
@@ -250,8 +249,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		if (pmo == nullptr || pmo->m_items.first == nullptr)
 			return false;
 
-		char szModule[256];
-		mir_snprintf(szModule, "%s_Items", pmo->pszName);
+		auto szModule(pmo->getModule());
 
 		if (bReread) // no need to reread database on reset
 			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);

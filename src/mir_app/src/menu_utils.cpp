@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "genmenu.h"
 #include "plugins.h"
 
-static bool bIsGenMenuInited;
+static bool bIsGenMenuInited, bMenuLoaded = false;
 bool bIconsDisabled;
 static mir_cs csMenuHook;
 
@@ -340,7 +340,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu)
 
 	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenu);
 	mir_cslock lck(csMenuHook);
-	return (pimi) ? MO_RecursiveWalkMenu(pimi, FindDefaultItem, nullptr) : nullptr;
+	return (pimi) ? MO_RecursiveWalkMenu(pimi, FindDefaultItem) : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -647,7 +647,7 @@ MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 		return -1;
 
 	if (pimi->submenu.first) {
-		MO_RecursiveWalkMenu(pimi->submenu.first, FreeMenuItem, nullptr);
+		MO_RecursiveWalkMenu(pimi->submenu.first, FreeMenuItem);
 		pimi->submenu.first = nullptr;
 	}
 
@@ -708,7 +708,7 @@ static int GetNextObjectMenuItemId()
 	if (NextObjectMenuItemId >= CLISTMENUIDMAX) {
 		NextObjectMenuItemId = CLISTMENUIDMIN;
 		for (auto &p : g_menus)
-			MO_RecursiveWalkMenu(p->m_items.first, PackMenuItems, nullptr);
+			MO_RecursiveWalkMenu(p->m_items.first, PackMenuItems);
 	}
 
 	return NextObjectMenuItemId++;
@@ -806,6 +806,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 		}
 	}
 	else p->owner = &pmo->m_items;
+
+	if (bMenuLoaded)
+		Menu_LoadFromDatabase(p, (char*)pmo->getModule().c_str());
 
 	p->owner->insert(p);
 	return p;
@@ -974,10 +977,8 @@ static void CALLBACK sttUpdateMenuService()
 		if (!pmo->m_bUseUserDefinedItems)
 			continue;
 		
-		char szModule[256];
-		mir_snprintf(szModule, "%s_Items", pmo->pszName);
-
 		// was a menu converted?
+		auto szModule(pmo->getModule());
 		if (db_get_b(0, szModule, "MenuFormat", 0) == 0) { // no
 			// read old settings
 			MO_RecursiveWalkMenu(pmo->m_items.first, sttReadOldItem, szModule);
@@ -1011,6 +1012,8 @@ static void CALLBACK sttUpdateMenuService()
 			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
 		}
 	}
+	
+	bMenuLoaded = true;
 }
 
 void ScheduleMenuUpdate()
@@ -1118,9 +1121,8 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 	if (pRootMenu == nullptr)
 		return nullptr;
 
-	char szModule[256];
 	TIntMenuObject *pmo = pRootMenu->parent;
-	mir_snprintf(szModule, "%s_Items", pmo->pszName);
+	auto szModule(pmo->getModule());
 
 	if (pRootMenu->mi.root == nullptr)
 		while (GetMenuItemCount(hMenu) > 0)
@@ -1248,7 +1250,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 		mir_cslock lck(csMenuHook);
 		for (auto &p : g_menus)
 			if (hStatusMenuObject != p->id) //skip status menu
-				MO_RecursiveWalkMenu(p->m_items.first, MO_ReloadIcon, nullptr);
+				MO_RecursiveWalkMenu(p->m_items.first, MO_ReloadIcon);
 	}
 
 	Menu_ReloadProtoMenus();
@@ -1310,7 +1312,7 @@ static void CALLBACK RegisterAllIconsInIconLib()
 		if (hStatusMenuObject == p->id) //skip status menu
 			continue;
 
-		MO_RecursiveWalkMenu(p->m_items.first, MO_RegisterIcon, nullptr);
+		MO_RecursiveWalkMenu(p->m_items.first, MO_RegisterIcon);
 	}
 }
 
@@ -1347,7 +1349,7 @@ TIntMenuObject::TIntMenuObject()
 
 TIntMenuObject::~TIntMenuObject()
 {
-	MO_RecursiveWalkMenu(m_items.first, FreeMenuItem, nullptr);
+	MO_RecursiveWalkMenu(m_items.first, FreeMenuItem);
 
 	mir_free(FreeService);
 	mir_free(onAddService);
@@ -1357,6 +1359,11 @@ TIntMenuObject::~TIntMenuObject()
 	mir_free(pszName);
 
 	ImageList_Destroy(m_hMenuIcons);
+}
+
+CMStringA TIntMenuObject::getModule() const
+{
+	return CMStringA(FORMAT, "%s_Items", pszName);
 }
 
 void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
