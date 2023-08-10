@@ -2,30 +2,30 @@
 
 MyColourID g_colorTable[COLOR_COUNT] =
 {
+	{ LPGEN("Incoming name"),              "ColorNickIn",  RGB(0xc8, 0x3f, 0x6b) },
+	{ LPGEN("Outgoing name"),              "ColorNickOut", RGB(0x08, 0x60, 0xbd) },
+
 	{ LPGEN("Incoming messages"),          "ColorMsgIn",   RGB(0xd6, 0xf5, 0xc0) },
 	{ LPGEN("Outgoing messages"),          "ColorMsgOut",  RGB(0xf5, 0xe7, 0xd8) },
-
+																			  
 	{ LPGEN("Incoming files"),             "ColorFileIn",  RGB(0xe3, 0xee, 0x9b) },
 	{ LPGEN("Outgoing files"),             "ColorFileOut", RGB(0xe3, 0xee, 0x9b) },
-
+																			  
 	{ LPGEN("Status changes"),             "ColorStatus",  RGB(0xf0, 0xf0, 0xf0) },
-
+																			  
 	{ LPGEN("Other incoming events"),      "ColorIn",      RGB(0xff, 0xff, 0xff) },
 	{ LPGEN("Other outgoing events"),      "ColorOut",     RGB(0xff, 0xff, 0xff) },
-
+																			  
 	{ LPGEN("Selected item's text"),       "ColorSelTxt",  RGB(0xff, 0xff, 0xff) },
 	{ LPGEN("Selected item's background"), "ColorSel",     GetSysColor(COLOR_HIGHLIGHT) },
 	{ LPGEN("Selected item's frame"),      "ColorSelFrm",  GetSysColor(COLOR_HIGHLIGHTTEXT) },
-
+																			  
 	{ LPGEN("Grid background"),            "Background",   RGB(0xff, 0xff, 0xff) },
 	{ LPGEN("Separator"),                  "Separator",    RGB(0x60, 0x60, 0x60) },
 };
 
 MyFontID g_fontTable[FONT_COUNT] =
 {
-	{ LPGEN("Incoming name"),         "FontNickIn",   RGB(0xc8, 0x3f, 0x6b) },
-	{ LPGEN("Outgoing name"),         "FontNickOut",  RGB(0x08, 0x60, 0xbd) },
-
 	{ LPGEN("Incoming messages"),     "FontMsgIn"   },
 	{ LPGEN("Outgoing messages"),     "FontMsgOut"  },
 

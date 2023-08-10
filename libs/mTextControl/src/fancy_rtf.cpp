@@ -53,10 +53,11 @@ static bool bbCodeSimpleFunc(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *
 		break;
 	case BBS_COLOR_S:
 		cf.dwMask = CFM_COLOR;
-		cf.dwEffects = CFE_AUTOCOLOR;
+		cf.crTextColor = _wtoi(pwszText);
 		break;
 	case BBS_COLOR_E:
 		cf.dwMask = CFM_COLOR;
+		cf.dwEffects = CFE_AUTOCOLOR;
 		break;
 	case BBS_URL1: case BBS_URL2:
 	case BBS_IMG1: case BBS_IMG2:
@@ -116,8 +117,8 @@ static BBCodeInfo bbCodes[] =
 
 	{ L"[url]", L"[/url]", bbCodeSimpleFunc, BBS_URL1 },
 	{ L"[url=", L"]", bbCodeSimpleFunc, BBS_URL2 },
-	{ L"[url]", L"[/url]", bbCodeSimpleFunc, BBS_IMG1 },
-	{ L"[url=", L"]", bbCodeSimpleFunc, BBS_IMG2 },
+	{ L"[img]", L"[/img]", bbCodeSimpleFunc, BBS_IMG1 },
+	{ L"[img=", L"]", bbCodeSimpleFunc, BBS_IMG2 },
 };
 
 void bbCodeParse(CFormattedTextDraw *ftd)

@@ -19,13 +19,8 @@ struct TemplateVars
 		return vars[id].val;
 	}
 
-	__forceinline void SetVar(uint8_t id, const wchar_t *v, bool d) {
-		auto &V = vars[id];
-		if (V.val && V.del)
-			mir_free(V.val);
-		V.val = mir_wstrdup(v);
-		V.del = d;
-	}
+	void SetNick(wchar_t *v, bool bIncoming);
+	void SetVar(uint8_t id, wchar_t *v, bool d);
 };
 
 typedef void (*VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, ItemData *item);

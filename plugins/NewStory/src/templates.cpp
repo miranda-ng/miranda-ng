@@ -150,11 +150,11 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 	if (item->dbe.flags & DBEF_SENT) {
 		char *proto = Proto_GetBaseAccountName(item->hContact);
 		ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
-		vars->SetVar('N', nick, false);
+		vars->SetNick(nick, false);
 	}
 	else {
 		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
-		vars->SetVar('N', nick, false);
+		vars->SetNick(nick, true);
 	}
 
 	//  %I: Icon
@@ -200,10 +200,9 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 	if (!TimeZone_GetSystemTime(nullptr, item->dbe.timestamp, &st, 0)) {
 		int iLocale = Langpack_GetDefaultLocale();
 
-		CMStringW tmp;
-		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf)); tmp += buf;
-		GetTimeFormatW(iLocale, 0, &st, L"HH:mm", buf, _countof(buf)); tmp += buf;
-		vars->SetVar('t', tmp, true);
+		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"HH:mm", buf + 12, _countof(buf));
+		vars->SetVar('t', buf, true);
 
 		//  %h: hour (24 hour format, 0-23)
 		GetTimeFormatW(iLocale, 0, &st, L"HH", buf, _countof(buf));
@@ -291,6 +290,29 @@ void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	auto *pText = item->getWBuf();
 	vars->SetVar('M', mir_wstrlen(pText) == 0 ? TranslateT("Unknown event") : pText, false);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void TemplateVars::SetNick(wchar_t *v, bool bIncoming)
+{
+	CMStringW wszNick(FORMAT, L"[color=%d]%s[/color]", g_colorTable[(bIncoming) ? COLOR_INNICK : COLOR_OUTNICK].cl, v);
+
+	auto &V = vars['N'];
+	if (V.del)
+		mir_free(V.val);
+	V.val = wszNick.Detach();
+	V.del = true;
+}
+
+void TemplateVars::SetVar(uint8_t id, wchar_t *v, bool d)
+{
+	auto &V = vars[id];
+	if (V.del)
+		mir_free(V.val);
+
+	V.val = (d) ? mir_wstrdup(v) : v;
+	V.del = d;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

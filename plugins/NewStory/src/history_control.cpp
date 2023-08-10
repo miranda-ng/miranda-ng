@@ -73,6 +73,11 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
+	if (bScrollBottom) {
+		bScrollBottom = false;
+		EnsureVisible(totalCount - 1);
+	}
+
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -251,10 +256,9 @@ void NewstoryListData::FixScrollPosition()
 	int windowHeight = rc.bottom - rc.top;
 
 	if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
-		int maxTopItem = 0;
-		int tmp = 0;
-		for (maxTopItem = totalCount; (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
-			tmp += GetItemHeight(maxTopItem - 1);
+		int maxTopItem = totalCount, tmp = 0;
+		while (maxTopItem > 0 && tmp < windowHeight)
+			tmp += GetItemHeight(--maxTopItem);
 		cachedMaxTopItem = maxTopItem;
 		cachedWindowHeight = windowHeight;
 		cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
@@ -537,15 +541,18 @@ void NewstoryListData::PageDown()
 
 void NewstoryListData::ScrollTop()
 {
-	SetPos(0);
+	EnsureVisible(0);
+	ScheduleDraw();
 }
 
 void NewstoryListData::ScrollBottom()
 {
-	if (totalCount)
-		SetPos(totalCount - 1);
-}
+	if (!totalCount)
+		return;
 
+	bScrollBottom = true;
+	ScheduleDraw();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Edit box window procedure
@@ -614,7 +621,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
 		break;
 
-		// History list control messages
+	// History list control messages
 	case NSM_ADDEVENTS:
 		if (auto *p = (ADDEVENTS *)wParam) {
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
