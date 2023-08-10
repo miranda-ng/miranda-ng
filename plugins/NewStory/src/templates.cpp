@@ -10,13 +10,15 @@ wchar_t *months[12] =
 	LPGENW("July"), LPGENW("August"), LPGENW("September"), LPGENW("October"), LPGENW("November"), LPGENW("December")
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// Template formatting for options dialog
+
 wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *item)
 {
 	if (tpl < 0 || tpl >= TPL_COUNT || !sztpl)
 		return mir_wstrdup(L"");
 
 	TemplateVars vars;
-	memset(&vars, 0, sizeof(vars));
 
 	auto &T = templates[tpl];
 	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
@@ -40,6 +42,109 @@ wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData 
 	return buf;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// Template formatting for the control
+
+static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p, TemplateVars *vars)
+{
+	for (; *p; p++) {
+		if (*p == '\r' && p[1] == '\n') {
+			buf.Append("\\p ");
+			p++;
+		}
+		else if (*p == '\n') {
+			buf.Append("\\p ");
+		}
+		else if (*p == '\t') {
+			buf.Append("\\tab ");
+		}
+		else if (*p == '\\' || *p == '{' || *p == '}') {
+			buf.AppendChar('\\');
+			buf.AppendChar((char)*p);
+		}
+		else if (*p == '[') {
+			if (p[1] == 'c' && p[3] == ']') {
+				buf.AppendFormat("\\cf%c ", p[2]);
+				p += 3;
+				continue;
+			}
+
+			char *pEnd = "";
+			if (p[1] == '/') {
+				pEnd = "0";
+				p++;
+			}
+			if (p[1] == 'b' && p[2] == ']') {
+				buf.AppendFormat("\\b%s ", pEnd);
+				p += 2;
+			}
+			else if (p[1] == 'i' && p[2] == ']') {
+				buf.AppendFormat("\\i%s ", pEnd);
+				p += 2;
+			}
+			else if (p[1] == 'u' && p[2] == ']') {
+				buf.AppendFormat("\\ul%s ", pEnd);
+				p += 2;
+			}
+			else if (p[1] == 's' && p[2] == ']') {
+				buf.AppendFormat("\\strike%s ", pEnd);
+				p += 2;
+			}
+			else if (p[1] == 'c' && p[2] == ']') {
+				buf.Append("\\cf1 ");
+				p += 2;
+			}
+			else buf.AppendChar('[');
+		}
+		else if (*p == '%' && vars) {
+			wchar_t *var = vars->GetVar((p[1] & 0xff));
+			if (var)
+				AppendUnicodeToBuffer(buf, var, 0);
+			p++;
+		}
+		else if (*p < 128) {
+			buf.AppendChar((char)*p);
+		}
+		else {
+			buf.AppendFormat("\\u%d ?", *p);
+		}
+	}
+}
+
+CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *item)
+{
+	if (tpl < 0 || tpl >= TPL_COUNT)
+		return CMStringA("");
+
+	auto &T = templates[tpl];
+
+	TemplateVars vars;
+
+	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
+		if (T.vf[i])
+			T.vf[i](VFM_VARS, &vars, hContact, item);
+
+	CMStringA buf;
+	buf.Append("{\\rtf1\\ansi\\deff0");
+
+	COLORREF cr = GetSysColor(COLOR_WINDOWTEXT);
+	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	cr = g_colorTable[(item->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
+	buf.AppendFormat("\\colortbl \\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+
+	wchar_t tmp[2] = { 0, 0 };
+
+	buf.Append("\\par ");
+
+	buf.Append("{\\uc1 ");
+	AppendUnicodeToBuffer(buf, (T.value != nullptr) ? T.value : T.defvalue, &vars);
+	buf.Append("}}");
+	return buf;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Template formatting for copying text
+
 wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT))
@@ -50,7 +155,6 @@ wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 		T.value = mir_wstrdup(T.defvalue);
 
 	TemplateVars vars;
-	memset(&vars, 0, sizeof(vars));
 
 	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
 		if (T.vf[i])
@@ -58,6 +162,7 @@ wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 
 	wchar_t *buf = (wchar_t *)mir_alloc(sizeof(wchar_t) * (TplMeasureVars(&vars, T.value) + 1));
 	wchar_t *bufptr = buf;
+
 	for (wchar_t *p = T.value; *p; p++) {
 		if (*p == '%') {
 			wchar_t *var = vars.GetVar((p[1] & 0xff));
@@ -74,18 +179,16 @@ wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 }
 
 // Variable management
-void TplInitVars(TemplateVars *vars)
+TemplateVars::TemplateVars()
 {
 	memset(&vars, 0, sizeof(vars));
 }
 
-void TplCleanVars(TemplateVars *vars)
+TemplateVars::~TemplateVars()
 {
-	for (auto &V : vars->vars)
+	for (auto &V : vars)
 		if (V.val && V.del)
 			mir_free(V.val);
-
-	memset(&vars, 0, sizeof(vars));
 }
 
 int TplMeasureVars(TemplateVars *vars, wchar_t *str)

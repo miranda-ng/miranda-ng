@@ -9,6 +9,9 @@ enum
 
 struct TemplateVars
 {
+	TemplateVars();
+	~TemplateVars();
+
 	struct {
 		wchar_t *val;
 		bool del;
@@ -76,7 +79,9 @@ extern TemplateInfo templates[TPL_COUNT];
 void LoadTemplates();
 void SaveTemplates();
 
-wchar_t* TplFormatString(int tpl, MCONTACT hContact, ItemData *args);
-wchar_t* TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *args);
+CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *args);
+wchar_t*  TplFormatString(int tpl, MCONTACT hContact, ItemData * item);
+wchar_t*  TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *args);
+
 
 #endif // __templates_h__
