@@ -98,7 +98,7 @@ struct NewstoryListData : public MZeroedObject
 	void      DeleteItems(void);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
-	void      FixScrollPosition();
+	void      FixScrollPosition(bool bForce = false);
 	ItemData* GetItem(int idx);
 	int       GetItemFromPixel(int yPos);
 	int       GetItemHeight(int index);

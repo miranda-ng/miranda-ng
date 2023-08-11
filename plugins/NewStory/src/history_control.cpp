@@ -172,6 +172,7 @@ void NewstoryListData::DeleteItems(void)
 	if (firstSel != -1) {
 		SetCaret(firstSel, false);
 		SetSelection(firstSel, firstSel);
+		FixScrollPosition(true);
 	}
 }
 
@@ -243,7 +244,7 @@ void NewstoryListData::EnsureVisible(int item)
 	FixScrollPosition();
 }
 
-void NewstoryListData::FixScrollPosition()
+void NewstoryListData::FixScrollPosition(bool bForce)
 {
 	EndEditItem(false);
 
@@ -251,7 +252,7 @@ void NewstoryListData::FixScrollPosition()
 	GetWindowRect(hwnd, &rc);
 	int windowHeight = rc.bottom - rc.top;
 
-	if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
+	if (bForce || windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
 		int maxTopItem = totalCount, tmp = 0;
 		while (maxTopItem > 0 && tmp < windowHeight)
 			tmp += GetItemHeight(--maxTopItem);
@@ -767,6 +768,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			data->items.remove(idx);
 			data->totalCount--;
+			data->FixScrollPosition(true);
 			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
