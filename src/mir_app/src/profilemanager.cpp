@@ -30,9 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable : 4512)
 
-#define WM_INPUTCHANGED (WM_USER + 0x3000)
-#define WM_FOCUSTEXTBOX (WM_USER + 0x3001)
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile creator
 
@@ -100,34 +97,13 @@ static BOOL EnumProfilesForList(const wchar_t *tszFullPath, wchar_t *profile, CC
 	return TRUE;
 }
 
-static int findProfiles(CCtrlListView &list, const wchar_t *szProfile)
-{
-	// find in Miranda NG profile subfolders
-	for (auto &it: MFilePath(g_profileDir).search()) {
-		// find all subfolders except "." and ".."
-		if (!it.isDir() || !wcscmp(it.getPath(), L".") || !wcscmp(it.getPath(), L".."))
-			continue;
-		
-		MFilePath fullPath;
-		fullPath.Format(L"%s\\%s\\%s.dat", g_profileDir, it.getPath(), it.getPath());
-		if (fullPath.isExist()) {
-			wchar_t profileName[MAX_PATH];
-			mir_snwprintf(profileName, L"%s.dat", it.getPath());
-			if (!EnumProfilesForList(fullPath, profileName, list, szProfile))
-				break;
-		}
-	}
-
-	return 1;
-}
-
 static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
 		if (wcschr(L".?/\\#' ", (wchar_t)wParam) != nullptr)
 			return 0;
-		PostMessage(GetParent(edit), WM_INPUTCHANGED, 0, 0);
 	}
+
 	return mir_callNextSubclass(edit, ProfileNameValidate, msg, wParam, lParam);
 }
 
@@ -175,7 +151,6 @@ class CCreateProfileDlg : public CDlgBase
 		return 1;
 	}
 
-	bool       m_bFocused;
 	CCtrlCombo m_driverList;
 	CCtrlEdit  m_profileName;
 	CCtrlBase  m_warning;
@@ -185,11 +160,12 @@ public:
 		CDlgBase(g_plugin, IDD_PROFILE_NEW),
 		m_btnOk(_btn),
 		m_pd(_pd),
-		m_bFocused(false),
 		m_driverList(this, IDC_PROFILEDRIVERS),
 		m_profileName(this, IDC_PROFILENAME),
 		m_warning(this, IDC_NODBDRIVERS)
-	{}
+	{
+		m_profileName.OnChange = Callback(this, &CCreateProfileDlg::onChange_Profile);
+	}
 
 	bool OnInitDialog() override
 	{
@@ -225,30 +201,18 @@ public:
 			if (c) *p = c;
 		}
 
-		// focus on the textbox
-		PostMessage(m_hwnd, WM_FOCUSTEXTBOX, 0, 0);
+		SetFocus(m_profileName.GetHwnd());
 		return true;
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_FOCUSTEXTBOX:
-			SetFocus(m_profileName.GetHwnd());
-			break;
-
-		case WM_INPUTCHANGED: // when input in the edit box changes
-			NotifyChange();
-			m_btnOk.Enable(GetWindowTextLength(m_profileName.GetHwnd()) > 0);
-			break;
-
 		case WM_SHOWWINDOW:
 			if (wParam) {
 				m_btnOk.SetText(TranslateT("&Create"));
-				SendMessage(m_hwnd, WM_INPUTCHANGED, 0, 0);
-				m_bFocused = true;
+				onChange_Profile(0);
 			}
-			else m_bFocused = false;
 			break;
 		}
 		return CDlgBase::DlgProc(msg, wParam, lParam);
@@ -257,7 +221,7 @@ public:
 	bool OnApply() override
 	{
 		LRESULT curSel = m_driverList.GetCurSel();
-		if (curSel == -1 || !m_bFocused)
+		if (curSel == -1)
 			return false; // should never happen
 
 		ptrW szName(m_profileName.GetText());
@@ -271,6 +235,11 @@ public:
 		if (CreateProfile(m_pd->m_profile, m_pd->dblink) == 0)
 			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
 		return true;
+	}
+
+	void onChange_Profile(CCtrlEdit *)
+	{
+		m_btnOk.Enable(GetWindowTextLength(m_profileName.GetHwnd()) > 0);
 	}
 };
 
@@ -431,6 +400,26 @@ class CChooseProfileDlg : public CDlgBase
 		DestroyMenu(hMenu);
 	}
 
+	void FindProfiles(const wchar_t *szProfile)
+	{
+		// find in Miranda NG profile subfolders
+		for (auto &it : MFilePath(g_profileDir).search()) {
+			// find all subfolders except "." and ".."
+			if (!it.isDir() || !wcscmp(it.getPath(), L".") || !wcscmp(it.getPath(), L".."))
+				continue;
+
+			MFilePath fullPath;
+			fullPath.Format(L"%s\\%s\\%s.dat", g_profileDir, it.getPath(), it.getPath());
+			if (fullPath.isExist()) {
+				wchar_t profileName[MAX_PATH];
+				mir_snwprintf(profileName, L"%s.dat", it.getPath());
+				if (!EnumProfilesForList(fullPath, profileName, m_profileList, szProfile))
+					break;
+			}
+		}
+	}
+
+	CTimer timerCheck;
 	CCtrlListView m_profileList;
 
 public:
@@ -438,8 +427,11 @@ public:
 		CDlgBase(g_plugin, IDD_PROFILE_SELECTION),
 		m_btnOk(_btn),
 		m_pd(_pd),
+		timerCheck(this, 1),
 		m_profileList(this, IDC_PROFILELIST)
 	{
+		timerCheck.OnEvent = Callback(this, &CChooseProfileDlg::onTimer_Check);
+
 		m_profileList.OnItemChanged = Callback(this, &CChooseProfileDlg::list_OnItemChanged);
 		m_profileList.OnKeyDown = Callback(this, &CChooseProfileDlg::list_OnKeyDown);
 		m_profileList.OnGetInfoTip = Callback(this, &CChooseProfileDlg::list_OnGetTip);
@@ -475,18 +467,20 @@ public:
 		m_profileList.SetExtendedListViewStyle(m_profileList.GetExtendedListViewStyle() | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
 
 		// find all the profiles
-		findProfiles(m_profileList, m_pd->m_profile);
-		PostMessage(m_hwnd, WM_FOCUSTEXTBOX, 0, 0);
+		FindProfiles(m_pd->m_profile);
+		SetFocus(m_profileList.GetHwnd());
+		if (m_pd->m_profile.IsEmpty() || m_profileList.GetSelectedCount() == 0)
+			m_profileList.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
 		m_hFileNotify = FindFirstChangeNotification(g_profileDir, TRUE, FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE);
 		if (m_hFileNotify != INVALID_HANDLE_VALUE)
-			SetTimer(m_hwnd, 0, 1200, nullptr);
+			timerCheck.Start(1200);
 		return true;
 	}
 
 	void OnDestroy()
 	{
-		KillTimer(m_hwnd, 0);
+		timerCheck.Stop();
 		FindCloseChangeNotification(m_hFileNotify);
 	}
 
@@ -527,23 +521,18 @@ public:
 		EndDialog(GetParent(m_hwndParent), 1);
 	}
 
+	void onTimer_Check(CTimer *)
+	{
+		if (WaitForSingleObject(m_hFileNotify, 0) == WAIT_OBJECT_0) {
+			m_profileList.DeleteAllItems();
+			FindProfiles(m_pd->m_profile);
+			FindNextChangeNotification(m_hFileNotify);
+		}
+	}
+
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_TIMER:
-			if (WaitForSingleObject(m_hFileNotify, 0) == WAIT_OBJECT_0) {
-				m_profileList.DeleteAllItems();
-				findProfiles(m_profileList, m_pd->m_profile);
-				FindNextChangeNotification(m_hFileNotify);
-			}
-			break;
-
-		case WM_FOCUSTEXTBOX:
-			SetFocus(m_profileList.GetHwnd());
-			if (m_pd->m_profile.IsEmpty() || m_profileList.GetSelectedCount() == 0)
-				m_profileList.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-			break;
-
 		case WM_SHOWWINDOW:
 			if (wParam)
 				CheckRun();
