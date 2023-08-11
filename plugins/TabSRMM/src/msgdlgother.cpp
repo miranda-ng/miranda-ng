@@ -745,6 +745,15 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, const DBEVENTINFO *dbei)
 		return;
 
 	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
+		for (int i = 0;; i++) {
+			auto *cle = Clist_GetEvent(m_hContact, i);
+			if (cle == nullptr)
+				break;
+
+			if (!mir_strcmp(cle->pszService, MS_MSG_READMESSAGE))
+				return;
+		}
+		
 		CLISTEVENT cle = {};
 		cle.hContact = m_hContact;
 		cle.hDbEvent = hEvent;

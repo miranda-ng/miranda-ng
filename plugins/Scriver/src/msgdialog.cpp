@@ -1014,7 +1014,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				while (hDbEvent != 0) {
 					DB::EventInfo dbei(hDbEvent, false);
 					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(dbei))
-						Clist_RemoveEvent(m_hContact, hDbEvent);
+						Clist_RemoveEvent(-1, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);
 				}
 			}

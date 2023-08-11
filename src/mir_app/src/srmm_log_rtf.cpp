@@ -323,8 +323,9 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 		return false;
 
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
-		db_event_markRead(dat->hContact, dat->hDbEvent);
-		Clist_RemoveEvent(dat->hContact, dat->hDbEvent);
+		if (!dbei.markedRead())
+			db_event_markRead(dat->hContact, dat->hDbEvent);
+		Clist_RemoveEvent(-1, dat->hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);

@@ -240,7 +240,7 @@ void ItemData::load(bool bFullLoad)
 		if (!(dbe.flags & DBEF_SENT)) {
 			if (!dbe.markedRead())
 				db_event_markRead(hContact, hEvent);
-			Clist_RemoveEvent(hContact, hEvent);
+			Clist_RemoveEvent(-1, hEvent);
 		}
 		__fallthrough;
 

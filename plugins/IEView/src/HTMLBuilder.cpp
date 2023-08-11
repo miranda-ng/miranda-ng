@@ -206,7 +206,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 
 		if (!(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
 			db_event_markRead(event->hContact, hDbEvent);
-			Clist_RemoveEvent(event->hContact, hDbEvent);
+			Clist_RemoveEvent(-1, hDbEvent);
 		}
 
 		if (!isDbEventShown(dbei)) {

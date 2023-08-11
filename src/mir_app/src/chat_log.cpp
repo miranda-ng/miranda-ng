@@ -318,11 +318,10 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 	if (lin.hEvent) {
 		DB::EventInfo dbei(lin.hEvent);
 		if (dbei) {
-			if (!dbei.markedRead()) {
-				if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm()) {
+			if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm()) {
+				if (!dbei.markedRead())
 					db_event_markRead(si->hContact, lin.hEvent);
-					Clist_RemoveEvent(si->hContact, lin.hEvent);
-				}
+				Clist_RemoveEvent(-1, lin.hEvent);
 			}
 
 			if (dbei.eventType == EVENTTYPE_FILE) {

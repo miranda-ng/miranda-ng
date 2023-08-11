@@ -378,7 +378,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 
 static int CListEventMarkedRead(WPARAM, LPARAM hDbEvent)
 {
-	Clist_RemoveEvent(INVALID_CONTACT_ID, hDbEvent);
+	Clist_RemoveEvent(-1, hDbEvent);
 	return 0;
 }
 
