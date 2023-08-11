@@ -73,11 +73,7 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
-	if (bScrollBottom) {
-		bScrollBottom = false;
-		EnsureVisible(totalCount - 1);
-	}
-
+	EnsureVisible(totalCount - 1);
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -92,7 +88,7 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 		if (auto *p = GetItem(i))
 			p->m_bSelected = true;
 
-	ScrollBottom();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
@@ -151,7 +147,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 		p->m_bSelected = false;
 	}
 
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::DeleteItems(void)
@@ -218,7 +214,7 @@ void NewstoryListData::EnsureVisible(int item)
 	if (scrollTopItem >= item) {
 		scrollTopItem = item;
 		scrollTopPixel = 0;
-		ScheduleDraw();
+		InvalidateRect(hwnd, 0, FALSE);
 	}
 	else {
 		RECT rc;
@@ -241,7 +237,7 @@ void NewstoryListData::EnsureVisible(int item)
 		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
-			ScheduleDraw();
+			InvalidateRect(hwnd, 0, FALSE);
 		}
 	}
 	FixScrollPosition();
@@ -420,7 +416,7 @@ void NewstoryListData::RecalcScrollBar()
 void NewstoryListData::ScheduleDraw()
 {
 	redrawTimer.Stop();
-	redrawTimer.Start(100);
+	redrawTimer.Start(30);
 }
 
 void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
@@ -454,7 +450,7 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 			p->m_bSelected = false;
 	}
 
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ToggleBookmark()
@@ -467,7 +463,7 @@ void NewstoryListData::ToggleBookmark()
 		db_event_edit(p->hEvent, &p->dbe);
 
 		p->setText();
-		ScheduleDraw();
+		InvalidateRect(hwnd, 0, FALSE);
 	}
 }
 
@@ -483,7 +479,7 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 		p->m_bSelected = !p->m_bSelected;
 	}
 
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -526,7 +522,7 @@ void NewstoryListData::PageUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::PageDown()
@@ -536,13 +532,13 @@ void NewstoryListData::PageDown()
 
 	scrollTopItem = cachedMaxDrawnItem - 1;
 	FixScrollPosition();
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ScrollTop()
 {
 	EnsureVisible(0);
-	ScheduleDraw();
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ScrollBottom()
@@ -550,8 +546,8 @@ void NewstoryListData::ScrollBottom()
 	if (!totalCount)
 		return;
 
-	bScrollBottom = true;
-	ScheduleDraw();
+	EnsureVisible(totalCount - 1);
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -628,14 +624,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->totalCount = data->items.getCount();
 		}
 		data->hasData = true;
-		data->ScrollBottom();
+		data->ScheduleDraw();
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
 		data->totalCount++;
 		data->hasData = true;
-		data->ScrollBottom();
+		data->ScheduleDraw();
 		break;
 
 	case NSM_ADDRESULTS:
@@ -643,14 +639,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->items.addResults(pResults);
 			data->totalCount = data->items.getCount();
 			data->hasData = true;
-			data->ScrollBottom();
+			data->ScheduleDraw();
 		}
 		break;
 
 	case NSM_CLEAR:
 		data->items.clear();
 		data->totalCount = 0;
-		data->ScheduleDraw();
+		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
 	case NSM_GETARRAY:
@@ -744,7 +740,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			Utils_ClipboardCopy(res);
 		}
-		data->ScheduleDraw();
 		break;
 
 	case NSM_DOWNLOAD:
@@ -754,7 +749,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
-		data->ScheduleDraw();
+		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
 	case UM_EDITEVENT:
@@ -763,7 +758,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *p = data->LoadItem(idx);
 			p->load(true);
 			p->setText();
-			data->ScheduleDraw();
+			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
 
@@ -771,14 +766,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		idx = data->items.find(lParam);
 		if (idx != -1) {
 			data->items.remove(idx);
-			data->ScheduleDraw();
 			data->totalCount--;
+			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
 
 	case WM_SIZE:
 		data->OnResize(LOWORD(lParam));
-		data->ScheduleDraw();
+		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
 	case WM_COMMAND:
@@ -1013,8 +1008,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *pItem = data->LoadItem(idx);
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
 
-			if (data->selStart != -1)
+			if (data->selStart != -1) {
 				data->SetSelection(data->selStart, idx);
+				InvalidateRect(hwnd, 0, FALSE);
+			}
 		}
 		break;
 
@@ -1023,8 +1020,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->LineDown();
 		else
 			data->LineUp();
-		if (GetFocus() != hwnd)
-			OutputDebugStringA(CMStringA(FORMAT, "Currently focused window is %p", GetFocus()));
 		return TRUE;
 
 	case WM_VSCROLL:
@@ -1067,7 +1062,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			if (s_scrollTopItem != data->scrollTopItem || s_scrollTopPixel != data->scrollTopPixel)
-				data->ScheduleDraw();
+				InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
 
