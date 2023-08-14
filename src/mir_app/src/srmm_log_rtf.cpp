@@ -282,9 +282,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 
 void CRtfLogWindow::Resize()
 {
-	bool bottomScroll = !m_pDlg.isChat();
-	if (AtBottom())
-		bottomScroll = true;
+	bool bottomScroll = m_pDlg.isChat() ? AtBottom() : true;
 
 	// ::MoveWindow(m_rtf.GetHwnd(), x, y, cx, cy, true);
 
