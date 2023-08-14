@@ -35,6 +35,7 @@ CMOption<bool> Clist::RemoveTempContacts(MODULENAME, "RemoveTempContacts", true)
 
 CMOption<bool> Clist::Tray1Click(MODULENAME, "Tray1Click", IsWinVer7Plus());
 CMOption<bool> Clist::TrayAlwaysStatus(MODULENAME, "AlwaysStatus", false);
+CMOption<uint32_t> Clist::IconFlashTime(MODULENAME, "IconFlashTime", 550);
 
 CMOption<bool>  Clist::FilterSearch("CLC", "FilterSearch", false);
 CMOption<uint32_t> Clist::OfflineModes("CLC", "OfflineModes", MODEF_OFFLINE);
@@ -60,7 +61,7 @@ static const offlineValues[] =
 
 class ClistCommonOptsDlg : public CDlgBase
 {
-	CCtrlSpin blink;
+	CCtrlSpin spinBlink;
 	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkEnableIconBlink, chkFilterSearch;
 	CCtrlCheck chkAlwaysStatus, chkOneClick, chkEnableTrayBlink;
 	CCtrlTreeView hideStatuses;
@@ -68,7 +69,7 @@ class ClistCommonOptsDlg : public CDlgBase
 public:
 	ClistCommonOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CLIST),
-		blink(this, IDC_BLINKSPIN, 0x3FFF, 250),
+		spinBlink(this, IDC_BLINKSPIN, 0x3FFF, 250),
 		hideStatuses(this, IDC_HIDEOFFLINEOPTS),
 		chkOneClick(this, IDC_ONECLK),
 		chkUseGroups(this, IDC_USEGROUPS),
@@ -83,6 +84,7 @@ public:
 	{
 		chkEnableTrayBlink.OnChange = Callback(this, &ClistCommonOptsDlg::onChange_TrayBlink);
 
+		CreateLink(spinBlink, Clist::IconFlashTime);
 		CreateLink(chkOneClick, Clist::Tray1Click);
 		CreateLink(chkUseGroups, Clist::UseGroups);
 		CreateLink(chkHideOffline, Clist::HideOffline);
@@ -97,8 +99,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		blink.SetPosition(db_get_w(0, MODULENAME, "IconFlashTime", 550));
-
 		SetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE,
 			GetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
@@ -120,8 +120,6 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_w(0, MODULENAME, "IconFlashTime", blink.GetPosition());
-
 		uint32_t flags = 0;
 
 		TVITEMEX tvi;

@@ -456,6 +456,7 @@ namespace Clist
 		TrayAlwaysStatus;
 
 	extern MIR_APP_EXPORT CMOption<uint32_t>
+		IconFlashTime,
 		OfflineModes;
 };
 

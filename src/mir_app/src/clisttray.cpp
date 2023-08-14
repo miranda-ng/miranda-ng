@@ -367,7 +367,7 @@ int TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPrefer
 		g_clistApi.trayIcon[i].isBase = isBase;
 		if (db_get_b(0, MODULENAME, "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
 			uint32_t time1 = db_get_w(0, MODULENAME, "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
-			uint32_t time2 = db_get_w(0, MODULENAME, "IconFlashTime", 550) + 1000;
+			uint32_t time2 = Clist::IconFlashTime + 1000;
 			uint32_t time = max(max(uint32_t(2000), time1), time2);
 			if (RefreshTimerId)
 				KillTimer(nullptr, RefreshTimerId);
