@@ -33,12 +33,9 @@ enum
 	NSM_GETARRAY,
 
 	//
-	NSM_SEEKEND,
 	NSM_SEEKTIME,
 
 	// 
-	NSM_SET_SRMM,     // act inside SRMM dialog
-	NSM_SET_CONTACT,  // set hContact
 	NSM_SET_OPTIONS,  // options were changed
 
 	NSM_LAST
@@ -54,10 +51,9 @@ struct NewstoryListData : public MZeroedObject
 	int scrollTopPixel; // y coord of topmost item, this should be negative or zero
 	int caret;
 	int selStart = -1;
-	int cachedWindowHeight;
 	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
 	int cachedMaxTopPixel;
-	int cachedWindowWidth = -1;
+	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
 	int cachedScrollbarPos = -1;
 	unsigned int cachedScrollbarPage = -1;
@@ -74,13 +70,15 @@ struct NewstoryListData : public MZeroedObject
 	CSrmmBaseDialog *pMsgDlg = nullptr;
 
 	void      OnContextMenu(int index, POINT pt);
-	void      OnResize(int newWidth);
+	void      OnResize(int newWidth, int newHeight);
 	void      OnTimer(CTimer *pTimer);
 
 	void      AddChatEvent(SESSION_INFO *si, const LOGINFO *lin);
 	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount);
 	void      AddResults(const OBJLIST<SearchResult> &results);
 	void      AddSelection(int iFirst, int iLast);
+	bool      AtBottom(void) const;
+	bool      AtTop(void) const;
 	void      BeginEditItem(int index, bool bReadOnly);
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
@@ -102,6 +100,8 @@ struct NewstoryListData : public MZeroedObject
 	void      ScrollTop();
 	void      ScrollBottom();
 	void      SetCaret(int idx, bool bEnsureVisible = true);
+	void      SetContact(MCONTACT hContact);
+	void      SetDialog(CSrmmBaseDialog *pDialog);
 	void      SetPos(int pos);
 	void      SetSelection(int iFirst, int iLast);
 	void      ToggleBookmark();

@@ -19,8 +19,8 @@ public:
 		m_hwnd = ::CreateWindowW(_T(NEWSTORYLIST_CLASS), L"NewStory", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 
 			0, 0, rc.left - rc.right, rc.bottom - rc.top, m_pDlg.GetHwnd(), 0, m_pDlg.GetInst(), 0);
 
-		SendMessage(m_hwnd, NSM_SET_SRMM, 0, (LPARAM)&m_pDlg);
-		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
+		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_hwnd, 0);
+		m_histCtrl->SetDialog(&m_pDlg);
 	}
 
 	void Detach() override
@@ -32,9 +32,7 @@ public:
 
 	bool AtBottom() override
 	{
-		int totalCount = SendMessage(m_hwnd, NSM_GETCOUNT, 0, 0);
-		int caret = SendMessage(m_hwnd, NSM_GETCARET, 0, 0);
-		return caret >= totalCount - 1;
+		return m_histCtrl->AtBottom();
 	}
 
 	void Clear() override
@@ -72,6 +70,8 @@ public:
 
 	void Resize() override
 	{
+		bool bottomScroll = m_pDlg.isChat() ? AtBottom() : true;
+
 		RECT rc;
 		GetWindowRect(GetDlgItem(m_pDlg.GetHwnd(), IDC_SRMM_LOG), &rc);
 
@@ -79,11 +79,14 @@ public:
 		ScreenToClient(GetParent(m_hwnd), &pt);
 
 		::SetWindowPos(m_hwnd, 0, pt.x, pt.y, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+
+		if (bottomScroll)
+			ScrollToBottom();
 	}
 
 	void ScrollToBottom() override
 	{
-		::SendMessage(m_hwnd, NSM_SEEKEND, 0, 0);
+		m_histCtrl->ScrollBottom();
 	}
 };
 

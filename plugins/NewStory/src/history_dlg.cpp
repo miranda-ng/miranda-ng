@@ -434,7 +434,7 @@ public:
 		ShowHideControls();
 		UpdateTitle();
 
-		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_histWindow.GetHwnd(), GWLP_USERDATA);
+		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_histWindow.GetHwnd(), 0);
 
 		if (m_hContact != INVALID_CONTACT_ID) {
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
@@ -453,8 +453,8 @@ public:
 			m_dwOptions |= WND_OPT_SEARCHBAR;
 		}
 
-		m_histWindow.SendMsg(NSM_SET_CONTACT, m_hContact, 0);
-		m_histWindow.SendMsg(NSM_SEEKEND, 0, 0);
+		m_histCtrl->SetContact(m_hContact);
+		m_histCtrl->ScrollBottom();
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NEWSTORY));
 

@@ -60,13 +60,24 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 	Menu_DestroyNestedMenu(hMenu);
 }
 
-void NewstoryListData::OnResize(int newWidth)
+void NewstoryListData::OnResize(int newWidth, int newHeight)
 {
-	if (newWidth == cachedWindowWidth)
-		return;
+	bool bDraw = false;
+	if (newWidth != cachedWindowWidth) {
+		cachedWindowWidth = newWidth;
+		for (int i = 0; i < totalCount; i++)
+			LoadItem(i)->savedHeight = -1;
+		bDraw = true;
+	}
 
-	for (int i = 0; i < totalCount; i++)
-		LoadItem(i)->savedHeight = -1;
+	if (newHeight != cachedWindowHeight) {
+		cachedWindowHeight = newHeight;
+		FixScrollPosition(true);
+		bDraw = true;
+	}
+
+	if (bDraw)
+		InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::OnTimer(CTimer *pTimer)
@@ -113,6 +124,28 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 			p->m_bSelected = true;
 
 	InvalidateRect(hwnd, 0, FALSE);
+}
+
+bool NewstoryListData::AtBottom(void) const
+{
+	if (cachedMaxDrawnItem > totalCount)
+		return true;
+
+	if (cachedMaxDrawnItem == totalCount && cachedMaxTopPixel >= scrollTopPixel)
+		return true;
+
+	return false;
+}
+
+bool NewstoryListData::AtTop(void) const
+{
+	if (scrollTopItem < 0)
+		return true;
+
+	if (scrollTopItem == 0 && scrollTopPixel == 0)
+		return true;
+	
+	return false;
 }
 
 void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
@@ -238,7 +271,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 	}
 
 	DestroyWindow(hwndEditBox);
-	hwndEditBox = 0;
+	hwndEditBox = nullptr;
 }
 
 void NewstoryListData::EnsureVisible(int item)
@@ -279,17 +312,12 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 {
 	EndEditItem(false);
 
-	RECT rc;
-	GetWindowRect(hwnd, &rc);
-	int windowHeight = rc.bottom - rc.top;
-
-	if (bForce || windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
+	if (bForce || cachedMaxTopItem != scrollTopItem) {
 		int maxTopItem = totalCount, tmp = 0;
-		while (maxTopItem > 0 && tmp < windowHeight)
+		while (maxTopItem > 0 && tmp < cachedWindowHeight)
 			tmp += GetItemHeight(--maxTopItem);
 		cachedMaxTopItem = maxTopItem;
-		cachedWindowHeight = windowHeight;
-		cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
+		cachedMaxTopPixel = (cachedWindowHeight < tmp) ? cachedWindowHeight - tmp : 0;
 	}
 
 	if (scrollTopItem < 0)
@@ -459,6 +487,16 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 			EnsureVisible(idx);
 	}
 }
+void NewstoryListData::SetContact(MCONTACT hContact)
+{
+	WindowList_Add(g_hNewstoryLogs, hwnd, hContact);
+}
+
+void NewstoryListData::SetDialog(CSrmmBaseDialog *pDlg)
+{
+	if (pMsgDlg = pDlg)
+		SetContact(pDlg->m_hContact);
+}
 
 void NewstoryListData::SetPos(int pos)
 {
@@ -519,7 +557,7 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 
 void NewstoryListData::LineUp()
 {
-	if (scrollTopItem <= 0)
+	if (AtTop())
 		return;
 
 	if (scrollTopPixel == 0)
@@ -534,7 +572,7 @@ void NewstoryListData::LineUp()
 
 void NewstoryListData::LineDown()
 {
-	if (cachedMaxDrawnItem >= totalCount && cachedMaxTopPixel >= 0)
+	if (AtBottom())
 		return;
 
 	scrollTopItem++;
@@ -544,7 +582,7 @@ void NewstoryListData::LineDown()
 
 void NewstoryListData::PageUp()
 {
-	if (scrollTopItem <= 0)
+	if (AtTop())
 		return;
 
 	if (scrollTopPixel == 0)
@@ -559,7 +597,7 @@ void NewstoryListData::PageUp()
 
 void NewstoryListData::PageDown()
 {
-	if (cachedMaxDrawnItem >= totalCount && cachedMaxTopPixel >= 0)
+	if (AtBottom())
 		return;
 
 	scrollTopItem = cachedMaxDrawnItem - 1;
@@ -569,7 +607,8 @@ void NewstoryListData::PageDown()
 
 void NewstoryListData::ScrollTop()
 {
-	EnsureVisible(0);
+	scrollTopItem = scrollTopPixel = 0;
+	FixScrollPosition(true);
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -578,7 +617,9 @@ void NewstoryListData::ScrollBottom()
 	if (!totalCount)
 		return;
 
-	EnsureVisible(totalCount - 1);
+	scrollTopItem = cachedMaxTopItem;
+	scrollTopPixel = cachedMaxTopPixel;
+	FixScrollPosition(true);
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -704,19 +745,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		return TRUE;
 
-	case NSM_SEEKEND:
-		data->SetCaret(data->totalCount - 1);
-		break;
-
-	case NSM_SET_SRMM:
-		data->pMsgDlg = (CSrmmBaseDialog *)lParam;
-		lParam = data->pMsgDlg->m_hContact;
-		__fallthrough;
-
-	case NSM_SET_CONTACT:
-		WindowList_Add(g_hNewstoryLogs, hwnd, lParam);
-		break;
-
 	case NSM_COPY:
 		{
 			CMStringW res;
@@ -774,8 +802,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_SIZE:
-		data->OnResize(LOWORD(lParam));
-		InvalidateRect(hwnd, 0, FALSE);
+		data->OnResize(LOWORD(lParam), HIWORD(lParam));
 		break;
 
 	case WM_COMMAND:
