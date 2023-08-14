@@ -62,7 +62,6 @@
 #define IDC_BRINGTOFRONT                1579
 #define IDC_BLINKTIME                   1607
 #define IDC_BLINKSPIN                   1608
-#define IDC_DISABLEBLINK                1609
 #define IDC_IDLE                        1610
 #define IDC_SBPANELBEVEL                1611
 #define IDC_DROPSHADOW                  1612

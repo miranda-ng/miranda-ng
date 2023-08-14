@@ -25,17 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CGenOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkBlink, chkCycle, chkDontCycle, chkMultiTray;
+	CCtrlCheck chkCycle, chkDontCycle, chkMultiTray;
 
 public:
 	CGenOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CLIST),
-		chkBlink(this, IDC_DISABLEBLINK),
 		chkCycle(this, IDC_CYCLE),
 		chkDontCycle(this, IDC_DONTCYCLE),
 		chkMultiTray(this, IDC_MULTITRAY)
 	{
-		chkBlink.OnChange = Callback(this, &CGenOptsDlg::onChange_Blink);
 		chkCycle.OnChange = chkDontCycle.OnChange = chkMultiTray.OnChange = Callback(this, &CGenOptsDlg::onChange_Cycle);
 	}
 
@@ -50,7 +48,6 @@ public:
 		chkDontCycle.SetState(iTrayIcon == SETTING_TRAYICON_SINGLE);
 
 		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DISABLEBLINK, g_plugin.getByte("DisableTrayFlash", 0) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
@@ -72,9 +69,6 @@ public:
 
 		if (CB_ERR == (int)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0))
 			SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_SETCURSEL, 0, 0);
-		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(m_hwnd, IDC_BLINKTIME), 0);   // set buddy
-		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
-		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("IconFlashTime", 550), 0));
 		return true;
 	}
 
@@ -87,8 +81,6 @@ public:
 		g_plugin.setByte("AlwaysMulti", (uint8_t)!IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
 		g_plugin.setByte("TrayIcon", iTrayIcon);
 		g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setWord("IconFlashTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setByte("DisableTrayFlash", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
 
 		int cur = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
 		PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cur, 0);
@@ -109,14 +101,6 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CYCLETIME), chkCycle.IsChecked());
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CYCLETIMESPIN), chkCycle.IsChecked());
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ALWAYSMULTI), chkMultiTray.IsChecked());
-	}
-
-	void onChange_Blink(CCtrlCheck *pCheck)
-	{
-		bool bEnabled = !pCheck->IsChecked();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKTIME), bEnabled);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKSPIN), bEnabled);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_STMSDELAY), bEnabled);
 	}
 };
 
