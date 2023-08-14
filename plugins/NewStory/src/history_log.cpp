@@ -3,6 +3,7 @@
 class CNewStoryLogWindow : public CSimpleLogWindow
 {
 	HWND m_hwnd = nullptr;
+	NewstoryListData *m_histCtrl;
 
 public:
 	CNewStoryLogWindow(CMsgDialog &pDlg) :
@@ -19,6 +20,7 @@ public:
 			0, 0, rc.left - rc.right, rc.bottom - rc.top, m_pDlg.GetHwnd(), 0, m_pDlg.GetInst(), 0);
 
 		SendMessage(m_hwnd, NSM_SET_SRMM, 0, (LPARAM)&m_pDlg);
+		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 	}
 
 	void Detach() override
@@ -37,7 +39,7 @@ public:
 
 	void Clear() override
 	{
-		SendMessage(m_hwnd, NSM_CLEAR, 0, 0);
+		m_histCtrl->Clear();
 	}
 
 	HWND GetHwnd() override
@@ -60,13 +62,12 @@ public:
 		if (!bAppend)
 			Clear();
 
-		ADDEVENTS tmp = { m_pDlg.m_hContact, hDbEventFirst, count };
-		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
+		m_histCtrl->AddEvent(m_pDlg.m_hContact, hDbEventFirst, count);
 	}
 
 	void LogChatEvent(const LOGINFO &lin) override
 	{
-		SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)&lin);
+		m_histCtrl->AddChatEvent(m_pDlg.getChat(), &lin);
 	}
 
 	void Resize() override

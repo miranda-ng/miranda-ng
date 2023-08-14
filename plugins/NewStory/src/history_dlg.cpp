@@ -104,6 +104,9 @@ class CHistoryDlg : public CDlgBase
 	// main controls
 	HWND m_hwndTimeTree;
 
+	CCtrlBase m_histWindow;
+	NewstoryListData *m_histCtrl;
+
 	// searchbar
 	HWND m_hwndBtnCloseSearch;
 	// statusbar
@@ -127,7 +130,7 @@ class CHistoryDlg : public CDlgBase
 			return;
 
 		// clear messages array first
-		m_histControl.SendMsg(NSM_CLEAR, 0, 0);
+		m_histCtrl->Clear();
 
 		CharLowerW(wszPattern);
 		DoSearchContact(0, wszPattern);
@@ -135,7 +138,7 @@ class CHistoryDlg : public CDlgBase
 			DoSearchContact(hContact, wszPattern);
 
 		qsort(m_arResults.getArray(), m_arResults.getCount(), sizeof(void *), stubSortResults);
-		m_histControl.SendMsg(NSM_ADDRESULTS, WPARAM(&m_arResults), 0);
+		m_histCtrl->AddResults(m_arResults);
 		m_arResults.destroy();
 
 		TimeTreeBuild();
@@ -226,7 +229,7 @@ class CHistoryDlg : public CDlgBase
 			return;
 
 		m_timeTree.DeleteAllItems();
-		auto *pArray = (HistoryArray *)m_histControl.SendMsg(NSM_GETARRAY, 0, 0);
+		auto *pArray = (HistoryArray *)m_histWindow.SendMsg(NSM_GETARRAY, 0, 0);
 		int numItems = pArray->getCount();
 
 		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
@@ -277,7 +280,6 @@ class CHistoryDlg : public CDlgBase
 		m_timeTree.SelectItem(root);
 	}
 
-	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
 	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete, btnTimeTree;
@@ -289,7 +291,7 @@ public:
 		m_arResults(10000),
 		m_hContact(_hContact),
 		m_timeTree(this, IDC_TIMETREEVIEW),
-		m_histControl(this, IDC_HISTORYCONTROL),
+		m_histWindow(this, IDC_HISTORYCONTROL),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(IDI_COPY), LPGEN("Copy")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(IDI_EXPORT), LPGEN("Export...")),
@@ -432,14 +434,15 @@ public:
 		ShowHideControls();
 		UpdateTitle();
 
+		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_histWindow.GetHwnd(), GWLP_USERDATA);
+
 		if (m_hContact != INVALID_CONTACT_ID) {
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 
-			ADDEVENTS tmp = { m_hContact, 0, -1 };
-			m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
+			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
 			TimeTreeBuild();
-			SetFocus(m_histControl.GetHwnd());
+			SetFocus(m_histWindow.GetHwnd());
 		}
 		else {
 			btnSendMsg.Disable();
@@ -450,8 +453,8 @@ public:
 			m_dwOptions |= WND_OPT_SEARCHBAR;
 		}
 
-		m_histControl.SendMsg(NSM_SET_CONTACT, m_hContact, 0);
-		m_histControl.SendMsg(NSM_SEEKEND, 0, 0);
+		m_histWindow.SendMsg(NSM_SET_CONTACT, m_hContact, 0);
+		m_histWindow.SendMsg(NSM_SEEKEND, 0, 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NEWSTORY));
 
@@ -483,7 +486,7 @@ public:
 				DoGlobalSearch();
 		}
 
-		m_histControl.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
+		m_histWindow.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
 		return false;
 	}
 
@@ -614,7 +617,7 @@ public:
 				SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
-		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
+		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0,
 			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
 			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
 			SWP_NOZORDER | SWP_NOACTIVATE);
@@ -651,13 +654,13 @@ public:
 
 	void onClick_Copy(CCtrlButton *)
 	{
-		m_histControl.SendMsg(NSM_COPY, 0, 0);
+		m_histWindow.SendMsg(NSM_COPY, 0, 0);
 	}
 
 	void onClick_Delete(CCtrlButton *)
 	{
 		CallService(MS_HISTORY_EMPTY, m_hContact, 0);
-		m_histControl.SendMsg(NSM_CLEAR, 0, 0);
+		m_histCtrl->Clear();
 
 		UpdateTitle();
 		TimeTreeBuild();
@@ -814,7 +817,7 @@ public:
 
 	void onClick_FindPrev(CCtrlButton *)
 	{
-		m_histControl.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
+		m_histWindow.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
 	}
 
 	void onClick_Message(CCtrlButton *)
@@ -877,7 +880,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if ((msg >= NSM_FIRST) && (msg < NSM_LAST)) {
-			LPARAM result = m_histControl.SendMsg(msg, wParam, lParam);
+			LPARAM result = m_histWindow.SendMsg(msg, wParam, lParam);
 			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, result);
 			return result;
 		}
@@ -981,7 +984,7 @@ public:
 
 		case WM_USER + 0x600:
 			if (wParam)
-				m_histControl.SendMsg(NSM_SEEKTIME, wParam, 0);
+				m_histWindow.SendMsg(NSM_SEEKTIME, wParam, 0);
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);

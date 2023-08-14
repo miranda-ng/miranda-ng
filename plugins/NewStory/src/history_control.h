@@ -3,13 +3,6 @@
 
 #define NEWSTORYLIST_CLASS "NewstoryList"
 
-struct ADDEVENTS
-{
-	MCONTACT hContact;
-	MEVENT hFirstEVent;
-	int eventCount;
-};
-
 enum
 {
 	NSM_FIRST = WM_USER + 100,
@@ -18,14 +11,6 @@ enum
 	// lParam = iLast item
 	// result = number of total selected items
 	NSM_SELECTITEMS = NSM_FIRST,
-
-	// add one or more events
-	NSM_ADDEVENTS,
-	NSM_ADDCHATEVENT,
-	NSM_ADDRESULTS,
-
-	// clear log
-	NSM_CLEAR,
 
 	// result = id
 	NSM_GETCARET,
@@ -92,8 +77,12 @@ struct NewstoryListData : public MZeroedObject
 	void      OnResize(int newWidth);
 	void      OnTimer(CTimer *pTimer);
 
+	void      AddChatEvent(SESSION_INFO *si, const LOGINFO *lin);
+	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount);
+	void      AddResults(const OBJLIST<SearchResult> &results);
 	void      AddSelection(int iFirst, int iLast);
 	void      BeginEditItem(int index, bool bReadOnly);
+	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      DeleteItems(void);
 	void      EndEditItem(bool bAccept);

@@ -333,7 +333,7 @@ void HistoryArray::clear()
 	iLastPageCounter = 0;
 }
 
-void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
+void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
 	if (si == nullptr)
 		return;
@@ -406,12 +406,12 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	return true;
 }
 
-void HistoryArray::addResults(OBJLIST<SearchResult> *pArray)
+void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
 {
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
-	for (auto &it : *pArray) {
+	for (auto &it : pArray) {
 		auto &p = allocateItem();
 		p.hContact = it->hContact;
 		p.hEvent = it->hEvent;

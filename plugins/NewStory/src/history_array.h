@@ -127,8 +127,8 @@ public:
 	~HistoryArray();
 
 	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
-	void addChatEvent(SESSION_INFO *si, LOGINFO *pEvent);
-	void addResults(OBJLIST<SearchResult> *pArray);
+	void addChatEvent(SESSION_INFO *si, const LOGINFO *pEvent);
+	void addResults(const OBJLIST<SearchResult> &pArray);
 	void clear();
 	int  find(MEVENT hEvent);
 	int  find(int id, int dir, const Filter &filter);

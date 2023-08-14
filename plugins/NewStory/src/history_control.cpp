@@ -77,6 +77,30 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
+void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
+{
+	items.addChatEvent(si, lin);
+	totalCount++;
+	hasData = true;
+	ScheduleDraw();
+}
+
+void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
+{
+	items.addEvent(hContact, hFirstEvent, iCount);
+	totalCount = items.getCount();
+	hasData = true;
+	ScheduleDraw();
+}
+
+void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
+{
+	items.addResults(results);
+	totalCount = items.getCount();
+	hasData = true;
+	ScheduleDraw();
+}
+
 void NewstoryListData::AddSelection(int iFirst, int iLast)
 {
 	int start = min(totalCount - 1, iFirst);
@@ -133,6 +157,13 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
+}
+
+void NewstoryListData::Clear()
+{
+	items.clear();
+	totalCount = 0;
+	InvalidateRect(hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ClearSelection(int iFirst, int iLast)
@@ -618,38 +649,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
 		break;
 
-		// History list control messages
-	case NSM_ADDEVENTS:
-		if (auto *p = (ADDEVENTS *)wParam) {
-			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
-			data->totalCount = data->items.getCount();
-		}
-		data->hasData = true;
-		data->ScheduleDraw();
-		break;
-
-	case NSM_ADDCHATEVENT:
-		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
-		data->totalCount++;
-		data->hasData = true;
-		data->ScheduleDraw();
-		break;
-
-	case NSM_ADDRESULTS:
-		if (auto *pResults = (OBJLIST<SearchResult>*)wParam) {
-			data->items.addResults(pResults);
-			data->totalCount = data->items.getCount();
-			data->hasData = true;
-			data->ScheduleDraw();
-		}
-		break;
-
-	case NSM_CLEAR:
-		data->items.clear();
-		data->totalCount = 0;
-		InvalidateRect(hwnd, 0, FALSE);
-		break;
-
+	// History list control messages
 	case NSM_GETARRAY:
 		return (LRESULT)&data->items;
 
