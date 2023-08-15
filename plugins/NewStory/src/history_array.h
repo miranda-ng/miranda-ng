@@ -36,7 +36,7 @@ struct ItemData
 
 	void load(bool bFullLoad);
 	bool isEqual(const ItemData *p) const;
-	bool isLink(POINT pt, CMStringW &url) const;
+	bool isLink(POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(int idx) const;
 
 	int getTemplate() const;

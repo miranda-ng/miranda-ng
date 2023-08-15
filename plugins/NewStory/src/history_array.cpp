@@ -106,7 +106,7 @@ void ItemData::checkCreate(HWND hwnd)
 	}
 }
 
-bool ItemData::isLink(POINT pt, CMStringW &url) const
+bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 {
 	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
 	if (cp == -1)
@@ -115,25 +115,27 @@ bool ItemData::isLink(POINT pt, CMStringW &url) const
 	if (!isLinkChar(cp))
 		return false;
 
-	CHARRANGE sel = { cp, cp };
-	for (sel.cpMin = cp; sel.cpMin >= 0; sel.cpMin--)
-		if (!isLinkChar(sel.cpMin))
-			break;
+	if (pwszUrl) {
+		CHARRANGE sel = { cp, cp };
+		for (sel.cpMin = cp; sel.cpMin >= 0; sel.cpMin--)
+			if (!isLinkChar(sel.cpMin))
+				break;
 
-	for (sel.cpMax = cp + 1; isLinkChar(sel.cpMax); sel.cpMax++)
-		;
+		for (sel.cpMax = cp + 1; isLinkChar(sel.cpMax); sel.cpMax++)
+			;
 
-	if (sel.cpMax > sel.cpMin) {
-		url.Truncate(sel.cpMax - sel.cpMin + 1);
+		if (sel.cpMax > sel.cpMin) {
+			pwszUrl->Truncate(sel.cpMax - sel.cpMin + 1);
 
-		TEXTRANGE tr = { 0 };
-		tr.chrg = sel;
-		tr.lpstrText = url.GetBuffer();
-		int iRes = MTextSendMessage(0, data, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-		if (iRes > 0)
-			url.Trim();
-		else
-			url.Empty();
+			TEXTRANGE tr = { 0 };
+			tr.chrg = sel;
+			tr.lpstrText = pwszUrl->GetBuffer();
+			int iRes = MTextSendMessage(0, data, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+			if (iRes > 0)
+				pwszUrl->Trim();
+			else
+				pwszUrl->Empty();
+		}
 	}
 	return true;
 }

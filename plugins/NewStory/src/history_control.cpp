@@ -986,7 +986,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				pt.y -= pItem->savedTop;
 
 				CMStringW wszUrl;
-				if (pItem->isLink(pt, wszUrl)) {
+				if (pItem->isLink(pt, &wszUrl)) {
 					Utils_OpenUrlW(wszUrl);
 					return 0;
 				}
@@ -1036,6 +1036,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx >= 0) {
 			auto *pItem = data->LoadItem(idx);
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
+
+			HCURSOR hOldCursor = GetCursor();
+			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
+			if (hOldCursor != hNewCursor)
+				SetCursor(hNewCursor);
 
 			if (data->selStart != -1) {
 				data->SetSelection(data->selStart, idx);
