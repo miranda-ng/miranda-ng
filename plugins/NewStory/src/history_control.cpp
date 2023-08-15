@@ -1081,14 +1081,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				data->ScrollTop();
 				break;
 			case SB_THUMBTRACK:
-				{
-					SCROLLINFO si;
-					si.cbSize = sizeof(si);
-					si.fMask = SIF_TRACKPOS | SIF_RANGE;
-					GetScrollInfo(hwnd, SB_VERT, &si);
-					data->SetPos(data->totalCount * si.nTrackPos / si.nMax);
-					data->FixScrollPosition();
-				}
+				SCROLLINFO si;
+				si.cbSize = sizeof(si);
+				si.fMask = SIF_TRACKPOS | SIF_RANGE;
+				GetScrollInfo(hwnd, SB_VERT, &si);
+				data->EnsureVisible(data->totalCount * si.nTrackPos / si.nMax);
 				break;
 
 			default:
