@@ -92,9 +92,9 @@ struct CAutoPopup : public MAsyncObject
 				pDlg = GetContainer()->AddPage(hContact, nullptr, true);
 				pContainer = pDlg->getOwner();
 			}
+			else Srmm_AddEvent(hContact, hDbEvent);
 
-			Skin_PlaySound("AlertMsg");
-			Srmm_AddEvent(hContact, hDbEvent);
+			Skin_PlaySound("AlertMsg");			
 		}
 		else {
 			pContainer = pDlg->getOwner();
