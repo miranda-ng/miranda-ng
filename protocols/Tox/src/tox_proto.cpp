@@ -149,13 +149,6 @@ HANDLE CToxProto::SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppsz
 	return OnSendFile(m_tox, hContact, msg, ppszFiles);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CToxProto::InitThread(void *)
-{
-	InitToxCore(m_tox);
-}
-
 int CToxProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
@@ -200,22 +193,6 @@ int CToxProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		m_retriesCount = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
-
-		Tox_Options *options = GetToxOptions();
-
-		TOX_ERR_NEW error;
-		m_tox = tox_new(options, &error);
-		tox_options_free(options);
-		if (error != TOX_ERR_NEW_OK) {
-			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
-			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
-			ShowNotification(TranslateT("Unable to initialize Tox core"), ToxErrorToString(error), MB_ICONERROR);
-			return 0;
-		}
-
-		m_impl.timerPoll.Start(TOX_DEFAULT_INTERVAL);
-		m_impl.timerCheck.Start(TOX_CHECKING_INTERVAL);
 
 		ForkThread(&CToxProto::InitThread);
 		return 0;

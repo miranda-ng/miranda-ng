@@ -96,6 +96,7 @@ private:
 	ULONG hMessageProcess;
 
 	int m_retriesCount;
+	int m_prevToxStatus = TOX_CONNECTION_NONE;
 
 	static HANDLE hProfileFolderPath;
 
@@ -133,8 +134,8 @@ private:
 	bool IsOnline();
 	void __cdecl InitThread(void *);
 
-	void TryConnect();
-	void CheckConnection();
+	void OnLoggedIn();
+	void OnLoggedFail();
 
 	void OnToxCheck();
 	void OnToxPoll();

@@ -121,7 +121,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	tox_options_default(options);
 	Tox *tox = tox_new(options, nullptr);
 	m_proto->InitToxCore(tox);
-	m_proto->UninitToxCore(tox);
+	m_proto->SaveToxProfile(tox);
 	tox_kill(tox);
 
 	m_toxAddress.Enable();

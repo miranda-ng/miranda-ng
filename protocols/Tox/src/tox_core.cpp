@@ -46,6 +46,32 @@ Tox_Options* CToxProto::GetToxOptions()
 	return nullptr;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CToxProto::InitThread(void *)
+{
+	Tox_Options *options = GetToxOptions();
+
+	TOX_ERR_NEW error;
+	m_tox = tox_new(options, &error);
+	tox_options_free(options);
+	if (error != TOX_ERR_NEW_OK) {
+		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
+		ShowNotification(TranslateT("Unable to initialize Tox core"), ToxErrorToString(error), MB_ICONERROR);
+		return;
+	}
+
+	InitToxCore(m_tox);
+	BootstrapNodes(m_tox);
+
+	m_prevToxStatus = TOX_CONNECTION_NONE;
+	m_impl.timerCheck.StartSafe(TOX_CHECKING_INTERVAL);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CToxProto::InitToxCore(Tox *tox)
 {
 	debugLogA(__FUNCTION__": initializing tox core");
@@ -57,11 +83,12 @@ void CToxProto::InitToxCore(Tox *tox)
 	tox_callback_friend_message(tox, OnFriendMessage);
 	tox_callback_friend_read_receipt(tox, OnReadReceipt);
 	tox_callback_friend_typing(tox, OnTypingChanged);
-	//
+	
 	tox_callback_friend_name(tox, OnFriendNameChange);
 	tox_callback_friend_status_message(tox, OnStatusMessageChanged);
 	tox_callback_friend_status(tox, OnUserStatusChanged);
 	tox_callback_friend_connection_status(tox, OnConnectionStatusChanged);
+
 	// transfers
 	tox_callback_file_recv_control(tox, OnFileRequest);
 	tox_callback_file_recv(tox, OnFriendFile);
@@ -92,8 +119,6 @@ void CToxProto::InitToxCore(Tox *tox)
 	tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, mir_strlen(statusMessage), &setInfoError);
 	if (setInfoError != TOX_ERR_SET_INFO_OK)
 		debugLogA(__FUNCTION__": failed to set self status message (%d)", setInfoError);
-
-	BootstrapNodes(tox);
 }
 
 void CToxProto::UninitToxCore(Tox *tox)
