@@ -76,25 +76,35 @@ static IconItem icons[] =
 	{ LPGEN("Help"),              "varhelp",   IDI_VARHELP    }
 };
 
-static int evtEventAdded(WPARAM hContact, LPARAM lParam)
+static int SmartSendEvent(int iEvent, MCONTACT hContact, LPARAM lParam)
 {
 	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_ADDEVENT, hContact, lParam);
+		SendMessage(hwnd, iEvent, hContact, lParam);
+
+	if (db_mc_isMeta(hContact)) {
+		// Send a message to a real contact too
+		MCONTACT cc = db_event_getContact(lParam);
+		if (cc != hContact)
+			if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, cc))
+				SendMessage(hwnd, iEvent, cc, lParam);
+	}
+
 	return 0;
+}
+
+static int evtEventAdded(WPARAM hContact, LPARAM lParam)
+{
+	return SmartSendEvent(UM_ADDEVENT, hContact, lParam);
 }
 
 static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
 {
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_REMOVEEVENT, hContact, lParam);
-	return 0;
+	return SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
 }
 
 static int evtEventEdited(WPARAM hContact, LPARAM lParam)
 {
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, UM_EDITEVENT, hContact, lParam);
-	return 0;
+	return SmartSendEvent(UM_EDITEVENT, hContact, lParam);
 }
 
 static int evtModulesLoaded(WPARAM, LPARAM)

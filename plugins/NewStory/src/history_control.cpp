@@ -781,6 +781,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
+	case UM_ADDEVENT:
+		if (data->pMsgDlg == nullptr)
+			data->AddEvent(wParam, lParam, 1);
+		break;
+
 	case UM_EDITEVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
