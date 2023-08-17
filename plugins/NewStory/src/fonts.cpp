@@ -43,6 +43,9 @@ int evtFontsChanged(WPARAM, LPARAM)
 	for (auto &it : g_colorTable)
 		it.cl = Colour_Get(MODULENAME, it.szName);
 
+	DeleteObject(g_plugin.hBackBrush);
+	g_plugin.hBackBrush = CreateSolidBrush(g_colorTable[COLOR_SELBACK].cl);
+
 	for (auto &it : g_fontTable) {
 		it.cl = (COLORREF)Font_Get(MODULENAME, it.szName, &it.lf);
 
@@ -74,6 +77,8 @@ void InitFonts()
 		it.cl = Colour_Get(cid.group, cid.name);
 	}
 
+	g_plugin.hBackBrush = CreateSolidBrush(g_colorTable[COLOR_SELBACK].cl);
+
 	LOGFONT lfDefault;
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
@@ -98,6 +103,8 @@ void InitFonts()
 
 void DestroyFonts()
 {
+	DeleteObject(g_plugin.hBackBrush);
+
 	for (auto &it : g_fontTable)
 		DeleteObject(it.hfnt);
 }

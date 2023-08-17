@@ -1102,6 +1102,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 
+	case WM_CTLCOLORSTATIC:
+	case WM_CTLCOLOREDIT:
+		if (lParam == INT_PTR(data->hwndEditBox)) {
+			SetBkColor((HDC)wParam, g_colorTable[COLOR_SELBACK].cl);
+			return (LRESULT)g_plugin.hBackBrush;
+		}
+		break;
+
 	case WM_DESTROY:
 		WindowList_Add(g_hNewstoryLogs, hwnd);
 		delete data;
