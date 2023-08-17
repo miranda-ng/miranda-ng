@@ -49,7 +49,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -67,6 +67,7 @@ IDI_TOX                 ICON                    "tox.ico"
 IDI_ME                  ICON                    "me.ico"
 
 IDI_COPY                ICON                    "copy.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -108,16 +109,10 @@ BEGIN
     PUSHBUTTON      "Import Tox profile",IDC_PROFILE_IMPORT,191,30,107,13
     PUSHBUTTON      "Copy Tox ID",IDC_CLIPBOARD,81,30,107,13,NOT WS_VISIBLE
     PUSHBUTTON      "Export Tox profile",IDC_PROFILE_EXPORT,191,30,107,13,NOT WS_VISIBLE
-    GROUPBOX        "Connection settings",IDC_STATIC,7,99,296,106
+    GROUPBOX        "Connection settings",IDC_STATIC,7,99,296,68
     CONTROL         "Enable UDP (otherwise force Tox to use TCP)",IDC_ENABLE_UDP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,111,286,10
     CONTROL         "Enable IPv6",IDC_ENABLE_IPV6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,139,286,10
-    LTEXT           "Max connect retries:",IDC_STATIC,12,171,121,8
-    EDITTEXT        IDC_MAXCONNECTRETRIES,133,168,43,14,ES_NUMBER
-    CONTROL         "",IDC_MAXCONNECTRETRIESSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,166,168,10,14
-    EDITTEXT        IDC_MAXRECONNECTRETRIES,133,184,43,14,ES_NUMBER
-    CONTROL         "",IDC_MAXRECONNECTRETRIESSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,166,184,10,14
-    LTEXT           "Max reconnect retries:",IDC_STATIC,12,186,121,8
     CONTROL         "Enable UDP hole-punching",IDC_ENABLE_HOLEPUNCHING,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,125,274,10
     CONTROL         "Enable local network peer discovery",IDC_ENABLE_LOCALDISCOVERY,
@@ -333,7 +328,7 @@ BEGIN
     0
 END
 
-#endif    // English resources
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

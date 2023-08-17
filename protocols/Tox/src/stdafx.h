@@ -53,9 +53,6 @@ class CToxProto;
 #define TOX_DEFAULT_INTERVAL 50
 #define TOX_CHECKING_INTERVAL 1000
 
-#define TOX_MAX_CONNECT_RETRIES 10
-#define TOX_MAX_RECONNECT_RETRIES 10
-
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
 #define TOX_JSON_PATH L"%miranda_userdata%\\tox.json"
 

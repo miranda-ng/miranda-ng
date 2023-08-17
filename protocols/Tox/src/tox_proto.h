@@ -14,11 +14,7 @@ class CToxProto : public PROTO<CToxProto>
 		friend class CToxProto;
 
 		CToxProto &m_proto;
-		CTimer timerCheck, timerPoll;
-
-		void OnCheck(CTimer *) {
-			m_proto.OnToxCheck();
-		}
+		CTimer timerPoll;
 
 		void OnPoll(CTimer *) {
 			m_proto.OnToxPoll();
@@ -26,11 +22,9 @@ class CToxProto : public PROTO<CToxProto>
 
 		Impl(CToxProto &ppro) :
 			m_proto(ppro),
-			timerPoll(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			timerCheck(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+			timerPoll(Miranda_GetSystemWindow(), UINT_PTR(this))
 		{
 			timerPoll.OnEvent = Callback(this, &Impl::OnPoll);
-			timerCheck.OnEvent = Callback(this, &Impl::OnCheck);
 		}
 	}
 	m_impl;
@@ -95,9 +89,6 @@ private:
 	CTransferList transfers;
 	ULONG hMessageProcess;
 
-	int m_retriesCount;
-	int m_prevToxStatus = TOX_CONNECTION_NONE;
-
 	static HANDLE hProfileFolderPath;
 
 	// tox profile
@@ -137,8 +128,8 @@ private:
 	void OnLoggedIn();
 	void OnLoggedFail();
 
-	void OnToxCheck();
 	void OnToxPoll();
+	static void OnConnectionStatus(Tox *, Tox_Connection iNewStatus, void *pUserData);
 
 	// accounts
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);

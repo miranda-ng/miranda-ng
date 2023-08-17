@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
+// Used by W:\miranda-ng\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
 #define IDI_ME                          101
@@ -44,10 +44,6 @@
 #define IDC_PASSWORD_CHANGE2            1020
 #define IDC_PASSWORD_CREATE             1020
 #define IDC_UPDATENODES                 1021
-#define IDC_MAXCONNECTRETRIES           1025
-#define IDC_MAXRECONNECTRETRIES         1026
-#define IDC_MAXCONNECTRETRIESSPIN       1027
-#define IDC_MAXRECONNECTRETRIESSPIN     1028
 #define IDC_PASSWORD_NEW                1029
 #define IDC_PASSWORD_CONFIRM            1030
 #define IDC_PASSWORD_VALIDATION         1031

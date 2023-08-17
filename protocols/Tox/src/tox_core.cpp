@@ -66,8 +66,7 @@ void CToxProto::InitThread(void *)
 	InitToxCore(m_tox);
 	BootstrapNodes(m_tox);
 
-	m_prevToxStatus = TOX_CONNECTION_NONE;
-	m_impl.timerCheck.StartSafe(TOX_CHECKING_INTERVAL);
+	m_impl.timerPoll.StartSafe(TOX_DEFAULT_INTERVAL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +77,8 @@ void CToxProto::InitToxCore(Tox *tox)
 
 	if (tox == nullptr)
 		return;
+
+	tox_callback_self_connection_status(tox, OnConnectionStatus);
 
 	tox_callback_friend_request(tox, OnFriendRequest);
 	tox_callback_friend_message(tox, OnFriendMessage);

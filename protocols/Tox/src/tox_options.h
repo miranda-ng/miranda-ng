@@ -24,9 +24,6 @@ private:
 	CCtrlCheck m_enableIPv6;
 	CCtrlCheck m_enableLocalDiscovery;
 
-	CCtrlSpin m_maxConnectRetries;
-	CCtrlSpin m_maxReconnectRetries;
-
 protected:
 	bool OnInitDialog() override;
 

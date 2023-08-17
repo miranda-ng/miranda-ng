@@ -164,7 +164,6 @@ int CToxProto::SetStatus(int iNewStatus)
 	// logout
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_impl.timerPoll.Stop();
-		m_impl.timerCheck.Stop();
 
 		if (m_tox) {
 			UninitToxCore(m_tox);
@@ -191,8 +190,6 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline()) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-		m_retriesCount = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
 
 		ForkThread(&CToxProto::InitThread);
 		return 0;

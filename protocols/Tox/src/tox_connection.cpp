@@ -19,49 +19,26 @@ void CToxProto::OnLoggedIn()
 
 	UpdateStatusMenu(NULL, NULL);
 
-	m_impl.timerPoll.Start(TOX_DEFAULT_INTERVAL);
-
 	LoadFriendList(m_tox);
 }
 
 void CToxProto::OnLoggedFail()
 {
-	int maxConnectRetries = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
-
-	if (m_iStatus > ID_STATUS_OFFLINE) {
-		if (m_retriesCount == maxConnectRetries) {
-			m_retriesCount--;
-			debugLogA(__FUNCTION__": lost connection with DHT");
-			return;
-		}
-
-		if (!(--m_retriesCount)) {
-			debugLogA(__FUNCTION__": disconnected from DHT");
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-	}
-	else {
-		if (m_iStatus++ > maxConnectRetries) {
-			SetStatus(ID_STATUS_OFFLINE);
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
-			debugLogA(__FUNCTION__": failed to connect to DHT");
-		}
-	}
+	SetStatus(ID_STATUS_OFFLINE);
+	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
+	debugLogA(__FUNCTION__": failed to connect to DHT");
 }
 
-void CToxProto::OnToxCheck()
+void CToxProto::OnConnectionStatus(Tox*, Tox_Connection iNewStatus, void *pUserData)
 {
-	if (m_tox == nullptr)
+	auto *ppro = (CToxProto *)pUserData;
+	if (ppro->m_tox == nullptr)
 		return;
 
-	int iStatus = tox_self_get_connection_status(m_tox);
-	if (iStatus == TOX_CONNECTION_NONE)
-		OnLoggedFail();
-	else if 	(iStatus != m_prevToxStatus)
-		OnLoggedIn();
-
-	m_prevToxStatus = iStatus;
+	if (iNewStatus == TOX_CONNECTION_NONE)
+		ppro->OnLoggedFail();
+	else
+		ppro->OnLoggedIn();
 }
 
 void CToxProto::OnToxPoll()

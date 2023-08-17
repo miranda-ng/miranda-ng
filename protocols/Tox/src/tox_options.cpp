@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
-	: CToxDlgBase(proto, idDialog),
+CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog) :
+	CToxDlgBase(proto, idDialog),
 	m_toxAddress(this, IDC_TOXID),
 	m_toxAddressCopy(this, IDC_CLIPBOARD),
 	m_profileCreate(this, IDC_PROFILE_NEW),
@@ -14,9 +14,7 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableUdpHolePunching(this, IDC_ENABLE_HOLEPUNCHING),
 	m_enableIPv6(this, IDC_ENABLE_IPV6),
-	m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY),
-	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIESSPIN, 255, 1),
-	m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIESSPIN, 255, 1)
+	m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY)
 {
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
 	CreateLink(m_nickname, "Nick", L"");
@@ -25,11 +23,6 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	CreateLink(m_enableUdpHolePunching, "EnableUDPHolePunching", DBVT_BYTE, TRUE);
 	CreateLink(m_enableIPv6, "EnableIPv6", DBVT_BYTE, FALSE);
 	CreateLink(m_enableLocalDiscovery, "EnableLocalDiscovery", DBVT_BYTE, FALSE);
-
-	if (idDialog == IDD_OPTIONS_MAIN) {
-		CreateLink(m_maxConnectRetries, "MaxConnectRetries", DBVT_BYTE, TOX_MAX_CONNECT_RETRIES);
-		CreateLink(m_maxReconnectRetries, "MaxReconnectRetries", DBVT_BYTE, TOX_MAX_RECONNECT_RETRIES);
-	}
 
 	m_passwordCreate.OnClick = Callback(this, &CToxOptionsMain::PasswordCreate_OnClick);
 	m_passwordChange.OnClick = Callback(this, &CToxOptionsMain::PasswordChange_OnClick);
