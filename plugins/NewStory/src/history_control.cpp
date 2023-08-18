@@ -84,7 +84,9 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
-	EnsureVisible(totalCount - 1);
+	if (bWasAtBottom)
+		EnsureVisible(totalCount - 1);
+
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
@@ -128,6 +130,9 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 
 bool NewstoryListData::AtBottom(void) const
 {
+	if (cachedMaxDrawnItem == -1)
+		return true;
+
 	if (cachedMaxDrawnItem > totalCount)
 		return true;
 
@@ -475,6 +480,7 @@ void NewstoryListData::RecalcScrollBar()
 
 void NewstoryListData::ScheduleDraw()
 {
+	bWasAtBottom = AtBottom();
 	redrawTimer.Stop();
 	redrawTimer.Start(30);
 }
