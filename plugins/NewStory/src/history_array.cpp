@@ -117,12 +117,11 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 
 	if (pwszUrl) {
 		CHARRANGE sel = { cp, cp };
-		for (sel.cpMin = cp; sel.cpMin >= 0; sel.cpMin--)
-			if (!isLinkChar(sel.cpMin))
-				break;
-
-		for (sel.cpMax = cp + 1; isLinkChar(sel.cpMax); sel.cpMax++)
-			;
+		while (isLinkChar(sel.cpMin-1))
+			sel.cpMin--;
+	
+		while (isLinkChar(sel.cpMax))
+			sel.cpMax++;
 
 		if (sel.cpMax > sel.cpMin) {
 			pwszUrl->Truncate(sel.cpMax - sel.cpMin + 1);
@@ -142,6 +141,9 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 
 bool ItemData::isLinkChar(int idx) const
 {
+	if (idx < 0)
+		return false;
+
 	CHARRANGE sel = { idx, idx + 1 };
 	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&sel));
 
