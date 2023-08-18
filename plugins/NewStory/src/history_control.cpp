@@ -92,26 +92,23 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
+	ScheduleDraw();
 	items.addChatEvent(si, lin);
 	totalCount++;
-	hasData = true;
-	ScheduleDraw();
 }
 
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
+	ScheduleDraw();
 	items.addEvent(hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
-	hasData = true;
-	ScheduleDraw();
 }
 
 void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 {
+	ScheduleDraw();
 	items.addResults(results);
 	totalCount = items.getCount();
-	hasData = true;
-	ScheduleDraw();
 }
 
 void NewstoryListData::AddSelection(int iFirst, int iLast)
@@ -482,6 +479,8 @@ void NewstoryListData::RecalcScrollBar()
 void NewstoryListData::ScheduleDraw()
 {
 	bWasAtBottom = AtBottom();
+	hasData = true;
+
 	redrawTimer.Stop();
 	redrawTimer.Start(30);
 }
