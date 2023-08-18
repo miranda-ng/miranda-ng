@@ -408,6 +408,9 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	auto *item = LoadItem(index);
 	item->savedTop = top;
 
+	// remove any selections that might be created by the BBCodes parser
+	MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
+
 	//	LOGFONT lfText;
 	COLORREF clText, clBack, clLine;
 	int fontid, colorid;
