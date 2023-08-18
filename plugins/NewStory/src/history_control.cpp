@@ -383,8 +383,7 @@ int NewstoryListData::GetItemHeight(int index)
 	RECT rc; GetClientRect(hwnd, &rc);
 	int width = rc.right - rc.left;
 
-	SIZE sz;
-	sz.cx = width - 6;
+	SIZE sz = { width - 6, 0 };
 	MTextMeasure(hdc, &sz, (HANDLE)item->data);
 
 	SelectObject(hdc, hOldFont);

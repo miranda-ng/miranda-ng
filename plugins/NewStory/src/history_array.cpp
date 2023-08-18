@@ -313,6 +313,7 @@ void ItemData::setText()
 		data = MTextCreateEx(htuLog, this->wtext, MTEXT_FLG_WCHAR | MTEXT_FLG_RTF);
 	else
 		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
+	savedHeight = -1;
 }
 
 // Array
