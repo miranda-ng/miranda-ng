@@ -770,7 +770,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						res.Append(_A2T(blob.getUrl()));
 					res.Append(L"\r\n");
 				}
-				else res.Append(ptrW(TplFormatString(p->getCopyTemplate(), p->hContact, p)));
+				else {
+					ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
+					RemoveBbcodes(wszText);
+					res.Append(wszText);
+				}
 			}
 
 			Utils_ClipboardCopy(res);
