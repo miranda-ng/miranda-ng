@@ -424,6 +424,8 @@ void FreeMsgLogBitmaps(void)
 void CSimpleLogWindow::LogChatEvents(const struct LOGINFO *lin)
 {
 	if (lin == nullptr) {
+		Clear();
+
 		for (auto &it : m_pDlg.getChat()->arEvents)
 			if (m_pDlg.IsSuitableEvent(*it))
 				LogChatEvent(*it);
