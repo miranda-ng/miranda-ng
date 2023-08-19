@@ -218,7 +218,7 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	// %S: my nick (not for messages)
 	char* proto = Proto_GetBaseAccountName(hContact);
 	ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
-	vars->SetVar('S', nick, false);
+	vars->SetVar('S', nick, true);
 }
 
 void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
@@ -230,7 +230,7 @@ void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	wchar_t buf[20];
 	// %c: event count
 	mir_snwprintf(buf, L"%d", db_event_count(hContact));
-	vars->SetVar('c', buf, false);
+	vars->SetVar('c', buf, true);
 }
 
 void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
@@ -241,7 +241,7 @@ void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	// %c: event count
 	wchar_t  buf[20];
 	mir_snwprintf(buf, L"%d", db_event_count(hContact));
-	vars->SetVar('c', buf, false);
+	vars->SetVar('c', buf, true);
 }
 
 void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
