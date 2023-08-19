@@ -478,7 +478,6 @@ void NewstoryListData::RecalcScrollBar()
 void NewstoryListData::ScheduleDraw()
 {
 	bWasAtBottom = AtBottom();
-	hasData = true;
 
 	redrawTimer.Stop();
 	redrawTimer.Start(30);
@@ -828,46 +827,44 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return 1;
 
 	case WM_PAINT:
-		if (data->hasData) {
+		/* we get so many InvalidateRect()'s that there is no point painting,
+		Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
+		we'll just ignore them */
+		if (IsWindowVisible(hwnd)) {
 			PAINTSTRUCT ps;
 			HDC hdcWindow = BeginPaint(hwnd, &ps);
 
-			/* we get so many InvalidateRect()'s that there is no point painting,
-			Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
-			we'll just ignore them */
-			if (IsWindowVisible(hwnd)) {
-				RECT rc;
-				GetClientRect(hwnd, &rc);
+			RECT rc;
+			GetClientRect(hwnd, &rc);
 
-				HDC hdc = CreateCompatibleDC(hdcWindow);
-				HBITMAP hbmSave = (HBITMAP)SelectObject(hdc, CreateCompatibleBitmap(hdcWindow, rc.right - rc.left, rc.bottom - rc.top));
+			HDC hdc = CreateCompatibleDC(hdcWindow);
+			HBITMAP hbmSave = (HBITMAP)SelectObject(hdc, CreateCompatibleBitmap(hdcWindow, rc.right - rc.left, rc.bottom - rc.top));
 
-				int height = rc.bottom - rc.top;
-				int width = rc.right - rc.left;
-				int top = data->scrollTopPixel;
-				idx = data->scrollTopItem;
-				while ((top < height) && (idx < data->totalCount))
-					top += data->PaintItem(hdc, idx++, top, width);
-				data->cachedMaxDrawnItem = idx;
+			int height = rc.bottom - rc.top;
+			int width = rc.right - rc.left;
+			int top = data->scrollTopPixel;
+			idx = data->scrollTopItem;
+			while ((top < height) && (idx < data->totalCount))
+				top += data->PaintItem(hdc, idx++, top, width);
+			data->cachedMaxDrawnItem = idx;
 
-				if (top <= height) {
-					RECT rc2;
-					SetRect(&rc2, 0, top, width, height);
+			if (top <= height) {
+				RECT rc2;
+				SetRect(&rc2, 0, top, width, height);
 
-					HBRUSH hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
-					FillRect(hdc, &rc2, hbr);
-					DeleteObject(hbr);
-				}
-
-				if (g_plugin.bOptVScroll)
-					data->RecalcScrollBar();
-				if (g_plugin.bDrawEdge)
-					DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
-
-				BitBlt(hdcWindow, 0, 0, rc.right, rc.bottom, hdc, 0, 0, SRCCOPY);
-				DeleteObject(SelectObject(hdc, hbmSave));
-				DeleteDC(hdc);
+				HBRUSH hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
+				FillRect(hdc, &rc2, hbr);
+				DeleteObject(hbr);
 			}
+
+			if (g_plugin.bOptVScroll)
+				data->RecalcScrollBar();
+			if (g_plugin.bDrawEdge)
+				DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
+
+			BitBlt(hdcWindow, 0, 0, rc.right, rc.bottom, hdc, 0, 0, SRCCOPY);
+			DeleteObject(SelectObject(hdc, hbmSave));
+			DeleteDC(hdc);
 			EndPaint(hwnd, &ps);
 		}
 		break;
