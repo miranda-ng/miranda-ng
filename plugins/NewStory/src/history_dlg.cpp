@@ -439,6 +439,11 @@ public:
 		if (m_hContact != INVALID_CONTACT_ID) {
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 
+			if (!m_hContact) {
+				btnUserInfo.Disable();
+				btnSendMsg.Disable();
+			}
+
 			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
 			TimeTreeBuild();
