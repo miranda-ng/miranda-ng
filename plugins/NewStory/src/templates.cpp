@@ -251,9 +251,12 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 
 	//  %N: Nickname
 	if (item->dbe.flags & DBEF_SENT) {
-		char *proto = Proto_GetBaseAccountName(item->hContact);
-		ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
-		vars->SetNick(nick, false);
+		if (!item->wszNick) {
+			char *proto = Proto_GetBaseAccountName(item->hContact);
+			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
+			vars->SetNick(nick, false);
+		}
+		else vars->SetNick(item->wszNick, false);
 	}
 	else {
 		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
