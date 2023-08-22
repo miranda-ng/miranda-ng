@@ -84,8 +84,9 @@ int OptionsInitialize(WPARAM, LPARAM);
 enum
 {
 	HOTKEY_BOOKMARK = 1,
-	HOTKEY_SEEK_FORWARD = 2,
-	HOTKEY_SEEK_BACK = 3,
+	HOTKEY_SEARCH = 2,
+	HOTKEY_SEEK_FORWARD = 3,
+	HOTKEY_SEEK_BACK = 4,
 };
 
 struct CMPlugin : public PLUGIN<CMPlugin>

@@ -68,7 +68,7 @@ public:
 		EVENTONLY = 0x100,
 	};
 
-	__forceinline Filter(uint16_t aFlags, wchar_t *wText) :
+	__forceinline Filter(uint16_t aFlags, const wchar_t *wText) :
 		flags(aFlags),
 		text(mir_wstrdup(wText))
 	{

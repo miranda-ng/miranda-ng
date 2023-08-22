@@ -15,14 +15,6 @@ enum
 	// result = id
 	NSM_GETCARET,
 
-	// wParam = text
-	NSM_FINDNEXT,
-	NSM_FINDPREV,
-
-	// wParam = wtext
-	NSM_FINDNEXTW,
-	NSM_FINDPREVW,
-
 	//
 	NSM_COPY,
 	NSM_EXPORT,
@@ -85,6 +77,8 @@ struct NewstoryListData : public MZeroedObject
 	void      DeleteItems(void);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
+	int       FindNext(const wchar_t *pwszText);
+	int       FindPrev(const wchar_t *pwszText);
 	void      FixScrollPosition(bool bForce = false);
 	ItemData* GetItem(int idx);
 	int       GetItemFromPixel(int yPos);

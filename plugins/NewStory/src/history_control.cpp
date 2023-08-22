@@ -18,6 +18,12 @@ void InitHotkeys()
 	hkd.lParam = HOTKEY_BOOKMARK;
 	g_plugin.addHotkey(&hkd);
 
+	hkd.szDescription.a = LPGEN("Search");
+	hkd.pszName = "ns_search";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'S') | HKF_MIRANDA_LOCAL;
+	hkd.lParam = HOTKEY_SEARCH;
+	g_plugin.addHotkey(&hkd);
+
 	hkd.szDescription.a = LPGEN("Search forward");
 	hkd.pszName = "ns_seek_forward";
 	hkd.DefHotKey = HOTKEYCODE(0, VK_F3) | HKF_MIRANDA_LOCAL;
@@ -308,6 +314,32 @@ void NewstoryListData::EnsureVisible(int item)
 		}
 	}
 	FixScrollPosition();
+}
+
+int NewstoryListData::FindNext(const wchar_t *pwszText)
+{
+	int idx = items.FindNext(caret, Filter(Filter::EVENTONLY, pwszText));
+	if (idx == -1 && caret > 0)
+		idx = items.FindNext(-1, Filter(Filter::EVENTONLY, pwszText));
+
+	if (idx >= 0) {
+		SetSelection(idx, idx);
+		SetCaret(idx);
+	}
+	return idx;
+}
+
+int NewstoryListData::FindPrev(const wchar_t *pwszText)
+{
+	int idx = items.FindPrev(caret, Filter(Filter::EVENTONLY, pwszText));
+	if (idx == -1 && caret != totalCount - 1)
+		idx = items.FindPrev(totalCount, Filter(Filter::EVENTONLY, pwszText));
+
+	if (idx >= 0) {
+		SetSelection(idx, idx);
+		SetCaret(idx);
+	}
+	return idx;
 }
 
 void NewstoryListData::FixScrollPosition(bool bForce)
@@ -681,6 +713,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case HOTKEY_SEEK_BACK:
 		PostMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDC_FINDPREV, BN_CLICKED), 1);
 		break;
+	case HOTKEY_SEARCH:
+		PostMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDC_SEARCH, BN_CLICKED), 1);
+		break;
 	case HOTKEY_BOOKMARK:
 		data->ToggleBookmark();
 		return 0;
@@ -707,28 +742,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_GETCARET:
 		return data->caret;
-
-	case NSM_FINDNEXT:
-		idx = data->items.FindNext(data->caret, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
-		if (idx == -1 && data->caret > 0)
-			idx = data->items.FindNext(-1, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
-
-		if (idx >= 0) {
-			data->SetSelection(idx, idx);
-			data->SetCaret(idx);
-		}
-		return idx;
-
-	case NSM_FINDPREV:
-		idx = data->items.FindPrev(data->caret, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
-		if (idx == -1 && data->caret != data->totalCount - 1)
-			idx = data->items.FindPrev(data->totalCount, Filter(Filter::EVENTONLY, (wchar_t *)wParam));
-
-		if (idx >= 0) {
-			data->SetSelection(idx, idx);
-			data->SetCaret(idx);
-		}
-		return idx;
 
 	case NSM_SEEKTIME:
 		{

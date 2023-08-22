@@ -541,7 +541,15 @@ public:
 				DoGlobalSearch();
 		}
 
-		m_histWindow.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
+		int iOldCaret = m_histCtrl->caret;
+		int res = m_histCtrl->FindNext(ptrW(edtSearchText.GetText()));
+		if (res == -1)
+			SetWindowTextW(m_hwndStatus, TranslateT("No more occuurences found"));
+		else if (res < iOldCaret)
+			SetWindowTextW(m_hwndStatus, TranslateT("Passed the end of history"));
+		else
+			SetWindowTextW(m_hwndStatus, L"");
+				
 		return false;
 	}
 
@@ -849,7 +857,14 @@ public:
 
 	void onClick_FindPrev(CCtrlButton *)
 	{
-		m_histWindow.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
+		int iOldCaret = m_histCtrl->caret;
+		int res = m_histCtrl->FindPrev(ptrW(edtSearchText.GetText()));
+		if (res == -1)
+			SetWindowTextW(m_hwndStatus, TranslateT("No more occuurences found"));
+		else if (res > iOldCaret)
+			SetWindowTextW(m_hwndStatus, TranslateT("Passed the beginning of history"));
+		else
+			SetWindowTextW(m_hwndStatus, L"");
 	}
 
 	void onClick_Message(CCtrlButton *)
@@ -929,6 +944,9 @@ public:
 			break;
 		case HOTKEY_SEEK_BACK:
 			btnFindPrev.Click();
+			break;
+		case HOTKEY_SEARCH:
+			btnSearch.Click();
 			break;
 		}
 
