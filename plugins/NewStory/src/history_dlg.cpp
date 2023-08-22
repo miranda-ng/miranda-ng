@@ -32,19 +32,7 @@ enum
 {
 	WND_SPACING = 4,
 	TBTN_SIZE = 25,
-	TBTN_SPACER = 10
 };
-
-enum
-{
-	TBTN_USERINFO, TBTN_USERMENU, TBTN_MESSAGE,
-	TBTN_TIMEREE, TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
-	TBTN_COPY, TBTN_DELETE, TBTN_EXPORT,
-	TBTN_LOGOPTIONS,
-	TBTN_COUNT
-};
-
-int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, 0, TBTN_SPACER, 0, 0, -1, 0 };
 
 struct InfoBarEvents
 {
@@ -100,7 +88,19 @@ class CHistoryDlg : public CDlgBase
 	uint32_t m_dwOptions = 0;
 
 	// toolbar buttons
-	HWND m_hwndBtnToolbar[TBTN_COUNT];
+	struct Button
+	{
+		enum { RIGHT = 1, SPACED = 2 };
+
+		Button(CCtrlMButton &_1, int _2 = 0) :
+			hwnd(_1),
+			options(_2)
+		{}
+
+		CCtrlMButton &hwnd;
+		int options;
+	};
+	std::vector<Button> m_toolbar;
 
 	// main controls
 	HWND m_hwndTimeTree;
@@ -337,7 +337,7 @@ public:
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(IDI_COPY), LPGEN("Copy")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(IDI_EXPORT), LPGEN("Export...")),
-		btnDelete(this, IDC_DELETE, Skin_LoadIcon(SKINICON_OTHER_DELETE), LPGEN("Delete...")),
+		btnDelete(this, IDC_DELETE, SKINICON_OTHER_DELETE, LPGEN("Delete...")),
 		btnFilter(this, IDC_FILTER, g_plugin.getIcon(IDI_FILTER), LPGEN("Filter")),
 		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(IDI_SEARCH), LPGEN("Search...")),
 		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(IDI_OPTIONS), LPGEN("Options")),
@@ -349,6 +349,20 @@ public:
 		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(IDI_FINDPREV), LPGEN("Find previous")),
 		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(IDI_TIMETREE), LPGEN("Conversations"))
 	{
+		if (m_hContact > 0) {
+			m_toolbar.push_back(Button(btnUserMenu));
+			m_toolbar.push_back(Button(btnUserInfo));
+			m_toolbar.push_back(Button(btnSendMsg, Button::SPACED));
+		}
+		m_toolbar.push_back(Button(btnTimeTree));
+		m_toolbar.push_back(Button(btnSearch));
+		m_toolbar.push_back(Button(btnFilter));
+		m_toolbar.push_back(Button(btnCalendar, Button::SPACED));
+		m_toolbar.push_back(Button(btnCopy));
+		m_toolbar.push_back(Button(btnDelete));
+		m_toolbar.push_back(Button(btnExport));
+		m_toolbar.push_back(Button(btnOptions, Button::RIGHT));
+
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
@@ -386,18 +400,6 @@ public:
 	bool OnInitDialog() override
 	{
 		// get handles
-		m_hwndBtnToolbar[TBTN_USERINFO] = btnUserInfo.GetHwnd();
-		m_hwndBtnToolbar[TBTN_USERMENU] = btnUserMenu.GetHwnd();
-		m_hwndBtnToolbar[TBTN_MESSAGE] = btnSendMsg.GetHwnd();
-		m_hwndBtnToolbar[TBTN_SEARCH] = btnSearch.GetHwnd();
-		m_hwndBtnToolbar[TBTN_COPY] = btnCopy.GetHwnd();
-		m_hwndBtnToolbar[TBTN_EXPORT] = btnExport.GetHwnd();
-		m_hwndBtnToolbar[TBTN_DELETE] = btnDelete.GetHwnd();
-		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = btnOptions.GetHwnd();
-		m_hwndBtnToolbar[TBTN_FILTER] = btnFilter.GetHwnd();
-		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
-		m_hwndBtnToolbar[TBTN_TIMEREE] = btnTimeTree.GetHwnd();
-
 		m_hwndBtnCloseSearch = GetDlgItem(m_hwnd, IDC_SEARCHICON);
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
 		SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
@@ -478,13 +480,14 @@ public:
 
 		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_histWindow.GetHwnd(), 0);
 
+		if (m_hContact <= 0) {
+			btnSendMsg.Hide();
+			btnUserInfo.Hide();
+			btnUserMenu.Hide();
+		}
+
 		if (m_hContact != INVALID_CONTACT_ID) {
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
-
-			if (!m_hContact) {
-				btnUserInfo.Disable();
-				btnSendMsg.Disable();
-			}
 
 			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
@@ -492,10 +495,6 @@ public:
 			SetFocus(m_histWindow.GetHwnd());
 		}
 		else {
-			btnSendMsg.Disable();
-			btnUserInfo.Disable();
-			btnUserMenu.Disable();
-
 			Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
 			m_dwOptions |= WND_OPT_SEARCHBAR;
 		}
@@ -539,37 +538,36 @@ public:
 
 	void OnResize() override
 	{
-		int i;
+		CDlgBase::OnResize();
+
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
-		int x, y; // tmp vars
+		int y; // tmp vars
 		int w = rc.right - rc.left;
 		int h = rc.bottom - rc.top;
 
-		HDWP hDwp = BeginDeferWindowPos(51);
+		HDWP hDwp = BeginDeferWindowPos(40 + (int)m_toolbar.size());
 
 		// toolbar
 		int hToolBar = TBTN_SIZE + WND_SPACING;
-		x = WND_SPACING;
-		int btnReverse = -1;
-		for (i = 0; i < TBTN_COUNT; ++i) {
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
-				x, WND_SPACING,
-				TBTN_SIZE, TBTN_SIZE,
-				SWP_NOZORDER);
-			x += TBTN_SIZE + tbtnSpacing[i];
-			if (tbtnSpacing[i] < 0) {
-				btnReverse = i;
-				break;
-			}
+
+		int x = WND_SPACING;
+		for (auto &it : m_toolbar) {
+			if (it.options & Button::RIGHT)
+				continue;
+
+			hDwp = DeferWindowPos(hDwp, it.hwnd.GetHwnd(), 0, x, WND_SPACING, TBTN_SIZE, TBTN_SIZE, SWP_NOZORDER);
+			x += TBTN_SIZE;
+			if (it.options & Button::SPACED)
+				x += 10;
 		}
+
 		x = w - WND_SPACING - TBTN_SIZE;
-		for (i = TBTN_COUNT - 1; i > btnReverse; --i) {
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnToolbar[i], 0,
-				x, WND_SPACING,
-				TBTN_SIZE, TBTN_SIZE,
-				SWP_NOZORDER);
-			x -= TBTN_SIZE + tbtnSpacing[i - 1];
+		for (auto &it : m_toolbar) {
+			if (it.options & Button::RIGHT) {
+				hDwp = DeferWindowPos(hDwp, it.hwnd.GetHwnd(), 0, x, WND_SPACING, TBTN_SIZE, TBTN_SIZE, SWP_NOZORDER);
+				x -= TBTN_SIZE;
+			}
 		}
 
 		// infobar
