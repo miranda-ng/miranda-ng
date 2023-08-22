@@ -6,6 +6,8 @@
 
 #include "stdafx.h"
 
+static CMOption<int> g_splitter(MODULENAME, "SplitterY", 100);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Main history dialog
 
@@ -104,6 +106,7 @@ class CHistoryDlg : public CDlgBase
 
 	// main controls
 	HWND m_hwndTimeTree;
+	int m_iSplitter;
 
 	CCtrlBase m_histWindow;
 	NewstoryListData *m_histCtrl;
@@ -246,7 +249,8 @@ class CHistoryDlg : public CDlgBase
 			SetFocus(edtSearchText.GetHwnd());
 
 		cmd = (m_dwOptions & WND_OPT_TIMETREE) ? SW_SHOW : SW_HIDE;
-		ShowWindow(m_timeTree.GetHwnd(), cmd);
+		m_timeTree.Show(cmd);
+		splitTime.Show(cmd);
 	}
 
 	void UpdateTitle()
@@ -322,6 +326,7 @@ class CHistoryDlg : public CDlgBase
 		m_timeTree.SelectItem(root);
 	}
 
+	CSplitter splitTime;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
 	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete, btnTimeTree;
@@ -332,8 +337,10 @@ public:
 		CDlgBase(g_plugin, IDD_HISTORY),
 		m_arResults(10000),
 		m_hContact(_hContact),
+		m_iSplitter(g_splitter),
 		m_timeTree(this, IDC_TIMETREEVIEW),
 		m_histWindow(this, IDC_HISTORYCONTROL),
+		splitTime(this, IDC_SPLITTERY),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(IDI_COPY), LPGEN("Copy")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(IDI_EXPORT), LPGEN("Export...")),
@@ -366,6 +373,8 @@ public:
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
+
+		splitTime.OnChange = Callback(this, &CHistoryDlg::onChange_Splitter);
 
 		btnCopy.OnClick = Callback(this, &CHistoryDlg::onClick_Copy);
 		btnExport.OnClick = Callback(this, &CHistoryDlg::onClick_Export);
@@ -538,15 +547,13 @@ public:
 
 	void OnResize() override
 	{
-		CDlgBase::OnResize();
-
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		int y; // tmp vars
 		int w = rc.right - rc.left;
 		int h = rc.bottom - rc.top;
 
-		HDWP hDwp = BeginDeferWindowPos(40 + (int)m_toolbar.size());
+		HDWP hDwp = BeginDeferWindowPos(41 + (int)m_toolbar.size());
 
 		// toolbar
 		int hToolBar = TBTN_SIZE + WND_SPACING;
@@ -652,19 +659,20 @@ public:
 			hSearch += WND_SPACING;
 		}
 
+		int iClientTop = WND_SPACING + hToolBar + hFilterBar;
+		int iClientBottom = h - WND_SPACING - hSearch - hStatus - iClientTop;
+
 		// time tree bar
 		int hTimeTree = 0;
 		if (m_dwOptions & WND_OPT_TIMETREE) {
-			hTimeTree = 100; // need to calculate correctly
-			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
-				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
-				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
-				SWP_NOZORDER | SWP_NOACTIVATE);
+			hTimeTree = m_iSplitter;
+			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
+			hDwp = DeferWindowPos(hDwp, splitTime.GetHwnd(), 0, hTimeTree, iClientTop, WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
-		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0,
-			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
-			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
+		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0, 
+			WND_SPACING + hTimeTree, iClientTop, 
+			w - WND_SPACING * 2 - hTimeTree, iClientBottom,
 			SWP_NOZORDER | SWP_NOACTIVATE);
 
 		EndDeferWindowPos(hDwp);
@@ -672,6 +680,8 @@ public:
 
 	void OnDestroy() override
 	{
+		g_splitter = m_iSplitter;
+
 		if (m_hContact != INVALID_CONTACT_ID)
 			Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		else
@@ -897,6 +907,11 @@ public:
 		if (m_bInitialized)
 			if (showFlags & HIST_AUTO_FILTER)
 				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
+	}
+
+	void onChange_Splitter(CSplitter*)
+	{
+		m_iSplitter = splitTime.GetPos();
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
