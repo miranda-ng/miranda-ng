@@ -94,6 +94,7 @@ class CHistoryDlg : public CDlgBase
 	int lastYear = -1, lastMonth = -1, lastDay = -1;
 	HTREEITEM hLastYear = 0, hLastMonth = 0, hLastDay = 0;
 	bool disableTimeTreeChange = false;
+	bool bAppendOnly;
 
 	// window flags
 	uint32_t m_dwOptions = 0;
@@ -151,7 +152,7 @@ class CHistoryDlg : public CDlgBase
 			DB::EventInfo dbei(hDbEvent);
 			if (!dbei)
 				continue;
-			
+
 			ptrW pwszText(DbEvent_GetTextW(&dbei, CP_UTF8));
 			if (!mir_wstrlen(pwszText))
 				continue;
@@ -160,6 +161,47 @@ class CHistoryDlg : public CDlgBase
 			if (wcsstr(pwszText, pwszPattern))
 				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.timestamp));
 		}
+	}
+
+	void ExportEvent(ItemData *pItem, FILE *out)
+	{
+		DB::EventInfo dbei(pItem->hEvent);
+		if (!dbei)
+			return;
+
+		if (bAppendOnly) {
+			fseek(out, -4, SEEK_END);
+			fputs(",", out);
+		}
+
+		JSONNode pRoot2;
+		pRoot2.push_back(JSONNode("type", dbei.eventType));
+
+		char *szProto = Proto_GetBaseAccountName(pItem->hContact);
+		if (mir_strcmp(dbei.szModule, szProto))
+			pRoot2.push_back(JSONNode("module", dbei.szModule));
+
+		pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+
+		wchar_t szTemp[500];
+		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+		pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+
+		std::string flags;
+		if (dbei.flags & DBEF_SENT)
+			flags += "m";
+		if (dbei.flags & DBEF_READ)
+			flags += "r";
+		pRoot2.push_back(JSONNode("flags", flags));
+
+		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+		if (msg)
+			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+		fputs(pRoot2.write_formatted().c_str(), out);
+		fputs("\n]}", out);
+
+		bAppendOnly = true;
 	}
 
 	void ShowHideControls()
@@ -706,10 +748,11 @@ public:
 			MessageBox(m_hwnd, MessageText, TranslateT("Export warning"), MB_OK | MB_ICONWARNING);
 			return;
 		}
-		char* proto = Proto_GetBaseAccountName(m_hContact);
-		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, proto));
-		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, proto));
-		const char* uid = Proto_GetUniqueId(proto);
+		
+		char* szProto = Proto_GetBaseAccountName(m_hContact);
+		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, szProto));
+		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, szProto));
+		const char* uid = Proto_GetUniqueId(szProto);
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
@@ -741,14 +784,14 @@ public:
 		// export contact info
 		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 		pInfo.set_name("info");
-		if (proto)
-			pInfo.push_back(JSONNode("proto", proto));
+		if (szProto)
+			pInfo.push_back(JSONNode("proto", szProto));
 
 		if (id != NULL)
 			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
 
 		for (auto& it : pSettings) {
-			wchar_t *szValue = db_get_wsa(m_hContact, proto, it);
+			wchar_t *szValue = db_get_wsa(m_hContact, szProto, it);
 			if (szValue)
 				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
 			mir_free(szValue);
@@ -763,46 +806,22 @@ public:
 		fseek(out, -4, SEEK_CUR);
 
 		// export events
-		bool bAppendOnly = false;
-		DB::ECPTR pCursor(DB::Events(m_hContact));
-		while (MEVENT hDbEvent = pCursor.FetchNext()) {
-			DB::EventInfo dbei(hDbEvent);
-			if (!dbei)
-				continue;
-
-			if (bAppendOnly) {
-				fseek(out, -4, SEEK_END);
-				fputs(",", out);
+		int iDone = 0;
+		bAppendOnly = false;
+		auto &arItems = m_histCtrl->items;
+		int iCount = arItems.getCount();
+		for (int i = 0; i < iCount; i++) {
+			auto *pItem = arItems.get(i);
+			if (pItem->m_bSelected) {
+				ExportEvent(pItem, out);
+				iDone++;
 			}
-
-			JSONNode pRoot2;
-			pRoot2.push_back(JSONNode("type", dbei.eventType));
-
-			if (mir_strcmp(dbei.szModule, proto))
-				pRoot2.push_back(JSONNode("module", dbei.szModule));
-
-			pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
-
-			wchar_t szTemp[500];
-			TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-			pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-			std::string flags;
-			if (dbei.flags & DBEF_SENT)
-				flags += "m";
-			if (dbei.flags & DBEF_READ)
-				flags += "r";
-			pRoot2.push_back(JSONNode("flags", flags));
-
-			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-			if (msg)
-				pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
-
-			fputs(pRoot2.write_formatted().c_str(), out);
-			fputs("\n]}", out);
-
-			bAppendOnly = true;
 		}
+
+		// no items selected? export whole history
+		if (iDone == 0)
+			for (int i = 0; i < iCount; i++)
+				ExportEvent(arItems.get(i), out);
 
 		// Close the file
 		fclose(out);
