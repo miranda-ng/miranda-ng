@@ -37,6 +37,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\third_party\cmp\cmp.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\announce.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -136,7 +139,19 @@
     <ClCompile Include="src\toxcore\group_announce.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\group_chats.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_connection.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\group_moderation.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_onion_announce.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_pack.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\LAN_discovery.c">
@@ -173,6 +188,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\ping_array.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\shared_key_cache.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\state.c">
@@ -217,6 +235,7 @@
     <ClCompile Include="src\toxencryptsave\toxencryptsave.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="src\third_party\cmp\cmp.h" />
     <ClInclude Include="src\toxcore\announce.h" />
     <ClInclude Include="src\toxcore\attributes.h" />
     <ClInclude Include="src\toxcore\bin_pack.h" />

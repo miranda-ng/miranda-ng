@@ -22,6 +22,20 @@
 extern "C" {
 #endif
 
+/* Encryption and signature keys definition */
+#define ENC_PUBLIC_KEY_SIZE CRYPTO_PUBLIC_KEY_SIZE
+#define ENC_SECRET_KEY_SIZE CRYPTO_SECRET_KEY_SIZE
+#define SIG_PUBLIC_KEY_SIZE CRYPTO_SIGN_PUBLIC_KEY_SIZE
+#define SIG_SECRET_KEY_SIZE CRYPTO_SIGN_SECRET_KEY_SIZE
+
+/* Size of the group chat_id */
+#define CHAT_ID_SIZE SIG_PUBLIC_KEY_SIZE
+
+/* Extended keys for group chats */
+#define EXT_SECRET_KEY_SIZE (ENC_SECRET_KEY_SIZE + SIG_SECRET_KEY_SIZE)
+#define EXT_PUBLIC_KEY_SIZE (ENC_PUBLIC_KEY_SIZE + SIG_PUBLIC_KEY_SIZE)
+
+
 /* Maximum size of a signature (may be smaller) */
 #define SIGNATURE_SIZE CRYPTO_SIGNATURE_SIZE
 /** Maximum number of clients stored per friend. */
@@ -172,8 +186,6 @@ typedef struct NAT {
     uint64_t    nat_ping_timestamp;
 } NAT;
 
-#define DHT_FRIEND_MAX_LOCKS 32
-
 typedef struct Node_format {
     uint8_t     public_key[CRYPTO_PUBLIC_KEY_SIZE];
     IP_Port     ip_port;
@@ -242,24 +254,6 @@ non_null(1, 4) nullable(3)
 int unpack_nodes(Node_format *nodes, uint16_t max_num_nodes, uint16_t *processed_data_len, const uint8_t *data,
                  uint16_t length, bool tcp_enabled);
 
-
-/*----------------------------------------------------------------------------------*/
-/* struct to store some shared keys so we don't have to regenerate them for each request. */
-#define MAX_KEYS_PER_SLOT 4
-#define KEYS_TIMEOUT 600
-
-typedef struct Shared_Key {
-    uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE];
-    uint8_t shared_key[CRYPTO_SHARED_KEY_SIZE];
-    uint32_t times_requested;
-    bool stored;
-    uint64_t time_last_requested;
-} Shared_Key;
-
-typedef struct Shared_Keys {
-    Shared_Key keys[256 * MAX_KEYS_PER_SLOT];
-} Shared_Keys;
-
 /*----------------------------------------------------------------------------------*/
 
 typedef int cryptopacket_handler_cb(void *object, const IP_Port *ip_port, const uint8_t *source_pubkey,
@@ -284,30 +278,18 @@ non_null() const uint8_t *dht_get_friend_public_key(const DHT *dht, uint32_t fri
 /*----------------------------------------------------------------------------------*/
 
 /**
- * Shared key generations are costly, it is therefore smart to store commonly used
- * ones so that they can be re-used later without being computed again.
- *
- * If a shared key is already in shared_keys, copy it to shared_key.
- * Otherwise generate it into shared_key and copy it to shared_keys
- */
-non_null()
-void get_shared_key(
-    const Mono_Time *mono_time, Shared_Keys *shared_keys, uint8_t *shared_key,
-    const uint8_t *secret_key, const uint8_t *public_key);
-
-/**
  * Copy shared_key to encrypt/decrypt DHT packet from public_key into shared_key
  * for packets that we receive.
  */
 non_null()
-void dht_get_shared_key_recv(DHT *dht, uint8_t *shared_key, const uint8_t *public_key);
+const uint8_t *dht_get_shared_key_recv(DHT *dht, const uint8_t *public_key);
 
 /**
  * Copy shared_key to encrypt/decrypt DHT packet from public_key into shared_key
  * for packets that we send.
  */
 non_null()
-void dht_get_shared_key_sent(DHT *dht, uint8_t *shared_key, const uint8_t *public_key);
+const uint8_t *dht_get_shared_key_sent(DHT *dht, const uint8_t *public_key);
 
 /**
  * Sends a getnodes request to `ip_port` with the public key `public_key` for nodes
@@ -327,29 +309,34 @@ non_null(1) nullable(2)
 void dht_callback_get_nodes_response(DHT *dht, dht_get_nodes_response_cb *function);
 
 /** @brief Add a new friend to the friends list.
- * public_key must be CRYPTO_PUBLIC_KEY_SIZE bytes long.
+ * @param public_key must be CRYPTO_PUBLIC_KEY_SIZE bytes long.
  *
- * ip_callback is the callback of a function that will be called when the ip address
+ * @param ip_callback is the callback of a function that will be called when the ip address
  * is found along with arguments data and number.
+ * @param data User data for the callback
+ * @param number Will be passed to ip_callback
  *
- * lock_count will be set to a non zero number that must be passed to `dht_delfriend()`
+ * @param lock_token will be set to a non zero number that must be passed to `dht_delfriend()`
  * to properly remove the callback.
  *
  * @retval 0 if success.
  * @retval -1 if failure (friends list is full).
  */
-non_null(1, 2) nullable(3, 4, 6)
+non_null(1, 2, 6) nullable(3, 4)
 int dht_addfriend(DHT *dht, const uint8_t *public_key, dht_ip_cb *ip_callback,
-                  void *data, int32_t number, uint16_t *lock_count);
+                  void *data, int32_t number, uint32_t *lock_token);
 
 /** @brief Delete a friend from the friends list.
  * public_key must be CRYPTO_PUBLIC_KEY_SIZE bytes long.
+ * @param dht The DHT object
+ * @param public_key The public key of the friend
+ * @param lock_token The token received by dht_addfriend(...)
  *
  * @retval 0 if success.
  * @retval -1 if failure (public_key not in friends list).
  */
 non_null()
-int dht_delfriend(DHT *dht, const uint8_t *public_key, uint16_t lock_count);
+int dht_delfriend(DHT *dht, const uint8_t *public_key, uint32_t lock_token);
 
 /** @brief Get ip of friend.
  *

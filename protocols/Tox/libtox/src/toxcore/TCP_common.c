@@ -278,7 +278,7 @@ int read_packet_TCP_secure_connection(
         return -1;
     }
 
-    VLA(uint8_t, data_encrypted, *next_packet_length);
+    VLA(uint8_t, data_encrypted, (int) *next_packet_length);
     const int len_packet = read_TCP_packet(logger, ns, sock, data_encrypted, *next_packet_length, ip_port);
 
     if (len_packet == -1) {
@@ -286,7 +286,7 @@ int read_packet_TCP_secure_connection(
     }
 
     if (len_packet != *next_packet_length) {
-        LOGGER_ERROR(logger, "invalid packet length: %d, expected %d", len_packet, *next_packet_length);
+        LOGGER_WARNING(logger, "invalid packet length: %d, expected %d", len_packet, *next_packet_length);
         return 0;
     }
 

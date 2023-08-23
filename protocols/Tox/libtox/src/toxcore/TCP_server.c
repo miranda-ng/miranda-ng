@@ -166,7 +166,7 @@ static void free_accepted_connection_array(TCP_Server *tcp_server)
     tcp_server->size_accepted_connections = 0;
 }
 
-/** 
+/**
  * @return index corresponding to connection with peer on success
  * @retval -1 on failure.
  */
@@ -388,7 +388,7 @@ non_null()
 static int send_routing_response(const Logger *logger, TCP_Secure_Connection *con, uint8_t rpid,
                                  const uint8_t *public_key)
 {
-    uint8_t data[1 + 1 + CRYPTO_PUBLIC_KEY_SIZE];
+    uint8_t data[2 + CRYPTO_PUBLIC_KEY_SIZE];
     data[0] = TCP_PACKET_ROUTING_RESPONSE;
     data[1] = rpid;
     memcpy(data + 2, public_key, CRYPTO_PUBLIC_KEY_SIZE);
@@ -1033,12 +1033,15 @@ TCP_Server *new_TCP_server(const Logger *logger, const Random *rng, const Networ
 non_null()
 static void do_TCP_accept_new(TCP_Server *tcp_server)
 {
-    for (uint32_t i = 0; i < tcp_server->num_listening_socks; ++i) {
-        Socket sock;
+    for (uint32_t sock_idx = 0; sock_idx < tcp_server->num_listening_socks; ++sock_idx) {
 
-        do {
-            sock = net_accept(tcp_server->ns, tcp_server->socks_listening[i]);
-        } while (accept_connection(tcp_server, sock) != -1);
+        for (uint32_t connection_idx = 0; connection_idx < MAX_INCOMING_CONNECTIONS; ++connection_idx) {
+            const Socket sock = net_accept(tcp_server->ns, tcp_server->socks_listening[sock_idx]);
+
+            if (accept_connection(tcp_server, sock) == -1) {
+                break;
+            }
+        }
     }
 }
 #endif

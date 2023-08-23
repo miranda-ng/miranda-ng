@@ -109,10 +109,9 @@ typedef enum Net_Packet_Type {
     NET_PACKET_CRYPTO               = 0x24, /* Encrypted data packet ID. */
     NET_PACKET_LAN_DISCOVERY        = 0x25, /* LAN discovery packet ID. */
 
-    // TODO(Jfreegman): Uncomment these when we merge the rest of new groupchats
-    // NET_PACKET_GC_HANDSHAKE         = 0x62, /* Group chat handshake packet ID */
-    // NET_PACKET_GC_LOSSLESS          = 0x63, /* Group chat lossless packet ID */
-    // NET_PACKET_GC_LOSSY             = 0x64, /* Group chat lossy packet ID */
+    NET_PACKET_GC_HANDSHAKE         = 0x62, /* Group chat handshake packet ID */
+    NET_PACKET_GC_LOSSLESS          = 0x63, /* Group chat lossless packet ID */
+    NET_PACKET_GC_LOSSY             = 0x64, /* Group chat lossy packet ID */
 
     /* See: `docs/Prevent_Tracking.txt` and `onion.{c,h}` */
     NET_PACKET_ONION_SEND_INITIAL   = 0x8f,
@@ -131,6 +130,17 @@ typedef enum Net_Packet_Type {
     NET_PACKET_ONION_RECV_2         = 0x9c,
     NET_PACKET_ONION_RECV_1         = 0x9d,
 
+    NET_PACKET_FORWARD_REQUEST      = 0x9e,
+    NET_PACKET_FORWARDING           = 0x9f,
+    NET_PACKET_FORWARD_REPLY        = 0xa0,
+
+    NET_PACKET_DATA_SEARCH_REQUEST     = 0xa1,
+    NET_PACKET_DATA_SEARCH_RESPONSE    = 0xa2,
+    NET_PACKET_DATA_RETRIEVE_REQUEST   = 0xa3,
+    NET_PACKET_DATA_RETRIEVE_RESPONSE  = 0xa4,
+    NET_PACKET_STORE_ANNOUNCE_REQUEST  = 0xa5,
+    NET_PACKET_STORE_ANNOUNCE_RESPONSE = 0xa6,
+
     BOOTSTRAP_INFO_PACKET_ID        = 0xf1, /* Only used for bootstrap nodes */
 
     NET_PACKET_MAX                  = 0xff, /* This type must remain within a single uint8. */
@@ -148,10 +158,9 @@ typedef enum Net_Packet_Type {
     NET_PACKET_CRYPTO               = 0x20, /* Encrypted data packet ID. */
     NET_PACKET_LAN_DISCOVERY        = 0x21, /* LAN discovery packet ID. */
 
-    // TODO(Jfreegman): Uncomment these when we merge the rest of new groupchats
-    // NET_PACKET_GC_HANDSHAKE         = 0x5a, /* Group chat handshake packet ID */
-    // NET_PACKET_GC_LOSSLESS          = 0x5b, /* Group chat lossless packet ID */
-    // NET_PACKET_GC_LOSSY             = 0x5c, /* Group chat lossy packet ID */
+    NET_PACKET_GC_HANDSHAKE         = 0x5a, /* Group chat handshake packet ID */
+    NET_PACKET_GC_LOSSLESS          = 0x5b, /* Group chat lossless packet ID */
+    NET_PACKET_GC_LOSSY             = 0x5c, /* Group chat lossy packet ID */
 
     /* See: `docs/Prevent_Tracking.txt` and `onion.{c,h}` */
     NET_PACKET_ONION_SEND_INITIAL   = 0x80,
@@ -304,12 +313,16 @@ uint32_t net_ntohl(uint32_t hostlong);
 uint16_t net_ntohs(uint16_t hostshort);
 
 non_null()
+size_t net_pack_bool(uint8_t *bytes, bool v);
+non_null()
 size_t net_pack_u16(uint8_t *bytes, uint16_t v);
 non_null()
 size_t net_pack_u32(uint8_t *bytes, uint32_t v);
 non_null()
 size_t net_pack_u64(uint8_t *bytes, uint64_t v);
 
+non_null()
+size_t net_unpack_bool(const uint8_t *bytes, bool *v);
 non_null()
 size_t net_unpack_u16(const uint8_t *bytes, uint16_t *v);
 non_null()
@@ -531,8 +544,9 @@ bool net_connect(const Logger *log, Socket sock, const IP_Port *ip_port);
  * Skip all addresses with socktype != type (use type = -1 to get all addresses)
  * To correctly deallocate array memory use `net_freeipport()`
  *
- * return number of elements in res array
- * and -1 on error.
+ * @return number of elements in res array.
+ * @retval 0 if res array empty.
+ * @retval -1 on error.
  */
 non_null()
 int32_t net_getipport(const char *node, IP_Port **res, int tox_type);

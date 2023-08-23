@@ -4,196 +4,211 @@
     <Filter Include="Source Files\toxcore">
       <UniqueIdentifier>{4c1f54aa-e38e-40ff-af6d-8b1204ea03e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\toxcore">
-      <UniqueIdentifier>{56ccf548-fd97-42d3-934a-8966cb5d6642}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\toxencryptsave">
       <UniqueIdentifier>{ced2050e-c17b-43b3-9a79-137d2f3d1ed0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\toxencryptsave">
-      <UniqueIdentifier>{ce3f9bd0-40ed-49f3-8b69-53dc407e8da6}</UniqueIdentifier>
+    <Filter Include="Source Files\third_party">
+      <UniqueIdentifier>{4c7c54b5-fd2e-4def-8eb6-b26c8a867a0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\toxcore\events\conference_connected.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_invite.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_message.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_peer_list_changed.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_peer_name.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_title.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\events_alloc.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_chunk_request.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv_chunk.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv_control.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_connection_status.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_lossless_packet.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_lossy_packet.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_message.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_name.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_read_receipt.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_request.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_status.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_status_message.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_typing.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\self_connection_status.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
     <ClCompile Include="src\toxcore\announce.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\toxcore</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\bin_pack.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\bin_unpack.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\ccompat.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\crypto_core.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\DHT.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_connected.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_invite.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_message.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_peer_list_changed.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_peer_name.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\conference_title.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\events_alloc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\file_chunk_request.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\file_recv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\file_recv_chunk.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\file_recv_control.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_connection_status.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_lossless_packet.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_lossy_packet.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_message.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_name.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_read_receipt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_request.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_status.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_status_message.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\friend_typing.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\self_connection_status.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\forwarding.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\friend_connection.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\friend_requests.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\group.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\group_announce.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\group_moderation.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\LAN_discovery.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\list.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\logger.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\Messenger.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\mono_time.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\network.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\net_crypto.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\onion.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\onion_announce.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\onion_client.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\ping.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\ping_array.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\state.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\TCP_client.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\TCP_common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\TCP_connection.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\TCP_server.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\timed_auth.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox_api.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox_dispatch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox_events.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox_private.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\tox_unpack.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\toxcore\util.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\toxcore</Filter>
     </ClCompile>
     <ClCompile Include="src\toxencryptsave\toxencryptsave.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\toxencryptsave</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\bin_unpack.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\ccompat.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\crypto_core.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\DHT.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\forwarding.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\friend_connection.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\friend_requests.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_announce.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_moderation.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\LAN_discovery.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\list.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\logger.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\Messenger.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\mono_time.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\net_crypto.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\network.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\onion.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\onion_announce.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\onion_client.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\ping.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\ping_array.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\state.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_client.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_common.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_connection.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_server.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\timed_auth.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_api.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_dispatch.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_events.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_private.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_unpack.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\util.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_chats.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_connection.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_onion_announce.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_pack.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\shared_key_cache.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\third_party\cmp\cmp.c">
+      <Filter>Source Files\third_party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="src\toxcore\util.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\third_party\cmp\cmp.h">
+      <Filter>Source Files\third_party</Filter>
     </ClInclude>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.filters" />
