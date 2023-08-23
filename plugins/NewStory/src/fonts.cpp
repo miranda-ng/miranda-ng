@@ -20,7 +20,7 @@ MyColourID g_colorTable[COLOR_COUNT] =
 	{ LPGEN("Selected item's background"), "ColorSel",       GetSysColor(COLOR_HIGHLIGHT) },
 	{ LPGEN("Selected item's frame"),      "ColorSelFrm",    GetSysColor(COLOR_HIGHLIGHTTEXT) },
 
-	{ LPGEN("Highlight"),                  "ColorHighlight", RGB(0xf0, 0xf0, 0xf0) },
+	{ LPGEN("Highlighted messages"),                  "ColorHighlight", RGB(0xf0, 0xf0, 0xf0) },
 	{ LPGEN("Grid background"),            "Background",     RGB(0xff, 0xff, 0xff) },
 	{ LPGEN("Separator"),                  "Separator",      RGB(0x60, 0x60, 0x60) },
 };
@@ -34,7 +34,7 @@ MyFontID g_fontTable[FONT_COUNT] =
 	{ LPGEN("Outgoing files"),        "FontFileOut"   },
 
 	{ LPGEN("Status changes"),        "FontStatus"    },
-	{ LPGEN("Highlight"),             "FontHighlight", DBFONTF_BOLD, RGB(0x7f, 0, 0) },
+	{ LPGEN("Highlighted messages"),             "FontHighlight", DBFONTF_BOLD, RGB(0x7f, 0, 0) },
 
 	{ LPGEN("Other incoming events"), "FontIn"        },
 	{ LPGEN("Other outgoing events"), "FontOut"       },
