@@ -430,8 +430,12 @@ void CSimpleLogWindow::LogChatEvents(const struct LOGINFO *lin)
 			if (m_pDlg.IsSuitableEvent(*it))
 				LogChatEvent(*it);
 	}
-	else LogChatEvent(*lin);
+	else {
+		bool bAtBottom = AtBottom();
 
-	if (lin)
-		ScrollToBottom();
+		LogChatEvent(*lin);
+
+		if (bAtBottom)
+			ScrollToBottom();
+	}
 }
