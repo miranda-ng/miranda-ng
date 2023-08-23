@@ -209,15 +209,13 @@ void NewstoryListData::Clear()
 
 void NewstoryListData::ClearSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, iFirst);
-	int end = min(totalCount - 1, max(0, iLast));
+	int start = min(0, iFirst);
+	int end = (iLast <= 0) ? totalCount - 1 : iLast;
 	if (start > end)
 		std::swap(start, end);
 
-	for (int i = start; i <= end; ++i) {
-		auto *p = GetItem(i);
-		p->m_bSelected = false;
-	}
+	for (int i = start; i <= end; ++i)
+		GetItem(i)->m_bSelected = false;
 
 	InvalidateRect(hwnd, 0, FALSE);
 }
@@ -555,7 +553,7 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 	int count = totalCount;
 	for (int i = 0; i < count; ++i) {
 		auto *p = GetItem(i);
-		if ((i >= start) && (i <= end))
+		if (i >= start && i <= end)
 			p->m_bSelected = true;
 		else
 			p->m_bSelected = false;
@@ -903,6 +901,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->OnContextMenu(idx, pt);
 		}
 		break;
+
+	case WM_KILLFOCUS:
+		data->EndEditItem(false);
+		if (data->pMsgDlg)
+			data->ClearSelection(0, -1);
+		return 0;
 
 	case WM_SETFOCUS:
 		return 0;
