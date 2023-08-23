@@ -785,9 +785,15 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					res.Append(L"\r\n");
 				}
 				else {
-					ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
-					RemoveBbcodes(wszText);
-					res.Append(wszText);
+					if (wParam == 0) {
+						ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
+						RemoveBbcodes(wszText);
+						res.Append(wszText);
+					}
+					else { // copy text only
+						res.Append(p->wtext);
+						res.Append(L"\r\n");
+					}
 				}
 			}
 

@@ -37,6 +37,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		SendMessage(pData->hwnd, NSM_COPY, 0, 0);
 		break;
 
+	case 8:
+		SendMessage(pData->hwnd, NSM_COPY, 1, 0);
+		break;
+
 	case 2:
 		pData->BeginEditItem(pData->caret, false);
 		break;
@@ -160,10 +164,14 @@ void InitMenus()
 	hmiCopy = Menu_AddNewStoryMenuItem(&mi, 1);
 
 	mi.position = 100001;
+	mi.name.a = LPGEN("Copy text");
+	hmiCopy = Menu_AddNewStoryMenuItem(&mi, 8);
+
+	mi.position = 100002;
 	mi.name.a = LPGEN("Save as");
 	hmiSaveAs = Menu_AddNewStoryMenuItem(&mi, 5);
 
-	mi.position = 100002;
+	mi.position = 100003;
 	mi.name.a = LPGEN("Download");
 	hmiDownload = Menu_AddNewStoryMenuItem(&mi, 6);
 
