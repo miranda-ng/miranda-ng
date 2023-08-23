@@ -14,10 +14,6 @@
 Сортировка по статусу
 [Sort contacts by protocol]
 Сортировка по протоколу
-[Disable icon blinking]
-Выключить мигание
-[ms delay]
-Задержка (мс)
 [Show]
 Показать
 [icon when statuses differ]
@@ -30,8 +26,6 @@
 Несколько значков
 [Only when statuses differ]
 При разных статусах
-[System tray icon]
-Значок в трее
 [System tray icon when using multiple protocols]
 Значки протоколов в системном трее
 [Contact list sorting]

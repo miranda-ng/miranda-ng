@@ -75,6 +75,10 @@
 [Templates]
 Шаблоны
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Имя собеседника
+[Outgoing name]
+Моё имя
 [Incoming messages]
 Входящие сообщения
 [Outgoing messages]
@@ -95,15 +99,27 @@
 Фон выделения
 [Selected item's frame]
 Граница выделения
+[Highlighted messages]
+Подсвеченные сообщения
 [Grid background]
 Фон сетки
 [Separator]
 Разделитель
-[Incoming name]
-Имя собеседника
-[Outgoing name]
-Моё имя
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+Без имени
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Найти
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+Уверены, что хотите удалить выбранные события?
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Имя
 [LastName]
@@ -152,6 +168,10 @@
 Найти предыдущее
 [Conversations]
 Беседы
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Это метаконтакт. Для экспорта выберите один из его субконтактов:\r\n%s
 [Export warning]
@@ -164,12 +184,8 @@
 Готово
 [History export]
 Экспорт истории
-;file \plugins\NewStory\src\history_array.cpp
-[Unnamed]
-Без имени
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
-Уверены, что хотите удалить выбранные события?
+[Passed the beginning of history]
+
 ;file \plugins\NewStory\src\history_menus.cpp
 [Copy file name]
 Копировать имя файла
@@ -179,6 +195,8 @@
 История пользователя
 [Global search]
 
+[Copy text]
+Копировать текст
 [Save as]
 Сохранить как
 [Download]
@@ -192,10 +210,10 @@
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Основной значок
-[Search]
-Найти
 [Export]
 Экспортировать
+[Bookmark]
+Закладка
 [Incoming message]
 Входящее сообщение
 [Outgoing message]
@@ -314,6 +332,8 @@
 %N - история [всего сообщений: %c]
 [Message log]
 Журнал
+[Group head]
+Первое сообщение в группе
 [Grouped messages]
 Сгруппированные сообщения
 [Presence requests]

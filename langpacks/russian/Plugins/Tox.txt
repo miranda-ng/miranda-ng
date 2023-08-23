@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -38,10 +38,6 @@ Tox ID:
 Включить UDP (иначе принудительно использовать TCP)
 [Enable IPv6]
 Включить IPv6
-[Max connect retries:]
-Макс. попыток соединения:
-[Max reconnect retries:]
-Макс. попыток пересоединения:
 [Enable UDP hole-punching]
 Включить пробивание NAT
 [Enable local network peer discovery]
@@ -85,6 +81,9 @@ IPv6 адрес (необязательно)
 Папка профилей
 [Tox link protocol]
 Протокол Tox
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Невозможно инициализировать ядро Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Значок протокола
@@ -159,8 +158,6 @@ IPv6 адрес (необязательно)
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
-[Unable to initialize Tox core]
-Невозможно инициализировать ядро Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запрос

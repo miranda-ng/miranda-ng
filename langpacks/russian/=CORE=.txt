@@ -1916,10 +1916,10 @@ Miranda не смогла загрузить встроенную систему
 Установка статуса...
 [User disables status for ...]
 Снятие статуса...
-[Action message]
-Действие
-[Highlighted message]
-Подсвеченное сообщение
+[Action messages]
+Действия
+[Highlighted messages]
+Подсвеченные сообщения
 [Nick list members (online)]
 Пользователи (в сети)
 [Nick list members (away)]
