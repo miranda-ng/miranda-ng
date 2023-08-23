@@ -60,15 +60,17 @@ ItemData::~ItemData()
 		MTextDestroy(data);
 }
 
-bool ItemData::isEqual(const ItemData *p) const
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool isEqual(const ItemData *p1, const ItemData *p2)
 {
-	if (p->hContact != hContact)
+	if (p1->hContact != p2->hContact)
 		return false;
-	if (p->dbe.eventType != dbe.eventType)
+	if (p1->dbe.eventType != p2->dbe.eventType)
 		return false;
-	if ((p->dbe.flags & DBEF_SENT) != (dbe.flags & DBEF_SENT))
+	if ((p1->dbe.flags & DBEF_SENT) != (p2->dbe.flags & DBEF_SENT))
 		return false;
-	if (p->dbe.timestamp / 86400 != dbe.timestamp / 86400)
+	if (p1->dbe.timestamp / 86400 != p2->dbe.timestamp / 86400)
 		return false;
 	return true;
 }
@@ -82,11 +84,11 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 	// we don't group anything but messages
 	if (db_event_get(hEvent, &dbe))
 		return this;
-	
+
 	if (dbe.eventType != EVENTTYPE_MESSAGE)
 		return this;
 
-	if (isEqual(pPrev)) {
+	if (isEqual(this, pPrev)) {
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
@@ -96,6 +98,43 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 	}
 	return this;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool isEqualGC(const ItemData *p1, const ItemData *p2)
+{
+	if (!p1->wszNick || !p2->wszNick)
+		return false;
+
+	if (wcscmp(p1->wszNick, p2->wszNick))
+		return false;
+
+	if (p1->dbe.timestamp / 86400 != p2->dbe.timestamp / 86400)
+		return false;
+	return true;
+}
+
+ItemData* ItemData::checkPrevGC(ItemData *pPrev)
+{
+	m_grouping = GROUPING_NONE;
+	if (!pPrev || !g_plugin.bMsgGrouping)
+		return this;
+
+	if (dbe.eventType != EVENTTYPE_MESSAGE)
+		return this;
+
+	if (isEqualGC(this, pPrev)) {
+		if (pPrev->m_grouping == GROUPING_NONE) {
+			pPrev->m_grouping = GROUPING_HEAD;
+			if (pPrev->m_bLoaded)
+				pPrev->setText();
+		}
+		m_grouping = GROUPING_ITEM;
+	}
+	return this;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void ItemData::checkCreate(HWND hwnd)
 {
@@ -351,6 +390,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 		wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
 	}
 
+	int numItems = getCount();
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
@@ -386,6 +426,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 			p.wszNick = mir_wstrdup(lin->ptszNick);
 			strings.insert(p.wszNick);
 		}
+		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1));
 	}
 }
 

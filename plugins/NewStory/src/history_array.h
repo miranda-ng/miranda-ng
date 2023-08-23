@@ -31,11 +31,11 @@ struct ItemData
 	~ItemData();
 
 	ItemData* checkPrev(ItemData *pPrev);
+	ItemData* checkPrevGC(ItemData *pPrev);
 	void checkCreate(HWND hwnd);
 	void setText();
 
 	void load(bool bFullLoad);
-	bool isEqual(const ItemData *p) const;
 	bool isLink(POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(int idx) const;
 
