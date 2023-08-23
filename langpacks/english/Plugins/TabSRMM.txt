@@ -186,7 +186,7 @@
 [Windows Aero settings]
 [Use Aero UI elements (only when not using a custom skin)]
 [Use Windows 7 task bar enhancements (restart required)]
-[Colors]
+[Popups]
 [...is &typing]
 [...stopped t&yping]
 [Background]
@@ -906,7 +906,6 @@
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [...has stopped typing.]
 [...is typing a message.]
-[Popups]
 [Typing notifications]
 [Contact started typing]
 [Contact stopped typing]

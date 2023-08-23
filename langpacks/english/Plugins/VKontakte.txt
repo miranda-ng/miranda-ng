@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.7
+;  Version: 0.1.14.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -180,7 +180,7 @@
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 [Owners]
-[Adding bots to MUC is not supported]
+[Adding bots, MUC or groups to MUC is not supported]
 [Not supported]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Warning]
