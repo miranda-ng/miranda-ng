@@ -355,6 +355,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
 	p.m_bLoaded = true;
+	p.m_bHighlighted = lin->bIsHighlighted;
 	p.dbe.timestamp = lin->time;
 
 	switch (lin->iType) {

@@ -445,7 +445,12 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	item->getFontColor(fontid, colorid);
 
 	clText = g_fontTable[fontid].cl;
-	if (item->m_bSelected) {
+	if (item->m_bHighlighted) {
+		clText = g_fontTable[FONT_HIGHLIGHT].cl;
+		clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
+		clLine = g_colorTable[COLOR_FRAME].cl;
+	}
+	else if (item->m_bSelected) {
 		clText = g_colorTable[COLOR_SELTEXT].cl;
 		clBack = g_colorTable[COLOR_SELBACK].cl;
 		clLine = g_colorTable[COLOR_SELFRAME].cl;

@@ -2,40 +2,42 @@
 
 MyColourID g_colorTable[COLOR_COUNT] =
 {
-	{ LPGEN("Incoming name"),              "ColorNickIn",  RGB(0xc8, 0x3f, 0x6b) },
-	{ LPGEN("Outgoing name"),              "ColorNickOut", RGB(0x08, 0x60, 0xbd) },
+	{ LPGEN("Incoming name"),              "ColorNickIn",    RGB(0xc8, 0x3f, 0x6b) },
+	{ LPGEN("Outgoing name"),              "ColorNickOut",   RGB(0x08, 0x60, 0xbd) },
+																			   
+	{ LPGEN("Incoming messages"),          "ColorMsgIn",     RGB(0xd6, 0xf5, 0xc0) },
+	{ LPGEN("Outgoing messages"),          "ColorMsgOut",    RGB(0xf5, 0xe7, 0xd8) },
+																			   
+	{ LPGEN("Incoming files"),             "ColorFileIn",    RGB(0xe3, 0xee, 0x9b) },
+	{ LPGEN("Outgoing files"),             "ColorFileOut",   RGB(0xe3, 0xee, 0x9b) },
+																			   
+	{ LPGEN("Status changes"),             "ColorStatus",    RGB(0xf0, 0xf0, 0xf0) },
+																			   
+	{ LPGEN("Other incoming events"),      "ColorIn",        RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Other outgoing events"),      "ColorOut",       RGB(0xff, 0xff, 0xff) },
+																			   
+	{ LPGEN("Selected item's text"),       "ColorSelTxt",    RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Selected item's background"), "ColorSel",       GetSysColor(COLOR_HIGHLIGHT) },
+	{ LPGEN("Selected item's frame"),      "ColorSelFrm",    GetSysColor(COLOR_HIGHLIGHTTEXT) },
 
-	{ LPGEN("Incoming messages"),          "ColorMsgIn",   RGB(0xd6, 0xf5, 0xc0) },
-	{ LPGEN("Outgoing messages"),          "ColorMsgOut",  RGB(0xf5, 0xe7, 0xd8) },
-																			  
-	{ LPGEN("Incoming files"),             "ColorFileIn",  RGB(0xe3, 0xee, 0x9b) },
-	{ LPGEN("Outgoing files"),             "ColorFileOut", RGB(0xe3, 0xee, 0x9b) },
-																			  
-	{ LPGEN("Status changes"),             "ColorStatus",  RGB(0xf0, 0xf0, 0xf0) },
-																			  
-	{ LPGEN("Other incoming events"),      "ColorIn",      RGB(0xff, 0xff, 0xff) },
-	{ LPGEN("Other outgoing events"),      "ColorOut",     RGB(0xff, 0xff, 0xff) },
-																			  
-	{ LPGEN("Selected item's text"),       "ColorSelTxt",  RGB(0xff, 0xff, 0xff) },
-	{ LPGEN("Selected item's background"), "ColorSel",     GetSysColor(COLOR_HIGHLIGHT) },
-	{ LPGEN("Selected item's frame"),      "ColorSelFrm",  GetSysColor(COLOR_HIGHLIGHTTEXT) },
-																			  
-	{ LPGEN("Grid background"),            "Background",   RGB(0xff, 0xff, 0xff) },
-	{ LPGEN("Separator"),                  "Separator",    RGB(0x60, 0x60, 0x60) },
+	{ LPGEN("Highlight"),                  "ColorHighlight", RGB(0xf0, 0xf0, 0xf0) },
+	{ LPGEN("Grid background"),            "Background",     RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Separator"),                  "Separator",      RGB(0x60, 0x60, 0x60) },
 };
 
 MyFontID g_fontTable[FONT_COUNT] =
 {
-	{ LPGEN("Incoming messages"),     "FontMsgIn"   },
-	{ LPGEN("Outgoing messages"),     "FontMsgOut"  },
+	{ LPGEN("Incoming messages"),     "FontMsgIn"     },
+	{ LPGEN("Outgoing messages"),     "FontMsgOut"    },
+																     
+	{ LPGEN("Incoming files"),        "FontFileIn"    },
+	{ LPGEN("Outgoing files"),        "FontFileOut"   },
 
-	{ LPGEN("Incoming files"),        "FontFileIn"  },
-	{ LPGEN("Outgoing files"),        "FontFileOut" },
+	{ LPGEN("Status changes"),        "FontStatus"    },
+	{ LPGEN("Highlight"),             "FontHighlight", DBFONTF_BOLD, RGB(0x7f, 0, 0) },
 
-	{ LPGEN("Status changes"),        "FontStatus"  },
-
-	{ LPGEN("Other incoming events"), "FontIn"      },
-	{ LPGEN("Other outgoing events"), "FontOut"     }
+	{ LPGEN("Other incoming events"), "FontIn"        },
+	{ LPGEN("Other outgoing events"), "FontOut"       },
 };
 
 int evtFontsChanged(WPARAM, LPARAM)
@@ -93,6 +95,7 @@ void InitFonts()
 		fontid.order = int(&it - g_fontTable);
 		strncpy_s(fontid.name, it.szName, _TRUNCATE);
 		strncpy_s(fontid.setting, it.szSetting, _TRUNCATE);
+		fontid.deffontsettings.style = it.style;
 		fontid.deffontsettings.colour = it.defaultValue;
 		g_plugin.addFont(&fontid);
 
