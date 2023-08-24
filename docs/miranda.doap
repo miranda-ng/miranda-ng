@@ -232,7 +232,6 @@
       </xmpp:SupportedXep>
     </implements>
     <implements>
-    <implements>
       <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0163.html"/>
       </xmpp:SupportedXep>
