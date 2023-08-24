@@ -77,7 +77,8 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] =
 	{ JABBER_FEAT_ROSTER_EXCHANGE,         JABBER_CAPS_ROSTER_EXCHANGE,         LPGEN("Supports Roster Exchange") },
 	{ JABBER_FEAT_DIRECT_MUC_INVITE,       JABBER_CAPS_DIRECT_MUC_INVITE,       LPGEN("Supports direct chat invitations (XEP-0249)") },
 	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY, JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY, LPGEN("Receives information about OMEMO devices") },
-	{ JABBER_FEAT_CARBONS,				   JABBER_CAPS_CARBONS,                 LPGEN("Supports message carbons (XEP-0280)")},
+	{ JABBER_FEAT_CARBONS,                 JABBER_CAPS_CARBONS,                 LPGEN("Supports message carbons (XEP-0280)") },
+	{ JABBER_FEAT_MSGOFFLINE,              JABBER_CAPS_MSGOFFLINE,              LPGEN("Supports offline messages (XEP-0160)") },
 };
 
 const int g_cJabberFeatCapPairs = _countof(g_JabberFeatCapPairs);

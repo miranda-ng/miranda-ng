@@ -781,27 +781,30 @@ BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int ty
 /////////////////////////////////////////////////////////////////////////////////////////
 // XEP-0203 delay support
 
-bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime)
+const TiXmlElement* JabberProcessDelay(const TiXmlElement *node, time_t &msgTime)
 {
-	auto *n = XmlGetChildByTag(node, "delay", "xmlns", "urn:xmpp:delay");
-	if (n == nullptr)
-		return false;
+	if (auto *n = XmlGetChildByTag(node, "delay", "xmlns", "urn:xmpp:delay"))
+		if (auto *pszTimeStamp = XmlGetAttr(n, "stamp")) {
+			// skip '-' chars
+			char *szStamp = NEWSTR_ALLOCA(pszTimeStamp);
+			int si = 0, sj = 0;
+			while (true) {
+				if (szStamp[si] == '-')
+					si++;
+				else if (!(szStamp[sj++] = szStamp[si++]))
+					break;
+			};
+			msgTime = JabberIsoToUnixTime(szStamp);
+			return (msgTime != 0) ? n : nullptr;
+		}
 
-	const char *ptszTimeStamp = XmlGetAttr(n, "stamp");
-	if (ptszTimeStamp == nullptr)
-		return false;
+	if (auto *n = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DELAY))
+		if (auto *pszTimeStamp = XmlGetAttr(n, "stamp")) {
+			msgTime = JabberIsoToUnixTime(pszTimeStamp);
+			return (msgTime != 0) ? n : nullptr;
+		}
 
-	// skip '-' chars
-	char *szStamp = NEWSTR_ALLOCA(ptszTimeStamp);
-	int si = 0, sj = 0;
-	while (true) {
-		if (szStamp[si] == '-')
-			si++;
-		else if (!(szStamp[sj++] = szStamp[si++]))
-			break;
-	};
-	msgTime = JabberIsoToUnixTime(szStamp);
-	return msgTime != 0;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

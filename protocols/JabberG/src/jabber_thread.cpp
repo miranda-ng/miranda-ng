@@ -1056,9 +1056,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 
-		if (auto *xmlDelay = XmlGetChildByTag(xmlForwarded, "delay", "xmlns", "urn:xmpp:delay"))
-			if (auto *ptszTimeStamp = XmlGetAttr(xmlDelay, "stamp"))
-				msgTime = str2time(ptszTimeStamp);
+		JabberProcessDelay(xmlForwarded, msgTime);
 
 		bEnableDelivery = false;
 		bCreateRead = m_bMamCreateRead;
@@ -1225,15 +1223,15 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// Timestamp
 	time_t now = time(0);
+	bool bOffline = false;
 	if (!msgTime) {
-		if (!JabberReadXep203delay(node, msgTime)) {
-			msgTime = now;
-			if (auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DELAY))
-				if (const char *ptszTimeStamp = XmlGetAttr(xNode, "stamp"))
-					if (time_t t = JabberIsoToUnixTime(ptszTimeStamp))
-						msgTime = t;
+		if (auto *n = JabberProcessDelay(node, msgTime)) {
+			if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MSGOFFLINE) && !mir_strcmp(n->GetText(), "Offline Storage"))
+				bOffline = true;
 		}
+		else msgTime = now;
 	}
+
 	if (m_bFixIncorrectTimestamps && (msgTime > now || (hContact && (msgTime < (time_t)JabberGetLastContactMessageTime(hContact)))))
 		msgTime = now;
 
@@ -1425,7 +1423,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	// Create a temporary contact, if needed
 	if (hContact == 0)
 		hContact = CreateTemporaryContact(from, chatItem);
-	CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	if (!bOffline)
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	PROTORECVEVENT recv = {};
 	if (bCreateRead)

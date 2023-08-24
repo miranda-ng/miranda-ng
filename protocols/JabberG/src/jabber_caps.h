@@ -192,6 +192,9 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_BITS                        "urn:xmpp:bob"
 #define JABBER_CAPS_BITS                        ((JabberCapsBits)1<<50)
 
+#define JABBER_FEAT_MSGOFFLINE                  "msgoffline"
+#define JABBER_CAPS_MSGOFFLINE                  ((JabberCapsBits)1<<51)
+
 #define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
 #define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"

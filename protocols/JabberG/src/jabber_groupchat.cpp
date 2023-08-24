@@ -976,7 +976,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 {
 	const TiXmlElement *n, *m;
-	const char *from, *type, *p, *nick;
+	const char *from, *type, *nick;
 	JABBER_LIST_ITEM *item;
 	CMStringW imgLink;
 
@@ -1046,11 +1046,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	gce.si = GcInit(item);
 
 	time_t msgTime = 0;
-	if (!JabberReadXep203delay(node, msgTime)) {
-		auto *xDelay = XmlGetChildByTag(node, "x", "xmlns", "jabber:x:delay");
-		if (xDelay && (p = XmlGetAttr(xDelay, "stamp")) != nullptr)
-			msgTime = JabberIsoToUnixTime(p);
-	}
+	JabberProcessDelay(node, msgTime);
 
 	time_t now = time(0);
 	if (!msgTime || msgTime > now)
