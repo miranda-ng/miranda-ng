@@ -1,5 +1,13 @@
 #include "stdafx.h"
 
+enum
+{
+	MENU_COPY, MENU_COPYTEXT,
+	MENU_SAVEAS, MENU_DOWNLOAD,
+	MENU_EDIT, MENU_DELETE,
+	MENU_SELECTALL, MENU_BOOKMARK,
+};
+
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
 static HGENMENU hmiHistory, hmiCopy, hmiSaveAs, hmiDownload;
@@ -33,35 +41,35 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 	auto *pData = (NewstoryListData *)lParam;
 	
 	switch (wParam) {
-	case 1:
-		SendMessage(pData->hwnd, NSM_COPY, 0, 0);
+	case MENU_COPY:
+		pData->Copy(false);
 		break;
 
-	case 8:
-		SendMessage(pData->hwnd, NSM_COPY, 1, 0);
+	case MENU_COPYTEXT:
+		pData->Copy(true);
 		break;
 
-	case 2:
+	case MENU_EDIT:
 		pData->BeginEditItem(pData->caret, false);
 		break;
 
-	case 3:
+	case MENU_DELETE:
 		pData->DeleteItems();
 		break;
 
-	case 4:
+	case MENU_SELECTALL:
 		SendMessage(pData->hwnd, NSM_SELECTITEMS, 0, pData->totalCount - 1);
 		break;
 
-	case 5:
-		SendMessage(pData->hwnd, NSM_DOWNLOAD, 0, OFD_SAVEAS | OFD_RUN);
+	case MENU_SAVEAS:
+		pData->Download(OFD_SAVEAS | OFD_RUN);
 		break;
 
-	case 6:
-		SendMessage(pData->hwnd, NSM_DOWNLOAD, 0, OFD_DOWNLOAD);
+	case MENU_DOWNLOAD:
+		pData->Download(OFD_DOWNLOAD);
 		break;
 
-	case 7:
+	case MENU_BOOKMARK:
 		pData->ToggleBookmark();
 		break;
 
@@ -161,33 +169,33 @@ void InitMenus()
 
 	mi.position = 100000;
 	mi.name.a = LPGEN("Copy");
-	hmiCopy = Menu_AddNewStoryMenuItem(&mi, 1);
+	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
 
 	mi.position = 100001;
 	mi.name.a = LPGEN("Copy text");
-	hmiCopy = Menu_AddNewStoryMenuItem(&mi, 8);
+	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
 
 	mi.position = 100002;
 	mi.name.a = LPGEN("Save as");
-	hmiSaveAs = Menu_AddNewStoryMenuItem(&mi, 5);
+	hmiSaveAs = Menu_AddNewStoryMenuItem(&mi, MENU_SAVEAS);
 
 	mi.position = 100003;
 	mi.name.a = LPGEN("Download");
-	hmiDownload = Menu_AddNewStoryMenuItem(&mi, 6);
+	hmiDownload = Menu_AddNewStoryMenuItem(&mi, MENU_DOWNLOAD);
 
 	mi.position = 200000;
 	mi.name.a = LPGEN("Edit");
-	Menu_AddNewStoryMenuItem(&mi, 2);
+	Menu_AddNewStoryMenuItem(&mi, MENU_EDIT);
 
 	mi.position = 200001;
 	mi.name.a = LPGEN("Delete");
-	Menu_AddNewStoryMenuItem(&mi, 3);
+	Menu_AddNewStoryMenuItem(&mi, MENU_DELETE);
 
 	mi.position = 200002;
 	mi.name.a = LPGEN("Toggle bookmark");
-	Menu_AddNewStoryMenuItem(&mi, 7);
+	Menu_AddNewStoryMenuItem(&mi, MENU_BOOKMARK);
 
 	mi.position = 300000;
 	mi.name.a = LPGEN("Select all");
-	Menu_AddNewStoryMenuItem(&mi, 4);
+	Menu_AddNewStoryMenuItem(&mi, MENU_SELECTALL);
 }

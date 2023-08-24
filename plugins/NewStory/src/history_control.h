@@ -12,18 +12,6 @@ enum
 	// result = number of total selected items
 	NSM_SELECTITEMS = NSM_FIRST,
 
-	// result = id
-	NSM_GETCARET,
-
-	//
-	NSM_COPY,
-	NSM_EXPORT,
-	NSM_DOWNLOAD,
-
-	//
-	NSM_GETCOUNT,
-	NSM_GETARRAY,
-
 	//
 	NSM_SEEKTIME,
 
@@ -74,7 +62,9 @@ struct NewstoryListData : public MZeroedObject
 	void      BeginEditItem(int index, bool bReadOnly);
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
+	void      Copy(bool bTextOnly = false);
 	void      DeleteItems(void);
+	void      Download(int iOptions);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
 	int       FindNext(const wchar_t *pwszText);

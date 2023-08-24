@@ -275,13 +275,13 @@ class CHistoryDlg : public CDlgBase
 			return;
 
 		m_timeTree.DeleteAllItems();
-		auto *pArray = (HistoryArray *)m_histWindow.SendMsg(NSM_GETARRAY, 0, 0);
-		int numItems = pArray->getCount();
+		auto &pArray = m_histCtrl->items;
+		int numItems = pArray.getCount();
 
 		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
 		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
 		for (int i = 0; i < numItems; i++) {
-			auto *pItem = pArray->get(i, true);
+			auto *pItem = pArray.get(i, true);
 			if (pItem->dbe.timestamp == 0)
 				continue;
 
@@ -717,7 +717,7 @@ public:
 
 	void onClick_Copy(CCtrlButton *)
 	{
-		m_histWindow.SendMsg(NSM_COPY, 0, 0);
+		m_histCtrl->Copy();
 	}
 
 	void onClick_Delete(CCtrlButton *)

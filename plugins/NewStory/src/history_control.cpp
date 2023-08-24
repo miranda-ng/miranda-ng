@@ -220,6 +220,41 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 	InvalidateRect(hwnd, 0, FALSE);
 }
 
+void NewstoryListData::Copy(bool bTextOnly)
+{
+	CMStringW res;
+
+	int eventCount = totalCount;
+	for (int i = 0; i < eventCount; i++) {
+		ItemData *p = GetItem(i);
+		if (!p->m_bSelected)
+			continue;
+
+		if (p->m_bOfflineFile) {
+			DB::EventInfo dbei(p->hEvent);
+			DB::FILE_BLOB blob(dbei);
+			if (p->m_bOfflineDownloaded)
+				res.Append(blob.getLocalName());
+			else
+				res.Append(_A2T(blob.getUrl()));
+			res.Append(L"\r\n");
+		}
+		else {
+			if (bTextOnly) {
+				res.Append(p->wtext);
+				res.Append(L"\r\n");
+			}
+			else { // copy text only
+				ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
+				RemoveBbcodes(wszText);
+				res.Append(wszText);
+			}
+		}
+	}
+
+	Utils_ClipboardCopy(res);
+}
+
 void NewstoryListData::DeleteItems(void)
 {
 	if (IDYES != MessageBoxW(hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
@@ -244,6 +279,12 @@ void NewstoryListData::DeleteItems(void)
 		SetSelection(firstSel, firstSel);
 		FixScrollPosition(true);
 	}
+}
+
+void NewstoryListData::Download(int options)
+{
+	if (auto *p = LoadItem(caret))
+		Srmm_DownloadOfflineFile(p->hContact, p->hEvent, options);
 }
 
 void NewstoryListData::EndEditItem(bool bAccept)
@@ -733,18 +774,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	// History list control messages
-	case NSM_GETARRAY:
-		return (LRESULT)&data->items;
-
-	case NSM_GETCOUNT:
-		return data->totalCount;
-
 	case NSM_SELECTITEMS:
 		data->AddSelection(wParam, lParam);
 		return 0;
-
-	case NSM_GETCARET:
-		return data->caret;
 
 	case NSM_SEEKTIME:
 		{
@@ -764,47 +796,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 		return TRUE;
-
-	case NSM_COPY:
-		{
-			CMStringW res;
-
-			int eventCount = data->totalCount;
-			for (int i = 0; i < eventCount; i++) {
-				ItemData *p = data->GetItem(i);
-				if (!p->m_bSelected)
-					continue;
-
-				if (p->m_bOfflineFile) {
-					DB::EventInfo dbei(p->hEvent);
-					DB::FILE_BLOB blob(dbei);
-					if (p->m_bOfflineDownloaded)
-						res.Append(blob.getLocalName());
-					else
-						res.Append(_A2T(blob.getUrl()));
-					res.Append(L"\r\n");
-				}
-				else {
-					if (wParam == 0) {
-						ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
-						RemoveBbcodes(wszText);
-						res.Append(wszText);
-					}
-					else { // copy text only
-						res.Append(p->wtext);
-						res.Append(L"\r\n");
-					}
-				}
-			}
-
-			Utils_ClipboardCopy(res);
-		}
-		break;
-
-	case NSM_DOWNLOAD:
-		if (auto *p = data->LoadItem(data->caret))
-			Srmm_DownloadOfflineFile(p->hContact, p->hEvent, lParam);
-		break;
 
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
@@ -993,7 +984,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case VK_INSERT:
 			case 'C':
 				if (isCtrl)
-					PostMessage(hwnd, NSM_COPY, 0, 0);
+					data->Copy();
 				break;
 
 			case 'A':
