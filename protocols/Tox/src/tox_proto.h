@@ -126,7 +126,6 @@ private:
 	void __cdecl InitThread(void *);
 
 	void OnLoggedIn();
-	void OnLoggedFail();
 
 	void OnToxPoll();
 	static void OnConnectionStatus(Tox *, Tox_Connection iNewStatus, void *pUserData);
