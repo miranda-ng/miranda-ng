@@ -644,7 +644,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_DELAYEDRESORTCLC:
-		TRACE("Do sort on Timer\n");
+		// TRACE("Do sort on Timer\n");
 		KillTimer(hwnd, TIMERID_DELAYEDRESORTCLC);
 		g_clistApi.pfnSortCLC(hwnd, dat, 1);
 		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
@@ -1408,7 +1408,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	}
 
 	if (dat->bNeedsResort) {
-		TRACE("Sort required\n");
+		// TRACE("Sort required\n");
 		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd);
 	}
 	else if (needRepaint) {
