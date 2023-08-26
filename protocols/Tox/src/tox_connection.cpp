@@ -25,7 +25,7 @@ void CToxProto::OnLoggedIn()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tox polling callback
 
-static void sttScheduledDisconnect(void *param)
+static void CALLBACK sttScheduledDisconnect(void *param)
 {
 	auto *ppro = (CToxProto *)param;
 	ppro->SetStatus(ID_STATUS_OFFLINE);
