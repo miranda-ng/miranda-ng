@@ -22,11 +22,15 @@ void CToxProto::OnLoggedIn()
 	LoadFriendList(m_tox);
 }
 
-void CToxProto::OnLoggedFail()
+/////////////////////////////////////////////////////////////////////////////////////////
+// Tox polling callback
+
+static void sttScheduledDisconnect(void *param)
 {
-	SetStatus(ID_STATUS_OFFLINE);
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
-	debugLogA(__FUNCTION__": failed to connect to DHT");
+	auto *ppro = (CToxProto *)param;
+	ppro->SetStatus(ID_STATUS_OFFLINE);
+	ppro->ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
+	ppro->debugLogA(__FUNCTION__": failed to connect to DHT");
 }
 
 void CToxProto::OnConnectionStatus(Tox*, Tox_Connection iNewStatus, void *pUserData)
@@ -35,10 +39,11 @@ void CToxProto::OnConnectionStatus(Tox*, Tox_Connection iNewStatus, void *pUserD
 	if (ppro->m_tox == nullptr)
 		return;
 
-	if (iNewStatus == TOX_CONNECTION_NONE)
-		ppro->OnLoggedFail();
-	else
-		ppro->OnLoggedIn();
+	if (iNewStatus == TOX_CONNECTION_NONE) {
+		// we cannot destroy Tox object inside its hook... #3649
+		Miranda_WaitOnHandleEx(sttScheduledDisconnect, ppro);
+	}
+	else ppro->OnLoggedIn();
 }
 
 void CToxProto::OnToxPoll()
