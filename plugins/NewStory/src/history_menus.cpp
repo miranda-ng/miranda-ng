@@ -133,7 +133,7 @@ void InitMenus()
 	{	// Contact menu items
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x21);
-		mi.name.a = LPGEN("User history");
+		mi.name.a = LPGEN("History");
 		mi.position = 1000090000;
 		mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_NEWSTORY);

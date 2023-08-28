@@ -604,7 +604,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 							AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send message"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_QUOTE, TranslateT("Reply &quoted"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
-							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
+							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all contact history"));
 						}
 
 						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
@@ -781,7 +781,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
 						AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 						AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send message"));
-						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
+						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all contact history"));
 
 						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
 						switch (selected) {
@@ -1818,7 +1818,7 @@ void HistoryWindow::DeleteToolbarClicked(LPNMTOOLBAR lpnmTB)
 	if (hPopupMenu != nullptr) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
-		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all contact history"));
 		SetMenuDefaultItem(hPopupMenu, IDM_DELETE, FALSE);
 
 		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, nullptr);
