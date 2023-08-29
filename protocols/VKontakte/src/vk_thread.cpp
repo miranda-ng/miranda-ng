@@ -1116,13 +1116,16 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	}
 
 	VKUserID_t iUserId = ReadVKUserID(hContact);
+	
 	ptrW wszDomain(db_get_wsa(hContact, m_szModuleName, "domain"));
 
 	CMStringW wszUrl("https://vk.com/");
 	if (wszDomain)
 		wszUrl.Append(wszDomain);
-	else
-		wszUrl.AppendFormat(L"id%i", iUserId);
+	else {
+		bool b_isGroupUser = IsGroupUser(hContact);
+		wszUrl.AppendFormat(b_isGroupUser ? L"club%i" : L"id%i", b_isGroupUser ? -1* iUserId : iUserId);
+	}
 
 	Utils_OpenUrlW(wszUrl);
 	return 0;
