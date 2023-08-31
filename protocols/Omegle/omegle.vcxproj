@@ -30,7 +30,6 @@
     <ClCompile Include="src\communication.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\dialogs.cpp" />
-    <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\messages.cpp" />
     <ClCompile Include="src\proto.cpp" />
