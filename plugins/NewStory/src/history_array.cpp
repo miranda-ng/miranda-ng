@@ -400,7 +400,6 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 	switch (lin->iType) {
 	case GC_EVENT_MESSAGE:
-	case GC_EVENT_TOPIC:
 	case GC_EVENT_INFORMATION:
 		p.dbe.eventType = EVENTTYPE_MESSAGE;
 		if (lin->bIsMe)
@@ -414,6 +413,11 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	case GC_EVENT_JOIN:
 		p.dbe.flags |= DBEF_SENT;
 		__fallthrough;
+
+	case GC_EVENT_PART:
+	case GC_EVENT_QUIT:
+		p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
+		break;
 
 	default:
 		p.dbe.eventType = EVENTTYPE_OTHER;
