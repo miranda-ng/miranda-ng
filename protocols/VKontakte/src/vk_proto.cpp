@@ -43,7 +43,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_bErr404Return(false),
 	m_vkOptions(this)
 {
-	bIint64IDCompatibility = false;
+	bIint64IDCompatibility = getBool("Iint64IDCompatibility");
 	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);
 
 	InitQueue();

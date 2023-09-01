@@ -39,8 +39,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CVkProto>("VKontakte", pluginInfoEx)
-{
-	SetUniqueId("ID", DBVT_DWORD);
+{	
+	SetUniqueId("ID");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

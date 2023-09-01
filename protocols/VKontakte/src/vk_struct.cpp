@@ -41,6 +41,9 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	bIsMainConn = false;
 	AddHeader("Connection", "keep-alive");
 
+	if (ppro->bIint64IDCompatibility)
+		AddHeader("X-Owner", "long");
+
 	if (*_url == '/') {	// relative url leads to a site
 		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
 		m_szUrl += _url;

@@ -130,6 +130,19 @@ void CVkProto::CheckUpdate()
 		}
 		setByte("Compatibility", 1);
 	}
+
+	if (getByte("Iint64IDCompatibility") < 1) {
+		for (auto& cc : AccContacts()) {
+			char szID[40];
+			_ltoa(ReadVKUserID(cc), szID, 10);
+			db_unset(cc, m_szModuleName, "ID");
+			setString(cc, "ID", szID);
+		}
+
+		setByte("Iint64IDCompatibility", 1);
+		bIint64IDCompatibility = true;
+	}
+
 }
 
 //////////////////////// bIint64IDCompatibility /////////////////////////////////////////
