@@ -215,7 +215,8 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 		std::swap(start, end);
 
 	for (int i = start; i <= end; ++i)
-		GetItem(i)->m_bSelected = false;
+		if (auto *pItem = GetItem(i))
+			pItem->m_bSelected = false;
 
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
