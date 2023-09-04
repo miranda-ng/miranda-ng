@@ -58,7 +58,7 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case MENU_SELECTALL:
-		SendMessage(pData->hwnd, NSM_SELECTITEMS, 0, pData->totalCount - 1);
+		SendMessage(pData->m_hwnd, NSM_SELECTITEMS, 0, pData->totalCount - 1);
 		break;
 
 	case MENU_SAVEAS:

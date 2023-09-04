@@ -41,7 +41,7 @@ void InitHotkeys()
 // Control utilities, types and constants
 
 NewstoryListData::NewstoryListData(HWND _1) :
-	hwnd(_1),
+	m_hwnd(_1),
 	redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
 {
 	bSortAscending = g_plugin.bSortAscending;
@@ -62,7 +62,7 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
 	}
 		
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
+	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
 	Menu_DestroyNestedMenu(hMenu);
 }
 
@@ -83,7 +83,7 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 	}
 
 	if (bDraw)
-		InvalidateRect(hwnd, 0, FALSE);
+		InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::OnTimer(CTimer *pTimer)
@@ -93,7 +93,7 @@ void NewstoryListData::OnTimer(CTimer *pTimer)
 	if (bWasAtBottom)
 		EnsureVisible(totalCount - 1);
 
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
@@ -128,7 +128,7 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 		if (auto *p = GetItem(i))
 			p->m_bSelected = true;
 
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 bool NewstoryListData::AtBottom(void) const
@@ -168,7 +168,7 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
 		return;
 
-	RECT rc; GetClientRect(hwnd, &rc);
+	RECT rc; GetClientRect(m_hwnd, &rc);
 	int height = rc.bottom - rc.top;
 
 	int top = scrollTopPixel;
@@ -190,7 +190,7 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	if (bReadOnly) 
 		dwStyle |= ES_READONLY;
 
-	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
+	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
 	SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
 	OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
@@ -204,7 +204,7 @@ void NewstoryListData::Clear()
 {
 	items.clear();
 	totalCount = 0;
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ClearSelection(int iFirst, int iLast)
@@ -217,7 +217,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 	for (int i = start; i <= end; ++i)
 		GetItem(i)->m_bSelected = false;
 
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::Copy(bool bTextOnly)
@@ -257,7 +257,7 @@ void NewstoryListData::Copy(bool bTextOnly)
 
 void NewstoryListData::DeleteItems(void)
 {
-	if (IDYES != MessageBoxW(hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+	if (IDYES != MessageBoxW(m_hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
 		return;
 
 	db_set_safety_mode(false);
@@ -313,7 +313,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 			MTextDestroy(pItem->data); pItem->data = 0;
 			pItem->savedHeight = -1;
-			pItem->checkCreate(hwnd);
+			pItem->checkCreate(m_hwnd);
 		}
 	}
 
@@ -326,11 +326,11 @@ void NewstoryListData::EnsureVisible(int item)
 	if (scrollTopItem >= item) {
 		scrollTopItem = item;
 		scrollTopPixel = 0;
-		InvalidateRect(hwnd, 0, FALSE);
+		InvalidateRect(m_hwnd, 0, FALSE);
 	}
 	else {
 		RECT rc;
-		GetClientRect(hwnd, &rc);
+		GetClientRect(m_hwnd, &rc);
 		int height = rc.bottom - rc.top;
 		int top = scrollTopPixel;
 		int idx = scrollTopItem;
@@ -349,7 +349,7 @@ void NewstoryListData::EnsureVisible(int item)
 		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
-			InvalidateRect(hwnd, 0, FALSE);
+			InvalidateRect(m_hwnd, 0, FALSE);
 		}
 	}
 	FixScrollPosition();
@@ -417,7 +417,7 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 		return -1;
 		
 	RECT rc;
-	GetClientRect(hwnd, &rc);
+	GetClientRect(m_hwnd, &rc);
 
 	int height = rc.bottom - rc.top;
 	int current = scrollTopItem;
@@ -446,19 +446,19 @@ int NewstoryListData::GetItemHeight(int index)
 
 	int fontid, colorid;
 	item->getFontColor(fontid, colorid);
-	item->checkCreate(hwnd);
+	item->checkCreate(m_hwnd);
 
-	HDC hdc = GetDC(hwnd);
+	HDC hdc = GetDC(m_hwnd);
 	HFONT hOldFont = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 
-	RECT rc; GetClientRect(hwnd, &rc);
+	RECT rc; GetClientRect(m_hwnd, &rc);
 	int width = rc.right - rc.left;
 
 	SIZE sz = { width - 6, 0 };
 	MTextMeasure(hdc, &sz, (HANDLE)item->data);
 
 	SelectObject(hdc, hOldFont);
-	ReleaseDC(hwnd, hdc);
+	ReleaseDC(m_hwnd, hdc);
 	return item->savedHeight = sz.cy + 5;
 }
 
@@ -499,7 +499,7 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 		clBack = g_colorTable[colorid].cl;
 	}
 
-	item->checkCreate(hwnd);
+	item->checkCreate(m_hwnd);
 
 	SIZE sz;
 	sz.cx = width - 6;
@@ -547,7 +547,7 @@ void NewstoryListData::RecalcScrollBar()
 	if (cachedScrollbarPage != si.nPage || si.nPos != cachedScrollbarPos) {
 		cachedScrollbarPos = si.nPos;
 		cachedScrollbarPage = si.nPage;
-		SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
 }
 
@@ -569,7 +569,7 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 }
 void NewstoryListData::SetContact(MCONTACT hContact)
 {
-	WindowList_Add(g_hNewstoryLogs, hwnd, hContact);
+	WindowList_Add(g_hNewstoryLogs, m_hwnd, hContact);
 }
 
 void NewstoryListData::SetDialog(CSrmmBaseDialog *pDlg)
@@ -600,7 +600,7 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 			p->m_bSelected = false;
 	}
 
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ToggleBookmark()
@@ -613,7 +613,7 @@ void NewstoryListData::ToggleBookmark()
 		db_event_edit(p->hEvent, &p->dbe);
 
 		p->setText();
-		InvalidateRect(hwnd, 0, FALSE);
+		InvalidateRect(m_hwnd, 0, FALSE);
 	}
 }
 
@@ -629,7 +629,7 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 		p->m_bSelected = !p->m_bSelected;
 	}
 
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -647,7 +647,7 @@ void NewstoryListData::LineUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::LineDown()
@@ -657,7 +657,7 @@ void NewstoryListData::LineDown()
 
 	scrollTopItem++;
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::PageUp()
@@ -672,7 +672,7 @@ void NewstoryListData::PageUp()
 		scrollTopPixel = 0;
 	}
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::PageDown()
@@ -682,14 +682,14 @@ void NewstoryListData::PageDown()
 
 	scrollTopItem = cachedMaxDrawnItem - 1;
 	FixScrollPosition();
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ScrollTop()
 {
 	scrollTopItem = scrollTopPixel = 0;
 	FixScrollPosition(true);
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ScrollBottom()
@@ -700,7 +700,7 @@ void NewstoryListData::ScrollBottom()
 	scrollTopItem = cachedMaxTopItem;
 	scrollTopPixel = cachedMaxTopPixel;
 	FixScrollPosition(true);
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -900,7 +900,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_KILLFOCUS:
-		data->EndEditItem(false);
+		if (wParam && (HWND)wParam != data->hwndEditBox)
+			data->EndEditItem(false);
 		if (data->pMsgDlg)
 			data->ClearSelection(0, -1);
 		return 0;

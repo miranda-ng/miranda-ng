@@ -43,7 +43,7 @@ struct NewstoryListData : public MZeroedObject
 
 	bool bWasShift, bSortAscending, bWasAtBottom;
 
-	HWND hwnd;
+	HWND m_hwnd;
 	HWND hwndEditBox;
 
 	CTimer redrawTimer;
