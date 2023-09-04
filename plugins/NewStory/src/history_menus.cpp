@@ -33,7 +33,16 @@ HMENU NSMenu_Build(ItemData *item)
 
 bool NSMenu_Process(int iCommand, NewstoryListData *data)
 {
-	return Menu_ProcessCommandById(iCommand, LPARAM(data)) != 0;
+	if (Menu_ProcessCommandById(iCommand, LPARAM(data)))
+		return true;
+
+	if (auto *pDlg = data->pMsgDlg) {
+		PostMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+		if (Chat_DoEventHook(pDlg->getChat(), GC_USER_LOGMENU, nullptr, nullptr, iCommand))
+			return true;
+	}
+
+	return false;
 }
 
 static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
@@ -72,12 +81,6 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 	case MENU_BOOKMARK:
 		pData->ToggleBookmark();
 		break;
-
-	default:
-		if (auto *pDlg = pData->pMsgDlg) {
-			PostMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
-			Chat_DoEventHook(pDlg->getChat(), GC_USER_LOGMENU, nullptr, nullptr, wParam);
-		}
 	}
 	
 	return 0;
