@@ -18,70 +18,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-AsyncHttpRequest::AsyncHttpRequest(int type, const char *szUrl)
+void CTwitterProto::OnLoggedIn()
 {
-	requestType = type;
-	m_szUrl = szUrl;
+	ptrW wszGroup(getWStringA(TWITTER_KEY_GROUP));
+	if (wszGroup)
+		Clist_GroupCreate(0, wszGroup);
+
+	setAllContactStatuses(ID_STATUS_ONLINE);
+	SetChatStatus(ID_STATUS_ONLINE);
+
+	int old_status = m_iStatus;
+	// m_szMyId = root["id_str"].as_mstring(); !!!!!!!!!!!!!!
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }
 
-void CALLBACK CTwitterProto::APC_callback(ULONG_PTR p)
+void CTwitterProto::OnLoggedFail()
 {
-	reinterpret_cast<CTwitterProto*>(p)->debugLogA("***** Executing APC");
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+
+	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
-template<typename T>
-inline static T db_pod_get(MCONTACT hContact, const char *module, const char *setting, T errorValue)
+void CTwitterProto::BeginConnection()
 {
-	DBVARIANT dbv;
-	if (db_get(hContact, module, setting, &dbv))
-		return errorValue;
+	if (!m_si && getByte(TWITTER_KEY_CHATFEED))
+		OnJoinChat(0, true);
 
-	T ret = *(T*)dbv.pbVal;
-	db_free(&dbv);
-	return ret;
-}
+	if (!m_hWorkerThreadId)
+		ForkThread(&CTwitterProto::ServerThread);
 
-template<typename T>
-inline static INT_PTR db_pod_set(MCONTACT hContact, const char *module, const char *setting, T val)
-{
-	return db_set_blob(hContact, module, setting, &val, sizeof(T));
-}
-
-void CTwitterProto::SignOn(void*)
-{
-	debugLogA("***** Beginning SignOn process");
-	mir_cslock lck(signon_lock_);
-
-	// Kill the old thread if it's still around
-	// this doesn't seem to work.. should we wait infinitely?
-	if (hMsgLoop_) {
-		debugLogA("***** Requesting MessageLoop to exit");
-		QueueUserAPC(APC_callback, hMsgLoop_, (ULONG_PTR)this);
-		debugLogA("***** Waiting for old MessageLoop to exit");
-		//WaitForSingleObject(hMsgLoop_,INFINITE);
-		WaitForSingleObject(hMsgLoop_, 180000);
-		CloseHandle(hMsgLoop_);
-	}
-	if (NegotiateConnection()) // Could this be? The legendary Go Time??
-	{
-		if (!m_si && getByte(TWITTER_KEY_CHATFEED))
-			OnJoinChat(0, true);
-
-		setAllContactStatuses(ID_STATUS_ONLINE);
-		SetChatStatus(ID_STATUS_ONLINE);
-		hMsgLoop_ = ForkThreadEx(&CTwitterProto::MessageLoop, nullptr, nullptr);
-	}
-
-	debugLogA("***** SignOn complete");
-}
-
-bool CTwitterProto::NegotiateConnection()
-{
 	debugLogA("***** Negotiating connection with Twitter");
-	disconnectionCount = 0;
 
 	// saving the current status to a temp var
-	int old_status = m_iStatus;
 
 	CMStringA szOauthToken = getMStringA(TWITTER_KEY_OAUTH_TOK);
 	CMStringA szOauthTokenSecret = getMStringA(TWITTER_KEY_OAUTH_TOK_SEC);
@@ -91,140 +61,42 @@ bool CTwitterProto::NegotiateConnection()
 
 	if (szOauthToken.IsEmpty() || szOauthTokenSecret.IsEmpty()) {
 		// first, reset all the keys so we can start fresh
-		debugLogA("**NegotiateConnection - Reset OAuth Keys");
-		resetOAuthKeys();
+		ResetOauthKeys();
 
 		m_szUserName.Empty();
 		debugLogA("**NegotiateConnection - Requesting oauthTokens");
-		http::response resp = request_token();
 
-		StringPairs response = ParseQueryString(resp.data);
-		szOauthToken = response[L"oauth_token"];
-		szOauthTokenSecret = response[L"oauth_token_secret"];
-
-		if (szOauthToken.IsEmpty()) {
-			ShowPopup("OAuth token not received, check your internet connection?", 1);
-			debugLogA("**NegotiateConnection - OAuth tokens not received, stopping before we open the web browser..");
-			return false;
-		}
-
-		// write those bitches to the db foe latta
-		setString(TWITTER_KEY_OAUTH_TOK, m_szAccessToken = szOauthToken);
-		setString(TWITTER_KEY_OAUTH_TOK_SEC, m_szAccessTokenSecret = szOauthTokenSecret);
-
-		// this looks like bad code.. can someone clean this up please?  or confirm that it's ok
-		char buf[1024];
-		mir_snprintf(buf, "https://api.twitter.com/oauth/authorize?oauth_token=%s", szOauthToken.c_str());
-		debugLogA("**NegotiateConnection - Launching %s", buf);
-		Utils_OpenUrl(buf);
-
-		ShowPinDialog();
+		RequestOauthAuth();
+		return;
 	}
 
-	ptrW wszGroup(getWStringA(TWITTER_KEY_GROUP));
-	if (wszGroup)
-		Clist_GroupCreate(0, wszGroup);
-
-	// remember, dbTOK is 0 (false) if the db setting has returned something
 	szOauthToken = getMStringA(TWITTER_KEY_OAUTH_ACCESS_TOK);
 	szOauthTokenSecret = getMStringA(TWITTER_KEY_OAUTH_ACCESS_SEC);
 
-	if (szOauthToken.IsEmpty() || szOauthTokenSecret.IsEmpty()) {  // if we don't have one of these beasties then lets go get 'em!
-		debugLogA("**NegotiateConnection - either the accessToken or accessTokenSecret was not there..");
-		m_szPin = getMStringA(TWITTER_KEY_OAUTH_PIN);
-		if (m_szPin.IsEmpty()) {
-			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)"));
-			debugLogA("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline.");
-			resetOAuthKeys();
+	debugLogA("**NegotiateConnection - Successfully retrieved Access Tokens");
 
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
+	StringPairs accessTokenParameters = ParseQueryString("");
+	m_szAccessToken = accessTokenParameters[L"oauth_token"];
+	m_szAccessTokenSecret = accessTokenParameters[L"oauth_token_secret"];
+	m_szUserName = accessTokenParameters[L"screen_name"];
+	debugLogA("**NegotiateConnection - screen name is %s", m_szUserName.c_str());
 
-			// Set to offline
-			old_status = m_iStatus;
-			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-			return false;
-		}
+	// save em
+	setUString(TWITTER_KEY_OAUTH_ACCESS_TOK, m_szAccessToken);
+	setUString(TWITTER_KEY_OAUTH_ACCESS_SEC, m_szAccessTokenSecret);
+	setUString(TWITTER_KEY_NICK, m_szUserName);
+	setUString(TWITTER_KEY_UN, m_szUserName);
 
-		debugLogA("**NegotiateConnection - requesting access tokens...");
-		http::response accessResp = request_access_tokens();
-		m_szPin.Empty();
-		if (accessResp.code != 200) {
-			debugLogA("**NegotiateConnection - Failed to get Access Tokens, HTTP response code is: %d", accessResp.code);
-			ShowPopup(TranslateT("Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection."));
-
-			resetOAuthKeys();
-
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
-
-			// Set to offline
-			old_status = m_iStatus;
-			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-			return false;
-		}
-
-		debugLogA("**NegotiateConnection - Successfully retrieved Access Tokens");
-
-		StringPairs accessTokenParameters = ParseQueryString(accessResp.data);
-		m_szAccessToken = accessTokenParameters[L"oauth_token"];
-		m_szAccessTokenSecret = accessTokenParameters[L"oauth_token_secret"];
-		m_szUserName = accessTokenParameters[L"screen_name"];
-		debugLogA("**NegotiateConnection - screen name is %s", m_szUserName.c_str());
-
-		// save em
-		setUString(TWITTER_KEY_OAUTH_ACCESS_TOK, m_szAccessToken);
-		setUString(TWITTER_KEY_OAUTH_ACCESS_SEC, m_szAccessTokenSecret);
-		setUString(TWITTER_KEY_NICK, m_szUserName);
-		setUString(TWITTER_KEY_UN, m_szUserName);
-	}
-	else {
-		m_szAccessToken = szOauthToken;
-		m_szAccessTokenSecret = szOauthTokenSecret;
-	}
-
-	debugLogA("**NegotiateConnection - Setting Consumer Keys and verifying creds...");
-
-	if (m_szUserName.IsEmpty()) {
-		ShowPopup(TranslateT("You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account"));
-		debugLogA("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have");
-	}
-
-	auto *req = new AsyncHttpRequest(REQUEST_GET, "/account/verify_credentials.json");
-	auto resp(Execute(req));
-	if (resp.code != 200) {
-		debugLogA("**NegotiateConnection - Verifying credentials failed!  No internet maybe?");
-
-LBL_Error:
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
-
-		// Set to offline
-		old_status = m_iStatus;
-		m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-		return false;
-	}
-
-	JSONNode root = JSONNode::parse(resp.data.c_str());
-	if (!root) {
-		debugLogA("unable to parse response");
-		goto LBL_Error;
-	}
-
-	m_szMyId = root["id_str"].as_mstring();
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-	return true;
+	m_szAccessToken = szOauthToken;
+	m_szAccessTokenSecret = szOauthTokenSecret;
 }
 
 void CTwitterProto::MessageLoop(void*)
 {
 	debugLogA("***** Entering Twitter::MessageLoop");
 
-	since_id_ = db_pod_get<twitter_id>(0, m_szModuleName, TWITTER_KEY_SINCEID, 0);
-	dm_since_id_ = db_pod_get<twitter_id>(0, m_szModuleName, TWITTER_KEY_DMSINCEID, 0);
+	since_id_ = getId(TWITTER_KEY_SINCEID);
+	dm_since_id_ = getId(TWITTER_KEY_DMSINCEID);
 
 	bool new_account = getByte(TWITTER_KEY_NEW, 1) != 0;
 	bool popups = getByte(TWITTER_KEY_POPUP_SIGNON, 1) != 0;
@@ -348,6 +220,7 @@ void CTwitterProto::UpdateAvatar(MCONTACT hContact, const CMStringA &url, bool f
 
 void CTwitterProto::UpdateFriends()
 {
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_GET, CMStringA(FORMAT, "/2/users/%s/followers", m_szMyId.c_str()));
 	http::response resp = Execute(req);
 	if (resp.code != 200) {
@@ -376,7 +249,7 @@ void CTwitterProto::UpdateFriends()
 		setUString(hContact, "Nick", real_name.c_str());
 		UpdateAvatar(hContact, profile_image_url.c_str());
 	}
-	disconnectionCount = 0;
+	*/
 	debugLogA("***** Friends list updated");
 }
 
@@ -441,6 +314,7 @@ void CTwitterProto::ShowContactPopup(MCONTACT hContact, const CMStringA &text, c
 
 void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 {
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_GET, "/statuses/home_timeline.json");
 	req << INT_PARAM("count", 200);
 	if (since_id_ != 0)
@@ -535,14 +409,15 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			ShowContactPopup(hContact, u->status.text.c_str(), new CMStringA(FORMAT, "https://twitter.com/%s/status/%lld", u->username.c_str(), u->status.id));
 		}
 	}
+	*/
 
-	db_pod_set(0, m_szModuleName, TWITTER_KEY_SINCEID, since_id_);
-	disconnectionCount = 0;
+	setId(TWITTER_KEY_SINCEID, since_id_);
 	debugLogA("***** Status messages updated");
 }
 
 void CTwitterProto::UpdateMessages(bool pre_read)
 {
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_GET, "/direct_messages/events/list.json");
 	req << INT_PARAM("count", 50);
 	if (dm_since_id_ != 0)
@@ -603,13 +478,13 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		if (!msgid.empty())
 			m_arChatMarks.insert(new CChatMark(hDbEVent, msgid.c_str()));
 	}
+	*/
 
-	db_pod_set(0, m_szModuleName, TWITTER_KEY_DMSINCEID, dm_since_id_);
-	disconnectionCount = 0;
+	setId(TWITTER_KEY_DMSINCEID, dm_since_id_);
 	debugLogA("***** Direct messages updated");
 }
 
-void CTwitterProto::resetOAuthKeys()
+void CTwitterProto::ResetOauthKeys()
 {
 	delSetting(TWITTER_KEY_OAUTH_ACCESS_TOK);
 	delSetting(TWITTER_KEY_OAUTH_ACCESS_SEC);

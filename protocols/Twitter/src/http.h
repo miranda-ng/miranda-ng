@@ -18,13 +18,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-
-namespace http
-{
-	struct response
-	{
-		response() : code(0) {}
-		int code;
-		CMStringA data;
-	};
-}

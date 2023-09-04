@@ -20,23 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // utility functions
 
-http::response CTwitterProto::request_token()
-{
-	auto *req = new AsyncHttpRequest(REQUEST_GET, "https://api.twitter.com/oauth/request_token");
-	return Execute(req);
-}
-
-http::response CTwitterProto::request_access_tokens()
-{
-	auto *req = new AsyncHttpRequest(REQUEST_GET, "https://api.twitter.com/oauth/access_token");
-	return Execute(req);
-}
-
 bool CTwitterProto::get_info(const CMStringA &name, twitter_user *info)
 {
 	if (!info)
 		return false;
-
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_GET, "/users/show/" + mir_urlEncode(name) + ".json");
 	http::response resp = Execute(req);
 	if (resp.code != 200)
@@ -52,6 +40,7 @@ bool CTwitterProto::get_info(const CMStringA &name, twitter_user *info)
 	info->username = root["screen_name"].as_string();
 	info->real_name = root["name"].as_string();
 	info->profile_image_url = root["profile_image_url"].as_string();
+	*/
 	return true;
 }
 
@@ -60,6 +49,7 @@ bool CTwitterProto::get_info_by_email(const CMStringA &email, twitter_user *info
 	if (!info)
 		return false;
 
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_GET, "/users/show.json?email=" + mir_urlEncode(email));
 	http::response resp = Execute(req);
 	if (resp.code != 200)
@@ -75,11 +65,13 @@ bool CTwitterProto::get_info_by_email(const CMStringA &email, twitter_user *info
 	info->username = root["screen_name"].as_string();
 	info->real_name = root["name"].as_string();
 	info->profile_image_url = root["profile_image_url"].as_string();
+	*/
 	return true;
 }
 
 bool CTwitterProto::add_friend(const CMStringA &name, twitter_user &ret)
 {
+	/*
 	auto *req = new AsyncHttpRequest(REQUEST_POST, "/friendships/create/" + mir_urlEncode(name) + ".json");
 	http::response resp = Execute(req);
 	if (resp.code != 200)
@@ -98,7 +90,7 @@ bool CTwitterProto::add_friend(const CMStringA &name, twitter_user &ret)
 		ret.status.text = pStatus["text"].as_string();
 		ret.status.id = _atoi64(pStatus["id"].as_string().c_str());
 	}
-
+	*/
 	return true;
 }
 

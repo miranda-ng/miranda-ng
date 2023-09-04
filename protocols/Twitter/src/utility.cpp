@@ -20,58 +20,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <io.h>
 
-http::response CTwitterProto::Execute(AsyncHttpRequest *pReq)
+twitter_id CTwitterProto::getId(const char *szSetting)
 {
-	if (pReq->m_szUrl[0] == '/')
-		pReq->m_szUrl.Insert(0, "https://api.twitter.com/2");
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	if (db_get(0, m_szModuleName, szSetting, &dbv))
+		return 0;
 
-	bool bIsJson = false;
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_POST) {
-			if (pReq->m_szParam[0] == '{') {
-				bIsJson = true;
-				pReq->AddHeader("Content-Type", "application/json");
-			}
-			else pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			pReq->AddHeader("Cache-Control", "no-cache");
-
-			pReq->dataLength = (int)pReq->m_szParam.GetLength();
-			pReq->pData = pReq->m_szParam.Detach();
-		}
-		else {
-			pReq->m_szUrl.AppendChar('?');
-			pReq->m_szUrl += pReq->m_szParam;
-		}
-	}
-
-	CMStringA auth;
-	if (pReq->requestType == REQUEST_GET)
-		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "GET", "");
-	else
-		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "POST", (bIsJson) ? "" : pReq->pData);
-	pReq->AddHeader("Authorization", auth);
-
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	pReq->flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
-	pReq->nlc = m_hConnHttp;
-	http::response resp_data;
-	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, pReq));
-	if (resp) {
-		debugLogA("**SLURP - the server has responded!");
-		m_hConnHttp = resp->nlc;
-		resp_data.code = resp->resultCode;
-		if (resp->pData)
-			resp_data.data = resp->pData;
-	}
-	else {
-		m_hConnHttp = nullptr;
-		resp_data.code = 500;
-		debugLogA("SLURP - there was no response!");
-	}
-
-	delete pReq;
-	return resp_data;
+	twitter_id ret = *(twitter_id *)dbv.pbVal;
+	db_free(&dbv);
+	return ret;
 }
+
+void CTwitterProto::setId(const char *szSetting, twitter_id id)
+{
+	db_set_blob(0, m_szModuleName, szSetting, &id, sizeof(id));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// popups
+
+void CTwitterProto::ShowPopup(const wchar_t *text, int Error)
+{
+	POPUPDATAW popup = {};
+	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	wcsncpy_s(popup.lpwzText, text, _TRUNCATE);
+
+	if (Error) {
+		popup.iSeconds = -1;
+		popup.colorBack = 0x000000FF;
+		popup.colorText = 0x00FFFFFF;
+	}
+	PUAddPopupW(&popup);
+}
+
+void CTwitterProto::ShowPopup(const char *text, int Error)
+{
+	POPUPDATAW popup = {};
+	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	wcsncpy_s(popup.lpwzText, Utf2T(text), _TRUNCATE);
+	if (Error) {
+		popup.iSeconds = -1;
+		popup.colorBack = 0x000000FF;
+		popup.colorText = 0x00FFFFFF;
+	}
+	PUAddPopupW(&popup);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filename)
 {

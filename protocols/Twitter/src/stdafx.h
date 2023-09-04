@@ -8,7 +8,7 @@
 #undef _HAS_EXCEPTIONS
 #define _HAS_EXCEPTIONS 1
 
-#include <Windows.h>
+#include <winsock2.h>
 #include <Shlwapi.h>
 #include <Wincrypt.h>
 #include <stdio.h>
@@ -57,7 +57,6 @@ using std::map;
 #pragma comment(lib, "libcrypto.lib")
 
 #include "utility.h"
-#include "http.h"
 #include "proto.h"
 
 #define TWITTER_KEY_NICK             "Nick"  // we need one called Nick for the chat thingo to work

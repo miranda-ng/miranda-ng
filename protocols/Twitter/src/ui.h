@@ -22,6 +22,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK pin_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);

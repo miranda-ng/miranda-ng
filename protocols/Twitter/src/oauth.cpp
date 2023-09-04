@@ -160,3 +160,64 @@ CMStringA CTwitterProto::OAuthCreateSignature(const CMStringA &signatureBase, co
 	HMAC(EVP_sha1(), key.c_str(), (int)key.GetLength(), (uint8_t*)signatureBase.c_str(), signatureBase.GetLength(), digest, &len);
 	return CMStringA(ptrA(mir_base64_encode(digest, sizeof(digest))));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTwitterProto::Oauth2RequestToken(NETLIBHTTPREQUEST *pResp, AsyncHttpRequest *)
+{
+	if (pResp->resultCode != 200) {
+		OnLoggedFail();
+		return;
+	}
+
+	// StringPairs response = ParseQueryString(resp.data);
+	// szOauthToken = response[L"oauth_token"];
+	// szOauthTokenSecret = response[L"oauth_token_secret"];
+
+	if (m_szAccessToken.IsEmpty()) {
+		ShowPopup("OAuth token not received, check your internet connection?", 1);
+		debugLogA("**NegotiateConnection - OAuth tokens not received, stopping before we open the web browser..");
+		return;
+	}
+
+	// write those bitches to the db foe latta
+	setString(TWITTER_KEY_OAUTH_TOK, m_szAccessToken);
+	setString(TWITTER_KEY_OAUTH_TOK_SEC, m_szAccessTokenSecret);
+}
+
+void CTwitterProto::RequestOauthToken(const char *szPin)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, "/oauth2/token", &CTwitterProto::Oauth2RequestToken);
+	pReq << CHAR_PARAM("grant_type", "authorization_code") << CHAR_PARAM("code_verifier", "zzzzzzz") << CHAR_PARAM("client_id", OAUTH_CONSUMER_KEY)
+		<< CHAR_PARAM("callback", "https://miranda-ng.org/oauth") << CHAR_PARAM("code", szPin);
+
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTwitterProto::Oauth2RequestAuth(NETLIBHTTPREQUEST *pResp, AsyncHttpRequest *)
+{
+	if (pResp->resultCode != 200) {
+		OnLoggedFail();
+		return;
+	}
+
+}
+
+void CTwitterProto::RequestOauthAuth()
+{
+	Utils_GetRandom(code_verifier, sizeof(code_verifier));
+
+	uint8_t hash[32];
+	mir_sha256_hash(code_verifier, sizeof(code_verifier), hash);
+	code_challenge = ptrA(mir_base64_encode(hash, sizeof(hash)));
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_PATCH, "https://twitter.com/i/oauth2/authorize", &CTwitterProto::Oauth2RequestAuth);
+	pReq->flags |= NLHRF_REDIRECT;
+	pReq << CHAR_PARAM("client_id", OAUTH_CONSUMER_KEY) << CHAR_PARAM("scope", "tweet.read tweet.write users.read offline.access")
+		<< CHAR_PARAM("response_type", "code") << CHAR_PARAM("callback", "https://oauth.miranda-ng.org") << CHAR_PARAM("state", "state")
+		<< CHAR_PARAM("code_challenge_method", "s256") << CHAR_PARAM("code_challenge", code_challenge);
+
+	Push(pReq);
+}

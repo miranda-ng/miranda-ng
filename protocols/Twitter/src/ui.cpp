@@ -422,7 +422,9 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return false;
 }
 
-INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTwitterProto *proto;
 
@@ -451,4 +453,11 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return false;
+}
+
+int CTwitterProto::ShowPinDialog()
+{
+	HWND hDlg = (HWND)DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERPIN), nullptr, pin_proc, reinterpret_cast<LPARAM>(this));
+	ShowWindow(hDlg, SW_SHOW);
+	return 0;
 }

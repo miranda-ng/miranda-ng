@@ -25,6 +25,8 @@ static volatile LONG g_msgid = 1;
 
 CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CTwitterProto>(proto_name, username),
+	m_arHttpQueue(10),
+	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_arChatMarks(10, NumericKeySortT)
 {
 	CreateProtoService(PS_JOINCHAT, &CTwitterProto::OnJoinChat);
@@ -91,8 +93,6 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 
 CTwitterProto::~CTwitterProto()
 {
-	Disconnect();
-
 	if (hAvatarNetlib_)
 		Netlib_CloseHandle(hAvatarNetlib_);
 }
@@ -138,40 +138,29 @@ int CTwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CTwitterProto::SetStatus(int new_status)
+int CTwitterProto::SetStatus(int iNewStatus)
 {
-	int old_status = m_iStatus;
-	if (new_status == m_iStatus)
+	if (iNewStatus == m_iStatus)
 		return 0;
 
-	m_iDesiredStatus = new_status;
-	// 40072 - 40078 are the "online" statuses, basically every status except offline.  see statusmodes.h
-	if (new_status >= 40072 && new_status <= 40078) {
-
-		m_iDesiredStatus = ID_STATUS_ONLINE; //i think i have to set this so it forces the CTwitterProto proto to be online (and not away, DND, etc)
-
-		// if we're already connecting and they want to go online, BAIL!  we're already trying to connect you dumbass
-		if (old_status == ID_STATUS_CONNECTING)
-			return 0;
-
-		// if we're already connected, and we change to another connected status, don't try and reconnect!
-		if (old_status >= 40072 && old_status <= 40078)
-			return 0;
-
-		// i think here we tell the proto interface struct that we're connecting, just so it knows
-		m_iStatus = ID_STATUS_CONNECTING;
-		// ok.. here i think we're telling the core that this protocol something.. but why?
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-		ForkThread(&CTwitterProto::SignOn, this);
-	}
-	else if (new_status == ID_STATUS_OFFLINE) {
-		Disconnect();
+	int iOldStatus = m_iStatus;
+	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = m_iDesiredStatus;
 		setAllContactStatuses(ID_STATUS_OFFLINE);
 		SetChatStatus(ID_STATUS_OFFLINE);
 
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+	else if (!IsStatusConnecting(m_iStatus)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+
+		BeginConnection();
+	}
+	else {
+		// Twitter supports only online status
+		m_iStatus = ID_STATUS_ONLINE;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 
 	return 0;
@@ -279,40 +268,6 @@ int CTwitterProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		ShowContactMenus(true);
 
 	return 0;
-}
-
-int CTwitterProto::ShowPinDialog()
-{
-	HWND hDlg = (HWND)DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERPIN), nullptr, pin_proc, reinterpret_cast<LPARAM>(this));
-	ShowWindow(hDlg, SW_SHOW);
-	return 0;
-}
-
-void CTwitterProto::ShowPopup(const wchar_t *text, int Error)
-{
-	POPUPDATAW popup = {};
-	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
-	wcsncpy_s(popup.lpwzText, text, _TRUNCATE);
-
-	if (Error) {
-		popup.iSeconds = -1;
-		popup.colorBack = 0x000000FF;
-		popup.colorText = 0x00FFFFFF;
-	}
-	PUAddPopupW(&popup);
-}
-
-void CTwitterProto::ShowPopup(const char *text, int Error)
-{
-	POPUPDATAW popup = {};
-	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
-	wcsncpy_s(popup.lpwzText, Utf2T(text), _TRUNCATE);
-	if (Error) {
-		popup.iSeconds = -1;
-		popup.colorBack = 0x000000FF;
-		popup.colorText = 0x00FFFFFF;
-	}
-	PUAddPopupW(&popup);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

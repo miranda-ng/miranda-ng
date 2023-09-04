@@ -38,6 +38,9 @@
     <ClCompile Include="src\chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\http.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cxx">
@@ -50,9 +53,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\http.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\http.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

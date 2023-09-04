@@ -75,9 +75,6 @@ MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl)
 		{
 			ret.AppendChar(*s);
 		}
-		else if (*s == ' ') {
-			ret.AppendChar('+');
-		}
 		else {
 			ret.AppendChar('%');
 			ret.AppendChar(szHexDigits[*s >> 4]);

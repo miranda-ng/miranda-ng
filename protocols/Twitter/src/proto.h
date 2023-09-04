@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 typedef __int64 twitter_id;
 
+class CTwitterProto;
+
 struct twitter_status
 {
 	std::string text;
@@ -39,11 +41,6 @@ struct twitter_user
 
 time_t parse_time(const CMStringA &str);
 
-struct AsyncHttpRequest : public MHttpRequest
-{
-	AsyncHttpRequest(int type, const char *szUrl);
-};
-
 struct CChatMark
 {
 	CChatMark(MEVENT _p1, const CMStringA &_p2) :
@@ -56,26 +53,34 @@ struct CChatMark
 	CMStringA szId;
 };
 
+struct AsyncHttpRequest : public MTHttpRequest<CTwitterProto>
+{
+	AsyncHttpRequest(int type, const char *szUrl, MTHttpRequestHandler pHandler = nullptr);
+};
+
 class CTwitterProto : public PROTO<CTwitterProto>
 {
 	SESSION_INFO *m_si;
 
-	http::response request_token();
-	http::response request_access_tokens();
+	// http server thread routines
+	bool m_bTerminated;
+	mir_cs m_csHttpQueue;
+	HANDLE m_evRequestsQueue;
+	LIST<AsyncHttpRequest> m_arHttpQueue;
 
-	bool get_info(const CMStringA &name, twitter_user *);
-	bool get_info_by_email(const CMStringA &email, twitter_user *);
+	void Push(AsyncHttpRequest *req);
+	void Execute(AsyncHttpRequest *req);
 
-	bool add_friend(const CMStringA &name, twitter_user &u);
-	void remove_friend(const CMStringA &name);
+	void BeginConnection();
+	void OnLoggedIn();
+	void OnLoggedFail();
 
-	void mark_read(MCONTACT hContact, const CMStringA &msgId);
+	int  m_hWorkerThreadId;
+	void __cdecl ServerThread(void *);
 
-	void set_status(const CMStringA &text);
-	void send_direct(const CMStringA &name, const CMStringA &text);
+	HNETLIBCONN m_hConnHttp;
 
-	http::response Execute(AsyncHttpRequest *req);
-
+	// internal data
 	CMStringA m_szUserName;
 	CMStringA m_szMyId;
 	CMStringA m_szPassword;
@@ -87,7 +92,6 @@ class CTwitterProto : public PROTO<CTwitterProto>
 
 	CMStringW GetAvatarFolder();
 
-	mir_cs signon_lock_;
 	mir_cs avatar_lock_;
 	mir_cs twitter_lock_;
 
@@ -99,14 +103,25 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
 
-	int disconnectionCount;
+	////////////////////////////////////////////////////////////////////////////////////////
+	// utils
 
-	// OAuthWebRequest used for all OAuth related queries
-	//
-	// consumerKey and consumerSecret - must be provided for every call, they identify the application
-	// oauthToken and oauthTokenSecret - need to be provided for every call, except for the first token request before authorizing
-	// pin - only used during authorization, when the user enters the PIN they received from the CTwitterProto website
-	
+	twitter_id getId(const char *szSetting);
+	void setId(const char *szSetting, twitter_id id);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// oauth
+
+	uint8_t code_verifier[32];
+	CMStringA code_challenge;
+
+	void RequestOauthAuth();
+	void RequestOauthToken(const char *szPin = nullptr);
+	void ResetOauthKeys();
+
+	void Oauth2RequestAuth(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+	void Oauth2RequestToken(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+
 	CMStringA OAuthWebRequestSubmit(const CMStringA &url, const char *httpMethod, const char *postData);
 
 	CMStringA UrlGetQuery(const CMStringA &url);
@@ -115,11 +130,6 @@ class CTwitterProto : public PROTO<CTwitterProto>
 
 	CMStringA OAuthCreateNonce();
 	CMStringA OAuthCreateSignature(const CMStringA &signatureBase, const CMStringA &consumerSecret, const CMStringA &requestTokenSecret);
-
-	HNETLIBCONN m_hConnHttp;
-	void Disconnect(void) { if (m_hConnHttp) Netlib_CloseHandle(m_hConnHttp); m_hConnHttp = nullptr; }
-
-	bool NegotiateConnection();
 
 	void UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg);
 	void UpdateMessages(bool pre_read);
@@ -136,14 +146,21 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	MCONTACT AddToClientList(const char *, const char *);
 	MCONTACT FindContactById(const char *);
 
-	static void CALLBACK APC_callback(ULONG_PTR p);
-
 	void UpdateChat(const twitter_user &update);
 	void AddChatContact(const char *name, const char *nick = nullptr);
 	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);
 
-	void resetOAuthKeys();
+	bool get_info(const CMStringA &name, twitter_user *);
+	bool get_info_by_email(const CMStringA &email, twitter_user *);
+
+	bool add_friend(const CMStringA &name, twitter_user &u);
+	void remove_friend(const CMStringA &name);
+
+	void mark_read(MCONTACT hContact, const CMStringA &msgId);
+
+	void set_status(const CMStringA &text);
+	void send_direct(const CMStringA &name, const CMStringA &text);
 
 public:
 	CTwitterProto(const char*,const wchar_t*);
@@ -201,7 +218,6 @@ public:
 
 	void __cdecl AddToListWorker(void *p);
 	void __cdecl DoSearch(void *);
-	void __cdecl SignOn(void *);
 	void __cdecl MessageLoop(void *);
 	void __cdecl GetAwayMsgWorker(void *);
 	void __cdecl UpdateAvatarWorker(void *);
