@@ -190,15 +190,15 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwnd, HistoryEditWndProc, msg, wParam, lParam);
 }
 
-void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
+void NewstoryListData::BeginEditItem(bool bReadOnly)
 {
 	if (hwndEditBox)
 		EndEditItem(false);
 
-	if (scrollTopItem > index)
+	if (scrollTopItem > caret)
 		return;
 
-	ItemData *item = LoadItem(index);
+	ItemData *item = LoadItem(caret);
 	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
 		return;
 
@@ -209,7 +209,7 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 	int idx = scrollTopItem;
 	int itemHeight = GetItemHeight(idx);
 	while (top < height) {
-		if (idx == index)
+		if (idx == caret)
 			break;
 
 		top += itemHeight;
@@ -977,7 +977,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case VK_F2:
-				data->BeginEditItem(data->caret, false);
+				data->BeginEditItem(false);
 				break;
 
 			case VK_ESCAPE:
@@ -1060,7 +1060,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			if (data->caret == idx) {
-				data->BeginEditItem(idx, true);
+				data->BeginEditItem(true);
 				return 0;
 			}
 		}

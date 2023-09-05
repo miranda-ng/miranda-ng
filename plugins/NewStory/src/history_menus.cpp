@@ -65,7 +65,7 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case MENU_EDIT:
-		pData->BeginEditItem(pData->caret, false);
+		pData->BeginEditItem(false);
 		break;
 
 	case MENU_DELETE:

@@ -59,7 +59,7 @@ struct NewstoryListData : public MZeroedObject
 	void      AddSelection(int iFirst, int iLast);
 	bool      AtBottom(void) const;
 	bool      AtTop(void) const;
-	void      BeginEditItem(int index, bool bReadOnly);
+	void      BeginEditItem(bool bReadOnly);
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      Copy(bool bTextOnly = false);
