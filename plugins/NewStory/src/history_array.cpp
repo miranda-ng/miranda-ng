@@ -382,6 +382,11 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	if (si == nullptr)
 		return;
 
+	if (lin->hEvent) {
+		addEvent(si->hContact, lin->hEvent, 1);
+		return;
+	}
+
 	CMStringW wszText;
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
 	if (!bTextUsed && lin->ptszText) {
