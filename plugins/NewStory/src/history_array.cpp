@@ -103,6 +103,9 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 
 static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 {
+	if (p1->dbe.eventType != p2->dbe.eventType)
+		return false;
+
 	if (!p1->wszNick || !p2->wszNick)
 		return false;
 
@@ -382,7 +385,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	if (si == nullptr)
 		return;
 
-	if (lin->hEvent) {
+	if (si->pMI->bDatabase && lin->hEvent) {
 		addEvent(si->hContact, lin->hEvent, 1);
 		return;
 	}
