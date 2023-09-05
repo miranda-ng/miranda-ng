@@ -2,7 +2,7 @@
 
 enum
 {
-	MENU_COPY, MENU_COPYTEXT,
+	MENU_COPY, MENU_COPYTEXT, MENU_QUOTE,
 	MENU_SAVEAS, MENU_DOWNLOAD,
 	MENU_EDIT, MENU_DELETE,
 	MENU_SELECTALL, MENU_BOOKMARK,
@@ -10,9 +10,9 @@ enum
 
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
-static HGENMENU hmiHistory, hmiCopy, hmiSaveAs, hmiDownload;
+static HGENMENU hmiHistory, hmiCopy, hmiSaveAs, hmiDownload, hmiQuote;
 
-HMENU NSMenu_Build(ItemData *item)
+HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
 	if (item->m_bOfflineFile) {
 		Menu_ModifyItem(hmiCopy, (item->m_bOfflineDownloaded) ? TranslateT("Copy file name") : TranslateT("Copy URL"));
@@ -23,6 +23,8 @@ HMENU NSMenu_Build(ItemData *item)
 		Menu_ShowItem(hmiSaveAs, false);
 		Menu_ShowItem(hmiDownload, false);
 	}
+
+	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
 
 	NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&item->dbe);
 
@@ -56,6 +58,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_COPYTEXT:
 		pData->Copy(true);
+		break;
+
+	case MENU_QUOTE:
+		pData->Quote();
 		break;
 
 	case MENU_EDIT:
@@ -179,10 +185,14 @@ void InitMenus()
 	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
 
 	mi.position = 100002;
+	mi.name.a = LPGEN("Quote");
+	hmiQuote = Menu_AddNewStoryMenuItem(&mi, MENU_QUOTE);
+
+	mi.position = 100003;
 	mi.name.a = LPGEN("Save as");
 	hmiSaveAs = Menu_AddNewStoryMenuItem(&mi, MENU_SAVEAS);
 
-	mi.position = 100003;
+	mi.position = 100004;
 	mi.name.a = LPGEN("Download");
 	hmiDownload = Menu_AddNewStoryMenuItem(&mi, MENU_DOWNLOAD);
 

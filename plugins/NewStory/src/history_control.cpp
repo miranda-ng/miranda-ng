@@ -52,7 +52,7 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 	if (item == nullptr)
 		return;
 		
-	HMENU hMenu = NSMenu_Build(item);
+	HMENU hMenu = NSMenu_Build(this, item);
 
 	if (pMsgDlg != nullptr && pMsgDlg->isChat()) {
 		EnableMenuItem(hMenu, 2, MF_BYPOSITION | MF_GRAYED);
@@ -586,6 +586,13 @@ void NewstoryListData::RecalcScrollBar()
 		cachedScrollbarPage = si.nPage;
 		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
+}
+
+void NewstoryListData::Quote()
+{
+	if (pMsgDlg)
+		if (auto *pItem = LoadItem(caret))
+			pMsgDlg->SetMessageText(Srmm_Quote(pItem->wtext));
 }
 
 void NewstoryListData::ScheduleDraw()
