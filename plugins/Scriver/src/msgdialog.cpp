@@ -25,42 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static CMStringW GetQuotedTextW(wchar_t *text)
-{
-	CMStringW res;
-	bool newLine = true;
-	bool wasCR = false;
-	for (; *text; text++) {
-		if (*text == '\r') {
-			wasCR = newLine = true;
-			res.AppendChar('\r');
-			if (text[1] != '\n')
-				res.AppendChar('\n');
-		}
-		else if (*text == '\n') {
-			newLine = true;
-			if (!wasCR)
-				res.AppendChar('\r');
-
-			res.AppendChar('\n');
-			wasCR = false;
-		}
-		else {
-			if (newLine) {
-				res.AppendChar('>');
-				res.AppendChar(' ');
-			}
-			wasCR = newLine = false;
-			res.AppendChar(*text);
-		}
-	}
-	res.AppendChar('\r');
-	res.AppendChar('\n');
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
@@ -412,7 +376,8 @@ void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
 
 void CMsgDialog::onClick_Quote(CCtrlButton*)
 {
-	if (m_hDbEventLast == 0)
+	MEVENT hDbEventLast = db_event_last(m_hContact);
+	if (!hDbEventLast)
 		return;
 
 	SETTEXTEX st;
@@ -421,19 +386,19 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 
 	wchar_t *buffer = m_pLog->GetSelection();
 	if (buffer != nullptr) {
-		CMStringW quotedBuffer(GetQuotedTextW(buffer));
+		CMStringW quotedBuffer(Srmm_Quote(buffer));
 		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
 		mir_free(buffer);
 	}
 	else {
-		DB::EventInfo dbei(m_hDbEventLast);
+		DB::EventInfo dbei(hDbEventLast);
 		if (!dbei)
 			return;
 
 		if (DbEventIsMessageOrCustom(dbei)) {
 			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
 			if (buffer != nullptr) {
-				CMStringW quotedBuffer(GetQuotedTextW(buffer));
+				CMStringW quotedBuffer(Srmm_Quote(buffer));
 				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
 				mir_free(buffer);
 			}

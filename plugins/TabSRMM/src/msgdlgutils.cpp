@@ -257,60 +257,6 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// return value MUST be mir_free()'d by caller.
-
-wchar_t* TSAPI QuoteText(const wchar_t *text)
-{
-	int outChar, lineChar;
-	int iCharsPerLine = M.GetDword("quoteLineLength", 64);
-
-	size_t bufSize = mir_wstrlen(text) + 23;
-	wchar_t *strout = (wchar_t*)mir_alloc(bufSize * sizeof(wchar_t));
-	int inChar = 0;
-	int justDoneLineBreak = 1;
-	for (outChar = 0, lineChar = 0; text[inChar];) {
-		if (outChar >= (int)bufSize - 8) {
-			bufSize += 20;
-			strout = (wchar_t*)mir_realloc(strout, bufSize * sizeof(wchar_t));
-		}
-		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
-			strout[outChar++] = '>';
-			strout[outChar++] = ' ';
-			lineChar = 2;
-		}
-		if (lineChar == iCharsPerLine && text[inChar] != '\r' && text[inChar] != '\n') {
-			int decreasedBy;
-			for (decreasedBy = 0; lineChar > 10; lineChar--, inChar--, outChar--, decreasedBy++)
-				if (strout[outChar] == ' ' || strout[outChar] == '\t' || strout[outChar] == '-') break;
-			if (lineChar <= 10) {
-				lineChar += decreasedBy;
-				inChar += decreasedBy;
-				outChar += decreasedBy;
-			}
-			else inChar++;
-			strout[outChar++] = '\r';
-			strout[outChar++] = '\n';
-			justDoneLineBreak = 1;
-			continue;
-		}
-		strout[outChar++] = text[inChar];
-		lineChar++;
-		if (text[inChar] == '\n' || text[inChar] == '\r') {
-			if (text[inChar] == '\r' && text[inChar + 1] != '\n')
-				strout[outChar++] = '\n';
-			justDoneLineBreak = 1;
-			lineChar = 0;
-		}
-		else justDoneLineBreak = 0;
-		inChar++;
-	}
-	strout[outChar++] = '\r';
-	strout[outChar++] = '\n';
-	strout[outChar] = 0;
-	return strout;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 bool IsStringValidLink(wchar_t *pszText)
 {

@@ -314,7 +314,7 @@ protected:
 
 public:
 	MCONTACT m_hContact;
-	MEVENT m_hDbEventFirst, m_hDbEventLast;
+	MEVENT m_hDbEventFirst;
 	int m_iLogFilterFlags;
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
@@ -390,5 +390,10 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, i
 
 MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
 MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// quotes a string
+
+MIR_APP_DLL(CMStringW) Srmm_Quote(const wchar_t *pwzsText, int iWrapWidth = -1);
 
 #endif // M_MESSAGE_H__

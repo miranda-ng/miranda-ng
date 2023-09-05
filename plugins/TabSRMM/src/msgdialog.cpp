@@ -908,43 +908,40 @@ void CMsgDialog::onClick_Add(CCtrlButton*)
 
 void CMsgDialog::onClick_Quote(CCtrlButton*)
 {
-	SETTEXTEX stx = { ST_SELECTION, 1200 };
+	CMStringW szQuoted;
+	int iOutputWidth = M.GetDword("quoteLineLength", 64);
 
 	wchar_t *selected = m_pLog->GetSelection();
-	if (selected != nullptr) {
-		ptrW szQuoted(QuoteText(selected));
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-		return;
-	}
+	if (selected != nullptr)
+		szQuoted = Srmm_Quote(selected, iOutputWidth);
+	else {
+		MEVENT hDBEvent = db_event_last(m_hContact);
+		if (hDBEvent == 0)
+			return;
 
-	MEVENT hDBEvent = db_event_last(m_hContact);
-	if (hDBEvent == 0)
-		return;
+		if (m_iLogMode == WANT_BUILTIN_LOG) {
+			CHARRANGE sel;
+			LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin != sel.cpMax) {
+				ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
+				ptrW converted(mir_utf8decodeW(szFromStream));
+				Utils::FilterEventMarkers(converted);
+				szQuoted = Srmm_Quote(converted, iOutputWidth);
+			}
+		}
 
-	bool bUseSelection = false;
-	if (m_iLogMode == WANT_BUILTIN_LOG) {
-		CHARRANGE sel;
-		LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
-		if (sel.cpMin != sel.cpMax) {
-			ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
-			ptrW converted(mir_utf8decodeW(szFromStream));
-			Utils::FilterEventMarkers(converted);
-			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(converted)));
-			bUseSelection = true;
+		if (szQuoted.IsEmpty()) {
+			DB::EventInfo dbei(hDBEvent);
+			if (dbei)
+				szQuoted = Srmm_Quote(ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), iOutputWidth);
 		}
 	}
 
-	if (!bUseSelection) {
-		DB::EventInfo dbei(hDBEvent);
-
-		ptrW szConverted(DbEvent_GetTextW(&dbei, CP_ACP));
-		if (szConverted != nullptr)
-			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(szConverted)));
-
-		mir_free(szConverted);
+	if (!szQuoted.IsEmpty()) {
+		SETTEXTEX stx = { ST_SELECTION, 1200 };
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted.c_str());
+		SetFocus(m_message.GetHwnd());
 	}
-
-	SetFocus(m_message.GetHwnd());
 }
 
 void CMsgDialog::onClick_CancelAdd(CCtrlButton*)

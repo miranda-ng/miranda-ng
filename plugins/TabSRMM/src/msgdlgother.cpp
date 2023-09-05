@@ -2376,10 +2376,6 @@ void CMsgDialog::StreamEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	m_pLog->LogEvents(hDbEventFirst, count, bAppend);
 
 	DM_ScrollToBottom(0, 0);
-	if (bAppend && hDbEventFirst)
-		m_hDbEventLast = hDbEventFirst;
-	else
-		m_hDbEventLast = db_event_last(m_hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

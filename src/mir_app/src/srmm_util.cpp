@@ -260,3 +260,51 @@ MIR_APP_DLL(void) Srmm_SetStatusText(MCONTACT hContact, const wchar_t *wszText, 
 	SSTParam param = { hwnd, wszText, hIcon };
 	CallFunctionSync(sttSetStatusText, &param);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Quote
+
+MIR_APP_DLL(CMStringW) Srmm_Quote(const wchar_t *pwzsText, int iWrapWidth)
+{
+	CMStringW ret;
+
+	if (auto *p = pwzsText) {
+		bool justDoneLineBreak = true;
+		for (int lineChar = 0; *p;) {
+			if (justDoneLineBreak && *p != '\r' && *p != '\n') {
+				ret.AppendChar('>');
+				ret.AppendChar(' ');
+				lineChar = 2;
+			}
+
+			if (lineChar == iWrapWidth && *p != '\r' && *p != '\n') {
+				int decreasedBy = 0;
+				for (int outChar = ret.GetLength() - 1; lineChar > 10; lineChar--, p--, outChar--, decreasedBy++)
+					if (ret[outChar] == ' ' || ret[outChar] == '\t' || ret[outChar] == '-')
+						break;
+
+				if (lineChar <= 10) {
+					lineChar += decreasedBy;
+					p += decreasedBy;
+				}
+				else p++;
+				ret.Append(L"\r\n");
+				justDoneLineBreak = true;
+				continue;
+			}
+			ret.AppendChar(*p);
+			lineChar++;
+			if (*p == '\n' || *p == '\r') {
+				if (*p == '\r' && p[1] != '\n')
+					ret.AppendChar('\n');
+				justDoneLineBreak = 1;
+				lineChar = 0;
+			}
+			else justDoneLineBreak = false;
+			p++;
+		}
+	}
+
+	ret.Append(L"\r\n");
+	return ret;
+}

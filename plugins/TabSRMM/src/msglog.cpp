@@ -1191,8 +1191,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 	m_rtf.SetDraw(false);
 	StreamRtfEvents(&streamData, true);
 
-	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
-
 	if (m_pDlg.m_bRtlText)
 		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_pDlg.m_iLastEventType) & DBEF_SENT)
 			? (fAppend ? m_pDlg.m_pContainer->m_theme.outbg : m_pDlg.m_pContainer->m_theme.oldoutbg)
@@ -1231,7 +1229,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 
 	m_rtf.SetDraw(true);
 	InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);
-	EnableWindow(GetDlgItem(m_pDlg.m_hwnd, IDC_QUOTE), m_pDlg.m_hDbEventLast != 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

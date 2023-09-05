@@ -34,7 +34,6 @@
 void     TSAPI AddUnreadContact(MCONTACT hContact);
 void     TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam);
 BOOL     TSAPI CheckCustomLink(HWND hwndRich, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded);
-wchar_t* TSAPI QuoteText(const wchar_t *text);
 void     TSAPI CutContactName(const wchar_t *szold, wchar_t *sznew, size_t size);
 void     TSAPI RearrangeTab(HWND hwndDlg, const CMsgDialog *dat, int iMode, BOOL bSavePos);
 bool     TSAPI IsStatusEvent(int eventType);

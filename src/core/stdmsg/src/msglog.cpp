@@ -486,8 +486,6 @@ public:
 			ScrollToBottom();
 			RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
-
-		m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////

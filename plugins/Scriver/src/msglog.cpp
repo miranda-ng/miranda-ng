@@ -580,7 +580,6 @@ public:
 		RtfLogStreamData streamData = {};
 		streamData.hContact = m_pDlg.m_hContact;
 		streamData.hDbEvent = hDbEventFirst;
-		streamData.hDbEventLast = m_pDlg.m_hDbEventLast;
 		streamData.pLog = this;
 		streamData.eventsToInsert = count;
 		streamData.isFirst = bAppend ? m_rtf.GetRichTextLength() == 0 : 1;
@@ -656,8 +655,6 @@ public:
 			ScrollToBottom();
 			RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
-
-		m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
