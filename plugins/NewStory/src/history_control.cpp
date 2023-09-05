@@ -4,9 +4,6 @@
 
 HANDLE htuLog = 0;
 
-static WNDPROC OldEditWndProc;
-static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
-
 void InitHotkeys()
 {
 	HOTKEYDESC hkd = {};
@@ -156,6 +153,43 @@ bool NewstoryListData::AtTop(void) const
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Edit box window procedure
+
+static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	auto *pData = (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0);
+
+	switch (msg) {
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_RETURN:
+			pData->EndEditItem(true);
+			return 0;
+		case VK_ESCAPE:
+			pData->EndEditItem(false);
+			return 0;
+		}
+		break;
+
+	case WM_GETDLGCODE:
+		if (lParam) {
+			MSG *msg2 = (MSG *)lParam;
+			if (msg2->message == WM_KEYDOWN && msg2->wParam == VK_TAB)
+				return 0;
+			if (msg2->message == WM_CHAR && msg2->wParam == '\t')
+				return 0;
+		}
+		return DLGC_WANTMESSAGE;
+
+	case WM_KILLFOCUS:
+		pData->EndEditItem(false);
+		return 0;
+	}
+
+	return mir_callNextSubclass(hwnd, HistoryEditWndProc, msg, wParam, lParam);
+}
+
 void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 {
 	if (hwndEditBox)
@@ -192,13 +226,15 @@ void NewstoryListData::BeginEditItem(int index, bool bReadOnly)
 
 	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
 	SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
-	OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
+	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 	SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NewstoryListData::Clear()
 {
@@ -702,43 +738,6 @@ void NewstoryListData::ScrollBottom()
 	scrollTopPixel = cachedMaxTopPixel;
 	FixScrollPosition(true);
 	InvalidateRect(m_hwnd, 0, FALSE);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Edit box window procedure
-
-static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	auto *pData = (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0);
-
-	switch (msg) {
-	case WM_KEYDOWN:
-		switch (wParam) {
-		case VK_RETURN:
-			pData->EndEditItem(true);
-			return 0;
-		case VK_ESCAPE:
-			pData->EndEditItem(false);
-			return 0;
-		}
-		break;
-
-	case WM_GETDLGCODE:
-		if (lParam) {
-			MSG *msg2 = (MSG *)lParam;
-			if (msg2->message == WM_KEYDOWN && msg2->wParam == VK_TAB)
-				return 0;
-			if (msg2->message == WM_CHAR && msg2->wParam == '\t')
-				return 0;
-		}
-		return DLGC_WANTMESSAGE;
-
-	case WM_KILLFOCUS:
-		pData->EndEditItem(false);
-		return 0;
-	}
-
-	return CallWindowProc(OldEditWndProc, hwnd, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
