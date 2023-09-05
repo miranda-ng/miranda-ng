@@ -380,14 +380,9 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	if (!hDbEventLast)
 		return;
 
-	SETTEXTEX st;
-	st.flags = ST_SELECTION;
-	st.codepage = 1200;
-
 	wchar_t *buffer = m_pLog->GetSelection();
 	if (buffer != nullptr) {
-		CMStringW quotedBuffer(Srmm_Quote(buffer));
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
+		SetMessageText(Srmm_Quote(buffer));
 		mir_free(buffer);
 	}
 	else {
@@ -396,12 +391,8 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 			return;
 
 		if (DbEventIsMessageOrCustom(dbei)) {
-			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
-			if (buffer != nullptr) {
-				CMStringW quotedBuffer(Srmm_Quote(buffer));
-				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
-				mir_free(buffer);
-			}
+			ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+			SetMessageText(Srmm_Quote(wszText));
 		}
 	}
 	SetFocus(m_message.GetHwnd());

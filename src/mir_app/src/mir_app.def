@@ -903,3 +903,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Srmm_IsCustomLogUsed@@YG_NXZ @1020 NONAME
 ?IconFlashTime@Clist@@3V?$CMOption@I@@A @1021 NONAME
 ?Srmm_Quote@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PB_WH@Z @1022 NONAME
+?SetMessageText@CSrmmBaseDialog@@QAEXPB_W_N@Z @1023 NONAME

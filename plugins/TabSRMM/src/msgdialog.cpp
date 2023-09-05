@@ -597,8 +597,7 @@ bool CMsgDialog::OnInitDialog()
 	// restore saved msg if any...
 	ptrW wszSavedMsg(g_plugin.getWStringA(m_hContact, "SavedMsg"));
 	if (wszSavedMsg != 0) {
-		SETTEXTEX stx = { ST_DEFAULT, 1200 };
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, wszSavedMsg);
+		SetMessageText(wszSavedMsg, false);
 		UpdateSaveAndSendButton();
 		if (m_pContainer->m_hwndActive == m_hwnd)
 			UpdateReadChars();
@@ -938,8 +937,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	}
 
 	if (!szQuoted.IsEmpty()) {
-		SETTEXTEX stx = { ST_SELECTION, 1200 };
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted.c_str());
+		SetMessageText(szQuoted);
 		SetFocus(m_message.GetHwnd());
 	}
 }

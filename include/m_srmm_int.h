@@ -326,6 +326,7 @@ public:
 	bool IsSuitableEvent(const LOGINFO &lin) const;
 	void RedrawLog();
 	void ScheduleRedrawLog();
+	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);
 	void ShowColorChooser(int iCtrlId);
 	void UpdateNickList(void);
 

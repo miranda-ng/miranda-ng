@@ -648,6 +648,17 @@ void CSrmmBaseDialog::UpdateOptions()
 	RedrawLog();
 }
 
+void CSrmmBaseDialog::SetMessageText(const wchar_t *pwszText, bool bAppend)
+{
+	if (!pwszText)
+		pwszText = L"";
+
+	SETTEXTEX stx;
+	stx.codepage = 1200;
+	stx.flags = (bAppend) ? ST_SELECTION : ST_DEFAULT;
+	m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)pwszText);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmBaseDialog::RedrawLog()

@@ -77,17 +77,17 @@ void CMsgDialog::RefreshInfobar()
 		hIcon = (HICON)CallProtoService(m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
 
 	wchar_t szText[2048];
-	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
 		mir_snwprintf(szText, L"%s (%s)", TranslateW(szXStatusName), szXStatusMsg.get());
 	else if (szXStatusName && *szXStatusName)
 		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
 	else
 		szText[0] = 0;
-	st.flags = ST_DEFAULT;
-	st.codepage = 1200;
+
+	SETTEXTEX st = { ST_DEFAULT, 1200 };
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)Clist_GetContactDisplayName(m_hContact));
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)szContactStatusMsg);
+
 	hIcon = (HICON)SendDlgItemMessage(m_hwndInfo, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
 	if (hIcon)
 		DestroyIcon(hIcon);

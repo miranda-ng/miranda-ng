@@ -58,9 +58,7 @@ public:
 		m_errorText.SetText(m_wszDescr);
 		SetWindowText(m_hwnd, m_wszName);
 
-		SETTEXTEX st = { 0 };
-		st.flags = ST_DEFAULT;
-		st.codepage = 1200;
+		SETTEXTEX st = { ST_DEFAULT, 1200 };
 		m_msgText.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)m_wszText.get());
 
 		RECT rc, rcParent;
