@@ -53,6 +53,7 @@ Boston, MA 02111-1307, USA.
 #include <m_srmm_int.h>
 #include <m_text.h>
 #include <m_timezones.h>
+#include <m_toptoolbar.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
 

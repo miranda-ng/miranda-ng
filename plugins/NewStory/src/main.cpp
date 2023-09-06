@@ -107,12 +107,24 @@ static int evtEventEdited(WPARAM hContact, LPARAM lParam)
 	return SmartSendEvent(UM_EDITEVENT, hContact, lParam);
 }
 
+static int evtTopToolbar(WPARAM, LPARAM)
+{
+	// TopToolbar button
+	TTBButton ttb = {};
+	ttb.dwFlags = TTBBF_VISIBLE;
+	ttb.pszService = "NewStory/GlobalSearch";
+	ttb.name = LPGEN("Global search");
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_NEWSTORY);
+	g_plugin.addTTB(&ttb);
+	return 0;
+}
+
 static int evtModulesLoaded(WPARAM, LPARAM)
 {
+	HookEvent(ME_TTB_MODULELOADED, evtTopToolbar);
+
 	InitFonts();
 	InitNewstoryControl();
-
-
 	LoadTemplates();
 	return 0;
 }
