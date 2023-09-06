@@ -350,7 +350,7 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 
 		freePluginInstance(ppb->getInst());
 
-		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb, (LPARAM)ppb->getInst());
+		NotifyFastHook(hevUnloadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
 	}
 
 	Plugin_Uninit(p);
