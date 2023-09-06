@@ -190,7 +190,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwnd, HistoryEditWndProc, msg, wParam, lParam);
 }
 
-void NewstoryListData::BeginEditItem(bool bReadOnly)
+void NewstoryListData::BeginEditItem()
 {
 	if (hwndEditBox)
 		EndEditItem(false);
@@ -221,15 +221,10 @@ void NewstoryListData::BeginEditItem(bool bReadOnly)
 	item->getFontColor(fontid, colorid);
 
 	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
-	if (bReadOnly) 
-		dwStyle |= ES_READONLY;
-
 	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
-	SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
-	SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
 }
@@ -976,7 +971,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case VK_F2:
-				data->BeginEditItem(false);
+				data->BeginEditItem();
 				break;
 
 			case VK_ESCAPE:
@@ -1059,7 +1054,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			if (data->caret == idx) {
-				data->BeginEditItem(true);
+				data->BeginEditItem();
 				return 0;
 			}
 		}
