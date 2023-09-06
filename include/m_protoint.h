@@ -266,7 +266,7 @@ public:
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
-	// called when an event is altered in database
+	// called when an event is removed from the database
 	virtual void OnEventDeleted(MCONTACT, MEVENT);
 
 	// called when an event is altered in database
