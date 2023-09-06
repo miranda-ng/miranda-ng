@@ -44,16 +44,16 @@ static void PaintToolbar(HWND hwnd)
 		int maxy = backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : y+1;
 
 		int destw, desth;
-		switch(backgroundBmpUse & CLBM_TYPE) {
+		switch (backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				if (clRect.right * bmp.bmHeight < clRect.bottom * bmp.bmWidth) {
 					desth = clRect.bottom;
-					destw = desth * bmp.bmWidth/bmp.bmHeight;
+					destw = desth * bmp.bmWidth / bmp.bmHeight;
 				}
 				else {
 					destw = clRect.right;
-					desth = destw * bmp.bmHeight/bmp.bmWidth;
+					desth = destw * bmp.bmHeight / bmp.bmWidth;
 				}
 			}
 			else {
@@ -64,9 +64,9 @@ static void PaintToolbar(HWND hwnd)
 		case CLB_STRETCHH:
 			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				destw = clRect.right;
-				desth = destw * bmp.bmHeight/bmp.bmWidth;
+				desth = destw * bmp.bmHeight / bmp.bmWidth;
 				if (backgroundBmpUse & CLBF_TILEVTOROWHEIGHT)
-					desth = g_ctrl->nButtonHeight+2;
+					desth = g_ctrl->nButtonHeight + 2;
 			}
 			else {
 				destw = clRect.right;
@@ -76,7 +76,7 @@ static void PaintToolbar(HWND hwnd)
 		case CLB_STRETCHV:
 			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				desth = clRect.bottom;
-				destw = desth*bmp.bmWidth/bmp.bmHeight;
+				destw = desth * bmp.bmWidth / bmp.bmHeight;
 			}
 			else {
 				destw = bmp.bmWidth;
@@ -87,7 +87,7 @@ static void PaintToolbar(HWND hwnd)
 			destw = bmp.bmWidth;
 			desth = bmp.bmHeight;
 			if (backgroundBmpUse & CLBF_TILEVTOROWHEIGHT)
-				desth = g_ctrl->nButtonHeight+2;
+				desth = g_ctrl->nButtonHeight + 2;
 			break;
 		}
 
@@ -100,7 +100,7 @@ static void PaintToolbar(HWND hwnd)
 		}
 		DeleteDC(hdcBmp);
 	}
-	BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
+	BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right - rcPaint->left, rcPaint->bottom - rcPaint->top, hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
 	SelectObject(hdcMem, hOldBmp);
 	DeleteDC(hdcMem);
 	DeleteObject(hBmpOsb);
@@ -115,7 +115,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	static bool supressRepos = false;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_CREATE:
 		g_ctrl->hWnd = hwnd;
 		PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
@@ -143,7 +143,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case TTB_REPOSBUTTONS:
 		if (g_ctrl->hWnd == hwnd) {
 			int iHeight = ArrangeButtons();
-			if ( g_ctrl->bAutoSize) {
+			if (g_ctrl->bAutoSize) {
 				RECT rcClient;
 				GetClientRect(g_ctrl->hWnd, &rcClient);
 				rcClient.bottom -= rcClient.top;
@@ -165,7 +165,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		if (db_get_b(0, "CLUI", "ClientAreaDrag", 0)) {
 			POINT pt;
 			GetCursorPos(&pt);
-			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
+			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		return 0;
 
@@ -177,7 +177,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				int id = GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 				if (id != 0) {
 					mir_cslock lck(csButtonsHook);
-					TopButtonInt* b = idtopos(id);
+					TopButtonInt *b = idtopos(id);
 					if (b == nullptr || b->isSep())
 						return 0;
 
@@ -244,7 +244,7 @@ void CALLBACK OnEventFire()
 	if (parent == nullptr) // no clist, no buttons
 		return;
 
-	WNDCLASS wndclass = {0};
+	WNDCLASS wndclass = { 0 };
 	wndclass.lpfnWndProc = TopToolBarProc;
 	wndclass.cbWndExtra = sizeof(void *);
 	wndclass.hInstance = g_plugin.getInst();
@@ -253,7 +253,7 @@ void CALLBACK OnEventFire()
 	wndclass.lpszClassName = pluginname;
 	RegisterClass(&wndclass);
 
-	g_ctrl->pButtonList = (SortedList *)&Buttons;
+	g_ctrl->pButtonList = (SortedList *)&g_arButtons;
 	g_ctrl->hWnd = CreateWindow(pluginname, L"Toolbar",
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 		0, 0, 0, g_ctrl->nLastHeight, parent, nullptr, g_plugin.getInst(), nullptr);

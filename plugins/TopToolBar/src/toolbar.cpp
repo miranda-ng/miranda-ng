@@ -21,14 +21,14 @@ int sortfunc(const TopButtonInt *a, const TopButtonInt *b)
 	return a->arrangedpos - b->arrangedpos;
 }
 
-LIST<TopButtonInt> Buttons(8, sortfunc);
+LIST<TopButtonInt> g_arButtons(8, sortfunc);
 
 TopButtonInt *idtopos(int id, int *pPos)
 {
-	for (auto &it : Buttons)
+	for (auto &it : g_arButtons)
 		if (it->id == id) {
 			if (pPos)
-				*pPos = Buttons.indexOf(&it);
+				*pPos = g_arButtons.indexOf(&it);
 			return it;
 		}
 
@@ -61,7 +61,7 @@ void LoadAllSButs()
 //----- Launch buttons -----
 INT_PTR LaunchService(WPARAM, LPARAM lParam)
 {
-	for (auto &it : Buttons) {
+	for (auto &it : g_arButtons) {
 		if (!(it->dwFlags & TTBBF_ISLBUTTON) || it->wParamDown != (WPARAM)lParam)
 			continue;
 
@@ -123,7 +123,7 @@ int SaveAllButtonsOptions()
 	int LaunchCnt = 0;
 	{
 		mir_cslock lck(csButtonsHook);
-		for (auto &it : Buttons)
+		for (auto &it : g_arButtons)
 			it->SaveSettings(&SeparatorCnt, &LaunchCnt);
 	}
 	g_plugin.setByte("SepCnt", SeparatorCnt);
@@ -136,7 +136,7 @@ static bool nameexists(const char *name)
 	if (name == nullptr)
 		return false;
 
-	for (auto &it : Buttons)
+	for (auto &it : g_arButtons)
 		if (!mir_strcmp(it->pszName, name))
 			return true;
 
@@ -218,7 +218,7 @@ int ArrangeButtons()
 	int i, nextX = 0, y = 0;
 	int nButtonCount = 0;
 
-	for (auto &it : Buttons)
+	for (auto &it : g_arButtons)
 		if (it->hwnd)
 			nButtonCount++;
 
@@ -235,8 +235,8 @@ int ArrangeButtons()
 		bWasButttonBefore = false;
 		nUsedWidth = 0;
 
-		for (i = iFirstButtonId; i < Buttons.getCount(); i++) {
-			TopButtonInt *b = Buttons[i];
+		for (i = iFirstButtonId; i < g_arButtons.getCount(); i++) {
+			TopButtonInt *b = g_arButtons[i];
 			if (b->hwnd == nullptr)
 				continue;
 
@@ -252,7 +252,7 @@ int ArrangeButtons()
 		}
 
 		for (i = iFirstButtonId; i < iLastButtonId; i++) {
-			TopButtonInt *b = Buttons[i];
+			TopButtonInt *b = g_arButtons[i];
 			if (b->hwnd == nullptr)
 				continue;
 
@@ -268,8 +268,8 @@ int ArrangeButtons()
 				else
 					nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
 			} else {
-				if (nullptr != Buttons[i]->hwnd) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+				if (nullptr != g_arButtons[i]->hwnd) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, g_arButtons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 			}
 		}
 
@@ -282,11 +282,11 @@ int ArrangeButtons()
 		if (g_ctrl->bSingleLine)
 			break;
 	}
-		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
+		while (iFirstButtonId < g_arButtons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
-	for (i = iLastButtonId; i < Buttons.getCount(); i++)
-		if (nullptr != Buttons[i]->hwnd) /* Wine fix. */
-			hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+	for (i = iLastButtonId; i < g_arButtons.getCount(); i++)
+		if (nullptr != g_arButtons[i]->hwnd) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, g_arButtons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 
 	if (hdwp)
 		EndDeferWindowPos(hdwp);
@@ -317,7 +317,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 	mir_cslock lck(csButtonsHook);
-	Buttons.insert(b);
+	g_arButtons.insert(b);
 
 	g_ctrl->bOrderChanged = TRUE;
 	ArrangeButtons();
@@ -338,7 +338,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM)
 
 	RemoveFromOptions(b->id);
 
-	Buttons.remove(idx);
+	g_arButtons.remove(idx);
 	delete b;
 
 	g_ctrl->bOrderChanged = TRUE;
@@ -500,7 +500,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 int OnIconChange(WPARAM, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
-	for (auto &b : Buttons) {
+	for (auto &b : g_arButtons) {
 		if (!b->hIconHandleUp && !b->hIconHandleDn)
 			continue;
 
@@ -558,7 +558,7 @@ int OnPluginUnload(WPARAM wParam, LPARAM)
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);
 
-		for (auto &it : Buttons.rev_iter())
+		for (auto &it : g_arButtons.rev_iter())
 			if (it->pPlugin == pPlugin) {
 				TTBRemoveButton(it->id, 0);
 				bNeedUpdate = true;
@@ -682,7 +682,7 @@ int UnloadToolbarModule()
 {
 	DestroyHookableEvent(hTTBModuleLoaded);
 
-	for (auto &it : Buttons)
+	for (auto &it : g_arButtons)
 		delete it;
 
 	mir_free(g_ctrl);

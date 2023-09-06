@@ -84,11 +84,11 @@ void TopButtonInt::LoadSettings()
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
-		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), Buttons.getCount());
+		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), g_arButtons.getCount());
 		if (g_plugin.getByte(AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
-	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
+	else if ((dwFlags & TTBBF_ISLBUTTON) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
 		_itoa(wParamDown, buf1, 10);
 		char buf2[20];
@@ -96,21 +96,21 @@ void TopButtonInt::LoadSettings()
 
 		mir_free(pszName);
 		pszName = g_plugin.getStringA(AS(buf, buf2, "_name"));
-		
+
 		mir_free(ptszProgram);
 		ptszProgram = g_plugin.getWStringA(AS(buf, buf2, "_lpath"));
 
-		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), Buttons.getCount());
+		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), g_arButtons.getCount());
 		if (g_plugin.getByte(AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else {
-		arrangedpos = g_plugin.getByte(AS(buf, pszName, "_Position"), Buttons.getCount());
+		arrangedpos = g_plugin.getByte(AS(buf, pszName, "_Position"), g_arButtons.getCount());
 		if (g_plugin.getByte(AS(buf, pszName, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 
-	if (Buttons.getIndex(this) != -1)
+	if (g_arButtons.getIndex(this) != -1)
 		arrangedpos = maxid++;
 }
 
@@ -127,7 +127,7 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 		g_plugin.setByte(AS(buf, buf2, "_Position"), arrangedpos);
 		g_plugin.setByte(AS(buf, buf2, "_Visible"), isVisible());
 	}
-	else if (LaunchCnt && (dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
+	else if (LaunchCnt && (dwFlags & TTBBF_ISLBUTTON) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
 		_itoa(LaunchCnt[0]++, buf1, 10);
 		char buf2[20];

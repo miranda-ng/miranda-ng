@@ -91,7 +91,7 @@ struct TopButtonInt : public MZeroedObject
 
 int TTBOptInit(WPARAM wParam, LPARAM lParam);
 //append string
-char __inline *AS(char *str, const char *setting, char *addstr);
+__inline char* AS(char *str, const char *setting, char *addstr);
 
 TopButtonInt* CreateButton(TTBButton* but);
 
@@ -105,9 +105,9 @@ int ArrangeButtons();
 
 #define SEPWIDTH		3
 
-extern TTBCtrl* g_ctrl;
+extern TTBCtrl *g_ctrl;
 
-extern LIST<TopButtonInt> Buttons;
+extern LIST<TopButtonInt> g_arButtons;
 extern HBITMAP hBmpBackground;
 extern mir_cs csButtonsHook;
 extern pfnCustomProc g_CustomProc;
@@ -142,6 +142,7 @@ int  UnloadToolbarModule(void);
 
 int  SaveAllButtonsOptions(void);
 
-void LoadAllSeparators();void LoadAllLButs();
+void LoadAllSeparators();
+void LoadAllLButs();
 
 #endif
