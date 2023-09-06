@@ -270,7 +270,7 @@ public:
 	virtual void OnEventDeleted(MCONTACT, MEVENT);
 
 	// called when an event is altered in database
-	virtual void OnEventEdited(MCONTACT, MEVENT);
+	virtual void OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei);
 
 	// called when an account gets physically removed from the database
 	virtual void OnErase();

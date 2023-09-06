@@ -32,7 +32,7 @@ void BuildProtoMenus();
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
 
 static bool bModuleInitialized = false;
-static HANDLE hHooks[2];
+static HANDLE hHooks[1];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 {
@@ -150,13 +150,6 @@ void WriteDbAccounts()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnEventEdited(WPARAM hContact, LPARAM hDbEvent)
-{
-	if (auto *ppro = Proto_GetInstance(hContact))
-		ppro->OnEventEdited(hContact, hDbEvent);
-	return 0;
-}
-
 void InitStaticAccounts()
 {
 	int count = 0;
@@ -218,7 +211,6 @@ int LoadAccountsModule(void)
 	}
 
 	hHooks[0] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
-	hHooks[1] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
 	return 0;
 }
 

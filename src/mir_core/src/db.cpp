@@ -426,9 +426,19 @@ MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer)
 	return g_pCurrDb->DeleteEvent(hDbEvent);
 }
 
-MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei)
+MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei, bool bFromServer)
 {
-	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->EditEvent(hDbEvent, dbei);
+	if (g_pCurrDb == nullptr)
+		return 0;
+
+	int rc = g_pCurrDb->EditEvent(hDbEvent, dbei);
+	if (!rc && !bFromServer) {
+		MCONTACT hContact = g_pCurrDb->GetEventContact(hDbEvent);
+		if (auto *ppro = Proto_GetInstance(hContact))
+			ppro->OnEventEdited(hContact, hDbEvent, *dbei);
+	}
+
+	return rc;
 }
 
 MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact)

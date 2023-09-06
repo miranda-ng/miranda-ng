@@ -293,7 +293,7 @@ EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer = f
 // Edits an event in the database
 // Returns 0 on success, or nonzero on error
 
-EXTERN_C MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei, bool bFromServer = false);
 
 // Tries to find an event by its id if present
 // if an event is found, it's edited, otherwise a new event is added

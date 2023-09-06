@@ -342,6 +342,7 @@ public:
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;
 	void     OnEventDeleted(MCONTACT, MEVENT) override;
+	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;

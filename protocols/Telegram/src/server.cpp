@@ -685,12 +685,21 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 	}
 
-	/*
-	CMStringA szText(GetMessageText(pUser, pObj->new_content_.get()));
+	auto msg = TD::make_object<TD::message>();
+	msg->content_ = std::move(pObj->new_content_);
+	CMStringA szText(GetMessageText(pUser, msg.get()));
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
 		return;
-	}*/
+	}
+
+	DBEVENTINFO dbei = {};
+	if (db_event_get(hDbEvent, &dbei))
+		return;
+
+	dbei.cbBlob = szText.GetLength();
+	dbei.pBlob = (uint8_t *)szText.c_str();
+	db_event_edit(hDbEvent, &dbei, true);
 }
 
 void CTelegramProto::ProcessOption(TD::updateOption *pObj)

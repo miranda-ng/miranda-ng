@@ -291,7 +291,7 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	lock.unlock();
 
 	DBFlush();
-	NotifyEventHooks(g_hevEventEdited, 0, hDbEvent);
+	NotifyEventHooks(g_hevEventEdited, GetEventContact(hDbEvent), hDbEvent);
 	return 0;
 }
 

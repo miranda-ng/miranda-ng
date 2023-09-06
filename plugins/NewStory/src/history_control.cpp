@@ -335,17 +335,16 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 			int iTextLen = GetWindowTextLengthW(hwndEditBox);
 			replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
-			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen);
+			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
 			if (pItem->hContact && pItem->hEvent) {
-				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
-				pItem->dbe.cbBlob = (int)mir_strlen(szUtf) + 1;
-				pItem->dbe.pBlob = (uint8_t *)szUtf.get();
-				db_event_edit(pItem->hEvent, &pItem->dbe);
+				DBEVENTINFO dbei = pItem->dbe;
 
-				if (auto *ppro = Proto_GetInstance(pItem->hContact))
-					ppro->OnEventEdited(pItem->hContact, pItem->hEvent);
+				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
+				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
+				dbei.pBlob = (uint8_t *)szUtf.get();
+				db_event_edit(pItem->hEvent, &dbei);
 			}
 
 			MTextDestroy(pItem->data); pItem->data = 0;

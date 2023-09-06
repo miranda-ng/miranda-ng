@@ -83,7 +83,7 @@ MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
 void PROTO_INTERFACE::OnEventDeleted(MCONTACT, MEVENT)
 {}
 
-void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT)
+void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &)
 {}
 
 void PROTO_INTERFACE::OnErase()

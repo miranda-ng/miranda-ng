@@ -415,7 +415,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnContactAdded(MCONTACT) override;
 	void      OnContactDeleted(MCONTACT) override;
 	MWindow   OnCreateAccMgrUI(MWindow) override;
-	void      OnEventEdited(MCONTACT, MEVENT) override;
+	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
 	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;

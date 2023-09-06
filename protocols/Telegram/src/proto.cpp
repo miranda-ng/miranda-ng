@@ -216,6 +216,24 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 	}
 }
 
+void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
+{
+	if (!hContact)
+		return;
+
+	auto *pUser = FindUser(GetId(hContact));
+	if (!pUser)
+		return;
+
+	if (dbei.szId && dbei.cbBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
+		auto text = TD::make_object<TD::formattedText>();
+		text->text_ = (char*)dbei.pBlob;
+
+		auto content = TD::make_object<TD::inputMessageText>(std::move(text), false, false);
+		SendQuery(new TD::editMessageText(pUser->chatId, _atoi64(dbei.szId), 0, std::move(content)));
+	}
+}
+
 void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	if (!hContact)
@@ -225,9 +243,8 @@ void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (!pUser)
 		return;
 
-	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
-	if (dbei.szId) {
+	DB::EventInfo dbei(hDbEvent, false);
+	if (dbei && dbei.szId) {
 		mir_cslock lck(m_csMarkRead);
 		if (m_markChatId) {
 			if (m_markChatId != hContact)
