@@ -859,18 +859,26 @@ bool CAccountFormDlg::OnInitDialog()
 
 bool CAccountFormDlg::OnApply()
 {
-	wchar_t tszAccName[256];
-	m_accName.GetText(tszAccName, _countof(tszAccName));
-	rtrimw(tszAccName);
-	if (tszAccName[0] == 0) {
+	wchar_t wszAccName[256];
+	m_accName.GetText(wszAccName, _countof(wszAccName));
+	rtrimw(wszAccName);
+	if (wszAccName[0] == 0) {
 		MessageBoxW(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 		return false;
 	}
 
 	if (m_action == PRAC_ADDED) {
-		char buf[200];
-		m_internalName.GetTextA(buf, _countof(buf));
-		if (FindAccountByName(rtrim(buf))) {
+		wchar_t buf[200];
+		m_internalName.GetText(buf, _countof(buf));
+		rtrimw(buf);
+
+		for (auto *p = buf; *p; p++)
+			if (*p < 32 || *p > 127) {
+				MessageBoxW(m_hwnd, TranslateT("Account name contains invalid symbols, only ASCII chars are allowed."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+				return false;
+			}
+
+		if (FindAccountByName(_T2A(buf))) {
 			MessageBoxW(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 			return false;
 		}
@@ -899,10 +907,10 @@ bool CAccountFormDlg::OnApply()
 		m_internalName.GetTextA(buf, _countof(buf));
 		rtrim(buf);
 
-		m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
+		m_pa = Proto_CreateAccount(buf, szBaseProto, wszAccName);
 	}
 	else {
-		replaceStrW(m_pa->tszAccountName, tszAccName);
+		replaceStrW(m_pa->tszAccountName, wszAccName);
 
 		WriteDbAccounts();
 		NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
