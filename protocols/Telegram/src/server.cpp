@@ -686,7 +686,9 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 	}
 
 	auto msg = TD::make_object<TD::message>();
+	msg->sender_id_ = std::move(TD::make_object<TD::messageSenderChat>(pObj->chat_id_));
 	msg->content_ = std::move(pObj->new_content_);
+
 	CMStringA szText(GetMessageText(pUser, msg.get()));
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
