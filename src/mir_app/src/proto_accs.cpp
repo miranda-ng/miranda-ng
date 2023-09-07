@@ -36,7 +36,7 @@ static HANDLE hHooks[1];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 {
-	return mir_strcmp(p1->szModuleName, p2->szModuleName);
+	return mir_strcmpi(p1->szModuleName, p2->szModuleName);
 }
 
 LIST<PROTOACCOUNT> g_arAccounts(10, CompareAccounts);
