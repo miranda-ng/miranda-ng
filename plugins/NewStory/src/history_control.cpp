@@ -54,10 +54,8 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 		
 	HMENU hMenu = NSMenu_Build(this, item);
 
-	if (pMsgDlg != nullptr && pMsgDlg->isChat()) {
-		EnableMenuItem(hMenu, 2, MF_BYPOSITION | MF_GRAYED);
+	if (pMsgDlg != nullptr && pMsgDlg->isChat())
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
-	}
 		
 	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
 	Menu_DestroyNestedMenu(hMenu);

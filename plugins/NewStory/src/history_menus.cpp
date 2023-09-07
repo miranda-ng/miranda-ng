@@ -11,6 +11,7 @@ enum
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
 static HGENMENU hmiHistory, hmiCopy, hmiSaveAs, hmiDownload, hmiQuote;
+static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
@@ -25,6 +26,11 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	}
 
 	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
+	
+	bool bShowEventActions = item->hEvent != 0;
+	Menu_ShowItem(hmiEdit, bShowEventActions);
+	Menu_ShowItem(hmiDelete, bShowEventActions);
+	Menu_ShowItem(hmiBookmark, bShowEventActions);
 
 	NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&item->dbe);
 
@@ -198,15 +204,15 @@ void InitMenus()
 
 	mi.position = 200000;
 	mi.name.a = LPGEN("Edit");
-	Menu_AddNewStoryMenuItem(&mi, MENU_EDIT);
+	hmiEdit = Menu_AddNewStoryMenuItem(&mi, MENU_EDIT);
 
 	mi.position = 200001;
 	mi.name.a = LPGEN("Delete");
-	Menu_AddNewStoryMenuItem(&mi, MENU_DELETE);
+	hmiDelete = Menu_AddNewStoryMenuItem(&mi, MENU_DELETE);
 
 	mi.position = 200002;
 	mi.name.a = LPGEN("Toggle bookmark");
-	Menu_AddNewStoryMenuItem(&mi, MENU_BOOKMARK);
+	hmiBookmark = Menu_AddNewStoryMenuItem(&mi, MENU_BOOKMARK);
 
 	mi.position = 300000;
 	mi.name.a = LPGEN("Select all");
