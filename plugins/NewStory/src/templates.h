@@ -1,12 +1,6 @@
 #ifndef __templates_h__
 #define __templates_h__
 
-enum
-{
-	VFM_VARS,
-	VFM_DESCS
-};
-
 struct TemplateVars
 {
 	TemplateVars();
@@ -26,12 +20,10 @@ struct TemplateVars
 	void SetVar(uint8_t id, wchar_t *v, bool d);
 };
 
-typedef void (*VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, ItemData *item);
+typedef void (*VarFunc)(TemplateVars *vars, MCONTACT hContact, ItemData *item);
 
 struct TemplateInfo
 {
-	enum { VF_COUNT = 6 };
-
 	char*    setting;
 	wchar_t* group;
 	int      iIcon;
@@ -39,7 +31,7 @@ struct TemplateInfo
 	wchar_t* defvalue;
 	wchar_t* value;
 	wchar_t* tmpValue;
-	VarFunc vf[VF_COUNT];
+	VarFunc vf[6];
 
 	HICON getIcon() const;
 };
@@ -80,8 +72,8 @@ void LoadTemplates();
 void SaveTemplates();
 
 CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *args);
-wchar_t*  TplFormatString(int tpl, MCONTACT hContact, ItemData * item);
-wchar_t*  TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *args);
+CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
+CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *args);
 
 
 #endif // __templates_h__

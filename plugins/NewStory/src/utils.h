@@ -7,4 +7,4 @@ bool CheckFilter(wchar_t *buf, wchar_t *filter);
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item);
 bool NSMenu_Process(int iCommand, NewstoryListData *data);
 
-void RemoveBbcodes(wchar_t *pwszText);
+void RemoveBbcodes(CMStringW &pwszText);

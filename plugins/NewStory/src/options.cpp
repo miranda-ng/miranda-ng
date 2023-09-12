@@ -65,7 +65,7 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 		item.hEvent = m_hDbEVent;
 		item.load(true);
 			
-		ptrW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, item.hContact, &item));
+		CMStringW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, &item));
 		preview.SetText(wszText);
 		gpreview.SetText(wszText);
 	}

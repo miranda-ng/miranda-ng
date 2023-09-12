@@ -265,7 +265,7 @@ class CHistoryDlg : public CDlgBase
 			break;
 
 		default:
-			SetWindowText(m_hwnd, ptrW(TplFormatString(TPL_TITLE, m_hContact, 0)));
+			SetWindowText(m_hwnd, TplFormatString(TPL_TITLE, m_hContact, 0));
 		}
 	}
 
@@ -356,11 +356,17 @@ public:
 		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(IDI_FINDPREV), LPGEN("Find previous")),
 		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(IDI_TIMETREE), LPGEN("Conversations"))
 	{
-		if (m_hContact > 0) {
+		showFlags = g_plugin.getWord("showFlags", 0x7f);
+		m_dwOptions = g_plugin.getDword("dwOptions");
+
+		if (m_hContact == INVALID_CONTACT_ID)
+			m_dwOptions |= WND_OPT_SEARCHBAR;
+		else if (m_hContact > 0) {
 			m_toolbar.push_back(Button(btnUserMenu));
 			m_toolbar.push_back(Button(btnUserInfo));
 			m_toolbar.push_back(Button(btnSendMsg, Button::SPACED));
 		}
+
 		m_toolbar.push_back(Button(btnTimeTree));
 		m_toolbar.push_back(Button(btnSearch));
 		m_toolbar.push_back(Button(btnFilter));
@@ -388,9 +394,6 @@ public:
 		btnUserInfo.OnClick = Callback(this, &CHistoryDlg::onClick_UserInfo);
 		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
 		btnTimeTree.OnClick = Callback(this, &CHistoryDlg::onClick_TimeTree);
-
-		showFlags = g_plugin.getWord(0, "showFlags", 0x7f);
-		m_dwOptions = g_plugin.getDword(0, "dwOptions");
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		TranslateMenu(m_hMenu);
@@ -503,10 +506,7 @@ public:
 			TimeTreeBuild();
 			SetFocus(m_histWindow.GetHwnd());
 		}
-		else {
-			Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
-			m_dwOptions |= WND_OPT_SEARCHBAR;
-		}
+		else Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
 
 		m_histCtrl->SetContact(m_hContact);
 		m_histCtrl->ScrollBottom();

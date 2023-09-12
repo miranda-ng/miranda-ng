@@ -275,7 +275,7 @@ void NewstoryListData::Copy(bool bTextOnly)
 				res.Append(L"\r\n");
 			}
 			else { // copy text only
-				ptrW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
+				CMStringW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
 				RemoveBbcodes(wszText);
 				res.Append(wszText);
 			}

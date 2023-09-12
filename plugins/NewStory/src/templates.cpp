@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-int TplMeasureVars(TemplateVars* vars, wchar_t* str);
-
 wchar_t *weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
 
 wchar_t *months[12] =
@@ -13,7 +11,7 @@ wchar_t *months[12] =
 ///////////////////////////////////////////////////////////////////////////////
 // Template formatting for options dialog
 
-wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *item)
+CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *item)
 {
 	if (tpl < 0 || tpl >= TPL_COUNT || !sztpl)
 		return mir_wstrdup(L"");
@@ -21,24 +19,21 @@ wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData 
 	TemplateVars vars;
 
 	auto &T = templates[tpl];
-	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
-		if (T.vf[i])
-			T.vf[i](VFM_VARS, &vars, hContact, item);
+	for (auto &it : T.vf)
+		if (it)
+			it(&vars, item->hContact, item);
 
-	wchar_t *buf = (wchar_t *)mir_alloc(sizeof(wchar_t) * (TplMeasureVars(&vars, sztpl) + 1));
-	wchar_t *bufptr = buf;
+	CMStringW buf;
 	for (wchar_t *p = sztpl; *p; p++) {
 		if (*p == '%') {
 			wchar_t *var = vars.GetVar((p[1] & 0xff));
-			if (var) {
-				mir_wstrcpy(bufptr, var);
-				bufptr += mir_wstrlen(var);
-			}
+			if (var)
+				buf.Append(var);
 			p++;
 		}
-		else *bufptr++ = *p;
+		else buf.AppendChar(*p);
 	}
-	*bufptr = 0;
+
 	return buf;
 }
 
@@ -120,9 +115,9 @@ CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *item)
 
 	TemplateVars vars;
 
-	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
-		if (T.vf[i])
-			T.vf[i](VFM_VARS, &vars, hContact, item);
+	for (auto &it : T.vf)
+		if (it)
+			it(&vars, hContact, item);
 
 	CMStringA buf;
 	buf.Append("{\\rtf1\\ansi\\deff0");
@@ -145,10 +140,10 @@ CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *item)
 ///////////////////////////////////////////////////////////////////////////////
 // Template formatting for copying text
 
-wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
+CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 {
-	if ((tpl < 0) || (tpl >= TPL_COUNT))
-		return mir_wstrdup(L"");
+	if (tpl < 0 || tpl >= TPL_COUNT)
+		return CMStringW();
 
 	auto &T = templates[tpl];
 	if (T.value == nullptr)
@@ -156,29 +151,29 @@ wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 
 	TemplateVars vars;
 
-	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
-		if (T.vf[i])
-			T.vf[i](VFM_VARS, &vars, hContact, item);
+	for (auto &it : T.vf)
+		if (it)
+			it(&vars, hContact, item);
 
-	wchar_t *buf = (wchar_t *)mir_alloc(sizeof(wchar_t) * (TplMeasureVars(&vars, T.value) + 1));
-	wchar_t *bufptr = buf;
+	CMStringW buf;
 
 	for (wchar_t *p = T.value; *p; p++) {
 		if (*p == '%') {
 			wchar_t *var = vars.GetVar((p[1] & 0xff));
-			if (var) {
-				mir_wstrcpy(bufptr, var);
-				bufptr += mir_wstrlen(var);
-			}
+			if (var)
+				buf.Append(var);
+
 			p++;
 		}
-		else *bufptr++ = *p;
+		else buf.AppendChar(*p);
 	}
-	*bufptr = 0;
+
 	return buf;
 }
 
-// Variable management
+///////////////////////////////////////////////////////////////////////////////
+// TemplateVars members
+
 TemplateVars::TemplateVars()
 {
 	memset(&vars, 0, sizeof(vars));
@@ -191,23 +186,8 @@ TemplateVars::~TemplateVars()
 			mir_free(V.val);
 }
 
-int TplMeasureVars(TemplateVars *vars, wchar_t *str)
-{
-	int res = 0;
-	for (wchar_t *p = str; *p; p++) {
-		if (*p == '%') {
-			wchar_t *var = vars->GetVar(p[1] & 0xff);
-			if (var)
-				res += (int)mir_wstrlen(var);
-			p++;
-		}
-		else res++;
-	}
-	return res;
-}
-
 // Loading variables
-void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
+void vfGlobal(TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	//  %%: simply % character
 	vars->SetVar('%', L"%", false);
@@ -221,7 +201,7 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('S', nick, true);
 }
 
-void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
+void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *nick = (hContact == 0) ? TranslateT("System history") : Clist_GetContactDisplayName(hContact, 0);
@@ -233,7 +213,7 @@ void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('c', buf, true);
 }
 
-void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
+void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	vars->SetVar('N', TranslateT("System event"), false);
@@ -244,7 +224,7 @@ void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('c', buf, true);
 }
 
-void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	HICON hIcon;
 	wchar_t buf[100];
@@ -352,47 +332,47 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 /////////////////////////////////////////////////////////////////////////////////////////
 // %M: the message string itself
 
-void vfMessage(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfMessage(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfFile(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfFile(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfUrl(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfUrl(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfSign(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfSign(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfAuth(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfAuth(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfAdded(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfAdded(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfPresence(int, TemplateVars* vars, MCONTACT, ItemData* item)
+void vfPresence(TemplateVars* vars, MCONTACT, ItemData* item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfDeleted(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfDeleted(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *item)
+void vfOther(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	auto *pText = item->getWBuf();
 	vars->SetVar('M', mir_wstrlen(pText) == 0 ? TranslateT("Unknown event") : pText, false);

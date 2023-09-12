@@ -47,9 +47,9 @@ static bbcodes[] =
 	{ L"[img=", L"]"       },
 };
 
-void RemoveBbcodes(wchar_t *pwszText)
+void RemoveBbcodes(CMStringW &wszText)
 {
-	if (!pwszText)
+	if (wszText.IsEmpty())
 		return;
 
 	if (bbcodes[0].cbStart == 0)
@@ -59,18 +59,20 @@ void RemoveBbcodes(wchar_t *pwszText)
 				it.cbEnd = wcslen(it.pEnd);
 		}
 
-	for (auto *p = wcschr(pwszText, '['); p != 0; p = wcschr(p, '[')) {
+	for (int idx = wszText.Find('[', 0); idx != -1; idx = wszText.Find('[', idx)) {
 		for (auto &it : bbcodes) {
-			if (wcsncmp(p, it.pStart, it.cbStart))
+			if (wcsncmp(wszText.c_str() + idx, it.pStart, it.cbStart))
 				continue;
 
-			strdelw(p, it.cbStart);
+			wszText.Delete(idx, (int)it.cbStart);
 
-			if (it.pEnd)
-				if (auto *pp = wcsstr(p, it.pEnd)) {
-					strdelw(p, size_t(pp - p));
-					strdelw(p, it.cbEnd);
+			if (it.pEnd) {
+				int idx2 = wszText.Find(it.pEnd, idx);
+				if (idx2 != -1) {
+					wszText.Delete(idx2 - idx);
+					wszText.Delete((int)it.cbEnd);
 				}
+			}
 
 			break;
 		}
