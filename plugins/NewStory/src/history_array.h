@@ -15,7 +15,7 @@ struct ItemData
 
 	bool m_bRtf;
 	bool m_bSelected, m_bHighlighted;
-	bool m_bLoaded;
+	bool m_bLoaded, m_bIsResult;
 	bool m_bOfflineFile, m_bOfflineDownloaded;
 	uint8_t m_grouping;
 	

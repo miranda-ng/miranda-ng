@@ -474,6 +474,7 @@ void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
 		auto &p = allocateItem();
 		p.hContact = it->hContact;
 		p.hEvent = it->hEvent;
+		p.m_bIsResult = true;
 		pPrev = p.checkPrev(pPrev);
 	}
 }

@@ -230,7 +230,7 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 	wchar_t buf[100];
 
 	//  %N: Nickname
-	if (item->dbe.flags & DBEF_SENT) {
+	if (!item->m_bIsResult && (item->dbe.flags & DBEF_SENT)) {
 		if (!item->wszNick) {
 			char *proto = Proto_GetBaseAccountName(item->hContact);
 			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
