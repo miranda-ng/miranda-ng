@@ -10,9 +10,23 @@ module; fall back to Javascript on these.
 counterpart.
  - Added a workaround for Visual Studio 2010 bug causing CPU features
 not to be detected.
- - The library now enables compilation with retpoline by default.
  - Portability improvements.
  - Test vectors from Project Wycheproof have been added.
+ - New low-level APIs for arithmetic mod the order of the prime order group:
+`crypto_core_ed25519_scalar_random()`, `crypto_core_ed25519_scalar_reduce()`,
+`crypto_core_ed25519_scalar_invert()`, `crypto_core_ed25519_scalar_negate()`,
+`crypto_core_ed25519_scalar_complement()`, `crypto_core_ed25519_scalar_add()`
+and `crypto_core_ed25519_scalar_sub()`.
+ - New low-level APIs for scalar multiplication without clamping:
+`crypto_scalarmult_ed25519_base_noclamp()` and
+`crypto_scalarmult_ed25519_noclamp()`. These new APIs are especially useful
+for blinding.
+ - `sodium_sub()` has been implemented.
+ - Support for WatchOS has been added.
+ - getrandom(2) is now used on FreeBSD 12+.
+ - The `nonnull` attribute has been added to all relevant prototypes.
+ - More reliable AVX512 detection.
+ - Javascript/Webassembly builds now use dynamic memory growth.
 
 * Version 1.0.16
  - Signatures computations and verifications are now way faster on
