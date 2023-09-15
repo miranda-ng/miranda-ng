@@ -28,6 +28,7 @@ Boston, MA 02111-1307, USA.
 #include <time.h>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include <newpluginapi.h>
 #include <m_protosvc.h>
