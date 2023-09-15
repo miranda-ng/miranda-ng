@@ -466,7 +466,7 @@ void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUs
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CTelegramProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
+int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));
 	if (szId == nullptr)

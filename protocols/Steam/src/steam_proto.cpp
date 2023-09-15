@@ -243,7 +243,7 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 	return (HANDLE)STEAM_SEARCH_BYNAME;
 }
 
-int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
+int CSteamProto::SendMsg(MCONTACT hContact, const char *message)
 {
 	if (!IsOnline())
 		return -1;

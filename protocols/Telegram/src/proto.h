@@ -333,7 +333,7 @@ public:
 	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	int      SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
+	int      SendMsg(MCONTACT hContact, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
 		
 	void     OnBuildProtoMenu() override;

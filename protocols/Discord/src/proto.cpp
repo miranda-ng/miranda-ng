@@ -480,7 +480,7 @@ void CDiscordProto::OnSendMsg(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	}
 }
 
-int CDiscordProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
+int CDiscordProto::SendMsg(MCONTACT hContact, const char *pszSrc)
 {
 	if (!m_bOnline) 
 		return -1;

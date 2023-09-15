@@ -368,7 +368,7 @@ public:
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int iStatus, const wchar_t *msg) override;
 
-	int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc) override;
+	int      SendMsg(MCONTACT hContact, const char *pszSrc) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 

@@ -1206,7 +1206,7 @@ void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char*
 void CJabberProto::OmemoHandleMessageQueue()
 {
 	for (auto &i : m_omemo.outgoing_messages) {
-		SendMsg(i.hContact, 0, i.pszSrc);
+		SendMsg(i.hContact, i.pszSrc);
 		mir_free(i.pszSrc);
 	}
 	m_omemo.outgoing_messages.clear();

@@ -28,7 +28,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;
-	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+	int      SendMsg(MCONTACT hContact, const char* msg) override;
 
 	int      SetStatus(int iNewStatus) override;
 

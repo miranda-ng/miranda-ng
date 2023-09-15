@@ -136,7 +136,7 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CDummyProto::SendMsg(MCONTACT hContact, int, const char *msg)
+int CDummyProto::SendMsg(MCONTACT hContact, const char *msg)
 {
 	std::string message = msg;
 	unsigned int id = InterlockedIncrement(&this->msgid);

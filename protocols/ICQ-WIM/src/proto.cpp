@@ -559,7 +559,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
+int CIcqProto::SendMsg(MCONTACT hContact, const char *pszSrc)
 {
 	CMStringA szUserid(GetUserId(hContact));
 	if (szUserid.IsEmpty())

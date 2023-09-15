@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /* MESSAGE SENDING */
 
 // outcoming message flow
-int CSkypeProto::SendMsg(MCONTACT hContact, int, const char *szMessage)
+int CSkypeProto::SendMsg(MCONTACT hContact, const char *szMessage)
 {
 	if (!IsOnline())
 		return -1;

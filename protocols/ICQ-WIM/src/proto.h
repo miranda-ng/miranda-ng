@@ -404,7 +404,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE    SearchBasic(const wchar_t *id) override;
 
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	int       SendMsg(MCONTACT hContact, const char *msg) override;
 			    
 	int       SetApparentMode(MCONTACT hContact, int mode) override;
 	int       SetStatus(int iNewStatus) override;

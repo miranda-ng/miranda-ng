@@ -611,7 +611,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			ptrW pwszBuf(mir_wstrdup(gch->ptszText));
 			rtrimw(pwszBuf);
 			Chat_UnescapeTags(pwszBuf);
-			SendMsg(cc->m_si->hContact, 0, T2Utf(pwszBuf));
+			SendMsg(cc->m_si->hContact, T2Utf(pwszBuf));
 		}
 		break;
 

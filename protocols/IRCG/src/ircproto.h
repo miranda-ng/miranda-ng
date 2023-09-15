@@ -62,7 +62,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	HANDLE   SearchBasic(const wchar_t* id) override;
 			   
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+	int      SendMsg(MCONTACT hContact, const char* msg) override;
 			   
 	int      SetStatus(int iNewStatus) override;
 			   

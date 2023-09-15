@@ -278,7 +278,7 @@ public:
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 
-	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, const char *msg) override;
 
 	int      SetStatus(int iNewStatus) override;
 

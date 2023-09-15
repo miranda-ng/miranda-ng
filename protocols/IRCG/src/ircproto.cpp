@@ -581,7 +581,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMessage - sends a message
 
-int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
+int CIrcProto::SendMsg(MCONTACT hContact, const char* pszSrc)
 {
 	uint8_t bDcc = getByte(hContact, "DCC", 0);
 	uint16_t wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);

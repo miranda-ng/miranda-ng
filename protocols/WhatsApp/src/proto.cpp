@@ -243,7 +243,7 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
+int WhatsAppProto::SendMsg(MCONTACT hContact, const char *pszMsg)
 {
 	if (!isOnline())
 		return -1;
