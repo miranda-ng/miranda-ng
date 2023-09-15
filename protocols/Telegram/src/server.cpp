@@ -240,7 +240,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *pUserInfo)
+void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 {
 	if (!response.object)
 		return;
@@ -253,13 +253,11 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *
 	auto *pMessage = ((TD::message *)response.object.get());
 	auto *pUser = FindChat(pMessage->chat_id_);
 	if (pUser)
-		m_arOwnMsg.insert(new TG_OWN_MESSAGE(pUser->hContact, pUserInfo, pMessage->id_));
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(pUser->hContact, (HANDLE)response.request_id, pMessage->id_));
 }
 
 int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 {
-	int ret = ++m_iMsgId;
-
 	auto pContent = TD::make_object<TD::inputMessageText>();
 	pContent->text_ = TD::make_object<TD::formattedText>();
 	pContent->text_->text_ = std::move(pszMessage);
@@ -267,15 +265,13 @@ int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
-	SendQuery(pMessage, &CTelegramProto::OnSendMessage, (void *)ret);
-
-	return ret;
+	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 
-void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
+int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
 	if (!m_pClientManager)
-		return;
+		return -1;
 
 	int queryId = ++m_iQueryId;
 
@@ -286,12 +282,13 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
+	return queryId;
 }
 
-void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
+int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
 {
 	if (!m_pClientManager)
-		return;
+		return -1;
 
 	int queryId = ++m_iQueryId;
 
@@ -302,6 +299,7 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandl
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));
+	return queryId;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

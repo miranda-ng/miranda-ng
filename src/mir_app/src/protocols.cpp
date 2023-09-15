@@ -404,9 +404,9 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t *)lParam);
 			case 11: {
-					PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
-					return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t *)pfr->szFilename);
-				}
+				PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
+				return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t *)pfr->szFilename);
+			}
 
 			case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
 			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
@@ -414,9 +414,9 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 15: return (INT_PTR)ppi->SearchBasic((wchar_t *)lParam);
 			case 16:	return (INT_PTR)ppi->SearchByEmail((wchar_t *)lParam);
 			case 17: {
-					PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME *)lParam;
-					return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
-				}
+				PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME *)lParam;
+				return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
+			}
 			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT *)lParam);
@@ -424,7 +424,14 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT *)lParam);
 			case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
 			case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);
-			case 25: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char *)lParam);
+			case 25: {
+				int msgId = ppi->SendMsg(hContact, wParam, (const char *)lParam);
+				if (msgId == -1) {
+					ppi->ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)-1, (LPARAM)TranslateT("Protocol is offline"));
+					return -1;
+				}
+				return msgId;
+			}
 			case 26: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
 			case 27: return (INT_PTR)ppi->SetStatus(wParam);
 			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);

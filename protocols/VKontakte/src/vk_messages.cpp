@@ -22,10 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 {
 	debugLogA("CVkProto::SendMsg");
-	if (!IsOnline()) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0);
-		return 0;
-	}
+	if (!IsOnline())
+		return -1;
 
 	bool bIsChat = isChatRoom(hContact);
 

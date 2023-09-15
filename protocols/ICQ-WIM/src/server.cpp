@@ -1168,7 +1168,7 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	JsonReply root(pReply);
 	if (root.error() != 200) {
-		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid, 0);
+		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid);
 
 		mir_cslock lck(m_csOwnIds);
 		m_arOwnIds.remove(ownMsg);

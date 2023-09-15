@@ -224,11 +224,6 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
-{
-	return OnSendMessage(hContact, flags, msg);
-}
-
 int CSkypeProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)

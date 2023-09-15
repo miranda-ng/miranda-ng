@@ -245,14 +245,12 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
+	if (!isOnline())
+		return -1;
+
 	ptrA jid(getStringA(hContact, DBKEY_ID));
 	if (jid == nullptr || pszMsg == nullptr)
 		return 0;
-
-	if (!isOnline()) {
-		debugLogA("No connection");
-		return 0;
-	}
 
 	return SendTextMessage(jid, pszMsg);
 }

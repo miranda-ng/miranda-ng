@@ -20,12 +20,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /* MESSAGE SENDING */
 
 // outcoming message flow
-int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
+int CSkypeProto::SendMsg(MCONTACT hContact, int, const char *szMessage)
 {
-	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)TranslateT("You cannot send when you are offline."));
-		return 0;
-	}
+	if (!IsOnline())
+		return -1;
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
@@ -41,10 +39,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 		pReq = new SendMessageRequest(id, param->hMessage, szMessage);
 	pReq->pUserInfo = param;
 	PushRequest(pReq);
-	{
-		mir_cslock lck(m_lckOutMessagesList);
-		m_OutMessages.insert((void*)param->hMessage);
-	}
+
+	mir_cslock lck(m_lckOutMessagesList);
+	m_OutMessages.insert((void*)param->hMessage);
 	return param->hMessage;
 }
 
@@ -134,7 +131,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
 			if (bEdited && hDbEvent != NULL)
-				EditEvent(hContact, hDbEvent, wszContent, timestamp);
+				EditEvent(hDbEvent, wszContent, timestamp);
 			else {
 				T2Utf szMsg(wszContent);
 				PROTORECVEVENT recv = {};

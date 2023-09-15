@@ -265,9 +265,8 @@ private:
 
 	MEVENT GetMessageFromDb(const char *messageId);
 	MEVENT AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timestamp, uint32_t flags, const CMStringW &content, const CMStringA &msgId);
-	void EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &content, time_t edit_time);
+	void EditEvent(MEVENT hEvent, const CMStringW &content, time_t edit_time);
 
-	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);

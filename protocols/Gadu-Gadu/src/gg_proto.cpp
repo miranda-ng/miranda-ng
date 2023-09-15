@@ -509,10 +509,10 @@ HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
-	if (!isonline() || !uin)
-		return 0;
+	if (!isonline())
+		return -1;
 
-	if (!msg)
+	if (!uin || !msg)
 		return 0;
 
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);

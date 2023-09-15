@@ -194,8 +194,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::array<TD::int53> m_deleteIds;
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
-	int32_t m_iClientId, m_iMsgId;
-	int64_t m_iQueryId;
+	int32_t m_iClientId, m_iQueryId;
 
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
@@ -217,7 +216,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
-	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
+	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
 
 	void LogOut(void);
@@ -227,8 +226,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendKeepAlive(void);
 	void SendDeleteMsg(void);
 	void SendMarkRead(void);
-	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
-	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
+	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
+	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
 	int  SendTextMessage(int64_t chatId, const char *pszMessage);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);

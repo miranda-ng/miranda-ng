@@ -110,10 +110,8 @@ void CToxProto::SendMessageAsync(void *arg)
 
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
-	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("You cannot send when you are offline."));
-		return 0;
-	}
+	if (!IsOnline())
+		return -1;
 
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 

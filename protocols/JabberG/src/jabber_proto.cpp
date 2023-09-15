@@ -893,11 +893,12 @@ int CJabberProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 
 int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 {
-	char szClientJid[JABBER_MAX_JID_LEN];
-	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("Protocol is offline or no JID"));
+	if (!m_bJabberOnline)
 		return -1;
-	}
+
+	char szClientJid[JABBER_MAX_JID_LEN];
+	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
+		return 0;
 
 	if (OmemoIsEnabled(hContact)) {
 		if (!OmemoCheckSession(hContact, true)) {
@@ -909,16 +910,16 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 	}
 
 	CMStringA szBody;
-	int isEncrypted, id = SerialNext();
+	bool isEncrypted;
 	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
 		size_t nStrippedLength = mir_strlen(pszSrc) - mir_strlen(PGP_PROLOG) - (szEnd ? mir_strlen(szEnd) : 0) + 1;
 		szBody.Append(pszSrc + mir_strlen(PGP_PROLOG), (int)nStrippedLength);
 		szBody.Replace("\r\n", "");
 		pszSrc = szBody;
-		isEncrypted = 1;
+		isEncrypted = true;
 	}
-	else isEncrypted = 0;
+	else isEncrypted = false;
 
 	char *msgType;
 	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && strchr(szClientJid, '/') == nullptr)
@@ -959,6 +960,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 		m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
 	}
 
+	int id = SerialNext();
 	if (
 		// if message delivery check disabled by entity caps manager
 		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||

@@ -480,12 +480,10 @@ void CDiscordProto::OnSendMsg(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	}
 }
 
-int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
+int CDiscordProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
-	if (!m_bOnline) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
-		return 1;
-	}
+	if (!m_bOnline) 
+		return -1;
 
 	ptrW wszText(mir_utf8decodeW(pszSrc));
 	if (wszText == nullptr)

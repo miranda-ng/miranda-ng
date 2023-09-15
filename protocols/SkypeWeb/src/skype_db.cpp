@@ -55,7 +55,7 @@ MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timest
 	return db_event_add(hContact, &dbei);
 }
 
-void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &szContent, time_t edit_time)
+void CSkypeProto::EditEvent(MEVENT hEvent, const CMStringW &szContent, time_t edit_time)
 {
 	mir_cslock lck(m_AppendMessageLock);
 	

@@ -123,7 +123,7 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 int CTwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
-		return 0;
+		return -1;
 
 	CMStringA id(getMStringA(hContact, TWITTER_KEY_ID));
 	if (id.IsEmpty())

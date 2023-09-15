@@ -201,7 +201,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 
 	char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto || mir_strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0);
 		return 0;
 	}
 
@@ -209,7 +209,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 		return 0;
 
 	int ret = (INT_PTR)SendMessageToUser(hContact, msg);
-	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ret);
+	ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ret);
 	return ret;
 }
 

@@ -245,10 +245,8 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 
 int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 {
-	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("You cannot send messages when you are offline."));
-		return 0;
-	}
+	if (!IsOnline())
+		return -1;
 
 	return OnSendMessage(hContact, message);
 }

@@ -586,12 +586,12 @@ int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	uint8_t bDcc = getByte(hContact, "DCC", 0);
 	uint16_t wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (bDcc && wStatus != ID_STATUS_ONLINE) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The dcc chat connection is not active"));
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("The dcc chat connection is not active"));
 		return 0;
 	}
 	
 	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The protocol is not online"));
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("The protocol is not online"));
 		return 0;
 	}
 
