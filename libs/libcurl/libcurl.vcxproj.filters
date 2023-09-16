@@ -77,9 +77,6 @@
     <ClCompile Include="src\curl_gssapi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_log.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_memrchr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_threads.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curl_trc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -407,9 +407,6 @@
     <ClCompile Include="src\vtls\bearssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vtls\gskit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\vtls\gtls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -420,9 +417,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls_threadlock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vtls\nss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\openssl.c">
@@ -607,9 +601,6 @@
     <ClInclude Include="src\curl_ldap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curl_log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_md4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -659,6 +650,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_threads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curl_trc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dict.h">

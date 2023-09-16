@@ -71,9 +71,6 @@
 /* Define if you have the <signal.h> header file. */
 #define HAVE_SIGNAL_H 1
 
-/* Define if you have the <ssl.h> header file. */
-/* #define HAVE_SSL_H 1 */
-
 /* Define to 1 if you have the <stdbool.h> header file. */
 #if (defined(_MSC_VER) && (_MSC_VER >= 1800)) || \
     defined(__MINGW64_VERSION_MAJOR)
@@ -204,10 +201,6 @@
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
-
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
 
 /* Define if you have the strcasecmp function. */
 #ifdef __MINGW32__
@@ -626,9 +619,6 @@ Vista
 #if defined(__POCC__) && defined(USE_WIN32_LDAP)
 #  define CURL_DISABLE_LDAP 1
 #endif
-
-/* if SSL is enabled */
-#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)

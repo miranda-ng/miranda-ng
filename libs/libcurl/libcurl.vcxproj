@@ -101,9 +101,6 @@
     <ClCompile Include="src\curl_gssapi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_log.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_memrchr.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -132,6 +129,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_threads.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curl_trc.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -434,9 +434,6 @@
     <ClCompile Include="src\vtls\bearssl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\vtls\gskit.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\vtls\gtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -450,9 +447,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls_threadlock.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\vtls\nss.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\openssl.c">
@@ -520,7 +514,6 @@
     <ClInclude Include="src\curl_hmac.h" />
     <ClInclude Include="src\curl_krb5.h" />
     <ClInclude Include="src\curl_ldap.h" />
-    <ClInclude Include="src\curl_log.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
     <ClInclude Include="src\curl_memory.h" />
@@ -538,6 +531,7 @@
     <ClInclude Include="src\curl_sha256.h" />
     <ClInclude Include="src\curl_sspi.h" />
     <ClInclude Include="src\curl_threads.h" />
+    <ClInclude Include="src\curl_trc.h" />
     <ClInclude Include="src\dict.h" />
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
