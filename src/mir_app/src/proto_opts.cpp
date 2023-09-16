@@ -874,12 +874,12 @@ bool CAccountFormDlg::OnApply()
 
 		for (auto *p = buf; *p; p++)
 			if (*p < 32 || *p > 127) {
-				MessageBoxW(m_hwnd, TranslateT("Account name contains invalid symbols, only ASCII chars are allowed."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+				MessageBoxW(m_hwnd, TranslateT("Account internal name contains invalid symbols, only ASCII chars are allowed."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 				return false;
 			}
 
 		if (FindAccountByName(_T2A(buf))) {
-			MessageBoxW(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			MessageBoxW(m_hwnd, TranslateT("Account internal name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 			return false;
 		}
 	}
