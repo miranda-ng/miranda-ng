@@ -1164,7 +1164,7 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	IcqOwnMessage *ownMsg = (IcqOwnMessage*)pReq->pUserInfo;
+	IcqOwnMessage *ownMsg = (IcqOwnMessage *)pReq->pUserInfo;
 
 	JsonReply root(pReply);
 	if (root.error() != 200) {
@@ -1178,9 +1178,12 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
 
 	const JSONNode &data = root.data();
-	CMStringA reqId(root.requestId());
-	CMStringA msgId(data["histMsgId"].as_mstring());
-	CheckOwnMessage(reqId, msgId, false);
+	if (auto &jsonMsg = data["histMsgId"]) {
+		CMStringA reqId(root.requestId());
+		CMStringA msgId(jsonMsg.as_mstring());
+		CheckOwnMessage(reqId, msgId, false);
+	}
+
 	CheckLastId(ownMsg->m_hContact, data);
 }
 
