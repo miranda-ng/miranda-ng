@@ -95,6 +95,11 @@ struct TG_USER : public MZeroedObject
 		chatId = (isGroupChat) ? -1 : id;
 	}
 
+	~TG_USER()
+	{
+		delete pReactions;
+	}
+
 	int64_t   id, chatId;
 	MCONTACT  hContact;
 	bool      isGroupChat, bLoadMembers;
@@ -103,6 +108,7 @@ struct TG_USER : public MZeroedObject
 	time_t    m_timer1 = 0, m_timer2 = 0;
 	SESSION_INFO *m_si = nullptr;
 	TD::chatNotificationSettings notificationSettings;
+	OBJLIST<char> *pReactions = nullptr;
 
 	CMStringW getDisplayName() const;
 };
@@ -145,6 +151,7 @@ struct TG_OWN_MESSAGE
 class CTelegramProto : public PROTO<CTelegramProto>
 {
 	friend class CForwardDlg;
+	friend class CReactionsDlg;
 	friend class CAddPhoneContactDlg;
 
 	class CProtoImpl
@@ -236,6 +243,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatNotification(TD::updateChatNotificationSettings *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
+	void ProcessChatReactions(TD::updateChatAvailableReactions *);
 	void ProcessConnectionState(TD::updateConnectionState *pObj);
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
@@ -302,7 +310,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT GetRealContact(const TG_USER *pUser);
 
 	// Menus
-	HGENMENU hmiForward;
+	HGENMENU hmiForward, hmiReaction;
 
 	void InitMenus();
 

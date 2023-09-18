@@ -10,6 +10,8 @@
 #define IDI_FORWARD                     105
 #define IDD_FORWARD                     106
 #define IDD_ADD_PHONE                   107
+#define IDI_REACTION                    108
+#define IDD_REACTIONS                   109
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
 #define IDC_HIDECHATS                   1003
@@ -29,6 +31,7 @@
 #define IDC_LAST_NAME                   1015
 #define IDC_CLIST                       1016
 #define IDC_COMPRESS_FILES              1017
+#define IDC_REACTIONS                   1018
 
 // Next default values for new objects
 // 
@@ -36,7 +39,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        109
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

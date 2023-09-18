@@ -161,6 +161,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
 		break;
 
+	case TD::updateChatAvailableReactions::ID:
+		ProcessChatReactions((TD::updateChatAvailableReactions *)response.object.get());
+		break;
+
 	case TD::updateChatReadInbox::ID:
 		ProcessMarkRead((TD::updateChatReadInbox *)response.object.get());
 		break;
@@ -512,6 +516,37 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 				Clist_GroupCreate(0, wszNewGroup);
 				Clist_SetGroup(pUser->hContact, wszNewGroup);
 			}
+		}
+	}
+}
+
+void CTelegramProto::ProcessChatReactions(TD::updateChatAvailableReactions *pObj)
+{
+	if (pObj->available_reactions_->get_id() != TD::chatAvailableReactionsSome::ID) {
+		debugLogA("Unsupported reactions type: %d", pObj->available_reactions_->get_id());
+		return;
+	}
+	
+	auto &pReactions = ((TD::chatAvailableReactionsSome *)pObj->available_reactions_.get())->reactions_;
+
+	if (auto *pChat = FindChat(pObj->chat_id_)) {
+		if (!pChat->pReactions)
+			pChat->pReactions = new OBJLIST<char>(1);
+		else
+			pChat->pReactions->destroy();
+
+		for (auto &it : pReactions) {
+			if (it->get_id() != TD::reactionTypeEmoji::ID)
+				continue;
+
+			auto *pEmoji = (TD::reactionTypeEmoji *)it.get();
+			auto &str = pEmoji->emoji_;
+			pChat->pReactions->insert(mir_strcpy(new char[str.length() + 1], str.c_str()));
+		}
+
+		if (pChat->pReactions->getCount() == 0) {
+			delete pChat->pReactions;
+			pChat->pReactions = nullptr;
 		}
 	}
 }

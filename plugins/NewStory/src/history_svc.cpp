@@ -17,6 +17,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static INT_PTR SvcGetCurrent(WPARAM wParam, LPARAM)
+{
+	if (auto *pData = (NewstoryListData *)wParam)
+		if (auto *p = pData->GetItem(pData->caret))
+			return p->hEvent;
+
+	return 0;
+}
+
 static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 {
 	auto *pData = (NewstoryListData *)wParam;
@@ -27,6 +36,10 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 			if (p->m_bSelected)
 				pRet->push_back(p->hEvent);
 		}
+
+		if (pRet->empty() && pData->caret != -1)
+			if (auto *p = pData->GetItem(pData->caret))
+				pRet->push_back(p->hEvent);
 	}
 
 	return 0;
@@ -37,5 +50,6 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 
 void InitServices()
 {
+	CreateServiceFunction(MS_NEWSTORY_GETCURRENT, &SvcGetCurrent);
 	CreateServiceFunction(MS_NEWSTORY_GETSELECTION, &SvcGetSelection);
 }

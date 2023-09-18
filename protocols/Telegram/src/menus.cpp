@@ -35,15 +35,30 @@ void CTelegramProto::InitMenus()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
 	mi.name.a = LPGEN("Forward");
 	hmiForward = Menu_AddNewStoryMenuItem(&mi, 1);
+
+	mi.position = 1000000;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REACTION);
+	mi.name.a = LPGEN("Reaction");
+	hmiReaction = Menu_AddNewStoryMenuItem(&mi, 2);
 }
 
 int CTelegramProto::OnPrebuildMenu(WPARAM hContact, LPARAM)
 {
-	Menu_ShowItem(hmiForward, Proto_IsProtoOnContact(hContact, m_szModuleName));
+	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) {
+		Menu_ShowItem(hmiForward, false);
+		Menu_ShowItem(hmiReaction, false);
+	}
+	else {
+		Menu_ShowItem(hmiForward, true);
+
+		auto *pUser = FindUser(GetId(hContact));
+		Menu_ShowItem(hmiReaction, pUser && pUser->pReactions);
+	}
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Dialog for message forwarding
 
 class CForwardDlg : public CTelegramDlgBase
 {
@@ -114,13 +129,63 @@ public:
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Dialog for sending reaction
+
+class CReactionsDlg : public CTelegramDlgBase
+{
+	MEVENT m_hEvent;
+	TG_USER *m_pUser;
+	CCtrlCombo cmbReactions;
+
+public: 
+	CReactionsDlg(CTelegramProto *ppro, MEVENT hEvent) :
+		CTelegramDlgBase(ppro, IDD_REACTIONS),
+		m_hEvent(hEvent),
+		cmbReactions(this, IDC_REACTIONS)
+	{
+		m_pUser = ppro->FindUser(ppro->GetId(db_event_getContact(hEvent)));
+	}
+
+	bool OnInitDialog() override
+	{
+		for (auto &it : *m_pUser->pReactions)
+			cmbReactions.AddString(Utf2T(it), (LPARAM)it);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		DB::EventInfo dbei(m_hEvent, false);
+		__int64 msgId = (dbei && dbei.szId) ? _atoi64(dbei.szId) : 0;
+		
+		char *pszEmoji = (char *)cmbReactions.GetCurData();
+		auto reaction = TD::make_object<TD::reactionTypeEmoji>(pszEmoji);
+
+		m_proto->SendQuery(new TD::addMessageReaction(m_pUser->chatId, msgId, std::move(reaction), false, false));
+		return true;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
 INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 {
 	switch (iCommand) {
-	case 1:
-		std::vector<MEVENT> ids = NS_GetSelection(HANDLE(pHandle));
-		if (!ids.empty())
-			CForwardDlg(this, ids).DoModal();
+	case 1: // forward message
+		{	std::vector<MEVENT> ids = NS_GetSelection(HANDLE(pHandle));
+			if (!ids.empty())
+				CForwardDlg(this, ids).DoModal();
+		}
+		break;
+
+	case 2: // reactions
+		{
+			MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+			if (hCurrentEvent != -1)
+				CReactionsDlg(this, hCurrentEvent).DoModal();
+		}
 		break;
 	}
 	return 0;

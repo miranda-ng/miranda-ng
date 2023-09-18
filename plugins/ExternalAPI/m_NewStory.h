@@ -3,6 +3,16 @@
 #include <vector>
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// NS get current event
+
+#define MS_NEWSTORY_GETCURRENT "NewStory/GetCurrent"
+
+__forceinline MEVENT NS_GetCurrent(HANDLE hwnd)
+{
+	return (MEVENT)CallService(MS_NEWSTORY_GETCURRENT, WPARAM(hwnd), 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // NS get selection
 
 #define MS_NEWSTORY_GETSELECTION "NewStory/GetSelection"

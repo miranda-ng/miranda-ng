@@ -140,6 +140,16 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,158,248,50,14
 END
 
+IDD_REACTIONS DIALOGEX 0, 0, 215, 40
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Forward message"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_REACTIONS,8,4,201,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,104,22,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,158,22,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -154,6 +164,7 @@ IDI_PREMIUM             ICON                    "premium.ico"
 
 IDI_FORWARD             ICON                    "forward.ico"
 
+IDI_REACTION            ICON                    "reaction.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -180,6 +191,11 @@ BEGIN
     BEGIN
         BOTTOMMARGIN, 262
     END
+
+    "IDC_REACTION", DIALOG
+    BEGIN
+        BOTTOMMARGIN, 36
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -205,6 +221,11 @@ BEGIN
 END
 
 IDD_FORWARD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDC_REACTION AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
