@@ -60,16 +60,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSG_WINDOW_EVT_CLOSING 3 // window is about to be closed
 #define MSG_WINDOW_EVT_CLOSE   4 // window has been closed
 
-#define MSG_WINDOW_UFLAG_MSG_FROM 0x00000001
-#define MSG_WINDOW_UFLAG_MSG_TO   0x00000002
-#define MSG_WINDOW_UFLAG_MSG_BOTH 0x00000004
-
 struct MessageWindowEventData
 {
 	MCONTACT hContact; 
 	HWND hwndWindow; // top level window for the contact
 	uint32_t uType;  // see event types above
-	uint32_t uFlags; // used to indicate message direction for all event types except custom
 	HWND hwndInput;  // input area window for the contact (or NULL if there is none)
 	HWND hwndLog;    // log area window for the contact (or NULL if there is none)
 };

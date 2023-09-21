@@ -889,7 +889,6 @@ int CSrmmBaseDialog::NotifyEvent(int code)
 	mwe.hContact = m_hContact;
 	mwe.hwndWindow = m_hwnd;
 	mwe.uType = code;
-	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwe.hwndInput = m_message.GetHwnd();
 	mwe.hwndLog = m_pLog->GetHwnd();
 	return ::NotifyEventHooks(hHookSrmmEvent, 0, (LPARAM)&mwe);
