@@ -87,11 +87,6 @@ static int MirandaShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
-		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
-		return 1;
-	}
-
 	g_plugin.registerIcon(MODULENAME, iconList);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
