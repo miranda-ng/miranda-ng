@@ -39,7 +39,6 @@ CMPlugin::CMPlugin() :
 // Plugin Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 //For other Plugins to start snapping for other Windows
 INT_PTR SnapPluginWindowStart(WPARAM wParam, LPARAM)
 {
@@ -54,14 +53,14 @@ INT_PTR SnapPluginWindowStop(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int PluginMessageWindowEvent(WPARAM, LPARAM lParam)
+int PluginMessageWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *Data = (MessageWindowEventData*)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	switch (Data->uType) {
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPEN:
 	{
-		HWND hWnd = Data->hwndWindow;
+		HWND hWnd = pDlg->GetHwnd();
 		HWND hWndParent = GetParent(hWnd);
 		while ((hWndParent != 0) && (hWndParent != GetDesktopWindow()) && (IsWindowVisible(hWndParent))) {
 			hWnd = hWndParent;
@@ -73,7 +72,7 @@ int PluginMessageWindowEvent(WPARAM, LPARAM lParam)
 	break;
 
 	case MSG_WINDOW_EVT_CLOSING:
-		WindowClose(Data->hwndWindow);
+		WindowClose(pDlg->GetHwnd());
 		break;
 	}
 

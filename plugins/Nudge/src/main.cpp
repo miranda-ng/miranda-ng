@@ -401,11 +401,12 @@ void HideNudgeButton(MCONTACT hContact)
 	}
 }
 
-static int ContactWindowOpen(WPARAM, LPARAM lParam)
+static int ContactWindowOpen(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact)
-		HideNudgeButton(MWeventdata->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPENING && pDlg->m_hContact)
+		HideNudgeButton(pDlg->m_hContact);
 
 	return 0;
 }

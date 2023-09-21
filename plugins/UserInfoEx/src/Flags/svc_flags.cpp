@@ -113,25 +113,26 @@ void UpdateStatusIcons()
 }
 
 //hookProc ME_MSG_WINDOWEVENT
-static int OnMsgWndEvent(WPARAM, LPARAM lParam)
+static int OnMsgWndEvent(WPARAM uType, LPARAM lParam)
 {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
 	MsgWndData *msgwnd;
-	MessageWindowEventData *msgwe = (MessageWindowEventData*)lParam;
 	/* sanity check */
-	if (msgwe->hContact == NULL)
+	if (pDlg->m_hContact == NULL)
 		return 0;
 
-	switch (msgwe->uType) {
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
-		msgwnd = gMsgWndList.find((MsgWndData*)&msgwe->hContact);
+		msgwnd = gMsgWndList.find((MsgWndData*)&pDlg->m_hContact);
 		if (msgwnd == nullptr) {
-			msgwnd = new MsgWndData(msgwe->hwndWindow, msgwe->hContact);
+			msgwnd = new MsgWndData(pDlg->GetHwnd(), pDlg->m_hContact);
 			gMsgWndList.insert(msgwnd);
 		}
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		int i = gMsgWndList.getIndex((MsgWndData*)&msgwe->hContact);
+		int i = gMsgWndList.getIndex((MsgWndData*)&pDlg->m_hContact);
 		if (i != -1) {
 			delete gMsgWndList[i];
 			gMsgWndList.remove(i);

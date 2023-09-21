@@ -28,18 +28,15 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int MsgWindowEvent(WPARAM, LPARAM lParam)
+static int MsgWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData* data = (MessageWindowEventData*)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (data == nullptr)
-		return 0;
-
-	switch (data->uType) {
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPEN:
 		// Здесь можно отлавливать только открытие окна,
 		// т.к. закрытие может быть закрытием вкладки
-		windowAdd(data->hwndWindow, false);
+		windowAdd(pDlg->GetHwnd(), false);
 		break;
 	}
 

@@ -1319,17 +1319,16 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 //************************************************************************
 // message window event hook function
 //************************************************************************
-int CAppletManager::HookMessageWindowEvent(WPARAM, LPARAM lParam)
+int CAppletManager::HookMessageWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
-	CEvent Event;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
+	CEvent Event;
 	Event.eType = EVENT_MESSAGEWINDOW;
-	Event.hContact = mwed->hContact;
-	Event.iValue = mwed->uType;
+	Event.hContact = pDlg->m_hContact;
+	Event.iValue = uType;
 
 	CAppletManager::GetInstance()->HandleEvent(&Event);
-
 	return 0;
 }
 

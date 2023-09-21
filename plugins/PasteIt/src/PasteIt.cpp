@@ -297,18 +297,20 @@ static void InitTabsrmmButton()
 	hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 }
 
-static int WindowEvent(WPARAM, MessageWindowEventData* lParam)
+static int WindowEvent(WPARAM uType, LPARAM lParam)
 {
-	if (lParam->uType == MSG_WINDOW_EVT_OPEN) {
-		char *szProto = Proto_GetBaseAccountName(lParam->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPEN) {
+		char *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) {
-			if (Contact::IsGroupChat(lParam->hContact, szProto)) {
-				(*contactWindows)[lParam->hContact] = lParam->hwndInput;
+			if (Contact::IsGroupChat(pDlg->m_hContact, szProto)) {
+				(*contactWindows)[pDlg->m_hContact] = pDlg->GetInput();
 			}
 		}
 	}
-	else if (lParam->uType == MSG_WINDOW_EVT_CLOSE) {
-		std::map<MCONTACT, HWND>::iterator it = contactWindows->find(lParam->hContact);
+	else if (uType == MSG_WINDOW_EVT_CLOSE) {
+		std::map<MCONTACT, HWND>::iterator it = contactWindows->find(pDlg->m_hContact);
 		if (it != contactWindows->end()) {
 			contactWindows->erase(it);
 		}

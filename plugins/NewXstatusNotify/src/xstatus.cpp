@@ -506,25 +506,26 @@ void AddSMsgEventThread(void *arg)
 	mir_free(smi.newstatusmsg);
 }
 
-int OnWindowEvent(WPARAM, LPARAM lParam)
+int OnWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
-	if (mwed->uType == MSG_WINDOW_EVT_CLOSE) {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_CLOSE) {
 		if (opt.XLogToDB && opt.XLogToDB_WinOpen && opt.XLogToDB_Remove)
-			RemoveLoggedEventsXStatus(mwed->hContact);
+			RemoveLoggedEventsXStatus(pDlg->m_hContact);
 
 		if (opt.LogToDB && opt.LogToDB_WinOpen && opt.LogToDB_Remove)
-			RemoveLoggedEventsStatus(mwed->hContact);
+			RemoveLoggedEventsStatus(pDlg->m_hContact);
 
 		if (opt.SMsgLogToDB && opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove)
-			RemoveLoggedEventsSMsg(mwed->hContact);
+			RemoveLoggedEventsSMsg(pDlg->m_hContact);
 	}
-	else if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
-		if (opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(mwed->hContact, "EnableXLogging", 1))
-			mir_forkthread(AddXStatusEventThread, (void *)mwed->hContact);
+	else if (uType == MSG_WINDOW_EVT_OPEN) {
+		if (opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(pDlg->m_hContact, "EnableXLogging", 1))
+			mir_forkthread(AddXStatusEventThread, (void *)pDlg->m_hContact);
 
-		if (opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(mwed->hContact, "EnableSMsgLogging", 1))
-			mir_forkthread(AddSMsgEventThread, (void *)mwed->hContact);
+		if (opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(pDlg->m_hContact, "EnableSMsgLogging", 1))
+			mir_forkthread(AddSMsgEventThread, (void *)pDlg->m_hContact);
 	}
 	return 0;
 }

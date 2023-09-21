@@ -205,19 +205,20 @@ static void DelFromCurSession(MCONTACT hContact)
 	}
 }
 
-static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
+static int OnSrmmWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
-		AddToCurSession(MWeventdata->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPEN) {
+		AddToCurSession(pDlg->m_hContact);
 		if (g_bCrashRecovery)
-			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 1);
+			g_plugin.setByte(pDlg->m_hContact, "wasInLastSession", 1);
 	}
-	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
+	else if (uType == MSG_WINDOW_EVT_CLOSE) {
 		if (!DONT)
-			DelFromCurSession(MWeventdata->hContact);
+			DelFromCurSession(pDlg->m_hContact);
 		if (g_bCrashRecovery)
-			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 0);
+			g_plugin.setByte(pDlg->m_hContact, "wasInLastSession", 0);
 	}
 
 	return 0;

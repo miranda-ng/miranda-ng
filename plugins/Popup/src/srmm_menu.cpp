@@ -42,20 +42,20 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 		Srmm_SetIconFlags(hContact, MODULENAME, i, (i == mode) ? 0 : MBF_HIDDEN);
 }
 
-static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
+static int SrmmMenu_ProcessEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwevent = (MessageWindowEventData *)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (mwevent->uType == MSG_WINDOW_EVT_OPEN) {
+	if (uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
 			hDialogsList = WindowList_Create();
 
-		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
-		SrmmMenu_UpdateIcon(mwevent->hContact);
+		WindowList_Add(hDialogsList, pDlg->GetHwnd(), pDlg->m_hContact);
+		SrmmMenu_UpdateIcon(pDlg->m_hContact);
 	}
-	else if (mwevent->uType == MSG_WINDOW_EVT_CLOSING) {
+	else if (uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
-			WindowList_Remove(hDialogsList, mwevent->hwndWindow);
+			WindowList_Remove(hDialogsList, pDlg->GetHwnd());
 	}
 
 	return 0;

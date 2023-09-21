@@ -53,12 +53,13 @@ static void ToggleIcon(MCONTACT hContact)
 	}
 }
 
-int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
+int __cdecl onWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	if (mwd->uType == MSG_WINDOW_EVT_OPEN || mwd->uType == MSG_WINDOW_EVT_OPENING)
-		if (isContactHaveKey(mwd->hContact))
-			setSrmmIcon(mwd->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPEN || uType == MSG_WINDOW_EVT_OPENING)
+		if (isContactHaveKey(pDlg->m_hContact))
+			setSrmmIcon(pDlg->m_hContact);
 	return 0;
 }
 

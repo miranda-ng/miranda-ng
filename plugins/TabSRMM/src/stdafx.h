@@ -50,6 +50,7 @@
 #include <msapi/vsstyle.h>
 #include <msapi/comptr.h>
 
+#include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_message.h>
 #include <newpluginapi.h>

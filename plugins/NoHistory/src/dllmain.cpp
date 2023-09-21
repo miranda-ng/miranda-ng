@@ -163,12 +163,12 @@ INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int WindowEvent(WPARAM, LPARAM lParam)
+int WindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	MCONTACT hContact = mwd->hContact;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+	MCONTACT hContact = pDlg->m_hContact;
 
-	switch(mwd->uType) {
+	switch(uType) {
 	case MSG_WINDOW_EVT_CLOSE:
 		RemoveReadEvents(hContact);
 		break;

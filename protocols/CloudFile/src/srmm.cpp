@@ -15,17 +15,16 @@ int OnSrmmToolbarLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int OnSrmmWindowOpened(WPARAM, LPARAM lParam)
+int OnSrmmWindowOpened(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
-	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPENING && pDlg->m_hContact) {
 		BBButton bbd = {};
 		bbd.pszModuleName = MODULENAME;
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
-		bbd.bbbFlags = CanSendToContact(ev->hContact)
-			? BBSF_RELEASED
-			: BBSF_DISABLED;
-		Srmm_SetButtonState(ev->hContact, &bbd);
+		bbd.bbbFlags = CanSendToContact(pDlg->m_hContact) ? BBSF_RELEASED : BBSF_DISABLED;
+		Srmm_SetButtonState(pDlg->m_hContact, &bbd);
 	}
 
 	return 0;

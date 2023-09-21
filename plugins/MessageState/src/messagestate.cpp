@@ -91,11 +91,12 @@ static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnSrmmWindowOpened(WPARAM, LPARAM lParam)
+static int OnSrmmWindowOpened(WPARAM uType, LPARAM lParam)
 {
-	auto *pEvent = (MessageWindowEventData*)lParam;
-	if (pEvent->uType == MSG_WINDOW_EVT_OPENING)
-		IconsUpdate(pEvent->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_OPENING)
+		IconsUpdate(pDlg->m_hContact);
 	return 0;
 }
 

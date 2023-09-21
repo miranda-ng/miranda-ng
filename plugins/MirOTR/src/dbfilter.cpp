@@ -163,18 +163,19 @@ void FinishSession(MCONTACT hContact)
 	return;
 }
 
-int WindowEvent(WPARAM, LPARAM lParam)
+int WindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	if (mwd->uType == MSG_WINDOW_EVT_CLOSE && options.end_window_close) {
-		FinishSession(mwd->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (uType == MSG_WINDOW_EVT_CLOSE && options.end_window_close) {
+		FinishSession(pDlg->m_hContact);
 		return 0;
 	}
 
-	if (mwd->uType != MSG_WINDOW_EVT_OPEN)
+	if (uType != MSG_WINDOW_EVT_OPEN)
 		return 0;
 
-	MCONTACT hContact = mwd->hContact, hTemp;
+	MCONTACT hContact = pDlg->m_hContact, hTemp;
 	if ((hTemp = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hTemp;
 

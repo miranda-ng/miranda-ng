@@ -96,22 +96,23 @@ static void __fastcall SetStatusIcon(MCONTACT hContact, int countryNumber)
 		Srmm_SetIconFlags(hContact, MODULENAME, 0, MBF_HIDDEN);
 }
 
-static int MsgWndEvent(WPARAM, LPARAM lParam)
+static int MsgWndEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *msgwe = (MessageWindowEventData*)lParam;
-	switch (msgwe->uType) {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
 	case MSG_WINDOW_EVT_CLOSE:
 		if (bShowStatusIcon) {
-			int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwe->hContact, 0);
-			if (msgwe->uType == MSG_WINDOW_EVT_OPENING && countryNumber != 0xFFFF)
-				SetStatusIcon(msgwe->hContact, countryNumber);
+			int countryNumber = ServiceDetectContactOriginCountry(pDlg->m_hContact, 0);
+			if (uType == MSG_WINDOW_EVT_OPENING && countryNumber != 0xFFFF)
+				SetStatusIcon(pDlg->m_hContact, countryNumber);
 			else
-				Srmm_SetIconFlags(msgwe->hContact, MODULENAME, 0, MBF_HIDDEN);
+				Srmm_SetIconFlags(pDlg->m_hContact, MODULENAME, 0, MBF_HIDDEN);
 		}
 		// ensure it is hidden, RemoveStatusIcons() only enums currently opened ones
 		else 
-			Srmm_SetIconFlags(msgwe->hContact, MODULENAME, 0, MBF_HIDDEN);
+			Srmm_SetIconFlags(pDlg->m_hContact, MODULENAME, 0, MBF_HIDDEN);
 	}
 	return 0;
 }

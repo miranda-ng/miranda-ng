@@ -42,20 +42,20 @@ INT_PTR svcOpenContact(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int ProcessSrmmEvent(WPARAM, LPARAM lParam)
+int ProcessSrmmEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+	if (uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
 			hDialogsList = WindowList_Create();
-		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
+		WindowList_Add(hDialogsList, pDlg->GetHwnd(), pDlg->m_hContact);
 
-		uint8_t fav = g_plugin.getByte(event->hContact, "IsFavourite");
-		Srmm_SetIconFlags(event->hContact, MODULENAME, 0, fav ? 0 : MBF_DISABLED);
+		uint8_t fav = g_plugin.getByte(pDlg->m_hContact, "IsFavourite");
+		Srmm_SetIconFlags(pDlg->m_hContact, MODULENAME, 0, fav ? 0 : MBF_DISABLED);
 
-		if (event->hContact == hContactToActivate) {
-			HWND hwndRoot = event->hwndWindow;
+		if (pDlg->m_hContact == hContactToActivate) {
+			HWND hwndRoot = pDlg->GetHwnd();
 			while (HWND hwndParent = GetParent(hwndRoot))
 				hwndRoot = hwndParent;
 
@@ -68,9 +68,9 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 		hContactToActivate = NULL;
 	}
-	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
+	else if (uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
-			WindowList_Remove(hDialogsList, event->hwndWindow);
+			WindowList_Remove(hDialogsList, pDlg->GetHwnd());
 	}
 
 	return 0;

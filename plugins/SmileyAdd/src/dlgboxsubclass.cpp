@@ -150,17 +150,19 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // window hook
 
-static int MsgDlgHook(WPARAM, LPARAM lParam)
+static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 {
-	const MessageWindowEventData *wndEvtData = (MessageWindowEventData*)lParam;
-	switch (wndEvtData->uType) {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+	auto hwndLog = pDlg->log()->GetHwnd();
+
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		{
 			MsgWndData *msgwnd = new MsgWndData();
-			msgwnd->hwnd = wndEvtData->hwndWindow;
-			msgwnd->hContact = wndEvtData->hContact;
-			msgwnd->hwndLog = wndEvtData->hwndLog;
-			msgwnd->hwndInput = wndEvtData->hwndInput;
+			msgwnd->hwnd = pDlg->GetHwnd();
+			msgwnd->hContact = pDlg->m_hContact;
+			msgwnd->hwndLog = hwndLog;
+			msgwnd->hwndInput = pDlg->GetInput();
 
 			// Get the protocol for this contact to display correct smileys.
 			char *protonam = Proto_GetBaseAccountName(DecodeMetaContact(msgwnd->hContact));
@@ -174,30 +176,30 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			g_MsgWndList.insert(msgwnd);
 		}
 
-		SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
+		SetRichOwnerCallback(pDlg->GetHwnd(), pDlg->GetInput(), hwndLog);
 
-		if (wndEvtData->hwndLog)
-			SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, false, false);
-		if (wndEvtData->hwndInput)
-			SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, false, false);
+		if (hwndLog)
+			SetRichCallback(hwndLog, pDlg->m_hContact, false, false);
+		if (pDlg->GetInput())
+			SetRichCallback(pDlg->GetInput(), pDlg->m_hContact, false, false);
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
-		if (wndEvtData->hwndLog)
-			SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, true, true);
-		if (wndEvtData->hwndInput) {
-			SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, true, true);
-			SendMessage(wndEvtData->hwndInput, WM_REMAKERICH, 0, 0);
+		SetRichOwnerCallback(pDlg->GetHwnd(), pDlg->GetInput(), hwndLog);
+		if (hwndLog)
+			SetRichCallback(hwndLog, pDlg->m_hContact, true, true);
+		if (pDlg->GetInput()) {
+			SetRichCallback(pDlg->GetInput(), pDlg->m_hContact, true, true);
+			SendMessage(pDlg->GetInput(), WM_REMAKERICH, 0, 0);
 		}
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		if (wndEvtData->hwndLog) {
-			CloseRichCallback(wndEvtData->hwndLog);
-			CloseRichOwnerCallback(wndEvtData->hwndWindow);
+		if (hwndLog) {
+			CloseRichCallback(hwndLog);
+			CloseRichOwnerCallback(pDlg->GetHwnd());
 		}
-		mir_unsubclassWindow(wndEvtData->hwndWindow, MessageDlgSubclass);
+		mir_unsubclassWindow(pDlg->GetHwnd(), MessageDlgSubclass);
 		break;
 	}
 	return 0;

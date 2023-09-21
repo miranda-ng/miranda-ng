@@ -203,13 +203,14 @@ void ShutdownAction(void)
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 }
 
-int OnWindowEvent(WPARAM, LPARAM lParam)
+int OnWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *msgEvData = (MessageWindowEventData*)lParam;
-	switch (msgEvData->uType) {
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
-		g_hWindows.insert(PVOID(msgEvData->hContact));
-		SetSrmmIcon(msgEvData->hContact);
+		g_hWindows.insert(PVOID(pDlg->m_hContact));
+		SetSrmmIcon(pDlg->m_hContact);
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
@@ -219,11 +220,11 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 			Criteria.keep = KeepCriteria(g_plugin.getByte("StartupShutdownKeep"));
 			Criteria.time = BuildCriteria(g_plugin.getByte("StartupShutdownOlder"));
 
-			SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
+			SweepHistoryFromContact(pDlg->m_hContact, Criteria, TRUE);
 		}
 
 		for (auto &it : g_hWindows.rev_iter())
-			if (it == PVOID(msgEvData->hContact))
+			if (it == PVOID(pDlg->m_hContact))
 				g_hWindows.removeItem(&it);
 		break;
 	}

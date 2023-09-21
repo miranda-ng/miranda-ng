@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SRMM_INT_H__
 #define M_SRMM_INT_H__ 1
 
+#include <shellapi.h>
+
 #include <m_gui.h>
 
 #define SRMM_MODULE "SRMM"
@@ -332,23 +334,24 @@ public:
 
 	virtual void AddLog(const LOGINFO &lin);
 	virtual void CloseTab() {}
-	virtual void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) PURE;
-	virtual void EventAdded(MEVENT, const DB::EventInfo &dbei) PURE;
-	virtual bool GetFirstEvent() PURE;
-	virtual bool IsActive() const PURE;
-	virtual void LoadSettings() PURE;
-	virtual void RemakeLog() PURE;
+	virtual void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) = 0;
+	virtual void EventAdded(MEVENT, const DB::EventInfo &dbei) = 0;
+	virtual bool GetFirstEvent() = 0;
+	virtual bool IsActive() const = 0;
+	virtual void LoadSettings() = 0;
+	virtual void RemakeLog() = 0;
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void UpdateFilterButton();
 	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}
-	virtual void UpdateTitle() PURE;
+	virtual void UpdateTitle() = 0;
 
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	__forceinline bool isChat() const { return m_si != nullptr; }
+	__forceinline MWindow GetInput() const { return m_message.GetHwnd(); }
 	__forceinline SESSION_INFO *getChat() const { return m_si; }
 	__forceinline CSrmmLogWindow *log() const { return m_pLog; }
 	

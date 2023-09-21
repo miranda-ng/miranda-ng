@@ -838,25 +838,24 @@ int CVkProto::IsHystoryMessageExist(MCONTACT hContact)
 	return -1;
 }
 
-int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
+int CVkProto::OnProcessSrmmEvent(WPARAM uType, LPARAM lParam)
 {
 	debugLogA("CVkProto::OnProcessSrmmEvent");
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-
-	CMStringA szProto(Proto_GetBaseAccountName(event->hContact));
+	CMStringA szProto(Proto_GetBaseAccountName(pDlg->m_hContact));
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 
-	if (event->uType == MSG_WINDOW_EVT_OPENING && !g_bMessageState)
-		SetSrmmReadStatus(event->hContact);
+	if (uType == MSG_WINDOW_EVT_OPENING && !g_bMessageState)
+		SetSrmmReadStatus(pDlg->m_hContact);
 
-	if (event->uType == MSG_WINDOW_EVT_OPENING 	&& m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
-		&& !isChatRoom(event->hContact) && IsHystoryMessageExist(event->hContact) != 1) {
+	if (uType == MSG_WINDOW_EVT_OPENING && m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
+		&& !isChatRoom(pDlg->m_hContact) && IsHystoryMessageExist(pDlg->m_hContact) != 1) {
 		m_bNotifyForEndLoadingHistory = false;
-		if (!getBool(event->hContact, "ActiveHistoryTask")) {
-			setByte(event->hContact, "ActiveHistoryTask", 1);
-			GetServerHistory(event->hContact, 0, MAXHISTORYMIDSPERONE, 0, 0, true);
+		if (!getBool(pDlg->m_hContact, "ActiveHistoryTask")) {
+			setByte(pDlg->m_hContact, "ActiveHistoryTask", 1);
+			GetServerHistory(pDlg->m_hContact, 0, MAXHISTORYMIDSPERONE, 0, 0, true);
 		}
 	}
 

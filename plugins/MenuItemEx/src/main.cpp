@@ -778,12 +778,12 @@ static void TabsrmmButtonsModify(MCONTACT hContact)
 	}
 }
 
-static int ContactWindowOpen(WPARAM, LPARAM lParam)
+static int ContactWindowOpen(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact)
-		TabsrmmButtonsModify(MWeventdata->hContact);
+	if (uType == MSG_WINDOW_EVT_OPENING && pDlg->m_hContact)
+		TabsrmmButtonsModify(pDlg->m_hContact);
 
 	return 0;
 }

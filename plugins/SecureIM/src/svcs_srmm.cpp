@@ -1,11 +1,11 @@
 #include "commonheaders.h"
 
-int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
+int __cdecl onWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	if (mwd->uType == MSG_WINDOW_EVT_OPEN || mwd->uType == MSG_WINDOW_EVT_OPENING)
-		ShowStatusIcon(mwd->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
+	if (uType == MSG_WINDOW_EVT_OPEN || uType == MSG_WINDOW_EVT_OPENING)
+		ShowStatusIcon(pDlg->m_hContact);
 	return 0;
 }
 

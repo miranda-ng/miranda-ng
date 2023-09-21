@@ -796,29 +796,29 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 		Srmm_SetIconFlags(hContact, m_szModuleName, 0, item->arResources.getCount() ? 0 : MBF_DISABLED);
 }
 
-int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
+int CJabberProto::OnProcessSrmmEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+	if (uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
 			hDialogsList = WindowList_Create();
-		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
+		WindowList_Add(hDialogsList, pDlg->GetHwnd(), pDlg->m_hContact);
 
-		ptrA jid(getUStringA(event->hContact, "jid"));
+		ptrA jid(getUStringA(pDlg->m_hContact, "jid"));
 		if (jid != nullptr) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
 			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_bEnableMsgArchive)
-				RetrieveMessageArchive(event->hContact, pItem);
+				RetrieveMessageArchive(pDlg->m_hContact, pItem);
 		}
 	}
-	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
+	else if (uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
-			WindowList_Remove(hDialogsList, event->hwndWindow);
+			WindowList_Remove(hDialogsList, pDlg->GetHwnd());
 
 		if (m_bJabberOnline) {
 			char jid[JABBER_MAX_JID_LEN];
-			if (GetClientJID(event->hContact, jid, _countof(jid))) {
+			if (GetClientJID(pDlg->m_hContact, jid, _countof(jid))) {
 				pResourceStatus r(ResourceInfoFromJID(jid));
 				if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
 					m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));

@@ -1307,16 +1307,14 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 	return selection;
 }
 
-int MsgWindowEvent(WPARAM, LPARAM lParam)
+int MsgWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == nullptr)
-		return 0;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPEN)
-		AddContactTextBox(event->hContact, event->hwndInput, "DefaultSRMM", TRUE, event->hwndWindow);
-	else if (event->uType == MSG_WINDOW_EVT_CLOSING)
-		RemoveContactTextBox(event->hwndInput);
+	if (uType == MSG_WINDOW_EVT_OPEN)
+		AddContactTextBox(pDlg->m_hContact, pDlg->GetInput(), "DefaultSRMM", TRUE, pDlg->GetHwnd());
+	else if (uType == MSG_WINDOW_EVT_CLOSING)
+		RemoveContactTextBox(pDlg->GetInput());
 
 	return 0;
 }

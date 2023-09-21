@@ -99,15 +99,15 @@ void __cdecl sttRecvAwayThread(TFakeAckParams *tParam)
 	free(tParam);
 }
 
-int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
+int CSametimeProto::OnWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if ((mwed == nullptr) || Contact::IsGroupChat(mwed->hContact, m_szModuleName))
+	if (Contact::IsGroupChat(pDlg->m_hContact, m_szModuleName))
 		return 0;
 
-	if ((mwed->uType == MSG_WINDOW_EVT_CLOSING) || (mwed->uType == MSG_WINDOW_EVT_CLOSE))
-		CloseIm(mwed->hContact);
+	if (uType == MSG_WINDOW_EVT_CLOSING || uType == MSG_WINDOW_EVT_CLOSE)
+		CloseIm(pDlg->m_hContact);
 
 	return 0;
 }

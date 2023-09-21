@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_database.h>
 #include <m_langpack.h>
+#include <m_srmm_int.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // brings up the send message dialog for a contact
@@ -52,22 +53,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets fired when a message window appears/disappears
-// wparam = 0
-// lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
+// wparam = MSG_WINDOW_EVT_* constant
+// lparam = (WPARAM)(CSrmmBaseDialog*)pDialog;
 
 #define MSG_WINDOW_EVT_OPENING 1 // window is about to be opened
 #define MSG_WINDOW_EVT_OPEN    2 // window has been opened
 #define MSG_WINDOW_EVT_CLOSING 3 // window is about to be closed
 #define MSG_WINDOW_EVT_CLOSE   4 // window has been closed
-
-struct MessageWindowEventData
-{
-	MCONTACT hContact; 
-	HWND hwndWindow; // top level window for the contact
-	uint32_t uType;  // see event types above
-	HWND hwndInput;  // input area window for the contact (or NULL if there is none)
-	HWND hwndLog;    // log area window for the contact (or NULL if there is none)
-};
 
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
 
@@ -84,7 +76,7 @@ struct MessageWindowData
 {
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
-	class CSrmmBaseDialog *pDlg; // window class object
+	CSrmmBaseDialog *pDlg; // window class object
 };
 
 EXTERN_C MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd);

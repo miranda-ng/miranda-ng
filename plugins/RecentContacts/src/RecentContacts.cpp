@@ -477,11 +477,12 @@ static int OnGCOutEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int OnMsgEvent(WPARAM, LPARAM lParam)
+static int OnMsgEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *ed = (MessageWindowEventData *)lParam;
-	if (ed->hContact != 0 && ed->uType == MSG_WINDOW_EVT_OPEN)
-		SaveLastUsedTimeStamp(ed->hContact);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
+
+	if (pDlg->m_hContact != 0 && uType == MSG_WINDOW_EVT_OPEN)
+		SaveLastUsedTimeStamp(pDlg->m_hContact);
 	return 0;
 }
 

@@ -726,25 +726,23 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 *	Monitors SRMM window's creation to draw a statusbar icon
 */
 
-static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
+static int OnSrmmWindowEvent(WPARAM uType, LPARAM lParam)
 {
 	if (!g_plugin.getByte("StatusBarIcon", 1))
 		return 0;
 
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == nullptr)
-		return 0;
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+	if (uType == MSG_WINDOW_EVT_OPEN) {
 		ptrW ptszMirVer;
-		char *szProto = Proto_GetBaseAccountName(event->hContact);
+		char *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
 		if (szProto != nullptr)
-			ptszMirVer = db_get_wsa(event->hContact, szProto, "MirVer");
-		SetSrmmIcon(event->hContact, ptszMirVer);
-		arMonitoredWindows.insert((HANDLE)event->hContact);
+			ptszMirVer = db_get_wsa(pDlg->m_hContact, szProto, "MirVer");
+		SetSrmmIcon(pDlg->m_hContact, ptszMirVer);
+		arMonitoredWindows.insert((HANDLE)pDlg->m_hContact);
 	}
-	else if (event->uType == MSG_WINDOW_EVT_CLOSE)
-		arMonitoredWindows.remove((HANDLE)event->hContact);
+	else if (uType == MSG_WINDOW_EVT_CLOSE)
+		arMonitoredWindows.remove((HANDLE)pDlg->m_hContact);
 
 	return 0;
 }

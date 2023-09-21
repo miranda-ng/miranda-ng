@@ -496,31 +496,38 @@ static int Meta_UserInfo(WPARAM, LPARAM hMeta)
 /////////////////////////////////////////////////////////////////////////////////////////
 // record window open/close status for subs & metas
 
-static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
+static int Meta_MessageWindowEvent(WPARAM uType, LPARAM lParam)
 {
-	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
-	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
-		DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(mwed->hContact);
-		if (cc != nullptr) {
-			Srmm_SetIconFlags(cc->contactID, META_PROTO, 0, cc->IsMeta() ? 0 : MBF_HIDDEN);
-			if (cc->IsMeta()) {
-				MetaSrmmData *p = new MetaSrmmData;
-				p->m_hMeta = cc->contactID;
-				p->m_hSub = db_mc_getMostOnline(cc->contactID);
-				p->m_hWnd = mwed->hwndWindow;
-				arMetaWindows.insert(p);
+	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-				if (p->m_hSub != db_mc_getDefault(cc->contactID))
-					db_mc_setDefault(cc->contactID, p->m_hSub, false);
+	switch (uType) {
+	case MSG_WINDOW_EVT_OPEN:
+		{
+			DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(pDlg->m_hContact);
+			if (cc != nullptr) {
+				Srmm_SetIconFlags(cc->contactID, META_PROTO, 0, cc->IsMeta() ? 0 : MBF_HIDDEN);
+				if (cc->IsMeta()) {
+					MetaSrmmData *p = new MetaSrmmData;
+					p->m_hMeta = cc->contactID;
+					p->m_hSub = db_mc_getMostOnline(cc->contactID);
+					p->m_hWnd = pDlg->GetHwnd();
+					arMetaWindows.insert(p);
+
+					if (p->m_hSub != db_mc_getDefault(cc->contactID))
+						db_mc_setDefault(cc->contactID, p->m_hSub, false);
+				}
 			}
 		}
-	}
-	else if (mwed->uType == MSG_WINDOW_EVT_CLOSING)
+		break;
+
+	case MSG_WINDOW_EVT_CLOSING:
 		for (auto &p : arMetaWindows)
-			if (p->m_hWnd == mwed->hwndWindow) {
+			if (p->m_hWnd == pDlg->GetHwnd()) {
 				arMetaWindows.removeItem(&p);
 				break;
 			}
+		break;
+	}
 
 	return 0;
 }
