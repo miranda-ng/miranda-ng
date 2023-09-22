@@ -57,7 +57,7 @@ static int sttCompareIcons(const IcolibItem *p1, const IcolibItem *p2)
 	return mir_strcmp(p1->name, p2->name);
 }
 
-LIST<IcolibItem> iconList(20, sttCompareIcons);
+OBJLIST<IcolibItem> iconList(20, sttCompareIcons);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
@@ -72,7 +72,7 @@ void SafeDestroyIcon(HICON &hIcon)
 
 // Helper functions to manage Icon resources
 
-static IcolibItem *Handle2Ptr(HANDLE hIcoLib)
+static IcolibItem* Handle2Ptr(HANDLE hIcoLib)
 {
 	IcolibItem *p = (IcolibItem *)hIcoLib;
 	if (p == nullptr)
@@ -428,8 +428,11 @@ static void IcoLib_RemoveSection(SectionItem *section)
 
 IcolibItem* IcoLib_FindIcon(const char *pszIconName)
 {
-	int indx = iconList.getIndex((IcolibItem*)&pszIconName);
-	return (indx != -1) ? iconList[indx] : nullptr;
+	auto *tmp = (IcolibItem*)_alloca(sizeof(IcolibItem));
+	tmp->name = (char *)pszIconName;
+
+	int indx = iconList.getIndex(tmp);
+	return (indx != -1) ? &iconList[indx] : nullptr;
 }
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
@@ -586,24 +589,18 @@ MIR_APP_DLL(int) IcoLib_Release(const char *szIconName, bool big)
 
 MIR_APP_DLL(void) IcoLib_RemoveIcon(const char *pszIconName)
 {
-	mir_cslock lck(csIconList);
+	auto *tmp = (IcolibItem *)_alloca(sizeof(IcolibItem));
+	tmp->name = (char *)pszIconName;
 
-	int i = iconList.indexOf((IcolibItem*)&pszIconName);
-	if (i != -1) {
-		iconList.remove(i);
-		delete iconList[i];
-	}
+	mir_cslock lck(csIconList);
+	iconList.remove(tmp);
 }
 
 MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 {
-	auto *pItem = Handle2Ptr(hIcoLib);
-
-	mir_cslock lck(csIconList);
-	int i = iconList.getIndex(pItem);
-	if (i != -1) {
-		iconList.remove(i);
-		delete iconList[i];
+	if (auto *pItem = Handle2Ptr(hIcoLib)) {
+		mir_cslock lck(csIconList);
+		iconList.remove(pItem);
 	}
 }
 
@@ -615,7 +612,7 @@ void KillModuleIcons(CMPluginBase *pPlugin)
 	mir_cslock lck(csIconList);
 	for (auto &it : iconList.rev_iter())
 		if (it->pPlugin == pPlugin)
-			delete iconList.removeItem(&it);
+			iconList.removeItem(&it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -806,8 +803,6 @@ void UnloadIcoLibModule(void)
 
 	DestroyHookableEvent(hIconsChangedEvent);
 
-	for (auto &p : iconList)
-		delete p;		
 	iconList.destroy();
 
 	for (auto &p : iconSourceList)

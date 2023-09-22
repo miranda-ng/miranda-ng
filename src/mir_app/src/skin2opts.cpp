@@ -60,35 +60,35 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon_Preview
 
-static HICON IconItem_GetIcon_Preview(IcolibItem *item)
+static HICON IconItem_GetIcon_Preview(IcolibItem &item)
 {
 	HICON hIcon = nullptr;
 
-	if (!item->temp_reset) {
-		HICON hRefIcon = IcoLib_GetIconByHandle((HANDLE)item, false);
+	if (!item.temp_reset) {
+		HICON hRefIcon = IcoLib_GetIconByHandle((HANDLE)&item, false);
 		hIcon = CopyIcon(hRefIcon);
-		if (item->source_small && item->source_small->icon == hRefIcon)
-			item->source_small->releaseIcon();
+		if (item.source_small && item.source_small->icon == hRefIcon)
+			item.source_small->releaseIcon();
 	}
 	else {
-		if (item->default_icon) {
-			HICON hRefIcon = item->default_icon->getIcon();
+		if (item.default_icon) {
+			HICON hRefIcon = item.default_icon->getIcon();
 			if (hRefIcon) {
 				hIcon = CopyIcon(hRefIcon);
-				if (item->default_icon->icon == hRefIcon)
-					item->default_icon->releaseIcon();
+				if (item.default_icon->icon == hRefIcon)
+					item.default_icon->releaseIcon();
 			}
 		}
 
-		if (!hIcon && item->default_file) {
-			item->default_icon->release();
-			item->default_icon = GetIconSourceItem(item->default_file->file, item->default_indx, item->cx, item->cy);
-			if (item->default_icon) {
-				HICON hRefIcon = item->default_icon->getIcon();
+		if (!hIcon && item.default_file) {
+			item.default_icon->release();
+			item.default_icon = GetIconSourceItem(item.default_file->file, item.default_indx, item.cx, item.cy);
+			if (item.default_icon) {
+				HICON hRefIcon = item.default_icon->getIcon();
 				if (hRefIcon) {
 					hIcon = CopyIcon(hRefIcon);
-					if (item->default_icon->icon == hRefIcon)
-						item->default_icon->releaseIcon();
+					if (item.default_icon->icon == hRefIcon)
+						item.default_icon->releaseIcon();
 				}
 			}
 		}
@@ -278,12 +278,12 @@ public:
 
 static int CALLBACK DoSortIconsFunc(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
-	return mir_wstrcmpi(iconList[lParam1]->getDescr(), iconList[lParam2]->getDescr());
+	return mir_wstrcmpi(iconList[lParam1].getDescr(), iconList[lParam2].getDescr());
 }
 
 static int CALLBACK DoSortIconsFuncByOrder(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
-	return iconList[lParam1]->orderID - iconList[lParam2]->orderID;
+	return iconList[lParam1].orderID - iconList[lParam2].orderID;
 }
 
 static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
@@ -305,24 +305,24 @@ static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 			it->temp_icon = hIcon;
 
 			replaceStrW(it->temp_file, path);
-			it->temp_reset = FALSE;
+			it->temp_reset = false;
 		}
 	}
 }
 
 static void UndoChanges(int iconIndx, int cmd)
 {
-	IcolibItem *item = iconList[iconIndx];
+	auto &item = iconList[iconIndx];
 
-	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
-		item->temp_reset = FALSE;
+	if (!item.temp_file && !item.temp_icon && item.temp_reset && cmd == ID_CANCELCHANGE)
+		item.temp_reset = false;
 	else {
-		replaceStrW(item->temp_file, nullptr);
-		SafeDestroyIcon(item->temp_icon);
+		replaceStrW(item.temp_file, nullptr);
+		SafeDestroyIcon(item.temp_icon);
 	}
 
 	if (cmd == ID_RESET)
-		item->temp_reset = TRUE;
+		item.temp_reset = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -457,18 +457,19 @@ class CIcoLibOptsDlg : public CDlgBase
 		for (int indx = 0; indx < count; indx++) {
 			lvi.iItem = indx;
 			m_preview.GetItem(&lvi);
+			auto &item = iconList[lvi.lParam];
 
 			HICON hIcon;
 			{
 				mir_cslock lck(csIconList);
-				hIcon = iconList[lvi.lParam]->temp_icon;
+				hIcon = item.temp_icon;
 				if (!hIcon)
-					hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
+					hIcon = IconItem_GetIcon_Preview(item);
 			}
 
 			if (hIcon)
 				ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
-			if (hIcon != iconList[lvi.lParam]->temp_icon)
+			if (hIcon != item.temp_icon)
 				SafeDestroyIcon(hIcon);
 		}
 		m_preview.RedrawItems(0, count);
@@ -518,7 +519,7 @@ class CIcoLibOptsDlg : public CDlgBase
 			mir_cslock lck(csIconList);
 
 			for (int indx = 0; indx < iconList.getCount(); indx++)
-				if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
+				if (iconList[indx].section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
 					UndoChanges(indx, cmd);
 		}
 
@@ -720,11 +721,11 @@ public:
 		ListView_GetItem(pInfoTip->hdr.hwndFrom, &lvi);
 
 		if (lvi.lParam < iconList.getCount()) {
-			IcolibItem *item = iconList[lvi.lParam];
-			if (item->temp_file)
-				wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
-			else if (item->default_file)
-				mir_snwprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item->default_file->file, item->default_indx);
+			auto &item = iconList[lvi.lParam];
+			if (item.temp_file)
+				wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item.temp_file, _TRUNCATE);
+			else if (item.default_file)
+				mir_snwprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item.default_file->file, item.default_indx);
 		}
 	}
 
@@ -758,7 +759,7 @@ public:
 						lvi.pszText = item->getDescr();
 						HICON hIcon = item->temp_icon;
 						if (!hIcon)
-							hIcon = IconItem_GetIcon_Preview(item);
+							hIcon = IconItem_GetIcon_Preview(*item);
 						lvi.iImage = ImageList_AddIcon(hIml, hIcon);
 						lvi.lParam = iconList.indexOf(&item);
 						m_preview.InsertItem(&lvi);
@@ -793,12 +794,12 @@ public:
 		{
 			mir_cslock lck(csIconList);
 
-			IcolibItem *item = iconList[lvi.lParam];
-			SafeDestroyIcon(item->temp_icon);
+			auto &item = iconList[lvi.lParam];
+			SafeDestroyIcon(item.temp_icon);
 
-			replaceStrW(item->temp_file, path);
-			item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
-			item->temp_reset = false;
+			replaceStrW(item.temp_file, path);
+			item.temp_icon = (HICON)ExtractIconFromPath(path, item.cx, item.cy);
+			item.temp_reset = false;
 		}
 		DoOptionsChanged();
 	}

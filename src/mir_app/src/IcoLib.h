@@ -79,8 +79,8 @@ public:
 
 struct IcolibItem : public MZeroedObject
 {
-	char*           name;
 	uint32_t        signature = ICOLIB_MAGIC;
+	char*           name;
 	SectionItem*    section;
 	int             orderID;
 	wchar_t*        description;
@@ -117,7 +117,7 @@ IcolibItem* IcoLib_FindIcon(const char* pszIconName);
 int SkinOptionsInit(WPARAM, LPARAM);
 
 extern mir_cs csIconList;
-extern LIST<IcolibItem> iconList;
+extern OBJLIST<IcolibItem> iconList;
 extern LIST<SectionItem> sectionList;
 
 extern BOOL bNeedRebuild;
