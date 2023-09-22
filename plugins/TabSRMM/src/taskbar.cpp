@@ -111,10 +111,17 @@ bool CTaskbarInteract::haveLargeIcons()
 /////////////////////////////////////////////////////////////////////////////////////////
 // removes the overlay icon for the given container window
 
+unsigned __cdecl CTaskbarInteract::sttSetOverlay(void *owner, void *param)
+{
+	auto *pClass = (CTaskbarInteract *)owner;
+	pClass->m_pTaskbarInterface->SetOverlayIcon((HWND)param, nullptr, nullptr);
+	return 0;
+}
+
 void CTaskbarInteract::clearOverlayIcon(HWND hwndDlg) const
 {
 	if (m_pTaskbarInterface && m_isEnabled)
-		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, nullptr, nullptr);
+		mir_forkthreadowner(sttSetOverlay, (void*)this, hwndDlg);
 }
 
 LONG CTaskbarInteract::updateMetrics()

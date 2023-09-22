@@ -183,6 +183,8 @@ public:
 private:
 	ITaskbarList3 *m_pTaskbarInterface;
 
+	static unsigned __cdecl sttSetOverlay(void *owner, void *param);
+
 	bool m_isEnabled;
 	bool m_fHaveLargeicons;
 	bool m_fHaveAlwaysGrouping;
