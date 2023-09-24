@@ -23,5 +23,6 @@ void RepositionWindows();
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+void UpdateMenu();
 
 #endif

@@ -188,7 +188,7 @@ static INT_PTR GetOpaque(WPARAM wParam, LPARAM)
 
 void UpdateMenu()
 {
-	bool isEnabled = Popup_Enabled() == 1;
+	bool isEnabled = Popup_Enabled();
 	if (isEnabled) {
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable popups"), g_plugin.getIconHandle(IDI_POPUP));
 		Menu_ModifyItem(hMenuRoot, nullptr, g_plugin.getIconHandle(IDI_POPUP));
@@ -197,6 +197,7 @@ void UpdateMenu()
 		Menu_ModifyItem(hMenuItem, LPGENW("Enable popups"), g_plugin.getIconHandle(IDI_NOPOPUP));
 		Menu_ModifyItem(hMenuRoot, nullptr, g_plugin.getIconHandle(IDI_NOPOPUP));
 	}
+	Srmm_SetIconFlags(0, MODULENAME, 0, isEnabled ? 0 : MBF_DISABLED);
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : 0);

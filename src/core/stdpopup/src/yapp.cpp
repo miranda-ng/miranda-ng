@@ -162,6 +162,17 @@ static void InitFonts()
 	ReloadFont(0, 0);
 }
 
+static int SrmmMenu_ProcessIconClick(WPARAM, LPARAM lParam)
+{
+	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
+	
+	if (!mir_strcmp(sicd->szModule, MODULENAME)) {
+		Popup_Enable(!Popup_Enabled());
+		UpdateMenu();
+	}
+	return 0;
+}
+
 static void InitMenuItems(void)
 {
 	bool isEnabled = Popup_Enabled() == 1;
@@ -184,6 +195,15 @@ static void InitMenuItems(void)
 	mi.pszService = "Popup/EnableDisableMenuCommand";
 	mi.name.w = (isEnabled ? LPGENW("Disable popups") : LPGENW("Enable popups"));
 	hMenuItem = Menu_AddMainMenuItem(&mi);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	StatusIconData sid = {};
+	sid.szModule = MODULENAME;
+	sid.szTooltip.a = LPGEN("Popup Mode");
+	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+	Srmm_AddIcon(&sid, &g_plugin);
+
+	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 }
 
 static int ModulesLoaded(WPARAM, LPARAM)

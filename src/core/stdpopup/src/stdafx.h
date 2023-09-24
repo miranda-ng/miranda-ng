@@ -14,18 +14,19 @@
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_utils.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#include <m_skin.h>
+#include <m_avatars.h>
 #include <m_clistint.h>
 #include <m_fontservice.h>
-#include <m_avatars.h>
-#include <m_popup_int.h>
 #include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_options.h>
+#include <m_skin.h>
 #include <m_toptoolbar.h>
+#include <m_utils.h>
 
 #include <m_ieview.h> //need this for special renderers
+#include <m_popup_int.h>
 
 #include "version.h"
 #include "message_pump.h"
