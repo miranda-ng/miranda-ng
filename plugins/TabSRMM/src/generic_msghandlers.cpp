@@ -1094,37 +1094,31 @@ void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 
 	int nIcon = 0;
 	while (StatusIconData *sid = Srmm_GetNthIcon(m_hContact, nIcon++)) {
+		bool bDrawOverlay = false;
+
 		if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
 			if (sid->dwId == MSG_ICON_SOUND) {
 				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-				DrawIconEx(hDC, x, y, m_pContainer->cfg.flags.m_bNoSound ?
-					PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
-					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
+				bDrawOverlay = m_pContainer->cfg.flags.m_bNoSound;
 			}
 			else if (sid->dwId == MSG_ICON_UTN) {
 				if (AllowTyping()) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-					DrawIconEx(hDC, x, y, g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew) ?
-						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
+					bDrawOverlay = !g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
 			}
 		}
 		else {
-			HICON hIcon;
-			if ((sid->flags & MBF_DISABLED) && sid->hIconDisabled)
-				hIcon = sid->hIconDisabled;
-			else
-				hIcon = sid->hIcon;
-
-			if ((sid->flags & MBF_DISABLED) && sid->hIconDisabled == nullptr)
-				CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hIcon, 50);
-			else
-				DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+			bDrawOverlay = (sid->flags & MBF_DISABLED) != 0;
+			DrawIconEx(hDC, x, y, sid->hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		}
+
+		if (bDrawOverlay)
+			DrawIconEx(hDC, x, y, PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
 		x += PluginConfig.m_smcxicon + gap;
 	}
