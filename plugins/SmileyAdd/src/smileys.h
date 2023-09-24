@@ -283,7 +283,7 @@ class SmileyCategoryListType
 public:
 	void SetSmileyPackStore(SmileyPackListType *pSPS) { m_pSmileyPackStore = pSPS; }
 
-	SmileyCategoryType* GetSmileyCategory(const CMStringW &name);
+	SmileyCategoryType* GetSmileyCategory(const wchar_t *pwszName);
 	SmileyCategoryType* GetSmileyCategory(unsigned index);
 	SmileyPackType* GetSmileyPack(const CMStringW &name);
 	SmileyCategoryVectorType& GetSmileyCategoryList(void) { return m_SmileyCategories; }

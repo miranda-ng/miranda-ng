@@ -304,8 +304,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 {
 	if (lParam) {
-		CMStringW categoryName = _A2T((char*)lParam);
-		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(categoryName);
+		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(_A2T((char *)lParam));
 		if (smc != nullptr)
 			smc->Load();
 	}
@@ -362,8 +361,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	switch (wParam) {
 	case PRAC_ADDED:
 		if (acc != nullptr) {
-			CMStringW catname(L"Standard");
-			const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
+			const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
 			g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 		}
 		break;
@@ -373,7 +371,8 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 			CMStringW name(_A2T(acc->szModuleName));
 			SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(name);
 			if (smc != nullptr) {
-				if (acc->tszAccountName) name = acc->tszAccountName;
+				if (acc->tszAccountName)
+					name = acc->tszAccountName;
 				smc->SetDisplayName(name);
 			}
 		}
@@ -386,8 +385,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	case PRAC_CHECKED:
 		if (acc != nullptr) {
 			if (acc->bIsEnabled) {
-				CMStringW catname(L"Standard");
-				const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
+				const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
 				g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 			}
 			else g_SmileyCategories.DeleteAccountAsCategory(acc);
@@ -407,8 +405,7 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (strcmp(cws->szSetting, "Transport") == 0) {
-		CMStringW catname(L"Standard");
-		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(catname);
+		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(L"Standard");
 		if (smc != nullptr)
 			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());
 	}

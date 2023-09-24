@@ -704,10 +704,13 @@ void SmileyCategoryListType::ClearAndLoadAll(void)
 		it->Load();
 }
 
-SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(const CMStringW &name)
+SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(const wchar_t *pwszName)
 {
+	if (!pwszName)
+		return nullptr;
+	
 	for (auto &it : m_SmileyCategories)
-		if (name.CompareNoCase(it->GetName()) == 0)
+		if (it->GetName().CompareNoCase(pwszName) == 0)
 			return it;
 
 	return nullptr;
@@ -780,8 +783,10 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			db_free(&dbv);
 		}
 
-		if (!PhysProtoName.IsEmpty())
-			paths = g_SmileyCategories.GetSmileyCategory(PhysProtoName) ? g_SmileyCategories.GetSmileyCategory(PhysProtoName)->GetFilename() : L"";
+		if (!PhysProtoName.IsEmpty()) {
+			auto *p = g_SmileyCategories.GetSmileyCategory(PhysProtoName);
+			paths = (p) ? p->GetFilename() : L"";
+		}
 
 		// assemble default path
 		if (paths.IsEmpty()) {

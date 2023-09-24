@@ -45,7 +45,6 @@ bool SmileyPackCListType::AddSmiley(const char *pszModule, const wchar_t *path)
 	return smpack->LoadSmiley(path);
 }
 
-
 SmileyPackCType* SmileyPackCListType::GetSmileyPack(const char *pszModule)
 {
 	for (auto &it : m_SmileyPacks)

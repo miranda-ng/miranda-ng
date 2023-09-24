@@ -316,10 +316,8 @@ class CGategoriesOptions : public COptionsBaseDialog
 					ProtoName = dbv.pwszVal;
 					db_free(&dbv);
 				}
-				else
-					ProtoName.Empty();
+				else ProtoName.Empty();
 
-				CMStringW FileName;
 				if (!ProtoName.IsEmpty()) {
 					PhysProtoName += ProtoName;
 					SmileyCategoryType *scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
@@ -388,8 +386,7 @@ public:
 
 		tmpsmcat = g_SmileyCategories;
 
-		auto &smc = g_SmileyCategories.GetSmileyCategoryList();
-		for (auto &it : smc) {
+		for (auto &it : g_SmileyCategories.GetSmileyCategoryList()) {
 			HICON hIcon = nullptr;
 			if (it->IsProto()) {
 				hIcon = (HICON)CallProtoService(_T2A(it->GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
@@ -416,8 +413,7 @@ public:
 	
 		// Cleanup database
 		CMStringW empty;
-		auto &smc = g_SmileyCategories.GetSmileyCategoryList();
-		for (auto &it : smc)
+		for (auto &it : g_SmileyCategories.GetSmileyCategoryList())
 			if (tmpsmcat.GetSmileyCategory(it->GetName()) == nullptr)
 				opt.WritePackFileName(empty, it->GetName());
 
