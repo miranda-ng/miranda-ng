@@ -127,7 +127,7 @@ class COptionsBaseDialog : public CDlgBase
 
 		opt.Save();
 
-		NotifyEventHooks(hEvent1, 0, 0);
+		NotifyEventHooks(g_hevOptionsChanged, 0, 0);
 		ProcessAllInputAreas(false);
 	}
 

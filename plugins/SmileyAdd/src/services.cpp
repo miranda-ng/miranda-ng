@@ -217,7 +217,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 			if (lParam == 1) empty = L"<None>";
 			opt.WriteContactCategory(hContact, empty);
 		}
-		NotifyEventHooks(hEvent1, hContact, 0);
+		NotifyEventHooks(g_hevOptionsChanged, hContact, 0);
 	}
 
 	for (auto &it : menuHandleArray)
@@ -315,7 +315,7 @@ INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 		g_SmileyCategories.ClearAndLoadAll();
 	}
 
-	NotifyEventHooks(hEvent1, 0, 0);
+	NotifyEventHooks(g_hevOptionsChanged, 0, 0);
 	return 0;
 }
 
@@ -326,12 +326,12 @@ INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 	switch (cont->type) {
 	case 0:
 		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
-		NotifyEventHooks(hEvent1, (WPARAM)cont->pszModule, 0);
+		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
 		break;
 
 	case 1:
 		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(hEvent1, (WPARAM)cont->pszModule, 0);
+		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
 		break;
 
 	case 2:

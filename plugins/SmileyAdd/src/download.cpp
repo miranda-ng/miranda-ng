@@ -27,14 +27,14 @@ struct QueueElem
 	CMStringW fname;
 	bool needext;
 
-	QueueElem(CMStringW &purl, CMStringW &pfname, bool ne)
-		: url(purl), fname(pfname), needext(ne)
+	QueueElem(const CMStringW &purl, const CMStringW &pfname, bool ne) :
+		url(purl), fname(pfname), needext(ne)
 	{
 	}
 };
 
-static HANDLE g_hDlMutex;
-static OBJLIST<QueueElem> dlQueue(10);
+static mir_cs csQueue;
+static LIST<QueueElem> dlQueue(10);
 
 static wchar_t g_wszCachePath[MAX_PATH];
 static bool threadRunning;
@@ -123,34 +123,48 @@ void __cdecl SmileyDownloadThread(void*)
 
 	bool needext = false;
 	HNETLIBCONN hHttpDwnl = nullptr;
-	WaitForSingleObject(g_hDlMutex, 3000);
-	while (!Miranda_IsTerminated() && dlQueue.getCount()) {
-		ReleaseMutex(g_hDlMutex);
-		if (_waccess(dlQueue[0].fname.c_str(), 0) != 0) {
-			InternetDownloadFile(_T2A(dlQueue[0].url.c_str()), _T2A(dlQueue[0].fname.c_str()), hHttpDwnl);
-			WaitForSingleObject(g_hDlMutex, 3000);
 
-			CMStringW fname(dlQueue[0].fname);
-			if (dlQueue[0].needext) {
+	while (!Miranda_IsTerminated()) {
+		QueueElem *pItem = nullptr;
+		{
+			mir_cslock lck(csQueue);
+			if (dlQueue.getCount()) {
+				pItem = dlQueue[0];
+				dlQueue.remove(int(0));
+			}
+		}
+
+		if (pItem == nullptr) {
+			SleepEx(3000, TRUE);
+			continue;
+		}
+
+		if (_waccess(pItem->fname.c_str(), 0) != 0) {
+			InternetDownloadFile(_T2A(pItem->url.c_str()), _T2A(pItem->fname.c_str()), hHttpDwnl);
+
+			CMStringW fname(pItem->fname);
+			if (pItem->needext) {
 				fname += ProtoGetAvatarExtension(ProtoGetAvatarFileFormat(fname));
 				needext = true;
 			}
-			_wrename(dlQueue[0].fname.c_str(), fname.c_str());
+			_wrename(pItem->fname.c_str(), fname.c_str());
 		}
-		else WaitForSingleObject(g_hDlMutex, 3000);
 
-		dlQueue.remove(0);
+		delete pItem;
 	}
+
+	for (auto &it : dlQueue)
+		delete it;
 	dlQueue.destroy();
+
 	Netlib_CloseHandle(hHttpDwnl);
 	threadRunning = false;
-	ReleaseMutex(g_hDlMutex);
 
 	if (!Miranda_IsTerminated()) {
 		if (needext)
 			CallServiceSync(MS_SMILEYADD_RELOAD, 0, 0);
 		else
-			NotifyEventHooks(hEvent1, 0, 0);
+			NotifyEventHooks(g_hevOptionsChanged, 0, 0);
 	}
 }
 
@@ -199,9 +213,10 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 		filename += L".";
 	}
 
-	WaitForSingleObject(g_hDlMutex, 3000);
-	dlQueue.insert(new QueueElem(url, filename, iExtIdx == -1));
-	ReleaseMutex(g_hDlMutex);
+	{
+		mir_cslock lck(csQueue);
+		dlQueue.insert(new QueueElem(url, filename, iExtIdx == -1));
+	}
 
 	if (!threadRunning) {
 		threadRunning = true;
@@ -241,12 +256,9 @@ void DownloadInit(void)
 		wcsncpy_s(g_wszCachePath, VARSW(L"%miranda_userdata%\\SmileyCache"), _TRUNCATE);
 		wcsncpy_s(g_plugin.wszDefaultPath, VARSW(L"%miranda_path%\\"), _TRUNCATE);
 	}
-
-	g_hDlMutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 void DownloadClose(void)
 {
-	CloseHandle(g_hDlMutex);
 	Netlib_CloseHandle(hNetlibUser);
 }

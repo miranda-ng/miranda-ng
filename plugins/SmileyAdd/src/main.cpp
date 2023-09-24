@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 // globals
-HANDLE    hEvent1;
+HANDLE    g_hevOptionsChanged;
 HGENMENU  hContactMenuItem;
 
 CMPlugin g_plugin;
@@ -94,7 +94,7 @@ int CMPlugin::Load()
 	opt.Load();
 
 	// create smiley events
-	hEvent1 = CreateHookableEvent(ME_SMILEYADD_OPTIONSCHANGED);
+	g_hevOptionsChanged = CreateHookableEvent(ME_SMILEYADD_OPTIONSCHANGED);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, MirandaShutdown);
@@ -126,7 +126,7 @@ int CMPlugin::Unload()
 {
 	RemoveDialogBoxHook();
 
-	DestroyHookableEvent(hEvent1);
+	DestroyHookableEvent(g_hevOptionsChanged);
 
 	RichEditData_Destroy();
 

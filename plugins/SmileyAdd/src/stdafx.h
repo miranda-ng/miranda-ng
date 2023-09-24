@@ -86,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "smltool.h"
 
 extern HNETLIBUSER hNetlibUser;
-extern HANDLE hEvent1;
+extern HANDLE g_hevOptionsChanged;
 extern HGENMENU hContactMenuItem;
 extern SmileyCategoryListType g_SmileyCategories;
 extern SmileyPackListType g_SmileyPacks;
