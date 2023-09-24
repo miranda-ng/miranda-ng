@@ -230,7 +230,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 
 int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	auto &smc = *g_SmileyCategories.GetSmileyCategoryList();
+	auto &smc = g_SmileyCategories.GetSmileyCategoryList();
 
 	char *protnam = Proto_GetBaseAccountName(wParam);
 	bool haveMenu = IsSmileyProto(protnam);

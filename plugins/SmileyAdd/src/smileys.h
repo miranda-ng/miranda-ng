@@ -286,7 +286,7 @@ public:
 	SmileyCategoryType* GetSmileyCategory(const CMStringW &name);
 	SmileyCategoryType* GetSmileyCategory(unsigned index);
 	SmileyPackType* GetSmileyPack(const CMStringW &name);
-	SmileyCategoryVectorType* GetSmileyCategoryList(void) { return &m_SmileyCategories; };
+	SmileyCategoryVectorType& GetSmileyCategoryList(void) { return m_SmileyCategories; }
 
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
