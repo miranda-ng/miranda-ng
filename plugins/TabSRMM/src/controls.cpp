@@ -835,10 +835,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 					if (hIcon) {
 						if (LOWORD(result) > 1) {				// we have a text
 							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-							if (dat) {
-								if (dat->m_bShowTyping == 2)
-									DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, PluginConfig.g_iconOverlayEnabled, 16, 16, 0, nullptr, DI_NORMAL);
-							}
+
 							itemRect.left += 20;
 							CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX,
 								CSkin::m_glowSize, clr);

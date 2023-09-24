@@ -553,11 +553,6 @@ static int TSAPI SetupIconLibConfig()
 	sid.description.a = LPGEN("Feature disabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
 	g_plugin.addIcon(&sid);
-
-	sid.pszName = "tabSRMM_overlay_enabled";
-	sid.description.a = LPGEN("Feature enabled (used as overlay)");
-	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
-	g_plugin.addIcon(&sid);
 	return 1;
 }
 
@@ -576,7 +571,6 @@ static int TSAPI LoadFromIconLib()
 
 	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-	PluginConfig.g_iconOverlayEnabled = IcoLib_GetIcon("tabSRMM_overlay_enabled");
 	PluginConfig.g_iconOverlayDisabled = IcoLib_GetIcon("tabSRMM_overlay_disabled");
 
 	PluginConfig.g_iconClock = IcoLib_GetIcon("tabSRMM_clock_symbol");

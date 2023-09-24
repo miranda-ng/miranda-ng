@@ -755,9 +755,6 @@ END
 // remains consistent on all systems.
 IDI_FEATURE_DISABLED    ICON                    "overlay_disabled.ico"
 
-IDI_FEATURE_ENABLED     ICON                    "overlay_enabled.ico"
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
