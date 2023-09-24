@@ -55,12 +55,12 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 					categoryName = L"AllProto";
 					categoryName += dbv.pwszVal;
 					db_free(&dbv);
-					CMStringW categoryFileName = g_SmileyCategories.GetSmileyCategory(categoryName) ? g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename() : L"";
-					if (categoryFileName.IsEmpty())
+					
+					auto *p = g_SmileyCategories.GetSmileyCategory(categoryName);
+					if (!p || p->GetFilename().IsEmpty())
 						categoryName = _A2T(protonam);
 				}
-				else
-					categoryName = _A2T(protonam);
+				else categoryName = _A2T(protonam);
 			}
 		}
 	}
@@ -93,8 +93,10 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 	memcpy(&smrec, smre, min(smre->cbSize, sizeof(smrec)));
 
 	static const CHARRANGE selection = { 0, LONG_MAX };
-	if (smre->rangeToReplace == nullptr) smrec.rangeToReplace = (CHARRANGE*)&selection;
-	else if (smrec.rangeToReplace->cpMax < 0) smrec.rangeToReplace->cpMax = LONG_MAX;
+	if (smre->rangeToReplace == nullptr)
+		smrec.rangeToReplace = (CHARRANGE*)&selection;
+	else if (smrec.rangeToReplace->cpMax < 0)
+		smrec.rangeToReplace->cpMax = LONG_MAX;
 
 	SmileyPackCType *smcp = nullptr;
 	SmileyPackType *SmileyPack = FindSmileyPack(smrec.Protocolname, smrec.hContact, (smrec.flags & SAFLRE_NOCUSTOM) ? nullptr : &smcp);
@@ -109,7 +111,8 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 
 static int GetInfoCommandE(SMADD_INFO2 *smre, bool retDup)
 {
-	if (smre == nullptr) return FALSE;
+	if (smre == nullptr)
+		return FALSE;
 
 	SmileyPackType *SmileyPack = FindSmileyPack(smre->Protocolname);
 	if (SmileyPack == nullptr || SmileyPack->SmileyCount() == 0) {
