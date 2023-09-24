@@ -134,10 +134,7 @@ MCONTACT DecodeMetaContact(MCONTACT hContact)
 		return 0;
 
 	MCONTACT hReal = db_mc_getMostOnline(hContact);
-	if (hReal == 0 || (INT_PTR)hReal == CALLSERVICE_NOTFOUND)
-		hReal = hContact;
-
-	return hReal;
+	return (hReal == 0) ? hContact : hReal;
 }
 
 bool IsSmileyProto(char *proto)

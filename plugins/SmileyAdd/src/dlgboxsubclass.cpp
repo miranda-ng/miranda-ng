@@ -26,25 +26,22 @@ static mir_cs csWndList;
 struct MsgWndData : public MZeroedObject
 {
 	CSrmmBaseDialog *pDlg;
-	int  idxLastChar;
-	bool doSmileyReplace;
-	char ProtocolName[52];
+	char *szProto;
 
 	MsgWndData(CSrmmBaseDialog *p) :
 		pDlg(p)
-	{}
+	{
+		szProto = Proto_GetBaseAccountName(DecodeMetaContact(pDlg->m_hContact));
+	}
 
 	void CreateSmileyButton(void)
 	{
-		SmileyPackType *SmileyPack = FindSmileyPack(ProtocolName, pDlg->m_hContact);
-		bool doSmileyButton = SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
+		SmileyPackType *SmileyPack = FindSmileyPack(szProto, pDlg->m_hContact);
+		bool doSmileyButton = SmileyPack && SmileyPack->VisibleSmileyCount() != 0;
 
-		doSmileyReplace = true;
-
-		if (ProtocolName[0] != 0) {
-			INT_PTR cap = CallProtoService(ProtocolName, PS_GETCAPS, PFLAGNUM_1, 0);
+		if (szProto) {
+			INT_PTR cap = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			doSmileyButton &= ((cap & (PF1_IMSEND | PF1_CHAT)) != 0);
-			doSmileyReplace &= ((cap & (PF1_IMRECV | PF1_CHAT)) != 0);
 		}
 
 		BBButton bbd = {};
@@ -118,7 +115,7 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
-	stwp->pSmileyPack = FindSmileyPack(dat->ProtocolName, dat->pDlg->m_hContact);
+	stwp->pSmileyPack = FindSmileyPack(dat->szProto, dat->pDlg->m_hContact);
 	stwp->hWndParent = pcbc->hwndFrom;
 	stwp->hWndTarget = dat->pDlg->GetInput();
 	stwp->targetMessage = EM_REPLACESEL;
@@ -142,12 +139,6 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 	case MSG_WINDOW_EVT_OPENING:
 		{
 			MsgWndData *msgwnd = new MsgWndData(pDlg);
-
-			// Get the protocol for this contact to display correct smileys.
-			char *protonam = Proto_GetBaseAccountName(DecodeMetaContact(pDlg->m_hContact));
-			if (protonam)
-				strncpy_s(msgwnd->ProtocolName, protonam, _TRUNCATE);
-
 			msgwnd->CreateSmileyButton();
 
 			mir_cslock lck(csWndList);
