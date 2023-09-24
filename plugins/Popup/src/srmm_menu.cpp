@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	on current active mode for user.
 	*************************************************************************************/
 
-static MWindowList hDialogsList = nullptr;
-
 static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 {
 	if (!hContact)
@@ -38,26 +36,22 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 
 	int mode = g_plugin.getByte(hContact, "ShowMode", PU_SHOWMODE_AUTO);
 
-	for (int i = 0; i < 4; i++)
-		Srmm_SetIconFlags(hContact, MODULENAME, i, (i == mode) ? 0 : MBF_HIDDEN);
+	for (int i = 0; i < 3; i++) {
+		uint32_t dwFlags = 0;
+		if (i == 0 && mode == PU_SHOWMODE_BLOCK)
+			dwFlags = MBF_DISABLED;
+		else if (i != mode)
+			dwFlags = MBF_HIDDEN;
+		Srmm_SetIconFlags(hContact, MODULENAME, i, dwFlags);
+	}
 }
 
 static int SrmmMenu_ProcessEvent(WPARAM uType, LPARAM lParam)
 {
 	auto *pDlg = (CSrmmBaseDialog *)lParam;
 
-	if (uType == MSG_WINDOW_EVT_OPEN) {
-		if (!hDialogsList)
-			hDialogsList = WindowList_Create();
-
-		WindowList_Add(hDialogsList, pDlg->GetHwnd(), pDlg->m_hContact);
+	if (uType == MSG_WINDOW_EVT_OPEN)
 		SrmmMenu_UpdateIcon(pDlg->m_hContact);
-	}
-	else if (uType == MSG_WINDOW_EVT_CLOSING) {
-		if (hDialogsList)
-			WindowList_Remove(hDialogsList, pDlg->GetHwnd());
-	}
-
 	return 0;
 }
 
@@ -82,7 +76,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 
 		CheckMenuItem(hMenu, 1 + mode, MF_BYCOMMAND | MF_CHECKED);
 
-		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), nullptr);
+		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, Srmm_FindWindow(hContact), nullptr);
 		if (mode) {
 			g_plugin.setByte(hContact, "ShowMode", mode - 1);
 			SrmmMenu_UpdateIcon(hContact);
@@ -103,7 +97,8 @@ void SrmmMenu_Load()
 
 	sid.dwId = 0;
 	sid.szTooltip.a = LPGEN("Popup Mode: Auto");
-	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+	sid.hIcon = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+	sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
@@ -116,16 +111,6 @@ void SrmmMenu_Load()
 	sid.hIcon = sid.hIconDisabled = g_plugin.getIcon(IDI_OPT_FULLSCREEN);
 	Srmm_AddIcon(&sid, &g_plugin);
 
-	sid.dwId = 3;
-	sid.szTooltip.a = LPGEN("Popup Mode: Block contact");
-	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
-	Srmm_AddIcon(&sid, &g_plugin);
-
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
-}
-
-void SrmmMenu_Unload()
-{
-	WindowList_Destroy(hDialogsList);
 }

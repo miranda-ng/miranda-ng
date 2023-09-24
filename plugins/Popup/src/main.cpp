@@ -413,7 +413,6 @@ int CMPlugin::Unload()
 
 	OptAdv_UnregisterVfx();
 	PopupHistoryUnload();
-	SrmmMenu_Unload();
 
 	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), g_plugin.getInst());
 	UnregisterClass(L"PopupEditBox", g_plugin.getInst());
