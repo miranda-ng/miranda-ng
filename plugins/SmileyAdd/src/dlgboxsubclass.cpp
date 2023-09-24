@@ -25,15 +25,18 @@ static mir_cs csWndList;
 
 struct MsgWndData : public MZeroedObject
 {
-	HWND hwnd, hwndLog, hwndInput;
+	CSrmmBaseDialog *pDlg;
 	int  idxLastChar;
 	bool doSmileyReplace;
-	MCONTACT hContact;
 	char ProtocolName[52];
+
+	MsgWndData(CSrmmBaseDialog *p) :
+		pDlg(p)
+	{}
 
 	void CreateSmileyButton(void)
 	{
-		SmileyPackType *SmileyPack = FindSmileyPack(ProtocolName, hContact);
+		SmileyPackType *SmileyPack = FindSmileyPack(ProtocolName, pDlg->m_hContact);
 		bool doSmileyButton = SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
 
 		doSmileyReplace = true;
@@ -48,21 +51,21 @@ struct MsgWndData : public MZeroedObject
 		bbd.pszModuleName = MODULENAME;
 		if (!doSmileyButton)
 			bbd.bbbFlags = BBBF_DISABLED;
-		Srmm_SetButtonState(hContact, &bbd);
+		Srmm_SetButtonState(pDlg->m_hContact, &bbd);
 	}
 };
 
-static LIST<MsgWndData> g_MsgWndList(10, HandleKeySortT);
+static OBJLIST<MsgWndData> g_MsgWndList(10, HandleKeySortT);
 
 int UpdateSrmmDlg(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csWndList);
 	
 	for (auto &it : g_MsgWndList) {
-		if (wParam == 0 || it->hContact == wParam) {
-			SendMessage(it->hwnd, WM_SETREDRAW, FALSE, 0);
-			SendMessage(it->hwnd, DM_OPTIONSAPPLIED, 0, 0);
-			SendMessage(it->hwnd, WM_SETREDRAW, TRUE, 0);
+		if (wParam == 0 || it->pDlg->m_hContact == wParam) {
+			SendMessage(it->pDlg->GetHwnd(), WM_SETREDRAW, FALSE, 0);
+			it->pDlg->UpdateOptions();
+			SendMessage(it->pDlg->GetHwnd(), WM_SETREDRAW, TRUE, 0);
 		}
 	}
 	return 0;
@@ -72,31 +75,11 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM)
 static MsgWndData* IsMsgWnd(HWND hwnd)
 {
 	mir_cslock lck(csWndList);
-	return g_MsgWndList.find((MsgWndData*)&hwnd);
-}
+	for (auto &it : g_MsgWndList)
+		if (it->pDlg->GetHwnd() == hwnd)
+			return it;
 
-// global subclass function for all dialogs
-static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	MsgWndData *dat = IsMsgWnd(hwnd);
-	if (dat == nullptr)
-		return 0;
-
-	if (uMsg == DM_OPTIONSAPPLIED)
-		dat->CreateSmileyButton();
-
-	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam);
-
-	if (uMsg == WM_DESTROY) {
-		mir_cslock lck(csWndList);
-		int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
-		if (ind != -1) {
-			delete g_MsgWndList[ind];
-			g_MsgWndList.remove(ind);
-		}
-	}
-
-	return result;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +118,9 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
-	stwp->pSmileyPack = FindSmileyPack(dat->ProtocolName, dat->hContact);
+	stwp->pSmileyPack = FindSmileyPack(dat->ProtocolName, dat->pDlg->m_hContact);
 	stwp->hWndParent = pcbc->hwndFrom;
-	stwp->hWndTarget = dat->hwndInput;
+	stwp->hWndTarget = dat->pDlg->GetInput();
 	stwp->targetMessage = EM_REPLACESEL;
 	stwp->targetWParam = TRUE;
 	stwp->direction = 0;
@@ -158,18 +141,13 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		{
-			MsgWndData *msgwnd = new MsgWndData();
-			msgwnd->hwnd = pDlg->GetHwnd();
-			msgwnd->hContact = pDlg->m_hContact;
-			msgwnd->hwndLog = hwndLog;
-			msgwnd->hwndInput = pDlg->GetInput();
+			MsgWndData *msgwnd = new MsgWndData(pDlg);
 
 			// Get the protocol for this contact to display correct smileys.
-			char *protonam = Proto_GetBaseAccountName(DecodeMetaContact(msgwnd->hContact));
+			char *protonam = Proto_GetBaseAccountName(DecodeMetaContact(pDlg->m_hContact));
 			if (protonam)
 				strncpy_s(msgwnd->ProtocolName, protonam, _TRUNCATE);
 
-			mir_subclassWindow(msgwnd->hwnd, MessageDlgSubclass);
 			msgwnd->CreateSmileyButton();
 
 			mir_cslock lck(csWndList);
@@ -199,8 +177,9 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 			CloseRichCallback(hwndLog);
 			CloseRichOwnerCallback(pDlg->GetHwnd());
 		}
-		mir_unsubclassWindow(pDlg->GetHwnd(), MessageDlgSubclass);
-		break;
+
+		mir_cslock lck(csWndList);
+		g_MsgWndList.remove((MsgWndData *)&pDlg);
 	}
 	return 0;
 }
