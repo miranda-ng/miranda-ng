@@ -741,7 +741,7 @@ void SmileyCategoryListType::SaveSettings(void)
 	opt.WriteCustomCategories(catstr);
 }
 
-void SmileyCategoryListType::AddAndLoad(const CMStringW &name, const CMStringW &displayName)
+void SmileyCategoryListType::AddAndLoad(const wchar_t *name, const wchar_t *displayName)
 {
 	if (GetSmileyCategory(name) != nullptr)
 		return;
@@ -753,7 +753,7 @@ void SmileyCategoryListType::AddAndLoad(const CMStringW &name, const CMStringW &
 		m_SmileyCategories[m_SmileyCategories.getCount() - 1].Load();
 }
 
-void SmileyCategoryListType::AddCategory(const CMStringW &name, const CMStringW &displayName, SmcType typ, const CMStringW &defaultFilename)
+void SmileyCategoryListType::AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename)
 {
 	if (GetSmileyCategory(name) == nullptr)
 		m_SmileyCategories.insert(new SmileyCategoryType(m_pSmileyPackStore, name, displayName, defaultFilename, typ));
@@ -772,37 +772,39 @@ bool SmileyCategoryListType::DeleteCustomCategory(int index)
 
 void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile)
 {
-	if (acc->IsEnabled() && acc->szProtoName && IsSmileyProto(acc->szModuleName)) {
-		CMStringW displayName(acc->tszAccountName ? acc->tszAccountName : _A2T(acc->szModuleName));
-		CMStringW PhysProtoName, paths;
-		DBVARIANT dbv;
+	if (!acc->IsEnabled() || !acc->szProtoName || !IsSmileyProto(acc->szModuleName))
+		return;
 
-		if (db_get_ws(0, acc->szModuleName, "AM_BaseProto", &dbv) == 0) {
-			PhysProtoName = L"AllProto";
-			PhysProtoName += dbv.pwszVal;
-			db_free(&dbv);
-		}
+	CMStringW PhysProtoName, paths;
+	DBVARIANT dbv;
 
-		if (!PhysProtoName.IsEmpty()) {
-			auto *p = g_SmileyCategories.GetSmileyCategory(PhysProtoName);
-			paths = (p) ? p->GetFilename() : L"";
-		}
-
-		// assemble default path
-		if (paths.IsEmpty()) {
-			const char *packnam = acc->szProtoName;
-			if (mir_strcmp(packnam, "JABBER") == 0)
-				packnam = "JGMail";
-
-			wchar_t path[MAX_PATH];
-			mir_snwprintf(path, L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
-			if (_waccess(path, 0) != 0)
-				paths = defaultFile;
-		}
-
-		CMStringW tname(_A2T(acc->szModuleName));
-		AddCategory(tname, displayName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
+	if (db_get_ws(0, acc->szModuleName, "AM_BaseProto", &dbv) == 0) {
+		PhysProtoName = L"AllProto";
+		PhysProtoName += dbv.pwszVal;
+		db_free(&dbv);
 	}
+
+	if (!PhysProtoName.IsEmpty()) {
+		auto *p = g_SmileyCategories.GetSmileyCategory(PhysProtoName);
+		paths = (p) ? p->GetFilename() : L"";
+	}
+
+	// assemble default path
+	if (paths.IsEmpty()) {
+		const char *packnam = acc->szProtoName;
+		if (mir_strcmp(packnam, "JABBER") == 0)
+			packnam = "JGMail";
+
+		wchar_t path[MAX_PATH];
+		mir_snwprintf(path, L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
+		if (_waccess(path, 0) != 0)
+			paths = defaultFile;
+	}
+
+	if (acc->tszAccountName)
+		AddCategory(_A2T(acc->szModuleName), acc->tszAccountName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
+	else
+		AddCategory(_A2T(acc->szModuleName), _A2T(acc->szModuleName), acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
 }
 
 void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defaultFile)
@@ -821,10 +823,8 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defa
 		paths = defaultFile;
 
 	CMStringW dName(acc), displayName;
-	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.GetBuffer());
-	CMStringW tname("AllProto");
-	tname += _A2T(acc);
-	AddCategory(tname, displayName, smcPhysProto, paths);
+	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.c_str());
+	AddCategory(L"AllProto" + dName, displayName, smcPhysProto, paths);
 }
 
 void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
@@ -859,43 +859,28 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 	if (proto == nullptr)
 		return;
 
-	DBVARIANT dbv;
-	if (!db_get_ws(hContact, proto, "Transport", &dbv)) {
-		if (dbv.pwszVal[0] == '\0') {
-			db_free(&dbv);
-			return;
-		}
-		char *trsp = mir_strdup(_T2A(dbv.pwszVal));
-		_strlwr(trsp);
+	CMStringW displayName(db_get_wsm(hContact, proto, "Transport"));
+	if (displayName.IsEmpty())
+		return;
 
-		const char *packname = nullptr;
-		if (strstr(trsp, "icq") != nullptr)
-			packname = "icq";
+	char *trsp = mir_u2a(displayName);
+	_strlwr(trsp);
 
-		mir_free(trsp);
+	const char *packname = nullptr;
+	if (strstr(trsp, "icq") != nullptr)
+		packname = "icq";
 
-		CMStringW paths, displayName(dbv.pwszVal);
-		if (packname != nullptr) {
-			paths.Format(L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packname);
-			paths = VARSW(paths);
-			if (_waccess(paths.c_str(), 0) != 0)
-				paths = defaultFile;
-		}
-		else paths = defaultFile;
+	mir_free(trsp);
 
-		AddCategory(displayName, displayName, smcTransportProto, defaultFile);
-
-		db_free(&dbv);
-	}
+	AddCategory(displayName, displayName, smcTransportProto, defaultFile);
 }
 
 void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 {
-	CMStringW displayName = TranslateT("Standard");
-	CMStringW tname = L"Standard";
-	AddCategory(tname, displayName, smcStd);
+	AddCategory(L"Standard", TranslateT("Standard"), smcStd);
+	AddCategory(L"Emoji", TranslateT("Emoji"), smcStd);
 
-	const CMStringW &defaultFile = GetSmileyCategory(tname)->GetFilename();
+	auto &defaultFile = GetSmileyCategory(L"Standard")->GetFilename();
 
 	PROTOCOLDESCRIPTOR **proto;
 	int protoCount = 0;
@@ -913,7 +898,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	for (auto &hContact : Contacts())
 		AddContactTransportAsCategory(hContact, defaultFile);
 
-	CMStringW cats;
+	CMStringW cats, displayName;
 	opt.ReadCustomCategories(cats);
 
 	int cppv = 0;

@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 LIST<void> menuHandleArray(5);
 
-//implementation of service functions
+/////////////////////////////////////////////////////////////////////////////////////////
+// Service functions
 
 SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCType **smlc)
 {
@@ -80,6 +81,8 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 	return g_SmileyCategories.GetSmileyPack(categoryName);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 {
 	SMADD_RICHEDIT3 *smre = (SMADD_RICHEDIT3*)lParam;
@@ -101,6 +104,8 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int GetInfoCommandE(SMADD_INFO2 *smre, bool retDup)
 {
@@ -137,7 +142,7 @@ INT_PTR GetInfoCommand2(WPARAM, LPARAM lParam)
 	return GetInfoCommandE((SMADD_INFO2*)lParam, true);
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 {
@@ -185,11 +190,15 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 	return (INT_PTR)res;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
 {
 	delete[](SMADD_BATCHPARSERES*)lParam;
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 {
@@ -205,6 +214,8 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 {
@@ -227,6 +238,60 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 	return TRUE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR ReloadPack(WPARAM, LPARAM lParam)
+{
+	if (lParam) {
+		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(_A2T((char *)lParam));
+		if (smc != nullptr)
+			smc->Load();
+	}
+	else {
+		g_SmileyCategories.ClearAll();
+		g_SmileyCategories.AddAllProtocolsAsCategory();
+		g_SmileyCategories.ClearAndLoadAll();
+	}
+
+	NotifyEventHooks(g_hevOptionsChanged, 0, 0);
+	return 0;
+}
+
+INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
+{
+	SMADD_CONT *cont = (SMADD_CONT *)lParam;
+
+	switch (cont->type) {
+	case 0:
+		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
+		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
+		break;
+
+	case 1:
+		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
+		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
+		break;
+
+	case 2:
+		WIN32_FIND_DATAW findData;
+		CMStringW wszPath(cont->path);
+		HANDLE hFind = FindFirstFileW(wszPath, &findData);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			int idx = wszPath.ReverseFind('\\');
+			if (idx != -1)
+				wszPath.Truncate(idx + 1);
+
+			do {
+				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L"."))
+					continue;
+
+				CMStringW wszFileName = wszPath + findData.cFileName;
+				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
+			} while (FindNextFileW(hFind, &findData));
+		}
+	}
+	return 0;
+}
 
 int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
@@ -301,58 +366,8 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR ReloadPack(WPARAM, LPARAM lParam)
-{
-	if (lParam) {
-		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(_A2T((char *)lParam));
-		if (smc != nullptr)
-			smc->Load();
-	}
-	else {
-		g_SmileyCategories.ClearAll();
-		g_SmileyCategories.AddAllProtocolsAsCategory();
-		g_SmileyCategories.ClearAndLoadAll();
-	}
-
-	NotifyEventHooks(g_hevOptionsChanged, 0, 0);
-	return 0;
-}
-
-INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
-{
-	SMADD_CONT *cont = (SMADD_CONT*)lParam;
-
-	switch (cont->type) {
-	case 0:
-		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
-		break;
-
-	case 1:
-		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
-		break;
-
-	case 2:
-		WIN32_FIND_DATAW findData;
-		CMStringW wszPath(cont->path);
-		HANDLE hFind = FindFirstFileW(wszPath, &findData);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			int idx = wszPath.ReverseFind('\\');
-			if (idx != -1)
-				wszPath.Truncate(idx+1);
-
-			do {
-				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L"."))
-					continue;
-
-				CMStringW wszFileName = wszPath + findData.cFileName;
-				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
-			} while (FindNextFileW(hFind, &findData));
-		}
-	}
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Events
 
 int AccountListChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -411,7 +426,6 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	return 0;
 }
-
 
 int ReloadColour(WPARAM, LPARAM)
 {

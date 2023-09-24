@@ -290,8 +290,8 @@ public:
 
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
-	void AddCategory(const CMStringW &name, const CMStringW &displayName, SmcType typ, const CMStringW &defaultFilename = L"");
-	void AddAndLoad(const CMStringW &name, const CMStringW &displayName);
+	void AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename = L"");
+	void AddAndLoad(const wchar_t *name, const wchar_t *displayName);
 	void AddAllProtocolsAsCategory(void);
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile);
 	void AddProtoAsCategory(char *acc, const CMStringW &defaultFile);
