@@ -283,14 +283,15 @@ class SmileyCategoryListType
 public:
 	void SetSmileyPackStore(SmileyPackListType *pSPS) { m_pSmileyPackStore = pSPS; }
 
+	SmileyCategoryType* AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename = L"");
 	SmileyCategoryType* GetSmileyCategory(const wchar_t *pwszName);
 	SmileyCategoryType* GetSmileyCategory(unsigned index);
-	SmileyPackType* GetSmileyPack(const CMStringW &name);
+	SmileyPackType*     GetSmileyPack(const CMStringW &name);
+	
 	SmileyCategoryVectorType& GetSmileyCategoryList(void) { return m_SmileyCategories; }
 
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
-	void AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename = L"");
 	void AddAndLoad(const wchar_t *name, const wchar_t *displayName);
 	void AddAllProtocolsAsCategory(void);
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile);

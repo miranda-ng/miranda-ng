@@ -90,7 +90,7 @@ extern HANDLE g_hevOptionsChanged;
 extern HGENMENU hContactMenuItem;
 extern SmileyCategoryListType g_SmileyCategories;
 extern SmileyPackListType g_SmileyPacks;
-extern LIST<void> menuHandleArray;
+extern SmileyPackType *g_pEmoji;
 
 #define MODULENAME "SmileyAdd"
 

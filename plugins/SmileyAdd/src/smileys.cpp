@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+SmileyPackType *g_pEmoji = nullptr;
 SmileyPackListType g_SmileyPacks;
 SmileyCategoryListType g_SmileyCategories;
 
@@ -700,8 +701,11 @@ void SmileyCategoryListType::ClearAndLoadAll(void)
 {
 	m_pSmileyPackStore->ClearAndFreeAll();
 
-	for (auto &it : m_SmileyCategories)
+	for (auto &it : m_SmileyCategories) {
 		it->Load();
+		if (it->GetName() == L"Emoji")
+			g_pEmoji = it->GetSmileyPack();
+	}
 }
 
 SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(const wchar_t *pwszName)
@@ -743,20 +747,19 @@ void SmileyCategoryListType::SaveSettings(void)
 
 void SmileyCategoryListType::AddAndLoad(const wchar_t *name, const wchar_t *displayName)
 {
-	if (GetSmileyCategory(name) != nullptr)
-		return;
-
-	AddCategory(name, displayName, smcExt);
-	
-	// Load only if other smileys have been loaded already
-	if (m_SmileyCategories.getCount() > 1)
-		m_SmileyCategories[m_SmileyCategories.getCount() - 1].Load();
+	if (auto *pCategory = AddCategory(name, displayName, smcExt))
+		pCategory->Load();
 }
 
-void SmileyCategoryListType::AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename)
+SmileyCategoryType* SmileyCategoryListType::AddCategory(const wchar_t *name, const wchar_t *displayName, SmcType typ, const wchar_t *defaultFilename)
 {
-	if (GetSmileyCategory(name) == nullptr)
-		m_SmileyCategories.insert(new SmileyCategoryType(m_pSmileyPackStore, name, displayName, defaultFilename, typ));
+	auto *pCategory = GetSmileyCategory(name);
+	if (pCategory == nullptr) {
+		pCategory = new SmileyCategoryType(m_pSmileyPackStore, name, displayName, defaultFilename, typ);
+		m_SmileyCategories.insert(pCategory);
+	}
+
+	return pCategory;
 }
 
 bool SmileyCategoryListType::DeleteCustomCategory(int index)

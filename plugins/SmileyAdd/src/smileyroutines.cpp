@@ -30,7 +30,12 @@ bool g_HiddenTextSupported = true;
 const GUID IID_ITextDocument = 
 { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D } };
 
-void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
+static void LookupAllSmileysWorker(
+	SmileyPackType *smileyPack,
+	SmileyPackCType *smileyCPack,
+	const wchar_t *lpstrText,
+	SmileysQueueType &smllist,
+	const bool firstOnly)
 {
 	if (lpstrText == nullptr || *lpstrText == 0) return;
 
@@ -144,6 +149,13 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 	delete[] smileys;
 }
 
+void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
+{
+	LookupAllSmileysWorker(smileyPack, smileyCPack, lpstrText, smllist, firstOnly);
+
+	if (g_pEmoji && smileyPack != g_pEmoji)
+		LookupAllSmileys(g_pEmoji, smileyCPack, lpstrText, smllist, firstOnly);
+}
 
 void FindSmileyInText(SmileyPackType *smp, const wchar_t *str, unsigned &first, unsigned &size, SmileyType **sml)
 {

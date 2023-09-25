@@ -20,19 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SMILEYROUTINES_
 #define _SMILEYROUTINES_
 
-typedef struct ReplaceSmileyType_tag
+struct ReplaceSmileyType
 {
 	CHARRANGE loc;
 	SmileyType *sml;
 	SmileyCType *smlc;
 	bool ldspace;
 	bool trspace;
-} ReplaceSmileyType;
+};
 
 // Queue to store smileys found
 typedef SMOBJLIST<ReplaceSmileyType> SmileysQueueType;
-
-
 
 void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly);
 void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const CHARRANGE &sel, bool useHidden, bool ignoreLast, bool unFreeze, bool fireView = 0);

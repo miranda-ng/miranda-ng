@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-LIST<void> menuHandleArray(5);
+static LIST<void> menuHandleArray(5);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service functions
