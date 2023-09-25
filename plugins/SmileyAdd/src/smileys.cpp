@@ -480,7 +480,7 @@ bool SmileyPackType::LoadSmileyFileMSL(const CMStringW &filename, bool onlyInfo,
 	if (len > 2 && *(wchar_t*)buf == 0xfeff)
 		tbuf = ((wchar_t*)buf + 1);
 	else if (len > 3 && buf[0] == '\xef' && buf[1] == '\xbb' && buf[2] == '\xbf')
-		tbuf = _A2T(buf + 3, CP_UTF8);
+		tbuf = Utf2T(buf + 3);
 	else
 		tbuf = _A2T(buf);
 
@@ -801,10 +801,11 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			paths = defaultFile;
 	}
 
+	_A2T wszModule(acc->szModuleName);
 	if (acc->tszAccountName)
-		AddCategory(_A2T(acc->szModuleName), acc->tszAccountName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
+		AddCategory(wszModule, acc->tszAccountName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
 	else
-		AddCategory(_A2T(acc->szModuleName), _A2T(acc->szModuleName), acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
+		AddCategory(wszModule, wszModule, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
 }
 
 void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defaultFile)
@@ -829,7 +830,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defa
 
 void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
-	CMStringW tname(_A2T(acc->szModuleName));
+	CMStringW tname(acc->szModuleName);
 
 	for (auto &hContact : Contacts()) {
 		char *proto = Proto_GetBaseAccountName(hContact);

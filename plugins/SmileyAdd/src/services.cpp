@@ -58,9 +58,9 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 					
 					auto *p = g_SmileyCategories.GetSmileyCategory(categoryName);
 					if (!p || p->GetFilename().IsEmpty())
-						categoryName = _A2T(protonam);
+						categoryName = protonam;
 				}
-				else categoryName = _A2T(protonam);
+				else categoryName = protonam;
 			}
 		}
 	}
@@ -69,7 +69,7 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 		if (proto == nullptr || proto[0] == 0)
 			categoryName = L"Standard";
 		else {
-			categoryName = _A2T(proto);
+			categoryName = proto;
 			if (opt.UseOneForAll) {
 				SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(categoryName);
 				if (smc == nullptr || smc->IsProto())
@@ -206,15 +206,13 @@ INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
 INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 {
 	SMADD_REGCAT *smre = (SMADD_REGCAT*)lParam;
+	if (smre == nullptr || smre->cbSize < sizeof(SMADD_REGCAT))
+		return FALSE;
 
-	if (smre == nullptr || smre->cbSize < sizeof(SMADD_REGCAT)) return FALSE;
-	if (IsBadStringPtrA(smre->name, 50) || IsBadStringPtrA(smre->dispname, 50)) return FALSE;
+	if (IsBadStringPtrA(smre->name, 50) || IsBadStringPtrA(smre->dispname, 50))
+		return FALSE;
 
-
-	CMStringW nmd(_A2T(smre->dispname));
-	CMStringW nm(_A2T(smre->name));
-	g_SmileyCategories.AddAndLoad(nm, nmd);
-
+	g_SmileyCategories.AddAndLoad(_A2T(smre->name), _A2T(smre->dispname));
 	return TRUE;
 }
 
@@ -386,7 +384,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_CHANGED:
 		if (acc != nullptr && acc->szModuleName != nullptr) {
-			CMStringW name(_A2T(acc->szModuleName));
+			CMStringW name(acc->szModuleName);
 			SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(name);
 			if (smc != nullptr) {
 				if (acc->tszAccountName)
