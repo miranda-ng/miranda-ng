@@ -52,97 +52,9 @@ type
 const
   MS_SMILEYADD_REPLACESMILEYS:PAnsiChar = 'SmileyAdd/ReplaceSmileys';
 
-{
-  get smiley button icon
-  wParam = (WPARAM) 0; not used
-  lParam = (LPARAM) (SMADD_INFO*) &smgi;  //pointer to SMADD_INFO
-}
-type
-  PSMADD_INFO2 = ^TSMADD_INFO2;
-  TSMADD_INFO2 = record
-    Protocolname          : PAnsiChar;
-    ButtonIcon            : HICON;     // RETURN VALUE: this is filled with the
-     // icon handle of the smiley that can be used on the button
-     // do not destroy! NULL if the buttonicon is not defined...
-    NumberOfVisibleSmileys: int;       // Number of visible smileys defined.
-    NumberOfSmileys       : int;       // Number of total smileys defined
-    hContact              : TMCONTACT; //Contact handle
-  end;
-
-const
-  MS_SMILEYADD_GETINFO2:PAnsiChar = 'SmileyAdd/GetInfo2';
-
 // Event notifies that options have changed
 // Message dialogs usually need to redraw it's content on reception of this event
   ME_SMILEYADD_OPTIONSCHANGED:PAnsiChar = 'SmileyAdd/OptionsChanged';
-
-  SAFL_PATH     = 1;  // provide smiley file path, icon otherwise
-  SAFL_UNICODE  = 2;  // string fields in OPTIONSDIALOGPAGE are WCHAR*
-  SAFL_OUTGOING = 4;  // Parsing outgoing message
-  SAFL_NOCUSTOM = 8;  // Do not use custom smileys
-
-type
-  PSMADD_BATCHPARSE2 = ^TSMADD_BATCHPARSE2;
-  TSMADD_BATCHPARSE2 = record
-    Protocolname:PAnsiChar; // protocol to use... if you have defined a protocol, u can
-                            // use your own protocol name. Smiley add wil automatically
-                            // select the smileypack that is defined for your protocol.
-                            // Or, use "Standard" for standard smiley set. Or "ICQ"
-                            // if you prefer those icons.
-                            // If not found or NULL: "Standard" will be used
-    str         :TChar;     // String to parse
-    flag        :uint;      // One of the SAFL_ flags specifies parsing requirements
-                            // This parameter should be filled by the user
-    numSmileys  :uint;      // Number of Smileys found, this parameter filled by SmileyAdd
-    oflag       :uint;      // One of the SAFL_ flags specifies content of the parse results
-                            // this parameter filled by SmileyAdd
-    hContact    :TMCONTACT; // Contact handle
-  end;
-
-type
-  PSMADD_BATCHPARSERES = ^TSMADD_BATCHPARSERES;
-  TSMADD_BATCHPARSERES = record
-    startChar:uint; // Starting smiley character
-                    // Because of iterative nature of the API caller should
-                    // set this parameter to correct value
-    size     :uint; // Number of characters in smiley (0 if not found)
-                    // Because of iterative nature of the API caller should
-                    // set this parameter to correct value
-    case boolean of
-      false: (filepath:TChar);
-      true:  (hIcon:HICON); // User responsible for destroying icon handle
-  end;
-const
-//find all smileys in text, API parses the provided text and returns all smileys found
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) (SMADD_BATCHPARSE2*) &smgp;  //pointer to SMADD_BATCHPARSE2
-//function returns pointer to array SMADD_BATCHPARSERES records for each smiley found
-//if no smileys found NULL is returned
-//if non NULL value returned pointer must be freed with MS_SMILEYADD_BATCHFREE API
-  MS_SMILEYADD_BATCHPARSE:PAnsiChar = 'SmileyAdd/BatchParse';
-
-//Free memory allocated by MS_SMILEYADD_BATCHPARSE
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) (SMADD_BATCHPARSERES*) &smgp;  //pointer to SMADD_BATCHPARSERES
-  MS_SMILEYADD_BATCHFREE:PAnsiChar = 'SmileyAdd/BatchFree';
-
-type
-  PSMADD_REGCAT = ^TSMADD_REGCAT;
-  TSMADD_REGCAT = record
-    name    :PAnsiChar; // smiley category name for reference
-    dispname:PAnsiChar; // smiley category name for display
-  end;
-
-const
-//Register smiley category
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) (SMADD_REGCAT*) &smgp;  //pointer to SMADD_REGCAT
-  MS_SMILEYADD_REGISTERCATEGORY:PAnsiChar = 'SmileyAdd/RegisterCategory';
-
-//Register smiley category
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) Pointer to protocol name or NULL for all;
-  MS_SMILEYADD_RELOAD:PAnsiChar = 'SmileyAdd/Reload';
 
 {
  NM_FIREVIEWCHANGE is WM_NOTIFY Message for notify parent of host window about smiley are going to be repaint
