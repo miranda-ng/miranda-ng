@@ -630,8 +630,7 @@ public:
 		}
 
 		if (g_dat.smileyAddInstalled) {
-			SMADD_RICHEDIT3 smre;
-			smre.cbSize = sizeof(SMADD_RICHEDIT3);
+			SMADD_RICHEDIT smre;
 			smre.hwndRichEditControl = m_rtf.GetHwnd();
 
 			MCONTACT hContact = db_mc_getSrmmSub(m_pDlg.m_hContact);
@@ -714,7 +713,7 @@ public:
 			if (newsel.cpMin < 0)
 				newsel.cpMin = 0;
 
-			SMADD_RICHEDIT3 sm = { sizeof(sm) };
+			SMADD_RICHEDIT sm = {};
 			sm.hwndRichEditControl = m_rtf.GetHwnd();
 			sm.Protocolname = si->pszModule;
 			sm.rangeToReplace = bRedraw ? nullptr : &newsel;

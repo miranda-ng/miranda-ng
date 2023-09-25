@@ -1189,8 +1189,7 @@ void HistoryWindow::ReplaceIcons(HWND hwndDlg, int selStart, BOOL isSent)
 	sel.cpMin = selStart;
 	sel.cpMax = -1;
 
-	SMADD_RICHEDIT3 smadd = { 0 };
-	smadd.cbSize = sizeof(smadd);
+	SMADD_RICHEDIT smadd = { 0 };
 	smadd.hwndRichEditControl = hwndDlg;
 	smadd.Protocolname = Proto_GetBaseAccountName(m_hContact);
 	smadd.hContact = m_hContact;

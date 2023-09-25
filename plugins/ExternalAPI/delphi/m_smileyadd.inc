@@ -30,7 +30,6 @@ const
 type
   PSMADD_RICHEDIT3 = ^TSMADD_RICHEDIT3;
   TSMADD_RICHEDIT3 = record
-    cbSize             :uint;       // size of the structure
     hwndRichEditControl:HWND;       // handle to the rich edit control
     rangeToReplace     :PCHARRANGE; // same meaning as for normal Richedit use (NULL = replaceall)
     Protocolname       :PAnsiChar;  // protocol to use... if you have defined a
@@ -61,7 +60,6 @@ const
 type
   PSMADD_INFO2 = ^TSMADD_INFO2;
   TSMADD_INFO2 = record
-    cbSize                : int;       // size of the structure
     Protocolname          : PAnsiChar;
     ButtonIcon            : HICON;     // RETURN VALUE: this is filled with the
      // icon handle of the smiley that can be used on the button
@@ -86,7 +84,6 @@ const
 type
   PSMADD_BATCHPARSE2 = ^TSMADD_BATCHPARSE2;
   TSMADD_BATCHPARSE2 = record
-    cbSize      :uint;      // size of the structure
     Protocolname:PAnsiChar; // protocol to use... if you have defined a protocol, u can
                             // use your own protocol name. Smiley add wil automatically
                             // select the smileypack that is defined for your protocol.
@@ -132,7 +129,6 @@ const
 type
   PSMADD_REGCAT = ^TSMADD_REGCAT;
   TSMADD_REGCAT = record
-    cbSize  :uint;      // size of the structure
     name    :PAnsiChar; // smiley category name for reference
     dispname:PAnsiChar; // smiley category name for display
   end;
@@ -190,7 +186,6 @@ type
     idFrom       :uint_ptr; // ignored
     code         :uint;     // NM_FIREVIEWCHANGE
     
-    cbSize       :size_t;
     bEvent       :byte;     // FVCN_ value - pre- or post- painting
     bAction      :byte;     // FVCA_ keys
     hDC          :HDC;      // Canvas to draw on
@@ -206,7 +201,6 @@ const
 
 type
   TSMADD_CONT = record
-    cbSize  :uint;
     hContact:TMCONTACT;
     _type   :int;       // 0 - directory, 1 - file;
     path    :TChar;     // smiley category name for reference

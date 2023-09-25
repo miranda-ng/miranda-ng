@@ -64,17 +64,10 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTe
 int InitContactListSmileys()
 {
 	// Register smiley category
-	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY))
-	{
-		SMADD_REGCAT rc;
-
-		rc.cbSize = sizeof(rc);
-		rc.name = "clist";
-		rc.dispname = TranslateA_LP("Contact List smileys");
-
-		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
-	}
-
+	SMADD_REGCAT rc;
+	rc.name = "clist";
+	rc.dispname = TranslateA_LP("Contact List smileys");
+	CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
 	return 0;
 }
 
@@ -397,10 +390,10 @@ SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *prot
 		return nullptr;
 
 	// Parse it!
-	SMADD_BATCHPARSE2 sp = { sizeof(sp) };
+	SMADD_BATCHPARSE sp = {};
 	sp.Protocolname = protocol;
-	sp.str = (wchar_t*)text;
-	sp.flag = SAFL_TCHAR;
+	sp.str.w = text;
+	sp.flag = SAFL_UNICODE;
 	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	if (spres == nullptr)
 		// Did not find a simley

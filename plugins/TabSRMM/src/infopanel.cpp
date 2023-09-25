@@ -1350,7 +1350,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 		CContactCache *c = CContactCache::getContactCache(m_hContact);
 		::SendMessage(m_hRich, EM_SETBKGNDCOLOR, 0, (LPARAM)PluginConfig.m_ipBackgroundGradientHigh);
 
-		SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
+		SMADD_RICHEDIT smadd = {};
 		smadd.hwndRichEditControl = m_hRich;
 		smadd.Protocolname = const_cast<char *>(c->getActiveProto());
 		smadd.hContact = c->getActiveContact();

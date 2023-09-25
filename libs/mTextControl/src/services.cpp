@@ -52,8 +52,7 @@ void MText_InitFormatting1(TextObject *text)
 	// smilies
 	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
 
-	SMADD_RICHEDIT3 sm = {};
-	sm.cbSize = sizeof(sm);
+	SMADD_RICHEDIT sm = {};
 	sm.hwndRichEditControl = hwnd;
 	sm.rangeToReplace = nullptr;
 	sm.Protocolname = text->szProto;

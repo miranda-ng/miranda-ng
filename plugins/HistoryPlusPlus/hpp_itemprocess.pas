@@ -442,7 +442,6 @@ var
   ird: PItemRenderDetails;
 begin
   ird := Pointer(alParam);
-  sare.cbSize := SizeOf(sare);
   sare.hwndRichEditControl := awParam;
   sare.rangeToReplace := nil;
   sare.ProtocolName := ird^.pProto;

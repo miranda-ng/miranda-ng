@@ -183,8 +183,7 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *
 	int text_size = (int)mir_wstrlen(szText);
 
 	// Call service for the first time to see if needs to be used...
-	SMADD_BATCHPARSE2 sp = {};
-	sp.cbSize = sizeof(sp);
+	SMADD_BATCHPARSE sp = {};
 	sp.hContact = pdnce->hContact;
 
 	if (dat->text_use_protocol_smileys) {
@@ -198,8 +197,8 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *
 	}
 	else sp.Protocolname = "clist";
 
-	sp.str = szText;
-	sp.flag = SAFL_TCHAR;
+	sp.str.w = szText;
+	sp.flag = SAFL_UNICODE;
 
 	SMADD_BATCHPARSERES *spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 

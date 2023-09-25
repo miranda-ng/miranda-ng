@@ -289,11 +289,10 @@ TextToken *TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bo
 	if (!Options::bHasSmileyAdd)
 		return new TextToken(TEXT, text, l);
 
-	SMADD_BATCHPARSE2 sp;
-	sp.cbSize = sizeof(sp);
+	SMADD_BATCHPARSE sp;
 	sp.Protocolname = Proto_GetBaseAccountName(hContact);
 	sp.flag = SAFL_PATH | SAFL_UNICODE | (isSent ? SAFL_OUTGOING : 0);
-	sp.wstr = (wchar_t *)text;
+	sp.str.w = text;
 	sp.hContact = hContact;
 
 	SMADD_BATCHPARSERES *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);

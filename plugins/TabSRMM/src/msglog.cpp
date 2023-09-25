@@ -1326,7 +1326,7 @@ void CLogWindow::LogChatEvents(const LOGINFO *lin)
 		if (newsel.cpMin < 0)
 			newsel.cpMin = 0;
 
-		SMADD_RICHEDIT3 sm = { sizeof(sm) };
+		SMADD_RICHEDIT sm = {};
 		sm.hwndRichEditControl = m_rtf.GetHwnd();
 		sm.Protocolname = si->pszModule;
 		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
@@ -1467,7 +1467,7 @@ void CLogWindow::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 		sel.cpMin = startAt;
 		sel.cpMax = -1;
 
-		SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
+		SMADD_RICHEDIT smadd = {};
 		smadd.hwndRichEditControl = m_rtf.GetHwnd();
 		smadd.Protocolname = const_cast<char *>(m_pDlg.m_cache->getActiveProto());
 		smadd.hContact = m_pDlg.m_cache->getActiveContact();

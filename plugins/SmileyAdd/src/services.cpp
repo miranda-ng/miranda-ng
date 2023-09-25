@@ -85,12 +85,12 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 
 INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 {
-	SMADD_RICHEDIT3 *smre = (SMADD_RICHEDIT3*)lParam;
+	SMADD_RICHEDIT *smre = (SMADD_RICHEDIT*)lParam;
 	if (smre == nullptr)
 		return FALSE;
 
-	SMADD_RICHEDIT3 smrec = {};
-	memcpy(&smrec, smre, min(smre->cbSize, sizeof(smrec)));
+	SMADD_RICHEDIT smrec = {};
+	memcpy(&smrec, smre, sizeof(smrec));
 
 	static const CHARRANGE selection = { 0, LONG_MAX };
 	if (smre->rangeToReplace == nullptr)
@@ -109,7 +109,7 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int GetInfoCommandE(SMADD_INFO2 *smre, bool retDup)
+static int GetInfoCommandE(SMADD_INFO *smre, bool retDup)
 {
 	if (smre == nullptr)
 		return FALSE;
@@ -137,19 +137,19 @@ static int GetInfoCommandE(SMADD_INFO2 *smre, bool retDup)
 
 INT_PTR GetInfoCommand(WPARAM, LPARAM lParam)
 {
-	return GetInfoCommandE((SMADD_INFO2*)lParam, false);
+	return GetInfoCommandE((SMADD_INFO*)lParam, false);
 }
 
 INT_PTR GetInfoCommand2(WPARAM, LPARAM lParam)
 {
-	return GetInfoCommandE((SMADD_INFO2*)lParam, true);
+	return GetInfoCommandE((SMADD_INFO*)lParam, true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 {
-	SMADD_BATCHPARSE2 *smre = (SMADD_BATCHPARSE2*)lParam;
+	SMADD_BATCHPARSE *smre = (SMADD_BATCHPARSE*)lParam;
 	if (smre == nullptr)
 		return FALSE;
 
@@ -158,9 +158,9 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 	SmileyPackType *SmileyPack = FindSmileyPack(smre->Protocolname, smre->hContact, (smre->flag & (SAFL_OUTGOING | SAFL_NOCUSTOM)) ? nullptr : &smcp);
 
 	if (smre->flag & SAFL_UNICODE)
-		LookupAllSmileys(SmileyPack, smcp, smre->wstr, smllist, false);
+		LookupAllSmileys(SmileyPack, smcp, smre->str.w, smllist, false);
 	else
-		LookupAllSmileys(SmileyPack, smcp, _A2T(smre->astr), smllist, false);
+		LookupAllSmileys(SmileyPack, smcp, _A2T(smre->str.a), smllist, false);
 
 	if (smllist.getCount() == 0)
 		return 0;
@@ -206,7 +206,7 @@ INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
 INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 {
 	SMADD_REGCAT *smre = (SMADD_REGCAT*)lParam;
-	if (smre == nullptr || smre->cbSize < sizeof(SMADD_REGCAT))
+	if (smre == nullptr)
 		return FALSE;
 
 	if (IsBadStringPtrA(smre->name, 50) || IsBadStringPtrA(smre->dispname, 50))

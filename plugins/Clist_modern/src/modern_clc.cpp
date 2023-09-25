@@ -1604,10 +1604,8 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	// Register smiley category
 	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
 		SMADD_REGCAT rc;
-		rc.cbSize = sizeof(rc);
 		rc.name = "clist";
 		rc.dispname = Translate("Contact list smileys");
-
 		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
 
 		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);

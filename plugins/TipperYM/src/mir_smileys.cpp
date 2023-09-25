@@ -27,7 +27,6 @@ int InitTipperSmileys()
 	// Register smiley category
 	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
 		SMADD_REGCAT rc;
-		rc.cbSize = sizeof(rc);
 		rc.name = "tipper";
 		rc.dispname = Translate("Tipper smileys");
 		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
@@ -322,13 +321,12 @@ SortedList *ReplaceSmileys(const wchar_t *text, int text_size, const char *proto
 		strncpy(smileyProto, protocol, sizeof(smileyProto) - 1);
 
 	// Parse it!
-	SMADD_BATCHPARSE2 sp = { 0 };
-	sp.cbSize = sizeof(sp);
-	sp.str = (wchar_t *)text;
-	sp.flag = SAFL_TCHAR;
+	SMADD_BATCHPARSE sp = {};
+	sp.str.w = text;
+	sp.flag = SAFL_UNICODE;
 	sp.Protocolname = (opt.iSmileyAddFlags & SMILEYADD_USEPROTO) ? smileyProto : "tipper";
-	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 
+	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	if (!spres) // Did not find a smiley
 		return nullptr;
 

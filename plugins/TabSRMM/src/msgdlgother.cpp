@@ -931,11 +931,10 @@ ok:
 			if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
 				CMStringW smcode = msg.Mid(beginmark, (endmark - beginmark) + 1);
 
-				SMADD_BATCHPARSE2 smbp = {};
-				smbp.cbSize = sizeof(smbp);
+				SMADD_BATCHPARSE smbp = {};
 				smbp.Protocolname = m_cache->getActiveProto();
-				smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
-				smbp.str = (wchar_t*)smcode.c_str();
+				smbp.flag = SAFL_UNICODE | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
+				smbp.str.w = smcode.c_str();
 				smbp.hContact = m_hContact;
 
 				SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);

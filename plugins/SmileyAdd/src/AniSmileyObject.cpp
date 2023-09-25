@@ -189,7 +189,6 @@ public:
 		nmh.code = NM_FIREVIEWCHANGE;
 		nmh.hwndFrom = m_hwnd;
 
-		nmh.cbSize = sizeof(nmh);
 		nmh.bEvent = FVCN_PREFIRE;
 		nmh.bAction = FVCA_DRAW;
 		nmh.rcRect = m_orect;

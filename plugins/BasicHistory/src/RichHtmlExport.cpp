@@ -379,12 +379,11 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 
 	wchar_t* msgbuf = new wchar_t[msg.length() + 1];
 	memcpy_s(msgbuf, (msg.length() + 1) * sizeof(wchar_t), msg.c_str(), (msg.length() + 1) * sizeof(wchar_t));
-	SMADD_BATCHPARSE2 sp = { 0 };
+	SMADD_BATCHPARSE sp = { 0 };
 	SMADD_BATCHPARSERES *spr;
-	sp.cbSize = sizeof(sp);
 	sp.Protocolname = baseProto.length() == 0 ? nullptr : baseProto.c_str();
-	sp.str = msgbuf;
-	sp.flag = SAFL_TCHAR | SAFL_PATH | (isMe ? SAFL_OUTGOING : 0);
+	sp.str.w = msgbuf;
+	sp.flag = SAFL_UNICODE | SAFL_PATH | (isMe ? SAFL_OUTGOING : 0);
 	spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	delete[] msgbuf;
 

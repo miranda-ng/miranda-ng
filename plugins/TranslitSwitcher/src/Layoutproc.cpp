@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-SMADD_BATCHPARSE2 smgp;
+SMADD_BATCHPARSE smgp;
 SMADD_BATCHPARSERES *smileyPrs = nullptr;
 
 bool isItSmiley(unsigned int position)
@@ -399,9 +399,8 @@ void SwitchLayout(bool lastword)
 
 			if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
 				memset(&smgp, 0, sizeof(smgp));
-				smgp.cbSize = sizeof(smgp);
-				smgp.str = buf;
-				smgp.flag = SAFL_TCHAR;
+				smgp.str.w = buf;
+				smgp.flag = SAFL_UNICODE;
 				smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
 			}
 
@@ -449,9 +448,8 @@ void SwitchLayout(bool lastword)
 		if (slen != 0) {
 			if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
 				memset(&smgp, 0, sizeof(smgp));
-				smgp.cbSize = sizeof(smgp);
-				smgp.str = sel;
-				smgp.flag = SAFL_TCHAR;
+				smgp.str.w = sel;
+				smgp.flag = SAFL_UNICODE;
 				smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
 			}
 
@@ -672,9 +670,8 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 			HKL hkl = GetKeyboardLayout(dwThreadID);
 
 			memset(&smgp, 0, sizeof(smgp));
-			smgp.cbSize = sizeof(smgp);
-			smgp.str = sel;
-			smgp.flag = SAFL_TCHAR;
+			smgp.str.w = sel;
+			smgp.flag = SAFL_UNICODE;
 
 			if (ServiceExists(MS_SMILEYADD_BATCHPARSE))
 				smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
