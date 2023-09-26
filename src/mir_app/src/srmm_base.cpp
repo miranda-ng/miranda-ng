@@ -639,6 +639,9 @@ bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 
 void CSrmmBaseDialog::UpdateOptions()
 {
+	m_pLog->UpdateOptions();
+	UpdateFilterButton();
+
 	MODULEINFO *mi = m_si->pMI;
 	EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
 	EnableWindow(m_btnItalic.GetHwnd(), mi->bItalics);
@@ -736,7 +739,9 @@ void CSrmmBaseDialog::UpdateFilterButton()
 	if (m_si)
 		Chat_SetFilters(m_si);
 
-	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled ? TranslateT("Disable the event filter (Ctrl+F)") : TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
+	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled 
+		? TranslateT("Disable the event filter (Ctrl+F)")
+		: TranslateT("Enable the event filter (Ctrl+F)")), BATF_UNICODE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

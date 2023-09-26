@@ -620,12 +620,9 @@ void CMsgDialog::UpdateOptions()
 {
 	GetAvatar();
 
-	UpdateFilterButton();
 	UpdateStatusBar();
 	UpdateTitle();
 	FixTabIcons();
-
-	m_pLog->UpdateOptions();
 
 	// messagebox
 	COLORREF crFore;
@@ -640,20 +637,20 @@ void CMsgDialog::UpdateOptions()
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
 	m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)& cf);
-	{
-		// nicklist
-		int ih = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, false);
-		int ih2 = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, false);
-		int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
-		int font = ih > ih2 ? ih : ih2;
-		
-		// make sure we have space for icon!
-		if (Chat::bShowContactStatus)
-			font = font > 16 ? font : 16;
 
-		m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
-		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
-	}
+	// nicklist
+	int ih = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, false);
+	int ih2 = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, false);
+	int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
+	int font = ih > ih2 ? ih : ih2;
+		
+	// make sure we have space for icon!
+	if (Chat::bShowContactStatus)
+		font = font > 16 ? font : 16;
+
+	m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
+	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
+
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 
 	CSuper::UpdateOptions();

@@ -2589,8 +2589,6 @@ void CMsgDialog::UpdateOptions()
 	m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
-	UpdateFilterButton();
-
 	CSuper::UpdateOptions();
 }
 

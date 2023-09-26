@@ -52,15 +52,11 @@ void CMsgDialog::UpdateFilterButton()
 
 void CMsgDialog::UpdateOptions()
 {
-	UpdateFilterButton();
-
 	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 	DestroyIcon(hIcon);
 
 	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
-
-	m_pLog->UpdateOptions();
 
 	// nicklist
 	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
