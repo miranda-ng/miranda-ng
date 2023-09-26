@@ -120,11 +120,6 @@ bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	if (m_si) {
-		m_si->pDlg = this;
-		Chat_SetFilters(m_si);
-	}
-
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
 	if (m_hContact && m_szProto != nullptr)

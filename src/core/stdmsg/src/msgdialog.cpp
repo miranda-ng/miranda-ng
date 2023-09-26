@@ -95,11 +95,6 @@ bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	if (m_si) {
-		m_si->pDlg = this;
-		Chat_SetFilters(m_si);
-	}
-
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);

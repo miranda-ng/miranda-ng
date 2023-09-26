@@ -532,6 +532,9 @@ bool CSrmmBaseDialog::OnInitDialog()
 	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 
 	if (isChat()) {
+		m_si->pDlg = (CMsgDialog*)this;
+		Chat_SetFilters(m_si);
+
 		if (m_si->bHasNicklist) {
 			SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 			mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);

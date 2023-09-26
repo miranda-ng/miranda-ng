@@ -410,9 +410,6 @@ bool CMsgDialog::OnInitDialog()
 		m_cache->updateMeta();
 
 	if (isChat()) {
-		m_si->pDlg = this;
-		Chat_SetFilters(m_si);
-
 		m_pPanel.getVisibility();
 		m_pPanel.Configure();
 
