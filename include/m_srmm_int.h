@@ -339,6 +339,7 @@ public:
 	virtual bool GetFirstEvent() = 0;
 	virtual bool IsActive() const = 0;
 	virtual void LoadSettings() = 0;
+	virtual void OnOptionsApplied() = 0;
 	virtual void RemakeLog() = 0;
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
@@ -372,6 +373,11 @@ class CMsgDialog : public CSrmmBaseDialog {};
 // adds an event to SRMM message log
 
 MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// tell all SRMM windows that options were changed
+
+MIR_APP_DLL(void) Srmm_ApplyOptions();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows

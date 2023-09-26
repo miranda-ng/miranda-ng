@@ -265,12 +265,12 @@ INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 	switch (cont->type) {
 	case 0:
 		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
+		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
 	case 1:
 		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, (WPARAM)cont->pszModule, 0);
+		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
 	case 2:

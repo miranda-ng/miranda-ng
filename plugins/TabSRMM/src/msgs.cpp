@@ -623,7 +623,7 @@ int IconsChanged(WPARAM, LPARAM)
 {
 	CreateImageList(false);
 	CacheMsgLogIcons();
-	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	Srmm_ApplyOptions();
 	Srmm_Broadcast(DM_UPDATEWINICON, 0, 0);
 	return 0;
 }

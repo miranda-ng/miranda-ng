@@ -597,6 +597,7 @@ public:
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
+	void OnOptionsApplied() override;
 	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
@@ -630,7 +631,6 @@ public:
 
 	void LogEvent(DB::EventInfo &dbei);
 
-	void DM_OptionsApplied(bool bRemakeLog = true);
 	void DM_RecalcPictureSize(void);
 	void DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
 		  

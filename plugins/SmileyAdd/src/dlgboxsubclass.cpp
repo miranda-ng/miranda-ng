@@ -56,15 +56,7 @@ static OBJLIST<MsgWndData> g_MsgWndList(10, HandleKeySortT);
 
 int UpdateSrmmDlg(WPARAM wParam, LPARAM)
 {
-	mir_cslock lck(csWndList);
-	
-	for (auto &it : g_MsgWndList) {
-		if (wParam == 0 || it->pDlg->m_hContact == wParam) {
-			SendMessage(it->pDlg->GetHwnd(), WM_SETREDRAW, FALSE, 0);
-			it->pDlg->UpdateOptions();
-			SendMessage(it->pDlg->GetHwnd(), WM_SETREDRAW, TRUE, 0);
-		}
-	}
+	Srmm_ApplyOptions();
 	return 0;
 }
 

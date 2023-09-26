@@ -29,25 +29,26 @@ const char *g_pszHotkeySection;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
+MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
-	if (hContact == 0)
-		return 1;
+	wchar_t toolTip[256];
+	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 
-	HWND hwnd = WindowList_Find(g_hWindowList, hContact);
-	if (hwnd == nullptr)
-		return 1;
+	CLISTEVENT cle = {};
+	cle.hContact = hContact;
+	cle.hDbEvent = hDbEvent;
+	cle.flags = CLEF_UNICODE;
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	cle.pszService = MS_MSG_READMESSAGE;
+	cle.szTooltip.w = toolTip;
+	g_clistApi.pfnAddEvent(&cle);
+}
 
-	mwd.hwndWindow = hwnd;
-	mwd.pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	mwd.uState = MSG_WINDOW_STATE_EXISTS;
-	if (IsWindowVisible(hwnd))
-		mwd.uState |= MSG_WINDOW_STATE_VISIBLE;
-	if (GetForegroundWindow() == hwnd)
-		mwd.uState |= MSG_WINDOW_STATE_FOCUS;
-	if (IsIconic(hwnd))
-		mwd.uState |= MSG_WINDOW_STATE_ICONIC;
-	return 0;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Srmm_ApplyOptions()
+{
+	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -89,19 +90,25 @@ MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
+MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
-	wchar_t toolTip[256];
-	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
+	if (hContact == 0)
+		return 1;
 
-	CLISTEVENT cle = {};
-	cle.hContact = hContact;
-	cle.hDbEvent = hDbEvent;
-	cle.flags = CLEF_UNICODE;
-	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	cle.pszService = MS_MSG_READMESSAGE;
-	cle.szTooltip.w = toolTip;
-	g_clistApi.pfnAddEvent(&cle);
+	HWND hwnd = WindowList_Find(g_hWindowList, hContact);
+	if (hwnd == nullptr)
+		return 1;
+
+	mwd.hwndWindow = hwnd;
+	mwd.pDlg = (CSrmmBaseDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	mwd.uState = MSG_WINDOW_STATE_EXISTS;
+	if (IsWindowVisible(hwnd))
+		mwd.uState |= MSG_WINDOW_STATE_VISIBLE;
+	if (GetForegroundWindow() == hwnd)
+		mwd.uState |= MSG_WINDOW_STATE_FOCUS;
+	if (IsIconic(hwnd))
+		mwd.uState |= MSG_WINDOW_STATE_ICONIC;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

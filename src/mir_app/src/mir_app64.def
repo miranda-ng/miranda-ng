@@ -905,3 +905,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Srmm_Quote@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PEB_WH@Z @1022 NONAME
 ?SetMessageText@CSrmmBaseDialog@@QEAAXPEB_W_N@Z @1023 NONAME
 ?GetInput@CSrmmBaseDialog@@QEBAPEAUHWND__@@XZ @1024 NONAME
+?Srmm_ApplyOptions@@YAXXZ @1025 NONAME

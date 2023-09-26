@@ -580,7 +580,7 @@ bool CMsgDialog::OnInitDialog()
 	else {
 		GetFirstEvent();
 
-		DM_OptionsApplied();
+		OnOptionsApplied();
 
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
@@ -1434,7 +1434,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 					db_unset(m_hContact, SRMSGMOD_T, "mwmask");
 					db_unset(m_hContact, SRMSGMOD_T, "mwflags");
 				}
-				DM_OptionsApplied();
+				OnOptionsApplied();
 				RemakeLog();
 			}
 			return _dlgReturn(m_hwnd, 1);
@@ -2188,7 +2188,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (isChat())
 			RedrawLog();
 		else
-			DM_OptionsApplied();
+			OnOptionsApplied();
 		break;
 
 	case WM_NOTIFY:
@@ -2329,10 +2329,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		Srmm_UpdateToolbarIcons(m_hwnd);
 		UpdateWindowIcon();
-		return 0;
-
-	case DM_OPTIONSAPPLIED:
-		DM_OptionsApplied(lParam == 0);
 		return 0;
 
 	case DM_UPDATESTATUSMSG:

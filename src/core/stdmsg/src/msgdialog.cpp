@@ -135,7 +135,7 @@ bool CMsgDialog::OnInitDialog()
 	m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
-	OnOptionsApplied(false);
+	OnOptionsApplied();
 	UpdateAvatar();
 
 	if (isChat()) {
@@ -533,14 +533,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case HM_AVATARACK:
 		UpdateAvatar();
-		break;
-
-	case DM_OPTIONSAPPLIED:
-		OnOptionsApplied(wParam != 0);
-		if (isChat())
-			RedrawLog();
-		else
-			RemakeLog();
 		break;
 
 	case DM_NEWTIMEZONE:
@@ -1080,7 +1072,7 @@ void CMsgDialog::TabAutoComplete()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
+void CMsgDialog::OnOptionsApplied()
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
@@ -1120,8 +1112,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	if (CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_AVATARS)
 		m_limitAvatarH = g_plugin.bLimitAvatarHeight ? g_plugin.iAvatarHeight : 0;
 
-	if (bUpdateAvatar)
-		UpdateAvatar();
+	UpdateAvatar();
 
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
@@ -1139,6 +1130,11 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 
 	m_pLog->Clear();
 	FixTabIcons();
+
+	if (isChat())
+		RedrawLog();
+	else
+		RemakeLog();
 }
 
 void CMsgDialog::onSplitterX(CSplitter *pSplitter)

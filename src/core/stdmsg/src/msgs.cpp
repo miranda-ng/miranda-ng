@@ -449,7 +449,7 @@ void CMsgDialog::SetButtonsPos()
 
 static int FontsChanged(WPARAM, LPARAM)
 {
-	Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+	Srmm_ApplyOptions();
 	return 0;
 }
 

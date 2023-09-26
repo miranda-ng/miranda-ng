@@ -289,7 +289,7 @@ public:
 			CacheMsgLogIcons();
 			PluginConfig.reloadSettings();
 			CSkin::setAeroEffect(-1);
-			Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+			Srmm_ApplyOptions();
 			Srmm_Broadcast(DM_FORCEDREMAKELOG, 0, 0);
 			SendMessage(GetParent(m_hwnd), WM_COMMAND, IDCANCEL, 0);
 		}
@@ -423,7 +423,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		PluginConfig.reloadSettings();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 
@@ -852,7 +852,7 @@ public:
 		else
 			db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
 		PluginConfig.reloadSettings();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 
@@ -1093,7 +1093,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
 		PluginConfig.reloadSettings();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 

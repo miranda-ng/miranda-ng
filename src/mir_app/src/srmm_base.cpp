@@ -567,6 +567,10 @@ void CSrmmBaseDialog::OnDestroy()
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
+	case DM_OPTIONSAPPLIED:
+		OnOptionsApplied();
+		return 0;
+
 	case WM_COMMAND:
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
 			return 0;

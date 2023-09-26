@@ -133,6 +133,7 @@ public:
 	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
 	bool GetFirstEvent() override;
 	void LoadSettings() override;
+	void OnOptionsApplied() override;
 	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;

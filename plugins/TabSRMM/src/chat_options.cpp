@@ -402,7 +402,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 	FreeTabConfig();
 	ReloadTabConfig();
 	Skin->setupAeroSkins();
-	Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+	Srmm_ApplyOptions();
 	return 0;
 }
 

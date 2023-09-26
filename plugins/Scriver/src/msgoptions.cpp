@@ -75,7 +75,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
-	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	Srmm_ApplyOptions();
 	return 0;
 }
 
@@ -177,7 +177,7 @@ class CBaseOptionDlg : public CDlgBase
 	{
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		Srmm_ApplyOptions();
 		Chat_UpdateOptions();
 	}
 
@@ -739,7 +739,7 @@ public:
 		}
 
 		ReloadGlobals();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 

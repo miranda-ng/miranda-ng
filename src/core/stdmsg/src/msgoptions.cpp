@@ -253,7 +253,7 @@ public:
 			msgTimeout = 5000;
 		g_plugin.msgTimeout = msgTimeout;
 
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 
@@ -370,7 +370,7 @@ public:
 
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 
@@ -484,7 +484,7 @@ public:
 	bool OnApply() override
 	{
 		SaveList();
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		Srmm_ApplyOptions();
 		return true;
 	}
 

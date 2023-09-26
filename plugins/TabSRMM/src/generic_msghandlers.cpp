@@ -842,7 +842,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 	}
 }
 
-void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
+void CMsgDialog::OnOptionsApplied()
 {
 	m_szMicroLf[0] = 0;
 	if (!m_pContainer->m_theme.isPrivate) {
@@ -868,14 +868,13 @@ void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
 	if (m_hwnd == m_pContainer->m_hwndActive)
 		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
-	if (bRemakeLog) {
-		if (IsIconic(m_pContainer->m_hwnd))
-			m_bDeferredRemakeLog = true;
-		else if (isChat())
-			RedrawLog();
-		else
-			RemakeLog();
-	}
+
+	if (IsIconic(m_pContainer->m_hwnd))
+		m_bDeferredRemakeLog = true;
+	else if (isChat())
+		RedrawLog();
+	else
+		RemakeLog();
 
 	ShowWindow(m_hwndPanelPicParent, SW_SHOW);
 	EnableWindow(m_hwndPanelPicParent, TRUE);

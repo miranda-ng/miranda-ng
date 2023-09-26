@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_MSGS_H
 #define SRMM_MSGS_H
 
-#define DM_OPTIONSAPPLIED    (WM_USER+14)
 #define DM_UPDATETITLE       (WM_USER+16)
 #define DM_NEWTIMEZONE       (WM_USER+18)
 #define HM_AVATARACK         (WM_USER+28)
@@ -108,8 +107,6 @@ public:
 	void onClick_Filter(CCtrlButton *);
 	void onClick_NickList(CCtrlButton *);
 
-	void OnOptionsApplied(bool bUpdateAvatar);
-
 	void UpdateReadChars(void);
 
 	__forceinline MCONTACT getActiveContact() const {
@@ -142,6 +139,7 @@ public:
 	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
+	void OnOptionsApplied() override;
 	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;

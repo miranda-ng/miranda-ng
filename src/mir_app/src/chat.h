@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
 
+#define DM_OPTIONSAPPLIED (WM_USER+14)
+
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
