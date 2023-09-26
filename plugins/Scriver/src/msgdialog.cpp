@@ -188,9 +188,9 @@ bool CMsgDialog::OnInitDialog()
 	}
 
 	CreateInfobar();
-	
+	OnOptionsApplied();
+
 	if (isChat()) {
-		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
 		UpdateNickList();
@@ -217,7 +217,6 @@ bool CMsgDialog::OnInitDialog()
 			}
 		}
 
-		OnOptionsApplied();
 		PopupWindow(m_bIncoming);
 
 		if (notifyUnread) {

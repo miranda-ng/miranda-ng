@@ -774,7 +774,7 @@ MIR_APP_DLL(void) Chat_UpdateOptions()
 {
 	for (auto &si : g_arSessions)
 		if (si->pDlg)
-			si->pDlg->UpdateOptions();
+			si->pDlg->OnOptionsApplied();
 }
 
 MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact)

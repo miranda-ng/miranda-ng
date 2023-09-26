@@ -330,6 +330,7 @@ public:
 	void ScheduleRedrawLog();
 	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);
 	void ShowColorChooser(int iCtrlId);
+	void UpdateChatOptions();
 	void UpdateNickList(void);
 
 	virtual void AddLog(const LOGINFO &lin);
@@ -344,7 +345,6 @@ public:
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void UpdateFilterButton();
-	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() = 0;
 

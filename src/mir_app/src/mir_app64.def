@@ -321,7 +321,7 @@ Srmm_FindDialog @406 NONAME
 ?UpdateStatusBar@CSrmmBaseDialog@@UEAAXXZ @417 NONAME
 Chat_UpdateOptions @418 NONAME
 ?RedrawLog@CSrmmBaseDialog@@QEAAXXZ @419 NONAME
-?UpdateOptions@CSrmmBaseDialog@@UEAAXXZ @420 NONAME
+?UpdateChatOptions@CSrmmBaseDialog@@QEAAXXZ @420 NONAME
 ?ShowColorChooser@CSrmmBaseDialog@@QEAAXH@Z @421 NONAME
 ?ShowFilterMenu@CSrmmBaseDialog@@UEAAXXZ @422 NONAME
 ?OnInitDialog@CSrmmBaseDialog@@MEAA_NXZ @423 NONAME

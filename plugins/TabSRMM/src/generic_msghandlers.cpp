@@ -494,8 +494,6 @@ void CMsgDialog::DM_InitRichEdit()
 		szStreamOut = m_message.GetRichTextRtf();
 	SetWindowText(m_message.GetHwnd(), L"");
 
-	m_pLog->UpdateOptions();
-
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
 	CHARFORMAT2 cf2 = {};
@@ -850,6 +848,18 @@ void CMsgDialog::OnOptionsApplied()
 		m_dwFlags = m_pContainer->m_theme.dwFlags;
 	}
 
+	DM_InitRichEdit();
+	GetSendFormat();
+
+	if (isChat()) {
+		m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
+
+		m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
+		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
+
+		UpdateChatOptions();
+	}
+
 	LoadLocalFlags();
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 
@@ -860,11 +870,9 @@ void CMsgDialog::OnOptionsApplied()
 	// small inner margins (padding) for the text areas
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
-	GetSendFormat();
 	SetDialogToType();
 	SendMessage(m_hwnd, DM_CONFIGURETOOLBAR, 0, 0);
 
-	DM_InitRichEdit();
 	if (m_hwnd == m_pContainer->m_hwndActive)
 		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);

@@ -140,7 +140,6 @@ bool CMsgDialog::OnInitDialog()
 
 	if (isChat()) {
 		OnActivate();
-		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
 		UpdateChatLog();
@@ -1074,6 +1073,29 @@ void CMsgDialog::TabAutoComplete()
 
 void CMsgDialog::OnOptionsApplied()
 {
+	if (isChat()) {
+		HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
+		SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+		DestroyIcon(hIcon);
+
+		Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
+
+		// nicklist
+		int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
+		int ih2 = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListHeadingsFont, FALSE);
+		int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
+		int font = ih > ih2 ? ih : ih2;
+
+		// make sure we have space for icon!
+		if (g_Settings.bShowContactStatus)
+			font = font > 16 ? font : 16;
+
+		m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
+		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
+
+		UpdateChatOptions();
+	}
+
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
@@ -1103,7 +1125,6 @@ void CMsgDialog::OnOptionsApplied()
 	UpdateTitle();
 	Resize();
 
-	m_pLog->UpdateOptions();
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	// avatar stuff

@@ -563,10 +563,10 @@ bool CMsgDialog::OnInitDialog()
 
 	LoadContactAvatar();
 	LoadOwnAvatar();
+	OnOptionsApplied();
 
 	if (isChat()) {
 		m_pLog->Clear();
-		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
@@ -579,8 +579,6 @@ bool CMsgDialog::OnInitDialog()
 	}
 	else {
 		GetFirstEvent();
-
-		OnOptionsApplied();
 
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {

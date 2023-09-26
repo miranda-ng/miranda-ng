@@ -50,30 +50,6 @@ void CMsgDialog::UpdateFilterButton()
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
 }
 
-void CMsgDialog::UpdateOptions()
-{
-	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-	DestroyIcon(hIcon);
-
-	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
-
-	// nicklist
-	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
-	int ih2 = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListHeadingsFont, FALSE);
-	int height = db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12);
-	int font = ih > ih2 ? ih : ih2;
-
-	// make sure we have space for icon!
-	if (g_Settings.bShowContactStatus)
-		font = font > 16 ? font : 16;
-
-	m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
-	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
-
-	CSuper::UpdateOptions();
-}
-
 void CMsgDialog::UpdateStatusBar()
 {
 	wchar_t *ptszDispName = m_si->pMI->ptszModDispName;

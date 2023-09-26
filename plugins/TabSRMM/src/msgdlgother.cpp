@@ -2578,21 +2578,6 @@ void CMsgDialog::UpdateFilterButton()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::UpdateOptions()
-{
-	GetSendFormat();
-
-	DM_InitRichEdit();
-	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
-
-	m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
-	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
-
-	CSuper::UpdateOptions();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // update the status bar field which displays the number of characters in the input area
 // and various indicators (caps lock, num lock, insert mode).
 

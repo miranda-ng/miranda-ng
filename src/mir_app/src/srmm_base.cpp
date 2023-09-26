@@ -568,6 +568,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case DM_OPTIONSAPPLIED:
+		m_pLog->UpdateOptions();
 		OnOptionsApplied();
 		return 0;
 
@@ -637,9 +638,8 @@ bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 	return (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType));
 }
 
-void CSrmmBaseDialog::UpdateOptions()
+void CSrmmBaseDialog::UpdateChatOptions()
 {
-	m_pLog->UpdateOptions();
 	UpdateFilterButton();
 
 	MODULEINFO *mi = m_si->pMI;
