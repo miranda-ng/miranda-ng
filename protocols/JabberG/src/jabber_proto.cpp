@@ -441,23 +441,13 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	debugLogA("Entering AuthDeny");
 
 	DB::EventInfo dbei(hDbEvent);
-	if (!dbei)
+	if (!dbei || dbei.eventType != EVENTTYPE_AUTHREQUEST || mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return 1;
+	DB::AUTH_BLOB auth(dbei.pBlob);
+	debugLogA("Send 'authorization denied' to %s", auth.get_email());
 
-	if (mir_strcmp(dbei.szModule, m_szModuleName))
-		return 1;
-
-	char *nick = (char*)(dbei.pBlob + sizeof(uint32_t) * 2);
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *jid = lastName + mir_strlen(lastName) + 1;
-
-	debugLogA("Send 'authorization denied' to %s", jid);
-
-	ptrA newJid(dbei.flags & DBEF_UTF ? mir_strdup(jid) : mir_utf8encode(jid));
+	ptrA newJid(dbei.flags & DBEF_UTF ? mir_strdup(auth.get_email()) : mir_utf8encode(auth.get_email()));
 	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", newJid) << XATTR("type", "unsubscribed"));
 	return 0;
 }

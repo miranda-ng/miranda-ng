@@ -369,17 +369,17 @@ DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR ln
 
 DB::AUTH_BLOB::AUTH_BLOB(uint8_t *blob)
 {
-	uint8_t *pCurBlob = blob;
+	char *pCurBlob = (char *)blob;
 	m_dwUin = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
 	m_hContact = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
-	m_szNick = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_szFirstName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_szLastName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_szEmail = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_szReason = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_size = uint32_t(pCurBlob - blob);
+	m_szNick = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
+	m_szFirstName = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
+	m_szLastName = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
+	m_szEmail = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
+	m_szReason = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
+	m_size = uint32_t(pCurBlob - (char *)blob);
 }
 
 DB::AUTH_BLOB::~AUTH_BLOB()
