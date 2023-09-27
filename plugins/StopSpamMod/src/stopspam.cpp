@@ -17,7 +17,7 @@
 
 #include "stdafx.h"
 
-int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
+int OnDbEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	DB::EventInfo dbei(hDbEvent);
 	if (!dbei)
@@ -30,34 +30,32 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	// event is an auth request
 	if (gbHandleAuthReq) {
 		if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-			MCONTACT hcntct = DbGetAuthEventContact(&dbei);
+			DB::AUTH_BLOB blob(dbei.pBlob);
 
 			// if request is from unknown or not marked Answered contact
-			int a = !Contact::OnList(hcntct);
-			int b = !g_plugin.getByte(hcntct, "Answered");
-
-			if (a && b) {
-				// ...send message
-
+			MCONTACT hContact = blob.get_contact();
+			if (!Contact::OnList(hContact) && !g_plugin.getByte(hContact, "Answered")) {
 				if (gbHideContacts)
-					Contact::Hide(hcntct);
+					Contact::Hide(hContact);
+
 				if (gbSpecialGroup)
-					Clist_SetGroup(hcntct, gbSpammersGroup.c_str());
-				uint8_t msg = 1;
-				if (gbIgnoreURL) {
-					wchar_t* EventText = ReqGetText(&dbei); //else return NULL
-					msg = !IsUrlContains(EventText);
-					mir_free(EventText);
-				}
+					Clist_SetGroup(hContact, gbSpammersGroup.c_str());
+
+				bool isMessage = true;
+				if (gbIgnoreURL)
+					isMessage = !IsUrlContains(Utf2T(blob.get_reason()));
+
 				if (gbInvisDisable) {
 					if (Proto_GetStatus(dbei.szModule) == ID_STATUS_INVISIBLE)
-						msg = 0;
+						isMessage = false;
 					else if (db_get_w(hContact, dbei.szModule, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-						msg = 0; //is it useful ?
+						isMessage = false; //is it useful ?
 				}
-				if (msg) {
-					ptrA buff(mir_utf8encodeW(variables_parse(gbAuthRepl, hcntct).c_str()));
-					ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buff);
+
+				// ...send message
+				if (isMessage) {
+					ptrA buff(mir_utf8encodeW(variables_parse(gbAuthRepl, hContact).c_str()));
+					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buff);
 				}
 				return 1;
 			}
@@ -191,7 +189,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		return 0;
 	}
 	// URL contains check
-	bSendMsg = (bSendMsg && gbIgnoreURL) ? (!IsUrlContains((wchar_t *)message.c_str())) : bSendMsg;
+	bSendMsg = (bSendMsg && gbIgnoreURL) ? (!IsUrlContains(message.c_str())) : bSendMsg;
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	if (bSendMsg) {

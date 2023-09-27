@@ -125,63 +125,40 @@ const int Stricmp(const wchar_t *str, const wchar_t *substr)
 	return i;
 }
 
-wchar_t* ReqGetText(DBEVENTINFO* dbei)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const wchar_t *URL[] =
 {
-	if (!dbei->pBlob)
-		return nullptr;
+	L"http",
+	L"www",
+	L".ru",
+	L".com",
+	L".de",
+	L".cz",
+	L".org",
+	L".net",
+	L".su",
+	L".ua",
+	L".tv"
+};
 
-	char * ptr = (char *)&dbei->pBlob[sizeof(uint32_t) * 2];
-	int len = dbei->cbBlob - sizeof(uint32_t) * 2;
-	int i = 0;
-
-	while (len && (i < 4)) {
-		if (!ptr[0]) i++;
-		ptr++;
-		len--;
-	};
-
-	if (len) {
-		char * tstr = (char *)mir_alloc(len + 1);
-		memcpy(tstr, ptr, len);
-		tstr[len] = 0;
-		wchar_t* msg = nullptr;
-		msg = (dbei->flags&DBEF_UTF) ? mir_utf8decodeW(tstr) : mir_a2u(tstr);
-		mir_free(tstr);
-		return (wchar_t *)msg;
-	};
-	return nullptr;
-}
-
-BOOL IsUrlContains(wchar_t * Str)
+bool IsUrlContains(const wchar_t *Str)
 {
-	const int CountUrl = 11;
-	const wchar_t  URL[CountUrl][5] =
-	{
-		L"http",
-		L"www",
-		L".ru",
-		L".com",
-		L".de",
-		L".cz",
-		L".org",
-		L".net",
-		L".su",
-		L".ua",
-		L".tv"
-	};
-
-	if (Str && mir_wstrlen(Str) > 0) {
+	if (mir_wstrlen(Str) > 0) {
 		wchar_t *StrLower = mir_wstrdup(Str);
-		CharLowerBuff(StrLower, (int)mir_wstrlen(StrLower));
-		for (int i = 0; i < CountUrl; i++)
-			if (wcsstr(StrLower, URL[i])) {
+		CharLowerW(StrLower);
+
+		for (auto &it : URL)
+			if (wcsstr(StrLower, it)) {
 				mir_free(StrLower);
-				return 1;
+				return true;
 			}
 		mir_free(StrLower);
 	}
-	return 0;
+	return false;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 wstring GetContactUid(MCONTACT hContact, wstring Protocol)
 {
