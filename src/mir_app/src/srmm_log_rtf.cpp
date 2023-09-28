@@ -175,7 +175,7 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 			szHost.AppendChar(*b);
 
 	if (!szHost.IsEmpty())
-		buf.AppendFormat(" on %s", szHost.c_str());
+		buf.AppendFormat(" %s %s", TranslateU("on"), szHost.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
