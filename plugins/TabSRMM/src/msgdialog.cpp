@@ -560,6 +560,8 @@ bool CMsgDialog::OnInitDialog()
 
 	LoadContactAvatar();
 	LoadOwnAvatar();
+
+	GetFirstEvent();
 	OnOptionsApplied();
 
 	if (isChat()) {
@@ -575,8 +577,6 @@ bool CMsgDialog::OnInitDialog()
 		UpdateChatLog();
 	}
 	else {
-		GetFirstEvent();
-
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
