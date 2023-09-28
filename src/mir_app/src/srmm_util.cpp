@@ -294,7 +294,8 @@ MIR_APP_DLL(CMStringW) Srmm_Quote(const wchar_t *pwzsText, int iWrapWidth)
 					lineChar += decreasedBy;
 					p += decreasedBy;
 				}
-				else p++;
+				else ret.Truncate(ret.GetLength() - decreasedBy);
+
 				ret.Append(L"\r\n");
 				justDoneLineBreak = true;
 				continue;
