@@ -296,6 +296,8 @@ void CMsgDialog::NotifyTyping(int mode)
 
 void CMsgDialog::OnOptionsApplied()
 {
+	CSuper::OnOptionsApplied();
+
 	GetAvatar();
 	UpdateTitle();
 	UpdateStatusBar();

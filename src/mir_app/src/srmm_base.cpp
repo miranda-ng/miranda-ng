@@ -571,7 +571,6 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case DM_OPTIONSAPPLIED:
-		m_pLog->UpdateOptions();
 		OnOptionsApplied();
 		return 0;
 
@@ -733,6 +732,11 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 	m_si->bHistoryInit = true;
 	m_pLog->LogChatEvents(nullptr);
+}
+
+void CSrmmBaseDialog::OnOptionsApplied()
+{
+	m_pLog->UpdateOptions();
 }
 
 void CSrmmBaseDialog::UpdateFilterButton()

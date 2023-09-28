@@ -340,7 +340,7 @@ public:
 	virtual bool GetFirstEvent() = 0;
 	virtual bool IsActive() const = 0;
 	virtual void LoadSettings() = 0;
-	virtual void OnOptionsApplied() = 0;
+	virtual void OnOptionsApplied();
 	virtual void RemakeLog() = 0;
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}

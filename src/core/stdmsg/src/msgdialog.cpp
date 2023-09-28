@@ -1068,6 +1068,8 @@ void CMsgDialog::TabAutoComplete()
 
 void CMsgDialog::OnOptionsApplied()
 {
+	CSuper::OnOptionsApplied();
+
 	if (isChat()) {
 		HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
 		SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);

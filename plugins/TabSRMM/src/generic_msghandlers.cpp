@@ -842,6 +842,8 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 
 void CMsgDialog::OnOptionsApplied()
 {
+	CSuper::OnOptionsApplied();
+
 	m_szMicroLf[0] = 0;
 	if (!m_pContainer->m_theme.isPrivate) {
 		m_pContainer->LoadThemeDefaults();
