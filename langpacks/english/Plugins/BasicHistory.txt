@@ -108,7 +108,7 @@
 [Send message]
 [Reply &quoted]
 [Delete group]
-[Delete all user history]
+[Delete all contact history]
 [Options]
 [Filters]
 [Fonts and colors]

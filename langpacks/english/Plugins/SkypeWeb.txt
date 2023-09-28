@@ -88,7 +88,6 @@
 [Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
-[You cannot send when you are offline.]
 [Unknown error!]
 [Network error!]
 ;file \protocols\SkypeWeb\src\skype_options.cpp

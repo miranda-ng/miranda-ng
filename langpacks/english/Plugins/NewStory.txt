@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -101,9 +101,10 @@
 ;file \plugins\NewStory\src\history_menus.cpp
 [Copy file name]
 [Copy URL]
-[User history]
+[History]
 [Global search]
 [Copy text]
+[Quote]
 [Save as]
 [Download]
 [Edit]
@@ -146,7 +147,6 @@
 [AM/PM symbol]
 [name of month, translatable]
 [the message string itself]
-[History]
 [Advanced]
 ;file \plugins\NewStory\src\templates.cpp
 [Sunday]

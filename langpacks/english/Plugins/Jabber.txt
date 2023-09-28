@@ -264,6 +264,7 @@
 [Supports direct chat invitations (XEP-0249)]
 [Receives information about OMEMO devices]
 [Supports message carbons (XEP-0280)]
+[Supports offline messages (XEP-0160)]
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 ;file \protocols\JabberG\src\jabber_chat.cpp
@@ -845,7 +846,6 @@
 [List Editor...]
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
-[Protocol is offline or no JID]
 [No valid OMEMO session exists]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

@@ -140,18 +140,18 @@
 [Try again]
 [Cancel]
 [&Send]
+[Load unread events only]
+[Load number of previous events]
+[Load previous events less than]
+[minutes old]
 [Message window event log]
 [Show names]
 [Show timestamp]
 [Show seconds]
 [Show dates]
 [Show formatting]
-[Load history events]
-[Load unread events only]
-[Load number of previous events]
-[Load previous events less than]
-[minutes old]
 [Automatically copy selected text]
+[Load history events]
 [Use a tabbed interface]
 [Close tab on double click]
 [Show tabs at the bottom]
@@ -879,6 +879,7 @@
 [Time]
 [Sidebar]
 [Title underline]
+[Popup Mode]
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 [Copy message to clipboard]
@@ -1378,6 +1379,8 @@
 [Modified]
 [My profiles]
 [New profile]
+;file \src\mir_app\src\protocols.cpp
+[Protocol is offline]
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 [Grant authorization]
@@ -1409,7 +1412,8 @@
 [Upgrading account]
 [Account name must be filled.]
 [Account error]
-[Account name has to be unique. Please enter unique name.]
+[Account internal name contains invalid symbols, only ASCII chars are allowed.]
+[Account internal name has to be unique. Please enter unique name.]
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -1474,6 +1478,7 @@
 [History++ log window]
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
+[on]
 [Download]
 [Copy URL]
 [Save as]

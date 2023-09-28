@@ -39,7 +39,6 @@
 [Button smiley]
 [Assign smiley category]
 [Background color]
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 [All files]
@@ -55,6 +54,7 @@
 [Smiley #%u in file %s for smiley pack %s not found.]
 [%s global smiley pack]
 [Standard]
+[Emoji]
 [Regular expression "%s" in smiley pack "%s" malformed.]
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
