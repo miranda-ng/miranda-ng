@@ -561,11 +561,14 @@ bool CMsgDialog::OnInitDialog()
 	LoadContactAvatar();
 	LoadOwnAvatar();
 
-	GetFirstEvent();
+	if (isChat())
+		m_pLog->Clear();
+	else
+		GetFirstEvent();
+
 	OnOptionsApplied();
 
 	if (isChat()) {
-		m_pLog->Clear();
 		UpdateStatusBar();
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
