@@ -305,8 +305,8 @@ class COptionLogDlg : public CDlgBase
 	CCtrlSpin  spinCount, spinTime;
 
 public:
-	COptionLogDlg() :
-		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
+	COptionLogDlg(int iDlgId) :
+		CDlgBase(g_plugin, iDlgId),
 		chkSecs(this, IDC_SHOWSECS),
 		chkDate(this, IDC_SHOWDATES),
 		chkTime(this, IDC_SHOWTIMES),
@@ -571,11 +571,9 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.pDialog = new COptionMainDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed()) {
-		odp.szTab.a = LPGEN("Messaging log");
-		odp.pDialog = new COptionLogDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.a = LPGEN("Messaging log");
+	odp.pDialog = new COptionLogDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Typing notify");
 	odp.pDialog = new COptionTypingDlg();

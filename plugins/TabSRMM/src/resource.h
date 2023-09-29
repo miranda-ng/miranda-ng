@@ -53,6 +53,7 @@
 #define IDD_CHOOSESTATUSMODES           310
 #define IDD_SKINTABDIALOG               312
 #define IDD_OPT_SKIN                    313
+#define IDD_OPT_MSGHIST                 314
 #define IDD_OPTIONS_PLUS                333
 #define IDD_CHANNEL                     401
 #define IDD_OPTIONS1                    402

@@ -232,9 +232,8 @@ bool CLangpackDlg::OnApply()
 		ReloadLangpack(tszPath);
 		
 		if (m_bExiting) {
-			HWND hwndParent = GetParent(GetHwnd());
-			PostMessage(hwndParent, WM_CLOSE, 1, 0);
-			mir_forkthread(ReloadOptions, hwndParent);
+			PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
+			mir_forkthread(ReloadOptions, m_hwndParent);
 		}
 	}
 	return true;

@@ -532,8 +532,8 @@ class CLogOptionsDlg : public CBaseOptionDlg
 	}
 
 public:
-	CLogOptionsDlg() :
-		CBaseOptionDlg(IDD_OPT_MSGLOG),
+	CLogOptionsDlg(int iDlgId) :
+		CBaseOptionDlg(iDlgId),
 		m_rtf(this, IDC_SRMM_LOG),
 		m_fonts(this, IDC_FONTSCOLORS),
 		chkLoadTime(this, IDC_LOADTIME),
@@ -805,11 +805,9 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Layout");
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed()) {
-		odp.pDialog = new CLogOptionsDlg();
-		odp.szTab.a = LPGEN("Event log");
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pDialog = new CLogOptionsDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	odp.szTab.a = LPGEN("Event log");
+	g_plugin.addOptions(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	odp.szGroup.a = LPGEN("Message sessions");

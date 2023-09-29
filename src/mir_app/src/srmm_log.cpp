@@ -106,6 +106,19 @@ MIR_APP_DLL(bool) Srmm_IsCustomLogUsed()
 /////////////////////////////////////////////////////////////////////////////////////////
 // options dialog
 
+static void CALLBACK OpenOptions(void *)
+{
+	g_plugin.openOptions(L"Message sessions", L"Log viewer");
+}
+
+static void ReloadOptions(void *hWnd)
+{
+	while (IsWindow((HWND)hWnd))
+		Sleep(50);
+
+	CallFunctionAsync(OpenOptions, nullptr);
+}
+
 static class CSrmmLogOptionsDlg *pDialog = nullptr;
 
 class CSrmmLogOptionsDlg : public CDlgBase
@@ -145,6 +158,9 @@ public:
 
 		if (auto *pLogger = (LoggerClass *)m_list.GetItemData(idx))
 			g_logger = pLogger->szShortName;
+
+		PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
+		mir_forkthread(ReloadOptions, m_hwndParent);
 		return true;
 	}
 

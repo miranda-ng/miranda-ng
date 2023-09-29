@@ -742,8 +742,8 @@ class COptLogDlg : public CDlgBase
 	// party plugin.
 
 public:
-	COptLogDlg() :
-		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
+	COptLogDlg(int iDlgId) :
+		CDlgBase(g_plugin, iDlgId),
 		logOpts(this, IDC_LOGOPTIONS),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
@@ -886,6 +886,10 @@ public:
 		CTemplateEditDlg *pDlg = new CTemplateEditDlg(true, m_hwnd);
 		pDlg->Show();
 	}
+};
+
+class COptHistDlg : public CDlgBase
+{
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1480,11 +1484,9 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pDialog = new COptContainersDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed()) {
-		odp.szTab.a = LPGEN("Message log");
-		odp.pDialog = new COptLogDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.a = LPGEN("Message log");
+	odp.pDialog = new COptLogDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced tweaks");
 	odp.pDialog = new COptAdvancedDlg();

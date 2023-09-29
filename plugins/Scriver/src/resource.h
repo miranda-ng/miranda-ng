@@ -10,6 +10,7 @@
 #define IDD_INFOBAR                     104
 #define IDD_OPT_MSGDLG                  111
 #define IDD_OPT_MSGLOG                  112
+#define IDD_OPT_MSGHIST                 113
 #define IDD_OPT_MSGTYPE                 114
 #define IDD_OPT_MSGTABS                 115
 #define IDD_OPT_LAYOUT                  116
