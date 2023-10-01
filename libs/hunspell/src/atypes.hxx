@@ -74,13 +74,15 @@ static inline void HUNSPELL_WARNING(FILE*, const char*, ...) {}
 #define IN_CPD_OTHER 3
 
 // info options
-#define SPELL_COMPOUND (1 << 0)
+#define SPELL_COMPOUND (1 << 0)    // the result is a compound word
 #define SPELL_FORBIDDEN (1 << 1)
 #define SPELL_ALLCAP (1 << 2)
 #define SPELL_NOCAP (1 << 3)
 #define SPELL_INITCAP (1 << 4)
 #define SPELL_ORIGCAP (1 << 5)
 #define SPELL_WARN (1 << 6)
+#define SPELL_COMPOUND_2 (1 << 7)  // permit only 2 dictionary words in the compound
+#define SPELL_BEST_SUG (1 << 8)    // limit suggestions for the best ones, i.e. ph:
 
 #define MINCPDLEN 3
 #define MAXCOMPOUND 10
@@ -109,6 +111,12 @@ struct guessword {
   char* word;
   bool allow;
   char* orig;
+  guessword()
+    : word(nullptr)
+    , allow(false)
+    , orig(nullptr)
+  {
+  }
 };
 
 typedef std::vector<std::string> mapentry;
