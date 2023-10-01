@@ -1,13 +1,7 @@
 #include "stdafx.h"
 
-//TODO: hide it inside cursor class
-static const char normal_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp, id;";
-static const char normal_order_pos_query[] = "SELECT id FROM events_srt WHERE contact_id = ? AND id >= ? ORDER BY timestamp, id;";
-
-static const char reverse_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp desc, id DESC;";
-static const char reverse_order_pos_query[] = "SELECT id FROM events_srt WHERE contact_id = ? AND id <= ? ORDER BY timestamp desc, id DESC;";
-
-static const char add_event_sort_query[] = "INSERT INTO events_srt(id, contact_id, timestamp) VALUES (?, ?, ?);";
+static const char normal_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp;";
+static const char reverse_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp DESC;";
 
 void CDbxSQLite::InitEvents()
 {
@@ -63,6 +57,27 @@ int CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
 	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	return (cc == nullptr) ? 0 : cc->m_count;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CDbxSQLite::AddEventSrt(MEVENT hDbEvent, MCONTACT hContact, int64_t ts)
+{
+	int rc;
+
+	do {
+		auto *stmt = InitQuery("INSERT INTO events_srt(id, contact_id, timestamp) VALUES (?, ?, ?);", qEvAddSrt);
+		sqlite3_bind_int64(stmt, 1, hDbEvent);
+		sqlite3_bind_int64(stmt, 2, hContact);
+		sqlite3_bind_int64(stmt, 3, ts);
+		rc = sqlite3_step(stmt);
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(stmt);
+
+		ts++;
+	} while (rc != SQLITE_DONE);
+	
+	return rc;
 }
 
 MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
@@ -138,23 +153,12 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 
 	MEVENT hDbEvent = sqlite3_last_insert_rowid(m_db);
 
-	stmt = InitQuery(add_event_sort_query, qEvAddSrt);
-	sqlite3_bind_int64(stmt, 1, hDbEvent);
-	sqlite3_bind_int64(stmt, 2, cc->contactID);
-	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
-	rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	sqlite3_reset(stmt);
+	int64_t tsSort = (int64_t)tmp.timestamp * 1000;
+	AddEventSrt(hDbEvent, cc->contactID, tsSort);
 
 	cc->m_count++;
 	if (ccSub != nullptr) {
-		stmt = InitQuery(add_event_sort_query, qEvAddSrt);
-		sqlite3_bind_int64(stmt, 1, hDbEvent);
-		sqlite3_bind_int64(stmt, 2, ccSub->contactID);
-		sqlite3_bind_int64(stmt, 3, tmp.timestamp);
-		rc = sqlite3_step(stmt);
-		logError(rc, __FILE__, __LINE__);
-		sqlite3_reset(stmt); //is this necessary ?
+		AddEventSrt(hDbEvent, ccSub->contactID, tsSort);
 		ccSub->m_count++;
 	}
 
@@ -183,7 +187,7 @@ int CDbxSQLite::DeleteEventMain(MEVENT hDbEvent)
 	return rc;
 }
 
-int CDbxSQLite::DeleteEventSrt(MEVENT hDbEvent, MCONTACT hContact, uint32_t ts)
+int CDbxSQLite::DeleteEventSrt(MEVENT hDbEvent, MCONTACT hContact, int64_t ts)
 {
 	auto *stmt = InitQuery("DELETE FROM events_srt WHERE id = ? AND contact_id = ? AND timestamp = ?;", qEvDelSrt);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
@@ -586,7 +590,7 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 			sqlite3_reset(fwd.cur);
 
 		fwd.hContact = hContact;
-		fwd.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND id > ? ORDER BY timestamp, id;", qEvFindNext);
+		fwd.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND timestamp > (SELECT timestamp FROM events_srt WHERE id=?) ORDER BY timestamp;", qEvFindNext);
 		sqlite3_bind_int64(fwd.cur, 1, hContact);
 		sqlite3_bind_int64(fwd.cur, 2, hDbEvent);
 	}
@@ -642,7 +646,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 			sqlite3_reset(back.cur);
 
 		back.hContact = hContact;
-		back.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND id < ? ORDER BY timestamp desc, id DESC;", qEvFindPrev);
+		back.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND timestamp < (SELECT timestamp FROM events_srt WHERE id=?) ORDER BY timestamp DESC;", qEvFindPrev);
 		sqlite3_bind_int64(back.cur, 1, hContact);
 		sqlite3_bind_int64(back.cur, 2, hDbEvent);
 	}
@@ -757,13 +761,13 @@ CDbxSQLiteEventCursor::CDbxSQLiteEventCursor(MCONTACT _1, sqlite3 *_db, MEVENT h
 		if (!hDbEvent)
 			sqlite3_prepare_v2(m_db, reverse_order_query, -1, &cursor, nullptr);
 		else
-			sqlite3_prepare_v2(m_db, reverse_order_pos_query, -1, &cursor, nullptr);
+			sqlite3_prepare_v2(m_db, "SELECT id FROM events_srt WHERE contact_id = ? AND timestamp <= (SELECT timestamp FROM events_srt WHERE id=?) ORDER BY timestamp DESC;", -1, &cursor, nullptr);
 	}
 	else {
 		if (!hDbEvent)
 			sqlite3_prepare_v2(m_db, normal_order_query, -1, &cursor, nullptr);
 		else
-			sqlite3_prepare_v2(m_db, normal_order_pos_query, -1, &cursor, nullptr);
+			sqlite3_prepare_v2(m_db, "SELECT id FROM events_srt WHERE contact_id = ? AND timestamp >= (SELECT timestamp FROM events_srt WHERE id=?) ORDER BY timestamp;", -1, &cursor, nullptr);
 	}
 	sqlite3_bind_int64(cursor, 1, hContact);
 	if (hDbEvent)

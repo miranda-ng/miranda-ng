@@ -36,7 +36,7 @@ int CDbxSQLite::CheckPhase2()
 	while (sqlite3_step(pQuery) == SQLITE_ROW) {
 		MEVENT hDbEvent = sqlite3_column_int(pQuery, 0);
 		MCONTACT hContact = sqlite3_column_int(pQuery, 1);
-		uint32_t ts = sqlite3_column_int(pQuery, 2);
+		int64_t ts = sqlite3_column_int64(pQuery, 2);
 
 		DeleteEventSrt(hDbEvent, hContact, ts);
 		cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned sorting event with wrong event ID %d:%08X, deleting"), hContact, hDbEvent));

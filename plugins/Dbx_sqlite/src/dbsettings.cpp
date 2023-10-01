@@ -81,6 +81,50 @@ void CDbxSQLite::InitSettings()
 		logError(rc, __FILE__, __LINE__);
 
 		dbv.bVal = 2;
+	}
+
+	if (dbv.bVal < 3) {
+		int rc = sqlite3_exec(m_db, "UPDATE events_srt SET timestamp=timestamp*1000;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		CQuery updateSql;
+		sqlite3_stmt *updateStmt = InitQuery("update events_srt set timestamp=timestamp+? where id in (select max(id) from events_srt where contact_id=? and timestamp=?);", updateSql);
+
+		sqlite3_stmt *pQuery;
+		rc = sqlite3_prepare_v2(m_db, "SELECT contact_id, timestamp, count(*) AS boo FROM events_srt GROUP BY contact_id, timestamp HAVING boo > 1;", -1, &pQuery, nullptr);
+		logError(rc, __FILE__, __LINE__);
+
+		while (sqlite3_step(pQuery) == SQLITE_ROW) {
+			MCONTACT hContact = sqlite3_column_int(pQuery, 0);
+			int64_t  ts = sqlite3_column_int64(pQuery, 1);
+			int      iCount = sqlite3_column_int(pQuery, 2);
+
+			for (int i = iCount - 1; i > 0; i--) {
+				sqlite3_bind_int64(updateStmt, 1, i);
+				sqlite3_bind_int64(updateStmt, 2, hContact);
+				sqlite3_bind_int64(updateStmt, 3, ts);
+				rc = sqlite3_step(updateStmt);
+				logError(rc, __FILE__, __LINE__);
+				sqlite3_reset(updateStmt);
+			}
+		}
+
+		rc = sqlite3_exec(m_db, "CREATE TABLE tmp(id INTEGER NOT NULL, contact_id INTEGER NOT NULL, timestamp INTEGER, PRIMARY KEY(contact_id, timestamp));", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "INSERT INTO tmp SELECT * FROM events_srt;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "DROP TABLE events_srt;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "ALTER TABLE tmp RENAME TO events_srt;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "VACUUM;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		dbv.bVal = 3;
 		WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 	}
 }
