@@ -575,6 +575,7 @@ public:
 			
 			const wchar_t *pwszName = TranslateW(TemplateNamesW[iItem]);
 			TextOutW(dis->hDC, dis->rcItem.left, dis->rcItem.top, pwszName, (int)mir_wstrlen(pwszName));
+			return 0;
 		}
 
 		// don't replace it with CSuper::DlgProc, otherwise this shit crashes
