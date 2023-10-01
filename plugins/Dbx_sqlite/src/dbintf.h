@@ -80,11 +80,12 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	void InitEvents();
 	void UninitEvents();
 	CQuery qEvAdd, qEvDel, qEvEdit1, qEvEdit2, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact, qEvGetContact2;
-	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
+	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvAddSrt, qEvDelSrt, qEvDelSrt2, qEvMetaSplit, qEvMetaMerge;
 	CQuery qEvGetById, qEvUpdateId, qEvSetJson;
 	int AddEventSrt(MEVENT, MCONTACT, int64_t ts);
 	int DeleteEventMain(MEVENT);
-	int DeleteEventSrt(MEVENT, MCONTACT, int64_t ts);
+	int DeleteEventSrt(MCONTACT, int64_t ts);
+	int DeleteEventSrt2(MCONTACT, MEVENT);
 
 	// settings
 	void InitSettings();

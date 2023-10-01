@@ -38,7 +38,7 @@ int CDbxSQLite::CheckPhase2()
 		MCONTACT hContact = sqlite3_column_int(pQuery, 1);
 		int64_t ts = sqlite3_column_int64(pQuery, 2);
 
-		DeleteEventSrt(hDbEvent, hContact, ts);
+		DeleteEventSrt(hContact, ts);
 		cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned sorting event with wrong event ID %d:%08X, deleting"), hContact, hDbEvent));
 	}
 
