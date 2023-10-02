@@ -176,6 +176,9 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 
 bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
+	if (wszText.Left(26) != L"https://files.icq.net/get/")
+		return false;
+
 	pFileInfo = nullptr;
 
 	int idx = wszText.Find(' ');
@@ -540,20 +543,35 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	bool bIsOutgoing = it["outgoing"].as_bool();
 	bool bIsChat = Contact::IsGroupChat(hContact);
+
+	// check for embedded file
 	IcqFileInfo *pFileInfo = nullptr;
 
-	if (wszText.Left(26) == L"https://files.icq.net/get/") {
-		if (!CheckFile(hContact, wszText, pFileInfo)) {
-			debugLogA("Some shit happened, report this case to developers");
-			return;
-		}
+	for (auto &jt : it["parts"]) {
+		if (auto &content = jt["captionedContent"]) {
+			CMStringW wszUrl(content["url"].as_mstring());
+			if (wszUrl.IsEmpty())
+				continue;
 
-		for (auto &jt : it["parts"]) {
-			CMStringW wszDescr(jt["captionedContent"]["caption"].as_mstring());
+			if (!CheckFile(hContact, wszUrl, pFileInfo))
+				continue;
+
+			if (jt["mediaType"].as_string() == "forward") {
+				int idx = wszText.Find(L"\n\n");
+				if (idx != -1)
+					wszText.Truncate(idx + 2);
+				pFileInfo->wszDescr = wszText;
+			}
+
+			CMStringW wszDescr(content["caption"].as_mstring());
 			if (!wszDescr.IsEmpty())
 				pFileInfo->wszDescr = wszDescr;
+			break;
 		}
 	}
+
+	// message text might be a separate file link as well
+	CheckFile(hContact, wszText, pFileInfo);
 
 	// process our own messages
 	CMStringA reqId(it["reqId"].as_mstring());
