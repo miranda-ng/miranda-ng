@@ -127,11 +127,14 @@ void CDbxSQLite::InitSettings()
 		dbv.bVal = 3;
 	}
 
-	if (dbv.bVal < 4) {
-		int rc = sqlite3_exec(m_db, "CREATE INDEX i1_srt ON events_srt(contact_id, id);", 0, 0, 0);
+	if (dbv.bVal < 5) {
+		int rc = sqlite3_exec(m_db, "DROP INDEX IF EXISTS i1_srt;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
 
-		dbv.bVal = 4;
+		rc = sqlite3_exec(m_db, "CREATE INDEX i1_srt ON events_srt(id);", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		dbv.bVal = 5;
 		WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 	}
 }

@@ -198,11 +198,10 @@ int CDbxSQLite::DeleteEventSrt(MCONTACT hContact, int64_t ts)
 	return rc;
 }
 
-int CDbxSQLite::DeleteEventSrt2(MCONTACT hContact, MEVENT hDbEvent)
+int CDbxSQLite::DeleteEventSrt2(MEVENT hDbEvent)
 {
-	auto *stmt = InitQuery("DELETE FROM events_srt WHERE contact_id = ? AND id = ?;", qEvDelSrt2);
-	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_int64(stmt, 2, hDbEvent);
+	auto *stmt = InitQuery("DELETE FROM events_srt WHERE id = ?;", qEvDelSrt2);
+	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
@@ -239,7 +238,7 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	rc = DeleteEventSrt2(hContact, hDbEvent);
+	rc = DeleteEventSrt2(hDbEvent);
 	if (rc != SQLITE_DONE)
 		return 1;
 

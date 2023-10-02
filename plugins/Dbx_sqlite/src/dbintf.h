@@ -85,7 +85,7 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	int AddEventSrt(MEVENT, MCONTACT, int64_t ts);
 	int DeleteEventMain(MEVENT);
 	int DeleteEventSrt(MCONTACT, int64_t ts);
-	int DeleteEventSrt2(MCONTACT, MEVENT);
+	int DeleteEventSrt2(MEVENT);
 
 	// settings
 	void InitSettings();

@@ -61,6 +61,9 @@ int CDbxSQLite::Create()
 	rc = sqlite3_exec(m_db, "CREATE TABLE events_srt (id INTEGER NOT NULL, contact_id INTEGER NOT NULL, timestamp INTEGER, PRIMARY KEY(contact_id, timestamp));", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
+	rc = sqlite3_exec(m_db, "CREATE INDEX i1_srt ON events_srt(id);", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+
 	rc = sqlite3_exec(m_db, "CREATE TABLE settings (contact_id INTEGER NOT NULL, module TEXT NOT NULL, setting TEXT NOT NULL, type INTEGER NOT NULL, value NOT NULL,"
 		"PRIMARY KEY(contact_id, module, setting)) WITHOUT ROWID;", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
