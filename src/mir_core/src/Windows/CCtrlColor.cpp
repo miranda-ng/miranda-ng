@@ -39,14 +39,14 @@ bool CCtrlColor::OnApply()
 {
 	CSuper::OnApply();
 
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SaveInt(GetColor());
 	return true;
 }
 
 void CCtrlColor::OnReset()
 {
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SetColor(LoadInt());
 }
 

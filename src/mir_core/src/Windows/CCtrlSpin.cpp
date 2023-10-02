@@ -51,7 +51,7 @@ bool CCtrlSpin::OnApply()
 	CSuper::OnApply();
 
 	m_wCurr = SendMsg(UDM_GETPOS, 0, 0);
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SaveInt(m_wCurr);
 
 	HWND hwndBuddy = (HWND)SendMsg(UDM_GETBUDDY, 0, 0);
@@ -68,7 +68,7 @@ void CCtrlSpin::OnReset()
 {
 	SendMsg(UDM_SETRANGE, 0, MAKELPARAM(m_wMax, m_wMin));
 
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SetPosition(LoadInt());
 }
 

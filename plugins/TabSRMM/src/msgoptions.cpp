@@ -832,9 +832,6 @@ public:
 
 	bool OnApply() override
 	{
-		uint32_t dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT) & ~(MWF_LOG_ALL);
-		db_set_dw(0, SRMSGMOD_T, "mwflags", m_flags | dwFlags);
-
 		if (chkLoadCount.GetState())
 			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
 		else if (chkLoadTime.GetState())
@@ -844,14 +841,20 @@ public:
 		g_plugin.setWord(SRMSGSET_LOADCOUNT, spnLoadCount.GetPosition());
 		g_plugin.setWord(SRMSGSET_LOADTIME, spnLoadTime.GetPosition());
 
-		db_set_dw(0, SRMSGMOD_T, "IndentAmount", spnLeft.GetPosition());
-		db_set_dw(0, SRMSGMOD_T, "RightIndent", spnRight.GetPosition());
-
 		// scan the tree view and obtain the options...
 		if (chkAlwaysTrim.GetState())
 			db_set_dw(0, SRMSGMOD_T, "maxhist", spnTrim.GetPosition());
 		else
 			db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
+
+		if (logOpts.GetHwnd()) {
+			uint32_t dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT) & ~(MWF_LOG_ALL);
+			db_set_dw(0, SRMSGMOD_T, "mwflags", m_flags | dwFlags);
+
+			db_set_dw(0, SRMSGMOD_T, "IndentAmount", spnLeft.GetPosition());
+			db_set_dw(0, SRMSGMOD_T, "RightIndent", spnRight.GetPosition());
+		}
+
 		PluginConfig.reloadSettings();
 		Srmm_ApplyOptions();
 		return true;

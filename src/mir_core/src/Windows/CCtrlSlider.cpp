@@ -46,7 +46,7 @@ bool CCtrlSlider::OnApply()
 {
 	CSuper::OnApply();
 
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SaveInt(GetPosition());
 	return true;
 }
@@ -55,7 +55,7 @@ void CCtrlSlider::OnReset()
 {
 	SendMsg(TBM_SETRANGE, 0, MAKELONG(m_wMin, m_wMax));
 
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SetPosition(LoadInt());
 }
 

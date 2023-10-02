@@ -41,14 +41,14 @@ bool CCtrlCheck::OnApply()
 {
 	CSuper::OnApply();
 
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SaveInt(GetState());
 	return true;
 }
 
 void CCtrlCheck::OnReset()
 {
-	if (m_dbLink != nullptr)
+	if (m_hwnd && m_dbLink)
 		SetState(LoadInt());
 }
 
