@@ -302,7 +302,15 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	lock.unlock();
 
 	DBFlush();
-	NotifyEventHooks(g_hevEventEdited, GetEventContact(hDbEvent), hDbEvent);
+
+	if (m_safetyMode) {
+		MCONTACT hContact = GetEventContact(hDbEvent);
+		if (auto *cc = m_cache->GetCachedContact(hContact))
+			if (cc->IsSub())
+				hContact = cc->parentID;
+
+		NotifyEventHooks(g_hevEventEdited, hContact, hDbEvent);
+	}
 	return 0;
 }
 
