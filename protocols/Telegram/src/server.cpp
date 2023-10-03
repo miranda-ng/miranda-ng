@@ -137,6 +137,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 	}
 
 	switch (response.object->get_id()) {
+	case TD::updateActiveEmojiReactions::ID:
+		ProcessActiveEmoji((TD::updateActiveEmojiReactions *)response.object.get());
+		break;
+
 	case TD::updateAuthorizationState::ID:
 		ProcessAuth((TD::updateAuthorizationState *)response.object.get());
 		break;
@@ -578,6 +582,16 @@ void CTelegramProto::ProcessConnectionState(TD::updateConnectionState *pObj)
 			OnLoggedIn();
 		break;
 	}		
+}
+
+void CTelegramProto::ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj)
+{
+	m_defaultEmoji.Empty();
+
+	for (auto &it : pObj->emojis_)
+		m_defaultEmoji.AppendFormat("%s ", it.c_str());
+
+	m_defaultEmoji.TrimRight();
 }
 
 void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)

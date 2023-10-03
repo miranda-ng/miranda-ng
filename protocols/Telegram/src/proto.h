@@ -202,6 +202,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iQueryId;
+	CMStringA m_defaultEmoji;
 
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
@@ -245,6 +246,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessChatReactions(TD::updateChatAvailableReactions *);
 	void ProcessConnectionState(TD::updateConnectionState *pObj);
+	void ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj);
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessGroups(TD::updateChatFolders *pObj);
