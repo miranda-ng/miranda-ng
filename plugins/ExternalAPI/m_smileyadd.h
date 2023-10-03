@@ -67,6 +67,7 @@ struct SMADD_INFO
 	int NumberOfSmileys;        // Number of total smileys defined
 };
 
+#define MS_SMILEYADD_GETINFO "SmileyAdd/GetInfo"
 #define MS_SMILEYADD_GETINFO2 "SmileyAdd/GetInfo2"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -216,3 +217,22 @@ struct SMADD_CONT
 };
 
 #define MS_SMILEYADD_LOADCONTACTSMILEYS  "SmileyAdd/LoadContactSmileys"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Displays SmileyTool window to choose a smiley
+// wParam = (WPARAM) 0; not used
+// lParam = (LPARAM) (SMADD_SELECTSMILEY*) &param;
+
+struct SMADD_SELECTSMILEY
+{
+	const char *pszSmileys; // list of smileys or zero to display all pack
+	int xPosition;
+	int yPosition;
+	int direction;
+	HWND hWndTarget;
+	HWND hWndParent;
+	UINT targetMessage;
+	WPARAM targetWParam;
+};
+
+#define MS_SMILEYADD_SELECTSMILEY  "SmileyAdd/SelectSmiley"

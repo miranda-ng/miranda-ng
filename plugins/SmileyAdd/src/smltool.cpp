@@ -713,5 +713,9 @@ void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp)
 		}
 		UnregisterClass(L"SmileyTool", g_plugin.getInst());
 	}
+
+	if (stwp->bOwnsPack)
+		delete stwp->pSmileyPack;
+
 	delete stwp;
 }

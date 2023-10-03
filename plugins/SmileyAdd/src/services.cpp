@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static LIST<void> menuHandleArray(5);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service functions
 
@@ -83,7 +81,7 @@ SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
+static INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 {
 	SMADD_RICHEDIT *smre = (SMADD_RICHEDIT*)lParam;
 	if (smre == nullptr)
@@ -135,19 +133,19 @@ static int GetInfoCommandE(SMADD_INFO *smre, bool retDup)
 	return TRUE;
 }
 
-INT_PTR GetInfoCommand(WPARAM, LPARAM lParam)
+static INT_PTR GetInfoCommand(WPARAM, LPARAM lParam)
 {
 	return GetInfoCommandE((SMADD_INFO*)lParam, false);
 }
 
-INT_PTR GetInfoCommand2(WPARAM, LPARAM lParam)
+static INT_PTR GetInfoCommand2(WPARAM, LPARAM lParam)
 {
 	return GetInfoCommandE((SMADD_INFO*)lParam, true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
+static INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 {
 	SMADD_BATCHPARSE *smre = (SMADD_BATCHPARSE*)lParam;
 	if (smre == nullptr)
@@ -195,7 +193,7 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
+static INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
 {
 	delete[](SMADD_BATCHPARSERES*)lParam;
 	return TRUE;
@@ -203,7 +201,7 @@ INT_PTR FreeTextBatch(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR RegisterPack(WPARAM, LPARAM lParam)
+static INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 {
 	SMADD_REGCAT *smre = (SMADD_REGCAT*)lParam;
 	if (smre == nullptr)
@@ -218,83 +216,9 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
-{
-	if (lParam != 0) {
-		SmileyCategoryType *smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
-		if (smct != nullptr)
-			opt.WriteContactCategory(hContact, smct->GetName());
-		else {
-			CMStringW empty;
-			if (lParam == 1) empty = L"<None>";
-			opt.WriteContactCategory(hContact, empty);
-		}
-		NotifyEventHooks(g_hevOptionsChanged, hContact, 0);
-	}
+static LIST<void> menuHandleArray(5);
 
-	for (auto &it : menuHandleArray)
-		Menu_RemoveItem((HGENMENU)it);
-	menuHandleArray.destroy();
-
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR ReloadPack(WPARAM, LPARAM lParam)
-{
-	if (lParam) {
-		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(_A2T((char *)lParam));
-		if (smc != nullptr)
-			smc->Load();
-	}
-	else {
-		g_SmileyCategories.ClearAll();
-		g_SmileyCategories.AddAllProtocolsAsCategory();
-		g_SmileyCategories.ClearAndLoadAll();
-	}
-
-	NotifyEventHooks(g_hevOptionsChanged, 0, 0);
-	return 0;
-}
-
-INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
-{
-	SMADD_CONT *cont = (SMADD_CONT *)lParam;
-
-	switch (cont->type) {
-	case 0:
-		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
-		break;
-
-	case 1:
-		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
-		break;
-
-	case 2:
-		WIN32_FIND_DATAW findData;
-		CMStringW wszPath(cont->path);
-		HANDLE hFind = FindFirstFileW(wszPath, &findData);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			int idx = wszPath.ReverseFind('\\');
-			if (idx != -1)
-				wszPath.Truncate(idx + 1);
-
-			do {
-				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L"."))
-					continue;
-
-				CMStringW wszFileName = wszPath + findData.cFileName;
-				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
-			} while (FindNextFileW(hFind, &findData));
-		}
-	}
-	return 0;
-}
-
-int RebuildContactMenu(WPARAM wParam, LPARAM)
+static int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	auto &smc = g_SmileyCategories.GetSmileyCategoryList();
 
@@ -331,7 +255,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 			const int ind = i + 3;
 			mi.position = ind;
-			mi.name.w = (wchar_t*)smc[i].GetDisplayName().c_str();
+			mi.name.w = (wchar_t *)smc[i].GetDisplayName().c_str();
 
 			if (cat == smc[i].GetName()) {
 				mi.flags |= CMIF_CHECKED;
@@ -367,69 +291,138 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
+{
+	if (lParam != 0) {
+		SmileyCategoryType *smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
+		if (smct != nullptr)
+			opt.WriteContactCategory(hContact, smct->GetName());
+		else {
+			CMStringW empty;
+			if (lParam == 1) empty = L"<None>";
+			opt.WriteContactCategory(hContact, empty);
+		}
+		NotifyEventHooks(g_hevOptionsChanged, hContact, 0);
+	}
+
+	for (auto &it : menuHandleArray)
+		Menu_RemoveItem((HGENMENU)it);
+	menuHandleArray.destroy();
+
+	return TRUE;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
-// Events
 
-int AccountListChanged(WPARAM wParam, LPARAM lParam)
+static INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 {
-	PROTOACCOUNT *acc = (PROTOACCOUNT*)lParam;
-
-	switch (wParam) {
-	case PRAC_ADDED:
-		if (acc != nullptr) {
-			const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
-			g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
-		}
-		break;
-
-	case PRAC_CHANGED:
-		if (acc != nullptr && acc->szModuleName != nullptr) {
-			CMStringW name(acc->szModuleName);
-			SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(name);
-			if (smc != nullptr) {
-				if (acc->tszAccountName)
-					name = acc->tszAccountName;
-				smc->SetDisplayName(name);
-			}
-		}
-		break;
-
-	case PRAC_REMOVED:
-		g_SmileyCategories.DeleteAccountAsCategory(acc);
-		break;
-
-	case PRAC_CHECKED:
-		if (acc != nullptr) {
-			if (acc->bIsEnabled) {
-				const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
-				g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
-			}
-			else g_SmileyCategories.DeleteAccountAsCategory(acc);
-		}
-		break;
-	}
-	return 0;
-}
-
-int DbSettingChanged(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		return 0;
-
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (cws->value.type == DBVT_DELETED)
-		return 0;
-
-	if (strcmp(cws->szSetting, "Transport") == 0) {
-		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(L"Standard");
+	if (lParam) {
+		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(_A2T((char *)lParam));
 		if (smc != nullptr)
-			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());
+			smc->Load();
+	}
+	else {
+		g_SmileyCategories.ClearAll();
+		g_SmileyCategories.AddAllProtocolsAsCategory();
+		g_SmileyCategories.ClearAndLoadAll();
+	}
+
+	NotifyEventHooks(g_hevOptionsChanged, 0, 0);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
+{
+	SMADD_CONT *cont = (SMADD_CONT *)lParam;
+
+	switch (cont->type) {
+	case 0:
+		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
+		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
+		break;
+
+	case 1:
+		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
+		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
+		break;
+
+	case 2:
+		WIN32_FIND_DATAW findData;
+		CMStringW wszPath(cont->path);
+		HANDLE hFind = FindFirstFileW(wszPath, &findData);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			int idx = wszPath.ReverseFind('\\');
+			if (idx != -1)
+				wszPath.Truncate(idx + 1);
+
+			do {
+				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L"."))
+					continue;
+
+				CMStringW wszFileName = wszPath + findData.cFileName;
+				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
+			} while (FindNextFileW(hFind, &findData));
+		}
 	}
 	return 0;
 }
 
-int ReloadColour(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR SelectSmiley(WPARAM, LPARAM lParam)
 {
-	opt.SelWndBkgClr = db_get_dw(0, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	auto *pParam = (SMADD_SELECTSMILEY *)lParam;
+	if (pParam == nullptr || !g_pEmoji)
+		return 1;
+
+	SmileyPackType *pPack;
+	if (pParam->pszSmileys) {
+		ptrW pText(mir_utf8decodeW(pParam->pszSmileys));
+		pPack = new SmileyPackType();
+		auto &pList = g_pEmoji->GetSmileyList();
+
+		for (auto *p = wcstok(pText, L" "); p; p = wcstok(0, L" ")) {
+			for (auto &it : pList) {
+				if (it->GetTriggerText() == p) {
+					pPack->GetSmileyList().insert(new SmileyType(*it));
+					break;
+				}
+			}
+		}
+	}
+	else pPack = new SmileyPackType(*g_pEmoji);
+
+	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
+	stwp->pSmileyPack = pPack;
+	stwp->bOwnsPack = true;
+	stwp->hWndParent = pParam->hWndParent;
+	stwp->hWndTarget = pParam->hWndTarget;
+	stwp->targetMessage = pParam->targetMessage;
+	stwp->targetWParam = pParam->targetWParam;
+	stwp->direction = pParam->direction;
+	stwp->xPosition = pParam->xPosition;
+	stwp->yPosition = pParam->yPosition;
+	mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+void InitServices()
+{
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu);
+
+	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);
+	CreateServiceFunction(MS_SMILEYADD_GETINFO, GetInfoCommand);
+	CreateServiceFunction(MS_SMILEYADD_GETINFO2, GetInfoCommand2);
+	CreateServiceFunction(MS_SMILEYADD_REGISTERCATEGORY, RegisterPack);
+	CreateServiceFunction(MS_SMILEYADD_BATCHPARSE, ParseTextBatch);
+	CreateServiceFunction(MS_SMILEYADD_BATCHFREE, FreeTextBatch);
+	CreateServiceFunction(MS_SMILEYADD_CUSTOMCATMENU, CustomCatMenu);
+	CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
+	CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys);
+	CreateServiceFunction(MS_SMILEYADD_SELECTSMILEY, SelectSmiley);
 }

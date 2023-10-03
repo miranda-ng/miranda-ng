@@ -70,9 +70,6 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\services.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SmileyBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>

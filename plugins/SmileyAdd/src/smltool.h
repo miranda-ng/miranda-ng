@@ -22,9 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class SmileyPackType;
 
-struct SmileyToolWindowParam
+struct SmileyToolWindowParam : public MZeroedObject
 {
 	SmileyPackType *pSmileyPack;
+	bool bOwnsPack;
 	int xPosition;
 	int yPosition;
 	int direction;

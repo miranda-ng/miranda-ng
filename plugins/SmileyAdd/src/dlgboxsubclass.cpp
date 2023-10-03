@@ -54,7 +54,7 @@ struct MsgWndData : public MZeroedObject
 
 static OBJLIST<MsgWndData> g_MsgWndList(10, HandleKeySortT);
 
-int UpdateSrmmDlg(WPARAM wParam, LPARAM)
+int UpdateSrmmDlg(WPARAM, LPARAM)
 {
 	Srmm_ApplyOptions();
 	return 0;

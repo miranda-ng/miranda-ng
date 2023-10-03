@@ -78,7 +78,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SmileyBase.h"
 #include "smileys.h"
 #include "customsmiley.h"
-#include "services.h"
 #include "options.h"
 #include "download.h"
 #include "anim.h"
@@ -120,6 +119,8 @@ int  SmileyButtonPressed(WPARAM, LPARAM);
 
 // functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
+
+SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact = 0, SmileyPackCType **smlc = nullptr);
 
 MCONTACT DecodeMetaContact(MCONTACT hContact);
 bool IsSmileyProto(char *proto);

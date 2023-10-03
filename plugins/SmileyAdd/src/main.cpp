@@ -25,6 +25,13 @@ HGENMENU  hContactMenuItem;
 
 CMPlugin g_plugin;
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON }
+};
+
+void InitServices();
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static const PLUGININFOEX pluginInfoEx =
@@ -46,11 +53,72 @@ CMPlugin::CMPlugin() :
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Events
 
-static IconItem iconList[] = 
+int AccountListChanged(WPARAM wParam, LPARAM lParam)
 {
-	{ LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON }
-};
+	PROTOACCOUNT *acc = (PROTOACCOUNT *)lParam;
+
+	switch (wParam) {
+	case PRAC_ADDED:
+		if (acc != nullptr) {
+			const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
+			g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
+		}
+		break;
+
+	case PRAC_CHANGED:
+		if (acc != nullptr && acc->szModuleName != nullptr) {
+			CMStringW name(acc->szModuleName);
+			SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(name);
+			if (smc != nullptr) {
+				if (acc->tszAccountName)
+					name = acc->tszAccountName;
+				smc->SetDisplayName(name);
+			}
+		}
+		break;
+
+	case PRAC_REMOVED:
+		g_SmileyCategories.DeleteAccountAsCategory(acc);
+		break;
+
+	case PRAC_CHECKED:
+		if (acc != nullptr) {
+			if (acc->bIsEnabled) {
+				const CMStringW &defaultFile = g_SmileyCategories.GetSmileyCategory(L"Standard")->GetFilename();
+				g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
+			}
+			else g_SmileyCategories.DeleteAccountAsCategory(acc);
+		}
+		break;
+	}
+	return 0;
+}
+
+static int DbSettingChanged(WPARAM hContact, LPARAM lParam)
+{
+	if (hContact == 0)
+		return 0;
+
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
+	if (cws->value.type == DBVT_DELETED)
+		return 0;
+
+	if (strcmp(cws->szSetting, "Transport") == 0) {
+		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(L"Standard");
+		if (smc != nullptr)
+			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());
+	}
+	return 0;
+}
+
+
+static int ReloadColors(WPARAM, LPARAM)
+{
+	opt.SelWndBkgClr = db_get_dw(0, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	return 0;
+}
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
@@ -99,24 +167,16 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, MirandaShutdown);
 	HookEvent(ME_OPT_INITIALISE, SmileysOptionsInitialize);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu);
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, UpdateSrmmDlg);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccountListChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DbSettingChanged);
-	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
+	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
 	HookEvent(ME_MSG_BUTTONPRESSED, SmileyButtonPressed);
 	
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, SmileyButtonCreate);
 
 	// create the smiley services
-	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);
-	CreateServiceFunction(MS_SMILEYADD_GETINFO2, GetInfoCommand2);
-	CreateServiceFunction(MS_SMILEYADD_REGISTERCATEGORY, RegisterPack);
-	CreateServiceFunction(MS_SMILEYADD_BATCHPARSE, ParseTextBatch);
-	CreateServiceFunction(MS_SMILEYADD_BATCHFREE, FreeTextBatch);
-	CreateServiceFunction(MS_SMILEYADD_CUSTOMCATMENU, CustomCatMenu);
-	CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
-	CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys);
+	InitServices();
 	return 0;
 }
 
