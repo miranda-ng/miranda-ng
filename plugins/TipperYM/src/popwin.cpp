@@ -285,11 +285,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->iRowCount == 0) {
 						// single item
 						pwd->iRowCount = 1;
-						pwd->rows = (RowData *)mir_alloc(sizeof(RowData));
-						pwd->rows[0].bLineAbove = pwd->rows[0].bValueNewline = false;
-						pwd->rows[0].swzLabel = nullptr;
+						pwd->rows = (RowData *)mir_calloc(sizeof(RowData));
 						pwd->rows[0].swzValue = swzText;
-						pwd->rows[0].spi = nullptr;
 					}
 				}
 			}

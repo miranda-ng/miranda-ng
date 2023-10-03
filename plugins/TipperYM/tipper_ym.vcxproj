@@ -31,7 +31,6 @@
     <ClCompile Include="src\mir_smileys.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popwin.cpp" />
-    <ClCompile Include="src\preset_items.cpp" />
     <ClCompile Include="src\skin_parser.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -45,7 +44,6 @@
     <ClInclude Include="src\mir_smileys.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\popwin.h" />
-    <ClInclude Include="src\preset_items.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\skin_parser.h" />
     <ClInclude Include="src\stdafx.h" />

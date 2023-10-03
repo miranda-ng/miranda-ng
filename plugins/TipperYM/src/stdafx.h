@@ -65,7 +65,6 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "str_utils.h"
 #include "subst.h"
-#include "preset_items.h"
 #include "translations.h"
 
 #define MODULENAME "Tipper"

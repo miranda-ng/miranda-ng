@@ -23,18 +23,6 @@ Boston, MA 02111-1307, USA.
 OPTIONS opt;
 ICONSTATE exIcons[EXICONS_COUNT];
 
-// display item types
-static struct
-{
-	DisplayItemType type;
-	wchar_t *title;
-}
-displayItemTypes[] = {
-	{ DIT_ALL, LPGENW("Show for all contact types") },
-	{ DIT_CONTACTS, LPGENW("Show only for contacts") },
-	{ DIT_CHATS, LPGENW("Show only for chatrooms") }
-};
-
 // tray tooltip items
 static wchar_t *trayTipItems[] =
 {
@@ -62,6 +50,114 @@ static wchar_t *extraIconName[] =
 	LPGENW("Client")
 };
 
+// preset items
+
+#define MAX_PRESET_SUBST_COUNT	3
+
+struct PRESETITEM
+{
+	const char *szID;
+	const wchar_t *swzName;
+	const wchar_t *swzLabel;
+	const wchar_t *swzValue;
+	const char *szNeededSubst[MAX_PRESET_SUBST_COUNT];
+};
+
+static PRESETITEM presetItems[] =
+{
+	{ "account", LPGENW("Account"), LPGENW("Account:"), L"%sys:account%" },
+	{ "birth", LPGENW("Birthday"), LPGENW("Birthday:"), L"%birthday_date% (%birthday_age%) @ Next: %birthday_next%", "birthdate", "birthage", "birthnext" },
+	{ "client", LPGENW("Client"), LPGENW("Client:"), L"%raw:/MirVer%" },
+	{ "email", LPGENW("Email"), LPGENW("Email:"), L"%raw:/e-mail%" },
+	{ "gender", LPGENW("Gender"), LPGENW("Gender:"), L"%gender%" },
+	{ "homepage", LPGENW("Homepage"), LPGENW("Homepage:"), L"%raw:/Homepage%" },
+	{ "id", LPGENW("Identifier"), L"%sys:uidname|UID^!MetaContacts%:", L"%sys:uid%" },
+	{ "idle", LPGENW("Idle"), LPGENW("Idle:"), L"%idle% (%idle_diff% ago)", "idle", "idlediff" },
+	{ "ip", L"IP", L"IP:", L"%ip%", "ip" },
+	{ "ipint", LPGENW("IP internal"), LPGENW("IP internal:"), L"%ip_internal%", "ipint" },
+	{ "lastmsg", LPGENW("Last message"), LPGENW("Last message: (%sys:last_msg_reltime% ago)"), L"%sys:last_msg%" },
+	{ "listening", LPGENW("Listening to"), LPGENW("Listening to:"), L"%raw:/ListeningTo%" },
+	{ "name", LPGENW("Name"), LPGENW("Name:"), L"%raw:/FirstName|% %raw:/LastName%" },
+	{ "received", LPGENW("Number of received messages"), LPGENW("Number of msg [IN]:"), L"%sys:msg_count_in%" },
+	{ "sended", LPGENW("Number of sent messages"), LPGENW("Number of msg [OUT]:"), L"%sys:msg_count_out%" },
+	{ "status", LPGENW("Status"), LPGENW("Status:"), L"%Status%", "status" },
+	{ "statusmsg", LPGENW("Status message"), LPGENW("Status message:"), L"%sys:status_msg%" },
+	{ "time", LPGENW("Contact time"), LPGENW("Time:"), L"%sys:time%" },
+	{ "xtitle", LPGENW("xStatus title"), LPGENW("xStatus title:"), L"%xsname%", "xname" },
+	{ "xtext", LPGENW("xStatus text"), LPGENW("xStatus text:"), L"%raw:/XStatusMsg%" },
+	{ "acttitle", LPGENW("[jabber.dll] Activity title"), LPGENW("Activity title:"), L"%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%" },
+	{ "acttext", LPGENW("[jabber.dll] Activity text"), LPGENW("Activity text:"), L"%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%" },
+	{ "lastseentime", LPGENW("[seenplugin.dll] Last seen time"), LPGENW("Last seen time:"), L"%lastseen_date% @ %lastseen_time%", "lsdate", "lstime" },
+	{ "lastseenstatus", LPGENW("[seenplugin.dll] Last seen status"), LPGENW("Last seen status:"), L"%lastseen_status% (%lastseen_ago% ago)", "lsstatus", "lsago" },
+	{ "cond", LPGENW("[weather.dll] Condition"), LPGENW("Condition:"), L"%raw:Current/Condition%" },
+	{ "humidity", LPGENW("[weather.dll] Humidity"), LPGENW("Humidity:"), L"%raw:Current/Humidity%" },
+	{ "minmaxtemp", LPGENW("[weather.dll] Max/Min temperature"), LPGENW("Max/Min:"), L"%raw:Current/High%/%raw:Current/Low%" },
+	{ "moon", LPGENW("[weather.dll] Moon"), LPGENW("Moon:"), L"%raw:Current/Moon%" },
+	{ "pressure", LPGENW("[weather.dll] Pressure"), LPGENW("Pressure:"), L"%raw:Current/Pressure% (%raw:Current/Pressure Tendency%)" },
+	{ "sunrise", LPGENW("[weather.dll] Sunrise"), LPGENW("Sunrise:"), L"%raw:Current/Sunrise%" },
+	{ "sunset", LPGENW("[weather.dll] Sunset"), LPGENW("Sunset:"), L"%raw:Current/Sunset%" },
+	{ "temp", LPGENW("[weather.dll] Temperature"), LPGENW("Temperature:"), L"%raw:Current/Temperature%" },
+	{ "uptime", LPGENW("[weather.dll] Update time"), LPGENW("Update time:"), L"%raw:Current/Update%" },
+	{ "uvindex", LPGENW("[weather.dll] UV Index"), LPGENW("UV Index:"), L"%raw:Current/UV% - %raw:Current/UVI%" },
+	{ "vis", LPGENW("[weather.dll] Visibility"), LPGENW("Visibility:"), L"%raw:Current/Visibility%" },
+	{ "wind", LPGENW("[weather.dll] Wind"), LPGENW("Wind:"), L"%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%" }
+};
+
+PRESETITEM* GetPresetItemByName(const char *szName)
+{
+	for (auto &it : presetItems)
+		if (mir_strcmp(it.szID, szName) == 0)
+			return &it;
+
+	return nullptr;
+}
+
+// preset substitutions
+
+struct PRESETSUBST
+{
+	const char *szID;
+	const wchar_t *swzName;
+	const char *szModuleName;
+	const char *szSettingName;
+	int iTranslateFuncId;
+};
+
+PRESETSUBST presetSubsts[] =
+{
+	{ "gender",    L"gender",           nullptr,     "Gender",       5 },
+	{ "status",    L"Status",           nullptr,     "Status",       1 },
+	{ "ip",        L"ip",               nullptr,     "IP",           7 },
+	{ "ipint",     L"ip_internal",      nullptr,     "RealIP",       7 },
+	{ "idle",      L"idle",             nullptr,     "IdleTS",       2 },
+	{ "idlediff",  L"idle_diff",        nullptr,     "IdleTS",       3 },
+	{ "xname",     L"xsname",           nullptr,     "XStatusName", 17 },
+	{ "lsdate",    L"lastseen_date",   "SeenModule", nullptr,        8 },
+	{ "lstime",    L"lastseen_time",   "SeenModule", nullptr,       10 },
+	{ "lsstatus",  L"lastseen_status", "SeenModule", "OldStatus",    1 },
+	{ "lsago",     L"lastseen_ago",    "SeenModule", "seenTS",       3 },
+	{ "birthdate", L"birthday_date",    nullptr,     "Birth",        8 },
+	{ "birthage",  L"birthday_age",     nullptr,     "Birth",        9 },
+	{ "birthnext", L"birthday_next",    nullptr,     "Birth",       12 },
+	{ "logondate", L"logon_date",       nullptr,     "LogonTS",     15 },
+	{ "logontime", L"logon_time",       nullptr,     "LogonTS",     13 },
+	{ "logonago",  L"logon_ago",        nullptr,     "LogonTS",      3 },
+};
+
+PRESETSUBST* GetPresetSubstByName(const char *szName)
+{
+	if (!szName)
+		return nullptr;
+	
+	for (auto &it : presetSubsts)
+		if (mir_strcmp(it.szID, szName) == 0)
+			return &it;
+
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 {
 	if (swzProto == nullptr)
@@ -83,11 +179,36 @@ extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 	return result;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// default items
+
+struct
+{
+	char *szName;
+	bool bValueNewline;
+}
+static defaultItemList[] =
+{
+	"statusmsg", true,
+	"-", false,
+	"lastmsg", true,
+	"-", false,
+	"client", false,
+	"homepage", false,
+	"email", false,
+	"birth", false,
+	"name", false,
+	"-", false,
+	"time", false,
+	"id", false,
+	"status", false,
+};
+
 void CreateDefaultItems()
 {
-	for (int i = 0; defaultItemList[i].szName; i++) {
-		if (defaultItemList[i].szName[0] == '-') {
-			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
+	for (auto &it : defaultItemList) {
+		if (it.szName[0] == '-') {
+			auto *di_node = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			wcsncpy(di_node->di.swzLabel, L"", LABEL_LEN);
 			wcsncpy(di_node->di.swzValue, L"", VALUE_LEN);
 			di_node->di.bLineAbove = true;
@@ -98,28 +219,28 @@ void CreateDefaultItems()
 			opt.iDiCount++;
 		}
 		else {
-			PRESETITEM *item = GetPresetItemByName(defaultItemList[i].szName);
-			if (item == nullptr) continue;
+			auto *item = GetPresetItemByName(it.szName);
+			if (item == nullptr)
+				continue;
 
 			for (int j = 0; j < MAX_PRESET_SUBST_COUNT; j++) {
-				PRESETSUBST *subst = GetPresetSubstByName(item->szNeededSubst[j]);
-				if (subst == nullptr) continue;
-
-				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
-				wcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
-				ds_node->ds.type = subst->type;
-				strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
-				ds_node->ds.iTranslateFuncId = subst->iTranslateFuncId;
-				ds_node->next = opt.dsList;
-				opt.dsList = ds_node;
-				opt.iDsCount++;
+				if (auto *subst = GetPresetSubstByName(item->szNeededSubst[j])) {
+					auto *ds_node = (DSListNode *)mir_calloc(sizeof(DSListNode));
+					wcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
+					ds_node->ds.type = subst->szModuleName == nullptr ? DVT_PROTODB : DVT_DB;
+					strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
+					ds_node->ds.iTranslateFuncId = subst->iTranslateFuncId;
+					ds_node->next = opt.dsList;
+					opt.dsList = ds_node;
+					opt.iDsCount++;
+				}
 			}
 
-			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			auto *di_node = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			wcsncpy(di_node->di.swzLabel, TranslateW(item->swzLabel), LABEL_LEN);
 			wcsncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
 			di_node->di.bLineAbove = false;
-			di_node->di.bValueNewline = defaultItemList[i].bValueNewline;
+			di_node->di.bValueNewline = it.bValueNewline;
 			di_node->di.bIsVisible = true;
 			di_node->di.bParseTipperVarsFirst = false;
 			di_node->next = opt.diList;
@@ -388,7 +509,7 @@ void LoadOptions()
 
 	opt.iDsCount = db_get_w(0, MODULE_ITEMS, "DSNumValues", 0);
 	for (i = opt.iDsCount - 1; i >= 0; i--) {
-		ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
+		ds_node = (DSListNode *)mir_calloc(sizeof(DSListNode));
 		if (LoadDS(&ds_node->ds, i)) {
 			ds_node->next = opt.dsList;
 			opt.dsList = ds_node;
@@ -405,7 +526,7 @@ void LoadOptions()
 	opt.bWaitForStatusMsg = false;
 	opt.iDiCount = db_get_w(0, MODULE_ITEMS, "DINumValues", 0);
 	for (i = opt.iDiCount - 1; i >= 0; i--) {
-		di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
+		di_node = (DIListNode *)mir_calloc(sizeof(DIListNode));
 		if (LoadDI(&di_node->di, i)) {
 			di_node->next = opt.diList;
 			opt.diList = di_node;
@@ -440,11 +561,11 @@ void LoadOptions()
 
 		// last message item
 		if (di_node) {
-			di_node->next = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			di_node->next = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			di_node = di_node->next;
 		}
 		else {
-			opt.diList = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			opt.diList = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			di_node = opt.diList;
 		}
 
@@ -465,11 +586,11 @@ void LoadOptions()
 
 		// status message item
 		if (di_node) {
-			di_node->next = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			di_node->next = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			di_node = di_node->next;
 		}
 		else {
-			opt.diList = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			opt.diList = (DIListNode *)mir_calloc(sizeof(DIListNode));
 			di_node = opt.diList;
 		}
 
@@ -566,6 +687,20 @@ void LoadOptions()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Item editor dialog
+
+struct
+{
+	DisplayItemType type;
+	wchar_t *title;
+}
+static displayItemTypes[] = {
+	{ DIT_ALL,      LPGENW("Show for all contact types") },
+	{ DIT_CONTACTS, LPGENW("Show only for contacts") },
+	{ DIT_CHATS,    LPGENW("Show only for chatrooms") },
+};
+
 INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DISPLAYITEM *di = (DISPLAYITEM *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -590,8 +725,8 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? BST_CHECKED : BST_UNCHECKED);
 
-		for (int i = 0; presetItems[i].szID; i++)
-			SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateW(presetItems[i].swzName));
+		for (auto &it : presetItems)
+			SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateW(it.swzName));
 
 		variables_skin_helpbutton(hwndDlg, IDC_BTN_VARIABLE);
 
@@ -619,15 +754,14 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (sel != CB_ERR) {
 						wchar_t buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
-						for (int i = 0; presetItems[i].szID; i++) {
-							if (mir_wstrcmp(buff, TranslateW(presetItems[i].swzName)) == 0) {
-								if (presetItems[i].szNeededSubst[0])
-									EndDialog(hwndDlg, IDPRESETITEM + i);
+						for (auto &it : presetItems)
+							if (mir_wstrcmp(buff, TranslateW(it.swzName)) == 0) {
+								if (it.szNeededSubst[0])
+									EndDialog(hwndDlg, IDPRESETITEM + int(&it - presetItems));
 								else
 									EndDialog(hwndDlg, IDOK);
 								break;
 							}
-						}
 					}
 					else EndDialog(hwndDlg, IDOK);
 				}
@@ -651,13 +785,12 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (sel != CB_ERR) {
 					wchar_t buff[256];
 					SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
-					for (int i = 0; presetItems[i].szID; i++) {
-						if (mir_wstrcmp(buff, TranslateW(presetItems[i].swzName)) == 0) {
-							SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateW(presetItems[i].swzLabel));
-							SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
+					for (auto &it : presetItems)
+						if (mir_wstrcmp(buff, TranslateW(it.swzName)) == 0) {
+							SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateW(it.swzLabel));
+							SetDlgItemText(hwndDlg, IDC_ED_VALUE, it.swzValue);
 							break;
 						}
-					}
 				}
 			}
 		}
@@ -821,7 +954,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			DIListNode *di_node = opt.diList, *di_value;
 			while (di_node) {
-				di_value = (DIListNode *)mir_alloc(sizeof(DIListNode));
+				di_value = (DIListNode *)mir_calloc(sizeof(DIListNode));
 				*di_value = *di_node;
 				tvi.item.lParam = (LPARAM)di_value;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(di_value->di.bIsVisible ? 2 : 1);
@@ -832,7 +965,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			DSListNode *ds_node = opt.dsList, *ds_value;
 			while (ds_node) {
-				ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
+				ds_value = (DSListNode *)mir_calloc(sizeof(DSListNode));
 				*ds_value = *ds_node;
 				int index = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_ADDSTRING, 0, (LPARAM)ds_value->ds.swzName);
 				SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_SETITEMDATA, index, (LPARAM)ds_value);
@@ -902,7 +1035,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			switch (LOWORD(wParam)) {
 			case IDC_BTN_ADD:
 				{
-					DIListNode *di_value = (DIListNode *)mir_alloc(sizeof(DIListNode));
+					DIListNode *di_value = (DIListNode *)mir_calloc(sizeof(DIListNode));
 					memset(di_value, 0, sizeof(DIListNode));
 					di_value->di.bIsVisible = true;
 
@@ -935,10 +1068,10 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								if (subst == nullptr)
 									break;
 								if (SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_FINDSTRING, -1, (LPARAM)subst->swzName) == LB_ERR) {
-									DSListNode *ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
+									DSListNode *ds_value = (DSListNode *)mir_calloc(sizeof(DSListNode));
 									memset(ds_value, 0, sizeof(DSListNode));
 									ds_value->next = nullptr;
-									ds_value->ds.type = subst->type;
+									ds_value->ds.type = subst->szModuleName == nullptr ? DVT_PROTODB : DVT_DB;
 									wcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
 
 									if (ds_value->ds.type == DVT_DB && subst->szModuleName)
@@ -966,7 +1099,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			case IDC_BTN_SEPARATOR:
 				{
-					DIListNode *di_value = (DIListNode *)mir_alloc(sizeof(DIListNode));
+					DIListNode *di_value = (DIListNode *)mir_calloc(sizeof(DIListNode));
 					memset(di_value, 0, sizeof(DIListNode));
 					di_value->di.bIsVisible = true;
 					di_value->di.bLineAbove = true;
@@ -1073,7 +1206,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			case IDC_BTN_ADD2:
 				{
-					DSListNode *ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
+					DSListNode *ds_value = (DSListNode *)mir_calloc(sizeof(DSListNode));
 					memset(ds_value, 0, sizeof(DSListNode));
 					if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
 						int index = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_ADDSTRING, 0, (LPARAM)ds_value->ds.swzName);
@@ -1147,7 +1280,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				while (item.hItem != nullptr) {
 					if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item)) {
 						di_node = (DIListNode *)item.lParam;
-						di_value = (DIListNode *)mir_alloc(sizeof(DIListNode));
+						di_value = (DIListNode *)mir_calloc(sizeof(DIListNode));
 						*di_value = *di_node;
 						di_value->next = opt.diList;
 						opt.diList = di_value;
@@ -1166,7 +1299,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				opt.iDsCount = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETCOUNT, 0, 0);
 				for (int i = opt.iDsCount - 1; i >= 0; i--) {
 					ds_node = (DSListNode *)SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETITEMDATA, i, 0);
-					ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
+					ds_value = (DSListNode *)mir_calloc(sizeof(DSListNode));
 					*ds_value = *ds_node;
 					ds_value->next = opt.dsList;
 					opt.dsList = ds_value;
@@ -1479,7 +1612,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			exIcons[i].vis = opt.exIconsVis[i];
 		}
 
-		dat = (EXTRAICONDATA *)mir_alloc(sizeof(EXTRAICONDATA));
+		dat = (EXTRAICONDATA *)mir_calloc(sizeof(EXTRAICONDATA));
 		dat->bDragging = false;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
