@@ -69,8 +69,8 @@ void RemoveBbcodes(CMStringW &wszText)
 			if (it.pEnd) {
 				int idx2 = wszText.Find(it.pEnd, idx);
 				if (idx2 != -1) {
-					wszText.Delete(idx2 - idx);
-					wszText.Delete((int)it.cbEnd);
+					wszText.Delete(idx, idx2 - idx);
+					wszText.Delete(idx, (int)it.cbEnd);
 				}
 			}
 
