@@ -121,9 +121,6 @@ void CDbxSQLite::InitSettings()
 		rc = sqlite3_exec(m_db, "ALTER TABLE tmp RENAME TO events_srt;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
 
-		rc = sqlite3_exec(m_db, "VACUUM;", 0, 0, 0);
-		logError(rc, __FILE__, __LINE__);
-
 		dbv.bVal = 3;
 	}
 
