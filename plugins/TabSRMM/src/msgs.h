@@ -414,7 +414,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     DM_UpdateLastMessage(void) const;
 			   
 	void     AdjustBottomAvatarDisplay(void);
-	void     CalcDynamicAvatarSize(BITMAP *bminfo);
+	bool     CalcDynamicAvatarSize(BITMAP *bminfo);
 	void     DetermineMinHeight(void);
 	BOOL     DoRtfToTags(CMStringW &pszText) const;
 	int      FindRTLLocale(void);

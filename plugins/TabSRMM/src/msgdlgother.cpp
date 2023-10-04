@@ -86,10 +86,10 @@ void CMsgDialog::AdjustBottomAvatarDisplay()
 // calculates avatar layouting, based on splitter position to find the optimal size
 // for the avatar w/o disturbing the toolbar too much.
 
-void CMsgDialog::CalcDynamicAvatarSize(BITMAP *bminfo)
+bool CMsgDialog::CalcDynamicAvatarSize(BITMAP *bminfo)
 {
 	if (m_bWasBackgroundCreate || m_pContainer->cfg.flags.m_bDeferredConfigure || m_pContainer->cfg.flags.m_bCreateMinimized || IsIconic(m_pContainer->m_hwnd))
-		return;  // at this stage, the layout is not yet ready...
+		return false;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -118,8 +118,13 @@ void CMsgDialog::CalcDynamicAvatarSize(BITMAP *bminfo)
 	double newWidth = (double)bminfo->bmWidth * aspect;
 	if (newWidth > (double)(rc.right) * 0.8)
 		newWidth = (double)(rc.right) * 0.8;
-	m_pic.cy = m_iRealAvatarHeight + 2;
-	m_pic.cx = (int)newWidth + 2;
+
+	SIZE sz = { (int)newWidth + 2, m_iRealAvatarHeight + 2 };
+	if (m_pic.cx == sz.cx && m_pic.cy == sz.cy)
+		return false;
+
+	m_pic = sz;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1377,13 +1382,13 @@ void CMsgDialog::LoadOwnAvatar()
 		m_hOwnPic = PluginConfig.g_hbmUnknown;
 
 	if (m_pPanel.isActive() && m_pContainer->cfg.avatarMode != 3) {
-		BITMAP bm;
-
 		m_iRealAvatarHeight = 0;
 		AdjustBottomAvatarDisplay();
+
+		BITMAP bm;
 		GetObject(m_hOwnPic, sizeof(bm), &bm);
-		CalcDynamicAvatarSize(&bm);
-		Resize();
+		if (CalcDynamicAvatarSize(&bm))
+			Resize();
 	}
 }
 

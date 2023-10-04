@@ -635,8 +635,8 @@ void CMsgDialog::DM_RecalcPictureSize()
 	if (hbm) {
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
-		CalcDynamicAvatarSize(&bminfo);
-		Resize();
+		if (CalcDynamicAvatarSize(&bminfo))
+			Resize();
 	}
 	else m_pic.cy = m_pic.cx = 60;
 }
