@@ -505,7 +505,7 @@ int HistoryArray::find(MEVENT hEvent)
 	return -1;
 }
 
-ItemData* HistoryArray::get(int id, bool bLoad)
+ItemData* HistoryArray::get(int id, bool bLoad) const
 {
 	int pageNo = id / HIST_BLOCK_SIZE;
 	if (pageNo >= pages.getCount())

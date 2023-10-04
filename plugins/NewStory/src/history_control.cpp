@@ -432,7 +432,7 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 	}
 }
 
-ItemData* NewstoryListData::GetItem(int idx)
+ItemData* NewstoryListData::GetItem(int idx) const
 {
 	if (totalCount == 0)
 		return nullptr;
@@ -489,6 +489,15 @@ int NewstoryListData::GetItemHeight(int index)
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(m_hwnd, hdc);
 	return item->savedHeight = sz.cy + 5;
+}
+
+bool NewstoryListData::HasSelection() const
+{
+	for (int i = 0; i < totalCount; i++)
+		if (auto *p = GetItem(i))
+			return true;
+
+	return false;
 }
 
 ItemData* NewstoryListData::LoadItem(int idx)
@@ -894,7 +903,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (data->caret != idx)
 				data->EndEditItem(false);
 			data->SetCaret(idx);
-			if (data->selStart == -1)
+			if (!data->HasSelection())
 				data->SetSelection(idx, idx);
 			data->OnContextMenu(idx, pt);
 		}

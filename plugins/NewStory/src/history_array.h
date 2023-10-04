@@ -140,7 +140,7 @@ public:
 		pages.insert(new ItemBlock());
 	}
 
-	ItemData* get(int id, bool bLoad = false);
+	ItemData* get(int id, bool bLoad = false) const;
 	
 	__forceinline int FindNext(int id, const Filter &filter) { return find(id, +1, filter); }
 	__forceinline int FindPrev(int id, const Filter &filter) { return find(id, -1, filter); }
