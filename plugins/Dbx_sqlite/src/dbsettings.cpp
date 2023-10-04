@@ -88,21 +88,39 @@ void CDbxSQLite::InitSettings()
 		logError(rc, __FILE__, __LINE__);
 
 		CQuery updateSql;
-		sqlite3_stmt *updateStmt = InitQuery("update events_srt set timestamp=timestamp+? where id in (select max(id) from events_srt where contact_id=? and timestamp=?);", updateSql);
+		sqlite3_stmt *updateStmt = InitQuery("UPDATE events_srt SET timestamp=timestamp+? "
+			" WHERE rowid IN (SELECT rowid FROM events_srt WHERE contact_id=? AND timestamp=? LIMIT 1);", updateSql);
 
 		sqlite3_stmt *pQuery;
 		rc = sqlite3_prepare_v2(m_db, "SELECT contact_id, timestamp, count(*) AS boo FROM events_srt GROUP BY contact_id, timestamp HAVING boo > 1;", -1, &pQuery, nullptr);
 		logError(rc, __FILE__, __LINE__);
 
+		struct MConvert
+		{
+			MConvert(MCONTACT _1, int64_t _2, int _3) :
+				hContact(_1),
+				ts(_2),
+				iCount(_3)
+			{}
+
+			MCONTACT hContact;
+			int      iCount;
+			int64_t  ts;
+		};
+
+		OBJLIST<MConvert> recs(10000);
 		while (sqlite3_step(pQuery) == SQLITE_ROW) {
 			MCONTACT hContact = sqlite3_column_int(pQuery, 0);
-			int64_t  ts = sqlite3_column_int64(pQuery, 1);
-			int      iCount = sqlite3_column_int(pQuery, 2);
+			int64_t ts = sqlite3_column_int64(pQuery, 1);
+			int iCount = sqlite3_column_int(pQuery, 2);
+			recs.insert(new MConvert(hContact, ts, iCount));
+		}
 
-			for (int i = iCount - 1; i > 0; i--) {
+		for (auto &it: recs) {
+			for (int i = it->iCount - 1; i > 0; i--) {
 				sqlite3_bind_int64(updateStmt, 1, i);
-				sqlite3_bind_int64(updateStmt, 2, hContact);
-				sqlite3_bind_int64(updateStmt, 3, ts);
+				sqlite3_bind_int64(updateStmt, 2, it->hContact);
+				sqlite3_bind_int64(updateStmt, 3, it->ts);
 				rc = sqlite3_step(updateStmt);
 				logError(rc, __FILE__, __LINE__);
 				sqlite3_reset(updateStmt);
@@ -114,6 +132,8 @@ void CDbxSQLite::InitSettings()
 
 		rc = sqlite3_exec(m_db, "INSERT INTO tmp SELECT * FROM events_srt;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
+		if (rc != 0)
+			return;
 
 		rc = sqlite3_exec(m_db, "DROP TABLE events_srt;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
