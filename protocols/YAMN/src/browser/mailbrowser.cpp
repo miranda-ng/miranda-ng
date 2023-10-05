@@ -26,8 +26,12 @@ bool bDate = false, bSub = false, bSize = false, bFrom = false;
 int PosX = 0, PosY = 0, SizeX = 460, SizeY = 100;
 int HeadSizeX = 0x2b2, HeadSizeY = 0x0b5, HeadPosX = 100, HeadPosY = 100;
 int HeadSplitPos = 250; // per-mils of the size 
-static int FromWidth = 250, SubjectWidth = 280, SizeWidth = 50, SizeDate = 205;
 unsigned char optDateTime = (SHOWDATELONG | SHOWDATENOTODAY);
+
+static CMOption<int> FromWidth(YAMN_DBMODULE, "ColFromWidth", 250);
+static CMOption<int> SubjectWidth(YAMN_DBMODULE, "ColSubjectWidth", 280);
+static CMOption<int> SizeWidth(YAMN_DBMODULE, "ColSizeWidth", 80);
+static CMOption<int> SizeDate(YAMN_DBMODULE, "ColSizeDate", 205);
 
 struct CMailNumbersSub
 {
@@ -200,7 +204,7 @@ LPARAM readItemLParam(HWND hwnd, uint32_t iItem)
 	return item.lParam;
 }
 
-inline CAccount *GetWindowAccount(HWND hDlg)
+inline CAccount* GetWindowAccount(HWND hDlg)
 {
 	struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 
@@ -749,7 +753,6 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 				g_plugin.setString(ActualAccount->hContact, "Nick", ActualAccount->Name);
 		}
 	}
-	return;
 }
 
 LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -826,8 +829,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				ActualAccount = (CAccount *)hContact;
+			else ActualAccount = (CAccount *)hContact;
 
 			if ((CAccount *)wParam != ActualAccount)
 				break;
@@ -846,17 +848,15 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_COMMAND:
 		if ((HIWORD(wParam) == STN_CLICKED) && (msg == WM_COMMAND)) {
-			CAccount *ActualAccount;
-			DBVARIANT dbv;
-
 			MCONTACT hContact = PUGetContact(hWnd);
 
+			DBVARIANT dbv;
+			CAccount *ActualAccount;
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
 				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				ActualAccount = (CAccount *)hContact;
+			else ActualAccount = (CAccount *)hContact;
 
 			if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 				switch (msg) {
@@ -1548,8 +1548,9 @@ CREADTEVIEWMESSAGEWINDOW:
 
 INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CAccount *ActualAccount;
 	int Items;
+	CAccount *ActualAccount;
+	CMailWinUserInfo *mwui = (CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1560,7 +1561,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			ListView_SetExtendedListViewStyle(GetDlgItem(hDlg, IDC_LISTMAILS), LVS_EX_FULLROWSELECT);
 
 			ActualAccount = MyParam->account;
-			struct CMailWinUserInfo *mwui = new struct CMailWinUserInfo;
+			mwui = new struct CMailWinUserInfo;
 			mwui->Account = ActualAccount;
 			mwui->TrayIconState = 0;
 			mwui->UpdateMailsMessagesAccess = FALSE;
@@ -1578,14 +1579,25 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			SetDlgItemText(hDlg, IDC_BTNCHECKALL, TranslateT("Select All"));
 			SetDlgItemText(hDlg, IDC_BTNOK, TranslateT("OK"));
 
-			LVCOLUMN lvc0 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, FromWidth, TranslateT("From"), 0, 0};
-			LVCOLUMN lvc1 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SubjectWidth, TranslateT("Subject"), 0, 0};
-			LVCOLUMN lvc2 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeWidth, TranslateT("Size"), 0, 0};
-			LVCOLUMN lvc3 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, SizeDate, TranslateT("Date"), 0, 0};
-			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, 0, (LPARAM)&lvc0);
-			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, 1, (LPARAM)&lvc1);
-			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, (WPARAM)2, (LPARAM)&lvc2);
-			SendDlgItemMessage(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMN, (WPARAM)3, (LPARAM)&lvc3);
+			HWND hwndList = GetDlgItem(hDlg, IDC_LISTMAILS);
+			LVCOLUMN lvc = {};
+			lvc.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT;
+
+			lvc.cx = FromWidth;
+			lvc.pszText = TranslateT("From");
+			ListView_InsertColumn(hwndList, 0, &lvc);
+
+			lvc.cx = SubjectWidth;
+			lvc.pszText = TranslateT("Subject");
+			ListView_InsertColumn(hwndList, 1, &lvc);
+
+			lvc.cx = SizeWidth;
+			lvc.pszText = TranslateT("Size");
+			ListView_InsertColumn(hwndList, 2, &lvc);
+
+			lvc.cx = SizeDate;
+			lvc.pszText = TranslateT("Date");
+			ListView_InsertColumn(hwndList, 3, &lvc);
 
 			if ((ActualAccount->NewMailN.App != nullptr) && (mir_wstrlen(ActualAccount->NewMailN.App)))
 				EnableWindow(GetDlgItem(hDlg, IDC_BTNAPP), TRUE);
@@ -1613,25 +1625,23 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_DESTROY:
 		{
-			RECT coord;
-			LVCOLUMN ColInfo;
-			HYAMNMAIL Parser;
-
 			Window_FreeIcon_IcoLib(hDlg);
-
-			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 			if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
 				break;
+
+			HWND hwndList = GetDlgItem(hDlg, IDC_LISTMAILS);
+			LVCOLUMN ColInfo;
 			ColInfo.mask = LVCF_WIDTH;
-			if (ListView_GetColumn(GetDlgItem(hDlg, IDC_LISTMAILS), 0, &ColInfo))
+			if (ListView_GetColumn(hwndList, 0, &ColInfo))
 				FromWidth = ColInfo.cx;
-			if (ListView_GetColumn(GetDlgItem(hDlg, IDC_LISTMAILS), 1, &ColInfo))
+			if (ListView_GetColumn(hwndList, 1, &ColInfo))
 				SubjectWidth = ColInfo.cx;
-			if (ListView_GetColumn(GetDlgItem(hDlg, IDC_LISTMAILS), 2, &ColInfo))
+			if (ListView_GetColumn(hwndList, 2, &ColInfo))
 				SizeWidth = ColInfo.cx;
-			if (ListView_GetColumn(GetDlgItem(hDlg, IDC_LISTMAILS), 3, &ColInfo))
+			if (ListView_GetColumn(hwndList, 3, &ColInfo))
 				SizeDate = ColInfo.cx;
 
+			RECT coord;
 			if (!YAMNVar.Shutdown && GetWindowRect(hDlg, &coord))	//the YAMNVar.Shutdown testing is because M<iranda strange functionality at shutdown phase, when call to DBWriteContactSetting freezes calling thread
 			{
 				PosX = coord.left;
@@ -1652,7 +1662,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 
 			//delete mails from queue, which are deleted from server (spam level 3 mails e.g.)
-			for (Parser = (HYAMNMAIL)ActualAccount->Mails; Parser != nullptr; Parser = Parser->Next) {
+			for (HYAMNMAIL Parser = (HYAMNMAIL)ActualAccount->Mails; Parser != nullptr; Parser = Parser->Next) {
 				if ((Parser->Flags & YAMN_MSG_DELETED) && YAMN_MSG_SPAML(Parser->Flags, YAMN_MSG_SPAML3) && mwui->Seen)		//if spaml3 was already deleted and user knows about it
 				{
 					DeleteMessageFromQueueFcn((HYAMNMAIL *)&ActualAccount->Mails, Parser, 1);
@@ -1682,7 +1692,6 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_SHOWWINDOW:
 		{
-			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 
 			if (mwui == nullptr)
 				return 0;
@@ -1955,8 +1964,6 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_TIMER:
 		{
 			NOTIFYICONDATA nid;
-			struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
-
 			memset(&nid, 0, sizeof(nid));
 			nid.cbSize = sizeof(NOTIFYICONDATA);
 			nid.hWnd = hDlg;
@@ -2023,11 +2030,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 						break;
 					case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
 						{
-							BOOL umma;
-							{
-								struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
-								umma = mwui->UpdateMailsMessagesAccess;
-							}
+							BOOL umma = mwui->UpdateMailsMessagesAccess;
 							HYAMNMAIL ActualMail = (HYAMNMAIL)cd->nmcd.lItemlParam;
 							if (!ActualMail)
 								ActualMail = (HYAMNMAIL)readItemLParam(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec);
@@ -2058,8 +2061,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 							if (!umma)
 								ReadDoneFcn(ActualAccount->MessagesAccessSO);
-							break;
 						}
+						break;
 					default:
 						PaintCode = 0;
 					}
@@ -2180,7 +2183,7 @@ void __cdecl MailBrowser(void *Param)
 
 	__try {
 		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-			return;
+			__leave;
 
 		if (!(ActualAccount->AbilityFlags & YAMN_ACC_BROWSE)) {
 			MyParam.nflags = MyParam.nflags & ~YAMN_ACC_MSG;
@@ -2206,8 +2209,7 @@ void __cdecl MailBrowser(void *Param)
 
 			SendMessage(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)ActualAccount, (LPARAM)&Params);	//we ensure this will do the thread who created the browser window
 		}
-		else
-			UpdateMails(nullptr, ActualAccount, MyParam.nflags, MyParam.nnflags);	//update mails without displaying or refreshing any window
+		else UpdateMails(nullptr, ActualAccount, MyParam.nflags, MyParam.nnflags);	//update mails without displaying or refreshing any window
 
 		if ((hMailBrowser != nullptr) && !WndFound) { //we process message loop only for thread that created window
 			while (GetMessage(&msg, nullptr, 0, 0)) {
@@ -2228,10 +2230,10 @@ void __cdecl MailBrowser(void *Param)
 
 INT_PTR RunMailBrowserSvc(WPARAM wParam, LPARAM lParam)
 {
-	PYAMN_MAILBROWSERPARAM Param = (PYAMN_MAILBROWSERPARAM)wParam;
-
 	if ((uint32_t)lParam != YAMN_MAILBROWSERVERSION)
 		return 0;
+
+	PYAMN_MAILBROWSERPARAM Param = (PYAMN_MAILBROWSERPARAM)wParam;
 
 	//an event for successfull copy parameters to which point a pointer in stack for new thread
 	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
