@@ -90,7 +90,7 @@
 #define IDC_CLOSEONDELETE               1127
 #define IDC_LONGDATE                    1128
 #define IDC_SMARTDATE                   1129
-#define IDC_NOSECONDS                   1130
+#define IDC_SECONDS                     1130
 #define IDC_CHECKAPOP                   1200
 #define IDC_STATUSGROUP                 1338
 #define IDC_SPLITTER                    1400

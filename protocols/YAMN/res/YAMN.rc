@@ -217,9 +217,9 @@ BEGIN
     GROUPBOX        "MailBrowser Options",IDC_STATIC,3,48,151,68
     CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,60,143,11
     CONTROL         "Show long localized date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,65,129,8
-    CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,80,129,8
+    CONTROL         "Show current date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,80,129,8
     GROUPBOX        "Date/Time Representation",IDC_STATIC,159,48,148,68
-    CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,94,129,8
+    CONTROL         "Show seconds",IDC_SECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,94,129,8
 END
 
 IDD_POP3ACCOUNTPOPUP DIALOGEX 0, 0, 315, 230

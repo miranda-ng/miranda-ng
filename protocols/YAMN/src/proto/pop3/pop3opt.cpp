@@ -149,8 +149,8 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 	{
 		CheckDlgButton(m_hwnd, IDC_CHECKTTB, g_plugin.getByte(YAMN_TTBFCHECK, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_LONGDATE, (optDateTime & SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SMARTDATE, (optDateTime & SHOWDATENOTODAY) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_NOSECONDS, (optDateTime & SHOWDATENOSECONDS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SMARTDATE, (optDateTime & SHOWDATENOTODAY) ? BST_UNCHECKED : BST_CHECKED);
+		CheckDlgButton(m_hwnd, IDC_SECONDS, (optDateTime & SHOWDATENOSECONDS) ? BST_UNCHECKED : BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_CLOSEONDELETE, g_plugin.getByte(YAMN_CLOSEDELETE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		return true;
 	}
@@ -164,8 +164,8 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 
 		optDateTime = 0;
 		if (IsDlgButtonChecked(m_hwnd, IDC_LONGDATE)) optDateTime |= SHOWDATELONG;
-		if (IsDlgButtonChecked(m_hwnd, IDC_SMARTDATE)) optDateTime |= SHOWDATENOTODAY;
-		if (IsDlgButtonChecked(m_hwnd, IDC_NOSECONDS)) optDateTime |= SHOWDATENOSECONDS;
+		if (!IsDlgButtonChecked(m_hwnd, IDC_SMARTDATE)) optDateTime |= SHOWDATENOTODAY;
+		if (!IsDlgButtonChecked(m_hwnd, IDC_SECONDS)) optDateTime |= SHOWDATENOSECONDS;
 		g_plugin.setByte(YAMN_DBTIMEOPTIONS, optDateTime);
 		return true;
 	}
