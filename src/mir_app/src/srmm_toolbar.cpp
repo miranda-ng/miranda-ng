@@ -495,7 +495,10 @@ class CSrmmToolbarOptions : public CDlgBase
 				tvis.item.iImage = tvis.item.iSelectedImage = 0;
 			}
 			else {
-				tvis.item.pszText = TranslateW(cbd->m_pwszTooltip);
+				if (cbd->m_pwszOptions)
+					tvis.item.pszText = TranslateW(cbd->m_pwszOptions);
+				else
+					tvis.item.pszText = TranslateW(cbd->m_pwszTooltip);
 				tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(m_hImgl, IcoLib_GetIconByHandle(cbd->m_hIcon));
 			}
 			cbd->m_opFlags = 0;
@@ -723,6 +726,13 @@ MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
 	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
 	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
 	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
+
+	CMStringW wszText(cbd->m_pwszTooltip);
+	int idx = wszText.Find('\n');
+	if (idx != -1) {
+		wszText.Truncate(idx);
+		cbd->m_pwszOptions = wszText.Detach();
+	}
 
 	cbd->m_dwButtonID = bbdi->dwButtonID;
 	cbd->m_hIcon = bbdi->hIcon;

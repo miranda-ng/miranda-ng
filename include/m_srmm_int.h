@@ -53,11 +53,12 @@ struct CustomButtonData : public MZeroedObject
 	int      m_dwButtonID;    // id of button used while button creation and to store button info in DB
 	ptrA     m_pszModuleName; // module name without spaces and underline symbols (e.g. "tabsrmm")
 
-	int      m_dwButtonCID;	// button's control id
+	int      m_dwButtonCID;   // button's control id
 	int      m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
 
 	ptrW     m_pwszText;      // button's text
 	ptrW     m_pwszTooltip;   // button's tooltip
+	ptrW     m_pwszOptions;   // button's name in options, might be NULL
 
 	int      m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
 	HANDLE   m_hIcon;         // Handle to icolib registred icon
