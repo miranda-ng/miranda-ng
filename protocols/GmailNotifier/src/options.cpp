@@ -225,7 +225,7 @@ public:
 		g_plugin.setString(acc.hContact, "name", acc.name);
 		g_plugin.setString(acc.hContact, "Nick", acc.name);
 
-		m_combo.GetTextA(acc.pass, _countof(acc.pass));
+		GetDlgItemTextA(m_hwnd, IDC_PASS, acc.pass, _countof(acc.pass));
 		g_plugin.setString(acc.hContact, "Password", acc.pass);
 	}
 
