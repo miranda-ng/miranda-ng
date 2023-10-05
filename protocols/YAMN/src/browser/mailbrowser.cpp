@@ -708,8 +708,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 	}
 
 	if (MN->Real.SoundNC + MN->Virtual.SoundNC != 0)
-		if (nflags & YAMN_ACC_SND)
-			Skin_PlaySound(YAMN_NEWMAILSOUND);
+		Skin_PlaySound(YAMN_NEWMAILSOUND);
 
 	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {
 		POPUPDATAW NoNewMailPopup = {};

@@ -52,7 +52,7 @@ HANDLE RegisterNLClient(char *name)
 }
 
 //Move connection to SSL
-void CNLClient::SSLify() throw(DWORD)
+void CNLClient::SSLify()
 {
 	#ifdef DEBUG_COMM
 	SSL_DebugLog("Staring SSL...");
@@ -78,7 +78,7 @@ void CNLClient::SSLify() throw(DWORD)
 
 //Connects to the server through the sock
 //if not success, exception is throwed
-void CNLClient::Connect(const char *servername, const int port) throw(DWORD)
+void CNLClient::Connect(const char *servername, const int port)
 {
 	NetworkError = SystemError = 0;
 	isTLSed = false;
@@ -111,7 +111,7 @@ int CNLClient::LocalNetlib_Send(HNETLIBCONN hConn, const char *buf, int len, int
 	return Netlib_Send(hConn, buf, len, flags);
 }
 
-void CNLClient::Send(const char *query) throw(DWORD)
+void CNLClient::Send(const char *query)
 {
 	unsigned int Sent;
 
@@ -158,7 +158,7 @@ int CNLClient::LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags
 	return iReturn;
 }
 
-char *CNLClient::Recv(char *buf, int buflen) throw(DWORD)
+char *CNLClient::Recv(char *buf, int buflen)
 {
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<reading>");

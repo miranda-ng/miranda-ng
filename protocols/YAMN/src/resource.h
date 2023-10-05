@@ -24,7 +24,6 @@
 #define IDC_COMBOACCOUNT                1005
 #define IDC_BTNDEFAULT                  1006
 #define IDC_EDITINTERVAL                1007
-#define IDC_CHECKSND                    1008
 #define IDC_CHECKMSG                    1009
 #define IDC_CHECKAPP                    1010
 #define IDC_BTNAPP                      1011

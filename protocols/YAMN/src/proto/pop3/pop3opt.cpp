@@ -63,7 +63,6 @@ struct CBaseOptionsDlg : public CDlgBase
 				SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
 
 			CheckDlgButton(m_hwnd, IDC_CHECK, pAccount->Flags & YAMN_ACC_ENA ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(m_hwnd, IDC_CHECKSND, pAccount->NewMailN.Flags & YAMN_ACC_SND ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKMSG, pAccount->NewMailN.Flags & YAMN_ACC_MSG ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKICO, pAccount->NewMailN.Flags & YAMN_ACC_ICO ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKPOP, pAccount->NewMailN.Flags & YAMN_ACC_POP ? BST_CHECKED : BST_UNCHECKED);
@@ -73,7 +72,6 @@ struct CBaseOptionsDlg : public CDlgBase
 			CheckDlgButton(m_hwnd, IDC_CHECKNPOP, pAccount->NoNewMailN.Flags & YAMN_ACC_POP ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKNCOL, pAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKNMSGP, pAccount->NoNewMailN.Flags & YAMN_ACC_MSGP ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(m_hwnd, IDC_CHECKFSND, pAccount->BadConnectN.Flags & YAMN_ACC_SND ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKFMSG, pAccount->BadConnectN.Flags & YAMN_ACC_MSG ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKFICO, pAccount->BadConnectN.Flags & YAMN_ACC_ICO ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKFPOP, pAccount->BadConnectN.Flags & YAMN_ACC_POP ? BST_CHECKED : BST_UNCHECKED);
@@ -110,7 +108,6 @@ struct CBaseOptionsDlg : public CDlgBase
 			SetDlgItemInt(m_hwnd, IDC_EDITFPOPS, 0, FALSE);
 			SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
 			CheckDlgButton(m_hwnd, IDC_CHECK, BST_CHECKED);
-			CheckDlgButton(m_hwnd, IDC_CHECKSND, BST_CHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKMSG, BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKICO, BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKPOP, BST_CHECKED);
@@ -272,7 +269,6 @@ class CAccOptDlg : public CBaseOptionsDlg
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITLOGIN), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITPASS), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITINTERVAL), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKSND), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKMSG), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKICO), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKAPP), bEnable);
@@ -562,7 +558,6 @@ public:
 
 		BOOL CheckABody = (IsDlgButtonChecked(m_hwnd, IDC_AUTOBODY) == BST_CHECKED);
 		BOOL CheckMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKMSG) == BST_CHECKED);
-		BOOL CheckSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSND) == BST_CHECKED);
 		BOOL CheckIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKICO) == BST_CHECKED);
 
 		BOOL CheckApp = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPP) == BST_CHECKED);
@@ -571,7 +566,6 @@ public:
 		BOOL CheckContactNick = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNICK) == BST_CHECKED);
 		BOOL CheckContactNoEvent = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNOEVENT) == BST_CHECKED);
 
-		BOOL CheckFSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFSND) == BST_CHECKED);
 		BOOL CheckFMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFMSG) == BST_CHECKED);
 		BOOL CheckFIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFICO) == BST_CHECKED);
 
@@ -688,7 +682,6 @@ public:
 			(CheckForce ? YAMN_ACC_FORCE : 0);
 
 		ActualAccount->NewMailN.Flags =
-			(CheckSnd ? YAMN_ACC_SND : 0) |
 			(CheckMsg ? YAMN_ACC_MSG : 0) |
 			(CheckIco ? YAMN_ACC_ICO : 0) |
 			(ActualAccount->NewMailN.Flags & YAMN_ACC_POP) |
@@ -706,7 +699,6 @@ public:
 			(CheckNMsgP ? YAMN_ACC_MSGP : 0);
 
 		ActualAccount->BadConnectN.Flags =
-			(CheckFSnd ? YAMN_ACC_SND : 0) |
 			(CheckFMsg ? YAMN_ACC_MSG : 0) |
 			(CheckFIco ? YAMN_ACC_ICO : 0) |
 			(ActualAccount->BadConnectN.Flags & YAMN_ACC_POP) |
@@ -1067,7 +1059,6 @@ public:
 			(CheckPopN ? YAMN_ACC_POPN : 0);
 
 		ActualAccount->NewMailN.Flags =
-			(ActualAccount->NewMailN.Flags & YAMN_ACC_SND) |
 			(ActualAccount->NewMailN.Flags & YAMN_ACC_MSG) |
 			(ActualAccount->NewMailN.Flags & YAMN_ACC_ICO) |
 			(CheckPopup ? YAMN_ACC_POP : 0) |
@@ -1085,7 +1076,6 @@ public:
 			(ActualAccount->NoNewMailN.Flags & YAMN_ACC_MSGP);
 
 		ActualAccount->BadConnectN.Flags =
-			(ActualAccount->BadConnectN.Flags & YAMN_ACC_SND) |
 			(ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) |
 			(ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) |
 			(CheckFPopup ? YAMN_ACC_POP : 0) |

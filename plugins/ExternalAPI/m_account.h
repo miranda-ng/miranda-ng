@@ -41,7 +41,6 @@ enum
 	ACC_DISCONNECTING,	//disconnecting from server
 };
 
-#define YAMN_ACC_SND  0x00000001	// Plays sound (1)
 #define YAMN_ACC_MSG  0x00000002	// Shows dialog
 #define YAMN_ACC_ICO  0x00000004	// Shows system tray icon (1)
 #define YAMN_ACC_ICOB 0x00000008	// not used now, enables tray icon flashing (1)

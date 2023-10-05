@@ -203,8 +203,7 @@ void __cdecl BadConnection(void *Param)
 		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 			__leave;
 
-		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
-			Skin_PlaySound(YAMN_CONNECTFAILSOUND);
+		Skin_PlaySound(YAMN_CONNECTFAILSOUND);
 
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG)
 			ShowWindow(hBadConnect, SW_SHOWNORMAL);
