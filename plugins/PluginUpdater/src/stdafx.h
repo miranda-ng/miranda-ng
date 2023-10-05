@@ -265,6 +265,4 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder);
 void RemoveBackupFolders(void);
 void RollbackChanges(TFileName &pwszBackupFolder);
 
-char* StrToLower(char *str);
-
 MFilePath InvertMirandaPlatform();

@@ -149,7 +149,7 @@ LBL_Error:
 			m_list.SetCheckState(m_todo->indexOf(&it), bEnable);
 
 			CMStringA szSetting(it->wszOldName);
-			db_set_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), it->bEnabled = bEnable);
+			db_set_b(0, DB_MODULE_FILES, szSetting.MakeLower(), it->bEnabled = bEnable);
 		}
 	}
 
@@ -287,7 +287,7 @@ public:
 
 			FILEINFO *p = (FILEINFO *)lvI.lParam;
 			CMStringA szSetting(p->wszOldName);
-			db_set_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), p->bEnabled = m_list.GetCheckState(nmlv->iItem));
+			db_set_b(0, DB_MODULE_FILES, szSetting.MakeLower(), p->bEnabled = m_list.GetCheckState(nmlv->iItem));
 
 			// Toggle the Download button
 			bool enableOk = false;
@@ -716,14 +716,13 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 		}
 
 		CMStringA szSetting(wszBuf.c_str() + cbBaseLen);
-		int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), 1);
+		int bEnabled = db_get_b(0, DB_MODULE_FILES, szSetting.MakeLower(), 1);
 		if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
 			continue;
 
 		// Yeah, we've got new version.
 		FILEINFO *FileInfo = new FILEINFO;
-		// copy the relative old name
-		wcsncpy_s(FileInfo->wszOldName, wszBuf.c_str() + cbBaseLen, _TRUNCATE);
+		wcsncpy_s(FileInfo->wszOldName, wszBuf.c_str() + cbBaseLen, _TRUNCATE); // copy the relative old name
 		FileInfo->bDeleteOnly = bDeleteOnly;
 		if (FileInfo->bDeleteOnly) // save the full old name for deletion
 			wcsncpy_s(FileInfo->wszNewName, wszBuf, _TRUNCATE);

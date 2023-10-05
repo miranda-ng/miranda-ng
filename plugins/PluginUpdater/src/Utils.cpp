@@ -313,16 +313,6 @@ int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* StrToLower(char *str)
-{
-	for (int i = 0; str[i]; i++)
-		str[i] = tolower(str[i]);
-
-	return str;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MFilePath InvertMirandaPlatform()
 {
 	MFilePath wszPath;
