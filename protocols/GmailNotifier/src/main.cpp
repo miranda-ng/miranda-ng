@@ -17,7 +17,7 @@ HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 
 OBJLIST<Account> g_accs(1);
-BOOL optionWindowIsOpen = FALSE;
+bool g_bOptionWindowIsOpen = false;
 short ID_STATUS_NONEW;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (!optionWindowIsOpen)
+	if (!g_bOptionWindowIsOpen)
 		mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
 
 	return 0;

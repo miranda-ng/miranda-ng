@@ -58,7 +58,7 @@ struct Account : public MZeroedObject
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern short ID_STATUS_NONEW;
-extern BOOL optionWindowIsOpen;
+extern bool g_bOptionWindowIsOpen;
 extern OBJLIST<Account> g_accs;
 
 INT_PTR Notifying(WPARAM, LPARAM);

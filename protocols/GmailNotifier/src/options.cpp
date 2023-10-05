@@ -64,7 +64,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		optionWindowIsOpen = TRUE;
+		g_bOptionWindowIsOpen = true;
 		BuildList();
 
 		for (auto &it : g_accs)
@@ -140,6 +140,11 @@ public:
 			hTimer = SetTimer(nullptr, 0, g_plugin.circleTime * 60000, TimerProc);
 		}
 		return true;
+	}
+
+	void OnDestroy() override
+	{
+		g_bOptionWindowIsOpen = false;
 	}
 
 	void onChange_Proxy(CCtrlCheck *)

@@ -74,7 +74,7 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 		Account *curAcc = GetAccountByContact(hContact);
 		PUDeletePopup(curAcc->popUpHwnd);
 		Clist_RemoveEvent(curAcc->hContact, 1);
-		if (GetKeyState(VK_SHIFT) >> 8 || optionWindowIsOpen)
+		if (GetKeyState(VK_SHIFT) >> 8 || g_bOptionWindowIsOpen)
 			return FALSE;
 
 		if (curAcc->oldResults_num != 0) {
@@ -121,7 +121,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 void NotifyUser(Account *curAcc)
 {
-	if (optionWindowIsOpen)
+	if (g_bOptionWindowIsOpen)
 		return;
 
 	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
