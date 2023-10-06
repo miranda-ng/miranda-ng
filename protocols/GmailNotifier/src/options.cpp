@@ -50,7 +50,7 @@ public:
 		btnBrowse.OnClick = Callback(this, &COptionsDlg::onClick_Browse);
 
 		chkPopups.OnChange = Callback(this, &COptionsDlg::onChange_Popups);
-		chkProxy1.OnChange = chkProxy2.OnChange = chkProxy2.OnChange = Callback(this, &COptionsDlg::onChange_Proxy);	
+		chkProxy1.OnChange = chkProxy2.OnChange = chkProxy3.OnChange = Callback(this, &COptionsDlg::onChange_Proxy);	
 	}
 
 	void OnChange() override
