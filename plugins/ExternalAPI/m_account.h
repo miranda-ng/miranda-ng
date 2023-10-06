@@ -11,7 +11,6 @@
 
 #include <windows.h>
 #include <tchar.h>
-#include "m_synchro.h"		//include synchronizing objects. If you want to write protocol plugin, which works with YAMN accounts, it must use YAMN synchronizing objects
 
  //
  //================================== OTHER DEFINITIONS ========================================
@@ -87,7 +86,153 @@ struct CServer
 //================================== ACCOUNT DEFINITION ==================================
 //
 
-typedef struct CAccount
+#define WAIT_FINISH	WAIT_OBJECT_0+1
+
+// This structure is used to get semaphore-like synchronization:
+// Includes incrementing, decrementing DWORD value and if DWORD is zero, sets event
+class SCOUNTER
+{
+	HANDLE Event;
+	uint32_t Number = 0;
+	CRITICAL_SECTION CounterCS;
+
+public:
+	SCOUNTER();
+	SCOUNTER(HANDLE InitializedEvent);
+	~SCOUNTER();
+
+	__forceinline HANDLE GetEvent() const { return Event; }
+
+	uint32_t GetNumber();
+	uint32_t Inc();
+	uint32_t Dec();
+};
+
+struct SCGuard
+{
+	SCOUNTER &pSC;
+
+	__forceinline SCGuard(SCOUNTER &sc) :
+		pSC(sc)
+	{
+		sc.Inc();
+	}
+
+	__forceinline ~SCGuard()
+	{
+		pSC.Dec();
+	}
+};
+
+// The single-writer/multiple-reader guard 
+// compound synchronization object (SO)
+// Notices: Copyright (c) 1995-1997 Jeffrey Richter
+// Changes: majvan, only one process implementation,
+//          hFinishEV event added- signals when we do not want to use this SO anymore
+
+class SWMRG
+{
+	// This event guards access to the other objects
+	// managed by this data structure and also indicates 
+	// whether any writer threads are writing.
+	HANDLE hEventNoWriter;
+
+	// This manual-reset event is signaled when
+	// no reader threads are reading.
+	HANDLE hEventNoReaders;
+
+	// This value is used simply as a counter.
+	// (the count is the number of reader threads)
+	HANDLE hSemNumReaders;
+
+	// The request is for not to enter critical section
+	// for writing or reading due to going to delete guard
+	HANDLE hFinishEV;
+
+public:
+	SWMRG(wchar_t *Name = nullptr);
+	~SWMRG();
+
+	uint32_t WaitToWrite(uint32_t dwTimeout = INFINITE);
+	void DoneWriting();
+
+	uint32_t WaitToRead(uint32_t dwTimeout = INFINITE);
+	void DoneReading();
+
+	void Stop()
+	{
+		::SetEvent(hFinishEV);
+	}
+};
+
+struct SReadGuard
+{
+	SWMRG &pSO;
+	uint32_t dwError;
+
+	SReadGuard(SWMRG &so, uint32_t timeout = INFINITE) :
+		pSO(so)
+	{
+		dwError = so.WaitToRead(timeout);
+	}
+
+	~SReadGuard()
+	{
+		Uninit();
+	}
+
+	bool Succeeded() const
+	{
+		return dwError == WAIT_OBJECT_0;
+	}
+
+	void Uninit()
+	{
+		if (dwError == WAIT_OBJECT_0) {
+			pSO.DoneReading();
+			dwError = WAIT_FINISH;
+		}
+	}
+
+	operator uint32_t() const { return dwError; }
+};
+
+struct SWriteGuard
+{
+	SWMRG &pSO;
+	uint32_t dwError;
+
+	SWriteGuard(SWMRG &so, uint32_t timeout = INFINITE) :
+		pSO(so)
+	{
+		dwError = so.WaitToWrite(timeout);
+	}
+
+	~SWriteGuard()
+	{
+		Uninit();
+	}
+
+	bool Succeeded() const
+	{
+		return dwError == WAIT_OBJECT_0;
+	}
+
+	void Uninit()
+	{
+		if (dwError == WAIT_OBJECT_0) {
+			pSO.DoneWriting();
+			dwError = WAIT_FINISH;
+		}
+	}
+
+	operator uint32_t() const { return dwError; }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CAccount - basic email account class
+
+struct CAccount
 {
 	#define YAMN_ACCOUNTFILEVERSION	2	//version of standard file format (YAMN book file format)
 	#define YAMN_ACCOUNTVERSION	3
@@ -97,7 +242,7 @@ typedef struct CAccount
 
 	BOOL AbleToWork;			// This is set to TRUE by default. When it is needed to stop working on this account, YAMN sets this to zero.
 
-	struct CYAMNProtoPlugin *Plugin;	// free access, because this member should not be changed. The same as YAMN_PLUGIN structure
+	struct YAMN_PROTOPLUGIN *Plugin;	// free access, because this member should not be changed. The same as YAMN_PLUGIN structure
 
 	char *Name;				// access only through AccountAccessSO
 
@@ -159,7 +304,7 @@ typedef struct CAccount
 
 	// This is event with counter. Event is signaled when no threads are using account (and will not be using)
 	// Very usefull for account delete operation
-	PSCOUNTER UsingThreads;
+	SCOUNTER UsingThreads;
 
 	// We have to achieve, that only one thread can write to account and more threads can read.
 	// Writing to account means that we change account parameters
@@ -168,7 +313,7 @@ typedef struct CAccount
 	// For plugins, this is a pointer to void. It does not matter for plugin what is this variable for,
 	// because plugin works only with synchronization routines. And why is this void * ? It is because
 	// plugin does not need to include headers for SWMRG structures...
-	PSWMRG AccountAccessSO;
+	SWMRG AccountAccessSO;
 
 	// We have to achieve, that only one thread can write to account mails and more threads can read.
 	// While some thread writes mails, other thread can write to account. This can be small problem, but it never appears in YAMN.
@@ -176,7 +321,7 @@ typedef struct CAccount
 	// Writing to messages means any changes to message queue or message data
 	// Reading from messages means reading message queue (browsing through all messages) or reading message data
 	// Use MsgsWaitToRead(),MsgsReadDone(),MsgsWaitToWrite(),MsgsWriteDone() synchronization functions
-	PSWMRG MessagesAccessSO;
+	SWMRG MessagesAccessSO;
 
 	//For clist contact notification
 	MCONTACT hContact;
@@ -184,48 +329,5 @@ typedef struct CAccount
 
 	CAccount *Next;
 };
-
-//
-//================================== FUNCTIONS DEFINITIONS ========================================
-//
-
-typedef void (WINAPI *YAMN_SETSTATUSFCN)(CAccount*, TCHAR *);
-typedef void (WINAPI *YAMN_GETSTATUSFCN)(CAccount*, TCHAR *);
-
-//
-//================================== QUICK FUNCTION CALL DEFINITIONS ========================================
-//
-
-//These are defininitions for YAMN exported functions. Your plugin can use them.
-//pYAMNFcn is global variable, it is pointer to your structure containing YAMN functions.
-//It is something similar like pluginLink variable in Miranda plugin. If you use
-//this name of variable, you have already defined these functions and you can use them.
-//It's similar to Miranda's CreateService function.
-
-//How to use YAMN functions:
-//Create a structure containing pointer to functions you want to use in your plugin
-//This structure can look something like this:
-//
-//	struct
-//	{
-//		YAMN_SETSTATUSFCN	SetStatusFcn;
-//		YAMN_GETSTATUSFCN	GetStatusFcn;
-//	} *pYAMNFcn;
-//
-//then you have to fill this structure with pointers...
-//
-//	pYAMNFcn->SetStatusFcn=(YAMN_SETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_SETSTATUSID,0);
-//	pYAMNFcn->GetStatusFcn=(YAMN_GETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_GETSTATUSID,0);
-//
-//and in your plugin just simply use e.g.:
-//
-//	SetAccountStatus(ActualAccount,ACC_CONNECTING);		//this command set account status to "connecting to server"
-//
-
-#define	YAMN_SETSTATUSID	"YAMN/SetStatus"
-#define	YAMN_GETSTATUSID	"YAMN/GetStatus"
-
-#define SetAccountStatus(x,y)		pYAMNFcn->SetStatusFcn(x,y)
-#define GetAccountStatus(x,y)		pYAMNFcn->GetStatusFcn(x,y)
 
 #endif

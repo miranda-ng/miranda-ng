@@ -153,58 +153,6 @@ void LoadIcons()
 	g_plugin.registerIcon("YAMN", iconList);
 }
 
-static void LoadPlugins()
-{
-	wchar_t szSearchPath[MAX_PATH];
-	mir_snwprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
-
-	hDllPlugins = nullptr;
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
-	if (hFind != INVALID_HANDLE_VALUE) {
-		do {
-			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
-			wchar_t *dot = wcsrchr(fd.cFileName, '.');
-			if (dot == nullptr)
-				continue;
-
-			// we have a dot
-			int len = (int)mir_wstrlen(fd.cFileName); // find the length of the string
-			wchar_t *end = fd.cFileName + len; // get a pointer to the NULL
-			int safe = (end - dot) - 1;	// figure out how many chars after the dot are "safe", not including NULL
-
-			if ((safe != 3) || (mir_wstrcmpi(dot + 1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
-				continue;
-
-			wchar_t szPluginPath[MAX_PATH];
-			mir_snwprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
-			HINSTANCE hDll = LoadLibrary(szPluginPath);
-			if (hDll == nullptr)
-				continue;
-
-			LOADFILTERFCN LoadFilter = (LOADFILTERFCN)GetProcAddress(hDll, "LoadFilter");
-			if (nullptr == LoadFilter) {
-				FreeLibrary(hDll);
-				hDll = nullptr;
-				continue;
-			}
-
-			if (!LoadFilter(GetFcnPtrSvc)) {
-				FreeLibrary(hDll);
-				hDll = nullptr;
-			}
-
-			if (hDll != nullptr) {
-				hDllPlugins = (HINSTANCE *)realloc(hDllPlugins, (iDllPlugins + 1) * sizeof(HINSTANCE));
-				hDllPlugins[iDllPlugins++] = hDll;
-			}
-		} while (FindNextFile(hFind, &fd));
-
-		FindClose(hFind);
-	}
-}
-
 int CMPlugin::Load()
 {
 	//	we get the Miranda Root Path
@@ -267,7 +215,6 @@ int CMPlugin::Load()
 	HookEvents();
 
 	LoadIcons();
-	LoadPlugins();
 
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "YAMN_hotkey";

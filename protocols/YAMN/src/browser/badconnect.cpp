@@ -23,7 +23,8 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			si.cb = sizeof(si);
 			CAccount *ActualAccount = (CAccount *)PUGetPluginData(hWnd);
 
-			if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
+			SReadGuard sra(ActualAccount->AccountAccessSO);
+			if (sra == WAIT_OBJECT_0) {
 				if (ActualAccount->BadConnectN.App != nullptr) {
 					wchar_t *Command;
 					if (ActualAccount->BadConnectN.AppParam != nullptr)
@@ -41,8 +42,6 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 						delete[] Command;
 					}
 				}
-
-				ReadDoneFcn(ActualAccount->AccountAccessSO);
 			}
 
 			PUDeletePopup(hWnd);
@@ -76,57 +75,57 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			wchar_t *Message1W = nullptr;
 			POPUPDATAW BadConnectPopup = {};
 
-			ActualAccount = ((struct BadConnectionParam *)lParam)->account;
-			ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;
+			ActualAccount = ((BadConnectionParam *)lParam)->account;
+			ErrorCode = ((BadConnectionParam *)lParam)->errcode;
+			{
+				SReadGuard sra(ActualAccount->AccountAccessSO);
+				if (WAIT_OBJECT_0 != sra)
+					return FALSE;
 
-			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-				return FALSE;
+				int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
+				TitleStrA = new char[size];
+				mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
 
-			int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
-			TitleStrA = new char[size];
-			mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
+				ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
+				ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
+				ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
 
-			ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
-			ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
-			ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
+				if (ShowPopup) {
+					BadConnectPopup.lchIcon = g_plugin.getIcon(IDI_BADCONNECT);
+					BadConnectPopup.colorBack = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
+					BadConnectPopup.colorText = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+					BadConnectPopup.iSeconds = ActualAccount->BadConnectN.PopupTime;
 
-			if (ShowPopup) {
-				BadConnectPopup.lchIcon = g_plugin.getIcon(IDI_BADCONNECT);
-				BadConnectPopup.colorBack = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
-				BadConnectPopup.colorText = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
-				BadConnectPopup.iSeconds = ActualAccount->BadConnectN.PopupTime;
+					BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
+					BadConnectPopup.PluginData = ActualAccount;
+					mir_wstrncpy(BadConnectPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lpwzContactName));
+				}
 
-				BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
-				BadConnectPopup.PluginData = ActualAccount;
-				mir_wstrncpy(BadConnectPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lpwzContactName));
+				if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != nullptr) {
+					Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
+					SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+					wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
+					if (ShowPopup)
+						PUAddPopupW(&BadConnectPopup);
+				}
+				else if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != nullptr) {
+					Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
+					SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+					wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
+					if (ShowPopup)
+						PUAddPopupW(&BadConnectPopup);
+				}
+				else {
+					Message1W = TranslateT("Unknown error");
+					SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+					wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
+					if (ShowPopup)
+						PUAddPopupW(&BadConnectPopup);
+				}
+
+				if (!ShowMsg && !ShowIco)
+					DestroyWindow(hDlg);
 			}
-
-			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != nullptr) {
-				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
-				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
-				if (ShowPopup)
-					PUAddPopupW(&BadConnectPopup);
-			}
-			else if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != nullptr) {
-				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
-				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
-				if (ShowPopup)
-					PUAddPopupW(&BadConnectPopup);
-			}
-			else {
-				Message1W = TranslateT("Unknown error");
-				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
-				if (ShowPopup)
-					PUAddPopupW(&BadConnectPopup);
-			}
-
-			if (!ShowMsg && !ShowIco)
-				DestroyWindow(hDlg);
-
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 			SetWindowTextA(hDlg, TitleStrA);
 			delete[] TitleStrA;
@@ -141,7 +140,6 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		{
 			NOTIFYICONDATA nid;
-
 			memset(&nid, 0, sizeof(NOTIFYICONDATA));
 			nid.cbSize = sizeof(NOTIFYICONDATA);
 			nid.hWnd = hDlg;
@@ -182,27 +180,22 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 	return 0;
 }
 
-void __cdecl BadConnection(void *Param)
+static void __cdecl BadConnection(void *Param)
 {
 	MSG msg;
 	HWND hBadConnect;
 	CAccount *ActualAccount;
 
-	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
-	ActualAccount = MyParam.account;
+	auto *MyParam = (BadConnectionParam *)Param;
+	ActualAccount = MyParam->account;
 
-	SCIncFcn(ActualAccount->UsingThreads);
+	SCGuard sc(ActualAccount->UsingThreads);
 
-	//	we will not use params in stack anymore
-	SetEvent(MyParam.ThreadRunningEV);
+	hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
+	Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
 
-	__try {
-		hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
-		Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
-
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-			__leave;
-
+	SReadGuard sra(ActualAccount->AccountAccessSO);
+	if (WAIT_OBJECT_0 == sra) {
 		Skin_PlaySound(YAMN_CONNECTFAILSOUND);
 
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG)
@@ -218,8 +211,7 @@ void __cdecl BadConnection(void *Param)
 			mir_snwprintf(nid.szTip, L"%S%s", ActualAccount->Name, TranslateT(" - connection error"));
 			Shell_NotifyIcon(NIM_ADD, &nid);
 		}
-
-		ReadDoneFcn(ActualAccount->AccountAccessSO);
+		sra.Uninit();
 
 		UpdateWindow(hBadConnect);
 		while (GetMessage(&msg, nullptr, 0, 0)) {
@@ -231,20 +223,12 @@ void __cdecl BadConnection(void *Param)
 		if ((ActualAccount->Plugin->Fcn != nullptr) && (ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr != nullptr) && ActualAccount->AbleToWork)
 			ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr();
 	}
-	__finally {
-		SCDecFcn(ActualAccount->UsingThreads);
-	}
+	delete MyParam;
 }
 
 int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo)
 {
-	BadConnectionParam param = {CreateEvent(nullptr, FALSE, FALSE, nullptr), acc, iErrorCode, pUserInfo};
-
-	HANDLE NewThread = mir_forkthread(BadConnection, &param);
-	if (nullptr == NewThread)
-		return 0;
-
-	WaitForSingleObject(param.ThreadRunningEV, INFINITE);
-	CloseHandle(param.ThreadRunningEV);
+	BadConnectionParam param = { acc, iErrorCode, pUserInfo };
+	mir_forkthread(BadConnection, new BadConnectionParam(param));
 	return 1;
 }

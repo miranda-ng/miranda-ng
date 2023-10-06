@@ -31,7 +31,5 @@ extern unsigned char optDateTime;
 //  Loading Icon and checking for icolib 
 void LoadIcons();
 
-typedef INT_PTR (*LOADFILTERFCN)(MIRANDASERVICE GetYAMNFcn);
-
 #endif
 

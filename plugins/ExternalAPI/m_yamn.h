@@ -7,13 +7,13 @@
 //================================== VARIABLES STRUCT ========================================
 //
 
-typedef struct CYAMNVariables
+struct YAMN_VARIABLES
 {
 #define YAMN_VARIABLESVERSION	3
 	MWindowList MessageWnds;
 	MWindowList NewMailAccountWnd;
 	int Shutdown;
-} YAMN_VARIABLES, *PYAMN_VARIABLES;
+};
 
 //
 //================================== EXPORTED FUNCTIONS STRUCT ===============================
@@ -67,13 +67,6 @@ struct CExportedServices
 //LPARAM- not used now, but set it to 0
 //returns pointer to YAMN function or NULL when functions does not exist
 #define	MS_YAMN_GETFCNPTR		"YAMN/Service/GetFcn"
-
-//GetVariables Service
-//Ask YAMN for pointer to CYAMNVariables structure.
-//WPARAM- YAMN_VARIABLESVERSION
-//LPARAM- any value
-//returns pointer to YAMN_VARIABLES or NULL when version of structure does not match
-#define MS_YAMN_GETVARIABLES		"YAMN/Service/GetVar"
 
 //ForceCheck Service
 //Check mail on accounts

@@ -148,7 +148,7 @@ INT_PTR FilterMailSvc(WPARAM wParam, LPARAM lParam)
 	PYAMN_FILTERPLUGINQUEUE ActualPlugin;
 
 	mir_cslock lck(PluginRegCS);
-	WaitToWriteFcn(Account->MessagesAccessSO);
+	SWriteGuard swa(Account->MessagesAccessSO);
 
 	for (ActualPlugin = FirstFilterPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next)
 		if (ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr != nullptr)
@@ -164,6 +164,5 @@ INT_PTR FilterMailSvc(WPARAM wParam, LPARAM lParam)
 	if (YAMN_MSG_SPAML(Mail->Flags, YAMN_MSG_SPAML3))
 		Mail->Flags = Mail->Flags & ~(YAMN_MSG_MEMDELETE);	//set message not to delete it immidiatelly from memory
 
-	WriteDoneFcn(Account->MessagesAccessSO);
 	return 1;
 }

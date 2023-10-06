@@ -7,157 +7,85 @@
 
 #include "stdafx.h"
 
- // Initializes a SWMRG structure. This structure must be 
- // initialized before any writer or reader threads attempt
- // to wait on it.
- // The structure must be allocated by the application and 
- // the structure's address is passed as the first parameter.
- // The lpszName parameter is the name of the object. Pass
- // NULL if you do not want to share the object.
-BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG, wchar_t *Name);
+/////////////////////////////////////////////////////////////////////////////////////////
+// Initializes a SWMRG structure. This structure must be 
+// initialized before any writer or reader threads attempt
+// to wait on it.
+// The structure must be allocated by the application and 
+// the structure's address is passed as the first parameter.
+// The lpszName parameter is the name of the object. Pass
+// NULL if you do not want to share the object.
 
-// Deletes the system resources associated with a SWMRG 
-// structure. The structure must be deleted only when
-// no writer or reader threads in the calling process
-// will wait on it.
-void WINAPI SWMRGDelete(PSWMRG pSWMRG);
-
-// A writer thread calls this function to know when 
-// it can successfully write to the shared data.
-// returns WAIT_FINISH when we are in write-access or WAIT_FAILED
-// when event about quick finishing is set (or when system returns fail when waiting for synchro object)
-uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, uint32_t dwTimeout);
-
-// A writer thread calls this function to let other threads
-// know that it no longer needs to write to the shared data.
-void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
-
-// A reader thread calls this function to know when 
-// it can successfully read the shared data.
-// returns WAIT_FINISH when we are in read-access or WAIT_FAILED
-// when event about quick finishing is set (or when system returns fail when waiting for synchro object)
-uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
-
-// A reader thread calls this function to let other threads
-// know when it no longer needs to read the shared data.
-void WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
-
-// WaitToReadFcn
-// is used to wait for read access with SWMRG SO, but it also increments counter if successfull
-// returns WAIT_FAILED or WAIT_FINISH
-// when WAIT_FAILED, we should not begin to access datas, we are not in read-access mode
-uint32_t WINAPI WaitToReadFcn(PSWMRG SObject);
-
-// WriteDoneFcn
-// is used to release read access with SWMRG SO, but it also decrements counter if successfull
-void WINAPI ReadDoneFcn(PSWMRG SObject);
-
-// This functions is for export purposes
-// Plugin can call this function to manage SCOUNTER synchronization object
-
-// Gets number value stored in SCOUNTER SO
-// Note you must not read the number from memory directly, because
-// CPU can stop reading thread when it has read HI-Word, then another thread
-// can change the value and then OS starts the previous thread, that reads the
-// LO-uint16_t of uint32_t. And the return value HI+LO-uint16_t is corrupted
-uint32_t WINAPI SCGetNumberFcn(PSCOUNTER SCounter);
-
-// Increments SCOUNTER and unsets event
-// Returns Number after incrementing
-uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter);
-
-// Decrements SCOUNTER and sets event if zero
-// Returns Number after decrementing
-uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter);
-
-struct CExportedFunctions SynchroExportedFcn[] =
+SWMRG::SWMRG(wchar_t *Name)
 {
-	{YAMN_WAITTOWRITEID, (void *)WaitToWriteFcn},
-	{YAMN_WRITEDONEID, (void *)WriteDoneFcn},
-	{YAMN_WAITTOREADID, (void *)WaitToReadFcn},
-	{YAMN_READDONEID, (void *)ReadDoneFcn},
-	{YAMN_SCGETNUMBERID, (void *)SCGetNumberFcn},
-	{YAMN_SCINCID, (void *)SCIncFcn},
-	{YAMN_SCDECID, (void *)SCDecFcn},
-};
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-void WINAPI SWMRGDelete(PSWMRG pSWMRG)
-{
-	// Destroys any synchronization objects that were 
-	// successfully created.
-	if (nullptr != pSWMRG->hEventNoWriter)
-		CloseHandle(pSWMRG->hEventNoWriter);
-	if (nullptr != pSWMRG->hEventNoReaders)
-		CloseHandle(pSWMRG->hEventNoReaders);
-	if (nullptr != pSWMRG->hSemNumReaders)
-		CloseHandle(pSWMRG->hSemNumReaders);
-	if (nullptr != pSWMRG->hFinishEV)
-		CloseHandle(pSWMRG->hFinishEV);
-}
-
-BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG, wchar_t *Name)
-{
-	pSWMRG->hEventNoWriter = nullptr;
-	pSWMRG->hEventNoReaders = nullptr;
-	pSWMRG->hSemNumReaders = nullptr;
-	pSWMRG->hFinishEV = nullptr;
-
 	// Creates the automatic-reset event that is signalled when 
 	// no writer threads are writing.
 	// Initially no reader threads are reading.
 	if (Name != nullptr)
 		Name[0] = (wchar_t)'W';
-	pSWMRG->hEventNoWriter = CreateEvent(nullptr, FALSE, TRUE, Name);
+	hEventNoWriter = ::CreateEvent(nullptr, FALSE, TRUE, Name);
 
 	// Creates the manual-reset event that is signalled when 
 	// no reader threads are reading.
 	// Initially no reader threads are reading.
 	if (Name != nullptr)
 		Name[0] = (wchar_t)'R';
-	pSWMRG->hEventNoReaders = CreateEvent(nullptr, TRUE, TRUE, Name);
+	hEventNoReaders = ::CreateEvent(nullptr, TRUE, TRUE, Name);
 
 	// Initializes the variable that indicates the number of 
 	// reader threads that are reading.
 	// Initially no reader threads are reading.
 	if (Name != nullptr)
 		Name[0] = (wchar_t)'C';
-	pSWMRG->hSemNumReaders = CreateSemaphore(nullptr, 0, 0x7FFFFFFF, Name);
+	hSemNumReaders = ::CreateSemaphore(nullptr, 0, 0x7FFFFFFF, Name);
 
 	if (Name != nullptr)
 		Name[0] = (wchar_t)'F';
-	pSWMRG->hFinishEV = CreateEvent(nullptr, TRUE, FALSE, Name);
-
-	// If a synchronization object could not be created,
-	// destroys any created objects and return failure.
-	if ((nullptr == pSWMRG->hEventNoWriter) || (nullptr == pSWMRG->hEventNoReaders) || (nullptr == pSWMRG->hSemNumReaders) || (nullptr == pSWMRG->hFinishEV)) {
-		SWMRGDelete(pSWMRG);
-		return FALSE;
-	}
-	return TRUE;
+	hFinishEV = ::CreateEvent(nullptr, TRUE, FALSE, Name);
 }
 
-uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, uint32_t dwTimeout)
+// Destroys any synchronization objects that were 
+// successfully created.
+
+SWMRG::~SWMRG()
+{
+	if (nullptr != hEventNoWriter)
+		CloseHandle(hEventNoWriter);
+	if (nullptr != hEventNoReaders)
+		CloseHandle(hEventNoReaders);
+	if (nullptr != hSemNumReaders)
+		CloseHandle(hSemNumReaders);
+	if (nullptr != hFinishEV)
+		CloseHandle(hFinishEV);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// SWMRGWaitToWrite
+// A writer thread calls this function to know when 
+// it can successfully write to the shared data.
+// returns WAIT_FINISH when we are in write-access or WAIT_FAILED
+// when event about quick finishing is set (or when system returns fail when waiting for synchro object)
+
+uint32_t SWMRG::WaitToWrite(uint32_t dwTimeout)
 {
 	uint32_t dw;
 	HANDLE aHandles[2];
+	// SSL_DebugLog("SWMRGWaitToWrite %p", this);
 
 	// We can write if the following are true:
 	// 1. No other threads are writing.
 	// 2. No threads are reading.
 	// But first we have to know if SWMRG structure is not about to delete
-	aHandles[0] = pSWMRG->hEventNoWriter;
-	aHandles[1] = pSWMRG->hEventNoReaders;
-	if (WAIT_OBJECT_0 == (dw = WaitForSingleObject(pSWMRG->hFinishEV, 0)))
+	aHandles[0] = hEventNoWriter;
+	aHandles[1] = hEventNoReaders;
+	if (WAIT_OBJECT_0 == (dw = WaitForSingleObject(hFinishEV, 0)))
 		return WAIT_FINISH;
 	if (WAIT_FAILED == dw)
 		return dw;
 	dw = WaitForMultipleObjects(2, aHandles, TRUE, dwTimeout);
 	// if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0 == (WaitForSingleObject(pSWMRG->hFinishEV, 0)))) {
-		SetEvent(pSWMRG->hEventNoWriter);
+	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0 == (WaitForSingleObject(hFinishEV, 0)))) {
+		SetEvent(hEventNoWriter);
 		return WAIT_FINISH;
 	}
 
@@ -170,32 +98,42 @@ uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, uint32_t dwTimeout)
 	return dw;
 }
 
-void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG)
-// Presumably, a writer thread calling this function has
-// successfully called WaitToWrite. This means that we
-// do not have to wait on any synchronization objects 
-// here because the writer already owns the Event.
+/////////////////////////////////////////////////////////////////////////////////////////
+// SWMRGDoneWriting
+// A writer thread calls this function to let other threads
+// know that it no longer needs to write to the shared data.
+
+void SWMRG::DoneWriting()
 {
+	// SSL_DebugLog("SWMRGDoneWriting %p", this);
+
 	// Allow other writer/reader threads to use
 	// the SWMRG synchronization object.
-	SetEvent(pSWMRG->hEventNoWriter);
+	SetEvent(hEventNoWriter);
 }
 
-uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout)
+/////////////////////////////////////////////////////////////////////////////////////////
+// SWMRGWaitToRead
+// is used to wait for read access with SWMRG SO, but it also increments counter if successfull
+// returns WAIT_FAILED or WAIT_FINISH
+// when WAIT_FAILED, we should not begin to access datas, we are not in read-access mode
+
+uint32_t SWMRG::WaitToRead(uint32_t dwTimeout)
 {
 	uint32_t dw;
 	LONG lPreviousCount;
+	// SSL_DebugLog("SWMRGWaitToRead %p", this);
 
 	// We can read if no threads are writing.
 	// And there's not request to delete structure
-	if (WAIT_OBJECT_0 == (dw = WaitForSingleObject(pSWMRG->hFinishEV, 0)))
+	if (WAIT_OBJECT_0 == (dw = WaitForSingleObject(hFinishEV, 0)))
 		return WAIT_FINISH;
 	if (WAIT_FAILED == dw)
 		return dw;
-	dw = WaitForSingleObject(pSWMRG->hEventNoWriter, dwTimeout);
+	dw = WaitForSingleObject(hEventNoWriter, dwTimeout);
 	// if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0 == (WaitForSingleObject(pSWMRG->hFinishEV, 0)))) {
-		SetEvent(pSWMRG->hEventNoWriter);
+	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0 == (WaitForSingleObject(hFinishEV, 0)))) {
+		SetEvent(hEventNoWriter);
 		return WAIT_FINISH;
 	}
 
@@ -204,112 +142,123 @@ uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout)
 		// Increment the number of reader threads.
 		// But there can't be more than one thread incrementing readers,
 		// so this is why we use semaphore.
-		ReleaseSemaphore(pSWMRG->hSemNumReaders, 1, &lPreviousCount);
+		ReleaseSemaphore(hSemNumReaders, 1, &lPreviousCount);
 		if (lPreviousCount == 0)
 			// If this is the first reader thread, 
 			// set event to reflect this. Other reader threads can read, no writer thread can write.
-			ResetEvent(pSWMRG->hEventNoReaders);
+			ResetEvent(hEventNoReaders);
 
 		// Allow other writer/reader threads to use
 		// the SWMRG synchronization object. hEventNoWrite is still non-signaled
 		// (it looks like writer is processing thread, but it is not true)
-		SetEvent(pSWMRG->hEventNoWriter);
+		SetEvent(hEventNoWriter);
 	}
 
-	return(dw);
+	return dw;
 }
 
-void WINAPI SWMRGDoneReading(PSWMRG pSWMRG)
+/////////////////////////////////////////////////////////////////////////////////////////
+// SWMRGDoneReading
+// A reader thread calls this function to let other threads
+// know when it no longer needs to read the shared data.
+
+void SWMRG::DoneReading()
 {
 	HANDLE aHandles[2];
 	LONG lNumReaders;
+	// SSL_DebugLog("SWMRGDoneReading %p", this);
 
 	// We can stop reading if the events are available,
 	// but when we stop reading we must also decrement the
 	// number of reader threads.
-	aHandles[0] = pSWMRG->hEventNoWriter;
-	aHandles[1] = pSWMRG->hSemNumReaders;
+	aHandles[0] = hEventNoWriter;
+	aHandles[1] = hSemNumReaders;
 	WaitForMultipleObjects(2, aHandles, TRUE, INFINITE);
 
 	// Get the remaining number of readers by releasing the
 	// semaphore and then restoring the count by immediately
 	// performing a wait.
-	ReleaseSemaphore(pSWMRG->hSemNumReaders, 1, &lNumReaders);
-	WaitForSingleObject(pSWMRG->hSemNumReaders, INFINITE);
+	ReleaseSemaphore(hSemNumReaders, 1, &lNumReaders);
+	WaitForSingleObject(hSemNumReaders, INFINITE);
 
 	// If there are no remaining readers, 
 	// set the event to relect this.
 	if (lNumReaders == 0)
 		// If there are no reader threads, 
 		// set our event to reflect this.
-		SetEvent(pSWMRG->hEventNoReaders);
+		SetEvent(hEventNoReaders);
 
 	// Allow other writer/reader threads to use
 	// the SWMRG synchronization object.
 	// (it looks like writer is processing thread, but it is not true)
-	SetEvent(pSWMRG->hEventNoWriter);
+	SetEvent(hEventNoWriter);
 }
 
-uint32_t WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter)
+/////////////////////////////////////////////////////////////////////////////////////////
+// SCOUNTER
+
+SCOUNTER::SCOUNTER()
 {
-	uint32_t EnterCode;
-
-	if (WAIT_OBJECT_0 == (EnterCode = SWMRGWaitToWrite(SObject, INFINITE)))
-		if (SCounter != nullptr)
-			SCIncFcn(SCounter);
-
-	return EnterCode;
+	InitializeCriticalSection(&CounterCS);
+	Event = CreateEvent(nullptr, FALSE, TRUE, nullptr);
+	SetEvent(Event);
 }
 
-void WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter)
+SCOUNTER::SCOUNTER(HANDLE InitializedEvent)
 {
-	SWMRGDoneWriting(SObject);
-	if (SCounter != nullptr)
-		SCDecFcn(SCounter);
+	InitializeCriticalSection(&CounterCS);
+	Event = InitializedEvent;
+	SetEvent(Event);
 }
 
-uint32_t WINAPI WaitToReadFcn(PSWMRG SObject)
+SCOUNTER::~SCOUNTER()
 {
-	uint32_t EnterCode = SWMRGWaitToRead(SObject, INFINITE);
-	return EnterCode;
+	DeleteCriticalSection(&CounterCS);
+	CloseHandle(Event);
 }
 
-void WINAPI ReadDoneFcn(PSWMRG SObject)
+// Gets number value stored in SCOUNTER SO
+// Note you must not read the number from memory directly, because
+// CPU can stop reading thread when it has read HI-Word, then another thread
+// can change the value and then OS starts the previous thread, that reads the
+// LO-uint16_t of uint32_t. And the return value HI+LO-uint16_t is corrupted
+
+uint32_t SCOUNTER::GetNumber()
 {
-	SWMRGDoneReading(SObject);
-}
+	EnterCriticalSection(&CounterCS);
 
-uint32_t WINAPI SCGetNumberFcn(PSCOUNTER SCounter)
-{
+	uint32_t Temp = Number;
 
-	EnterCriticalSection(&SCounter->CounterCS);
-
-	uint32_t Temp = SCounter->Number;
-
-	LeaveCriticalSection(&SCounter->CounterCS);
+	LeaveCriticalSection(&CounterCS);
 	return Temp;
 }
 
-uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter)
+// Increments SCOUNTER and unsets event
+// Returns Number after incrementing
+
+uint32_t SCOUNTER::Inc()
 {
-	EnterCriticalSection(&SCounter->CounterCS);
+	EnterCriticalSection(&CounterCS);
 
-	uint32_t Temp = ++SCounter->Number;
-	ResetEvent(SCounter->Event);
+	uint32_t Temp = ++Number;
+	ResetEvent(Event);
 
-	LeaveCriticalSection(&SCounter->CounterCS);
+	LeaveCriticalSection(&CounterCS);
 	return Temp;
 }
 
-uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter)
+// Decrements SCOUNTER and sets event if zero
+// Returns Number after decrementing
+
+uint32_t SCOUNTER::Dec()
 {
 	uint32_t Temp;
-	EnterCriticalSection(&SCounter->CounterCS);
+	EnterCriticalSection(&CounterCS);
 
-	if (!(Temp = --SCounter->Number)) {
-		SetEvent(SCounter->Event);
+	if (!(Temp = --Number)) {
+		SetEvent(Event);
 	}
 
-	LeaveCriticalSection(&SCounter->CounterCS);
+	LeaveCriticalSection(&CounterCS);
 	return Temp;
 }

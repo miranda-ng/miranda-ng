@@ -26,12 +26,6 @@ HANDLE ExitEV;
 //If this is signaled, write accounts to file is performed. Set this event if you want to actualize your accounts and messages
 HANDLE WriteToFileEV;
 
-//Returns pointer to YAMN exported function
-INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam);
-
-//Returns pointer to YAMN variables
-INT_PTR GetVariablesSvc(WPARAM wParam, LPARAM);
-
 // Function every seconds decrements account counter of seconds and checks if they are 0
 // If yes, creates a POP3 thread to check account
 void CALLBACK TimerProc(HWND, UINT, UINT, uint32_t);
@@ -55,45 +49,6 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM)
-{
-	int i;
-
-	for (i=0;i<sizeof(ProtoPluginExportedFcn)/sizeof(ProtoPluginExportedFcn[0]);i++)
-		if (0==mir_strcmp((char *)wParam, ProtoPluginExportedFcn[i].ID))
-			return (INT_PTR)ProtoPluginExportedFcn[i].Ptr;
-	for (i=0;i<sizeof(ProtoPluginExportedSvc)/sizeof(ProtoPluginExportedSvc[0]);i++)
-		if (0==mir_strcmp((char *)wParam, ProtoPluginExportedSvc[i].ID))
-			return (INT_PTR)ProtoPluginExportedSvc[i].Ptr;
-	for (i=0;i<sizeof(SynchroExportedFcn)/sizeof(SynchroExportedFcn[0]);i++)
-		if (0==mir_strcmp((char *)wParam, SynchroExportedFcn[i].ID))
-			return (INT_PTR)SynchroExportedFcn[i].Ptr;
-	for (i=0;i<sizeof(AccountExportedFcn)/sizeof(AccountExportedFcn[0]);i++)
-		if (0==mir_strcmp((char *)wParam, AccountExportedFcn[i].ID))
-			return (INT_PTR)AccountExportedFcn[i].Ptr;
-	for (i=0;i<sizeof(AccountExportedSvc)/sizeof(AccountExportedSvc[0]);i++)
-		if (0==mir_strcmp((char *)wParam, AccountExportedSvc[i].ID))
-			return (INT_PTR)AccountExportedSvc[i].Ptr;
-	for (i=0;i<sizeof(MailExportedFcn)/sizeof(MailExportedFcn[0]);i++)
-		if (0==mir_strcmp((char *)wParam, MailExportedFcn[i].ID))
-			return (INT_PTR)MailExportedFcn[i].Ptr;
-	for (i=0;i<sizeof(MailExportedSvc)/sizeof(MailExportedSvc[0]);i++)
-		if (0==mir_strcmp((char *)wParam, MailExportedSvc[i].ID))
-			return (INT_PTR)MailExportedSvc[i].Ptr;
-	for (i=0;i<sizeof(FilterPluginExportedFcn)/sizeof(FilterPluginExportedFcn[0]);i++)
-		if (0==mir_strcmp((char *)wParam, FilterPluginExportedFcn[i].ID))
-			return (INT_PTR)FilterPluginExportedFcn[i].Ptr;
-	for (i=0;i<sizeof(FilterPluginExportedSvc)/sizeof(FilterPluginExportedSvc[0]);i++)
-		if (0==mir_strcmp((char *)wParam, FilterPluginExportedSvc[i].ID))
-			return (INT_PTR)FilterPluginExportedSvc[i].Ptr;
-	return (INT_PTR)NULL;
-}
-
-INT_PTR GetVariablesSvc(WPARAM wParam, LPARAM)
-{
-	return wParam==YAMN_VARIABLESVERSION ? (INT_PTR)&YAMNVar : (INT_PTR)NULL;
-}
-
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	CAccount *ActualAccount;
@@ -112,15 +67,17 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
 	mir_cslock lck(PluginRegCS);
-	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
-		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, 0))  // we want to access accounts immiadtelly
+	for (YAMN_PROTOPLUGINQUEUE *ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
+		SReadGuard srb(ActualPlugin->Plugin->AccountBrowserSO, 0); // we want to access accounts immiadtelly
+		if (!srb.Succeeded()) 
 			return;
 
 		for (ActualAccount = ActualPlugin->Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = ActualAccount->Next) {
 			if (ActualAccount->Plugin == nullptr || ActualAccount->Plugin->Fcn == nullptr)		//account not inited
 				continue;
 
-			if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0))
+			SReadGuard sra(ActualAccount->AccountAccessSO, 0);
+			if (!sra.Succeeded())
 				continue;
 
 			BOOL isAccountCounting = 0;
@@ -148,14 +105,11 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 					ActualAccount->TimeLeft = ActualAccount->Interval;
 					HANDLE NewThread = CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->TimeoutFcnPtr, &ParamToPlugin, 0, &tid);
-					if (NewThread == nullptr) {
-						ReadDoneFcn(ActualAccount->AccountAccessSO);
+					if (NewThread == nullptr)
 						continue;
-					}
-					else {
-						WaitForSingleObject(ThreadRunningEV, INFINITE);
-						CloseHandle(NewThread);
-					}
+
+					WaitForSingleObject(ThreadRunningEV, INFINITE);
+					CloseHandle(NewThread);
 				}
 			}
 
@@ -171,9 +125,7 @@ ChangeIsCountingStatusLabel:
 					break;
 				}
 			}
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
 	}
 	CloseHandle(ThreadRunningEV);
 }
@@ -191,34 +143,30 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 		return 0;
 
-	{
-		mir_cslock lck(PluginRegCS);
-		for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
-			SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, INFINITE);
+	{	mir_cslock lck(PluginRegCS);
+
+		for (YAMN_PROTOPLUGINQUEUE *ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
+			SReadGuard srb(ActualPlugin->Plugin->AccountBrowserSO);
 			for (ActualAccount = ActualPlugin->Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = ActualAccount->Next) {
 				if (ActualAccount->Plugin->Fcn == nullptr)		//account not inited
 					continue;
 
-				if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
+				SReadGuard sra(ActualAccount->AccountAccessSO);
+				if (!sra.Succeeded())
 					continue;
 
 				if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE)) { //account cannot be forced to check
-					if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr) {
-						ReadDoneFcn(ActualAccount->AccountAccessSO);
+					if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr)
 						continue;
-					}
+
 					struct CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr };
 
-					if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid)) {
-						ReadDoneFcn(ActualAccount->AccountAccessSO);
+					if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 						continue;
-					}
-					else
-						WaitForSingleObject(ThreadRunningEV, INFINITE);
+
+					WaitForSingleObject(ThreadRunningEV, INFINITE);
 				}
-				ReadDoneFcn(ActualAccount->AccountAccessSO);
 			}
-			SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
 		}
 	}
 

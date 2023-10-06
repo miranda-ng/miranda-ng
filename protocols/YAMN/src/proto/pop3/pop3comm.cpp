@@ -14,13 +14,15 @@
 
 #define ERRORSTR_MAXLEN	1024	//in wide-chars
 
+int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer);
+
  //--------------------------------------------------------------------------------------------------
 
 HANDLE hNetLib = nullptr;
-PSCOUNTER CPOP3Account::AccountWriterSO = nullptr;
+SCOUNTER CPOP3Account::AccountWriterSO;
 
 //Creates new CPOP3Account structure
-CAccount *WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN Plugin, DWORD CAccountVersion);
+CAccount *WINAPI CreatePOP3Account(YAMN_PROTOPLUGIN *Plugin, DWORD CAccountVersion);
 
 //Deletes CPOP3Account structure
 void WINAPI DeletePOP3Account(CAccount *Which);
@@ -48,7 +50,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account, DWORD CMimeMailVersion);
 
 //Function does all needed work when connection failed or any error occured
 //Creates structure containing error code, closes internet session, runs "bad connect" function
-static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnect, uint32_t POP3PluginParam, BOOL UseSSL);
+static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnect, uint32_t POP3PluginParam, BOOL UseSSL);
 
 //Checks POP3 account and stores all info to account. It deletes old mails=> synchro
 // WhichTemp- pointer to strucure containing needed information
@@ -87,9 +89,6 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue);
 
 void ExtractMail(char *stream, int len, HYAMNMAIL queue);
 
-YAMNExportedFcns *pYAMNFcn = nullptr;
-MailExportedFcns *pYAMNMailFcn = nullptr;
-
 YAMN_PROTOIMPORTFCN POP3ProtocolFunctions =
 {
 	CreatePOP3Account,
@@ -117,8 +116,7 @@ YAMN_MAILIMPORTFCN POP3MailFunctions =
 	nullptr,
 };
 
-PYAMN_VARIABLES pYAMNVar = nullptr;
-HYAMNPROTOPLUGIN POP3Plugin = nullptr;
+YAMN_PROTOPLUGIN *POP3Plugin = nullptr;
 
 YAMN_PROTOREGISTRATION POP3ProtocolRegistration =
 {
@@ -138,24 +136,21 @@ HANDLE RegisterNLClient(char *name);
 
 CPOP3Account::CPOP3Account()
 {
-	//NOTE! This constructor constructs CAccount structure. If your plugin is not internal,
-	//you will need these constructors. All you need is in Account.cpp. Just copy to your source code
-	//constructor and destructor of CAccount.
+	// NOTE! This constructor constructs CAccount structure. If your plugin is not internal,
+	// you will need these constructors. All you need is in Account.cpp. Just copy to your source code
+	// constructor and destructor of CAccount.
 	UseInternetFree = CreateEvent(nullptr, FALSE, TRUE, nullptr);
-	InternetQueries = new SCOUNTER;
 	AbilityFlags = YAMN_ACC_BROWSE | YAMN_ACC_POPUP;
 
-	SetAccountStatus((CAccount *)this, TranslateT("Disconnected"));
+	SetStatusFcn(this, TranslateT("Disconnected"));
 }
 
 CPOP3Account::~CPOP3Account()
 {
 	CloseHandle(UseInternetFree);
-	if (InternetQueries != nullptr)
-		delete InternetQueries;
 }
 
-CAccount *WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
+CAccount* WINAPI CreatePOP3Account(YAMN_PROTOPLUGIN*, DWORD)
 {
 	//First, we should check whether CAccountVersion matches.
 	//But this is internal plugin, so YAMN's CAccount structure and our CAccount structure are
@@ -164,75 +159,39 @@ CAccount *WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
 	//	if (CAccountVersion != YAMN_ACCOUNTVERSION) return NULL;
 
 	//Now it is needed to construct our POP3 account and return its handle
-	return (CAccount *)new struct CPOP3Account();
+	return new CPOP3Account();
 }
 
 void WINAPI DeletePOP3Account(CAccount *Which)
 {
-	delete (HPOP3ACCOUNT)Which;
+	delete (CPOP3Account*)Which;
 }
 
 void WINAPI StopPOP3Account(CAccount *Which)
 {
-	((HPOP3ACCOUNT)Which)->Client.Stopped = TRUE;
-	if (((HPOP3ACCOUNT)Which)->Client.NetClient != nullptr)			//we should inform also network client. Usefull only when network client implements this feature
-		((HPOP3ACCOUNT)Which)->Client.NetClient->Stopped = TRUE;
+	((CPOP3Account*)Which)->Client.Stopped = TRUE;
+	if (((CPOP3Account*)Which)->Client.NetClient != nullptr)			//we should inform also network client. Usefull only when network client implements this feature
+		((CPOP3Account*)Which)->Client.NetClient->Stopped = TRUE;
 }
 
 //This function is like main function for POP3 internal protocol
 int RegisterPOP3Plugin(WPARAM, LPARAM)
 {
-	// Get YAMN variables we can use
-	if (nullptr == (pYAMNVar = (PYAMN_VARIABLES)CallService(MS_YAMN_GETVARIABLES, YAMN_VARIABLESVERSION, 0)))
-		return 0;
-
-	// We have to get pointers to YAMN exported functions: allocate structure and fill it
-	if (nullptr == (pYAMNFcn = new struct YAMNExportedFcns)) {
-LBL_Error:
+	// Register new pop3 user in netlib
+	if (nullptr == (hNetLib = RegisterNLClient("YAMN (POP3)"))) {
 		UnLoadPOP3(nullptr);
 		return 0;
 	}
 
-	// Register new pop3 user in netlib
-	if (nullptr == (hNetLib = RegisterNLClient("YAMN (POP3)")))
-		goto LBL_Error;
-
-	pYAMNFcn->SetProtocolPluginFcnImportFcn = (YAMN_SETPROTOCOLPLUGINFCNIMPORTFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SETPROTOCOLPLUGINFCNIMPORTID, 0);
-	pYAMNFcn->WaitToWriteFcn = (YAMN_WAITTOWRITEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_WAITTOWRITEID, 0);
-	pYAMNFcn->WriteDoneFcn = (YAMN_WRITEDONEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_WRITEDONEID, 0);
-	pYAMNFcn->WaitToReadFcn = (YAMN_WAITTOREADFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_WAITTOREADID, 0);
-	pYAMNFcn->ReadDoneFcn = (YAMN_READDONEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_READDONEID, 0);
-	pYAMNFcn->SCGetNumberFcn = (YAMN_SCMANAGEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SCGETNUMBERID, 0);
-	pYAMNFcn->SCIncFcn = (YAMN_SCMANAGEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SCINCID, 0);
-	pYAMNFcn->SCDecFcn = (YAMN_SCMANAGEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SCDECID, 0);
-	pYAMNFcn->SetStatusFcn = (YAMN_SETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SETSTATUSID, 0);
-	pYAMNFcn->GetStatusFcn = (YAMN_GETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_GETSTATUSID, 0);
-
-	if (nullptr == (pYAMNMailFcn = new struct MailExportedFcns))
-		goto LBL_Error;
-
-	pYAMNMailFcn->SynchroMessagesFcn = (YAMN_SYNCHROMIMEMSGSFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_SYNCHROMIMEMSGSID, 0);
-	pYAMNMailFcn->TranslateHeaderFcn = (YAMN_TRANSLATEHEADERFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_TRANSLATEHEADERID, 0);
-	pYAMNMailFcn->AppendQueueFcn = (YAMN_APPENDQUEUEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_APPENDQUEUEID, 0);
-	pYAMNMailFcn->DeleteMessagesToEndFcn = (YAMN_DELETEMIMEQUEUEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_DELETEMIMEQUEUEID, 0);
-	pYAMNMailFcn->DeleteMessageFromQueueFcn = (YAMN_DELETEMIMEMESSAGEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_DELETEMIMEMESSAGEID, 0);
-	pYAMNMailFcn->FindMessageByIDFcn = (YAMN_FINDMIMEMESSAGEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_FINDMIMEMESSAGEID, 0);
-	pYAMNMailFcn->CreateNewDeleteQueueFcn = (YAMN_CREATENEWDELETEQUEUEFCN)CallService(MS_YAMN_GETFCNPTR, (WPARAM)YAMN_CREATENEWDELETEQUEUEID, 0);
-
-	//set static variable
-	if (CPOP3Account::AccountWriterSO == nullptr)
-		if (nullptr == (CPOP3Account::AccountWriterSO = new SCOUNTER))
-			goto LBL_Error;
-
-	//First, we register this plugin
-	//it is quite impossible this function returns zero (failure) as YAMN and internal plugin structre versions are the same
+	// First, we register this plugin
+	// it is quite impossible this function returns zero (failure) as YAMN and internal plugin structre versions are the same
 	POP3ProtocolRegistration.Name = Translate("POP3 protocol (internal)");
 	POP3ProtocolRegistration.Description = Translate(__DESCRIPTION);
-	if (nullptr == (POP3Plugin = (HYAMNPROTOPLUGIN)CallService(MS_YAMN_REGISTERPROTOPLUGIN, (WPARAM)&POP3ProtocolRegistration, (LPARAM)YAMN_PROTOREGISTRATIONVERSION)))
+	if (nullptr == (POP3Plugin = (YAMN_PROTOPLUGIN*)CallService(MS_YAMN_REGISTERPROTOPLUGIN, (WPARAM)&POP3ProtocolRegistration, (LPARAM)YAMN_PROTOREGISTRATIONVERSION)))
 		return 0;
 
 	//Next we set our imported functions for YAMN
-	if (!SetProtocolPluginFcnImport(POP3Plugin, &POP3ProtocolFunctions, YAMN_PROTOIMPORTFCNVERSION, &POP3MailFunctions, YAMN_MAILIMPORTFCNVERSION))
+	if (!SetProtocolPluginFcnImportFcn(POP3Plugin, &POP3ProtocolFunctions, YAMN_PROTOIMPORTFCNVERSION, &POP3MailFunctions, YAMN_MAILIMPORTFCNVERSION))
 		return 0;
 
 	//Then, we read all mails for accounts.
@@ -303,18 +262,8 @@ LBL_Error:
 
 DWORD WINAPI UnLoadPOP3(void *)
 {
-	//pYAMNVar is only a pointr, no need delete or free
 	if (hNetLib) {
 		Netlib_CloseHandle(hNetLib); hNetLib = nullptr;
-	}
-	if (CPOP3Account::AccountWriterSO) {
-		delete CPOP3Account::AccountWriterSO; CPOP3Account::AccountWriterSO = nullptr;
-	}
-	if (pYAMNMailFcn) {
-		delete pYAMNMailFcn; pYAMNMailFcn = nullptr;
-	}
-	if (pYAMNFcn) {
-		delete pYAMNFcn; pYAMNFcn = nullptr;
 	}
 	if (FileName) {
 		CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0); FileName = nullptr;
@@ -341,7 +290,7 @@ DWORD WINAPI WritePOP3Options(HANDLE File, CAccount *Which)
 	uint32_t Ver = POP3_FILEVERSION;
 
 	if ((!WriteFile(File, (char *)&Ver, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
-		(!WriteFile(File, (char *)&((HPOP3ACCOUNT)Which)->CP, sizeof(uint16_t), &WrittenBytes, nullptr)))
+		(!WriteFile(File, (char *)&((CPOP3Account*)Which)->CP, sizeof(uint16_t), &WrittenBytes, nullptr)))
 		return EACC_SYSTEM;
 	return 0;
 }
@@ -359,12 +308,12 @@ DWORD WINAPI ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 	if (Ver != POP3_FILEVERSION)
 		return EACC_FILECOMPATIBILITY;
 
-	((HPOP3ACCOUNT)Which)->CP = *(uint16_t *)(*Parser);
+	((CPOP3Account*)Which)->CP = *(uint16_t *)(*Parser);
 	(*Parser) += sizeof(uint16_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 	#ifdef DEBUG_FILEREAD
-	mir_snwprintf(Debug, L"CodePage: %d, remaining %d chars", ((HPOP3ACCOUNT)Which)->CP, End - *Parser);
+	mir_snwprintf(Debug, L"CodePage: %d, remaining %d chars", ((CPOP3Account*)Which)->CP, End - *Parser);
 	MessageBox(NULL, Debug, L"debug", MB_OK);
 	#endif
 	return 0;
@@ -387,7 +336,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account, DWORD)
 		delete NewMail;
 		return nullptr;
 	}
-	NewMail->MailData->CP = ((HPOP3ACCOUNT)Account)->CP;
+	NewMail->MailData->CP = ((CPOP3Account*)Account)->CP;
 	return (HYAMNMAIL)NewMail;
 }
 
@@ -397,7 +346,7 @@ static void SetContactStatus(CAccount *account, int status)
 		g_plugin.setWord(account->hContact, "Status", status);
 }
 
-static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnection, uint32_t POP3PluginParam, BOOL UseSSL)
+static void PostErrorProc(CPOP3Account* ActualAccount, void *ParamToBadConnection, uint32_t POP3PluginParam, BOOL UseSSL)
 {
 	char *DataRX;
 
@@ -431,7 +380,7 @@ static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnection
 		catch (...) {
 		}
 
-		SetAccountStatus(ActualAccount, TranslateT("Disconnected"));
+		SetStatusFcn(ActualAccount, TranslateT("Disconnected"));
 
 		//If we cannot allocate memory, do nothing
 		if (ErrorCode == nullptr) {
@@ -453,7 +402,7 @@ static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnection
 //Checks POP3 account and synchronizes it
 DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 {
-	HPOP3ACCOUNT ActualAccount;
+	CPOP3Account* ActualAccount;
 	CPop3Client *MyClient;
 	HYAMNMAIL NewMails = nullptr, MsgQueuePtr = nullptr;
 	char *DataRX = nullptr, *Temp;
@@ -484,19 +433,18 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 	//			//and then we can in our GetErrorStringFcn e.g. return string "Uncompatible version of YAMN".
 	//	}
 
-	ActualAccount = (HPOP3ACCOUNT)WhichTemp->AccountParam;			//copy address of structure from calling thread to stack of this thread
+	ActualAccount = (CPOP3Account*)WhichTemp->AccountParam;			//copy address of structure from calling thread to stack of this thread
 	YAMNParam = WhichTemp->BrowserParam;
 	CheckFlags = WhichTemp->Flags;
 
-	SCInc(ActualAccount->UsingThreads);
+	SCGuard sc(ActualAccount->UsingThreads);
 	//Unblock YAMN, signal that we have copied all parameters from YAMN thread stack
 	if (INVALID_HANDLE_VALUE != WhichTemp->ThreadRunningEV)
 		SetEvent(WhichTemp->ThreadRunningEV);
 
-	if (WAIT_OBJECT_0 != WaitToRead(ActualAccount)) {
-		SCDec(ActualAccount->UsingThreads);
+	SReadGuard sra(ActualAccount->AccountAccessSO);
+	if (!sra.Succeeded())
 		return 0;
-	}
 
 	MyClient = &ActualAccount->Client;
 	//Now, copy all needed information about account to local variables, so ActualAccount is not blocked in read mode during all connection process, which can last for several minutes.
@@ -507,19 +455,16 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 	ActualCopied.ServerPasswd = _strdup(ActualAccount->Server->Passwd);
 	ActualCopied.NFlags = ActualAccount->NewMailN.Flags;
 	ActualCopied.NNFlags = ActualAccount->NoNewMailN.Flags;
-
-	ReadDone(ActualAccount);
-	SCInc(ActualAccount->InternetQueries);				//increment counter, that there is one more thread waiting for connection
-
-	WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);	//wait until we can use connection
-	SCDec(ActualAccount->InternetQueries);
-
+	sra.Uninit();
+	{
+		SCGuard scq(ActualAccount->InternetQueries);				// increment counter, that there is one more thread waiting for connection
+		WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);	// wait until we can use connection
+	}
 	//OK, we enter the "use internet" section. But after we start communication, we can test if we did not enter the "use internet" section only for the reason,
 	//that previous thread release the internet section because this account has stop signal (we stop account and there are 2 threads: one communicating,
 	//the second one waiting for network access- the first one ends because we want to stop account, this one is released, but should be stopped as well).
 	if (!ActualAccount->AbleToWork) {
 		SetEvent(ActualAccount->UseInternetFree);
-		SCDec(ActualAccount->UsingThreads);
 		return 0;
 	}
 	UsingInternet = TRUE;
@@ -532,7 +477,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 		//	if we are already connected, we have open session (another thread left us open session), so we don't need to login
 		//	note that connected state without logging cannot occur, because if we close session, we always close socket too (we must close socket is the right word :))
 		if ((MyClient->NetClient == nullptr) || !MyClient->NetClient->Connected()) {
-			SetAccountStatus(ActualAccount, TranslateT("Connecting to server"));
+			SetStatusFcn(ActualAccount, TranslateT("Connecting to server"));
 
 			DataRX = MyClient->Connect(ActualCopied.ServerName, ActualCopied.ServerPort, ActualCopied.Flags & YAMN_ACC_SSL23, ActualCopied.Flags & YAMN_ACC_NOTLS);
 			char *timestamp = nullptr;
@@ -552,7 +497,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				DataRX = nullptr;
 			}
 
-			SetAccountStatus(ActualAccount, TranslateT("Entering POP3 account"));
+			SetStatusFcn(ActualAccount, TranslateT("Entering POP3 account"));
 
 			if (ActualCopied.Flags & YAMN_ACC_APOP) {
 				DataRX = MyClient->APOP(ActualCopied.ServerLogin, ActualCopied.ServerPasswd, timestamp);
@@ -572,7 +517,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				DataRX = nullptr;
 			}
 		}
-		SetAccountStatus(ActualAccount, TranslateT("Searching for new mail message"));
+		SetStatusFcn(ActualAccount, TranslateT("Searching for new mail message"));
 
 		DataRX = MyClient->Stat();
 
@@ -607,58 +552,59 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				free(DataRX);
 			DataRX = nullptr;
 		}
+		{
+			SWriteGuard swm(ActualAccount->MessagesAccessSO);
+			if (!swm.Succeeded())
+				throw (uint32_t)(ActualAccount->SystemError = EACC_STOPPED);
 
-		if (WAIT_OBJECT_0 != MsgsWaitToWrite(ActualAccount))
-			throw (uint32_t)(ActualAccount->SystemError = EACC_STOPPED);
+			ActualAccount->LastChecked = now;
+			for (MsgQueuePtr = (HYAMNMAIL)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
+				if (MsgQueuePtr->Flags & YAMN_MSG_BODYREQUESTED) {
+					HYAMNMAIL NewMsgsPtr = nullptr;
+					for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != nullptr; NewMsgsPtr = NewMsgsPtr->Next) {
+						if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
+							wchar_t accstatus[512];
+							mir_snwprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
+							SetStatusFcn(ActualAccount, accstatus);
+							DataRX = MyClient->Top(MsgQueuePtr->Number, 100);
+							if (DataRX != nullptr) {
+								Temp = DataRX;
+								while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
 
-		ActualAccount->LastChecked = now;
-		for (MsgQueuePtr = (HYAMNMAIL)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
-			if (MsgQueuePtr->Flags & YAMN_MSG_BODYREQUESTED) {
-				HYAMNMAIL NewMsgsPtr = nullptr;
-				for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != nullptr; NewMsgsPtr = NewMsgsPtr->Next) {
-					if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
-						wchar_t accstatus[512];
-						mir_snwprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
-						SetAccountStatus(ActualAccount, accstatus);
-						DataRX = MyClient->Top(MsgQueuePtr->Number, 100);
-						if (DataRX != nullptr) {
-							Temp = DataRX;
-							while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
+								if (OKLINE(DataRX))
+									for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
+								while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
+							}
+							else
+								continue;
+							//delete all the headers of the old mail MsgQueuePtr->MailData->TranslatedHeader
+							struct CMimeItem *TH = MsgQueuePtr->MailData->TranslatedHeader;
+							if (TH) for (; MsgQueuePtr->MailData->TranslatedHeader != nullptr;) {
+								TH = TH->Next;
+								if (MsgQueuePtr->MailData->TranslatedHeader->name != nullptr)
+									delete[] MsgQueuePtr->MailData->TranslatedHeader->name;
+								if (MsgQueuePtr->MailData->TranslatedHeader->value != nullptr)
+									delete[] MsgQueuePtr->MailData->TranslatedHeader->value;
+								delete MsgQueuePtr->MailData->TranslatedHeader;
+								MsgQueuePtr->MailData->TranslatedHeader = TH;
+							}
 
-							if (OKLINE(DataRX))
-								for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
-							while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
+							TranslateHeaderFcn(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
+
+							MsgQueuePtr->Flags |= YAMN_MSG_BODYRECEIVED;
+
+							if (DataRX != nullptr)
+								free(DataRX);
+							DataRX = nullptr;
+							break;
 						}
-						else
-							continue;
-						//delete all the headers of the old mail MsgQueuePtr->MailData->TranslatedHeader
-						struct CMimeItem *TH = MsgQueuePtr->MailData->TranslatedHeader;
-						if (TH) for (; MsgQueuePtr->MailData->TranslatedHeader != nullptr;) {
-							TH = TH->Next;
-							if (MsgQueuePtr->MailData->TranslatedHeader->name != nullptr)
-								delete[] MsgQueuePtr->MailData->TranslatedHeader->name;
-							if (MsgQueuePtr->MailData->TranslatedHeader->value != nullptr)
-								delete[] MsgQueuePtr->MailData->TranslatedHeader->value;
-							delete MsgQueuePtr->MailData->TranslatedHeader;
-							MsgQueuePtr->MailData->TranslatedHeader = TH;
-						}
-
-						TranslateHeader(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
-
-						MsgQueuePtr->Flags |= YAMN_MSG_BODYRECEIVED;
-
-						if (DataRX != nullptr)
-							free(DataRX);
-						DataRX = nullptr;
-						break;
 					}
 				}
 			}
+
+			SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);		//we get only new mails on server!
 		}
-
-		SynchroMessages(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);		//we get only new mails on server!
-
-		MsgsWriteDone(ActualAccount);
+		
 		for (MsgQueuePtr = (HYAMNMAIL)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
 			if ((MsgQueuePtr->Flags & YAMN_MSG_BODYREQUESTED) && (MsgQueuePtr->Flags & YAMN_MSG_BODYRECEIVED)) {
 				MsgQueuePtr->Flags &= ~YAMN_MSG_BODYREQUESTED;
@@ -676,7 +622,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				BOOL autoretr = (ActualAccount->Flags & YAMN_ACC_BODY) != 0;
 				DataRX = MyClient->Top(MsgQueuePtr->Number, autoretr ? 100 : 0);
 				mir_snwprintf(accstatus, TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
-				SetAccountStatus(ActualAccount, accstatus);
+				SetStatusFcn(ActualAccount, accstatus);
 
 				if (DataRX != nullptr) {
 					Temp = DataRX;
@@ -689,7 +635,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				else
 					continue;
 
-				TranslateHeader(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
+				TranslateHeaderFcn(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
 
 
 				#ifdef DEBUG_DECODE
@@ -713,18 +659,18 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				MsgQueuePtr = MsgQueuePtr->Next;
 
 			}
+		
+			{	SWriteGuard swm(ActualAccount->MessagesAccessSO);
+				if (!swm.Succeeded())
+					throw (uint32_t)ActualAccount->SystemError == EACC_STOPPED;
 
-			if (WAIT_OBJECT_0 != MsgsWaitToWrite(ActualAccount))
-				throw (uint32_t)ActualAccount->SystemError == EACC_STOPPED;
-
-			if (ActualAccount->Mails == nullptr)
-				ActualAccount->Mails = NewMails;
-			else {
-				ActualAccount->LastMail = ActualAccount->LastChecked;
-				AppendQueue((HYAMNMAIL)ActualAccount->Mails, NewMails);
+				if (ActualAccount->Mails == nullptr)
+					ActualAccount->Mails = NewMails;
+				else {
+					ActualAccount->LastMail = ActualAccount->LastChecked;
+					AppendQueueFcn((HYAMNMAIL)ActualAccount->Mails, NewMails);
+				}
 			}
-
-			MsgsWriteDone(ActualAccount);
 
 			//	we are going to delete mails having SPAM flag level3 and 4 (see m_mails.h) set
 			{
@@ -736,14 +682,14 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 
 			//	if there is no waiting thread for internet connection close it
 			//	else leave connection open
-			if (0 == SCGetNumber(ActualAccount->InternetQueries)) {
+			if (0 == ActualAccount->InternetQueries.GetNumber()) {
 				DataRX = MyClient->Quit();
 				if (DataRX != nullptr)
 					free(DataRX);
 				DataRX = nullptr;
 				MyClient->NetClient->Disconnect();
 
-				SetAccountStatus(ActualAccount, TranslateT("Disconnected"));
+				SetStatusFcn(ActualAccount, TranslateT("Disconnected"));
 			}
 
 			UsingInternet = FALSE;
@@ -756,14 +702,12 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 			throw;			//go to the main exception handling
 		}
 
-		{
-			YAMN_MAILBROWSERPARAM Param = {(HANDLE)nullptr, ActualAccount, ActualCopied.NFlags, ActualCopied.NNFlags, YAMNParam};
+		YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualCopied.NFlags, ActualCopied.NNFlags, YAMNParam};
+		if (CheckFlags & YAMN_FORCECHECK)
+			Param.nnflags |= YAMN_ACC_POP;  // if force check, show popup anyway and if mailbrowser was opened, do not close
+		Param.nnflags |= YAMN_ACC_MSGP;    // do not close browser if already open
+		CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
 
-			if (CheckFlags & YAMN_FORCECHECK)
-				Param.nnflags |= YAMN_ACC_POP;				//if force check, show popup anyway and if mailbrowser was opened, do not close
-			Param.nnflags |= YAMN_ACC_MSGP; //do not close browser if already open
-			CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, (LPARAM)YAMN_MAILBROWSERVERSION);
-		}
 		SetContactStatus(ActualAccount, ActualAccount->isCounting ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 	}
 	#ifdef DEBUG_COMM
@@ -777,12 +721,13 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 		#ifdef DEBUG_COMM
 		DebugLog(CommFile, "ERROR: %x\n", ErrorCode);
 		#endif
-		if (WAIT_OBJECT_0 == MsgsWaitToWrite(ActualAccount)) {
-			ActualAccount->LastChecked = now;
-			MsgsWriteDone(ActualAccount);
+		{
+			SWriteGuard swm(ActualAccount->MessagesAccessSO);
+			if (swm.Succeeded())
+				ActualAccount->LastChecked = now;
 		}
 
-		DeleteMIMEQueue(ActualAccount, NewMails);
+		DeleteMessagesToEndFcn(ActualAccount, NewMails);
 
 		if (DataRX != nullptr)
 			free(DataRX);
@@ -809,7 +754,6 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 	#endif
 
 	//	WriteAccounts();
-	SCDec(ActualAccount->UsingThreads);
 	return 0;
 }
 
@@ -844,49 +788,46 @@ void __cdecl DeleteMailsPOP3(void *param)
 	//			//and then we can in our GetErrorStringFcn e.g. return string "Uncompatible version of YAMN".
 	//	}
 
-	HPOP3ACCOUNT ActualAccount = (HPOP3ACCOUNT)WhichTemp->AccountParam;			//copy address of structure from calling thread to stack of this thread
+	CPOP3Account* ActualAccount = (CPOP3Account*)WhichTemp->AccountParam;			//copy address of structure from calling thread to stack of this thread
 	LPVOID YAMNParam = WhichTemp->BrowserParam;
 	UINT_PTR POP3PluginParam = (UINT_PTR)((struct DeleteParam *)WhichTemp)->CustomParam;
 
-	SCInc(ActualAccount->UsingThreads);
+	SCGuard sc(ActualAccount->UsingThreads);
 	if (INVALID_HANDLE_VALUE != WhichTemp->ThreadRunningEV)
 		SetEvent(WhichTemp->ThreadRunningEV);
+	
+	{	SReadGuard sra(ActualAccount->AccountAccessSO);
+		if (!sra.Succeeded())
+			return;
 
-	if (WAIT_OBJECT_0 != WaitToRead(ActualAccount)) {
-		SCDec(ActualAccount->UsingThreads);
-		return;
-	}
-
-	if (nullptr == (DeleteMails = (HYAMNMAIL)CreateNewDeleteQueue((HYAMNMAIL)ActualAccount->Mails)))	//if there's no mail for deleting, return
-	{
-		if (POP3_DELETEFROMCHECK != POP3PluginParam)						//We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
-		{
-			YAMN_MAILBROWSERPARAM Param = {(HANDLE)nullptr, ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, YAMNParam};		//Just update the window
-			CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, (LPARAM)YAMN_MAILBROWSERVERSION);
+		// if there's no mail for deleting, return
+		if (nullptr == (DeleteMails = CreateNewDeleteQueueFcn((HYAMNMAIL)ActualAccount->Mails))) {
+			// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
+			if (POP3_DELETEFROMCHECK != POP3PluginParam) {
+				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, YAMNParam };		//Just update the window
+				CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
+			}
+			return;
 		}
 
-		SCDec(ActualAccount->UsingThreads);
-		return;
+		MyClient = &ActualAccount->Client;
+
+		// Now, copy all needed information about account to local variables, so ActualAccount is not blocked in read mode during all connection process, which can last for several minutes.
+		ActualCopied.ServerName = _strdup(ActualAccount->Server->Name);
+		ActualCopied.ServerPort = ActualAccount->Server->Port;
+		ActualCopied.Flags = ActualAccount->Flags;
+		ActualCopied.ServerLogin = _strdup(ActualAccount->Server->Login);
+		ActualCopied.ServerPasswd = _strdup(ActualAccount->Server->Passwd);
+		ActualCopied.NFlags = ActualAccount->NewMailN.Flags;
+		ActualCopied.NNFlags = ActualAccount->NoNewMailN.Flags;
+	}
+	
+	{
+		SCGuard scq(ActualAccount->InternetQueries);	// This is POP3-internal SCOUNTER, we set another thread wait for this account to be connected to inet
+		if (POP3_DELETEFROMCHECK != POP3PluginParam)	// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
+			WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);
 	}
 
-	MyClient = &(ActualAccount->Client);
-
-	//Now, copy all needed information about account to local variables, so ActualAccount is not blocked in read mode during all connection process, which can last for several minutes.
-	ActualCopied.ServerName = _strdup(ActualAccount->Server->Name);
-	ActualCopied.ServerPort = ActualAccount->Server->Port;
-	ActualCopied.Flags = ActualAccount->Flags;
-	ActualCopied.ServerLogin = _strdup(ActualAccount->Server->Login);
-	ActualCopied.ServerPasswd = _strdup(ActualAccount->Server->Passwd);
-	ActualCopied.NFlags = ActualAccount->NewMailN.Flags;
-	ActualCopied.NNFlags = ActualAccount->NoNewMailN.Flags;
-
-	ReadDone(ActualAccount);
-
-	SCInc(ActualAccount->InternetQueries);	//This is POP3-internal SCOUNTER, we set another thread wait for this account to be connected to inet
-	if (POP3_DELETEFROMCHECK != POP3PluginParam)	//We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
-		WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);
-
-	SCDec(ActualAccount->InternetQueries);
 	UsingInternet = TRUE;
 
 	try {
@@ -895,7 +836,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		DebugLog(CommFile, "<--------Communication-------->\n");
 		#endif
 		if ((MyClient->NetClient == nullptr) || !MyClient->NetClient->Connected()) {
-			SetAccountStatus(ActualAccount, TranslateT("Connecting to server"));
+			SetStatusFcn(ActualAccount, TranslateT("Connecting to server"));
 
 			DataRX = MyClient->Connect(ActualCopied.ServerName, ActualCopied.ServerPort, ActualCopied.Flags & YAMN_ACC_SSL23, ActualCopied.Flags & YAMN_ACC_NOTLS);
 
@@ -914,7 +855,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 				free(DataRX);
 				DataRX = nullptr;
 			}
-			SetAccountStatus(ActualAccount, TranslateT("Entering POP3 account"));
+			SetStatusFcn(ActualAccount, TranslateT("Entering POP3 account"));
 
 			if (ActualAccount->Flags & YAMN_ACC_APOP) {
 				DataRX = MyClient->APOP(ActualCopied.ServerLogin, ActualCopied.ServerPasswd, timestamp);
@@ -940,7 +881,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		#endif
 		if (POP3_DELETEFROMCHECK != POP3PluginParam)	//We do not need to get mails on server as we have already it from check function
 		{
-			SetAccountStatus(ActualAccount, TranslateT("Deleting requested mails"));
+			SetStatusFcn(ActualAccount, TranslateT("Deleting requested mails"));
 
 			DataRX = MyClient->Stat();
 
@@ -983,16 +924,16 @@ void __cdecl DeleteMailsPOP3(void *param)
 				DataRX = nullptr;
 				//	we get "new mails" on server (NewMails will contain all mails on server not found in DeleteMails)
 				//	but also in DeleteMails we get only those, which are still on server with their responsable numbers
-				SynchroMessages(ActualAccount, (HYAMNMAIL *)&DeleteMails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
+				SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&DeleteMails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
 			}
 		}
-		else SetAccountStatus(ActualAccount, TranslateT("Deleting spam"));
+		else SetStatusFcn(ActualAccount, TranslateT("Deleting spam"));
 
-		if (WAIT_OBJECT_0 != MsgsWaitToWrite(ActualAccount))
-			throw (uint32_t)EACC_STOPPED;
+		{	SWriteGuard swm(ActualAccount->MessagesAccessSO);
+			if (!swm.Succeeded())
+				throw (uint32_t)EACC_STOPPED;
 
-		if (msgs || POP3_DELETEFROMCHECK == POP3PluginParam) {
-			try {
+			if (msgs || POP3_DELETEFROMCHECK == POP3PluginParam) {
 				HYAMNMAIL Temp;
 
 				for (i = 0, MsgQueuePtr = DeleteMails; MsgQueuePtr != nullptr; i++) {
@@ -1002,11 +943,11 @@ void __cdecl DeleteMailsPOP3(void *param)
 						Temp = MsgQueuePtr->Next;
 						if (POP3_FOK == MyClient->AckFlag)			//if server answers that mail was deleted
 						{
-							DeleteMIMEMessage((HYAMNMAIL *)&DeleteMails, MsgQueuePtr);
-							HYAMNMAIL DeletedMail = FindMIMEMessageByID((HYAMNMAIL)ActualAccount->Mails, MsgQueuePtr->ID);
+							DeleteMessageFromQueueFcn((HYAMNMAIL *)&DeleteMails, MsgQueuePtr);
+							HYAMNMAIL DeletedMail = FindMessageByIDFcn((HYAMNMAIL)ActualAccount->Mails, MsgQueuePtr->ID);
 							if ((MsgQueuePtr->Flags & YAMN_MSG_MEMDELETE))		//if mail should be deleted from memory (or disk)
 							{
-								DeleteMIMEMessage((HYAMNMAIL *)&ActualAccount->Mails, DeletedMail);	//remove from queue
+								DeleteMessageFromQueueFcn((HYAMNMAIL *)&ActualAccount->Mails, DeletedMail);	//remove from queue
 								CallService(MS_YAMN_DELETEACCOUNTMAIL, (WPARAM)POP3Plugin, (LPARAM)DeletedMail);
 							}
 							else			//else mark it only as "deleted mail"
@@ -1027,33 +968,27 @@ void __cdecl DeleteMailsPOP3(void *param)
 					else
 						MsgQueuePtr = MsgQueuePtr->Next;
 				}
-			}
-			catch (...)		//if any exception in the code where we have write-access to account occured, don't forget to leave write-access
-			{
-				MsgsWriteDone(ActualAccount);
-				throw;			//and go to the main exception handling
-			}
 
-			if (NewMails != nullptr)
-				//	in ActualAccount->Mails we have all mails stored before calling this function
-				//	in NewMails we have all mails not found in DeleteMails (in other words: we performed new ID checking and we
-				//	stored all mails found on server, then we deleted the ones we wanted to delete in this function
-				//	and NewMails queue now contains actual state of mails on server). But we will not use NewMails as actual state, because NewMails does not contain header data (subject, from...)
-				//	We perform deleting from ActualAccount->Mails: we remove from original queue (ActualAccount->Mails) all deleted mails
-				SynchroMessages(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
-			//	Now ActualAccount->Mails contains all mails when calling this function except the ones, we wanted to delete (these are in DeleteMails)
-			//	And in NewMails we have new mails (if any)
-			else if (POP3_DELETEFROMCHECK != POP3PluginParam) {
-				DeleteMIMEQueue(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
+				if (NewMails != nullptr)
+					//	in ActualAccount->Mails we have all mails stored before calling this function
+					//	in NewMails we have all mails not found in DeleteMails (in other words: we performed new ID checking and we
+					//	stored all mails found on server, then we deleted the ones we wanted to delete in this function
+					//	and NewMails queue now contains actual state of mails on server). But we will not use NewMails as actual state, because NewMails does not contain header data (subject, from...)
+					//	We perform deleting from ActualAccount->Mails: we remove from original queue (ActualAccount->Mails) all deleted mails
+					SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
+				//	Now ActualAccount->Mails contains all mails when calling this function except the ones, we wanted to delete (these are in DeleteMails)
+				//	And in NewMails we have new mails (if any)
+				else if (POP3_DELETEFROMCHECK != POP3PluginParam) {
+					DeleteMessagesToEndFcn(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
+					ActualAccount->Mails = nullptr;
+				}
+			}
+			else {
+				DeleteMessagesToEndFcn(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
 				ActualAccount->Mails = nullptr;
 			}
 		}
-		else {
-			DeleteMIMEQueue(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
-			ActualAccount->Mails = nullptr;
-		}
-
-		MsgsWriteDone(ActualAccount);
+		
 		#ifdef DEBUG_DECODE     	
 		DebugLog(DecodeFile, "</--------Deleting requested mails-------->\n");
 		#endif
@@ -1065,18 +1000,17 @@ void __cdecl DeleteMailsPOP3(void *param)
 		//	else leave connection open
 		//	if this functin was called from SynchroPOP3, then do not try to disconnect 
 		if (POP3_DELETEFROMCHECK != POP3PluginParam) {
-			YAMN_MAILBROWSERPARAM Param = {(HANDLE)nullptr, ActualAccount, ActualCopied.NFlags, YAMN_ACC_MSGP, YAMNParam};
+			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualCopied.NFlags, YAMN_ACC_MSGP, YAMNParam};
+			CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
 
-			CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, (LPARAM)YAMN_MAILBROWSERVERSION);
-
-			if (0 == SCGetNumber(ActualAccount->InternetQueries)) {
+			if (0 == ActualAccount->InternetQueries.GetNumber()) {
 				DataRX = MyClient->Quit();
 				if (DataRX != nullptr)
 					free(DataRX);
 				DataRX = nullptr;
 				MyClient->NetClient->Disconnect();
 
-				SetAccountStatus(ActualAccount, TranslateT("Disconnected"));
+				SetStatusFcn(ActualAccount, TranslateT("Disconnected"));
 			}
 
 			UsingInternet = FALSE;
@@ -1114,15 +1048,14 @@ void __cdecl DeleteMailsPOP3(void *param)
 	free(ActualCopied.ServerLogin);
 	free(ActualCopied.ServerPasswd);
 
-	DeleteMIMEQueue(ActualAccount, NewMails);
-	DeleteMIMEQueue(ActualAccount, DeleteMails);
+	DeleteMessagesToEndFcn(ActualAccount, NewMails);
+	DeleteMessagesToEndFcn(ActualAccount, DeleteMails);
 
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "</--------Communication-------->\n");
 	#endif
 
 	//	WriteAccounts();
-	SCDec(ActualAccount->UsingThreads);
 	return;
 }
 

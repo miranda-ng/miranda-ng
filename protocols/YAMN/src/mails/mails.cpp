@@ -91,18 +91,6 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From);
 // mode- nonzero to set, else remove
 void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSetRemove, int mode);
 
-struct CExportedFunctions MailExportedFcn[] =
-{
-	{YAMN_SYNCHROMIMEMSGSID, (void *)SynchroMessagesFcn},
-	{YAMN_TRANSLATEHEADERID, (void *)TranslateHeaderFcn},
-	{YAMN_APPENDQUEUEID, (void *)AppendQueueFcn},
-	{YAMN_DELETEMIMEQUEUEID, (void *)DeleteMessagesToEndFcn},
-	{YAMN_DELETEMIMEMESSAGEID, (void *)DeleteMessageFromQueueFcn},
-	{YAMN_FINDMIMEMESSAGEID, (void *)FindMessageByIDFcn},
-	{YAMN_CREATENEWDELETEQUEUEID, (void *)CreateNewDeleteQueueFcn},
-	{YAMN_SETREMOVEQUEUEFLAGSID, (void *)SetRemoveFlagsInQueueFcn},
-};
-
 struct CExportedServices MailExportedSvc[] =
 {
 	{MS_YAMN_CREATEACCOUNTMAIL, CreateAccountMailSvc},
@@ -147,7 +135,7 @@ INT_PTR CreateAccountMailSvc(WPARAM wParam, LPARAM lParam)
 
 INT_PTR DeleteAccountMailSvc(WPARAM wParam, LPARAM lParam)
 {
-	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
+	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
 	HYAMNMAIL OldMail = (HYAMNMAIL)lParam;
 	struct CMimeItem *TH;
 
@@ -315,7 +303,7 @@ void WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
 	}
 }
 
-void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0)
+void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode)
 {
 	uint32_t Number = Which->Number;
 	HYAMNMAIL Parser;
@@ -388,7 +376,7 @@ void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
 			} while (ENDLINEWS(finder));
 
 			if (Item != nullptr) {
-				if (nullptr == (Item->Next = new struct CMimeItem))
+				if (nullptr == (Item->Next = new CMimeItem()))
 					break;
 				Item = Item->Next;
 			}
@@ -417,7 +405,7 @@ void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
 					if (ENDLINE(finder))finder--;
 					prev2 = finder;
 					if (prev2 > prev1) { // yes, we have body
-						if (nullptr == (Item->Next = new struct CMimeItem))	break; // Cant create new item?!
+						Item->Next = new CMimeItem();
 						Item = Item->Next;
 						Item->Next = nullptr;//just in case;
 						Item->name = new char[5]; strncpy(Item->name, "Body", 5);

@@ -61,7 +61,7 @@ struct DeleteParam
 typedef DWORD(WINAPI *YAMN_STANDARDFCN)(LPVOID);
 #endif
 typedef struct CYAMNVariables *(WINAPI *YAMN_GETVARIABLESFCN)(DWORD);
-typedef CAccount *(WINAPI *YAMN_NEWACCOUNTFCN)(struct CYAMNProtoPlugin *, DWORD);
+typedef CAccount *(WINAPI *YAMN_NEWACCOUNTFCN)(struct YAMN_PROTOPLUGIN *, DWORD);
 typedef void (WINAPI *YAMN_STOPACCOUNTFCN)(CAccount *);
 typedef void (WINAPI *YAMN_DELETEACCOUNTFCN)(CAccount *);
 typedef DWORD(WINAPI *YAMN_WRITEPLUGINOPTS)(HANDLE File, CAccount *);
@@ -207,15 +207,15 @@ typedef struct CProtoPluginRegistration
 
 } YAMN_PROTOREGISTRATION, *PYAMN_PROTOREGISTRATION;
 
-typedef struct CYAMNProtoPlugin
+struct YAMN_PROTOPLUGIN
 {
-	//Pointer to first protocol plugin account
-	CAccount * FirstAccount;
+	// Pointer to first protocol plugin account
+	CAccount *FirstAccount;
 
-	//We prevent browsing through accounts (chained list) from deleting or adding any account
-	//If we want to delete or add, we must have "write" access to AccountBrowserSO
-	//Note that accounts can be changed during AccountBrowser is in "read" mode, because we do not add or delete account.
-	PSWMRG AccountBrowserSO;
+	// We prevent browsing through accounts (chained list) from deleting or adding any account
+	// If we want to delete or add, we must have "write" access to AccountBrowserSO
+	// Note that accounts can be changed during AccountBrowser is in "read" mode, because we do not add or delete account.
+	SWMRG AccountBrowserSO;
 
 	//All needed other info from plugin
 	PYAMN_PROTOREGISTRATION PluginInfo;
@@ -223,13 +223,13 @@ typedef struct CYAMNProtoPlugin
 	//Imported functions
 	PYAMN_PROTOIMPORTFCN Fcn;
 	PYAMN_MAILIMPORTFCN MailFcn;
-} YAMN_PROTOPLUGIN, *PYAMN_PROTOPLUGIN, *HYAMNPROTOPLUGIN;
+};
 
-typedef struct CProtoPluginQueue
+struct YAMN_PROTOPLUGINQUEUE
 {
-	HYAMNPROTOPLUGIN Plugin;
-	struct CProtoPluginQueue *Next;
-} YAMN_PROTOPLUGINQUEUE, *PYAMN_PROTOPLUGINQUEUE;
+	YAMN_PROTOPLUGIN *Plugin;
+	YAMN_PROTOPLUGINQUEUE *Next;
+};
 
 //
 //================================== YAMN SERVICES FOR PROTOCOL PLUGIN ==================================
@@ -331,7 +331,7 @@ typedef struct CProtoPluginQueue
 //================================== FUNCTIONS DEFINITIONS ========================================
 //
 
-typedef int (WINAPI *YAMN_SETPROTOCOLPLUGINFCNIMPORTFCN)(HYAMNPROTOPLUGIN Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, DWORD YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, DWORD YAMNMailFcnVer);
+typedef int (WINAPI *YAMN_SETPROTOCOLPLUGINFCNIMPORTFCN)(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, DWORD YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, DWORD YAMNMailFcnVer);
 
 //
 //================================== QUICK FUNCTION CALL DEFINITIONS ========================================

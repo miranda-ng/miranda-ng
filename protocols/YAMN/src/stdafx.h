@@ -69,11 +69,9 @@ void UnInitDebug();
 
 // From yamn.cpp
 INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR GetVariablesSvc(WPARAM, LPARAM);
+
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 INT_PTR ForceCheckSvc(WPARAM, LPARAM);
-
-extern struct YAMNExportedFcns *pYAMNFcn;
 
 // From account.cpp
 INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam);
@@ -104,9 +102,9 @@ INT_PTR GetNextFreeAccountSvc(WPARAM wParam, LPARAM lParam);
 
 INT_PTR DeleteAccountSvc(WPARAM wParam, LPARAM);
 void __cdecl DeleteAccountInBackground(void *Which);
-int StopAccounts(HYAMNPROTOPLUGIN Plugin);
-int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin, BOOL GetAccountBrowserAccess = FALSE);
-int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
+int StopAccounts(YAMN_PROTOPLUGIN *Plugin);
+int WaitForAllAccounts(YAMN_PROTOPLUGIN *Plugin, BOOL GetAccountBrowserAccess = FALSE);
+int DeleteAccounts(YAMN_PROTOPLUGIN *Plugin);
 
 void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
 void WINAPI SetStatusFcn(CAccount *Which, wchar_t *Value);
@@ -177,26 +175,21 @@ extern HANDLE hTTButton;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 
-//From synchro.cpp
+// From synchro.cpp
 void  WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
-uint32_t WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
-void  WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
-uint32_t WINAPI WaitToReadFcn(PSWMRG SObject);
-void  WINAPI ReadDoneFcn(PSWMRG SObject);
-uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter);
-uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter);
-BOOL  WINAPI SWMRGInitialize(PSWMRG, wchar_t *);
-void  WINAPI SWMRGDelete(PSWMRG);
-uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, uint32_t dwTimeout);
-void  WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
-uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
-void  WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
 
-//From mails.cpp
+// From mails.cpp
 void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode);
 void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
 
-//From mime.cpp
+void WINAPI AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second);
+HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From);
+void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0);
+HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From, char *ID);
+void WINAPI SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew);
+void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head);
+
+// From mime.cpp
 void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head);
 void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head);
 void DeleteHeaderContent(struct CHeader *head);
@@ -207,7 +200,7 @@ wchar_t *ParseMultipartBody(char *src, char *bond);
 //From account.cpp
 void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
 
-extern HYAMNPROTOPLUGIN POP3Plugin;
+extern YAMN_PROTOPLUGIN *POP3Plugin;
 
 //from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
@@ -217,21 +210,7 @@ int DecodeBase64(char *Src, char *Dst, int DstLen);
 extern PYAMN_FILTERPLUGINQUEUE FirstFilterPlugin;
 
 //From protoplugin.cpp
-extern PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin;
-
-extern struct CExportedFunctions ProtoPluginExportedFcn[1];
-extern struct CExportedServices ProtoPluginExportedSvc[5];
-//From filterplugin.cpp
-extern struct CExportedFunctions FilterPluginExportedFcn[1];
-extern struct CExportedServices FilterPluginExportedSvc[2];
-//From synchro.cpp
-extern struct CExportedFunctions SynchroExportedFcn[7];
-//From account.cpp
-extern struct CExportedFunctions AccountExportedFcn[2];
-extern struct CExportedServices AccountExportedSvc[9];
-//From mails.cpp (MIME)
-extern struct CExportedFunctions MailExportedFcn[8];
-extern struct CExportedServices MailExportedSvc[5];
+extern YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin;
 
 extern char *iconDescs[];
 extern char *iconNames[];
@@ -243,11 +222,7 @@ extern struct WndHandles *MessageWnd;
 
 extern int GetCharsetFromString(char *input, size_t size);
 extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
-extern void __cdecl MailBrowser(void *Param);
-extern void __cdecl BadConnection(void *Param);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;
-
-extern PYAMN_VARIABLES pYAMNVar;
 
 #endif

@@ -8,12 +8,12 @@
 
  //--------------------------------------------------------------------------------------------------
 
-PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin = nullptr;
+YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin = nullptr;
 
 INT_PTR RegisterProtocolPluginSvc(WPARAM, LPARAM);
 
 //Removes plugin from queue and deletes registration structures
-INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin);
+INT_PTR UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin);
 
 INT_PTR UnregisterProtocolPluginSvc(WPARAM, LPARAM);
 
@@ -27,12 +27,7 @@ INT_PTR UnregisterProtoPlugins();
 // YAMNMailFcn- pointer to imported functions with mails
 // YAMNMailFcnVer- version of YAMN_MAILIMPORTFCN, use YAMN_MAILIMPORTFCNVERSION
 // returns nonzero if success
-int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer);
-
-struct CExportedFunctions ProtoPluginExportedFcn[] =
-{
-	{YAMN_SETPROTOCOLPLUGINFCNIMPORTID, (void *)SetProtocolPluginFcnImportFcn},
-};
+int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer);
 
 struct CExportedServices ProtoPluginExportedSvc[] =
 {
@@ -48,7 +43,7 @@ struct CExportedServices ProtoPluginExportedSvc[] =
 INT_PTR RegisterProtocolPluginSvc(WPARAM wParam, LPARAM lParam)
 {
 	PYAMN_PROTOREGISTRATION Registration = (PYAMN_PROTOREGISTRATION)wParam;
-	HYAMNPROTOPLUGIN Plugin;
+	YAMN_PROTOPLUGIN *Plugin;
 
 	if (lParam != YAMN_PROTOREGISTRATIONVERSION)
 		return 0;
@@ -58,22 +53,15 @@ INT_PTR RegisterProtocolPluginSvc(WPARAM wParam, LPARAM lParam)
 		return (INT_PTR)NULL;
 
 	Plugin->PluginInfo = Registration;
-
 	Plugin->FirstAccount = nullptr;
-
-	Plugin->AccountBrowserSO = new SWMRG;
-	SWMRGInitialize(Plugin->AccountBrowserSO, nullptr);
-
 	Plugin->Fcn = nullptr;
 	Plugin->MailFcn = nullptr;
 
 	return (INT_PTR)Plugin;
 }
 
-int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer)
+int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer)
 {
-	PYAMN_PROTOPLUGINQUEUE Parser;
-
 	if (YAMNFcnVer != YAMN_PROTOIMPORTFCNVERSION)
 		return 0;
 	if (YAMNMailFcnVer != YAMN_MAILIMPORTFCNVERSION)
@@ -87,7 +75,9 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin, PYAMN_PROTOIMP
 	Plugin->MailFcn = YAMNMailFcn;
 
 	mir_cslock lck(PluginRegCS);
+
 	// We add protocol to the protocol list
+	YAMN_PROTOPLUGINQUEUE *Parser;
 	for (Parser = FirstProtoPlugin; Parser != nullptr && Parser->Next != nullptr; Parser = Parser->Next);
 	if (Parser == nullptr) {
 		FirstProtoPlugin = new YAMN_PROTOPLUGINQUEUE;
@@ -103,9 +93,9 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin, PYAMN_PROTOIMP
 	return 1;
 }
 
-INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
+INT_PTR UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin)
 {
-	PYAMN_PROTOPLUGINQUEUE Parser, Found;
+	YAMN_PROTOPLUGINQUEUE *Parser, *Found;
 
 	if (FirstProtoPlugin->Plugin == Plugin) {
 		Found = FirstProtoPlugin;
@@ -120,24 +110,23 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 		else
 			Found = nullptr;
 	}
-	if (Found != nullptr) {
-		StopAccounts(Plugin);
-		DeleteAccounts(Plugin);
-		if (Plugin->Fcn->UnLoadFcn != nullptr)
-			Plugin->Fcn->UnLoadFcn((void *)nullptr);
+	
+	if (!Found) 
+		return 1;
 
-		delete Found->Plugin->AccountBrowserSO;
-		delete Found->Plugin;
-		delete Found;
-	}
-	else
-		return 0;
-	return 1;
+	StopAccounts(Plugin);
+	DeleteAccounts(Plugin);
+	if (Plugin->Fcn->UnLoadFcn != nullptr)
+		Plugin->Fcn->UnLoadFcn((void *)nullptr);
+
+	delete Found->Plugin;
+	delete Found;
+	return 0;
 }
 
 INT_PTR UnregisterProtocolPluginSvc(WPARAM wParam, LPARAM)
 {
-	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
+	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
 
 	mir_cslock lck(PluginRegCS);
 	UnregisterProtocolPlugin(Plugin);

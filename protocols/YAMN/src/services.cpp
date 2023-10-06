@@ -58,7 +58,8 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 		STARTUPINFOW si = {0};
 		si.cb = sizeof(si);
 
-		if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
+		SReadGuard sra(ActualAccount->AccountAccessSO);
+		if (sra.Succeeded()) {
 			if (ActualAccount->NewMailN.App != nullptr) {
 				wchar_t *Command;
 				if (ActualAccount->NewMailN.AppParam != nullptr)
@@ -78,15 +79,13 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 					delete[] Command;
 				}
 			}
-
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
 	}
 	db_free(&dbv);
 	return 0;
 }
 
-uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
+uint32_t WINAPI SWMRGWaitToRead(SWMRG *pSWMRG, uint32_t dwTimeout);
 static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 {
 	//This service will check/sincronize the account pointed by wParam
@@ -102,9 +101,8 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		mir_cslock lck(PluginRegCS);
-		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0)) {
-		}
-		else {
+		SReadGuard sra(ActualAccount->AccountAccessSO, 0);
+		if (sra.Succeeded()) {
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
 				CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam != 0 ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr};
 
@@ -116,7 +114,6 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 					CloseHandle(NewThread);
 				}
 			}
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
 		CloseHandle(ThreadRunningEV);
 	}
@@ -142,23 +139,17 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
+		
 		mir_cslock lck(PluginRegCS);
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-		}
-		else {
+		SReadGuard sra(ActualAccount->AccountAccessSO);
+		if (sra.Succeeded()) {
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
 			{
-				if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr)
-					ReadDoneFcn(ActualAccount->AccountAccessSO);
-
 				DWORD tid;
 				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr};
-				if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
-					ReadDoneFcn(ActualAccount->AccountAccessSO);
-				else
+				if (CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 					WaitForSingleObject(ThreadRunningEV, INFINITE);
 			}
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
 		CloseHandle(ThreadRunningEV);
 	}
@@ -178,8 +169,9 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 
 	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
-		if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-			YAMN_MAILBROWSERPARAM Param = {nullptr, ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr};
+		SReadGuard sra(ActualAccount->AccountAccessSO);
+		if (sra.Succeeded()) {
+			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr};
 
 			Param.nnflags = Param.nnflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
 			Param.nnflags = Param.nnflags & ~YAMN_ACC_POP;
@@ -188,7 +180,6 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			Param.nflags = Param.nflags & ~YAMN_ACC_POP;
 
 			RunMailBrowserSvc((WPARAM)&Param, YAMN_MAILBROWSERVERSION);
-			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
 	}
 	db_free(&dbv);
@@ -284,12 +275,6 @@ void CreateServiceFunctions(void)
 	CreateServiceFunction(YAMN_DBMODULE PS_GETCAPS, Service_GetCaps);
 	CreateServiceFunction(YAMN_DBMODULE PS_GETNAME, Service_GetName);
 	CreateServiceFunction(YAMN_DBMODULE PS_LOADICON, Service_LoadIcon);
-
-	// Function with which protocol plugin can register
-	CreateServiceFunction(MS_YAMN_GETFCNPTR, GetFcnPtrSvc);
-
-	// Function returns pointer to YAMN variables
-	CreateServiceFunction(MS_YAMN_GETVARIABLES, GetVariablesSvc);
 
 	// Function with which protocol plugin can register
 	CreateServiceFunction(MS_YAMN_REGISTERPROTOPLUGIN, RegisterProtocolPluginSvc);
