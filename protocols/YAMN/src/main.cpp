@@ -15,15 +15,12 @@
 wchar_t ProfileName[MAX_PATH];
 wchar_t UserDirectory[MAX_PATH];
 
-wchar_t	szMirandaDir[MAX_PATH];
-wchar_t	szProfileDir[MAX_PATH];
+wchar_t szMirandaDir[MAX_PATH];
+wchar_t szProfileDir[MAX_PATH];
 
 BOOL UninstallPlugins;
 
 HANDLE hAccountFolder;
-
-HINSTANCE *hDllPlugins;
-static int iDllPlugins = 0;
 
 YAMN_VARIABLES YAMNVar;
 
@@ -37,32 +34,9 @@ UINT SecTimer;
 
 #define FIXED_TAB_SIZE 100                  // default value for fixed width tabs
 
-static void GetProfileDirectory(wchar_t *szPath, int cbPath)
-//This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
-{
-	wchar_t tszOldPath[MAX_PATH];
-	Profile_GetPathW(_countof(tszOldPath), tszOldPath);
-	mir_wstrcat(tszOldPath, L"\\*.book");
-
-	VARSW ptszNewPath(L"%miranda_userdata%");
-
-	SHFILEOPSTRUCT file_op = {
-		nullptr,
-		FO_MOVE,
-		tszOldPath,
-		ptszNewPath,
-		FOF_NOERRORUI | FOF_NOCONFIRMATION | FOF_SILENT,
-		false,
-		nullptr,
-		L""};
-	SHFileOperation(&file_op);
-
-	wcsncpy(szPath, ptszNewPath, cbPath);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +50,7 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {B047A7E5-027A-4CFC-8B18-EDA8345D2790}
-	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
+	{ 0xb047a7e5, 0x27a, 0x4cfc, { 0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90 } }
 };
 
 CMPlugin::CMPlugin() :
@@ -99,18 +73,19 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 	// Get Code Page name
 	CPINFOEX info;
 	if (GetCPInfoEx(cp, 0, &info)) {
-		for (int i = 1; i < CPLENALL; i++) if (CodePageNamesAll[i].CP == cp) {
-			CodePageNamesAll[i].isValid = TRUE;
-			CPLENSUPP++;
-			break;
-		}
+		for (int i = 1; i < CPLENALL; i++)
+			if (CodePageNamesAll[i].CP == cp) {
+				CodePageNamesAll[i].isValid = TRUE;
+				CPLENSUPP++;
+				break;
+			}
 	}
 	return TRUE;
 }
 
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
-	//Insert "Check mail (YAMN)" item to Miranda's menu
+	// Insert "Check mail (YAMN)" item to Miranda's menu
 	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xa01ff3d9, 0x53cb, 0x4406, 0x85, 0xd9, 0xf1, 0x90, 0x3a, 0x94, 0xed, 0xf4);
@@ -142,10 +117,10 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
-	{LPGEN("Check mail"), "YAMN_Check", IDI_CHECKMAIL},
-	{LPGEN("Launch application"), "YAMN_Launch", IDI_LAUNCHAPP},
-	{LPGEN("New Mail"), "YAMN_NewMail", IDI_NEWMAIL},
-	{LPGEN("Connect Fail"), "YAMN_ConnectFail", IDI_BADCONNECT},
+	{ LPGEN("Check mail"), "YAMN_Check", IDI_CHECKMAIL },
+	{ LPGEN("Launch application"), "YAMN_Launch", IDI_LAUNCHAPP },
+	{ LPGEN("New Mail"), "YAMN_NewMail", IDI_NEWMAIL },
+	{ LPGEN("Connect Fail"), "YAMN_ConnectFail", IDI_BADCONNECT },
 };
 
 void LoadIcons()
@@ -160,11 +135,11 @@ int CMPlugin::Load()
 
 	// retrieve the current profile name
 	Profile_GetNameW(_countof(ProfileName), ProfileName);
-	wchar_t *fc = wcsrchr(ProfileName, '.');
-	if (fc != nullptr) *fc = 0;
+	if (wchar_t *fc = wcsrchr(ProfileName, '.'))
+		*fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
-	GetProfileDirectory(UserDirectory, _countof(UserDirectory));
+	mir_wstrncpy(UserDirectory, VARSW(L"%miranda_userdata%"), _countof(UserDirectory));
 
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
@@ -233,21 +208,6 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void UnloadPlugins()
-{
-	if (hDllPlugins == nullptr)
-		return;
-
-	for (int i = iDllPlugins - 1; i >= 0; i--) {
-		if (FreeLibrary(hDllPlugins[i])) {
-			hDllPlugins[i] = nullptr;				//for safety
-			iDllPlugins--;
-		}
-	}
-	free((void *)hDllPlugins);
-	hDllPlugins = nullptr;
-}
-
 int CMPlugin::Unload()
 {
 	#ifdef _DEBUG
@@ -263,8 +223,6 @@ int CMPlugin::Unload()
 	CloseHandle(NoWriterEV);
 	CloseHandle(WriteToFileEV);
 	CloseHandle(ExitEV);
-
-	UnloadPlugins();
 
 	delete[] CodePageNamesSupp;
 	return 0;

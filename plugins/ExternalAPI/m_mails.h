@@ -67,7 +67,6 @@ struct CMimeItem
 // this is plugin-independent
 typedef struct CMailData
 {
-	#define YAMN_MAILDATAVERSION 3
 	DWORD Size = 0;
 	int CP = -1;
 
@@ -78,7 +77,6 @@ typedef struct CMailData
 
 typedef struct CMimeMsgQueue
 {
-#define	YAMN_MAILVERSION	3
 	char *ID;					//The ID of mail. This ID identifies every mail in the account, so plugin should set it
 
 	DWORD Number;
@@ -143,57 +141,6 @@ typedef struct CMimeMsgQueue
 	struct CMimeMsgQueue *Next;
 } YAMNMAIL,*HYAMNMAIL;
 #define	LoadedMailData(x)	(x->MailData!=nullptr)
-
-//
-//================================== YAMN MAIL SERVICES ==================================
-//
-
-//CreateAccountMail Service
-//Your plugin should call this to create new mail for your plugin.
-//WPARAM- (CAccount *) Account handle
-//LPARAM- CMailData version (use YAMN_MAILVERSION definition)
-//returns pointer to (HYAMNMAIL) or pointer to your structure returned from imported NewMailFcnPtr, if implemented
-#define	MS_YAMN_CREATEACCOUNTMAIL	"YAMN/Service/CreateMail"
-#define CreateAccountMail(x)	(HYAMNMAIL)CallService(MS_YAMN_CREATEACCOUNTMAIL,(WPARAM)x,(LPARAM)YAMN_MAILVERSION)
-
-//DeleteAccountMail Service
-//Deletes plugin's mail from memory. You probably won't use this service, because it deletes only account
-//without any synchronization. Use MS_YAMN_DELETEACCOUNT instead. Note that deleting mail is something like "this mail is
-//not more in the account".
-//WPARAM- (HYAMNPROTOPLUGIN) handle of plugin, which is going to delete mail
-//LPARAM- (HYAMNMAIL) mail going to delete
-//returns zero if failed, otherwise returns nonzero
-#define	MS_YAMN_DELETEACCOUNTMAIL	"YAMN/Service/DeletePluginMail"
-#define DeleteAccountMail(x,y)	CallService(MS_YAMN_DELETEACCOUNTMAIL,(WPARAM)x,(LPARAM)y)
-
-//LoadMailData Service
-//This service loads mail from standard YAMN storage (now it is 1 file, from which mails are loaded once at startup, but
-//in the future it can be Miranda profile file or separate file (1 file per 1 mail). It depends on YAMN implementation...
-//Use this function if you want to read or write to MailData member of mail structure. Please use synchronization obejcts
-//before calling this service (so you must have read or write access to mails)
-//WPARAM- (HYAMNMAIL) mail where to load data
-//LPARAM- (DWORD) version of MAILDATA structure (use YAMN_MAILDATAVERSION definition)
-//returns pointer to new allocated MailData structure (the same value as MailData member)
-#define MS_YAMN_LOADMAILDATA		"YAMN/Service/LoadMailData"
-#define LoadMailData(x)		(CMailData*)CallService(MS_YAMN_LOADMAILDATA,(WPARAM)x,(LPARAM)YAMN_MAILDATAVERSION)
-
-//UnloadMailData Service
-//This service frees mail data from memory. It does not care if data were saved or not. So you should save mail before you
-//release data from memory.
-//WPARAM- (HYAMNMAIL) mail whose data are about to free
-//LPARAM- nothing yet
-//returns nonzero if success
-#define MS_YAMN_UNLOADMAILDATA		"YAMN/Service/UnloadMailData"
-#define UnloadMailData(x)	CallService(MS_YAMN_UNLOADMAILDATA,(WPARAM)x,0)
-
-//SaveMailData Service
-//This service saves mail to standard YAMN storage (when using now 1 book file, it does nothing, because save is done when
-//using MS_YAMN_WRITEACCOUNT service. In the future, mail can be saved to Miranda profile or to separate file...)
-//WPARAM- (HYAMNMAIL) mail to save
-//LPARAM- (DWORD) version of MAILDATA structure (use YAMN_MAILDATAVERSION definition)
-//returns ZERO! if succes
-#define MS_YAMN_SAVEMAILDATA		"YAMN/Service/SaveMailData"
-#define SaveMailData(x)		CallService(MS_YAMN_SAVEMAILDATA,(WPARAM)x,(LPARAM)YAMN_MAILDATAVERSION)
 
 //
 //================================== FUNCTIONS DEFINITIONS ========================================

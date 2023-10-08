@@ -53,9 +53,9 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 	if (g_plugin.getString(wParam, "Id", &dbv))
 		return 0;
 
-	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal);
 	if (ActualAccount != nullptr) {
-		STARTUPINFOW si = {0};
+		STARTUPINFOW si = { 0 };
 		si.cb = sizeof(si);
 
 		SReadGuard sra(ActualAccount->AccountAccessSO);
@@ -85,10 +85,9 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-uint32_t WINAPI SWMRGWaitToRead(SWMRG *pSWMRG, uint32_t dwTimeout);
 static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 {
-	//This service will check/sincronize the account pointed by wParam
+	// This service will check/sincronize the account pointed by wParam
 	CAccount *ActualAccount = (CAccount *)wParam;
 	// copy/paste make mistakes
 	if (ActualAccount != nullptr) {
@@ -104,7 +103,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 		SReadGuard sra(ActualAccount->AccountAccessSO, 0);
 		if (sra.Succeeded()) {
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
-				CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam != 0 ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr};
+				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam != 0 ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr };
 
 				ActualAccount->TimeLeft = ActualAccount->Interval;
 				DWORD tid;
@@ -130,23 +129,23 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 	if (g_plugin.getString(hContact, "Id", &dbv))
 		return 0;
 
-	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
-	if (ActualAccount != nullptr) {
-		//we use event to signal, that running thread has all needed stack parameters copied
+	if (CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal)) {
+		// we use event to signal, that running thread has all needed stack parameters copied
 		HANDLE ThreadRunningEV;
 		if (nullptr == (ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
 			return 0;
-		//if we want to close miranda, we get event and do not run pop3 checking anymore
+
+		// if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
-		
+
 		mir_cslock lck(PluginRegCS);
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (sra.Succeeded()) {
-			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
-			{
+			// account cannot be forced to check
+			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE)) { 
 				DWORD tid;
-				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr};
+				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr };
 				if (CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 					WaitForSingleObject(ThreadRunningEV, INFINITE);
 			}
@@ -167,11 +166,10 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 	if (g_plugin.getString(wParam, "Id", &dbv))
 		return;
 
-	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
-	if (ActualAccount != nullptr) {
+	if (CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal)) {
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (sra.Succeeded()) {
-			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr};
+			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr };
 
 			Param.nnflags = Param.nnflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
 			Param.nnflags = Param.nnflags & ~YAMN_ACC_POP;
@@ -194,7 +192,7 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 
 	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 
-	BITMAPINFOHEADER bih = {0};
+	BITMAPINFOHEADER bih = {};
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biPlanes = 1;
@@ -275,50 +273,11 @@ void CreateServiceFunctions(void)
 	CreateServiceFunction(YAMN_DBMODULE PS_GETNAME, Service_GetName);
 	CreateServiceFunction(YAMN_DBMODULE PS_LOADICON, Service_LoadIcon);
 
-	// Function with which protocol plugin can register
-	CreateServiceFunction(MS_YAMN_REGISTERPROTOPLUGIN, RegisterProtocolPluginSvc);
-
-	// Function with which protocol plugin can unregister
-	CreateServiceFunction(MS_YAMN_UNREGISTERPROTOPLUGIN, UnregisterProtocolPluginSvc);
-
-	// Function creates an account for plugin
-	CreateServiceFunction(MS_YAMN_CREATEPLUGINACCOUNT, CreatePluginAccountSvc);
-
-	// Function deletes plugin account 
-	CreateServiceFunction(MS_YAMN_DELETEPLUGINACCOUNT, DeletePluginAccountSvc);
-
-	// Finds account for plugin by name
-	CreateServiceFunction(MS_YAMN_FINDACCOUNTBYNAME, FindAccountByNameSvc);
-
-	// Creates next account for plugin
-	CreateServiceFunction(MS_YAMN_GETNEXTFREEACCOUNT, GetNextFreeAccountSvc);
-
-	// Function removes account from YAMN queue. Does not delete it from memory
-	CreateServiceFunction(MS_YAMN_DELETEACCOUNT, DeleteAccountSvc);
-
-	// Function finds accounts for specified plugin
-	CreateServiceFunction(MS_YAMN_READACCOUNTS, AddAccountsFromFileSvc);
-
-	// Function that stores all plugin mails to one file 
-	CreateServiceFunction(MS_YAMN_WRITEACCOUNTS, WriteAccountsToFileSvc);
-
-	// Function that returns user's filename
-	CreateServiceFunction(MS_YAMN_GETFILENAME, GetFileNameSvc);
-
-	// Releases unicode string from memory
-	CreateServiceFunction(MS_YAMN_DELETEFILENAME, DeleteFileNameSvc);
-
 	// Checks mail
 	CreateServiceFunction(MS_YAMN_FORCECHECK, ForceCheckSvc);
 
 	// Runs YAMN's mail browser
 	CreateServiceFunction(MS_YAMN_MAILBROWSER, RunMailBrowserSvc);
-
-	// Function creates new mail for plugin
-	CreateServiceFunction(MS_YAMN_CREATEACCOUNTMAIL, CreateAccountMailSvc);
-
-	// Function deletes plugin account 
-	CreateServiceFunction(MS_YAMN_DELETEACCOUNTMAIL, DeleteAccountMailSvc);
 
 	// Function contact list double click
 	CreateServiceFunction(MS_YAMN_CLISTDBLCLICK, ClistContactDoubleclicked);

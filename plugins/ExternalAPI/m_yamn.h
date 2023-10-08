@@ -16,22 +16,6 @@ struct YAMN_VARIABLES
 };
 
 //
-//================================== EXPORTED FUNCTIONS STRUCT ===============================
-//
-
-struct CExportedFunctions
-{
-	char* ID;
-	void *Ptr;
-};
-
-struct CExportedServices
-{
-	char* ID;
-	INT_PTR (* Ptr)(WPARAM,LPARAM);
-};
-
-//
 //================================== YAMN EVENTS ==================================
 //
 
@@ -49,24 +33,6 @@ struct CExportedServices
 //
 //================================== YAMN SERVICES ==================================
 //
-
-//GetFcnPtr Service
-//Your plugin can co-operate with YAMN in 2 ways: with Miranda services and with YAMN exported functions
-//Some commands are written in services, some are functions. The advantage of function calling instead of
-//service calling is, that your code is more clear and it is faster than service calling (smaller, FASTER,
-//easier- it is slogan of Miranda, isn't it ?). Miranda service has only 2 parameters, that can be
-//disadvantage too.
-//In every way, it is discutable which functions should be exported or if they should be implemented as
-//services. And if YAMN should export some functions etc. Functions not used very often are now implemented
-//as Miranda services.
-//
-//This service gets pointer to YAMN function. Then you can use function directly. In m_?????.h files you have
-//definitions of some functions, with definitions of structure variable, so you can use functions very
-//clearly, just look to header file.
-//WPARAM- function ID. It is string representating function you need to get pointer (e.g. YAMN_WRITEWAITID)
-//LPARAM- not used now, but set it to 0
-//returns pointer to YAMN function or NULL when functions does not exist
-#define	MS_YAMN_GETFCNPTR		"YAMN/Service/GetFcn"
 
 //ForceCheck Service
 //Check mail on accounts

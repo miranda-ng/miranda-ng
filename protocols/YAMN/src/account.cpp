@@ -17,69 +17,46 @@ static mir_cs csAccountStatusCS;
 // When 2 threads want to write to file...
 static mir_cs csFileWritingCS;
 
-struct CExportedServices AccountExportedSvc[] =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CAccount* CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin)
 {
-	{MS_YAMN_CREATEPLUGINACCOUNT, CreatePluginAccountSvc},
-	{MS_YAMN_DELETEPLUGINACCOUNT, DeletePluginAccountSvc},
-	{MS_YAMN_FINDACCOUNTBYNAME, FindAccountByNameSvc},
-	{MS_YAMN_GETNEXTFREEACCOUNT, GetNextFreeAccountSvc},
-	{MS_YAMN_DELETEACCOUNT, DeletePluginAccountSvc},
-	{MS_YAMN_READACCOUNTS, AddAccountsFromFileSvc},
-	{MS_YAMN_WRITEACCOUNTS, WriteAccountsToFileSvc},
-};
+	if (Plugin == nullptr)
+		return nullptr;
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
+	CAccount *NewAccount;
+	if (Plugin->Fcn->NewAccountFcnPtr != nullptr)
+		// Let plugin create its own structure, which can be derived from CAccount structure
+		NewAccount = Plugin->Fcn->NewAccountFcnPtr(Plugin);
+	else
+		// We suggest plugin uses standard CAccount structure, so we create it
+		NewAccount = new CAccount();
 
-INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
-{
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN *)wParam;
-	uint32_t AccountVersion = (uint32_t)lParam;
-
-	//test if we are going to initialize members of suitable structure (structures of plugin and YAMN must match)
-	if (AccountVersion != YAMN_ACCOUNTVERSION)
+	// If not created successfully
+	if (NewAccount == nullptr)
 		return NULL;
 
-	if (Plugin != nullptr) {
-		CAccount *NewAccount;
-		if (Plugin->Fcn->NewAccountFcnPtr != nullptr)
-			//Let plugin create its own structure, which can be derived from CAccount structure
-			NewAccount = Plugin->Fcn->NewAccountFcnPtr(Plugin, YAMN_ACCOUNTVERSION);
-		else
-			//We suggest plugin uses standard CAccount structure, so we create it
-			NewAccount = new CAccount();
+	NewAccount->Plugin = Plugin;
 
-		//If not created successfully
-		if (NewAccount == nullptr)
-			return NULL;
-
-		NewAccount->Plugin = Plugin;
-		//Init every members of structure, used by YAMN
-		InitAccount(NewAccount);
-
-		return (INT_PTR)NewAccount;
-	}
-	return NULL;
+	// Init every members of structure, used by YAMN
+	InitAccount(NewAccount);
+	return NewAccount;
 }
 
-INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM)
+void DeletePluginAccount(CAccount *OldAccount)
 {
-	CAccount *OldAccount = (CAccount *)wParam;
-
 	if (OldAccount->Plugin->Fcn != nullptr) {
 		// Deinit every members and allocated fields of structure used by YAMN
 		DeInitAccount(OldAccount);
 		if (OldAccount->Plugin->Fcn->DeleteAccountFcnPtr != nullptr) {
 			// Let plugin delete its own CAccount derived structure
 			OldAccount->Plugin->Fcn->DeleteAccountFcnPtr(OldAccount);
+			return;
 		}
-		else {
-			delete OldAccount;	//consider account as standard YAMN CAccount *and use its own destructor
-		}
-		return 1;
 	}
-	delete OldAccount;			//consider account as standard YAMN CAccount *, not initialized before and use its own destructor
-	return 1;
+
+	// consider account as standard YAMN CAccount *, not initialized before and use its own destructor
+	delete OldAccount;
 }
 
 int InitAccount(CAccount *Which)
@@ -105,7 +82,7 @@ int InitAccount(CAccount *Which)
 
 void DeInitAccount(CAccount *Which)
 {
-	//delete YAMN allocated fields
+	// delete YAMN allocated fields
 	if (Which->Name != nullptr)
 		delete[] Which->Name;
 	if (Which->Server != nullptr) {
@@ -122,7 +99,7 @@ void DeInitAccount(CAccount *Which)
 }
 
 void StopSignalFcn(CAccount *Which)
-//set event that we are going to delete account
+// set event that we are going to delete account
 {
 	Which->AbleToWork = FALSE;
 	
@@ -156,13 +133,13 @@ static uint32_t PostFileToMemory(HANDLE File, char **MemFile, char **End)
 		return EACC_FILESIZE;
 	}
 
-	//allocate space in memory, where we copy the whole file
+	// allocate space in memory, where we copy the whole file
 	if (nullptr == (*MemFile = new char[FileSize])) {
 		CloseHandle(File);
 		return EACC_ALLOC;
 	}
 
-	//copy file to memory
+	// copy file to memory
 	if (!ReadFile(File, (LPVOID)*MemFile, FileSize, &ReadBytes, nullptr)) {
 		CloseHandle(File);
 		delete[] * MemFile;
@@ -173,7 +150,7 @@ static uint32_t PostFileToMemory(HANDLE File, char **MemFile, char **End)
 	return 0;
 }
 
-uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End)
+uint32_t FileToMemory(const wchar_t *FileName, char **MemFile, char **End)
 {
 	HANDLE hFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -185,8 +162,8 @@ uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End)
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 uint32_t ReadStringFromMemory(char **Parser, wchar_t *End, char **StoreTo, wchar_t *DebugString)
 {
-	//This is the debug version of ReadStringFromMemory function. This version shows MessageBox where
-	//read string is displayed
+	// This is the debug version of ReadStringFromMemory function. This version shows MessageBox where
+	// read string is displayed
 	wchar_t *Dest, *Finder;
 	uint32_t Size;
 	wchar_t Debug[65536];
@@ -236,8 +213,8 @@ uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo, wchar_t *DebugString)
 {
-	//This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
-	//read string is displayed
+	// This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
+	// read string is displayed
 	wchar_t *Dest, *Finder;
 	uint32_t Size;
 	wchar_t Debug[65536];
@@ -260,7 +237,7 @@ uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo
 	}
 	return 0;
 }
-#endif  //if defined(DEBUG...)
+#endif  // if defined(DEBUG...)
 
 uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
 {
@@ -357,7 +334,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 		if (Finder >= End)
 			return EACC_FILECOMPATIBILITY;
 		if (Size = Finder - *Parser) {
-			if (Which->Mails == nullptr)		//First message in queue
+			if (Which->Mails == nullptr)		// First message in queue
 			{
 				if (nullptr == (Which->Mails = ActualMail = CreateAccountMail(Which)))
 					return EACC_ALLOC;
@@ -375,7 +352,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 			if (Stat = ReadStringFromMemory(Parser, End, &ActualMail->ID))
 				#endif
 				return Stat;
-			//			ActualMail->MailData=new MAILDATA;		 !!! mem leake !!! this is alloc by CreateAccountMail, no need for doubble alloc !!!!
+			// 			ActualMail->MailData=new MAILDATA;		 !!! mem leake !!! this is alloc by CreateAccountMail, no need for doubble alloc !!!!
 
 			ActualMail->MailData->Size = *(uint32_t *)(*Parser);
 			(*Parser) += sizeof(uint32_t);
@@ -391,7 +368,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 				return EACC_FILECOMPATIBILITY;
 
 			if ((nullptr != Which->Plugin->MailFcn) && (nullptr != Which->Plugin->MailFcn->ReadMailOptsFcnPtr))
-				Which->Plugin->MailFcn->ReadMailOptsFcnPtr(ActualMail, Parser, End);	//read plugin mail settings from file
+				Which->Plugin->MailFcn->ReadMailOptsFcnPtr(ActualMail, Parser, End);	// read plugin mail settings from file
 
 			do {
 				#if defined(DEBUG_FILEREADMESSAGES) || defined(DEBUG_FILEREAD)
@@ -430,7 +407,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 			} while (1);
 		}
 		else
-			break;		//no next messages, new account!
+			break;		// no next messages, new account!
 
 	} while (1);
 	(*Parser)++;
@@ -443,7 +420,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	#ifdef DEBUG_FILEREAD
 	wchar_t Debug[65536];
 	#endif
-	//Read name of account	
+	// Read name of account	
 
 	#ifdef DEBUG_FILEREAD
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Name, L"Name"))
@@ -454,7 +431,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	if (Which->Name == nullptr)
 		return EACC_FILECOMPATIBILITY;
 
-	//Read server parameters
+	// Read server parameters
 	#ifdef	DEBUG_FILEREAD
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Server->Name, L"Server"))
 		#else
@@ -483,7 +460,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 		return Stat;
 	CodeDecodeString(Which->Server->Passwd, FALSE);
 
-	//Read account flags
+	// Read account flags
 	Which->Flags = *(uint32_t *)(*Parser);
 	(*Parser) += sizeof(uint32_t);
 	if (*Parser >= End)
@@ -505,9 +482,9 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	MessageBox(NULL, Debug, L"debug", MB_OK);
 	#endif
 
-	//Read account miscellaneous parameters
+	// Read account miscellaneous parameters
 	Which->Interval = *(uint16_t *)(*Parser);
-	Which->TimeLeft = Which->Interval;		//check on loading
+	Which->TimeLeft = Which->Interval;		// check on loading
 	(*Parser) += sizeof(uint16_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
@@ -516,7 +493,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	MessageBox(NULL, Debug, L"debug", MB_OK);
 	#endif
 
-	//Read notification parameters
+	// Read notification parameters
 	if (Stat = ReadNotificationFromMemory(Parser, End, &Which->NewMailN))
 		return Stat;
 	if (Stat = ReadNotificationFromMemory(Parser, End, &Which->NoNewMailN))
@@ -524,7 +501,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	if (Stat = ReadNotificationFromMemory(Parser, End, &Which->BadConnectN))
 		return Stat;
 
-	//Let plugin read its own data stored in file
+	// Let plugin read its own data stored in file
 	if (Which->Plugin->Fcn != nullptr && Which->Plugin->Fcn->ReadPluginOptsFcnPtr != nullptr)
 		if (Stat = Which->Plugin->Fcn->ReadPluginOptsFcnPtr(Which, Parser, End))
 			return Stat;
@@ -554,7 +531,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 
 	Which->LastMail = *(SYSTEMTIME *)(*Parser);
 	(*Parser) += sizeof(SYSTEMTIME);
-	if (*Parser > End)		//WARNING! There's only > at the end of testing
+	if (*Parser > End)		// WARNING! There's only > at the end of testing
 		return EACC_FILECOMPATIBILITY;
 
 	if (*Parser == End)
@@ -562,7 +539,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	return 0;
 }
 
-static INT_PTR PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, char *End)
+static uint32_t PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, char *End)
 {
 	// Retrieve info for account from memory
 	char *Parser;
@@ -578,7 +555,7 @@ static INT_PTR PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, ch
 	Parser = MemFile + sizeof(Ver);
 	{
 		SWriteGuard swb(Plugin->AccountBrowserSO);
-		if (nullptr == (ActualAccount = (CAccount *)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION))) {
+		if (nullptr == (ActualAccount = GetNextFreeAccount(Plugin))) {
 			delete[] MemFile;
 			return EACC_ALLOC;
 		}
@@ -593,7 +570,7 @@ static INT_PTR PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, ch
 			Stat = ReadAccountFromMemory(ActualAccount, &Parser, End);
 
 			if (ActualAccount->StatusFlags & (YAMN_ACC_STARTA | YAMN_ACC_STARTS))
-				ActualAccount->TimeLeft = 1;		//check on loading
+				ActualAccount->TimeLeft = 1;		// check on loading
 
 			if (Stat && (Stat != EACC_ENDOFFILE)) {
 				for (ActualAccount = FirstAllocatedAccount; ActualAccount != nullptr; ActualAccount = Temp) {
@@ -608,7 +585,7 @@ static INT_PTR PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, ch
 			}
 		}
 
-		if ((Stat != EACC_ENDOFFILE) && (nullptr == (ActualAccount = (CAccount *)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION)))) {
+		if ((Stat != EACC_ENDOFFILE) && (nullptr == (ActualAccount = GetNextFreeAccount(Plugin)))) {
 			for (ActualAccount = FirstAllocatedAccount; ActualAccount != nullptr; ActualAccount = Temp) {
 				Temp = ActualAccount->Next;
 				delete ActualAccount;
@@ -626,14 +603,14 @@ static INT_PTR PerformAccountReading(YAMN_PROTOPLUGIN *Plugin, char *MemFile, ch
 }
 
 // Add accounts from file to memory
-INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam)
+uint32_t AddAccountsFromFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename)
 {
 	char *MemFile, *End;
-	uint32_t Stat = FileToMemory((wchar_t *)lParam, &MemFile, &End);
+	uint32_t Stat = FileToMemory(pwszFilename, &MemFile, &End);
 	if (Stat != NO_ERROR)
-		return (INT_PTR)Stat;
+		return Stat;
 
-	return PerformAccountReading((YAMN_PROTOPLUGIN *)wParam, MemFile, End);
+	return PerformAccountReading(Plugin, MemFile, End);
 }
 
 uint32_t WriteStringToFile(HANDLE File, char *Source)
@@ -685,7 +662,7 @@ DWORD WriteMessagesToFile(HANDLE File, CAccount *Which)
 			!WriteFile(File, (char *)&ActualMail->Number, sizeof(ActualMail->Number), &WrittenBytes, nullptr))
 			return EACC_SYSTEM;
 		if ((nullptr != Which->Plugin->MailFcn) && (nullptr != Which->Plugin->MailFcn->WriteMailOptsFcnPtr))
-			Which->Plugin->MailFcn->WriteMailOptsFcnPtr(File, ActualMail);	//write plugin mail options to file
+			Which->Plugin->MailFcn->WriteMailOptsFcnPtr(File, ActualMail);	// write plugin mail options to file
 		for (items = ActualMail->MailData->TranslatedHeader; items != nullptr; items = items->Next) {
 			if (Stat = WriteStringToFile(File, items->name))
 				return Stat;
@@ -714,12 +691,12 @@ static INT_PTR PerformAccountWriting(YAMN_PROTOPLUGIN *Plugin, HANDLE File)
 	try {
 		for (ActualAccount = Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = ActualAccount->Next) {
 			SReadGuard sra(ActualAccount->AccountAccessSO);
-			if (sra == WAIT_FINISH) { //account is about to delete
+			if (sra == WAIT_FINISH) { // account is about to delete
 				ActualAccount = ActualAccount->Next;
 				continue;
 			}
 
-			if (sra == WAIT_FAILED)		//account is deleted
+			if (sra == WAIT_FAILED)		// account is deleted
 				break;
 
 			if ((ActualAccount->Name == nullptr) || (*ActualAccount->Name == (wchar_t)0))
@@ -788,7 +765,7 @@ static INT_PTR PerformAccountWriting(YAMN_PROTOPLUGIN *Plugin, HANDLE File)
 				(Stat = WriteStringToFileW(File, ActualAccount->BadConnectN.AppParam)))
 				throw (uint32_t)Stat;
 
-			//Let plugin write its own values into file
+			// Let plugin write its own values into file
 			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->WritePluginOptsFcnPtr != nullptr)
 				if (Stat = ActualAccount->Plugin->Fcn->WritePluginOptsFcnPtr(File, ActualAccount))
 					throw (uint32_t)Stat;
@@ -812,113 +789,102 @@ static INT_PTR PerformAccountWriting(YAMN_PROTOPLUGIN *Plugin, HANDLE File)
 }
 
 // Writes accounts to file
-INT_PTR WriteAccountsToFileSvc(WPARAM wParam, LPARAM lParam)
+uint32_t WriteAccountsToFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename)
 {
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
-
 	mir_cslock lck(csFileWritingCS);
-	HANDLE hFile = CreateFile((wchar_t *)lParam, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE hFile = CreateFile(pwszFilename, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return EACC_SYSTEM;
 
 	return PerformAccountWriting(Plugin, hFile);
 }
 
-INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam)
+CAccount* FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount)
 {
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
-	char *SearchedAccount = (char *)lParam;
-
 	SReadGuard srb(Plugin->AccountBrowserSO);
 
 	for (auto *Finder = Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next)
 		if ((Finder->Name != nullptr) && (0 == mir_strcmp(SearchedAccount, Finder->Name)))
-			return (INT_PTR)Finder;
+			return Finder;
 
-	return 0;
+	return nullptr;
 }
 
-INT_PTR GetNextFreeAccountSvc(WPARAM wParam, LPARAM lParam)
+CAccount* GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin)
 {
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
-	CAccount *Finder;
-
 	if (Plugin->FirstAccount == nullptr) {
-		Plugin->FirstAccount = (CAccount *)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
-		return (INT_PTR)Plugin->FirstAccount;
+		Plugin->FirstAccount = CreatePluginAccount(Plugin);
+		return Plugin->FirstAccount;
 	}
+	
+	CAccount *Finder;
 	for (Finder = Plugin->FirstAccount; Finder->Next != nullptr; Finder = Finder->Next);
-	Finder->Next = (CAccount *)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
-	return (INT_PTR)Finder->Next;
+	Finder->Next = CreatePluginAccount(Plugin);
+	return Finder->Next;
 }
 
-INT_PTR DeleteAccountSvc(WPARAM wParam, LPARAM lParam)
+// Deleting account works on these steps:
+// 1. set signal that account should stop activity (set event)
+// 	setting this event we achieve, that any access to account is failed,
+// 	so threads do not start any work with accounts (better saying threads of plugins should not start)
+// 2. wait to get write access to chained list of accounts
+// 3. we can write to chained list, so we change chain not to show to actual account
+// 	now, any thread browsing list of accounts does not browse through actual account
+// 	actual account seems to be hidden (it exists, but it is not in accounts chained list (chained list=queue))
+// Now, we should delete account from memory, BUT!!!
+// 	Any thread can still be waked up and start asking account synchronizing object
+// 	If account is deleted, asking about access to read account can throw memory exception (reading for
+// 	a synchronizing object from memory, that was deleted)
+// So, we cannot now delete account. We have to wait until we are sure no thread will be using account anymore
+// 	(or to the end of Miranda, but problem is in allocated memory- it is allocated and Miranda is SMALLER, faster, easier, isn't it?)
+// 	This deleting is achieved in 2 ways:
+// 	We have event in UsingThreads synchronization objects. This event signals that no thread will use actual account
+// 	1. Any thread using account first increment UsingThread, so we know that account is used
+// 	2. If thread is about to close, it should decrement UsingThread
+// 	3. If thread creates another thread, that will use account, caller has to wait until the new thread does not
+// 		increment UsingThreads (imagine that caller ends before the new thread set it: if no other thread is using
+// 		account, account is automaticaly (decreasing UsingThreads) signaled as "not used" and we delete it. But then
+// 		new thread is going to read account...).
+// 4. wait until UsingThread Event is signaled
+// 5. delete account from memory
+
+int DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which)
 {
-	//Deleting account works on these steps:
-	//1. set signal that account should stop activity (set event)
-	//	setting this event we achieve, that any access to account is failed,
-	//	so threads do not start any work with accounts (better saying threads of plugins should not start)
-	//2. wait to get write access to chained list of accounts
-	//3. we can write to chained list, so we change chain not to show to actual account
-	//	now, any thread browsing list of accounts does not browse through actual account
-	//	actual account seems to be hidden (it exists, but it is not in accounts chained list (chained list=queue))
-	//Now, we should delete account from memory, BUT!!!
-	//	Any thread can still be waked up and start asking account synchronizing object
-	//	If account is deleted, asking about access to read account can throw memory exception (reading for
-	//	a synchronizing object from memory, that was deleted)
-	//So, we cannot now delete account. We have to wait until we are sure no thread will be using account anymore
-	//	(or to the end of Miranda, but problem is in allocated memory- it is allocated and Miranda is SMALLER, faster, easier, isn't it?)
-	//	This deleting is achieved in 2 ways:
-	//	We have event in UsingThreads synchronization objects. This event signals that no thread will use actual account
-	//	1. Any thread using account first increment UsingThread, so we know that account is used
-	//	2. If thread is about to close, it should decrement UsingThread
-	//	3. If thread creates another thread, that will use account, caller has to wait until the new thread does not
-	//		increment UsingThreads (imagine that caller ends before the new thread set it: if no other thread is using
-	//		account, account is automaticaly (decreasing UsingThreads) signaled as "not used" and we delete it. But then
-	//		new thread is going to read account...).
-	//4. wait until UsingThread Event is signaled
-	//5. delete account from memory
-
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
-	CAccount *Which = (CAccount *)lParam;
-	CAccount *Finder;
-
-	//1. set stop signal 
+	// 1. set stop signal 
 	StopSignalFcn(Which);
 	WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Which, 0);
 	if (Plugin->Fcn->StopAccountFcnPtr != nullptr)
 		Plugin->Fcn->StopAccountFcnPtr(Which);
 
-	{
-		// 2. wait to get write access
+	{	// 2. wait to get write access
 		SWriteGuard swb(Plugin->AccountBrowserSO);
 
 		// 3. remove from queue (chained list)
-		if (Plugin->FirstAccount == nullptr) {
+		if (Plugin->FirstAccount == nullptr)
 			return 0;
-		}
+
 		if (Plugin->FirstAccount == Which) {
-			Finder = Plugin->FirstAccount->Next;
-			Plugin->FirstAccount = Finder;
+			Plugin->FirstAccount = Plugin->FirstAccount->Next;
 		}
 		else {
+			CAccount *Finder;
 			for (Finder = Plugin->FirstAccount; Which != Finder->Next; Finder = Finder->Next);
 			Finder->Next = Finder->Next->Next;
 		}
 	}
 
-	//4. wait while event "UsingThread" is not signaled
-	//	And what to do, if this event will be signaled in 1 hour? (Although it's paranoia, because we have sent "delete signal", so
-	//	other threads do not start any new work with actual account) We will wait in blocked state?
-	//	No, of course not. We will create new thread, that will wait and additionally remove our thread in background.
-	//5. So, the last point (deleting from memory) is performed in new DeleteAccountInBackground thread
+	// 4. wait while event "UsingThread" is not signaled
+	// 	And what to do, if this event will be signaled in 1 hour? (Although it's paranoia, because we have sent "delete signal", so
+	// 	other threads do not start any new work with actual account) We will wait in blocked state?
+	// 	No, of course not. We will create new thread, that will wait and additionally remove our thread in background.
+	// 5. So, the last point (deleting from memory) is performed in new DeleteAccountInBackground thread
 
 	if ((Plugin->Fcn != nullptr) && (Plugin->Fcn->WriteAccountsFcnPtr != nullptr))
 		Plugin->Fcn->WriteAccountsFcnPtr();
 	CloseHandle(mir_forkthread(DeleteAccountInBackground, (void *)Which));
 
-	//Now, plugin can consider account as deleted, but plugin really can achieve deleting this account from memory when using
-	//event UsingThreads.
+	// Now, plugin can consider account as deleted, but plugin really can achieve deleting this account from memory when using
+	// event UsingThreads.
 	return 1;
 }
 
@@ -926,41 +892,41 @@ void __cdecl DeleteAccountInBackground(void *Value)
 {
 	CAccount *Which = (CAccount *)Value;
 	WaitForSingleObject(Which->UsingThreads.GetEvent(), INFINITE);
-	CallService(MS_YAMN_DELETEPLUGINACCOUNT, (WPARAM)Which, 0);
+	DeletePluginAccount(Which);
 }
 
 int StopAccounts(YAMN_PROTOPLUGIN *Plugin)
 {
 	CAccount *Finder;
 
-	//1. wait to get write access
+	// 1. wait to get write access
 	SWriteGuard swb(Plugin->AccountBrowserSO);
 
 	for (Finder = Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
-		//2. set stop signal 
+		// 2. set stop signal 
 		StopSignalFcn(Finder);
 		WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Finder, 0);
 		if (Plugin->Fcn->StopAccountFcnPtr != nullptr)
 			Plugin->Fcn->StopAccountFcnPtr(Finder);
 	}
 
-	//Now, account is stopped. It can be removed from memory...
+	// Now, account is stopped. It can be removed from memory...
 	return 1;
 }
 
 int WaitForAllAccounts(YAMN_PROTOPLUGIN *Plugin, BOOL GetAccountBrowserAccess)
 {
 	if (GetAccountBrowserAccess) {
-		//1. wait to get write access
+		// 1. wait to get write access
 		Plugin->AccountBrowserSO.WaitToWrite();
 	}
 	for (CAccount *Finder = Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
-		//2. wait for signal that account is not in use
+		// 2. wait for signal that account is not in use
 		WaitForSingleObject(Finder->UsingThreads.GetEvent(), INFINITE);
 		SetEvent(Finder->UsingThreads.GetEvent());
 	}
 	if (GetAccountBrowserAccess) {
-		//leave write access
+		// leave write access
 		Plugin->AccountBrowserSO.DoneWriting();
 	}
 
@@ -975,13 +941,13 @@ int DeleteAccounts(YAMN_PROTOPLUGIN *Plugin)
 
 	for (CAccount *Finder = Plugin->FirstAccount; Finder != nullptr;) {
 		CAccount *Next = Finder->Next;
-		DeletePluginAccountSvc((WPARAM)Finder, 0);
+		DeletePluginAccount(Finder);
 		Finder = Next;
 	}
 	return 1;
 }
 
-void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value)
+void GetStatusFcn(CAccount *Which, wchar_t *Value)
 {
 	if (Which == nullptr)
 		return;
@@ -990,7 +956,7 @@ void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value)
 	mir_wstrcpy(Value, Which->Status);
 }
 
-void WINAPI SetStatusFcn(CAccount *Which, wchar_t *Value)
+void SetStatusFcn(CAccount *Which, wchar_t *Value)
 {
 	if (Which != nullptr) {
 		mir_cslock lck(csAccountStatusCS);

@@ -199,10 +199,11 @@ static BOOL DlgShowAccountStatus(HWND hDlg, CPOP3Account* ActualAccount)
 
 static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	static CPOP3Account* ActualAccount;
+	static CPOP3Account *ActualAccount;
+	
 	switch (msg) {
 	case WM_INITDIALOG:
-		ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput);
+		ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput);
 		if (ActualAccount != nullptr) {
 			DlgShowAccountStatus(hDlg, ActualAccount);
 			for (auto &it : g_iStatusControls)
@@ -400,7 +401,7 @@ public:
 	void onKillFocus_Account(CCtrlCombo *)
 	{
 		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
-		if (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput))) {
+		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
 			DlgEnableAccount(mir_strlen(DlgInput) > 0);
@@ -417,7 +418,7 @@ public:
 		if (CB_ERR != (Result = cmbAccount.GetCurSel()))
 			SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_GETLBTEXT, (WPARAM)Result, (LPARAM)DlgInput);
 
-		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput)))) {
+		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput)))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
 		}
@@ -509,7 +510,7 @@ public:
 		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
 		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
 		if ((CB_ERR == (Result = SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_GETCURSEL, 0, 0)))
-			|| (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput))))
+			|| (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))))
 			return;
 
 		if (IDOK != MessageBox(m_hwnd, TranslateT("Do you really want to delete this account?"), TranslateT("Delete account confirmation"), MB_OKCANCEL | MB_ICONWARNING))
@@ -520,7 +521,7 @@ public:
 		if (ActualAccount->hContact != NULL)
 			db_delete_contact(ActualAccount->hContact, true);
 
-		CallService(MS_YAMN_DELETEACCOUNT, (WPARAM)POP3Plugin, (LPARAM)ActualAccount);
+		DeleteAccount(POP3Plugin, ActualAccount);
 
 		// We can consider our account as deleted.
 		SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_DELETESTRING, Result, 0);
@@ -595,10 +596,10 @@ public:
 
 		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
 
-		if (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)Text))) {
+		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, Text))) {
 			NewAcc = TRUE;
 			SWriteGuard swb(POP3Plugin->AccountBrowserSO);
-			if (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)POP3Plugin, (LPARAM)YAMN_ACCOUNTVERSION))) {
+			if (nullptr == (ActualAccount = (CPOP3Account*)GetNextFreeAccount(POP3Plugin))) {
 				swb.Uninit();
 				MessageBox(m_hwnd, TranslateT("Cannot allocate memory space for new account"), TranslateT("Memory error"), MB_OK);
 				return false;
@@ -867,7 +868,7 @@ public:
 	void onKillFocus_Account(CCtrlCombo *)
 	{
 		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
-		if (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput))) {
+		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 			if (mir_strlen(DlgInput))
 				DlgEnableAccountPopup(true);
@@ -886,7 +887,7 @@ public:
 		int Result = cmbAccount.GetCurSel();
 		if (CB_ERR != Result)
 			SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_GETLBTEXT, (WPARAM)Result, (LPARAM)DlgInput);
-		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput)))) {
+		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput)))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 		}
 		else {

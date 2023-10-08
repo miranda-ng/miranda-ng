@@ -10,62 +10,30 @@
 
 YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin = nullptr;
 
-INT_PTR RegisterProtocolPluginSvc(WPARAM, LPARAM);
-
-//Removes plugin from queue and deletes registration structures
-INT_PTR UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin);
-
-INT_PTR UnregisterProtocolPluginSvc(WPARAM, LPARAM);
-
-//Removes plugins from queue and deletes registration structures
+// Removes plugins from queue and deletes registration structures
 INT_PTR UnregisterProtoPlugins();
 
-//Sets imported functions for an plugin and therefore it starts plugin to be registered and running
-// Plugin- plugin, which wants to set its functions
-// YAMNFcn- pointer to imported functions with accounts
-// YAMNFcnVer- version of YAMN_PROTOIMPORTFCN, use YAMN_PROTOIMPORTFCNVERSION
-// YAMNMailFcn- pointer to imported functions with mails
-// YAMNMailFcnVer- version of YAMN_MAILIMPORTFCN, use YAMN_MAILIMPORTFCNVERSION
-// returns nonzero if success
-int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer);
-
-struct CExportedServices ProtoPluginExportedSvc[] =
-{
-	{MS_YAMN_REGISTERPROTOPLUGIN, RegisterProtocolPluginSvc},
-	{MS_YAMN_UNREGISTERPROTOPLUGIN, UnregisterProtocolPluginSvc},
-	{MS_YAMN_GETFILENAME, GetFileNameSvc},
-	{MS_YAMN_DELETEFILENAME, DeleteFileNameSvc},
-};
-
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-INT_PTR RegisterProtocolPluginSvc(WPARAM wParam, LPARAM lParam)
+YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration)
 {
-	PYAMN_PROTOREGISTRATION Registration = (PYAMN_PROTOREGISTRATION)wParam;
-	YAMN_PROTOPLUGIN *Plugin;
-
-	if (lParam != YAMN_PROTOREGISTRATIONVERSION)
-		return 0;
 	if ((Registration->Name == nullptr) || (Registration->Ver == nullptr))
 		return (INT_PTR)NULL;
-	if (nullptr == (Plugin = new YAMN_PROTOPLUGIN))
-		return (INT_PTR)NULL;
 
+	auto *Plugin = new YAMN_PROTOPLUGIN();
 	Plugin->PluginInfo = Registration;
-	Plugin->FirstAccount = nullptr;
-	Plugin->Fcn = nullptr;
-	Plugin->MailFcn = nullptr;
-
-	return (INT_PTR)Plugin;
+	return Plugin;
 }
 
-int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIMPORTFCN YAMNFcn, uint32_t YAMNFcnVer, PYAMN_MAILIMPORTFCN YAMNMailFcn, uint32_t YAMNMailFcnVer)
+// Sets imported functions for an plugin and therefore it starts plugin to be registered and running
+// Plugin- plugin, which wants to set its functions
+// YAMNFcn- pointer to imported functions with accounts
+// YAMNMailFcn- pointer to imported functions with mails
+// returns nonzero if success
+
+int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn)
 {
-	if (YAMNFcnVer != YAMN_PROTOIMPORTFCNVERSION)
-		return 0;
-	if (YAMNMailFcnVer != YAMN_MAILIMPORTFCNVERSION)
-		return 0;
 	if (YAMNFcn == nullptr)
 		return 0;
 	if (YAMNMailFcn == nullptr)
@@ -93,10 +61,11 @@ int WINAPI SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, PYAMN_PROTOIM
 	return 1;
 }
 
-INT_PTR UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin)
+int UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin)
 {
-	YAMN_PROTOPLUGINQUEUE *Parser, *Found;
+	mir_cslock lck(PluginRegCS);
 
+	YAMN_PROTOPLUGINQUEUE *Parser, *Found;
 	if (FirstProtoPlugin->Plugin == Plugin) {
 		Found = FirstProtoPlugin;
 		FirstProtoPlugin = FirstProtoPlugin->Next;
@@ -124,15 +93,6 @@ INT_PTR UnregisterProtocolPlugin(YAMN_PROTOPLUGIN *Plugin)
 	return 0;
 }
 
-INT_PTR UnregisterProtocolPluginSvc(WPARAM wParam, LPARAM)
-{
-	YAMN_PROTOPLUGIN *Plugin = (YAMN_PROTOPLUGIN*)wParam;
-
-	mir_cslock lck(PluginRegCS);
-	UnregisterProtocolPlugin(Plugin);
-	return 1;
-}
-
 INT_PTR UnregisterProtoPlugins()
 {
 	mir_cslock lck(PluginRegCS);
@@ -142,20 +102,7 @@ INT_PTR UnregisterProtoPlugins()
 	return 1;
 }
 
-INT_PTR GetFileNameSvc(WPARAM wParam, LPARAM)
+CMStringW GetFileName(wchar_t *pwszPlugin)
 {
-	wchar_t *FileName = new wchar_t[MAX_PATH];
-	if (FileName == nullptr)
-		return NULL;
-
-	mir_snwprintf(FileName, MAX_PATH, L"%s\\yamn-accounts.%s.%s.book", UserDirectory, (wchar_t *)wParam, ProfileName);
-	return (INT_PTR)FileName;
-}
-
-INT_PTR DeleteFileNameSvc(WPARAM wParam, LPARAM)
-{
-	if ((wchar_t *)wParam != nullptr)
-		delete[](wchar_t *) wParam;
-
-	return 0;
+	return CMStringW(FORMAT, L"%s\\yamn-accounts.%s.%s.book", UserDirectory, pwszPlugin, ProfileName);
 }

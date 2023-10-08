@@ -67,60 +67,49 @@ void UnInitDebug();
 #endif
 
 // From yamn.cpp
-INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam);
 
+// Function every seconds decrements account counter of seconds and checks if they are 0
+// If yes, creates a POP3 thread to check account
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
+
+// Function called to check all accounts immidialtelly
+// no params
 INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 
 // From account.cpp
-INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM);
 int InitAccount(CAccount *Which);
 void DeInitAccount(CAccount *Which);
 void StopSignalFcn(CAccount *Which);
 void CodeDecodeString(char *Dest, BOOL Encrypt);
 uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 
-#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-uint32_t ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
-#endif
+uint32_t  AddAccountsFromFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename);
+CAccount* CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin);
+int       DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which);
+void      DeletePluginAccount(CAccount *OldAccount);
+CAccount* FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount);
+CAccount* GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin);
+uint32_t  WriteAccountsToFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename);
+
+
 uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo);
 uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End);
-uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, wchar_t *End);
-INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam);
 
 uint32_t WriteStringToFile(HANDLE File, char *Source);
 uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source);
 
-
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
-DWORD WINAPI WritePOP3Accounts();
-INT_PTR WriteAccountsToFileSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR GetNextFreeAccountSvc(WPARAM wParam, LPARAM lParam);
+DWORD WritePOP3Accounts();
 
-INT_PTR DeleteAccountSvc(WPARAM wParam, LPARAM);
 void __cdecl DeleteAccountInBackground(void *Which);
 int StopAccounts(YAMN_PROTOPLUGIN *Plugin);
 int WaitForAllAccounts(YAMN_PROTOPLUGIN *Plugin, BOOL GetAccountBrowserAccess = FALSE);
 int DeleteAccounts(YAMN_PROTOPLUGIN *Plugin);
 
-void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
-void WINAPI SetStatusFcn(CAccount *Which, wchar_t *Value);
+void GetStatusFcn(CAccount *Which, wchar_t *Value);
+void SetStatusFcn(CAccount *Which, wchar_t *Value);
 
 INT_PTR UnregisterProtoPlugins();
-INT_PTR RegisterProtocolPluginSvc(WPARAM, LPARAM);
-INT_PTR UnregisterProtocolPluginSvc(WPARAM, LPARAM);
-INT_PTR GetFileNameSvc(WPARAM, LPARAM);
-INT_PTR DeleteFileNameSvc(WPARAM, LPARAM);
-
-// From mails.cpp (MIME)
-// struct CExportedFunctions MailExported[];
-INT_PTR CreateAccountMailSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR DeleteAccountMailSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR LoadMailDataSvc(WPARAM wParam, LPARAM lParam);
-INT_PTR UnloadMailDataSvc(WPARAM wParam, LPARAM);
-INT_PTR SaveMailDataSvc(WPARAM wParam, LPARAM lParam);
 
 // From mime.cpp
 // void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	//already in MailExported
@@ -168,18 +157,20 @@ extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 
 // From synchro.cpp
-void  WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
+void DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
 
 // From mails.cpp
-void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode);
-void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
+void DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode);
+void SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
 
-void WINAPI AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second);
-HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From);
-void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0);
-HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From, char *ID);
-void WINAPI SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew);
-void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head);
+void      AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second);
+HYAMNMAIL CreateAccountMail(CAccount *Account);
+HYAMNMAIL CreateNewDeleteQueueFcn(HYAMNMAIL From);
+int       DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail);
+void      DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0);
+HYAMNMAIL FindMessageByIDFcn(HYAMNMAIL From, char *ID);
+void      SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew);
+void      TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head);
 
 // From mime.cpp
 void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head);
@@ -189,9 +180,7 @@ void DeleteShortHeaderContent(struct CShortHeader *head);
 char *ExtractFromContentType(char *ContentType, char *value);
 wchar_t *ParseMultipartBody(char *src, char *bond);
 
-//From account.cpp
-void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
-
+// From account.cpp
 extern YAMN_PROTOPLUGIN *POP3Plugin;
 
 //from decode.cpp
@@ -205,13 +194,19 @@ extern char *iconDescs[];
 extern char *iconNames[];
 extern HIMAGELIST CSImages;
 
-extern void __stdcall SSL_DebugLog(const char *fmt, ...);
+int SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn);
+
+void __stdcall SSL_DebugLog(const char *fmt, ...);
 
 extern struct WndHandles *MessageWnd;
 
-extern int GetCharsetFromString(char *input, size_t size);
-extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
+YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
+
+int GetCharsetFromString(char *input, size_t size);
+void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;
+
+CMStringW GetFileName(wchar_t *pwszPlugin);
 
 #endif

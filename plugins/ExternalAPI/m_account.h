@@ -235,7 +235,6 @@ struct SWriteGuard
 struct CAccount
 {
 	#define YAMN_ACCOUNTFILEVERSION	2	//version of standard file format (YAMN book file format)
-	#define YAMN_ACCOUNTVERSION	3
 	
 	// If changes are made in this structure, version is changed.
 	// So then YAMN does not initialzie your structure, if version does not matches.

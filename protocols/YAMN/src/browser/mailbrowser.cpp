@@ -336,19 +336,14 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 		memset(&MN, 0, sizeof(MN));
 
 		for (HYAMNMAIL msgq = (HYAMNMAIL)ActualAccount->Mails; msgq != nullptr; msgq = msgq->Next) {
-			if (!LoadedMailData(msgq))				//check if mail is already in memory
-			{
+			if (!LoadedMailData(msgq))	{ // check if mail is already in memory
 				Loaded = false;
-				if (nullptr == LoadMailData(msgq))			//if we could not load mail to memory, consider this mail deleted and do not display it
+				if (nullptr == msgq->MailData) // if we could not load mail to memory, consider this mail deleted and do not display it
 					continue;
 			}
-			else
-				Loaded = true;
+			else Loaded = true;
 
 			IncrementMailCounters(msgq, &MN);
-
-			if (!Loaded)
-				UnloadMailData(msgq);			//do not keep data for mail in memory
 		}
 
 		if (mwui != nullptr)
@@ -497,7 +492,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 
 		if (!LoadedMailData(msgq)) { // check if mail is already in memory
 			Loaded = false;
-			if (nullptr == LoadMailData(msgq))			//if we could not load mail to memory, consider this mail deleted and do not display it
+			if (nullptr == msgq->MailData)			//if we could not load mail to memory, consider this mail deleted and do not display it
 				continue;
 		}
 		else Loaded = true;
@@ -574,11 +569,6 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 		if (Extracted) {
 			DeleteHeaderContent(&UnicodeHeader);
 			memset(&UnicodeHeader, 0, sizeof(UnicodeHeader));
-		}
-
-		if (!Loaded) {
-			SaveMailData(msgq);
-			UnloadMailData(msgq);			//do not keep data for mail in memory
 		}
 	}
 
@@ -765,12 +755,11 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				mir_forkthread(ShowEmailThread, MailParam);
 			}
 			else {
-				DBVARIANT dbv;
-
 				hContact = PUGetContact(hWnd);
 
+				DBVARIANT dbv;
 				if (!g_plugin.getString(hContact, "Id", &dbv)) {
-					Account = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+					Account = FindAccountByName(POP3Plugin, dbv.pszVal);
 					db_free(&dbv);
 				}
 				else Account = (CAccount *)hContact; //????
@@ -819,7 +808,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			MCONTACT hContact = PUGetContact(hWnd);
 
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal);
 				db_free(&dbv);
 			}
 			else ActualAccount = (CAccount *)hContact;
@@ -846,7 +835,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			DBVARIANT dbv;
 			CAccount *ActualAccount;
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal);
 				db_free(&dbv);
 			}
 			else ActualAccount = (CAccount *)hContact;
@@ -895,11 +884,10 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			MCONTACT hContact = PUGetContact(hWnd);
 
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				ActualAccount = (CAccount *)hContact;
+			else ActualAccount = (CAccount *)hContact;
 
 			if ((CAccount *)wParam != ActualAccount)
 				break;
@@ -1697,7 +1685,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					if ((Parser->Flags & YAMN_MSG_DELETED) && YAMN_MSG_SPAML(Parser->Flags, YAMN_MSG_SPAML3) && mwui->Seen)		//if spaml3 was already deleted and user knows about it
 					{
 						DeleteMessageFromQueueFcn((HYAMNMAIL *)&ActualAccount->Mails, Parser, 1);
-						CallService(MS_YAMN_DELETEACCOUNTMAIL, (WPARAM)ActualAccount->Plugin, (LPARAM)Parser);
+						DeleteAccountMail(ActualAccount->Plugin, Parser);
 					}
 				}
 
@@ -1944,7 +1932,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 								if ((ActualMail->Flags & YAMN_MSG_DELETED) && ((ActualMail->Flags & YAMN_MSG_USERDELETE)))	//if selected mail was already deleted
 								{
 									DeleteMessageFromQueueFcn((HYAMNMAIL *)&ActualAccount->Mails, ActualMail, 1);
-									CallService(MS_YAMN_DELETEACCOUNTMAIL, (WPARAM)ActualAccount->Plugin, (LPARAM)ActualMail);	//delete it from memory
+									DeleteAccountMail(ActualAccount->Plugin, ActualMail);	//delete it from memory
 									continue;
 								}
 							}
