@@ -17,9 +17,6 @@ HFONT hFontFirstLine = nullptr, hFontSecondLine = nullptr, hFontTime = nullptr;
 COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0),
 colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
 
-// toptoolbar button
-HANDLE hTTButton;
-
 // menu items
 HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
 

@@ -145,14 +145,12 @@ int YAMNOptInitSvc(WPARAM, LPARAM);
 //From main.cpp
 int PostLoad(WPARAM, LPARAM);				//Executed after all plugins loaded YAMN reads mails from file and notify every protocol it should set its functions
 int Shutdown(WPARAM, LPARAM);				//Executed before Miranda is going to shutdown
-int AddTopToolbarIcon(WPARAM, LPARAM);	//Executed when TopToolBar plugin loaded Adds bitmap to toolbar
 
 extern wchar_t UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
 extern wchar_t ProfileName[];		//e.g. "majvan"
 extern SWMRG *AccountBrowserSO;
 extern YAMN_VARIABLES YAMNVar;
 extern HANDLE hNewMailHook;
-extern HANDLE hTTButton;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 

@@ -28,7 +28,6 @@ CMPlugin	g_plugin;
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;
-HANDLE hTTButton;
 
 UINT SecTimer;
 

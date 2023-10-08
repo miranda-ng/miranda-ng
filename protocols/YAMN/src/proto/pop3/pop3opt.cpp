@@ -143,7 +143,6 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_CHECKTTB, g_plugin.getByte(YAMN_TTBFCHECK, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_LONGDATE, (optDateTime & SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SMARTDATE, (optDateTime & SHOWDATENOTODAY) ? BST_UNCHECKED : BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_SECONDS, (optDateTime & SHOWDATENOSECONDS) ? BST_UNCHECKED : BST_CHECKED);
@@ -154,9 +153,6 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 	bool OnApply() override
 	{
 		g_plugin.setByte(YAMN_CLOSEDELETE, IsDlgButtonChecked(m_hwnd, IDC_CLOSEONDELETE));
-		g_plugin.setByte(YAMN_TTBFCHECK, IsDlgButtonChecked(m_hwnd, IDC_CHECKTTB));
-
-		AddTopToolbarIcon(0, 0);
 
 		optDateTime = 0;
 		if (IsDlgButtonChecked(m_hwnd, IDC_LONGDATE)) optDateTime |= SHOWDATELONG;

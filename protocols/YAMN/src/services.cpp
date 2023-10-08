@@ -215,25 +215,14 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 	return hBmp;
 }
 
-int AddTopToolbarIcon(WPARAM, LPARAM)
+static int AddTopToolbarIcon(WPARAM, LPARAM)
 {
-	if (g_plugin.getByte(YAMN_TTBFCHECK, 1)) {
-		if (ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
-			TTBButton btn = {};
-			btn.pszService = MS_YAMN_FORCECHECK;
-			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-			btn.hIconHandleUp = btn.hIconHandleDn = g_plugin.getIconHandle(IDI_CHECKMAIL);
-			btn.name = btn.pszTooltipUp = LPGEN("Check mail");
-			hTTButton = g_plugin.addTTB(&btn);
-		}
-	}
-	else {
-		if (hTTButton != nullptr) {
-			CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
-			hTTButton = nullptr;
-		}
-	}
-
+	TTBButton btn = {};
+	btn.pszService = MS_YAMN_FORCECHECK;
+	btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	btn.hIconHandleUp = btn.hIconHandleDn = g_plugin.getIconHandle(IDI_CHECKMAIL);
+	btn.name = btn.pszTooltipUp = LPGEN("Check mail");
+	g_plugin.addTTB(&btn);
 	return 0;
 }
 
@@ -241,8 +230,6 @@ int AddTopToolbarIcon(WPARAM, LPARAM)
 
 int Shutdown(WPARAM, LPARAM)
 {
-	CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
-
 	g_plugin.setDword(YAMN_DBMSGPOSX, HeadPosX);
 	g_plugin.setDword(YAMN_DBMSGPOSY, HeadPosY);
 	g_plugin.setDword(YAMN_DBMSGSIZEX, HeadSizeX);

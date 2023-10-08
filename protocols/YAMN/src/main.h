@@ -16,7 +16,6 @@
 #define YAMN_DBMSGSIZEX    "MailMessageWinW"
 #define YAMN_DBMSGSIZEY    "MailMessageWinH"
 #define YAMN_DBMSGPOSSPLIT "MailMessageSplitY"
-#define YAMN_TTBFCHECK     "ForceCheckTTB"
 #define YAMN_CLOSEDELETE   "CloseOnDelete"
 #define YAMN_DBTIMEOPTIONS "MailBrowserTimeOpts"
 

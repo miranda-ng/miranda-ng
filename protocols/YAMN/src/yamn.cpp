@@ -149,8 +149,5 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	}
 
 	CloseHandle(ThreadRunningEV);
-
-	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, 0);
 	return 1;
 }

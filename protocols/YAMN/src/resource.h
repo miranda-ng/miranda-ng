@@ -78,7 +78,6 @@
 #define IDC_GBNONEWMAIL                 1095
 #define IDC_GBBADCONNECT                1096
 #define IDC_STSTATUS                    1102
-#define IDC_CHECKTTB                    1117
 #define IDC_CHECKSSL                    1117
 #define IDC_CHECKNMSGP                  1118
 #define IDC_CHECKNOTLS                  1120
