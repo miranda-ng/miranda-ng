@@ -405,7 +405,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 	CPOP3Account* ActualAccount;
 	CPop3Client *MyClient;
 	HYAMNMAIL NewMails = nullptr, MsgQueuePtr = nullptr;
-	char *DataRX = nullptr, *Temp;
+	char *DataRX = nullptr;
 	int mboxsize, msgs, i;
 	SYSTEMTIME now;
 	LPVOID YAMNParam;
@@ -567,17 +567,19 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 							mir_snwprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
 							SetStatusFcn(ActualAccount, accstatus);
 							DataRX = MyClient->Top(MsgQueuePtr->Number, 100);
-							if (DataRX != nullptr) {
-								Temp = DataRX;
-								while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
-
-								if (OKLINE(DataRX))
-									for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
-								while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
-							}
-							else
+							if (DataRX == nullptr)
 								continue;
-							//delete all the headers of the old mail MsgQueuePtr->MailData->TranslatedHeader
+
+							char *Temp = DataRX;
+							while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp)))
+								Temp++;
+
+							if (OKLINE(DataRX))
+								for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
+							while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp))
+								Temp++;
+
+							// delete all the headers of the old mail MsgQueuePtr->MailData->TranslatedHeader
 							struct CMimeItem *TH = MsgQueuePtr->MailData->TranslatedHeader;
 							if (TH) for (; MsgQueuePtr->MailData->TranslatedHeader != nullptr;) {
 								TH = TH->Next;
@@ -624,31 +626,26 @@ DWORD WINAPI SynchroPOP3(struct CheckParam *WhichTemp)
 				mir_snwprintf(accstatus, TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
 				SetStatusFcn(ActualAccount, accstatus);
 
-				if (DataRX != nullptr) {
-					Temp = DataRX;
-					while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
-
-					if (OKLINE(DataRX))
-						for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
-					while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
-				}
-				else
+				if (DataRX == nullptr)
 					continue;
+					
+				char *Temp = DataRX;
+				while ((Temp < DataRX + MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp)))
+					Temp++;
+
+				if (OKLINE(DataRX))
+					for (Temp = DataRX; (Temp < DataRX + MyClient->NetClient->Rcv) && (!ENDLINE(Temp)); Temp++);
+				while ((Temp < DataRX + MyClient->NetClient->Rcv) && ENDLINE(Temp))
+					Temp++;
 
 				TranslateHeaderFcn(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
-
 
 				#ifdef DEBUG_DECODE
 				DebugLog(DecodeFile, "</New mail>\n");
 				#endif
 				MsgQueuePtr->Flags |= YAMN_MSG_NORMALNEW;
-				if (autoretr) MsgQueuePtr->Flags |= YAMN_MSG_BODYRECEIVED;
-
-				//We are going to filter mail. Warning!- we must not be in read access neither write access to mails when calling this service
-				//This is done, because the "NewMails" queue is not synchronised. It is because it is new queue. Only this thread uses new queue yet, it is not
-				//connected to account mail queue.
-				//				CallService(MS_YAMN_FILTERMAIL,(WPARAM)ActualAccount,(LPARAM)MsgQueuePtr);
-				FilterMailSvc((WPARAM)ActualAccount, (LPARAM)MsgQueuePtr);
+				if (autoretr)
+					MsgQueuePtr->Flags |= YAMN_MSG_BODYRECEIVED;
 
 				if (DataRX != nullptr)
 					free(DataRX);

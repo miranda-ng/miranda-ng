@@ -34,7 +34,6 @@
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\debug.cpp" />
-    <ClCompile Include="src\filterplugin.cpp" />
     <ClCompile Include="src\mails\decode.cpp">
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>

@@ -110,13 +110,6 @@ struct CExportedServices
 //sense to store all this information in memory, etc.
 #define MS_YAMN_CLISTDBLCLICK	"YAMN/Service/ClistContactDoubleclicked"
 
-//FilterMail Service
-//Ask YAMN to process mail filtering. YAMN calls filter plugins to mark mail as spam etc... Warning! Leave all
-//read or write access to mail as this function waits for write-access to mail!
-//WPARAM- (HACCOUNT) account to which mail belongs
-//LPARAM- (HYAMNMAIL) mail to filter
-#define MS_YAMN_FILTERMAIL		"YAMN/Service/FilterMail"
-
 //MailBrowser Service
 //runs mail browser window (or tray icon only or popups only)
 //WPARAM- pointer to YAMN_MAILBROWSERPARAM structure, data to mailbrowser. You do not need to fill ThreadRunningEV event member.

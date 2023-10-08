@@ -254,7 +254,6 @@ int Shutdown(WPARAM, LPARAM)
 	KillTimer(nullptr, SecTimer);
 
 	UnregisterProtoPlugins();
-	UnregisterFilterPlugins();
 	return 0;
 }
 
@@ -320,15 +319,6 @@ void CreateServiceFunctions(void)
 
 	// Function deletes plugin account 
 	CreateServiceFunction(MS_YAMN_DELETEACCOUNTMAIL, DeleteAccountMailSvc);
-
-	// Function with which filter plugin can register
-	CreateServiceFunction(MS_YAMN_REGISTERFILTERPLUGIN, RegisterFilterPluginSvc);
-
-	// Function with which filter plugin can unregister
-	CreateServiceFunction(MS_YAMN_UNREGISTERFILTERPLUGIN, UnregisterFilterPluginSvc);
-
-	// Function filters mail
-	CreateServiceFunction(MS_YAMN_FILTERMAIL, FilterMailSvc);
 
 	// Function contact list double click
 	CreateServiceFunction(MS_YAMN_CLISTDBLCLICK, ClistContactDoubleclicked);

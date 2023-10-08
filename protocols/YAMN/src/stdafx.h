@@ -25,7 +25,6 @@
 
 #include <m_toptoolbar.h>
 #include <m_kbdnotify.h>
-#include <m_filterplugin.h>
 #include <m_yamn.h>
 #include <m_protoplugin.h>
 #include <m_folders.h>
@@ -115,23 +114,16 @@ INT_PTR UnregisterProtocolPluginSvc(WPARAM, LPARAM);
 INT_PTR GetFileNameSvc(WPARAM, LPARAM);
 INT_PTR DeleteFileNameSvc(WPARAM, LPARAM);
 
-//From filterplugin.cpp
-//struct CExportedFunctions FilterPluginExported[];
-INT_PTR UnregisterFilterPlugins();
-INT_PTR RegisterFilterPluginSvc(WPARAM, LPARAM);
-INT_PTR UnregisterFilterPluginSvc(WPARAM, LPARAM);
-INT_PTR FilterMailSvc(WPARAM, LPARAM);
-
-//From mails.cpp (MIME)
-//struct CExportedFunctions MailExported[];
+// From mails.cpp (MIME)
+// struct CExportedFunctions MailExported[];
 INT_PTR CreateAccountMailSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR DeleteAccountMailSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR LoadMailDataSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR UnloadMailDataSvc(WPARAM wParam, LPARAM);
 INT_PTR SaveMailDataSvc(WPARAM wParam, LPARAM lParam);
 
-//From mime.cpp
-//void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	//already in MailExported
+// From mime.cpp
+// void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	//already in MailExported
 struct _tcptable
 {
 	char *NameBase, *NameSub;
@@ -205,9 +197,6 @@ extern YAMN_PROTOPLUGIN *POP3Plugin;
 //from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
 int DecodeBase64(char *Src, char *Dst, int DstLen);
-
-//From filterplugin.cpp
-extern PYAMN_FILTERPLUGINQUEUE FirstFilterPlugin;
 
 //From protoplugin.cpp
 extern YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin;
