@@ -270,14 +270,10 @@ class CAccOptDlg : public CBaseOptionsDlg
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKICO), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKAPP), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKKBN), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNAPP), chkApp.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITAPP), chkApp.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITAPPPARAM), chkApp.IsChecked() && bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKNMSGP), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFSND), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFMSG), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFICO), bEnable);
-
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKSTART), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFORCE), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBOCP), bEnable);
@@ -287,11 +283,19 @@ class CAccOptDlg : public CBaseOptionsDlg
 		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNSTATUS), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKSSL), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKAPOP), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKNOTLS), chkSsl.IsChecked() && bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_AUTOBODY), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKCONTACT), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKCONTACTNICK), chkContact.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKCONTACTNOEVENT), chkContact.IsChecked() && bEnable);
+
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKNOTLS), chkSsl.IsChecked() && bEnable);
+
+		bool bContactEnabled = chkContact.IsChecked() && bEnable;
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKCONTACTNICK), bContactEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKCONTACTNOEVENT), bContactEnabled);
+
+		bool bAppEnabled = chkApp.IsChecked() && bEnable;
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNAPP), bAppEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITAPP), bAppEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITAPPPARAM), bAppEnabled);
 	}
 
 public:
@@ -312,7 +316,6 @@ public:
 		cmbCP.OnSelChanged = Callback(this, &CAccOptDlg::onSelChange_CP);
 
 		cmbAccount.OnChange = Callback(this, &CAccOptDlg::onChange_Account);
-		cmbAccount.OnKillFocus = Callback(this, &CAccOptDlg::onKillFocus_Account);
 		cmbAccount.OnSelChanged = Callback(this, &CAccOptDlg::onSelChange_Account);
 
 		chkApp.OnChange = Callback(this, &CAccOptDlg::onChangeApp);
@@ -329,10 +332,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
-
-		DlgEnableAccount(false);
-		DlgShowAccount(0);
+		btnDel.Disable();
 
 		// Fill accounts
 		{	SReadGuard srb(POP3Plugin->AccountBrowserSO);
@@ -341,6 +341,7 @@ public:
 					cmbAccount.AddStringA(ActualAccount->Name);
 		}
 		cmbAccount.SetCurSel(0);
+		onSelChange_Account(0);
 
 		// Fill code pages
 		cmbCP.AddString(TranslateT("Default"));
@@ -398,21 +399,6 @@ public:
 		DlgEnableAccount(0 != GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput)));
 	}
 
-	void onKillFocus_Account(CCtrlCombo *)
-	{
-		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
-		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))) {
-			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
-			DlgEnableAccount(mir_strlen(DlgInput) > 0);
-		}
-		else {
-			DlgShowAccount(ActualAccount);
-			DlgEnableAccount(true);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), TRUE);
-		}
-	}
-
 	void onSelChange_Account(CCtrlCombo *)
 	{
 		if (CB_ERR != (Result = cmbAccount.GetCurSel()))
@@ -420,12 +406,12 @@ public:
 
 		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput)))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
+			btnDel.Disable();
 		}
 		else {
 			DlgShowAccount(ActualAccount);
 			DlgEnableAccount(true);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), TRUE);
+			btnDel.Enable();
 		}
 	}
 
@@ -468,7 +454,7 @@ public:
 		DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 		DlgShowAccount(0);
 		DlgEnableAccount(true);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
+		btnDel.Disable();
 		DlgSetItemTextW(m_hwnd, IDC_EDITNAME, TranslateT("New Account"));
 
 		int index = SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_ADDSTRING, 0, (LPARAM)TranslateT("New Account"));
@@ -508,7 +494,7 @@ public:
 	void onClick_Del(CCtrlButton *)
 	{
 		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), FALSE);
+		btnDel.Disable();
 		if ((CB_ERR == (Result = SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_GETCURSEL, 0, 0)))
 			|| (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))))
 			return;
@@ -698,7 +684,7 @@ public:
 					(ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC);
 			}
 		}
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTNDEL), TRUE);
+		btnDel.Enable();
 
 		DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
 
