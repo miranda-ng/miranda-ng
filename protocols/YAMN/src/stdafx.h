@@ -99,7 +99,7 @@ uint32_t WriteStringToFile(HANDLE File, char *Source);
 uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source);
 
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
-DWORD WritePOP3Accounts();
+DWORD WINAPI WritePOP3Accounts();
 
 void __cdecl DeleteAccountInBackground(void *Which);
 int StopAccounts(YAMN_PROTOPLUGIN *Plugin);

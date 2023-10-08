@@ -70,7 +70,7 @@ int DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail)
 // Appends second MIME mail queue to the first one
 // Only finds the end of first queue and its Next memember repoints to second one
 
-void WINAPI AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second)
+void AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second)
 {
 	HYAMNMAIL Finder = first;
 	while (Finder->Next != nullptr) Finder = Finder->Next;
@@ -97,7 +97,7 @@ void WINAPI AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second)
 // 1. delete (or move to RemovedOld queue if RemovedOld is not NULL) all mails from OldQueue not found in NewQueue
 // 2. delete (or move to RemovedNew queue if RemovedNew is not NULL) all mails from NewQueue found in OldQueue
 
-void WINAPI SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew)
+void SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew)
 // deletes messages from new queue, if they are old
 // it also deletes messages from old queue, if they are not in mailbox anymore
 // "YAMN_MSG_DELETED" messages in old queue remain in old queue (are never removed, although they are not in new queue)
@@ -188,7 +188,7 @@ void WINAPI SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL
 // Account- account who owns mails
 // From- first mail in queue, which is going to delete
 
-void WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
+void DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
 {
 	HYAMNMAIL Temp;
 	while (From != nullptr) {
@@ -204,7 +204,7 @@ void WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
 // Which- mail to delete
 // mode- nonzero if you want to decrement numbers in messages that are bigger than the one in Which mail, 0 if not
 
-void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode)
+void DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode)
 {
 	uint32_t Number = Which->Number;
 	HYAMNMAIL Parser;
@@ -239,7 +239,7 @@ void DeleteMessagesFromQueue(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0)
 // ID- pointer to ID
 // returns pointer to found message, NULL if not found
 
-HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From, char *ID)
+HYAMNMAIL FindMessageByIDFcn(HYAMNMAIL From, char *ID)
 {
 	HYAMNMAIL Browser;
 
@@ -256,7 +256,7 @@ HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From, char *ID)
 // len- length of stream
 // head- function fills this pointer to first header item in queue
 
-void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
+void TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
 {
 	try {
 		char *finder = stream;
@@ -343,7 +343,7 @@ void WINAPI TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
 // Function does not copy the whole mails, it copies only ID string. And ID is copied as string, so
 // you can use this fcn only if you have your ID as pointer to char string ended with zero character
 
-HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
+HYAMNMAIL CreateNewDeleteQueueFcn(HYAMNMAIL From)
 {
 	HYAMNMAIL FirstMail, Browser = nullptr;
 
@@ -375,7 +375,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 // FlagsToSetRemove- ...to set/remove these flags (see mode)
 // mode- nonzero to set, else remove
 
-void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSetRemove, int mode)
+void SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSetRemove, int mode)
 {
 	HYAMNMAIL msgq;
 

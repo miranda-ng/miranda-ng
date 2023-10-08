@@ -32,9 +32,6 @@ int RegisterPOP3Plugin(WPARAM, LPARAM);
 // Unloads all variables created on heap (delete[])
 DWORD WINAPI UnLoadPOP3(void *);
 
-// Function writes POP3 accounts using YAMN exported functions
-DWORD WINAPI WritePOP3Accounts();
-
 // Function stores plugin's data for account to file
 DWORD WINAPI WritePOP3Options(HANDLE, CAccount *);
 
@@ -257,7 +254,8 @@ DWORD WINAPI UnLoadPOP3(void *)
 	return 1;
 }
 
-DWORD WritePOP3Accounts()
+// Function writes POP3 accounts using YAMN exported functions
+DWORD WINAPI WritePOP3Accounts()
 {
 	uint32_t ReturnValue = WriteAccountsToFile(POP3Plugin, wszFileName);
 	if (ReturnValue == EACC_SYSTEM) {
