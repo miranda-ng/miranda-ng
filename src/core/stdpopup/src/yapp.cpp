@@ -6,6 +6,9 @@
 CMPlugin g_plugin;
 bool bShutdown = false;
 
+// toptoolbar button
+HANDLE hTTButton;
+
 // used to work around a bug in neweventnotify and others with the address passed in the GetPluginData function
 bool ignore_gpd_passed_addy = false;
 
