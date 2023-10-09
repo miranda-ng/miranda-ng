@@ -1,8 +1,6 @@
 #ifndef __MAILBROWSER_H
 #define __MAILBROWSER_H
 
-#define YAMN_MAILBROWSERVERSION	1
-
 struct YAMN_MAILBROWSERPARAM
 {
 	CAccount *account;

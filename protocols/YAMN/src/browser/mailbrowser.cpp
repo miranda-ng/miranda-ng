@@ -21,7 +21,7 @@
 void __cdecl ShowEmailThread(void *Param);
 
 //--------------------------------------------------------------------------------------------------
-char *s_MonthNames[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+char *s_MonthNames[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 bool bDate = false, bSub = false, bSize = false, bFrom = false;
 int PosX = 0, PosY = 0, SizeX = 460, SizeY = 100;
 int HeadSizeX = 0x2b2, HeadSizeY = 0x0b5, HeadPosX = 100, HeadPosY = 100;
@@ -151,9 +151,6 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 // Dialog callback procedure for mail browser
 INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-// Runs mail browser in new thread
-INT_PTR RunMailBrowserSvc(WPARAM, LPARAM);
-
 #define	YAMN_BROWSER_SHOWPOPUP	0x01
 
 //	list view items' order criteria
@@ -199,7 +196,7 @@ LPARAM readItemLParam(HWND hwnd, uint32_t iItem)
 	return item.lParam;
 }
 
-inline CAccount* GetWindowAccount(HWND hDlg)
+inline CAccount *GetWindowAccount(HWND hDlg)
 {
 	struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 
@@ -336,7 +333,7 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 		memset(&MN, 0, sizeof(MN));
 
 		for (HYAMNMAIL msgq = (HYAMNMAIL)ActualAccount->Mails; msgq != nullptr; msgq = msgq->Next) {
-			if (!LoadedMailData(msgq))	{ // check if mail is already in memory
+			if (!LoadedMailData(msgq)) { // check if mail is already in memory
 				Loaded = false;
 				if (nullptr == msgq->MailData) // if we could not load mail to memory, consider this mail deleted and do not display it
 					continue;
@@ -771,9 +768,9 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 						{
 							YAMN_MAILBROWSERPARAM Param = { Account,
 								(Account->NewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG,
-								(Account->NoNewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG};
+								(Account->NoNewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG };
 
-							RunMailBrowserSvc((WPARAM)&Param, (LPARAM)YAMN_MAILBROWSERVERSION);
+							RunMailBrowser(&Param);
 						}
 						break;
 					}
@@ -789,7 +786,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 	case UM_FREEPLUGINDATA:
 		{
-			auto *mpd = (YAMN_MAILSHOWPARAM*)PUGetPluginData(hWnd);
+			auto *mpd = (YAMN_MAILSHOWPARAM *)PUGetPluginData(hWnd);
 			delete mpd;
 			return FALSE;
 		}
@@ -845,7 +842,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 				switch (msg) {
 				case WM_COMMAND:
 					{
-						YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr};
+						YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr };
 
 						Param.nnflags = Param.nnflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
 						Param.nnflags = Param.nnflags & ~YAMN_ACC_POP;
@@ -853,7 +850,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 						Param.nflags = Param.nflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
 						Param.nflags = Param.nflags & ~YAMN_ACC_POP;
 
-						RunMailBrowserSvc((WPARAM)&Param, (LPARAM)YAMN_MAILBROWSERVERSION);
+						RunMailBrowser(&Param);
 					}
 					break;
 				}
@@ -1164,7 +1161,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			YAMN_MAILSHOWPARAM *MailParam = (YAMN_MAILSHOWPARAM*)lParam;
+			YAMN_MAILSHOWPARAM *MailParam = (YAMN_MAILSHOWPARAM *)lParam;
 			wchar_t *iHeaderW = nullptr;
 			wchar_t *iValueW = nullptr;
 			int StrLen;
@@ -1184,8 +1181,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			iValueW = new wchar_t[StrLen + 1];
 			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Value"), -1, iValueW, StrLen);
 
-			LVCOLUMN lvc0 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 130, iHeaderW, 0, 0};
-			LVCOLUMN lvc1 = {LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 400, iValueW, 0, 0};
+			LVCOLUMN lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 130, iHeaderW, 0, 0 };
+			LVCOLUMN lvc1 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 400, iValueW, 0, 0 };
 			SendMessage(hListView, LVM_INSERTCOLUMN, 0, (LPARAM)&lvc0);
 			SendMessage(hListView, LVM_INSERTCOLUMN, 1, (LPARAM)&lvc1);
 			if (nullptr != iHeaderW)
@@ -1201,7 +1198,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_YAMN_CHANGECONTENT:
 		{
-			auto *MailParam = (YAMN_MAILSHOWPARAM*)(lParam ? lParam : GetWindowLongPtr(hDlg, DWLP_USER));
+			auto *MailParam = (YAMN_MAILSHOWPARAM *)(lParam ? lParam : GetWindowLongPtr(hDlg, DWLP_USER));
 			HWND hListView = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			HWND hEdit = GetDlgItem(hDlg, IDC_EDITBODY);
 			//do not redraw
@@ -1215,7 +1212,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			for (Header = MailParam->mail->MailData->TranslatedHeader; Header != nullptr; Header = Header->Next) {
 				wchar_t *str1 = nullptr;
 				wchar_t *str2 = nullptr;
-				wchar_t str_nul[2] = {0};
+				wchar_t str_nul[2] = { 0 };
 				if (!body) if (!_stricmp(Header->name, "Body")) { body = Header->value; continue; }
 				if (!contentType) if (!_stricmp(Header->name, "Content-Type")) contentType = Header->value;
 				if (!transEncoding) if (!_stricmp(Header->name, "Content-Transfer-Encoding")) transEncoding = Header->value;
@@ -1308,7 +1305,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 						}
 					}
 				}
-				if (!bodyDecoded)ConvertStringToUnicode(localBody ? localBody : body, MailParam->mail->MailData->CP, &bodyDecoded);
+				if (!bodyDecoded)
+					ConvertStringToUnicode(localBody ? localBody : body, MailParam->mail->MailData->CP, &bodyDecoded);
 				SetWindowTextW(hEdit, bodyDecoded);
 				delete[] bodyDecoded;
 				if (localBody) delete[] localBody;
@@ -1316,14 +1314,14 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			if (!(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)) {
 				MailParam->mail->Flags |= YAMN_MSG_BODYREQUESTED;
-				CallService(MS_YAMN_ACCOUNTCHECK, (WPARAM)MailParam->account, 0);
+				AccountMailCheck(MailParam->account, false);
 			}
 			else {
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags &= ~YAMN_MSG_UNSEEN; //mark the message as seen
 					HWND hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)MailParam->account);
 					if (hMailBrowser) {
-						struct CChangeContent Params = {MailParam->account->NewMailN.Flags | YAMN_ACC_MSGP, MailParam->account->NoNewMailN.Flags | YAMN_ACC_MSGP};
+						struct CChangeContent Params = { MailParam->account->NewMailN.Flags | YAMN_ACC_MSGP, MailParam->account->NoNewMailN.Flags | YAMN_ACC_MSGP };
 						SendMessage(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)MailParam->account, (LPARAM)&Params);
 					}
 					else UpdateMails(nullptr, MailParam->account, MailParam->account->NewMailN.Flags, MailParam->account->NoNewMailN.Flags);
@@ -1353,7 +1351,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_YAMN_STOPACCOUNT:
 		{
-			auto *MailParam = (YAMN_MAILSHOWPARAM*)(lParam ? lParam : GetWindowLongPtr(hDlg, DWLP_USER));
+			auto *MailParam = (YAMN_MAILSHOWPARAM *)(lParam ? lParam : GetWindowLongPtr(hDlg, DWLP_USER));
 			if (nullptr == MailParam)
 				break;
 
@@ -1416,7 +1414,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (wParam == SIZE_RESTORED) {
 			HWND hList = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			HWND hEdit = GetDlgItem(hDlg, IDC_EDITBODY);
-			BOOL isBodyShown = ((YAMN_MAILSHOWPARAM*)(GetWindowLongPtr(hDlg, DWLP_USER)))->mail->Flags & YAMN_MSG_BODYRECEIVED;
+			BOOL isBodyShown = ((YAMN_MAILSHOWPARAM *)(GetWindowLongPtr(hDlg, DWLP_USER)))->mail->Flags & YAMN_MSG_BODYRECEIVED;
 			HeadSizeX = LOWORD(lParam);	//((LPRECT)lParam)->right-((LPRECT)lParam)->left;
 			HeadSizeY = HIWORD(lParam);	//((LPRECT)lParam)->bottom-((LPRECT)lParam)->top;
 			int localSplitPos = (HeadSplitPos * HeadSizeY) / 1000;
@@ -1440,7 +1438,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (GetWindowLongPtr((HWND)wParam, GWLP_ID) == IDC_LISTHEADERS) {
 			//MessageBox(0,"LISTHEADERS","Debug",0);
 			HWND hList = GetDlgItem(hDlg, IDC_LISTHEADERS);
-			POINT pt = {GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1) pt.x = 0;
 			if (pt.y == -1) pt.y = 0;
 			if (int numRows = ListView_GetItemCount(hList)) {
@@ -1454,7 +1452,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (nReturnCmd > 0) {
 					int courRow = 0;
 					size_t sizeNeeded = 0;
-					wchar_t headname[64] = {0}, headvalue[256] = {0};
+					wchar_t headname[64] = { 0 }, headvalue[256] = { 0 };
 					for (courRow = 0; courRow < numRows; courRow++) {
 						if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 						ListView_GetItemText(hList, courRow, 0, headname, _countof(headname));
@@ -1923,7 +1921,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 					mir_snwprintf(DeleteMsg, TranslateT("Do you really want to delete %d selected mails?"), Total);
 					if (IDOK == MessageBox(hDlg, DeleteMsg, TranslateT("Delete confirmation"), MB_OKCANCEL | MB_ICONWARNING)) {
-						struct DeleteParam ParamToDeleteMails = {YAMN_DELETEVERSION, ThreadRunningEV, ActualAccount, nullptr};
+						struct DeleteParam ParamToDeleteMails = { YAMN_DELETEVERSION, ThreadRunningEV, ActualAccount, nullptr };
 
 						// Find if there's mail marked to delete, which was deleted before
 						SWriteGuard swm(ActualAccount->MessagesAccessSO);
@@ -2090,7 +2088,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (GetWindowLongPtr((HWND)wParam, GWLP_ID) == IDC_LISTMAILS) {
 			//MessageBox(0,"LISTHEADERS","Debug",0);
 			HWND hList = GetDlgItem(hDlg, IDC_LISTMAILS);
-			POINT pt = {GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1) pt.x = 0;
 			if (pt.y == -1) pt.y = 0;
 			if (int numRows = ListView_GetItemCount(hList)) {
@@ -2104,7 +2102,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (nReturnCmd > 0) {
 					int courRow = 0;
 					size_t sizeNeeded = 0;
-					wchar_t from[128] = {0}, subject[256] = {0}, size[16] = {0}, date[64] = {0};
+					wchar_t from[128] = { 0 }, subject[256] = { 0 }, size[16] = { 0 }, date[64] = { 0 };
 					for (courRow = 0; courRow < numRows; courRow++) {
 						if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 						ListView_GetItemText(hList, courRow, 0, from, _countof(from));
@@ -2167,7 +2165,7 @@ static void __cdecl MailBrowser(void *Param)
 	if (nullptr != (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)ActualAccount)))
 		WndFound = TRUE;
 
-	if ((hMailBrowser == nullptr) && ((MyParam->nflags & YAMN_ACC_MSG) || (MyParam->nflags & YAMN_ACC_ICO ) || (MyParam->nnflags & YAMN_ACC_MSG))) {
+	if ((hMailBrowser == nullptr) && ((MyParam->nflags & YAMN_ACC_MSG) || (MyParam->nflags & YAMN_ACC_ICO) || (MyParam->nnflags & YAMN_ACC_MSG))) {
 		hMailBrowser = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), nullptr, DlgProcYAMNMailBrowser, (LPARAM)MyParam);
 		Window_SetIcon_IcoLib(hMailBrowser, g_plugin.getIconHandle(IDI_NEWMAIL));
 		MoveWindow(hMailBrowser, PosX, PosY, SizeX, SizeY, TRUE);
@@ -2175,11 +2173,11 @@ static void __cdecl MailBrowser(void *Param)
 
 	if (hMailBrowser != nullptr) {
 		// if this thread created window, just post message to update mails
-		struct CChangeContent Params = { MyParam->nflags, MyParam->nnflags };	
+		struct CChangeContent Params = { MyParam->nflags, MyParam->nnflags };
 		SendMessage(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)ActualAccount, (LPARAM)&Params);	//we ensure this will do the thread who created the browser window
 	}
 	else UpdateMails(nullptr, ActualAccount, MyParam->nflags, MyParam->nnflags);	//update mails without displaying or refreshing any window
-	
+
 	if ((hMailBrowser != nullptr) && !WndFound) { //we process message loop only for thread that created window
 		while (GetMessage(&msg, nullptr, 0, 0)) {
 			if (hMailBrowser == nullptr || !IsDialogMessage(hMailBrowser, &msg)) { /* Wine fix. */
@@ -2195,12 +2193,7 @@ static void __cdecl MailBrowser(void *Param)
 	delete MyParam;
 }
 
-INT_PTR RunMailBrowserSvc(WPARAM wParam, LPARAM lParam)
+void RunMailBrowser(YAMN_MAILBROWSERPARAM *Param)
 {
-	if ((uint32_t)lParam != YAMN_MAILBROWSERVERSION)
-		return 0;
-
-	auto *Param = (YAMN_MAILBROWSERPARAM*)wParam;
 	mir_forkthread(MailBrowser, new YAMN_MAILBROWSERPARAM(*Param));
-	return 1;
 }

@@ -40,12 +40,6 @@ struct YAMN_VARIABLES
 //LPARAM- not used
 #define MS_YAMN_FORCECHECK		"YAMN/Service/ForceCheck"
 
-//AccountCheck Service
-//Check mail on individual account
-//WPARAM- HACCOUNT
-//LPARAM- BOOL: Show Popup on no new mail
-#define MS_YAMN_ACCOUNTCHECK	"YAMN/Service/AccountCheck"
-
 //Contact List Context Menu Click
 //wParam=(WPARAM)hContact
 //lParam=0
@@ -75,13 +69,6 @@ struct YAMN_VARIABLES
 //of the MCONTACT, it's not done for you anymore since it didn't make
 //sense to store all this information in memory, etc.
 #define MS_YAMN_CLISTDBLCLICK	"YAMN/Service/ClistContactDoubleclicked"
-
-//MailBrowser Service
-//runs mail browser window (or tray icon only or popups only)
-//WPARAM- pointer to YAMN_MAILBROWSERPARAM structure, data to mailbrowser. You do not need to fill ThreadRunningEV event member.
-//LPARAM- YAMN_MAILBROWSERPARAM structure version param. Use YAMN_MAILBROWSERVERSION definition.
-//returns zero if failed, nonzero if succeed
-#define MS_YAMN_MAILBROWSER		"YAMN/Service/RunMailBrowser"
 
 //NoNewMail Service
 //runs no new mail procedure (shows popups e.g.)

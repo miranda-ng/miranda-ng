@@ -675,7 +675,7 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 		if (CheckFlags & YAMN_FORCECHECK)
 			Param.nnflags |= YAMN_ACC_POP;  // if force check, show popup anyway and if mailbrowser was opened, do not close
 		Param.nnflags |= YAMN_ACC_MSGP;    // do not close browser if already open
-		CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
+		RunMailBrowser(&Param);
 
 		SetContactStatus(ActualAccount, ActualAccount->isCounting ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 	}
@@ -775,7 +775,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 			// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
 			if (POP3_DELETEFROMCHECK != POP3PluginParam) {
 				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, YAMNParam };		// Just update the window
-				CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
+				RunMailBrowser(&Param);
 			}
 			return;
 		}
@@ -965,7 +965,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		// 	if this functin was called from SynchroPOP3, then do not try to disconnect 
 		if (POP3_DELETEFROMCHECK != POP3PluginParam) {
 			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualCopied.NFlags, YAMN_ACC_MSGP, YAMNParam };
-			CallService(MS_YAMN_MAILBROWSER, (WPARAM)&Param, YAMN_MAILBROWSERVERSION);
+			RunMailBrowser(&Param);
 
 			if (0 == ActualAccount->InternetQueries.GetNumber()) {
 				DataRX = MyClient->Quit();

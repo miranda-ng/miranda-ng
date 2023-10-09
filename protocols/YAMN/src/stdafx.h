@@ -49,6 +49,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
  
 // From services.cpp
+void AccountMailCheck(CAccount *ActualAccount, bool bForce);
 void CreateServiceFunctions(void);
 void HookEvents(void);
 void RefreshContact(void);
@@ -134,7 +135,7 @@ extern int HeadPosX, HeadPosY, HeadSizeX, HeadSizeY, HeadSplitPos;
 int RegisterPOP3Plugin(WPARAM, LPARAM);
 
 //From mailbrowser.cpp
-INT_PTR RunMailBrowserSvc(WPARAM, LPARAM);
+void RunMailBrowser(YAMN_MAILBROWSERPARAM *Param);
 
 //From badconnect.cpp
 int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo);

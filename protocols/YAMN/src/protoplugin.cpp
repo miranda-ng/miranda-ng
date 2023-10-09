@@ -34,9 +34,7 @@ YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration)
 
 int SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn)
 {
-	if (YAMNFcn == nullptr)
-		return 0;
-	if (YAMNMailFcn == nullptr)
+	if (YAMNFcn == nullptr || YAMNMailFcn == nullptr)
 		return 0;
 
 	Plugin->Fcn = YAMNFcn;
