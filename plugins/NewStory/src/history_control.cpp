@@ -425,8 +425,7 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 	if (scrollTopItem < 0)
 		scrollTopItem = 0;
 
-	if ((scrollTopItem > cachedMaxTopItem) ||
-		((scrollTopItem == cachedMaxTopItem) && (scrollTopPixel < cachedMaxTopPixel))) {
+	if (bForce || scrollTopItem > cachedMaxTopItem || (scrollTopItem == cachedMaxTopItem && scrollTopPixel < cachedMaxTopPixel)) {
 		scrollTopItem = cachedMaxTopItem;
 		scrollTopPixel = cachedMaxTopPixel;
 	}
