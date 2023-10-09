@@ -24,7 +24,7 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			CAccount *ActualAccount = (CAccount *)PUGetPluginData(hWnd);
 
 			SReadGuard sra(ActualAccount->AccountAccessSO);
-			if (sra == WAIT_OBJECT_0) {
+			if (sra.Succeeded()) {
 				if (ActualAccount->BadConnectN.App != nullptr) {
 					wchar_t *Command;
 					if (ActualAccount->BadConnectN.AppParam != nullptr)
@@ -67,28 +67,22 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			BOOL ShowPopup, ShowMsg, ShowIco;
-			CAccount *ActualAccount;
-			uint32_t  ErrorCode;
-			char *TitleStrA;
-			char *Message1A = nullptr;
+			CMStringA szTitle;
 			wchar_t *Message1W = nullptr;
 			POPUPDATAW BadConnectPopup = {};
 
-			ActualAccount = ((BadConnectionParam *)lParam)->account;
-			ErrorCode = ((BadConnectionParam *)lParam)->errcode;
+			CAccount *ActualAccount = ((BadConnectionParam *)lParam)->account;
+			uint32_t ErrorCode = ((BadConnectionParam *)lParam)->errcode;
 			{
 				SReadGuard sra(ActualAccount->AccountAccessSO);
-				if (WAIT_OBJECT_0 != sra)
+				if (!sra.Succeeded())
 					return FALSE;
 
-				int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
-				TitleStrA = new char[size];
-				mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
+				szTitle.Format(Translate(BADCONNECTTITLE), ActualAccount->Name);
 
-				ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
-				ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
-				ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
+				BOOL ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
+				BOOL ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
+				BOOL ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
 
 				if (ShowPopup) {
 					BadConnectPopup.lchIcon = g_plugin.getIcon(IDI_BADCONNECT);
@@ -127,27 +121,22 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 					DestroyWindow(hDlg);
 			}
 
-			SetWindowTextA(hDlg, TitleStrA);
-			delete[] TitleStrA;
-			if (Message1A != nullptr)
-				delete[] Message1A;
-			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1A != nullptr)
-				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1A);
+			SetWindowTextA(hDlg, szTitle);
+
 			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1W != nullptr)
 				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1W);
 			return 0;
 		}
 	case WM_DESTROY:
 		{
-			NOTIFYICONDATA nid;
-			memset(&nid, 0, sizeof(NOTIFYICONDATA));
+			NOTIFYICONDATA nid = {};
 			nid.cbSize = sizeof(NOTIFYICONDATA);
 			nid.hWnd = hDlg;
-			nid.uID = 0;
 			Shell_NotifyIcon(NIM_DELETE, &nid);
 			PostQuitMessage(0);
-			break;
 		}
+		break;
+
 	case WM_YAMN_NOTIFYICON:
 		switch (lParam) {
 		case WM_LBUTTONDBLCLK:
@@ -156,6 +145,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		return 0;
+
 	case WM_CHAR:
 		switch ((wchar_t)wParam) {
 		case 27:
@@ -164,12 +154,14 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		break;
+
 	case WM_SYSCOMMAND:
 		switch (wParam) {
 		case SC_CLOSE:
 			DestroyWindow(hDlg);
 		}
 		break;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_BTNOK:
@@ -191,7 +183,7 @@ static void __cdecl BadConnection(void *Param)
 
 	SCGuard sc(ActualAccount->UsingThreads);
 
-	hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
+	hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)MyParam);
 	Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
 
 	SReadGuard sra(ActualAccount->AccountAccessSO);
@@ -218,17 +210,12 @@ static void __cdecl BadConnection(void *Param)
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-
-		//	now, write to file. Why? Because we want to write when was new mail last checked
-		if ((ActualAccount->Plugin->Fcn != nullptr) && (ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr != nullptr) && ActualAccount->AbleToWork)
-			ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr();
 	}
 	delete MyParam;
 }
 
-int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo)
+void RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo)
 {
 	BadConnectionParam param = { acc, iErrorCode, pUserInfo };
 	mir_forkthread(BadConnection, new BadConnectionParam(param));
-	return 1;
 }

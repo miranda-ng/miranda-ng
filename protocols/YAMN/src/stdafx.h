@@ -114,7 +114,7 @@ void SetStatusFcn(CAccount *Which, wchar_t *Value);
 INT_PTR UnregisterProtoPlugins();
 
 // From mime.cpp
-// void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	//already in MailExported
+// void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	// already in MailExported
 struct _tcptable
 {
 	char *NameBase, *NameSub;
@@ -129,27 +129,26 @@ extern int CPLENSUPP;
 extern int PosX, PosY, SizeX, SizeY;
 extern int HeadPosX, HeadPosY, HeadSizeX, HeadSizeY, HeadSplitPos;
 
-//#define CPDEFINDEX	63	//ISO-8859-1
-#define CPDEFINDEX	0	//ACP
+#define CPDEFINDEX	0	// ACP
 
-//From pop3comm.cpp
+// From pop3comm.cpp
 int RegisterPOP3Plugin(WPARAM, LPARAM);
 
-//From mailbrowser.cpp
+// From mailbrowser.cpp
 void RunMailBrowser(YAMN_MAILBROWSERPARAM *Param);
 
-//From badconnect.cpp
-int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo);
+// From badconnect.cpp
+void RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo);
 
-//From YAMNopts.cpp
+// From YAMNopts.cpp
 int YAMNOptInitSvc(WPARAM, LPARAM);
 
-//From main.cpp
-int PostLoad(WPARAM, LPARAM);				//Executed after all plugins loaded YAMN reads mails from file and notify every protocol it should set its functions
-int Shutdown(WPARAM, LPARAM);				//Executed before Miranda is going to shutdown
+// From main.cpp
+int PostLoad(WPARAM, LPARAM);    // Executed after all plugins loaded YAMN reads mails from file and notify every protocol it should set its functions
+int Shutdown(WPARAM, LPARAM);    // Executed before Miranda is going to shutdown
 
-extern wchar_t UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
-extern wchar_t ProfileName[];		//e.g. "majvan"
+extern wchar_t UserDirectory[];  // e.g. "F:\WINNT\Profiles\UserXYZ"
+extern wchar_t ProfileName[];    // e.g. "majvan"
 extern SWMRG *AccountBrowserSO;
 extern YAMN_VARIABLES YAMNVar;
 extern HANDLE hNewMailHook;
@@ -183,11 +182,11 @@ wchar_t *ParseMultipartBody(char *src, char *bond);
 // From account.cpp
 extern YAMN_PROTOPLUGIN *POP3Plugin;
 
-//from decode.cpp
+// from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
 int DecodeBase64(char *Src, char *Dst, int DstLen);
 
-//From protoplugin.cpp
+// From protoplugin.cpp
 extern YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin;
 
 extern char *iconDescs[];
