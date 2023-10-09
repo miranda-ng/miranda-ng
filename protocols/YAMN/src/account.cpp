@@ -799,6 +799,15 @@ uint32_t WriteAccountsToFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilena
 	return PerformAccountWriting(Plugin, hFile);
 }
 
+CAccount* FindAccountByContact(YAMN_PROTOPLUGIN *Plugin, MCONTACT hContact)
+{
+	ptrA szId(g_plugin.getStringA(hContact, "Id"));
+	if (!mir_strlen(szId))
+		return nullptr;
+
+	return FindAccountByName(Plugin, szId);
+}
+
 CAccount* FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount)
 {
 	SReadGuard srb(Plugin->AccountBrowserSO);

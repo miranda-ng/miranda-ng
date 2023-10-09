@@ -43,45 +43,29 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
+static INT_PTR ContactApplication(WPARAM hContact, LPARAM)
 {
-	char *szProto = Proto_GetBaseAccountName(wParam);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
-	DBVARIANT dbv;
-	if (g_plugin.getString(wParam, "Id", &dbv))
-		return 0;
-
-	CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal);
-	if (ActualAccount != nullptr) {
-		STARTUPINFOW si = { 0 };
-		si.cb = sizeof(si);
-
+	if (CAccount *ActualAccount = FindAccountByContact(POP3Plugin, hContact)) {
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (sra.Succeeded()) {
 			if (ActualAccount->NewMailN.App != nullptr) {
-				wchar_t *Command;
+				CMStringW wszCommand(L"\"");
+				wszCommand.Append(ActualAccount->NewMailN.App);
+				wszCommand.Append(L"\" ");
 				if (ActualAccount->NewMailN.AppParam != nullptr)
-					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
-				else
-					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
+					wszCommand.Append(ActualAccount->NewMailN.AppParam);
 
-				if (Command != nullptr) {
-					mir_wstrcpy(Command, L"\"");
-					mir_wstrcat(Command, ActualAccount->NewMailN.App);
-					mir_wstrcat(Command, L"\" ");
-					if (ActualAccount->NewMailN.AppParam != nullptr)
-						mir_wstrcat(Command, ActualAccount->NewMailN.AppParam);
-
-					PROCESS_INFORMATION pi;
-					CreateProcessW(nullptr, Command, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi);
-					delete[] Command;
-				}
+				PROCESS_INFORMATION pi;
+				STARTUPINFOW si = {};
+				si.cb = sizeof(si);
+				CreateProcessW(nullptr, wszCommand.GetBuffer(), nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi);
 			}
 		}
 	}
-	db_free(&dbv);
 	return 0;
 }
 
@@ -126,11 +110,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
-	DBVARIANT dbv;
-	if (g_plugin.getString(hContact, "Id", &dbv))
-		return 0;
-
-	if (CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal)) {
+	if (CAccount *ActualAccount = FindAccountByContact(POP3Plugin, hContact)) {
 		// we use event to signal, that running thread has all needed stack parameters copied
 		HANDLE ThreadRunningEV;
 		if (nullptr == (ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
@@ -153,21 +133,16 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		}
 		CloseHandle(ThreadRunningEV);
 	}
-	db_free(&dbv);
 	return 0;
 }
 
-/*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM)
+/*static*/ void ContactDoubleclicked(WPARAM hContact, LPARAM)
 {
-	char *szProto = Proto_GetBaseAccountName(wParam);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return;
 
-	DBVARIANT dbv;
-	if (g_plugin.getString(wParam, "Id", &dbv))
-		return;
-
-	if (CAccount *ActualAccount = FindAccountByName(POP3Plugin, dbv.pszVal)) {
+	if (CAccount *ActualAccount = FindAccountByContact(POP3Plugin, hContact)) {
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (sra.Succeeded()) {
 			YAMN_MAILBROWSERPARAM Param = { ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr };
@@ -181,10 +156,9 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			RunMailBrowser(&Param);
 		}
 	}
-	db_free(&dbv);
 }
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/////////////////////////////////////////////////////////////////////////////////////////
 
 HBITMAP LoadBmpFromIcon(HICON hIcon)
 {
@@ -227,7 +201,7 @@ static int AddTopToolbarIcon(WPARAM, LPARAM)
 	return 0;
 }
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int Shutdown(WPARAM, LPARAM)
 {

@@ -88,6 +88,7 @@ uint32_t  AddAccountsFromFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilen
 CAccount* CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin);
 int       DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which);
 void      DeletePluginAccount(CAccount *OldAccount);
+CAccount* FindAccountByContact(YAMN_PROTOPLUGIN *Plugin, MCONTACT hContact);
 CAccount* FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount);
 CAccount* GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin);
 uint32_t  WriteAccountsToFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename);
