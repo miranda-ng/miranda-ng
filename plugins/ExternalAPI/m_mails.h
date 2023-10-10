@@ -44,17 +44,19 @@ struct CShortHeader
 //this header is used in miranda to store final results of mime reading in Unicode
 struct CHeader
 {
-	WCHAR *From;
-	WCHAR *FromNick;
-	WCHAR *ReturnPath;
-	WCHAR *ReturnPathNick;
-	WCHAR *Subject;
-	CMimeNames *To;
-	CMimeNames *Cc;
-	CMimeNames *Bcc;
-	WCHAR *Date;
-	TCHAR Priority;
-	WCHAR *Body;
+	~CHeader();
+
+	CMStringW wszFrom;
+	CMStringW wszFromNick;
+	CMStringW wszReturnPath;
+	CMStringW wszReturnPathNick;
+	CMStringW wszSubject;
+	CMimeNames *To = 0;
+	CMimeNames *Cc = 0;
+	CMimeNames *Bcc = 0;
+	CMStringW wszDate;
+	TCHAR Priority = 0;
+	CMStringW wszBody;
 };
 
 struct CMimeItem

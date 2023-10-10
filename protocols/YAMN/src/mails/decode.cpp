@@ -155,56 +155,12 @@ int CPLENALL = _countof(CodePageNamesAll);
 struct _tcptable *CodePageNamesSupp;
 int CPLENSUPP = 1;
 
-//Gets codepage ID from string representing charset such as "iso-8859-1"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Gets codepage ID from string representing charset such as "iso-8859-1"
 // input- the string
 // size- max length of input string
-int GetCharsetFromString(char *input, size_t size);
-
-//HexValue to DecValue ('a' to 10)
-// HexValue- hexa value ('a')
-// DecValue- poiner where to store dec value
-// returns 0 if not success
-int FromHexa(char HexValue, char *DecValue);
-
-//Decodes a char from Base64
-// Base64Value- input char in Base64
-// DecValue- pointer where to store the result
-// returns 0 if not success
-int FromBase64(char Base64Value, char *DecValue);
-
-//Decodes string in quoted printable
-// Src- input string
-// Dst- where to store output string
-// DstLen- how max long should be output string
-// isQ- if is "Q-encoding" modification. should be TRUE in headers
-// always returns 1
-int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
-
-//Decodes string in base64
-// Src- input string
-// Dst- where to store output string
-// DstLen- how max long should be output string
-// returns 0 if string was not properly decoded
-int DecodeBase64(char *Src, char *Dst, int DstLen);
-
-//Converts string to unicode from string with specified codepage
-// stream- input string
-// cp- codepage of input string
-// out- pointer to new allocated memory that contains unicode string
-int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
-
-//Converts string from MIME header to unicode
-// stream- input string
-// cp- codepage of input string
-// storeto- pointer to memory that contains unicode string
-// mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' from start and end of string)
-void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
 
 int GetCharsetFromString(char *input, size_t size)
-//"ISO-8859-1" to ID from table
 {
 	char *pin = input;
 	char *pout, *parser;
@@ -238,6 +194,12 @@ int GetCharsetFromString(char *input, size_t size)
 	return -1;		//not found
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// HexValue to DecValue ('a' to 10)
+// HexValue- hexa value ('a')
+// DecValue- poiner where to store dec value
+// returns 0 if not success
+
 int FromHexa(char HexValue, char *DecValue)
 {
 	if (HexValue >= '0' && HexValue <= '9') {
@@ -254,6 +216,12 @@ int FromHexa(char HexValue, char *DecValue)
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Decodes a char from Base64
+// Base64Value- input char in Base64
+// DecValue- pointer where to store the result
+// returns 0 if not success
 
 int FromBase64(char Base64Value, char *DecValue)
 {
@@ -283,6 +251,14 @@ int FromBase64(char Base64Value, char *DecValue)
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Decodes string in quoted printable
+// Src- input string
+// Dst- where to store output string
+// DstLen- how max long should be output string
+// isQ- if is "Q-encoding" modification. should be TRUE in headers
+// always returns 1
 
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ)
 {
@@ -327,6 +303,13 @@ int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Decodes string in base64
+// Src- input string
+// Dst- where to store output string
+// DstLen- how max long should be output string
+// returns 0 if string was not properly decoded
+
 int DecodeBase64(char *Src, char *Dst, int DstLen)
 {
 	int Result = 0;
@@ -366,7 +349,11 @@ end:
 	return 1;
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// Converts string to unicode from string with specified codepage
+// stream- input string
+// cp- codepage of input string
+// out- pointer to new allocated memory that contains unicode string
 
 int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out)
 {
@@ -403,11 +390,10 @@ int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out)
 	if (*out != nullptr) {
 		for (dest = temp; *src != (wchar_t)0; src++, dest++)				//copy old string from *out to temp
 			*dest = *src;
-		//		*dest++=L' ';								//add space?
-		delete[] * out;
+
+		delete[] *out;
 	}
-	else
-		dest = temp;
+	else dest = temp;
 	*out = temp;
 
 	if (Index == -1) {
@@ -421,21 +407,25 @@ int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out)
 	return 1;
 }
 
-void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Converts string from MIME header to unicode
+// stream- input string
+// cp- codepage of input string
+// storeto- pointer to memory that contains unicode string
+// mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' from start and end of string)
+
+CMStringW ConvertCodedStringToUnicode(char *stream, uint32_t cp, int mode)
 {
 	char *start = stream, *finder, *finderend;
 	char Encoding = 0;
+	CMStringW ret;
 
 	if (stream == nullptr)
-		return;
+		return ret;
 
-	while (WS(start)) start++;
-	wchar_t *tempstore = nullptr;
-	if (!ConvertStringToUnicode(stream, cp, &tempstore))return;
+	while (WS(start))
+		start++;
 
-	size_t tempstoreLength = mir_wstrlen(tempstore);
-
-	size_t outind = 0;
 	while (*start != 0) {
 		if (CODES(start)) {
 			finder = start + 2; finderend = finder;
@@ -499,36 +489,32 @@ void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, i
 					delete[] oneWordEncoded;
 					if (codeend)
 						finderend = pcodeend + 2;
-					if (WS(finderend))	//if string continues and there's some whitespace, add space to string that is to be converted
-					{
-						size_t len = mir_strlen(DecodedResult);
-						DecodedResult[len] = ' ';
-						DecodedResult[len + 1] = 0;
+					
+					// if string continues and there's some whitespace, add space to string that is to be converted
+					if (WS(finderend))
 						finderend++;
-					}
+
 					wchar_t *oneWord = nullptr;
-					if (ConvertStringToUnicode(DecodedResult, cp, &oneWord)) {
-						size_t len = mir_wstrlen(oneWord);
-						memcpy(&tempstore[outind], oneWord, len * sizeof(wchar_t));
-						outind += len;
-					}
+					if (ConvertStringToUnicode(DecodedResult, cp, &oneWord))
+						ret.Append(oneWord);
+
 					delete oneWord;
 					oneWord = nullptr;
 					delete[] DecodedResult;
 					start = finderend;
 				}
-				else if (!EOS(start)) start++;
+				else if (!EOS(start))
+					start++;
 			}
-			else if (!EOS(start)) start++;
+			else if (!EOS(start))
+				start++;
 		}
 		else {
 NotEncoded:
-			tempstore[outind] = tempstore[start - stream];
-			outind++;
-			if (outind > tempstoreLength) break;
+			ret.AppendChar(*start);
 			start++;
 		}
 	}
-	tempstore[outind] = 0;
-	*storeto = tempstore;
+
+	return ret;
 }

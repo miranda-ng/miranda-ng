@@ -433,7 +433,7 @@ int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount)
 void MimeDateToLocalizedDateTime(char *datein, wchar_t *dateout, int lendateout);
 int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nflags)
 {
-	wchar_t *FromStr;
+	CMStringW FromStr;
 	wchar_t SizeStr[20];
 	wchar_t LocalDateStr[128];
 
@@ -441,11 +441,10 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 	LVFINDINFO fi;
 
 	int foundi = 0, lfoundi = 0;
-	struct CHeader UnicodeHeader;
+	CHeader UnicodeHeader;
 	BOOL Loaded, Extracted, FromStrNew = FALSE;
 
 	memset(&item, 0, sizeof(item));
-	memset(&UnicodeHeader, 0, sizeof(UnicodeHeader));
 
 	if (hListView != nullptr) {
 		item.mask = LVIF_TEXT | LVIF_PARAM;
@@ -472,9 +471,8 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 	NewMailPopup.PluginData = nullptr;					//it's new mail popup
 
 	for (HYAMNMAIL msgq = (HYAMNMAIL)ActualAccount->Mails; msgq != nullptr; msgq = msgq->Next, lfoundi++) {
-		//		now we hide mail pointer to item's lParam member. We can later use it to retrieve mail datas
-
-		Extracted = FALSE; FromStr = nullptr; FromStrNew = FALSE;
+		// now we hide mail pointer to item's lParam member. We can later use it to retrieve mail datas
+		Extracted = FALSE; FromStr.Empty();
 
 		if (hListView != nullptr) {
 			fi.lParam = (LPARAM)msgq;
@@ -500,32 +498,23 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 			if (!Extracted) ExtractHeader(msgq->MailData->TranslatedHeader, msgq->MailData->CP, &UnicodeHeader);
 			Extracted = TRUE;
 
-			if ((UnicodeHeader.From != nullptr) && (UnicodeHeader.FromNick != nullptr)) {
-				size_t size = mir_wstrlen(UnicodeHeader.From) + mir_wstrlen(UnicodeHeader.FromNick) + 4;
-				FromStr = new wchar_t[size];
-				mir_snwprintf(FromStr, size, L"%s <%s>", UnicodeHeader.FromNick, UnicodeHeader.From);
-				FromStrNew = TRUE;
-			}
-			else if (UnicodeHeader.From != nullptr)
-				FromStr = UnicodeHeader.From;
-			else if (UnicodeHeader.FromNick != nullptr)
-				FromStr = UnicodeHeader.FromNick;
-			else if (UnicodeHeader.ReturnPath != nullptr)
-				FromStr = UnicodeHeader.ReturnPath;
-
-			if (nullptr == FromStr) {
-				FromStr = L"";
-				FromStrNew = FALSE;
-			}
+			if (!UnicodeHeader.wszFrom.IsEmpty() && !UnicodeHeader.wszFromNick.IsEmpty())
+				FromStr = UnicodeHeader.wszFromNick + L" " + UnicodeHeader.wszFrom;
+			else if (!UnicodeHeader.wszFrom.IsEmpty())
+				FromStr = UnicodeHeader.wszFrom;
+			else if (!UnicodeHeader.wszFromNick.IsEmpty())
+				FromStr = UnicodeHeader.wszFromNick;
+			else if (!UnicodeHeader.wszReturnPath.IsEmpty())
+				FromStr = UnicodeHeader.wszReturnPath;
 		}
 
 		if ((hListView != nullptr) && (msgq->Flags & YAMN_MSG_DISPLAY)) {
 			item.iSubItem = 0;
-			item.pszText = FromStr;
+			item.pszText = FromStr.GetBuffer();
 			item.iItem = SendMessage(hListView, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 			item.iSubItem = 1;
-			item.pszText = (nullptr != UnicodeHeader.Subject ? UnicodeHeader.Subject : (wchar_t *)L"");
+			item.pszText = UnicodeHeader.wszSubject.GetBuffer();
 			SendMessage(hListView, LVM_SETITEMTEXT, (WPARAM)item.iItem, (LPARAM)&item);
 
 			item.iSubItem = 2;
@@ -548,7 +537,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 
 		if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (msgq->Flags & YAMN_MSG_POPUP) && (msgq->Flags & YAMN_MSG_NEW)) {
 			mir_wstrncpy(NewMailPopup.lpwzContactName, FromStr, _countof(NewMailPopup.lpwzContactName));
-			mir_wstrncpy(NewMailPopup.lpwzText, UnicodeHeader.Subject, _countof(NewMailPopup.lpwzText));
+			mir_wstrncpy(NewMailPopup.lpwzText, UnicodeHeader.wszSubject, _countof(NewMailPopup.lpwzText));
 
 			auto *MailParam = new YAMN_MAILSHOWPARAM;
 			MailParam->account = ActualAccount;
@@ -562,11 +551,6 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 
 		if (FromStrNew)
 			delete[] FromStr;
-
-		if (Extracted) {
-			DeleteHeaderContent(&UnicodeHeader);
-			memset(&UnicodeHeader, 0, sizeof(UnicodeHeader));
-		}
 	}
 
 	return TRUE;
@@ -1116,7 +1100,6 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
 int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
 
 INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1174,41 +1157,40 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			char *contentType = nullptr, *transEncoding = nullptr, *body = nullptr; //should not be delete[]-ed
 			for (Header = MailParam->mail->MailData->TranslatedHeader; Header != nullptr; Header = Header->Next) {
 				wchar_t *str1 = nullptr;
-				wchar_t *str2 = nullptr;
-				wchar_t str_nul[2] = { 0 };
+			
 				if (!body) if (!_stricmp(Header->name, "Body")) { body = Header->value; continue; }
 				if (!contentType) if (!_stricmp(Header->name, "Content-Type")) contentType = Header->value;
 				if (!transEncoding) if (!_stricmp(Header->name, "Content-Transfer-Encoding")) transEncoding = Header->value;
-				//ConvertCodedStringToUnicode(Header->name,&str1,MailParam->mail->MailData->CP,1); 
 				{
 					int streamsize = MultiByteToWideChar(20127, 0, Header->name, -1, nullptr, 0);
 					str1 = (wchar_t *)malloc(sizeof(wchar_t) * (streamsize + 1));
 					MultiByteToWideChar(20127, 0, Header->name, -1, str1, streamsize);//US-ASCII
 				}
-				ConvertCodedStringToUnicode(Header->value, &str2, MailParam->mail->MailData->CP, 1);
-				if (!str2) { str2 = (wchar_t *)str_nul; }// the header value may be NULL
+
+				CMStringW wszTmp = ConvertCodedStringToUnicode(Header->value, MailParam->mail->MailData->CP, 1);
 				if (!From) if (!_stricmp(Header->name, "From")) {
-					From = new wchar_t[mir_wstrlen(str2) + 1];
-					mir_wstrcpy(From, str2);
+					From = new wchar_t[mir_wstrlen(wszTmp) + 1];
+					mir_wstrcpy(From, wszTmp);
 				}
+
 				if (!Subj) if (!_stricmp(Header->name, "Subject")) {
-					Subj = new wchar_t[mir_wstrlen(str2) + 1];
-					mir_wstrcpy(Subj, str2);
+					Subj = new wchar_t[mir_wstrlen(wszTmp) + 1];
+					mir_wstrcpy(Subj, wszTmp);
 				}
-				//if (!hasBody) if (!mir_strcmp(Header->name,"Body")) hasBody = true;
+
 				int count = 0; wchar_t **split = nullptr;
 				int ofs = 0;
+				auto *str2 = wszTmp.GetBuffer();
 				while (str2[ofs]) {
-					if ((str2[ofs] == 0x266A) || (str2[ofs] == 0x25D9) || (str2[ofs] == 0x25CB) ||
-						(str2[ofs] == 0x09) || (str2[ofs] == 0x0A) || (str2[ofs] == 0x0D))count++;
+					if ((str2[ofs] == 0x266A) || (str2[ofs] == 0x25D9) || (str2[ofs] == 0x25CB) || (str2[ofs] == 0x09) || (str2[ofs] == 0x0A) || (str2[ofs] == 0x0D))
+						count++;
 					ofs++;
 				}
 				split = new wchar_t *[count + 1];
 				count = 0; ofs = 0;
 				split[0] = str2;
 				while (str2[ofs]) {
-					if ((str2[ofs] == 0x266A) || (str2[ofs] == 0x25D9) || (str2[ofs] == 0x25CB) ||
-						(str2[ofs] == 0x09) || (str2[ofs] == 0x0A) || (str2[ofs] == 0x0D)) {
+					if ((str2[ofs] == 0x266A) || (str2[ofs] == 0x25D9) || (str2[ofs] == 0x25CB) || (str2[ofs] == 0x09) || (str2[ofs] == 0x0A) || (str2[ofs] == 0x0D)) {
 						if (str2[ofs - 1]) {
 							count++;
 						}
@@ -1239,8 +1221,6 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (str1)
 					free(str1);
-				if (str2 != (wchar_t *)str_nul)
-					free(str2);
 			}
 			if (body) {
 				wchar_t *bodyDecoded = nullptr;

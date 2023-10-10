@@ -6,69 +6,26 @@
 
 #include "../stdafx.h"
 
- //--------------------------------------------------------------------------------------------------
-
- //Copies one string to another
- // srcstart- source string
- // srcend- address to the end of source string
- // dest- pointer that stores new allocated string that contains copy of source string
- // mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' characters (or '<' and '>') if they are at start and end of source string
-void CopyToHeader(char *srcstart, char *srcend, char **dest, int mode);
-
-//Extracts email address (finds nick name and mail and then stores them to strings)
-// finder- source string
-// storeto- pointer that receives address of mail string
-// storetonick- pointer that receives address of nickname
-void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick);
-
-//Extracts simple text from string
-// finder- source string
-// storeto- pointer that receives address of string
-void ExtractStringFromLine(char *finder, char **storeto);
-
-//Extracts some item from content-type string
-//Example: ContentType string: "TEXT/PLAIN; charset=US-ASCII", item:"charset=", returns: "US-ASCII"
-// ContetType- content-type string
-// value- string item
-// returns extracted string (or NULL when not found)
-char *ExtractFromContentType(char *ContentType, char *value);
-
-//Extracts info from header text into header members
-//Note that this function as well as struct CShortHeadwer can be always changed, because there are many items to extract
-//(e.g. the X-Priority and Importance and so on)
-// items- translated header (see TranslateHeaderFcn)
-// head- header to be filled with values extracted from items
-void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head);
-
-//Extracts header to mail using ExtractShortHeader fcn.
-// items- translated header (see TranslateHeaderFcn)
-// CP- codepage used when no default found
-// head- header to be filled with values extracted from items, in unicode (wide char)
-void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head);
-
-//Deletes items in CShortHeader structure
-// head- structure whose items are deleted
-void DeleteShortHeaderContent(struct CShortHeader *head);
-
-//Deletes list of YAMN_MIMENAMES structures
-// Names- pointer to first item of list
-void DeleteNames(CMimeNames *Names);
-
-//Deletes list of YAMN_MIMESHORTNAMES structures
-// Names- pointer to first item of list
-void DeleteShortNames(CShortNames *Names);
-
-//Makes a string lowercase
+/////////////////////////////////////////////////////////////////////////////////////////
+// Makes a string lowercase
 // string- string to be lowercased
-void inline ToLower(char *string);
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-void CopyToHeader(char *srcstart, char *srcend, char **dest, int mode)
+void inline ToLower(char *string)
 {
-	char *dst;
+	for (; *string != 0; string++)
+		if (*string >= 'A' && *string <= 'Z')
+			*string = *string - 'A' + 'a';
+}
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Copies one string to another
+// srcstart- source string
+// srcend- address to the end of source string
+// dest- pointer that stores new allocated string that contains copy of source string
+// mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' characters (or '<' and '>') if they are at start and end of source string
+
+static void CopyToHeader(char *srcstart, char *srcend, char **dest, int mode)
+{
 	if (dest == nullptr)
 		return;
 	if (srcstart >= srcend)
@@ -87,21 +44,26 @@ void CopyToHeader(char *srcstart, char *srcend, char **dest, int mode)
 	if (nullptr == (*dest = new char[srcend - srcstart + 1]))
 		return;
 
-	dst = *dest;
+	char *dst = *dest;
 
 	for (; srcstart < srcend; dst++, srcstart++) {
 		if (ENDLINE(srcstart)) {
 			while (ENDLINE(srcstart) || WS(srcstart)) srcstart++;
 			*dst = ' ';
-			srcstart--;		//because at the end of "for loop" we increment srcstart
+			srcstart--;		// because at the end of "for loop" we increment srcstart
 		}
-		else
-			*dst = *srcstart;
+		else *dst = *srcstart;
 	}
 	*dst = 0;
 }
 
-void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts email address (finds nick name and mail and then stores them to strings)
+// finder- source string
+// storeto- pointer that receives address of mail string
+// storetonick- pointer that receives address of nickname
+
+static void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick)
 {
 	if (finder == nullptr) {
 		*storeto = *storetonick = nullptr;
@@ -111,67 +73,85 @@ void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick)
 	if ((*finder) != '<') {
 		char *finderend = finder + 1;
 		do {
-			if (ENDLINEWS(finderend))						//after endline information continues
+			if (ENDLINEWS(finderend))						// after endline information continues
 				finderend += 2;
-			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;		//seek to the end of line or to the end of string
+			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;		// seek to the end of line or to the end of string
 		} while (ENDLINEWS(finderend));
 		finderend--;
-		while (WS(finderend) || ENDLINE(finderend)) finderend--;				//find the end of text, no whitespace
-		if (*finderend != '>')						//not '>' at the end of line
+		while (WS(finderend) || ENDLINE(finderend)) finderend--;				// find the end of text, no whitespace
+		if (*finderend != '>')						// not '>' at the end of line
 			CopyToHeader(finder, finderend + 1, storeto, MIME_MAIL);
-		else								//at the end of line, there's '>'
-		{
+		else { // at the end of line, there's '>'
 			char *finder2 = finderend;
-			while ((*finder2 != '<') && (finder2 > finder)) finder2--;		//go to matching '<' or to the start
+			while ((*finder2 != '<') && (finder2 > finder)) finder2--;		// go to matching '<' or to the start
 			CopyToHeader(finder2, finderend + 1, storeto, MIME_MAIL);
-			if (*finder2 == '<')						//if we found '<', the rest copy as from nick
+			if (*finder2 == '<')						// if we found '<', the rest copy as from nick
 			{
 				finder2--;
-				while (WS(finder2) || ENDLINE(finder2)) finder2--;		//parse whitespace
-				CopyToHeader(finder, finder2 + 1, storetonick, MIME_MAIL);		//and store nickname
+				while (WS(finder2) || ENDLINE(finder2)) finder2--;		// parse whitespace
+				CopyToHeader(finder, finder2 + 1, storetonick, MIME_MAIL);		// and store nickname
 			}
 		}
 	}
 	else {
 		char *finderend = finder + 1;
 		do {
-			if (ENDLINEWS(finderend))							//after endline information continues
+			if (ENDLINEWS(finderend)) // after endline information continues
 				finderend += 2;
-			while (!ENDLINE(finderend) && (*finderend != '>') && !EOS(finderend)) finderend++;		//seek to the matching < or to the end of line or to the end of string
+
+			// seek to the matching < or to the end of line or to the end of string
+			while (!ENDLINE(finderend) && (*finderend != '>') && !EOS(finderend))
+				finderend++;
 		} while (ENDLINEWS(finderend));
-		CopyToHeader(finder, finderend + 1, storeto, MIME_MAIL);				//go to first '>' or to the end and copy
+
+		CopyToHeader(finder, finderend + 1, storeto, MIME_MAIL); // go to first '>' or to the end and copy
 		finder = finderend + 1;
-		while (WS(finder)) finder++;								//parse whitespace
-		if (!ENDLINE(finder) && !EOS(finder))					//if there are chars yet, it's nick
-		{
+		while (WS(finder)) // parse whitespace
+			finder++;
+		if (!ENDLINE(finder) && !EOS(finder)) { // if there are chars yet, it's nick
 			finderend = finder + 1;
-			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;	//seek to the end of line or to the end of string
+			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;	// seek to the end of line or to the end of string
 			finderend--;
-			while (WS(finderend)) finderend--;				//find the end of line, no whitespace
+			while (WS(finderend)) // find the end of line, no whitespace
+				finderend--;
 			CopyToHeader(finder, finderend + 1, storetonick, MIME_MAIL);
 		}
 	}
 }
 
-void ExtractStringFromLine(char *finder, char **storeto)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts simple text from string
+// finder- source string
+// storeto- pointer that receives address of string
+
+static void ExtractStringFromLine(char *finder, char **storeto)
 {
 	if (finder == nullptr) {
 		*storeto = nullptr;
 		return;
 	}
-	while (WS(finder)) finder++;
+	while (WS(finder))
+		finder++;
 	char *finderend = finder;
 
 	do {
-		if (ENDLINEWS(finderend)) finderend++;						//after endline information continues
+		if (ENDLINEWS(finderend)) finderend++;						// after endline information continues
 		while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;
 	} while (ENDLINEWS(finderend));
 	finderend--;
-	while (WS(finderend)) finderend--;				//find the end of line, no whitespace
+	while (WS(finderend)) // find the end of line, no whitespace
+		finderend--;
 	CopyToHeader(finder, finderend + 1, storeto, MIME_PLAIN);
 }
 
-char *ExtractFromContentType(char *ContentType, char *value)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts some item from content-type string
+// Example: ContentType string: "TEXT/PLAIN; charset=US-ASCII", item:"charset=", returns: "US-ASCII"
+// ContetType- content-type string
+// value- string item
+// returns extracted string (or NULL when not found)
+
+char* ExtractFromContentType(char *ContentType, char *value)
 {
 	char *lowered = _strdup(ContentType);
 	ToLower(lowered);
@@ -183,37 +163,49 @@ char *ExtractFromContentType(char *ContentType, char *value)
 	finder = finder - lowered + ContentType;
 	free(lowered);
 
-	char *temp, *copier;
-	char *CopiedString;
-
-	temp = finder - 1;
-	while ((temp > ContentType) && WS(temp)) temp--;			//now we have to find, if the word "Charset=" is located after ';' like "; Charset="
+	char *temp = finder - 1;
+	while ((temp > ContentType) && WS(temp)) // now we have to find, if the word "Charset=" is located after ';' like "; Charset="
+		temp--; 
 	if (*temp != ';' && !ENDLINE(temp) && temp != ContentType)
 		return nullptr;
-	finder = finder + mir_strlen(value);						//jump over value string
+	
+	finder = finder + mir_strlen(value); // jump over value string
 
-	while (WS(finder)) finder++;					//jump over whitespaces
-	temp = finder;
-	while (*temp != 0 && *temp != ';') temp++;				//jump to the end of setting (to the next ;)
-	temp--;
-	while (WS(temp))	temp--;						//remove whitespaces from the end
-	if (*finder == '\"') { //remove heading and tailing quotes
+	while (WS(finder)) // jump over whitespaces
 		finder++;
-		if (*temp == '\"') temp--;
+	temp = finder;
+	while (*temp != 0 && *temp != ';') // jump to the end of setting (to the next ;)
+		temp++;
+	temp--;
+	while (WS(temp)) // remove whitespaces from the end
+		temp--;
+	if (*finder == '\"') { // remove heading and tailing quotes
+		finder++;
+		if (*temp == '\"')
+			temp--;
 	}
-	if (nullptr == (CopiedString = new char[++temp - finder + 1]))
-		return nullptr;
-	for (copier = CopiedString; finder != temp; *copier++ = *finder++);			//copy string
-	*copier = 0;						//and end it with zero character
+
+	char *CopiedString = new char[++temp - finder + 1];
+	
+	char *copier;
+	for (copier = CopiedString; finder != temp; *copier++ = *finder++);
+	*copier = 0; // and end it with zero character
 
 	return CopiedString;
 }
 
-void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts info from header text into header members
+// Note that this function as well as CShortHeadwer can be always changed, because there are many items to extract
+// (e.g. the X-Priority and Importance and so on)
+// items- translated header (see TranslateHeaderFcn)
+// head- header to be filled with values extracted from items
+
+void ExtractShortHeader(CMimeItem *items, CShortHeader *head)
 {
 	for (; items != nullptr; items = items->Next) {
-		//at the start of line
-		//MessageBox(NULL,items->value,items->name,0);
+		// at the start of line
+		// MessageBox(NULL,items->value,items->name,0);
 		if (0 == _strnicmp(items->name, "From", 4)) {
 			if (items->value == nullptr)
 				continue;
@@ -322,11 +314,78 @@ void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head)
 	}
 }
 
-void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head)
-{
-	struct CShortHeader ShortHeader;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Deletes list of YAMN_MIMENAMES structures
+// Names- pointer to first item of list
 
-	memset(&ShortHeader, 0, sizeof(struct CShortHeader));
+static void DeleteNames(CMimeNames *Names)
+{
+	CMimeNames *Parser = Names;
+	for (; Parser != nullptr; Parser = Parser->Next) {
+		if (Parser->Value != nullptr)
+			delete[] Parser->Value;
+		if (Parser->ValueNick != nullptr)
+			delete[] Parser->ValueNick;
+
+		CMimeNames *Old = Parser;
+		Parser = Parser->Next;
+		delete Old;
+	}
+}
+
+CHeader::~CHeader()
+{
+	DeleteNames(To);
+	DeleteNames(Cc);
+	DeleteNames(Bcc);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Deletes list of YAMN_MIMESHORTNAMES structures
+// Names- pointer to first item of list
+
+static void DeleteShortNames(CShortNames *Names)
+{
+	CShortNames *Parser = Names;
+	for (; Parser != nullptr; Parser = Parser->Next) {
+		if (Parser->Value != nullptr)
+			delete[] Parser->Value;
+		if (Parser->ValueNick != nullptr)
+			delete[] Parser->ValueNick;
+
+		CShortNames *Old = Parser;
+		Parser = Parser->Next;
+		delete Old;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Deletes items in CShortHeader structure
+// head- structure whose items are deleted
+
+void DeleteShortHeaderContent(CShortHeader *head)
+{
+	if (head->From != nullptr) delete[] head->From;
+	if (head->FromNick != nullptr) delete[] head->FromNick;
+	if (head->ReturnPath != nullptr) delete[] head->ReturnPath;
+	if (head->ReturnPathNick != nullptr) delete[] head->ReturnPathNick;
+	if (head->Subject != nullptr) delete[] head->Subject;
+	if (head->Date != nullptr) delete[] head->Date;
+	if (head->To != nullptr) DeleteShortNames(head->To);
+	if (head->Cc != nullptr) DeleteShortNames(head->Cc);
+	if (head->Bcc != nullptr) DeleteShortNames(head->Bcc);
+	if (head->Body != nullptr) delete[] head->Body;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts header to mail using ExtractShortHeader fcn.
+// items- translated header (see TranslateHeaderFcn)
+// CP- codepage used when no default found
+// head- header to be filled with values extracted from items, in unicode (wide char)
+
+void ExtractHeader(CMimeItem *items, int &CP, CHeader *head)
+{
+	CShortHeader ShortHeader = {};
 	ShortHeader.Priority = ShortHeader.CP = -1;
 	#ifdef DEBUG_DECODE
 	DebugLog(DecodeFile, "<Extracting header>\n");
@@ -352,39 +411,39 @@ void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head)
 	DebugLog(DecodeFile, "<Convert>\n");
 	#endif
 
-	ConvertCodedStringToUnicode(ShortHeader.From, &head->From, CP, MIME_PLAIN);
+	head->wszFrom = ConvertCodedStringToUnicode(ShortHeader.From, CP, MIME_PLAIN);
 
 	#ifdef DEBUG_DECODE
 	if (NULL != head->From)
 		DebugLogW(DecodeFile, L"<Converted from>%s</Converted>\n", head->From);
 	#endif
-	ConvertCodedStringToUnicode(ShortHeader.FromNick, &head->FromNick, CP, MIME_MAIL);
+	head->wszFromNick = ConvertCodedStringToUnicode(ShortHeader.FromNick, CP, MIME_MAIL);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->FromNick)
 		DebugLogW(DecodeFile, L"<Converted from-nick>%s</Converted>\n", head->FromNick);
 	#endif
-	ConvertCodedStringToUnicode(ShortHeader.ReturnPath, &head->ReturnPath, CP, MIME_PLAIN);
+	head->wszReturnPath = ConvertCodedStringToUnicode(ShortHeader.ReturnPath, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPath)
 		DebugLogW(DecodeFile, L"<Converted return-path>%s</Converted>\n", head->ReturnPath);
 	#endif
-	ConvertCodedStringToUnicode(ShortHeader.ReturnPathNick, &head->ReturnPathNick, CP, MIME_MAIL);
+	head->wszReturnPathNick = ConvertCodedStringToUnicode(ShortHeader.ReturnPathNick, CP, MIME_MAIL);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPathNick)
 		DebugLogW(DecodeFile, L"<Converted return-path nick>%s</Converted>\n", head->ReturnPathNick);
 	#endif
-	ConvertCodedStringToUnicode(ShortHeader.Subject, &head->Subject, CP, MIME_PLAIN);
+	head->wszSubject = ConvertCodedStringToUnicode(ShortHeader.Subject, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Subject)
 		DebugLogW(DecodeFile, L"<Converted subject>%s</Converted>\n", head->Subject);
 	#endif
-	ConvertCodedStringToUnicode(ShortHeader.Date, &head->Date, CP, MIME_PLAIN);
+	head->wszDate = ConvertCodedStringToUnicode(ShortHeader.Date, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Date)
 		DebugLogW(DecodeFile, L"<Converted date>%s</Converted>\n", head->Date);
 	#endif
 
-	ConvertCodedStringToUnicode(ShortHeader.Body, &head->Body, CP, MIME_PLAIN);
+	head->wszBody = ConvertCodedStringToUnicode(ShortHeader.Body, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Body)
 		DebugLogW(DecodeFile, L"<Converted Body>%s</Converted>\n", head->Body);
@@ -395,75 +454,6 @@ void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head)
 	#endif
 
 	DeleteShortHeaderContent(&ShortHeader);
-
-	//	head->From=L"Frommmm";
-	//	head->Subject=L"Subject";
-	return;
-}
-
-void DeleteShortHeaderContent(struct CShortHeader *head)
-{
-	if (head->From != nullptr) delete[] head->From;
-	if (head->FromNick != nullptr) delete[] head->FromNick;
-	if (head->ReturnPath != nullptr) delete[] head->ReturnPath;
-	if (head->ReturnPathNick != nullptr) delete[] head->ReturnPathNick;
-	if (head->Subject != nullptr) delete[] head->Subject;
-	if (head->Date != nullptr) delete[] head->Date;
-	if (head->To != nullptr) DeleteShortNames(head->To);
-	if (head->Cc != nullptr) DeleteShortNames(head->Cc);
-	if (head->Bcc != nullptr) DeleteShortNames(head->Bcc);
-	if (head->Body != nullptr) delete[] head->Body;
-}
-
-void DeleteHeaderContent(struct CHeader *head)
-{
-	if (head->From != nullptr) delete[] head->From;
-	if (head->FromNick != nullptr) delete[] head->FromNick;
-	if (head->ReturnPath != nullptr) delete[] head->ReturnPath;
-	if (head->ReturnPathNick != nullptr) delete[] head->ReturnPathNick;
-	if (head->Subject != nullptr) delete[] head->Subject;
-	if (head->Date != nullptr) delete[] head->Date;
-	if (head->Body != nullptr) delete[] head->Body;
-	if (head->To != nullptr) DeleteNames(head->To);
-	if (head->Cc != nullptr) DeleteNames(head->Cc);
-	if (head->Bcc != nullptr) DeleteNames(head->Bcc);
-}
-
-void DeleteNames(CMimeNames *Names)
-{
-	CMimeNames *Parser = Names;
-	for (; Parser != nullptr; Parser = Parser->Next) {
-		if (Parser->Value != nullptr)
-			delete[] Parser->Value;
-		if (Parser->ValueNick != nullptr)
-			delete[] Parser->ValueNick;
-
-		CMimeNames *Old = Parser;
-		Parser = Parser->Next;
-		delete Old;
-	}
-}
-
-void DeleteShortNames(CShortNames *Names)
-{
-	CShortNames *Parser = Names;
-	for (; Parser != nullptr; Parser = Parser->Next) {
-		if (Parser->Value != nullptr)
-			delete[] Parser->Value;
-		if (Parser->ValueNick != nullptr)
-			delete[] Parser->ValueNick;
-
-		CShortNames *Old = Parser;
-		Parser = Parser->Next;
-		delete Old;
-	}
-}
-
-
-void inline ToLower(char *string)
-{
-	for (; *string != 0; string++)
-		if (*string >= 'A' && *string <= 'Z') *string = *string - 'A' + 'a';
 }
 
 #define TE_UNKNOWN
@@ -471,16 +461,15 @@ void inline ToLower(char *string)
 #define TE_BASE64 2
 struct APartDataType
 {
-	char *Src;//Input
+	char *Src;// Input
 	char *ContType;
 	int CodePage;
 	char *TransEnc;
-	uint8_t TransEncType; //TE_something
+	uint8_t TransEncType; // TE_something
 	char *body;
 	int bodyLen;
 	wchar_t *wBody;
 };
-
 
 void ParseAPart(APartDataType *data)
 {
@@ -492,7 +481,7 @@ void ParseAPart(APartDataType *data)
 		while (finder <= (data->Src + len)) {
 			while (ENDLINEWS(finder)) finder++;
 
-			//at the start of line
+			// at the start of line
 			if (finder > data->Src) {
 				if (*(finder - 2) == '\r' || *(finder - 2) == '\n')
 					*(finder - 2) = 0;
@@ -516,7 +505,7 @@ void ParseAPart(APartDataType *data)
 				break;
 
 			do {
-				if (ENDLINEWS(finder)) finder += 2;						//after endline information continues
+				if (ENDLINEWS(finder)) finder += 2;						// after endline information continues
 				while (!ENDLINE(finder) && !EOS(finder)) finder++;
 			} while (ENDLINEWS(finder));
 
@@ -560,7 +549,7 @@ void ParseAPart(APartDataType *data)
 	if (data->body) data->bodyLen = (int)mir_strlen(data->body);
 }
 
-//from decode.cpp
+// from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
 int DecodeBase64(char *Src, char *Dst, int DstLen);
 int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
@@ -617,13 +606,13 @@ wchar_t *ParseMultipartBody(char *src, char *bond)
 				if (localBody) delete[] localBody;
 			}
 			else if (partData[i].ContType && !_strnicmp(partData[i].ContType, "multipart/", 10)) {
-				//Multipart in mulitipart recursive? should be SPAM. Ah well
+				// Multipart in mulitipart recursive? should be SPAM. Ah well
 				char *bondary = nullptr;
 				if (nullptr != (bondary = ExtractFromContentType(partData[i].ContType, "boundary="))) {
 					partData[i].wBody = ParseMultipartBody(partData[i].body, bondary);
 					delete[] bondary;
 				}
-				else goto FailBackRaw; //multipart with no boundary? badly formatted messages.
+				else goto FailBackRaw; // multipart with no boundary? badly formatted messages.
 			}
 			else {
 FailBackRaw:
@@ -631,7 +620,7 @@ FailBackRaw:
 			}
 			resultSize += mir_wstrlen(partData[i].wBody);
 		}// if (partData[i].body)
-		resultSize += 100 + 4 + 3; //cr+nl+100+ 3*bullet
+		resultSize += 100 + 4 + 3; // cr+nl+100+ 3*bullet
 	}
 	dest = new wchar_t[resultSize + 1];
 	size_t destpos = 0;
@@ -690,6 +679,6 @@ FailBackRaw:
 
 	free(srcback);
 	delete[] partData;
-	dest[resultSize] = 0;//just in case
+	dest[resultSize] = 0;// just in case
 	return dest;
 }

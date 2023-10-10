@@ -174,7 +174,6 @@ void      TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head);
 // From mime.cpp
 void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head);
 void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head);
-void DeleteHeaderContent(struct CHeader *head);
 void DeleteShortHeaderContent(struct CShortHeader *head);
 char *ExtractFromContentType(char *ContentType, char *value);
 wchar_t *ParseMultipartBody(char *src, char *bond);
@@ -202,7 +201,7 @@ extern struct WndHandles *MessageWnd;
 YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
 
 int GetCharsetFromString(char *input, size_t size);
-void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
+CMStringW ConvertCodedStringToUnicode(char *stream, uint32_t cp, int mode);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;
 
