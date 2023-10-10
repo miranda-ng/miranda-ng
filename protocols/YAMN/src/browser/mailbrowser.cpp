@@ -713,52 +713,36 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 
 LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR PluginParam = 0;
 	switch (msg) {
 	case WM_COMMAND:
 		// if clicked and it's new mail popup window
-		if ((HIWORD(wParam) == STN_CLICKED) && (-1 != (PluginParam = (INT_PTR)PUGetPluginData(hWnd)))) {
-			MCONTACT hContact = 0;
-			CAccount *Account;
-			if (PluginParam) {
-				YAMN_MAILSHOWPARAM *MailParam = new YAMN_MAILSHOWPARAM();
-				memcpy(MailParam, (PINT_PTR)PluginParam, sizeof(YAMN_MAILSHOWPARAM));
-				hContact = MailParam->account->hContact;
-				Account = MailParam->account;
-				mir_forkthread(ShowEmailThread, MailParam);
-			}
-			else {
-				hContact = PUGetContact(hWnd);
-				if (Account = FindAccountByContact(POP3Plugin, hContact)) {
-					SReadGuard sra(Account->AccountAccessSO);
-					if (sra.Succeeded()) {
-						switch (msg) {
-						case WM_COMMAND:
-							{
-								YAMN_MAILBROWSERPARAM Param = { Account,
-									(Account->NewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG,
-									(Account->NoNewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG };
+		if (HIWORD(wParam) == STN_CLICKED) {
+			MCONTACT hContact = PUGetContact(hWnd);
+			if (CAccount *Account = FindAccountByContact(POP3Plugin, hContact)) {
+				SReadGuard sra(Account->AccountAccessSO);
+				if (sra.Succeeded()) {
+					switch (msg) {
+					case WM_COMMAND:
+						{
+							YAMN_MAILBROWSERPARAM Param = { Account,
+								(Account->NewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG,
+								(Account->NoNewMailN.Flags & ~YAMN_ACC_POP) | YAMN_ACC_MSGP | YAMN_ACC_MSG };
 
-								RunMailBrowser(&Param);
-							}
-							break;
+							RunMailBrowser(&Param);
 						}
+						break;
 					}
 				}
-			}
 
-			if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT))
-				Clist_RemoveEvent(hContact, hContact);
+				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT))
+					Clist_RemoveEvent(hContact, hContact);
+			}
 		}
 		__fallthrough;
 
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		break;
-
-	case UM_FREEPLUGINDATA:
-		delete (YAMN_MAILSHOWPARAM *)PUGetPluginData(hWnd);
-		return FALSE;
 
 	case UM_INITPOPUP:
 		// This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
@@ -808,10 +792,6 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		break;
-
-	case UM_FREEPLUGINDATA:
-		// Here we'd free our own data, if we had it.
-		return FALSE;
 
 	case UM_INITPOPUP:
 		//This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.

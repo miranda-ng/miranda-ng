@@ -48,10 +48,6 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 
-	case UM_FREEPLUGINDATA:
-		//Here we'd free our own data, if we had it.
-		return FALSE;
-
 	case UM_INITPOPUP:
 		//This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
 		break;
