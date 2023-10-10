@@ -817,11 +817,9 @@ public:
 		chkCol.OnChange = chkFcol.OnChange = chkNcol.OnChange = Callback(this, &CPopupOptsDlg::onChange_Col);
 
 		cmbCP.OnSelChanged = Callback(this, &CPopupOptsDlg::onSelChange_CP);
+		cmbAccount.OnSelChanged = Callback(this, &CPopupOptsDlg::onSelChange_Account);
 
 		btnPreview.OnClick = Callback(this, &CPopupOptsDlg::onClick_Preview);
-
-		cmbAccount.OnKillFocus = Callback(this, &CPopupOptsDlg::onKillFocus_Account);
-		cmbAccount.OnSelChanged = Callback(this, &CPopupOptsDlg::onSelChange_Account);
 	}
 
 	bool OnInitDialog() override
@@ -839,29 +837,13 @@ public:
 		}
 		ActualAccount = nullptr;
 		cmbAccount.SetCurSel(0);
+		onSelChange_Account(0);
 		return true;
 	}
 
 	void OnDestroy() override
 	{
 		WindowList_Remove(YAMNVar.MessageWnds, m_hwnd);
-	}
-
-	void onKillFocus_Account(CCtrlCombo *)
-	{
-		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, DlgInput, _countof(DlgInput));
-		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput))) {
-			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
-			if (mir_strlen(DlgInput))
-				DlgEnableAccountPopup(true);
-			else
-				DlgEnableAccountPopup(false);
-		}
-		else {
-			DlgShowAccount(ActualAccount);
-			DlgShowAccountColors();
-			DlgEnableAccountPopup(true);
-		}
 	}
 
 	void onSelChange_Account(CCtrlCombo *)
