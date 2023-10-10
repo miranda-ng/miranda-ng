@@ -64,12 +64,10 @@ class CDlgOptionsDlg : public CDlgBase
 	void SetAllContactIcons()
 	{
 		for (auto &hContact : Contacts()) {
-			if (!Contact::IsGroupChat(hContact)) {
-				HANDLE hItem = clist.FindContact(hContact);
-				if (hItem) {
-					bool disabled = (g_plugin.getByte(hContact, DBSETTING_REMOVE) == 1);
-					clist.SetExtraImage(hItem, 0, disabled ? 1 : 0);
-				}
+			HANDLE hItem = clist.FindContact(hContact);
+			if (hItem) {
+				bool disabled = (g_plugin.getByte(hContact, DBSETTING_REMOVE) == 1);
+				clist.SetExtraImage(hItem, 0, disabled ? 1 : 0);
 			}
 		}
 	}
@@ -126,12 +124,10 @@ public:
 		g_plugin.bEnabledForNew = clist.GetExtraImage(hItemNew, 0);
 
 		for (auto &hContact : Contacts()) {
-			if (!Contact::IsGroupChat(hContact)) {
-				HANDLE hItem = clist.FindContact(hContact);
-				if (hItem) {
-					int iImage = clist.GetExtraImage(hItem, 0);
-					g_plugin.setByte(hContact, DBSETTING_REMOVE, iImage == 1);
-				}
+			HANDLE hItem = clist.FindContact(hContact);
+			if (hItem) {
+				int iImage = clist.GetExtraImage(hItem, 0);
+				g_plugin.setByte(hContact, DBSETTING_REMOVE, iImage == 1);
 			}
 		}
 		return true;
