@@ -466,9 +466,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 		NewMailPopup.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
 	NewMailPopup.iSeconds = ActualAccount->NewMailN.PopupTime;
-
 	NewMailPopup.PluginWindowProc = NewMailPopupProc;
-	NewMailPopup.PluginData = nullptr;					//it's new mail popup
 
 	for (HYAMNMAIL msgq = (HYAMNMAIL)ActualAccount->Mails; msgq != nullptr; msgq = msgq->Next, lfoundi++) {
 		// now we hide mail pointer to item's lParam member. We can later use it to retrieve mail datas
@@ -589,11 +587,8 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 			g_plugin.setWString(ActualAccount->hContact, "Nick", tszMsg);
 	}
 
-	if ((nflags & YAMN_ACC_POP) &&
-		!(ActualAccount->Flags & YAMN_ACC_POPN) &&
-		(MN->Real.PopupRun + MN->Virtual.PopupRun)) {
+	if ((nflags & YAMN_ACC_POP) && !(ActualAccount->Flags & YAMN_ACC_POPN) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
 		POPUPDATAW NewMailPopup;
-
 		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NewMailPopup.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 		if (nflags & YAMN_ACC_POPC) {
@@ -605,10 +600,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 			NewMailPopup.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		}
 		NewMailPopup.iSeconds = ActualAccount->NewMailN.PopupTime;
-
 		NewMailPopup.PluginWindowProc = NewMailPopupProc;
-		NewMailPopup.PluginData = (void *)nullptr;	//multiple popups
-
 		mir_wstrncpy(NewMailPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(NewMailPopup.lpwzContactName));
 		mir_snwprintf(NewMailPopup.lpwzText, TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		PUAddPopupW(&NewMailPopup);
@@ -729,7 +721,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			MCONTACT hContact = 0;
 			CAccount *Account;
 			if (PluginParam) {
-				YAMN_MAILSHOWPARAM *MailParam = new YAMN_MAILSHOWPARAM;
+				YAMN_MAILSHOWPARAM *MailParam = new YAMN_MAILSHOWPARAM();
 				memcpy(MailParam, (PINT_PTR)PluginParam, sizeof(YAMN_MAILSHOWPARAM));
 				hContact = MailParam->account->hContact;
 				Account = MailParam->account;
