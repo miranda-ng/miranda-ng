@@ -242,37 +242,39 @@ int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ)
 	DebugLog(DecodeFile, "<Decode Quoted><Input>%s</Input>", Src);
 	#endif
 
-	for (int Counter = 0; (*Src != 0) && DstLen && (Counter++ < DstLen); Src++, Dst++) {
+	for (auto *Limit = Dst + DstLen; *Src != 0 && Dst < Limit; Src++) {
 		if (*Src == '=') {
+			Src++;
+			if (*Src == 0)
+				break;
+
 			if (!isQ) {
-				if (Src[1] == '\r') {
-					Src++; Src++;
-					if (Src[0] == '\n')
+				if (*Src == '\r') {
+					if (Src[1] == '\n')
 						Src++;
-					goto CopyCharQuotedPrintable;
+					continue;
 				}
-				if (Src[1] == '\n') {
-					Src++; Src++;
-					goto CopyCharQuotedPrintable;
-				}
+
+				if (*Src == '\n')
+					continue;
 			}
+
 			char First, Second;
-			if (!FromHexa(*(++Src), &First)) {
+			if (!FromHexa(Src[0], &First)) {
+				*Dst++ = '=';
+				continue;
+			}
+			if (!FromHexa(Src[1], &Second)) {
 				*Dst++ = '='; Src--;
 				continue;
 			}
-			if (!FromHexa(*(++Src), &Second)) {
-				*Dst++ = '='; Src--; Src--;
-				continue;
-			}
-			*Dst = (char)(First) << 4;
-			*Dst += Second;
+			*Dst++ = ((char)(First) << 4) + Second;
+			Src++;
 		}
 		else if (isQ && *Src == '_')
-			*Dst = ' ';
+			*Dst++ = ' ';
 		else
-CopyCharQuotedPrintable:
-			*Dst = *Src;
+			*Dst++ = *Src;
 	}
 	*Dst = 0;
 
