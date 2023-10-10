@@ -69,7 +69,8 @@ static void ExtractAddressFromLine(char *finder, char **storeto, char **storeton
 		*storeto = *storetonick = nullptr;
 		return;
 	}
-	while (WS(finder)) finder++;
+	
+	SkipSpaces(finder);
 	if ((*finder) != '<') {
 		char *finderend = finder + 1;
 		do {
@@ -106,8 +107,7 @@ static void ExtractAddressFromLine(char *finder, char **storeto, char **storeton
 
 		CopyToHeader(finder, finderend + 1, storeto, MIME_MAIL); // go to first '>' or to the end and copy
 		finder = finderend + 1;
-		while (WS(finder)) // parse whitespace
-			finder++;
+		SkipSpaces(finder);
 		if (!ENDLINE(finder) && !EOS(finder)) { // if there are chars yet, it's nick
 			finderend = finder + 1;
 			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;	// seek to the end of line or to the end of string
@@ -130,8 +130,8 @@ static void ExtractStringFromLine(char *finder, char **storeto)
 		*storeto = nullptr;
 		return;
 	}
-	while (WS(finder))
-		finder++;
+	
+	SkipSpaces(finder);
 	char *finderend = finder;
 
 	do {
@@ -171,8 +171,7 @@ char* ExtractFromContentType(char *ContentType, char *value)
 	
 	finder = finder + mir_strlen(value); // jump over value string
 
-	while (WS(finder)) // jump over whitespaces
-		finder++;
+	SkipSpaces(finder);
 	temp = finder;
 	while (*temp != 0 && *temp != ';') // jump to the end of setting (to the next ;)
 		temp++;
@@ -551,7 +550,6 @@ void ParseAPart(APartDataType *data)
 
 // from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
-int DecodeBase64(char *Src, char *Dst, int DstLen);
 int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
 
 wchar_t *ParseMultipartBody(char *src, char *bond)
@@ -587,23 +585,20 @@ wchar_t *ParseMultipartBody(char *src, char *bond)
 				}
 			}
 			if (partData[i].ContType && !_strnicmp(partData[i].ContType, "text", 4)) {
-				char *localBody = nullptr;
+				ptrA localBody;
 				switch (partData[i].TransEncType) {
 				case TE_BASE64:
-					{
-						int size = partData[i].bodyLen * 3 / 4 + 5;
-						localBody = new char[size + 1];
-						DecodeBase64(partData[i].body, localBody, size);
-					}break;
+					localBody = (char*)mir_base64_decode(partData[i].body, 0);
+					break;
 				case TE_QUOTEDPRINTABLE:
 					{
 						int size = partData[i].bodyLen + 2;
-						localBody = new char[size + 1];
+						localBody = (char*)mir_alloc(size + 1);
 						DecodeQuotedPrintable(partData[i].body, localBody, size, FALSE);
-					}break;
+					}
+					break;
 				}
 				ConvertStringToUnicode(localBody ? localBody : partData[i].body, partData[i].CodePage, &partData[i].wBody);
-				if (localBody) delete[] localBody;
 			}
 			else if (partData[i].ContType && !_strnicmp(partData[i].ContType, "multipart/", 10)) {
 				// Multipart in mulitipart recursive? should be SPAM. Ah well

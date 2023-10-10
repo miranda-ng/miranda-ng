@@ -1216,19 +1216,17 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			if (body) {
 				wchar_t *bodyDecoded = nullptr;
-				char *localBody = nullptr;
+				ptrA localBody;
 				if (contentType) {
 					if (!_strnicmp(contentType, "text", 4)) {
 						if (transEncoding) {
 							if (!_stricmp(transEncoding, "base64")) {
-								int size = (int)mir_strlen(body) * 3 / 4 + 5;
-								localBody = new char[size + 1];
-								DecodeBase64(body, localBody, size);
+								localBody = (char*)mir_base64_decode(body, 0);
 							}
 							else if (!_stricmp(transEncoding, "quoted-printable")) {
-								int size = (int)mir_strlen(body) + 2;
-								localBody = new char[size + 1];
-								DecodeQuotedPrintable(body, localBody, size, FALSE);
+								size_t size = mir_strlen(body) + 2;
+								localBody = (char*)mir_alloc(size + 1);
+								DecodeQuotedPrintable(body, localBody, (int)size, FALSE);
 							}
 						}
 					}
@@ -1244,7 +1242,6 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					ConvertStringToUnicode(localBody ? localBody : body, MailParam->mail->MailData->CP, &bodyDecoded);
 				SetWindowTextW(hEdit, bodyDecoded);
 				delete[] bodyDecoded;
-				if (localBody) delete[] localBody;
 				SetFocus(hEdit);
 			}
 			if (!(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)) {

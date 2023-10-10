@@ -708,13 +708,13 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 			break;
 		default:
 			PostErrorProc(ActualAccount, YAMNParam, (uint32_t)NULL, MyClient->SSL);	// it closes internet connection too
-	}
+		}
 
 		if (UsingInternet)	// if our thread still uses internet
 			SetEvent(ActualAccount->UseInternetFree);
 
 		SetContactStatus(ActualAccount, ID_STATUS_NA);
-}
+	}
 	free(ActualCopied.ServerName);
 	free(ActualCopied.ServerLogin);
 	free(ActualCopied.ServerPasswd);
@@ -820,11 +820,11 @@ void __cdecl DeleteMailsPOP3(void *param)
 						timestamp = new char[sz];
 						memcpy(timestamp, lpos, sz - 1);
 						timestamp[sz - 1] = '\0';
+					}
 				}
-			}
 				free(DataRX);
 				DataRX = nullptr;
-		}
+			}
 			SetStatusFcn(ActualAccount, TranslateT("Entering POP3 account"));
 
 			if (ActualAccount->Flags & YAMN_ACC_APOP) {
@@ -844,7 +844,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 					free(DataRX);
 				DataRX = nullptr;
 			}
-	}
+		}
 
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile, "<--------Deleting requested mails-------->\n");
@@ -878,7 +878,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 					ActualAccount->SystemError = EPOP3_QUEUEALLOC;
 					throw (uint32_t)ActualAccount->SystemError;
 				}
-		}
+			}
 
 			if (msgs) {
 				#ifdef DEBUG_DECODE
@@ -896,7 +896,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 				// 	but also in DeleteMails we get only those, which are still on server with their responsable numbers
 				SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&DeleteMails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
 			}
-			}
+		}
 		else SetStatusFcn(ActualAccount, TranslateT("Deleting spam"));
 
 		{
@@ -951,7 +951,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 				DeleteMessagesToEndFcn(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
 				ActualAccount->Mails = nullptr;
 			}
-}
+		}
 
 		#ifdef DEBUG_DECODE     	
 		DebugLog(DecodeFile, "</--------Deleting requested mails-------->\n");
@@ -975,7 +975,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 				MyClient->NetClient->Disconnect();
 
 				SetStatusFcn(ActualAccount, TranslateT("Disconnected"));
-		}
+			}
 
 			UsingInternet = FALSE;
 			SetEvent(ActualAccount->UseInternetFree);
@@ -1028,13 +1028,14 @@ void ExtractStat(char *stream, int *mboxsize, int *mails)
 	char *finder = stream;
 	while (WS(finder) || ENDLINE(finder)) finder++;
 	if (ACKLINE(finder)) {
-		while (!WS(finder)) finder++;
-		while (WS(finder)) finder++;
-}
+		SkipNonSpaces(finder);
+		SkipSpaces(finder);
+	}
 	if (1 != sscanf(finder, "%d", mails))
 		throw (uint32_t)EPOP3_STAT;
-	while (!WS(finder)) finder++;
-	while (WS(finder)) finder++;
+
+	SkipNonSpaces(finder);
+	SkipSpaces(finder);
 	if (1 != sscanf(finder, "%d", mboxsize))
 		throw (uint32_t)EPOP3_STAT;
 }
@@ -1055,17 +1056,16 @@ void ExtractMail(char *stream, int len, HYAMNMAIL queue)
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile, "<Message>\n");
 		#endif
-		while (WS(finder)) finder++;			// jump whitespace
+		SkipSpaces(finder);			// jump whitespace
 		if (1 != sscanf(finder, "%d", &msgnr))
 			throw (uint32_t)EPOP3_UIDL;
+
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
 		#endif
-		// 		for (i=1,queueptr=queue;(queueptr->Next != NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
-		// 		if (i != msgnr)
-		// 			throw (uint32_t)EPOP3_UIDL;
-		while (!WS(finder)) finder++;			// jump characters
-		while (WS(finder)) finder++;			// jump whitespace
+
+		SkipNonSpaces(finder);
+		SkipSpaces(finder);
 		finderend = finder + 1;
 		while (!WS(finderend) && !ENDLINE(finderend)) finderend++;
 		queueptr->ID = new char[finderend - finder + 1];
@@ -1099,7 +1099,7 @@ void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile, "<Message>\n");
 		#endif
-		while (WS(finder)) finder++;			// jump whitespace
+		SkipSpaces(finder);
 		if (1 != sscanf(finder, "%d", &msgnr))
 			throw (uint32_t)EPOP3_UIDL;
 		#ifdef DEBUG_DECODE
@@ -1108,8 +1108,8 @@ void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
 		// 		for (i=1,queueptr=queue;(queueptr->Next != NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
 		// 		if (i != msgnr)
 		// 			throw (uint32_t)EPOP3_UIDL;
-		while (!WS(finder)) finder++;			// jump characters
-		while (WS(finder)) finder++;			// jump whitespace
+		SkipNonSpaces(finder);
+		SkipSpaces(finder);
 		finderend = finder + 1;
 		while (!WS(finderend) && !ENDLINE(finderend)) finderend++;
 		queueptr->ID = new char[finderend - finder + 1];
@@ -1143,7 +1143,7 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile, "<Message>\n", NULL, 0);
 		#endif
-		while (WS(finder)) finder++;			// jump whitespace
+		SkipSpaces(finder);
 		if (1 != sscanf(finder, "%d", &msgnr))		// message nr.
 			throw (uint32_t)EPOP3_LIST;
 		#ifdef DEBUG_DECODE
@@ -1153,8 +1153,9 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 		for (i = 1, queueptr = queue; (queueptr->Next != nullptr) && (i < msgnr); queueptr = queueptr->Next, i++);
 		if (i != msgnr)
 			throw (uint32_t)EPOP3_LIST;
-		while (!WS(finder)) finder++;			// jump characters
-		while (WS(finder)) finder++;			// jump whitespace
+
+		SkipNonSpaces(finder);
+		SkipSpaces(finder);			// jump whitespace
 		finderend = finder + 1;
 		if (1 != sscanf(finder, "%u", &queueptr->MailData->Size))
 			throw (uint32_t)EPOP3_LIST;

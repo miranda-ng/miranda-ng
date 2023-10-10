@@ -183,7 +183,9 @@ extern YAMN_PROTOPLUGIN *POP3Plugin;
 
 // from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
-int DecodeBase64(char *Src, char *Dst, int DstLen);
+
+void SkipNonSpaces(char *&p);
+void SkipSpaces(char *&p);
 
 // From protoplugin.cpp
 extern YAMN_PROTOPLUGINQUEUE *FirstProtoPlugin;
