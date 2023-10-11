@@ -232,7 +232,7 @@ struct SWriteGuard
 /////////////////////////////////////////////////////////////////////////////////////////
 // CAccount - basic email account class
 
-struct CAccount
+struct CAccount : public MZeroedObject
 {
 	#define YAMN_ACCOUNTFILEVERSION	2	//version of standard file format (YAMN book file format)
 	
@@ -327,6 +327,8 @@ struct CAccount
 	BOOL isCounting;
 
 	CAccount *Next;
+
+	void RefreshContact();
 };
 
 #endif

@@ -52,7 +52,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 void AccountMailCheck(CAccount *ActualAccount, bool bForce);
 void CreateServiceFunctions(void);
 void HookEvents(void);
-void RefreshContact(void);
+
 void ContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 INT_PTR ClistContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 

@@ -18,6 +18,24 @@ static mir_cs csAccountStatusCS;
 static mir_cs csFileWritingCS;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CAccount class
+
+void CAccount::RefreshContact()
+{
+	if (hContact != 0) {
+		Contact::Hide(hContact, !(Flags & YAMN_ACC_ENA) && (NewMailN.Flags & YAMN_ACC_CONT));
+	}
+	else if ((Flags & YAMN_ACC_ENA) && (NewMailN.Flags & YAMN_ACC_CONT)) {
+		hContact = db_add_contact();
+		Proto_AddToContact(hContact, YAMN_DBMODULE);
+		g_plugin.setString(hContact, "Id", Name);
+		g_plugin.setString(hContact, "Nick", Name);
+		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
+		db_set_s(hContact, "CList", "StatusMsg", Translate("No new mail message"));
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CAccount* CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin)
 {
@@ -890,7 +908,7 @@ int DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which)
 
 	if ((Plugin->Fcn != nullptr) && (Plugin->Fcn->WriteAccountsFcnPtr != nullptr))
 		Plugin->Fcn->WriteAccountsFcnPtr();
-	CloseHandle(mir_forkthread(DeleteAccountInBackground, (void *)Which));
+	mir_forkthread(DeleteAccountInBackground, Which);
 
 	// Now, plugin can consider account as deleted, but plugin really can achieve deleting this account from memory when using
 	// event UsingThreads.

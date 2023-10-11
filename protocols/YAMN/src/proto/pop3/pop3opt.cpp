@@ -6,33 +6,36 @@
 
 #include "../../stdafx.h"
 
-//--------------------------------------------------------------------------------------------------
-
 static char DlgInput[MAX_PATH];
 
-static BOOL DlgSetItemText(HWND hDlg, WPARAM wParam, const char *str)
+static void DlgSetItemText(HWND hDlg, WPARAM wParam, const char *str)
 {
-	if (str == nullptr)
-		SetDlgItemTextA(hDlg, wParam, "");
-	else
-		SetDlgItemTextA(hDlg, wParam, str);
-	return TRUE;
+	SetDlgItemTextA(hDlg, wParam, (str == nullptr) ? "" : str);
 }
 
-static BOOL DlgSetItemTextW(HWND hDlg, WPARAM wParam, const wchar_t *str)
+static void DlgSetItemTextW(HWND hDlg, WPARAM wParam, const wchar_t *str)
 {
-	if (str == nullptr)
-		SetDlgItemTextW(hDlg, wParam, L"");
-	else
-		SetDlgItemTextW(hDlg, wParam, str);
-	return TRUE;
+	SetDlgItemTextW(hDlg, wParam, (str == nullptr) ? L"" : str);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Base options class
 
 struct CBaseOptionsDlg : public CDlgBase
 {
 	CBaseOptionsDlg(int iDlgId) :
 		CDlgBase(g_plugin, iDlgId)
-	{}
+	{
+		this->m_OnFinishWizard = Callback(this, &CBaseOptionsDlg::OnFinish);
+	}
+
+	void OnFinish(void *)
+	{
+		WritePOP3Accounts();
+		
+		for (auto *pAcc = POP3Plugin->FirstAccount; pAcc != nullptr; pAcc = pAcc->Next)
+			pAcc->RefreshContact();
+	}
 
 	void DlgShowAccount(CPOP3Account* pAccount)
 	{
@@ -356,6 +359,184 @@ public:
 		return true;
 	}
 
+	bool OnApply() override
+	{
+		char  Text[MAX_PATH];
+		wchar_t TextW[MAX_PATH];
+		BOOL Translated, NewAcc = FALSE;
+		size_t Length;
+		int index;
+
+		if (!GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, Text, _countof(Text)))
+			return false;
+
+		BOOL Check = (IsDlgButtonChecked(m_hwnd, IDC_CHECK) == BST_CHECKED);
+		BOOL CheckSSL = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSSL) == BST_CHECKED);
+		BOOL CheckNoTLS = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNOTLS) == BST_CHECKED);
+		BOOL CheckAPOP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPOP) == BST_CHECKED);
+
+		BOOL CheckABody = (IsDlgButtonChecked(m_hwnd, IDC_AUTOBODY) == BST_CHECKED);
+		BOOL CheckMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKMSG) == BST_CHECKED);
+		BOOL CheckIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKICO) == BST_CHECKED);
+
+		BOOL CheckApp = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPP) == BST_CHECKED);
+		BOOL CheckKBN = (IsDlgButtonChecked(m_hwnd, IDC_CHECKKBN) == BST_CHECKED);
+		BOOL CheckContact = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACT) == BST_CHECKED);
+		BOOL CheckContactNick = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNICK) == BST_CHECKED);
+		BOOL CheckContactNoEvent = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNOEVENT) == BST_CHECKED);
+
+		BOOL CheckFMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFMSG) == BST_CHECKED);
+		BOOL CheckFIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFICO) == BST_CHECKED);
+
+		BOOL CheckNMsgP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNMSGP) == BST_CHECKED);
+
+		UINT Port = GetDlgItemInt(m_hwnd, IDC_EDITPORT, &Translated, FALSE);
+		if (!Translated) {
+			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
+			SetFocus(GetDlgItem(m_hwnd, IDC_EDITPORT));
+			return false;
+		}
+
+		UINT Interval = GetDlgItemInt(m_hwnd, IDC_EDITINTERVAL, &Translated, FALSE);
+		if (!Translated) {
+			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
+			SetFocus(GetDlgItem(m_hwnd, IDC_EDITINTERVAL));
+			return false;
+		}
+
+		GetDlgItemTextA(m_hwnd, IDC_EDITAPP, Text, _countof(Text));
+		if (CheckApp && !(Length = mir_strlen(Text))) {
+			MessageBox(m_hwnd, TranslateT("Please select application to run"), TranslateT("Input error"), MB_OK);
+			return false;
+		}
+
+		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, Text, _countof(Text));
+		if (!(Length = mir_strlen(Text))) {
+			GetDlgItemTextA(m_hwnd, IDC_EDITNAME, Text, _countof(Text));
+			if (!(Length = mir_strlen(Text)))
+				return false;
+		}
+
+		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
+
+		if (nullptr == (ActualAccount = (CPOP3Account *)FindAccountByName(POP3Plugin, Text))) {
+			NewAcc = TRUE;
+			SWriteGuard swb(POP3Plugin->AccountBrowserSO);
+			if (nullptr == (ActualAccount = (CPOP3Account *)GetNextFreeAccount(POP3Plugin))) {
+				swb.Uninit();
+				MessageBox(m_hwnd, TranslateT("Cannot allocate memory space for new account"), TranslateT("Memory error"), MB_OK);
+				return false;
+			}
+			DlgEnableAccount(true);
+		}
+		{
+			SWriteGuard swa(ActualAccount->AccountAccessSO);
+			if (!swa.Succeeded())
+				return false;
+				
+			GetDlgItemTextA(m_hwnd, IDC_EDITNAME, Text, _countof(Text));
+			if (!(Length = mir_strlen(Text)))
+				return false;
+			if (nullptr != ActualAccount->Name)
+				delete[] ActualAccount->Name;
+			ActualAccount->Name = new char[mir_strlen(Text) + 1];
+			mir_strcpy(ActualAccount->Name, Text);
+
+			GetDlgItemTextA(m_hwnd, IDC_EDITSERVER, Text, _countof(Text));
+			if (nullptr != ActualAccount->Server->Name)
+				delete[] ActualAccount->Server->Name;
+			ActualAccount->Server->Name = new char[mir_strlen(Text) + 1];
+			mir_strcpy(ActualAccount->Server->Name, Text);
+
+			GetDlgItemTextA(m_hwnd, IDC_EDITLOGIN, Text, _countof(Text));
+			if (nullptr != ActualAccount->Server->Login)
+				delete[] ActualAccount->Server->Login;
+			ActualAccount->Server->Login = new char[mir_strlen(Text) + 1];
+			mir_strcpy(ActualAccount->Server->Login, Text);
+
+			GetDlgItemTextA(m_hwnd, IDC_EDITPASS, Text, _countof(Text));
+			if (nullptr != ActualAccount->Server->Passwd)
+				delete[] ActualAccount->Server->Passwd;
+			ActualAccount->Server->Passwd = new char[mir_strlen(Text) + 1];
+			mir_strcpy(ActualAccount->Server->Passwd, Text);
+
+			GetDlgItemTextW(m_hwnd, IDC_EDITAPP, TextW, _countof(TextW));
+			if (nullptr != ActualAccount->NewMailN.App)
+				delete[] ActualAccount->NewMailN.App;
+			ActualAccount->NewMailN.App = new wchar_t[mir_wstrlen(TextW) + 1];
+			mir_wstrcpy(ActualAccount->NewMailN.App, TextW);
+
+			GetDlgItemTextW(m_hwnd, IDC_EDITAPPPARAM, TextW, _countof(TextW));
+			if (nullptr != ActualAccount->NewMailN.AppParam)
+				delete[] ActualAccount->NewMailN.AppParam;
+			ActualAccount->NewMailN.AppParam = new wchar_t[mir_wstrlen(TextW) + 1];
+			mir_wstrcpy(ActualAccount->NewMailN.AppParam, TextW);
+
+			ActualAccount->Server->Port = Port;
+			ActualAccount->Interval = Interval * 60;
+
+			if (CB_ERR == (index = SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_GETCURSEL, 0, 0)))
+				index = CPDEFINDEX;
+			ActualAccount->CP = CodePageNamesSupp[index].CP;
+
+			if (NewAcc)
+				ActualAccount->TimeLeft = Interval * 60;
+
+			BOOL CheckStart = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSTART) == BST_CHECKED);
+			BOOL CheckForce = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFORCE) == BST_CHECKED);
+
+			ActualAccount->Flags =
+				(Check ? YAMN_ACC_ENA : 0) |
+				(CheckSSL ? YAMN_ACC_SSL23 : 0) |
+				(CheckNoTLS ? YAMN_ACC_NOTLS : 0) |
+				(CheckAPOP ? YAMN_ACC_APOP : 0) |
+				(CheckABody ? YAMN_ACC_BODY : 0) |
+				(ActualAccount->Flags & YAMN_ACC_POPN);
+
+			ActualAccount->StatusFlags &= 0xFFFF;
+			ActualAccount->StatusFlags |=
+				(CheckStart ? YAMN_ACC_STARTS : 0) |
+				(CheckForce ? YAMN_ACC_FORCE : 0);
+
+			ActualAccount->NewMailN.Flags =
+				(CheckMsg ? YAMN_ACC_MSG : 0) |
+				(CheckIco ? YAMN_ACC_ICO : 0) |
+				(ActualAccount->NewMailN.Flags & YAMN_ACC_POP) |
+				(ActualAccount->NewMailN.Flags & YAMN_ACC_POPC) |
+				(CheckApp ? YAMN_ACC_APP : 0) |
+				(CheckKBN ? YAMN_ACC_KBN : 0) |
+				(CheckContact ? YAMN_ACC_CONT : 0) |
+				(CheckContactNick ? YAMN_ACC_CONTNICK : 0) |
+				(CheckContactNoEvent ? YAMN_ACC_CONTNOEVENT : 0) |
+				YAMN_ACC_MSGP;			//this is default: when new mail arrives and window was displayed, leave it displayed.
+
+			ActualAccount->NoNewMailN.Flags =
+				(ActualAccount->NoNewMailN.Flags & YAMN_ACC_POP) |
+				(ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC) |
+				(CheckNMsgP ? YAMN_ACC_MSGP : 0);
+
+			ActualAccount->BadConnectN.Flags =
+				(CheckFMsg ? YAMN_ACC_MSG : 0) |
+				(CheckFIco ? YAMN_ACC_ICO : 0) |
+				(ActualAccount->BadConnectN.Flags & YAMN_ACC_POP) |
+				(ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC);
+		}
+		btnDel.Enable();
+
+		DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
+
+		index = cmbAccount.GetCurSel();
+		cmbAccount.ResetContent();
+
+		if (POP3Plugin->FirstAccount != nullptr)
+			for (auto *p = POP3Plugin->FirstAccount; p != nullptr; p = p->Next)
+				if (p->Name != nullptr)
+					cmbAccount.AddStringA(p->Name);
+
+		cmbAccount.SetCurSel(index);
+		return true;
+	}
+
 	void OnDestroy() override
 	{
 		WindowList_Remove(YAMNVar.MessageWnds, m_hwnd);
@@ -447,7 +628,7 @@ public:
 
 	void onClick_Add(CCtrlButton *)
 	{
-		DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
+		DlgSetItemText(m_hwnd, IDC_STTIMELEFT, nullptr);
 		DlgShowAccount(0);
 		DlgEnableAccount(true);
 		btnDel.Disable();
@@ -516,187 +697,6 @@ public:
 	{
 		if (ActualAccount != nullptr)
 			ActualAccount->TimeLeft = ActualAccount->Interval;
-	}
-
-	bool OnApply() override
-	{
-		char  Text[MAX_PATH];
-		wchar_t TextW[MAX_PATH];
-		BOOL Translated, NewAcc = FALSE;
-		size_t Length;
-		int index;
-
-		if (!GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, Text, _countof(Text)))
-			return false;
-
-		BOOL Check = (IsDlgButtonChecked(m_hwnd, IDC_CHECK) == BST_CHECKED);
-		BOOL CheckSSL = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSSL) == BST_CHECKED);
-		BOOL CheckNoTLS = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNOTLS) == BST_CHECKED);
-		BOOL CheckAPOP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPOP) == BST_CHECKED);
-
-		BOOL CheckABody = (IsDlgButtonChecked(m_hwnd, IDC_AUTOBODY) == BST_CHECKED);
-		BOOL CheckMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKMSG) == BST_CHECKED);
-		BOOL CheckIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKICO) == BST_CHECKED);
-
-		BOOL CheckApp = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPP) == BST_CHECKED);
-		BOOL CheckKBN = (IsDlgButtonChecked(m_hwnd, IDC_CHECKKBN) == BST_CHECKED);
-		BOOL CheckContact = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACT) == BST_CHECKED);
-		BOOL CheckContactNick = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNICK) == BST_CHECKED);
-		BOOL CheckContactNoEvent = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNOEVENT) == BST_CHECKED);
-
-		BOOL CheckFMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFMSG) == BST_CHECKED);
-		BOOL CheckFIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFICO) == BST_CHECKED);
-
-		BOOL CheckNMsgP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNMSGP) == BST_CHECKED);
-
-		UINT Port = GetDlgItemInt(m_hwnd, IDC_EDITPORT, &Translated, FALSE);
-		if (!Translated) {
-			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
-			SetFocus(GetDlgItem(m_hwnd, IDC_EDITPORT));
-			return false;
-		}
-
-		UINT Interval = GetDlgItemInt(m_hwnd, IDC_EDITINTERVAL, &Translated, FALSE);
-		if (!Translated) {
-			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
-			SetFocus(GetDlgItem(m_hwnd, IDC_EDITINTERVAL));
-			return false;
-		}
-
-		GetDlgItemTextA(m_hwnd, IDC_EDITAPP, Text, _countof(Text));
-		if (CheckApp && !(Length = mir_strlen(Text))) {
-			MessageBox(m_hwnd, TranslateT("Please select application to run"), TranslateT("Input error"), MB_OK);
-			return false;
-		}
-
-		GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, Text, _countof(Text));
-		if (!(Length = mir_strlen(Text))) {
-			GetDlgItemTextA(m_hwnd, IDC_EDITNAME, Text, _countof(Text));
-			if (!(Length = mir_strlen(Text)))
-				return false;
-		}
-
-		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
-
-		if (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, Text))) {
-			NewAcc = TRUE;
-			SWriteGuard swb(POP3Plugin->AccountBrowserSO);
-			if (nullptr == (ActualAccount = (CPOP3Account*)GetNextFreeAccount(POP3Plugin))) {
-				swb.Uninit();
-				MessageBox(m_hwnd, TranslateT("Cannot allocate memory space for new account"), TranslateT("Memory error"), MB_OK);
-				return false;
-			}
-			DlgEnableAccount(true);
-		}
-
-		{
-			SWriteGuard swa(ActualAccount->AccountAccessSO);
-			if (swa.Succeeded()) {
-				GetDlgItemTextA(m_hwnd, IDC_EDITNAME, Text, _countof(Text));
-				if (!(Length = mir_strlen(Text)))
-					return false;
-				if (nullptr != ActualAccount->Name)
-					delete[] ActualAccount->Name;
-				ActualAccount->Name = new char[mir_strlen(Text) + 1];
-				mir_strcpy(ActualAccount->Name, Text);
-
-				GetDlgItemTextA(m_hwnd, IDC_EDITSERVER, Text, _countof(Text));
-				if (nullptr != ActualAccount->Server->Name)
-					delete[] ActualAccount->Server->Name;
-				ActualAccount->Server->Name = new char[mir_strlen(Text) + 1];
-				mir_strcpy(ActualAccount->Server->Name, Text);
-
-				GetDlgItemTextA(m_hwnd, IDC_EDITLOGIN, Text, _countof(Text));
-				if (nullptr != ActualAccount->Server->Login)
-					delete[] ActualAccount->Server->Login;
-				ActualAccount->Server->Login = new char[mir_strlen(Text) + 1];
-				mir_strcpy(ActualAccount->Server->Login, Text);
-
-				GetDlgItemTextA(m_hwnd, IDC_EDITPASS, Text, _countof(Text));
-				if (nullptr != ActualAccount->Server->Passwd)
-					delete[] ActualAccount->Server->Passwd;
-				ActualAccount->Server->Passwd = new char[mir_strlen(Text) + 1];
-				mir_strcpy(ActualAccount->Server->Passwd, Text);
-
-				GetDlgItemTextW(m_hwnd, IDC_EDITAPP, TextW, _countof(TextW));
-				if (nullptr != ActualAccount->NewMailN.App)
-					delete[] ActualAccount->NewMailN.App;
-				ActualAccount->NewMailN.App = new wchar_t[mir_wstrlen(TextW) + 1];
-				mir_wstrcpy(ActualAccount->NewMailN.App, TextW);
-
-				GetDlgItemTextW(m_hwnd, IDC_EDITAPPPARAM, TextW, _countof(TextW));
-				if (nullptr != ActualAccount->NewMailN.AppParam)
-					delete[] ActualAccount->NewMailN.AppParam;
-				ActualAccount->NewMailN.AppParam = new wchar_t[mir_wstrlen(TextW) + 1];
-				mir_wstrcpy(ActualAccount->NewMailN.AppParam, TextW);
-
-				ActualAccount->Server->Port = Port;
-				ActualAccount->Interval = Interval * 60;
-
-				if (CB_ERR == (index = SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_GETCURSEL, 0, 0)))
-					index = CPDEFINDEX;
-				ActualAccount->CP = CodePageNamesSupp[index].CP;
-
-				if (NewAcc)
-					ActualAccount->TimeLeft = Interval * 60;
-
-				BOOL CheckStart = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSTART) == BST_CHECKED);
-				BOOL CheckForce = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFORCE) == BST_CHECKED);
-
-				ActualAccount->Flags =
-					(Check ? YAMN_ACC_ENA : 0) |
-					(CheckSSL ? YAMN_ACC_SSL23 : 0) |
-					(CheckNoTLS ? YAMN_ACC_NOTLS : 0) |
-					(CheckAPOP ? YAMN_ACC_APOP : 0) |
-					(CheckABody ? YAMN_ACC_BODY : 0) |
-					(ActualAccount->Flags & YAMN_ACC_POPN);
-
-				ActualAccount->StatusFlags &= 0xFFFF;
-				ActualAccount->StatusFlags |=
-					(CheckStart ? YAMN_ACC_STARTS : 0) |
-					(CheckForce ? YAMN_ACC_FORCE : 0);
-
-				ActualAccount->NewMailN.Flags =
-					(CheckMsg ? YAMN_ACC_MSG : 0) |
-					(CheckIco ? YAMN_ACC_ICO : 0) |
-					(ActualAccount->NewMailN.Flags & YAMN_ACC_POP) |
-					(ActualAccount->NewMailN.Flags & YAMN_ACC_POPC) |
-					(CheckApp ? YAMN_ACC_APP : 0) |
-					(CheckKBN ? YAMN_ACC_KBN : 0) |
-					(CheckContact ? YAMN_ACC_CONT : 0) |
-					(CheckContactNick ? YAMN_ACC_CONTNICK : 0) |
-					(CheckContactNoEvent ? YAMN_ACC_CONTNOEVENT : 0) |
-					YAMN_ACC_MSGP;			//this is default: when new mail arrives and window was displayed, leave it displayed.
-
-				ActualAccount->NoNewMailN.Flags =
-					(ActualAccount->NoNewMailN.Flags & YAMN_ACC_POP) |
-					(ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC) |
-					(CheckNMsgP ? YAMN_ACC_MSGP : 0);
-
-				ActualAccount->BadConnectN.Flags =
-					(CheckFMsg ? YAMN_ACC_MSG : 0) |
-					(CheckFIco ? YAMN_ACC_ICO : 0) |
-					(ActualAccount->BadConnectN.Flags & YAMN_ACC_POP) |
-					(ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC);
-			}
-		}
-		btnDel.Enable();
-
-		DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
-
-		index = cmbAccount.GetCurSel();
-		cmbAccount.ResetContent();
-
-		if (POP3Plugin->FirstAccount != nullptr)
-			for (auto *p = POP3Plugin->FirstAccount; p != nullptr; p = p->Next)
-				if (p->Name != nullptr)
-					cmbAccount.AddStringA(p->Name);
-
-		index = cmbAccount.SetCurSel(index);
-
-		WritePOP3Accounts();
-		RefreshContact();
-		return TRUE;
 	}
 };
 
@@ -780,6 +780,7 @@ class CPopupOptsDlg : public CBaseOptionsDlg
 			SendDlgItemMessage(m_hwnd, IDC_CPB, CPM_SETCOLOUR, 0, (LPARAM)GetSysColor(COLOR_BTNFACE));
 			SendDlgItemMessage(m_hwnd, IDC_CPT, CPM_SETCOLOUR, 0, (LPARAM)GetSysColor(COLOR_WINDOWTEXT));
 		}
+
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC) {
 			SendDlgItemMessage(m_hwnd, IDC_CPFB, CPM_SETCOLOUR, 0, (LPARAM)ActualAccount->BadConnectN.PopupB);
 			SendDlgItemMessage(m_hwnd, IDC_CPFT, CPM_SETCOLOUR, 0, (LPARAM)ActualAccount->BadConnectN.PopupT);
@@ -788,6 +789,7 @@ class CPopupOptsDlg : public CBaseOptionsDlg
 			SendDlgItemMessage(m_hwnd, IDC_CPFB, CPM_SETCOLOUR, 0, (LPARAM)GetSysColor(COLOR_BTNFACE));
 			SendDlgItemMessage(m_hwnd, IDC_CPFT, CPM_SETCOLOUR, 0, (LPARAM)GetSysColor(COLOR_WINDOWTEXT));
 		}
+
 		if (ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC) {
 			SendDlgItemMessage(m_hwnd, IDC_CPNB, CPM_SETCOLOUR, 0, (LPARAM)ActualAccount->NoNewMailN.PopupB);
 			SendDlgItemMessage(m_hwnd, IDC_CPNT, CPM_SETCOLOUR, 0, (LPARAM)ActualAccount->NoNewMailN.PopupT);
@@ -996,59 +998,57 @@ public:
 		}
 
 		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
-		{
-			SWriteGuard swa(ActualAccount->AccountAccessSO);
 
-			ActualAccount->Flags =
-				(ActualAccount->Flags & YAMN_ACC_ENA) |
-				(ActualAccount->Flags & YAMN_ACC_SSL23) |
-				(ActualAccount->Flags & YAMN_ACC_NOTLS) |
-				(ActualAccount->Flags & YAMN_ACC_APOP) |
-				(ActualAccount->Flags & YAMN_ACC_BODY) |
-				(CheckPopN ? YAMN_ACC_POPN : 0);
+		SWriteGuard swa(ActualAccount->AccountAccessSO);
 
-			ActualAccount->NewMailN.Flags =
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_MSG) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_ICO) |
-				(CheckPopup ? YAMN_ACC_POP : 0) |
-				(CheckPopupW ? YAMN_ACC_POPC : 0) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_APP) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_KBN) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_CONT) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_CONTNICK) |
-				(ActualAccount->NewMailN.Flags & YAMN_ACC_CONTNOEVENT) |
-				YAMN_ACC_MSGP;
+		ActualAccount->Flags =
+			(ActualAccount->Flags & YAMN_ACC_ENA) |
+			(ActualAccount->Flags & YAMN_ACC_SSL23) |
+			(ActualAccount->Flags & YAMN_ACC_NOTLS) |
+			(ActualAccount->Flags & YAMN_ACC_APOP) |
+			(ActualAccount->Flags & YAMN_ACC_BODY) |
+			(CheckPopN ? YAMN_ACC_POPN : 0);
 
-			ActualAccount->NoNewMailN.Flags =
-				(CheckNPopup ? YAMN_ACC_POP : 0) |
-				(CheckNPopupW ? YAMN_ACC_POPC : 0) |
-				(ActualAccount->NoNewMailN.Flags & YAMN_ACC_MSGP);
+		ActualAccount->NewMailN.Flags =
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_MSG) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_ICO) |
+			(CheckPopup ? YAMN_ACC_POP : 0) |
+			(CheckPopupW ? YAMN_ACC_POPC : 0) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_APP) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_KBN) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_CONT) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_CONTNICK) |
+			(ActualAccount->NewMailN.Flags & YAMN_ACC_CONTNOEVENT) |
+			YAMN_ACC_MSGP;
 
-			ActualAccount->BadConnectN.Flags =
-				(ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) |
-				(ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) |
-				(CheckFPopup ? YAMN_ACC_POP : 0) |
-				(CheckFPopupW ? YAMN_ACC_POPC : 0);
+		ActualAccount->NoNewMailN.Flags =
+			(CheckNPopup ? YAMN_ACC_POP : 0) |
+			(CheckNPopupW ? YAMN_ACC_POPC : 0) |
+			(ActualAccount->NoNewMailN.Flags & YAMN_ACC_MSGP);
 
-			ActualAccount->NewMailN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPB, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->NewMailN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPT, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->NewMailN.PopupTime = Time;
+		ActualAccount->BadConnectN.Flags =
+			(ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) |
+			(ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) |
+			(CheckFPopup ? YAMN_ACC_POP : 0) |
+			(CheckFPopupW ? YAMN_ACC_POPC : 0);
 
-			ActualAccount->NoNewMailN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPNB, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->NoNewMailN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPNT, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->NoNewMailN.PopupTime = TimeN;
+		ActualAccount->NewMailN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPB, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->NewMailN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPT, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->NewMailN.PopupTime = Time;
 
-			ActualAccount->BadConnectN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPFB, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->BadConnectN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPFT, CPM_GETCOLOUR, 0, 0);
-			ActualAccount->BadConnectN.PopupTime = TimeF;
-		}
-		WritePOP3Accounts();
-		RefreshContact();
+		ActualAccount->NoNewMailN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPNB, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->NoNewMailN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPNT, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->NoNewMailN.PopupTime = TimeN;
+
+		ActualAccount->BadConnectN.PopupB = SendDlgItemMessage(m_hwnd, IDC_CPFB, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->BadConnectN.PopupT = SendDlgItemMessage(m_hwnd, IDC_CPFT, CPM_GETCOLOUR, 0, 0);
+		ActualAccount->BadConnectN.PopupTime = TimeF;
 		return TRUE;
 	}
 };
 
-//--------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 {
@@ -1065,8 +1065,7 @@ int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 	odp.pDialog = new CGeneralOptDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szGroup.a = LPGEN("Popups");
-	odp.szTab.a = LPGEN("YAMN");
+	odp.szTab.a = LPGEN("Popups");
 	odp.pDialog = new CPopupOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

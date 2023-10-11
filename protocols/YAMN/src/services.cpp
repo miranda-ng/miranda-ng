@@ -247,22 +247,3 @@ void CreateServiceFunctions(void)
 	// Function contact list context menu click
 	CreateServiceFunction(MS_YAMN_CLISTCONTEXTAPP, ContactApplication);
 }
-
-// Function to put all enabled contact to the Online status
-void RefreshContact(void)
-{
-	CAccount *Finder;
-	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
-		if (Finder->hContact != NULL) {
-			Contact::Hide(Finder->hContact, !(Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT));
-		}
-		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
-			Finder->hContact = db_add_contact();
-			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
-			g_plugin.setString(Finder->hContact, "Id", Finder->Name);
-			g_plugin.setString(Finder->hContact, "Nick", Finder->Name);
-			g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_ONLINE);
-			db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
-		}
-	}
-}
