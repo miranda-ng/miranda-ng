@@ -479,6 +479,42 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+enum
+{
+	UPDATE_MODE_CUSTOM,
+	UPDATE_MODE_STABLE,
+	UPDATE_MODE_TRUNK,
+	UPDATE_MODE_TRUNK_SYMBOLS,
+	UPDATE_MODE_STABLE_SYMBOLS,
+	UPDATE_MODE_MAX_VALUE // leave this variable last in the list
+};
+
+void PrintSymbolsInfo(CMStringW &out)
+{
+	int iMode = db_get_dw(0, "PluginUpdater", "UpdateMode", -1);
+	switch (iMode) {
+	case UPDATE_MODE_CUSTOM:
+		out.Append(L"Symbols mode: custom");
+		break;
+	case UPDATE_MODE_STABLE:
+		out.Append(L"Symbols mode: stable version without symbols");
+		break;
+	case UPDATE_MODE_TRUNK:
+		out.Append(L"Symbols mode: trunk version without symbols");
+		break;
+	case UPDATE_MODE_TRUNK_SYMBOLS:
+		out.Append(L"Symbols mode: trunk version with symbols");
+		break;
+	case UPDATE_MODE_STABLE_SYMBOLS:
+		out.Append(L"Symbols mode: stable version with symbols");
+		break;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wchar_t* msg)
 {
 	if (exc_ptr->ContextRecord == nullptr || (exc_ptr->ContextRecord->ContextFlags & CONTEXT_CONTROL) == 0)
@@ -513,6 +549,8 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	GetISO8061Time(nullptr, curtime, 30);
 
 	CMStringW buffer;
+	PrintSymbolsInfo(buffer);
+
 	buffer.AppendFormat(L"Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n", 
 		curtime, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 
