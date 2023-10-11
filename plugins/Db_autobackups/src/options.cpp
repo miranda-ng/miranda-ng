@@ -9,15 +9,12 @@ class COptionsDlg : public CDlgBase
 	void SetDialogState()
 	{
 		auto *periodText = FindControl(IDC_ED_PERIOD);
-		auto *numBackupsText = FindControl(IDC_ED_NUMBACKUPS);
 
 		bool bEnabled = m_enabled.IsChecked();
 		m_backupOnStart.Enable(bEnabled);
 		m_backupOnExit.Enable(bEnabled);
 		m_backupPeriodic.Enable(bEnabled);
 		m_nextTime.Enable(bEnabled);
-		numBackupsText->Enable(bEnabled);
-		m_numBackups.Enable(bEnabled);
 		m_backup.Enable(bEnabled);
 		m_folder.Enable(bEnabled);
 		m_browseFolder.Enable(bEnabled);
@@ -178,8 +175,6 @@ public:
 		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);
 		m_backupPeriodic.SetState(g_plugin.backup_types & BT_PERIODIC ? TRUE : FALSE);
 		onChange_Period(0);
-
-		m_numBackups.SetPosition(g_plugin.num_backups);
 
 		m_periodType.AddString(TranslateT("days"));
 		m_periodType.AddString(TranslateT("hours"));
