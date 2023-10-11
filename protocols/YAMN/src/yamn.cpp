@@ -80,7 +80,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 				WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGETIME, (WPARAM)ActualAccount, (LPARAM)ActualAccount->TimeLeft);
 				if (!ActualAccount->TimeLeft) {
-					struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_NORMALCHECK, (void *)nullptr, nullptr};
+					struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount };
 
 					ActualAccount->TimeLeft = ActualAccount->Interval;
 
@@ -138,7 +138,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 						continue;
 
 					DWORD tid;
-					CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr };
+					CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount };
 					if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 						continue;
 

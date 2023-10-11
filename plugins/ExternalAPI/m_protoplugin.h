@@ -20,18 +20,9 @@ struct CheckParam
 	// IMPORTANT!!!: Although version #defined in your plugin is not the same, your plugin MUST signal this event
 	// in any way. YAMN is waiting for this event. If you do not signal it, YAMN is blocked.
 	HANDLE ThreadRunningEV;
+
 	// ActualAccount- the only parameter used in Check function and should contain all needed information I think :)
 	CAccount *AccountParam;
-
-	// I thought it, but this is needed, too
-#define YAMN_NORMALCHECK	0
-#define YAMN_FORCECHECK		1
-	int Flags;
-
-	// YAMN writes here some informations that are needed to pass to mail browser function (or bad connection)
-	void *BrowserParam;
-	// Calling thread (protocol plugin) can write here its own parameters. Usefull when protocol calls its own check function. YAMN always sets this parameter to NULL
-	void *CustomParam;
 };
 
 // structure is used to give parameters to DeleteMails function

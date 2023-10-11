@@ -328,6 +328,7 @@ struct CAccount : public MZeroedObject
 
 	CAccount *Next;
 
+	void CheckMail();
 	void RefreshContact();
 };
 

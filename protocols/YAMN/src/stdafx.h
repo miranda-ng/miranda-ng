@@ -49,11 +49,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
  
 // From services.cpp
-void AccountMailCheck(CAccount *ActualAccount, bool bForce);
+void AccountMailCheck(CAccount *ActualAccount);
 void CreateServiceFunctions(void);
 void HookEvents(void);
 
-void ContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 INT_PTR ClistContactDoubleclicked(WPARAM wParam, LPARAM lParam);
 
 extern mir_cs PluginRegCS;

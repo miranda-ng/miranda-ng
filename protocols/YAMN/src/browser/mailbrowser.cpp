@@ -1212,7 +1212,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			if (!(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)) {
 				MailParam->mail->Flags |= YAMN_MSG_BODYREQUESTED;
-				AccountMailCheck(MailParam->account, false);
+				MailParam->account->CheckMail();
 			}
 			else {
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
