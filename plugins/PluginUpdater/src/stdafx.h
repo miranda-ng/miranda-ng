@@ -25,6 +25,7 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 #include <Windowsx.h>
 #include <Shlobj.h>
+#include <malloc.h>
 #include <string.h>
 
 // Miranda header files
@@ -239,6 +240,9 @@ void  InitEvents();
 
 void  InitListNew();
 void  UnloadListNew();
+
+void 	InitMasks();
+void 	UninitMasks();
 
 void  DoRestart(void);
 

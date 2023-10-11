@@ -81,6 +81,8 @@ class CUpdateDLg : public CDlgBase
 			Netlib_CloseHandle(nlc);
 
 			// 3) Unpack all zips
+			InitMasks();
+
 			uint32_t dwErrorCode;
 			for (auto &it : todo) {
 				if (it->bEnabled) {
@@ -117,6 +119,7 @@ LBL_Error:
 				}
 			}
 
+			UninitMasks();
 			RemoveBackupFolders();
 			Skin_PlaySound("updatecompleted");
 
@@ -392,6 +395,8 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 3) Unpack all zips
+	InitMasks();
+
 	uint32_t dwErrorCode;
 	for (auto &it : UpdateFiles) {
 		if (it->bEnabled) {
@@ -425,7 +430,8 @@ LBL_Error:
 			}
 		}
 	}
-	
+
+	UninitMasks();
 	RemoveBackupFolders();
 
 	delete &UpdateFiles;
@@ -619,7 +625,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 	int count = 0;
 
 	MFilePath wszBuf(pwszFolder);
-	for (auto &ff: wszBuf.search()) {
+	for (auto &ff : wszBuf.search()) {
 		TFileName wszNewName;
 
 		if (ff.isDir()) {
@@ -698,8 +704,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 					}
 					else Netlib_LogfW(g_hNetlibUser, L"File %s: Update available", ff.getPath());
 				}
-				__except (EXCEPTION_EXECUTE_HANDLER)
-				{
+				__except (EXCEPTION_EXECUTE_HANDLER) {
 					// smth went wrong, reload a file from scratch
 				}
 			}

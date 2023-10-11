@@ -352,7 +352,7 @@ static void ApplyDownloads(void *param)
 	// if we need to escalate priviledges, launch a atub
 	if (PU::PrepareEscalation())
 		pDlg->Unpack();
-		
+
 	pDlg->Close();
 }
 
@@ -361,7 +361,7 @@ static void __stdcall LaunchListDialog(void *param)
 	(new CMissingPLuginsDlg((OBJLIST<FILEINFO> *)param))->Show();
 }
 
-static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t* pwszBaseUrl, const wchar_t* pwszPath)
+static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t *pwszBaseUrl, const wchar_t *pwszPath)
 {
 	FILEINFO *FileInfo = new FILEINFO;
 	FileInfo->bDeleteOnly = FALSE;
@@ -379,14 +379,14 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 	if (auto *tp = wcsrchr(wszRelFileName, L'.'))
 		*tp = 0;
 	if (auto *tp = wcschr(wszRelFileName, L'\\'))
-		wcslwr((tp) ? tp+1 : wszRelFileName);
+		wcslwr((tp) ? tp + 1 : wszRelFileName);
 
 	mir_snwprintf(FileInfo->File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, wszFileName);
 	mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", pwszBaseUrl, wszRelFileName);
 	for (auto *tp = wcschr(FileInfo->File.wszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
-	
+
 	// Load list of checked Plugins from database
 	Netlib_LogfW(g_hNetlibUser, L"File %s found", FileInfo->wszOldName);
 	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->wszOldName)) != 0;

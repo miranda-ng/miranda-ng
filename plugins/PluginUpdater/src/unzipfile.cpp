@@ -21,16 +21,49 @@ Boston, MA 02111-1307, USA.
 
 #define DATA_BUF_SIZE (4 * 1024 * 1024)
 
+static LIST<char> sttMasks(100);
+
+static int sttEnumProc(const char *szSetting, void *)
+{
+	if (1 != db_get_b(0, DB_MODULE_FILES, szSetting, 1))
+		sttMasks.insert(mir_strdup(szSetting));
+	return 0;
+}
+
+static bool IsFilteredFile(const char *szFileName)
+{
+	char *tmp = NEWSTR_ALLOCA(szFileName);
+	_strlwr(tmp);
+
+	for (auto &it: sttMasks)
+		if (wildcmp(tmp, it))
+			return true;
+
+	return false;
+}
+
+void InitMasks()
+{
+	db_enum_settings(0, sttEnumProc, DB_MODULE_FILES);
+}
+
+void UninitMasks()
+{
+	for (auto &it : sttMasks)
+		mir_free(it);
+	sttMasks.destroy();
+}
+
 static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *pwszPath, const wchar_t *pwszFileName)
 {
 	mir_snwprintf(dest, destSize, L"%s\\%s", pwszPath, pwszFileName);
 
 	for (wchar_t *p = dest; *p; ++p)
 		if (*p == '/')
-			*p = '\\'; 
+			*p = '\\';
 }
 
-int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch)
+int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool bCheckFilter)
 {
 	unz_file_info64 file_info;
 	char filename[MAX_PATH];
@@ -40,12 +73,12 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 	if (err != UNZ_OK)
 		return err;
 
-	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
+	for (char *p = strchr(filename, '/'); p; p = strchr(p + 1, '/'))
 		*p = '\\';
-		
+
 	// This is because there may be more then one file in a single zip
 	// So we need to check each file
-	if (ch && 1 != db_get_b(0, DB_MODULE_FILES, _strlwr(ptrA(mir_strdup(filename))), 1))
+	if (bCheckFilter && IsFilteredFile(filename))
 		return UNZ_OK;
 
 	TFileName wszDestFile, wszBackFile;
@@ -109,17 +142,17 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 	return err;
 }
 
-int unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath,bool ch)
+int unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch)
 {
 	int iErrorCode = 0;
 
 	zlib_filefunc64_def ffunc;
 	fill_fopen64_filefunc(&ffunc);
-	
+
 	unzFile uf = unzOpen2_64(pwszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if (int err = extractCurrentFile(uf, pwszDestPath, pwszBackPath,ch))
+			if (int err = extractCurrentFile(uf, pwszDestPath, pwszBackPath, ch))
 				iErrorCode = err;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);
