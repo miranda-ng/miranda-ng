@@ -224,8 +224,8 @@ am__libcurl_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
 	file.c fileinfo.c fopen.c formdata.c ftp.c ftplistparser.c \
 	getenv.c getinfo.c gopher.c hash.c headers.c hmac.c hostasyn.c \
 	hostip.c hostip4.c hostip6.c hostsyn.c hsts.c http.c http1.c \
-	http2.c http_chunks.c http_digest.c http_negotiate.c \
-	http_ntlm.c http_proxy.c http_aws_sigv4.c idn.c if2ip.c imap.c \
+	http2.c http_aws_sigv4.c http_chunks.c http_digest.c \
+	http_negotiate.c http_ntlm.c http_proxy.c idn.c if2ip.c imap.c \
 	inet_ntop.c inet_pton.c krb5.c ldap.c llist.c macos.c md4.c \
 	md5.c memdebug.c mime.c mprintf.c mqtt.c multi.c netrc.c \
 	nonblock.c noproxy.c openldap.c parsedate.c pingpong.c pop3.c \
@@ -258,11 +258,11 @@ am__libcurl_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
 	curl_setup.h curl_setup_once.h curl_sha256.h curl_sspi.h \
 	curl_threads.h curl_trc.h curlx.h dict.h doh.h dynbuf.h \
 	dynhds.h easy_lock.h easyif.h easyoptions.h escape.h file.h \
-	fileinfo.h fopen.h formdata.h functypes.h ftp.h \
-	ftplistparser.h getinfo.h gopher.h hash.h headers.h hostip.h \
-	hsts.h http.h http1.h http2.h http_chunks.h http_digest.h \
-	http_negotiate.h http_ntlm.h http_proxy.h http_aws_sigv4.h \
-	idn.h if2ip.h imap.h inet_ntop.h inet_pton.h llist.h macos.h \
+	fileinfo.h fopen.h formdata.h ftp.h ftplistparser.h \
+	functypes.h getinfo.h gopher.h hash.h headers.h hostip.h \
+	hsts.h http.h http1.h http2.h http_aws_sigv4.h http_chunks.h \
+	http_digest.h http_negotiate.h http_ntlm.h http_proxy.h idn.h \
+	if2ip.h imap.h inet_ntop.h inet_pton.h llist.h macos.h \
 	memdebug.h mime.h mqtt.h multihandle.h multiif.h netrc.h \
 	nonblock.h noproxy.h parsedate.h pingpong.h pop3.h progress.h \
 	psl.h rand.h rename.h rtsp.h select.h sendf.h setopt.h \
@@ -307,9 +307,9 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-hostip4.lo libcurl_la-hostip6.lo \
 	libcurl_la-hostsyn.lo libcurl_la-hsts.lo libcurl_la-http.lo \
 	libcurl_la-http1.lo libcurl_la-http2.lo \
-	libcurl_la-http_chunks.lo libcurl_la-http_digest.lo \
-	libcurl_la-http_negotiate.lo libcurl_la-http_ntlm.lo \
-	libcurl_la-http_proxy.lo libcurl_la-http_aws_sigv4.lo \
+	libcurl_la-http_aws_sigv4.lo libcurl_la-http_chunks.lo \
+	libcurl_la-http_digest.lo libcurl_la-http_negotiate.lo \
+	libcurl_la-http_ntlm.lo libcurl_la-http_proxy.lo \
 	libcurl_la-idn.lo libcurl_la-if2ip.lo libcurl_la-imap.lo \
 	libcurl_la-inet_ntop.lo libcurl_la-inet_pton.lo \
 	libcurl_la-krb5.lo libcurl_la-ldap.lo libcurl_la-llist.lo \
@@ -404,9 +404,9 @@ am__objects_11 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-hostip4.lo libcurlu_la-hostip6.lo \
 	libcurlu_la-hostsyn.lo libcurlu_la-hsts.lo libcurlu_la-http.lo \
 	libcurlu_la-http1.lo libcurlu_la-http2.lo \
-	libcurlu_la-http_chunks.lo libcurlu_la-http_digest.lo \
-	libcurlu_la-http_negotiate.lo libcurlu_la-http_ntlm.lo \
-	libcurlu_la-http_proxy.lo libcurlu_la-http_aws_sigv4.lo \
+	libcurlu_la-http_aws_sigv4.lo libcurlu_la-http_chunks.lo \
+	libcurlu_la-http_digest.lo libcurlu_la-http_negotiate.lo \
+	libcurlu_la-http_ntlm.lo libcurlu_la-http_proxy.lo \
 	libcurlu_la-idn.lo libcurlu_la-if2ip.lo libcurlu_la-imap.lo \
 	libcurlu_la-inet_ntop.lo libcurlu_la-inet_pton.lo \
 	libcurlu_la-krb5.lo libcurlu_la-ldap.lo libcurlu_la-llist.lo \
@@ -1270,12 +1270,12 @@ LIB_CFILES = \
   http.c             \
   http1.c            \
   http2.c            \
+  http_aws_sigv4.c   \
   http_chunks.c      \
   http_digest.c      \
   http_negotiate.c   \
   http_ntlm.c        \
   http_proxy.c       \
-  http_aws_sigv4.c   \
   idn.c              \
   if2ip.c            \
   imap.c             \
@@ -1397,9 +1397,9 @@ LIB_HFILES = \
   fileinfo.h         \
   fopen.h            \
   formdata.h         \
-  functypes.h        \
   ftp.h              \
   ftplistparser.h    \
+  functypes.h        \
   getinfo.h          \
   gopher.h           \
   hash.h             \
@@ -1409,12 +1409,12 @@ LIB_HFILES = \
   http.h             \
   http1.h            \
   http2.h            \
+  http_aws_sigv4.h   \
   http_chunks.h      \
   http_digest.h      \
   http_negotiate.h   \
   http_ntlm.h        \
   http_proxy.h       \
-  http_aws_sigv4.h   \
   idn.h              \
   if2ip.h            \
   imap.h             \
@@ -2594,6 +2594,13 @@ libcurl_la-http2.lo: http2.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-http2.lo `test -f 'http2.c' || echo '$(srcdir)/'`http2.c
 
+libcurl_la-http_aws_sigv4.lo: http_aws_sigv4.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-http_aws_sigv4.lo -MD -MP -MF $(DEPDIR)/libcurl_la-http_aws_sigv4.Tpo -c -o libcurl_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-http_aws_sigv4.Tpo $(DEPDIR)/libcurl_la-http_aws_sigv4.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_aws_sigv4.c' object='libcurl_la-http_aws_sigv4.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
+
 libcurl_la-http_chunks.lo: http_chunks.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-http_chunks.lo -MD -MP -MF $(DEPDIR)/libcurl_la-http_chunks.Tpo -c -o libcurl_la-http_chunks.lo `test -f 'http_chunks.c' || echo '$(srcdir)/'`http_chunks.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-http_chunks.Tpo $(DEPDIR)/libcurl_la-http_chunks.Plo
@@ -2628,13 +2635,6 @@ libcurl_la-http_proxy.lo: http_proxy.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_proxy.c' object='libcurl_la-http_proxy.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-http_proxy.lo `test -f 'http_proxy.c' || echo '$(srcdir)/'`http_proxy.c
-
-libcurl_la-http_aws_sigv4.lo: http_aws_sigv4.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-http_aws_sigv4.lo -MD -MP -MF $(DEPDIR)/libcurl_la-http_aws_sigv4.Tpo -c -o libcurl_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-http_aws_sigv4.Tpo $(DEPDIR)/libcurl_la-http_aws_sigv4.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_aws_sigv4.c' object='libcurl_la-http_aws_sigv4.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
 
 libcurl_la-idn.lo: idn.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-idn.lo -MD -MP -MF $(DEPDIR)/libcurl_la-idn.Tpo -c -o libcurl_la-idn.lo `test -f 'idn.c' || echo '$(srcdir)/'`idn.c
@@ -3742,6 +3742,13 @@ libcurlu_la-http2.lo: http2.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-http2.lo `test -f 'http2.c' || echo '$(srcdir)/'`http2.c
 
+libcurlu_la-http_aws_sigv4.lo: http_aws_sigv4.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-http_aws_sigv4.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-http_aws_sigv4.Tpo -c -o libcurlu_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-http_aws_sigv4.Tpo $(DEPDIR)/libcurlu_la-http_aws_sigv4.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_aws_sigv4.c' object='libcurlu_la-http_aws_sigv4.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
+
 libcurlu_la-http_chunks.lo: http_chunks.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-http_chunks.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-http_chunks.Tpo -c -o libcurlu_la-http_chunks.lo `test -f 'http_chunks.c' || echo '$(srcdir)/'`http_chunks.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-http_chunks.Tpo $(DEPDIR)/libcurlu_la-http_chunks.Plo
@@ -3776,13 +3783,6 @@ libcurlu_la-http_proxy.lo: http_proxy.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_proxy.c' object='libcurlu_la-http_proxy.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-http_proxy.lo `test -f 'http_proxy.c' || echo '$(srcdir)/'`http_proxy.c
-
-libcurlu_la-http_aws_sigv4.lo: http_aws_sigv4.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-http_aws_sigv4.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-http_aws_sigv4.Tpo -c -o libcurlu_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-http_aws_sigv4.Tpo $(DEPDIR)/libcurlu_la-http_aws_sigv4.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='http_aws_sigv4.c' object='libcurlu_la-http_aws_sigv4.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-http_aws_sigv4.lo `test -f 'http_aws_sigv4.c' || echo '$(srcdir)/'`http_aws_sigv4.c
 
 libcurlu_la-idn.lo: idn.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-idn.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-idn.Tpo -c -o libcurlu_la-idn.lo `test -f 'idn.c' || echo '$(srcdir)/'`idn.c
