@@ -65,7 +65,6 @@
     <ClCompile Include="src\yamn.cpp" />
     <ClInclude Include="src\browser\browser.h" />
     <ClInclude Include="src\mails\decode.h" />
-    <ClInclude Include="src\proto\netclient.h" />
     <ClInclude Include="src\proto\netlib.h" />
     <ClInclude Include="src\proto\pop3\pop3.h" />
     <ClInclude Include="src\proto\pop3\pop3comm.h" />

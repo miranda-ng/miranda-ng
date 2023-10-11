@@ -18,6 +18,9 @@
 
 class CPop3Client
 {
+	BOOL SearchFromEnd(char *end, int bs, int mode);
+	BOOL SearchFromStart(char *end, int bs, int mode);
+
 public:
 	CPop3Client(): NetClient(nullptr), Stopped(FALSE) {}
 	~CPop3Client() { delete NetClient; }
@@ -40,10 +43,7 @@ public:
 	BOOL Stopped;
 
 	uint32_t POP3Error;
-	class CNetClient *NetClient;	//here the network layout is defined (TCP or SSL+TCP etc.)
-private:
-	BOOL SearchFromEnd(char *end,int bs,int mode);
-	BOOL SearchFromStart(char *end,int bs,int mode);
+	CNLClient *NetClient;	//here the network layout is defined (TCP or SSL+TCP etc.)
 };
 
 enum

@@ -61,9 +61,6 @@
     <ClInclude Include="src\mails\decode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\proto\netclient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\proto\netlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,23 +1,28 @@
 #ifndef __NETLIB_H
 #define __NETLIB_H
 
-class CNLClient: public CNetClient
+class CNLClient : public MZeroedObject
 {
-public:
-	CNLClient() {}
-	void Connect(const char* servername, const int port);
-	void Send(const char *query);
-	char* Recv(char *buf= nullptr, int buflen = 65536);
-	void Disconnect();
-	void SSLify();
-	
-	inline BOOL Connected() {return hConnection != nullptr;}
+	HNETLIBCONN hConnection;
+	BOOL isTLSed;
 
-protected:
-	HNETLIBCONN hConnection = nullptr;
-	BOOL isTLSed = false;
 	int LocalNetlib_Send(HNETLIBCONN hConn, const char *buf, int len, int flags);
 	int LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags);
+
+public:
+	void Connect(const char *servername, const int port);
+	void Send(const char *query);
+	char *Recv(char *buf = nullptr, int buflen = 65536);
+	void Disconnect();
+	void SSLify();
+
+	bool Connected() const { return hConnection != nullptr; }
+
+	BOOL Stopped;
+	int Rcv;
+	uint32_t NetworkError;
+	uint32_t SystemError;
+	BOOL ifTLSed;
 };
 
 void SSL_DebugLog(const char *fmt, ...);
