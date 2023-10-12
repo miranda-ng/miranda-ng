@@ -296,28 +296,33 @@ void CMsgDialog::NotifyTyping(int mode)
 
 void CMsgDialog::OnOptionsApplied()
 {
-	CHARFORMAT2 cf = {};
-	cf.cbSize = sizeof(CHARFORMAT2);
-
 	CSuper::OnOptionsApplied();
 
 	GetAvatar();
 	UpdateTitle();
 	UpdateStatusBar();
 
+	// messagebox
+	LOGFONT lf;
+	CHARFORMAT2 cf = {};
+	cf.cbSize = sizeof(CHARFORMAT2);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &cf.crTextColor);
+	cf.crBackColor = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+	cf.dwMask = CFM_COLOR | CFM_BACKCOLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
+	cf.bCharSet = lf.lfCharSet;
+	wcsncpy(cf.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	cf.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
+	cf.wWeight = (uint16_t)lf.lfWeight;
+	cf.bPitchAndFamily = lf.lfPitchAndFamily;
+	cf.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, cf.crBackColor);
+	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+	m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
+	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
+
 	if (isChat()) {
 		FixTabIcons();
-
-		// messagebox
-		COLORREF crFore;
-		LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &crFore);
-
-		cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
-		cf.crTextColor = crFore;
-		cf.crBackColor = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
-		m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 
 		// nicklist
 		int ih = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, false);
@@ -336,25 +341,6 @@ void CMsgDialog::OnOptionsApplied()
 	}
 	else {
 		SetDialogToType();
-
-		COLORREF colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-		InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
-
-		LOGFONT lf;
-		LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
-
-		cf.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
-		cf.crTextColor = colour;
-		cf.bCharSet = lf.lfCharSet;
-		wcsncpy(cf.szFaceName, lf.lfFaceName, LF_FACESIZE);
-		cf.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
-		cf.wWeight = (uint16_t)lf.lfWeight;
-		cf.bPitchAndFamily = lf.lfPitchAndFamily;
-		cf.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-
-		m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		UpdateTabControl();
