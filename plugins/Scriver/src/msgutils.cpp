@@ -296,6 +296,9 @@ void CMsgDialog::NotifyTyping(int mode)
 
 void CMsgDialog::OnOptionsApplied()
 {
+	CHARFORMAT2 cf = {};
+	cf.cbSize = sizeof(CHARFORMAT2);
+
 	CSuper::OnOptionsApplied();
 
 	GetAvatar();
@@ -309,10 +312,7 @@ void CMsgDialog::OnOptionsApplied()
 		COLORREF crFore;
 		LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &crFore);
 
-		CHARFORMAT2 cf;
-		cf.cbSize = sizeof(CHARFORMAT2);
 		cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
-		cf.dwEffects = 0;
 		cf.crTextColor = crFore;
 		cf.crBackColor = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
@@ -332,39 +332,36 @@ void CMsgDialog::OnOptionsApplied()
 		m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
-		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-
 		UpdateChatOptions();
-		return;
+	}
+	else {
+		SetDialogToType();
+
+		COLORREF colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+		m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+		InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
+
+		LOGFONT lf;
+		LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
+
+		cf.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
+		cf.crTextColor = colour;
+		cf.bCharSet = lf.lfCharSet;
+		wcsncpy(cf.szFaceName, lf.lfFaceName, LF_FACESIZE);
+		cf.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
+		cf.wWeight = (uint16_t)lf.lfWeight;
+		cf.bPitchAndFamily = lf.lfPitchAndFamily;
+		cf.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
+		m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+
+		m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+
+		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+		UpdateTabControl();
+		SetupInfobar();
 	}
 
-	SetDialogToType();
-
-	COLORREF colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
-
-	LOGFONT lf;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
-
-	CHARFORMAT2 cf2;
-	memset(&cf2, 0, sizeof(cf2));
-	cf2.cbSize = sizeof(cf2);
-	cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
-	cf2.crTextColor = colour;
-	cf2.bCharSet = lf.lfCharSet;
-	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
-	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
-	cf2.wWeight = (uint16_t)lf.lfWeight;
-	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
-	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2);
-	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-
-	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-	UpdateTabControl();
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-	SetupInfobar();
 }
 
 void CMsgDialog::Reattach(HWND hwndContainer)

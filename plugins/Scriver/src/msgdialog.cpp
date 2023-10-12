@@ -182,6 +182,8 @@ bool CMsgDialog::OnInitDialog()
 			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
 	}
 
+	m_pParent->AddChild(this);
+
 	CreateInfobar();
 	OnOptionsApplied();
 
@@ -190,17 +192,12 @@ bool CMsgDialog::OnInitDialog()
 		UpdateTitle();
 		UpdateNickList();
 		UpdateChatLog();
-
-		m_pParent->AddChild(this);
-		PopupWindow(false);
 	}
 	else {
 		m_nickList.Hide();
 		m_splitterX.Hide();
 
 		bool notifyUnread = GetFirstEvent();
-
-		m_pParent->AddChild(this);
 
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
@@ -211,8 +208,6 @@ bool CMsgDialog::OnInitDialog()
 				break;
 			}
 		}
-
-		PopupWindow(m_bIncoming);
 
 		if (notifyUnread) {
 			if (GetForegroundWindow() != m_hwndParent || m_pParent->m_hwndActive != m_hwnd) {
@@ -227,6 +222,7 @@ bool CMsgDialog::OnInitDialog()
 		if (m_iMessagesInProgress > 0)
 			ShowMessageSending();
 	}
+	PopupWindow(m_bIncoming);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
