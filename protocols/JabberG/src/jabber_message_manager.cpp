@@ -85,12 +85,8 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 					messageInfo.m_szChildTagXmlns = szXmlns;
 					messageInfo.m_pUserData = it->m_pUserData;
 					messageInfo.m_szFrom = XmlGetAttr(node, "from"); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
-
-					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
-						messageInfo.m_szId = XmlGetAttr(node, "id");
-
-					if (it->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-						messageInfo.m_szTo = XmlGetAttr(node, "to");
+					messageInfo.m_szId = XmlGetAttr(node, "id");
+					messageInfo.m_szTo = XmlGetAttr(node, "to");
 
 					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);
