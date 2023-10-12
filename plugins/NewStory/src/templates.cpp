@@ -40,8 +40,10 @@ CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *item)
 ///////////////////////////////////////////////////////////////////////////////
 // Template formatting for the control
 
-static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p, TemplateVars *vars)
+static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 {
+	buf.Append("{\\uc1 ");
+
 	for (; *p; p++) {
 		if (*p == '\r' && p[1] == '\n') {
 			buf.Append("\\p ");
@@ -91,12 +93,6 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p, TemplateVars
 			}
 			else buf.AppendChar('[');
 		}
-		else if (*p == '%' && vars) {
-			wchar_t *var = vars->GetVar((p[1] & 0xff));
-			if (var)
-				AppendUnicodeToBuffer(buf, var, 0);
-			p++;
-		}
 		else if (*p < 128) {
 			buf.AppendChar((char)*p);
 		}
@@ -104,36 +100,27 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p, TemplateVars
 			buf.AppendFormat("\\u%d ?", *p);
 		}
 	}
+	buf.AppendChar('}');
 }
 
 CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *item)
 {
-	if (tpl < 0 || tpl >= TPL_COUNT)
-		return CMStringA("");
-
-	auto &T = templates[tpl];
-
-	TemplateVars vars;
-
-	for (auto &it : T.vf)
-		if (it)
-			it(&vars, hContact, item);
+	CMStringW wszText = TplFormatString(tpl, hContact, item);
 
 	CMStringA buf;
 	buf.Append("{\\rtf1\\ansi\\deff0");
 
+	auto &F = g_fontTable[(item->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
+	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset1 %s;}}", F.lf.lfFaceName);
+
 	COLORREF cr = GetSysColor(COLOR_WINDOWTEXT);
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 	cr = g_colorTable[(item->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
-	buf.AppendFormat("\\colortbl \\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
-	wchar_t tmp[2] = { 0, 0 };
-
-	buf.Append("\\par ");
-
-	buf.Append("{\\uc1 ");
-	AppendUnicodeToBuffer(buf, (T.value != nullptr) ? T.value : T.defvalue, &vars);
-	buf.Append("}}");
+	buf.AppendFormat("\\par\\ltrpar \\f0\\cf0\\b0\\i0\\fs%d ", -F.lf.lfHeight);
+	AppendUnicodeToBuffer(buf, wszText);
+	buf.AppendChar('}');
 	return buf;
 }
 
