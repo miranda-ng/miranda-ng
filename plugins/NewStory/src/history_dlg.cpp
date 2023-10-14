@@ -1,8 +1,20 @@
-////////////////////////////////////////////////////////////////////////
-// NewStory -- new history viewer for Miranda IM
-// (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-// Visit http://miranda-im.org/ for details on Miranda Instant Messenger
-////////////////////////////////////////////////////////////////////////
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "stdafx.h"
 
@@ -60,7 +72,7 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
 
-static const char* pSettings[] =
+static const char *pSettings[] =
 {
 	LPGEN("FirstName"),
 	LPGEN("LastName"),
@@ -377,7 +389,7 @@ public:
 		m_toolbar.push_back(Button(btnOptions, Button::RIGHT));
 
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
-		
+
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
 		splitTime.OnChange = Callback(this, &CHistoryDlg::onChange_Splitter);
@@ -402,11 +414,11 @@ public:
 		CheckMenuItem(hMenu, ID_FILTER_INCOMING, (showFlags & HIST_SHOW_IN) ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(hMenu, ID_FILTER_OUTGOING, (showFlags & HIST_SHOW_OUT) ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(hMenu, ID_FILTER_MESSAGES, (showFlags & HIST_SHOW_MSGS) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(hMenu, ID_FILTER_FILES,    (showFlags & HIST_SHOW_FILES) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(hMenu, ID_FILTER_URLS,     (showFlags & HIST_SHOW_URLS) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(hMenu, ID_FILTER_STATUS,   (showFlags & HIST_SHOW_STATUS) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(hMenu, ID_FILTER_OTHER,    (showFlags & HIST_SHOW_OTHER) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(hMenu, ID_FILTER_AUTO,     (showFlags & HIST_AUTO_FILTER) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hMenu, ID_FILTER_FILES, (showFlags & HIST_SHOW_FILES) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hMenu, ID_FILTER_URLS, (showFlags & HIST_SHOW_URLS) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hMenu, ID_FILTER_STATUS, (showFlags & HIST_SHOW_STATUS) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hMenu, ID_FILTER_OTHER, (showFlags & HIST_SHOW_OTHER) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hMenu, ID_FILTER_AUTO, (showFlags & HIST_AUTO_FILTER) ? MF_CHECKED : MF_UNCHECKED);
 	}
 
 	bool OnInitDialog() override
@@ -449,7 +461,7 @@ public:
 
 		ibFiles.hwndTxtIn = GetDlgItem(m_hwnd, IDC_TXT_FILES_IN);
 		ibFiles.hwndIcoOut = GetDlgItem(m_hwnd, IDC_ICO_FILES_OUT);
-		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);  
+		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(ibFiles.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
 		SendMessage(ibFiles.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
 		ibFiles.hwndTxtOut = GetDlgItem(m_hwnd, IDC_TXT_FILES_OUT);
@@ -518,15 +530,15 @@ public:
 		SendMessage(ibMessages.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(IDI_SENDMSG), 0);
 		SendMessage(ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
 		SendMessage(ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
-		
+
 		SendMessage(ibFiles.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_FILE), 0);
 		SendMessage(ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
 		SendMessage(ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
-		
+
 		SendMessage(ibUrls.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL), 0);
 		SendMessage(ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
 		SendMessage(ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
-		
+
 		SendMessage(ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(IDI_UNKNOWN), 0);
 		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGIN));
 		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_MSGOUT));
@@ -549,7 +561,7 @@ public:
 			SetWindowTextW(m_hwndStatus, TranslateT("Passed the end of history"));
 		else
 			SetWindowTextW(m_hwndStatus, L"");
-				
+
 		return false;
 	}
 
@@ -678,8 +690,8 @@ public:
 			hDwp = DeferWindowPos(hDwp, splitTime.GetHwnd(), 0, hTimeTree, iClientTop, WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
-		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0, 
-			WND_SPACING + hTimeTree, iClientTop, 
+		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0,
+			WND_SPACING + hTimeTree, iClientTop,
 			w - WND_SPACING * 2 - hTimeTree, iClientBottom,
 			SWP_NOZORDER | SWP_NOACTIVATE);
 
@@ -697,10 +709,10 @@ public:
 
 		g_plugin.setWord(0, "showFlags", showFlags);
 		g_plugin.setDword(0, "dwOptions", m_dwOptions);
-	
+
 		Window_FreeIcon_IcoLib(m_hwnd);
 		WindowList_Remove(g_hNewstoryWindows, m_hwnd);
-		
+
 		if (m_hwndStatus != nullptr) {
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
@@ -729,7 +741,7 @@ public:
 		TimeTreeBuild();
 	}
 
-	void onClick_TimeTree(CCtrlButton*)
+	void onClick_TimeTree(CCtrlButton *)
 	{
 		if (m_dwOptions & WND_OPT_TIMETREE)
 			m_dwOptions &= ~WND_OPT_TIMETREE;
@@ -764,11 +776,11 @@ public:
 			MessageBox(m_hwnd, MessageText, TranslateT("Export warning"), MB_OK | MB_ICONWARNING);
 			return;
 		}
-		
-		char* szProto = Proto_GetBaseAccountName(m_hContact);
+
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
 		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, szProto));
 		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, szProto));
-		const char* uid = Proto_GetUniqueId(szProto);
+		const char *uid = Proto_GetUniqueId(szProto);
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
@@ -806,13 +818,13 @@ public:
 		if (id != NULL)
 			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
 
-		for (auto& it : pSettings) {
+		for (auto &it : pSettings) {
 			wchar_t *szValue = db_get_wsa(m_hContact, szProto, it);
 			if (szValue)
 				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
 			mir_free(szValue);
 		}
-		
+
 		pRoot.push_back(pInfo);
 
 		pHist.set_name("history");
@@ -909,13 +921,13 @@ public:
 	{
 		RECT rc;
 		GetWindowRect(pButton->GetHwnd(), &rc);
-	
+
 		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
 		DestroyMenu(hMenu);
 	}
 
-	void onChange_SearchText(CCtrlEdit*)
+	void onChange_SearchText(CCtrlEdit *)
 	{
 		m_bSearchChanged = true;
 
@@ -924,7 +936,7 @@ public:
 				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 	}
 
-	void onChange_Splitter(CSplitter*)
+	void onChange_Splitter(CSplitter *)
 	{
 		m_iSplitter = splitTime.GetPos();
 	}
@@ -965,77 +977,77 @@ public:
 				return TRUE;
 			break;
 
-				/*
-				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-	//					uint32_t itemID = 0;
-				bool doFilter = true;
-				switch (TrackPopupMenu(GetSubMenu(hMenu, 1), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL))
+			/*
+			GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
+//					uint32_t itemID = 0;
+			bool doFilter = true;
+			switch (TrackPopupMenu(GetSubMenu(hMenu, 1), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL))
+			{
+				case ID_FILTER_INCOMING:
 				{
-					case ID_FILTER_INCOMING:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_IN);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_INCOMING,
-							showFlags&HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_OUTGOING:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_OUT);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_OUTGOING,
-							showFlags&HIST_SHOW_OUT ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_MESSAGES:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_MSGS);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_MESSAGES,
-							showFlags&HIST_SHOW_MSGS ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_FILES:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_FILES);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_FILES,
-							showFlags&HIST_SHOW_FILES ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_URLS:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_URLS);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_URLS,
-							showFlags&HIST_SHOW_URLS ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_STATUS:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_STATUS);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_STATUS,
-							showFlags&HIST_SHOW_STATUS ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_OTHER:
-					{
-						showFlags = toggleBit(showFlags, HIST_SHOW_OTHER);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_OTHER,
-							showFlags&HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					case ID_FILTER_AUTO:
-					{
-						showFlags = toggleBit(showFlags, HIST_AUTO_FILTER);
-						CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_AUTO,
-							showFlags&HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
-						break;
-					}
-					default:
-					{
-						doFilter = false;
-						break;
-					}
+					showFlags = toggleBit(showFlags, HIST_SHOW_IN);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_INCOMING,
+						showFlags&HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
+					break;
 				}
-				if (doFilter)
-					PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
-				break;*/
+				case ID_FILTER_OUTGOING:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_OUT);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_OUTGOING,
+						showFlags&HIST_SHOW_OUT ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_MESSAGES:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_MSGS);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_MESSAGES,
+						showFlags&HIST_SHOW_MSGS ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_FILES:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_FILES);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_FILES,
+						showFlags&HIST_SHOW_FILES ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_URLS:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_URLS);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_URLS,
+						showFlags&HIST_SHOW_URLS ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_STATUS:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_STATUS);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_STATUS,
+						showFlags&HIST_SHOW_STATUS ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_OTHER:
+				{
+					showFlags = toggleBit(showFlags, HIST_SHOW_OTHER);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_OTHER,
+						showFlags&HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				case ID_FILTER_AUTO:
+				{
+					showFlags = toggleBit(showFlags, HIST_AUTO_FILTER);
+					CheckMenuItem(GetSubMenu(hMenu, 1), ID_FILTER_AUTO,
+						showFlags&HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
+					break;
+				}
+				default:
+				{
+					doFilter = false;
+					break;
+				}
+			}
+			if (doFilter)
+				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
+			break;*/
 
 		case WM_USER + 0x600:
 			if (wParam)
@@ -1047,7 +1059,7 @@ public:
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
 	{
-		wchar_t* val1, *val2, *val3;
+		wchar_t *val1, *val2, *val3;
 		int yearsel = 0, monthsel = 0, daysel = 1;
 		bool monthfound = false;
 		if (disableTimeTreeChange)
@@ -1059,7 +1071,7 @@ public:
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
 			tvi.cchTextMax = MAX_PATH;
 			tvi.lParam = 0;
-			tvi.pszText = (wchar_t*)_alloca(MAX_PATH * sizeof(wchar_t));
+			tvi.pszText = (wchar_t *)_alloca(MAX_PATH * sizeof(wchar_t));
 
 			m_timeTree.GetItem(&tvi);
 			val1 = tvi.pszText;
@@ -1080,7 +1092,8 @@ public:
 				if (tvi.lParam) {
 					monthsel = tvi.lParam;
 					monthfound = true;
-				} else
+				}
+				else
 					yearsel = _wtoi(val2);
 				HTREEITEM hti3 = m_timeTree.GetParent(hti2);
 				if (hti3) {

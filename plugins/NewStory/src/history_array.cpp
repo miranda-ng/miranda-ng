@@ -1,3 +1,21 @@
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 extern HANDLE htuLog;
@@ -153,7 +171,7 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
 	if (cp == -1)
 		return false;
-	
+
 	if (!isLinkChar(cp))
 		return false;
 
@@ -161,7 +179,7 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 		CHARRANGE sel = { cp, cp };
 		while (isLinkChar(sel.cpMin-1))
 			sel.cpMin--;
-	
+
 		while (isLinkChar(sel.cpMax))
 			sel.cpMax++;
 
@@ -288,7 +306,7 @@ void ItemData::load(bool bFullLoad)
 				db_event_markRead(hContact, hEvent);
 			Clist_RemoveEvent(-1, hEvent);
 		}
-		
+
 		// uncomment this to use RTF engine
 		// m_bRtf = true;
 		__fallthrough;
@@ -532,7 +550,7 @@ int HistoryArray::find(int id, int dir, const Filter &filter)
 	for (int i = id + dir; i >= 0 && i < count; i += dir)
 		if (filter.check(get(i)))
 			return i;
-	
+
 	return -1;
 }
 

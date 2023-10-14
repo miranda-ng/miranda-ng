@@ -1,3 +1,21 @@
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 enum
@@ -26,7 +44,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	}
 
 	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
-	
+
 	bool bShowEventActions = item->hEvent != 0;
 	Menu_ShowItem(hmiEdit, bShowEventActions);
 	Menu_ShowItem(hmiDelete, bShowEventActions);
@@ -56,7 +74,7 @@ bool NSMenu_Process(int iCommand, NewstoryListData *data)
 static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 {
 	auto *pData = (NewstoryListData *)lParam;
-	
+
 	switch (wParam) {
 	case MENU_COPY:
 		pData->Copy(false);
@@ -94,7 +112,7 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 		pData->ToggleBookmark();
 		break;
 	}
-	
+
 	return 0;
 }
 

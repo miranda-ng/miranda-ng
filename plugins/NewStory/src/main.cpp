@@ -1,13 +1,20 @@
-////////////////////////////////////////////////////////////////////////
-// NewStory -- new history viewer for Miranda IM
-// (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-// Visit http://miranda-im.org/ for details on Miranda Instant Messenger
-////////////////////////////////////////////////////////////////////////
-// File: main.cpp
-// Created by: Victor Pavlychko
-// Description:
-//    Main module. Responsible for startup/cleanup and Miranda bindings
-////////////////////////////////////////////////////////////////////////
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "stdafx.h"
 
@@ -38,8 +45,7 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 	bOptVScroll(MODULENAME, "VScroll", true),
 	bSortAscending(MODULENAME, "SortAscending", true)
-{
-}
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,31 +55,31 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 static IconItem icons[] =
 {
-	{ LPGEN("Main icon"),         "main",      IDI_NEWSTORY   },
-	{ LPGEN("User info"),         "userinfo",  IDI_USERINFO   },
-	{ LPGEN("User menu"),         "usermenu",  IDI_USERMENU   },
-	{ LPGEN("Search"),            "search",    IDI_SEARCH     },
-	{ LPGEN("Options"),           "options",   IDI_OPTIONS    },
-	{ LPGEN("Filter"),            "filter",    IDI_FILTER     },
-	{ LPGEN("Export"),            "export",    IDI_EXPORT     },
-	{ LPGEN("Copy"),              "copy",      IDI_COPY       },
-	{ LPGEN("Bookmark"),          "bookmark",  IDI_BOOKMARK   },
-	{ LPGEN("Send message"),      "message",   IDI_SENDMSG    },
+	{ LPGEN("Main icon"), "main", IDI_NEWSTORY },
+	{ LPGEN("User info"), "userinfo", IDI_USERINFO },
+	{ LPGEN("User menu"), "usermenu", IDI_USERMENU },
+	{ LPGEN("Search"), "search", IDI_SEARCH },
+	{ LPGEN("Options"), "options", IDI_OPTIONS },
+	{ LPGEN("Filter"), "filter", IDI_FILTER },
+	{ LPGEN("Export"), "export", IDI_EXPORT },
+	{ LPGEN("Copy"), "copy", IDI_COPY },
+	{ LPGEN("Bookmark"), "bookmark", IDI_BOOKMARK },
+	{ LPGEN("Send message"), "message", IDI_SENDMSG },
 
-	{ LPGEN("Incoming message"),  "msgin",     IDI_MSGIN      },
-	{ LPGEN("Outgoing message"),  "msgout",    IDI_MSGOUT     },
-	{ LPGEN("User signed in"),    "signin",    IDI_SIGNIN     },
-	{ LPGEN("Unknown event"),     "unknown",   IDI_UNKNOWN    },
+	{ LPGEN("Incoming message"), "msgin", IDI_MSGIN },
+	{ LPGEN("Outgoing message"), "msgout", IDI_MSGOUT },
+	{ LPGEN("User signed in"), "signin", IDI_SIGNIN },
+	{ LPGEN("Unknown event"), "unknown", IDI_UNKNOWN },
 
-	{ LPGEN("Find previous"),     "findprev",  IDI_FINDPREV   },
-	{ LPGEN("Find next"),         "findnext",  IDI_FINDNEXT   },
-	{ LPGEN("Jump to date"),      "calendar",  IDI_CALENDAR   },
-	{ LPGEN("Conversations"),     "timetree",  IDI_TIMETREE   },
+	{ LPGEN("Find previous"), "findprev", IDI_FINDPREV },
+	{ LPGEN("Find next"), "findnext", IDI_FINDNEXT },
+	{ LPGEN("Jump to date"), "calendar", IDI_CALENDAR },
+	{ LPGEN("Conversations"), "timetree", IDI_TIMETREE },
 
-	{ LPGEN("Template group"),    "tplgroup",  IDI_TPLGROUP   },
-	{ LPGEN("Cancel edit"),       "reset",     IDI_RESET      },
-	{ LPGEN("Update preview"),    "preview",   IDI_PREVIEW    },
-	{ LPGEN("Help"),              "varhelp",   IDI_VARHELP    }
+	{ LPGEN("Template group"), "tplgroup", IDI_TPLGROUP },
+	{ LPGEN("Cancel edit"), "reset", IDI_RESET },
+	{ LPGEN("Update preview"), "preview", IDI_PREVIEW },
+	{ LPGEN("Help"), "varhelp", IDI_VARHELP }
 };
 
 static int SmartSendEvent(int iEvent, MCONTACT hContact, LPARAM lParam)

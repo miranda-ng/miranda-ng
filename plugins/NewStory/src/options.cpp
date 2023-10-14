@@ -1,3 +1,21 @@
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +74,7 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 	MEVENT m_hDbEVent;
 	TemplateInfo *m_curr = 0;
 
-	void UpdatePreview(CCtrlButton*)
+	void UpdatePreview(CCtrlButton *)
 	{
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
@@ -64,8 +82,8 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 		item.hContact = m_hContact;
 		item.hEvent = m_hDbEVent;
 		item.load(true);
-			
-		CMStringW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, &item));
+
+		CMStringW wszText(TplFormatStringEx(int(m_curr - templates), m_curr->tmpValue, &item));
 		preview.SetText(wszText);
 		gpreview.SetText(wszText);
 	}
@@ -204,7 +222,7 @@ public:
 		UpdatePreview(0);
 	}
 
-	void onVarHelp(CCtrlButton*)
+	void onVarHelp(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
 		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
@@ -262,7 +280,7 @@ public:
 		if (m_curr != nullptr)
 			replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
-		m_curr = (TemplateInfo*)tvi.lParam;
+		m_curr = (TemplateInfo *)tvi.lParam;
 
 		if (m_curr->tmpValue)
 			m_edit.SetText(m_curr->tmpValue);

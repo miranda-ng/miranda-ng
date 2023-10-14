@@ -52,7 +52,6 @@
     <ClInclude Include="src\history.h" />
     <ClInclude Include="src\history_array.h" />
     <ClInclude Include="src\history_control.h" />
-    <ClInclude Include="src\quicklist.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\templates.h" />

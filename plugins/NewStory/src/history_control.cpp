@@ -1,3 +1,21 @@
+/*
+Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
+Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 #define AVERAGE_ITEM_HEIGHT 100
@@ -51,12 +69,12 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 	ItemData *item = LoadItem(index);
 	if (item == nullptr)
 		return;
-		
+
 	HMENU hMenu = NSMenu_Build(this, item);
 
 	if (pMsgDlg != nullptr && pMsgDlg->isChat())
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
-		
+
 	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
 	Menu_DestroyNestedMenu(hMenu);
 }
@@ -147,7 +165,7 @@ bool NewstoryListData::AtTop(void) const
 
 	if (scrollTopItem == 0 && scrollTopPixel == 0)
 		return true;
-	
+
 	return false;
 }
 
@@ -443,7 +461,7 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 {
 	if (!totalCount)
 		return -1;
-		
+
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
