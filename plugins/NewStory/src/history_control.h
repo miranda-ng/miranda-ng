@@ -83,8 +83,10 @@ struct NewstoryListData : public MZeroedObject
 	void      Quote();
 	void      RecalcScrollBar();
 	void      ScheduleDraw();
-	void      ScrollTop();
 	void      ScrollBottom();
+	void      ScrollDown(int deltaY);
+	void      ScrollTop();
+	void      ScrollUp(int deltaY);
 	void      SetCaret(int idx, bool bEnsureVisible = true);
 	void      SetContact(MCONTACT hContact);
 	void      SetDialog(CSrmmBaseDialog *pDialog);

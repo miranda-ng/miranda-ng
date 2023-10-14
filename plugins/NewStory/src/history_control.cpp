@@ -699,59 +699,26 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 
 void NewstoryListData::LineUp()
 {
-	if (AtTop())
-		return;
-
-	if (scrollTopPixel == 0)
-		scrollTopItem--;
-	else {
-		cachedMaxTopItem = -1;
-		scrollTopPixel = 0;
-	}
-	FixScrollPosition();
-	InvalidateRect(m_hwnd, 0, FALSE);
+	if (!AtTop())
+		ScrollUp(10);
 }
 
 void NewstoryListData::LineDown()
 {
-	if (AtBottom())
-		return;
-
-	scrollTopItem++;
-	FixScrollPosition();
-	InvalidateRect(m_hwnd, 0, FALSE);
+	if (!AtBottom())
+		ScrollDown(10);
 }
 
 void NewstoryListData::PageUp()
 {
-	if (AtTop())
-		return;
-
-	if (scrollTopPixel == 0)
-		scrollTopItem -= 10;
-	else {
-		scrollTopItem -= 9;
-		scrollTopPixel = 0;
-	}
-	FixScrollPosition();
-	InvalidateRect(m_hwnd, 0, FALSE);
+	if (!AtTop())
+		ScrollUp(cachedWindowHeight);
 }
 
 void NewstoryListData::PageDown()
 {
-	if (AtBottom())
-		return;
-
-	scrollTopItem = cachedMaxDrawnItem - 1;
-	FixScrollPosition();
-	InvalidateRect(m_hwnd, 0, FALSE);
-}
-
-void NewstoryListData::ScrollTop()
-{
-	scrollTopItem = scrollTopPixel = 0;
-	FixScrollPosition(true);
-	InvalidateRect(m_hwnd, 0, FALSE);
+	if (!AtBottom())
+		ScrollDown(cachedWindowHeight);
 }
 
 void NewstoryListData::ScrollBottom()
@@ -762,6 +729,70 @@ void NewstoryListData::ScrollBottom()
 	scrollTopItem = cachedMaxTopItem;
 	scrollTopPixel = cachedMaxTopPixel;
 	FixScrollPosition(true);
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
+void NewstoryListData::ScrollDown(int deltaY)
+{
+	int iHeight = GetItemHeight(scrollTopItem) + scrollTopPixel;
+	if (iHeight > deltaY)
+		scrollTopPixel -= deltaY;
+	else {
+		deltaY -= iHeight;
+
+		bool bFound = false;
+		for (int i = scrollTopItem + 1; i < totalCount; i++) {
+			iHeight = GetItemHeight(i);
+			if (iHeight > deltaY) {
+				scrollTopPixel = deltaY - iHeight;
+				scrollTopItem = i;
+				bFound = true;
+				break;
+			}
+			deltaY -= iHeight;
+		}
+		if (!bFound)
+			scrollTopItem = scrollTopPixel = 0;
+		FixScrollPosition();
+	}
+
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
+void NewstoryListData::ScrollTop()
+{
+	scrollTopItem = scrollTopPixel = 0;
+	FixScrollPosition(true);
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
+void NewstoryListData::ScrollUp(int deltaY)
+{
+	int reserveY = -scrollTopPixel; // distance in pixels between the top event beginning and the window top coordinate
+
+	if (reserveY >= deltaY)
+		scrollTopPixel += deltaY;    // stay on the same event, just move up
+	else {
+		deltaY -= reserveY;    // move to the appropriate event first, then calculate the gap
+
+		bool bFound = false;
+		for (int i = scrollTopItem - 1; i >= 0; i--) {
+			int iHeight = GetItemHeight(i);
+			if (iHeight > deltaY) {
+				scrollTopPixel = deltaY - iHeight;
+				scrollTopItem = i;
+				bFound = true;
+				break;
+			}
+			deltaY -= iHeight;
+		}
+
+		if (!bFound)
+			scrollTopItem = scrollTopPixel = 0;
+
+		FixScrollPosition();
+	}
+	
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
