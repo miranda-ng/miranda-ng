@@ -72,12 +72,15 @@ public:
 		return 1;
 	}
 
-	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
+	void LogEvents(MEVENT hDbEvent, int count, bool bAppend) override
 	{
+		if (!hDbEvent)
+			return;
+
 		if (!bAppend)
 			Clear();
 
-		m_histCtrl->AddEvent(m_pDlg.m_hContact, hDbEventFirst, count);
+		m_histCtrl->AddEvent(m_pDlg.m_hContact, hDbEvent, count);
 	}
 
 	void LogChatEvent(const LOGINFO &lin) override
