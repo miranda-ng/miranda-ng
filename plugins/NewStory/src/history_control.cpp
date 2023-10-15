@@ -744,7 +744,7 @@ void NewstoryListData::ScrollDown(int deltaY)
 		for (int i = scrollTopItem + 1; i < totalCount; i++) {
 			iHeight = GetItemHeight(i);
 			if (iHeight > deltaY) {
-				scrollTopPixel = deltaY - iHeight;
+				scrollTopPixel = -deltaY;
 				scrollTopItem = i;
 				bFound = true;
 				break;
