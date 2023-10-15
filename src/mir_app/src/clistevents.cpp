@@ -64,7 +64,7 @@ static int CompareEvents(const CListEvent *p1, const CListEvent *p2)
 	return p1->iOrder - p2->iOrder;
 }
 
-OBJLIST<CListEvent> g_cliEvents(10, CompareEvents);
+static OBJLIST<CListEvent> g_cliEvents(10, CompareEvents);
 
 static const char* GetEventProtocol(const CListEvent &ev)
 {
@@ -72,6 +72,14 @@ static const char* GetEventProtocol(const CListEvent &ev)
 		return Proto_GetBaseAccountName(ev.hContact);
 
 	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.moduleName : nullptr;
+}
+
+// remove events for a contact
+void Clist_RemoveContactEvent(MCONTACT hContact)
+{
+	for (auto &it : g_cliEvents.rev_iter())
+		if (it->hContact == hContact)
+			Clist_RemoveEvent(hContact, it->hDbEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

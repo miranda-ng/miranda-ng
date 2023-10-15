@@ -107,13 +107,15 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 
 #define Safe_DestroyIcon(hIcon) if (hIcon) DestroyIcon(hIcon)
 
+/**** clistevents.cpp *******************************************************************/
+
+void Clist_RemoveContactEvent(MCONTACT hContact);
+
 /**** clistmenus.cpp ********************************************************************/
 
 extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
 extern HMENU hMainMenu, hStatusMenu;
-
-extern OBJLIST<CListEvent> g_cliEvents;
 
 struct MStatus
 {

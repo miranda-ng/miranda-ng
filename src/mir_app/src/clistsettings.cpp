@@ -158,11 +158,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 		clistCache.remove(idx);
 	}
 
-	// remove events for a contact
-	for (auto &it : g_cliEvents.rev_iter())
-		if (it->hContact == hContact)
-			Clist_RemoveEvent(hContact, it->hDbEvent);
-
+	Clist_RemoveContactEvent(hContact);
 	Chat_RemoveContact(hContact);
 	return 0;
 }
