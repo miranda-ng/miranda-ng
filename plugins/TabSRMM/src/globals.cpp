@@ -89,13 +89,9 @@ void CGlobals::reloadSystemStartup()
 //
 // any initialation for 3rd party plugins must go here.
 
-void CGlobals::reloadSystemModulesChanged()
+void CGlobals::reloadModulesLoaded()
 {
-	// smiley add
-	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
-		PluginConfig.g_SmileyAddAvail = 1;
-		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
-	}
+	OnModuleLoaded(0, 0);
 
 	m_hwndClist = g_clistApi.hwndContactList;
 
@@ -210,6 +206,9 @@ void CGlobals::hookSystemEvents()
 	
 	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
+
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -228,7 +227,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	::CreateImageList(true);
 	::CB_InitCustomButtons();
 
-	PluginConfig.reloadSystemModulesChanged();
+	PluginConfig.reloadModulesLoaded();
 
 	::Chat_ModulesLoaded();
 	::BuildContainerMenu();
@@ -403,6 +402,17 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	::UnregisterClass(L"TSTabCtrlClass", g_plugin.getInst());
 	::UnregisterClass(L"RichEditTipClass", g_plugin.getInst());
 	::UnregisterClass(L"TSHK", g_plugin.getInst());
+	return 0;
+}
+
+int CGlobals::OnModuleLoaded(WPARAM, LPARAM)
+{
+	// smiley add
+	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
+		if (!PluginConfig.g_SmileyAddAvail)
+			HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
+		PluginConfig.g_SmileyAddAvail = true;
+	}
 	return 0;
 }
 

@@ -56,7 +56,7 @@ public:
 	}
 	void        reloadAdv();
 	void        reloadSystemStartup();
-	void        reloadSystemModulesChanged();
+	void        reloadModulesLoaded();
 	void        reloadSettings(bool fReloadSkins = true);
 
 	void        hookSystemEvents();
@@ -134,12 +134,13 @@ private:
 	static int     m_exLine;
 	static bool    m_exAllowContinue;
 private:
-	static int     ModulesLoaded(WPARAM wParam, LPARAM lParam);
-	static int     DBSettingChanged(WPARAM wParam, LPARAM lParam);
-	static int     DBContactDeleted(WPARAM wParam, LPARAM lParam);
-	static int     PreshutdownSendRecv(WPARAM wParam, LPARAM lParam);
-	static int     MetaContactEvent(WPARAM wParam, LPARAM lParam);
-	static int     OkToExit(WPARAM wParam, LPARAM lParam);
+	static int     ModulesLoaded(WPARAM, LPARAM);
+	static int     DBSettingChanged(WPARAM, LPARAM);
+	static int     DBContactDeleted(WPARAM, LPARAM);
+	static int     PreshutdownSendRecv(WPARAM, LPARAM);
+	static int     MetaContactEvent(WPARAM, LPARAM);
+	static int     OkToExit(WPARAM, LPARAM);
+	static int     OnModuleLoaded(WPARAM, LPARAM);
 	static void    RestoreUnreadMessageAlerts(void);
 };
 
