@@ -496,21 +496,24 @@ void PrintSymbolsInfo(CMStringW &out)
 	int iMode = db_get_dw(0, "PluginUpdater", "UpdateMode", -1);
 	switch (iMode) {
 	case UPDATE_MODE_CUSTOM:
-		out.Append(L"Symbols mode: custom");
+		out.AppendFormat(L"%s custom", L"Symbols mode:");
 		break;
 	case UPDATE_MODE_STABLE:
-		out.Append(L"Symbols mode: stable version without symbols");
+		out.AppendFormat(L"%s %s %s", L"Symbols mode:", L"stable version", L"without symbols");
 		break;
 	case UPDATE_MODE_TRUNK:
-		out.Append(L"Symbols mode: trunk version without symbols");
+		out.AppendFormat(L"%s %s %s", L"Symbols mode:", L"trunk version", L"without symbols");
 		break;
 	case UPDATE_MODE_TRUNK_SYMBOLS:
-		out.Append(L"Symbols mode: trunk version with symbols");
+		out.AppendFormat(L"%s %s %s", L"Symbols mode:", L"trunk version", L"with symbols");
 		break;
 	case UPDATE_MODE_STABLE_SYMBOLS:
-		out.Append(L"Symbols mode: stable version with symbols");
+		out.AppendFormat(L"%s %s %s", L"Symbols mode:", L"stable version", L"with symbols");
 		break;
+	default:
+		return;
 	}
+	out.Append(L"\r\n\r\n");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
