@@ -271,7 +271,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool clist)
 		return;
 
 	if (popup)
-		ShowPopup(hContact, displayName, TranslateW(popupTexts[state]));
+		ShowPopup(hContact, displayName, TranslateW(popupTexts[state]), this);
 
 	if (clist && state == VOICE_STATE_RINGING) {
 		CLISTEVENT ce = {};
@@ -349,4 +349,16 @@ void VoiceCall::SendDTMF(wchar_t c)
 		return;
 
 	CallProtoService(module->name, PS_VOICE_SEND_DTMF, (WPARAM)id, (LPARAM)c);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void ShowCallWindow(VoiceCall *call)
+{
+	if (calls.indexOf(call) == -1)
+		return;
+
+	call->Show();
+	SetActiveWindow(call->GetHwnd());
+	SetForegroundWindow(call->GetHwnd());
 }

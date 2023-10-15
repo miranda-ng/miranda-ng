@@ -21,29 +21,17 @@ Boston, MA 02111-1307, USA.
 #ifndef __POPUP_H__
 # define __POPUP_H__
 
-// Initializations needed by popups
-void InitPopups();
-
-// Deinitializations needed by popups
-void DeInitPopups();
-
-
 #define POPUP_TYPE_NORMAL	0
 #define POPUP_TYPE_TEST		1
 #define POPUP_TYPE_ERROR	2
 
-// Show an popup
-void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description, ...);
+// Show normal popup
+void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description, void *pUserData);
 
-// Show an test
+// Show test popup
 void ShowTestPopup(const wchar_t *title, const wchar_t *description, const Options *op);
 
-// Show an error popup
-void ShowErrPopup(const char *description, const char *title = NULL);
-
-void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description,
-			   void *plugin_data, int type, const Options *op);
-
-
+// Show error popup
+void ShowErrPopup(const wchar_t *description, const wchar_t *title = 0);
 
 #endif // __POPUP_H__

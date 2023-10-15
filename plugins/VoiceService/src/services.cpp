@@ -24,9 +24,7 @@ Boston, MA 02111-1307, USA.
 static INT_PTR CListDblClick(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *ce = (CLISTEVENT *)lParam;
-
-	auto *call = (VoiceCall *)ce->lParam;
-	call->Show(SW_SHOWNORMAL);
+	ShowCallWindow((VoiceCall *)ce->lParam);
 	return 0;
 }
 

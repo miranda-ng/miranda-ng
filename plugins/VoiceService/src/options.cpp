@@ -43,10 +43,10 @@ static OptPageControl popupsControls[] = {
 	{ NULL,                           CONTROL_RADIO,     IDC_DELAYPERMANENT, "PopupsDelayType", POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
 	{ &opts.popup_timeout,            CONTROL_SPIN,      IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD)1, (WORD)255 },
 	{ &opts.popup_right_click_action, CONTROL_COMBO,     IDC_RIGHT_ACTION,   "PopupsRightClick", POPUP_ACTION_CLOSEPOPUP },
-	{ &opts.popup_left_click_action,  CONTROL_COMBO,     IDC_LEFT_ACTION,    "PopupsLeftClick", POPUP_ACTION_CLOSEPOPUP },
+	{ &opts.popup_left_click_action,  CONTROL_COMBO,     IDC_LEFT_ACTION,    "PopupsLeftClick", POPUP_ACTION_OPENWINDOW },
 	
-	{ &opts.opt_bImmDialog, CONTROL_CHECKBOX,     IDC_IMMDIALOG,   "PopupsRightClick", FALSE },
-	{ &opts.opt_bImmDialogFocus,  CONTROL_CHECKBOX,     IDC_IMMDIALOG_FOCUS,    "PopupsLeftClick", FALSE }
+	{ &opts.opt_bImmDialog,           CONTROL_CHECKBOX,  IDC_IMMDIALOG,      "PopupsRightClick", FALSE },
+	{ &opts.opt_bImmDialogFocus,      CONTROL_CHECKBOX,  IDC_IMMDIALOG_FOCUS, "PopupsLeftClick", FALSE },
 };
 
 static void PopupsEnableDisableCtrls(HWND hwndDlg)
@@ -81,13 +81,19 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 
 static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HWND hwndCombo;
+
 	switch (msg) {
 	case WM_INITDIALOG:
-		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
-		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
+		hwndCombo = GetDlgItem(hwndDlg, IDC_RIGHT_ACTION);
+		ComboBox_AddString(hwndCombo, TranslateT("Do nothing"));
+		ComboBox_AddString(hwndCombo, TranslateT("Close popup"));
+		ComboBox_AddString(hwndCombo, TranslateT("Open call window"));
 
-		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
-		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
+		hwndCombo = GetDlgItem(hwndDlg, IDC_LEFT_ACTION);
+		ComboBox_AddString(hwndCombo, TranslateT("Do nothing"));
+		ComboBox_AddString(hwndCombo, TranslateT("Close popup"));
+		ComboBox_AddString(hwndCombo, TranslateT("Open call window"));
 
 		// Needs to be called here in this case
 		{

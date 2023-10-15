@@ -21,14 +21,13 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-
 #include <windows.h>
+#include <windowsx.h>
 #include <tchar.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <time.h>
 #include <commctrl.h>
-
 
 // Disable "...truncated to '255' characters in the debug information" warnings
 #pragma warning(disable: 4786)
@@ -117,6 +116,23 @@ private:
 
 class VoiceCall : public CDlgBase
 {
+	void CreateDisplayName();
+	void RemoveNotifications();
+
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
+	void OnCommand_Answer(CCtrlButton *);
+	void OnCommand_Drop(CCtrlButton *);
+	void OnCallTimer(CTimer *);
+
+	CCtrlButton m_btnAnswer;
+	CCtrlButton m_btnDrop;
+	CCtrlLabel m_lblStatus, m_lblContactName, m_lblAddress;
+	int m_nsec = 0;
+	CTimer m_calltimer;
+	HFONT hContactNameFont;
+
 public:
 	VoiceProvider *module;
 	char *id;					// Protocol especific ID for this call
@@ -149,22 +165,6 @@ public:
 	bool IsFinished();
 
 	void Notify(bool popup = true, bool sound = true, bool clist = true);
-
-private:
-	void RemoveNotifications();
-	void CreateDisplayName();
-	void OnCommand_Answer(CCtrlButton*);
-	void OnCommand_Drop(CCtrlButton*);
-	void OnCallTimer(CTimer*);
-	bool OnInitDialog() override;
-	bool OnClose() override;
-	
-	CCtrlButton m_btnAnswer;
-	CCtrlButton m_btnDrop;
-	CCtrlLabel m_lblStatus, m_lblContactName, m_lblAddress;
-	int m_nsec = 0;
-	CTimer m_calltimer;
-	HFONT hContactNameFont;
 };
 
 extern OBJLIST<VoiceProvider> modules;
@@ -177,6 +177,7 @@ bool CanCallNumber();
 void HoldOtherCalls(VoiceCall *call);
 VoiceCall * GetTalkingCall();
 bool IsFinalState(int state);
+void ShowCallWindow(VoiceCall *call);
 
 INT_PTR VoiceRegister(WPARAM wParam, LPARAM lParam);
 INT_PTR VoiceUnregister(WPARAM wParam, LPARAM lParam);
