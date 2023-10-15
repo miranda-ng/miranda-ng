@@ -51,6 +51,18 @@ static INT_PTR CALLBACK DoDefaultHandling(void *param)
 	return 0;
 }
 
+static INT_PTR CALLBACK DropPopup(void *param)
+{
+	auto *pdata = (PLUGIN_DATA *)param;
+	if (pdata) {
+		for (auto &it : pdata->events) {
+			Clist_RemoveEvent(pdata->hContact, it);
+			db_event_markRead(pdata->hContact, it);
+		}
+	}
+	return 0;
+}
+
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 {
 	if (mask & MASK_OPEN) {
@@ -79,14 +91,8 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 		}
 	}
 
-	if (mask & MASK_REMOVE) {
-		if (pdata) {
-			for (auto &it: pdata->events) {
-				Clist_RemoveEvent(pdata->hContact, it);
-				db_event_markRead(pdata->hContact, it);
-			}
-		}
-	}
+	if (mask & MASK_REMOVE)
+		CallFunctionSync(DropPopup, pdata);
 
 	if (mask & MASK_DISMISS) {
 		KillTimer(hWnd, TIMER_TO_ACTION);
