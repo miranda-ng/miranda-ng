@@ -519,11 +519,14 @@ bool CSrmmBaseDialog::OnInitDialog()
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	m_pLog = Srmm_GetLogWindow((CMsgDialog*)this);
-	m_pLog->Attach();
-	if (m_pLog->GetType() != 0) { // custom log type
-		DestroyWindow(GetDlgItem(m_hwnd, IDC_SRMM_LOG));
-		SetWindowLong(m_pLog->GetHwnd(), GWLP_ID, IDC_SRMM_LOG);
+	auto *pDlg = (CMsgDialog *)this;
+	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg)) {
+		m_pLog = pLogWindowClass->pfnBuilder(*pDlg);
+		m_pLog->Attach();
+		if (m_pLog->GetType() != 0) { // custom log type
+			DestroyWindow(GetDlgItem(m_hwnd, IDC_SRMM_LOG));
+			SetWindowLong(m_pLog->GetHwnd(), GWLP_ID, IDC_SRMM_LOG);
+		}
 	}
 
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));

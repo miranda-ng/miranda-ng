@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_popup.h>
 #include <m_netlib.h>
 #include <m_db_int.h>
+#include <m_srmm_int.h>
 #include <m_gui.h>
 
 #include "m_folders.h"

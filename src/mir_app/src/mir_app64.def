@@ -907,3 +907,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?GetInput@CSrmmBaseDialog@@QEBAPEAUHWND__@@XZ @1024 NONAME
 ?Srmm_ApplyOptions@@YAXXZ @1025 NONAME
 ?OnOptionsApplied@CSrmmBaseDialog@@UEAAXXZ @1026 NONAME
+?Srmm_GetWindowClass@@YAPEAUSrmmLogWindowClass@@PEAVCMsgDialog@@@Z @1027 NONAME

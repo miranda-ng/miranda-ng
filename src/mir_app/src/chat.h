@@ -129,8 +129,6 @@ BOOL          DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);
 BOOL          DoPopup(SESSION_INFO *si, GCEVENT *gce);
 int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 
-CSrmmLogWindow *Srmm_GetLogWindow(CMsgDialog *pDlg);
-
 void          Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent);
 void          Chat_RemoveContact(MCONTACT hContact);
 

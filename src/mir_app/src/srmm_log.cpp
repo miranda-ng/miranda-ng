@@ -27,22 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "chat.h"
 
-struct LoggerClass
-{
-	LoggerClass(CMPlugin *p1, const char *p2, const wchar_t *p3, pfnSrmmLogCreator p4) :
-		pPlugin(p1),
-		szShortName(mir_strdup(p2)),
-		wszScreenName(mir_wstrdup(p3)),
-		pfnBuilder(p4)
-	{}
-
-	CMPlugin *pPlugin;
-	ptrA szShortName;
-	ptrW wszScreenName;
-	pfnSrmmLogCreator pfnBuilder;
-};
-
-static OBJLIST<LoggerClass> g_arLogClasses(1, PtrKeySortT);
+static OBJLIST<SrmmLogWindowClass> g_arLogClasses(1, PtrKeySortT);
 
 static CMOption<char *> g_logger(SRMM_MODULE, "Logger", "built-in");
 
@@ -51,7 +36,7 @@ static CMOption<char *> g_logger(SRMM_MODULE, "Logger", "built-in");
 static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 {
 	// always enable custom log viewers for private chats
-	if (!pDlg->isChat())
+	if (!pDlg || !pDlg->isChat())
 		return true;
 
 	// if custom log viewers are disable, use build-in one
@@ -79,21 +64,23 @@ static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 	return true;
 }
 
-CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
+MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg)
 {
 	if (sttEnableCustomLogs(pDlg)) {
-		CMStringA szViewerName(db_get_sm(pDlg->m_hContact, SRMSGMOD, "Logger"));
+		CMStringA szViewerName;
+		if (pDlg != nullptr)
+			szViewerName = db_get_sm(pDlg->m_hContact, SRMSGMOD, "Logger");
 		if (szViewerName.IsEmpty())
 			szViewerName = g_logger;
 
 		for (auto &it : g_arLogClasses)
 			if (szViewerName == it->szShortName)
-				return it->pfnBuilder(*pDlg);
+				return it;
 	}
 
 	for (auto &it : g_arLogClasses)
 		if (!mir_strcmp(it->szShortName, "built-in"))
-			return it->pfnBuilder(*pDlg);
+			return it;
 
 	return nullptr; // shall never happen
 }
@@ -141,9 +128,10 @@ public:
 	{
 		pDialog = this;
 
+		auto *pClass = Srmm_GetWindowClass(0);
 		for (auto &it : g_arLogClasses) {
 			int idx = m_list.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
-			if (!mir_strcmp(g_logger, it->szShortName))
+			if (it == pClass)
 				m_list.SetCurSel(idx);
 		}
 
@@ -156,7 +144,7 @@ public:
 		if (idx == -1)
 			return false;
 
-		if (auto *pLogger = (LoggerClass *)m_list.GetItemData(idx))
+		if (auto *pLogger = (SrmmLogWindowClass *)m_list.GetItemData(idx))
 			g_logger = pLogger->szShortName;
 
 		PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
@@ -199,7 +187,7 @@ MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName,
 	if (!pszShortName || !pwszScreenName || !fnBuilder)
 		return nullptr;
 
-	auto *p = new LoggerClass(pPlugin, pszShortName, pwszScreenName, fnBuilder);
+	auto *p = new SrmmLogWindowClass(pPlugin, pszShortName, pwszScreenName, fnBuilder);
 	g_arLogClasses.insert(p);
 
 	if (pDialog)
@@ -209,7 +197,7 @@ MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName,
 
 MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE pLogger)
 {
-	g_arLogClasses.remove((LoggerClass *)pLogger);
+	g_arLogClasses.remove((SrmmLogWindowClass *)pLogger);
 
 	if (pDialog)
 		pDialog->Rebuild();

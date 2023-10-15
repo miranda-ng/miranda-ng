@@ -154,6 +154,26 @@ MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 MIR_APP_DLL(bool) Srmm_IsCustomLogUsed();
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// SRMM log window class
+
+struct SrmmLogWindowClass
+{
+	SrmmLogWindowClass(CMPlugin *p1, const char *p2, const wchar_t *p3, pfnSrmmLogCreator p4) :
+		pPlugin(p1),
+		szShortName(mir_strdup(p2)),
+		wszScreenName(mir_wstrdup(p3)),
+		pfnBuilder(p4)
+	{}
+
+	CMPlugin *pPlugin;
+	ptrA szShortName;
+	ptrW wszScreenName;
+	pfnSrmmLogCreator pfnBuilder;
+};
+
+MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Simple single-event based logger
 
 class MIR_APP_EXPORT CSimpleLogWindow : public CSrmmLogWindow
