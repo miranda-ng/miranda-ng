@@ -146,13 +146,10 @@ void NewstoryListData::AddSelection(int iFirst, int iLast)
 
 bool NewstoryListData::AtBottom(void) const
 {
-	if (cachedMaxDrawnItem == -1)
+	if (scrollTopItem > cachedMaxTopItem)
 		return true;
 
-	if (cachedMaxDrawnItem > totalCount)
-		return true;
-
-	if (cachedMaxDrawnItem == totalCount && cachedMaxTopPixel >= scrollTopPixel)
+	if (scrollTopItem == cachedMaxTopItem && cachedMaxTopPixel >= scrollTopPixel)
 		return true;
 
 	return false;
