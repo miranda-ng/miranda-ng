@@ -181,7 +181,7 @@ BEGIN
     GROUPBOX        "Errors",IDC_STATIC,161,153,143,44
     CONTROL         "Sound notification if failed",IDC_CHECKFSND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,163,135,10
     CONTROL         "Message notification if failed",IDC_CHECKFMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,174,135,10
-    CONTROL         "Tray icon notification if failed",IDC_CHECKFICO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,186,135,10
+    CONTROL         "Tray icon notification if failed",IDC_CHECKFICO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,185,135,10
     PUSHBUTTON      "Reset counter",IDC_BTNRESET,161,200,75,13
     LTEXT           "",IDC_STTIMELEFT,163,216,141,8
 END

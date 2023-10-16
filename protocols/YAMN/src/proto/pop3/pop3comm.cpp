@@ -216,29 +216,16 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		break;
 	}
 
-	for (CAccount *Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
-		Finder->hContact = NULL;
+	for (CAccount *pAcc = POP3Plugin->FirstAccount; pAcc; pAcc = pAcc->Next) {
+		pAcc->hContact = 0;
 		for (auto &hContact : Contacts(YAMN_DBMODULE)) {
-			if (g_plugin.getMStringA(hContact, "Id") == Finder->Name) {
-				Finder->hContact = hContact;
-				g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_ONLINE);
-				db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
-				if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-					Contact::Hide(Finder->hContact, false);
-
-				if (!(Finder->Flags & YAMN_ACC_ENA) || !(Finder->NewMailN.Flags & YAMN_ACC_CONT))
-					Contact::Hide(Finder->hContact);
+			if (g_plugin.getMStringA(hContact, "Id") == pAcc->Name) {
+				pAcc->hContact = hContact;
+				break;
 			}
 		}
 
-		if (!Finder->hContact && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
-			// No account contact found, have to create one
-			Finder->hContact = db_add_contact();
-			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
-			g_plugin.setString(Finder->hContact, "Id", Finder->Name);
-			g_plugin.setString(Finder->hContact, "Nick", Finder->Name);
-			g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_OFFLINE);
-		}
+		pAcc->RefreshContact();
 	}
 
 	return 0;
@@ -321,7 +308,7 @@ HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account)
 
 static void SetContactStatus(CAccount *account, int status)
 {
-	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT))
+	if (account->NewMailN.Flags & YAMN_ACC_CONT)
 		g_plugin.setWord(account->hContact, "Status", status);
 }
 

@@ -38,10 +38,7 @@ void CAccount::CheckMail()
 
 void CAccount::RefreshContact()
 {
-	if (hContact != 0) {
-		Contact::Hide(hContact, !(Flags & YAMN_ACC_ENA) && (NewMailN.Flags & YAMN_ACC_CONT));
-	}
-	else if ((Flags & YAMN_ACC_ENA) && (NewMailN.Flags & YAMN_ACC_CONT)) {
+	if (hContact == 0) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, YAMN_DBMODULE);
 		g_plugin.setString(hContact, "Id", Name);
@@ -49,6 +46,9 @@ void CAccount::RefreshContact()
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 		db_set_s(hContact, "CList", "StatusMsg", Translate("No new mail message"));
 	}
+
+	bool bIsVisible = (Flags & YAMN_ACC_ENA) && (NewMailN.Flags & YAMN_ACC_CONT);
+	Contact::Hide(hContact, !bIsVisible);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
