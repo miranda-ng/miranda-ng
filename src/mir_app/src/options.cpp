@@ -70,7 +70,7 @@ static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 
 static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 {
-	EnableThemeDialogTexture(hwnd, ETDT_DISABLE | ETDT_USETABTEXTURE);
+	EnableThemeDialogTexture(hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
 }
 
 static wchar_t* GetPluginName(HINSTANCE hInstance, wchar_t *buffer, int size)
