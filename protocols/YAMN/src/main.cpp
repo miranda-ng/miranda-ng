@@ -53,7 +53,8 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(YAMN_DBMODULE, pluginInfoEx)
+	PLUGIN<CMPlugin>(YAMN_DBMODULE, pluginInfoEx),
+	bForceCheck(YAMN_DBMODULE, "ForceCheck", false)
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 	SetUniqueId("Id");

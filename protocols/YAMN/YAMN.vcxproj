@@ -63,8 +63,11 @@
     </ClCompile>
     <ClCompile Include="src\synchro.cpp" />
     <ClCompile Include="src\yamn.cpp" />
+    <ClInclude Include="src\account.h" />
     <ClInclude Include="src\browser\browser.h" />
     <ClInclude Include="src\mails\decode.h" />
+    <ClInclude Include="src\mails\mails.h" />
+    <ClInclude Include="src\protoplugin.h" />
     <ClInclude Include="src\proto\netlib.h" />
     <ClInclude Include="src\proto\pop3\pop3.h" />
     <ClInclude Include="src\proto\pop3\pop3comm.h" />

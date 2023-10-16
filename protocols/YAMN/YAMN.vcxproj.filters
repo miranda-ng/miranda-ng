@@ -88,6 +88,15 @@
     <ClInclude Include="src\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\account.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protoplugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mails\mails.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc">

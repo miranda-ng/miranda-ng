@@ -709,7 +709,7 @@ class CPopupOptsDlg : public CBaseOptionsDlg
 	UCHAR ActualStatus;
 
 	CCtrlCombo cmbAccount, cmbCP;
-	CCtrlCheck chkCol, chkFcol, chkNcol, chkPop, chkFpop, chkNpop;
+	CCtrlCheck chkCol, chkFcol, chkNcol, chkPop, chkFpop, chkNpop, chkForce;
 	CCtrlButton btnPreview;
 
 	void DlgShowAccountPopup()
@@ -810,9 +810,12 @@ public:
 		chkFpop(this, IDC_CHECKFPOP),
 		chkNcol(this, IDC_CHECKNCOL),
 		chkNpop(this, IDC_CHECKNPOP),
+		chkForce(this, IDC_FORCECHECK),
 		btnPreview(this, IDC_PREVIEW),
 		cmbAccount(this, IDC_COMBOACCOUNT)
 	{
+		CreateLink(chkForce, g_plugin.bForceCheck);
+
 		chkPop.OnChange = Callback(this, &CPopupOptsDlg::onChange_Pop);
 		chkFpop.OnChange = Callback(this, &CPopupOptsDlg::onChange_Fpop);
 		chkNpop.OnChange = Callback(this, &CPopupOptsDlg::onChange_Npop);

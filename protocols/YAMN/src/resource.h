@@ -96,14 +96,15 @@
 #define IDC_PREVIEW                     1402
 #define IDC_BTNADD                      1403
 #define IDC_EDITNAME                    1404
+#define IDC_FORCECHECK                  1407
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        145
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1407
+#define _APS_NEXT_CONTROL_VALUE         1408
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

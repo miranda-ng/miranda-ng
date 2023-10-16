@@ -26,15 +26,21 @@
 #include <m_toptoolbar.h>
 #include <m_kbdnotify.h>
 #include <m_yamn.h>
-#include <m_protoplugin.h>
 #include <m_folders.h>
 
-#include "main.h"
 #include "mails/decode.h"
-#include "browser/browser.h"
-#include "resource.h"
+#include "mails/mails.h"
+
+#include "account.h"
+#include "protoplugin.h"
+
+#include "main.h"
 #include "debug.h"
+
+#include "resource.h"
 #include "version.h"
+
+#include "browser/browser.h"
 
 #include "proto/netlib.h"
 #include "proto/pop3/pop3.h"
@@ -44,12 +50,16 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bForceCheck;
+	__forceinline bool CheckFlags() {
+		return bForceCheck ? YAMN_FORCECHECK : YAMN_NORMALCHECK;
+	}
+
 	int Load() override;
 	int Unload() override;
 };
  
 // From services.cpp
-void AccountMailCheck(CAccount *ActualAccount);
 void CreateServiceFunctions(void);
 void HookEvents(void);
 
@@ -100,7 +110,7 @@ uint32_t WriteStringToFile(HANDLE File, char *Source);
 uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source);
 
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
-DWORD WINAPI WritePOP3Accounts();
+DWORD MIR_CDECL WritePOP3Accounts();
 
 void __cdecl DeleteAccountInBackground(void *Which);
 int StopAccounts(YAMN_PROTOPLUGIN *Plugin);

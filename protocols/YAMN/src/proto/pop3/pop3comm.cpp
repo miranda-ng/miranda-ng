@@ -18,28 +18,28 @@ HANDLE hNetLib = nullptr;
 SCOUNTER CPOP3Account::AccountWriterSO;
 
 // Creates new CPOP3Account structure
-CAccount *WINAPI CreatePOP3Account(YAMN_PROTOPLUGIN *Plugin);
+CAccount* MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *Plugin);
 
 // Deletes CPOP3Account structure
-void WINAPI DeletePOP3Account(CAccount *Which);
+void MIR_CDECL DeletePOP3Account(CAccount *Which);
 
 // Sets stop flag to account
-void WINAPI StopPOP3Account(CAccount *Which);
+void MIR_CDECL StopPOP3Account(CAccount *Which);
 
 // Function registers standard functions for YAMN
 int RegisterPOP3Plugin(WPARAM, LPARAM);
 
 // Unloads all variables created on heap (delete[])
-DWORD WINAPI UnLoadPOP3(void *);
+DWORD MIR_CDECL UnLoadPOP3(void *);
 
 // Function stores plugin's data for account to file
-DWORD WINAPI WritePOP3Options(HANDLE, CAccount *);
+DWORD MIR_CDECL WritePOP3Options(HANDLE, CAccount *);
 
 // Function reads plugin's data for account from file
-DWORD WINAPI ReadPOP3Options(CAccount *, char **, char *);
+DWORD MIR_CDECL ReadPOP3Options(CAccount *, char **, char *);
 
 // Creates new mail for an account
-HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account);
+HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account);
 
 // Function does all needed work when connection failed or any error occured
 // Creates structure containing error code, closes internet session, runs "bad connect" function
@@ -47,7 +47,7 @@ static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnect, 
 
 // Checks POP3 account and stores all info to account. It deletes old mails=> synchro
 // WhichTemp- pointer to strucure containing needed information
-DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp);
+void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp);
 
 // Deletes mails from POP3 server
 // WhichTemp- structure containing needed information (queued messages to delete)
@@ -56,10 +56,10 @@ void __cdecl DeleteMailsPOP3(void *param);
 
 // Function makes readable message about error. It sends it back to YAMN, so YAMN then
 // can show it to the message window
-wchar_t *WINAPI GetErrorString(DWORD Code);
+wchar_t *MIR_CDECL GetErrorString(DWORD Code);
 
 // Function deletes string allocated in GetErrorString
-void WINAPI DeleteErrorString(LPVOID String);
+void MIR_CDECL DeleteErrorString(LPVOID String);
 
 // Extracts info from result of POP3's STAT command
 // stream- source string
@@ -143,7 +143,7 @@ CPOP3Account::~CPOP3Account()
 	CloseHandle(UseInternetFree);
 }
 
-CAccount *WINAPI CreatePOP3Account(YAMN_PROTOPLUGIN *)
+CAccount* MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *)
 {
 	// First, we should check whether CAccountVersion matches.
 	// But this is internal plugin, so YAMN's CAccount structure and our CAccount structure are
@@ -155,12 +155,12 @@ CAccount *WINAPI CreatePOP3Account(YAMN_PROTOPLUGIN *)
 	return new CPOP3Account();
 }
 
-void WINAPI DeletePOP3Account(CAccount *Which)
+void MIR_CDECL DeletePOP3Account(CAccount *Which)
 {
 	delete (CPOP3Account *)Which;
 }
 
-void WINAPI StopPOP3Account(CAccount *Which)
+void MIR_CDECL StopPOP3Account(CAccount *Which)
 {
 	((CPOP3Account *)Which)->Client.Stopped = TRUE;
 	if (((CPOP3Account *)Which)->Client.NetClient != nullptr)			// we should inform also network client. Usefull only when network client implements this feature
@@ -244,14 +244,14 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 	return 0;
 }
 
-DWORD WINAPI UnLoadPOP3(void *)
+DWORD MIR_CDECL UnLoadPOP3(void *)
 {
 	Netlib_CloseHandle(hNetLib); hNetLib = nullptr;
 	return 1;
 }
 
 // Function writes POP3 accounts using YAMN exported functions
-DWORD WINAPI WritePOP3Accounts()
+DWORD MIR_CDECL WritePOP3Accounts()
 {
 	uint32_t ReturnValue = WriteAccountsToFile(POP3Plugin, wszFileName);
 	if (ReturnValue == EACC_SYSTEM) {
@@ -263,7 +263,7 @@ DWORD WINAPI WritePOP3Accounts()
 	return ReturnValue;
 }
 
-DWORD WINAPI WritePOP3Options(HANDLE File, CAccount *Which)
+DWORD MIR_CDECL WritePOP3Options(HANDLE File, CAccount *Which)
 {
 	DWORD WrittenBytes;
 	uint32_t Ver = POP3_FILEVERSION;
@@ -274,7 +274,7 @@ DWORD WINAPI WritePOP3Options(HANDLE File, CAccount *Which)
 	return 0;
 }
 
-DWORD WINAPI ReadPOP3Options(CAccount *Which, char **Parser, char *End)
+DWORD MIR_CDECL ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 {
 	uint32_t Ver;
 	#ifdef DEBUG_FILEREAD
@@ -298,7 +298,7 @@ DWORD WINAPI ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 	return 0;
 }
 
-HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account)
+HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account)
 {
 	HYAMNMAIL NewMail;
 	// First, we should check whether MAILDATA matches.
@@ -378,7 +378,7 @@ static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnectio
 }
 
 // Checks POP3 account and synchronizes it
-DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
+void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 {
 	CPop3Client *MyClient;
 	HYAMNMAIL NewMails = nullptr, MsgQueuePtr = nullptr;
@@ -390,16 +390,15 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 	ptrA ServerName, ServerLogin, ServerPasswd;
 	uint32_t ServerPort, Flags, NFlags, NNFlags;
 
-	auto *ActualAccount = (CPOP3Account *)WhichTemp->AccountParam;			// copy address of structure from calling thread to stack of this thread
+	auto *ActualAccount = (CPOP3Account *)WhichTemp->AccountParam;
+	auto CheckFlags = WhichTemp->Flags;
+	delete WhichTemp;
 
 	SCGuard sc(ActualAccount->UsingThreads);
-	// Unblock YAMN, signal that we have copied all parameters from YAMN thread stack
-	if (INVALID_HANDLE_VALUE != WhichTemp->ThreadRunningEV)
-		SetEvent(WhichTemp->ThreadRunningEV);
 	{
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (!sra.Succeeded())
-			return 0;
+			return;
 
 		MyClient = &ActualAccount->Client;
 		// Now, copy all needed information about account to local variables, so ActualAccount is not blocked in read mode during all connection process, which can last for several minutes.
@@ -420,7 +419,7 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 	// the second one waiting for network access- the first one ends because we want to stop account, this one is released, but should be stopped as well).
 	if (!ActualAccount->AbleToWork) {
 		SetEvent(ActualAccount->UseInternetFree);
-		return 0;
+		return;
 	}
 	UsingInternet = TRUE;
 
@@ -627,12 +626,8 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 			}
 
 			// 	we are going to delete mails having SPAM flag level3 and 4 (see m_mails.h) set
-			{
-				struct DeleteParam ParamToDeleteMails = { YAMN_DELETEVERSION, INVALID_HANDLE_VALUE, ActualAccount, 0, (void *)POP3_DELETEFROMCHECK };
-
-				// 	Delete mails from server. Here we should not be in write access for account's mails
-				DeleteMailsPOP3(&ParamToDeleteMails);
-			}
+			// 	Delete mails from server. Here we should not be in write access for account's mails
+			DeleteMailsPOP3(new DeleteParam(ActualAccount, POP3_DELETEFROMCHECK));
 
 			// 	if there is no waiting thread for internet connection close it
 			// 	else leave connection open
@@ -657,6 +652,8 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 		}
 
 		YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, NNFlags, 0 };
+		if (CheckFlags & YAMN_FORCECHECK)
+			Param.nnflags |= YAMN_ACC_POP;  // if force check, show popup anyway and if mailbrowser was opened, do not close
 		Param.nnflags |= YAMN_ACC_MSGP;    // do not close browser if already open
 		RunMailBrowser(&Param);
 
@@ -702,9 +699,6 @@ DWORD WINAPI SynchroPOP3(CheckParam *WhichTemp)
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "</--------Communication-------->\n");
 	#endif
-
-	// 	WriteAccounts();
-	return 0;
 }
 
 void __cdecl DeleteMailsPOP3(void *param)
@@ -719,12 +713,10 @@ void __cdecl DeleteMailsPOP3(void *param)
 
 	// copy address of structure from calling thread to stack of this thread
 	CPOP3Account *ActualAccount = (CPOP3Account *)WhichTemp->AccountParam;
-	LPVOID YAMNParam = WhichTemp->BrowserParam;
-	UINT_PTR POP3PluginParam = (UINT_PTR)WhichTemp->CustomParam;
+	int POP3PluginParam = WhichTemp->Flags;
+	delete WhichTemp;
 
 	SCGuard sc(ActualAccount->UsingThreads);
-	if (INVALID_HANDLE_VALUE != WhichTemp->ThreadRunningEV)
-		SetEvent(WhichTemp->ThreadRunningEV);
 
 	CPop3Client *MyClient;
 	{
@@ -736,7 +728,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		if (nullptr == (DeleteMails = CreateNewDeleteQueueFcn((HYAMNMAIL)ActualAccount->Mails))) {
 			// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
 			if (POP3_DELETEFROMCHECK != POP3PluginParam) {
-				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, YAMNParam };		// Just update the window
+				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, 0 };		// Just update the window
 				RunMailBrowser(&Param);
 			}
 			return;
@@ -925,7 +917,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		// 	else leave connection open
 		// 	if this functin was called from SynchroPOP3, then do not try to disconnect 
 		if (POP3_DELETEFROMCHECK != POP3PluginParam) {
-			YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, YAMN_ACC_MSGP, YAMNParam };
+			YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, YAMN_ACC_MSGP, 0 };
 			RunMailBrowser(&Param);
 
 			if (0 == ActualAccount->InternetQueries.GetNumber()) {
@@ -961,7 +953,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 			ActualAccount->Client.NetClient->Disconnect();
 			break;
 		default:
-			PostErrorProc(ActualAccount, YAMNParam, POP3PluginParam, MyClient->SSL);	// it closes internet connection too
+			PostErrorProc(ActualAccount, 0, POP3PluginParam, MyClient->SSL);	// it closes internet connection too
 		}
 
 		if (UsingInternet && (POP3_DELETEFROMCHECK != POP3PluginParam))	// if our thread still uses internet and it is needed to release internet
@@ -1122,7 +1114,7 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 	}
 }
 
-wchar_t *WINAPI GetErrorString(DWORD Code)
+wchar_t *MIR_CDECL GetErrorString(DWORD Code)
 {
 	static wchar_t *POP3Errors[] =
 	{
@@ -1177,7 +1169,7 @@ wchar_t *WINAPI GetErrorString(DWORD Code)
 	return ErrorString;
 }
 
-void WINAPI DeleteErrorString(LPVOID String)
+void MIR_CDECL DeleteErrorString(LPVOID String)
 {
 	delete (char *)String;
 }

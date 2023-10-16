@@ -1819,8 +1819,6 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 					mir_snwprintf(DeleteMsg, TranslateT("Do you really want to delete %d selected mails?"), Total);
 					if (IDOK == MessageBox(hDlg, DeleteMsg, TranslateT("Delete confirmation"), MB_OKCANCEL | MB_ICONWARNING)) {
-						struct DeleteParam ParamToDeleteMails = { YAMN_DELETEVERSION, ThreadRunningEV, ActualAccount, nullptr };
-
 						// Find if there's mail marked to delete, which was deleted before
 						SWriteGuard swm(ActualAccount->MessagesAccessSO);
 						if (swm.Succeeded()) {
@@ -1832,12 +1830,12 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 									continue;
 								}
 							}
+							
 							// Set flag to marked mails that they can be deleted
 							SetRemoveFlagsInQueueFcn((HYAMNMAIL)ActualAccount->Mails, YAMN_MSG_DISPLAY | YAMN_MSG_USERDELETE, 0, YAMN_MSG_DELETEOK, 1);
+							
 							// Create new thread which deletes marked mails.
-							HANDLE NewThread = mir_forkthread(ActualAccount->Plugin->Fcn->DeleteMailsFcnPtr, &ParamToDeleteMails);
-							if (NewThread != nullptr)
-								WaitForSingleObject(ThreadRunningEV, INFINITE);
+							mir_forkthread(ActualAccount->Plugin->Fcn->DeleteMailsFcnPtr, new DeleteParam(ActualAccount, 0));
 						}
 					}
 					else // else mark messages that they are not to be deleted

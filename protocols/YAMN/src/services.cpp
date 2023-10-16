@@ -65,11 +65,6 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (CAccount *ActualAccount = FindAccountByContact(POP3Plugin, hContact)) {
-		// we use event to signal, that running thread has all needed stack parameters copied
-		HANDLE ThreadRunningEV;
-		if (nullptr == (ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
-			return 0;
-
 		// if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
@@ -78,14 +73,9 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		SReadGuard sra(ActualAccount->AccountAccessSO);
 		if (sra.Succeeded()) {
 			// account cannot be forced to check
-			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE)) { 
-				DWORD tid;
-				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount };
-				if (CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
-					WaitForSingleObject(ThreadRunningEV, INFINITE);
-			}
+			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))
+				mir_forkThread<CheckParam>(ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, new CheckParam(ActualAccount, g_plugin.CheckFlags()));
 		}
-		CloseHandle(ThreadRunningEV);
 	}
 	return 0;
 }
