@@ -41,7 +41,7 @@ char *CPop3Client::Connect(const char *servername, const int port, BOOL UseSSL, 
 	NetClient = new CNLClient;
 
 	#ifdef DEBUG_DECODE
-	DebugLog(DecodeFile, "Connect:servername: %s port:%d\n", servername, port);
+	mir_writeLogA(DecodeFile, "Connect:servername: %s port:%d\n", servername, port);
 	#endif
 	POP3Error = EPOP3_CONNECT;
 	NetClient->Connect(servername, port);

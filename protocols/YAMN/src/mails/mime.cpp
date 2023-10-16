@@ -209,55 +209,55 @@ void ExtractShortHeader(CMimeItem *items, CShortHeader *head)
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting from>");
+			mir_writeLogA(DecodeFile, "<Extracting from>");
 			#endif
 			ExtractAddressFromLine(items->value, &head->From, &head->FromNick);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Return-Path", 11)) {
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting return-path>");
+			mir_writeLogA(DecodeFile, "<Extracting return-path>");
 			#endif
 			ExtractAddressFromLine(items->value, &head->ReturnPath, &head->ReturnPathNick);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Subject", 7)) {
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting subject>");
+			mir_writeLogA(DecodeFile, "<Extracting subject>");
 			#endif
 			ExtractStringFromLine(items->value, &head->Subject);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Body", 4)) {
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting body>");
+			mir_writeLogA(DecodeFile, "<Extracting body>");
 			#endif
 			ExtractStringFromLine(items->value, &head->Body);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Date", 4)) {
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting date>");
+			mir_writeLogA(DecodeFile, "<Extracting date>");
 			#endif
 			ExtractStringFromLine(items->value, &head->Date);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Content-Type", 12)) {
@@ -266,11 +266,11 @@ void ExtractShortHeader(CMimeItem *items, CShortHeader *head)
 
 			char *ContentType = nullptr, *CharSetStr;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting Content-Type>");
+			mir_writeLogA(DecodeFile, "<Extracting Content-Type>");
 			#endif
 			ExtractStringFromLine(items->value, &ContentType);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 			ToLower(ContentType);
 			if (nullptr != (CharSetStr = ExtractFromContentType(ContentType, "charset="))) {
@@ -283,7 +283,7 @@ void ExtractShortHeader(CMimeItem *items, CShortHeader *head)
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting importance>");
+			mir_writeLogA(DecodeFile, "<Extracting importance>");
 			#endif
 			if (head->Priority != -1) {
 				if (0 == strncmp(items->value, "low", 3))
@@ -294,19 +294,19 @@ void ExtractShortHeader(CMimeItem *items, CShortHeader *head)
 					head->Priority = 1;
 			}
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 		else if (0 == _strnicmp(items->name, "X-Priority", 10)) {
 			if (items->value == nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<X-Priority>");
+			mir_writeLogA(DecodeFile, "<X-Priority>");
 			#endif
 			if ((*items->value >= '1') && (*items->value <= '5'))
 				head->Priority = *items->value - '0';
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "</Extracting>\n");
+			mir_writeLogA(DecodeFile, "</Extracting>\n");
 			#endif
 		}
 
@@ -387,7 +387,7 @@ void ExtractHeader(CMimeItem *items, int &CP, CHeader *head)
 	CShortHeader ShortHeader = {};
 	ShortHeader.Priority = ShortHeader.CP = -1;
 	#ifdef DEBUG_DECODE
-	DebugLog(DecodeFile, "<Extracting header>\n");
+	mir_writeLogA(DecodeFile, "<Extracting header>\n");
 	#endif
 	ExtractShortHeader(items, &ShortHeader);
 
@@ -395,61 +395,61 @@ void ExtractHeader(CMimeItem *items, int &CP, CHeader *head)
 	CP = ShortHeader.CP == -1 ? CP : ShortHeader.CP;
 	#ifdef DEBUG_DECODE
 	if (NULL != ShortHeader.From)
-		DebugLog(DecodeFile, "<Decoded from>%s</Decoded)\n", ShortHeader.From);
+		mir_writeLogA(DecodeFile, "<Decoded from>%s</Decoded)\n", ShortHeader.From);
 	if (NULL != ShortHeader.FromNick)
-		DebugLog(DecodeFile, "<Decoded from-nick>%s</Decoded)\n", ShortHeader.FromNick);
+		mir_writeLogA(DecodeFile, "<Decoded from-nick>%s</Decoded)\n", ShortHeader.FromNick);
 	if (NULL != ShortHeader.ReturnPath)
-		DebugLog(DecodeFile, "<Decoded return-path>%s</Decoded)\n", ShortHeader.ReturnPath);
+		mir_writeLogA(DecodeFile, "<Decoded return-path>%s</Decoded)\n", ShortHeader.ReturnPath);
 	if (NULL != ShortHeader.ReturnPathNick)
-		DebugLog(DecodeFile, "<Decoded return-path nick>%s</Decoded)\n", ShortHeader.ReturnPathNick);
+		mir_writeLogA(DecodeFile, "<Decoded return-path nick>%s</Decoded)\n", ShortHeader.ReturnPathNick);
 	if (NULL != ShortHeader.Subject)
-		DebugLog(DecodeFile, "<Decoded subject>%s</Decoded)\n", ShortHeader.Subject);
+		mir_writeLogA(DecodeFile, "<Decoded subject>%s</Decoded)\n", ShortHeader.Subject);
 	if (NULL != ShortHeader.Date)
-		DebugLog(DecodeFile, "<Decoded date>%s</Decoded)\n", ShortHeader.Date);
-	DebugLog(DecodeFile, "</Extracting header>\n");
-	DebugLog(DecodeFile, "<Convert>\n");
+		mir_writeLogA(DecodeFile, "<Decoded date>%s</Decoded)\n", ShortHeader.Date);
+	mir_writeLogA(DecodeFile, "</Extracting header>\n");
+	mir_writeLogA(DecodeFile, "<Convert>\n");
 	#endif
 
 	head->wszFrom = ConvertCodedStringToUnicode(ShortHeader.From, CP, MIME_PLAIN);
 
 	#ifdef DEBUG_DECODE
 	if (NULL != head->From)
-		DebugLogW(DecodeFile, L"<Converted from>%s</Converted>\n", head->From);
+		mir_writeLogW(DecodeFile, L"<Converted from>%s</Converted>\n", head->From);
 	#endif
 	head->wszFromNick = ConvertCodedStringToUnicode(ShortHeader.FromNick, CP, MIME_MAIL);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->FromNick)
-		DebugLogW(DecodeFile, L"<Converted from-nick>%s</Converted>\n", head->FromNick);
+		mir_writeLogW(DecodeFile, L"<Converted from-nick>%s</Converted>\n", head->FromNick);
 	#endif
 	head->wszReturnPath = ConvertCodedStringToUnicode(ShortHeader.ReturnPath, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPath)
-		DebugLogW(DecodeFile, L"<Converted return-path>%s</Converted>\n", head->ReturnPath);
+		mir_writeLogW(DecodeFile, L"<Converted return-path>%s</Converted>\n", head->ReturnPath);
 	#endif
 	head->wszReturnPathNick = ConvertCodedStringToUnicode(ShortHeader.ReturnPathNick, CP, MIME_MAIL);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPathNick)
-		DebugLogW(DecodeFile, L"<Converted return-path nick>%s</Converted>\n", head->ReturnPathNick);
+		mir_writeLogW(DecodeFile, L"<Converted return-path nick>%s</Converted>\n", head->ReturnPathNick);
 	#endif
 	head->wszSubject = ConvertCodedStringToUnicode(ShortHeader.Subject, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Subject)
-		DebugLogW(DecodeFile, L"<Converted subject>%s</Converted>\n", head->Subject);
+		mir_writeLogW(DecodeFile, L"<Converted subject>%s</Converted>\n", head->Subject);
 	#endif
 	head->wszDate = ConvertCodedStringToUnicode(ShortHeader.Date, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Date)
-		DebugLogW(DecodeFile, L"<Converted date>%s</Converted>\n", head->Date);
+		mir_writeLogW(DecodeFile, L"<Converted date>%s</Converted>\n", head->Date);
 	#endif
 
 	head->wszBody = ConvertCodedStringToUnicode(ShortHeader.Body, CP, MIME_PLAIN);
 	#ifdef DEBUG_DECODE
 	if (NULL != head->Body)
-		DebugLogW(DecodeFile, L"<Converted Body>%s</Converted>\n", head->Body);
+		mir_writeLogW(DecodeFile, L"<Converted Body>%s</Converted>\n", head->Body);
 	#endif
 
 	#ifdef DEBUG_DECODE
-	DebugLog(DecodeFile, "</Convert>\n");
+	mir_writeLogA(DecodeFile, "</Convert>\n");
 	#endif
 
 	DeleteShortHeaderContent(&ShortHeader);

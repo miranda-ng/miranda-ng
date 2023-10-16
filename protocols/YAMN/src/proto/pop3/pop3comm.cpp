@@ -583,7 +583,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 				TranslateHeaderFcn(Temp, MyClient->NetClient->Rcv - (Temp - DataRX), &MsgQueuePtr->MailData->TranslatedHeader);
 
 				#ifdef DEBUG_DECODE
-				DebugLog(DecodeFile, "</New mail>\n");
+				mir_writeLogA(DecodeFile, "</New mail>\n");
 				#endif
 				MsgQueuePtr->Flags |= YAMN_MSG_NORMALNEW;
 				if (autoretr)
@@ -655,7 +655,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		if (ActualAccount->Client.POP3Error == EPOP3_STOPPED)
 			ActualAccount->SystemError = EACC_STOPPED;
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "ERROR: %x\n", ErrorCode);
+		mir_writeLogA(CommFile, "ERROR: %x\n", ErrorCode);
 		#endif
 		{
 			SWriteGuard swm(ActualAccount->MessagesAccessSO);
@@ -684,7 +684,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 	}
 
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "</--------Communication-------->\n");
+	mir_writeLogA(CommFile, "</--------Communication-------->\n");
 	#endif
 }
 
@@ -743,7 +743,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 	try {
 		SetContactStatus(ActualAccount, ID_STATUS_OCCUPIED);
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "<--------Communication-------->\n");
+		mir_writeLogA(CommFile, "<--------Communication-------->\n");
 		#endif
 		if ((MyClient->NetClient == nullptr) || !MyClient->NetClient->Connected()) {
 			SetStatusFcn(ActualAccount, TranslateT("Connecting to server"));
@@ -787,7 +787,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		}
 
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<--------Deleting requested mails-------->\n");
+		mir_writeLogA(DecodeFile, "<--------Deleting requested mails-------->\n");
 		#endif
 		if (POP3_DELETEFROMCHECK != POP3PluginParam)	// We do not need to get mails on server as we have already it from check function
 		{
@@ -796,13 +796,13 @@ void __cdecl DeleteMailsPOP3(void *param)
 			char *DataRX = MyClient->Stat();
 
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<Extracting stat>\n");
+			mir_writeLogA(DecodeFile, "<Extracting stat>\n");
 			#endif
 			ExtractStat(DataRX, &mboxsize, &msgs);
 			#ifdef DEBUG_DECODE
-			DebugLog(DecodeFile, "<MailBoxSize>%d</MailBoxSize>\n", mboxsize);
-			DebugLog(DecodeFile, "<Msgs>%d</Msgs>\n", msgs);
-			DebugLog(DecodeFile, "</Extracting stat>\n");
+			mir_writeLogA(DecodeFile, "<MailBoxSize>%d</MailBoxSize>\n", mboxsize);
+			mir_writeLogA(DecodeFile, "<Msgs>%d</Msgs>\n", msgs);
+			mir_writeLogA(DecodeFile, "</Extracting stat>\n");
 			#endif
 			if (DataRX != nullptr)
 				free(DataRX);
@@ -822,12 +822,12 @@ void __cdecl DeleteMailsPOP3(void *param)
 
 			if (msgs) {
 				#ifdef DEBUG_DECODE
-				DebugLog(DecodeFile, "<Extracting UIDL>\n");
+				mir_writeLogA(DecodeFile, "<Extracting UIDL>\n");
 				#endif
 				DataRX = MyClient->Uidl();
 				ExtractUIDL(DataRX, MyClient->NetClient->Rcv, NewMails);
 				#ifdef DEBUG_DECODE
-				DebugLog(DecodeFile, "</Extracting UIDL>\n");
+				mir_writeLogA(DecodeFile, "</Extracting UIDL>\n");
 				#endif
 				if (DataRX != nullptr)
 					free(DataRX);
@@ -894,7 +894,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		}
 
 		#ifdef DEBUG_DECODE     	
-		DebugLog(DecodeFile, "</--------Deleting requested mails-------->\n");
+		mir_writeLogA(DecodeFile, "</--------Deleting requested mails-------->\n");
 		#endif
 
 		// 	TODO: now, we have in NewMails new mails. If NewMails is not NULL, we found some new mails, so Checking for new mail should be performed
@@ -931,7 +931,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		if (ActualAccount->Client.POP3Error == EPOP3_STOPPED)
 			ActualAccount->SystemError = EACC_STOPPED;
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "ERROR %x\n", ErrorCode);
+		mir_writeLogA(CommFile, "ERROR %x\n", ErrorCode);
 		#endif
 
 		switch (ActualAccount->SystemError) {
@@ -951,7 +951,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 	DeleteMessagesToEndFcn(ActualAccount, DeleteMails);
 
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "</--------Communication-------->\n");
+	mir_writeLogA(CommFile, "</--------Communication-------->\n");
 	#endif
 
 	// 	WriteAccounts();
@@ -989,14 +989,14 @@ void ExtractMail(char *stream, int len, HYAMNMAIL queue)
 		if (DOTLINE(finder + 1))					// at the end of stream
 			break;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Message>\n");
+		mir_writeLogA(DecodeFile, "<Message>\n");
 		#endif
 		SkipSpaces(finder);			// jump whitespace
 		if (1 != sscanf(finder, "%d", &msgnr))
 			throw (uint32_t)EPOP3_UIDL;
 
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
+		mir_writeLogA(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
 		#endif
 
 		SkipNonSpaces(finder);
@@ -1009,8 +1009,8 @@ void ExtractMail(char *stream, int len, HYAMNMAIL queue)
 		queueptr->MailData->Body[i] = 0;				// ends string
 		queueptr->Number = msgnr;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<ID>%s</ID>\n", queueptr->MailData->Body);
-		DebugLog(DecodeFile, "</Message>\n");
+		mir_writeLogA(DecodeFile, "<ID>%s</ID>\n", queueptr->MailData->Body);
+		mir_writeLogA(DecodeFile, "</Message>\n");
 		#endif
 		queueptr = queueptr->Next;
 		while (!ENDLINE(finder)) finder++;
@@ -1032,13 +1032,13 @@ void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
 		if (DOTLINE(finder + 1))					// at the end of stream
 			break;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Message>\n");
+		mir_writeLogA(DecodeFile, "<Message>\n");
 		#endif
 		SkipSpaces(finder);
 		if (1 != sscanf(finder, "%d", &msgnr))
 			throw (uint32_t)EPOP3_UIDL;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
+		mir_writeLogA(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
 		#endif
 		// 		for (i=1,queueptr=queue;(queueptr->Next != NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
 		// 		if (i != msgnr)
@@ -1053,8 +1053,8 @@ void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
 		queueptr->ID[i] = 0;				// ends string
 		queueptr->Number = msgnr;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<ID>%s</ID>\n", queueptr->ID);
-		DebugLog(DecodeFile, "</Message>\n");
+		mir_writeLogA(DecodeFile, "<ID>%s</ID>\n", queueptr->ID);
+		mir_writeLogA(DecodeFile, "</Message>\n");
 		#endif
 		queueptr = queueptr->Next;
 		while (!ENDLINE(finder)) finder++;
@@ -1076,13 +1076,13 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 		if (DOTLINE(finder + 1))				// at the end of stream
 			break;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Message>\n", NULL, 0);
+		mir_writeLogA(DecodeFile, "<Message>\n", NULL, 0);
 		#endif
 		SkipSpaces(finder);
 		if (1 != sscanf(finder, "%d", &msgnr))		// message nr.
 			throw (uint32_t)EPOP3_LIST;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
+		mir_writeLogA(DecodeFile, "<Nr>%d</Nr>\n", msgnr);
 		#endif
 
 		for (i = 1, queueptr = queue; (queueptr->Next != nullptr) && (i < msgnr); queueptr = queueptr->Next, i++);
@@ -1095,7 +1095,7 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 		if (1 != sscanf(finder, "%u", &queueptr->MailData->Size))
 			throw (uint32_t)EPOP3_LIST;
 		#ifdef DEBUG_DECODE
-		DebugLog(DecodeFile, "<Nr>%d</Nr>\n", queueptr->MailData->Size);
+		mir_writeLogA(DecodeFile, "<Nr>%d</Nr>\n", queueptr->MailData->Size);
 		#endif
 		while (!ENDLINE(finder)) finder++;
 	}

@@ -188,7 +188,7 @@ int GetCharsetFromString(char *input, size_t size)
 	*parser = 0;
 
 	#ifdef DEBUG_DECODECODEPAGE
-	DebugLog(DecodeFile, "<CodePage>%s</CodePage>", pout);
+	mir_writeLogA(DecodeFile, "<CodePage>%s</CodePage>", pout);
 	#endif
 
 	for (int i = 0; i < CPLENALL; i++) {
@@ -239,7 +239,7 @@ int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ)
 {
 	#ifdef DEBUG_DECODEQUOTED
 	char *DstTemp = Dst;
-	DebugLog(DecodeFile, "<Decode Quoted><Input>%s</Input>", Src);
+	mir_writeLogA(DecodeFile, "<Decode Quoted><Input>%s</Input>", Src);
 	#endif
 
 	for (auto *Limit = Dst + DstLen; *Src != 0 && Dst < Limit; Src++) {
@@ -279,7 +279,7 @@ int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ)
 	*Dst = 0;
 
 	#ifdef DEBUG_DECODEQUOTED
-	DebugLog(DecodeFile, "<Output>%s</Output></Decode Quoted>", DstTemp);
+	mir_writeLogA(DecodeFile, "<Output>%s</Output></Decode Quoted>", DstTemp);
 	#endif
 	return 1;
 }
@@ -304,7 +304,7 @@ int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out)
 		cp = CP_ACP;
 
 	#ifdef DEBUG_DECODECODEPAGE
-	DebugLog(DecodeFile, "<CodePage #>%d</CodePage #>", cp);
+	mir_writeLogA(DecodeFile, "<CodePage #>%d</CodePage #>", cp);
 	#endif
 
 	for (Index = 0; Index < sizeof(CodePagesZeroFlags) / sizeof(CodePagesZeroFlags[0]); Index++)

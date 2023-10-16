@@ -195,45 +195,24 @@ uint32_t FileToMemory(const wchar_t *FileName, char **MemFile, char **End)
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 uint32_t ReadStringFromMemory(char **Parser, wchar_t *End, char **StoreTo, wchar_t *DebugString)
+#else
+uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
+#endif
 {
-	// This is the debug version of ReadStringFromMemory function. This version shows MessageBox where
-	// read string is displayed
-	wchar_t *Dest, *Finder;
-	uint32_t Size;
-	wchar_t Debug[65536];
-
-	Finder = *Parser;
+	char *Finder = *Parser;
 	while ((*Finder != (wchar_t)0) && (Finder <= End)) Finder++;
+
+	#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
+	wchar_t Debug[65536];
 	mir_snwprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder - *Parser, End - Finder);
 	MessageBox(NULL, Debug, L"debug", MB_OK);
+	#endif
+
 	if (Finder >= End)
 		return EACC_FILECOMPATIBILITY;
-	if (Size = Finder - *Parser) {
-		if (NULL == (Dest = *StoreTo = new wchar_t[Size + 1]))
-			return EACC_ALLOC;
-		for (; *Parser <= Finder; (*Parser)++, Dest++)
-			*Dest = **Parser;
-	}
-	else {
-		*StoreTo = NULL;
-		(*Parser)++;
-	}
-	return 0;
-}
-#endif
-
-uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
-{
-	char *Dest, *Finder;
-	uint32_t Size;
-
-	Finder = *Parser;
-	while ((*Finder != (wchar_t)0) && (Finder <= End)) Finder++;
-	if (Finder >= End)
-		return EACC_FILECOMPATIBILITY;
-	if (Size = Finder - *Parser) {
-		if (nullptr == (Dest = *StoreTo = new char[Size + 1]))
-			return EACC_ALLOC;
+	
+	if (uint32_t Size = Finder - *Parser) {
+		char *Dest = *StoreTo = new char[Size + 1];
 		for (; *Parser <= Finder; (*Parser)++, Dest++)
 			*Dest = **Parser;
 	}
@@ -246,45 +225,24 @@ uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo, wchar_t *DebugString)
+#else
+uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
+#endif
 {
-	// This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
-	// read string is displayed
-	wchar_t *Dest, *Finder;
-	uint32_t Size;
-	wchar_t Debug[65536];
-
-	Finder = *Parser;
+	wchar_t *Finder = *Parser;
 	while ((*Finder != (wchar_t)0) && (Finder <= (wchar_t *)End)) Finder++;
+
+	#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
+	wchar_t Debug[65536];
 	mir_snwprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder - *Parser, (wchar_t *)End - Finder);
 	MessageBoxW(NULL, Debug, L"debug", MB_OK);
+	#endif
+
 	if (Finder >= (wchar_t *)End)
 		return EACC_FILECOMPATIBILITY;
-	if (Size = Finder - *Parser) {
-		if (NULL == (Dest = *StoreTo = new wchar_t[Size + 1]))
-			return EACC_ALLOC;
-		for (; *Parser <= Finder; (*Parser)++, Dest++)
-			*Dest = **Parser;
-	}
-	else {
-		*StoreTo = NULL;
-		(*Parser)++;
-	}
-	return 0;
-}
-#endif  // if defined(DEBUG...)
-
-uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
-{
-	wchar_t *Dest, *Finder;
-	uint32_t Size;
-
-	Finder = *Parser;
-	while ((*Finder != (wchar_t)0) && (Finder <= (wchar_t *)End)) Finder++;
-	if (Finder >= (wchar_t *)End)
-		return EACC_FILECOMPATIBILITY;
-	if (Size = Finder - *Parser) {
-		if (nullptr == (Dest = *StoreTo = new wchar_t[Size + 1]))
-			return EACC_ALLOC;
+	
+	if (uint32_t Size = Finder - *Parser) {
+		wchar_t *Dest = *StoreTo = new wchar_t[Size + 1];
 		for (; *Parser <= Finder; (*Parser)++, Dest++)
 			*Dest = **Parser;
 	}
@@ -368,15 +326,14 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 		if (Finder >= End)
 			return EACC_FILECOMPATIBILITY;
 		if (Size = Finder - *Parser) {
-			if (Which->Mails == nullptr)		// First message in queue
-			{
+			if (Which->Mails == nullptr) { // First message in queue
 				if (nullptr == (Which->Mails = ActualMail = CreateAccountMail(Which)))
 					return EACC_ALLOC;
 			}
 			else {
-				if (nullptr == (ActualMail->Next = CreateAccountMail(Which))) {
+				if (nullptr == (ActualMail->Next = CreateAccountMail(Which)))
 					return EACC_ALLOC;
-				}
+
 				ActualMail = ActualMail->Next;
 			}
 			items = nullptr;
@@ -386,7 +343,6 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 			if (Stat = ReadStringFromMemory(Parser, End, &ActualMail->ID))
 				#endif
 				return Stat;
-			// 			ActualMail->MailData=new MAILDATA;		 !!! mem leake !!! this is alloc by CreateAccountMail, no need for doubble alloc !!!!
 
 			ActualMail->MailData->Size = *(uint32_t *)(*Parser);
 			(*Parser) += sizeof(uint32_t);
@@ -415,7 +371,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 					break;
 
 				#ifdef DEBUG_DECODE
-				DebugLog(DecodeFile, "<read name>%s</read name>", ReadString);
+				mir_writeLogA(DecodeFile, "<read name>%s</read name>", ReadString);
 				#endif
 
 				if (items == nullptr)
@@ -436,14 +392,14 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 					return Stat;
 				items->value = ReadString;
 				#ifdef DEBUG_DECODE
-				DebugLog(DecodeFile, "<read value>%s</read value>\n", ReadString);
+				mir_writeLogA(DecodeFile, "<read value>%s</read value>\n", ReadString);
 				#endif
 			} while (1);
 		}
 		else
 			break;		// no next messages, new account!
 
-	} while (1);
+	} while (true);
 	(*Parser)++;
 	return 0;
 }
@@ -509,8 +465,8 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	mir_snwprintf(Debug, L"STFlags: %04x, remaining %d chars", Which->StatusFlags, End - *Parser);
 	MessageBox(NULL, Debug, L"debug", MB_OK);
 	#endif
-	Which->PluginFlags = *(uint32_t *)(*Parser);
-	(*Parser) += sizeof(uint32_t);
+	
+	(*Parser) += sizeof(uint32_t); // PluginFlags
 	#ifdef DEBUG_FILEREAD
 	mir_snwprintf(Debug, L"PFlags: %04x, remaining %d chars", Which->PluginFlags, End - *Parser);
 	MessageBox(NULL, Debug, L"debug", MB_OK);
@@ -761,9 +717,11 @@ static INT_PTR PerformAccountWriting(YAMN_PROTOPLUGIN *Plugin, HANDLE File)
 			}
 			CodeDecodeString(ActualAccount->Server->Passwd, FALSE);
 
+			uint32_t PluginFlags = 0;
+
 			if ((!WriteFile(File, (char *)&ActualAccount->Flags, sizeof(uint32_t), &WrittenBytes, nullptr) ||
 				(!WriteFile(File, (char *)&ActualAccount->StatusFlags, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
-				(!WriteFile(File, (char *)&ActualAccount->PluginFlags, sizeof(uint32_t), &WrittenBytes, nullptr))))
+				(!WriteFile(File, (char *)&PluginFlags, sizeof(uint32_t), &WrittenBytes, nullptr))))
 				throw (uint32_t)EACC_SYSTEM;
 
 			if (!WriteFile(File, (char *)&ActualAccount->Interval, sizeof(uint16_t), &WrittenBytes, nullptr))

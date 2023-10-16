@@ -33,7 +33,7 @@ void __stdcall	SSL_DebugLog(const char *fmt, ...)
 HANDLE RegisterNLClient(char *name)
 {
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "<Register PROXY support>");
+	mir_writeLogA(CommFile, "<Register PROXY support>");
 	#endif
 
 	NETLIBUSER nlu = {};
@@ -44,9 +44,9 @@ HANDLE RegisterNLClient(char *name)
 
 	#ifdef DEBUG_COMM
 	if (NULL == hNetlibUser)
-		DebugLog(CommFile, "<error></Register PROXY support>\n");
+		mir_writeLogA(CommFile, "<error></Register PROXY support>\n");
 	else
-		DebugLog(CommFile, "</Register PROXY support>\n");
+		mir_writeLogA(CommFile, "</Register PROXY support>\n");
 	#endif
 	return hNetlibUser;
 }
@@ -84,7 +84,7 @@ void CNLClient::Connect(const char *servername, const int port)
 	isTLSed = false;
 
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "<connect>\n");
+	mir_writeLogA(CommFile, "<connect>\n");
 	#endif
 	try {
 		if (nullptr == (hConnection = Netlib_OpenConnection(hNetlibUser, servername, port))) {
@@ -92,13 +92,13 @@ void CNLClient::Connect(const char *servername, const int port)
 			throw NetworkError = (uint32_t)ENL_CONNECT;
 		}
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "</connect>\n");
+		mir_writeLogA(CommFile, "</connect>\n");
 		#endif
 		return;
 	}
 	catch (...) {
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "<error></connect>\n");
+		mir_writeLogA(CommFile, "<error></connect>\n");
 		#endif
 		throw;
 	}
@@ -120,7 +120,7 @@ void CNLClient::Send(const char *query)
 	if (hConnection == nullptr)
 		return;
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "<send>%s", query);
+	mir_writeLogA(CommFile, "<send>%s", query);
 	#endif
 	try {
 		if ((SOCKET_ERROR == (Sent = LocalNetlib_Send(hConnection, query, (int)mir_strlen(query), MSG_DUMPASTEXT))) || Sent != (unsigned int)mir_strlen(query)) {
@@ -128,12 +128,12 @@ void CNLClient::Send(const char *query)
 			throw NetworkError = (uint32_t)ENL_SEND;
 		}
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "</send>\n");
+		mir_writeLogA(CommFile, "</send>\n");
 		#endif
 	}
 	catch (...) {
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "<error></send>\n");
+		mir_writeLogA(CommFile, "<error></send>\n");
 		#endif
 		throw;
 	}
@@ -161,7 +161,7 @@ int CNLClient::LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags
 char *CNLClient::Recv(char *buf, int buflen)
 {
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "<reading>");
+	mir_writeLogA(CommFile, "<reading>");
 	#endif
 	try {
 		if (buf == nullptr)
@@ -197,14 +197,14 @@ char *CNLClient::Recv(char *buf, int buflen)
 		}
 		#ifdef DEBUG_COMM
 		*(buf + Rcv) = 0;				//end the buffer to write it to file
-		DebugLog(CommFile, "%s", buf);
-		DebugLog(CommFile, "</reading>\n");
+		mir_writeLogA(CommFile, "%s", buf);
+		mir_writeLogA(CommFile, "</reading>\n");
 		#endif
 		return(buf);
 	}
 	catch (...) {
 		#ifdef DEBUG_COMM
-		DebugLog(CommFile, "<error></reading>\n");
+		mir_writeLogA(CommFile, "<error></reading>\n");
 		#endif
 		throw;
 	}
@@ -221,12 +221,12 @@ void CNLClient::Disconnect()
 void UnregisterNLClient()
 {
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "<Unregister PROXY support>");
+	mir_writeLogA(CommFile, "<Unregister PROXY support>");
 	#endif
 
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = nullptr;
 	#ifdef DEBUG_COMM
-	DebugLog(CommFile, "</Unregister PROXY support>\n");
+	mir_writeLogA(CommFile, "</Unregister PROXY support>\n");
 	#endif
 }
