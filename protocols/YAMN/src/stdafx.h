@@ -15,7 +15,6 @@
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_langpack.h>
-#include <m_messages.h>
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>
@@ -31,6 +30,7 @@
 #include "mails/mails.h"
 
 #include "account.h"
+#include "messages.h"
 #include "protoplugin.h"
 
 #include "main.h"
@@ -209,8 +209,6 @@ extern HIMAGELIST CSImages;
 int SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn);
 
 void __stdcall SSL_DebugLog(const char *fmt, ...);
-
-extern struct WndHandles *MessageWnd;
 
 YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
 
