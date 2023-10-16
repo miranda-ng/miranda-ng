@@ -895,7 +895,7 @@ int DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which)
 {
 	// 1. set stop signal 
 	StopSignalFcn(Which);
-	WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Which, 0);
+	WindowList_BroadcastAsync(MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Which, 0);
 	if (Plugin->Fcn->StopAccountFcnPtr != nullptr)
 		Plugin->Fcn->StopAccountFcnPtr(Which);
 
@@ -948,7 +948,7 @@ int StopAccounts(YAMN_PROTOPLUGIN *Plugin)
 	for (Finder = Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		// 2. set stop signal 
 		StopSignalFcn(Finder);
-		WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Finder, 0);
+		WindowList_BroadcastAsync(MessageWnds, WM_YAMN_STOPACCOUNT, (WPARAM)Finder, 0);
 		if (Plugin->Fcn->StopAccountFcnPtr != nullptr)
 			Plugin->Fcn->StopAccountFcnPtr(Finder);
 	}
@@ -1006,5 +1006,5 @@ void SetStatusFcn(CAccount *Which, wchar_t *Value)
 		mir_wstrcpy(Which->Status, Value);
 	}
 
-	WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUS, (WPARAM)Which, 0);
+	WindowList_BroadcastAsync(MessageWnds, WM_YAMN_CHANGESTATUS, (WPARAM)Which, 0);
 }

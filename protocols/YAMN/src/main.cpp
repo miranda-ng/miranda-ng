@@ -22,7 +22,8 @@ BOOL UninstallPlugins;
 
 HANDLE hAccountFolder;
 
-YAMN_VARIABLES YAMNVar;
+MWindowList MessageWnds, NewMailAccountWnd;
+bool g_bShutdown = false;
 
 CMPlugin	g_plugin;
 
@@ -171,9 +172,8 @@ int CMPlugin::Load()
 	optDateTime = g_plugin.getByte(YAMN_DBTIMEOPTIONS, optDateTime);
 
 	// Create new window queues for broadcast messages
-	YAMNVar.MessageWnds = WindowList_Create();
-	YAMNVar.NewMailAccountWnd = WindowList_Create();
-	YAMNVar.Shutdown = FALSE;
+	MessageWnds = WindowList_Create();
+	NewMailAccountWnd = WindowList_Create();
 
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
@@ -214,8 +214,8 @@ int CMPlugin::Unload()
 	UnInitDebug();
 	#endif
 
-	WindowList_Destroy(YAMNVar.MessageWnds);
-	WindowList_Destroy(YAMNVar.NewMailAccountWnd);
+	WindowList_Destroy(MessageWnds);
+	WindowList_Destroy(NewMailAccountWnd);
 
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurSplitWE);

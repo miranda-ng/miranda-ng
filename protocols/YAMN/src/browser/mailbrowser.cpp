@@ -732,11 +732,11 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	case UM_INITPOPUP:
 		// This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
-		WindowList_Add(YAMNVar.MessageWnds, hWnd);
+		WindowList_Add(MessageWnds, hWnd);
 		break;
 
 	case UM_DESTROYPOPUP:
-		WindowList_Remove(YAMNVar.MessageWnds, hWnd);
+		WindowList_Remove(MessageWnds, hWnd);
 		break;
 
 	case WM_YAMN_STOPACCOUNT:
@@ -781,11 +781,11 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 	case UM_INITPOPUP:
 		// This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
-		WindowList_Add(YAMNVar.MessageWnds, hWnd);
+		WindowList_Add(MessageWnds, hWnd);
 		break;
 
 	case UM_DESTROYPOPUP:
-		WindowList_Remove(YAMNVar.MessageWnds, hWnd);
+		WindowList_Remove(MessageWnds, hWnd);
 		break;
 
 	case WM_YAMN_STOPACCOUNT:
@@ -1217,7 +1217,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			else {
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags &= ~YAMN_MSG_UNSEEN; // mark the message as seen
-					HWND hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)MailParam->account);
+					HWND hMailBrowser = WindowList_Find(NewMailAccountWnd, (UINT_PTR)MailParam->account);
 					if (hMailBrowser) {
 						struct CChangeContent Params = { MailParam->account->NewMailN.Flags | YAMN_ACC_MSGP, MailParam->account->NoNewMailN.Flags | YAMN_ACC_MSGP };
 						SendMessage(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)MailParam->account, (LPARAM)&Params);
@@ -1404,7 +1404,7 @@ void __cdecl ShowEmailThread(void *Param)
 	else {
 CREADTEVIEWMESSAGEWINDOW:
 		MyParam->mail->MsgWindow = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE), nullptr, DlgProcYAMNShowMessage, (LPARAM)MyParam);
-		WindowList_Add(YAMNVar.MessageWnds, MyParam->mail->MsgWindow);
+		WindowList_Add(MessageWnds, MyParam->mail->MsgWindow);
 		MSG msg;
 		while (GetMessage(&msg, nullptr, 0, 0)) {
 			if (MyParam->mail->MsgWindow == nullptr || !IsDialogMessage(MyParam->mail->MsgWindow, &msg)) { /* Wine fix. */
@@ -1412,7 +1412,7 @@ CREADTEVIEWMESSAGEWINDOW:
 				DispatchMessage(&msg);
 			}
 		}
-		WindowList_Remove(YAMNVar.MessageWnds, MyParam->mail->MsgWindow);
+		WindowList_Remove(MessageWnds, MyParam->mail->MsgWindow);
 		MyParam->mail->MsgWindow = nullptr;
 	}
 
@@ -1521,8 +1521,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 			sra.Uninit();
 
-			WindowList_Add(YAMNVar.MessageWnds, hDlg);
-			WindowList_Add(YAMNVar.NewMailAccountWnd, hDlg, (UINT_PTR)ActualAccount);
+			WindowList_Add(MessageWnds, hDlg);
+			WindowList_Add(NewMailAccountWnd, hDlg, (UINT_PTR)ActualAccount);
 
 			wchar_t accstatus[512];
 			GetStatusFcn(ActualAccount, accstatus);
@@ -1556,7 +1556,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				SizeDate = ColInfo.cx;
 
 			RECT coord;
-			if (!YAMNVar.Shutdown && GetWindowRect(hDlg, &coord))	// the YAMNVar.Shutdown testing is because M<iranda strange functionality at shutdown phase, when call to DBWriteContactSetting freezes calling thread
+			if (!g_bShutdown && GetWindowRect(hDlg, &coord))	// the Shutdown testing is because M<iranda strange functionality at shutdown phase, when call to DBWriteContactSetting freezes calling thread
 			{
 				PosX = coord.left;
 				SizeX = coord.right - coord.left;
@@ -1569,8 +1569,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			KillTimer(hDlg, TIMER_FLASHING);
 
-			WindowList_Remove(YAMNVar.NewMailAccountWnd, hDlg);
-			WindowList_Remove(YAMNVar.MessageWnds, hDlg);
+			WindowList_Remove(NewMailAccountWnd, hDlg);
+			WindowList_Remove(MessageWnds, hDlg);
 			{
 				SWriteGuard swm(ActualAccount->MessagesAccessSO);
 				if (!swm.Succeeded())
@@ -2058,7 +2058,7 @@ static void __cdecl MailBrowser(void *Param)
 			MyParam->nflags = MyParam->nflags & ~YAMN_ACC_POP;
 	}
 
-	if (nullptr != (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)ActualAccount)))
+	if (nullptr != (hMailBrowser = WindowList_Find(NewMailAccountWnd, (UINT_PTR)ActualAccount)))
 		WndFound = TRUE;
 
 	if ((hMailBrowser == nullptr) && ((MyParam->nflags & YAMN_ACC_MSG) || (MyParam->nflags & YAMN_ACC_ICO) || (MyParam->nnflags & YAMN_ACC_MSG))) {

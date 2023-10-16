@@ -25,7 +25,6 @@
 
 #include <m_toptoolbar.h>
 #include <m_kbdnotify.h>
-#include <m_yamn.h>
 #include <m_folders.h>
 
 #include "mails/decode.h"
@@ -35,6 +34,7 @@
 #include "protoplugin.h"
 
 #include "main.h"
+#include "yamn.h"
 #include "debug.h"
 
 #include "resource.h"
@@ -159,7 +159,10 @@ int Shutdown(WPARAM, LPARAM);    // Executed before Miranda is going to shutdown
 extern wchar_t UserDirectory[];  // e.g. "F:\WINNT\Profiles\UserXYZ"
 extern wchar_t ProfileName[];    // e.g. "majvan"
 extern SWMRG *AccountBrowserSO;
-extern YAMN_VARIABLES YAMNVar;
+extern MWindowList MessageWnds;
+extern MWindowList NewMailAccountWnd;
+extern bool g_bShutdown;
+
 extern HANDLE hNewMailHook;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;

@@ -168,7 +168,7 @@ int Shutdown(WPARAM, LPARAM)
 	g_plugin.setDword(YAMN_DBMSGSIZEX, HeadSizeX);
 	g_plugin.setDword(YAMN_DBMSGSIZEY, HeadSizeY);
 	g_plugin.setWord(YAMN_DBMSGPOSSPLIT, HeadSplitPos);
-	YAMNVar.Shutdown = TRUE;
+	g_bShutdown = true;
 	KillTimer(nullptr, SecTimer);
 
 	UnregisterProtoPlugins();

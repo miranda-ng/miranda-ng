@@ -232,7 +232,7 @@ static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wPar
 				iShift <<= 1;
 			}
 
-			WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUSOPTION, 0, 0);
+			WindowList_BroadcastAsync(MessageWnds, WM_YAMN_CHANGESTATUSOPTION, 0, 0);
 			EndDialog(hDlg, 0);
 			DestroyWindow(hDlg);
 			break;
@@ -355,7 +355,7 @@ public:
 		ActualAccount = nullptr;
 		SendMessage(GetParent(m_hwnd), PSM_UNCHANGED, (WPARAM)m_hwnd, 0);
 
-		WindowList_Add(YAMNVar.MessageWnds, m_hwnd);
+		WindowList_Add(MessageWnds, m_hwnd);
 		return true;
 	}
 
@@ -539,7 +539,7 @@ public:
 
 	void OnDestroy() override
 	{
-		WindowList_Remove(YAMNVar.MessageWnds, m_hwnd);
+		WindowList_Remove(MessageWnds, m_hwnd);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -829,7 +829,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		WindowList_Add(YAMNVar.MessageWnds, m_hwnd);
+		WindowList_Add(MessageWnds, m_hwnd);
 
 		DlgEnableAccountPopup(false);
 		DlgShowAccountPopup();
@@ -848,7 +848,7 @@ public:
 
 	void OnDestroy() override
 	{
-		WindowList_Remove(YAMNVar.MessageWnds, m_hwnd);
+		WindowList_Remove(MessageWnds, m_hwnd);
 	}
 
 	void onSelChange_Account(CCtrlCombo *)

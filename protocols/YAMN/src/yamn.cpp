@@ -73,7 +73,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 					isAccountCounting = TRUE;
 				}
 
-				WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGETIME, (WPARAM)ActualAccount, (LPARAM)ActualAccount->TimeLeft);
+				WindowList_BroadcastAsync(MessageWnds, WM_YAMN_CHANGETIME, (WPARAM)ActualAccount, (LPARAM)ActualAccount->TimeLeft);
 				if (!ActualAccount->TimeLeft) {
 					ActualAccount->TimeLeft = ActualAccount->Interval;
 					mir_forkthread((pThreadFunc)ActualAccount->Plugin->Fcn->TimeoutFcnPtr, new CheckParam(ActualAccount, YAMN_NORMALCHECK));
