@@ -263,7 +263,7 @@ static gboolean check_plugins(void)
 
 void dbgprint(const gchar *string)
 {
-	OutputDebugStringA(string);
+	Netlib_Logf(0, "GST: %s", string);
 }
 
 bool CJabberAccount::VOIPCreatePipeline(void)

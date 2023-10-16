@@ -51,7 +51,7 @@ static int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (!mir_strcmp(it->m_szModuleName, pcws->szModule)) {
 					it->InitVoip(pcws->value.bVal != 0);
 					break;
-				}			
+				}
 			}
 		}
 	}
