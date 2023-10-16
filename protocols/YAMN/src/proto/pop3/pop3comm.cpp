@@ -314,25 +314,20 @@ static void SetContactStatus(CAccount *account, int status)
 
 static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnection, uint32_t POP3PluginParam, BOOL UseSSL)
 {
-	char *DataRX;
-
 	// We create new structure, that we pass to bad connection dialog procedure. This procedure next calls YAMN imported fuction
 	// from POP3 protocol to determine the description of error. We can describe error from our error code structure, because later,
 	// when YAMN calls our function, it passes us our error code. This is pointer to structure for POP3 protocol in fact. 
-	PPOP3_ERRORCODE ErrorCode;
-
-	// We store status before we do Quit(), because quit can destroy our errorcode status
-	if (nullptr != (ErrorCode = new POP3_ERRORCODE)) {
-		ErrorCode->SSL = UseSSL;
-		ErrorCode->AppError = ActualAccount->SystemError;
-		ErrorCode->POP3Error = ActualAccount->Client.POP3Error;
-		ErrorCode->NetError = ActualAccount->Client.NetClient->NetworkError;
-		ErrorCode->SystemError = ActualAccount->Client.NetClient->SystemError;
-	}
-
-	if (POP3PluginParam == (uint32_t)NULL) { // if it was normal YAMN call (force check or so on)
+	POP3_ERRORCODE *ErrorCode = new POP3_ERRORCODE();
+	ErrorCode->SSL = UseSSL;
+	ErrorCode->AppError = ActualAccount->SystemError;
+	ErrorCode->POP3Error = ActualAccount->Client.POP3Error;
+	ErrorCode->NetError = ActualAccount->Client.NetClient->NetworkError;
+	ErrorCode->SystemError = ActualAccount->Client.NetClient->SystemError;
+	
+	// if it was normal YAMN call (force check or so on)
+	if (POP3PluginParam == 0) {
 		try {
-			DataRX = ActualAccount->Client.Quit();
+			char *DataRX = ActualAccount->Client.Quit();
 			if (DataRX != nullptr)
 				free(DataRX);
 		}
@@ -346,21 +341,13 @@ static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnectio
 		}
 
 		SetStatusFcn(ActualAccount, TranslateT("Disconnected"));
-
-		// If we cannot allocate memory, do nothing
-		if (ErrorCode == nullptr) {
-			SetEvent(ActualAccount->UseInternetFree);
-			return;
-		}
 	}
-	else // else it was called from POP3 plugin, probably error when deleting old mail (POP3 synchro calls POP3 delete)
-		if (ErrorCode == nullptr)
-			return;
 
 	if ((ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_POP))
 		RunBadConnection(ActualAccount, (UINT_PTR)ErrorCode, ParamToBadConnection);
 
-	if (POP3PluginParam == (uint32_t)NULL)		// if it was normal YAMN call
+	// if it was normal YAMN call
+	if (POP3PluginParam == 0)
 		SetEvent(ActualAccount->UseInternetFree);
 }
 
@@ -398,9 +385,10 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		NNFlags = ActualAccount->NoNewMailN.Flags;
 	}
 	{
-		SCGuard scq(ActualAccount->InternetQueries);				// increment counter, that there is one more thread waiting for connection
-		WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);	// wait until we can use connection
+		SCGuard scq(ActualAccount->InternetQueries);
+		WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);
 	}
+	
 	// OK, we enter the "use internet" section. But after we start communication, we can test if we did not enter the "use internet" section only for the reason,
 	// that previous thread release the internet section because this account has stop signal (we stop account and there are 2 threads: one communicating,
 	// the second one waiting for network access- the first one ends because we want to stop account, this one is released, but should be stopped as well).
@@ -411,7 +399,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 	UsingInternet = TRUE;
 
 	GetLocalTime(&now);
-	ActualAccount->SystemError = 0;					// now we can use internet for this socket. First, clear errorcode.
+	ActualAccount->SystemError = 0; // now we can use internet for this socket. First, clear errorcode.
 	try {
 		SetContactStatus(ActualAccount, ID_STATUS_OCCUPIED);
 

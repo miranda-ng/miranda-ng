@@ -35,14 +35,14 @@ struct CPOP3Account : public CAccount
 	~CPOP3Account();
 };
 
-typedef struct POP3LayeredError
+struct POP3_ERRORCODE
 {
 	BOOL SSL;
 	uint32_t AppError;
 	uint32_t POP3Error;
 	uint32_t NetError;
 	uint32_t SystemError;
-} POP3_ERRORCODE,*PPOP3_ERRORCODE;
+};
 
 enum
 {
