@@ -509,17 +509,17 @@ bool CJabberAccount::VOIPCallIinitiate(MCONTACT hContact)
 
 void CJabberAccount::InitVoip(bool bEnable)
 {
-	// Voip
-	VOICE_MODULE vsr = {};
-	vsr.cbSize = sizeof(VOICE_MODULE);
-	vsr.description = L"XMPP/DTLS-SRTP";
-	vsr.name = (char*)m_szModuleName;
-	vsr.icon = g_plugin.getIconHandle(IDI_MAIN);
-	vsr.flags = 3;
-	if (bEnable)
+	if (bEnable) {
+		VOICE_MODULE vsr = {};
+		vsr.cbSize = sizeof(VOICE_MODULE);
+		vsr.description = L"XMPP/DTLS-SRTP";
+		vsr.name = (char *)m_szModuleName;
+		vsr.icon = g_plugin.getIconHandle(IDI_MAIN);
+		vsr.flags = 3;
 		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
+	}
 	else {
 		VOIPTerminateSession();
-		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)&vsr, 0);
+		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)m_szModuleName, 0);
 	}
 }
