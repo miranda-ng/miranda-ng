@@ -851,6 +851,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
+		data->scrollTopPixel = 0;
+		data->FixScrollPosition(true);
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
