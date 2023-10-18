@@ -370,7 +370,6 @@ void NewstoryListData::EnsureVisible(int item)
 	if (scrollTopItem >= item) {
 		scrollTopItem = item;
 		scrollTopPixel = 0;
-		InvalidateRect(m_hwnd, 0, FALSE);
 	}
 	else {
 		RECT rc;
@@ -393,10 +392,10 @@ void NewstoryListData::EnsureVisible(int item)
 		if (!found) {
 			scrollTopItem = item;
 			scrollTopPixel = 0;
-			InvalidateRect(m_hwnd, 0, FALSE);
 		}
 	}
 	FixScrollPosition();
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 int NewstoryListData::FindNext(const wchar_t *pwszText)
@@ -1170,9 +1169,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case SB_THUMBTRACK:
 				SCROLLINFO si;
 				si.cbSize = sizeof(si);
-				si.fMask = SIF_TRACKPOS | SIF_RANGE;
+				si.fMask = SIF_ALL;
 				GetScrollInfo(hwnd, SB_VERT, &si);
-				data->EnsureVisible(data->totalCount * si.nTrackPos / si.nMax);
+				data->EnsureVisible(si.nTrackPos);
 				break;
 
 			default:
