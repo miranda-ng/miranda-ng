@@ -69,8 +69,6 @@
 Категория смайлов
 [Background color]
 Цвет фона
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Только одна копия SmileyAdd может быть запущена.\nУдалите дубликат из папки "Plugins"
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Наборы смайлов
@@ -98,6 +96,8 @@
 %s глобальный набор смайлов
 [Standard]
 Стандартные
+[Emoji]
+Эмодзи
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Ошибочное регулярное выражение "%s" в наборе смайлов "%s".
 ;file \plugins\SmileyAdd\src\smltool.cpp

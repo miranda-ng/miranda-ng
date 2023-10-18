@@ -73,6 +73,8 @@
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 Подписчик Telegram Premium
+[Reaction]
+Реакция
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,14 +52,12 @@
 Абвесткі
 [New Mail]
 Новая пошта
-[Sound]
-Гук
+[Tray Icon]
+Абразок у трэі
 [Message]
 Паведамленне
 [Keyboard Flash]
 Мігценне клавіятуры
-[Tray Icon]
-Абразок у трэі
 [Execute Application]
 Запуск прыкладання
 [Errors]
@@ -94,22 +92,18 @@
 Вольны
 [Invisible]
 Нябачны
-[YAMN General Options]
-Асноўныя налады
-[TopToolBar button "Check mail"]
-Кнопка "Праверыць пошту" ў Панэлі кнопак
 [MailBrowser Options]
 Налады прагляду лістоў
 [Enable Close on Delete Button]
 Зачыняць па націску "Выдаліць"
 [Show long localized date]
 Паказваць поўную дату
-[Don't show today's date]
-Не паказваць сённяшнюю дату
+[Show current date]
+
 [Date/Time Representation]
 Дата/час
-[Don't show seconds]
-Не паказваць секунды
+[Show seconds]
+Секунды
 [Mail Notifications]
 Абвестка пра пошту
 [Popup]
@@ -138,6 +132,11 @@
 Колер фону
 [Text color]
 Колер тэксту
+[Force popups for manual operations]
+
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+Няма новых лістоў
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Праверыць пошту
@@ -161,8 +160,6 @@
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Мянушка
-[No new mail message]
-Няма новых лістоў
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - памылка злучэння
@@ -296,6 +293,18 @@ OpenSSL не загружаны
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 Не абраны конт
+[This is not a valid number value]
+Няслушнае лічбавае значэнне
+[Input error]
+Памылка ўводу
+[Please select application to run]
+Абярыце прыкладанне для запуску
+[Please wait while no account is in use.]
+Калі ласка, пачакайце, пакуль ніводны конт не выкарыстоўваецца.
+[Cannot allocate memory space for new account]
+Немагчыма вылучыць памяць для новага конта
+[Memory error]
+Памылка памяці
 [Time left to next check [s]: %d]
 Час да наступнай праверкі: %d з.
 [New Account]
@@ -314,18 +323,6 @@ OpenSSL не загружаны
 Вы сапраўды жадаеце выдаліць гэты конт?
 [Delete account confirmation]
 Пацверджанне выдалення конта
-[Please wait while no account is in use.]
-Калі ласка, пачакайце, пакуль ніводны конт не выкарыстоўваецца.
-[This is not a valid number value]
-Няслушнае лічбавае значэнне
-[Input error]
-Памылка ўводу
-[Please select application to run]
-Абярыце прыкладанне для запуску
-[Cannot allocate memory space for new account]
-Немагчыма вылучыць памяць для новага конта
-[Memory error]
-Памылка памяці
 [Account Test]
 Праверка
 [You have N new mail messages]

@@ -69,8 +69,6 @@ Tlačítko smajlíků
 Přiřazení kategorie smajlíků
 [Background color]
 Barva pozadí
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Pouze jedna instance doplňku SmileyAdd může běžet.\nOdstraňte duplicitní instance ze složky 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Sady smajlíků
@@ -98,6 +96,8 @@ Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
 %s globální sada smajlíků
 [Standard]
 Standardní
+[Emoji]
+
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
 ;file \plugins\SmileyAdd\src\smltool.cpp

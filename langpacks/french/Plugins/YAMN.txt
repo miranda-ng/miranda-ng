@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,13 +52,11 @@ Désactiver les évènements
 Notifications
 [New Mail]
 
-[Sound]
+[Tray Icon]
 
 [Message]
 Message
 [Keyboard Flash]
-
-[Tray Icon]
 
 [Execute Application]
 
@@ -94,22 +92,18 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[YAMN General Options]
-Options de YAMN
-[TopToolBar button "Check mail"]
-Afficher un bouton dans la barre d'outils
 [MailBrowser Options]
 
 [Enable Close on Delete Button]
 Fermer la fenêtre si clic sur effacer
 [Show long localized date]
 Montrer la date au format long
-[Don't show today's date]
-Ne pas montrer la date d'aujourd'hui
+[Show current date]
+
 [Date/Time Representation]
 Apparence de la date/heure
-[Don't show seconds]
-Ne pas afficher les secondes
+[Show seconds]
+Voir les secondes
 [Mail Notifications]
 
 [Popup]
@@ -138,6 +132,11 @@ Aperçu
 Couleur de fond
 [Text color]
 Couleur du texte
+[Force popups for manual operations]
+
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+Pas de nouveaux e-mail
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Relever les e-mail (tous les comptes)
@@ -161,8 +160,6 @@ Nouvel e-mail
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Pseudo
-[No new mail message]
-Pas de nouveaux e-mail
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
@@ -296,6 +293,18 @@ Erreur %d-%d-%d-%d :
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 Aucun compte sélectionné
+[This is not a valid number value]
+Ceci n'est pas un nombre correct
+[Input error]
+Erreur d'entrée
+[Please select application to run]
+Veuillez sélectionner l'application à lancer
+[Please wait while no account is in use.]
+Veuillez attendre, aucun compte n'est en service.
+[Cannot allocate memory space for new account]
+Impossible d'allouer de la mémoire pour le nouveau compte
+[Memory error]
+Erreur de mémoire
 [Time left to next check [s]: %d]
 Prochaine vérification [s] : %d
 [New Account]
@@ -314,18 +323,6 @@ Sélectionnez le programme utilisé pour la notification
 Voulez-vous vraiment supprimer ce compte ?
 [Delete account confirmation]
 Confirmation de suppression de compte
-[Please wait while no account is in use.]
-Veuillez attendre, aucun compte n'est en service.
-[This is not a valid number value]
-Ceci n'est pas un nombre correct
-[Input error]
-Erreur d'entrée
-[Please select application to run]
-Veuillez sélectionner l'application à lancer
-[Cannot allocate memory space for new account]
-Impossible d'allouer de la mémoire pour le nouveau compte
-[Memory error]
-Erreur de mémoire
 [Account Test]
 Test du compte
 [You have N new mail messages]

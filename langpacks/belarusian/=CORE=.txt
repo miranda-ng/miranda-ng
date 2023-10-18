@@ -228,135 +228,6 @@
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
-;file \src\core\stdfile\res\resource.rc
-[Send file(s)]
-Адправіць файл(ы)
-[&Send]
-&Адправіць
-[Cancel]
-Скасаваць
-[To:]
-Для:
-[File(s):]
-Файл(ы):
-[&Choose again...]
-&Абраць ізноў...
-[Total size:]
-Агульны памер:
-[Description:]
-Апісанне:
-[&User menu]
-Меню кантакта
-[User &details]
-&Інфармацыя
-[&History]
-Гісторыя
-[Incoming file transfer]
-Уваходны файл
-[A&ccept]
-Прыняць
-[&Decline]
-Адмовіць
-[From:]
-Ад:
-[Date:]
-Дата:
-[Files:]
-Файлы:
-[Save to:]
-Захоўваць у:
-[&Add]
-Дадаць
-[&Open...]
-Адкрыць...
-[Open &folder]
-Адкрыць тэчку
-[Transfer completed, open file(s).]
-Перадача завершана, адкрыць файл(ы).
-[No data transferred]
-Не перададзены
-[File already exists]
-Файл ужо існуе
-[Resume]
-Працягнуць
-[Resume all]
-Дапампаваць усё
-[Overwrite]
-Перазапісаць
-[Overwrite all]
-Перазапісаць усё
-[Save as...]
-Захаваць як...
-[Auto rename]
-Аўтаперайменаванне
-[Skip]
-Пропуск
-[Cancel transfer]
-Скасаваць перадачу
-[You are about to receive the file]
-Вы прымаеце файл
-[Existing file]
-Існуючы файл
-[Size:]
-Памер:
-[Last modified:]
-Зменены:
-[Type:]
-Тып:
-[Open file]
-Адкрыць файл
-[Open folder]
-Адчыніць тэчку
-[File properties]
-Уласцівасці файла
-[File being received]
-Прыманы файл
-[File transfers]
-Перадача файлаў
-[Clear completed]
-Сцерці завершаныя
-[Close]
-Зачыніць
-[Receiving files]
-Прыем файлаў
-[Received files folder:]
-Каталог для файлаў:
-[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Зменныя: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
-[Auto-accept incoming files from people on my contact list]
-Аўтаматычна прымаць файлы ад людзей у спісе кантактаў
-[Minimize the file transfer window]
-Згарнуць вакно перадачы файлаў
-[Close window when transfer completes]
-Зачыніць вакно пры завяршэнні перадачы
-[Clear completed transfers on window closing]
-Чысціць завершаныя перадачы пры зачыненні вакна
-[Sort file transfers in the reverse order]
-
-[Virus scanner]
-Антывірус
-[Scan files:]
-Правяраць:
-[Never, do not use virus scanning]
-Ніколі, не правяраць на вірусы
-[When all files have been downloaded]
-Пры заканчэнні загрузкі ўсіх файлаў
-[As each file finishes downloading]
-Пры заканчэнні запампоўкі кожнага файла
-[Command line:]
-Кам. радок:
-[%f will be replaced by the file or folder name to be scanned]
-%f = імя правяранага файла ці тэчкі
-[Warn me before opening a file that has not been scanned]
-Папярэджваць пры адкрыцці неправеранага файла
-[If incoming files already exist]
-Калі прыманы файл ужо існуе
-[Ask me]
-Спытаць
-[Rename (append " (1)", etc.)]
-Дапісаць "(1)" і г. д.
-[You will always be asked about files from people not on your contact list]
-Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Адкрываць вакно, калі:
@@ -398,6 +269,18 @@
 пры пасылцы наступнага паведамлення:
 [Try again]
 Яшчэ раз
+[Cancel]
+Скасаваць
+[&Send]
+&Адправіць
+[Load unread events only]
+Толькі непрачытаныя падзеі
+[Load number of previous events]
+Папярэднія падзеі ў колькасці
+[Load previous events less than]
+Падзеі, атрыманыя
+[minutes old]
+хвілін назад
 [Message window event log]
 Журнал гутаркі
 [Show names]
@@ -410,18 +293,10 @@
 Паказваць даты
 [Show formatting]
 Паказаць фарматаванне
-[Load history events]
-Падгрузка гісторыі
-[Load unread events only]
-Толькі непрачытаныя падзеі
-[Load number of previous events]
-Папярэднія падзеі ў колькасці
-[Load previous events less than]
-Падзеі, атрыманыя
-[minutes old]
-хвілін назад
 [Automatically copy selected text]
 Аўтаматычна капіяваць вылучаны тэкст
+[Load history events]
+Падгрузка гісторыі
 [Use a tabbed interface]
 Выкарыстоўваць укладкі
 [Close tab on double click]
@@ -535,6 +410,8 @@
 ;file \src\core\stdpopup\res\resource.rc
 [Popup history]
 Гісторыя ўсплывальных вокнаў
+[Close]
+Зачыніць
 [Case sensitive]
 Улік рэгістра
 [Default timeout]
@@ -674,6 +551,8 @@
 Пазначце ўнутранае імя конту (не абавязкова)
 [Add contact]
 Дадаць кантакт
+[&Add]
+Дадаць
 [Send authorization request]
 Адправіць запыт на аўтарызацыю
 [Open contact's chat window]
@@ -872,6 +751,8 @@
 Выходныя злучэнні
 [Use proxy server]
 Карыстацца проксі
+[Type:]
+Тып:
 [Host:]
 Хост:
 [Port:]
@@ -908,10 +789,12 @@
 Вы можаце абраць іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
-Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mdbx.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_sqlite.dll
 [Download more plugins]
 Запампаваць іншыя плагіны
+[Description:]
+Апісанне:
 [Author(s):]
 Аўтар(ы):
 [Homepage:]
@@ -1084,6 +967,8 @@ UIN, E-mail і г.д.
 
 [Last modified using:]
 Праверана на версіі:
+[Date:]
+Дата:
 [Locale:]
 Мова:
 [Reload langpack]
@@ -1104,6 +989,8 @@ UIN, E-mail і г.д.
 Забараніць
 [Decide &later]
 Вырашыць &пазней
+[User &details]
+&Інфармацыя
 [Reason:]
 Чыннік:
 [Denial reason:]
@@ -1204,6 +1091,122 @@ UIN, E-mail і г.д.
 Фон
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 ( 0 - па змаўчанні, -1 - бясконца)
+[Send file(s)]
+Адправіць файл(ы)
+[To:]
+Для:
+[File(s):]
+Файл(ы):
+[&Choose again...]
+&Абраць ізноў...
+[Total size:]
+Агульны памер:
+[&User menu]
+Меню кантакта
+[&History]
+Гісторыя
+[Incoming file transfer]
+Уваходны файл
+[A&ccept]
+Прыняць
+[&Decline]
+Адмовіць
+[From:]
+Ад:
+[Files:]
+Файлы:
+[Save to:]
+Захоўваць у:
+[&Open...]
+Адкрыць...
+[Open &folder]
+Адкрыць тэчку
+[Transfer completed, open file(s).]
+Перадача завершана, адкрыць файл(ы).
+[No data transferred]
+Не перададзены
+[File already exists]
+Файл ужо існуе
+[Resume]
+Працягнуць
+[Resume all]
+Дапампаваць усё
+[Overwrite]
+Перазапісаць
+[Overwrite all]
+Перазапісаць усё
+[Save as...]
+Захаваць як...
+[Auto rename]
+Аўтаперайменаванне
+[Skip]
+Пропуск
+[Cancel transfer]
+Скасаваць перадачу
+[You are about to receive the file]
+Вы прымаеце файл
+[Existing file]
+Існуючы файл
+[Size:]
+Памер:
+[Last modified:]
+Зменены:
+[Open file]
+Адкрыць файл
+[Open folder]
+Адчыніць тэчку
+[File properties]
+Уласцівасці файла
+[File being received]
+Прыманы файл
+[File transfers]
+Перадача файлаў
+[Clear completed]
+Сцерці завершаныя
+[Receiving files]
+Прыем файлаў
+[Received files folder:]
+Каталог для файлаў:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Зменныя: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Аўтаматычна прымаць файлы ад людзей у спісе кантактаў
+[Minimize the file transfer window]
+Згарнуць вакно перадачы файлаў
+[Close window when transfer completes]
+Зачыніць вакно пры завяршэнні перадачы
+[Clear completed transfers on window closing]
+Чысціць завершаныя перадачы пры зачыненні вакна
+[Sort file transfers in the reverse order]
+
+[You will always be asked about files from people not on your contact list]
+Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
+[If incoming files already exist]
+Калі прыманы файл ужо існуе
+[Cloud files]
+
+[Download cloud files automatically]
+
+[Only if their size is less than]
+
+[KBytes (0 - always)]
+
+[Virus scanner]
+Антывірус
+[Scan files:]
+Правяраць:
+[Never, do not use virus scanning]
+Ніколі, не правяраць на вірусы
+[When all files have been downloaded]
+Пры заканчэнні загрузкі ўсіх файлаў
+[As each file finishes downloading]
+Пры заканчэнні запампоўкі кожнага файла
+[Command line:]
+Кам. радок:
+[%f will be replaced by the file or folder name to be scanned]
+%f = імя правяранага файла ці тэчкі
+[Warn me before opening a file that has not been scanned]
+Папярэджваць пры адкрыцці неправеранага файла
 [&Hide/Show]
 С&хаваць/паказаць
 [E&xit]
@@ -1372,109 +1375,6 @@ UIN, E-mail і г.д.
 Адправіць e-mail
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\src\file.cpp
-[bytes]
-байт
-[&File]
-&Файл
-[File from %s]
-Файл ад %s
-[File &transfers...]
-Перадачы &файлаў
-[Incoming]
-Уваходныя
-[Complete]
-Зроблена
-[Error]
-Памылка
-[Denied]
-Адмоўлена
-;file \src\core\stdfile\src\fileexistsdlg.cpp
-[%s file]
-%s файл
-[All files]
-Усе файлы
-;file \src\core\stdfile\src\fileopts.cpp
-[Executable files]
-Выкананыя файлы
-[Events]
-Падзеі
-;file \src\core\stdfile\src\filerecvdlg.cpp
-[Select folder]
-Абраць тэчку
-[My received files]
-Мае атрыманыя файлы
-[Add contact permanently to list]
-Дадаць у спіс
-[View user's details]
-Пра кантакт
-[View user's history]
-Гісторыя паведамленняў
-[User menu]
-Меню кантакта
-[This file transfer has been canceled by the other side]
-
-[Canceled]
-Скасавана
-;file \src\core\stdfile\src\filesenddlg.cpp
-[%d files]
-%d файла(аў)
-[%d directories]
-%d каталога(аў)
-;file \src\core\stdfile\src\filexferdlg.cpp
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
-[File received]
-Файл атрыманы
-[of]
-з
-[Request sent, waiting for acceptance...]
-Запыт адпраўлены, чаканне пацверджання...
-[Waiting for connection...]
-Чаканне злучэння
-[Unable to initiate transfer.]
-Немагчыма пачаць перадачу.
-[Contact menu]
-Меню кантакту
-[Open...]
-Адчыніць...
-[sec]
-сек
-[remaining]
-засталося
-[Decision sent]
-Рашэнне адпраўлена
-[Connecting...]
-Далучэнне...
-[Connecting to proxy...]
-Далучэнне да проксі...
-[Connected]
-Злучаны
-[Initializing...]
-Ініцыялізацыя...
-[Moving to next file...]
-Наступны файл...
-[Sending...]
-Перадача...
-[Receiving...]
-Атрыманне...
-[File transfer denied]
-У перадачы файла адмоўлена
-[File transfer failed]
-Няўдалая перадача файла
-[Transfer completed.]
-Перадача завершана.
-[Transfer completed, open file.]
-Перадача завершана, адкрыць файл.
-[Transfer completed, open folder.]
-Перадача завершана, адкрыць тэчку.
-[Scanning for viruses...]
-Праверка на вірусы...
-[Transfer and virus scan complete]
-Перадача і праверка на вірусы завершаны
-;file \src\core\stdfile\src\ftmanager.cpp
-[Outgoing]
-Выходныя
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Гутаркі
@@ -1611,6 +1511,8 @@ UIN, E-mail і г.д.
 Інфармацыйныя паведамленні
 [Show icon for status changes]
 Змены статусаў
+[Select folder]
+Абраць тэчку
 [Chat log]
 Лог чата
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1636,14 +1538,16 @@ UIN, E-mail і г.д.
 Уваходнае паведамленне (10x10)
 [Outgoing message (10x10)]
 Выходнае паведамленне (10x10)
-[Encrypted (10x10)]
+[Secure message (10x10)]
 
-[Encrypted verified (10x10)]
+[Secure verified message (10x10)]
 
 [Me]
 Я
 [File sent]
 Пасылка файла
+[File received]
+Файл атрыманы
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Выходныя паведамленні
@@ -1680,6 +1584,12 @@ UIN, E-mail і г.д.
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
+[Add contact permanently to list]
+Дадаць у спіс
+[User menu]
+Меню кантакта
+[View user's details]
+Пра кантакт
 [View user's history (Ctrl+H)]
 Гісторыя паведамленняў (Ctrl+H)
 [&Bold]
@@ -1724,6 +1634,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Уваходныя (неактыўнае вакно)
 [Incoming (new session)]
 Уваходныя (новыя сеанс)
+[Outgoing]
+Выходныя
 [Message send error]
 Памылка адпраўкі паведамлення
 [Contact started typing]
@@ -1773,6 +1685,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Вертыкальна
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Вы не можаце ўсталяваць затрымку па змаўчанні 0.\nВернута значэнне па змаўчанні.
+[Error]
+Памылка
 [Example]
 Прыклад
 [The quick brown fox jumps over the lazy dog.]
@@ -1811,6 +1725,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Урэзка
 [Title underline]
 Падкрэсленне загалоўка
+[Popup Mode]
+
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Капіяваць загаловак у буфер
@@ -2002,10 +1918,10 @@ Miranda не здолела загрузіць убудаваную сістэм
 Устаноўка статусу
 [User disables status for ...]
 Здыманне статусу
-[Action message]
-Дзеянне
-[Highlighted message]
-Падсветленае паведамленне
+[Action messages]
+Дзеянні
+[Highlighted messages]
+Падсветленае паведамлення
 [Nick list members (online)]
 Кантакты (далучаны)
 [Nick list members (away)]
@@ -2154,8 +2070,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 
 [Compact database]
 
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
-Miranda не можа адкрыць '%s', бо плагіны для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_mdbx.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
+
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda NG не можа адчыніць '%s', профіль у невядомым фармаце.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2218,6 +2134,105 @@ Miranda не можа распазнаць гэты профіль
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 
+[Attach]
+
+;file \src\mir_app\src\file.cpp
+[&File]
+&Файл
+[Send file]
+Перадаць файл
+[File from %s]
+Файл ад %s
+[File &transfers...]
+Перадачы &файлаў
+[Incoming]
+Уваходныя
+[Complete]
+Зроблена
+[Denied]
+Адмоўлена
+;file \src\mir_app\src\fileexistsdlg.cpp
+[%s file]
+%s файл
+[All files]
+Усе файлы
+;file \src\mir_app\src\fileopts.cpp
+[Ask me]
+Спытаць
+[Rename (append " (1)", etc.)]
+Дапісаць "(1)" і г. д.
+[Executable files]
+Выкананыя файлы
+[Events]
+Падзеі
+[Security]
+Бяспека
+;file \src\mir_app\src\filerecvdlg.cpp
+[My received files]
+Мае атрыманыя файлы
+[View user's history]
+Гісторыя паведамленняў
+[This file transfer has been canceled by the other side]
+
+[Canceled]
+Скасавана
+;file \src\mir_app\src\filesenddlg.cpp
+[%d files]
+%d файла(аў)
+[%d directories]
+%d каталога(аў)
+;file \src\mir_app\src\fileutils.cpp
+[bytes]
+байт
+;file \src\mir_app\src\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
+[of]
+з
+[Request sent, waiting for acceptance...]
+Запыт адпраўлены, чаканне пацверджання...
+[Waiting for connection...]
+Чаканне злучэння
+[Unable to initiate transfer.]
+Немагчыма пачаць перадачу.
+[Contact menu]
+Меню кантакту
+[Open...]
+Адчыніць...
+[sec]
+сек
+[remaining]
+засталося
+[Decision sent]
+Рашэнне адпраўлена
+[Connecting...]
+Далучэнне...
+[Connecting to proxy...]
+Далучэнне да проксі...
+[Connected]
+Злучаны
+[Initializing...]
+Ініцыялізацыя...
+[Moving to next file...]
+Наступны файл...
+[Sending...]
+Перадача...
+[Receiving...]
+Атрыманне...
+[File transfer denied]
+У перадачы файла адмоўлена
+[File transfer failed]
+Няўдалая перадача файла
+[Transfer completed.]
+Перадача завершана.
+[Transfer completed, open file.]
+Перадача завершана, адкрыць файл.
+[Transfer completed, open folder.]
+Перадача завершана, адкрыць тэчку.
+[Scanning for viruses...]
+Праверка на вірусы...
+[Transfer and virus scan complete]
+Перадача і праверка на вірусы завершаны
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
@@ -2271,6 +2286,7 @@ Ctrl+Шукаць дадае карыстальніка
 Асноўны тэкст
 [Small text]
 Дадатковы тэкст
+;file \src\mir_app\src\ftmanager.cpp
 ;file \src\mir_app\src\help.cpp
 [< Copyright]
 < Правы
@@ -2639,6 +2655,9 @@ xСтатус
 Мае профілі
 [New profile]
 Стварыць профіль
+;file \src\mir_app\src\protocols.cpp
+[Protocol is offline]
+Конт адключаны
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Запытаць аўтарызацыю
@@ -2699,8 +2718,10 @@ ID конта
 Неабходна ўвесці імя ўліковага запісу
 [Account error]
 Памылка ўліковага запісу
-[Account name has to be unique. Please enter unique name.]
-Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
+[Account internal name contains invalid symbols, only ASCII chars are allowed.]
+
+[Account internal name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2820,17 +2841,21 @@ ANSI плагін
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
+[on]
+Укл.
 [Download]
 Запампаваць
 [Copy URL]
 Капіяваць спасылку
+[Save as]
+Захаваць як
 [Copy all]
 Капіяваць усё
 [Look up '%s':]
 Шукаць '%s':
 [No word to look up]
 Няма слоў для пошуку
-;file \src\mir_app\src\srmm_statusicon.cpp
+;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to remove all events from history?]
 
 [Empty history]

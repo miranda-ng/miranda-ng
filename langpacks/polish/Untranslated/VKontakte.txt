@@ -8,7 +8,7 @@
 [Wall reply]
 [Story]
 [Sticker]
-[Adding bots to MUC is not supported]
+[Adding bots, MUC or groups to MUC is not supported]
 [pin message]
 [unpin message]
 [Kick bots is not supported]

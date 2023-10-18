@@ -206,8 +206,8 @@ Poslat zprávu
 Odpovědět s &citací
 [Delete group]
 Odstranit skupinu
-[Delete all user history]
-Smazat celou historii uživatele
+[Delete all contact history]
+
 [Options]
 Možnosti
 [Filters]

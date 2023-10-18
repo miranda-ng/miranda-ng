@@ -53,6 +53,7 @@
 [with %s]
 [Voice Calls]
 [Dialpad press]
+[Open call window]
 [Test Contact]
 [Test description]
 [Auto actions]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -32,6 +32,8 @@ Verlaufsfenster
 Vertikalen Scrollbalken aktivieren
 [Draw window edge]
 Fensterrand darstellen
+[Ascending events sort order]
+
 [Template list:]
 Liste der Vorlagen:
 [Edit template:]
@@ -73,6 +75,10 @@ Einstellungen
 [Templates]
 Vorlagen
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Eingehender Name
+[Outgoing name]
+Ausgehender Name
 [Incoming messages]
 Eingehende Nachrichten
 [Outgoing messages]
@@ -93,15 +99,27 @@ Text des ausgewählten Eintrags
 Hintergrund des ausgewählten Eintrags
 [Selected item's frame]
 Rahmen des ausgewählten Eintrags
+[Highlighted messages]
+
 [Grid background]
 Hintergrund des Verlaufsfensters
 [Separator]
 Trennlinie
-[Incoming name]
-Eingehender Name
-[Outgoing name]
-Ausgehender Name
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+Unbenannt
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Suchen
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+Möchten Sie die ausgewählten Ereignisse wirklich löschen?
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Vorname
 [LastName]
@@ -124,8 +142,10 @@ Telefon
 Homepage
 [About]
 Über
-[History search results]
-Verlaufssuchergebnisse
+[Global history search]
+Globale Verlaufssuche
+[System history]
+Systemverlauf
 [Copy]
 Kopieren
 [Export...]
@@ -148,6 +168,10 @@ Finde nächste
 Finde vorherige
 [Conversations]
 Unterhaltungen
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Es ist ein Metakontakt. Verwenden Sie zum Export einen seiner Unterkontakte:\r\n%s
 [Export warning]
@@ -160,12 +184,25 @@ Verlauf von %s exportieren
 Fertig
 [History export]
 Verlaufsexport
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
-Möchten Sie die ausgewählten Ereignisse wirklich löschen?
+[Passed the beginning of history]
+
 ;file \plugins\NewStory\src\history_menus.cpp
-[User history]
-Benutzerverlauf
+[Copy file name]
+
+[Copy URL]
+URL kopieren
+[History]
+Verlauf
+[Global search]
+
+[Copy text]
+Text kopieren
+[Quote]
+Zitat
+[Save as]
+Speichern als
+[Download]
+Herunterladen
 [Edit]
 Bearbeiten
 [Delete]
@@ -175,10 +212,10 @@ Alles auswählen
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Haupticon
-[Search]
-Suchen
 [Export]
 Exportieren
+[Bookmark]
+Lesezeichen
 [Incoming message]
 Eingehende Nachricht
 [Outgoing message]
@@ -244,8 +281,6 @@ AM/PM-Zeichen
 Monatsname
 [the message string itself]
 Die Nachricht selbst
-[History]
-Verlauf
 [Advanced]
 Erweitert
 ;file \plugins\NewStory\src\templates.cpp
@@ -287,16 +322,18 @@ Oktober
 November
 [December]
 Dezember
-[System history]
-Systemverlauf
 [System event]
 Systemereignis
 [Interface]
 Oberfläche
 [Window title]
 Fenstertitel
+[%N - history [%c messages total]]
+
 [Message log]
 Nachrichtenverlauf
+[Group head]
+
 [Grouped messages]
 Gruppierte Nachrichten
 [Presence requests]

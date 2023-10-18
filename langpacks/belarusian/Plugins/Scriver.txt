@@ -78,6 +78,18 @@
 ліній
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
+[Preload]
+Падгружаць гісторыю
+[Unread events only]
+Толькі непрачытаныя падзеі
+[Last]
+Апошн.
+[Events in the last]
+Падзеі атрыманыя пазней, чым
+[events]
+падзеі(й)
+[minutes]
+хвілін(ы)
 [Message window event log]
 Журнал гутаркі
 [Show icons]
@@ -104,22 +116,10 @@
 Лініі паміж паведамленнямі
 [Indent text]
 Водступ тэксту
-[Customize fonts and colors]
-Наладзіць шрыфты і колеры
-[Preload]
-Падгружаць гісторыю
-[Unread events only]
-Толькі непрачытаныя падзеі
-[Last]
-Апошн.
-[Events in the last]
-Падзеі атрыманыя пазней, чым
-[events]
-падзеі(й)
-[minutes]
-хвілін(ы)
 [Automatically copy selected text]
 Аўтаматычна капіяваць вылучаны тэкст
+[Customize fonts and colors]
+Наладзіць шрыфты і колеры
 [Typing notification options]
 Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -395,6 +395,10 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Выходнае паведамленне (10x10)
 [Notice (10x10)]
 Абвестка (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Window Icon]
 Абразок вакна
 [Text color]
@@ -447,6 +451,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Інфармацыя (10х10)
 [Single Messaging]
 Паведамленні
+[Group chat events]
+
 [Thai]
 Тайскі
 [Japanese]

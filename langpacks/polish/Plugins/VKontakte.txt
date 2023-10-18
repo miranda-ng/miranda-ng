@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.5
+;  Version: 0.1.15.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,7 +352,7 @@ Użytkownik został dezaktywowany (zbanowany)
 Uczestnicy
 [Owners]
 Właściciele
-[Adding bots to MUC is not supported]
+[Adding bots, MUC or groups to MUC is not supported]
 
 [Not supported]
 Nie obsługiwane

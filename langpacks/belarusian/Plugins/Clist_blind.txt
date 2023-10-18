@@ -14,10 +14,6 @@
 Сартаванне па статусе
 [Sort contacts by protocol]
 Сартаванне па пратаколе
-[Disable icon blinking]
-Выключыць мігценне
-[ms delay]
-Затрымка (мс)
 [Show]
 Паказаць
 [icon when statuses differ]
@@ -30,8 +26,6 @@
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[System tray icon]
-Абразок у трэі
 [System tray icon when using multiple protocols]
 Абразкі пратаколаў у сістэмным лапку
 [Contact list sorting]

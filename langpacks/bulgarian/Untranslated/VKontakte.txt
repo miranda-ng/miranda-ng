@@ -124,7 +124,7 @@
 [User restored control over own page]
 [User was deactivated (deleted)]
 [User was deactivated (banned)]
-[Adding bots to MUC is not supported]
+[Adding bots, MUC or groups to MUC is not supported]
 [Not supported]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Message link]

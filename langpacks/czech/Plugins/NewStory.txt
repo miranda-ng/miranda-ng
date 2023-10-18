@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -31,6 +31,8 @@ Seskupovat zprávy
 [Enable vertical scroll bar]
 
 [Draw window edge]
+
+[Ascending events sort order]
 
 [Template list:]
 
@@ -73,6 +75,10 @@ Možnosti
 [Templates]
 Šablony
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Příchozí jméno
+[Outgoing name]
+Odchozí jméno
 [Incoming messages]
 Příchozí zprávy
 [Outgoing messages]
@@ -93,15 +99,27 @@ Změny stavu
 
 [Selected item's frame]
 
+[Highlighted messages]
+Zvýrazněné zprávy
 [Grid background]
 Pozadí mřížky
 [Separator]
 Oddělovač
-[Incoming name]
-Příchozí jméno
-[Outgoing name]
-Odchozí jméno
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Hledat
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Jméno
 [LastName]
@@ -124,8 +142,10 @@ Telefon
 Dom. stránka
 [About]
 Informace
-[History search results]
-
+[Global history search]
+Vyhledávání v globální historii
+[System history]
+Historie systému
 [Copy]
 Zkopírovat
 [Export...]
@@ -148,6 +168,10 @@ Najít další
 Najít předchozí
 [Conversations]
 Konverzace
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
 [Export warning]
@@ -160,12 +184,25 @@ Konverzace
 Dokončeno
 [History export]
 
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
+[Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[User history]
+[Copy file name]
 
+[Copy URL]
+
+[History]
+Historie
+[Global search]
+
+[Copy text]
+Zkopírovat text
+[Quote]
+Citovat
+[Save as]
+Uložit jako
+[Download]
+Stáhnout
 [Edit]
 Upravit
 [Delete]
@@ -175,10 +212,10 @@ Vybrat vše
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Hlavní ikona
-[Search]
-Hledat
 [Export]
 Exportovat
+[Bookmark]
+Záložka
 [Incoming message]
 Příchozí zpráva
 [Outgoing message]
@@ -244,8 +281,6 @@ rok (4 číslice)
 
 [the message string itself]
 
-[History]
-Historie
 [Advanced]
 Extra
 ;file \plugins\NewStory\src\templates.cpp
@@ -287,16 +322,18 @@ září
 listopad
 [December]
 prosinec
-[System history]
-Historie systému
 [System event]
 
 [Interface]
 Rozhraní
 [Window title]
 
+[%N - history [%c messages total]]
+
 [Message log]
 Záznam komunikace
+[Group head]
+
 [Grouped messages]
 
 [Presence requests]

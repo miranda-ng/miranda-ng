@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.5
+;  Version: 0.1.15.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -352,8 +352,8 @@ Benutzer wurde deaktiviert (gebannt)
 Teilnehmer
 [Owners]
 Besitzer
-[Adding bots to MUC is not supported]
-Bots zu einem Mehrbenutzerchat hinzuzufügen wird nicht unterstützt.
+[Adding bots, MUC or groups to MUC is not supported]
+
 [Not supported]
 Wird nicht unterstützt
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

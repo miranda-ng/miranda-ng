@@ -69,13 +69,6 @@ Aperçu
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Normale
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 %s (serveur)
@@ -95,8 +88,6 @@ Réseau
 Basique
 [Popups]
 Popups
-[%s Protocol]
-%s protocole
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Popups
 
 [Reply...]
 
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+%s protocole

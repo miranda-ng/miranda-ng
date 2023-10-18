@@ -206,8 +206,8 @@
 Адказаць з &цытатай
 [Delete group]
 Выдаленне гурту
-[Delete all user history]
-Выдаліць усю гісторыю кантакта
+[Delete all contact history]
+
 [Options]
 Налады
 [Filters]

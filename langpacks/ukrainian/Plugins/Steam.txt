@@ -8,16 +8,24 @@
 [Steam protocol support for Miranda NG.]
 Підтримка протоколу Steam у Miranda NG.
 ;file \protocols\Steam\res\Resource.rc
+[Username]
+Ім'я користувача
+[Password]
+Пароль
+[Default group]
+
+[Device name]
+
+[Account]
+Обліковий запис
 [Username:]
 Користувач:
 [Password:]
 Пароль:
-[Default group:]
-Група:
-[Account]
-Обліковий запис
 [Contacts]
 Контакти
+[Default group:]
+Група:
 [Use bigger avatars]
 Великі аватари
 [Message sessions]
@@ -66,9 +74,6 @@
 %s видалений з вашого списку контактів
 [%s has added you to contact list]
 
-;file \protocols\Steam\src\steam_login.cpp
-[Cannot obtain connection token.]
-Не вдалося отримати токен з'єднання.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Вибір меню Steam
@@ -91,8 +96,6 @@
 Значок протоколу
 [Gaming icon]
 Ігровий значок
-[You cannot send messages when you are offline.]
-Для надсилання повідомлень необхідно підключитися до мережі.
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 закрив вікно чату

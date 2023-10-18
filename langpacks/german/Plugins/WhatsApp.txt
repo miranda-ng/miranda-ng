@@ -16,10 +16,10 @@ Ein Gerät verknüpfen
 Nick:
 [Default group:]
 Standardgruppe:
-[Do not open chat windows on creation]
-Chatfenster bei der Erzeugung nicht öffnen
 [Device name:]
 Gerätename:
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
 [Use BBCode]
 BBCode verwenden
 [Log out]

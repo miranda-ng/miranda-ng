@@ -273,6 +273,14 @@
 Отмена
 [&Send]
 &Отправить
+[Load unread events only]
+Только непрочитанные события
+[Load number of previous events]
+Предыдущие события в количестве
+[Load previous events less than]
+События, полученные менее чем
+[minutes old]
+минут назад
 [Message window event log]
 Журнал в окне сообщений
 [Show names]
@@ -285,18 +293,10 @@
 Показывать даты
 [Show formatting]
 Показывать форматирование
-[Load history events]
-Подгрузка истории
-[Load unread events only]
-Только непрочитанные события
-[Load number of previous events]
-Предыдущие события в количестве
-[Load previous events less than]
-События, полученные менее чем
-[minutes old]
-минут назад
 [Automatically copy selected text]
 Автоматически копировать выделенный текст
+[Load history events]
+Подгрузка истории
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]
@@ -409,7 +409,7 @@
 Удалить
 ;file \src\core\stdpopup\res\resource.rc
 [Popup history]
-История вспл. окон
+История всплывающих окон
 [Close]
 Закрыть
 [Case sensitive]
@@ -1714,7 +1714,7 @@ Miranda не смогла загрузить встроенную систему
 [Popups are disabled]
 Всплывающие окна выключены
 [Toggle popups]
-Вкл/Выкл вспл. окна
+Вкл/Выкл всплывающие окна
 [First line]
 Первая строка
 [Second line]
@@ -1725,6 +1725,8 @@ Miranda не смогла загрузить встроенную систему
 Врезка
 [Title underline]
 Подчёркивание заголовка
+[Popup Mode]
+Режим работы всплывающих окон
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Копировать заголовок в буфер обмена
@@ -2133,7 +2135,7 @@ Miranda не может распознать этот профиль
 [Mute chat]
 Заглушать чат
 [Attach]
-
+Прикрепить
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Файл
@@ -2653,6 +2655,9 @@ xСтатус
 Мои профили
 [New profile]
 Создать профиль
+;file \src\mir_app\src\protocols.cpp
+[Protocol is offline]
+Протокол не в сети
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Запросить авторизацию
@@ -2713,8 +2718,10 @@ ID учётной записи
 Необходимо указать имя учётной записи.
 [Account error]
 Ошибка учётной записи
-[Account name has to be unique. Please enter unique name.]
-Имя учётной записи должно быть уникальным. Введите уникальное имя.
+[Account internal name contains invalid symbols, only ASCII chars are allowed.]
+Внутреннее имя учётной записи содержит недопустимые символы (поддерживаются только символы ASCII).
+[Account internal name has to be unique. Please enter unique name.]
+Внутреннее имя учётной записи должно быть уникальным. Введите уникальное имя.
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2834,6 +2841,8 @@ ANSI плагин
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 Без имени
+[on]
+Вкл.
 [Download]
 Скачать
 [Copy URL]

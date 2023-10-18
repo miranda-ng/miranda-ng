@@ -750,6 +750,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Show/Hide offline users]
 Паказаць/Скрыць адключаных
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Стандартны Скін%
+[Default Skin]
+Стандартны скін
 [( unknown )]
 ( невядома )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Вылчыце вокладку са спісу
 [Please select skin to apply]
 Абярыце вокладку для ўжывання
-[Default Skin]
-Стандартны скін
-[%Default Skin%]
-%Стандартны Скін%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

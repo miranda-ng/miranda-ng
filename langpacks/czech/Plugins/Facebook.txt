@@ -50,9 +50,6 @@ Pozvat už&ivatele
 Sítě
 [Account]
 Účet
-;file \protocols\Facebook\src\proto.cpp
-[Protocol is offline or user isn't authorized yet]
-
 ;file \protocols\Facebook\src\server.cpp
 [Connection failed with error code %d]
 

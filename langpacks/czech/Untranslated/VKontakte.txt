@@ -119,7 +119,7 @@
 [User restored control over own page]
 [User was deactivated (deleted)]
 [User was deactivated (banned)]
-[Adding bots to MUC is not supported]
+[Adding bots, MUC or groups to MUC is not supported]
 [Message link]
 [create chat]
 [kick user]

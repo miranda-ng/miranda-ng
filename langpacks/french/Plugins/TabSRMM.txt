@@ -268,6 +268,14 @@ Tenter de conserver la taille
 
 [Reset all hidden warnings]
 
+[Load unread events only]
+Voir seulement les messages non lus
+[Load number of previous events]
+Voir les x derniers évènements
+[Load previous events less than]
+Voir les évènements ayant moins de
+[minutes old]
+minutes
 [Indent values]
 Décalage
 [Left/Right]
@@ -282,14 +290,6 @@ Modèles standards...
 Modèles DàG...
 [Load history events]
 Derniers échanges
-[Load unread events only]
-Voir seulement les messages non lus
-[Load number of previous events]
-Voir les x derniers évènements
-[Load previous events less than]
-Voir les évènements ayant moins de
-[minutes old]
-minutes
 [Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ millisecondes
 
 [Use Windows 7 task bar enhancements (restart required)]
 
-[Colors]
-Couleurs
+[Popups]
+Popups
 [...is &typing]
 ... vous &écrit
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ Fermer la fenêtre à l'envoi
 Couper automatiquement les longs messages (expérimental, utiliser avec précaution)
 [Use the same splitter height for all sessions]
 
-[Automatically copy selected text]
-Copier le texte sélectionné
 [Test contact]
 Test : Contact
 [Template set editor]
@@ -1462,20 +1460,24 @@ Le modèle a été remis à zéro avec succès, veuillez fermer puis réouvrir t
 Apparence de l'historique récent
 [Draw grid lines]
 Afficher les lignes horizontales
-[Log status changes]
-
 [Use message grouping]
 Grouper les messages
 [Simple text formatting (*bold*, etc.)]
 Formatage simple des textes (*bold* etc.)
 [Support BBCode formatting]
 Support du formatage BBCode
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
+[Message log control]
+
+[Log status changes]
+
+[Automatically copy selected text]
+Copier le texte sélectionné
 [Place a separator in the log after a window lost its foreground status]
 
 [Only place a separator when an incoming event is announced with a popup]
 
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
 [Support for external plugins]
 Support des plugins externes
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1575,7 +1577,7 @@ Charger et appliquer
 [Window layout tweaks]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 Options
 [Image tag]
 
@@ -1615,7 +1617,7 @@ Message envoyé
 Changement d'état
 [Secure message]
 
-[Secure message (verified)]
+[Secure verified message]
 
 [Static container icon]
 Icône du conteneur fixe
@@ -1644,8 +1646,6 @@ Historique récent
 [Clock symbol (for the info panel clock)]
 
 [Feature disabled (used as overlay)]
-
-[Feature enabled (used as overlay)]
 
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
@@ -1774,8 +1774,6 @@ Changer le skin
 ... n'écrit plus.
 [...is typing a message.]
 ... vous écrit un message.
-[Popups]
-Popups
 [Typing notifications]
 Notification de frappe
 [Contact started typing]

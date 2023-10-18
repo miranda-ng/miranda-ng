@@ -17,6 +17,7 @@
 [Plus in export]
 [Minus in export]
 [File does not contain selected contact]
+[Delete all contact history]
 [Do you want to save imported messages to local profile?]
 [File contains history for different contact. Do you want to change contact and import?]
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]

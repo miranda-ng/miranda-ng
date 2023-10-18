@@ -750,6 +750,10 @@ Fermer Miranda
 [Show/Hide offline users]
 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+
+[Default Skin]
+Skin par défaut
 [( unknown )]
 
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\
 Sélectionnez un des skins de la liste
 [Please select skin to apply]
 Sélectionnez le skin à appliquer
-[Default Skin]
-Skin par défaut
-[%Default Skin%]
-
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

@@ -50,9 +50,6 @@
 Сеть
 [Account]
 Учётная запись
-;file \protocols\Facebook\src\proto.cpp
-[Protocol is offline or user isn't authorized yet]
-Протокол не в сети или пользователь ещё не авторизовался
 ;file \protocols\Facebook\src\server.cpp
 [Connection failed with error code %d]
 Ошибка подключения, код ошибки - %d

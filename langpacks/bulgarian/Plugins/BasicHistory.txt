@@ -206,8 +206,8 @@
 Цитиране
 [Delete group]
 Изтриване на групата
-[Delete all user history]
-Изтриване на историята на всички потребители
+[Delete all contact history]
+
 [Options]
 Настройки
 [Filters]

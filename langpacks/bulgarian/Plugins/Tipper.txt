@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -192,12 +192,6 @@ ms
 [Tipper smileys]
 Tipper усмивки
 ;file \plugins\TipperYM\src\options.cpp
-[Show for all contact types]
-За всеки тип контакти
-[Show only for contacts]
-Само за контакти
-[Show only for chatrooms]
-Само за чат стаи
 [Number of contacts]
 Брой контакти
 [Protocol lock status]
@@ -226,102 +220,6 @@ Jabber дейност
 Държавно знаме
 [Client]
 Клиент
-[You must enter a label]
-Трябва да въведете етикет
-[Invalid Substitution]
-Невалидно заместване
-[<No Label>]
-<Няма етикет>
-[Add item]
-Добавяне на елемент
-[No icon]
-Без икона
-[Icon on left]
-Икона вляво
-[Icon on right]
-Икона вдясно
-[Bottom right]
-Долу вдясно
-[Bottom left]
-Долу вляво
-[Top right]
-Горе вдясно
-[Top left]
-Горе вляво
-[Top]
-Горе
-[Center]
-Централно
-[Bottom]
-Долу
-[Left]
-Ляво
-[Right]
-Дясно
-[No avatar]
-Няма аватар
-[Left avatar]
-Аватар отляво
-[Right avatar]
-Аватар отдясно
-[Max avatar size:]
-Аватар (макс. р-р):
-[None]
-Няма
-[Animation]
-Анимиране
-[Fade]
-Избледняване
-[Appearance]
-Външен вид
-[Tooltips]
-Подсказки
-[Customize]
-Персонализиране
-[Content]
-Съдържание
-[Tray tooltip]
-Подсказка в трея
-[Extra]
-Допълнителни
-;file \plugins\TipperYM\src\popwin.cpp
-[%s (locked)]
-%s (заключен)
-[%s ago]
-преди %s
-[Log on:]
-
-[Unread emails:]
-Непрочетени имейли:
-[Status:]
-Състояние:
-[Status message:]
-Текст за състоянието:
-[Mood:]
-Настроение:
-[xStatus:]
-xСъстояние:
-[Activity:]
-Дейност:
-[Listening to:]
-Слуша:
-[Copy all items with labels]
-Копиране на всички елементи с етикет
-[Copy all items]
-Копиране на всички елементи
-[Copy avatar]
-Копиране на аватара
-[<No Label>: ]
-<Няма етикет>:\s
-[<No Value>]
-<Няма стойност>
-[Fav. contacts]
-Любими контакти
-[Other]
-Друго
-[Miranda uptime:]
-Miranda работи от:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Акаунт
 [Account:]
@@ -356,6 +254,8 @@ Miranda работи от:
 Последно съобщение
 [Last message: (%sys:last_msg_reltime% ago)]
 Последно съобщение: (преди %sys:last_msg_reltime%)
+[Listening to:]
+Слуша:
 [Name]
 Име
 [Name:]
@@ -368,6 +268,10 @@ Miranda работи от:
 Брой изпратени съобщения
 [Number of msg [OUT]:]
 Брой съобщения (изходящи):
+[Status:]
+Състояние:
+[Status message:]
+Текст за състоянието:
 [Contact time]
 Часът при контакта
 [Time:]
@@ -444,6 +348,101 @@ xСъстояние текст:
 \[weather.dll] Вятър
 [Wind:]
 Вятър:
+[Show for all contact types]
+За всеки тип контакти
+[Show only for contacts]
+Само за контакти
+[Show only for chatrooms]
+Само за чат стаи
+[You must enter a label]
+Трябва да въведете етикет
+[Invalid Substitution]
+Невалидно заместване
+[<No Label>]
+<Няма етикет>
+[Add item]
+Добавяне на елемент
+[No icon]
+Без икона
+[Icon on left]
+Икона вляво
+[Icon on right]
+Икона вдясно
+[Bottom right]
+Долу вдясно
+[Bottom left]
+Долу вляво
+[Top right]
+Горе вдясно
+[Top left]
+Горе вляво
+[Top]
+Горе
+[Center]
+Централно
+[Bottom]
+Долу
+[Left]
+Ляво
+[Right]
+Дясно
+[No avatar]
+Няма аватар
+[Left avatar]
+Аватар отляво
+[Right avatar]
+Аватар отдясно
+[Max avatar size:]
+Аватар (макс. р-р):
+[None]
+Няма
+[Animation]
+Анимиране
+[Fade]
+Избледняване
+[Appearance]
+Външен вид
+[Tooltips]
+Подсказки
+[Customize]
+Персонализиране
+[Content]
+Съдържание
+[Tray tooltip]
+Подсказка в трея
+[Extra]
+Допълнителни
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заключен)
+[%s ago]
+преди %s
+[Log on:]
+
+[Unread emails:]
+Непрочетени имейли:
+[Mood:]
+Настроение:
+[xStatus:]
+xСъстояние:
+[Activity:]
+Дейност:
+[Copy all items with labels]
+Копиране на всички елементи с етикет
+[Copy all items]
+Копиране на всички елементи
+[Copy avatar]
+Копиране на аватара
+[<No Label>: ]
+<Няма етикет>:\s
+[<No Value>]
+<Няма стойност>
+[Fav. contacts]
+Любими контакти
+[Other]
+Друго
+[Miranda uptime:]
+Miranda работи от:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# запълване с плътен цвят

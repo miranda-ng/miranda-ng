@@ -18,4 +18,5 @@
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [%s global smiley pack]
 [Standard]
+[Emoji]
 [d'Oh!]

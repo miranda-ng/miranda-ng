@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -192,12 +192,6 @@
 [Tipper smileys]
 Подсказки Tipper
 ;file \plugins\TipperYM\src\options.cpp
-[Show for all contact types]
-Показывать для всех типов контактов
-[Show only for contacts]
-Показывать только для контактов
-[Show only for chatrooms]
-Показывать только для комнат чата
 [Number of contacts]
 Количество контактов
 [Protocol lock status]
@@ -226,102 +220,6 @@ xСтатус
 Флаг страны
 [Client]
 Клиент
-[You must enter a label]
-Вы должны ввести метку
-[Invalid Substitution]
-Ошибочная замена
-[<No Label>]
-<Без метки>
-[Add item]
-Добавить
-[No icon]
-Без значка
-[Icon on left]
-Значок слева
-[Icon on right]
-Значок справа
-[Bottom right]
-Внизу справа
-[Bottom left]
-Внизу слева
-[Top right]
-Вверху справа
-[Top left]
-Вверху слева
-[Top]
-Верх
-[Center]
-Центр
-[Bottom]
-Низ
-[Left]
-Слева
-[Right]
-Справа
-[No avatar]
-Без аватара
-[Left avatar]
-Аватар слева
-[Right avatar]
-Аватар справа
-[Max avatar size:]
-Макс. размер аватара:
-[None]
-Нет
-[Animation]
-Анимация
-[Fade]
-Затухание
-[Appearance]
-Внешний вид
-[Tooltips]
-Подсказки
-[Customize]
-Тонкая настройка
-[Content]
-Содержимое
-[Tray tooltip]
-Подсказки в трее
-[Extra]
-Другое
-;file \plugins\TipperYM\src\popwin.cpp
-[%s (locked)]
-%s (заблокирована)
-[%s ago]
-%s назад
-[Log on:]
-В сети:
-[Unread emails:]
-Непрочитанных писем:
-[Status:]
-Статус:
-[Status message:]
-Статусное сообщение:
-[Mood:]
-Настроение:
-[xStatus:]
-xСтатус:
-[Activity:]
-Занятие:
-[Listening to:]
-Слушаю:
-[Copy all items with labels]
-Копировать всё с метками
-[Copy all items]
-Копировать всё
-[Copy avatar]
-Копировать аватар
-[<No Label>: ]
-<Без метки>\s
-[<No Value>]
-<Без значения>
-[Fav. contacts]
-Избранные
-[Other]
-Другое
-[Miranda uptime:]
-Время работы Miranda NG:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Учётная запись
 [Account:]
@@ -356,6 +254,8 @@ xСтатус:
 Посл. сообщ.
 [Last message: (%sys:last_msg_reltime% ago)]
 Последнее сообщение: (%sys:last_msg_reltime% назад)
+[Listening to:]
+Слушаю:
 [Name]
 Имя
 [Name:]
@@ -368,6 +268,10 @@ xСтатус:
 Количество отправленных сообщений
 [Number of msg [OUT]:]
 Количество отправленных сообщений:
+[Status:]
+Статус:
+[Status message:]
+Статусное сообщение:
 [Contact time]
 Время контакта
 [Time:]
@@ -444,6 +348,101 @@ xСтатус:
 (weather.dll) Ветер
 [Wind:]
 Ветер:
+[Show for all contact types]
+Показывать для всех типов контактов
+[Show only for contacts]
+Показывать только для контактов
+[Show only for chatrooms]
+Показывать только для комнат чата
+[You must enter a label]
+Вы должны ввести метку
+[Invalid Substitution]
+Ошибочная замена
+[<No Label>]
+<Без метки>
+[Add item]
+Добавить
+[No icon]
+Без значка
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Top]
+Верх
+[Center]
+Центр
+[Bottom]
+Низ
+[Left]
+Слева
+[Right]
+Справа
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар слева
+[Right avatar]
+Аватар справа
+[Max avatar size:]
+Макс. размер аватара:
+[None]
+Нет
+[Animation]
+Анимация
+[Fade]
+Затухание
+[Appearance]
+Внешний вид
+[Tooltips]
+Подсказки
+[Customize]
+Тонкая настройка
+[Content]
+Содержимое
+[Tray tooltip]
+Подсказки в трее
+[Extra]
+Другое
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заблокирована)
+[%s ago]
+%s назад
+[Log on:]
+В сети:
+[Unread emails:]
+Непрочитанных писем:
+[Mood:]
+Настроение:
+[xStatus:]
+xСтатус:
+[Activity:]
+Занятие:
+[Copy all items with labels]
+Копировать всё с метками
+[Copy all items]
+Копировать всё
+[Copy avatar]
+Копировать аватар
+[<No Label>: ]
+<Без метки>\s
+[<No Value>]
+<Без значения>
+[Fav. contacts]
+Избранные
+[Other]
+Другое
+[Miranda uptime:]
+Время работы Miranda NG:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Заливка цветом

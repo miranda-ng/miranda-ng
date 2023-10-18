@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,14 +52,12 @@
 Уведомления
 [New Mail]
 Новая почта
-[Sound]
-Звук
+[Tray Icon]
+Значок в трее
 [Message]
 Сообщение
 [Keyboard Flash]
 Мигание клавиатуры
-[Tray Icon]
-Значок в трее
 [Execute Application]
 Запуск приложения
 [Errors]
@@ -94,22 +92,18 @@
 Готов болтать
 [Invisible]
 Невидимый
-[YAMN General Options]
-Основные настройки
-[TopToolBar button "Check mail"]
-Кнопка "Проверить почту" в Панели кнопок
 [MailBrowser Options]
 Настройки просмотра писем
 [Enable Close on Delete Button]
 Закрывать по нажатию "Удалить"
 [Show long localized date]
 Показывать полную дату
-[Don't show today's date]
-Не показывать сегодняшнюю дату
+[Show current date]
+Показывать сегодняшнюю дату
 [Date/Time Representation]
 Дата/время
-[Don't show seconds]
-Не показывать секунды
+[Show seconds]
+Показывать секунды
 [Mail Notifications]
 Уведомления о почте
 [Popup]
@@ -138,6 +132,11 @@
 Цвет фона
 [Text color]
 Цвет текста
+[Force popups for manual operations]
+Всегда показывать вспл.окна при ручной проверке почты
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+Нет новых писем
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Проверить &почту
@@ -161,8 +160,6 @@ YAMN
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Ник
-[No new mail message]
-Нет новых писем
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - ошибка соединения
@@ -296,6 +293,18 @@ OpenSSL не загружен.
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 Не выбрана учётная запись
+[This is not a valid number value]
+Неправильное числовое значение
+[Input error]
+Ошибка ввода
+[Please select application to run]
+Выберите приложение для запуска
+[Please wait while no account is in use.]
+Пожалуйста, подождите, пока ни одна учётная запись не используется.
+[Cannot allocate memory space for new account]
+Невозможно выделить память для новой записи
+[Memory error]
+Ошибка памяти
 [Time left to next check [s]: %d]
 Время до следующей проверки: %d с.
 [New Account]
@@ -314,18 +323,6 @@ OpenSSL не загружен.
 Вы действительно хотите удалить эту учётную запись?
 [Delete account confirmation]
 Подтверждение удаления учётной записи
-[Please wait while no account is in use.]
-Пожалуйста, подождите, пока ни одна учётная запись не используется.
-[This is not a valid number value]
-Неправильное числовое значение
-[Input error]
-Ошибка ввода
-[Please select application to run]
-Выберите приложение для запуска
-[Cannot allocate memory space for new account]
-Невозможно выделить память для новой записи
-[Memory error]
-Ошибка памяти
 [Account Test]
 Проверка
 [You have N new mail messages]

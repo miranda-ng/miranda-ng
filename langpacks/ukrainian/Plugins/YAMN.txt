@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,14 +52,12 @@
 Сповіщення
 [New Mail]
 Нова пошта
-[Sound]
-Звук
+[Tray Icon]
+Значок у треї
 [Message]
 Повідомлення
 [Keyboard Flash]
 Блимання клавіатури
-[Tray Icon]
-Значок у треї
 [Execute Application]
 Запуск програми
 [Errors]
@@ -94,22 +92,18 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[YAMN General Options]
-Основні налаштування
-[TopToolBar button "Check mail"]
-Кнопка "Перевірити пошту" на панелі кнопок
 [MailBrowser Options]
 Налаштування перегляду листів
 [Enable Close on Delete Button]
 Закривати по натисканню "Видалити"
 [Show long localized date]
 Показувати повну дату
-[Don't show today's date]
-Не показувати сьогоднішню дату
+[Show current date]
+
 [Date/Time Representation]
 Дата/час
-[Don't show seconds]
-Не показувати секунди
+[Show seconds]
+Секунди
 [Mail Notifications]
 Сповіщення про пошту
 [Popup]
@@ -138,6 +132,11 @@
 Колір фону
 [Text color]
 Колір тексту
+[Force popups for manual operations]
+
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+Немає нових листів
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Перевірити пошту (Всі)
@@ -161,8 +160,6 @@
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Нік
-[No new mail message]
-Немає нових листів
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - помилка підключення
@@ -296,6 +293,18 @@ OpenSSL не завантажений.
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 Не вибраний обліковий запис
+[This is not a valid number value]
+Неправильне числове значення
+[Input error]
+Помилка вводу
+[Please select application to run]
+Виберіть програму для запуску
+[Please wait while no account is in use.]
+Будь ласка, зачекайте, жоден обліковий запис не використовується.
+[Cannot allocate memory space for new account]
+Неможливо виділити пам'ять для нового запису
+[Memory error]
+Помилка пам'яті
 [Time left to next check [s]: %d]
 До наступної перевірки: %d с
 [New Account]
@@ -314,18 +323,6 @@ OpenSSL не завантажений.
 Ви дійсно бажаєте видалити цей обліковий запис?
 [Delete account confirmation]
 Підтвердження видалення облікового запису
-[Please wait while no account is in use.]
-Будь ласка, зачекайте, жоден обліковий запис не використовується.
-[This is not a valid number value]
-Неправильне числове значення
-[Input error]
-Помилка вводу
-[Please select application to run]
-Виберіть програму для запуску
-[Cannot allocate memory space for new account]
-Неможливо виділити пам'ять для нового запису
-[Memory error]
-Помилка пам'яті
 [Account Test]
 Перевірка
 [You have N new mail messages]

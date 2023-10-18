@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -192,12 +192,6 @@ Protokollnamen anhängen
 [Tipper smileys]
 Smileys in Tooltips
 ;file \plugins\TipperYM\src\options.cpp
-[Show for all contact types]
-Für alle Kontaktarten anzeigen
-[Show only for contacts]
-Nur für Kontakte anzeigen
-[Show only for chatrooms]
-Nur für Chaträume anzeigen
 [Number of contacts]
 Anzahl der Kontakte
 [Protocol lock status]
@@ -226,102 +220,6 @@ Geschlecht
 Länderflagge
 [Client]
 Client
-[You must enter a label]
-Sie müssen einen Titel eingeben!
-[Invalid Substitution]
-Ungültige Ersetzung
-[<No Label>]
-<Keine Beschriftung>
-[Add item]
-Objekt hinzufügen
-[No icon]
-Kein Icon
-[Icon on left]
-Icon links
-[Icon on right]
-Icon rechts
-[Bottom right]
-Unten rechts
-[Bottom left]
-Unten links
-[Top right]
-Oben rechts
-[Top left]
-Oben links
-[Top]
-Oben
-[Center]
-Mitte
-[Bottom]
-Unten
-[Left]
-Links
-[Right]
-Rechts
-[No avatar]
-Kein Avatar
-[Left avatar]
-Avatar links
-[Right avatar]
-Avatar rechts
-[Max avatar size:]
-Maximale Avatargröße:
-[None]
-Keine
-[Animation]
-Animation
-[Fade]
-Einblenden
-[Appearance]
-Erscheinungsbild
-[Tooltips]
-Tooltips
-[Customize]
-Customize
-[Content]
-Inhalt
-[Tray tooltip]
-Tray-Tooltip
-[Extra]
-Extras
-;file \plugins\TipperYM\src\popwin.cpp
-[%s (locked)]
-%s (gesperrt)
-[%s ago]
-vor %s
-[Log on:]
-Anmeldung ist
-[Unread emails:]
-Ungelesene E-Mails:
-[Status:]
-Status:
-[Status message:]
-Statusnachricht:
-[Mood:]
-Stimmung:
-[xStatus:]
-xStatus:
-[Activity:]
-Aktivität:
-[Listening to:]
-Listening to:
-[Copy all items with labels]
-Alle Einträge mit Titeln kopieren
-[Copy all items]
-Alle Einträge kopieren
-[Copy avatar]
-Avatar kopieren
-[<No Label>: ]
-<kein Label>:\s
-[<No Value>]
-<kein Wert>
-[Fav. contacts]
-Fav. Kontakte
-[Other]
-Sonstige
-[Miranda uptime:]
-Miranda-Laufzeit:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Konto
 [Account:]
@@ -356,6 +254,8 @@ Interne IP:
 Letzte Nachricht
 [Last message: (%sys:last_msg_reltime% ago)]
 Letzte Nachricht: (vor %sys:last_msg_reltime%)
+[Listening to:]
+Listening to:
 [Name]
 Name
 [Name:]
@@ -368,6 +268,10 @@ Anzahl eingehender Nachrichten:
 Anzahl gesendeter Nachrichten
 [Number of msg [OUT]:]
 Anzahl ausgehender Nachrichten:
+[Status:]
+Status:
+[Status message:]
+Statusnachricht:
 [Contact time]
 Kontaktzeit
 [Time:]
@@ -444,6 +348,101 @@ Sichtbarkeit:
 \[weather.dll] Wind
 [Wind:]
 Wind:
+[Show for all contact types]
+Für alle Kontaktarten anzeigen
+[Show only for contacts]
+Nur für Kontakte anzeigen
+[Show only for chatrooms]
+Nur für Chaträume anzeigen
+[You must enter a label]
+Sie müssen einen Titel eingeben!
+[Invalid Substitution]
+Ungültige Ersetzung
+[<No Label>]
+<Keine Beschriftung>
+[Add item]
+Objekt hinzufügen
+[No icon]
+Kein Icon
+[Icon on left]
+Icon links
+[Icon on right]
+Icon rechts
+[Bottom right]
+Unten rechts
+[Bottom left]
+Unten links
+[Top right]
+Oben rechts
+[Top left]
+Oben links
+[Top]
+Oben
+[Center]
+Mitte
+[Bottom]
+Unten
+[Left]
+Links
+[Right]
+Rechts
+[No avatar]
+Kein Avatar
+[Left avatar]
+Avatar links
+[Right avatar]
+Avatar rechts
+[Max avatar size:]
+Maximale Avatargröße:
+[None]
+Keine
+[Animation]
+Animation
+[Fade]
+Einblenden
+[Appearance]
+Erscheinungsbild
+[Tooltips]
+Tooltips
+[Customize]
+Customize
+[Content]
+Inhalt
+[Tray tooltip]
+Tray-Tooltip
+[Extra]
+Extras
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (gesperrt)
+[%s ago]
+vor %s
+[Log on:]
+Anmeldung ist
+[Unread emails:]
+Ungelesene E-Mails:
+[Mood:]
+Stimmung:
+[xStatus:]
+xStatus:
+[Activity:]
+Aktivität:
+[Copy all items with labels]
+Alle Einträge mit Titeln kopieren
+[Copy all items]
+Alle Einträge kopieren
+[Copy avatar]
+Avatar kopieren
+[<No Label>: ]
+<kein Label>:\s
+[<No Value>]
+<kein Wert>
+[Fav. contacts]
+Fav. Kontakte
+[Other]
+Sonstige
+[Miranda uptime:]
+Miranda-Laufzeit:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Farbfüllung

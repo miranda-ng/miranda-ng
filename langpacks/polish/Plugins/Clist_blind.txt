@@ -14,10 +14,6 @@ Sortowanie po nazwie
 Sortowanie po statusie
 [Sort contacts by protocol]
 Sortowanie po protokole
-[Disable icon blinking]
-Wyłącz miganie ikony
-[ms delay]
-ms opóźnienia
 [Show]
 Pokaż
 [icon when statuses differ]
@@ -30,8 +26,6 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[System tray icon]
-Ikona w zasobniku
 [System tray icon when using multiple protocols]
 Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
 [Contact list sorting]

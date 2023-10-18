@@ -206,7 +206,7 @@ Effacer
 Répondre en citant
 [Delete group]
 Effacer un groupe
-[Delete all user history]
+[Delete all contact history]
 
 [Options]
 Paramètres

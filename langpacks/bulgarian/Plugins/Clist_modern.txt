@@ -750,6 +750,10 @@ Modern contact list
 [Show/Hide offline users]
 Показване/Скриване на потребителите "Извън линия"
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+
+[Default Skin]
+Стандартен облик
 [( unknown )]
 (неизвестно)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изберете облик от списъка
 [Please select skin to apply]
 Изберете облик, който да бъде приложен
-[Default Skin]
-Стандартен облик
-[%Default Skin%]
-
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

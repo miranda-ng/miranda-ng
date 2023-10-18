@@ -1,5 +1,3 @@
-[Max connect retries:]
-[Max reconnect retries:]
 [Enable UDP hole-punching]
 [Enable local network peer discovery]
 [Remove password]

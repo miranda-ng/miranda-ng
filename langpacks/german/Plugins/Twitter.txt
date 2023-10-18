@@ -69,13 +69,6 @@ Geben Sie die von Twitter bereitgestellte PIN ein, um die Anmeldung abzuschließ
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Normal
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-OAuth-Variablen sind in der falschen Reihenfolge, sie wurden zurückgesetzt. Bitte verbinden und autorisieren Sie Miranda neu mit Twitter (erledigen Sie das PIN-Zeug noch mal)
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen Sie es erneut. Wenn dies häufiger geschieht, überprüfen Sie Ihre Internetverbindung.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-Ihnen fehlt der Nick-Eintrag in der Datenbank. Das ist nicht weiter schlimm, aber Sie werden einige kleinere Probleme bemerken (eigener Kontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder erstellen Sie Ihr Twitterkonto in den Konteinstellungen neu.
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 %s (Server)
@@ -95,8 +88,6 @@ Netzwerk
 Allgemein
 [Popups]
 Popups
-[%s Protocol]
-%s-Protokoll
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 Die maximale Grüße eines Tweets ist 140 Zeichen, und Sie verwenden %d Zeichen.
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Erster Tweet eines neuen Kontaktes
 Neuer Tweet
 [Reply...]
 Antworten...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+%s-Protokoll

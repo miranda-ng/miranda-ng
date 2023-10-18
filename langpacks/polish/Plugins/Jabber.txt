@@ -508,8 +508,6 @@ Możliwość przekazywania informacji na temat aktywności użytkowników
 Odbiera informacje o aktywności użytkowników
 [Supports Miranda NG notes extension]
 Obsługa "notatek" w Mirandzie NG
-[Supports Jingle]
-Obsługa rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
 Obsługa zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
@@ -518,13 +516,7 @@ Obsługa bezpośrednich zaproszeń do czatu (XEP-0249)
 Otrzymuj informacje o urządzeniach OMEMO
 [Supports message carbons (XEP-0280)]
 Obsługa message carbons (XEP-0280)
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-
-[Jingle DTLS]
-
-[Jingle RTP Audio]
+[Supports offline messages (XEP-0160)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1458,8 +1450,6 @@ Automatycznie akceptuj prośby o autoryzację
 Naprawiaj błędne czasy przychodzących wiadomości
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagana wtyczka AssocMgr.dll)
-[Embrace picture URLs with [img]]
-Uwzględnij adresy URL zdjęć za pomocą [img]
 [Ignore server roster (groups and nick names)]
 Ignoruj roster serwera (grupy i nicki)
 [Security]
@@ -1669,8 +1659,6 @@ Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 
-[Protocol is offline or no JID]
-Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
 Nie istnieje żadna ważna sesja OMEMO
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ Wprowadź hasło dla %s
 Błąd: Brak pamięci
 [Error: Cannot connect to the server]
 Błąd: Nie można połączyć się z serwerem
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Błąd: Utracono połączenie
@@ -1941,9 +1929,6 @@ Jabber vCard: Edytuj numer telefonu
 Kontakty
 [Note]
 Uwagi
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <miejsce zaawansowanego statusu>

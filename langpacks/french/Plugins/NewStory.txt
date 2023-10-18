@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -31,6 +31,8 @@ Sortant
 [Enable vertical scroll bar]
 
 [Draw window edge]
+
+[Ascending events sort order]
 
 [Template list:]
 
@@ -73,6 +75,10 @@ Paramètres
 [Templates]
 Modèles
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Nom entrant
+[Outgoing name]
+Nom sortant
 [Incoming messages]
 Messages reçus
 [Outgoing messages]
@@ -93,15 +99,27 @@ Changements d'état
 
 [Selected item's frame]
 
+[Highlighted messages]
+
 [Grid background]
 
 [Separator]
 Séparateur
-[Incoming name]
-Nom entrant
-[Outgoing name]
-Nom sortant
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Recherche
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Prénom
 [LastName]
@@ -124,8 +142,10 @@ Téléphone
 Page web
 [About]
 À propos
-[History search results]
-
+[Global history search]
+Recherche dans l'historique système
+[System history]
+Historique du système
 [Copy]
 Copier
 [Export...]
@@ -148,6 +168,10 @@ Menu Contact
 Précédent
 [Conversations]
 
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
 [Export warning]
@@ -160,12 +184,25 @@ Précédent
 Terminé
 [History export]
 
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
+[Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[User history]
+[Copy file name]
 
+[Copy URL]
+Copier l'URL
+[History]
+Historique
+[Global search]
+
+[Copy text]
+
+[Quote]
+
+[Save as]
+Sauver sous
+[Download]
+Téléchargement
 [Edit]
 Éditer
 [Delete]
@@ -175,9 +212,9 @@ Tout sélectionner
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 
-[Search]
-Recherche
 [Export]
+
+[Bookmark]
 
 [Incoming message]
 Message reçu
@@ -244,8 +281,6 @@ année (4 chiffres)
 
 [the message string itself]
 
-[History]
-Historique
 [Advanced]
 Avancé
 ;file \plugins\NewStory\src\templates.cpp
@@ -287,16 +322,18 @@ Avancé
 
 [December]
 
-[System history]
-Historique du système
 [System event]
 
 [Interface]
 
 [Window title]
 
+[%N - history [%c messages total]]
+
 [Message log]
 Historique récent
+[Group head]
+
 [Grouped messages]
 
 [Presence requests]

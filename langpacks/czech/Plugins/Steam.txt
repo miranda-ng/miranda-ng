@@ -8,16 +8,24 @@
 [Steam protocol support for Miranda NG.]
 Steam protokol pro Mirandu NG.
 ;file \protocols\Steam\res\Resource.rc
+[Username]
+Uživatel
+[Password]
+Heslo
+[Default group]
+
+[Device name]
+
+[Account]
+Účet
 [Username:]
 Uživatel:
 [Password:]
 Heslo:
-[Default group:]
-Výchozí skupina:
-[Account]
-Účet
 [Contacts]
 Kontakty
+[Default group:]
+Výchozí skupina:
 [Use bigger avatars]
 Zobrazit větší avatary
 [Message sessions]
@@ -66,9 +74,6 @@ Hraje
 %s byl odebrán z vašeho seznamu kontaktů
 [%s has added you to contact list]
 %s si vás přidal do svého seznamu kontaktů
-;file \protocols\Steam\src\steam_login.cpp
-[Cannot obtain connection token.]
-Nelze získat token pro připojení.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Volba nabídky Steam
@@ -91,8 +96,6 @@ Protokoly
 Ikona protokolu
 [Gaming icon]
 Herní ikona
-[You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 ukončil komunikaci

@@ -69,13 +69,6 @@
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Звычайны
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Не атрымалася атрымаць жэтоны доступу Twitter, выйдзіце і паўтарыце спробу. Калі так адбываецца заўсёды, праверце злучэнне з інтэрнэтам.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 %s (сервер)
@@ -95,8 +88,6 @@ Twitter (аватары)
 Галоўныя
 [Popups]
 Усплывальныя вокны
-[%s Protocol]
-%s Конт
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Twitter (аватары)
 
 [Reply...]
 Адказ...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+%s Конт

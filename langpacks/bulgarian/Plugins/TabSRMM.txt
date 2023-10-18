@@ -268,6 +268,14 @@ ID на потребителя в лентата за състояние
 Помощ
 [Reset all hidden warnings]
 Анулиране на скритите предупреждения
+[Load unread events only]
+Само непрочетените събития
+[Load number of previous events]
+Предишни събития на брой
+[Load previous events less than]
+Събития от преди
+[minutes old]
+минути
 [Indent values]
 Отстъп (стойности)
 [Left/Right]
@@ -282,14 +290,6 @@ ID на потребителя в лентата за състояние
 Шаблони (Л<Д)...
 [Load history events]
 Допълнително зареждани събития
-[Load unread events only]
-Само непрочетените събития
-[Load number of previous events]
-Предишни събития на брой
-[Load previous events less than]
-Събития от преди
-[minutes old]
-минути
 [Typing notification options]
 Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ Windows Aero - настройки
 Ползване на Aero UI елементи (само когато не се ползва персонален облик)
 [Use Windows 7 task bar enhancements (restart required)]
 Ползване функциите на лентата за задачи в Windwos 7 за табовете (изисква рестарт)
-[Colors]
-Цветове
+[Popups]
+Рopups
 [...is &typing]
 ...пише
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ Latin I
 Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
 [Use the same splitter height for all sessions]
 
-[Automatically copy selected text]
-Автокопиране на маркирания текст
 [Test contact]
 Тестови контакт
 [Template set editor]
@@ -1462,20 +1460,24 @@ Latin I
 Външен вид на дневника за съобщения
 [Draw grid lines]
 Добавяне на решетка
-[Log status changes]
-Запис на промените на състоянията
 [Use message grouping]
 Групиране на съобщенията
 [Simple text formatting (*bold*, etc.)]
 Лесно форматиране (*bold* и т.н.)
 [Support BBCode formatting]
 Поддържане на BBCode форматиране
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+
+[Message log control]
+
+[Log status changes]
+Запис на промените на състоянията
+[Automatically copy selected text]
+Автокопиране на маркирания текст
 [Place a separator in the log after a window lost its foreground status]
 Поставяне на разделите в дневника след дефокусиран на прозореца
 [Only place a separator when an incoming event is announced with a popup]
 Поставяне на разделител само след уведомяване за входящо събитие с popup
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-
 [Support for external plugins]
 Поддръжка на външни приставки
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1575,7 +1577,7 @@ Latin I
 [Window layout tweaks]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 Настройки на дневника за съобщения
 [Image tag]
 
@@ -1615,7 +1617,7 @@ Latin I
 Промяна на състояние
 [Secure message]
 
-[Secure message (verified)]
+[Secure verified message]
 
 [Static container icon]
 Статична икона за контейнера
@@ -1645,8 +1647,6 @@ Latin I
 Часовник (символ в информационния панел)
 [Feature disabled (used as overlay)]
 Изключена функция (насложена икона)
-[Feature enabled (used as overlay)]
-Включена функция (насложена икона)
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Прозорци за съобщения - IM
@@ -1774,8 +1774,6 @@ Latin I
 ...спря да пише.
 [...is typing a message.]
 ...пише съобщение.
-[Popups]
-Рopups
 [Typing notifications]
 Уведомяванията при писане
 [Contact started typing]

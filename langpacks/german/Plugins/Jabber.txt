@@ -508,8 +508,6 @@ Kann Informationen über die Aktivität des Benutzers veröffentlichen
 Empfängt Informationen über die Aktivität des Benutzers
 [Supports Miranda NG notes extension]
 Unterstützt die Miranda-NG-Notizenerweiterung
-[Supports Jingle]
-Unterstützt Jingle
 [Supports Roster Exchange]
 Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
@@ -518,14 +516,8 @@ Unterstützt direkte Chateinladungen (XEP-0249)
 Empfängt Informationen über OMEMO-Geräte
 [Supports message carbons (XEP-0280)]
 Unterstützt Nachrichtendurchschläge (XEP-0280)
-[Jingle ICE-UDP Transport]
-Jingle ICE-UDP Transport
-[Jingle RTP]
-Jingle RTP
-[Jingle DTLS]
-Jingle DTLS
-[Jingle RTP Audio]
-Jingle RTP Audio
+[Supports offline messages (XEP-0160)]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -1458,8 +1450,6 @@ Autorisierungsanfragen automatisch akzeptieren
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
-[Embrace picture URLs with [img]]
-Bild-URLs in [img] einschließen
 [Ignore server roster (groups and nick names)]
 Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
@@ -1669,8 +1659,6 @@ Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 %s Fehlerbenachrichtigungen
-[Protocol is offline or no JID]
-Protokoll ist offline oder keine JID
 [No valid OMEMO session exists]
 Es existiert noch keine gültige OMEMO-Sitzung
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ Passwort für %s eingeben
 Fehler: Nicht genug Speicher
 [Error: Cannot connect to the server]
 Fehler: Verbindung zum Server fehlgeschlagen
-[SSL intialization failed]
+[SSL initialization failed]
 SSL-Initialisierung fehlgeschlagen
 [Error: Connection lost]
 Fehler: Verbindung unterbrochen
@@ -1941,9 +1929,6 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-Das Programm des Gegenübers unterstützt keine Sprachanrufe
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

@@ -69,8 +69,6 @@ Smiley кеш
 Задаване на категория усмивки
 [Background color]
 Цвят на фона
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Пакети усмивки
@@ -98,6 +96,8 @@ Smiley кеш
 
 [Standard]
 Стандарт
+[Emoji]
+
 [Regular expression "%s" in smiley pack "%s" malformed.]
 
 ;file \plugins\SmileyAdd\src\smltool.cpp

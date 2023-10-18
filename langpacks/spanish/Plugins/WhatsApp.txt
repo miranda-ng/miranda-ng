@@ -16,9 +16,9 @@ Compatibilidad con el protocolo WhatsApp para Miranda NG.
 Nick:
 [Default group:]
 Grupo predeterminado:
-[Do not open chat windows on creation]
-
 [Device name:]
+
+[Do not open chat windows on creation]
 
 [Use BBCode]
 

@@ -69,8 +69,6 @@ Przycisk emotikon
 Przypisz kategorię emotikon
 [Background color]
 Kolor tła
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu "Plugins"
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Paczka emotikon
@@ -98,6 +96,8 @@ Nie znaleziono uśmieszku #%u w pliku %s dla paczki uśmieszków %s.
 Globalna paczka emotikon %s
 [Standard]
 Standardowe
+[Emoji]
+
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Wyrażenie regularne "%s" w paczce %s zniekształcone.
 ;file \plugins\SmileyAdd\src\smltool.cpp

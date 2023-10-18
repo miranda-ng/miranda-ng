@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,13 +52,11 @@ Opciones
 Notificaciones
 [New Mail]
 
-[Sound]
+[Tray Icon]
 
 [Message]
 Mensaje
 [Keyboard Flash]
-
-[Tray Icon]
 
 [Execute Application]
 
@@ -94,22 +92,18 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[YAMN General Options]
-
-[TopToolBar button "Check mail"]
-
 [MailBrowser Options]
 
 [Enable Close on Delete Button]
 
 [Show long localized date]
 
-[Don't show today's date]
+[Show current date]
 
 [Date/Time Representation]
 
-[Don't show seconds]
-
+[Show seconds]
+Mostrar segundos
 [Mail Notifications]
 
 [Popup]
@@ -138,6 +132,11 @@ Previsualizar
 Color de fondo
 [Text color]
 Color de texto
+[Force popups for manual operations]
+
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 
@@ -161,8 +160,6 @@ Color de texto
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Apodo
-[No new mail message]
-
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
@@ -296,6 +293,18 @@ Tamaño
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 
+[This is not a valid number value]
+
+[Input error]
+
+[Please select application to run]
+
+[Please wait while no account is in use.]
+
+[Cannot allocate memory space for new account]
+
+[Memory error]
+
 [Time left to next check [s]: %d]
 
 [New Account]
@@ -313,18 +322,6 @@ Todos los archivos
 [Do you really want to delete this account?]
 
 [Delete account confirmation]
-
-[Please wait while no account is in use.]
-
-[This is not a valid number value]
-
-[Input error]
-
-[Please select application to run]
-
-[Cannot allocate memory space for new account]
-
-[Memory error]
 
 [Account Test]
 

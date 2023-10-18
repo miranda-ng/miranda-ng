@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -52,14 +52,12 @@ Vypnout události
 Upozornění
 [New Mail]
 Nová pošta
-[Sound]
-Zvuk
+[Tray Icon]
+Ikona v oznamovací oblasti
 [Message]
 Zpráva
 [Keyboard Flash]
 Blikání klávesnicí
-[Tray Icon]
-Ikona v oznamovací oblasti
 [Execute Application]
 Spuštění aplikace
 [Errors]
@@ -94,22 +92,18 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[YAMN General Options]
-Obecné možnosti
-[TopToolBar button "Check mail"]
-Do horní lišty tlačítko 'Vybrat poštu'
 [MailBrowser Options]
 Prohlížeč pošty
 [Enable Close on Delete Button]
 Po smazání zpráv autom. zavřít okno
 [Show long localized date]
 Zobrazit datum ve dlouhém formátu
-[Don't show today's date]
-Nezobrazovat dnešní datum
+[Show current date]
+
 [Date/Time Representation]
 Zobrazení data a času
-[Don't show seconds]
-Nezobrazovat sekundy
+[Show seconds]
+Zobrazit sek.
 [Mail Notifications]
 
 [Popup]
@@ -138,6 +132,11 @@ Náhled
 Barva pozadí
 [Text color]
 Barva textu
+[Force popups for manual operations]
+
+;file \protocols\YAMN\src\account.cpp
+[No new mail message]
+
 ;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Vybrat &poštu ze všech účtů
@@ -161,8 +160,6 @@ Chyba připojení
 ;file \protocols\YAMN\src\services.cpp
 [Nick]
 Přezdívka
-[No new mail message]
-
 ;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
@@ -296,6 +293,18 @@ Chyba %d-%d-%d-%d:
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [No account selected]
 Není vybraný účet
+[This is not a valid number value]
+Zadaný údaj není číslo
+[Input error]
+Vstupní chyba
+[Please select application to run]
+
+[Please wait while no account is in use.]
+Prosím čekejte dokud není účet používán.
+[Cannot allocate memory space for new account]
+
+[Memory error]
+
 [Time left to next check [s]: %d]
 Další vybírání pošty za (sek.): %d
 [New Account]
@@ -314,18 +323,6 @@ Selhání
 Opravdu chcete odstranit vybraný účet?
 [Delete account confirmation]
 Potvrzení odstranění účtu
-[Please wait while no account is in use.]
-Prosím čekejte dokud není účet používán.
-[This is not a valid number value]
-Zadaný údaj není číslo
-[Input error]
-Vstupní chyba
-[Please select application to run]
-
-[Cannot allocate memory space for new account]
-
-[Memory error]
-
 [Account Test]
 Vyzkoušení účtu
 [You have N new mail messages]

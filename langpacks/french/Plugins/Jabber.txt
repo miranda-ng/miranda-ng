@@ -508,8 +508,6 @@ Liens
 
 [Supports Miranda NG notes extension]
 
-[Supports Jingle]
-
 [Supports Roster Exchange]
 
 [Supports direct chat invitations (XEP-0249)]
@@ -518,13 +516,7 @@ Liens
 
 [Supports message carbons (XEP-0280)]
 
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-
-[Jingle DTLS]
-
-[Jingle RTP Audio]
+[Supports offline messages (XEP-0160)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1458,8 +1450,6 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Enable XMPP link processing (requires AssocMgr)]
 
-[Embrace picture URLs with [img]]
-
 [Ignore server roster (groups and nick names)]
 
 [Security]
@@ -1669,8 +1659,6 @@ Aucune liste sélectionnée
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 
-[Protocol is offline or no JID]
-
 [No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ Entrez le mot de passe pour %s
 Erreur : Mémoire insuffisante
 [Error: Cannot connect to the server]
 Erreur : Connexion impossible au Serveur
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Erreur : Connexion perdue
@@ -1940,9 +1928,6 @@ Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
 [Note]
-
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.1
+;  Version: 0.1.3.2
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Provide services for protocols that support voice calls.]
@@ -146,6 +146,8 @@
 Ничего не делать
 [Close popup]
 Закрыть всплывающее окно
+[Open call window]
+Открыть окно вызова
 [Test Contact]
 Тестовый контакт
 [Test description]

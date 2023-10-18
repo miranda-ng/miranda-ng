@@ -750,6 +750,10 @@ Obnovit předchozí stav
 [Show/Hide offline users]
 Zobrazit/skrýt uživatele offline
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Výchozí skin%
+[Default Skin]
+Výchozí skin
 [( unknown )]
 (neznámý)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ grafika: Angeli-Ka\nšablona: FYR
 Vyberte skin ze seznamu
 [Please select skin to apply]
 Prosím vyberte skin
-[Default Skin]
-Výchozí skin
-[%Default Skin%]
-%Výchozí skin%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

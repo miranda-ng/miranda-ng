@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -38,10 +38,6 @@ Verbindungseinstellungen
 UDP aktivieren (sonst ist Tox gezwungen TCP zu verwenden)
 [Enable IPv6]
 IPv6 aktivieren
-[Max connect retries:]
-Max. Verbindungsversuche:
-[Max reconnect retries:]
-Max. Wiederverbindungsversuche:
 [Enable UDP hole-punching]
 UDP Hole-Punching aktivieren
 [Enable local network peer discovery]
@@ -85,6 +81,9 @@ Passwort bestätigen:
 Profilverzeichnis
 [Tox link protocol]
 Tox-Link-Protokoll
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Protokollicon
@@ -102,8 +101,6 @@ Passwort erstellen
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Aktion
-[You cannot send when you are offline.]
-Sie können keine Nachricht versenden, so lange Sie offline sind.
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox-Profil
@@ -159,8 +156,6 @@ Wenn Sie das Passwort entfernen wird das Profil entschlüsselt.\r\nSind Sie sich
 Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen.
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste.
-[Unable to initialize Tox core]
-Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Query

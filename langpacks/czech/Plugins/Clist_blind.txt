@@ -14,10 +14,6 @@ Seznam kontaktů pro nevidomé.
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Disable icon blinking]
-Vypnout blikání ikon
-[ms delay]
-ms (prodleva)
 [Show]
 Zobrazit
 [icon when statuses differ]
@@ -30,8 +26,6 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[System tray icon]
-Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
 [Contact list sorting]

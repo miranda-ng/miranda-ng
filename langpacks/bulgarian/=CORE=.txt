@@ -228,135 +228,6 @@
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
-;file \src\core\stdfile\res\resource.rc
-[Send file(s)]
-Изпрати файл(ове)
-[&Send]
-Изпращане
-[Cancel]
-Отказ
-[To:]
-За:
-[File(s):]
-Файлове:
-[&Choose again...]
-Изберете отново...
-[Total size:]
-Общ размер:
-[Description:]
-Описание:
-[&User menu]
-Потребителско меню
-[User &details]
-Подробности за потребителя
-[&History]
-История
-[Incoming file transfer]
-Входящ файл
-[A&ccept]
-Приемане
-[&Decline]
-Отказ
-[From:]
-От:
-[Date:]
-Дата:
-[Files:]
-Файлове:
-[Save to:]
-Запис в:
-[&Add]
-Добавяне
-[&Open...]
-Отваряне...
-[Open &folder]
-Отвари папката
-[Transfer completed, open file(s).]
-Прехвърлянето е завършено, отваряне на файла.
-[No data transferred]
-Няма прехвърлена информация
-[File already exists]
-Файлът вече съществува
-[Resume]
-Продължаване
-[Resume all]
-Продължи всички
-[Overwrite]
-Презаписване
-[Overwrite all]
-Презапиши всички
-[Save as...]
-Запис като...
-[Auto rename]
-Автопреименуване
-[Skip]
-Пропускане
-[Cancel transfer]
-Отказване
-[You are about to receive the file]
-Получавате файл
-[Existing file]
-Съществуваш файл
-[Size:]
-Размер:
-[Last modified:]
-Последна промяна:
-[Type:]
-Тип:
-[Open file]
-Отвари файла
-[Open folder]
-Отваряне на папка
-[File properties]
-Инф. за файла
-[File being received]
-Получаване на файл
-[File transfers]
-Обмен на файлове
-[Clear completed]
-Изчистване на завършените
-[Close]
-Затваряне
-[Receiving files]
-Получаване на файлове
-[Received files folder:]
-Папка на файловете:
-[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Позволени променливи: %userid% %nick% %proto% %miranda_path% %userprofile%
-[Auto-accept incoming files from people on my contact list]
-Автоматично приемане на файлове, изпратени от хора в списъка с контакти
-[Minimize the file transfer window]
-Минимизиране на прозореца за прехвърляне
-[Close window when transfer completes]
-Затваряне на прозореца след завършване на прехвърлянето
-[Clear completed transfers on window closing]
-Изчистване на завършилите прехвърляния след затваряне на прозореца
-[Sort file transfers in the reverse order]
-
-[Virus scanner]
-Сканиране за вируси
-[Scan files:]
-Сканиране:
-[Never, do not use virus scanning]
-Без сканиране за вируси
-[When all files have been downloaded]
-След свалянето на всички файлове
-[As each file finishes downloading]
-След всеки свален файл
-[Command line:]
-Команден ред:
-[%f will be replaced by the file or folder name to be scanned]
-%f ще бъде заменено от името на файла или папката
-[Warn me before opening a file that has not been scanned]
-Предупреждение преди отваряне на файл, който не е бил сканиран
-[If incoming files already exist]
-Ако входящият файл вече съществува
-[Ask me]
-Запитване
-[Rename (append " (1)", etc.)]
-Преименуване (наставка (1),(2)...)
-[You will always be asked about files from people not on your contact list]
-Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Изскачане на прозореца при състояние:
@@ -398,6 +269,18 @@
 при опит за изпращане на следното съобщение:
 [Try again]
 Опитай отново
+[Cancel]
+Отказ
+[&Send]
+Изпращане
+[Load unread events only]
+Само непрочетените събития
+[Load number of previous events]
+Предишни събития на брой
+[Load previous events less than]
+Събития от преди
+[minutes old]
+минути
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
@@ -410,18 +293,10 @@
 Показване на дати
 [Show formatting]
 
-[Load history events]
-Допълнително зареждани събития
-[Load unread events only]
-Само непрочетените събития
-[Load number of previous events]
-Предишни събития на брой
-[Load previous events less than]
-Събития от преди
-[minutes old]
-минути
 [Automatically copy selected text]
 Автокопиране на маркирания текст
+[Load history events]
+Допълнително зареждани събития
 [Use a tabbed interface]
 Ползване на табове
 [Close tab on double click]
@@ -535,6 +410,8 @@
 ;file \src\core\stdpopup\res\resource.rc
 [Popup history]
 Рopup история
+[Close]
+Затваряне
 [Case sensitive]
 
 [Default timeout]
@@ -674,6 +551,8 @@
 Въведете вътрешно име (не е задължително)
 [Add contact]
 Добавяне на контакт
+[&Add]
+Добавяне
 [Send authorization request]
 Изпрати молба за упълномощаване
 [Open contact's chat window]
@@ -872,6 +751,8 @@ OutputDebugString()
 Изходящи връзки
 [Use proxy server]
 Ползване на прокси сървър
+[Type:]
+Тип:
 [Host:]
 Хост:
 [Port:]
@@ -908,10 +789,12 @@ OutputDebugString()
 Можете да изберете драйвер за базата данни, който предлага повече функции. Ако имате съмнения използвайте стандартния.
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
-Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mdbx.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_sqlite.dll
 [Download more plugins]
 Сваляне на още приставки
+[Description:]
+Описание:
 [Author(s):]
 Автор(и):
 [Homepage:]
@@ -1084,6 +967,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Текущ език:
 [Last modified using:]
 Посл. промяна с:
+[Date:]
+Дата:
 [Locale:]
 Език:
 [Reload langpack]
@@ -1104,6 +989,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отхвърляне
 [Decide &later]
 Попитай по-късно
+[User &details]
+Подробности за потребителя
 [Reason:]
 Причина:
 [Denial reason:]
@@ -1204,6 +1091,122 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Фон
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 
+[Send file(s)]
+Изпрати файл(ове)
+[To:]
+За:
+[File(s):]
+Файлове:
+[&Choose again...]
+Изберете отново...
+[Total size:]
+Общ размер:
+[&User menu]
+Потребителско меню
+[&History]
+История
+[Incoming file transfer]
+Входящ файл
+[A&ccept]
+Приемане
+[&Decline]
+Отказ
+[From:]
+От:
+[Files:]
+Файлове:
+[Save to:]
+Запис в:
+[&Open...]
+Отваряне...
+[Open &folder]
+Отвари папката
+[Transfer completed, open file(s).]
+Прехвърлянето е завършено, отваряне на файла.
+[No data transferred]
+Няма прехвърлена информация
+[File already exists]
+Файлът вече съществува
+[Resume]
+Продължаване
+[Resume all]
+Продължи всички
+[Overwrite]
+Презаписване
+[Overwrite all]
+Презапиши всички
+[Save as...]
+Запис като...
+[Auto rename]
+Автопреименуване
+[Skip]
+Пропускане
+[Cancel transfer]
+Отказване
+[You are about to receive the file]
+Получавате файл
+[Existing file]
+Съществуваш файл
+[Size:]
+Размер:
+[Last modified:]
+Последна промяна:
+[Open file]
+Отвари файла
+[Open folder]
+Отваряне на папка
+[File properties]
+Инф. за файла
+[File being received]
+Получаване на файл
+[File transfers]
+Обмен на файлове
+[Clear completed]
+Изчистване на завършените
+[Receiving files]
+Получаване на файлове
+[Received files folder:]
+Папка на файловете:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Позволени променливи: %userid% %nick% %proto% %miranda_path% %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Автоматично приемане на файлове, изпратени от хора в списъка с контакти
+[Minimize the file transfer window]
+Минимизиране на прозореца за прехвърляне
+[Close window when transfer completes]
+Затваряне на прозореца след завършване на прехвърлянето
+[Clear completed transfers on window closing]
+Изчистване на завършилите прехвърляния след затваряне на прозореца
+[Sort file transfers in the reverse order]
+
+[You will always be asked about files from people not on your contact list]
+Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
+[If incoming files already exist]
+Ако входящият файл вече съществува
+[Cloud files]
+
+[Download cloud files automatically]
+
+[Only if their size is less than]
+
+[KBytes (0 - always)]
+
+[Virus scanner]
+Сканиране за вируси
+[Scan files:]
+Сканиране:
+[Never, do not use virus scanning]
+Без сканиране за вируси
+[When all files have been downloaded]
+След свалянето на всички файлове
+[As each file finishes downloading]
+След всеки свален файл
+[Command line:]
+Команден ред:
+[%f will be replaced by the file or folder name to be scanned]
+%f ще бъде заменено от името на файла или папката
+[Warn me before opening a file that has not been scanned]
+Предупреждение преди отваряне на файл, който не е бил сканиран
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1372,109 +1375,6 @@ Google Translate
 Изпращане на е-писмо
 [&E-mail]
 Имейл
-;file \src\core\stdfile\src\file.cpp
-[bytes]
-байта
-[&File]
-Файл
-[File from %s]
-Файл от %s
-[File &transfers...]
-Обмен на файлове...
-[Incoming]
-Входящи
-[Complete]
-Завършен
-[Error]
-Грешка
-[Denied]
-Отхвърлен
-;file \src\core\stdfile\src\fileexistsdlg.cpp
-[%s file]
-%s файл
-[All files]
-Всички файлове
-;file \src\core\stdfile\src\fileopts.cpp
-[Executable files]
-Изпълними файлове
-[Events]
-Събития
-;file \src\core\stdfile\src\filerecvdlg.cpp
-[Select folder]
-Избор на папка
-[My received files]
-Получени файлове
-[Add contact permanently to list]
-Добавяне на контакта за постоянно в списъка
-[View user's details]
-Подробности за потребителя
-[View user's history]
-История на съобщенията
-[User menu]
-Потребителско меню
-[This file transfer has been canceled by the other side]
-Прехвърлянето на файла е отказано от отсрещната страна.
-[Canceled]
-Отказано
-;file \src\core\stdfile\src\filesenddlg.cpp
-[%d files]
-%d файла
-[%d directories]
-%d директории
-;file \src\core\stdfile\src\filexferdlg.cpp
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Файлът не е сканиран за вируси. Сигурни ли сте, че желаете да бъде отворен?
-[File received]
-Файлът е получен
-[of]
-от
-[Request sent, waiting for acceptance...]
-Молбата е изпратена. Изчакване на одобрение...
-[Waiting for connection...]
-Изчакване за връзка...
-[Unable to initiate transfer.]
-Стартирането на прехвърляне е невъзможно.
-[Contact menu]
-Меню на контактите
-[Open...]
-Отваряне...
-[sec]
-сек
-[remaining]
-оставащи
-[Decision sent]
-Решението бе изпратено
-[Connecting...]
-Свързване...
-[Connecting to proxy...]
-Свързване с прокси...
-[Connected]
-Свързано
-[Initializing...]
-Инициализиране...
-[Moving to next file...]
-Преминаване към следващия файл...
-[Sending...]
-Изпращане...
-[Receiving...]
-Получаване...
-[File transfer denied]
-Прехвърлянето на файла е отхвърлено
-[File transfer failed]
-Прехвърлянето на файла не е успешно
-[Transfer completed.]
-Прехвърлянето завърши.
-[Transfer completed, open file.]
-Прехвърлянето завърши - отваряне на файла.
-[Transfer completed, open folder.]
-Прехвърлянето завърши - отваряне на папката
-[Scanning for viruses...]
-Сканиране за вируси...
-[Transfer and virus scan complete]
-Прехвърлянето и сканирането за вируси завърши.
-;file \src\core\stdfile\src\ftmanager.cpp
-[Outgoing]
-Изходящи
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Разговори
@@ -1611,6 +1511,8 @@ Google Translate
 Информационни съобщения
 [Show icon for status changes]
 Промяна на състояние
+[Select folder]
+Избор на папка
 [Chat log]
 Чат дневник
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1636,14 +1538,16 @@ Google Translate
 Входящо съобщение (10х10)
 [Outgoing message (10x10)]
 Изходящо съобщение (10х10)
-[Encrypted (10x10)]
+[Secure message (10x10)]
 
-[Encrypted verified (10x10)]
+[Secure verified message (10x10)]
 
 [Me]
 Аз
 [File sent]
 Файлът е изпратен
+[File received]
+Файлът е получен
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Изходящи съобщения
@@ -1680,6 +1584,12 @@ Google Translate
 %s пише съобщение
 [Typing notification]
 Уведомявания при писане
+[Add contact permanently to list]
+Добавяне на контакта за постоянно в списъка
+[User menu]
+Потребителско меню
+[View user's details]
+Подробности за потребителя
 [View user's history (Ctrl+H)]
 История на съобщенията (Ctrl+H)
 [&Bold]
@@ -1724,6 +1634,8 @@ Google Translate
 Входящо (Дефокусиран прозорец)
 [Incoming (new session)]
 Входящо (Нов разговор)
+[Outgoing]
+Изходящи
 [Message send error]
 Грешка при опит за изпращане на съобщение
 [Contact started typing]
@@ -1773,6 +1685,8 @@ Google Translate
 Вертикално анимиране
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Времетраенето не може да бъде 0.\nСтойността е нулирана.
+[Error]
+Грешка
 [Example]
 Пример
 [The quick brown fox jumps over the lazy dog.]
@@ -1811,6 +1725,8 @@ Popups са изключени
 Странична лента
 [Title underline]
 Подчертаване на заглавието
+[Popup Mode]
+
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Копиране на заглавието в клипборда
@@ -2002,10 +1918,10 @@ Popups са изключени
 Даване на статут на ...
 [User disables status for ...]
 Отнемане на статута на ...
-[Action message]
-Съобщение за действие
-[Highlighted message]
-Отличено съобщение
+[Action messages]
+Съобщения за действие
+[Highlighted messages]
+
 [Nick list members (online)]
 Списък с прякори (На линия)
 [Nick list members (away)]
@@ -2154,8 +2070,8 @@ Popups са изключени
 
 [Compact database]
 
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
-Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mdbx.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
+
 [Miranda was unable to open '%s', it's in an unknown format.]
 "%s" не може да бъде отворен - неизвестен формат.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2218,6 +2134,105 @@ Popups са изключени
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 
+[Attach]
+
+;file \src\mir_app\src\file.cpp
+[&File]
+Файл
+[Send file]
+Изпращане на файл
+[File from %s]
+Файл от %s
+[File &transfers...]
+Обмен на файлове...
+[Incoming]
+Входящи
+[Complete]
+Завършен
+[Denied]
+Отхвърлен
+;file \src\mir_app\src\fileexistsdlg.cpp
+[%s file]
+%s файл
+[All files]
+Всички файлове
+;file \src\mir_app\src\fileopts.cpp
+[Ask me]
+Запитване
+[Rename (append " (1)", etc.)]
+Преименуване (наставка (1),(2)...)
+[Executable files]
+Изпълними файлове
+[Events]
+Събития
+[Security]
+Сигурност
+;file \src\mir_app\src\filerecvdlg.cpp
+[My received files]
+Получени файлове
+[View user's history]
+История на съобщенията
+[This file transfer has been canceled by the other side]
+Прехвърлянето на файла е отказано от отсрещната страна.
+[Canceled]
+Отказано
+;file \src\mir_app\src\filesenddlg.cpp
+[%d files]
+%d файла
+[%d directories]
+%d директории
+;file \src\mir_app\src\fileutils.cpp
+[bytes]
+байта
+;file \src\mir_app\src\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Файлът не е сканиран за вируси. Сигурни ли сте, че желаете да бъде отворен?
+[of]
+от
+[Request sent, waiting for acceptance...]
+Молбата е изпратена. Изчакване на одобрение...
+[Waiting for connection...]
+Изчакване за връзка...
+[Unable to initiate transfer.]
+Стартирането на прехвърляне е невъзможно.
+[Contact menu]
+Меню на контактите
+[Open...]
+Отваряне...
+[sec]
+сек
+[remaining]
+оставащи
+[Decision sent]
+Решението бе изпратено
+[Connecting...]
+Свързване...
+[Connecting to proxy...]
+Свързване с прокси...
+[Connected]
+Свързано
+[Initializing...]
+Инициализиране...
+[Moving to next file...]
+Преминаване към следващия файл...
+[Sending...]
+Изпращане...
+[Receiving...]
+Получаване...
+[File transfer denied]
+Прехвърлянето на файла е отхвърлено
+[File transfer failed]
+Прехвърлянето на файла не е успешно
+[Transfer completed.]
+Прехвърлянето завърши.
+[Transfer completed, open file.]
+Прехвърлянето завърши - отваряне на файла.
+[Transfer completed, open folder.]
+Прехвърлянето завърши - отваряне на папката
+[Scanning for viruses...]
+Сканиране за вируси...
+[Transfer and virus scan complete]
+Прехвърлянето и сканирането за вируси завърши.
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
@@ -2271,6 +2286,7 @@ Popups са изключени
 Основен текст
 [Small text]
 Малък текст
+;file \src\mir_app\src\ftmanager.cpp
 ;file \src\mir_app\src\help.cpp
 [< Copyright]
 < Copyright
@@ -2639,6 +2655,9 @@ Win +\s
 Моите профили
 [New profile]
 Нов профил
+;file \src\mir_app\src\protocols.cpp
+[Protocol is offline]
+Протоколът е извън линия
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Молба за упълномощаване
@@ -2699,8 +2718,10 @@ ID на акаунта
 
 [Account error]
 Грешка в акаунт
-[Account name has to be unique. Please enter unique name.]
-Името на акаунта трябва да бъде уникално.
+[Account internal name contains invalid symbols, only ASCII chars are allowed.]
+
+[Account internal name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2820,17 +2841,21 @@ WAV файлове
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
+[on]
+Включено
 [Download]
 Сваляне
 [Copy URL]
 Копиране на URL
+[Save as]
+Запс като...
 [Copy all]
 Копиране на всичко
 [Look up '%s':]
 Търсене за "%s":
 [No word to look up]
 Няма дума за търсене
-;file \src\mir_app\src\srmm_statusicon.cpp
+;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to remove all events from history?]
 
 [Empty history]

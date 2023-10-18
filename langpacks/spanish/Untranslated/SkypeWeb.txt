@@ -58,7 +58,6 @@
 [Block contact]
 [Unblock contact]
 [Create new chat]
-[You cannot send when you are offline.]
 [Unknown error!]
 [Network error!]
 [Calls]

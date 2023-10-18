@@ -78,6 +78,18 @@ Wysokość okna wpisywania tekstu
 linie
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu, %status% dla jego statusu, %statusmsg% dla opisu i %account% dla nazwy jego konta
+[Preload]
+Wczytywanie
+[Unread events only]
+Tylko nie przeczytane zdarzenia
+[Last]
+Ostatnie
+[Events in the last]
+Zdarzenia z ostatnich
+[events]
+zdarzeń
+[minutes]
+minut
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]
@@ -104,22 +116,10 @@ Umieść wiadomość w nowej linii
 Pokaż linie między wiadomościami
 [Indent text]
 Wcięcie tekstu
-[Customize fonts and colors]
-Dopasuj czcionki i kolory
-[Preload]
-Wczytywanie
-[Unread events only]
-Tylko nie przeczytane zdarzenia
-[Last]
-Ostatnie
-[Events in the last]
-Zdarzenia z ostatnich
-[events]
-zdarzeń
-[minutes]
-minut
 [Automatically copy selected text]
 Automatycznie kopiuj zaznaczony tekst
+[Customize fonts and colors]
+Dopasuj czcionki i kolory
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -395,6 +395,10 @@ Przychodząca wiadomość (10x10)
 Wychodząca wiadomość (10x10)
 [Notice (10x10)]
 Powiadomienie (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Window Icon]
 Ikona okna
 [Text color]
@@ -447,6 +451,8 @@ Podświetlenie (10x10)
 Informacja (10x10)
 [Single Messaging]
 Pojedyncze rozmowy
+[Group chat events]
+
 [Thai]
 Tajski
 [Japanese]

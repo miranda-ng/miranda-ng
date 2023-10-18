@@ -268,6 +268,14 @@ Udržovat původní velikost
 Nápověda
 [Reset all hidden warnings]
 Obnovit všechna skrytá oznámení
+[Load unread events only]
+Pouze nepřečtené události
+[Load number of previous events]
+Konkrétní počet předchozích událostí
+[Load previous events less than]
+Předchozí události starší méně než
+[minutes old]
+min.
 [Indent values]
 Velikost odsazení
 [Left/Right]
@@ -282,14 +290,6 @@ Standardní šablony...
 Šablony Zprava doleva...
 [Load history events]
 Načtení historie
-[Load unread events only]
-Pouze nepřečtené události
-[Load number of previous events]
-Konkrétní počet předchozích událostí
-[Load previous events less than]
-Předchozí události starší méně než
-[minutes old]
-min.
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ Nastavení Windows Aero
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít vylepšení lišty úloh z Windows 7 (vyžadován restart)
-[Colors]
-Barvy
+[Popups]
+Oznámení
 [...is &typing]
 ... píše zprá&vu
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ Povolit formátování pomocí BBCode v odchozích zprávách
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
 [Use the same splitter height for all sessions]
 
-[Automatically copy selected text]
-Automaticky kopírovat vybraný text
 [Test contact]
 Testovací kontakt
 [Template set editor]
@@ -1462,20 +1460,24 @@ Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a ot
 Vzhled záznamu komunikace
 [Draw grid lines]
 Zobrazit mřížku
-[Log status changes]
-Zaznamenávat změny stavu
 [Use message grouping]
 Seskupovat zprávy
 [Simple text formatting (*bold*, etc.)]
 Prosté formátování textu (*tučný*, atd.)
 [Support BBCode formatting]
 Formátovat text pomocí BBCode
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
+[Message log control]
+
+[Log status changes]
+Zaznamenávat změny stavu
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Place a separator in the log after a window lost its foreground status]
 Umístit oddělovač do záznamu jakmile okno přestane být v popředí
 [Only place a separator when an incoming event is announced with a popup]
 Umístit oddělovač pouze pokud je příchozí událost uvozena oznámením
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
 [Support for external plugins]
 Podpora externích doplňků
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1575,7 +1577,7 @@ Použití
 [Window layout tweaks]
 Rozvržení okna
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 Možnosti záznamu komunikace
 [Image tag]
 Tag obrázku
@@ -1615,7 +1617,7 @@ Odchozí zpráva
 Změna stavu
 [Secure message]
 
-[Secure message (verified)]
+[Secure verified message]
 
 [Static container icon]
 Použít pro kontejner statickou ikonu
@@ -1645,8 +1647,6 @@ Animovaná ikona v liště
 Symbol hodin (pro hodiny informačního panelu)
 [Feature disabled (used as overlay)]
 Funkce zakázána (použito jako překrytí)
-[Feature enabled (used as overlay)]
-Funkce povolena (použito jako překrytí)
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Komunikační okna - klasické rozhovory
@@ -1774,8 +1774,6 @@ Změnit skin
 ... dopsal zprávu.
 [...is typing a message.]
 ... píše zprávu.
-[Popups]
-Oznámení
 [Typing notifications]
 Upozornění na psaní
 [Contact started typing]

@@ -71,7 +71,7 @@
 [File does not contain selected contact]
 [File is corrupted]
 [Reply &quoted]
-[Delete all user history]
+[Delete all contact history]
 [Filters]
 [Rich HTML]
 [Plain HTML]

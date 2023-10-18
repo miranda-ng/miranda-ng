@@ -750,6 +750,10 @@ Principal
 [Show/Hide offline users]
 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Piel por defecto%
+[Default Skin]
+Piel por defecto
 [( unknown )]
 
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ gráficos por Angeli-Ka\nplantilla por FYR
 Seleccione piel de la lista
 [Please select skin to apply]
 Por favor, seleccione piel a aplicar
-[Default Skin]
-Piel por defecto
-[%Default Skin%]
-%Piel por defecto%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

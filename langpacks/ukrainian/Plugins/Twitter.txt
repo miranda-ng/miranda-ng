@@ -69,13 +69,6 @@
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Звичайний
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Змінні OAuth втратили послідовність і були обнулені. Будь ласка, з'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Не вдалося отримати токени доступу Twitter, відключіться і спробуйте знову. Якщо наступна спроба буде невдалою, перевірте з'єднання з Інтернетом.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-У базі відсутнє налаштування "Nick". Це може спричинити незначні помилки, як-от появу самого себе у списку, відсутність підсвітки вихідних повідомлень у групових чатах тощо. Щоб їх уникнути, додайте це налаштування вручну або створіть свій обліковий запис Twitter у Miranda заново.
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 %s (сервер)
@@ -95,8 +88,6 @@ Twitter (аватари)
 Основні
 [Popups]
 Спливаючі вікна
-[%s Protocol]
-Протокол %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 Максимальна довжина твіта становить 140 символів. Навіщо ви намагаєтесь умістити сюди %d символів?
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Twitter (аватари)
 Новий твіт
 [Reply...]
 Відповідь...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+Протокол %s

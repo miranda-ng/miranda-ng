@@ -69,13 +69,6 @@ Wpisz kod PIN dostarczony przez Twittera aby się zalogować. Proces jest jednor
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Normalne
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Zmienne OAuth są poza sekwencją, ale zostały przywrócone. Proszę ponownie połączyć się i powtórnie autoryzować Mirandę na Twitter.com (kod PIN)
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Nie udało się uzyskać tokenów dostępu do Twittera, rozłącz się i spróbuj jeszcze raz. Jeśli sytuacja się powtórzy, sprawdź połączenie internetowe.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-W bazie danych brakuje klucza Nick. Nie jest to dużym problemem, ale możesz zauważyć pewne problemy (samego siebie na liście, brak wyróżnienia wiadomości wychodzącej w czacie grupowym itp.). Aby to naprawić, dodaj brakujący klucz ręcznie lub utwórz ponownie w Mirandzie swoje konto Twittera.
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 
@@ -95,8 +88,6 @@ Protokoły
 Podstawowe
 [Popups]
 Powiadomienia
-[%s Protocol]
-Protokół %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 Nie szalej! Każdy wie, że maksymalna długość tweeta to 140 znaków, a ty próbujesz zmieścić tam $d znaków?
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Pierwszy tweet nowego kontaktu
 Nowy tweet
 [Reply...]
 Odpowiedz...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+Protokół %s

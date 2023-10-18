@@ -1,3 +1,5 @@
+[Default group]
+[Device name]
 [Error limit before logout:]
 [Security code]
 [%s has added you to contact list]

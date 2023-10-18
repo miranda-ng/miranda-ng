@@ -69,8 +69,6 @@ Bouton Smiley
 Assigner à une catégorie de smileys
 [Background color]
 Couleur de fond
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Pack de Smiley
@@ -97,6 +95,8 @@ le smiley #%u, du fichier %s, du pack %s, est introuvable.
 [%s global smiley pack]
 
 [Standard]
+
+[Emoji]
 
 [Regular expression "%s" in smiley pack "%s" malformed.]
 L'expression régulière "%s" du pack de smileys "%s" est mal construite.

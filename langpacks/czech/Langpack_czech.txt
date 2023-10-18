@@ -234,132 +234,6 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
-[Send file(s)]
-Poslat soubory
-[&Send]
-Po&slat
-[Cancel]
-Zrušit
-[To:]
-Pro:
-[File(s):]
-Soubor(y):
-[&Choose again...]
-Vyberte &další...
-[Total size:]
-Celková velikost:
-[Description:]
-Popis:
-[&User menu]
-Nabídka &uživatele
-[User &details]
-&Detaily uživatele
-[&History]
-&Historie
-[Incoming file transfer]
-Žádost o přenos souboru
-[A&ccept]
-&Přijmout
-[&Decline]
-O&dmítnout
-[From:]
-Od:
-[Date:]
-Datum:
-[Files:]
-Soubory:
-[Save to:]
-Uložit do:
-[&Add]
-Přid&at
-[&Open...]
-&Otevřít...
-[Open &folder]
-Otevřít &složku
-[Transfer completed, open file(s).]
-Přenos dat dokončen, otevřít soubor(y).
-[No data transferred]
-Přenos ještě nezačal.
-[File already exists]
-Soubor již existuje
-[Resume]
-Navázat
-[Resume all]
-Navázat vše
-[Overwrite]
-Přepsat
-[Overwrite all]
-Přepsat vše
-[Save as...]
-Uložit jako...
-[Auto rename]
-Automaticky přejmenovat
-[Skip]
-Přeskočit
-[Cancel transfer]
-Přerušit přenos
-[You are about to receive the file]
-Příjem souboru:
-[Existing file]
-Existující soubor
-[Size:]
-Velikost:
-[Last modified:]
-Změněno:
-[Type:]
-Typ:
-[Open file]
-Otevřít soubor
-[Open folder]
-Otevřít složku
-[File properties]
-Vlastnosti souboru
-[File being received]
-Přijímaný soubor
-[File transfers]
-Přenos souborů
-[Clear completed]
-Vymazat dokončené
-[Close]
-Zavřít
-[Receiving files]
-Příjem souborů
-[Received files folder:]
-Složka pro soubory:
-[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Proměnné: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
-[Auto-accept incoming files from people on my contact list]
-Automaticky přijímat soubory od lidí v seznamu
-[Minimize the file transfer window]
-Minimalizovat okno s přenášeným souborem
-[Close window when transfer completes]
-Zavřít okno po dokončení přenosu
-[Clear completed transfers on window closing]
-Smazat dokončené přenosy po zavření okna
-[Virus scanner]
-Antivirová kontrola
-[Scan files:]
-Kontrolovat:
-[Never, do not use virus scanning]
-Žádný ze souborů
-[When all files have been downloaded]
-Po stáhnutí všech souborů
-[As each file finishes downloading]
-Jeden soubor po druhém
-[Command line:]
-Příkazový řádek:
-[%f will be replaced by the file or folder name to be scanned]
-Proměnná %f bude nahrazena souborem nebo složkou ke kontrole
-[Warn me before opening a file that has not been scanned]
-Upozornit před otevřením nezkontrolovaného souboru
-[If incoming files already exist]
-V případě, že příchozí soubor již existuje
-[Ask me]
-Zeptat se
-[Rename (append " (1)", etc.)]
-Přejmenovat (přidá " (1)" atd.)
-[You will always be asked about files from people not on your contact list]
-Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
 [Automatically popup window when:]
 Automaticky vyvolat okno při:
 [Close the message window on send]
@@ -396,6 +270,18 @@ Došlo k chybě. Příslušný protokol zahlásil následující problém:
 během odesílání následující zprávy:
 [Try again]
 Opakovat
+[Cancel]
+Zrušit
+[&Send]
+Po&slat
+[Load unread events only]
+Pouze nepřečtené události
+[Load number of previous events]
+Konkrétní počet předchozích událostí
+[Load previous events less than]
+Předchozí události starší méně než
+[minutes old]
+min.
 [Message window event log]
 Záznam událostí
 [Show names]
@@ -408,18 +294,10 @@ Zobrazit sek.
 Zobrazit datum
 [Show formatting]
 Zobrazit formátování
-[Load history events]
-Načtení historie
-[Load unread events only]
-Pouze nepřečtené události
-[Load number of previous events]
-Konkrétní počet předchozích událostí
-[Load previous events less than]
-Předchozí události starší méně než
-[minutes old]
-min.
 [Automatically copy selected text]
 Automaticky kopírovat vybraný text
+[Load history events]
+Načtení historie
 [Use a tabbed interface]
 Použít systém záložek
 [Close tab on double click]
@@ -532,6 +410,8 @@ Vložit a odeslat
 Smazat
 [Popup history]
 Historie oznámení
+[Close]
+Zavřít
 [Case sensitive]
 Rozlišovat malá a VELKÁ
 [Default timeout]
@@ -668,6 +548,8 @@ Vyberte požadovaný protokol
 Zadejte interní název účtu (nepovinné)
 [Add contact]
 Přidat kontakt
+[&Add]
+Přid&at
 [Send authorization request]
 Odeslat žádost o autorizaci
 [Open contact's chat window]
@@ -862,6 +744,8 @@ Záznam...
 Odchozí spojení
 [Use proxy server]
 Použít proxy server
+[Type:]
+Typ:
 [Host:]
 Hostitel:
 [Port:]
@@ -898,10 +782,12 @@ např. Práce
 Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
 [Driver]
 Ovladač
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
-Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mdbx.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_sqlite.dll
 [Download more plugins]
 Stáhnout další doplňky
+[Description:]
+Popis:
 [Author(s):]
 Autor:
 [Homepage:]
@@ -1070,6 +956,8 @@ Použít jméno prvního kontaktu
 Zvolený jazyk:
 [Last modified using:]
 Určeno pro:
+[Date:]
+Datum:
 [Locale:]
 Lokalizace:
 [Reload langpack]
@@ -1090,6 +978,8 @@ Skrýt pokud není dost místa
 O&dmítnout
 [Decide &later]
 &Později
+[User &details]
+&Detaily uživatele
 [Reason:]
 Důvod:
 [Denial reason:]
@@ -1182,6 +1072,112 @@ Text
 Pozadí
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
+[Send file(s)]
+Poslat soubory
+[To:]
+Pro:
+[File(s):]
+Soubor(y):
+[&Choose again...]
+Vyberte &další...
+[Total size:]
+Celková velikost:
+[&User menu]
+Nabídka &uživatele
+[&History]
+&Historie
+[Incoming file transfer]
+Žádost o přenos souboru
+[A&ccept]
+&Přijmout
+[&Decline]
+O&dmítnout
+[From:]
+Od:
+[Files:]
+Soubory:
+[Save to:]
+Uložit do:
+[&Open...]
+&Otevřít...
+[Open &folder]
+Otevřít &složku
+[Transfer completed, open file(s).]
+Přenos dat dokončen, otevřít soubor(y).
+[No data transferred]
+Přenos ještě nezačal.
+[File already exists]
+Soubor již existuje
+[Resume]
+Navázat
+[Resume all]
+Navázat vše
+[Overwrite]
+Přepsat
+[Overwrite all]
+Přepsat vše
+[Save as...]
+Uložit jako...
+[Auto rename]
+Automaticky přejmenovat
+[Skip]
+Přeskočit
+[Cancel transfer]
+Přerušit přenos
+[You are about to receive the file]
+Příjem souboru:
+[Existing file]
+Existující soubor
+[Size:]
+Velikost:
+[Last modified:]
+Změněno:
+[Open file]
+Otevřít soubor
+[Open folder]
+Otevřít složku
+[File properties]
+Vlastnosti souboru
+[File being received]
+Přijímaný soubor
+[File transfers]
+Přenos souborů
+[Clear completed]
+Vymazat dokončené
+[Receiving files]
+Příjem souborů
+[Received files folder:]
+Složka pro soubory:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Proměnné: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Automaticky přijímat soubory od lidí v seznamu
+[Minimize the file transfer window]
+Minimalizovat okno s přenášeným souborem
+[Close window when transfer completes]
+Zavřít okno po dokončení přenosu
+[Clear completed transfers on window closing]
+Smazat dokončené přenosy po zavření okna
+[You will always be asked about files from people not on your contact list]
+Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
+[If incoming files already exist]
+V případě, že příchozí soubor již existuje
+[Virus scanner]
+Antivirová kontrola
+[Scan files:]
+Kontrolovat:
+[Never, do not use virus scanning]
+Žádný ze souborů
+[When all files have been downloaded]
+Po stáhnutí všech souborů
+[As each file finishes downloading]
+Jeden soubor po druhém
+[Command line:]
+Příkazový řádek:
+[%f will be replaced by the file or folder name to be scanned]
+Proměnná %f bude nahrazena souborem nebo složkou ke kontrole
+[Warn me before opening a file that has not been scanned]
+Upozornit před otevřením nezkontrolovaného souboru
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1340,102 +1336,6 @@ Uživatel nemá zaregistrovanou e-mailovou adresu
 Poslat e-mail
 [&E-mail]
 &E-mail
-[bytes]
-bajtů
-[&File]
-&Soubor
-[File from %s]
-Soubor od: %s
-[File &transfers...]
-Př&enos souborů...
-[Incoming]
-Příchozí
-[Complete]
-Dokončeno
-[Error]
-Chyba
-[Denied]
-Odmítnuto
-[%s file]
-Soubor %s
-[All files]
-Všechny soubory
-[Executable files]
-Spustitelné soubory
-[Events]
-Události
-[Select folder]
-Vyberte požadovanou složku
-[My received files]
-Moje přijaté soubory
-[Add contact permanently to list]
-Přidat do seznamu natrvalo
-[View user's details]
-Zobrazit osobní údaje
-[View user's history]
-Zobrazit historii
-[User menu]
-Nabídka kontaktu
-[This file transfer has been canceled by the other side]
-Přenos tohoto souboru byl přerušen druhou stranou
-[Canceled]
-Přerušeno
-[%d files]
-%d souborů
-[%d directories]
-%d složek
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
-[File received]
-Přijatý soubor
-[of]
-z
-[Request sent, waiting for acceptance...]
-Žádost odeslána, čekání na potvrzení...
-[Waiting for connection...]
-Čekání na spojení...
-[Unable to initiate transfer.]
-Chyba při inicializaci přenosu.
-[Contact menu]
-Nabídka kontaktu
-[Open...]
-Otevřít...
-[sec]
-sek.
-[remaining]
-zbývá
-[Decision sent]
-Potvrzení odesláno
-[Connecting...]
-Navazování spojení...
-[Connecting to proxy...]
-Připojování k proxy...
-[Connected]
-Spojení navázáno
-[Initializing...]
-Inicializace...
-[Moving to next file...]
-Další soubor...
-[Sending...]
-Posílání dat...
-[Receiving...]
-Příjem dat...
-[File transfer denied]
-Přenos souboru odmítnut
-[File transfer failed]
-Chyba při přenosu souboru
-[Transfer completed.]
-Přenos dat dokončen.
-[Transfer completed, open file.]
-Přenos dat dokončen, otevření souboru.
-[Transfer completed, open folder.]
-Přenos dat dokončen, otevření složky.
-[Scanning for viruses...]
-Kontrola antivirovým programem...
-[Transfer and virus scan complete]
-Přenos a kontrola antivirem dokončena
-[Outgoing]
-Odchozí
 [Message sessions]
 Komunikace
 [Chat module]
@@ -1570,6 +1470,8 @@ Zobrazit ikonu k informaci o změně jména
 Zobrazit ikonu k textu informativní zprávy
 [Show icon for status changes]
 Zobrazit ikonu k informaci o změně stavu
+[Select folder]
+Vyberte požadovanou složku
 [Chat log]
 Záznam diskuse
 [The message send timed out.]
@@ -1596,6 +1498,8 @@ Odchozí zpráva (10x10)
 Já
 [File sent]
 Odeslaný soubor
+[File received]
+Přijatý soubor
 [Outgoing messages]
 Odchozí zprávy
 [Incoming messages]
@@ -1630,6 +1534,12 @@ Psaní zprávy
 %s píše zprávu
 [Typing notification]
 Upozornění na psaní zprávy
+[Add contact permanently to list]
+Přidat do seznamu natrvalo
+[User menu]
+Nabídka kontaktu
+[View user's details]
+Zobrazit osobní údaje
 [&Bold]
 &Tučné
 [Make the text bold (Ctrl+B)]
@@ -1672,6 +1582,8 @@ Příchozí (aktivní okno)
 Příchozí (neaktivní okno)
 [Incoming (new session)]
 Příchozí (nová konverzace)
+[Outgoing]
+Odchozí
 [Message send error]
 Chyba při odesílání
 [Contact started typing]
@@ -1716,6 +1628,8 @@ Horizontální animace
 Vertikální animace
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Nemůžete nastavit výchozí dobu zobrazení na 0.\nHodnota byla obnovena.
+[Error]
+Chyba
 [Example]
 Příklad
 [The quick brown fox jumps over the lazy dog.]
@@ -1928,10 +1842,10 @@ Informace
 Aktivace stavu pro ...
 [User disables status for ...]
 Deaktivace stavu pro ...
-[Action message]
-Upozornění
-[Highlighted message]
-Zvýrazněná zpráva
+[Action messages]
+Akční zprávy
+[Highlighted messages]
+Zvýrazněné zprávy
 [Nick list members (online)]
 Seznam účastníků (online)
 [Nick list members (away)]
@@ -2058,8 +1972,6 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
 [Database]
 Databáze
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
-Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mdbx.dll.
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda nemůže otevřít '%s', který má neznámý formát.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2100,6 +2012,96 @@ Telefon/SMS
 Aktivita v chatu
 [Extra icons]
 Doplňkové ikony
+[&File]
+&Soubor
+[Send file]
+Poslat soubor
+[File from %s]
+Soubor od: %s
+[File &transfers...]
+Př&enos souborů...
+[Incoming]
+Příchozí
+[Complete]
+Dokončeno
+[Denied]
+Odmítnuto
+[%s file]
+Soubor %s
+[All files]
+Všechny soubory
+[Ask me]
+Zeptat se
+[Rename (append " (1)", etc.)]
+Přejmenovat (přidá " (1)" atd.)
+[Executable files]
+Spustitelné soubory
+[Events]
+Události
+[Security]
+Zabezpečení
+[My received files]
+Moje přijaté soubory
+[View user's history]
+Zobrazit historii
+[This file transfer has been canceled by the other side]
+Přenos tohoto souboru byl přerušen druhou stranou
+[Canceled]
+Přerušeno
+[%d files]
+%d souborů
+[%d directories]
+%d složek
+[bytes]
+bajtů
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
+[of]
+z
+[Request sent, waiting for acceptance...]
+Žádost odeslána, čekání na potvrzení...
+[Waiting for connection...]
+Čekání na spojení...
+[Unable to initiate transfer.]
+Chyba při inicializaci přenosu.
+[Contact menu]
+Nabídka kontaktu
+[Open...]
+Otevřít...
+[sec]
+sek.
+[remaining]
+zbývá
+[Decision sent]
+Potvrzení odesláno
+[Connecting...]
+Navazování spojení...
+[Connecting to proxy...]
+Připojování k proxy...
+[Connected]
+Spojení navázáno
+[Initializing...]
+Inicializace...
+[Moving to next file...]
+Další soubor...
+[Sending...]
+Posílání dat...
+[Receiving...]
+Příjem dat...
+[File transfer denied]
+Přenos souboru odmítnut
+[File transfer failed]
+Chyba při přenosu souboru
+[Transfer completed.]
+Přenos dat dokončen.
+[Transfer completed, open file.]
+Přenos dat dokončen, otevření souboru.
+[Transfer completed, open folder.]
+Přenos dat dokončen, otevření složky.
+[Scanning for viruses...]
+Kontrola antivirovým programem...
+[Transfer and virus scan complete]
+Přenos a kontrola antivirem dokončena
 [You haven't filled in the search field. Please enter a search term and try again.]
 Zadejte hledaný výraz a zkuste hledat znovu.
 [Search]
@@ -2480,6 +2482,8 @@ Změněno
 Seznam profilů
 [New profile]
 Nový profil
+[Protocol is offline]
+Protokol je offline
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
@@ -2534,8 +2538,6 @@ Aktualizace účtu
 Je potřeba zadat název účtu.
 [Account error]
 Chyba účtu
-[Account name has to be unique. Please enter unique name.]
-Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 [Could not search on any of the protocols, are you online?]
@@ -2632,8 +2634,12 @@ Soubory WAV
 Přezdívka
 [Unique ID]
 Identifikátor
+[on]
+Zap
 [Download]
 Stáhnout
+[Save as]
+Uložit jako
 [Copy all]
 Zkopírovat vše
 [Look up '%s':]
@@ -4575,8 +4581,6 @@ Poslat zprávu
 Odpovědět s &citací
 [Delete group]
 Odstranit skupinu
-[Delete all user history]
-Smazat celou historii uživatele
 [Options]
 Možnosti
 [Filters]
@@ -5431,10 +5435,6 @@ Seznam kontaktů pro nevidomé.
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Disable icon blinking]
-Vypnout blikání ikon
-[ms delay]
-ms (prodleva)
 [Show]
 Zobrazit
 [icon when statuses differ]
@@ -5447,8 +5447,6 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[System tray icon]
-Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
 [Contact list sorting]
@@ -6284,6 +6282,10 @@ Ukončit program Miranda
 Obnovit předchozí stav
 [Show/Hide offline users]
 Zobrazit/skrýt uživatele offline
+[%Default Skin%]
+%Výchozí skin%
+[Default Skin]
+Výchozí skin
 [( unknown )]
 (neznámý)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -6310,10 +6312,6 @@ grafika: Angeli-Ka\nšablona: FYR
 Vyberte skin ze seznamu
 [Please select skin to apply]
 Prosím vyberte skin
-[Default Skin]
-Výchozí skin
-[%Default Skin%]
-%Výchozí skin%
 [<<Global>>]
 <<Globální>>
 [Left]
@@ -7365,7 +7363,7 @@ Odeslat kontakty pro
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -8122,7 +8120,7 @@ Zastaralý formát databáze
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.4
+;  Version: 0.96.4.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9420,7 +9418,7 @@ E-mail byl změněn.
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.2
+;  Version: 1.0.1.3
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -10860,7 +10858,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.3
+;  Version: 0.96.3.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11037,7 +11035,7 @@ Zobrazit &historii
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.5
+;  Version: 1.6.0.6
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -12426,8 +12424,6 @@ Umožňuje odesílat informace o aktivitě uživatele
 Přijímá informace o aktivitě uživatele
 [Supports Miranda NG notes extension]
 Podporuje rozšíření poznámky Miranda NG
-[Supports Jingle]
-Podporuje Jingle
 [Supports Roster Exchange]
 Podporuje výměnu seznamů na serveru
 [Supports direct chat invitations (XEP-0249)]
@@ -13688,9 +13684,11 @@ Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.0.0.1
+;  Version: 0.1.0.1
 ;  Authors: George Hazan
 ;============================================================
+[Supports Jingle]
+Podporuje Jingle
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -15772,7 +15770,7 @@ Povolit/zakázat automatickou aktualizaci
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -15807,6 +15805,10 @@ Možnosti záznamu
 Možnosti
 [Templates]
 Šablony
+[Incoming name]
+Příchozí jméno
+[Outgoing name]
+Odchozí jméno
 [Incoming messages]
 Příchozí zprávy
 [Outgoing messages]
@@ -15817,14 +15819,14 @@ Příchozí soubory
 Odchozí soubory
 [Status changes]
 Změny stavu
+[Highlighted messages]
+Zvýrazněné zprávy
 [Grid background]
 Pozadí mřížky
 [Separator]
 Oddělovač
-[Incoming name]
-Příchozí jméno
-[Outgoing name]
-Odchozí jméno
+[Search]
+Hledat
 [FirstName]
 Jméno
 [LastName]
@@ -15847,6 +15849,10 @@ Telefon
 Dom. stránka
 [About]
 Informace
+[Global history search]
+Vyhledávání v globální historii
+[System history]
+Historie systému
 [Copy]
 Zkopírovat
 [Export...]
@@ -15867,6 +15873,16 @@ Najít předchozí
 Konverzace
 [Complete]
 Dokončeno
+[History]
+Historie
+[Copy text]
+Zkopírovat text
+[Quote]
+Citovat
+[Save as]
+Uložit jako
+[Download]
+Stáhnout
 [Edit]
 Upravit
 [Delete]
@@ -15875,10 +15891,10 @@ Smazat
 Vybrat vše
 [Main icon]
 Hlavní ikona
-[Search]
-Hledat
 [Export]
 Exportovat
+[Bookmark]
+Záložka
 [Incoming message]
 Příchozí zpráva
 [Outgoing message]
@@ -15909,8 +15925,6 @@ Minuta
 měsíc
 [year (4 digits)]
 rok (4 číslice)
-[History]
-Historie
 [Advanced]
 Extra
 [Sunday]
@@ -15951,8 +15965,6 @@ září
 listopad
 [December]
 prosinec
-[System history]
-Historie systému
 [Interface]
 Rozhraní
 [Message log]
@@ -16484,7 +16496,7 @@ Hlavní ikona
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.2
+;  Version: 0.2.3.3
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -17279,7 +17291,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.5
+;  Version: 0.2.1.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -17872,8 +17884,6 @@ Režim oznámení: Výchozí
 Režim oznámení: Oblíbený kontakt
 [Popup Mode: Ignore fullscreen]
 Režim oznámení: Ignorovat celoobrazovkový režim
-[Popup Mode: Block contact]
-Režim oznámení: Blokovat kontakt
 #muuid {4df0c267-6efb-4410-b651-385f87158509}
 ;============================================================
 ;  File: ProxySwitch.dll
@@ -18457,6 +18467,18 @@ Neakt.
 Min. velikost pole pro zadávání textu:
 [lines]
 řádky
+[Preload]
+Cache
+[Unread events only]
+Pouze nepřečtené události
+[Last]
+Poslední
+[Events in the last]
+Předchozí události starší méně než
+[events]
+událostí
+[minutes]
+min.
 [Message window event log]
 Záznam událostí
 [Show icons]
@@ -18483,22 +18505,10 @@ Začít psát text na novém řádku
 Jednotlivé zprávy oddělit linkou
 [Indent text]
 Odsadit text o
-[Customize fonts and colors]
-Upravit písmo a barvy
-[Preload]
-Cache
-[Unread events only]
-Pouze nepřečtené události
-[Last]
-Poslední
-[Events in the last]
-Předchozí události starší méně než
-[events]
-událostí
-[minutes]
-min.
 [Automatically copy selected text]
 Automaticky kopírovat vybraný text
+[Customize fonts and colors]
+Upravit písmo a barvy
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -20420,8 +20430,6 @@ Zablokovat kontakt
 Odblokovat kontakt
 [Create new chat]
 Založit novou diskusi
-[You cannot send when you are offline.]
-Nemůžete odesílat zprávy ve stavu offline.
 [Unknown error!]
 Neznámá chyba!
 [Network error!]
@@ -20497,8 +20505,6 @@ Tlačítko smajlíků
 Přiřazení kategorie smajlíků
 [Background color]
 Barva pozadí
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Pouze jedna instance doplňku SmileyAdd může běžet.\nOdstraňte duplicitní instance ze složky 'Plugins'
 [Smiley packs]
 Sady smajlíků
 [All files]
@@ -21271,16 +21277,20 @@ Lišta tlačítek
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Steam protokol pro Mirandu NG.
+[Username]
+Uživatel
+[Password]
+Heslo
+[Account]
+Účet
 [Username:]
 Uživatel:
 [Password:]
 Heslo:
-[Default group:]
-Výchozí skupina:
-[Account]
-Účet
 [Contacts]
 Kontakty
+[Default group:]
+Výchozí skupina:
 [Use bigger avatars]
 Zobrazit větší avatary
 [Message sessions]
@@ -21325,8 +21335,6 @@ Hraje
 %s byl odebrán z vašeho seznamu kontaktů
 [%s has added you to contact list]
 %s si vás přidal do svého seznamu kontaktů
-[Cannot obtain connection token.]
-Nelze získat token pro připojení.
 [Steam menu chooser]
 Volba nabídky Steam
 [Join to game]
@@ -21343,8 +21351,6 @@ Protokoly
 Ikona protokolu
 [Gaming icon]
 Herní ikona
-[You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
 [closed chat session]
 ukončil komunikaci
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
@@ -21718,6 +21724,14 @@ Udržovat původní velikost
 Nápověda
 [Reset all hidden warnings]
 Obnovit všechna skrytá oznámení
+[Load unread events only]
+Pouze nepřečtené události
+[Load number of previous events]
+Konkrétní počet předchozích událostí
+[Load previous events less than]
+Předchozí události starší méně než
+[minutes old]
+min.
 [Indent values]
 Velikost odsazení
 [Left/Right]
@@ -21732,14 +21746,6 @@ Standardní šablony...
 Šablony Zprava doleva...
 [Load history events]
 Načtení historie
-[Load unread events only]
-Pouze nepřečtené události
-[Load number of previous events]
-Konkrétní počet předchozích událostí
-[Load previous events less than]
-Předchozí události starší méně než
-[minutes old]
-min.
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -21814,8 +21820,8 @@ Nastavení Windows Aero
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít vylepšení lišty úloh z Windows 7 (vyžadován restart)
-[Colors]
-Barvy
+[Popups]
+Oznámení
 [...is &typing]
 ... píše zprá&vu
 [...stopped t&yping]
@@ -22852,8 +22858,6 @@ Povolit funkci "Vložit a poslat"
 Povolit formátování pomocí BBCode v odchozích zprávách
 [Automatically split long messages (experimental, use with care)]
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
-[Automatically copy selected text]
-Automaticky kopírovat vybraný text
 [Test contact]
 Testovací kontakt
 [Template set editor]
@@ -22868,20 +22872,22 @@ Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a ot
 Vzhled záznamu komunikace
 [Draw grid lines]
 Zobrazit mřížku
-[Log status changes]
-Zaznamenávat změny stavu
 [Use message grouping]
 Seskupovat zprávy
 [Simple text formatting (*bold*, etc.)]
 Prosté formátování textu (*tučný*, atd.)
 [Support BBCode formatting]
 Formátovat text pomocí BBCode
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
+[Log status changes]
+Zaznamenávat změny stavu
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
 [Place a separator in the log after a window lost its foreground status]
 Umístit oddělovač do záznamu jakmile okno přestane být v popředí
 [Only place a separator when an incoming event is announced with a popup]
 Umístit oddělovač pouze pokud je příchozí událost uvozena oznámením
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
 [Support for external plugins]
 Podpora externích doplňků
 [Show events at the new line (IEView Compatibility Mode)]
@@ -22978,7 +22984,7 @@ Komunikační okno
 Použití
 [Window layout tweaks]
 Rozvržení okna
-[Message Log Options]
+[Message Log options]
 Možnosti záznamu komunikace
 [Image tag]
 Tag obrázku
@@ -23044,8 +23050,6 @@ Animovaná ikona v liště
 Symbol hodin (pro hodiny informačního panelu)
 [Feature disabled (used as overlay)]
 Funkce zakázána (použito jako překrytí)
-[Feature enabled (used as overlay)]
-Funkce povolena (použito jako překrytí)
 [Message windows - IM]
 Komunikační okna - klasické rozhovory
 [Message windows - all]
@@ -23160,8 +23164,6 @@ Změnit skin
 ... dopsal zprávu.
 [...is typing a message.]
 ... píše zprávu.
-[Popups]
-Oznámení
 [Typing notifications]
 Upozornění na psaní
 [Contact started typing]
@@ -23249,7 +23251,7 @@ Název
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -23436,12 +23438,6 @@ Skrýt offline
 Připojit název protokolu
 [Tipper smileys]
 Smajlíky v tipech
-[Show for all contact types]
-Zobrazit pro všechny typy kontaktů
-[Show only for contacts]
-Zobrazit pouze pro kontakty
-[Show only for chatrooms]
-Zobrazit pouze pro skupinové rozhovory
 [Number of contacts]
 Počet kontaktů
 [Protocol lock status]
@@ -23470,100 +23466,6 @@ Pohlaví
 Vlajka státu
 [Client]
 Klient
-[You must enter a label]
-Musíte zadat titulek
-[Invalid Substitution]
-Neplatná substituce
-[<No Label>]
-<bez titulku>
-[Add item]
-Přidat položku
-[No icon]
-Bez ikony
-[Icon on left]
-Ikona vlevo
-[Icon on right]
-Ikona vpravo
-[Bottom right]
-Vpravo dole
-[Bottom left]
-Vlevo dole
-[Top right]
-Vpravo nahoře
-[Top left]
-Vlevo nahoře
-[Top]
-Nahoře
-[Center]
-Na střed
-[Bottom]
-Dole
-[Left]
-Vlevo
-[Right]
-Vpravo
-[No avatar]
-Bez avataru
-[Left avatar]
-Avatar vlevo
-[Right avatar]
-Avatar vpravo
-[Max avatar size:]
-Maximální rozměr avatara:
-[None]
----
-[Animation]
-Animace
-[Fade]
-Slábnutí
-[Appearance]
-Vzhled
-[Tooltips]
-Tipy
-[Customize]
-Vlastní úpravy
-[Content]
-Obsah
-[Tray tooltip]
-Oznamovací oblast
-[Extra]
-Další
-[%s (locked)]
-%s (uzamčený)
-[%s ago]
-před %s
-[Log on:]
-Přihlášení:
-[Unread emails:]
-Nepřečtené e-maily:
-[Status:]
-Stav:
-[Status message:]
-Zpráva stavu:
-[Mood:]
-Nálada:
-[xStatus:]
-Rozšířený stav:
-[Activity:]
-Činnost:
-[Listening to:]
-Poslech hudby:
-[Copy all items with labels]
-Zkopírovat všechny položky s názvy
-[Copy all items]
-Zkopírovat všechny položky
-[Copy avatar]
-Zkopírovat avatar
-[<No Label>: ]
-<bez titulku>:\s
-[<No Value>]
-<bez hodnoty>
-[Fav. contacts]
-Oblíbené kontakty
-[Other]
-Ostatní
-[Miranda uptime:]
-Doba běhu Mirandy:
 [Account]
 Účet
 [Account:]
@@ -23598,6 +23500,8 @@ IP interní:
 Poslední zpráva
 [Last message: (%sys:last_msg_reltime% ago)]
 Poslední zpráva: (před %sys:last_msg_reltime%)
+[Listening to:]
+Poslech hudby:
 [Name]
 Jméno
 [Name:]
@@ -23610,6 +23514,10 @@ Počet zpráv [přijatých]:
 Počet odeslaných zpráv
 [Number of msg [OUT]:]
 Počet zpráv [odeslaných]:
+[Status:]
+Stav:
+[Status message:]
+Zpráva stavu:
 [Contact time]
 Čas
 [Time:]
@@ -23686,6 +23594,100 @@ Viditelnost:
 \[weather.dll] Vítr
 [Wind:]
 Vítr:
+[Show for all contact types]
+Zobrazit pro všechny typy kontaktů
+[Show only for contacts]
+Zobrazit pouze pro kontakty
+[Show only for chatrooms]
+Zobrazit pouze pro skupinové rozhovory
+[You must enter a label]
+Musíte zadat titulek
+[Invalid Substitution]
+Neplatná substituce
+[<No Label>]
+<bez titulku>
+[Add item]
+Přidat položku
+[No icon]
+Bez ikony
+[Icon on left]
+Ikona vlevo
+[Icon on right]
+Ikona vpravo
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoře
+[Top left]
+Vlevo nahoře
+[Top]
+Nahoře
+[Center]
+Na střed
+[Bottom]
+Dole
+[Left]
+Vlevo
+[Right]
+Vpravo
+[No avatar]
+Bez avataru
+[Left avatar]
+Avatar vlevo
+[Right avatar]
+Avatar vpravo
+[Max avatar size:]
+Maximální rozměr avatara:
+[None]
+---
+[Animation]
+Animace
+[Fade]
+Slábnutí
+[Appearance]
+Vzhled
+[Tooltips]
+Tipy
+[Customize]
+Vlastní úpravy
+[Content]
+Obsah
+[Tray tooltip]
+Oznamovací oblast
+[Extra]
+Další
+[%s (locked)]
+%s (uzamčený)
+[%s ago]
+před %s
+[Log on:]
+Přihlášení:
+[Unread emails:]
+Nepřečtené e-maily:
+[Mood:]
+Nálada:
+[xStatus:]
+Rozšířený stav:
+[Activity:]
+Činnost:
+[Copy all items with labels]
+Zkopírovat všechny položky s názvy
+[Copy all items]
+Zkopírovat všechny položky
+[Copy avatar]
+Zkopírovat avatar
+[<No Label>: ]
+<bez titulku>:\s
+[<No Value>]
+<bez hodnoty>
+[Fav. contacts]
+Oblíbené kontakty
+[Other]
+Ostatní
+[Miranda uptime:]
+Doba běhu Mirandy:
 [# Solid color fill]
 \# Vyplnění plnou barvou
 [%dd %dh %dm]
@@ -24161,7 +24163,7 @@ Lišta tlačítek
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -24230,6 +24232,8 @@ Nové heslo znovu:
 Složka s profily
 [Tox link protocol]
 Odkaz protokolu Tox
+[Unable to initialize Tox core]
+Nelze inicializovat jádro Tox
 [Protocol icon]
 Ikona protokolu
 [Action icon]
@@ -24240,8 +24244,6 @@ Protokoly
 Heslo
 [Action]
 Akce
-[You cannot send when you are offline.]
-Nemůžete odesílat zprávy ve stavu offline.
 [Tox profile]
 Tox profil
 [All files]
@@ -24286,8 +24288,6 @@ Nelze dešifrovat profil Tox
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu
-[Unable to initialize Tox core]
-Nelze inicializovat jádro Tox
 [Query]
 Dotaz
 [One of the arguments is missing]
@@ -25896,7 +25896,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.5
+;  Version: 0.1.15.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -26087,7 +26087,7 @@ Hry
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.1
+;  Version: 0.1.3.2
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
@@ -29075,7 +29075,7 @@ Vlastní zvuk kontaktu
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Account]
@@ -29122,14 +29122,12 @@ Vypnout události
 Upozornění
 [New Mail]
 Nová pošta
-[Sound]
-Zvuk
+[Tray Icon]
+Ikona v oznamovací oblasti
 [Message]
 Zpráva
 [Keyboard Flash]
 Blikání klávesnicí
-[Tray Icon]
-Ikona v oznamovací oblasti
 [Execute Application]
 Spuštění aplikace
 [Errors]
@@ -29164,22 +29162,16 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[YAMN General Options]
-Obecné možnosti
-[TopToolBar button "Check mail"]
-Do horní lišty tlačítko 'Vybrat poštu'
 [MailBrowser Options]
 Prohlížeč pošty
 [Enable Close on Delete Button]
 Po smazání zpráv autom. zavřít okno
 [Show long localized date]
 Zobrazit datum ve dlouhém formátu
-[Don't show today's date]
-Nezobrazovat dnešní datum
 [Date/Time Representation]
 Zobrazení data a času
-[Don't show seconds]
-Nezobrazovat sekundy
+[Show seconds]
+Zobrazit sek.
 [Popup]
 Oznámení
 [Single popup]
@@ -29276,6 +29268,12 @@ Mazání spamu
 Chyba %d-%d-%d-%d:
 [No account selected]
 Není vybraný účet
+[This is not a valid number value]
+Zadaný údaj není číslo
+[Input error]
+Vstupní chyba
+[Please wait while no account is in use.]
+Prosím čekejte dokud není účet používán.
 [Time left to next check [s]: %d]
 Další vybírání pošty za (sek.): %d
 [New Account]
@@ -29290,12 +29288,6 @@ Selhání
 Opravdu chcete odstranit vybraný účet?
 [Delete account confirmation]
 Potvrzení odstranění účtu
-[Please wait while no account is in use.]
-Prosím čekejte dokud není účet používán.
-[This is not a valid number value]
-Zadaný údaj není číslo
-[Input error]
-Vstupní chyba
 [Account Test]
 Vyzkoušení účtu
 [Account Test (failed)]

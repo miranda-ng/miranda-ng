@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -37,10 +37,6 @@ Grupo predeterminado:
 [Enable UDP (otherwise force Tox to use TCP)]
 
 [Enable IPv6]
-
-[Max connect retries:]
-
-[Max reconnect retries:]
 
 [Enable UDP hole-punching]
 
@@ -85,6 +81,9 @@ Puerto
 
 [Tox link protocol]
 
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 
@@ -101,8 +100,6 @@ Contraseña
 
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
-
-[You cannot send when you are offline.]
 
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
@@ -158,8 +155,6 @@ Cuenta
 [You cannot add yourself to your contact list]
 
 [Contact already in your contact list]
-
-[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]

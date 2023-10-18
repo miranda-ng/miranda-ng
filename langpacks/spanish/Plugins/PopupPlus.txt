@@ -403,5 +403,3 @@ Notificar
 
 [Popup Mode: Ignore fullscreen]
 
-[Popup Mode: Block contact]
-

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -31,6 +31,8 @@
 [Enable vertical scroll bar]
 
 [Draw window edge]
+
+[Ascending events sort order]
 
 [Template list:]
 
@@ -73,6 +75,10 @@
 [Templates]
 Шаблони
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Ім'я співрозмовника
+[Outgoing name]
+Ваше ім'я
 [Incoming messages]
 Вхідні повідомлення
 [Outgoing messages]
@@ -93,15 +99,27 @@
 
 [Selected item's frame]
 
+[Highlighted messages]
+Підсвічені повідомлення
 [Grid background]
 Фон сітки
 [Separator]
 Роздільник
-[Incoming name]
-Ім'я співрозмовника
-[Outgoing name]
-Ваше ім'я
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Знайти
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Ім'я
 [LastName]
@@ -124,8 +142,10 @@
 Сайт
 [About]
 Інформація
-[History search results]
-
+[Global history search]
+Пошук по всій історії
+[System history]
+Системна історія
 [Copy]
 Копіювати
 [Export...]
@@ -148,6 +168,10 @@
 Знайте попереднє
 [Conversations]
 Бесіди
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
 [Export warning]
@@ -160,12 +184,25 @@
 Завершено
 [History export]
 
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
+[Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[User history]
+[Copy file name]
 
+[Copy URL]
+Копіювати посилання
+[History]
+Історія
+[Global search]
+
+[Copy text]
+Копіювати
+[Quote]
+Цитата
+[Save as]
+Зберегти як
+[Download]
+Завантажити
 [Edit]
 Редагувати
 [Delete]
@@ -175,10 +212,10 @@
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Головний значок
-[Search]
-Знайти
 [Export]
 Експортувати
+[Bookmark]
+Закладка
 [Incoming message]
 Вхідні повідомлення
 [Outgoing message]
@@ -244,8 +281,6 @@
 
 [the message string itself]
 
-[History]
-Історія
 [Advanced]
 Розширений
 ;file \plugins\NewStory\src\templates.cpp
@@ -287,16 +322,18 @@
 Листопад
 [December]
 Грудень
-[System history]
-Системна історія
 [System event]
 
 [Interface]
 Інтерфейс
 [Window title]
 
+[%N - history [%c messages total]]
+
 [Message log]
 Журнал
+[Group head]
+
 [Grouped messages]
 
 [Presence requests]

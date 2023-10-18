@@ -228,135 +228,6 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
-;file \src\core\stdfile\res\resource.rc
-[Send file(s)]
-Datei(en) senden
-[&Send]
-&Senden
-[Cancel]
-Abbrechen
-[To:]
-An:
-[File(s):]
-Datei(en):
-[&Choose again...]
-&Erneut auswählen...
-[Total size:]
-Gesamtgröße:
-[Description:]
-Beschreibung:
-[&User menu]
-&Kontaktmenü
-[User &details]
-Kontakt&profil
-[&History]
-&Verlauf
-[Incoming file transfer]
-Eingehende Dateiübertragung
-[A&ccept]
-Ak&zeptieren
-[&Decline]
-A&blehnen
-[From:]
-Von:
-[Date:]
-Datum:
-[Files:]
-Dateien:
-[Save to:]
-Speichern nach:
-[&Add]
-&Hinzufügen
-[&Open...]
-&Öffnen...
-[Open &folder]
-&Verzeichnis öffnen
-[Transfer completed, open file(s).]
-Übertragung beendet, Datei(en) öffnen.
-[No data transferred]
-Keine Daten übertragen
-[File already exists]
-Datei existiert bereits
-[Resume]
-Fortsetzen
-[Resume all]
-Alle fortsetzen
-[Overwrite]
-Überschreiben
-[Overwrite all]
-Alle überschreiben
-[Save as...]
-Speichern unter...
-[Auto rename]
-Autom. umbenennen
-[Skip]
-Überspringen
-[Cancel transfer]
-Transfer abbrechen
-[You are about to receive the file]
-Sie werden die Datei gleich empfangen
-[Existing file]
-Existierende Datei
-[Size:]
-Größe:
-[Last modified:]
-Zuletzt geändert:
-[Type:]
-Typ:
-[Open file]
-Datei öffnen
-[Open folder]
-Ordner öffnen
-[File properties]
-Dateieigenschaften
-[File being received]
-Datei wird empfangen
-[File transfers]
-Dateiübertragungen
-[Clear completed]
-Abgeschlossene entfernen
-[Close]
-Schließen
-[Receiving files]
-Dateien empfangen
-[Received files folder:]
-Ordner für Dateien:
-[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Mögliche Variablen: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
-[Auto-accept incoming files from people on my contact list]
-Dateien von Personen auf meiner Kontaktliste automatisch annehmen
-[Minimize the file transfer window]
-Fenster bei Dateiübertragung minimieren
-[Close window when transfer completes]
-Fenster nach abgeschlossener Übertragung schließen
-[Clear completed transfers on window closing]
-Komplette Übertragungen beim Schliessen des Fensters entfernen
-[Sort file transfers in the reverse order]
-Dateiübertragungen in umgekehrter Reihenfolge sortieren
-[Virus scanner]
-Virenscanner
-[Scan files:]
-Untersuche:
-[Never, do not use virus scanning]
-Niemals, keinen Virenscanner verwenden
-[When all files have been downloaded]
-Wenn alle Dateien empfangen wurden
-[As each file finishes downloading]
-Nach jeder einzelnen empfangenen Datei
-[Command line:]
-Kommandozeile:
-[%f will be replaced by the file or folder name to be scanned]
-%f wird durch den Dateinamen oder Ordnernamen ersetzt.
-[Warn me before opening a file that has not been scanned]
-Warnung vor dem Öffnen ungeprüfter Dateien anzeigen
-[If incoming files already exist]
-Wenn eingehende Dateien bereits existieren
-[Ask me]
-Nachfragen
-[Rename (append " (1)", etc.)]
-Umbenennen (Zusatz: (1), (2), ...)
-[You will always be asked about files from people not on your contact list]
-Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
@@ -398,6 +269,18 @@ Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 Während des Sendens folgender Nachricht:
 [Try again]
 Erneut versuchen
+[Cancel]
+Abbrechen
+[&Send]
+&Senden
+[Load unread events only]
+Nur ungelesene Ereignisse laden
+[Load number of previous events]
+Lade Anzahl vorheriger Ereignisse
+[Load previous events less than]
+Lade Ereignisse, die nicht älter als
+[minutes old]
+Minuten alt
 [Message window event log]
 Nachrichtenfenster-Ereignislog
 [Show names]
@@ -410,18 +293,10 @@ Sekunden anzeigen
 Datum anzeigen
 [Show formatting]
 Formatierung anzeigen
-[Load history events]
-Vergangene Ereignisse laden
-[Load unread events only]
-Nur ungelesene Ereignisse laden
-[Load number of previous events]
-Lade Anzahl vorheriger Ereignisse
-[Load previous events less than]
-Lade Ereignisse, die nicht älter als
-[minutes old]
-Minuten alt
 [Automatically copy selected text]
 Markierten Text automatisch kopieren
+[Load history events]
+Vergangene Ereignisse laden
 [Use a tabbed interface]
 Chatfenster mit Tabs verwenden
 [Close tab on double click]
@@ -535,6 +410,8 @@ Löschen
 ;file \src\core\stdpopup\res\resource.rc
 [Popup history]
 Popupverlauf
+[Close]
+Schließen
 [Case sensitive]
 Groß-/Kleinschreibung beachten
 [Default timeout]
@@ -674,6 +551,8 @@ Wählen Sie den Protokolltyp aus
 Geben Sie den internen Kontonamen an (optional)
 [Add contact]
 Kontakt hinzufügen
+[&Add]
+&Hinzufügen
 [Send authorization request]
 Autorisierungsanfrage senden
 [Open contact's chat window]
@@ -872,6 +751,8 @@ Logeinstell.
 Ausgehende Verbindungen
 [Use proxy server]
 Proxyserver verwenden
+[Type:]
+Typ:
 [Host:]
 Host:
 [Port:]
@@ -908,10 +789,12 @@ z. B. Arbeitsplatz
 Sie können einen anderen Datenbanktreiber mit mehr Funktionen und Möglichkeiten als der Standardtreiber verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standardtreiber.
 [Driver]
 Treiber
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
-Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_mdbx.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_sqlite.dll
 [Download more plugins]
 Weitere Plugins herunterladen
+[Description:]
+Beschreibung:
 [Author(s):]
 Autor(en):
 [Homepage:]
@@ -1084,6 +967,8 @@ Angepassten Verlaufsbetrachter in Gruppenchats verwenden
 Aktuelle Sprache:
 [Last modified using:]
 Zuletzt geändert mit:
+[Date:]
+Datum:
 [Locale:]
 Locale:
 [Reload langpack]
@@ -1104,6 +989,8 @@ Verstecken, wenn nicht genügend Platz
 &Ablehnen
 [Decide &later]
 &Später entscheiden
+[User &details]
+Kontakt&profil
 [Reason:]
 Grund:
 [Denial reason:]
@@ -1204,6 +1091,122 @@ Text
 Hintergrund
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
+[Send file(s)]
+Datei(en) senden
+[To:]
+An:
+[File(s):]
+Datei(en):
+[&Choose again...]
+&Erneut auswählen...
+[Total size:]
+Gesamtgröße:
+[&User menu]
+&Kontaktmenü
+[&History]
+&Verlauf
+[Incoming file transfer]
+Eingehende Dateiübertragung
+[A&ccept]
+Ak&zeptieren
+[&Decline]
+A&blehnen
+[From:]
+Von:
+[Files:]
+Dateien:
+[Save to:]
+Speichern nach:
+[&Open...]
+&Öffnen...
+[Open &folder]
+&Verzeichnis öffnen
+[Transfer completed, open file(s).]
+Übertragung beendet, Datei(en) öffnen.
+[No data transferred]
+Keine Daten übertragen
+[File already exists]
+Datei existiert bereits
+[Resume]
+Fortsetzen
+[Resume all]
+Alle fortsetzen
+[Overwrite]
+Überschreiben
+[Overwrite all]
+Alle überschreiben
+[Save as...]
+Speichern unter...
+[Auto rename]
+Autom. umbenennen
+[Skip]
+Überspringen
+[Cancel transfer]
+Transfer abbrechen
+[You are about to receive the file]
+Sie werden die Datei gleich empfangen
+[Existing file]
+Existierende Datei
+[Size:]
+Größe:
+[Last modified:]
+Zuletzt geändert:
+[Open file]
+Datei öffnen
+[Open folder]
+Ordner öffnen
+[File properties]
+Dateieigenschaften
+[File being received]
+Datei wird empfangen
+[File transfers]
+Dateiübertragungen
+[Clear completed]
+Abgeschlossene entfernen
+[Receiving files]
+Dateien empfangen
+[Received files folder:]
+Ordner für Dateien:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Mögliche Variablen: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Dateien von Personen auf meiner Kontaktliste automatisch annehmen
+[Minimize the file transfer window]
+Fenster bei Dateiübertragung minimieren
+[Close window when transfer completes]
+Fenster nach abgeschlossener Übertragung schließen
+[Clear completed transfers on window closing]
+Komplette Übertragungen beim Schliessen des Fensters entfernen
+[Sort file transfers in the reverse order]
+Dateiübertragungen in umgekehrter Reihenfolge sortieren
+[You will always be asked about files from people not on your contact list]
+Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
+[If incoming files already exist]
+Wenn eingehende Dateien bereits existieren
+[Cloud files]
+
+[Download cloud files automatically]
+
+[Only if their size is less than]
+
+[KBytes (0 - always)]
+
+[Virus scanner]
+Virenscanner
+[Scan files:]
+Untersuche:
+[Never, do not use virus scanning]
+Niemals, keinen Virenscanner verwenden
+[When all files have been downloaded]
+Wenn alle Dateien empfangen wurden
+[As each file finishes downloading]
+Nach jeder einzelnen empfangenen Datei
+[Command line:]
+Kommandozeile:
+[%f will be replaced by the file or folder name to be scanned]
+%f wird durch den Dateinamen oder Ordnernamen ersetzt.
+[Warn me before opening a file that has not been scanned]
+Warnung vor dem Öffnen ungeprüfter Dateien anzeigen
 [&Hide/Show]
 Zeigen/&Ausblenden
 [E&xit]
@@ -1372,109 +1375,6 @@ Kontakt hat keine E-Mail-Adresse angegeben
 E-Mail senden
 [&E-mail]
 &E-Mail
-;file \src\core\stdfile\src\file.cpp
-[bytes]
-Bytes
-[&File]
-&Datei
-[File from %s]
-Datei von %s
-[File &transfers...]
-Dateiüber&tragungen...
-[Incoming]
-Eingehend
-[Complete]
-Fertig
-[Error]
-Fehler
-[Denied]
-Verweigert
-;file \src\core\stdfile\src\fileexistsdlg.cpp
-[%s file]
-%s Datei
-[All files]
-Alle Dateien
-;file \src\core\stdfile\src\fileopts.cpp
-[Executable files]
-Ausführbare Dateien
-[Events]
-Ereignisse
-;file \src\core\stdfile\src\filerecvdlg.cpp
-[Select folder]
-Ordner wählen
-[My received files]
-Meine empfangenen Dateien
-[Add contact permanently to list]
-Kontakt dauerhaft zur Liste hinzufügen
-[View user's details]
-Kontaktprofil anzeigen
-[View user's history]
-Verlauf anzeigen
-[User menu]
-Benutzermenü
-[This file transfer has been canceled by the other side]
-Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
-[Canceled]
-Abgebrochen
-;file \src\core\stdfile\src\filesenddlg.cpp
-[%d files]
-%d Dateien
-[%d directories]
-%d Verzeichnisse
-;file \src\core\stdfile\src\filexferdlg.cpp
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
-[File received]
-Datei empfangen
-[of]
-von
-[Request sent, waiting for acceptance...]
-Anfrage gesendet, warte auf Annahme...
-[Waiting for connection...]
-Warte auf Verbindung...
-[Unable to initiate transfer.]
-Übertragung kann nicht gestartet werden.
-[Contact menu]
-Kontaktmenü
-[Open...]
-Öffnen...
-[sec]
-Sek.
-[remaining]
-verbleibend
-[Decision sent]
-Entscheidung gesendet
-[Connecting...]
-Verbinden...
-[Connecting to proxy...]
-Verbinde zum Proxy...
-[Connected]
-Verbunden
-[Initializing...]
-Vorbereitung...
-[Moving to next file...]
-Nächste Datei...
-[Sending...]
-Sende...
-[Receiving...]
-Empfange...
-[File transfer denied]
-Dateiübertragung abgelehnt
-[File transfer failed]
-Dateiübertragung gescheitert
-[Transfer completed.]
-Übertragung abgeschlossen.
-[Transfer completed, open file.]
-Übertragung abgeschlossen, Datei öffnen.
-[Transfer completed, open folder.]
-Übertragung abgeschlossen, Ordner öffnen.
-[Scanning for viruses...]
-Untersuche auf Viren...
-[Transfer and virus scan complete]
-Übertragung und Untersuchung auf Viren beendet.
-;file \src\core\stdfile\src\ftmanager.cpp
-[Outgoing]
-Ausgehend
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Nachrichtensitzungen
@@ -1611,6 +1511,8 @@ Icon für Namensänderungen anzeigen
 Icon für Informationsnachrichten anzeigen
 [Show icon for status changes]
 Icon für Statusänderungen anzeigen
+[Select folder]
+Ordner wählen
 [Chat log]
 Chatverlauf
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1636,14 +1538,16 @@ Nachrichtensitzung
 Eingehende Nachricht (10x10)
 [Outgoing message (10x10)]
 Ausgehende Nachricht (10x10)
-[Encrypted (10x10)]
-Verschlüsselt (10x10)
-[Encrypted verified (10x10)]
-Verschlüsselt verifiziert (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Me]
 Ich
 [File sent]
 Datei gesendet
+[File received]
+Datei empfangen
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Ausgehende Nachrichten
@@ -1680,6 +1584,12 @@ Tippbenachrichtigungen
 %s tippt eine Nachricht
 [Typing notification]
 Tippbenachrichtigungen
+[Add contact permanently to list]
+Kontakt dauerhaft zur Liste hinzufügen
+[User menu]
+Benutzermenü
+[View user's details]
+Kontaktprofil anzeigen
 [View user's history (Ctrl+H)]
 Verlauf anzeigen (Strg+H)
 [&Bold]
@@ -1724,6 +1634,8 @@ Eingehend (Fenster im Vordergrund)
 Eingehend (Fenster im Hintergrund)
 [Incoming (new session)]
 Eingehend (Neue Sitzung)
+[Outgoing]
+Ausgehend
 [Message send error]
 Fehler beim Senden der Nachricht
 [Contact started typing]
@@ -1773,6 +1685,8 @@ Horizontale Animation
 Vertikale Animation
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
+[Error]
+Fehler
 [Example]
 Beispiel
 [The quick brown fox jumps over the lazy dog.]
@@ -1811,6 +1725,8 @@ Zeit
 Seitenleiste
 [Title underline]
 Trennlinie unter Titel
+[Popup Mode]
+
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Titel in Zwischenablage kopieren
@@ -2002,10 +1918,10 @@ Informationsnachricht
 Benutzer aktiviert Status für ...
 [User disables status for ...]
 Benutzer deaktiviert Status für ...
-[Action message]
-Aktionsnachricht
-[Highlighted message]
-Hervorgehobene Nachricht
+[Action messages]
+
+[Highlighted messages]
+
 [Nick list members (online)]
 Benutzerliste (online)
 [Nick list members (away)]
@@ -2154,8 +2070,8 @@ Datenbank
 Komprimierung der Datenbank fehlgeschlagen
 [Compact database]
 Datenbank komprimieren
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
-Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
+
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorliegt.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2218,6 +2134,105 @@ Extraicons
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 Chat stumm
+[Attach]
+
+;file \src\mir_app\src\file.cpp
+[&File]
+&Datei
+[Send file]
+Datei senden
+[File from %s]
+Datei von %s
+[File &transfers...]
+Dateiüber&tragungen...
+[Incoming]
+Eingehend
+[Complete]
+Fertig
+[Denied]
+Verweigert
+;file \src\mir_app\src\fileexistsdlg.cpp
+[%s file]
+%s Datei
+[All files]
+Alle Dateien
+;file \src\mir_app\src\fileopts.cpp
+[Ask me]
+Nachfragen
+[Rename (append " (1)", etc.)]
+Umbenennen (Zusatz: (1), (2), ...)
+[Executable files]
+Ausführbare Dateien
+[Events]
+Ereignisse
+[Security]
+Sicherheit
+;file \src\mir_app\src\filerecvdlg.cpp
+[My received files]
+Meine empfangenen Dateien
+[View user's history]
+Verlauf anzeigen
+[This file transfer has been canceled by the other side]
+Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
+[Canceled]
+Abgebrochen
+;file \src\mir_app\src\filesenddlg.cpp
+[%d files]
+%d Dateien
+[%d directories]
+%d Verzeichnisse
+;file \src\mir_app\src\fileutils.cpp
+[bytes]
+Bytes
+;file \src\mir_app\src\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
+[of]
+von
+[Request sent, waiting for acceptance...]
+Anfrage gesendet, warte auf Annahme...
+[Waiting for connection...]
+Warte auf Verbindung...
+[Unable to initiate transfer.]
+Übertragung kann nicht gestartet werden.
+[Contact menu]
+Kontaktmenü
+[Open...]
+Öffnen...
+[sec]
+Sek.
+[remaining]
+verbleibend
+[Decision sent]
+Entscheidung gesendet
+[Connecting...]
+Verbinden...
+[Connecting to proxy...]
+Verbinde zum Proxy...
+[Connected]
+Verbunden
+[Initializing...]
+Vorbereitung...
+[Moving to next file...]
+Nächste Datei...
+[Sending...]
+Sende...
+[Receiving...]
+Empfange...
+[File transfer denied]
+Dateiübertragung abgelehnt
+[File transfer failed]
+Dateiübertragung gescheitert
+[Transfer completed.]
+Übertragung abgeschlossen.
+[Transfer completed, open file.]
+Übertragung abgeschlossen, Datei öffnen.
+[Transfer completed, open folder.]
+Übertragung abgeschlossen, Ordner öffnen.
+[Scanning for viruses...]
+Untersuche auf Viren...
+[Transfer and virus scan complete]
+Übertragung und Untersuchung auf Viren beendet.
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
@@ -2271,6 +2286,7 @@ Kopfzeilen
 Allgemeiner Text
 [Small text]
 Kleiner Text
+;file \src\mir_app\src\ftmanager.cpp
 ;file \src\mir_app\src\help.cpp
 [< Copyright]
 < Copyright
@@ -2639,6 +2655,9 @@ Geändert
 Meine Profile
 [New profile]
 Neues Profil
+;file \src\mir_app\src\protocols.cpp
+[Protocol is offline]
+Protokoll ist offline
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Autorisierung anfragen
@@ -2699,8 +2718,10 @@ Aktualisiere Konto
 Kontenname muss ausgefüllt werden.
 [Account error]
 Konto-Fehler
-[Account name has to be unique. Please enter unique name.]
-Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
+[Account internal name contains invalid symbols, only ASCII chars are allowed.]
+
+[Account internal name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2820,17 +2841,21 @@ History++ Verlaufsbetrachter
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 Unbenannt
+[on]
+an
 [Download]
 Herunterladen
 [Copy URL]
 URL kopieren
+[Save as]
+Speichern als
 [Copy all]
 Alles kopieren
 [Look up '%s':]
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
-;file \src\mir_app\src\srmm_statusicon.cpp
+;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to remove all events from history?]
 Möchten Sie wirklich alle Ereignisse aus dem Verlauf entfernen?
 [Empty history]

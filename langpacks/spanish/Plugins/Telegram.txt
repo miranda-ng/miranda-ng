@@ -73,6 +73,8 @@ Error
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 
+[Reaction]
+
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]

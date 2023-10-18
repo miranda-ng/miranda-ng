@@ -2,7 +2,6 @@
 [Load also Messenger contacts at login (not only Facebook friends)]
 [Enable group chats]
 [&Leave/destroy chat]
-[Protocol is offline or user isn't authorized yet]
 [Connection failed with error code %d]
 [Sticker received]
 [SmileyAdd plugin required to support stickers]

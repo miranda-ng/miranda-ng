@@ -16,10 +16,10 @@ Wsparcie dla protokołu WhatsApp.
 Nick:
 [Default group:]
 Domyślna grupa:
-[Do not open chat windows on creation]
-Nie otwieraj okien czatów po ich utworzeniu
 [Device name:]
 
+[Do not open chat windows on creation]
+Nie otwieraj okien czatów po ich utworzeniu
 [Use BBCode]
 Używaj BBCode
 [Log out]

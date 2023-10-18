@@ -1,1 +1,6 @@
 [Jingle support for Jabber protocol.]
+[Supports Jingle]
+[Jingle ICE-UDP Transport]
+[Jingle RTP]
+[Jingle DTLS]
+[Jingle RTP Audio]

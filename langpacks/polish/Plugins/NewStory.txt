@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -32,6 +32,8 @@ Okno dziennika
 Włącz pionowy pasek przewijania
 [Draw window edge]
 Rysuj krawędź okna
+[Ascending events sort order]
+
 [Template list:]
 Lista szablonów:
 [Edit template:]
@@ -73,6 +75,10 @@ Opcje
 [Templates]
 Szablony
 ;file \plugins\NewStory\src\fonts.cpp
+[Incoming name]
+Przychodząca nazwa
+[Outgoing name]
+Wychodząca nazwa
 [Incoming messages]
 Przychodzące wiadomości
 [Outgoing messages]
@@ -93,15 +99,27 @@ Tekst wybranego elementu
 Tło wybranego elementu
 [Selected item's frame]
 Ramka wybranego elementu
+[Highlighted messages]
+
 [Grid background]
 Kolor tła
 [Separator]
 Separator
-[Incoming name]
-Przychodząca nazwa
-[Outgoing name]
-Wychodząca nazwa
-;file \plugins\NewStory\src\history.cpp
+;file \plugins\NewStory\src\history_array.cpp
+[Unnamed]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Toggle bookmark]
+
+[Search]
+Szukaj
+[Search forward]
+
+[Search backward]
+
+[Are you sure to remove selected event(s)?]
+Czy na pewno chcesz usunąć wybrane wydarzenia?
+;file \plugins\NewStory\src\history_dlg.cpp
 [FirstName]
 Imię
 [LastName]
@@ -124,8 +142,10 @@ Telefon
 Strona WWW
 [About]
 O wtyczce
-[History search results]
-Wyniki wyszukiwania w historii
+[Global history search]
+Wyszukiwanie w globalnej historii
+[System history]
+Historia systemowa
 [Copy]
 Kopiuj
 [Export...]
@@ -148,6 +168,10 @@ Wyszukaj następny
 Wyszukaj poprzedni
 [Conversations]
 Rozmowa
+[No more occuurences found]
+
+[Passed the end of history]
+
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 To jest metakontakt. Do eksportu użyj jednego z tych podkontaktów:\r\n%s
 [Export warning]
@@ -160,12 +184,25 @@ Eksport historii %s
 Zakończone
 [History export]
 Eksport historii
-;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove selected event(s)?]
-Czy na pewno chcesz usunąć wybrane wydarzenia?
+[Passed the beginning of history]
+
 ;file \plugins\NewStory\src\history_menus.cpp
-[User history]
-Historia użytkownika
+[Copy file name]
+
+[Copy URL]
+Kopiuj link
+[History]
+Historia
+[Global search]
+
+[Copy text]
+Kopiuj tekst
+[Quote]
+Cytat
+[Save as]
+Zapisz jako
+[Download]
+Pobierz
 [Edit]
 Edytuj
 [Delete]
@@ -175,10 +212,10 @@ Zaznacz wszystko
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Główna ikona
-[Search]
-Szukaj
 [Export]
 Eksportuj
+[Bookmark]
+Zakładka
 [Incoming message]
 Przychodząca wiadomość
 [Outgoing message]
@@ -244,8 +281,6 @@ symbol AM/PM
 nazwa miesiąca, przetłumaczalny
 [the message string itself]
 sam ciąg wiadomości
-[History]
-Historia
 [Advanced]
 Zaawansowane
 ;file \plugins\NewStory\src\templates.cpp
@@ -287,16 +322,18 @@ Październik
 Listopad
 [December]
 Grudzień
-[System history]
-Historia systemowa
 [System event]
 Zdarzenia systemowe
 [Interface]
 Interfejs
 [Window title]
 Tytuł okna
+[%N - history [%c messages total]]
+
 [Message log]
 Dziennik wiadomości
+[Group head]
+
 [Grouped messages]
 Pogrupowane wiadomości
 [Presence requests]

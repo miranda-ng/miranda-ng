@@ -403,5 +403,3 @@ Popup-Modus: Auto
 Popup-Modus: Favorit
 [Popup Mode: Ignore fullscreen]
 Popup-Modus: Vollbildschirm ignorieren
-[Popup Mode: Block contact]
-Popup-Modus: Blockiere Kontakt

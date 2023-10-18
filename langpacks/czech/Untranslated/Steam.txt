@@ -1,2 +1,4 @@
+[Default group]
+[Device name]
 [Error limit before logout:]
 [Unblock]

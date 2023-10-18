@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Minimize to tray]
 Minimise to tray
@@ -13,8 +13,6 @@ Background colour
 Selection colour
 [Use Windows colors]
 Use Windows colours
-[Minimize the file transfer window]
-Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
 [Text color:]
@@ -47,12 +45,8 @@ Add to contact list if authorised
 Use default colours
 [Use custom colors]
 Use custom colours
-[This file transfer has been canceled by the other side]
-This file transfer has been cancelled by the other side
-[Canceled]
-Cancelled
-[Initializing...]
-Initialising...
+[Minimize the file transfer window]
+Minimise the file transfer window
 [Timestamp has same color as the event]
 Timestamp has same colour as the event
 [Strip colors from messages in the log]
@@ -75,6 +69,12 @@ Please authorise my request and add me to your contact list.
 %u requests authorisation
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
+[This file transfer has been canceled by the other side]
+This file transfer has been cancelled by the other side
+[Canceled]
+Cancelled
+[Initializing...]
+Initialising...
 [Customize]
 Customise
 [Request authorization]

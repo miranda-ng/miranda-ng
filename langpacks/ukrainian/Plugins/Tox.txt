@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -38,10 +38,6 @@
 Увімкнути UDP (інакше примусово використовувати TCP)
 [Enable IPv6]
 Увімкнути IPv6
-[Max connect retries:]
-
-[Max reconnect retries:]
-
 [Enable UDP hole-punching]
 
 [Enable local network peer discovery]
@@ -85,6 +81,9 @@ IPv6 адреса (необов'язково)
 Папка профілів
 [Tox link protocol]
 Протокол Tox
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Неможливо ініціалізувати ядро Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Значок протоколу
@@ -102,8 +101,6 @@ IPv6 адреса (необов'язково)
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Дія
-[You cannot send when you are offline.]
-Для надсилання повідомлень необхідно підключитися до мережі.
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Профіль Tox
@@ -159,8 +156,6 @@ IPv6 адреса (необов'язково)
 Ви не можете додати себе до списку контактів
 [Contact already in your contact list]
 Контакт уже в списку
-[Unable to initialize Tox core]
-Неможливо ініціалізувати ядро Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запит

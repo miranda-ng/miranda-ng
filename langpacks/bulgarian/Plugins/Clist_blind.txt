@@ -14,10 +14,6 @@
 състояние
 [Sort contacts by protocol]
 протокол
-[Disable icon blinking]
-Без мигане на икони
-[ms delay]
-мс времетраене
 [Show]
 Показване
 [icon when statuses differ]
@@ -30,8 +26,6 @@
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[System tray icon]
-Икона в трея
 [System tray icon when using multiple protocols]
 Режим на иконата в трея, когато се използват няколко протокола
 [Contact list sorting]

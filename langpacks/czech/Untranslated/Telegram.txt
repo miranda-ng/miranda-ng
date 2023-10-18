@@ -14,6 +14,7 @@
 [Creator]
 [SuperAdmin]
 [Telegram Premium user]
+[Reaction]
 [%d member(s)]
 [Saved messages]
 [%s error notifications]

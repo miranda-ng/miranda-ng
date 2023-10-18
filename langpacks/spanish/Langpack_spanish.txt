@@ -239,132 +239,6 @@ Igualar anchura de secciones
 Mostrar biseles en los paneles
 [Show resize grip indicator]
 Mostrar indicador de cambio de tamaño
-[Send file(s)]
-Enviar archivo(s)
-[&Send]
-&Enviar
-[Cancel]
-Cancelar
-[To:]
-A:
-[File(s):]
-Archivo(s)
-[&Choose again...]
-Sele&ccionar de nuevo...
-[Total size:]
-Tamaño total:
-[Description:]
-Detalles:
-[&User menu]
-Menú de usuario
-[User &details]
-&Detalles del usuario
-[&History]
-&Historial
-[Incoming file transfer]
-Transferencia de archivos entrantes
-[A&ccept]
-%Aceptar
-[&Decline]
-&Denegar
-[From:]
-De:
-[Date:]
-Fecha:
-[Files:]
-Archivos:
-[Save to:]
-Guardar a:
-[&Add]
-&Añadir
-[&Open...]
-&Abrir...
-[Open &folder]
-Abrir &carpeta
-[Transfer completed, open file(s).]
-Transferencia finalizada, abrir archivo(s)
-[No data transferred]
-No hay datos transferidos
-[File already exists]
-El archivo ya existe
-[Resume]
-Reanudar
-[Resume all]
-Reanudar todo
-[Overwrite]
-Sobrescribir
-[Overwrite all]
-Sobrescribir todo
-[Save as...]
-Guardar como...
-[Auto rename]
-Auto renombrar
-[Skip]
-Omitir
-[Cancel transfer]
-Cancelar transferencia
-[You are about to receive the file]
-Va a recibir el archivo
-[Existing file]
-Archivo existente
-[Size:]
-Tamaño:
-[Last modified:]
-Última modificación:
-[Type:]
-Tipo:
-[Open file]
-Abrir archivo
-[Open folder]
-Abrir carpeta
-[File properties]
-Propiedades de archivo
-[File being received]
-El archivo se está recibiendo
-[File transfers]
-Transferencias de archivos
-[Clear completed]
-Limpiar completado
-[Close]
-Cerrar
-[Receiving files]
-Recibir archivos
-[Received files folder:]
-Carpeta para archivos:
-[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Variables admitidas: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
-[Auto-accept incoming files from people on my contact list]
-Auto-aceptar los archivos entrantes de personas en mi lista de contactos
-[Minimize the file transfer window]
-Minimizar la ventana de transferencia de archivos
-[Close window when transfer completes]
-Cerrar ventana cuando la transferencia se completa
-[Clear completed transfers on window closing]
-Limpiar transferencias realizadas al cerrar la ventana
-[Virus scanner]
-Escáner de virus
-[Scan files:]
-Analizar:
-[Never, do not use virus scanning]
-Nunca, no usar detección de virus
-[When all files have been downloaded]
-Cuando todos los archivos se han descargado
-[As each file finishes downloading]
-Segun cada archivo termine de descargarse
-[Command line:]
-Comandos:
-[%f will be replaced by the file or folder name to be scanned]
-%f será reemplazado por el nombre del archivo o carpeta a escanear
-[Warn me before opening a file that has not been scanned]
-Avisar antes de abrir un archivo que no se ha explorado
-[If incoming files already exist]
-Si ya existen los archivos entrantes
-[Ask me]
-Preguntarme
-[Rename (append " (1)", etc.)]
-Renombrar (añadir " (1)", etc.)
-[You will always be asked about files from people not on your contact list]
-Siempre que se pregunte sobre archivos de personas que no están en la lista
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
 [Close the message window on send]
@@ -401,6 +275,18 @@ Se ha producido un error. El protocolo reportó el siguiente error:
 al enviar el siguiente mensaje:
 [Try again]
 Intentar de nuevo
+[Cancel]
+Cancelar
+[&Send]
+&Enviar
+[Load unread events only]
+Cargar eventos sólo sin leer
+[Load number of previous events]
+Número de eventos anteriores a cargar
+[Load previous events less than]
+Cargar eventos previos de menos de
+[minutes old]
+minutos de pasado
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show names]
@@ -415,14 +301,6 @@ Mostrar fechas
 Mostrar formateando
 [Load history events]
 Cargar historial de eventos
-[Load unread events only]
-Cargar eventos sólo sin leer
-[Load number of previous events]
-Número de eventos anteriores a cargar
-[Load previous events less than]
-Cargar eventos previos de menos de
-[minutes old]
-minutos de pasado
 [Use a tabbed interface]
 Usar interfaz con pestañas
 [Close tab on double click]
@@ -533,6 +411,8 @@ Elegir &todo
 Pegar y Enviar
 [Delete]
 Eliminar
+[Close]
+Cerrar
 [Border]
 Borde
 [Preview]
@@ -629,6 +509,8 @@ Seleccione el tipo de protocolo
 Especifique el nombre de la cuenta interna (opcional)
 [Add contact]
 Añadir contacto
+[&Add]
+&Añadir
 [Send authorization request]
 Enviar solicitud de autorización
 [Open contact's chat window]
@@ -823,6 +705,8 @@ Iniciando...
 Conexiones salientes
 [Use proxy server]
 Usar servidor proxy
+[Type:]
+Tipo:
 [Host:]
 Anfitrión:
 [Port:]
@@ -857,10 +741,10 @@ Ejemplo: Trabajo
 Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
 [Driver]
 Controlador
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
-Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mdbx.dll
 [Download more plugins]
 Descargar más plugins
+[Description:]
+Detalles:
 [Author(s):]
 Autor(es):
 [Homepage:]
@@ -981,6 +865,8 @@ Contactos
 Lista de contactos
 [Last modified using:]
 Última modificación usando:
+[Date:]
+Fecha:
 [Locale:]
 Local
 [Reload langpack]
@@ -993,6 +879,8 @@ Descargar más paquetes de idioma
 &Denegar
 [Decide &later]
 &Decidir más &tarde
+[User &details]
+&Detalles del usuario
 [Reason:]
 Razón:
 [Denial reason:]
@@ -1051,6 +939,112 @@ Texto
 Fondo
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 (Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
+[Send file(s)]
+Enviar archivo(s)
+[To:]
+A:
+[File(s):]
+Archivo(s)
+[&Choose again...]
+Sele&ccionar de nuevo...
+[Total size:]
+Tamaño total:
+[&User menu]
+Menú de usuario
+[&History]
+&Historial
+[Incoming file transfer]
+Transferencia de archivos entrantes
+[A&ccept]
+%Aceptar
+[&Decline]
+&Denegar
+[From:]
+De:
+[Files:]
+Archivos:
+[Save to:]
+Guardar a:
+[&Open...]
+&Abrir...
+[Open &folder]
+Abrir &carpeta
+[Transfer completed, open file(s).]
+Transferencia finalizada, abrir archivo(s)
+[No data transferred]
+No hay datos transferidos
+[File already exists]
+El archivo ya existe
+[Resume]
+Reanudar
+[Resume all]
+Reanudar todo
+[Overwrite]
+Sobrescribir
+[Overwrite all]
+Sobrescribir todo
+[Save as...]
+Guardar como...
+[Auto rename]
+Auto renombrar
+[Skip]
+Omitir
+[Cancel transfer]
+Cancelar transferencia
+[You are about to receive the file]
+Va a recibir el archivo
+[Existing file]
+Archivo existente
+[Size:]
+Tamaño:
+[Last modified:]
+Última modificación:
+[Open file]
+Abrir archivo
+[Open folder]
+Abrir carpeta
+[File properties]
+Propiedades de archivo
+[File being received]
+El archivo se está recibiendo
+[File transfers]
+Transferencias de archivos
+[Clear completed]
+Limpiar completado
+[Receiving files]
+Recibir archivos
+[Received files folder:]
+Carpeta para archivos:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Variables admitidas: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Auto-aceptar los archivos entrantes de personas en mi lista de contactos
+[Minimize the file transfer window]
+Minimizar la ventana de transferencia de archivos
+[Close window when transfer completes]
+Cerrar ventana cuando la transferencia se completa
+[Clear completed transfers on window closing]
+Limpiar transferencias realizadas al cerrar la ventana
+[You will always be asked about files from people not on your contact list]
+Siempre que se pregunte sobre archivos de personas que no están en la lista
+[If incoming files already exist]
+Si ya existen los archivos entrantes
+[Virus scanner]
+Escáner de virus
+[Scan files:]
+Analizar:
+[Never, do not use virus scanning]
+Nunca, no usar detección de virus
+[When all files have been downloaded]
+Cuando todos los archivos se han descargado
+[As each file finishes downloading]
+Segun cada archivo termine de descargarse
+[Command line:]
+Comandos:
+[%f will be replaced by the file or folder name to be scanned]
+%f será reemplazado por el nombre del archivo o carpeta a escanear
+[Warn me before opening a file that has not been scanned]
+Avisar antes de abrir un archivo que no se ha explorado
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1201,100 +1195,6 @@ El usuario no ha registrado una dirección de correo electrónico
 Enviar e-mail
 [&E-mail]
 E-mail
-[bytes]
-bytes
-[&File]
-&Archivo
-[File from %s]
-Archivo de %s
-[File &transfers...]
-&Transferencias de archivos...
-[Incoming]
-Entrante
-[Complete]
-Completo
-[Error]
-Error
-[Denied]
-Denegado
-[%s file]
-%s archivo
-[All files]
-Todos los archivos
-[Executable files]
-Archivos ejecutables
-[Events]
-Eventos
-[Select folder]
-Seleccionar carpeta
-[My received files]
-Mis archivos recibidos
-[Add contact permanently to list]
-Añadir contacto permanentemente a la lista
-[View user's details]
-Ver detalles del usuario
-[View user's history]
-Ver historial del usuario
-[User menu]
-Menú del usuario
-[Canceled]
-Cancelado
-[%d files]
-%d Archivos
-[%d directories]
-%d directorios
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
-[File received]
-Archivo recibido
-[of]
-de
-[Request sent, waiting for acceptance...]
-Solicitud enviada, en espera de la aceptación
-[Waiting for connection...]
-Esperando por conexión...
-[Unable to initiate transfer.]
-No se puede iniciar la transferencia.
-[Contact menu]
-Menú de contacto
-[Open...]
-Abrir...
-[sec]
-seg
-[remaining]
-restante
-[Decision sent]
-Decisión enviada
-[Connecting...]
-Conectando...
-[Connecting to proxy...]
-Conectando al proxy...
-[Connected]
-Conectado
-[Initializing...]
-Inicializando...
-[Moving to next file...]
-Pasando al siguiente archivo...
-[Sending...]
-Enviando...
-[Receiving...]
-Recibiendo...
-[File transfer denied]
-Transferencia de archivo denegada
-[File transfer failed]
-Transferencia de archivos fallida
-[Transfer completed.]
-Transferencia finalizada.
-[Transfer completed, open file.]
-Transferencia finalizada, abrir archivo.
-[Transfer completed, open folder.]
-Transferencia finalizada, abrir carpeta.
-[Scanning for viruses...]
-Análisis en busca de virus...
-[Transfer and virus scan complete]
-Transferencia y Análisis en busca de virus finalizado
-[Outgoing]
-Saliendo
 [Message sessions]
 Sesiones de mensaje
 [Chat module]
@@ -1427,6 +1327,8 @@ Mostrar icono de cambio de nombre
 Mostrar icono de mensajes de información
 [Show icon for status changes]
 Mostrar icono de cambia de estado
+[Select folder]
+Seleccionar carpeta
 [Chat log]
 Registro de chat
 [The message send timed out.]
@@ -1451,6 +1353,8 @@ Mensaje entrante (10x10)
 Mensaje saliente (10x10)
 [File sent]
 Archivo enviado
+[File received]
+Archivo recibido
 [Outgoing messages]
 Mensajes salientes
 [Incoming messages]
@@ -1485,6 +1389,12 @@ Notificación de escritura
 %s está escribiendo un mensaje
 [Typing notification]
 Escribiendo notificación
+[Add contact permanently to list]
+Añadir contacto permanentemente a la lista
+[User menu]
+Menú del usuario
+[View user's details]
+Ver detalles del usuario
 [View user's history (Ctrl+H)]
 Ver historial del usuario (Ctrl+H)
 [&Bold]
@@ -1529,6 +1439,8 @@ Entrante (ventana enfocada)
 Entrante (ventana desenfocada)
 [Incoming (new session)]
 Entrante (nueva sesión)
+[Outgoing]
+Saliendo
 [Message send error]
 Enviar mensaje de error
 [Contact started typing]
@@ -1537,6 +1449,8 @@ El contacto ha comenzado a escribir
 El contacto dejó de escribir
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+[Error]
+Error
 [Popups]
 Ventanas emergentes
 [Settings]
@@ -1689,10 +1603,6 @@ Mensajes de información
 El usuario permite el estado de...
 [User disables status for ...]
 El usuario desactiva el estado de...
-[Action message]
-Mensaje de acción
-[Highlighted message]
-Mensaje seleccionado
 [Nick list members (online)]
 Miembros de la lista de usuarios (en línea)
 [Nick list members (away)]
@@ -1803,8 +1713,6 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
 [Database]
 Base de datos
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
-Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda no pudo abrir '%s', está en un formato desconocido.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -1835,6 +1743,90 @@ Sitio web
 Actividad de chat
 [Extra icons]
 Iconos adicionales
+[&File]
+&Archivo
+[File from %s]
+Archivo de %s
+[File &transfers...]
+&Transferencias de archivos...
+[Incoming]
+Entrante
+[Complete]
+Completo
+[Denied]
+Denegado
+[%s file]
+%s archivo
+[All files]
+Todos los archivos
+[Ask me]
+Preguntarme
+[Rename (append " (1)", etc.)]
+Renombrar (añadir " (1)", etc.)
+[Executable files]
+Archivos ejecutables
+[Events]
+Eventos
+[My received files]
+Mis archivos recibidos
+[View user's history]
+Ver historial del usuario
+[Canceled]
+Cancelado
+[%d files]
+%d Archivos
+[%d directories]
+%d directorios
+[bytes]
+bytes
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
+[of]
+de
+[Request sent, waiting for acceptance...]
+Solicitud enviada, en espera de la aceptación
+[Waiting for connection...]
+Esperando por conexión...
+[Unable to initiate transfer.]
+No se puede iniciar la transferencia.
+[Contact menu]
+Menú de contacto
+[Open...]
+Abrir...
+[sec]
+seg
+[remaining]
+restante
+[Decision sent]
+Decisión enviada
+[Connecting...]
+Conectando...
+[Connecting to proxy...]
+Conectando al proxy...
+[Connected]
+Conectado
+[Initializing...]
+Inicializando...
+[Moving to next file...]
+Pasando al siguiente archivo...
+[Sending...]
+Enviando...
+[Receiving...]
+Recibiendo...
+[File transfer denied]
+Transferencia de archivo denegada
+[File transfer failed]
+Transferencia de archivos fallida
+[Transfer completed.]
+Transferencia finalizada.
+[Transfer completed, open file.]
+Transferencia finalizada, abrir archivo.
+[Transfer completed, open folder.]
+Transferencia finalizada, abrir carpeta.
+[Scanning for viruses...]
+Análisis en busca de virus...
+[Transfer and virus scan complete]
+Transferencia y Análisis en busca de virus finalizado
 [You haven't filled in the search field. Please enter a search term and try again.]
 No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
 [Search]
@@ -2109,8 +2101,6 @@ Editar cuenta
 Actualizar cuenta
 [Account error]
 Error de cuenta
-[Account name has to be unique. Please enter unique name.]
-El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -2205,6 +2195,8 @@ Archivos WAV
 Apodo
 [Unique ID]
 ID único
+[on]
+Encendido
 [Download]
 Descargar
 [Look up '%s':]
@@ -3702,10 +3694,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms delay]
-ms de retardo
 [Show]
 Mostrar
 [icon when statuses differ]
@@ -3718,8 +3706,6 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[System tray icon]
-Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Contact list sorting]
@@ -4193,6 +4179,10 @@ Iconos adicionales
 (Contacto desconocido)
 [Main]
 Principal
+[%Default Skin%]
+%Piel por defecto%
+[Default Skin]
+Piel por defecto
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (gráficos), FYR (plantilla)
 [Inside library]
@@ -4209,10 +4199,6 @@ gráficos por Angeli-Ka\nplantilla por FYR
 Seleccione piel de la lista
 [Please select skin to apply]
 Por favor, seleccione piel a aplicar
-[Default Skin]
-Piel por defecto
-[%Default Skin%]
-%Piel por defecto%
 [<<Global>>]
 <<Global>>
 [Left]
@@ -4846,7 +4832,7 @@ Menú del usuario
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: borkra
 ;============================================================
 [Close]
@@ -5063,7 +5049,7 @@ Error
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.4
+;  Version: 0.96.4.1
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -5567,7 +5553,7 @@ Errores
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.2
+;  Version: 1.0.1.3
 ;  Authors: Mixwind
 ;============================================================
 [Name:]
@@ -5751,7 +5737,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.3
+;  Version: 0.96.3.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -5836,7 +5822,7 @@ Ver &historial
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.5
+;  Version: 1.6.0.6
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [Copy]
@@ -6347,7 +6333,7 @@ en el teléfono
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.0.0.1
+;  Version: 0.1.0.1
 ;  Authors: George Hazan
 ;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
@@ -7041,7 +7027,7 @@ Avatares
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -7060,16 +7046,18 @@ Opciones de registro
 Opciones
 [Templates]
 Plantillas
+[Incoming name]
+Nombre entrante
+[Outgoing name]
+Nombre saliente
 [Incoming messages]
 Mensajes entrantes
 [Outgoing messages]
 Mensajes salientes
 [Status changes]
 Cambios de estado
-[Incoming name]
-Nombre entrante
-[Outgoing name]
-Nombre saliente
+[Search]
+Buscar
 [FirstName]
 Nombre
 [LastName]
@@ -7102,6 +7090,10 @@ Enviar mensaje
 Menú del usuario
 [Complete]
 Completo
+[History]
+Historial
+[Download]
+Descargar
 [Edit]
 Editar
 [Delete]
@@ -7110,8 +7102,6 @@ Eliminar
 Seleccionar todo
 [Main icon]
 Icono principal
-[Search]
-Buscar
 [Incoming message]
 Mensaje entrante
 [Outgoing message]
@@ -7122,8 +7112,6 @@ Ayuda
 Restaurar por defecto
 [timestamp]
 Marca de tiempo
-[History]
-Historial
 [Advanced]
 Avanzado
 [Message log]
@@ -7311,7 +7299,7 @@ Icono principal
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.2
+;  Version: 0.2.3.3
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -7638,7 +7626,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.5
+;  Version: 0.2.1.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -8174,6 +8162,10 @@ Mostrar barra de título
 Mostrar barra de estado
 [Show avatars]
 Mostrar avatares
+[events]
+eventos
+[minutes]
+minutos
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show icons]
@@ -8182,10 +8174,6 @@ Mostrar iconos
 Mostrar segundos
 [Hide names]
 Ocultar nombres
-[events]
-eventos
-[minutes]
-minutos
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notifications when a user is typing a message]
@@ -9406,16 +9394,20 @@ Barra de herramientas
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Compatibilidad con el protocolo Steam para Miranda NG.
+[Username]
+Nombre de usuario
+[Password]
+Contraseña
+[Account]
+Cuenta
 [Username:]
 Usuario:
 [Password:]
 Contraseña:
-[Default group:]
-Grupo predeterminado:
-[Account]
-Cuenta
 [Contacts]
 Contactos
+[Default group:]
+Grupo predeterminado:
 [Use bigger avatars]
 Usar avatares grandes
 [Message sessions]
@@ -9434,8 +9426,6 @@ Nombre
 Red
 [Protocols]
 Protocolos
-[You cannot send messages when you are offline.]
-No puede enviar mensajes cuando no esté conectado.
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
@@ -9533,8 +9523,6 @@ Cancelar
 Eventos
 [Apply]
 Aplicar
-[Load history events]
-Cargar historial de eventos
 [Load unread events only]
 Cargar eventos sólo sin leer
 [Load number of previous events]
@@ -9543,6 +9531,8 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
+[Load history events]
+Cargar historial de eventos
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notification when no message dialog is open]
@@ -9553,8 +9543,8 @@ Eliminar
 Renombrar
 [milliseconds]
 milisegundos
-[Colors]
-Colores
+[Popups]
+Ventanas emergentes
 [Background]
 Fondo
 [Text]
@@ -9791,8 +9781,6 @@ Registro de mensaje
 Error
 [Contact]
 Contacto
-[Popups]
-Ventanas emergentes
 [Contact started typing]
 El contacto ha comenzado a escribir
 [Contact stopped typing]
@@ -9842,7 +9830,7 @@ segundos
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Window]
@@ -9883,26 +9871,6 @@ Estado
 Genero
 [Country flag]
 Bandera de País
-[Top]
-Superior
-[Center]
-Centro
-[Left]
-Izquierda
-[Right]
-Right
-[None]
-Ninguno
-[Appearance]
-Apariencia
-[Tooltips]
-Sugerencias
-[Customize]
-Personalizar
-[%s (locked)]
-%s (bloqueado)
-[Other]
-Otro
 [Account]
 Cuenta
 [Account:]
@@ -9925,6 +9893,26 @@ Nombre:
 Tiempo:
 [Visibility:]
 Visibilidad:
+[Top]
+Superior
+[Center]
+Centro
+[Left]
+Izquierda
+[Right]
+Right
+[None]
+Ninguno
+[Appearance]
+Apariencia
+[Tooltips]
+Sugerencias
+[Customize]
+Personalizar
+[%s (locked)]
+%s (bloqueado)
+[Other]
+Otro
 [Background]
 Fondo
 [Dividers]
@@ -10060,7 +10048,7 @@ Barra de herramientas
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Name:]
@@ -10443,7 +10431,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.5
+;  Version: 0.1.15.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10522,7 +10510,7 @@ Notificaciones
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.1
+;  Version: 0.1.3.2
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Colors]
@@ -11384,7 +11372,7 @@ Sonido de contacto personalizado
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Account]
@@ -11425,6 +11413,8 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
+[Show seconds]
+Mostrar segundos
 [Popup]
 Ventana emergente
 [Preview]

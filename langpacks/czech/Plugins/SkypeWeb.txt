@@ -161,8 +161,6 @@ Odblokovat kontakt
 [Create new chat]
 Založit novou diskusi
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
-[You cannot send when you are offline.]
-Nemůžete odesílat zprávy ve stavu offline.
 [Unknown error!]
 Neznámá chyba!
 [Network error!]

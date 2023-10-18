@@ -69,13 +69,6 @@
 ;file \protocols\Twitter\src\chat.cpp
 [Normal]
 Обычный
-;file \protocols\Twitter\src\connection.cpp
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (ещё раз с PIN-кодом)
-[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Не удалось получить токены доступа Twitter, отключитесь и попробуйте снова. Если это будет повторяться, проверьте соединение с Интернетом.
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
-В базе отсутствует настройка "Nick". Это не страшно, но чревато некоторыми ошибками (вы заметите самого себя в списке, отсутствие подсветки исходящих сообщений в групповых чатах). Чтобы это исправить, добавьте недостающую настройку самостоятельно или пересоздайте свою учётную запись в Miranda NG
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
 %s (сервер)
@@ -95,8 +88,6 @@ Twitter (аватары)
 Основные
 [Popups]
 Всплывающие окна
-[%s Protocol]
-Протокол %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 Все знают, что максимальная длина твита составляет 140 символов, почему вы пытаетесь втиснуть сюда %d?
 ;file \protocols\Twitter\src\theme.cpp
@@ -114,3 +105,6 @@ Twitter (аватары)
 Новый твит
 [Reply...]
 Ответ...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+Протокол %s

@@ -14,10 +14,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms delay]
-ms de retardo
 [Show]
 Mostrar
 [icon when statuses differ]
@@ -30,8 +26,6 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[System tray icon]
-Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Contact list sorting]

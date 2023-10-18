@@ -78,6 +78,18 @@ Scriver - за изпращане и получаване на съобщени�
 линии
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
+[Preload]
+Допълнително зареждани събития
+[Unread events only]
+Само непрочетени събития
+[Last]
+Последните
+[Events in the last]
+Събития от последните
+[events]
+събития
+[minutes]
+минути
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show icons]
@@ -104,22 +116,10 @@ Scriver - за изпращане и получаване на съобщени�
 Редове между съобщенията
 [Indent text]
 Отстъп на текста
-[Customize fonts and colors]
-Персонализиране на шрифтове и цветове
-[Preload]
-Допълнително зареждани събития
-[Unread events only]
-Само непрочетени събития
-[Last]
-Последните
-[Events in the last]
-Събития от последните
-[events]
-събития
-[minutes]
-минути
 [Automatically copy selected text]
 Автокопиране на маркирания текст
+[Customize fonts and colors]
+Персонализиране на шрифтове и цветове
 [Typing notification options]
 Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -395,6 +395,10 @@ KB
 Изходящо съобщение (10х10)
 [Notice (10x10)]
 Известие (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Window Icon]
 Икона на прозореца
 [Text color]
@@ -446,6 +450,8 @@ KB
 [Information (10x10)]
 Информация (10х10)
 [Single Messaging]
+
+[Group chat events]
 
 [Thai]
 тайски (тайландски)

@@ -78,6 +78,18 @@
 строк
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Допускаются переменные: %name% - имя контакта, %status% - его статус, %statusmsg% - сообщение статуса, %account% - имя учётной записи
+[Preload]
+Подгружать историю
+[Unread events only]
+Только непрочитанные события
+[Last]
+Последние
+[Events in the last]
+События полученные позже, чем
+[events]
+событий
+[minutes]
+минут
 [Message window event log]
 Журнал окна сообщений
 [Show icons]
@@ -104,22 +116,10 @@
 Линии между сообщениями
 [Indent text]
 Отступ текста
-[Customize fonts and colors]
-Настроить шрифты и цвета
-[Preload]
-Подгружать историю
-[Unread events only]
-Только непрочитанные события
-[Last]
-Последние
-[Events in the last]
-События полученные позже, чем
-[events]
-событий
-[minutes]
-минут
 [Automatically copy selected text]
 Автоматически копировать выделенный текст
+[Customize fonts and colors]
+Настроить шрифты и цвета
 [Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]

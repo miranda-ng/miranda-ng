@@ -1,3 +1,5 @@
+[Default group]
+[Device name]
 [Show chat state events (i.e., user closed chat session)]
 [Error limit before logout:]
 [Captcha]
@@ -16,7 +18,6 @@
 [%s is back in your contact list]
 [%s has been removed from your contact list]
 [%s has added you to contact list]
-[Cannot obtain connection token.]
 [Steam menu chooser]
 [Unblock]
 [Join to game]

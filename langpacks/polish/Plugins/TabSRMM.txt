@@ -268,6 +268,14 @@ Spróbuj utrzymać oryginalny rozmiar
 Pomoc na ten temat
 [Reset all hidden warnings]
 Resetuj wszystkie ostrzeżenia
+[Load unread events only]
+Tylko nieprzeczytane zdarzenia
+[Load number of previous events]
+Ilość zdarzeń do wczytania
+[Load previous events less than]
+Wczytaj zdarzenia nowsze niż
+[minutes old]
+minut(y)
 [Indent values]
 Wartości wcięcia
 [Left/Right]
@@ -282,14 +290,6 @@ Standardowe szablony...
 Szablony RTL...
 [Load history events]
 Wczytaj zdarzenia z historii
-[Load unread events only]
-Tylko nieprzeczytane zdarzenia
-[Load number of previous events]
-Ilość zdarzeń do wczytania
-[Load previous events less than]
-Wczytaj zdarzenia nowsze niż
-[minutes old]
-minut(y)
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ Ustawienia Windows Aero
 Użyj elementów UI Aero (tylko, gdy nie jest używana niestandardowa skórka)
 [Use Windows 7 task bar enhancements (restart required)]
 Użyj paska zadań Windows 7 (wymaga ponownego uruchomienia)
-[Colors]
-Kolory
+[Popups]
+Powiadomienia
 [...is &typing]
 ...&pisze wiadomość
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ Zezwól na formatowanie BBCode w wiadomościach wychodzących
 Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożnie)
 [Use the same splitter height for all sessions]
 Użyj tej samej wysokości separatora dla wszystkich sesji
-[Automatically copy selected text]
-Automatycznie kopiuj zaznaczony tekst
 [Test contact]
 Testowy kontakt
 [Template set editor]
@@ -1462,20 +1460,24 @@ Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy.
 Wygląd dziennika wiadomości
 [Draw grid lines]
 Rysuj linie dzielące zdarzenia w dzienniku
-[Log status changes]
-Pokazuj zmiany statusu
 [Use message grouping]
 Grupuj wiadomości
 [Simple text formatting (*bold*, etc.)]
 Proste formatowanie tekstu (*pogrubienie* itp.)
 [Support BBCode formatting]
 Wspieraj formatowanie BBCode
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
+[Message log control]
+
+[Log status changes]
+Pokazuj zmiany statusu
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
 [Place a separator in the log after a window lost its foreground status]
 Wstawiaj separatory w nieaktywnych sesjach
 [Only place a separator when an incoming event is announced with a popup]
 Umieść separator tylko wtedy, gdy nadchodzące zdarzenie jest ogłaszane za pomocą powiadomień
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
 [Support for external plugins]
 Wsparcie dla zewnętrznych wtyczek
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1575,7 +1577,7 @@ Wczytaj i zastosuj
 [Window layout tweaks]
 Wygląd kart
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 Opcje dziennika wiadomości
 [Image tag]
 Tag obrazka
@@ -1615,7 +1617,7 @@ Wychodząca wiadomość
 Zmiana statusu
 [Secure message]
 
-[Secure message (verified)]
+[Secure verified message]
 
 [Static container icon]
 Statyczna ikona kontenera
@@ -1645,8 +1647,6 @@ Animacja w zasobniku
 Symbol zegara (w panelu informacyjnym)
 [Feature disabled (used as overlay)]
 Funkcja wyłączona (używany jako nakładka)
-[Feature enabled (used as overlay)]
-Funkcja włączona (używany jako nakładka)
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Okno rozmowy - IM
@@ -1774,8 +1774,6 @@ Zmień skórkę
 ...przestał pisać.
 [...is typing a message.]
 ...pisze wiadomość
-[Popups]
-Powiadomienia
 [Typing notifications]
 Powiadomienia o pisaniu
 [Contact started typing]

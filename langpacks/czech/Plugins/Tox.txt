@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -38,10 +38,6 @@ Možnosti připojení
 Povolit UDP (jinak vynutí použití TCP)
 [Enable IPv6]
 Povolit IPv6
-[Max connect retries:]
-
-[Max reconnect retries:]
-
 [Enable UDP hole-punching]
 
 [Enable local network peer discovery]
@@ -85,6 +81,9 @@ Nové heslo znovu:
 Složka s profily
 [Tox link protocol]
 Odkaz protokolu Tox
+;file \protocols\Tox\src\tox_core.cpp
+[Unable to initialize Tox core]
+Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -102,8 +101,6 @@ Heslo
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Akce
-[You cannot send when you are offline.]
-Nemůžete odesílat zprávy ve stavu offline.
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox profil
@@ -159,8 +156,6 @@ Nelze dešifrovat profil Tox
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu
-[Unable to initialize Tox core]
-Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Dotaz

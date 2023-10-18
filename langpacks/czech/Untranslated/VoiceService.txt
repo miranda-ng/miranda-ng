@@ -20,6 +20,7 @@
 [%s with %s]
 [with %s]
 [Dialpad press]
+[Open call window]
 [Voice call ringing]
 [Voice call busy]
 [Voice call ready]

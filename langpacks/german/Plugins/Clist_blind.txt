@@ -14,10 +14,6 @@ Kontakte nach Name sortieren
 Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
-[Disable icon blinking]
-Iconblinken deaktivieren
-[ms delay]
-ms Frequenz
 [Show]
 Zeige
 [icon when statuses differ]
@@ -30,8 +26,6 @@ Sekunden, wenn Status unterschiedlich
 Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur, wenn Status untersch.
-[System tray icon]
-Systemtray-Icon
 [System tray icon when using multiple protocols]
 Systemtray-Icon bei Benutzung mehrerer Protokolle
 [Contact list sorting]

@@ -750,6 +750,10 @@ xСтатус: xПовідомлення
 [Show/Hide offline users]
 Показати/сховати відключених
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Стандартний скін%
+[Default Skin]
+Стандартний скін
 [( unknown )]
 (невідомо)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Виберіть скін зі списку
 [Please select skin to apply]
 Будь ласка, виберіть скін
-[Default Skin]
-Стандартний скін
-[%Default Skin%]
-%Стандартний скін%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

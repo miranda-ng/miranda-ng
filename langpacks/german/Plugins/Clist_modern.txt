@@ -750,6 +750,10 @@ Letzten Status wiederherstellen
 [Show/Hide offline users]
 Offline-Kontakte anzeigen/verbergen
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+Standardskin
+[Default Skin]
+Standardskin
 [( unknown )]
 ( unbekannt )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Grafiken von Angeli-Ka\nVorlage von FYR
 Skin aus der Liste wählen
 [Please select skin to apply]
 Bitte einen Skin zum Übernehmen wählen
-[Default Skin]
-Standardskin
-[%Default Skin%]
-Standardskin
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

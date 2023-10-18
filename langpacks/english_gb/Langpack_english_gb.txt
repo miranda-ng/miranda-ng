@@ -8,7 +8,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.3
+;  Version: 0.96.4
 ;============================================================
 [Minimize to tray]
 Minimise to tray
@@ -20,8 +20,6 @@ Background colour
 Selection colour
 [Use Windows colors]
 Use Windows colours
-[Minimize the file transfer window]
-Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
 [Text color:]
@@ -54,12 +52,8 @@ Add to contact list if authorised
 Use default colours
 [Use custom colors]
 Use custom colours
-[This file transfer has been canceled by the other side]
-This file transfer has been cancelled by the other side
-[Canceled]
-Cancelled
-[Initializing...]
-Initialising...
+[Minimize the file transfer window]
+Minimise the file transfer window
 [Timestamp has same color as the event]
 Timestamp has same colour as the event
 [Strip colors from messages in the log]
@@ -82,6 +76,12 @@ Please authorise my request and add me to your contact list.
 %u requests authorisation
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
+[This file transfer has been canceled by the other side]
+This file transfer has been cancelled by the other side
+[Canceled]
+Cancelled
+[Initializing...]
+Initialising...
 [Customize]
 Customise
 [Request authorization]
@@ -391,7 +391,7 @@ Set popup colours
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: borkra
 ;============================================================
 #muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
@@ -474,7 +474,7 @@ Text colour
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.2.4
+;  Version: 0.96.4.1
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -626,7 +626,7 @@ Send messages slower, but with full acknowledgement
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.2
+;  Version: 1.0.1.3
 ;  Authors: Mixwind
 ;============================================================
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
@@ -716,7 +716,7 @@ Customise
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.3
+;  Version: 0.96.3.4
 ;  Authors: George Hazan
 ;============================================================
 ;#muuid for ICQCorp not found, please specify manually!
@@ -737,7 +737,7 @@ Customise
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.5
+;  Version: 1.6.0.6
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [ requested authorization]
@@ -814,7 +814,7 @@ Travelling
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.0.0.1
+;  Version: 0.1.0.1
 ;  Authors: George Hazan
 ;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
@@ -1022,7 +1022,7 @@ Visualisation
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
@@ -1060,7 +1060,7 @@ Use default colours
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.2
+;  Version: 0.2.3.3
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 #muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
@@ -1145,7 +1145,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.5
+;  Version: 0.2.1.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Colors]
@@ -1540,8 +1540,6 @@ Play sounds when minimised
 Esc key behaviour
 [Use contact list groups for organizing tabs (one window per group)]
 Use contact list groups for organising tabs (one window per group)
-[Colors]
-Colours
 [Use &Windows colors]
 Use &Windows colours
 [Define up to 5 colors which you can use with some variables]
@@ -1609,7 +1607,7 @@ Loading a theme|Loading a colour and font theme can overwrite the settings defin
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Enable skin coloring]
@@ -1653,7 +1651,7 @@ Minimise contact list
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.2
+;  Version: 0.96.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Unable to initialize Tox core]
@@ -1691,8 +1689,6 @@ Use Windows colours
 Use default colours
 [Use custom colors]
 Use custom colours
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)
 [Unable to initialize Netlib for %s.]
 Unable to initialise Netlib for %s.
 #muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
@@ -1744,7 +1740,7 @@ Mail order catalogue
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.5
+;  Version: 0.1.15.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]
@@ -1753,7 +1749,7 @@ Please authorise me to add you to my friend list.
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.1
+;  Version: 0.1.3.2
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Colors]
@@ -1925,7 +1921,7 @@ Authorisation request
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.7
+;  Version: 0.2.1.1
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Show long localized date]

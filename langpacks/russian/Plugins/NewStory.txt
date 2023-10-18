@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -33,7 +33,7 @@
 [Draw window edge]
 Отрисовывать границу окна
 [Ascending events sort order]
-
+Сортировать события по возрастанию даты
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -110,13 +110,13 @@
 Без имени
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
-
+Поставить/убрать закладку
 [Search]
 Найти
 [Search forward]
-
+Найти дальше
 [Search backward]
-
+Найти предыдущее
 [Are you sure to remove selected event(s)?]
 Уверены, что хотите удалить выбранные события?
 ;file \plugins\NewStory\src\history_dlg.cpp
@@ -169,9 +169,9 @@
 [Conversations]
 Беседы
 [No more occuurences found]
-
+Больше вхождений не найдено
 [Passed the end of history]
-
+Пройден конец истории
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Это метаконтакт. Для экспорта выберите один из его субконтактов:\r\n%s
 [Export warning]
@@ -185,18 +185,20 @@
 [History export]
 Экспорт истории
 [Passed the beginning of history]
-
+Пройдено начало истории
 ;file \plugins\NewStory\src\history_menus.cpp
 [Copy file name]
 Копировать имя файла
 [Copy URL]
 Копировать ссылку
-[User history]
-История пользователя
+[History]
+История
 [Global search]
-
+Поиск по всей истории
 [Copy text]
 Копировать текст
+[Quote]
+Цитата
 [Save as]
 Сохранить как
 [Download]
@@ -279,8 +281,6 @@
 название месяца
 [the message string itself]
 текст сообщения
-[History]
-История
 [Advanced]
 Дополнительно
 ;file \plugins\NewStory\src\templates.cpp

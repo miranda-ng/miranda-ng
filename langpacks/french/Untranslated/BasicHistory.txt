@@ -63,7 +63,7 @@
 [File does not contain selected contact]
 [File is corrupted]
 [Send message]
-[Delete all user history]
+[Delete all contact history]
 [Filters]
 [Rich HTML]
 [Plain HTML]

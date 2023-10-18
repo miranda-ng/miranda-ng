@@ -206,7 +206,7 @@ Enviar mensaje
 
 [Delete group]
 Eliminar grupo
-[Delete all user history]
+[Delete all contact history]
 
 [Options]
 Opciones

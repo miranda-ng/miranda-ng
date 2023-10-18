@@ -206,8 +206,8 @@ Nachricht senden
 Mit Zitat antworten
 [Delete group]
 Gruppe löschen
-[Delete all user history]
-Kompletten Benutzerverlauf löschen
+[Delete all contact history]
+
 [Options]
 Einstellungen
 [Filters]

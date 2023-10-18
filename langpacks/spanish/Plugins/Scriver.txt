@@ -78,6 +78,18 @@ Mostrar avatares
 
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
+[Preload]
+
+[Unread events only]
+
+[Last]
+
+[Events in the last]
+
+[events]
+eventos
+[minutes]
+minutos
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show icons]
@@ -104,21 +116,9 @@ Ocultar nombres
 
 [Indent text]
 
-[Customize fonts and colors]
-
-[Preload]
-
-[Unread events only]
-
-[Last]
-
-[Events in the last]
-
-[events]
-eventos
-[minutes]
-minutos
 [Automatically copy selected text]
+
+[Customize fonts and colors]
 
 [Typing notification options]
 
@@ -395,6 +395,10 @@ Mensaje entrante (10x10)
 Mensaje saliente (10x10)
 [Notice (10x10)]
 Anuncio (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Window Icon]
 Icono de ventana
 [Text color]
@@ -446,6 +450,8 @@ Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
 [Single Messaging]
+
+[Group chat events]
 
 [Thai]
 

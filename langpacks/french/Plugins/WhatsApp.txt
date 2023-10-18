@@ -16,9 +16,9 @@ Support du protocole WhatsApp pour Miranda NG.
 Pseudo :
 [Default group:]
 Groupes :
-[Do not open chat windows on creation]
-
 [Device name:]
+
+[Do not open chat windows on creation]
 
 [Use BBCode]
 

@@ -206,8 +206,8 @@
 Відповісти з &цитатою
 [Delete group]
 Видалення групи
-[Delete all user history]
-Видалити всю історію користувача
+[Delete all contact history]
+
 [Options]
 Налаштування
 [Filters]

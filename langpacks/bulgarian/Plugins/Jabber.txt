@@ -508,8 +508,6 @@ Jabber настроение
 Получава информация за дейността на потребителите
 [Supports Miranda NG notes extension]
 
-[Supports Jingle]
-Поддържа Jingle
 [Supports Roster Exchange]
 Поддържа обмяна на списъци с хора
 [Supports direct chat invitations (XEP-0249)]
@@ -518,13 +516,7 @@ Jabber настроение
 
 [Supports message carbons (XEP-0280)]
 
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-
-[Jingle DTLS]
-
-[Jingle RTP Audio]
+[Supports offline messages (XEP-0160)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1458,8 +1450,6 @@ Jabber източник
 Поправяне на грешните времеви марки във входящите съобщения
 [Enable XMPP link processing (requires AssocMgr)]
 Асоцииране с XMPP връзки (изисква приставка AssocMgr)
-[Embrace picture URLs with [img]]
-
 [Ignore server roster (groups and nick names)]
 
 [Security]
@@ -1669,8 +1659,6 @@ S.ms
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 
-[Protocol is offline or no JID]
-Протоколът е "Извън линия" или няма JID
 [No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ XML (кодиран с UTF-8)
 Грешка: Недостатъчна памет
 [Error: Cannot connect to the server]
 Грешка: Свързването със сървъра е невъзможно
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Грешка: Връзката е изгубена
@@ -1941,9 +1929,6 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

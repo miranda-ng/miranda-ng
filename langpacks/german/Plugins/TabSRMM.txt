@@ -268,6 +268,14 @@ Versuche Originalgröße beizubehalten
 Hilfe hierzu
 [Reset all hidden warnings]
 'Warnung nicht wieder zeigen' zurücksetzen
+[Load unread events only]
+Nur ungelesene Ereignisse laden
+[Load number of previous events]
+Lade Anzahl vorheriger Ereignisse
+[Load previous events less than]
+Lade Ereignisse, die nicht älter als
+[minutes old]
+Minuten alt
 [Indent values]
 Texteinrückung
 [Left/Right]
@@ -282,14 +290,6 @@ Normale Vorlagen...
 RTL-Vorlagen...
 [Load history events]
 Vergangene Ereignisse laden
-[Load unread events only]
-Nur ungelesene Ereignisse laden
-[Load number of previous events]
-Lade Anzahl vorheriger Ereignisse
-[Load previous events less than]
-Lade Ereignisse, die nicht älter als
-[minutes old]
-Minuten alt
 [Typing notification options]
 Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ Windows-Aero-Einstellungen
 Aero-UI-Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
 [Use Windows 7 task bar enhancements (restart required)]
 Windows-7-Taskleisten-Funktionen verwenden (Neustart nötig)
-[Colors]
-Farben
+[Popups]
+Popups
 [...is &typing]
 ...&tippt gerade
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ BBCode-Formatierung in ausgehenden Nachrichten erlauben
 Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
 [Use the same splitter height for all sessions]
 Selbe Trennerhöhe für alle Sitzungen verwenden
-[Automatically copy selected text]
-Markierten Text automatisch kopieren
 [Test contact]
 Test-Kontakt
 [Template set editor]
@@ -1462,20 +1460,24 @@ Alle Vorlagen wurden erfolgreich zurückgesetzt, bitte schließen Sie alle offen
 Verlaufseinstellungen
 [Draw grid lines]
 Gitterlinien zeigen
-[Log status changes]
-Statuswechsel aufzeichnen
 [Use message grouping]
 Nachrichten gruppieren
 [Simple text formatting (*bold*, etc.)]
 Einfache Textformatierung (*fett* etc.)
 [Support BBCode formatting]
 BBCode-Formatierung verwenden
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
+[Message log control]
+
+[Log status changes]
+Statuswechsel aufzeichnen
+[Automatically copy selected text]
+Markierten Text automatisch kopieren
 [Place a separator in the log after a window lost its foreground status]
 Einen Abstandshalter im Verlauf platzieren, wenn ein Fenster den Fokus verliert
 [Only place a separator when an incoming event is announced with a popup]
 Abstandshalter nur dann platzieren wenn eingehendes Ereignis mit einem Popup angekündigt wird
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
 [Support for external plugins]
 Unterstützung für externe Plugins
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1575,7 +1577,7 @@ Laden und Übernehmen
 [Window layout tweaks]
 Fenster-Anordnung
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 Verlaufseinstellungen
 [Image tag]
 Bild Tag
@@ -1615,8 +1617,8 @@ Ausgehende Nachricht
 Statusänderung
 [Secure message]
 Sichere Nachricht
-[Secure message (verified)]
-Sichere Nachricht (verifiziert)
+[Secure verified message]
+
 [Static container icon]
 Statisches Containericon
 [Sounds (status bar)]
@@ -1645,8 +1647,6 @@ Animierter Tray
 Uhrsymbol (für die Uhr im Infopanel)
 [Feature disabled (used as overlay)]
 Funktion deaktiviert (als Overlay)
-[Feature enabled (used as overlay)]
-Funktion aktiviert (als Overlay)
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Nachrichtenfenster - Direktnachrichten
@@ -1774,8 +1774,6 @@ Skin ändern
 ...tippt nicht mehr.
 [...is typing a message.]
 ...tippt gerade eine Nachricht.
-[Popups]
-Popups
 [Typing notifications]
 Tipphinweis
 [Contact started typing]

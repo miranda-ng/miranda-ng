@@ -206,8 +206,8 @@ Wyślij wiadomość
 Odpowiedz &cytując
 [Delete group]
 Usuń grupę
-[Delete all user history]
-Usuń całą historię
+[Delete all contact history]
+
 [Options]
 Opcje
 [Filters]

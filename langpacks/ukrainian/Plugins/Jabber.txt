@@ -508,8 +508,6 @@ xHTML-формат повідомлень чату
 Прийом інформації про заняття користувача
 [Supports Miranda NG notes extension]
 Підтримка нотаток Miranda NG
-[Supports Jingle]
-Підтримка Jingle
 [Supports Roster Exchange]
 Підтримка Roster Exchange
 [Supports direct chat invitations (XEP-0249)]
@@ -518,13 +516,7 @@ xHTML-формат повідомлень чату
 Прийом інформації про пристрої OMEMO
 [Supports message carbons (XEP-0280)]
 
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-
-[Jingle DTLS]
-
-[Jingle RTP Audio]
+[Supports offline messages (XEP-0160)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1458,8 +1450,6 @@ xHTML-формат повідомлень чату
 Виправляти час у вхідних повідомленнях
 [Enable XMPP link processing (requires AssocMgr)]
 Обробляти XMPP-посилання (потрібен плагін AssocMgr)
-[Embrace picture URLs with [img]]
-
 [Ignore server roster (groups and nick names)]
 
 [Security]
@@ -1669,8 +1659,6 @@ Hipchat
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 
-[Protocol is offline or no JID]
-Протокол не в мережі або JID немає
 [No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ XML (кодування UTF-8)
 Помилка: Не вистачає пам'яті
 [Error: Cannot connect to the server]
 Помилка: Неможливо підключитися до серверу
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Помилка: З'єднання втрачено
@@ -1941,9 +1929,6 @@ Jabber vCard: редагування телефону
 Контакти
 [Note]
 Нотатка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <розширений статус>

@@ -508,8 +508,6 @@ xHTML фармат чат-паведамленняў
 Прыём інфармацыі пра занятак кантакта
 [Supports Miranda NG notes extension]
 Падтрымка нататак Miranda
-[Supports Jingle]
-Падтрымка Jingle
 [Supports Roster Exchange]
 Падтрымка абмена росцера
 [Supports direct chat invitations (XEP-0249)]
@@ -518,13 +516,7 @@ xHTML фармат чат-паведамленняў
 
 [Supports message carbons (XEP-0280)]
 
-[Jingle ICE-UDP Transport]
-
-[Jingle RTP]
-
-[Jingle DTLS]
-
-[Jingle RTP Audio]
+[Supports offline messages (XEP-0160)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1458,8 +1450,6 @@ Jabber Рэсурс
 Выпраўляць час ва ўваходных паведамленнях
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
-[Embrace picture URLs with [img]]
-
 [Ignore server roster (groups and nick names)]
 
 [Security]
@@ -1669,8 +1659,6 @@ S.ms
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 
-[Protocol is offline or no JID]
-Конт не далучаны ці няма JID.
 [No valid OMEMO session exists]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1794,7 +1782,7 @@ XML (кадзіроўка UTF-8)
 Памылка: Не хапае памяці
 [Error: Cannot connect to the server]
 Памылка: Немагчыма далучыцца ды сервера
-[SSL intialization failed]
+[SSL initialization failed]
 
 [Error: Connection lost]
 Памылка: Злучэнне страчана
@@ -1941,9 +1929,6 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Client's program does not support voice calls]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

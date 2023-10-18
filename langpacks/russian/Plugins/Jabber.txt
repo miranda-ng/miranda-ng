@@ -516,6 +516,8 @@ xHTML формат чат сообщений
 Получение сведений об устройствах OMEMO
 [Supports message carbons (XEP-0280)]
 Поддержка копирования сообщений на все ресурсы (XEP-0280)
+[Supports offline messages (XEP-0160)]
+Поддержка оффлайн-сообщений (XEP-0160)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
@@ -1657,8 +1659,6 @@ S.ms
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
 Уведомления об ошибках %s
-[Protocol is offline or no JID]
-Протокол не в сети или нет JID
 [No valid OMEMO session exists]
 Не существует действительной сессии OMEMO
 ;file \protocols\JabberG\src\jabber_rc.cpp

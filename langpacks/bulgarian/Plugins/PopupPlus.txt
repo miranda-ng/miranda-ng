@@ -403,5 +403,3 @@ Popup режим: Автоматичен
 Popup режим: Любим
 [Popup Mode: Ignore fullscreen]
 Popup режим: Игнориране на режим "цял екран"
-[Popup Mode: Block contact]
-Popup режим: Блокиране на контакта

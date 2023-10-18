@@ -19,6 +19,7 @@
 [SuperAdmin]
 [&Leave chat session]
 [Telegram Premium user]
+[Reaction]
 [%d member(s)]
 [Saved messages]
 [Chat rooms]

@@ -750,6 +750,10 @@ Przywróć ostatni status
 [Show/Hide offline users]
 Pokaż/ukryj rozłączonych
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[%Default Skin%]
+%Domyślna skórka%
+[Default Skin]
+Domyślna skórka
 [( unknown )]
 ( nieznany )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -776,10 +780,6 @@ Grafika: Angeli-Ka\nSzablon: FYR
 Wybierz skórkę z listy
 [Please select skin to apply]
 Wybierz skórkę do użycia
-[Default Skin]
-Domyślna skórka
-[%Default Skin%]
-%Domyślna skórka%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]

@@ -21,7 +21,6 @@
 [Notification icon]
 [Error icon]
 [Action icon]
-[You cannot send when you are offline.]
 [Calls]
 [Incoming call canceled]
 [Skypename]

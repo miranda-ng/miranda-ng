@@ -78,6 +78,18 @@ Taille min de la zone d'entrée
 lignes
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
+[Preload]
+Historique
+[Unread events only]
+Événements non lus seulement
+[Last]
+Derniers
+[Events in the last]
+Événements dans les dernières
+[events]
+Évènements
+[minutes]
+minutes
 [Message window event log]
 Zone de texte de la Fenêtre
 [Show icons]
@@ -104,22 +116,10 @@ Nouveau message sur une nouvelle ligne
 Afficher des lignes entre les messages
 [Indent text]
 Décalage du texte
-[Customize fonts and colors]
-Personnaliser les polices et les couleurs
-[Preload]
-Historique
-[Unread events only]
-Événements non lus seulement
-[Last]
-Derniers
-[Events in the last]
-Événements dans les dernières
-[events]
-Évènements
-[minutes]
-minutes
 [Automatically copy selected text]
 Copier le texte sélectionné
+[Customize fonts and colors]
+Personnaliser les polices et les couleurs
 [Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -395,6 +395,10 @@ Message entrant (10x10)
 Message sortant (10x10)
 [Notice (10x10)]
 Note (10x10)
+[Secure message (10x10)]
+
+[Secure verified message (10x10)]
+
 [Window Icon]
 Icônes de la fenêtre
 [Text color]
@@ -446,6 +450,8 @@ Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
 [Single Messaging]
+
+[Group chat events]
 
 [Thai]
 Thaïlandais

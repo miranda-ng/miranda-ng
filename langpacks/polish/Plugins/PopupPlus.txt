@@ -403,5 +403,3 @@ Tryb powiadomień: Auto
 Tryb powiadomień: Ulubione
 [Popup Mode: Ignore fullscreen]
 Tryb powiadomień: Ignoruj pełny ekran
-[Popup Mode: Block contact]
-Tryb powiadomień: Zablokuj kontakt

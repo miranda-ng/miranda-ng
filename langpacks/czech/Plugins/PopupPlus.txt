@@ -403,5 +403,3 @@ Režim oznámení: Výchozí
 Režim oznámení: Oblíbený kontakt
 [Popup Mode: Ignore fullscreen]
 Režim oznámení: Ignorovat celoobrazovkový režim
-[Popup Mode: Block contact]
-Režim oznámení: Blokovat kontakt

@@ -1,7 +1,7 @@
 [Link a device]
 [Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
-[Do not open chat windows on creation]
 [Device name:]
+[Do not open chat windows on creation]
 [Use BBCode]
 [Log out]
 [Choose a user]

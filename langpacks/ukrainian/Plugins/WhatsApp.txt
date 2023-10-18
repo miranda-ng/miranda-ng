@@ -16,10 +16,10 @@
 Нік:
 [Default group:]
 Група:
-[Do not open chat windows on creation]
-Не відкривати вікно чату при створенні
 [Device name:]
 
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
 [Use BBCode]
 Підтримка BBCode
 [Log out]

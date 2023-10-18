@@ -16,10 +16,10 @@ WhatsApp protokol pro Mirandu NG.
 Přezdívka:
 [Default group:]
 Výchozí skupina:
-[Do not open chat windows on creation]
-Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Device name:]
 
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Use BBCode]
 Použít BBCode
 [Log out]

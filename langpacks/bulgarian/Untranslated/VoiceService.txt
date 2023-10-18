@@ -43,6 +43,7 @@
 [%s with %s]
 [with %s]
 [Dialpad press]
+[Open call window]
 [Auto actions]
 [Voice call started]
 [Voice call ringing]

@@ -69,8 +69,6 @@ Previsualizar
 
 [Background color]
 Color de fondo
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 
@@ -97,6 +95,8 @@ General
 [%s global smiley pack]
 
 [Standard]
+
+[Emoji]
 
 [Regular expression "%s" in smiley pack "%s" malformed.]
 

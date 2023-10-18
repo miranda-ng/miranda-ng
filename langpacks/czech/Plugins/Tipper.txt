@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -192,12 +192,6 @@ Připojit název protokolu
 [Tipper smileys]
 Smajlíky v tipech
 ;file \plugins\TipperYM\src\options.cpp
-[Show for all contact types]
-Zobrazit pro všechny typy kontaktů
-[Show only for contacts]
-Zobrazit pouze pro kontakty
-[Show only for chatrooms]
-Zobrazit pouze pro skupinové rozhovory
 [Number of contacts]
 Počet kontaktů
 [Protocol lock status]
@@ -226,102 +220,6 @@ Pohlaví
 Vlajka státu
 [Client]
 Klient
-[You must enter a label]
-Musíte zadat titulek
-[Invalid Substitution]
-Neplatná substituce
-[<No Label>]
-<bez titulku>
-[Add item]
-Přidat položku
-[No icon]
-Bez ikony
-[Icon on left]
-Ikona vlevo
-[Icon on right]
-Ikona vpravo
-[Bottom right]
-Vpravo dole
-[Bottom left]
-Vlevo dole
-[Top right]
-Vpravo nahoře
-[Top left]
-Vlevo nahoře
-[Top]
-Nahoře
-[Center]
-Na střed
-[Bottom]
-Dole
-[Left]
-Vlevo
-[Right]
-Vpravo
-[No avatar]
-Bez avataru
-[Left avatar]
-Avatar vlevo
-[Right avatar]
-Avatar vpravo
-[Max avatar size:]
-Maximální rozměr avatara:
-[None]
----
-[Animation]
-Animace
-[Fade]
-Slábnutí
-[Appearance]
-Vzhled
-[Tooltips]
-Tipy
-[Customize]
-Vlastní úpravy
-[Content]
-Obsah
-[Tray tooltip]
-Oznamovací oblast
-[Extra]
-Další
-;file \plugins\TipperYM\src\popwin.cpp
-[%s (locked)]
-%s (uzamčený)
-[%s ago]
-před %s
-[Log on:]
-Přihlášení:
-[Unread emails:]
-Nepřečtené e-maily:
-[Status:]
-Stav:
-[Status message:]
-Zpráva stavu:
-[Mood:]
-Nálada:
-[xStatus:]
-Rozšířený stav:
-[Activity:]
-Činnost:
-[Listening to:]
-Poslech hudby:
-[Copy all items with labels]
-Zkopírovat všechny položky s názvy
-[Copy all items]
-Zkopírovat všechny položky
-[Copy avatar]
-Zkopírovat avatar
-[<No Label>: ]
-<bez titulku>:\s
-[<No Value>]
-<bez hodnoty>
-[Fav. contacts]
-Oblíbené kontakty
-[Other]
-Ostatní
-[Miranda uptime:]
-Doba běhu Mirandy:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Účet
 [Account:]
@@ -356,6 +254,8 @@ IP interní:
 Poslední zpráva
 [Last message: (%sys:last_msg_reltime% ago)]
 Poslední zpráva: (před %sys:last_msg_reltime%)
+[Listening to:]
+Poslech hudby:
 [Name]
 Jméno
 [Name:]
@@ -368,6 +268,10 @@ Počet zpráv [přijatých]:
 Počet odeslaných zpráv
 [Number of msg [OUT]:]
 Počet zpráv [odeslaných]:
+[Status:]
+Stav:
+[Status message:]
+Zpráva stavu:
 [Contact time]
 Čas
 [Time:]
@@ -444,6 +348,101 @@ Viditelnost:
 \[weather.dll] Vítr
 [Wind:]
 Vítr:
+[Show for all contact types]
+Zobrazit pro všechny typy kontaktů
+[Show only for contacts]
+Zobrazit pouze pro kontakty
+[Show only for chatrooms]
+Zobrazit pouze pro skupinové rozhovory
+[You must enter a label]
+Musíte zadat titulek
+[Invalid Substitution]
+Neplatná substituce
+[<No Label>]
+<bez titulku>
+[Add item]
+Přidat položku
+[No icon]
+Bez ikony
+[Icon on left]
+Ikona vlevo
+[Icon on right]
+Ikona vpravo
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoře
+[Top left]
+Vlevo nahoře
+[Top]
+Nahoře
+[Center]
+Na střed
+[Bottom]
+Dole
+[Left]
+Vlevo
+[Right]
+Vpravo
+[No avatar]
+Bez avataru
+[Left avatar]
+Avatar vlevo
+[Right avatar]
+Avatar vpravo
+[Max avatar size:]
+Maximální rozměr avatara:
+[None]
+---
+[Animation]
+Animace
+[Fade]
+Slábnutí
+[Appearance]
+Vzhled
+[Tooltips]
+Tipy
+[Customize]
+Vlastní úpravy
+[Content]
+Obsah
+[Tray tooltip]
+Oznamovací oblast
+[Extra]
+Další
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (uzamčený)
+[%s ago]
+před %s
+[Log on:]
+Přihlášení:
+[Unread emails:]
+Nepřečtené e-maily:
+[Mood:]
+Nálada:
+[xStatus:]
+Rozšířený stav:
+[Activity:]
+Činnost:
+[Copy all items with labels]
+Zkopírovat všechny položky s názvy
+[Copy all items]
+Zkopírovat všechny položky
+[Copy avatar]
+Zkopírovat avatar
+[<No Label>: ]
+<bez titulku>:\s
+[<No Value>]
+<bez hodnoty>
+[Fav. contacts]
+Oblíbené kontakty
+[Other]
+Ostatní
+[Miranda uptime:]
+Doba běhu Mirandy:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Vyplnění plnou barvou

@@ -5,7 +5,6 @@
 [&Invite a user]
 [&Leave/destroy chat]
 [&Kick user]
-[Protocol is offline or user isn't authorized yet]
 [Connection failed with error code %d]
 [Participant]
 [Sticker received]

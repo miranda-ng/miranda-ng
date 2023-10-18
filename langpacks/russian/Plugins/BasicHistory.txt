@@ -206,8 +206,8 @@
 Ответить с &цитатой
 [Delete group]
 Удаление группы
-[Delete all user history]
-Удалить всю историю пользователя
+[Delete all contact history]
+Удалить всю историю контакта
 [Options]
 Настройки
 [Filters]

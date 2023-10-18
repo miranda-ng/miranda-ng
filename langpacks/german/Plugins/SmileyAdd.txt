@@ -69,8 +69,6 @@ Smiley-Button
 Smileykategorie zuweisen
 [Background color]
 Hintergrundfarbe
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Smileypacks
@@ -98,6 +96,8 @@ Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 %s globales Smileypack
 [Standard]
 Standard
+[Emoji]
+
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulärer Ausdruck "%s" in Smileypack "%s" deformiert.
 ;file \plugins\SmileyAdd\src\smltool.cpp

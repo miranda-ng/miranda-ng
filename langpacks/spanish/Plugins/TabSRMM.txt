@@ -268,6 +268,14 @@ Aplicar
 
 [Reset all hidden warnings]
 
+[Load unread events only]
+Cargar eventos sólo sin leer
+[Load number of previous events]
+Número de eventos anteriores a cargar
+[Load previous events less than]
+Cargar eventos previos de menos de
+[minutes old]
+minutos de pasado
 [Indent values]
 
 [Left/Right]
@@ -282,14 +290,6 @@ Aplicar
 
 [Load history events]
 Cargar historial de eventos
-[Load unread events only]
-Cargar eventos sólo sin leer
-[Load number of previous events]
-Número de eventos anteriores a cargar
-[Load previous events less than]
-Cargar eventos previos de menos de
-[minutes old]
-minutos de pasado
 [Typing notification options]
 
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -364,8 +364,8 @@ milisegundos
 
 [Use Windows 7 task bar enhancements (restart required)]
 
-[Colors]
-Colores
+[Popups]
+Ventanas emergentes
 [...is &typing]
 
 [...stopped t&yping]
@@ -1440,8 +1440,6 @@ Cerrar la ventana de mensaje al enviar
 
 [Use the same splitter height for all sessions]
 
-[Automatically copy selected text]
-
 [Test contact]
 
 [Template set editor]
@@ -1462,19 +1460,23 @@ Cerrar la ventana de mensaje al enviar
 
 [Draw grid lines]
 
-[Log status changes]
-
 [Use message grouping]
 
 [Simple text formatting (*bold*, etc.)]
 
 [Support BBCode formatting]
 
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+
+[Message log control]
+
+[Log status changes]
+
+[Automatically copy selected text]
+
 [Place a separator in the log after a window lost its foreground status]
 
 [Only place a separator when an incoming event is announced with a popup]
-
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
 
 [Support for external plugins]
 
@@ -1575,7 +1577,7 @@ Notificación de escritura
 [Window layout tweaks]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Message Log Options]
+[Message Log options]
 
 [Image tag]
 
@@ -1615,7 +1617,7 @@ Mensaje saliente
 Cambio de estado
 [Secure message]
 
-[Secure message (verified)]
+[Secure verified message]
 
 [Static container icon]
 
@@ -1644,8 +1646,6 @@ Registro de mensaje
 [Clock symbol (for the info panel clock)]
 
 [Feature disabled (used as overlay)]
-
-[Feature enabled (used as overlay)]
 
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
@@ -1774,8 +1774,6 @@ Contacto
 
 [...is typing a message.]
 
-[Popups]
-Ventanas emergentes
 [Typing notifications]
 
 [Contact started typing]

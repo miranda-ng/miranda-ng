@@ -14,10 +14,6 @@ Classer par nom
 Classer par état
 [Sort contacts by protocol]
 Classer par protocole
-[Disable icon blinking]
-Sans clignotement
-[ms delay]
-fréquence (ms)
 [Show]
 Afficher
 [icon when statuses differ]
@@ -30,8 +26,6 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[System tray icon]
-Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
 [Contact list sorting]

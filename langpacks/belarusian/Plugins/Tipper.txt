@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tooltip notification windows.]
@@ -192,12 +192,6 @@
 [Tipper smileys]
 Смайлы падказак
 ;file \plugins\TipperYM\src\options.cpp
-[Show for all contact types]
-Паказваць для ўсіх тыпаў кантактаў
-[Show only for contacts]
-Паказваць толькі для кантактаў
-[Show only for chatrooms]
-Паказваць толькі для чат-пакаояў
 [Number of contacts]
 Кол-у кантактаў
 [Protocol lock status]
@@ -226,102 +220,6 @@
 Сцяг краіны
 [Client]
 Кліент
-[You must enter a label]
-Вы павінны ўвесці пазнаку
-[Invalid Substitution]
-Хібная замена
-[<No Label>]
-<Без пазнакі>
-[Add item]
-Дадаць
-[No icon]
-Без значка
-[Icon on left]
-Абразок злева
-[Icon on right]
-Абразок справа
-[Bottom right]
-Унізе справа
-[Bottom left]
-Унізе злева
-[Top right]
-Наверсе справа
-[Top left]
-Наверсе злева
-[Top]
-Угару
-[Center]
-Цэнтр
-[Bottom]
-Ніз
-[Left]
-Злева
-[Right]
-Справа
-[No avatar]
-Без аватара
-[Left avatar]
-Аватар злева
-[Right avatar]
-Аватар справа
-[Max avatar size:]
-Памер (макс.):
-[None]
-Няма
-[Animation]
-Анімацыя
-[Fade]
-Згасанне
-[Appearance]
-Знешні выгляд
-[Tooltips]
-Падказкі
-[Customize]
-Тонкая налада
-[Content]
-Змесціва
-[Tray tooltip]
-Падказкі ў трэі
-[Extra]
-Іншае
-;file \plugins\TipperYM\src\popwin.cpp
-[%s (locked)]
-%s (заблакаваны)
-[%s ago]
-%s назад
-[Log on:]
-Далучаны:
-[Unread emails:]
-Непрачытаных лістоў:
-[Status:]
-Статус:
-[Status message:]
-Статуснае паведамленне:
-[Mood:]
-Настрой:
-[xStatus:]
-xСтатус:
-[Activity:]
-Занятак:
-[Listening to:]
-Слухаю:
-[Copy all items with labels]
-Капіяваць усё з пазнакамі
-[Copy all items]
-Капіяваць усё
-[Copy avatar]
-Капіяваць аватар
-[<No Label>: ]
-<Без меткі>:\s
-[<No Value>]
-<Без значэння>
-[Fav. contacts]
-Абраныя
-[Other]
-Іншае
-[Miranda uptime:]
-Час працы Miranda:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Конт
 [Account:]
@@ -356,6 +254,8 @@ xСтатус:
 Апош. паведамл.
 [Last message: (%sys:last_msg_reltime% ago)]
 Апошнія паведамленне: (%sys:last_msg_reltime% назад)
+[Listening to:]
+Слухаю:
 [Name]
 Імя
 [Name:]
@@ -368,6 +268,10 @@ xСтатус:
 Колькасць адпраўленых паведамленняў
 [Number of msg [OUT]:]
 Колькасць адпраўленых паведамленняў:
+[Status:]
+Статус:
+[Status message:]
+Статуснае паведамленне:
 [Contact time]
 Час кантакту
 [Time:]
@@ -444,6 +348,101 @@ xСтатус:
 (weather.dll) Вецер
 [Wind:]
 Вецер:
+[Show for all contact types]
+Паказваць для ўсіх тыпаў кантактаў
+[Show only for contacts]
+Паказваць толькі для кантактаў
+[Show only for chatrooms]
+Паказваць толькі для чат-пакаояў
+[You must enter a label]
+Вы павінны ўвесці пазнаку
+[Invalid Substitution]
+Хібная замена
+[<No Label>]
+<Без пазнакі>
+[Add item]
+Дадаць
+[No icon]
+Без значка
+[Icon on left]
+Абразок злева
+[Icon on right]
+Абразок справа
+[Bottom right]
+Унізе справа
+[Bottom left]
+Унізе злева
+[Top right]
+Наверсе справа
+[Top left]
+Наверсе злева
+[Top]
+Угару
+[Center]
+Цэнтр
+[Bottom]
+Ніз
+[Left]
+Злева
+[Right]
+Справа
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар злева
+[Right avatar]
+Аватар справа
+[Max avatar size:]
+Памер (макс.):
+[None]
+Няма
+[Animation]
+Анімацыя
+[Fade]
+Згасанне
+[Appearance]
+Знешні выгляд
+[Tooltips]
+Падказкі
+[Customize]
+Тонкая налада
+[Content]
+Змесціва
+[Tray tooltip]
+Падказкі ў трэі
+[Extra]
+Іншае
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заблакаваны)
+[%s ago]
+%s назад
+[Log on:]
+Далучаны:
+[Unread emails:]
+Непрачытаных лістоў:
+[Mood:]
+Настрой:
+[xStatus:]
+xСтатус:
+[Activity:]
+Занятак:
+[Copy all items with labels]
+Капіяваць усё з пазнакамі
+[Copy all items]
+Капіяваць усё
+[Copy avatar]
+Капіяваць аватар
+[<No Label>: ]
+<Без меткі>:\s
+[<No Value>]
+<Без значэння>
+[Fav. contacts]
+Абраныя
+[Other]
+Іншае
+[Miranda uptime:]
+Час працы Miranda:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# заліванне колерам
