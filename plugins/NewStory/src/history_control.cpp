@@ -375,9 +375,9 @@ void NewstoryListData::EnsureVisible(int item)
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		int height = rc.bottom - rc.top;
-		int top = scrollTopPixel;
 		int idx = scrollTopItem;
 		int itemHeight = GetItemHeight(idx);
+		int top = itemHeight + scrollTopPixel;
 		bool found = false;
 		while (top < height) {
 			if (idx == item) {
@@ -1171,7 +1171,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_ALL;
 				GetScrollInfo(hwnd, SB_VERT, &si);
-				data->EnsureVisible(si.nTrackPos);
+
+				data->scrollTopItem = si.nTrackPos;
+				data->scrollTopPixel = 0;
+				data->FixScrollPosition();
 				break;
 
 			default:

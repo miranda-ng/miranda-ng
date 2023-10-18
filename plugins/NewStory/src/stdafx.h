@@ -40,11 +40,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_fontservice.h>
 #include <m_history.h>
 #include <m_hotkeys.h>
+#include <m_icolib.h>
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_metacontacts.h>
-#include <m_icolib.h>
 #include <m_options.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
