@@ -78,6 +78,7 @@ void RemoveBbcodes(CMStringW &wszText)
 		}
 
 	for (int idx = wszText.Find('[', 0); idx != -1; idx = wszText.Find('[', idx)) {
+		bool bFound = false;
 		for (auto &it : bbcodes) {
 			if (wcsncmp(wszText.c_str() + idx, it.pStart, it.cbStart))
 				continue;
@@ -92,7 +93,12 @@ void RemoveBbcodes(CMStringW &wszText)
 				}
 			}
 
+			bFound = true;
 			break;
 		}
+
+		// just an occasional square bracket? skip it
+		if (!bFound)
+			idx++;
 	}
 }
