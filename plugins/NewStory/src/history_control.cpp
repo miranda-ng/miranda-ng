@@ -750,9 +750,9 @@ void NewstoryListData::ScrollDown(int deltaY)
 		}
 		if (!bFound)
 			scrollTopItem = scrollTopPixel = 0;
-		FixScrollPosition();
 	}
 
+	FixScrollPosition();
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
@@ -786,10 +786,9 @@ void NewstoryListData::ScrollUp(int deltaY)
 
 		if (!bFound)
 			scrollTopItem = scrollTopPixel = 0;
-
-		FixScrollPosition();
 	}
 	
+	FixScrollPosition();
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
