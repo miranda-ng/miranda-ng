@@ -508,7 +508,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.hwnd = m_hwndDialog;
 	ti.uId = (UINT_PTR)m_hwndDialog;
-	ti.lpszText = TranslateT("d'Oh!");
+	ti.lpszText = L"";
 	SendMessage(m_hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 }
 
