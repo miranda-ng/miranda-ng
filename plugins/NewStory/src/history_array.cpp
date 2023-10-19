@@ -372,10 +372,12 @@ void ItemData::load(bool bFullLoad)
 
 void ItemData::setText()
 {
-	if (m_bRtf)
-		data = MTextCreateEx(htuLog, (void*)TplFormatRtf(getTemplate(), hContact, this).c_str(), MTEXT_FLG_RTF);
-	else
-		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), TplFormatString(getTemplate(), hContact, this));
+	if (m_bRtf) {
+		NSRtfProvider prov(this);
+		data = MTextCreateEx(htuLog, &prov, MTEXT_FLG_RTF);
+	}
+	else data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), TplFormatString(getTemplate(), hContact, this));
+
 	savedHeight = -1;
 }
 

@@ -71,9 +71,21 @@ extern TemplateInfo templates[TPL_COUNT];
 void LoadTemplates();
 void SaveTemplates();
 
-CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *args);
 CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *args);
 
+class NSRtfProvider : public MRtfProvider
+{
+	ItemData *m_pItem;
+
+public:
+	NSRtfProvider(ItemData *pItem) :
+		m_pItem(pItem)
+	{}
+
+	CMStringA CreateRtfHeader() override;
+	CMStringA CreateRtfBody()   override;
+	CMStringA CreateRtfFooter() override;
+};
 
 #endif // __templates_h__

@@ -46,6 +46,13 @@ enum
 	MTEXT_FLG_RTF         = 0x00000004,
 };
 
+struct MRtfProvider
+{
+	virtual CMStringA CreateRtfHeader() = 0;
+	virtual CMStringA CreateRtfBody() = 0;
+	virtual CMStringA CreateRtfFooter() = 0;
+};
+
 // subscribe to MText services
 MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options);
 

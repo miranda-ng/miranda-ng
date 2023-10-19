@@ -92,10 +92,7 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint
 
 	MText_InitFormatting0(result->ftd, result->options);
 	if (flags & MTEXT_FLG_RTF) {
-		if (flags & MTEXT_FLG_WCHAR)
-			result->ftd->putRTFTextW((wchar_t *)text);
-		else
-			result->ftd->putRTFTextA((char *)text);
+		result->ftd->putRTFText((MRtfProvider *)text);
 	}
 	else {
 		if (flags & MTEXT_FLG_WCHAR)

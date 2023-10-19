@@ -24,11 +24,10 @@ class CFormattedTextDraw : public ITextHost, public MZeroedObject
 	int            nPixelsPerInchX;    // Pixels per logical inch along width
 	int            nPixelsPerInchY;    // Pixels per logical inch along height
 
-	CHARFORMAT2W  *m_pCF;
+	CHARFORMAT2W   m_CF;
 	PARAFORMAT2    m_PF;
-	uint32_t       m_dwScrollbar;		// Scroll bar style
+
 	uint32_t       m_dwPropertyBits;	// Property bits
-	uint32_t       m_dwMaxLength;
 
 	ITextServices *m_spTextServices;
 	ITextDocument *m_spTextDocument;
@@ -39,8 +38,7 @@ public:
 
 	HRESULT get_NaturalSize(HDC hdcDraw, long *Width, long *pVal);
 	HRESULT Draw(HDC hdcDraw, RECT *prc);
-	HRESULT putRTFTextA(char *newVal);
-	HRESULT putRTFTextW(wchar_t *newVal);
+	HRESULT putRTFText(MRtfProvider *pProv);
 	HRESULT putTextA(char *newVal);
 	HRESULT putTextW(wchar_t *newVal);
 

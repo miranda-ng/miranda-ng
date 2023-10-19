@@ -22,9 +22,47 @@ const IID IID_ITextDocument = {
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// CallBack functions
+// CFormattedTextDraw
 
-struct STREAMDATA
+CFormattedTextDraw::CFormattedTextDraw()
+{
+	HDC hdcScreen;
+
+	hdcScreen = GetDC(nullptr);
+	nPixelsPerInchX = GetDeviceCaps(hdcScreen, LOGPIXELSX);
+	nPixelsPerInchY = GetDeviceCaps(hdcScreen, LOGPIXELSY);
+	ReleaseDC(nullptr, hdcScreen);
+
+	SetRectEmpty(&m_rcClient);
+	SetRectEmpty(&m_rcViewInset);
+
+	InitDefaultCharFormat();
+	InitDefaultParaFormat();
+	m_spTextServices = nullptr;
+	m_spTextDocument = nullptr;
+
+	m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
+
+	IUnknown *spUnk;
+	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost *>(this), &spUnk);
+	if (hr == S_OK) {
+		hr = spUnk->QueryInterface(IID_ITextServices, (void **)&m_spTextServices);
+		hr = spUnk->QueryInterface(IID_ITextDocument, (void **)&m_spTextDocument);
+		spUnk->Release();
+	}
+}
+
+CFormattedTextDraw::~CFormattedTextDraw()
+{
+	if (m_spTextServices != nullptr)
+		m_spTextServices->Release();
+	if (m_spTextDocument != nullptr)
+		m_spTextDocument->Release();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct STREAMDATATEXT
 {
 	bool isUnicode;
 	union
@@ -35,9 +73,9 @@ struct STREAMDATA
 	size_t cbSize, cbCount;
 };
 
-static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+static DWORD CALLBACK EditStreamTextInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	STREAMDATA *pCookie = (STREAMDATA *)dwCookie;
+	auto *pCookie = (STREAMDATATEXT *)dwCookie;
 	if (pCookie->isUnicode) {
 		if ((pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t) < (size_t)cb)
 			*pcb = LONG(pCookie->cbSize - pCookie->cbCount) * sizeof(wchar_t);
@@ -58,96 +96,12 @@ static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LO
 	return 0;	//	callback succeeded - no errors
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CFormattedTextDraw
-
-CFormattedTextDraw::CFormattedTextDraw()
-{
-	HDC hdcScreen;
-
-	hdcScreen = GetDC(nullptr);
-	nPixelsPerInchX = GetDeviceCaps(hdcScreen, LOGPIXELSX);
-	nPixelsPerInchY = GetDeviceCaps(hdcScreen, LOGPIXELSY);
-	ReleaseDC(nullptr, hdcScreen);
-
-	SetRectEmpty(&m_rcClient);
-	SetRectEmpty(&m_rcViewInset);
-
-	m_pCF = (CHARFORMAT2W *)malloc(sizeof(CHARFORMAT2W));
-
-	InitDefaultCharFormat();
-	InitDefaultParaFormat();
-	m_spTextServices = nullptr;
-	m_spTextDocument = nullptr;
-
-	m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
-	m_dwScrollbar = 0;
-	m_dwMaxLength = INFINITE;
-
-	IUnknown *spUnk;
-	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost *>(this), &spUnk);
-	if (hr == S_OK) {
-		hr = spUnk->QueryInterface(IID_ITextServices, (void **)&m_spTextServices);
-		hr = spUnk->QueryInterface(IID_ITextDocument, (void **)&m_spTextDocument);
-		spUnk->Release();
-	}
-}
-
-CFormattedTextDraw::~CFormattedTextDraw()
-{
-	free(m_pCF);
-	if (m_spTextServices != nullptr)
-		m_spTextServices->Release();
-	if (m_spTextDocument != nullptr)
-		m_spTextDocument->Release();
-}
-
-HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
-{
-	if (!m_spTextServices)
-		return S_FALSE;
-
-	STREAMDATA streamData = {};
-	streamData.isUnicode = false;
-	streamData.ansi = newVal;
-	streamData.cbSize = mir_strlen(newVal);
-
-	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&streamData;
-	editStream.dwError = 0;
-	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
-
-	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF, (LPARAM)&editStream, &lResult);
-	return S_OK;
-}
-
-HRESULT CFormattedTextDraw::putRTFTextW(wchar_t *newVal)
-{
-	if (!m_spTextServices)
-		return S_FALSE;
-
-	STREAMDATA streamData = {};
-	streamData.isUnicode = true;
-	streamData.unicode = newVal;
-	streamData.cbSize = mir_wstrlen(newVal);
-
-	EDITSTREAM editStream;
-	editStream.dwCookie = (DWORD_PTR)&streamData;
-	editStream.dwError = 0;
-	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
-
-	LRESULT lResult = 0;
-	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF | SF_UNICODE, (LPARAM)&editStream, &lResult);
-	return S_OK;
-}
-
 HRESULT CFormattedTextDraw::putTextA(char *newVal)
 {
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	STREAMDATA streamData = {};
+	STREAMDATATEXT streamData = {};
 	streamData.isUnicode = false;
 	streamData.ansi = newVal;
 	streamData.cbSize = mir_strlen(newVal);
@@ -155,7 +109,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 	EDITSTREAM editStream;
 	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
-	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
+	editStream.pfnCallback = EditStreamTextInCallback;
 
 	LRESULT lResult = 0;
 	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_TEXT, (LPARAM)&editStream, &lResult);
@@ -175,7 +129,7 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	STREAMDATA streamData = {};
+	STREAMDATATEXT streamData = {};
 	streamData.isUnicode = true;
 	streamData.unicode = newVal;
 	streamData.cbSize = mir_wstrlen(newVal);
@@ -183,7 +137,7 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	EDITSTREAM editStream;
 	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
-	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
+	editStream.pfnCallback = EditStreamTextInCallback;
 
 	LRESULT lResult = 0;
 	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_TEXT | SF_UNICODE, (LPARAM)&editStream, &lResult);
@@ -196,6 +150,78 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
 	return S_OK;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define STREAMSTAGE_HEADER  0
+#define STREAMSTAGE_EVENTS  1
+#define STREAMSTAGE_TAIL    2
+#define STREAMSTAGE_STOP    3
+
+struct STREAMDATA
+{
+	CMStringA buf;
+	int iStage = STREAMSTAGE_HEADER;
+	MRtfProvider *pProv;
+};
+
+static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	auto *dat = (STREAMDATA *)dwCookie;
+
+	if (dat->buf.IsEmpty()) {
+		switch (dat->iStage) {
+		case STREAMSTAGE_HEADER:
+			dat->buf = dat->pProv->CreateRtfHeader();
+			dat->iStage = STREAMSTAGE_EVENTS;
+			break;
+
+		case STREAMSTAGE_EVENTS:
+			dat->buf = dat->pProv->CreateRtfBody();
+			dat->iStage = STREAMSTAGE_TAIL;
+			break;
+
+		case STREAMSTAGE_TAIL:
+			dat->buf = dat->pProv->CreateRtfFooter();
+			dat->iStage = STREAMSTAGE_STOP;
+			break;
+
+		case STREAMSTAGE_STOP:
+			*pcb = 0;
+			return 0;
+		}
+	}
+
+	*pcb = min(cb, dat->buf.GetLength());
+	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
+	if (dat->buf.GetLength() == *pcb)
+		dat->buf.Empty();
+	else
+		dat->buf.Delete(0, *pcb);
+
+	return 0;	//	callback succeeded - no errors
+}
+
+HRESULT CFormattedTextDraw::putRTFText(MRtfProvider *pProv)
+{
+	if (!m_spTextServices)
+		return S_FALSE;
+
+	STREAMDATA streamData = {};
+	streamData.pProv = pProv;
+
+	EDITSTREAM editStream;
+	editStream.dwCookie = (DWORD_PTR)&streamData;
+	editStream.dwError = 0;
+	editStream.pfnCallback = EditStreamInCallback;
+
+	LRESULT lResult = 0;
+	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF, (LPARAM)&editStream, &lResult);
+	return S_OK;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Other methods
 
 HRESULT CFormattedTextDraw::Draw(HDC hdcDraw, RECT *prc)
 {
@@ -395,7 +421,7 @@ HRESULT CFormattedTextDraw::TxGetViewInset(LPRECT prc)
 
 HRESULT CFormattedTextDraw::TxGetCharFormat(const CHARFORMATW **ppCF)
 {
-	*ppCF = m_pCF;
+	*ppCF = &m_CF;
 	return S_OK;
 }
 
@@ -418,13 +444,13 @@ HRESULT CFormattedTextDraw::TxGetBackStyle(TXTBACKSTYLE *pstyle)
 
 HRESULT	CFormattedTextDraw::TxGetMaxLength(DWORD *plength)
 {
-	*plength = m_dwMaxLength;
+	*plength = INFINITE;
 	return S_OK;
 }
 
 HRESULT CFormattedTextDraw::TxGetScrollBars(DWORD *pdwScrollBar)
 {
-	*pdwScrollBar = m_dwScrollbar;
+	*pdwScrollBar = 0;
 	return S_OK;
 }
 
@@ -446,7 +472,7 @@ HRESULT CFormattedTextDraw::TxGetExtent(LPSIZEL)
 
 HRESULT CFormattedTextDraw::OnTxCharFormatChange(const CHARFORMATW *pcf)
 {
-	memcpy(m_pCF, pcf, pcf->cbSize);
+	memcpy(&m_CF, pcf, pcf->cbSize);
 	return S_OK;
 }
 
@@ -536,7 +562,7 @@ HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W *pCF, HFONT hFont)
 
 HRESULT CFormattedTextDraw::InitDefaultCharFormat()
 {
-	return CharFormatFromHFONT(m_pCF, nullptr);
+	return CharFormatFromHFONT(&m_CF, nullptr);
 }
 
 HRESULT CFormattedTextDraw::InitDefaultParaFormat()

@@ -121,25 +121,35 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 	buf.AppendChar('}');
 }
 
-CMStringA TplFormatRtf(int tpl, MCONTACT hContact, ItemData *item)
+CMStringA NSRtfProvider::CreateRtfHeader()
 {
-	CMStringW wszText = TplFormatString(tpl, hContact, item);
-
 	CMStringA buf;
 	buf.Append("{\\rtf1\\ansi\\deff0");
 
-	auto &F = g_fontTable[(item->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
+	auto &F = g_fontTable[(m_pItem->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
 	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset1 %s;}}", F.lf.lfFaceName);
 
 	COLORREF cr = GetSysColor(COLOR_WINDOWTEXT);
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-	cr = g_colorTable[(item->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
+	cr = g_colorTable[(m_pItem->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-
-	buf.AppendFormat("\\par\\ltrpar \\f0\\cf0\\b0\\i0\\fs%d ", -F.lf.lfHeight);
-	AppendUnicodeToBuffer(buf, wszText);
-	buf.AppendChar('}');
 	return buf;
+}
+
+CMStringA NSRtfProvider::CreateRtfBody()
+{
+	auto &F = g_fontTable[(m_pItem->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
+	CMStringW wszText = TplFormatString(m_pItem->getTemplate(), m_pItem->hContact, m_pItem);
+
+	CMStringA buf;
+	// buf.AppendFormat("\\f0\\cf0\\b0\\i0\\fs%d ", -F.lf.lfHeight);
+	AppendUnicodeToBuffer(buf, wszText);
+	return buf;
+}
+
+CMStringA NSRtfProvider::CreateRtfFooter()
+{
+	return "}";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
