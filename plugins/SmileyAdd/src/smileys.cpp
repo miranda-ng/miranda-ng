@@ -947,14 +947,15 @@ SmileyLookup::~SmileyLookup()
 {
 }
 
-void SmileyLookup::Find(const CMStringW &str, SmileyLocVecType &smlcur, bool firstOnly)
+void SmileyLookup::Find(const CMStringW &str, OBJLIST<SmileyLocType> &smlcur, bool firstOnly)
 {
-	if (!m_valid) return;
+	if (!m_valid)
+		return;
 
 	if (m_text.IsEmpty()) {
 		while (m_pattern.nextMatch(str) >= 0) {
 			CMStringW wszMatch(m_pattern.getMatch());
-			smlcur.insert(new SmileyLocType(m_pattern.getPos(), wszMatch.GetLength()));
+			smlcur.insert(new SmileyLocType(m_pattern.getPos(), wszMatch.GetLength(), this));
 			if (firstOnly && m_ind != -1)
 				return;
 		}
@@ -962,7 +963,7 @@ void SmileyLookup::Find(const CMStringW &str, SmileyLocVecType &smlcur, bool fir
 	else {
 		const wchar_t *pos = str.c_str();
 		while ((pos = wcsstr(pos, m_text.c_str())) != nullptr) {
-			smlcur.insert(new SmileyLocType(pos - str.c_str(), m_text.GetLength()));
+			smlcur.insert(new SmileyLocType(pos - str.c_str(), m_text.GetLength(), this));
 			pos += m_text.GetLength();
 			if (firstOnly && m_ind != -1)
 				return;

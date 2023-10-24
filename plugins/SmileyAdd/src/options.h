@@ -41,7 +41,7 @@ public:
 	bool HorizontalSorting;
 	unsigned SelWndBkgClr;
 	unsigned MaxCustomSmileySize;
-    unsigned MinSmileySize;
+	unsigned MinSmileySize;
 
 	void Load(void);
 	void Save(void);

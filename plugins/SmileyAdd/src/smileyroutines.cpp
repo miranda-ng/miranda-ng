@@ -1,7 +1,7 @@
 /*
 Miranda SmileyAdd Plugin
-Copyright (C) 2005 - 2011 Boris Krasnovskiy
 Copyright (C) 2003 - 2004 Rein-Peter de Boer
+Copyright (C) 2005 - 2011 Boris Krasnovskiy
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,10 +25,18 @@ ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp);
 
 bool g_HiddenTextSupported = true;
 
-
 // {8CC497C0-A1DF-11CE-8098-00AA0047BE5D}
 const GUID IID_ITextDocument = 
 { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D } };
+
+static int CompareSmileys(const SmileyLookup::SmileyLocType *p1, const SmileyLookup::SmileyLocType *p2)
+{
+	// length is sorted in reverse order, the bigger one goes first
+	if (p1->pos == p2->pos)
+		return (int)p2->len - (int)p1->len;
+
+	return (int)p1->pos - (int)p2->pos;
+}
 
 static void LookupAllSmileysWorker(
 	SmileyPackType *smileyPack,
@@ -37,167 +45,126 @@ static void LookupAllSmileysWorker(
 	SmileysQueueType &smllist,
 	const bool firstOnly)
 {
-	if (lpstrText == nullptr || *lpstrText == 0) return;
-
-	auto *sml  = smileyPack ? smileyPack->GetSmileyLookup() : nullptr;
-	auto *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : nullptr;
-
-	// Precompute number of smileys
-	int smlszo = sml  ? sml->getCount()  : 0;
-	int smlszc = smlc ? smlc->getCount() : 0;
-	int smlsz = smlszo + smlszc;
-
-	if (smlsz == 0) return;
+	if (lpstrText == nullptr || *lpstrText == 0)
+		return;
 
 	// All possible smileys
-	SmileyLookup::SmileyLocVecType *smileys = new SmileyLookup::SmileyLocVecType [smlsz];
+	OBJLIST<SmileyLookup::SmileyLocType> smileys(20, CompareSmileys);
 
 	// Find all possible smileys
 	CMStringW tmpstr(lpstrText);
-	int i = 0;
 
-	if (sml)
-		for (auto &it : *sml) {
-			it->Find(tmpstr, smileys[i], false);
+	if (smileyPack)
+		for (auto &it : smileyPack->GetSmileyLookup())
+			it->Find(tmpstr, smileys, false);
+
+	if (smileyCPack)
+		for (auto &it : smileyCPack->GetSmileyLookup())
+			it->Find(tmpstr, smileys, false);
+
+	if (smileys.getCount() == 0)
+		return;
+
+	// remove overlapped smileys, if any
+	for (int i = 0; i < smileys.getCount() - 1; ) {
+		auto &p = smileys[i];
+		if (p.pos + p.len > smileys[i + 1].pos)
+			smileys.remove(i + 1);
+		else
 			i++;
-		}
-
-	if (smlc)
-		for (auto &it : *smlc) {
-			it->Find(tmpstr, smileys[i], false);
-			i++;
-		}
-
-	int *csmlit = (int*)alloca(smlsz * sizeof(int));
-	memset(csmlit, 0, smlsz * sizeof(int));
+	}
 
 	long numCharsSoFar = 0;
 	size_t smloff = 0;
 
-	while (true) {
-		int firstSml = -1;
-		int firstSmlRef = -1;
-		SmileyLookup::SmileyLocVecType *smlf = nullptr;
+	for (int i = 0; i < smileys.getCount(); i++) {
+		auto &pCurr = smileys[i];
+		if (pCurr.pos < smloff)
+			continue;
 
-		for (int csml=0; csml < smlsz; csml++) {
-			SmileyLookup::SmileyLocVecType &smlv = smileys[csml];
-
-			int tsml;
-			for (tsml = csmlit[csml]; tsml < smlv.getCount(); tsml++) {
-				if (smlv[tsml].pos >= smloff) {
-					if (firstSmlRef == -1 || smlv[tsml].pos < (*smlf)[firstSmlRef].pos || 
-						(smlv[tsml].pos == (*smlf)[firstSmlRef].pos && smlv[tsml].len > (*smlf)[firstSmlRef].len))
-					{
-						firstSmlRef = tsml;
-						firstSml = csml;
-						smlf = &smileys[csml];
-					}
-					break;
-				}
-			}
-			csmlit[csml] = tsml;
-		}
-
-		// // Nothing to parse, exiting
-		if (firstSml == -1)
-			break;
-
-		SmileyLookup::SmileyLocType &psmlf = (*smlf)[firstSmlRef];
 		const wchar_t *textToSearch = lpstrText + smloff;
-		const wchar_t *textSmlStart = lpstrText + psmlf.pos;
-		const wchar_t *textSmlEnd   = textSmlStart + psmlf.len;
+		const wchar_t *textSmlStart = lpstrText + pCurr.pos;
+		const wchar_t *textSmlEnd = textSmlStart + pCurr.len;
 
 		ReplaceSmileyType *dat = new ReplaceSmileyType;
 
 		// check if leading space exist
 		const wchar_t *prech = _wcsdec(textToSearch, textSmlStart);
 		dat->ldspace = prech != nullptr ? iswspace(*prech) != 0 : smloff == 0;
+		if (i > 0 && smileys[i - 1].pos + smileys[i - 1].len == smloff)
+			dat->ldspace = true;
 
 		// check if trailing space exist
 		dat->trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
+		if (i < smileys.getCount() - 1 && pCurr.pos + pCurr.len == smileys[i + 1].pos)
+			dat->trspace = true;
 
 		// compute text location in RichEdit 
-		dat->loc.cpMin = (long)_wcsncnt(textToSearch, psmlf.pos - smloff) + numCharsSoFar;
-		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, psmlf.len) + dat->loc.cpMin;
+		dat->loc.cpMin = (long)_wcsncnt(textToSearch, pCurr.pos - smloff) + numCharsSoFar;
+		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, pCurr.len) + dat->loc.cpMin;
 
 		if (!opt.EnforceSpaces || (dat->ldspace && dat->trspace)) {
 			dat->ldspace |= !opt.SurroundSmileyWithSpaces;
 			dat->trspace |= !opt.SurroundSmileyWithSpaces;
 
-			if (firstSml < smlszo) {
-				dat->sml = smileyPack->GetSmiley((*sml)[firstSml].GetIndex());
-				dat->smlc = nullptr;
+			if (smileyCPack && smileyCPack->GetSmileyLookup().find(pCurr.sml)) {
+				dat->smlc = smileyCPack->GetSmiley(pCurr.sml->GetIndex());
+				dat->sml = nullptr;
 			}
 			else {
-				dat->smlc = smileyCPack->GetSmiley((*smlc)[firstSml-smlszo].GetIndex());
-				dat->sml = nullptr;
+				dat->sml = smileyPack->GetSmiley(pCurr.sml->GetIndex());
+				dat->smlc = nullptr;
 			}
 
 			if (dat->sml != nullptr || dat->smlc != nullptr) {
 				// First smiley found record it
 				smllist.insert(dat);
-				if (firstOnly) break; 
+				if (firstOnly)
+					return;
 			}
 			else delete dat;
 		}
 		else delete dat;
 
 		// Advance string pointer to search for the next smiley
-		smloff = int(psmlf.pos + psmlf.len);
-		csmlit[firstSml]++;
+		smloff = int(pCurr.pos + pCurr.len);
 	}
-	delete[] smileys;
 }
 
-void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
+void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, bool firstOnly)
 {
 	LookupAllSmileysWorker(smileyPack, smileyCPack, lpstrText, smllist, firstOnly);
 
 	if (g_pEmoji && smileyPack != g_pEmoji)
-		LookupAllSmileys(g_pEmoji, smileyCPack, lpstrText, smllist, firstOnly);
+		LookupAllSmileysWorker(g_pEmoji, smileyCPack, lpstrText, smllist, firstOnly);
 }
 
-void FindSmileyInText(SmileyPackType *smp, const wchar_t *str, unsigned &first, unsigned &size, SmileyType **sml)
-{
-	SmileysQueueType smllist;
-	LookupAllSmileys(smp, nullptr, str, smllist, true);
-	if (smllist.getCount() == 0) {
-		size = 0;
-		*sml = nullptr;
-	}
-	else {
-		first = smllist[0].loc.cpMin;
-		size  = smllist[0].loc.cpMax - smllist[0].loc.cpMin;
-		*sml  = smllist[0].sml;
-	}
-}
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
 SmileyType* FindButtonSmiley(SmileyPackType *smp)
 {
-	unsigned start, size;
-	SmileyType *sml;
-	FindSmileyInText(smp, smp->GetButtonSmiley(), start, size, &sml);
-	return sml;
+	SmileysQueueType smllist;
+	LookupAllSmileys(smp, nullptr, smp->GetButtonSmiley(), smllist, true);
+	return (smllist.getCount() == 0) ? nullptr : smllist[0].sml;
 }
 
 void UpdateSelection(CHARRANGE &sel, int pos, int dif)
 {
 	if (sel.cpMax == sel.cpMin) {
 		if (sel.cpMax < LONG_MAX && sel.cpMax > pos) {
-			sel.cpMax += dif; 
-			sel.cpMin += dif; 
+			sel.cpMax += dif;
+			sel.cpMin += dif;
 		}
 	}
 	else {
 		if (sel.cpMax >= pos && sel.cpMax < LONG_MAX)
-			sel.cpMax += dif; 
+			sel.cpMax += dif;
 		if (sel.cpMin > pos)
-			sel.cpMin += dif; 
+			sel.cpMin += dif;
 	}
 }
 
-void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const CHARRANGE &sel,  bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
+void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const CHARRANGE &sel, bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
 {
 	CComPtr<IRichEditOle> RichEditOle;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
@@ -206,7 +173,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		return;
 
 	CComPtr<ITextDocument> TextDocument;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void **)&TextDocument) != S_OK)
 		return;
 
 	long cnt;
@@ -261,7 +228,6 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		TextSelection->GetEnd(&oldSel.cpMax);
 
 		CHARFORMAT2 chf;
-
 		chf.cbSize = sizeof(chf);
 		chf.dwMask = CFM_ALL2;
 
@@ -472,7 +438,7 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 		return;
 
 	CComPtr<ITextDocument> TextDocument;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void **)&TextDocument) != S_OK)
 		return;
 
 	// retrieve text range
@@ -491,9 +457,9 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	int objectCount = RichEditOle->GetObjectCount();
-	for (int i = objectCount-1; i >= 0; i--) {
-		REOBJECT reObj = {0};
-		reObj.cbStruct  = sizeof(REOBJECT);
+	for (int i = objectCount - 1; i >= 0; i--) {
+		REOBJECT reObj = { 0 };
+		reObj.cbStruct = sizeof(REOBJECT);
 
 		HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_POLEOBJ);
 		if (FAILED(hr))
@@ -505,8 +471,8 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 		}
 
 		ISmileyBase *igsc = nullptr;
-		if (reObj.cp < sel.cpMax && reObj.clsid == CLSID_NULL) 
-			reObj.poleobj->QueryInterface(IID_ISmileyAddSmiley, (void**) &igsc);
+		if (reObj.cp < sel.cpMax && reObj.clsid == CLSID_NULL)
+			reObj.poleobj->QueryInterface(IID_ISmileyAddSmiley, (void **)&igsc);
 
 		reObj.poleobj->Release();
 		if (igsc == nullptr)
@@ -519,8 +485,8 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 		TextRange->SetText(bstr);
 
 		unsigned int len = SysStringLen(bstr);
-		UpdateSelection(oldSel, reObj.cp, len-1);
-		UpdateSelection(sel, reObj.cp, len-1);
+		UpdateSelection(oldSel, reObj.cp, len - 1);
+		UpdateSelection(sel, reObj.cp, len - 1);
 
 		SysFreeString(bstr);
 

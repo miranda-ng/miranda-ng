@@ -134,15 +134,16 @@ public:
 	struct SmileyLocType
 	{
 		size_t pos, len;
-		SmileyLocType(size_t p, size_t l) : pos(p), len(l) {}
+		SmileyLookup *sml;
+
+		SmileyLocType(size_t p, size_t l, SmileyLookup *s) : pos(p), len(l), sml(s) {}
 	};
-	typedef SMOBJLIST<SmileyLocType> SmileyLocVecType;
 
 	SmileyLookup() : m_pattern(L"") { m_ind = 0; m_valid = false; m_pattern = nullptr; };
 	SmileyLookup(const CMStringW &str, const bool regexs, const int ind, const CMStringW &smpt);
 	~SmileyLookup();
 
-	void Find(const CMStringW &str, SmileyLocVecType &smlcur, bool firstOnly);
+	void Find(const CMStringW &str, OBJLIST<SmileyLocType> &smlcur, bool firstOnly);
 	int GetIndex(void) const { return m_ind; }
 	bool IsValid(void) const { return m_valid; }
 };
@@ -178,7 +179,7 @@ public:
 	POINT selec, win;
 
 	SmileyVectorType& GetSmileyList(void) { return m_SmileyList; }
-	SmileyLookupType* GetSmileyLookup(void) { return &m_SmileyLookup; }
+	SmileyLookupType& GetSmileyLookup(void) { return m_SmileyLookup; }
 
 	const CMStringW& GetFilename(void) const { return m_Filename; }
 	const CMStringW& GetName(void) const { return m_Name; }
