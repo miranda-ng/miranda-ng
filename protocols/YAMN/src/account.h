@@ -40,11 +40,12 @@ enum
 	ACC_DISCONNECTING,                   // disconnecting from server
 };
 
-#define YAMN_ACC_MSG         0x00000002 // Shows dialog
-#define YAMN_ACC_ICO         0x00000004 // Shows system tray icon (1)
+#define YAMN_ACC_FORCEPOP    0x00000001 // Always show popup, cannot be stored
+#define YAMN_ACC_MSG         0x00000002 // Show dialog
+#define YAMN_ACC_ICO         0x00000004 // Show system tray icon (1)
 #define YAMN_ACC_ICOB        0x00000008 // not used now, enables tray icon flashing (1)
-#define YAMN_ACC_APP         0x00000010 // Runs application (1)
-#define YAMN_ACC_POP         0x00000020 // Shows popup
+#define YAMN_ACC_APP         0x00000010 // Run application (1)
+#define YAMN_ACC_POP         0x00000020 // Show popup
 #define YAMN_ACC_POPC        0x00000040 // Use custom colors in popup
 #define YAMN_ACC_MSGP        0x00000080 // Persistant messgage. This means, when an situation occurs (e.g. new mail) and message is displayed, it is not destroyed when YAMN_ACC_MSG is not set
 #define YAMN_ACC_KBN         0x00000100 // Use Keyboard notify

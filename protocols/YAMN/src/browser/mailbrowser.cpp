@@ -330,9 +330,12 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 			RunMailBrowser = FALSE;
 
 		// if some popups with mails are needed to show
-		if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (MN.Real.PopupNC + MN.Virtual.PopupNC))
+		if (nflags & YAMN_ACC_FORCEPOP)
 			RunPopups = TRUE;
-		else	RunPopups = FALSE;
+		else if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (MN.Real.PopupNC + MN.Virtual.PopupNC))
+			RunPopups = TRUE;
+		else
+			RunPopups = FALSE;
 
 		if (RunMailBrowser)
 			ChangeExistingMailStatus(GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount);
