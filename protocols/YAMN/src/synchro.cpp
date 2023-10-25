@@ -70,7 +70,7 @@ uint32_t SWMRG::WaitToWrite(uint32_t dwTimeout)
 {
 	uint32_t dw;
 	HANDLE aHandles[2];
-	// SSL_DebugLog("SWMRGWaitToWrite %p", this);
+	// Netlib_Logf(hNetlibUser, "SWMRGWaitToWrite %p", this);
 
 	// We can write if the following are true:
 	// 1. No other threads are writing.
@@ -105,7 +105,7 @@ uint32_t SWMRG::WaitToWrite(uint32_t dwTimeout)
 
 void SWMRG::DoneWriting()
 {
-	// SSL_DebugLog("SWMRGDoneWriting %p", this);
+	// Netlib_Logf(hNetlibUser, "SWMRGDoneWriting %p", this);
 
 	// Allow other writer/reader threads to use
 	// the SWMRG synchronization object.
@@ -122,7 +122,7 @@ uint32_t SWMRG::WaitToRead(uint32_t dwTimeout)
 {
 	uint32_t dw;
 	LONG lPreviousCount;
-	// SSL_DebugLog("SWMRGWaitToRead %p", this);
+	// Netlib_Logf(hNetlibUser, "SWMRGWaitToRead %p", this);
 
 	// We can read if no threads are writing.
 	// And there's not request to delete structure
@@ -166,7 +166,7 @@ void SWMRG::DoneReading()
 {
 	HANDLE aHandles[2];
 	LONG lNumReaders;
-	// SSL_DebugLog("SWMRGDoneReading %p", this);
+	// Netlib_Logf(hNetlibUser, "SWMRGDoneReading %p", this);
 
 	// We can stop reading if the events are available,
 	// but when we stop reading we must also decrement the

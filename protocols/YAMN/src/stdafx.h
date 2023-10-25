@@ -208,8 +208,6 @@ extern HIMAGELIST CSImages;
 
 int SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn);
 
-void __stdcall SSL_DebugLog(const char *fmt, ...);
-
 YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
 
 int GetCharsetFromString(char *input, size_t size);

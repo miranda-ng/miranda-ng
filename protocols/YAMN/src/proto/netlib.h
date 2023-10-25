@@ -25,8 +25,6 @@ public:
 	BOOL ifTLSed;
 };
 
-void SSL_DebugLog(const char *fmt, ...);
-
 enum
 {
 	ENL_WINSOCKINIT=1,	//error initializing socket	//only wsock

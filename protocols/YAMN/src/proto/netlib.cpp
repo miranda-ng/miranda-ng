@@ -11,25 +11,6 @@
 BOOL SSLLoaded = FALSE;
 HNETLIBUSER hNetlibUser = nullptr;
 
-void __stdcall	SSL_DebugLog(const char *fmt, ...)
-{
-	char str[4096];
-	va_list	vararg;
-
-	va_start(vararg, fmt);
-	int tBytes = mir_vsnprintf(str, _countof(str), fmt, vararg);
-	if (tBytes == 0)
-		return;
-
-	if (tBytes > 0)
-		str[tBytes] = 0;
-	else
-		str[sizeof(str) - 1] = 0;
-
-	Netlib_Log(hNetlibUser, str);
-	va_end(vararg);
-}
-
 HANDLE RegisterNLClient(char *name)
 {
 	#ifdef DEBUG_COMM
@@ -55,16 +36,16 @@ HANDLE RegisterNLClient(char *name)
 void CNLClient::SSLify()
 {
 	#ifdef DEBUG_COMM
-	SSL_DebugLog("Staring SSL...");
+		Netlib_Log(hNetlibUser, "Staring SSL...");
 	#endif
 	int socket = Netlib_GetSocket(hConnection);
 	if (socket != INVALID_SOCKET) {
 		#ifdef DEBUG_COMM
-		SSL_DebugLog("Staring netlib core SSL");
+		Netlib_Log(hNetlibUser, "Staring netlib core SSL");
 		#endif
 		if (Netlib_StartSsl(hConnection, nullptr)) {
 			#ifdef DEBUG_COMM
-			SSL_DebugLog("Netlib core SSL started");
+				Netlib_Log(hNetlibUser, "Netlib core SSL started");
 			#endif
 			isTLSed = true;
 			SSLLoaded = TRUE;
@@ -151,7 +132,7 @@ int CNLClient::LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags
 	int iReturn = Netlib_Recv(hConn, buf, len, flags);
 	if (isTLSed) {
 		#ifdef DEBUG_COMM
-		SSL_DebugLog("SSL recv: %s", buf);
+			Netlib_Logf(hNetlibUser, "SSL recv: %s", buf);
 		#endif
 	}
 
