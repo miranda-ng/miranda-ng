@@ -627,8 +627,12 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		}
 
 		YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, NNFlags, 0 };
-		if (bForceCheck)
-			Param.nnflags |= YAMN_ACC_FORCEPOP;  // if force check, show popup anyway and if mailbrowser was opened, do not close
+
+		// if force check, show popup anyway and if mailbrowser was opened, do not close
+		if (bForceCheck) {
+			Param.nflags |= YAMN_ACC_POP;
+			Param.nnflags |= YAMN_ACC_POP;
+		}
 		Param.nnflags |= YAMN_ACC_MSGP;    // do not close browser if already open
 		RunMailBrowser(&Param);
 

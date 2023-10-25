@@ -328,9 +328,7 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 			RunMailBrowser = FALSE;
 
 		// if some popups with mails are needed to show
-		if (nflags & YAMN_ACC_FORCEPOP)
-			RunPopups = TRUE;
-		else if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (MN.Real.PopupNC + MN.Virtual.PopupNC))
+		if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (MN.Real.PopupNC + MN.Virtual.PopupNC))
 			RunPopups = TRUE;
 		else
 			RunPopups = FALSE;
@@ -416,7 +414,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nfla
 	}
 
 	POPUPDATAW NewMailPopup = {};
-	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
+	NewMailPopup.lchContact = ActualAccount->hContact;
 	NewMailPopup.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 	if (nflags & YAMN_ACC_POPC) {
 		NewMailPopup.colorBack = ActualAccount->NewMailN.PopupB;
@@ -550,7 +548,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, CMailNumbers *MN, uint32_
 
 	if ((nflags & YAMN_ACC_POP) && !(ActualAccount->Flags & YAMN_ACC_POPN) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
 		POPUPDATAW NewMailPopup;
-		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
+		NewMailPopup.lchContact = ActualAccount->hContact;
 		NewMailPopup.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 		if (nflags & YAMN_ACC_POPC) {
 			NewMailPopup.colorBack = ActualAccount->NewMailN.PopupB;
@@ -634,7 +632,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, CMailNumbers *MN, uint32_
 	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {
 		POPUPDATAW NoNewMailPopup = {};
 
-		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
+		NoNewMailPopup.lchContact = ActualAccount->hContact;
 		NoNewMailPopup.lchIcon = g_plugin.getIcon(IDI_LAUNCHAPP);
 		if (nflags & YAMN_ACC_POPC) {
 			NoNewMailPopup.colorBack = ActualAccount->NoNewMailN.PopupB;

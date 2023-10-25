@@ -40,7 +40,6 @@ enum
 	ACC_DISCONNECTING,                   // disconnecting from server
 };
 
-#define YAMN_ACC_FORCEPOP    0x00000001 // Always show popup, cannot be stored
 #define YAMN_ACC_MSG         0x00000002 // Show dialog
 #define YAMN_ACC_ICO         0x00000004 // Show system tray icon (1)
 #define YAMN_ACC_ICOB        0x00000008 // not used now, enables tray icon flashing (1)
