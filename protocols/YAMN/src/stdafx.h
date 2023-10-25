@@ -52,7 +52,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	CMOption<bool> bForceCheck;
 	__forceinline bool CheckFlags() {
-		return bForceCheck ? YAMN_FORCECHECK : YAMN_NORMALCHECK;
+		return bForceCheck;
 	}
 
 	int Load() override;

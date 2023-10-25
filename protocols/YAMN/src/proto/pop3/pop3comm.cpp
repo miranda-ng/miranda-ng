@@ -365,7 +365,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 	uint32_t ServerPort, Flags, NFlags, NNFlags;
 
 	auto *ActualAccount = (CPOP3Account *)WhichTemp->AccountParam;
-	auto CheckFlags = WhichTemp->Flags;
+	bool bForceCheck = WhichTemp->bParam;
 	delete WhichTemp;
 
 	SCGuard sc(ActualAccount->UsingThreads);
@@ -602,7 +602,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 
 			// 	we are going to delete mails having SPAM flag level3 and 4 (see m_mails.h) set
 			// 	Delete mails from server. Here we should not be in write access for account's mails
-			DeleteMailsPOP3(new DeleteParam(ActualAccount, POP3_DELETEFROMCHECK));
+			DeleteMailsPOP3(new DeleteParam(ActualAccount, true));
 
 			// 	if there is no waiting thread for internet connection close it
 			// 	else leave connection open
@@ -627,7 +627,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		}
 
 		YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, NNFlags, 0 };
-		if (CheckFlags & YAMN_FORCECHECK)
+		if (bForceCheck)
 			Param.nnflags |= YAMN_ACC_POP;  // if force check, show popup anyway and if mailbrowser was opened, do not close
 		Param.nnflags |= YAMN_ACC_MSGP;    // do not close browser if already open
 		RunMailBrowser(&Param);
@@ -688,7 +688,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 
 	// copy address of structure from calling thread to stack of this thread
 	CPOP3Account *ActualAccount = (CPOP3Account *)WhichTemp->AccountParam;
-	int POP3PluginParam = WhichTemp->Flags;
+	bool bDelete = WhichTemp->bParam;
 	delete WhichTemp;
 
 	SCGuard sc(ActualAccount->UsingThreads);
@@ -702,7 +702,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		// if there's no mail for deleting, return
 		if (nullptr == (DeleteMails = CreateNewDeleteQueueFcn((YAMNMAIL *)ActualAccount->Mails))) {
 			// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
-			if (POP3_DELETEFROMCHECK != POP3PluginParam) {
+			if (!bDelete) {
 				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, 0 };		// Just update the window
 				RunMailBrowser(&Param);
 			}
@@ -722,7 +722,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 	}
 	{
 		SCGuard scq(ActualAccount->InternetQueries);	// This is POP3-internal SCOUNTER, we set another thread wait for this account to be connected to inet
-		if (POP3_DELETEFROMCHECK != POP3PluginParam)	// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
+		if (!bDelete) // We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
 			WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);
 	}
 
@@ -777,8 +777,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		#ifdef DEBUG_DECODE
 		mir_writeLogA(DecodeFile, "<--------Deleting requested mails-------->\n");
 		#endif
-		if (POP3_DELETEFROMCHECK != POP3PluginParam)	// We do not need to get mails on server as we have already it from check function
-		{
+		if (!bDelete) { // We do not need to get mails on server as we have already it from check function
 			SetStatusFcn(ActualAccount, TranslateT("Deleting requested mails"));
 
 			char *DataRX = MyClient->Stat();
@@ -832,7 +831,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 			if (!swm.Succeeded())
 				throw (uint32_t)EACC_STOPPED;
 
-			if (msgs || POP3_DELETEFROMCHECK == POP3PluginParam) {
+			if (msgs || bDelete) {
 				for (i = 0, MsgQueuePtr = DeleteMails; MsgQueuePtr != nullptr; i++) {
 					if (!(MsgQueuePtr->Flags & YAMN_MSG_VIRTUAL)) {	// of course we can only delete real mails, not virtual
 						char *DataRX = MyClient->Dele(MsgQueuePtr->Number);
@@ -870,7 +869,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 					SynchroMessagesFcn(ActualAccount, (YAMNMAIL **)&ActualAccount->Mails, nullptr, (YAMNMAIL **)&NewMails, nullptr);
 				// 	Now ActualAccount->Mails contains all mails when calling this function except the ones, we wanted to delete (these are in DeleteMails)
 				// 	And in NewMails we have new mails (if any)
-				else if (POP3_DELETEFROMCHECK != POP3PluginParam) {
+				else if (!bDelete) {
 					DeleteMessagesToEndFcn(ActualAccount, (YAMNMAIL *)ActualAccount->Mails);
 					ActualAccount->Mails = nullptr;
 				}
@@ -891,7 +890,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 		// 	if there is no waiting thread for internet connection close it
 		// 	else leave connection open
 		// 	if this functin was called from SynchroPOP3, then do not try to disconnect 
-		if (POP3_DELETEFROMCHECK != POP3PluginParam) {
+		if (!bDelete) {
 			YAMN_MAILBROWSERPARAM Param = { ActualAccount, NFlags, YAMN_ACC_MSGP, 0 };
 			RunMailBrowser(&Param);
 
@@ -928,10 +927,10 @@ void __cdecl DeleteMailsPOP3(void *param)
 			ActualAccount->Client.NetClient->Disconnect();
 			break;
 		default:
-			PostErrorProc(ActualAccount, 0, POP3PluginParam, MyClient->SSL);	// it closes internet connection too
+			PostErrorProc(ActualAccount, 0, bDelete, MyClient->SSL);	// it closes internet connection too
 		}
 
-		if (UsingInternet && (POP3_DELETEFROMCHECK != POP3PluginParam))	// if our thread still uses internet and it is needed to release internet
+		if (UsingInternet && !bDelete)	// if our thread still uses internet and it is needed to release internet
 			SetEvent(ActualAccount->UseInternetFree);
 	}
 

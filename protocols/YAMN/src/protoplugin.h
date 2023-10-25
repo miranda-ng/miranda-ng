@@ -8,18 +8,13 @@
 // structure is used to give parameters to Check, Synchro or Timeout function
 struct CheckParam
 {
-	CheckParam(CAccount *_1, int _2) :
+	CheckParam(CAccount *_1, bool _2) :
 		AccountParam(_1),
-		Flags(_2)
+		bParam(_2)
 	{}
 
-	// ActualAccount- the only parameter used in Check function and should contain all needed information I think :)
 	CAccount *AccountParam;
-
-	// I thought it, but this is needed, too
-	#define YAMN_NORMALCHECK	0
-	#define YAMN_FORCECHECK		1
-	int Flags;
+	bool bParam;
 };
 
 // structure is used to give parameters to DeleteMails function

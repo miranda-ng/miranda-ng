@@ -52,6 +52,4 @@ enum
 
 #define	NO_MAIL_FOR_DELETE	1
 
-#define	POP3_DELETEFROMCHECK	1
-
 #endif
