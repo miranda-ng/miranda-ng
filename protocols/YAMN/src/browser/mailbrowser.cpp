@@ -88,11 +88,6 @@ struct CSortList
 	int	iSubItem;
 };
 
-// Retrieves CAccount *, whose mails are displayed in ListMails
-// hLM- handle of dialog window
-// returns handle of account
-inline CAccount *GetWindowAccount(HWND hDialog);
-
 enum
 {
 	UPDATE_FAIL = 0,		// function failed
@@ -185,13 +180,6 @@ LPARAM readItemLParam(HWND hwnd, uint32_t iItem)
 	item.iSubItem = 0;
 	SendMessage(hwnd, LVM_GETITEM, 0, (LPARAM)&item);
 	return item.lParam;
-}
-
-inline CAccount *GetWindowAccount(HWND hDlg)
-{
-	struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
-
-	return (mwui == nullptr) ? nullptr : mwui->Account;
 }
 
 // Looks to mail flags and increment mail counter (e.g. if mail is new, increments the new mail counter
@@ -1456,8 +1444,8 @@ static LRESULT CALLBACK ListViewSubclassProc(HWND hDlg, UINT msg, WPARAM wParam,
 INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int Items;
-	CAccount *ActualAccount;
 	CMailWinUserInfo *mwui = (CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
+	CAccount *ActualAccount = (mwui == nullptr) ? nullptr : mwui->Account;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1534,8 +1522,6 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_DESTROY:
 		{
 			Window_FreeIcon_IcoLib(hDlg);
-			if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
-				break;
 
 			HWND hwndList = GetDlgItem(hDlg, IDC_LISTMAILS);
 			LVCOLUMN ColInfo;
@@ -1565,7 +1551,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 			WindowList_Remove(NewMailAccountWnd, hDlg);
 			WindowList_Remove(MessageWnds, hDlg);
-			{
+			
+			if (ActualAccount) {
 				SWriteGuard swm(ActualAccount->MessagesAccessSO);
 				if (!swm.Succeeded())
 					break;
@@ -1605,7 +1592,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		}
 
 	case WM_YAMN_CHANGESTATUS:
-		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+		if (nullptr == ActualAccount)
 			break;
 
 		if ((CAccount *)wParam != ActualAccount)
@@ -1646,7 +1633,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			struct CUpdateMails *um = (struct CUpdateMails *)lParam;
 			uint32_t nflags, nnflags;
 
-			if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+			if (nullptr == ActualAccount)
 				return 0;
 			if ((CAccount *)wParam != ActualAccount)
 				return 0;
@@ -1662,7 +1649,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		return 1;
 	case WM_YAMN_STOPACCOUNT:
-		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+		if (nullptr == ActualAccount)
 			break;
 		if ((CAccount *)wParam != ActualAccount)
 			break;
@@ -1670,7 +1657,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		return 1;
 
 	case WM_YAMN_NOTIFYICON:
-		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+		if (nullptr == ActualAccount)
 			break;
 
 		switch (lParam) {
@@ -1704,7 +1691,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				YAMNMAIL *ActualMail = (YAMNMAIL *)item.lParam;
 				if (nullptr != ActualMail) {
 					auto *MailParam = new YAMN_MAILSHOWPARAM;
-					MailParam->account = GetWindowAccount(hDlg);
+					MailParam->account = ActualAccount;
 					MailParam->mail = ActualMail;
 					mir_forkthread(ShowEmailThread, MailParam);
 				}
@@ -1713,8 +1700,6 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SYSCOMMAND:
-		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
-			break;
 		switch (wParam) {
 		case SC_CLOSE:
 			DestroyWindow(hDlg);
@@ -1723,7 +1708,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
-		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+		if (nullptr == ActualAccount)
 			break;
 
 		switch (LOWORD(wParam)) {
@@ -1889,7 +1874,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 
 			case LVN_COLUMNCLICK:
-				if (nullptr != (ActualAccount = GetWindowAccount(hDlg))) {
+				if (nullptr == ActualAccount) {
 					NM_LISTVIEW *pNMListView = (NM_LISTVIEW *)lParam;
 					SReadGuard sra(ActualAccount->AccountAccessSO);
 					if (sra.Succeeded()) {
@@ -1919,7 +1904,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					LPNMLVCUSTOMDRAW cd = (LPNMLVCUSTOMDRAW)lParam;
 					LONG_PTR PaintCode;
 
-					if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
+					if (nullptr == ActualAccount)
 						break;
 
 					switch (cd->nmcd.dwDrawStage) {
