@@ -331,24 +331,7 @@ class CGategoriesOptions : public COptionsBaseDialog
 			it->SetVisible(visible);
 		}
 	}
-
-	void UserAction(HTREEITEM hItem)
-	{
-		if (categories.GetCheckState(hItem)) {
-			if (!BrowseForSmileyPacks(GetSelProto(hItem)))
-				categories.SetCheckState(hItem, TRUE);
-		}
-		else tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
-
-		if (hItem == categories.GetSelection())
-			UpdateControls();
-		else
-			categories.SelectItem(hItem);
-
-		NotifyChange();
-		PopulateSmPackList();
-	}
-
+		
 	CCtrlEdit edtFilename;
 	CCtrlCheck chkStdPack, chkUsePhys;
 	CCtrlButton btnBrowse, btnPreview;
@@ -369,9 +352,10 @@ public:
 
 		chkStdPack.OnChange = Callback(this, &CGategoriesOptions::onChange_StdPack);
 		chkUsePhys.OnChange = Callback(this, &CGategoriesOptions::onChange_UsePhys);
+		edtFilename.OnChange = Callback(this, &CGategoriesOptions::onChange_Filename);
 
 		categories.OnSelChanged = Callback(this, &CGategoriesOptions::onSelectChange_Tree);
-		categories.OnItemChanged = Callback(this, &CGategoriesOptions::onChange_Filename);
+		categories.OnItemChanged = Callback(this, &CGategoriesOptions::onItemChange_Tree);
 	}
 
 	bool OnInitDialog() override
@@ -487,6 +471,25 @@ public:
 	{
 		PopulateSmPackList();
 		NotifyChange();
+	}
+
+	void onItemChange_Tree(CCtrlTreeView::TEventInfo *ev)
+	{
+		HTREEITEM hItem = ev->hItem;
+
+		if (!categories.GetCheckState(hItem)) {
+			if (!BrowseForSmileyPacks(GetSelProto(hItem)))
+				categories.SetCheckState(hItem, TRUE);
+		}
+		else tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
+
+		if (hItem == categories.GetSelection())
+			UpdateControls();
+		else
+			categories.SelectItem(hItem);
+
+		NotifyChange();
+		PopulateSmPackList();
 	}
 
 	void onSelectChange_Tree(CCtrlTreeView::TEventInfo *ev)
