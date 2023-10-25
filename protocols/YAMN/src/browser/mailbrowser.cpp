@@ -16,8 +16,6 @@
 #define MAILBROWSER_MINXSIZE	200		// min size of mail browser window
 #define MAILBROWSER_MINYSIZE	130
 
-#define MAILBROWSERTITLE LPGEN("%s - %d new mail messages, %d total")
-
 void __cdecl ShowEmailThread(void *Param);
 
 // --------------------------------------------------------------------------------------------------
@@ -342,17 +340,9 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 		if (RunMailBrowser || RunPopups)
 			AddNewMailsToListView(hDlg == nullptr ? nullptr : GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount, nflags);
 
-		if (RunMailBrowser) {
-			size_t len = mir_strlen(ActualAccount->Name) + mir_strlen(Translate(MAILBROWSERTITLE)) + 10;	// +10 chars for numbers
-			char *TitleStrA = new char[len];
-			wchar_t *TitleStrW = new wchar_t[len];
-
-			mir_snprintf(TitleStrA, len, Translate(MAILBROWSERTITLE), ActualAccount->Name, MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display);
-			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, TitleStrA, -1, TitleStrW, (int)mir_strlen(TitleStrA) + 1);
-			SetWindowTextW(hDlg, TitleStrW);
-			delete[] TitleStrA;
-			delete[] TitleStrW;
-		}
+		if (RunMailBrowser)
+			SetWindowTextW(hDlg, CMStringW(FORMAT, LPGENW("%s - %d new mail messages, %d total"),
+				_A2T(ActualAccount->Name).get(), MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display));
 
 		DoMailActions(hDlg, ActualAccount, &MN, nflags, nnflags);
 
