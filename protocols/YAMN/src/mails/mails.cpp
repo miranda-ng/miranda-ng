@@ -7,33 +7,9 @@
 #include "../stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Creates new mail for plugin (calling plugin's constructor, when plugin imported to YAMN)
-
-HYAMNMAIL CreateAccountMail(CAccount *Account)
-{
-	HYAMNMAIL NewMail;
-
-	if (Account->Plugin == nullptr)
-		return NULL;
-
-	if (Account->Plugin->MailFcn->NewMailFcnPtr != nullptr) {
-		// Let plugin create its own structure, which can be derived from CAccount structure
-		if (nullptr == (NewMail = Account->Plugin->MailFcn->NewMailFcnPtr(Account)))
-			return NULL;
-	}
-	else {
-		// We suggest plugin uses standard CAccount structure, so we create it
-		NewMail = new YAMNMAIL();
-		NewMail->MailData = nullptr;
-	}
-	// Init every members of structure, used by YAMN
-	return NewMail;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Deletes mail for plugin (calling plugin's destructor, when plugin imported to YAMN)
 
-int DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail)
+int DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, YAMNMAIL *OldMail)
 {
 	struct CMimeItem *TH;
 
@@ -62,7 +38,7 @@ int DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail)
 	if (OldMail->ID != nullptr)
 		delete[] OldMail->ID;
 
-	delete OldMail;				// consider mail as standard HYAMNMAIL, not initialized before and use its own destructor
+	delete OldMail;				// consider mail as standard YAMNMAIL *, not initialized before and use its own destructor
 	return 1;
 }
 
@@ -70,9 +46,9 @@ int DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail)
 // Appends second MIME mail queue to the first one
 // Only finds the end of first queue and its Next memember repoints to second one
 
-void AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second)
+void AppendQueueFcn(YAMNMAIL *first, YAMNMAIL *second)
 {
-	HYAMNMAIL Finder = first;
+	YAMNMAIL *Finder = first;
 	while (Finder->Next != nullptr) Finder = Finder->Next;
 	Finder->Next = second;
 }
@@ -97,16 +73,16 @@ void AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second)
 // 1. delete (or move to RemovedOld queue if RemovedOld is not NULL) all mails from OldQueue not found in NewQueue
 // 2. delete (or move to RemovedNew queue if RemovedNew is not NULL) all mails from NewQueue found in OldQueue
 
-void SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew)
+void SynchroMessagesFcn(CAccount *Account, YAMNMAIL **OldQueue, YAMNMAIL **RemovedOld, YAMNMAIL **NewQueue, YAMNMAIL **RemovedNew)
 // deletes messages from new queue, if they are old
 // it also deletes messages from old queue, if they are not in mailbox anymore
 // "YAMN_MSG_DELETED" messages in old queue remain in old queue (are never removed, although they are not in new queue)
 // "YAMN_MSG_DELETED" messages in new queue remain in new queue (are never removed, although they can be in old queue)
 {
-	HYAMNMAIL Finder, FinderPrev;
-	HYAMNMAIL Parser, ParserPrev;
-	HYAMNMAIL RemovedOldParser = nullptr;
-	HYAMNMAIL RemovedNewParser = nullptr;
+	YAMNMAIL *Finder, *FinderPrev;
+	YAMNMAIL *Parser, *ParserPrev;
+	YAMNMAIL *RemovedOldParser = nullptr;
+	YAMNMAIL *RemovedNewParser = nullptr;
 	if (RemovedOld != nullptr) *RemovedOld = nullptr;
 	if (RemovedNew != nullptr) *RemovedNew = nullptr;
 
@@ -166,7 +142,7 @@ void SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *Remov
 			else {
 				FinderPrev->Next = Finder->Next;
 				// delete from old queue
-				if (RemovedOld == nullptr)					
+				if (RemovedOld == nullptr)
 					DeleteAccountMail(Account->Plugin, Finder);
 				// or move to RemovedOld
 				else {
@@ -188,9 +164,9 @@ void SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *Remov
 // Account- account who owns mails
 // From- first mail in queue, which is going to delete
 
-void DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
+void DeleteMessagesToEndFcn(CAccount *Account, YAMNMAIL *From)
 {
-	HYAMNMAIL Temp;
+	YAMNMAIL *Temp;
 	while (From != nullptr) {
 		Temp = From;
 		From = From->Next;
@@ -204,10 +180,10 @@ void DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From)
 // Which- mail to delete
 // mode- nonzero if you want to decrement numbers in messages that are bigger than the one in Which mail, 0 if not
 
-void DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode)
+void DeleteMessageFromQueueFcn(YAMNMAIL **From, YAMNMAIL *Which, int mode)
 {
 	uint32_t Number = Which->Number;
-	HYAMNMAIL Parser;
+	YAMNMAIL *Parser;
 
 	if (*From == Which) {
 		Parser = Which->Next;
@@ -225,9 +201,9 @@ void DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode)
 			if (Parser->Number > Number) Parser->Number--;
 }
 
-void DeleteMessagesFromQueue(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0)
+void DeleteMessagesFromQueue(YAMNMAIL **From, YAMNMAIL *Which, int mode = 0)
 {
-	HYAMNMAIL Parser;
+	YAMNMAIL *Parser;
 
 	for (Parser = Which; Parser != nullptr; Parser = Parser->Next)
 		DeleteMessageFromQueueFcn(From, Parser, mode);
@@ -239,9 +215,9 @@ void DeleteMessagesFromQueue(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0)
 // ID- pointer to ID
 // returns pointer to found message, NULL if not found
 
-HYAMNMAIL FindMessageByIDFcn(HYAMNMAIL From, char *ID)
+YAMNMAIL *FindMessageByIDFcn(YAMNMAIL *From, char *ID)
 {
-	HYAMNMAIL Browser;
+	YAMNMAIL *Browser;
 
 	for (Browser = From; Browser != nullptr; Browser = Browser->Next)
 		if (0 == mir_strcmp(Browser->ID, ID))
@@ -343,9 +319,9 @@ void TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head)
 // Function does not copy the whole mails, it copies only ID string. And ID is copied as string, so
 // you can use this fcn only if you have your ID as pointer to char string ended with zero character
 
-HYAMNMAIL CreateNewDeleteQueueFcn(HYAMNMAIL From)
+YAMNMAIL *CreateNewDeleteQueueFcn(YAMNMAIL *From)
 {
-	HYAMNMAIL FirstMail, Browser = nullptr;
+	YAMNMAIL *FirstMail, *Browser = nullptr;
 
 	for (FirstMail = nullptr; From != nullptr; From = From->Next) {
 		if ((From->Flags & (YAMN_MSG_USERDELETE | YAMN_MSG_AUTODELETE)) && !(From->Flags & YAMN_MSG_DELETED)) {
@@ -375,11 +351,11 @@ HYAMNMAIL CreateNewDeleteQueueFcn(HYAMNMAIL From)
 // FlagsToSetRemove- ...to set/remove these flags (see mode)
 // mode- nonzero to set, else remove
 
-void SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSetRemove, int mode)
+void SetRemoveFlagsInQueueFcn(YAMNMAIL *From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSetRemove, int mode)
 {
-	HYAMNMAIL msgq;
+	YAMNMAIL *msgq;
 
-	for (msgq = (HYAMNMAIL)From; msgq != nullptr; msgq = msgq->Next) {
+	for (msgq = (YAMNMAIL *)From; msgq != nullptr; msgq = msgq->Next) {
 		if ((FlagsSet == (msgq->Flags & FlagsSet)) && (0 == (msgq->Flags & FlagsNotSet))) {
 			if (mode)
 				msgq->Flags = msgq->Flags | FlagsToSetRemove;

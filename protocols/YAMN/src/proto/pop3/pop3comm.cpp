@@ -18,7 +18,7 @@ HANDLE hNetLib = nullptr;
 SCOUNTER CPOP3Account::AccountWriterSO;
 
 // Creates new CPOP3Account structure
-CAccount* MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *Plugin);
+CAccount *MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *Plugin);
 
 // Deletes CPOP3Account structure
 void MIR_CDECL DeletePOP3Account(CAccount *Which);
@@ -39,7 +39,7 @@ DWORD MIR_CDECL WritePOP3Options(HANDLE, CAccount *);
 DWORD MIR_CDECL ReadPOP3Options(CAccount *, char **, char *);
 
 // Creates new mail for an account
-HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account);
+YAMNMAIL *MIR_CDECL CreatePOP3Mail(CAccount *Account);
 
 // Function does all needed work when connection failed or any error occured
 // Creates structure containing error code, closes internet session, runs "bad connect" function
@@ -72,15 +72,15 @@ void ExtractStat(char *stream, int *mboxsize, int *mails);
 // stream- source string
 // len- length of source string
 // queue- address of first message, where first ID will be stored
-void ExtractUIDL(char *stream, int len, HYAMNMAIL queue);
+void ExtractUIDL(char *stream, int len, YAMNMAIL *queue);
 
 // Extracts mail size on mailbox
 // stream- source string
 // len- length of source string
 // queue- address of first message, where size of message #1 will be stored
-void ExtractList(char *stream, int len, HYAMNMAIL queue);
+void ExtractList(char *stream, int len, YAMNMAIL *queue);
 
-void ExtractMail(char *stream, int len, HYAMNMAIL queue);
+void ExtractMail(char *stream, int len, YAMNMAIL *queue);
 
 YAMN_PROTOIMPORTFCN POP3ProtocolFunctions =
 {
@@ -143,7 +143,7 @@ CPOP3Account::~CPOP3Account()
 	CloseHandle(UseInternetFree);
 }
 
-CAccount* MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *)
+CAccount *MIR_CDECL CreatePOP3Account(YAMN_PROTOPLUGIN *)
 {
 	// First, we should check whether CAccountVersion matches.
 	// But this is internal plugin, so YAMN's CAccount structure and our CAccount structure are
@@ -285,9 +285,9 @@ DWORD MIR_CDECL ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 	return 0;
 }
 
-HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account)
+YAMNMAIL *MIR_CDECL CreatePOP3Mail(CAccount *Account)
 {
-	HYAMNMAIL NewMail;
+	YAMNMAIL *NewMail;
 	// First, we should check whether MAILDATA matches.
 	// But this is internal plugin, so YAMN's MAILDATA structure and our MAILDATA structure are
 	// the same, so we do not need to test version. Otherwise, if MAILDATA version does not match
@@ -303,7 +303,7 @@ HYAMNMAIL MIR_CDECL CreatePOP3Mail(CAccount *Account)
 		return nullptr;
 	}
 	NewMail->MailData->CP = ((CPOP3Account *)Account)->CP;
-	return (HYAMNMAIL)NewMail;
+	return (YAMNMAIL *)NewMail;
 }
 
 static void SetContactStatus(CAccount *account, int status)
@@ -323,7 +323,7 @@ static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnectio
 	ErrorCode->POP3Error = ActualAccount->Client.POP3Error;
 	ErrorCode->NetError = ActualAccount->Client.NetClient->NetworkError;
 	ErrorCode->SystemError = ActualAccount->Client.NetClient->SystemError;
-	
+
 	// if it was normal YAMN call (force check or so on)
 	if (POP3PluginParam == 0) {
 		try {
@@ -355,7 +355,7 @@ static void PostErrorProc(CPOP3Account *ActualAccount, void *ParamToBadConnectio
 void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 {
 	CPop3Client *MyClient;
-	HYAMNMAIL NewMails = nullptr, MsgQueuePtr = nullptr;
+	YAMNMAIL *NewMails = nullptr, *MsgQueuePtr = nullptr;
 	char *DataRX = nullptr;
 	int mboxsize, msgs, i;
 	SYSTEMTIME now;
@@ -388,7 +388,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		SCGuard scq(ActualAccount->InternetQueries);
 		WaitForSingleObject(ActualAccount->UseInternetFree, INFINITE);
 	}
-	
+
 	// OK, we enter the "use internet" section. But after we start communication, we can test if we did not enter the "use internet" section only for the reason,
 	// that previous thread release the internet section because this account has stop signal (we stop account and there are 2 threads: one communicating,
 	// the second one waiting for network access- the first one ends because we want to stop account, this one is released, but should be stopped as well).
@@ -458,9 +458,9 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 		DataRX = nullptr;
 		for (i = 0; i < msgs; i++) {
 			if (!i)
-				MsgQueuePtr = NewMails = CreateAccountMail(ActualAccount);
+				MsgQueuePtr = NewMails = ActualAccount->CreateMail();
 			else {
-				MsgQueuePtr->Next = CreateAccountMail(ActualAccount);
+				MsgQueuePtr->Next = ActualAccount->CreateMail();
 				MsgQueuePtr = MsgQueuePtr->Next;
 			}
 			if (MsgQueuePtr == nullptr) {
@@ -488,10 +488,10 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 				throw (uint32_t)(ActualAccount->SystemError = EACC_STOPPED);
 
 			ActualAccount->LastChecked = now;
-			for (MsgQueuePtr = (HYAMNMAIL)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
+			for (MsgQueuePtr = (YAMNMAIL *)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
 				if (MsgQueuePtr->Flags & YAMN_MSG_BODYREQUESTED) {
-					HYAMNMAIL NewMsgsPtr = nullptr;
-					for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != nullptr; NewMsgsPtr = NewMsgsPtr->Next) {
+					YAMNMAIL *NewMsgsPtr = nullptr;
+					for (NewMsgsPtr = (YAMNMAIL *)NewMails; NewMsgsPtr != nullptr; NewMsgsPtr = NewMsgsPtr->Next) {
 						if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
 							wchar_t accstatus[512];
 							mir_snwprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
@@ -534,10 +534,10 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 				}
 			}
 
-			SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);		// we get only new mails on server!
+			SynchroMessagesFcn(ActualAccount, (YAMNMAIL **)&ActualAccount->Mails, nullptr, (YAMNMAIL **)&NewMails, nullptr);		// we get only new mails on server!
 		}
 
-		for (MsgQueuePtr = (HYAMNMAIL)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
+		for (MsgQueuePtr = (YAMNMAIL *)ActualAccount->Mails; MsgQueuePtr != nullptr; MsgQueuePtr = MsgQueuePtr->Next) {
 			if ((MsgQueuePtr->Flags & YAMN_MSG_BODYREQUESTED) && (MsgQueuePtr->Flags & YAMN_MSG_BODYRECEIVED)) {
 				MsgQueuePtr->Flags &= ~YAMN_MSG_BODYREQUESTED;
 				if (MsgQueuePtr->MsgWindow)
@@ -596,7 +596,7 @@ void MIR_CDECL SynchroPOP3(CheckParam *WhichTemp)
 					ActualAccount->Mails = NewMails;
 				else {
 					ActualAccount->LastMail = ActualAccount->LastChecked;
-					AppendQueueFcn((HYAMNMAIL)ActualAccount->Mails, NewMails);
+					AppendQueueFcn((YAMNMAIL *)ActualAccount->Mails, NewMails);
 				}
 			}
 
@@ -680,7 +680,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 {
 	DeleteParam *WhichTemp = (DeleteParam *)param;
 
-	HYAMNMAIL DeleteMails, NewMails = nullptr, MsgQueuePtr = nullptr;
+	YAMNMAIL *DeleteMails, *NewMails = nullptr, *MsgQueuePtr = nullptr;
 	int mboxsize = 0, msgs = 0, i;
 
 	ptrA ServerName, ServerLogin, ServerPasswd;
@@ -700,7 +700,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 			return;
 
 		// if there's no mail for deleting, return
-		if (nullptr == (DeleteMails = CreateNewDeleteQueueFcn((HYAMNMAIL)ActualAccount->Mails))) {
+		if (nullptr == (DeleteMails = CreateNewDeleteQueueFcn((YAMNMAIL *)ActualAccount->Mails))) {
 			// We do not wait for free internet when calling from SynchroPOP3. It is because UseInternetFree is blocked
 			if (POP3_DELETEFROMCHECK != POP3PluginParam) {
 				YAMN_MAILBROWSERPARAM Param = { ActualAccount, YAMN_ACC_MSGP, YAMN_ACC_MSGP, 0 };		// Just update the window
@@ -797,9 +797,9 @@ void __cdecl DeleteMailsPOP3(void *param)
 			DataRX = nullptr;
 			for (i = 0; i < msgs; i++) {
 				if (!i)
-					MsgQueuePtr = NewMails = CreateAccountMail(ActualAccount);
+					MsgQueuePtr = NewMails = ActualAccount->CreateMail();
 				else {
-					MsgQueuePtr->Next = CreateAccountMail(ActualAccount);
+					MsgQueuePtr->Next = ActualAccount->CreateMail();
 					MsgQueuePtr = MsgQueuePtr->Next;
 				}
 				if (MsgQueuePtr == nullptr) {
@@ -822,7 +822,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 				DataRX = nullptr;
 				// we get "new mails" on server (NewMails will contain all mails on server not found in DeleteMails)
 				// but also in DeleteMails we get only those, which are still on server with their responsable numbers
-				SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&DeleteMails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
+				SynchroMessagesFcn(ActualAccount, (YAMNMAIL **)&DeleteMails, nullptr, (YAMNMAIL **)&NewMails, nullptr);
 			}
 		}
 		else SetStatusFcn(ActualAccount, TranslateT("Deleting spam"));
@@ -836,12 +836,12 @@ void __cdecl DeleteMailsPOP3(void *param)
 				for (i = 0, MsgQueuePtr = DeleteMails; MsgQueuePtr != nullptr; i++) {
 					if (!(MsgQueuePtr->Flags & YAMN_MSG_VIRTUAL)) {	// of course we can only delete real mails, not virtual
 						char *DataRX = MyClient->Dele(MsgQueuePtr->Number);
-						HYAMNMAIL Temp = MsgQueuePtr->Next;
+						YAMNMAIL *Temp = MsgQueuePtr->Next;
 						if (POP3_FOK == MyClient->AckFlag) { // if server answers that mail was deleted
-							DeleteMessageFromQueueFcn((HYAMNMAIL *)&DeleteMails, MsgQueuePtr);
-							HYAMNMAIL DeletedMail = FindMessageByIDFcn((HYAMNMAIL)ActualAccount->Mails, MsgQueuePtr->ID);
+							DeleteMessageFromQueueFcn((YAMNMAIL **)&DeleteMails, MsgQueuePtr);
+							YAMNMAIL *DeletedMail = FindMessageByIDFcn((YAMNMAIL *)ActualAccount->Mails, MsgQueuePtr->ID);
 							if ((MsgQueuePtr->Flags & YAMN_MSG_MEMDELETE)) { // if mail should be deleted from memory (or disk)
-								DeleteMessageFromQueueFcn((HYAMNMAIL *)&ActualAccount->Mails, DeletedMail);	// remove from queue
+								DeleteMessageFromQueueFcn((YAMNMAIL **)&ActualAccount->Mails, DeletedMail);	// remove from queue
 								DeleteAccountMail(POP3Plugin, DeletedMail);
 							}
 							else { // else mark it only as "deleted mail"
@@ -867,16 +867,16 @@ void __cdecl DeleteMailsPOP3(void *param)
 					// 	stored all mails found on server, then we deleted the ones we wanted to delete in this function
 					// 	and NewMails queue now contains actual state of mails on server). But we will not use NewMails as actual state, because NewMails does not contain header data (subject, from...)
 					// 	We perform deleting from ActualAccount->Mails: we remove from original queue (ActualAccount->Mails) all deleted mails
-					SynchroMessagesFcn(ActualAccount, (HYAMNMAIL *)&ActualAccount->Mails, nullptr, (HYAMNMAIL *)&NewMails, nullptr);
+					SynchroMessagesFcn(ActualAccount, (YAMNMAIL **)&ActualAccount->Mails, nullptr, (YAMNMAIL **)&NewMails, nullptr);
 				// 	Now ActualAccount->Mails contains all mails when calling this function except the ones, we wanted to delete (these are in DeleteMails)
 				// 	And in NewMails we have new mails (if any)
 				else if (POP3_DELETEFROMCHECK != POP3PluginParam) {
-					DeleteMessagesToEndFcn(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
+					DeleteMessagesToEndFcn(ActualAccount, (YAMNMAIL *)ActualAccount->Mails);
 					ActualAccount->Mails = nullptr;
 				}
 			}
 			else {
-				DeleteMessagesToEndFcn(ActualAccount, (HYAMNMAIL)ActualAccount->Mails);
+				DeleteMessagesToEndFcn(ActualAccount, (YAMNMAIL *)ActualAccount->Mails);
 				ActualAccount->Mails = nullptr;
 			}
 		}
@@ -962,12 +962,12 @@ void ExtractStat(char *stream, int *mboxsize, int *mails)
 	if (1 != sscanf(finder, "%d", mboxsize))
 		throw (uint32_t)EPOP3_STAT;
 }
-void ExtractMail(char *stream, int len, HYAMNMAIL queue)
+void ExtractMail(char *stream, int len, YAMNMAIL *queue)
 {
 	char *finder = stream;
 	char *finderend;
 	int msgnr, i;
-	HYAMNMAIL queueptr = queue;
+	YAMNMAIL *queueptr = queue;
 
 	while (WS(finder) || ENDLINE(finder)) finder++;
 	while (!ACKLINE(finder)) finder++;
@@ -1005,12 +1005,12 @@ void ExtractMail(char *stream, int len, HYAMNMAIL queue)
 	}
 }
 
-void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
+void ExtractUIDL(char *stream, int len, YAMNMAIL *queue)
 {
 	char *finder = stream;
 	char *finderend;
 	int msgnr, i;
-	HYAMNMAIL queueptr = queue;
+	YAMNMAIL *queueptr = queue;
 
 	while (WS(finder) || ENDLINE(finder)) finder++;
 	while (!ACKLINE(finder)) finder++;
@@ -1049,12 +1049,12 @@ void ExtractUIDL(char *stream, int len, HYAMNMAIL queue)
 	}
 }
 
-void ExtractList(char *stream, int len, HYAMNMAIL queue)
+void ExtractList(char *stream, int len, YAMNMAIL *queue)
 {
 	char *finder = stream;
 	char *finderend;
 	int msgnr, i;
-	HYAMNMAIL queueptr;
+	YAMNMAIL *queueptr;
 
 	while (WS(finder) || ENDLINE(finder)) finder++;
 	while (!ACKLINE(finder)) finder++;

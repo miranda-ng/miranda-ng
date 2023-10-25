@@ -36,6 +36,20 @@ void CAccount::CheckMail()
 	}
 }
 
+// Creates new mail for plugin (calling plugin's constructor, when plugin imported to YAMN)
+YAMNMAIL* CAccount::CreateMail()
+{
+	if (Plugin == nullptr)
+		return nullptr;
+
+	// Let plugin create its own structure, which can be derived from CAccount structure
+	if (Plugin->MailFcn->NewMailFcnPtr != nullptr)
+		return Plugin->MailFcn->NewMailFcnPtr(this);
+
+	// We suggest plugin uses standard CAccount structure, so we create it
+	return new YAMNMAIL();
+}
+
 void CAccount::RefreshContact()
 {
 	if (hContact == 0) {
@@ -129,14 +143,14 @@ void DeInitAccount(CAccount *Which)
 		delete[] Which->Server;
 	}
 
-	DeleteMessagesToEndFcn(Which, (HYAMNMAIL)Which->Mails);
+	DeleteMessagesToEndFcn(Which, (YAMNMAIL *)Which->Mails);
 }
 
 void StopSignalFcn(CAccount *Which)
 // set event that we are going to delete account
 {
 	Which->AbleToWork = FALSE;
-	
+
 	// do not use synchronizing objects anymore
 	// any access to these objects then ends with WAIT_FAILED
 	Which->AccountAccessSO.Stop();
@@ -210,7 +224,7 @@ uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 
 	if (Finder >= End)
 		return EACC_FILECOMPATIBILITY;
-	
+
 	if (uint32_t Size = Finder - *Parser) {
 		char *Dest = *StoreTo = new char[Size + 1];
 		for (; *Parser <= Finder; (*Parser)++, Dest++)
@@ -240,7 +254,7 @@ uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo
 
 	if (Finder >= (wchar_t *)End)
 		return EACC_FILECOMPATIBILITY;
-	
+
 	if (uint32_t Size = Finder - *Parser) {
 		wchar_t *Dest = *StoreTo = new wchar_t[Size + 1];
 		for (; *Parser <= Finder; (*Parser)++, Dest++)
@@ -313,7 +327,7 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 {
 	char *Finder;
 	uint32_t Size, Stat;
-	HYAMNMAIL ActualMail = nullptr;
+	YAMNMAIL *ActualMail = nullptr;
 	struct CMimeItem *items;
 	char *ReadString;
 
@@ -327,11 +341,11 @@ uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 			return EACC_FILECOMPATIBILITY;
 		if (Size = Finder - *Parser) {
 			if (Which->Mails == nullptr) { // First message in queue
-				if (nullptr == (Which->Mails = ActualMail = CreateAccountMail(Which)))
+				if (nullptr == (Which->Mails = ActualMail = Which->CreateMail()))
 					return EACC_ALLOC;
 			}
 			else {
-				if (nullptr == (ActualMail->Next = CreateAccountMail(Which)))
+				if (nullptr == (ActualMail->Next = Which->CreateMail()))
 					return EACC_ALLOC;
 
 				ActualMail = ActualMail->Next;
@@ -465,7 +479,7 @@ uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	mir_snwprintf(Debug, L"STFlags: %04x, remaining %d chars", Which->StatusFlags, End - *Parser);
 	MessageBox(NULL, Debug, L"debug", MB_OK);
 	#endif
-	
+
 	(*Parser) += sizeof(uint32_t); // PluginFlags
 	#ifdef DEBUG_FILEREAD
 	mir_snwprintf(Debug, L"PFlags: %04x, remaining %d chars", Which->PluginFlags, End - *Parser);
@@ -640,7 +654,7 @@ uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source)
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which)
 {
 	DWORD WrittenBytes, Stat;
-	HYAMNMAIL ActualMail = (HYAMNMAIL)Which->Mails;
+	YAMNMAIL *ActualMail = (YAMNMAIL *)Which->Mails;
 	struct CMimeItem *items;
 
 	while (ActualMail != nullptr) {
@@ -817,7 +831,7 @@ CAccount* GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin)
 		Plugin->FirstAccount = CreatePluginAccount(Plugin);
 		return Plugin->FirstAccount;
 	}
-	
+
 	CAccount *Finder;
 	for (Finder = Plugin->FirstAccount; Finder->Next != nullptr; Finder = Finder->Next);
 	Finder->Next = CreatePluginAccount(Plugin);

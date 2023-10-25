@@ -58,12 +58,12 @@ struct CBaseOptionsDlg : public CDlgBase
 			SetDlgItemInt(m_hwnd, IDC_EDITFPOPS, pAccount->BadConnectN.PopupTime, FALSE);
 			for (i = 0; i <= CPLENSUPP; i++)
 				if ((i < CPLENSUPP) && (CodePageNamesSupp[i].CP == pAccount->CP)) {
-					SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)i, 0);
+					SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, i, 0);
 					break;
 				}
 
 			if (i == CPLENSUPP)
-				SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
+				SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, 0, 0);
 
 			CheckDlgButton(m_hwnd, IDC_CHECK, pAccount->Flags & YAMN_ACC_ENA ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKMSG, pAccount->NewMailN.Flags & YAMN_ACC_MSG ? BST_CHECKED : BST_UNCHECKED);
@@ -108,7 +108,7 @@ struct CBaseOptionsDlg : public CDlgBase
 			SetDlgItemInt(m_hwnd, IDC_EDITPOPS, 0, FALSE);
 			SetDlgItemInt(m_hwnd, IDC_EDITNPOPS, 0, FALSE);
 			SetDlgItemInt(m_hwnd, IDC_EDITFPOPS, 0, FALSE);
-			SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
+			SendDlgItemMessage(m_hwnd, IDC_COMBOCP, CB_SETCURSEL, 0, 0);
 			CheckDlgButton(m_hwnd, IDC_CHECK, BST_CHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKMSG, BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKICO, BST_UNCHECKED);
@@ -476,7 +476,7 @@ public:
 			ActualAccount->Interval = Interval * 60;
 
 			if (CB_ERR == (index = cmbCP.GetCurSel()))
-				index = CPDEFINDEX;
+				index = 0;
 			ActualAccount->CP = CodePageNamesSupp[index].CP;
 
 			if (NewAcc)

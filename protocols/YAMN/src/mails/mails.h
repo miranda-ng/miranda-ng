@@ -65,7 +65,7 @@ struct CMimeItem
 };
 
 // this is plugin-independent
-typedef struct CMailData
+struct CMailData
 {
 	DWORD Size = 0;
 	int CP = -1;
@@ -75,7 +75,7 @@ typedef struct CMailData
 	char *Body = nullptr;                  // Message body
 };
 
-typedef struct CMimeMsgQueue
+struct YAMNMAIL : public MZeroedObject
 {
 	char *ID;					//The ID of mail. This ID identifies every mail in the account, so plugin should set it
 
@@ -127,19 +127,17 @@ typedef struct CMimeMsgQueue
 
 #define YAMN_MSG_SPAML(maildata,level)	((maildata & YAMN_MSG_SPAMMASK)==level)
 	DWORD Flags;
-//Plugins can read mail data, but it can be NULL!!! So plugin should use Load and Save services to load or save data and Unload to release data from memory
+
+	//Plugins can read mail data, but it can be NULL!!! So plugin should use Load and Save services to load or save data and Unload to release data from memory
 	CMailData *MailData;
-//Here YAMN stores its own informations about this mail. Not usefull for plugins...
-//	void *YAMNData;
+
 	HWND MsgWindow;
-//plugins can store here its own data
+
+	//plugins can store here its own data
 	void *PluginData;
 
-	CMimeMsgQueue(): ID(nullptr), Number(0), Flags(0), MailData(nullptr), MsgWindow(nullptr), PluginData(nullptr), Next(nullptr){}
-	~CMimeMsgQueue() {}
-
-	struct CMimeMsgQueue *Next;
-} YAMNMAIL,*HYAMNMAIL;
+	YAMNMAIL *Next;
+};
 #define	LoadedMailData(x)	(x->MailData!=nullptr)
 
 //
@@ -147,14 +145,14 @@ typedef struct CMimeMsgQueue
 //
 
 //typedef void (WINAPI *YAMN_SENDMESSAGEFCN)(UINT,WPARAM,LPARAM);
-typedef void (WINAPI *YAMN_SYNCHROMIMEMSGSFCN)(CAccount *,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *);
-typedef void (WINAPI *YAMN_TRANSLATEHEADERFCN)(char *,int,struct CMimeItem **);
-typedef void (WINAPI *YAMN_APPENDQUEUEFCN)(HYAMNMAIL,HYAMNMAIL);
-typedef void (WINAPI *YAMN_DELETEMIMEQUEUEFCN)(CAccount *,HYAMNMAIL);
-typedef void (WINAPI *YAMN_DELETEMIMEMESSAGEFCN)(HYAMNMAIL *,HYAMNMAIL,int);
-typedef HYAMNMAIL (WINAPI *YAMN_FINDMIMEMESSAGEFCN)(HYAMNMAIL,char *);
-typedef HYAMNMAIL (WINAPI *YAMN_CREATENEWDELETEQUEUEFCN)(HYAMNMAIL);
-typedef void (WINAPI *YAMN_SETREMOVEQUEUEFLAGSFCN)(HYAMNMAIL,DWORD,DWORD,DWORD,int);
+typedef void (WINAPI *YAMN_SYNCHROMIMEMSGSFCN)(CAccount *, YAMNMAIL **, YAMNMAIL **, YAMNMAIL **, YAMNMAIL **);
+typedef void (WINAPI *YAMN_TRANSLATEHEADERFCN)(char *, int, struct CMimeItem **);
+typedef void (WINAPI *YAMN_APPENDQUEUEFCN)(YAMNMAIL *, YAMNMAIL *);
+typedef void (WINAPI *YAMN_DELETEMIMEQUEUEFCN)(CAccount *, YAMNMAIL *);
+typedef void (WINAPI *YAMN_DELETEMIMEMESSAGEFCN)(YAMNMAIL **, YAMNMAIL *, int);
+typedef YAMNMAIL *(WINAPI *YAMN_FINDMIMEMESSAGEFCN)(YAMNMAIL *, char *);
+typedef YAMNMAIL *(WINAPI *YAMN_CREATENEWDELETEQUEUEFCN)(YAMNMAIL *);
+typedef void (WINAPI *YAMN_SETREMOVEQUEUEFLAGSFCN)(YAMNMAIL *, DWORD, DWORD, DWORD, int);
 
 //
 //================================== QUICK FUNCTION CALL DEFINITIONS ========================================

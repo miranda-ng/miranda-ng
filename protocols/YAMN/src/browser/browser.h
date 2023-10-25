@@ -12,7 +12,7 @@ struct YAMN_MAILBROWSERPARAM
 struct YAMN_MAILSHOWPARAM
 {
 	CAccount *account;
-	HYAMNMAIL mail;
+	YAMNMAIL *mail;
 };
 
 struct BadConnectionParam

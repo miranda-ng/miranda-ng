@@ -323,8 +323,9 @@ struct CAccount : public MZeroedObject
 
 	CAccount *Next;
 
-	void CheckMail();
-	void RefreshContact();
+	void      CheckMail();
+	YAMNMAIL* CreateMail();
+	void      RefreshContact();
 };
 
 #endif

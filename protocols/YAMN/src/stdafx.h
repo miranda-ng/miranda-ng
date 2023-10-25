@@ -94,12 +94,12 @@ void CodeDecodeString(char *Dest, BOOL Encrypt);
 uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 
 uint32_t  AddAccountsFromFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename);
-CAccount* CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin);
+CAccount *CreatePluginAccount(YAMN_PROTOPLUGIN *Plugin);
 int       DeleteAccount(YAMN_PROTOPLUGIN *Plugin, CAccount *Which);
 void      DeletePluginAccount(CAccount *OldAccount);
-CAccount* FindAccountByContact(YAMN_PROTOPLUGIN *Plugin, MCONTACT hContact);
-CAccount* FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount);
-CAccount* GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin);
+CAccount *FindAccountByContact(YAMN_PROTOPLUGIN *Plugin, MCONTACT hContact);
+CAccount *FindAccountByName(YAMN_PROTOPLUGIN *Plugin, const char *SearchedAccount);
+CAccount *GetNextFreeAccount(YAMN_PROTOPLUGIN *Plugin);
 uint32_t  WriteAccountsToFile(YAMN_PROTOPLUGIN *Plugin, const wchar_t *pwszFilename);
 
 
@@ -123,7 +123,7 @@ void SetStatusFcn(CAccount *Which, wchar_t *Value);
 INT_PTR UnregisterProtoPlugins();
 
 // From mime.cpp
-// void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	// already in MailExported
+// void WINAPI ExtractHeaderFcn(char *,int,uint16_t,YAMNMAIL *);	// already in MailExported
 struct _tcptable
 {
 	char *NameBase, *NameSub;
@@ -137,8 +137,6 @@ extern int CPLENSUPP;
 
 extern int PosX, PosY, SizeX, SizeY;
 extern int HeadPosX, HeadPosY, HeadSizeX, HeadSizeY, HeadSplitPos;
-
-#define CPDEFINDEX	0	// ACP
 
 // From pop3comm.cpp
 int RegisterPOP3Plugin(WPARAM, LPARAM);
@@ -168,19 +166,18 @@ extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 
 // From synchro.cpp
-void DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
+void DeleteMessagesToEndFcn(CAccount *Account, YAMNMAIL *From);
 
 // From mails.cpp
-void DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode);
-void SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
+void DeleteMessageFromQueueFcn(YAMNMAIL **From, YAMNMAIL *Which, int mode);
+void SetRemoveFlagsInQueueFcn(YAMNMAIL *From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
 
-void      AppendQueueFcn(HYAMNMAIL first, HYAMNMAIL second);
-HYAMNMAIL CreateAccountMail(CAccount *Account);
-HYAMNMAIL CreateNewDeleteQueueFcn(HYAMNMAIL From);
-int       DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, HYAMNMAIL OldMail);
-void      DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode = 0);
-HYAMNMAIL FindMessageByIDFcn(HYAMNMAIL From, char *ID);
-void      SynchroMessagesFcn(CAccount *Account, HYAMNMAIL *OldQueue, HYAMNMAIL *RemovedOld, HYAMNMAIL *NewQueue, HYAMNMAIL *RemovedNew);
+void      AppendQueueFcn(YAMNMAIL *first, YAMNMAIL *second);
+YAMNMAIL *CreateNewDeleteQueueFcn(YAMNMAIL *From);
+int       DeleteAccountMail(YAMN_PROTOPLUGIN *Plugin, YAMNMAIL *OldMail);
+void      DeleteMessageFromQueueFcn(YAMNMAIL **From, YAMNMAIL *Which, int mode = 0);
+YAMNMAIL *FindMessageByIDFcn(YAMNMAIL *From, char *ID);
+void      SynchroMessagesFcn(CAccount *Account, YAMNMAIL **OldQueue, YAMNMAIL **RemovedOld, YAMNMAIL **NewQueue, YAMNMAIL **RemovedNew);
 void      TranslateHeaderFcn(char *stream, int len, struct CMimeItem **head);
 
 // From mime.cpp
@@ -208,7 +205,7 @@ extern HIMAGELIST CSImages;
 
 int SetProtocolPluginFcnImportFcn(YAMN_PROTOPLUGIN *Plugin, YAMN_PROTOIMPORTFCN *YAMNFcn, YAMN_MAILIMPORTFCN *YAMNMailFcn);
 
-YAMN_PROTOPLUGIN* RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
+YAMN_PROTOPLUGIN *RegisterProtocolPlugin(YAMN_PROTOREGISTRATION *Registration);
 
 int GetCharsetFromString(char *input, size_t size);
 CMStringW ConvertCodedStringToUnicode(char *stream, uint32_t cp, int mode);
