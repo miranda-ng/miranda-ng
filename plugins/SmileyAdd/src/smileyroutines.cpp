@@ -38,6 +38,15 @@ static int CompareSmileys(const SmileyLookup::SmileyLocType *p1, const SmileyLoo
 	return (int)p1->pos - (int)p2->pos;
 }
 
+static bool HasOverlap(const CHARRANGE &loc, SmileysQueueType &smllist)
+{
+	for (auto &it : smllist)
+		if (it->loc.cpMin <= loc.cpMin && it->loc.cpMax >= loc.cpMax)
+			return true;
+
+	return false;
+}
+
 static void LookupAllSmileysWorker(
 	SmileyPackType *smileyPack,
 	SmileyPackCType *smileyCPack,
@@ -86,45 +95,44 @@ static void LookupAllSmileysWorker(
 		const wchar_t *textSmlStart = lpstrText + pCurr.pos;
 		const wchar_t *textSmlEnd = textSmlStart + pCurr.len;
 
-		ReplaceSmileyType *dat = new ReplaceSmileyType;
+		ReplaceSmileyType dat;
 
 		// check if leading space exist
 		const wchar_t *prech = _wcsdec(textToSearch, textSmlStart);
-		dat->ldspace = prech != nullptr ? iswspace(*prech) != 0 : smloff == 0;
+		dat.ldspace = prech != nullptr ? iswspace(*prech) != 0 : smloff == 0;
 		if (i > 0 && smileys[i - 1].pos + smileys[i - 1].len == smloff)
-			dat->ldspace = true;
+			dat.ldspace = true;
 
 		// check if trailing space exist
-		dat->trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
+		dat.trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
 		if (i < smileys.getCount() - 1 && pCurr.pos + pCurr.len == smileys[i + 1].pos)
-			dat->trspace = true;
+			dat.trspace = true;
 
 		// compute text location in RichEdit 
-		dat->loc.cpMin = (long)_wcsncnt(textToSearch, pCurr.pos - smloff) + numCharsSoFar;
-		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, pCurr.len) + dat->loc.cpMin;
+		dat.loc.cpMin = (long)_wcsncnt(textToSearch, pCurr.pos - smloff) + numCharsSoFar;
+		dat.loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, pCurr.len) + dat.loc.cpMin;
+		if (!HasOverlap(dat.loc, smllist)) {
+			if (!opt.EnforceSpaces || (dat.ldspace && dat.trspace)) {
+				dat.ldspace |= !opt.SurroundSmileyWithSpaces;
+				dat.trspace |= !opt.SurroundSmileyWithSpaces;
 
-		if (!opt.EnforceSpaces || (dat->ldspace && dat->trspace)) {
-			dat->ldspace |= !opt.SurroundSmileyWithSpaces;
-			dat->trspace |= !opt.SurroundSmileyWithSpaces;
+				if (smileyCPack && smileyCPack->GetSmileyLookup().find(pCurr.sml)) {
+					dat.smlc = smileyCPack->GetSmiley(pCurr.sml->GetIndex());
+					dat.sml = nullptr;
+				}
+				else {
+					dat.sml = smileyPack->GetSmiley(pCurr.sml->GetIndex());
+					dat.smlc = nullptr;
+				}
 
-			if (smileyCPack && smileyCPack->GetSmileyLookup().find(pCurr.sml)) {
-				dat->smlc = smileyCPack->GetSmiley(pCurr.sml->GetIndex());
-				dat->sml = nullptr;
+				if (dat.sml != nullptr || dat.smlc != nullptr) {
+					// First smiley found record it
+					smllist.insert(new ReplaceSmileyType(dat));
+					if (firstOnly)
+						return;
+				}
 			}
-			else {
-				dat->sml = smileyPack->GetSmiley(pCurr.sml->GetIndex());
-				dat->smlc = nullptr;
-			}
-
-			if (dat->sml != nullptr || dat->smlc != nullptr) {
-				// First smiley found record it
-				smllist.insert(dat);
-				if (firstOnly)
-					return;
-			}
-			else delete dat;
 		}
-		else delete dat;
 
 		// Advance string pointer to search for the next smiley
 		smloff = int(pCurr.pos + pCurr.len);
