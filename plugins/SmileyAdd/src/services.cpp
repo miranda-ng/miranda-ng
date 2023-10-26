@@ -338,33 +338,23 @@ static INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 	SMADD_CONT *cont = (SMADD_CONT *)lParam;
 
 	switch (cont->type) {
-	case 0:
+	case SMADD_SMILEPACK:
 		g_SmileyPackCStore.AddSmileyPack(cont->pszModule, cont->path);
 		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
-	case 1:
+	case SMADD_FILE:
 		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
 		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
-	case 2:
-		WIN32_FIND_DATAW findData;
-		CMStringW wszPath(cont->path);
-		HANDLE hFind = FindFirstFileW(wszPath, &findData);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			int idx = wszPath.ReverseFind('\\');
-			if (idx != -1)
-				wszPath.Truncate(idx + 1);
+	case SMADD_FOLDER:
+		auto *p = wcsrchr(cont->path, '\\');
+		CMStringW wszPath(cont->path, (p == nullptr) ? lstrlen(cont->path) : p - cont->path + 1);
 
-			do {
-				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L".."))
-					continue;
-
-				CMStringW wszFileName = wszPath + findData.cFileName;
-				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
-			} while (FindNextFileW(hFind, &findData));
-		}
+		for (auto &it : MFilePath(cont->path).search())
+			if (mir_wstrcmp(it.getPath(), L".") && mir_wstrcmp(it.getPath(), L".."))
+				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszPath + it.getPath());
 	}
 	return 0;
 }

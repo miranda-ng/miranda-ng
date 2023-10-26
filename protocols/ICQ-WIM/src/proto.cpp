@@ -139,7 +139,7 @@ void CIcqProto::OnModulesLoaded()
 
 	// load custom smilies
 	CMStringW wszPath(GetAvatarPath() + L"\\Stickers\\*.png");
-	SMADD_CONT cont = { 2, m_szModuleName, wszPath };
+	SMADD_CONT cont = { SMADD_FOLDER, m_szModuleName, wszPath };
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 }
 

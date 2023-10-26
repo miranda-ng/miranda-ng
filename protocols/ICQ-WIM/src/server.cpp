@@ -1010,7 +1010,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	fwrite(pReply->pData, 1, pReply->dataLength, out);
 	fclose(out);
 
-	SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
+	SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFileName };
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 }
 

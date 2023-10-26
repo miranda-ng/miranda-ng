@@ -209,9 +209,13 @@ struct FVCNDATA_NMHDR
 // wParam = (WPARAM) 0; not used
 // lParam = (LPARAM) (SMADD_CONT*) &dir;  // pointer to directory to load smiley from
 
+#define SMADD_SMILEPACK 0
+#define SMADD_FILE      1
+#define SMADD_FOLDER    2
+
 struct SMADD_CONT
 {
-	int type;                   // 0 - directory, 1 - file;
+	int type;                   // SMADD_* constant
 	const char *pszModule;      // module name
 	const wchar_t *path;        // smiley category name for reference
 };

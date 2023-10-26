@@ -153,7 +153,7 @@ void CTelegramProto::OnModulesLoaded()
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS);
 	if (m_bSmileyAdd) {
 		CMStringW wszStickersPath(GetAvatarPath() + L"\\Stickers\\*.*");
-		SMADD_CONT cont = {2, m_szModuleName, wszStickersPath};
+		SMADD_CONT cont = { SMADD_FOLDER, m_szModuleName, wszStickersPath };
 		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 	}
 }

@@ -193,7 +193,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 				}
 				else MoveFileW(wszExistingFile, wszFullName);
 					
-				SMADD_CONT cont = { 1, m_szModuleName, wszFullName };
+				SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFullName };
 				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 
 				mir_cslock lck(m_csFiles);

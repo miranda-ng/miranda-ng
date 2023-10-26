@@ -1467,7 +1467,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					if (bSuccess) {
 						res.AppendFormat(L"[sticker-%d]",  iStickerId);
 
-						SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
+						SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFileName };
 						CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 					}
 					else res += SetBBCString(TranslateT("Sticker"), iBBC, vkbbcUrl, wszUrl);
