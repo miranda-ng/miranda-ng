@@ -622,13 +622,6 @@ const char *pSettings[] =
 	LPGEN("About")
 };
 
-static wchar_t* getEventString(DBEVENTINFO &dbei, char *&buf)
-{
-	char *in = buf;
-	buf += mir_strlen(buf) + 1;
-	return (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(in) : mir_a2u(in);
-}
-
 static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DB::EventInfo &dbei, bool bAppendOnly)
 {
 	wstring sLocalUser;
@@ -776,6 +769,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			flags += "m";
 		if (dbei.flags & DBEF_READ)
 			flags += "r";
+		if (dbei.flags & DBEF_BOOKMARK)
+			flags += "b";
+
 		pRoot.push_back(JSONNode("flags", flags));
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
@@ -784,6 +780,13 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			pRoot << WCHAR_PARAM("file", blob.getName());
 			if (mir_wstrlen(blob.getDescr()))
 				pRoot << WCHAR_PARAM("descr", blob.getDescr());
+			if (blob.isOffline()) {
+				pRoot << INT_PARAM("offline", 1) << INT_PARAM("fileSize", blob.getSize()) << INT_PARAM("transferred", blob.getTransferred());
+				if (mir_wstrlen(blob.getLocalName()))
+					pRoot << WCHAR_PARAM("localFile", blob.getLocalName());
+				if (mir_strlen(blob.getUrl()))
+					pRoot << CHAR_PARAM("url", blob.getUrl());
+			}
 		}
 		else {
 			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
@@ -832,6 +835,34 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 					bWriteNewLine(hFile, nIndent);
 					bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format);
 					bWriteIndentedToFile(hFile, nIndent, blob.getDescr(), bWriteUTF8Format);
+				}
+
+				if (blob.isOffline()) {
+					bWriteNewLine(hFile, nIndent);
+					bWriteTextToFile(hFile, LPGENW("Offline: "), bWriteUTF8Format);
+					bWriteIndentedToFile(hFile, nIndent, L"1", bWriteUTF8Format);
+
+					CMStringW val(FORMAT, L"%d", blob.getSize());
+					bWriteNewLine(hFile, nIndent);
+					bWriteTextToFile(hFile, LPGENW("Size: "), bWriteUTF8Format);
+					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
+
+					val.Format(L"%d", blob.getTransferred());
+					bWriteNewLine(hFile, nIndent);
+					bWriteTextToFile(hFile, LPGENW("Transferred: "), bWriteUTF8Format);
+					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
+
+					if (mir_wstrlen(blob.getLocalName())) {
+						bWriteNewLine(hFile, nIndent);
+						bWriteTextToFile(hFile, LPGENW("Path: "), bWriteUTF8Format);
+						bWriteIndentedToFile(hFile, nIndent, blob.getLocalName(), bWriteUTF8Format);
+					}
+
+					if (mir_strlen(blob.getUrl())) {
+						bWriteNewLine(hFile, nIndent);
+						bWriteTextToFile(hFile, LPGENW("URL: "), bWriteUTF8Format);
+						bWriteIndentedToFile(hFile, nIndent, _A2T(blob.getUrl()), bWriteUTF8Format);
+					}
 				}
 			}
 			break;
@@ -959,7 +990,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	}
 
 	// Write the event
-	bExportEvent((MCONTACT)hContact, (MEVENT)hDbEvent, hFile, sFilePath, false);
+	bExportEvent(hContact, hDbEvent, hFile, sFilePath, false);
 
 	// Close the file
 	CloseHandle(hFile);
