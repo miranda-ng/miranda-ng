@@ -29,11 +29,8 @@ public:
 
 class SmileyPackCType
 {
-	typedef SMOBJLIST<SmileyCType> SmileyVectorType;
-	typedef SMOBJLIST<SmileyLookup> SmileyLookupType;
-
-	SmileyVectorType m_SmileyList;
-	SmileyLookupType m_SmileyLookup;
+	SMOBJLIST<SmileyCType> m_SmileyList;
+	OBJLIST<SmileyLookup> m_SmileyLookup;
 
 	ptrA m_szModule;
 
@@ -41,11 +38,12 @@ class SmileyPackCType
 
 public:
 	SmileyPackCType(const char *pszModule) :
-		m_szModule(mir_strdup(pszModule))
+		m_szModule(mir_strdup(pszModule)),
+		m_SmileyLookup(100, PtrKeySortT)
 	{}
 
-	SmileyVectorType& GetSmileyList(void) { return m_SmileyList; }
-	SmileyLookupType& GetSmileyLookup(void) { return m_SmileyLookup; }
+	auto& GetSmileyList(void) { return m_SmileyList; }
+	auto& GetSmileyLookup(void) { return m_SmileyLookup; }
 
 	int SmileyCount(void) const { return m_SmileyList.getCount(); }
 
