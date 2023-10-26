@@ -220,7 +220,11 @@ struct SMADD_CONT
 	const wchar_t *path;        // smiley category name for reference
 };
 
-#define MS_SMILEYADD_LOADCONTACTSMILEYS  "SmileyAdd/LoadContactSmileys"
+void __forceinline SmileyAdd_LoadContactSmileys(int type, const char *pszModule, const wchar_t *path)
+{
+	SMADD_CONT cont = { type, pszModule, path };
+	CallService("SmileyAdd/LoadContactSmileys", 0, LPARAM(&cont));
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Displays SmileyTool window to choose a smiley

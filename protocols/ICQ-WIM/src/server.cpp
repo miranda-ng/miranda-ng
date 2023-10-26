@@ -201,7 +201,7 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 
 	// is it a sticker?
 	if (pFileInfo->bIsSticker) {
-		if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+		if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 			auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
 			pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 			pNew->pUserInfo = wszUrl.GetBuffer();
@@ -1010,8 +1010,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	fwrite(pReply->pData, 1, pReply->dataLength, out);
 	fclose(out);
 
-	SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFileName };
-	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+	SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

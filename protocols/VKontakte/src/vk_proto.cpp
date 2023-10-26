@@ -128,8 +128,7 @@ void CVkProto::InitSmileys()
 		return;
 
 	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-	SMADD_CONT cont = { SMADD_FOLDER, m_szModuleName, wszPath };
-	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+	SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, wszPath);
 }
 
 // Menu support

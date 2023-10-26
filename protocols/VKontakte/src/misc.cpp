@@ -1439,7 +1439,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			else if (m_vkOptions.bUseStikersAsStaticSmileys)
 				res.AppendFormat(L"[sticker:%d]", iStickerId);
 			else {
-				if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+				if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 					CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 					CreateDirectoryTreeW(wszPath);
 
@@ -1465,10 +1465,9 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					else bSuccess = true;
 
 					if (bSuccess) {
-						res.AppendFormat(L"[sticker-%d]",  iStickerId);
+						res.AppendFormat(L"[sticker-%d]", iStickerId);
 
-						SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFileName };
-						CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+						SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFileName);
 					}
 					else res += SetBBCString(TranslateT("Sticker"), iBBC, vkbbcUrl, wszUrl);
 				}

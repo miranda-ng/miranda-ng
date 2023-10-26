@@ -732,7 +732,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	// parse stickers
 	CMStringA stickerId = root["stickerId"].as_mstring();
 	if (!stickerId.IsEmpty()) {
-		if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+		if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 			CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 			CreateDirectoryTreeW(wszPath);
 
@@ -783,8 +783,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 					szBody += "\r\n";
 				szBody += "STK{" + stickerId + "}";
 
-				SMADD_CONT cont = { SMADD_FILE, m_szModuleName, wszFileName };
-				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+				SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFileName);
 			}
 			else szBody += TranslateU("Sticker received");
 		}

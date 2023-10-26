@@ -137,12 +137,10 @@ void FacebookProto::OnModulesLoaded()
 	VARSW wszCache(L"%miranda_avatarcache%");
 
 	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", wszCache.get(), m_szModuleName);
-	SMADD_CONT cont = { SMADD_FOLDER, m_szModuleName, wszPath };
-	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+	SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, wszPath);
 
 	wszPath.Format(L"%s\\%S\\Stickers\\*.webp", wszCache.get(), m_szModuleName);
-	cont.path = wszPath;
-	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+	SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, wszPath);
 
 	// contacts cache
 	for (auto &cc : AccContacts()) {

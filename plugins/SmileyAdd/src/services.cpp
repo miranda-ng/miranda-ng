@@ -413,6 +413,6 @@ void InitServices()
 	CreateServiceFunction(MS_SMILEYADD_BATCHFREE, FreeTextBatch);
 	CreateServiceFunction(MS_SMILEYADD_CUSTOMCATMENU, CustomCatMenu);
 	CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
-	CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys);
+	CreateServiceFunction("SmileyAdd/LoadContactSmileys", LoadContactSmileys);
 	CreateServiceFunction(MS_SMILEYADD_SELECTSMILEY, SelectSmiley);
 }
