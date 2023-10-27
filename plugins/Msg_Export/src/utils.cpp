@@ -781,7 +781,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			if (mir_wstrlen(blob.getDescr()))
 				pRoot << WCHAR_PARAM("descr", blob.getDescr());
 			if (blob.isOffline()) {
-				pRoot << INT_PARAM("offline", 1) << INT_PARAM("fileSize", blob.getSize()) << INT_PARAM("transferred", blob.getTransferred());
+				pRoot << INT_PARAM("fileSize", blob.getSize()) << INT_PARAM("transferred", blob.getTransferred());
 				if (mir_wstrlen(blob.getLocalName()))
 					pRoot << WCHAR_PARAM("localFile", blob.getLocalName());
 				if (mir_strlen(blob.getUrl()))
@@ -838,10 +838,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				}
 
 				if (blob.isOffline()) {
-					bWriteNewLine(hFile, nIndent);
-					bWriteTextToFile(hFile, LPGENW("Offline: "), bWriteUTF8Format);
-					bWriteIndentedToFile(hFile, nIndent, L"1", bWriteUTF8Format);
-
 					CMStringW val(FORMAT, L"%d", blob.getSize());
 					bWriteNewLine(hFile, nIndent);
 					bWriteTextToFile(hFile, LPGENW("Size: "), bWriteUTF8Format);
