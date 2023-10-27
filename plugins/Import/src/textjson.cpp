@@ -100,14 +100,15 @@ public:
 
 	STDMETHODIMP_(BOOL) GetEvent(MEVENT iEvent, DBEVENTINFO *dbei) override
 	{
-		JSONNode *node = m_events[iEvent - 1];
-		if (node == nullptr)
-			return 0;
+		JSONNode *pNode = m_events[iEvent - 1];
+		if (pNode == nullptr)
+			return 1;
 
-		dbei->eventType = (*node)["type"].as_int();
+		auto &node = *pNode;
+		dbei->eventType = node["type"].as_int();
 
 		dbei->timestamp = 0;
-		std::string szTime = (*node)["time"].as_string();
+		std::string szTime = node["time"].as_string();
 		if (!szTime.empty()) {
 			char c;
 			struct tm st = {};
@@ -121,7 +122,7 @@ public:
 			}
 		}
 		else {
-			szTime = (*node)["isotime"].as_string();
+			szTime = node["isotime"].as_string();
 			if (!szTime.empty()) {
 				struct tm st = {};
 				int res = sscanf(szTime.c_str(), "%4d-%2d-%2dT%2d:%2d:%2dZ", &st.tm_year, &st.tm_mon, &st.tm_mday, &st.tm_hour, &st.tm_min, &st.tm_sec);
@@ -136,17 +137,17 @@ public:
 		}
 
 		if (dbei->timestamp == 0)
-			dbei->timestamp = (*node)["timeStamp"].as_int();
+			dbei->timestamp = node["timeStamp"].as_int();
 
 		dbei->flags = 0;
-		std::string szFlags = (*node)["flags"].as_string();
+		std::string szFlags = node["flags"].as_string();
 		for (auto &c : szFlags)
 			switch (c) {
 			case 'm': dbei->flags |= DBEF_SENT; break;
 			case 'r': dbei->flags |= DBEF_READ; break;
 			}
 
-		std::string szModule = (*node)["module"].as_string();
+		std::string szModule = node["module"].as_string();
 		if (!szModule.empty()) {
 			dbei->szModule = m_modules.find((char*)szModule.c_str());
 			if (dbei->szModule == nullptr) {
@@ -158,11 +159,20 @@ public:
 		if (dbei->eventType == EVENTTYPE_FILE) {
 			dbei->flags |= DBEF_UTF;
 
-			DB::FILE_BLOB blob((*node)["file"].as_mstring(), (*node)["descr"].as_mstring());
+			DB::FILE_BLOB blob(node["file"].as_mstring(), node["descr"].as_mstring());
+			if (auto &url = node["url"])
+				blob.setUrl(url.as_string().c_str());
+			if (auto &file = node["localFile"])
+				blob.setLocalName(file.as_mstring());
+			if (auto &transferred = node["transferred"])
+				blob.complete(transferred.as_int());
+			if (auto &size = node["size"])
+				blob.setSize(size.as_int());
+
 			blob.write(*(DB::EventInfo*)dbei);
 		}
 		else {
-			std::string szBody = (*node)["body"].as_string();
+			std::string szBody = node["body"].as_string();
 			if (!szBody.empty()) {
 				int offset;
 				switch (dbei->eventType) {
