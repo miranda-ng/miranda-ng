@@ -70,6 +70,8 @@ IDI_TIMETREE            ICON                    "timetree.ico"
 
 IDI_BOOKMARK            ICON                    "star.ico"
 
+IDI_OK                  ICON                    "ok.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog

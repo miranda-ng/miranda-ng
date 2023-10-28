@@ -79,6 +79,7 @@ static IconItem icons[] =
 	{ LPGEN("Template group"), "tplgroup", IDI_TPLGROUP },
 	{ LPGEN("Cancel edit"), "reset", IDI_RESET },
 	{ LPGEN("Update preview"), "preview", IDI_PREVIEW },
+	{ LPGEN("Downloaded"), "downloaded", IDI_OK },
 	{ LPGEN("Help"), "varhelp", IDI_VARHELP }
 };
 
