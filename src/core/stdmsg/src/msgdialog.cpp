@@ -1149,10 +1149,7 @@ void CMsgDialog::OnOptionsApplied()
 	m_pLog->Clear();
 	FixTabIcons();
 
-	if (isChat())
-		RedrawLog();
-	else
-		RemakeLog();
+	ScheduleRedrawLog();
 }
 
 void CMsgDialog::onSplitterX(CSplitter *pSplitter)

@@ -2370,7 +2370,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_FORCEDREMAKELOG:
 		m_dwFlags &= ~(MWF_LOG_ALL);
 		m_dwFlags |= (lParam & MWF_LOG_ALL);
-		m_bDeferredRemakeLog = true;
+		ScheduleRedrawLog();
 		return 0;
 
 	case DM_APPENDMCEVENT:

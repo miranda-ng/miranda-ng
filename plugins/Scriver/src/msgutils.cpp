@@ -99,7 +99,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
 			m_pLog->LogEvents(hDbEvent, 1, 1);
 		else
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			RemakeLog();
 
 		if (!(dbei.flags & DBEF_SENT) && !dbei.isSrmm()) {
 			if (!bIsActive) {
@@ -342,11 +342,11 @@ void CMsgDialog::OnOptionsApplied()
 	else {
 		SetDialogToType();
 
-		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		UpdateTabControl();
 		SetupInfobar();
 	}
 
+	ScheduleRedrawLog();
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 }
 
@@ -607,7 +607,7 @@ void CMsgDialog::ToggleRtl()
 		SetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_LEFTSCROLLBAR));
 	}
 	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+	RemakeLog();
 }
 
 void CMsgDialog::UpdateIcon()

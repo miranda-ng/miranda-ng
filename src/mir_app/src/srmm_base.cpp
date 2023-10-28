@@ -657,7 +657,6 @@ void CSrmmBaseDialog::UpdateChatOptions()
 		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
 
 	Resize();
-	RedrawLog();
 }
 
 void CSrmmBaseDialog::SetMessageText(const wchar_t *pwszText, bool bAppend)
@@ -695,7 +694,7 @@ void CSrmmBaseDialog::OnRedrawTimer(CTimer *pTimer)
 
 void CSrmmBaseDialog::ScheduleRedrawLog()
 {
-	timerRedraw.Start(100);
+	timerRedraw.Start(20);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

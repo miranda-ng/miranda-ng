@@ -2971,11 +2971,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		}
 		m_pContainer->cfg.flags.m_bNeedsUpdateTitle = false;
 
-		if (m_bDeferredRemakeLog && !IsIconic(m_pContainer->m_hwnd)) {
-			RemakeLog();
-			m_bDeferredRemakeLog = false;
-		}
-
 		if (m_bNeedCheckSize)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 

@@ -467,7 +467,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool     m_fLimitedUpdate;
 	bool     m_bClrAdded;
 	bool     m_bInsertMode, m_bInitMode = true;
-	bool     m_bDeferredScroll, m_bDeferredRemakeLog;
+	bool     m_bDeferredScroll;
 	bool     m_bWasBackgroundCreate;
 
 	int      m_iRealAvatarHeight;

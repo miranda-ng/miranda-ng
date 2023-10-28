@@ -879,12 +879,7 @@ void CMsgDialog::OnOptionsApplied()
 		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
-	if (IsIconic(m_pContainer->m_hwnd))
-		m_bDeferredRemakeLog = true;
-	else if (isChat())
-		RedrawLog();
-	else
-		RemakeLog();
+	ScheduleRedrawLog();
 
 	ShowWindow(m_hwndPanelPicParent, SW_SHOW);
 	EnableWindow(m_hwndPanelPicParent, TRUE);
