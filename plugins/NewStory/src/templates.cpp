@@ -60,8 +60,6 @@ CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *item)
 
 static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 {
-	buf.Append("{\\uc1 ");
-
 	for (; *p; p++) {
 		if (*p == '\r' && p[1] == '\n') {
 			buf.Append("\\p ");
@@ -118,7 +116,6 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 			buf.AppendFormat("\\u%d ?", *p);
 		}
 	}
-	buf.AppendChar('}');
 }
 
 CMStringA NSRtfProvider::CreateRtfHeader()
@@ -127,7 +124,7 @@ CMStringA NSRtfProvider::CreateRtfHeader()
 	buf.Append("{\\rtf1\\ansi\\deff0");
 
 	auto &F = g_fontTable[(m_pItem->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
-	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset1 %s;}}", F.lf.lfFaceName);
+	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset0 %s;}}", F.lf.lfFaceName);
 
 	COLORREF cr = GetSysColor(COLOR_WINDOWTEXT);
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
@@ -142,14 +139,14 @@ CMStringA NSRtfProvider::CreateRtfBody()
 	CMStringW wszText = TplFormatString(m_pItem->getTemplate(), m_pItem->hContact, m_pItem);
 
 	CMStringA buf;
-	// buf.AppendFormat("\\f0\\cf0\\b0\\i0\\fs%d ", -F.lf.lfHeight);
+	buf.AppendFormat("\\viewkind4\\uc1\\pard \\f0\\b0\\i0\\fs%d ", F.lf.lfHeight);
 	AppendUnicodeToBuffer(buf, wszText);
 	return buf;
 }
 
 CMStringA NSRtfProvider::CreateRtfFooter()
 {
-	return "}";
+	return " \\par }";
 }
 
 ///////////////////////////////////////////////////////////////////////////////

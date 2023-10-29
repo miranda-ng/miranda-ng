@@ -66,6 +66,14 @@ void MText_InitFormatting1(TextObject *text)
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocate text object (unicode)
 
+DWORD CALLBACK EditStreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	CMStringA *rtf = (CMStringA *)dwCookie;
+	rtf->Append((char *)pbBuff, cb);
+	*pcb = cb;
+	return 0;
+}
+
 MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text)
 {
 	TextObject *result = new TextObject;
@@ -78,6 +86,15 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szPro
 	result->ftd->putTextW((wchar_t *)text);
 	MText_InitFormatting1(result);
 
+	/*
+	LRESULT res;
+	CMStringA buf;
+	EDITSTREAM es = { 0 };
+	es.dwCookie = (DWORD_PTR)&buf;
+	es.pfnCallback = &EditStreamOutCallback;
+	result->ftd->getTextService()->TxSendMessage(EM_STREAMOUT, SF_RTF, (LPARAM)&es, &res);
+
+	Netlib_Logf(0, "Rtf created: %s", buf.c_str());*/
 	return result;
 }
 

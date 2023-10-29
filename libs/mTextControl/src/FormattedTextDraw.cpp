@@ -44,7 +44,7 @@ CFormattedTextDraw::CFormattedTextDraw()
 	m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
 
 	IUnknown *spUnk;
-	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost *>(this), &spUnk);
+	HRESULT hr = MyCreateTextServices(nullptr, this, &spUnk);
 	if (hr == S_OK) {
 		hr = spUnk->QueryInterface(IID_ITextServices, (void **)&m_spTextServices);
 		hr = spUnk->QueryInterface(IID_ITextDocument, (void **)&m_spTextDocument);
@@ -160,45 +160,21 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 
 struct STREAMDATA
 {
-	CMStringA buf;
-	int iStage = STREAMSTAGE_HEADER;
-	MRtfProvider *pProv;
+	const char *str;
+	int lSize, lCount;
 };
 
 static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	auto *dat = (STREAMDATA *)dwCookie;
 
-	if (dat->buf.IsEmpty()) {
-		switch (dat->iStage) {
-		case STREAMSTAGE_HEADER:
-			dat->buf = dat->pProv->CreateRtfHeader();
-			dat->iStage = STREAMSTAGE_EVENTS;
-			break;
-
-		case STREAMSTAGE_EVENTS:
-			dat->buf = dat->pProv->CreateRtfBody();
-			dat->iStage = STREAMSTAGE_TAIL;
-			break;
-
-		case STREAMSTAGE_TAIL:
-			dat->buf = dat->pProv->CreateRtfFooter();
-			dat->iStage = STREAMSTAGE_STOP;
-			break;
-
-		case STREAMSTAGE_STOP:
-			*pcb = 0;
-			return 0;
-		}
-	}
-
-	*pcb = min(cb, dat->buf.GetLength());
-	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
-	if (dat->buf.GetLength() == *pcb)
-		dat->buf.Empty();
+	if (dat->lSize - dat->lCount < cb)
+		*pcb = dat->lSize - dat->lCount;
 	else
-		dat->buf.Delete(0, *pcb);
+		*pcb = cb;
 
+	memcpy(pbBuff, dat->str + dat->lCount, *pcb);
+	dat->lCount += *pcb;
 	return 0;	//	callback succeeded - no errors
 }
 
@@ -207,8 +183,9 @@ HRESULT CFormattedTextDraw::putRTFText(MRtfProvider *pProv)
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	STREAMDATA streamData = {};
-	streamData.pProv = pProv;
+	CMStringA buf = pProv->CreateRtfHeader() + pProv->CreateRtfBody() + pProv->CreateRtfFooter();
+
+	STREAMDATA streamData = { buf.c_str(), buf.GetLength(), 0 };
 
 	EDITSTREAM editStream;
 	editStream.dwCookie = (DWORD_PTR)&streamData;
