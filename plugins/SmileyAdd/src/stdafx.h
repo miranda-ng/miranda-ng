@@ -140,6 +140,8 @@ void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog);
 void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);
 
+void DestroyProxyWindow();
+
 void CloseSmileys(void);
 int CheckForTip(int x, int y, HWND hwnd, wchar_t **smltxt);
 

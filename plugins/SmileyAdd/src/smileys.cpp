@@ -47,6 +47,12 @@ static void CALLBACK sttStopTimer(PVOID obj)
 	KillTimer(hwndHidden, (DWORD_PTR)obj);
 }
 
+void DestroyProxyWindow()
+{
+	if (hwndHidden)
+		DestroyWindow(hwndHidden);
+}
+
 //
 // SmileyType
 //

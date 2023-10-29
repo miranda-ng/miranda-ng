@@ -150,6 +150,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 static int MirandaShutdown(WPARAM, LPARAM)
 {
 	CloseSmileys();
+	DestroyProxyWindow();
 	return 0;
 }
 
@@ -165,7 +166,7 @@ int CMPlugin::Load()
 	g_hevOptionsChanged = CreateHookableEvent(ME_SMILEYADD_OPTIONSCHANGED);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, MirandaShutdown);
+	HookEvent(ME_SYSTEM_SHUTDOWN, MirandaShutdown);
 	HookEvent(ME_OPT_INITIALISE, SmileysOptionsInitialize);
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, UpdateSrmmDlg);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccountListChanged);
