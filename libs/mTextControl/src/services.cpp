@@ -50,7 +50,8 @@ void MText_InitFormatting1(TextObject *text)
 	bbCodeParse(text->ftd);
 
 	// smilies
-	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
+	HWND hwnd = CreateProxyWindow();
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
 
 	SMADD_RICHEDIT sm = {};
 	sm.hwndRichEditControl = hwnd;
@@ -59,7 +60,7 @@ void MText_InitFormatting1(TextObject *text)
 	sm.flags = SAFLRE_INSERTEMF;
 	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 
-	DestroyWindow(hwnd);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
