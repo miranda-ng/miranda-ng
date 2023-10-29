@@ -126,6 +126,7 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 {
 	auto *pDlg = (CSrmmBaseDialog *)lParam;
 	auto hwndLog = pDlg->log()->GetHwnd();
+	auto hwndInput = pDlg->GetInput();
 
 	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
@@ -137,21 +138,21 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 			g_MsgWndList.insert(msgwnd);
 		}
 
-		SetRichOwnerCallback(pDlg->GetHwnd(), pDlg->GetInput(), hwndLog);
+		SetRichOwnerCallback(pDlg->GetHwnd(), hwndInput, hwndLog);
 
 		if (hwndLog)
 			SetRichCallback(hwndLog, pDlg->m_hContact, false, false);
-		if (pDlg->GetInput())
-			SetRichCallback(pDlg->GetInput(), pDlg->m_hContact, false, false);
+		if (hwndInput)
+			SetRichCallback(hwndInput, pDlg->m_hContact, false, false);
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		SetRichOwnerCallback(pDlg->GetHwnd(), pDlg->GetInput(), hwndLog);
+		SetRichOwnerCallback(pDlg->GetHwnd(), hwndInput, hwndLog);
 		if (hwndLog)
 			SetRichCallback(hwndLog, pDlg->m_hContact, true, true);
-		if (pDlg->GetInput()) {
-			SetRichCallback(pDlg->GetInput(), pDlg->m_hContact, true, true);
-			SendMessage(pDlg->GetInput(), WM_REMAKERICH, 0, 0);
+		if (hwndInput) {
+			SetRichCallback(hwndInput, pDlg->m_hContact, true, true);
+			SendMessage(hwndInput, WM_REMAKERICH, 0, 0);
 		}
 		break;
 
