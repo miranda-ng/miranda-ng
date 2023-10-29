@@ -143,34 +143,6 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 	}
 }
 
-void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
-{
-	ptrA jid(getUStringA(hContact, "jid"));
-	if (jid == nullptr)
-		return;
-
-	debugLogA("Add %s permanently to list", jid.get());
-	ptrA nick(db_get_utfa(hContact, "CList", "MyHandle"));
-	if (nick == nullptr)
-		nick = getUStringA(hContact, "Nick");
-	if (nick == nullptr)
-		nick = JabberNickFromJID(jid);
-	if (nick == nullptr)
-		return;
-
-	AddContactToRoster(jid, nick, T2Utf(ptrW(Clist_GetGroup(hContact))));
-
-	XmlNode xPresence("presence"); xPresence << XATTR("to", jid) << XATTR("type", "subscribe");
-	ptrA myNick(getUStringA("Nick"));
-	if (myNick != nullptr && !m_bIgnoreRoster)
-		xPresence << XCHILD("nick", myNick) << XATTR("xmlns", JABBER_FEAT_NICK);
-	m_ThreadInfo->send(xPresence);
-
-	SendGetVcard(hContact);
-
-	Contact::Hide(hContact, false);
-}
-
 int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact == 0 || !m_bJabberOnline)
@@ -184,10 +156,6 @@ int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		OnRenameGroup(cws, hContact);
 	else if (!strcmp(cws->szSetting, "MyHandle"))
 		OnRenameContact(cws, hContact);
-	else if (!strcmp(cws->szSetting, "NotOnList")) {
-		if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
-			OnAddContactForever(hContact);
-	}
 
 	return 0;
 }

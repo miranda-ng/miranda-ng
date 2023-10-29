@@ -161,7 +161,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
-	void __cdecl OnAddContactForever(MCONTACT hContact);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int  __cdecl OnLangChanged(WPARAM, LPARAM);
@@ -341,8 +340,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	/*******************************************************************
 	* Function declarations
 	*******************************************************************/
-
-	void       JabberUpdateDialogs(BOOL bEnable);
 
 	//---- jabber_adhoc.cpp --------------------------------------------------------------
 
@@ -615,7 +612,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       FtSendFinal(bool success, filetransfer *ft);
 	int        FtReceive(filetransfer *ft, char* buffer, int datalen);
 	void       FtReceiveFinal(bool success, filetransfer *ft);
-
+	
 	//---- jabber_iqid.cpp ---------------------------------------------------------------
 
 	void       GroupchatJoinByHContact(MCONTACT hContact, bool autojoin=false);
@@ -770,12 +767,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int        RcGetUnreadEventsCount(void);
 
-	//---- jabber_rostereditor.cpp -------------------------------------------------------
+	//---- jabber_roster.cpp -------------------------------------------------------------
 
 	CRosterEditorDlg *m_hwndRosterEditor;
 
 	INT_PTR    __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
 	void       _RosterHandleGetRequest(const TiXmlElement *node, CJabberIqInfo*);
+
+	void       JabberUpdateDialogs(BOOL bEnable);
 
 	//---- jabber_search.cpp -------------------------------------------------------------
 
@@ -784,9 +783,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        SearchRenewFields(HWND hwndDlg, JabberSearchData * dat);
 	void       SearchDeleteFromRecent(const char *szAddr, bool deleteLastFromDB);
 	void       SearchAddToRecent(const char *szAddr, HWND hwndDialog = nullptr);
-
-	//---- jabber_std.cpp ----------------------------------------------
-	void       JLoginFailed(int errorCode);
 
 	//---- jabber_svc.c ------------------------------------------------------------------
 
@@ -822,7 +818,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
 	bool       ServerThreadStub(ThreadData &info);
-		        
+
 	void       OnProcessFailure(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessFailed(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessEnabled(const TiXmlElement *node, ThreadData *info);
@@ -858,7 +854,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnPingReply(const TiXmlElement *node, CJabberIqInfo *pInfo);
 		        
 	bool       ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *parentNode, ThreadData *info);
-		        
+	void       JLoginFailed(int errorCode);
+
 	//---- jabber_userinfo.c -------------------------------------------------------------
 
 	void       CheckOmemoUserInfo(WPARAM, USERINFOPAGE&);
@@ -867,7 +864,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	pResourceStatus ResourceInfoFromJID(const char *jid);
 
 	void       OnGetBob(const TiXmlElement *node, CJabberIqInfo *pInfo);
-			     
+		
+	void       AddContactForever(MCONTACT hContact);
+
 	MCONTACT   HContactFromJID(const char *jid, bool bStripResource = true);
 	MCONTACT   ChatRoomHContactFromJID(const char *jid);
 	void       SendVisibleInvisiblePresence(bool invisible);

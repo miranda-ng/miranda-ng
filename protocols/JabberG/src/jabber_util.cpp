@@ -31,7 +31,37 @@ int CJabberProto::SerialNext(void)
 	return ::InterlockedIncrement(&m_nSerial);
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CJabberProto::AddContactForever(MCONTACT hContact)
+{
+	ptrA jid(getUStringA(hContact, "jid"));
+	if (jid == nullptr)
+		return;
+
+	debugLogA("Add %s permanently to list", jid.get());
+	ptrA nick(db_get_utfa(hContact, "CList", "MyHandle"));
+	if (nick == nullptr)
+		nick = getUStringA(hContact, "Nick");
+	if (nick == nullptr)
+		nick = JabberNickFromJID(jid);
+	if (nick == nullptr)
+		return;
+
+	AddContactToRoster(jid, nick, T2Utf(ptrW(Clist_GetGroup(hContact))));
+
+	XmlNode xPresence("presence"); xPresence << XATTR("to", jid) << XATTR("type", "subscribe");
+	ptrA myNick(getUStringA("Nick"));
+	if (myNick != nullptr && !m_bIgnoreRoster)
+		xPresence << XCHILD("nick", myNick) << XATTR("xmlns", JABBER_FEAT_NICK);
+	m_ThreadInfo->send(xPresence);
+
+	SendGetVcard(hContact);
+
+	Contact::Hide(hContact, false);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberChatRoomHContactFromJID - looks for the char room MCONTACT with required JID
 
 MCONTACT CJabberProto::ChatRoomHContactFromJID(const char *jid)
@@ -43,7 +73,7 @@ MCONTACT CJabberProto::ChatRoomHContactFromJID(const char *jid)
 	return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberHContactFromJID - looks for the MCONTACT with required JID
 
 MCONTACT CJabberProto::HContactFromJID(const char *jid, bool bStripResource)
@@ -577,7 +607,7 @@ char* JabberId2string(int id)
 	return mir_strdup(text);
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetClientJID - adds a resource postfix to a JID
 
 char* CJabberProto::GetClientJID(MCONTACT hContact, char *dest, size_t destLen)
@@ -608,7 +638,7 @@ char* CJabberProto::GetClientJID(const char *jid, char *dest, size_t destLen)
 	return dest;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberStripJid - strips a resource postfix from a JID
 
 char* JabberStripJid(const char *jid, char *dest, size_t destLen)
@@ -678,7 +708,7 @@ const char* TStringPairs::operator[](const char* key) const
 	return "";
 }
 
-////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Manage combo boxes with recent item list
 
 void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount)
@@ -739,8 +769,9 @@ time_t str2time(const char *buf)
 	return _mkgmtime(&T);
 }
 
-////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // case-insensitive wcsstr
+
 const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 {
 	wchar_t *str_up = NEWWSTR_ALLOCA(str);
@@ -753,7 +784,7 @@ const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 	return p ? (str + (p - str_up)) : nullptr;
 }
 
-////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName, int recentCount, int timeout)
 {

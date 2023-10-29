@@ -411,18 +411,17 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 
 	DB::AUTH_BLOB blob(dbei.pBlob);
 	debugLogA("Send 'authorization allowed' to %s", blob.get_email());
+	Contact::PutOnList(blob.get_contact());
 
 	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", blob.get_email()) << XATTR("type", "subscribed"));
 
 	// Automatically add this user to my roster if option is enabled
 	if (m_bAutoAdd) {
-		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, blob.get_email());
-		if (item == nullptr || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			debugLogA("Try adding contact automatically jid = %s", blob.get_email());
-			if (MCONTACT hContact = AddToListByJID(blob.get_email(), 0)) {
-				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
-				// See AddToListByJID() and JabberDbSettingChanged().
-				Contact::PutOnList(hContact);
+		if (auto *item = ListGetItemPtr(LIST_ROSTER, blob.get_email())) {
+			if (item->subscription != SUB_BOTH && item->subscription != SUB_TO) {
+				debugLogA("Try adding contact automatically jid = %s", blob.get_email());
+				if (MCONTACT hContact = AddToListByJID(blob.get_email(), 0))
+					AddContactForever(hContact);
 			}
 		}
 	}
