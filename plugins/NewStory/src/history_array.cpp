@@ -420,13 +420,13 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	p.m_bLoaded = true;
 	p.m_bHighlighted = lin->bIsHighlighted;
 	p.dbe.timestamp = lin->time;
+	if (lin->bIsMe)
+		p.dbe.flags |= DBEF_SENT;
 
 	switch (lin->iType) {
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_INFORMATION:
 		p.dbe.eventType = EVENTTYPE_MESSAGE;
-		if (lin->bIsMe)
-			p.dbe.flags |= DBEF_SENT;
 		break;
 
 	case GC_EVENT_SETCONTACTSTATUS:
@@ -435,9 +435,6 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 	case GC_EVENT_JOIN:
 	case GC_EVENT_PART:
-		p.dbe.flags |= DBEF_SENT;
-		__fallthrough;
-
 	case GC_EVENT_QUIT:
 		p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
 		break;
