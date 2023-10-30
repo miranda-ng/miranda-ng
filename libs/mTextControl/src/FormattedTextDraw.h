@@ -38,7 +38,7 @@ public:
 
 	HRESULT get_NaturalSize(HDC hdcDraw, long *Width, long *pVal);
 	HRESULT Draw(HDC hdcDraw, RECT *prc);
-	HRESULT putRTFText(MRtfProvider *pProv);
+	HRESULT putRTFText(char *newVal);
 	HRESULT putTextA(char *newVal);
 	HRESULT putTextW(wchar_t *newVal);
 

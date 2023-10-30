@@ -101,7 +101,7 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szPro
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocate text object (advanced)
 
-MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint32_t flags)
+MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, const void *text, uint32_t flags)
 {
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
@@ -110,7 +110,7 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint
 
 	MText_InitFormatting0(result->ftd, result->options);
 	if (flags & MTEXT_FLG_RTF) {
-		result->ftd->putRTFText((MRtfProvider *)text);
+		result->ftd->putRTFText((char *)text);
 	}
 	else {
 		if (flags & MTEXT_FLG_WCHAR)

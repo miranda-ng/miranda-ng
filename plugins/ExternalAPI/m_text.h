@@ -6,12 +6,12 @@
 #define MTM_SETUSER WM_USER
 #define MTM_UPDATE  WM_USER+1
 
+typedef struct TextObject *HText;
+
 #ifdef MTEXTCONTROL_EXPORTS
 	#define MTEXTCONTROL_EXPORT __declspec(dllexport)
-	typedef struct TextObject *HText;
 #else
 	#define MTEXTCONTROL_EXPORT __declspec(dllimport)
-	typedef HANDLE HText;
 #endif
 
 #define MTEXTCONTROL_DLL(T) MTEXTCONTROL_EXPORT T __stdcall
@@ -46,13 +46,6 @@ enum
 	MTEXT_FLG_RTF         = 0x00000004,
 };
 
-struct MRtfProvider
-{
-	virtual CMStringA CreateRtfHeader() = 0;
-	virtual CMStringA CreateRtfBody() = 0;
-	virtual CMStringA CreateRtfFooter() = 0;
-};
-
 // subscribe to MText services
 MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options);
 
@@ -60,7 +53,7 @@ MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options);
 MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
 
 // allocate text object (advanced)
-MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, void *text, uint32_t flags);
+MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, const void *text, uint32_t flags);
 
 // destroys text object
 MTEXTCONTROL_DLL(int) MTextDestroy(HText text);

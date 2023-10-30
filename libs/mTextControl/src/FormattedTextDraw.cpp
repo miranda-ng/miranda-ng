@@ -151,46 +151,20 @@ HRESULT CFormattedTextDraw::putTextW(wchar_t *newVal)
 	return S_OK;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-#define STREAMSTAGE_HEADER  0
-#define STREAMSTAGE_EVENTS  1
-#define STREAMSTAGE_TAIL    2
-#define STREAMSTAGE_STOP    3
-
-struct STREAMDATA
-{
-	const char *str;
-	int lSize, lCount;
-};
-
-static DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-	auto *dat = (STREAMDATA *)dwCookie;
-
-	if (dat->lSize - dat->lCount < cb)
-		*pcb = dat->lSize - dat->lCount;
-	else
-		*pcb = cb;
-
-	memcpy(pbBuff, dat->str + dat->lCount, *pcb);
-	dat->lCount += *pcb;
-	return 0;	//	callback succeeded - no errors
-}
-
-HRESULT CFormattedTextDraw::putRTFText(MRtfProvider *pProv)
+HRESULT CFormattedTextDraw::putRTFText(char *newVal)
 {
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	CMStringA buf = pProv->CreateRtfHeader() + pProv->CreateRtfBody() + pProv->CreateRtfFooter();
-
-	STREAMDATA streamData = { buf.c_str(), buf.GetLength(), 0 };
+	STREAMDATATEXT streamData = {};
+	streamData.isUnicode = false;
+	streamData.ansi = newVal;
+	streamData.cbSize = mir_strlen(newVal);
 
 	EDITSTREAM editStream;
 	editStream.dwCookie = (DWORD_PTR)&streamData;
 	editStream.dwError = 0;
-	editStream.pfnCallback = EditStreamInCallback;
+	editStream.pfnCallback = EditStreamTextInCallback;
 
 	LRESULT lResult = 0;
 	m_spTextServices->TxSendMessage(EM_STREAMIN, SF_RTF, (LPARAM)&editStream, &lResult);
