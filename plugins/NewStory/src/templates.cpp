@@ -112,7 +112,7 @@ CMStringA ItemData::formatRtf()
 	AppendUnicodeToBuffer(buf, formatString());
 
 	buf.Append("}");
-	Netlib_Logf(0, buf);
+	// Netlib_Logf(0, buf);
 	return buf;
 }
 
