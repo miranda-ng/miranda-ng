@@ -19,10 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "stdafx.h"
 
-LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam);
-//LRESULT MTextControl_Measure(HWND hwnd, int maxw, SIZE *size);
-
 struct TextControlData
 {
 	HANDLE htu;
@@ -30,80 +26,9 @@ struct TextControlData
 	struct TextObject *mtext;
 };
 
-void MTextControl_RegisterClass()
-{
-	WNDCLASSEX wcl = {};
-	wcl.cbSize = sizeof(wcl);
-	wcl.lpfnWndProc = MTextControlWndProc;
-	wcl.style = CS_GLOBALCLASS;
-	wcl.hInstance = g_hInst;
-	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszClassName = L"MTextControl";
-	RegisterClassExW(&wcl);
-}
-
-void MTextControl_UnregisterClass()
-{
-	UnregisterClassW(L"MTextControl", g_hInst);
-}
-
-LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg) {
-	case WM_CREATE:
-		data = new TextControlData;
-		data->text = nullptr;
-		data->mtext = nullptr;
-		data->htu = htuDefault;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
-		PostMessage(hwnd, MTM_UPDATE, 0, 0);
-		return 0;
-
-	case MTM_SETUSER:
-		data->htu = wParam ? (HANDLE)wParam : htuDefault;
-		// falldown, DefWindowProc won't process WM_USER ;)
-
-	case WM_SETTEXT:
-		DefWindowProc(hwnd, msg, wParam, lParam);
-		// falldown
-
-	case MTM_UPDATE:
-		if (data->text) delete[] data->text;
-		if (data->mtext) MTextDestroy(data->mtext);
-		{
-			int textLength = GetWindowTextLength(hwnd);
-			data->text = new wchar_t[textLength + 1];
-			GetWindowText(hwnd, data->text, textLength + 1);
-			data->mtext = MTextCreateW(data->htu, 0, data->text);
-
-			MTextSetParent(data->mtext, hwnd);
-
-			InvalidateRect(hwnd, nullptr, TRUE);
-		}
-		return TRUE;
-
-	case WM_PAINT:
-		return MTextControl_OnPaint(hwnd, wParam, lParam);
-
-	case WM_ERASEBKGND:
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-		FillRect((HDC)wParam, &rc, GetSysColorBrush(COLOR_BTNFACE));
-		return TRUE;
-
-	case WM_MOUSEMOVE:
-		if (data && data->mtext)
-			return MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
-		break;
-	}
-
-	return DefWindowProc(hwnd, msg, wParam, lParam);
-}
-
 /// Paint ////////////////////////////////////
-LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
+
+static LRESULT MTextControl_OnPaint(HWND hwnd)
 {
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(hwnd, &ps);
@@ -147,4 +72,78 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 	// Release the device context
 	EndPaint(hwnd, &ps);
 	return 0;
+}
+
+static LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	switch (msg) {
+	case WM_CREATE:
+		data = new TextControlData;
+		data->text = nullptr;
+		data->mtext = nullptr;
+		data->htu = htuDefault;
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+		PostMessage(hwnd, MTM_UPDATE, 0, 0);
+		return 0;
+
+	case MTM_SETUSER:
+		data->htu = wParam ? (HANDLE)wParam : htuDefault;
+		__fallthrough;
+
+	case WM_SETTEXT:
+		DefWindowProc(hwnd, msg, wParam, lParam);
+		__fallthrough;
+
+	case MTM_UPDATE:
+		if (data->text) delete[] data->text;
+		if (data->mtext) MTextDestroy(data->mtext);
+		{
+			int textLength = GetWindowTextLengthW(hwnd);
+			data->text = new wchar_t[textLength + 1];
+			GetWindowTextW(hwnd, data->text, textLength + 1);
+		}
+
+		data->mtext = MTextCreateW(data->htu, 0, data->text);
+		MTextSetParent(data->mtext, hwnd);
+		InvalidateRect(hwnd, nullptr, TRUE);
+		return TRUE;
+
+	case WM_PAINT:
+		return MTextControl_OnPaint(hwnd);
+
+	case WM_ERASEBKGND:
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		FillRect((HDC)wParam, &rc, GetSysColorBrush(COLOR_BTNFACE));
+		return TRUE;
+
+	case WM_MOUSEMOVE:
+		if (data && data->mtext)
+			return MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
+		break;
+	}
+
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+void MTextControl_RegisterClass()
+{
+	WNDCLASSEX wcl = {};
+	wcl.cbSize = sizeof(wcl);
+	wcl.lpfnWndProc = MTextControlWndProc;
+	wcl.style = CS_GLOBALCLASS;
+	wcl.hInstance = g_hInst;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+	wcl.lpszClassName = L"MTextControl";
+	RegisterClassExW(&wcl);
+}
+
+void MTextControl_UnregisterClass()
+{
+	UnregisterClassW(L"MTextControl", g_hInst);
 }

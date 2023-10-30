@@ -119,9 +119,7 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, void *text, uint
 			result->ftd->putTextA((char *)text);
 	}
 	MText_InitFormatting1(result);
-	delete result;
-
-	return nullptr;
+	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
