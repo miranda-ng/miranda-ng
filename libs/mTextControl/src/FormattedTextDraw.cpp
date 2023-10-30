@@ -156,6 +156,8 @@ HRESULT CFormattedTextDraw::putRTFText(char *newVal)
 	if (!m_spTextServices)
 		return S_FALSE;
 
+	m_bNative = true;
+
 	STREAMDATATEXT streamData = {};
 	streamData.isUnicode = false;
 	streamData.ansi = newVal;
@@ -176,23 +178,25 @@ HRESULT CFormattedTextDraw::putRTFText(char *newVal)
 
 HRESULT CFormattedTextDraw::Draw(HDC hdcDraw, RECT *prc)
 {
-	LOGFONT lf;
-	GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
+	if (!m_bNative) {
+		LOGFONT lf;
+		GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
 
-	LRESULT lResult;
-	CHARFORMAT cf;
-	cf.cbSize = sizeof(cf);
-	cf.dwMask = CFM_FACE/*|CFM_COLOR*/ | CFM_CHARSET | CFM_SIZE |
-		(lf.lfWeight >= FW_BOLD ? CFM_BOLD : 0) |
-		(lf.lfItalic ? CFM_ITALIC : 0) |
-		(lf.lfUnderline ? CFM_UNDERLINE : 0) |
-		(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
-	cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
-	cf.crTextColor = GetTextColor(hdcDraw);
-	cf.bCharSet = lf.lfCharSet;
-	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps(hdcDraw, LOGPIXELSY);
-	wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+		LRESULT lResult;
+		CHARFORMAT cf;
+		cf.cbSize = sizeof(cf);
+		cf.dwMask = CFM_FACE/*|CFM_COLOR*/ | CFM_CHARSET | CFM_SIZE |
+			(lf.lfWeight >= FW_BOLD ? CFM_BOLD : 0) |
+			(lf.lfItalic ? CFM_ITALIC : 0) |
+			(lf.lfUnderline ? CFM_UNDERLINE : 0) |
+			(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
+		cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
+		cf.crTextColor = GetTextColor(hdcDraw);
+		cf.bCharSet = lf.lfCharSet;
+		cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps(hdcDraw, LOGPIXELSY);
+		wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
+		m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+	}
 
 	m_spTextServices->TxDraw(
 		DVASPECT_CONTENT, // Draw Aspect
@@ -220,27 +224,29 @@ HRESULT CFormattedTextDraw::get_NaturalSize(HDC hdcDraw, long *Width, long *Heig
 	if (iCaps == 0)
 		return S_FALSE;
 
-	LOGFONT lf;
-	GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
-
-	LRESULT lResult;
-	CHARFORMAT cf;
-	cf.cbSize = sizeof(cf);
-	cf.dwMask = CFM_FACE/*|CFM_COLOR*/ | CFM_CHARSET | CFM_SIZE |
-		(lf.lfWeight >= FW_BOLD ? CFM_BOLD : 0) |
-		(lf.lfItalic ? CFM_ITALIC : 0) |
-		(lf.lfUnderline ? CFM_UNDERLINE : 0) |
-		(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
-	cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
-	cf.crTextColor = GetTextColor(hdcDraw);
-	cf.bCharSet = lf.lfCharSet;
-	cf.yHeight = 1440 * abs(lf.lfHeight) / iCaps;
-	wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
-
 	if (!m_spTextServices)
 		return S_FALSE;
 
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+	if (!m_bNative) {
+		LOGFONT lf;
+		GetObject(GetCurrentObject(hdcDraw, OBJ_FONT), sizeof(lf), &lf);
+
+		LRESULT lResult;
+		CHARFORMAT cf;
+		cf.cbSize = sizeof(cf);
+		cf.dwMask = CFM_FACE/*|CFM_COLOR*/ | CFM_CHARSET | CFM_SIZE |
+			(lf.lfWeight >= FW_BOLD ? CFM_BOLD : 0) |
+			(lf.lfItalic ? CFM_ITALIC : 0) |
+			(lf.lfUnderline ? CFM_UNDERLINE : 0) |
+			(lf.lfStrikeOut ? CFM_STRIKEOUT : 0);
+		cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
+		cf.crTextColor = GetTextColor(hdcDraw);
+		cf.bCharSet = lf.lfCharSet;
+		cf.yHeight = 1440 * abs(lf.lfHeight) / iCaps;
+		wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
+
+		m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+	}
 
 	*Height = 1;
 

@@ -306,9 +306,6 @@ void ItemData::load(bool bFullLoad)
 				db_event_markRead(hContact, hEvent);
 			Clist_RemoveEvent(-1, hEvent);
 		}
-
-		// uncomment this to use RTF engine
-		// m_bRtf = true;
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -372,12 +369,7 @@ void ItemData::load(bool bFullLoad)
 
 void ItemData::setText()
 {
-	if (m_bRtf) {
-		NSRtfProvider prov(this);
-		data = MTextCreateEx(htuLog, &prov, MTEXT_FLG_RTF);
-	}
-	else data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), TplFormatString(getTemplate(), hContact, this));
-
+	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
 	savedHeight = -1;
 }
 

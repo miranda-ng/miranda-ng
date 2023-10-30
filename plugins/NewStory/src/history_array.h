@@ -8,12 +8,13 @@ enum
 	GROUPING_ITEM = 2,
 };
 
+CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
+
 struct ItemData
 {
 	MCONTACT hContact;
 	MEVENT hEvent;
 
-	bool m_bRtf;
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;
 	bool m_bOfflineFile, m_bOfflineDownloaded;
@@ -25,7 +26,7 @@ struct ItemData
 	wchar_t *wtext;
 	wchar_t *wszNick;
 
-	HANDLE data;
+	HText data;
 
 	ItemData();
 	~ItemData();
@@ -42,6 +43,10 @@ struct ItemData
 	int getTemplate() const;
 	int getCopyTemplate() const;
 	void getFontColor(int &fontId, int &colorId) const;
+
+	CMStringA formatRtf();
+	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
+	CMStringW formatStringEx(int tpl, wchar_t *sztpl);
 
 	inline wchar_t *getWBuf()
 	{

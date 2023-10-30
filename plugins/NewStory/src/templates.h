@@ -16,7 +16,7 @@ struct TemplateVars
 		return vars[id].val;
 	}
 
-	void SetNick(wchar_t *v, bool bIncoming);
+	void SetNick(wchar_t *v);
 	void SetVar(uint8_t id, wchar_t *v, bool d);
 };
 
@@ -70,22 +70,5 @@ extern TemplateInfo templates[TPL_COUNT];
 
 void LoadTemplates();
 void SaveTemplates();
-
-CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
-CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *args);
-
-class NSRtfProvider : public MRtfProvider
-{
-	ItemData *m_pItem;
-
-public:
-	NSRtfProvider(ItemData *pItem) :
-		m_pItem(pItem)
-	{}
-
-	CMStringA CreateRtfHeader() override;
-	CMStringA CreateRtfBody()   override;
-	CMStringA CreateRtfFooter() override;
-};
 
 #endif // __templates_h__

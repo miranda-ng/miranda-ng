@@ -85,16 +85,6 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szPro
 	MText_InitFormatting0(result->ftd, result->options);
 	result->ftd->putTextW((wchar_t *)text);
 	MText_InitFormatting1(result);
-
-	/*
-	LRESULT res;
-	CMStringA buf;
-	EDITSTREAM es = { 0 };
-	es.dwCookie = (DWORD_PTR)&buf;
-	es.pfnCallback = &EditStreamOutCallback;
-	result->ftd->getTextService()->TxSendMessage(EM_STREAMOUT, SF_RTF, (LPARAM)&es, &res);
-
-	Netlib_Logf(0, "Rtf created: %s", buf.c_str());*/
 	return result;
 }
 
@@ -145,14 +135,16 @@ MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, TextObject *text)
 	if (!text || !dc)
 		return 0;
 
-	COLORREF cl = GetTextColor(dc);
+	if (!text->ftd->isNative()) {
+		COLORREF cl = GetTextColor(dc);
 
-	LRESULT lResult;
-	CHARFORMAT cf = { 0 };
-	cf.cbSize = sizeof(cf);
-	cf.dwMask = CFM_COLOR;
-	cf.crTextColor = cl;
-	text->ftd->getTextService()->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+		LRESULT lResult;
+		CHARFORMAT cf = { 0 };
+		cf.cbSize = sizeof(cf);
+		cf.dwMask = CFM_COLOR;
+		cf.crTextColor = cl;
+		text->ftd->getTextService()->TxSendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf, &lResult);
+	}
 
 	SetBkMode(dc, TRANSPARENT);
 

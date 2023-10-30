@@ -290,7 +290,7 @@ void NewstoryListData::Copy(bool bTextOnly)
 				res.Append(L"\r\n");
 			}
 			else { // copy text only
-				CMStringW wszText(TplFormatString(p->getCopyTemplate(), p->hContact, p));
+				CMStringW wszText(p->formatString());
 				RemoveBbcodes(wszText);
 				res.Append(wszText);
 			}
@@ -497,7 +497,7 @@ int NewstoryListData::GetItemHeight(int index)
 	int width = rc.right - rc.left;
 
 	SIZE sz = { width - 6, 0 };
-	MTextMeasure(hdc, &sz, (HANDLE)item->data);
+	MTextMeasure(hdc, &sz, item->data);
 
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(m_hwnd, hdc);

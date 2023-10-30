@@ -27,46 +27,17 @@ wchar_t *months[12] =
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// Template formatting for options dialog
-
-CMStringW TplFormatStringEx(int tpl, wchar_t *sztpl, ItemData *item)
-{
-	if (tpl < 0 || tpl >= TPL_COUNT || !sztpl)
-		return mir_wstrdup(L"");
-
-	TemplateVars vars;
-
-	auto &T = templates[tpl];
-	for (auto &it : T.vf)
-		if (it)
-			it(&vars, item->hContact, item);
-
-	CMStringW buf;
-	for (wchar_t *p = sztpl; *p; p++) {
-		if (*p == '%') {
-			wchar_t *var = vars.GetVar((p[1] & 0xff));
-			if (var)
-				buf.Append(var);
-			p++;
-		}
-		else buf.AppendChar(*p);
-	}
-
-	return buf;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Template formatting for the control
+// RTF generator
 
 static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 {
 	for (; *p; p++) {
 		if (*p == '\r' && p[1] == '\n') {
-			buf.Append("\\p ");
+			buf.Append("\\par ");
 			p++;
 		}
 		else if (*p == '\n') {
-			buf.Append("\\p ");
+			buf.Append("\\par ");
 		}
 		else if (*p == '\t') {
 			buf.Append("\\tab ");
@@ -118,39 +89,35 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 	}
 }
 
-CMStringA NSRtfProvider::CreateRtfHeader()
+CMStringA ItemData::formatRtf()
 {
 	CMStringA buf;
 	buf.Append("{\\rtf1\\ansi\\deff0");
 
-	auto &F = g_fontTable[(m_pItem->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
+	int fontID, colorID;
+	getFontColor(fontID, colorID);
+	auto &F = g_fontTable[fontID];
 	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset0 %s;}}", F.lf.lfFaceName);
 
-	COLORREF cr = GetSysColor(COLOR_WINDOWTEXT);
+	COLORREF cr = F.cl;
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-	cr = g_colorTable[(m_pItem->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
+	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+
+	HDC hdc = GetDC(nullptr);
+	int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+	ReleaseDC(nullptr, hdc);
+
+	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", 2 * abs(F.lf.lfHeight) * 74 / logPixelSY);
+	AppendUnicodeToBuffer(buf, formatString());
+
+	buf.Append("}");
+	Netlib_Logf(0, buf);
 	return buf;
-}
-
-CMStringA NSRtfProvider::CreateRtfBody()
-{
-	auto &F = g_fontTable[(m_pItem->dbe.flags & DBEF_SENT) ? FONT_OUTMSG : FONT_INMSG];
-	CMStringW wszText = TplFormatString(m_pItem->getTemplate(), m_pItem->hContact, m_pItem);
-
-	CMStringA buf;
-	buf.AppendFormat("\\viewkind4\\uc1\\pard \\f0\\b0\\i0\\fs%d ", F.lf.lfHeight);
-	AppendUnicodeToBuffer(buf, wszText);
-	return buf;
-}
-
-CMStringA NSRtfProvider::CreateRtfFooter()
-{
-	return " \\par }";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Template formatting for copying text
+// Template formatting for the control
 
 CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 {
@@ -175,6 +142,35 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 			if (var)
 				buf.Append(var);
 
+			p++;
+		}
+		else buf.AppendChar(*p);
+	}
+
+	return buf;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Template formatting for options dialog
+
+CMStringW ItemData::formatStringEx(int tpl, wchar_t *sztpl)
+{
+	CMStringW buf;
+	if (tpl < 0 || tpl >= TPL_COUNT || !sztpl)
+		return buf;
+
+	TemplateVars vars;
+
+	auto &T = templates[tpl];
+	for (auto &it : T.vf)
+		if (it)
+			it(&vars, hContact, this);
+
+	for (wchar_t *p = sztpl; *p; p++) {
+		if (*p == '%') {
+			wchar_t *var = vars.GetVar((p[1] & 0xff));
+			if (var)
+				buf.Append(var);
 			p++;
 		}
 		else buf.AppendChar(*p);
@@ -246,13 +242,13 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 		if (!item->wszNick) {
 			char *proto = Proto_GetBaseAccountName(item->hContact);
 			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
-			vars->SetNick(nick, false);
+			vars->SetNick(nick);
 		}
-		else vars->SetNick(item->wszNick, false);
+		else vars->SetNick(item->wszNick);
 	}
 	else {
 		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
-		vars->SetNick(nick, true);
+		vars->SetNick(nick);
 	}
 
 	//  %I: Icon
@@ -392,9 +388,9 @@ void vfOther(TemplateVars *vars, MCONTACT, ItemData *item)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TemplateVars::SetNick(wchar_t *v, bool bIncoming)
+void TemplateVars::SetNick(wchar_t *v)
 {
-	CMStringW wszNick(FORMAT, L"[color=%d]%s[/color]", g_colorTable[(bIncoming) ? COLOR_INNICK : COLOR_OUTNICK].cl, v);
+	CMStringW wszNick(FORMAT, L"[c1]%s[c0]", v);
 
 	auto &V = vars['N'];
 	if (V.del)

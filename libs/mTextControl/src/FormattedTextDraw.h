@@ -17,17 +17,18 @@
 class CFormattedTextDraw : public ITextHost, public MZeroedObject
 {
 	HWND           m_hwndParent;
-	RECT           m_rcClient;			// Client Rect
-	RECT           m_rcViewInset;		// view rect inset
-	SIZEL          m_sizelExtent;		// Extent array
+	RECT           m_rcClient;        // Client Rect
+	RECT           m_rcViewInset;     // view rect inset
+	SIZEL          m_sizelExtent;	    // Extent array
 
-	int            nPixelsPerInchX;    // Pixels per logical inch along width
-	int            nPixelsPerInchY;    // Pixels per logical inch along height
+	int            nPixelsPerInchX;   // Pixels per logical inch along width
+	int            nPixelsPerInchY;   // Pixels per logical inch along height
 
 	CHARFORMAT2W   m_CF;
 	PARAFORMAT2    m_PF;
 
-	uint32_t       m_dwPropertyBits;	// Property bits
+	uint32_t       m_dwPropertyBits;  // Property bits
+	bool           m_bNative = false; // Doesn't generate RTF itself, uses external plain RTF
 
 	ITextServices *m_spTextServices;
 	ITextDocument *m_spTextDocument;
@@ -45,6 +46,7 @@ public:
 	__forceinline ITextServices *getTextService() { return m_spTextServices; };
 	__forceinline ITextDocument *getTextDocument() { return m_spTextDocument; };
 
+	__forceinline bool isNative() const { return m_bNative; }
 	__forceinline void setParentWnd(HWND hwnd, RECT rect) { m_hwndParent = hwnd; m_rcClient = rect; }
 
 	// IUnknown
