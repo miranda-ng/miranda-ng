@@ -434,10 +434,10 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 		break;
 
 	case GC_EVENT_JOIN:
+	case GC_EVENT_PART:
 		p.dbe.flags |= DBEF_SENT;
 		__fallthrough;
 
-	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 		p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
 		break;
