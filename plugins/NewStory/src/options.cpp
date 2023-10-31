@@ -70,22 +70,18 @@ public:
 
 class CTemplateOptsDlg : public CBaseOptsDlg
 {
-	MCONTACT m_hContact;
-	MEVENT m_hDbEVent;
 	TemplateInfo *m_curr = 0;
+	ItemData m_tempItem;
 
 	void UpdatePreview(CCtrlButton *)
 	{
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
-		ItemData item = {};
-		item.hContact = m_hContact;
-		item.hEvent = m_hDbEVent;
-		item.load(true);
-		item.fill(int(m_curr - templates)); // copy data from template to event
+		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event
 
-		preview.SetText(item.formatStringEx(m_curr->tmpValue));
-		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(item.formatRtf().c_str()));
+		CMStringW wszText(m_tempItem.formatStringEx(m_curr->tmpValue));
+		preview.SetText(wszText);
+		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
 	}
 
 	CCtrlBase preview, gpreview;
@@ -120,20 +116,12 @@ public:
 
 		ImageList_AddIcon(himgTree, g_plugin.getIcon(IDI_TPLGROUP));
 
-		m_hContact = db_add_contact();
-		Proto_AddToContact(m_hContact, META_PROTO);
-		Contact::Hide(m_hContact);
-		Contact::RemoveFromList(m_hContact);
-		db_set_ws(m_hContact, META_PROTO, "Nick", TranslateT("Test contact"));
-
-		DBEVENTINFO dbei = {};
-		dbei.pBlob = (uint8_t *)Translate("The quick brown fox jumps over the lazy dog.");
-		dbei.cbBlob = (uint32_t)strlen((char *)dbei.pBlob);
-		dbei.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
-		dbei.szModule = MODULENAME;
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.timestamp = time(0);
-		m_hDbEVent = db_event_add(m_hContact, &dbei);
+		m_tempItem.wszNick = TranslateT("Test contact");
+		m_tempItem.wtext = mir_wstrdup(TranslateT("The quick brown fox jumps over the lazy dog."));
+		m_tempItem.dbe.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
+		m_tempItem.dbe.szModule = MODULENAME;
+		m_tempItem.dbe.eventType = EVENTTYPE_MESSAGE;
+		m_tempItem.dbe.timestamp = time(0);
 
 		HTREEITEM hGroup = 0, hFirst = 0;
 		const wchar_t *pwszPrevGroup = nullptr;
@@ -191,9 +179,6 @@ public:
 
 	void OnDestroy() override
 	{
-		db_event_delete(m_hDbEVent);
-		db_delete_contact(m_hContact);
-
 		for (auto &it : templates)
 			replaceStrW(it.tmpValue, nullptr);
 	}

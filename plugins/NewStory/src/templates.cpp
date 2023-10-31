@@ -91,7 +91,7 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 	}
 }
 
-CMStringA ItemData::formatRtf()
+CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 {
 	CMStringA buf;
 	buf.Append("{\\rtf1\\ansi\\deff0");
@@ -111,7 +111,7 @@ CMStringA ItemData::formatRtf()
 	ReleaseDC(nullptr, hdc);
 
 	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", 2 * abs(F.lf.lfHeight) * 74 / logPixelSY);
-	AppendUnicodeToBuffer(buf, formatString());
+	AppendUnicodeToBuffer(buf, (pwszStr) ? pwszStr : formatString());
 
 	buf.Append("}");
 	// Netlib_Logf(0, buf);
