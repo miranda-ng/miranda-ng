@@ -214,6 +214,41 @@ bool ItemData::isLinkChar(int idx) const
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
 }
 
+void ItemData::fill(int tmpl)
+{
+	switch (tmpl) {
+	case TPL_MESSAGE:
+		dbe.eventType = EVENTTYPE_MESSAGE;
+		break;
+	case TPL_MSG_HEAD:
+		m_grouping = GROUPING_HEAD;
+		dbe.eventType = EVENTTYPE_MESSAGE;
+		break;
+	case TPL_MSG_GRP:
+		m_grouping = GROUPING_ITEM;
+		dbe.eventType = EVENTTYPE_MESSAGE;
+		break;
+	case TPL_FILE:
+		dbe.eventType = EVENTTYPE_FILE;
+		break;
+	case TPL_SIGN:
+		dbe.eventType = EVENTTYPE_STATUSCHANGE;
+		break;
+	case TPL_AUTH:
+		dbe.eventType = EVENTTYPE_AUTHREQUEST;
+		break;
+	case TPL_ADDED:
+		dbe.eventType = EVENTTYPE_ADDED;
+		break;
+	case TPL_PRESENCE:
+		dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
+		break;
+	default:
+		dbe.eventType = 309247;
+		break;
+	}
+}
+
 int ItemData::getTemplate() const
 {
 	switch (dbe.eventType) {

@@ -109,6 +109,20 @@ static LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		InvalidateRect(hwnd, nullptr, TRUE);
 		return TRUE;
 
+	case MTM_UPDATEEX:
+		if (data->text) {
+			delete[] data->text;
+			data->text = nullptr;
+		}
+
+		if (data->mtext)
+			MTextDestroy(data->mtext);
+
+		data->mtext = MTextCreateEx(data->htu, (char*)lParam, wParam);
+		MTextSetParent(data->mtext, hwnd);
+		InvalidateRect(hwnd, nullptr, TRUE);
+		return TRUE;
+
 	case WM_PAINT:
 		return MTextControl_OnPaint(hwnd);
 

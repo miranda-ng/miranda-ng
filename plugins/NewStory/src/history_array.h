@@ -36,6 +36,7 @@ struct ItemData
 	void checkCreate(HWND hwnd);
 	void setText();
 
+	void fill(int tmpl);
 	void load(bool bFullLoad);
 	bool isLink(POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(int idx) const;
@@ -46,7 +47,7 @@ struct ItemData
 
 	CMStringA formatRtf();
 	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
-	CMStringW formatStringEx(int tpl, wchar_t *sztpl);
+	CMStringW formatStringEx(wchar_t *sztpl);
 
 	inline wchar_t *getWBuf()
 	{

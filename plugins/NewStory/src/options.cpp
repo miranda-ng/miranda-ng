@@ -78,14 +78,14 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 	{
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
-		ItemData item;
+		ItemData item = {};
 		item.hContact = m_hContact;
 		item.hEvent = m_hDbEVent;
 		item.load(true);
+		item.fill(int(m_curr - templates)); // copy data from template to event
 
-		CMStringW wszText(item.formatStringEx(int(m_curr - templates), m_curr->tmpValue));
-		preview.SetText(wszText);
-		gpreview.SetText(wszText);
+		preview.SetText(item.formatStringEx(m_curr->tmpValue));
+		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(item.formatRtf().c_str()));
 	}
 
 	CCtrlBase preview, gpreview;

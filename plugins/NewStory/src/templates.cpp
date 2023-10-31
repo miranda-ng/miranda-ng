@@ -47,38 +47,40 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 			buf.AppendChar((char)*p);
 		}
 		else if (*p == '[') {
-			if (p[1] == 'c' && p[3] == ']') {
-				buf.AppendFormat("\\cf%c ", p[2]);
-				p += 3;
+			p++;
+			if (*p == 'c' && p[2] == ']') {
+				buf.AppendFormat("\\cf%c ", p[1]);
+				p += 2;
 				continue;
 			}
 
 			char *pEnd = "";
-			if (p[1] == '/') {
+			if (*p == '/') {
 				pEnd = "0";
 				p++;
 			}
-			if (p[1] == 'b' && p[2] == ']') {
+			if (*p == 'b' && p[1] == ']') {
 				buf.AppendFormat("\\b%s ", pEnd);
-				p += 2;
+				p++;
 			}
-			else if (p[1] == 'i' && p[2] == ']') {
+			else if (*p == 'i' && p[1] == ']') {
 				buf.AppendFormat("\\i%s ", pEnd);
-				p += 2;
+				p++;
 			}
-			else if (p[1] == 'u' && p[2] == ']') {
+			else if (*p == 'u' && p[1] == ']') {
 				buf.AppendFormat("\\ul%s ", pEnd);
-				p += 2;
+				p++;
 			}
-			else if (p[1] == 's' && p[2] == ']') {
+			else if (*p == 's' && p[1] == ']') {
 				buf.AppendFormat("\\strike%s ", pEnd);
-				p += 2;
+				p++;
 			}
-			else if (p[1] == 'c' && p[2] == ']') {
-				buf.Append("\\cf1 ");
-				p += 2;
+			else {
+				buf.AppendChar('[');
+				if (*pEnd == '0')
+					p--;
+				p--;
 			}
-			else buf.AppendChar('[');
 		}
 		else if (*p < 128) {
 			buf.AppendChar((char)*p);
@@ -153,9 +155,10 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 ///////////////////////////////////////////////////////////////////////////////
 // Template formatting for options dialog
 
-CMStringW ItemData::formatStringEx(int tpl, wchar_t *sztpl)
+CMStringW ItemData::formatStringEx(wchar_t *sztpl)
 {
 	CMStringW buf;
+	int tpl = getTemplate();
 	if (tpl < 0 || tpl >= TPL_COUNT || !sztpl)
 		return buf;
 

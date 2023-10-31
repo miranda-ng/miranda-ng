@@ -3,8 +3,14 @@
 
 // Text control
 #define MTEXTCONTROLCLASS "MTextControl"
-#define MTM_SETUSER WM_USER
-#define MTM_UPDATE  WM_USER+1
+
+#define MTM_SETUSER    (WM_USER)
+#define MTM_UPDATE     (WM_USER+1)
+
+// analog of calling MTextCreateEx
+// wParam = MTEXT_FLG_*
+// lParam = (void*)text
+#define MTM_UPDATEEX   (WM_USER+2)
 
 typedef struct TextObject *HText;
 
