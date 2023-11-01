@@ -41,7 +41,7 @@ void DisableDialog(HWND hwndDlg)
 
 INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static AAMSGSETTING** settings;
+	static AAMSGSETTING **settings;
 	static int last, count;
 
 	switch (msg) {
@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			count = 0;
 			last = -1;
 
-			PROTOACCOUNT** proto;
+			PROTOACCOUNT **proto;
 			int protoCount = 0;
 			Proto_EnumAccounts(&protoCount, &proto);
 			if (protoCount <= 0) {
@@ -220,7 +220,7 @@ static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 	bool bFullScr = (setting->optionFlags & FLAG_FULLSCREEN) != 0;
 	bool bOnLock = (setting->optionFlags & FLAG_ONLOCK) != 0;
 	bool bOnTS = (setting->optionFlags & FLAG_ONTS) != 0;
-	bool bAnyOption = bIsTimed | bSaver | bFullScr | bOnLock | bOnTS;
+	bool bAnyOption = bIsTimed || bSaver || bFullScr || bOnLock || bOnTS;
 
 	CheckDlgButton(hwndDlg, IDC_FULLSCREEN, bFullScr ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SCREENSAVE, bSaver ? BST_CHECKED : BST_UNCHECKED);
@@ -252,7 +252,7 @@ static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SETNASTR), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SETNASTR), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LV2STATUS), bSetNA && bIsTimed);
-	
+
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOL), !g_bAAASettingSame);
 }
 
@@ -296,7 +296,7 @@ static TProtoSettings optionSettings;
 
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static SMProto* sameSetting;
+	static SMProto *sameSetting;
 	SMProto *setting;
 	static int init;
 
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 				int flags = 0;
 				if (!g_bAAASettingSame)
-					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
@@ -367,7 +367,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			{
 				int flags = 0;
 				if (!g_bAAASettingSame)
-					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);

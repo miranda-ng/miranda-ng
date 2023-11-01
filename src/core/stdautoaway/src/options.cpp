@@ -95,7 +95,7 @@ public:
 
 		for (auto &it : aa_Status)
 			cmbAAStatus.AddString(Clist_GetStatusModeDescription(it, 0));
-		cmbAAStatus.SetCurSel(IdleGetStatusIndex(g_plugin.bAAStatus));
+		cmbAAStatus.SetCurSel(IdleGetStatusIndex(g_plugin.iAAStatus));
 
 		ShowHide();
 		return true;
@@ -107,7 +107,7 @@ public:
 
 		int curSel = cmbAAStatus.GetCurSel();
 		if (curSel != CB_ERR)
-			g_plugin.bAAStatus = aa_Status[curSel];
+			g_plugin.iAAStatus = aa_Status[curSel];
 
 		// destroy any current idle and reset settings.
 		IdleObject_Destroy();

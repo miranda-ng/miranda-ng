@@ -34,12 +34,11 @@ CFakePlugin AAAPlugin(AAAMODULENAME);
 
 static HANDLE hEvents[3];
 
-static BOOL ignoreLockKeys = FALSE;
-static BOOL ignoreSysKeys = FALSE;
-static BOOL ignoreAltCombo = FALSE;
-static BOOL monitorMouse = TRUE;
-static BOOL monitorKeyboard = TRUE;
-static HWND confirmDialog;
+static bool ignoreLockKeys = false;
+static bool ignoreSysKeys = false;
+static bool ignoreAltCombo = false;
+static bool monitorMouse = true;
+static bool monitorKeyboard = true;
 static int mouseStationaryTimer;
 HHOOK hMirandaMouseHook = nullptr;
 HHOOK hMirandaKeyBoardHook = nullptr;
@@ -51,6 +50,7 @@ HHOOK hKeyBoardHook = nullptr;
 #pragma data_seg()
 #pragma comment(linker, "/section:Shared,rws")
 uint32_t lastMirandaInput = 0;
+static HWND confirmDialog;
 static UINT_PTR hAutoAwayTimer;
 // prototypes
 extern uint32_t StatusModeToProtoFlag(int status);
@@ -147,8 +147,7 @@ static int getIdleMode(int options)
 
 static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 {
-	int statusChanged = FALSE;
-	int confirm = FALSE;
+	bool bStatusChanged = false, bConfirm = false;
 
 	for (auto &it : protoList) {
 		it->aaaStatus = ID_STATUS_DISABLED;
@@ -165,7 +164,6 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		int sts2Time = it->naTime * SECS_PER_MINUTE;
 		int sts1setTime = it->sts1setTimer == 0 ? 0 : (GetTickCount() - it->sts1setTimer) / 1000;
 		int currentMode = Proto_GetStatus(it->m_szName);
-
 		int mode = getIdleMode(it->optionFlags);
 
 		/* check states */
@@ -179,14 +177,14 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				it->aaaStatus = it->lv1Status;
 				it->sts1setTimer = GetTickCount();
 				sts1setTime = 0;
-				it->bStatusChanged = statusChanged = true;
+				it->bStatusChanged = bStatusChanged = true;
 				changeState(*it, mode, STATUS1_SET);
 			}
 			else if (mouseStationaryTimer >= sts2Time && currentMode == it->lv1Status && currentMode != it->lv2Status && (it->optionFlags & FLAG_SETNA) && (it->statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
 				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
-				it->bStatusChanged = statusChanged = true;
+				it->bStatusChanged = bStatusChanged = true;
 				changeState(*it, mode, STATUS2_SET);
 			}
 		}
@@ -208,7 +206,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				/* from STATUS1_SET to STATUS2_SET */
 				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
-				it->bStatusChanged = statusChanged = true;
+				it->bStatusChanged = bStatusChanged = true;
 				changeState(*it, mode, STATUS2_SET);
 			}
 		}
@@ -240,30 +238,31 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				/* HIDDEN_ACTIVE to STATUS2_SET */
 				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
-				it->bStatusChanged = statusChanged = true;
+				it->bStatusChanged = bStatusChanged = true;
 				changeState(*it, mode, STATUS2_SET);
 			}
 		}
+
 		if (it->curState == SET_ORGSTATUS) {
 			/* SET_ORGSTATUS to ACTIVE */
 			it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			it->aaaStatus = it->originalStatusMode;
-			confirm = (it->optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
-			it->bStatusChanged = statusChanged = true;
+			bConfirm = (it->optionFlags & FLAG_CONFIRM) ? true : bConfirm;
+			it->bStatusChanged = bStatusChanged = true;
 			changeState(*it, mode, ACTIVE);
 			it->sts1setTimer = 0;
 		}
 		it->bManualStatus = false;
 	}
 
-	if (confirm || statusChanged) {
+	if (bConfirm || bStatusChanged) {
 		TProtoSettings ps(protoList); // make a copy of data not to pollute main array
 		for (auto &it : ps)
 			it->m_status = it->aaaStatus;
 
-		if (confirm)
+		if (bConfirm)
 			confirmDialog = ShowConfirmDialogEx(&ps, AAAPlugin.getWord(SETTING_CONFIRMDELAY, 5));
-		else if (statusChanged)
+		else if (bStatusChanged)
 			SetStatusEx(ps);
 	}
 }
@@ -446,11 +445,12 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 		flags = 0xFFFFFF;
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
 	autoAwaySetting.lv1Status = AAAPlugin.getWord(setting, (flags & StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
+
 	mir_snprintf(setting, "%s_Lv2Status", protoName);
 	autoAwaySetting.lv2Status = AAAPlugin.getWord(setting, (flags & StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
-
 	return 0;
 }
 
@@ -468,11 +468,11 @@ void AAALoadOptions()
 
 	bool monitorMiranda = false, monitorAll = false;
 
-	ignoreLockKeys = AAAPlugin.getByte(SETTING_IGNLOCK, FALSE);
-	ignoreSysKeys = AAAPlugin.getByte(SETTING_IGNSYSKEYS, FALSE);
-	ignoreAltCombo = AAAPlugin.getByte(SETTING_IGNALTCOMBO, FALSE);
-	monitorMouse = AAAPlugin.getByte(SETTING_MONITORMOUSE, TRUE) != 0;
-	monitorKeyboard = AAAPlugin.getByte(SETTING_MONITORKEYBOARD, TRUE) != 0;
+	ignoreLockKeys = AAAPlugin.getBool(SETTING_IGNLOCK, false);
+	ignoreSysKeys = AAAPlugin.getBool(SETTING_IGNSYSKEYS, false);
+	ignoreAltCombo = AAAPlugin.getBool(SETTING_IGNALTCOMBO, false);
+	monitorMouse = AAAPlugin.getBool(SETTING_MONITORMOUSE, true);
+	monitorKeyboard = AAAPlugin.getBool(SETTING_MONITORKEYBOARD, true);
 	lastInput = lastMirandaInput = GetTickCount();
 
 	for (auto &it : protoList) {
@@ -507,7 +507,7 @@ static int AAAModuleLoaded(WPARAM, LPARAM)
 	hEvents[0] = HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
 	hEvents[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
 	hEvents[2] = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
-	
+
 	mouseStationaryTimer = 0;
 	lastInput = lastMirandaInput = GetTickCount();
 
