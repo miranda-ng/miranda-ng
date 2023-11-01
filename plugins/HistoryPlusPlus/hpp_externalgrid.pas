@@ -1329,12 +1329,12 @@ end;
 
 procedure TExternalGrid.OnBrowseReceivedFilesClick(Sender: TObject);
 var
-  Path: Array [0 .. MAX_PATH] of AnsiChar;
+  Path: Array [0 .. MAX_PATH] of WideChar;
 begin
   if Grid.Selected = -1 then
     exit;
   CallService(MS_FILE_GETRECEIVEDFILESFOLDER, Items[Grid.Selected].hContact,LParam(@Path));
-  ShellExecuteA(0, 'open', Path, nil, nil, SW_SHOW);
+  ShellExecuteW(0, 'open', Path, nil, nil, SW_SHOW);
 end;
 
 end.

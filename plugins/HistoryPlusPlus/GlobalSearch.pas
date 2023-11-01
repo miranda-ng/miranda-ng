@@ -2450,12 +2450,12 @@ end;
 
 procedure TfmGlobalSearch.BrowseReceivedFilesClick(Sender: TObject);
 var
-  Path: Array [0 .. MAX_PATH] of AnsiChar;
+  Path: Array [0 .. MAX_PATH] of WideChar;
   hContact: THandle;
 begin
   hContact := GetSearchItem(hg.Selected).Contact.Handle;
   CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, LParam(@Path));
-  ShellExecuteA(0, 'open', Path, nil, nil, SW_SHOW);
+  ShellExecuteW(0, 'open', Path, nil, nil, SW_SHOW);
 end;
 
 procedure TfmGlobalSearch.tbEventsClick(Sender: TObject);

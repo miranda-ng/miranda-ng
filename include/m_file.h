@@ -54,14 +54,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_FILE_SENDSPECIFICFILEST  "SRFile/SendSpecificFilesT"
 
 // wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(char *)pszOutput
+// lParam = (LPARAM)(wchar_t *)pszOutput
 // returns 0 on success or nonzero on failure
 // pszOutput must be at least MAX_PATH characters long
 // If hContact is NULL this function will retrieve the received files folder
 // name without any appended user names.
 // Note that the directory name returned by this function does not necessarily exist.
-#define MS_FILE_GETRECEIVEDFILESFOLDER  "SRFile/GetReceivedFilesFolder"
-#define MS_FILE_GETRECEIVEDFILESFOLDERW "SRFile/GetReceivedFilesFolderW"
+#define MS_FILE_GETRECEIVEDFILESFOLDER "SRFile/GetReceivedFilesFolder"
 
 // notifies a caller about file send start
 // wParam = (MCONTACT)hContact

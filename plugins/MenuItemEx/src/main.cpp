@@ -206,10 +206,10 @@ static void ShowPopup(const wchar_t *pwszText, MCONTACT hContact)
 
 BOOL DirectoryExists(MCONTACT hContact)
 {
-	char path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
-	uint32_t attr = GetFileAttributesA(path);
-	return (attr != -1) && (attr&FILE_ATTRIBUTE_DIRECTORY);
+	uint32_t attr = GetFileAttributesW(path);
+	return (attr != -1) && (attr & FILE_ATTRIBUTE_DIRECTORY);
 }
 
 BOOL isMetaContact(MCONTACT hContact)
@@ -543,9 +543,9 @@ static INT_PTR OpenIgnoreOptions(WPARAM, LPARAM)
 
 static INT_PTR onRecvFiles(WPARAM hContact, LPARAM)
 {
-	char path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
-	ShellExecuteA(nullptr, "open", path, nullptr, nullptr, SW_SHOW);
+	ShellExecuteW(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 

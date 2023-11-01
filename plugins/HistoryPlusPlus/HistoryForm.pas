@@ -3796,10 +3796,10 @@ end;
 
 procedure THistoryFrm.BrowseReceivedFilesClick(Sender: TObject);
 var
-  Path: Array [0 .. MAX_PATH] of AnsiChar;
+  Path: Array [0 .. MAX_PATH] of WideChar;
 begin
   CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, lParam(@Path));
-  ShellExecuteA(0, 'open', Path, nil, nil, SW_SHOW);
+  ShellExecuteW(0, 'open', Path, nil, nil, SW_SHOW);
 end;
 
 procedure THistoryFrm.hgOptionsChange(Sender: TObject);

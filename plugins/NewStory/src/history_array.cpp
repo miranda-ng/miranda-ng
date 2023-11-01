@@ -244,7 +244,7 @@ void ItemData::fill(int tmpl)
 		dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
 		break;
 	default:
-		dbe.eventType = 309247;
+		dbe.eventType = 9247;
 		break;
 	}
 }
@@ -373,7 +373,7 @@ void ItemData::load(bool bFullLoad)
 			}
 
 			wchar_t buf[MAX_PATH];
-			CallService(MS_FILE_GETRECEIVEDFILESFOLDERW, hContact, (LPARAM)buf);
+			CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
 
 			CMStringW wszFileName = buf;
 			wszFileName.Append(blob.getName());
