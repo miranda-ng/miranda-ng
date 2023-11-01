@@ -758,7 +758,7 @@ void NewstoryListData::ScrollDown(int deltaY)
 void NewstoryListData::ScrollTop()
 {
 	scrollTopItem = scrollTopPixel = 0;
-	FixScrollPosition(true);
+	FixScrollPosition();
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
