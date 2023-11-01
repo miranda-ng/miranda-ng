@@ -63,7 +63,7 @@ struct FILEECHO : public MZeroedObject
 	HANDLE hFile, hMapping;
 	uchar *lpData;
 
-	ptrW wszFilename;
+	CMStringW wszFilename;
 	uint chunkIndx;			// next chunk to send
 	uint chunkCount;		// count of chunks
 	uint chunkSent;

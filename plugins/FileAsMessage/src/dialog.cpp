@@ -344,11 +344,9 @@ void FILEECHO::sendReq()
 		return;
 	}
 
-	wchar_t *p = wszFilename.get() + mir_wstrlen(wszFilename);
-	while (p != wszFilename && *p != '\\')
-		p--;
-	if (*p == '\\')
-		mir_wstrcpy(wszFilename, p + 1);
+	int idx = wszFilename.ReverseFind('\\');
+	if (idx != -1)
+		wszFilename.Delete(0, idx);
 
 	mir_snwprintf(sendbuf, TranslateT("Size: %d bytes"), fileSize);
 	SetDlgItemTextW(hDlg, IDC_FILESIZE, sendbuf);
@@ -372,8 +370,8 @@ void FILEECHO::incomeRequest(char *param)
 	*p++ = 0;
 	
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
-	mir_wstrncat(buf, Utf2T(param), _countof(buf) - mir_wstrlen(buf));
-	wszFilename = mir_wstrdup(buf);
+	wszFilename = buf;
+	wszFilename.Append(Utf2T(param));
 
 	// p == &c
 	if (*p == 0) return; asBinary = (*p++) != '0';
@@ -769,27 +767,20 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return 0;
 
 	case WM_PAINT:
-	{
-		HDC hdc;
-		PAINTSTRUCT ps;
 		RECT rc;
-		HRGN hrgn;
+		PAINTSTRUCT ps;
 		HBRUSH frameBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
 		FILEECHO *dat = (FILEECHO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 
 		GetClientRect(hwnd, &rc);
 		if (dat == nullptr || dat->chunkCount == 0) {
-			COLORREF colour;
 			HBRUSH hbr;
-
-			if (dat == nullptr || dat->iState != STATE_FINISHED) {
+			if (dat == nullptr || dat->iState != STATE_FINISHED)
 				hbr = (HBRUSH)(COLOR_3DFACE + 1);
-			}
-			else {
-				colour = dat->rgbRecv;
-				hbr = CreateSolidBrush(colour);
-			}
-			hdc = BeginPaint(hwnd, &ps);
+			else
+				hbr = CreateSolidBrush(dat->rgbRecv);
+
+			HDC hdc = BeginPaint(hwnd, &ps);
 			FillRect(hdc, &rc, hbr);
 			FrameRect(hdc, &rc, frameBrush);
 			if (hbr != (HBRUSH)(COLOR_3DFACE + 1))
@@ -798,9 +789,9 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 0;
 		}
 
-		hrgn = CreateRectRgn(rc.left, rc.top, rc.right, rc.bottom);
+		HRGN hrgn = CreateRectRgn(rc.left, rc.top, rc.right, rc.bottom);
 
-		hdc = BeginPaint(hwnd, &ps);
+		HDC hdc = BeginPaint(hwnd, &ps);
 		SelectClipRgn(hdc, hrgn);
 
 		RECT rc2 = rc;
@@ -841,7 +832,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		DeleteObject(hrgn);
 		return 0;
 	}
-	}
+
 	return mir_callNextSubclass(hwnd, ProgressWndProc, uMsg, wParam, lParam);
 }
 
@@ -877,7 +868,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_FE_MESSAGE:
 		dat->perform((char *)lParam);
-		delete (char *)lParam;
+		mir_free((char *)lParam);
 		return TRUE;
 
 	case WM_FE_SKINCHANGE:
@@ -888,29 +879,29 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_FE_STATUSCHANGE:
-	{
-		char *szProto = Proto_GetBaseAccountName(dat->hContact);
-		if (szProto) {
-			int dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			if (dat->inSend && dwStatus != dat->contactStatus) {
-				if (dat->contactStatus == ID_STATUS_OFFLINE) {
-					dat->chunkIndx = dat->chunkCount;
-				}
-				else
-					if (dwStatus == ID_STATUS_OFFLINE) {
-						if (dat->iState & (STATE_OPERATE | STATE_ACKREQ)) {
-							wchar_t *msg = TranslateT("File transfer is paused because of dropped connection");
-							SetDlgItemText(hDlg, IDC_STATUS, msg);
-							MakePopupMsg(dat->hDlg, dat->hContact, msg);
-							dat->setState(STATE_PAUSED);
-							KillTimer(hDlg, TIMER_SEND);
-						}
+		{
+			char *szProto = Proto_GetBaseAccountName(dat->hContact);
+			if (szProto) {
+				int dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				if (dat->inSend && dwStatus != dat->contactStatus) {
+					if (dat->contactStatus == ID_STATUS_OFFLINE) {
+						dat->chunkIndx = dat->chunkCount;
 					}
+					else
+						if (dwStatus == ID_STATUS_OFFLINE) {
+							if (dat->iState & (STATE_OPERATE | STATE_ACKREQ)) {
+								wchar_t *msg = TranslateT("File transfer is paused because of dropped connection");
+								SetDlgItemText(hDlg, IDC_STATUS, msg);
+								MakePopupMsg(dat->hDlg, dat->hContact, msg);
+								dat->setState(STATE_PAUSED);
+								KillTimer(hDlg, TIMER_SEND);
+							}
+						}
+				}
+				dat->contactStatus = dwStatus;
 			}
-			dat->contactStatus = dwStatus;
 		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_DESTROY:
 		WindowList_Remove(hFileList, hDlg);
@@ -928,89 +919,85 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (wParam) {
 		case IDC_PLAY:
-		{
-			if (dat->iState & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV)) {
-				int len = GetWindowTextLength(GetDlgItem(hDlg, IDC_FILENAME)) + 1;
-				dat->wszFilename = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
-				GetDlgItemTextW(hDlg, IDC_FILENAME, dat->wszFilename, len);
-				if (dat->inSend)
-					// Send offer to remote side
-				{
-					dat->sendReq();
-				}
-				else
-					// Send the accept and starting to receive
-				{
-					wchar_t buff[MAX_PATH];
-					wchar_t *bufname;
+			{
+				if (dat->iState & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV)) {
+					int len = GetWindowTextLength(GetDlgItem(hDlg, IDC_FILENAME)) + 1;
+					dat->wszFilename.Truncate(MAX_PATH);
+					GetDlgItemTextW(hDlg, IDC_FILENAME, dat->wszFilename.GetBuffer(), len);
+					if (dat->inSend) { // Send offer to remote side
+						dat->sendReq();
+					}
+					else { // Send the accept and starting to receive
+						wchar_t buff[MAX_PATH];
+						wchar_t *bufname;
 
-					GetFullPathNameW(dat->wszFilename, sizeof(buff), buff, &bufname);
-					*bufname = 0;
-					CreateDirectoryTreeW(buff);
-					if (!dat->createTransfer()) {
-						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Failed on file initialization"));
-						break;
-					}
-					dat->sendCmd(CMD_ACCEPT, "");
-					dat->lastTimestamp = GetTickCount();
-					SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Receiving..."));
-					dat->setState(STATE_OPERATE);
-				}
-			}
-			else {
-				if (dat->inSend) {
-					if (dat->iState == STATE_OPERATE) {
-						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Paused..."));
-						dat->setState(STATE_PAUSED);
-						KillTimer(hDlg, TIMER_SEND);
-					}
-					else {
-						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Sending..."));
-						if (dat->chunkIndx < dat->chunkCount)
-							dat->setState(STATE_OPERATE);
-						else
-							dat->setState(STATE_ACKREQ);
-						PostMessage(hDlg, WM_TIMER, 0, 0);
+						GetFullPathNameW(dat->wszFilename, _countof(buff), buff, &bufname);
+						*bufname = 0;
+						CreateDirectoryTreeW(buff);
+						if (!dat->createTransfer()) {
+							SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Failed on file initialization"));
+							break;
+						}
+						dat->sendCmd(CMD_ACCEPT, "");
+						dat->lastTimestamp = GetTickCount();
+						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Receiving..."));
+						dat->setState(STATE_OPERATE);
 					}
 				}
 				else {
-					SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Synchronizing..."));
-					dat->setState(STATE_ACKREQ);
-					PostMessage(hDlg, WM_TIMER, 0, 0);
+					if (dat->inSend) {
+						if (dat->iState == STATE_OPERATE) {
+							SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Paused..."));
+							dat->setState(STATE_PAUSED);
+							KillTimer(hDlg, TIMER_SEND);
+						}
+						else {
+							SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Sending..."));
+							if (dat->chunkIndx < dat->chunkCount)
+								dat->setState(STATE_OPERATE);
+							else
+								dat->setState(STATE_ACKREQ);
+							PostMessage(hDlg, WM_TIMER, 0, 0);
+						}
+					}
+					else {
+						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Synchronizing..."));
+						dat->setState(STATE_ACKREQ);
+						PostMessage(hDlg, WM_TIMER, 0, 0);
+					}
+					break;
 				}
-				break;
 			}
-		}
-		break;
+			break;
 
 		case IDC_BROWSE:
-		{
-			wchar_t str[MAX_PATH]; *str = 0;
-			GetDlgItemText(hDlg, IDC_FILENAME, str, _countof(str));
+			{
+				wchar_t str[MAX_PATH]; *str = 0;
+				GetDlgItemText(hDlg, IDC_FILENAME, str, _countof(str));
 
-			OPENFILENAME ofn = {};
-			ofn.lStructSize = sizeof(ofn);
-			ofn.hwndOwner = hDlg;
-			ofn.lpstrFile = str;
-			ofn.Flags = dat->inSend ? OFN_FILEMUSTEXIST : 0;
-			ofn.lpstrTitle = dat->inSend ? TranslateT("Select a file") : TranslateT("Save as");
-			ofn.nMaxFile = _countof(str);
-			ofn.nMaxFileTitle = MAX_PATH;
-			if (!GetOpenFileName(&ofn))
-				break;
-			if (!dat->inSend && dat->iState == STATE_FINISHED)
-				break;
+				OPENFILENAME ofn = {};
+				ofn.lStructSize = sizeof(ofn);
+				ofn.hwndOwner = hDlg;
+				ofn.lpstrFile = str;
+				ofn.Flags = dat->inSend ? OFN_FILEMUSTEXIST : 0;
+				ofn.lpstrTitle = dat->inSend ? TranslateT("Select a file") : TranslateT("Save as");
+				ofn.nMaxFile = _countof(str);
+				ofn.nMaxFileTitle = MAX_PATH;
+				if (!GetOpenFileName(&ofn))
+					break;
+				if (!dat->inSend && dat->iState == STATE_FINISHED)
+					break;
 
-			SetDlgItemText(hDlg, IDC_FILENAME, str);
+				SetDlgItemText(hDlg, IDC_FILENAME, str);
 
-			struct _stat fileInfo;
-			if (!_wstat(str, &fileInfo))
-				mir_snwprintf(str, TranslateT("Size: %d bytes"), fileInfo.st_size);
-			else
-				mir_wstrncpy(str, TranslateT("Can't get a file size"), _countof(str));
-			SetDlgItemText(hDlg, IDC_FILESIZE, str);
-		}
-		break;
+				struct _stat fileInfo;
+				if (!_wstat(str, &fileInfo))
+					mir_snwprintf(str, TranslateT("Size: %d bytes"), fileInfo.st_size);
+				else
+					mir_wstrncpy(str, TranslateT("Can't get a file size"), _countof(str));
+				SetDlgItemText(hDlg, IDC_FILESIZE, str);
+			}
+			break;
 
 		case IDC_STOP:
 		case IDCANCEL:
