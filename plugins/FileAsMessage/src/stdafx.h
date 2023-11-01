@@ -56,4 +56,4 @@ extern HICON hIcons[5];
 extern IconItem iconList[];
 
 ulong memcrc32(uchar *ptr, int size, ulong crc);
-INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+int OnOptInitialise(WPARAM wParam, LPARAM);

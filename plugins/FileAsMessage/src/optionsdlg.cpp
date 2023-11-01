@@ -30,12 +30,12 @@ int settingId[] =
 	-IDC_SENDDELAY,
 	-IDC_CHUNKSIZE
 };
-//
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // OptionsDlgProc()
 // this handles the options page
-// verwaltet die Optionsseite
-//
-INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -93,4 +93,19 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	}
 
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+int OnOptInitialise(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.szTitle.a = SERVICE_TITLE;
+	odp.szGroup.a = LPGEN("Events");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = OptionsDlgProc;
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
 }

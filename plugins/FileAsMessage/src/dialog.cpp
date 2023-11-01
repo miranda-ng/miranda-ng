@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-char *szFEMode[] =
+wchar_t *szFEMode[] =
 {
-	LPGEN("Receive file"),
-	LPGEN("Send file")
+	LPGENW("Receive file"),
+	LPGENW("Send file")
 };
 
 char* ltoax(char* s, uint32_t value)
@@ -121,26 +121,12 @@ int getMsgId(char *msg)
 	return -1;
 };
 
-int RetrieveFileSize(wchar_t *filename)
-{
-	FILE *hFile = _wfopen(filename, L"rb");
-	if (hFile != nullptr) {
-		fseek(hFile, 0, SEEK_END);
-		int size = ftell(hFile);
-		fclose(hFile);
-		return size;
-	}
-	return 0;
-}
-
 FILEECHO::FILEECHO(MCONTACT Contact)
 {
 	hContact = Contact;
 	dwSendInterval = g_plugin.getDword("SendDelay", 6000);
 
 	chunkMaxLen = g_plugin.getDword("ChunkSize", 5000);
-	chunkCount = 0;
-	filename = nullptr;
 
 	rgbRecv = g_plugin.getDword("colorRecv", RGB(64, 255, 64));
 	rgbSent = g_plugin.getDword("colorSent", RGB(255, 255, 64));
@@ -209,14 +195,14 @@ void FILEECHO::setState(uint32_t state)
 
 void FILEECHO::updateTitle()
 {
-	char newtitle[256];
+	wchar_t newtitle[256];
 
-	char *contactName = _T2A(Clist_GetContactDisplayName(hContact));
+	auto *contactName = Clist_GetContactDisplayName(hContact);
 	if (iState == STATE_OPERATE && chunkCount != 0)
-		mir_snprintf(newtitle, "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
+		mir_snwprintf(newtitle, L"%d%% - %s: %s", chunkSent * 100 / chunkCount, TranslateW(szFEMode[inSend]), contactName);
 	else
-		mir_snprintf(newtitle, "%s: %s", Translate(szFEMode[inSend]), contactName);
-	SetWindowTextA(hDlg, newtitle);
+		mir_snwprintf(newtitle, L"%s: %s", TranslateW(szFEMode[inSend]), contactName);
+	SetWindowTextW(hDlg, newtitle);
 }
 
 void BuildFreqTable(uchar *data, uint len, uint *freqTable)
@@ -237,12 +223,12 @@ int FILEECHO::createTransfer()
 #endif
 	uint8_t bAuto = db_get_b(0, "SRFile", "AutoAccept", 0);
 
-	hFile = CreateFileA(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, nullptr, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, nullptr);
+	hFile = CreateFileW(wszFilename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, nullptr, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE && !inSend && GetLastError() == ERROR_FILE_EXISTS) {
 		if (MessageBox(hDlg, TranslateT("File already exists. Overwrite?"),
 			TranslateT(SERVICE_TITLE),
 			MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) != IDYES) return 0;
-		hFile = CreateFileA(filename, GENERIC_READ | GENERIC_WRITE, 0,
+		hFile = CreateFileW(wszFilename, GENERIC_READ | GENERIC_WRITE, 0,
 			nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	}
@@ -351,24 +337,24 @@ void FILEECHO::destroyTransfer()
 
 void FILEECHO::sendReq()
 {
-	char sendbuf[MAX_PATH];
+	wchar_t sendbuf[MAX_PATH];
 
 	if (!createTransfer()) {
 		SetDlgItemText(hDlg, IDC_FILESIZE, TranslateT("Couldn't open a file"));
 		return;
 	}
 
-	///!!!!!!!
-	char *p = filename + mir_strlen(filename);
-	while (p != filename && *p != '\\')
+	wchar_t *p = wszFilename.get() + mir_wstrlen(wszFilename);
+	while (p != wszFilename && *p != '\\')
 		p--;
 	if (*p == '\\')
-		mir_strcpy(filename, p + 1);
+		mir_wstrcpy(wszFilename, p + 1);
 
-	mir_snprintf(sendbuf, Translate("Size: %d bytes"), fileSize);
-	SetDlgItemTextA(hDlg, IDC_FILESIZE, sendbuf);
-	mir_snprintf(sendbuf, "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary + '0', codeSymb, chunkCount, fileSize);
-	sendCmd(0, CMD_REQ, sendbuf, filename);
+	mir_snwprintf(sendbuf, TranslateT("Size: %d bytes"), fileSize);
+	SetDlgItemTextW(hDlg, IDC_FILESIZE, sendbuf);
+
+	mir_snwprintf(sendbuf, L"?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary + '0', codeSymb, chunkCount, fileSize);
+	sendCmd(CMD_REQ, T2Utf(sendbuf), T2Utf(wszFilename));
 
 	SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Request sent. Awaiting of acceptance.."));
 	setState(STATE_REQSENT);
@@ -377,14 +363,18 @@ void FILEECHO::sendReq()
 void FILEECHO::incomeRequest(char *param)
 {
 	// param: filename?cCOUNT:SIZE
-	char buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
+	
 	// param == &filename
 	char *p = strchr(param, '?');
-	if (p == nullptr) return; *p++ = 0;
+	if (p == nullptr)
+		return;
+	*p++ = 0;
+	
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
-	mir_strncat(buf, param, _countof(buf) - mir_strlen(buf));
-	free(filename);
-	filename = mir_strdup(buf);
+	mir_wstrncat(buf, Utf2T(param), _countof(buf) - mir_wstrlen(buf));
+	wszFilename = mir_wstrdup(buf);
+
 	// p == &c
 	if (*p == 0) return; asBinary = (*p++) != '0';
 	if (*p == 0) return; codeSymb = *p++;
@@ -396,9 +386,9 @@ void FILEECHO::incomeRequest(char *param)
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
 
-	mir_snprintf(buf, Translate("Size: %d bytes"), fileSize);
-	SetDlgItemTextA(hDlg, IDC_FILENAME, filename);
-	SetDlgItemTextA(hDlg, IDC_FILESIZE, buf);
+	mir_snwprintf(buf, TranslateT("Size: %d bytes"), fileSize);
+	SetDlgItemTextW(hDlg, IDC_FILENAME, wszFilename);
+	SetDlgItemTextW(hDlg, IDC_FILESIZE, buf);
 
 	setState(STATE_PRERECV);
 	inSend = FALSE;
@@ -494,7 +484,7 @@ void FILEECHO::onRecvTimer()
 		destroyTransfer();
 		buffer[0] = 'x'; buffer[1] = 0;
 	}
-	sendCmd(0, CMD_DACK, buffer);
+	sendCmd(CMD_DACK, buffer);
 	free(buffer);
 }
 
@@ -515,7 +505,7 @@ void FILEECHO::onSendTimer()
 	if (iState == STATE_ACKREQ || chunkIndx == chunkCount) {
 		SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Requesting of missing chunks"));
 		setState(STATE_OPERATE);
-		sendCmd(0, CMD_END, "", nullptr);
+		sendCmd(CMD_END, "", nullptr);
 		chunkIndx = chunkCount + 1;
 		return;
 	}
@@ -552,7 +542,7 @@ void FILEECHO::onSendTimer()
 #ifdef DEBUG
 	overhead += mir_strlen((char*)buffer);
 #endif
-	sendCmd(0, CMD_DATA, (char*)buffer, (char*)prefix);
+	sendCmd(CMD_DATA, (char*)buffer, (char*)prefix);
 	chunkAck[chunkIndx] = CHUNK_SENT;
 
 	free(buffer);
@@ -753,7 +743,7 @@ void FILEECHO::perform(char *str)
 		};
 };
 
-int FILEECHO::sendCmd(int, int cmd, char *szParam, char *szPrefix)
+int FILEECHO::sendCmd(int cmd, char *szParam, char *szPrefix)
 {
 	int buflen = (int)mir_strlen(szServicePrefix) + (int)mir_strlen(szParam) + 2;
 	if (szPrefix != nullptr)
@@ -941,9 +931,8 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			if (dat->iState & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV)) {
 				int len = GetWindowTextLength(GetDlgItem(hDlg, IDC_FILENAME)) + 1;
-				free(dat->filename);
-				dat->filename = (char*)malloc(len);
-				GetDlgItemTextA(hDlg, IDC_FILENAME, dat->filename, len);
+				dat->wszFilename = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
+				GetDlgItemTextW(hDlg, IDC_FILENAME, dat->wszFilename, len);
 				if (dat->inSend)
 					// Send offer to remote side
 				{
@@ -952,17 +941,17 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else
 					// Send the accept and starting to receive
 				{
-					char buff[MAX_PATH];
-					char *bufname;
+					wchar_t buff[MAX_PATH];
+					wchar_t *bufname;
 
-					GetFullPathNameA(dat->filename, sizeof(buff), buff, &bufname);
+					GetFullPathNameW(dat->wszFilename, sizeof(buff), buff, &bufname);
 					*bufname = 0;
-					CreateDirectoryTree(buff);
+					CreateDirectoryTreeW(buff);
 					if (!dat->createTransfer()) {
 						SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Failed on file initialization"));
 						break;
 					}
-					dat->sendCmd(0, CMD_ACCEPT, "");
+					dat->sendCmd(CMD_ACCEPT, "");
 					dat->lastTimestamp = GetTickCount();
 					SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Receiving..."));
 					dat->setState(STATE_OPERATE);
@@ -1014,9 +1003,9 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			SetDlgItemText(hDlg, IDC_FILENAME, str);
 
-			int size = RetrieveFileSize(str);
-			if (size != -1)
-				mir_snwprintf(str, TranslateT("Size: %d bytes"), size);
+			struct _stat fileInfo;
+			if (!_wstat(str, &fileInfo))
+				mir_snwprintf(str, TranslateT("Size: %d bytes"), fileInfo.st_size);
 			else
 				mir_wstrncpy(str, TranslateT("Can't get a file size"), _countof(str));
 			SetDlgItemText(hDlg, IDC_FILESIZE, str);
@@ -1027,7 +1016,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDCANCEL:
 			if (dat->iState == STATE_PRERECV) {
 				SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Canceled by user"));
-				dat->sendCmd(0, CMD_CANCEL, "", nullptr);
+				dat->sendCmd(CMD_CANCEL, "", nullptr);
 				dat->setState(STATE_CANCELLED);
 			}
 			if (dat->chunkCount) {
@@ -1035,7 +1024,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					TranslateT(SERVICE_TITLE), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 					SetDlgItemText(hDlg, IDC_STATUS, TranslateT("Canceled by user"));
 					dat->setState(STATE_CANCELLED);
-					dat->sendCmd(0, CMD_CANCEL, "", nullptr);
+					dat->sendCmd(CMD_CANCEL, "", nullptr);
 					dat->destroyTransfer();
 					if (wParam == IDCANCEL)
 						DestroyWindow(hDlg);

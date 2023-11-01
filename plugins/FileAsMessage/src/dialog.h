@@ -51,9 +51,8 @@ extern char cFECmd[CMD_COUNT];
 #define ICON_STOP		3
 #define ICON_MAIN		4
 
-struct FILEECHO
+struct FILEECHO : public MZeroedObject
 {
-public:
 	MCONTACT hContact;
 	HWND hDlg;
 
@@ -64,7 +63,7 @@ public:
 	HANDLE hFile, hMapping;
 	uchar *lpData;
 
-	char *filename;
+	ptrW wszFilename;
 	uint chunkIndx;			// next chunk to send
 	uint chunkCount;		// count of chunks
 	uint chunkSent;
@@ -100,7 +99,7 @@ public:
 	void cmdACCEPT();
 	void cmdDACK(char *data);
 	void sendReq();
-	int  sendCmd(int id, int cmd, char *szParam, char *szPrefix = nullptr);
+	int  sendCmd(int cmd, char *szParam, char *szPrefix = nullptr);
 
 	void cmdDATA(char *data);
 	void cmdEND();

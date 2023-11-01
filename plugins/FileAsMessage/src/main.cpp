@@ -148,21 +148,8 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnOptInitialise(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szTitle.a = SERVICE_TITLE;
-	odp.szGroup.a = LPGEN("Events");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = OptionsDlgProc;
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // Startup initializing
-//
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
@@ -204,10 +191,10 @@ int CMPlugin::Load()
 	return 0;
 }
 
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // Unload()
 // Called by Miranda when Plugin is unloaded.
-//
+
 int CMPlugin::Unload()
 {
 	WindowList_Destroy(hFileList);
