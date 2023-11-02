@@ -174,8 +174,11 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 		for (b = b + 3; *b != 0 && *b != '/' && *b != ':'; b++)
 			szHost.AppendChar(*b);
 
-	if (!szHost.IsEmpty())
-		buf.AppendFormat(" %s %s", TranslateU("on"), szHost.c_str());
+	if (!szHost.IsEmpty()) {
+		buf.AppendChar(' ');
+		AppendUnicodeString(buf, TranslateT("at"));
+		buf.AppendFormat(" %s", szHost.c_str());
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
