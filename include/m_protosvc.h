@@ -806,11 +806,12 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 #define OFD_DOWNLOAD 0x0001
 #define OFD_SAVEAS   0x0002
+#define OFD_COPYURL  0x0004
 #define OFD_RUN      0x1000
 
 struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 {
-	OFDTHREAD(MEVENT, const CMStringW &, bool);
+	OFDTHREAD(MEVENT hDbEvent, const CMStringW &path, int iCommand);
 	~OFDTHREAD();
 
 	void Finish();
@@ -818,8 +819,14 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 
 	MEVENT hDbEvent;
 	MFilePath wszPath;
-	bool bOpen;
 	struct OFD_Callback *pCallback = nullptr;
+	bool bOpen = false, bCopy = false;
+};
+
+struct OFD_Callback
+{
+	virtual ~OFD_Callback() {}
+	virtual void Invoke(const OFDTHREAD &ofd) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

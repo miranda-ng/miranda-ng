@@ -215,8 +215,8 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 			DB::EventInfo dbei(hDbEvent);
 			if (!dbei)
 				return FALSE;
+			
 			DB::FILE_BLOB blob(dbei);
-
 			int nCmd = 2;
 			if (pLink->msg == WM_RBUTTONDOWN) {
 				HMENU hMenu = CreatePopupMenu();
@@ -235,11 +235,15 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 			switch (nCmd) {
 			case 2:
 			case 3:
-				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, nCmd == 2, new OFD_Download());
+				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, dbei, nCmd == 2, new OFD_Download());
 				break;
 
 			case 4:
-				Utils_ClipboardCopy(blob.getUrl());
+				{
+					OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, L"", OFD_COPYURL);
+					ofd->pCallback = new OFD_CopyUrl(blob.getUrl());
+					CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
+				}
 				break;
 
 			case 5:

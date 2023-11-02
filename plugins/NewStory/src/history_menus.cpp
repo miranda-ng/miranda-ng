@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
-	MENU_COPY, MENU_COPYTEXT, MENU_QUOTE,
+	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_QUOTE,
 	MENU_SAVEAS, MENU_DOWNLOAD,
 	MENU_EDIT, MENU_DELETE,
 	MENU_SELECTALL, MENU_BOOKMARK,
@@ -28,17 +28,19 @@ enum
 
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
-static HGENMENU hmiHistory, hmiCopy, hmiSaveAs, hmiDownload, hmiQuote;
+static HGENMENU hmiHistory, hmiCopy, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
 static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
 	if (item->m_bOfflineFile) {
-		Menu_ModifyItem(hmiCopy, (item->m_bOfflineDownloaded) ? TranslateT("Copy file name") : TranslateT("Copy URL"));
+		Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file name") : TranslateT("Copy URL"));
+		Menu_ShowItem(hmiCopyUrl, true);
 		Menu_ShowItem(hmiSaveAs, true);
 		Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded);
 	}
 	else {
+		Menu_ShowItem(hmiCopyUrl, false);
 		Menu_ShowItem(hmiSaveAs, false);
 		Menu_ShowItem(hmiDownload, false);
 	}
@@ -82,6 +84,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_COPYTEXT:
 		pData->Copy(true);
+		break;
+
+	case MENU_COPYURL:
+		pData->CopyUrl();
 		break;
 
 	case MENU_QUOTE:
@@ -204,19 +210,23 @@ void InitMenus()
 	mi.name.a = LPGEN("Copy");
 	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
 
-	mi.position = 100001;
+	mi.position++;
 	mi.name.a = LPGEN("Copy text");
 	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
 
-	mi.position = 100002;
+	mi.position++;
+	mi.name.a = LPGEN("Copy URL");
+	hmiCopyUrl = Menu_AddNewStoryMenuItem(&mi, MENU_COPYURL);
+
+	mi.position++;
 	mi.name.a = LPGEN("Quote");
 	hmiQuote = Menu_AddNewStoryMenuItem(&mi, MENU_QUOTE);
 
-	mi.position = 100003;
+	mi.position++;
 	mi.name.a = LPGEN("Save as");
 	hmiSaveAs = Menu_AddNewStoryMenuItem(&mi, MENU_SAVEAS);
 
-	mi.position = 100004;
+	mi.position++;
 	mi.name.a = LPGEN("Download");
 	hmiDownload = Menu_AddNewStoryMenuItem(&mi, MENU_DOWNLOAD);
 
@@ -224,11 +234,11 @@ void InitMenus()
 	mi.name.a = LPGEN("Edit");
 	hmiEdit = Menu_AddNewStoryMenuItem(&mi, MENU_EDIT);
 
-	mi.position = 200001;
+	mi.position++;
 	mi.name.a = LPGEN("Delete");
 	hmiDelete = Menu_AddNewStoryMenuItem(&mi, MENU_DELETE);
 
-	mi.position = 200002;
+	mi.position++;
 	mi.name.a = LPGEN("Toggle bookmark");
 	hmiBookmark = Menu_AddNewStoryMenuItem(&mi, MENU_BOOKMARK);
 

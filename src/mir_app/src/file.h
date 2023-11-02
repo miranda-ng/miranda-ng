@@ -143,10 +143,19 @@ int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue,
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 
 // downloads or launches cloud file
-struct OFD_Callback
+
+struct OFD_CopyUrl : public OFD_Callback
 {
-	virtual ~OFD_Callback() {}
-	virtual void Invoke(const OFDTHREAD &ofd) = 0;
+	CMStringW wszUrl;
+
+	OFD_CopyUrl(const CMStringW &url) :
+		wszUrl(url)
+	{}
+
+	void Invoke(const OFDTHREAD &ofd) override
+	{
+		Utils_ClipboardCopy(ofd.wszPath.IsEmpty() ? wszUrl : ofd.wszPath);
+	}
 };
 
 struct OFD_Download : public OFD_Callback
@@ -175,4 +184,4 @@ public:
 	}
 };
 
-void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Callback *pCallback);
+void DownloadOfflineFile(MCONTACT, MEVENT, DB::EventInfo &dbei, int iCommand, OFD_Callback *pCallback);

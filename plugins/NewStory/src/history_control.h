@@ -63,6 +63,7 @@ struct NewstoryListData : public MZeroedObject
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      Copy(bool bTextOnly = false);
+	void      CopyUrl();
 	void      DeleteItems(void);
 	void      Download(int iOptions);
 	void      EndEditItem(bool bAccept);

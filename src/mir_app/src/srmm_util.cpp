@@ -114,11 +114,12 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // downloads or launches cloud file
 
-OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, bool _3) :
+OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, int iCommand) :
 	hDbEvent(_1),
-	wszPath(_2),
-	bOpen(_3)
+	wszPath(_2)
 {
+	bOpen = (iCommand & OFD_RUN) != 0;
+	bCopy = (iCommand & OFD_COPYURL) != 0;
 }
 
 OFDTHREAD::~OFDTHREAD()
@@ -166,12 +167,8 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 	blob.setLocalName(FindUniqueFileName(wszFullName));
 }
 
-void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Callback *pCallback)
+void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei, int iCommand, OFD_Callback *pCallback)
 {
-	DB::EventInfo dbei(hDbEvent);
-	if (!dbei)
-		return;
-
 	DB::FILE_BLOB blob(dbei);
 	if (!blob.isOffline())
 		return;
@@ -191,12 +188,12 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Cal
 	}
 
 	if (bDownloaded) {
-		OFDTHREAD ofd(hDbEvent, blob.getLocalName(), bOpen);
+		OFDTHREAD ofd(hDbEvent, blob.getLocalName(), iCommand);
 		pCallback->Invoke(ofd);
 		delete pCallback;
 	}
 	else {
-		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), bOpen);
+		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), iCommand);
 		ofd->pCallback = pCallback;
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
 	}
@@ -204,19 +201,23 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, bool bOpen, OFD_Cal
 
 MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, int iCommand)
 {
-	bool bOpen = false;
-	if (iCommand & OFD_RUN) {
-		bOpen = true;
-		iCommand &= ~OFD_RUN;
-	}
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
+		return;
 
-	if (iCommand == OFD_SAVEAS) {
-		DB::EventInfo dbei(hDbEvent);
-		if (!dbei)
-			return;
+	DB::FILE_BLOB blob(dbei);
+	OFD_Callback *pCallback = 0;
 
-		DB::FILE_BLOB blob(dbei);
+	switch (iCommand & 0xFFF) {
+	case OFD_COPYURL:
+		pCallback = new OFD_CopyUrl(blob.getUrl());
+		break;
 
+	case OFD_DOWNLOAD:
+		pCallback = new OFD_Download();
+		break;
+
+	case OFD_SAVEAS:
 		wchar_t str[MAX_PATH];
 		mir_wstrncpy(str, blob.getName(), _countof(str));
 
@@ -230,10 +231,14 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, i
 		ofn.lpstrFile = str;
 		ofn.nMaxFile = _countof(str);
 		ofn.nMaxFileTitle = MAX_PATH;
-		if (GetSaveFileNameW(&ofn))
-			DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_SaveAs(str));
+		if (!GetSaveFileNameW(&ofn))
+			return;
+
+		pCallback = new OFD_SaveAs(str);
+		break;
 	}
-	else DownloadOfflineFile(hContact, hDbEvent, bOpen, new OFD_Download());
+
+	DownloadOfflineFile(hContact, hDbEvent, dbei, iCommand, pCallback);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
