@@ -351,7 +351,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 	if (bAccept) {
 		if ((GetWindowLong(hwndEditBox, GWL_STYLE) & ES_READONLY) == 0) {
-			auto *pItem = (ItemData *)GetWindowLongPtrW(hwndEditBox, GWLP_USERDATA);
+			auto *pItem = GetItem(caret);
 
 			int iTextLen = GetWindowTextLengthW(hwndEditBox);
 			replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
