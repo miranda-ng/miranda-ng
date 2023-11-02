@@ -681,7 +681,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Choose needed logger from listed below:",IDC_STATIC,2,3,299,8
     LISTBOX         IDC_LIST,0,16,305,189,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Enable custom log controls in group chats",IDC_ENABLE_CUSTOM,
+    CONTROL         "Enable custom loggers in group chats",IDC_ENABLE_CUSTOM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,210,297,12
 END
 
