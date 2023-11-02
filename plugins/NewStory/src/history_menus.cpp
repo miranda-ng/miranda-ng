@@ -34,7 +34,7 @@ static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
 	if (item->m_bOfflineFile) {
-		Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file name") : TranslateT("Copy URL"));
+		Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file path") : TranslateT("Copy URL"));
 		Menu_ShowItem(hmiCopyUrl, true);
 		Menu_ShowItem(hmiSaveAs, true);
 		Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded);
