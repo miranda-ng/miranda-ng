@@ -157,13 +157,13 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 {
 	wchar_t wszReceiveFolder[MAX_PATH];
 	if (dbei.flags & DBEF_SENT) // don't mix sent & received files
-		mir_snwprintf(wszReceiveFolder, L"%s\\dlFiles\\%d", VARSW(L"%miranda_userdata%").get(), hContact);
+		mir_snwprintf(wszReceiveFolder, L"%s\\dlFiles\\%d\\", VARSW(L"%miranda_userdata%").get(), hContact);
 	else
 		GetContactReceivedFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
 	CreateDirectoryTreeW(wszReceiveFolder);
 
 	MFilePath wszFullName(wszReceiveFolder);
-	wszFullName.AppendFormat(L"\\%s", blob.getName());
+	wszFullName.Append(blob.getName());
 	blob.setLocalName(FindUniqueFileName(wszFullName));
 }
 
