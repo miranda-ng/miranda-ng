@@ -753,6 +753,8 @@ ex : Lieu de travail
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
 [Driver]
 Pilote
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_sqlite.dll"
 [Download more plugins]
 Télécharger plus de plugins
 [Description:]
@@ -6338,7 +6340,7 @@ Arrière-plan
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Filename:]
@@ -6413,10 +6415,10 @@ Transfert en cours. Voulez-vous vraiment annuler ?
 Pause
 [Main]
 Principales
-[Events]
-Évènements
 [File As Message...]
 Fichier comme message...
+[Events]
+Évènements
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
@@ -10242,7 +10244,7 @@ Popups
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -10369,6 +10371,8 @@ Utilisateur
 Fichier :\s
 [Description: ]
 Description :\s
+[URL: ]
+Lien :\s
 [Nick      :]
 Pseudo    :
 [FirstName :]
@@ -10753,7 +10757,7 @@ Avatars
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -13527,7 +13531,7 @@ Erreurs
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Replace only smileys surrounded by spaces]

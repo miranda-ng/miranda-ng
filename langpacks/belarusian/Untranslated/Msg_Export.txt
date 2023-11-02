@@ -10,4 +10,8 @@
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [Do you wish to save debug information?]
 [All\0*.*\0Text\0*.TXT\0\0]
+[Size: ]
+[Transferred: ]
+[Path: ]
+[URL: ]
 [No_Nick]

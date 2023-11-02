@@ -547,7 +547,7 @@ Show favourite contacts
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Canceled by remote user]
@@ -969,7 +969,7 @@ Text colour
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Color...]
@@ -1022,7 +1022,7 @@ Visualisation
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
@@ -1410,7 +1410,7 @@ Automatic messages synchronisation
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Background color]

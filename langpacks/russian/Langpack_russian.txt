@@ -1710,6 +1710,8 @@ Miranda не смогла загрузить встроенную систему
 Врезка
 [Title underline]
 Подчёркивание заголовка
+[Popup Mode]
+Режим работы всплывающих окон
 [Copy title to clipboard]
 Копировать заголовок в буфер обмена
 [Copy message to clipboard]
@@ -2088,6 +2090,8 @@ Miranda не может распознать этот профиль
 Экстра значки
 [Mute chat]
 Заглушать чат
+[Attach]
+Прикрепить
 [&File]
 &Файл
 [Send file]
@@ -9597,7 +9601,7 @@ ID записи
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -9690,10 +9694,10 @@ ID записи
 Стоп
 [Main]
 Главный
-[Events]
-События
 [File As Message...]
 Файл через сообщение...
+[Events]
+События
 [File As Message]
 Файл через сообщения
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -17891,7 +17895,7 @@ bass.dll не найден! Укажите путь к нему
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18854,7 +18858,7 @@ URL страницы с комментариями к новости.
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -18883,6 +18887,8 @@ URL страницы с комментариями к новости.
 Включить вертикальную полосу прокрутки
 [Draw window edge]
 Отрисовывать границу окна
+[Ascending events sort order]
+Сортировать события по возрастанию даты
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -18951,8 +18957,14 @@ URL страницы с комментариями к новости.
 Разделитель
 [Unnamed]
 Без имени
+[Toggle bookmark]
+Поставить/убрать закладку
 [Search]
 Найти
+[Search forward]
+Найти дальше
+[Search backward]
+Найти предыдущее
 [Are you sure to remove selected event(s)?]
 Уверены, что хотите удалить выбранные события?
 [FirstName]
@@ -19003,6 +19015,10 @@ URL страницы с комментариями к новости.
 Найти предыдущее
 [Conversations]
 Беседы
+[No more occuurences found]
+Больше вхождений не найдено
+[Passed the end of history]
+Пройден конец истории
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Это метаконтакт. Для экспорта выберите один из его субконтактов:\r\n%s
 [Export warning]
@@ -19015,12 +19031,16 @@ URL страницы с комментариями к новости.
 Готово
 [History export]
 Экспорт истории
+[Passed the beginning of history]
+Пройдено начало истории
 [Copy file name]
 Копировать имя файла
 [Copy URL]
 Копировать ссылку
 [History]
 История
+[Global search]
+Поиск по всей истории
 [Copy text]
 Копировать текст
 [Quote]
@@ -24942,7 +24962,7 @@ URI объект
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -25033,8 +25053,6 @@ URI объект
 Эмодзи
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Ошибочное регулярное выражение "%s" в наборе смайлов "%s".
-[d'Oh!]
-Ох!
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll
@@ -31716,6 +31734,8 @@ ID получателя ошибочен или неизвестен
 Ничего не делать
 [Close popup]
 Закрыть всплывающее окно
+[Open call window]
+Открыть окно вызова
 [Test Contact]
 Тестовый контакт
 [Test description]
@@ -35748,10 +35768,12 @@ WUMF: Показать подключения
 Закрывать по нажатию "Удалить"
 [Show long localized date]
 Показывать полную дату
+[Show current date]
+Показывать сегодняшнюю дату
 [Date/Time Representation]
 Дата/время
 [Show seconds]
-Секунды
+Показывать секунды
 [Mail Notifications]
 Уведомления о почте
 [Popup]
@@ -35780,6 +35802,8 @@ WUMF: Показать подключения
 Цвет фона
 [Text color]
 Цвет текста
+[Force popups for manual operations]
+Всегда показывать вспл.окна при ручной проверке почты
 [No new mail message]
 Нет новых писем
 [Check &mail (All Account)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -99,7 +99,4 @@ Smiley кеш
 [Emoji]
 
 [Regular expression "%s" in smiley pack "%s" malformed.]
-
-;file \plugins\SmileyAdd\src\smltool.cpp
-[d'Oh!]
 

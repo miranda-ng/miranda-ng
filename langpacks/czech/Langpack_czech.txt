@@ -8507,7 +8507,7 @@ Zobrazit oblíbené kontakty
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -8600,10 +8600,10 @@ Obnovit
 Zastavit
 [Main]
 Hlavní
-[Events]
-Události
 [File As Message...]
 Soubor jako zpráva...
+[Events]
+Události
 [File As Message]
 Soubor jako zpráva
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -14935,7 +14935,7 @@ Zpráva s hvězdičkou
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -15070,6 +15070,8 @@ Uživatel
 Soubor:\s
 [Description: ]
 Popis:\s
+[URL: ]
+Adresa: 
 [Nick      :]
 Přezdívka :
 [FirstName :]
@@ -15770,7 +15772,7 @@ Povolit/zakázat automatickou aktualizaci
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -20448,7 +20450,7 @@ Skype jméno
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -20531,8 +20533,6 @@ Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
 Standardní
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
-[d'Oh!]
-A sakra!
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll

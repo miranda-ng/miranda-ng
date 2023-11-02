@@ -69,6 +69,7 @@
 [Template group]
 [Cancel edit]
 [Update preview]
+[Downloaded]
 [Variables help]
 [Test contact]
 [The quick brown fox jumps over the lazy dog.]

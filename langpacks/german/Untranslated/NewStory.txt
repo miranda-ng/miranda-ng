@@ -8,5 +8,6 @@
 [Passed the beginning of history]
 [Copy file name]
 [Global search]
+[Downloaded]
 [%N - history [%c messages total]]
 [Group head]

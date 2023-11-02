@@ -35,4 +35,3 @@
 [Standard]
 [Emoji]
 [Regular expression "%s" in smiley pack "%s" malformed.]
-[d'Oh!]

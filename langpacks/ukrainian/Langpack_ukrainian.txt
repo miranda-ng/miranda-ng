@@ -779,6 +779,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 Виберіть драйвер бази даних. Інший драйвер може мати більше функцій та можливостей. Якщо не впевнені, користуйтеся стандартним драйвером.
 [Driver]
 Драйвер
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профіль, вам необхідний файл dbx_sqlite.dll
 [Download more plugins]
 Завантажити більше плагінів
 [Description:]
@@ -1837,6 +1839,10 @@ UIN, E-mail тощо
 Увімкнення статусу
 [User disables status for ...]
 Вимкнення статусу
+[Action messages]
+Дії
+[Highlighted messages]
+Підсвічені повідомлення
 [Nick list members (online)]
 Користувачі (в мережі)
 [Nick list members (away)]
@@ -9170,7 +9176,7 @@ ID запису
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -9263,10 +9269,10 @@ ID запису
 Зупинити
 [Main]
 Головний
-[Events]
-Події
 [File As Message...]
 Файл через повідомлення...
+[Events]
+Події
 [File As Message]
 Файл через повідомлення
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -17218,7 +17224,7 @@ mRadio ввімк
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18149,7 +18155,7 @@ URL сторінки з коментарями до новини.
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -18196,6 +18202,8 @@ URL сторінки з коментарями до новини.
 Вихідні файли
 [Status changes]
 Зміни статусів
+[Highlighted messages]
+Підсвічені повідомлення
 [Grid background]
 Фон сітки
 [Separator]
@@ -23869,7 +23877,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]

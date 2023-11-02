@@ -794,6 +794,8 @@ z. B. Arbeitsplatz
 Sie können einen anderen Datenbanktreiber mit mehr Funktionen und Möglichkeiten als der Standardtreiber verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standardtreiber.
 [Driver]
 Treiber
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_sqlite.dll
 [Download more plugins]
 Weitere Plugins herunterladen
 [Description:]
@@ -9579,7 +9581,7 @@ Favorisierte Kontakte anzeigen
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -9672,10 +9674,10 @@ Fortsetzen
 Stopp
 [Main]
 Allgemein
-[Events]
-Ereignisse
 [File As Message...]
 Datei als Nachricht...
+[Events]
+Ereignisse
 [File As Message]
 Datei als Nachricht
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -15816,6 +15818,8 @@ Passwort für %s eingeben
 Fehler: Nicht genug Speicher
 [Error: Cannot connect to the server]
 Fehler: Verbindung zum Server fehlgeschlagen
+[SSL initialization failed]
+SSL-Initialisierung fehlgeschlagen
 [Error: Connection lost]
 Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
@@ -16313,6 +16317,16 @@ Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter https://miranda
 ;============================================================
 [Jingle support for Jabber protocol.]
 Unterstützung für Jingle für das Jabber-Protokoll.
+[Supports Jingle]
+Unterstützt Jingle
+[Jingle ICE-UDP Transport]
+Jingle ICE-UDP Transport
+[Jingle RTP]
+Jingle RTP
+[Jingle DTLS]
+Jingle DTLS
+[Jingle RTP Audio]
+Jingle RTP Audio
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -17975,7 +17989,7 @@ Nachricht mit Information
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18152,6 +18166,8 @@ Benutzer
 Datei:\s
 [Description: ]
 Beschreibung:\s
+[URL: ]
+URL:
 [Nick      :]
 Nickname   :
 [FirstName :]
@@ -18948,7 +18964,7 @@ Auto-Update de-/aktivieren
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -25128,7 +25144,7 @@ Skypename
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -25217,8 +25233,6 @@ Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 Standard
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulärer Ausdruck "%s" in Smileypack "%s" deformiert.
-[d'Oh!]
-Nein!
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll

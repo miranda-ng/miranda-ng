@@ -1823,9 +1823,9 @@ Miranda не здолела загрузіць убудаваную сістэм
 [User disables status for ...]
 Здыманне статусу
 [Action messages]
-Дзеянне
+Дзеянні
 [Highlighted messages]
-Падсветленае паведамленне
+Падсветленае паведамлення
 [Nick list members (online)]
 Кантакты (далучаны)
 [Nick list members (away)]
@@ -8837,7 +8837,7 @@ Tlen уваход
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -8928,10 +8928,10 @@ Tlen уваход
 Спыніць
 [Main]
 Галоўны
-[Events]
-Падзеі
 [File As Message...]
 Файл праз паведамленне..
+[Events]
+Падзеі
 [File As Message]
 Файл праз паведамленне
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -16447,7 +16447,7 @@ URL станцыі/плэйліста
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -17352,7 +17352,7 @@ ID навіны.
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -17398,7 +17398,7 @@ ID навіны.
 [Status changes]
 Змены статусу
 [Highlighted messages]
-Падсветленае паведамленне
+Падсветленае паведамлення
 [Grid background]
 Фон сеткі
 [Separator]
@@ -22356,7 +22356,7 @@ URI аб'ект
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -22431,8 +22431,6 @@ URI аб'ект
 Стандартныя
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Рэгулярны выраз "%s" у наборы смайлаў "%s" пашкоджана.
-[d'Oh!]
-Ох!
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll

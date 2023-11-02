@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -98,10 +98,11 @@ ms
 Стоп
 [Main]
 Основна
-[Events]
-Събития
 [File As Message...]
 Файл като съобщение...
+;file \plugins\FileAsMessage\src\optionsdlg.cpp
+[Events]
+Събития
 ;file \plugins\FileAsMessage\src\stdafx.h
 [File As Message]
 

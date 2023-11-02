@@ -783,6 +783,8 @@ np. Praca
 Możesz użyć innego sterownika bazy danych, oferującego więcej funkcji lub możliwości. Jeśli nie wiesz co wybrać, użyj domyślnego.
 [Driver]
 Sterownik
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll]
+Problem: Nie znaleziono żadnego sterownika bazy danych, co oznacza, że nie można utworzyć profilu. Pobierz jakiś sterownik np: dbx_sqlite.dll
 [Download more plugins]
 Pobierz więcej wtyczek
 [Description:]
@@ -9520,7 +9522,7 @@ Pokaż ulubione kontakty
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -9613,10 +9615,10 @@ Wznów
 Stop
 [Main]
 Ogólne
-[Events]
-Zdarzenia
 [File As Message...]
 Plik jako wiadomość
+[Events]
+Zdarzenia
 [File As Message]
 File As Message
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
@@ -17810,7 +17812,7 @@ Wiadomość z gwiazdką
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.8
+;  Version: 3.1.2.9
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18769,7 +18771,7 @@ Włącz/wyłącz autoaktualizacje
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -24955,7 +24957,7 @@ Nazwa Skype
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.2
+;  Version: 0.3.3.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -25042,8 +25044,6 @@ Globalna paczka emotikon %s
 Standardowe
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Wyrażenie regularne "%s" w paczce %s zniekształcone.
-[d'Oh!]
-d'Oh!
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll
