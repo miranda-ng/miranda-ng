@@ -331,7 +331,7 @@ DB::FILE_BLOB::~FILE_BLOB()
 bool DB::FILE_BLOB::isCompleted() const
 {
 	if (m_iFileSize == -1)
-		return true;
+		return false;
 
 	return m_iFileSize != 0 && m_iFileSize == m_iTransferred;
 }

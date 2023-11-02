@@ -210,8 +210,12 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, i
 
 	switch (iCommand & 0xFFF) {
 	case OFD_COPYURL:
-		pCallback = new OFD_CopyUrl(blob.getUrl());
-		break;
+		{
+			OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, L"", iCommand);
+			ofd->pCallback = new OFD_CopyUrl(blob.getUrl());
+			CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
+		}
+		return;
 
 	case OFD_DOWNLOAD:
 		pCallback = new OFD_Download();
