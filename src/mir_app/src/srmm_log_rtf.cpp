@@ -235,7 +235,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 			switch (nCmd) {
 			case 2:
 			case 3:
-				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, dbei, nCmd == 2, new OFD_Download());
+				DownloadOfflineFile(m_pDlg.m_hContact, hDbEvent, dbei, (nCmd == 2) ? OFD_RUN : OFD_DOWNLOAD, new OFD_Download());
 				break;
 
 			case 4:
