@@ -303,13 +303,12 @@ void NewstoryListData::Copy(bool bTextOnly)
 void NewstoryListData::CopyUrl()
 {
 	if (auto *pItem = GetItem(caret)) {
-		DB::EventInfo dbei(pItem->hEvent);
-		DB::FILE_BLOB blob(dbei);
-
-		//if (pItem->m_bOfflineDownloaded)
-//			Utils_ClipboardCopy(blob.getLocalName());
-	//	else
-			Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
+		if (pItem->m_bOfflineDownloaded) {
+			DB::EventInfo dbei(pItem->hEvent);
+			DB::FILE_BLOB blob(dbei);
+			Utils_ClipboardCopy(blob.getLocalName());
+		}
+		else Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
 	}
 }
 
