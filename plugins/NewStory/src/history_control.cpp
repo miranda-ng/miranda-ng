@@ -617,8 +617,11 @@ void NewstoryListData::RecalcScrollBar()
 void NewstoryListData::Quote()
 {
 	if (pMsgDlg)
-		if (auto *pItem = LoadItem(caret))
-			pMsgDlg->SetMessageText(Srmm_Quote(pItem->wtext));
+		if (auto *pItem = LoadItem(caret)) {
+			CMStringW wszText(pItem->wtext);
+			RemoveBbcodes(wszText);
+			pMsgDlg->SetMessageText(Srmm_Quote(wszText));
+		}
 }
 
 void NewstoryListData::ScheduleDraw()
