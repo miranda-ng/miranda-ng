@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -121,6 +121,7 @@
 [Template group]
 [Cancel edit]
 [Update preview]
+[Downloaded]
 [Help]
 ;file \plugins\NewStory\src\options.cpp
 [Reset to default]
