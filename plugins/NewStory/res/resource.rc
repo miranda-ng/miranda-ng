@@ -60,8 +60,6 @@ IDI_CALENDAR            ICON                    "calendar.ico"
 
 IDI_RESET               ICON                    "reset.ico"
 
-IDI_PREVIEW             ICON                    "reload.ico"
-
 IDI_VARHELP             ICON                    "vars.ico"
 
 IDI_TPLGROUP            ICON                    "folder.ico"
@@ -161,9 +159,8 @@ BEGIN
     EDITTEXT        IDC_PREVIEW,162,20,138,42,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY
     LTEXT           "Graphic preview:",IDC_STATIC,157,67,143,8
     CONTROL         "",IDC_GPREVIEW,"MTextControl",WS_TABSTOP,162,80,138,57
-    CONTROL         "",IDC_RESET,"MButtonClass",WS_TABSTOP,230,202,16,16
-    CONTROL         "",IDC_DISCARD,"MButtonClass",WS_TABSTOP,248,202,16,16
-    CONTROL         "",IDC_UPDATEPREVIEW,"MButtonClass",WS_TABSTOP,266,202,16,16
+    CONTROL         "",IDC_RESET,"MButtonClass",WS_TABSTOP,248,202,16,16
+    CONTROL         "",IDC_DISCARD,"MButtonClass",WS_TABSTOP,266,202,16,16
     CONTROL         "",IDC_VARHELP,"MButtonClass",WS_DISABLED | WS_TABSTOP,284,202,16,16
 END
 

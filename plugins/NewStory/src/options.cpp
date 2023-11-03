@@ -73,20 +73,9 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 	TemplateInfo *m_curr = 0;
 	ItemData m_tempItem;
 
-	void UpdatePreview(CCtrlButton *)
-	{
-		replaceStrW(m_curr->tmpValue, m_edit.GetText());
-
-		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event
-
-		CMStringW wszText(m_tempItem.formatStringEx(m_curr->tmpValue));
-		preview.SetText(wszText);
-		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
-	}
-
 	CCtrlBase preview, gpreview;
 	CCtrlEdit m_edit;
-	CCtrlMButton btnDiscard, btnPreview, bthVarHelp, btnReset;
+	CCtrlMButton btnDiscard, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
 public:
@@ -98,13 +87,13 @@ public:
 		gpreview(this, IDC_GPREVIEW),
 		btnReset(this, IDC_RESET, Skin_LoadIcon(SKINICON_OTHER_UNDO), LPGEN("Reset to default")),
 		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(IDI_RESET), LPGEN("Cancel edit")),
-		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(IDI_VARHELP), LPGEN("Variables help")),
-		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(IDI_PREVIEW), LPGEN("Update preview"))
+		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(IDI_VARHELP), LPGEN("Variables help"))
 	{
 		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
 		btnDiscard.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Discard);
-		btnPreview.OnClick = Callback(this, &CTemplateOptsDlg::UpdatePreview);
-		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onVarHelp);
+		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Help);
+
+		m_edit.OnChange = Callback(this, &CTemplateOptsDlg::onChange_Edit);
 
 		m_tree.OnSelChanged = Callback(this, &CTemplateOptsDlg::onSelChanged);
 	}
@@ -173,6 +162,8 @@ public:
 				it.tmpValue = nullptr;
 			}
 		}
+
+		onChange_Edit();
 		SaveTemplates();
 		return true;
 	}
@@ -191,7 +182,7 @@ public:
 			m_edit.SetText(TranslateW(m_curr->defvalue));
 		}
 
-		UpdatePreview(0);
+		onChange_Edit();
 		NotifyChange();
 	}
 
@@ -204,10 +195,10 @@ public:
 		else
 			m_edit.SetText(TranslateW(m_curr->defvalue));
 
-		UpdatePreview(0);
+		onChange_Edit();
 	}
 
-	void onVarHelp(CCtrlButton *)
+	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
 		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
@@ -234,6 +225,17 @@ public:
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
+	void onChange_Edit(CCtrlEdit* = 0)
+	{
+		replaceStrW(m_curr->tmpValue, m_edit.GetText());
+
+		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event
+
+		CMStringW wszText(m_tempItem.formatStringEx(m_curr->tmpValue));
+		preview.SetText(wszText);
+		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
+	}
+
 	void onSelChanged(CCtrlTreeView::TEventInfo *)
 	{
 		TVITEMEX tvi;
@@ -246,7 +248,6 @@ public:
 			preview.Disable();
 			gpreview.Disable();
 			btnDiscard.Disable();
-			btnPreview.Disable();
 			bthVarHelp.Disable();
 
 			HTREEITEM hItem = m_tree.GetChild(tvi.hItem);
@@ -259,7 +260,6 @@ public:
 		preview.Enable();
 		gpreview.Enable();
 		btnDiscard.Enable();
-		btnPreview.Enable();
 		bthVarHelp.Enable();
 
 		if (m_curr != nullptr)
@@ -274,7 +274,7 @@ public:
 		else
 			m_edit.SetText(TranslateW(m_curr->defvalue));
 
-		UpdatePreview(0);
+		onChange_Edit();
 	}
 };
 

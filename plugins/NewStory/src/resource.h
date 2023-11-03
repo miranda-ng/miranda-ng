@@ -27,7 +27,6 @@
 #define IDI_CALENDAR                    124
 #define IDI_TPLGROUP                    125
 #define IDI_RESET                       126
-#define IDI_PREVIEW                     127
 #define IDI_VARHELP                     128
 #define IDI_TIMETREE                    129
 #define IDC_USERINFO                    1000
@@ -84,7 +83,6 @@
 #define IDC_GPREVIEW                    1051
 #define IDC_RESET                       1052
 #define IDC_DISCARD                     1053
-#define IDC_UPDATEPREVIEW               1054
 #define IDC_VARHELP                     1055
 #define IDC_VSCROLL                     1056
 #define IDC_DRAWEDGE                    1057
