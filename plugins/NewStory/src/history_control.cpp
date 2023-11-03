@@ -282,19 +282,17 @@ void NewstoryListData::Copy(bool bTextOnly)
 				res.Append(blob.getLocalName());
 			else
 				res.Append(_A2T(blob.getUrl()));
-			res.Append(L"\r\n");
 		}
 		else {
-			if (bTextOnly) {
+			if (bTextOnly)
 				res.Append(p->wtext);
-				res.Append(L"\r\n");
-			}
 			else { // copy text only
 				CMStringW wszText(p->formatString());
 				RemoveBbcodes(wszText);
 				res.Append(wszText);
 			}
 		}
+		res.Append(L"\r\n");
 	}
 
 	Utils_ClipboardCopy(res);
