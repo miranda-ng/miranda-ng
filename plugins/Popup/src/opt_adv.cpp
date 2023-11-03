@@ -46,28 +46,28 @@ void OptAdv_UnregisterVfx()
 void LoadOption_AdvOpts()
 {
 	// History
-	PopupOptions.EnableHistory = g_plugin.getByte("EnableHistory", TRUE);
+	PopupOptions.bEnableHistory = g_plugin.getBool("EnableHistory", true);
 	PopupOptions.HistorySize = g_plugin.getWord("HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-	PopupOptions.UseHppHistoryLog = g_plugin.getByte("UseHppHistoryLog", TRUE);
+	PopupOptions.bUseHppHistoryLog = g_plugin.getBool("UseHppHistoryLog", true);
 
 	// Avatars
-	PopupOptions.avatarBorders = g_plugin.getByte("AvatarBorders", TRUE);
-	PopupOptions.avatarPNGBorders = g_plugin.getByte("AvatarPNGBorders", FALSE);
+	PopupOptions.bAvatarBorders = g_plugin.getBool("AvatarBorders", true);
+	PopupOptions.bAvatarPNGBorders = g_plugin.getBool("AvatarPNGBorders", false);
 	PopupOptions.avatarRadius = g_plugin.getByte("AvatarRadius", 2);
 	PopupOptions.avatarSize = g_plugin.getWord("AvatarSize", SETTING_AVTSIZE_DEFAULT);
-	PopupOptions.EnableAvatarUpdates = g_plugin.getByte("EnableAvatarUpdates", FALSE);
+	PopupOptions.bEnableAvatarUpdates = g_plugin.getBool("EnableAvatarUpdates", false);
 
 	// Monitor
 	PopupOptions.Monitor = g_plugin.getByte("Monitor", SETTING_MONITOR_DEFAULT);
 
 	// Transparency
-	PopupOptions.UseTransparency = g_plugin.getByte("UseTransparency", TRUE);
+	PopupOptions.bUseTransparency = g_plugin.getBool("UseTransparency", true);
 	PopupOptions.Alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
-	PopupOptions.OpaqueOnHover = g_plugin.getByte("OpaqueOnHover", TRUE);
+	PopupOptions.bOpaqueOnHover = g_plugin.getBool("OpaqueOnHover", true);
 
 	// Effects
-	PopupOptions.UseAnimations = g_plugin.getByte("UseAnimations", TRUE);
-	PopupOptions.UseEffect = g_plugin.getByte("Fade", TRUE);
+	PopupOptions.bUseAnimations = g_plugin.getBool("UseAnimations", true);
+	PopupOptions.bUseEffect = g_plugin.getBool("Fade", true);
 	PopupOptions.Effect = (LPTSTR)DBGetContactSettingStringX(0, MODULENAME, "Effect", "", DBVT_WCHAR);
 	PopupOptions.FadeIn = g_plugin.getDword("FadeInTime", SETTING_FADEINTIME_DEFAULT);
 	PopupOptions.FadeOut = g_plugin.getDword("FadeOutTime", SETTING_FADEOUTTIME_DEFAULT);
@@ -103,30 +103,30 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	}
 	// Group: History
 		{
-			CheckDlgButton(hwnd, IDC_ENABLE_HISTORY, PopupOptions.EnableHistory ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_ENABLE_HISTORY, PopupOptions.bEnableHistory ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hwnd, IDC_HISTORYSIZE, PopupOptions.HistorySize, FALSE);
 			SendDlgItemMessage(hwnd, IDC_HISTORYSIZE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwnd, IDC_HISTORYSIZE), 0);
 			SendDlgItemMessage(hwnd, IDC_HISTORYSIZE_SPIN, UDM_SETRANGE, 0, MAKELONG(SETTING_HISTORYSIZE_MAX, 1));
-			CheckDlgButton(hwnd, IDC_HPPLOG, PopupOptions.UseHppHistoryLog ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_HPPLOG, PopupOptions.bUseHppHistoryLog ? BST_CHECKED : BST_UNCHECKED);
 
 			HWND hCtrl = GetDlgItem(hwnd, IDC_SHOWHISTORY);
 			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)Translate("Popup history"), 0);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_HISTORY));
 
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.EnableHistory && gbHppInstalled);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.bEnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.bEnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.bEnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.bEnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.bEnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.bEnableHistory && gbHppInstalled);
 		}
 		// Group: Avatars
 		{
 			// Borders
-			CheckDlgButton(hwnd, IDC_AVT_BORDER, PopupOptions.avatarBorders ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, IDC_AVT_PNGBORDER, PopupOptions.avatarPNGBorders ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.avatarBorders);
+			CheckDlgButton(hwnd, IDC_AVT_BORDER, PopupOptions.bAvatarBorders ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_AVT_PNGBORDER, PopupOptions.bAvatarPNGBorders ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.bAvatarBorders);
 			// Radius
 			SetDlgItemInt(hwnd, IDC_AVT_RADIUS, PopupOptions.avatarRadius, FALSE);
 			SendDlgItemMessage(hwnd, IDC_AVT_RADIUS_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((PopupOptions.avatarSize / 2), 0));
@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				max(PopupOptions.avatarSize, SETTING_AVTSIZE_MIN));
 			SetDlgItemInt(hwnd, IDC_AVT_SIZE, PopupOptions.avatarSize, FALSE);
 			// Request avatars
-			CheckDlgButton(hwnd, IDC_AVT_REQUEST, PopupOptions.EnableAvatarUpdates ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_AVT_REQUEST, PopupOptions.bEnableAvatarUpdates ? BST_CHECKED : BST_UNCHECKED);
 		}
 		// Group: Monitor
 		{
@@ -157,28 +157,28 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// Group: Transparency
 		{
 			// win2k+
-			CheckDlgButton(hwnd, IDC_TRANS, PopupOptions.UseTransparency ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_TRANS, PopupOptions.bUseTransparency ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopupOptions.Alpha);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), AlphaTrackBarWndProc);
 			mir_snwprintf(tstr, L"%d%%", Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
-			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.bOpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
 			{
 				BOOL how = TRUE;
 
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS), how);
-				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1), how && PopupOptions.UseTransparency);
-				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), how && PopupOptions.UseTransparency);
-				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.UseTransparency);
-				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.UseTransparency);
+				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1), how && PopupOptions.bUseTransparency);
+				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), how && PopupOptions.bUseTransparency);
+				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.bUseTransparency);
+				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.bUseTransparency);
 			}
 			ShowWindow(GetDlgItem(hwnd, IDC_TRANS), SW_SHOW);
 		}
 		// Group: Effects
 		{
 			// Use Animations
-			CheckDlgButton(hwnd, IDC_USEANIMATIONS, PopupOptions.UseAnimations ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_USEANIMATIONS, PopupOptions.bUseAnimations ? BST_CHECKED : BST_UNCHECKED);
 			// Fade
 			SetDlgItemInt(hwnd, IDC_FADEIN, PopupOptions.FadeIn, FALSE);
 			SetDlgItemInt(hwnd, IDC_FADEOUT, PopupOptions.FadeOut, FALSE);
@@ -188,7 +188,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEOUTTIME_MAX, SETTING_FADEOUTTIME_MIN));
 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN, UDM_SETACCEL, (WPARAM)_countof(aAccels), (LPARAM)&aAccels);
 
-			BOOL how = PopupOptions.UseAnimations || PopupOptions.UseEffect;
+			BOOL how = PopupOptions.bUseAnimations || PopupOptions.bUseEffect;
 			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), how);
 			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), how);
 			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), how);
@@ -206,11 +206,11 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				HWND hCtrl = GetDlgItem(hwnd, IDC_EFFECT);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("No effect")), -2);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Fade in/out")), -1);
-				uint32_t dwActiveItem = (uint32_t)PopupOptions.UseEffect;
+				uint32_t dwActiveItem = (uint32_t)PopupOptions.bUseEffect;
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
 					uint32_t dwItem = ComboBox_AddString(hCtrl, TranslateW(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
-					if (PopupOptions.UseEffect && !mir_wstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
+					if (PopupOptions.bUseEffect && !mir_wstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;
 				}
 				SendDlgItemMessage(hwnd, IDC_EFFECT, CB_SETCURSEL, dwActiveItem, 0);
@@ -249,13 +249,13 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case BN_CLICKED:		// Button controls
 			switch (idCtrl) {
 			case IDC_ENABLE_HISTORY:
-				PopupOptions.EnableHistory = !PopupOptions.EnableHistory;
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.EnableHistory && gbHppInstalled);
+				PopupOptions.bEnableHistory = !PopupOptions.bEnableHistory;
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.bEnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.bEnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.bEnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.bEnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.bEnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.bEnableHistory && gbHppInstalled);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -264,23 +264,23 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDC_HPPLOG:
-				PopupOptions.UseHppHistoryLog = !PopupOptions.UseHppHistoryLog;
+				PopupOptions.bUseHppHistoryLog = !PopupOptions.bUseHppHistoryLog;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_AVT_BORDER:
-				PopupOptions.avatarBorders = !PopupOptions.avatarBorders;
-				EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.avatarBorders);
+				PopupOptions.bAvatarBorders = !PopupOptions.bAvatarBorders;
+				EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.bAvatarBorders);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_AVT_PNGBORDER:
-				PopupOptions.avatarPNGBorders = !PopupOptions.avatarPNGBorders;
+				PopupOptions.bAvatarPNGBorders = !PopupOptions.bAvatarPNGBorders;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_AVT_REQUEST:
-				PopupOptions.EnableAvatarUpdates = !PopupOptions.EnableAvatarUpdates;
+				PopupOptions.bEnableAvatarUpdates = !PopupOptions.bEnableAvatarUpdates;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -295,26 +295,26 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDC_TRANS:
-				PopupOptions.UseTransparency = !PopupOptions.UseTransparency;
+				PopupOptions.bUseTransparency = !PopupOptions.bUseTransparency;
 				{
 					BOOL how = TRUE;
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1), how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.UseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1), how && PopupOptions.bUseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), how && PopupOptions.bUseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.bUseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.bUseTransparency);
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
 
 			case IDC_TRANS_OPAQUEONHOVER:
-				PopupOptions.OpaqueOnHover = !PopupOptions.OpaqueOnHover;
+				PopupOptions.bOpaqueOnHover = !PopupOptions.bOpaqueOnHover;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_USEANIMATIONS:
-				PopupOptions.UseAnimations = !PopupOptions.UseAnimations;
+				PopupOptions.bUseAnimations = !PopupOptions.bUseAnimations;
 				{
-					BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
+					BOOL enable = PopupOptions.bUseAnimations || PopupOptions.bUseEffect;
 					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);
 					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), enable);
 					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), enable);
@@ -339,11 +339,11 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_EFFECT:
 			{
 				int iEffect = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-				PopupOptions.UseEffect = (iEffect != -2) ? TRUE : FALSE;
+				PopupOptions.bUseEffect = (iEffect != -2);
 				mir_free(PopupOptions.Effect);
 				PopupOptions.Effect = mir_wstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : L"");
 
-				BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
+				BOOL enable = PopupOptions.bUseAnimations || PopupOptions.bUseEffect;
 				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);
 				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), enable);
 				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), enable);
@@ -492,26 +492,26 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case PSN_APPLY:
 				// History
-				g_plugin.setByte("EnableHistory", (uint8_t)PopupOptions.EnableHistory);
+				g_plugin.setByte("EnableHistory", (uint8_t)PopupOptions.bEnableHistory);
 				g_plugin.setWord("HistorySize", PopupOptions.HistorySize);
 				PopupHistoryResize();
-				g_plugin.setByte("UseHppHistoryLog", PopupOptions.UseHppHistoryLog);
+				g_plugin.setByte("UseHppHistoryLog", PopupOptions.bUseHppHistoryLog);
 				// Avatars
-				g_plugin.setByte("AvatarBorders", PopupOptions.avatarBorders);
-				g_plugin.setByte("AvatarPNGBorders", PopupOptions.avatarPNGBorders);
+				g_plugin.setByte("AvatarBorders", PopupOptions.bAvatarBorders);
+				g_plugin.setByte("AvatarPNGBorders", PopupOptions.bAvatarPNGBorders);
 				g_plugin.setByte("AvatarRadius", PopupOptions.avatarRadius);
 				g_plugin.setWord("AvatarSize", PopupOptions.avatarSize);
-				g_plugin.setByte("EnableAvatarUpdates", PopupOptions.EnableAvatarUpdates);
+				g_plugin.setByte("EnableAvatarUpdates", PopupOptions.bEnableAvatarUpdates);
 				// Monitor
 				g_plugin.setByte("Monitor", PopupOptions.Monitor);
 				// Transparency
-				g_plugin.setByte("UseTransparency", PopupOptions.UseTransparency);
+				g_plugin.setByte("UseTransparency", PopupOptions.bUseTransparency);
 				g_plugin.setByte("Alpha", PopupOptions.Alpha);
-				g_plugin.setByte("OpaqueOnHover", PopupOptions.OpaqueOnHover);
+				g_plugin.setByte("OpaqueOnHover", PopupOptions.bOpaqueOnHover);
 
 				// Effects
-				g_plugin.setByte("UseAnimations", PopupOptions.UseAnimations);
-				g_plugin.setByte("Fade", PopupOptions.UseEffect);
+				g_plugin.setByte("UseAnimations", PopupOptions.bUseAnimations);
+				g_plugin.setByte("Fade", PopupOptions.bUseEffect);
 				g_plugin.setWString("Effect", PopupOptions.Effect);
 				g_plugin.setDword("FadeInTime", PopupOptions.FadeIn);
 				g_plugin.setDword("FadeOutTime", PopupOptions.FadeOut);

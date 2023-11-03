@@ -132,7 +132,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (!Popup_Enabled())
 			return -1;
 
-		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
+		if (PopupOptions.bDisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
 			return -1;
 
 		if (g_plugin.getDword(LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))

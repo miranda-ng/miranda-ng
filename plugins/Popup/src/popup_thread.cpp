@@ -53,7 +53,7 @@ enum
 bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 {
 	if (!wnd) return false;
-	if (!PopupOptions.ReorderPopups && wnd->isPositioned()) return false;
+	if (!PopupOptions.bReorderPopups && wnd->isPositioned()) return false;
 
 	int POPUP_SPACING = PopupOptions.spacing;
 
@@ -134,7 +134,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 void RepositionPopups()
 {
 	PopupWnd2 *prev = nullptr;
-	if (PopupOptions.ReorderPopups) {
+	if (PopupOptions.bReorderPopups) {
 		for (auto &it : popupList) {
 			UpdatePopupPosition(prev, it);
 			prev = it;
@@ -172,7 +172,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_REQUEST_REMOVE:
-		if ((PopupOptions.LeaveHovered && gLockCount) || (wnd && wnd->isLocked()))
+		if ((PopupOptions.bLeaveHovered && gLockCount) || (wnd && wnd->isLocked()))
 			wnd->updateTimer();
 		else
 			PostMessage(wnd->getHwnd(), WM_CLOSE, 0, 0);

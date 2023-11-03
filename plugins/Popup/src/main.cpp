@@ -307,9 +307,9 @@ static int OnShutdown(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 #if defined(_DEBUG)
-	PopupOptions.debug = g_plugin.getByte("debug", FALSE);
+	PopupOptions.bDebug = g_plugin.getByte("debug", FALSE);
 #else
-	PopupOptions.debug = false;
+	PopupOptions.bDebug = false;
 #endif
 	LoadGDIPlus();
 

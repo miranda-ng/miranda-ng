@@ -407,8 +407,8 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	if (tmp = m_fw.eval(wnd->getArgs())) sz.cx = tmp;
 	if (tmp = m_fh.eval(wnd->getArgs())) sz.cy = tmp;
 
-	if (options->DynamicResize) {
-		if (options->UseMinimumWidth && sz.cx < options->MinimumWidth)
+	if (options->bDynamicResize) {
+		if (options->bUseMinimumWidth && sz.cx < options->MinimumWidth)
 			sz.cx = options->MinimumWidth;
 	}
 	else sz.cx = options->MaximumWidth;
@@ -655,7 +655,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, ui
 			break;
 
 		case ST_CLOCK:
-			if (options->DisplayTime) {
+			if (options->bDisplayTime) {
 				COLORREF back = wnd->getBackColor();
 				int x = head->fx.eval(wnd->getArgs());
 				int y = head->fy.eval(wnd->getArgs());

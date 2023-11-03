@@ -94,7 +94,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		AlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, bf);
 
-		if (options->avatarBorders && options->avatarPNGBorders) {
+		if (options->bAvatarBorders && options->bAvatarPNGBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			bmp->saveAlpha(x, y, w, h);
 			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
@@ -105,7 +105,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 	else {
 		bmp->saveAlpha(x, y, w, h);
 		StretchBlt(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, SRCCOPY);
-		if (options->avatarBorders) {
+		if (options->bAvatarBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
 			DeleteObject(hbr);

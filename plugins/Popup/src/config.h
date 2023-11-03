@@ -24,73 +24,88 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __config_h__
 #define __config_h__
 
-typedef struct tagPOPUPOPTIONS {
-	//==Page General====
-	//Timeout
-	uint8_t InfiniteDelay;
-	int Seconds;
-	uint8_t LeaveHovered;
-	//Size&Position
-	uint8_t DynamicResize;
-	uint8_t UseMinimumWidth;
-	uint16_t MinimumWidth;
-	uint8_t UseMaximumWidth;
-	uint16_t MaximumWidth;
-	int Position;
-	int Spreading;
-	//position Popup
+struct POPUPOPTIONS
+{
+	// ==Page General====
+	// Timeout
+	bool bInfiniteDelay;
+	int  Seconds;
+	bool bLeaveHovered;
+
+	// Size & Position
+	bool bDynamicResize;
+	bool bUseMinimumWidth;
+	int  MinimumWidth;
+	bool bUseMaximumWidth;
+	int  MaximumWidth;
+	int  Position;
+	int  Spreading;
+
+	// position Popup
 	int gapTop;
 	int gapBottom;
 	int gapLeft;
 	int gapRight;
 	int spacing;
-	//Miscellaneous
-	uint8_t ReorderPopups;
-	uint8_t ReorderPopupsWarning;
-	//Disable when
-	uint8_t DisableWhenFullscreen;
-	//others
-	uint8_t debug;
+	
+	// Miscellaneous
+	bool bReorderPopups;
+	bool bReorderPopupsWarning;
+	
+	// Disable when
+	bool bDisableWhenFullscreen;
+	
+	// others
+	uint8_t bDebug;
+	
 	//==Page Skins====
 	LPTSTR SkinPack;
-	uint8_t DisplayTime;
-	uint8_t DropShadow;
-	uint8_t EnableFreeformShadows;
-	uint8_t EnableAeroGlass;
-	uint8_t UseWinColors;
-	uint8_t UseMText;
+	bool bDisplayTime;
+	bool bDropShadow;
+	bool bEnableFreeformShadows;
+	bool bEnableAeroGlass;
+	bool bUseWinColors;
+	bool bUseMText;
+	
 	//==Page Actions====
 	uint32_t actions;
-	//Mouse Override
+	
+	// Mouse Override
 	int overrideLeft;
 	int overrideRight;
 	int overrideMiddle;
+	
 	//==Page Advanced====
-	//History
-	uint8_t EnableHistory;
-	uint16_t HistorySize;
-	uint8_t UseHppHistoryLog;
-	//Avatars
-	uint8_t avatarBorders;
-	uint8_t avatarPNGBorders;
-	uint8_t avatarRadius;
-	uint16_t avatarSize;
-	uint8_t EnableAvatarUpdates;
-	//Monitor
+	// History
+	bool bEnableHistory;
+	int  HistorySize;
+	bool bUseHppHistoryLog;
+	
+	// Avatars
+	bool bAvatarBorders;
+	bool bAvatarPNGBorders;
+	int  avatarRadius;
+	int  avatarSize;
+	bool bEnableAvatarUpdates;
+	
+	// Monitor
 	uint8_t Monitor;
-	//Transparency
-	uint8_t UseTransparency;
-	uint8_t Alpha;
-	uint8_t OpaqueOnHover;
-	//Effect
-	uint8_t UseAnimations;
-	uint8_t UseEffect;
+	
+	// Transparency
+	bool bUseTransparency;
+	int  Alpha;
+	bool bOpaqueOnHover;
+	
+	// Effect
+	bool bUseAnimations;
+	bool bUseEffect;
 	LPTSTR Effect;
 	uint32_t FadeIn;
 	uint32_t FadeOut;
-	//Others
-	uint16_t MaxPopups;
-} POPUPOPTIONS;
+	
+	// Others
+	int  MaxPopups;
+};
 
 //===== User wnd class =====
 struct GLOBAL_WND_CLASSES{

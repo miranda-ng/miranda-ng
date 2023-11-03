@@ -45,7 +45,7 @@ void LoadOptions()
 {
 	memset(&PopupOptions, 0, sizeof(PopupOptions));
 #if defined(_DEBUG)
-	PopupOptions.debug = g_plugin.getByte("debug", FALSE);
+	PopupOptions.bDebug = g_plugin.getByte("debug", FALSE);
 #endif
 
 	// Load Popup Options
@@ -78,7 +78,7 @@ void PopupPreview()
 	ppd.szText.w = lptzText1Eng;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect)
+	if (PopupOptions.bUseAnimations || PopupOptions.bUseEffect)
 		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	memset(&ppd, 0, sizeof(ppd));
@@ -90,13 +90,16 @@ void PopupPreview()
 	ppd.hbmAvatar = hbmNoAvatar;
 
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
+	if (PopupOptions.bUseAnimations || PopupOptions.bUseEffect)
+		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	PUShowMessageW(TranslateT("This is a notification message"), (uint32_t)SM_NOTIFY | 0x80000000);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
+	if (PopupOptions.bUseAnimations || PopupOptions.bUseEffect)
+		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	PUShowMessageW(TranslateT("This is a warning message"), (uint32_t)SM_WARNING | 0x80000000);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
+	if (PopupOptions.bUseAnimations || PopupOptions.bUseEffect)
+		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	PUShowMessageW(TranslateT("This is an error message"), (uint32_t)SM_ERROR | 0x80000000);
 }

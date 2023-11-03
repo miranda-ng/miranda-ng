@@ -68,7 +68,7 @@ void PopupHistoryUnload()
 
 void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 {
-	if (!PopupOptions.EnableHistory)
+	if (!PopupOptions.bEnableHistory)
 		return;
 
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_alloc(sizeof(POPUPDATA2));
@@ -97,7 +97,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 
 void PopupHistoryShow()
 {
-	if (!PopupOptions.EnableHistory) {
+	if (!PopupOptions.bEnableHistory) {
 		MessageBox(nullptr, TranslateT("Popup history is disabled"), TranslateT("Popup history message"), MB_OK);
 		return;
 	}
@@ -134,7 +134,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 
 			Window_SetIcon_IcoLib(hwnd, g_plugin.getIconHandle(IDI_HISTORY));
 
-			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
+			if (gbHppInstalled && PopupOptions.bUseHppHistoryLog) {
 				logType = LOG_HPP;
 				ShowWindow(GetDlgItem(hwnd, IDC_POPUP_LIST), SW_HIDE);
 
@@ -229,7 +229,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 					return FALSE;
 
 				POPUPOPTIONS customOptions = PopupOptions;
-				customOptions.DynamicResize = FALSE;
+				customOptions.bDynamicResize = FALSE;
 				customOptions.MinimumWidth = customOptions.MaximumWidth = rc.right - rc.left - 30;
 
 				POPUPDATA2 *ppd = arPopupHistory[lpdis->itemID];

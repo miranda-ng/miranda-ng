@@ -161,9 +161,9 @@ void PopupWnd2::create()
 
 	//  Shadows
 	ULONG_PTR style = GetClassLongPtr(m_hwnd, GCL_STYLE);
-	if (m_options->DropShadow && !(style & CS_DROPSHADOW))
+	if (m_options->bDropShadow && !(style & CS_DROPSHADOW))
 		style |= CS_DROPSHADOW;
-	else if (!m_options->DropShadow && (style & CS_DROPSHADOW))
+	else if (!m_options->bDropShadow && (style & CS_DROPSHADOW))
 		style &= ~CS_DROPSHADOW;
 
 	SetClassLongPtr(m_hwnd, GCL_STYLE, style);
@@ -209,7 +209,7 @@ SIZE PopupWnd2::measure()
 		return m_sz;
 
 	MyBitmap bmpTmp(1, 1);
-	skin->measure(bmpTmp.getDC(), this, m_options->UseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
+	skin->measure(bmpTmp.getDC(), this, m_options->bUseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
 	return m_sz;
 }
 
@@ -231,7 +231,7 @@ void PopupWnd2::update()
 	if (m_bmpBase) delete m_bmpBase;
 	if (m_bmpAnimate) delete m_bmpAnimate;
 	m_bmpBase = new MyBitmap(1, 1);
-	skin->measure(m_bmpBase->getDC(), this, m_options->UseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
+	skin->measure(m_bmpBase->getDC(), this, m_options->bUseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
 
 	//  render popup
 	m_bmpBase->allocate(m_sz.cx, m_sz.cy);
@@ -270,16 +270,16 @@ void PopupWnd2::animate()
 		}
 
 	//  update layered window if supported
-	updateLayered((m_options->UseTransparency && !(m_bIsHovered && m_options->OpaqueOnHover)) ? m_options->Alpha : 255);
+	updateLayered((m_options->bUseTransparency && !(m_bIsHovered && m_options->bOpaqueOnHover)) ? m_options->Alpha : 255);
 
 	if (m_bReshapeWindow) {
 		m_bReshapeWindow = false;
 
-		if (m_hwnd && m_bmp && m_options->DropShadow && PopupOptions.EnableFreeformShadows /*DoWeNeedRegionForThisSkin()*/)
+		if (m_hwnd && m_bmp && m_options->bDropShadow && PopupOptions.bEnableFreeformShadows /*DoWeNeedRegionForThisSkin()*/)
 			SetWindowRgn(m_hwnd, m_bmp->buildOpaqueRgn(skin->getShadowRegionOpacity()), FALSE);
 
 
-		if (MyDwmEnableBlurBehindWindow && PopupOptions.EnableAeroGlass) {
+		if (MyDwmEnableBlurBehindWindow && PopupOptions.bEnableAeroGlass) {
 			DWM_BLURBEHIND bb = { 0 };
 			bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
 			bb.fEnable = TRUE;
@@ -303,15 +303,15 @@ void PopupWnd2::animate()
 
 void PopupWnd2::show()
 {
-	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeIn) {
+	if ((m_options->bUseEffect || (m_options->bUseAnimations && !m_customPopup)) && m_options->FadeIn) {
 		IPopupPlusEffect *effect = nullptr;
 		m_bSlide = m_bFade = false;
 		uint32_t dwTime, dwTime0 = GetTickCount();
 		uint32_t dwTime1 = dwTime0 + m_options->FadeIn;
-		if (m_options->UseEffect) {
+		if (m_options->bUseEffect) {
 			m_bFade = true;
 			m_btAlpha0 = 0;
-			m_btAlpha1 = m_options->UseTransparency ? m_options->Alpha : 255;
+			m_btAlpha1 = m_options->bUseTransparency ? m_options->Alpha : 255;
 			updateLayered(m_btAlpha0);
 
 			if (*PopupOptions.Effect) {
@@ -325,9 +325,9 @@ void PopupWnd2::show()
 			}
 		}
 		else {
-			updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
+			updateLayered(m_options->bUseTransparency ? m_options->Alpha : 255);
 		}
-		if (m_options->UseAnimations && !m_customPopup) {
+		if (m_options->bUseAnimations && !m_customPopup) {
 			m_bSlide = true;
 			m_ptPosition0 = m_pos;
 			m_ptPosition1 = m_pos;
@@ -382,22 +382,22 @@ void PopupWnd2::show()
 
 	m_bSlide = m_bFade = false;
 
-	updateLayered((m_options->UseTransparency && !(m_bIsHovered && m_options->OpaqueOnHover)) ? m_options->Alpha : 255);
+	updateLayered((m_options->bUseTransparency && !(m_bIsHovered && m_options->bOpaqueOnHover)) ? m_options->Alpha : 255);
 	// updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
 	SetWindowPos(m_hwnd, nullptr, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 }
 
 void PopupWnd2::hide()
 {
-	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeOut) {
+	if ((m_options->bUseEffect || (m_options->bUseAnimations && !m_customPopup)) && m_options->FadeOut) {
 		m_bDestroy = true;
 		IPopupPlusEffect *effect = nullptr;
 		m_bFade = m_bSlide = false;
 		uint32_t dwTime, dwTime0 = GetTickCount();
 		uint32_t dwTime1 = dwTime0 + m_options->FadeOut;
-		if (m_options->UseEffect) {
+		if (m_options->bUseEffect) {
 			m_bFade = true;
-			m_btAlpha0 = m_options->UseTransparency ? m_options->Alpha : 255;
+			m_btAlpha0 = m_options->bUseTransparency ? m_options->Alpha : 255;
 			m_btAlpha1 = 0;
 			updateLayered(m_btAlpha0);
 
@@ -411,7 +411,7 @@ void PopupWnd2::hide()
 					}
 			}
 		}
-		if (m_options->UseAnimations && !m_customPopup) {
+		if (m_options->bUseAnimations && !m_customPopup) {
 			m_bSlide = true;
 			m_ptPosition0 = m_pos;
 			m_ptPosition1 = m_pos;
@@ -478,7 +478,7 @@ bool __forceinline isTextEmpty(wchar_t *text)
 
 void PopupWnd2::fixDefaults()
 {
-	if (m_options->UseWinColors) {
+	if (m_options->bUseWinColors) {
 		m_clBack = GetSysColor(COLOR_BTNFACE);
 		m_clText = GetSysColor(COLOR_WINDOWTEXT);
 		m_clTitle = GetSysColor(COLOR_WINDOWTEXT);
@@ -493,7 +493,7 @@ void PopupWnd2::fixDefaults()
 	else m_clClock = m_clTitle;
 
 	if (!m_iTimeout)
-		m_iTimeout = m_options->InfiniteDelay ? -1 : m_options->Seconds;
+		m_iTimeout = m_options->bInfiniteDelay ? -1 : m_options->Seconds;
 
 	m_hContactPassed = m_hContact;
 	if (m_hContact)
@@ -677,7 +677,7 @@ void PopupWnd2::updateData(POPUPDATAW *ppd)
 	m_PluginData = ppd->PluginData;
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
-	if (m_options->DisplayTime)
+	if (m_options->bDisplayTime)
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", m_time, _countof(m_time));
 	else m_time[0] = 0;
 
@@ -716,7 +716,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	m_hbmAvatar = ppd->hbmAvatar;
 	m_lpzSkin = mir_a2u(ppd->lpzSkin);
 
-	if (m_options->DisplayTime) {
+	if (m_options->bDisplayTime) {
 		if (ppd->dwTimestamp)
 			TimeZone_ToStringT(ppd->dwTimestamp, L"t", m_time, _countof(m_time));
 		else
@@ -732,7 +732,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 void PopupWnd2::buildMText()
 {
-	if (!(htuText && htuTitle && PopupOptions.UseMText))
+	if (!(htuText && htuTitle && PopupOptions.bUseMText))
 		return;
 
 	if (m_mtText) MTextDestroy(m_mtText);
@@ -1142,7 +1142,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			_TrackMouseEvent(&tme);
 			if (!m_customPopup) PopupThreadLock();
 
-			if (m_options->OpaqueOnHover)
+			if (m_options->bOpaqueOnHover)
 				updateLayered(255);
 
 			m_bIsHovered = true;
@@ -1158,8 +1158,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 			if (!m_bIsHovered) break;
 
-			if (m_options->OpaqueOnHover)
-				updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
+			if (m_options->bOpaqueOnHover)
+				updateLayered(m_options->bUseTransparency ? m_options->Alpha : 255);
 
 			if (!m_customPopup) PopupThreadUnlock();
 			m_bIsHovered = false;
