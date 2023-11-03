@@ -41,7 +41,7 @@ protected:
 
 class CGeneralOptsDlg : public CBaseOptsDlg
 {
-	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder;
+	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder, chkHppCompat;
 
 public:
 	CGeneralOptsDlg() :
@@ -49,11 +49,14 @@ public:
 		chkVScroll(this, IDC_VSCROLL),
 		chkDrawEdge(this, IDC_DRAWEDGE),
 		chkGrouping(this, IDC_GROUPING),
+		chkHppCompat(this, IDC_HPP_COMPAT),
 		chkSortOrder(this, IDC_SORT_ASCENDING)
 	{
 		CreateLink(chkVScroll, g_plugin.bOptVScroll);
 		CreateLink(chkGrouping, g_bOptGrouping);
 		CreateLink(chkDrawEdge, g_bOptDrawEdge);
+		CreateLink(chkHppCompat, g_bOptHppCompat);
+
 		CreateLink(chkSortOrder, g_plugin.bSortAscending);
 	}
 
@@ -61,6 +64,7 @@ public:
 	{
 		g_plugin.bDrawEdge = g_bOptDrawEdge;
 		g_plugin.bMsgGrouping = g_bOptGrouping;
+		g_plugin.bHppCompat = g_bOptHppCompat;
 		return true;
 	}
 };

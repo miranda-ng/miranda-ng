@@ -26,6 +26,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDI_BOOKMARK            ICON                    "star.ico"
+
 IDI_NEWSTORY            ICON                    "newstory.ico"
 
 IDI_USERINFO            ICON                    "userinfo.ico"
@@ -66,9 +68,8 @@ IDI_TPLGROUP            ICON                    "folder.ico"
 
 IDI_TIMETREE            ICON                    "timetree.ico"
 
-IDI_BOOKMARK            ICON                    "star.ico"
-
 IDI_OK                  ICON                    "ok.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -79,23 +80,23 @@ IDD_HISTORY DIALOGEX 0, 0, 380, 319
 STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_USERINFO,"MButtonClass",NOT WS_TABSTOP,0,99,16,14
-    CONTROL         "",IDC_USERMENU,"MButtonClass",NOT WS_TABSTOP,21,99,16,14
-    CONTROL         "",IDC_MESSAGE,"MButtonClass",NOT WS_TABSTOP,37,99,16,14
-    CONTROL         "",IDC_SEARCH,"MButtonClass",NOT WS_TABSTOP,53,99,16,14
-    CONTROL         "",IDC_COPY,"MButtonClass",NOT WS_TABSTOP,74,99,16,14
-    CONTROL         "",IDC_EXPORT,"MButtonClass",NOT WS_TABSTOP,90,99,16,14
-    CONTROL         "",IDC_DELETE,"MButtonClass",NOT WS_TABSTOP,104,99,16,14
-    CONTROL         "",IDC_TIMETREE,"MButtonClass",NOT WS_TABSTOP,118,99,16,14
-    CONTROL         "",IDC_FILTER,"MButtonClass",NOT WS_TABSTOP,132,99,16,14
-    CONTROL         "",IDC_FINDPREV,"MButtonClass",NOT WS_TABSTOP,364,305,16,14
-    CONTROL         "",IDOK,"MButtonClass",NOT WS_TABSTOP,337,305,16,14
+    CONTROL         "",IDC_USERINFO,"MButtonClass",0x0,0,99,16,14
+    CONTROL         "",IDC_USERMENU,"MButtonClass",0x0,21,99,16,14
+    CONTROL         "",IDC_MESSAGE,"MButtonClass",0x0,37,99,16,14
+    CONTROL         "",IDC_SEARCH,"MButtonClass",0x0,53,99,16,14
+    CONTROL         "",IDC_COPY,"MButtonClass",0x0,74,99,16,14
+    CONTROL         "",IDC_EXPORT,"MButtonClass",0x0,90,99,16,14
+    CONTROL         "",IDC_DELETE,"MButtonClass",0x0,104,99,16,14
+    CONTROL         "",IDC_TIMETREE,"MButtonClass",0x0,118,99,16,14
+    CONTROL         "",IDC_FILTER,"MButtonClass",0x0,132,99,16,14
+    CONTROL         "",IDC_FINDPREV,"MButtonClass",0x0,364,305,16,14
+    CONTROL         "",IDOK,"MButtonClass",0x0,337,305,16,14
     EDITTEXT        IDC_SEARCHTEXT,19,305,305,14,ES_AUTOHSCROLL
     ICON            "",IDC_SEARCHICON,1,298,20,20,SS_CENTERIMAGE
-    CONTROL         "",IDC_LOGOPTIONS,"MButtonClass",NOT WS_TABSTOP,116,99,16,14
+    CONTROL         "",IDC_LOGOPTIONS,"MButtonClass",0x0,116,99,16,14
     CONTROL         "",IDC_TIMETREEVIEW,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,160,WS_EX_STATICEDGE
     CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,132,251,6
-    CONTROL         "",IDC_DATEPOPUP,"MButtonClass",NOT WS_TABSTOP,148,99,16,14
+    CONTROL         "",IDC_DATEPOPUP,"MButtonClass",0x0,148,99,16,14
     CONTROL         "",IDC_HISTORYCONTROL,"NewstoryList",WS_TABSTOP,90,132,290,166
     CONTROL         "",IDC_IB_SEPARATOR,"Static",SS_ETCHEDHORZ,21,76,124,1
     ICON            "",IDC_ICO_MESSAGES,4,7,20,20
@@ -140,11 +141,12 @@ IDD_OPT_ADVANCED DIALOGEX 0, 0, 307, 223
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Group messages",IDC_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,9,289,14
-    GROUPBOX        "Log window",IDC_STATIC,0,0,307,65
-    CONTROL         "Enable vertical scroll bar",IDC_VSCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,289,14
-    CONTROL         "Draw window edge",IDC_DRAWEDGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,35,289,14
-    CONTROL         "Ascending events sort order",IDC_SORT_ASCENDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,289,14
+    GROUPBOX        "Log window",IDC_STATIC,0,0,307,80
+    CONTROL         "Group messages",IDC_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,9,289,12
+    CONTROL         "Enable vertical scroll bar",IDC_VSCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,289,12
+    CONTROL         "Draw window edge",IDC_DRAWEDGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,35,289,12
+    CONTROL         "Ascending events sort order",IDC_SORT_ASCENDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,48,289,12
+    CONTROL         "History++ compatiblity mode",IDC_HPP_COMPAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,61,289,12
 END
 
 IDD_OPT_TEMPLATES DIALOGEX 0, 0, 307, 223
@@ -242,6 +244,7 @@ BEGIN
         MENUITEM "Templates",                   ID_LOGOPTIONS_TEMPLATES
     END
 END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

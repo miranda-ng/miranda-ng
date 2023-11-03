@@ -22,6 +22,7 @@ CMPlugin g_plugin;
 
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
 CMOption<bool> g_bOptDrawEdge(MODULENAME, "DrawEdge", true);
+CMOption<bool> g_bOptHppCompat(MODULENAME, "HppCompat", false);
 
 MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
 
@@ -147,6 +148,7 @@ int CMPlugin::Load()
 
 	bDrawEdge = g_bOptDrawEdge;
 	bMsgGrouping = g_bOptGrouping;
+	bHppCompat = g_bOptHppCompat;
 
 	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
 

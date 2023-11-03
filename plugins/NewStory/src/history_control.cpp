@@ -1042,25 +1042,35 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (wParam) {
 			case VK_UP:
-				data->EventUp();
+				if (g_plugin.bHppCompat)
+					data->EventUp();
+				else
+					data->LineUp();
 				break;
 
 			case VK_DOWN:
-				data->EventDown();
+				if (g_plugin.bHppCompat)
+					data->EventDown();
+				else
+					data->LineDown();
 				break;
 
 			case VK_PRIOR:
 				if (isCtrl)
 					data->ScrollTop();
-				else
+				else if (g_plugin.bHppCompat)
 					data->EventPageUp();
+				else
+					data->PageUp();
 				break;
 
 			case VK_NEXT:
 				if (isCtrl)
 					data->ScrollBottom();
-				else
+				else if (g_plugin.bHppCompat)
 					data->EventPageDown();
+				else
+					data->PageDown();
 				break;
 
 			case VK_HOME:
