@@ -472,6 +472,7 @@ public:
 
 	HINSTANCE GetInst() const;
 
+	__forceinline HPLUGIN GetPlugin() const { return &m_pPlugin; }
 	__forceinline MWindow GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_bInitialized; }
