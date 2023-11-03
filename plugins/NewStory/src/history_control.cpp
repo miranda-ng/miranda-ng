@@ -704,7 +704,7 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Navigation
+// Navigation by coordinates
 
 void NewstoryListData::LineUp()
 {
@@ -729,6 +729,40 @@ void NewstoryListData::PageDown()
 	if (!AtBottom())
 		ScrollDown(cachedWindowHeight);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Navigation by events
+
+void NewstoryListData::EventUp()
+{
+	if (caret > 0)
+		SetPos(caret - 1);
+}
+
+void NewstoryListData::EventDown()
+{
+	if (caret < totalCount-1)
+		SetPos(caret + 1);
+}
+
+void NewstoryListData::EventPageUp()
+{
+	if (caret >= 10)
+		SetPos(caret - 10);
+	else
+		SetPos(0);
+}
+
+void NewstoryListData::EventPageDown()
+{
+	if (caret < totalCount - 10)
+		SetPos(caret + 10);
+	else
+		SetPos(totalCount - 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Common navigation functions
 
 void NewstoryListData::ScrollBottom()
 {
@@ -1008,25 +1042,25 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (wParam) {
 			case VK_UP:
-				data->LineUp();
+				data->EventUp();
 				break;
 
 			case VK_DOWN:
-				data->LineDown();
+				data->EventDown();
 				break;
 
 			case VK_PRIOR:
 				if (isCtrl)
 					data->ScrollTop();
 				else
-					data->PageUp();
+					data->EventPageUp();
 				break;
 
 			case VK_NEXT:
 				if (isCtrl)
 					data->ScrollBottom();
 				else
-					data->PageDown();
+					data->EventPageDown();
 				break;
 
 			case VK_HOME:

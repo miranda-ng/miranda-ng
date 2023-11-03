@@ -68,6 +68,10 @@ struct NewstoryListData : public MZeroedObject
 	void      Download(int iOptions);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
+	void      EventUp();
+	void      EventDown();
+	void      EventPageUp();
+	void      EventPageDown();
 	int       FindNext(const wchar_t *pwszText);
 	int       FindPrev(const wchar_t *pwszText);
 	void      FixScrollPosition(bool bForce = false);
