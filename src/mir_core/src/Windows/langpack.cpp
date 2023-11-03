@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define LANGPACK_BUF_SIZE 4000
 
+static MUUID emptyMuid = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
+
 static int CompareMuuids(const MUUID *p1, const MUUID *p2)
 {
 	return memcmp(p1, p2, sizeof(MUUID));
@@ -47,6 +49,20 @@ struct LangPackEntry
 	wchar_t *wszLocal;
 	MUUID *pMuuid;
 	LangPackEntry* pNext;  // for langpack items with the same hash value
+
+	LangPackEntry* findNearest(const MUUID *pUuid)
+	{
+		if (pUuid)
+			for (auto *p = this; p != nullptr; p = p->pNext)
+				if (p->pMuuid && *p->pMuuid == *pUuid)
+					return p;
+
+		for (auto *p = this; p != nullptr; p = p->pNext)
+			if (p->pMuuid == nullptr)
+				return p;
+
+		return nullptr;
+	}
 };
 
 static LANGPACK_INFO langPack;
@@ -149,7 +165,11 @@ static const MUUID* GetMuid(HPLUGIN pPlugin)
 		return nullptr;
 
 	__try {
-		return &pPlugin->getInfo().uuid;
+		auto &pMuuid = pPlugin->getInfo().uuid;
+		if (pMuuid == emptyMuid)
+			return nullptr;
+
+		return &pMuuid;
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -486,15 +506,9 @@ char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const i
 	if (entry == nullptr)
 		return (char*)szEnglish;
 
-	// try to find the exact match, otherwise the first entry will be returned
-	if (pUuid) {
-		for (LangPackEntry *p = entry->pNext; p != nullptr; p = p->pNext) {
-			if (p->pMuuid && *p->pMuuid == *pUuid) {
-				entry = p;
-				break;
-			}
-		}
-	}
+	entry = entry->findNearest(pUuid);
+	if (entry == nullptr)
+		return (char *)szEnglish;
 
 	switch (W) {
 	case 0:
