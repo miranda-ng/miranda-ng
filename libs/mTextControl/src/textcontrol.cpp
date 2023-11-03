@@ -24,6 +24,7 @@ struct TextControlData
 	HANDLE htu;
 	wchar_t *text;
 	struct TextObject *mtext;
+	COLORREF clBack = -1;
 };
 
 /// Paint ////////////////////////////////////
@@ -32,17 +33,25 @@ static LRESULT MTextControl_OnPaint(HWND hwnd)
 {
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(hwnd, &ps);
-	{
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-		FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
-	}
-
-	SetTextColor(hdc, RGB(0, 0, 0));
-	SetBkMode(hdc, TRANSPARENT);
 
 	// Find the text to draw
 	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
+	SetTextColor(hdc, RGB(0, 0, 0));
+	SetBkMode(hdc, TRANSPARENT);
+	{
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+
+		if (data->clBack != -1) {
+			HBRUSH hbr = CreateSolidBrush(data->clBack);
+			FillRect(hdc, &rc, hbr);
+			DeleteObject(hbr);
+		}
+
+		FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+	}
+
 	if (data->mtext) {
 		HFONT hfntSave = nullptr;
 		HFONT hfnt = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
@@ -106,6 +115,11 @@ static LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		data->mtext = MTextCreateW(data->htu, 0, data->text);
 		MTextSetParent(data->mtext, hwnd);
+		InvalidateRect(hwnd, nullptr, TRUE);
+		return TRUE;
+
+	case MTM_SETBKCOLOR:
+		data->clBack = wParam;
 		InvalidateRect(hwnd, nullptr, TRUE);
 		return TRUE;
 

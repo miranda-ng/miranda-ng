@@ -78,6 +78,16 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 	CCtrlMButton btnDiscard, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
+	UI_MESSAGE_MAP(CTemplateOptsDlg, CBaseOptsDlg);
+		UI_MESSAGE(UM_REDRAWLISTH, OnColorChanged);
+	UI_MESSAGE_MAP_END();
+
+	LRESULT OnColorChanged(UINT, WPARAM, LPARAM)
+	{
+		gpreview.SendMsg(MTM_SETBKCOLOR, g_colorTable[COLOR_BACK].cl, 0);
+		return 0;
+	}
+
 public:
 	CTemplateOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_TEMPLATES),
@@ -148,6 +158,9 @@ public:
 
 		m_tree.SelectItem(hFirst);
 		m_tree.EnsureVisible(hFirst);
+
+		WindowList_Add(g_hNewstoryWindows, m_hwnd);
+		OnColorChanged(0, 0, 0);
 		return true;
 	}
 
@@ -170,6 +183,8 @@ public:
 
 	void OnDestroy() override
 	{
+		WindowList_Remove(g_hNewstoryWindows, m_hwnd);
+
 		for (auto &it : templates)
 			replaceStrW(it.tmpValue, nullptr);
 	}

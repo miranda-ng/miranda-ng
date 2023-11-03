@@ -12,6 +12,11 @@
 // lParam = (void*)text
 #define MTM_UPDATEEX   (WM_USER+2)
 
+// sets background color for a control
+// wParam = (COLORREF)clBack
+// lParam = 0 (ignored)
+#define MTM_SETBKCOLOR (WM_USER+3)
+
 typedef struct TextObject *HText;
 
 #ifdef MTEXTCONTROL_EXPORTS
