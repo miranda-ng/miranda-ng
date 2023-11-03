@@ -23,64 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+static bool g_bIdleMode = false;
+
 int num_classes = 0;			// for core class api support
 
-//===== Popup/AddPopup
-INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded)
-		return -1;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/AddPopup2
 
-	POPUPDATA *ppd = (POPUPDATA*)wParam;
-	if (!ppd)
-		return -1;
-
-	ptrW wszText(mir_a2u(ppd->lpzText)), wszTitle(mir_a2u(ppd->lpzContactName));
-
-	POPUPDATA2 ppd2 = { sizeof(ppd2) };
-	ppd2.flags = PU2_UNICODE;
-	ppd2.lchContact = ppd->lchContact;
-	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.szTitle.w = wszTitle;
-	ppd2.szText.w = wszText;
-	ppd2.colorBack = ppd->colorBack;
-	ppd2.colorText = ppd->colorText;
-	ppd2.PluginWindowProc = ppd->PluginWindowProc;
-	ppd2.PluginData = ppd->PluginData;
-	ppd2.iSeconds = ppd->iSeconds;
-	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
-}
-
-//===== Popup/AddPopupW
-INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded)
-		return -1;
-
-	POPUPDATAW *ppd = (POPUPDATAW*)wParam;
-	if (!ppd)
-		return -1;
-
-	POPUPDATA2 ppd2 = { 0 };
-	ppd2.cbSize = sizeof(ppd2);
-	ppd2.flags = PU2_UNICODE;
-	ppd2.lchContact = ppd->lchContact;
-	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.szTitle.w = ppd->lpwzContactName;
-	ppd2.szText.w = ppd->lpwzText;
-	ppd2.colorBack = ppd->colorBack;
-	ppd2.colorText = ppd->colorText;
-	ppd2.PluginWindowProc = ppd->PluginWindowProc;
-	ppd2.PluginData = ppd->PluginData;
-	ppd2.iSeconds = ppd->iSeconds;
-	ppd2.lchNotification = ppd->hNotification;
-	ppd2.actionCount = ppd->actionCount;
-	ppd2.lpActions = ppd->lpActions;
-
-	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
-}
-
-//===== Popup/AddPopup2
 static __forceinline uint32_t Proto_Status2Flag_My(uint32_t status)
 {
 	if (uint32_t res = Proto_Status2Flag(status))
@@ -88,7 +37,7 @@ static __forceinline uint32_t Proto_Status2Flag_My(uint32_t status)
 	return PF2_IDLE;
 }
 
-INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
+static INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 {
 	/* NOTE: we will return 0 instead of -1 since tabSRMM stops using popup after first failure :/ */
 
@@ -135,6 +84,9 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (PopupOptions.bDisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
 			return -1;
 
+		if (PopupOptions.bDisableWhenIdle && g_bIdleMode)
+			return -1;
+
 		if (g_plugin.getDword(LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
@@ -163,8 +115,69 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== Popup/GetContact
-INT_PTR Popup_GetContact(WPARAM wParam, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/AddPopup
+
+static INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
+{
+	if (!gbPopupLoaded)
+		return -1;
+
+	POPUPDATA *ppd = (POPUPDATA *)wParam;
+	if (!ppd)
+		return -1;
+
+	ptrW wszText(mir_a2u(ppd->lpzText)), wszTitle(mir_a2u(ppd->lpzContactName));
+
+	POPUPDATA2 ppd2 = { sizeof(ppd2) };
+	ppd2.flags = PU2_UNICODE;
+	ppd2.lchContact = ppd->lchContact;
+	ppd2.lchIcon = ppd->lchIcon;
+	ppd2.szTitle.w = wszTitle;
+	ppd2.szText.w = wszText;
+	ppd2.colorBack = ppd->colorBack;
+	ppd2.colorText = ppd->colorText;
+	ppd2.PluginWindowProc = ppd->PluginWindowProc;
+	ppd2.PluginData = ppd->PluginData;
+	ppd2.iSeconds = ppd->iSeconds;
+	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/AddPopupW
+
+static INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
+{
+	if (!gbPopupLoaded)
+		return -1;
+
+	POPUPDATAW *ppd = (POPUPDATAW *)wParam;
+	if (!ppd)
+		return -1;
+
+	POPUPDATA2 ppd2 = { 0 };
+	ppd2.cbSize = sizeof(ppd2);
+	ppd2.flags = PU2_UNICODE;
+	ppd2.lchContact = ppd->lchContact;
+	ppd2.lchIcon = ppd->lchIcon;
+	ppd2.szTitle.w = ppd->lpwzContactName;
+	ppd2.szText.w = ppd->lpwzText;
+	ppd2.colorBack = ppd->colorBack;
+	ppd2.colorText = ppd->colorText;
+	ppd2.PluginWindowProc = ppd->PluginWindowProc;
+	ppd2.PluginData = ppd->PluginData;
+	ppd2.iSeconds = ppd->iSeconds;
+	ppd2.lchNotification = ppd->hNotification;
+	ppd2.actionCount = ppd->actionCount;
+	ppd2.lpActions = ppd->lpActions;
+
+	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/GetContact
+
+static INT_PTR Popup_GetContact(WPARAM wParam, LPARAM)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -174,8 +187,10 @@ INT_PTR Popup_GetContact(WPARAM wParam, LPARAM)
 	return (INT_PTR)(-1);
 }
 
-//===== Popup/GetPluginData
-INT_PTR Popup_GetPluginData(WPARAM wParam, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/GetPluginData
+
+static INT_PTR Popup_GetPluginData(WPARAM wParam, LPARAM)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -186,8 +201,10 @@ INT_PTR Popup_GetPluginData(WPARAM wParam, LPARAM)
 	return (INT_PTR)(-1);
 }
 
-//===== Popup/ChangeTextW
-INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/ChangeTextW
+
+static INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -200,8 +217,10 @@ INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== Popup/ChangeW
-INT_PTR Popup_ChangeW(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/ChangeW
+
+static INT_PTR Popup_ChangeW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam)
 		return -1;
@@ -214,8 +233,10 @@ INT_PTR Popup_ChangeW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== Popup/Change2
-INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/Change2
+
+static INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -226,7 +247,7 @@ INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
+static INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
@@ -263,7 +284,7 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	return Popup_AddPopup2((WPARAM)&ppd2, (lParam & 0x80000000) ? APF_NO_HISTORY : 0);
 }
 
-INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)
+static INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
@@ -272,9 +293,10 @@ INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)
 	return Popup_ShowMessageW(wszMsg, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/RegisterActions
 
-//===== Popup/RegisterActions
-INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
+static INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 {
 	POPUPACTION *actions = (POPUPACTION*)wParam;
 	for (int i = 0; i < lParam; ++i)
@@ -282,14 +304,15 @@ INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM)
+static INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM)
 {
 	return (INT_PTR)RegisterNotification((POPUPNOTIFICATION*)wParam);
 }
 
 
-//===== Popup/UnhookEventAsync
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/UnhookEventAsync
+
 struct SafeUnhookEventParam
 {
 	HWND hwndPopup;
@@ -305,7 +328,7 @@ static void CALLBACK SafeUnhookEventFunc(void *param)
 	delete p;
 }
 
-INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
+static INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
 {
 	SafeUnhookEventParam *param = new SafeUnhookEventParam;
 	param->hwndPopup = (HWND)wParam;
@@ -314,15 +337,19 @@ INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== Popup/RegisterVfx (effekt name for drop down box)
-INT_PTR Popup_RegisterVfx(WPARAM, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/RegisterVfx (effekt name for drop down box)
+
+static INT_PTR Popup_RegisterVfx(WPARAM, LPARAM lParam)
 {
 	OptAdv_RegisterVfx((char *)lParam);
 	return 0;
 }
 
-//===== Popup/RegisterClass		(for core class api support)
-INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/RegisterClass		(for core class api support)
+
+static INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPCLASS *pc = (POPUPCLASS *)lParam;
 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_calloc(sizeof(POPUPTREEDATA));
@@ -370,7 +397,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	return (INT_PTR)ptd;
 }
 
-INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
+static INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPTREEDATA *ptd = (POPUPTREEDATA*)lParam;
 	if (ptd == nullptr)
@@ -386,8 +413,10 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-//===== Popup/AddPopupClass		(for core class api support)
-INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/AddPopupClass		(for core class api support)
+
+static INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
 	if (!pdc)
@@ -430,12 +459,12 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
 }
 
-INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam)
+static INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)SendMessage((HWND)lParam, UM_DESTROYPOPUP, 0, 0);
 }
 
-INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
+static INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
 {
 	if (lParam)
 	{
@@ -450,4 +479,49 @@ INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
 	}
 
 	return 1;
+}
+
+static int OnIdleChanged(WPARAM, LPARAM lParam)
+{
+	g_bIdleMode = (lParam & IDF_ISIDLE) != 0;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+void CreateServices()
+{
+	CreateServiceFunction(MS_POPUP_ADDPOPUP, Popup_AddPopup);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPW, Popup_AddPopupW);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP2, Popup_AddPopup2);
+
+	CreateServiceFunction(MS_POPUP_CHANGETEXTW, Popup_ChangeTextW);
+
+	CreateServiceFunction(MS_POPUP_CHANGEW, Popup_ChangeW);
+	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2, Popup_Change2);
+
+	CreateServiceFunction(MS_POPUP_GETCONTACT, Popup_GetContact);
+	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, Popup_GetPluginData);
+
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, Popup_ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, Popup_ShowMessageW);
+
+	CreateServiceFunction(MS_POPUP_REGISTERACTIONS, Popup_RegisterActions);
+	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);
+
+	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC, Popup_UnhookEventAsync);
+
+	CreateServiceFunction(MS_POPUP_REGISTERVFX, Popup_RegisterVfx);
+
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS, Popup_RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, Popup_UnregisterPopupClass);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, Popup_CreateClassPopup);
+
+	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, Popup_DeletePopup);
+
+	CreateServiceFunction("Popup/LoadSkin", Popup_LoadSkin);
+
+	// register idle mode switcher
+	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
 }

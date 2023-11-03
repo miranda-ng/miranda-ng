@@ -236,10 +236,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	// load actions and notifications
 	LoadActions();
 	LoadNotifications();
+
 	// hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
+
 	// Folder plugin support
 	folderId = FoldersRegisterCustomPathW(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHW L"\\Skins\\Popup");
+
 	// load skin
 	skins.load();
 	const PopupSkin *skin;
@@ -248,10 +251,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		PopupOptions.SkinPack = mir_wstrdup(skin->getName());
 		skin->loadOpts();
 	}
+
 	// init PopupEfects
 	PopupEfectsInitialize();
+
 	// MessageAPI support
 	SrmmMenu_Load();
+
 	// Hotkey
 	LoadHotkey();
 
@@ -342,36 +348,7 @@ int CMPlugin::Load()
 
 	// Service Functions
 	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
-
-	CreateServiceFunction(MS_POPUP_ADDPOPUP, Popup_AddPopup);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPW, Popup_AddPopupW);
-	CreateServiceFunction(MS_POPUP_ADDPOPUP2, Popup_AddPopup2);
-
-	CreateServiceFunction(MS_POPUP_CHANGETEXTW, Popup_ChangeTextW);
-
-	CreateServiceFunction(MS_POPUP_CHANGEW, Popup_ChangeW);
-	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2, Popup_Change2);
-
-	CreateServiceFunction(MS_POPUP_GETCONTACT, Popup_GetContact);
-	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, Popup_GetPluginData);
-
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, Popup_ShowMessage);
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, Popup_ShowMessageW);
-
-	CreateServiceFunction(MS_POPUP_REGISTERACTIONS, Popup_RegisterActions);
-	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);
-
-	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC, Popup_UnhookEventAsync);
-
-	CreateServiceFunction(MS_POPUP_REGISTERVFX, Popup_RegisterVfx);
-
-	CreateServiceFunction(MS_POPUP_REGISTERCLASS, Popup_RegisterPopupClass);
-	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, Popup_UnregisterPopupClass);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, Popup_CreateClassPopup);
-
-	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, Popup_DeletePopup);
-
-	CreateServiceFunction("Popup/LoadSkin", Popup_LoadSkin);
+	CreateServices();
 
 	// load fonts / create hook
 	InitFonts();

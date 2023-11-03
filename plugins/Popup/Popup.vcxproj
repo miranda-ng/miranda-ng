@@ -83,7 +83,6 @@
     <ClInclude Include="src\popup_thread.h" />
     <ClInclude Include="src\popup_wnd2.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\services.h" />
     <ClInclude Include="src\skin.h" />
     <ClInclude Include="src\srmm_menu.h" />
     <ClInclude Include="src\stdafx.h" />

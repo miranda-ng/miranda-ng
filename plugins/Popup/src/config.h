@@ -54,7 +54,8 @@ struct POPUPOPTIONS
 	
 	// Disable when
 	bool bDisableWhenFullscreen;
-	
+	bool bDisableWhenIdle;
+
 	// others
 	uint8_t bDebug;
 	

@@ -83,16 +83,16 @@ int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, uint32_t fla
 void LoadOption_General()
 {
 	// Seconds
-	PopupOptions.bInfiniteDelay = g_plugin.getByte("InfiniteDelay", FALSE);
+	PopupOptions.bInfiniteDelay = g_plugin.getBool("InfiniteDelay", false);
 	PopupOptions.Seconds =
 		DBGetContactSettingRangedWord(0, MODULENAME, "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	PopupOptions.bLeaveHovered = g_plugin.getByte("LeaveHovered", TRUE);
+	PopupOptions.bLeaveHovered = g_plugin.getBool("LeaveHovered", true);
 
 	// Dynamic Resize
-	PopupOptions.bDynamicResize = g_plugin.getByte("DynamicResize", FALSE);
-	PopupOptions.bUseMinimumWidth = g_plugin.getByte("UseMinimumWidth", TRUE);
+	PopupOptions.bDynamicResize = g_plugin.getBool("DynamicResize", false);
+	PopupOptions.bUseMinimumWidth = g_plugin.getBool("UseMinimumWidth", true);
 	PopupOptions.MinimumWidth = g_plugin.getWord("MinimumWidth", 160);
-	PopupOptions.bUseMaximumWidth = g_plugin.getByte("UseMaximumWidth", TRUE);
+	PopupOptions.bUseMaximumWidth = g_plugin.getBool("UseMaximumWidth", true);
 	PopupOptions.MaximumWidth = g_plugin.getWord("MaximumWidth", 300);
 
 	// Position
@@ -111,11 +111,12 @@ void LoadOption_General()
 		DBGetContactSettingRangedByte(0, MODULENAME, "Spreading", SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
 
 	// miscellaneous
-	PopupOptions.bReorderPopups = g_plugin.getByte("ReorderPopups", TRUE);
-	PopupOptions.bReorderPopupsWarning = g_plugin.getByte("ReorderPopupsWarning", TRUE);
+	PopupOptions.bReorderPopups = g_plugin.getBool("ReorderPopups", true);
+	PopupOptions.bReorderPopupsWarning = g_plugin.getBool("ReorderPopupsWarning", true);
 
 	// disable When
-	PopupOptions.bDisableWhenFullscreen = g_plugin.getByte("DisableWhenFullscreen", TRUE);
+	PopupOptions.bDisableWhenFullscreen = g_plugin.getBool("DisableWhenFullscreen", true);
+	PopupOptions.bDisableWhenIdle = g_plugin.getBool("DisableWhenIdle", true);
 }
 
 INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -192,6 +193,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			bool bEnabled = Popup_Enabled();
 			CheckDlgButton(hwnd, IDC_POPUPENABLED, bEnabled ? BST_UNCHECKED : BST_CHECKED);
 			CheckDlgButton(hwnd, IDC_DISABLEINFS, PopupOptions.bDisableWhenFullscreen ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_DISABLEIDLE, PopupOptions.bDisableWhenIdle ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), bEnabled);
 			EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), bEnabled);
 		}
@@ -349,6 +351,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_DISABLEINFS:
 				PopupOptions.bDisableWhenFullscreen = !PopupOptions.bDisableWhenFullscreen;
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				break;
+
+			case IDC_DISABLEIDLE:
+				PopupOptions.bDisableWhenIdle = !PopupOptions.bDisableWhenIdle;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -512,6 +519,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				// disable When
 				g_plugin.setByte("DisableWhenFullscreen", PopupOptions.bDisableWhenFullscreen);
+				g_plugin.setByte("DisableWhenIdle", PopupOptions.bDisableWhenIdle);
 
 				// new status options
 				for (auto &pa : Accounts())

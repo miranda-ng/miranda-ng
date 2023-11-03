@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+extern int num_classes;
+
 //---------------------------------------------------------------------------
 // Workaround for MS bug ComboBox_SelectItemData
 int ComboBox_SelectItem(HWND hwndCtl, char *data) {

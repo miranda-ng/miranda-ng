@@ -74,6 +74,7 @@ https://miranda-ng.org/distr/
 #include <m_contacts.h>
 #include <m_clc.h>
 #include <m_icolib.h>
+#include <m_idle.h>
 #include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_fontservice.h>
@@ -116,7 +117,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "opt_contacts.h"
 #include "opt_adv.h"
 #include "history.h"
-#include "services.h"
 #include "srmm_menu.h"
 #include "bitmap_funcs.h"
 #include "font.h"
@@ -137,5 +137,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 
 void InitIcons();
+void CreateServices();
 
 #endif //HEADERS_H

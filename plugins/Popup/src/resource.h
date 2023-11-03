@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by W:\miranda-ng\plugins\Popup\res\resource.rc
 //
 #define IDD_OPT_POPUP                   101
 #define IDD_OPT_POPUP_ADVANCED          102
@@ -168,6 +168,7 @@
 #define IDC_DISABLEINFS                 1241
 #define IDC_STATUSES                    1242
 #define IDC_GETSKINS                    1243
+#define IDC_DISABLEIDLE                 1244
 #define IDC_CHK_OFFLINE                 40071
 #define IDC_CHK_ONLINE                  40072
 #define IDC_CHK_NA                      40075
@@ -177,7 +178,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        224
+#define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1244
 #define _APS_NEXT_SYMED_VALUE           101

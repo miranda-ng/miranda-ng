@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1250)
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -26,28 +26,50 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_PU_FULLSCREEN       ICON                    "popup_fs.ico"
-IDI_PU_FAVOURITE        ICON                    "popup_fav.ico"
 IDI_HISTORY             ICON                    "popup_history.ico"
+
+IDI_PU_FULLSCREEN       ICON                    "popup_fs.ico"
+
+IDI_PU_FAVOURITE        ICON                    "popup_fav.ico"
+
 IDI_RELOAD              ICON                    "reload.ico"
+
 IDI_ACT_INFO            ICON                    "info.ico"
+
 IDI_ACT_MENU            ICON                    "menu.ico"
+
 IDI_ACT_MESSAGE         ICON                    "message.ico"
+
 IDI_ACT_OK              ICON                    "ok.ico"
+
 IDI_ACT_ADD             ICON                    "add.ico"
+
 IDI_ACT_CLOSE           ICON                    "close.ico"
+
 IDI_ACT_PINNED          ICON                    "pinned.ico"
+
 IDI_ACT_PIN             ICON                    "pin.ico"
+
 IDI_RESIZE              ICON                    "resize.ico"
+
 IDI_MB_STOP             ICON                    "error.ico"
+
 IDI_MB_INFO             ICON                    "notify.ico"
+
 IDI_MB_WARN             ICON                    "warning.ico"
+
 IDI_OPT_GROUP           ICON                    "popup_group.ico"
+
 IDI_OPT_FULLSCREEN      ICON                    "fullscreen.ico"
+
 IDI_OPT_BLOCK           ICON                    "block.ico"
+
 IDI_OPT_FAVORITE        ICON                    "favorite.ico"
+
 IDI_ACT_REPLY           ICON                    "reply.ico"
+
 IDI_ACT_COPY            ICON                    "copy.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -302,7 +324,8 @@ BEGIN
     GROUPBOX        "Disable when:",IDC_STATIC,151,3,146,194
     CONTROL         "Always (has priority)",IDC_POPUPENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,15,135,8
     CONTROL         "Fullscreen mode",IDC_DISABLEINFS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,159,26,135,8
-    CONTROL         "Tree1",IDC_STATUSES,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,159,39,130,151
+    CONTROL         "Idle",IDC_DISABLEIDLE,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,159,37,135,8
+    CONTROL         "Tree1",IDC_STATUSES,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,159,49,130,142
     CONTROL         "Debug",IDC_DEBUG,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,159,203,57,14
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
 END
@@ -315,12 +338,14 @@ END
 
 CLASSIC.POPUPSKIN       SKIN                    "classic.popupskin"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
 IDB_NOAVATAR            BITMAP                  "avatar.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -390,6 +415,17 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_POPUP_GENERAL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
