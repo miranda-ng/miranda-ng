@@ -55,6 +55,8 @@ void CCtrlBase::OnDestroy()
 	int idx = arControls.indexOf(this);
 	if (idx != -1) {
 		Unsubclass();
+
+		mir_cslock lck(csCtrl);
 		arControls.remove(idx);
 	}
 
