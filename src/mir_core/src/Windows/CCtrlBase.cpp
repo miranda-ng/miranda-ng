@@ -52,12 +52,10 @@ void CCtrlBase::OnInit()
 
 void CCtrlBase::OnDestroy()
 {
-	PVOID bullshit[2];  // vfptr + hwnd
-	bullshit[1] = m_hwnd;
-	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
-	if (pCtrl) {
-		pCtrl->Unsubclass();
-		arControls.remove(pCtrl);
+	int idx = arControls.indexOf(this);
+	if (idx != -1) {
+		Unsubclass();
+		arControls.remove(idx);
 	}
 
 	m_hwnd = nullptr;
