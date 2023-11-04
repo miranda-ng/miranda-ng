@@ -80,12 +80,29 @@ int CDbxSQLite::Create()
 
 #define CURRVER 5
 
-static INT_PTR CALLBACK MsbBoxWndProc(HWND, UINT uMsg, WPARAM, LPARAM)
+static bool g_bConversionOver = false;
+
+static INT_PTR CALLBACK MsbBoxWndProc(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM)
 {
-	if (uMsg == WM_INITDIALOG)
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		SetForegroundWindow(hwndDlg);
+		SetTimer(hwndDlg, 1, 50, 0);
 		return TRUE;
 
+	case WM_TIMER:
+		if (g_bConversionOver)
+			EndDialog(hwndDlg, 1);
+		break;
+	}
+
 	return FALSE;
+}
+
+static unsigned CALLBACK MsgBoxThread(void *)
+{
+	DialogBoxW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOX), 0, MsbBoxWndProc);
+	return 0;
 }
 
 void CDbxSQLite::CheckConversion()
@@ -97,9 +114,8 @@ void CDbxSQLite::CheckConversion()
 	if (dbv.bVal >= CURRVER)
 		return;
 
-	HWND hwndMsgBox = CreateDialogW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOX), 0, MsbBoxWndProc);
-	ShowWindow(hwndMsgBox, SW_NORMAL);
-	SetForegroundWindow(hwndMsgBox);
+	UINT tid;
+	mir_forkthreadex(MsgBoxThread, 0, &tid);
 
 	if (dbv.bVal < 1) {
 		int rc = sqlite3_exec(m_db, "ALTER TABLE events ADD COLUMN is_read INTEGER NOT NULL DEFAULT 0;", 0, 0, 0);
@@ -166,14 +182,13 @@ void CDbxSQLite::CheckConversion()
 
 		rc = sqlite3_exec(m_db, "INSERT INTO tmp SELECT * FROM events_srt;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
-		if (rc != 0)
-			return;
+		if (rc == 0) {
+			rc = sqlite3_exec(m_db, "DROP TABLE events_srt;", 0, 0, 0);
+			logError(rc, __FILE__, __LINE__);
 
-		rc = sqlite3_exec(m_db, "DROP TABLE events_srt;", 0, 0, 0);
-		logError(rc, __FILE__, __LINE__);
-
-		rc = sqlite3_exec(m_db, "ALTER TABLE tmp RENAME TO events_srt;", 0, 0, 0);
-		logError(rc, __FILE__, __LINE__);
+			rc = sqlite3_exec(m_db, "ALTER TABLE tmp RENAME TO events_srt;", 0, 0, 0);
+			logError(rc, __FILE__, __LINE__);
+		}
 	}
 
 	if (dbv.bVal < 5) {
@@ -187,7 +202,7 @@ void CDbxSQLite::CheckConversion()
 	dbv.bVal = CURRVER;
 	WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 
-	DestroyWindow(hwndMsgBox);
+	g_bConversionOver = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
