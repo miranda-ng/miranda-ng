@@ -75,6 +75,7 @@ struct NewstoryListData : public MZeroedObject
 	int       FindNext(const wchar_t *pwszText);
 	int       FindPrev(const wchar_t *pwszText);
 	void      FixScrollPosition(bool bForce = false);
+	CMStringW GatherSelected(bool bTextOnly);
 	ItemData* GetItem(int idx) const;
 	int       GetItemFromPixel(int yPos);
 	int       GetItemHeight(int index);

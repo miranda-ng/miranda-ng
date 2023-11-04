@@ -267,35 +267,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 
 void NewstoryListData::Copy(bool bTextOnly)
 {
-	CMStringW res;
-
-	int eventCount = totalCount;
-	for (int i = 0; i < eventCount; i++) {
-		ItemData *p = GetItem(i);
-		if (!p->m_bSelected)
-			continue;
-
-		if (p->m_bOfflineFile) {
-			DB::EventInfo dbei(p->hEvent);
-			DB::FILE_BLOB blob(dbei);
-			if (p->m_bOfflineDownloaded)
-				res.Append(blob.getLocalName());
-			else
-				res.Append(_A2T(blob.getUrl()));
-		}
-		else {
-			if (bTextOnly)
-				res.Append(p->wtext);
-			else { // copy text only
-				CMStringW wszText(p->formatString());
-				RemoveBbcodes(wszText);
-				res.Append(wszText);
-			}
-		}
-		res.Append(L"\r\n");
-	}
-
-	Utils_ClipboardCopy(res);
+	Utils_ClipboardCopy(GatherSelected(bTextOnly));
 }
 
 void NewstoryListData::CopyUrl()
@@ -453,6 +425,39 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 		scrollTopItem = cachedMaxTopItem;
 		scrollTopPixel = cachedMaxTopPixel;
 	}
+}
+
+CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
+{
+	CMStringW ret;
+
+	int eventCount = totalCount;
+	for (int i = 0; i < eventCount; i++) {
+		ItemData *p = GetItem(i);
+		if (!p->m_bSelected)
+			continue;
+
+		if (p->m_bOfflineFile) {
+			DB::EventInfo dbei(p->hEvent);
+			DB::FILE_BLOB blob(dbei);
+			if (p->m_bOfflineDownloaded)
+				ret.Append(blob.getLocalName());
+			else
+				ret.Append(_A2T(blob.getUrl()));
+		}
+		else {
+			if (bTextOnly)
+				ret.Append(p->wtext);
+			else { // copy text only
+				CMStringW wszText(p->formatString());
+				RemoveBbcodes(wszText);
+				ret.Append(wszText);
+			}
+		}
+		ret.Append(L"\r\n");
+	}
+
+	return ret;
 }
 
 ItemData* NewstoryListData::GetItem(int idx) const
@@ -614,12 +619,11 @@ void NewstoryListData::RecalcScrollBar()
 
 void NewstoryListData::Quote()
 {
-	if (pMsgDlg)
-		if (auto *pItem = LoadItem(caret)) {
-			CMStringW wszText(pItem->wtext);
-			RemoveBbcodes(wszText);
-			pMsgDlg->SetMessageText(Srmm_Quote(wszText));
-		}
+	if (pMsgDlg) {
+		CMStringW wszText(GatherSelected(true));
+		RemoveBbcodes(wszText);
+		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
+	}
 }
 
 void NewstoryListData::ScheduleDraw()
@@ -676,7 +680,12 @@ void NewstoryListData::SetSelection(int iFirst, int iLast)
 
 void NewstoryListData::ToggleBookmark()
 {
-	if (auto *p = GetItem(caret)) {
+	int eventCount = totalCount;
+	for (int i = 0; i < eventCount; i++) {
+		ItemData *p = GetItem(i);
+		if (!p->m_bSelected)
+			continue;
+
 		if (p->dbe.flags & DBEF_BOOKMARK)
 			p->dbe.flags &= ~DBEF_BOOKMARK;
 		else
@@ -684,8 +693,9 @@ void NewstoryListData::ToggleBookmark()
 		db_event_edit(p->hEvent, &p->dbe);
 
 		p->setText();
-		InvalidateRect(m_hwnd, 0, FALSE);
 	}
+
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::ToggleSelection(int iFirst, int iLast)
