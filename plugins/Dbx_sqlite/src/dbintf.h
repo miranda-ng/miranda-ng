@@ -92,6 +92,7 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	CQuery qSettModules, qSettWrite, qSettDel, qSettEnum, qSettChanges;
 	int DeleteContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 
+	void CheckConversion();
 	void DBFlush(bool bForce = false);
 	sqlite3_stmt* InitQuery(const char *szQuery, CQuery &stmt);
 
