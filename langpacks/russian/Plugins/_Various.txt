@@ -196,12 +196,6 @@
 Показывать значок
 [Show avatars]
 Показывать аватары
-[Error (colors only)]
-Ошибка (только цвета)
-[Notification (colors only)]
-Уведомление (только цвета)
-[Warning (colors only)]
-Предупреждение (только цвета)
 [Color frame]
 Цветная рамка
 [Color text background]

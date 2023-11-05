@@ -19,12 +19,6 @@ Rysuj tło gradientu
 Pokaż ikonę
 [Show avatars]
 Pokaż awatary
-[Error (colors only)]
-Błąd (tylko kolor)
-[Notification (colors only)]
-Powiadomienie (tylko kolor)
-[Warning (colors only)]
-Ostrzeżenie (tylko kolor)
 ;==============================================================================
 ;  Various actions and tipper items not included in source code.
 ;==============================================================================
