@@ -31,7 +31,6 @@
 #define MS_POPUP_GETCONTACT "Popup/GetContact"
 
 #define MS_POPUP_REGISTERACTIONS "Popup/RegisterActions"
-#define MS_POPUP_REGISTERNOTIFICATION "Popup/RegisterNotification"
 
 #define MS_POPUP_SHOWMESSAGE "Popup/ShowMessage"
 #define MS_POPUP_SHOWMESSAGEW "Popup/ShowMessageW"

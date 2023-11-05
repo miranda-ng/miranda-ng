@@ -304,12 +304,6 @@ static INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)RegisterNotification((POPUPNOTIFICATION*)wParam);
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup/UnhookEventAsync
 
@@ -508,7 +502,6 @@ void CreateServices()
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, Popup_ShowMessageW);
 
 	CreateServiceFunction(MS_POPUP_REGISTERACTIONS, Popup_RegisterActions);
-	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);
 
 	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC, Popup_UnhookEventAsync);
 

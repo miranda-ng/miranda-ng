@@ -243,64 +243,6 @@ __forceinline int PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lPara
 
 EXTERN_C MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count);
 
-// Popup/RegisterNotification
-// Registers your action in popup action list
-// wParam = (WPARAM)(LPPOPUPNOTIFICATION)info
-// lParam = 0
-// Returns: handle of registered notification or sero on failure
-
-#define PNAF_CALLBACK			0x01
-
-#define POPUP_ACTION_NOTHING	LPGEN("Do nothing")
-#define POPUP_ACTION_DISMISS	LPGEN("Dismiss popup")
-
-struct POPUPNOTIFYACTION
-{
-	char lpzTitle[64];
-	uint32_t dwFlags;
-	union
-	{
-		struct
-		{
-			char lpzLModule[MAXMODULELABELLENGTH];
-			char lpzLSetting[MAXMODULELABELLENGTH];
-			DBVARIANT dbvLData;
-			char lpzRModule[MAXMODULELABELLENGTH];
-			char lpzRSetting[MAXMODULELABELLENGTH];
-			DBVARIANT dbvRData;
-		};
-		struct
-		{
-			uint32_t dwCookie;
-			void(*pfnCallback)(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, uint32_t cookie);
-		};
-	};
-};
-
-#define PNF_CONTACT				0x01
-
-struct POPUPNOTIFICATION
-{
-	int cbSize;
-	uint32_t dwFlags;			// set of PNF_* flags
-	char lpzGroup[MAXMODULELABELLENGTH];
-	char lpzName[MAXMODULELABELLENGTH];
-	HANDLE lchIcoLib;			// gotten from icolib
-	COLORREF colorBack;		// this will be registered in fontservice
-	COLORREF colorText;		// this will be registered in fontservice
-	int iSeconds;			// default timeout
-	int actionCount;		// for unified action comboboxes
-	POPUPNOTIFYACTION *lpActions;
-	char *lpzLAction;
-	char *lpzRAction;
-	char *pszReserved1;		// reserved for future use
-	#ifdef _WINDOWS
-		DLGPROC pfnReserved2;	// reserved for future use
-	#endif
-};
-
-EXTERN_C MIR_APP_DLL(HANDLE) PURegisterNotification(POPUPNOTIFICATION *notification);
-
 /* Popup/UnhookEventAsync
 Using of "UnhookEvent" inside PluginWindowProc in conjunction with HookEventMessage
 may cause deadlocks. Use this service instead. It will queue event unhook into main

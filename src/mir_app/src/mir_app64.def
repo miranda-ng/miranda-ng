@@ -636,7 +636,6 @@ PUDeletePopup @750
 PUGetContact @751
 PUGetPluginData @752
 PURegisterActions @753
-PURegisterNotification @754
 PUShowMessage @755
 PUShowMessageW @756
 Popup_RegisterClass @757

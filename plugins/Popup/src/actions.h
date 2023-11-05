@@ -24,6 +24,64 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __actions_h__
 #define __actions_h__
 
+// Popup/RegisterNotification
+// Registers your action in popup action list
+// wParam = (WPARAM)(LPPOPUPNOTIFICATION)info
+// lParam = 0
+// Returns: handle of registered notification or sero on failure
+
+#define PNAF_CALLBACK			0x01
+
+#define POPUP_ACTION_NOTHING	LPGEN("Do nothing")
+#define POPUP_ACTION_DISMISS	LPGEN("Dismiss popup")
+
+struct POPUPNOTIFYACTION
+{
+	char lpzTitle[64];
+	uint32_t dwFlags;
+	union
+	{
+		struct
+		{
+			char lpzLModule[MAXMODULELABELLENGTH];
+			char lpzLSetting[MAXMODULELABELLENGTH];
+			DBVARIANT dbvLData;
+			char lpzRModule[MAXMODULELABELLENGTH];
+			char lpzRSetting[MAXMODULELABELLENGTH];
+			DBVARIANT dbvRData;
+		};
+		struct
+		{
+			uint32_t dwCookie;
+			void(*pfnCallback)(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, uint32_t cookie);
+		};
+	};
+};
+
+#define PNF_CONTACT				0x01
+
+struct POPUPNOTIFICATION
+{
+	int cbSize;
+	uint32_t dwFlags;			// set of PNF_* flags
+	char lpzGroup[MAXMODULELABELLENGTH];
+	char lpzName[MAXMODULELABELLENGTH];
+	HANDLE lchIcoLib;			// gotten from icolib
+	COLORREF colorBack;		// this will be registered in fontservice
+	COLORREF colorText;		// this will be registered in fontservice
+	int iSeconds;			// default timeout
+	int actionCount;		// for unified action comboboxes
+	POPUPNOTIFYACTION *lpActions;
+	char *lpzLAction;
+	char *lpzRAction;
+	char *pszReserved1;		// reserved for future use
+	#ifdef _WINDOWS
+	DLGPROC pfnReserved2;	// reserved for future use
+	#endif
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void LoadActions();
 void UnloadActions();
 

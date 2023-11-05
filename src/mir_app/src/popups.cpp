@@ -114,11 +114,6 @@ MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count)
 	return (int)CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)actions, (LPARAM)count);
 }
 
-MIR_APP_DLL(HANDLE) PURegisterNotification(POPUPNOTIFICATION *notification)
-{
-	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup classes
 
