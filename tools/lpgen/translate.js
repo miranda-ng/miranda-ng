@@ -66,6 +66,7 @@ var LangpackTranslateDict = WScript.CreateObject("Scripting.Dictionary");
 //init arrays
 var Translated_Core_Array = [];
 var UnTranslated_Core_Array = [];
+var VariousTranslate_Array = [];
 var full_langpack_array = [];
 var release_array = [];
 
@@ -142,6 +143,7 @@ if (WScript.Arguments.Named.Item("sourcelang")) {
     var translated_plugins = FSO.BuildPath(langpack_path, "Plugins");
     var translated_weather = FSO.BuildPath(langpack_path, "Weather");
     var translated_core = FSO.BuildPath(langpack_path, "=CORE=.txt");
+    var translated_var = FSO.BuildPath(langpack_path, "Plugins\\_Various.txt");
     var translated_dupes = FSO.BuildPath(langpack_path, "=DUPES=.txt");
     var langpack_head = FSO.BuildPath(langpack_path, "=HEAD=.txt");
     var translated_langpack = FSO.BuildPath(langpack_path, ("langpack_" + sourcelang + ".txt"));
@@ -216,6 +218,10 @@ if (log) {
 }
 //Call function for translate core template
 TranslateTemplateFile(FSO.BuildPath(trunkPath, langpackenglish + "=CORE=.txt"), Translated_Core_Array, UnTranslated_Core_Array);
+
+full_langpack_array = full_langpack_array.concat(VariousTranslate_Array);
+release_array = release_array.concat(VariousTranslate_Array);
+
 //output core file, if /out specified.
 if (out) {
     OutputFiles(Translated_Core_Array, UnTranslated_Core_Array, "", "=CORE=.txt");
@@ -380,6 +386,7 @@ function GenerateDictionaries() {
         CheckFileExist(translated_core);
         CheckFileExist(translated_dupes);
         CheckFileExist(translated_langpack);
+        LoadTranslateDict(translated_var, VariousTranslate_Array);
         GenerateTranslateDict(translated_core, CoreTranslateDict);
         GenerateTranslateDict(translated_dupes, DupesTranslateDict);
         GenerateTranslateDict(translated_langpack, LangpackTranslateDict);
@@ -452,6 +459,33 @@ function GenerateTranslateDict(file, dictionary) {
         if (!dictionary.Exists(key)) {
             dictionary.Add(key, item);
         }
+    }
+    //close file
+    stream.Close();
+}
+
+function LoadTranslateDict(file, array) {
+    var string = [],
+        key = "",
+        item = "",
+        lowerKey = "";
+    //if file does not exist, it's a core, we do not need do the job again, so return.
+    if (!FSO.FileExists(file)) return;
+    //open file
+    stream.Open();
+    stream.LoadFromFile(file);
+    //read file into var
+    var translatefiletext = stream.ReadText();
+    //"find" - RegularExpression, first string have to start with [ and end with].
+    //Next string - translation
+    var find = /(^\[.+?\](?=$))\r?\n(^(?!;file|\r|\n).+?(?=$))/mg;
+    //While our "find" RegExp return a results, add strings into dictionary.
+    while ((string = find.exec(translatefiletext)) !== null) {
+        //first, init empty var
+        //first match as original string [....], is a key of dictionary,
+        //second match is a translation - item of key in dictionary 
+        array.push(string[1]);
+        array.push(string[2]);
     }
     //close file
     stream.Close();
