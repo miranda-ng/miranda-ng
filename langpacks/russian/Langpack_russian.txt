@@ -968,6 +968,8 @@ UIN, E-mail и т.д.
 Фиксировать имя
 [Choose needed logger from listed below:]
 Выберите желаемый просмотрщик из перечисленных ниже:
+[Enable custom loggers in group chats]
+Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
 [Last modified using:]
@@ -2743,7 +2745,7 @@ ANSI плагин
 [Unnamed]
 Без имени
 [at]
-в
+на
 [Download]
 Скачать
 [Copy URL]
@@ -3280,10 +3282,6 @@ ANSI плагин
 <не указано>
 [Message window toolbar]
 Панель кнопок окна сообщений
-[Do nothing]
-Ничего не делать
-[Dismiss popup]
-Закрыть
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -9183,6 +9181,8 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
+[Converting database...]
+Преобразование базы данных...
 [Orphaned event with wrong contact ID %d, deleting]
 Потерянное событие с некорректным идентификатором контакта %d, удаляем
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
@@ -18895,6 +18895,8 @@ URL страницы с комментариями к новости.
 Отрисовывать границу окна
 [Ascending events sort order]
 Сортировать события по возрастанию даты
+[History++ compatiblity mode]
+Режим совместимости с History++
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -19039,6 +19041,8 @@ URL страницы с комментариями к новости.
 Экспорт истории
 [Passed the beginning of history]
 Пройдено начало истории
+[Copy file path]
+Копировать путь к файлу
 [Copy URL]
 Копировать ссылку
 [History]
@@ -21636,6 +21640,8 @@ History++ для истории окон
 нет действия
 [Action]
 Действие
+[Do nothing]
+Ничего не делать
 [The Jabberwocky]
 Пустословие
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]

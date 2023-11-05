@@ -225,6 +225,9 @@ History++ для истории окон
 нет действия
 [Action]
 Действие
+;file \plugins\Popup\src\actions.h
+[Do nothing]
+Ничего не делать
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустословие
@@ -322,8 +325,6 @@ History++ для истории окон
 Прочее
 [Notification]
 Уведомление
-[%s (colors only)]
-%s (только цвета)
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без эффекта

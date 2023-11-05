@@ -3387,8 +3387,3 @@ ANSI плагин
 ;file \include\m_message.h
 [Message window toolbar]
 Панель кнопок окна сообщений
-;file \include\m_popup.h
-[Do nothing]
-Ничего не делать
-[Dismiss popup]
-Закрыть
