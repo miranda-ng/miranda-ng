@@ -42,24 +42,24 @@ void LoadNotifications()
 	notification.actionCount = 0;
 	notification.lpActions = nullptr;
 
-	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, LPGEN("Misc"), sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, LPGEN("Warning"), sizeof(notification.lpzName));
 	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_WARN);
 	notification.colorBack = RGB(210, 210, 150);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 10;
 	g_hntfWarning = RegisterNotification(&notification);
 
-	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	mir_strncpy(notification.lpzName, "Notification", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, LPGEN("Misc"), sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, LPGEN("Notification"), sizeof(notification.lpzName));
 	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_INFO);
 	notification.colorBack = RGB(230, 230, 230);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 7;
 	g_hntfNotification = RegisterNotification(&notification);
 
-	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	mir_strncpy(notification.lpzName, "Error", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, LPGEN("Misc"), sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, LPGEN("Error"), sizeof(notification.lpzName));
 	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_STOP);
 	notification.colorBack = RGB(191, 0, 0);
 	notification.colorText = RGB(255, 245, 225);
