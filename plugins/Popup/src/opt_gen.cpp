@@ -116,7 +116,7 @@ void LoadOption_General()
 
 	// disable When
 	PopupOptions.bDisableWhenFullscreen = g_plugin.getBool("DisableWhenFullscreen", true);
-	PopupOptions.bDisableWhenIdle = g_plugin.getBool("DisableWhenIdle", true);
+	PopupOptions.bDisableWhenIdle = g_plugin.getBool("DisableWhenIdle", false);
 }
 
 INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
