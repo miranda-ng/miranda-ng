@@ -16,8 +16,6 @@ No warranty for any misbehaviour.
 
 #include "stdafx.h"
 
-#include "../../utils/mir_fonts.h"
-
 /////////////////////////////////////////////////////////////////////////////
 // Globals
 
@@ -908,7 +906,7 @@ int CMPlugin::Load()
 
 		char szId[20];
 		mir_snprintf(szId, "Font%d", i);
-		FontService_RegisterFont(MODULENAME, szId, LPGENW("Floating contacts"), s_fonts[i], nullptr, nullptr, i + 1, false, &lf, defColor);
+		addFont(MODULENAME, szId, LPGENW("Floating contacts"), s_fonts[i], nullptr, nullptr, i + 1, false, &lf, defColor);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);

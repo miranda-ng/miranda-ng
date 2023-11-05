@@ -553,13 +553,13 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 		LOGFONT lf;
 		/* built-in font module is not available before this hook */
 		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
-		FontService_RegisterFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
+		g_plugin.addFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
 		clr = GetDefaultColor(FRAMEELEMENT_BKGRND);
-		FontService_RegisterColor(MODULENAME, "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
+		g_plugin.addColor(MODULENAME, "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
 		if (!IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
 			clr = GetDefaultColor(FRAMEELEMENT_BAR);
-			FontService_RegisterColor(MODULENAME, "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
+			g_plugin.addColor(MODULENAME, "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
 		}
 	}
 	return 0;

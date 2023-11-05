@@ -49,11 +49,6 @@
     <ClInclude Include="src\watcher.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\utils\mir_fonts.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>

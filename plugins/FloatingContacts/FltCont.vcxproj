@@ -43,11 +43,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\utils\mir_fonts.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\fltcnt.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
