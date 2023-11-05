@@ -190,7 +190,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	fontid.deffontsettings.size = -11;
 	mir_strncpy(fontid.deffontsettings.szFace, "MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
-	mir_snprintf(fontid.name, "%s (colors only)", notification->lpzName);
+	mir_snprintf(fontid.name, LPGEN("%s (colors only)"), notification->lpzName);
 	mir_snprintf(fontid.setting, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
 	g_plugin.addFont(&fontid);
@@ -198,7 +198,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	ColourID colourid = {};
 	mir_snprintf(colourid.group, PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(colourid.dbSettingsGroup, "PopupNotifications");
-	mir_snprintf(colourid.name, "%s (colors only)", notification->lpzName);
+	mir_snprintf(colourid.name, LPGEN("%s (colors only)"), notification->lpzName);
 	mir_snprintf(colourid.setting, "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
 	g_plugin.addColor(&colourid);
