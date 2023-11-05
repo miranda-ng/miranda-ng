@@ -761,6 +761,9 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 		m_iOwnId = iValue;
 		SetId(0, m_iOwnId);
 
+		if (m_iSavedMessages != 0)
+			return;
+
 		if (auto *pUser = FindUser(iValue)) {
 			m_iSavedMessages = pUser->hContact;
 			pUser->hContact = 0;
