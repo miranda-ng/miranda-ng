@@ -380,9 +380,9 @@ function GenerateDictionaries() {
         CheckFileExist(translated_core);
         CheckFileExist(translated_dupes);
         CheckFileExist(translated_langpack);
-        GenerateTransalteDict(translated_core, CoreTranslateDict);
-        GenerateTransalteDict(translated_dupes, DupesTranslateDict);
-        GenerateTransalteDict(translated_langpack, LangpackTranslateDict);
+        GenerateTranslateDict(translated_core, CoreTranslateDict);
+        GenerateTranslateDict(translated_dupes, DupesTranslateDict);
+        GenerateTranslateDict(translated_langpack, LangpackTranslateDict);
     }
     //process a dictionaries creation with switch-specified pathes
     if (WScript.Arguments.Named.Item("path")) {
@@ -392,21 +392,21 @@ function GenerateDictionaries() {
         CheckFileExist(PathToCore);
         CheckFileExist(PathToDupes);
         //Generate dictionanries
-        GenerateTransalteDict(PathToCore, CoreTranslateDict);
-        GenerateTransalteDict(PathToDupes, DupesTranslateDict);
+        GenerateTranslateDict(PathToCore, CoreTranslateDict);
+        GenerateTranslateDict(PathToDupes, DupesTranslateDict);
     }
     if (WScript.Arguments.Named.Item("dupes")) {
         CheckFileExist(WScript.Arguments.Named.Item("dupes"));
-        GenerateTransalteDict(WScript.Arguments.Named.Item("dupes"), DupesTranslateDict);
+        GenerateTranslateDict(WScript.Arguments.Named.Item("dupes"), DupesTranslateDict);
     }
     if (WScript.Arguments.Named.Item("langpack")) {
         CheckFileExist(WScript.Arguments.Named.Item("langpack"));
-        GenerateTransalteDict(WScript.Arguments.Named.Item("langpack"), LangpackTranslateDict);
+        GenerateTranslateDict(WScript.Arguments.Named.Item("langpack"), LangpackTranslateDict);
     }
 }
 
 //Generate Dictionary with english sting + translated string from file
-function GenerateTransalteDict(file, dictionary) {
+function GenerateTranslateDict(file, dictionary) {
     var string = [],
         key = "",
         item = "",
@@ -466,12 +466,12 @@ function TranslateTemplateFile(Template_file, translated_array, untranslated_arr
     var PluginTranslateDict = WScript.CreateObject("Scripting.Dictionary");
     //if /sourcelang specified, use it for search plugin translation.
     if (sourcelang) {
-        GenerateTransalteDict(FSO.BuildPath(langpack_path, (FSO.GetBaseName(FSO.GetParentFolderName(Template_file)) + "\\" + FSO.GetFileName(Template_file))), PluginTranslateDict);
+        GenerateTranslateDict(FSO.BuildPath(langpack_path, (FSO.GetBaseName(FSO.GetParentFolderName(Template_file)) + "\\" + FSO.GetFileName(Template_file))), PluginTranslateDict);
     }
     // if /path:"" specified, this is a folder with plugin translations, use it to find out our translation.
     if (WScript.Arguments.Named.Item("path")) {
         //Generate PluginTranslate Dictionary
-        GenerateTransalteDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"), (FSO.GetBaseName(FSO.GetParentFolderName(Template_file)) + "\\" + FSO.GetFileName(Template_file))), PluginTranslateDict);
+        GenerateTranslateDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"), (FSO.GetBaseName(FSO.GetParentFolderName(Template_file)) + "\\" + FSO.GetFileName(Template_file))), PluginTranslateDict);
     }
     //If file zero size, return;
     if (FSO.GetFile(Template_file).Size === 0) return;
