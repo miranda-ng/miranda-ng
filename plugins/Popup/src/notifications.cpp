@@ -228,9 +228,8 @@ void FillNotificationData(POPUPDATA2 *ppd, uint32_t *disableWhen)
 
 	LOGFONTA lf; // dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
 	CMStringA szGroup(FORMAT, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
-	CMStringA szName(FORMAT, "%s (colors only)", ptd->notification.lpzName);
-	ppd->colorText = Font_Get(szGroup, szName, &lf);
-	ppd->colorBack = Colour_Get(szGroup, szName);
+	ppd->colorText = Font_Get(szGroup, ptd->notification.lpzName, &lf);
+	ppd->colorBack = Colour_Get(szGroup, ptd->notification.lpzName);
 
 	ppd->lchIcon = IcoLib_GetIconByHandle(ptd->hIcoLib);
 }
