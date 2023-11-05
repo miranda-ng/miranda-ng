@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -103,6 +103,7 @@
 [Disable when:]
 [Always (has priority)]
 [Fullscreen mode]
+[Idle]
 [Debug]
 ;file \plugins\Popup\src\actions.cpp
 [Quick reply]
@@ -115,6 +116,8 @@
 [Copy to clipboard]
 [No overwrite]
 [Action]
+;file \plugins\Popup\src\actions.h
+[Do nothing]
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -164,6 +167,9 @@
 [Disable popups]
 [Popup Plus]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+;file \plugins\Popup\src\notifications.cpp
+[Misc]
+[Notification]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 [Fade in/out]

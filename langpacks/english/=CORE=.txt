@@ -486,7 +486,7 @@
 [Display subcontact display name]
 [Lock name to first contact]
 [Choose needed logger from listed below:]
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 [Current language:]
 [Last modified using:]
 [Date:]
@@ -1478,7 +1478,7 @@
 [History++ log window]
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
-[on]
+[at]
 [Download]
 [Copy URL]
 [Save as]
@@ -1755,6 +1755,3 @@
 [<unspecified>]
 ;file \include\m_message.h
 [Message window toolbar]
-;file \include\m_popup.h
-[Do nothing]
-[Dismiss popup]
