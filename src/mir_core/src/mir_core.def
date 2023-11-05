@@ -1560,3 +1560,4 @@ db_event_updateId @1772
 ?Release@MShareable@@QAEXXZ @1781 NONAME
 ?getExtension@MFilePath@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1782 NONAME
 ?isExecutable@MFilePath@@QBE_NXZ @1783 NONAME
+?GetPlugin@CDlgBase@@QBEPBVCMPluginBase@@XZ @1784 NONAME
