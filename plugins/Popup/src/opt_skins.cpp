@@ -288,7 +288,7 @@ void LoadOption_Skins()
 	PopupOptions.bDropShadow = g_plugin.getBool("DropShadow", true);
 	PopupOptions.bEnableFreeformShadows = g_plugin.getBool("EnableShadowRegion", true);
 	PopupOptions.bEnableAeroGlass = g_plugin.getBool("EnableAeroGlass", true);
-	PopupOptions.bUseWinColors = g_plugin.getBool("UseWinColors", true);
+	PopupOptions.bUseWinColors = g_plugin.getBool("UseWinColors", false);
 	PopupOptions.bUseMText = g_plugin.getBool("UseMText", true);
 }
 
