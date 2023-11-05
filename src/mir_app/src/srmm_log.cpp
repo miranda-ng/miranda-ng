@@ -147,8 +147,10 @@ public:
 		if (auto *pLogger = (SrmmLogWindowClass *)m_list.GetItemData(idx))
 			g_logger = pLogger->szShortName;
 
-		PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
-		mir_forkthread(ReloadOptions, m_hwndParent);
+		if (!m_bExiting) {
+			PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
+			mir_forkthread(ReloadOptions, m_hwndParent);
+		}
 		return true;
 	}
 
