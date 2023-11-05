@@ -237,6 +237,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	LoadActions();
 	LoadNotifications();
 
+	// register idle mode switcher
+	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
+
 	// hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 

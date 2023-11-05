@@ -475,7 +475,7 @@ static INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-static int OnIdleChanged(WPARAM, LPARAM lParam)
+int OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	g_bIdleMode = (lParam & IDF_ISIDLE) != 0;
 	return 0;
@@ -514,7 +514,4 @@ void CreateServices()
 	CreateServiceFunction(MS_POPUP_DESTROYPOPUP, Popup_DeletePopup);
 
 	CreateServiceFunction("Popup/LoadSkin", Popup_LoadSkin);
-
-	// register idle mode switcher
-	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
 }

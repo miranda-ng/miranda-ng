@@ -139,4 +139,6 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 void InitIcons();
 void CreateServices();
 
+int OnIdleChanged(WPARAM, LPARAM lParam);
+
 #endif //HEADERS_H
