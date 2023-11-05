@@ -17,7 +17,7 @@
 [Add an event (flashing icon) to the contact]
 Добавить событие (мигающий значок) к контакту
 [On event action (double click) or popup click:]
-На действия события (дв. клик) или клик по всп. окну
+На действия события (двойной клик) или клик по всплывающему окну
 [Open User Details]
 Открыть детали пользователя
 [Open message window]

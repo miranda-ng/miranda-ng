@@ -339,13 +339,13 @@ RTL шаблоны...
 [Tabs should be used in the following way]
 Вкладки могут использоваться в одном из следующих режимов:
 [Use contact list groups for organizing tabs (one window per group)]
-Группировать вкладки аналогично группам списка контактов (1 окно = 1 группа)
+Группировать вкладки аналогично группам списка контактов (окно = группа)
 [Tabbed interface, limit the maximum number of tabs per window to:]
 Окна с вкладками, максимальное количество вкладок в окне:
 [No tabs at all, each session has its own top level window]
 Без вкладок, каждая беседа в отдельном окне
 [Default mode (tabbed interface, manual assignments)]
-По умолчанию (окна с вкладками), ручное распределение вкладок)
+По умолчанию (окна с вкладками, ручное распределение вкладок)
 [Container flashing]
 Мигание контейнеров
 [Flash containers]

@@ -47,7 +47,7 @@ History++ для истории окон
 [Multimonitor]
 Мультимонитор
 [Start the popups in the monitor with]
-Всплыв. окна на мониторе, где
+Всплывающие окна на мониторе, где
 [Miranda's window]
 Окно Miranda NG
 [the active window]

@@ -105,7 +105,7 @@ xСтатус
 [Show status description]
 Показывать описание статуса
 [Use alternative descriptions]
-Использовать альтернативное описание
+Исп. альтернативное описание
 [Show previous status too]
 Показывать предыдущий статус
 [Read status message]

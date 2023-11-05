@@ -41,7 +41,7 @@ Miranda NG заблокирована.\nВведите свой пароль д�
 [Screen Saver is running]
 Запущена заставка
 [Windows is inactive]
-Windows не активен
+Windows не активна
 [Hide Miranda when:]
 Спрятать программу когда:
 [Miranda is inactive]

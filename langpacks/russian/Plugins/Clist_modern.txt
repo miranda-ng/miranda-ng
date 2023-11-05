@@ -277,7 +277,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [For different statuses]
 При разных статусах
 [Cycle period, seconds]
-период смены значков
+Период смены значков
 [Additional stuff]
 Дополнительно
 [Ignore empty extra icons places (arrange to right).]

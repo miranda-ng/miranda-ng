@@ -47,7 +47,7 @@ ID пользователя
 [Rejoin channel if kicked]
 Перезайти на канал после кика
 [Rejoin channels on reconnect]
-Перезайти при повторном подключении
+Перезайти при повторном подкл.
 [Disable tray balloon on error]
 Отключить сообщения в трее
 [Show addresses]
