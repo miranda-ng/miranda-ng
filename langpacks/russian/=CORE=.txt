@@ -961,7 +961,7 @@ UIN, E-mail и т.д.
 Фиксировать имя
 [Choose needed logger from listed below:]
 Выберите желаемый просмотрщик из перечисленных ниже:
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
@@ -2841,8 +2841,8 @@ ANSI плагин
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 Без имени
-[on]
-Вкл.
+[at]
+на
 [Download]
 Скачать
 [Copy URL]

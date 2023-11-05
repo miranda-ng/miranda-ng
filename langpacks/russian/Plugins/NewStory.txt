@@ -24,16 +24,18 @@
 с
 [till]
 по
-[Group messages]
-Группировать сообщения
 [Log window]
 Окно журнала
+[Group messages]
+Группировать сообщения
 [Enable vertical scroll bar]
 Включить вертикальную полосу прокрутки
 [Draw window edge]
 Отрисовывать границу окна
 [Ascending events sort order]
 Сортировать события по возрастанию даты
+[History++ compatiblity mode]
+Режим совместимости с History++
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -187,8 +189,8 @@
 [Passed the beginning of history]
 Пройдено начало истории
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file name]
-Копировать имя файла
+[Copy file path]
+Копировать путь к файлу
 [Copy URL]
 Копировать ссылку
 [History]
@@ -228,8 +230,6 @@
 Группа шаблонов
 [Cancel edit]
 Отменить текущие изменения
-[Update preview]
-Обновить предпросмотр
 [Downloaded]
 Загружено
 [Help]

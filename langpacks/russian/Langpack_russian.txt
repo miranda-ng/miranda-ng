@@ -968,8 +968,6 @@ UIN, E-mail и т.д.
 Фиксировать имя
 [Choose needed logger from listed below:]
 Выберите желаемый просмотрщик из перечисленных ниже:
-[Enable custom log controls in group chats]
-Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
 [Last modified using:]
@@ -2744,8 +2742,8 @@ ANSI плагин
 Журнал History++
 [Unnamed]
 Без имени
-[on]
-Вкл.
+[at]
+в
 [Download]
 Скачать
 [Copy URL]
@@ -18066,6 +18064,14 @@ ID пользователя
 Файл:\s
 [Description: ]
 Описание:\s
+[Size: ]
+Размер:\s
+[Transferred: ]
+Передано:\s
+[Path: ]
+Путь:\s
+[URL: ]
+URL:\s
 [Nick      :]
 Псевдоним :
 [FirstName :]
@@ -18879,10 +18885,10 @@ URL страницы с комментариями к новости.
 с
 [till]
 по
-[Group messages]
-Группировать сообщения
 [Log window]
 Окно журнала
+[Group messages]
+Группировать сообщения
 [Enable vertical scroll bar]
 Включить вертикальную полосу прокрутки
 [Draw window edge]
@@ -19033,8 +19039,6 @@ URL страницы с комментариями к новости.
 Экспорт истории
 [Passed the beginning of history]
 Пройдено начало истории
-[Copy file name]
-Копировать имя файла
 [Copy URL]
 Копировать ссылку
 [History]
@@ -19073,8 +19077,8 @@ URL страницы с комментариями к новости.
 Группа шаблонов
 [Cancel edit]
 Отменить текущие изменения
-[Update preview]
-Обновить предпросмотр
+[Downloaded]
+Загружено
 [Help]
 Помощь
 [Reset to default]
@@ -21411,7 +21415,7 @@ TCP соединение
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -21608,6 +21612,8 @@ History++ для истории окон
 Всегда (имеет приоритет)
 [Fullscreen mode]
 Полноэкранный режим
+[Idle]
+Ожидание
 [Debug]
 Отладка
 [Quick reply]
@@ -21716,6 +21722,10 @@ History++ для истории окон
 Всплывающие окна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Ошибка: Не удалось зарегистрировать класс Popup Window.\r\nПлагин не будет работать.
+[Misc]
+Прочее
+[Notification]
+Уведомление
 [No effect]
 Без эффекта
 [Fade in/out]
