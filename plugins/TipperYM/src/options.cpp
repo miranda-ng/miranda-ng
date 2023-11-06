@@ -910,7 +910,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TranslateDialogDefault(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD, BUTTONADDTOOLTIP, (WPARAM)Translate("Add item"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add item"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SEPARATOR, BUTTONSETASFLATBTN, TRUE, 0);
@@ -918,11 +918,11 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SEPARATOR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[4].hIcolib));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT, BUTTONADDTOOLTIP, (WPARAM)Translate("Edit"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_RENAME));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE, BUTTONADDTOOLTIP, (WPARAM)Translate("Remove"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Remove"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_DELETE));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_UP, BUTTONSETASFLATBTN, TRUE, 0);
@@ -934,15 +934,15 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[3].hIcolib));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD2, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD2, BUTTONADDTOOLTIP, (WPARAM)Translate("Add"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD2, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_ADD2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE2, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE2, BUTTONADDTOOLTIP, (WPARAM)Translate("Remove"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE2, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Remove"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_REMOVE2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_DELETE));
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT2, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT2, BUTTONADDTOOLTIP, (WPARAM)Translate("Edit"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT2, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_EDIT2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_RENAME));
 
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_CHECKBOXES);

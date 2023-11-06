@@ -203,10 +203,8 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			for (auto &it : statusButtons) {
 				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONSETASPUSHBTN, TRUE, 0);
-				SendDlgItemMessage(hwnd, it.idCtrl, BM_SETIMAGE,
-					IMAGE_ICON, (LPARAM)Skin_LoadIcon(it.iconId));
-				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONADDTOOLTIP,
-					(WPARAM)Translate(it.title), 0);
+				SendDlgItemMessage(hwnd, it.idCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(it.iconId));
+				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONADDTOOLTIP, (WPARAM)Translate(it.title), 0);
 			}
 			// info icon
 			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_MB_INFO), 0);

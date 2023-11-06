@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			// Skin List reload button
 			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_RELOAD));
-			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Refresh List"), BATF_UNICODE);
 
 			// Skin Option List
 			SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);

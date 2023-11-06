@@ -25,14 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlMButton
 
-CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip) 
-	: CCtrlButton(dlg, ctrlId),
+CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip) :
+	CCtrlButton(dlg, ctrlId),
 	m_hIcon(hIcon),
 	m_toolTip(tooltip)
 {}
 
-CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon, const char* tooltip)
-	: CCtrlButton(dlg, ctrlId),
+CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon, const char* tooltip) :
+	CCtrlButton(dlg, ctrlId),
 	m_hIcon(::Skin_LoadIcon(iCoreIcon)),
 	m_toolTip(tooltip)
 {}
@@ -47,8 +47,8 @@ void CCtrlMButton::OnInit()
 	CCtrlButton::OnInit();
 
 	SendMessage(m_hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hIcon);
-	SendMessage(m_hwnd, BUTTONADDTOOLTIP, (WPARAM)m_toolTip, 0);
-	SendMessage(m_hwnd, BUTTONSETASFLATBTN, (WPARAM)m_toolTip, 0);
+	SendMessage(m_hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(_A2T(m_toolTip), m_parentWnd->GetPlugin()), BATF_UNICODE);
+	SendMessage(m_hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 }
 
 void CCtrlMButton::MakeFlat()
