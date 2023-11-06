@@ -20,7 +20,7 @@
 {$IFNDEF M_VARS}
 {$DEFINE M_VARS}
 
-const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
+const MIID_VARIABLES : TGUID = '{630756DE-3681-440B-991E-77A4742DA595}';
 
 // --------------------------------------------------------------------------
 // String formatting

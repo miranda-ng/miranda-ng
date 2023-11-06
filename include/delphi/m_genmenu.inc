@@ -150,14 +150,14 @@ const
 type
   PMO_MenuItem = ^TMO_MenuItem;
   TMO_MenuItem = record
-    position  :int;
-    pszService:PAnsiChar;
-    root      :HGENMENU;
-    szName    :TCHAR;
-    flags     :integer;
-    hIcon     :HICON;   // or hIcolibItem:THANDLE;
-    pPlugin   :Pointer;
-    uid       :MUUID;
+    position  : int;
+    pszService: PAnsiChar;
+    root      : HGENMENU;
+    szName    : TCHAR;
+    flags     : integer;
+    hIcon     : HICON;   // or hIcolibItem:THANDLE;
+    pPlugin   : Pointer;
+    uid       : TGUID;
   end;
 
 {

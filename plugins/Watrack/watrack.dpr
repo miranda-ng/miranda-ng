@@ -660,19 +660,21 @@ begin
   result:=0;
 end;
 
+const PluginId: TGUID = '{FC6C81F4-837E-4430-9601-A0AA43177AE3}';
+
 exports
   Load, Unload;
 
 begin
   DisableThreadLibraryCalls(hInstance);
 
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :=PluginName;
-  PluginInfo.version    :=$0000060C;
-  PluginInfo.description:='Paste played music info into message window or status text';
-  PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2005-12 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/Watrack';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_WATRACK;
+  PluginInfo.cbSize     := SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  := PluginName;
+  PluginInfo.version    := $0000060C;
+  PluginInfo.description:= 'Paste played music info into message window or status text';
+  PluginInfo.author     := 'Awkward';
+  PluginInfo.copyright  := '(c) 2005-12 Awkward';
+  PluginInfo.homepage   := 'https://miranda-ng.org/p/Watrack';
+  PluginInfo.flags      := UNICODE_AWARE;
+  PluginInfo.uuid       := PluginId;
 end.

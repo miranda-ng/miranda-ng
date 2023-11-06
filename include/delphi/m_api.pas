@@ -105,39 +105,19 @@ type
 {-- start newpluginapi --}
 const
   UNICODE_AWARE = 1;
-  STATIC_PLUGIN = 2;
-
-// The UUID structure below is used to for plugin UUID's and module type definitions
-type
-  PMUUID = ^TMUUID;
-  MUUID  = System.TGUID;
-
-  TMUUID = MUUID;
-{
-  MUUID = record
-    a:cardinal;
-    b:word;
-    c:word;
-    d:array [0..7] of byte;
-  end;
-}
-
-{$include interfaces.inc}
 
 type
   PPLUGININFOEX = ^TPLUGININFOEX;
   TPLUGININFOEX = record
-    cbSize     :int;
-    shortName  :PAnsiChar;
-    version    :dword;
-    description:PAnsiChar;
-    author     :PAnsiChar;
-    copyright  :PAnsiChar;
-    homepage   :PAnsiChar;
-    flags      :byte;  // right now the only flag, UNICODE_AWARE, is recognized here
-    case boolean of
-      false: (dummy:longword);
-      true : (uuid :MUUID); // plugin's unique identifier
+    cbSize     : int;
+    shortName  : PAnsiChar;
+    version    : dword;
+    description: PAnsiChar;
+    author     : PAnsiChar;
+    copyright  : PAnsiChar;
+    homepage   : PAnsiChar;
+    flags      : integer;    // right now the only flag, UNICODE_AWARE, is recognized here
+    uuid       : TGUID;      // plugin's unique identifier
   end;
 
 type

@@ -1,9 +1,6 @@
 {$IFNDEF M_MUSIC}
 {$DEFINE M_MUSIC}
 
-// defined in interfaces.inc
-//const MIID_WATRACK:MUUID='{FC6C81F4-837E-4430-9601-A0AA43177AE3}';
-
 type
   pSongInfoA = ^tSongInfoA;
   tSongInfoA = record

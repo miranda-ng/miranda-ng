@@ -240,17 +240,19 @@ end;
 exports
   Load, Unload;
 
+const PluginId: TGUID = '{9584DA04-FB4F-40C1-9325-E4F9CAAFCB5D}';
+
 begin
   DisableThreadLibraryCalls(hInstance);
 
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='Action manager';
-  PluginInfo.version    :=$00030001;
-  PluginInfo.description:='Plugin for manage hotkeys to open contact window, insert text, '+
+  PluginInfo.cbSize     := SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  := 'Action manager';
+  PluginInfo.version    := $00030001;
+  PluginInfo.description:= 'Plugin for manage hotkeys to open contact window, insert text, '+
                           'run program and call services';
-  PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2007-13 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/Actman';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_ACTMAN;
+  PluginInfo.author     := 'Awkward';
+  PluginInfo.copyright  := '(c) 2007-13 Awkward';
+  PluginInfo.homepage   := 'https://miranda-ng.org/p/Actman';
+  PluginInfo.flags      := UNICODE_AWARE;
+  PluginInfo.uuid       := PluginId;
 end.

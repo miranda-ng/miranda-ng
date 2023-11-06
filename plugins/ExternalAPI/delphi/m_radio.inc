@@ -2,9 +2,6 @@
 {$DEFINE M_RADIO}
 {command codes}
 
-// defined in interfaces.inc
-//const MIID_MRADIO:MUUID='{EEBC474C-B0AD-470F-99A8-9DD9210CE233}';
-
 const
   MRC_STOP   = 0;
   MRC_PLAY   = 1; // lParam is radio contact handle

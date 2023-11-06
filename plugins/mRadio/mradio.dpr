@@ -173,6 +173,8 @@ begin
   Result:=0;
 end;
 
+const PluginId: TGUID = '{EEBC474C-B0AD-470F-99A8-9DD9210CE233}';
+
 exports
   Load, Unload;
 
@@ -183,14 +185,14 @@ begin
 
   DisableThreadLibraryCalls(hInstance);
 
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='mRadio Mod';
-  PluginInfo.version    :=$00000204;
-  PluginInfo.description:='This plugin plays and records Internet radio streams.'+
-                          ' Also local media files can be played.';
-  PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2007-14 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/MRadio';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_MRADIO;
+  PluginInfo.cbSize     := SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  := 'mRadio Mod';
+  PluginInfo.version    := $00000204;
+  PluginInfo.description:= 'This plugin plays and records Internet radio streams.'+
+                           ' Also local media files can be played.';
+  PluginInfo.author     := 'Awkward';
+  PluginInfo.copyright  := '(c) 2007-14 Awkward';
+  PluginInfo.homepage   := 'https://miranda-ng.org/p/MRadio';
+  PluginInfo.flags      := UNICODE_AWARE;
+  PluginInfo.uuid       := PluginId;
 end.

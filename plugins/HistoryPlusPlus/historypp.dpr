@@ -111,11 +111,15 @@ function OnEventDeleted(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward
 function OnMetaDefaultChanged(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 function OnPreshutdown(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 
+const
+  MIID_LAST: TGUID = '{00000000-0000-0000-0000-000000000000}';
+  MIID_UIHISTORY: TGUID = '{7F7E3D98-CE1F-4962-8284-968550F1D3D9}';
+
 var
   PluginInterfaces: array[0..1] of TGUID;
 
 // tell Miranda about supported interfaces
-function MirandaPluginInterfaces:PMUUID; cdecl;
+function MirandaPluginInterfaces : PGUID; cdecl;
 begin
   PluginInterfaces[0]:=MIID_UIHISTORY;
   PluginInterfaces[1]:=MIID_LAST;
