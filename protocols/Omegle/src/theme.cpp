@@ -31,5 +31,5 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Omegle"), iconList, "Omegle");
+	g_plugin.registerIcon("Protocols/Omegle", iconList, "Omegle");
 }

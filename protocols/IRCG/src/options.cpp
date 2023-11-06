@@ -144,7 +144,7 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("IRC"), iconList, "IRC");
+	g_plugin.registerIcon("Protocols/IRC", iconList, "IRC");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

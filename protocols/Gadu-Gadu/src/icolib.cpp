@@ -43,5 +43,5 @@ extern IconItem iconList[] =
 
 void gg_icolib_init()
 {
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("GG"), iconList, GGDEF_PROTO);
+	g_plugin.registerIcon("Protocols/GG", iconList, GGDEF_PROTO);
 }

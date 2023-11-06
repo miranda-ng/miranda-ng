@@ -66,6 +66,6 @@ int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, &OnModulesLoaded);
 
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Discord"), g_iconList);
+	g_plugin.registerIcon("Protocols/Discord", g_iconList);
 	return 0;
 }

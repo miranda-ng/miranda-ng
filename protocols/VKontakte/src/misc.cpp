@@ -66,7 +66,7 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("VKontakte"), iconList, "VKontakte");
+	g_plugin.registerIcon("Protocols/VKontakte", iconList, "VKontakte");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

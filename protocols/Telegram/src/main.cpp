@@ -47,7 +47,7 @@ static IconItem iconList[] =
 
 int CMPlugin::Load()
 {
-	registerIcon(LPGEN("Protocols") "/" LPGEN("Telegram"), iconList, "tg");
+	registerIcon("Protocols/Telegram", iconList, "tg");
 	
 	m_hIcon = ExtraIcon_RegisterIcolib("tg_premium", LPGEN("Telegram Premium user"), getIconHandle(IDI_PREMIUM));
 	return 0;

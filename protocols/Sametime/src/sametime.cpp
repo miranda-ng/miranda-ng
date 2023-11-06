@@ -82,7 +82,7 @@ static IconItem iconList[] =
 
 void SametimeInitIcons(void)
 {
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Sametime"), iconList, "SAMETIME");
+	g_plugin.registerIcon("Protocols/Sametime", iconList, "SAMETIME");
 }
 
 // Copied from MSN plugin - sent acks need to be from different thread
