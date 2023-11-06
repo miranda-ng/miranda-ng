@@ -57,32 +57,32 @@ static void SetButtonPressed(int i, int state)
 
 void Modern_InitButtons()
 {
-	for (int i = 0; i < _countof(BTNS); i++) {
+	for (auto &it : BTNS) {
 		TTBButton tbb = {};
 
-		if (BTNS[i].pszButtonID) {
-			tbb.name = LPGEN(BTNS[i].pszButtonName);
-			tbb.pszService = BTNS[i].pszServiceName;
-			tbb.pszTooltipUp = LPGEN(BTNS[i].pszTooltipUp);
-			tbb.pszTooltipDn = LPGEN(BTNS[i].pszTooltipDn);
+		if (it.pszButtonID) {
+			tbb.name = it.pszButtonName;
+			tbb.pszService = it.pszServiceName;
+			tbb.pszTooltipUp = it.pszTooltipUp;
+			tbb.pszTooltipDn = it.pszTooltipDn;
 
 			char buf[255];
-			if (i != 0) {
-				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
-				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx, g_plugin.getInst(), BTNS[i].defResource);
+			if (&it != BTNS) {
+				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, it.pszButtonID, "_dn");
+				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", it.pszTooltipUp, L"icons\\toolbar_icons.dll", it.icoDefIdx, g_plugin.getInst(), it.defResource);
 			}
-			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, nullptr, 0, nullptr, SKINICON_OTHER_MAINMENU);
+			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", it.pszTooltipUp, nullptr, 0, nullptr, SKINICON_OTHER_MAINMENU);
 
-			if (BTNS[i].pszTooltipDn) {
-				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
-				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx + 1, g_plugin.getInst(), BTNS[i].defResource2);
+			if (it.pszTooltipDn) {
+				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, it.pszButtonID, "_up");
+				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", it.pszTooltipDn, L"icons\\toolbar_icons.dll", it.icoDefIdx + 1, g_plugin.getInst(), it.defResource2);
 			}
 			else tbb.hIconHandleDn = nullptr;
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
-		tbb.dwFlags |= (BTNS[i].bVisByDefault ? TTBBF_VISIBLE : 0);
-		BTNS[i].hButton = g_plugin.addTTB(&tbb);
+		tbb.dwFlags |= (it.bVisByDefault ? TTBBF_VISIBLE : 0);
+		it.hButton = g_plugin.addTTB(&tbb);
 	}
 
 	SetButtonPressed(3, Clist::HideOffline);

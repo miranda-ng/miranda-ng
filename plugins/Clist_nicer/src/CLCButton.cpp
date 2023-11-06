@@ -26,44 +26,44 @@ HANDLE hToolbarFrame = (HANDLE)-1;
 
 struct CluiTopButton BTNS[] = 
 {
-	{ IDC_TBTOPMENU,           "CLN_topmenu",      nullptr, LPGEN("Show menu"),                  1, 1, 1 },
-	{ IDC_TBHIDEOFFLINE,       "CLN_online",       nullptr, LPGEN("Show/Hide offline contacts"), 0, 1, 0 },
-	{ IDC_TBHIDEGROUPS,        "CLN_groups",       nullptr, LPGEN("Use/Disable groups"),         0, 1, 0 },
-	{ IDC_TBFINDANDADD,        "CLN_findadd",      nullptr, LPGEN("Find and add contacts"),      1, 1, 0 },
-	{ IDC_TBACCOUNTS,          "CLN_accounts",     nullptr, LPGEN("Accounts"),                   1, 1, 0 },
-	{ IDC_TBOPTIONS,           "CLN_options",      nullptr, LPGEN("Open preferences"),           1, 1, 0 },
-	{ IDC_TBSOUND,            "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
-	{ IDC_TBMINIMIZE,          "CLN_minimize",     nullptr, LPGEN("Minimize contact list"),      1, 0, 0 },
-	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    nullptr, LPGEN("Status menu"),                1, 0, 1 },
-
-	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  nullptr, LPGEN("Select view mode"),           1, 0, 1 },
-	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", nullptr, LPGEN("Setup view modes"),           1, 0, 0 },
-	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   nullptr, LPGEN("Clear view mode"),            1, 0, 0 }
+	{ IDC_TBTOPMENU,           "CLN_topmenu",      nullptr,  LPGEN("Show menu"),                  1, 1, 1 },
+	{ IDC_TBHIDEOFFLINE,       "CLN_online",       nullptr,  LPGEN("Show/Hide offline contacts"), 0, 1, 0 },
+	{ IDC_TBHIDEGROUPS,        "CLN_groups",       nullptr,  LPGEN("Use/Disable groups"),         0, 1, 0 },
+	{ IDC_TBFINDANDADD,        "CLN_findadd",      nullptr,  LPGEN("Find and add contacts"),      1, 1, 0 },
+	{ IDC_TBACCOUNTS,          "CLN_accounts",     nullptr,  LPGEN("Accounts"),                   1, 1, 0 },
+	{ IDC_TBOPTIONS,           "CLN_options",      nullptr,  LPGEN("Open preferences"),           1, 1, 0 },
+	{ IDC_TBSOUND,             "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
+	{ IDC_TBMINIMIZE,          "CLN_minimize",     nullptr,  LPGEN("Minimize contact list"),      1, 0, 0 },
+	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    nullptr,  LPGEN("Status menu"),                1, 0, 1 },
+																			   
+	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  nullptr,  LPGEN("Select view mode"),           1, 0, 1 },
+	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", nullptr,  LPGEN("Setup view modes"),           1, 0, 0 },
+	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   nullptr,  LPGEN("Clear view mode"),            1, 0, 0 }
 };
 
-static int g_index = -1;
+static CluiTopButton *g_pButton = nullptr;
 
 static void InitDefaultButtons()
 {
-	for (int i = 0; i < _countof(BTNS); i++) {
-		TTBButton tbb = {};
+	for (auto &it : BTNS) {
+		g_pButton = &it;
 
-		g_index = i;
-		if (BTNS[i].pszButtonID) {
-			if (!BTNS[i].isPush)
+		TTBButton tbb = {};
+		if (it.pszButtonID) {
+			if (!it.isPush)
 				tbb.dwFlags |= TTBBF_ASPUSHBUTTON;
 
-			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
-			tbb.hIconHandleUp = IcoLib_GetIconHandle(BTNS[i].pszButtonID);
-			if (BTNS[i].pszButtonDn)
-				tbb.hIconHandleDn = IcoLib_GetIconHandle(BTNS[i].pszButtonDn);
+			tbb.pszTooltipUp = tbb.name = LPGEN(it.pszButtonName);
+			tbb.hIconHandleUp = IcoLib_GetIconHandle(it.pszButtonID);
+			if (it.pszButtonDn)
+				tbb.hIconHandleDn = IcoLib_GetIconHandle(it.pszButtonDn);
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
-		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE : 0);
-		BTNS[i].hButton = g_plugin.addTTB(&tbb);
+		tbb.dwFlags |= (it.isVis ? TTBBF_VISIBLE : 0);
+		it.hButton = g_plugin.addTTB(&tbb);
 	}
-	g_index = -1;
+	g_pButton = nullptr;
 
 	ClcSetButtonState(IDC_TBHIDEOFFLINE, Clist::HideOffline);
 	ClcSetButtonState(IDC_TBHIDEGROUPS, Clist::UseGroups);
@@ -572,11 +572,11 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	mir_subclassWindow(hWnd, TSButtonWndProc);
 
 	MButtonExtension *bct = (MButtonExtension*)GetWindowLongPtr(hWnd, 0);
-	if (g_index != -1) { // adding built-in button
-		BTNS[g_index].hwndButton = hWnd;
-		if (BTNS[g_index].isAction)
+	if (g_pButton) { // adding built-in button
+		g_pButton->hwndButton = hWnd;
+		if (g_pButton->isAction)
 			bct->bSendOnDown = true;
-		if (!BTNS[g_index].isPush)
+		if (!g_pButton->isPush)
 			bct->bIsPushBtn = true;
 	}
 	else {
