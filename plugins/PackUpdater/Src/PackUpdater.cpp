@@ -75,10 +75,7 @@ int CMPlugin::Load()
 
 	// Add empty updates folder menu item
 	CreateServiceFunction(MODULENAME"/EmptyFolder", EmptyFolder);
-	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0xc3eea590, 0xaba3, 0x454f, 0x93, 0x93, 0xbc, 0x97, 0x15, 0x2c, 0x3b, 0x3d);
-	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = IcoLib_GetIcon("empty_folder");
 	mi.name.w = LPGENW("Clear pack updates folder");
 	mi.pszService = MODULENAME"/EmptyFolder";
