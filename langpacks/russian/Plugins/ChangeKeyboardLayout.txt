@@ -41,7 +41,7 @@
 [Set Caps Lock state when inverting lettercase:]
 Установить состояние Caps Lock при инвертировании регистра:
 [Change active keyboard layout in system]
-Менять активную раскладку клавиатуры
+Менять активную раскладку
 [Colors]
 Цвета
 [Use default colors]

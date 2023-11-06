@@ -85,8 +85,10 @@
 Концертный холл
 [Psychotic]
 Психотический
-[Forrest]
+[Forest]
 Лес
+[City]
+Город
 [To list]
 В список
 [Hangar]
@@ -201,3 +203,7 @@ mRadio вкл
 Открыть
 [bass.dll not found! Choose bass.dll path manually]
 bass.dll не найден! Укажите путь к нему
+[min]
+мин.
+[max]
+макс.

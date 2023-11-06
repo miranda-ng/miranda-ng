@@ -1778,6 +1778,9 @@ Miranda не смогла загрузить встроенную систему
 Рабочий факс
 [Contact]
 Контакт
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Инфо
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <не указано>
@@ -2128,6 +2131,10 @@ Miranda не может распознать этот профиль
 Активность в чате
 [Chat mute mode]
 Режим беззвучности чата
+[Gender]
+Пол
+[Account]
+Учётная запись
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Экстра значки
@@ -2658,6 +2665,9 @@ xСтатус
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 Протокол не в сети
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Протоколы
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Запросить авторизацию

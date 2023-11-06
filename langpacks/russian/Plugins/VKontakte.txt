@@ -30,10 +30,10 @@
 отключить
 [for original size images]
 для исходного размера
-[for preview max 130px*130px]
-для предпросмотра в 130px*130px
-[for preview max 604px*604px]
-для предпросмотра в 604px*604px
+[for preview max 130*130 px]
+для предпросмотра в 130*130 пикселей
+[for preview max 604*604 px]
+для предпросмотра в 604*604 пикселей
 [BBCode support on news and event notifications]
 Поддержка BBCode для новостей и уведомлений
 [basic ([b], [i], [u], [s])]
@@ -223,10 +223,6 @@ URL:
 Сообщение на стене
 [Mark messages as read icon]
 Пометить сообщения прочитанными
-[Protocols]
-Протоколы
-[VKontakte]
-ВКонтакте
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -422,6 +418,8 @@ URL:
 [Deleting %s from contact list]
 Удаление %s из списка контактов
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+ВКонтакте
 [New news]
 Новости
 [New notifications]

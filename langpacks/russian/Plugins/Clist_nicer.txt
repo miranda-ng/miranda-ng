@@ -84,12 +84,12 @@
 Поля (справа/слева)
 [Row gap]
 Промежуток между строками
-[Minimum row height:]
+[Minimum row height]
 Минимальная высота строки
 [Group row height]
 Минимальная высота группы
-[Indent groups by:]
-Отступ для групп:
+[Indent groups by]
+Отступ для групп
 [Inner row vertical padding]
 Вертикальный отступ между рядами
 [Margins and spacing]

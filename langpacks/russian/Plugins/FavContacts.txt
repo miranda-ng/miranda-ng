@@ -21,7 +21,7 @@
 [px.]
 пикс.
 [Hide for transparent avatars]
-Скрыть у прозрачных аватар
+Скрыть у прозрачных аватаров
 [Use system colors and fonts]
 Системные цвета и шрифты
 [Hotkey shows menu centered on screen]

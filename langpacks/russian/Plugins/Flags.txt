@@ -17,7 +17,7 @@
 [Use &IP-to-country database for country detection]
 Использовать базу &IP для определения страны
 [Use &unknown flag if the country cannot be determined]
-Показ. &неизв. флаг, если страну нельзя определить
+Показ. &неизвестный флаг, если страну нельзя определить
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Флаг страны

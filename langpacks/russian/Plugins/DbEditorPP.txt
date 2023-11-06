@@ -283,11 +283,11 @@ BLOB
 Unicode
 [Handle]
 ID пользователя
+[Database]
+База данных
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Открыть редактор базы
-[Database]
-База данных
 [Open user tree in DBE++]
 Открыть в редакторе базы
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -337,6 +337,7 @@ ID пользователя
 Редактировать настройку (%s)
 [New setting (%s)]
 Новая настройка (%s)
+;file \plugins\DbEditorPP\src\stdafx.h
 ;file \plugins\DbEditorPP\src\utils.cpp
 [[UNLOADED]]
 \[НЕ ЗАГРУЖЕН]

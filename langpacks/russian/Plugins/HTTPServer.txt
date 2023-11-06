@@ -25,9 +25,9 @@ IP-адрес 2
 [HTTP Server statistics view]
 Статистика просмотров HTTP сервера
 [Display hidden shares]
-
+Показать скрытые шары
 [New share]
-
+Новая шара
 [Set to default]
 По умолчанию
 [External server name]

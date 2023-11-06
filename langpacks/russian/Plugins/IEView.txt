@@ -91,6 +91,8 @@
 Откл. группировку
 [Format text as code]
 Форматировать текст как код
+[IEView]
+Журнал IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 По умолчанию
@@ -104,8 +106,6 @@
 Таблица стилей
 [Message sessions]
 Беседы
-[IEView]
-Журнал IEView
 [General]
 Общее
 [Skins]
