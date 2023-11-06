@@ -132,20 +132,30 @@ static CVKLang vkLangCodes[] = {
 	{ L"it", LPGENW("Italian") },
 };
 
-static CVKSync vkHistorySyncMethods[] =
+struct
 {
-	{ TranslateT("off"), SyncHistoryMetod::syncOff },
-	{ TranslateT("automatically"), SyncHistoryMetod::syncAuto },
-	{ TranslateT("for last 1 day"), SyncHistoryMetod::sync1Days },
-	{ TranslateT("for last 3 days"), SyncHistoryMetod::sync3Days }
+	const wchar_t *type;
+	SyncHistoryMetod data;
+}
+static vkHistorySyncMethods[] =
+{
+	{ LPGENW("off"), SyncHistoryMetod::syncOff },
+	{ LPGENW("automatically"), SyncHistoryMetod::syncAuto },
+	{ LPGENW("for last 1 day"), SyncHistoryMetod::sync1Days },
+	{ LPGENW("for last 3 days"), SyncHistoryMetod::sync3Days }
 };
 
-static CVKMarkMsgRead vkMarkMsgAsReadMethods[] =
+struct
 {
-	{ TranslateT("on read"), MarkMsgReadOn::markOnRead },
-	{ TranslateT("on receive"), MarkMsgReadOn::markOnReceive },
-	{ TranslateT("on reply"), MarkMsgReadOn::markOnReply },
-	{ TranslateT("on typing"), MarkMsgReadOn::markOnTyping }
+	const wchar_t *type;
+	MarkMsgReadOn data;
+}
+static vkMarkMsgAsReadMethods[] =
+{
+	{ LPGENW("on read"), MarkMsgReadOn::markOnRead },
+	{ LPGENW("on receive"), MarkMsgReadOn::markOnReceive },
+	{ LPGENW("on reply"), MarkMsgReadOn::markOnReply },
+	{ LPGENW("on typing"), MarkMsgReadOn::markOnTyping }
 };
 
 CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
@@ -183,7 +193,7 @@ bool CVkOptionAccountForm::OnInitDialog()
 
 	int iListIndex = MarkMsgReadOn::markOnRead;
 	for (int i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
-		m_cbxMarkAsRead.InsertString((wchar_t *)vkMarkMsgAsReadMethods[i].type, i, vkMarkMsgAsReadMethods[i].data);
+		m_cbxMarkAsRead.InsertString(TranslateW(vkMarkMsgAsReadMethods[i].type), i, vkMarkMsgAsReadMethods[i].data);
 		if (vkMarkMsgAsReadMethods[i].data == m_proto->m_vkOptions.iMarkMessageReadOn)
 			iListIndex = i;
 	}
@@ -191,7 +201,7 @@ bool CVkOptionAccountForm::OnInitDialog()
 
 	iListIndex = SyncHistoryMetod::syncOff;
 	for (int i = 0; i < _countof(vkHistorySyncMethods); i++) {
-		m_cbxSyncHistory.InsertString((wchar_t *)vkHistorySyncMethods[i].type, i, vkHistorySyncMethods[i].data);
+		m_cbxSyncHistory.InsertString(TranslateW(vkHistorySyncMethods[i].type), i, vkHistorySyncMethods[i].data);
 		if (vkHistorySyncMethods[i].data == m_proto->m_vkOptions.iSyncHistoryMetod)
 			iListIndex = i;
 	}

@@ -222,16 +222,6 @@ enum SyncHistoryMetod : uint8_t { syncOff, syncAuto, sync1Days, sync3Days };
 enum MusicSendMetod : uint8_t { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
 enum IMGBBCSypport : uint8_t { imgNo, imgFullSize, imgPreview130, imgPreview604 };
 
-struct CVKSync {
-	const wchar_t *type;
-	SyncHistoryMetod data;
-};
-
-struct CVKMarkMsgRead {
-	const wchar_t *type;
-	MarkMsgReadOn data;
-};
-
 struct CVkCookie
 {
 	CVkCookie(const CMStringA& name, const CMStringA& value, const CMStringA& domain) :
