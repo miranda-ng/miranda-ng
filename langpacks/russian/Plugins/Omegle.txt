@@ -130,7 +130,7 @@ Omegle - отличный способ найти новых друзей!
 Боснийский
 [Bulgarian]
 Болгарский
-[Cebuanese]
+[Cebuano]
 
 [Czech]
 Чешский
@@ -144,7 +144,7 @@ Omegle - отличный способ найти новых друзей!
 Эсперанто
 [Estonian]
 Эстонский
-[Philipino]
+[Filipino]
 
 [Finnish]
 Финский
@@ -216,10 +216,10 @@ Omegle - отличный способ найти новых друзей!
 Персидский
 [Polish]
 Польский
-[Portugese]
-
-[RomaСЃian]
-
+[Portuguese]
+Португальский
+[Romanian]
+Румынский
 [Russian]
 Русский
 [Greek]
