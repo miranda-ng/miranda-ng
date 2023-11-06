@@ -315,9 +315,9 @@ void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraChatMute = ExtraIcon_RegisterIcolib("chat_mute", LPGEN("Chat mute mode"), "ChatMute");
-	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL));
-	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
-	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconHandle(SKINICON_OTHER_ACCMGR),
+	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", LPGEN("Visibility"), Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL));
+	hExtraGender = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender"), "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
+	hExtraProto = ExtraIcon_RegisterCallback("protocol", LPGEN("Account"), Skin_GetIconHandle(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);
 
 	for (auto &p : infos) {
