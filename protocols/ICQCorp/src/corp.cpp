@@ -34,7 +34,9 @@ PLUGININFOEX pluginInfoEx =
 	__AUTHOR,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE
+	UNICODE_AWARE,
+	// {4B5EA279-0014-431F-AB27-F76D4B284893}
+	{ 0x4b5ea279, 0x14, 0x431f, { 0xab, 0x27, 0xf7, 0x6d, 0x4b, 0x28, 0x48, 0x93 }}
 };
 
 CMPlugin::CMPlugin() :
