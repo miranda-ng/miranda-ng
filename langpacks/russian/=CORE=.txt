@@ -234,7 +234,7 @@
 [Don't steal focus]
 Не перехватывать фокус
 [Maximum number of flashes (0 = indefinite)]
-Максимальное количество миганий (0 = бесконечно)
+Макс. количество миганий (0 = бесконечно)
 [Close the message window on send]
 Закрывать окно после отправки
 [Minimize the message window on send]
