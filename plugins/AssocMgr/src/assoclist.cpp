@@ -217,9 +217,9 @@ static wchar_t* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static wchar_t szDesc[32];
 	if (assoc->pszFileExt == nullptr)
-		mir_snwprintf(szDesc, L"%hs:", assoc->pszClassName);
+		mir_snwprintf(szDesc, L"%hs:", assoc->pszClassName.get());
 	else
-		mir_snwprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt);
+		mir_snwprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt.get());
 	return szDesc;
 }
 
@@ -590,9 +590,9 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CDlgBase::OnInitDialog();
 		m_lvAssocList.SetUnicodeFormat(true);
 		m_lvAssocList.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
+
 		// columns
 		LVCOLUMN lvc;
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
@@ -601,6 +601,7 @@ public:
 		m_lvAssocList.InsertColumn(lvc.iSubItem = 0, &lvc);
 		lvc.pszText = TranslateT("Description");
 		m_lvAssocList.InsertColumn(lvc.iSubItem = 1, &lvc);
+
 		// create image storage
 		HIMAGELIST himl;
 		mir_cslock lck(csAssocList);
@@ -610,8 +611,7 @@ public:
 				himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL) | ILC_MASK, arAssocList.getCount(), 0);
 				ReleaseDC(m_lvAssocList.GetHwnd(), hdc);
 			}
-			else
-				himl = nullptr;
+			else himl = nullptr;
 		}
 		m_lvAssocList.SetImageList(himl, LVSIL_SMALL);
 
@@ -626,7 +626,7 @@ public:
 			lvi.iImage = ReplaceImageListAssocIcon(himl, it, -1);
 			lvi.iItem = m_lvAssocList.InsertItem(&lvi);
 			if (lvi.iItem != -1) {
-				m_lvAssocList.SetItemText(lvi.iItem, 1, it->pszDescription);
+				m_lvAssocList.SetItemText(lvi.iItem, 1, TranslateW_LP(it->pszDescription, &GetPluginByInstance(it->hInstance)));
 				m_lvAssocList.SetCheckState(lvi.iItem, IsAssocEnabled(it) && IsAssocRegistered(it));
 			}
 		}
@@ -727,12 +727,13 @@ public:
 
 	void OnAssocListKeyDown(CCtrlListView::TEventInfo *evt)
 	{
+		LVITEM lvi;
+
 		// workaround for WinXP (ListView with groups):
 		// eat keyboard navigation that goes beyond the first item in list
 		// as it would scroll out of scope in this case
 		// bug should not be present using WinVista and higher
 		switch (evt->nmlvkey->wVKey) {
-			LVITEM lvi;
 		case VK_UP:
 			lvi.iSubItem = 0;
 			lvi.mask = LVIF_PARAM;
@@ -742,10 +743,6 @@ public:
 				if (m_lvAssocList.GetItem(&lvi))
 					if ((ASSOCDATA*)lvi.lParam == nullptr) // groups
 						lvi.iItem = -1;
-			/*if (lvi.iItem == -1) {
-				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
-				return TRUE;
-			}*/
 			break;
 
 		case VK_PRIOR:
@@ -759,7 +756,6 @@ public:
 						lvi.iItem = -1;
 			if (lvi.iItem < 0) {
 				m_lvAssocList.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-				//SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
 				return;
 			}
 			break;
