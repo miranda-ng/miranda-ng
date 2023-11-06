@@ -83,7 +83,7 @@ static languages[] = {
 	{ "fa", LPGENW("Persian") },
 	{ "pl", LPGENW("Polish") },
 	{ "pt", LPGENW("Portugese") },
-	{ "ro", LPGENW("Romaсian") },
+	{ "ro", LPGENW("Romanian") },
 	{ "ru", LPGENW("Russian") },
 	{ "el", LPGENW("Greek") },
 	{ "sk", LPGENW("Slovak") },
