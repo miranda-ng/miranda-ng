@@ -63,7 +63,7 @@ bool CMLuaOptionsMain::OnInitDialog()
 	wchar_t header[MAX_PATH + 100];
 	mir_snwprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
-	m_scriptsList.AddColumn(0, L"Script", 346);
+	m_scriptsList.AddColumn(0, TranslateT("Script"), 346);
 	m_scriptsList.AddColumn(1, nullptr, 34 - GetSystemMetrics(SM_CXVSCROLL));
 	m_scriptsList.AddColumn(2, nullptr, 36 - GetSystemMetrics(SM_CXVSCROLL));
 	m_scriptsList.AddColumn(3, nullptr, 36 - GetSystemMetrics(SM_CXVSCROLL));
