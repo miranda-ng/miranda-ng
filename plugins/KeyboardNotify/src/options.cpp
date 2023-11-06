@@ -381,6 +381,11 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 		return TRUE;
 
+	case WM_SYSCOMMAND:
+		if (wParam == SC_CLOSE)
+			EndDialog(hwndDlg, IDC_CANCELXST);
+		break;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OKXST:
@@ -402,7 +407,8 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 						XstatusListAux[i].enabled[j] = (TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK) & INDEXTOSTATEIMAGEMASK(2));
 					}
 				}
-			} // fallthrough
+			} 
+			__fallthrough;
 
 		case IDC_CANCELXST:
 			EndDialog(hwndDlg, LOWORD(wParam));
