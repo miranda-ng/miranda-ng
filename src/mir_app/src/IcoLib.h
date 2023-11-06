@@ -36,6 +36,7 @@ struct SectionItem : public MZeroedObject
 {
 	ptrW name;
 	int  flags, maxOrder, ref_count;
+	HPLUGIN pPlugin;
 };
 
 struct IconSourceFile

@@ -44,7 +44,7 @@
 //=======================================================
 
 #define MODULENAME   "DBEditorpp"
-#define modFullname  "Database Editor++"
+#define modFullname  LPGEN("Database Editor++")
 #define modFullnameW L"Database Editor++"
 
 struct CMPlugin : public PLUGIN<CMPlugin>

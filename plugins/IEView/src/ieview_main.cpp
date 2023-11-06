@@ -104,7 +104,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
-	g_plugin.registerIcon("IEView", iconList, MODULENAME);
+	g_plugin.registerIcon(LPGEN("IEView"), iconList, MODULENAME);
 	return 0;
 }
 

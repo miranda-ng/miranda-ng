@@ -393,24 +393,21 @@ int IconSourceItem::release()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service functions
 
-static SectionItem* IcoLib_AddSection(wchar_t *sectionName, BOOL create_new)
+static SectionItem *IcoLib_AddSection(wchar_t *sectionName, HPLUGIN pPlugin)
 {
 	if (!sectionName)
 		return nullptr;
 
 	int indx;
-	if ((indx = sectionList.getIndex((SectionItem*)&sectionName)) != -1)
+	if ((indx = sectionList.getIndex((SectionItem *)&sectionName)) != -1)
 		return sectionList[indx];
 
-	if (create_new) {
-		SectionItem *newItem = new SectionItem();
-		newItem->name = mir_wstrdup(sectionName);
-		sectionList.insert(newItem);
-		bNeedRebuild = TRUE;
-		return newItem;
-	}
-
-	return nullptr;
+	SectionItem *newItem = new SectionItem();
+	newItem->name = mir_wstrdup(sectionName);
+	newItem->pPlugin = pPlugin;
+	sectionList.insert(newItem);
+	bNeedRebuild = TRUE;
+	return newItem;
 }
 
 static void IcoLib_RemoveSection(SectionItem *section)
@@ -493,11 +490,11 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, HPLUGIN pPlugin)
 	item->name = mir_strdup(sid->pszName);
 	if (sid->flags & SIDF_UNICODE) {
 		item->description = mir_wstrdup(sid->description.w);
-		item->section = IcoLib_AddSection(sid->section.w, TRUE);
+		item->section = IcoLib_AddSection(sid->section.w, pPlugin);
 	}
 	else {
 		item->description = mir_a2u(sid->description.a);
-		item->section = IcoLib_AddSection(_A2T(sid->section.a), TRUE);
+		item->section = IcoLib_AddSection(_A2T(sid->section.a), pPlugin);
 	}
 
 	if (item->section) {

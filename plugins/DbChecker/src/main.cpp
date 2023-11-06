@@ -110,7 +110,7 @@ static IconItem iconList[] = {
 
 int CMPlugin::Load(void)
 {
-	g_plugin.registerIcon("DbChecker", iconList);
+	g_plugin.registerIcon(LPGEN("DbChecker"), iconList);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

@@ -38,7 +38,7 @@ static IconItem iconList[] = {
 
 void IcoLibRegister(void)
 {
-	g_plugin.registerIcon(modFullname, iconList);
+	g_plugin.registerIcon(LPGEN("Database") "/" modFullname, iconList);
 }
 
 HICON LoadSkinnedDBEIcon(int icon)

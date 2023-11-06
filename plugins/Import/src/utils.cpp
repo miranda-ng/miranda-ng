@@ -76,5 +76,5 @@ static IconItem iconList[] =
 
 void RegisterIcons()
 {
-	g_plugin.registerIcon("Import", iconList);
+	g_plugin.registerIcon(LPGEN("Import"), iconList);
 }

@@ -93,7 +93,7 @@ int CMPlugin::Load()
 	// register the second instance of this plugin as MRA
 	g_pluginMra.Register();
 
-	registerIcon("Protocols/ICQ", iconList, "ICQ");
+	registerIcon(LPGEN("Protocols") "/" LPGEN("ICQ"), iconList, "ICQ");
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);

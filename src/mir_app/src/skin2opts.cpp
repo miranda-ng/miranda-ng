@@ -375,11 +375,12 @@ class CIcoLibOptsDlg : public CDlgBase
 		m_categoryList.DeleteAllItems();
 
 		for (int indx = 0; indx < sectionList.getCount(); indx++) {
+			auto *pSection = sectionList[indx];
 			int sectionLevel = 0;
 
 			HTREEITEM hSection = nullptr;
 			wchar_t itemName[1024];
-			mir_wstrcpy(itemName, sectionList[indx]->name);
+			mir_wstrncpy(itemName, pSection->name, _countof(itemName));
 			wchar_t *sectionName = itemName;
 
 			while (sectionName) {
@@ -392,7 +393,7 @@ class CIcoLibOptsDlg : public CDlgBase
 					*sectionName = 0;
 				}
 
-				pItemName = TranslateW(pItemName);
+				pItemName = TranslateW_LP(pItemName, pSection->pPlugin);
 				hItem = FindNamedTreeItemAt(hSection, pItemName);
 				if (!sectionName || !hItem) {
 					if (!hItem) {

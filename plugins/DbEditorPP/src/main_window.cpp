@@ -501,7 +501,7 @@ LRESULT CMainDlg::OnCommand(UINT, WPARAM wParam, LPARAM)
 		refreshTree(1);
 		break;
 	case MENU_OPEN_OPTIONS:
-		g_plugin.openOptions(L"Database", _A2W(modFullname));
+		g_plugin.openOptions(L"Database", modFullnameW);
 		break;
 	}
 	return TRUE;

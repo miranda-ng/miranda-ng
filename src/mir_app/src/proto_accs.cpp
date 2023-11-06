@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "clc.h"
 
+#define PROTO_MODULE LPGEN("Protocols")
+
 bool CheckProtocolOrder(void);
 void BuildProtoMenus();
 
@@ -62,13 +64,13 @@ static int EnumDbModules(const char *szModuleName, void*)
 
 void LoadDbAccounts(void)
 {
-	int ver = db_get_dw(0, "Protocols", "PrVer", -1);
-	int count = db_get_dw(0, "Protocols", "ProtoCount", 0);
+	int ver = db_get_dw(0, PROTO_MODULE, "PrVer", -1);
+	int count = db_get_dw(0, PROTO_MODULE, "ProtoCount", 0);
 
 	for (int i = 0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
-		ptrA szModuleName(db_get_sa(0, "Protocols", buf));
+		ptrA szModuleName(db_get_sa(0, PROTO_MODULE, buf));
 		if (szModuleName == nullptr)
 			continue;
 
@@ -79,20 +81,20 @@ void LoadDbAccounts(void)
 		}
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
-		pa->bIsVisible = db_get_dw(0, "Protocols", buf, 1) != 0;
+		pa->bIsVisible = db_get_dw(0, PROTO_MODULE, buf, 1) != 0;
 
 		_itoa(OFFSET_PROTOPOS + i, buf, 10);
-		pa->iOrder = db_get_dw(0, "Protocols", buf, 1);
+		pa->iOrder = db_get_dw(0, PROTO_MODULE, buf, 1);
 
 		if (ver >= 4) {
 			_itoa(OFFSET_NAME + i, buf, 10);
-			pa->tszAccountName = db_get_wsa(0, "Protocols", buf);
+			pa->tszAccountName = db_get_wsa(0, PROTO_MODULE, buf);
 
 			_itoa(OFFSET_ENABLED + i, buf, 10);
-			pa->bIsEnabled = db_get_dw(0, "Protocols", buf, 1) != 0;
+			pa->bIsEnabled = db_get_dw(0, PROTO_MODULE, buf, 1) != 0;
 			if (!pa->bIsEnabled && !mir_strcmp(pa->szModuleName, META_PROTO)) {
 				pa->bIsEnabled = true;
-				db_set_dw(0, "Protocols", buf, 1);
+				db_set_dw(0, PROTO_MODULE, buf, 1);
 			}
 			pa->szProtoName = db_get_sa(0, szModuleName, "AM_BaseProto");
 		}
@@ -121,7 +123,7 @@ void LoadDbAccounts(void)
 void WriteDbAccounts()
 {
 	// enum all old settings to delete
-	db_delete_module(0, "Protocols");
+	db_delete_module(0, PROTO_MODULE);
 
 	// write new data
 	for (int i = 0; i < g_arAccounts.getCount(); i++) {
@@ -129,23 +131,23 @@ void WriteDbAccounts()
 
 		char buf[20];
 		_itoa(i, buf, 10);
-		db_set_s(0, "Protocols", buf, pa->szModuleName);
+		db_set_s(0, PROTO_MODULE, buf, pa->szModuleName);
 
 		_itoa(OFFSET_PROTOPOS + i, buf, 10);
-		db_set_dw(0, "Protocols", buf, pa->iOrder);
+		db_set_dw(0, PROTO_MODULE, buf, pa->iOrder);
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
-		db_set_dw(0, "Protocols", buf, pa->bIsVisible);
+		db_set_dw(0, PROTO_MODULE, buf, pa->bIsVisible);
 
 		_itoa(OFFSET_ENABLED + i, buf, 10);
-		db_set_dw(0, "Protocols", buf, pa->bIsEnabled);
+		db_set_dw(0, PROTO_MODULE, buf, pa->bIsEnabled);
 
 		_itoa(OFFSET_NAME + i, buf, 10);
-		db_set_ws(0, "Protocols", buf, pa->tszAccountName);
+		db_set_ws(0, PROTO_MODULE, buf, pa->tszAccountName);
 	}
 
-	db_set_dw(0, "Protocols", "ProtoCount", g_arAccounts.getCount());
-	db_set_dw(0, "Protocols", "PrVer", 4);
+	db_set_dw(0, PROTO_MODULE, "ProtoCount", g_arAccounts.getCount());
+	db_set_dw(0, PROTO_MODULE, "PrVer", 4);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

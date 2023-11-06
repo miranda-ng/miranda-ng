@@ -126,7 +126,7 @@ static IconItem iconList[] =
 
 void LoadIcons()
 {
-	g_plugin.registerIcon("YAMN", iconList);
+	g_plugin.registerIcon(LPGEN("YAMN"), iconList);
 }
 
 int CMPlugin::Load()
