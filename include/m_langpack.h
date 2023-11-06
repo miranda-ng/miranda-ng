@@ -50,6 +50,9 @@ EXTERN_C MIR_CORE_DLL(char*)    TranslateU_LP(const char *str, HPLUGIN = nullptr
 EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, HPLUGIN = nullptr);
 EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, HPLUGIN = nullptr);
 
+// if uuid == NULL, translations are loaded from the global section only
+EXTERN_C MIR_CORE_DLL(wchar_t *) TranslateW_UUID(const wchar_t *str, const MUUID *uuid);
+
 #define Translate(s) TranslateA_LP(s, &g_plugin)
 #define TranslateU(s) TranslateU_LP(s, &g_plugin)
 #define TranslateW(s) TranslateW_LP(s, &g_plugin)

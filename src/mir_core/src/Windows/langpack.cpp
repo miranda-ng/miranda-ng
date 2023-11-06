@@ -567,6 +567,11 @@ MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, HPLUGIN pPlugin)
 	return (wchar_t*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, 1);
 }
 
+MIR_CORE_DLL(wchar_t *) TranslateW_UUID(const wchar_t *str, const MUUID *uuid)
+{
+	return (wchar_t *)LangPackTranslateString(uuid, (LPCSTR)str, 1);
+}
+
 MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, HPLUGIN pPlugin)
 {
 	const MUUID *uuid = &pPlugin->getInfo().uuid;
