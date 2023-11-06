@@ -176,11 +176,12 @@ public:
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NOTES));
 
 		if (m_fnProcess) {
+			Utf2T wszFrom(m_pNote->GetFrom());
 			CMStringW buf;
 			if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
-				buf.Format(TranslateT("Incoming note from %s"), m_pNote->GetFrom());
+				buf.Format(TranslateT("Incoming note from %s"), wszFrom.get());
 			else
-				buf.Format(TranslateT("Send note to %s"), m_pNote->GetFrom());
+				buf.Format(TranslateT("Send note to %s"), wszFrom.get());
 
 			SetWindowText(m_hwnd, buf);
 		}
