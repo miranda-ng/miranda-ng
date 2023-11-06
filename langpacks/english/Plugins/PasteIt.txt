@@ -75,6 +75,7 @@
 [Cannot open file '%s']
 [File '%s' is empty]
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
 [Error during sending text to web page: %S]
 [Error during sending text to web page]
 [Error during getting user key from web page: %S]
@@ -85,3 +86,4 @@
 [1 day]
 [1 month]
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
