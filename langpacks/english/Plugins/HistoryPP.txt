@@ -344,3 +344,6 @@
 [Unused]
 [Can not apply default toolbar configuration.]
 [Link]
+[Delete]
+[Up]
+[Down]

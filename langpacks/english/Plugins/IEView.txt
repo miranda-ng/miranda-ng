@@ -50,6 +50,7 @@
 [Group On]
 [Group Off]
 [Format text as code]
+[IEView]
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 [Template]
@@ -57,7 +58,6 @@
 [All Images]
 [Style Sheet]
 [Message sessions]
-[IEView]
 [General]
 [Skins]
 [Message Log]

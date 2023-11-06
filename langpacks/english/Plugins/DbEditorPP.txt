@@ -147,9 +147,9 @@
 [String setting]
 [Unicode setting]
 [Handle]
+[Database]
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
-[Database]
 [Open user tree in DBE++]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
@@ -178,6 +178,7 @@
 [Unknown DBVariant type!]
 [Edit setting (%s)]
 [New setting (%s)]
+;file \plugins\DbEditorPP\src\stdafx.h
 ;file \plugins\DbEditorPP\src\utils.cpp
 [[UNLOADED]]
 ;file \plugins\DbEditorPP\src\watchedvars.cpp

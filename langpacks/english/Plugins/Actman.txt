@@ -6,6 +6,7 @@
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+[Services]
 [Apply]
 [New]
 [Delete]

@@ -907,6 +907,8 @@
 [Work phone]
 [Work fax]
 [Contact]
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 [Summary]
@@ -1094,6 +1096,8 @@
 [Phone/SMS]
 [Chat activity]
 [Chat mute mode]
+[Gender]
+[Account]
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 ;file \src\mir_app\src\ei_services.cpp
@@ -1381,6 +1385,8 @@
 [New profile]
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 [Grant authorization]

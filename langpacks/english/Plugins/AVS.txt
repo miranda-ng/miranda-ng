@@ -53,6 +53,7 @@
 [My Avatars]
 [My Global Avatar Cache]
 [Avatar]
+[AVS]
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 [Global avatar]
