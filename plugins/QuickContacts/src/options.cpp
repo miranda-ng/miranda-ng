@@ -41,7 +41,8 @@ void LoadOptions()
 
 // Options page
 
-static OptPageControl controls[] = {
+static OptPageControl controls[] =
+{
 	{ nullptr, CONTROL_CHECKBOX, IDC_LASTSENTTO, "EnableLastSentTo", (uint8_t)TRUE },
 	{ nullptr, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (uint16_t)TYPE_GLOBAL, TYPE_GLOBAL },
 	{ nullptr, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (uint16_t)TYPE_GLOBAL, TYPE_LOCAL },
@@ -60,6 +61,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);

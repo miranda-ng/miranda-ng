@@ -50,6 +50,9 @@ static OptPageControl popupsControls[] = {
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == WM_INITDIALOG)
+		TranslateDialogDefault(hwndDlg);
+
 	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULENAME, hwndDlg, msg, wParam, lParam);
 }
 
@@ -89,6 +92,8 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
 		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
 		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
 		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show avatar history"));

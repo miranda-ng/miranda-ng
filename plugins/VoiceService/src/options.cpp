@@ -85,6 +85,8 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
 		hwndCombo = GetDlgItem(hwndDlg, IDC_RIGHT_ACTION);
 		ComboBox_AddString(hwndCombo, TranslateT("Do nothing"));
 		ComboBox_AddString(hwndCombo, TranslateT("Close popup"));

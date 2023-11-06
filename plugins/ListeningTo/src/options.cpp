@@ -170,6 +170,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
 		if (hExtraIcon != nullptr) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_ADV_ICON), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADV_ICON), SW_HIDE);
@@ -191,14 +193,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_NOTIFY:
-	{
-		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-		if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
-			RebuildMenu();
-			StartTimer();
+		{
+			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
+				RebuildMenu();
+				StartTimer();
+			}
 		}
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -252,6 +254,7 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		PlayersEnableDisableCtrls(hwndDlg);
 		break;
 
@@ -276,5 +279,8 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 static INT_PTR CALLBACK FormatDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == WM_INITDIALOG)
+		TranslateDialogDefault(hwndDlg);
+
 	return SaveOptsDlgProc(formatControls, _countof(formatControls), MODULENAME, hwndDlg, msg, wParam, lParam);
 }

@@ -157,8 +157,6 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialog_LP(hwndDlg, 0);
-
 		for (int i = 0; i < controlsSize; i++) {
 			OptPageControl *ctrl = &controls[i];
 
