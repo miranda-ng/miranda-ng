@@ -35,9 +35,9 @@ struct FromClipboardData
 
 struct FromFileData
 {
-	char* content;
+	char *content;
 	int contentLen;
-	wchar_t* contentW;
+	wchar_t *contentW;
 	UINT codepage;
 	std::wstring *fileName;
 	int page;
@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProcFromClipboard(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			FromClipboardData* data = (FromClipboardData*)lParam;
+			FromClipboardData *data = (FromClipboardData *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			int ts = 4;
 			Edit_SetTabStops(GetDlgItem(hwndDlg, IDC_CLIPBOARD_DATA), 1, &ts);
@@ -66,7 +66,7 @@ INT_PTR CALLBACK DlgProcFromClipboard(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					sel = i;
 				++i;
 			}
-			
+
 			if (!Options::instance->webOptions[data->page]->formats.empty())
 				ComboBox_SetCurSel(cb, sel);
 		}
@@ -75,7 +75,7 @@ INT_PTR CALLBACK DlgProcFromClipboard(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED) {
 			if (LOWORD(wParam) == IDOK) {
-				FromClipboardData *clipboardData = (FromClipboardData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				FromClipboardData *clipboardData = (FromClipboardData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FORMAT));
 				for (std::list<PasteFormat>::iterator it = Options::instance->webOptions[clipboardData->page]->formats.begin(); it != Options::instance->webOptions[clipboardData->page]->formats.end(); ++it) {
 					if (sel-- <= 0) {
@@ -100,7 +100,7 @@ INT_PTR CALLBACK DlgProcFromClipboard(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 void RecodeDlg(HWND hwndDlg)
 {
 	ShowWindow(GetDlgItem(hwndDlg, IDC_RECODE), SW_HIDE);
-	FromFileData *fromFileData = (FromFileData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	FromFileData *fromFileData = (FromFileData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	unsigned int cp = Options::GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), false, fromFileData->codepage);
 	mir_free(fromFileData->contentW);
 	int cbLen = 0;
@@ -109,10 +109,10 @@ void RecodeDlg(HWND hwndDlg)
 	else
 		cbLen = MultiByteToWideChar(cp, 0, fromFileData->content, fromFileData->contentLen, nullptr, 0);
 
-	fromFileData->contentW = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
+	fromFileData->contentW = (wchar_t *)mir_alloc(sizeof(wchar_t) * (cbLen + 1));
 	if (fromFileData->contentW != nullptr) {
 		if (cp == 1200)
-			memcpy_s(fromFileData->contentW, sizeof(wchar_t)*(cbLen + 1), fromFileData->content, sizeof(wchar_t)*cbLen);
+			memcpy_s(fromFileData->contentW, sizeof(wchar_t) * (cbLen + 1), fromFileData->content, sizeof(wchar_t) * cbLen);
 		else if (cp == 1201) {
 			for (int i = 0; i < cbLen; ++i)
 				fromFileData->contentW[i] = ((unsigned char)fromFileData->content[i * 2] << 8) | (unsigned char)fromFileData->content[i * 2 + 1];
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcFromFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			FromFileData *fromFileData = (FromFileData*)lParam;
+			FromFileData *fromFileData = (FromFileData *)lParam;
 			int ts = 4;
 			Edit_SetTabStops(GetDlgItem(hwndDlg, IDC_FILE_DATA), 1, &ts);
 			SetDlgItemText(hwndDlg, IDC_FILE_DATA, fromFileData->contentW);
@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgProcFromFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED) {
 			if (LOWORD(wParam) == IDOK) {
-				FromFileData *fromFileData = (FromFileData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				FromFileData *fromFileData = (FromFileData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FORMAT));
 				for (std::list<PasteFormat>::iterator it = Options::instance->webOptions[fromFileData->page]->formats.begin(); it != Options::instance->webOptions[fromFileData->page]->formats.end(); ++it) {
 					if (sel-- <= 0) {
@@ -205,7 +205,7 @@ INT_PTR CALLBACK DlgProcFromFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ShowWindow(GetDlgItem(hwndDlg, IDC_RECODE), SW_SHOW);
 			}
 			else if (HIWORD(wParam) == CBN_KILLFOCUS) {
-				FromFileData *fromFileData = (FromFileData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				FromFileData *fromFileData = (FromFileData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				Options::GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), true, fromFileData->codepage);
 			}
 		}
@@ -259,7 +259,7 @@ void PasteToWeb::FromClipboard()
 					isFile = 1;
 					if (df->fWide) {
 						// Unicode
-						wchar_t* file = (wchar_t*)((uint8_t*)obj + df->pFiles);
+						wchar_t *file = (wchar_t *)((uint8_t *)obj + df->pFiles);
 						size_t len = mir_wstrlen(file);
 						if (*(file + len + 1) == L'\0') {
 							str.append(file, file + len);
@@ -270,7 +270,7 @@ void PasteToWeb::FromClipboard()
 					}
 					else {
 						// ANSI
-						char* file = (char*)obj + df->pFiles;
+						char *file = (char *)obj + df->pFiles;
 						size_t len = mir_strlen(file);
 						if (*(file + len + 1) == '\0') {
 							LPWSTR wStr = mir_a2u_cp(file, CP_ACP);
@@ -327,7 +327,7 @@ void PasteToWeb::FromFile(std::wstring file)
 				}
 				DWORD readed;
 				fromFileData.contentLen = fileSize.LowPart;
-				fromFileData.content = (char*)mir_alloc(fromFileData.contentLen);
+				fromFileData.content = (char *)mir_alloc(fromFileData.contentLen);
 				if (!ReadFile(hFile, fromFileData.content, fromFileData.contentLen, &readed, nullptr)) {
 					mir_free(fromFileData.content);
 					fromFileData.content = nullptr;
@@ -375,10 +375,10 @@ void PasteToWeb::FromFile(std::wstring file)
 		}
 
 		if (cbLen > 0) {
-			fromFileData.contentW = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
+			fromFileData.contentW = (wchar_t *)mir_alloc(sizeof(wchar_t) * (cbLen + 1));
 			if (fromFileData.contentW != nullptr) {
 				if (fromFileData.codepage == 1200) {
-					memcpy_s(fromFileData.contentW, sizeof(wchar_t)*(cbLen + 1), fromFileData.content, sizeof(wchar_t)*cbLen);
+					memcpy_s(fromFileData.contentW, sizeof(wchar_t) * (cbLen + 1), fromFileData.content, sizeof(wchar_t) * cbLen);
 				}
 				else if (fromFileData.codepage == 1201) {
 					for (int i = 0; i < cbLen; ++i) {
@@ -416,10 +416,10 @@ void PasteToWeb::FromFile(std::wstring file)
 
 extern HNETLIBUSER g_hNetlibUser;
 
-char* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content)
+char *PasteToWeb::SendToWeb(char *url, std::map<std::string, std::string> &headers, std::wstring content)
 {
 	int cbLen = WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, nullptr, 0, nullptr, nullptr);
-	char* contentBytes = (char*)mir_alloc(cbLen);
+	char *contentBytes = (char *)mir_alloc(cbLen);
 	if (contentBytes == nullptr)
 		return nullptr;
 
@@ -432,7 +432,7 @@ char* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& heade
 	}
 
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPHEADER*	httpHeaders = new NETLIBHTTPHEADER[nHeaders];
+	NETLIBHTTPHEADER *httpHeaders = new NETLIBHTTPHEADER[nHeaders];
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_POST;
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT | NLHPIF_HTTP11;
@@ -441,10 +441,10 @@ char* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& heade
 	nlhr.pData = contentBytes;
 	nlhr.dataLength = cbLen;
 	nHeaders = 0;
-	std::list<char*> mallBuf;
+	std::list<char *> mallBuf;
 	for (std::map<std::string, std::string>::iterator it = headers.begin(); it != headers.end(); ++it) {
-		char* b1 = new char[it->first.length() + 1];
-		char* b2 = new char[it->second.length() + 1];
+		char *b1 = new char[it->first.length() + 1];
+		char *b2 = new char[it->second.length() + 1];
 		mir_strncpy(b1, it->first.c_str(), it->first.length() + 1);
 		mir_strncpy(b2, it->second.c_str(), it->second.length() + 1);
 		httpHeaders[nHeaders].szName = b1;
@@ -465,7 +465,7 @@ char* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& heade
 	}
 
 	delete[] httpHeaders;
-	for (std::list<char*>::iterator it = mallBuf.begin(); it != mallBuf.end(); ++it)
+	for (std::list<char *>::iterator it = mallBuf.begin(); it != mallBuf.end(); ++it)
 		delete *it;
 
 	mir_free(contentBytes);

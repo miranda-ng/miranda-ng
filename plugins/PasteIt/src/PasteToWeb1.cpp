@@ -224,7 +224,7 @@ PasteFormat PasteToWeb1::formats[] =
 
 PasteFormat PasteToWeb1::defFormats[] =
 {
-	{ L"text", L"None" },
+	{ L"text", LPGENW("None") },
 	{ L"xml", L"XML" },
 	{ L"html4strict", L"HTML" },
 	{ L"html5", L"HTML 5" },

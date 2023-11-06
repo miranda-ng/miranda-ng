@@ -90,7 +90,7 @@ std::wstring GetFile()
 
 static void PasteIt(MCONTACT hContact, int mode)
 {
-	PasteToWeb* pasteToWeb = pasteToWebs[Options::instance->defWeb];
+	PasteToWeb *pasteToWeb = pasteToWebs[Options::instance->defWeb];
 	if (mode == FROM_CLIPBOARD) {
 		pasteToWeb->FromClipboard();
 	}
@@ -118,7 +118,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 					dbei.szModule = szProto;
 					dbei.timestamp = (uint32_t)time(0);
 					dbei.cbBlob = (uint32_t)mir_strlen(pasteToWeb->szFileLink) + 1;
-					dbei.pBlob = (uint8_t*)pasteToWeb->szFileLink;
+					dbei.pBlob = (uint8_t *)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
 				}

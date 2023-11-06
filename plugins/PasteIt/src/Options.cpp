@@ -534,7 +534,7 @@ INT_PTR CALLBACK Options::DlgProcOptsConfigure(HWND hwndDlg, UINT msg, WPARAM wP
 				SelectLbConfigure(hwndDlg, -1, optsConfigureData);
 				optsConfigureData->tempFormats = pasteToWebs[optsConfigureData->page]->GetDefFormats();
 				for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-					ListBox_AddString(lb, it->name.c_str());
+					ListBox_AddString(lb, TranslateW(it->name.c_str()));
 				}
 			}
 		}
@@ -823,8 +823,8 @@ void Options::Load()
 	}
 }
 
-WebOptions::WebOptions(int serv)
-	: server(serv),
+WebOptions::WebOptions(int serv) :
+	server(serv),
 	formats(pasteToWebs[serv]->GetDefFormats()),
 	sendFileName(true),
 	isSendFileName(true),

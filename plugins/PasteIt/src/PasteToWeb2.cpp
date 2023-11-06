@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 PasteFormat PasteToWeb2::defFormats[] =
 {
-	{ L"text", L"Text" },
+	{ L"text", LPGENW("Text") },
 	{ L"xml", L"XML" },
 	{ L"html", L"HTML" },
 	{ L"js", L"JavaScript" },
