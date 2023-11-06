@@ -29,7 +29,7 @@
 [Enable popup notification]
 Включить всплывающие окна
 [Respect ignore settings (status changes)]
-Учесть настройки игнорирования (смены статусов)
+Учесть настр. игнорирования (смены статусов)
 [Sending text]
 Текст отправки
 [Receiving text]

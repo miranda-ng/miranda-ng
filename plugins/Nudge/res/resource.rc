@@ -56,7 +56,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Protocol options",IDC_STATIC,4,1,303,225
-    CONTROL         "",IDC_PROTOLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,12,10,94,84
+    CONTROL         "",IDC_PROTOLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,12,12,94,82
     CONTROL         "Specify options for each protocol",IDC_USEBYPROTOCOL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,10,182,9
     CONTROL         "Open contact list",IDC_OPENCONTACTLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,20,166,9
@@ -69,7 +69,7 @@ BEGIN
     LTEXT           "s",IDC_STATIC,298,71,8,8
     CONTROL         "Enable popup notification",IDC_CHECKPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,80,166,9
     CONTROL         "Respect ignore settings (status changes)",IDC_IGNORE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,90,166,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,90,176,10
     LTEXT           "Sending text",IDC_STATIC,174,145,120,8
     EDITTEXT        IDC_SENDTEXT,174,156,120,12,ES_AUTOHSCROLL
     LTEXT           "Receiving text",IDC_STATIC,174,172,120,8
