@@ -658,3 +658,33 @@ VBR или нет
 Проверяет неизвестные форматы файлов, если проигрыватель предоставляет сведения
 [Oops, something wrong!]
 Ой, что-то пошло не так!
+[Permanent]
+Постоянно
+[Colors]
+Цвета
+[Timeout]
+Длительность
+[Info]
+Информация
+[Test]
+Проверить
+[Statuses]
+Статусы
+[System default codepage]
+
+[Templates]
+Шаблоны
+[Bytes]
+Байт
+[Variables]
+Переменные
+[Template]
+Шаблон
+[Misc]
+Прочее
+[Statistics]
+Статистика
+[Login]
+Имя пользователя
+[Info]
+Информация

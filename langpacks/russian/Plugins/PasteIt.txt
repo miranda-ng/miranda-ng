@@ -140,6 +140,8 @@ Web-страница
 [File '%s' is empty]
 Файл '%s' пуст
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Нет
 [Error during sending text to web page: %S]
 Ошибка при отправке текста на web-страницу: %S
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Web-страница
 [1 month]
 1 месяц
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Текст

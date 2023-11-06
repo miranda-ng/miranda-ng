@@ -30,8 +30,8 @@
 Че&рез:
 [E&xplore]
 Об&зор
-[&Fill description textbox.]
-&Заполнить строки описания.
+[Fill description textbox.]
+
 [Delete &after send]
 Удалить &после отправки
 [Open editor before sending]
@@ -248,8 +248,6 @@ Upload Pie (30 мин)
 Upload Pie (1 дн)
 [Upload Pie (1w)]
 Upload Pie (1 нед)
-[Fill description textbox.]
-
 [Delete after send]
 Удалить после отправки
 [Capture]

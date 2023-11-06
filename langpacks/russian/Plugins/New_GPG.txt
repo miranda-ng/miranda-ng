@@ -198,6 +198,8 @@ ID ключа:
 Инфо
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
+[Choose gpg.exe]
+Выберите gpg.exe
 [GPG binary is set and valid (this is good).\n]
 Исполняемый файл GPG указан и работоспособен (это хорошо).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -290,8 +292,6 @@ GPG не удалось расшифровать входящее сообщен
 Выбор файла журнала
 [LOG files]
 Файлы журнала
-[Choose gpg.exe]
-Выберите gpg.exe
 [Set home directory]
 Выбор домашней папки
 [Load Public GPG Key for ]
@@ -353,6 +353,10 @@ GPG не удалось расшифровать входящее сообщен
 По умолчанию
 [key ID]
 Ключ
+[Choose file to export key]
+
+[Any file]
+
 [Generating new random key, please wait]
 Генерируется новый случайный ключ, пожалуйста, подождите
 [There is existing key for contact, would you like to replace it with new key?]
@@ -384,6 +388,8 @@ GPG не удалось расшифровать входящее сообщен
 
 [encrypting file for transfer]
 шифрование файла для передачи
+[Choose file to export keys]
+
 [We have successfully exported %d public keys and all private keys.]
 Успешно импортированы %d публичных ключей и все приватные ключи.
 [We have successfully exported all private keys.]
@@ -392,6 +398,8 @@ GPG не удалось расшифровать входящее сообщен
 Успешно экспортированы %d публичных ключей.
 [Keys export result]
 Результат экспорта ключей
+[Choose file to import keys from]
+
 [We have successfully processed %d public keys and some private keys.]
 Успешно обработаны %d публичных ключей и несколько приватных ключей.
 [We have successfully processed %d public keys.]

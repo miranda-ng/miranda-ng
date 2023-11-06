@@ -13,7 +13,7 @@
 [Open Sessions Manager dialog]
 Открыть менеджер сессий
 [Open dialog if last session present]
-Открыть, если доступна последняя сессия
+Открыть, если доступна посл. сессия
 [Restore Last Session]
 Восстановить последнюю сессию
 [Do nothing]

@@ -9,11 +9,11 @@
 Реализация обмена мгновенными сообщениями по протоколу Lotus Sametime в Miranda NG.
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
-Соединения
+Соединение
 [ID:]
 ID:
 [Password:]
-Пароль
+Пароль:
 [Server name:]
 Имя сервера:
 [Port:]

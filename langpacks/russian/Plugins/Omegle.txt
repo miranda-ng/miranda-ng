@@ -93,6 +93,10 @@ Omegle - отличный способ найти новых друзей!
 [We are still waiting...]
 Мы до сих пор ждём...
 ;file \protocols\Omegle\src\connection.cpp
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Незнакомец использует мобильную страницу Omegle (с телефона или планшета)
+[You both speak the same language.]
+Вы говорите на одном языке.
 [Connecting canceled.]
 Подключение отменено.
 [Disconnecting...]
@@ -103,13 +107,153 @@ Omegle - отличный способ найти новых друзей!
 Подключение...
 [Waiting for Stranger...]
 Ожидание незнакомца...
-;file \protocols\Omegle\src\constants.h
+;file \protocols\Omegle\src\dialogs.cpp
+[English]
+Английский
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанский
+[Arabic]
+Арабский
+[Armenian]
+Армянский
+[Azerbaijani]
+Азербайджанский
+[Basque]
+Баскский
+[Belarusian]
+Белоруский
+[Bengali]
+Бенгальский
+[Bosnian]
+Боснийский
+[Bulgarian]
+Болгарский
+[Cebuanese]
+
+[Czech]
+Чешский
+[Chinese (simplified)]
+
+[Chinese (traditional)]
+
+[Danish]
+Датский
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[Philipino]
+
+[Finnish]
+Финский
+[French]
+Французский
+[Galician]
+Галисийский
+[Georgian]
+Грузинский
+[Gujarati]
+Гуджаратский
+[Haitian Creole]
+
+[Hebrew]
+Иврит
+[Hindi]
+Хинди
+[Hmong]
+
+[Dutch]
+Голландский
+[Croat]
+
+[Indonesian]
+Индонезийский
+[Irish]
+Ирландский
+[Icelandic]
+Исландский
+[Italian]
+Итальянский
+[Japanese]
+Японский
+[Javanese]
+Яванский
+[Yiddish]
+Идиш
+[Kannada]
+Каннада
+[Catalan]
+Каталанский
+[Khmer]
+Хмерский
+[Korean]
+Корейский
+[Lao]
+Лаосский
+[Latina]
+
+[Lithuanian]
+Литовский
+[Latvian]
+Латышский
+[Hungarian]
+Венгерский
+[Macedonian]
+Македонский
+[Malay]
+Малайский
+[Maltese]
+Мальтийский
+[Marathi]
+Маратхи
+[German]
+Немецкий
+[Norwegian]
+Норвежский
+[Persian]
+Персидский
+[Polish]
+Польский
+[Portugese]
+
+[RomaСЃian]
+
+[Russian]
+Русский
+[Greek]
+Греческий
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Serbian]
+Сербский
+[Swahili]
+Суахили
+[Spanish]
+Испанский
+[Swedish]
+Шведский
+[Tamil]
+Тамильский
+[Telugu]
+Телугу
+[Thai]
+Тайский
+[Turkish]
+Турецкий
+[Ukrainian]
+Украинский
+[Urdu]
+Урду
+[Welsh]
+Уэльский
+[Vietnamese]
+Вьетнамский
 [Random]
 Случайный
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Незнакомец использует мобильную страницу Omegle (с телефона или планшета)
-[You both speak the same language.]
-Вы говорите на одном языке.
 ;file \protocols\Omegle\src\proto.cpp
 [Unable to initialize Netlib for %s.]
 Невозможно создать подключение Netlib для %s.

@@ -71,7 +71,7 @@
 [Show status list]
 Меню списка статусов
 [Show status profiles in status list]
-Показывать профили в списке статусов
+Показ. профили в списке статусов
 [Show icons in status list]
 Значки в списке статусов
 [Buttons:]
@@ -223,7 +223,7 @@
 [Show next to cancel button]
 Показать за кнопкой Отмена
 [Flat, next to cancel button]
-Гладко, за кнопкой Отмена
+Плоские, за кнопкой Отмена
 [Show in message list]
 Показать в списке сообщений
 [Are you sure you want to clear predefined status messages?]

@@ -3462,8 +3462,6 @@ ANSI плагин
 Отправить файл (Правый клик — Принятые файлы)
 [Font size]
 Размер
-[Enable avatars]
-Включить аватары
 [Flat borders]
 Плоские границы
 [Draw gradient background]
@@ -13119,7 +13117,7 @@ UIN/почта/телефон
 Пользователь отправил стикер:
 [Buddy addition failed]
 Не удалось добавить контакт
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -18028,6 +18026,8 @@ OTR: установлен SecureIM
 Концертный холл
 [Psychotic]
 Психотический
+[Forest]
+Лес
 [City]
 Город
 [To list]
@@ -18147,7 +18147,7 @@ bass.dll не найден! Укажите путь к нему
 [min]
 мин.
 [max]
-День
+макс.
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -20099,6 +20099,8 @@ ID ключа:
 Инфо
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
+[Choose gpg.exe]
+Выберите gpg.exe
 [GPG binary is set and valid (this is good).\n]
 Исполняемый файл GPG указан и работоспособен (это хорошо).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -20183,8 +20185,6 @@ GPG не удалось расшифровать входящее сообщен
 Выбор файла журнала
 [LOG files]
 Файлы журнала
-[Choose gpg.exe]
-Выберите gpg.exe
 [Set home directory]
 Выбор домашней папки
 [Load Public GPG Key for ]
@@ -20999,6 +20999,10 @@ Omegle - отличный способ найти новых друзей!
 Ошибка: %s
 [We are still waiting...]
 Мы до сих пор ждём...
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Незнакомец использует мобильную страницу Omegle (с телефона или планшета)
+[You both speak the same language.]
+Вы говорите на одном языке.
 [Connecting canceled.]
 Подключение отменено.
 [Disconnecting...]
@@ -21009,12 +21013,132 @@ Omegle - отличный способ найти новых друзей!
 Подключение...
 [Waiting for Stranger...]
 Ожидание незнакомца...
+[English]
+Английский
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанский
+[Arabic]
+Арабский
+[Armenian]
+Армянский
+[Azerbaijani]
+Азербайджанский
+[Basque]
+Баскский
+[Belarusian]
+Белоруский
+[Bengali]
+Бенгальский
+[Bosnian]
+Боснийский
+[Bulgarian]
+Болгарский
+[Czech]
+Чешский
+[Danish]
+Датский
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[Finnish]
+Финский
+[French]
+Французский
+[Galician]
+Галисийский
+[Georgian]
+Грузинский
+[Gujarati]
+Гуджаратский
+[Hebrew]
+Иврит
+[Hindi]
+Хинди
+[Dutch]
+Голландский
+[Indonesian]
+Индонезийский
+[Irish]
+Ирландский
+[Icelandic]
+Исландский
+[Italian]
+Итальянский
+[Japanese]
+Японский
+[Javanese]
+Яванский
+[Yiddish]
+Идиш
+[Kannada]
+Каннада
+[Catalan]
+Каталанский
+[Khmer]
+Хмерский
+[Korean]
+Корейский
+[Lao]
+Лаосский
+[Lithuanian]
+Литовский
+[Latvian]
+Латышский
+[Hungarian]
+Венгерский
+[Macedonian]
+Македонский
+[Malay]
+Малайский
+[Maltese]
+Мальтийский
+[Marathi]
+Маратхи
+[German]
+Немецкий
+[Norwegian]
+Норвежский
+[Persian]
+Персидский
+[Polish]
+Польский
+[Russian]
+Русский
+[Greek]
+Греческий
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Serbian]
+Сербский
+[Swahili]
+Суахили
+[Spanish]
+Испанский
+[Swedish]
+Шведский
+[Tamil]
+Тамильский
+[Telugu]
+Телугу
+[Thai]
+Тайский
+[Turkish]
+Турецкий
+[Ukrainian]
+Украинский
+[Urdu]
+Урду
+[Welsh]
+Уэльский
+[Vietnamese]
+Вьетнамский
 [Random]
 Случайный
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Незнакомец использует мобильную страницу Omegle (с телефона или планшета)
-[You both speak the same language.]
-Вы говорите на одном языке.
 [Unable to initialize Netlib for %s.]
 Невозможно создать подключение Netlib для %s.
 [Stranger is typing]
@@ -21322,6 +21446,8 @@ Web-страница
 Невозможно открыть файл '%s'
 [File '%s' is empty]
 Файл '%s' пуст
+[None]
+Нет
 [Error during sending text to web page: %S]
 Ошибка при отправке текста на web-страницу: %S
 [Error during sending text to web page]
@@ -21340,6 +21466,8 @@ Web-страница
 1 день
 [1 month]
 1 месяц
+[Text]
+Текст
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Ping.dll
@@ -22707,11 +22835,11 @@ ID клиента
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 Реализация обмена мгновенными сообщениями по протоколу Lotus Sametime в Miranda NG.
 [Connection]
-Соединения
+Соединение
 [ID:]
 ID:
 [Password:]
-Пароль
+Пароль:
 [Server name:]
 Имя сервера:
 [Port:]
@@ -23813,7 +23941,7 @@ SHA-1:
 [E&xport]
 Э&кспорт
 [Private]
-Конфиденциальный
+Приватный
 [&Export]
 &Экспорт
 [&Import]
@@ -24444,8 +24572,6 @@ SecureIM (RSA/AES)
 Че&рез:
 [E&xplore]
 Об&зор
-[&Fill description textbox.]
-&Заполнить строки описания.
 [Delete &after send]
 Удалить &после отправки
 [Open editor before sending]
@@ -24648,7 +24774,7 @@ Upload Pie (1 нед)
 [Open Sessions Manager dialog]
 Открыть менеджер сессий
 [Open dialog if last session present]
-Открыть, если доступна последняя сессия
+Открыть, если доступна посл. сессия
 [Restore Last Session]
 Восстановить последнюю сессию
 [Do nothing]
@@ -24933,7 +25059,7 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 [Show status list]
 Меню списка статусов
 [Show status profiles in status list]
-Показывать профили в списке статусов
+Показ. профили в списке статусов
 [Show icons in status list]
 Значки в списке статусов
 [Buttons:]
@@ -25043,7 +25169,7 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 [Show next to cancel button]
 Показать за кнопкой Отмена
 [Flat, next to cancel button]
-Гладко, за кнопкой Отмена
+Плоские, за кнопкой Отмена
 [Show in message list]
 Показать в списке сообщений
 [Are you sure you want to clear predefined status messages?]
@@ -32740,6 +32866,34 @@ VBR или нет
 Проверяет неизвестные форматы файлов, если проигрыватель предоставляет сведения
 [Oops, something wrong!]
 Ой, что-то пошло не так!
+[Permanent]
+Постоянно
+[Colors]
+Цвета
+[Timeout]
+Длительность
+[Info]
+Информация
+[Test]
+Проверить
+[Statuses]
+Статусы
+[Templates]
+Шаблоны
+[Bytes]
+Байт
+[Variables]
+Переменные
+[Template]
+Шаблон
+[Misc]
+Прочее
+[Statistics]
+Статистика
+[Login]
+Имя пользователя
+[Info]
+Информация
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll
