@@ -66,7 +66,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "General settings",IDC_STATIC11,0,0,300,111
-    CONTROL         "Show softkey labels",IDC_SHOW_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,22,289,13
+    CONTROL         "Show softkey labels",IDC_SHOW_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,22,289,9
     GROUPBOX        "Fonts",IDC_STATIC12,0,112,300,85
     LTEXT           "Event log:",IDC_STATIC13,10,121,72,9
     CTEXT           "Sample",IDC_SAMPLE1,10,131,72,13,SS_CENTERIMAGE | WS_BORDER
@@ -88,7 +88,7 @@ BEGIN
     CONTROL         "Use the VolumeWheel to scroll up and down (might affect system performance)",IDC_HOOK_VOLUMEWHEEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,88,281,9
     CONTROL         "Show seconds in timestamps",IDC_TIMESTAMP_SECONDS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,33,289,9
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,32,289,9
     CONTROL         "Use transition effects when changing screens",IDC_TRANSITIONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,97,281,9
     PUSHBUTTON      "Credits",IDC_CREDITS,110,230,90,11
@@ -108,14 +108,14 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "General settings",IDC_STATIC18,0,0,160,80
     GROUPBOX        "Notification screen title",IDC_STATIC19,0,81,160,43
-    CONTROL         "Hide it",IDC_NOTIFY_TITLEHIDE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,88,114,13
-    CONTROL         "Show the plugin name",IDC_NOTIFY_TITLENAME,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,99,114,11
+    CONTROL         "Hide it",IDC_NOTIFY_TITLEHIDE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,90,114,11
+    CONTROL         "Show the plugin name",IDC_NOTIFY_TITLENAME,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,100,114,11
     CONTROL         "Show a short event summary",IDC_NOTIFY_TITLEINFO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,110,114,11
     LTEXT           "Size of the log",IDC_STATIC20,6,22,84,9
     LTEXT           "Notification duration",IDC_STATIC22,6,33,86,11
     EDITTEXT        IDC_NOTIFY_LOGSIZE,102,20,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
     EDITTEXT        IDC_NOTIFY_DURATION,102,33,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           "events",IDC_STATIC21,126,22,24,13
+    LTEXT           "events",IDC_STATIC21,126,22,32,11
     LTEXT           "seconds",IDC_STATIC23,126,35,30,11
     GROUPBOX        "Notification types",IDC_STATIC24,0,125,300,113
     CONTROL         "Incoming messages",IDC_NOTIFY_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,138,94,13
@@ -145,12 +145,12 @@ BEGIN
     CONTROL         "Channel events",IDC_NOTIFY_IRC_CHANNEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,217,76,9
     CONTROL         "Cut off nicknames after",IDC_NOTIFY_NICKCUTOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,46,90,9
     EDITTEXT        IDC_NOTIFY_NICKCUTOFF_OFFSET,102,46,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           "chars",IDC_STC11,126,48,30,9
+    LTEXT           "chars",IDC_STC11,126,48,32,9
     CONTROL         "Show protocol labels",IDC_NOTIFY_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,68,92,9
     CONTROL         "Don't skip when replying",IDC_NOTIFY_NO_SKIP_REPLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,99,122,11
     LTEXT           "Exceptions:",IDC_STC12,170,88,88,9,NOT WS_GROUP
-    LTEXT           "chars",IDC_STC13,126,59,30,9
+    LTEXT           "chars",IDC_STC13,126,59,32,9
     CONTROL         "Cut off channel names after",IDC_NOTIFY_CHANNELCUTOFF,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,57,90,9
     EDITTEXT        IDC_NOTIFY_CHANNELCUTOFF_OFFSET,102,57,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
@@ -188,39 +188,39 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Typing notifications",IDC_STATIC1,160,105,140,33
+    GROUPBOX        "Typing notifications",IDC_STATIC1,160,108,140,37
     CONTROL         "Show typing notifications",IDC_SESSION_SHOWTYPING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,114,126,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,117,126,11
     CONTROL         "Send typing notifications",IDC_SESSION_SENDTYPING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,125,126,11
-    GROUPBOX        "Maximizing",IDC_STATIC2,0,105,156,33
-    LTEXT           "When maximized:",IDC_STATIC3,4,116,66,9
-    CONTROL         "Hide title",IDC_MAXIMIZED_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,114,70,13
-    CONTROL         "Hide labels",IDC_MAXIMIZED_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,125,68,11
-    GROUPBOX        "General settings",IDC_STATIC4,0,1,300,67
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,128,126,11
+    GROUPBOX        "Maximizing",IDC_STATIC2,0,108,156,37
+    LTEXT           "When maximized:",IDC_STATIC3,4,119,66,9
+    CONTROL         "Hide title",IDC_MAXIMIZED_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,117,82,13
+    CONTROL         "Hide labels",IDC_MAXIMIZED_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,128,82,13
+    GROUPBOX        "General settings",IDC_STATIC4,0,1,300,69
     CONTROL         "Show only new messages",IDC_SESSION_LOADDB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,9,144,13
     CONTROL         "Mark incoming messages as read",IDC_SESSION_MARKREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,20,148,13
     CONTROL         "Maximized scrolling",IDC_SESSION_SCROLL_MAXIMIZED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,42,148,11
-    RTEXT           "Size of the log:",IDC_STATIC6,6,55,84,9
-    EDITTEXT        IDC_SESSION_LOGSIZE,96,53,30,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           "events",IDC_STATIC5,132,55,24,9
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,42,148,13
+    RTEXT           "Size of the log:",IDC_STATIC6,6,57,80,9
+    EDITTEXT        IDC_SESSION_LOGSIZE,92,55,30,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "events",IDC_STATIC5,132,57,28,9
     LTEXT           "On incoming messages:",IDC_STATIC8,156,11,132,11
     CONTROL         "Do nothing",IDC_SESSION_SCROLLNONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,20,126,13
     CONTROL         "Scroll to the first line",IDC_SESSION_SCROLLFIRST,
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,31,126,13
     CONTROL         "Scroll to the last line",IDC_SESSION_SCROLLLAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,42,126,13
-    GROUPBOX        "Replying",IDC_STATIC7,0,142,300,48
-    CONTROL         "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,151,288,13
+    GROUPBOX        "Replying",IDC_STATIC7,0,149,300,48
+    CONTROL         "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,158,288,13
     CONTROL         "Send messages with Enter, insert line breaks with Ctrl+Enter",IDC_SESSION_SENDRETURN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,162,288,13
-    CONTROL         "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,173,288,13
-    CONTROL         "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,31,148,11
-    CONTROL         "Close chat after",IDC_SESSION_CLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,84,98,8
-    EDITTEXT        IDC_SESSION_CLOSETIMER,112,83,30,12,NOT WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           "seconds",IDC_STC16,146,84,30,8,NOT WS_GROUP
-    GROUPBOX        "When in background",IDC_GRP4,0,72,300,30
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,169,288,13
+    CONTROL         "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,180,288,13
+    CONTROL         "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,31,148,13
+    CONTROL         "Close chat after",IDC_SESSION_CLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,86,98,8
+    EDITTEXT        IDC_SESSION_CLOSETIMER,112,85,30,12,NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "seconds",IDC_STC16,146,86,30,8,NOT WS_GROUP
+    GROUPBOX        "When in background",IDC_GRP4,0,74,300,30
 END
 
 

@@ -61,7 +61,7 @@
 [Notification duration]
 Длительн. уведомления
 [events]
-События
+событий
 [seconds]
 секунд
 [Notification types]
