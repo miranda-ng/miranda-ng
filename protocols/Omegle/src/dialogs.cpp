@@ -22,6 +22,119 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct
+{
+	const char *id;
+	const wchar_t *lang;
+}
+static languages[] = {
+	{ "en", LPGENW("English") },
+	{ "af", LPGENW("Afrikaans") },
+	{ "sq", LPGENW("Albanian") },
+	{ "ar", LPGENW("Arabic") },
+	{ "hy", LPGENW("Armenian") },
+	{ "az", LPGENW("Azerbaijani") },
+	{ "eu", LPGENW("Basque") },
+	{ "be", LPGENW("Belarusian") },
+	{ "bn", LPGENW("Bengali") },
+	{ "bs", LPGENW("Bosnian") },
+	{ "bg", LPGENW("Bulgarian") },
+	{ "ceb", LPGENW("Cebuanese") },
+	{ "cs", LPGENW("Czech") },
+	{ "zh-CN", LPGENW("Chinese (simplified)") },
+	{ "zh-TW", LPGENW("Chinese (traditional)") },
+	{ "da", LPGENW("Danish") },
+	{ "eo", LPGENW("Esperanto") },
+	{ "et", LPGENW("Estonian") },
+	{ "tl", LPGENW("Philipino") },
+	{ "fi", LPGENW("Finnish") },
+	{ "fr", LPGENW("French") },
+	{ "gl", LPGENW("Galician") },
+	{ "ka", LPGENW("Georgian") },
+	{ "gu", LPGENW("Gujarati") },
+	{ "ht", LPGENW("Haitian Creole") },
+	{ "iw", LPGENW("Hebrew") },
+	{ "hi", LPGENW("Hindi") },
+	{ "hmn", LPGENW("Hmong") },
+	{ "nl", LPGENW("Dutch") },
+	{ "hr", LPGENW("Croat") },
+	{ "id", LPGENW("Indonesian") },
+	{ "ga", LPGENW("Irish") },
+	{ "is", LPGENW("Icelandic") },
+	{ "it", LPGENW("Italian") },
+	{ "ja", LPGENW("Japanese") },
+	{ "jw", LPGENW("Javanese") },
+	{ "yi", LPGENW("Yiddish") },
+	{ "kn", LPGENW("Kannada") },
+	{ "ca", LPGENW("Catalan") },
+	{ "km", LPGENW("Khmer") },
+	{ "ko", LPGENW("Korean") },
+	{ "lo", LPGENW("Lao") },
+	{ "la", LPGENW("Latina") },
+	{ "lt", LPGENW("Lithuanian") },
+	{ "lv", LPGENW("Latvian") },
+	{ "hu", LPGENW("Hungarian") },
+	{ "mk", LPGENW("Macedonian") },
+	{ "ms", LPGENW("Malay") },
+	{ "mt", LPGENW("Maltese") },
+	{ "mr", LPGENW("Marathi") },
+	{ "de", LPGENW("German") },
+	{ "no", LPGENW("Norwegian") },
+	{ "fa", LPGENW("Persian") },
+	{ "pl", LPGENW("Polish") },
+	{ "pt", LPGENW("Portugese") },
+	{ "ro", LPGENW("Romaсian") },
+	{ "ru", LPGENW("Russian") },
+	{ "el", LPGENW("Greek") },
+	{ "sk", LPGENW("Slovak") },
+	{ "sl", LPGENW("Slovenian") },
+	{ "sr", LPGENW("Serbian") },
+	{ "sw", LPGENW("Swahili") },
+	{ "es", LPGENW("Spanish") },
+	{ "sv", LPGENW("Swedish") },
+	{ "ta", LPGENW("Tamil") },
+	{ "te", LPGENW("Telugu") },
+	{ "th", LPGENW("Thai") },
+	{ "tr", LPGENW("Turkish") },
+	{ "uk", LPGENW("Ukrainian") },
+	{ "ur", LPGENW("Urdu") },
+	{ "cy", LPGENW("Welsh") },
+	{ "vi", LPGENW("Vietnamese") }
+};
+
+std::string Omegle_client::get_language()
+{
+	int language = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
+	if (language < 0 || language >= (_countof(languages)))
+		language = 0;
+
+	return language > 0 ? languages[language].id : "en";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Servers list
+
+static const char *servers[] = { LPGEN("Random"), "front1", "front2", "front3", "front4", "front5", "front6", "front7", "front8", "front9", "front10", "front11", "front12", "front13", "front14", "front15", "front16", "front17", "front18", "front19", "front20", "front21", "front22", "front23", "front24", "front25", "front26", "front27", "front28", "front29", "front30", "front31", "front32" };
+
+std::string Omegle_client::get_server(bool not_last)
+{
+	int q = not_last ? 1 : 0;
+
+	int server = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
+	if (server < 0 || server >= (int)(_countof(servers) - q))
+		server = 0;
+
+	if (server == 0) {
+		srand(::time(0));
+		server = (rand() % (_countof(servers) - 1 - q)) + 1;
+	}
+
+	return servers[server];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Options
+
 static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, uint8_t bDef = 0)
 {
 	BOOL state = db_get_b(0, ppro->m_szModuleName, szSetting, bDef);
@@ -75,7 +188,7 @@ INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 
 		// Language
 		for (size_t i = 0; i < _countof(languages); i++)
-			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
+			SendDlgItemMessageW(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(TranslateW(languages[i].lang)));
 		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(0, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
@@ -146,7 +259,7 @@ INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 
 		// Language
 		for (size_t i = 0; i < _countof(languages); i++)
-			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
+			SendDlgItemMessageW(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(TranslateW(languages[i].lang)));
 		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(0, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);

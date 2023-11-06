@@ -161,31 +161,6 @@ bool Omegle_client::handle_error(const std::string &method, bool force_disconnec
 
 //////////////////////////////////////////////////////////////////////////////
 
-std::string Omegle_client::get_server(bool not_last)
-{
-	int q = not_last ? 1 : 0;
-
-	int server = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
-	if (server < 0 || server >= (int)(_countof(servers) - q))
-		server = 0;
-
-	if (server == 0) {
-		srand(::time(0));
-		server = (rand() % (_countof(servers) - 1 - q)) + 1;
-	}
-
-	return servers[server];
-}
-
-std::string Omegle_client::get_language()
-{
-	int language = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
-	if (language < 0 || language >= (_countof(languages)))
-		language = 0;
-
-	return language > 0 ? languages[language].id : "en";
-}
-
 std::string Omegle_client::choose_server(int request_type)
 {
 	switch (request_type)

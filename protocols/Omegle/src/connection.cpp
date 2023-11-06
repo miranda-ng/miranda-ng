@@ -22,6 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+// Known server messages, only to inform lpgen
+const char *server_messages[] = {
+	LPGEN("Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)"),
+	LPGEN("You both speak the same language.")
+};
+
 void OmegleProto::SignOn(void*)
 {
 	SYSTEMTIME t;
