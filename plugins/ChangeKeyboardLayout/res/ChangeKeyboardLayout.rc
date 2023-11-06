@@ -138,7 +138,7 @@ BEGIN
                     164,105,143,10
     GROUPBOX        "Log operations",IDC_STATIC_GROUP_LOG,2,96,152,81
     CONTROL         "Copy result to clipboard",IDC_CHECK_CLIPBOARD,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,8,108,141,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,108,143,10
     CONTROL         "Show result in Popup",IDC_CHECK_POPUP,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,8,121,141,10
     GROUPBOX        "Strings for keyboard layouts",IDC_STATIC_GROUP_STRINGS,
