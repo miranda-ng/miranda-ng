@@ -434,7 +434,7 @@ public:
 			return;
 
 		MCONTACT hContact = list_USERLIST.GetItemData(idx);
-		ptrW tmp(GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true));
+		ptrW tmp(GetFilePath(LPGENW("Export public key"), L"*", LPGENW(".asc pubkey file"), true));
 		if (tmp) {
 			CMStringW str(g_plugin.getMStringW(hContact, "GPGPubKey"));
 			str.Replace(L"\r", L"");
@@ -454,7 +454,7 @@ public:
 
 	void onClick_LOG_FILE_SET(CCtrlButton*)
 	{
-		edit_LOG_FILE_EDIT.SetText(ptrW(GetFilePath(TranslateT("Set log file"), L"*", TranslateT("LOG files"), 1)));
+		edit_LOG_FILE_EDIT.SetText(ptrW(GetFilePath(LPGENW("Set log file"), L"*", LPGENW("LOG files"), 1)));
 	}
 
 	void onChange_JABBER_API(CCtrlCheck *chk)
@@ -534,7 +534,7 @@ public:
 
 	void onClick_SET_BIN_PATH(CCtrlButton*)
 	{
-		GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
+		GetFilePath(LPGENW("Choose gpg.exe"), "szGpgBinPath", L"*.exe", LPGENW("EXE Executables"));
 		CMStringW tmp(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
 		edit_BIN_PATH.SetText(tmp);
 		bool gpg_exists = false;
@@ -1072,7 +1072,7 @@ public:
 
 	void onClick_LOAD_FROM_FILE(CCtrlButton *)
 	{
-		ptrW tmp(GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file")));
+		ptrW tmp(GetFilePath(LPGENW("Set file containing GPG public key"), L"*", LPGENW("GPG public key file")));
 		if (!tmp)
 			return;
 

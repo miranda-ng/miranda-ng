@@ -135,7 +135,7 @@ public:
 
 	void onClick_SET_BIN_PATH(CCtrlButton *)
 	{
-		GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
+		GetFilePath(LPGENW("Choose gpg.exe"), "szGpgBinPath", L"*.exe", LPGENW("EXE Executables"));
 		CMStringW tmp(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
 		edit_BIN_PATH.SetText(tmp);
 

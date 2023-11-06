@@ -63,7 +63,7 @@ wchar_t* GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 	ofn.nMaxFile = _MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
 	if (!save_file) {
-		if (!GetOpenFileName(&ofn))
+		if (!GetOpenFileNameW(&ofn))
 			return nullptr;
 	}
 	else {
@@ -953,7 +953,7 @@ void send_encrypted_msgs_thread(void *param)
 
 void ExportGpGKeysFunc(int type)
 {
-	ptrW p(GetFilePath(L"Choose file to export keys", L"*", L"Any file", true));
+	ptrW p(GetFilePath(LPGENW("Choose file to export keys"), L"*", LPGENW("Any file"), true));
 	if (!p || !p[0])
 		return;
 
@@ -1015,7 +1015,7 @@ void ExportGpGKeysFunc(int type)
 
 INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 {
-	ptrW p(GetFilePath(L"Choose file to import keys from", L"*", L"Any file"));
+	ptrW p(GetFilePath(LPGENW("Choose file to import keys from"), L"*", LPGENW("Any file")));
 	if (!p || !p[0])
 		return 1;
 

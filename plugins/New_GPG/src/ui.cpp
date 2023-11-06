@@ -560,7 +560,7 @@ public:
 		if (i == -1)
 			return;
 
-		ptrW p(GetFilePath(L"Choose file to export key", L"*", L"Any file", true));
+		ptrW p(GetFilePath(LPGENW("Choose file to export key"), L"*", LPGENW("Any file"), true));
 		if (!p || !p[0])
 			return;
 
