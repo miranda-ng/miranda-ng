@@ -496,9 +496,9 @@ class CSrmmToolbarOptions : public CDlgBase
 			}
 			else {
 				if (cbd->m_pwszOptions)
-					tvis.item.pszText = TranslateW(cbd->m_pwszOptions);
+					tvis.item.pszText = TranslateW_LP(cbd->m_pwszOptions, cbd->m_pPlugin);
 				else
-					tvis.item.pszText = TranslateW(cbd->m_pwszTooltip);
+					tvis.item.pszText = TranslateW_LP(cbd->m_pwszTooltip, cbd->m_pPlugin);
 				tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(m_hImgl, IcoLib_GetIconByHandle(cbd->m_hIcon));
 			}
 			cbd->m_opFlags = 0;
