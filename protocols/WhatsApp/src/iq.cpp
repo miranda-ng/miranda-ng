@@ -141,6 +141,11 @@ void WhatsAppProto::OnIqPairDevice(const WANode &node)
 {
 	WSSendNode(WANodeIq(IQ::RESULT) << CHAR_PARAM("id", node.getAttr("id")));
 
+	if (m_bUnregister) {
+		m_bTerminated = true;
+		return;
+	}
+
 	if (auto *pRef = node.getChild("pair-device")->getChild("ref")) {
 		ShowQrCode(pRef->getBody());
 	}
