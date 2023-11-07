@@ -43,7 +43,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int      iInterval;
 	int      iInterval1;
 	bool     bResolveIp;
-	int      iStatus[MAX_STATUS_COUNT];
+	int      iStatus[MAX_STATUS_COUNT-1];
 	int      iFiltersCount;
 	int      iDefaultAction = TRUE;
 	uint16_t     iStatusMask;

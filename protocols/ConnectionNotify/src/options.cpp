@@ -170,7 +170,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			// Initialize LVITEM members that are common to all
 			// items. 
 			lvI.mask = LVIF_TEXT;
-			for (int i = 0; i < MAX_STATUS_COUNT; i++) {
+			for (int i = 0; i < MAX_STATUS_COUNT-1; i++) {
 				lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
@@ -353,7 +353,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				g_plugin.setByte("ResolveIp", g_plugin.bResolveIp);
 				g_plugin.setByte("FilterDefaultAction", g_plugin.iDefaultAction);
 
-				for (int i = 0; i < MAX_STATUS_COUNT; i++) {
+				for (int i = 0; i < MAX_STATUS_COUNT-1; i++) {
 					char buff[128];
 					mir_snprintf(buff, "Status%d", i);
 					g_plugin.iStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);

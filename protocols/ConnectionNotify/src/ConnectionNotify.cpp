@@ -148,7 +148,7 @@ void LoadSettings()
 	g_plugin.FgColor = g_plugin.getDword("PopupFgColor", (uint32_t)0x000000);
 	g_plugin.iFiltersCount = g_plugin.getDword("FiltersCount");
 	g_plugin.iStatusMask = g_plugin.getWord("StatusMask", 16);
-	for (int i = 0; i < MAX_STATUS_COUNT; i++) {
+	for (int i = 0; i < MAX_STATUS_COUNT-1; i++) {
 		char buff[128];
 		mir_snprintf(buff, "Status%d", i);
 		g_plugin.iStatus[i] = (g_plugin.getByte(buff, 0) == 1);
