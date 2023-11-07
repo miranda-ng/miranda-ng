@@ -1226,6 +1226,7 @@
 ;file \src\mir_app\src\ignore.cpp
 [** All contacts **]
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
 [Show/Hide contact list]
 [Read message]
 [Open Options page]
