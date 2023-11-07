@@ -42,7 +42,7 @@ BEGIN
     EDITTEXT        IDC_SHOWNCONTACTS,161,27,28,12,ES_AUTOHSCROLL
     CONTROL         "Number of shown contacts:\n (0 to show all)",IDC_STATIC,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,15,27,141,17
-    LTEXT           "Format of date and time\n(Look to readme for placeholders help)",IDC_STATIC,15,50,141,28
+    LTEXT           "Format of date and time\n(Look to wiki for placeholders help)",IDC_STATIC,15,50,141,28
     EDITTEXT        IDC_DATETIME,161,50,137,12,ES_AUTOHSCROLL
     CONTROL         "Hide offline contacts",IDC_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,75,283,8
     CONTROL         "Resize window according to contact list",IDC_WINDOWAUTOSIZE,
