@@ -20,8 +20,6 @@
 Закрывать после:
 [sec (0 default, -1 disabled)]
 секунд (0 - по умолчанию, -1 - постоянно)
-[Settings]
-Настройки
 [try resolve addresses]
 преобразовывать IP-адреса в имена
 [Show notification if no filter defined]

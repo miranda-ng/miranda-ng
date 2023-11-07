@@ -79,9 +79,9 @@
 [Established]
 
 [M]
-м
+
 [V]
-Пер.
+
 [Frame Popup]
 
 [Answer call]

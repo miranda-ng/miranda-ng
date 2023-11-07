@@ -206,6 +206,8 @@
 (*) Требуется перезапуск Miranda NG.
 [Reset factory defaults]
 Настройки по умолчанию
+[Colors]
+Цвета
 [Protocol's information]
 Данные протокола
 [Custom information]
@@ -216,22 +218,18 @@
 Изменённые данные
 [Enable colors to give information about information's status.]
 Включить цвета для показа статуса информации
+[Common]
+Общие
 [Make protocol based contact information read only]
 Запретить изменение информации, базирующейся на протоколе
+[Treeview]
+Дерево
 [Enable groups in details dialog's treeview]
 Вложенные пункты меню
 [Sort all tree items alphabetically]
 Отсортировать все пункты в алфавитном порядке
 [Info of a metacontact's subcontact]
 Информация о субконтакте метаконтакта
-[Colors]
-Цвета
-[Common]
-Общие
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Изменять мои личные данные через UserInfoEx (недоступно, если ICQ не поддерживает)
-[Treeview]
-Дерево
 [Adapt propertysheet pages to Aero mode]
 Адаптировать Настройки к стилю Aero
 [Import]

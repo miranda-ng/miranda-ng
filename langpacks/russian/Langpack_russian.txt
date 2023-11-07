@@ -2315,7 +2315,7 @@ Win +\s
 [** All contacts **]
 ** Все контакты **
 [Main]
-Главный
+Основные
 [Show/Hide contact list]
 Показать/Скрыть список контактов
 [Read message]
@@ -6114,8 +6114,8 @@ Windows не активна
 Показывать уведомления о доставке
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отложенных сообщений
-[The Message    (%d Characters)]
-Сообщение      (%d символов)
+[The Message (%d Characters)]
+Сообщение (%d символов)
 [Message successfully sent to %s]
 Сообщение успешно послано %s
 [Message failed to send to %s]
@@ -8363,8 +8363,6 @@ utf8:'%s'
 Закрывать после:
 [sec (0 default, -1 disabled)]
 секунд (0 - по умолчанию, -1 - постоянно)
-[Settings]
-Настройки
 [try resolve addresses]
 преобразовывать IP-адреса в имена
 [Show notification if no filter defined]
@@ -19734,6 +19732,8 @@ xСтатус
 Контакт
 [<unknown>]
 <неизвестно>
+[(was %s)]
+(был(а) %s)
 [%s is now %s]
 %s сейчас %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -19852,8 +19852,6 @@ xСтатус
 Журналирование статусов
 [Filtering]
 Фильтрация
-[(was %s)]
-(был(а) %s)
 [Open message window]
 Открыть окно сообщений
 [Close popup]
@@ -22262,7 +22260,7 @@ History++ для истории окон
 [Direct connection]
 Прямое соединение
 [Use proxy]
-Использовать прокси
+Исп. прокси
 [General]
 Общее
 [Manage Miranda NG proxy]
@@ -22272,7 +22270,7 @@ History++ для истории окон
 [Manage Firefox proxy]
 Управлять прокси Firefox
 [Reconnect if IP address changes]
-Переподключаться при изменении IP-адреса
+Переподключ. при изменении IP
 [Hide interfaces]
 Скрыть интерфейсы
 [Popup options]
@@ -22779,6 +22777,8 @@ ID клиента
 Настройки
 [Number of shown contacts:\n (0 to show all)]
 Число отображаемых контактов\n (0 - показывает все)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Формат времени и даты\n(Формат смотрите в вики)
 [Hide offline contacts]
 Скрыть отключённых
 [Resize window according to contact list]
@@ -30082,6 +30082,8 @@ Twitter (аватары)
 (*) Требуется перезапуск Miranda NG.
 [Reset factory defaults]
 Настройки по умолчанию
+[Colors]
+Цвета
 [Protocol's information]
 Данные протокола
 [Custom information]
@@ -30092,22 +30094,18 @@ Twitter (аватары)
 Изменённые данные
 [Enable colors to give information about information's status.]
 Включить цвета для показа статуса информации
+[Common]
+Общие
 [Make protocol based contact information read only]
 Запретить изменение информации, базирующейся на протоколе
+[Treeview]
+Дерево
 [Enable groups in details dialog's treeview]
 Вложенные пункты меню
 [Sort all tree items alphabetically]
 Отсортировать все пункты в алфавитном порядке
 [Info of a metacontact's subcontact]
 Информация о субконтакте метаконтакта
-[Colors]
-Цвета
-[Common]
-Общие
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Изменять мои личные данные через UserInfoEx (недоступно, если ICQ не поддерживает)
-[Treeview]
-Дерево
 [Adapt propertysheet pages to Aero mode]
 Адаптировать Настройки к стилю Aero
 [Import]

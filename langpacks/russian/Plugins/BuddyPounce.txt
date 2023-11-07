@@ -51,8 +51,8 @@
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отложенных сообщений
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
-Сообщение      (%d символов)
+[The Message (%d Characters)]
+Сообщение (%d символов)
 [Message successfully sent to %s]
 Сообщение успешно послано %s
 [Message failed to send to %s]
