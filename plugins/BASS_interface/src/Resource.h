@@ -9,7 +9,6 @@
 #define IDC_CURRPATH                            1009
 #define IDC_MAXCHANNEL                          1011
 #define IDC_VOLUME                              1012
-#define IDC_GETBASS                             1013
 #define IDC_TIME1                               1014
 #define IDC_TIME2                               1015
 #define IDC_CHECKBOX1                           1100

@@ -292,10 +292,6 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_PREVIEW:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-
-		case IDC_GETBASS:
-			Utils_OpenUrl("https://www.un4seen.com/");
-			break;
 		}
 		break;
 	}
