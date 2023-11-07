@@ -1,7 +1,3 @@
-#ifndef IDC_STATIC
-#define IDC_STATIC (-1)
-#endif
-
 #define IDD_OPT_EXCHANGE                101
 #define IDI_MAIL                        104
 #define IDD_EMAILS                      105
