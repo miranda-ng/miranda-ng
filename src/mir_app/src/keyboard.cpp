@@ -51,7 +51,7 @@ static INT_PTR hkOpts(WPARAM, LPARAM)
 int InitClistHotKeys(void)
 {
 	HOTKEYDESC shk = {};
-	shk.szSection.a = "Main";
+	shk.szSection.a = LPGEN("Main");
 
 	shk.szDescription.a = LPGEN("Show/Hide contact list");
 	shk.pszName = "ShowHide";

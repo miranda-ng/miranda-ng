@@ -261,51 +261,7 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 		item->rootHotkey->OptChanged = true;
 }
 
-static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
-{
-	wchar_t title1[256] = {}, title2[256] = {};
-	THotkeyItem *item1 = nullptr, *item2 = nullptr;
-	LVITEM lvi = {};
-	int res;
-
-	lvi.mask = LVIF_TEXT | LVIF_PARAM;
-	lvi.iItem = lParam1;
-	lvi.pszText = title1;
-	lvi.cchTextMax = _countof(title1);
-	if (ListView_GetItem((HWND)lParamSort, &lvi))
-		item1 = (THotkeyItem *)lvi.lParam;
-
-	lvi.mask = LVIF_TEXT | LVIF_PARAM;
-	lvi.iItem = lParam2;
-	lvi.pszText = title2;
-	lvi.cchTextMax = _countof(title2);
-	if (ListView_GetItem((HWND)lParamSort, &lvi))
-		item2 = (THotkeyItem *)lvi.lParam;
-
-	if (!item1 && !item2)
-		return mir_wstrcmp(title1, title2);
-
-	if (!item1 && item2) {
-		if (res = mir_wstrcmp(title1, item2->getSection()))
-			return res;
-		return -1;
-	}
-
-	if (!item2 && item1) {
-		if (res = mir_wstrcmp(item1->getSection(), title2))
-			return res;
-		return 1;
-	}
-	/* item1 != nullptr && item2 != nullptr */
-
-	if (res = mir_wstrcmp(item1->getSection(), item2->getSection())) return res;
-	if (res = mir_wstrcmp(item1->getDescr(), item2->getDescr())) return res;
-	if (!item1->rootHotkey && item2->rootHotkey) return -1;
-	if (item1->rootHotkey && !item2->rootHotkey) return 1;
-	return 0;
-}
-
-static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
+static void sttOptionsAddHotkey(HWND hwndList, int iItem, THotkeyItem *item)
 {
 	char buf[256];
 	mir_snprintf(buf, "mir_hotkey_%d_%d", g_pid, g_hkid++);
@@ -322,15 +278,12 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	newItem->Enabled = newItem->OptEnabled = newItem->OptNew = true;
 	hotkeys.insert(newItem);
 
-	SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
-
 	LVITEM lvi = {};
-	lvi.mask |= LVIF_PARAM;
+	lvi.mask = LVIF_PARAM;
+	lvi.iItem = iItem;
 	lvi.lParam = (LPARAM)newItem;
 	sttOptionsSetupItem(hwndList, ListView_InsertItem(hwndList, &lvi), newItem);
-	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);
 
-	SendMessage(hwndList, WM_SETREDRAW, TRUE, 0);
 	RedrawWindow(hwndList, nullptr, nullptr, RDW_INVALIDATE);
 
 	item->OptChanged = true;
@@ -378,13 +331,33 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	db_set_dw(0, DBMODULENAME, buf, item->nSubHotkeys);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int SortHotkeysTranslated(const THotkeyItem *p1, const THotkeyItem *p2)
+{
+	if (int res = mir_wstrcmp(p1->getSection(), p2->getSection()))
+		return res;
+	if (int res = mir_wstrcmp(p1->getDescr(), p2->getDescr()))
+		return res;
+	if (!p1->rootHotkey && p2->rootHotkey)
+		return -1;
+	if (p1->rootHotkey && !p2->rootHotkey)
+		return 1;
+	return 0;
+}
+
 static void sttBuildHotkeyList(HWND hwndList)
 {
+	LIST<THotkeyItem> tmpList(hotkeys.getCount(), SortHotkeysTranslated);
+	for (auto &item : hotkeys)
+		tmpList.insert(item);
+
+	SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 	ListView_DeleteAllItems(hwndList);
 
 	int nItems = 0;
 	THotkeyItem *prevItem = nullptr;
-	for (auto &item : hotkeys) {
+	for (auto &item : tmpList) {
 		LVITEM lvi = {};
 
 		if (!item->OptDeleted) {
@@ -415,9 +388,10 @@ static void sttBuildHotkeyList(HWND hwndList)
 
 		prevItem = item;
 	}
-
-	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);
+	SendMessage(hwndList, WM_SETREDRAW, TRUE, 0);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)
 {
@@ -725,7 +699,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 			case MI_ADD:
 				initialized = false;
-				sttOptionsAddHotkey(hwndList, item);
+				sttOptionsAddHotkey(hwndList, lvi.iItem, item);
 				initialized = true;
 				break;
 			case MI_REMOVE:
@@ -812,7 +786,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 								sttOptionsDeleteHotkey(lpnmia->hdr.hwndFrom, lpnmia->iItem, item);
 							else {
 								initialized = false;
-								sttOptionsAddHotkey(lpnmia->hdr.hwndFrom, item);
+								sttOptionsAddHotkey(lpnmia->hdr.hwndFrom, lpnmia->iItem, item);
 								initialized = true;
 							}
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -912,7 +886,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 									ListView_InsertItem(lpnmhdr->hwndFrom, &lvi2);
 									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems - 1, it);
 								}
-								ListView_SortItemsEx(lpnmhdr->hwndFrom, sttOptionsSortList, (LPARAM)lpnmhdr->hwndFrom);
+								sttBuildHotkeyList(hwndHotkey);
 								initialized = TRUE;
 							}
 						}
