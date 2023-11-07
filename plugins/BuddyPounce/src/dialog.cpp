@@ -42,7 +42,7 @@ bool CBuddyPounceBasicDlg::OnApply()
 void CBuddyPounceBasicDlg::onChanged_Message(CCtrlEdit *)
 {
 	int length = GetWindowTextLength(edtMessage.GetHwnd());
-	CMStringW str(FORMAT, TranslateT("The Message    (%d Characters)"), length);
+	CMStringW str(FORMAT, TranslateT("The Message (%d Characters)"), length);
 	SetDlgItemTextW(m_hwnd, GRP_MSG, str);
 }
 
