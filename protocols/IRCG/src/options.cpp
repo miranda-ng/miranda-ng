@@ -623,7 +623,6 @@ class COtherPrefsDlg : public CIrcBaseDlg
 {
 	bool m_performlistModified;
 
-	CCtrlButton  m_url;
 	CCtrlMButton m_add, m_delete;
 	CCtrlCombo   m_performCombo, m_codepage;
 	CCtrlEdit    m_pertormEdit, m_quitMessage, m_alias;
@@ -632,7 +631,6 @@ class COtherPrefsDlg : public CIrcBaseDlg
 public:
 	COtherPrefsDlg(CIrcProto *_pro) :
 		CIrcBaseDlg(_pro, IDD_PREFS_OTHER),
-		m_url(this, IDC_CUSTOM),
 		m_performCombo(this, IDC_PERFORMCOMBO),
 		m_codepage(this, IDC_CODEPAGE),
 		m_pertormEdit(this, IDC_PERFORMEDIT),

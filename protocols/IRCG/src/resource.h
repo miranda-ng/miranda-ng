@@ -147,7 +147,6 @@
 #define IDC_IGNOREFILE                  1214
 #define IDC_IGNORECHAT                  1215
 #define IDC_IGNOREUNKNOWN               1216
-#define IDC_CUSTOM                      1218
 #define IDC_SPIN1                       1219
 #define IDC_SPIN2                       1220
 #define IDC_CODEPAGE                    1222

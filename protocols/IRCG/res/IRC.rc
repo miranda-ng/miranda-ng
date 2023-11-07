@@ -351,8 +351,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,200,256,10
     GROUPBOX        "Ignore users",-1,8,6,289,150
     GROUPBOX        "Other",-1,8,156,289,62
-    CONTROL         "(*) Queries from users on your contact list are never ignored",IDC_CUSTOM,
-                    "Hyperlink",WS_TABSTOP | 0x1,16,142,274,9
+    LTEXT           "(*) Queries from users on your contact list are never ignored",IDC_STATIC,16,142,274,9
 END
 
 IDD_ADDIGNORE DIALOGEX 0, 0, 220, 110
