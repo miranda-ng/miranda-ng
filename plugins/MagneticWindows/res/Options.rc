@@ -68,7 +68,7 @@ IDD_OPT_MAGNETICWINDOWS DIALOGEX 0, 0, 275, 80
 STYLE DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
-    GROUPBOX        "Magnetic Windows",IDC_MAINFRAME,8,8,258,64,WS_GROUP
+    GROUPBOX        "Magnetic Windows",IDC_MAINFRAME,8,8,258,68,WS_GROUP
     CONTROL         "",IDC_SLIDER_SNAPWIDTH,"msctls_trackbar32",TBS_BOTH | 
                     TBS_NOTICKS | WS_TABSTOP,108,24,96,12
     CONTROL         "Snap windows",IDC_CHK_SNAP,"Button",BS_AUTOCHECKBOX | 
@@ -76,7 +76,7 @@ BEGIN
     LTEXT           "%d pix",IDC_TXT_SNAPWIDTH,216,24,42,12,SS_CENTERIMAGE
     CONTROL         "For Scriver users: automatically hold down the Ctrl key while moving/sizing. (Make sure you use Scriver!)",
                     IDC_CHK_SCRIVERWORKAROUND,"Button",BS_AUTOCHECKBOX | 
-                    BS_MULTILINE | WS_TABSTOP,18,44,239,20,WS_EX_TRANSPARENT
+                    BS_MULTILINE | WS_TABSTOP,18,44,239,24,WS_EX_TRANSPARENT
 END
 
 
