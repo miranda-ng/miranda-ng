@@ -814,7 +814,7 @@ int CMPlugin::Load()
 	sLogFilePath += "HTTPServer.log";
 
 	if (!bInitMimeHandling())
-		MessageBoxW(nullptr, L"Failed to read configuration file : " szMimeTypeConfigFile, TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
+		MessageBoxW(nullptr, TranslateT("Failed to read configuration file: HTTPMimeTypes"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 
 	nMaxUploadSpeed = g_plugin.getDword("MaxUploadSpeed", nMaxUploadSpeed);
 	nMaxConnectionsTotal = g_plugin.getDword("MaxConnectionsTotal", nMaxConnectionsTotal);

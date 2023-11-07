@@ -235,20 +235,15 @@ string sCreateLink(const char * pszSrvPath)
 // Developer       : KN, Houdini
 /////////////////////////////////////////////////////////////////////
 
-UINT_PTR CALLBACK ShareNewFileDialogHook(
-	HWND hDlg,      // handle to child dialog box
-	UINT uiMsg,     // message identifier
-	WPARAM wParam,  // message parameter
-	LPARAM lParam   // message parameter
-)
+UINT_PTR CALLBACK ShareNewFileDialogHook(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
-	static const char* pszShareDirStr = Translate("Share Current Directory");
-
 	static int nInit = 0;
 
-	STFileShareInfo * pstShare = (STFileShareInfo *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	STFileShareInfo *pstShare = (STFileShareInfo *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	switch (uiMsg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+
 		pstShare = (STFileShareInfo *)((OPENFILENAME *)lParam)->lCustData;
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)pstShare);
 
@@ -264,152 +259,151 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 		return false;
 
 	case WM_NOTIFY:
-	{
-		OFNOTIFY * pNotify = (OFNOTIFY*)lParam;
-		switch (pNotify->hdr.code) {
-		case CDN_FOLDERCHANGE:
-		case CDN_SELCHANGE:
 		{
-			static char szSelection[MAX_PATH] = "";
-			HWND hWndFileDlg = GetParent(hDlg);
+			OFNOTIFY *pNotify = (OFNOTIFY *)lParam;
+			switch (pNotify->hdr.code) {
+			case CDN_FOLDERCHANGE:
+			case CDN_SELCHANGE:
+				{
+					static char szSelection[MAX_PATH] = "";
+					HWND hWndFileDlg = GetParent(hDlg);
 
-			*szSelection = '/';
-			CommDlg_OpenSave_GetSpec(hWndFileDlg, (LPARAM)&szSelection[1], _MAX_PATH);
+					*szSelection = '/';
+					CommDlg_OpenSave_GetSpec(hWndFileDlg, (LPARAM)&szSelection[1], _MAX_PATH);
 
-			HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
-			char pszFileName[MAX_PATH];
-			GetWindowText(hFileName, pszFileName, _countof(pszFileName));
+					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
+					char pszFileName[MAX_PATH];
+					GetWindowText(hFileName, pszFileName, _countof(pszFileName));
 
-			if (mir_strcmp(pstShare->pszSrvPath, szSelection) &&
-				mir_strcmp(pszFileName, pszShareDirStr)) {
-				// a file was selected
+					const char *pszShareDirStr = Translate("Share Current Directory");
+					if (mir_strcmp(pstShare->pszSrvPath, szSelection) && mir_strcmp(pszFileName, pszShareDirStr)) {
+						// a file was selected
+						// only reenable windows / set default values when a folder was selected before
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] == '/') {
+							pNotify->lpOFN->Flags |= OFN_FILEMUSTEXIST;
+							EnableWindow(hFileName, TRUE);
+							EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), TRUE);
+							SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, nDefaultDownloadLimit, true);
+						}
+					}
+					else {
+						// a directory was selected
+						pNotify->lpOFN->Flags &= ~OFN_FILEMUSTEXIST;
+						mir_strcpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
+						CommDlg_OpenSave_SetControlText(hWndFileDlg, edt1, pszShareDirStr);
+						EnableWindow(hFileName, FALSE);
+						EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), FALSE);
+						SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, (UINT)-1, true);
 
-				// only reenable windows / set default values when a folder was selected before
-				if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] == '/') {
-					pNotify->lpOFN->Flags |= OFN_FILEMUSTEXIST;
-					EnableWindow(hFileName, TRUE);
-					EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), TRUE);
-					SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, nDefaultDownloadLimit, true);
-				}
-			}
-			else {
-				// a directory was selected
-				pNotify->lpOFN->Flags &= ~OFN_FILEMUSTEXIST;
-				mir_strcpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
-				CommDlg_OpenSave_SetControlText(hWndFileDlg, edt1, pszShareDirStr);
-				EnableWindow(hFileName, FALSE);
-				EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), FALSE);
-				SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, (UINT)-1, true);
+						CommDlg_OpenSave_GetFolderPath(hWndFileDlg, szSelection, MAX_PATH);
+						char *pszFolder = szSelection;
+						char *pszTmp = szSelection;
+						while (*pszTmp != '\0') {
+							if (*pszTmp == '\\' && *(pszTmp + 1))
+								pszFolder = pszTmp + 1;
+							pszTmp++;
+						}
 
-				CommDlg_OpenSave_GetFolderPath(hWndFileDlg, szSelection, MAX_PATH);
-				char* pszFolder = szSelection;
-				char* pszTmp = szSelection;
-				while (*pszTmp != '\0') {
-					if (*pszTmp == '\\' && *(pszTmp + 1))
-						pszFolder = pszTmp + 1;
-					pszTmp++;
-				}
+						pszTmp = strchr(szSelection, ':');
+						if (pszTmp != nullptr)
+							*pszTmp = '\0';
 
-				pszTmp = strchr(szSelection, ':');
-				if (pszTmp != nullptr)
-					*pszTmp = '\0';
+						memmove(&szSelection[1], pszFolder, mir_strlen(pszFolder) + 1);
+						szSelection[0] = '/';
+						if (szSelection[mir_strlen(szSelection) - 1] != '/')
+							mir_strcat(szSelection, "/");
 
-				memmove(&szSelection[1], pszFolder, mir_strlen(pszFolder) + 1);
-				szSelection[0] = '/';
-				if (szSelection[mir_strlen(szSelection) - 1] != '/')
-					mir_strcat(szSelection, "/");
+						// only write to IDC_SHARE_NAME when a file / other folder was selected before
+						if (!mir_strcmp(szSelection, pstShare->pszSrvPath))
+							return false;
+					}
 
-				// only write to IDC_SHARE_NAME when a file / other folder was selected before
-				if (!mir_strcmp(szSelection, pstShare->pszSrvPath))
+					if (nInit != 0) {
+						// when the dialog is created a CDN_FOLDERCHANGE and a CDN_SELCHANGE message
+						// is posted. When the dialog is used for editting make sure the right server
+						// path (not the auto generated) is written to IDC_SHARE_NAME
+						if (nInit == 2)
+							SetDlgItemText(hDlg, IDC_SHARE_NAME, pstShare->pszSrvPath);
+
+						nInit--;
+					}
+					else {
+						SetDlgItemText(hDlg, IDC_SHARE_NAME, szSelection);
+					}
+
+					mir_strcpy(pstShare->pszSrvPath, szSelection);
+
 					return false;
+				}
+
+			case CDN_FILEOK:
+				{
+					GetDlgItemText(hDlg, IDC_SHARE_NAME, pstShare->pszSrvPath, _MAX_PATH);
+
+					char *pszTmp = strstr(pstShare->pszRealPath, Translate("Share Current Directory"));
+					if (pszTmp) {
+						*pszTmp = '\0';
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] != '/')
+							mir_strcat(pstShare->pszSrvPath, "/");
+					}
+					else {
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] == '/')
+							pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] = '\0';
+					}
+
+					BOOL bTranslated = false;
+					pstShare->nMaxDownloads = GetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, &bTranslated, true);
+					if (pstShare->nMaxDownloads <= 0 && pstShare->nMaxDownloads != -1)
+						bTranslated = false;
+
+					SendDlgItemMessage(hDlg, IDC_ALLOWED_IPADDRESS, IPM_GETADDRESS, 0, (LPARAM) & (pstShare->dwAllowedIP));
+					SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM) & (pstShare->dwAllowedMask));
+
+					//if( ! (pstShare->dwAllowedIP & pstShare->dwAllowedMask)
+
+					if (!bTranslated || (mir_strlen(pstShare->pszSrvPath) <= 0)) {
+						SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 1);
+						return true;
+					}
+					return false;
+				}
 			}
-
-			if (nInit != 0) {
-				// when the dialog is created a CDN_FOLDERCHANGE and a CDN_SELCHANGE message
-				// is posted. When the dialog is used for editting make sure the right server
-				// path (not the auto generated) is written to IDC_SHARE_NAME
-				if (nInit == 2)
-					SetDlgItemText(hDlg, IDC_SHARE_NAME, pstShare->pszSrvPath);
-
-				nInit--;
-			}
-			else {
-				SetDlgItemText(hDlg, IDC_SHARE_NAME, szSelection);
-			}
-
-			mir_strcpy(pstShare->pszSrvPath, szSelection);
-
-			return false;
+			break;
 		}
-
-		case CDN_FILEOK:
-		{
-			GetDlgItemText(hDlg, IDC_SHARE_NAME, pstShare->pszSrvPath, _MAX_PATH);
-
-			char* pszTmp = strstr(pstShare->pszRealPath, pszShareDirStr);
-			if (pszTmp) {
-				*pszTmp = '\0';
-				if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] != '/')
-					mir_strcat(pstShare->pszSrvPath, "/");
-			}
-			else {
-				if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] == '/')
-					pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath) - 1] = '\0';
-			}
-
-			BOOL bTranslated = false;
-			pstShare->nMaxDownloads = GetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, &bTranslated, true);
-			if (pstShare->nMaxDownloads <= 0 && pstShare->nMaxDownloads != -1)
-				bTranslated = false;
-
-			SendDlgItemMessage(hDlg, IDC_ALLOWED_IPADDRESS, IPM_GETADDRESS, 0, (LPARAM)&(pstShare->dwAllowedIP));
-			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&(pstShare->dwAllowedMask));
-
-			//if( ! (pstShare->dwAllowedIP & pstShare->dwAllowedMask)
-
-			if (!bTranslated || (mir_strlen(pstShare->pszSrvPath) <= 0)) {
-				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 1);
-				return true;
-			}
-			return false;
-		}
-		}
-		break;
-	}
 
 	case WM_DROPFILES:
-	{
-		HDROP hDrop = (HDROP)wParam;
-		char szDropedFile[MAX_PATH];
-		int nLen = DragQueryFile(hDrop, 0, szDropedFile, sizeof(szDropedFile));
-		if (nLen > 0) {
-			char * psz = strrchr(szDropedFile, '\\');
-			if (psz) {
-				char oldNext = psz[1];
-				psz[1] = '\0';
-				// Fill in the directory
-				SendMessage(GetParent(hDlg), CDM_SETCONTROLTEXT, edt1, (LPARAM)szDropedFile);
-				// click on the OK button. to move to dir
-				SendMessage(GetParent(hDlg), WM_COMMAND, IDOK, 0);
-				psz[1] = oldNext;
-				// Fill in the file name this will cause a call to the CDN_SELCHANGE
-				// and there by set the share name
-				SendMessage(GetParent(hDlg), CDM_SETCONTROLTEXT, edt1, (LPARAM)&psz[1]);
+		{
+			HDROP hDrop = (HDROP)wParam;
+			char szDropedFile[MAX_PATH];
+			int nLen = DragQueryFile(hDrop, 0, szDropedFile, sizeof(szDropedFile));
+			if (nLen > 0) {
+				char *psz = strrchr(szDropedFile, '\\');
+				if (psz) {
+					char oldNext = psz[1];
+					psz[1] = '\0';
+					// Fill in the directory
+					SendMessage(GetParent(hDlg), CDM_SETCONTROLTEXT, edt1, (LPARAM)szDropedFile);
+					// click on the OK button. to move to dir
+					SendMessage(GetParent(hDlg), WM_COMMAND, IDOK, 0);
+					psz[1] = oldNext;
+					// Fill in the file name this will cause a call to the CDN_SELCHANGE
+					// and there by set the share name
+					SendMessage(GetParent(hDlg), CDM_SETCONTROLTEXT, edt1, (LPARAM)&psz[1]);
+				}
 			}
+			DragFinish(hDrop);
+			return 0;
 		}
-		DragFinish(hDrop);
-		return 0;
-	}
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_TOGGLE_MASK:
-		{
-			uint32_t dwCur;
-			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&dwCur);
-			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_SETADDRESS, 0, (LPARAM)dwCur == 0xFFFFFFFF ? 0 : 0xFFFFFFFF);
-			return TRUE;
-		}
+			{
+				uint32_t dwCur;
+				SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&dwCur);
+				SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_SETADDRESS, 0, (LPARAM)dwCur == 0xFFFFFFFF ? 0 : 0xFFFFFFFF);
+				return TRUE;
+			}
 		}
 	}
 	return false;
@@ -1079,10 +1073,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, sPageKeyword.c_str());
 			HWND hComboBox = GetDlgItem(hwndDlg, IDC_PAGE_KEYWORD);
 			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"");
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("Current IP Address: "));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("Current Address: "));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("IP Address: "));
-			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGEN("You are browsing from"));
+			SendMessageW(hComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("Current IP Address: "));
+			SendMessageW(hComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("Current Address: "));
+			SendMessageW(hComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("IP Address: "));
+			SendMessageW(hComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("You are browsing from"));
 			SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"<HTML><BODY>");
 		}
 
