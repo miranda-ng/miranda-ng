@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <Commdlg.h>
 #include <m_skin.h>
 
-typedef struct _MSGPOPUPDATA
+struct MSGPOPUPDATA
 {
 	POPUPACTION pa[3];
 	HWND hDialog;
-} MSGPOPUPDATA, *LPMSGPOPUPDATA;
+};
 
 /**
  * This helper function moves and resizes a dialog box's control element.
@@ -69,7 +69,7 @@ static HICON MsgLoadIcon(MSGBOX *pMsgBox)
 		hIcon = pMsgBox->hiMsg;
 		break;
 
-	// default windows icons
+		// default windows icons
 	case MB_ICON_ERROR:
 	case MB_ICON_QUESTION:
 	case MB_ICON_WARNING:
@@ -80,7 +80,7 @@ static HICON MsgLoadIcon(MSGBOX *pMsgBox)
 		}
 		break;
 
-	// no icon
+		// no icon
 	default:
 		hIcon = nullptr;
 	}
@@ -178,7 +178,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			MSGBOX *pMsgBox = (MSGBOX*)lParam;
+			MSGBOX *pMsgBox = (MSGBOX *)lParam;
 			if (PtrIsValid(pMsgBox)) {
 				int icoWidth = 0;
 				int InfoBarHeight = 0;
@@ -228,38 +228,38 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (HDC hDC = GetDC(hDlg)) {
 					POINT mpt = { 0, 0 };
 					RECT ws = { 0, 0, 0, 0 };
-					int txtWidth=0, txtHeight=0, needX, needY;
+					int txtWidth = 0, txtHeight = 0, needX, needY;
 					RECT rcDlg;
 					SIZE ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
 					// get message text width and height
-					if(pMsgBox->ptszMsg) for (rs=h=pMsgBox->ptszMsg; ; ++h) {
-						if (*h=='\n' || !*h) {
-							GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+					if (pMsgBox->ptszMsg) for (rs = h = pMsgBox->ptszMsg; ; ++h) {
+						if (*h == '\n' || !*h) {
+							GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 							if (ts.cx > txtWidth)
 								txtWidth = ts.cx;
 							txtHeight += ts.cy;
 							if (!*h)
 								break;
-							rs = h+1;
+							rs = h + 1;
 						}
 					}
 					// increase width if info text requires more
-					if((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText){
+					if ((pMsgBox->uType & MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText) {
 						//int multiline = 0;
-						RECT rcico; GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
-						rcico.right = rcico.right*100/66; // padding
-						for(rs=h=pMsgBox->ptszInfoText; ; ++h) {
-							if (*h=='\n' || !*h) {
-								GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+						RECT rcico; GetClientRect(GetDlgItem(hDlg, ICO_DLGLOGO), &rcico);
+						rcico.right = rcico.right * 100 / 66; // padding
+						for (rs = h = pMsgBox->ptszInfoText; ; ++h) {
+							if (*h == '\n' || !*h) {
+								GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 								ts.cx += rcico.right;
 								if (ts.cx > txtWidth)
 									txtWidth = ts.cx;
 								if (!*h)
 									break;
-								rs = h+1;
+								rs = h + 1;
 								//++multiline;
 							}
 						}
@@ -274,8 +274,8 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
 					needX = txtWidth - (ws.right - ws.left) - icoWidth;
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
-					rcDlg.left -= needX/2; rcDlg.right += needX/2;
-					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
+					rcDlg.left -= needX / 2; rcDlg.right += needX / 2;
+					rcDlg.top -= (needY - InfoBarHeight) / 2; rcDlg.bottom += (needY - InfoBarHeight) / 2;
 
 					// resize dialog window
 					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
@@ -485,10 +485,10 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		MSGBOX *pMsgBox = (MSGBOX*)lParam;
+		MSGBOX *pMsgBox = (MSGBOX *)lParam;
 
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
-		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+		MSGPOPUPDATA *pmpd = (MSGPOPUPDATA *)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
 			POPUPDATAW ppd;
 			ppd.lchContact = NULL; //(HANDLE)wParam;
@@ -590,7 +590,7 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg) {
 	case UM_POPUPACTION:
 		if (HIWORD(wParam) == BN_CLICKED) {
-			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+			MSGPOPUPDATA *pmpd = (MSGPOPUPDATA *)PUGetPluginData(hDlg);
 			if (pmpd) {
 				switch (LOWORD(wParam)) {
 				case IDOK:
@@ -616,7 +616,7 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case UM_FREEPLUGINDATA:
-		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+		MSGPOPUPDATA *pmpd = (MSGPOPUPDATA *)PUGetPluginData(hDlg);
 		if (pmpd > 0)
 			MIR_FREE(pmpd);
 		return TRUE;
@@ -635,7 +635,7 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 **/
 INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 {
-	MSGBOX *pMsgBox = (MSGBOX*)lParam;
+	MSGBOX *pMsgBox = (MSGBOX *)lParam;
 
 	// check input
 	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
@@ -664,7 +664,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateW(pszFormat), vl);
 	va_end(vl);
 
-	MSGBOX mb = { 0 };
+	MSGBOX mb = {};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = g_plugin.getIcon(IDI_MAIN);
@@ -691,7 +691,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	mir_vsnwprintf(tszMsg, TranslateW(pszFormat), vl);
 	va_end(vl);
 
-	MSGBOX mb = {0};
+	MSGBOX mb = {};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = g_plugin.getIcon(IDI_MAIN);
