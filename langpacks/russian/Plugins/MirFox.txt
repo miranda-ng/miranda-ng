@@ -27,7 +27,7 @@ MirFox (Miranda NG) - часть интеграции Miranda-Firefox - http://w
 [Show these contacts in 'Send ... to' option in Firefox]
 Эти контакты будут отображаться в меню Firefox "Отправить..."
 [Show these accounts in 'Set status message' option in Firefox]
-Отображать эти учётные записи в меню Firefox 'Установить сообщение статуса'
+Показать учётные записи в меню Firefox 'Установить сообщение статуса'
 ;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 MirFox/Уведомление
