@@ -59,35 +59,21 @@ int client_ids[NUM_IDS] = {
 	0xFFFF
 };
 
-
 #define DEFAULT_CV_MAJOR		(0x001e)
 #define DEFAULT_CV_MINOR		(0x1f4b)
 
-#define NUM_CVS		5
-
-wchar_t* CV_names[NUM_CVS] = {
-	L"Sametime (Use old client version)",
-	L"Sametime (Miranda default)",
-	L"Sametime 8",
-	L"Sametime 8.5.1",
-	L"Sametime 8.5.2"
+struct
+{
+	const wchar_t *pwszName;
+	int major, minor;
+}
+static versions[] = {
+	{ LPGENW("Sametime (Use old client version)"), MW_PROTOCOL_VERSION_MAJOR, MW_PROTOCOL_VERSION_MINOR },
+	{ LPGENW("Sametime (Miranda default)"),        0x001e,                    0x196f                    },
+	{ LPGENW("Sametime 8"),                        0x001e,                    0x1f4b                    },
+	{ LPGENW("Sametime 8.5.1"),                    0x001e,                    0x213f                    },
+	{ LPGENW("Sametime 8.5.2"),                    0x001e,                    0x2149                    },
 };
-int CV_major[NUM_CVS] = {
-	MW_PROTOCOL_VERSION_MAJOR,
-	0x001e,
-	0x001e,
-	0x001e,
-	0x001e
-};
-int CV_minor[NUM_CVS] = {
-	MW_PROTOCOL_VERSION_MINOR,
-	0x196f,
-	0x1f4b,
-	0x213f,
-	0x2149
-};
-
-
 
 static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -150,10 +136,11 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_RESETCONTENT, 0, 0);
 		pos = 0;
 
-		for (int i = 0; i < NUM_CVS; i++) {
-			pos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_ADDSTRING, -1, (LPARAM)CV_names[i]);
+		for (int i = 0; i < _countof(versions); i++) {
+			auto &CV = versions[i];
+			pos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_ADDSTRING, -1, (LPARAM)TranslateW(CV.pwszName));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_SETITEMDATA, pos, i);
-			if (CV_major[i] == proto->options.client_versionMajor && CV_minor[i] == proto->options.client_versionMinor) {
+			if (CV.major == proto->options.client_versionMajor && CV.minor == proto->options.client_versionMinor) {
 				found = true;
 				SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_SETCURSEL, pos, 0);
 			}
@@ -309,8 +296,8 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_GETCURSEL, 0, 0);
 			int CVpos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_GETITEMDATA, sel, 0);
-			proto->options.client_versionMajor = CV_major[CVpos];
-			proto->options.client_versionMinor = CV_minor[CVpos];
+			proto->options.client_versionMajor = versions[CVpos].major;
+			proto->options.client_versionMinor = versions[CVpos].minor;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRMB)) proto->options.err_method = ED_MB;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRBAL)) proto->options.err_method = ED_BAL;
