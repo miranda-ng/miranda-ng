@@ -70,9 +70,9 @@ struct
 static versions[] = {
 	{ LPGENW("Sametime (Use old client version)"), MW_PROTOCOL_VERSION_MAJOR, MW_PROTOCOL_VERSION_MINOR },
 	{ LPGENW("Sametime (Miranda default)"),        0x001e,                    0x196f                    },
-	{ LPGENW("Sametime 8"),                        0x001e,                    0x1f4b                    },
-	{ LPGENW("Sametime 8.5.1"),                    0x001e,                    0x213f                    },
-	{ LPGENW("Sametime 8.5.2"),                    0x001e,                    0x2149                    },
+	{ L"Sametime 8",                               0x001e,                    0x1f4b                    },
+	{ L"Sametime 8.5.1",                           0x001e,                    0x213f                    },
+	{ L"Sametime 8.5.2",                           0x001e,                    0x2149                    },
 };
 
 static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
