@@ -13,7 +13,6 @@
 [Text]
 [Close after:]
 [sec (0 default, -1 disabled)]
-[Settings]
 [try resolve addresses]
 [Show notification if no filter defined]
 [Attempt interval (ms)]

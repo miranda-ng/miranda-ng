@@ -29,7 +29,7 @@
 [Show Delivery Messages]
 [These settings are also used when sending a "Simple" pounce]
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 [Message successfully sent to %s]
 [Message failed to send to %s]
 [Retry]
