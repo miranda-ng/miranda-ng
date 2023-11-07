@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by W:\miranda-ng\plugins\VoiceService\res\resource.rc
 //
 #define IDR_MENUS                       101
 #define IDD_CALLS                       102
@@ -71,8 +71,8 @@
 #define IDC_LIST                        1079
 #define IDC_ANSWERBTN                   1204
 #define IDC_DROPBTN                     1205
-#define IDC_IMMDIALOG					1206
-#define IDC_IMMDIALOG_FOCUS				1207
+#define IDC_IMMDIALOG                   1206
+#define IDC_IMMDIALOG_FOCUS             1207
 #define ID_FRAMEPOPUP_ANSWERCALL        40001
 #define ID_FRAMEPOPUP_DROPCALL          40002
 #define ID_FRAMEPOPUP_HOLDCALL          40003
@@ -92,7 +92,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        116
 #define _APS_NEXT_COMMAND_VALUE         40004
 #define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           101
