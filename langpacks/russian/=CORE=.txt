@@ -2374,6 +2374,8 @@ Win +\s
 [** All contacts **]
 ** Все контакты **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Основные
 [Show/Hide contact list]
 Показать/Скрыть список контактов
 [Read message]

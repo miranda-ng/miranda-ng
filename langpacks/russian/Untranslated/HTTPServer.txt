@@ -1,2 +1,3 @@
 [Failed to share new file]
 [You are browsing from]
+[Failed to read configuration file: HTTPMimeTypes]

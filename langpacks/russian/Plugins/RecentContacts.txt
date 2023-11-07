@@ -14,8 +14,8 @@
 Настройки
 [Number of shown contacts:\n (0 to show all)]
 Число отображаемых контактов\n (0 - показывает все)
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат времени и даты\n(Формат смотрите в readme)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Формат времени и даты\n(Формат смотрите в вики)
 [Hide offline contacts]
 Скрыть отключённых
 [Resize window according to contact list]

@@ -22,8 +22,6 @@
 Уровень громкости:
 [Quiet time:]
 Тихий час:
-[download BASS library]
-загрузить библиотеку BASS
 [Play only if]
 Играть, если
 [Offline]

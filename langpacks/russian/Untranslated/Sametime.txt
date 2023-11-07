@@ -1,3 +1,5 @@
+[Sametime (Use old client version)]
+[Sametime (Miranda default)]
 [Not logged in]
 [User is invalid or not trusted]
 [Already initialized]
