@@ -165,7 +165,7 @@ uint8_t CPsTree::InitTreeItems(LPWORD needWidth)
 	}
 
 	// init the groups
-	if ((_dwFlags & PSTVF_GROUPS) || (!_pPs->hContact && myGlobals.CanChangeDetails)) {
+	if (_dwFlags & PSTVF_GROUPS) {
 		// set treeview styles
 		TreeView_SetIndent(_hWndTree, 3);
 		SetWindowLongPtr(_hWndTree, GWL_STYLE, GetWindowLongPtr(_hWndTree, GWL_STYLE) | TVS_HASBUTTONS);

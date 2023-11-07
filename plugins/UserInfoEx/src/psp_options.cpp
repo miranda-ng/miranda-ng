@@ -244,7 +244,7 @@ public:
 
 class CDetailsOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkClr, chkGroups, chkSortTree, chkAero, chkReadonly, chkChange;
+	CCtrlCheck chkClr, chkGroups, chkSortTree, chkAero, chkReadonly;
 	CCtrlColor clrNormal, clrCustom, clrBoth, clrChanged, clrMeta;
 
 public:
@@ -253,7 +253,6 @@ public:
 		chkClr(this, CHECK_OPT_CLR),
 		chkAero(this, CHECK_OPT_AEROADAPTION),
 		chkGroups(this, CHECK_OPT_GROUPS),
-		chkChange(this, CHECK_OPT_CHANGEMYDETAILS),
 		chkReadonly(this, CHECK_OPT_READONLY),
 		chkSortTree(this, CHECK_OPT_SORTTREE),
 		
@@ -266,7 +265,6 @@ public:
 		CreateLink(chkClr, g_plugin.bShowColours);
 		CreateLink(chkAero, g_plugin.bAero);
 		CreateLink(chkGroups, g_plugin.bTreeGroups);
-		CreateLink(chkChange, g_plugin.bChangeDetails);
 		CreateLink(chkReadonly, g_plugin.bReadOnly);
 		CreateLink(chkSortTree, g_plugin.bSortTree);
 
@@ -277,12 +275,6 @@ public:
 		CreateLink(clrChanged, g_plugin.clrChanged);
 
 		chkClr.OnChange = Callback(this, &CDetailsOptsDlg::onChange_Clr);
-	}
-
-	bool OnInitDialog() override
-	{
-		chkChange.Enable(myGlobals.CanChangeDetails);
-		return true;
 	}
 
 	void onChange_Clr(CCtrlCheck *pCheck)

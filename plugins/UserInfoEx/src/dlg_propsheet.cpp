@@ -382,26 +382,23 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr *pPsh = (CPsHdr *)wParam;
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
-		bool bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.bChangeDetails;
-		if (lParam || bChangeDetailsEnabled) {
+		if (lParam) {
 			USERINFOPAGE uip = {};
 			uip.flags = ODPF_ICON | ODPF_UNICODE;
 			uip.szGroup.w = IcoLib_GetDefaultIconFileName();
 			uip.pPlugin = &g_plugin;
 
-			if (lParam) {
-				// ignore common pages for weather contacts
-				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
-					InitGeneralDlg(wParam, uip);
-					InitContactDlg(wParam, uip);
-					InitOriginDlg(wParam, uip);
-					InitAnniversaryDlg(wParam, uip);
-					InitCompanyDlg(wParam, uip);
-					InitOriginDlg(wParam, uip, false);
-					InitProfileDlg(wParam, uip);
-				}
-				else InitOriginDlg(wParam, uip, true);
+			// ignore common pages for weather contacts
+			if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
+				InitGeneralDlg(wParam, uip);
+				InitContactDlg(wParam, uip);
+				InitOriginDlg(wParam, uip);
+				InitAnniversaryDlg(wParam, uip);
+				InitCompanyDlg(wParam, uip);
+				InitOriginDlg(wParam, uip, false);
+				InitProfileDlg(wParam, uip);
 			}
+			else InitOriginDlg(wParam, uip, true);
 		}
 	}
 	return 0;
@@ -1214,14 +1211,6 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				EnableWindow(GetDlgItem(hDlg, IDAPPLY), FALSE);
 				g_clistApi.pfnInvalidateDisplayNameCacheEntry(pPs->hContact);
 
-				// need to upload owners settings
-				if (!pPs->hContact && myGlobals.CanChangeDetails && g_plugin.bChangeDetails) {
-					if (pPs->pUpload = new CPsUpload(pPs, LOWORD(wParam) == IDOK)) {
-						if (pPs->pUpload->UploadFirst() == CPsUpload::UPLOAD_CONTINUE)
-							break;
-						MIR_DELETE(pPs->pUpload);
-					}
-				}
 				pPs->dwFlags &= ~PSF_LOCKED;
 			}
 			if (LOWORD(wParam) == IDOK)
@@ -1347,9 +1336,6 @@ void DlgContactInfoLoadModule()
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	HookEvent(ME_USERINFO_INITIALISE, InitDetails);
 	g_hWindowList = WindowList_Create();
-
-	// check whether changing my details via UserInfoEx is basically possible
-	myGlobals.CanChangeDetails = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

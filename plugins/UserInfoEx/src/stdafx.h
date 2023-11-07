@@ -114,7 +114,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<bool> bCheckVersion, bMetaScan, bButtonIcons, bEmailService;
 
 	// Prop sheet options
-	CMOption<bool> bShowColours, bTreeGroups, bSortTree, bReadOnly, bChangeDetails, bAero;
+	CMOption<bool> bShowColours, bTreeGroups, bSortTree, bReadOnly, bAero;
 	CMOption<uint32_t> clrNormal, clrCustom, clrBoth, clrChanged, clrMeta;
 
 	// Reminder options
@@ -180,7 +180,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 struct MGLOBAL
 {
-	uint8_t		CanChangeDetails : 1;         // is service to upload own contact information for icq present?
 	uint8_t		TzIndexExist : 1;             // Win Reg has Timzone Index Info
 	uint8_t		ShowPropsheetColours : 1;     // cached SET_PROPSHEET_SHOWCOLOURS database value
 	uint8_t		WantAeroAdaption : 1;         // reserved for later use

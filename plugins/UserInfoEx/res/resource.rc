@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -17,7 +16,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -349,6 +348,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    GROUPBOX        "Colors",IDC_STATIC,3,4,303,74
     CONTROL         "",CLR_NORMAL,"ColourPicker",WS_TABSTOP,12,29,29,12
     LTEXT           "Protocol's information",TXT_OPT_CLR_NORMAL,46,31,104,8
     CONTROL         "",CLR_USER,"ColourPicker",WS_TABSTOP,153,29,29,12
@@ -359,19 +359,16 @@ BEGIN
     LTEXT           "Changed information",TXT_OPT_CLR_CHANGED,187,47,96,8
     CONTROL         "Enable colors to give information about information's status.",CHECK_OPT_CLR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,16,271,10
+    GROUPBOX        "Common",IDC_STATIC,3,79,303,41
     CONTROL         "Make protocol based contact information read only",CHECK_OPT_READONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,104,271,10
+    GROUPBOX        "Treeview",IDC_STATIC,3,121,303,43
     CONTROL         "Enable groups in details dialog's treeview",CHECK_OPT_GROUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,271,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,290,10
     CONTROL         "Sort all tree items alphabetically",CHECK_OPT_SORTTREE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,271,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,148,292,10
     CONTROL         "",CLR_META,"ColourPicker",WS_TABSTOP,12,61,29,12
     LTEXT           "Info of a metacontact's subcontact",TXT_OPT_CLR_META,46,63,232,8
-    GROUPBOX        "Colors",IDC_STATIC,3,4,303,74
-    GROUPBOX        "Common",IDC_STATIC,3,79,303,53
-    CONTROL         "Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,117,292,10
-    GROUPBOX        "Treeview",IDC_STATIC,3,138,303,43
     CONTROL         "Adapt propertysheet pages to Aero mode",CHECK_OPT_AEROADAPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,91,271,10
 END
@@ -693,8 +690,7 @@ IDB_FLAGSPNG            PNG                     "flags.png"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

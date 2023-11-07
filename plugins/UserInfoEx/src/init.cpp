@@ -62,8 +62,7 @@ CMPlugin::CMPlugin() :
 	bSortTree(MODULENAME, "TreeSortItems", false),
 	bTreeGroups(MODULENAME, "TreeGroups", true),
 	bShowColours(MODULENAME, "ShowColours", true),
-	bChangeDetails(MODULENAME, "ChangeMyDetails", false),
-
+	
 	clrBoth(MODULENAME, "colourBoth", RGB(0, 160, 10)),
 	clrMeta(MODULENAME, "colourMeta", RGB(120, 40, 130)),
 	clrCustom(MODULENAME, "colourUser", RGB(0, 10, 130)),
