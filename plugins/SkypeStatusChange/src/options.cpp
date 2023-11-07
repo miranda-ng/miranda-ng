@@ -12,7 +12,7 @@ struct CTreeItemData
 	};
 
 	EType m_nType;
-	char* m_pszModule;
+	char *m_pszModule;
 	int m_nStatus;
 };
 
@@ -31,34 +31,33 @@ HTREEITEM tree_insert_item(HWND hwndTree, wchar_t *pName, HTREEITEM htiParent, E
 	TVINSERTSTRUCT tvi = {};
 	tvi.hParent = htiParent;
 	tvi.hInsertAfter = TVI_LAST;
-	tvi.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
+	tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 	tvi.item.pszText = pName;
 	tvi.item.lParam = reinterpret_cast<LPARAM>(pData);
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 	tvi.item.state = INDEXTOSTATEIMAGEMASK(nState);
-	return TreeView_InsertItem(hwndTree,&tvi);
+	return TreeView_InsertItem(hwndTree, &tvi);
 }
 
 void InitProtocolTree(HWND hwndTreeCtrl)
 {
-	enum{OFFLINE_STATUS_INDEX = 5};
+	enum { OFFLINE_STATUS_INDEX = 5 };
 
 	for (auto &pAccount : Accounts()) {
-		CTreeItemData* pItemData = new CTreeItemData;
+		CTreeItemData *pItemData = new CTreeItemData;
 		pItemData->m_nType = CTreeItemData::Protocol;
 		pItemData->m_pszModule = pAccount->szModuleName;
 
 		bool bProtocolExcluded = g_Options.IsProtocolExcluded(pAccount->szModuleName);
-		HTREEITEM hti = tree_insert_item(hwndTreeCtrl,pAccount->tszAccountName,TVI_ROOT,((true == bProtocolExcluded) ? TCBS_CHECKED : TCBS_UNCHECKED),pItemData);
-		if (hti)
-		{
-			int nStatusBits = CallProtoService(pAccount->szModuleName,PS_GETCAPS,PFLAGNUM_2,0);
-			int nStatusExcluded = CallProtoService(pAccount->szModuleName,PS_GETCAPS,PFLAGNUM_5,0);
+		HTREEITEM hti = tree_insert_item(hwndTreeCtrl, pAccount->tszAccountName, TVI_ROOT, ((true == bProtocolExcluded) ? TCBS_CHECKED : TCBS_UNCHECKED), pItemData);
+		if (hti) {
+			int nStatusBits = CallProtoService(pAccount->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+			int nStatusExcluded = CallProtoService(pAccount->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 			pItemData = new CTreeItemData;
 			pItemData->m_nType = CTreeItemData::Status;
 			pItemData->m_pszModule = pAccount->szModuleName;
 			pItemData->m_nStatus = ID_STATUS_OFFLINE;
-			bool bStatusExcluded = g_Options.IsProtocolStatusExcluded(pAccount->szModuleName,pItemData->m_nStatus);
+			bool bStatusExcluded = g_Options.IsProtocolStatusExcluded(pAccount->szModuleName, pItemData->m_nStatus);
 			ETreeCheckBoxState nState = TCBS_UNCHECKED;
 			if (bProtocolExcluded) {
 				if (bStatusExcluded)
@@ -72,16 +71,16 @@ void InitProtocolTree(HWND hwndTreeCtrl)
 				else
 					nState = TCBS_UNCHECKED;
 			}
-			tree_insert_item(hwndTreeCtrl,TranslateW(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
-			for(size_t k = 0; k < _countof(g_aStatusCode); ++k) {
-				const CMirandaStatus2SkypeStatus& m2s = g_aStatusCode[k];
+			tree_insert_item(hwndTreeCtrl, TranslateW(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName), hti, nState, pItemData);
+			for (size_t k = 0; k < _countof(g_aStatusCode); ++k) {
+				const CMirandaStatus2SkypeStatus &m2s = g_aStatusCode[k];
 				unsigned long statusFlags = Proto_Status2Flag(m2s.m_nMirandaStatus);
 				if ((m2s.m_nMirandaStatus != ID_STATUS_OFFLINE) && (nStatusBits & statusFlags) && !(nStatusExcluded & statusFlags)) {
 					pItemData = new CTreeItemData;
 					pItemData->m_nType = CTreeItemData::Status;
 					pItemData->m_pszModule = pAccount->szModuleName;
 					pItemData->m_nStatus = m2s.m_nMirandaStatus;
-					bStatusExcluded = g_Options.IsProtocolStatusExcluded(pAccount->szModuleName,pItemData->m_nStatus);
+					bStatusExcluded = g_Options.IsProtocolStatusExcluded(pAccount->szModuleName, pItemData->m_nStatus);
 					if (bProtocolExcluded) {
 						if (bStatusExcluded)
 							nState = TCBS_DISABLE_CHECKED;
@@ -95,46 +94,45 @@ void InitProtocolTree(HWND hwndTreeCtrl)
 							nState = TCBS_UNCHECKED;
 					}
 
-					tree_insert_item(hwndTreeCtrl,TranslateW(m2s.m_ptszStatusName),hti,nState,pItemData);
+					tree_insert_item(hwndTreeCtrl, TranslateW(m2s.m_ptszStatusName), hti, nState, pItemData);
 				}
 			}
 
-			TreeView_Expand(hwndTreeCtrl,hti,TVE_EXPAND);
+			TreeView_Expand(hwndTreeCtrl, hti, TVE_EXPAND);
 		}
 	}
 }
 
-inline HTREEITEM tree_get_child_item(HWND hwndTreeCtrl,HTREEITEM hti)
+inline HTREEITEM tree_get_child_item(HWND hwndTreeCtrl, HTREEITEM hti)
 {
-	return TreeView_GetChild(hwndTreeCtrl,hti);
+	return TreeView_GetChild(hwndTreeCtrl, hti);
 }
 
-inline HTREEITEM tree_get_next_sibling_item(HWND hwndTreeCtrl,HTREEITEM hti)
+inline HTREEITEM tree_get_next_sibling_item(HWND hwndTreeCtrl, HTREEITEM hti)
 {
-	return TreeView_GetNextSibling(hwndTreeCtrl,hti);
+	return TreeView_GetNextSibling(hwndTreeCtrl, hti);
 }
 
-const CTreeItemData* get_item_data(HWND hwndTreeCtrl,HTREEITEM hti)
+const CTreeItemData *get_item_data(HWND hwndTreeCtrl, HTREEITEM hti)
 {
-	TVITEM tvi = {0};
+	TVITEM tvi = { 0 };
 	tvi.hItem = hti;
-	tvi.mask = TVIF_PARAM|TVIF_HANDLE;
-	if (TRUE == ::SendMessage(hwndTreeCtrl,TVM_GETITEM,0,reinterpret_cast<LPARAM>(&tvi))) {
-		CTreeItemData* pData = reinterpret_cast<CTreeItemData*>(tvi.lParam);
+	tvi.mask = TVIF_PARAM | TVIF_HANDLE;
+	if (TRUE == ::SendMessage(hwndTreeCtrl, TVM_GETITEM, 0, reinterpret_cast<LPARAM>(&tvi))) {
+		CTreeItemData *pData = reinterpret_cast<CTreeItemData *>(tvi.lParam);
 		return pData;
 	}
 	return nullptr;
 }
 
 
-inline ETreeCheckBoxState tree_get_state_image(HWND hwndTree,HTREEITEM hti)
+inline ETreeCheckBoxState tree_get_state_image(HWND hwndTree, HTREEITEM hti)
 {
 	TVITEM tvi;
 	tvi.hItem = hti;
-	tvi.mask = TVIF_STATE|TVIF_HANDLE;
+	tvi.mask = TVIF_STATE | TVIF_HANDLE;
 	tvi.stateMask = TVIS_STATEIMAGEMASK;
-	if (TRUE == ::SendMessage(hwndTree,TVM_GETITEM,0,reinterpret_cast<LPARAM>(&tvi)))
-	{
+	if (TRUE == ::SendMessage(hwndTree, TVM_GETITEM, 0, reinterpret_cast<LPARAM>(&tvi))) {
 		UINT nState = (tvi.state >> 12);
 		return static_cast<ETreeCheckBoxState>(nState);
 	}
@@ -143,34 +141,34 @@ inline ETreeCheckBoxState tree_get_state_image(HWND hwndTree,HTREEITEM hti)
 	return TCBS_UNCHECKED;
 }
 
-void FreeMemory(HWND hwndTreeCtrl,HTREEITEM hti)
+void FreeMemory(HWND hwndTreeCtrl, HTREEITEM hti)
 {
-	for(HTREEITEM h = tree_get_child_item(hwndTreeCtrl,hti);h;h = tree_get_next_sibling_item(hwndTreeCtrl,h)) {
-		FreeMemory(hwndTreeCtrl,h);
-		const CTreeItemData* pData = get_item_data(hwndTreeCtrl,h);
+	for (HTREEITEM h = tree_get_child_item(hwndTreeCtrl, hti); h; h = tree_get_next_sibling_item(hwndTreeCtrl, h)) {
+		FreeMemory(hwndTreeCtrl, h);
+		const CTreeItemData *pData = get_item_data(hwndTreeCtrl, h);
 		if (pData)
 			delete pData;
 	}
 }
 
-bool tree_set_item_state(HWND hwndTree,HTREEITEM hti,ETreeCheckBoxState nState)
+bool tree_set_item_state(HWND hwndTree, HTREEITEM hti, ETreeCheckBoxState nState)
 {
 	TVITEM tvi;
 	memset(&tvi, 0, sizeof(tvi));
 
-	tvi.mask = TVIF_STATE|TVIF_HANDLE;
+	tvi.mask = TVIF_STATE | TVIF_HANDLE;
 	tvi.hItem = hti;
 
 	tvi.stateMask = TVIS_STATEIMAGEMASK;
 	tvi.state = INDEXTOSTATEIMAGEMASK(nState);
 
-	return TRUE == ::SendMessage(hwndTree,TVM_SETITEM,0,reinterpret_cast<LPARAM>(&tvi));
+	return TRUE == ::SendMessage(hwndTree, TVM_SETITEM, 0, reinterpret_cast<LPARAM>(&tvi));
 }
 
-void disable_children(HWND hwndTree,HTREEITEM htiParent,bool bDisable)
+void disable_children(HWND hwndTree, HTREEITEM htiParent, bool bDisable)
 {
-	for(HTREEITEM hti = tree_get_child_item(hwndTree,htiParent);hti;hti = tree_get_next_sibling_item(hwndTree,hti)) {
-		ETreeCheckBoxState nState = tree_get_state_image(hwndTree,hti);
+	for (HTREEITEM hti = tree_get_child_item(hwndTree, htiParent); hti; hti = tree_get_next_sibling_item(hwndTree, hti)) {
+		ETreeCheckBoxState nState = tree_get_state_image(hwndTree, hti);
 		if (bDisable) {
 			if (TCBS_CHECKED == nState)
 				nState = TCBS_DISABLE_CHECKED;
@@ -183,101 +181,68 @@ void disable_children(HWND hwndTree,HTREEITEM htiParent,bool bDisable)
 			else if (TCBS_DISABLE_UNCHECKED == nState)
 				nState = TCBS_UNCHECKED;
 		}
-		tree_set_item_state(hwndTree,hti,nState);
+		tree_set_item_state(hwndTree, hti, nState);
 	}
 }
 
-void save_exclusion_list(HWND hwndTree,HTREEITEM htiParent)
+void save_exclusion_list(HWND hwndTree, HTREEITEM htiParent)
 {
-	for(HTREEITEM hti = tree_get_child_item(hwndTree,htiParent);hti;hti = tree_get_next_sibling_item(hwndTree,hti)) {
-		const CTreeItemData* pData = get_item_data(hwndTree,hti);
-		ETreeCheckBoxState nState = tree_get_state_image(hwndTree,hti);
+	for (HTREEITEM hti = tree_get_child_item(hwndTree, htiParent); hti; hti = tree_get_next_sibling_item(hwndTree, hti)) {
+		const CTreeItemData *pData = get_item_data(hwndTree, hti);
+		ETreeCheckBoxState nState = tree_get_state_image(hwndTree, hti);
 		if (CTreeItemData::Protocol == pData->m_nType) {
-			g_Options.ExcludeProtocol(pData->m_pszModule,TCBS_CHECKED == nState);
-			save_exclusion_list(hwndTree,hti);
+			g_Options.ExcludeProtocol(pData->m_pszModule, TCBS_CHECKED == nState);
+			save_exclusion_list(hwndTree, hti);
 		}
-		else g_Options.ExcludeProtocolStatus(pData->m_pszModule,pData->m_nStatus,((TCBS_CHECKED == nState) || (TCBS_DISABLE_CHECKED == nState)));
-	}			
+		else g_Options.ExcludeProtocolStatus(pData->m_pszModule, pData->m_nStatus, ((TCBS_CHECKED == nState) || (TCBS_DISABLE_CHECKED == nState)));
+	}
 }
 
-class CImageListWrapper
+static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-public:
-	CImageListWrapper()
-		: m_hImageList(ImageList_LoadImage(g_plugin.getInst(),MAKEINTRESOURCE(IDB_TREE_STATE),16,0,RGB(255,255,255),IMAGE_BITMAP,LR_DEFAULTCOLOR))
-	{
-	}
-
-	~CImageListWrapper()
-	{
-		if (m_hImageList)
-			ImageList_Destroy(m_hImageList);
-	}
-
-	operator HIMAGELIST()const
-	{
-		return m_hImageList;
-	}
-
-private:
-	HIMAGELIST m_hImageList;
-};
-
-HIMAGELIST get_image_list()
-{
-	static CImageListWrapper wrapper;
-	return wrapper;
-}
-
-static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
-{
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
-		{
-			HWND hwndTreeCtrl = GetDlgItem(hdlg,IDC_TREE_PROTOCOLS);
-			HIMAGELIST hImage = get_image_list();
-			if (hImage)
-				TreeView_SetImageList(hwndTreeCtrl,hImage,TVSIL_STATE);
-			InitProtocolTree(hwndTreeCtrl);
-		}
+
+		InitProtocolTree(GetDlgItem(hdlg, IDC_TREE_PROTOCOLS));
+
 		CheckDlgButton(hdlg, IDC_CHECK_SYNCK_STATUS_MSG, (g_Options.GetSyncStatusMsgFlag()) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_STATUSES, (g_Options.GetSyncStatusStateFlag()) ? BST_CHECKED : BST_UNCHECKED);				
+		CheckDlgButton(hdlg, IDC_CHECK_STATUSES, (g_Options.GetSyncStatusStateFlag()) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_NOTIFY:
 		{
 			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lp);
-			switch(pNMHDR->code) {
+			switch (pNMHDR->code) {
 			case PSN_APPLY:
-				save_exclusion_list(GetDlgItem(hdlg,IDC_TREE_PROTOCOLS),TVI_ROOT);
-				g_Options.SetSyncStatusMsgFlag(1 == IsDlgButtonChecked(hdlg,IDC_CHECK_SYNCK_STATUS_MSG));
-				g_Options.SetSyncStatusStateFlag(1 == IsDlgButtonChecked(hdlg,IDC_CHECK_STATUSES));
+				save_exclusion_list(GetDlgItem(hdlg, IDC_TREE_PROTOCOLS), TVI_ROOT);
+				g_Options.SetSyncStatusMsgFlag(1 == IsDlgButtonChecked(hdlg, IDC_CHECK_SYNCK_STATUS_MSG));
+				g_Options.SetSyncStatusStateFlag(1 == IsDlgButtonChecked(hdlg, IDC_CHECK_STATUSES));
 				break;
 
 			case NM_CLICK:
 				if (IDC_TREE_PROTOCOLS == wp) {
 					uint32_t pos = ::GetMessagePos();
 
-					HWND hwndTree = ::GetDlgItem(hdlg,IDC_TREE_PROTOCOLS);
+					HWND hwndTree = ::GetDlgItem(hdlg, IDC_TREE_PROTOCOLS);
 
 					TVHITTESTINFO tvhti;
 					tvhti.pt.x = LOWORD(pos);
 					tvhti.pt.y = HIWORD(pos);
-					::ScreenToClient(hwndTree,&(tvhti.pt));
+					::ScreenToClient(hwndTree, &(tvhti.pt));
 
-					HTREEITEM hti = reinterpret_cast<HTREEITEM>(::SendMessage(hwndTree,TVM_HITTEST,0,reinterpret_cast<LPARAM>(&tvhti)));
-					if (hti && (tvhti.flags&(TVHT_ONITEMSTATEICON|TVHT_ONITEMICON))) {
-						ETreeCheckBoxState nState = tree_get_state_image(hwndTree,hti);
+					HTREEITEM hti = reinterpret_cast<HTREEITEM>(::SendMessage(hwndTree, TVM_HITTEST, 0, reinterpret_cast<LPARAM>(&tvhti)));
+					if (hti && (tvhti.flags & (TVHT_ONITEMSTATEICON | TVHT_ONITEMICON))) {
+						ETreeCheckBoxState nState = tree_get_state_image(hwndTree, hti);
 						if (TCBS_CHECKED == nState || TCBS_UNCHECKED == nState) {
 							if (TCBS_CHECKED == nState)
 								nState = TCBS_UNCHECKED;
 							else
 								nState = TCBS_CHECKED;
 
-							tree_set_item_state(hwndTree,hti,nState);
-							disable_children(hwndTree,hti,TCBS_CHECKED == nState);
-							PropSheet_Changed(::GetParent(hdlg),hdlg);
+							tree_set_item_state(hwndTree, hti, nState);
+							disable_children(hwndTree, hti, TCBS_CHECKED == nState);
+							PropSheet_Changed(::GetParent(hdlg), hdlg);
 						}
 					}
 				}
@@ -287,11 +252,11 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 
 	case WM_COMMAND:
 		if (BN_CLICKED == HIWORD(wp) && ((IDC_CHECK_SYNCK_STATUS_MSG == LOWORD(wp)) || (IDC_CHECK_STATUSES == LOWORD(wp))))
-			PropSheet_Changed(::GetParent(hdlg),hdlg);
+			PropSheet_Changed(::GetParent(hdlg), hdlg);
 		break;
 
 	case WM_DESTROY:
-		FreeMemory(GetDlgItem(hdlg,IDC_TREE_PROTOCOLS),TVI_ROOT);
+		FreeMemory(GetDlgItem(hdlg, IDC_TREE_PROTOCOLS), TVI_ROOT);
 		break;
 	}
 	return FALSE;

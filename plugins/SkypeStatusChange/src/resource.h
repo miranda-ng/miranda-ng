@@ -4,7 +4,6 @@
 //
 #define IDD_DIALOG_SETTINGS             101
 #define IDB_BITMAP1                     102
-#define IDB_TREE_STATE                  102
 #define IDC_CHECK_SYNCK_STATUS_MSG      1001
 #define IDC_TREE_PROTOCOLS              1003
 #define IDC_CHECK1                      1004
