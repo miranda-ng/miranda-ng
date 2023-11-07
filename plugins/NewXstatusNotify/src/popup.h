@@ -35,8 +35,6 @@
 #define PCA_OPENHISTORY        4   // open contact history
 #define PCA_DONOTHING          5   // do nothing
 
-#define STRING_SHOWPREVIOUSSTATUS LPGENW("(was %s)")
-
 typedef struct tagPLUGINDATA
 {
 	uint16_t newStatus;

@@ -302,12 +302,11 @@ void GetStatusText(MCONTACT hContact, uint16_t newStatus, uint16_t oldStatus, wc
 			break;
 		}
 	}
-	else
-		wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
+	else wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 
 	if (opt.ShowPreviousStatus) {
 		wchar_t buff[MAX_STATUSTEXT];
-		mir_snwprintf(buff, TranslateW(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
+		mir_snwprintf(buff, TranslateT("(was %s)"), StatusList[Index(oldStatus)].lpzStandardText);
 		mir_wstrcat(mir_wstrcat(stzStatusText, L" "), buff);
 	}
 }
