@@ -13,35 +13,35 @@ BOOL wumf();
 
 static int DlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDC_CONNLIST:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	case IDOK:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 void AddToList(HWND hList, PWumf w)
 {
-	LVITEM lvi = { 0 };	
-	lvi.iItem = ListView_GetItemCount(hList)+1;
-	lvi.mask = LVIF_PARAM|LVIF_TEXT;
+	LVITEM lvi = {};
+	lvi.iItem = ListView_GetItemCount(hList) + 1;
+	lvi.mask = LVIF_PARAM | LVIF_TEXT;
 	lvi.pszText = w->szID;
 	lvi.lParam = (LPARAM)w;
-	ListView_InsertItem(hList,&lvi);
+	ListView_InsertItem(hList, &lvi);
 }
 
 void ShowList(PWumf l, HWND hList)
 {
 	PWumf w = l;
-	while(w) {
-		AddToList(hList,w);
+	while (w) {
+		AddToList(hList, w);
 		w = w->next;
 	}
 }
 
-VOID OnGetDispInfo(NMLVDISPINFO *plvdi) 
+VOID OnGetDispInfo(NMLVDISPINFO *plvdi)
 {
 	PWumf w = (PWumf)(plvdi->item.lParam);
 	switch (plvdi->item.iSubItem) {
@@ -58,18 +58,19 @@ VOID OnGetDispInfo(NMLVDISPINFO *plvdi)
 		plvdi->item.pszText = w->szPerm;
 		break;
 	}
-} 
+}
 
 INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-	switch( Msg ) {
+	switch (Msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
 		{
 			HWND hList = GetDlgItem(hWnd, IDC_CONNLIST);
 
 			ListView_SetExtendedListViewStyle(hList, LVS_EX_FULLROWSELECT);
-			LV_COLUMN lvc = { 0 };
-			lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
+			LV_COLUMN lvc = {};
+			lvc.mask = LVCF_TEXT | LVCF_FMT | LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.cx = 40;
 			lvc.pszText = L"ID";
@@ -91,15 +92,15 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 				MessageBox(nullptr, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 			ShowList(lst, hList);
 		}
-		Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME,"conn");
+		Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME, "conn");
 		return TRUE;
 
 	case WM_CLOSE:
-		PostMessage( hWnd, WM_COMMAND, IDCANCEL, 0l );
+		PostMessage(hWnd, WM_COMMAND, IDCANCEL, 0l);
 		break;
 
 	case WM_COMMAND:
-		switch( LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 		case IDCANCEL:
 			PostMessage(hWnd, WM_DESTROY, 0, 0);
@@ -109,18 +110,18 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		Utils_ResizeDialog(hWnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_CONNLIST), DlgResizer);
-		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME,"conn");
+		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME, "conn");
 		return TRUE;
 
 	case WM_MOVE:
-		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME,"conn");
+		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME, "conn");
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->code) { 
-		case LVN_GETDISPINFO: 
-			OnGetDispInfo((NMLVDISPINFO*)lParam); 
-			break; 
+		switch (((LPNMHDR)lParam)->code) {
+		case LVN_GETDISPINFO:
+			OnGetDispInfo((NMLVDISPINFO *)lParam);
+			break;
 		}
 		break;
 
@@ -146,7 +147,7 @@ void LogWumf(PWumf w)
 			return;
 		}
 	}
-	
+
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
@@ -162,11 +163,10 @@ BOOL wumf()
 	DWORD ent_read = 0, ent_total = 0, res_handle = 0;
 	NET_API_STATUS res = NERR_Success;
 	if ((res = NetSessionEnum(nullptr, nullptr, nullptr, 1, (LPBYTE *)&s_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, &res_handle)) == NERR_Success ||
-		res == ERROR_MORE_DATA)
-	{
+		res == ERROR_MORE_DATA) {
 		mark_all(&list, TRUE);
-		for(unsigned i = 0; i < ent_read; i++)
-			process_session(s_info[ i ]);
+		for (unsigned i = 0; i < ent_read; i++)
+			process_session(s_info[i]);
 
 		NetApiBufferFree(s_info);
 	}
@@ -181,10 +181,9 @@ void process_session(SESSION_INFO_1 s_info)
 	DWORD ent_read = 0, ent_total = 0, res_handle = 0;
 	NET_API_STATUS res = NERR_Success;
 	if ((res = NetFileEnum(nullptr, nullptr, s_info.sesi1_username, 3, (LPBYTE *)&f_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, (PDWORD_PTR)&res_handle)) == NERR_Success ||
-			res == ERROR_MORE_DATA)
-	{
-		for(unsigned i=0; i < ent_read; i++)
-			process_file(s_info, f_info[ i ]);
+		res == ERROR_MORE_DATA) {
+		for (unsigned i = 0; i < ent_read; i++)
+			process_file(s_info, f_info[i]);
 
 		NetApiBufferFree(f_info);
 	}
@@ -206,13 +205,13 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 	else w->mark = FALSE;
 }
 
-void printError(uint32_t res) 
+void printError(uint32_t res)
 {
 	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, res, 0, (LPTSTR) &lpMsgBuf, 0, nullptr );
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, res, 0, (LPTSTR)&lpMsgBuf, 0, nullptr);
 	OutputDebugString((LPCTSTR)lpMsgBuf);
 	msg((LPCTSTR)lpMsgBuf);
-	LocalFree( lpMsgBuf );
+	LocalFree(lpMsgBuf);
 }
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-WUMF_OPTIONS WumfOptions = { 0 };
+WUMF_OPTIONS WumfOptions = {};
 HGENMENU hMenuItem = nullptr;
 HWND hDlg;
 
@@ -34,7 +34,7 @@ int OptionsInit(WPARAM, LPARAM);
 
 void LoadOptions()
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 	dbv.type = DBVT_WCHAR;
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
 	if (g_plugin.getWString(OPT_FILE, &dbv) == 0) {

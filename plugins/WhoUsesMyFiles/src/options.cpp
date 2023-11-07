@@ -46,9 +46,9 @@ void ShowThePreview()
 
 void DisableDelayOptions(HWND hwndDlg)
 {
-	CheckDlgButton(hwndDlg, IDC_DELAY_INF,BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_DELAY_SET,BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_DELAY_DEF,BST_CHECKED);
+	CheckDlgButton(hwndDlg, IDC_DELAY_INF, BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_DELAY_SET, BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_DELAY_DEF, BST_CHECKED);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_INF), FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SET), FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_DEF), FALSE);
@@ -58,10 +58,10 @@ void DisableDelayOptions(HWND hwndDlg)
 
 void ChooseFile(HWND hwndDlg)
 {
-	wchar_t szFile[MAX_PATH]; szFile[0]=0;
+	wchar_t szFile[MAX_PATH]; szFile[0] = 0;
 
 	// Initialize OPENFILENAME
-	OPENFILENAME ofn = {0};       // common dialog box structure
+	OPENFILENAME ofn = {};       // common dialog box structure
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hwndDlg;
 	ofn.lpstrFile = szFile;
@@ -71,9 +71,9 @@ void ChooseFile(HWND hwndDlg)
 	ofn.Flags = OFN_CREATEPROMPT;
 	// Display the Open dialog box. 
 	if (GetSaveFileName(&ofn)) {
-		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, nullptr);
+		HANDLE hf = CreateFile(szFile, GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hf != INVALID_HANDLE_VALUE) {
-			SetDlgItemText(hwndDlg,IDC_FILE,szFile);
+			SetDlgItemText(hwndDlg, IDC_FILE, szFile);
 			mir_wstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
 			CloseHandle(hf);
 		}
@@ -85,13 +85,13 @@ void ChooseFile(HWND hwndDlg)
 	}
 }
 
-INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	uint16_t wControlId = LOWORD(wparam);
 	uint16_t wNotifyCode = HIWORD(wparam);
 	int seconds;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_COLOR_WIN, WumfOptions.UseWinColor ? BST_CHECKED : BST_UNCHECKED);
@@ -100,8 +100,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK), WumfOptions.SelectColor);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
 		if (WumfOptions.SelectColor) {
-			SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
-			SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
+			SendDlgItemMessage(hwndDlg, IDC_COLOR_BACK, CPM_SETCOLOUR, 0, WumfOptions.ColorBack);
+			SendDlgItemMessage(hwndDlg, IDC_COLOR_TEXT, CPM_SETCOLOUR, 0, WumfOptions.ColorText);
 		}
 
 		CheckDlgButton(hwndDlg, IDC_DELAY_INF, WumfOptions.DelayInf ? BST_CHECKED : BST_UNCHECKED);
@@ -114,13 +114,13 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 		CheckDlgButton(hwndDlg, IDC_ALERT_FOLDER, WumfOptions.AlertFolders ? BST_CHECKED : BST_UNCHECKED);
 
 		if (WumfOptions.LogToFile) {
-			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_CHECKED);
+			CheckDlgButton(hwndDlg, IDC_LOG_INTO_FILE, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), TRUE);
-			SetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile);
+			SetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile);
 		}
 		else {
-			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_LOG_INTO_FILE, BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), FALSE);
 			SetDlgItemText(hwndDlg, IDC_FILE, L"");
@@ -128,15 +128,15 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 		break;
 
 	case WM_COMMAND:
-		switch(wNotifyCode) {
-		case BN_CLICKED :
-			switch(wControlId) {
+		switch (wNotifyCode) {
+		case BN_CLICKED:
+			switch (wControlId) {
 			case IDC_DELAY_SET:
 			case IDC_DELAY_DEF:
 			case IDC_DELAY_INF:
-				WumfOptions.DelaySet = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_SET) == BST_CHECKED);	
-				WumfOptions.DelayDef = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_DEF) == BST_CHECKED);	
-				WumfOptions.DelayInf = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_INF) == BST_CHECKED);	
+				WumfOptions.DelaySet = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_SET) == BST_CHECKED);
+				WumfOptions.DelayDef = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_DEF) == BST_CHECKED);
+				WumfOptions.DelayInf = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_INF) == BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), WumfOptions.DelaySet);
 				SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, TRUE);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -144,18 +144,18 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			case IDC_COLOR_SET:
 			case IDC_COLOR_DEF:
 			case IDC_COLOR_WIN:
-				WumfOptions.SelectColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_SET) == BST_CHECKED);	
-				WumfOptions.UseDefColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_DEF) == BST_CHECKED);	
-				WumfOptions.UseWinColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_WIN) == BST_CHECKED);	
-				EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK),WumfOptions.SelectColor);
+				WumfOptions.SelectColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_SET) == BST_CHECKED);
+				WumfOptions.UseDefColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_DEF) == BST_CHECKED);
+				WumfOptions.UseWinColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_WIN) == BST_CHECKED);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK), WumfOptions.SelectColor);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
-				SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
-				SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
+				SendDlgItemMessage(hwndDlg, IDC_COLOR_BACK, CPM_SETCOLOUR, 0, WumfOptions.ColorBack);
+				SendDlgItemMessage(hwndDlg, IDC_COLOR_TEXT, CPM_SETCOLOUR, 0, WumfOptions.ColorText);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 				/* end */
 			case IDC_LOG_INTO_FILE:
-				WumfOptions.LogToFile = (IsDlgButtonChecked(hwndDlg, IDC_LOG_INTO_FILE) == BST_CHECKED);	
+				WumfOptions.LogToFile = (IsDlgButtonChecked(hwndDlg, IDC_LOG_INTO_FILE) == BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), WumfOptions.LogToFile);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), WumfOptions.LogToFile);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -180,14 +180,14 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			}
 			break;
 
-		case CPN_COLOURCHANGED:						
-			WumfOptions.ColorText = SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_GETCOLOUR,0,0);
-			WumfOptions.ColorBack = SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_GETCOLOUR,0,0);
+		case CPN_COLOURCHANGED:
+			WumfOptions.ColorText = SendDlgItemMessage(hwndDlg, IDC_COLOR_TEXT, CPM_GETCOLOUR, 0, 0);
+			WumfOptions.ColorBack = SendDlgItemMessage(hwndDlg, IDC_COLOR_BACK, CPM_GETCOLOUR, 0, 0);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case EN_CHANGE:
-			switch(wControlId) {
+			switch (wControlId) {
 			case IDC_DELAY_SEC:
 				seconds = GetDlgItemInt(hwndDlg, IDC_DELAY_SEC, nullptr, FALSE);
 				if (seconds > LIFETIME_MAX)
@@ -199,23 +199,23 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_FILE:
-				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, _countof(WumfOptions.LogFile));
+				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 			break;
 		case EN_KILLFOCUS:
-			switch(wControlId) {
+			switch (wControlId) {
 			case IDC_DELAY_SEC:
-				SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, FALSE);								
+				SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, FALSE);
 				break;
 			}
 			break;
 		}
-		break;				
+		break;
 
-	case WM_NOTIFY: 
-		switch(((LPNMHDR)lparam)->idFrom) {
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lparam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lparam)->code) {
 			case PSN_RESET:
@@ -227,7 +227,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				g_plugin.setDword(COLOR_BACK, (uint32_t)WumfOptions.ColorBack);
 				g_plugin.setByte(COLOR_DEF, (uint8_t)WumfOptions.UseDefColor);
 				g_plugin.setByte(COLOR_WIN, (uint8_t)WumfOptions.UseWinColor);
-				g_plugin.setByte(COLOR_SET, (uint8_t)WumfOptions.SelectColor );
+				g_plugin.setByte(COLOR_SET, (uint8_t)WumfOptions.SelectColor);
 				g_plugin.setByte(DELAY_DEF, (uint8_t)WumfOptions.DelayDef);
 				g_plugin.setByte(DELAY_INF, (uint8_t)WumfOptions.DelayInf);
 				g_plugin.setByte(DELAY_SET, (uint8_t)WumfOptions.DelaySet);
