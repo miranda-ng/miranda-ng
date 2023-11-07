@@ -49,6 +49,7 @@ struct MBaseFontObjectW
 #define FIDF_ALLOWEFFECTS		0x0100  // allow setting of font effects (i.e. underline and strikeout)
 #define FIDF_DISABLESTYLES		0x0200  // don't allow to select font attributes (bold/underline/italics)
                                       // FIDF_ALLOWEFFECTS has priority and will override this flag!
+#define FIDF_DISABLEFONT      0x0400  // allow only color to be edited		
 
 // font class
 #define FIDF_CLASSMASK			0x70000000

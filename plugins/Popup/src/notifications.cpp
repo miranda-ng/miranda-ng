@@ -184,11 +184,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	FontID fontid = {};
 	mir_snprintf(fontid.group, PU_FNT_AND_COLOR "/%s", notification->lpzGroup);
 	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
-	fontid.flags = FIDF_DEFAULTVALID;
-	fontid.deffontsettings.charset = DEFAULT_CHARSET;
-	fontid.deffontsettings.colour = ptd->notification.colorText;
-	fontid.deffontsettings.size = -11;
-	mir_strncpy(fontid.deffontsettings.szFace, "MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
+	fontid.flags = FIDF_DISABLEFONT;
 	mir_strncpy(fontid.name, notification->lpzName, _countof(fontid.name));
 	mir_snprintf(fontid.setting, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	g_plugin.addFont(&fontid);

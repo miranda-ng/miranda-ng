@@ -265,9 +265,10 @@ UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM, LPARAM lParam)
 
 struct FSUIListItemData
 {
-	int font_id;
-	int colour_id;
-	int effect_id;
+	int font_id = -1;
+	int colour_id = -1;
+	int effect_id = -1;
+	bool lockFont = false;
 };
 
 static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const wchar_t *name, const wchar_t *backgroundGroup, const wchar_t *backgroundName, int colourId)
@@ -280,11 +281,15 @@ static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const wchar_t *name, const
 
 			if (name && !mir_wstrcmp(F.name, name)) {
 				itemData->colour_id = colourId;
+				if (F.flags & FIDF_DISABLEFONT)
+					itemData->lockFont = true;
 				res = TRUE;
 			}
 
 			if (backgroundGroup && backgroundName && !mir_wstrcmp(F.backgroundGroup, backgroundGroup) && !mir_wstrcmp(F.backgroundName, backgroundName)) {
 				itemData->colour_id = colourId;
+				if (F.flags & FIDF_DISABLEFONT)
+					itemData->lockFont = true;
 				res = TRUE;
 			}
 		}
@@ -439,7 +444,7 @@ static void sttFreeListItems(HWND hList)
 			LRESULT res = SendMessage(hList, LB_GETITEMDATA, idx, 0);
 			FSUIListItemData *itemData = (FSUIListItemData *)res;
 			if (itemData && res != LB_ERR)
-				mir_free(itemData);
+				delete itemData;
 		}
 	}
 }
@@ -632,9 +637,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (wcsncmp(it->group, group_buff, 64))
 						continue;
 
-					FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
-					itemData->colour_id = -1;
-					itemData->effect_id = -1;
+					FSUIListItemData *itemData = new FSUIListItemData();
 					itemData->font_id = font_id_list_w2.indexOf(&it);
 					SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, -1, (LPARAM)itemData);
 					need_restart |= (it->flags & FIDF_NEEDRESTART);
@@ -651,11 +654,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					int colourId = colour_id_list_w2.indexOf(&it);
 					if (!sttFsuiBindColourIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), it->name, it->group, it->name, colourId)) {
-						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
+						FSUIListItemData *itemData = new FSUIListItemData();
 						itemData->colour_id = colourId;
-						itemData->font_id = -1;
-						itemData->effect_id = -1;
-
 						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, -1, (LPARAM)itemData);
 					}
 
@@ -672,11 +672,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					int effectId = effect_id_list_w2.indexOf(&it);
 					if (!sttFsuiBindEffectIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), it->name, effectId)) {
-						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
+						FSUIListItemData *itemData = new FSUIListItemData();
 						itemData->effect_id = effectId;
-						itemData->font_id = -1;
-						itemData->colour_id = -1;
-
 						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, -1, (LPARAM)itemData);
 					}
 				}
@@ -892,6 +889,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				bool bEnableClBack = true;
 				bool bEnableEffect = true;
 				bool bEnableReset = true;
+				bool bLockFont = false;
 
 				COLORREF clBack = 0xffffffff;
 				COLORREF clText = 0xffffffff;
@@ -913,6 +911,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 							bEnableClText = false;
 						if (bEnableReset && (itemData->font_id >= 0) && !(font_id_list_w2[itemData->font_id].flags & FIDF_DEFAULTVALID))
 							bEnableReset = false;
+						if (!bLockFont && itemData->lockFont)
+							bLockFont = true;
 
 						if (bEnableClBack && (itemData->colour_id >= 0) && (clBack == 0xffffffff))
 							clBack = colour_id_list_w2[itemData->colour_id].value;
@@ -922,6 +922,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					mir_free(selItems);
 				}
 				else bEnableFont = bEnableClText = bEnableClBack = bEnableReset = bEnableEffect = false;
+
+				if (bLockFont)
+					bEnableFont = false;
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bEnableClBack);
 				ShowEffectButton(hwndDlg, bEnableEffect && !bEnableClBack);
