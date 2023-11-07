@@ -13,7 +13,7 @@
 [Direct connection]
 Прямое соединение
 [Use proxy]
-Использовать прокси
+Исп. прокси
 [General]
 Общее
 [Manage Miranda NG proxy]
@@ -23,7 +23,7 @@
 [Manage Firefox proxy]
 Управлять прокси Firefox
 [Reconnect if IP address changes]
-Переподключаться при изменении IP-адреса
+Переподключ. при изменении IP
 [Hide interfaces]
 Скрыть интерфейсы
 [Popup options]

@@ -101,7 +101,7 @@ EXSTYLE WS_EX_PALETTEWINDOW | WS_EX_APPWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)",IDC_HELP_1,8,4,287,32
-    LTEXT           "Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:",IDC_HELP_2,8,36,287,27
+    LTEXT           "Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:",IDC_HELP_2,8,36,287,32
     LTEXT           "\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or no address found",IDC_HELP_3,8,70,287,59
     PUSHBUTTON      "OK",IDOK,195,149,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,250,149,50,14
