@@ -1274,7 +1274,8 @@ static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 
 int ShutdownOptionsModule(WPARAM, LPARAM)
 {
-	delete pOptionsDlg; pOptionsDlg = nullptr;
+	if (pOptionsDlg)
+		pOptionsDlg->Close();
 	return 0;
 }
 
