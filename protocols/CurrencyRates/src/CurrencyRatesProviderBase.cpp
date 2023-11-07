@@ -65,7 +65,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 	return true;
 }
 
-const TiXmlNode* find_provider(const TiXmlNode *pRoot)
+const TiXmlNode *find_provider(const TiXmlNode *pRoot)
 {
 	for (auto *pNode : TiXmlEnum(pRoot)) {
 		const char *sName = pNode->Value();
@@ -110,7 +110,7 @@ CXMLFileInfo parse_ini_file(const CMStringW &rsXMLFile, bool &rbSucceded)
 	return res;
 }
 
-CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
+CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool &rbSucceded)
 {
 	rbSucceded = false;
 	CMStringW sIniFile = CreateFilePath(pszFileName);
@@ -121,8 +121,7 @@ CCurrencyRatesProviderBase::CCurrencyRatesProviderBase() :
 	m_hEventSettingsChanged(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_hEventRefreshContact(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_bRefreshInProgress(false)
-{
-}
+{}
 
 CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 {
@@ -144,17 +143,17 @@ bool CCurrencyRatesProviderBase::Init()
 	return bSucceded;
 }
 
-const CCurrencyRatesProviderBase::CProviderInfo& CCurrencyRatesProviderBase::GetInfo() const
+const CCurrencyRatesProviderBase::CProviderInfo &CCurrencyRatesProviderBase::GetInfo() const
 {
 	return m_pXMLInfo->m_pi;
 }
 
-const CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates() const
+const CCurrencyRateSection &CCurrencyRatesProviderBase::GetCurrencyRates() const
 {
 	return m_pXMLInfo->m_qs;
 }
 
-const CMStringW& CCurrencyRatesProviderBase::GetURL() const
+const CMStringW &CCurrencyRatesProviderBase::GetURL() const
 {
 	return m_pXMLInfo->m_sURL;
 }
@@ -409,11 +408,11 @@ void log_to_history(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)::mir_strlen(psz) + 1;
-	dbei.pBlob = (uint8_t*)(char*)psz;
+	dbei.pBlob = (uint8_t *)(char *)psz;
 	db_event_add(hContact, &dbei);
 }
 
-bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
+bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency &tendency)
 {
 	CTendency::EResult nComparison = tendency.Compare();
 
@@ -429,26 +428,28 @@ bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
 	return false;
 }
 
-bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const CTendency &tendency, const CMStringW &rsFormat, const CPopupSettings &ps)
+bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat, const CPopupSettings &ps)
 {
 	POPUPDATAW ppd;
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = hContact;
 
-	if (tendency.IsValid()) {
-		CTendency::EResult nComparison = tendency.Compare();
-		if (CTendency::NotChanged == nComparison)
-			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_NOTCHANGED);
-		else if (CTendency::Up == nComparison)
-			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_UP);
-		else if (CTendency::Down == nComparison)
-			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_DOWN);
-	}
+	if (CTendency::NotChanged == nComparison)
+		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_NOTCHANGED);
+	else if (CTendency::Up == nComparison)
+		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_UP);
+	else if (CTendency::Down == nComparison)
+		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_DOWN);
 
-	mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
-	{
-		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), nullptr, hContact));
+	if (pProvider != nullptr) {
+		mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
+
+		ptrW ss(variables_parsedup((wchar_t *)rsFormat.c_str(), nullptr, hContact));
 		mir_wstrncpy(ppd.lpwzText, format_rate(pProvider, hContact, ss.get()), MAX_SECONDLINE);
+	}
+	else {
+		mir_wstrncpy(ppd.lpwzContactName, TranslateT("Test contact"), MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lpwzText, L"1 USD = 8.4342 SMC", MAX_SECONDLINE);
 	}
 
 	if (CPopupSettings::colourDefault == ps.GetColourMode()) {
@@ -528,7 +529,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	uint16_t dwMode = (bUseContactSpecific)
 		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<uint16_t>(lmDisabled))
 		: global_settings.GetLogMode();
-	if (dwMode&lmExternalFile) {
+	if (dwMode & lmExternalFile) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, 1) > 0)
@@ -554,7 +555,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
 	}
-	if (dwMode&lmInternalHistory) {
+	if (dwMode & lmInternalHistory) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, 1) > 0)
@@ -572,7 +573,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		}
 	}
 
-	if (dwMode&lmPopup) {
+	if (dwMode & lmPopup) {
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
 			: global_settings.GetShowPopupIfValueChangedFlag();
@@ -583,7 +584,11 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
 			ps.InitForContact(hContact);
-			show_popup(this, hContact, tendency, sFormat, ps);
+
+			CTendency::EResult nComparison = CTendency::NotChanged;
+			if (tendency.IsValid())
+				nComparison = tendency.Compare();
+			show_popup(this, hContact, nComparison, sFormat, ps);
 		}
 	}
 
@@ -642,7 +647,7 @@ uint32_t get_refresh_timeout_miliseconds()
 class CBoolGuard
 {
 public:
-	CBoolGuard(bool& rb) : m_b(rb) { m_b = true; }
+	CBoolGuard(bool &rb) : m_b(rb) { m_b = true; }
 	~CBoolGuard() { m_b = false; }
 
 private:
@@ -758,7 +763,8 @@ void CCurrencyRatesProviderBase::RefreshSettings()
 
 void CCurrencyRatesProviderBase::RefreshAllContacts()
 {
-	{	mir_cslock lck(m_cs);
+	{
+		mir_cslock lck(m_cs);
 		m_aRefreshingContacts.clear();
 		for (auto &hContact : m_aContacts)
 			m_aRefreshingContacts.push_back(hContact);
@@ -769,7 +775,8 @@ void CCurrencyRatesProviderBase::RefreshAllContacts()
 
 void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 {
-	{	mir_cslock lck(m_cs);
+	{
+		mir_cslock lck(m_cs);
 		m_aRefreshingContacts.push_back(hContact);
 	}
 
@@ -796,7 +803,7 @@ bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, doubl
 	case 'r':
 	case 'R':
 		return CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, d);
-	
+
 	case 'p':
 	case 'P':
 		return CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, d);
@@ -876,7 +883,7 @@ CMStringW CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c,
 			ret = format_fetch_time(hContact, sFrmt);
 		}
 		break;
-	
+
 	default:
 		if (ParseSymbol(hContact, c, d))
 			ret = format_double(d, nWidth);

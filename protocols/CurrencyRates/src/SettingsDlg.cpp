@@ -73,7 +73,7 @@ static LPCTSTR pszFilterParts[] = { LPGENW("Log Files (*.txt,*.log)"), L"*.txt;*
 void select_log_file(HWND hDlg)
 {
 	wchar_t pszFile[MAX_PATH];
-	
+
 	CMStringW pszFilter;
 	for (auto &it : pszFilterParts) {
 		pszFilter += it;
@@ -120,15 +120,16 @@ void update_popup_controls_settings(HWND hDlg)
 
 	bool bIsDelayEnabled = 1 == IsDlgButtonChecked(hDlg, IDC_DELAYCUSTOM);
 	::EnableWindow(::GetDlgItem(hDlg, IDC_DELAY), bIsDelayEnabled);
-
 }
 
 INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
+	auto *pSettings = (CPopupSettings *)(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			CPopupSettings *pSettings = reinterpret_cast<CPopupSettings *>(lp);
+			pSettings = (CPopupSettings *)lp;
 			TranslateDialogDefault(hWnd);
 			::SendDlgItemMessage(hWnd, IDC_BGCOLOR, CPM_SETCOLOUR, 0, pSettings->GetColourBk());
 			::SendDlgItemMessage(hWnd, IDC_TEXTCOLOR, CPM_SETCOLOUR, 0, pSettings->GetColourText());
@@ -138,8 +139,6 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 			::CheckRadioButton(hWnd, IDC_RADIO_DEFAULT_COLOURS, IDC_RADIO_USER_DEFINED_COLOURS, (CPopupSettings::colourDefault == pSettings->GetColourMode()) ? IDC_RADIO_DEFAULT_COLOURS : IDC_RADIO_USER_DEFINED_COLOURS);
 			UINT n;
 			switch (pSettings->GetDelayMode()) {
-			default:
-				assert(!"Unknown delay mode. Please, fix it");
 			case CPopupSettings::delayFromPopup:
 				n = IDC_DELAYFROMPU;
 				break;
@@ -149,6 +148,8 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 			case CPopupSettings::delayPermanent:
 				n = IDC_DELAYPERMANENT;
 				break;
+			default:
+				assert(!"Unknown delay mode. Please, fix it");
 			}
 			::CheckRadioButton(hWnd, IDC_DELAYFROMPU, IDC_DELAYPERMANENT, n);
 
@@ -162,6 +163,10 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 
 	case WM_COMMAND:
 		switch (LOWORD(wp)) {
+		case IDC_PREV:
+			show_popup(0, 0, 1, L"", *pSettings);
+			break;
+
 		case IDC_RADIO_DEFAULT_COLOURS:
 		case IDC_RADIO_USER_DEFINED_COLOURS:
 		case IDC_DELAYFROMPU:
@@ -176,8 +181,6 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 
 		case IDOK:
 			{
-				CPopupSettings *pSettings = reinterpret_cast<CPopupSettings *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-
 				bool bError = false;
 				BOOL bOk = FALSE;
 				UINT nDelay = ::GetDlgItemInt(hWnd, IDC_DELAY, &bOk, FALSE);

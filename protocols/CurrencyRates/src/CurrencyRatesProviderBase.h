@@ -116,4 +116,6 @@ protected:
 	mutable mir_cs m_cs;
 };
 
+bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat, const CPopupSettings &ps);
+
 #endif //__3e6cb4ec_fc47_468f_a2c8_a77941176bc9_CurrencyRatesProviderBase_h__
