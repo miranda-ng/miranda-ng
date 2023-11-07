@@ -63,7 +63,7 @@ BEGIN
     CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,102,116,10
     CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,114,131,10
     CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,114,116,10
-    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,126,122,10
+    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,126,124,10
     CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,126,116,10
     LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,138,251,11
     CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,42,116,10
