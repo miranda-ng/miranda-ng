@@ -352,7 +352,7 @@ QSMainDlg::QSMainDlg(const wchar_t *pwszPattern) :
 	chkColorize(this, IDC_CH_COLORIZE),
 	chkShowOffline(this, IDC_CH_SHOWOFFLINE)
 {
-	SetMinSize(300, 160);
+	SetMinSize(500, 350);
 
 	if (pwszPattern)
 		m_wszPatternBuf = mir_wstrdup(pwszPattern);
