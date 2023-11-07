@@ -335,8 +335,9 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
-		
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *) override;
+
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;

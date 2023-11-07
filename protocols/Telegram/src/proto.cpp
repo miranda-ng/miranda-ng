@@ -278,6 +278,28 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return pUser->hContact;
 }
 
+int CTelegramProto::AuthRequest(MCONTACT hContact, const wchar_t *)
+{
+	auto *pUser = FindUser(GetId(hContact));
+	if (pUser == nullptr)
+		return 1;  // error
+
+	auto cc = TD::make_object<TD::contact>();
+	cc->user_id_ = pUser->id;
+	if (!pUser->wszFirstName.IsEmpty())
+		cc->first_name_ = T2Utf(pUser->wszFirstName);
+	else
+		cc->first_name_ = getMStringU(hContact, "FirstName").c_str();
+
+	if (!pUser->wszLastName.IsEmpty())
+		cc->last_name_ = T2Utf(pUser->wszLastName);
+	else
+		cc->last_name_ = getMStringU(hContact, "LastName").c_str();
+	
+	SendQuery(new TD::addContact(std::move(cc), false));
+	return 0;
+}
+
 INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
