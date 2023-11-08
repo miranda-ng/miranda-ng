@@ -1,7 +1,8 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by proxySwitch.rc
+// Microsoft Visual C++ generated include file.
+// Used by W:\miranda-ng\plugins\ProxySwitch\res\resource.rc
 //
+#define VS_VERSION_INFO                 1
 #define IDI_LOGO                        101
 #define IDI_PROXY                       102
 #define IDI_NOPROXY                     103
@@ -27,6 +28,7 @@
 #define IDC_CHECK_SHOWPROXYSTATUS       1031
 #define IDC_TEXTCOLOR                   2041
 #define IDC_BGCOLOR                     2042
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

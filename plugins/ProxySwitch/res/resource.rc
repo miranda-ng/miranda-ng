@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include <winres.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -16,10 +15,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1250)
-#endif //_WIN32
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -28,10 +25,13 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_LOGO                ICON    "logo.ico"
-IDI_PROXY               ICON    "proxy.ico"
-IDI_NOTIF_1             ICON    "notif-yes.ico"
-IDI_NOTIF_0             ICON    "notif-no.ico"
+IDI_LOGO                ICON                    "logo.ico"
+
+IDI_PROXY               ICON                    "proxy.ico"
+
+IDI_NOTIF_1             ICON                    "notif-yes.ico"
+
+IDI_NOTIF_0             ICON                    "notif-no.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -44,15 +44,10 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 295
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 184
     END
 
     IDD_HELP, DIALOG
     BEGIN
-        BOTTOMMARGIN, 163
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -64,7 +59,7 @@ END
 //
 
 IDD_OPTIONS DIALOGEX 0, 0, 302, 191
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
@@ -88,11 +83,10 @@ BEGIN
     CONTROL         "Text color",IDC_STATIC,"Static",SS_SIMPLE,215,94,75,8
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,168,111,39,11
     CONTROL         "Background color",IDC_STATIC,"Static",SS_SIMPLE,215,111,75,8
-    CONTROL         "Use default colors",IDC_CHECK_DEFAULTCOLORS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
+    CONTROL         "Use default colors",IDC_CHECK_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
     CONTROL         "Show proxy status on change",IDC_CHECK_SHOWPROXYSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,143,123,10
-    CTEXT           "Restart of Miranda NG is required.",IDC_RESTARTREQUIRED,164,164,127,8,NOT WS_VISIBLE
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,168,143,123,20
+    CTEXT           "Restart of Miranda NG is required.",IDC_RESTARTREQUIRED,164,170,127,8,NOT WS_VISIBLE
 END
 
 IDD_HELP DIALOGEX 0, 0, 302, 167
@@ -124,6 +118,41 @@ BEGIN
 END
 
 #endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
