@@ -109,6 +109,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	return CSuper::DlgProc(msg, wParam, lParam);
 }
+
 void CProtoIntDlgBase::UpdateStatusBar()
 {
 	SIZE sz;

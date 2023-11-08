@@ -124,16 +124,16 @@ class CAccountListCtrl : public CCtrlListBox
 {
 	friend class CAccountManagerDlg;
 
-	int  m_iItem;
+	int  m_iItem = -1;
 	RECT m_rcCheck;
-	HWND m_hwndEdit;
+	HWND m_hwndEdit = nullptr;
 
 public:
 	CAccountListCtrl(CDlgBase *dlg, int ctrlId) :
-		CCtrlListBox(dlg, ctrlId),
-		m_iItem(-1),
-		m_hwndEdit(nullptr)
-	{}
+		CCtrlListBox(dlg, ctrlId)
+	{
+		memset(&m_rcCheck, 0, sizeof(m_rcCheck));
+	}
 
 	__forceinline CAccountManagerDlg* PARENT() { return (CAccountManagerDlg*)m_parentWnd; }
 
@@ -554,8 +554,13 @@ public:
 
 		Refresh();
 
-		m_accList.SetCurSel((idx >= m_accList.GetCount()) ? idx - 1 : idx);
+		if (idx >= m_accList.GetCount())
+			idx--;
+		m_accList.SetCurSel(idx);
+
+		m_iPrevSel = -1;
 		UpdateAccountInfo();
+		SelectItem(idx);
 
 		m_accList.Enable();
 		m_btnAdd.Enable();
