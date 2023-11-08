@@ -356,7 +356,7 @@ void CJabberProto::OnShutdown()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberAddToList - adds a contact to the contact list
+// AddToList - adds a contact to the contact list
 
 MCONTACT CJabberProto::AddToListByJID(const char *newJid, uint32_t flags)
 {
@@ -394,7 +394,7 @@ MCONTACT CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbE
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberAuthAllow - processes the successful authorization
+// AuthAllow - processes the successful authorization
 
 int CJabberProto::Authorize(MEVENT hDbEvent)
 {
@@ -430,7 +430,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberAuthDeny - handles the unsuccessful authorization
+// AuthDeny - handles the unsuccessful authorization
 
 int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
@@ -452,7 +452,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberAuthRecv - receives a auth
+// AuthRecv - receives a auth
 
 int CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
 {
@@ -460,7 +460,16 @@ int CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberFileAllow - starts a file transfer
+// AuthRecv - receives a auth
+
+int CJabberProto::AuthRequest(MCONTACT hContact, const wchar_t *)
+{
+	AddContactForever(hContact);
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+// FileAllow - starts a file transfer
 
 HANDLE CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wchar_t *szPath)
 {
@@ -491,7 +500,7 @@ HANDLE CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wc
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberFileCancel - cancels a file transfer
+// FileCancel - cancels a file transfer
 
 int CJabberProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
@@ -519,7 +528,7 @@ int CJabberProto::FileCancel(MCONTACT, HANDLE hTransfer)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberFileDeny - denies a file transfer
+// FileDeny - denies a file transfer
 
 int CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
@@ -547,7 +556,7 @@ int CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberFileResume - processes file renaming etc
+// FileResume - processes file renaming etc
 
 int CJabberProto::FileResume(HANDLE hTransfer, int, const wchar_t *szFilename)
 {
@@ -702,7 +711,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 
 HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 {
-	debugLogA("JabberBasicSearch called with lParam = '%s'", szJid);
+	debugLogA("JabberBasicSearch called with lParam = '%S'", szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
 	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == nullptr)
@@ -731,7 +740,7 @@ HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 	}
 	else wcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 
-	debugLogA("Adding '%s' without validation", jsb->jid);
+	debugLogA("Adding '%S' without validation", jsb->jid);
 	jsb->hSearch = SerialNext();
 	ForkThread((MyThreadFunc)&CJabberProto::BasicSearchThread, jsb);
 	return (HANDLE)jsb->hSearch;
@@ -752,7 +761,7 @@ HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberSearchByName - searches the contact by its first or last name, or by a nickname
+// SearchByName - searches the contact by its first or last name, or by a nickname
 
 HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
@@ -872,7 +881,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberSendMessage - sends a message
+// SendMessage - sends a message
 
 int CJabberProto::SendMsg(MCONTACT hContact, const char *pszSrc)
 {
@@ -975,7 +984,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberSetApparentMode - sets the visibility status
+// rSetApparentMode - sets the visibility status
 
 int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 {
@@ -1055,7 +1064,7 @@ int CJabberProto::SetStatus(int iNewStatus)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberGetAwayMsg - returns a contact's away message
+// GetAwayMsg - returns a contact's away message
 
 void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 {
@@ -1103,7 +1112,7 @@ HANDLE CJabberProto::GetAwayMsg(MCONTACT hContact)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// JabberSetAwayMsg - sets the away status message
+// SetAwayMsg - sets the away status message
 
 int CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 {
@@ -1153,7 +1162,7 @@ int CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// JabberUserIsTyping - sends a UTN notification
+// UserIsTyping - sends a UTN notification
 
 int CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 {
