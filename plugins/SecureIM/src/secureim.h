@@ -33,7 +33,6 @@
 #define SiG_SECP 12
 #define SiG_PGPM 13
 #define SiG_NONE -1
-#define SiG_GAME -2
 
 struct SIG {
 	char *sig;
@@ -41,33 +40,7 @@ struct SIG {
 	char key;
 };
 
-const SIG signs[] = {
-	{"----Key3@hell----",           17,   SiG_KEYR},
-   {"----Key4@hell----",           17,   SiG_KEYR},
-   {"----Secured@hell----",        20,   SiG_ENON},
-   {"----Offline@hell----",        20,   SiG_ENOF},
-   {"----Resend@hell----",         19,   SiG_RSND},
-   {"----INIT@HELL----",           17,   SiG_INIT},
-   {"----DEINIT@HELL----",         19,   SiG_DEIN},
-   {"----DISABLED@HELL----",       21,   SiG_DISA},
-   {"----FAKE@HELL----",           17,   SiG_FAKE},
-   {"----KeyA@hell----",           17,   SiG_KEYA},
-   {"----KeyB@hell----",           17,   SiG_KEYB},
-   {"----Part@hell----",           17,   SiG_PART},
-   {"[SECURE]",                     8,   SiG_SECU},
-   {"[$ECURE]",                     8,   SiG_SECP},
-   {"-----BEGIN PGP MESSAGE-----", 27,   SiG_PGPM},
-   {"@@BattleShip",                12,   SiG_GAME},
-   {"GoMoku 0.0.2.2:",             15,   SiG_GAME},
-   {"@@GoMoku",                     8,   SiG_GAME},
-   {"pbiChess:",                    9,   SiG_GAME},
-   {"pbiReverse:",                 11,   SiG_GAME},
-   {"pbiCorners:",                 11,   SiG_GAME},
-   {"pbiCheckersInt:",             15,   SiG_GAME},
-   {"pbiCheckersRus:",             15,   SiG_GAME},
-   {"pbiCheckersPool:",            16,   SiG_GAME},
-	{0}
-};
+extern const SIG signs[];
 
 #define SIG_KEY3 signs[ 0].sig
 #define SIG_KEY4 signs[ 1].sig

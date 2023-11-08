@@ -17,7 +17,7 @@ HANDLE g_IEC[1 + IEC_CNT*MODE_CNT];
 int iBmpDepth;
 BOOL bPGPloaded = false, bPGPkeyrings = false, bUseKeyrings = false, bPGPprivkey = false;
 BOOL bGPGloaded = false, bGPGkeyrings = false, bSavePass = false;
-BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
+BOOL bSFT, bSOM, bASI, bMCD, bSCM, bAIP, bNOL, bAAK, bMCM;
 uint8_t bPGP, bGPG;
 mir_cs localQueueMutex;
 
@@ -49,7 +49,6 @@ void GetFlags()
 	bASI = g_plugin.getByte("asi", 0);
 	bMCD = g_plugin.getByte("mcd", 0);
 	bSCM = g_plugin.getByte("scm", 0);
-	bDGP = g_plugin.getByte("dgp", 0);
 	bAIP = g_plugin.getByte("aip", 0);
 	bNOL = g_plugin.getByte("nol", 0);
 	bAAK = g_plugin.getByte("aak", 0);
@@ -63,7 +62,6 @@ void SetFlags()
 	g_plugin.setByte("asi", bASI);
 	g_plugin.setByte("mcd", bMCD);
 	g_plugin.setByte("scm", bSCM);
-	g_plugin.setByte("dgp", bDGP);
 	g_plugin.setByte("aip", bAIP);
 	g_plugin.setByte("nol", bNOL);
 	g_plugin.setByte("aak", bAAK);

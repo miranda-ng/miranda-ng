@@ -85,7 +85,7 @@ extern HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
 extern int iBmpDepth;
 extern BOOL bPGPloaded, bPGPkeyrings, bUseKeyrings, bPGPprivkey;
 extern BOOL bGPGloaded, bGPGkeyrings, bSavePass;
-extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
+extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bAIP, bNOL, bAAK, bMCM;
 extern uint8_t bPGP, bGPG;
 extern mir_cs localQueueMutex;
 

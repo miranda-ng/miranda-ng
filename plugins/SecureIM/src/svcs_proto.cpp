@@ -1,16 +1,35 @@
 #include "commonheaders.h"
 
+const SIG signs[] = {
+	{"----Key3@hell----",           17,   SiG_KEYR},
+   {"----Key4@hell----",           17,   SiG_KEYR},
+   {"----Secured@hell----",        20,   SiG_ENON},
+   {"----Offline@hell----",        20,   SiG_ENOF},
+   {"----Resend@hell----",         19,   SiG_RSND},
+   {"----INIT@HELL----",           17,   SiG_INIT},
+   {"----DEINIT@HELL----",         19,   SiG_DEIN},
+   {"----DISABLED@HELL----",       21,   SiG_DISA},
+   {"----FAKE@HELL----",           17,   SiG_FAKE},
+   {"----KeyA@hell----",           17,   SiG_KEYA},
+   {"----KeyB@hell----",           17,   SiG_KEYB},
+   {"----Part@hell----",           17,   SiG_PART},
+   {"[SECURE]",                     8,   SiG_SECU},
+   {"[$ECURE]",                     8,   SiG_SECP},
+   {"-----BEGIN PGP MESSAGE-----", 27,   SiG_PGPM},
+};
+
 // return SignID
 int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg = nullptr)
 {
-	if (szPlainMsg) *szPlainMsg = (LPSTR)szMsg;
-	for (int i = 0; signs[i].len; i++) {
-		if (memcmp(szMsg, signs[i].sig, signs[i].len) == 0) {
-			if (szPlainMsg) *szPlainMsg = (LPSTR)(szMsg + signs[i].len);
-			if (signs[i].key == SiG_GAME && !bDGP)
-				return SiG_NONE;
+	if (szPlainMsg)
+		*szPlainMsg = (LPSTR)szMsg;
 
-			return signs[i].key;
+	for (auto &it: signs) {
+		if (memcmp(szMsg, it.sig, it.len) == 0) {
+			if (szPlainMsg)
+				*szPlainMsg = (LPSTR)(szMsg + it.len);
+
+			return it.key;
 		}
 	}
 	return SiG_NONE;
@@ -59,7 +78,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	bool bGPG = isContactGPG(ccs->hContact);
 
 	// pass any unchanged message
-	if (!ptr || ssig == SiG_GAME || !isSecureProtocol(ccs->hContact) ||
+	if (!ptr || !isSecureProtocol(ccs->hContact) ||
 		 (db_mc_isMeta(ccs->hContact) && (ccs->wParam & PREF_SIMNOMETA)) || isChatRoom(ccs->hContact) ||
 		 (ssig == SiG_NONE && !ptr->msgSplitted && !bSecured && !bPGP && !bGPG)) {
 		Sent_NetLog("onRecvMsg: pass unhandled");
@@ -456,7 +475,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 	Sent_NetLog("onSend: %s", (LPSTR)ccs->lParam);
 
 	// pass unhandled messages
-	if (!ptr || ssig == SiG_GAME || ssig == SiG_PGPM || ssig == SiG_SECU || ssig == SiG_SECP ||
+	if (!ptr || ssig == SiG_PGPM || ssig == SiG_SECU || ssig == SiG_SECP ||
 		isChatRoom(ccs->hContact) || stat == -1 ||
 		(ssig == SiG_NONE && ptr->sendQueue) || (ssig == SiG_NONE && ptr->status == STATUS_DISABLED)) {
 			Sent_NetLog("onSendMsg: pass unhandled");

@@ -400,7 +400,6 @@ static void ResetGeneralDlg(HWND hDlg)
 	CheckDlgButton(hDlg, IDC_ASI, BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_MCD, BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_SCM, BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_DGP, BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_AIP, BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_MCM, BST_UNCHECKED);
 
@@ -468,7 +467,6 @@ static void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 	CheckDlgButton(hDlg, IDC_ASI, (bASI) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_MCD, (bMCD) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_SCM, (bSCM) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_DGP, (bDGP) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_AIP, (bAIP) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_NOL, (bNOL) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hDlg, IDC_AAK, (bAAK) ? BST_CHECKED : BST_UNCHECKED);
@@ -578,7 +576,6 @@ static void ApplyGeneralSettings(HWND hDlg)
 	bASI = (IsDlgButtonChecked(hDlg, IDC_ASI) == BST_CHECKED);
 	bMCD = (IsDlgButtonChecked(hDlg, IDC_MCD) == BST_CHECKED);
 	bSCM = (IsDlgButtonChecked(hDlg, IDC_SCM) == BST_CHECKED);
-	bDGP = (IsDlgButtonChecked(hDlg, IDC_DGP) == BST_CHECKED);
 	bAIP = (IsDlgButtonChecked(hDlg, IDC_AIP) == BST_CHECKED);
 	bNOL = (IsDlgButtonChecked(hDlg, IDC_NOL) == BST_CHECKED);
 	bAAK = (IsDlgButtonChecked(hDlg, IDC_AAK) == BST_CHECKED);
@@ -815,7 +812,6 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 		case IDC_MCD:
 		case IDC_KET:
 		case IDC_SCM:
-		case IDC_DGP:
 		case IDC_OKT:
 			break;
 

@@ -81,7 +81,6 @@
 #define IDC_EDIT1                       1041
 #define IDC_EDIT2                       1042
 #define IDC_SCM                         1043
-#define IDC_DGP                         1044
 #define IDC_OKT                         1045
 #define IDC_AIP                         1046
 #define IDC_SPLITON                     1048

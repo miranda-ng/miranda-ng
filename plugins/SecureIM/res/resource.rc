@@ -45,9 +45,8 @@ BEGIN
     CONTROL         "Context Menu only for ""Miranda"" clients",IDC_MCD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,172,145,10
     CONTROL         "Status in Context Menu",IDC_SCM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,182,145,10
-    CONTROL         "Disable encryption for game plugins",IDC_DGP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,192,145,10
-    CONTROL         "Always secured if possible",IDC_AIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,202,145,10
-    CONTROL         "Not secured for NotOnList",IDC_NOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,212,145,10
+    CONTROL         "Always secured if possible",IDC_AIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,192,145,10
+    CONTROL         "Not secured for NotOnList",IDC_NOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,202,145,10
     CONTROL         "Auto accept RSA key (NOT SECURED)",IDC_AAK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,142,145,10
     CONTROL         "Mode in Context Menu",IDC_MCM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,152,145,10
     GROUPBOX        "",IDC_STATIC,156,175,144,32
