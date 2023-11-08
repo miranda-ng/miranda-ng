@@ -281,7 +281,7 @@ void InitGroupMenus(void)
 		mi.position = 100000;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUPADD);
 		mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
-		mi.name.a = LPGEN("&New group");
+		mi.name.a = LPGEN("New group");
 		Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, CreateGroupHelper);
 
@@ -289,7 +289,7 @@ void InitGroupMenus(void)
 		mi.position = 500001;
 		mi.hIcolibItem = nullptr;
 		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
-		mi.name.a = LPGEN("&Hide offline users");
+		mi.name.a = LPGEN("Hide offline users");
 		gmp.wParam = -1;
 		hHideOfflineUsersMenuItem = Menu_AddGroupMenuItem(&mi, &gmp);
 		CreateServiceFunction(mi.pszService, HideOfflineHelper);
@@ -297,21 +297,21 @@ void InitGroupMenus(void)
 		SET_UID(mi, 0xeded7371, 0xf6e6, 0x48c3, 0x8c, 0x9e, 0x62, 0xc1, 0xd5, 0xcb, 0x51, 0xbc);
 		mi.position = 500002;
 		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINEROOT;
-		mi.name.a = LPGEN("Hide &offline users out here");
+		mi.name.a = LPGEN("Hide offline users out here");
 		hHideOfflineUsersOutHereMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideOfflineRootHelper);
 
 		SET_UID(mi, 0x4c17b9cf, 0x513a, 0x41d8, 0x8d, 0x2b, 0x89, 0x44, 0x81, 0x14, 0x0, 0x91);
 		mi.position = 500003;
 		mi.pszService = MS_CLIST_TOGGLEEMPTYGROUPS;
-		mi.name.a = LPGEN("Hide &empty groups");
+		mi.name.a = LPGEN("Hide empty groups");
 		hHideEmptyGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideGroupsHelper);
 
 		SET_UID(mi, 0xfcbdbbb1, 0xa553, 0x49ac, 0xa5, 0xdf, 0xb4, 0x81, 0x38, 0xf, 0xa0, 0xc7);
 		mi.position = 500004;
 		mi.pszService = MS_CLIST_TOGGLEGROUPS;
-		mi.name.a = LPGEN("Disable &groups");
+		mi.name.a = LPGEN("Disable groups");
 		hDisableGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, UseGroupsHelper);
 
@@ -319,7 +319,7 @@ void InitGroupMenus(void)
 		mi.position = 1900000;
 		mi.pszService = "CloseAction";
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
-		mi.name.a = LPGEN("E&xit");
+		mi.name.a = LPGEN("Exit");
 		Menu_AddGroupMenuItem(&mi);
 	}
 
