@@ -76,7 +76,7 @@ BEGIN
     CONTROL         "Do nothing",IDC_REXDSAVE,"Button",BS_AUTORADIOBUTTON,173,50,122,10
     EDITTEXT        IDC_TRACK,232,70,27,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,254,69,10,14
-    LTEXT           "Save only last",IDC_EXSTATIC1,173,72,56,8
+    LTEXT           "Save only last",IDC_EXSTATIC1,173,72,57,8
     LTEXT           "sessions",IDC_EXSTATIC2,261,72,28,8
     GROUPBOX        "Misc",IDC_STATIC,170,96,128,95
     CONTROL         "Exclude hidden contacts from session on exit",IDC_EXCLHIDDEN,
