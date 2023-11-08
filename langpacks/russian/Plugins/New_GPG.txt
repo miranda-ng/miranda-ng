@@ -157,7 +157,7 @@ ID ключа:
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
 [Turn on presence signing (Jabber) (required by XEP-0027)]
-Сообщать о возможности использования подписи (Jabber) (требуется для XEP-0027)
+Подписывать статусы Jabber (нужно для XEP-0027)
 [Export keys]
 Экспорт ключей
 [Import keys]

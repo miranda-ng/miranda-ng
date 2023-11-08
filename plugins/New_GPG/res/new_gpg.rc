@@ -230,8 +230,8 @@ BEGIN
     LTEXT           "Default key",IDC_CURRENT_KEY,12,196,170,8
     CONTROL         "Encrypt file transfers",IDC_FILE_TRANSFERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,185,137,10
     CONTROL         "Automatic key exchange",IDC_AUTO_EXCHANGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,137,111,10
-    PUSHBUTTON      "Copy own key",IDC_COPY_KEY,127,205,74,14
-    PUSHBUTTON      "Bind keys to accounts",IDC_SELECT_KEY,205,205,74,14
+    PUSHBUTTON      "Copy own key",IDC_COPY_KEY,7,205,134,14
+    PUSHBUTTON      "Bind keys to accounts",IDC_SELECT_KEY,145,205,134,14
 END
 
 IDD_OPT_GPG_BIN DIALOGEX 0, 0, 282, 71
@@ -273,7 +273,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Turn on presence signing (Jabber) (required by XEP-0027)",IDC_PRESCENSE_SUBSCRIPTION,
+    CONTROL         "Turn on Jabber presence signing (required by XEP-0027)",IDC_PRESCENSE_SUBSCRIPTION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,9,268,10
     PUSHBUTTON      "Export keys",IDC_EXPORT,12,44,100,14
     PUSHBUTTON      "Import keys",IDC_IMPORT,122,44,100,14
