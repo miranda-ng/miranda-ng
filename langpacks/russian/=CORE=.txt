@@ -35,8 +35,6 @@
 О&тмена
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
-[Status messages]
-Сообщения статуса
 [Do not reply to requests for this message]
 Не отвечать на запросы этого сообщения
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@
 Использовать сообщение:
 [Use %time% for the current time, %date% for the current date]
 %date% - сегодняшняя дата; %time% - текущее время
+[Status messages]
+Сообщения статуса
+[Reset]
+Сброс
 [Change %s message]
 Изменить сообщение "%s"
 [Closing in %d]
@@ -807,8 +809,6 @@
 Изменения вступят в силу после перезапуска программы.
 [Fonts and colors]
 Шрифты и цвета
-[Reset]
-Сброс
 [Export...]
 Экспорт...
 [Color/background]
@@ -2427,6 +2427,12 @@ xСтатус
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню групп
+[Hide offline users out here]
+Скрыть отключённых вне группы
+[Disable groups]
+Отключить группы
+[Exit]
+Выход
 [Subgroup menu]
 Меню подгрупп
 ;file \src\mir_app\src\menu_options.cpp
@@ -2792,8 +2798,6 @@ ID учётной записи
 ANSI плагин
 [Show/Hide]
 Скрыть/показать
-[Exit]
-Выход
 [Join chat]
 Войти в чат
 [Leave chat]

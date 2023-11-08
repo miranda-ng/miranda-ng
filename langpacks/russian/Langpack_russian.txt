@@ -48,8 +48,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 О&тмена
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
-[Status messages]
-Сообщения статуса
 [Do not reply to requests for this message]
 Не отвечать на запросы этого сообщения
 [Do not pop up dialog asking for new message]
@@ -60,6 +58,10 @@ Last-Modified-Using: Miranda NG 0.96.1
 Использовать сообщение:
 [Use %time% for the current time, %date% for the current date]
 %date% - сегодняшняя дата; %time% - текущее время
+[Status messages]
+Сообщения статуса
+[Reset]
+Сброс
 [Change %s message]
 Изменить сообщение "%s"
 [Closing in %d]
@@ -814,8 +816,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 Изменения вступят в силу после перезапуска программы.
 [Fonts and colors]
 Шрифты и цвета
-[Reset]
-Сброс
 [Export...]
 Экспорт...
 [Color/background]
@@ -2362,6 +2362,10 @@ xСтатус
 Меню фреймов
 [Group menu]
 Меню групп
+[Disable groups]
+Отключить группы
+[Exit]
+Выход
 [Subgroup menu]
 Меню подгрупп
 [New submenu]
@@ -2698,8 +2702,6 @@ ID учётной записи
 ANSI плагин
 [Show/Hide]
 Скрыть/показать
-[Exit]
-Выход
 [Join chat]
 Войти в чат
 [Leave chat]
@@ -3292,272 +3294,6 @@ ANSI плагин
 <не указано>
 [Message window toolbar]
 Панель кнопок окна сообщений
-[Show main menu]
-Главное меню
-[Minimize Miranda]
-Свернуть
-[On/Off On Top]
-Вкл/Выкл "Поверх всех окон"
-[Release date]
-Дата выпуска
-[Donate]
-Пожертвовать
-[Happy New Year]
-С Новым Годом
-[Happy New Year to you!\nMay every great new day\nBring you sweet surprises -\nA happiness buffet.\n\nHappy New Year to you\nAnd when the new year's done\nMay the next year be even better\nFull of pleasure, joy and fun.]
-Прошёл ещё один прекрасный год,\nВ котором пелось и грустилось,\nА то, что в нем не уместилось,\nПусть в новом все произойдёт.\n\nИдут часы, проходят дни, -\nТакой закон природы,\nИ мы сегодня вас хотим\nПоздравить с Новым Годом!\n\nЖелаем вам от всей души\nВ грядущем новом годе\nЗдоровья, счастья, новых сил,\nУспехов на работе.
-[Some modules will not be able to work simultaneously in two or more advanced profiles. Continue?]
-Некоторые модули не смогут работать одновременно в двух и более запущенных профилях. Продолжить?
-[Show status message dialog]
-Показывать диалог сообщений статуса
-[Hide status message dialog]
-Скрывать диалог сообщений статуса
-[Wiki on Miranda NG]
-Вики на Miranda NG
-[Support on Miranda NG]
-Поддержка на Miranda NG
-[Support on Ru-Board]
-Поддержка на Ru-Board
-[Blog]
-Блог
-[Support]
-Поддержка
-[Useful to know]
-Полезно знать
-[FAQ]
-ЧаВо
-[About pack]
-О сборке
-[Core]
-Ядро
-[Open program folder]
-Открыть папку программы
-[Open received files folder]
-Открыть папку принятых файлов
-[Skin]
-Скин
-[Scroll bar]
-Полоса прокрутки
-[Short links]
-Короткие ссылки
-[Printing]
-Печатный
-[Handwriting]
-Рукописный
-[Caption frame low]
-Фрейм заголовка узкий
-[Caption frame high]
-Фрейм заголовка широкий
-[Auto-size input area]
-Авто-размер области ввода
-[Big pack]
-Большой набор
-[Small pack]
-Малый набор
-[Open profile folder]
-Открыть папку профиля
-[Production]
-Производство
-[Add to autostart]
-Добавить в автозагрузку
-[Remove from autostart]
-Удалить из автозагрузки
-[Change autostart]
-Изменить автозагрузку
-[The registry record for Miranda's autorun already exists, but it differs from the path to launched Miranda.]
-В реестре уже существует запись автозагрузки для Miranda, но её путь отличается от запущенной.
-[Yes - rewrite on the current profile?]
-Да — перезаписать на текущий профиль?
-[No - remove the key]
-Нет — удалить ключ
-[A few profiles have been found]
-Найдено несколько профилей
-[You're using a few profiles, would you like to enable autostart for the current profile?]
-Вы используете несколько профилей, установить автозагрузку на текущий профиль?
-[Yes - while loading the profile will be enabled]
-Да — при загрузке автоматически будет запущен профиль
-[No - while loading as usually will be opened profile manager]
-Нет — при загрузке как обычно будет открыто управление профилями
-[Autologin bookmarks and conferences enabled]
-Автовход в закладки и конференции включён
-[Autologin bookmarks and conferences disabled]
-Автовход в закладки и конференции выключен
-[Do you really want to close]
-Вы действительно хотите закрыть
-[To continue the program should be closed. Continue?]
-Для продолжения программа будет закрыта. Продолжить?
-[Common folder for received files doesn't exist.]
-Общая папка принятых файлов не существует.
-[Contact's folder doesn't exist.\nOpening common folder for received files.]
-Папка контакта не существует.\nОткрываю общую папку принятых файлов.
-[Enable Always on top]
-Включить "Поверх всех окон"
-[Disable Always on top]
-Выключить "Поверх всех окон"
-[Disable autoreply]
-Выключить автоответчик
-[Enable autoreply]
-Включить автоответчик
-[Enable auto-away detection]
-Включить авто-отсутствие
-[Disable auto-away detection]
-Выключить авто-отсутствие
-[Enable auto-idle detection]
-Включить авто-простой
-[Disable auto-idle detection]
-Выключить авто-простой
-[Receive files automatically]
-Принимать файлы автоматически
-[Receive files asking]
-Принимать файлы через запрос
-[Changes...]
-Изменения...
-[The changes will take effect only after restarting program. Continue?]
-Изменения вступят в силу только после перезапуска программы. Продолжить?
-[The changes will take effect only after closing all dialog windows. Continue?]
-Изменения вступят в силу только после закрытия всех диалоговых окон. Продолжить?
-[Remove temporary contacts]
-Удалить временные контакты
-[Available.]
-Свободен(а).
-[I've been on the phone since]
-Разговариваю по телефону с
-[give me a sec!]
-подождите немного!
-[Gone]
-Ушел(а)
-[eating supper]
-ужинать
-[eating dinner]
-обедать
-[eating breakfast]
-завтракать
-[eating]
-кушать
-[ since]
- в
-[Been fragging since]
-Копычу фраги с
-[I'll message you later when the adrenaline ends up.]
-Отвечу позже, когда адреналин закончится.
-[My master]
-Мой хозяин
-[has been]
-был
-[ &since]
- с
-[When he gets back, I'll tell him you've been here...]
-Когда он вернётся, я ему передам, чтобы он с вами связался...
-[Been gone since]
-Отошёл(а) в
-[will be back later.]
-буду позже.
-[is reading your message]
-читает ваше сообщение
-[teller machine]
-это автоответчик
-[asked me to tell you]
-просил(а) вам передать
-[Additional menu]
-Дополнительное меню
-[Send file (Right Click - Received files)]
-Отправить файл (Правый клик — Принятые файлы)
-[Font size]
-Размер
-[Flat borders]
-Плоские границы
-[Draw gradient background]
-Фон с градиентом
-[Show icon]
-Показывать значок
-[Show avatars]
-Показывать аватары
-[Color frame]
-Цветная рамка
-[Color text background]
-Цветной фон текста
-[Color logo & clocks]
-Цветные логотип и часы
-[Color text]
-Цветной текст
-[Light title text]
-Светлый текст заголовка
-[Dark title text]
-Тёмный текст заголовка
-[Standard digital clocks]
-Стандартные часы
-[Avatar to right]
-Аватар справа
-[Logo]
-Логотип
-[Last seen:]
-Последнее появление:
-[Online since:]
-В сети с:
-[Away since:]
-Отсутствует с:
-[NA since:]
-Недоступен с:
-[Registered:]
-Зарегистрирован:
-[Idle ago:]
-Неактивен с:
-[Messages received]
-Принято сообщений
-[Messages sent]
-Отправлено сообщений
-[Total messages: %sys:msg_count_all%]
-Всего сообщений: %sys:msg_count_all%
-[Last message: (%sys:last_msg_reltime% along)]
-Последнее сообщение: (%sys:last_msg_reltime% назад)
-[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
-(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
-[Coordinates]
-Координаты
-[Import from database]
-Импорт из базы данных
-[Current = %r\\nPrevious = %p]
-Текущий = %r\\nПредыдущий = %p
-[Langpack reload]
-Перезагрузка языкового пакета
-[Tomorrow]
-Завтра
-[Day after tomorrow]
-Послезавтра
-[days to birthday]
-дней до праздника
-[UIN registered]
-Зарегистрирован
-[ago]
-назад
-[Into the network]
-Вошёл в сеть
-[Not active]
-Не активен
-[was]
-был
-[in the]
-в
-[Current activity]
-Текущая активность
-[Messaging activity]
-Сообщение активности
-[listening]
-слушает
-[Website]
-Сайт
-[Expected]
-Ожидается
-[Water temperature]
-Температура воды
-[Azimuth]
-Азимут
-[Sign]
-Примета
-[Total messages]
-Всего сообщений
-[Last message received]
-Последнее сообщение принято
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -7184,6 +6920,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рейтинг контакта: высокий
 [Show even if offline]
 Показывать, даже если не в сети
+[Contact rate]
+Рейтинг контакта
 [Avatar]
 Аватар
 [Icon]
@@ -13631,8 +13369,6 @@ SSL/TLS
 Полное имя
 [User ID (Ident)]
 ID пользователя
-[Ident]
-Идентификация
 [Enable]
 Включено
 [System]
@@ -13671,6 +13407,8 @@ ID пользователя
 Обнов. статусы в списке комнаты чата
 [Don't check if more than (users):]
 Не проверять, если польз. более:
+[Ident]
+Идентификация
 [User information]
 Информация
 [Ping]
@@ -20061,8 +19799,6 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
-[Turn on presence signing (Jabber) (required by XEP-0027)]
-Сообщать о возможности использования подписи (Jabber) (требуется для XEP-0027)
 [Export keys]
 Экспорт ключей
 [Import keys]
@@ -23906,8 +23642,6 @@ Miranda не смогла загрузить встроенную систему
 Пункт в меню только для Miranda
 [Status in Context Menu]
 Статус в контекст. меню
-[Disable encryption for game plugins]
-Откл. шифрование для "игровых" плагинов
 [Always secured if possible]
 По возможности включать шифрование
 [Not secured for NotOnList]
@@ -23941,7 +23675,7 @@ SHA-1:
 [Public]
 Публичный
 [&Copy SHA-1]
-&Копировать SHA-1
+&Коп. SHA-1
 [E&xport]
 Э&кспорт
 [Private]
@@ -25919,7 +25653,7 @@ URI объект
 [After startup set:]
 Установить после запуска:
 [Filtered popups only (leave uncheck for no popups)]
-Только отфильтрованные всплывающие окна (не ставьте галку, чтобы не было всплывающих окон)
+Только отфильтрованные вспл. окна (отключите, чтобы не было вспл. окон)
 [Enable sounds]
 Включить звуки
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
@@ -26374,7 +26108,7 @@ URI объект
 [Steam protocol support for Miranda NG.]
 Поддержка протокола Steam в Miranda NG.
 [Username]
-Имя пользователя
+Логин
 [Password]
 Пароль
 [Default group]
@@ -29261,7 +28995,7 @@ xСтатус: пустое имя в имя по умолчанию
 [All other]
 Другое
 [Typing]
-Набирает текст
+Набор текста
 [Protocols]
 Протоколы
 [Suppress notifications upon connection for]

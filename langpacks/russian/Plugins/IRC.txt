@@ -30,8 +30,6 @@ SSL/TLS
 Полное имя
 [User ID (Ident)]
 ID пользователя
-[Ident]
-Идентификация
 [Enable]
 Включено
 [System]
@@ -70,6 +68,8 @@ ID пользователя
 Обнов. статусы в списке комнаты чата
 [Don't check if more than (users):]
 Не проверять, если польз. более:
+[Ident]
+Идентификация
 [User information]
 Информация
 [Ping]

@@ -703,6 +703,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рейтинг контакта: высокий
 [Show even if offline]
 Показывать, даже если не в сети
+[Contact rate]
+Рейтинг контакта
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар

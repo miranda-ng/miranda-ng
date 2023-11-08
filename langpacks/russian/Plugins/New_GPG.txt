@@ -156,7 +156,7 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
-[Turn on presence signing (Jabber) (required by XEP-0027)]
+[Turn on Jabber presence signing (required by XEP-0027)]
 Подписывать статусы Jabber (нужно для XEP-0027)
 [Export keys]
 Экспорт ключей
