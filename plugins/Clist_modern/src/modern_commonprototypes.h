@@ -189,6 +189,8 @@ void    UnloadAvatarOverlayIcon();                                             /
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
+void    SetRateExtraIcon(MCONTACT hContact, int bRate = -1, BOOL clear = TRUE);
+
 void    ApplyViewMode(const char *Name);
 void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, unsigned dwStatusMask, unsigned dwStickyStatusMask,
 							unsigned stickies, unsigned options, unsigned operators, unsigned lmdat);

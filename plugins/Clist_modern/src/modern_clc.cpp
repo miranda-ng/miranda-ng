@@ -1611,6 +1611,10 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);
 	}
 
+	// Set initial value for all contacts
+	for (auto &hContact : Contacts())
+		SetRateExtraIcon(hContact, -1, FALSE);
+
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Menu background")"/Menu"), 0);
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Status bar background")"/StatusBar"), 0);

@@ -159,8 +159,10 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (!strcmp(cws->szModule, "CList")) {
 		// name is null or (setting is myhandle)
-		if (!strcmp(cws->szSetting, "Rate"))
+		if (!strcmp(cws->szSetting, "Rate")) {
+			SetRateExtraIcon(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
+		}
 
 		else if (!strcmp(cws->szSetting, "NotOnList"))
 			pdnce->NotOnList = cws->value.bVal;

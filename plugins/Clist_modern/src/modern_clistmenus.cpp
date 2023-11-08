@@ -35,6 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLUI_FAVSETRATE "CLUI/SetContactRate"  //LParam is rate, Wparam is contact handle
 #define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline"
 
+static HANDLE hExtraIcon = nullptr;
+
 static wchar_t *FAVMENUROOTNAME = LPGENW("&Contact rate");
 
 static wchar_t *rates[] = {
@@ -126,6 +128,27 @@ void UnloadFavoriteContactMenu()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void SetRateExtraIcon(MCONTACT hContact, int bRate, BOOL clear)
+{
+	if (hContact == NULL)
+		return;
+
+	if (bRate < 0)
+		bRate = db_get_b(hContact, "CList", "Rate", 0);
+
+	const char *icon = nullptr;
+	switch (bRate) {
+	case 1: icon = "Rate2";  break;
+	case 2: icon = "Rate3";  break;
+	case 3: icon = "Rate4";  break;
+	}
+
+	if (icon != nullptr || clear)
+		ExtraIcon_SetIconByName(hExtraIcon, hContact, icon);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
@@ -138,6 +161,8 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction", CloseAction);
 
 	g_plugin.registerIcon(LPGEN("Contact list"), iconList);
+
+	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "Rate4");
 
 	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);
