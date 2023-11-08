@@ -7,21 +7,17 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#define APSTUDIO_HIDDEN_SYMBOLS
 #include "winres.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-#ifdef _WIN32
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -54,90 +50,63 @@ END
 //
 
 IDD_PROTOS DIALOGEX 0, 0, 106, 138
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select protocols"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,28,117,50,14
-    CONTROL         "List1",IDC_PROTOS,"SysListView32",LVS_LIST | 
-                    LVS_SINGLESEL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | 
-                    WS_BORDER | WS_TABSTOP,7,7,91,103
+    CONTROL         "List1",IDC_PROTOS,"SysListView32",LVS_LIST | LVS_SINGLESEL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,91,103
 END
 
 IDD_CONTACTS DIALOGEX 0, 0, 254, 234
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Choose contacts"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Allow tooltip notifications for the following users:",
-                    IDC_STATIC,8,9,238,9
-    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x3da,7,23,240,
-                    180,WS_EX_CLIENTEDGE
+    LTEXT           "Allow tooltip notifications for the following users:",IDC_STATIC,8,9,238,9
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x3da,7,23,240,180,WS_EX_CLIENTEDGE
     DEFPUSHBUTTON   "OK",IDOK,141,213,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,197,213,50,14
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 316, 250
+IDD_OPTIONS DIALOGEX 0, 0, 316, 224
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Notify upon the following events",IDC_STATIC,5,7,304,32,
-                    WS_GROUP
-    CONTROL         "Online",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,15,17,59,14
-    CONTROL         "Offline",IDC_OFFLINE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,75,17,59,14
-    CONTROL         "All other",IDC_OTHER,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,135,17,59,14
-    CONTROL         "Typing",IDC_TYPING,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,195,17,59,14
+    GROUPBOX        "Notify upon the following events",IDC_STATIC,5,7,304,32,WS_GROUP
+    CONTROL         "Online",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,17,59,14
+    CONTROL         "Offline",IDC_OFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,75,17,59,14
+    CONTROL         "All other",IDC_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,135,17,59,14
+    CONTROL         "Typing",IDC_TYPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,195,17,59,14
     PUSHBUTTON      "Protocols",IDC_SEL_PROTO,254,162,46,14
-    LTEXT           "Suppress notifications upon connection for",IDC_STATIC,
-                    120,93,137,9
+    LTEXT           "Suppress notifications upon connection for",IDC_STATIC,120,93,137,9
     EDITTEXT        IDC_DELAYONCONN,259,91,27,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin1",IDC_DELAYONCONNSPIN,"msctls_updown32",
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,86,11,14
+    CONTROL         "Spin1",IDC_DELAYONCONNSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,275,91,11,14
     LTEXT           "sec",IDC_STATIC,290,93,12,10
-    CONTROL         "Prefix protocol name",IDC_PREFIX_PROTO,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,163,85,11
+    CONTROL         "Prefix protocol name",IDC_PREFIX_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,163,85,11
     GROUPBOX        "Duration",IDC_GB_DURATION,5,43,304,30
     LTEXT           "Show tooltip for",IDC_STATIC,15,55,51,10
     EDITTEXT        IDC_DURATION,69,53,36,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin1",IDC_DURATIONSPIN,"msctls_updown32",
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,100,47,10,14
+    CONTROL         "Spin1",IDC_DURATIONSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,100,53,10,14
     LTEXT           "ms",IDC_STATIC,109,55,14,10
-    CONTROL         "Duration x2 upon online event",IDC_X2,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,159,55,137,10
+    CONTROL         "Duration x2 upon online event",IDC_X2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,55,137,10
     GROUPBOX        "Double click on tooltip",IDC_GB_DBLCLICK,5,78,103,54
-    CONTROL         "Shows/Hides contact list",IDC_RB_CLIST,"Button",
-                    BS_AUTORADIOBUTTON | WS_TABSTOP,9,93,96,11
-    CONTROL         "Opens message dialog",IDC_RB_MSGDLG,"Button",
-                    BS_AUTORADIOBUTTON | WS_TABSTOP,9,112,96,11
+    CONTROL         "Shows/Hides contact list",IDC_RB_CLIST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,9,93,96,11
+    CONTROL         "Opens message dialog",IDC_RB_MSGDLG,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,9,112,96,11
     GROUPBOX        "Behavior",IDC_STATIC,113,78,196,54
     GROUPBOX        "Misc",IDC_STATIC,5,136,304,44
-    CONTROL         "Obey 'Suppress online notification' settings",
-                    IDC_CONJSOLN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,119,
-                    112,164,11
-    CONTROL         "Auto positioning",IDC_AUTOPOS,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,15,147,75,11
-    CONTROL         "Transparent input",IDC_TRANSP_INPUT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,96,147,81,11
+    CONTROL         "Obey 'Suppress online notification' settings",IDC_CONJSOLN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,119,112,164,11
+    CONTROL         "Auto positioning",IDC_AUTOPOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,147,108,11
+    CONTROL         "Transparent input",IDC_TRANSP_INPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,147,117,11
     PUSHBUTTON      "Preview",IDC_PREVIEW,201,162,46,14
-    GROUPBOX        "Translucency options",
-                    IDC_GB_TRANSP,5,185,304,34
-    CONTROL         "Transparent tooltip",IDC_TRANSPARENCY,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,200,73,9
-    CONTROL         "Slider1",IDC_TRANSPARENCY_SLIDER,"msctls_trackbar32",
-                    TBS_TOP | TBS_NOTICKS | WS_TABSTOP,94,199,170,11
+    GROUPBOX        "Translucency options",IDC_GB_TRANSP,5,185,304,34
+    CONTROL         "Transparent tooltip",IDC_TRANSPARENCY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,200,73,9
+    CONTROL         "Slider1",IDC_TRANSPARENCY_SLIDER,"msctls_trackbar32",TBS_TOP | TBS_NOTICKS | WS_TABSTOP,94,199,170,11
     LTEXT           "000%",IDC_TRANSPERC,273,201,22,9
     PUSHBUTTON      "Contacts",IDC_IGNORE,254,144,46,14
-    CONTROL         "Idle",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    255,17,49,14
+    CONTROL         "Idle",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,255,17,49,14
 END
 
 
@@ -147,7 +116,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PROTOS, DIALOG
     BEGIN
@@ -160,31 +129,28 @@ BEGIN
     IDD_CONTACTS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 277
         TOPMARGIN, 7
         BOTTOMMARGIN, 227
     END
 
     IDD_OPTIONS, DIALOG
     BEGIN
-        VERTGUIDE, 5
-        VERTGUIDE, 309
-        HORZGUIDE, 246
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-
-#ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-// Generated from the TEXTINCLUDE 3 resource.
+// AFX_DIALOG_LAYOUT
 //
 
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+
 
