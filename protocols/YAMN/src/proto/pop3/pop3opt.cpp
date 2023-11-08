@@ -831,7 +831,6 @@ public:
 	{
 		WindowList_Add(MessageWnds, m_hwnd);
 
-		DlgEnableAccountPopup(false);
 		DlgShowAccountPopup();
 		{
 			SReadGuard srb(POP3Plugin->AccountBrowserSO);
@@ -840,7 +839,7 @@ public:
 					if (ActualAccount->Name != nullptr)
 						cmbAccount.AddStringA(ActualAccount->Name);
 		}
-		ActualAccount = nullptr;
+
 		cmbAccount.SetCurSel(0);
 		onSelChange_Account(0);
 		return true;
@@ -944,6 +943,7 @@ public:
 			SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_GETLBTEXT, (WPARAM)Result, (LPARAM)DlgInput);
 		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (CPOP3Account*)FindAccountByName(POP3Plugin, DlgInput)))) {
 			DlgSetItemText(m_hwnd, (WPARAM)IDC_STTIMELEFT, nullptr);
+			DlgEnableAccountPopup(false);
 		}
 		else {
 			DlgShowAccount(ActualAccount);
