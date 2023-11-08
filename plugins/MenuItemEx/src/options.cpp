@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
-struct {
+struct
+{
 	int idc;
 	int flag;
 }
@@ -61,12 +62,12 @@ public:
 	bool OnInitDialog() override
 	{
 		for (auto &it : checkboxes) {
-			CCtrlCheck &item = *(CCtrlCheck*)FindControl(it.idc);
+			CCtrlCheck &item = *(CCtrlCheck *)FindControl(it.idc);
 			item.SetState(m_flags & it.flag);
 		}
 
 		for (int i = 0; i < 4; i++) {
-			CCtrlCheck &item = *(CCtrlCheck*)FindControl(checkboxes[i].idc);
+			CCtrlCheck &item = *(CCtrlCheck *)FindControl(checkboxes[i].idc);
 			CMStringW buffer;
 			buffer.Format(L"%s *", item.GetText());
 			item.SetText(buffer);
@@ -79,7 +80,7 @@ public:
 		uint32_t mod_flags = 0;
 
 		for (auto &it : checkboxes) {
-			CCtrlCheck &item = *(CCtrlCheck*)FindControl(it.idc);
+			CCtrlCheck &item = *(CCtrlCheck *)FindControl(it.idc);
 			mod_flags |= item.GetState() ? it.flag : 0;
 		}
 
@@ -87,24 +88,24 @@ public:
 		return true;
 	}
 
-	void onChange_Vis(CCtrlBase*)
+	void onChange_Vis(CCtrlBase *)
 	{
 		m_chkAlpha.Enable(m_chkVis.GetState());
 	}
 
-	void onChange_Ignore(CCtrlBase*)
+	void onChange_Ignore(CCtrlBase *)
 	{
 		m_chkIgnoreHide.Enable(m_chkIgnore.GetState());
 	}
 
-	void onChange_CopyID(CCtrlBase*)
+	void onChange_CopyID(CCtrlBase *)
 	{
 		m_chkCopyIDName.Enable(m_chkCopyID.GetState());
 		m_chkShowID.Enable(m_chkCopyID.GetState());
 		m_chkTrimID.Enable(m_chkCopyID.GetState() && m_chkShowID.GetState());
 	}
 
-	void onChange_StatusMsg(CCtrlBase*)
+	void onChange_StatusMsg(CCtrlBase *)
 	{
 		m_chkSMName.Enable(m_chkStatusMsg.GetState());
 	}

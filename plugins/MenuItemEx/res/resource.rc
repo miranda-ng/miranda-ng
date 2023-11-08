@@ -27,46 +27,58 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_HIDE                ICON                    "hide_from_list.ico"
+
 IDI_VISIBLE             ICON                    "Always Visible.ico"
+
 IDI_INVISIBLE           ICON                    "Never Visible.ico"
+
 IDI_COPYID              ICON                    "copyid_overlay.ico"
+
 IDI_PROTOCOL            ICON                    "change_proto.ico"
+
 IDI_IGNORE              ICON                    "ignore_list.ico"
+
 IDI_SHOWINLIST          ICON                    "show_in_list.ico"
+
 IDI_COPYSTATUS          ICON                    "msg_status.ico"
+
 IDI_COPYXSTATUS         ICON                    "msg_xstatus.ico"
+
 IDI_COPYIP              ICON                    "copyip_overlay.ico"
+
 IDI_BROWSE              ICON                    "recv_files.ico"
+
 IDI_MIRVER              ICON                    "CopyMirVer.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_OPTIONS DIALOGEX 0, 0, 280, 158
+IDD_OPTIONS DIALOGEX 0, 0, 280, 171
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Shown menu items",IDC_STATIC,7,7,266,146
+    GROUPBOX        "Shown menu items",IDC_STATIC,7,3,266,151
     CONTROL         "Visibility",IDC_VIS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,18,131,10
     CONTROL         "Show alpha icons",IDC_SHOWALPHAICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,18,116,10
-    CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,30,131,10
-    CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,42,131,10
+    CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,30,251,10
+    CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,42,253,10
     CONTROL         "Copy to Account (Ctrl+click for move to Account)",IDC_PROTOS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,54,251,10
-    CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,66,131,10
-    CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,78,131,10
-    CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,90,131,10
-    CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,102,131,10
-    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,102,116,10
-    CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,114,131,10
-    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,114,116,10
-    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,126,124,10
-    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,126,116,10
-    LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,138,251,11
-    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,42,116,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,67,251,10
+    CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,253,10
+    CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,91,252,10
+    CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,103,253,10
+    CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,131,10
+    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,115,116,10
+    CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,127,131,10
+    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,127,116,10
+    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,139,124,10
+    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,139,116,10
+    LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,158,251,11
+    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,54,254,10
 END
 
 
@@ -80,15 +92,7 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 273
-        VERTGUIDE, 16
-        VERTGUIDE, 25
-        VERTGUIDE, 152
-        VERTGUIDE, 162
-        VERTGUIDE, 214
-        VERTGUIDE, 267
-        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
     END
 END
 #endif    // APSTUDIO_INVOKED

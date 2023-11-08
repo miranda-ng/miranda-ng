@@ -1,18 +1,18 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by W:\miranda-ng\plugins\MenuItemEx\res\resource.rc
 //
 #define IDD_OPTIONS                     101
 #define IDD_AUTHREQ                     103
-#define IDI_HIDE                       110
-#define IDI_VISIBLE                       111
-#define IDI_INVISIBLE                       112
-#define IDI_COPYID                       113
-#define IDI_PROTOCOL                       116
-#define IDI_IGNORE                       117
-#define IDI_SHOWINLIST                       118
-#define IDI_COPYSTATUS                       119
-#define IDI_COPYXSTATUS                      120
+#define IDI_HIDE                        110
+#define IDI_VISIBLE                     111
+#define IDI_INVISIBLE                   112
+#define IDI_COPYID                      113
+#define IDI_PROTOCOL                    116
+#define IDI_IGNORE                      117
+#define IDI_SHOWINLIST                  118
+#define IDI_COPYSTATUS                  119
+#define IDI_COPYXSTATUS                 120
 #define IDI_COPYIP                      121
 #define IDI_BROWSE                      122
 #define IDI_MIRVER                      123
