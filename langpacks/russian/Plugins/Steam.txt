@@ -9,7 +9,7 @@
 Поддержка протокола Steam в Miranda NG.
 ;file \protocols\Steam\res\Resource.rc
 [Username]
-Имя пользователя
+Логин
 [Password]
 Пароль
 [Default group]
