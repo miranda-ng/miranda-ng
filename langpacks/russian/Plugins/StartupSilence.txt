@@ -29,7 +29,7 @@
 [After startup set:]
 Установить после запуска:
 [Filtered popups only (leave uncheck for no popups)]
-Только отфильтрованные всплывающие окна (не ставьте галку, чтобы не было всплывающих окон)
+Только отфильтрованные вспл. окна (отключите, чтобы не было вспл. окон)
 [Enable sounds]
 Включить звуки
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
