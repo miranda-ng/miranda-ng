@@ -1,7 +1,16 @@
-#include <windows.h>
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+ #include <winres.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
 /////////////////////////////////////////////////////////////////////////////
 // Russian (Russia) resources
 
@@ -50,25 +59,25 @@ IDI_STOP                ICON                    "stop.ico"
 // Dialog
 //
 
-IDD_OPT DIALOGEX 0, 0, 280, 231
+IDD_OPT DIALOGEX 0, 0, 296, 218
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Webview",IDC_STATIC,1,11,278,63,WS_GROUP
+    GROUPBOX        "Webview",IDC_STATIC,1,11,289,63,WS_GROUP
     LTEXT           "Update data every",IDC_STATIC,6,26,100,8
-    EDITTEXT        IDC_TIME,84,26,28,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,125,11,7,11
+    EDITTEXT        IDC_TIME,84,24,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,101,25,11,11
     LTEXT           "minutes",IDC_STATIC,113,26,25,8
-    LTEXT           "Delay update on start",IDC_STARTDELAYTXT,6,49,100,8
-    EDITTEXT        IDC_START_DELAY,84,49,28,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin2",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,125,34,7,11
+    LTEXT           "Delay update on start",IDC_STARTDELAYTXT,6,49,74,8
+    EDITTEXT        IDC_START_DELAY,84,48,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,103,48,11,11
     LTEXT           "seconds",IDC_STDELAYSECTXT,113,49,36,8
-    CONTROL         "Hide icon on status bar",IDC_HIDE_STATUS_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,20,128,8
-    CONTROL         "Load page on window open",IDC_UPDATE_ON_OPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,33,128,8
-    CONTROL         "Update data on startup",IDC_UPDATE_ONSTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,47,128,8
-    CONTROL         "Only update window on alert",IDC_UPDATE_ONALERT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,60,128,8
-    GROUPBOX        "Window appearance",IDC_STATIC,1,75,278,62
+    CONTROL         "Hide icon on status bar",IDC_HIDE_STATUS_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,20,135,8
+    CONTROL         "Load page on window open",IDC_UPDATE_ON_OPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,33,135,8
+    CONTROL         "Update data on startup",IDC_UPDATE_ONSTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,47,135,8
+    CONTROL         "Only update window on alert",IDC_UPDATE_ONALERT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,60,135,8
+    GROUPBOX        "Window appearance",IDC_STATIC,1,75,289,62
     LTEXT           "Background color:",IDC_STATIC,16,85,69,8
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,85,85,20,8
     LTEXT           "Text color:",IDC_STATIC,16,95,69,8
@@ -76,21 +85,21 @@ BEGIN
     COMBOBOX        IDC_TYPEFACE,16,105,136,182,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_SCRIPT,58,120,72,68,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_FONTSIZE,16,120,40,69,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Bold",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,90,48,8
-    CONTROL         "Italic",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,100,48,8
-    CONTROL         "Underline",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,110,58,8
+    CONTROL         "Bold",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,88,125,8
+    CONTROL         "Italic",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,99,121,8
+    CONTROL         "Underline",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,175,110,111,8
     CONTROL         "Save individual window positions",IDC_SAVE_INDIVID_POS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,132,122,146,8
-    GROUPBOX        "Error messages",IDC_STATIC,1,137,278,25
-    CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,149,113,8
+    GROUPBOX        "Error messages",IDC_STATIC,1,137,289,25
+    CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,149,125,8
     CONTROL         "Display using popup or OSD plugin",IDC_ERROR_POPUP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,149,130,8
-    GROUPBOX        "Expert options",IDC_ADV_GRP,142,163,137,35,WS_GROUP
-    CONTROL         "Disable download protection",IDC_NO_PROTECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,175,130,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,149,145,8
+    GROUPBOX        "Expert options",IDC_ADV_GRP,142,163,149,35,WS_GROUP
+    CONTROL         "Disable download protection",IDC_NO_PROTECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,175,138,8
     LTEXT           "(not recommended)",IDC_NOT_RECOMND_TXT,148,185,122,8
     GROUPBOX        "Display data in popup on alert",IDC_STATIC,1,164,139,34
-    CONTROL         "Display data in popup",IDC_DATAPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,177,120,8
-    LTEXT           "You may need to restart Miranda NG for this change to take effect.",IDC_RESTART,30,220,230,8,NOT WS_VISIBLE
+    CONTROL         "Display data in popup",IDC_DATAPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,180,128,8
+    LTEXT           "You may need to restart Miranda NG for this change to take effect.",IDC_RESTART,30,203,230,8,NOT WS_VISIBLE
 END
 
 IDD_DISPLAY_DATA DIALOGEX 0, 0, 212, 150
@@ -294,7 +303,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "\0"
+    " #include <winres.h>\0"
 END
 
 3 TEXTINCLUDE 
