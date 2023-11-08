@@ -55,7 +55,7 @@ SHA-1:
 [Public]
 Публичный
 [&Copy SHA-1]
-&Копировать SHA-1
+&Коп. SHA-1
 [E&xport]
 Э&кспорт
 [Private]
