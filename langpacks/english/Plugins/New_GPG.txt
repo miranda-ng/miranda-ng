@@ -81,7 +81,7 @@
 [Open:]
 [Close:]
 [Strip all tags in outgoing messages]
-[Turn on presence signing (Jabber) (required by XEP-0027)]
+[Turn on Jabber presence signing (required by XEP-0027)]
 [Export keys]
 [Import keys]
 [Send error messages]

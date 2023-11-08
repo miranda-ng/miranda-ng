@@ -358,6 +358,7 @@
 [Contact rate: medium]
 [Contact rate: high]
 [Show even if offline]
+[Contact rate]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 [Icon]
