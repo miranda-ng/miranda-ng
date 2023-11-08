@@ -103,15 +103,12 @@
 #define IDI_ADDCONTACT                  210
 #define IDI_SMALLDOT                    211
 #define IDI_FILLEDBLOB                  212
-#define IDD_READAWAYMSG                 213
 #define IDI_EMPTYBLOB                   213
 #define IDD_OPT_IGNORE                  214
 #define IDC_HYPERLINKHAND               214
 #define IDD_OPT_VISIBILITY              215
 #define IDC_DROPUSER                    215
-#define IDD_SETAWAYMSG                  216
 #define IDI_DETAILSLOGO                 216
-#define IDD_OPT_AWAYMSG                 217
 #define IDI_UNICODE                     218
 #define IDI_ANSI                        219
 #define IDD_INFO_SUMMARY                220
@@ -357,7 +354,6 @@
 #define IDC_RUNATSTARTBROWSE            1185
 #define IDC_PAGETREE                    1186
 #define IDC_RUNNOW                      1186
-#define IDC_RETRIEVING                  1193
 #define IDC_GETMORE                     1200
 #define IDC_VISIBLEICON                 1204
 #define IDC_INVISIBLEICON               1205
@@ -365,12 +361,8 @@
 #define IDC_ONLINEICON                  1207
 #define IDC_FILENAMES                   1208
 #define IDC_ALLICON                     1208
-#define IDC_DONTREPLY                   1209
 #define IDC_NONEICON                    1209
-#define IDC_USEPREVIOUS                 1210
 #define IDC_TYPINGICON                  1210
-#define IDC_NODIALOG                    1211
-#define IDC_USESPECIFIC                 1212
 #define IDC_FILEDIR                     1213
 #define IDC_TRANSFERCOMPLETED           1214
 #define IDC_LANG                        1215

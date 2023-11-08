@@ -30,14 +30,11 @@
 #define IDI_ADDCONTACT                  210
 #define IDI_SMALLDOT                    211
 #define IDI_FILLEDBLOB                  212
-#define IDD_READAWAYMSG                 213
 #define IDI_EMPTYBLOB                   213
 #define IDD_OPT_IGNORE                  214
 #define IDD_OPT_VISIBILITY              215
 #define IDC_DROPUSER                    215
-#define IDD_SETAWAYMSG                  216
 #define IDI_DETAILSLOGO                 216
-#define IDD_OPT_AWAYMSG                 217
 #define IDI_HIDE_AVATAR                 217
 #define IDD_OPT_CLUI                    218
 #define IDI_SHOW_AVATAR                 218

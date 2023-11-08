@@ -34,9 +34,10 @@ class CAwayMsgOptsDlg : public CDlgBase
 {
 	struct
 	{
-		int ignore;
-		int noDialog;
-		int usePrevious;
+		int  iStatus;
+		bool bIgnore;
+		bool bNoDialog;
+		bool bUsePrevious;
 		wchar_t msg[1024];
 	}
 	m_info[_countof(statusModes)];
@@ -46,18 +47,23 @@ class CAwayMsgOptsDlg : public CDlgBase
 	CCtrlEdit etdMsg;
 	CCtrlCombo cmbStatus;
 	CCtrlCheck chkDontReply, chkUsePrev, chkUseSpecific, chkNoDialog;
+	CCtrlButton btnReset;
 
 public:
 	CAwayMsgOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_AWAYMSG),
 		etdMsg(this, IDC_MSG),
+		btnReset(this, IDC_RESET),
 		cmbStatus(this, IDC_STATUS),
 		chkUsePrev(this, IDC_USEPREVIOUS),
 		chkNoDialog(this, IDC_NODIALOG),
 		chkDontReply(this, IDC_DONTREPLY),
 		chkUseSpecific(this, IDC_USESPECIFIC)
 	{
+		btnReset.OnClick = Callback(this, &CAwayMsgOptsDlg::onClick_Reset);
+
 		chkUsePrev.OnChange = chkDontReply.OnChange = chkUseSpecific.OnChange = Callback(this, &CAwayMsgOptsDlg::onSelChange_Status);
+
 		cmbStatus.OnSelChanged = Callback(this, &CAwayMsgOptsDlg::onSelChange_Status);
 	}
 
@@ -67,16 +73,19 @@ public:
 			if (!(protoModeMsgFlags & Proto_Status2Flag(it)))
 				continue;
 
-			int j = cmbStatus.AddString(Clist_GetStatusModeDescription(it, 0), it);
-			m_info[j].ignore = g_plugin.GetStatusModeByte(it, "Ignore");
-			m_info[j].noDialog = g_plugin.GetStatusModeByte(it, "NoDlg", true);
-			m_info[j].usePrevious = g_plugin.GetStatusModeByte(it, "UsePrev");
+			int j = cmbStatus.AddString(Clist_GetStatusModeDescription(it, 0));
+			auto &pPage = m_info[j];
+			pPage.iStatus = it;
+			pPage.bIgnore = g_plugin.GetStatusModeByte(it, "Ignore");
+			pPage.bNoDialog = g_plugin.GetStatusModeByte(it, "NoDlg", true);
+			pPage.bUsePrevious = g_plugin.GetStatusModeByte(it, "UsePrev");
 
 			DBVARIANT dbv;
 			if (g_plugin.getWString(StatusModeToDbSetting(it, "Default"), &dbv))
 				if (g_plugin.getWString(StatusModeToDbSetting(it, "Msg"), &dbv))
 					dbv.pwszVal = mir_wstrdup(GetDefaultMessage(it));
-			mir_wstrcpy(m_info[j].msg, dbv.pwszVal);
+
+			mir_wstrcpy(pPage.msg, dbv.pwszVal);
 			mir_free(dbv.pwszVal);
 		}
 		
@@ -90,36 +99,44 @@ public:
 		onSelChange_Status(0);
 		
 		for (int i = cmbStatus.GetCount() - 1; i >= 0; i--) {
-			int status = cmbStatus.GetItemData(i);
-			g_plugin.SetStatusModeByte(status, "Ignore", (uint8_t)m_info[i].ignore);
-			g_plugin.SetStatusModeByte(status, "NoDlg", (uint8_t)m_info[i].noDialog);
-			g_plugin.SetStatusModeByte(status, "UsePrev", (uint8_t)m_info[i].usePrevious);
-			g_plugin.setWString(StatusModeToDbSetting(status, "Default"), m_info[i].msg);
+			auto &pPage = m_info[i];
+			g_plugin.SetStatusModeByte(pPage.iStatus, "Ignore", (uint8_t)pPage.bIgnore);
+			g_plugin.SetStatusModeByte(pPage.iStatus, "NoDlg", (uint8_t)pPage.bNoDialog);
+			g_plugin.SetStatusModeByte(pPage.iStatus, "UsePrev", (uint8_t)pPage.bUsePrevious);
+			g_plugin.setWString(StatusModeToDbSetting(pPage.iStatus, "Default"), pPage.msg);
 		}
 		return true;
+	}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		if (oldPage != -1)
+			etdMsg.SetText(GetDefaultMessage(m_info[oldPage].iStatus));
 	}
 
 	void onSelChange_Status(CCtrlCombo*)
 	{
 		if (oldPage != -1) {
-			m_info[oldPage].ignore = chkDontReply.GetState();
-			m_info[oldPage].noDialog = chkNoDialog.GetState();
-			m_info[oldPage].usePrevious = chkUsePrev.GetState();
-			etdMsg.GetText(m_info[oldPage].msg, _countof(m_info[oldPage].msg));
+			auto &pPage = m_info[oldPage];
+			pPage.bIgnore = chkDontReply.GetState();
+			pPage.bNoDialog = chkNoDialog.GetState();
+			pPage.bUsePrevious = chkUsePrev.GetState();
+			etdMsg.GetText(pPage.msg, _countof(pPage.msg));
 		}
 
 		int i = cmbStatus.GetCurSel();
-		chkDontReply.SetState(i < 0 ? 0 : m_info[i].ignore);
-		chkNoDialog.SetState(i < 0 ? 0 : m_info[i].noDialog);
-		chkUsePrev.SetState(i < 0 ? 0 : m_info[i].usePrevious);
-		chkUseSpecific.SetState(i < 0 ? 0 : !m_info[i].usePrevious);
+		auto &pPage = m_info[i];
+		chkDontReply.SetState(i < 0 ? 0 : pPage.bIgnore);
+		chkNoDialog.SetState(i < 0 ? 0 : pPage.bNoDialog);
+		chkUsePrev.SetState(i < 0 ? 0 : pPage.bUsePrevious);
+		chkUseSpecific.SetState(i < 0 ? 0 : !pPage.bUsePrevious);
 
-		etdMsg.SetText(i < 0 ? L"" : m_info[i].msg);
+		etdMsg.SetText(i < 0 ? L"" : pPage.msg);
 
-		chkNoDialog.Enable(i < 0 ? 0 : !m_info[i].ignore);
-		chkUsePrev.Enable(i < 0 ? 0 : !m_info[i].ignore);
-		chkUseSpecific.Enable(i < 0 ? 0 : !m_info[i].ignore);
-		etdMsg.Enable(i < 0 ? 0 : !(m_info[i].ignore || m_info[i].usePrevious));
+		chkNoDialog.Enable(i < 0 ? 0 : !pPage.bIgnore);
+		chkUsePrev.Enable(i < 0 ? 0 : !pPage.bIgnore);
+		chkUseSpecific.Enable(i < 0 ? 0 : !pPage.bIgnore);
+		etdMsg.Enable(i < 0 ? 0 : !(pPage.bIgnore || pPage.bUsePrevious));
 		oldPage = i;
 	}
 };
