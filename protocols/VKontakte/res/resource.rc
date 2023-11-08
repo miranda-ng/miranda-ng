@@ -188,14 +188,14 @@ BEGIN
     CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,61,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_NEWSBBC_ADV,
-                    "Button",BS_AUTORADIOBUTTON,154,61,129,10
+                    "Button",BS_AUTORADIOBUTTON,154,61,149,10
     CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
     GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
     CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_ATTBBC_ADV,
-                    "Button",BS_AUTORADIOBUTTON,154,110,129,10
+                    "Button",BS_AUTORADIOBUTTON,154,110,149,10
     GROUPBOX        "Other",IDC_STATIC,4,138,294,57
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
