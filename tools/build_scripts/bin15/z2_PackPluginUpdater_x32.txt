@@ -110,7 +110,6 @@ Plugins\quickcontacts.dll
 Plugins\quickmessages.dll
 Plugins\quickreplies.dll
 Plugins\quicksearch.dll
-Plugins\rate.dll
 Plugins\recentcontacts.dll
 Plugins\removepersonalsettings.dll
 Plugins\restart.dll
