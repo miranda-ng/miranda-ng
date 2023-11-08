@@ -139,8 +139,6 @@ int LoadDefaultModules(void)
 	if (LoadHelpModule()) return 1;
 	if (LoadStdPlugins()) return 1;
 
-	Langpack_SortDuplicates();
-
 	if (LoadAccountsModule()) return 1;
 
 	// order becomes less important below here

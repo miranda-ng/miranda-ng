@@ -41,14 +41,21 @@ static HANDLE hevChanged = nullptr;
 
 static BOOL bModuleInitialized = FALSE;
 
-struct LangPackEntry
+struct LangPackEntry : public MZeroedObject
 {
-	uint32_t englishHash;
 	char *szLocal;
 	char *utfLocal;
 	wchar_t *wszLocal;
 	MUUID *pMuuid;
 	LangPackEntry* pNext;  // for langpack items with the same hash value
+
+	~LangPackEntry()
+	{
+		mir_free(szLocal);
+		mir_free(utfLocal);
+		mir_free(wszLocal);
+		delete pNext;
+	}
 
 	LangPackEntry* findNearest(const MUUID *pUuid)
 	{
@@ -68,8 +75,7 @@ struct LangPackEntry
 static LANGPACK_INFO langPack;
 static wchar_t g_tszRoot[MAX_PATH];
 
-static LangPackEntry *g_pEntries;
-static int g_entryCount, g_entriesAlloced;
+static std::map<uint32_t, LangPackEntry *> g_entries;
 
 static int IsEmpty(const char *str)
 {
@@ -177,14 +183,6 @@ static const MUUID* GetMuid(HPLUGIN pPlugin)
 	}
 }
 
-static int SortLangPackHashesProc(LangPackEntry *arg1, LangPackEntry *arg2)
-{
-	if (arg1->englishHash < arg2->englishHash) return -1;
-	if (arg1->englishHash > arg2->englishHash) return 1;
-
-	return (arg1->pMuuid < arg2->pMuuid) ? -1 : 1;
-}
-
 static void swapBytes(void *p, size_t iSize)
 {
 	char *head = (char*)p; // here
@@ -287,34 +285,28 @@ static void LoadLangPackFile(FILE *fp, char *line)
 		}
 
 		char cFirst = line[0];
+		uint32_t hash;
 
 		ConvertBackslashes(line, CP_UTF8);
 
 		size_t cbLen = strlen(line) - 1;
 		if (cFirst == '[' && line[cbLen] == ']') {
-			if (g_entryCount && g_pEntries[g_entryCount-1].wszLocal == nullptr)
-				g_entryCount--;
-
 			char *pszLine = line + 1;
 			line[cbLen] = '\0';
-			if (++g_entryCount > g_entriesAlloced) {
-				g_entriesAlloced += 128;
-				g_pEntries = (LangPackEntry*)mir_realloc(g_pEntries, sizeof(LangPackEntry)*g_entriesAlloced);
-			}
 
-			LangPackEntry *E = &g_pEntries[g_entryCount - 1];
-			E->englishHash = mir_hashstr(pszLine);
-			E->szLocal = E->utfLocal = nullptr;
-			E->wszLocal = nullptr;
-			E->pMuuid = pCurrentMuuid;
-			E->pNext = nullptr;
+			hash = mir_hashstr(pszLine);
 			continue;
 		}
 
-		if (!g_entryCount)
-			continue;
+		LangPackEntry *E = new LangPackEntry();
+		E->pMuuid = pCurrentMuuid;
 
-		LangPackEntry *E = &g_pEntries[g_entryCount - 1];
+		auto p = g_entries.find(hash);
+		if (p == g_entries.end())
+			g_entries[hash] = E;
+		else
+			(*p).second->pNext = E;
+
 		int iNeeded = MultiByteToWideChar(CP_UTF8, 0, line, -1, nullptr, 0), iOldLen;
 		if (E->wszLocal == nullptr) {
 			iOldLen = 0;
@@ -421,11 +413,11 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 		wcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
-	if (!mir_wstrcmp(tszFullPath, langPack.tszFullPath))
+	if (!mir_wstrcmpi(tszFullPath, langPack.tszFullPath))
 		return 0;
 
 	// ok... loading a new langpack. remove the old one if needed
-	if (g_entryCount)
+	if (g_entries.size())
 		UnloadLangPackModule();
 
 	langPack.Locale = 0;
@@ -460,8 +452,6 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 	LoadLangPackFile(fp, line);
 	fclose(fp);
 	pCurrentMuuid = nullptr;
-
-	qsort(g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	return 0;
 }
 
@@ -488,25 +478,17 @@ MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *ptszLangPack, LANGPACK_INFO *
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
-{
-	if (arg1->englishHash < arg2->englishHash) return -1;
-	if (arg1->englishHash > arg2->englishHash) return 1;
-	return 0;
-}
-
 char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const int W)
 {
-	if (g_entryCount == 0 || szEnglish == nullptr)
+	if (g_entries.size() == 0 || szEnglish == nullptr)
 		return (char*)szEnglish;
 
-	LangPackEntry key, *entry;
-	key.englishHash = (W == 1) ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
-	entry = (LangPackEntry*)bsearch(&key, g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
-	if (entry == nullptr)
+	uint32_t englishHash = (W == 1) ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
+	auto p = g_entries.find(englishHash);
+	if (p == g_entries.end())
 		return (char*)szEnglish;
 
-	entry = entry->findNearest(pUuid);
+	auto *entry = (*p).second->findNearest(pUuid);
 	if (entry == nullptr)
 		return (char *)szEnglish;
 
@@ -634,40 +616,6 @@ MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, HPLUGIN pPlugin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
-{
-	if (g_entryCount == 0)
-		return;
-
-	LangPackEntry *s = g_pEntries + 1, *d = s, *pLast = g_pEntries;
-	uint32_t dwSavedHash = g_pEntries->englishHash;
-	bool bSortNeeded = false;
-
-	for (int i = 1; i < g_entryCount; i++, s++) {
-		if (s->englishHash != dwSavedHash) {
-			pLast = d;
-			if (s != d)
-				*d++ = *s;
-			else
-				d++;
-			dwSavedHash = s->englishHash;
-		}
-		else {
-			bSortNeeded = true;
-			LangPackEntry *p = (LangPackEntry*)mir_alloc(sizeof(LangPackEntry));
-			*p = *s;
-			pLast->pNext = p; pLast = p;
-		}
-	}
-
-	if (bSortNeeded) {
-		g_entryCount = (int)(d - g_pEntries);
-		qsort(g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void GetDefaultLang()
 {
 	// calculate the langpacks' root
@@ -729,7 +677,6 @@ MIR_CORE_DLL(void) ReloadLangpack(wchar_t *pszStr)
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
-	Langpack_SortDuplicates();
 
 	NotifyEventHooks(hevChanged, 0, 0);
 }
@@ -759,26 +706,9 @@ void UnloadLangPackModule()
 		mir_free(it);
 	lMuuids.destroy();
 
-	LangPackEntry *p = g_pEntries;
-	for (int i = 0; i < g_entryCount; i++, p++) {
-		if (p->pNext != nullptr) {
-			for (LangPackEntry *p1 = p->pNext; p1 != nullptr;) {
-				LangPackEntry *p2 = p1; p1 = p1->pNext;
-				mir_free(p2->szLocal);
-				mir_free(p2->wszLocal);
-				mir_free(p2);
-			}
-		}
-
-		mir_free(p->szLocal);
-		mir_free(p->wszLocal);
-	}
-
-	if (g_entryCount) {
-		mir_free(g_pEntries);
-		g_pEntries = nullptr;
-		g_entryCount = g_entriesAlloced = 0;
-	}
+	for (auto &it : g_entries)
+		delete it.second;
+	g_entries.clear();
 
 	langPack.tszFileName[0] = langPack.tszFullPath[0] = 0;
 }

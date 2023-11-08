@@ -39,8 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define LANG_UNICODE 0x1000
 
-EXTERN_C MIR_CORE_DLL(void)     Langpack_SortDuplicates(void);
-
 EXTERN_C MIR_CORE_DLL(int)      LoadLangPackModule(void);
 EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const wchar_t *szLangPack);
 EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(wchar_t *pszStr);

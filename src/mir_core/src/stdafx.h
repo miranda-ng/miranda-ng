@@ -43,6 +43,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include <io.h>
 	#include <direct.h>
 
+	#include <map>
+
 	#ifdef _DEBUG
 		#include <crtdbg.h>
 	#endif

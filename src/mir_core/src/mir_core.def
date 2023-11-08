@@ -33,7 +33,6 @@ KillModuleServices             @29
 KillObjectEventHooks           @30
 KillObjectServices             @31
 KillObjectThreads              @32
-Langpack_SortDuplicates        @33
 Langpack_GetDefaultCodePage    @34
 Langpack_GetDefaultLocale      @35
 Langpack_PcharToTchar          @36
