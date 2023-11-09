@@ -164,7 +164,6 @@ begin
   EnableWindow(GetDlgItem(Dialog,IDC_HOOK_DELETE),b);
   EnableWindow(GetDlgItem(Dialog,IDC_HOOK_APPLY ),b);
   EnableWindow(GetDlgItem(Dialog,IDC_EVENT_CHELP),b);
-  EnableWindow(GetDlgItem(Dialog,IDC_EVENT_HELP ),b);
 end;
 
 function NewHook(Dialog:HWND;item:integer=-1):integer;
@@ -255,10 +254,6 @@ begin
   ti.hinst   :=hInstance;
 
   ti.lpszText:=TranslateW('Help');
-  ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_HELP);
-  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
-  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
-
   ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_CHELP);
   SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
@@ -390,7 +385,6 @@ begin
         BN_CLICKED: begin
           case loword(wParam) of
             IDC_EVENT_CHELP: SendMessage(Dialog,WM_HELP,0,0);
-            IDC_EVENT_HELP : ;
             IDC_HOOK_NEW   : NewHook(Dialog);
             IDC_HOOK_DELETE: DeleteHook(Dialog);
             IDC_HOOK_APPLY : SaveHookData(Dialog);

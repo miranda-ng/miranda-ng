@@ -386,12 +386,7 @@ begin
   ti.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
   ti.hwnd    :=dialog;
   ti.hinst   :=hInstance;
-{
-  ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_HELP);
-  ti.lpszText:=TranslateW('Help');
-  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
-  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
-}  
+
   ti.uId     :=GetDlgItem(Dialog,IDC_TASK_NEW);
   ti.lpszText:=TranslateW('New');
   SetButtonIcon(ti.uId,ACI_NEW);
