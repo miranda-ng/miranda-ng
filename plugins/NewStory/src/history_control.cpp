@@ -523,7 +523,8 @@ bool NewstoryListData::HasSelection() const
 {
 	for (int i = 0; i < totalCount; i++)
 		if (auto *p = GetItem(i))
-			return true;
+			if (p->m_bSelected)
+				return true;
 
 	return false;
 }
