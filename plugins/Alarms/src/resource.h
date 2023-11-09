@@ -44,7 +44,6 @@
 #define IDC_RAD_SND1                    1034
 #define IDC_RAD_SND2                    1035
 #define IDC_RAD_SND3                    1036
-#define IDC_RAD_SPK                     1037
 #define IDC_RELMIN                      1038
 #define IDC_ED_ROWHEIGHT                1039
 #define IDC_SPIN_ROWHEIGHT              1040

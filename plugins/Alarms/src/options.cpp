@@ -56,9 +56,6 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_SETCURSEL, 0, 0);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
-
-		if (!ServiceExists("Speak/Say"))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SPK), FALSE);
 		{
 			AddEditParam *param = (AddEditParam *)lParam;
 			SendMessage(hwndDlg, WMU_OPTSETALARM, (WPARAM)param->edit, (LPARAM)param->alarm_ptr);
@@ -241,6 +238,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					CheckDlgButton(hwndDlg, IDC_CHK_ASOUND, BST_CHECKED);
 					switch (add_edit_alarm->sound_num) {
 					case 1:
+					case 4:
 						CheckDlgButton(hwndDlg, IDC_RAD_SND1, BST_CHECKED);
 						break;
 					case 2:
@@ -248,13 +246,6 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						break;
 					case 3:
 						CheckDlgButton(hwndDlg, IDC_RAD_SND3, BST_CHECKED);
-						break;
-					case 4:
-						if (!ServiceExists("Speak/Say")) {
-							add_edit_alarm->sound_num = 1;
-							CheckDlgButton(hwndDlg, IDC_RAD_SND1, BST_CHECKED);
-						}
-						else CheckDlgButton(hwndDlg, IDC_RAD_SPK, BST_CHECKED);
 						break;
 					}
 				}
@@ -598,20 +589,18 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				bChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_ACOMMAND) != 0;
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_COMMAND), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PARAMS), bChecked);
-				// drop through
+				__fallthrough;
 
 			case IDC_CHK_ASOUND:
 				bChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_ASOUND) != 0;
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SND1), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SND2), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SND3), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SPK), bChecked);
-				// drop though
+				__fallthrough;
 
 			case IDC_RAD_SND1:
 			case IDC_RAD_SND2:
 			case IDC_RAD_SND3:
-			case IDC_RAD_SPK:
 			case IDC_CHK_SUSPEND:
 			case IDC_CHK_NOSTARTUP:
 			case IDC_CHK_NOREMINDER:
@@ -696,8 +685,6 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							add_edit_alarm->sound_num = 2;
 						else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_SND3))
 							add_edit_alarm->sound_num = 3;
-						else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_SPK))
-							add_edit_alarm->sound_num = 4;
 					}
 					else add_edit_alarm->sound_num = 0;
 
