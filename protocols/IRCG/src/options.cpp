@@ -816,45 +816,68 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'add ignore' preferences dialog
 
-struct CAddIgnoreDlg : public CIrcBaseDlg
+class CAddIgnoreDlg : public CIrcBaseDlg
 {
-	wchar_t szOldMask[500];
+	const wchar_t *szOldMask, *szOldFlags;
 
-	CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto *_pro, const wchar_t *mask, CDlgBase *_owner) :
-		CIrcBaseDlg(_pro, IDD_ADDIGNORE)
+	CCtrlEdit edtMask;
+	CCtrlCheck chkQ, chkN, chkI, chkD, chkC, chkM;
+
+public:
+	CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto *_pro, const wchar_t *mask, const wchar_t *flags, CDlgBase *_owner) :
+		CIrcBaseDlg(_pro, IDD_ADDIGNORE),
+		szOldMask(mask),
+		szOldFlags(flags),
+		chkQ(this, IDC_Q),
+		chkN(this, IDC_N),
+		chkI(this, IDC_I),
+		chkD(this, IDC_D),
+		chkC(this, IDC_C),
+		chkM(this, IDC_M),
+		edtMask(this, IDC_MASK)
 	{
-		m_hwndParent = _owner->GetHwnd();
-
-		if (mask == nullptr)
-			szOldMask[0] = 0;
-		else
-			wcsncpy(szOldMask, mask, _countof(szOldMask));
+		SetParent(_owner->GetHwnd());
 	}
 
 	bool OnInitDialog() override
 	{
-		if (szOldMask[0] == 0) {
-			CheckDlgButton(m_hwnd, IDC_Q, BST_CHECKED);
-			CheckDlgButton(m_hwnd, IDC_N, BST_CHECKED);
-			CheckDlgButton(m_hwnd, IDC_I, BST_CHECKED);
-			CheckDlgButton(m_hwnd, IDC_D, BST_CHECKED);
-			CheckDlgButton(m_hwnd, IDC_C, BST_CHECKED);
+		if (szOldMask == nullptr) {
+			SetCaption(TranslateT("Add ignore"));
+			chkQ.SetState(true);
+			chkN.SetState(true);
+			chkI.SetState(true);
+			chkD.SetState(true);
+			chkC.SetState(true);
+		}
+		else {
+			SetCaption(TranslateT("Edit ignore"));
+			for (auto *p = szOldFlags; *p; p++)
+				switch (*p) {
+				case 'q': chkQ.SetState(true); break;
+				case 'n': chkN.SetState(true); break;
+				case 'i': chkI.SetState(true); break;
+				case 'd': chkD.SetState(true); break;
+				case 'c': chkC.SetState(true); break;
+				case 'm': chkM.SetState(true); break;
+			}
+
+			edtMask.SetText(szOldMask);
 		}
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		wchar_t szMask[500];
 		CMStringW flags;
-		if (IsDlgButtonChecked(m_hwnd, IDC_Q) == BST_CHECKED) flags += 'q';
-		if (IsDlgButtonChecked(m_hwnd, IDC_N) == BST_CHECKED) flags += 'n';
-		if (IsDlgButtonChecked(m_hwnd, IDC_I) == BST_CHECKED) flags += 'i';
-		if (IsDlgButtonChecked(m_hwnd, IDC_D) == BST_CHECKED) flags += 'd';
-		if (IsDlgButtonChecked(m_hwnd, IDC_C) == BST_CHECKED) flags += 'c';
-		if (IsDlgButtonChecked(m_hwnd, IDC_M) == BST_CHECKED) flags += 'm';
+		if (chkQ.IsChecked()) flags += 'q';
+		if (chkN.IsChecked()) flags += 'n';
+		if (chkI.IsChecked()) flags += 'i';
+		if (chkD.IsChecked()) flags += 'd';
+		if (chkC.IsChecked()) flags += 'c';
+		if (chkM.IsChecked()) flags += 'm';
 
-		GetDlgItemText(m_hwnd, IDC_MASK, szMask, _countof(szMask));
+		wchar_t szMask[500];
+		edtMask.GetText(szMask, _countof(szMask));
 
 		CMStringW Mask = GetWord(szMask, 0);
 		if (Mask.GetLength() != 0) {
@@ -862,7 +885,7 @@ struct CAddIgnoreDlg : public CIrcBaseDlg
 				Mask += L"!*@*";
 
 			if (!flags.IsEmpty()) {
-				if (*szOldMask)
+				if (szOldMask)
 					m_proto->RemoveIgnore(szOldMask);
 				m_proto->AddIgnore(Mask.c_str(), flags.c_str());
 			}
@@ -1118,14 +1141,14 @@ public:
 		lvC.iSubItem = 0;
 		lvC.cx = 235;
 		lvC.pszText = TranslateT("Ignore mask");
-		ListView_InsertColumn(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), 0, &lvC);
+		m_list.InsertColumn(0, &lvC);
 
 		lvC.iSubItem = 1;
 		lvC.cx = 100;
 		lvC.pszText = TranslateT("Flags");
-		ListView_InsertColumn(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), 1, &lvC);
+		m_list.InsertColumn(1, &lvC);
 
-		ListView_SetExtendedListViewStyle(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), LVS_EX_FULLROWSELECT);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
 		RebuildList();
 		return true;
 	}
@@ -1195,12 +1218,8 @@ public:
 
 	void OnAdd(CCtrlButton *)
 	{
-		CAddIgnoreDlg *dlg = new CAddIgnoreDlg(m_proto, nullptr, this);
-		dlg->Show();
-		SetWindowText(dlg->GetHwnd(), TranslateT("Add ignore"));
-		m_add.Disable();
-		m_edit.Disable();
-		m_del.Disable();
+		if (CAddIgnoreDlg(m_proto, nullptr, nullptr, this).DoModal())
+			UpdateList();
 	}
 
 	void OnEdit(CCtrlButton *)
@@ -1210,34 +1229,11 @@ public:
 
 		wchar_t szMask[512];
 		wchar_t szFlags[512];
-		wchar_t szNetwork[512];
 		int i = m_list.GetSelectionMark();
 		m_list.GetItemText(i, 0, szMask, 511);
 		m_list.GetItemText(i, 1, szFlags, 511);
-		m_list.GetItemText(i, 2, szNetwork, 511);
-		CAddIgnoreDlg *dlg = new CAddIgnoreDlg(m_proto, szMask, this);
-		dlg->Show();
-		HWND hWnd = dlg->GetHwnd();
-		SetWindowText(hWnd, TranslateT("Edit ignore"));
-		if (szFlags[0]) {
-			if (wcschr(szFlags, 'q'))
-				CheckDlgButton(hWnd, IDC_Q, BST_CHECKED);
-			if (wcschr(szFlags, 'n'))
-				CheckDlgButton(hWnd, IDC_N, BST_CHECKED);
-			if (wcschr(szFlags, 'i'))
-				CheckDlgButton(hWnd, IDC_I, BST_CHECKED);
-			if (wcschr(szFlags, 'd'))
-				CheckDlgButton(hWnd, IDC_D, BST_CHECKED);
-			if (wcschr(szFlags, 'c'))
-				CheckDlgButton(hWnd, IDC_C, BST_CHECKED);
-			if (wcschr(szFlags, 'm'))
-				CheckDlgButton(hWnd, IDC_M, BST_CHECKED);
-		}
-
-		SetDlgItemText(hWnd, IDC_MASK, szMask);
-		m_add.Disable();
-		m_edit.Disable();
-		m_del.Disable();
+		if (CAddIgnoreDlg(m_proto, szMask, szFlags, this).DoModal())
+			UpdateList();
 	}
 
 	void OnDelete(CCtrlButton *)
