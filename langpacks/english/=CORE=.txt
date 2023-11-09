@@ -654,7 +654,7 @@
 [Idle]
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
-[Re&ad status message]
+[Read status message]
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
@@ -1259,6 +1259,8 @@
 [Disable groups]
 [Exit]
 [Subgroup menu]
+[New subgroup]
+[Hide offline users in here]
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 [Do you really want to delete this menu item?]
@@ -1337,6 +1339,7 @@
 [Select program to be run]
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
+[System settings]
 [<All connections>]
 [Network]
 ;file \src\mir_app\src\netlib_ssl.cpp

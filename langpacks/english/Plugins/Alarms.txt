@@ -39,7 +39,6 @@
 [Alert 1]
 [Alert 2]
 [Alert 3]
-[Speak]
 [Occurrence]
 [Once]
 [Weekly]
