@@ -74,6 +74,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CMsgDialog;
 
+struct CCtrlMsgPages : public CCtrlPages
+{
+	CCtrlMsgPages(CDlgBase *dlg, int ctrlId) :
+		CCtrlPages(dlg, ctrlId)
+	{}
+
+	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
+
 class CTabbedWindow : public CDlgBase
 {
 	void SetWindowPosition();
@@ -85,7 +94,7 @@ class CTabbedWindow : public CDlgBase
 	int m_statusHeight = 0;
 
 public:
-	CCtrlPages m_tab;
+	CCtrlMsgPages m_tab;
 	HWND m_hwndStatus = nullptr;
 	CMsgDialog *m_pEmbed = nullptr;
 

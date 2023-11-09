@@ -41,10 +41,10 @@ CTabbedWindow* GetContainer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CCtrlMsgPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	TCHITTESTINFO tci = {};
+	CTabbedWindow *pOwner = (CTabbedWindow *)m_parentWnd;
 
 	static bool bDragging = false;
 	static int iBeginIndex = 0;
@@ -52,18 +52,18 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_LBUTTONDOWN:
 		tci.pt.x = (short)LOWORD(GetMessagePos());
 		tci.pt.y = (short)HIWORD(GetMessagePos());
-		if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+		if (DragDetect(m_hwnd, tci.pt) && TabCtrl_GetItemCount(m_hwnd) > 1) {
 			tci.flags = TCHT_ONITEM;
-			ScreenToClient(hwnd, &tci.pt);
-			int idx = TabCtrl_HitTest(hwnd, &tci);
+			ScreenToClient(m_hwnd, &tci.pt);
+			int idx = TabCtrl_HitTest(m_hwnd, &tci);
 			if (idx != -1) {
-				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+				CMsgDialog *pDlg = (CMsgDialog *)GetNthPage(idx);
 				if (pDlg) {
 					bDragging = true;
 					iBeginIndex = idx;
 					ImageList_BeginDrag(Clist_GetImageList(), pDlg->GetImageId(), 8, 8);
-					ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-					SetCapture(hwnd);
+					ImageList_DragEnter(m_hwnd, tci.pt.x, tci.pt.y);
+					SetCapture(m_hwnd);
 				}
 				return TRUE;
 			}
@@ -73,7 +73,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_CAPTURECHANGED:
 		bDragging = false;
-		ImageList_DragLeave(hwnd);
+		ImageList_DragLeave(m_hwnd);
 		ImageList_EndDrag();
 		break;
 
@@ -81,7 +81,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (bDragging) {
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &tci.pt);
+			ScreenToClient(m_hwnd, &tci.pt);
 			ImageList_DragMove(tci.pt.x, tci.pt.y);
 		}
 		break;
@@ -92,11 +92,11 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			tci.flags = TCHT_ONITEM;
 			bDragging = false;
-			ImageList_DragLeave(hwnd);
+			ImageList_DragLeave(m_hwnd);
 			ImageList_EndDrag();
 
-			ScreenToClient(hwnd, &tci.pt);
-			int idx = TabCtrl_HitTest(hwnd, &tci);
+			ScreenToClient(m_hwnd, &tci.pt);
+			int idx = TabCtrl_HitTest(m_hwnd, &tci);
 			if (idx != -1 && idx != iBeginIndex)
 				pOwner->DropTab(idx, iBeginIndex);
 		}
@@ -106,12 +106,12 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (g_Settings.bTabCloseOnDblClick) {
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &tci.pt);
+			ScreenToClient(m_hwnd, &tci.pt);
 
 			tci.flags = TCHT_ONITEM;
-			int idx = TabCtrl_HitTest(hwnd, &tci);
+			int idx = TabCtrl_HitTest(m_hwnd, &tci);
 			if (idx != -1) {
-				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+				CMsgDialog *pDlg = (CMsgDialog *)GetNthPage(idx);
 				if (pDlg)
 					pDlg->CloseTab();
 			}
@@ -123,17 +123,17 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		tci.pt.y = (short)HIWORD(GetMessagePos());
 		tci.flags = TCHT_ONITEM;
 
-		ScreenToClient(hwnd, &tci.pt);
-		int idx = TabCtrl_HitTest(hwnd, &tci);
+		ScreenToClient(m_hwnd, &tci.pt);
+		int idx = TabCtrl_HitTest(m_hwnd, &tci);
 		if (idx != -1) {
-			CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+			CMsgDialog *pDlg = (CMsgDialog *)GetNthPage(idx);
 			if (pDlg)
 				pDlg->CloseTab();
 		}
 		break;
 	}
 
-	return mir_callNextSubclass(hwnd, TabSubclassProc, msg, wParam, lParam);
+	return CCtrlPages::CustomWndProc(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -147,9 +147,6 @@ CTabbedWindow::CTabbedWindow() :
 
 bool CTabbedWindow::OnInitDialog()
 {
-	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_tab.GetHwnd(), ::TabSubclassProc);
-
 	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
