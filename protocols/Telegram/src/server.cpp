@@ -773,12 +773,13 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 			Proto_AddToContact(m_iSavedMessages, m_szModuleName);
 			SetId(m_iSavedMessages, m_iOwnId);
 			Clist_SetGroup(m_iSavedMessages, m_wszDefaultGroup);
-			setWString(m_iSavedMessages, "Nick", TranslateT("Saved messages"));
 
 			pUser = new TG_USER(m_iOwnId, 0);
 			m_arUsers.insert(pUser);
 			m_arChats.insert(pUser);
 		}
+
+		setWString(m_iSavedMessages, "Nick", TranslateT("Saved messages"));
 	}
 }
 
