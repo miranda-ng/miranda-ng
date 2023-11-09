@@ -67,7 +67,7 @@ static const UINT specifyPortsControls[] = {
 	IDC_PORTSRANGE,
 	IDC_STATIC52};
 
-static const wchar_t* szProxyTypes[] = {LPGENW("<mixed>"), L"SOCKS4", L"SOCKS5", L"HTTP", L"HTTPS", L"System settings"};
+static const wchar_t* szProxyTypes[] = {LPGENW("<mixed>"), L"SOCKS4", L"SOCKS5", L"HTTP", L"HTTPS", LPGEN("System settings")};
 static const uint16_t oftenProxyPorts[] = {1080, 1080, 1080, 8080, 8080, 8080};
 
 #define M_REFRESHALL      (WM_USER+100)
