@@ -270,7 +270,6 @@ class CAccOptDlg : public CBaseOptionsDlg
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKICO), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKAPP), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKKBN), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKNMSGP), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFSND), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFMSG), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKFICO), bEnable);
@@ -748,24 +747,10 @@ class CPopupOptsDlg : public CBaseOptionsDlg
 	{
 		chkPop.Enable(bEnable);
 		chkCol.Enable(chkPop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITPOPS), chkPop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPB), chkCol.IsChecked() && chkPop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPT), chkCol.IsChecked() && chkPop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_RADIOPOPN), chkPop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_RADIOPOP1), chkPop.IsChecked() && bEnable);
-
 		chkNpop.Enable(bEnable);
 		chkNcol.Enable(chkNpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITNPOPS), chkNpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPNB), chkNcol.IsChecked() && chkNpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPNT), chkNcol.IsChecked() && chkNpop.IsChecked() && bEnable);
-
 		chkFpop.Enable(bEnable);
 		chkFcol.Enable(chkFpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITFPOPS), chkFpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPFB), chkFcol.IsChecked() && chkFpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CPFT), chkFcol.IsChecked() && chkFpop.IsChecked() && bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKAPOP), bEnable);
 	}
 
 	void DlgShowAccountColors()
@@ -1047,6 +1032,7 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CPNB), chkNcol.IsChecked() && bEnabled);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CPNT), chkNcol.IsChecked() && bEnabled);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITNPOPS), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECKNMSGP), bEnabled);
 	}
 };
 
