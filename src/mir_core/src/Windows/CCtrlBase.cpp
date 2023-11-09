@@ -24,18 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static mir_cs csCtrl;
 
-static int CompareControls(const CCtrlBase *p1, const CCtrlBase *p2)
-{
-	return (INT_PTR)p1->GetHwnd() - (INT_PTR)p2->GetHwnd();
-}
-static LIST<CCtrlBase> arControls(10, CompareControls);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
 CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
 	m_parentWnd(wnd),
-	m_idCtrl(idCtrl)
+	m_idCtrl(idCtrl),
+	oldProc(nullptr)
 {
 	if (wnd)
 		wnd->AddControl(this);
@@ -52,12 +47,9 @@ void CCtrlBase::OnInit()
 
 void CCtrlBase::OnDestroy()
 {
-	int idx = arControls.indexOf(this);
-	if (idx != -1) {
-		Unsubclass();
-
-		mir_cslock lck(csCtrl);
-		arControls.remove(idx);
+	if (oldProc) {
+		SetWindowLongPtrW(m_hwnd, GWLP_USERDATA, 0);
+		SetWindowLongPtrW(m_hwnd, GWLP_WNDPROC, (LONG_PTR)oldProc);
 	}
 
 	m_hwnd = nullptr;
@@ -196,29 +188,25 @@ LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 LRESULT CALLBACK CCtrlBase::GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PVOID bullshit[2];  // vfptr + hwnd
-	bullshit[1] = hwnd;
-	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
-	if (pCtrl) {
+	if (auto *pCtrl = (CCtrlBase *)GetWindowLongPtrW(hwnd, GWLP_USERDATA)) {
 		LRESULT res = pCtrl->CustomWndProc(msg, wParam, lParam);
-		if (res != 0)
+		if (res)
 			return res;
+
+		return pCtrl->oldProc(hwnd, msg, wParam, lParam);
 	}
 
-	return mir_callNextSubclass(hwnd, GlobalSubclassWndProc, msg, wParam, lParam);
+	return FALSE;
 }
 
 void CCtrlBase::Subclass()
 {
-	mir_subclassWindow(m_hwnd, GlobalSubclassWndProc);
+	SetWindowLongPtrW(m_hwnd, GWLP_USERDATA, LPARAM(this));
 
-	mir_cslock lck(csCtrl);
-	arControls.insert(this);
-}
-
-void CCtrlBase::Unsubclass()
-{
-	mir_unsubclassWindow(m_hwnd, GlobalSubclassWndProc);
+	oldProc = (WNDPROC)GetWindowLongPtrW(m_hwnd, GWLP_WNDPROC);
+	SetWindowLongPtrW(m_hwnd, GWLP_WNDPROC, (LONG_PTR)&GlobalSubclassWndProc);
 }

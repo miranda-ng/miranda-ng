@@ -192,7 +192,7 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ListWindow");
 		Window_FreeIcon_IcoLib(m_hwnd);
 		hwndDialog = nullptr;
-		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
+		delete todo;
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override

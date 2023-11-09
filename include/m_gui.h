@@ -409,10 +409,10 @@ protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void Subclass();
-	void Unsubclass();
 
 private:
 	static LRESULT CALLBACK GlobalSubclassWndProc(MWindow hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	WNDPROC oldProc;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

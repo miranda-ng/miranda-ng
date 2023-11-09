@@ -864,7 +864,6 @@ mir_wstrcmpi                  @280
 ?ThemeDialogBackground@CDlgBase@@IEAAXH@Z @1061 NONAME
 ?TranslateItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@@Z @1062 NONAME
 ?TranslateTree@CCtrlTreeView@@QEAAXXZ @1063 NONAME
-?Unsubclass@CCtrlBase@@IEAAXXZ @1064 NONAME
 ?Update@CCtrlListView@@QEAAHH@Z @1065 NONAME
 ?GetInst@CDlgBase@@QEBAPEAUHINSTANCE__@@XZ @1075 NONAME
 ?Find@CDlgBase@@SAPEAV1@PEAUHWND__@@@Z @1076 NONAME
