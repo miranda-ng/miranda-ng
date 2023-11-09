@@ -119,7 +119,7 @@
 [Popup if no mail]
 Всплывающее окно
 [Persistent message]
-Длительность
+Постоянное сообщение
 [Connection failure notifications]
 При ошибках подключения
 [Popup notification if failed]
