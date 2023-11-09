@@ -342,7 +342,7 @@ void InitGroupMenus(void)
 		mi.position = 1000;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-		mi.name.a = LPGEN("&New subgroup");
+		mi.name.a = LPGEN("New subgroup");
 		gmp.wParam = POPUP_NEWSUBGROUP;
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
 		CreateServiceFunction(mi.pszService, GroupMenuExecProxy);
@@ -350,21 +350,21 @@ void InitGroupMenus(void)
 		SET_UID(mi, 0xd85f5ff0, 0x12ca, 0x464d, 0x86, 0x51, 0x53, 0x36, 0x9f, 0x1d, 0x80, 0x45);
 		mi.position = 1001;
 		mi.hIcolibItem = nullptr;
-		mi.name.a = LPGEN("&Hide offline users in here");
+		mi.name.a = LPGEN("Hide offline users in here");
 		gmp.wParam = POPUP_GROUPHIDEOFFLINE;
 		hHideOfflineUsersHereMenuItem = Menu_AddSubGroupMenuItem(&mi, &gmp);
 
 		SET_UID(mi, 0xf0953dd, 0x5c31, 0x48a4, 0xb4, 0x16, 0x89, 0x5, 0x97, 0xd0, 0x75, 0x3e);
 		mi.position = 900001;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
-		mi.name.a = LPGEN("&Rename group");
+		mi.name.a = LPGEN("Rename group");
 		gmp.wParam = POPUP_RENAMEGROUP;
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
 
 		SET_UID(mi, 0xb0d63cda, 0xa743, 0x4cfa, 0xa6, 0x2d, 0x50, 0xc0, 0x90, 0xe7, 0x6a, 0xc4);
 		mi.position = 900002;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-		mi.name.a = LPGEN("&Delete group");
+		mi.name.a = LPGEN("Delete group");
 		gmp.wParam = POPUP_DELETEGROUP;
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
 	}

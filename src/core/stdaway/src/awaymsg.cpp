@@ -166,7 +166,7 @@ int LoadAwayMsgModule(void)
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
-	mi.name.a = LPGEN("Re&ad status message");
+	mi.name.a = LPGEN("Read status message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
