@@ -47,7 +47,7 @@ struct LangPackEntry : public MZeroedObject
 	char *utfLocal;
 	wchar_t *wszLocal;
 	MUUID *pMuuid;
-	LangPackEntry* pNext;  // for langpack items with the same hash value
+	LangPackEntry *pNext;  // for langpack items with the same hash value
 
 	~LangPackEntry()
 	{
@@ -111,7 +111,7 @@ static int ConvertBackslashes(char *str, UINT fileCp)
 #endif
 
 // MurmurHash2
-MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len)
+MIR_CORE_DLL(unsigned int) mir_hash(const void *key, unsigned int len)
 {
 	// 'm' and 'r' are mixing constants generated offline.
 	// They're not really 'magic', they just happen to work well.
@@ -249,7 +249,7 @@ static void LoadLangPackFile(FILE *fp, char *line)
 
 			if (!memcmp(line + 1, "include", 7)) {
 				wchar_t tszFileName[MAX_PATH];
-				wchar_t	*p = wcsrchr(langPack.tszFullPath, '\\');
+				wchar_t *p = wcsrchr(langPack.tszFullPath, '\\');
 				if (p)
 					*p = 0;
 				mir_snwprintf(tszFileName, L"%s\\%S", langPack.tszFullPath, ltrim(line + 9));
@@ -302,10 +302,9 @@ static void LoadLangPackFile(FILE *fp, char *line)
 		E->pMuuid = pCurrentMuuid;
 
 		auto p = g_entries.find(hash);
-		if (p == g_entries.end())
-			g_entries[hash] = E;
-		else
-			(*p).second->pNext = E;
+		if (p != g_entries.end())
+			E->pNext = (*p).second;
+		g_entries[hash] = E;
 
 		int iNeeded = MultiByteToWideChar(CP_UTF8, 0, line, -1, nullptr, 0), iOldLen;
 		if (E->wszLocal == nullptr) {
@@ -395,7 +394,8 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 		wchar_t *p = wcschr(lpinfo.tszFileName, '_');
 		wcsncpy_s(lpinfo.tszLanguage, ((p != nullptr) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
 		p = wcsrchr(lpinfo.tszLanguage, '.');
-		if (p != nullptr) *p = '\0';
+		if (p != nullptr)
+			*p = '\0';
 	}
 	return 0;
 }
@@ -636,7 +636,7 @@ void GetDefaultLang()
 			return;
 		}
 	}
-	
+
 	// try to load langpack that matches UserDefaultUILanguage
 	wchar_t tszPath[MAX_PATH];
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
