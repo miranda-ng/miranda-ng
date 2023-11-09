@@ -75,8 +75,8 @@ BEGIN
     CONTROL         "Manage Firefox proxy",IDC_CHECK_FIREFOX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,106,132,10
     CONTROL         "Reconnect if IP address changes",IDC_CHECK_ALWAY_RECONNECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,120,132,10
-    LTEXT           "Hide interfaces",IDC_STATIC,15,165,62,8
-    EDITTEXT        IDC_EDIT_HIDEINTF,80,161,62,14,ES_AUTOHSCROLL
+    LTEXT           "Hide interfaces",IDC_STATIC,13,159,62,21
+    EDITTEXT        IDC_EDIT_HIDEINTF,80,156,62,14,ES_AUTOHSCROLL
     GROUPBOX        "Popup options",IDC_STATIC,160,65,134,118,WS_GROUP
     CONTROL         "Enable popups",IDC_CHECK_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,78,122,10
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,168,94,39,11
@@ -85,7 +85,7 @@ BEGIN
     CONTROL         "Background color",IDC_STATIC,"Static",SS_SIMPLE,215,111,75,8
     CONTROL         "Use default colors",IDC_CHECK_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
     CONTROL         "Show proxy status on change",IDC_CHECK_SHOWPROXYSTATUS,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,168,143,123,20
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,168,143,123,20
     CTEXT           "Restart of Miranda NG is required.",IDC_RESTARTREQUIRED,164,170,127,8,NOT WS_VISIBLE
 END
 
