@@ -87,21 +87,25 @@ static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName,
 	pszFileName[0] = 0;
 }
 
-const wchar_t *FilterString(lpExImParam ExImContact)
+static CMStringW FilterString(lpExImParam ExImContact)
 {
+	CMStringW str;
+
 	switch (ExImContact->Typ) {
 	case EXIM_SUBGROUP:
 	case EXIM_ACCOUNT:
-		return L"XMLCard 1.0 (*.xml)\0*.xml\0";
+		str.Format(L"%s 1.0 (*.xml)\0*.xml\0", TranslateT("XMLCard"));
+		__fallthrough;
 
 	case EXIM_ALL:
 	case EXIM_GROUP:
-		return L"XMLCard 1.0 (*.xml)\0*.xml\0DBEditor++ File (*.ini)\0*.ini\0";
+		str.AppendFormat(L"%s (*.ini)\0*.ini\0", TranslateT("DBEditor++ File"));
+		__fallthrough;
 
 	case EXIM_CONTACT:
-		return L"XMLCard 1.0 (*.xml)\0*.xml\0DBEditor++ File (*.ini)\0*.ini\0Standard vCard 2.1 (*.vcf)\0*.vcf\0";
+		str.AppendFormat(L"%s 2.1 (*.vcf)\0*.vcf\0", TranslateT("Standard vCard"));
 	}
-	return nullptr;
+	return str;
 }
 
 /**
