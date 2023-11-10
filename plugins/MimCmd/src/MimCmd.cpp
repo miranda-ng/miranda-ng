@@ -21,6 +21,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "..\..\build\appstub\appstub.cpp"
 
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {7EFA77D0-5CA2-485E-A045-609B988F3718}
+	{ 0x7efa77d0, 0x5ca2, 0x485e, { 0xa0, 0x45, 0x60, 0x9b, 0x98, 0x8f, 0x37, 0x18 }}
+};
+
 wchar_t* GetProgramName(wchar_t *programName, size_t size)
 {
 	wchar_t name[512];

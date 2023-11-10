@@ -51,9 +51,9 @@ int ConnectToMiranda()
 	SetEnvironmentVariable(L"PATH", ptszVal);
 	delete[] ptszVal;
 
-	wchar_t pluginPath[1024] = {0};
+	wchar_t pluginPath[1024]; pluginPath[0] = 0;
 	GetMirandaFolder(pluginPath, _countof(pluginPath));
-	if(pluginPath[0])
+	if (pluginPath[0])
 		mir_wstrcat(pluginPath, L"\\plugins\\cmdline.dll");
 	else
 		mir_wstrcat(pluginPath, L"plugins\\cmdline.dll");
@@ -161,7 +161,7 @@ void FillSharedDataStruct(PCommand command, wchar_t *arguments[], int count)
 	sdCmdLine->cArguments = count;
 	sdCmdLine->command = *command;
 	*sdCmdLine->reply.message = 0;
-	sdCmdLine->reply.code =-1;
+	sdCmdLine->reply.code = -1;
 }
 
 void ProcessConsoleCommand(PCommand command, wchar_t *arguments[], int count, PReply reply)
