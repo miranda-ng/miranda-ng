@@ -889,7 +889,7 @@ class PSPContactProfileDlg : public PSPBaseDlg
 			if (dbvVal.type != DBVT_WCHAR)
 				continue;
 			mir_snprintf(pszSetting, szCatFormat, i);
-			DB::Setting::GetAString(hContact, pszModule, pszSetting, &dbvCat);
+			DB::Setting::GetWString(hContact, pszModule, pszSetting, &dbvCat);
 			
 			// create the item object
 			LPLCITEM pItem = (LPLCITEM)mir_alloc(sizeof(LCITEM));
@@ -919,8 +919,8 @@ class PSPContactProfileDlg : public PSPBaseDlg
 						if (dbvCat.dVal != (uint32_t)idList[j].nID)
 							continue;
 						break;
-					case DBVT_ASCIIZ:
-						if (mir_strcmp(dbvCat.pszVal, idList[j].pszText)) 
+					case DBVT_WCHAR:
+						if (mir_wstrcmp(dbvCat.pwszVal, idList[j].pszText)) 
 							continue;
 						break;
 					}

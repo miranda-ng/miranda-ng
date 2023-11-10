@@ -467,7 +467,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			if (lParam & BATF_UNICODE)
 				ti.lpszText = mir_wstrdup(TranslateW((wchar_t*)wParam));
 			else
-				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
+				ti.lpszText = mir_wstrdup(TranslateW(_A2T((char*)wParam)));
 			SendMessage(bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			SendMessage(bct->hwndToolTips, TTM_SETMAXTIPWIDTH, 0, 300);
 			mir_free(ti.lpszText);

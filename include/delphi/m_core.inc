@@ -208,8 +208,6 @@ function Langpack_GetDefaultCodePage():int; stdcall;
                  external CoreDLL name 'Langpack_GetDefaultCodePage';
 function Langpack_GetDefaultLocale():int; stdcall;
                  external CoreDLL name 'Langpack_GetDefaultLocale';
-function Langpack_PcharToTchar(const pszStr:PAnsiChar):PWideChar; stdcall;
-                 external CoreDLL name 'Langpack_PcharToTchar';
 
 function LoadLangPackModule():int; stdcall;
                  external CoreDLL name 'LoadLangPackModule';

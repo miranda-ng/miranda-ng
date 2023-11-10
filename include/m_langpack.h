@@ -88,13 +88,6 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultCodePage(void);
 EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// returns the strdup/wcsdup of lparam according to the langpack
-// returns a string converted from char* to wchar_t* using the langpack codepage.
-// This string should be freed using mir_free() then
-
-EXTERN_C MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // reloads langpack
 // wParam = 0 (ignored)
 // lParam = (LPARAM)(wchar_t*)langpack file name or NULL to reload the current one

@@ -35,7 +35,6 @@ KillObjectServices             @31
 KillObjectThreads              @32
 Langpack_GetDefaultCodePage    @34
 Langpack_GetDefaultLocale      @35
-Langpack_PcharToTchar          @36
 List_Copy                      @37
 List_Create                    @38
 List_Destroy                   @39
