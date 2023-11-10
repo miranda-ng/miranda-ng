@@ -37,3 +37,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 #include "../CmdLine/src/utils.h"
 #include "commands.h"
+
+extern PLUGININFOEX pluginInfoEx;
+
+#undef TranslateT
+#define TranslateT(T) TranslateW_UUID(T, &pluginInfoEx.uuid)

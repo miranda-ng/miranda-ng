@@ -28,8 +28,6 @@ typedef void (* LISTCOMMANDS)(PCommand *commands, int *count);
 
 extern LISTCOMMANDS ListCommands;
 
-char *GetMirandaFolder();
-
 int ConnectToMiranda();
 int DisconnectFromMiranda();
 int GetKnownCommands();

@@ -117,16 +117,16 @@ void HandleHelpCommand(PCommand, wchar_t *argv[], int argc, PReply reply)
 
 		if (command) {
 			reply->code = MIMRES_SUCCESS;
-			szReply.Append(TranslateW_LP(command->help));
+			szReply.Append(TranslateT(command->help));
 		}
 		else {
 			reply->code = MIMRES_NOTFOUND;
-			szReply.AppendFormat(TranslateW_LP(L"No help for '%s'."), argv[2]);
+			szReply.AppendFormat(TranslateT(L"No help for '%s'."), argv[2]);
 		}
 	}
 	else {
 		reply->code = MIMRES_SUCCESS;
-		szReply.Append(TranslateW_LP(L"Available commands: "));
+		szReply.Append(TranslateT(L"Available commands: "));
 
 		for (int i = 0; i < cKnownCommands - 1; i++) {
 			szReply.Append(knownCommands[i].command);
@@ -182,7 +182,7 @@ void ProcessConsoleCommand(PCommand command, wchar_t *arguments[], int count, PR
 
 			case WAIT_OBJECT_0 + 1: //close event
 			default:
-				mir_wstrcpy(sdCmdLine->reply.message, TranslateW_LP(L"Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
+				mir_wstrcpy(sdCmdLine->reply.message, TranslateT(L"Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
 				done = TRUE;
 				break;
 

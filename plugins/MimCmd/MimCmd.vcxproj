@@ -45,8 +45,8 @@
   <ItemDefinitionGroup>
     <Link>
       <SubSystem>Console</SubSystem>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">mir_core.mir;ucrtbased.dll;vcruntime140.dll</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">mir_core.mir;ucrtbase.dll;api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;VCRUNTIME140.dll</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">mir_core.mir;ucrtbased.dll</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">mir_core.mir;api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
 </Project>

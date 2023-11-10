@@ -52,17 +52,17 @@ void PrintUsage()
 	wchar_t name[128];
 	GetProgramName(name, _countof(name));
 
-	wprintf(TranslateW_LP(L"%s usage:\n"), name);
-	wprintf(TranslateW_LP(L"%s <command> [<param> [<param> [...]]].\n"), name);
-	wprintf(TranslateW_LP(L"This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
-	wprintf(TranslateW_LP(L"No command can have more than %d parameters.\n"), MAX_ARGUMENTS - 1);
+	wprintf(TranslateT(L"%s usage:\n"), name);
+	wprintf(TranslateT(L"%s <command> [<param> [<param> [...]]].\n"), name);
+	wprintf(TranslateT(L"This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
+	wprintf(TranslateT(L"No command can have more than %d parameters.\n"), MAX_ARGUMENTS - 1);
 }
 
 void ShowVersion()
 {
 	wchar_t name[128];
 	GetProgramName(name, _countof(name));
-	wprintf(TranslateW_LP(L"%s version %s"), name, __VERSION_STRING_DOTS);
+	wprintf(TranslateT(L"%s version %s"), name, __VERSION_STRING_DOTS);
 }
 
 int wmain(int argc, wchar_t *argv[])
@@ -90,7 +90,7 @@ int wmain(int argc, wchar_t *argv[])
 		wprintf(L"%s\n", reply->message);
 	}
 	else {
-		wprintf(TranslateW_LP(L"Unknown command '%s'.\n"), argv[1]);
+		wprintf(TranslateT(L"Unknown command '%s'.\n"), argv[1]);
 		error = 0;
 	}
 
