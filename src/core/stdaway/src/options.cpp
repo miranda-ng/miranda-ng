@@ -110,8 +110,10 @@ public:
 
 	void onClick_Reset(CCtrlButton *)
 	{
-		if (oldPage != -1)
+		if (oldPage != -1) {
 			etdMsg.SetText(GetDefaultMessage(m_info[oldPage].iStatus));
+			NotifyChange();
+		}
 	}
 
 	void onSelChange_Status(CCtrlCombo*)
