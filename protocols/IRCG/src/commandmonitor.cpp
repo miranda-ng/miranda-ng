@@ -560,7 +560,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 bool CIrcProto::OnIrc_NICK(const CIrcMessage *pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 0) {
-		bool bIsMe = pmsg->prefix.sNick == m_info.sNick ? true : false;
+		bool bIsMe = pmsg->prefix.sNick == m_info.sNick;
 
 		if (m_info.sNick == pmsg->prefix.sNick && pmsg->parameters.getCount() > 0) {
 			m_info.sNick = pmsg->parameters[0];
@@ -568,7 +568,11 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage *pmsg)
 		}
 
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
-		DoEvent(GC_EVENT_NICK, nullptr, pmsg->prefix.sNick, pmsg->parameters[0], nullptr, host, NULL, true, bIsMe);
+		for (auto &si : g_chatApi.arSessions)
+			if (!mir_strcmp(si->pszModule, m_szModuleName))
+				if (g_chatApi.UM_FindUser(si, pmsg->prefix.sNick))
+					DoEvent(GC_EVENT_NICK, si->ptszID, pmsg->prefix.sNick, pmsg->parameters[0], nullptr, host, NULL, true, bIsMe);
+
 		Chat_ChangeUserId(m_szModuleName, pmsg->prefix.sNick, pmsg->parameters[0]);
 
 		CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
@@ -1280,7 +1284,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						gce.pszUID.w = sTemp;
 						gce.pszNick.w = sTemp;
 						gce.pszStatus.w = sStat;
-						gce.bIsMe = (!mir_wstrcmpi(gce.pszNick.w, m_info.sNick)) ? TRUE : FALSE;
+						gce.bIsMe = (0 == mir_wstrcmpi(gce.pszNick.w, m_info.sNick));
 						if (gce.bIsMe) {
 							char BitNr = -1;
 							switch (sTemp2[0]) {
