@@ -430,8 +430,11 @@ public:
 
 		// filterbar
 		btnFilter.MakePush();
-		btnSearch.MakePush();
 		btnTimeTree.MakePush();
+
+		btnSearch.MakePush();
+		if (m_dwOptions & WND_OPT_SEARCHBAR)
+			btnSearch.Push(true);
 
 		m_hwndChkDateFrom = GetDlgItem(m_hwnd, IDC_CHK_DATE_FROM);
 		m_hwndChkDateTo = GetDlgItem(m_hwnd, IDC_CHK_DATE_TO);
