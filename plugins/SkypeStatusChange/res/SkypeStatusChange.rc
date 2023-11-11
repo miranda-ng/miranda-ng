@@ -25,18 +25,18 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -49,7 +49,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -66,9 +66,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Synchronize status message",IDC_CHECK_SYNCK_STATUS_MSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,179,180,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,179,289,10
     LTEXT           "&Check any protocol or any status to exclude it from synchronization:",IDC_STATIC,7,13,298,8
-    CONTROL         "",IDC_TREE_PROTOCOLS,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,16,26,225,146
+    CONTROL         "",IDC_TREE_PROTOCOLS,"SysTreeView32",TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,16,26,225,146
     CONTROL         "Synchronize if current status differs from previous one",IDC_CHECK_STATUSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,194,284,10
 END
@@ -92,7 +92,18 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG_SETTINGS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -106,3 +117,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
