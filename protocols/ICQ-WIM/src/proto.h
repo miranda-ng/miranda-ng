@@ -381,6 +381,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
+	INT_PTR   __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR   __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////

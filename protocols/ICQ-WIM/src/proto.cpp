@@ -91,6 +91,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
+	CreateProtoService(PS_LEAVECHAT, &CIcqProto::OnLeaveChat);
+
 	// avatars
 	CreateDirectoryTreeW(GetAvatarPath());
 

@@ -36,6 +36,15 @@ SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *p
 	return si;
 }
 
+INT_PTR CIcqProto::OnLeaveChat(WPARAM hContact, LPARAM)
+{
+	CMStringW wszId(GetUserId(hContact));
+	if (auto *si = Chat_Find(wszId, m_szModuleName))
+		LeaveDestroyChat(si);
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::LoadChatInfo(SESSION_INFO *si)
