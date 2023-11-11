@@ -367,7 +367,11 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage *pmsg)
 {
 	if (pmsg->m_bIncoming) {
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
-		DoEvent(GC_EVENT_QUIT, nullptr, pmsg->prefix.sNick, pmsg->parameters.getCount() > 0 ? pmsg->parameters[0].c_str() : nullptr, nullptr, host, NULL, true, false);
+		for (auto &si : g_chatApi.arSessions)
+			if (!mir_strcmp(si->pszModule, m_szModuleName))
+				if (g_chatApi.UM_FindUser(si, pmsg->prefix.sNick))
+					DoEvent(GC_EVENT_QUIT, si->ptszID, pmsg->prefix.sNick, pmsg->parameters.getCount() > 0 ? pmsg->parameters[0].c_str() : nullptr, nullptr, host, NULL, true, false);
+
 		CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 		CList_SetOffline(&user);
 		if (pmsg->prefix.sNick == m_info.sNick)
