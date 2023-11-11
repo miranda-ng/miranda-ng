@@ -1596,7 +1596,7 @@ int CMsgDialog::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 	bool bInfoPanel = m_pPanel.isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (isChat() && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (m_si && m_si->iType == GCW_CHATROOM && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_GRAYED);
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, (M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0)) ? MF_GRAYED : MF_ENABLED);
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(m_hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
