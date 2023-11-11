@@ -431,6 +431,7 @@ public:
 		// filterbar
 		btnFilter.MakePush();
 		btnSearch.MakePush();
+		btnTimeTree.MakePush();
 
 		m_hwndChkDateFrom = GetDlgItem(m_hwnd, IDC_CHK_DATE_FROM);
 		m_hwndChkDateTo = GetDlgItem(m_hwnd, IDC_CHK_DATE_TO);
