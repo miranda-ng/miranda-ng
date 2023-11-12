@@ -13,7 +13,6 @@ fast.
 - IRC (Internet Relay Chat)
 - Jabber
 - MinecraftDynmap
-- Omegle
 - Sametime
 - Skype
 - Steam
