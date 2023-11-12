@@ -213,7 +213,6 @@ Icons\proto_minecraftdynmap.dll
 Icons\proto_mra.dll
 Icons\proto_mradio.dll
 Icons\proto_newsaggregator.dll
-Icons\proto_omegle.dll
 Icons\proto_sametime.dll
 Icons\proto_skype.dll
 Icons\proto_steam.dll
