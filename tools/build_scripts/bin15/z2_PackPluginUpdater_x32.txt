@@ -97,7 +97,6 @@ Plugins\nohistory.dll
 Plugins\notesreminders.dll
 Plugins\notifyanything.dll
 Plugins\nudge.dll
-Plugins\omegle.dll
 Plugins\openfolder.dll
 Plugins\packupdater.dll
 Plugins\pasteit.dll

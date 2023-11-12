@@ -65,7 +65,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="NewsAggregator.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_NewsAggregator.dll")
 	if /I "%%a"=="NewStory.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "libs\libTextControl.mir")
 	if /I "%%a"=="NotifyAnything.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "SendLog*.exe")
-	if /I "%%a"=="Omegle.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Omegle.dll")
 	if /I "%%a"=="PluginUpdater.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "pu_stub.exe")
 	if /I "%%a"=="PopupPlus.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "libs\libTextControl.mir")
 	if /I "%%a"=="RemovePersonalSettings.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "RemovePersonalSettings.ini")
