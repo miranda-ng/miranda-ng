@@ -121,3 +121,12 @@ struct CMPluginMsn : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginMsn;
+
+struct CMPluginOmegle : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginOmegle() : ACCPROTOPLUGIN<CDummyProto>("Omegle", pluginInfoEx)
+	{
+		SetUniqueId("nick");
+	}
+}
+static g_pluginOmegle;
