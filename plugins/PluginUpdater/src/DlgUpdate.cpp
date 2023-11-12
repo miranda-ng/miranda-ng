@@ -557,6 +557,7 @@ static renameTable[] =
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"mtextcontrol.dll",               nullptr },
+	{ L"omegle.dll",                     nullptr },
 	{ L"openssl.dll",                    nullptr },
 	{ L"rate.dll",                       nullptr },
 	{ L"sms.dll",                        nullptr },
