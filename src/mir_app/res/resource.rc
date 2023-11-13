@@ -7,7 +7,6 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
 #include <winres.h>
 #include "../../include/statusmodes.h"
 
@@ -752,7 +751,7 @@ BEGIN
     CONTROL         "User &details",IDC_DETAILS,"MButtonClass",WS_TABSTOP,248,29,16,14,WS_EX_NOACTIVATE | 0x10000000L
     LTEXT           "Reason:",IDC_STATIC,7,39,101,10,SS_CENTERIMAGE
     EDITTEXT        IDC_REASON,7,50,257,54,ES_MULTILINE | ES_READONLY | NOT WS_BORDER | WS_VSCROLL | WS_HSCROLL,WS_EX_STATICEDGE
-    LTEXT           "Denial reason:",IDC_STATIC,7,111,89,10,SS_CENTERIMAGE | SS_REALSIZECONTROL
+    LTEXT           "Denial reason:",IDC_STATIC,7,111,89,10,SS_CENTERIMAGE | 0x40
     EDITTEXT        IDC_DENYREASON,7,124,257,32,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "Add to contact list if authorized",IDC_ADDCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,162,239,10
 END
@@ -937,12 +936,13 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Please enter your new password",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,190,26
-    CTEXT           "",IDC_LANG,158,34,13,13,SS_CENTERIMAGE | NOT WS_GROUP
-    EDITTEXT        IDC_USERPASS1,21,34,128,14,ES_PASSWORD | ES_AUTOHSCROLL
-    EDITTEXT        IDC_USERPASS2,21,54,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CTEXT           "",IDC_LANG,144,34,13,13,SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_USERPASS1,10,34,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_USERPASS2,10,54,128,14,ES_PASSWORD | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,36,84,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,100,84,50,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,77,190,1
+    CONTROL         "",IDC_SHOWPASSWORD,"MButtonClass",0x0,163,34,16,14
 END
 
 IDD_CHANGEPASS DIALOGEX 0, 0, 190, 148
@@ -962,6 +962,7 @@ BEGIN
     LTEXT           "New password",IDC_STATIC,11,66,163,10,0,WS_EX_TRANSPARENT
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,119,190,1
     LTEXT           "Old password",IDC_STATIC,11,31,140,10,0,WS_EX_TRANSPARENT
+    CTEXT           "",IDC_LANG2,155,78,13,13,SS_CENTERIMAGE | NOT WS_GROUP
 END
 
 IDD_OPT_DATABASE DIALOGEX 0, 0, 318, 176
@@ -1344,6 +1345,10 @@ BEGIN
         BOTTOMMARGIN, 63
     END
 
+    IDD_OPT_ERRORS, DIALOG
+    BEGIN
+    END
+
     IDD_CHOOSE_FONT_EFFECT, DIALOG
     BEGIN
     END
@@ -1415,6 +1420,18 @@ BEGIN
         BOTTOMMARGIN, 194
     END
 
+    IDD_NEWPASS, DIALOG
+    BEGIN
+    END
+
+    IDD_CHANGEPASS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_DATABASE, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_FILEGENERAL, DIALOG
     BEGIN
     END
@@ -1439,7 +1456,6 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
     "#include ""../../include/statusmodes.h""\r\n"
     "\0"
@@ -1589,6 +1605,8 @@ IDI_EXIT                ICON                    "Icon_exit.ico"
 
 IDI_MOVETOGROUP         ICON                    "contact_groups.ico"
 
+IDI_EYE                 ICON                    "eye.ico"
+
 IDI_ON                  ICON                    "On.ico"
 
 IDI_OFF                 ICON                    "Off.ico"
@@ -1650,7 +1668,6 @@ IDI_STATUS3             ICON                    "chat/4.ico"
 IDI_STATUS4             ICON                    "chat/5.ico"
 
 IDI_STATUS5             ICON                    "chat/6.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1842,6 +1859,16 @@ BEGIN
 END
 
 IDD_OPT_FILEGENERAL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_NEWPASS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CHANGEPASS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

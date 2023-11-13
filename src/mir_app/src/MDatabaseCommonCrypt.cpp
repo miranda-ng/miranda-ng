@@ -130,20 +130,6 @@ void MDatabaseCommon::SetPassword(const wchar_t *ptszPassword)
 	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(m_bUsesPassword), Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 }
 
-static UINT oldLangID;
-void LanguageChanged(HWND hwndDlg)
-{
-	UINT_PTR LangID = (UINT_PTR)GetKeyboardLayout(0);
-	char Lang[3] = { 0 };
-	if (LangID != oldLangID) {
-		oldLangID = LangID;
-		GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
-		Lang[0] = toupper(Lang[0]);
-		Lang[1] = tolower(Lang[1]);
-		SetDlgItemTextA(hwndDlg, IDC_LANG, Lang);
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static bool CheckOldPassword(HWND hwndDlg, MDatabaseCommon *db)
@@ -160,91 +146,134 @@ static bool CheckOldPassword(HWND hwndDlg, MDatabaseCommon *db)
 	return true;
 }
 
-static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CChangePasswordDlg : public CDlgBase
 {
-	MDatabaseCommon *db = (MDatabaseCommon *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	UINT oldLangID = 0;
+	wchar_t oldPasswordChar = 0;
+	MDatabaseCommon *m_db;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_DATABASE, true));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+	CTimer m_timer;
+	CCtrlEdit edtPass1, edtPass2;
+	CCtrlButton btnRemove;
+	CCtrlMButton btnShowPass;
 
-		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, nullptr);
-		LanguageChanged(hwndDlg);
-		return TRUE;
+public:
+	CChangePasswordDlg(MDatabaseCommon *pDB) :
+		CDlgBase(g_plugin, pDB->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS),
+		m_db(pDB),
+		m_timer(this, 1),
+		edtPass1(this, IDC_USERPASS1),
+		edtPass2(this, IDC_USERPASS2),
+		btnRemove(this, IDREMOVE),
+		btnShowPass(this, IDC_SHOWPASSWORD, g_plugin.getIcon(IDI_EYE), LPGEN("Show password"))
+	{
+		btnRemove.OnClick = Callback(this, &CChangePasswordDlg::onClick_Remove);
+		btnShowPass.OnClick = Callback(this, &CChangePasswordDlg::onClick_ShowPass);
 
-	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
+		m_timer.OnEvent = Callback(this, &CChangePasswordDlg::onTimer);
+	}
+
+	bool OnInitDialog() override
+	{
+		SendDlgItemMessage(m_hwnd, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_DATABASE, true));
+		oldPasswordChar = edtPass1.SendMsg(EM_GETPASSWORDCHAR, 0, 0);
+		m_timer.Start(200);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		wchar_t buf2[100];
+		edtPass1.GetText(buf2, _countof(buf2));
+		if (wcslen(buf2) < 3) {
+			SetDlgItemText(m_hwnd, IDC_HEADERBAR, TranslateT("Password is too short!"));
+	LBL_Error:
+			SendDlgItemMessage(m_hwnd, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
+			edtPass1.SetTextA("");
+			edtPass2.SetTextA("");
+		}
+
+		wchar_t buf[100];
+		GetDlgItemText(m_hwnd, IDC_USERPASS2, buf, _countof(buf));
+		if (wcscmp(buf2, buf)) {
+			SetDlgItemText(m_hwnd, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
+			goto LBL_Error;
+		}
+
+		if (!CheckOldPassword(m_hwnd, m_db))
+			goto LBL_Error;
+
+		m_db->SetPassword(buf2);
+		m_db->StoreCryptoKey();
+		SecureZeroMemory(buf, sizeof(buf));
+		SecureZeroMemory(buf2, sizeof(buf2));
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		m_timer.Stop();
+		Window_FreeIcon_IcoLib(GetDlgItem(m_hwnd, IDC_HEADERBAR));
+	}
+
+	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_CTLCOLORSTATIC && (HWND)lParam == GetDlgItem(m_hwnd, IDC_LANG)) {
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			SetBkMode((HDC)wParam, TRANSPARENT);
 			return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
-		return FALSE;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, IDCANCEL);
-			break;
-
-		case IDREMOVE:
-			if (!CheckOldPassword(hwndDlg, db)) {
-LBL_Error:
-				SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
-				SetDlgItemTextA(hwndDlg, IDC_USERPASS1, "");
-				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
-			}
-			else {
-				db->SetPassword(nullptr);
-				db->StoreCryptoKey();
-				EndDialog(hwndDlg, IDREMOVE);
-			}
-			break;
-
-		case IDOK:
-			wchar_t buf2[100];
-			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
-			if (wcslen(buf2) < 3) {
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
-				goto LBL_Error;
-			}
-
-			wchar_t buf[100];
-			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, _countof(buf));
-			if (wcscmp(buf2, buf)) {
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
-				goto LBL_Error;
-			}
-
-			if (!CheckOldPassword(hwndDlg, db))
-				goto LBL_Error;
-
-			db->SetPassword(buf2);
-			db->StoreCryptoKey();
-			SecureZeroMemory(buf, sizeof(buf));
-			SecureZeroMemory(buf2, sizeof(buf2));
-			EndDialog(hwndDlg, IDOK);
-		}
-		break;
-
-	case WM_TIMER:
-		LanguageChanged(hwndDlg);
-		return FALSE;
-
-	case WM_DESTROY:
-		KillTimer(hwndDlg, 1);
-		Window_FreeIcon_IcoLib(GetDlgItem(hwndDlg, IDC_HEADERBAR));
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	return FALSE;
-}
+	void onTimer(CTimer *)
+	{
+		UINT_PTR LangID = (UINT_PTR)GetKeyboardLayout(0);
+		char Lang[3] = { 0 };
+		if (LangID != oldLangID) {
+			oldLangID = LangID;
+			GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
+			Lang[0] = toupper(Lang[0]);
+			Lang[1] = tolower(Lang[1]);
+			SetDlgItemTextA(m_hwnd, IDC_LANG, Lang);
+		}
+	}
+
+	void onClick_Remove(CCtrlButton *)
+	{
+		if (!CheckOldPassword(m_hwnd, m_db)) {
+			SendDlgItemMessage(m_hwnd, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
+			edtPass1.SetTextA("");
+			edtPass2.SetTextA("");
+		}
+		else {
+			m_db->SetPassword(nullptr);
+			m_db->StoreCryptoKey();
+			EndDialog(m_hwnd, IDREMOVE);
+		}
+	}
+
+	void onClick_ShowPass(CCtrlMButton *)
+	{
+		DWORD dwStyle = GetWindowLong(edtPass1.GetHwnd(), GWL_STYLE);
+		if (dwStyle & ES_PASSWORD) {
+			edtPass1.SendMsg(EM_SETPASSWORDCHAR, 0, 0);
+			edtPass2.SendMsg(EM_SETPASSWORDCHAR, 0, 0);
+		}
+		else {
+			edtPass1.SendMsg(EM_SETPASSWORDCHAR, oldPasswordChar, 0);
+			edtPass2.SendMsg(EM_SETPASSWORDCHAR, oldPasswordChar, 0);
+		}
+
+		InvalidateRect(edtPass1.GetHwnd(), 0, TRUE);
+		InvalidateRect(edtPass2.GetHwnd(), 0, TRUE);
+	}
+};
 
 static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
-	MDatabaseCommon *db = (MDatabaseCommon*)obj;
-	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)db);
+	CChangePasswordDlg((MDatabaseCommon *)obj).DoModal();
 	return 0;
 }
 

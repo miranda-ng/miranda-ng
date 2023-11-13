@@ -56,6 +56,7 @@
 #define IDD_METASELECT                  151
 #define IDD_METAEDIT                    152
 #define IDD_METAOPTIONS                 153
+#define IDI_EYE                         154
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
 #define IDI_USERDETAILS                 160
@@ -367,6 +368,7 @@
 #define IDC_TRANSFERCOMPLETED           1214
 #define IDC_LANG                        1215
 #define IDC_USERPASS                    1216
+#define IDC_LANG2                       1216
 #define IDC_ALLFILESPROGRESS            1217
 #define IDC_WHITERECT                   1220
 #define IDC_ALLSPEED                    1221
@@ -598,6 +600,7 @@
 #define IDC_OFFLINE_AUTO                1756
 #define IDC_OFFLINE_AUTOSIZE            1757
 #define IDC_OFFLINE_AUTOSIZE_SPIN       1758
+#define IDC_SHOWPASSWORD                1760
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -702,9 +705,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        336
+#define _APS_NEXT_RESOURCE_VALUE        338
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1759
+#define _APS_NEXT_CONTROL_VALUE         1761
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
