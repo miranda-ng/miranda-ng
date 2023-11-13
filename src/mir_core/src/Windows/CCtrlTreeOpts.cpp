@@ -157,6 +157,8 @@ void CCtrlTreeOpts::OnInit()
 void CCtrlTreeOpts::OnDestroy()
 {
 	ImageList_Destroy(GetImageList(TVSIL_NORMAL));
+
+	CSuper::OnDestroy();
 }
 
 bool CCtrlTreeOpts::OnApply()
