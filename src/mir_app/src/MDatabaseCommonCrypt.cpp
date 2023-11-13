@@ -216,7 +216,7 @@ public:
 		Window_FreeIcon_IcoLib(GetDlgItem(m_hwnd, IDC_HEADERBAR));
 	}
 
-	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_CTLCOLORSTATIC && (HWND)lParam == GetDlgItem(m_hwnd, IDC_LANG)) {
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
