@@ -191,6 +191,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 			edtPass1.SetTextA("");
 			edtPass2.SetTextA("");
+			return;
 		}
 
 		wchar_t buf[100];
