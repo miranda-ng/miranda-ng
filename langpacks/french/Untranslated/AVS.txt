@@ -4,6 +4,7 @@
 [When setting avatars, always make them square]
 [This uses the same additional options as in "Contact avatars" tab]
 [Change]
+[AVS]
 [Global avatar for %s accounts]
 [Contact avatars]
 [Own avatars]

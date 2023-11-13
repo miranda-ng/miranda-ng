@@ -72,8 +72,6 @@ Alarm 1
 Alarm 2
 [Alert 3]
 Alarm 3
-[Speak]
-Mów
 [Occurrence]
 Występowanie
 [Once]

@@ -24,15 +24,17 @@ Wych.
 od
 [till]
 do
-[Group messages]
-Grupuj wiadomości
 [Log window]
 Okno dziennika
+[Group messages]
+Grupuj wiadomości
 [Enable vertical scroll bar]
 Włącz pionowy pasek przewijania
 [Draw window edge]
 Rysuj krawędź okna
 [Ascending events sort order]
+
+[History++ compatiblity mode]
 
 [Template list:]
 Lista szablonów:
@@ -187,7 +189,7 @@ Eksport historii
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file name]
+[Copy file path]
 
 [Copy URL]
 Kopiuj link
@@ -228,8 +230,6 @@ Nieznane zdarzenie
 Szablon grup
 [Cancel edit]
 Anuluj edycję
-[Update preview]
-Uaktualnij podgląd
 [Downloaded]
 
 [Help]

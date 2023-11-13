@@ -6,7 +6,6 @@
 [Output device:]
 [Volume:]
 [Quiet time:]
-[download BASS library]
 [Play only if]
 [Un4seen's BASS version: %d.%d.%d.%d]
 [--default device--]

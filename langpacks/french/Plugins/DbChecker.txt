@@ -45,6 +45,8 @@ Nom de fichier :
 
 [Check database]
 Vérifiez la base de données
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 

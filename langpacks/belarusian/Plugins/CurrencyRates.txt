@@ -135,6 +135,8 @@
 [Currency Rate]
 Курс валюты
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+Тэставы кантакт
 [Source of information]
 Крыніца інфармацыі
 [Rate value]

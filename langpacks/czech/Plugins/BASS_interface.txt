@@ -22,8 +22,6 @@ Výstupní zařízení:
 Hlasitost:
 [Quiet time:]
 Čas ticha:
-[download BASS library]
-stáhnout BASS knihovnu
 [Play only if]
 Povolit pouze ve stavu
 [Offline]

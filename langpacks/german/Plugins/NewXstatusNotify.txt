@@ -235,6 +235,8 @@ Standardton
 Kontakt
 [<unknown>]
 <unbekannt>
+[(was %s)]
+(war %s)
 [%s is now %s]
 %s ist nun %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -355,8 +357,6 @@ Statusaufzeichnung
 [Filtering]
 Filtern
 ;file \plugins\NewXstatusNotify\src\popup.h
-[(was %s)]
-(war %s)
 [Open message window]
 Nachrichtenfenster öffnen
 [Close popup]

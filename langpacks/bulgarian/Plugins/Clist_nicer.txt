@@ -84,12 +84,12 @@ CList nicer изключение
 Ръбове (ляво/дясно)
 [Row gap]
 Пролука между редовете
-[Minimum row height:]
-Мин. височина на реда:
+[Minimum row height]
+Мин. височина на реда
 [Group row height]
 Височина на реда на групите
-[Indent groups by:]
-Отстъп на групите:
+[Indent groups by]
+Отстъп на групите
 [Inner row vertical padding]
 
 [Margins and spacing]

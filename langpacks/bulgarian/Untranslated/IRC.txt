@@ -1,7 +1,7 @@
 [Enable SASL]
 [User ID (Ident)]
-[Ident]
 ['Old style' mode changes]
+[Ident]
 [Ping]
 [Userinfo]
 [Away Info]

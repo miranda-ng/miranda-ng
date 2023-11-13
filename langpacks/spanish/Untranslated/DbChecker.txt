@@ -15,6 +15,7 @@
 [Working...]
 [Please wait while the requested operations are being performed.]
 [Check database]
+[DbChecker]
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 [Database driver '%s' doesn't support checking.]
 [&Finish]

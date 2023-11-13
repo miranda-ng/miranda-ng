@@ -703,6 +703,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рэйтынг кантакту: высокі
 [Show even if offline]
 Паказваць адключаных
+[Contact rate]
+Рэйтынг кантакту
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар

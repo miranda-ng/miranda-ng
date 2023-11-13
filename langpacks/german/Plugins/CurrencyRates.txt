@@ -135,6 +135,8 @@ Geben Sie eine positive Zahl ein.
 [Currency Rate]
 Währungskurs
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+Test-Kontakt
 [Source of information]
 Quelle der Information
 [Rate value]

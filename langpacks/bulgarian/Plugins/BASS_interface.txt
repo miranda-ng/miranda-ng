@@ -22,8 +22,6 @@
 Сила на звука:
 [Quiet time:]
 Тишина:
-[download BASS library]
-сваляне на библиотеката BASS
 [Play only if]
 При състояние
 [Offline]

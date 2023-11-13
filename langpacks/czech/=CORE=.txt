@@ -35,8 +35,6 @@ Stav: '%s', uživatel: %s
 &Zrušit
 [Retrieving %s message...]
 Zjištění automatické odpovědi ve stavu '%s'...
-[Status messages]
-Stavové zprávy
 [Do not reply to requests for this message]
 Neodpovídat na vybranou zprávu automaticky
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@ Jako odpověď použít stejnou zprávu jako posledně
 Jako odpověď použít následující zprávu:
 [Use %time% for the current time, %date% for the current date]
 %time% = aktuální čas, %date% = aktuální datum
+[Status messages]
+Stavové zprávy
+[Reset]
+Reset
 [Change %s message]
 Odpověď pro stav '%s'
 [Closing in %d]
@@ -807,8 +809,6 @@ Copyright:
 Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 [Fonts and colors]
 Písma a barvy
-[Reset]
-Reset
 [Export...]
 Exportovat...
 [Color/background]
@@ -961,7 +961,7 @@ Zobrazit nastavené jméno podkontaktu
 Použít jméno prvního kontaktu
 [Choose needed logger from listed below:]
 
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 
 [Current language:]
 Zvolený jazyk:
@@ -1295,7 +1295,7 @@ Nečinnost
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Přečíst &automatickou odpověď
-[Re&ad status message]
+[Read status message]
 Přečíst stavovou zprávu
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
@@ -1778,6 +1778,9 @@ Telefon (práce)
 Fax (práce)
 [Contact]
 Kontakt
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+UserInfo
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <neurčeno>
@@ -2128,6 +2131,10 @@ Telefon/SMS
 Aktivita v chatu
 [Chat mute mode]
 
+[Gender]
+Pohlaví
+[Account]
+Účet
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Doplňkové ikony
@@ -2367,6 +2374,8 @@ Platnost v Mirandě
 [** All contacts **]
 ** všechny kontakty **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Hlavní
 [Show/Hide contact list]
 Zobrazit nebo skrýt kontakty
 [Read message]
@@ -2418,8 +2427,18 @@ Nabídka rámečků
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Nabídka skupiny
+[Hide offline users out here]
+Skrýt uživatele offline mimo skupiny
+[Disable groups]
+Vypnout skupiny
+[Exit]
+Ukončit
 [Subgroup menu]
 Nabídka podskupiny
+[New subgroup]
+
+[Hide offline users in here]
+Skrýt uživatele offline
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 Nová podnabídka
@@ -2562,6 +2581,8 @@ Vyberte požadovaný program
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <různé>
+[System settings]
+
 [<All connections>]
 <všechna spojení>
 [Network]
@@ -2658,6 +2679,9 @@ Nový profil
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 Protokol je offline
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Protokoly
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Požádat o autorizaci
@@ -2780,8 +2804,6 @@ Doplněk Unicode
 Doplněk ANSI
 [Show/Hide]
 Zobrazit nebo skrýt
-[Exit]
-Ukončit
 [Join chat]
 Přidat se do diskuse
 [Leave chat]
@@ -2841,8 +2863,8 @@ Identifikátor
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
-[on]
-Zap
+[at]
+
 [Download]
 Stáhnout
 [Copy URL]
@@ -3387,8 +3409,3 @@ Obrázky typu PNG
 ;file \include\m_message.h
 [Message window toolbar]
 
-;file \include\m_popup.h
-[Do nothing]
-Nedělat nic
-[Dismiss popup]
-Zavřít oznámení

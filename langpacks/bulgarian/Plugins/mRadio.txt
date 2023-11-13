@@ -85,8 +85,10 @@ mRadio Mod
 Концертна зала
 [Psychotic]
 
-[Forrest]
+[Forest]
 Гора
+[City]
+Град
 [To list]
 списъка
 [Hangar]
@@ -201,3 +203,7 @@ mRadio вкл.
 
 [bass.dll not found! Choose bass.dll path manually]
 
+[min]
+мин.
+[max]
+макс.

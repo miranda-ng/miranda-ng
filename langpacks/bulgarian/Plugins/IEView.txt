@@ -91,6 +91,8 @@
 
 [Format text as code]
 
+[IEView]
+IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Стандарт
@@ -104,8 +106,6 @@
 
 [Message sessions]
 Разговори
-[IEView]
-IEView
 [General]
 Основни
 [Skins]

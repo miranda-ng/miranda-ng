@@ -30,8 +30,8 @@
 &Через:
 [E&xplore]
 &Огляд
-[&Fill description textbox.]
-&Заповнити рядок опису
+[Fill description textbox.]
+Заповнити рядок опису
 [Delete &after send]
 Видалити &після відправки
 [Open editor before sending]
@@ -248,8 +248,6 @@ Upload Pie (30 хв)
 Upload Pie (1 дн)
 [Upload Pie (1w)]
 Upload Pie (1 тижд)
-[Fill description textbox.]
-Заповніть опис у текстовому полі.
 [Delete after send]
 Видалити після відправки
 [Capture]

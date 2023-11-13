@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -200,6 +200,8 @@ History++ для історії вікон
 Завжди (має пріоритет)
 [Fullscreen mode]
 Повний екран
+[Idle]
+Очікування
 [Debug]
 Налагодження
 ;file \plugins\Popup\src\actions.cpp
@@ -223,6 +225,9 @@ History++ для історії вікон
 Немає дії
 [Action]
 Дія
+;file \plugins\Popup\src\actions.h
+[Do nothing]
+Нічого не робити
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Бурмоковт
@@ -315,6 +320,11 @@ History++ для історії вікон
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
+;file \plugins\Popup\src\notifications.cpp
+[Misc]
+Інше
+[Notification]
+Сповіщення
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без ефекту

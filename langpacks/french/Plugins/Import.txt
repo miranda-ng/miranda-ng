@@ -200,6 +200,8 @@ Profil Miranda-NG/mContacts
 
 [Import...]
 
+[Import]
+
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 

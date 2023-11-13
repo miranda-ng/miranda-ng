@@ -22,3 +22,5 @@ Use custom colours
 [Color]
 Colour
 ;other strings
+[Colors]
+Colours

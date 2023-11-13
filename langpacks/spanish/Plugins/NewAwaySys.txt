@@ -279,7 +279,7 @@ Leer %s mens&aje(s)
 [%d seconds]
 
 [Read status message]
-
+Leer mensaje de estado
 [On]
 Encendido
 [Off]

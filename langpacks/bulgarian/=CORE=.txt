@@ -35,8 +35,6 @@
 Отказ
 [Retrieving %s message...]
 Извличане на текста "%s"...
-[Status messages]
-Текст за състояние
 [Do not reply to requests for this message]
 Без отговор на запитвания за това съобщение
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@
 Ползване на следното съобщение като стандартно:
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
+[Status messages]
+Текст за състояние
+[Reset]
+Анулиране
 [Change %s message]
 Промяна на текста "%s"
 [Closing in %d]
@@ -807,8 +809,6 @@ Copyright:
 Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
 [Fonts and colors]
 Шрифтове и цветове
-[Reset]
-Анулиране
 [Export...]
 Износ...
 [Color/background]
@@ -961,7 +961,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Choose needed logger from listed below:]
 
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 
 [Current language:]
 Текущ език:
@@ -1295,7 +1295,7 @@ Google Translate
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Показване на текста "%s"
-[Re&ad status message]
+[Read status message]
 Показване на текста за състояние
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
@@ -1778,6 +1778,9 @@ Popups са изключени
 Работен факс
 [Contact]
 Контакт
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <неуточнено>
@@ -2128,6 +2131,10 @@ Popups са изключени
 Чат активност
 [Chat mute mode]
 
+[Gender]
+Пол
+[Account]
+Акаунт
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Допълнителни икони
@@ -2367,6 +2374,8 @@ Win +\s
 [** All contacts **]
 ** Всички контакти **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Основна
 [Show/Hide contact list]
 Показва/Скрива списъка с контакти
 [Read message]
@@ -2418,8 +2427,18 @@ Win +\s
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню на групите
+[Hide offline users out here]
+Скриване на контактите "Извън линия" тук
+[Disable groups]
+Без групи
+[Exit]
+Изход
 [Subgroup menu]
 Меню на подгрупите
+[New subgroup]
+
+[Hide offline users in here]
+Скриване на контактите "Извън линия" тук
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 
@@ -2562,6 +2581,8 @@ Win +\s
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 
+[System settings]
+
 [<All connections>]
 <Всички връзки>
 [Network]
@@ -2658,6 +2679,9 @@ Win +\s
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 Протоколът е извън линия
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Протоколи
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Молба за упълномощаване
@@ -2780,8 +2804,6 @@ Unicode приставка
 ANSI приставка
 [Show/Hide]
 Показване/Скриване
-[Exit]
-Изход
 [Join chat]
 Влизане в чата
 [Leave chat]
@@ -2841,8 +2863,8 @@ WAV файлове
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
-[on]
-Включено
+[at]
+
 [Download]
 Сваляне
 [Copy URL]
@@ -3387,8 +3409,3 @@ PNG изображения
 ;file \include\m_message.h
 [Message window toolbar]
 
-;file \include\m_popup.h
-[Do nothing]
-Нищо
-[Dismiss popup]
-Затваряне на Popup

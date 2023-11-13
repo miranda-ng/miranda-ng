@@ -658,3 +658,33 @@ VBR чи ні
 
 [Oops, something wrong!]
 
+[Permanent]
+Постійно
+[Colors]
+Кольори
+[Timeout]
+Затримка
+[Info]
+Інформація
+[Test]
+Тест
+[Statuses]
+Статуси
+[System default codepage]
+
+[Templates]
+Шаблони
+[Bytes]
+Байт
+[Variables]
+Змінні
+[Template]
+Шаблон
+[Misc]
+Інше
+[Statistics]
+Статистика
+[Login]
+Ім'я користувача
+[Info]
+Інформація

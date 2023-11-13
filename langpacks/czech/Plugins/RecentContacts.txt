@@ -14,8 +14,8 @@ Nedávné kontakty
 Nastavení doplňku
 [Number of shown contacts:\n (0 to show all)]
 Počet kontaktů pro zobrazení:\n (0 pro zobrazení všech)
-[Format of date and time\n(Look to readme for placeholders help)]
-Formát data a času\n(Podívejte se do nápovědy pro zástupné symboly)
+[Format of date and time\n(Look to wiki for placeholders help)]
+
 [Hide offline contacts]
 Skrýt uživatele offline
 [Resize window according to contact list]

@@ -135,6 +135,8 @@ Wprowadź liczbę dodatnią.
 [Currency Rate]
 Kurs waluty
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+Testowy kontakt
 [Source of information]
 Źródło informacji
 [Rate value]

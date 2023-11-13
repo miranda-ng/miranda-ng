@@ -91,6 +91,8 @@ Transferencia de archivos entrantes
 
 [Format text as code]
 
+[IEView]
+
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Por defecto
@@ -104,8 +106,6 @@ Todos los archivos
 
 [Message sessions]
 Sesiones de mensaje
-[IEView]
-
 [General]
 General
 [Skins]

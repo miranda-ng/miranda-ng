@@ -84,6 +84,10 @@ Keine gemeinsame Verschlüsselungsmethode. Aktivieren Sie Verschlüsselung in de
 [SERVICE NOT IMPLEMENTED. %s]
 DIENST NICHT IMPLEMENTIERT. %s
 ;file \protocols\Sametime\src\options.cpp
+[Sametime (Use old client version)]
+
+[Sametime (Miranda default)]
+
 [Client protocol version: %03d.%03d]
 Client-Protokollversion: %03d.%03d
 [Server protocol version: %03d.%03d]

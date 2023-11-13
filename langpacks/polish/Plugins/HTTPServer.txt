@@ -129,3 +129,5 @@ Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usłu
 Wyłącz serwer HTTP
 [Enable HTTP server]
 Włącz serwer HTTP
+[Failed to read configuration file: HTTPMimeTypes]
+

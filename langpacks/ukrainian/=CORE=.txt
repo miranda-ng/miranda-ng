@@ -35,8 +35,6 @@
 &Скасувати
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
-[Status messages]
-Статусні повідомлення
 [Do not reply to requests for this message]
 Не відповідати на запити цього повідомлення
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@
 Використ. це повідомлення як стандартне:
 [Use %time% for the current time, %date% for the current date]
 %date% - нинішня дата; %time% - поточний час
+[Status messages]
+Статусні повідомлення
+[Reset]
+Скинути
 [Change %s message]
 Змінити повідомлення "%s"
 [Closing in %d]
@@ -807,8 +809,6 @@
 Щоб зміни набрали чинності, необхідно перезапустити Miranda NG
 [Fonts and colors]
 Шрифти і кольори
-[Reset]
-Скинути
 [Export...]
 Експорт...
 [Color/background]
@@ -961,7 +961,7 @@ UIN, E-mail тощо
 Фіксувати ім'я
 [Choose needed logger from listed below:]
 
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 
 [Current language:]
 Мова інтерфейсу:
@@ -1295,7 +1295,7 @@ UIN, E-mail тощо
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Читати повідомлення "%s"
-[Re&ad status message]
+[Read status message]
 Читати статусне повідомлення
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
@@ -1778,6 +1778,9 @@ UIN, E-mail тощо
 Робочий факс
 [Contact]
 Контакти
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Інфо
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <не вказано>
@@ -2128,6 +2131,10 @@ Miranda не може зрозуміти цей профіль
 Активність у чаті
 [Chat mute mode]
 
+[Gender]
+Стать
+[Account]
+Обліковий запис
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Додаткові значки
@@ -2367,6 +2374,8 @@ Miranda
 [** All contacts **]
 ** Усі контакти **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Головний
 [Show/Hide contact list]
 Показати/сховати список контактів
 [Read message]
@@ -2418,8 +2427,18 @@ xСтатус
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню груп
+[Hide offline users out here]
+Сховати відключених поза групою
+[Disable groups]
+Вимкнути групи
+[Exit]
+Вихід
 [Subgroup menu]
 Меню підгруп
+[New subgroup]
+
+[Hide offline users in here]
+Сховати відключених у групі
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 Нове вкладене меню
@@ -2562,6 +2581,8 @@ xСтатус
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <різні>
+[System settings]
+
 [<All connections>]
 <Усі з'єднання>
 [Network]
@@ -2658,6 +2679,9 @@ xСтатус
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 Протокол не в мережі
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Протоколи
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Запитати авторизацію
@@ -2780,8 +2804,6 @@ Unicode-плагін
 ANSI-плагін
 [Show/Hide]
 Показати/сховати
-[Exit]
-Вихід
 [Join chat]
 Увійти до чату
 [Leave chat]
@@ -2841,8 +2863,8 @@ ANSI-плагін
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
-[on]
-Увімк.
+[at]
+
 [Download]
 Завантажити
 [Copy URL]
@@ -3387,8 +3409,3 @@ ANSI-плагін
 ;file \include\m_message.h
 [Message window toolbar]
 
-;file \include\m_popup.h
-[Do nothing]
-Нічого не робити
-[Dismiss popup]
-Закрити

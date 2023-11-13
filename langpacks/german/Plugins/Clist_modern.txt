@@ -703,6 +703,8 @@ Kontaktpriorität: Mittel
 Kontaktpriorität: Hoch
 [Show even if offline]
 Zeige Kontakt auch, wenn offline
+[Contact rate]
+Kontakt Bewertung
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Avatar

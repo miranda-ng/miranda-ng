@@ -200,6 +200,8 @@ Miranda внос
 Пропускане на дублираща се група %s.
 [Import...]
 Внос...
+[Import]
+Внос
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Готово

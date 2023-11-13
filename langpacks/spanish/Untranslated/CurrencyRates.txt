@@ -43,6 +43,7 @@
 [Info provided by]
 [Enter positive number.]
 [Currency Rate]
+[Test contact]
 [Source of information]
 [Rate value]
 [Rate delta]

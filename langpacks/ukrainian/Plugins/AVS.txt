@@ -97,6 +97,8 @@
 Мій глобальний кеш аватарів
 [Avatar]
 Аватар
+[AVS]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Аватар для всіх облікових записів %s

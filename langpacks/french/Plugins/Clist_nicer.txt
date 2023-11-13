@@ -84,12 +84,12 @@ Alignement
 Marges gauche/droite
 [Row gap]
 Espace
-[Minimum row height:]
-Hauteur mini lignes :
+[Minimum row height]
+Hauteur mini lignes
 [Group row height]
 Largeur du groupe
-[Indent groups by:]
-Décaler les contacts de :
+[Indent groups by]
+Décaler les contacts de
 [Inner row vertical padding]
 
 [Margins and spacing]

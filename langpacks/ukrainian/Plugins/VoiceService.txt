@@ -40,6 +40,8 @@
 
 [Catch focus on this dialog]
 
+[sec]
+с
 [New Voice Call]
 
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
@@ -75,10 +77,6 @@
 [Call will disclose IP address to the peer and his server]
 
 [Established]
-
-[M]
-
-[V]
 
 [Frame Popup]
 

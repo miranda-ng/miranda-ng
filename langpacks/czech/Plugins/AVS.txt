@@ -97,6 +97,8 @@ Osobní avatary
 Úložiště avatarů
 [Avatar]
 Avatar
+[AVS]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s

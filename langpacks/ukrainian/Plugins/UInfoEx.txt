@@ -206,6 +206,8 @@
 * Потрібен перезапуск Miranda NG.
 [Reset factory defaults]
 Скинути налаштування
+[Colors]
+Кольори
 [Protocol's information]
 Дані протоколу
 [Custom information]
@@ -216,22 +218,18 @@
 Змінені дані
 [Enable colors to give information about information's status.]
 Увімкнути кольори для показу статусу інформації
+[Common]
+Загальні
 [Make protocol based contact information read only]
 Заборонити зміну інформації, що базується на протоколі
+[Treeview]
+Дерево
 [Enable groups in details dialog's treeview]
 Вкладені пункти меню
 [Sort all tree items alphabetically]
 Впорядкувати всі пункти за абеткою
 [Info of a metacontact's subcontact]
 Інформація про субконтакт метаконтакту
-[Colors]
-Кольори
-[Common]
-Загальні
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Змінювати особисті дані через UserInfoEx (недоступно, якщо ICQ не підтримує)
-[Treeview]
-Дерево
 [Adapt propertysheet pages to Aero mode]
 Адаптувати налаштування до стилю Aero
 [Import]
@@ -1168,6 +1166,12 @@ SaveFileDialog повернув помилку: %d
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усі контакти
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Виберіть ім'я файлу для експорту
 [Import User Details from VCard]

@@ -30,8 +30,6 @@ SSL/TLS
 Име (имейл)
 [User ID (Ident)]
 
-[Ident]
-
 [Enable]
 Включване
 [System]
@@ -70,6 +68,8 @@ SSL/TLS
 Обновяване в списъка с прякори
 [Don't check if more than (users):]
 Без проверка ако потр. са > от:
+[Ident]
+
 [User information]
 Подробности за потребителя
 [Ping]
@@ -488,6 +488,10 @@ Latin I
 Натиснете тук, за да изтриете командите за събитието
 [Default ANSI codepage]
 Стандартна ANSI кодова таблица
+[Add ignore]
+Добавяне на игнориране
+[Edit ignore]
+Редактиране на игнориране
 [Add new ignore]
 Добавяне на ново игнориране
 [Edit this ignore]
@@ -498,10 +502,6 @@ Latin I
 
 [Flags]
 Държавни знамена
-[Add ignore]
-Добавяне на игнориране
-[Edit ignore]
-Редактиране на игнориране
 [Network]
 Мрежа
 [Account]

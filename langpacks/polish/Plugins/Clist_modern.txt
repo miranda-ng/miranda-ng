@@ -703,6 +703,8 @@ Ocena kontaktu: średnia
 Ocena kontaktu: wysoka
 [Show even if offline]
 Pokaż nawet, jeśli rozłączony
+[Contact rate]
+Ocena kontaktu
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Awatar

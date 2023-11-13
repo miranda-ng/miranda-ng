@@ -45,6 +45,8 @@ Proszę czekać aż żądane operacje zostaną wykonane.
 Profil
 [Check database]
 Sprawdź profil
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil "%s".

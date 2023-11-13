@@ -14,8 +14,8 @@ Letzte Kontakte
 Plugin-Einstellungen
 [Number of shown contacts:\n (0 to show all)]
 Anzahl angezeigter Kontakte:\n(0 um alle anzuzeigen)
-[Format of date and time\n(Look to readme for placeholders help)]
-Format von Datum und Uhrzeit\n(Siehe Readme für Hilfe zu Platzhaltern)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Format von Datum und Uhrzeit\n(Siehe Wiki für Hilfe zu Platzhaltern)
 [Hide offline contacts]
 Offlinekontakte ausblenden
 [Resize window according to contact list]

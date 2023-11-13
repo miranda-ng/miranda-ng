@@ -84,12 +84,12 @@ Ausrichtung
 Abstand links/rechts
 [Row gap]
 Zeilenabstand
-[Minimum row height:]
-Minimale Zeilenhöhe:
+[Minimum row height]
+Minimale Zeilenhöhe
 [Group row height]
 Gruppen-Zeilenhöhe
-[Indent groups by:]
-Gruppen einrücken:
+[Indent groups by]
+Gruppen einrücken
 [Inner row vertical padding]
 Innerer vertikaler Zeilenabstand
 [Margins and spacing]

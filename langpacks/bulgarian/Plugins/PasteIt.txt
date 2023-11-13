@@ -140,6 +140,8 @@ Paste It - Избиране на файл
 [File '%s' is empty]
 Файлът "%s" е празен
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Няма
 [Error during sending text to web page: %S]
 Грешка при качването на файла в уеб страницата "%S"
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Paste It - Избиране на файл
 [1 month]
 1 месец
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Текст

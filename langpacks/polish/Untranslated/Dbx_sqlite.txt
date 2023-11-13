@@ -1,2 +1,3 @@
+[Converting database...]
 [Orphaned event with wrong contact ID %d, deleting]
 [Orphaned setting [%S:%S] with wrong contact ID %d, deleting]

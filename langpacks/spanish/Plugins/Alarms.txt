@@ -72,8 +72,6 @@ Sonido:
 
 [Alert 3]
 
-[Speak]
-
 [Occurrence]
 
 [Once]

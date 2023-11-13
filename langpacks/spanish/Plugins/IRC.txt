@@ -30,8 +30,6 @@ Apodo
 
 [User ID (Ident)]
 
-[Ident]
-
 [Enable]
 Habilitar
 [System]
@@ -69,6 +67,8 @@ Mantener viva la conexión
 [Update statuses in channel nick list]
 
 [Don't check if more than (users):]
+
+[Ident]
 
 [User information]
 
@@ -488,6 +488,10 @@ Encendido
 
 [Default ANSI codepage]
 
+[Add ignore]
+
+[Edit ignore]
+
 [Add new ignore]
 
 [Edit this ignore]
@@ -497,10 +501,6 @@ Encendido
 [Ignore mask]
 
 [Flags]
-
-[Add ignore]
-
-[Edit ignore]
 
 [Network]
 Red

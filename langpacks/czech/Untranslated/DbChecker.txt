@@ -5,6 +5,7 @@
 [Remove duplicate events]
 [Fix server event IDs]
 [Check database]
+[DbChecker]
 [Click Finish to continue]
 [%d events marked as read]
 [%d duplicate events removed]

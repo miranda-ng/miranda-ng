@@ -19,10 +19,10 @@ Use Windows colours
 Use default colours
 [Anniversary popup colors]
 Anniversary popup colours
-[Enable colors to give information about information's status.]
-Enable colours to give information about information's status.
 [Colors]
 Colours
+[Enable colors to give information about information's status.]
+Enable colours to give information about information's status.
 [No pages have been added. Canceling dialog creation!]
 No pages have been added. Cancelling dialog creation!
 [Non-Government Organization]

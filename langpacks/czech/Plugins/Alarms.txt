@@ -72,8 +72,6 @@ Zvuk č.1
 Zvuk č.2
 [Alert 3]
 Zvuk č.3
-[Speak]
-Přečíst
 [Occurrence]
 Opakování
 [Once]

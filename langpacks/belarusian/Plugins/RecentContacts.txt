@@ -14,8 +14,8 @@
 Налады
 [Number of shown contacts:\n (0 to show all)]
 Колькасць кантактаў\n (0 - паказвае ўсе)
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат часу і даты\n(Фармат глядзіце ў readme)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Формат часу і даты\n(Фармат глядзіце ў вікі)
 [Hide offline contacts]
 Схаваць адключаных
 [Resize window according to contact list]

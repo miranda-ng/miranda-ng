@@ -30,8 +30,6 @@ Alternatywny nick
 Nazwa (e-mail)
 [User ID (Ident)]
 ID użytkownika
-[Ident]
-Ident
 [Enable]
 Włącz
 [System]
@@ -70,6 +68,8 @@ Sprawdzaj co (s):
 Aktualizuj statusy na liście użytkowników kanału
 [Don't check if more than (users):]
 Nie sprawdzaj, jeśli więcej niż (użytkowników):
+[Ident]
+Ident
 [User information]
 Informacja użytkownika
 [Ping]
@@ -488,6 +488,10 @@ Kliknij, żeby ustawić polecenia dla tego zdarzenia
 Kliknij żeby usunąć polecenia do wykonania dla tego zdarzenia
 [Default ANSI codepage]
 Domyślne kodowanie ANSI
+[Add ignore]
+Dodaj ignorowanie
+[Edit ignore]
+Edytuj ignorowanie
 [Add new ignore]
 Dodaj nowego ignorowanego
 [Edit this ignore]
@@ -498,10 +502,6 @@ Usuń tego ignorowanego
 Ignoruj maskę
 [Flags]
 Flagi
-[Add ignore]
-Dodaj ignorowanie
-[Edit ignore]
-Edytuj ignorowanie
 [Network]
 Protokoły
 [Account]

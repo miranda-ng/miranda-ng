@@ -72,8 +72,6 @@
 Гук 2
 [Alert 3]
 Гук 3
-[Speak]
-Гаворка
 [Occurrence]
 Падзея
 [Once]

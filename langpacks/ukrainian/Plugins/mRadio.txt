@@ -85,8 +85,10 @@
 Концертний зал
 [Psychotic]
 Психотичний
-[Forrest]
+[Forest]
 Ліс
+[City]
+Місто
 [To list]
 У список
 [Hangar]
@@ -201,3 +203,7 @@ mRadio ввімк
 Відкрити
 [bass.dll not found! Choose bass.dll path manually]
 
+[min]
+мін
+[max]
+макс

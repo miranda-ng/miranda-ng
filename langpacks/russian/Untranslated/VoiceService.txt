@@ -1,8 +1,6 @@
 [Show incoming call dialog immediately]
 [Catch focus on this dialog]
 [Established]
-[M]
-[V]
 [Frame Popup]
 [Started talking]
 [Calling a contact]

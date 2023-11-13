@@ -129,3 +129,5 @@ HTTP Новий розшарений файл
 Вимкнути HTTP-сервер
 [Enable HTTP server]
 Увімкнути HTTP-сервер
+[Failed to read configuration file: HTTPMimeTypes]
+

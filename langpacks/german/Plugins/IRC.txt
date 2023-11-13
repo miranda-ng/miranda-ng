@@ -30,8 +30,6 @@ Alternativer Nick
 Voller Name (E-Mail)
 [User ID (Ident)]
 Nutzer-ID (Ident)
-[Ident]
-Ident
 [Enable]
 Aktivieren
 [System]
@@ -70,6 +68,8 @@ Prüfe alle (s):
 Status für Benutzerliste aktualisieren
 [Don't check if more than (users):]
 Nicht prüfen bei mehr als (Ben.):
+[Ident]
+Ident
 [User information]
 Benutzerinformation
 [Ping]
@@ -488,6 +488,10 @@ Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt 
 Klicken Sie hier, um die Befehle für dieses Ereignis zu löschen.
 [Default ANSI codepage]
 Standard-ANSI-Codepage
+[Add ignore]
+Ignorierregel hinzufügen
+[Edit ignore]
+Ignorierregel bearbeiten
 [Add new ignore]
 Neue Ignorierregel hinzufügen
 [Edit this ignore]
@@ -498,10 +502,6 @@ Diese Ignorierregel löschen
 Ignoriermaske
 [Flags]
 Flaggen
-[Add ignore]
-Ignorierregel hinzufügen
-[Edit ignore]
-Ignorierregel bearbeiten
 [Network]
 Netzwerk
 [Account]

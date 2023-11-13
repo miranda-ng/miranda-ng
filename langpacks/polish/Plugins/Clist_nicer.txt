@@ -84,12 +84,12 @@ Wyrównanie
 Margines (lewy/prawy)
 [Row gap]
 Odstęp wierszy
-[Minimum row height:]
-Minimalna wysokość wiersza:
+[Minimum row height]
+Minimalna wysokość wiersza
 [Group row height]
 Wysokość wiersza grupy
-[Indent groups by:]
-Wcinaj grupy na:
+[Indent groups by]
+Wcinaj grupy na
 [Inner row vertical padding]
 Pionowe rozmieszczenie wewnętrznego rzędu
 [Margins and spacing]

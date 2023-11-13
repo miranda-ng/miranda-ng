@@ -93,6 +93,10 @@ Chyba: %s
 [We are still waiting...]
 Stále čekáme...
 ;file \protocols\Omegle\src\connection.cpp
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
+[You both speak the same language.]
+Oba mluvíte stejnou řečí.
 [Connecting canceled.]
 Připojování zrušeno.
 [Disconnecting...]
@@ -103,13 +107,153 @@ Již čekáme na nového cizince...
 Navazování spojení...
 [Waiting for Stranger...]
 Čekání na cizince...
-;file \protocols\Omegle\src\constants.h
+;file \protocols\Omegle\src\dialogs.cpp
+[English]
+Angličtina
+[Afrikaans]
+Afrikánština
+[Albanian]
+Albánština
+[Arabic]
+Arabština
+[Armenian]
+Arménština
+[Azerbaijani]
+Ázerbajdžánština
+[Basque]
+
+[Belarusian]
+Běloruština
+[Bengali]
+
+[Bosnian]
+Bosenština
+[Bulgarian]
+Bulharština
+[Cebuano]
+
+[Czech]
+Čeština
+[Chinese (simplified)]
+
+[Chinese (traditional)]
+
+[Danish]
+Dánština
+[Esperanto]
+Esperanto
+[Estonian]
+Estonština
+[Filipino]
+
+[Finnish]
+Finština
+[French]
+Francouzština
+[Galician]
+
+[Georgian]
+
+[Gujarati]
+Gudžarátština
+[Haitian Creole]
+
+[Hebrew]
+Hebrejština
+[Hindi]
+Hindština
+[Hmong]
+
+[Dutch]
+Holandština
+[Croat]
+
+[Indonesian]
+Indonézština
+[Irish]
+
+[Icelandic]
+Islandština
+[Italian]
+Italština
+[Japanese]
+Japonština
+[Javanese]
+
+[Yiddish]
+Jidiš
+[Kannada]
+
+[Catalan]
+Katalánština
+[Khmer]
+Khmerština
+[Korean]
+Korejština
+[Lao]
+Laoština
+[Latina]
+
+[Lithuanian]
+Litevština
+[Latvian]
+Lotyšština
+[Hungarian]
+Maďarština
+[Macedonian]
+Makedonština
+[Malay]
+Malajština
+[Maltese]
+
+[Marathi]
+
+[German]
+Němčina
+[Norwegian]
+Norština
+[Persian]
+Perština
+[Polish]
+Polština
+[Portuguese]
+Portugalština
+[Romanian]
+Rumunština
+[Russian]
+Ruština
+[Greek]
+Řečtina
+[Slovak]
+Slovenština
+[Slovenian]
+Slovinština
+[Serbian]
+
+[Swahili]
+Svahilština
+[Spanish]
+Španělština
+[Swedish]
+Švédština
+[Tamil]
+Tamilština
+[Telugu]
+
+[Thai]
+Thajština
+[Turkish]
+Turečtina
+[Ukrainian]
+Ukrajinština
+[Urdu]
+Urdu
+[Welsh]
+Velština
+[Vietnamese]
+Vietnamština
 [Random]
 Náhodný
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
-[You both speak the same language.]
-Oba mluvíte stejnou řečí.
 ;file \protocols\Omegle\src\proto.cpp
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.

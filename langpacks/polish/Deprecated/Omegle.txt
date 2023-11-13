@@ -93,6 +93,10 @@ Błąd: %s
 [We are still waiting...]
 Wciąż czekamy...
 ;file \protocols\Omegle\src\connection.cpp
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Obcy używa mobilnej strony Omegle (omegle.com na telefonie lub tablecie)
+[You both speak the same language.]
+Oboje mówicie w tym samym języku.
 [Connecting canceled.]
 Łączenie anulowane.
 [Disconnecting...]
@@ -103,13 +107,153 @@ Czekamy już na nowego obcego...
 Łączenie...
 [Waiting for Stranger...]
 Oczekiwanie na obcego...
-;file \protocols\Omegle\src\constants.h
+;file \protocols\Omegle\src\dialogs.cpp
+[English]
+Angielski
+[Afrikaans]
+Afrykanerski
+[Albanian]
+Albański
+[Arabic]
+Arabski
+[Armenian]
+Armeński
+[Azerbaijani]
+Azerski
+[Basque]
+Baskijski
+[Belarusian]
+Białoruski
+[Bengali]
+Bengalski
+[Bosnian]
+Bośniacki
+[Bulgarian]
+Bułgarski
+[Cebuano]
+
+[Czech]
+Czeski
+[Chinese (simplified)]
+
+[Chinese (traditional)]
+
+[Danish]
+Duński
+[Esperanto]
+Esperanto
+[Estonian]
+Estoński
+[Filipino]
+
+[Finnish]
+Fiński
+[French]
+Francuski
+[Galician]
+Galicyjski
+[Georgian]
+Gruziński
+[Gujarati]
+Gudżarati
+[Haitian Creole]
+
+[Hebrew]
+Hebrajski
+[Hindi]
+Hinduski
+[Hmong]
+
+[Dutch]
+Niderlandzki
+[Croat]
+
+[Indonesian]
+Indonezyjski
+[Irish]
+Irlandzki
+[Icelandic]
+Islandzki
+[Italian]
+Włoski
+[Japanese]
+Japoński
+[Javanese]
+Jawajski
+[Yiddish]
+Jidysz
+[Kannada]
+Kannada
+[Catalan]
+Kataloński
+[Khmer]
+Khmerski
+[Korean]
+Koreański
+[Lao]
+Laotański
+[Latina]
+
+[Lithuanian]
+Litewski
+[Latvian]
+Łotewski
+[Hungarian]
+Węgierski
+[Macedonian]
+Macedoński
+[Malay]
+Malajski
+[Maltese]
+Maltański
+[Marathi]
+Marathi
+[German]
+Niemiecki
+[Norwegian]
+Norweski
+[Persian]
+Perski
+[Polish]
+Polski
+[Portuguese]
+Portugalski
+[Romanian]
+Rumuński
+[Russian]
+Rosyjski
+[Greek]
+Grecki
+[Slovak]
+Słowacki
+[Slovenian]
+Słoweński
+[Serbian]
+Serbski
+[Swahili]
+Suahili
+[Spanish]
+Hiszpański
+[Swedish]
+Szwedzki
+[Tamil]
+Tamilski
+[Telugu]
+Telugu
+[Thai]
+Tajski
+[Turkish]
+Turecki
+[Ukrainian]
+Ukraiński
+[Urdu]
+Urdu
+[Welsh]
+Walijski
+[Vietnamese]
+Wietnamski
 [Random]
 Losowy
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Obcy używa mobilnej strony Omegle (omegle.com na telefonie lub tablecie)
-[You both speak the same language.]
-Oboje mówicie w tym samym języku.
 ;file \protocols\Omegle\src\proto.cpp
 [Unable to initialize Netlib for %s.]
 Nie udało się zainicjować połączenia Netlib dla %s.

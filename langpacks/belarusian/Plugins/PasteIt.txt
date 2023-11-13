@@ -140,6 +140,8 @@ Paste It - Абраць файл
 [File '%s' is empty]
 Файл '%s' пусты
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Няма
 [Error during sending text to web page: %S]
 Памылка пры адпраўцы тэксту на web-старонку: %S
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Paste It - Абраць файл
 [1 month]
 1 месяц
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Тэкст

@@ -703,6 +703,8 @@ Haut
 
 [Show even if offline]
 Afficher l'évènement si hors-ligne
+[Contact rate]
+Note du contact
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Avatar

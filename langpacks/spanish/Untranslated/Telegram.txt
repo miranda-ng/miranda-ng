@@ -21,6 +21,7 @@
 [Visitor]
 [Telegram Premium user]
 [Reaction]
+[Error %d: %s]
 [%d member(s)]
 [Saved messages]
 [Chat rooms]

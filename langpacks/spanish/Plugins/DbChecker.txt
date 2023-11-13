@@ -45,6 +45,8 @@ Cancelar
 Base de datos
 [Check database]
 
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 

@@ -24,15 +24,17 @@ Ausgehend
 von
 [till]
 bis
-[Group messages]
-Nachrichten gruppieren
 [Log window]
 Verlaufsfenster
+[Group messages]
+Nachrichten gruppieren
 [Enable vertical scroll bar]
 Vertikalen Scrollbalken aktivieren
 [Draw window edge]
 Fensterrand darstellen
 [Ascending events sort order]
+
+[History++ compatiblity mode]
 
 [Template list:]
 Liste der Vorlagen:
@@ -187,7 +189,7 @@ Verlaufsexport
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file name]
+[Copy file path]
 
 [Copy URL]
 URL kopieren
@@ -228,8 +230,6 @@ Unbekanntes Ereignis
 Vorlage Gruppe
 [Cancel edit]
 Bearbeitung abbrechen
-[Update preview]
-Vorschau aktualisieren
 [Downloaded]
 
 [Help]

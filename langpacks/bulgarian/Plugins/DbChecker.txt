@@ -45,6 +45,8 @@
 База данни
 [Check database]
 
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Няма подходяща приставка, която да отвори "%s".

@@ -45,6 +45,8 @@ Počkejte prosím, správce provádí požadovanou údržbu databáze.
 Databáze
 [Check database]
 
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Nelze nalézt vhodný doplněk databáze pro otevření '%s'.

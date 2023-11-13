@@ -20,8 +20,6 @@ Toujours voir l'icône d'état dans la CList
 
 [Status in Context Menu]
 État dans menu contextuel
-[Disable encryption for game plugins]
-Désactiver le cryptage pour les jeux
 [Always secured if possible]
 Toujours activer si possible
 [Not secured for NotOnList]

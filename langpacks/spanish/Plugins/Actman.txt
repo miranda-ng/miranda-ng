@@ -7,6 +7,8 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin de gestión de teclas de acceso rápido para abrir la ventana de contactos, insertar texto, ejecutar programa y llamar servicios
+[Services]
+Servicios
 [Apply]
 Aplicar
 [New]

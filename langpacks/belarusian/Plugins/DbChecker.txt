@@ -45,6 +45,8 @@
 Профіль
 [Check database]
 
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагін праверкі не можа знайсці патэбнага драйвера БД для адкрыцця '%s'.

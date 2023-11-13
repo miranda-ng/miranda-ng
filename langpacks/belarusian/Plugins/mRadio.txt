@@ -85,8 +85,10 @@ PreBuf, %
 Канцэртны хол
 [Psychotic]
 Псіхатычны
-[Forrest]
+[Forest]
 Лес
+[City]
+Горад 
 [To list]
 У спіс
 [Hangar]
@@ -201,3 +203,7 @@ URL станцыі/плэйліста
 
 [bass.dll not found! Choose bass.dll path manually]
 
+[min]
+хв.
+[max]
+Дзень

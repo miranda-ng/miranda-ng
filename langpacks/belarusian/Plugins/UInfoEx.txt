@@ -206,6 +206,8 @@
 (*) Патрабуецца перазапуск Miranda.
 [Reset factory defaults]
 Налады па змаўчанні
+[Colors]
+Колеры
 [Protocol's information]
 Дадзеныя пратаколу
 [Custom information]
@@ -216,22 +218,18 @@
 Змененыя дадзеныя
 [Enable colors to give information about information's status.]
 Уключыць колеры для паказу статусу інфармацыі
+[Common]
+Агульныя
 [Make protocol based contact information read only]
 Забараніць змену інфармацыі, якая базуецца на пратаколе
+[Treeview]
+Дрэва
 [Enable groups in details dialog's treeview]
 Укладзеныя пункты меню
 [Sort all tree items alphabetically]
 Адсартаваць усе пункты ў алфавітным парадку
 [Info of a metacontact's subcontact]
 Інфармацыя субкантакта Метакантакту
-[Colors]
-Колеры
-[Common]
-Агульныя
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Змяняць мае асабістыя дадзеныя праз UserInfoEx (недасяжна, калі ICQ не падтрымлівае)
-[Treeview]
-Дрэва
 [Adapt propertysheet pages to Aero mode]
 Адаптоўваць Налады да стылю Aero
 [Import]
@@ -1168,6 +1166,12 @@ INI файл "%s"\nнельга адчыніць для чытання.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усе кантакты
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Абярыце імя файла для экспарту
 [Import User Details from VCard]

@@ -91,6 +91,8 @@ Gruppierung an
 Gruppierung aus
 [Format text as code]
 Text als Code formatieren
+[IEView]
+IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Standard
@@ -104,8 +106,6 @@ Alle Bilder
 Style Sheet
 [Message sessions]
 Nachrichtensitzungen
-[IEView]
-IEView
 [General]
 Allgemein
 [Skins]

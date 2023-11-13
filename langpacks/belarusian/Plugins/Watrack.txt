@@ -658,3 +658,33 @@ WATrack статус
 
 [Oops, something wrong!]
 
+[Permanent]
+Пастаянна
+[Colors]
+Колеры
+[Timeout]
+Затрымка
+[Info]
+Інфа
+[Test]
+Прагляд
+[Statuses]
+Статусы
+[System default codepage]
+
+[Templates]
+Шаблоны
+[Bytes]
+Байт
+[Variables]
+Зменныя
+[Template]
+Шаблон
+[Misc]
+Іншае
+[Statistics]
+Статыстыка
+[Login]
+Імя карыстача
+[Info]
+Інфа

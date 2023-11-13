@@ -15,6 +15,7 @@
 [SuperAdmin]
 [Telegram Premium user]
 [Reaction]
+[Error %d: %s]
 [%d member(s)]
 [Saved messages]
 [%s error notifications]

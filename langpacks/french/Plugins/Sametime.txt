@@ -84,6 +84,10 @@ Normale
 [SERVICE NOT IMPLEMENTED. %s]
 
 ;file \protocols\Sametime\src\options.cpp
+[Sametime (Use old client version)]
+
+[Sametime (Miranda default)]
+
 [Client protocol version: %03d.%03d]
 
 [Server protocol version: %03d.%03d]

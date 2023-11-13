@@ -78,10 +78,6 @@
 Вызов раскроет ваш IP-адрес собеседнику и его серверу
 [Established]
 
-[M]
-
-[V]
-
 [Frame Popup]
 
 [Answer call]

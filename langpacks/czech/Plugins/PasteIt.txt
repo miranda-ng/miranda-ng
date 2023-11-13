@@ -140,6 +140,8 @@ Opravdu chcete pokračovat?
 [File '%s' is empty]
 
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+---
 [Error during sending text to web page: %S]
 
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Nikdy
 [1 month]
 
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Text

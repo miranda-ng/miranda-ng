@@ -30,8 +30,8 @@ Zeit (Sek.):
 Senden per:
 [E&xplore]
 &Öffnen
-[&Fill description textbox.]
-Beschreibungs-Textbox aus&füllen
+[Fill description textbox.]
+Beschreibungs-Textbox ausfüllen
 [Delete &after send]
 N&ach dem Senden löschen
 [Open editor before sending]
@@ -248,8 +248,6 @@ Upload Pie (30M)
 Upload Pie (1T)
 [Upload Pie (1w)]
 Upload Pie (1W)
-[Fill description textbox.]
-Beschreibungstextbox ausfüllen.
 [Delete after send]
 Nach dem Senden löschen
 [Capture]

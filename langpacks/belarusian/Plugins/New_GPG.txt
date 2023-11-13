@@ -156,7 +156,7 @@ ID ключа:
 Канца
 [Strip all tags in outgoing messages]
 Выдаляць усе пазнакі з выходных паведамленняў
-[Turn on presence signing (Jabber) (required by XEP-0027)]
+[Turn on Jabber presence signing (required by XEP-0027)]
 
 [Export keys]
 
@@ -198,6 +198,8 @@ ID ключа:
 Інфа
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
+[Choose gpg.exe]
+Знайсці gpg.exe
 [GPG binary is set and valid (this is good).\n]
 
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -290,8 +292,6 @@ ID ключа:
 Пазначыць файл лога
 [LOG files]
 Файлы лога
-[Choose gpg.exe]
-Знайсці gpg.exe
 [Set home directory]
 
 [Load Public GPG Key for ]
@@ -353,6 +353,10 @@ ID ключа:
 Змаўчанні
 [key ID]
 Ключ
+[Choose file to export key]
+
+[Any file]
+
 [Generating new random key, please wait]
 
 [There is existing key for contact, would you like to replace it with new key?]
@@ -384,6 +388,8 @@ ID ключа:
 
 [encrypting file for transfer]
 
+[Choose file to export keys]
+
 [We have successfully exported %d public keys and all private keys.]
 
 [We have successfully exported all private keys.]
@@ -391,6 +397,8 @@ ID ключа:
 [We have successfully exported %d public keys.]
 
 [Keys export result]
+
+[Choose file to import keys from]
 
 [We have successfully processed %d public keys and some private keys.]
 

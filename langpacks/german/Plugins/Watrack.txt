@@ -658,3 +658,33 @@ Unbekannte Formate überprüfen
 Unbekannte Formate überprüfen, falls der Player Informationen angibt.
 [Oops, something wrong!]
 Uups, etwas ging schief!
+[Permanent]
+Dauerhaft
+[Colors]
+Farben
+[Timeout]
+Timeout
+[Info]
+Information
+[Test]
+Testen
+[Statuses]
+Status
+[System default codepage]
+Standardsystemcodepage
+[Templates]
+Vorlagen
+[Bytes]
+Bytes
+[Variables]
+Variablen
+[Template]
+Vorlage
+[Misc]
+Diverses
+[Statistics]
+Statistiken
+[Login]
+Anmelden
+[Info]
+Information

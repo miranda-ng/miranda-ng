@@ -51,7 +51,7 @@ Pokaż raporty doręczenia
 [These settings are also used when sending a "Simple" pounce]
 Te ustawienia są używane także przy wysyłaniu "Prostego" Pounce
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 Wiadomość (%d znaków)
 [Message successfully sent to %s]
 Wiadomość wysłano pomyślnie do %s

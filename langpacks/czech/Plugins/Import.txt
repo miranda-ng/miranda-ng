@@ -200,6 +200,8 @@ Databáze Mirandy NG/mContacts
 Přeskakování duplicitní skupiny %s.
 [Import...]
 Importovat...
+[Import]
+Importovat
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Dokončit

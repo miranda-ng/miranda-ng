@@ -20,8 +20,6 @@ Text
 Schließe nach:
 [sec (0 default, -1 disabled)]
 Sek. (0 Standard, -1 deaktiviert)
-[Settings]
-Einstellungen
 [try resolve addresses]
 Versuche Adressen aufzulösen
 [Show notification if no filter defined]

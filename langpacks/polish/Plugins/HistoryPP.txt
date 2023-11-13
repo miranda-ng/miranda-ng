@@ -681,3 +681,11 @@ Wychodzące zdarzenia
 Nie używany
 [Can not apply default toolbar configuration.]
 
+[Link]
+Link
+[Delete]
+Usuń
+[Up]
+Do góry
+[Down]
+W dół

@@ -7,6 +7,9 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
+;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
+[Converting database...]
+
 ;file \plugins\Dbx_sqlite\src\dbcheck.cpp
 [Orphaned event with wrong contact ID %d, deleting]
 

@@ -4,6 +4,7 @@
 [Fix UTF-8 encoding in old events]
 [Remove duplicate events]
 [Fix server event IDs]
+[DbChecker]
 [Click Finish to continue]
 [%d events marked as read]
 [%d duplicate events removed]

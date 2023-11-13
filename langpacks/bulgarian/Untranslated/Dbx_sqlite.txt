@@ -1,3 +1,4 @@
+[Converting database...]
 [Orphaned event with wrong contact ID %d, deleting]
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
 [Orphaned event with wrong event ID %d:%08X, deleting]

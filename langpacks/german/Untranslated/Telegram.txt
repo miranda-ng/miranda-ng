@@ -1,1 +1,2 @@
 [Reaction]
+[Error %d: %s]

@@ -51,7 +51,7 @@ Informovat o doručení
 [These settings are also used when sending a "Simple" pounce]
 Tyto nastavení jsou použity také při odeslání jediné zprávy
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 Zpráva (počet znaků: %d)
 [Message successfully sent to %s]
 Zpráva úspěšně odeslána (komu: %s)

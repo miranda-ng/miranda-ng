@@ -22,8 +22,6 @@
 Рівень гучності:
 [Quiet time:]
 Тиха година:
-[download BASS library]
-завантажити бібліотеку BASS
 [Play only if]
 Грати, якщо
 [Offline]

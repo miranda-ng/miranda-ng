@@ -29,7 +29,6 @@
 [Show status description]
 [Use alternative descriptions]
 [Show previous status too]
-[Read status message]
 [Connection timeout]
 [Show Popups when I connect]
 [Disable for extra status 'Music']

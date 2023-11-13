@@ -97,6 +97,8 @@ Moje awatary
 Cache mojego głównego awataru
 [Avatar]
 Awatar
+[AVS]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Awatar globalny dla konta %s

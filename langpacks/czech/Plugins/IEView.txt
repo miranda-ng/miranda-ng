@@ -91,6 +91,8 @@ Odchozí přenos souboru
 
 [Format text as code]
 
+[IEView]
+IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Výchozí
@@ -104,8 +106,6 @@ Všechny obrázky
 Styly
 [Message sessions]
 Komunikace
-[IEView]
-IEView
 [General]
 Obecné
 [Skins]

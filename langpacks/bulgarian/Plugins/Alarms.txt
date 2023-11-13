@@ -72,8 +72,6 @@
 Тревога 2
 [Alert 3]
 Тревога 3
-[Speak]
-
 [Occurrence]
 Повторение
 [Once]

@@ -7,6 +7,8 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Wtyczka pozwala na zarządzanie skrótami do otwierania okna kontaktu, wstawiania tekstu, uruchamiania programów i wywoływania usług
+[Services]
+Usługi
 [Apply]
 Zastosuj
 [New]

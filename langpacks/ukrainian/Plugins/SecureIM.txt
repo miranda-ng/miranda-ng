@@ -20,8 +20,6 @@
 Пункт меню для Miranda
 [Status in Context Menu]
 Статус у контекст. меню
-[Disable encryption for game plugins]
-Вимкнути шифрування для "ігрових" плагінів
 [Always secured if possible]
 По можливості вмикати шифрування
 [Not secured for NotOnList]

@@ -703,6 +703,8 @@ Priorita kontaktu: střední
 Priorita kontaktu: vysoká
 [Show even if offline]
 Zobrazit i když je offline
+[Contact rate]
+Priorita kontaktu
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Avatar

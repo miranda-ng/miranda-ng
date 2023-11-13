@@ -14,8 +14,8 @@ Ostatnie kontakty
 Ustawienia wtyczki
 [Number of shown contacts:\n (0 to show all)]
 Liczba pokazanych kontaktów:\n (0, by pokazać wszystkie)
-[Format of date and time\n(Look to readme for placeholders help)]
-Format daty i czasu\n(Zajrzyj do Readme, by uzyskać pomoc na temat znaczników miejsca)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Format daty i czasu\n(Zajrzyj do Wiki, by uzyskać pomoc na temat znaczników miejsca)
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Resize window according to contact list]

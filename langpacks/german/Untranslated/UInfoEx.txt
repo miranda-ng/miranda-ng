@@ -1,0 +1,3 @@
+[XMLCard]
+[DBEditor++ File]
+[Standard vCard]

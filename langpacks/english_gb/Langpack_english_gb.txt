@@ -719,7 +719,7 @@ Customise
 ;  Version: 0.96.3.4
 ;  Authors: George Hazan
 ;============================================================
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -882,7 +882,7 @@ Customise
 ;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -1092,17 +1092,6 @@ Sticky Note Background Colour
 ;  Version: 0.2.0.2
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Connecting canceled.]
-Connecting cancelled.
-[Unable to initialize Netlib for %s.]
-Unable to initialise Netlib for %s.
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -1167,7 +1156,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Go to Customize -> Fonts and Colors for fonts and colors options]
@@ -1231,13 +1220,6 @@ recognise messages sent with hotkey only
 ;============================================================
 [Colorize]
 Colourise
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -1712,10 +1694,10 @@ Use Windows colours
 Use default colours
 [Anniversary popup colors]
 Anniversary popup colours
-[Enable colors to give information about information's status.]
-Enable colours to give information about information's status.
 [Colors]
 Colours
+[Enable colors to give information about information's status.]
+Enable colours to give information about information's status.
 [No pages have been added. Canceling dialog creation!]
 No pages have been added. Cancelling dialog creation!
 [Non-Government Organization]
@@ -1786,6 +1768,8 @@ Use custom colours
 [Color]
 Colour
 ;other strings
+[Colors]
+Colours
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

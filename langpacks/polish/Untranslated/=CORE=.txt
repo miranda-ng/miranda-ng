@@ -15,6 +15,8 @@
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
 [File names must be different]
 [Attach]
+[New subgroup]
+[System settings]
 [Plugin %S cannot be unloaded because the core plugin is missing]
 [Options dialog is disabled by the system administrator. Contact him if you need to edit options]
 [Account is disabled.]

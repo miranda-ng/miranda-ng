@@ -681,3 +681,11 @@ Préc
 
 [Can not apply default toolbar configuration.]
 
+[Link]
+Lien
+[Delete]
+Effacer
+[Up]
+Haut
+[Down]
+Bas

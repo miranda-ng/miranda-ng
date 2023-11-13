@@ -30,8 +30,6 @@ Pseudo alternatif
 Nom (e-mail)
 [User ID (Ident)]
 Identifiant
-[Ident]
-Ident.
 [Enable]
 Activer
 [System]
@@ -70,6 +68,8 @@ Vérifier toutes les (secondes) :
 Mise à jour de l'état dans la nicklist
 [Don't check if more than (users):]
 Ne pas vérifier si plus de (usagers) :
+[Ident]
+Ident.
 [User information]
 Information usager
 [Ping]
@@ -488,6 +488,10 @@ Cliquez pour définir la commande pour cet évènement
 Cliquez pour effacer la commande de cet évènement
 [Default ANSI codepage]
 
+[Add ignore]
+
+[Edit ignore]
+
 [Add new ignore]
 Ajouter un nouvel ignoré
 [Edit this ignore]
@@ -497,10 +501,6 @@ Effacer cet ignoré
 [Ignore mask]
 Ignorer le masque
 [Flags]
-
-[Add ignore]
-
-[Edit ignore]
 
 [Network]
 Réseau

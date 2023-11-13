@@ -13,7 +13,7 @@
 [Default Settings]
 [Show Delivery Messages]
 [These settings are also used when sending a "Simple" pounce]
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 [Message successfully sent to %s]
 [Message failed to send to %s]
 [Pounce being sent to %s in %d seconds]

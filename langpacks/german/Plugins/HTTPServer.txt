@@ -129,3 +129,5 @@ Zuweisung von Port %s fehlgeschlagen!\r\nVermutlich verwendet ein anderes Progra
 HTTP-Server deaktivieren
 [Enable HTTP server]
 HTTP-Server aktivieren
+[Failed to read configuration file: HTTPMimeTypes]
+

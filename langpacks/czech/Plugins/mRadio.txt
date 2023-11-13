@@ -85,8 +85,10 @@ Automaticky spustit poslední stanici
 Koncertní hala
 [Psychotic]
 Psychotický
-[Forrest]
+[Forest]
 Les
+[City]
+Město
 [To list]
 Do CL
 [Hangar]
@@ -201,3 +203,7 @@ Nový
 
 [bass.dll not found! Choose bass.dll path manually]
 
+[min]
+min
+[max]
+max

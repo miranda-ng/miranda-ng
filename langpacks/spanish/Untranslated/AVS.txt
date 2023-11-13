@@ -33,6 +33,7 @@
 [My Avatars]
 [My Global Avatar Cache]
 [Avatar]
+[AVS]
 [Global avatar for %s accounts]
 [Global avatar]
 [Contact avatars]

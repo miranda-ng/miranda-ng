@@ -85,8 +85,10 @@ débit
 
 [Psychotic]
 
-[Forrest]
+[Forest]
 
+[City]
+Ville
 [To list]
 
 [Hangar]
@@ -200,4 +202,8 @@ Nouveau
 [Quick Open]
 
 [bass.dll not found! Choose bass.dll path manually]
+
+[min]
+min
+[max]
 

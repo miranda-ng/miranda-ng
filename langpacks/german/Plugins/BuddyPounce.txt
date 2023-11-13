@@ -51,8 +51,8 @@ Zustellbenachrichtigungen anzeigen
 [These settings are also used when sending a "Simple" pounce]
 Diese Einstellungen werden auch für das Senden von "einfachen" Pounces verwendet
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
-Die Nachricht   (%d Zeichen)
+[The Message (%d Characters)]
+Die Nachricht (%d Zeichen)
 [Message successfully sent to %s]
 Nachricht erfolgreich an %s gesenden
 [Message failed to send to %s]

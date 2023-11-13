@@ -22,8 +22,6 @@
 Узровень гучнасці:
 [Quiet time:]
 Ціхая гадзіна:
-[download BASS library]
-загрузіць бібліятэку BASS
 [Play only if]
 Граць, калі
 [Offline]

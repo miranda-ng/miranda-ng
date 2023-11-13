@@ -85,8 +85,10 @@ Włącz ostatnio graną stacje
 Sala koncertowa
 [Psychotic]
 Psychotyczny
-[Forrest]
+[Forest]
 Las
+[City]
+Miasto
 [To list]
 Do listy
 [Hangar]
@@ -201,3 +203,7 @@ Nowy
 Szybkie Otwieranie
 [bass.dll not found! Choose bass.dll path manually]
 Nie znaleziono bass.dll! Wybierz położenie bass.dll ręcznie
+[min]
+min
+[max]
+max

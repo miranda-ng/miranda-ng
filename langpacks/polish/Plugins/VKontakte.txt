@@ -30,9 +30,9 @@ Wsparcie tagu BBCode [img] dla obrazków
 wyłączone
 [for original size images]
 dla obrazków w oryginalnym rozmiarze
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 do podglądu maks. 130px*130px
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 do podglądu maks. 604px*604px
 [BBCode support on news and event notifications]
 Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
@@ -223,10 +223,6 @@ Ikona Statusu
 Ikona posta na tablicy
 [Mark messages as read icon]
 Ikona odczytania wiadomości
-[Protocols]
-Protokoły
-[VKontakte]
-VKontakte
 [Access denied! Data will not be sent or received.]
 Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
@@ -422,6 +418,8 @@ Post na tablicy dla %s
 [Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+VKontakte
 [New news]
 Nowe aktualności
 [New notifications]

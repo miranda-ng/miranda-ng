@@ -200,6 +200,8 @@ Todos los archivos
 
 [Import...]
 
+[Import]
+
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 

@@ -129,3 +129,5 @@ Sítě
 Deaktivovat HTTP server
 [Enable HTTP server]
 Aktivovat HTTP server
+[Failed to read configuration file: HTTPMimeTypes]
+

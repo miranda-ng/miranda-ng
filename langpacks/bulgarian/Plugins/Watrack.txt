@@ -658,3 +658,33 @@ WATrack състояние
 
 [Oops, something wrong!]
 
+[Permanent]
+Постоянно
+[Colors]
+Цветове
+[Timeout]
+Времетраене
+[Info]
+Информация
+[Test]
+Тест
+[Statuses]
+
+[System default codepage]
+
+[Templates]
+Шаблони
+[Bytes]
+Байта
+[Variables]
+Променливи
+[Template]
+Шаблон
+[Misc]
+Разни
+[Statistics]
+Статистика
+[Login]
+Потребител
+[Info]
+Информация

@@ -681,3 +681,11 @@ Wiki-сторінка додаткових параметрів
 
 [Can not apply default toolbar configuration.]
 
+[Link]
+Посилання
+[Delete]
+Видалити
+[Up]
+Вище
+[Down]
+Нижче

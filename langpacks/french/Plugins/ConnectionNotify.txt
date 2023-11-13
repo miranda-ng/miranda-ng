@@ -20,8 +20,6 @@ Texte
 
 [sec (0 default, -1 disabled)]
 
-[Settings]
-Paramètres
 [try resolve addresses]
 
 [Show notification if no filter defined]

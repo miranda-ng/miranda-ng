@@ -206,6 +206,8 @@ Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
 (*) Miranda musi zostać uruchomiona ponownie.
 [Reset factory defaults]
 Przywróć domyślne
+[Colors]
+Kolory
 [Protocol's information]
 Informacje o protokole
 [Custom information]
@@ -216,22 +218,18 @@ Nadpisanie informacji
 Zmiana informacji
 [Enable colors to give information about information's status.]
 Włącz kolory do informowania o statusie.
+[Common]
+Wspólne
 [Make protocol based contact information read only]
 Uczyń informacje dotyczące protokołu kontaktu tylko do odczytu
+[Treeview]
+Widok drzewa
 [Enable groups in details dialog's treeview]
 Włącz grupy w widoku drzewa w oknie szczegółów
 [Sort all tree items alphabetically]
 Sortuj wszystkie elementy drzewa alfabetycznie
 [Info of a metacontact's subcontact]
 Informacje o subkontakcie metakontaktu
-[Colors]
-Kolory
-[Common]
-Wspólne
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Zmień moje dane w ICQ za pomocą UserInfoEx (wyłączone, jeśli niewspierane przez ICQ)
-[Treeview]
-Widok drzewa
 [Adapt propertysheet pages to Aero mode]
 Dostosuj karty właściwości do trybu Aero
 [Import]
@@ -1168,6 +1166,12 @@ Dodano %d z %d kontaktów zapisanych w pliku ini.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Wszystkie kontakty
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Wybierz miejsce przeznaczenia pliku...
 [Import User Details from VCard]

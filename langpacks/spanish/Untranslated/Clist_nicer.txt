@@ -17,7 +17,7 @@
 [Alignment]
 [Margins (left/right)]
 [Row gap]
-[Minimum row height:]
+[Minimum row height]
 [Group row height]
 [Inner row vertical padding]
 [Margins and spacing]

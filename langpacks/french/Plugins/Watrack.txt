@@ -658,3 +658,33 @@ Police...
 
 [Oops, something wrong!]
 
+[Permanent]
+
+[Colors]
+Couleurs
+[Timeout]
+Délai du popup
+[Info]
+Info
+[Test]
+Test
+[Statuses]
+
+[System default codepage]
+Encodage système par défaut
+[Templates]
+Modèles
+[Bytes]
+octets
+[Variables]
+
+[Template]
+
+[Misc]
+
+[Statistics]
+Statistiques
+[Login]
+
+[Info]
+Info

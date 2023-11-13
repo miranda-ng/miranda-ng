@@ -658,3 +658,33 @@ Color
 
 [Oops, something wrong!]
 
+[Permanent]
+Permanente
+[Colors]
+Colores
+[Timeout]
+Retardo
+[Info]
+Info
+[Test]
+Prueba
+[Statuses]
+
+[System default codepage]
+
+[Templates]
+Plantillas
+[Bytes]
+Bytes
+[Variables]
+Variables
+[Template]
+
+[Misc]
+
+[Statistics]
+
+[Login]
+
+[Info]
+Info

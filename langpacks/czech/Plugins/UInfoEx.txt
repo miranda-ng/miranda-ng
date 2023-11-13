@@ -206,6 +206,8 @@ Povolit rozšířenou službu 'poslat/přijmout e-mail' (*)
 (*) Vyžaduje restart Mirandy
 [Reset factory defaults]
 Obnovit původní nastavení
+[Colors]
+Barvy
 [Protocol's information]
 Informace z protokolu
 [Custom information]
@@ -216,22 +218,18 @@ Vlastní protokolové informace
 Změněné informace
 [Enable colors to give information about information's status.]
 Zpřehlednit informace o stavu obarvováním textu
+[Common]
+Obecné
 [Make protocol based contact information read only]
 Neměnit osobní informace definované protokolem
+[Treeview]
+Stromové zobrazení
 [Enable groups in details dialog's treeview]
 Povolit skupiny ve stromovém zobrazení detailů
 [Sort all tree items alphabetically]
 Seřadit položky v menu dle abecedy
 [Info of a metacontact's subcontact]
 Informace o podkontaktu z metakontaktu
-[Colors]
-Barvy
-[Common]
-Obecné
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Měnit osobní informace pomocí UserInfoEx (vypnuto, nepodporuje-li funkci ICQ)
-[Treeview]
-Stromové zobrazení
 [Adapt propertysheet pages to Aero mode]
 Vykreslit stránky vlastností skrz aero.
 [Import]
@@ -1168,6 +1166,12 @@ Přidáno %d z %d kontaktů uložených v INI souboru.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 všechny kontakty
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Vyberte cílový soubor...
 [Import User Details from VCard]

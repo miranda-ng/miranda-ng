@@ -12,4 +12,7 @@
 [He has the following anniversaries:]
 [She has the following anniversaries:]
 [%d. %s in %d days]
+[XMLCard]
+[DBEditor++ File]
+[Standard vCard]
 [File not found]

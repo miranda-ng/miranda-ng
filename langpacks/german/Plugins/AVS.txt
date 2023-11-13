@@ -97,6 +97,8 @@ Meine Avatare
 Mein globaler Avatar-Cache
 [Avatar]
 Avatar
+[AVS]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Globaler Avatar für %s-Konten

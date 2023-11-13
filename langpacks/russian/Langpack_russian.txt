@@ -1300,8 +1300,8 @@ Google Карты
 Ожидание
 [Re&ad %s message]
 &Прочитать сообщение "%s"
-[Re&ad status message]
-Пр&очитать статусное сообщение
+[Read status message]
+Прочитать статусное сообщение
 [I've been away since %time%.]
 Отсутствую с %time%.
 [Give it up, I'm not in!]
@@ -2362,12 +2362,18 @@ xСтатус
 Меню фреймов
 [Group menu]
 Меню групп
+[Hide offline users out here]
+Скрыть отключённых вне группы
 [Disable groups]
 Отключить группы
 [Exit]
 Выход
 [Subgroup menu]
 Меню подгрупп
+[New subgroup]
+Новая подгруппа
+[Hide offline users in here]
+Скрыть отключённых в группе
 [New submenu]
 Новое вложенное меню
 [Do you really want to delete this menu item?]
@@ -2496,6 +2502,8 @@ xСтатус
 Выбрать программу для запуска
 [<mixed>]
 <различные>
+[System settings]
+Системные настройки
 [<All connections>]
 <Все подключения>
 [Network]
@@ -3294,6 +3302,272 @@ ANSI плагин
 <не указано>
 [Message window toolbar]
 Панель кнопок окна сообщений
+[Show main menu]
+Главное меню
+[Minimize Miranda]
+Свернуть
+[On/Off On Top]
+Вкл/Выкл "Поверх всех окон"
+[Release date]
+Дата выпуска
+[Donate]
+Пожертвовать
+[Happy New Year]
+С Новым Годом
+[Happy New Year to you!\nMay every great new day\nBring you sweet surprises -\nA happiness buffet.\n\nHappy New Year to you\nAnd when the new year's done\nMay the next year be even better\nFull of pleasure, joy and fun.]
+Прошёл ещё один прекрасный год,\nВ котором пелось и грустилось,\nА то, что в нем не уместилось,\nПусть в новом все произойдёт.\n\nИдут часы, проходят дни, -\nТакой закон природы,\nИ мы сегодня вас хотим\nПоздравить с Новым Годом!\n\nЖелаем вам от всей души\nВ грядущем новом годе\nЗдоровья, счастья, новых сил,\nУспехов на работе.
+[Some modules will not be able to work simultaneously in two or more advanced profiles. Continue?]
+Некоторые модули не смогут работать одновременно в двух и более запущенных профилях. Продолжить?
+[Show status message dialog]
+Показывать диалог сообщений статуса
+[Hide status message dialog]
+Скрывать диалог сообщений статуса
+[Wiki on Miranda NG]
+Вики на Miranda NG
+[Support on Miranda NG]
+Поддержка на Miranda NG
+[Support on Ru-Board]
+Поддержка на Ru-Board
+[Blog]
+Блог
+[Support]
+Поддержка
+[Useful to know]
+Полезно знать
+[FAQ]
+ЧаВо
+[About pack]
+О сборке
+[Core]
+Ядро
+[Open program folder]
+Открыть папку программы
+[Open received files folder]
+Открыть папку принятых файлов
+[Skin]
+Скин
+[Scroll bar]
+Полоса прокрутки
+[Short links]
+Короткие ссылки
+[Printing]
+Печатный
+[Handwriting]
+Рукописный
+[Caption frame low]
+Фрейм заголовка узкий
+[Caption frame high]
+Фрейм заголовка широкий
+[Auto-size input area]
+Авто-размер области ввода
+[Big pack]
+Большой набор
+[Small pack]
+Малый набор
+[Open profile folder]
+Открыть папку профиля
+[Production]
+Производство
+[Add to autostart]
+Добавить в автозагрузку
+[Remove from autostart]
+Удалить из автозагрузки
+[Change autostart]
+Изменить автозагрузку
+[The registry record for Miranda's autorun already exists, but it differs from the path to launched Miranda.]
+В реестре уже существует запись автозагрузки для Miranda, но её путь отличается от запущенной.
+[Yes - rewrite on the current profile?]
+Да — перезаписать на текущий профиль?
+[No - remove the key]
+Нет — удалить ключ
+[A few profiles have been found]
+Найдено несколько профилей
+[You're using a few profiles, would you like to enable autostart for the current profile?]
+Вы используете несколько профилей, установить автозагрузку на текущий профиль?
+[Yes - while loading the profile will be enabled]
+Да — при загрузке автоматически будет запущен профиль
+[No - while loading as usually will be opened profile manager]
+Нет — при загрузке как обычно будет открыто управление профилями
+[Autologin bookmarks and conferences enabled]
+Автовход в закладки и конференции включён
+[Autologin bookmarks and conferences disabled]
+Автовход в закладки и конференции выключен
+[Do you really want to close]
+Вы действительно хотите закрыть
+[To continue the program should be closed. Continue?]
+Для продолжения программа будет закрыта. Продолжить?
+[Common folder for received files doesn't exist.]
+Общая папка принятых файлов не существует.
+[Contact's folder doesn't exist.\nOpening common folder for received files.]
+Папка контакта не существует.\nОткрываю общую папку принятых файлов.
+[Enable Always on top]
+Включить "Поверх всех окон"
+[Disable Always on top]
+Выключить "Поверх всех окон"
+[Disable autoreply]
+Выключить автоответчик
+[Enable autoreply]
+Включить автоответчик
+[Enable auto-away detection]
+Включить авто-отсутствие
+[Disable auto-away detection]
+Выключить авто-отсутствие
+[Enable auto-idle detection]
+Включить авто-простой
+[Disable auto-idle detection]
+Выключить авто-простой
+[Receive files automatically]
+Принимать файлы автоматически
+[Receive files asking]
+Принимать файлы через запрос
+[Changes...]
+Изменения...
+[The changes will take effect only after restarting program. Continue?]
+Изменения вступят в силу только после перезапуска программы. Продолжить?
+[The changes will take effect only after closing all dialog windows. Continue?]
+Изменения вступят в силу только после закрытия всех диалоговых окон. Продолжить?
+[Remove temporary contacts]
+Удалить временные контакты
+[Available.]
+Свободен(а).
+[I've been on the phone since]
+Разговариваю по телефону с
+[give me a sec!]
+подождите немного!
+[Gone]
+Ушел(а)
+[eating supper]
+ужинать
+[eating dinner]
+обедать
+[eating breakfast]
+завтракать
+[eating]
+кушать
+[ since]
+ в
+[Been fragging since]
+Копычу фраги с
+[I'll message you later when the adrenaline ends up.]
+Отвечу позже, когда адреналин закончится.
+[My master]
+Мой хозяин
+[has been]
+был
+[ &since]
+ с
+[When he gets back, I'll tell him you've been here...]
+Когда он вернётся, я ему передам, чтобы он с вами связался...
+[Been gone since]
+Отошёл(а) в
+[will be back later.]
+буду позже.
+[is reading your message]
+читает ваше сообщение
+[teller machine]
+это автоответчик
+[asked me to tell you]
+просил(а) вам передать
+[Additional menu]
+Дополнительное меню
+[Send file (Right Click - Received files)]
+Отправить файл (Правый клик — Принятые файлы)
+[Font size]
+Размер
+[Flat borders]
+Плоские границы
+[Draw gradient background]
+Фон с градиентом
+[Show icon]
+Показывать значок
+[Show avatars]
+Показывать аватары
+[Color frame]
+Цветная рамка
+[Color text background]
+Цветной фон текста
+[Color logo & clocks]
+Цветные логотип и часы
+[Color text]
+Цветной текст
+[Light title text]
+Светлый текст заголовка
+[Dark title text]
+Тёмный текст заголовка
+[Standard digital clocks]
+Стандартные часы
+[Avatar to right]
+Аватар справа
+[Logo]
+Логотип
+[Last seen:]
+Последнее появление:
+[Online since:]
+В сети с:
+[Away since:]
+Отсутствует с:
+[NA since:]
+Недоступен с:
+[Registered:]
+Зарегистрирован:
+[Idle ago:]
+Неактивен с:
+[Messages received]
+Принято сообщений
+[Messages sent]
+Отправлено сообщений
+[Total messages: %sys:msg_count_all%]
+Всего сообщений: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Последнее сообщение: (%sys:last_msg_reltime% назад)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
+[Coordinates]
+Координаты
+[Import from database]
+Импорт из базы данных
+[Current = %r\\nPrevious = %p]
+Текущий = %r\\nПредыдущий = %p
+[Langpack reload]
+Перезагрузка языкового пакета
+[Tomorrow]
+Завтра
+[Day after tomorrow]
+Послезавтра
+[days to birthday]
+дней до праздника
+[UIN registered]
+Зарегистрирован
+[ago]
+назад
+[Into the network]
+Вошёл в сеть
+[Not active]
+Не активен
+[was]
+был
+[in the]
+в
+[Current activity]
+Текущая активность
+[Messaging activity]
+Сообщение активности
+[listening]
+слушает
+[Website]
+Сайт
+[Expected]
+Ожидается
+[Water temperature]
+Температура воды
+[Azimuth]
+Азимут
+[Sign]
+Примета
+[Total messages]
+Всего сообщений
+[Last message received]
+Последнее сообщение принято
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -4259,8 +4533,6 @@ ID контакта:
 Звук 2
 [Alert 3]
 Звук 3
-[Speak]
-Речь
 [Occurrence]
 Событие
 [Once]
@@ -13821,6 +14093,10 @@ DCC-запрос на передачу файла послан %s [%s]
 Кликните для удаления команд этого события
 [Default ANSI codepage]
 Страница ANSI по умолчанию
+[Add ignore]
+Добавление правила
+[Edit ignore]
+Изменение правила
 [Add new ignore]
 Добавить новое правило
 [Edit this ignore]
@@ -13831,10 +14107,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Маска
 [Flags]
 Флаги
-[Add ignore]
-Добавление правила
-[Edit ignore]
-Изменение правила
 [Network]
 Сеть
 [Account]
@@ -17020,7 +17292,7 @@ Lotus Notify
 Значок отправки сообщения
 [Unread clist extra icon]
 Значок непрочитанного сообщения в списке контактов
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -19799,6 +20071,8 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
+[Turn on Jabber presence signing (required by XEP-0027)]
+Подписывать статусы Jabber (нужно для XEP-0027)
 [Export keys]
 Экспорт ключей
 [Import keys]
@@ -20644,259 +20918,6 @@ NotifyAnything: Ошибка FormatMessage, код: 0x
 События
 [Window Shaking]
 Встряска окна
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Omegle protocol support for Miranda NG.]
-Поддержка протокола Omegle в Miranda NG.
-[Server:]
-Сервер:
-[Language:]
-Язык:
-[Visible name:]
-Видимое имя:
-[Meet strangers with common interests (separated by commas):]
-Искать незнакомцев с общими интересами (через запятую):
-[Automatically send one of these messages (each on new line) to stranger after connection:]
-Автоматически отправлять одно из сообщений (каждое с новой строки) незнакомцу после подключения:
-[This text will be sent when you use "/asl" message:]
-Сообщение для отправки по команде '/asl':
-[Last used question (Question mode):]
-Последний вопрос (Режим вопросов):
-[I want Omegle to reuse my questions if they are good enough (Question mode)]
-Я хочу, чтобы Omegle использовал мои вопросы (Режим вопросов)
-[Automatically connect to stranger when protocol is turned online]
-Автоматически подключаться к незнакомцу при подключении протокола
-[Automatically connect to another stranger when current disconnects]
-Автоматически подключаться к другому незнакомцу, если текущий отключился
-[Don't clear chat before connecting to new stranger]
-Не очищать лог перед подключением к новому незнакомцу
-[Load count of users on actual server after connection]
-Показывать количество пользователей на сервере
-[Meet strangers with common interests]
-Искать незнакомцев с общими интересами
-[Your interests (separated by commas):]
-Ваши интересы (через запятую):
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Есть три разных режима чата:\n1) Стандартный режим\t - Вы с незнакомцем общаетесь один на один\n2) Режим вопросов\t - Вы задаёте вопрос двум незнакомцам и смотрите, как они его обсуждают (Вы не можете присоединиться к беседе, только наблюдаете)\n3) Режим шпиона\t - Вы и незнакомец обсуждаете вопрос ещё одного незнакомца (Он не может присоединиться к вашей беседе, только наблюдает)\n\nНаберите '/commands' для вывода списка команд.
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Доступные команды:\n/help\t - показать информацию о режимах чата\n/new\t - запуск стандартного режима\n/ask <вопрос> - запуск режима вопросов с указанным вопросом\n/ask\t - запуск режима вопросов с вашим последним вопросом\n/spy\t - запуск режима шпиона\n/quit\t - отключится от незнакомца или остановить подключение\n/asl\t - отправить предварительно настроенное сообщение ASL\n\nПримечание: подключаться к другому незнакомцу можно без отключения от текущего.
-[Server]
-Сервер
-[Last question is empty.]
-Последний вопрос пустой.
-[Your question is too short.]
-Ваш вопрос слишком короткий.
-[Your '/asl' setting is empty.]
-Ваша настройка '/asl' пустая.
-[Unknown command. Send '/commands' for list.]
-Неизвестная команда. Наберите '/commands' для вывода списка команд.
-[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-Вы не подключены к незнакомцу. Наберите '/help' или '/commands' для справки.
-[You can't send messages in question mode.]
-Вы не можете отправлять сообщения в режиме вопросов.
-[Admin]
-Админ
-[Normal]
-Обычный
-[Omegle is a great way of meeting new friends!]
-Omegle - отличный способ найти новых друзей!
-[You]
-Вы
-[Connection error.]
-Ошибка соединения.
-[Connected to server %s. There are %s users online now.]
-Подключён к серверу %s (%s пользователей в сети).
-[Connected to server %s.]
-Подключён к серверу %s.
-[On whole Omegle are %s strangers online now.]
-Пользователей в сети: %s
-[Stranger 1]
-Незнакомец 1
-[Stranger 2]
-Незнакомец 2
-[Stranger]
-Незнакомец
-[You and the Stranger both like: ]
-Вам и незнакомцу нравится:\s
-[%s is typing.]
-%s набирает текст.
-[%s stopped typing.]
-%s закончил(а) набор текста.
-[%s disconnected.]
-%s отключился.
-[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-Требуется капча.\nПерейдите на http://omegle.com, введите капчу и попробуйте ещё раз.
-[Error: %s]
-Ошибка: %s
-[We are still waiting...]
-Мы до сих пор ждём...
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Незнакомец использует мобильную страницу Omegle (с телефона или планшета)
-[You both speak the same language.]
-Вы говорите на одном языке.
-[Connecting canceled.]
-Подключение отменено.
-[Disconnecting...]
-Отключение...
-[We are already waiting for new stranger...]
-Мы уже ждём нового незнакомца...
-[Connecting...]
-Подключение...
-[Waiting for Stranger...]
-Ожидание незнакомца...
-[English]
-Английский
-[Afrikaans]
-Африкаанс
-[Albanian]
-Албанский
-[Arabic]
-Арабский
-[Armenian]
-Армянский
-[Azerbaijani]
-Азербайджанский
-[Basque]
-Баскский
-[Belarusian]
-Белоруский
-[Bengali]
-Бенгальский
-[Bosnian]
-Боснийский
-[Bulgarian]
-Болгарский
-[Czech]
-Чешский
-[Danish]
-Датский
-[Esperanto]
-Эсперанто
-[Estonian]
-Эстонский
-[Finnish]
-Финский
-[French]
-Французский
-[Galician]
-Галисийский
-[Georgian]
-Грузинский
-[Gujarati]
-Гуджаратский
-[Hebrew]
-Иврит
-[Hindi]
-Хинди
-[Dutch]
-Голландский
-[Indonesian]
-Индонезийский
-[Irish]
-Ирландский
-[Icelandic]
-Исландский
-[Italian]
-Итальянский
-[Japanese]
-Японский
-[Javanese]
-Яванский
-[Yiddish]
-Идиш
-[Kannada]
-Каннада
-[Catalan]
-Каталанский
-[Khmer]
-Хмерский
-[Korean]
-Корейский
-[Lao]
-Лаосский
-[Lithuanian]
-Литовский
-[Latvian]
-Латышский
-[Hungarian]
-Венгерский
-[Macedonian]
-Македонский
-[Malay]
-Малайский
-[Maltese]
-Мальтийский
-[Marathi]
-Маратхи
-[German]
-Немецкий
-[Norwegian]
-Норвежский
-[Persian]
-Персидский
-[Polish]
-Польский
-[Portuguese]
-Португальский
-[Romanian]
-Румынский
-[Russian]
-Русский
-[Greek]
-Греческий
-[Slovak]
-Словацкий
-[Slovenian]
-Словенский
-[Serbian]
-Сербский
-[Swahili]
-Суахили
-[Spanish]
-Испанский
-[Swedish]
-Шведский
-[Tamil]
-Тамильский
-[Telugu]
-Телугу
-[Thai]
-Тайский
-[Turkish]
-Турецкий
-[Ukrainian]
-Украинский
-[Urdu]
-Урду
-[Welsh]
-Уэльский
-[Vietnamese]
-Вьетнамский
-[Random]
-Случайный
-[Unable to initialize Netlib for %s.]
-Невозможно создать подключение Netlib для %s.
-[Stranger is typing]
-Незнакомец набирает текст
-[Stranger stopped typing]
-Незнакомец закончил набор
-[Changing stranger]
-Смена незнакомца
-[Receive message]
-Входящее сообщение
-[Visible name]
-Видимое имя
-[Network]
-Сеть
-[Account]
-Учётная запись
-[Omegle Icon]
-Значок протокола
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -22481,23 +22502,6 @@ ID клиента
 Некоторые из выделенных контактов уже находятся в других метаконтактах
 [One or more contacts already belong to the same metacontact. Try to convert anyway?]
 Один или несколько контактов уже объединены в метаконтакт. Всё равно преобразовать?
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
-[Shows rating of contact in contact list (if present).]
-Показывает рейтинг контакта в списке контактов (если имеется).
-[Rate high]
-Высокий рейтинг
-[Rate medium]
-Средний рейтинг
-[Rate low]
-Низкий рейтинг
-[Contact rate]
-Рейтинг контакта
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -31856,10 +31860,6 @@ ID получателя ошибочен или неизвестен
 Вызов
 [Call will disclose IP address to the peer and his server]
 Вызов раскроет ваш IP-адрес собеседнику и его серверу
-[M]
-м
-[V]
-Пер.
 [Answer call]
 Ответить на вызов
 [Drop call]
@@ -35995,7 +35995,7 @@ WUMF: Показать подключения
 [Popup if no mail]
 Всплывающее окно
 [Persistent message]
-Длительность
+Постоянное сообщение
 [Connection failure notifications]
 При ошибках подключения
 [Popup notification if failed]

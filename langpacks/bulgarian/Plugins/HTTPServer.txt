@@ -129,3 +129,5 @@ HTTP споделяне на нов файл
 Изключване на HTTP сървъра
 [Enable HTTP server]
 Включване на HTTP сървъра
+[Failed to read configuration file: HTTPMimeTypes]
+

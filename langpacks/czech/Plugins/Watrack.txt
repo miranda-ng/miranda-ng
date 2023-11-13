@@ -658,3 +658,33 @@ Zakázat WATrack
 
 [Oops, something wrong!]
 
+[Permanent]
+Trvale
+[Colors]
+Barvy
+[Timeout]
+Doba zobrazení
+[Info]
+Info
+[Test]
+Ověřit
+[Statuses]
+Stavy
+[System default codepage]
+Výchozí kódování systému
+[Templates]
+Šablony
+[Bytes]
+bajtů
+[Variables]
+Proměnné
+[Template]
+Šablona
+[Misc]
+Různé
+[Statistics]
+Statistika
+[Login]
+Přihlášení
+[Info]
+Info

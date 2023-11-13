@@ -129,3 +129,5 @@ HTTP Новы агульны файл
 Адключыць HTTP сервер
 [Enable HTTP server]
 Укл. HTTP сервер
+[Failed to read configuration file: HTTPMimeTypes]
+

@@ -22,8 +22,6 @@ Sterownik audio:
 Głośność:
 [Quiet time:]
 Okres ciszy:
-[download BASS library]
-Pobierz biblioteki BASS
 [Play only if]
 Graj tylko gdy:
 [Offline]

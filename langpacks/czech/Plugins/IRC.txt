@@ -30,8 +30,6 @@ Alt. přezdívka
 Celé jméno (e-mail)
 [User ID (Ident)]
 Identifikátor
-[Ident]
-Ident
 [Enable]
 Aktivovat
 [System]
@@ -70,6 +68,8 @@ Zjišťovat stav každých (s):
 Aktualizovat stav účastníků na kanále
 [Don't check if more than (users):]
 Nezjišťovat, překročí-li počet:
+[Ident]
+Ident
 [User information]
 Informace o uživateli
 [Ping]
@@ -488,6 +488,10 @@ Přidá příkazy k vybrané události
 Odebere příkazy vybrané události
 [Default ANSI codepage]
 ANSI (výchozí)
+[Add ignore]
+Přidat mezi ignorované
+[Edit ignore]
+Upravit ignorované
 [Add new ignore]
 Přidá novou položku
 [Edit this ignore]
@@ -498,10 +502,6 @@ Odebere vybranou položku
 Maska
 [Flags]
 Příznaky
-[Add ignore]
-Přidat mezi ignorované
-[Edit ignore]
-Upravit ignorované
 [Network]
 Sítě
 [Account]

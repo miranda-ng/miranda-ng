@@ -39,8 +39,6 @@ Opis statusu "%s" - %s
 &Anuluj
 [Retrieving %s message...]
 Odbieranie %s wiadomości...
-[Status messages]
-Opisy
 [Do not reply to requests for this message]
 Nie odpowiadaj na prośby o ten opis
 [Do not pop up dialog asking for new message]
@@ -51,6 +49,10 @@ Domyślnie użyj tej samej wiadomości co ostatnio
 Domyślnie użyj tej wiadomości:
 [Use %time% for the current time, %date% for the current date]
 Użyj %time% dla czasu obecnego, %date% dla aktualnej daty
+[Status messages]
+Opisy
+[Reset]
+Domyślne
 [Change %s message]
 Zmień opis dla "%s"
 [Closing in %d]
@@ -801,8 +803,6 @@ Własność:
 Uruchom ponownie Mirandę aby zmiany przyniosły efekt.
 [Fonts and colors]
 Czcionki i kolory
-[Reset]
-Domyślne
 [Export...]
 Eksportuj...
 [Color/background]
@@ -955,7 +955,7 @@ Wyświetl nazwę subkontaktu
 Zablokuj nazwę pierwszego kontaktu
 [Choose needed logger from listed below:]
 Wybierz potrzebny rejestrator z poniższej listy:
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 Włącz niestandardowe opcje dziennika w czatach
 [Current language:]
 Aktualny język:
@@ -1279,8 +1279,8 @@ Status
 Bezczynność
 [Re&ad %s message]
 Po&każ opis "%s"
-[Re&ad status message]
-Zo&bacz opis statusu
+[Read status message]
+Zobacz opis statusu
 [I've been away since %time%.]
 Nie ma mnie od %time%
 [Give it up, I'm not in!]
@@ -1731,6 +1731,8 @@ Telefon do pracy
 Faks do pracy
 [Contact]
 Kontakt
+[UserInfo]
+Dane użytkownika
 [<not specified>]
 -
 [Summary]
@@ -2045,6 +2047,10 @@ Telefon/SMS
 Aktywność czatu
 [Chat mute mode]
 Tryb wyciszenia czatu
+[Gender]
+Płeć
+[Account]
+Konto
 [Extra icons]
 Dodatkowe ikony
 [Mute chat]
@@ -2265,6 +2271,8 @@ Zasięg systemowy
 Zasięg Mirandy
 [** All contacts **]
 ** Wszystkie kontakty **
+[Main]
+Ogólne
 [Show/Hide contact list]
 Pokaż/ukryj listę kontaktów
 [Read message]
@@ -2311,8 +2319,16 @@ Menu główne
 Menu ramki
 [Group menu]
 Menu grupy
+[Hide offline users out here]
+Ukryj rozłączonych tutaj
+[Disable groups]
+Wyłącz grupy
+[Exit]
+Wyłącz
 [Subgroup menu]
 Menu podgrupy
+[Hide offline users in here]
+Ukryj rozłączonych tutaj
 [New submenu]
 Nowe podmenu
 [Do you really want to delete this menu item?]
@@ -2525,6 +2541,8 @@ Moje profile
 Nowy profil
 [Protocol is offline]
 Protokół jest rozłączony
+[Protocols]
+Protokoły
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
@@ -2635,8 +2653,6 @@ Wtyczka Unicode
 Wtyczka ANSI
 [Show/Hide]
 Pokaż/ukryj
-[Exit]
-Wyłącz
 [Join chat]
 Dołącz do pokoju
 [Leave chat]
@@ -2681,8 +2697,8 @@ Nick
 Unikalne ID
 [Log viewer]
 Dziennik wiadomości
-[on]
-Wł.
+[at]
+o
 [Download]
 Pobierz
 [Copy URL]
@@ -3217,10 +3233,62 @@ Mapa bitowa PNG
 <nieokreślony>
 [Message window toolbar]
 Pasek narzędziowy okna rozmowy
-[Do nothing]
-Nic nie rób
-[Dismiss popup]
-Odrzuć popup
+[Show main menu]
+Pokaż menu główne
+[Minimize Miranda]
+Minimalizuj Mirandę
+[Flat borders]
+Płaskie obramowanie
+[Draw gradient background]
+Rysuj tło gradientu
+[Show icon]
+Pokaż ikonę
+[Show avatars]
+Pokaż awatary
+[Last seen:]
+Ostatnio widziany:
+[Online since:]
+Dostępny od:
+[Away since:]
+Zaraz wracam od:
+[NA since:]
+Wrócę później od:
+[Registered:]
+Zarejestrowany:
+[Idle ago:]
+Bezczynny od:
+[Messages received]
+Odebrane wiadomości
+[Messages sent]
+Wysłane wiadomości
+[Total messages: %sys:msg_count_all%]
+Wszystkich wiadomości: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Ostatnia wiadomość: (%sys:last_msg_reltime% temu)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(odebrano: %sys:msg_count_in%, wysłano: %sys:msg_count_out%)
+[Coordinates]
+Współrzędne
+[Import from database]
+Importuj z bazy danych
+[Current = %r\\nPrevious = %p]
+Aktualny = %r\\nPoprzedni = %p
+[Langpack reload]
+Przeładuj pakiet językowy
+[NotifyAnything: Error]
+NotifyAnything: Błąd
+[NotifyAnything: Message]
+NotifyAnything: Wiadomość
+[NotifyAnything: Notice]
+NotifyAnything: Ostrzeżenie
+[Not Available]
+Niedostępny
+[Overlay Icons]
+Nakładki ikon
+[CList - Nicer]
+Lista kontaktów
+[Connecting Icons]
+Ikony łączenia
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -3230,6 +3298,8 @@ Odrzuć popup
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Wtyczka pozwala na zarządzanie skrótami do otwierania okna kontaktu, wstawiania tekstu, uruchamiania programów i wywoływania usług
+[Services]
+Usługi
 [Apply]
 Zastosuj
 [New]
@@ -4200,8 +4270,6 @@ Alarm 1
 Alarm 2
 [Alert 3]
 Alarm 3
-[Speak]
-Mów
 [Occurrence]
 Występowanie
 [Once]
@@ -5415,8 +5483,6 @@ Sterownik audio:
 Głośność:
 [Quiet time:]
 Okres ciszy:
-[download BASS library]
-Pobierz biblioteki BASS
 [Play only if]
 Graj tylko gdy:
 [Offline]
@@ -5789,7 +5855,7 @@ Ustawienia domyślne
 Pokaż raporty doręczenia
 [These settings are also used when sending a "Simple" pounce]
 Te ustawienia są używane także przy wysyłaniu "Prostego" Pounce
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 Wiadomość (%d znaków)
 [Message successfully sent to %s]
 Wiadomość wysłano pomyślnie do %s
@@ -6853,6 +6919,8 @@ Ocena kontaktu: średnia
 Ocena kontaktu: wysoka
 [Show even if offline]
 Pokaż nawet, jeśli rozłączony
+[Contact rate]
+Ocena kontaktu
 [Avatar]
 Awatar
 [Icon]
@@ -7114,12 +7182,12 @@ Wyrównanie
 Margines (lewy/prawy)
 [Row gap]
 Odstęp wierszy
-[Minimum row height:]
-Minimalna wysokość wiersza:
+[Minimum row height]
+Minimalna wysokość wiersza
 [Group row height]
 Wysokość wiersza grupy
-[Indent groups by:]
-Wcinaj grupy na:
+[Indent groups by]
+Wcinaj grupy na
 [Inner row vertical padding]
 Pionowe rozmieszczenie wewnętrznego rzędu
 [Margins and spacing]
@@ -8030,8 +8098,6 @@ Tekst
 Zamknij po:
 [sec (0 default, -1 disabled)]
 s (0 - domyślnie, -1 nie chowaj)
-[Settings]
-Ustawienia
 [try resolve addresses]
 Próbuj ustalić adresy
 [Show notification if no filter defined]
@@ -8558,6 +8624,8 @@ Informacje dostarczone przez
 Wprowadź liczbę dodatnią.
 [Currency Rate]
 Kurs waluty
+[Test contact]
+Testowy kontakt
 [Source of information]
 Źródło informacji
 [Rate value]
@@ -9011,10 +9079,10 @@ Ustawienie ciągu
 Ustawienie unicode
 [Handle]
 Uchwyt
-[Open Database Editor]
-Otwórz edytor profilu
 [Database]
 Profil
+[Open Database Editor]
+Otwórz edytor profilu
 [Open user tree in DBE++]
 Otwórz w edytorze profilu
 [Are you sure you want to delete contact "%s"?]
@@ -11467,6 +11535,14 @@ Przychodzące zdarzenia
 Wychodzące zdarzenia
 [Unused]
 Nie używany
+[Link]
+Link
+[Delete]
+Usuń
+[Up]
+Do góry
+[Down]
+W dół
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -12736,7 +12812,7 @@ Zaawansowane
 Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -12947,6 +13023,8 @@ RTL wył.
 Grupowanie wł.
 [Group Off]
 Grupowanie wył.
+[IEView]
+IEView
 [Default]
 Domyślny
 [Template]
@@ -12959,8 +13037,6 @@ Wszystkie obrazki
 Karta stylu
 [Message sessions]
 Okno rozmowy
-[IEView]
-IEView
 [General]
 Ogólne
 [Skins]
@@ -13209,6 +13285,8 @@ Plik JSON
 Pomijanie zduplikowanej grupy %s.
 [Import...]
 Importuj...
+[Import]
+Importuj
 [Finish]
 Zakończ
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
@@ -13242,8 +13320,6 @@ Alternatywny nick
 Nazwa (e-mail)
 [User ID (Ident)]
 ID użytkownika
-[Ident]
-Ident
 [Enable]
 Włącz
 [System]
@@ -13282,6 +13358,8 @@ Sprawdzaj co (s):
 Aktualizuj statusy na liście użytkowników kanału
 [Don't check if more than (users):]
 Nie sprawdzaj, jeśli więcej niż (użytkowników):
+[Ident]
+Ident
 [User information]
 Informacja użytkownika
 [Ping]
@@ -13684,6 +13762,10 @@ Kliknij, żeby ustawić polecenia dla tego zdarzenia
 Kliknij żeby usunąć polecenia do wykonania dla tego zdarzenia
 [Default ANSI codepage]
 Domyślne kodowanie ANSI
+[Add ignore]
+Dodaj ignorowanie
+[Edit ignore]
+Edytuj ignorowanie
 [Add new ignore]
 Dodaj nowego ignorowanego
 [Edit this ignore]
@@ -13694,10 +13776,6 @@ Usuń tego ignorowanego
 Ignoruj maskę
 [Flags]
 Flagi
-[Add ignore]
-Dodaj ignorowanie
-[Edit ignore]
-Edytuj ignorowanie
 [Network]
 Protokoły
 [Account]
@@ -16897,7 +16975,7 @@ Ikona nieudanego wysyłania
 Ikona wysyłania wiadomości
 [Unread clist extra icon]
 Dodatkowa ikona nieodczytania, lista kontaktów
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -17651,8 +17729,10 @@ Włącz ostatnio graną stacje
 Sala koncertowa
 [Psychotic]
 Psychotyczny
-[Forrest]
+[Forest]
 Las
+[City]
+Miasto
 [To list]
 Do listy
 [Hangar]
@@ -17767,6 +17847,10 @@ Nowy
 Szybkie Otwieranie
 [bass.dll not found! Choose bass.dll path manually]
 Nie znaleziono bass.dll! Wybierz położenie bass.dll ręcznie
+[min]
+min
+[max]
+max
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -18792,10 +18876,10 @@ Wych.
 od
 [till]
 do
-[Group messages]
-Grupuj wiadomości
 [Log window]
 Okno dziennika
+[Group messages]
+Grupuj wiadomości
 [Enable vertical scroll bar]
 Włącz pionowy pasek przewijania
 [Draw window edge]
@@ -18968,8 +19052,6 @@ Nieznane zdarzenie
 Szablon grup
 [Cancel edit]
 Anuluj edycję
-[Update preview]
-Uaktualnij podgląd
 [Help]
 Pomoc
 [Reset to default]
@@ -19315,6 +19397,8 @@ Plik dźwiękowy
 Kontakt
 [<unknown>]
 <nieznany>
+[(was %s)]
+(był %s)
 [%s is now %s]
 %s jest teraz %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -19433,8 +19517,6 @@ Konto
 Zapisywanie statusu
 [Filtering]
 Filtrowanie
-[(was %s)]
-(był %s)
 [Open message window]
 Otwórz okno rozmowy
 [Close popup]
@@ -19644,7 +19726,7 @@ Otwórz
 Zamknij
 [Strip all tags in outgoing messages]
 Wytnij wszystkie tagi w wiadomościach wychodzących
-[Turn on presence signing (Jabber) (required by XEP-0027)]
+[Turn on Jabber presence signing (required by XEP-0027)]
 Włącz podpisywanie obecności (Jabber) (wymagane przez XEP-0027)
 [Export keys]
 Eksportuj klucze
@@ -19684,6 +19766,8 @@ Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog dom
 Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
+[Choose gpg.exe]
+Wybierz gpg.exe
 [GPG binary is set and valid (this is good).\n]
 Plik binarny GPG został ustawiony i jest poprawny (to dobrze).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -19774,8 +19858,6 @@ plik klucza publicznego .asc
 Ustaw plik dziennika
 [LOG files]
 Pliki LOG
-[Choose gpg.exe]
-Wybierz gpg.exe
 [Set home directory]
 Ustaw folder domowy
 [Load Public GPG Key for ]
@@ -20533,131 +20615,6 @@ Wysłałeś nudge
 Zdarzenia
 [Window Shaking]
 Potrząsanie oknem
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Omegle protocol support for Miranda NG.]
-Zapewnia obsługę protokołu Omegle.
-[Server:]
-Serwer:
-[Language:]
-Język:
-[Visible name:]
-Widoczna nazwa:
-[Meet strangers with common interests (separated by commas):]
-Spotykaj obcych o wspólnych zainteresowaniach (oddzielone przecinkami):
-[Automatically send one of these messages (each on new line) to stranger after connection:]
-Automatycznie wysyłaj jedną z tych wiadomości (każda w nowej linii) obcemu po połączeniu:
-[This text will be sent when you use "/asl" message:]
-Ten tekst zostanie wysłany po wpisaniu komendy /asl:
-[Last used question (Question mode):]
-Ostatnio użyte pytanie (tryb pytań):
-[I want Omegle to reuse my questions if they are good enough (Question mode)]
-Chcę, by Omegle używało moich pytań ponownie, jeśli były wystarczająco dobre (tryb pytań)
-[Automatically connect to stranger when protocol is turned online]
-Automatycznie połącz z obcym po uzyskaniu połączenia z protokołem
-[Automatically connect to another stranger when current disconnects]
-Automatycznie łącz z innym obcym, gdy obecny się rozłączy
-[Don't clear chat before connecting to new stranger]
-Nie czyść czatu przed połączeniem z nowym obcym
-[Load count of users on actual server after connection]
-Ładuj liczbę użytkowników obecnego serwera po połączeniu
-[Meet strangers with common interests]
-Spotykaj obcych o wspólnych zainteresowaniach
-[Your interests (separated by commas):]
-Twoje zainteresowania (oddzielone przecinkami):
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Istnieją trzy różne tryby czatowania:\n1) Tryb standardowy\t - czatujesz z przypadkową osobą prywatnie\n2) Tryb pytań\t - zadajesz pytanie dwóm przypadkowym osobom, a następnie obserwujesz ich dyskusję nad tym pytaniem (nie możesz przyłączyć się do konwersacji, a jedynie oglądać ją z boku)\n3) Tryb szpiega\t - ty oraz przypadkowa osoba otrzymujecie pytanie od osoby trzeciej (nie może ona przyłączyć się do rozmowy, jedynie oglądać jej przebieg)\n\nNapisz /commands, by uzyskać listę dostępnych komend.
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Możesz używać różnych komend:\n/help\t - pokazuje informacje o trybach czatu\n/new\t- rozpoczyna czat w trybie standardowym\n/ask <pytanie> - rozpoczyna czat w trybie pytań używając podanego przez ciebie pytania\n/ask\t- rozpoczyna czat w trybie pytań używając ostatnio zadanego przez ciebie pytania\n/spy\t - rozpoczyna czat w trybie szpiega\n/quit\t - rozłącza się z obcym lub zaprzestaje łączenia\n/asl\t - wysyła zdefiniowaną wiadomość ASL\n\nUwaga: możesz nawiązać połączenie z nową osobą nie rozłączając się z tą, z którą rozmawiasz obecnie.
-[Server]
-Serwer
-[Last question is empty.]
-Ostatnie pytanie jest puste.
-[Your question is too short.]
-Twoje pytanie jest za krótkie.
-[Your '/asl' setting is empty.]
-Twoje ustawienie "/asl" jest puste.
-[Unknown command. Send '/commands' for list.]
-Nieznana komenda. Napisz "/commands", aby uzyskać listę komend.
-[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-Nie jesteś z nikim połączony. Napisz "/help" lub "/commands", aby uzyskać pomoc.
-[You can't send messages in question mode.]
-Nie możesz wysyłać wiadomości w trybie pytań.
-[Admin]
-Admin
-[Normal]
-Normalne
-[Omegle is a great way of meeting new friends!]
-Omegle to świetny sposób na nawiązywanie nowych znajomości!
-[You]
-Ty
-[Connection error.]
-Błąd połączenia.
-[Connected to server %s. There are %s users online now.]
-Połączono z serwerem %s. Obecnie znajduje się na nim %s osób.
-[Connected to server %s.]
-Połączono z serwerem %s.
-[On whole Omegle are %s strangers online now.]
-W całym Omegle jest teraz %s użytkowników online.
-[Stranger 1]
-Obcy 1
-[Stranger 2]
-Obcy 2
-[Stranger]
-Obcy
-[You and the Stranger both like: ]
-Ty i obcy lubicie:\s
-[%s is typing.]
-%s pisze.
-[%s stopped typing.]
-%s przestał pisać.
-[%s disconnected.]
-%s rozłączono.
-[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-Recaptcha jest wymagana.\nOtwórz http://omegle.com, podaj kod wyświetlony na obrazku i spróbuj jeszcze raz.
-[Error: %s]
-Błąd: %s
-[We are still waiting...]
-Wciąż czekamy...
-[Connecting canceled.]
-Łączenie anulowane.
-[Disconnecting...]
-Rozłączanie...
-[We are already waiting for new stranger...]
-Czekamy już na nowego obcego...
-[Connecting...]
-Łączenie...
-[Waiting for Stranger...]
-Oczekiwanie na obcego...
-[Random]
-Losowy
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Obcy używa mobilnej strony Omegle (omegle.com na telefonie lub tablecie)
-[You both speak the same language.]
-Oboje mówicie w tym samym języku.
-[Unable to initialize Netlib for %s.]
-Nie udało się zainicjować połączenia Netlib dla %s.
-[Stranger is typing]
-Obcy pisze
-[Stranger stopped typing]
-Obcy przestał pisać
-[Changing stranger]
-Zmienianie obcego
-[Receive message]
-Otrzymana wiadomość
-[Visible name]
-Widoczna nazwa
-[Network]
-Protokoły
-[Account]
-Konto
-[Omegle Icon]
-Ikona Omegle
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -20947,6 +20904,8 @@ Rozmiar pliku jest większy niż 10 MB, nie może zostać wysłany
 Nie można otworzyć pliku "%s"
 [File '%s' is empty]
 Plik "%s" jest pusty
+[None]
+Brak
 [Error during sending text to web page: %S]
 Błąd podczas wysyłania tekstu do strony www: %S
 [Error during sending text to web page]
@@ -20965,6 +20924,8 @@ Nigdy
 1 dzień
 [1 month]
 1 miesiąc
+[Text]
+Tekst
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Ping.dll
@@ -21342,7 +21303,7 @@ Profil
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -21539,6 +21500,8 @@ Wyłącz, kiedy:
 Zawsze (ma priorytet)
 [Fullscreen mode]
 Tryb pełnoekranowy
+[Idle]
+Bezczynność
 [Debug]
 Analizuj
 [Quick reply]
@@ -21561,6 +21524,8 @@ Kopiuj do schowka
 Bez nadpisywania
 [Action]
 Akcja
+[Do nothing]
+Nic nie rób
 [The Jabberwocky]
 The Jabberwocky
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -21647,6 +21612,10 @@ Wyłącz powiadomienia
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
+[Misc]
+Inne
+[Notification]
+Powiadomienie
 [No effect]
 Brak efektu
 [Fade in/out]
@@ -22144,23 +22113,6 @@ Dołącz do kontenera &zakładki
 Niektóre z wybranych kontaktów są już w różnych metakontaktach
 [One or more contacts already belong to the same metacontact. Try to convert anyway?]
 Jeden lub więcej kontaktów jest już w tym samym metakontakcie. Konwertować mimo to?
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
-[Shows rating of contact in contact list (if present).]
-Pokazuje ocenę kontaktu na liście kontaktów.
-[Rate high]
-Wysoka ocena
-[Rate medium]
-Średnia ocena
-[Rate low]
-Niska ocena
-[Contact rate]
-Ocena kontaktu
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -22176,8 +22128,8 @@ Ostatnie kontakty
 Ustawienia wtyczki
 [Number of shown contacts:\n (0 to show all)]
 Liczba pokazanych kontaktów:\n (0, by pokazać wszystkie)
-[Format of date and time\n(Look to readme for placeholders help)]
-Format daty i czasu\n(Zajrzyj do Readme, by uzyskać pomoc na temat znaczników miejsca)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Format daty i czasu\n(Zajrzyj do Wiki, by uzyskać pomoc na temat znaczników miejsca)
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Resize window according to contact list]
@@ -23387,8 +23339,6 @@ Zawsze pokazuj ikony statusu na liście kontaktów
 Menu kontekstowe tylko dla klientów Mirandy
 [Status in Context Menu]
 Status w menu kontekstowym
-[Disable encryption for game plugins]
-Wyłącz szyfrowanie dla wtyczek gier
 [Always secured if possible]
 Zawsze bezpieczny kiedy to możliwe
 [Not secured for NotOnList]
@@ -24057,8 +24007,8 @@ Czas (s):
 Wyślij &przez:
 [E&xplore]
 P&rzeglądaj
-[&Fill description textbox.]
-&Wypełnij pole opisu
+[Fill description textbox.]
+Wypełnij pole opisu
 [Delete &after send]
 Usuń &po wysłaniu
 [Open editor before sending]
@@ -24261,8 +24211,6 @@ Upload Pie (30m)
 Upload Pie (1d)
 [Upload Pie (1w)]
 Upload Pie (1t)
-[Fill description textbox.]
-Uzupełnij pole z opisem.
 [Delete after send]
 Usuń po wysłaniu
 [Capture]
@@ -29545,6 +29493,8 @@ Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
 (*) Miranda musi zostać uruchomiona ponownie.
 [Reset factory defaults]
 Przywróć domyślne
+[Colors]
+Kolory
 [Protocol's information]
 Informacje o protokole
 [Custom information]
@@ -29555,22 +29505,18 @@ Nadpisanie informacji
 Zmiana informacji
 [Enable colors to give information about information's status.]
 Włącz kolory do informowania o statusie.
+[Common]
+Wspólne
 [Make protocol based contact information read only]
 Uczyń informacje dotyczące protokołu kontaktu tylko do odczytu
+[Treeview]
+Widok drzewa
 [Enable groups in details dialog's treeview]
 Włącz grupy w widoku drzewa w oknie szczegółów
 [Sort all tree items alphabetically]
 Sortuj wszystkie elementy drzewa alfabetycznie
 [Info of a metacontact's subcontact]
 Informacje o subkontakcie metakontaktu
-[Colors]
-Kolory
-[Common]
-Wspólne
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Zmień moje dane w ICQ za pomocą UserInfoEx (wyłączone, jeśli niewspierane przez ICQ)
-[Treeview]
-Widok drzewa
 [Adapt propertysheet pages to Aero mode]
 Dostosuj karty właściwości do trybu Aero
 [Import]
@@ -30902,9 +30848,9 @@ Wsparcie tagu BBCode [img] dla obrazków
 wyłączone
 [for original size images]
 dla obrazków w oryginalnym rozmiarze
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 do podglądu maks. 130px*130px
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 do podglądu maks. 604px*604px
 [BBCode support on news and event notifications]
 Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
@@ -31088,10 +31034,6 @@ Ikona Statusu
 Ikona posta na tablicy
 [Mark messages as read icon]
 Ikona odczytania wiadomości
-[Protocols]
-Protokoły
-[VKontakte]
-VKontakte
 [Access denied! Data will not be sent or received.]
 Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
@@ -31254,6 +31196,8 @@ Zmień nick
 Wprowadź tekst, który widzisz
 [Wall message for %s]
 Post na tablicy dla %s
+[VKontakte]
+VKontakte
 [New news]
 Nowe aktualności
 [New notifications]
@@ -31495,16 +31439,14 @@ LPM:
 PPM:
 [Preview]
 Podgląd
+[sec]
+s
 [Frame]
 Ramka
 [Audio]
 Audio
 [Voice call]
 Rozmowa głosowa
-[M]
-m
-[V]
-V
 [Main]
 Ogólne
 [Talking]
@@ -32187,6 +32129,34 @@ Sprawdzaj nieznane formaty
 Sprawdzaj nieznane formaty jeżeli odtwarzacz dostarcza informacji. 
 [Oops, something wrong!]
 Ups, coś nie tak!
+[Permanent]
+Trwale
+[Colors]
+Kolory
+[Timeout]
+Wyświetlaj
+[Info]
+Info
+[Test]
+Test
+[Statuses]
+Statusy
+[Templates]
+Szablony
+[Bytes]
+Bajty
+[Variables]
+Zmienne
+[Template]
+Szablon
+[Misc]
+Inne
+[Statistics]
+Statystyki
+[Login]
+Login
+[Info]
+Info
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

@@ -35,8 +35,6 @@ Message %s pour %s
 &Annuler
 [Retrieving %s message...]
 Récupération du message %s...
-[Status messages]
-Messages d'état
 [Do not reply to requests for this message]
 Ne pas répondre aux demandes pour ce message
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@ Par défaut, utiliser le même message que la dernière fois
 Par défaut, utiliser ce message :
 [Use %time% for the current time, %date% for the current date]
 Utiliser %time% et %date% pour l'heure et la date actuelles.
+[Status messages]
+Messages d'état
+[Reset]
+Réinitialiser
 [Change %s message]
 Changer le message de \"%s\"
 [Closing in %d]
@@ -807,8 +809,6 @@ Copyright :
 Relancer Miranda NG pour que vos changements prennent effets.
 [Fonts and colors]
 Police et Couleurs
-[Reset]
-Réinitialiser
 [Export...]
 Exportation...
 [Color/background]
@@ -961,7 +961,7 @@ Voir le nom défini du sous-contact
 Verrouiller nom sur le 1er contact
 [Choose needed logger from listed below:]
 
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 
 [Current language:]
 Langue actuelle :
@@ -1295,8 +1295,8 @@ Inactif
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Message d'état de "%s"
-[Re&ad status message]
-
+[Read status message]
+Lire le message d'état
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
@@ -1778,6 +1778,9 @@ Téléphone professionnel
 Fax professionnel
 [Contact]
 Contact
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Info usager
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <non spécifié>
@@ -2128,6 +2131,10 @@ Page web
 
 [Chat mute mode]
 
+[Gender]
+Sexe
+[Account]
+Compte
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Icônes d'accès rapide
@@ -2367,6 +2374,8 @@ Modifier
 [** All contacts **]
 ** Tous les contacts **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Principales
 [Show/Hide contact list]
 Afficher/Masquer la liste de contacts
 [Read message]
@@ -2418,8 +2427,18 @@ Menu principal
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 
+[Hide offline users out here]
+Cacher les Hors ligne de ce groupe
+[Disable groups]
+Désactiver les groupes
+[Exit]
+Quitter
 [Subgroup menu]
 
+[New subgroup]
+
+[Hide offline users in here]
+Cacher les Hors ligne de ce groupe
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 
@@ -2562,6 +2581,8 @@ Sélectionnez le programme à lancer
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 
+[System settings]
+
 [<All connections>]
 <Toutes connexions>
 [Network]
@@ -2658,6 +2679,9 @@ Nouveau profil
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Protocoles
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Demander l'autorisation
@@ -2780,8 +2804,6 @@ Plugin Unicode
 Plugin ANSI
 [Show/Hide]
 Afficher/Masquer
-[Exit]
-Quitter
 [Join chat]
 Joindre un salon
 [Leave chat]
@@ -2841,7 +2863,7 @@ ID unique
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
-[on]
+[at]
 
 [Download]
 Téléchargement
@@ -3386,9 +3408,4 @@ Images PNG
 <non spécifié>
 ;file \include\m_message.h
 [Message window toolbar]
-
-;file \include\m_popup.h
-[Do nothing]
-
-[Dismiss popup]
 

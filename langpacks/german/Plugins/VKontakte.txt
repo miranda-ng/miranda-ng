@@ -30,9 +30,9 @@ Profil ansehen
 Aus
 [for original size images]
 Für Bilder in Originalgröße
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 Für Vorschau, max. 130x130px
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 Für Vorschau, max. 604x604px
 [BBCode support on news and event notifications]
 BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
@@ -223,10 +223,6 @@ Statusicon
 Pinnwandicon
 [Mark messages as read icon]
 Nachrichten-als-gelesen-markieren-Icon
-[Protocols]
-Protokolle
-[VKontakte]
-VKontakte
 [Access denied! Data will not be sent or received.]
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
@@ -422,6 +418,8 @@ Serververlauf mit %s löschen
 [Deleting %s from contact list]
 %s aus Ihrer Kontaktliste löschen
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+VKontakte
 [New news]
 Neue Neuigkeiten
 [New notifications]

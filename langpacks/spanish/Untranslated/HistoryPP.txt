@@ -316,3 +316,5 @@
 [Outgoing events]
 [Unused]
 [Can not apply default toolbar configuration.]
+[Up]
+[Down]

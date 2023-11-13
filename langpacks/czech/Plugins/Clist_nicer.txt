@@ -84,12 +84,12 @@ Zarovnání
 Odstup zleva/zprava
 [Row gap]
 Odstup řádků:
-[Minimum row height:]
-Min. výška řádku:
+[Minimum row height]
+Min. výška řádku
 [Group row height]
 Výška skupiny:
-[Indent groups by:]
-Rozestup skupin:
+[Indent groups by]
+Rozestup skupin
 [Inner row vertical padding]
 Vyplnění řádku zevnitř
 [Margins and spacing]

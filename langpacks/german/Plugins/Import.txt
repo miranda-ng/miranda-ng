@@ -200,6 +200,8 @@ JSON-Datei
 Duplizierte Gruppe %s überspringen
 [Import...]
 Importieren...
+[Import]
+Importieren
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Ende

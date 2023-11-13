@@ -35,8 +35,6 @@
 Скасаваць
 [Retrieving %s message...]
 Загрузка паведамлення "%s"...
-[Status messages]
-Паведамленні статусу
 [Do not reply to requests for this message]
 Не адказваць на запыты гэтага паведамлення
 [Do not pop up dialog asking for new message]
@@ -47,6 +45,10 @@
 Выкарыстоўваць паведамленне:
 [Use %time% for the current time, %date% for the current date]
 %date% - сенняшняя дата; %time% - бягучы час
+[Status messages]
+Паведамленні статусу
+[Reset]
+Скід
 [Change %s message]
 Змяніць паведамленне "%s"
 [Closing in %d]
@@ -807,8 +809,6 @@
 Змены запрацуюць пасля перазапуску праграмы.
 [Fonts and colors]
 Шрыфты і колеры
-[Reset]
-Скід
 [Export...]
 Экспарт...
 [Color/background]
@@ -961,7 +961,7 @@ UIN, E-mail і г.д.
 Фіксаваць імя
 [Choose needed logger from listed below:]
 
-[Enable custom log controls in group chats]
+[Enable custom loggers in group chats]
 
 [Current language:]
 
@@ -1295,7 +1295,7 @@ UIN, E-mail і г.д.
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
-[Re&ad status message]
+[Read status message]
 Чытаць статуснае паведамленне
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
@@ -1778,6 +1778,9 @@ Miranda не здолела загрузіць убудаваную сістэм
 Працоўны факс
 [Contact]
 Кантакт
+;file \src\core\stduserinfo\src\stdafx.h
+[UserInfo]
+Інфа
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [<not specified>]
 <не паказана>
@@ -2128,6 +2131,10 @@ Miranda не можа распазнаць гэты профіль
 Актыўнасць у чаце
 [Chat mute mode]
 
+[Gender]
+Род
+[Account]
+Конт
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Экстра абразкі
@@ -2367,6 +2374,8 @@ Ctrl+Шукаць дадае карыстальніка
 [** All contacts **]
 ** Усе кантакты **
 ;file \src\mir_app\src\keyboard.cpp
+[Main]
+Галоўны
 [Show/Hide contact list]
 Паказаць/Схаваць спіс кантактаў
 [Read message]
@@ -2418,8 +2427,18 @@ xСтатус
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню гуртоў
+[Hide offline users out here]
+Схаваць адключаных па-за гуртоў
+[Disable groups]
+Адключыць гурты
+[Exit]
+Выйсце
 [Subgroup menu]
 Меню падгуртоў
+[New subgroup]
+
+[Hide offline users in here]
+Схаваць адключаных у гурце
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 
@@ -2562,6 +2581,8 @@ xСтатус
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <розныя>
+[System settings]
+
 [<All connections>]
 <Усе далучэнні>
 [Network]
@@ -2658,6 +2679,9 @@ xСтатус
 ;file \src\mir_app\src\protocols.cpp
 [Protocol is offline]
 Конт адключаны
+;file \src\mir_app\src\proto_accs.cpp
+[Protocols]
+Пратаколы
 ;file \src\mir_app\src\proto_interface.cpp
 [Request authorization]
 Запытаць аўтарызацыю
@@ -2780,8 +2804,6 @@ ID конта
 ANSI плагін
 [Show/Hide]
 Схаваць/паказаць
-[Exit]
-Выйсце
 [Join chat]
 Увайсці ў чат
 [Leave chat]
@@ -2841,8 +2863,8 @@ ANSI плагін
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Unnamed]
 
-[on]
-Укл.
+[at]
+
 [Download]
 Запампаваць
 [Copy URL]
@@ -3387,8 +3409,3 @@ BMP
 ;file \include\m_message.h
 [Message window toolbar]
 
-;file \include\m_popup.h
-[Do nothing]
-Нічога не рабіць
-[Dismiss popup]
-Зачыніць вакно

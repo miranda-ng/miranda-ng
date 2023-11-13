@@ -20,8 +20,6 @@
 Тривалість:
 [sec (0 default, -1 disabled)]
 с (0 - замовчання, -1 - постійно)
-[Settings]
-Налаштування
 [try resolve addresses]
 визначати імена за IP-адресами
 [Show notification if no filter defined]

@@ -45,6 +45,8 @@ Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
 Datenbank
 [Check database]
 Datenbank prüfen
+[DbChecker]
+
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Datenbankprüfung kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.

@@ -85,8 +85,10 @@ Automatisch mit letztem Sender verbinden
 Konzerthalle
 [Psychotic]
 Psychotisch
-[Forrest]
+[Forest]
 Wald
+[City]
+Stadt
 [To list]
 Zur Liste
 [Hangar]
@@ -201,3 +203,7 @@ Neu
 Schnell öffnen
 [bass.dll not found! Choose bass.dll path manually]
 Bass.dll nicht gefunden! Wählen Sie das bass.dll Verzeichnis manuell.
+[min]
+Min
+[max]
+Max

@@ -20,8 +20,6 @@ Status immer in der Kontaktliste anzeigen
 Kontaktmenü nur für Miranda-Clients anz.
 [Status in Context Menu]
 Status im Kontaktmenü anzeigen
-[Disable encryption for game plugins]
-Keine Verschl. für Spiele-Plugins
 [Always secured if possible]
 Immer verschlüsseln, falls möglich
 [Not secured for NotOnList]

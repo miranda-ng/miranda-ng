@@ -200,6 +200,8 @@ Plik JSON
 Pomijanie zduplikowanej grupy %s.
 [Import...]
 Importuj...
+[Import]
+Importuj
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Zakończ

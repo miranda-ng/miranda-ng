@@ -703,6 +703,8 @@ Modern contact list
 Оценка на контакта: висока
 [Show even if offline]
 Показване и когато е извън линия
+[Contact rate]
+Оценка на контакти
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар

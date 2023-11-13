@@ -72,8 +72,6 @@ Alerte 1
 Alerte 2
 [Alert 3]
 Alerte 3
-[Speak]
-Parle
 [Occurrence]
 Occurrence
 [Once]

@@ -29,7 +29,6 @@
 [Upload Pie (30m)]
 [Upload Pie (1d)]
 [Upload Pie (1w)]
-[Fill description textbox.]
 [Couldn't take a screenshot]
 [Screenshot of "%s"]
 [Screenshot for client area of "%s" window]

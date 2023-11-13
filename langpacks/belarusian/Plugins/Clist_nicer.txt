@@ -84,12 +84,12 @@
 Палі (справа/злева)
 [Row gap]
 Прамежак паміж радкамі
-[Minimum row height:]
+[Minimum row height]
 Мін. вышыня радка
 [Group row height]
 Мін. вышыня гурта
-[Indent groups by:]
-Водступ для гуртоў:
+[Indent groups by]
+Водступ для гуртоў
 [Inner row vertical padding]
 Вертыкальны водступ паміж шэрагамі
 [Margins and spacing]

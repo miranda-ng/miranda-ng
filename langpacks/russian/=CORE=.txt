@@ -1295,8 +1295,8 @@ Google Карты
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Прочитать сообщение "%s"
-[Re&ad status message]
-Пр&очитать статусное сообщение
+[Read status message]
+Прочитать статусное сообщение
 ;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
@@ -2435,6 +2435,10 @@ xСтатус
 Выход
 [Subgroup menu]
 Меню подгрупп
+[New subgroup]
+Новая подгруппа
+[Hide offline users in here]
+Скрыть отключённых в группе
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 Новое вложенное меню
@@ -2577,6 +2581,8 @@ xСтатус
 ;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <различные>
+[System settings]
+Системные настройки
 [<All connections>]
 <Все подключения>
 [Network]

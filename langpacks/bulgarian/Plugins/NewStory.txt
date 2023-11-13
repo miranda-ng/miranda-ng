@@ -24,15 +24,17 @@
 
 [till]
 
-[Group messages]
-Групиране на съобщенията
 [Log window]
 
+[Group messages]
+Групиране на съобщенията
 [Enable vertical scroll bar]
 
 [Draw window edge]
 
 [Ascending events sort order]
+
+[History++ compatiblity mode]
 
 [Template list:]
 
@@ -187,7 +189,7 @@
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file name]
+[Copy file path]
 
 [Copy URL]
 Копиране на URL
@@ -228,8 +230,6 @@
 
 [Cancel edit]
 
-[Update preview]
-Обновяване
 [Downloaded]
 
 [Help]

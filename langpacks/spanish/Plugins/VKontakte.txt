@@ -30,9 +30,9 @@ Visitar perfil
 Apagado
 [for original size images]
 
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 
 [BBCode support on news and event notifications]
 
@@ -223,10 +223,6 @@ URL:
 
 [Mark messages as read icon]
 
-[Protocols]
-Protocolos
-[VKontakte]
-VKontakte
 [Access denied! Data will not be sent or received.]
 
 [Error]
@@ -422,6 +418,8 @@ Introduzca el texto que aparece
 [Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+VKontakte
 [New news]
 
 [New notifications]

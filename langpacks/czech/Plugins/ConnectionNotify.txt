@@ -20,8 +20,6 @@ Text
 Zavřít po:
 [sec (0 default, -1 disabled)]
 sek. (0 výchozí, -1 vypnuto)
-[Settings]
-Nastavení
 [try resolve addresses]
 pokusit se přeložit adresy
 [Show notification if no filter defined]

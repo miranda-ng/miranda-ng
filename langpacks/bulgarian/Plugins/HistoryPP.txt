@@ -681,3 +681,11 @@ History++ Предупреждение
 
 [Can not apply default toolbar configuration.]
 
+[Link]
+Връзка
+[Delete]
+Изтриване
+[Up]
+Нагоре
+[Down]
+Надолу

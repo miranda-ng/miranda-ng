@@ -681,3 +681,11 @@ Menú del usuario
 
 [Can not apply default toolbar configuration.]
 
+[Link]
+Enlace
+[Delete]
+Eliminar
+[Up]
+
+[Down]
+

@@ -206,6 +206,8 @@ popup за годишнина
 (*) Изисква рестартиране на Miranda.
 [Reset factory defaults]
 Стандартни настройки
+[Colors]
+Цветове
 [Protocol's information]
 Информация от протокола
 [Custom information]
@@ -216,7 +218,11 @@ popup за годишнина
 Променена информация
 [Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
+[Common]
+Общи
 [Make protocol based contact information read only]
+
+[Treeview]
 
 [Enable groups in details dialog's treeview]
 
@@ -224,14 +230,6 @@ popup за годишнина
 Азбучно сортиране на всички елементи на дървото.
 [Info of a metacontact's subcontact]
 Информация от подконтакт на метаконтакт
-[Colors]
-Цветове
-[Common]
-Общи
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Промяна на ICQ подробностите с UserInfoEx (изключено, ако ICQ не го поддържа)
-[Treeview]
-
 [Adapt propertysheet pages to Aero mode]
 
 [Import]
@@ -1168,6 +1166,12 @@ Web дизайн
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 всички контакти
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 
 [Import User Details from VCard]

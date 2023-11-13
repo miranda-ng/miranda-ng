@@ -25,6 +25,8 @@
 [Start conference]
 [No common encryption method. Try to enable encryption in protocol options.]
 [SERVICE NOT IMPLEMENTED. %s]
+[Sametime (Use old client version)]
+[Sametime (Miranda default)]
 [Client protocol version: %03d.%03d]
 [Server protocol version: %03d.%03d]
 [Announce]

@@ -235,6 +235,8 @@ xСтатуси
 Контакт
 [<unknown>]
 <невідомо>
+[(was %s)]
+(був(ла) %s)
 [%s is now %s]
 %s зараз %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -355,8 +357,6 @@ xСтатус
 [Filtering]
 Фільтрація
 ;file \plugins\NewXstatusNotify\src\popup.h
-[(was %s)]
-(був(ла) %s)
 [Open message window]
 Відкрити вікно бесіди
 [Close popup]

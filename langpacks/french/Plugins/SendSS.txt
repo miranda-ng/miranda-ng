@@ -30,7 +30,7 @@ Temps (sec) :
 Envoyer par :
 [E&xplore]
 Explorer
-[&Fill description textbox.]
+[Fill description textbox.]
 Remplir description dans boite texte
 [Delete &after send]
 Supprimer après envoi
@@ -247,8 +247,6 @@ Courriel
 [Upload Pie (1d)]
 
 [Upload Pie (1w)]
-
-[Fill description textbox.]
 
 [Delete after send]
 

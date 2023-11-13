@@ -91,6 +91,8 @@
 
 [Format text as code]
 
+[IEView]
+Журнал IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 За замовчанням
@@ -104,8 +106,6 @@
 Таблиця стилів
 [Message sessions]
 Бесіди
-[IEView]
-Журнал IEView
 [General]
 Загальне
 [Skins]

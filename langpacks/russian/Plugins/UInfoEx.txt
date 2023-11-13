@@ -1166,6 +1166,12 @@ INI файл "%s"\nдля чтения контакта не может быть
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Все контакты
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Выберите имя файла для экспорта...
 [Import User Details from VCard]

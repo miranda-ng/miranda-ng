@@ -37,7 +37,7 @@
 [Autoconnect last station]
 [Concert Hall]
 [Psychotic]
-[Forrest]
+[Forest]
 [To list]
 [Hangar]
 [Offline station as Offline]
@@ -92,3 +92,4 @@
 [Equalizer]
 [Quick Open]
 [bass.dll not found! Choose bass.dll path manually]
+[max]

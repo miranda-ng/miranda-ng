@@ -703,6 +703,8 @@ xСтатус: xПовідомлення
 Рейтинг контакту: Високий
 [Show even if offline]
 Показувати навіть якщо не в мережі
+[Contact rate]
+Рейтинг контакту
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар

@@ -681,3 +681,11 @@ Ausgehende Ereignisse
 Ungenutzt
 [Can not apply default toolbar configuration.]
 Standard-Toolbar-Einstellungen konnten nicht angewendet werden.
+[Link]
+Link
+[Delete]
+Löschen
+[Up]
+Auf
+[Down]
+Ab

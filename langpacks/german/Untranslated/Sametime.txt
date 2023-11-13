@@ -1,3 +1,5 @@
+[Sametime (Use old client version)]
+[Sametime (Miranda default)]
 [Master channel error]
 [Already subscribed]
 [Not subscribed]

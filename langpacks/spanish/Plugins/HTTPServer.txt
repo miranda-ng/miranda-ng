@@ -129,3 +129,5 @@ Red
 
 [Enable HTTP server]
 
+[Failed to read configuration file: HTTPMimeTypes]
+

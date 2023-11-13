@@ -235,6 +235,8 @@
 Кантакт
 [<unknown>]
 <невядома>
+[(was %s)]
+(быў(ла) %s)
 [%s is now %s]
 %s зараз %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -355,8 +357,6 @@
 [Filtering]
 Фільтраванне
 ;file \plugins\NewXstatusNotify\src\popup.h
-[(was %s)]
-(быў(ла) %s)
 [Open message window]
 Адкрыць вакно гутаркі
 [Close popup]

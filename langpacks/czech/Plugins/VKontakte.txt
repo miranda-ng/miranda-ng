@@ -30,9 +30,9 @@ Zobrazit profil
 vyp
 [for original size images]
 
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 
 [BBCode support on news and event notifications]
 
@@ -222,10 +222,6 @@ Ikona přečtené zprávy
 [Wall message icon]
 
 [Mark messages as read icon]
-
-[Protocols]
-Protokoly
-[VKontakte]
 
 [Access denied! Data will not be sent or received.]
 
@@ -422,6 +418,8 @@ Zadejte text, který vidíte
 [Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+
 [New news]
 Nové novinky
 [New notifications]

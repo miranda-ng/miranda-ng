@@ -135,6 +135,8 @@ Popup настройки...
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+Тестови контакт
 [Source of information]
 Източник на информация
 [Rate value]

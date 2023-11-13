@@ -135,6 +135,8 @@ Horas
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+
 [Source of information]
 
 [Rate value]

@@ -84,6 +84,10 @@ ID та версія клієнта
 [SERVICE NOT IMPLEMENTED. %s]
 Служба не реалізована. %s
 ;file \protocols\Sametime\src\options.cpp
+[Sametime (Use old client version)]
+
+[Sametime (Miranda default)]
+
 [Client protocol version: %03d.%03d]
 Версія протоколу клієнта: %03d.%03d
 [Server protocol version: %03d.%03d]

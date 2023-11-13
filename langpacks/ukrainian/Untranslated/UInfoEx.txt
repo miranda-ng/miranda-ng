@@ -1,2 +1,5 @@
 [In a civil union]
+[XMLCard]
+[DBEditor++ File]
+[Standard vCard]
 [File not found]

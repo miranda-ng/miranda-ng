@@ -94,7 +94,6 @@
 [%d hours]
 [%d minutes]
 [%d seconds]
-[Read status message]
 [Use the default setting]
 [NewAwaySys: Incoming status message request]
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]

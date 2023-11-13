@@ -1,5 +1,6 @@
 [Fix UTF-8 encoding in old events]
 [Remove duplicate events]
 [Fix server event IDs]
+[DbChecker]
 [%d duplicate events removed]
 [%d server event IDs fixed]

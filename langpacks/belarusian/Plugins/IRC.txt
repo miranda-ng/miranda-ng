@@ -30,8 +30,6 @@ SSL/TLS
 Поўнае імя
 [User ID (Ident)]
 ID кантакта
-[Ident]
-Ідэнтыфікацыя
 [Enable]
 Уключана
 [System]
@@ -70,6 +68,8 @@ ID кантакта
 Абнаўл. статусы ў спісе удзельнікаў
 [Don't check if more than (users):]
 Не правяраць, калі больш (карысцяў):
+[Ident]
+Ідэнтыфікацыя
 [User information]
 Інфармацыя
 [Ping]
@@ -488,6 +488,10 @@ WhoIs
 Клікніце для выдалення каманд гэтай падзеі
 [Default ANSI codepage]
 Старонка ANSI па змаўчанні
+[Add ignore]
+Даданне правіла
+[Edit ignore]
+Змяніць ігнор
 [Add new ignore]
 Дадаць новае правіла
 [Edit this ignore]
@@ -498,10 +502,6 @@ WhoIs
 Маска
 [Flags]
 Сцягі
-[Add ignore]
-Даданне правіла
-[Edit ignore]
-Змяніць ігнор
 [Network]
 Сеціва
 [Account]

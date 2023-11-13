@@ -135,6 +135,8 @@ Informace poskytuje
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Test contact]
+Testovací kontakt
 [Source of information]
 
 [Rate value]

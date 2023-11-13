@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -200,6 +200,8 @@ Deaktivieren, wenn:
 Immer (hat Priorität)
 [Fullscreen mode]
 Vollbildschirm-Modus
+[Idle]
+Untätigkeit
 [Debug]
 Debug
 ;file \plugins\Popup\src\actions.cpp
@@ -223,6 +225,9 @@ In Zwischenablage kopieren
 Nicht überschreiben
 [Action]
 Aktion
+;file \plugins\Popup\src\actions.h
+[Do nothing]
+Nichts tun
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Der Zipferlake
@@ -315,6 +320,11 @@ Popups deaktivieren
 Popup plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
+;file \plugins\Popup\src\notifications.cpp
+[Misc]
+Diverses
+[Notification]
+Benachrichtigung
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Kein Effekt

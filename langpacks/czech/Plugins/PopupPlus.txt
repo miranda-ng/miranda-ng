@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -200,6 +200,8 @@ Neaktivní ve stavu
 Vždy (má prioritu)
 [Fullscreen mode]
 Celoobrazovkový režim
+[Idle]
+Nečinnost
 [Debug]
 Debug
 ;file \plugins\Popup\src\actions.cpp
@@ -223,6 +225,9 @@ Zkopírovat do schránky
 ---
 [Action]
 Akce
+;file \plugins\Popup\src\actions.h
+[Do nothing]
+Nedělat nic
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Žvahlav
@@ -315,6 +320,11 @@ Vypnout oznámení
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Chyba: Nelze zaregistrovat třídu Popup Window.\r\nDoplněk nebude fungovat.
+;file \plugins\Popup\src\notifications.cpp
+[Misc]
+Různé
+[Notification]
+Oznámení
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Bez efektu

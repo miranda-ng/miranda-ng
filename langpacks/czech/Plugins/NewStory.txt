@@ -24,15 +24,17 @@ Odchozí
 
 [till]
 
-[Group messages]
-Seskupovat zprávy
 [Log window]
 
+[Group messages]
+Seskupovat zprávy
 [Enable vertical scroll bar]
 
 [Draw window edge]
 
 [Ascending events sort order]
+
+[History++ compatiblity mode]
 
 [Template list:]
 
@@ -187,7 +189,7 @@ Dokončeno
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file name]
+[Copy file path]
 
 [Copy URL]
 
@@ -228,8 +230,6 @@ Neznámá událost
 
 [Cancel edit]
 
-[Update preview]
-Obnovit náhled
 [Downloaded]
 
 [Help]

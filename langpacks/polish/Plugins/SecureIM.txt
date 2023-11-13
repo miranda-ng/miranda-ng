@@ -20,8 +20,6 @@ Zawsze pokazuj ikony statusu na liście kontaktów
 Menu kontekstowe tylko dla klientów Mirandy
 [Status in Context Menu]
 Status w menu kontekstowym
-[Disable encryption for game plugins]
-Wyłącz szyfrowanie dla wtyczek gier
 [Always secured if possible]
 Zawsze bezpieczny kiedy to możliwe
 [Not secured for NotOnList]

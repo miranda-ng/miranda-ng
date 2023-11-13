@@ -38,8 +38,6 @@ Last-Modified-Using: Miranda NG 0.96.1
 Отказ
 [Retrieving %s message...]
 Извличане на текста "%s"...
-[Status messages]
-Текст за състояние
 [Do not reply to requests for this message]
 Без отговор на запитвания за това съобщение
 [Do not pop up dialog asking for new message]
@@ -50,6 +48,10 @@ Last-Modified-Using: Miranda NG 0.96.1
 Ползване на следното съобщение като стандартно:
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
+[Status messages]
+Текст за състояние
+[Reset]
+Анулиране
 [Change %s message]
 Промяна на текста "%s"
 [Closing in %d]
@@ -768,8 +770,6 @@ Copyright:
 Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
 [Fonts and colors]
 Шрифтове и цветове
-[Reset]
-Анулиране
 [Export...]
 Износ...
 [Color/background]
@@ -1216,7 +1216,7 @@ Google Translate
 Бездействие
 [Re&ad %s message]
 Показване на текста "%s"
-[Re&ad status message]
+[Read status message]
 Показване на текста за състояние
 [I've been away since %time%.]
 Отсъствам от %time%.
@@ -1948,6 +1948,10 @@ Popups са изключени
 Домашна страница
 [Chat activity]
 Чат активност
+[Gender]
+Пол
+[Account]
+Акаунт
 [Extra icons]
 Допълнителни икони
 [&File]
@@ -2148,6 +2152,8 @@ Win +\s
 Само за Miranda
 [** All contacts **]
 ** Всички контакти **
+[Main]
+Основна
 [Show/Hide contact list]
 Показва/Скрива списъка с контакти
 [Read message]
@@ -2194,8 +2200,16 @@ Win +\s
 Меню на рамките
 [Group menu]
 Меню на групите
+[Hide offline users out here]
+Скриване на контактите "Извън линия" тук
+[Disable groups]
+Без групи
+[Exit]
+Изход
 [Subgroup menu]
 Меню на подгрупите
+[Hide offline users in here]
+Скриване на контактите "Извън линия" тук
 [Menus]
 Менюта
 [Tray menu]
@@ -2368,6 +2382,8 @@ Win +\s
 Нов профил
 [Protocol is offline]
 Протоколът е извън линия
+[Protocols]
+Протоколи
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
@@ -2472,8 +2488,6 @@ Unicode приставка
 ANSI приставка
 [Show/Hide]
 Показване/Скриване
-[Exit]
-Изход
 [Join chat]
 Влизане в чата
 [Leave chat]
@@ -2512,8 +2526,6 @@ WAV файлове
 Прякор
 [Unique ID]
 Уникален ID
-[on]
-Включено
 [Download]
 Сваляне
 [Copy URL]
@@ -3044,10 +3056,6 @@ GIF изображения
 PNG изображения
 [<unspecified>]
 <неуточнено>
-[Do nothing]
-Нищо
-[Dismiss popup]
-Затваряне на Popup
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -3057,6 +3065,8 @@ PNG изображения
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
+[Services]
+Услуги
 [Apply]
 Прилагане
 [New]
@@ -4706,8 +4716,6 @@ Dat (mContacts)
 Сила на звука:
 [Quiet time:]
 Тишина:
-[download BASS library]
-сваляне на библиотеката BASS
 [Play only if]
 При състояние
 [Offline]
@@ -5830,6 +5838,8 @@ Modern contact list
 Оценка на контакта: висока
 [Show even if offline]
 Показване и когато е извън линия
+[Contact rate]
+Оценка на контакти
 [Avatar]
 Аватар
 [Icon]
@@ -6069,12 +6079,12 @@ CList nicer изключение
 Ръбове (ляво/дясно)
 [Row gap]
 Пролука между редовете
-[Minimum row height:]
-Мин. височина на реда:
+[Minimum row height]
+Мин. височина на реда
 [Group row height]
 Височина на реда на групите
-[Indent groups by:]
-Отстъп на групите:
+[Indent groups by]
+Отстъп на групите
 [Margins and spacing]
 Ръбове и разстояние
 [Contact list sorting]
@@ -6767,8 +6777,6 @@ Popup настройки
 Показвай:
 [sec (0 default, -1 disabled)]
 сек (0=стандарт, -1=постоянно)
-[Settings]
-Настройки
 [Delete]
 Изтриване
 ['Online' means:]
@@ -7207,6 +7215,8 @@ Popup настройки...
 Източник
 [Enter positive number.]
 Въведете положително число.
+[Test contact]
+Тестови контакт
 [Source of information]
 Източник на информация
 [Rate value]
@@ -7586,10 +7596,10 @@ INI файлове
 Непознат контакт
 [Known contact]
 Познат контакт
-[Open Database Editor]
-Отваряне на Database Editor++
 [Database]
 База от данни
+[Open Database Editor]
+Отваряне на Database Editor++
 [Open user tree in DBE++]
 Отваряне на контакта в DBE++
 [Are you sure you want to delete contact "%s"?]
@@ -9526,6 +9536,14 @@ History++ Предупреждение
 Входящи събития
 [Outgoing events]
 Изходящи събития
+[Link]
+Връзка
+[Delete]
+Изтриване
+[Up]
+Нагоре
+[Down]
+Надолу
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -10659,7 +10677,7 @@ UIN:
 Основни
 [Advanced]
 Разширени
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -10808,6 +10826,8 @@ ICQ номер
  заявено упълномощаване
 [ was added.]
  беше добавен.
+[IEView]
+IEView
 [Default]
 Стандарт
 [Template]
@@ -10818,8 +10838,6 @@ ICQ номер
 Всички изображения
 [Message sessions]
 Разговори
-[IEView]
-IEView
 [General]
 Основни
 [Skins]
@@ -10978,6 +10996,8 @@ Miranda внос
 Пропускане на дублираща се група %s.
 [Import...]
 Внос...
+[Import]
+Внос
 [Finish]
 Готово
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
@@ -11365,6 +11385,10 @@ Latin I
 Натиснете тук, за да изтриете командите за събитието
 [Default ANSI codepage]
 Стандартна ANSI кодова таблица
+[Add ignore]
+Добавяне на игнориране
+[Edit ignore]
+Редактиране на игнориране
 [Add new ignore]
 Добавяне на ново игнориране
 [Edit this ignore]
@@ -11373,10 +11397,6 @@ Latin I
 Изтриване на игнорирането
 [Flags]
 Държавни знамена
-[Add ignore]
-Добавяне на игнориране
-[Edit ignore]
-Редактиране на игнориране
 [Network]
 Мрежа
 [Account]
@@ -13896,7 +13916,7 @@ xСъстояние
 ;============================================================
 [Sending...]
 Изпращане...
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -14336,8 +14356,10 @@ mRadio Mod
 Автоматично свързване към последната активна станция
 [Concert Hall]
 Концертна зала
-[Forrest]
+[Forest]
 Гора
+[City]
+Град
 [To list]
 списъка
 [Hangar]
@@ -14446,6 +14468,10 @@ mRadio вкл.
 Еквалайзер
 [New]
 Нов
+[min]
+мин.
+[max]
+макс.
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -15237,8 +15263,6 @@ URL адрес на страницата за коментари към нови
 Изходящо съобщение
 [Unknown event]
 Неизвестно събитие
-[Update preview]
-Обновяване
 [Help]
 Помощ
 [Reset to default]
@@ -15460,6 +15484,8 @@ URL адрес на страницата за коментари към нови
 Контакт
 [<unknown>]
 <неизвестно>
+[(was %s)]
+(беше %s)
 [%s is now %s]
 %s сега е %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -15564,8 +15590,6 @@ URL адрес на страницата за коментари към нови
 Акаунт
 [Filtering]
 Филтриране
-[(was %s)]
-(беше %s)
 [Close popup]
 Затваря popup
 [Open contact menu]
@@ -15858,31 +15882,6 @@ URL
 Изпрати разклащане
 [Events]
 Събития
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Server:]
-Сървър:
-[Language:]
-Език:
-[Server]
-Сървър
-[Admin]
-Администратор
-[Normal]
-Нормално
-[Connecting...]
-Свързване...
-[Random]
-Произволен
-[Network]
-Мрежа
-[Account]
-Акаунт
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -16166,6 +16165,8 @@ Paste It - Избиране на файл
 Файлът "%s" не може да бъде отворен
 [File '%s' is empty]
 Файлът "%s" е празен
+[None]
+Няма
 [Error during sending text to web page: %S]
 Грешка при качването на файла в уеб страницата "%S"
 [Error during sending text to web page]
@@ -16184,6 +16185,8 @@ Paste It - Избиране на файл
 1 ден
 [1 month]
 1 месец
+[Text]
+Текст
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Ping.dll
@@ -16447,7 +16450,7 @@ Plugin Updater
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -16636,6 +16639,8 @@ Popup действията са малките бутони под текста.
 Винаги (приоритетно)
 [Fullscreen mode]
 Режим на цял екран
+[Idle]
+Бездействие
 [Debug]
 Дебъг
 [Quick reply]
@@ -16658,6 +16663,8 @@ Popup действията са малките бутони под текста.
 без подмяна
 [Action]
 Действие
+[Do nothing]
+Нищо
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестови образец за настройките на popup приставката. Би трябвало да е достатъчно дълъг, за да не се събере на един ред...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -16732,6 +16739,10 @@ Popup група
 Popup plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.
+[Misc]
+Разни
+[Notification]
+Уведомяване
 [No effect]
 Без ефект
 [Fade in/out]
@@ -17175,23 +17186,6 @@ ID на клиента
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
 Някои от избраните контакти са част от различни метаконтакти.
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
-[Shows rating of contact in contact list (if present).]
-Приставката показва оценката на контактите в списъка с контакти (ако имат такава).
-[Rate high]
-Висока
-[Rate medium]
-Средна
-[Rate low]
-Ниска
-[Contact rate]
-Оценка на контакти
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -17207,8 +17201,6 @@ ID на клиента
 Настройване на приставката
 [Number of shown contacts:\n (0 to show all)]
 Брой контакти за показване:\n (0 за всички)
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат за дата и час\n(Look to readme for placeholders help)
 [Hide offline contacts]
 Скриване на контактите "Извън линия"
 [Resize window according to contact list]
@@ -22716,6 +22708,8 @@ popup за годишнина
 (*) Изисква рестартиране на Miranda.
 [Reset factory defaults]
 Стандартни настройки
+[Colors]
+Цветове
 [Protocol's information]
 Информация от протокола
 [Custom information]
@@ -22726,16 +22720,12 @@ popup за годишнина
 Променена информация
 [Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
+[Common]
+Общи
 [Sort all tree items alphabetically]
 Азбучно сортиране на всички елементи на дървото.
 [Info of a metacontact's subcontact]
 Информация от подконтакт на метаконтакт
-[Colors]
-Цветове
-[Common]
-Общи
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Промяна на ICQ подробностите с UserInfoEx (изключено, ако ICQ не го поддържа)
 [Import]
 Внос
 [Importing...\nPlease wait!]
@@ -23767,8 +23757,6 @@ x - y - ...
 Сподели
 [URL:]
 URL:
-[Protocols]
-Протоколи
 [Error]
 Грешка
 [Photo]
@@ -23920,14 +23908,14 @@ URL:
 Ляв бутон:
 [Preview]
 Образец
+[sec]
+сек
 [Frame]
 Рамка
 [Audio]
 Аудио
 [Voice call]
 Гласов разговор
-[M]
-m
 [Main]
 Основна
 [Talking]
@@ -24434,6 +24422,32 @@ WATrack състояние
 Включване на WATrack
 [Disable WATrack]
 Изключване на WATrack
+[Permanent]
+Постоянно
+[Colors]
+Цветове
+[Timeout]
+Времетраене
+[Info]
+Информация
+[Test]
+Тест
+[Templates]
+Шаблони
+[Bytes]
+Байта
+[Variables]
+Променливи
+[Template]
+Шаблон
+[Misc]
+Разни
+[Statistics]
+Статистика
+[Login]
+Потребител
+[Info]
+Информация
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

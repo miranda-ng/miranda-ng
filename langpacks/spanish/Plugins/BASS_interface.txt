@@ -22,8 +22,6 @@ Dispositivo de salida
 Volumen:
 [Quiet time:]
 Tiempo de silencio:
-[download BASS library]
-Descargar biblioteca BASS
 [Play only if]
 Reproducir sólo si
 [Offline]

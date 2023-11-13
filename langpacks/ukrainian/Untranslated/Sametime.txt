@@ -1,4 +1,6 @@
 [ID:]
+[Sametime (Use old client version)]
+[Sametime (Miranda default)]
 [General failure]
 [Not logged in]
 [User is invalid or not trusted]

@@ -22,8 +22,6 @@ Ausgabegerät:
 Lautstärke
 [Quiet time:]
 Ruhezeit:
-[download BASS library]
-Herunterladen der BASS-Bibliothek
 [Play only if]
 Spiele nur, wenn:
 [Offline]

@@ -22,8 +22,6 @@
 
 [Quiet time:]
 
-[download BASS library]
-
 [Play only if]
 
 [Offline]

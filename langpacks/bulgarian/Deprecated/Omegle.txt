@@ -6,12 +6,12 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
-Support du protocole Omegle pour Miranda NG.
+
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
-Serveur :
+Сървър:
 [Language:]
-Langage :
+Език:
 [Visible name:]
 
 [Meet strangers with common interests (separated by commas):]
@@ -42,7 +42,7 @@ Langage :
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
 
 [Server]
-Serveur
+Сървър
 [Last question is empty.]
 
 [Your question is too short.]
@@ -56,9 +56,9 @@ Serveur
 [You can't send messages in question mode.]
 
 [Admin]
-
+Администратор
 [Normal]
-Normale
+Нормално
 [Omegle is a great way of meeting new friends!]
 
 [You]
@@ -77,7 +77,7 @@ Normale
 [Stranger 2]
 
 [Stranger]
-Étranger
+
 [You and the Stranger both like: ]
 
 [%s is typing.]
@@ -93,6 +93,10 @@ Normale
 [We are still waiting...]
 
 ;file \protocols\Omegle\src\connection.cpp
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+
+[You both speak the same language.]
+
 [Connecting canceled.]
 
 [Disconnecting...]
@@ -100,16 +104,156 @@ Normale
 [We are already waiting for new stranger...]
 
 [Connecting...]
-Connexion en cours...
+Свързване...
 [Waiting for Stranger...]
 
-;file \protocols\Omegle\src\constants.h
+;file \protocols\Omegle\src\dialogs.cpp
+[English]
+Английски
+[Afrikaans]
+Африкаанс (бурски)
+[Albanian]
+Албански
+[Arabic]
+Арабски
+[Armenian]
+Арменски
+[Azerbaijani]
+Азербайджански
+[Basque]
+Баски
+[Belarusian]
+Беларуски
+[Bengali]
+Бенгалски
+[Bosnian]
+Босненски
+[Bulgarian]
+Български
+[Cebuano]
+
+[Czech]
+Чешки
+[Chinese (simplified)]
+
+[Chinese (traditional)]
+
+[Danish]
+Датски
+[Esperanto]
+Есперанто
+[Estonian]
+Естонски
+[Filipino]
+
+[Finnish]
+Фински (финландски)
+[French]
+Френски
+[Galician]
+Галисийски
+[Georgian]
+Грузински
+[Gujarati]
+Гуджарати (гуджаратски)
+[Haitian Creole]
+
+[Hebrew]
+Иврит
+[Hindi]
+Хинди
+[Hmong]
+
+[Dutch]
+Нидерландски (холандски)
+[Croat]
+
+[Indonesian]
+Индонезийски
+[Irish]
+Ирландски
+[Icelandic]
+Исландски
+[Italian]
+Италиански
+[Japanese]
+Японски
+[Javanese]
+Явански
+[Yiddish]
+Идиш
+[Kannada]
+
+[Catalan]
+Каталонски
+[Khmer]
+Кхмерски
+[Korean]
+Корейски
+[Lao]
+Лао (лаоски)
+[Latina]
+
+[Lithuanian]
+Литовски
+[Latvian]
+Латвийски
+[Hungarian]
+Унгарски
+[Macedonian]
+Македонски
+[Malay]
+Малайски
+[Maltese]
+Малтийски
+[Marathi]
+
+[German]
+Немски
+[Norwegian]
+Норвежки
+[Persian]
+Персийски
+[Polish]
+Полски
+[Portuguese]
+Португалски
+[Romanian]
+Румънски
+[Russian]
+Руски
+[Greek]
+Гръцки
+[Slovak]
+Словашки
+[Slovenian]
+Словенски
+[Serbian]
+Сръбски
+[Swahili]
+Суахили
+[Spanish]
+Испански
+[Swedish]
+Шведски
+[Tamil]
+Тамилски
+[Telugu]
+
+[Thai]
+Тайски (тайландски)
+[Turkish]
+Турски
+[Ukrainian]
+Украински
+[Urdu]
+Урду
+[Welsh]
+Уелски
+[Vietnamese]
+Виетнамски
 [Random]
-
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-
-[You both speak the same language.]
-
+Произволен
 ;file \protocols\Omegle\src\proto.cpp
 [Unable to initialize Netlib for %s.]
 
@@ -124,9 +268,9 @@ Connexion en cours...
 [Visible name]
 
 [Network]
-Réseau
+Мрежа
 [Account]
-Compte
+Акаунт
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 

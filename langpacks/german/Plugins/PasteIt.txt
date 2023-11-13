@@ -140,6 +140,8 @@ Die Datei '%s' konnte nicht geöffnet werden.
 [File '%s' is empty]
 Die Datei '%s' ist leer.
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Keine
 [Error during sending text to web page: %S]
 Fehler beim übermitteln des Textes zur Webseite: %S schlug fehl.
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Niemals
 [1 month]
 1 Monat
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Text

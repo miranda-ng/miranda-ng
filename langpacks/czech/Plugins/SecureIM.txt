@@ -20,8 +20,6 @@ Ukázat stavovou ikonu v kontaktech
 Kontextová nabídka pouze pro Miranda klienty
 [Status in Context Menu]
 Stav v kontextovém menu
-[Disable encryption for game plugins]
-Vypnout šifrování pro herní doplňky
 [Always secured if possible]
 Pokud lze, šifrovat vždy
 [Not secured for NotOnList]

@@ -30,8 +30,8 @@ Zpoždění (sec.):
 &Metoda:
 [E&xplore]
 &Procházet
-[&Fill description textbox.]
-V&yplnit pole pro popis
+[Fill description textbox.]
+Vyplnit pole pro popis
 [Delete &after send]
 Po odeslání obrázek sm&azat
 [Open editor before sending]
@@ -248,8 +248,6 @@ Upload Pie (30m)
 Upload Pie (1d)
 [Upload Pie (1w)]
 Upload Pie (1t)
-[Fill description textbox.]
-Vyplnit položku s popisem.
 [Delete after send]
 Smazat po odeslání
 [Capture]

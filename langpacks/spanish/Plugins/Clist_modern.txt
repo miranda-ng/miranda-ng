@@ -703,6 +703,8 @@ Ninguno
 
 [Show even if offline]
 
+[Contact rate]
+Rango de contacto
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 

@@ -20,8 +20,6 @@ Texto
 
 [sec (0 default, -1 disabled)]
 
-[Settings]
-Ajustes
 [try resolve addresses]
 
 [Show notification if no filter defined]

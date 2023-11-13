@@ -97,6 +97,8 @@
 
 [Avatar]
 Аватар
+[AVS]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Общ аватар за %s контакти

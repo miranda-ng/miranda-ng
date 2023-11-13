@@ -140,6 +140,8 @@ Error
 [File '%s' is empty]
 
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[None]
+Ninguno
 [Error during sending text to web page: %S]
 
 [Error during sending text to web page]
@@ -159,3 +161,5 @@ Error
 [1 month]
 
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[Text]
+Texto

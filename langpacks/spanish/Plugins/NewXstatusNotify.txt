@@ -109,7 +109,7 @@ Usar colores predeterminados
 [Show previous status too]
 
 [Read status message]
-
+Leer mensaje de estado
 [Timeout]
 Tiempo de espera
 [Sec]
@@ -235,6 +235,8 @@ Estado
 Contacto
 [<unknown>]
 <desconocido>
+[(was %s)]
+(era %s)
 [%s is now %s]
 
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -355,8 +357,6 @@ Cuenta
 [Filtering]
 Filtrando
 ;file \plugins\NewXstatusNotify\src\popup.h
-[(was %s)]
-(era %s)
 [Open message window]
 
 [Close popup]

@@ -51,7 +51,7 @@
 [These settings are also used when sending a "Simple" pounce]
 Ці параметри також використовуються для "простих" відкл. повідомлень
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 Повідомлення (%d символів)
 [Message successfully sent to %s]
 Повідомлення успішно надіслано %s

@@ -51,8 +51,8 @@ Afficher les msg. envoyés
 [These settings are also used when sending a "Simple" pounce]
 
 ;file \plugins\BuddyPounce\src\dialog.cpp
-[The Message    (%d Characters)]
-Message :    (%d caractères)
+[The Message (%d Characters)]
+Message : (%d caractères)
 [Message successfully sent to %s]
 Envoi réussi du message à %s
 [Message failed to send to %s]

@@ -115,6 +115,7 @@
 [Disable popups]
 [Popup Plus]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+[Misc]
 [No effect]
 [Fade in/out]
 [CLASS Plugins]

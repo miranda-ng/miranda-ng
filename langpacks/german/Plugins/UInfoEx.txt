@@ -206,6 +206,8 @@ Erweitertes "send/receive e-mail"-Modul aktivieren (*)
 (*) Erfordert einen Neustart von Miranda.
 [Reset factory defaults]
 Urzustand wiederherstellen
+[Colors]
+Farben
 [Protocol's information]
 Protokollinformationen
 [Custom information]
@@ -216,22 +218,18 @@ Angepasste Informationen
 Veränderte Informationen
 [Enable colors to give information about information's status.]
 Aktiviere farbige Informationsstatusanzeige
+[Common]
+Allgemein
 [Make protocol based contact information read only]
 Schreibschutz für protokollbasierte Kontaktinformationen
+[Treeview]
+Baumansicht
 [Enable groups in details dialog's treeview]
 Gruppen im Baum des Profildialogs aktivieren
 [Sort all tree items alphabetically]
 Baum alphabetisch sortieren
 [Info of a metacontact's subcontact]
 Informationen des Unterkontaktes eines Metakontaktes
-[Colors]
-Farben
-[Common]
-Allgemein
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Mein ICQ-Profil mit UserInfoEx ändern (Nur aktiv, wenn von ICQ unterstützt)
-[Treeview]
-Baumansicht
 [Adapt propertysheet pages to Aero mode]
 Benutzer-Informationsseite der Aero-Oberfläche anpassen (ab Vista+)
 [Import]
@@ -1168,6 +1166,12 @@ Einige grundlegende Statistiken
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 alle Kontakte
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Zieldatei auswählen...
 [Import User Details from VCard]

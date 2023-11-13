@@ -200,6 +200,8 @@
 Пропуск дубліката групи %s
 [Import...]
 Імпорт...
+[Import]
+Імпорт
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Завершити

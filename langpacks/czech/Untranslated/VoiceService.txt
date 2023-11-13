@@ -7,8 +7,6 @@
 [Microphone boost]
 [Call will disclose IP address to the peer and his server]
 [Established]
-[M]
-[V]
 [Frame Popup]
 [Dialpad]
 [Busy]

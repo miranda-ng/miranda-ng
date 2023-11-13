@@ -30,9 +30,9 @@
 Вимкнути
 [for original size images]
 оригінального розміру
-[for preview max 130px*130px]
+[for preview max 130*130 px]
 попереднього перегляду 130x130 пікс.
-[for preview max 604px*604px]
+[for preview max 604*604 px]
 попереднього перегляду 604x604 пікс.
 [BBCode support on news and event notifications]
 Підтримка BBCode у новинах і сповіщеннях
@@ -223,10 +223,6 @@
 Повідомлення на стіні
 [Mark messages as read icon]
 Позначити як прочитані
-[Protocols]
-Протоколи
-[VKontakte]
-ВКонтакті
 [Access denied! Data will not be sent or received.]
 Відмовлено в доступі! Дані не передаватимуться і не прийматимуться.
 [Error]
@@ -422,6 +418,8 @@
 [Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
+[VKontakte]
+ВКонтакті
 [New news]
 Новини
 [New notifications]

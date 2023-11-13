@@ -29,3 +29,4 @@
 [HTTP Share new file]
 [Share removed]
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+[Failed to read configuration file: HTTPMimeTypes]

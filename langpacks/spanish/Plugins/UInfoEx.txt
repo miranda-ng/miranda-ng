@@ -206,6 +206,8 @@ Iconos
 
 [Reset factory defaults]
 
+[Colors]
+Colores
 [Protocol's information]
 
 [Custom information]
@@ -216,21 +218,17 @@ Iconos
 
 [Enable colors to give information about information's status.]
 
+[Common]
+
 [Make protocol based contact information read only]
+
+[Treeview]
 
 [Enable groups in details dialog's treeview]
 
 [Sort all tree items alphabetically]
 
 [Info of a metacontact's subcontact]
-
-[Colors]
-Colores
-[Common]
-
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-
-[Treeview]
 
 [Adapt propertysheet pages to Aero mode]
 
@@ -1168,6 +1166,12 @@ Todos los contactos
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 todos los contactos
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 
 [Import User Details from VCard]

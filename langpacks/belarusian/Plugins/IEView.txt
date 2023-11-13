@@ -91,6 +91,8 @@
 
 [Format text as code]
 
+[IEView]
+Журнал IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Змаўчанні
@@ -104,8 +106,6 @@
 Табліца стыляў
 [Message sessions]
 Гутаркі
-[IEView]
-Журнал IEView
 [General]
 Агульнае
 [Skins]

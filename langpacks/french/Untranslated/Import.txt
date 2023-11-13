@@ -61,4 +61,5 @@
 [JSON file]
 [Skipping duplicate group %s.]
 [Import...]
+[Import]
 [Finish]

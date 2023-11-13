@@ -85,8 +85,10 @@
 
 [Psychotic]
 
-[Forrest]
+[Forest]
 
+[City]
+Ciudad
 [To list]
 
 [Hangar]
@@ -200,4 +202,8 @@ Nuevo
 [Quick Open]
 
 [bass.dll not found! Choose bass.dll path manually]
+
+[min]
+
+[max]
 

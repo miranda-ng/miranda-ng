@@ -91,6 +91,8 @@ Grupowanie wł.
 Grupowanie wył.
 [Format text as code]
 
+[IEView]
+IEView
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Domyślny
@@ -104,8 +106,6 @@ Wszystkie obrazki
 Karta stylu
 [Message sessions]
 Okno rozmowy
-[IEView]
-IEView
 [General]
 Ogólne
 [Skins]

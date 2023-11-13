@@ -681,3 +681,11 @@ Odchozí události
 
 [Can not apply default toolbar configuration.]
 
+[Link]
+Adresa
+[Delete]
+Smazat
+[Up]
+Nahoru
+[Down]
+Dolů

@@ -44,8 +44,6 @@ Stav: '%s', uživatel: %s
 &Zrušit
 [Retrieving %s message...]
 Zjištění automatické odpovědi ve stavu '%s'...
-[Status messages]
-Stavové zprávy
 [Do not reply to requests for this message]
 Neodpovídat na vybranou zprávu automaticky
 [Do not pop up dialog asking for new message]
@@ -56,6 +54,10 @@ Jako odpověď použít stejnou zprávu jako posledně
 Jako odpověď použít následující zprávu:
 [Use %time% for the current time, %date% for the current date]
 %time% = aktuální čas, %date% = aktuální datum
+[Status messages]
+Stavové zprávy
+[Reset]
+Reset
 [Change %s message]
 Odpověď pro stav '%s'
 [Closing in %d]
@@ -800,8 +802,6 @@ Copyright:
 Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 [Fonts and colors]
 Písma a barvy
-[Reset]
-Reset
 [Export...]
 Exportovat...
 [Color/background]
@@ -1264,7 +1264,7 @@ Stavy
 Nečinnost
 [Re&ad %s message]
 Přečíst &automatickou odpověď
-[Re&ad status message]
+[Read status message]
 Přečíst stavovou zprávu
 [I've been away since %time%.]
 Jsem pryč od %time%
@@ -1714,6 +1714,8 @@ Telefon (práce)
 Fax (práce)
 [Contact]
 Kontakt
+[UserInfo]
+UserInfo
 [<not specified>]
 <neurčeno>
 [Summary]
@@ -2010,6 +2012,10 @@ Dom. stránka
 Telefon/SMS
 [Chat activity]
 Aktivita v chatu
+[Gender]
+Pohlaví
+[Account]
+Účet
 [Extra icons]
 Doplňkové ikony
 [&File]
@@ -2228,6 +2234,8 @@ Platnost v systému
 Platnost v Mirandě
 [** All contacts **]
 ** všechny kontakty **
+[Main]
+Hlavní
 [Show/Hide contact list]
 Zobrazit nebo skrýt kontakty
 [Read message]
@@ -2274,8 +2282,16 @@ Hlavní nabídka
 Nabídka rámečků
 [Group menu]
 Nabídka skupiny
+[Hide offline users out here]
+Skrýt uživatele offline mimo skupiny
+[Disable groups]
+Vypnout skupiny
+[Exit]
+Ukončit
 [Subgroup menu]
 Nabídka podskupiny
+[Hide offline users in here]
+Skrýt uživatele offline
 [New submenu]
 Nová podnabídka
 [Menus]
@@ -2484,6 +2500,8 @@ Seznam profilů
 Nový profil
 [Protocol is offline]
 Protokol je offline
+[Protocols]
+Protokoly
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
@@ -2592,8 +2610,6 @@ Doplněk Unicode
 Doplněk ANSI
 [Show/Hide]
 Zobrazit nebo skrýt
-[Exit]
-Ukončit
 [Join chat]
 Přidat se do diskuse
 [Leave chat]
@@ -2634,8 +2650,6 @@ Soubory WAV
 Přezdívka
 [Unique ID]
 Identifikátor
-[on]
-Zap
 [Download]
 Stáhnout
 [Save as]
@@ -3164,10 +3178,6 @@ Obrázky typu GIF
 Obrázky typu PNG
 [<unspecified>]
 <neurčeno>
-[Do nothing]
-Nedělat nic
-[Dismiss popup]
-Zavřít oznámení
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -3175,6 +3185,8 @@ Zavřít oznámení
 ;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
+[Services]
+Služby
 [Apply]
 Použít
 [New]
@@ -3669,8 +3681,6 @@ Zvuk č.1
 Zvuk č.2
 [Alert 3]
 Zvuk č.3
-[Speak]
-Přečíst
 [Occurrence]
 Opakování
 [Once]
@@ -4856,8 +4866,6 @@ Výstupní zařízení:
 Hlasitost:
 [Quiet time:]
 Čas ticha:
-[download BASS library]
-stáhnout BASS knihovnu
 [Play only if]
 Povolit pouze ve stavu
 [Offline]
@@ -5180,7 +5188,7 @@ Výchozí nastavení
 Informovat o doručení
 [These settings are also used when sending a "Simple" pounce]
 Tyto nastavení jsou použity také při odeslání jediné zprávy
-[The Message    (%d Characters)]
+[The Message (%d Characters)]
 Zpráva (počet znaků: %d)
 [Message successfully sent to %s]
 Zpráva úspěšně odeslána (komu: %s)
@@ -6244,6 +6252,8 @@ Priorita kontaktu: střední
 Priorita kontaktu: vysoká
 [Show even if offline]
 Zobrazit i když je offline
+[Contact rate]
+Priorita kontaktu
 [Avatar]
 Avatar
 [Icon]
@@ -6495,12 +6505,12 @@ Zarovnání
 Odstup zleva/zprava
 [Row gap]
 Odstup řádků:
-[Minimum row height:]
-Min. výška řádku:
+[Minimum row height]
+Min. výška řádku
 [Group row height]
 Výška skupiny:
-[Indent groups by:]
-Rozestup skupin:
+[Indent groups by]
+Rozestup skupin
 [Inner row vertical padding]
 Vyplnění řádku zevnitř
 [Margins and spacing]
@@ -7205,8 +7215,6 @@ Text
 Zavřít po:
 [sec (0 default, -1 disabled)]
 sek. (0 výchozí, -1 vypnuto)
-[Settings]
-Nastavení
 [try resolve addresses]
 pokusit se přeložit adresy
 [Show notification if no filter defined]
@@ -7649,6 +7657,8 @@ Zadejte číselnou hodnotu mezi 1 a 24.
 Zadejte text pro zobrazení v seznamu kontaktů.
 [Info provided by]
 Informace poskytuje
+[Test contact]
+Testovací kontakt
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
@@ -8032,10 +8042,10 @@ Hodnota String
 Hodnota Unicode
 [Handle]
 Ukazatel
-[Open Database Editor]
-Otevřít editor databáze
 [Database]
 Databáze
+[Open Database Editor]
+Otevřít editor databáze
 [Open user tree in DBE++]
 Upravit položky v DBE++
 [Are you sure you want to delete contact "%s"?]
@@ -10056,6 +10066,14 @@ Předchozí
 Příchozí události
 [Outgoing events]
 Odchozí události
+[Link]
+Adresa
+[Delete]
+Smazat
+[Up]
+Nahoru
+[Down]
+Dolů
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -10917,7 +10935,7 @@ Sítě
 Obecné
 [Advanced]
 Extra
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -11106,6 +11124,8 @@ Odchozí přenos souboru
  žádá o autorizaci
 [ was added.]
  byl přidán
+[IEView]
+IEView
 [Default]
 Výchozí
 [Template]
@@ -11118,8 +11138,6 @@ Všechny obrázky
 Styly
 [Message sessions]
 Komunikace
-[IEView]
-IEView
 [General]
 Obecné
 [Skins]
@@ -11336,6 +11354,8 @@ Databáze Mirandy NG/mContacts
 Přeskakování duplicitní skupiny %s.
 [Import...]
 Importovat...
+[Import]
+Importovat
 [Finish]
 Dokončit
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
@@ -11369,8 +11389,6 @@ Alt. přezdívka
 Celé jméno (e-mail)
 [User ID (Ident)]
 Identifikátor
-[Ident]
-Ident
 [Enable]
 Aktivovat
 [System]
@@ -11409,6 +11427,8 @@ Zjišťovat stav každých (s):
 Aktualizovat stav účastníků na kanále
 [Don't check if more than (users):]
 Nezjišťovat, překročí-li počet:
+[Ident]
+Ident
 [User information]
 Informace o uživateli
 [Ping]
@@ -11787,6 +11807,10 @@ Přidá příkazy k vybrané události
 Odebere příkazy vybrané události
 [Default ANSI codepage]
 ANSI (výchozí)
+[Add ignore]
+Přidat mezi ignorované
+[Edit ignore]
+Upravit ignorované
 [Add new ignore]
 Přidá novou položku
 [Edit this ignore]
@@ -11797,10 +11821,6 @@ Odebere vybranou položku
 Maska
 [Flags]
 Příznaky
-[Add ignore]
-Přidat mezi ignorované
-[Edit ignore]
-Upravit ignorované
 [Network]
 Sítě
 [Account]
@@ -14362,7 +14382,7 @@ Ikona chyby odesílání
 Ikony odesílání zprávy
 [Unread clist extra icon]
 Ikona nepřečtené zprávy v seznamu
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -14838,8 +14858,10 @@ Automaticky spustit poslední stanici
 Koncertní hala
 [Psychotic]
 Psychotický
-[Forrest]
+[Forest]
 Les
+[City]
+Město
 [To list]
 Do CL
 [Hangar]
@@ -14890,6 +14912,10 @@ Hlasitost
 Ekvalizér
 [New]
 Nový
+[min]
+minut
+[max]
+Max
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -15903,8 +15929,6 @@ Příchozí zpráva
 Odchozí zpráva
 [Unknown event]
 Neznámá událost
-[Update preview]
-Obnovit náhled
 [Help]
 Nápověda
 [Reset to default]
@@ -16208,6 +16232,8 @@ Zvukový soubor
 Kontakt
 [<unknown>]
 <neznámý>
+[(was %s)]
+(předtím %s)
 [%s is now %s]
 %s je nyní %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
@@ -16326,8 +16352,6 @@ Resetovat šablony
 Záznam stavu
 [Filtering]
 Filtrování
-[(was %s)]
-(předtím %s)
 [Open message window]
 Otevřít komunikační okno
 [Close popup]
@@ -16798,131 +16822,6 @@ Snad se probudí...
 Události
 [Window Shaking]
 Zatřesení oknem
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Omegle protocol support for Miranda NG.]
-Omegle protokol pro Mirandu NG.
-[Server:]
-Server:
-[Language:]
-Jazyk:
-[Visible name:]
-Viditelné jméno:
-[Meet strangers with common interests (separated by commas):]
-Hledat cizince se společnými zájmy (oddělené čárkami):
-[Automatically send one of these messages (each on new line) to stranger after connection:]
-Automaticky odeslat jednu z těcho zpráv (každá na novém řádku) po připojení k cizinci:
-[This text will be sent when you use "/asl" message:]
-Tento text bude odeslán když napíšete zprávu "/asl":
-[Last used question (Question mode):]
-Poslední použitá otázka (režim otázek):
-[I want Omegle to reuse my questions if they are good enough (Question mode)]
-Omegle může použít mé otázky znovu, pokud budou dost dobré (režim otázek)
-[Automatically connect to stranger when protocol is turned online]
-Automaticky se připojit k cizinci při přepnutí protokolu do stavu online
-[Automatically connect to another stranger when current disconnects]
-Automaticky se připojit k dalšímu cizinci, pokud se aktuální odpojí
-[Don't clear chat before connecting to new stranger]
-Nemazat obsah chatu před připojením k dalšímu cizinci
-[Load count of users on actual server after connection]
-Po připojení zobrazit počet uživatelů na aktuálním serveru
-[Meet strangers with common interests]
-Hledat cizince se společnými zájmy
-[Your interests (separated by commas):]
-Vaše zájmy (oddělené čárkami):
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Existují tři různé režimy použití:\n1) Klasický režim\t - Píšete si soukromě s náhodným cizincem\n2) Režim otázek\t - Zeptáte se dvou cizinců na otázku a sledujete jak o ní diskutují (nemůžete nic psát, pouze sledovat)\n3) Špiónský mód\t - Vy a cizinec dostanete otázku k diskuzi od dalšího cizince (nemůže nic psát, pouze sledovat)\n\nOdešlete zprávu '/commands' pro dostupné příkazy.
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Můžete využít několik příkazů:\n/help\t - zobrazí informace o režimech komunikace\n/new\t - spustí klasický režim\n/ask <otázka> - spustí režim otázek s vaší otázkou\n/ask\t - spustí režim otázek s vaší poslední položenou otázkou\n/spy\t - spustí špiónský mód\n/quit\t - odpojí se od cizince nebo přeruší připojování\n/asl\t - odešle vaši předdefinovanou zprávu\n\nPozn.: Pro přepojení k jinému cizinci se nemusíte nejdříve odpojovat.
-[Server]
-Server
-[Last question is empty.]
-Poslední otázka je prázdná.
-[Your question is too short.]
-Vaše otázka je příliš krátká.
-[Your '/asl' setting is empty.]
-Nemáte nastavenou '/asl' zprávu.
-[Unknown command. Send '/commands' for list.]
-Neznámý příkaz. Odešlete zprávu '/commands' pro dostupné příkazy.
-[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-Nejste připojeni k žádnému cizinci. Odešlete zprávu '/help' nebo '/commands' pro informace.
-[You can't send messages in question mode.]
-Nemůžete odesílat zprávy v režimu otázek.
-[Admin]
-Admin
-[Normal]
-Normální
-[Omegle is a great way of meeting new friends!]
-Omegle je skvělý způsob poznávání nových přátel!
-[You]
-Vy
-[Connection error.]
-Chyba připojení.
-[Connected to server %s. There are %s users online now.]
-Připojeno k serveru %s. Nyní je zde %s uživatelů.
-[Connected to server %s.]
-Připojeno k serveru %s.
-[On whole Omegle are %s strangers online now.]
-Na celém Omegle je právě online %s cizinců.
-[Stranger 1]
-Cizinec 1
-[Stranger 2]
-Cizinec 2
-[Stranger]
-Cizinec
-[You and the Stranger both like: ]
-Vy i cizinec máte rádi:\s
-[%s is typing.]
-%s píše zprávu.
-[%s stopped typing.]
-%s přestal psát.
-[%s disconnected.]
-%s se odpojil.
-[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-Je vyžadována Recaptcha.\nOtevřte http://omegle.com , vyřešte Recaptchu a zkuste znovu.
-[Error: %s]
-Chyba: %s
-[We are still waiting...]
-Stále čekáme...
-[Connecting canceled.]
-Připojování zrušeno.
-[Disconnecting...]
-Odpojování...
-[We are already waiting for new stranger...]
-Již čekáme na nového cizince...
-[Connecting...]
-Navazování spojení...
-[Waiting for Stranger...]
-Čekání na cizince...
-[Random]
-Náhodný
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
-[You both speak the same language.]
-Oba mluvíte stejnou řečí.
-[Unable to initialize Netlib for %s.]
-Nelze inicializovat síťovou komunikaci pro %s.
-[Stranger is typing]
-Cizinec píše zprávu
-[Stranger stopped typing]
-Cizinec přestal psát
-[Changing stranger]
-Změna cizince
-[Receive message]
-Přijetí zprávy
-[Visible name]
-Zobrazované jméno
-[Network]
-Sítě
-[Account]
-Účet
-[Omegle Icon]
-Ikona Omegle
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -17120,12 +17019,16 @@ Všechny soubory (*.*)
 Chyba
 [Are You sure?]
 Opravdu chcete pokračovat?
+[None]
+---
 [Never]
 Nikdy
 [1 hour]
 1 hodina
 [1 day]
 1 den
+[Text]
+Text
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Ping.dll
@@ -17499,7 +17402,7 @@ Databáze
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -17696,6 +17599,8 @@ Neaktivní ve stavu
 Vždy (má prioritu)
 [Fullscreen mode]
 Celoobrazovkový režim
+[Idle]
+Nečinnost
 [Debug]
 Debug
 [Quick reply]
@@ -17718,6 +17623,8 @@ Zkopírovat do schránky
 ---
 [Action]
 Akce
+[Do nothing]
+Nedělat nic
 [The Jabberwocky]
 Žvahlav
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -17804,6 +17711,10 @@ Vypnout oznámení
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Chyba: Nelze zaregistrovat třídu Popup Window.\r\nDoplněk nebude fungovat.
+[Misc]
+Různé
+[Notification]
+Oznámení
 [No effect]
 Bez efektu
 [Fade in/out]
@@ -18243,23 +18154,6 @@ Z&kopírovat
 &Převést na metakontakt
 [&Move to Group]
 Přesunout do s&kupiny
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
-[Shows rating of contact in contact list (if present).]
-Zobrazuje prioritu kontaktu v seznamu kontaktů (pokud je zvolena).
-[Rate high]
-Vysoká priorita
-[Rate medium]
-Střední priorita
-[Rate low]
-Nízká priorita
-[Contact rate]
-Priorita kontaktu
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -18275,8 +18169,6 @@ Nedávné kontakty
 Nastavení doplňku
 [Number of shown contacts:\n (0 to show all)]
 Počet kontaktů pro zobrazení:\n (0 pro zobrazení všech)
-[Format of date and time\n(Look to readme for placeholders help)]
-Formát data a času\n(Podívejte se do nápovědy pro zástupné symboly)
 [Hide offline contacts]
 Skrýt uživatele offline
 [Resize window according to contact list]
@@ -19076,8 +18968,6 @@ Ukázat stavovou ikonu v kontaktech
 Kontextová nabídka pouze pro Miranda klienty
 [Status in Context Menu]
 Stav v kontextovém menu
-[Disable encryption for game plugins]
-Vypnout šifrování pro herní doplňky
 [Always secured if possible]
 Pokud lze, šifrovat vždy
 [Key Exchange Timeout:]
@@ -19672,8 +19562,8 @@ Zpoždění (sec.):
 &Metoda:
 [E&xplore]
 &Procházet
-[&Fill description textbox.]
-V&yplnit pole pro popis
+[Fill description textbox.]
+Vyplnit pole pro popis
 [Delete &after send]
 Po odeslání obrázek sm&azat
 [Open editor before sending]
@@ -19806,8 +19696,6 @@ Upload Pie (30m)
 Upload Pie (1d)
 [Upload Pie (1w)]
 Upload Pie (1t)
-[Fill description textbox.]
-Vyplnit položku s popisem.
 [Delete after send]
 Smazat po odeslání
 [Select a file]
@@ -24702,6 +24590,8 @@ Povolit rozšířenou službu 'poslat/přijmout e-mail' (*)
 (*) Vyžaduje restart Mirandy
 [Reset factory defaults]
 Obnovit původní nastavení
+[Colors]
+Barvy
 [Protocol's information]
 Informace z protokolu
 [Custom information]
@@ -24712,22 +24602,18 @@ Vlastní protokolové informace
 Změněné informace
 [Enable colors to give information about information's status.]
 Zpřehlednit informace o stavu obarvováním textu
+[Common]
+Obecné
 [Make protocol based contact information read only]
 Neměnit osobní informace definované protokolem
+[Treeview]
+Stromové zobrazení
 [Enable groups in details dialog's treeview]
 Povolit skupiny ve stromovém zobrazení detailů
 [Sort all tree items alphabetically]
 Seřadit položky v menu dle abecedy
 [Info of a metacontact's subcontact]
 Informace o podkontaktu z metakontaktu
-[Colors]
-Barvy
-[Common]
-Obecné
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Měnit osobní informace pomocí UserInfoEx (vypnuto, nepodporuje-li funkci ICQ)
-[Treeview]
-Stromové zobrazení
 [Adapt propertysheet pages to Aero mode]
 Vykreslit stránky vlastností skrz aero.
 [Import]
@@ -25961,8 +25847,6 @@ Odkaz:
 Ikona upozornění
 [Read message icon]
 Ikona přečtené zprávy
-[Protocols]
-Protokoly
 [Error]
 Chyba
 [Enter confirmation code]
@@ -26118,6 +26002,8 @@ Pravé tlačítko
 Levé tlačítko
 [Preview]
 Náhled
+[sec]
+sek.
 [New Voice Call]
 Nový hovor
 [Answer]
@@ -26142,10 +26028,6 @@ Vstup:
 Výstup:
 [Voice call]
 Hovor
-[M]
-m
-[V]
-v
 [Answer call]
 Zvednout
 [Drop call]
@@ -26662,6 +26544,36 @@ Stav WATracku
 Povolit WATrack
 [Disable WATrack]
 Zakázat WATrack
+[Permanent]
+Trvale
+[Colors]
+Barvy
+[Timeout]
+Doba zobrazení
+[Info]
+Info
+[Test]
+Ověřit
+[Statuses]
+Stavy
+[System default codepage]
+Výchozí kódování systému
+[Templates]
+Šablony
+[Bytes]
+bajtů
+[Variables]
+Proměnné
+[Template]
+Šablona
+[Misc]
+Různé
+[Statistics]
+Statistika
+[Login]
+Přihlášení
+[Info]
+Info
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

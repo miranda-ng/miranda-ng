@@ -5,3 +5,4 @@
 [Use defaults]
 [Color diff:]
 [My Global Avatar Cache]
+[AVS]

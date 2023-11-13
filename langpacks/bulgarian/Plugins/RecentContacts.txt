@@ -14,8 +14,8 @@
 Настройване на приставката
 [Number of shown contacts:\n (0 to show all)]
 Брой контакти за показване:\n (0 за всички)
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат за дата и час\n(Look to readme for placeholders help)
+[Format of date and time\n(Look to wiki for placeholders help)]
+
 [Hide offline contacts]
 Скриване на контактите "Извън линия"
 [Resize window according to contact list]

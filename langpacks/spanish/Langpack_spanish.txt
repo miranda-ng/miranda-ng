@@ -49,8 +49,6 @@ Desactivar los sonidos en inactividad
 &Cancelar
 [Retrieving %s message...]
 Recuperando %s Mensaje(S)...
-[Status messages]
-Mensajes de estado
 [Do not reply to requests for this message]
 No responder a las solicitudes de este mensaje
 [Do not pop up dialog asking for new message]
@@ -61,6 +59,10 @@ Por defecto, usar el mismo mensaje como la última vez
 Por defecto, usar este mensaje:
 [Use %time% for the current time, %date% for the current date]
 Usar %time% para la hora actual, %date% para la fecha actual
+[Status messages]
+Mensajes de estado
+[Reset]
+Reiniciar
 [Change %s message]
 Cambiar %s mensaje
 [Closing in %d]
@@ -759,8 +761,6 @@ Copyright:
 Por favor reinicie Miranda NG para que los cambios surtan efecto.
 [Fonts and colors]
 Fuentes y colores
-[Reset]
-Reiniciar
 [Export...]
 Exportar...
 [Color/background]
@@ -1125,8 +1125,8 @@ Estado
 Inactivo
 [Re&ad %s message]
 Leer %s mensaje(s)
-[Re&ad status message]
-Leer mens&aje de estado
+[Read status message]
+Leer mensaje de estado
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -1743,6 +1743,10 @@ Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor
 Sitio web
 [Chat activity]
 Actividad de chat
+[Gender]
+Genero
+[Account]
+Cuenta
 [Extra icons]
 Iconos adicionales
 [&File]
@@ -1917,6 +1921,8 @@ Alcanse de sistema
 Alcanse de Miranda
 [** All contacts **]
 ** Todos los contactos **
+[Main]
+Principal
 [Show/Hide contact list]
 Mostrar/Ocultar lista de contactos
 [Read message]
@@ -1943,6 +1949,14 @@ Estado personalizado
 Menú de estado
 [Main menu]
 Menú principal
+[Hide offline users out here]
+Ocultar usuarios fuera de línea fuera de aquí
+[Disable groups]
+Desactivar grupos
+[Exit]
+Salir
+[Hide offline users in here]
+Ocul&tar usuarios fuera de línea aquí
 [Menus]
 Menús
 [Tray menu]
@@ -2051,6 +2065,8 @@ Modificado
 Mis perfiles
 [New profile]
 Nuevo perfil
+[Protocols]
+Protocolos
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
@@ -2157,8 +2173,6 @@ Plugin unicode
 Plugin ANSI
 [Show/Hide]
 Mostrar/Ocultar
-[Exit]
-Salir
 [Join chat]
 Entrar al chat
 [Leave chat]
@@ -2197,8 +2211,6 @@ Archivos WAV
 Apodo
 [Unique ID]
 ID único
-[on]
-Encendido
 [Download]
 Descargar
 [Look up '%s':]
@@ -2721,8 +2733,6 @@ Mapas de bits GIF
 Mapas de bits PNG
 [<unspecified>]
 <Sin especificar>
-[Do nothing]
-No hacer nada
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -2732,6 +2742,8 @@ No hacer nada
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin de gestión de teclas de acceso rápido para abrir la ventana de contactos, insertar texto, ejecutar programa y llamar servicios
+[Services]
+Servicios
 [Apply]
 Aplicar
 [New]
@@ -3447,8 +3459,6 @@ Dispositivo de salida
 Volumen:
 [Quiet time:]
 Tiempo de silencio:
-[download BASS library]
-Descargar biblioteca BASS
 [Play only if]
 Reproducir sólo si
 [Offline]
@@ -4173,6 +4183,8 @@ Lista
 Ventana
 [None]
 Ninguno
+[Contact rate]
+Rango de contacto
 [Text]
 Texto
 [Extra icons]
@@ -4340,8 +4352,8 @@ Dibujar una línea al lado de los nombres de grupos
 Ordenar grupos alfabéticamente
 [Quick search in open groups only]
 Búsqueda rápida sólo en grupos abiertos
-[Indent groups by:]
-Sangría de grupos por:
+[Indent groups by]
+Sangría de grupos por
 [Contact list sorting]
 Clasificación de la lista de contacto
 [Avatars]
@@ -4730,8 +4742,6 @@ dword
 Fondo
 [Text]
 Texto
-[Settings]
-Ajustes
 [Delete]
 Eliminar
 [Add]
@@ -5623,6 +5633,10 @@ Ver historial del usuario
 Ver &historial
 [User Menu]
 Menú del usuario
+[Link]
+Enlace
+[Delete]
+Eliminar
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -5770,7 +5784,7 @@ Red
 General
 [Advanced]
 Avanzado
-;#muuid for ICQCorp not found, please specify manually!
+#muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
@@ -6547,7 +6561,7 @@ Personalizar
 ;============================================================
 [Sending...]
 Enviando...
-;#muuid for MimCmd not found, please specify manually!
+#muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd
@@ -6689,6 +6703,8 @@ Estado Móvil
 ;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
+[City]
+Ciudad
 [connecting]
 conectando
 [Advanced]
@@ -6945,6 +6961,8 @@ Guardar
 Ajustes
 [Re&ad %s message]
 Leer %s mens&aje(s)
+[Read status message]
+Leer mensaje de estado
 [On]
 Encendido
 [Off]
@@ -7167,6 +7185,8 @@ Usar colores personalizados
 Usar colores de Windows
 [Use default colors]
 Usar colores predeterminados
+[Read status message]
+Leer mensaje de estado
 [Timeout]
 Tiempo de espera
 [Sec]
@@ -7207,6 +7227,8 @@ Estado
 Contacto
 [<unknown>]
 <desconocido>
+[(was %s)]
+(era %s)
 [connecting]
 conectando
 [Status change]
@@ -7219,8 +7241,6 @@ Registro
 Cuenta
 [Filtering]
 Filtrando
-[(was %s)]
-(era %s)
 [Close popup]
 Cerrar popup
 [Do nothing]
@@ -7429,25 +7449,6 @@ Libre para el chat
 Invisible
 [Events]
 Eventos
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
-;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.3.4
-;  Authors: Robert Pösel
-;============================================================
-[Omegle protocol support for Miranda NG.]
-Compatibilidad con el protocolo Omegle para Miranda NG.
-[Server:]
-Servidor:
-[Normal]
-Normal
-[Connecting...]
-Conectando...
-[Network]
-Red
-[Account]
-Cuenta
 #muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;============================================================
 ;  File: OpenFolder.dll
@@ -7575,6 +7576,10 @@ Servicios
 Principal
 [Error]
 Error
+[None]
+Ninguno
+[Text]
+Texto
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Ping.dll
@@ -7790,7 +7795,7 @@ Base de datos
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.2.0
+;  Version: 2.1.3.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Miscellaneous]
@@ -7831,6 +7836,8 @@ Seg
 segundos
 [Position:]
 Posición:
+[Idle]
+Inactivo
 [Send message]
 Enviar mensaje
 [User details]
@@ -7839,6 +7846,8 @@ Información del usuario
 Menú de contacto
 [Copy to clipboard]
 Copiar al portapapeles
+[Do nothing]
+No hacer nada
 [Popups]
 Ventanas emergentes
 [Text]
@@ -7861,6 +7870,8 @@ Acciones
 Contactos
 [Advanced]
 Avanzado
+[Notification]
+Notificación
 [Offline]
 Fuera de línea
 [Online]
@@ -8032,23 +8043,6 @@ Todo
 &Copiar
 [&Move to Group]
 &Mover a grupo
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
-;============================================================
-;  File: Rate.dll
-;  Plugin: Contact`s rate
-;  Version: 0.0.2.1
-;  Authors: Kildor, Thief
-;============================================================
-[Shows rating of contact in contact list (if present).]
-Muestra calificación de contacto en la lista de contactos (si está presente).
-[Rate high]
-Rango alto
-[Rate medium]
-Rango medio
-[Rate low]
-Rango bajo
-[Contact rate]
-Rango de contacto
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -8064,8 +8058,8 @@ Contactos recientes
 Configuración de plugin
 [Number of shown contacts:\n (0 to show all)]
 Número para mostrar contactos\n (0 para mostrar todo)
-[Format of date and time\n(Look to readme for placeholders help)]
-Formato de fecha y hora\n(Vea el readme para ayuda de marcadores de posición)
+[Format of date and time\n(Look to wiki for placeholders help)]
+Formato de fecha y hora\n(Vea el wiki para ayuda de marcadores de posición)
 [Hide offline contacts]
 Ocultar contactos sin conexión
 [Contacts]
@@ -10470,10 +10464,6 @@ Cancelar
 Compartir
 [URL:]
 URL:
-[Protocols]
-Protocolos
-[VKontakte]
-VKontakte
 [Error]
 Error
 [Message read: %s]
@@ -10500,6 +10490,8 @@ Chat
 %s está escribiendo un mensaje...
 [Enter the text you see]
 Introduzca el texto que aparece
+[VKontakte]
+VKontakte
 [Network]
 Red
 [Account]
@@ -10537,6 +10529,8 @@ Permanente
 Acciones
 [Preview]
 Previsualizar
+[sec]
+seg
 [Main]
 Principal
 [Do nothing]
@@ -10575,6 +10569,24 @@ ninguno
 [Color]
 Color
 ;other strings
+[Permanent]
+Permanente
+[Colors]
+Colores
+[Timeout]
+Retardo
+[Info]
+Info
+[Test]
+Prueba
+[Templates]
+Plantillas
+[Bytes]
+Bytes
+[Variables]
+Variables
+[Info]
+Info
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

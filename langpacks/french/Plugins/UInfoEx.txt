@@ -206,6 +206,8 @@ Scanner les sous contacts pour les informations manquantes
 (*) Requiert un redémarrage de Miranda.
 [Reset factory defaults]
 Restaurer les paramètres
+[Colors]
+Couleurs
 [Protocol's information]
 Infos sur le protocole
 [Custom information]
@@ -216,22 +218,18 @@ Informations réécrites
 Informations modifiées
 [Enable colors to give information about information's status.]
 Activer les couleurs pour les états d'informations
+[Common]
+Commun
 [Make protocol based contact information read only]
 Mettre les infos basées sur un protocole du contact en lecture seule.
+[Treeview]
+
 [Enable groups in details dialog's treeview]
 Activer les groupes dans l'arborescence des boites dialogues
 [Sort all tree items alphabetically]
 Classer par ordre alphabétique.
 [Info of a metacontact's subcontact]
 Info du sous-contact d'un metacontact
-[Colors]
-Couleurs
-[Common]
-Commun
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Changer mes détails ICQ avec UserInfoEx (désactivé si ICQ le ne supporte pas)
-[Treeview]
-
 [Adapt propertysheet pages to Aero mode]
 
 [Import]
@@ -1168,6 +1166,12 @@ Afficher le répertoire des profils de Miranda
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 tous les contacts
+[XMLCard]
+
+[DBEditor++ File]
+
+[Standard vCard]
+
 [Select a destination file...]
 Destination du fichier...
 [Import User Details from VCard]

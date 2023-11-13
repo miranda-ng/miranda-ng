@@ -72,8 +72,6 @@
 Звук 2
 [Alert 3]
 Звук 3
-[Speak]
-Речь
 [Occurrence]
 Событие
 [Once]

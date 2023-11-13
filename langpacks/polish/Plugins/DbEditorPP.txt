@@ -283,11 +283,11 @@ Ustawienie ciągu
 Ustawienie unicode
 [Handle]
 Uchwyt
+[Database]
+Profil
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Otwórz edytor profilu
-[Database]
-Profil
 [Open user tree in DBE++]
 Otwórz w edytorze profilu
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -337,6 +337,7 @@ Nieznany typ DBVariant!
 Edytuj ustawienie (%s)
 [New setting (%s)]
 Nowe ustawienie (%s)
+;file \plugins\DbEditorPP\src\stdafx.h
 ;file \plugins\DbEditorPP\src\utils.cpp
 [[UNLOADED]]
 \[ODŁĄCZONE]

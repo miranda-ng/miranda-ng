@@ -1,1 +1,2 @@
+[Format of date and time\n(Look to wiki for placeholders help)]
 [Toggle Ignore]

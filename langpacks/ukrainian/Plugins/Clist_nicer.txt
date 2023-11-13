@@ -84,12 +84,12 @@
 Поля (праворуч/ліворуч)
 [Row gap]
 Проміжок між рядками
-[Minimum row height:]
+[Minimum row height]
 Мін. висота рядка
 [Group row height]
 Мін. висота групи
-[Indent groups by:]
-Відступ груп:
+[Indent groups by]
+Відступ груп
 [Inner row vertical padding]
 Вертикальний відступ між рядками
 [Margins and spacing]

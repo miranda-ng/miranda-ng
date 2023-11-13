@@ -20,8 +20,6 @@
 Зачыніць пасля:
 [sec (0 default, -1 disabled)]
 сек.(0 змаўчанне, -1 адключана)
-[Settings]
-Налады
 [try resolve addresses]
 спрабуе далучыцца
 [Show notification if no filter defined]

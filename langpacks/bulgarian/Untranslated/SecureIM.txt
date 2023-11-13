@@ -5,7 +5,6 @@
 [Always show status icons in contact list]
 [Context Menu only for "Miranda" clients]
 [Status in Context Menu]
-[Disable encryption for game plugins]
 [Always secured if possible]
 [Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]

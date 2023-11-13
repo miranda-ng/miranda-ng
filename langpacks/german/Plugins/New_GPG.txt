@@ -156,8 +156,8 @@ Offen:
 Zu:
 [Strip all tags in outgoing messages]
 Alle Tags aus ausgehenden Nachrichten entfernen
-[Turn on presence signing (Jabber) (required by XEP-0027)]
-Presence signing aktivieren (Jabber) (erfordert durch XEP-0027)
+[Turn on Jabber presence signing (required by XEP-0027)]
+
 [Export keys]
 Schlüssel exportieren
 [Import keys]
@@ -198,6 +198,8 @@ Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf ei
 Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ihre GPG-Version wird unterstützt. Die Sprachdatei wurde gefunden.\nDas GPG-Plugin sollte funktionieren.\nKlicken Sie auf OK, um fortzufahren.
+[Choose gpg.exe]
+Wählen Sie den Pfad zur gpg.exe aus
 [GPG binary is set and valid (this is good).\n]
 GPG-Programm ist gesetzt und gültig (das ist gut).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -290,8 +292,6 @@ Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) lös
 Logdatei setzen
 [LOG files]
 Logdateien
-[Choose gpg.exe]
-Wählen Sie den Pfad zur gpg.exe aus
 [Set home directory]
 Heimverzeichnis setzen
 [Load Public GPG Key for ]
@@ -353,6 +353,10 @@ Konten
 Standard
 [key ID]
 Schlüssel-ID
+[Choose file to export key]
+
+[Any file]
+
 [Generating new random key, please wait]
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [There is existing key for contact, would you like to replace it with new key?]
@@ -384,6 +388,8 @@ Dateiübertragungswarnung
 Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das ICQ- und das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [encrypting file for transfer]
 Verschlüssele Datei für Übertragung
+[Choose file to export keys]
+
 [We have successfully exported %d public keys and all private keys.]
 Wir haben %d öffentliche Schlüssel und alle privaten Schlüssel erfolgreich exportiert.
 [We have successfully exported all private keys.]
@@ -392,6 +398,8 @@ Wir haben alle privaten Schlüssel erfolgreich exportiert.
 Wir haben %d öffentliche Schlüssel erfolgreich exportiert.
 [Keys export result]
 Ergebnis Schlüssel exportieren
+[Choose file to import keys from]
+
 [We have successfully processed %d public keys and some private keys.]
 Wir haben %d öffentliche Schlüssel und einige private Schlüssel erfolgreich verarbeitet.
 [We have successfully processed %d public keys.]

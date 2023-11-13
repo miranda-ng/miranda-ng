@@ -658,3 +658,33 @@ Sprawdzaj nieznane formaty
 Sprawdzaj nieznane formaty jeżeli odtwarzacz dostarcza informacji. 
 [Oops, something wrong!]
 Ups, coś nie tak!
+[Permanent]
+Trwale
+[Colors]
+Kolory
+[Timeout]
+Wyświetlaj
+[Info]
+Info
+[Test]
+Test
+[Statuses]
+Statusy
+[System default codepage]
+
+[Templates]
+Szablony
+[Bytes]
+Bajty
+[Variables]
+Zmienne
+[Template]
+Szablon
+[Misc]
+Inne
+[Statistics]
+Statystyki
+[Login]
+Login
+[Info]
+Info

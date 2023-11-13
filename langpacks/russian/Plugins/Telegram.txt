@@ -85,6 +85,8 @@
 Дополнительно
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
+[Error %d: %s]
+Ошибка %d: %s
 [%d member(s)]
 %d участник(ов)
 [Saved messages]
