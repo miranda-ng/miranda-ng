@@ -78,8 +78,6 @@
 #define ID_FRAMEPOPUP_HOLDCALL          40003
 #define IDD_VOICECALL                   40099
 #define IDC_STATUS                      40100
-#define IDC_MUTE                        40101
-#define IDC_GGG                         40102
 #define IDC_VIDEO                       40103
 #define IDC_DESCR                       40104
 #define IDC_ENCRYPTED                   40105
