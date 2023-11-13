@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -24,12 +24,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
 // Dialog
 //
 
-IDD_OPTNET DIALOGEX 0, 0, 323, 203
+IDD_OPTNET DIALOGEX 0, 0, 323, 245
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Connection",IDC_STATIC,7,7,153,91
+    GROUPBOX        "Connection",IDC_STATIC,7,2,153,95
     RTEXT           "ID:",IDC_STATIC,10,17,54,8
     EDITTEXT        IDC_ED_NAME,70,13,85,14,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,10,39,54,8
@@ -41,25 +41,25 @@ BEGIN
     GROUPBOX        "Client ID and version",IDC_STATIC,7,98,153,44
     COMBOBOX        IDC_CMB_CLIENT,10,109,110,107,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_ED_CLIENTID,126,109,29,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-	COMBOBOX        IDC_CMB_CLIENTVN,10,127,146,11,CBS_DROPDOWNLIST | CBS_SORT | WS_TABSTOP
-	GROUPBOX        "Error display",IDC_STATIC,7,143,153,53
+    COMBOBOX        IDC_CMB_CLIENTVN,10,127,146,11,CBS_DROPDOWNLIST | CBS_SORT | WS_TABSTOP
+    GROUPBOX        "Error display",IDC_STATIC,7,143,153,53
     CONTROL         "Use message boxes",IDC_RAD_ERRMB,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,156,145,10
     CONTROL         "Use popups",IDC_RAD_ERRPOP,"Button",BS_AUTORADIOBUTTON,10,169,145,10
     CONTROL         "Use system tray balloons",IDC_RAD_ERRBAL,"Button",BS_AUTORADIOBUTTON,10,182,145,10
-    GROUPBOX        "Contacts",IDC_STATIC,166,7,150,91
+    GROUPBOX        "Contacts",IDC_STATIC,166,2,150,122
     CONTROL         "Get contacts from server",IDC_CHK_GETSERVERCONTACTS,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,171,15,139,15
     PUSHBUTTON      "Upload contacts",IDC_BTN_UPLOADCONTACTS,171,29,139,15
     PUSHBUTTON      "Import from file...",IDC_BTN_IMPORTCONTACTS,171,48,139,15
-    CONTROL         "Auto-add new contacts",IDC_CHK_ADDCONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,67,139,11
-    CONTROL         "Treat 'idle' as 'away'",IDC_CHK_IDLEAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,81,139,11
-    GROUPBOX        "Encryption",IDC_STATIC,166,98,150,44
-    CONTROL         "40 or 128 bit",IDC_RAD_ENC,"Button",BS_AUTORADIOBUTTON | WS_GROUP,171,113,139,10
-    CONTROL         "None",IDC_RAD_NOENC,"Button",BS_AUTORADIOBUTTON,171,126,139,10
-    GROUPBOX        "",IDC_STATIC,166,143,150,53
-    CTEXT           "Meanwhile lib ver: 1.0.2",IDC_ST_LIBVER,171,150,139,12
-    CTEXT           "Disconnected",IDC_ST_CLIENTVER,171,165,139,12,SS_SUNKEN
-    CTEXT           "Disconnected",IDC_ST_SERVERVER,171,180,139,12,SS_SUNKEN
+    CONTROL         "Auto-add new contacts",IDC_CHK_ADDCONTACTS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,171,67,139,20
+    CONTROL         "Treat 'idle' as 'away'",IDC_CHK_IDLEAWAY,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,171,93,139,20
+    GROUPBOX        "Encryption",IDC_STATIC,7,197,153,44
+    CONTROL         "40 or 128 bit",IDC_RAD_ENC,"Button",BS_AUTORADIOBUTTON | WS_GROUP,11,212,139,10
+    CONTROL         "None",IDC_RAD_NOENC,"Button",BS_AUTORADIOBUTTON,11,225,139,10
+    GROUPBOX        "",IDC_STATIC,166,125,150,56
+    CTEXT           "Meanwhile lib ver: 1.0.2",IDC_ST_LIBVER,172,132,139,12
+    CTEXT           "Disconnected",IDC_ST_CLIENTVER,172,147,139,12,SS_SUNKEN
+    CTEXT           "Disconnected",IDC_ST_SERVERVER,172,162,139,12,SS_SUNKEN
 END
 
 IDD_SESSIONANNOUNCE DIALOGEX 0, 0, 286, 263
@@ -95,34 +95,15 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTNET, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 316
-        VERTGUIDE, 10
-        VERTGUIDE, 64
-        VERTGUIDE, 70
-        VERTGUIDE, 155
-        VERTGUIDE, 160
-        VERTGUIDE, 166
-        VERTGUIDE, 171
-        VERTGUIDE, 310
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 196
+        BOTTOMMARGIN, 203
     END
 
     IDD_SESSIONANNOUNCE, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 279
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 256
     END
 
     IDD_USERSEARCH, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 148
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 79
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -136,12 +117,12 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -162,11 +143,28 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON_PROTO          ICON                    "online.ico"
+
 IDI_ICON_LEAVE          ICON                    "part.ico"
+
 IDI_ICON_INVITE         ICON                    "invite.ico"
+
 IDI_ICON_ANNOUNCE       ICON                    "announce.ico"
+
 IDI_ICON_NOTIFY         ICON                    "notify.ico"
+
 IDI_ICON_ERROR          ICON                    "error.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTNET AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // English (Australia) resources
 /////////////////////////////////////////////////////////////////////////////
 

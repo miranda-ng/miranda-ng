@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by W:\miranda-ng\protocols\Sametime\res\resource.rc
 //
 #define IDD_DIALOG1                     101
 #define IDD_OPTNET                      101
@@ -24,12 +24,12 @@
 #define IDC_CHK_ADDCONTACTS             1008
 #define IDC_CHK_IDLEAWAY                1009
 #define IDC_CMB_CLIENT                  1010
-#define IDC_CMB_CLIENTVN                1016
 #define IDC_ED_CLIENTID                 1011
 #define IDC_RAD_ERRMB                   1012
 #define IDC_RAD_ERRPOP                  1013
 #define IDC_RAD_ERRBAL                  1014
 #define IDC_RAD_ANSI                    1015
+#define IDC_CMB_CLIENTVN                1016
 #define IDC_RAD_UTF8                    1017
 #define IDC_CHK_USERCP                  1018
 #define IDC_RAD_OEM                     1019
