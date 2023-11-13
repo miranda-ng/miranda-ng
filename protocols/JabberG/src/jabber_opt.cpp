@@ -689,51 +689,50 @@ public:
 		CreateLink(m_txtDirect, "BsDirectAddr", L"");
 
 		m_chkDirect.OnChange = m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
+
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use message delivery receipts (XEP-0184)"), proto->m_bMsgAck);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable avatars"), proto->m_bEnableAvatars);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log chat state changes"), proto->m_bLogChatstates);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence subscription state changes"), proto->m_bLogPresence);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence errors"), proto->m_bLogPresenceErrors);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user moods receiving"), proto->m_bEnableUserMood);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user tunes receiving"), proto->m_bEnableUserTune);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user activity receiving"), proto->m_bEnableUserActivity);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Receive notes"), proto->m_bAcceptNotes);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Automatically save received notes"), proto->m_bAutosaveNotes);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Inline pictures in messages (XEP-0231)"), proto->m_bInlinePictures);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable chat states sending (XEP-0085)"), proto->m_bEnableChatStates);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), proto->m_bEnableMsgArchive);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), proto->m_bEnableMam);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), proto->m_bEnableCarbons);
+		if (mir_strlen(ptrA(proto->getStringA("HttpUpload"))))
+			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), proto->m_bUseHttpUpload);
+		if (proto->FindFeature(JABBER_FEAT_JINGLE))
+			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), proto->m_bEnableVOIP);
+
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (experimental)"), proto->m_bEnableStreamMgmt);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), proto->m_bDisable3920auth);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression (if possible)"), proto->m_bEnableZlib);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Use TLS 1.3 bindings (if possible)"), proto->m_bUseTlsExport);
+
+		m_options.AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), proto->m_bEnableRemoteControl);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), proto->m_bShowTransport);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically add contact when accept authorization"), proto->m_bAutoAdd);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), proto->m_bAutoAcceptAuthorization);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), proto->m_bFixIncorrectTimestamps);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), proto->m_bProcessXMPPLinks);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), proto->m_bIgnoreRoster);
+
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), proto->m_bAllowTimeReplies);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), proto->m_bAllowVersionRequests);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), proto->m_bShowOSVersion);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), proto->m_bAcceptHttpAuth);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)"), proto->m_bUseOMEMO);
 	}
 
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
-
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use message delivery receipts (XEP-0184)"), m_proto->m_bMsgAck);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log chat state changes"), m_proto->m_bLogChatstates);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence subscription state changes"), m_proto->m_bLogPresence);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence errors"), m_proto->m_bLogPresenceErrors);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user moods receiving"), m_proto->m_bEnableUserMood);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user tunes receiving"), m_proto->m_bEnableUserTune);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Inline pictures in messages (XEP-0231)"), m_proto->m_bInlinePictures);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable chat states sending (XEP-0085)"), m_proto->m_bEnableChatStates);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), m_proto->m_bEnableMam);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
-		if (mir_strlen(ptrA(m_proto->getStringA("HttpUpload"))))
-			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), m_proto->m_bUseHttpUpload);
-		if (m_proto->FindFeature(JABBER_FEAT_JINGLE))
-			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
-
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (experimental)"), m_proto->m_bEnableStreamMgmt);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Use TLS 1.3 bindings (if possible)"), m_proto->m_bUseTlsExport);
-
-		m_options.AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_bEnableRemoteControl);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), m_proto->m_bShowTransport);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
-
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), m_proto->m_bAllowTimeReplies);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)"), m_proto->m_bUseOMEMO);
-		m_options.OnInit();
 
 		chkDirect_OnChange(&m_chkDirect);
 		return true;
