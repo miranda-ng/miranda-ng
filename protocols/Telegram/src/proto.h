@@ -92,7 +92,6 @@ struct TG_USER : public MZeroedObject
 		hContact(_2),
 		isGroupChat(_3)
 	{
-		chatId = (isGroupChat) ? -1 : id;
 	}
 
 	~TG_USER()
@@ -100,7 +99,7 @@ struct TG_USER : public MZeroedObject
 		delete pReactions;
 	}
 
-	int64_t   id, chatId;
+	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
 	bool      isGroupChat, bLoadMembers;
 	CMStringA szAvatarHash;
@@ -363,6 +362,7 @@ public:
 	
 	int __cdecl OnEmptyHistory(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnWindowEvent(WPARAM, LPARAM);
 
 	int __cdecl GcMenuHook(WPARAM, LPARAM);
 	int __cdecl GcMuteHook(WPARAM, LPARAM);

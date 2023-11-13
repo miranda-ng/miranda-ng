@@ -418,23 +418,23 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
-	int64_t chatId;
+	int64_t userId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
 
 	switch(pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
 	case TD::chatTypeSecret::ID:
-		chatId = pChat->id_;
+		userId = pChat->id_;
 		break;
 
 	case TD::chatTypeBasicGroup::ID:
-		chatId = ((TD::chatTypeBasicGroup*)pChat->type_.get())->basic_group_id_;
+		userId = ((TD::chatTypeBasicGroup*)pChat->type_.get())->basic_group_id_;
 		szTitle = pChat->title_;
 		break;
 
 	case TD::chatTypeSupergroup::ID:
-		chatId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
+		userId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
 		break;
 
@@ -443,7 +443,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		return;
 	}
 
-	if (auto *pUser = FindUser(chatId)) {
+	if (auto *pUser = FindUser(userId)) {
 		pUser->chatId = pChat->id_;
 		MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
@@ -463,7 +463,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (pUser->isGroupChat && pUser->hContact != INVALID_CONTACT_ID)
 			InitGroupChat(pUser, pChat);
 	}
-	else debugLogA("Unknown chat id %lld, ignoring", chatId);
+	else debugLogA("Unknown user id %lld, ignoring", userId);
 }
 
 void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)

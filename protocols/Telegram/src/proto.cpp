@@ -68,6 +68,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 
 	HookProtoEvent(ME_HISTORY_EMPTY, &CTelegramProto::OnEmptyHistory);
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &CTelegramProto::OnWindowEvent);
 
 	// avatar
 	CreateDirectoryTreeW(GetAvatarPath());
@@ -158,6 +159,17 @@ void CTelegramProto::OnModulesLoaded()
 void CTelegramProto::OnShutdown()
 {
 	m_bTerminated = true;
+}
+
+int CTelegramProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == MSG_WINDOW_EVT_OPENING) {
+		auto *pDlg = (CMsgDialog *)lParam;
+		auto *pUser = FindUser(GetId(pDlg->m_hContact));
+		if (pUser->chatId == -1 && !pDlg->isChat())
+			SendQuery(new TD::createPrivateChat(pUser->id, true));
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
