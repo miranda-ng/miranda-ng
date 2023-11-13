@@ -491,7 +491,16 @@ int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
 	if (szId == nullptr)
 		return 0;
 
-	return SendTextMessage(_atoi64(szId), pszMessage);
+	__int64 id = _atoi64(szId);
+	auto *pUser = FindUser(id);
+	if (pUser == nullptr)
+		return 0;
+
+	int msgid = SendTextMessage(pUser->chatId, pszMessage);
+	if (msgid != -1)
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, -1));
+
+	return msgid;
 }
 
 int CTelegramProto::SetStatus(int iNewStatus)

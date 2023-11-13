@@ -253,15 +253,30 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	if (!response.object)
 		return;
 
-	if (response.object->get_id() != TD::message::ID) {
+	switch(response.object->get_id()) {
+	case TD::error::ID:
+		for (auto &it : m_arOwnMsg)
+			if (it->hAck == (HANDLE)response.request_id) {
+				auto *pError= ((TD::error *)response.object.get());
+				CMStringW wszMsg(FORMAT, TranslateT("Error %d: %s"), pError->code_, TranslateW(Utf2T(pError->message_.c_str())));
+				ProtoBroadcastAck(it->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, it->hAck, (LPARAM)wszMsg.c_str());
+				break;
+			}
+		break;
+
+	case TD::message::ID:
+		for (auto &it : m_arOwnMsg)
+			if (it->hAck == (HANDLE)response.request_id) {
+				auto *pMessage = ((TD::message *)response.object.get());
+				it->tmpMsgId = pMessage->id_;
+				break;
+			}
+		break;
+
+	default:
 		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::message::ID);
 		return;
 	}
-
-	auto *pMessage = ((TD::message *)response.object.get());
-	auto *pUser = FindChat(pMessage->chat_id_);
-	if (pUser)
-		m_arOwnMsg.insert(new TG_OWN_MESSAGE(pUser->hContact, (HANDLE)response.request_id, pMessage->id_));
 }
 
 int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
