@@ -486,6 +486,11 @@ static wchar_t tszUnknownFormat[] = LPGENW("Miranda was unable to open '%s', it'
 static wchar_t tszProfileLocked[] = LPGENW("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance");
 static wchar_t tszNoSuitableDriver[] = LPGENW("Miranda was unable to open '%s'\nThere is no suitable database driver installed");
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Show password"), "showpass", IDI_EYE },
+};
+
 int LoadDatabaseModule(void)
 {
 	wchar_t tmp[MAX_PATH];
@@ -552,5 +557,6 @@ int LoadDatabaseModule(void)
 	if (rc == 0)
 		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
+	g_plugin.registerIcon(LPGEN("Database"), iconList, "database");
 	return rc;
 }
