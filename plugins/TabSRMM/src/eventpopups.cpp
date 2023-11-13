@@ -51,5 +51,5 @@ CMOption<DWORD> NEN::colBackMsg(NEN_MODULE, "ColorBackMsg", RGB(255, 255, 128));
 
 CMOption<bool>  NEN::bColDefaultErr(NEN_MODULE, "DefaultColorErr", true);
 CMOption<int>   NEN::iDelayErr(NEN_MODULE, "DelayErr", 0);
-CMOption<DWORD> NEN::colTextErr(NEN_MODULE, "ColorBackErr", 0);
+CMOption<DWORD> NEN::colTextErr(NEN_MODULE, "ColorTextErr", 0);
 CMOption<DWORD> NEN::colBackErr(NEN_MODULE, "ColorBackErr", RGB(255, 255, 128));
