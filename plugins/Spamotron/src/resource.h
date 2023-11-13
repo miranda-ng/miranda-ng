@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by spamotron.rc
+// Used by W:\miranda-ng\plugins\Spamotron\res\spamotron.rc
 //
 #define IDD_SPAMOTRON_MAIN              101
 #define IDD_SPAMOTRON_Q                 102
