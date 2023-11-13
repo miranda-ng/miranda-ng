@@ -602,6 +602,9 @@
 [Added %d of %d contacts stored in the ini-file.]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
+[XMLCard]
+[DBEditor++ File]
+[Standard vCard]
 [Select a destination file...]
 [Import User Details from VCard]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
