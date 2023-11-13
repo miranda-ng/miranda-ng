@@ -32,19 +32,35 @@ static PLUGININFOEX pluginInfoEx =
 	{ 0x2925520b, 0x6677, 0x4658, { 0x8b, 0xad, 0x56, 0x61, 0xd1, 0x3e, 0x46, 0x92 }}
 };
 
+static int CompareStatuses(const PrevStatus *p1, const PrevStatus *p2)
+{
+	return mir_strcmp(p1->szProto, p2->szProto);
+}
+
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("Change Skype Status", pluginInfoEx)
+	PLUGIN<CMPlugin>("Change Skype Status", pluginInfoEx),
+	m_aProtocol2Status(3, CompareStatuses),
+	bSyncStatusMsg(getModule(), "SyncStatusMsg", false),
+	bSyncStatusState(getModule(), "SyncStatusState", false)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	SKYPECONTROLAPI_ATTACH_SUCCESS = 0,								// Client is successfully attached and API window handle can be found in wParam parameter
-	SKYPECONTROLAPI_ATTACH_PENDING_AUTHORIZATION = 1,	// Skype has acknowledged connection request and is waiting for confirmation from the user.
+	// Client is successfully attached and API window handle can be found in wParam parameter
+	SKYPECONTROLAPI_ATTACH_SUCCESS = 0,
+
+	// Skype has acknowledged connection request and is waiting for confirmation from the user.
+	SKYPECONTROLAPI_ATTACH_PENDING_AUTHORIZATION = 1,
+
 	// The client is not yet attached and should wait for SKYPECONTROLAPI_ATTACH_SUCCESS message
-	SKYPECONTROLAPI_ATTACH_REFUSED = 2,								// User has explicitly denied access to client
-	SKYPECONTROLAPI_ATTACH_NOT_AVAILABLE = 3,					// API is not available at the moment. For example, this happens when no user is currently logged in.
+	// User has explicitly denied access to client
+	SKYPECONTROLAPI_ATTACH_REFUSED = 2,
+
+	// API is not available at the moment. For example, this happens when no user is currently logged in.
+	SKYPECONTROLAPI_ATTACH_NOT_AVAILABLE = 3,					
+	
 	// Client should wait for SKYPECONTROLAPI_ATTACH_API_AVAILABLE broadcast before making any further
 	// connection attempts.
 	SKYPECONTROLAPI_ATTACH_API_AVAILABLE = 0x8001
@@ -88,7 +104,6 @@ private:
 	size_t m_nStatusIndex;
 };
 
-COptions g_Options;
 CStatusInfo g_CurrStatusInfo;
 mir_cs g_csStatusInfo;
 
@@ -101,15 +116,15 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 	if (pAckData->type != ACKTYPE_STATUS || pAckData->result != ACKRESULT_SUCCESS || !pAckData->szModule)
 		return 0;
 
-	if (!g_Options.IsProtocolExcluded(pAckData->szModule)) {
+	if (!g_plugin.IsProtocolExcluded(pAckData->szModule)) {
 		int nStatus = Proto_GetStatus(pAckData->szModule);
 		for (size_t i = 0; i < _countof(g_aStatusCode); ++i) {
 			const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[i];
 			if (ms.m_nMirandaStatus == nStatus) {
 				int nPrevStatus;
-				if ((false == g_Options.IsProtocolStatusExcluded(pAckData->szModule, nStatus))
-					&& ((false == g_Options.GetSyncStatusStateFlag())
-						|| (false == g_Options.GetPreviousStatus(pAckData->szModule, nPrevStatus))
+				if ((false == g_plugin.IsProtocolStatusExcluded(pAckData->szModule, nStatus))
+					&& ((!g_plugin.bSyncStatusState)
+						|| (false == g_plugin.GetPreviousStatus(pAckData->szModule, nPrevStatus))
 						|| (nPrevStatus != nStatus))) {
 							{
 								mir_cslock guard(g_csStatusInfo);
@@ -121,7 +136,7 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 								g_CurrStatusInfo.StatusIndex(INVALID_INDEX);
 								g_CurrStatusInfo.Module(nullptr);
 							}
-							else g_Options.SetPreviousStatus(pAckData->szModule, nStatus);
+							else g_plugin.SetPreviousStatus(pAckData->szModule, nStatus);
 				}
 				break;
 			}
@@ -189,7 +204,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						oCopyData.lpData = szSkypeCmd;
 						oCopyData.cbData = cLength + 1;
 						SendMessage(wndSkypeAPIWindow, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&oCopyData);
-						if (g_Options.GetSyncStatusMsgFlag()) {
+						if (g_plugin.bSyncStatusMsg) {
 							wchar_t* pszStatusMsg = nullptr;
 							if (ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG))
 								pszStatusMsg = reinterpret_cast<wchar_t*>(CallProtoService(si.Module(), PS_GETMYAWAYMSG, (WPARAM)ms.m_nMirandaStatus, SGMA_UNICODE));

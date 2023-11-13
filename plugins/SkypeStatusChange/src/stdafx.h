@@ -14,15 +14,25 @@
 #include <m_langpack.h>
 #include <m_utils.h>
 
+struct PrevStatus
+{
+	PrevStatus(const char *_proto, int _status) :
+		szProto(mir_strdup(_proto)),
+		iStatus(_status)
+	{}
+
+	ptrA szProto;
+	int iStatus;
+};
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	int Load() override;
-};
+	CMOption<bool> bSyncStatusMsg, bSyncStatusState;
 
-class COptions
-{
+	int Load() override;
+
 	enum
 	{
 		cssOnline = 0x00000001,
@@ -53,43 +63,21 @@ class COptions
 		return 0;
 	}
 
-	struct PrevStatus
-	{
-		PrevStatus(const char *_proto, int _status) :
-			szProto(mir_strdup(_proto)),
-			iStatus(_status)
-		{
-		}
-
-		ptrA szProto;
-		int iStatus;
-	};
-
 	OBJLIST<PrevStatus> m_aProtocol2Status;
-	static int CompareStatuses(const PrevStatus *p1, const PrevStatus *p2)
-	{
-		return mir_strcmp(p1->szProto, p2->szProto);
-	}
 
-public:
-	COptions() :
-		m_aProtocol2Status(3, CompareStatuses)
-	{
-	}
-
-	bool IsProtocolExcluded(const char* pszProtocol)const
+	bool IsProtocolExcluded(const char *pszProtocol)const
 	{
 		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
-		return ((dwSettings&cssAll) ? true : false);
+		return ((dwSettings & cssAll) ? true : false);
 	}
 
-	bool IsProtocolStatusExcluded(const char* pszProtocol, int nStatus)const
+	bool IsProtocolStatusExcluded(const char *pszProtocol, int nStatus)const
 	{
 		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
-		return ((dwSettings&Status2Flag(nStatus)) ? true : false);
+		return ((dwSettings & Status2Flag(nStatus)) ? true : false);
 	}
 
-	void ExcludeProtocol(const char* pszProtocol, bool bExclude)
+	void ExcludeProtocol(const char *pszProtocol, bool bExclude)
 	{
 		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		if (bExclude)
@@ -100,7 +88,7 @@ public:
 		db_set_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", dwSettings);
 	}
 
-	void ExcludeProtocolStatus(const char* pszProtocol, int nStatus, bool bExclude)
+	void ExcludeProtocolStatus(const char *pszProtocol, int nStatus, bool bExclude)
 	{
 		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		if (bExclude)
@@ -111,29 +99,9 @@ public:
 		db_set_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", dwSettings);
 	}
 
-	bool GetSyncStatusMsgFlag() const
+	bool GetPreviousStatus(const char *pszProtocol, int &nStatus)const
 	{
-		return g_plugin.getBool("SyncStatusMsg");
-	}
-
-	bool GetSyncStatusStateFlag() const
-	{
-		return g_plugin.getBool("SyncStatusState");
-	}
-
-	void SetSyncStatusMsgFlag(bool b)
-	{
-		g_plugin.setByte("SyncStatusMsg", b);
-	}
-
-	void SetSyncStatusStateFlag(bool b)
-	{
-		g_plugin.setByte("SyncStatusState", b);
-	}
-
-	bool GetPreviousStatus(const char* pszProtocol, int& nStatus)const
-	{
-		int i = m_aProtocol2Status.getIndex((PrevStatus*)&pszProtocol);
+		int i = m_aProtocol2Status.getIndex((PrevStatus *)&pszProtocol);
 		if (i != -1) {
 			nStatus = m_aProtocol2Status[i].iStatus;
 			return true;
@@ -142,17 +110,15 @@ public:
 		return false;
 	}
 
-	void SetPreviousStatus(const char* pszProtocol, int nStatus)
+	void SetPreviousStatus(const char *pszProtocol, int nStatus)
 	{
-		int i = m_aProtocol2Status.getIndex((PrevStatus*)&pszProtocol);
+		int i = m_aProtocol2Status.getIndex((PrevStatus *)&pszProtocol);
 		if (i != -1)
 			m_aProtocol2Status[i].iStatus = nStatus;
 		else
 			m_aProtocol2Status.insert(new PrevStatus(pszProtocol, nStatus));
 	}
 };
-
-extern COptions g_Options;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
