@@ -1842,7 +1842,7 @@ XML (кодировка UTF-8)
 [Last active resource]
 Последний активный ресурс
 [Please switch online to see more details.]
-
+Подключитесь к сети, чтобы увидеть больше сведений.
 [Copy]
 Копировать
 [Copy only this value]

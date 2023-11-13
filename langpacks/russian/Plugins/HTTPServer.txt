@@ -130,4 +130,4 @@ HTTP Новый общий файл
 [Enable HTTP server]
 Включить HTTP сервер
 [Failed to read configuration file: HTTPMimeTypes]
-
+Не удалось прочитать файл конфигурации: HTTPMimeTypes

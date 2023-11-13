@@ -12981,6 +12981,8 @@ HTTP Новый общий файл
 Отключить HTTP сервер
 [Enable HTTP server]
 Включить HTTP сервер
+[Failed to read configuration file: HTTPMimeTypes]
+Не удалось прочитать файл конфигурации: HTTPMimeTypes
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -16128,6 +16130,8 @@ XML (кодировка UTF-8)
 <нет информации>
 [Last active resource]
 Последний активный ресурс
+[Please switch online to see more details.]
+Подключитесь к сети, чтобы увидеть больше сведений.
 [Copy]
 Копировать
 [Copy only this value]
@@ -28207,6 +28211,8 @@ TabSRMM: %s
 Учётная запись
 [Advanced]
 Дополнительно
+[Error %d: %s]
+Ошибка %d: %s
 [%d member(s)]
 %d участник(ов)
 [Saved messages]
@@ -30748,6 +30754,10 @@ INI файл "%s"\nдля чтения контакта не может быть
 Добавлено %d из %d контактов из ini-файла.
 [all Contacts]
 Все контакты
+[DBEditor++ File]
+Файл DBEditor++
+[Standard vCard]
+Обычный vCard
 [Select a destination file...]
 Выберите имя файла для экспорта...
 [Import User Details from VCard]

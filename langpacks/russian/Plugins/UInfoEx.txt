@@ -1169,9 +1169,9 @@ INI файл "%s"\nдля чтения контакта не может быть
 [XMLCard]
 
 [DBEditor++ File]
-
+Файл DBEditor++
 [Standard vCard]
-
+Обычный vCard
 [Select a destination file...]
 Выберите имя файла для экспорта...
 [Import User Details from VCard]

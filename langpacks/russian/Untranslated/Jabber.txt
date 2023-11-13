@@ -14,6 +14,5 @@
 [Error %s %s\r\nTry to specify more detailed]
 [SSL initialization failed]
 [Message redirected from: %s\r\n]
-[Please switch online to see more details.]
 [Remove device master key completely?\nPress NO to regenerate prekeys only]
 [Delete device %d from the announce?]
