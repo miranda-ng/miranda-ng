@@ -225,6 +225,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
+	void OnGetChats(td::ClientManager::Response &response);
 
 	void LogOut(void);
 	void OnLoggedIn(void);

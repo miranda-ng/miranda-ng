@@ -57,6 +57,27 @@ void CTelegramProto::LogOut()
 		it->m_si = nullptr;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnGetChats(td::ClientManager::Response &response)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::chats::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::chats::ID);
+		return;
+	}
+
+	auto *pChats = (TD::chats *)response.object.get();
+	for (auto &it : pChats->chat_ids_) {
+		if (auto *pUser = FindChat(it))
+			Contact::PutOnList(pUser->hContact);
+		else
+			SendQuery(new TD::getChat(it));
+	}
+}
+
 void CTelegramProto::OnLoggedIn()
 {
 	m_bAuthorized = true;
@@ -76,7 +97,7 @@ void CTelegramProto::OnLoggedIn()
 		m_impl.m_keepAlive.Start(1000);
 		setByte(DBKEY_AUTHORIZED, 1);
 
-		SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
+		SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000), &CTelegramProto::OnGetChats);
 	}
 }
 
@@ -850,8 +871,9 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
 	bool bIsMe = pUser->id_ == m_iOwnId;
+	auto typeID = (pUser->type_) ? pUser->type_->get_id() : 0;
 
-	if (!bIsMe && !pUser->is_contact_) {
+	if (!bIsMe && !pUser->is_contact_ && typeID == TD::userTypeRegular::ID) {
 		auto *pu = AddFakeUser(pUser->id_, false);
 		if (pu->hContact != INVALID_CONTACT_ID)
 			Contact::RemoveFromList(pu->hContact);

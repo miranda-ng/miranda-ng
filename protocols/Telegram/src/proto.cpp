@@ -143,9 +143,7 @@ void CTelegramProto::OnModulesLoaded()
 			auto *pUser = new TG_USER(id, cc, isGroupChat);
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
 			m_arUsers.insert(pUser);
-			if (!isGroupChat)
-				m_arChats.insert(pUser);
-			else if (iCompatLevel < 3)
+			if (isGroupChat && iCompatLevel < 3)
 				_wremove(CMStringW(FORMAT, L"%s\\%d.json", cachePath.get(), cc));
 		}
 	}

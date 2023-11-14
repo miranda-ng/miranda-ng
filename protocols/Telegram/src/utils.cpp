@@ -161,8 +161,6 @@ TG_USER* CTelegramProto::AddFakeUser(int64_t id, bool bIsChat)
 	if (pu == nullptr) {
 		pu = new TG_USER(id, INVALID_CONTACT_ID, bIsChat);
 		m_arUsers.insert(pu);
-		if (!bIsChat)
-			m_arChats.insert(pu);
 	}
 	return pu;
 }
@@ -189,8 +187,6 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	if (pUser == nullptr) {
 		pUser = new TG_USER(id, hContact, bIsChat);
 		m_arUsers.insert(pUser);
-		if (!bIsChat)
-			m_arChats.insert(pUser);
 	}
 	else {
 		pUser->hContact = hContact;
