@@ -195,11 +195,13 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 
 	LOGINFO *li = new LOGINFO(gce);
 	li->bIsHighlighted = bIsHighlighted;
-	if (si->pMI->bDatabase && gce->hEvent) {
+	if (si->pMI->bDatabase) {
 		li->hEvent = gce->hEvent;
-		if (si->arEvents.find(li)) {
-			delete li;
-			return nullptr;
+		if (gce->hEvent) {
+			if (si->arEvents.find(li)) {
+				delete li;
+				return nullptr;
+			}
 		}
 	}
 	else li->hEvent = si->iLastEvent++;
