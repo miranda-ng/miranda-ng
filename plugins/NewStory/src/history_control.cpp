@@ -620,6 +620,8 @@ void NewstoryListData::Quote()
 		CMStringW wszText(GatherSelected(true));
 		RemoveBbcodes(wszText);
 		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
+
+		SetFocus(pMsgDlg->GetInput());
 	}
 }
 
