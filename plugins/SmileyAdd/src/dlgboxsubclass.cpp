@@ -175,8 +175,5 @@ void InstallDialogBoxHook(void)
 
 void RemoveDialogBoxHook(void)
 {
-	mir_cslock lck(csWndList);
-	for (auto &it : g_MsgWndList)
-		delete it;
 	g_MsgWndList.destroy();
 }
