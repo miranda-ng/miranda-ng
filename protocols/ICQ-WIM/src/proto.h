@@ -35,7 +35,6 @@
 
 #define MRA_APP_ID "ic1pzYNtEU6dDnEQ"
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
-#define ICQ_API_SERVER "https://u.icq.net/wim"
 #define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
@@ -116,7 +115,7 @@ struct IcqUser : public MZeroedObject
 
 	CMStringW m_aimid;
 	MCONTACT  m_hContact;
-	bool      m_bInList;
+	bool      m_bInList, m_bGotCaps;
 	__int64   m_iProcessedMsgId;
 	int       m_iApparentMode;
 	time_t    m_timer1, m_timer2;
@@ -218,6 +217,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool          RetrievePassword();
+	void          RetrieveUserCaps(IcqUser *pUser);
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
 	void          SendMrimLogin(NETLIBHTTPREQUEST *pReply);
@@ -266,6 +266,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);

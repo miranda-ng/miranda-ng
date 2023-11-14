@@ -93,7 +93,7 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 	GetAvatarFileName(0, wszOldName, _countof(wszOldName));
 	_wremove(wszOldName);
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/expressions/upload");
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/expressions/upload");
 	pReq->m_szUrl.AppendFormat("?f=json&aimsid=%s&r=%s&type=largeBuddyIcon", mir_urlEncode(m_aimsid.c_str()).c_str(), pReq->m_reqId);
 
 	if (pwszFileName == nullptr)

@@ -132,6 +132,13 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	m_pFunc = pFunc;
 	timeout = 10000;
 
+	if (conn == CONN_OLD) {
+		m_conn = CONN_MAIN;
+		m_szUrl.Insert(0, "https://u.icq.net/wim/v17");
+	}
+	else if (*szUrl == '/')
+		m_szUrl.Insert(0, "https://u.icq.net/wim");
+
 	GUID packetId;
 	UuidCreate(&packetId);
 

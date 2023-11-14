@@ -41,7 +41,7 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 
 		setWString(hContact, "IconId", wszIconId);
 
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/expressions/get", &CIcqProto::OnReceiveAvatar);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/expressions/get", &CIcqProto::OnReceiveAvatar);
 		pReq << CHAR_PARAM("f", "native") << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("type", "bigBuddyIcon");
 		pReq->hContact = hContact;
 		Push(pReq);
@@ -285,7 +285,7 @@ void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, 
 	if (!mir_wstrlen(pwszGroup))
 		return;
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy") << AIMSID(this) << WCHAR_PARAM("buddy", GetUserId(hContact)) 
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/moveBuddy") << AIMSID(this) << WCHAR_PARAM("buddy", GetUserId(hContact)) 
 		<< GROUP_PARAM("group", pwszGroup);
 	if (mir_wstrlen(pwszNewGroup))
 		pReq << GROUP_PARAM("newGroup", pwszNewGroup);
@@ -674,13 +674,64 @@ LBL_Error:
 	return bRet;
 }
 
-void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	auto *pReq = new AsyncRapiRequest(this, "getUserInfo", &CIcqProto::OnGetUserInfo);
-	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact));
-	pReq->hContact = hContact;
+	JsonReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+	auto &data = root.data();
+	for (auto &it : data["users"]) {
+		ParseBuddyInfo(it, pReq->hContact, true);
+
+		if (auto *pUser = (IcqUser *)pReq->pUserInfo)
+			pUser->m_bGotCaps = true;
+	}
+}
+
+void CIcqProto::RetrieveUserCaps(IcqUser *pUser)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_OLD, REQUEST_GET, "/presence/get", &CIcqProto::OnGetUserCaps);
+	pReq->hContact = pUser->m_hContact;
+	pReq->pUserInfo = pUser;
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId)
+		<< WCHAR_PARAM("t", GetUserId(pUser->m_hContact)) << INT_PARAM("mdir", 0) << INT_PARAM("capabilities", 1);
 	Push(pReq);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000) {
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
+		return;
+	}
+
+	ParseBuddyInfo(root.results(), pReq->hContact, true);
+
+	ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
+}
+
+void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
+{
+	CMStringW wszId(GetUserId(hContact));
+
+	auto *pReq = new AsyncRapiRequest(this, "getUserInfo", &CIcqProto::OnGetUserInfo);
+	pReq->params << WCHAR_PARAM("sn", wszId);
+	pReq->hContact = hContact;
+	Push(pReq);
+
+	if (hContact)
+		if (auto *pUser = FindUser(wszId))
+			if (!pUser->m_bGotCaps)
+				RetrieveUserCaps(pUser);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bCreateRead)
 {
@@ -716,11 +767,11 @@ void CIcqProto::SetServerStatus(int iStatus)
 		invisible = 1;
 	}
 
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState")
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/presence/setState")
 		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
 
 	if (iStatus == ID_STATUS_OFFLINE && !getByte(DB_KEY_PHONEREG)) {
-		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, ICQ_API_SERVER "/aim/endSession", &CIcqProto::OnSessionEnd);
+		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "/aim/endSession", &CIcqProto::OnSessionEnd);
 		pReq << AIMSID(this) << INT_PARAM("invalidateToken", 1);
 		ExecuteRequest(pReq);
 	}
@@ -783,7 +834,7 @@ void CIcqProto::StartSession()
 	caps.AppendFormat(",%02x%02x%02x%02x%02x%02x%02x%02x%04x%04x%04x%04x", 'M', 'i', 'N', 'G',
 		__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[0], v[1], v[2], v[3]);
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/aim/startSession", &CIcqProto::OnStartSession);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/aim/startSession", &CIcqProto::OnStartSession);
 	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", caps)
 		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS)
 		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline")
@@ -927,7 +978,7 @@ LBL_Error:
 			wszUrl += L" " + pTransfer->m_wszDescr;
 
 		int id = InterlockedIncrement(&m_msgId);
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
 
 		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId, T2Utf(wszUrl));
 		pReq->pUserInfo = pOwn;
@@ -1044,19 +1095,6 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	if (count >= 999)
 		RetrieveUserHistory(pReq->hContact, lastMsgId, pReq->pUserInfo != nullptr);
-}
-
-void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	RobustReply root(pReply);
-	if (root.error() != 20000) {
-		ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
-		return;
-	}
-
-	ParseBuddyInfo(root.results(), pReq->hContact, true);
-
-	ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)

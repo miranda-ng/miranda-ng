@@ -165,7 +165,7 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 		m_arCache.remove(FindUser(szId));
 	}
 
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy")
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
 }
 
@@ -409,15 +409,15 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 				if (it->wszName == pParam->pszNewName)
 					return 0;
 
-			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/addGroup")
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/addGroup")
 				<< AIMSID(this) << GROUP_PARAM("group", pParam->pszNewName));
 		}
 		else if (pParam->pszNewName == nullptr) {
-			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeGroup") 
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeGroup") 
 				<< AIMSID(this) << GROUP_PARAM("group", pParam->pszOldName));
 		}
 		else {
-			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/renameGroup") 
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/renameGroup") 
 				<< AIMSID(this) << GROUP_PARAM("oldGroup", pParam->pszOldName) << GROUP_PARAM("newGroup", pParam->pszNewName));
 		}
 	}
@@ -462,7 +462,7 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 	if (!wszGroup)
 		wszGroup = mir_wstrdup(L"General");
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
 	pReq << AIMSID(this) << WCHAR_PARAM("authorizationMsg", szMessage) << WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", wszGroup) << INT_PARAM("preAuthorized", 1);
 	pReq->hContact = hContact;
 	Push(pReq);
@@ -570,7 +570,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, const char *pszSrc)
 		return 0;
 
 	int id = InterlockedIncrement(&m_msgId);
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
 
 	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId, pszSrc);
 	pReq->pUserInfo = pOwn;
@@ -640,7 +640,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 
 int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping")
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/im/setTyping")
 		<< AIMSID(this) << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed"));
 	return 0;
 }

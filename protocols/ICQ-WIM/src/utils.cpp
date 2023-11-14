@@ -219,6 +219,9 @@ void CIcqProto::ProcessStatus(IcqUser *pUser, int iStatus)
 	// if a client returns back online, we clear timers not to play with statuses anymore
 	else pUser->m_timer1 = pUser->m_timer2 = 0;
 
+	if (iStatus == ID_STATUS_ONLINE && !pUser->m_bGotCaps)
+		RetrieveUserCaps(pUser);
+
 	setWord(pUser->m_hContact, "Status", iStatus);
 }
 

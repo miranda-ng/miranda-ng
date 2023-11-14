@@ -98,13 +98,13 @@ public:
 			if (!EnterString(&es))
 				return;
 
-			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/renameGroup")
+			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/renameGroup")
 				<< AIMSID(m_proto) << WCHAR_PARAM("oldGroup", pGroup->wszSrvName) << GROUP_PARAM("newGroup", es.ptszResult));
 
 			mir_free(es.ptszResult);
 		}
 		else if (cmd == 2) { // delete
-			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeGroup")
+			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeGroup")
 				<< AIMSID(m_proto) << WCHAR_PARAM("group", pGroup->wszSrvName));
 		}
 	}

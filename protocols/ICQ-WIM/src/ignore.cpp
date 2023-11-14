@@ -23,7 +23,7 @@
 
 void CIcqProto::GetPermitDeny()
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny) << AIMSID(this));
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny) << AIMSID(this));
 }
 
 void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
@@ -74,7 +74,7 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 
 void CIcqProto::SetPermitDeny(const CMStringW &userId, bool bAllow)
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny")
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/preference/setPermitDeny")
 		<< AIMSID(this) << WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId);
 	if (!m_bIgnoreListEmpty)
 		pReq << CHAR_PARAM("pdMode", "denySome");

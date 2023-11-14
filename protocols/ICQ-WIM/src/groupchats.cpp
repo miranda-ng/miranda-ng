@@ -178,7 +178,7 @@ public:
 			}
 		}
 
-		m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/mchat/AddChat")
+		m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/mchat/AddChat")
 			<< AIMSID(m_proto) << WCHAR_PARAM("chat_id", m_si->ptszID) << WCHAR_PARAM("members", szMembers));
 		return true;
 	}
@@ -194,7 +194,7 @@ void CIcqProto::InviteUserToChat(SESSION_INFO *si)
 
 void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat")
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/hideChat")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID)));
 
 	db_delete_contact(si->hContact);

@@ -3,7 +3,7 @@ class CIcqProto;
 
 enum IcqConnection
 {
-	CONN_NONE = -1, CONN_MAIN = 0, CONN_FETCH = 1, CONN_RAPI = 2, CONN_LAST = 3
+	CONN_OLD = -2, CONN_NONE = -1, CONN_MAIN = 0, CONN_FETCH = 1, CONN_RAPI = 2, CONN_LAST = 3
 };
 
 struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
