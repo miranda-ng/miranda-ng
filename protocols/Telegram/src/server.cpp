@@ -106,14 +106,20 @@ void CTelegramProto::OnLoggedIn()
 void CTelegramProto::SendKeepAlive()
 {
 	time_t now = time(0);
+	int iDiff1 = m_iTimeDiff1, iDiff2 = m_iTimeDiff2;
 
 	for (auto &it : m_arUsers) {
-		if (it->m_timer1 && now - it->m_timer1 > STATUS_SWITCH_TIMEOUT) {
+		if (it->m_timer1 && now - it->m_timer1 > iDiff1) {
 			it->m_timer1 = 0;
-			it->m_timer2 = now;
-			setWord(it->hContact, "Status", ID_STATUS_NA);
+
+			// if the second status is set in the options, enable the second timer
+			if (m_iTimeDiff2) {
+				it->m_timer2 = now;
+				setWord(it->hContact, "Status", m_iStatus2);
+			}
+			else setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
 		}
-		else if (it->m_timer2 && now - it->m_timer2 > STATUS_SWITCH_TIMEOUT) {
+		else if (it->m_timer2 && now - it->m_timer2 > iDiff2) {
 			it->m_timer2 = 0;
 			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
 		}
@@ -832,8 +838,11 @@ void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 
 		case TD::userStatusRecently::ID:
 		case TD::userStatusOffline::ID:
-			setWord(pUser->hContact, "Status", ID_STATUS_AWAY);
-			pUser->m_timer1 = time(0);
+			if (m_iTimeDiff1) {
+				setWord(pUser->hContact, "Status", m_iStatus1);
+				pUser->m_timer1 = time(0);
+			}
+			else setWord(pUser->hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		default:

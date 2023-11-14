@@ -1,7 +1,5 @@
 #pragma once
 
-#define STATUS_SWITCH_TIMEOUT 600
-
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
 #define DBKEY_AUTHORIZED "Authorized"
