@@ -66,11 +66,7 @@ NewstoryListData::NewstoryListData(HWND _1) :
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
 {
-	ItemData *item = LoadItem(index);
-	if (item == nullptr)
-		return;
-
-	HMENU hMenu = NSMenu_Build(this, item);
+	HMENU hMenu = NSMenu_Build(this, LoadItem(index));
 
 	if (pMsgDlg != nullptr && pMsgDlg->isChat())
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
@@ -1008,8 +1004,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->SetCaret(idx);
 			if (!data->HasSelection())
 				data->SetSelection(idx, idx);
-			data->OnContextMenu(idx, pt);
 		}
+		data->OnContextMenu(idx, pt);
 		break;
 
 	case WM_KILLFOCUS:

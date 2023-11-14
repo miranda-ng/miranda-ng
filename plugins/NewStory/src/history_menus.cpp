@@ -33,26 +33,34 @@ static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
-	if (item->m_bOfflineFile) {
-		Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file path") : TranslateT("Copy URL"));
-		Menu_ShowItem(hmiCopyUrl, true);
-		Menu_ShowItem(hmiSaveAs, true);
-		Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded);
+	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
+	Menu_ShowItem(hmiSaveAs, false);
+	Menu_ShowItem(hmiCopyUrl, false);
+	Menu_ShowItem(hmiDownload, false);
+
+	bool bShowEventActions;
+	if (item != nullptr) {
+		if (item->m_bOfflineFile) {
+			Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file path") : TranslateT("Copy URL"));
+			Menu_ShowItem(hmiCopyUrl, true);
+			Menu_ShowItem(hmiSaveAs, true);
+			Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded);
+		}
+
+		bShowEventActions = item->hEvent != 0;
+
+		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&item->dbe);
 	}
 	else {
-		Menu_ShowItem(hmiCopyUrl, false);
-		Menu_ShowItem(hmiSaveAs, false);
-		Menu_ShowItem(hmiDownload, false);
+		bShowEventActions = false;
+
+		DB::EventInfo dbei;
+		NotifyEventHooks(hEventPreBuildMenu, 0, (LPARAM)&dbei);
 	}
 
-	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
-
-	bool bShowEventActions = item->hEvent != 0;
 	Menu_ShowItem(hmiEdit, bShowEventActions);
 	Menu_ShowItem(hmiDelete, bShowEventActions);
 	Menu_ShowItem(hmiBookmark, bShowEventActions);
-
-	NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&item->dbe);
 
 	HMENU hMenu = CreatePopupMenu();
 	Menu_Build(hMenu, hMenuObject);
