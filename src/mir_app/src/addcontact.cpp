@@ -91,10 +91,10 @@ public:
 
 		uint32_t flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
-			m_chkAuth.Enable(false);
+			m_chkAuth.Disable();
 
 		if (flags & PF4_NOCUSTOMAUTH)
-			m_authReq.Enable(false);
+			m_authReq.Disable();
 		else {
 			m_authReq.Enable(m_chkAuth.Enabled());
 			m_authReq.SetText(TranslateT("Please authorize my request and add me to your contact list."));
