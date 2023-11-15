@@ -571,7 +571,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	// message text might be a separate file link as well
-	CheckFile(hContact, wszText, pFileInfo);
+	if (pFileInfo == nullptr)
+		CheckFile(hContact, wszText, pFileInfo);
 
 	// process our own messages
 	CMStringA reqId(it["reqId"].as_mstring());
