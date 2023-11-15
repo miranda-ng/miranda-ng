@@ -194,7 +194,7 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 static int SRFileEventDeleted(WPARAM /*hContact*/, LPARAM hDbEvent)
 {
 	DB::EventInfo dbei(hDbEvent);
-	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
+	if (dbei && dbei.eventType == EVENTTYPE_FILE && (dbei.flags & DBEF_SENT) == 0) {
 		DB::FILE_BLOB blob(dbei);
 		if (auto *pwszName = blob.getLocalName())
 			DeleteFileW(pwszName);
