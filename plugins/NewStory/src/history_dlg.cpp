@@ -125,6 +125,7 @@ class CHistoryDlg : public CDlgBase
 
 	// bookmarks
 	HIMAGELIST hBookmarksIcons = 0;
+	std::map<MCONTACT, std::vector<MEVENT>> m_events; // for filtered events
 
 	// searchbar
 	HWND m_hwndBtnCloseSearch;
@@ -298,15 +299,52 @@ class CHistoryDlg : public CDlgBase
 			ImageList_Destroy(hBookmarksIcons);
 
 		hBookmarksIcons = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
-		ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_BOOKMARK));
 		m_bookmarks.SetImageList(hBookmarksIcons, LVSIL_SMALL);
 
-		auto &pArray = m_histCtrl->items;
-		int numItems = pArray.getCount();
-		for (int i = numItems - 1; i >= 0; i--)
-			if (auto *pItem = pArray.get(i, true))
-				if (pItem->dbe.flags & DBEF_BOOKMARK)
-					m_bookmarks.AddItem(pItem->wtext, 0, i);
+		if (m_hContact == INVALID_CONTACT_ID) {
+			auto *pDB = db_get_current();
+
+			int iIconId = ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_USERS));
+			m_bookmarks.AddItem(TranslateT("All results"), iIconId, INVALID_CONTACT_ID);
+
+			std::map<char *, int> protoMap;
+
+			for (auto &cc : Contacts()) {
+				bool bAdded = false;
+				DB::ECPTR pCursor(pDB->EventCursor(cc, 0));
+				while (MEVENT hEvent = pCursor.FetchNext()) {
+					DB::EventInfo dbei(hEvent, false);
+					if (dbei && dbei.flags & DBEF_BOOKMARK) {
+						if (!bAdded) {
+							auto *pa = Proto_GetContactAccount(cc);
+							char *szProto = (pa == nullptr) ? "SomeShit" : pa->szModuleName;
+							auto pProto = protoMap.find(szProto);
+
+							if (pProto == protoMap.end()) {
+								iIconId = ImageList_ReplaceIcon(hBookmarksIcons, -1, Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE));
+								protoMap[szProto] = iIconId;
+							}
+							else iIconId = (*pProto).second;
+
+							m_bookmarks.AddItem(Clist_GetContactDisplayName(cc, 0), iIconId, cc);
+							bAdded = true;
+						}
+
+						m_events[cc].push_back(hEvent);
+					}
+				}
+			}
+		}
+		else {
+			ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_BOOKMARK));
+
+			auto &pArray = m_histCtrl->items;
+			int numItems = pArray.getCount();
+			for (int i = 0; i < numItems; i++)
+				if (auto *pItem = pArray.get(i, true))
+					if (pItem->dbe.flags & DBEF_BOOKMARK)
+						m_bookmarks.AddItem(pItem->wtext, 0, i);
+		}
 	}
 
 	void BuildTimeTree()
@@ -421,7 +459,7 @@ public:
 		m_toolbar.push_back(Button(btnOptions, Button::RIGHT));
 
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
-		m_bookmarks.OnClick = m_bookmarks.OnItemChanging = Callback(this, &CHistoryDlg::onSelChanged_Bookmarks);
+		m_bookmarks.OnItemChanged = Callback(this, &CHistoryDlg::onSelChanged_Bookmarks);
 
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
@@ -564,10 +602,11 @@ public:
 			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
 			BuildTimeTree();
-			BuildBookmarksList();
 			SetFocus(m_histWindow.GetHwnd());
 		}
 		else Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
+
+		BuildBookmarksList();
 
 		m_histCtrl->SetContact(m_hContact);
 		m_histCtrl->ScrollBottom();
@@ -1137,7 +1176,20 @@ public:
 
 	void onSelChanged_Bookmarks(CCtrlListView::TEventInfo *ev)
 	{
-		m_histCtrl->SetPos(m_bookmarks.GetItemData(ev->nmlv->iItem));
+		int idx = m_bookmarks.GetItemData(ev->nmlv->iItem);
+
+		if (m_hContact == INVALID_CONTACT_ID) {
+			m_histCtrl->Clear();
+
+			if (idx == INVALID_CONTACT_ID) {
+				for (auto &cc : m_events)
+					for (auto &hEvent : cc.second)
+						m_histCtrl->AddEvent(cc.first, hEvent, 1);
+			}
+			else for (auto &hEvent : m_events[idx])
+				m_histCtrl->AddEvent(idx, hEvent, 1);
+		}
+		else m_histCtrl->SetPos(idx);
 	}
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)

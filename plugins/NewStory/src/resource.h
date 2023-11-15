@@ -27,6 +27,7 @@
 #define IDI_CALENDAR                    124
 #define IDI_TPLGROUP                    125
 #define IDI_RESET                       126
+#define IDI_USERS                       127
 #define IDI_VARHELP                     128
 #define IDI_TIMETREE                    129
 #define IDC_USERINFO                    1000

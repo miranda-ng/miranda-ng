@@ -28,6 +28,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <Shlwapi.h>
 #include <malloc.h>
 
+#include <map>
+
 //Miranda headers
 #include <newpluginapi.h>
 #include <m_button.h>
@@ -35,7 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_clc.h>
 #include <m_clistint.h>
 #include <m_contacts.h>
-#include <m_database.h>
+#include <m_db_int.h>
 #include <m_file.h>
 #include <m_fontservice.h>
 #include <m_history.h>

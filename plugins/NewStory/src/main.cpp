@@ -76,6 +76,7 @@ static IconItem icons[] =
 	{ LPGEN("Find next"), "findnext", IDI_FINDNEXT },
 	{ LPGEN("Jump to date"), "calendar", IDI_CALENDAR },
 	{ LPGEN("Conversations"), "timetree", IDI_TIMETREE },
+	{ LPGEN("All results"), "users", IDI_USERS },
 
 	{ LPGEN("Template group"), "tplgroup", IDI_TPLGROUP },
 	{ LPGEN("Cancel edit"), "reset", IDI_RESET },

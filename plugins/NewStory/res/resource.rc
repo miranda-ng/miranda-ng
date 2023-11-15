@@ -70,6 +70,8 @@ IDI_TIMETREE            ICON                    "timetree.ico"
 
 IDI_OK                  ICON                    "ok.ico"
 
+IDI_USERS               ICON                    "users.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
