@@ -37,9 +37,10 @@ enum
 
 enum
 {
-	WND_OPT_TIMETREE = 0x01,
+	WND_OPT_TIMETREE  = 0x01,
 	WND_OPT_SEARCHBAR = 0x02,
-	WND_OPT_FILTERBAR = 0x04
+	WND_OPT_FILTERBAR = 0x04,
+	WND_OPT_BOOKMARKS = 0x08,
 };
 
 enum
@@ -117,16 +118,20 @@ class CHistoryDlg : public CDlgBase
 	std::vector<Button> m_toolbar;
 
 	// main controls
-	HWND m_hwndTimeTree;
 	int m_iSplitter;
 
 	CCtrlBase m_histWindow;
 	NewstoryListData *m_histCtrl;
 
+	// bookmarks
+	HIMAGELIST hBookmarksIcons = 0;
+
 	// searchbar
 	HWND m_hwndBtnCloseSearch;
+
 	// statusbar
 	HWND m_hwndStatus;
+
 	// filter bar
 	HWND m_hwndChkDateFrom, m_hwndChkDateTo;
 	HWND m_hwndDateFrom, m_hwndDateTo;
@@ -157,7 +162,7 @@ class CHistoryDlg : public CDlgBase
 		m_histCtrl->AddResults(m_arResults);
 		m_arResults.destroy();
 
-		TimeTreeBuild();
+		BuildTimeTree();
 	}
 
 	void DoSearchContact(MCONTACT hContact, const wchar_t *pwszPattern)
@@ -260,9 +265,11 @@ class CHistoryDlg : public CDlgBase
 		if (cmd)
 			SetFocus(edtSearchText.GetHwnd());
 
-		cmd = (m_dwOptions & WND_OPT_TIMETREE) ? SW_SHOW : SW_HIDE;
-		m_timeTree.Show(cmd);
-		splitTime.Show(cmd);
+		bool bShowTime = (m_dwOptions & WND_OPT_TIMETREE) != 0;
+		bool bShowBookmarks = (m_dwOptions & WND_OPT_BOOKMARKS) != 0;
+		m_timeTree.Show(bShowTime);
+		m_bookmarks.Show(bShowBookmarks);
+		splitTime.Show(bShowTime || bShowBookmarks);
 	}
 
 	void UpdateTitle()
@@ -281,7 +288,28 @@ class CHistoryDlg : public CDlgBase
 		}
 	}
 
-	void TimeTreeBuild()
+	void BuildBookmarksList()
+	{
+		if (!(m_dwOptions & WND_OPT_BOOKMARKS))
+			return;
+
+		m_bookmarks.DeleteAllItems();
+		if (hBookmarksIcons)
+			ImageList_Destroy(hBookmarksIcons);
+
+		hBookmarksIcons = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
+		ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_BOOKMARK));
+		m_bookmarks.SetImageList(hBookmarksIcons, LVSIL_SMALL);
+
+		auto &pArray = m_histCtrl->items;
+		int numItems = pArray.getCount();
+		for (int i = numItems - 1; i >= 0; i--)
+			if (auto *pItem = pArray.get(i, true))
+				if (pItem->dbe.flags & DBEF_BOOKMARK)
+					m_bookmarks.AddItem(pItem->wtext, 0, i);
+	}
+
+	void BuildTimeTree()
 	{
 		if (!(m_dwOptions & WND_OPT_TIMETREE))
 			return;
@@ -341,7 +369,8 @@ class CHistoryDlg : public CDlgBase
 	CSplitter splitTime;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
-	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete, btnTimeTree;
+	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete, btnTimeTree, btnBookmarks;
+	CCtrlListView m_bookmarks;
 	CCtrlTreeView m_timeTree;
 
 public:
@@ -350,6 +379,7 @@ public:
 		m_arResults(10000),
 		m_hContact(_hContact),
 		m_iSplitter(g_splitter),
+		m_bookmarks(this, IDC_BOOKMARKSLIST),
 		m_timeTree(this, IDC_TIMETREEVIEW),
 		m_histWindow(this, IDC_HISTORYCONTROL),
 		splitTime(this, IDC_SPLITTERY),
@@ -366,7 +396,8 @@ public:
 		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(IDI_USERMENU), LPGEN("User menu")),
 		btnFindNext(this, IDOK, g_plugin.getIcon(IDI_FINDNEXT), LPGEN("Find next")),
 		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(IDI_FINDPREV), LPGEN("Find previous")),
-		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(IDI_TIMETREE), LPGEN("Conversations"))
+		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(IDI_TIMETREE), LPGEN("Conversations")),
+		btnBookmarks(this, IDC_BOOKMARKS, g_plugin.getIcon(IDI_BOOKMARK), LPGEN("Bookmarks"))
 	{
 		showFlags = g_plugin.getWord("showFlags", 0x7f);
 		m_dwOptions = g_plugin.getDword("dwOptions");
@@ -380,6 +411,7 @@ public:
 		}
 
 		m_toolbar.push_back(Button(btnTimeTree));
+		m_toolbar.push_back(Button(btnBookmarks));
 		m_toolbar.push_back(Button(btnSearch));
 		m_toolbar.push_back(Button(btnFilter));
 		m_toolbar.push_back(Button(btnCalendar, Button::SPACED));
@@ -389,6 +421,7 @@ public:
 		m_toolbar.push_back(Button(btnOptions, Button::RIGHT));
 
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
+		m_bookmarks.OnClick = m_bookmarks.OnItemChanging = Callback(this, &CHistoryDlg::onSelChanged_Bookmarks);
 
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
@@ -406,6 +439,7 @@ public:
 		btnUserInfo.OnClick = Callback(this, &CHistoryDlg::onClick_UserInfo);
 		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
 		btnTimeTree.OnClick = Callback(this, &CHistoryDlg::onClick_TimeTree);
+		btnBookmarks.OnClick = Callback(this, &CHistoryDlg::onClick_Bookmarks);
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		TranslateMenu(m_hMenu);
@@ -428,6 +462,11 @@ public:
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
 		SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
+		// bookmarks
+		RECT rc;
+		GetClientRect(m_bookmarks.GetHwnd(), &rc);
+		m_bookmarks.AddColumn(0, TranslateT("Bookmarks"), rc.right - rc.left);
+
 		// filterbar
 		btnFilter.MakePush();
 		btnTimeTree.MakePush();
@@ -436,6 +475,11 @@ public:
 		if (m_dwOptions & WND_OPT_SEARCHBAR)
 			btnSearch.Push(true);
 
+		btnBookmarks.MakePush();
+		if (m_dwOptions & WND_OPT_BOOKMARKS)
+			btnBookmarks.Push(true);
+		
+		// filters
 		m_hwndChkDateFrom = GetDlgItem(m_hwnd, IDC_CHK_DATE_FROM);
 		m_hwndChkDateTo = GetDlgItem(m_hwnd, IDC_CHK_DATE_TO);
 		m_hwndDateFrom = GetDlgItem(m_hwnd, IDC_DATE_FROM);
@@ -519,7 +563,8 @@ public:
 
 			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
-			TimeTreeBuild();
+			BuildTimeTree();
+			BuildBookmarksList();
 			SetFocus(m_histWindow.GetHwnd());
 		}
 		else Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
@@ -577,7 +622,7 @@ public:
 		int w = rc.right - rc.left;
 		int h = rc.bottom - rc.top;
 
-		HDWP hDwp = BeginDeferWindowPos(41 + (int)m_toolbar.size());
+		HDWP hDwp = BeginDeferWindowPos(43 + (int)m_toolbar.size());
 
 		// toolbar
 		int hToolBar = TBTN_SIZE + WND_SPACING;
@@ -688,10 +733,22 @@ public:
 
 		// time tree bar
 		int hTimeTree = 0;
-		if (m_dwOptions & WND_OPT_TIMETREE) {
+		bool bShowTime = (m_dwOptions & WND_OPT_TIMETREE) != 0;
+		bool bShowBookmarks = (m_dwOptions & WND_OPT_BOOKMARKS) != 0;
+
+		if (bShowTime || bShowBookmarks) {
 			hTimeTree = m_iSplitter;
-			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
 			hDwp = DeferWindowPos(hDwp, splitTime.GetHwnd(), 0, hTimeTree, iClientTop, WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
+
+			if (bShowTime && bShowBookmarks) {
+				int hMiddle = (iClientBottom - iClientTop) / 2;
+				hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientTop + hMiddle, SWP_NOZORDER | SWP_NOACTIVATE);
+				hDwp = DeferWindowPos(hDwp, m_bookmarks.GetHwnd(), 0, WND_SPACING, iClientTop + hMiddle, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
+			}
+			else if (bShowTime)
+				hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
+			else
+				hDwp = DeferWindowPos(hDwp, m_bookmarks.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
 		hDwp = DeferWindowPos(hDwp, m_histWindow.GetHwnd(), 0,
@@ -742,7 +799,7 @@ public:
 			m_histCtrl->Clear();
 
 			UpdateTitle();
-			TimeTreeBuild();
+			BuildTimeTree();
 		}
 	}
 
@@ -755,7 +812,19 @@ public:
 
 		OnResize();
 		ShowHideControls();
-		TimeTreeBuild();
+		BuildTimeTree();
+	}
+
+	void onClick_Bookmarks(CCtrlButton *)
+	{
+		if (m_dwOptions & WND_OPT_BOOKMARKS)
+			m_dwOptions &= ~WND_OPT_BOOKMARKS;
+		else
+			m_dwOptions |= WND_OPT_BOOKMARKS;
+
+		OnResize();
+		ShowHideControls();
+		BuildBookmarksList();
 	}
 
 	void onClick_Export(CCtrlButton *)
@@ -1054,12 +1123,21 @@ public:
 				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 			break;*/
 
+		case UM_BOOKMARKS:
+			BuildBookmarksList();
+			break;
+
 		case WM_USER + 0x600:
 			if (wParam)
 				m_histWindow.SendMsg(NSM_SEEKTIME, wParam, 0);
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onSelChanged_Bookmarks(CCtrlListView::TEventInfo *ev)
+	{
+		m_histCtrl->SetPos(m_bookmarks.GetItemData(ev->nmlv->iItem));
 	}
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
@@ -1122,6 +1200,9 @@ public:
 		}
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Services
 
 INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
 {

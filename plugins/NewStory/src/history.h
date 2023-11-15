@@ -25,7 +25,9 @@ enum
 	UM_GETEVENT,
 	UM_GETEVENTTEXT,
 	UM_GETEVENTCONTACT,
-	UM_GETEVENTHANDLE
+	UM_GETEVENTHANDLE,
+
+	UM_BOOKMARKS = WM_USER + 0x601,
 };
 
 extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;

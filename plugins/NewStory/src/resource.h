@@ -83,12 +83,14 @@
 #define IDC_GPREVIEW                    1051
 #define IDC_RESET                       1052
 #define IDC_DISCARD                     1053
+#define IDC_BOOKMARKS                   1054
 #define IDC_VARHELP                     1055
 #define IDC_VSCROLL                     1056
 #define IDC_DRAWEDGE                    1057
 #define IDC_SORT_ASCENDING              1058
 #define IDC_HPP_COMPAT                  1059
 #define IDC_SORT_ASCENDING2             1059
+#define IDC_BOOKMARKSLIST               1060
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003
@@ -110,7 +112,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40019
-#define _APS_NEXT_CONTROL_VALUE         1058
+#define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

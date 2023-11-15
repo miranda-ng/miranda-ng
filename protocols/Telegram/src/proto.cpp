@@ -233,7 +233,7 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 	if (!pUser)
 		return;
 
-	if (dbei.szId && dbei.cbBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
+	if (dbei.szId && dbei.cbBlob && dbei.pBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
 		auto text = TD::make_object<TD::formattedText>();
 		text->text_ = (char*)dbei.pBlob;
 

@@ -124,6 +124,7 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_BOOKMARK:
 		pData->ToggleBookmark();
+		PostMessage(GetParent(pData->m_hwnd), UM_BOOKMARKS, 0, 0);
 		break;
 	}
 
