@@ -738,11 +738,12 @@ public:
 
 	void onClick_Delete(CCtrlButton *)
 	{
-		CallService(MS_HISTORY_EMPTY, m_hContact, 0);
-		m_histCtrl->Clear();
+		if (!CallService(MS_HISTORY_EMPTY, m_hContact, 0)) {
+			m_histCtrl->Clear();
 
-		UpdateTitle();
-		TimeTreeBuild();
+			UpdateTitle();
+			TimeTreeBuild();
+		}
 	}
 
 	void onClick_TimeTree(CCtrlButton *)
