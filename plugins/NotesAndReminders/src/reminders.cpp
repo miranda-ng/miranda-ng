@@ -1526,9 +1526,11 @@ class CReminderListDlg : public CDlgBase
 
 		int i = 0;
 		for (auto &pReminder : arReminders) {
-			if (!m_wszFilter.IsEmpty())
-				if (pReminder->wszText.Find(m_wszFilter, 0) == -1)
+			if (!m_wszFilter.IsEmpty()) {
+				CMStringW str = pReminder->wszText;
+				if (str.MakeLower().Find(m_wszFilter, 0) == -1)
 					continue;
+			}
 
 			LV_ITEM lvTIt;
 			lvTIt.mask = LVIF_TEXT | LVIF_PARAM;
@@ -1626,6 +1628,18 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ListReminders");
 		Window_FreeIcon_IcoLib(m_hwnd);
 		pListDialog = nullptr;
+	}
+
+	void OnResize() override
+	{
+		CSuper::OnResize();
+
+		RECT rc;
+		GetWindowRect(m_list.GetHwnd(), &rc);
+		int nWidth = rc.right - rc.left - m_list.GetColumnWidth(0) - 4;
+		if (GetWindowLong(m_list.GetHwnd(), GWL_STYLE) & WS_VSCROLL)
+			nWidth -= GetSystemMetrics(SM_CXVSCROLL);
+		m_list.SetColumnWidth(1, nWidth);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
@@ -1728,6 +1742,7 @@ public:
 	void onChange_Filter(CCtrlEdit *)
 	{
 		m_wszFilter = ptrW(edtFilter.GetText());
+		m_wszFilter.MakeLower();
 		RefreshList();
 	}
 
@@ -1745,16 +1760,6 @@ public:
 				}
 			}
 			break;
-
-		case WM_SIZE:
-			CSuper::DlgProc(msg, wParam, lParam);
-
-			GetWindowRect(m_list.GetHwnd(), &rc);
-			int nWidth = rc.right - rc.left - m_list.GetColumnWidth(0) - 4;
-			if (GetWindowLong(m_list.GetHwnd(), GWL_STYLE) & WS_VSCROLL)
-				nWidth -= GetSystemMetrics(SM_CXVSCROLL);
-			m_list.SetColumnWidth(1, nWidth);
-			return 0;
 		}
 
 		return CSuper::DlgProc(msg, wParam, lParam);
