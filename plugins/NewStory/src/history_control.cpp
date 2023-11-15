@@ -1013,7 +1013,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_KILLFOCUS:
 		if (wParam && (HWND)wParam != data->hwndEditBox)
 			data->EndEditItem(false);
-		if (data->pMsgDlg && (HWND)wParam == data->pMsgDlg->GetInput())
+		if (data->pMsgDlg && ((HWND)wParam == data->pMsgDlg->GetInput() || (HWND)wParam == data->pMsgDlg->GetHwnd()))
 			data->ClearSelection(0, -1);
 		return 0;
 
