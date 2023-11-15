@@ -132,7 +132,7 @@ void CCtrlListView::AddColumn(int iSubItem, const wchar_t *name, int cx)
 
 void CCtrlListView::AddGroup(int iGroupId, const wchar_t *name)
 {
-	LVGROUP lvg = { 0 };
+	LVGROUP lvg = {};
 	lvg.cbSize = sizeof(lvg);
 	lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 	lvg.pszHeader = (LPWSTR)name;
@@ -143,8 +143,9 @@ void CCtrlListView::AddGroup(int iGroupId, const wchar_t *name)
 
 int CCtrlListView::AddItem(const wchar_t *text, int iIcon, LPARAM lParam, int iGroupId)
 {
-	LVITEM lvi = { 0 };
+	LVITEM lvi = {};
 	lvi.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE;
+	lvi.iItem = m_iItem++;
 	lvi.iSubItem = 0;
 	lvi.pszText = (LPWSTR)text;
 	lvi.iImage = iIcon;
@@ -159,7 +160,7 @@ int CCtrlListView::AddItem(const wchar_t *text, int iIcon, LPARAM lParam, int iG
 
 void CCtrlListView::SetItem(int iItem, int iSubItem, const wchar_t *text, int iIcon)
 {
-	LVITEM lvi = { 0 };
+	LVITEM lvi = {};
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = iItem;
 	lvi.iSubItem = iSubItem;
@@ -174,7 +175,7 @@ void CCtrlListView::SetItem(int iItem, int iSubItem, const wchar_t *text, int iI
 
 LPARAM CCtrlListView::GetItemData(int iItem) const
 {
-	LVITEM lvi = { 0 };
+	LVITEM lvi = {};
 	lvi.mask = LVIF_PARAM;
 	lvi.iItem = iItem;
 	return GetItem(&lvi) ? lvi.lParam : -1;

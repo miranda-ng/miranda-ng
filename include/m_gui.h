@@ -1003,6 +1003,7 @@ public:
 class MIR_CORE_EXPORT CCtrlListView : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
+	int m_iItem = 0;
 
 public:
 	CCtrlListView(CDlgBase *dlg, int ctrlId);

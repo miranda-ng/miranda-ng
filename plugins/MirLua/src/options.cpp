@@ -30,7 +30,7 @@ static int ScriptStatusToIcon(ScriptStatus status)
 
 void CMLuaOptionsMain::LoadScripts()
 {
-	for (auto &script : g_plugin.m_scripts.rev_iter()) {
+	for (auto &script : g_plugin.m_scripts) {
 		int iIcon = ScriptStatusToIcon(script->GetStatus());
 		int iItem = m_scriptsList.AddItem(script->GetName(), iIcon, (LPARAM)script);
 		m_scriptsList.SetCheckState(iItem, script->IsEnabled());
