@@ -953,8 +953,6 @@ Zobrazit nastavené jméno podkontaktu
 Použít jméno prvního kontaktu
 [Current language:]
 Zvolený jazyk:
-[Last modified using:]
-Určeno pro:
 [Date:]
 Datum:
 [Locale:]
@@ -1035,8 +1033,6 @@ Zvolit způsob šifrování
 Přihlášení do Mirandy NG
 [New password]
 Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
 [Enter password]
 Zadejte heslo
 [Change password]
@@ -10875,7 +10871,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -14912,9 +14908,9 @@ Ekvalizér
 [New]
 Nový
 [min]
-minut
+min
 [max]
-Max
+max
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -15880,6 +15876,8 @@ Informace
 Vyhledávání v globální historii
 [System history]
 Historie systému
+[All results]
+Všechny výsledky
 [Copy]
 Zkopírovat
 [Export...]
@@ -15898,6 +15896,8 @@ Najít další
 Najít předchozí
 [Conversations]
 Konverzace
+[Bookmarks]
+Záložky
 [Complete]
 Dokončeno
 [History]

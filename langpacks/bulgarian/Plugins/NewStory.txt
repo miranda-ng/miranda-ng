@@ -148,6 +148,8 @@
 Общо търсене в историята
 [System history]
 Системна история
+[All results]
+Всички резултати
 [Copy]
 Копиране
 [Export...]
@@ -170,6 +172,8 @@
 
 [Conversations]
 Разговори
+[Bookmarks]
+Отметки
 [No more occuurences found]
 
 [Passed the end of history]

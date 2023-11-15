@@ -965,8 +965,6 @@ Verrouiller nom sur le 1er contact
 
 [Current language:]
 Langue actuelle :
-[Last modified using:]
-Pour :
 [Date:]
 Date :
 [Locale:]
@@ -1053,8 +1051,8 @@ Afficher les menus des boutons par un clic droit dessus
 
 [New password]
 
-[Please enter your new password]
-Veuillez entrer votre nouveau mot de passe
+[Enter your new password]
+Entrer votre nouveau mot de passe
 [Enter password]
 Entrez le passe
 [Change password]
@@ -2080,6 +2078,8 @@ Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[Show password]
 
 [No profile support installed!]
 Pas de support de profil installé !

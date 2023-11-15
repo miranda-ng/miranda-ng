@@ -56,6 +56,7 @@
 [Compact database]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+[Show password]
 [File names must be different]
 [This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
 [To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]

@@ -915,8 +915,6 @@ Voir le nom défini du sous-contact
 Verrouiller nom sur le 1er contact
 [Current language:]
 Langue actuelle :
-[Last modified using:]
-Pour :
 [Date:]
 Date :
 [Locale:]
@@ -969,8 +967,6 @@ Afficher les icônes dans le systray que si le salon est inactif
 st pas actif
 [Show button menus when right clicking the buttons]
 Afficher les menus des boutons par un clic droit dessus
-[Please enter your new password]
-Veuillez entrer votre nouveau mot de passe
 [Enter password]
 Entrez le passe
 [Change password]
@@ -7707,7 +7703,7 @@ Apparence
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -10856,6 +10852,8 @@ Page web
 Recherche dans l'historique système
 [System history]
 Historique du système
+[All results]
+Tous les résultats
 [Copy]
 Copier
 [Export...]
@@ -10868,6 +10866,8 @@ Menu Contact
 &Suivant
 [Find previous]
 Précédent
+[Bookmarks]
+Favoris
 [Complete]
 Terminé
 [Copy URL]

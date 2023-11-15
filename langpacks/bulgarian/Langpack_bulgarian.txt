@@ -909,8 +909,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на display name на подконтакта
 [Current language:]
 Текущ език:
-[Last modified using:]
-Посл. промяна с:
 [Date:]
 Дата:
 [Locale:]
@@ -989,8 +987,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вписване в Miranda NG
 [New password]
 Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
 [Enter password]
 Въведете парола
 [Change password]
@@ -10627,7 +10623,7 @@ HTTP споделяне на нов файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -15218,6 +15214,8 @@ URL адрес на страницата за коментари към нови
 Общо търсене в историята
 [System history]
 Системна история
+[All results]
+Всички резултати
 [Copy]
 Копиране
 [Export...]
@@ -15230,6 +15228,8 @@ URL адрес на страницата за коментари към нови
 Потребителско меню
 [Conversations]
 Разговори
+[Bookmarks]
+Отметки
 [Complete]
 Завършен
 [Copy URL]

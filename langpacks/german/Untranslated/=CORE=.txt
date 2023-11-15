@@ -8,6 +8,7 @@
 [Action messages]
 [Highlighted messages]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
+[Show password]
 [Attach]
 [New subgroup]
 [System settings]

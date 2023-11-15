@@ -148,6 +148,8 @@ Informace
 Vyhledávání v globální historii
 [System history]
 Historie systému
+[All results]
+Všechny výsledky
 [Copy]
 Zkopírovat
 [Export...]
@@ -170,6 +172,8 @@ Najít další
 Najít předchozí
 [Conversations]
 Konverzace
+[Bookmarks]
+Záložky
 [No more occuurences found]
 
 [Passed the end of history]

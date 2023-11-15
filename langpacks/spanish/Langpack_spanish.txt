@@ -864,8 +864,6 @@ Contactos
 &Aplicar
 [Contact list]
 Lista de contactos
-[Last modified using:]
-Última modificación usando:
 [Date:]
 Fecha:
 [Locale:]
@@ -5752,7 +5750,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]

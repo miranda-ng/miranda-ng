@@ -13,6 +13,7 @@
 [Highlighted messages]
 [Compact database]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
+[Show password]
 [File names must be different]
 [Attach]
 [New subgroup]

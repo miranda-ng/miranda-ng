@@ -148,6 +148,8 @@
 Пошук па ўсёй гісторыі
 [System history]
 Сістэмная гісторыя
+[All results]
+Усе вынікі
 [Copy]
 Капіяваць
 [Export...]
@@ -170,6 +172,8 @@
 Знайсці раней
 [Conversations]
 Гутаркі
+[Bookmarks]
+Закладкі
 [No more occuurences found]
 
 [Passed the end of history]

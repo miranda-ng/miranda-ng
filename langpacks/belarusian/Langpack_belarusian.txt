@@ -945,8 +945,6 @@ UIN, E-mail і г.д.
 Выкарыстоўваць адлюстроўванае імя
 [Lock name to first contact]
 Фіксаваць імя
-[Last modified using:]
-Праверана на версіі:
 [Date:]
 Дата:
 [Locale:]
@@ -1025,8 +1023,6 @@ UIN, E-mail і г.д.
 Уваход у Miranda NG
 [New password]
 Новы пароль
-[Please enter your new password]
-Калі ласка, увядзіце новы пароль
 [Enter password]
 Увядзіце пароль
 [Change password]
@@ -11737,7 +11733,7 @@ HTTP Новы агульны файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -17456,6 +17452,8 @@ ID навіны.
 Пошук па ўсёй гісторыі
 [System history]
 Сістэмная гісторыя
+[All results]
+Усе вынікі
 [Copy]
 Капіяваць
 [Export...]
@@ -17472,6 +17470,8 @@ ID навіны.
 Знайсці раней
 [Conversations]
 Гутаркі
+[Bookmarks]
+Закладкі
 [Complete]
 Зроблена
 [Copy URL]

@@ -148,6 +148,8 @@ Page web
 Recherche dans l'historique système
 [System history]
 Historique du système
+[All results]
+Tous les résultats
 [Copy]
 Copier
 [Export...]
@@ -170,6 +172,8 @@ Menu Contact
 Précédent
 [Conversations]
 
+[Bookmarks]
+Favoris
 [No more occuurences found]
 
 [Passed the end of history]

@@ -965,8 +965,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Current language:]
 Текущ език:
-[Last modified using:]
-Посл. промяна с:
 [Date:]
 Дата:
 [Locale:]
@@ -1053,8 +1051,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вписване в Miranda NG
 [New password]
 Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
+[Enter your new password]
+Въведете новата парола
 [Enter password]
 Въведете парола
 [Change password]
@@ -2080,6 +2078,8 @@ Popups са изключени
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Профилът "%s" не може да бъде отворен.\nФайлът е недостъпен или се използва от друго приложение или инстанция на Miranda.
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[Show password]
 
 [No profile support installed!]
 Не е инсталирана поддръжка на профила!

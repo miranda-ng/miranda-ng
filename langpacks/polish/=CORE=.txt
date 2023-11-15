@@ -965,8 +965,6 @@ Wybierz potrzebny rejestrator z poniższej listy:
 Włącz niestandardowe opcje dziennika w czatach
 [Current language:]
 Aktualny język:
-[Last modified using:]
-Zmodyfikowano dla:
 [Date:]
 Data:
 [Locale:]
@@ -1053,8 +1051,8 @@ Wybierz dostawcę kryptograficznego
 Logowanie do Mirandy NG
 [New password]
 Nowe hasło do profilu:
-[Please enter your new password]
-Proszę wpisać twoje nowe hasło.
+[Enter your new password]
+Proszę wpisać twoje nowe hasło
 [Enter password]
 Wprowadź hasło
 [Change password]
@@ -2081,6 +2079,8 @@ Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.
 Miranda nie może uruchomić profilu "%s"\nProgram jest już uruchomiony lub profil został uszkodzony!
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda nie potrafiła otworzyć '%s'\nBrak zainstalowanego odpowiedniego sterownika bazy danych
+[Show password]
+
 [No profile support installed!]
 Nie zainstalowano wsparcia dla profili!
 [Miranda can't open that profile]

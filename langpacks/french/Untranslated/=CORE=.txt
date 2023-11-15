@@ -131,6 +131,7 @@
 [Compact database]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nPress Yes to install Dbx_sqlite or Cancel to exit]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+[Show password]
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 [This change is not known to be safe.]

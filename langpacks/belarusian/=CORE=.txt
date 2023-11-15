@@ -965,8 +965,6 @@ UIN, E-mail і г.д.
 
 [Current language:]
 
-[Last modified using:]
-Праверана на версіі:
 [Date:]
 Дата:
 [Locale:]
@@ -1053,8 +1051,8 @@ UIN, E-mail і г.д.
 Уваход у Miranda NG
 [New password]
 Новы пароль
-[Please enter your new password]
-Калі ласка, увядзіце новы пароль
+[Enter your new password]
+Увядзіце новы пароль
 [Enter password]
 Увядзіце пароль
 [Change password]
@@ -2081,6 +2079,8 @@ Miranda NG не можа адчыніць '%s', профіль у невядом
 Miranda не можа адкрыць '%s'\nЁн недасяжны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda не можа адкрыць '%s'\nНе ўсталяваны неабходны драйвер
+[Show password]
+
 [No profile support installed!]
 Няма ўсталяваных плагінаў базы!
 [Miranda can't open that profile]

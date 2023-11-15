@@ -148,6 +148,8 @@ O wtyczce
 Wyszukiwanie w globalnej historii
 [System history]
 Historia systemowa
+[All results]
+Wszystkie wyniki
 [Copy]
 Kopiuj
 [Export...]
@@ -170,6 +172,8 @@ Wyszukaj następny
 Wyszukaj poprzedni
 [Conversations]
 Rozmowa
+[Bookmarks]
+Zakładki
 [No more occuurences found]
 
 [Passed the end of history]

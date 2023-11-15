@@ -148,6 +148,8 @@ Acerca de...
 
 [System history]
 
+[All results]
+
 [Copy]
 Copiar
 [Export...]
@@ -169,6 +171,8 @@ Menú del usuario
 [Find previous]
 
 [Conversations]
+
+[Bookmarks]
 
 [No more occuurences found]
 

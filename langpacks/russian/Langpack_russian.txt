@@ -971,8 +971,6 @@ UIN, E-mail и т.д.
 Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
-[Last modified using:]
-Проверен на версии:
 [Date:]
 Дата:
 [Locale:]
@@ -1059,8 +1057,6 @@ UIN, E-mail и т.д.
 Вход в Miranda NG
 [New password]
 Новый пароль
-[Please enter your new password]
-Пожалуйста, введите новый пароль
 [Enter password]
 Введите пароль
 [Change password]
@@ -13015,7 +13011,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -19314,6 +19310,8 @@ URL страницы с комментариями к новости.
 Поиск по всей истории
 [System history]
 Системная история
+[All results]
+Все результаты
 [Copy]
 Копировать
 [Export...]
@@ -19336,6 +19334,8 @@ URL страницы с комментариями к новости.
 Найти предыдущее
 [Conversations]
 Беседы
+[Bookmarks]
+Закладки
 [No more occuurences found]
 Больше вхождений не найдено
 [Passed the end of history]

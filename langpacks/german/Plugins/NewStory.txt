@@ -148,6 +148,8 @@ Homepage
 Globale Verlaufssuche
 [System history]
 Systemverlauf
+[All results]
+Alle Ergebnisse
 [Copy]
 Kopieren
 [Export...]
@@ -170,6 +172,8 @@ Finde nächste
 Finde vorherige
 [Conversations]
 Unterhaltungen
+[Bookmarks]
+Lesezeichen
 [No more occuurences found]
 
 [Passed the end of history]

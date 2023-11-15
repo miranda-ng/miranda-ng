@@ -958,8 +958,6 @@ Wybierz potrzebny rejestrator z poniższej listy:
 Włącz niestandardowe opcje dziennika w czatach
 [Current language:]
 Aktualny język:
-[Last modified using:]
-Zmodyfikowano dla:
 [Date:]
 Data:
 [Locale:]
@@ -1046,8 +1044,6 @@ Wybierz dostawcę kryptograficznego
 Logowanie do Mirandy NG
 [New password]
 Nowe hasło do profilu:
-[Please enter your new password]
-Proszę wpisać twoje nowe hasło.
 [Enter password]
 Wprowadź hasło
 [Change password]
@@ -12746,7 +12742,7 @@ Sprzętowe skróty klawiszowe
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -18981,6 +18977,8 @@ O wtyczce
 Wyszukiwanie w globalnej historii
 [System history]
 Historia systemowa
+[All results]
+Wszystkie wyniki
 [Copy]
 Kopiuj
 [Export...]
@@ -19003,6 +19001,8 @@ Wyszukaj następny
 Wyszukaj poprzedni
 [Conversations]
 Rozmowa
+[Bookmarks]
+Zakładki
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 To jest metakontakt. Do eksportu użyj jednego z tych podkontaktów:\r\n%s
 [Export warning]

@@ -965,8 +965,6 @@ Lista de contactos
 
 [Current language:]
 
-[Last modified using:]
-Última modificación usando:
 [Date:]
 Fecha:
 [Locale:]
@@ -1053,7 +1051,7 @@ Mostrar menús del botón derecho cuando se hace clic en los botones
 
 [New password]
 
-[Please enter your new password]
+[Enter your new password]
 
 [Enter password]
 
@@ -2080,6 +2078,8 @@ Miranda no pudo abrir '%s', está en un formato desconocido.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda no pudo abrir '%s'\nEs inaccesible o utilizado por otra aplicación o instancia Miranda
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+
+[Show password]
 
 [No profile support installed!]
 ¡No soporta el perfil instalado!

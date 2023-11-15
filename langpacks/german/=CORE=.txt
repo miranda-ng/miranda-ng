@@ -965,8 +965,6 @@ Gewünschten Verlaufsbetrachter aus Liste auswählen:
 Angepassten Verlaufsbetrachter in Gruppenchats verwenden
 [Current language:]
 Aktuelle Sprache:
-[Last modified using:]
-Zuletzt geändert mit:
 [Date:]
 Datum:
 [Locale:]
@@ -1053,8 +1051,8 @@ Verschlüsselungsmodul auswählen
 Einloggen bei Miranda NG
 [New password]
 Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
+[Enter your new password]
+Geben Sie ein neues Passwort ein
 [Enter password]
 Passwort eingeben
 [Change password]
@@ -2081,6 +2079,8 @@ Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorl
 Miranda kann Profil '%s' nicht öffnen.\nAuf dieses Profil kann nicht zugegriffen werden oder es wird von einer anderen Anwendung verwendet.
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda kann Profil '%s' nicht öffnen.\nEs ist kein passender Datenbanktreiber installiert.
+[Show password]
+
 [No profile support installed!]
 Kein Profilplugin installiert!
 [Miranda can't open that profile]

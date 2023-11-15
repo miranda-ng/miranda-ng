@@ -965,8 +965,6 @@ Použít jméno prvního kontaktu
 
 [Current language:]
 Zvolený jazyk:
-[Last modified using:]
-Určeno pro:
 [Date:]
 Datum:
 [Locale:]
@@ -1053,8 +1051,8 @@ Zvolit způsob šifrování
 Přihlášení do Mirandy NG
 [New password]
 Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
+[Enter your new password]
+Zadejte nové heslo
 [Enter password]
 Zadejte heslo
 [Change password]
@@ -2081,6 +2079,8 @@ Miranda nemůže otevřít '%s', který má neznámý formát.
 Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení dat z adresáře s profilem.
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda nemůže otevřít '%s'.\nNení nainstalován odpovídající ovladač databáze.
+[Show password]
+
 [No profile support installed!]
 Není nainstalovaná podpora pro profily!
 [Miranda can't open that profile]

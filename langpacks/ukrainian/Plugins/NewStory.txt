@@ -148,6 +148,8 @@
 Пошук по всій історії
 [System history]
 Системна історія
+[All results]
+Усі результати
 [Copy]
 Копіювати
 [Export...]
@@ -170,6 +172,8 @@
 Знайте попереднє
 [Conversations]
 Бесіди
+[Bookmarks]
+Закладки
 [No more occuurences found]
 
 [Passed the end of history]

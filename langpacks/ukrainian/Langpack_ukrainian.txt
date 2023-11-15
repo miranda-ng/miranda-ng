@@ -950,8 +950,6 @@ UIN, E-mail тощо
 Фіксувати ім'я
 [Current language:]
 Мова інтерфейсу:
-[Last modified using:]
-Перевірено на версії:
 [Date:]
 Дата:
 [Locale:]
@@ -1030,8 +1028,6 @@ UIN, E-mail тощо
 Вхід у Miranda NG
 [New password]
 Новий пароль
-[Please enter your new password]
-Будь ласка, введіть новий пароль
 [Enter password]
 Введіть пароль
 [Change password]
@@ -12320,7 +12316,7 @@ HTTP Новий розшарений файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -17128,6 +17124,8 @@ OTR: встановлений SecureIM
 Концертний зал
 [Psychotic]
 Психотичний
+[Forest]
+Ліс
 [City]
 Місто
 [To list]
@@ -18303,6 +18301,8 @@ URL сторінки з коментарями до новини.
 Пошук по всій історії
 [System history]
 Системна історія
+[All results]
+Усі результати
 [Copy]
 Копіювати
 [Export...]
@@ -18319,6 +18319,8 @@ URL сторінки з коментарями до новини.
 Знайте попереднє
 [Conversations]
 Бесіди
+[Bookmarks]
+Закладки
 [Complete]
 Завершено
 [Copy URL]

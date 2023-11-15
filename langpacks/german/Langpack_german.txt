@@ -970,8 +970,6 @@ Gewünschten Verlaufsbetrachter aus Liste auswählen:
 Angepassten Verlaufsbetrachter in Gruppenchats verwenden
 [Current language:]
 Aktuelle Sprache:
-[Last modified using:]
-Zuletzt geändert mit:
 [Date:]
 Datum:
 [Locale:]
@@ -1058,8 +1056,6 @@ Verschlüsselungsmodul auswählen
 Einloggen bei Miranda NG
 [New password]
 Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
 [Enter password]
 Passwort eingeben
 [Change password]
@@ -12752,7 +12748,7 @@ Hardware-Hotkeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.3.4
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -19121,6 +19117,8 @@ Homepage
 Globale Verlaufssuche
 [System history]
 Systemverlauf
+[All results]
+Alle Ergebnisse
 [Copy]
 Kopieren
 [Export...]
@@ -19143,6 +19141,8 @@ Finde nächste
 Finde vorherige
 [Conversations]
 Unterhaltungen
+[Bookmarks]
+Lesezeichen
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Es ist ein Metakontakt. Verwenden Sie zum Export einen seiner Unterkontakte:\r\n%s
 [Export warning]

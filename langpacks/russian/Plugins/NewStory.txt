@@ -148,6 +148,8 @@
 Поиск по всей истории
 [System history]
 Системная история
+[All results]
+Все результаты
 [Copy]
 Копировать
 [Export...]
@@ -170,6 +172,8 @@
 Найти предыдущее
 [Conversations]
 Беседы
+[Bookmarks]
+Закладки
 [No more occuurences found]
 Больше вхождений не найдено
 [Passed the end of history]

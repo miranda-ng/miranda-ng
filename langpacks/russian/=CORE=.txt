@@ -965,8 +965,6 @@ UIN, E-mail и т.д.
 Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
-[Last modified using:]
-Проверен на версии:
 [Date:]
 Дата:
 [Locale:]
@@ -1053,8 +1051,8 @@ UIN, E-mail и т.д.
 Вход в Miranda NG
 [New password]
 Новый пароль
-[Please enter your new password]
-Пожалуйста, введите новый пароль
+[Enter your new password]
+Введите новый пароль
 [Enter password]
 Введите пароль
 [Change password]
@@ -2081,6 +2079,8 @@ Miranda NG не может открыть '%s', профиль в неизвес
 Miranda NG не может открыть '%s'\nОн недоступен, занят другим приложением или другой копией Miranda NG
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda NG не может открыть '%s'\nНе установлен подходящий драйвер базы данных
+[Show password]
+Показать пароль
 [No profile support installed!]
 Нет установленных плагинов базы!
 [Miranda can't open that profile]
