@@ -783,9 +783,9 @@ public:
 			hDwp = DeferWindowPos(hDwp, splitTime.GetHwnd(), 0, hTimeTree, iClientTop, WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
 
 			if (bShowTime && bShowBookmarks) {
-				int hMiddle = (iClientBottom - iClientTop) / 2;
-				hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientTop + hMiddle, SWP_NOZORDER | SWP_NOACTIVATE);
-				hDwp = DeferWindowPos(hDwp, m_bookmarks.GetHwnd(), 0, WND_SPACING, iClientTop + hMiddle, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
+				int hMiddle = iClientBottom / 2;
+				hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, hMiddle, SWP_NOZORDER | SWP_NOACTIVATE);
+				hDwp = DeferWindowPos(hDwp, m_bookmarks.GetHwnd(), 0, WND_SPACING, iClientTop + hMiddle, hTimeTree - WND_SPACING, hMiddle, SWP_NOZORDER | SWP_NOACTIVATE);
 			}
 			else if (bShowTime)
 				hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0, WND_SPACING, iClientTop, hTimeTree - WND_SPACING, iClientBottom, SWP_NOZORDER | SWP_NOACTIVATE);
