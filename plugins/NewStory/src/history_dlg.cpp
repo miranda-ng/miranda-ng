@@ -507,7 +507,10 @@ public:
 
 		// filterbar
 		btnFilter.MakePush();
+		
 		btnTimeTree.MakePush();
+		if (m_dwOptions & WND_OPT_TIMETREE)
+			btnTimeTree.Push(true);
 
 		btnSearch.MakePush();
 		if (m_dwOptions & WND_OPT_SEARCHBAR)
