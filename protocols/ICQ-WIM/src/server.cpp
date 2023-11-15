@@ -1233,7 +1233,7 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
 
 	const JSONNode &data = root.data();
-	if (auto &jsonMsg = data["histMsgId"]) {
+	if (auto &jsonMsg = data.at("histMsgId")) {
 		CMStringA reqId(root.requestId());
 		CMStringA msgId(jsonMsg.as_mstring());
 		CheckOwnMessage(reqId, msgId, false);
