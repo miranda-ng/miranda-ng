@@ -508,7 +508,7 @@ public:
 
 		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_histWindow.GetHwnd(), 0);
 
-		if (m_hContact <= 0) {
+		if (m_hContact == 0 || m_hContact == INVALID_CONTACT_ID) {
 			btnSendMsg.Hide();
 			btnUserInfo.Hide();
 			btnUserMenu.Hide();
