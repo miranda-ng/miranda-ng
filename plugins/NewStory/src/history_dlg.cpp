@@ -294,6 +294,7 @@ class CHistoryDlg : public CDlgBase
 		if (!(m_dwOptions & WND_OPT_BOOKMARKS))
 			return;
 
+		m_events.clear();
 		m_bookmarks.DeleteAllItems();
 		if (hBookmarksIcons)
 			ImageList_Destroy(hBookmarksIcons);
