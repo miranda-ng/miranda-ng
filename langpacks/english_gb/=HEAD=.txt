@@ -3,4 +3,3 @@ Language: English (British)
 Locale: 0809
 Authors: Boris Kotov
 Author-email: doctor.z01db3rg@gmail.com
-Last-Modified-Using: Miranda NG 0.96.1

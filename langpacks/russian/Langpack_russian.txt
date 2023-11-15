@@ -11,7 +11,6 @@ Authors: Mataes, Mikel-Ard-Ri, mitrich, Navy, NightFox, Oleg Makovski, PoWeR, Ra
 Authors: Sergey Morozov, SergoZD, Sledge, theMIROn, thundred, Valery Bragin,
 Authors: Viktor Shanin, Vjacheslav Ogrenich, Vladimir Rozhkovskiy aka Voron, watcher,
 Authors: Yevgeny, YurasiK, Yury A. Marcinchick
-Last-Modified-Using: Miranda NG 0.96.1
 
 ;============================================================
 ;  File: miranda32/64.exe

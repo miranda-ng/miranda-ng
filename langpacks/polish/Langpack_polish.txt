@@ -2,7 +2,6 @@ Miranda Language Pack Version 1
 Language: Polski
 Locale: 0415
 Authors: bunnyhoney, Xantros, Goraf, Piciok
-Last-Modified-Using: Miranda NG 0.96.1
 
 ;============================================================
 ;  File: miranda32/64.exe

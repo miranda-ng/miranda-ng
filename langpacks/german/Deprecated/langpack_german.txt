@@ -3,7 +3,7 @@ Language: German (DE)
 Locale: 0407
 Authors: Wishmaster, Miranda-im.de Projekt Sprachdatei - diverse Autoren
 Author-email: wishmaster51 at googlemail.com
-Last-Modified-Using: Miranda NG 0.93.5
+
 ; License: Creative Commons 3.0 (Attribution-Noncommercial-Share Alike)
 Plugins-included: AIM,ActMan,ActMan_Hooks
 

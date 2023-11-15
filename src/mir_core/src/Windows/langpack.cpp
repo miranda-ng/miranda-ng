@@ -361,10 +361,6 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			strncpy_s(szLanguage, pszColon, _TRUNCATE);
 			lrtrim(szLanguage);
 		}
-		else if (!mir_strcmp(line, "Last-Modified-Using")) {
-			lpinfo.szLastModifiedUsing = pszColon;
-			lpinfo.szLastModifiedUsing.Trim();
-		}
 		else if (!mir_strcmp(line, "Authors")) {
 			if (!szAuthors.IsEmpty())
 				szAuthors.AppendChar(' ');

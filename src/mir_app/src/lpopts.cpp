@@ -45,7 +45,6 @@ class CLangpackDlg : public CDlgBase
 	CCtrlCombo m_languages;
 	CCtrlBase m_infoFrame;
 	CCtrlBase m_authors;
-	CCtrlBase m_lastModUsing;
 	CCtrlBase m_date;
 	CCtrlBase m_locale;
 	CCtrlButton m_reload;
@@ -72,7 +71,7 @@ CLangpackDlg::CLangpackDlg()
 	: CDlgBase(g_plugin, IDD_OPT_LANGUAGES),
 	m_languages(this, IDC_LANGUAGES), m_infoFrame(this, IDC_LANGINFOFRAME),
 	m_authors(this, IDC_LANGAUTHORS),
-	m_locale(this, IDC_LANGLOCALE), m_lastModUsing(this, IDC_LANGMODUSING),
+	m_locale(this, IDC_LANGLOCALE),
 	m_date(this, IDC_LANGDATE), m_reload(this, IDC_RELOAD),
 	m_more(this, IDC_MORELANG, "https://wiki.miranda-ng.org/index.php?title=Langpacks#Download")
 {
@@ -118,29 +117,26 @@ void CLangpackDlg::LoadLangpacks()
 		FindClose(hFind);
 	}
 
-	{ // default langpack: English
-		LANGPACK_INFO pack;
-		pack.flags = LPF_DEFAULT;
-		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
-		mir_wstrcpy(pack.tszLanguage, L"English");
-		pack.szAuthors = "Miranda NG team";
-		uint32_t v = Miranda_GetVersion();
-		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
+	// default langpack: English
+	LANGPACK_INFO pack;
+	pack.flags = LPF_DEFAULT;
+	pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+	mir_wstrcpy(pack.tszLanguage, L"English");
+	pack.szAuthors = "Miranda NG team";
 
-		if (GetModuleFileName(nullptr, pack.tszFullPath, _countof(pack.tszFullPath))) {
-			mir_wstrcpy(pack.tszFileName, L"default");
-			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
-			if (hFile != INVALID_HANDLE_VALUE) {
-				GetFileTime(hFile, nullptr, nullptr, &pack.ftFileDate);
-				CloseHandle(hFile);
-			}
+	if (GetModuleFileName(nullptr, pack.tszFullPath, _countof(pack.tszFullPath))) {
+		mir_wstrcpy(pack.tszFileName, L"default");
+		HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+		if (hFile != INVALID_HANDLE_VALUE) {
+			GetFileTime(hFile, nullptr, nullptr, &pack.ftFileDate);
+			CloseHandle(hFile);
 		}
-
-		if (!isPackFound)
-			pack.flags |= LPF_ENABLED;
-
-		LoadLangpack(&pack);
 	}
+
+	if (!isPackFound)
+		pack.flags |= LPF_ENABLED;
+
+	LoadLangpack(&pack);
 }
 
 void CLangpackDlg::LoadLangpack(LANGPACK_INFO *pack)
@@ -188,9 +184,8 @@ void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 	wchar_t szDate[128]; szDate[0] = 0;
 	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
 		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, nullptr, szDate, _countof(szDate));
-	m_date.SetText(szDate);
 
-	m_lastModUsing.SetText(ptrW(mir_utf8decodeW(pack->szLastModifiedUsing)));
+	m_date.SetText(szDate);
 	m_authors.SetText(ptrW(mir_utf8decodeW(pack->szAuthors)));
 	m_infoFrame.SetText(TranslateW(pack->tszLanguage));
 }

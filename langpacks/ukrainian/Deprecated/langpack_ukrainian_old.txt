@@ -1,6 +1,5 @@
 Miranda Language Pack Version 1
 Locale: 0422
-Last-Modified-Using: Miranda NG 0.94.5
 Authors: apollo2k4, RMN
 Author-email: 
 

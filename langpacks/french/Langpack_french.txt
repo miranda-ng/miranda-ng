@@ -2,7 +2,7 @@ Miranda Language Pack Version 1
 Language: Français
 Locale: 040c
 Authors: Dagobert_78, Jerbifor, soopah
-Last-Modified-Using: Miranda NG 0.96.1
+
 ;	This translation is automatically generated from the French langpack Miranda IM by Dagobert_78.
 ;	If you want to add, visit the forum https://forum.miranda-ng.org/index.php?board=36.0
 
