@@ -49,7 +49,8 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 
 		bShowEventActions = item->hEvent != 0;
 
-		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&item->dbe);
+		DB::EventInfo dbei(item->hEvent);
+		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
 	}
 	else {
 		bShowEventActions = false;

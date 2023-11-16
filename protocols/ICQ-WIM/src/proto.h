@@ -360,6 +360,16 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	////////////////////////////////////////////////////////////////////////////////////////
+	// Menus
+
+	HGENMENU  hmiConvert;
+
+	void      InitMenus();
+
+	INT_PTR   __cdecl SvcExecMenu(WPARAM, LPARAM);
+	int       __cdecl OnPrebuildMenu(WPARAM, LPARAM);
+
+	////////////////////////////////////////////////////////////////////////////////////////
 	// threads
 
 	HANDLE    m_hWorkerThread;

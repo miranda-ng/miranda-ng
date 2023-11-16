@@ -59,6 +59,7 @@
 #include <m_message.h>
 #include <m_messagestate.h>
 #include <m_netlib.h>
+#include <m_NewStory.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_options.h>
