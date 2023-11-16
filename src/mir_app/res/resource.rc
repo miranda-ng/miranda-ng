@@ -384,7 +384,7 @@ BEGIN
     LTEXT           "e.g., Workplace",IDC_STATIC,62,35,77,9
     LTEXT           "You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.",IDC_STATIC,4,46,207,24
     LTEXT           "Driver",IDC_STATIC,20,77,37,9
-    LTEXT           "Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll",IDC_NODBDRIVERS,4,104,203,22,NOT WS_VISIBLE
+    LTEXT           "Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_sqlite.dll",IDC_NODBDRIVERS,4,94,203,33,NOT WS_VISIBLE
 END
 
 IDD_OPT_PLUGINS DIALOGEX 0, 0, 316, 252
@@ -932,8 +932,7 @@ EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
 CAPTION "New password"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enter your new password",IDC_HEADERBAR,
-                    "MHeaderbarCtrl",0x0,0,0,190,26
+    CONTROL         "Enter your new password",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,190,26
     CTEXT           "",IDC_LANG,144,34,13,13,SS_CENTERIMAGE | NOT WS_GROUP
     EDITTEXT        IDC_USERPASS1,10,34,128,14,ES_PASSWORD | ES_AUTOHSCROLL
     EDITTEXT        IDC_USERPASS2,10,54,128,14,ES_PASSWORD | ES_AUTOHSCROLL
@@ -1668,6 +1667,7 @@ IDI_STATUS4             ICON                    "chat/5.ico"
 
 IDI_STATUS5             ICON                    "chat/6.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor
@@ -1868,6 +1868,11 @@ BEGIN
 END
 
 IDD_CHANGEPASS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PROFILE_NEW AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
