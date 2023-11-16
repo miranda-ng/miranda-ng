@@ -75,7 +75,14 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 
 	MCONTACT ret = pOwn->m_hContact;
 
-	if (!Contact::IsGroupChat(ret))
+	if (pOwn->pTransfer) {
+		if (bRemove) {
+			pOwn->pTransfer->m_szMsgId = msgId;
+			ProtoBroadcastAck(pOwn->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, pOwn->pTransfer);
+			delete pOwn->pTransfer;
+		}
+	}
+	else if (!Contact::IsGroupChat(ret))
 		ProtoBroadcastAck(ret, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->m_msgid, (LPARAM)msgId.c_str());
 	else {
 		T2Utf szOwnId(m_szOwnId);
@@ -965,8 +972,6 @@ LBL_Error:
 		if (root.error() != 200)
 			goto LBL_Error;
 
-		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, pTransfer);
-
 		const JSONNode &data = root.data();
 		CMStringW wszUrl(data["static_url"].as_mstring());
 
@@ -982,6 +987,7 @@ LBL_Error:
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
 
 		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId, T2Utf(wszUrl));
+		pOwn->pTransfer = pTransfer;
 		pReq->pUserInfo = pOwn;
 		{
 			mir_cslock lck(m_csOwnIds);
@@ -991,8 +997,6 @@ LBL_Error:
 		pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
 			<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 		Push(pReq);
-
-		delete pTransfer;
 		return;
 	}
 
@@ -1228,6 +1232,7 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 		mir_cslock lck(m_csOwnIds);
 		m_arOwnIds.remove(ownMsg);
+		return;
 	}
 
 	if (g_bMessageState)

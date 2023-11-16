@@ -177,9 +177,12 @@ void CIcqProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft)
 	}
 }
 
-void CIcqProto::OnSendOfflineFile(DB::EventInfo &, DB::FILE_BLOB &blob, void *hTransfer)
+void CIcqProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer)
 {	
 	auto *ft = (IcqFileTransfer *)hTransfer;
+
+	if (!ft->m_szMsgId.IsEmpty())
+		dbei.szId = ft->m_szMsgId;
 
 	auto *p = wcsrchr(ft->m_wszFileName, '\\');
 	if (p == nullptr)
