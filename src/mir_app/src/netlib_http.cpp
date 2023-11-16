@@ -292,7 +292,9 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTi
 		if ((peol = strchr(buffer, '\n')) != nullptr)
 			break;
 
-		if ((int)mir_strlen(buffer) < bytesPeeked) {
+		int iLen = (int)mir_strlen(buffer);
+		if (iLen < bytesPeeked) {
+			Netlib_Logf(nlc->nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", iLen, bytesPeeked);
 			SetLastError(ERROR_BAD_FORMAT);
 			return 0;
 		}
@@ -306,6 +308,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTi
 	}
 
 	if (peol == buffer) {
+		Netlib_Logf(nlc->nlu, "%s %d: %s Failed", __FILE__, __LINE__, "HttpPeekFirstResponseLine");
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;
 	}
@@ -313,6 +316,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTi
 	*peol = '\0';
 
 	if (_strnicmp(buffer, "HTTP/", 5)) {
+		Netlib_Logf(nlc->nlu, "%s %d: %s Failed", __FILE__, __LINE__, "HttpPeekFirstResponseLine");
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;
 	}

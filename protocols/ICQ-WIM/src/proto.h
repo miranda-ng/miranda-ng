@@ -121,6 +121,29 @@ struct IcqUser : public MZeroedObject
 	time_t    m_timer1, m_timer2;
 };
 
+struct IcqConn
+{
+	HNETLIBCONN s;
+	int lastTs, timeout;
+};
+
+struct IcqFileTransfer : public MZeroedObject
+{
+	bool m_bCanceled = false, m_bStarted = false;
+	int m_fileId = -1;
+	CMStringA m_szHost, m_szMsgId;
+	CMStringW m_wszFileName, m_wszDescr;
+	const wchar_t *m_wszShortName;
+	PROTOFILETRANSFERSTATUS pfts;
+
+	// create an object for sending
+	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName);
+
+	~IcqFileTransfer();
+
+	void FillHeaders(AsyncHttpRequest *pReq);
+};
+
 struct IcqOwnMessage
 {
 	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid, const char *pszText) :
@@ -135,29 +158,7 @@ struct IcqOwnMessage
 	int m_msgid;
 	char m_guid[50];
 	ptrA m_szText;
-};
-
-struct IcqConn
-{
-	HNETLIBCONN s;
-	int lastTs, timeout;
-};
-
-struct IcqFileTransfer : public MZeroedObject
-{
-	bool m_bCanceled = false, m_bStarted = false;
-	int m_fileId = -1;
-	CMStringA m_szHost;
-	CMStringW m_wszFileName, m_wszDescr;
-	const wchar_t *m_wszShortName;
-	PROTOFILETRANSFERSTATUS pfts;
-
-	// create an object for sending
-	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName);
-
-	~IcqFileTransfer();
-
-	void FillHeaders(AsyncHttpRequest *pReq);
+	IcqFileTransfer *pTransfer = nullptr;
 };
 
 class CIcqProto : public PROTO<CIcqProto>
