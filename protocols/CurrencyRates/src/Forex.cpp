@@ -8,6 +8,8 @@
 
 #define DB_STR_AUTO_UPDATE "AutoUpdate"
 
+int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM);
+
 CMPlugin	g_plugin;
 
 HANDLE g_hEventWorkThreadStop;
@@ -239,19 +241,6 @@ int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
 	::SetEvent(g_hEventWorkThreadStop);
 
 	CModuleInfo::OnMirandaShutdown();
-	return 0;
-}
-
-int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 910000000;
-	odp.szTitle.w = LPGENW("Currency Rates");
-	odp.szGroup.w = LPGENW("Network");
-	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
-
-	for (auto &it : g_apProviders)
-		it->ShowPropertyPage(wp, odp);
 	return 0;
 }
 

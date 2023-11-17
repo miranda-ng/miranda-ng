@@ -25,7 +25,6 @@ public:
 private:
 	void FillFormat(TFormatSpecificators &) const override;
 	void RefreshCurrencyRates(TContacts &anContacts) override;
-	void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp) override;
 
 	MCONTACT ImportContact(const TiXmlNode*) override;
 	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const override;

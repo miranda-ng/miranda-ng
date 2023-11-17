@@ -40,6 +40,7 @@
     <ClCompile Include="src\ImportExport.cpp" />
     <ClCompile Include="src\Locale.cpp" />
     <ClCompile Include="src\ModuleInfo.cpp" />
+    <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\SettingsDlg.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>

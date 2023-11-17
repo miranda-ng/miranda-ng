@@ -702,6 +702,7 @@ void CCurrencyRatesProviderBase::Run()
 		case WAIT_ABANDONED_0 + SETTINGS_CHANGED:
 		case WAIT_ABANDONED_0 + REFRESH_CONTACT:
 			assert(!"WaitForMultipleObjects abandoned");
+			__fallthrough;
 
 		case WAIT_OBJECT_0 + STOP_THREAD:
 			bGoToBed = true;
