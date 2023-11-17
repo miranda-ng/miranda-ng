@@ -261,7 +261,7 @@ public:
 		remove_adv_settings(m_pProvider);
 	}
 
-	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY) {
 			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
