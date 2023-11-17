@@ -70,33 +70,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // General options dialog
 
-typedef boost::shared_ptr<CAdvProviderSettings> TAdvSettingsPtr;
-typedef std::map<const ICurrencyRatesProvider *, TAdvSettingsPtr> TAdvSettings;
-
-TAdvSettings g_aAdvSettings;
-
-CAdvProviderSettings* get_adv_settings(const ICurrencyRatesProvider *m_pProvider, bool bCreateIfNonExist)
-{
-	TAdvSettings::iterator i = g_aAdvSettings.find(m_pProvider);
-	if (i != g_aAdvSettings.end())
-		return i->second.get();
-
-	if (true == bCreateIfNonExist) {
-		TAdvSettingsPtr pAdvSet(new CAdvProviderSettings(m_pProvider));
-		g_aAdvSettings.insert(std::make_pair(m_pProvider, pAdvSet));
-		return pAdvSet.get();
-	}
-
-	return nullptr;
-}
-
-void remove_adv_settings(const ICurrencyRatesProvider *m_pProvider)
-{
-	TAdvSettings::iterator i = g_aAdvSettings.find(m_pProvider);
-	if (i != g_aAdvSettings.end())
-		g_aAdvSettings.erase(i);
-}
-
 class COptionsDlg : public CDlgBase
 {
 	CMStringW make_contact_name(const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)
@@ -118,7 +91,7 @@ class COptionsDlg : public CDlgBase
 	CCurrencyRatesProviderBase *m_pProvider;
 
 	CCtrlCombo cmbProvider, cmbRefresh;
-	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced, btnGetKey;
+	CCtrlButton btnAdd, btnRemove, btnDescr, btnGetKey;
 	CCtrlListBox m_list;
 
 public:
@@ -131,14 +104,12 @@ public:
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
 		btnGetKey(this, IDC_GET_KEY),
-		btnRemove(this, IDC_BUTTON_REMOVE),
-		btnAdvanced(this, IDC_BUTTON_ADVANCED_SETTINGS)
+		btnRemove(this, IDC_BUTTON_REMOVE)		
 	{
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
 		btnGetKey.OnClick = Callback(this, &COptionsDlg::onClick_GetKey);
 		btnRemove.OnClick = Callback(this, &COptionsDlg::onClick_Remove);
-		btnAdvanced.OnClick = Callback(this, &COptionsDlg::onClick_Advanced);
 
 		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
 		cmbRefresh.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Refresh);
@@ -220,10 +191,6 @@ public:
 		g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_TENDENCY_FORMAT)));
 		g_plugin.setWString(DB_KEY_ApiKey, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_PERSONAL_KEY)));
 
-		CAdvProviderSettings *pAdvSet = get_adv_settings(m_pProvider, false);
-		if (pAdvSet)
-			pAdvSet->SaveToDb();
-
 		TWatchedRates aTemp(g_aWatchedRates);
 		TWatchedRates aRemove;
 
@@ -232,8 +199,8 @@ public:
 			if (true == m_pProvider->GetWatchedRateInfo(cc, ri)) {
 				auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto &other)->bool
 					{
-						return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
-							&& ((0 == mir_wstrcmpi(ri.second.GetID().c_str(), other.second.GetID().c_str()))));
+						return ((0 == mir_wstrcmpi(ri.first.GetID(), other.first.GetID()))
+							&& ((0 == mir_wstrcmpi(ri.second.GetID(), other.second.GetID()))));
 					});
 				if (it == aTemp.end()) {
 					aRemove.push_back(ri);
@@ -253,11 +220,6 @@ public:
 		g_pCurrentProvider = (CCurrencyRatesProviderBase *)cmbProvider.GetCurData();
 		g_plugin.setWString(DB_STR_PROVIDER, g_pCurrentProvider->GetInfo().m_sName);
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		remove_adv_settings(m_pProvider);
 	}
 
 	void onSelChange_Rates(CCtrlListBox *)
@@ -296,14 +258,6 @@ public:
 		}
 	}
 
-	void onClick_Advanced(CCtrlButton *)
-	{
-		CAdvProviderSettings *pAdvSet = get_adv_settings(m_pProvider, true);
-		assert(pAdvSet);
-		if (true == ShowSettingsDlg(m_hwnd, pAdvSet))
-			NotifyChange();
-	}
-
 	void onClick_Descr(CCtrlButton *)
 	{
 		show_variable_list(m_hwnd, m_pProvider);
@@ -332,6 +286,215 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Advanced settings dialog
+
+void select_log_file(HWND hDlg);
+void update_file_controls(HWND hDlg);
+void update_history_controls(HWND hDlg);
+
+class CAdvancedOptDlg : public CDlgBase
+{
+	CCtrlEdit edtHistoryFormat, edtLogFilename, edtLogFormat;
+	CCtrlCheck chkExternalFile, chkHistory, chkHistoryCond, chkLogFileCond;
+	CCtrlButton btnBrowse, btnDescr1, btnDescr2;
+
+public:
+	CAdvancedOptDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONS_ADVANCED),
+		btnDescr1(this, IDC_BUTTON_HISTORY_DESCRIPTION),
+		btnDescr2(this, IDC_BUTTON_LOG_FILE_DESCRIPTION),
+		btnBrowse(this, IDC_BUTTON_BROWSE),
+		chkHistory(this, IDC_CHECK_INTERNAL_HISTORY),
+		chkHistoryCond(this, IDC_CHECK_HISTORY_CONDITION),
+		chkLogFileCond(this, IDC_CHECK_LOG_FILE_CONDITION),
+		chkExternalFile(this, IDC_CHECK_EXTERNAL_FILE),
+		edtLogFormat(this, IDC_EDIT_LOG_FILE_FORMAT),
+		edtLogFilename(this, IDC_EDIT_FILE_NAME),
+		edtHistoryFormat(this, IDC_EDIT_HISTORY_FORMAT)
+	{
+		CreateLink(edtLogFormat, g_plugin.wszLogFileFormat);
+		CreateLink(edtLogFilename, g_plugin.wszLogFileName);
+		CreateLink(edtHistoryFormat, g_plugin.wszHistoryFormat);
+		CreateLink(chkHistoryCond, g_plugin.bIsOnlyChangedHistory);
+		CreateLink(chkLogFileCond, g_plugin.bIsOnlyChangedLogFile);
+
+		btnDescr1.OnClick = btnDescr2.OnClick = Callback(this, &CAdvancedOptDlg::onClick_Description);
+		btnBrowse.OnClick = Callback(this, &CAdvancedOptDlg::onClick_Browse);
+
+		chkHistory.OnChange = Callback(this, &CAdvancedOptDlg::onChange_History);
+		chkExternalFile.OnChange = Callback(this, &CAdvancedOptDlg::onChange_ExternalFile);
+	}
+
+	bool OnInitDialog() override
+	{
+		// log to history
+		uint16_t dwLogMode = g_plugin.wLogMode;
+		chkHistory.SetState((dwLogMode & lmInternalHistory) != 0);
+
+		// log to file
+		chkExternalFile.SetState((dwLogMode & lmExternalFile) != 0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		uint16_t nLogMode = lmDisabled;
+
+		if (chkExternalFile.IsChecked()) nLogMode |= lmExternalFile;
+		if (chkHistory.IsChecked())      nLogMode |= lmInternalHistory;
+
+		bool bOk = true;
+		ptrW sLogFile(edtLogFilename.GetText());
+		ptrW sLogFileFormat(edtLogFormat.GetText());
+
+		if ((nLogMode & lmExternalFile)) {
+			if (!mir_wstrlen(sLogFile)) {
+				prepare_edit_ctrl_for_error(edtLogFilename.GetHwnd());
+				CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
+				bOk = false;
+			}
+			else if (!mir_wstrlen(sLogFileFormat)) {
+				prepare_edit_ctrl_for_error(edtLogFormat.GetHwnd());
+				CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
+				bOk = false;
+			}
+		}
+
+		ptrW sHistoryFormat(edtHistoryFormat.GetText());
+		if ((true == bOk) && (nLogMode & lmInternalHistory) && (!mir_wstrlen(sHistoryFormat))) {
+			prepare_edit_ctrl_for_error(edtHistoryFormat.GetHwnd());
+			CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
+			bOk = false;
+		}
+
+		if (!bOk)
+			return false;
+
+		g_plugin.wLogMode = nLogMode;
+		return true;
+	}
+
+	void onClick_Description(CCtrlButton *)
+	{
+		show_variable_list(m_hwnd, g_pCurrentProvider);
+	}
+
+	void onChange_ExternalFile(CCtrlCheck *)
+	{
+		update_file_controls(m_hwnd);
+	}
+
+	void onChange_History(CCtrlCheck *)
+	{
+		update_history_controls(m_hwnd);
+	}
+
+	void onClick_Browse(CCtrlButton *)
+	{
+		select_log_file(m_hwnd);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup options
+
+class CPopupOptDlg : public CDlgBase
+{
+	CCtrlEdit edtPopupFormat, edtDelay;
+	CCtrlColor clrBack, clrText;
+	CCtrlCheck chkPopup, chkChanged, chkHistory;
+	CCtrlButton btnPreview;
+
+public:
+	CPopupOptDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONS_POPUP),
+		clrBack(this, IDC_BGCOLOR),
+		clrText(this, IDC_TEXTCOLOR),
+		chkPopup(this, IDC_CHECK_SHOW_POPUP),
+		chkHistory(this, IDC_CHECK_DONT_USE_POPUPHISTORY),
+		chkChanged(this, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED),
+		edtDelay(this, IDC_DELAY),
+		edtPopupFormat(this, IDC_EDIT_POPUP_FORMAT),
+		btnPreview(this, IDC_PREV)
+	{
+		CreateLink(chkPopup, g_plugin.bUsePopups);
+		CreateLink(chkHistory, g_plugin.bUseHistory);
+		CreateLink(chkChanged, g_plugin.bShowPopupIfValueChanged);
+		
+		CreateLink(clrBack, g_plugin.rgbBkg);
+		CreateLink(clrText, g_plugin.rgbText);
+
+		CreateLink(edtDelay, g_plugin.wDelay);
+		CreateLink(edtPopupFormat, g_plugin.wszPopupFormat);
+
+		chkPopup.OnChange = Callback(this, &CPopupOptDlg::onChange_Popup);
+		btnPreview.OnClick = Callback(this, &CPopupOptDlg::onClick_Preview);
+	}
+
+	bool OnInitDialog() override
+	{
+		::CheckRadioButton(m_hwnd, IDC_RADIO_DEFAULT_COLOURS, IDC_RADIO_USER_DEFINED_COLOURS, (colourDefault == g_plugin.modeColour) ? IDC_RADIO_DEFAULT_COLOURS : IDC_RADIO_USER_DEFINED_COLOURS);
+		UINT n;
+		switch (g_plugin.modeDelay) {
+		case delayFromPopup:
+			n = IDC_DELAYFROMPU;
+			break;
+		case delayCustom:
+			n = IDC_DELAYCUSTOM;
+			break;
+		case delayPermanent:
+		default:
+			n = IDC_DELAYPERMANENT;
+			break;
+		}
+		::CheckRadioButton(m_hwnd, IDC_DELAYFROMPU, IDC_DELAYPERMANENT, n);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		uint8_t nModeDelay;
+		if (1 == ::IsDlgButtonChecked(m_hwnd, IDC_DELAYFROMPU))
+			nModeDelay = delayFromPopup;
+		else if (1 == ::IsDlgButtonChecked(m_hwnd, IDC_DELAYCUSTOM))
+			nModeDelay = delayCustom;
+		else
+			nModeDelay = delayPermanent;
+		g_plugin.modeDelay = nModeDelay;
+
+		if (1 == ::IsDlgButtonChecked(m_hwnd, IDC_RADIO_DEFAULT_COLOURS))
+			g_plugin.modeColour = colourDefault;
+		else 
+			g_plugin.modeColour = colourUserDefined;
+		return true;
+	}
+
+	void OnChange() override
+	{
+		bool bIsColoursEnabled = 1 == IsDlgButtonChecked(m_hwnd, IDC_RADIO_USER_DEFINED_COLOURS);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_BGCOLOR), bIsColoursEnabled);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_TEXTCOLOR), bIsColoursEnabled);
+
+		bool bIsDelayEnabled = 1 == IsDlgButtonChecked(m_hwnd, IDC_DELAYCUSTOM);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_DELAY), bIsDelayEnabled);
+	}
+
+	void onChange_Popup(CCtrlCheck *)
+	{
+		bool bEnable = chkPopup.IsChecked();
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_EDIT_POPUP_FORMAT), bEnable);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bEnable);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_STATIC_POPUP_FORMAT), bEnable);
+		::EnableWindow(::GetDlgItem(m_hwnd, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), bEnable);
+	}
+
+	void onClick_Preview(CCtrlButton *)
+	{
+		show_popup(0, 0, 1, L"");
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point
 
 int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM)
@@ -344,6 +507,16 @@ int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM)
 
 	odp.pDialog = new COptionsDlg();
 	odp.szTab.a = LPGEN("General");
+	g_plugin.addOptions(wp, &odp);
+
+	odp.pDialog = new CAdvancedOptDlg();
+	odp.szTab.a = LPGEN("Advanced");
+	g_plugin.addOptions(wp, &odp);
+
+	odp.position = 910000002;
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = nullptr;
+	odp.pDialog = new CPopupOptDlg();
 	g_plugin.addOptions(wp, &odp);
 	return 0;
 }

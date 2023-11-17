@@ -137,10 +137,9 @@ int CurrencyRates_OnContactDoubleClick(WPARAM hContact, LPARAM/* lp*/)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CurrencyRatesMenu_EditSettings(WPARAM wp, LPARAM)
+INT_PTR CurrencyRatesMenu_EditSettings(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = MCONTACT(wp);
-	if (NULL != hContact)
+	if (hContact)
 		ShowSettingsDlg(hContact);
 	return 0;
 }

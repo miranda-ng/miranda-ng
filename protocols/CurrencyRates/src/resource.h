@@ -17,9 +17,9 @@
 #define IDI_ICON_REFRESH                118
 #define IDI_ICON_IMPORT                 119
 #define IDI_ICON_EXPORT                 120
-#define IDD_PROVIDER_ADV_SETTINGS       120
+#define IDD_OPTIONS_ADVANCED            120
 #define IDI_ICON_SWAP                   121
-#define IDD_DIALOG_POPUP                121
+#define IDD_OPTIONS_POPUP                121
 #define IDI_ICON_MAIN1                  122
 #define IDI_ICON_DISABLED               122
 #define IDD_DIALOG_VARIABLE_LIST        123
@@ -71,19 +71,13 @@
 #define IDC_BUTTON_POPUP_FORMAT_DESCRIPTION 1037
 #define IDC_EDIT_RESULT                 1039
 #define IDC_BUTTON_SWAP                 1060
-#define IDC_BUTTON_ADVANCED_SETTINGS    1061
-#define IDC_BUTTON_POPUP_SETTINGS       1061
 #define IDC_CHECK_CONTACT_SPECIFIC      1062
 #define IDC_RADIO_DEFAULT_COLOURS       1063
 #define IDC_CHECK_SHOW_POPUP            1064
-#define IDC_RADIO_USER_DEFINED_COLOURS  1064
-#define IDC_MFCCOLORBUTTON1             1066
-#define IDC_CHECK1                      1067
+#define IDC_RADIO_USER_DEFINED_COLOURS  1065
 #define IDC_CHECK_DONT_USE_POPUPHISTORY 1067
-#define IDC_EDIT_FROM2                  1071
 #define IDC_STATIC_PROVIDER_NAME        1071
 #define IDC_DELAY                       1072
-#define IDC_EDIT1                       1072
 #define IDC_EDIT_VARIABLE               1072
 #define IDC_PROVIDER                    1073
 #define IDC_BGCOLOR                     1074
@@ -99,7 +93,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        128
+#define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1076
 #define _APS_NEXT_SYMED_VALUE           101

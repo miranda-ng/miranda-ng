@@ -258,7 +258,25 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	// log settings
+	wLogMode(MODULENAME, "CC_LogMode", lmDisabled),
+	bIsOnlyChangedHistory(MODULENAME, "CC_AddToHistoryOnlyIfValueIsChanged", false),
+	bIsOnlyChangedLogFile(MODULENAME, "CC_AddToLogOnlyIfValueIsChanged", false),
+	wszHistoryFormat(MODULENAME, "CC_HistoryFormat", L"%s %r"),
+	wszLogFileName(MODULENAME, "CC_LogFile", L"%miranda_userdata%\\CurrencyRates\\%currencyratename%.log"),
+	wszLogFileFormat(MODULENAME, "CC_LogFileFormat", L"%s\\t%t\\t%r\\n"),
+
+	// popup settings
+	bShowPopupIfValueChanged(MODULENAME, "CC_ShowPopupOnlyIfValueChanged", false),
+	bUsePopups(MODULENAME, "CC_UsePopups", false),
+	bUseHistory(MODULENAME, "CC_PopupHistoryFlag", false),
+	modeColour(MODULENAME, "CC_PopupColourMode", colourDefault),
+	modeDelay(MODULENAME, "CC_PopupDelayMode", delayFromPopup),
+	rgbBkg(MODULENAME, "CC_PopupColourBk", ::GetSysColor(COLOR_BTNFACE)),
+	rgbText(MODULENAME, "CC_PopupColourText", ::GetSysColor(COLOR_BTNTEXT)),
+	wDelay(MODULENAME, "CC_PopupDelayTimeout", 3),
+	wszPopupFormat(MODULENAME, "CC_PopupFormat", L"\\nCurrent = %r\\nPrevious = %p")
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 	SetUniqueId(DB_STR_CURRENCYRATE_SYMBOL);

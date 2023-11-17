@@ -399,7 +399,7 @@ bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency &tendency)
 	return false;
 }
 
-bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat, const CPopupSettings &ps)
+bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat)
 {
 	POPUPDATAW ppd;
 	memset(&ppd, 0, sizeof(ppd));
@@ -427,31 +427,32 @@ bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int 
 		mir_wstrncpy(ppd.lpwzText, L"1 USD = 8.4342 SMC", MAX_SECONDLINE);
 	}
 
-	if (CPopupSettings::colourDefault == ps.GetColourMode()) {
-		ppd.colorText = CPopupSettings::GetDefColourText();
-		ppd.colorBack = CPopupSettings::GetDefColourBk();
+	if (colourDefault == g_plugin.modeColour) {
+		ppd.colorText = ::GetSysColor(COLOR_BTNTEXT);
+		ppd.colorBack = ::GetSysColor(COLOR_BTNFACE);
 	}
 	else {
-		ppd.colorText = ps.GetColourText();
-		ppd.colorBack = ps.GetColourBk();
+		ppd.colorText = g_plugin.rgbText;
+		ppd.colorBack = g_plugin.rgbBkg;
 	}
 
-	switch (ps.GetDelayMode()) {
-	default:
-		assert(!"Unknown popup delay mode");
-	case CPopupSettings::delayFromPopup:
+	switch (g_plugin.modeDelay) {
+	case delayFromPopup:
 		ppd.iSeconds = 0;
 		break;
-	case CPopupSettings::delayPermanent:
+	case delayPermanent:
 		ppd.iSeconds = -1;
 		break;
-	case CPopupSettings::delayCustom:
-		ppd.iSeconds = ps.GetDelayTimeout();
+	case delayCustom:
+		ppd.iSeconds = g_plugin.wDelay;
 		break;
+	default:
+		assert(!"Unknown popup delay mode");
+		ppd.iSeconds = 0;
 	}
 
 	int lp = 0;
-	if (false == ps.GetHistoryFlag())
+	if (!g_plugin.bUseHistory)
 		lp |= APF_NO_POPUP;
 
 	return (0 == PUAddPopupW(&ppd, lp));
@@ -499,23 +500,21 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 	bool bUseContactSpecific = g_plugin.getBool(hContact, DB_STR_CONTACT_SPEC_SETTINGS);
 
-	CAdvProviderSettings global_settings(this);
-
 	uint16_t dwMode = (bUseContactSpecific)
-		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<uint16_t>(lmDisabled))
-		: global_settings.GetLogMode();
+		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, g_plugin.wLogMode)
+		: g_plugin.wLogMode;
 	if (dwMode & lmExternalFile) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, 1) > 0)
-			: global_settings.GetLogOnlyChangedFlag();
+			: g_plugin.bIsOnlyChangedLogFile;
 		if (true == bOnlyIfChanged) {
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
 			CMStringW sLogFileName = (bUseContactSpecific)
-				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
-				: global_settings.GetLogFileName();
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_LOG_FILE, g_plugin.wszLogFileName)
+				: (wchar_t*)g_plugin.wszLogFileName;
 
 			if (true == sSymbol.IsEmpty()) {
 				sSymbol = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
@@ -523,9 +522,9 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
-			CMStringW sFormat = global_settings.GetLogFormat();
+			CMStringW sFormat = g_plugin.wszLogFileFormat;
 			if (bUseContactSpecific)
-				sFormat = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
+				sFormat = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, g_plugin.wszLogFileFormat);
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
@@ -534,15 +533,15 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, 1) > 0)
-			: global_settings.GetHistoryOnlyChangedFlag();
+			: g_plugin.bIsOnlyChangedHistory;
 
 		if (true == bOnlyIfChanged) {
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
 			CMStringW sFormat = (bUseContactSpecific)
-				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
-				: global_settings.GetHistoryFormat();
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_HISTORY, g_plugin.wszHistoryFormat)
+				: (wchar_t *)g_plugin.wszHistoryFormat;
 
 			log_to_history(this, hContact, nTime, sFormat);
 		}
@@ -551,19 +550,16 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	if (dwMode & lmPopup) {
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
-			: global_settings.GetShowPopupIfValueChangedFlag();
+			: g_plugin.bShowPopupIfValueChanged;
 		if (!bOnlyIfChanged || (bOnlyIfChanged && bValidPrev && !IsWithinAccuracy(dRate, dPrev))) {
 			CMStringW sFormat = (bUseContactSpecific)
-				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
-				: global_settings.GetPopupFormat();
-
-			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
-			ps.InitForContact(hContact);
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_POPUP, g_plugin.wszPopupFormat)
+				: (wchar_t*)g_plugin.wszPopupFormat;
 
 			CTendency::EResult nComparison = CTendency::NotChanged;
 			if (tendency.IsValid())
 				nComparison = tendency.Compare();
-			show_popup(this, hContact, nComparison, sFormat, ps);
+			show_popup(this, hContact, nComparison, sFormat);
 		}
 	}
 

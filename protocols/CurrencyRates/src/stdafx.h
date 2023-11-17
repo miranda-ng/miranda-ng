@@ -69,8 +69,33 @@ typedef boost::posix_time::wtime_facet ttime_facet;
 
 CMStringW CreateFilePath(const CMStringW &rsName);
 
+enum EColourMode
+{
+	colourDefault,
+	colourUserDefined,
+};
+
+enum EDelayMode
+{
+	delayFromPopup,
+	delayCustom,
+	delayPermanent
+};
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	// Log settings
+	CMOption<uint16_t> wLogMode;
+	CMOption<bool> bIsOnlyChangedHistory, bIsOnlyChangedLogFile;
+	CMOption<wchar_t *> wszHistoryFormat, wszLogFileName, wszLogFileFormat;
+
+	// Popup settings
+	CMOption<uint8_t> modeColour, modeDelay;
+	CMOption<COLORREF> rgbBkg, rgbText;
+	CMOption<uint16_t> wDelay;
+	CMOption<wchar_t*> wszPopupFormat;
+	CMOption<bool> bUsePopups, bUseHistory, bShowPopupIfValueChanged;
+
 	CMPlugin();
 
 	int Load() override;

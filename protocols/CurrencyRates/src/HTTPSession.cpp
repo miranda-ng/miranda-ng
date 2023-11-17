@@ -6,8 +6,7 @@ HNETLIBUSER CHTTPSession::g_hNetLib = nullptr;
 
 void CALLBACK waitStub()
 {
-	CAdvProviderSettings global_settings(g_pCurrentProvider);
-	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG), *global_settings.GetPopupSettingsPtr());
+	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG));
 }
 
 static int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
