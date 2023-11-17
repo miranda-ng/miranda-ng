@@ -1,11 +1,5 @@
 #pragma once
 
-#define DB_STR_FROM_ID "FromID"
-#define DB_STR_TO_ID "ToID"
-#define DB_STR_FROM_DESCRIPTION "FromDesc"
-#define DB_STR_TO_DESCRIPTION "ToDesc"
-
-
 class CCurrencyRatesProviderCurrencyConverter : public CCurrencyRatesProviderBase
 {
 public:
@@ -23,9 +17,9 @@ public:
 	MCONTACT GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const;
 
 private:
-	void FillFormat(TFormatSpecificators &) const override;
 	void RefreshCurrencyRates(TContacts &anContacts) override;
 
+	wchar_t* GetXmlFilename() const override;
+
 	MCONTACT ImportContact(const TiXmlNode*) override;
-	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const override;
 };

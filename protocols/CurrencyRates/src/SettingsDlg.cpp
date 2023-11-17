@@ -146,10 +146,9 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 				n = IDC_DELAYCUSTOM;
 				break;
 			case CPopupSettings::delayPermanent:
+			default:
 				n = IDC_DELAYPERMANENT;
 				break;
-			default:
-				assert(!"Unknown delay mode. Please, fix it");
 			}
 			::CheckRadioButton(hWnd, IDC_DELAYFROMPU, IDC_DELAYPERMANENT, n);
 

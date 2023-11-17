@@ -35,6 +35,11 @@ CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverte
 {
 }
 
+wchar_t *CCurrencyRatesProviderCurrencyConverter::GetXmlFilename() const
+{
+	return L"CC.xml";
+}
+
 void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContacts &anContacts)
 {
 	CHTTPSession http;
@@ -160,36 +165,6 @@ MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const CMStringW
 		return *i;
 
 	return NULL;
-}
-
-void CCurrencyRatesProviderCurrencyConverter::FillFormat(TFormatSpecificators &array) const
-{
-	CSuper::FillFormat(array);
-
-	array.push_back(CFormatSpecificator(L"%F", LPGENW("From Currency Full Name")));
-	array.push_back(CFormatSpecificator(L"%f", LPGENW("From Currency Short Name")));
-	array.push_back(CFormatSpecificator(L"%I", LPGENW("Into Currency Full Name")));
-	array.push_back(CFormatSpecificator(L"%i", LPGENW("Into Currency Short Name")));
-	array.push_back(CFormatSpecificator(L"%s", LPGENW("Short notation for \"%f/%i\"")));
-}
-
-CMStringW CCurrencyRatesProviderCurrencyConverter::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
-{
-	switch (c) {
-	case 'F':
-		return g_plugin.getMStringW(hContact, DB_STR_FROM_DESCRIPTION);
-
-	case 'f':
-		return g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
-
-	case 'I':
-		return g_plugin.getMStringW(hContact, DB_STR_TO_DESCRIPTION);
-
-	case 'i':
-		return g_plugin.getMStringW(hContact, DB_STR_TO_ID);
-	}
-
-	return CSuper::FormatSymbol(hContact, c, nWidth);
 }
 
 MCONTACT CCurrencyRatesProviderCurrencyConverter::ImportContact(const TiXmlNode *pRoot)

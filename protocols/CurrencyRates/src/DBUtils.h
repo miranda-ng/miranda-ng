@@ -7,8 +7,6 @@
 #define DB_KEY_StatusMsgFormat     "CC_StatusMessageFormat"
 #define DB_DEF_StatusMsgFormat     L""
 
-#define DB_DEF_IniFileName         L"CC.xml"
-
 #define DB_KEY_ApiKey              "CC_ApiKey"
 
 #define DB_KEY_DisplayNameFormat   "CC_DspNameFrmt"

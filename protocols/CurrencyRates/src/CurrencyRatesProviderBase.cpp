@@ -138,7 +138,7 @@ bool CCurrencyRatesProviderBase::Init()
 {
 	bool bSucceded = (m_pXMLInfo == nullptr);
 	if (!m_pXMLInfo)
-		m_pXMLInfo = new CXMLFileInfo(init_xml_info(DB_DEF_IniFileName, bSucceded));
+		m_pXMLInfo = new CXMLFileInfo(init_xml_info(GetXmlFilename(), bSucceded));
 
 	return bSucceded;
 }
@@ -786,6 +786,11 @@ void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 
 void CCurrencyRatesProviderBase::FillFormat(TFormatSpecificators &array) const
 {
+	array.push_back(CFormatSpecificator(L"%F", LPGENW("From Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%f", LPGENW("From Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%I", LPGENW("Into Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%i", LPGENW("Into Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%s", LPGENW("Short notation for \"%f/%i\"")));
 	array.push_back(CFormatSpecificator(L"%S", LPGENW("Source of information")));
 	array.push_back(CFormatSpecificator(L"%r", LPGENW("Rate value")));
 	array.push_back(CFormatSpecificator(L"%d", LPGENW("Rate delta")));
@@ -869,6 +874,18 @@ CMStringW CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c,
 		break;
 	case 's':
 		ret = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
+		break;
+	case 'F':
+		ret = g_plugin.getMStringW(hContact, DB_STR_FROM_DESCRIPTION);
+		break;
+	case 'f':
+		ret = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+		break;
+	case 'I':
+		ret = g_plugin.getMStringW(hContact, DB_STR_TO_DESCRIPTION);
+		break;
+	case 'i':
+		ret = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
 		break;
 	case 'X':
 		ret = format_fetch_time(hContact, CurrencyRates_GetTimeFormat(true));

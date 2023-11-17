@@ -109,6 +109,7 @@ protected:
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
 	void WriteContactRate(MCONTACT hContact, double dRate, const CMStringW &rsSymbol = L"");
 
+	virtual wchar_t* GetXmlFilename() const = 0;
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 
 protected:

@@ -11,6 +11,10 @@ enum ERefreshRateType
 	RRT_HOURS = 2
 };
 
+#define DB_STR_FROM_ID "FromID"
+#define DB_STR_TO_ID "ToID"
+#define DB_STR_FROM_DESCRIPTION "FromDesc"
+#define DB_STR_TO_DESCRIPTION "ToDesc"
 #define DB_STR_ENABLE_LOG "EnableLog"
 #define DB_STR_CURRENCYRATE_PROVIDER "CurrencyRateProvider"
 #define DB_STR_CURRENCYRATE_ID "CurrencyRateID"
@@ -19,7 +23,6 @@ enum ERefreshRateType
 #define DB_STR_CURRENCYRATE_PREV_VALUE "PreviousCurrencyRateValue"
 #define DB_STR_CURRENCYRATE_CURR_VALUE "CurrentCurrencyRateValue"
 #define DB_STR_CURRENCYRATE_FETCH_TIME "FetchTime"
-
 
 enum ELogMode
 {
