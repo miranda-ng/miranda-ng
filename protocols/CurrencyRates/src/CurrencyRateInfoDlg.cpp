@@ -117,12 +117,11 @@ struct CurrencyRateInfoDlg2 : public CurrencyRateInfoDlg
 	}
 };
 
-int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
+int CurrencyRates_OnContactDoubleClick(WPARAM hContact, LPARAM/* lp*/)
 {
-	if (!g_pCurrentProvider)
+	if (!Proto_IsProtoOnContact(hContact, MODULENAME))
 		return 0;
 
-	MCONTACT hContact = MCONTACT(wp);
 	MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL, hContact);
