@@ -1,7 +1,9 @@
 #include "StdAfx.h"
-#include "CurrencyRatesProviderCurrencyConverter.h"
 
 #define LAST_RUN_VERSION "LastRunVersion"
+
+void InitCC();
+void InitExchangeRates();
 
 TCurrencyRatesProviders g_apProviders;
 
@@ -9,7 +11,7 @@ TCurrencyRatesProviders g_apProviders;
 
 void CreateProviders()
 {
-	g_apProviders.push(new CCurrencyRatesProviderCurrencyConverter());
+	InitCC();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -37,11 +39,8 @@ void InitProviders()
 
 	for (auto &hContact : Contacts(MODULENAME)) {
 		ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
-		if (pProvider) {
-			pProvider->AddContact(hContact);
-			if (nVersion < nCurrentVersion)
-				convert_contact_settings(hContact);
-		}
+		if (pProvider && nVersion < nCurrentVersion)
+			convert_contact_settings(hContact);
 	}
 
 	g_plugin.setWord(LAST_RUN_VERSION, nCurrentVersion);

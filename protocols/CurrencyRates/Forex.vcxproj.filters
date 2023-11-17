@@ -73,9 +73,6 @@
     <ClInclude Include="src\CurrencyRatesProviderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CurrencyRatesProviderCurrencyConverter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DBUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>

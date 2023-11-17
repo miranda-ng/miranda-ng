@@ -204,14 +204,6 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int CurrencyRatesEventFunc_OnContactDeleted(WPARAM hContact, LPARAM)
-{
-	auto pProvider = GetContactProviderPtr(hContact);
-	if (pProvider)
-		pProvider->DeleteContact(hContact);
-	return 0;
-}
-
 INT_PTR CurrencyRateProtoFunc_GetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
@@ -306,7 +298,6 @@ int CMPlugin::Load(void)
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, CurrencyRateProtoFunc_GetStatus);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CurrencyRatesEventFunc_OnModulesLoaded);
-	HookEvent(ME_DB_CONTACT_DELETED, CurrencyRatesEventFunc_OnContactDeleted);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, CurrencyRatesEventFunc_PreShutdown);
 	HookEvent(ME_OPT_INITIALISE, CurrencyRatesEventFunc_OptInitialise);
 

@@ -51,7 +51,6 @@
     <ClInclude Include="src\CurrencyRateChart.h" />
     <ClInclude Include="src\CurrencyRateInfoDlg.h" />
     <ClInclude Include="src\CurrencyRatesProviderBase.h" />
-    <ClInclude Include="src\CurrencyRatesProviderCurrencyConverter.h" />
     <ClInclude Include="src\DBUtils.h" />
     <ClInclude Include="src\EconomicRateInfo.h" />
     <ClInclude Include="src\ExtraImages.h" />

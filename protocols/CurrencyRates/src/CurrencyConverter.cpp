@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "CurrencyRatesProviderCurrencyConverter.h"
 
 #define WINDOW_PREFIX "CurrenyConverter_"
 
@@ -7,23 +6,23 @@
 #define DB_STR_CC_CURRENCYRATE_TO_ID "CurrencyConverter_ToID"
 #define DB_STR_CC_AMOUNT "CurrencyConverter_Amount"
 
-static CCurrencyRatesProviderCurrencyConverter *get_currency_converter_provider()
+static CCurrencyRatesProviderBase *get_currency_converter_provider()
 {
 	for (auto &it : g_apProviders)
-		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(it))
+		if (auto p = dynamic_cast<CCurrencyRatesProviderBase *>(it))
 			return p;
 
 	assert(!"We should never get here!");
 	return nullptr;
 }
 
-CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConverter* pProvider = nullptr)
+CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderBase *pProvider = nullptr)
 {
 	if (nullptr == pProvider)
 		pProvider = get_currency_converter_provider();
 
 	if (pProvider) {
-		const auto& rCurrencyRates = pProvider->GetCurrencyRates();
+		const auto &rCurrencyRates = pProvider->GetCurrencyRates();
 		if (rCurrencyRates.GetSectionCount() > 0)
 			return rCurrencyRates.GetSection(0);
 	}
@@ -77,10 +76,10 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			CMStringW sToCurrencyRateID = g_plugin.getMStringW(DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
-			const auto& rSection = get_currencyrates(pProvider);
+			const auto &rSection = get_currencyrates(pProvider);
 			auto cCurrencyRates = rSection.GetCurrencyRateCount();
 			for (auto i = 0u; i < cCurrencyRates; ++i) {
-				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
+				const auto &rCurrencyRate = rSection.GetCurrencyRate(i);
 				CMStringW sName = make_currencyrate_name(rCurrencyRate);
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
 				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
@@ -137,7 +136,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 				update_swap_button(hDlg);
 			}
 			return TRUE;
-		
+
 		case IDC_EDIT_VALUE:
 			if (EN_CHANGE == HIWORD(wp))
 				update_convert_button(hDlg);
@@ -169,7 +168,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						const auto& rSection = get_currencyrates();
+						const auto &rSection = get_currencyrates();
 						size_t cCurrencyRates = rSection.GetCurrencyRateCount();
 						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
 							auto from = rSection.GetCurrencyRate(nFrom);
@@ -187,7 +186,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 									double dResult = pProvider->Convert(dAmount, from, to);
 									sResult.Format(L"%.2lf %s = %.2lf %s", dAmount, from.GetName().c_str(), dResult, to.GetName().c_str());
 								}
-								catch (std::exception& e) {
+								catch (std::exception &e) {
 									sResult = e.what();
 								}
 								SetDlgItemText(hDlg, IDC_EDIT_RESULT, sResult);

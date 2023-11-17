@@ -443,10 +443,9 @@ bool import_contact(const TiXmlNode *pXmlContact, CImportContext &impctx)
 		if (!handle_module(cst.m_hContact, pNode))
 			return false;
 
-	if (cst.m_bNewContact) {
-		cst.m_pProvider->AddContact(cst.m_hContact);
+	if (cst.m_bNewContact)
 		cst.m_pProvider->RefreshContact(cst.m_hContact);
-	}
+
 	return true;
 }
 

@@ -16,7 +16,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "CurrencyRatesProviderCurrencyConverter.h"
 
 typedef boost::shared_ptr<CAdvProviderSettings> TAdvSettingsPtr;
 typedef std::map<const ICurrencyRatesProvider *, TAdvSettingsPtr> TAdvSettings;
@@ -47,10 +46,10 @@ void remove_adv_settings(const ICurrencyRatesProvider *m_pProvider)
 
 class COptionsDlg : public CDlgBase
 {
-	CCurrencyRatesProviderCurrencyConverter *get_provider()
+	CCurrencyRatesProviderBase* get_provider()
 	{
 		for (auto &it : g_apProviders)
-			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter *>(it))
+			if (auto p = dynamic_cast<CCurrencyRatesProviderBase *>(it))
 				return p;
 
 		assert(!"We should never get here!");
@@ -68,7 +67,7 @@ class COptionsDlg : public CDlgBase
 		return rsSymbolFrom + L"/" + rsSymbolTo;
 	};
 
-	CMStringW make_rate_name(const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)
+	CMStringW make_rate_name(const CCurrencyRatesProviderBase::TRateInfo &ri)
 	{
 		if ((false == ri.first.GetName().IsEmpty()) && (false == ri.second.GetName().IsEmpty()))
 			return make_contact_name(ri.first.GetName(), ri.second.GetName());
@@ -76,10 +75,10 @@ class COptionsDlg : public CDlgBase
 		return make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
 	};
 
-	using TWatchedRates = std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
+	using TWatchedRates = std::vector<CCurrencyRatesProviderBase::TRateInfo>;
 	TWatchedRates g_aWatchedRates;
 
-	CCurrencyRatesProviderCurrencyConverter *m_pProvider;
+	CCurrencyRatesProviderBase *m_pProvider;
 
 	CCtrlCombo cmbFrom, cmbTo;
 	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced;
@@ -166,10 +165,9 @@ public:
 			cmbTo.AddString(sName);
 		}
 
-		auto cWatchedRates = m_pProvider->GetWatchedRateCount();
-		for (auto i = 0u; i < cWatchedRates; ++i) {
-			CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-			if (true == m_pProvider->GetWatchedRateInfo(i, ri)) {
+		for (auto &cc : Contacts(MODULENAME)) {
+			CCurrencyRatesProviderBase::TRateInfo ri;
+			if (true == m_pProvider->GetWatchedRateInfo(cc, ri)) {
 				g_aWatchedRates.push_back(ri);
 				CMStringW sRate = make_rate_name(ri);
 				m_list.AddString(sRate);
@@ -201,10 +199,10 @@ public:
 
 		TWatchedRates aTemp(g_aWatchedRates);
 		TWatchedRates aRemove;
-		size_t cWatchedRates = m_pProvider->GetWatchedRateCount();
-		for (size_t i = 0; i < cWatchedRates; ++i) {
-			CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-			if (true == m_pProvider->GetWatchedRateInfo(i, ri)) {
+
+		for (auto &cc : Contacts(MODULENAME)) {
+			CCurrencyRatesProviderBase::TRateInfo ri;
+			if (true == m_pProvider->GetWatchedRateInfo(cc, ri)) {
 				auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto &other)->bool
 					{
 						return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
@@ -318,7 +316,7 @@ public:
 
 			auto cCurrencyRates = rSection.GetCurrencyRateCount();
 			if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
-				CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+				CCurrencyRatesProviderBase::TRateInfo ri;
 				ri.first = rSection.GetCurrencyRate(nFrom);
 				ri.second = rSection.GetCurrencyRate(nTo);
 

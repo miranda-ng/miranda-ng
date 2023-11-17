@@ -30,8 +30,6 @@ public:
 	virtual bool Init() = 0;
 	virtual const CProviderInfo& GetInfo() const = 0;
 
-	virtual void AddContact(MCONTACT hContact) = 0;
-	virtual void DeleteContact(MCONTACT hContact) = 0;
 	virtual MCONTACT ImportContact(const TiXmlNode*) = 0;
 
 	virtual void RefreshAllContacts() = 0;

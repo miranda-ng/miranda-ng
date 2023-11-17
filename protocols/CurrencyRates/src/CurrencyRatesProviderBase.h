@@ -88,16 +88,22 @@ public:
 
 	bool Init() override;
 	const CProviderInfo& GetInfo() const override;
-	
-	void AddContact(MCONTACT hContact) override;
-	void DeleteContact(MCONTACT hContact) override;
-	
+
 	void Run() override;
 	
 	void RefreshAllContacts() override;
 	void RefreshSettings() override;
 	void RefreshContact(MCONTACT hContact) override;
-	
+
+	MCONTACT ImportContact(const TiXmlNode *) override;
+
+	using TRateInfo = std::pair<CCurrencyRate, CCurrencyRate>;
+	bool GetWatchedRateInfo(MCONTACT hContact, TRateInfo &rRateInfo);
+	bool WatchForRate(const TRateInfo &ri, bool bWatch);
+	MCONTACT GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const;
+
+	virtual double Convert(double dAmount, const CCurrencyRate &from, const CCurrencyRate &to) const = 0;
+
 	void FillFormat(TFormatSpecificators&) const override;
 	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) const override;
 	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
@@ -105,7 +111,6 @@ public:
 protected:
 	const CMStringW& GetURL() const;
 	MCONTACT CreateNewContact(const CMStringW &rsName);
-	static bool IsOnline();
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
 	void WriteContactRate(MCONTACT hContact, double dRate, const CMStringW &rsSymbol = L"");
 
@@ -113,7 +118,6 @@ protected:
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 
 protected:
-	TContacts m_aContacts;
 	mutable mir_cs m_cs;
 };
 

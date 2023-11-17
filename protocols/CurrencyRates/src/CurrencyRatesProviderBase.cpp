@@ -127,7 +127,7 @@ CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 {
 	delete m_pXMLInfo;
 
-	for (auto &it : m_aContacts)
+	for (auto &it : Contacts(MODULENAME))
 		SetContactStatus(it, ID_STATUS_OFFLINE);
 
 	::CloseHandle(m_hEventSettingsChanged);
@@ -156,28 +156,6 @@ const CCurrencyRateSection &CCurrencyRatesProviderBase::GetCurrencyRates() const
 const CMStringW &CCurrencyRatesProviderBase::GetURL() const
 {
 	return m_pXMLInfo->m_sURL;
-}
-
-bool CCurrencyRatesProviderBase::IsOnline()
-{
-	return /*g_bAutoUpdate*/true;
-}
-
-void CCurrencyRatesProviderBase::AddContact(MCONTACT hContact)
-{
-	// 	CCritSection cs(m_cs);
-	assert(m_aContacts.end() == std::find(m_aContacts.begin(), m_aContacts.end(), hContact));
-
-	m_aContacts.push_back(hContact);
-}
-
-void CCurrencyRatesProviderBase::DeleteContact(MCONTACT hContact)
-{
-	mir_cslock lck(m_cs);
-
-	TContacts::iterator i = std::find(m_aContacts.begin(), m_aContacts.end(), hContact);
-	if (i != m_aContacts.end())
-		m_aContacts.erase(i);
 }
 
 void CCurrencyRatesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
@@ -604,8 +582,6 @@ MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const CMStringW &rsName)
 	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsName);
 	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName);
 
-	mir_cslock lck(m_cs);
-	m_aContacts.push_back(hContact);
 	return hContact;
 }
 
@@ -654,6 +630,15 @@ private:
 	bool m_b;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void refreshContacts(TContacts &list)
+{
+	list.clear();
+	for (auto &cc : Contacts(MODULENAME))
+		list.push_back(cc);
+}
+
 void CCurrencyRatesProviderBase::Run()
 {
 	uint32_t nTimeout = get_refresh_timeout_miliseconds();
@@ -675,10 +660,7 @@ void CCurrencyRatesProviderBase::Run()
 	anEvents[REFRESH_CONTACT] = m_hEventRefreshContact;
 
 	TContacts anContacts;
-	{
-		mir_cslock lck(m_cs);
-		anContacts = m_aContacts;
-	}
+	refreshContacts(anContacts);
 
 	bool bGoToBed = false;
 
@@ -713,10 +695,8 @@ void CCurrencyRatesProviderBase::Run()
 			m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
 			m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
 			m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
-			{
-				mir_cslock lck(m_cs);
-				anContacts = m_aContacts;
-			}
+
+			refreshContacts(anContacts);
 			break;
 
 		case WAIT_OBJECT_0 + REFRESH_CONTACT:
@@ -738,10 +718,7 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_TIMEOUT:
 			nTimeout = get_refresh_timeout_miliseconds();
-			{
-				mir_cslock lck(m_cs);
-				anContacts = m_aContacts;
-			}
+			refreshContacts(anContacts);
 			{
 				CBoolGuard bg(m_bRefreshInProgress);
 				RefreshCurrencyRates(anContacts);
@@ -764,11 +741,8 @@ void CCurrencyRatesProviderBase::RefreshSettings()
 
 void CCurrencyRatesProviderBase::RefreshAllContacts()
 {
-	{
-		mir_cslock lck(m_cs);
-		m_aRefreshingContacts.clear();
-		for (auto &hContact : m_aContacts)
-			m_aRefreshingContacts.push_back(hContact);
+	{	mir_cslock lck(m_cs);
+		refreshContacts(m_aRefreshingContacts);
 	}
 
 	::SetEvent(m_hEventRefreshContact);
@@ -776,8 +750,7 @@ void CCurrencyRatesProviderBase::RefreshAllContacts()
 
 void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 {
-	{
-		mir_cslock lck(m_cs);
+	{	mir_cslock lck(m_cs);
 		m_aRefreshingContacts.push_back(hContact);
 	}
 
@@ -911,4 +884,74 @@ CMStringW CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c,
 	}
 
 	return ret;
+}
+
+bool CCurrencyRatesProviderBase::GetWatchedRateInfo(MCONTACT hContact, TRateInfo &rRateInfo)
+{
+	CMStringW sSymbolFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+	CMStringW sSymbolTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
+	CMStringW sDescFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_DESCRIPTION);
+	CMStringW sDescTo = g_plugin.getMStringW(hContact, DB_STR_TO_DESCRIPTION);
+
+	rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
+	rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
+	return true;
+}
+
+bool CCurrencyRatesProviderBase::WatchForRate(const TRateInfo &ri, bool bWatch)
+{
+	MCONTACT hContact = GetContactByID(ri.first.GetID(), ri.second.GetID());
+
+	if (bWatch && hContact == 0) {
+		CMStringW sName = ri.first.GetSymbol() + L"/" + ri.second.GetSymbol();
+		hContact = CreateNewContact(sName);
+		if (hContact) {
+			g_plugin.setWString(hContact, DB_STR_FROM_ID, ri.first.GetID().c_str());
+			g_plugin.setWString(hContact, DB_STR_TO_ID, ri.second.GetID().c_str());
+			if (false == ri.first.GetName().IsEmpty()) {
+				g_plugin.setWString(hContact, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
+			}
+			if (false == ri.second.GetName().IsEmpty()) {
+				g_plugin.setWString(hContact, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
+			}
+
+			return true;
+		}
+	}
+	else if (!bWatch && hContact) {
+		db_delete_contact(hContact, true);
+		return true;
+	}
+
+	return false;
+}
+
+MCONTACT CCurrencyRatesProviderBase::GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const
+{
+	for (auto &hContact : Contacts(MODULENAME)) {
+		CMStringW sFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+		CMStringW sTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
+		if (!mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str()) && !mir_wstrcmpi(rsToID.c_str(), sTo.c_str()))
+			return hContact;
+	}
+
+	return 0;
+}
+
+MCONTACT CCurrencyRatesProviderBase::ImportContact(const TiXmlNode *pRoot)
+{
+	const char *sFromID = nullptr, *sToID = nullptr;
+
+	for (auto *pNode : TiXmlFilter(pRoot, "Setting")) {
+		TNameValue Item = parse_setting_node(pNode);
+		if (!mir_strcmpi(Item.first, DB_STR_FROM_ID))
+			sFromID = Item.second;
+		else if (!mir_strcmpi(Item.first, DB_STR_TO_ID))
+			sToID = Item.second;
+	}
+
+	if (sFromID && sToID)
+		return GetContactByID(Utf2T(sFromID).get(), Utf2T(sToID).get());
+
+	return 0;
 }
