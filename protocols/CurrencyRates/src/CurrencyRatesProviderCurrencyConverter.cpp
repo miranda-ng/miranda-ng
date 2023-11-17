@@ -1,6 +1,33 @@
 #include "stdafx.h"
 #include "CurrencyRatesProviderCurrencyConverter.h"
 
+typedef boost::shared_ptr<CAdvProviderSettings> TAdvSettingsPtr;
+typedef std::map<const ICurrencyRatesProvider *, TAdvSettingsPtr> TAdvSettings;
+
+TAdvSettings g_aAdvSettings;
+
+CAdvProviderSettings *get_adv_settings(const ICurrencyRatesProvider *m_pProvider, bool bCreateIfNonExist)
+{
+	TAdvSettings::iterator i = g_aAdvSettings.find(m_pProvider);
+	if (i != g_aAdvSettings.end())
+		return i->second.get();
+
+	if (true == bCreateIfNonExist) {
+		TAdvSettingsPtr pAdvSet(new CAdvProviderSettings(m_pProvider));
+		g_aAdvSettings.insert(std::make_pair(m_pProvider, pAdvSet));
+		return pAdvSet.get();
+	}
+
+	return nullptr;
+}
+
+void remove_adv_settings(const ICurrencyRatesProvider *m_pProvider)
+{
+	TAdvSettings::iterator i = g_aAdvSettings.find(m_pProvider);
+	if (i != g_aAdvSettings.end())
+		g_aAdvSettings.erase(i);
+}
+
 CMStringW build_url(const CMStringW &rsURL, const CMStringW &from, const CMStringW &to)
 {
 	CMStringW res = rsURL + L"?q=" + from + L"_" + to + L"&compact=ultra";
@@ -30,31 +57,30 @@ bool parse_response(const CMStringW &rsJSON, double &dRate)
 using TWatchedRates = std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
 TWatchedRates g_aWatchedRates;
 
-INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CDlgBase
 {
-	auto get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
+	CCurrencyRatesProviderCurrencyConverter* get_provider()
 	{
-		for (auto &pProvider : g_apProviders)
-			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider))
+		for (auto &it : g_apProviders)
+			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(it))
 				return p;
 
 		assert(!"We should never get here!");
 		return nullptr;
 	};
 
-	auto make_currencyrate_name = [](const CCurrencyRate &rCurrencyRate)->CMStringW
+	CMStringW make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
 	{
 		auto &rsDesc = rCurrencyRate.GetName();
 		return((false == rsDesc.IsEmpty()) ? rsDesc : rCurrencyRate.GetSymbol());
 	};
 
-	auto make_contact_name = [](const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)->CMStringW 
+	CMStringW make_contact_name(const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)
 	{
 		return rsSymbolFrom + L"/" + rsSymbolTo;
 	};
 
-
-	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)->CMStringW 
+	CMStringW make_rate_name(const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)
 	{
 		if ((false == ri.first.GetName().IsEmpty()) && (false == ri.second.GetName().IsEmpty()))
 			return make_contact_name(ri.first.GetName(), ri.second.GetName());
@@ -62,165 +88,286 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 		return make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
 	};
 
+	CCurrencyRatesProviderCurrencyConverter *m_pProvider;
 
-	auto pProvider = get_provider();
+	CCtrlCombo cmbFrom, cmbTo;
+	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced;
+	CCtrlListBox m_list;
 
-	CCommonDlgProcData d(pProvider);
-	CommonOptionDlgProc(hdlg, message, wParam, lParam, d);
+public:
+	COptionsDlg() :
+		CDlgBase(g_plugin, IDD_DIALOG_OPT_GOOGLE),
+		m_pProvider(get_provider()),
+		m_list(this, IDC_LIST_RATES),
+		btnAdd(this, IDC_BUTTON_ADD),
+		btnDescr(this, IDC_BUTTON_DESCRIPTION),
+		btnRemove(this, IDC_BUTTON_REMOVE),
+		btnAdvanced(this, IDC_BUTTON_ADVANCED_SETTINGS),
+		cmbTo(this, IDC_COMBO_CONVERT_INTO),
+		cmbFrom(this, IDC_COMBO_CONVERT_FROM)
+	{
+		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
+		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
+		btnRemove.OnClick = Callback(this, &COptionsDlg::onClick_Remove);
+		btnAdvanced.OnClick = Callback(this, &COptionsDlg::onClick_Advanced);
 
-	switch (message) {
-	case WM_NOTIFY:
-		{
-			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
-			switch (pNMHDR->code) {
-			case PSN_APPLY:
-				{
-					if (pProvider) {
-						TWatchedRates aTemp(g_aWatchedRates);
-						TWatchedRates aRemove;
-						size_t cWatchedRates = pProvider->GetWatchedRateCount();
-						for (size_t i = 0; i < cWatchedRates; ++i) {
-							CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-							if (true == pProvider->GetWatchedRateInfo(i, ri)) {
-								auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto& other)->bool
-								{
-									return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
-										&& ((0 == mir_wstrcmpi(ri.second.GetID().c_str(), other.second.GetID().c_str()))));
-								});
-								if (it == aTemp.end()) {
-									aRemove.push_back(ri);
-								}
-								else {
-									aTemp.erase(it);
-								}
-							}
-						}
-
-						for (auto &it : aRemove) pProvider->WatchForRate(it, false);
-						for (auto &it : aTemp)   pProvider->WatchForRate(it, true);
-						pProvider->RefreshSettings();
-					}
-				}
-				break;
-			}
-		}
-		break;
-
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		{
-			g_aWatchedRates.clear();
-
-			HWND hcbxFrom = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_FROM);
-			HWND hcbxTo = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_INTO);
-
-			CCurrencyRateSection rSection;
-			const auto& rCurrencyRates = pProvider->GetCurrencyRates();
-			if (rCurrencyRates.GetSectionCount() > 0) {
-				rSection = rCurrencyRates.GetSection(0);
-			}
-
-			auto cCurrencyRates = rSection.GetCurrencyRateCount();
-			for (auto i = 0u; i < cCurrencyRates; ++i) {
-				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
-				CMStringW sName = make_currencyrate_name(rCurrencyRate);
-				::SendMessage(hcbxFrom, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
-				::SendMessage(hcbxTo, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
-			}
-
-			auto cWatchedRates = pProvider->GetWatchedRateCount();
-			for (auto i = 0u; i < cWatchedRates; ++i) {
-				CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-				if (true == pProvider->GetWatchedRateInfo(i, ri)) {
-					g_aWatchedRates.push_back(ri);
-					CMStringW sRate = make_rate_name(ri);
-					::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, LPARAM(sRate.c_str()));
-				}
-			}
-
-			::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_ADD), FALSE);
-			::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), FALSE);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (HIWORD(wParam)) {
-		case CBN_SELCHANGE:
-			switch (LOWORD(wParam)) {
-			case IDC_COMBO_REFRESH_RATE:
-				break;
-			case IDC_COMBO_CONVERT_FROM:
-			case IDC_COMBO_CONVERT_INTO:
-				{
-					int nFrom = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
-					int nTo = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
-					bool bEnableAddButton = ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo));
-					EnableWindow(GetDlgItem(hdlg, IDC_BUTTON_ADD), bEnableAddButton);
-				}
-				break;
-			case IDC_LIST_RATES:
-				{
-					int nSel = ::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
-					::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), (LB_ERR != nSel));
-				}
-				break;
-			}
-			break;
-
-		case BN_CLICKED:
-			switch (LOWORD(wParam)) {
-			case IDC_BUTTON_ADD:
-				{
-					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
-					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
-					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						CCurrencyRateSection rSection;
-						const auto& rCurrencyRates = pProvider->GetCurrencyRates();
-						if (rCurrencyRates.GetSectionCount() > 0) {
-							rSection = rCurrencyRates.GetSection(0);
-						}
-
-						auto cCurrencyRates = rSection.GetCurrencyRateCount();
-						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
-							CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-							ri.first = rSection.GetCurrencyRate(nFrom);
-							ri.second = rSection.GetCurrencyRate(nTo);
-
-							g_aWatchedRates.push_back(ri);
-
-							CMStringW sRate = make_rate_name(ri);
-							::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, LPARAM(sRate.c_str()));
-							PropSheet_Changed(::GetParent(hdlg), hdlg);
-						}
-					}
-				}
-				break;
-
-			case IDC_BUTTON_REMOVE:
-				HWND hWnd = ::GetDlgItem(hdlg, IDC_LIST_RATES);
-				int nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
-				if (LB_ERR != nSel) {
-					if ((LB_ERR != ::SendMessage(hWnd, LB_DELETESTRING, nSel, 0))
-						&& (nSel < static_cast<int>(g_aWatchedRates.size()))) {
-
-						TWatchedRates::iterator i = g_aWatchedRates.begin();
-						std::advance(i, nSel);
-						g_aWatchedRates.erase(i);
-						PropSheet_Changed(::GetParent(hdlg), hdlg);
-					}
-				}
-
-				nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
-				::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), (LB_ERR != nSel));
-				break;
-			}
-			break;
-		}
-		break;
+		cmbTo.OnSelChanged = cmbFrom.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_From);
+		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		// set contact list display format
+		::SetDlgItemTextW(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT, g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat));
+
+		// set status message display format
+		::SetDlgItemTextW(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT, g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat));
+
+		// set tendency format
+		::SetDlgItemTextW(m_hwnd, IDC_EDIT_TENDENCY_FORMAT, g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat));
+
+		// set api key
+		::SetDlgItemTextW(m_hwnd, IDC_EDIT_PERSONAL_KEY, g_plugin.getMStringW(DB_KEY_ApiKey));
+
+		// refresh rate
+		HWND hwndCombo = ::GetDlgItem(m_hwnd, IDC_COMBO_REFRESH_RATE);
+		LPCTSTR pszRefreshRateTypes[] = { TranslateT("Seconds"), TranslateT("Minutes"), TranslateT("Hours") };
+		for (int i = 0; i < _countof(pszRefreshRateTypes); ++i)
+			::SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(pszRefreshRateTypes[i]));
+
+		int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
+		if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
+			nRefreshRateType = RRT_MINUTES;
+
+		UINT nRate = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
+		switch (nRefreshRateType) {
+		case RRT_SECONDS:
+		case RRT_MINUTES:
+			if (nRate < 1 || nRate > 60)
+				nRate = 1;
+
+			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 60);
+			break;
+		case RRT_HOURS:
+			if (nRate < 1 || nRate > 24)
+				nRate = 1;
+
+			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 24);
+			break;
+		}
+
+		::SendMessage(hwndCombo, CB_SETCURSEL, nRefreshRateType, 0);
+		::SetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, nRate, FALSE);
+
+		g_aWatchedRates.clear();
+
+		CCurrencyRateSection rSection;
+		const auto &rCurrencyRates = m_pProvider->GetCurrencyRates();
+		if (rCurrencyRates.GetSectionCount() > 0) {
+			rSection = rCurrencyRates.GetSection(0);
+		}
+
+		auto cCurrencyRates = rSection.GetCurrencyRateCount();
+		for (auto i = 0u; i < cCurrencyRates; ++i) {
+			const auto &rCurrencyRate = rSection.GetCurrencyRate(i);
+			CMStringW sName = make_currencyrate_name(rCurrencyRate);
+			cmbFrom.AddString(sName);
+			cmbTo.AddString(sName);
+		}
+
+		auto cWatchedRates = m_pProvider->GetWatchedRateCount();
+		for (auto i = 0u; i < cWatchedRates; ++i) {
+			CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+			if (true == m_pProvider->GetWatchedRateInfo(i, ri)) {
+				g_aWatchedRates.push_back(ri);
+				CMStringW sRate = make_rate_name(ri);
+				m_list.AddString(sRate);
+			}
+		}
+
+		btnAdd.Disable();
+		btnRemove.Disable();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		BOOL bOk = FALSE;
+		UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
+		ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(m_hwnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
+
+		g_plugin.setWord(DB_KEY_RefreshRateType, nType);
+		g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
+
+		g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
+		g_plugin.setWString(DB_KEY_StatusMsgFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT)));
+		g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_TENDENCY_FORMAT)));
+		g_plugin.setWString(DB_KEY_ApiKey, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_PERSONAL_KEY)));
+
+		CAdvProviderSettings *pAdvSet = get_adv_settings(m_pProvider, false);
+		if (pAdvSet)
+			pAdvSet->SaveToDb();
+
+		TWatchedRates aTemp(g_aWatchedRates);
+		TWatchedRates aRemove;
+		size_t cWatchedRates = m_pProvider->GetWatchedRateCount();
+		for (size_t i = 0; i < cWatchedRates; ++i) {
+			CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+			if (true == m_pProvider->GetWatchedRateInfo(i, ri)) {
+				auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto& other)->bool
+				{
+					return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
+						&& ((0 == mir_wstrcmpi(ri.second.GetID().c_str(), other.second.GetID().c_str()))));
+				});
+				if (it == aTemp.end()) {
+					aRemove.push_back(ri);
+				}
+				else {
+					aTemp.erase(it);
+				}
+			}
+		}
+
+		for (auto &it : aRemove)
+			m_pProvider->WatchForRate(it, false);
+		for (auto &it : aTemp)
+			m_pProvider->WatchForRate(it, true);
+		m_pProvider->RefreshSettings();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		remove_adv_settings(m_pProvider);
+	}
+
+	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY) {
+			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
+			switch (pNMHDR->code) {
+			case PSN_KILLACTIVE:
+				BOOL bOk = FALSE;
+				UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
+				ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(m_hwnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
+				switch (nType) {
+				case RRT_MINUTES:
+				case RRT_SECONDS:
+					if (FALSE == bOk || nRefreshRate < 1 || nRefreshRate > 60) {
+						prepare_edit_ctrl_for_error(::GetDlgItem(m_hwnd, IDC_EDIT_REFRESH_RATE));
+						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter integer value between 1 and 60."), MB_OK | MB_ICONERROR);
+						bOk = FALSE;
+					}
+					break;
+				case RRT_HOURS:
+					if (FALSE == bOk || nRefreshRate < 1 || nRefreshRate > 24) {
+						prepare_edit_ctrl_for_error(::GetDlgItem(m_hwnd, IDC_EDIT_REFRESH_RATE));
+						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter integer value between 1 and 24."), MB_OK | MB_ICONERROR);
+						bOk = FALSE;
+					}
+					break;
+				}
+
+				if (TRUE == bOk) {
+					HWND hEdit = ::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT);
+					assert(IsWindow(hEdit));
+
+					CMStringW s = get_window_text(hEdit);
+					if (s.IsEmpty()) {
+						prepare_edit_ctrl_for_error(hEdit);
+						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter text to display in contact list."), MB_OK | MB_ICONERROR);
+						bOk = FALSE;
+					}
+				}
+
+				::SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, (TRUE == bOk) ? FALSE : TRUE);
+				break;
+			}
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onSelChange_From(CCtrlCombo*)
+	{
+		int nFrom = cmbFrom.GetCurSel();
+		int nTo = cmbTo.GetCurSel();
+		btnAdd.Enable((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo));
+	}
+
+	void onSelChange_Rates(CCtrlCombo *)
+	{
+		int nType = m_list.GetCurSel();
+		btnRemove.Enable(LB_ERR != nType);
+
+		switch (nType) {
+		case RRT_SECONDS:
+		case RRT_MINUTES:
+			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 60);
+			break;
+		case RRT_HOURS:
+			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 24);
+			BOOL bOk = FALSE;
+			UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
+			if (TRUE == bOk && nRefreshRate > 24)
+				::SetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, 24, FALSE);
+			break;
+		}
+	}
+
+	void onClick_Add(CCtrlButton*)
+	{
+		size_t nFrom = cmbFrom.GetCurSel();
+		size_t nTo = cmbTo.GetCurSel();
+		if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
+			CCurrencyRateSection rSection;
+			const auto& rCurrencyRates = m_pProvider->GetCurrencyRates();
+			if (rCurrencyRates.GetSectionCount() > 0)
+				rSection = rCurrencyRates.GetSection(0);
+
+			auto cCurrencyRates = rSection.GetCurrencyRateCount();
+			if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
+				CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+				ri.first = rSection.GetCurrencyRate(nFrom);
+				ri.second = rSection.GetCurrencyRate(nTo);
+
+				g_aWatchedRates.push_back(ri);
+
+				CMStringW sRate = make_rate_name(ri);
+				m_list.AddString(sRate);
+				NotifyChange();
+			}
+		}
+	}
+
+	void onClick_Advanced(CCtrlButton *)
+	{
+		CAdvProviderSettings *pAdvSet = get_adv_settings(m_pProvider, true);
+		assert(pAdvSet);
+		if (true == ShowSettingsDlg(m_hwnd, pAdvSet))
+			NotifyChange();
+	}
+
+	void onClick_Descr(CCtrlButton *)
+	{
+		show_variable_list(m_hwnd, m_pProvider);
+	}
+
+	void onClick_Remove(CCtrlButton *)
+	{
+		int nSel = m_list.GetCurSel();
+		if (LB_ERR != nSel) {
+			m_list.DeleteString(nSel);
+			if (nSel < static_cast<int>(g_aWatchedRates.size())) {
+				g_aWatchedRates.erase(g_aWatchedRates.begin() + nSel);
+				NotifyChange();
+			}
+		}
+
+		nSel = m_list.GetCurSel();
+		btnRemove.Enable(LB_ERR != nSel);
+	}
+};
 
 CCurrencyRatesProviderCurrencyConverter::CCurrencyRatesProviderCurrencyConverter()
 {
@@ -232,8 +379,7 @@ CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverte
 
 void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 {
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_GOOGLE);
-	odp.pfnDlgProc = OptDlgProc;
+	odp.pDialog = new COptionsDlg();
 	odp.szTab.w = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
 	g_plugin.addOptions(wp, &odp);
 }

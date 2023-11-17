@@ -53,7 +53,6 @@ typedef boost::posix_time::wtime_facet ttime_facet;
 #include "CurrencyConverter.h"
 #include "WinCtrlHelper.h"
 #include "ImportExport.h"
-#include "CommonOptionDlg.h"
 #include "EconomicRateInfo.h"
 #include "SettingsDlg.h"
 #include "Locale.h"

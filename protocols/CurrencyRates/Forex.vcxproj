@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\CommonOptionDlg.cpp" />
     <ClCompile Include="src\CreateFilePath.cpp" />
     <ClCompile Include="src\CurrencyConverter.cpp" />
     <ClCompile Include="src\CurrencyRateChart.cpp" />
@@ -47,7 +46,6 @@
     </ClCompile>
     <ClCompile Include="src\WinCtrlHelper.cpp" />
     <ClInclude Include="src\Chart.h" />
-    <ClInclude Include="src\CommonOptionDlg.h" />
     <ClInclude Include="src\CurrencyConverter.h" />
     <ClInclude Include="src\CurrencyRateChart.h" />
     <ClInclude Include="src\CurrencyRateInfoDlg.h" />
