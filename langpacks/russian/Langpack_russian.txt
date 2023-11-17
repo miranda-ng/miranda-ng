@@ -15,7 +15,7 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.5
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
@@ -1057,6 +1057,8 @@ UIN, E-mail и т.д.
 Вход в Miranda NG
 [New password]
 Новый пароль
+[Enter your new password]
+Введите новый пароль
 [Enter password]
 Введите пароль
 [Change password]
@@ -2037,6 +2039,8 @@ Miranda NG не может открыть '%s', профиль в неизвес
 Miranda NG не может открыть '%s'\nОн недоступен, занят другим приложением или другой копией Miranda NG
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 Miranda NG не может открыть '%s'\nНе установлен подходящий драйвер базы данных
+[Show password]
+Показать пароль
 [No profile support installed!]
 Нет установленных плагинов базы!
 [Miranda can't open that profile]
@@ -8852,8 +8856,8 @@ ID пользователя
 Время обновления:
 [Previous Rate:]
 Предыдущее значение:
-[&Convert:]
-&Из:
+[Provider:]
+Поставщик данных:
 [&Add]
 &Добавить
 [&Watched currency rates:]
@@ -8870,32 +8874,40 @@ ID пользователя
 &Тенденция:
 [&Personal key:]
 &Персональный ключ:
+[Get key]
+Получить ключ
 [&Advanced Settings...]
 &Дополнительные настройки...
 [Rate Info]
 Курсы валют
+[Add currency pair]
+Добавить валютную пару
+[From:]
+Из:
+[To:]
+В:
 [There is nothing to show]
 Нечего показывать
-[Seconds]
-секунд
-[Minutes]
-минут(ы)
-[Hours]
-часов
-[Enter integer value between 1 and 60.]
-Введите целое число между 1 и 60.
-[Enter integer value between 1 and 24.]
-Введите целое число между 1 и 24.
-[Enter text to display in contact list.]
-Введите текст для отображения в списке контактов.
 [Info provided by]
 Информация предоставлена
 [Enter positive number.]
 Введите положительное число.
 [Currency Rate]
 Курс валюты
+[Currency Rates]
+Курсы валют
 [Test contact]
 Тестовый контакт
+[From Currency Full Name]
+Полное название исходной валюты
+[From Currency Short Name]
+Краткое название исходной валюты
+[Into Currency Full Name]
+Полное название целевой валюты
+[Into Currency Short Name]
+Краткое название целевой валюты
+[Short notation for "%f/%i"]
+Краткое обозначение "%f/%i"
 [Source of information]
 Источник информации
 [Rate value]
@@ -8920,22 +8932,10 @@ ID пользователя
 Ошибка в процессе обработки HTML.
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
-[From Currency Full Name]
-Полное название исходной валюты
-[From Currency Short Name]
-Краткое название исходной валюты
-[Into Currency Full Name]
-Полное название целевой валюты
-[Into Currency Short Name]
-Краткое название целевой валюты
-[Short notation for "%f/%i"]
-Краткое обозначение "%f/%i"
 [Auto Update Enabled]
 Автоматическое обновление включено
 [Auto Update Disabled]
 Автоматическое обновление отключено
-[Currency Rates]
-Курсы валют
 [Enable/Disable Auto Update]
 Вкл/Выкл автообновление
 [Refresh All Rates]
@@ -8962,8 +8962,6 @@ ID пользователя
 Автообновление курсов валют выключено
 [Currency Symbol]
 Символ валюты
-[Network]
-Сеть
 [Protocol icon]
 Значок протокола
 [Currency Rate up]
@@ -8980,12 +8978,28 @@ ID пользователя
 Поменять местами
 [Import]
 Импорт
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ. Нажмите "Да", чтобы запросить его через веб-сайт, и введите ключ в настройках плагина.
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
+Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ в настройках плагина.
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
+[Seconds]
+секунд
+[Minutes]
+минут(ы)
+[Hours]
+часов
+[Enter integer value between 1 and 60.]
+Введите целое число между 1 и 60.
+[Enter integer value between 1 and 24.]
+Введите целое число между 1 и 24.
+[Enter text to display in contact list.]
+Введите текст для отображения в списке контактов.
+[Network]
+Сеть
+[General]
+Общее
 [Log Files (*.txt,*.log)]
 Журналы (*.txt,*.log)
 [Enter integer value]
@@ -13090,6 +13104,8 @@ UIN/почта:
 Почта
 [E-mail notification]
 Уведомление об эл. почте
+[Convert a message into a file transfer]
+Преобразовать сообщение в событие передачи файла
 [Network]
 Сеть
 [General]
