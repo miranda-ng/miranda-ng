@@ -13,6 +13,7 @@ enum ERefreshRateType
 
 #define DB_STR_FROM_ID "FromID"
 #define DB_STR_TO_ID "ToID"
+#define DB_STR_PROVIDER "Provider"
 #define DB_STR_FROM_DESCRIPTION "FromDesc"
 #define DB_STR_TO_DESCRIPTION "ToDesc"
 #define DB_STR_ENABLE_LOG "EnableLog"

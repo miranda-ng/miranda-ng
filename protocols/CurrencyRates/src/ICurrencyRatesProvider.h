@@ -45,28 +45,23 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TCurrencyRatesProviders : public OBJLIST<ICurrencyRatesProvider>
+class CCurrencyRatesProviderBase;
+
+struct TCurrencyRatesProviders : public OBJLIST<CCurrencyRatesProviderBase>
 {
 	TCurrencyRatesProviders() : 
-		OBJLIST<ICurrencyRatesProvider>(1)
+		OBJLIST<CCurrencyRatesProviderBase>(1)
 	{}
 
-	void push(ICurrencyRatesProvider *pNew)
-	{
-		if (pNew->Init())
-			insert(pNew);
-		else
-			delete pNew;
-	}
+	void push(CCurrencyRatesProviderBase *pNew);
 };
 
 extern TCurrencyRatesProviders g_apProviders;
+extern CCurrencyRatesProviderBase *g_pCurrentProvider;
 
-ICurrencyRatesProvider* FindProvider(const CMStringW &rsName);
-ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact);
+CCurrencyRatesProviderBase* FindProvider(const CMStringW &rsName);
 
 void InitProviders();
-void CreateProviders();
 void ClearProviders();
 
 #endif //__ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__

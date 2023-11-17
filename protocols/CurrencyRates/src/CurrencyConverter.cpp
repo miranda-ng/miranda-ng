@@ -6,36 +6,6 @@
 #define DB_STR_CC_CURRENCYRATE_TO_ID "CurrencyConverter_ToID"
 #define DB_STR_CC_AMOUNT "CurrencyConverter_Amount"
 
-static CCurrencyRatesProviderBase *get_currency_converter_provider()
-{
-	for (auto &it : g_apProviders)
-		if (auto p = dynamic_cast<CCurrencyRatesProviderBase *>(it))
-			return p;
-
-	assert(!"We should never get here!");
-	return nullptr;
-}
-
-CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderBase *pProvider = nullptr)
-{
-	if (nullptr == pProvider)
-		pProvider = get_currency_converter_provider();
-
-	if (pProvider) {
-		const auto &rCurrencyRates = pProvider->GetCurrencyRates();
-		if (rCurrencyRates.GetSectionCount() > 0)
-			return rCurrencyRates.GetSection(0);
-	}
-
-	return CCurrencyRateSection();
-}
-
-inline CMStringW make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
-{
-	const CMStringW &rsDesc = rCurrencyRate.GetName();
-	return((false == rsDesc.IsEmpty()) ? rsDesc : rCurrencyRate.GetSymbol());
-}
-
 inline void update_convert_button(HWND hDlg)
 {
 	int nFrom = static_cast<int>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
@@ -75,20 +45,17 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			CMStringW sFromCurrencyRateID = g_plugin.getMStringW(DB_STR_CC_CURRENCYRATE_FROM_ID);
 			CMStringW sToCurrencyRateID = g_plugin.getMStringW(DB_STR_CC_CURRENCYRATE_TO_ID);
 
-			const auto pProvider = get_currency_converter_provider();
-			const auto &rSection = get_currencyrates(pProvider);
-			auto cCurrencyRates = rSection.GetCurrencyRateCount();
-			for (auto i = 0u; i < cCurrencyRates; ++i) {
-				const auto &rCurrencyRate = rSection.GetCurrencyRate(i);
-				CMStringW sName = make_currencyrate_name(rCurrencyRate);
+			auto &rSection = g_pCurrentProvider->GetSection();
+			for (auto &it : rSection.GetCurrencyRates()) {
+				CMStringW sName = it.MakeName();
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
 				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
 
-				if (0 == mir_wstrcmpi(rCurrencyRate.GetID().c_str(), sFromCurrencyRateID.c_str())) {
+				if (0 == mir_wstrcmpi(it.GetID().c_str(), sFromCurrencyRateID.c_str())) {
 					::SendMessage(hcbxFrom, CB_SETCURSEL, nFrom, 0);
 				}
 
-				if (0 == mir_wstrcmpi(rCurrencyRate.GetID().c_str(), sToCurrencyRateID.c_str())) {
+				if (0 == mir_wstrcmpi(it.GetID().c_str(), sToCurrencyRateID.c_str())) {
 					::SendMessage(hcbxTo, CB_SETCURSEL, nTo, 0);
 				}
 			}
@@ -99,7 +66,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			swprintf_s(str, L"%.2lf", dAmount);
 			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, str);
 
-			auto &pi = pProvider->GetInfo();
+			auto &pi = g_pCurrentProvider->GetInfo();
 			CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
 			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, provInfo);
 
@@ -168,22 +135,21 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						const auto &rSection = get_currencyrates();
-						size_t cCurrencyRates = rSection.GetCurrencyRateCount();
-						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
-							auto from = rSection.GetCurrencyRate(nFrom);
-							auto to = rSection.GetCurrencyRate(nTo);
+						const auto &rSection = g_pCurrentProvider->GetSection();
+						auto &cCurrencyRates = rSection.GetCurrencyRates();
+						if ((nFrom < cCurrencyRates.size()) && (nTo < cCurrencyRates.size())) {
+							auto &from = cCurrencyRates[nFrom];
+							auto &to = cCurrencyRates[nTo];
 
 							g_plugin.setWString(DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
 							g_plugin.setWString(DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
 
-							const auto pProvider = get_currency_converter_provider();
-							assert(pProvider);
-							if (pProvider) {
+							assert(g_pCurrentProvider);
+							if (g_pCurrentProvider) {
 								CMStringW sResult;
 
 								try {
-									double dResult = pProvider->Convert(dAmount, from, to);
+									double dResult = g_pCurrentProvider->Convert(dAmount, from, to);
 									sResult.Format(L"%.2lf %s = %.2lf %s", dAmount, from.GetName().c_str(), dResult, to.GetName().c_str());
 								}
 								catch (std::exception &e) {

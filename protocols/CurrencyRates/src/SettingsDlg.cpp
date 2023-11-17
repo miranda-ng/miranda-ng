@@ -241,8 +241,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			uint8_t bUseContactSpecific = g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0);
 			::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
-			auto pProvider = GetContactProviderPtr(hContact);
-			CAdvProviderSettings setGlobal(pProvider);
+			CAdvProviderSettings setGlobal(g_pCurrentProvider);
 			// log to history
 			uint16_t dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
 			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
@@ -291,7 +290,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
 		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
 			if (BN_CLICKED == HIWORD(wp))
-				show_variable_list(hWnd, GetContactProviderPtr(get_param(hWnd)->m_hContact));
+				show_variable_list(hWnd, g_pCurrentProvider);
 			break;
 
 		case IDC_CHECK_CONTACT_SPECIFIC:
@@ -837,14 +836,13 @@ CMStringW GetContactLogFileName(MCONTACT hContact)
 {
 	CMStringW result;
 
-	auto pProvider = GetContactProviderPtr(hContact);
-	if (pProvider) {
+	if (g_pCurrentProvider) {
 		CMStringW sPattern;
 		bool bUseContactSpecific = (g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
 			sPattern = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_LOG_FILE);
 		else {
-			CAdvProviderSettings global_settings(pProvider);
+			CAdvProviderSettings global_settings(g_pCurrentProvider);
 			sPattern = global_settings.GetLogFileName();
 		}
 

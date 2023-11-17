@@ -14,7 +14,7 @@ MCONTACT g_hContact;
 
 inline bool IsMyContact(MCONTACT hContact)
 {
-	return nullptr != GetContactProviderPtr(hContact);
+	return Proto_IsProtoOnContact(hContact, MODULENAME);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ public:
 			}
 		}
 
-		auto &pi = GetContactProviderPtr(m_hContact)->GetInfo();
+		auto &pi = g_pCurrentProvider->GetInfo();
 		CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
 		::SetDlgItemTextW(m_hwnd, IDC_SYSLINK_PROVIDER, provInfo);
 		return false;
@@ -119,22 +119,21 @@ struct CurrencyRateInfoDlg2 : public CurrencyRateInfoDlg
 
 int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 {
+	if (!g_pCurrentProvider)
+		return 0;
+
 	MCONTACT hContact = MCONTACT(wp);
-	if (GetContactProviderPtr(hContact)) {
-		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
-		assert(hWL);
-		HWND hWnd = WindowList_Find(hWL, hContact);
-		if (nullptr != hWnd) {
-			SetForegroundWindow(hWnd);
-			SetFocus(hWnd);
-		}
-		else if (true == IsMyContact(hContact))
-			(new CurrencyRateInfoDlg2(hContact))->Show();
-
-		return 1;
+	MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
+	assert(hWL);
+	HWND hWnd = WindowList_Find(hWL, hContact);
+	if (nullptr != hWnd) {
+		SetForegroundWindow(hWnd);
+		SetFocus(hWnd);
 	}
+	else if (true == IsMyContact(hContact))
+		(new CurrencyRateInfoDlg2(hContact))->Show();
 
-	return 0;
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -175,9 +174,8 @@ INT_PTR CurrencyRatesMenu_RefreshContact(WPARAM wp, LPARAM)
 	if (NULL == hContact)
 		return 0;
 
-	ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
-	if (pProvider)
-		pProvider->RefreshContact(hContact);
+	if (g_pCurrentProvider)
+		g_pCurrentProvider->RefreshContact(hContact);
 	return 0;
 }
 

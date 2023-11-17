@@ -17,6 +17,59 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Pair adding dialog
+
+class CPairAddDialog : public CDlgBase
+{
+	CCtrlCombo cmbFrom, cmbTo;
+	CCtrlButton btnOk;
+
+public:
+	CCurrencyRatesProviderBase::TRateInfo ri;
+
+	CPairAddDialog() :
+		CDlgBase(g_plugin, IDD_ADD_PAIR),
+		btnOk(this, IDOK),
+		cmbTo(this, IDC_COMBO_CONVERT_INTO),
+		cmbFrom(this, IDC_COMBO_CONVERT_FROM)
+	{
+		cmbTo.OnSelChanged = cmbFrom.OnSelChanged = Callback(this, &CPairAddDialog::onSelChange_From);
+	}
+
+	bool OnInitDialog() override
+	{
+		auto &rSection = g_pCurrentProvider->GetSection();
+		for (auto &it : rSection.GetCurrencyRates()) {
+			CMStringW sName = it.MakeName();
+			cmbFrom.AddString(TranslateW(sName), LPARAM(&it));
+			cmbTo.AddString(TranslateW(sName), LPARAM(&it));
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		auto *c1 = (CCurrencyRate*)cmbFrom.GetCurData();
+		auto *c2 = (CCurrencyRate *)cmbTo.GetCurData();
+		if (c1 && c2) {
+			ri.first = *c1;
+			ri.second = *c2;
+		}
+		return true;
+	}
+
+	void onSelChange_From(CCtrlCombo *)
+	{
+		int nFrom = cmbFrom.GetCurSel();
+		int nTo = cmbTo.GetCurSel();
+		btnOk.Enable((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo));
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// General options dialog
+
 typedef boost::shared_ptr<CAdvProviderSettings> TAdvSettingsPtr;
 typedef std::map<const ICurrencyRatesProvider *, TAdvSettingsPtr> TAdvSettings;
 
@@ -46,22 +99,6 @@ void remove_adv_settings(const ICurrencyRatesProvider *m_pProvider)
 
 class COptionsDlg : public CDlgBase
 {
-	CCurrencyRatesProviderBase* get_provider()
-	{
-		for (auto &it : g_apProviders)
-			if (auto p = dynamic_cast<CCurrencyRatesProviderBase *>(it))
-				return p;
-
-		assert(!"We should never get here!");
-		return nullptr;
-	};
-
-	CMStringW make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
-	{
-		auto &rsDesc = rCurrencyRate.GetName();
-		return((false == rsDesc.IsEmpty()) ? rsDesc : rCurrencyRate.GetSymbol());
-	};
-
 	CMStringW make_contact_name(const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)
 	{
 		return rsSymbolFrom + L"/" + rsSymbolTo;
@@ -80,33 +117,39 @@ class COptionsDlg : public CDlgBase
 
 	CCurrencyRatesProviderBase *m_pProvider;
 
-	CCtrlCombo cmbFrom, cmbTo;
-	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced;
+	CCtrlCombo cmbProvider;
+	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced, btnGetKey;
 	CCtrlListBox m_list;
 
 public:
 	COptionsDlg() :
-		CDlgBase(g_plugin, IDD_DIALOG_OPT_GOOGLE),
-		m_pProvider(get_provider()),
+		CDlgBase(g_plugin, IDD_OPTIONS_GENERAL),
+		m_pProvider(g_pCurrentProvider),
 		m_list(this, IDC_LIST_RATES),
+		cmbProvider(this, IDC_PROVIDER),
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
+		btnGetKey(this, IDC_GET_KEY),
 		btnRemove(this, IDC_BUTTON_REMOVE),
-		btnAdvanced(this, IDC_BUTTON_ADVANCED_SETTINGS),
-		cmbTo(this, IDC_COMBO_CONVERT_INTO),
-		cmbFrom(this, IDC_COMBO_CONVERT_FROM)
+		btnAdvanced(this, IDC_BUTTON_ADVANCED_SETTINGS)
 	{
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
+		btnGetKey.OnClick = Callback(this, &COptionsDlg::onClick_GetKey);
 		btnRemove.OnClick = Callback(this, &COptionsDlg::onClick_Remove);
 		btnAdvanced.OnClick = Callback(this, &COptionsDlg::onClick_Advanced);
 
-		cmbTo.OnSelChanged = cmbFrom.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_From);
 		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
 	}
 
 	bool OnInitDialog() override
 	{
+		for (auto &it : g_apProviders) {
+			int idx = cmbProvider.AddString(it->GetInfo().m_sName, (LPARAM)it);
+			if (it == g_pCurrentProvider)
+				cmbProvider.SetCurSel(idx);
+		}
+
 		// set contact list display format
 		::SetDlgItemTextW(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT, g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat));
 
@@ -151,20 +194,6 @@ public:
 
 		g_aWatchedRates.clear();
 
-		CCurrencyRateSection rSection;
-		const auto &rCurrencyRates = m_pProvider->GetCurrencyRates();
-		if (rCurrencyRates.GetSectionCount() > 0) {
-			rSection = rCurrencyRates.GetSection(0);
-		}
-
-		auto cCurrencyRates = rSection.GetCurrencyRateCount();
-		for (auto i = 0u; i < cCurrencyRates; ++i) {
-			const auto &rCurrencyRate = rSection.GetCurrencyRate(i);
-			CMStringW sName = make_currencyrate_name(rCurrencyRate);
-			cmbFrom.AddString(sName);
-			cmbTo.AddString(sName);
-		}
-
 		for (auto &cc : Contacts(MODULENAME)) {
 			CCurrencyRatesProviderBase::TRateInfo ri;
 			if (true == m_pProvider->GetWatchedRateInfo(cc, ri)) {
@@ -174,7 +203,6 @@ public:
 			}
 		}
 
-		btnAdd.Disable();
 		btnRemove.Disable();
 		return true;
 	}
@@ -222,6 +250,9 @@ public:
 		for (auto &it : aTemp)
 			m_pProvider->WatchForRate(it, true);
 		m_pProvider->RefreshSettings();
+
+		g_pCurrentProvider = (CCurrencyRatesProviderBase *)cmbProvider.GetCurData();
+		g_plugin.setWString(DB_STR_PROVIDER, g_pCurrentProvider->GetInfo().m_sName);
 		return true;
 	}
 
@@ -277,13 +308,6 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	void onSelChange_From(CCtrlCombo *)
-	{
-		int nFrom = cmbFrom.GetCurSel();
-		int nTo = cmbTo.GetCurSel();
-		btnAdd.Enable((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo));
-	}
-
 	void onSelChange_Rates(CCtrlCombo *)
 	{
 		int nType = m_list.GetCurSel();
@@ -306,26 +330,14 @@ public:
 
 	void onClick_Add(CCtrlButton *)
 	{
-		size_t nFrom = cmbFrom.GetCurSel();
-		size_t nTo = cmbTo.GetCurSel();
-		if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-			CCurrencyRateSection rSection;
-			const auto &rCurrencyRates = m_pProvider->GetCurrencyRates();
-			if (rCurrencyRates.GetSectionCount() > 0)
-				rSection = rCurrencyRates.GetSection(0);
+		CPairAddDialog dlg;
+		dlg.SetParent(m_hwnd);
+		if (dlg.DoModal() == IDOK) {
+			g_aWatchedRates.push_back(dlg.ri);
 
-			auto cCurrencyRates = rSection.GetCurrencyRateCount();
-			if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
-				CCurrencyRatesProviderBase::TRateInfo ri;
-				ri.first = rSection.GetCurrencyRate(nFrom);
-				ri.second = rSection.GetCurrencyRate(nTo);
-
-				g_aWatchedRates.push_back(ri);
-
-				CMStringW sRate = make_rate_name(ri);
-				m_list.AddString(sRate);
-				NotifyChange();
-			}
+			CMStringW sRate = make_rate_name(dlg.ri);
+			m_list.AddString(sRate);
+			NotifyChange();
 		}
 	}
 
@@ -342,6 +354,12 @@ public:
 		show_variable_list(m_hwnd, m_pProvider);
 	}
 
+	void onClick_GetKey(CCtrlButton *)
+	{
+		if (auto *pProvider = (CCurrencyRatesProviderBase *)cmbProvider.GetCurData())
+			Utils_OpenUrlW(pProvider->GetInfo().m_sURL);
+	}
+	
 	void onClick_Remove(CCtrlButton *)
 	{
 		int nSel = m_list.GetCurSel();

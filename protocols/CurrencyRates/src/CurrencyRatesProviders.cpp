@@ -7,11 +7,18 @@ void InitExchangeRates();
 
 TCurrencyRatesProviders g_apProviders;
 
+CCurrencyRatesProviderBase *g_pCurrentProvider = nullptr;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CreateProviders()
+void InitProviders()
 {
 	InitCC();
+	InitExchangeRates();
+
+	g_pCurrentProvider = FindProvider(g_plugin.getMStringW(DB_STR_PROVIDER));
+	if (g_pCurrentProvider == nullptr)
+		g_pCurrentProvider = &g_apProviders[0];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -30,40 +37,17 @@ void convert_contact_settings(MCONTACT hContact)
 		g_plugin.setByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 1);
 }
 
-void InitProviders()
+void TCurrencyRatesProviders::push(CCurrencyRatesProviderBase *pNew)
 {
-	CreateProviders();
-
-	const uint16_t nCurrentVersion = 17;
-	uint16_t nVersion = g_plugin.getWord(LAST_RUN_VERSION, 1);
-
-	for (auto &hContact : Contacts(MODULENAME)) {
-		ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
-		if (pProvider && nVersion < nCurrentVersion)
-			convert_contact_settings(hContact);
-	}
-
-	g_plugin.setWord(LAST_RUN_VERSION, nCurrentVersion);
+	if (pNew->Init())
+		insert(pNew);
+	else
+		delete pNew;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
-{
-	char* szProto = Proto_GetBaseAccountName(hContact);
-	if (nullptr == szProto || 0 != ::_stricmp(szProto, MODULENAME))
-		return nullptr;
-
-	CMStringW sProvider = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_PROVIDER);
-	if (sProvider.IsEmpty())
-		return nullptr;
-
-	return FindProvider(sProvider);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-ICurrencyRatesProvider* FindProvider(const CMStringW &rsName)
+CCurrencyRatesProviderBase* FindProvider(const CMStringW &rsName)
 {
 	for (auto &pProvider : g_apProviders) {
 		const ICurrencyRatesProvider::CProviderInfo& rInfo = pProvider->GetInfo();

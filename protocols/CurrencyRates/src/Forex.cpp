@@ -40,8 +40,7 @@ static void UpdateMenu()
 
 static INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 {
-	for (auto &pProvider : g_apProviders)
-		pProvider->RefreshAllContacts();
+	g_pCurrentProvider->RefreshAllContacts();
 	return 0;
 }
 
@@ -50,11 +49,9 @@ static INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 	g_bAutoUpdate = !g_bAutoUpdate;
 	g_plugin.setByte(DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
-	for (auto &pProvider : g_apProviders) {
-		pProvider->RefreshSettings();
-		if (g_bAutoUpdate)
-			pProvider->RefreshAllContacts();
-	}
+	g_pCurrentProvider->RefreshSettings();
+	if (g_bAutoUpdate)
+		g_pCurrentProvider->RefreshAllContacts();
 
 	UpdateMenu();
 	return 0;
@@ -199,8 +196,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	::ResetEvent(g_hEventWorkThreadStop);
 
-	for (auto &pProvider : g_apProviders)
-		g_ahThreads.push_back(mir_forkthread(WorkingThread, pProvider));
+	g_ahThreads.push_back(mir_forkthread(WorkingThread, g_pCurrentProvider));
 	return 0;
 }
 

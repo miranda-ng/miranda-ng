@@ -16,6 +16,8 @@ public:
 	const CMStringW& GetSymbol() const{ return m_sSymbol; }
 	const CMStringW& GetName() const{ return m_sName; }
 	const CMStringW& GetID() const{ return m_sID; }
+
+	const CMStringW& MakeName() const { return m_sName.IsEmpty() ? m_sID : m_sName; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -24,17 +26,15 @@ public:
 class CCurrencyRateSection
 {
 public:
-	typedef std::vector<CCurrencyRateSection> TSections;
 	typedef std::vector<CCurrencyRate> TCurrencyRates;
 
 private:
 	CMStringW m_sName;
-	TSections m_aSections;
 	TCurrencyRates m_aCurrencyRates;
 
 public:
-	CCurrencyRateSection(const CMStringW &rsName = L"", const TSections &raSections = TSections(), const TCurrencyRates &raCurrencyRates = TCurrencyRates()) :
-		m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates)
+	CCurrencyRateSection(const CMStringW &rsName = L"", const TCurrencyRates &raCurrencyRates = TCurrencyRates()) :
+		m_sName(rsName), m_aCurrencyRates(raCurrencyRates)
 	{}
 
 	const CMStringW& GetName() const
@@ -42,24 +42,9 @@ public:
 		return m_sName;
 	}
 
-	size_t GetSectionCount() const
+	const TCurrencyRates& GetCurrencyRates() const
 	{
-		return m_aSections.size();
-	}
-
-	CCurrencyRateSection GetSection(size_t nIndex) const
-	{
-		return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CCurrencyRateSection());
-	}
-
-	size_t GetCurrencyRateCount() const
-	{
-		return m_aCurrencyRates.size();
-	}
-
-	CCurrencyRate GetCurrencyRate(size_t nIndex) const
-	{
-		return ((nIndex < m_aCurrencyRates.size()) ? m_aCurrencyRates[nIndex] : CCurrencyRate());
+		return m_aCurrencyRates;
 	}
 };
 
@@ -84,7 +69,7 @@ public:
 	CCurrencyRatesProviderBase();
 	~CCurrencyRatesProviderBase();
 
-	const CCurrencyRateSection& GetCurrencyRates() const;
+	const CCurrencyRateSection& GetSection() const;
 
 	bool Init() override;
 	const CProviderInfo& GetInfo() const override;

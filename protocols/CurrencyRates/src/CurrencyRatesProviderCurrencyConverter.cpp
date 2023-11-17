@@ -29,12 +29,8 @@ static bool parse_response(const CMStringW &rsJSON, double &dRate)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCurrencyRatesProviderCurrencyConverter implementation
 
-class CCurrencyRatesProviderCurrencyConverter : public CCurrencyRatesProviderBase
+struct CCurrencyRatesProviderCurrencyConverter : public CCurrencyRatesProviderBase
 {
-public:
-	typedef CCurrencyRatesProviderBase CSuper;
-
-public:
 	CCurrencyRatesProviderCurrencyConverter()
 	{}
 

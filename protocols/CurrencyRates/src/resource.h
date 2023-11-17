@@ -1,10 +1,10 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\plugins\CurrencyRates\res\Forex.rc
+// Used by W:\miranda-ng\protocols\CurrencyRates\res\Forex.rc
 //
 #define IDI_ICON_MAIN                   102
 #define IDD_DIALOG_CURRENCYRATE_INFO    102
-#define IDD_DIALOG_OPT_GOOGLE           103
+#define IDD_OPTIONS_GENERAL             103
 #define IDI_ICON_SECTION                110
 #define IDI_ICON_CURRENCYRATE           111
 #define IDI_ICON_UP                     113
@@ -23,6 +23,7 @@
 #define IDI_ICON_MAIN1                  122
 #define IDI_ICON_DISABLED               122
 #define IDD_DIALOG_VARIABLE_LIST        123
+#define IDD_ADD_PAIR                    126
 #define IDC_EDIT_REFRESH_RATE           1002
 #define IDC_SPIN_REFRESH_RATE           1003
 #define IDC_COMBO_REFRESH_RATE          1004
@@ -32,6 +33,7 @@
 #define IDC_STATIC_CURRENCYRATE_CHART   1010
 #define IDC_COMBO_CONVERT_FROM          1011
 #define IDC_COMBO_CONVERT_INTO          1012
+#define IDC_COMBO_CONVERT_              1012
 #define IDC_BUTTON_ADD                  1013
 #define IDC_LIST_RATES                  1014
 #define IDC_BUTTON_REMOVE               1015
@@ -83,8 +85,11 @@
 #define IDC_DELAY                       1072
 #define IDC_EDIT1                       1072
 #define IDC_EDIT_VARIABLE               1072
+#define IDC_PROVIDER                    1073
 #define IDC_BGCOLOR                     1074
 #define IDC_TEXTCOLOR                   1075
+#define IDC_BUTTON1                     1075
+#define IDC_GET_KEY                     1075
 #define IDC_PREV                        1076
 #define IDC_DELAYFROMPU                 1093
 #define IDC_DELAYCUSTOM                 1094
@@ -94,9 +99,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_RESOURCE_VALUE        128
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1073
+#define _APS_NEXT_CONTROL_VALUE         1076
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -2,12 +2,12 @@
 
 HNETLIBUSER CHTTPSession::g_hNetLib = nullptr;
 
-#define ERROR_MSG LPGENW("This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.")
+#define ERROR_MSG LPGENW("This plugin requires a personal key. Open the Options dialog to obtain it.")
 
 void CALLBACK waitStub()
 {
-	if (IDYES == MessageBox(0, TranslateW(ERROR_MSG), _A2W(MODULENAME), MB_YESNOCANCEL))
-		Utils_OpenUrl("https://free.currencyconverterapi.com/free-api-key");
+	CAdvProviderSettings global_settings(g_pCurrentProvider);
+	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG), *global_settings.GetPopupSettingsPtr());
 }
 
 static int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
@@ -76,7 +76,7 @@ bool CHTTPSession::Init()
 	assert(nullptr == g_hNetLib);
 
 	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
-	if (szApiKey == nullptr)
+	if (mir_strlen(szApiKey) == 0)
 		Miranda_WaitOnHandle(waitStub);
 
 	NETLIBUSER nlu = {};

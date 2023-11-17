@@ -38,18 +38,12 @@ bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRate &q)
 
 bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 {
-	CCurrencyRateSection::TSections aSections;
 	CCurrencyRateSection::TCurrencyRates aCurrencyRates;
 	CMStringW sSectionName;
 
 	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
-		if (!mir_strcmpi(sName, "section")) {
-			CCurrencyRateSection qs1;
-			if (true == parse_section(pNode, qs1))
-				aSections.push_back(qs1);
-		}
-		else if (!mir_strcmpi(sName, "currencyrate")) {
+		if (!mir_strcmpi(sName, "currencyrate")) {
 			CCurrencyRate q;
 			if (true == parse_currencyrate(pNode, q))
 				aCurrencyRates.push_back(q);
@@ -61,7 +55,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 		}
 	}
 
-	qs = CCurrencyRateSection(TranslateW(sSectionName.c_str()), aSections, aCurrencyRates);
+	qs = CCurrencyRateSection(TranslateW(sSectionName.c_str()), aCurrencyRates);
 	return true;
 }
 
@@ -82,8 +76,7 @@ const TiXmlNode *find_provider(const TiXmlNode *pRoot)
 CXMLFileInfo parse_ini_file(const CMStringW &rsXMLFile, bool &rbSucceded)
 {
 	CXMLFileInfo res;
-	CCurrencyRateSection::TSections aSections;
-
+	
 	TiXmlDocument doc;
 	if (doc.LoadFile(_T2A(rsXMLFile.c_str())) == tinyxml2::XML_SUCCESS) {
 		const TiXmlNode *pProvider = find_provider(&doc);
@@ -94,7 +87,7 @@ CXMLFileInfo parse_ini_file(const CMStringW &rsXMLFile, bool &rbSucceded)
 				if (!mir_strcmpi(sName, "section")) {
 					CCurrencyRateSection qs;
 					if (parse_section(pNode, qs))
-						aSections.push_back(qs);
+						res.m_qs = qs;
 				}
 				else if (!mir_strcmpi(sName, "Name"))
 					res.m_pi.m_sName = GetNodeText(pNode);
@@ -106,7 +99,6 @@ CXMLFileInfo parse_ini_file(const CMStringW &rsXMLFile, bool &rbSucceded)
 		}
 	}
 
-	res.m_qs = CCurrencyRateSection(res.m_pi.m_sName, aSections);
 	return res;
 }
 
@@ -148,7 +140,7 @@ const CCurrencyRatesProviderBase::CProviderInfo &CCurrencyRatesProviderBase::Get
 	return m_pXMLInfo->m_pi;
 }
 
-const CCurrencyRateSection &CCurrencyRatesProviderBase::GetCurrencyRates() const
+const CCurrencyRateSection &CCurrencyRatesProviderBase::GetSection() const
 {
 	return m_pXMLInfo->m_qs;
 }
@@ -193,7 +185,8 @@ public:
 	{
 		NotChanged,
 		Up,
-		Down
+		Down,
+		Unknown = -1
 	};
 
 public:
@@ -412,15 +405,19 @@ bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = hContact;
 
-	if (CTendency::NotChanged == nComparison)
-		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_NOTCHANGED);
-	else if (CTendency::Up == nComparison)
-		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_UP);
-	else if (CTendency::Down == nComparison)
-		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_DOWN);
+	switch (nComparison) {
+	case CTendency::Up:         ppd.lchIcon = g_plugin.getIcon(IDI_ICON_UP); break;
+	case CTendency::Down:       ppd.lchIcon = g_plugin.getIcon(IDI_ICON_DOWN); break;
+	case CTendency::NotChanged: ppd.lchIcon = g_plugin.getIcon(IDI_ICON_NOTCHANGED); break;
+	default:
+		ppd.lchIcon = g_plugin.getIcon(IDI_ICON_CURRENCYRATE);
+	}
 
 	if (pProvider != nullptr) {
-		mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
+		if (hContact)
+			mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
+		else
+			mir_wstrncpy(ppd.lpwzContactName, TranslateT("Currency Rates"), MAX_CONTACTNAME);
 
 		ptrW ss(variables_parsedup((wchar_t *)rsFormat.c_str(), nullptr, hContact));
 		mir_wstrncpy(ppd.lpwzText, format_rate(pProvider, hContact, ss.get()), MAX_SECONDLINE);
