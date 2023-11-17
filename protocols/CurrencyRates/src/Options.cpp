@@ -75,7 +75,7 @@ typedef std::map<const ICurrencyRatesProvider *, TAdvSettingsPtr> TAdvSettings;
 
 TAdvSettings g_aAdvSettings;
 
-CAdvProviderSettings *get_adv_settings(const ICurrencyRatesProvider *m_pProvider, bool bCreateIfNonExist)
+CAdvProviderSettings* get_adv_settings(const ICurrencyRatesProvider *m_pProvider, bool bCreateIfNonExist)
 {
 	TAdvSettings::iterator i = g_aAdvSettings.find(m_pProvider);
 	if (i != g_aAdvSettings.end())
@@ -117,7 +117,7 @@ class COptionsDlg : public CDlgBase
 
 	CCurrencyRatesProviderBase *m_pProvider;
 
-	CCtrlCombo cmbProvider;
+	CCtrlCombo cmbProvider, cmbRefresh;
 	CCtrlButton btnAdd, btnRemove, btnDescr, btnAdvanced, btnGetKey;
 	CCtrlListBox m_list;
 
@@ -126,6 +126,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPTIONS_GENERAL),
 		m_pProvider(g_pCurrentProvider),
 		m_list(this, IDC_LIST_RATES),
+		cmbRefresh(this, IDC_COMBO_REFRESH_RATE),
 		cmbProvider(this, IDC_PROVIDER),
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
@@ -140,6 +141,7 @@ public:
 		btnAdvanced.OnClick = Callback(this, &COptionsDlg::onClick_Advanced);
 
 		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
+		cmbRefresh.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Refresh);
 	}
 
 	bool OnInitDialog() override
@@ -163,10 +165,9 @@ public:
 		::SetDlgItemTextW(m_hwnd, IDC_EDIT_PERSONAL_KEY, g_plugin.getMStringW(DB_KEY_ApiKey));
 
 		// refresh rate
-		HWND hwndCombo = ::GetDlgItem(m_hwnd, IDC_COMBO_REFRESH_RATE);
-		LPCTSTR pszRefreshRateTypes[] = { TranslateT("Seconds"), TranslateT("Minutes"), TranslateT("Hours") };
-		for (int i = 0; i < _countof(pszRefreshRateTypes); ++i)
-			::SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(pszRefreshRateTypes[i]));
+		cmbRefresh.AddString(TranslateT("Seconds"));
+		cmbRefresh.AddString(TranslateT("Minutes"));
+		cmbRefresh.AddString(TranslateT("Hours"));
 
 		int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
 		if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
@@ -188,8 +189,7 @@ public:
 			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 24);
 			break;
 		}
-
-		::SendMessage(hwndCombo, CB_SETCURSEL, nRefreshRateType, 0);
+		cmbRefresh.SetCurSel(nRefreshRateType);
 		::SetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, nRate, FALSE);
 
 		g_aWatchedRates.clear();
@@ -211,9 +211,8 @@ public:
 	{
 		BOOL bOk = FALSE;
 		UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
-		ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(m_hwnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
 
-		g_plugin.setWord(DB_KEY_RefreshRateType, nType);
+		g_plugin.setWord(DB_KEY_RefreshRateType, cmbRefresh.GetCurSel());
 		g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
 
 		g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
@@ -261,63 +260,19 @@ public:
 		remove_adv_settings(m_pProvider);
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void onSelChange_Rates(CCtrlListBox *)
 	{
-		if (msg == WM_NOTIFY) {
-			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
-			switch (pNMHDR->code) {
-			case PSN_KILLACTIVE:
-				BOOL bOk = FALSE;
-				UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
-				ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(m_hwnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
-				switch (nType) {
-				case RRT_MINUTES:
-				case RRT_SECONDS:
-					if (FALSE == bOk || nRefreshRate < 1 || nRefreshRate > 60) {
-						prepare_edit_ctrl_for_error(::GetDlgItem(m_hwnd, IDC_EDIT_REFRESH_RATE));
-						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter integer value between 1 and 60."), MB_OK | MB_ICONERROR);
-						bOk = FALSE;
-					}
-					break;
-				case RRT_HOURS:
-					if (FALSE == bOk || nRefreshRate < 1 || nRefreshRate > 24) {
-						prepare_edit_ctrl_for_error(::GetDlgItem(m_hwnd, IDC_EDIT_REFRESH_RATE));
-						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter integer value between 1 and 24."), MB_OK | MB_ICONERROR);
-						bOk = FALSE;
-					}
-					break;
-				}
-
-				if (TRUE == bOk) {
-					HWND hEdit = ::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT);
-					assert(IsWindow(hEdit));
-
-					CMStringW s = get_window_text(hEdit);
-					if (s.IsEmpty()) {
-						prepare_edit_ctrl_for_error(hEdit);
-						CurrencyRates_MessageBox(m_hwnd, TranslateT("Enter text to display in contact list."), MB_OK | MB_ICONERROR);
-						bOk = FALSE;
-					}
-				}
-
-				::SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, (TRUE == bOk) ? FALSE : TRUE);
-				break;
-			}
-		}
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		btnRemove.Enable(LB_ERR != m_list.GetCurSel());
 	}
 
-	void onSelChange_Rates(CCtrlCombo *)
+	void onSelChange_Refresh(CCtrlCombo *)
 	{
-		int nType = m_list.GetCurSel();
-		btnRemove.Enable(LB_ERR != nType);
-
-		switch (nType) {
+		switch (cmbRefresh.GetCurSel()) {
 		case RRT_SECONDS:
 		case RRT_MINUTES:
 			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 60);
 			break;
+		
 		case RRT_HOURS:
 			spin_set_range(::GetDlgItem(m_hwnd, IDC_SPIN_REFRESH_RATE), 1, 24);
 			BOOL bOk = FALSE;
@@ -375,6 +330,9 @@ public:
 		btnRemove.Enable(LB_ERR != nSel);
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM)
 {
