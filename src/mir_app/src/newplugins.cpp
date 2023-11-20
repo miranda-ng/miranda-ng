@@ -774,7 +774,7 @@ int LoadStdPlugins()
 
 		if (!it.Load()) {
 			MessageBoxW(nullptr, 
-				CMStringW(FORMAT, LPGENW("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), it.stdplugname),
+				CMStringW(FORMAT, TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), it.stdplugname),
 				TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
 			return 1;
 		}
