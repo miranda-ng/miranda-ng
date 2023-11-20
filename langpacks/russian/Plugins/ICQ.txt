@@ -85,6 +85,9 @@ UIN/почта:
 Почта
 [E-mail notification]
 Уведомление об эл. почте
+;file \protocols\ICQ-WIM\src\menus.cpp
+[Convert a message into a file transfer]
+Преобразовать сообщение в событие передачи файла
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеть

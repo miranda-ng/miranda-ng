@@ -47,6 +47,8 @@
 ;file \protocols\ICQ-WIM\src\main.cpp
 [E-mail]
 [E-mail notification]
+;file \protocols\ICQ-WIM\src\menus.cpp
+[Convert a message into a file transfer]
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 [General]

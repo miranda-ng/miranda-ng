@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Exchange Rates API</name>
+  <ref>https://exchangeratesapi.io/</ref>
+  <url>http://api.exchangeratesapi.io/v1/latest</url>  
+
+<section>
+	<name>Currencies</name>
+	<currencyrate>
+		<id>AED</id><symbol>AED</symbol><description>United Arab Emirates Dirham (AED)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AFN</id><symbol>AFN</symbol><description>Afghan Afghani (AFN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ALL</id><symbol>ALL</symbol><description>Albanian Lek (ALL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AMD</id><symbol>AMD</symbol><description>Armenian Dram (AMD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ANG</id><symbol>ANG</symbol><description>Netherlands Antillean Gulden (ANG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AOA</id><symbol>AOA</symbol><description>Angolan Kwanza (AOA)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ARS</id><symbol>ARS</symbol><description>Argentine Peso (ARS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AUD</id><symbol>AUD</symbol><description>Australian Dollar (AUD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AWG</id><symbol>AWG</symbol><description>Aruban Florin (AWG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AZN</id><symbol>AZN</symbol><description>Azerbaijani Manat (AZN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BAM</id><symbol>BAM</symbol><description>Bosnia-Herzegovina Convertible Mark (BAM)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BBD</id><symbol>BBD</symbol><description>Barbadian Dollar (BBD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BDT</id><symbol>BDT</symbol><description>Bangladeshi Taka (BDT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BGN</id><symbol>BGN</symbol><description>Bulgarian Lev (BGN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BHD</id><symbol>BHD</symbol><description>Bahraini Dinar (BHD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BIF</id><symbol>BIF</symbol><description>Burundian Franc (BIF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BMD</id><symbol>BMD</symbol><description>Bermudan Dollar (BMD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BND</id><symbol>BND</symbol><description>Brunei Dollar (BND)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BOB</id><symbol>BOB</symbol><description>Bolivian Boliviano (BOB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BRL</id><symbol>BRL</symbol><description>Brazilian Real (BRL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BSD</id><symbol>BSD</symbol><description>Bahamian Dollar (BSD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BTC</id><symbol>BTC</symbol><description>Bitcoin (BTC)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BTN</id><symbol>BTN</symbol><description>Bhutanese Ngultrum (BTN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BWP</id><symbol>BWP</symbol><description>Botswana Pula (BWP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BYN</id><symbol>BYN</symbol><description>Belarusian Ruble (BYN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BYR</id><symbol>BYR</symbol><description>Belarusian Ruble (2000–2016) (BYR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BZD</id><symbol>BZD</symbol><description>Belize Dollar (BZD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CAD</id><symbol>CAD</symbol><description>Canadian Dollar (CAD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CDF</id><symbol>CDF</symbol><description>Congolese Franc (CDF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CHF</id><symbol>CHF</symbol><description>Swiss Franc (CHF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CLF</id><symbol>CLF</symbol><description>Chilean Unit of Account (UF) (CLF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CLP</id><symbol>CLP</symbol><description>Chilean Peso (CLP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CNH</id><symbol>CNH</symbol><description>CNH (CNH)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CNY</id><symbol>CNY</symbol><description>Chinese Yuan (CNY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>COP</id><symbol>COP</symbol><description>Colombian Peso (COP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CRC</id><symbol>CRC</symbol><description>Costa Rican Colón (CRC)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CUP</id><symbol>CUP</symbol><description>Cuban Peso (CUP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CVE</id><symbol>CVE</symbol><description>Cape Verdean Escudo (CVE)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CZK</id><symbol>CZK</symbol><description>Czech Koruna (CZK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DEM</id><symbol>DEM</symbol><description>German Mark (DEM)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DJF</id><symbol>DJF</symbol><description>Djiboutian Franc (DJF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DKK</id><symbol>DKK</symbol><description>Danish Krone (DKK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DOP</id><symbol>DOP</symbol><description>Dominican Peso (DOP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DZD</id><symbol>DZD</symbol><description>Algerian Dinar (DZD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>EGP</id><symbol>EGP</symbol><description>Egyptian Pound (EGP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ERN</id><symbol>ERN</symbol><description>Eritrean Nakfa (ERN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ETB</id><symbol>ETB</symbol><description>Ethiopian Birr (ETB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>EUR</id><symbol>EUR</symbol><description>Euro (EUR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>FIM</id><symbol>FIM</symbol><description>Finnish Markka (FIM)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>FJD</id><symbol>FJD</symbol><description>Fijian Dollar (FJD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>FKP</id><symbol>FKP</symbol><description>Falkland Islands Pound (FKP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>FRF</id><symbol>FRF</symbol><description>French Franc (FRF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GBP</id><symbol>GBP</symbol><description>British Pound (GBP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GEL</id><symbol>GEL</symbol><description>Georgian Lari (GEL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GHS</id><symbol>GHS</symbol><description>Ghanaian Cedi (GHS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GIP</id><symbol>GIP</symbol><description>Gibraltar Pound (GIP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GMD</id><symbol>GMD</symbol><description>Gambian Dalasi (GMD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GNF</id><symbol>GNF</symbol><description>Guinean Franc (GNF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GTQ</id><symbol>GTQ</symbol><description>Guatemalan Quetzal (GTQ)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GYD</id><symbol>GYD</symbol><description>Guyanaese Dollar (GYD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HKD</id><symbol>HKD</symbol><description>Hong Kong Dollar (HKD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HNL</id><symbol>HNL</symbol><description>Honduran Lempira (HNL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HRK</id><symbol>HRK</symbol><description>Croatian Kuna (HRK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HTG</id><symbol>HTG</symbol><description>Haitian Gourde (HTG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HUF</id><symbol>HUF</symbol><description>Hungarian Forint (HUF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>IDR</id><symbol>IDR</symbol><description>Indonesian Rupiah (IDR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>IEP</id><symbol>IEP</symbol><description>Irish Pound (IEP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ILS</id><symbol>ILS</symbol><description>Israeli New Shekel (ILS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>INR</id><symbol>INR</symbol><description>Indian Rupee (INR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>IQD</id><symbol>IQD</symbol><description>Iraqi Dinar (IQD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>IRR</id><symbol>IRR</symbol><description>Iranian Rial (IRR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ISK</id><symbol>ISK</symbol><description>Icelandic Króna (ISK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ITL</id><symbol>ITL</symbol><description>Italian Lira (ITL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>JMD</id><symbol>JMD</symbol><description>Jamaican Dollar (JMD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>JOD</id><symbol>JOD</symbol><description>Jordanian Dinar (JOD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>JPY</id><symbol>JPY</symbol><description>Japanese Yen (JPY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KES</id><symbol>KES</symbol><description>Kenyan Shilling (KES)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KGS</id><symbol>KGS</symbol><description>Kyrgystani Som (KGS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KHR</id><symbol>KHR</symbol><description>Cambodian Riel (KHR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KMF</id><symbol>KMF</symbol><description>Comorian Franc (KMF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KPW</id><symbol>KPW</symbol><description>North Korean Won (KPW)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KRW</id><symbol>KRW</symbol><description>South Korean Won (KRW)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KWD</id><symbol>KWD</symbol><description>Kuwaiti Dinar (KWD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KYD</id><symbol>KYD</symbol><description>Cayman Islands Dollar (KYD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KZT</id><symbol>KZT</symbol><description>Kazakhstani Tenge (KZT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LAK</id><symbol>LAK</symbol><description>Laotian Kip (LAK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LBP</id><symbol>LBP</symbol><description>Lebanese Pound (LBP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LKR</id><symbol>LKR</symbol><description>Sri Lankan Rupee (LKR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LRD</id><symbol>LRD</symbol><description>Liberian Dollar (LRD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LSL</id><symbol>LSL</symbol><description>Lesotho Loti (LSL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LTL</id><symbol>LTL</symbol><description>Lithuanian Litas (LTL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LVL</id><symbol>LVL</symbol><description>Latvian Lats (LVL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>LYD</id><symbol>LYD</symbol><description>Libyan Dinar (LYD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MAD</id><symbol>MAD</symbol><description>Moroccan Dirham (MAD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MDL</id><symbol>MDL</symbol><description>Moldovan Leu (MDL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MGA</id><symbol>MGA</symbol><description>Malagasy Ariary (MGA)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MKD</id><symbol>MKD</symbol><description>Macedonian Denar (MKD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MNT</id><symbol>MNT</symbol><description>Mongolian Tugrik (MNT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MOP</id><symbol>MOP</symbol><description>Macanese Pataca (MOP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MRO</id><symbol>MRO</symbol><description>Mauritanian Ouguiya (MRO)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MUR</id><symbol>MUR</symbol><description>Mauritian Rupee (MUR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MVR</id><symbol>MVR</symbol><description>Maldivian Rufiyaa (MVR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MWK</id><symbol>MWK</symbol><description>Malawian Kwacha (MWK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MXN</id><symbol>MXN</symbol><description>Mexican Peso (MXN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MYR</id><symbol>MYR</symbol><description>Malaysian Ringgit (MYR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>MZN</id><symbol>MZN</symbol><description>Mozambican Metical (MZN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NAD</id><symbol>NAD</symbol><description>Namibian Dollar (NAD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NGN</id><symbol>NGN</symbol><description>Nigerian Naira (NGN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NIO</id><symbol>NIO</symbol><description>Nicaraguan Córdoba (NIO)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NOK</id><symbol>NOK</symbol><description>Norwegian Krone (NOK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NPR</id><symbol>NPR</symbol><description>Nepalese Rupee (NPR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NZD</id><symbol>NZD</symbol><description>New Zealand Dollar (NZD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>OMR</id><symbol>OMR</symbol><description>Omani Rial (OMR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PAB</id><symbol>PAB</symbol><description>Panamanian Balboa (PAB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PEN</id><symbol>PEN</symbol><description>Peruvian Nuevo Sol (PEN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PGK</id><symbol>PGK</symbol><description>Papua New Guinean Kina (PGK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PHP</id><symbol>PHP</symbol><description>Philippine Peso (PHP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PKG</id><symbol>PKG</symbol><description>PKG (PKG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PKR</id><symbol>PKR</symbol><description>Pakistani Rupee (PKR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PLN</id><symbol>PLN</symbol><description>Polish Zloty (PLN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PYG</id><symbol>PYG</symbol><description>Paraguayan Guarani (PYG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>QAR</id><symbol>QAR</symbol><description>Qatari Riyal (QAR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>RON</id><symbol>RON</symbol><description>New Romanian Leu (RON)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>RSD</id><symbol>RSD</symbol><description>Serbian Dinar (RSD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>RUB</id><symbol>RUB</symbol><description>Russian Ruble (RUB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>RWF</id><symbol>RWF</symbol><description>Rwandan Franc (RWF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SAR</id><symbol>SAR</symbol><description>Saudi Riyal (SAR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SBD</id><symbol>SBD</symbol><description>Solomon Islands Dollar (SBD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SCR</id><symbol>SCR</symbol><description>Seychellois Rupee (SCR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SDG</id><symbol>SDG</symbol><description>Sudanese Pound (SDG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SEK</id><symbol>SEK</symbol><description>Swedish Krona (SEK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SGD</id><symbol>SGD</symbol><description>Singapore Dollar (SGD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SHP</id><symbol>SHP</symbol><description>St. Helena Pound (SHP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SKK</id><symbol>SKK</symbol><description>Slovak Koruna (SKK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SLL</id><symbol>SLL</symbol><description>Sierra Leonean Leone (SLL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SOS</id><symbol>SOS</symbol><description>Somali Shilling (SOS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SRD</id><symbol>SRD</symbol><description>Surinamese Dollar (SRD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>STD</id><symbol>STD</symbol><description>São Tomé and Príncipe Dobra (STD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SVC</id><symbol>SVC</symbol><description>Salvadoran Colón (SVC)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SYP</id><symbol>SYP</symbol><description>Syrian Pound (SYP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SZL</id><symbol>SZL</symbol><description>Swazi Lilangeni (SZL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>THB</id><symbol>THB</symbol><description>Thai Baht (THB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TJS</id><symbol>TJS</symbol><description>Tajikistani Somoni (TJS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TMT</id><symbol>TMT</symbol><description>Turkmenistani Manat (TMT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TND</id><symbol>TND</symbol><description>Tunisian Dinar (TND)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TOP</id><symbol>TOP</symbol><description>Tongan Paʻanga (TOP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TRY</id><symbol>TRY</symbol><description>Turkish Lira (TRY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TTD</id><symbol>TTD</symbol><description>Trinidad and Tobago Dollar (TTD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TWD</id><symbol>TWD</symbol><description>New Taiwan Dollar (TWD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TZS</id><symbol>TZS</symbol><description>Tanzanian Shilling (TZS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UAH</id><symbol>UAH</symbol><description>Ukrainian Hryvnia (UAH)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UGX</id><symbol>UGX</symbol><description>Ugandan Shilling (UGX)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>USD</id><symbol>USD</symbol><description>United States Dollar (USD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UYU</id><symbol>UYU</symbol><description>Uruguayan Peso (UYU)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UZS</id><symbol>UZS</symbol><description>Uzbekistani Som (UZS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>VEF</id><symbol>VEF</symbol><description>Venezuelan Bolívar (VEF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>VND</id><symbol>VND</symbol><description>Vietnamese Dong (VND)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>VUV</id><symbol>VUV</symbol><description>Vanuatu Vatu (VUV)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>WST</id><symbol>WST</symbol><description>Samoan Tala (WST)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>XAF</id><symbol>XAF</symbol><description>Central African CFA Franc (FCFA)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>XCD</id><symbol>XCD</symbol><description>East Caribbean Dollar (XCD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>XDR</id><symbol>XDR</symbol><description>Special Drawing Rights (XDR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>XOF</id><symbol>XOF</symbol><description>West African CFA Franc (CFA)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>XPF</id><symbol>XPF</symbol><description>CFP Franc (CFPF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>YER</id><symbol>YER</symbol><description>Yemeni Rial (YER)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ZAR</id><symbol>ZAR</symbol><description>South African Rand (ZAR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ZMK</id><symbol>ZMK</symbol><description>Zambian Kwacha (1968–2012) (ZMK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ZMW</id><symbol>ZMW</symbol><description>Zambian Kwacha (ZMW)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ZWL</id><symbol>ZWL</symbol><description>Zimbabwean Dollar (2009) (ZWL)</description>
+	</currencyrate>
+</section>
+</Provider>

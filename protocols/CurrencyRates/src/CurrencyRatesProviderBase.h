@@ -16,6 +16,8 @@ public:
 	const CMStringW& GetSymbol() const{ return m_sSymbol; }
 	const CMStringW& GetName() const{ return m_sName; }
 	const CMStringW& GetID() const{ return m_sID; }
+
+	const CMStringW& MakeName() const { return m_sName.IsEmpty() ? m_sID : m_sName; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -24,17 +26,15 @@ public:
 class CCurrencyRateSection
 {
 public:
-	typedef std::vector<CCurrencyRateSection> TSections;
 	typedef std::vector<CCurrencyRate> TCurrencyRates;
 
 private:
 	CMStringW m_sName;
-	TSections m_aSections;
 	TCurrencyRates m_aCurrencyRates;
 
 public:
-	CCurrencyRateSection(const CMStringW &rsName = L"", const TSections &raSections = TSections(), const TCurrencyRates &raCurrencyRates = TCurrencyRates()) :
-		m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates)
+	CCurrencyRateSection(const CMStringW &rsName = L"", const TCurrencyRates &raCurrencyRates = TCurrencyRates()) :
+		m_sName(rsName), m_aCurrencyRates(raCurrencyRates)
 	{}
 
 	const CMStringW& GetName() const
@@ -42,24 +42,9 @@ public:
 		return m_sName;
 	}
 
-	size_t GetSectionCount() const
+	const TCurrencyRates& GetCurrencyRates() const
 	{
-		return m_aSections.size();
-	}
-
-	CCurrencyRateSection GetSection(size_t nIndex) const
-	{
-		return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CCurrencyRateSection());
-	}
-
-	size_t GetCurrencyRateCount() const
-	{
-		return m_aCurrencyRates.size();
-	}
-
-	CCurrencyRate GetCurrencyRate(size_t nIndex) const
-	{
-		return ((nIndex < m_aCurrencyRates.size()) ? m_aCurrencyRates[nIndex] : CCurrencyRate());
+		return m_aCurrencyRates;
 	}
 };
 
@@ -84,20 +69,26 @@ public:
 	CCurrencyRatesProviderBase();
 	~CCurrencyRatesProviderBase();
 
-	const CCurrencyRateSection& GetCurrencyRates() const;
+	const CCurrencyRateSection& GetSection() const;
 
 	bool Init() override;
 	const CProviderInfo& GetInfo() const override;
-	
-	void AddContact(MCONTACT hContact) override;
-	void DeleteContact(MCONTACT hContact) override;
-	
+
 	void Run() override;
 	
 	void RefreshAllContacts() override;
 	void RefreshSettings() override;
 	void RefreshContact(MCONTACT hContact) override;
-	
+
+	MCONTACT ImportContact(const TiXmlNode *) override;
+
+	using TRateInfo = std::pair<CCurrencyRate, CCurrencyRate>;
+	bool GetWatchedRateInfo(MCONTACT hContact, TRateInfo &rRateInfo);
+	bool WatchForRate(const TRateInfo &ri, bool bWatch);
+	MCONTACT GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const;
+
+	virtual double Convert(double dAmount, const CCurrencyRate &from, const CCurrencyRate &to) const = 0;
+
 	void FillFormat(TFormatSpecificators&) const override;
 	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) const override;
 	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
@@ -105,17 +96,16 @@ public:
 protected:
 	const CMStringW& GetURL() const;
 	MCONTACT CreateNewContact(const CMStringW &rsName);
-	static bool IsOnline();
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
 	void WriteContactRate(MCONTACT hContact, double dRate, const CMStringW &rsSymbol = L"");
 
+	virtual wchar_t* GetXmlFilename() const = 0;
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 
 protected:
-	TContacts m_aContacts;
 	mutable mir_cs m_cs;
 };
 
-bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat, const CPopupSettings &ps);
+bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat);
 
 #endif //__3e6cb4ec_fc47_468f_a2c8_a77941176bc9_CurrencyRatesProviderBase_h__

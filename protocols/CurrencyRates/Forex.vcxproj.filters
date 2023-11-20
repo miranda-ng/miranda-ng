@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClCompile Include="src\CommonOptionDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CreateFilePath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,12 +53,15 @@
     <ClCompile Include="src\WinCtrlHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CurrencyRatesProviderExchangeRates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Chart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CommonOptionDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CurrencyConverter.h">
@@ -74,9 +74,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CurrencyRatesProviderBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CurrencyRatesProviderCurrencyConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DBUtils.h">

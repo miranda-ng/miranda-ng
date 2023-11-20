@@ -88,8 +88,8 @@
 Время обновления:
 [Previous Rate:]
 Предыдущее значение:
-[&Convert:]
-&Из:
+[Provider:]
+Поставщик данных:
 [&Add]
 &Добавить
 [&Watched currency rates:]
@@ -106,26 +106,21 @@
 &Тенденция:
 [&Personal key:]
 &Персональный ключ:
+[Get key]
+Получить ключ
 [&Advanced Settings...]
 &Дополнительные настройки...
 [Rate Info]
 Курсы валют
+[Add currency pair]
+Добавить валютную пару
+[From:]
+Из:
+[To:]
+В:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Нечего показывать
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-секунд
-[Minutes]
-минут(ы)
-[Hours]
-часов
-[Enter integer value between 1 and 60.]
-Введите целое число между 1 и 60.
-[Enter integer value between 1 and 24.]
-Введите целое число между 1 и 24.
-[Enter text to display in contact list.]
-Введите текст для отображения в списке контактов.
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Информация предоставлена
@@ -135,8 +130,20 @@
 [Currency Rate]
 Курс валюты
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Курсы валют
 [Test contact]
 Тестовый контакт
+[From Currency Full Name]
+Полное название исходной валюты
+[From Currency Short Name]
+Краткое название исходной валюты
+[Into Currency Full Name]
+Полное название целевой валюты
+[Into Currency Short Name]
+Краткое название целевой валюты
+[Short notation for "%f/%i"]
+Краткое обозначение "%f/%i"
 [Source of information]
 Источник информации
 [Rate value]
@@ -162,23 +169,11 @@
 Ошибка в процессе обработки HTML.
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
-[From Currency Full Name]
-Полное название исходной валюты
-[From Currency Short Name]
-Краткое название исходной валюты
-[Into Currency Full Name]
-Полное название целевой валюты
-[Into Currency Short Name]
-Краткое название целевой валюты
-[Short notation for "%f/%i"]
-Краткое обозначение "%f/%i"
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Автоматическое обновление включено
 [Auto Update Disabled]
 Автоматическое обновление отключено
-[Currency Rates]
-Курсы валют
 [Enable/Disable Auto Update]
 Вкл/Выкл автообновление
 [Refresh All Rates]
@@ -205,8 +200,6 @@
 Автообновление курсов валют выключено
 [Currency Symbol]
 Символ валюты
-[Network]
-Сеть
 [Protocol icon]
 Значок протокола
 [Currency Rate up]
@@ -224,13 +217,30 @@
 [Import]
 Импорт
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ. Нажмите "Да", чтобы запросить его через веб-сайт, и введите ключ в настройках плагина.
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
+Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ в настройках плагина.
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+секунд
+[Minutes]
+минут(ы)
+[Hours]
+часов
+[Enter integer value between 1 and 60.]
+Введите целое число между 1 и 60.
+[Enter integer value between 1 and 24.]
+Введите целое число между 1 и 24.
+[Enter text to display in contact list.]
+Введите текст для отображения в списке контактов.
+[Network]
+Сеть
+[General]
+Общее
 ;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Журналы (*.txt,*.log)

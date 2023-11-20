@@ -8,6 +8,8 @@
 
 #define DB_STR_AUTO_UPDATE "AutoUpdate"
 
+int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM);
+
 CMPlugin	g_plugin;
 
 HANDLE g_hEventWorkThreadStop;
@@ -38,8 +40,7 @@ static void UpdateMenu()
 
 static INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 {
-	for (auto &pProvider : g_apProviders)
-		pProvider->RefreshAllContacts();
+	g_pCurrentProvider->RefreshAllContacts();
 	return 0;
 }
 
@@ -48,11 +49,9 @@ static INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 	g_bAutoUpdate = !g_bAutoUpdate;
 	g_plugin.setByte(DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
-	for (auto &pProvider : g_apProviders) {
-		pProvider->RefreshSettings();
-		if (g_bAutoUpdate)
-			pProvider->RefreshAllContacts();
-	}
+	g_pCurrentProvider->RefreshSettings();
+	if (g_bAutoUpdate)
+		g_pCurrentProvider->RefreshAllContacts();
 
 	UpdateMenu();
 	return 0;
@@ -197,16 +196,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	::ResetEvent(g_hEventWorkThreadStop);
 
-	for (auto &pProvider : g_apProviders)
-		g_ahThreads.push_back(mir_forkthread(WorkingThread, pProvider));
-	return 0;
-}
-
-int CurrencyRatesEventFunc_OnContactDeleted(WPARAM hContact, LPARAM)
-{
-	auto pProvider = GetContactProviderPtr(hContact);
-	if (pProvider)
-		pProvider->DeleteContact(hContact);
+	g_ahThreads.push_back(mir_forkthread(WorkingThread, g_pCurrentProvider));
 	return 0;
 }
 
@@ -242,19 +232,6 @@ int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 910000000;
-	odp.szTitle.w = LPGENW("Currency Rates");
-	odp.szGroup.w = LPGENW("Network");
-	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
-
-	for (auto &it : g_apProviders)
-		it->ShowPropertyPage(wp, odp);
-	return 0;
-}
-
 inline int CurrencyRates_UnhookEvent(HANDLE h)
 {
 	return UnhookEvent(h);
@@ -281,7 +258,25 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	// log settings
+	wLogMode(MODULENAME, "CC_LogMode", lmDisabled),
+	bIsOnlyChangedHistory(MODULENAME, "CC_AddToHistoryOnlyIfValueIsChanged", false),
+	bIsOnlyChangedLogFile(MODULENAME, "CC_AddToLogOnlyIfValueIsChanged", false),
+	wszHistoryFormat(MODULENAME, "CC_HistoryFormat", L"%s %r"),
+	wszLogFileName(MODULENAME, "CC_LogFile", L"%miranda_userdata%\\CurrencyRates\\%currencyratename%.log"),
+	wszLogFileFormat(MODULENAME, "CC_LogFileFormat", L"%s\\t%t\\t%r\\n"),
+
+	// popup settings
+	bShowPopupIfValueChanged(MODULENAME, "CC_ShowPopupOnlyIfValueChanged", false),
+	bUsePopups(MODULENAME, "CC_UsePopups", false),
+	bUseHistory(MODULENAME, "CC_PopupHistoryFlag", false),
+	modeColour(MODULENAME, "CC_PopupColourMode", colourDefault),
+	modeDelay(MODULENAME, "CC_PopupDelayMode", delayFromPopup),
+	rgbBkg(MODULENAME, "CC_PopupColourBk", ::GetSysColor(COLOR_BTNFACE)),
+	rgbText(MODULENAME, "CC_PopupColourText", ::GetSysColor(COLOR_BTNTEXT)),
+	wDelay(MODULENAME, "CC_PopupDelayTimeout", 3),
+	wszPopupFormat(MODULENAME, "CC_PopupFormat", L"\\nCurrent = %r\\nPrevious = %p")
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 	SetUniqueId(DB_STR_CURRENCYRATE_SYMBOL);
@@ -317,7 +312,6 @@ int CMPlugin::Load(void)
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, CurrencyRateProtoFunc_GetStatus);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CurrencyRatesEventFunc_OnModulesLoaded);
-	HookEvent(ME_DB_CONTACT_DELETED, CurrencyRatesEventFunc_OnContactDeleted);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, CurrencyRatesEventFunc_PreShutdown);
 	HookEvent(ME_OPT_INITIALISE, CurrencyRatesEventFunc_OptInitialise);
 

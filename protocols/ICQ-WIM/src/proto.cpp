@@ -136,6 +136,7 @@ CIcqProto::~CIcqProto()
 void CIcqProto::OnModulesLoaded()
 {
 	InitContactCache();
+	InitMenus();
 
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 

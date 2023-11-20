@@ -211,8 +211,7 @@ INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 
 	MCONTACT hContact = MCONTACT(wp);
 	if (hContact) {
-		auto pProvider = GetContactProviderPtr(hContact);
-		if (pProvider) {
+		if (g_pCurrentProvider) {
 			auto *pNode = export_contact(hContact, doc);
 			if (pNode)
 				pRoot->InsertEndChild(pNode);
@@ -220,8 +219,7 @@ INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 	}
 	else {
 		for (auto &cc : Contacts(MODULENAME)) {
-			auto pProvider = GetContactProviderPtr(cc);
-			if (pProvider) {
+			if (g_pCurrentProvider) {
 				auto *pNode = export_contact(cc, doc);
 				if (pNode)
 					pRoot->InsertEndChild(pNode);
@@ -443,10 +441,9 @@ bool import_contact(const TiXmlNode *pXmlContact, CImportContext &impctx)
 		if (!handle_module(cst.m_hContact, pNode))
 			return false;
 
-	if (cst.m_bNewContact) {
-		cst.m_pProvider->AddContact(cst.m_hContact);
+	if (cst.m_bNewContact)
 		cst.m_pProvider->RefreshContact(cst.m_hContact);
-	}
+
 	return true;
 }
 
