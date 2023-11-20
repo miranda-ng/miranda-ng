@@ -708,6 +708,13 @@ int LoadProtocolPlugins(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Loads all plugins
 
+static int StdPluginMissing(const wchar_t *pwszPlugin)
+{
+	CMStringW wszMessage(FORMAT, TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), pwszPlugin);
+	MessageBoxW(nullptr, wszMessage, TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
+	return 1;
+}
+
 int LoadNewPluginsModule(void)
 {
 	// make full path to the plugin
@@ -728,15 +735,9 @@ int LoadNewPluginsModule(void)
 	// first load the clist cos alot of plugins need that to be present at Load(void)
 	plugin_clist = getCListModule(exe);
 
-	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
-	if (plugin_clist == nullptr) {
-		// result = 0, no clist_* can be found
-		if (clistPlugins.getCount())
-			MessageBoxW(nullptr, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), L"Miranda NG", MB_OK | MB_ICONERROR);
-		else
-			MessageBoxW(nullptr, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin."), L"Miranda NG", MB_OK | MB_ICONERROR);
-		return 1;
-	}
+	// the loop above will try and get one clist DLL to work, if all fail then just bail now
+	if (plugin_clist == nullptr)
+		return StdPluginMissing(L"StdClist");
 
 	// enable and disable as needed
 	for (auto &p : clistPlugins)
@@ -772,12 +773,8 @@ int LoadStdPlugins()
 		if (it.pImpl)
 			continue;
 
-		if (!it.Load()) {
-			MessageBoxW(nullptr, 
-				CMStringW(FORMAT, TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), it.stdplugname),
-				TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
-			return 1;
-		}
+		if (!it.Load())
+			return StdPluginMissing(it.stdplugname);
 	}
 
 	return 0;
