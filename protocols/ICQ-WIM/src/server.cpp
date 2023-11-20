@@ -339,9 +339,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	// user chat?
 	CMStringW wszId(buddy["aimId"].as_mstring());
 	if (IsChat(wszId)) {
-		auto *pUser = FindUser(wszId);
-		if (pUser && pUser->m_iApparentMode == ID_STATUS_OFFLINE)
-			return INVALID_CONTACT_ID;
+		if (auto *pUser = FindUser(wszId))
+			if (pUser->m_iApparentMode == ID_STATUS_OFFLINE)
+				return INVALID_CONTACT_ID;
 
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
 		auto *si = CreateGroupChat(wszId, wszChatName);
@@ -353,8 +353,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		if (bIgnored)
 			return INVALID_CONTACT_ID;
 
+		debugLogA("creating a user with id=%S", wszId.c_str());
 		hContact = CreateContact(wszId, false);
-		FindUser(wszId)->m_bInList = true;
+		if (auto *pUser = FindUser(wszId))
+			pUser->m_bInList = true;
 	}
 	else if (bIgnored) {
 		db_delete_contact(hContact, true);
