@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define DM_OPTIONSAPPLIED (WM_USER+14)
 
-void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
+void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
 void CheckChatCompatibility();
@@ -135,5 +135,7 @@ void          Chat_RemoveContact(MCONTACT hContact);
 CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);
 void          Chat_Serialize(SESSION_INFO *si);
 bool          Chat_Unserialize(SESSION_INFO *si);
+
+EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang);
 
 #pragma comment(lib,"comctl32.lib")

@@ -39,13 +39,13 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mir_snprintf(buttonName, MODULENAME" %x", iNumber + 1);
 
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
 	bbd.pszModuleName = buttonName;
 	bbd.pwszTooltip = LPGENW("Quick Replies");
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = iNumber;
 	bbd.dwDefPos = 220;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

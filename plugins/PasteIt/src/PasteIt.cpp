@@ -282,14 +282,14 @@ void DefWebPageChanged()
 
 static void InitTabsrmmButton()
 {
-	BBButton btn = {};
-	btn.dwButtonID = 1;
-	btn.pszModuleName = MODULENAME;
-	btn.dwDefPos = 110;
-	btn.hIcon = iconList[0].hIcolib;
-	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
-	btn.pwszTooltip = TranslateT("Paste It");
-	Srmm_AddButton(&btn, &g_plugin);
+	BBButton bbd = {};
+	bbd.dwButtonID = 1;
+	bbd.pszModuleName = MODULENAME;
+	bbd.dwDefPos = 110;
+	bbd.hIcon = iconList[0].hIcolib;
+	bbd.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
+	bbd.pwszTooltip = TranslateT("Paste It");
+	g_plugin.addButton(&bbd);
 
 	if (hTabsrmmButtonPressed != nullptr)
 		UnhookEvent(hTabsrmmButtonPressed);

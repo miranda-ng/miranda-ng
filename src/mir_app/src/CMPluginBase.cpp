@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "chat.h"
 #include "plugins.h"
 #include "IcoLib.h"
 
@@ -287,6 +288,12 @@ HGENMENU CMPluginBase::addRootMenu(int hMenuObject, LPCWSTR ptszName, int positi
 {
 	return Menu_CreateRoot(hMenuObject, ptszName, position, hIcoLib, this);
 }
+
+HANDLE CMPluginBase::addButton(const struct BBButton *pButton)
+{
+	return Srmm_AddButton(pButton, this);
+}
+
 
 HANDLE CMPluginBase::addTTB(const struct TTBButton *pButton)
 {

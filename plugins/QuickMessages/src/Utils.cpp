@@ -239,22 +239,22 @@ static HANDLE AddIcon(char* szIcoName)
 
 uint32_t BalanceButtons(int buttonsWas, int buttonsNow)
 {
-	BBButton bb = {};
-	bb.pszModuleName = MODULENAME;
+	BBButton bbd = {};
+	bbd.pszModuleName = MODULENAME;
 
 	while (buttonsWas > buttonsNow) {
-		bb.dwButtonID = --buttonsWas;
-		Srmm_RemoveButton(&bb);
+		bbd.dwButtonID = --buttonsWas;
+		Srmm_RemoveButton(&bbd);
 	}
 
 	while (buttonsWas < buttonsNow) {
 		char iconname[40];
 		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), buttonsWas);
-		bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
-		bb.dwButtonID = buttonsWas++;
-		bb.dwDefPos = 300 + buttonsWas;
-		bb.hIcon = AddIcon(iconname);
-		Srmm_AddButton(&bb, &g_plugin);
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
+		bbd.dwButtonID = buttonsWas++;
+		bbd.dwDefPos = 300 + buttonsWas;
+		bbd.hIcon = AddIcon(iconname);
+		g_plugin.addButton(&bbd);
 	}
 
 	return buttonsNow;
@@ -370,13 +370,13 @@ int RegisterCustomButton(WPARAM, LPARAM)
 		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), i);
 
 		BBButton bbd = {};
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
 		bbd.dwButtonID = i;
 		bbd.dwDefPos = 320 + i;
 		bbd.hIcon = AddIcon(iconname);
 		bbd.pszModuleName = MODULENAME;
 		bbd.pwszTooltip = ld->ptszButtonName;
-		Srmm_AddButton(&bbd, &g_plugin);
+		g_plugin.addButton(&bbd);
 	}
 	return 0;
 }

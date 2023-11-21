@@ -173,7 +173,7 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	bbd.hIcon = g_plugin.getIconHandle(IDI_ATTACH);
 	bbd.pszModuleName = SRFILEMODULE;
 	bbd.pwszTooltip = LPGENW("Send file");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	HookEvent(ME_MSG_BUTTONPRESSED, OnToolbarButtonPressed);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);

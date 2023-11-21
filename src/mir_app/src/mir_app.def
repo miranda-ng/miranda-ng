@@ -911,3 +911,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?addFont@CMPluginBase@@QAEHPBD0PB_W111HHPAUtagLOGFONTW@@K@Z @1029 NONAME
 ?IsReadonly@Contact@@YG_NI@Z @1030 NONAME
 ?Readonly@Contact@@YGXI_N@Z @1031 NONAME
+?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME

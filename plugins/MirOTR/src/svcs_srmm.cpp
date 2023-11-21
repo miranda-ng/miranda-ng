@@ -75,7 +75,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 {
-	Srmm_AddButton(&OTRButton, &g_plugin);
+	g_plugin.addButton(&OTRButton);
 	return 0;
 }
 
@@ -121,7 +121,7 @@ void InitSRMM()
 	memset(&OTRButton, 0, sizeof(OTRButton));
 	OTRButton.pszModuleName = MODULENAME;
 	OTRButton.dwDefPos = 200;
-	OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISIMBUTTON;
+	OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISIMBUTTON | BBBF_NOREADONLY;
 	OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
 	OTRButton.hIcon = iconList[ICON_NOT_PRIVATE].hIcolib;
 

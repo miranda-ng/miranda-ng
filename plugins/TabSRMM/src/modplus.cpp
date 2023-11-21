@@ -50,13 +50,13 @@ static wchar_t* getMenuEntry(int i)
 static int RegisterCustomButton(WPARAM, LPARAM)
 {
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_NOREADONLY;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 200;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
 	bbd.pszModuleName = "Tabmodplus";
 	bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

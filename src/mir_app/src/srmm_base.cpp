@@ -550,7 +550,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 	}
 
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
-	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
 	mir_subclassWindow(m_btnFilter.GetHwnd(), stubButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), stubButtonSubclassProc);
@@ -613,7 +613,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CBD_RECREATE:
-		Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+		Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 		break;
 
 	case WM_NOTIFY:

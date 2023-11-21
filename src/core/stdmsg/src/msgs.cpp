@@ -327,21 +327,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	bbd.pwszText = LPGENW("&Add");
 	bbd.pwszTooltip = LPGENW("Add contact permanently to list");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_USERMENU;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_DOWNARROW);
 	bbd.pwszText = LPGENW("&User menu");
 	bbd.pwszTooltip = LPGENW("User menu");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_DETAILS;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	bbd.pwszText = LPGENW("User &details");
 	bbd.pwszTooltip = LPGENW("View user's details");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags |= BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 	bbd.dwButtonID = IDC_SRMM_HISTORY;
@@ -349,44 +349,44 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	bbd.pwszText = LPGENW("&History");
 	bbd.pwszTooltip = LPGENW("View user's history (Ctrl+H)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	// chat buttons
-	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID | BBBF_NOREADONLY;
 	bbd.dwButtonID = IDC_SRMM_BOLD;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BBOLD);
 	bbd.pwszText = LPGENW("&Bold");
 	bbd.pwszTooltip = LPGENW("Make the text bold (Ctrl+B)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 15;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BITALICS);
 	bbd.pwszText = LPGENW("&Italic");
 	bbd.pwszTooltip = LPGENW("Make the text italicized (Ctrl+I)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BUNDERLINE);
 	bbd.pwszText = LPGENW("&Underline");
 	bbd.pwszTooltip = LPGENW("Make the text underlined (Ctrl+U)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_COLOR);
 	bbd.pwszText = LPGENW("&Color");
 	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (Ctrl+K)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BKGCOLOR);
 	bbd.pwszText = LPGENW("&Background color");
 	bbd.pwszTooltip = LPGENW("Select a background color for the text (Ctrl+L)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_CHANMGR;
@@ -394,21 +394,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = g_plugin.getIconHandle(IDI_TOPICBUT);
 	bbd.pwszText = LPGENW("&Room settings");
 	bbd.pwszTooltip = LPGENW("Control this room (Ctrl+O)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_NICKLIST);
 	bbd.pwszText = LPGENW("&Show/hide nick list");
 	bbd.pwszTooltip = LPGENW("Show/hide the nick list (Ctrl+N)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FILTER);
 	bbd.pwszText = LPGENW("&Filter");
 	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (Ctrl+F)");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

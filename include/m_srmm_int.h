@@ -64,7 +64,7 @@ struct CustomButtonData : public MZeroedObject
 	HANDLE   m_hIcon;         // Handle to icolib registred icon
 
 	bool     m_bIMButton, m_bChatButton;
-	bool     m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton;
+	bool     m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton, m_bNoReadonly;
 	bool     m_bRSided;
 	uint8_t  m_opFlags;
 	HPLUGIN  m_pPlugin;
