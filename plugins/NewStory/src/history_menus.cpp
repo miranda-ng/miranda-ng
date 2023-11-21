@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
-	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_QUOTE,
+	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_OPENFOLDER, MENU_QUOTE,
 	MENU_SAVEAS, MENU_DOWNLOAD,
 	MENU_EDIT, MENU_DELETE,
 	MENU_SELECTALL, MENU_BOOKMARK,
@@ -28,7 +28,7 @@ enum
 
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
-static HGENMENU hmiHistory, hmiCopy, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
+static HGENMENU hmiHistory, hmiOpenFolder, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
 static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
@@ -37,6 +37,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	Menu_ShowItem(hmiSaveAs, false);
 	Menu_ShowItem(hmiCopyUrl, false);
 	Menu_ShowItem(hmiDownload, false);
+	Menu_ShowItem(hmiOpenFolder, false);
 
 	bool bShowEventActions;
 	if (item != nullptr) {
@@ -45,6 +46,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 			Menu_ShowItem(hmiCopyUrl, true);
 			Menu_ShowItem(hmiSaveAs, true);
 			Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded);
+			Menu_ShowItem(hmiOpenFolder, item->m_bOfflineDownloaded);
 		}
 
 		bShowEventActions = item->hEvent != 0;
@@ -97,6 +99,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_COPYURL:
 		pData->CopyUrl();
+		break;
+
+	case MENU_OPENFOLDER:
+		pData->OpenFolder();
 		break;
 
 	case MENU_QUOTE:
@@ -218,15 +224,19 @@ void InitMenus()
 
 	mi.position = 100000;
 	mi.name.a = LPGEN("Copy");
-	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
+	Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
 
 	mi.position++;
 	mi.name.a = LPGEN("Copy text");
-	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
+	Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
 
 	mi.position++;
 	mi.name.a = LPGEN("Copy URL");
 	hmiCopyUrl = Menu_AddNewStoryMenuItem(&mi, MENU_COPYURL);
+
+	mi.position++;
+	mi.name.a = LPGEN("Show in folder");
+	hmiOpenFolder = Menu_AddNewStoryMenuItem(&mi, MENU_OPENFOLDER);
 
 	mi.position++;
 	mi.name.a = LPGEN("Quote");

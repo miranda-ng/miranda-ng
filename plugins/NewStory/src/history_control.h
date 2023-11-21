@@ -83,6 +83,7 @@ struct NewstoryListData : public MZeroedObject
 	void      LineUp();
 	void      LineDown();
 	ItemData* LoadItem(int idx);
+	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();
 	int       PaintItem(HDC hdc, int index, int top, int width);

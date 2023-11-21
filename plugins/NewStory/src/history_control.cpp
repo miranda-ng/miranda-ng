@@ -533,6 +533,21 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
+void NewstoryListData::OpenFolder()
+{
+	if (auto *pItem = GetItem(caret)) {
+		if (pItem->m_bOfflineDownloaded) {
+			DB::EventInfo dbei(pItem->hEvent);
+			DB::FILE_BLOB blob(dbei);
+			CMStringW wszFile(blob.getLocalName());
+			int idx = wszFile.ReverseFind('\\');
+			if (idx != -1)
+				wszFile.Truncate(idx);
+			::ShellExecute(nullptr, L"open", wszFile, nullptr, nullptr, SW_SHOWNORMAL);
+		}
+	}
+}
+
 int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 {
 	auto *item = LoadItem(index);
