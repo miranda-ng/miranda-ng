@@ -909,3 +909,5 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Srmm_GetWindowClass@@YAPEAUSrmmLogWindowClass@@PEAVCMsgDialog@@@Z @1027 NONAME
 ?addColor@CMPluginBase@@QEAAHPEBD0PEB_W1K@Z @1028 NONAME
 ?addFont@CMPluginBase@@QEAAHPEBD0PEB_W111HHPEAUtagLOGFONTW@@K@Z @1029 NONAME
+?IsReadonly@Contact@@YA_NI@Z @1030 NONAME
+?Readonly@Contact@@YAXI_N@Z @1031 NONAME

@@ -306,6 +306,21 @@ MIR_APP_DLL(void) Contact::Hide(MCONTACT hContact, bool bHidden)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(bool) Contact::IsReadonly(MCONTACT hContact)
+{
+	return db_get_b(hContact, "CList", "ReadOnly") != 0;
+}
+
+MIR_APP_DLL(void) Contact::Readonly(MCONTACT hContact, bool bReadOnly)
+{
+	if (bReadOnly)
+		db_set_b(hContact, "CList", "ReadOnly", 1);
+	else
+		db_unset(hContact, "CList", "ReadOnly");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(bool) Contact::OnList(MCONTACT hContact)
 {
 	return db_get_b(hContact, "CList", "NotOnList", 0) == 0;

@@ -96,6 +96,12 @@ namespace Contact
 	MIR_APP_DLL(void) Hide(MCONTACT hContact, bool bHidden = true);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
+	// gets / sets read-only status for a contact
+
+	MIR_APP_DLL(bool) IsReadonly(MCONTACT hContact);
+	MIR_APP_DLL(void) Readonly(MCONTACT hContact, bool bReadOnly = true);
+
+	/////////////////////////////////////////////////////////////////////////////////////////
 	// checks / adds / removes a contact from list of contacts
 	// removed contacts would be physically deleted after restart
 
