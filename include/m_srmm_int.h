@@ -339,7 +339,7 @@ public:
 	MCONTACT m_hContact;
 	MEVENT m_hDbEventFirst;
 	int m_iLogFilterFlags;
-	bool m_bFilterEnabled, m_bNicklistEnabled;
+	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false;
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;

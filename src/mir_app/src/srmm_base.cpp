@@ -519,6 +519,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
+	m_bReadOnly = Contact::IsReadonly(m_hContact);
+	if (m_bReadOnly)
+		m_message.Hide();
+
 	auto *pDlg = (CMsgDialog *)this;
 	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg)) {
 		m_pLog = pLogWindowClass->pfnBuilder(*pDlg);
