@@ -43,6 +43,7 @@ static IconItem iconList[] =
 	{ LPGEN("Telegram Premium user"), "premuim", IDI_PREMIUM },
 	{ LPGEN("Forward"), "forward", IDI_FORWARD },
 	{ LPGEN("Reaction"), "reaction", IDI_REACTION },
+	{ LPGEN("Bot"), "bot", IDI_BOT },
 };
 
 int CMPlugin::Load()

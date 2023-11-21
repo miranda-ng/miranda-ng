@@ -166,6 +166,8 @@ IDI_FORWARD             ICON                    "forward.ico"
 
 IDI_REACTION            ICON                    "reaction.ico"
 
+IDI_BOT                 ICON                    "bot.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO

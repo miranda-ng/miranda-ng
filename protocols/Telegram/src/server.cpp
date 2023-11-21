@@ -930,6 +930,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (pUser->is_premium_)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
+	else if (typeID == TD::userTypeBot::ID)
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_bot");
 	else
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
