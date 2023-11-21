@@ -44,8 +44,6 @@
 Показывать всплывающее окно, только если &изменилось значение
 [Cancel]
 Отмена
-[Popup settings...]
-Настройки вспл. окон...
 [Currency Converter]
 Конвертер валют
 [&to:]
@@ -58,30 +56,6 @@
 Источник: <a href="http://www.google.com">Google</a>
 [Close]
 Закрыть
-[Popup settings]
-Настройки всплывающих окон
-[Colors]
-Цвета
-[Use default colors]
-Цвета по умолчанию
-[Use custom colors]
-Настроить цвета
-[Background color]
-Цвет фона
-[Text color]
-Цвет текста
-[Timeout]
-Длительность
-[Default]
-По умолчанию
-[Custom]
-Настроить
-[Permanent]
-Постоянно
-[Do not add to popup's history]
-Не добавлять в историю всплывающих окон
-[Preview]
-Тест
 [Current Rate:]
 Текущее значение:
 [Rate Fetch Time:]
@@ -108,8 +82,28 @@
 &Персональный ключ:
 [Get key]
 Получить ключ
-[&Advanced Settings...]
-&Дополнительные настройки...
+[Colors]
+Цвета
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Настроить цвета
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Timeout]
+Длительность
+[Default]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Do not add to popup's history]
+Не добавлять в историю всплывающих окон
+[Preview]
+Тест
 [Rate Info]
 Курсы валют
 [Add currency pair]
@@ -231,26 +225,22 @@
 минут(ы)
 [Hours]
 часов
-[Enter integer value between 1 and 60.]
-Введите целое число между 1 и 60.
-[Enter integer value between 1 and 24.]
-Введите целое число между 1 и 24.
-[Enter text to display in contact list.]
-Введите текст для отображения в списке контактов.
-[Network]
-Сеть
-[General]
-Общее
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-Журналы (*.txt,*.log)
-[Enter integer value]
-Введите целочисленное значение
 [Enter log file name.]
 Введите имя лог-файла.
 [Enter log file format.]
 Введите формат лог-файла.
 [Enter history format.]
 Введите формат истории.
+[Network]
+Сеть
+[General]
+Общее
+[Advanced]
+Дополнительно
+[Popups]
+Всплывающие окна
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Журналы (*.txt,*.log)
 [Enter popup window format.]
 Введите формат всплывающего окна.

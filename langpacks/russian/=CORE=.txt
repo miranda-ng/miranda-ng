@@ -1723,7 +1723,7 @@ Miranda не смогла загрузить встроенную систему
 Врезка
 [Title underline]
 Подчёркивание заголовка
-[Popup Mode]
+[Popup mode]
 Режим работы всплывающих окон
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
@@ -2601,10 +2601,6 @@ xСтатус
 Включить плагин?
 [Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Невозможно загрузить ни один из установленных плагинов списка контактов. Не удалось загрузить даже отключённые плагины.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Не найден плагин списка контактов! Вам нужен StdClist.dll или один из плагинов clist_*.dll.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
 [Fatal error]

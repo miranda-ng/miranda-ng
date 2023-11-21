@@ -1707,7 +1707,7 @@ Miranda не смогла загрузить встроенную систему
 Врезка
 [Title underline]
 Подчёркивание заголовка
-[Popup Mode]
+[Popup mode]
 Режим работы всплывающих окон
 [Copy title to clipboard]
 Копировать заголовок в буфер обмена
@@ -2519,10 +2519,6 @@ xСтатус
 Включить плагин?
 [Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Невозможно загрузить ни один из установленных плагинов списка контактов. Не удалось загрузить даже отключённые плагины.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Не найден плагин списка контактов! Вам нужен StdClist.dll или один из плагинов clist_*.dll.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
 [Fatal error]
@@ -8812,8 +8808,6 @@ ID пользователя
 Показывать всплывающее окно, только если &изменилось значение
 [Cancel]
 Отмена
-[Popup settings...]
-Настройки вспл. окон...
 [Currency Converter]
 Конвертер валют
 [&to:]
@@ -8826,30 +8820,6 @@ ID пользователя
 Источник: <a href="http://www.google.com">Google</a>
 [Close]
 Закрыть
-[Popup settings]
-Настройки всплывающих окон
-[Colors]
-Цвета
-[Use default colors]
-Цвета по умолчанию
-[Use custom colors]
-Настроить цвета
-[Background color]
-Цвет фона
-[Text color]
-Цвет текста
-[Timeout]
-Длительность
-[Default]
-По умолчанию
-[Custom]
-Настроить
-[Permanent]
-Постоянно
-[Do not add to popup's history]
-Не добавлять в историю всплывающих окон
-[Preview]
-Тест
 [Current Rate:]
 Текущее значение:
 [Rate Fetch Time:]
@@ -8876,8 +8846,28 @@ ID пользователя
 &Персональный ключ:
 [Get key]
 Получить ключ
-[&Advanced Settings...]
-&Дополнительные настройки...
+[Colors]
+Цвета
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Настроить цвета
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Timeout]
+Длительность
+[Default]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Do not add to popup's history]
+Не добавлять в историю всплывающих окон
+[Preview]
+Тест
 [Rate Info]
 Курсы валют
 [Add currency pair]
@@ -8990,26 +8980,22 @@ ID пользователя
 минут(ы)
 [Hours]
 часов
-[Enter integer value between 1 and 60.]
-Введите целое число между 1 и 60.
-[Enter integer value between 1 and 24.]
-Введите целое число между 1 и 24.
-[Enter text to display in contact list.]
-Введите текст для отображения в списке контактов.
-[Network]
-Сеть
-[General]
-Общее
-[Log Files (*.txt,*.log)]
-Журналы (*.txt,*.log)
-[Enter integer value]
-Введите целочисленное значение
 [Enter log file name.]
 Введите имя лог-файла.
 [Enter log file format.]
 Введите формат лог-файла.
 [Enter history format.]
 Введите формат истории.
+[Network]
+Сеть
+[General]
+Общее
+[Advanced]
+Дополнительно
+[Popups]
+Всплывающие окна
+[Log Files (*.txt,*.log)]
+Журналы (*.txt,*.log)
 [Enter popup window format.]
 Введите формат всплывающего окна.
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
@@ -22016,11 +22002,11 @@ History++ для истории окон
 Избранное
 [Block]
 Заблокировать
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Режим всплывающих окон: по умолчанию
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Режим всплывающих окон: избранные
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Режим всплывающих окон: игнорировать полноэкранные приложения
 #muuid {4df0c267-6efb-4410-b651-385f87158509}
 ;============================================================
@@ -28980,6 +28966,8 @@ xСтатус: пустое имя в имя по умолчанию
 Добавить ярлык
 [Enable popups]
 Включить всплывающие окна
+[Popup mode]
+Режим работы всплывающих окон
 [This plugin requires Windows 8 or higher]
 Для этого плагина требуется Windows 8 или новее.
 [Failed to create temporary directory]
