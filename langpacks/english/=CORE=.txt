@@ -878,7 +878,7 @@
 [Time]
 [Sidebar]
 [Title underline]
-[Popup Mode]
+[Popup mode]
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 [Copy message to clipboard]
@@ -1350,8 +1350,6 @@
 ['%S' is disabled, re-enable?]
 [Re-enable Miranda plugin?]
 [Unable to load plugin in service mode!]
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Fatal error]
 ;file \src\mir_app\src\options.cpp

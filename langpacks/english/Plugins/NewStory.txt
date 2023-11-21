@@ -107,6 +107,7 @@
 [History]
 [Global search]
 [Copy text]
+[Show in folder]
 [Quote]
 [Save as]
 [Download]

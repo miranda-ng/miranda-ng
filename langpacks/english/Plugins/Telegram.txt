@@ -42,6 +42,7 @@
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 [Reaction]
+[Bot]
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
 [Network]
