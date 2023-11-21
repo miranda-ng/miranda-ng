@@ -176,6 +176,8 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	HookEvent(ME_MSG_BUTTONPRESSED, OnToolbarButtonPressed);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
+	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 
 	RemoveUnreadFileEvents();
 	return 0;
@@ -344,8 +346,6 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SRFilePreShutdown);
 	HookEvent(ME_OPT_INITIALISE, SRFileOptInitialise);
 	HookEvent(ME_DB_EVENT_DELETED, SRFileEventDeleted);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
-	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 
 	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
 	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);
