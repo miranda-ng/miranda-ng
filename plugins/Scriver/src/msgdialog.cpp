@@ -505,7 +505,7 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	int avatarWidth = 0, avatarHeight = 0;
 	int toolbarWidth = w;
 	int messageEditWidth = w - 2;
-	int hSplitterPos = pdat->iSplitterY;
+	int hSplitterPos = (m_bReadOnly) ? 0 : pdat->iSplitterY;
 
 	if (!pdat->flags2.bShowInfoBar) {
 		if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
@@ -553,7 +553,10 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	if (hSplitterPos < hSplitterMinBottom)
 		hSplitterPos = hSplitterMinBottom;
 
-	pdat->iSplitterY = hSplitterPos;
+	if (m_bReadOnly)
+		hSplitterPos = 0;
+	else
+		pdat->iSplitterY = hSplitterPos;
 
 	if (isChat()) {
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
