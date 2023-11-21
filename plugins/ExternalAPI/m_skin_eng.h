@@ -55,6 +55,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ST_FRAGMENT     5
 #define ST_GRADIENT     6
 
+#define CLBF_TILEVTOROWHEIGHT        0x0100
+
 //formats:
 #define ADT_TOP                      0x00000000
 #define ADT_LEFT                     0x00000000
@@ -425,10 +427,11 @@ int __inline mod_DrawIconEx_helper(HDC hdc, int xLeft, int yTop, HICON hIcon, in
 //           format: Category/ModuleName,
 //           eg: "Contact list background/CLUI",
 //               "Status bar background/StatusBar"
-//  lParam = (LPARAM)dwFlags
-//
 
-#define MS_BACKGROUNDCONFIG_REGISTER "ModernBkgrCfg/Register"
+void __forceinline BackgroundConfig_Register(const char *pszModule)
+{
+	CallService("ModernBkgrCfg/Register", (WPARAM)pszModule, (LPARAM)&g_plugin);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Notification about changed background

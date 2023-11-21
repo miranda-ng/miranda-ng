@@ -17,11 +17,11 @@
 #include <m_button.h>
 #include <m_icolib.h>
 
+#include <m_skin_eng.h>
 #include <m_toptoolbar.h>
 
 #include "resource.h"
 #include "version.h"
-#include "BkgrCfg.h"
 
 #define TTB_BUTTON_CLASS  L"TopToolbarButtonClass"
 

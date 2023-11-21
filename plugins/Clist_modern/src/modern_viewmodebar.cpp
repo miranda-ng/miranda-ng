@@ -1190,7 +1190,7 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t,
 
 void CreateViewModeFrame()
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("View mode background")"/ViewMode"), 0);
+	BackgroundConfig_Register(LPGEN("View mode background")"/ViewMode");
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhViewModeBackgroundSettingsChanged);
 	ehhViewModeBackgroundSettingsChanged(0, 0);
 

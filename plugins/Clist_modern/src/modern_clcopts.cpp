@@ -1168,8 +1168,14 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 #define DEFAULT_BKBMPUSE      CLB_STRETCH
 #define DEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
-char **bkgrList = nullptr;
-int bkgrCount = 0;
+struct BkgrInternal
+{
+	ptrW wszDescr;
+	ptrA szModule;
+	HPLUGIN hPlugin;
+};
+
+static OBJLIST<BkgrInternal> g_arBkrg(1);
 
 #define M_BKGR_UPDATE	(WM_USER+10)
 #define M_BKGR_SETSTATE	(WM_USER+11)
@@ -1195,6 +1201,7 @@ struct BkgrItem
 	uint16_t flags;
 	uint8_t useWinColours;
 };
+
 struct BkgrData
 {
 	struct BkgrItem *item;
@@ -1214,11 +1221,11 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			dat = (struct BkgrData*)mir_alloc(sizeof(struct BkgrData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			dat->count = bkgrCount;
+			dat->count = g_arBkrg.getCount();
 			dat->item = (struct BkgrItem*)mir_alloc(sizeof(struct BkgrItem)*dat->count);
 			dat->indx = CB_ERR;
 			for (indx = 0; indx < dat->count; indx++) {
-				char *module = bkgrList[indx] + mir_strlen(bkgrList[indx]) + 1;
+				char *module = g_arBkrg[indx].szModule;
 				int jndx;
 
 				dat->item[indx].changed = FALSE;
@@ -1237,7 +1244,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else *dat->item[indx].filename = 0;
 
 				dat->item[indx].flags = db_get_w(0, module, "BkBmpUse", DEFAULT_BKBMPUSE);
-				jndx = SendMessageA(hList, CB_ADDSTRING, 0, (LPARAM)Translate(bkgrList[indx]));
+				jndx = SendMessageW(hList, CB_ADDSTRING, 0, (LPARAM)TranslateW_LP(g_arBkrg[indx].wszDescr, g_arBkrg[indx].hPlugin));
 				SendMessage(hList, CB_SETITEMDATA, jndx, indx);
 			}
 			SendMessage(hList, CB_SETCURSEL, 0, 0);
@@ -1383,7 +1390,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (!p.changed)
 						continue;
 
-					char *module = bkgrList[indx] + mir_strlen(bkgrList[indx]) + 1;
+					char *module = g_arBkrg[indx].szModule;
 					db_set_b(0, module, "UseBitmap", (uint8_t)p.useBitmap);
 
 					COLORREF col;
@@ -1420,38 +1427,29 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 {
-	char *szSetting = (char*)wParam;
-	size_t len = mir_strlen(szSetting) + 1;
-
-	char *value = (char *)mir_alloc(len + 4); // add room for flags (uint32_t)
-	memcpy(value, szSetting, len);
-	char *tok = strchr(value, '/');
-	if (tok == nullptr) {
-		mir_free(value);
+	char *szSetting = NEWSTR_ALLOCA((char *)wParam);
+	char *tok = strchr(szSetting, '/');
+	if (tok == nullptr)
 		return 1;
-	}
-	*tok = 0;
-	*(uint32_t*)(value + len) = lParam;
 
-	bkgrList = (char **)mir_realloc(bkgrList, sizeof(char*)*(bkgrCount + 1));
-	bkgrList[bkgrCount] = value;
-	bkgrCount++;
+	*tok = 0;
+	auto *pNew = new BkgrInternal();
+	pNew->wszDescr = mir_a2u(szSetting);
+	pNew->szModule = mir_strdup(tok + 1);
+	pNew->hPlugin = (HPLUGIN)lParam;
+	g_arBkrg.insert(pNew);
 	return 0;
 }
 
 HRESULT BackgroundsLoadModule()
 {
-	CreateServiceFunction(MS_BACKGROUNDCONFIG_REGISTER, BkgrCfg_Register);
+	CreateServiceFunction("ModernBkgrCfg/Register", BkgrCfg_Register);
 	return S_OK;
 }
 
 int BackgroundsUnloadModule(void)
 {
-	if (bkgrList != nullptr) {
-		for (int indx = 0; indx < bkgrCount; indx++)
-			mir_free(bkgrList[indx]);
-		mir_free(bkgrList);
-	}
+	g_arBkrg.destroy();
 	DestroyHookableEvent(g_CluiData.hEventBkgrChanged);
 	g_CluiData.hEventBkgrChanged = nullptr;
 	return 0;
