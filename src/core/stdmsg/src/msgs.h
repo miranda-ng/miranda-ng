@@ -88,6 +88,7 @@ public:
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
+	void OnResize()  override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;

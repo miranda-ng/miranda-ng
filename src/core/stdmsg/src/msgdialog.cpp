@@ -109,6 +109,14 @@ bool CMsgDialog::OnInitDialog()
 		mir_free(m_wszInitialText);
 	}
 
+	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
+
+	if (m_bReadOnly) {
+		m_iSplitterY = 0;
+		m_splitterY.Disable();
+	}
+	else m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
+
 	// avatar stuff
 	m_avatar.Disable();
 	m_limitAvatarH = g_plugin.bLimitAvatarHeight ? g_plugin.iAvatarHeight : 0;
@@ -125,9 +133,6 @@ bool CMsgDialog::OnInitDialog()
 	m_cmdListInd = -1;
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	timerType.Start(1000);
-
-	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
-	m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
 	OnOptionsApplied();
@@ -430,13 +435,20 @@ void CMsgDialog::OnType(CTimer*)
 
 int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 {
-	bool bToolbar = g_plugin.bShowButtons;
 	bool bSend = g_plugin.bSendButton;
-	bool bNick = false;
-	int underTB = urc->dlgNewSize.cy - m_iSplitterY;
-	underTB += bToolbar ? m_iBBarHeight : 2;
 
-	if (isChat()) bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
+	int toolbarHeight = g_plugin.bShowButtons ? m_iBBarHeight : 2;
+	int underTB = urc->dlgNewSize.cy - m_iSplitterY, overTB = underTB;
+	if (m_bReadOnly) {
+		underTB -= toolbarHeight;
+		overTB = underTB;
+		bSend = false;
+	}
+	else underTB += toolbarHeight;
+
+	bool bNickList = false;
+	if (isChat())
+		bNickList = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 	switch (urc->wId) {
 	case IDOK:
@@ -449,8 +461,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_SRMM_LOG:
 		urc->rcItem.top = 2;
 		urc->rcItem.left = 0;
-		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.right = bNickList ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
+		urc->rcItem.bottom = overTB;
 		m_rcLog = urc->rcItem;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
@@ -459,7 +471,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX + 2;
 LBL_CalcBottom:
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = overTB;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERX:
@@ -469,8 +481,11 @@ LBL_CalcBottom:
 		goto LBL_CalcBottom;
 
 	case IDC_SPLITTERY:
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
-		urc->rcItem.bottom = urc->rcItem.top + 2;
+		if (!m_bReadOnly) {
+			urc->rcItem.top = overTB;
+			urc->rcItem.bottom = urc->rcItem.top + 2;
+		}
+		else urc->rcItem.top = urc->rcItem.bottom = urc->dlgNewSize.cy - toolbarHeight;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
@@ -494,6 +509,37 @@ LBL_CalcBottom:
 	}
 
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+}
+
+void CMsgDialog::OnResize()
+{
+	if (!IsIconic(m_hwnd)) {
+		if (isChat()) {
+			m_btnOk.Show(g_plugin.bSendButton);
+			m_splitterX.Show(m_si->iType != GCW_SERVER && m_bNicklistEnabled);
+			if (m_si->iType != GCW_SERVER)
+				m_nickList.Show(m_bNicklistEnabled);
+			else
+				m_nickList.Hide();
+
+			if (m_si->iType == GCW_SERVER) {
+				m_btnNickList.Disable();
+				m_btnFilter.Disable();
+				m_btnChannelMgr.Disable();
+			}
+			else {
+				m_btnNickList.Enable();
+				m_btnFilter.Enable();
+				if (m_si->iType == GCW_CHATROOM)
+					m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
+			}
+		}
+		else SetupStatusBar();
+
+		CSuper::OnResize(); // call built-in resizer
+		m_pLog->Resize();
+		SetButtonsPos();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -546,36 +592,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
 		return (INT_PTR)g_chatApi.hListBkgBrush;
-
-	case WM_SIZE:
-		if (!IsIconic(m_hwnd)) {
-			if (isChat()) {
-				m_btnOk.Show(g_plugin.bSendButton);
-				m_splitterX.Show(m_si->iType != GCW_SERVER && m_bNicklistEnabled);
-				if (m_si->iType != GCW_SERVER)
-					m_nickList.Show(m_bNicklistEnabled);
-				else
-					m_nickList.Hide();
-
-				if (m_si->iType == GCW_SERVER) {
-					m_btnNickList.Disable();
-					m_btnFilter.Disable();
-					m_btnChannelMgr.Disable();
-				}
-				else {
-					m_btnNickList.Enable();
-					m_btnFilter.Enable();
-					if (m_si->iType == GCW_CHATROOM)
-						m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
-				}
-			}
-			else SetupStatusBar();
-
-			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
-			m_pLog->Resize();
-			SetButtonsPos();
-		}
-		return TRUE;
 
 	case WM_TIMECHANGE:
 		PostMessage(m_hwnd, DM_NEWTIMEZONE, 0, 0);

@@ -416,12 +416,11 @@ void CMsgDialog::SetButtonsPos()
 {
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
 
-	int yPos;
 	RECT rc;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rc);
 	POINT pt = { 0, rc.top };
 	ScreenToClient(m_hwnd, &pt);
-	yPos = pt.y;
+	int yPos = pt.y;
 
 	GetClientRect(m_hwnd, &rc);
 	int iLeftX = 2, iRightX = rc.right - 2, iGap = Srmm_GetButtonGap();
