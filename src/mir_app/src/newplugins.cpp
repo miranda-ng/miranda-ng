@@ -150,15 +150,15 @@ bool isPluginBanned(const MUUID &u1)
 
 static MuuidReplacement pluginDefault[] =
 {
-	{ MIID_CLIST,      L"stdclist",      nullptr }, // 0
-	{ MIID_SRMM,       L"stdmsg",        nullptr }, // 1
-	{ MIID_UIUSERINFO, L"stduserinfo",   nullptr }, // 2
-	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 3
-	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 4
-	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 5
-	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 6
-	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 7
-	{ MIID_POPUP,      L"stdpopup",      nullptr }, // 8
+	{ MIID_CLIST,      L"StdClist",      nullptr }, // 0
+	{ MIID_SRMM,       L"StdMsg",        nullptr }, // 1
+	{ MIID_UIUSERINFO, L"StdUserInfo",   nullptr }, // 2
+	{ MIID_SREMAIL,    L"StdEmail",      nullptr }, // 3
+	{ MIID_UIHISTORY,  L"StdUIHist",     nullptr }, // 4
+	{ MIID_AUTOAWAY,   L"StdAutoAway",   nullptr }, // 5
+	{ MIID_USERONLINE, L"StdUserOnline", nullptr }, // 6
+	{ MIID_SRAWAY,     L"StdAway",       nullptr }, // 7
+	{ MIID_POPUP,      L"StdPopup",      nullptr }, // 8
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)
