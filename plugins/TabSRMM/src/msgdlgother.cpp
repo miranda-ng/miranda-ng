@@ -1404,6 +1404,11 @@ void CMsgDialog::LoadSettings()
 
 void CMsgDialog::LoadSplitter()
 {
+	if (m_bReadOnly) {
+		m_iSplitterY = DPISCALEY_S(22);
+		return;
+	}
+
 	if (m_bIsAutosizingInput) {
 		m_iSplitterY = (m_pContainer->cfg.flags.m_bBottomToolbar) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
 
@@ -1864,7 +1869,7 @@ void CMsgDialog::SaveAvatarToFile(HBITMAP hbm, int isOwnPic)
 
 void CMsgDialog::SaveSplitter()
 {
-	if (m_bIsAutosizingInput)
+	if (m_bIsAutosizingInput || m_bReadOnly)
 		return;
 
 	if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY) || m_iSplitterY < 0)
@@ -2154,6 +2159,11 @@ void CMsgDialog::ShowFilterMenu()
 
 void CMsgDialog::ShowPicture(bool showNewPic)
 {
+	if (m_bReadOnly) {
+		m_bShowAvatar = false;
+		return;
+	}
+
 	if (!m_pPanel.isActive())
 		m_pic.cy = m_pic.cx = DPISCALEY_S(60);
 

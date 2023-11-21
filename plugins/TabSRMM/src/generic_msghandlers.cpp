@@ -1038,7 +1038,7 @@ void CMsgDialog::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 	if (rr == nullptr || GetForegroundWindow() != m_pContainer->m_hwnd)
 		return;
 
-	if (!m_bIsAutosizingInput || m_iInputAreaHeight == -1)
+	if (!m_bIsAutosizingInput || m_iInputAreaHeight == -1 || m_bReadOnly)
 		return;
 
 	LONG heightLimit = M.GetDword("autoSplitMinLimit", 0);

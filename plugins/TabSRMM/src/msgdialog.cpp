@@ -125,8 +125,6 @@ void CMsgDialog::SetDialogToType()
 
 	Utils::enableDlgControl(m_hwnd, IDC_TIME, true);
 
-	m_message.Show();
-
 	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_bErrorState ? SW_SHOW : SW_HIDE);
 
 	if (!m_SendFormat)
@@ -141,8 +139,11 @@ void CMsgDialog::SetDialogToType()
 	GetAvatarVisibility();
 
 	Utils::showDlgControl(m_hwnd, IDC_CONTACTPIC, m_bShowAvatar ? SW_SHOW : SW_HIDE);
-	Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
 	Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
+
+	Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
+	if (m_bReadOnly)
+		Utils::enableDlgControl(m_hwnd, IDC_SPLITTERY, false);
 
 	EnableSendButton(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	UpdateTitle();
@@ -1211,11 +1212,11 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERY:
+		urc->rcItem.left = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (isChat()) {
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
 			urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
-			urc->rcItem.left = 0;
 			urc->rcItem.bottom++;
 			urc->rcItem.top++;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
@@ -1223,7 +1224,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		OffsetRect(&urc->rcItem, 0, 1);
-		urc->rcItem.left = 0;
 
 		if (m_bUseOffset)
 			urc->rcItem.right -= (m_pic.cx); // + DPISCALEX(2));
