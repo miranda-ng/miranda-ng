@@ -562,6 +562,7 @@ bool CImportFeed::OnApply()
 
 				MCONTACT hContact = db_add_contact();
 				Proto_AddToContact(hContact, MODULENAME);
+				Contact::Readonly(hContact);
 				g_plugin.setWString(hContact, "Nick", text);
 				g_plugin.setWString(hContact, "URL", url);
 				if (siteurl)
@@ -771,6 +772,7 @@ bool CFeedEditor::OnApply()
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, MODULENAME);
 		g_plugin.setByte(hContact, "CheckState", 1);
+		Contact::Readonly(hContact);
 	}
 	else hContact = m_hContact;
 

@@ -487,8 +487,13 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (CheckSearchUser(pUser))
 			return;
 
-		if (pUser->isGroupChat && pUser->hContact != INVALID_CONTACT_ID)
-			InitGroupChat(pUser, pChat);
+		if (pUser->hContact != INVALID_CONTACT_ID) {
+			if (pChat->permissions_)
+				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
+
+			if (pUser->isGroupChat)
+				InitGroupChat(pUser, pChat);
+		}
 	}
 	else debugLogA("Unknown user id %lld, ignoring", userId);
 }

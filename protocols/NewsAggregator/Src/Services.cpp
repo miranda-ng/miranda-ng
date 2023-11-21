@@ -37,6 +37,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
 	for (auto &hContact : Contacts(MODULENAME)) {
+		Contact::Readonly(hContact);
 		if (!g_plugin.getByte("StartupRetrieve", 1))
 			g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
