@@ -652,13 +652,13 @@ void CSrmmBaseDialog::UpdateChatOptions()
 	UpdateFilterButton();
 
 	MODULEINFO *mi = m_si->pMI;
-	EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
-	EnableWindow(m_btnItalic.GetHwnd(), mi->bItalics);
-	EnableWindow(m_btnUnderline.GetHwnd(), mi->bUnderline);
-	EnableWindow(m_btnColor.GetHwnd(), mi->bColor);
-	EnableWindow(m_btnBkColor.GetHwnd(), mi->bBkgColor);
+	m_btnBold.Enable(mi->bBold);
+	m_btnColor.Enable(mi->bColor);
+	m_btnItalic.Enable(mi->bItalics);
+	m_btnBkColor.Enable(mi->bBkgColor);
+	m_btnUnderline.Enable(mi->bUnderline);
 	if (m_si->iType == GCW_CHATROOM)
-		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
+		m_btnChannelMgr.Enable(mi->bChanMgr);
 
 	Resize();
 }

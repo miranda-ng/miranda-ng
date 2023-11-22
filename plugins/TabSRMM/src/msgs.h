@@ -469,12 +469,12 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool     m_bInsertMode, m_bInitMode = true;
 	bool     m_bDeferredScroll;
 	bool     m_bWasBackgroundCreate;
+	bool     m_bSendFormat;
 
 	int      m_iRealAvatarHeight;
 	int      m_iButtonBarReallyNeeds;
 	uint32_t m_dwLastActivity;
 	MEVENT   m_hFlashingEvent;
-	int      m_SendFormat;
 	LCID     m_lcid;
 	wchar_t  m_lcID[10];
 	int      m_iPanelAvatarX, m_iPanelAvatarY;

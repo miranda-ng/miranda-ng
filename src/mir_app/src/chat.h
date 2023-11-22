@@ -102,6 +102,7 @@ int           RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
 
 // options.c
 void          ChatOptionsInit(WPARAM wParam);
+void          SrmmLogOptionsInit(WPARAM wParam);
 
 int           OptionsInit(void);
 int           OptionsUnInit(void);

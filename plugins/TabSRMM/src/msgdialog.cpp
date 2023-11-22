@@ -127,7 +127,7 @@ void CMsgDialog::SetDialogToType()
 
 	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_bErrorState ? SW_SHOW : SW_HIDE);
 
-	if (!m_SendFormat)
+	if (!m_bSendFormat)
 		ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
 	if (m_pContainer->m_hwndActive == m_hwnd)
@@ -574,7 +574,7 @@ bool CMsgDialog::OnInitDialog()
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
 
-		if (!m_SendFormat)
+		if (!m_bSendFormat)
 			ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
 		UpdateNickList();
@@ -780,7 +780,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = L"{";
-		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
+		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_bSendFormat : 0;
 		fi.lpstrText = L"}";
 		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
 	}
@@ -865,7 +865,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 
 		if (m_sendMode & SMODE_CONTAINER && m_pContainer->m_hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->m_hwnd) {
 			int tabCount = TabCtrl_GetItemCount(m_hwndParent);
-			ptrA szFromStream(m_message.GetRichTextRtf(!m_SendFormat));
+			ptrA szFromStream(m_message.GetRichTextRtf(!m_bSendFormat));
 
 			for (int i = 0; i < tabCount; i++) {
 				// get the contact from the tabs lparam which hopefully is the tabs hwnd so we can get its userdata.... hopefully

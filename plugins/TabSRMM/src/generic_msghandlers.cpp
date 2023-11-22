@@ -173,7 +173,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 	case IDC_SRMM_ITALICS:
 	case IDC_SRMM_UNDERLINE:
 	case IDC_FONTSTRIKEOUT:
-		if (m_SendFormat != 0) { // dont use formatting if disabled
+		if (m_bSendFormat) { // dont use formatting if disabled
 			CHARFORMAT2 cf, cfOld;
 			memset(&cf, 0, sizeof(CHARFORMAT2));
 			memset(&cfOld, 0, sizeof(CHARFORMAT2));
@@ -246,7 +246,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
 		{
 			bool iOldGlobalSendFormat = g_plugin.bSendFormat;
-			int iLocalFormat = M.GetDword(m_hContact, "sendformat", 0);
+			int iLocalFormat = M.GetDword(m_hContact, "sendformat", -1);
 			int iNewLocalFormat = iLocalFormat;
 
 			GetWindowRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rc);
@@ -291,7 +291,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				break;
 
 			case ID_THISCONTACT_GLOBALSETTING:
-				iNewLocalFormat = 0;
+				iNewLocalFormat = -1;
 				break;
 
 			case ID_THISCONTACT_BBCODE:
@@ -299,19 +299,17 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				break;
 
 			case ID_THISCONTACT_OFF:
-				iNewLocalFormat = -1;
+				iNewLocalFormat = SENDFORMAT_NONE;
 				break;
 			}
 
-			if (iNewLocalFormat == 0)
+			if (iNewLocalFormat == -1)
 				db_unset(m_hContact, SRMSGMOD_T, "sendformat");
 			else if (iNewLocalFormat != iLocalFormat)
 				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
 
 			if (iNewLocalFormat != iLocalFormat || g_plugin.bSendFormat != iOldGlobalSendFormat) {
-				m_SendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat);
-				if (m_SendFormat == -1)          // per contact override to disable it..
-					m_SendFormat = 0;
+				GetSendFormat();
 				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 			}
 		}

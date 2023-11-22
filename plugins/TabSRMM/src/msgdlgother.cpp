@@ -343,7 +343,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 				}
 				else {
 					if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
-						if (m_SendFormat)
+						if (m_bSendFormat)
 							res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 				}
 			}
@@ -353,12 +353,12 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 						res.Append((p[2] != '0') ? L"%i" : L"%I");
 				}
 				else {
-					if (!lf.lfItalic && m_SendFormat)
+					if (!lf.lfItalic && m_bSendFormat)
 						res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 				}
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
-				if (!lf.lfStrikeOut && m_SendFormat)
+				if (!lf.lfStrikeOut && m_bSendFormat)
 					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
@@ -367,7 +367,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 						res.Append((p[3] != '0') ? L"%u" : L"%U");
 				}
 				else {
-					if (!lf.lfUnderline && m_SendFormat) {
+					if (!lf.lfUnderline && m_bSendFormat) {
 						if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 							res.Append(L"[u]");
 							bInsideUl = true;
@@ -1217,11 +1217,7 @@ LRESULT CMsgDialog::GetSendButtonState()
 
 void CMsgDialog::GetSendFormat()
 {
-	m_SendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat);
-	if (m_SendFormat == -1)          // per contact override to disable it..
-		m_SendFormat = 0;
-	else if (m_SendFormat == 0)
-		m_SendFormat = g_plugin.bSendFormat;
+	m_bSendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat) != 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2205,7 +2201,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
-		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_bSendFormat ? MF_ENABLED : MF_GRAYED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, g_plugin.bPasteAndSend ? MF_ENABLED : MF_GRAYED);
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
