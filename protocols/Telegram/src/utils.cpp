@@ -76,6 +76,8 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
 	if (pText->get_id() == TD::formattedText::ID) {
 		CMStringW ret(Utf2T(pText->text_.c_str()));
+		unsigned offset = 0;
+
 		for (auto &it : pText->entities_) {
 			int iCode;
 			switch (it->type_->get_id()) {
@@ -87,8 +89,10 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 				continue;
 			}
 
-			ret.Insert(it->offset_ + it->length_, bbCodes[iCode].end);
-			ret.Insert(it->offset_, bbCodes[iCode].begin);
+			auto &bb = bbCodes[iCode];
+			ret.Insert(offset + it->offset_ + it->length_, bb.end);
+			ret.Insert(offset + it->offset_, bb.begin);
+			offset += bb.len1 + bb.len2;
 		}
 		return T2Utf(ret).get();
 	}
