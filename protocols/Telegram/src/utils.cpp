@@ -19,22 +19,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct
 {
-	const char *begin, *end;
+	const wchar_t *begin, *end;
 	unsigned len1, len2;
 }
 static bbCodes[] =
 {
-	{ "[b]", "[/b]", 3, 4 },
-	{ "[i]", "[/i]", 3, 4 },
-	{ "[s]", "[/s]", 3, 4 },
-	{ "[u]", "[/u]", 3, 4 },
+	{ L"[b]", L"[/b]", 3, 4 },
+	{ L"[i]", L"[/i]", 3, 4 },
+	{ L"[s]", L"[/s]", 3, 4 },
+	{ L"[u]", L"[/u]", 3, 4 },
 };
 
 TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 {
 	auto res = TD::make_object<TD::formattedText>();
 	if (mir_strlen(pszText)) {
-		std::string str = pszText;
+		std::wstring str = Utf2T(pszText).get();
 		for (auto &it : bbCodes) {
 			while (true) {
 				size_t i1 = str.find(it.begin);
@@ -66,7 +66,7 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 				res->entities_.push_back(TD::make_object<TD::textEntity>(TD::int32(i1), TD::int32(i2 - i1), std::move(pNew)));
 			}
 		}
-		res->text_ = str;
+		res->text_ = T2Utf(str.c_str()).get();
 	}
 	
 	return res;
@@ -75,10 +75,10 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
 	if (pText->get_id() == TD::formattedText::ID) {
-		CMStringA ret(pText->text_.c_str());
+		CMStringW ret(Utf2T(pText->text_.c_str()));
 		for (auto &it : pText->entities_) {
 			int iCode;
-			switch (it->get_id()) {
+			switch (it->type_->get_id()) {
 			case TD::textEntityTypeBold::ID: iCode = 0; break;
 			case TD::textEntityTypeItalic::ID: iCode = 1; break;
 			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
@@ -90,6 +90,7 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 			ret.Insert(it->offset_ + it->length_, bbCodes[iCode].end);
 			ret.Insert(it->offset_, bbCodes[iCode].begin);
 		}
+		return T2Utf(ret).get();
 	}
 	
 	return "";
