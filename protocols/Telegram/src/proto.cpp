@@ -234,9 +234,7 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 		return;
 
 	if (dbei.szId && dbei.cbBlob && dbei.pBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
-		auto text = TD::make_object<TD::formattedText>();
-		text->text_ = (char*)dbei.pBlob;
-
+		auto text = formatBbcodes((char*)dbei.pBlob);
 		auto content = TD::make_object<TD::inputMessageText>(std::move(text), false, false);
 		SendQuery(new TD::editMessageText(pUser->chatId, _atoi64(dbei.szId), 0, std::move(content)));
 	}
@@ -424,8 +422,8 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 		// create a message with embedded file
 		auto *pMessage = new TD::sendMessage();
 		pMessage->chat_id_ = pUser->chatId;
-		auto caption = TD::make_object<TD::formattedText>();
-		caption->text_ = T2Utf(szDescription).get();
+
+		auto caption = formatBbcodes(T2Utf(szDescription));
 
 		if (pTransfer->m_type == TG_FILE_REQUEST::FILE) {
 			auto pContent = TD::make_object<TD::inputMessageDocument>();

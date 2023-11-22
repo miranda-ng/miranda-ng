@@ -17,6 +17,86 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct
+{
+	const char *begin, *end;
+	unsigned len1, len2;
+}
+static bbCodes[] =
+{
+	{ "[b]", "[/b]", 3, 4 },
+	{ "[i]", "[/i]", 3, 4 },
+	{ "[s]", "[/s]", 3, 4 },
+	{ "[u]", "[/u]", 3, 4 },
+};
+
+TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
+{
+	auto res = TD::make_object<TD::formattedText>();
+	if (mir_strlen(pszText)) {
+		std::string str = pszText;
+		for (auto &it : bbCodes) {
+			while (true) {
+				size_t i1 = str.find(it.begin);
+				if (i1 == str.npos)
+					break;
+
+				size_t i2 = str.find(it.end, i1);
+				if (i2 == str.npos)
+					break;
+
+				for (auto &jt : res->entities_) {
+					if (jt->offset_ > i1)
+						jt->offset_ -= it.len1;
+					if (jt->offset_ > i2)
+						jt->offset_ -= it.len2;
+				}
+
+				str.erase(i2, it.len2); i2 -= it.len1;
+				str.erase(i1, it.len1);
+
+				TD::object_ptr<TD::TextEntityType> pNew;
+				switch (it.begin[1]) {
+				case 'b': pNew = TD::make_object<TD::textEntityTypeBold>(); break;
+				case 'i': pNew = TD::make_object<TD::textEntityTypeItalic>(); break;
+				case 's': pNew = TD::make_object<TD::textEntityTypeStrikethrough>(); break;
+				case 'u': pNew = TD::make_object<TD::textEntityTypeUnderline>(); break;
+				}
+
+				res->entities_.push_back(TD::make_object<TD::textEntity>(TD::int32(i1), TD::int32(i2 - i1), std::move(pNew)));
+			}
+		}
+		res->text_ = str;
+	}
+	
+	return res;
+}
+
+static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
+{
+	if (pText->get_id() == TD::formattedText::ID) {
+		CMStringA ret(pText->text_.c_str());
+		for (auto &it : pText->entities_) {
+			int iCode;
+			switch (it->get_id()) {
+			case TD::textEntityTypeBold::ID: iCode = 0; break;
+			case TD::textEntityTypeItalic::ID: iCode = 1; break;
+			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
+			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
+			default:
+				continue;
+			}
+
+			ret.Insert(it->offset_ + it->length_, bbCodes[iCode].end);
+			ret.Insert(it->offset_, bbCodes[iCode].begin);
+		}
+	}
+	
+	return "";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 const char *getName(const TD::usernames *pName)
 {
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
@@ -349,13 +429,6 @@ static bool checkStickerType(uint32_t ID)
 	}	
 }
 
-static const char *getFormattedText(TD::object_ptr<TD::formattedText> &pText)
-{
-	if (pText->get_id() == TD::formattedText::ID)
-		return pText->text_.c_str();
-	return nullptr;
-}
-
 CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
@@ -480,14 +553,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			CMStringA ret(FORMAT, "%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
 			if (!pInvoice->title_.empty())
 				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
-			if (auto *pszText = getFormattedText(pInvoice->description_))
-				ret.AppendFormat("\r\n%s", ((TD::formattedText *)pInvoice->description_.get())->text_.c_str());
+			if (auto pszText = getFormattedText(pInvoice->description_))
+				ret.AppendFormat("\r\n%s", pszText.c_str());
 			return ret;
 		}
 
 	case TD::messageText::ID:
-		if (auto *pszText = getFormattedText(((TD::messageText *)pBody)->text_))
-			return CMStringA(pszText);
+		if (auto pszText = getFormattedText(((TD::messageText *)pBody)->text_))
+			return pszText;
 		break;
 	}
 

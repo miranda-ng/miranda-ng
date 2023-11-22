@@ -309,8 +309,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 {
 	auto pContent = TD::make_object<TD::inputMessageText>();
-	pContent->text_ = TD::make_object<TD::formattedText>();
-	pContent->text_->text_ = std::move(pszMessage);
+	pContent->text_ = formatBbcodes(pszMessage);
 
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
