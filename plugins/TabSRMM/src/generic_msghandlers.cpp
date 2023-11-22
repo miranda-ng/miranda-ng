@@ -174,49 +174,32 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 	case IDC_SRMM_UNDERLINE:
 	case IDC_FONTSTRIKEOUT:
 		if (m_bSendFormat) { // dont use formatting if disabled
-			CHARFORMAT2 cf, cfOld;
-			memset(&cf, 0, sizeof(CHARFORMAT2));
-			memset(&cfOld, 0, sizeof(CHARFORMAT2));
-			cfOld.cbSize = cf.cbSize = sizeof(CHARFORMAT2);
+			auto *pCtrl = (CCtrlButton*)FindControl(cmd);
+			if (!pCtrl->Enabled())
+				break;
+
+			CHARFORMAT2 cf = {}, cfOld = {};
+			cfOld.cbSize = cf.cbSize = sizeof(cf);
 			cfOld.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
 			m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
-			BOOL isBold = (cfOld.dwEffects & CFE_BOLD) && (cfOld.dwMask & CFM_BOLD);
-			BOOL isItalic = (cfOld.dwEffects & CFE_ITALIC) && (cfOld.dwMask & CFM_ITALIC);
-			BOOL isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
-			BOOL isStrikeout = (cfOld.dwEffects & CFM_STRIKEOUT) && (cfOld.dwMask & CFM_STRIKEOUT);
 
-			int ctrlId = LOWORD(wParam);
-			if (ctrlId == IDC_SRMM_BOLD && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_BOLD)))
-				break;
-			if (ctrlId == IDC_SRMM_ITALICS && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_ITALICS)))
-				break;
-			if (ctrlId == IDC_SRMM_UNDERLINE && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_SRMM_UNDERLINE)))
-				break;
-			if (ctrlId == IDC_FONTSTRIKEOUT && !IsWindowEnabled(GetDlgItem(m_hwnd, IDC_FONTSTRIKEOUT)))
-				break;
-			if (ctrlId == IDC_SRMM_BOLD) {
-				cf.dwEffects = isBold ? 0 : CFE_BOLD;
-				cf.dwMask = CFM_BOLD;
-				CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
+			int mask, effect;
+
+			switch (cmd) {
+			case IDC_SRMM_BOLD:      mask = CFM_BOLD, effect = CFE_BOLD; break;
+			case IDC_SRMM_ITALICS:   mask = CFM_ITALIC, effect = CFE_ITALIC; break;
+			case IDC_SRMM_UNDERLINE: mask = CFM_UNDERLINE, effect = CFE_UNDERLINE; break;
+			default:                 mask = CFM_STRIKEOUT, effect = CFM_STRIKEOUT; break;
 			}
-			else if (ctrlId == IDC_SRMM_ITALICS) {
-				cf.dwEffects = isItalic ? 0 : CFE_ITALIC;
-				cf.dwMask = CFM_ITALIC;
-				CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, !isItalic ? BST_CHECKED : BST_UNCHECKED);
-			}
-			else if (ctrlId == IDC_SRMM_UNDERLINE) {
-				cf.dwEffects = isUnderline ? 0 : CFE_UNDERLINE;
-				cf.dwMask = CFM_UNDERLINE;
-				CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
-			}
-			else if (ctrlId == IDC_FONTSTRIKEOUT) {
-				cf.dwEffects = isStrikeout ? 0 : CFM_STRIKEOUT;
-				cf.dwMask = CFM_STRIKEOUT;
-				CheckDlgButton(m_hwnd, IDC_FONTSTRIKEOUT, !isStrikeout ? BST_CHECKED : BST_UNCHECKED);
-			}
+
+			BOOL isOn = (cfOld.dwEffects & effect) && (cfOld.dwMask & mask);
+			pCtrl->Push(!isOn);
+
+			cf.dwEffects = isOn ? 0 : effect;
+			cf.dwMask = mask;
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
-		return FALSE;
+		return TRUE;
 
 	case IDCANCEL:
 		ShowWindow(m_pContainer->m_hwnd, SW_MINIMIZE);

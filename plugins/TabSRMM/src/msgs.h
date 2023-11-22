@@ -558,7 +558,7 @@ public:
 	SESSION_INFO *m_pLastSession;
 
 	CTimer timerAwayMsg;
-	CCtrlButton m_btnAdd, m_btnQuote, m_btnCancelAdd;
+	CCtrlButton m_btnAdd, m_btnQuote, m_btnCancelAdd, m_btnStrikeout;
 
 public:
 	CMsgDialog(int dlgId, MCONTACT hContact);
