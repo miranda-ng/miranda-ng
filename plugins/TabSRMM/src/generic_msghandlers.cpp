@@ -216,7 +216,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			}
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
-		break;
+		return FALSE;
 
 	case IDCANCEL:
 		ShowWindow(m_pContainer->m_hwnd, SW_MINIMIZE);

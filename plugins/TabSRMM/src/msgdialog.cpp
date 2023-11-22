@@ -1643,6 +1643,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		else if (bStrikeout == BST_CHECKED)
 			CheckDlgButton(m_hwnd, IDC_FONTSTRIKEOUT, BST_UNCHECKED);
 	}
+	
 	switch (msg) {
 	case WM_LBUTTONDOWN:
 		{
@@ -1798,11 +1799,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				return 0;
 			}
-
-			if (wParam != VK_ESCAPE)
-				if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-					return 0;
 		}
+
+		if (wParam != VK_ESCAPE)
+			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+				return 0;
 
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 			replaceStrW(m_wszSearchQuery, nullptr);
