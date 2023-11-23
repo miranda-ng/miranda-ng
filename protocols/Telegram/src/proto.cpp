@@ -96,6 +96,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
+	CreateProtoService(PS_LEAVECHAT, &CTelegramProto::SvcLeaveChat);
+
 	HookProtoEvent(ME_GC_MUTE, &CTelegramProto::GcMuteHook);
 	HookProtoEvent(ME_GC_EVENT, &CTelegramProto::GcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CTelegramProto::GcMenuHook);

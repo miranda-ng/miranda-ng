@@ -276,6 +276,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_BASIC_GROUP>  m_arBasicGroups;
 	OBJLIST<TG_SUPER_GROUP>  m_arSuperGroups;
 
+	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
+
 	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 	

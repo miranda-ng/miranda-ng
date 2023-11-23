@@ -224,18 +224,27 @@ void CTelegramProto::Chat_LogMenu(GCHOOK *gch)
 {
 	switch (gch->dwData) {
 	case IDM_LEAVE:
-		int64_t id = GetId(gch->si->hContact);
-		if (auto *pUser = FindUser(id)) {
-			pUser->m_si = nullptr;
-			SendQuery(new TD::leaveChat(pUser->chatId));
-		}
-
-		Contact::Hide(gch->si->hContact);
-		Contact::RemoveFromList(gch->si->hContact);
-
-		Chat_Terminate(gch->si);
+		SvcLeaveChat(gch->si->hContact, 0);
 		break;
 	}
+}
+
+INT_PTR CTelegramProto::SvcLeaveChat(WPARAM hContact, LPARAM)
+{
+	int64_t id = GetId(hContact);
+	if (auto *pUser = FindUser(id)) {
+		pUser->m_si = nullptr;
+		SendQuery(new TD::leaveChat(pUser->chatId));
+	}
+
+	Contact::Hide(hContact);
+	Contact::RemoveFromList(hContact);
+
+	wchar_t wszId[100];
+	_i64tow(id, wszId, 10);
+	if (auto *si = Chat_Find(wszId, m_szModuleName))
+		Chat_Terminate(si);
+	return 0;
 }
 
 void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
