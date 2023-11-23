@@ -29,6 +29,7 @@
     <ClCompile Include="src\Authentication.cpp" />
     <ClCompile Include="src\CheckFeed.cpp" />
     <ClCompile Include="Src\ExportFeed.cpp" />
+    <ClCompile Include="Src\FeedEditor.cpp" />
     <ClCompile Include="src\Icons.cpp" />
     <ClCompile Include="Src\ImportFeed.cpp" />
     <ClCompile Include="src\Menus.cpp" />

@@ -1,36 +1,6 @@
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
-class COptionsMain : public CDlgBase
-{
-private:
-	CCtrlListView m_feeds;
-	CCtrlButton m_add;
-	CCtrlButton m_change;
-	CCtrlButton m_delete;
-	CCtrlButton m_import;
-	CCtrlButton m_export;
-	CCtrlCheck m_checkonstartup;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnAddButtonClick(CCtrlBase*);
-	void OnChangeButtonClick(CCtrlBase*);
-	void OnDeleteButtonClick(CCtrlBase*);
-	void OnImportButtonClick(CCtrlBase*);
-	void OnExportButtonClick(CCtrlBase*);
-
-	void OnFeedListItemChanged(CCtrlListView::TEventInfo *evt);
-	void OnFeedListDoubleClick(CCtrlBase*);
-
-	void UpdateList();
-
-public:
-	COptionsMain();
-};
-
 class CFeedEditor : public CDlgBase
 {
 	friend class CAuthRequest;
