@@ -189,6 +189,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 	TD::object_ptr<TD::ConnectionState> pConnState;
 
+	TD::array<TD::int53> m_botIds;
+
 	mir_cs m_csMarkRead;
 	TD::int53 m_markChatId = 0;
 	TD::array<TD::int53> m_markIds;

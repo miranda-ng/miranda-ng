@@ -24,6 +24,8 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 
 void __cdecl CTelegramProto::ServerThread(void *)
 {
+	m_botIds.clear();
+
 	m_bTerminated = m_bAuthorized = false;
 	m_pClientManager = std::make_unique<td::ClientManager>();
 	m_iClientId = m_pClientManager->create_client_id();
@@ -797,6 +799,15 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 	db_event_edit(hDbEvent, &dbei, true);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char *sttBotIds[] = {
+	"replies_bot_chat_id",
+	"group_anonymous_bot_user_id",
+	"channel_bot_user_id",
+	"anti_spam_bot_user_id",
+};
+
 void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 {
 	TD::int53 iValue = 0;
@@ -826,8 +837,17 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 		}
 
 		setWString(m_iSavedMessages, "Nick", TranslateT("Saved messages"));
+		return;
 	}
+
+	for (auto &it : sttBotIds)
+		if (pObj->name_ == it) {
+			m_botIds.push_back(iValue);
+			return;
+		}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 {
@@ -908,6 +928,15 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		debugLogA("User doesn't belong to your contacts, skipping");
 		return;
 	}
+
+	for (auto &it : m_botIds)
+		if (it == pUser->id_) {
+			if (auto *pu = FindUser(it)) {
+				Contact::Hide(pu->hContact);
+				Contact::RemoveFromList(pu->hContact);
+			}
+			return;
+		}
 
 	auto *pu = AddUser(pUser->id_, false);
 	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
