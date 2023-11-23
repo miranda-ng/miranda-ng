@@ -138,37 +138,6 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR AddFeed(WPARAM, LPARAM)
-{
-	if (pAddFeedDialog == nullptr) {
-		pAddFeedDialog = new CFeedEditor(-1, nullptr, NULL);
-		pAddFeedDialog->Show();
-	}
-	else {
-		SetForegroundWindow(pAddFeedDialog->GetHwnd());
-		SetFocus(pAddFeedDialog->GetHwnd());
-	}
-	return 0;
-}
-
-INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
-{
-	CFeedEditor *pDlg = nullptr;
-	for (auto &it : g_arFeeds)
-		if (it->getContact() == hContact)
-			pDlg = it;
-
-	if (pDlg == nullptr) {
-		pDlg = new CFeedEditor(-1, nullptr, (MCONTACT)hContact);
-		pDlg->Show();
-	}
-	else {
-		SetForegroundWindow(pDlg->GetHwnd());
-		SetFocus(pDlg->GetHwnd());
-	}
-	return 0;
-}
-
 INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
 	if(IsMyContact((MCONTACT)hContact))
@@ -204,17 +173,6 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-void UpdateMenu(bool State)
-{
-	if (!State) // to enable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ENABLED));
-	else  // to disable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
-
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
-	g_plugin.setByte("AutoUpdate", !State);
 }
 
 // update the newsaggregator auto-update menu item when click on it

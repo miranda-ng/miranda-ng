@@ -42,14 +42,14 @@ public:
 	{
 		CreateLink(m_checkonstartup, "StartupRetrieve", DBVT_BYTE, 1);
 
-		m_add.OnClick = Callback(this, &COptionsMain::OnAddButtonClick);
-		m_change.OnClick = Callback(this, &COptionsMain::OnChangeButtonClick);
-		m_delete.OnClick = Callback(this, &COptionsMain::OnDeleteButtonClick);
-		m_import.OnClick = Callback(this, &COptionsMain::OnImportButtonClick);
-		m_export.OnClick = Callback(this, &COptionsMain::OnExportButtonClick);
+		m_add.OnClick = Callback(this, &COptionsMain::onClick_Add);
+		m_change.OnClick = Callback(this, &COptionsMain::onClick_Change);
+		m_delete.OnClick = Callback(this, &COptionsMain::onClick_Delete);
+		m_import.OnClick = Callback(this, &COptionsMain::onClick_Import);
+		m_export.OnClick = Callback(this, &COptionsMain::onClick_Export);
 
-		m_feeds.OnItemChanged = Callback(this, &COptionsMain::OnFeedListItemChanged);
-		m_feeds.OnDoubleClick = Callback(this, &COptionsMain::OnFeedListDoubleClick);
+		m_feeds.OnItemChanged = Callback(this, &COptionsMain::ontItemChanged_Feeds);
+		m_feeds.OnDoubleClick = Callback(this, &COptionsMain::onDoubleClick_Feeds);
 	}
 
 	bool OnInitDialog() override
@@ -83,42 +83,21 @@ public:
 		return true;
 	}
 
-	void OnAddButtonClick(CCtrlBase *)
+	void onClick_Add(CCtrlBase *)
 	{
-		if (pAddFeedDialog == nullptr) {
-			pAddFeedDialog = new CFeedEditor(-1, &m_feeds, NULL);
-			pAddFeedDialog->SetParent(m_hwnd);
-			pAddFeedDialog->Show();
-		}
-		else {
-			SetForegroundWindow(pAddFeedDialog->GetHwnd());
-			SetFocus(pAddFeedDialog->GetHwnd());
-		}
+		AddFeed(0, LPARAM(&m_feeds));
 	}
 
-	void OnChangeButtonClick(CCtrlBase *)
+	void onClick_Change(CCtrlBase *)
 	{
 		int isel = m_feeds.GetSelectionMark();
-		CFeedEditor *pDlg = nullptr;
-		for (auto &it : g_arFeeds) {
-			wchar_t nick[MAX_PATH], url[MAX_PATH];
-			m_feeds.GetItemText(isel, 0, nick, _countof(nick));
-			m_feeds.GetItemText(isel, 1, url, _countof(url));
+		wchar_t nick[MAX_PATH], url[MAX_PATH];
+		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
+		m_feeds.GetItemText(isel, 1, url, _countof(url));
 
-			ptrW dbNick(g_plugin.getWStringA(it->getContact(), "Nick"));
-			if ((dbNick == NULL) || (mir_wstrcmp(dbNick, nick) != 0))
-				continue;
-
-			ptrW dbURL(g_plugin.getWStringA(it->getContact(), "URL"));
-			if ((dbURL == NULL) || (mir_wstrcmp(dbURL, url) != 0))
-				continue;
-
-			pDlg = it;
-		}
-
+		auto *pDlg = FindFeedEditor(nick, url);
 		if (pDlg == nullptr) {
 			pDlg = new CFeedEditor(isel, &m_feeds, NULL);
-			pDlg->SetParent(m_hwnd);
 			pDlg->Show();
 		}
 		else {
@@ -127,7 +106,7 @@ public:
 		}
 	}
 
-	void OnDeleteButtonClick(CCtrlBase *)
+	void onClick_Delete(CCtrlBase *)
 	{
 		if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 			wchar_t nick[MAX_PATH], url[MAX_PATH];
@@ -155,17 +134,17 @@ public:
 		}
 	}
 
-	void OnImportButtonClick(CCtrlBase *)
+	void onClick_Import(CCtrlBase *)
 	{
 		ImportFeeds(WPARAM(m_hwnd), 0);
 	}
 
-	void OnExportButtonClick(CCtrlBase *)
+	void onClick_Export(CCtrlBase *)
 	{
 		ExportFeeds(WPARAM(m_hwnd), 0);
 	}
 
-	void OnFeedListItemChanged(CCtrlListView::TEventInfo *evt)
+	void ontItemChanged_Feeds(CCtrlListView::TEventInfo *evt)
 	{
 		int isel = m_feeds.GetSelectionMark();
 		if (isel == -1) {
@@ -180,12 +159,11 @@ public:
 			NotifyChange();
 	}
 
-	void OnFeedListDoubleClick(CCtrlBase *)
+	void onDoubleClick_Feeds(CCtrlBase *)
 	{
 		int isel = m_feeds.GetHotItem();
 		if (isel != -1) {
 			CFeedEditor *pDlg = new CFeedEditor(isel, &m_feeds, 0);
-			pDlg->SetParent(m_hwnd);
 			pDlg->Show();
 		}
 	}

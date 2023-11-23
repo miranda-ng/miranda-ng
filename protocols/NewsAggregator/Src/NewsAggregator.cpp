@@ -20,11 +20,8 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HANDLE hPrebuildMenuHook = nullptr;
-CDlgBase *pAddFeedDialog = nullptr;
 wchar_t tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
-
-LIST<CFeedEditor> g_arFeeds(1, PtrKeySortT);
 
 CMPlugin g_plugin;
 

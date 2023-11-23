@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HGENMENU hService2[7];
+HGENMENU hmiAutoUpdate;
 
 void InitMenu()
 {
@@ -36,34 +36,34 @@ void InitMenu()
 		mi.name.w = LPGENW("Auto Update Disabled");
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
 	mi.pszService = MS_NEWSAGGREGATOR_ENABLED;
-	hService2[0] = Menu_AddMainMenuItem(&mi);
+	hmiAutoUpdate = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x8076bb4d, 0x1e44, 0x43af, 0x97, 0x1e, 0x31, 0xd8, 0xa4, 0xe9, 0xb8, 0x37);
 	mi.position = 20100001;
 	mi.name.w = LPGENW("Check All Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
-	hService2[1] = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xb876484d, 0x28aa, 0x4e03, 0x9e, 0x98, 0xed, 0xbc, 0xd1, 0xcf, 0x31, 0x80);
 	mi.position = 20100002;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ADDFEED);
 	mi.name.w = LPGENW("Add Feed");
 	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
-	hService2[2] = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x600bf2c2, 0xa974, 0x44d3, 0x98, 0xf9, 0xe6, 0x65, 0x7c, 0x1f, 0x63, 0x37);
 	mi.position = 20100003;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORTFEEDS);
 	mi.name.w = LPGENW("Import Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
-	hService2[3] = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xc09c8119, 0x64c2, 0x49bd, 0x81, 0xf, 0x54, 0x20, 0x69, 0xd7, 0x30, 0xcf);
 	mi.position = 20100004;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORTFEEDS);
 	mi.name.w = LPGENW("Export Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
-	hService2[4] = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
 	SET_UID(mi, 0x92be499c, 0x928c, 0x4789, 0x8f, 0x36, 0x28, 0xa2, 0x9f, 0xb7, 0x1a, 0x97);
@@ -72,12 +72,23 @@ void InitMenu()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CHECKFEED);
 	mi.name.w = LPGENW("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
-	hService2[5] = Menu_AddContactMenuItem(&mi, MODULENAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x41a70fbc, 0x9241, 0x44c0, 0x90, 0x90, 0x87, 0xd2, 0xc5, 0x9f, 0xc9, 0xac);
 	mi.name.w = LPGENW("Change feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
-	hService2[6] = Menu_AddContactMenuItem(&mi, MODULENAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
-	Menu_ModifyItem(hService2[0], nullptr, g_plugin.getIconHandle(g_plugin.getByte("AutoUpdate", 1) ? IDI_ENABLED : IDI_DISABLED));
+	Menu_ModifyItem(hmiAutoUpdate, nullptr, g_plugin.getIconHandle(g_plugin.getByte("AutoUpdate", 1) ? IDI_ENABLED : IDI_DISABLED));
+}
+
+void UpdateMenu(bool State)
+{
+	if (!State) // to enable auto-update
+		Menu_ModifyItem(hmiAutoUpdate, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ENABLED));
+	else  // to disable auto-update
+		Menu_ModifyItem(hmiAutoUpdate, LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
+
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
+	g_plugin.setByte("AutoUpdate", !State);
 }

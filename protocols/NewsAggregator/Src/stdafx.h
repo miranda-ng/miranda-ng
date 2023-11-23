@@ -58,10 +58,10 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 
-extern CDlgBase *pAddFeedDialog;
 extern HNETLIBUSER hNetlibUser;
+extern HANDLE hTBButton;
 extern UINT_PTR timerId;
-extern LIST<CFeedEditor> g_arFeeds;
+
 // check if Feeds is currently updating
 extern bool ThreadRunning;
 extern bool UpdateListFlag;
@@ -91,49 +91,51 @@ void UpdateListAdd(MCONTACT hContact);
 void UpdateThreadProc(void*);
 void DestroyUpdateList(void);
 
-extern   HANDLE hUpdateMutex;
-extern   HGENMENU hService2[7];
+extern    HANDLE hUpdateMutex;
+		    
+int       NewsAggrInit(WPARAM wParam,LPARAM lParam);
+int       OptInit(WPARAM wParam, LPARAM lParam);
+int       NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam);
+void      NetlibInit();
+void      NetlibUnInit();
+void      InitMenu();
+void      InitIcons();
+		    
+INT_PTR   NewsAggrGetName(WPARAM wParam, LPARAM lParam);
+INT_PTR   NewsAggrGetCaps(WPARAM wp, LPARAM lp);
+INT_PTR   NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/);
+INT_PTR   NewsAggrGetStatus(WPARAM/* wp*/, LPARAM/* lp*/);
+INT_PTR   NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam);
+INT_PTR   NewsAggrGetInfo(WPARAM wParam, LPARAM lParam);
+INT_PTR   NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam);
+INT_PTR   NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam);
+		    
+INT_PTR   CheckAllFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR   AddFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR   ChangeFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR   ImportFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR   ExportFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR   CheckFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR   EnableDisable(WPARAM wParam, LPARAM lParam);
+int       OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
+CDlgBase* FindFeedEditor(const wchar_t *pwszNick, const wchar_t *pwszUrl);
 
-int      NewsAggrInit(WPARAM wParam,LPARAM lParam);
-int      OptInit(WPARAM wParam, LPARAM lParam);
-int      NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam);
-void     NetlibInit();
-void     NetlibUnInit();
-void     InitMenu();
-void     InitIcons();
+bool      IsMyContact(MCONTACT hContact);
+void      GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg);
+time_t    DateToUnixTime(const char *stamp, bool FeedType);
+void      CheckCurrentFeed(MCONTACT hContact);
+void      CheckCurrentFeedAvatar(MCONTACT hContact);
+LPCTSTR   CheckFeed(wchar_t* tszURL, CFeedEditor *pEditDlg);
+void      UpdateMenu(bool State);
+LPCTSTR   ClearText(CMStringW &value, const wchar_t *message);
+bool      DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
+void      CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg);
+MCONTACT  GetContactByNick(const wchar_t *nick);
+MCONTACT  GetContactByURL(const wchar_t *url);
 
-INT_PTR  NewsAggrGetName(WPARAM wParam, LPARAM lParam);
-INT_PTR  NewsAggrGetCaps(WPARAM wp, LPARAM lp);
-INT_PTR  NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/);
-INT_PTR  NewsAggrGetStatus(WPARAM/* wp*/, LPARAM/* lp*/);
-INT_PTR  NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam);
-INT_PTR  NewsAggrGetInfo(WPARAM wParam, LPARAM lParam);
-INT_PTR  NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam);
-INT_PTR  NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam);
+void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
+void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
-INT_PTR  CheckAllFeeds(WPARAM wParam, LPARAM lParam);
-INT_PTR  AddFeed(WPARAM wParam, LPARAM lParam);
-INT_PTR  ChangeFeed(WPARAM wParam, LPARAM lParam);
-INT_PTR  ImportFeeds(WPARAM wParam, LPARAM lParam);
-INT_PTR  ExportFeeds(WPARAM wParam, LPARAM lParam);
-INT_PTR  CheckFeed(WPARAM wParam, LPARAM lParam);
-INT_PTR  EnableDisable(WPARAM wParam, LPARAM lParam);
-int      OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
-void     CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-void     CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-
-bool     IsMyContact(MCONTACT hContact);
-void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg);
-time_t   DateToUnixTime(const char *stamp, bool FeedType);
-void     CheckCurrentFeed(MCONTACT hContact);
-void     CheckCurrentFeedAvatar(MCONTACT hContact);
-LPCTSTR  CheckFeed(wchar_t* tszURL, CFeedEditor *pEditDlg);
-void     UpdateMenu(bool State);
-LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
-bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-void     CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg);
-MCONTACT GetContactByNick(const wchar_t *nick);
-MCONTACT GetContactByURL(const wchar_t *url);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info

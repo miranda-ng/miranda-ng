@@ -17,7 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact) :
+static CDlgBase *pAddFeedDialog = nullptr;
+
+static LIST<class CFeedEditor> g_arFeeds(1, PtrKeySortT);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CFeedEditor::CFeedEditor(int iItem, CCtrlListView *feeds, MCONTACT Contact) :
 	CSuper(g_plugin, IDD_ADDFEED),
 	m_feedtitle(this, IDC_FEEDTITLE), m_feedurl(this, IDC_FEEDURL),
 	m_checktime(this, IDC_CHECKTIME), m_checktimespin(this, IDC_TIMEOUT_VALUE_SPIN, 999),
@@ -27,12 +33,15 @@ CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact) :
 	m_help(this, IDC_TAGHELP),
 	m_iItem(iItem)
 {
-	m_list = m_feeds;
+	m_list = feeds;
 	m_hContact = Contact;
 	m_checkfeed.OnClick = Callback(this, &CFeedEditor::OnCheckFeed);
 	m_useauth.OnChange = Callback(this, &CFeedEditor::OnUseAuth);
 	m_reset.OnClick = Callback(this, &CFeedEditor::OnReset);
 	m_help.OnClick = Callback(this, &CFeedEditor::OnHelp);
+
+	if (feeds)
+		SetParent(feeds->GetParent()->GetHwnd());
 }
 
 bool CFeedEditor::OnInitDialog()
@@ -224,4 +233,55 @@ void CFeedEditor::OnUseAuth(CCtrlBase*)
 {
 	m_login.Enable(m_useauth.GetState());
 	m_password.Enable(m_useauth.GetState());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+INT_PTR AddFeed(WPARAM, LPARAM lParam)
+{
+	if (pAddFeedDialog == nullptr) {
+		pAddFeedDialog = new CFeedEditor(-1, (CCtrlListView *)lParam, NULL);
+		pAddFeedDialog->Show();
+	}
+	else {
+		SetForegroundWindow(pAddFeedDialog->GetHwnd());
+		SetFocus(pAddFeedDialog->GetHwnd());
+	}
+	return 0;
+}
+
+INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
+{
+	CFeedEditor *pDlg = nullptr;
+	for (auto &it : g_arFeeds)
+		if (it->getContact() == hContact)
+			pDlg = it;
+
+	if (pDlg == nullptr) {
+		pDlg = new CFeedEditor(-1, nullptr, hContact);
+		pDlg->Show();
+	}
+	else {
+		SetForegroundWindow(pDlg->GetHwnd());
+		SetFocus(pDlg->GetHwnd());
+	}
+	return 0;
+}
+
+CDlgBase* FindFeedEditor(const wchar_t *pwszNick, const wchar_t *pwszUrl)
+{
+	for (auto &it : g_arFeeds) {
+		ptrW dbNick(g_plugin.getWStringA(it->getContact(), "Nick"));
+		if (dbNick == nullptr || mir_wstrcmp(dbNick, pwszNick))
+			continue;
+
+		ptrW dbURL(g_plugin.getWStringA(it->getContact(), "URL"));
+		if (dbURL == nullptr || (mir_wstrcmp(dbURL, pwszUrl) != 0))
+			continue;
+
+		return it;
+	}
+
+	return nullptr;
 }
