@@ -170,7 +170,7 @@ public:
 					g_plugin.setByte(hContact, "CheckState", 1);
 					g_plugin.setDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME);
 					g_plugin.setWString(hContact, "MsgFormat", TAGSDEFAULT);
-					g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
+					g_plugin.setWord(hContact, "Status", g_nStatus);
 
 					if (m_list != nullptr) {
 						int iItem = m_list->AddItem(text, -1);

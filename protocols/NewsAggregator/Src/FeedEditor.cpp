@@ -197,7 +197,7 @@ bool CFeedEditor::OnApply()
 	g_plugin.setWString(hContact, "URL", strfeedurl);
 	g_plugin.setDword(hContact, "UpdateTime", m_checktime.GetInt());
 	g_plugin.setWString(hContact, "MsgFormat", strtagedit);
-	g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
+	g_plugin.setWord(hContact, "Status", g_nStatus);
 	if (m_useauth.IsChecked()) {
 		g_plugin.setByte(hContact, "UseAuth", 1);
 		g_plugin.setWString(hContact, "Login", m_login.GetText());

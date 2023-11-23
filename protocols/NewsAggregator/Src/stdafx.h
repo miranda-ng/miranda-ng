@@ -66,6 +66,7 @@ extern UINT_PTR timerId;
 extern bool ThreadRunning;
 extern bool UpdateListFlag;
 extern wchar_t tszRoot[MAX_PATH];
+extern int g_nStatus;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
