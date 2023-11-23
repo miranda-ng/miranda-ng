@@ -104,7 +104,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwDefPos = 71;
 	g_plugin.addButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID | BBBF_NOREADONLY;
 	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.dwDefPos = 80;

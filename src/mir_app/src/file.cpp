@@ -167,7 +167,7 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 
 	// SRMM toolbar button
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_ATTACH);

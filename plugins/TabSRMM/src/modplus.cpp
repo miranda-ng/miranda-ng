@@ -50,7 +50,7 @@ static wchar_t* getMenuEntry(int i)
 static int RegisterCustomButton(WPARAM, LPARAM)
 {
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_NOREADONLY;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_NOREADONLY | BBBF_NOREADONLY;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 200;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];

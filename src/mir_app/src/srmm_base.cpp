@@ -546,7 +546,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 			SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 			mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
 		}
-		else m_bNicklistEnabled = false;
+		else {
+			m_bNicklistEnabled = false;
+			m_btnNickList.Hide();
+		}
 	}
 
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
