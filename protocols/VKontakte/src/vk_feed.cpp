@@ -44,6 +44,7 @@ void CVkProto::AddFeedSpecialUser()
 		setWord(hContact, "Status", ID_STATUS_ONLINE);
 	SetMirVer(hContact, 7);
 
+	Contact::Readonly(hContact);
 }
 
 void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)

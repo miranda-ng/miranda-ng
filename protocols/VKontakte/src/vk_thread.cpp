@@ -475,8 +475,10 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 			setWString(hContact, "Deactivated", wszValue);
 	}
 
-	if (!wszValue.IsEmpty())
+	if (!wszValue.IsEmpty()) {
+		Contact::Readonly(hContact);
 		return hContact;
+	}
 
 	int sex = jnItem["sex"].as_int();
 	if (sex)
