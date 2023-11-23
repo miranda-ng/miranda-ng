@@ -230,9 +230,10 @@ void CTelegramProto::Chat_LogMenu(GCHOOK *gch)
 			SendQuery(new TD::leaveChat(pUser->chatId));
 		}
 
-		Chat_Terminate(gch->si);
 		Contact::Hide(gch->si->hContact);
 		Contact::RemoveFromList(gch->si->hContact);
+
+		Chat_Terminate(gch->si);
 		break;
 	}
 }
