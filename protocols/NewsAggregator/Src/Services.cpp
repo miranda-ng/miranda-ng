@@ -169,22 +169,6 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR ImportFeeds(WPARAM, LPARAM)
-{
-	if (pImportDialog == nullptr)
-		pImportDialog = new CImportFeed(nullptr);
-	pImportDialog->Show();
-	return 0;
-}
-
-INT_PTR ExportFeeds(WPARAM, LPARAM)
-{
-	if (pExportDialog == nullptr)
-		pExportDialog = new CExportFeed();
-	pExportDialog->Show();
-	return 0;
-}
-
 INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
 	if(IsMyContact((MCONTACT)hContact))

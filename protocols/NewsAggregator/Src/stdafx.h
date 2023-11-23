@@ -58,7 +58,7 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 
-extern CDlgBase *pAddFeedDialog, *pImportDialog, *pExportDialog;
+extern CDlgBase *pAddFeedDialog;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;
 extern LIST<CFeedEditor> g_arFeeds;
