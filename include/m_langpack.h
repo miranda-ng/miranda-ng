@@ -88,6 +88,12 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultCodePage(void);
 EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// returns 2-byte locale name associated with the language pack
+// if locale is not set, returns "en"
+
+MIR_CORE_DLL(char *) Langpack_GetDefaultLocaleName();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // reloads langpack
 // wParam = 0 (ignored)
 // lParam = (LPARAM)(wchar_t*)langpack file name or NULL to reload the current one

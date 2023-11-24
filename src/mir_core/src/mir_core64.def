@@ -1559,3 +1559,4 @@ db_event_updateId @1772
 ?isExecutable@MFilePath@@QEBA_NXZ @1783 NONAME
 ?GetPlugin@CDlgBase@@QEBAPEBVCMPluginBase@@XZ @1784 NONAME
 TranslateW_UUID @1785 NONAME
+?Langpack_GetDefaultLocaleName@@YAPEADXZ @1786 NONAME

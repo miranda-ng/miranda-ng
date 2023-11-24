@@ -516,6 +516,17 @@ MIR_CORE_DLL(int) Langpack_GetDefaultLocale()
 	return (langPack.Locale == 0) ? LOCALE_USER_DEFAULT : langPack.Locale;
 }
 
+MIR_CORE_DLL(char*) Langpack_GetDefaultLocaleName()
+{
+	static char buf[10];
+	if (langPack.Locale == 0)
+		strcpy(buf, "en");
+	else
+		GetLocaleInfoA(langPack.Locale, LOCALE_SPARENT, buf, _countof(buf));
+
+	return buf;	
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(char*) TranslateA_LP(const char *str, HPLUGIN pPlugin)

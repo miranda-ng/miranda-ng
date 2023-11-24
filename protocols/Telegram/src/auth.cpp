@@ -113,7 +113,7 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->use_secret_chats_ = true;
 			request->api_id_ = MIRANDA_API_ID;
 			request->api_hash_ = MIRANDA_API_HASH;
-			request->system_language_code_ = "en";
+			request->system_language_code_ = Langpack_GetDefaultLocaleName();
 			request->device_model_ = T2Utf(m_wszDeviceName).get();
 			request->application_version_ = text;
 			request->enable_storage_optimizer_ = true;
