@@ -165,9 +165,9 @@ MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* sz
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol events
 
-MIR_APP_DLL(void) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
+MIR_APP_DLL(HANDLE) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
 {
-	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, pThis);
+	return ::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, pThis);
 }
 
 MIR_APP_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szName)

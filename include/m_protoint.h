@@ -50,7 +50,7 @@ EXTERN_C MIR_APP_DLL(void)   ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd);
 EXTERN_C MIR_APP_DLL(void)   ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd);
 
 typedef int (MIR_CDECL PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
-EXTERN_C MIR_APP_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+EXTERN_C MIR_APP_DLL(HANDLE) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
 EXTERN_C MIR_APP_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
 
 typedef INT_PTR (MIR_CDECL PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
@@ -309,8 +309,8 @@ template<class T> struct PROTO : public PROTO_INTERFACE
 		return ::ProtoCreateHookableEvent(this, name); }
 
 	typedef int(MIR_CDECL T::*MyEventFunc)(WPARAM, LPARAM);
-	__forceinline void HookProtoEvent(const char *name, MyEventFunc pFunc) {
-		::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
+	__forceinline HANDLE HookProtoEvent(const char *name, MyEventFunc pFunc) {
+		return ::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
 
 	typedef void(MIR_CDECL T::*MyThreadFunc)(void*);
 	__forceinline void ForkThread(MyThreadFunc pFunc, void *param = nullptr) {
