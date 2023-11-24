@@ -2,25 +2,43 @@
 
 #include <vector>
 
+enum
+{
+	NSM_FIRST = WM_USER + 100,
+
+	// wParam = fist item
+	// lParam = iLast item
+	// result = number of total selected items
+	NSM_SELECTITEMS = NSM_FIRST,
+
+	// wParam = (MCONTACT)hContact = database contact
+	// lParam = (MEVENT)hDbEvent = database event
+	NSM_ADDEVENT,
+
+	//
+	NSM_SEEKTIME,
+
+	// 
+	NSM_SET_OPTIONS,  // options were changed
+
+	NSM_LAST
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // NS get current event
 
-#define MS_NEWSTORY_GETCURRENT "NewStory/GetCurrent"
-
 __forceinline MEVENT NS_GetCurrent(HANDLE hwnd)
 {
-	return (MEVENT)CallService(MS_NEWSTORY_GETCURRENT, WPARAM(hwnd), 0);
+	return (MEVENT)CallService("NewStory/GetCurrent", WPARAM(hwnd), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // NS get selection
 
-#define MS_NEWSTORY_GETSELECTION "NewStory/GetSelection"
-
 __forceinline std::vector<MEVENT> NS_GetSelection(HANDLE hwnd)
 {
 	std::vector<MEVENT> ret;
-	CallService(MS_NEWSTORY_GETSELECTION, WPARAM(hwnd), LPARAM(&ret));
+	CallService("NewStory/GetSelection", WPARAM(hwnd), LPARAM(&ret));
 	return ret;
 }
 

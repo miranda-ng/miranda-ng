@@ -3,24 +3,6 @@
 
 #define NEWSTORYLIST_CLASS "NewstoryList"
 
-enum
-{
-	NSM_FIRST = WM_USER + 100,
-
-	// wParam = fist item
-	// lParam = iLast item
-	// result = number of total selected items
-	NSM_SELECTITEMS = NSM_FIRST,
-
-	//
-	NSM_SEEKTIME,
-
-	// 
-	NSM_SET_OPTIONS,  // options were changed
-
-	NSM_LAST
-};
-
 struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);

@@ -919,6 +919,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		return TRUE;
 
+	case NSM_ADDEVENT:
+		data->AddEvent(wParam, lParam, 1);
+		break;
+
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
 		data->scrollTopPixel = 0;

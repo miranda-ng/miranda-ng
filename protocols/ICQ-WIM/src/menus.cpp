@@ -21,11 +21,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CIcqProto::InitMenus()
 {
-	if (!ServiceExists(MS_NEWSTORY_GETSELECTION))
+	if (!HookProtoEvent(ME_NS_PREBUILDMENU, &CIcqProto::OnPrebuildMenu))
 		return;
 
 	CreateProtoService(MenuExecService, &CIcqProto::SvcExecMenu);
-	HookProtoEvent(ME_NS_PREBUILDMENU, &CIcqProto::OnPrebuildMenu);
 
 	CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, MenuExecService);
 	CMenuItem mi(&g_plugin);
