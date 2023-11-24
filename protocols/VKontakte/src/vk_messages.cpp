@@ -489,8 +489,6 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 
-		const JSONNode& jnCanWrite = jnConversation["can_write"];
-
 		if (jnConversation["can_write"] && jnConversation["can_write"]["allowed"])
 			Contact::Readonly(hContact, !jnConversation["can_write"]["allowed"].as_bool());
 
