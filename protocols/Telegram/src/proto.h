@@ -147,6 +147,7 @@ struct TG_OWN_MESSAGE
 
 class CTelegramProto : public PROTO<CTelegramProto>
 {
+	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
 	friend class CAddPhoneContactDlg;
@@ -314,12 +315,12 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT GetRealContact(const TG_USER *pUser);
 
 	// Menus
-	HGENMENU hmiForward, hmiReaction;
+	HGENMENU hmiForward, hmiReaction, hmiReply;
 
 	void InitMenus();
 
 	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
-	int     __cdecl OnPrebuildMenu(WPARAM, LPARAM);
+	int     __cdecl OnPrebuildNSMenu(WPARAM, LPARAM);
 
 	// Popups
 	HANDLE m_hPopupClass;

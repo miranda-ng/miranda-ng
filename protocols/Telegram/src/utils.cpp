@@ -37,11 +37,11 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 		std::wstring str = Utf2T(pszText).get();
 		for (auto &it : bbCodes) {
 			while (true) {
-				size_t i1 = str.find(it.begin);
+				int i1 = str.find(it.begin);
 				if (i1 == str.npos)
 					break;
 
-				size_t i2 = str.find(it.end, i1);
+				int i2 = str.find(it.end, i1);
 				if (i2 == str.npos)
 					break;
 

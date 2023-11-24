@@ -13,6 +13,8 @@
 #define IDI_REACTION                    108
 #define IDD_REACTIONS                   109
 #define IDI_BOT                         110
+#define IDI_REPLY                       111
+#define IDD_REPLY                       112
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
 #define IDC_HIDECHATS                   1003
@@ -33,14 +35,17 @@
 #define IDC_CLIST                       1016
 #define IDC_COMPRESS_FILES              1017
 #define IDC_REACTIONS                   1018
+#define IDC_REPLYTO                     1019
+#define IDC_TEXT                        1020
+#define IDC_ATTACH                      1021
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        111
+#define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
