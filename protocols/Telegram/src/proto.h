@@ -351,6 +351,7 @@ public:
 	int      SetStatus(int iNewStatus) override;
 		
 	void     OnBuildProtoMenu() override;
+	void     OnContactAdded(MCONTACT hContact) override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;

@@ -107,6 +107,15 @@ CTelegramProto::~CTelegramProto()
 {
 }
 
+void CTelegramProto::OnContactAdded(MCONTACT hContact)
+{
+	if (int64_t id = GetId(hContact)) {
+		auto *pUser = new TG_USER(id, hContact, isChatRoom(hContact));
+		pUser->szAvatarHash = getMStringA(hContact, DBKEY_AVATAR_HASH);
+		m_arUsers.insert(pUser);
+	}
+}
+
 void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 {
 	TD::int53 id = GetId(hContact);
