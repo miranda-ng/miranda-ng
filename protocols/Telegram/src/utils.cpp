@@ -37,11 +37,11 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 		std::wstring str = Utf2T(pszText).get();
 		for (auto &it : bbCodes) {
 			while (true) {
-				int i1 = str.find(it.begin);
+				int i1 = (int)str.find(it.begin);
 				if (i1 == str.npos)
 					break;
 
-				int i2 = str.find(it.end, i1);
+				int i2 = (int)str.find(it.end, i1);
 				if (i2 == str.npos)
 					break;
 
@@ -107,29 +107,30 @@ const char *getName(const TD::usernames *pName)
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
 }
 
-TD::object_ptr<TD::inputFileLocal> makeFile(const CMStringW &wszFile)
+TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename)
 {
-	std::string szPath = T2Utf(wszFile);
+	std::string szPath = T2Utf(pwszFilename);
 	return TD::make_object<TD::inputFileLocal>(std::move(szPath));
 }
 
-void TG_FILE_REQUEST::AutoDetectType()
+TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 {
-	if (ProtoGetAvatarFileFormat(m_fileName) != PA_FORMAT_UNKNOWN) {
-		m_type = this->PICTURE;
-		return;
-	}
+	if (ProtoGetAvatarFileFormat(pwszFilename) != PA_FORMAT_UNKNOWN)
+		return TG_FILE_REQUEST::PICTURE;
 
-	int idx = m_fileName.ReverseFind('.');
-	if (idx == -1 || m_fileName.Find('\\', idx) != -1)
-		return;
+	CMStringW path(pwszFilename);
+	int idx = path.ReverseFind('.');
+	if (idx == -1 || path.Find('\\', idx) != -1)
+		return TG_FILE_REQUEST::FILE;
 
-	auto wszExt = m_fileName.Right(m_fileName.GetLength() - idx);
+	auto wszExt = path.Right(path.GetLength() - idx);
 	wszExt.MakeLower();
 	if (wszExt == L"mp4" || wszExt == L"webm")
-		m_type = this->VIDEO;
+		return TG_FILE_REQUEST::VIDEO;
 	else if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
-		m_type = this->VOICE;
+		return TG_FILE_REQUEST::VOICE;
+
+	return TG_FILE_REQUEST::FILE;
 }
 
 CMStringW TG_USER::getDisplayName() const

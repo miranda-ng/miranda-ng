@@ -73,8 +73,6 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	{	delete ofd;
 	}
 
-	void AutoDetectType();
-
 	Type m_type;
 	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
@@ -250,6 +248,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj);
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
+	void ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool);
 	void ProcessGroups(TD::updateChatFolders *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(const TD::message *pMsg);

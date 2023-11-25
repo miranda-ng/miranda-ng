@@ -105,7 +105,7 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
 		if (root) {
-			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::Type(root["t"].as_int()), 0, "");
+			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
 			ft->ofd = ofd;
 			m_arFiles.insert(ft);
 
