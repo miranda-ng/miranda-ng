@@ -458,6 +458,7 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 		else {
 			ft->m_szUserId = szUserId;
 			ft->m_uniqueId = szMsgId;
+			ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 		}
 	}
 }
@@ -466,8 +467,10 @@ void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUs
 {
 	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
 
-	if (response.object->get_id() == TD::message::ID)
+	if (response.object->get_id() == TD::message::ID) {
 		ProcessFileMessage(ft, (TD::message *)response.object.get(), false);
+		ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+	}
 	else if (response.object->get_id() == TD::messages::ID) {
 		int i = 0;
 		auto *pMessages = (TD::messages *)response.object.get();
@@ -477,7 +480,6 @@ void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUs
 		}
 	}
 
-	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 	delete ft;
 }
 
