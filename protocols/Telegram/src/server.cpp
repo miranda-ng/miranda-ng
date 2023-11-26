@@ -730,7 +730,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
 			return;
 
-	char szId[100], szUserId[100];
+	char szId[100], szUserId[100], szReplyId[100];
 	_i64toa(pMessage->id_, szId, 10);
 	if (db_event_getById(m_szModuleName, szId))
 		return;
@@ -760,6 +760,10 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		pre.flags |= PREF_SENT;
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		pre.szUserId = szUserId;
+	if (pMessage->reply_to_message_id_) {
+		_i64toa(pMessage->reply_to_message_id_, szReplyId, 10);
+		pre.szReplyId = szReplyId;
+	}
 	ProtoChainRecvMsg(GetRealContact(pUser), &pre);
 }
 

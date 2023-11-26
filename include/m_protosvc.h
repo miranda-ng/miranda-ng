@@ -724,21 +724,22 @@ struct PROTOFILERESUME
 // DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 // Return 0 - success, other failure
 
-#define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
-#define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
-#define PREF_SENT        16     // message will be created with the DBEF_SENT flag
-#define PREF_ENCRYPTED   32     // message is encrypted
-#define PREF_ENCRYPTED_STRONG 64// message is encrypted with verified key
+#define PREF_CREATEREAD        1 // create the database event with the 'read' flag set
+#define PREF_RTL               4 // 0.5+ addition: support for right-to-left messages
+#define PREF_SENT             16 // message will be created with the DBEF_SENT flag
+#define PREF_ENCRYPTED        32 // message is encrypted
+#define PREF_ENCRYPTED_STRONG 64 // message is encrypted with verified key
 
 struct PROTORECVEVENT
 {
-	uint32_t flags;       // combination of PREF_*
-	uint32_t timestamp;   // unix time
-	char* szMessage;      // message body in utf8
-	LPARAM lParam;        // extra space for the network level protocol module
-	const char* szMsgId;  // server message id, optional, should be NULL otherwise
-	                      // ignored for protocols without PF4_SERVERMSGID in GetCaps()
-	const char *szUserId; // user id, for group chats stored in the database
+	uint32_t flags;               // combination of PREF_*
+	uint32_t timestamp;           // unix time
+	char* szMessage;              // message body in utf8
+	LPARAM lParam;                // extra space for the network level protocol module
+	const char* szMsgId;          // server message id, optional, should be NULL otherwise
+	                              // ignored for protocols without PF4_SERVERMSGID in GetCaps()
+	const char *szUserId;         // user id, for group chats stored in the database
+	const char *szReplyId;        // this message is a reply to a message with that server id
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -781,14 +782,15 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 
 struct PROTORECVFILE
 {
-	uint32_t dwFlags;       // PRFF_*
-	uint32_t timestamp;     // unix time
-	MAllCStrings descr;     // file description
-	int fileCount;          // number of files being transferred
-	MAllCStringArray files; // array of file names
-	LPARAM lParam;          // extra space for the network level protocol module
-	const char *szId;       // server message id
-	const char *szUserId;   // groupchat user id
+	uint32_t dwFlags;        // PRFF_*
+	uint32_t timestamp;      // unix time
+	MAllCStrings descr;      // file description
+	int fileCount;           // number of files being transferred
+	MAllCStringArray files;  // array of file names
+	LPARAM lParam;           // extra space for the network level protocol module
+	const char *szId;        // server message id
+	const char *szUserId;    // groupchat user id
+	const char *szReplyId;   // this message is a reply to a message with that server id
 };
 
 #define PSR_FILE "/RecvFile"

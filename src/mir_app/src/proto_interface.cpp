@@ -220,6 +220,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.cbBlob = (uint32_t)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (uint8_t*)pre->szMessage;
 	dbei.szUserId = pre->szUserId;
+	dbei.szReplyId = pre->szReplyId;
 
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;

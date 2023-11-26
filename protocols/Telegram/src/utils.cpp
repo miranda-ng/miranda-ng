@@ -369,11 +369,13 @@ bool CTelegramProto::GetMessageFile(
 	auto *pRequest = new TG_FILE_REQUEST(fileType, pFile->id_, pFile->remote_->id_.c_str());
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
+	pRequest->m_bRecv = true;
 	{
 		mir_cslock lck(m_csFiles);
 		m_arFiles.insert(pRequest);
 	}
 
+	char szReplyId[100];
 	MCONTACT hContact = GetRealContact(pUser);
 	PROTORECVFILE pre = {};
 	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
@@ -389,6 +391,10 @@ bool CTelegramProto::GetMessageFile(
 		pre.dwFlags |= PRFF_SENT;
 	if (Contact::IsGroupChat(hContact))
 		pre.dwFlags |= PRFF_READ;
+	if (pMsg->reply_to_message_id_) {
+		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
+		pre.szReplyId = szReplyId;
+	}
 	ProtoChainRecvFile(hContact, &pre);
 	return true;
 }

@@ -249,6 +249,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	dbei.timestamp = pre->timestamp;
 	dbei.szId = pre->szId;
 	dbei.szUserId = pre->szUserId;
+	dbei.szReplyId = pre->szReplyId;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_UTF;
 	if (bSent)
