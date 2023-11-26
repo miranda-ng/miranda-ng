@@ -183,6 +183,7 @@ type
     szMessage       : TChar;
     lParam          : LPARAM;
     szUserId        : PAnsiChar; // user id of event
+    szReplyId       : PAnsiChar; // reply id of event
   end;
 
 const
