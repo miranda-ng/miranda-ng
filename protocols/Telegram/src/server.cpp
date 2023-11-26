@@ -389,7 +389,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.cbBlob = szBody.GetLength();
 		dbei.pBlob = (uint8_t*)szBody.c_str();
 		dbei.szId = szMsgId;
-		dbei.flags = DBEF_READ | DBEF_UTF | DBEF_HAS_ID;
+		dbei.flags = DBEF_READ | DBEF_UTF;
 		if (pMsg->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))

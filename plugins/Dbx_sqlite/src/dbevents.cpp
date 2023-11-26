@@ -136,17 +136,18 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt = InitQuery(
-		"INSERT INTO events(contact_id, module, timestamp, type, flags, data, server_id, user_id, is_read) "
-		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", qEvAdd);
+		"INSERT INTO events(contact_id, module, timestamp, type, flags, data, server_id, user_id, is_read, reply_id) "
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", qEvAdd);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
 	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
 	sqlite3_bind_int(stmt, 4, tmp.eventType);
 	sqlite3_bind_int64(stmt, 5, tmp.flags);
 	sqlite3_bind_blob(stmt, 6, tmp.pBlob, tmp.cbBlob, nullptr);
-	sqlite3_bind_text(stmt, 7, szEventId, (int)mir_strlen(szEventId), nullptr);
+	sqlite3_bind_text(stmt, 7, tmp.szId, (int)mir_strlen(tmp.szId), nullptr);
 	sqlite3_bind_text(stmt, 8, tmp.szUserId, (int)mir_strlen(tmp.szUserId), nullptr);
 	sqlite3_bind_int(stmt, 9, tmp.markedRead());
+	sqlite3_bind_text(stmt, 10, tmp.szReplyId, (int)mir_strlen(tmp.szReplyId), nullptr);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
@@ -390,7 +391,7 @@ int CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 	return res;
 }
 
-static char g_szId[100], g_szUserId[100];
+static char g_szId[100], g_szUserId[100], g_szReplyId[100];
 
 BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
@@ -406,7 +407,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, LENGTH(CAST(data AS BLOB)) AS l, data FROM events WHERE id = ? LIMIT 1;", qEvGet);
+	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, reply_id, LENGTH(CAST(data AS BLOB)) AS l, data FROM events WHERE id = ? LIMIT 1;", qEvGet);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -415,8 +416,8 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 	}
 
-	char *module = (char *)sqlite3_column_text(stmt, 0);
-	dbei->szModule = m_modules.find(module);
+	char *p = (char *)sqlite3_column_text(stmt, 0);
+	dbei->szModule = m_modules.find(p);
 	if (dbei->szModule == nullptr)
 		return 1;
 
@@ -424,21 +425,28 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
 	
-	char *pszId = (char *)sqlite3_column_text(stmt, 4);
-	if (mir_strlen(pszId)) {
-		mir_strncpy(g_szId, pszId, sizeof(g_szId));
+	p = (char *)sqlite3_column_text(stmt, 4);
+	if (mir_strlen(p)) {
+		mir_strncpy(g_szId, p, sizeof(g_szId));
 		dbei->szId = g_szId;
 	}
 	else dbei->szId = nullptr;
 
-	char *pszUserId = (char *)sqlite3_column_text(stmt, 5);
-	if (mir_strlen(pszUserId)) {
-		mir_strncpy(g_szUserId, pszUserId, sizeof(g_szUserId));
+	p = (char *)sqlite3_column_text(stmt, 5);
+	if (mir_strlen(p)) {
+		mir_strncpy(g_szUserId, p, sizeof(g_szUserId));
 		dbei->szUserId = g_szUserId;
 	}
 	else dbei->szUserId = nullptr;	
 
-	int32_t cbBlob = sqlite3_column_int64(stmt, 6);
+	p = (char *)sqlite3_column_text(stmt, 6);
+	if (mir_strlen(p)) {
+		mir_strncpy(g_szReplyId, p, sizeof(g_szReplyId));
+		dbei->szReplyId = g_szReplyId;
+	}
+	else dbei->szReplyId = nullptr;
+
+	int32_t cbBlob = sqlite3_column_int64(stmt, 7);
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
 		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
@@ -447,7 +455,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		uint8_t *data = (uint8_t *)sqlite3_column_blob(stmt, 7);
+		uint8_t *data = (uint8_t *)sqlite3_column_blob(stmt, 8);
 
 		if (dbei->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;

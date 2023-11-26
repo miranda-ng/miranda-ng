@@ -193,6 +193,7 @@ struct DBEVENTINFO
 	uint8_t    *pBlob;          // pointer to buffer containing module-defined event data
 	const char *szId;           // server message id
 	const char *szUserId;       // user id (for group chats only)
+	const char *szReplyId;      // this message is a reply to a message with that server id
 
 	bool __forceinline markedRead() const {
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
