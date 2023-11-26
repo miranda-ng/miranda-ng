@@ -193,13 +193,19 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-static int SRFileEventDeleted(WPARAM /*hContact*/, LPARAM hDbEvent)
+static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 {
 	DB::EventInfo dbei(hDbEvent);
-	if (dbei && dbei.eventType == EVENTTYPE_FILE && (dbei.flags & DBEF_SENT) == 0) {
+	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
-		if (auto *pwszName = blob.getLocalName())
-			DeleteFileW(pwszName);
+		if (auto *pwszName = blob.getLocalName()) {
+			wchar_t wszReceiveFolder[MAX_PATH];
+			GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
+
+			// we don't remove sent files, located outside Miranda's folder for sent offline files
+			if ((dbei.flags & DBEF_SENT) == 0 || wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+				DeleteFileW(pwszName);
+		}
 	}
 
 	return 0;

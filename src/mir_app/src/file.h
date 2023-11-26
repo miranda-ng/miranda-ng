@@ -84,6 +84,7 @@ void LaunchRecvDialog(CLISTEVENT *cle);
 void RemoveInvalidFilenameChars(wchar_t *tszString);
 void RemoveInvalidPathChars(wchar_t *tszString);
 void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL substVars);
+void GetContactSentFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir);
 void GetReceivedFilesDir(wchar_t *szDir, int cchDir);
 int  BrowseForFolder(HWND hwnd, wchar_t *szPath);
 
