@@ -74,6 +74,8 @@ ItemData::ItemData()
 ItemData::~ItemData()
 {
 	mir_free(wtext);
+	if (dbe.szReplyId)
+		mir_free((char*)dbe.szReplyId);
 	if (data)
 		MTextDestroy(data);
 }
@@ -334,6 +336,9 @@ void ItemData::load(bool bFullLoad)
 
 	m_bLoaded = true;
 
+	if (dbe.szReplyId)
+		dbe.szReplyId = mir_strdup(dbe.szReplyId);
+
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
 		if (!(dbe.flags & DBEF_SENT)) {
@@ -397,6 +402,30 @@ void ItemData::load(bool bFullLoad)
 		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
 		break;
 	}
+
+	if (dbe.szReplyId)
+		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
+			DB::EventInfo dbei(hReply);
+			if (dbei) {
+				CMStringW str(L"> ");
+
+				if (dbei.flags & DBEF_SENT) {
+					if (char *szProto = Proto_GetBaseAccountName(hContact))
+						str.AppendFormat(L"%s %s: ", ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)).get(), TranslateT("wrote"));
+				}
+				else str.AppendFormat(L"%s %s: ", Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
+
+				ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (mir_wstrlen(wszText) > 43)
+					wcscpy(wszText.get() + 40, L"...");
+				str.Append(wszText);
+				str.Append(L"\r\n");
+				str.Append(wtext);
+
+				mir_free(wtext);
+				wtext = str.Detach();
+			}
+		}
 
 	mir_free(dbe.pBlob);
 	dbe.pBlob = nullptr;
@@ -497,16 +526,24 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
-	DB::ECPTR pCursor(DB::Events(hContact, hEvent));
-	for (int i = 0; i < count; i++) {
-		hEvent = pCursor.FetchNext();
-		if (!hEvent)
-			break;
-
+	if (count == 1) {
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
 		pPrev = p.checkPrev(pPrev);
+	}
+	else {
+		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
+		for (int i = 0; i < count; i++) {
+			hEvent = pCursor.FetchNext();
+			if (!hEvent)
+				break;
+
+			auto &p = allocateItem();
+			p.hContact = hContact;
+			p.hEvent = hEvent;
+			pPrev = p.checkPrev(pPrev);
+		}
 	}
 
 	return true;
