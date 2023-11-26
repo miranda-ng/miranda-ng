@@ -203,7 +203,7 @@ static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 			GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
 
 			// we don't remove sent files, located outside Miranda's folder for sent offline files
-			if ((dbei.flags & DBEF_SENT) == 0 || wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+			if ((dbei.flags & DBEF_SENT) == 0 || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
 				DeleteFileW(pwszName);
 		}
 	}
