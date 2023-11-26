@@ -822,7 +822,7 @@ retry:
 				}
 				// Check if not empty message ( who needs it? )
 				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
-					PROTORECVEVENT pre = { 0 };
+					PROTORECVEVENT pre = {};
 					time_t t = time(0);
 					pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 					pre.szMessage = e->event.msg.message;

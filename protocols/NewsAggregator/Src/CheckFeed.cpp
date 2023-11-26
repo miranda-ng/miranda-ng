@@ -187,7 +187,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 		T2Utf pszMessage(message);
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 		recv.timestamp = (uint32_t)stamp;
 		recv.szMessage = pszMessage;
 		ProtoChainRecvMsg(hContact, &recv);

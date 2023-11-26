@@ -308,7 +308,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 	DB::AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
-	PROTORECVEVENT recv = { 0 };
+	PROTORECVEVENT recv = {};
 	recv.timestamp = now();
 	recv.szMessage = blob;
 	recv.lParam = blob.size();

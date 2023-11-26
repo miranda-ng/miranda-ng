@@ -465,7 +465,7 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		if (id > dm_since_id_)
 			dm_since_id_ = id;
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 		if (pre_read)
 			recv.flags |= PREF_CREATEREAD;
 		if (bIsMe)

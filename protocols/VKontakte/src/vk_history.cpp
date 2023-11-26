@@ -270,7 +270,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 		if (bIsRead)
 			recv.flags |= PREF_CREATEREAD;
 		if (bIsOut)
