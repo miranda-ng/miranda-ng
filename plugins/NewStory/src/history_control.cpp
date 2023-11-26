@@ -283,19 +283,22 @@ void NewstoryListData::DeleteItems(void)
 	if (IDYES != MessageBoxW(m_hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
 		return;
 
-	db_set_safety_mode(false);
+	g_plugin.bDisableDelete = true;
 
 	int firstSel = -1;
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *p = GetItem(i);
-		if (p->hEvent && p->m_bSelected) {
+		if (!p->m_bSelected)
+			continue;
+
+		if (p->hEvent)
 			db_event_delete(p->hEvent);
-			items.remove(i);
-			totalCount--;
-			firstSel = i;
-		}
+		items.remove(i);
+		totalCount--;
+		firstSel = i;
 	}
-	db_set_safety_mode(true);
+
+	g_plugin.bDisableDelete = false;
 
 	if (firstSel != -1) {
 		SetCaret(firstSel, false);

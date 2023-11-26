@@ -107,7 +107,7 @@ static int evtEventAdded(WPARAM hContact, LPARAM lParam)
 
 static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
 {
-	return SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
+	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
 }
 
 static int evtEventEdited(WPARAM hContact, LPARAM lParam)
