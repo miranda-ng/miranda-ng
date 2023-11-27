@@ -225,7 +225,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (iLastMsgId < iMessageId)
 			iLastMsgId = iMessageId;
 
-		char szMid[40], szReplyId[40] = "";;
+		char szMid[40], szReplyId[40] = "";
 		_ltoa(iMessageId, szMid, 10);
 
 		CMStringW wszBody(jnMsg["text"].as_mstring());
@@ -251,7 +251,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				if (!wszBody.IsEmpty())
 					wszReplyMessages = L"\n" + wszReplyMessages;
 				wszBody += wszReplyMessages;
-			} else if (jnReplyMessages["id"])
+			} 
+			else if (jnReplyMessages["id"])
 				_ltoa(jnReplyMessages["id"].as_int(), szReplyId, 10);
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
