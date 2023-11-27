@@ -425,7 +425,6 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 	Json2int(hContact, buddy, "official", "Official", bIsPartial);
 	Json2int(hContact, buddy, "idleTime", "IdleTS", bIsPartial);
-	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE, bIsPartial);
 
 	int iStatus = StatusFromPresence(buddy, hContact);
 	if (iStatus > 0)

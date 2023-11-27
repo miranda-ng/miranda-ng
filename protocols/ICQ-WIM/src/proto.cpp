@@ -58,7 +58,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bErrorPopups(this, "ShowErrorPopups", true),
 	m_bLaunchMailbox(this, "LaunchMailbox", true)
 {
-	db_set_resident(m_szModuleName, DB_KEY_IDLE);
 	db_set_resident(m_szModuleName, DB_KEY_ONLINETS);
 
 	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");

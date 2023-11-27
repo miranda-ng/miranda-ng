@@ -47,8 +47,6 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 			db_free(&dbv);
 		}
 
-		SetDlgItemTextW(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
-		SetDlgItemTextW(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
 		return false;
 	}
 };

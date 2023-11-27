@@ -85,7 +85,6 @@
 #define MODULENAME "ICQ"
 
 #define DB_KEY_ID "aimId"
-#define DB_KEY_IDLE "IdleTS"
 #define DB_KEY_ABOUT "About"
 #define DB_KEY_PHONE "Phone"
 #define DB_KEY_ATOKEN "AToken"
@@ -98,7 +97,6 @@
 #define DB_KEY_LASTMSGID "LastMsgId"
 #define DB_KEY_REMOTEREAD "RemoteReadId"
 #define DB_KEY_SESSIONKEY "SessionKey"
-#define DB_KEY_MEMBERSINCE "MemberSince"
 
 #include "http.h"
 #include "proto.h"
