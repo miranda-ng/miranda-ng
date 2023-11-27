@@ -169,10 +169,17 @@ bool IsValidType(const JSONNode &n)
 
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 {
+	auto *pUser = FindUser(GetUserId(hContact));
+	if (pUser == nullptr)
+		return -1;
+
 	CMStringW wszStatus = presence["state"].as_mstring();
 	int iStatus;
-	if (wszStatus == L"online")
+	if (wszStatus == L"online") {
+		pUser->m_bWasOnline = true;
 		iStatus = ID_STATUS_ONLINE;
+		setDword(hContact, DB_KEY_ONLINETS, time(0));
+	}
 	else if (wszStatus == L"offline")
 		iStatus = ID_STATUS_OFFLINE;
 	else if (wszStatus == L"n/a")
@@ -187,17 +194,21 @@ int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 		return -1;
 
 	int iLastSeen = presence["lastseen"].as_int();
-	if (iLastSeen != 0)
-		setDword(hContact, DB_KEY_LASTSEEN, iLastSeen);
+	if (iLastSeen != 0) {
+		if (iLastSeen == 1388520000) // 01/01/2014, 00:00 GMT
+			setWString(hContact, DB_KEY_LASTSEEN, TranslateT("long time ago"));
+		else
+			setDword(hContact, DB_KEY_LASTSEEN, iLastSeen);
+	}
 	else {
-		if (getDword(hContact, DB_KEY_ONLINETS))
+		if (pUser->m_bWasOnline) {
 			iStatus = ID_STATUS_ONLINE;
+			setDword(hContact, DB_KEY_ONLINETS, time(0));
+		}
 		else {
-			if (auto *pUser = FindUser(GetUserId(hContact))) {
-				mir_cslock lck(m_csLastSeenQueue);
-				m_arLastSeenQueue.insert(pUser);
-				m_impl.m_lastSeen.Start(500);
-			}
+			mir_cslock lck(m_csLastSeenQueue);
+			m_arLastSeenQueue.insert(pUser);
+			m_impl.m_lastSeen.Start(500);
 			return -1;
 		}
 	}
@@ -255,14 +266,32 @@ CMStringW fileText2url(const CMStringW &wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static wchar_t g_statBuf[100];
+
+wchar_t* time2text(DBVARIANT *dbv)
+{
+	switch (dbv->type) {
+	case DBVT_WCHAR:
+		return dbv->pwszVal;
+
+	case DBVT_DWORD:
+		return time2text(time_t(dbv->dVal));
+
+	case DBVT_UTF8:
+		wcsncpy_s(g_statBuf, Utf2T(dbv->pszVal), _TRUNCATE);
+		return g_statBuf;
+	}
+
+	return L"";
+}
+
 wchar_t* time2text(time_t ts)
 {
 	if (ts == 0)
 		return L"";
 
-	static wchar_t buf[100];
-	TimeZone_PrintTimeStamp(NULL, ts, L"D t", buf, _countof(buf), 0);
-	return buf;
+	TimeZone_PrintTimeStamp(NULL, ts, L"D t", g_statBuf, _countof(g_statBuf), 0);
+	return g_statBuf;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

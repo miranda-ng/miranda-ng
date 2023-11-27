@@ -417,8 +417,13 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	// we shall not remove existing phone number anyhow
 	Json2string(hContact, buddy, "phoneNumber", DB_KEY_PHONE, true);
 
+	int onlineTime = buddy["onlineTime"].as_int();
+	if (onlineTime)
+		setDword(hContact, DB_KEY_ONLINETS, time(0) - onlineTime);
+	else
+		delSetting(hContact, DB_KEY_ONLINETS);
+
 	Json2int(hContact, buddy, "official", "Official", bIsPartial);
-	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS, bIsPartial);
 	Json2int(hContact, buddy, "idleTime", "IdleTS", bIsPartial);
 	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE, bIsPartial);
 

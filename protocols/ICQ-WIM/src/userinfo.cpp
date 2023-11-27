@@ -36,10 +36,19 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 		SetDlgItemTextW(m_hwnd, IDC_NICK, ppro->getMStringW(m_hContact, DB_KEY_ICQNICK));
 		SetDlgItemTextW(m_hwnd, IDC_PHONE, ppro->getMStringW(m_hContact, DB_KEY_PHONE));
 
+		DBVARIANT dbv = {};
+		if (!db_get(m_hContact, ppro->m_szModuleName, DB_KEY_LASTSEEN, &dbv)) {
+			SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(&dbv));
+			db_free(&dbv);
+		}
+
+		if (!db_get(m_hContact, ppro->m_szModuleName, DB_KEY_ONLINETS, &dbv)) {
+			SetDlgItemTextW(m_hwnd, IDC_ONLINESINCE, time2text(&dbv));
+			db_free(&dbv);
+		}
+
 		SetDlgItemTextW(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
-		SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
 		SetDlgItemTextW(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
-		SetDlgItemTextW(m_hwnd, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(m_hContact, DB_KEY_ONLINETS)));
 		return false;
 	}
 };

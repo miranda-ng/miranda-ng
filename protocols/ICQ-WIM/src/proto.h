@@ -115,7 +115,7 @@ struct IcqUser : public MZeroedObject
 
 	CMStringW m_aimid;
 	MCONTACT  m_hContact;
-	bool      m_bInList, m_bGotCaps;
+	bool      m_bInList, m_bGotCaps, m_bWasOnline;
 	__int64   m_iProcessedMsgId;
 	int       m_iApparentMode;
 	time_t    m_timer1, m_timer2;

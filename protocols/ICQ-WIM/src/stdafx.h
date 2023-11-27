@@ -108,6 +108,7 @@ bool IsValidType(const JSONNode &aimid);
 
 void RefreshGroups(void);
 wchar_t* time2text(time_t time);
+wchar_t* time2text(DBVARIANT *dbv);
 
 CMStringW fileText2url(const CMStringW &wszText);
 

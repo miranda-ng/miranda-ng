@@ -347,11 +347,23 @@ void CIcqProto::OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	for (auto &it : results["entries"]) {
 		if (auto *pUser = FindUser(it["sn"].as_mstring())) {
 			int iLastSeen = it["lastseen"].as_int();
-			if (iLastSeen != 0) {
+			switch (iLastSeen) {
+			case 1388520000: // 01/01/2014, 00:00 GMT
+				setWString(pUser->m_hContact, DB_KEY_LASTSEEN, TranslateT("long time ago"));
+				ProcessStatus(pUser, ID_STATUS_OFFLINE);
+				break;
+
+			case 0:
+				if (pUser->m_bWasOnline) {
+					ProcessStatus(pUser, ID_STATUS_ONLINE);
+					break;
+				}
+				__fallthrough;
+
+			default:
 				setDword(pUser->m_hContact, DB_KEY_LASTSEEN, iLastSeen);
 				ProcessStatus(pUser, ID_STATUS_OFFLINE);
 			}
-			else ProcessStatus(pUser, ID_STATUS_ONLINE);
 		}
 	}
 }
