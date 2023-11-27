@@ -368,7 +368,7 @@ void ItemData::load(bool bFullLoad)
 				}
 
 				if (uint32_t size = blob.getSize())
-					buf.AppendFormat(L" %uKB", size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
+					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
 					buf.AppendFormat(L" [$hicon=%p$]", g_plugin.getIcon(IDI_OK));
