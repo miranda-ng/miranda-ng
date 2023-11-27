@@ -38,6 +38,10 @@
 Переслать сообщение
 [Forward]
 Переслать
+[Reply to a message]
+Ответить на сообщение
+[In reply to:]
+В ответ на:
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
@@ -75,9 +79,13 @@
 Подписчик Telegram Premium
 [Reaction]
 Реакция
+[Reply]
+Ответ
 [Bot]
 Бот
 ;file \protocols\Telegram\src\menus.cpp
+[Attach file]
+Прикрепить файл
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 Сеть

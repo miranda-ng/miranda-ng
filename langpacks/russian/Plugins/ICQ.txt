@@ -44,16 +44,12 @@ UIN/почта:
 Введите код регистрации
 [UIN:]
 Номер:
-[Online since:]
-В сети с:
-[Idle since:]
-Неактивен с:
 [Nick:]
 Ник:
-[Member since:]
-Участник с:
 [Last seen:]
 Последнее появление:
+[Online since:]
+В сети с:
 [Phone number:]
 Телефон:
 [Enter ICQ Password]
@@ -107,6 +103,8 @@ UIN/почта:
 Синхронизировать группы с сервером
 [Edit my web profile]
 Редактировать профиль на веб-сайте
+[long time ago]
+давно
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
@@ -126,3 +124,4 @@ UIN/почта/телефон
 Пользователь отправил стикер:
 [Buddy addition failed]
 Не удалось добавить контакт
+;file \protocols\ICQ-WIM\src\utils.cpp
