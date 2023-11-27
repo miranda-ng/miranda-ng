@@ -241,7 +241,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (iChatId == 0)
 			hContact = FindUser(iUserId, true);
 
-		char szMid[40];
+		char szMid[40], szReplyId[40] = "";
 		_ltoa(iMessageId, szMid, 10);
 
 		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
@@ -270,13 +270,16 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
-		if (jnReplyMessages && !jnReplyMessages.empty()) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
-			if (!wszBody.IsEmpty())
-				wszReplyMessages = L"\n" + wszReplyMessages;
-			wszBody += wszReplyMessages;
-		}
-
+		if (jnReplyMessages && !jnReplyMessages.empty()) 
+			if (m_vkOptions.bShowReplyInMessage) {
+				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+				if (!wszBody.IsEmpty())
+					wszReplyMessages = L"\n" + wszReplyMessages;
+				wszBody += wszReplyMessages;
+			}
+			else if (jnReplyMessages["id"])
+					_ltoa(jnReplyMessages["id"].as_int(), szReplyId, 10);
+		
 		CMStringW wszBodyNoAttachments = wszBody;
 
 		CMStringW wszAttachmentDescr;
@@ -335,8 +338,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		T2Utf pszBody(wszBody);
 		recv.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
 		recv.szMessage = pszBody;
+		
+		if (!m_vkOptions.bShowReplyInMessage && szReplyId)
+			recv.szReplyId = szReplyId;
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
+		
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
