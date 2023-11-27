@@ -22,6 +22,8 @@
 [Cancel]
 [Forward message]
 [Forward]
+[Reply to a message]
+[In reply to:]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]
@@ -42,8 +44,10 @@
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 [Reaction]
+[Reply]
 [Bot]
 ;file \protocols\Telegram\src\menus.cpp
+[Attach file]
 ;file \protocols\Telegram\src\options.cpp
 [Network]
 [Account]
