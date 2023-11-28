@@ -489,6 +489,11 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 			return;
 
 		if (pUser->hContact != INVALID_CONTACT_ID) {
+			if (pChat->has_protected_content_)
+				setByte(pUser->hContact, "Protected", 1);
+			else
+				delSetting(pUser->hContact, "Protected");
+
 			if (pChat->permissions_)
 				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
 

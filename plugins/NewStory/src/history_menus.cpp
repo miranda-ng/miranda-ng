@@ -29,11 +29,18 @@ enum
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
 static HGENMENU hmiHistory, hmiOpenFolder, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
-static HGENMENU hmiEdit, hmiBookmark, hmiDelete;
+static HGENMENU hmiCopy, hmiCopyText, hmiEdit, hmiBookmark, hmiDelete;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
-	Menu_ShowItem(hmiQuote, data->pMsgDlg != nullptr);
+	bool bNotProtected = true;
+	if (auto *szProto = Proto_GetBaseAccountName(item->hContact))
+		bNotProtected = db_get_b(item->hContact, szProto, "Protected") == 0;
+
+	Menu_ShowItem(hmiCopy, bNotProtected);
+	Menu_ShowItem(hmiCopyText, bNotProtected);
+
+	Menu_ShowItem(hmiQuote, bNotProtected && data->pMsgDlg != nullptr);
 	Menu_ShowItem(hmiSaveAs, false);
 	Menu_ShowItem(hmiCopyUrl, false);
 	Menu_ShowItem(hmiDownload, false);
@@ -224,11 +231,11 @@ void InitMenus()
 
 	mi.position = 100000;
 	mi.name.a = LPGEN("Copy");
-	Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
+	hmiCopy = Menu_AddNewStoryMenuItem(&mi, MENU_COPY);
 
 	mi.position++;
 	mi.name.a = LPGEN("Copy text");
-	Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
+	hmiCopyText = Menu_AddNewStoryMenuItem(&mi, MENU_COPYTEXT);
 
 	mi.position++;
 	mi.name.a = LPGEN("Copy URL");
