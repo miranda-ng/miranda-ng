@@ -622,7 +622,7 @@ void NewstoryListData::RecalcScrollBar()
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
 	si.nMax = totalCount-1;
-	si.nPage = cachedMaxDrawnItem - scrollTopItem;
+	si.nPage = 10;
 	si.nPos = scrollTopItem;
 
 	if (cachedScrollbarPage != si.nPage || si.nPos != cachedScrollbarPos) {
@@ -1237,23 +1237,41 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (LOWORD(wParam)) {
 			case SB_LINEUP:
-				data->LineUp();
+				if (g_plugin.bHppCompat)
+					data->EventUp();
+				else
+					data->LineUp();
 				break;
+
 			case SB_LINEDOWN:
-				data->LineDown();
+				if (g_plugin.bHppCompat)
+					data->EventDown();
+				else
+					data->LineDown();
 				break;
+
 			case SB_PAGEUP:
-				data->PageUp();
+				if (g_plugin.bHppCompat)
+					data->EventPageUp();
+				else
+					data->PageUp();
 				break;
+
 			case SB_PAGEDOWN:
-				data->PageDown();
+				if (g_plugin.bHppCompat)
+					data->EventPageDown();
+				else
+					data->PageDown();
 				break;
+
 			case SB_BOTTOM:
 				data->ScrollBottom();
 				break;
+
 			case SB_TOP:
 				data->ScrollTop();
 				break;
+
 			case SB_THUMBTRACK:
 				SCROLLINFO si;
 				si.cbSize = sizeof(si);
