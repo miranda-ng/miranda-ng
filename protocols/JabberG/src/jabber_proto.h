@@ -492,11 +492,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_file.cpp ---------------------------------------------------------------
 
+	void       FileProcessHttpDownload(MCONTACT, const char *jid, const char *pszUrl, const char *pszDescr);
 	int        FileReceiveParse(filetransfer *ft, char* buffer, int datalen);
 	int        FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen);
-			     
+
 	void       GroupchatJoinRoomByJid(HWND hwndParent, char *jid);
-			     
+
 	void       RenameParticipantNick(JABBER_LIST_ITEM *item, const char *oldNick, const TiXmlElement *itemNode);
 
 	//---- jabber_ft.c -------------------------------------------------------------------

@@ -113,9 +113,13 @@ INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
 
 void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 {
-	if (auto *ft = (filetransfer *)pHandle)
-		if (ft->type == FT_HTTP && ft->httpPath)
-			blob.setUrl(ft->httpPath);
+	if (auto *ft = (filetransfer *)pHandle) {
+		if (ft->type == FT_HTTP) {
+			if (ft->httpPath)
+				blob.setUrl(ft->httpPath);
+			blob.setSize(ft->dwExpectedRecvFileSize);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -141,6 +145,45 @@ void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 	else ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
 
 	delete ft;
+}
+
+void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, const char *pszUrl, const char *pszDescr)
+{
+	// create incoming file transfer instead of writing message
+	CMStringA szName;
+	const char *b = strrchr(pszUrl, '/') + 1;
+	while (*b != 0 && *b != '#' && *b != '?')
+		szName.AppendChar(*b++);
+	auto *pszName = szName.c_str();
+
+	NETLIBHTTPREQUEST req = {};
+	req.cbSize = sizeof(req);
+	req.requestType = REQUEST_HEAD;
+	req.szUrl = (char*)pszUrl;
+
+	filetransfer *ft = new filetransfer(this, 0);
+	ft->jid = mir_strdup(jid);
+	ft->std.hContact = hContact;
+	ft->type = FT_HTTP;
+	ft->httpPath = mir_strdup(pszUrl);
+	ft->std.totalFiles = 1;
+	ft->std.szCurrentFile.w = mir_utf8decodeW(szName);
+
+	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
+	if (pResp && pResp->resultCode == 200) {
+		auto *p = (*pResp)["Content-Length"];
+		if (p)
+			ft->dwExpectedRecvFileSize = ft->std.currentFileSize = atoi(p);
+	}
+
+	PROTORECVFILE pre = {};
+	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
+	pre.fileCount = 1;
+	pre.timestamp = time(0);
+	pre.files.a = &pszName;
+	pre.lParam = (LPARAM)ft;
+	pre.descr.a = pszDescr;
+	ProtoChainRecvFile(ft->std.hContact, &pre);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
