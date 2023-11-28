@@ -25,7 +25,7 @@ void CTelegramProto::InitMenus()
 		return;
 
 	CreateProtoService(MenuExecService, &CTelegramProto::SvcExecMenu);
-	
+
 	CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, MenuExecService);
 	CMenuItem mi(&g_plugin);
 	mi.pszService = szServiceName;
@@ -54,7 +54,7 @@ int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 		Menu_ShowItem(hmiReply, false);
 	}
 	else {
-		auto *pDbei = (DB::EventInfo*)lParam;
+		auto *pDbei = (DB::EventInfo *)lParam;
 
 		Menu_ShowItem(hmiForward, true);
 		Menu_ShowItem(hmiReply, mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
