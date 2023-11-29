@@ -238,13 +238,12 @@ INT_PTR CTelegramProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 		SendQuery(new TD::leaveChat(pUser->chatId));
 	}
 
-	Contact::Hide(hContact);
-	Contact::RemoveFromList(hContact);
-
 	wchar_t wszId[100];
 	_i64tow(id, wszId, 10);
 	if (auto *si = Chat_Find(wszId, m_szModuleName))
 		Chat_Terminate(si);
+
+	db_delete_contact(hContact);
 	return 0;
 }
 
