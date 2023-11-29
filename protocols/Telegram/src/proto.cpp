@@ -25,7 +25,7 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 }
 
 static int CompareOwnMsg(const TG_OWN_MESSAGE *p1, const TG_OWN_MESSAGE *p2)
-{	return CompareId(p1->tmpMsgId, p2->tmpMsgId);
+{	return strcmp(p1->szMsgId, p2->szMsgId);
 }
 
 static int CompareBasicGroups(const TG_BASIC_GROUP *p1, const TG_BASIC_GROUP *p2)
@@ -423,12 +423,12 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			return;
 		}
 
-		auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, pMsg->id_);
+		char szUserId[100];
+		auto szMsgId(msg2id(pMsg));
+
+		auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, szMsgId);
 		pOwnMsg->tmpFileId = pFile->id_;
 		m_arOwnMsg.insert(pOwnMsg);
-
-		char szMsgId[40], szUserId[100];
-		_i64toa(pMsg->id_, szMsgId, 10);
 
 		if (!GetGcUserId(pUser, pMsg, szUserId))
 			szUserId[0] = 0;
@@ -611,7 +611,7 @@ int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
 
 	int msgid = SendTextMessage(pUser->chatId, pszMessage);
 	if (msgid != -1)
-		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, -1));
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, ""));
 
 	return msgid;
 }

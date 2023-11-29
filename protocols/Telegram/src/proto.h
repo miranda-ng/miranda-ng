@@ -133,15 +133,16 @@ struct TG_BASIC_GROUP
 
 struct TG_OWN_MESSAGE
 {
-	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, int64_t _3) :
+	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, const char *_3) :
 		hContact(_1),
 		hAck(_2),
-		tmpMsgId(_3)
+		szMsgId(_3)
 	{}
 
-	int64_t  tmpMsgId, tmpFileId = -1;
-	HANDLE   hAck;
-	MCONTACT hContact;
+	int64_t   tmpFileId = -1;
+	HANDLE    hAck;
+	MCONTACT  hContact;
+	CMStringA szMsgId;
 };
 
 class CTelegramProto : public PROTO<CTelegramProto>

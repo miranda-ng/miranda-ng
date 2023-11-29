@@ -102,6 +102,16 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringA msg2id(TD::int53 chatId, TD::int53 msgId)
+{
+	return CMStringA(FORMAT, "%lld_%lld", chatId, msgId);
+}
+
+CMStringA msg2id(const TD::message *pMsg)
+{
+	return CMStringA(FORMAT, "%lld_%lld", pMsg->chat_id_, pMsg->id_);
+}
+
 const char *getName(const TD::usernames *pName)
 {
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
@@ -445,8 +455,8 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
 
-	char szId[100], szUserId[100], *pszUserId = nullptr;
-	_i64toa(pMsg->id_, szId, 10);
+	char szUserId[100], *pszUserId = nullptr;
+	auto szMsgId(msg2id(pMsg));
 	if (GetGcUserId(pUser, pMsg, szUserId))
 		pszUserId = szUserId;
 
@@ -473,7 +483,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 
 			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
-			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
@@ -487,7 +497,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
@@ -501,7 +511,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
@@ -515,7 +525,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
@@ -523,14 +533,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		{
 			auto *pDoc = (TD::messageVoiceNote *)pBody;
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
-			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageDocument::ID:
 		{
 			auto *pDoc = (TD::messageDocument *)pBody;
-			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		}
 		break;
 

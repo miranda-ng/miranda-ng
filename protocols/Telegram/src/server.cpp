@@ -222,23 +222,17 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		{
 			auto *pMessage = (TD::updateMessageSendSucceeded *)response.object.get();
 
-			if (pMessage->old_message_id_) {
-				char szId[100];
-				_i64toa(pMessage->old_message_id_, szId, 10);
-				if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
-					_i64toa(pMessage->message_->id_, szId, 10);
-					db_event_updateId(hDbEvent, szId);
-				}
-			}
+			auto szOldId = msg2id(pMessage->message_->chat_id_, pMessage->old_message_id_);
+			if (pMessage->old_message_id_)
+				if (auto hDbEvent = db_event_getById(m_szModuleName, szOldId))
+					db_event_updateId(hDbEvent, msg2id(pMessage->message_.get()));
 
 			ProcessMessage(pMessage->message_.get());
 
-			if (auto *pOwnMsg = m_arOwnMsg.find((TG_OWN_MESSAGE *)&pMessage->old_message_id_)) {
-				if (pOwnMsg->hAck) {
-					char szMsgId[100];
-					_i64toa(pMessage->message_->id_, szMsgId, 10);
-					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId);
-				}
+			TG_OWN_MESSAGE tmp(0, 0, szOldId);
+			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
+				if (pOwnMsg->hAck)
+					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)pOwnMsg->szMsgId.c_str());
 
 				m_arOwnMsg.remove(pOwnMsg);
 			}
@@ -252,7 +246,8 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 	case TD::updateNewMessage::ID:
 		{
 			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
-			if (!m_arOwnMsg.find((TG_OWN_MESSAGE*)&pMessage->id_))
+			TG_OWN_MESSAGE tmp(0, 0, msg2id(pMessage));
+			if (!m_arOwnMsg.find(&tmp))
 				ProcessMessage(pMessage);
 		}
 		break;
@@ -297,7 +292,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 		for (auto &it : m_arOwnMsg)
 			if (it->hAck == (HANDLE)response.request_id) {
 				auto *pMessage = ((TD::message *)response.object.get());
-				it->tmpMsgId = pMessage->id_;
+				it->szMsgId = msg2id(pMessage);
 				break;
 			}
 		break;
@@ -373,8 +368,8 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		if (pMsg->id_ < lastMsgId)
 			lastMsgId = pMsg->id_;
 
-		char szMsgId[100], szUserId[100];
-		_i64toa(pMsg->id_, szMsgId, 10);
+		char szUserId[100];
+		auto szMsgId(msg2id(pMsg));
 		if (db_event_getById(m_szModuleName, szMsgId))
 			continue;
 
@@ -666,12 +661,9 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 		return;
 	}
 
-	for (auto &it : pObj->message_ids_) {
-		char id[100];
-		_i64toa(it, id, 10);
-		if (MEVENT hEvent = db_event_getById(m_szModuleName, id))
+	for (auto &it : pObj->message_ids_)
+		if (MEVENT hEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, it)))
 			db_event_delete(hEvent, true);
-	}
 }
 
 void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
@@ -707,9 +699,7 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		return;
 	}
 
-	char szId[100];
-	_i64toa(pObj->last_read_inbox_message_id_, szId, 10);
-	MEVENT hLastRead = db_event_getById(m_szModuleName, szId);
+	MEVENT hLastRead = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
 	if (hLastRead == 0) {
 		debugLogA("unknown event, ignored");
 		return;
@@ -743,9 +733,9 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
 			return;
 
-	char szId[100], szUserId[100], szReplyId[100];
-	_i64toa(pMessage->id_, szId, 10);
-	if (db_event_getById(m_szModuleName, szId))
+	char szUserId[100], szReplyId[100];
+	auto szMsgId(msg2id(pMessage));
+	if (db_event_getById(m_szModuleName, szMsgId))
 		return;
 
 	CMStringA szText(GetMessageText(pUser, pMessage));
@@ -767,7 +757,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 	PROTORECVEVENT pre = {};
 	pre.szMessage = szText.GetBuffer();
-	pre.szMsgId = szId;
+	pre.szMsgId = szMsgId;
 	pre.timestamp = pMessage->date_;
 	if (pMessage->is_outgoing_)
 		pre.flags |= PREF_SENT;
@@ -788,10 +778,7 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 	}
 
-	char szMsgId[100];
-	_i64toa(pObj->message_id_, szMsgId, 10);
-	
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->message_id_));
 	if (hDbEvent == 0) {
 		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
 		return;

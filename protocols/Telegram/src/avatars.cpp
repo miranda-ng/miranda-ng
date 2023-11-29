@@ -238,9 +238,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		for (auto &it : m_arOwnMsg) {
 			if (it->tmpFileId == pFile->id_) {
 				if (!pFile->remote_->id_.empty()) {
-					char szId[100];
-					_i64toa(it->tmpMsgId, szId, 10);
-					if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
+					if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
 						DBVARIANT dbv = { DBVT_UTF8 };
 						dbv.pszVal = (char *)pFile->remote_->id_.c_str();
 						db_event_setJson(hDbEvent, "u", &dbv);
