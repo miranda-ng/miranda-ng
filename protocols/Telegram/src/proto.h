@@ -241,6 +241,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
+	void ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatNotification(TD::updateChatNotificationSettings *pObj);
@@ -287,6 +288,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void Chat_LogMenu(GCHOOK *gch);
 
 	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
+	void GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent);
 	void GcChangeMember(TG_USER *pChat, TD::int53 userId, bool bJoined);
 	void GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic);
 

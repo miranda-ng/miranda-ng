@@ -178,6 +178,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessBasicGroup((TD::updateBasicGroup*)response.object.get());
 		break;
 
+	case TD::updateBasicGroupFullInfo::ID:
+		ProcessBasicGroupInfo((TD::updateBasicGroupFullInfo *)response.object.get());
+		break;
+
 	case TD::updateChatFolders::ID:
 		ProcessGroups((TD::updateChatFolders *)response.object.get());
 		break;
@@ -404,48 +408,6 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
-{
-	auto *pBasicGroup = pObj->basic_group_.get();
-
-	auto iStatusId = pBasicGroup->status_->get_id();
-	if (iStatusId == TD::chatMemberStatusBanned::ID) {
-		if (pBasicGroup->upgraded_to_supergroup_id_) {
-			auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_);
-			if (pUser) {
-				pUser->bLoadMembers = true;
-				if (pUser->m_si)
-					pUser->m_si->bHasNicklist = true;
-
-				if (auto *pOldUser = FindUser(pBasicGroup->id_)) {
-					pUser->hContact = pOldUser->hContact;
-					SetId(pUser->hContact, pBasicGroup->upgraded_to_supergroup_id_);
-				}
-			}
-		}
-
-		debugLogA("We are banned here, skipping");
-		return;
-	}
-	
-	TG_BASIC_GROUP tmp(pBasicGroup->id_, 0);
-	auto *pGroup = m_arBasicGroups.find(&tmp);
-	if (pGroup == nullptr) {
-		pGroup = new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_));
-		m_arBasicGroups.insert(pGroup);
-	}
-	else pGroup->group = std::move(pObj->basic_group_);
-
-	TG_USER *pUser;
-	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		pUser = AddFakeUser(tmp.id, true);
-		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
-	}
-	else pUser = AddUser(tmp.id, true);
-
-	pUser->bLoadMembers = true;
-}
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
@@ -877,31 +839,6 @@ void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 			debugLogA("!!!!! Unknown status packet, report it to the developers");
 		}
 	}
-}
-
-void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
-{
-	auto iStatusId = pObj->supergroup_->status_->get_id();
-	if (iStatusId == TD::chatMemberStatusBanned::ID) {
-		debugLogA("We are banned here, skipping");
-		return;
-	}
-
-	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-
-	auto *pGroup = m_arSuperGroups.find(&tmp);
-	if (pGroup == nullptr) {
-		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
-		m_arSuperGroups.insert(pGroup);
-	}
-	else pGroup->group = std::move(pObj->supergroup_);
-
-	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		auto *pUser = AddFakeUser(tmp.id, true);
-		pUser->wszNick = getName(pGroup->group->usernames_.get());
-		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
-	}
-	else AddUser(tmp.id, true);
 }
 
 void CTelegramProto::ProcessUser(TD::updateUser *pObj)

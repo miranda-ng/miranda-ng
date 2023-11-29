@@ -736,6 +736,7 @@ static void ResetApi()
 	g_chatApi.UM_CompareItem = ::UM_CompareItem;
 	g_chatApi.UM_FindUser = ::UM_FindUser;
 	g_chatApi.UM_GiveStatus = ::UM_GiveStatus;
+	g_chatApi.UM_RemoveAll = ::UM_RemoveAll;
 	g_chatApi.UM_SetContactStatus = ::UM_SetContactStatus;
 	g_chatApi.UM_TakeStatus = ::UM_TakeStatus;
 	g_chatApi.UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;

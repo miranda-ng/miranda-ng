@@ -81,25 +81,26 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 	if (!response.object)
 		return;
 
-	TD::array<TD::object_ptr<TD::chatMember>> *pMembers;
+	auto *pChat = (TG_USER *)pUserData;
 
 	switch (response.object->get_id()) {
 	case TD::basicGroupFullInfo::ID:
-		pMembers = &((TD::basicGroupFullInfo *)response.object.get())->members_;
+		GcAddMembers(pChat, ((TD::basicGroupFullInfo *)response.object.get())->members_, false);
 		break;
 
 	case TD::chatMembers::ID:
-		pMembers = &((TD::chatMembers *)response.object.get())->members_;
+		GcAddMembers(pChat, ((TD::chatMembers *)response.object.get())->members_, false);
 		break;
 
 	default:
 		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::basicGroupFullInfo::ID);
 		return;
 	}
+}
 
-	auto *pUser = (TG_USER *)pUserData;
-
-	for (auto &it : *pMembers) {
+void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent)
+{
+	for (auto &it : pMembers) {
 		auto *pMember = it.get();
 		const wchar_t *pwszRole;
 
@@ -127,9 +128,11 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 		wchar_t wszUserId[100];
 		_i64tow(memberId, wszUserId, 10);
 
-		GCEVENT gce = { pUser->m_si, GC_EVENT_JOIN };
+		GCEVENT gce = { pChat->m_si, GC_EVENT_JOIN };
 		gce.pszUID.w = wszUserId;
 		gce.pszStatus.w = pwszRole;
+		if (bSilent)
+			gce.dwFlags = GCEF_SILENT;
 
 		switch (pChatUser->hContact) {
 		case 0:
@@ -148,8 +151,8 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 		Chat_Event(&gce);
 	}
 
-	Chat_Control(pUser->m_si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(pUser->m_si, SESSION_ONLINE);
+	Chat_Control(pChat->m_si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(pChat->m_si, SESSION_ONLINE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -325,4 +328,93 @@ int CTelegramProto::GcMenuHook(WPARAM, LPARAM lParam)
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Server data
+
+void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
+{
+	auto *pBasicGroup = pObj->basic_group_.get();
+
+	auto iStatusId = pBasicGroup->status_->get_id();
+	if (iStatusId == TD::chatMemberStatusBanned::ID) {
+		if (pBasicGroup->upgraded_to_supergroup_id_) {
+			auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_);
+			if (pUser) {
+				pUser->bLoadMembers = true;
+				if (pUser->m_si)
+					pUser->m_si->bHasNicklist = true;
+
+				if (auto *pOldUser = FindUser(pBasicGroup->id_)) {
+					pUser->hContact = pOldUser->hContact;
+					SetId(pUser->hContact, pBasicGroup->upgraded_to_supergroup_id_);
+				}
+			}
+		}
+
+		debugLogA("We are banned here, skipping");
+		return;
+	}
+
+	TG_BASIC_GROUP tmp(pBasicGroup->id_, 0);
+	auto *pGroup = m_arBasicGroups.find(&tmp);
+	if (pGroup == nullptr) {
+		pGroup = new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_));
+		m_arBasicGroups.insert(pGroup);
+	}
+	else pGroup->group = std::move(pObj->basic_group_);
+
+	TG_USER *pUser;
+	if (iStatusId == TD::chatMemberStatusLeft::ID) {
+		pUser = AddFakeUser(tmp.id, true);
+		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+	}
+	else pUser = AddUser(tmp.id, true);
+
+	pUser->bLoadMembers = true;
+}
+
+void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
+{
+	auto *pChat = FindUser(pObj->basic_group_id_);
+	if (pChat == nullptr || pChat->m_si == nullptr)
+		return;
+
+	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
+		if (!pInfo->description_.empty()) {
+			Utf2T wszTopic(pInfo->description_.c_str());
+			GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
+			gce.pszText.w = wszTopic;
+			Chat_Event(&gce);
+		}
+
+		g_chatApi.UM_RemoveAll(pChat->m_si);
+		GcAddMembers(pChat, pInfo->members_, true);
+	}
+}
+
+void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
+{
+	auto iStatusId = pObj->supergroup_->status_->get_id();
+	if (iStatusId == TD::chatMemberStatusBanned::ID) {
+		debugLogA("We are banned here, skipping");
+		return;
+	}
+
+	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
+
+	auto *pGroup = m_arSuperGroups.find(&tmp);
+	if (pGroup == nullptr) {
+		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
+		m_arSuperGroups.insert(pGroup);
+	}
+	else pGroup->group = std::move(pObj->supergroup_);
+
+	if (iStatusId == TD::chatMemberStatusLeft::ID) {
+		auto *pUser = AddFakeUser(tmp.id, true);
+		pUser->wszNick = getName(pGroup->group->usernames_.get());
+		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+	}
+	else AddUser(tmp.id, true);
 }
