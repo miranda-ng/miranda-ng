@@ -413,15 +413,23 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 {
 	auto *pBasicGroup = pObj->basic_group_.get();
-	if (pBasicGroup->upgraded_to_supergroup_id_)
-		if (auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_)) {
-			pUser->bLoadMembers = true;
-			if (pUser->m_si)
-				pUser->m_si->bHasNicklist = true;
-		}
 
 	auto iStatusId = pBasicGroup->status_->get_id();
 	if (iStatusId == TD::chatMemberStatusBanned::ID) {
+		if (pBasicGroup->upgraded_to_supergroup_id_) {
+			auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_);
+			if (pUser) {
+				pUser->bLoadMembers = true;
+				if (pUser->m_si)
+					pUser->m_si->bHasNicklist = true;
+
+				if (auto *pOldUser = FindUser(pBasicGroup->id_)) {
+					pUser->hContact = pOldUser->hContact;
+					SetId(pUser->hContact, pBasicGroup->upgraded_to_supergroup_id_);
+				}
+			}
+		}
+
 		debugLogA("We are banned here, skipping");
 		return;
 	}

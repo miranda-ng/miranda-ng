@@ -201,7 +201,8 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
 			Chat_UnescapeTags(gch->ptszText);
-			SendTextMessage(-userId, T2Utf(gch->ptszText));
+			if (auto *pUser = FindUser(userId))
+				SendTextMessage(pUser->chatId, T2Utf(gch->ptszText));
 		}
 		break;
 

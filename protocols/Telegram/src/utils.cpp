@@ -451,6 +451,18 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		pszUserId = szUserId;
 
 	switch (pBody->get_id()) {
+	case TD::messageChatUpgradeTo::ID:
+		{
+			auto *pUgrade = (TD::messageChatUpgradeTo *)pBody;
+			MCONTACT hContact = pUser->hContact;
+			m_arChats.remove(pUser);
+			m_arUsers.remove(pUser);
+			SetId(hContact, pUgrade->supergroup_id_);
+			pUser = new TG_USER(pUgrade->supergroup_id_, hContact, true);
+			m_arUsers.insert(pUser);
+		}
+		break;
+
 	case TD::messagePhoto::ID:
 		{
 			auto *pDoc = (TD::messagePhoto *)pBody;
