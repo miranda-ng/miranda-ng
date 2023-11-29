@@ -145,6 +145,9 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 
 CMStringW TG_USER::getDisplayName() const
 {
+	if (hContact != INVALID_CONTACT_ID)
+		return Clist_GetContactDisplayName(hContact, 0);
+
 	if (!wszFirstName.IsEmpty())
 		return (wszLastName.IsEmpty()) ? wszFirstName : wszFirstName + L" " + wszLastName;
 
@@ -462,8 +465,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	switch (pBody->get_id()) {
 	case TD::messageChatUpgradeTo::ID:
-		{
-			auto *pUgrade = (TD::messageChatUpgradeTo *)pBody;
+		if (auto *pUgrade = (TD::messageChatUpgradeTo *)pBody) {
 			MCONTACT hContact = pUser->hContact;
 			m_arChats.remove(pUser);
 			m_arUsers.remove(pUser);
@@ -473,9 +475,24 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		}
 		break;
 
+	case TD::messageChatAddMembers::ID:
+		if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
+			for (auto &it : pDoc->member_user_ids_)
+				GcChangeMember(pUser, it, true);
+		break;
+
+	case TD::messageChatDeleteMember::ID:
+		if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
+			GcChangeMember(pUser, pDoc->user_id_, false);
+		break;
+
+	case TD::messageChatChangeTitle::ID:
+		if (auto *pDoc = (TD::messageChatChangeTitle *)pBody)
+			GcChangeTopic(pUser, Utf2T(pDoc->title_.c_str()));
+		break;
+
 	case TD::messagePhoto::ID:
-		{
-			auto *pDoc = (TD::messagePhoto *)pBody;
+		if (auto *pDoc = (TD::messagePhoto *)pBody) {
 			auto *pPhoto = GetBiggestPhoto(pDoc->photo_.get());
 			if (pPhoto == nullptr) {
 				debugLogA("cannot find photo, exiting");
@@ -488,8 +505,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageAudio::ID:
-		{
-			auto *pDoc = (TD::messageAudio *)pBody;
+		if (auto *pDoc = (TD::messageAudio *)pBody) {
 			auto *pAudio = pDoc->audio_.get();
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
 			std::string caption = fileName.c_str();
@@ -502,8 +518,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageVideo::ID:
-		{
-			auto *pDoc = (TD::messageVideo *)pBody;
+		if (auto *pDoc = (TD::messageVideo *)pBody) {
 			auto *pVideo = pDoc->video_.get();
 			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			std::string caption = fileName.c_str();
@@ -516,8 +531,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageAnimation::ID:
-		{
-			auto *pDoc = (TD::messageAnimation *)pBody;
+		if (auto *pDoc = (TD::messageAnimation *)pBody) {
 			auto *pVideo = pDoc->animation_.get();
 			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			std::string caption = fileName.c_str();
@@ -530,23 +544,19 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageVoiceNote::ID:
-		{
-			auto *pDoc = (TD::messageVoiceNote *)pBody;
+		if (auto *pDoc = (TD::messageVoiceNote *)pBody) {
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
 			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageDocument::ID:
-		{
-			auto *pDoc = (TD::messageDocument *)pBody;
+		if (auto *pDoc = (TD::messageDocument *)pBody)
 			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
-		}
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
-		{
-			auto *pObj = (TD::messageAnimatedEmoji *)pBody;
+		if (auto *pObj = (TD::messageAnimatedEmoji *)pBody) {
 			if (m_bSmileyAdd) {
 				if (auto *pAnimated = pObj->animated_emoji_.get()) {
 					if (auto *pSticker = pAnimated->sticker_.get()) {
@@ -574,8 +584,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		}
 
 	case TD::messageSticker::ID:
-		{
-			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
+		if (auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get()) {
 			if (!checkStickerType(pSticker->full_type_->get_id())) {
 				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;

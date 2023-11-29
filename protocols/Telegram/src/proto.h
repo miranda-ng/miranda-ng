@@ -287,6 +287,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void Chat_LogMenu(GCHOOK *gch);
 
 	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
+	void GcChangeMember(TG_USER *pChat, TD::int53 userId, bool bJoined);
+	void GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic);
 
 	// Search
 	volatile unsigned m_iSearchCount;

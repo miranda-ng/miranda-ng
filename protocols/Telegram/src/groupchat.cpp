@@ -272,6 +272,35 @@ void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::GcChangeMember(TG_USER *pChat, TD::int53 userId, bool bJoined)
+{
+	if (pChat->m_si == nullptr)
+		return;
+
+	if (auto *pMember = FindUser(userId)) {
+		CMStringW wszId(FORMAT, L"%lld", pMember->id), wszNick(pMember->getDisplayName());
+
+		GCEVENT gce = { pChat->m_si, (bJoined) ? GC_EVENT_JOIN : GC_EVENT_PART };
+		gce.pszUID.w = wszId;
+		gce.pszNick.w = wszNick;
+		gce.bIsMe = false;
+		gce.pszStatus.w = TranslateT("Visitor");
+		Chat_Event(&gce);
+	}
+}
+
+void CTelegramProto::GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic)
+{
+	if (pChat->m_si == nullptr || pwszNewTopic == nullptr)
+		return;
+
+	GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
+	gce.pszText.w = pwszNewTopic;
+	Chat_Event(&gce);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("&Leave chat session"), IDM_LEAVE, MENU_ITEM }
