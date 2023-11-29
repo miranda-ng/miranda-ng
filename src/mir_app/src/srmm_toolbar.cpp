@@ -289,7 +289,7 @@ void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags)
 			if (cbd->m_pwszText)
 				SetWindowTextW(hwndButton, cbd->m_pwszText);
 			if (cbd->m_pwszTooltip)
-				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
+				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(TranslateW_LP(cbd->m_pwszTooltip, cbd->m_pPlugin)), BATF_UNICODE);
 			if (cbd->m_hIcon)
 				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 

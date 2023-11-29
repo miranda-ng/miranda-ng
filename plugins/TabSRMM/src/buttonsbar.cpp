@@ -357,7 +357,7 @@ void CMsgDialog::CB_ChangeButton(CustomButtonData *cbd)
 	if (cbd->m_hIcon)
 		SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 	if (cbd->m_pwszTooltip)
-		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)cbd->m_pwszTooltip, BATF_UNICODE);
+		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)LPARAM(TranslateW_LP(cbd->m_pwszTooltip, cbd->m_pPlugin)), BATF_UNICODE);
 	SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 	SetWindowTextA(hwndButton, cbd->m_pszModuleName);
 }
