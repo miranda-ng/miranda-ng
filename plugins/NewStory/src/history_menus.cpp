@@ -34,8 +34,9 @@ static HGENMENU hmiCopy, hmiCopyText, hmiEdit, hmiBookmark, hmiDelete;
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
 	bool bNotProtected = true;
-	if (auto *szProto = Proto_GetBaseAccountName(item->hContact))
-		bNotProtected = db_get_b(item->hContact, szProto, "Protected") == 0;
+	if (item != nullptr)
+		if (auto *szProto = Proto_GetBaseAccountName(item->hContact))
+			bNotProtected = db_get_b(item->hContact, szProto, "Protected") == 0;
 
 	Menu_ShowItem(hmiCopy, bNotProtected);
 	Menu_ShowItem(hmiCopyText, bNotProtected);
