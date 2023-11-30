@@ -338,6 +338,9 @@ MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 //	dwItemData	- ON/OFF
 #define GC_EVENT_TYPING       0x1001
 
+// same as GC_EVENT_ADDSTATUS but wipes all another statuses before
+#define GC_EVENT_SETSTATUS    0x1002
+
 //	GC_EVENT_SETCONTACTSTATUS - sets status icon for contact
 //	pszUID		- Unique identifier of the one who receives a new status
 //	dwItemData	- (DWORD)ID_STATUS_* or zero to remove status icon

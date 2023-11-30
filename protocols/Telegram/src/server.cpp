@@ -916,9 +916,10 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
 			if (remoteId != storedId.c_str()) {
 				if (!remoteId.empty()) {
-					if (pu)
+					if (pu) {
 						pu->szAvatarHash = remoteId.c_str();
-					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+						setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+					}
 					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
 				}
 				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);

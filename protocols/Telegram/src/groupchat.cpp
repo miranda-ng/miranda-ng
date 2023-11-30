@@ -17,6 +17,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static const wchar_t* getRoleById(uint32_t ID)
+{
+	switch (ID) {
+	case TD::chatMemberStatusCreator::ID:
+		return TranslateT("Creator");
+
+	case TD::chatMemberStatusAdministrator::ID:
+		return TranslateT("Admin");
+
+	case TD::chatMemberStatusMember::ID:
+	default:
+		return TranslateT("Participant");
+	}
+}
+
 void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 {
 	if (pUser->m_si)
@@ -102,21 +117,6 @@ void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr
 {
 	for (auto &it : pMembers) {
 		auto *pMember = it.get();
-		const wchar_t *pwszRole;
-
-		switch (pMember->status_->get_id()) {
-		case TD::chatMemberStatusCreator::ID:
-			pwszRole = TranslateT("Creator");
-			break;
-		case TD::chatMemberStatusAdministrator::ID:
-			pwszRole = TranslateT("Admin");
-			break;
-		case TD::chatMemberStatusMember::ID:
-		default:
-			pwszRole = TranslateT("Participant");
-			break;
-		}
-
 		if (pMember->member_id_->get_id() != TD::messageSenderUser::ID)
 			continue;
 
@@ -130,7 +130,7 @@ void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr
 
 		GCEVENT gce = { pChat->m_si, GC_EVENT_JOIN };
 		gce.pszUID.w = wszUserId;
-		gce.pszStatus.w = pwszRole;
+		gce.pszStatus.w = getRoleById(pMember->status_->get_id());
 		if (bSilent)
 			gce.dwFlags = GCEF_SILENT;
 
@@ -416,5 +416,15 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		pUser->wszNick = getName(pGroup->group->usernames_.get());
 		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 	}
-	else AddUser(tmp.id, true);
+	else {
+		auto *pChat = AddUser(tmp.id, true);
+		if (auto *si = pChat->m_si) {
+			CMStringW wszUserId(FORMAT, L"%lld", m_iOwnId);
+
+			GCEVENT gce = { si, GC_EVENT_SETSTATUS };
+			gce.pszUID.w = wszUserId;
+			gce.pszStatus.w = getRoleById(iStatusId);
+			Chat_Event(&gce);
+		}
+	}
 }
