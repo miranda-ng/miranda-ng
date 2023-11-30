@@ -80,7 +80,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("View user's history");
 	g_plugin.addButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID | BBBF_NOREADONLY;
 	bbd.dwButtonID = IDC_PIC;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[7];
