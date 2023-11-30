@@ -464,48 +464,50 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	if (si == nullptr)
 		return;
 
-	if (si->pMI->bDatabase && lin->hEvent) {
-		addEvent(si->hContact, lin->hEvent, 1);
-		return;
-	}
-
-	CMStringW wszText;
-	bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
-	if (!bTextUsed && lin->ptszText) {
-		if (!wszText.IsEmpty())
-			wszText.AppendChar(' ');
-		wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
-	}
-
 	int numItems = getCount();
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
-	p.wtext = wszText.Detach();
-	p.m_bLoaded = true;
-	p.m_bHighlighted = lin->bIsHighlighted;
-	p.dbe.timestamp = lin->time;
-	if (lin->bIsMe)
-		p.dbe.flags |= DBEF_SENT;
 
-	switch (lin->iType) {
-	case GC_EVENT_MESSAGE:
-	case GC_EVENT_INFORMATION:
-		p.dbe.eventType = EVENTTYPE_MESSAGE;
-		break;
+	if (si->pMI->bDatabase && lin->hEvent) {
+		p.hEvent = lin->hEvent;
+		p.load(true);
+	}
+	else {
+		CMStringW wszText;
+		bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
+		if (!bTextUsed && lin->ptszText) {
+			if (!wszText.IsEmpty())
+				wszText.AppendChar(' ');
+			wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
+		}
 
-	case GC_EVENT_SETCONTACTSTATUS:
-		p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
-		break;
+		p.wtext = wszText.Detach();
+		p.m_bLoaded = true;
+		p.m_bHighlighted = lin->bIsHighlighted;
+		p.dbe.timestamp = lin->time;
+		if (lin->bIsMe)
+			p.dbe.flags |= DBEF_SENT;
 
-	case GC_EVENT_JOIN:
-	case GC_EVENT_PART:
-	case GC_EVENT_QUIT:
-		p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
-		break;
+		switch (lin->iType) {
+		case GC_EVENT_MESSAGE:
+		case GC_EVENT_INFORMATION:
+			p.dbe.eventType = EVENTTYPE_MESSAGE;
+			break;
 
-	default:
-		p.dbe.eventType = EVENTTYPE_OTHER;
-		break;
+		case GC_EVENT_SETCONTACTSTATUS:
+			p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
+			break;
+
+		case GC_EVENT_JOIN:
+		case GC_EVENT_PART:
+		case GC_EVENT_QUIT:
+			p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
+			break;
+
+		default:
+			p.dbe.eventType = EVENTTYPE_OTHER;
+			break;
+		}
 	}
 
 	if (lin->ptszNick) {
