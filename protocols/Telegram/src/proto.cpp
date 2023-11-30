@@ -84,7 +84,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 
 	// create standard network connection
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = m_tszUserName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);

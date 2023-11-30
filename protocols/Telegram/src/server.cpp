@@ -32,6 +32,23 @@ void __cdecl CTelegramProto::ServerThread(void *)
 
 	SendQuery(new TD::getOption("version"));
 
+	NETLIBUSERSETTINGS nluSettings;
+	Netlib_GetUserSettings(m_hNetlibUser, &nluSettings);
+	if (nluSettings.useProxy) {
+		TD::object_ptr<TD::ProxyType> proxyType;
+		switch (nluSettings.proxyType) {
+		case PROXYTYPE_SOCKS4:
+		case PROXYTYPE_SOCKS5:
+			proxyType = TD::make_object<TD::proxyTypeSocks5>();
+			break;
+		case PROXYTYPE_HTTP:
+		case PROXYTYPE_HTTPS:
+			proxyType = TD::make_object<TD::proxyTypeHttp>();
+			break;
+		}
+		SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+	}
+
 	while (!m_bTerminated) {
 		ProcessResponse(m_pClientManager->receive(1));
 	}
