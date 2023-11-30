@@ -224,19 +224,20 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateMessageSendSucceeded::ID:
 		{
-			auto *pMessage = (TD::updateMessageSendSucceeded *)response.object.get();
+			auto *pUpdate = (TD::updateMessageSendSucceeded *)response.object.get();
+			auto *pMessage = pUpdate->message_.get();
 
-			auto szOldId = msg2id(pMessage->message_->chat_id_, pMessage->old_message_id_);
-			if (pMessage->old_message_id_)
+			auto szOldId = msg2id(pMessage->chat_id_, pUpdate->old_message_id_);
+			if (pUpdate->old_message_id_)
 				if (auto hDbEvent = db_event_getById(m_szModuleName, szOldId))
-					db_event_updateId(hDbEvent, msg2id(pMessage->message_.get()));
+					db_event_updateId(hDbEvent, msg2id(pMessage));
 
-			ProcessMessage(pMessage->message_.get());
+			ProcessMessage(pMessage);
 
 			TG_OWN_MESSAGE tmp(0, 0, szOldId);
 			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
 				if (pOwnMsg->hAck)
-					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)pOwnMsg->szMsgId.c_str());
+					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)msg2id(pMessage).c_str());
 
 				m_arOwnMsg.remove(pOwnMsg);
 			}
