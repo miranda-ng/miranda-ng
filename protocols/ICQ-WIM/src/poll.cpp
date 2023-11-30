@@ -183,14 +183,10 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 		hContact = si->hContact;
 
-		if (si->arUsers.getCount() == 0) {
-			__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
-			__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
-			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion"))
-				RetrieveChatInfo(si);
-			else
-				LoadChatInfo(si);
-		}
+		__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
+		__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
+		if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion") || si->arUsers.getCount() == 0)
+			RetrieveChatInfo(hContact);
 	}
 	else {
 		hContact = CreateContact(wszId, true);

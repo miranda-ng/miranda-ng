@@ -329,10 +329,10 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	SESSION_INFO* CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick);
 
-	void      RetrieveChatInfo(SESSION_INFO *si);
+	void      RetrieveChatInfo(MCONTACT hContact);
+
 	void      InviteUserToChat(SESSION_INFO *si);
 	void      LeaveDestroyChat(SESSION_INFO *si);
-	void      LoadChatInfo(SESSION_INFO *si);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// http queue

@@ -23,14 +23,27 @@
 SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick)
 {
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pwszId, pwszNick);
-	if (si != nullptr) {
+	if (si == nullptr)
+		return nullptr;
+
+	if (si->pStatuses == 0) {
 		Chat_AddGroup(si, TranslateT("admin"));
 		Chat_AddGroup(si, TranslateT("member"));
-		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-		Chat_Control(si, SESSION_ONLINE);
+	}
+	
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 
-		// #3420 ICQ server will place our group chat into its own group
-		Clist_SetGroup(si->hContact, nullptr);
+	// #3420 ICQ server will place our group chat into its own group
+	Clist_SetGroup(si->hContact, nullptr);
+
+	if (si->ptszTopic) {
+		GCEVENT gce = { si, GC_EVENT_TOPIC };
+		gce.time = ::time(0);
+		gce.pszText.w = si->ptszTopic; si->ptszTopic = 0;
+		Chat_Event(&gce);
+
+		mir_free((void*)gce.pszText.w);
 	}
 
 	return si;
@@ -47,73 +60,59 @@ INT_PTR CIcqProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::LoadChatInfo(SESSION_INFO *si)
+void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	int memberCount = getDword(si->hContact, "MemberCount");
-	for (int i = 0; i < memberCount; i++) {
-		char buf[100];
-		mir_snprintf(buf, "m%d", i);
-		ptrW szSetting(getWStringA(si->hContact, buf));
-		JSONNode *node = json_parse(T2Utf(szSetting));
-		if (node == nullptr)
-			continue;
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
 
-		CMStringW nick((*node)["nick"].as_mstring());
-		CMStringW role((*node)["role"].as_mstring());
-		CMStringW sn((*node)["sn"].as_mstring());
+	SESSION_INFO *si = (SESSION_INFO *)pReq->pUserInfo;
+
+	const JSONNode &results = root.results();
+	for (auto &it : results["members"]) {
+		CMStringW friendly = it["friendly"].as_mstring();
+		CMStringW role = it["role"].as_mstring();
+		CMStringW sn = it["sn"].as_mstring();
 
 		GCEVENT gce = { si, GC_EVENT_JOIN };
 		gce.dwFlags = GCEF_SILENT;
-		gce.pszNick.w = nick;
+		gce.pszNick.w = friendly;
 		gce.pszUID.w = sn;
 		gce.time = ::time(0);
 		gce.bIsMe = sn == m_szOwnId;
 		gce.pszStatus.w = TranslateW(role);
 		Chat_Event(&gce);
-
-		json_delete(node);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CIcqProto::RetrieveChatInfo(SESSION_INFO *si)
-{
-	auto *pReq = new AsyncRapiRequest(this, "getChatInfo", &CIcqProto::OnGetChatInfo);
-	pReq->params << WCHAR_PARAM("sn", si->ptszID) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
-	pReq->pUserInfo = si;
-	Push(pReq);
-}
-
-void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	SESSION_INFO *si = (SESSION_INFO*)pReq->pUserInfo;
-
-	RobustReply root(pReply);
-	if (root.error() != 20000)
-		return;
-
-	int n = 0;
-	char buf[100];
-	const JSONNode &results = root.results();
-	for (auto &it : results["members"]) {
-		mir_snprintf(buf, "m%d", n++);
-
-		CMStringW friendly = it["friendly"].as_mstring();
-		CMStringW role = it["role"].as_mstring();
-		CMStringW sn = it["sn"].as_mstring();
-
-		JSONNode member;
-		member << WCHAR_PARAM("nick", friendly) << WCHAR_PARAM("role", role) << WCHAR_PARAM("sn", sn);
-		ptrW text(json_write(&member));
-		setWString(si->hContact, buf, text);
 	}
 
-	setDword(si->hContact, "MemberCount", n);
+	CMStringW wszAbout = results["about"].as_mstring(), wszTopic;
+	CMStringW wszRules = results["rules"].as_mstring();
+	if (!wszAbout.IsEmpty())
+		wszTopic.AppendFormat(L"%s: %s", TranslateT("About"), wszAbout.c_str());
+	if (!wszRules.IsEmpty()) {
+		if (!wszTopic.IsEmpty())
+			wszTopic.Append(L"\r\n");
+		wszTopic.AppendFormat(L"%s: %s", TranslateT("Rules"), wszRules.c_str());
+	}
+	if (!wszTopic.IsEmpty()) {
+		GCEVENT gce = { si, GC_EVENT_TOPIC };
+		gce.time = ::time(0);
+		gce.pszText.w = wszTopic;
+		Chat_Event(&gce);
+	}
+
 	setId(si->hContact, "InfoVersion", _wtoi64(results["infoVersion"].as_mstring()));
 	setId(si->hContact, "MembersVersion", _wtoi64(results["membersVersion"].as_mstring()));
+}
 
-	LoadChatInfo(si);
+void CIcqProto::RetrieveChatInfo(MCONTACT hContact)
+{
+	CMStringW wszChatID(GetUserId(hContact));
+	if (auto *si = Chat_Find(wszChatID, m_szModuleName)) {
+		auto *pReq = new AsyncRapiRequest(this, "getChatInfo", &CIcqProto::OnGetChatInfo);
+		pReq->params << WCHAR_PARAM("sn", wszChatID) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
+		pReq->pUserInfo = si;
+		Push(pReq);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

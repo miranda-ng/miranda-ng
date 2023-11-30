@@ -85,7 +85,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	// group chats
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_DATABASE;
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_DATABASE | GC_PERSISTENT;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
@@ -521,6 +521,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 int CIcqProto::GetInfo(MCONTACT hContact, int)
 {
 	RetrieveUserInfo(hContact);
+	if (Contact::IsGroupChat(hContact))
+		RetrieveChatInfo(hContact);
 	return 0;
 }
 
