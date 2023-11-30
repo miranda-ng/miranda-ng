@@ -218,6 +218,9 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 		si->iStatusCount = 0;
 		si->pMe = nullptr;
 
+		if (mi->bPersistent)
+			Chat_Unserialize(si);
+
 		if (g_chatApi.OnReplaceSession)
 			g_chatApi.OnReplaceSession(si);
 		return si;
