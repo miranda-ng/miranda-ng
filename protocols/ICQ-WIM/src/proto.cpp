@@ -70,9 +70,9 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
-	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::OnMenuLoadHistory);
-	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::GetEmailCount);
-	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::GotoInbox);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::SvcLoadHistory);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::SvcGetEmailCount);
+	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::SvcGotoInbox);
 
 	// cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CIcqProto::SvcOfflineFile);
@@ -90,7 +90,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
-	CreateProtoService(PS_LEAVECHAT, &CIcqProto::OnLeaveChat);
+	CreateProtoService(PS_LEAVECHAT, &CIcqProto::SvcLeaveChat);
 
 	// avatars
 	CreateDirectoryTreeW(GetAvatarPath());
@@ -267,7 +267,7 @@ INT_PTR __cdecl CIcqProto::SvcOfflineFile(WPARAM param, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
+INT_PTR CIcqProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 {
 	delSetting(hContact, DB_KEY_LASTMSGID);
 
@@ -321,14 +321,14 @@ INT_PTR CIcqProto::EditProfile(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CIcqProto::GetEmailCount(WPARAM, LPARAM)
+INT_PTR CIcqProto::SvcGetEmailCount(WPARAM, LPARAM)
 {
 	if (!m_bOnline)
 		return 0;
 	return m_unreadEmails;
 }
 
-INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
+INT_PTR CIcqProto::SvcGotoInbox(WPARAM, LPARAM)
 {
 	Utils_OpenUrl("https://e.mail.ru/messages/inbox");
 	return 0;

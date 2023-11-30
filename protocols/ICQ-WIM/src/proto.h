@@ -40,7 +40,7 @@
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
 
 #define PS_DUMMY "/DoNothing"
-#define PS_GOTO_INBOX "/GotoInbox"
+#define PS_GOTO_INBOX "/SvcGotoInbox"
 
 #define WIM_CAP_VOIP_VOICE         "094613504c7f11d18222444553540000"
 #define WIM_CAP_VOIP_VIDEO         "094613514c7f11d18222444553540000"
@@ -271,6 +271,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnLeaveChat(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -385,16 +386,16 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
+	INT_PTR   __cdecl SvcLeaveChat(WPARAM, LPARAM);
 	INT_PTR   __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
-	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
-	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcGetEmailCount(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcGotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
-	INT_PTR   __cdecl OnLeaveChat(WPARAM, LPARAM);
-	INT_PTR   __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcLoadHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events

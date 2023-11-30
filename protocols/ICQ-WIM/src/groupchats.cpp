@@ -36,7 +36,7 @@ SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *p
 	return si;
 }
 
-INT_PTR CIcqProto::OnLeaveChat(WPARAM hContact, LPARAM)
+INT_PTR CIcqProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 {
 	CMStringW wszId(GetUserId(hContact));
 	if (auto *si = Chat_Find(wszId, m_szModuleName))
@@ -192,12 +192,17 @@ void CIcqProto::InviteUserToChat(SESSION_INFO *si)
 	dlg.DoModal();
 }
 
+void CIcqProto::OnLeaveChat(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq)
+{
+	db_delete_contact(INT_PTR(pReq->pUserInfo));
+}
+
 void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/hideChat")
-		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID)));
-
-	db_delete_contact(si->hContact);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/hideChat", &CIcqProto::OnLeaveChat)
+		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID));
+	pReq->pUserInfo = (void *)si->hContact;
+	Push(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
