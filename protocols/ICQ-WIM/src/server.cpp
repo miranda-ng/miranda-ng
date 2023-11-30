@@ -417,12 +417,6 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	// we shall not remove existing phone number anyhow
 	Json2string(hContact, buddy, "phoneNumber", DB_KEY_PHONE, true);
 
-	int onlineTime = buddy["onlineTime"].as_int();
-	if (onlineTime)
-		setDword(hContact, DB_KEY_ONLINETS, time(0) - onlineTime);
-	else
-		delSetting(hContact, DB_KEY_ONLINETS);
-
 	Json2int(hContact, buddy, "official", "Official", bIsPartial);
 	Json2int(hContact, buddy, "idleTime", "IdleTS", bIsPartial);
 
@@ -712,6 +706,30 @@ void CIcqProto::RetrieveUserCaps(IcqUser *pUser)
 	pReq->pUserInfo = pUser;
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId)
 		<< WCHAR_PARAM("t", GetUserId(pUser->m_hContact)) << INT_PARAM("mdir", 0) << INT_PARAM("capabilities", 1);
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	JsonReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+	auto &data = root.data();
+	for (auto &it : data["users"])
+		ProcessOnline(it, pReq->hContact);
+}
+
+void CIcqProto::RetrievePresence(MCONTACT hContact)
+{
+	CMStringW wszId(GetUserId(hContact));
+
+	auto *pReq = new AsyncHttpRequest(CONN_OLD, REQUEST_GET, "/presence/get", &CIcqProto::OnGePresence);
+	pReq->hContact = hContact;
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId)
+		<< WCHAR_PARAM("t", wszId) << INT_PARAM("mdir", 1);
 	Push(pReq);
 }
 

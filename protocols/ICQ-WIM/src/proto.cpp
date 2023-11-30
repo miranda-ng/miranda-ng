@@ -45,7 +45,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
 	m_arGroups(10, NumericKeySortT),
-	m_arLastSeenQueue(10, NumericKeySortT),
 	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
@@ -336,53 +335,6 @@ INT_PTR CIcqProto::SvcGotoInbox(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
-{
-	RobustReply root(pReply);
-	if (root.error() != 20000)
-		return;
-
-	const JSONNode &results = root.results();
-	for (auto &it : results["entries"]) {
-		if (auto *pUser = FindUser(it["sn"].as_mstring())) {
-			int iLastSeen = it["lastseen"].as_int();
-			switch (iLastSeen) {
-			case 1388520000: // 01/01/2014, 00:00 GMT
-				setWString(pUser->m_hContact, DB_KEY_LASTSEEN, TranslateT("long time ago"));
-				ProcessStatus(pUser, ID_STATUS_OFFLINE);
-				break;
-
-			case 0:
-				if (pUser->m_bWasOnline) {
-					ProcessStatus(pUser, ID_STATUS_ONLINE);
-					break;
-				}
-				__fallthrough;
-
-			default:
-				setDword(pUser->m_hContact, DB_KEY_LASTSEEN, iLastSeen);
-				ProcessStatus(pUser, ID_STATUS_OFFLINE);
-			}
-		}
-	}
-}
-
-void CIcqProto::SendLastSeen()
-{
-	mir_cslock lck(m_csLastSeenQueue);
-
-	auto *pReq = new AsyncRapiRequest(this, "getUserLastseen", &CIcqProto::OnLastSeen);
-	JSONNode ids(JSON_ARRAY); ids.set_name("ids"); 
-	for (auto &it: m_arLastSeenQueue)
-		ids << WCHAR_PARAM("", GetUserId(it->m_hContact));
-	pReq->params.push_back(ids);
-	Push(pReq);
-
-	m_arLastSeenQueue.destroy();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CIcqProto::SendMarkRead()
 {
 	mir_cslock lck(m_csMarkReadQueue);
@@ -521,6 +473,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 int CIcqProto::GetInfo(MCONTACT hContact, int)
 {
 	RetrieveUserInfo(hContact);
+	RetrievePresence(hContact);
+
 	if (Contact::IsGroupChat(hContact))
 		RetrieveChatInfo(hContact);
 	return 0;

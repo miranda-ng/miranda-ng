@@ -23,11 +23,34 @@
 struct IcqUserInfoDlg : public CUserInfoPageDlg
 {
 	CIcqProto *ppro;
+	HANDLE hEvent = 0;
 
 	IcqUserInfoDlg(CIcqProto *_ppro) :
 		CUserInfoPageDlg(g_plugin, IDD_INFO_ICQ),
 		ppro(_ppro)
 	{
+	}
+
+	bool OnInitDialog() override
+	{
+		hEvent = HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED, m_hwnd, WM_USER);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		UnhookEvent(hEvent);
+	}
+
+	UI_MESSAGE_MAP(IcqUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(WM_USER, OnSettingChanged);
+	UI_MESSAGE_MAP_END();
+
+	LRESULT OnSettingChanged(UINT, WPARAM hContact, LPARAM)
+	{
+		if (hContact == m_hContact)
+			OnRefresh();
+		return 0;
 	}
 
 	bool OnRefresh() override

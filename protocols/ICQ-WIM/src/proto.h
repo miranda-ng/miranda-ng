@@ -170,7 +170,7 @@ class CIcqProto : public PROTO<CIcqProto>
 		friend class CIcqProto;
 
 		CIcqProto &m_proto;
-		CTimer m_heartBeat, m_markRead, m_lastSeen;
+		CTimer m_heartBeat, m_markRead;
 		
 		void OnHeartBeat(CTimer *) {
 			m_proto.CheckStatus();
@@ -181,19 +181,12 @@ class CIcqProto : public PROTO<CIcqProto>
 			pTimer->Stop();
 		}
 
-		void OnLastSeen(CTimer *pTimer) {
-			m_proto.SendLastSeen();
-			pTimer->Stop();
-		}
-
 		CIcqProtoImpl(CIcqProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_lastSeen(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
 		{
 			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
-			m_lastSeen.OnEvent = Callback(this, &CIcqProtoImpl::OnLastSeen);
 			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
 		}
 	} m_impl;
@@ -218,6 +211,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool          RetrievePassword();
+	void          RetrievePresence(MCONTACT hContact);
 	void          RetrieveUserCaps(IcqUser *pUser);
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
@@ -244,10 +238,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	LIST<IcqUser> m_arMarkReadQueue;
 	void          SendMarkRead();
 
-	mir_cs        m_csLastSeenQueue;
-	LIST<IcqUser> m_arLastSeenQueue;
-	void          SendLastSeen();
-
 	__int64       getId(MCONTACT hContact, const char *szSetting);
 	void          setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
 				     
@@ -266,6 +256,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -289,6 +280,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          ProcessImState(const JSONNode &pRoot);
 	void          ProcessMyInfo(const JSONNode &pRoot);
 	void          ProcessNotification(const JSONNode &pRoot);
+	void          ProcessOnline(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessPermissions(const JSONNode &pRoot);
 	void          ProcessPresence(const JSONNode &pRoot);
 	void          ProcessSessionEnd(const JSONNode &pRoot);

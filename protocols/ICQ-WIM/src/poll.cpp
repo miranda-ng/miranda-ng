@@ -50,6 +50,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			if (hContact == INVALID_CONTACT_ID)
 				continue;
 
+			ProcessOnline(buddy, hContact);
 			setWString(hContact, "IcqGroup", pGroup->wszName);
 
 			if (!bCreated) {
@@ -111,6 +112,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
+				ProcessOnline(buddy, hContact);
 				setWString(hContact, "IcqGroup", pGroup->wszName);
 
 				if (!bCreated) {

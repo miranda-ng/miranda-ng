@@ -167,6 +167,15 @@ bool IsValidType(const JSONNode &n)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::ProcessOnline(const JSONNode &presence, MCONTACT hContact)
+{
+	int onlineTime = presence["onlineTime"].as_int();
+	if (onlineTime)
+		setDword(hContact, DB_KEY_ONLINETS, time(0) - onlineTime);
+	else
+		delSetting(hContact, DB_KEY_ONLINETS);
+}
+
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 {
 	auto *pUser = FindUser(GetUserId(hContact));
@@ -178,7 +187,6 @@ int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 	if (wszStatus == L"online") {
 		pUser->m_bWasOnline = true;
 		iStatus = ID_STATUS_ONLINE;
-		setDword(hContact, DB_KEY_ONLINETS, time(0));
 	}
 	else if (wszStatus == L"offline")
 		iStatus = ID_STATUS_OFFLINE;
@@ -201,16 +209,10 @@ int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 			setDword(hContact, DB_KEY_LASTSEEN, iLastSeen);
 	}
 	else {
-		if (pUser->m_bWasOnline) {
-			iStatus = ID_STATUS_ONLINE;
-			setDword(hContact, DB_KEY_ONLINETS, time(0));
-		}
-		else {
-			mir_cslock lck(m_csLastSeenQueue);
-			m_arLastSeenQueue.insert(pUser);
-			m_impl.m_lastSeen.Start(500);
+		if (!pUser->m_bWasOnline)
 			return -1;
-		}
+
+		iStatus = ID_STATUS_ONLINE;
 	}
 
 	return iStatus;
