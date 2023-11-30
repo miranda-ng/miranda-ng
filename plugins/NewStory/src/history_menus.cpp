@@ -47,7 +47,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	Menu_ShowItem(hmiDownload, false);
 	Menu_ShowItem(hmiOpenFolder, false);
 
-	bool bShowEventActions;
+	bool bShowEventActions, bEditable;
 	if (item != nullptr) {
 		if (item->m_bOfflineFile) {
 			Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file path") : TranslateT("Copy URL"));
@@ -57,20 +57,21 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 			Menu_ShowItem(hmiOpenFolder, item->m_bOfflineDownloaded);
 		}
 
+		bEditable = (item->dbe.flags & DBEF_SENT) != 0;
 		bShowEventActions = item->hEvent != 0;
 
 		DB::EventInfo dbei(item->hEvent);
 		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
 	}
 	else {
-		bShowEventActions = false;
+		bShowEventActions = bEditable = false;
 
 		DB::EventInfo dbei;
 		NotifyEventHooks(hEventPreBuildMenu, 0, (LPARAM)&dbei);
 	}
 
-	Menu_ShowItem(hmiEdit, bShowEventActions);
-	Menu_ShowItem(hmiDelete, bShowEventActions);
+	Menu_ShowItem(hmiEdit, bShowEventActions && bEditable);
+	Menu_ShowItem(hmiDelete, bShowEventActions && bEditable);
 	Menu_ShowItem(hmiBookmark, bShowEventActions);
 
 	HMENU hMenu = CreatePopupMenu();
