@@ -290,8 +290,10 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	else {
 		pUser->hContact = hContact;
 		setWString(hContact, "Nick", pUser->wszNick);
-		setWString(hContact, "FirstName", pUser->wszFirstName);
-		setWString(hContact, "LastName", pUser->wszLastName);
+		if (!pUser->isGroupChat) {
+			setWString(hContact, "FirstName", pUser->wszFirstName);
+			setWString(hContact, "LastName", pUser->wszLastName);
+		}
 	}
 
 	return pUser;
