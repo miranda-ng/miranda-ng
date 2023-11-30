@@ -436,22 +436,12 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 		if (!p->m_bSelected)
 			continue;
 
-		if (p->m_bOfflineFile) {
-			DB::EventInfo dbei(p->hEvent);
-			DB::FILE_BLOB blob(dbei);
-			if (p->m_bOfflineDownloaded)
-				ret.Append(blob.getLocalName());
-			else
-				ret.Append(_A2T(blob.getUrl()));
-		}
-		else {
-			if (bTextOnly)
-				ret.Append(p->wtext);
-			else { // copy text only
-				CMStringW wszText(p->formatString());
-				RemoveBbcodes(wszText);
-				ret.Append(wszText);
-			}
+		if (bTextOnly)
+			ret.Append(p->wtext);
+		else { // copy text only
+			CMStringW wszText(p->formatString());
+			RemoveBbcodes(wszText);
+			ret.Append(wszText);
 		}
 		ret.Append(L"\r\n");
 	}

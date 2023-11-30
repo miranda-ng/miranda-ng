@@ -97,19 +97,26 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
 }
 
+void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
+{
+	if (!response.object)
+		return;
+
+}
+
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 {
 	auto *ofd = (OFDTHREAD *)pParam;
 
 	DB::EventInfo dbei(ofd->hDbEvent);
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
-		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
-		if (root) {
+		if (!ofd->bCopy) {
 			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
 			ft->ofd = ofd;
 			m_arFiles.insert(ft);
 
-			SendQuery(new TD::getRemoteFile(root["u"].as_string(), 0), &CTelegramProto::OnGetFileInfo, ft);
+			DB::FILE_BLOB blob(dbei);
+			SendQuery(new TD::getRemoteFile(blob.getUrl(), 0), &CTelegramProto::OnGetFileInfo, ft);
 		}
 	}
 	else delete ofd;

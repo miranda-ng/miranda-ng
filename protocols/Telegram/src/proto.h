@@ -222,6 +222,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
