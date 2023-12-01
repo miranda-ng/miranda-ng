@@ -75,6 +75,6 @@ int CIcqProto::OnPrebuildMenu(WPARAM, LPARAM lParam)
 {
 	auto *dbei = (DB::EventInfo *)lParam;
 	ptrW wszText(DbEvent_GetTextW(dbei, CP_UTF8));
-	Menu_ShowItem(hmiConvert, 0 == mir_wstrncmp(wszText, L"https://files.icq.net/get/", 26));
+	Menu_ShowItem(hmiConvert, fileText2url(wszText.get()));
 	return 0;
 }

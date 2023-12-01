@@ -183,7 +183,8 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 
 bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
-	if (wszText.Left(26) != L"https://files.icq.net/get/")
+	CMStringW wszUrl;
+	if (!fileText2url(wszText, &wszUrl))
 		return false;
 
 	pFileInfo = nullptr;
@@ -191,8 +192,6 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 	int idx = wszText.Find(' ');
 	if (idx != -1)
 		wszText.Truncate(idx);
-
-	CMStringW wszUrl(fileText2url(wszText));
 
 	// is it already downloaded sticker?
 	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());

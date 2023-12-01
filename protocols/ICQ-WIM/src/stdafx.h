@@ -108,6 +108,6 @@ void RefreshGroups(void);
 wchar_t* time2text(time_t time);
 wchar_t* time2text(DBVARIANT *dbv);
 
-CMStringW fileText2url(const CMStringW &wszText);
+bool fileText2url(const CMStringW &wszText, CMStringW *res = nullptr);
 
 extern bool g_bSecureIM, g_bMessageState;

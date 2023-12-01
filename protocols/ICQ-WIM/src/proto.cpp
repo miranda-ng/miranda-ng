@@ -237,21 +237,25 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 	DB::EventInfo dbei(ofd->hDbEvent);
 	if (m_bOnline && dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
-		MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
-		if (auto *pFileInfo = RetrieveFileInfo(hContact, fileText2url(blob.getUrl()))) {
-			if (!ofd->bCopy) {
-				auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
-				pReq->pUserInfo = ofd;
-				pReq->AddHeader("Sec-Fetch-User", "?1");
-				pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-				pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-				Push(pReq);
-				return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
-			}
 
-			ofd->wszPath.Empty();
-			ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
-			ofd->pCallback->Invoke(*ofd);
+		CMStringW wszUrl;
+		if (fileText2url(blob.getUrl(), &wszUrl)) {
+			MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
+			if (auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl)) {
+				if (!ofd->bCopy) {
+					auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
+					pReq->pUserInfo = ofd;
+					pReq->AddHeader("Sec-Fetch-User", "?1");
+					pReq->AddHeader("Sec-Fetch-Site", "cross-site");
+					pReq->AddHeader("Sec-Fetch-Mode", "navigate");
+					Push(pReq);
+					return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
+				}
+
+				ofd->wszPath.Empty();
+				ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
+				ofd->pCallback->Invoke(*ofd);
+			}
 		}
 	}
 
