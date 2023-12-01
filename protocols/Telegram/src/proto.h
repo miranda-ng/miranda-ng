@@ -150,6 +150,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
+	friend class COptSessionsDlg;
 	friend class CAddPhoneContactDlg;
 
 	class CProtoImpl
@@ -224,6 +225,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
+	void OnKillSession(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
