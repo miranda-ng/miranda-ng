@@ -813,7 +813,11 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	if (!jnResponse)
 		return;
 
-	for (auto &jnItem : jnResponse) {
+	const JSONNode& jnGroups = jnResponse["groups"];
+	if (!jnGroups)
+		return;
+
+	for (auto &jnItem : jnGroups) {
 		VKUserID_t iGroupId = (-1)*jnItem["id"].as_int();
 		bool bIsMember = jnItem["is_member"].as_bool();
 

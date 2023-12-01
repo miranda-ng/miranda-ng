@@ -191,7 +191,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveChatInfo", true, &CVkProto::OnReceiveChatInfo)
 		<< INT_PARAM("chatid", cc->m_iChatId)
-		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 3)
+		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 4)
 	)->pUserInfo = cc;
 }
 
