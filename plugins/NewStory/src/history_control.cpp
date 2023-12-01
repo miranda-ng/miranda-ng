@@ -603,17 +603,19 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 
 void NewstoryListData::RecalcScrollBar()
 {
+	if (totalCount == 0)
+		return;
+
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
 	si.nMax = totalCount-1;
-	si.nPage = 10;
+	si.nPage = (totalCount <= 10) ? totalCount - 1 : 10;
 	si.nPos = scrollTopItem;
 
-	if (cachedScrollbarPage != si.nPage || si.nPos != cachedScrollbarPos) {
+	if (si.nPos != cachedScrollbarPos) {
 		cachedScrollbarPos = si.nPos;
-		cachedScrollbarPage = si.nPage;
 		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
 }

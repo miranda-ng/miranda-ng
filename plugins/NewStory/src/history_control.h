@@ -18,7 +18,6 @@ struct NewstoryListData : public MZeroedObject
 	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
 	int cachedScrollbarPos = -1;
-	unsigned int cachedScrollbarPage = -1;
 	int totalCount;
 
 	RECT rcLastPaint;
