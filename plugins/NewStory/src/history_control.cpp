@@ -436,13 +436,9 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 		if (!p->m_bSelected)
 			continue;
 
-		if (bTextOnly)
-			ret.Append(p->wtext);
-		else { // copy text only
-			CMStringW wszText(p->formatString());
-			RemoveBbcodes(wszText);
-			ret.Append(wszText);
-		}
+		CMStringW wszText(bTextOnly ? p->wtext : p->formatString());
+		RemoveBbcodes(wszText);
+		ret.Append(wszText);
 		ret.Append(L"\r\n");
 	}
 
