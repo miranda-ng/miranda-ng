@@ -10,3 +10,4 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename);
 
 CMStringA msg2id(const TD::message *pMsg);
 CMStringA msg2id(TD::int53 chatId, TD::int53 msgId);
+TD::int53 dbei2id(const DBEVENTINFO &dbei);

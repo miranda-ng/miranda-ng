@@ -112,6 +112,17 @@ CMStringA msg2id(const TD::message *pMsg)
 	return CMStringA(FORMAT, "%lld_%lld", pMsg->chat_id_, pMsg->id_);
 }
 
+TD::int53 dbei2id(const DBEVENTINFO &dbei)
+{
+	if (dbei.szId == nullptr)
+		return -1;
+
+	auto *p = strchr(dbei.szId, '_');
+	return _atoi64(p ? p + 1 : dbei.szId);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 const char *getName(const TD::usernames *pName)
 {
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();

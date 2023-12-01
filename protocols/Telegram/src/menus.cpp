@@ -118,7 +118,7 @@ public:
 		for (auto &it : m_ids) {
 			DB::EventInfo dbei(it, false);
 			if (dbei && dbei.szId)
-				message_ids.push_back(_atoi64(dbei.szId));
+				message_ids.push_back(dbei2id(dbei));
 		}
 
 		for (auto &hContact : m_proto->AccContacts()) {
@@ -178,7 +178,7 @@ public:
 		auto *pMessage = new TD::sendMessage();
 		pMessage->chat_id_ = m_pUser->chatId;
 		pMessage->input_message_content_ = std::move(pContent);
-		pMessage->reply_to_message_id_ = _atoi64(dbei.szId);
+		pMessage->reply_to_message_id_ = dbei2id(dbei);
 		m_proto->SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 		return true;
 	}
@@ -212,7 +212,7 @@ public:
 	bool OnApply() override
 	{
 		DB::EventInfo dbei(m_hEvent, false);
-		__int64 msgId = (dbei && dbei.szId) ? _atoi64(dbei.szId) : 0;
+		__int64 msgId = ::dbei2id(dbei);
 		
 		char *pszEmoji = (char *)cmbReactions.GetCurData();
 		auto reaction = TD::make_object<TD::reactionTypeEmoji>(pszEmoji);
