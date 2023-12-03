@@ -138,53 +138,6 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Dialog for reply to a message
-
-class CReplyDlg : public CTelegramDlgBase
-{
-	MEVENT m_hEvent;
-	TG_USER *m_pUser;
-
-	CCtrlEdit edtText;
-	CCtrlButton btnOk;
-	CCtrlMButton btnFile;
-
-public:
-	CReplyDlg(CTelegramProto *ppro, MEVENT hEvent) :
-		CTelegramDlgBase(ppro, IDD_REPLY),
-		m_hEvent(hEvent),
-		btnOk(this, IDOK),
-		edtText(this, IDC_TEXT),
-		btnFile(this, IDC_ATTACH, IcoLib_GetIcon("attach"), LPGEN("Attach file"))
-	{
-		m_pUser = ppro->FindUser(ppro->GetId(db_event_getContact(hEvent)));
-	}
-
-	bool OnInitDialog() override
-	{
-		::SendDlgItemMessage(m_hwnd, IDC_REPLYTO, NSM_ADDEVENT, m_proto->GetRealContact(m_pUser), m_hEvent);
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		DB::EventInfo dbei(m_hEvent, false);
-
-		ptrW wszText(edtText.GetText());
-
-		auto pContent = TD::make_object<TD::inputMessageText>();
-		pContent->text_ = formatBbcodes(T2Utf(wszText));
-
-		auto *pMessage = new TD::sendMessage();
-		pMessage->chat_id_ = m_pUser->chatId;
-		pMessage->input_message_content_ = std::move(pContent);
-		pMessage->reply_to_message_id_ = dbei2id(dbei);
-		m_proto->SendQuery(pMessage, &CTelegramProto::OnSendMessage);
-		return true;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Dialog for sending reaction
 
 class CReactionsDlg : public CTelegramDlgBase
@@ -245,8 +198,8 @@ INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 
 	case 3: // reply
 		hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
-		if (hCurrentEvent != -1)
-			CReplyDlg(this, hCurrentEvent).DoModal();
+		// if (hCurrentEvent != -1)
+			// CReplyDlg(this, hCurrentEvent).DoModal();
 		break;
 	}
 	return 0;

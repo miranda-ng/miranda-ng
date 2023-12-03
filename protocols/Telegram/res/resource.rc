@@ -162,20 +162,6 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,158,22,50,14
 END
 
-IDD_REPLY DIALOGEX 0, 0, 414, 233
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Reply to a message"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_REPLYTO,"NewstoryList",WS_BORDER | WS_TABSTOP | 0x80,7,18,400,85
-    LTEXT           "In reply to:",IDC_STATIC,7,4,400,9
-    CONTROL         "",IDC_TEXT,"RichEdit50W",WS_BORDER | WS_TABSTOP | 0x80,7,105,400,103
-    CONTROL         "",IDC_ATTACH,"MButtonClass",WS_TABSTOP,7,212,17,14
-    DEFPUSHBUTTON   "OK",IDOK,301,212,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,357,212,50,14
-END
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
