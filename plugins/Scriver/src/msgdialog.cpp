@@ -347,6 +347,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		else
 			MessageSend(msi);
 	}
+	m_btnCloseQuote.Click();
 }
 
 void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)

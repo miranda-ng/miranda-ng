@@ -365,6 +365,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		}
 	}
 
+	m_btnCloseQuote.Click();
 	m_btnOk.Disable();
 	SetFocus(m_message.GetHwnd());
 }

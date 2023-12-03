@@ -890,6 +890,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		sendQueue->addTo(this, memRequired, flags);
 	}
 
+	m_btnCloseQuote.Click();
 	SetFocus(m_message.GetHwnd());
 }
 
