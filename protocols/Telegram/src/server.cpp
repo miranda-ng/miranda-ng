@@ -46,7 +46,9 @@ void __cdecl CTelegramProto::ServerThread(void *)
 			proxyType = TD::make_object<TD::proxyTypeHttp>();
 			break;
 		}
-		SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+
+		if (proxyType)
+			SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
 	}
 
 	while (!m_bTerminated) {
