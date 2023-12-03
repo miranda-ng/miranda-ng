@@ -60,7 +60,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	int  m_iSplitterX, m_iSplitterY;
 	SIZE m_minEditBoxSize;
 	RECT m_minEditInit;
-	RECT m_rcLog;
+	RECT m_rcLog, m_rcMessage;
 
 	// tab autocomplete
 	int m_iTabStart = 0;

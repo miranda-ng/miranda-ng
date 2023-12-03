@@ -1,7 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
-#include "..\..\include\chat_resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -9,6 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
+#include "..\..\include\chat_resource.h"
 #include "..\..\include\statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -82,12 +82,14 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,1,111,208,29,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
     LTEXT           "",IDC_FRAME,1,111,208,29,NOT WS_VISIBLE | WS_CLIPSIBLINGS
-    DEFPUSHBUTTON   "&Send",IDOK,212,111,39,29
-    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,1,16,250,91,WS_EX_STATICEDGE
-    CONTROL         "",IDC_SPLITTERX,"Static",SS_ENHMETAFILE,172,23,10,73
-    CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,108,251,2
+    DEFPUSHBUTTON   "&Send",IDOK,212,110,39,29
+    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,1,5,175,91,WS_EX_STATICEDGE
+    CONTROL         "",IDC_SPLITTERX,"Static",SS_ENHMETAFILE,180,4,2,89
+    CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,108,251,1
     LISTBOX         IDC_SRMM_NICKLIST,182,2,69,94,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
     CONTROL         "",IDC_AVATAR,"Button",BS_OWNERDRAW | NOT WS_VISIBLE,1,127,6,13
+    CONTROL         "",IDC_SRMM_QUOTE,"RichEdit50W",ES_AUTOHSCROLL | WS_DISABLED | WS_BORDER | WS_TABSTOP,0,95,235,16
+    CONTROL         "",IDC_SRMM_CLOSEQUOTE,"MButtonClass", WS_TABSTOP,237,97,16,16
 END
 
 IDD_OPT_MSGHIST DIALOGEX 0, 0, 311, 171
@@ -336,13 +338,14 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\sxr\\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
-    "#include ""statusmodes.h""\r\n"
+    "#include ""..\\..\\include\\chat_resource.h""\r\n"
+    "#include ""..\\..\\include\\statusmodes.h""\r\n"
     "\0"
 END
 

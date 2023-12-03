@@ -1,6 +1,5 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include <winres.h>
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -8,11 +7,9 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#define APSTUDIO_HIDDEN_SYMBOLS
-#include "richedit.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#include "..\..\..\include\statusmodes.h"
-#include "..\..\..\include\chat_resource.h"
+#include <winres.h>
+#include "..\..\include\chat_resource.h"
+#include "..\..\include\statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -21,10 +18,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -36,19 +31,21 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,46,187,1
-    CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_WANTRETURN | WS_VSCROLL | WS_TABSTOP,0,48,144,31,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
+    CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,0,48,144,31,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
     CONTROL         "",IDC_CONTACTPIC,"Button",BS_OWNERDRAW,155,48,34,31
     CONTROL         "",IDC_MULTISPLITTER,"Static",SS_ENHMETAFILE,186,0,2,30
-    CONTROL		    "&Retry",IDC_RETRY,"MButtonClass",WS_TABSTOP,26,10,65,12,0x18000000L
-    CONTROL	      	"&Cancel",IDC_CANCELSEND,"MButtonClass", WS_TABSTOP, 96,10,65,12,0x18000000L
-    CONTROL		   	"&Send",IDC_MSGSENDLATER,"MButtonClass",WS_TABSTOP,166,10,65,12,0x18000000L
+    CONTROL         "&Retry",IDC_RETRY,"MButtonClass",WS_TABSTOP,26,10,65,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&Cancel",IDC_CANCELSEND,"MButtonClass",WS_TABSTOP,96,10,65,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&Send",IDC_MSGSENDLATER,"MButtonClass",WS_TABSTOP,166,10,65,12,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "",IDC_STATICTEXT,"Static",SS_OWNERDRAW | WS_GROUP,27,0,160,9
     CONTROL         "",IDC_STATICERRORICON,"Static",SS_OWNERDRAW,4,3,20,20
-    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,0,0,188,30,WS_EX_STATICEDGE
-    CONTROL         "&Add",IDC_ADD,"MButtonClass",WS_TABSTOP,155,64,16,14,0x18000000L
-    CONTROL         "&Remove",IDC_CANCELADD,"MButtonClass",WS_TABSTOP,171,64,16,14,0x18000000L
+    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x944,0,0,188,30,WS_EX_STATICEDGE
+    CONTROL         "&Add",IDC_ADD,"MButtonClass",WS_TABSTOP,155,64,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&Remove",IDC_CANCELADD,"MButtonClass",WS_TABSTOP,171,64,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "",IDC_LOGFROZENTEXT,"Static",SS_OWNERDRAW | WS_GROUP,10,3,188,18
     CONTROL         "",IDC_PANELSPLITTER,"Static",SS_ENHMETAFILE,0,32,188,1,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SRMM_QUOTE,"RichEdit50W",ES_AUTOHSCROLL | WS_DISABLED | WS_BORDER | WS_TABSTOP,0,95,235,16
+    CONTROL         "",IDC_SRMM_CLOSEQUOTE,"MButtonClass", WS_TABSTOP,237,97,16,16
 END
 
 
@@ -65,8 +62,9 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""richedit.h""\r\n"
-    "#include ""..\\..\\..\\include\\statusmodes.h""\r\n"
+    "#include <winres.h>\r\n"
+    "#include ""..\\..\\include\\chat_resource.h""\r\n"
+    "#include ""..\\..\\include\\statusmodes.h""\r\n"
     "\0"
 END
 
@@ -79,4 +77,17 @@ END
 #endif    // APSTUDIO_INVOKED
 
 #endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
 

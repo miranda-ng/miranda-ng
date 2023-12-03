@@ -488,6 +488,7 @@ class CMsgDialog : public CSrmmBaseDialog
 			  
 	uint32_t m_iSplitterSaved;
 	POINT    m_ptTipActivation;
+	RECT     m_rcMessage;
 
 protected:
 	void     GetMYUIN();
@@ -538,7 +539,7 @@ public:
 	char     m_szMicroLf[128];
 
 	int      m_iMultiSplit;
-	int      msgTop, rcLogBottom;
+	int      rcLogBottom;
 	bool     m_bActivate, m_bWantPopup, m_bIsMeta;
 
 	wchar_t* wszInitialText;

@@ -489,16 +489,34 @@ LBL_CalcBottom:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
-	case IDC_FRAME:
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		urc->rcItem.top = underTB;
+		if (m_hQuoteEvent)
+			urc->rcItem.top += 22;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		if (g_plugin.bShowAvatar && m_avatarPic)
 			urc->rcItem.left = m_avatarWidth + 4;
-		if (urc->wId == IDC_FRAME) {
-			urc->rcItem.left--; urc->rcItem.top--;
-			urc->rcItem.right++; urc->rcItem.bottom++;
-		}
+		m_rcMessage = urc->rcItem;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_QUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= 22;
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.right -= 22;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_CLOSEQUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= 22;
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.left = m_rcMessage.right - 22;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_FRAME:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.left--; urc->rcItem.top--;
+		urc->rcItem.right++; urc->rcItem.bottom++;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_AVATAR:
@@ -871,12 +889,14 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_SETFOCUS: {
-		const char* enc = (const char*)CallProtoService(m_szProto, PS_GETCAPS, PFLAG_GETCURRENTENCRYPTION, m_hContact);
-		if (enc == (const char *)CALLSERVICE_NOTFOUND)
-			enc = nullptr;
-		ShowWindow(GetDlgItem(m_hwnd, IDC_FRAME), enc ? SW_SHOW : SW_HIDE);
-	}
+	case WM_SETFOCUS:
+		{
+			const char *enc = (const char *)CallProtoService(m_szProto, PS_GETCAPS, PFLAG_GETCURRENTENCRYPTION, m_hContact);
+			if (enc == (const char *)CALLSERVICE_NOTFOUND)
+				enc = nullptr;
+			ShowWindow(GetDlgItem(m_hwnd, IDC_FRAME), enc ? SW_SHOW : SW_HIDE);
+		}
+		break;
 
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;

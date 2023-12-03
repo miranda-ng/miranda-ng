@@ -49,6 +49,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 
+	m_Quote(this, IDC_SRMM_QUOTE),
+	m_btnCloseQuote(this, IDC_SRMM_CLOSEQUOTE, SKINICON_OTHER_DELETE, LPGEN("Remove quoting")),
+
 	m_si(si),
 	m_hContact(0),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
@@ -59,6 +62,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
+
+	m_btnCloseQuote.OnClick = Callback(this, &CSrmmBaseDialog::onClick_CloseQuote);
 
 	m_nickList.OnDblClick = Callback(this, &CSrmmBaseDialog::onDblClick_List);
 
@@ -519,6 +524,9 @@ bool CSrmmBaseDialog::OnInitDialog()
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
+	m_btnCloseQuote.Hide();
+	m_Quote.Hide();
+
 	m_bReadOnly = Contact::IsReadonly(m_hContact);
 	if (m_bReadOnly)
 		m_message.Hide();
@@ -874,6 +882,14 @@ void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
 		Chat_DoEventHook(m_si, GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
+void CSrmmBaseDialog::onClick_CloseQuote(CCtrlButton*)
+{
+	m_Quote.Hide();
+	m_btnCloseQuote.Hide();
+	m_hQuoteEvent = 0;
+	Resize();
+}
+
 void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 {
 	TVHITTESTINFO hti;
@@ -1066,5 +1082,21 @@ void CSrmmBaseDialog::RefreshButtonStatus()
 			m_btnUnderline.Push(true);
 		else if (bState && u2 == 0)
 			m_btnUnderline.Push(false);
+	}
+}
+
+void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
+{
+	DB::EventInfo dbei(hEvent);
+	if (dbei) {
+		CMStringW wszText(TranslateT("In reply to"));
+		wszText += L": ";
+		wszText += ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)).get();
+		m_Quote.SetText(wszText);
+
+		m_hQuoteEvent = hEvent;
+		m_Quote.Show();
+		m_btnCloseQuote.Show();
+		Resize();
 	}
 }

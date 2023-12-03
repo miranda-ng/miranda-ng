@@ -311,6 +311,7 @@ protected:
 	CCtrlRichEdit m_message;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
+	MEVENT m_hQuoteEvent = 0;
 
 	// user typing support;
 	uint32_t m_nLastTyping = 0;
@@ -322,6 +323,9 @@ protected:
 	int m_iNickSearch = -1;
 	CMStringW m_wszNickSearch;
 
+	CCtrlBase m_Quote;
+	CCtrlMButton m_btnCloseQuote;
+
 	CCtrlButton m_btnColor, m_btnBkColor, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
@@ -332,6 +336,7 @@ protected:
 
 	void onClick_ChanMgr(CCtrlButton *);
 	void onClick_History(CCtrlButton *);
+	void onClick_CloseQuote(CCtrlButton *);
 
 	void onDblClick_List(CCtrlListBox *);
 
@@ -350,6 +355,7 @@ public:
 	void RedrawLog();
 	void ScheduleRedrawLog();
 	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);
+	void SetQuoteEvent(MEVENT hEvent);
 	void ShowColorChooser(int iCtrlId);
 	void UpdateChatOptions();
 	void UpdateNickList(void);

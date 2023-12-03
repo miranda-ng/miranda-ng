@@ -1235,13 +1235,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (m_bShowAvatar)
 			urc->rcItem.right -= m_pic.cx + 2;
-		if (isChat()) {
-			urc->rcItem.bottom = urc->dlgNewSize.cy;
-			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
-		}
-		else {
-			urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
-		}
+
+		urc->rcItem.bottom = urc->dlgNewSize.cy;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
 
 		if (bBottomToolbar && bShowToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
@@ -1249,7 +1245,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		if (m_bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
-		msgTop = urc->rcItem.top;
+		m_rcMessage = urc->rcItem;
+
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[ID_EXTBKINPUTAREA];
 			if (!item->IGNORED) {
@@ -1259,9 +1256,21 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 				urc->rcItem.bottom -= item->MARGIN_BOTTOM;
 			}
 		}
-		if (isChat())
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_QUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= 22;
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.right -= 22;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_CLOSEQUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= 22;
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.left = m_rcMessage.right - 22;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_MULTISPLITTER:
 		if (bInfoPanel)
@@ -1273,8 +1282,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_LOGFROZENTEXT:
 		urc->rcItem.right = urc->dlgNewSize.cx - 50;
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 16 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 16 - (bBottomToolbar ? 0 : 28);
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
 			urc->rcItem.top += 21;
@@ -1282,8 +1291,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
 	case IDC_ADD:
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 18 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 28;
 		urc->rcItem.left = urc->rcItem.right - 20;
 		if (!bShowToolbar && !bBottomToolbar) {
@@ -1293,8 +1302,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
 	case IDC_CANCELADD:
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 18 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 4;
 		urc->rcItem.left = urc->rcItem.right - 20;
 		if (!bShowToolbar && !bBottomToolbar) {
@@ -1310,8 +1319,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_CANCELSEND:
 	case IDC_MSGSENDLATER:
 		if (m_bErrorState) {
-			urc->rcItem.bottom = msgTop - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
-			urc->rcItem.top = msgTop - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.bottom = m_rcMessage.top - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = m_rcMessage.top - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
@@ -1322,8 +1331,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_STATICTEXT:
 	case IDC_STATICERRORICON:
 		if (m_bErrorState) {
-			urc->rcItem.bottom = msgTop - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
-			urc->rcItem.top = msgTop - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.bottom = m_rcMessage.top - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = m_rcMessage.top - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
