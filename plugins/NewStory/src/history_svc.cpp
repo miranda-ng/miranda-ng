@@ -27,6 +27,12 @@ static INT_PTR SvcGetCurrent(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+static INT_PTR SvcGetSrmm(WPARAM wParam, LPARAM)
+{
+	auto *pData = (NewstoryListData *)wParam;
+	return (pData) ? INT_PTR(pData->pMsgDlg) : 0;
+}
+
 static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 {
 	auto *pData = (NewstoryListData *)wParam;
@@ -51,6 +57,7 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 
 void InitServices()
 {
+	CreateServiceFunction("NewStory/GetSrmm", &SvcGetSrmm);
 	CreateServiceFunction("NewStory/GetCurrent", &SvcGetCurrent);
 	CreateServiceFunction("NewStory/GetSelection", &SvcGetSelection);
 }

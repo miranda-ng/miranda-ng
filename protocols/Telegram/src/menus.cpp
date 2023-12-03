@@ -180,7 +180,7 @@ public:
 
 INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 {
-	MEVENT hCurrentEvent;
+	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
 
 	switch (iCommand) {
 	case 1: // forward message
@@ -191,15 +191,14 @@ INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 		break;
 
 	case 2: // reactions
-		hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
 		if (hCurrentEvent != -1)
 			CReactionsDlg(this, hCurrentEvent).DoModal();
 		break;
 
 	case 3: // reply
-		hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
-		// if (hCurrentEvent != -1)
-			// CReplyDlg(this, hCurrentEvent).DoModal();
+		if (hCurrentEvent != -1)
+			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
+				pDlg->SetQuoteEvent(hCurrentEvent);
 		break;
 	}
 	return 0;
