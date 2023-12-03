@@ -151,7 +151,7 @@ static void DoSplitSendA(LPVOID param)
 
 			char savedChar = *szSaved;
 			*szSaved = 0;
-			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
+			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->hEvent, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->iSendId = id;
 				fFirstSend = TRUE;
@@ -165,7 +165,7 @@ static void DoSplitSendA(LPVOID param)
 			}
 		}
 		else {
-			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
+			int id = ProtoChainSend(job->hContact, PSS_MESSAGE, job->hEvent, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->iSendId = id;
 				fFirstSend = TRUE;
@@ -244,6 +244,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 			goto send_unsplitted;
 
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
+		m_jobs[iEntry].hEvent = dat->m_hQuoteEvent;
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
@@ -273,7 +274,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
+		m_jobs[iEntry].iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].hEvent, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->m_sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = {};
@@ -590,7 +591,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 	}
 	else {
 		mir_snprintf(tszMsg, required, "%s%s", utf_header.get(), job->szSendBuffer);
-		SendLater::addJob(tszMsg, (void*)hContact);
+		SendLater::addJob(tszMsg, hContact, dat->m_hQuoteEvent);
 	}
 	mir_free(tszMsg);
 

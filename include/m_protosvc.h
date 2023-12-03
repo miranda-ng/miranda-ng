@@ -590,8 +590,8 @@ struct PROTOFILERESUME
 
 ///////////////////////////////////////////////////////////////////////////////
 // Send an instant message
-// wParam = flags
-// lParam = (LPARAM)(const char*)szMessage
+// wParam = (MEVENT)id of reply to message
+// lParam = (const char*)szMessage
 // returns a hProcess corresponding to the one in the ack event.
 // Will send an ack when the message actually gets sent
 // type = ACKTYPE_MESSAGE, result = success/failure, (char*)lParam = error message or NULL.

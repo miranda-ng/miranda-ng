@@ -338,7 +338,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		if (!temp[0])
 			return;
 
-		int sendId = SendMessageDirect(rtrimw(temp), m_hContact);
+		int sendId = SendMessageDirect(m_hContact, m_hQuoteEvent, rtrimw(temp));
 		if (sendId) {
 			m_cmdList.insert(temp.detach());
 			m_cmdListInd = -1;

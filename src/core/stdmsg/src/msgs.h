@@ -157,7 +157,7 @@ extern LIST<CMsgDialog> g_arDialogs;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool DbEventIsShown(const DB::EventInfo &dbei);
-int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);
+int  SendMessageDirect(MCONTACT hContact, MEVENT hEvent, const wchar_t *szMsg);
 INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *msg);
 
 void LoadMsgLogIcons(void);

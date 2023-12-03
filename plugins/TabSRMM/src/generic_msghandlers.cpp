@@ -1187,7 +1187,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 				if (job->iSendId == 0 && job->hContact == 0)
 					break;
 
-				job->iSendId = ProtoChainSend(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
+				job->iSendId = ProtoChainSend(job->hContact, PSS_MESSAGE, job->hEvent, (LPARAM)job->szSendBuffer);
 				resent++;
 			}
 

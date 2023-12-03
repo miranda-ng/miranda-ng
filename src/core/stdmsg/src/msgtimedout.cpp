@@ -61,7 +61,7 @@ public:
 
 	bool OnApply() override
 	{
-		SendMessageDirect(ptrW(mir_utf8decodeW(m_item->szMsg)), m_item->hContact);
+		SendMessageDirect(m_item->hContact, m_item->hEvent, ptrW(mir_utf8decodeW(m_item->szMsg)));
 		return true;
 	}
 

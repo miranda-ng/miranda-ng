@@ -218,7 +218,7 @@ bool CMsgDialog::OnInitDialog()
 			StartFlashing();
 		}
 
-		m_iMessagesInProgress = ReattachSendQueueItems(this, m_hContact);
+		m_iMessagesInProgress = SendQueue::ReattachItems(this, m_hContact);
 		if (m_iMessagesInProgress > 0)
 			ShowMessageSending();
 	}
@@ -247,7 +247,7 @@ void CMsgDialog::OnDestroy()
 		m_hStatusIconOverlay = nullptr;
 	}	
 
-	ReleaseSendQueueItems(this);
+	SendQueue::ReleaseItems(this);
 	if (g_dat.flags.bSaveDrafts) {
 		ptrA szText(m_message.GetRichTextRtf(true));
 		if (szText)
@@ -296,7 +296,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-	MessageSendQueueItem msi = {};
+	SendQueue::Item msi = {};
 	if (pf2.wEffects & PFE_RTLPARA)
 		msi.flags |= PREF_RTL;
 
@@ -1001,7 +1001,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_MSGSEND)
-			ReportSendQueueTimeouts(this);
+			SendQueue::ReportTimeouts(this);
 		else if (wParam == TIMERID_UNREAD) {
 			TabControlData tcd;
 			tcd.iFlags = TCDF_ICON;

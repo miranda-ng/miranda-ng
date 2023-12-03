@@ -29,7 +29,7 @@ int OnCheckPlugins(WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
+int SendMessageDirect(MCONTACT hContact, MEVENT hEvent, const wchar_t *szMsg)
 {
 	if (hContact == 0)
 		return 0;
@@ -45,8 +45,8 @@ int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 	if (db_mc_isMeta(hContact))
 		hContact = db_mc_getSrmmSub(hContact);
 
-	int sendId = ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
-	msgQueue_add(hContact, sendId, sendBuffer.detach(), flags);
+	int sendId = ProtoChainSend(hContact, PSS_MESSAGE, hEvent, (LPARAM)sendBuffer);
+	msgQueue_add(hContact, hEvent, sendId, sendBuffer.detach(), flags);
 	return sendId;
 }
 

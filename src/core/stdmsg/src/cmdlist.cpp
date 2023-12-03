@@ -44,10 +44,11 @@ static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 		MessageFailureProcess(it, TranslateT("The message send timed out."));
 }
 
-void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags)
+void msgQueue_add(MCONTACT hContact, MEVENT hEvent, int id, char *szMsg, int flags)
 {
 	TMsgQueue *item = (TMsgQueue*)mir_alloc(sizeof(TMsgQueue));
 	item->hContact = hContact;
+	item->hEvent = hEvent;
 	item->id = id;
 	item->szMsg = szMsg;
 	item->flags = flags;

@@ -311,7 +311,6 @@ protected:
 	CCtrlRichEdit m_message;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
-	MEVENT m_hQuoteEvent = 0;
 
 	// user typing support;
 	uint32_t m_nLastTyping = 0;
@@ -342,7 +341,7 @@ protected:
 
 public:
 	MCONTACT m_hContact;
-	MEVENT m_hDbEventFirst;
+	MEVENT m_hDbEventFirst, m_hQuoteEvent = 0;
 	int m_iLogFilterFlags;
 	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false;
 	bool m_bFGSet, m_bBGSet;
