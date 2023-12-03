@@ -253,7 +253,7 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		if (m_bOnline) {
 			wchar_t *wszText = NEWWSTR_ALLOCA(gch->ptszText);
 			Chat_UnescapeTags(wszText);
-			SendMsg(si->hContact, T2Utf(wszText));
+			SendMsg(si->hContact, 0, T2Utf(wszText));
 		}
 		break;
 

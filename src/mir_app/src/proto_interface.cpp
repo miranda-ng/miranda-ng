@@ -255,7 +255,7 @@ HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 	return nullptr; // error
 }
 
-int PROTO_INTERFACE::SendMsg(MCONTACT, const char*)
+int PROTO_INTERFACE::SendMsg(MCONTACT, MEVENT, const char*)
 {
 	return 0; // error
 }

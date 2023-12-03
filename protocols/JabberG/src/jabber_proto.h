@@ -138,7 +138,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int      SendMsg(MCONTACT hContact, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 	int      SendMsgEx(MCONTACT hContact, const char *msg, XmlNode &m);
 
 	int      SetApparentMode(MCONTACT hContact, int mode) override;

@@ -241,7 +241,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(int64_t chatId, const char *pszMessage);
+	int  SendTextMessage(TD::int53 chatId, TD::int53 replyId, const char *pszMessage);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
@@ -356,7 +356,7 @@ public:
 	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	int      SendMsg(MCONTACT hContact, const char *pszMessage) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
 		
 	void     OnBuildProtoMenu() override;

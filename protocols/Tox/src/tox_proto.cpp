@@ -139,7 +139,7 @@ HWND CToxProto::CreateExtendedSearchUI(HWND owner)
 	return OnCreateExtendedSearchUI(owner);
 }
 
-int CToxProto::SendMsg(MCONTACT hContact, const char *msg)
+int CToxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 {
 	return OnSendMessage(hContact, msg);
 }

@@ -327,7 +327,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	}
 }
 
-int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
+int CTelegramProto::SendTextMessage(int64_t chatId, TD::int53 replyId, const char *pszMessage)
 {
 	auto pContent = TD::make_object<TD::inputMessageText>();
 	pContent->text_ = formatBbcodes(pszMessage);
@@ -335,6 +335,7 @@ int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
+	pMessage->reply_to_message_id_ = replyId;
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 

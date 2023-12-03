@@ -164,7 +164,7 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 			wchar_t *wszText = NEWWSTR_ALLOCA(gch->ptszText);
 			Chat_UnescapeTags(wszText);
 
-			int mid = SendMsg(si->hContact, T2Utf(wszText));
+			int mid = SendMsg(si->hContact, 0, T2Utf(wszText));
 
 			mir_cslock lck(m_csOwnMessages);
 			for (auto &msg : arOwnMessages)

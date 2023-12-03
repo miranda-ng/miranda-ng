@@ -597,7 +597,7 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
+int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));
 	if (szId == nullptr)
@@ -608,7 +608,14 @@ int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
 	if (pUser == nullptr)
 		return 0;
 
-	int msgid = SendTextMessage(pUser->chatId, pszMessage);
+	TD::int53 iReplyId = 0;
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent, false);
+		if (dbei)
+			iReplyId = dbei2id(dbei);
+	}
+
+	int msgid = SendTextMessage(pUser->chatId, iReplyId, pszMessage);
 	if (msgid != -1)
 		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, ""));
 

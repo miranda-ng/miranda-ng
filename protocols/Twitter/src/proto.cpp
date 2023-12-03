@@ -120,7 +120,7 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CTwitterProto::SendMsg(MCONTACT hContact, const char *msg)
+int CTwitterProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return -1;

@@ -883,7 +883,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMessage - sends a message
 
-int CJabberProto::SendMsg(MCONTACT hContact, const char *pszSrc)
+int CJabberProto::SendMsg(MCONTACT hContact, MEVENT, const char *pszSrc)
 {
 	XmlNode m("message");
 	return SendMsgEx(hContact, pszSrc, m);

@@ -209,9 +209,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	int SendMsg(MCONTACT hContact, const char *msg) override
+	int SendMsg(MCONTACT hContact, MEVENT hEvent, const char *msg) override
 	{
-		CCSDATA ccs = { hContact, PSS_MESSAGE, 0, (LPARAM)msg };
+		CCSDATA ccs = { hContact, PSS_MESSAGE, hEvent, (LPARAM)msg };
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 

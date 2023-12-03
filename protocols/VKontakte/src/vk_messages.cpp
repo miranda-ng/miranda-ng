@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SendMsg(MCONTACT hContact, const char *szMsg)
+int CVkProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMsg)
 {
 	debugLogA("CVkProto::SendMsg");
 	if (!IsOnline())
@@ -64,7 +64,7 @@ int CVkProto::SendMsg(MCONTACT hContact, const char *szMsg)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
 
 	if (!IsEmpty(pszRetMsg))
-		SendMsg(hContact, pszRetMsg);
+		SendMsg(hContact, 0, pszRetMsg);
 	else if (m_iStatus == ID_STATUS_INVISIBLE)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 

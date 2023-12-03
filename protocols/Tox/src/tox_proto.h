@@ -55,7 +55,7 @@ public:
 	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	int      SendMsg(MCONTACT hContact, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *, wchar_t **ppszFiles) override;
 
