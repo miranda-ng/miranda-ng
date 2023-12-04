@@ -2202,7 +2202,8 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
 		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_bSendFormat ? MF_ENABLED : MF_GRAYED);
-		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, g_plugin.bPasteAndSend ? MF_ENABLED : MF_GRAYED);
+		if (!g_plugin.bPasteAndSend)
+			RemoveMenu(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, MF_BYCOMMAND);
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
 	}
