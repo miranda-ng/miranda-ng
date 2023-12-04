@@ -915,3 +915,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QEAAXI@Z @1033 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IEAAXPEAVCCtrlButton@@@Z @1034 NONAME
 ?fetch@EventInfo@DB@@QEAA_NI_N@Z @1035 NONAME
+?unload@EventInfo@DB@@QEAAXXZ @1036 NONAME

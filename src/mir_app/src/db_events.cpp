@@ -278,6 +278,15 @@ bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)
 	return bValid = ::db_event_get(hEvent, this) == 0;
 }
 
+void DB::EventInfo::unload()
+{
+	if (pBlob) {
+		mir_free(pBlob);
+		pBlob = nullptr;
+	}
+	bValid = false;
+}
+
 // could be displayed in a SRMM window
 bool DB::EventInfo::isSrmm() const
 {

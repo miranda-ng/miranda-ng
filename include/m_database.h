@@ -688,6 +688,7 @@ namespace DB
 		~EventInfo();
 
 		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
+		void unload();
 
 		__forceinline operator bool() const { return bValid; }
 
