@@ -294,6 +294,7 @@ void CTelegramProto::GcChangeMember(TG_USER *pChat, TD::int53 userId, bool bJoin
 		gce.pszUID.w = wszId;
 		gce.pszNick.w = wszNick;
 		gce.bIsMe = false;
+		gce.time = time(0);
 		gce.pszStatus.w = TranslateT("Visitor");
 		Chat_Event(&gce);
 	}
@@ -306,6 +307,7 @@ void CTelegramProto::GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic)
 
 	GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
 	gce.pszText.w = pwszNewTopic;
+	gce.time = time(0);
 	Chat_Event(&gce);
 }
 
@@ -430,6 +432,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 
 			GCEVENT gce = { si, GC_EVENT_SETSTATUS };
 			gce.pszUID.w = wszUserId;
+			gce.time = time(0);
 			gce.pszStatus.w = getRoleById(iStatusId);
 			Chat_Event(&gce);
 		}
