@@ -204,8 +204,15 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
 			Chat_UnescapeTags(gch->ptszText);
-			if (auto *pUser = FindUser(userId))
-				SendTextMessage(pUser->chatId, 0, T2Utf(gch->ptszText));
+			if (auto *pUser = FindUser(userId)) {
+				TD::int53 replyId = 0;
+				if (auto *pDlg = gch->si->pDlg) {
+					DB::EventInfo dbei(pDlg->m_hQuoteEvent, false);
+					if (dbei)
+						replyId = dbei2id(dbei);
+				}
+				SendTextMessage(pUser->chatId, replyId, T2Utf(gch->ptszText));
+			}
 		}
 		break;
 
