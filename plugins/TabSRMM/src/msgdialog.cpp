@@ -1246,6 +1246,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		if (m_bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
+		if (m_hQuoteEvent)
+			urc->rcItem.top += 22;
+
 		m_rcMessage = urc->rcItem;
 
 		if (CSkin::m_skinEnabled) {
@@ -1261,16 +1264,16 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SRMM_QUOTE:
 		urc->rcItem = m_rcMessage;
-		urc->rcItem.top -= 22;
+		urc->rcItem.top -= DPISCALEY_S(22);
 		urc->rcItem.bottom = m_rcMessage.top;
-		urc->rcItem.right -= 22;
+		urc->rcItem.right -= DPISCALEY_S(22);
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_CLOSEQUOTE:
 		urc->rcItem = m_rcMessage;
-		urc->rcItem.top -= 22;
+		urc->rcItem.top -= DPISCALEY_S(22);
 		urc->rcItem.bottom = m_rcMessage.top;
-		urc->rcItem.left = m_rcMessage.right - 22;
+		urc->rcItem.left = m_rcMessage.right - DPISCALEY_S(22);
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_MULTISPLITTER:

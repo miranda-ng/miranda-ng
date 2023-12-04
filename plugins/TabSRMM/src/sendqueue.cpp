@@ -191,14 +191,16 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 {
 	HWND hwndDlg = dat->GetHwnd();
 	CContactCache *ccActive = CContactCache::getContactCache(dat->m_hContact);
+	auto &J = m_jobs[iEntry];
 
 	if (dat->m_sendMode & SMODE_MULTIPLE) {
 		int iJobs = 0;
 		size_t iMinLength = 0;
 
-		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-		m_jobs[iEntry].hContact = ccActive->getActiveContact();
-		m_jobs[iEntry].hOwnerWnd = hwndDlg;
+		J.iStatus = SQ_INPROGRESS;
+		J.hContact = ccActive->getActiveContact();
+		J.hEvent = dat->m_hQuoteEvent;
+		J.hOwnerWnd = hwndDlg;
 
 		size_t iSendLength = getSendLength(iEntry);
 
@@ -243,23 +245,24 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 		if (!fSplit)
 			goto send_unsplitted;
 
-		m_jobs[iEntry].hContact = ccActive->getActiveContact();
-		m_jobs[iEntry].hEvent = dat->m_hQuoteEvent;
-		m_jobs[iEntry].hOwnerWnd = hwndDlg;
-		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-		m_jobs[iEntry].iAcksNeeded = 1;
-		m_jobs[iEntry].chunkSize = (int)iMaxSize;
+		J.hContact = ccActive->getActiveContact();
+		J.hEvent = dat->m_hQuoteEvent;
+		J.hOwnerWnd = hwndDlg;
+		J.iStatus = SQ_INPROGRESS;
+		J.iAcksNeeded = 1;
+		J.chunkSize = (int)iMaxSize;
 
-		uint32_t dwOldFlags = m_jobs[iEntry].dwFlags;
+		uint32_t dwOldFlags = J.dwFlags;
 		mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
-		m_jobs[iEntry].dwFlags = dwOldFlags;
+		J.dwFlags = dwOldFlags;
 	}
 	else {
 	send_unsplitted:
-		m_jobs[iEntry].hContact = ccActive->getActiveContact();
-		m_jobs[iEntry].hOwnerWnd = hwndDlg;
-		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-		m_jobs[iEntry].iAcksNeeded = 1;
+		J.hContact = ccActive->getActiveContact();
+		J.hEvent = dat->m_hQuoteEvent;
+		J.hOwnerWnd = hwndDlg;
+		J.iStatus = SQ_INPROGRESS;
+		J.iAcksNeeded = 1;
 		if (dat->m_sendMode & SMODE_SENDLATER) {
 			wchar_t	tszError[256];
 
@@ -274,12 +277,12 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].hEvent, (LPARAM)m_jobs[iEntry].szSendBuffer);
+		J.iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, J.hEvent, (LPARAM)J.szSendBuffer);
 
 		if (dat->m_sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 			ACKDATA ack = {};
 			ack.hContact = dat->m_hContact;
-			ack.hProcess = (HANDLE)m_jobs[iEntry].iSendId;
+			ack.hProcess = (HANDLE)J.iSendId;
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
 			SendMessage(hwndDlg, HM_EVENTSENT, (WPARAM)MAKELONG(iEntry, 0), (LPARAM)&ack);
