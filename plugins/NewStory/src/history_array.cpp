@@ -54,10 +54,9 @@ bool Filter::check(ItemData *item) const
 		}
 	}
 
-	if (flags & (EVENTTEXT | EVENTONLY)) {
-		item->load(true);
+	if (flags & (EVENTTEXT | EVENTONLY))
 		return CheckFilter(item->getWBuf(), text);
-	}
+
 	return true;
 };
 
@@ -102,7 +101,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 		return this;
 
 	// we don't group anything but messages
-	if (db_event_get(hEvent, &dbe))
+	if (!fetch())
 		return this;
 
 	if (dbe.eventType != EVENTTYPE_MESSAGE)
@@ -214,6 +213,22 @@ bool ItemData::isLinkChar(int idx) const
 	cf.dwMask = CFM_LINK;
 	uint32_t res = MTextSendMessage(0, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
+}
+
+bool ItemData::fetch(void)
+{
+	// if this event is virtual (for example, in group chats), don't try to laod it
+	if (!hEvent)
+		return true;
+
+	if (!dbe) {
+		if (!dbe.fetch(hEvent))
+			return false;
+
+		if (dbe.szReplyId)
+			dbe.szReplyId = mir_strdup(dbe.szReplyId);
+	}
+	return true;
 }
 
 void ItemData::fill(int tmpl)
@@ -330,14 +345,10 @@ void ItemData::load(bool bFullLoad)
 	if (!bFullLoad && m_bLoaded)
 		return;
 
-	dbe.cbBlob = -1;
-	if (db_event_get(hEvent, &dbe))
+	if (!fetch())
 		return;
 
 	m_bLoaded = true;
-
-	if (dbe.szReplyId)
-		dbe.szReplyId = mir_strdup(dbe.szReplyId);
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -427,8 +438,7 @@ void ItemData::load(bool bFullLoad)
 			}
 		}
 
-	mir_free(dbe.pBlob);
-	dbe.pBlob = nullptr;
+	dbe.unload();
 }
 
 void ItemData::setText()
@@ -470,7 +480,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 	if (si->pMI->bDatabase && lin->hEvent) {
 		p.hEvent = lin->hEvent;
-		p.load(true);
+		p.load();
 	}
 	else {
 		CMStringW wszText;
@@ -599,7 +609,7 @@ ItemData* HistoryArray::get(int id, bool bLoad) const
 
 	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
 	if (bLoad && !p->m_bLoaded)
-		p->load(true);
+		p->load();
 	return p;
 }
 

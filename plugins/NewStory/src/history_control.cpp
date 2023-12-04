@@ -929,7 +929,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case UM_EDITEVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
-			auto *p = data->LoadItem(idx);
+			auto *p = data->GetItem(idx);
 			p->load(true);
 			p->setText();
 			InvalidateRect(hwnd, 0, FALSE);
