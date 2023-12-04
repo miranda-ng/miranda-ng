@@ -282,20 +282,22 @@ void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTelegramProto::GcChangeMember(TG_USER *pChat, TD::int53 userId, bool bJoined)
+void CTelegramProto::GcChangeMember(TG_USER *pChat, const char *adminId, TD::int53 userId, bool bJoined)
 {
 	if (pChat->m_si == nullptr)
 		return;
 
 	if (auto *pMember = FindUser(userId)) {
 		CMStringW wszId(FORMAT, L"%lld", pMember->id), wszNick(pMember->getDisplayName());
+		Utf2T wszAdminId(adminId);
 
 		GCEVENT gce = { pChat->m_si, (bJoined) ? GC_EVENT_JOIN : GC_EVENT_PART };
 		gce.pszUID.w = wszId;
 		gce.pszNick.w = wszNick;
 		gce.bIsMe = false;
 		gce.time = time(0);
-		gce.pszStatus.w = TranslateT("Visitor");
+		gce.pszStatus.w = TranslateT("Participant");
+		gce.pszText.w = wszAdminId;
 		Chat_Event(&gce);
 	}
 }
@@ -428,12 +430,14 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	else {
 		auto *pChat = AddUser(tmp.id, true);
 		if (auto *si = pChat->m_si) {
-			CMStringW wszUserId(FORMAT, L"%lld", m_iOwnId);
+ 			CMStringW wszUserId(FORMAT, L"%lld", m_iOwnId);
 
 			GCEVENT gce = { si, GC_EVENT_SETSTATUS };
 			gce.pszUID.w = wszUserId;
 			gce.time = time(0);
+			gce.bIsMe = true;
 			gce.pszStatus.w = getRoleById(iStatusId);
+			gce.pszText.w = TranslateT("Admin");
 			Chat_Event(&gce);
 		}
 	}

@@ -409,13 +409,14 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 
 BOOL SM_AssignStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
-	if (si == nullptr)
-		return FALSE;
+	if (si != nullptr)
+		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus))) {
+			if (si->pDlg)
+				si->pDlg->UpdateNickList();
+			return TRUE;
+		}
 
-	USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
-	if (ui && si->pDlg)
-		si->pDlg->UpdateNickList();
-	return TRUE;
+	return FALSE;
 }
 
 BOOL SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStatus)

@@ -491,12 +491,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageChatAddMembers::ID:
 		if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
 			for (auto &it : pDoc->member_user_ids_)
-				GcChangeMember(pUser, it, true);
+				GcChangeMember(pUser, pszUserId, it, true);
 		break;
 
 	case TD::messageChatDeleteMember::ID:
 		if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
-			GcChangeMember(pUser, pDoc->user_id_, false);
+			GcChangeMember(pUser, pszUserId, pDoc->user_id_, false);
 		break;
 
 	case TD::messageChatChangeTitle::ID:

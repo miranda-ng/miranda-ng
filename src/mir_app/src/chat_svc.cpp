@@ -495,7 +495,9 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 		break;
 
 	case GC_EVENT_SETSTATUS:
-		SM_AssignStatus(si, gce.pszUID.w, gce.pszStatus.w);
+		if (!SM_AssignStatus(si, gce.pszUID.w, gce.pszStatus.w))
+			return 0;
+
 		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 
