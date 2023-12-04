@@ -97,4 +97,51 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\notify.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\add.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ban.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\read.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\report.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\home.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\history.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\broadcast.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\status.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\wall.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\markread.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="reply.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\reply.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

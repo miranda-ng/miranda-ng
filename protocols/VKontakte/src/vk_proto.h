@@ -40,6 +40,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_CHATCHANGETOPIC "/ChatChangeTopic"
 #define PS_CHATINVITEUSER "/ChatInviteUser"
 #define PS_CHATDESTROY "/ChatDestroy"
+#define PS_NSEXECMENU "/NSExecMenu"
 
 
 
@@ -66,7 +67,7 @@ struct CVkProto : public PROTO<CVkProto>
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	HANDLE   SearchByEmail(const wchar_t *email) override;
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
@@ -106,6 +107,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcChatChangeTopic(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcChatInviteUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcChatDestroy(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle);
 
 	//==== History Menus ==================================================================
 
@@ -188,6 +190,10 @@ private:
 		PMI_COUNT
 	};
 
+	enum NewStoryMenuIndexes {
+		NSMI_REPLY = 1
+	};
+
 	//====================================================================================
 
 	bool
@@ -245,7 +251,8 @@ private:
 	HGENMENU
 		m_hContactMenuItems[CMI_COUNT],
 		m_hContactHistoryMenuItems[CHMI_COUNT],
-		m_hProtoMenuItems[PMI_COUNT];
+		m_hProtoMenuItems[PMI_COUNT],
+		m_hNewStoryReply;
 
 
 	void InitSmileys();
@@ -255,6 +262,7 @@ private:
 	void InitMenus();
 	void UnInitMenus();
 	int __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
+	int __cdecl OnPrebuildNSMenu(WPARAM hContact, LPARAM);
 
 	//==== PopUps ========================================================================
 

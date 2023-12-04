@@ -61,7 +61,8 @@ static IconItem iconList[] =
 	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST },
 	{ LPGEN("Status icon"), "status", IDI_STATUS },
 	{ LPGEN("Wall message icon"), "wall", IDI_WALL },
-	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD }
+	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD },
+	{ LPGEN("Reply icon"), "reply", IDI_REPLY }
 };
 
 void InitIcons()

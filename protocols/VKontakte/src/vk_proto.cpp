@@ -209,6 +209,20 @@ void CVkProto::OnBuildProtoMenu()
 void CVkProto::InitMenus()
 {
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
+	
+	if(HookProtoEvent(ME_NS_PREBUILDMENU, &CVkProto::OnPrebuildNSMenu)) {
+		CreateProtoService(PS_NSEXECMENU, &CVkProto::SvcNSExecMenu);
+
+		CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, PS_NSEXECMENU);
+		CMenuItem mi(&g_plugin);
+		
+		mi.pszService = szServiceName;
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
+		
+		mi.position = 10000000 + NSMI_REPLY;
+		mi.name.a = LPGEN("Reply");
+		m_hNewStoryReply = Menu_AddNewStoryMenuItem(&mi, NSMI_REPLY);
+	};
 
 	//Contact Menu Services
 	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLastNDay<1>);
@@ -398,6 +412,31 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(m_hContactMenuItems[CMI_LOADVKNEWS], iUserId == VK_FEED_USER);
 	for (int i = 0; i < CHMI_COUNT; i++)
 		Menu_ShowItem(m_hContactHistoryMenuItems[i], !isChatRoom(hContact) && iUserId != VK_FEED_USER);
+	return 0;
+}
+
+int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
+{
+	if (!Proto_IsProtoOnContact(hContact, m_szModuleName))
+		Menu_ShowItem(m_hNewStoryReply, false);
+	else {
+		auto* pDbei = (DB::EventInfo *)lParam;
+		Menu_ShowItem(m_hNewStoryReply, mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
+	}
+	return 0;
+}
+
+INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
+{
+	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+
+	switch (iCommand) {
+	case NSMI_REPLY: // reply
+		if (hCurrentEvent != -1)
+			if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle))
+				pDlg->SetQuoteEvent(hCurrentEvent);
+		break;
+	}
 	return 0;
 }
 

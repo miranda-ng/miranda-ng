@@ -19,9 +19,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMsg)
+int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 {
-	debugLogA("CVkProto::SendMsg");
+	debugLogA("CVkProto::SendMsg hReplyEvent = %d", hReplyEvent);
 	if (!IsOnline())
 		return -1;
 
@@ -42,6 +42,13 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMsg)
 	pReq << INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) << INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
+	
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent, false);
+		if (dbei && mir_strlen(dbei.szId))
+			pReq << CHAR_PARAM("reply_to", dbei.szId);
+	}
+	
 	if (StickerId)
 		pReq << INT_PARAM("sticker_id", StickerId);
 	else {

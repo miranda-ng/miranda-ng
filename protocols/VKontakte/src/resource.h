@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Р’РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
-// РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ d:\github\miranda-ng\protocols\VKontakte\res\resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется e:\github\miranda-ng\protocols\VKontakte\res\resource.rc
 //
 #define IDOPENBROWSER                   3
 #define IDD_ACCMGRUI                    101
@@ -26,6 +26,7 @@
 #define IDI_MARKMESSAGESASREAD          122
 #define IDD_OPT_MENU                    122
 #define IDD_CONTACTDELETE               123
+#define IDI_REPLY                       125
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
 #define IDC_URL                         1003
@@ -132,11 +133,11 @@
 #define IDC_CH_CLEARHISTORY             1116
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1116
 #define _APS_NEXT_SYMED_VALUE           101

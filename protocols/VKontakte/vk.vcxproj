@@ -69,4 +69,21 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="reply.ico" />
+    <Image Include="res\add.ico" />
+    <Image Include="res\ban.ico" />
+    <Image Include="res\broadcast.ico" />
+    <Image Include="res\delete.ico" />
+    <Image Include="res\history.ico" />
+    <Image Include="res\home.ico" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\markread.ico" />
+    <Image Include="res\notify.ico" />
+    <Image Include="res\read.ico" />
+    <Image Include="res\reply.ico" />
+    <Image Include="res\report.ico" />
+    <Image Include="res\status.ico" />
+    <Image Include="res\wall.ico" />
+  </ItemGroup>
 </Project>
