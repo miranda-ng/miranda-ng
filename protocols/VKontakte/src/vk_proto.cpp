@@ -221,7 +221,7 @@ void CVkProto::InitMenus()
 		
 		mi.position = 10000000 + NSMI_REPLY;
 		mi.name.a = LPGEN("Reply");
-		m_hNewStoryReply = Menu_AddNewStoryMenuItem(&mi, NSMI_REPLY);
+		m_hNewStoryMenuItems[NSMI_REPLY] = Menu_AddNewStoryMenuItem(&mi, NSMI_REPLY);
 	};
 
 	//Contact Menu Services
@@ -418,10 +418,10 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 {
 	if (!Proto_IsProtoOnContact(hContact, m_szModuleName))
-		Menu_ShowItem(m_hNewStoryReply, false);
+		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], false);
 	else {
 		auto* pDbei = (DB::EventInfo *)lParam;
-		Menu_ShowItem(m_hNewStoryReply, mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
+		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
 	}
 	return 0;
 }
@@ -452,6 +452,9 @@ void CVkProto::UnInitMenus()
 
 	for (int i = 0; i < CMI_COUNT; i++)
 		Menu_RemoveItem(m_hContactMenuItems[i]);
+
+	for (int i = 0; i < NSMI_COUNT; i++)
+		Menu_RemoveItem(m_hNewStoryMenuItems[i]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

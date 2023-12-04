@@ -191,7 +191,8 @@ private:
 	};
 
 	enum NewStoryMenuIndexes {
-		NSMI_REPLY = 1
+		NSMI_REPLY,
+		NSMI_COUNT
 	};
 
 	//====================================================================================
@@ -252,7 +253,7 @@ private:
 		m_hContactMenuItems[CMI_COUNT],
 		m_hContactHistoryMenuItems[CHMI_COUNT],
 		m_hProtoMenuItems[PMI_COUNT],
-		m_hNewStoryReply;
+		m_hNewStoryMenuItems[NSMI_COUNT];
 
 
 	void InitSmileys();
