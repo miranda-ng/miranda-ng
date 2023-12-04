@@ -359,6 +359,8 @@ public:
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
+
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 		
 	void     OnBuildProtoMenu() override;
 	void     OnContactAdded(MCONTACT hContact) override;

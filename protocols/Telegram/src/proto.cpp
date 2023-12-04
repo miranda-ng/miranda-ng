@@ -663,3 +663,12 @@ int CTelegramProto::SetStatus(int iNewStatus)
 
 	return 0;
 }
+
+int CTelegramProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (auto *pUser = FindUser(GetId(hContact)))
+		if (type == PROTOTYPE_SELFTYPING_ON)
+			SendQuery(new TD::sendChatAction(pUser->chatId, 0, TD::make_object<TD::chatActionTyping>()));
+
+	return 0;
+}
