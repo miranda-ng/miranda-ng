@@ -201,6 +201,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessBasicGroupInfo((TD::updateBasicGroupFullInfo *)response.object.get());
 		break;
 
+	case TD::updateChatAction::ID:
+		ProcessChatAction((TD::updateChatAction *)response.object.get());
+		break;
+
 	case TD::updateChatFolders::ID:
 		ProcessGroups((TD::updateChatFolders *)response.object.get());
 		break;
@@ -488,6 +492,26 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		}
 	}
 	else debugLogA("Unknown user id %lld, ignoring", userId);
+}
+
+void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
+{
+	auto *pChat = FindChat(pObj->chat_id_);
+	if (pChat == nullptr) {
+		debugLogA("Unknown chat, skipping");
+		return;
+	}
+
+	if (pChat->hContact == INVALID_CONTACT_ID) {
+		debugLogA("Last message for a temporary contact, skipping");
+		return;
+	}
+
+	switch (pObj->action_->get_id()) {
+	case TD::chatActionTyping::ID:
+		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 1);
+		break;
+	}
 }
 
 void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
