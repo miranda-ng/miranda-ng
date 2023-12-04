@@ -684,8 +684,10 @@ namespace DB
 
 	public:
 		explicit EventInfo();
-		explicit EventInfo(MEVENT, bool bFetchBlob = true);
+		explicit EventInfo(MEVENT hEvent, bool bFetchBlob = true);
 		~EventInfo();
+
+		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
 
 		__forceinline operator bool() const { return bValid; }
 

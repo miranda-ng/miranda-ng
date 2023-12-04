@@ -257,9 +257,7 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
 {
 	memset(this, 0, sizeof(*this));
-	if (bFetchBlob)
-		cbBlob = -1;
-	bValid = ::db_event_get(hEvent, this) == 0;
+	fetch(hEvent, bFetchBlob);
 }
 
 DB::EventInfo::EventInfo() :
@@ -271,6 +269,13 @@ DB::EventInfo::EventInfo() :
 DB::EventInfo::~EventInfo()
 {
 	mir_free(pBlob);
+}
+
+bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)
+{
+	if (bFetchBlob)
+		cbBlob = -1;
+	return bValid = ::db_event_get(hEvent, this) == 0;
 }
 
 // could be displayed in a SRMM window
