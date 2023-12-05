@@ -229,8 +229,13 @@ void NewstoryListData::BeginEditItem()
 	int fontid, colorid;
 	item->getFontColor(fontid, colorid);
 
+	// #4012 make sure that both single & double CRLF are now double
+	CMStringW wszText(item->getWBuf());
+	wszText.Replace(L"\r\n", L"\n");
+	wszText.Replace(L"\n", L"\r\n");
+
 	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
-	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
+	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
