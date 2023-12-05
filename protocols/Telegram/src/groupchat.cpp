@@ -424,7 +424,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
 		auto *pUser = AddFakeUser(tmp.id, true);
-		pUser->wszNick = getName(pGroup->group->usernames_.get());
+		pUser->wszNick = Utf2T(getName(pGroup->group->usernames_.get()));
 		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 	}
 	else {
