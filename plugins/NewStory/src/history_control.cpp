@@ -66,7 +66,7 @@ NewstoryListData::NewstoryListData(HWND _1) :
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
 {
-	HMENU hMenu = NSMenu_Build(this, LoadItem(index));
+	HMENU hMenu = NSMenu_Build(this, (index == -1) ? 0 : LoadItem(index));
 
 	if (pMsgDlg != nullptr && pMsgDlg->isChat())
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
