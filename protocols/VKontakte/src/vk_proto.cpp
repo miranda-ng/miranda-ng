@@ -217,8 +217,13 @@ void CVkProto::InitMenus()
 		CMenuItem mi(&g_plugin);
 		
 		mi.pszService = szServiceName;
-		mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
 		
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
+		mi.position = 10000000 + NSMI_FORWARD;
+		mi.name.a = LPGEN("Forward");
+		m_hNewStoryMenuItems[NSMI_FORWARD] = Menu_AddNewStoryMenuItem(&mi, NSMI_FORWARD);
+
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
 		mi.position = 10000000 + NSMI_REPLY;
 		mi.name.a = LPGEN("Reply");
 		m_hNewStoryMenuItems[NSMI_REPLY] = Menu_AddNewStoryMenuItem(&mi, NSMI_REPLY);
@@ -429,12 +434,39 @@ int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 {
 	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+	if (hCurrentEvent == -1)
+		return 1;
 
 	switch (iCommand) {
-	case NSMI_REPLY: // reply
-		if (hCurrentEvent != -1)
-			if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle))
-				pDlg->SetQuoteEvent(hCurrentEvent);
+	case NSMI_FORWARD: 
+	{
+		std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
+		wchar_t wszMsg[2048] = L"";
+		if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle))
+			GetWindowText(pDlg->GetInput(), wszMsg, 2048);
+		
+		CVkUserListForm dlg(
+			this, 
+			wszMsg, 
+			TranslateT("Mark contacts for forwarding messages"), 
+			TranslateT("Mark contacts you want to forward messages"), 
+			TranslateT("Enter accompanying messages")
+		);
+		if (!dlg.DoModal())
+			break;
+		
+		if (!vIds.size())
+			vIds.push_back(hCurrentEvent);
+		T2Utf pszMsg(dlg.wszMessage.c_str());
+		for (auto &hContact : dlg.lContacts)
+			ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);
+
+	}
+		break;
+	case NSMI_REPLY:
+		if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle)) 
+			pDlg->SetQuoteEvent(hCurrentEvent);
+		
 		break;
 	}
 	return 0;

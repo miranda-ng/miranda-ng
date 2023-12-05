@@ -19,6 +19,81 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////////////////////////////////////////////////////////
 
+int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents, const char* szMsg) 
+{
+	debugLogA("CVkProto::ForwardMsg");
+	if (!IsOnline() || !vForvardEvents.size())
+		return -1;
+
+	bool bIsChat = isChatRoom(hContact);
+
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER) {
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0);
+		return 0;
+	}
+
+	int StickerId = 0;
+	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
+
+	CMStringA szIds;
+	int i = 0;
+	for (auto &mEvnt : vForvardEvents) {
+		DB::EventInfo dbei(mEvnt, false);
+		if (dbei && mir_strlen(dbei.szId) > 0 && i < VK_MAX_FORWARD_MESSAGES) {
+			if (!szIds.IsEmpty())
+				szIds.AppendChar(',');
+			szIds += dbei.szId;
+			i++;
+		}
+	}
+
+	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
+	AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
+		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
+	
+	pReq 
+		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) 
+		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100)
+		<< CHAR_PARAM("forward_messages", szIds);
+	
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+	if (StickerId)
+		pReq << INT_PARAM("sticker_id", StickerId);
+	else if (!IsEmpty(szMsg)) {
+		pReq << CHAR_PARAM("message", szMsg);
+		if (m_vkOptions.bSendVKLinksAsAttachments) {
+			CMStringA szAttachments = GetAttachmentsFromMessage(szMsg);
+			if (!szAttachments.IsEmpty()) {
+				debugLogA("CVkProto::ForwardMsg Attachments = %s", szAttachments.c_str());
+				pReq << CHAR_PARAM("attachment", szAttachments);
+			}
+		}
+	}
+
+	if (!bIsChat)
+		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
+
+	Push(pReq);
+
+	if (!m_vkOptions.bServerDelivery && !bIsChat)
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
+
+	if (vForvardEvents.size() > VK_MAX_FORWARD_MESSAGES) {
+		std::vector vNextForvardEvents(vForvardEvents.begin() + VK_MAX_FORWARD_MESSAGES, vForvardEvents.end());
+		ForwardMsg(hContact, vNextForvardEvents, "");
+	}
+
+	if (!IsEmpty(pszRetMsg))
+		SendMsg(hContact, 0, pszRetMsg);
+	else if (m_iStatus == ID_STATUS_INVISIBLE)
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+
+	return uMsgId;
+}
+
+
 int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 {
 	debugLogA("CVkProto::SendMsg hReplyEvent = %d", hReplyEvent);
@@ -45,7 +120,7 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	
 	if (hReplyEvent) {
 		DB::EventInfo dbei(hReplyEvent, false);
-		if (dbei && mir_strlen(dbei.szId))
+		if (dbei && mir_strlen(dbei.szId) > 0)
 			pReq << CHAR_PARAM("reply_to", dbei.szId);
 	}
 	

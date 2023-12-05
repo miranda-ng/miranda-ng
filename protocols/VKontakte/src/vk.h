@@ -100,6 +100,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_USERID_MIN2 200000000000
 #define VK_USERID_MAX2 1000000000000
 
+#define VK_MAX_FORWARD_MESSAGES 100
 
 #if defined(_DEBUG)
 	#define VK_NODUMPHEADERS 0

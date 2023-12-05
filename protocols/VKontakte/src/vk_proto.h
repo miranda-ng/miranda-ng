@@ -142,6 +142,8 @@ struct CVkProto : public PROTO<CVkProto>
 	VKUserID_t ReadVKUserID(MCONTACT hContact);
 	void WriteVKUserID(MCONTACT hContact, VKUserID_t iUserId);
 
+	int ForwardMsg(MCONTACT hContact, std::vector<MEVENT> &vForvardEvents, const char* szMsg);
+
 private:
 
 	VKPeerType GetVKPeerType(VKUserID_t iPeerId);
@@ -191,6 +193,7 @@ private:
 	};
 
 	enum NewStoryMenuIndexes {
+		NSMI_FORWARD,
 		NSMI_REPLY,
 		NSMI_COUNT
 	};

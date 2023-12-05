@@ -109,15 +109,26 @@ public:
 	bool OnApply() override;
 };
 
-////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
 
-class CVkGCCreateForm : public CVkDlgBase
+////////////////////////////////// IDD_VKUSERFORM //////////////////////////////////////////
+
+class CVkUserListForm : public CVkDlgBase
 {
 	CCtrlClc m_clc;
-	CCtrlEdit m_edtTitle;
+	CCtrlEdit m_edtMessage;
+	CCtrlBase m_stListCaption;
+	CCtrlBase m_stMessageCaption;
+
 
 public:
-	CVkGCCreateForm(CVkProto *proto);
+	CMStringW wszFormCaption;
+	CMStringW wszListCaption;
+	CMStringW wszMessageCaption;
+	CMStringW wszMessage;
+	LIST<void> lContacts;
+
+	CVkUserListForm(CVkProto* proto);
+	CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption);
 	bool OnInitDialog() override;
 	bool OnApply() override;
 

@@ -7,7 +7,6 @@
 #define IDD_CAPTCHAFORM                 102
 #define IDD_OPT_MAIN                    103
 #define IDD_INVITE                      104
-#define IDD_GC_CREATE                   105
 #define IDD_OPT_ADV                     106
 #define IDD_OPT_FEEDS                   107
 #define IDI_NOTIFICATION                109
@@ -26,7 +25,9 @@
 #define IDI_MARKMESSAGESASREAD          122
 #define IDD_OPT_MENU                    122
 #define IDD_CONTACTDELETE               123
+#define IDD_VKUSERFORM                  124
 #define IDI_REPLY                       125
+#define IDI_FORWARD                     126
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
 #define IDC_URL                         1003
@@ -39,7 +40,6 @@
 #define IDC_SUBMIT                      1010
 #define IDC_DELIVERY                    1011
 #define IDC_GROUPNAME                   1012
-#define IDC_CLIST                       1013
 #define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015
 #define IDC_LASTHISTORYLOAD             1019
@@ -131,15 +131,19 @@
 #define IDC_STATIC_TXT                  1114
 #define IDC_CH_REMOVE_FROM_FRIEND       1115
 #define IDC_CH_CLEARHISTORY             1116
+#define IDC_CONTACTLIST                 1117
+#define IDC_MESSAGE                     1118
+#define IDC_STATIC_MARKCONTAKTS         1119
+#define IDC_STATIC_MESSAGE              1120
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_RESOURCE_VALUE        127
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1116
+#define _APS_NEXT_CONTROL_VALUE         1121
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

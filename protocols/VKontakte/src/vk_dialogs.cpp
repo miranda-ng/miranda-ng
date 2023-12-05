@@ -166,61 +166,77 @@ bool CVkInviteChatForm::OnApply()
 	return true;
 }
 
-////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
+////////////////////////////////// IDD_VKUSERFORM //////////////////////////////////////////
 
-CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_GC_CREATE),
-	m_clc(this, IDC_CLIST),
-	m_edtTitle(this, IDC_TITLE)
+CVkUserListForm::CVkUserListForm(CVkProto* proto) :
+	CVkDlgBase(proto, IDD_VKUSERFORM),
+	m_clc(this, IDC_CONTACTLIST),
+	m_edtMessage(this, IDC_MESSAGE),
+	m_stListCaption(this, IDC_STATIC_MARKCONTAKTS),
+	m_stMessageCaption(this, IDC_STATIC_MESSAGE),
+	lContacts(20, NumericKeySortT)
 {
-	m_clc.OnListRebuilt = Callback(this, &CVkGCCreateForm::FilterList);
+	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
 
-bool CVkGCCreateForm::OnInitDialog()
+
+CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption) :
+	CVkDlgBase(proto, IDD_VKUSERFORM),
+	m_clc(this, IDC_CONTACTLIST),
+	m_edtMessage(this, IDC_MESSAGE), 
+	m_stListCaption(this, IDC_STATIC_MARKCONTAKTS),
+	m_stMessageCaption(this, IDC_STATIC_MESSAGE),
+	wszMessage(_wszMessage),
+	wszFormCaption(_wszFormCaption), 
+	wszListCaption(_wszListCaption), 
+	wszMessageCaption(_wszMessageCaption),
+	lContacts(5, PtrKeySortT)
+{
+	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
+}
+
+bool CVkUserListForm::OnInitDialog()
 {
 	SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE)
 		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions();
+
+	m_stListCaption.SetText(wszListCaption.c_str());
+	m_stMessageCaption.SetText(wszMessageCaption.c_str());
+	m_edtMessage.SetText(wszMessage.c_str());
+	SetCaption(wszFormCaption.c_str());
+
 	return true;
 }
 
-bool CVkGCCreateForm::OnApply()
+bool CVkUserListForm::OnApply()
 {
 	CMStringA szUIds;
-	for (auto &hContact : m_proto->AccContacts()) {
-		if (m_proto->isChatRoom(hContact))
-			continue;
-
+	for (auto& hContact : m_proto->AccContacts()) {
 		HANDLE hItem = m_clc.FindContact(hContact);
-		if (hItem && m_clc.GetCheck(hItem)) {
-			VKUserID_t iUserId = m_proto->ReadVKUserID(hContact);
-			if (iUserId != 0) {
-				if (!szUIds.IsEmpty())
-					szUIds.AppendChar(',');
-				szUIds.AppendFormat("%d", iUserId);
-			}
-		}
+		if (hItem && m_clc.GetCheck(hItem))
+			lContacts.insert((HANDLE)hContact);
+
 	}
 
-	bool bRes = !szUIds.IsEmpty();
-	if (bRes)
-		m_proto->CreateNewChat(szUIds, ptrW(m_edtTitle.GetText()));
+	wszMessage = m_edtMessage.GetText();
+
 	return true;
 }
 
-void CVkGCCreateForm::FilterList(CCtrlClc*)
+void CVkUserListForm::FilterList(CCtrlClc*)
 {
-	for (auto &hContact : Contacts()) {
-		char *proto = Proto_GetBaseAccountName(hContact);
-		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->ReadVKUserID(hContact) == VK_FEED_USER)
+	for (auto& hContact : Contacts()) {
+		char* proto = Proto_GetBaseAccountName(hContact);
+		if (mir_strcmp(proto, m_proto->m_szModuleName) || Contact::IsReadonly(hContact) || m_proto->ReadVKUserID(hContact) == VK_FEED_USER)
 			if (HANDLE hItem = m_clc.FindContact(hContact))
 				m_clc.DeleteItem(hItem);
 	}
 }
 
-void CVkGCCreateForm::ResetListOptions()
+void CVkUserListForm::ResetListOptions()
 {
 	m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
 	m_clc.SetHideEmptyGroups(true);

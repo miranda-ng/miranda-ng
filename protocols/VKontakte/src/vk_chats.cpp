@@ -987,8 +987,36 @@ INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 	if (!IsOnline())
 		return (INT_PTR)1;
 
-	CVkGCCreateForm dlg(this);
-	return (INT_PTR)!dlg.DoModal();
+	CVkUserListForm dlg(
+		this,
+		"",
+		TranslateT("Create group chat"),
+		TranslateT("Mark users you want to invite to a new chat"),
+		TranslateT("New chat's title:")
+	);
+
+	if (!dlg.DoModal())
+		return 0;
+
+	CMStringA szUIds;
+	for (auto& hContact : dlg.lContacts) {
+		if (isChatRoom((UINT_PTR)hContact))
+			continue;
+
+		VKUserID_t iUserId = ReadVKUserID((UINT_PTR)hContact);
+		if (iUserId != 0) {
+			if (!szUIds.IsEmpty())
+				szUIds.AppendChar(',');
+			szUIds.AppendFormat("%d", iUserId);
+		}	
+	}
+
+	if (szUIds.IsEmpty())
+		return 0;
+
+	CreateNewChat(szUIds, dlg.wszMessage);
+	
+	return 1;
 }
 
 void CVkProto::CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle)
