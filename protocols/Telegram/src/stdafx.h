@@ -5,6 +5,7 @@
 #include <time.h>
 #include <windows.h>
 
+#include <algorithm>
 #include <map>
 #include <memory>
 

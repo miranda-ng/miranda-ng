@@ -120,6 +120,7 @@ public:
 			if (dbei && dbei.szId)
 				message_ids.push_back(dbei2id(dbei));
 		}
+		std::sort(message_ids.begin(), message_ids.end());
 
 		for (auto &hContact : m_proto->AccContacts()) {
 			if (HANDLE hItem = m_clist.FindContact(hContact)) {
