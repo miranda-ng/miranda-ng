@@ -34,6 +34,7 @@ struct ItemData
 	ItemData* checkPrev(ItemData *pPrev);
 	ItemData* checkPrevGC(ItemData *pPrev);
 	void checkCreate(HWND hwnd);
+	void markRead();
 	void setText();
 
 	bool fetch(void);

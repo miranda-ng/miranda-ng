@@ -352,11 +352,7 @@ void ItemData::load(bool bFullLoad)
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (!(dbe.flags & DBEF_SENT)) {
-			if (!dbe.markedRead())
-				db_event_markRead(hContact, hEvent);
-			Clist_RemoveEvent(-1, hEvent);
-		}
+		markRead();
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -385,6 +381,7 @@ void ItemData::load(bool bFullLoad)
 					buf.AppendFormat(L" [$hicon=%p$]", g_plugin.getIcon(IDI_OK));
 
 				wtext = buf.Detach();
+				markRead();
 				break;
 			}
 
@@ -439,6 +436,15 @@ void ItemData::load(bool bFullLoad)
 		}
 
 	dbe.unload();
+}
+
+void ItemData::markRead()
+{
+	if (!(dbe.flags & DBEF_SENT)) {
+		if (!dbe.markedRead())
+			db_event_markRead(hContact, hEvent);
+		Clist_RemoveEvent(-1, hEvent);
+	}
 }
 
 void ItemData::setText()
