@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
+#include "chat.h"
 
 HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookSrmmEvent;
@@ -42,6 +43,11 @@ static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 	DB::ECPTR pCursor(DB::Events(hContact));
 	while (pCursor.FetchNext())
 		pCursor.DeleteEvent();
+
+	if (Contact::IsGroupChat(hContact))
+		if (auto *si = SM_FindSessionByContact(hContact))
+			Chat_EmptyHistory(si);
+
 	return 0;
 }
 
