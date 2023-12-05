@@ -56,7 +56,7 @@ int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 	else {
 		auto *pDbei = (DB::EventInfo *)lParam;
 
-		Menu_ShowItem(hmiForward, true);
+		Menu_ShowItem(hmiForward, getByte("Protected"));
 		Menu_ShowItem(hmiReply, mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
 
 		auto *pUser = FindUser(GetId(hContact));
