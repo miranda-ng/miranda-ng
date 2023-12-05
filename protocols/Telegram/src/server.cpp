@@ -205,8 +205,16 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChatAction((TD::updateChatAction *)response.object.get());
 		break;
 
+	case TD::updateChatAvailableReactions::ID:
+		ProcessChatReactions((TD::updateChatAvailableReactions *)response.object.get());
+		break;
+
 	case TD::updateChatFolders::ID:
 		ProcessGroups((TD::updateChatFolders *)response.object.get());
+		break;
+
+	case TD::updateChatHasProtectedContent::ID:
+		ProcessChatHasProtected((TD::updateChatHasProtectedContent *)response.object.get());
 		break;
 
 	case TD::updateChatLastMessage::ID:
@@ -219,10 +227,6 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateChatPosition::ID:
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
-		break;
-
-	case TD::updateChatAvailableReactions::ID:
-		ProcessChatReactions((TD::updateChatAvailableReactions *)response.object.get());
 		break;
 
 	case TD::updateChatReadInbox::ID:
@@ -511,6 +515,16 @@ void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
 	case TD::chatActionTyping::ID:
 		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 1);
 		break;
+	}
+}
+
+void CTelegramProto::ProcessChatHasProtected(TD::updateChatHasProtectedContent *pObj)
+{
+	if (auto *pChat = FindChat(pObj->chat_id_)) {
+		if (pObj->has_protected_content_)
+			setByte(pChat->hContact, "Protected", 1);
+		else
+			delSetting(pChat->hContact, "Protected");
 	}
 }
 
