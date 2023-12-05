@@ -43,15 +43,10 @@ static int g_status_events[] = {
 	EVENTTYPE_JABBER_PRESENCE
 };
 
-static int g_status_events_size = 0;
-
 bool TSAPI IsStatusEvent(int eventType)
 {
-	if (g_status_events_size == 0)
-		g_status_events_size = _countof(g_status_events);
-
-	for (int i = 0; i < g_status_events_size; i++) {
-		if (eventType == g_status_events[i])
+	for (auto &it : g_status_events) {
+		if (eventType == it)
 			return true;
 	}
 	return false;
