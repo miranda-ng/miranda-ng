@@ -468,7 +468,7 @@ static bool checkStickerType(uint32_t ID)
 	}	
 }
 
-CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
+CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
 
@@ -490,14 +490,16 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageChatAddMembers::ID:
-		if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
-			for (auto &it : pDoc->member_user_ids_)
-				GcChangeMember(pUser, pszUserId, it, true);
+		if (!bSkipJoin)
+			if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
+				for (auto &it : pDoc->member_user_ids_)
+					GcChangeMember(pUser, pszUserId, it, true);
 		break;
 
 	case TD::messageChatDeleteMember::ID:
-		if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
-			GcChangeMember(pUser, pszUserId, pDoc->user_id_, false);
+		if (!bSkipJoin)
+			if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
+				GcChangeMember(pUser, pszUserId, pDoc->user_id_, false);
 		break;
 
 	case TD::messageChatChangeTitle::ID:
