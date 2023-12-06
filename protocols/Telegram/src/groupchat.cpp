@@ -275,7 +275,7 @@ void CTelegramProto::Chat_SendPrivateMessage(GCHOOK *gch)
 		Contact::Hide(hContact);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}
-	else hContact = pUser->hContact;
+	else hContact = GetRealContact(pUser);
 
 	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 }
