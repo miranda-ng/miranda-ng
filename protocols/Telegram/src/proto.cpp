@@ -128,6 +128,7 @@ void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 
 	if (auto *pUser = FindUser(id)) {
 		pUser->hContact = INVALID_CONTACT_ID;
+		pUser->wszNick = getMStringW(hContact, "Nick");
 		pUser->wszFirstName = getMStringW(hContact, "FirstName");
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}

@@ -98,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, bLoadMembers;
+	bool      isGroupChat, bLoadMembers, bStartChat;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -287,7 +287,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
 
-	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat);
+	void InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 	
 	void Chat_SendPrivateMessage(GCHOOK *gch);
@@ -297,6 +297,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent);
 	void GcChangeMember(TG_USER *pChat, const char *adminId, TD::int53 userId, bool bJoined);
 	void GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic);
+	void GcRun(TG_USER *pChat);
 
 	// Search
 	volatile unsigned m_iSearchCount;

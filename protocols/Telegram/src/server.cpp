@@ -491,8 +491,8 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 			if (pChat->permissions_)
 				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
 
-			if (pUser->isGroupChat)
-				InitGroupChat(pUser, pChat);
+			if (pUser->isGroupChat && pUser->m_si == nullptr)
+				InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
 		}
 	}
 	else debugLogA("Unknown user id %lld, ignoring", userId);

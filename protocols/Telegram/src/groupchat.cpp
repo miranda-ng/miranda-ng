@@ -32,7 +32,7 @@ static const wchar_t* getRoleById(uint32_t ID)
 	}
 }
 
-void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
+void CTelegramProto::InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle)
 {
 	if (pUser->m_si)
 		return;
@@ -41,10 +41,11 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 	_i64tow(pUser->id, wszId, 10);
 
 	SESSION_INFO *si;
-	Utf2T wszNick(pChat->title_.c_str());
+	if (pwszTitle == nullptr)
+		pwszTitle = pUser->wszNick;
 
 	if (pUser->bLoadMembers) {
-		si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszNick, pUser);
+		pUser->m_si = si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, pwszTitle, pUser);
 		if (!si->pStatuses) {
 			Chat_AddGroup(si, TranslateT("Creator"));
 			Chat_AddGroup(si, TranslateT("Admin"));
@@ -56,39 +57,39 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const TD::chat *pChat)
 			else
 				SendQuery(new TD::getSupergroupMembers(pUser->id, 0, 0, 100), &CTelegramProto::StartGroupChat, pUser);
 		}
-		else {
-			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-			Chat_Control(si, SESSION_ONLINE);
-		}
+		else GcRun(pUser);
 	}
 	else {
-		if (si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, wszNick, pUser)) {
-			if (!si->pStatuses) {
-				Chat_AddGroup(si, TranslateT("SuperAdmin"));
-				Chat_AddGroup(si, TranslateT("Visitor"));
+		pUser->m_si = si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, pwszTitle, pUser);
+		if (!si->pStatuses) {
+			Chat_AddGroup(si, TranslateT("SuperAdmin"));
+			Chat_AddGroup(si, TranslateT("Visitor"));
 
-				ptrW wszMyId(getWStringA(DBKEY_ID)), wszMyNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
+			ptrW wszMyId(getWStringA(DBKEY_ID)), wszMyNick(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
 
-				GCEVENT gce = { si, GC_EVENT_JOIN };
-				gce.pszUID.w = wszMyId;
-				gce.pszNick.w = wszMyNick;
-				gce.bIsMe = true;
-				gce.pszStatus.w = TranslateT("Visitor");
-				Chat_Event(&gce);
+			GCEVENT gce = { si, GC_EVENT_JOIN };
+			gce.pszUID.w = wszMyId;
+			gce.pszNick.w = wszMyNick;
+			gce.bIsMe = true;
+			gce.pszStatus.w = TranslateT("Visitor");
+			Chat_Event(&gce);
 
-				gce.bIsMe = false;
-				gce.pszUID.w = wszId;
-				gce.pszNick.w = wszNick;
-				gce.pszStatus.w = TranslateT("SuperAdmin");
-				Chat_Event(&gce);
-			}
-
-			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-			Chat_Control(si, SESSION_ONLINE);
+			gce.bIsMe = false;
+			gce.pszUID.w = wszId;
+			gce.pszNick.w = pwszTitle;
+			gce.pszStatus.w = TranslateT("SuperAdmin");
+			Chat_Event(&gce);
 		}
+
+		GcRun(pUser);
 	}
-	
-	pUser->m_si = si;
+}
+
+void CTelegramProto::GcRun(TG_USER *pChat)
+{
+	pChat->bStartChat = false;
+	Chat_Control(pChat->m_si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(pChat->m_si, SESSION_ONLINE);
 }
 
 void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void *pUserData)
@@ -111,6 +112,9 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::basicGroupFullInfo::ID);
 		return;
 	}
+
+	if (pChat->bStartChat)
+		GcRun(pChat);
 }
 
 void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent)
@@ -424,15 +428,22 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
 		auto *pUser = AddFakeUser(tmp.id, true);
-		pUser->wszNick = Utf2T(getName(pGroup->group->usernames_.get()));
-		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+		if (pUser->hContact == INVALID_CONTACT_ID) {
+			// cache some information for the search
+			if (pUser->wszNick.IsEmpty())
+				pUser->wszNick = Utf2T(getName(pGroup->group->usernames_.get()));
+			pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
+		}
 	}
 	else {
 		auto *pChat = AddUser(tmp.id, true);
-		if (auto *si = pChat->m_si) {
- 			CMStringW wszUserId(FORMAT, L"%lld", m_iOwnId);
+		if (pChat->bStartChat)
+			InitGroupChat(pChat, pChat->wszNick);
 
-			GCEVENT gce = { si, GC_EVENT_SETSTATUS };
+		if (pChat->m_si) {
+			CMStringW wszUserId(FORMAT, L"%lld", m_iOwnId);
+
+			GCEVENT gce = { pChat->m_si, GC_EVENT_SETSTATUS };
 			gce.pszUID.w = wszUserId;
 			gce.time = time(0);
 			gce.bIsMe = true;

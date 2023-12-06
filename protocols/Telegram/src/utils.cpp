@@ -305,6 +305,7 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 			setWString(hContact, "FirstName", pUser->wszFirstName);
 			setWString(hContact, "LastName", pUser->wszLastName);
 		}
+		else pUser->bStartChat = true;
 	}
 
 	return pUser;
