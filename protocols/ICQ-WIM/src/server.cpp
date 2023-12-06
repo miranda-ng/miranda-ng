@@ -479,12 +479,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
 
-	// ignore duplicates
-	if (db_event_getById(m_szModuleName, szMsgId)) {
-		debugLogA("Message %s already exists", szMsgId.c_str());
-		return;
-	}
-
+	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 
 	if (auto &node = it["chat"]["sender"])
@@ -559,6 +554,9 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			if (wszUrl.IsEmpty())
 				continue;
 
+			if (hOldEvent && fileText2url(wszText))
+				return;
+
 			if (!CheckFile(hContact, wszUrl, pFileInfo))
 				continue;
 
@@ -577,8 +575,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	// message text might be a separate file link as well
-	if (pFileInfo == nullptr)
+	if (pFileInfo == nullptr && fileText2url(wszText)) {
+		if (hOldEvent)
+			return;
 		CheckFile(hContact, wszText, pFileInfo);
+	}
 
 	// process our own messages
 	CMStringA reqId(it["reqId"].as_mstring());
@@ -629,17 +630,34 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
 
-	PROTORECVEVENT pre = {};
-	pre.szMsgId = szMsgId;
-	pre.timestamp = iMsgTime;
-	pre.szMessage = szUtf;
-	if (bIsOutgoing)
-		pre.flags |= PREF_SENT;
-	if (bCreateRead)
-		pre.flags |= PREF_CREATEREAD;
-	if (isChatRoom(hContact))
-		pre.szUserId = szSender;
-	ProtoChainRecvMsg(hContact, &pre);
+	if (hOldEvent) {
+		DBEVENTINFO dbei = {};
+		dbei.szModule = m_szModuleName;
+		dbei.timestamp = iMsgTime;
+		if (bIsOutgoing)
+			dbei.flags |= DBEF_SENT;
+		if (bCreateRead)
+			dbei.flags |= DBEF_READ;
+		dbei.cbBlob = (int)mir_strlen(szUtf);
+		dbei.pBlob = (BYTE*)szUtf.get();
+		dbei.szId = szMsgId;
+		if (isChatRoom(hContact))
+			dbei.szUserId = szSender;
+		db_event_edit(hOldEvent, &dbei, true);
+	}
+	else {
+		PROTORECVEVENT pre = {};
+		pre.timestamp = iMsgTime;
+		pre.szMessage = szUtf;
+		if (bIsOutgoing)
+			pre.flags |= PREF_SENT;
+		if (bCreateRead)
+			pre.flags |= PREF_CREATEREAD;
+		pre.szMsgId = szMsgId;
+		if (isChatRoom(hContact))
+			pre.szUserId = szSender;
+		ProtoChainRecvMsg(hContact, &pre);
+	}
 }
 
 bool CIcqProto::RefreshRobustToken(AsyncHttpRequest *pOrigReq)
@@ -764,6 +782,81 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	auto &results = root.results();
+
+	CMStringW wszNewPatch(results["patchVersion"].as_mstring());
+	if (!wszNewPatch.IsEmpty())
+		setId(pReq->hContact, DB_KEY_PATCHVER, _wtoi64(wszNewPatch));
+
+	std::map<__int64, bool> events;
+	for (auto &it : results["patch"]) {
+		std::string type = it["type"].as_string();
+		__int64 msgId = _wtoi64(it["msgId"].as_mstring());
+		if (type == "update")
+			events[msgId] = true;
+		else
+			events[msgId] = false;
+	}
+
+	for (auto &it : events) {
+		if (it.second)
+			RetrieveHistoryChunk(pReq->hContact, it.first, it.first-1, 1);
+		else {
+			char msgId[100];
+			_i64toa(it.first, msgId, 10);
+			if (MEVENT hEvent = db_event_getById(m_szModuleName, msgId))
+				db_event_delete(hEvent, true);
+		}
+	}
+}
+
+void CIcqProto::ProcessPatchVersion(MCONTACT hContact, __int64 currPatch)
+{
+	__int64 oldPatch(getId(hContact, DB_KEY_PATCHVER));
+	if (!oldPatch)
+		oldPatch = 1;
+
+	if (currPatch == oldPatch)
+		return;
+
+	auto *pReq = new AsyncRapiRequest(this, "getHistory", &CIcqProto::OnGetPatches);
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT_PARAM("fromMsgId", 0) << INT_PARAM("count", 0) << SINT64_PARAM("patchVersion", oldPatch);
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
+
+	int count = 0;
+	auto &results = root.results();
+	for (auto &it : results["messages"]) {
+		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr, false);
+		count++;
+	}
+
+	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
+
+	if (count >= 999)
+		RetrieveUserHistory(pReq->hContact, lastMsgId, pReq->pUserInfo != nullptr);
+}
+
 void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bCreateRead)
 {
 	if (startMsgId == 0)
@@ -779,10 +872,22 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool 
 	#endif
 	pReq->hContact = hContact;
 	pReq->pUserInfo = (bCreateRead) ? pReq : 0;
-	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId) << INT_PARAM("count", 1000)
-		<< SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId) << INT_PARAM("count", 1000) << SINT64_PARAM("patchVersion", patchVer);
 	Push(pReq);
 }
+
+void CIcqProto::RetrieveHistoryChunk(MCONTACT hContact, __int64 patchVer, __int64 startMsgId, unsigned iCount)
+{
+	auto *pReq = new AsyncRapiRequest(this, "getHistory", &CIcqProto::OnGetUserHistory);
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId) << INT_PARAM("count", iCount) << SINT64_PARAM("patchVersion", patchVer);
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::SetServerStatus(int iStatus)
 {
@@ -1102,27 +1207,6 @@ void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 	auto &results = root.results();
 	m_szRToken = results["authToken"].as_mstring();
-}
-
-void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	RobustReply root(pReply);
-	if (root.error() != 20000)
-		return;
-
-	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
-
-	int count = 0;
-	auto &results = root.results();
-	for (auto &it : results["messages"]) {
-		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr, false);
-		count++;
-	}
-
-	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
-
-	if (count >= 999)
-		RetrieveUserHistory(pReq->hContact, lastMsgId, pReq->pUserInfo != nullptr);
 }
 
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)

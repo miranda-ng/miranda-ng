@@ -32,6 +32,7 @@
 // Windows includes
 #include <windows.h>
 
+#include <map>
 #include <memory>
 
 // Standard includes

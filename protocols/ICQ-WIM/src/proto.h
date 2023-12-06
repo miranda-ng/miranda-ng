@@ -210,6 +210,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          GetPermitDeny();
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
+	void          RetrieveHistoryChunk(MCONTACT hContact, __int64 patchVer, __int64 startMsgId, unsigned iCount);
 	bool          RetrievePassword();
 	void          RetrievePresence(MCONTACT hContact);
 	void          RetrieveUserCaps(IcqUser *pUser);
@@ -229,6 +230,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
+	void          ProcessPatchVersion(MCONTACT hContact, __int64 currPatch);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
 				     
 	void          OnLoggedIn(void);
@@ -255,6 +257,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
