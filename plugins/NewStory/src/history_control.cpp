@@ -328,7 +328,8 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			auto *pItem = GetItem(caret);
 
 			int iTextLen = GetWindowTextLengthW(hwndEditBox);
-			replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
+			mir_free(pItem->wtext);
+			pItem->wtext = (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t));
 			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
