@@ -461,7 +461,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_INVISIBLE;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY;
+		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | 
+			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
@@ -538,7 +539,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int CIcqProto::SendMsg(MCONTACT hContact, MEVENT, const char *pszSrc)
+int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc)
 {
 	CMStringA szUserid(GetUserId(hContact));
 	if (szUserid.IsEmpty())
@@ -554,8 +555,25 @@ int CIcqProto::SendMsg(MCONTACT hContact, MEVENT, const char *pszSrc)
 		m_arOwnIds.insert(pOwn);
 	}
 
+	JSONNode parts(JSON_ARRAY);
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent);
+		if (dbei) {
+			JSONNode replyTo;
+			MCONTACT replyContact = db_event_getContact(hReplyEvent);
+			CMStringA replyId(GetUserId(replyContact));
+			replyTo << CHAR_PARAM("mediaType", "quote") << CHAR_PARAM("sn", replyId) << INT_PARAM("time", dbei.timestamp)
+				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(replyContact, 0))
+				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+			parts.push_back(replyTo);
+		}
+	}
+
+	JSONNode msgText; msgText << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", pszSrc);
+	parts.push_back(msgText);
+	
 	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") 
-		<< CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
+		 << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
 	Push(pReq);
 	return id;
 }
