@@ -126,9 +126,10 @@ public:
 	CMStringW wszMessageCaption;
 	CMStringW wszMessage;
 	LIST<void> lContacts;
+	uint8_t uClcFilterFlag;
 
 	CVkUserListForm(CVkProto* proto);
-	CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption);
+	CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uFilterClcFlag);
 	bool OnInitDialog() override;
 	bool OnApply() override;
 

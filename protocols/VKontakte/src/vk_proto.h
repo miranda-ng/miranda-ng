@@ -143,6 +143,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void WriteVKUserID(MCONTACT hContact, VKUserID_t iUserId);
 
 	int ForwardMsg(MCONTACT hContact, std::vector<MEVENT> &vForvardEvents, const char* szMsg);
+	uint8_t GetContactType(MCONTACT hContact);
 
 private:
 
@@ -360,7 +361,6 @@ private:
 	void SetAllContactStatuses(int iStatus);
 	MCONTACT FindUser(VKUserID_t iUserId, bool bCreate = false);
 	MCONTACT FindChat(VKUserID_t iUserId);
-	bool IsGroupUser(MCONTACT hContact);
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -380,6 +380,7 @@ private:
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	void CheckUpdate();
+	bool IsGroupUser(MCONTACT hContact);
 	char* GetStickerId(const char *szMsg, int& iStickerid);
 	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);

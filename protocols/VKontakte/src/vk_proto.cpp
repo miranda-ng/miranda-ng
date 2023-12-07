@@ -450,8 +450,10 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 			wszMsg, 
 			TranslateT("Mark contacts for forwarding messages"), 
 			TranslateT("Mark contacts you want to forward messages"), 
-			TranslateT("Enter accompanying messages")
+			TranslateT("Enter accompanying messages"),
+			0
 		);
+
 		if (!dlg.DoModal())
 			break;
 		

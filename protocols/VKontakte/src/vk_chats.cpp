@@ -987,12 +987,14 @@ INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 	if (!IsOnline())
 		return (INT_PTR)1;
 
+	
 	CVkUserListForm dlg(
 		this,
 		"",
 		TranslateT("Create group chat"),
 		TranslateT("Mark users you want to invite to a new chat"),
-		TranslateT("New chat's title:")
+		TranslateT("New chat's title:"),
+		VKContactType::vkContactSelf | VKContactType::vkContactMUCUser | VKContactType::vkContactGroupUser
 	);
 
 	if (!dlg.DoModal())

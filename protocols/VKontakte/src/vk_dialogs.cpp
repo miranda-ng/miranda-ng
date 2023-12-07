@@ -174,13 +174,14 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto) :
 	m_edtMessage(this, IDC_MESSAGE),
 	m_stListCaption(this, IDC_STATIC_MARKCONTAKTS),
 	m_stMessageCaption(this, IDC_STATIC_MESSAGE),
-	lContacts(20, NumericKeySortT)
+	lContacts(20, NumericKeySortT),
+	uClcFilterFlag(0)
 {
 	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
 
 
-CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption) :
+CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uClcFilterFlag) :
 	CVkDlgBase(proto, IDD_VKUSERFORM),
 	m_clc(this, IDC_CONTACTLIST),
 	m_edtMessage(this, IDC_MESSAGE), 
@@ -190,7 +191,8 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStrin
 	wszFormCaption(_wszFormCaption), 
 	wszListCaption(_wszListCaption), 
 	wszMessageCaption(_wszMessageCaption),
-	lContacts(5, PtrKeySortT)
+	lContacts(5, PtrKeySortT),
+	uClcFilterFlag(_uClcFilterFlag)
 {
 	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
@@ -230,7 +232,7 @@ void CVkUserListForm::FilterList(CCtrlClc*)
 {
 	for (auto& hContact : Contacts()) {
 		char* proto = Proto_GetBaseAccountName(hContact);
-		if (mir_strcmp(proto, m_proto->m_szModuleName) || Contact::IsReadonly(hContact) || m_proto->ReadVKUserID(hContact) == VK_FEED_USER)
+		if (mir_strcmp(proto, m_proto->m_szModuleName) || Contact::IsReadonly(hContact) || m_proto->ReadVKUserID(hContact) == VK_FEED_USER || (m_proto->GetContactType(hContact) & uClcFilterFlag))
 			if (HANDLE hItem = m_clc.FindContact(hContact))
 				m_clc.DeleteItem(hItem);
 	}
