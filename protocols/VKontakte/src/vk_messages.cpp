@@ -33,19 +33,55 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		return 0;
 	}
 
+	CMStringA szBody;
 	int StickerId = 0;
 	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
+	if (StickerId) {
+		SendMsg(hContact, 0, CMStringA(FORMAT, "[sticker:%d]", StickerId));
+		szBody = pszRetMsg;
+	}
+	else
+		szBody = szMsg;
 
 	CMStringA szIds;
-	int i = 0;
+	CMStringW wszForwardMessagesTxt;
+
+	int iForwardVKMessageCount = 0;
 	for (auto &mEvnt : vForvardEvents) {
-		DB::EventInfo dbei(mEvnt, false);
-		if (dbei && mir_strlen(dbei.szId) > 0 && i < VK_MAX_FORWARD_MESSAGES) {
+		if (iForwardVKMessageCount == VK_MAX_FORWARD_MESSAGES)
+			break;
+
+		DB::EventInfo dbei(mEvnt);
+		if (!dbei)
+			continue;
+
+		MCONTACT hForwardContact = db_event_getContact(mEvnt);
+
+		if (!Proto_IsProtoOnContact(hForwardContact, m_szModuleName)) {
+			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(hContact, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
+			
+			wchar_t ttime[64];
+			time_t  tTimestamp(dbei.timestamp);
+			_locale_t locale = _create_locale(LC_ALL, "");
+			_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&tTimestamp), locale);
+			_free_locale(locale);
+
+			wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
+			wszForwardMessagesTxt.AppendFormat(L"%s %s%c%s %s:\n\n%s\n\n",
+				SetBBCString(TranslateT("Message from"), m_vkOptions.BBCForAttachments(), vkbbcB).c_str(),
+				SetBBCString(wszContactName, m_vkOptions.BBCForAttachments(), vkbbcI).c_str(),
+				tcSplit,
+				SetBBCString(TranslateT("at"), m_vkOptions.BBCForAttachments(), vkbbcB).c_str(),
+				ttime,
+				SetBBCString(dbei.pBlob ? ptrW(mir_utf8decodeW((char*)dbei.pBlob)) : L"", m_vkOptions.BBCForAttachments(), vkbbcCode).c_str()
+			);
+		} else if (mir_strlen(dbei.szId) > 0) {
 			if (!szIds.IsEmpty())
 				szIds.AppendChar(',');
 			szIds += dbei.szId;
-			i++;
 		}
+
+		iForwardVKMessageCount++;
 	}
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
@@ -59,12 +95,12 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 	
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-	if (StickerId)
-		pReq << INT_PARAM("sticker_id", StickerId);
-	else if (!IsEmpty(szMsg)) {
-		pReq << CHAR_PARAM("message", szMsg);
+	szBody += T2Utf(wszForwardMessagesTxt);
+
+	if (!IsEmpty(szBody)) {
+		pReq << CHAR_PARAM("message", szBody);
 		if (m_vkOptions.bSendVKLinksAsAttachments) {
-			CMStringA szAttachments = GetAttachmentsFromMessage(szMsg);
+			CMStringA szAttachments = GetAttachmentsFromMessage(szBody);
 			if (!szAttachments.IsEmpty()) {
 				debugLogA("CVkProto::ForwardMsg Attachments = %s", szAttachments.c_str());
 				pReq << CHAR_PARAM("attachment", szAttachments);
@@ -85,9 +121,7 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		ForwardMsg(hContact, vNextForvardEvents, "");
 	}
 
-	if (!IsEmpty(pszRetMsg))
-		SendMsg(hContact, 0, pszRetMsg);
-	else if (m_iStatus == ID_STATUS_INVISIBLE)
+	if (m_iStatus == ID_STATUS_INVISIBLE)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 
 	return uMsgId;
