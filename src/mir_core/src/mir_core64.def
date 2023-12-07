@@ -1560,3 +1560,4 @@ db_event_updateId @1772
 ?GetPlugin@CDlgBase@@QEBAPEBVCMPluginBase@@XZ @1784 NONAME
 TranslateW_UUID @1785 NONAME
 ?Langpack_GetDefaultLocaleName@@YAPEADXZ @1786 NONAME
+EventExists @1787 NONAME
