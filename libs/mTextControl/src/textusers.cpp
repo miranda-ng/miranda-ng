@@ -43,7 +43,7 @@ MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options)
 	return textUserNew;
 }
 
-DWORD TextUserGetOptions(HANDLE userHandle)
+uint32_t TextUserGetOptions(HANDLE userHandle)
 {
 	if (!userHandle) return 0;
 	return ((TextUser *)userHandle)->options;

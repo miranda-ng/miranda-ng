@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 struct TextUser : public MZeroedObject
 {
 	char *name;
-	DWORD options;
+	uint32_t options;
 	TextUser *prev, *next;
 };
 
@@ -34,8 +34,8 @@ void UnloadTextUsers();
 
 extern HANDLE htuDefault;
 
-DWORD TextUserGetOptions(HANDLE userHandle);
-void TextUserSetOptions(HANDLE userHandle, DWORD options);
+uint32_t TextUserGetOptions(HANDLE userHandle);
+void TextUserSetOptions(HANDLE userHandle, uint32_t options);
 void TextUsersSave();
 void TextUsersReset();
 
