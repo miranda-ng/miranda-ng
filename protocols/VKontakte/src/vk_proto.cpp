@@ -422,8 +422,10 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 {
-	if (!Proto_IsProtoOnContact(hContact, m_szModuleName))
+	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) {
 		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], false);
+		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], true);
+	}
 	else {
 		auto* pDbei = (DB::EventInfo *)lParam;
 		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
