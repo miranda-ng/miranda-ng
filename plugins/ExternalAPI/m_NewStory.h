@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#define NS_PROTO_MENU_POS 1000001
+
 enum
 {
 	NSM_FIRST = WM_USER + 100,

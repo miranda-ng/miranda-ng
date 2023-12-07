@@ -49,8 +49,6 @@ IDI_WALL                ICON                    "wall.ico"
 
 IDI_MARKMESSAGESASREAD  ICON                    "markread.ico"
 
-IDI_REPLY               ICON                    "reply.ico"
-
 IDI_FORWARD             ICON                    "forward.ico"
 
 

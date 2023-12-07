@@ -22,14 +22,14 @@ enum
 {
 	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_OPENFOLDER, MENU_QUOTE,
 	MENU_SAVEAS, MENU_DOWNLOAD,
-	MENU_EDIT, MENU_DELETE,
+	MENU_EDIT, MENU_DELETE, MENU_REPLY,
 	MENU_SELECTALL, MENU_BOOKMARK,
 };
 
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
 static HGENMENU hmiHistory, hmiOpenFolder, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
-static HGENMENU hmiCopy, hmiCopyText, hmiEdit, hmiBookmark, hmiDelete;
+static HGENMENU hmiCopy, hmiCopyText, hmiEdit, hmiBookmark, hmiDelete, hmiReply;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
@@ -42,6 +42,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	Menu_ShowItem(hmiCopyText, bNotProtected);
 
 	Menu_ShowItem(hmiQuote, bNotProtected && data->pMsgDlg != nullptr);
+	Menu_ShowItem(hmiReply, false);
 	Menu_ShowItem(hmiSaveAs, false);
 	Menu_ShowItem(hmiCopyUrl, false);
 	Menu_ShowItem(hmiDownload, false);
@@ -62,6 +63,11 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 
 		DB::EventInfo dbei(item->hEvent);
 		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
+
+		if (data->pMsgDlg) {
+			INT_PTR caps = CallProtoService(Proto_GetBaseAccountName(item->hContact), PS_GETCAPS, PFLAGNUM_4, 0);
+			Menu_ShowItem(hmiReply, (caps & PF4_REPLY) != 0 && mir_strlen(dbei.szId) > 0 && !Contact::IsReadonly(item->hContact));
+		}
 	}
 	else {
 		bShowEventActions = bEditable = false;
@@ -116,6 +122,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_QUOTE:
 		pData->Quote();
+		break;
+
+	case MENU_REPLY:
+		pData->Reply();
 		break;
 
 	case MENU_EDIT:
@@ -274,4 +284,9 @@ void InitMenus()
 	mi.position = 300000;
 	mi.name.a = LPGEN("Select all");
 	Menu_AddNewStoryMenuItem(&mi, MENU_SELECTALL);
+
+	mi.position = NS_PROTO_MENU_POS - 1;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
+	mi.name.a = LPGEN("Reply");
+	hmiReply = Menu_AddNewStoryMenuItem(&mi, MENU_REPLY);
 }

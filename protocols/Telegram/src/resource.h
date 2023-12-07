@@ -13,7 +13,6 @@
 #define IDI_REACTION                    108
 #define IDD_REACTIONS                   109
 #define IDI_BOT                         110
-#define IDI_REPLY                       111
 #define IDD_OPTIONS_SESSIONS            112
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002

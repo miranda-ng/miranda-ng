@@ -64,6 +64,7 @@ static IconItem icons[] =
 	{ LPGEN("Filter"), "filter", IDI_FILTER },
 	{ LPGEN("Export"), "export", IDI_EXPORT },
 	{ LPGEN("Copy"), "copy", IDI_COPY },
+	{ LPGEN("Reply"), "reply", IDI_REPLY },
 	{ LPGEN("Bookmark"), "bookmark", IDI_BOOKMARK },
 	{ LPGEN("Send message"), "message", IDI_SENDMSG },
 

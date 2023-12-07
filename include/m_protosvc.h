@@ -141,6 +141,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_SINGLEFILEONLY   0x00001000 // protocol supports sending files one by one only
 #define PF4_READNOTIFY       0x00002000 // protocol supports receiving notify of message reading
 #define PF4_SERVERMSGID      0x00004000 // protocol uses server message ids
+#define PF4_REPLY            0x00008000 // protocol supports replies to messages
 
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.

@@ -179,9 +179,6 @@ IDI_REACTION            ICON                    "reaction.ico"
 
 IDI_BOT                 ICON                    "bot.ico"
 
-IDI_REPLY               ICON                    "reply.ico"
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO

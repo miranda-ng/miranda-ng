@@ -30,7 +30,7 @@ void CTelegramProto::InitMenus()
 	CMenuItem mi(&g_plugin);
 	mi.pszService = szServiceName;
 
-	mi.position = 10000000;
+	mi.position = NS_PROTO_MENU_POS;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
 	mi.name.a = LPGEN("Forward");
 	hmiForward = Menu_AddNewStoryMenuItem(&mi, 1);
@@ -39,25 +39,16 @@ void CTelegramProto::InitMenus()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REACTION);
 	mi.name.a = LPGEN("Reaction");
 	hmiReaction = Menu_AddNewStoryMenuItem(&mi, 2);
-
-	mi.position++;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
-	mi.name.a = LPGEN("Reply");
-	hmiReply = Menu_AddNewStoryMenuItem(&mi, 3);
 }
 
-int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
+int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM)
 {
 	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) {
 		Menu_ShowItem(hmiForward, false);
 		Menu_ShowItem(hmiReaction, false);
-		Menu_ShowItem(hmiReply, false);
 	}
 	else {
-		auto *pDbei = (DB::EventInfo *)lParam;
-
-		Menu_ShowItem(hmiForward, getByte("Protected"));
-		Menu_ShowItem(hmiReply, mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
+		Menu_ShowItem(hmiForward, 0 == getByte(hContact, "Protected"));
 
 		auto *pUser = FindUser(GetId(hContact));
 		Menu_ShowItem(hmiReaction, pUser && pUser->pReactions);
@@ -194,12 +185,6 @@ INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 	case 2: // reactions
 		if (hCurrentEvent != -1)
 			CReactionsDlg(this, hCurrentEvent).DoModal();
-		break;
-
-	case 3: // reply
-		if (hCurrentEvent != -1)
-			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
-				pDlg->SetQuoteEvent(hCurrentEvent);
 		break;
 	}
 	return 0;

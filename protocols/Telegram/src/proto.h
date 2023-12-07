@@ -327,7 +327,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT GetRealContact(const TG_USER *pUser);
 
 	// Menus
-	HGENMENU hmiForward, hmiReaction, hmiReply;
+	HGENMENU hmiForward, hmiReaction;
 
 	void InitMenus();
 

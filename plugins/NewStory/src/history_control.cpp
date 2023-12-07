@@ -637,6 +637,13 @@ void NewstoryListData::Quote()
 	}
 }
 
+void NewstoryListData::Reply()
+{
+	if (pMsgDlg)
+		if (auto *pItem = GetItem(caret))
+			pMsgDlg->SetQuoteEvent(pItem->hEvent);
+}
+
 void NewstoryListData::ScheduleDraw()
 {
 	bWasAtBottom = AtBottom();

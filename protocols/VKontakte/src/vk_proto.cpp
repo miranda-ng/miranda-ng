@@ -219,14 +219,9 @@ void CVkProto::InitMenus()
 		mi.pszService = szServiceName;
 		
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
-		mi.position = 10000000 + NSMI_FORWARD;
+		mi.position = NS_PROTO_MENU_POS + NSMI_FORWARD;
 		mi.name.a = LPGEN("Forward");
 		m_hNewStoryMenuItems[NSMI_FORWARD] = Menu_AddNewStoryMenuItem(&mi, NSMI_FORWARD);
-
-		mi.hIcolibItem = g_plugin.getIconHandle(IDI_REPLY);
-		mi.position = 10000000 + NSMI_REPLY;
-		mi.name.a = LPGEN("Reply");
-		m_hNewStoryMenuItems[NSMI_REPLY] = Menu_AddNewStoryMenuItem(&mi, NSMI_REPLY);
 	};
 
 	//Contact Menu Services
@@ -423,13 +418,6 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 {
 	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], true);
-	
-	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) 
-		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], false);
-	else {
-		auto* pDbei = (DB::EventInfo *)lParam;
-		Menu_ShowItem(m_hNewStoryMenuItems[NSMI_REPLY], mir_strlen(pDbei->szId) > 0 && !Contact::IsReadonly(hContact));
-	}
 	return 0;
 }
 
@@ -441,36 +429,31 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 
 	switch (iCommand) {
 	case NSMI_FORWARD: 
-	{
-		std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
-		wchar_t wszMsg[2048] = L"";
-		if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle))
-			GetWindowText(pDlg->GetInput(), wszMsg, 2048);
-		
-		CVkUserListForm dlg(
-			this, 
-			wszMsg, 
-			TranslateT("Mark contacts for forwarding messages"), 
-			TranslateT("Mark contacts you want to forward messages"), 
-			TranslateT("Enter accompanying messages"),
-			0
-		);
+		{
+			std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
+			wchar_t wszMsg[2048] = L"";
+			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
+				GetWindowText(pDlg->GetInput(), wszMsg, 2048);
 
-		if (!dlg.DoModal())
-			break;
-		
-		if (!vIds.size())
-			vIds.push_back(hCurrentEvent);
-		T2Utf pszMsg(dlg.wszMessage.c_str());
-		for (auto &hContact : dlg.lContacts)
-			ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);
+			CVkUserListForm dlg(
+				this,
+				wszMsg,
+				TranslateT("Mark contacts for forwarding messages"),
+				TranslateT("Mark contacts you want to forward messages"),
+				TranslateT("Enter accompanying messages"),
+				0
+			);
 
-	}
-		break;
-	case NSMI_REPLY:
-		if (auto* pDlg = NS_GetSrmm((HANDLE)pHandle)) 
-			pDlg->SetQuoteEvent(hCurrentEvent);
-		
+			if (!dlg.DoModal())
+				break;
+
+			if (!vIds.size())
+				vIds.push_back(hCurrentEvent);
+			T2Utf pszMsg(dlg.wszMessage.c_str());
+			for (auto &hContact : dlg.lContacts)
+				ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);
+
+		}
 		break;
 	}
 	return 0;
@@ -610,7 +593,7 @@ INT_PTR CVkProto::GetCaps(int type, MCONTACT)
 
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE
-			| PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES | PF4_SERVERMSGID;
+			| PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES | PF4_SERVERMSGID | PF4_REPLY;
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 4096;

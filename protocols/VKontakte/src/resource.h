@@ -26,7 +26,6 @@
 #define IDD_OPT_MENU                    122
 #define IDD_CONTACTDELETE               123
 #define IDD_VKUSERFORM                  124
-#define IDI_REPLY                       125
 #define IDI_FORWARD                     126
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002

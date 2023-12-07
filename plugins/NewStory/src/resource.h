@@ -30,6 +30,7 @@
 #define IDI_USERS                       127
 #define IDI_VARHELP                     128
 #define IDI_TIMETREE                    129
+#define IDI_REPLY                       130
 #define IDC_USERINFO                    1000
 #define IDC_USERMENU                    1001
 #define IDC_MESSAGE                     1002
@@ -111,7 +112,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40019
 #define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           101

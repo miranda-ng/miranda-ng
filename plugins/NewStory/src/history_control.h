@@ -70,6 +70,7 @@ struct NewstoryListData : public MZeroedObject
 	int       PaintItem(HDC hdc, int index, int top, int width);
 	void      Quote();
 	void      RecalcScrollBar();
+	void      Reply();
 	void      ScheduleDraw();
 	void      ScrollBottom();
 	void      ScrollDown(int deltaY);

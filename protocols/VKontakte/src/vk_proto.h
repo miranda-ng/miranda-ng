@@ -195,7 +195,6 @@ private:
 
 	enum NewStoryMenuIndexes {
 		NSMI_FORWARD,
-		NSMI_REPLY,
 		NSMI_COUNT
 	};
 

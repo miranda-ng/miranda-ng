@@ -62,7 +62,6 @@ static IconItem iconList[] =
 	{ LPGEN("Status icon"), "status", IDI_STATUS },
 	{ LPGEN("Wall message icon"), "wall", IDI_WALL },
 	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD },
-	{ LPGEN("Reply icon"), "reply", IDI_REPLY },
 	{ LPGEN("Forward icon"), "forward", IDI_FORWARD }
 };
 
