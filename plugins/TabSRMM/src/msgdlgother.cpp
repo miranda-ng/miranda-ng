@@ -1157,7 +1157,7 @@ void CMsgDialog::GetClientIcon()
 		DestroyIcon(m_hClientIcon);
 
 	m_hClientIcon = nullptr;
-	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+	if (Finger_IsPresent()) {
 		ptrW tszMirver(db_get_wsa(m_cache->getActiveContact(), m_cache->getActiveProto(), "MirVer"));
 		if (tszMirver)
 			m_hClientIcon = Finger_GetClientIcon(tszMirver, 1);

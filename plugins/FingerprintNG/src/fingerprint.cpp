@@ -39,108 +39,11 @@ static OBJLIST<FOUNDINFO> arFI(50, CompareFI);
 
 static LIST<void> arMonitoredWindows(3, PtrKeySortT);
 
-static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
-
-/*	ApplyFingerprintImage
-*	 1)Try to find appropriate mask
-*	 2)Register icon in extraimage list if not yet registered (EMPTY_EXTRA_ICON)
-*	 3)Set ExtraImage for contact
-*/
-
-static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
-{
-	if (mir_wstrlen(ptszMirver))
-		Srmm_ModifyIcon(hContact, MODULENAME, 1, (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE), ptszMirver);
-	else
-		Srmm_SetIconFlags(hContact, MODULENAME, 1, MBF_HIDDEN);
-}
-
-int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
-{
-	if (hContact == NULL)
-		return 0;
-
-	HANDLE hImage = INVALID_HANDLE_VALUE;
-	if (szMirVer)
-		hImage = GetIconIndexFromFI(szMirVer);
-
-	ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
-
-	if (arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
-		SetSrmmIcon(hContact, szMirVer);
-
-	return 0;
-}
-
-int OnExtraIconClick(WPARAM wParam, LPARAM, LPARAM)
-{
-	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
-	return 0;
-}
-
-/*
-*	WildCompare
-*	Compare 'name' string with 'mask' strings.
-*	Masks can contain '*' or '?' wild symbols
-*	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE
-*	In order to handle situation 'at least one any sybol' use "?*" combination:
-*	e.g WildCompare("Tst","T?*st*"), returns FALSE, but both WildCompare("Test","T?*st*") and
-*	WildCompare("Teeest","T?*st*") return TRUE.
-*
-*	Function is case sensitive! so convert input or modify func to use _qtoupper()
-*
-*	Mask can contain several submasks. In this case each submask (including first)
-*	should start from '|' e.g: "|first*submask|second*mask".
-*
-*	Dec 25, 2006 by FYR:
-*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means:
-*	if NOT according to mask 3 AND (mask1 OR mask2)
-*	EXCEPTION should be BEFORE main mask:
-*		IF Exception match - the comparing stops as FALSE
-*		IF Exception does not match - comparing continue
-*		IF Mask match - comparing stops as TRUE
-*		IF Mask does not not match comparing continue
-*/
-BOOL __fastcall WildCompare(LPWSTR wszName, LPWSTR wszMask)
-{
-	if (wszMask == nullptr)
-		return NULL;
-
-	if (*wszMask != L'|')
-		return wildcmpw(wszName, wszMask);
-
-	size_t s = 1, e = 1;
-	LPWSTR wszTemp = (LPWSTR)_alloca(mir_wstrlen(wszMask) * sizeof(wchar_t) + sizeof(wchar_t));
-	BOOL bExcept;
-
-	while (wszMask[e] != L'\0')
-	{
-		s = e;
-		while (wszMask[e] != L'\0' && wszMask[e] != L'|') e++;
-
-		// exception mask
-		bExcept = (*(wszMask + s) == L'^');
-		if (bExcept) s++;
-
-		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(wchar_t));
-		wszTemp[e - s] = L'\0';
-
-		if (wildcmpw(wszName, wszTemp))
-			return !bExcept;
-
-		if (wszMask[e] != L'\0')
-			e++;
-		else
-			return FALSE;
-	}
-	return FALSE;
-}
-
 /*	GetIconsIndexes
 *	Retrieves Icons indexes by Mirver
 */
 
-void __fastcall GetIconsIndexes(LPWSTR wszMirVer, KN_FP_MASK *&base, KN_FP_MASK *&overlay1, KN_FP_MASK *&overlay2, KN_FP_MASK *&overlay3, KN_FP_MASK *&overlay4)
+static void GetIconsIndexes(LPWSTR wszMirVer, KN_FP_MASK *&base, KN_FP_MASK *&overlay1, KN_FP_MASK *&overlay2, KN_FP_MASK *&overlay3, KN_FP_MASK *&overlay4)
 {
 	base = overlay1 = overlay2 = overlay3 = overlay4 = nullptr;
 
@@ -265,6 +168,126 @@ HICON __fastcall CreateIconFromIndexes(KN_FP_MASK *base, KN_FP_MASK *overlay1, K
 	IcoLib_ReleaseIcon(icOverlay3);
 	IcoLib_ReleaseIcon(icOverlay4);
 	return hIcon;
+}
+
+/****************************************************************************************
+*	ServiceGetClientIcon
+*	MS_FP_GETCLIENTICONW service implementation.
+*	wParam - LPWSTR MirVer value to get client for.
+*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
+*	ICON IS ALWAYS COPIED!!!
+*/
+
+static INT_PTR ServiceGetClientIcon(WPARAM wParam, LPARAM)
+{
+	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
+	if (wszMirVer == nullptr)
+		return 0;
+
+	KN_FP_MASK *base, *overlay1, *overlay2, *overlay3, *overlay4;
+	GetIconsIndexes(wszMirVer, base, overlay1, overlay2, overlay3, overlay4);
+
+	HICON hIcon = nullptr;			// returned HICON
+	if (base != nullptr)
+		hIcon = CreateIconFromIndexes(base, overlay1, overlay2, overlay3, overlay4);
+
+	return (INT_PTR)hIcon;
+}
+
+/****************************************************************************************
+*	 ApplyFingerprintImage
+*	 1)Try to find appropriate mask
+*	 2)Register icon in extraimage list if not yet registered (EMPTY_EXTRA_ICON)
+*	 3)Set ExtraImage for contact
+*/
+
+static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
+{
+	if (mir_wstrlen(ptszMirver))
+		Srmm_ModifyIcon(hContact, MODULENAME, 1, (HICON)ServiceGetClientIcon((WPARAM)ptszMirver, TRUE), ptszMirver);
+	else
+		Srmm_SetIconFlags(hContact, MODULENAME, 1, MBF_HIDDEN);
+}
+
+int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
+{
+	if (hContact == NULL)
+		return 0;
+
+	HANDLE hImage = INVALID_HANDLE_VALUE;
+	if (szMirVer)
+		hImage = GetIconIndexFromFI(szMirVer);
+
+	ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
+
+	if (arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
+		SetSrmmIcon(hContact, szMirVer);
+
+	return 0;
+}
+
+int OnExtraIconClick(WPARAM wParam, LPARAM, LPARAM)
+{
+	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
+	return 0;
+}
+
+/*
+*	WildCompare
+*	Compare 'name' string with 'mask' strings.
+*	Masks can contain '*' or '?' wild symbols
+*	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE
+*	In order to handle situation 'at least one any sybol' use "?*" combination:
+*	e.g WildCompare("Tst","T?*st*"), returns FALSE, but both WildCompare("Test","T?*st*") and
+*	WildCompare("Teeest","T?*st*") return TRUE.
+*
+*	Function is case sensitive! so convert input or modify func to use _qtoupper()
+*
+*	Mask can contain several submasks. In this case each submask (including first)
+*	should start from '|' e.g: "|first*submask|second*mask".
+*
+*	Dec 25, 2006 by FYR:
+*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means:
+*	if NOT according to mask 3 AND (mask1 OR mask2)
+*	EXCEPTION should be BEFORE main mask:
+*		IF Exception match - the comparing stops as FALSE
+*		IF Exception does not match - comparing continue
+*		IF Mask match - comparing stops as TRUE
+*		IF Mask does not not match comparing continue
+*/
+BOOL __fastcall WildCompare(LPWSTR wszName, LPWSTR wszMask)
+{
+	if (wszMask == nullptr)
+		return NULL;
+
+	if (*wszMask != L'|')
+		return wildcmpw(wszName, wszMask);
+
+	size_t s = 1, e = 1;
+	LPWSTR wszTemp = (LPWSTR)_alloca(mir_wstrlen(wszMask) * sizeof(wchar_t) + sizeof(wchar_t));
+	BOOL bExcept;
+
+	while (wszMask[e] != L'\0')
+	{
+		s = e;
+		while (wszMask[e] != L'\0' && wszMask[e] != L'|') e++;
+
+		// exception mask
+		bExcept = (*(wszMask + s) == L'^');
+		if (bExcept) s++;
+
+		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(wchar_t));
+		wszTemp[e - s] = L'\0';
+
+		if (wildcmpw(wszName, wszTemp))
+			return !bExcept;
+
+		if (wszMask[e] != L'\0')
+			e++;
+		else
+			return FALSE;
+	}
+	return FALSE;
 }
 
 /******************************************************************************
@@ -586,30 +609,6 @@ VOID ClearFI()
 }
 
 /****************************************************************************************
-*	ServiceGetClientIconW
-*	MS_FP_GETCLIENTICONW service implementation.
-*	wParam - LPWSTR MirVer value to get client for.
-*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
-*	ICON IS ALWAYS COPIED!!!
-*/
-
-static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM)
-{
-	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
-	if (wszMirVer == nullptr)
-		return 0;
-
-	KN_FP_MASK *base, *overlay1, *overlay2, *overlay3, *overlay4;
-	GetIconsIndexes(wszMirVer, base, overlay1, overlay2, overlay3, overlay4);
-
-	HICON hIcon = nullptr;			// returned HICON
-	if (base != nullptr)
-		hIcon = CreateIconFromIndexes(base, overlay1, overlay2, overlay3, overlay4);
-
-	return (INT_PTR)hIcon;
-}
-
-/****************************************************************************************
  *	 ServiceGetClientDescrW
  *	 MS_FP_GETCLIENTDESCRW service implementation.
  *	 wParam - LPCWSTR MirVer value
@@ -617,7 +616,7 @@ static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM)
  *	 returns LPCWSTR: client description (do not destroy) or NULL
  */
 
-static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
+static INT_PTR ServiceGetClientDescr(WPARAM wParam, LPARAM)
 {
 	LPWSTR wszMirVer = (LPWSTR)wParam;  // MirVer value to get client for.
 	if (wszMirVer == nullptr)
@@ -642,13 +641,13 @@ static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
  *	 returns LPCWSTR: client description (do not destroy) if clients are same or NULL
  */
 
-static INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceSameClients(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam || !lParam)
 		return NULL; //one of its is not null
 
-	INT_PTR res1 = ServiceGetClientDescrW(wParam, 0);
-	INT_PTR res2 = ServiceGetClientDescrW(lParam, 0);
+	INT_PTR res1 = ServiceGetClientDescr(wParam, 0);
+	INT_PTR res2 = ServiceGetClientDescr(lParam, 0);
 	return (res1 == res2 && res1 != 0) ? res1 : NULL;
 }
 
@@ -786,7 +785,7 @@ void InitFingerModule()
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 
-	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
-	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
-	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
+	CreateServiceFunction("Fingerprint/SameClients", ServiceSameClients);
+	CreateServiceFunction("Fingerprint/GetClientDescr", ServiceGetClientDescr);
+	CreateServiceFunction("Fingerprint/GetClientIcon", ServiceGetClientIcon);
 }

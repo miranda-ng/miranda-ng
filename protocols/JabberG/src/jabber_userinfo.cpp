@@ -245,7 +245,7 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 		if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
 			HICON hIcon = nullptr;
 
-			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+			if (Finger_IsPresent()) {
 				if (pCaps->GetSoft()) {
 					wchar_t buf[256];
 					mir_snwprintf(buf, L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());

@@ -269,14 +269,12 @@ BOOL MirVerExists(MCONTACT hContact)
 LPWSTR getMirVer(MCONTACT hContact)
 {
 	LPSTR szProto = Proto_GetBaseAccountName(hContact);
-	if (!szProto) return nullptr;
+	if (!szProto)
+		return nullptr;
 
-	LPWSTR msg = db_get_wsa(hContact, szProto, "MirVer");
-	if (msg) {
-		if (msg[0] != 0)
-			return msg;
-		mir_free(msg);
-	}
+	ptrW msg(db_get_wsa(hContact, szProto, "MirVer"));
+	if (msg && msg[0] != 0)
+		return msg.detach();
 
 	return nullptr;
 }
@@ -422,7 +420,7 @@ static void ModifyCopyIP(MCONTACT hContact)
 static void ModifyCopyMirVer(MCONTACT hContact)
 {
 	HICON hMenuIcon = nullptr;
-	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+	if (Finger_IsPresent()) {
 		LPWSTR msg = getMirVer(hContact);
 		if (msg) {
 			hMenuIcon = Finger_GetClientIcon(msg, 1);

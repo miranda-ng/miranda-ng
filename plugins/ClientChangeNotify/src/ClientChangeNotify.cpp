@@ -283,7 +283,7 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
-	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
+	bFingerprintExists = Finger_IsPresent();
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;
 }
