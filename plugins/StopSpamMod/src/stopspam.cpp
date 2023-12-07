@@ -70,7 +70,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		return 0;
 
 	// if event is in protocol that is not despammed
-	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
+	DBEVENTINFO *dbei = (DBEVENTINFO *)l;
 	if (!ProtoInList(dbei->szModule))
 		return 0; // ...let the event go its way
 
@@ -87,18 +87,18 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	// we want block not only messages, i seen many types other eventtype flood
 	if (dbei->flags & DBEF_READ)
 		return 0; // ...let the event go its way
-	
+
 	// mark contact which we trying to contact for exclude from check
 	if ((dbei->flags & DBEF_SENT) && !Contact::OnList(hContact)
 		&& (!gbMaxQuestCount || g_plugin.getDword(hContact, "QuestionCount") < gbMaxQuestCount) && gbExclude) {
 		g_plugin.setByte(hContact, "Excluded", 1);
 		return 0;
 	}
-	
+
 	// if message is from known or marked Answered contact
 	if (Contact::OnList(hContact))
 		return 0; // ...let the event go its way
-	
+
 	// if message is corrupted or empty it cannot be an answer.
 	if (!dbei->cbBlob || !dbei->pBlob)
 		// reject processing of the event
@@ -106,9 +106,9 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 
 	wstring message;
 	if (dbei->flags & DBEF_UTF)
-		message = ptrW(mir_utf8decodeW((char*)dbei->pBlob));
+		message = ptrW(mir_utf8decodeW((char *)dbei->pBlob));
 	else
-		message = _A2T((char*)(dbei->pBlob));
+		message = _A2T((char *)(dbei->pBlob));
 
 	// if message contains right answer...
 
@@ -147,7 +147,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 			answered = boost::regex_search(msg.begin(), msg.end(), expr);
 		}
 	}
-	
+
 	if (answered) {
 		// unhide contact
 		Contact::Hide(hContact, false);
@@ -166,7 +166,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 			wstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
 			// for notICQ protocols or disable auto auth. request
 			if ((Stricmp(L"ICQ", prot.c_str())) || (!gbAutoReqAuth)) {
-				char * buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
+				char *buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
@@ -180,7 +180,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 					Clist_SetGroup(hContact, gbAutoAuthGroup.c_str());
 					Contact::PutOnList(hContact);
 				}
-				
+
 				// auto auth. request with send congratulation
 				if (gbAutoReqAuth)
 					ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
@@ -199,7 +199,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 			wstring q;
 			if (gbInfTalkProtection)
 				q += L"StopSpam automatic message:\r\n";
-			
+
 			if (gbMathExpression) { //parse math expression in question
 				wstring tmp_question = gbQuestion;
 				std::list<int> args;
@@ -219,7 +219,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 						actions.push_back(gbQuestion[p1]);
 					++p1;
 				}
-				
+
 				int math_answer = 0;
 				math_answer = args.front();
 				args.pop_front();
@@ -282,7 +282,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 int OnDbContactSettingChanged(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
-	DBCONTACTWRITESETTING * cws = (DBCONTACTWRITESETTING*)l;
+	auto *cws = (DBCONTACTWRITESETTING *)l;
 
 	// if CList/NotOnList is being deleted then remove answeredSetting
 	if (strcmp(cws->szModule, "CList"))

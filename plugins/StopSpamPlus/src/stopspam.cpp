@@ -38,11 +38,9 @@ CMPlugin::CMPlugin() :
 
 int CMPlugin::Load()
 {
-	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
-
 	HookEvent(ME_DB_EVENT_ADDED, OnDbEventAdded);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnDbEventFilterAdd);
 	HookEvent(ME_OPT_INITIALISE, OnOptInit);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingchanged);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
 }

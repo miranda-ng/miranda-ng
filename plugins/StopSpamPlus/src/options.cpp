@@ -73,12 +73,12 @@ public:
 		return true;
 	}
 
-	void onHelp(CCtrlButton*)
+	void onHelp(CCtrlButton *)
 	{
 		variables_showhelp(m_hwnd, WM_COMMAND, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
 	}
 
-	void onRestore(CCtrlButton*)
+	void onRestore(CCtrlButton *)
 	{
 		g_plugin.delSetting(g_plugin.AuthRepl.GetDBSettingName());
 		g_plugin.delSetting(g_plugin.Question.GetDBSettingName());
@@ -89,7 +89,7 @@ public:
 		edtCongrat.SetText(g_plugin.getCongrats());
 		edtReply.SetText(g_plugin.getReply());
 		edtDivider.SetText(g_plugin.AnswSplitString.Default());
-		
+
 		NotifyChange();
 	}
 };
@@ -148,14 +148,14 @@ public:
 				continue;
 
 			if (m_accounts.GetCheckState(i) == 0)
-				out << (char*)item.lParam << " ";
+				out << (char *)item.lParam << " ";
 		}
 
-		g_plugin.DisabledProtoList = (char*)out.str().c_str();
+		g_plugin.DisabledProtoList = (char *)out.str().c_str();
 		return true;
 	}
 
-	void list_OnItemChanged(CCtrlListView::TEventInfo*)
+	void list_OnItemChanged(CCtrlListView::TEventInfo *)
 	{
 		if (m_bInitialized)
 			NotifyChange();
