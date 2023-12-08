@@ -28,6 +28,27 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_POPUP,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int SrmmMenu_ProcessIconClick(WPARAM, LPARAM lParam)
+{
+	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
+
+	if (!mir_strcmp(sicd->szModule, MODULENAME))
+		Popup_Enable(!Popup_Enabled());
+
+	return 0;
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	StatusIconData sid = {};
+	sid.szModule = MODULENAME;
+	sid.szTooltip.a = LPGEN("Popup mode");
+	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+	Srmm_AddIcon(&sid, &g_plugin);
+
+	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
+}
+
 static int OnShutdown(WPARAM, LPARAM)
 {
 	CleanupClasses();

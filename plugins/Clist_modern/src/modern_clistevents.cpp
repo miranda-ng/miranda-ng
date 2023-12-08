@@ -455,7 +455,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 int EventArea_Create(HWND hCluiWnd)
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Event area background")"/EventArea"), 0);
+	BackgroundConfig_Register(LPGEN("Event area background")"/EventArea");
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhEventAreaBackgroundSettingsChanged);
 	ehhEventAreaBackgroundSettingsChanged(0, 0);
 

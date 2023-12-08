@@ -407,9 +407,9 @@ History++ для истории окон
 Избранное
 [Block]
 Заблокировать
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Режим всплывающих окон: по умолчанию
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Режим всплывающих окон: избранные
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Режим всплывающих окон: игнорировать полноэкранные приложения

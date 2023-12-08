@@ -110,6 +110,10 @@
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 Без имени
+[ %u KB]
+ %u КБ
+[wrote]
+
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 Поставить/убрать закладку
@@ -203,6 +207,8 @@
 Поиск по всей истории
 [Copy text]
 Копировать текст
+[Show in folder]
+Показать в папке
 [Quote]
 Цитата
 [Save as]

@@ -425,7 +425,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
 			case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);
 			case 25: {
-				int msgId = ppi->SendMsg(hContact, (const char *)lParam);
+				int msgId = ppi->SendMsg(hContact, wParam, (const char *)lParam);
 				if (msgId == -1) {
 					ppi->ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)-1, (LPARAM)TranslateT("Protocol is offline"));
 					return -1;

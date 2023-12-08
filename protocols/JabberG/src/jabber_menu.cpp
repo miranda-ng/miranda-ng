@@ -346,7 +346,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 			HICON hIcon = (HICON)INVALID_HANDLE_VALUE;
 			Menu_SetChecked(m_phMenuResourceItems[i], item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r);
 
-			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+			if (Finger_IsPresent()) {
 				CMStringA szTmp;
 				FormatMirVer(r, szTmp);
 				hIcon = Finger_GetClientIcon(Utf2T(szTmp), 0);

@@ -28,12 +28,12 @@ class CErrorDlg : public CDlgBase
 	ptrW m_wszText;
 	CMStringW m_wszName, m_wszDescr;
 	CMsgDialog *m_pOwner;
-	MessageSendQueueItem *m_queueItem;
+	SendQueue::Item *m_queueItem;
 
 	CCtrlBase m_errorText, m_msgText;
 
 public:
-	CErrorDlg(CMsgDialog *pOwner, const wchar_t *pwszDescr, MessageSendQueueItem *pItem) :
+	CErrorDlg(CMsgDialog *pOwner, const wchar_t *pwszDescr, SendQueue::Item *pItem) :
 		CDlgBase(g_plugin, IDD_MSGSENDERROR),
 		m_pOwner(pOwner),
 		m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
@@ -75,21 +75,21 @@ public:
 	}
 };
 
-void CMsgDialog::ShowError(const wchar_t *pwszMsg, MessageSendQueueItem *pItem)
+void CMsgDialog::ShowError(const wchar_t *pwszMsg, SendQueue::Item *pItem)
 {
 	auto *pDlg = new CErrorDlg(this, pwszMsg, pItem);
 	pDlg->SetParent(m_hwnd);
 	pDlg->Show();
 }
 
-void CMsgDialog::HandleError(bool bRetry, MessageSendQueueItem *pItem)
+void CMsgDialog::HandleError(bool bRetry, SendQueue::Item *pItem)
 {
 	if (bRetry) {
 		StartMessageSending();
-		SendSendQueueItem(pItem);
+		SendQueue::SendItem(pItem);
 	}
 	else {
-		RemoveSendQueueItem(pItem);
+		SendQueue::RemoveItem(pItem);
 		SetFocus(m_message.GetHwnd());
 	}
 }

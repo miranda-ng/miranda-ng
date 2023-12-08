@@ -54,7 +54,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void   Init(void);
 	int    InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	void   MessageDialogResize(int w, int h);
-	void   MessageSend(const MessageSendQueueItem &msg);
+	void   MessageSend(const SendQueue::Item &msg);
 	void   ShowAvatar(void);
 	void   SetDialogToType(void);
 	void   SetStatusIcon(void);
@@ -141,8 +141,8 @@ public:
 	void UpdateStatusBar() override;
 	void UpdateTitle() override;
 
-	void HandleError(bool bRetry, MessageSendQueueItem *pItem);
-	void ShowError(const wchar_t *pwszMsg, MessageSendQueueItem *pItem);
+	void HandleError(bool bRetry, SendQueue::Item *pItem);
+	void ShowError(const wchar_t *pwszMsg, SendQueue::Item *pItem);
 
 	void FixTabIcons();
 	void GetAvatar();

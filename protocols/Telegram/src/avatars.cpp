@@ -97,19 +97,26 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
 }
 
+void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
+{
+	if (!response.object)
+		return;
+
+}
+
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 {
 	auto *ofd = (OFDTHREAD *)pParam;
 
 	DB::EventInfo dbei(ofd->hDbEvent);
 	if (dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
-		JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
-		if (root) {
-			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::Type(root["t"].as_int()), 0, "");
+		if (!ofd->bCopy) {
+			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
 			ft->ofd = ofd;
 			m_arFiles.insert(ft);
 
-			SendQuery(new TD::getRemoteFile(root["u"].as_string(), 0), &CTelegramProto::OnGetFileInfo, ft);
+			DB::FILE_BLOB blob(dbei);
+			SendQuery(new TD::getRemoteFile(blob.getUrl(), 0), &CTelegramProto::OnGetFileInfo, ft);
 		}
 	}
 	else delete ofd;
@@ -238,9 +245,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		for (auto &it : m_arOwnMsg) {
 			if (it->tmpFileId == pFile->id_) {
 				if (!pFile->remote_->id_.empty()) {
-					char szId[100];
-					_i64toa(it->tmpMsgId, szId, 10);
-					if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
+					if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
 						DBVARIANT dbv = { DBVT_UTF8 };
 						dbv.pszVal = (char *)pFile->remote_->id_.c_str();
 						db_event_setJson(hDbEvent, "u", &dbv);

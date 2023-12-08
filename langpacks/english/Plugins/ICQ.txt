@@ -25,11 +25,9 @@
 [Send me registration code via SMS]
 [Enter registration code]
 [UIN:]
-[Online since:]
-[Idle since:]
 [Nick:]
-[Member since:]
 [Last seen:]
+[Online since:]
 [Phone number:]
 [Enter ICQ Password]
 [Enter a password:]
@@ -60,6 +58,7 @@
 [%s error notifications]
 [Synchronize server groups]
 [Edit my web profile]
+[long time ago]
 [UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
 [SmileyAdd plugin required to support stickers]
@@ -70,3 +69,4 @@
 [Unknown sticker]
 [User sent a sticker:]
 [Buddy addition failed]
+;file \protocols\ICQ-WIM\src\utils.cpp

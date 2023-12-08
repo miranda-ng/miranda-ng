@@ -102,23 +102,23 @@ static int ackevent(WPARAM, LPARAM lParam)
 		return 0;
 
 	MCONTACT hContact = pAck->hContact;
-	MessageSendQueueItem *item = FindSendQueueItem(hContact, pAck->hProcess);
+	auto *item = SendQueue::FindItem(hContact, pAck->hProcess);
 	if (item == nullptr)
-		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), pAck->hProcess);
+		item = SendQueue::FindItem(hContact = db_mc_getMeta(pAck->hContact), pAck->hProcess);
 	if (item == nullptr)
 		return 0;
 
 	auto *pSender = item->pDlg;
 	if (pAck->result == ACKRESULT_FAILED) {
 		if (item->hwndErrorDlg != nullptr)
-			item = FindOldestPendingSendQueueItem(pSender, hContact);
+			item = SendQueue::FindOldestPendingItem(pSender, hContact);
 
 		if (item != nullptr && item->hwndErrorDlg == nullptr) {
 			if (pSender != nullptr) {
 				pSender->StopMessageSending();
 				pSender->ShowError((wchar_t *)pAck->lParam, item);
 			}
-			else RemoveSendQueueItem(item);
+			else SendQueue::RemoveItem(item);
 		}
 		return 0;
 	}
@@ -143,7 +143,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	if (item->hwndErrorDlg != nullptr)
 		DestroyWindow(item->hwndErrorDlg);
 
-	if (RemoveSendQueueItem(item) && g_plugin.bAutoClose) {
+	if (SendQueue::RemoveItem(item) && g_plugin.bAutoClose) {
 		if (pSender != nullptr)
 			pSender->Close();
 	}

@@ -38,23 +38,23 @@ BOOL gbCaseInsensitive = 0;
 BOOL gbRegexMatch = 0;
 BOOL gbInvisDisable = 0;
 BOOL gbIgnoreURL = 1;
-BOOL gbLogToFile=0;
-BOOL gbAutoAuth=0;
-BOOL gbAutoAddToServerList=0;
-BOOL gbAutoReqAuth=1;
+BOOL gbLogToFile = 0;
+BOOL gbAutoAuth = 0;
+BOOL gbAutoAddToServerList = 0;
+BOOL gbAutoReqAuth = 1;
 BOOL gbMathExpression = 0;
 
 HANDLE hStopSpamLogDirH = nullptr;
 
 wstring gbSpammersGroup = L"Spammers";
-wstring gbAutoAuthGroup	= L"NotSpammers";
+wstring gbAutoAuthGroup = L"NotSpammers";
 
 wstring gbQuestion;
 wstring gbAnswer;
 wstring gbCongratulation;
 std::wstring gbAuthRepl;
 extern const wchar_t *defQuestion, *defCongrats, *defAuthReply;
-extern int RemoveTmp(WPARAM,LPARAM);
+extern int RemoveTmp(WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
@@ -69,7 +69,7 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {94CED94C-A94A-4BB1-ACBD-5CC6EBB689D4}
-	{0x94ced94c, 0xa94a, 0x4bb1, {0xac, 0xbd, 0x5c, 0xc6, 0xeb, 0xb6, 0x89, 0xd4}}
+	{ 0x94ced94c, 0xa94a, 0x4bb1, { 0xac, 0xbd, 0x5c, 0xc6, 0xeb, 0xb6, 0x89, 0xd4 } }
 };
 
 CMPlugin::CMPlugin() :
@@ -78,7 +78,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue);
+extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const *szModule, char const *szSetting, wstring errorValue);
 
 void InitVars()
 {
@@ -116,9 +116,9 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		gbVarsServiceExist = TRUE;
 
 	InitVars();
-	if(gbDelExcluded)
+	if (gbDelExcluded)
 		mir_forkthread(&CleanThread);
-	
+
 	// Folders plugin support
 	hStopSpamLogDirH = FoldersRegisterCustomPathW(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
 	return 0;

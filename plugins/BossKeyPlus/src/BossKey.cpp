@@ -560,7 +560,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

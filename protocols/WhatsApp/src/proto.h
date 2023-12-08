@@ -466,7 +466,7 @@ public:
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	HANDLE   SearchBasic(const wchar_t* id) override;
-	int      SendMsg(MCONTACT hContact, const char* msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char* msg) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 

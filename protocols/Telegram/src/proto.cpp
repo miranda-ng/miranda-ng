@@ -25,7 +25,7 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 }
 
 static int CompareOwnMsg(const TG_OWN_MESSAGE *p1, const TG_OWN_MESSAGE *p2)
-{	return CompareId(p1->tmpMsgId, p2->tmpMsgId);
+{	return strcmp(p1->szMsgId, p2->szMsgId);
 }
 
 static int CompareBasicGroups(const TG_BASIC_GROUP *p1, const TG_BASIC_GROUP *p2)
@@ -84,7 +84,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 
 	// create standard network connection
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = m_tszUserName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
@@ -96,6 +96,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
+	CreateProtoService(PS_LEAVECHAT, &CTelegramProto::SvcLeaveChat);
+
 	HookProtoEvent(ME_GC_MUTE, &CTelegramProto::GcMuteHook);
 	HookProtoEvent(ME_GC_EVENT, &CTelegramProto::GcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CTelegramProto::GcMenuHook);
@@ -103,6 +105,15 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 
 CTelegramProto::~CTelegramProto()
 {
+}
+
+void CTelegramProto::OnContactAdded(MCONTACT hContact)
+{
+	if (int64_t id = GetId(hContact)) {
+		auto *pUser = new TG_USER(id, hContact, isChatRoom(hContact));
+		pUser->szAvatarHash = getMStringA(hContact, DBKEY_AVATAR_HASH);
+		m_arUsers.insert(pUser);
+	}
 }
 
 void CTelegramProto::OnContactDeleted(MCONTACT hContact)
@@ -117,6 +128,7 @@ void CTelegramProto::OnContactDeleted(MCONTACT hContact)
 
 	if (auto *pUser = FindUser(id)) {
 		pUser->hContact = INVALID_CONTACT_ID;
+		pUser->wszNick = getMStringW(hContact, "Nick");
 		pUser->wszFirstName = getMStringW(hContact, "FirstName");
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
@@ -207,8 +219,7 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 	if (!pUser)
 		return;
 
-	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
+	DB::EventInfo dbei(hDbEvent, false);
 	if (dbei.szId) {
 		mir_cslock lck(m_csDeleteMsg);
 		if (m_deleteChatId) {
@@ -219,7 +230,7 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 		}
 
 		m_deleteChatId = pUser->chatId;
-		m_deleteIds.push_back(_atoi64(dbei.szId));
+		m_deleteIds.push_back(dbei2id(dbei));
 		m_impl.m_deleteMsg.Start(500);
 	}
 }
@@ -234,11 +245,9 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 		return;
 
 	if (dbei.szId && dbei.cbBlob && dbei.pBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
-		auto text = TD::make_object<TD::formattedText>();
-		text->text_ = (char*)dbei.pBlob;
-
+		auto text = formatBbcodes((char*)dbei.pBlob);
 		auto content = TD::make_object<TD::inputMessageText>(std::move(text), false, false);
-		SendQuery(new TD::editMessageText(pUser->chatId, _atoi64(dbei.szId), 0, std::move(content)));
+		SendQuery(new TD::editMessageText(pUser->chatId, dbei2id(dbei), 0, std::move(content)));
 	}
 }
 
@@ -262,7 +271,7 @@ void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 		}
 
 		m_markChatId = pUser->chatId;
-		m_markIds.push_back(_atoi64(dbei.szId));
+		m_markIds.push_back(dbei2id(dbei));
 		m_impl.m_markRead.Start(500);
 	}
 }
@@ -321,7 +330,7 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID;
+		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID | PF4_REPLY;
 
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_LONGAWAY;
@@ -338,15 +347,8 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
-	MEVENT hEvent = CSuper::RecvFile(hContact, pre);
-	if (hEvent)
-		if (auto *ft = (TG_FILE_REQUEST *)pre->lParam) {
-			DBVARIANT dbv = { DBVT_DWORD };
-			dbv.dVal = ft->m_type;
-			db_event_setJson(hEvent, "t", &dbv);
-		}
-
-	return hEvent;
+	auto *ft = (TG_FILE_REQUEST *)pre->lParam;
+	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, pre) : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -394,6 +396,93 @@ HANDLE CTelegramProto::SearchByName(const wchar_t *nick, const wchar_t *firstNam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool bCreateEvent)
+{
+	if (auto *pUser = FindChat(pMsg->chat_id_)) {
+		const TD::MessageContent *pBody = pMsg->content_.get();
+
+		TD::file *pFile;
+		switch (pBody->get_id()) {
+		case TD::messagePhoto::ID:
+			pFile = ((TD::messagePhoto *)pBody)->photo_->sizes_[0]->photo_.get();
+			break;
+
+		case TD::messageAudio::ID:
+			pFile = ((TD::messageAudio *)pBody)->audio_->audio_.get();
+			break;
+
+		case TD::messageVideo::ID:
+			pFile = ((TD::messageVideo *)pBody)->video_->video_.get();
+			break;
+
+		case TD::messageDocument::ID:
+			pFile = ((TD::messageDocument *)pBody)->document_->document_.get();
+			break;
+
+		default: 
+			return;
+		}
+
+		char szUserId[100];
+		auto szMsgId(msg2id(pMsg));
+
+		auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, szMsgId);
+		pOwnMsg->tmpFileId = pFile->id_;
+		m_arOwnMsg.insert(pOwnMsg);
+
+		if (!GetGcUserId(pUser, pMsg, szUserId))
+			szUserId[0] = 0;
+
+		if (bCreateEvent) {
+			auto *pFileName = pFile->local_->path_.c_str();
+			CMStringA szDescr = GetMessageText(pUser, pMsg);
+
+			DB::EventInfo dbei;
+			dbei.szModule = Proto_GetBaseAccountName(ft->m_hContact);
+			dbei.eventType = EVENTTYPE_FILE;
+			dbei.flags = DBEF_SENT | DBEF_UTF;
+			dbei.timestamp = time(0);
+
+			TG_FILE_REQUEST localft(TG_FILE_REQUEST::FILE, 0, 0);
+			localft.m_fileName = Utf2T(pFileName);
+			localft.m_fileSize = pFile->size_;
+			localft.m_uniqueId = szMsgId;
+			localft.m_szUserId = szUserId;
+
+			DB::FILE_BLOB blob(localft.m_fileName, ft->m_wszDescr);
+			OnSendOfflineFile(dbei, blob, &localft);
+			blob.write(dbei);
+
+			db_event_add(ft->m_hContact, &dbei);
+		}
+		else {
+			ft->m_szUserId = szUserId;
+			ft->m_uniqueId = szMsgId;
+			ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+		}
+	}
+}
+
+void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUserInfo)
+{
+	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
+
+	if (response.object->get_id() == TD::message::ID) {
+		ProcessFileMessage(ft, (TD::message *)response.object.get(), false);
+		ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+	}
+	else if (response.object->get_id() == TD::messages::ID) {
+		int i = 0;
+		auto *pMessages = (TD::messages *)response.object.get();
+		for (auto &it : pMessages->messages_) {
+			ProcessFileMessage(ft, it.get(), i != 0);
+			i++;
+		}
+	}
+
+	delete ft;
+}
+
 HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
 {
 	auto *pUser = FindUser(GetId(hContact));
@@ -402,7 +491,17 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 		return nullptr;
 	}
 
-	TG_FILE_REQUEST *pTransfer = nullptr;
+	struct FileItem
+	{
+		wchar_t *pwszName;
+		long iSize;
+
+		FileItem(wchar_t *_1, long _2) :
+			pwszName(_1), iSize(_2)
+		{}
+	};
+
+	OBJLIST<FileItem> arFiles(1);
 
 	for (int i = 0; ppszFiles[i] != 0; i++) {
 		struct _stat statbuf;
@@ -411,97 +510,95 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 			continue;
 		}
 
-		pTransfer = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
-		pTransfer->m_fileName = ppszFiles[i];
-		if (m_bCompressFiles)
-			pTransfer->AutoDetectType();
-		
-		pTransfer->m_hContact = hContact;
-		pTransfer->m_fileSize = statbuf.st_size;
-		if (mir_wstrlen(szDescription))
-			pTransfer->m_wszDescr = szDescription;
+		arFiles.insert(new FileItem(ppszFiles[i], statbuf.st_size));
+	}
 
-		// create a message with embedded file
-		auto *pMessage = new TD::sendMessage();
+	if (!arFiles.getCount()) {
+		debugLogA("No files to be sent");
+		return nullptr;
+	}
+
+	if (arFiles.getCount() > 10) {
+		debugLogA("Too many files to be sent");
+		return nullptr;
+	}
+
+	// create a message with embedded file
+	TD::sendMessage *pMessage = nullptr;
+	TD::sendMessageAlbum *pAlbum = nullptr;
+
+	if (arFiles.getCount() == 1) {
+		pMessage = new TD::sendMessage();
 		pMessage->chat_id_ = pUser->chatId;
-		auto caption = TD::make_object<TD::formattedText>();
-		caption->text_ = T2Utf(szDescription).get();
+	}
+	else {
+		pAlbum = new TD::sendMessageAlbum();
+		pAlbum->chat_id_ = pUser->chatId;
+	}
 
-		if (pTransfer->m_type == TG_FILE_REQUEST::FILE) {
+	auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, 0);
+	ft->m_hContact = hContact;
+	ft->m_fileName = arFiles[0].pwszName;
+	ft->m_fileSize = arFiles[0].iSize;
+	ft->m_wszDescr = szDescription;
+
+	for (auto &it: arFiles) {
+		auto iFileType = (m_bCompressFiles) ? AutoDetectType(it->pwszName) : TG_FILE_REQUEST::FILE;
+
+		auto caption = formatBbcodes(T2Utf(szDescription));
+		TD::object_ptr<TD::InputMessageContent> pPart;
+
+		if (iFileType == TG_FILE_REQUEST::FILE) {
 			auto pContent = TD::make_object<TD::inputMessageDocument>();
-			pContent->document_= makeFile(pTransfer->m_fileName);
+			pContent->document_= makeFile(it->pwszName);
 			pContent->caption_ = std::move(caption);
 			pContent->thumbnail_ = 0;
-			pMessage->input_message_content_ = std::move(pContent);
+			pPart = std::move(pContent);
 		}
-		else if (pTransfer->m_type == TG_FILE_REQUEST::PICTURE) {
+		else if (iFileType == TG_FILE_REQUEST::PICTURE) {
 			auto pContent = TD::make_object<TD::inputMessagePhoto>();
-			pContent->photo_ = makeFile(pTransfer->m_fileName);
+			pContent->photo_ = makeFile(it->pwszName);
 			pContent->thumbnail_ = 0;
 			pContent->caption_ = std::move(caption);
 			pContent->height_ = 0;
 			pContent->width_ = 0;
-			pMessage->input_message_content_ = std::move(pContent);
+			pPart = std::move(pContent);
 		}
-		else if (pTransfer->m_type == TG_FILE_REQUEST::VOICE) {
+		else if (iFileType == TG_FILE_REQUEST::VOICE) {
 			auto pContent = TD::make_object<TD::inputMessageVoiceNote>();
-			pContent->voice_note_ = makeFile(pTransfer->m_fileName);
+			pContent->voice_note_ = makeFile(it->pwszName);
 			pContent->caption_ = std::move(caption);
 			pContent->duration_ = 0;
-			pMessage->input_message_content_ = std::move(pContent);
+			pPart = std::move(pContent);
 		}
-		else if (pTransfer->m_type == TG_FILE_REQUEST::VIDEO) {
+		else if (iFileType == TG_FILE_REQUEST::VIDEO) {
 			auto pContent = TD::make_object<TD::inputMessageVideo>();
-			pContent->video_ = makeFile(pTransfer->m_fileName);
+			pContent->video_ = makeFile(it->pwszName);
 			pContent->caption_ = std::move(caption);
 			pContent->duration_ = 0;
 			pContent->height_ = 0;
 			pContent->width_ = 0;
-			pMessage->input_message_content_ = std::move(pContent);
+			pPart = std::move(pContent);
 		}
 		else return nullptr;
 
-		SendQuery(pMessage, &CTelegramProto::OnSendFile, pTransfer);
+		if (pMessage)
+			pMessage->input_message_content_ = std::move(pPart);
+		else
+			pAlbum->input_message_contents_.push_back(std::move(pPart));
 	}
 
-	return pTransfer;
-}
+	if (pMessage)
+		SendQuery(pMessage, &CTelegramProto::OnSendFile, ft);
+	else
+		SendQuery(pAlbum, &CTelegramProto::OnSendFile, ft);
 
-void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUserInfo)
-{
-	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
-
-	if (response.object->get_id() == TD::message::ID) {
-		auto *pMsg = (TD::message *)response.object.get();
-		ft->m_uniqueId.Format("%lld", pMsg->id_);
-
-		if (auto *pUser = FindChat(pMsg->chat_id_)) {
-			char szUserId[100];
-			if (this->GetGcUserId(pUser, pMsg, szUserId))
-				ft->m_szUserId = szUserId;
-
-			auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, pMsg->id_);
-			const TD::MessageContent *pBody = pMsg->content_.get();
-			switch (pBody->get_id()) {
-			case TD::messagePhoto::ID:
-				pOwnMsg->tmpFileId = ((TD::messagePhoto*)pBody)->photo_->sizes_[0]->photo_->id_;
-				break;
-
-			case TD::messageDocument::ID:
-				pOwnMsg->tmpFileId = ((TD::messageDocument *)pBody)->document_->document_->id_;
-				break;
-			}
-			m_arOwnMsg.insert(pOwnMsg);
-		}
-	}
-
-	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-	delete ft;  
+	return ft;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
+int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));
 	if (szId == nullptr)
@@ -512,9 +609,16 @@ int CTelegramProto::SendMsg(MCONTACT hContact, const char *pszMessage)
 	if (pUser == nullptr)
 		return 0;
 
-	int msgid = SendTextMessage(pUser->chatId, pszMessage);
+	TD::int53 iReplyId = 0;
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent, false);
+		if (dbei)
+			iReplyId = dbei2id(dbei);
+	}
+
+	int msgid = SendTextMessage(pUser->chatId, iReplyId, pszMessage);
 	if (msgid != -1)
-		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, -1));
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, ""));
 
 	return msgid;
 }
@@ -557,6 +661,15 @@ int CTelegramProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 	else ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+	return 0;
+}
+
+int CTelegramProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (auto *pUser = FindUser(GetId(hContact)))
+		if (type == PROTOTYPE_SELFTYPING_ON)
+			SendQuery(new TD::sendChatAction(pUser->chatId, 0, TD::make_object<TD::chatActionTyping>()));
 
 	return 0;
 }

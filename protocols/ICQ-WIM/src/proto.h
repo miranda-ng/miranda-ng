@@ -40,7 +40,7 @@
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
 
 #define PS_DUMMY "/DoNothing"
-#define PS_GOTO_INBOX "/GotoInbox"
+#define PS_GOTO_INBOX "/SvcGotoInbox"
 
 #define WIM_CAP_VOIP_VOICE         "094613504c7f11d18222444553540000"
 #define WIM_CAP_VOIP_VIDEO         "094613514c7f11d18222444553540000"
@@ -115,7 +115,7 @@ struct IcqUser : public MZeroedObject
 
 	CMStringW m_aimid;
 	MCONTACT  m_hContact;
-	bool      m_bInList, m_bGotCaps;
+	bool      m_bInList, m_bGotCaps, m_bWasOnline;
 	__int64   m_iProcessedMsgId;
 	int       m_iApparentMode;
 	time_t    m_timer1, m_timer2;
@@ -170,7 +170,7 @@ class CIcqProto : public PROTO<CIcqProto>
 		friend class CIcqProto;
 
 		CIcqProto &m_proto;
-		CTimer m_heartBeat, m_markRead, m_lastSeen;
+		CTimer m_heartBeat, m_markRead;
 		
 		void OnHeartBeat(CTimer *) {
 			m_proto.CheckStatus();
@@ -181,19 +181,12 @@ class CIcqProto : public PROTO<CIcqProto>
 			pTimer->Stop();
 		}
 
-		void OnLastSeen(CTimer *pTimer) {
-			m_proto.SendLastSeen();
-			pTimer->Stop();
-		}
-
 		CIcqProtoImpl(CIcqProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_lastSeen(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
 		{
 			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
-			m_lastSeen.OnEvent = Callback(this, &CIcqProtoImpl::OnLastSeen);
 			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
 		}
 	} m_impl;
@@ -217,7 +210,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          GetPermitDeny();
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
+	void          RetrieveHistoryChunk(MCONTACT hContact, __int64 patchVer, __int64 startMsgId, unsigned iCount);
 	bool          RetrievePassword();
+	void          RetrievePresence(MCONTACT hContact);
 	void          RetrieveUserCaps(IcqUser *pUser);
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
@@ -235,6 +230,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
+	void          ProcessPatchVersion(MCONTACT hContact, __int64 currPatch);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
 				     
 	void          OnLoggedIn(void);
@@ -243,10 +239,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	mir_cs        m_csMarkReadQueue;
 	LIST<IcqUser> m_arMarkReadQueue;
 	void          SendMarkRead();
-
-	mir_cs        m_csLastSeenQueue;
-	LIST<IcqUser> m_arLastSeenQueue;
-	void          SendLastSeen();
 
 	__int64       getId(MCONTACT hContact, const char *szSetting);
 	void          setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
@@ -265,12 +257,15 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnLeaveChat(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -288,6 +283,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          ProcessImState(const JSONNode &pRoot);
 	void          ProcessMyInfo(const JSONNode &pRoot);
 	void          ProcessNotification(const JSONNode &pRoot);
+	void          ProcessOnline(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessPermissions(const JSONNode &pRoot);
 	void          ProcessPresence(const JSONNode &pRoot);
 	void          ProcessSessionEnd(const JSONNode &pRoot);
@@ -328,10 +324,10 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	SESSION_INFO* CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick);
 
-	void      RetrieveChatInfo(SESSION_INFO *si);
+	void      RetrieveChatInfo(MCONTACT hContact);
+
 	void      InviteUserToChat(SESSION_INFO *si);
 	void      LeaveDestroyChat(SESSION_INFO *si);
-	void      LoadChatInfo(SESSION_INFO *si);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// http queue
@@ -385,16 +381,16 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
+	INT_PTR   __cdecl SvcLeaveChat(WPARAM, LPARAM);
 	INT_PTR   __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
-	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
-	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcGetEmailCount(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcGotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
-	INT_PTR   __cdecl OnLeaveChat(WPARAM, LPARAM);
-	INT_PTR   __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcLoadHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
@@ -417,7 +413,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE    SearchBasic(const wchar_t *id) override;
 
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int       SendMsg(MCONTACT hContact, const char *msg) override;
+	int       SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 			    
 	int       SetApparentMode(MCONTACT hContact, int mode) override;
 	int       SetStatus(int iNewStatus) override;

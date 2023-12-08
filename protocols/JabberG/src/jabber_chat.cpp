@@ -1348,7 +1348,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
 			Chat_UnescapeTags(gch->ptszText);
-			SendMsg(item->hContact, T2Utf(gch->ptszText));
+			SendMsg(item->hContact, 0, T2Utf(gch->ptszText));
 		}
 		break;
 

@@ -1324,33 +1324,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			if (auto *url = XmlGetChildText(xNode, "url")) {
-				// create incoming file transfer instead of writing message
-				CMStringA szName;
-				const char *b = strrchr(url, '/') + 1;
-				while (*b != 0 && *b != '#' && *b != '?')
-					szName.AppendChar(*b++);
-				auto *pszName = szName.c_str();
-
-				filetransfer *ft = new filetransfer(this, 0);
-				ft->jid = mir_strdup(from);
-				ft->std.hContact = hContact;
-				ft->type = FT_HTTP;
-				ft->httpPath = mir_strdup(url);
-				ft->std.totalFiles = 1;
-				ft->std.szCurrentFile.w = mir_utf8decodeW(szName);
-
-				PROTORECVFILE pre = {};
-				pre.dwFlags = PRFF_UTF | PRFF_SILENT;
-				pre.fileCount = 1;
-				pre.timestamp = time(0);
-				pre.files.a = &pszName;
-				pre.lParam = (LPARAM)ft;
-				pre.descr.a = XmlGetChildText(xNode, "desc");
-				ProtoChainRecvFile(ft->std.hContact, &pre);
-				return;
-			}
-			else debugLogA("No URL in OOB file transfer, ignoring");
+			if (auto *url = XmlGetChildText(xNode, "url"))
+				FileProcessHttpDownload(hContact, from, url, XmlGetChildText(xNode, "desc"));
+			else 
+				debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = XmlFirstChild(xNode, "invite");

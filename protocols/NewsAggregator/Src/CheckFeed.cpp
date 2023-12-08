@@ -159,7 +159,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	DBEVENTINFO olddbei = {};
 	bool  MesExist = false;
 	T2Utf pszTemp(message);
-	uint32_t cbMemoLen = 10000, cbOrigLen = (uint32_t)mir_strlen(pszTemp);
+	int cbMemoLen = 10000, cbOrigLen = (uint32_t)mir_strlen(pszTemp);
 	uint8_t *pbBuffer = (uint8_t*)mir_alloc(cbMemoLen);
 
 	DB::ECPTR pCursor(DB::EventsRev(hContact));
@@ -174,7 +174,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		if (stamp > 0 && olddbei.timestamp < (uint32_t)stamp)
 			break;
 
-		if ((uint32_t)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
+		if ((int)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
 		}
@@ -187,7 +187,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 		T2Utf pszMessage(message);
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 		recv.timestamp = (uint32_t)stamp;
 		recv.szMessage = pszMessage;
 		ProtoChainRecvMsg(hContact, &recv);

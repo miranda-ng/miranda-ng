@@ -30,7 +30,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	int      SendMsg(MCONTACT hContact, const char* msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char* msg) override;
 
 	int      SetStatus(int iNewStatus) override;
 

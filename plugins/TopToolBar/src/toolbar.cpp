@@ -581,11 +581,8 @@ static int OnModulesLoad(WPARAM, LPARAM)
 
 	Miranda_WaitOnHandle(OnEventFire);
 
-	if (HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
-		char buf[256];
-		mir_snprintf(buf, "%s/%s", LPGEN("TopToolBar background"), TTB_OPTDIR);
-		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
-	}
+	if (HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange))
+		BackgroundConfig_Register(LPGEN("TopToolBar background") "/" TTB_OPTDIR);
 	return 0;
 }
 

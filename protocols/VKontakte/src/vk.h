@@ -88,7 +88,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_USER_DEACTIVATE_ACTION	9321
 
-#define VK_API_VER "5.131"
+#define VK_API_VER "5.199"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 #define VK_FEED_USER 2147483647L
@@ -100,6 +100,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_USERID_MIN2 200000000000
 #define VK_USERID_MAX2 1000000000000
 
+#define VK_MAX_FORWARD_MESSAGES 100
 
 #if defined(_DEBUG)
 	#define VK_NODUMPHEADERS 0

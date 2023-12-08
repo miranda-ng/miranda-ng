@@ -98,7 +98,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HBRUSH hBackBrush;
 
 	CMOption<bool> bOptVScroll, bSortAscending;
-	bool bMsgGrouping, bDrawEdge, bHppCompat; // thesw options are a copy of static CMOption to keep performance high
+	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false; // thesw options are a copy of static CMOption to keep performance high
 
 	CMPlugin();
 

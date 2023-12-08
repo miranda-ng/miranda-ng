@@ -20,7 +20,6 @@
 #include <m_clistint.h>
 #include <m_gui.h>
 
-#include <m_stopspam.h>
 #include <m_variables.h>
 
 typedef std::wstring tstring;
@@ -32,6 +31,8 @@ typedef std::wstring tstring;
 #define MODULENAME LPGEN("StopSpam")
 
 #define DB_KEY_ANSWERED "Answered"
+#define DB_KEY_HASAUTH "HasAuth"
+#define DB_KEY_HASSENT "HasSent"
 #define DB_KEY_QUESTCOUNT "QuestionCount"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
@@ -57,14 +58,13 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 // utils
-tstring &GetDlgItemString(HWND hwnd, int id);
-bool IsExistMyMessage(MCONTACT hContact);
 tstring variables_parse(const wchar_t *tstrFormat, MCONTACT hContact);
 tstring trim(tstring const &tstr, tstring const &trimChars = L" \f\n\r\t\v");
 
-INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);
-int OnDbEventAdded(WPARAM wParam, LPARAM lParam);
-int OnDbEventFilterAdd(WPARAM w, LPARAM l);
-int OnOptInit(WPARAM w, LPARAM l);
-int OnDbContactSettingchanged(WPARAM hContact, LPARAM l);
+INT_PTR IsContactPassed(WPARAM, LPARAM);
+int OnDbEventAdded(WPARAM, LPARAM);
+int OnDbEventFilterAdd(WPARAM, LPARAM);
+int OnOptInit(WPARAM, LPARAM);
+int OnShutdown(WPARAM, LPARAM);
+
 #endif

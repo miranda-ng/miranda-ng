@@ -197,6 +197,7 @@ public:
 
 	HANDLE addIcon(const struct SKINICONDESC*);
 	HANDLE addTTB(const struct TTBButton*);
+	HANDLE addButton(const struct BBButton *);
 
 	HGENMENU addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = nullptr);
 

@@ -59,7 +59,7 @@ public:
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 	HANDLE   SearchBasic(const wchar_t* id) override;
-	int      SendMsg(MCONTACT hContact, const char* msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char* msg) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;

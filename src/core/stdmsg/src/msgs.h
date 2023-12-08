@@ -60,7 +60,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	int  m_iSplitterX, m_iSplitterY;
 	SIZE m_minEditBoxSize;
 	RECT m_minEditInit;
-	RECT m_rcLog;
+	RECT m_rcLog, m_rcMessage;
 
 	// tab autocomplete
 	int m_iTabStart = 0;
@@ -88,6 +88,7 @@ public:
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
+	void OnResize()  override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -156,7 +157,7 @@ extern LIST<CMsgDialog> g_arDialogs;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool DbEventIsShown(const DB::EventInfo &dbei);
-int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);
+int  SendMessageDirect(MCONTACT hContact, MEVENT hEvent, const wchar_t *szMsg);
 INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *msg);
 
 void LoadMsgLogIcons(void);

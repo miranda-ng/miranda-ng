@@ -164,14 +164,14 @@ void InitHotkeys()
 
 void InitTabsrmmButton()
 {
-	BBButton btn = {};
-	btn.dwButtonID = 1;
-	btn.pszModuleName = MODULENAME;
-	btn.dwDefPos = 105;
-	btn.hIcon = g_plugin.getIconHandle(IDI_MENU);
-	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
-	btn.pwszTooltip = TranslateT("FTP File");
-	Srmm_AddButton(&btn, &g_plugin);
+	BBButton bbd = {};
+	bbd.dwButtonID = 1;
+	bbd.pszModuleName = MODULENAME;
+	bbd.dwDefPos = 105;
+	bbd.hIcon = g_plugin.getIconHandle(IDI_MENU);
+	bbd.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
+	bbd.pwszTooltip = TranslateT("FTP File");
+	g_plugin.addButton(&bbd);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 }
 

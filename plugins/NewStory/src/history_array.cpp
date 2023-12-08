@@ -54,10 +54,9 @@ bool Filter::check(ItemData *item) const
 		}
 	}
 
-	if (flags & (EVENTTEXT | EVENTONLY)) {
-		item->load(true);
+	if (flags & (EVENTTEXT | EVENTONLY))
 		return CheckFilter(item->getWBuf(), text);
-	}
+
 	return true;
 };
 
@@ -74,6 +73,8 @@ ItemData::ItemData()
 ItemData::~ItemData()
 {
 	mir_free(wtext);
+	if (dbe.szReplyId)
+		mir_free((char*)dbe.szReplyId);
 	if (data)
 		MTextDestroy(data);
 }
@@ -100,7 +101,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 		return this;
 
 	// we don't group anything but messages
-	if (db_event_get(hEvent, &dbe))
+	if (!fetch())
 		return this;
 
 	if (dbe.eventType != EVENTTYPE_MESSAGE)
@@ -212,6 +213,22 @@ bool ItemData::isLinkChar(int idx) const
 	cf.dwMask = CFM_LINK;
 	uint32_t res = MTextSendMessage(0, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
+}
+
+bool ItemData::fetch(void)
+{
+	// if this event is virtual (for example, in group chats), don't try to laod it
+	if (!hEvent)
+		return true;
+
+	if (!dbe) {
+		if (!dbe.fetch(hEvent))
+			return false;
+
+		if (dbe.szReplyId)
+			dbe.szReplyId = mir_strdup(dbe.szReplyId);
+	}
+	return true;
 }
 
 void ItemData::fill(int tmpl)
@@ -328,19 +345,14 @@ void ItemData::load(bool bFullLoad)
 	if (!bFullLoad && m_bLoaded)
 		return;
 
-	dbe.cbBlob = -1;
-	if (db_event_get(hEvent, &dbe))
+	if (!fetch())
 		return;
 
 	m_bLoaded = true;
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (!(dbe.flags & DBEF_SENT)) {
-			if (!dbe.markedRead())
-				db_event_markRead(hContact, hEvent);
-			Clist_RemoveEvent(-1, hEvent);
-		}
+		markRead();
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -363,12 +375,13 @@ void ItemData::load(bool bFullLoad)
 				}
 
 				if (uint32_t size = blob.getSize())
-					buf.AppendFormat(L" %uKB", size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
+					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
 					buf.AppendFormat(L" [$hicon=%p$]", g_plugin.getIcon(IDI_OK));
 
 				wtext = buf.Detach();
+				markRead();
 				break;
 			}
 
@@ -398,8 +411,40 @@ void ItemData::load(bool bFullLoad)
 		break;
 	}
 
-	mir_free(dbe.pBlob);
-	dbe.pBlob = nullptr;
+	if (dbe.szReplyId)
+		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
+			DB::EventInfo dbei(hReply);
+			if (dbei) {
+				CMStringW str(L"> ");
+
+				if (dbei.flags & DBEF_SENT) {
+					if (char *szProto = Proto_GetBaseAccountName(hContact))
+						str.AppendFormat(L"%s %s: ", ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)).get(), TranslateT("wrote"));
+				}
+				else str.AppendFormat(L"%s %s: ", Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
+
+				ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (mir_wstrlen(wszText) > 43)
+					wcscpy(wszText.get() + 40, L"...");
+				str.Append(wszText);
+				str.Append(L"\r\n");
+				str.Append(wtext);
+
+				mir_free(wtext);
+				wtext = str.Detach();
+			}
+		}
+
+	dbe.unload();
+}
+
+void ItemData::markRead()
+{
+	if (!(dbe.flags & DBEF_SENT)) {
+		if (!dbe.markedRead())
+			db_event_markRead(hContact, hEvent);
+		Clist_RemoveEvent(-1, hEvent);
+	}
 }
 
 void ItemData::setText()
@@ -435,48 +480,50 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	if (si == nullptr)
 		return;
 
-	if (si->pMI->bDatabase && lin->hEvent) {
-		addEvent(si->hContact, lin->hEvent, 1);
-		return;
-	}
-
-	CMStringW wszText;
-	bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
-	if (!bTextUsed && lin->ptszText) {
-		if (!wszText.IsEmpty())
-			wszText.AppendChar(' ');
-		wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
-	}
-
 	int numItems = getCount();
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
-	p.wtext = wszText.Detach();
-	p.m_bLoaded = true;
-	p.m_bHighlighted = lin->bIsHighlighted;
-	p.dbe.timestamp = lin->time;
-	if (lin->bIsMe)
-		p.dbe.flags |= DBEF_SENT;
 
-	switch (lin->iType) {
-	case GC_EVENT_MESSAGE:
-	case GC_EVENT_INFORMATION:
-		p.dbe.eventType = EVENTTYPE_MESSAGE;
-		break;
+	if (si->pMI->bDatabase && lin->hEvent) {
+		p.hEvent = lin->hEvent;
+		p.load();
+	}
+	else {
+		CMStringW wszText;
+		bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
+		if (!bTextUsed && lin->ptszText) {
+			if (!wszText.IsEmpty())
+				wszText.AppendChar(' ');
+			wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
+		}
 
-	case GC_EVENT_SETCONTACTSTATUS:
-		p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
-		break;
+		p.wtext = wszText.Detach();
+		p.m_bLoaded = true;
+		p.m_bHighlighted = lin->bIsHighlighted;
+		p.dbe.timestamp = lin->time;
+		if (lin->bIsMe)
+			p.dbe.flags |= DBEF_SENT;
 
-	case GC_EVENT_JOIN:
-	case GC_EVENT_PART:
-	case GC_EVENT_QUIT:
-		p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
-		break;
+		switch (lin->iType) {
+		case GC_EVENT_MESSAGE:
+		case GC_EVENT_INFORMATION:
+			p.dbe.eventType = EVENTTYPE_MESSAGE;
+			break;
 
-	default:
-		p.dbe.eventType = EVENTTYPE_OTHER;
-		break;
+		case GC_EVENT_SETCONTACTSTATUS:
+			p.dbe.eventType = EVENTTYPE_STATUSCHANGE;
+			break;
+
+		case GC_EVENT_JOIN:
+		case GC_EVENT_PART:
+		case GC_EVENT_QUIT:
+			p.dbe.eventType = EVENTTYPE_JABBER_PRESENCE;
+			break;
+
+		default:
+			p.dbe.eventType = EVENTTYPE_OTHER;
+			break;
+		}
 	}
 
 	if (lin->ptszNick) {
@@ -497,16 +544,24 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
-	DB::ECPTR pCursor(DB::Events(hContact, hEvent));
-	for (int i = 0; i < count; i++) {
-		hEvent = pCursor.FetchNext();
-		if (!hEvent)
-			break;
-
+	if (count == 1) {
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
 		pPrev = p.checkPrev(pPrev);
+	}
+	else {
+		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
+		for (int i = 0; i < count; i++) {
+			hEvent = pCursor.FetchNext();
+			if (!hEvent)
+				break;
+
+			auto &p = allocateItem();
+			p.hContact = hContact;
+			p.hEvent = hEvent;
+			pPrev = p.checkPrev(pPrev);
+		}
 	}
 
 	return true;
@@ -560,7 +615,7 @@ ItemData* HistoryArray::get(int id, bool bLoad) const
 
 	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
 	if (bLoad && !p->m_bLoaded)
-		p->load(true);
+		p->load();
 	return p;
 }
 

@@ -2,8 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by W:\miranda-ng\plugins\TabSRMM\res\resource.rc
 //
-#define IDD_TEMPLATEEDIT                1
 #define VS_VERSION_INFO                 1
+#define IDD_TEMPLATEEDIT                1
 #define IDD_USERPREFS                   2
 #define IDOK2                           2
 #define IDD_USERPREFS1                  3

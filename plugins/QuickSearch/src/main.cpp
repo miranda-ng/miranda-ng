@@ -70,8 +70,7 @@ static int OnCheckPlugins(WPARAM, LPARAM)
 {
 	g_bVarsInstalled = ServiceExists(MS_VARS_FORMATSTRING);
 	g_bTipperInstalled = ServiceExists(MS_TIPPER_SHOWTIPW);
-	g_bFingerInstalled = ServiceExists(MS_FP_GETCLIENTICONW);
-
+	g_bFingerInstalled = Finger_IsPresent();
 	return 0;
 }
 

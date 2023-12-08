@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 #include <time.h>
 #include <locale.h>
+#include <algorithm>  
 
 #include <newpluginapi.h>
 #include <m_system.h>
@@ -54,6 +55,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_folders.h>
 #include <m_metacontacts.h>
 #include <m_smileyadd.h>
+#include <m_NewStory.h>
 
 #include "resource.h"
 #include "vk.h"

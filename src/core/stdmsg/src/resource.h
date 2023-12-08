@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by W:\miranda-ng\src\core\stdmsg\res\resource.rc
 //
 #define IDD_MSGSENDERROR                102
 #define IDD_OPTIONS2                    103
@@ -151,6 +151,20 @@
 #define IDC_USETABS                     1620
 #define IDC_CLOSETABS                   1621
 #define IDC_TABSBOTTOM                  1623
+#define IDC_SRMM_COLOR                  3001
+#define IDC_SRMM_BKGCOLOR               3002
+#define IDC_SRMM_BOLD                   3003
+#define IDC_SRMM_ITALICS                3004
+#define IDC_SRMM_UNDERLINE              3005
+#define IDC_SRMM_FILTER                 3006
+#define IDC_SRMM_CHANMGR                3007
+#define IDC_SRMM_SHOWNICKLIST           3008
+#define IDC_SRMM_HISTORY                3009
+#define IDC_SRMM_NICKLIST               3010
+#define IDC_SRMM_LOG                    3011
+#define IDC_SRMM_MESSAGE                3012
+#define IDC_SRMM_QUOTE                  3013
+#define IDC_SRMM_CLOSEQUOTE             3014
 #define IDM_CUT                         40000
 #define IDM_COPY                        40001
 #define IDM_PASTE                       40002

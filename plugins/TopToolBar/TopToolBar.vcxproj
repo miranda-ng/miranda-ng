@@ -35,7 +35,6 @@
     <ClCompile Include="src\toolbarwnd.cpp" />
     <ClCompile Include="src\topbutton.cpp" />
     <ClCompile Include="src\ttbopt.cpp" />
-    <ClInclude Include="src\BkgrCfg.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />

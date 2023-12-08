@@ -53,7 +53,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		if (timestamp <= storedMessageTS)
 			continue;
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 		recv.timestamp = timestamp;
 		recv.szMessage = (char *)text.c_str();
 

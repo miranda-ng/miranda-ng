@@ -66,7 +66,7 @@ NewstoryListData::NewstoryListData(HWND _1) :
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
 {
-	HMENU hMenu = NSMenu_Build(this, LoadItem(index));
+	HMENU hMenu = NSMenu_Build(this, (index == -1) ? 0 : LoadItem(index));
 
 	if (pMsgDlg != nullptr && pMsgDlg->isChat())
 		Chat_CreateMenu(hMenu, pMsgDlg->getChat(), nullptr);
@@ -229,8 +229,13 @@ void NewstoryListData::BeginEditItem()
 	int fontid, colorid;
 	item->getFontColor(fontid, colorid);
 
+	// #4012 make sure that both single & double CRLF are now double
+	CMStringW wszText(item->getWBuf());
+	wszText.Replace(L"\r\n", L"\n");
+	wszText.Replace(L"\n", L"\r\n");
+
 	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
-	hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
+	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
@@ -283,19 +288,22 @@ void NewstoryListData::DeleteItems(void)
 	if (IDYES != MessageBoxW(m_hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
 		return;
 
-	db_set_safety_mode(false);
+	g_plugin.bDisableDelete = true;
 
 	int firstSel = -1;
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *p = GetItem(i);
-		if (p->hEvent && p->m_bSelected) {
+		if (!p->m_bSelected)
+			continue;
+
+		if (p->hEvent)
 			db_event_delete(p->hEvent);
-			items.remove(i);
-			totalCount--;
-			firstSel = i;
-		}
+		items.remove(i);
+		totalCount--;
+		firstSel = i;
 	}
-	db_set_safety_mode(true);
+
+	g_plugin.bDisableDelete = false;
 
 	if (firstSel != -1) {
 		SetCaret(firstSel, false);
@@ -320,7 +328,8 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			auto *pItem = GetItem(caret);
 
 			int iTextLen = GetWindowTextLengthW(hwndEditBox);
-			replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
+			mir_free(pItem->wtext);
+			pItem->wtext = (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t));
 			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
@@ -433,23 +442,9 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 		if (!p->m_bSelected)
 			continue;
 
-		if (p->m_bOfflineFile) {
-			DB::EventInfo dbei(p->hEvent);
-			DB::FILE_BLOB blob(dbei);
-			if (p->m_bOfflineDownloaded)
-				ret.Append(blob.getLocalName());
-			else
-				ret.Append(_A2T(blob.getUrl()));
-		}
-		else {
-			if (bTextOnly)
-				ret.Append(p->wtext);
-			else { // copy text only
-				CMStringW wszText(p->formatString());
-				RemoveBbcodes(wszText);
-				ret.Append(wszText);
-			}
-		}
+		CMStringW wszText(bTextOnly ? p->wtext : p->formatString());
+		RemoveBbcodes(wszText);
+		ret.Append(wszText);
 		ret.Append(L"\r\n");
 	}
 
@@ -533,6 +528,21 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
+void NewstoryListData::OpenFolder()
+{
+	if (auto *pItem = GetItem(caret)) {
+		if (pItem->m_bOfflineDownloaded) {
+			DB::EventInfo dbei(pItem->hEvent);
+			DB::FILE_BLOB blob(dbei);
+			CMStringW wszFile(blob.getLocalName());
+			int idx = wszFile.ReverseFind('\\');
+			if (idx != -1)
+				wszFile.Truncate(idx);
+			::ShellExecute(nullptr, L"open", wszFile, nullptr, nullptr, SW_SHOWNORMAL);
+		}
+	}
+}
+
 int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 {
 	auto *item = LoadItem(index);
@@ -599,17 +609,19 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 
 void NewstoryListData::RecalcScrollBar()
 {
+	if (totalCount == 0)
+		return;
+
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
 	si.nMax = totalCount-1;
-	si.nPage = cachedMaxDrawnItem - scrollTopItem;
+	si.nPage = (totalCount <= 10) ? totalCount - 1 : 10;
 	si.nPos = scrollTopItem;
 
-	if (cachedScrollbarPage != si.nPage || si.nPos != cachedScrollbarPos) {
+	if (si.nPos != cachedScrollbarPos) {
 		cachedScrollbarPos = si.nPos;
-		cachedScrollbarPage = si.nPage;
 		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
 }
@@ -623,6 +635,13 @@ void NewstoryListData::Quote()
 
 		SetFocus(pMsgDlg->GetInput());
 	}
+}
+
+void NewstoryListData::Reply()
+{
+	if (pMsgDlg)
+		if (auto *pItem = GetItem(caret))
+			pMsgDlg->SetQuoteEvent(pItem->hEvent);
 }
 
 void NewstoryListData::ScheduleDraw()
@@ -904,6 +923,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		return TRUE;
 
+	case NSM_ADDEVENT:
+		data->AddEvent(wParam, lParam, 1);
+		break;
+
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
 		data->scrollTopPixel = 0;
@@ -919,7 +942,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case UM_EDITEVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
-			auto *p = data->LoadItem(idx);
+			auto *p = data->GetItem(idx);
 			p->load(true);
 			p->setText();
 			InvalidateRect(hwnd, 0, FALSE);
@@ -1215,23 +1238,41 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (LOWORD(wParam)) {
 			case SB_LINEUP:
-				data->LineUp();
+				if (g_plugin.bHppCompat)
+					data->EventUp();
+				else
+					data->LineUp();
 				break;
+
 			case SB_LINEDOWN:
-				data->LineDown();
+				if (g_plugin.bHppCompat)
+					data->EventDown();
+				else
+					data->LineDown();
 				break;
+
 			case SB_PAGEUP:
-				data->PageUp();
+				if (g_plugin.bHppCompat)
+					data->EventPageUp();
+				else
+					data->PageUp();
 				break;
+
 			case SB_PAGEDOWN:
-				data->PageDown();
+				if (g_plugin.bHppCompat)
+					data->EventPageDown();
+				else
+					data->PageDown();
 				break;
+
 			case SB_BOTTOM:
 				data->ScrollBottom();
 				break;
+
 			case SB_TOP:
 				data->ScrollTop();
 				break;
+
 			case SB_THUMBTRACK:
 				SCROLLINFO si;
 				si.cbSize = sizeof(si);

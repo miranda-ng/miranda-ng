@@ -17,38 +17,148 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct
+{
+	const wchar_t *begin, *end;
+	unsigned len1, len2;
+}
+static bbCodes[] =
+{
+	{ L"[b]", L"[/b]", 3, 4 },
+	{ L"[i]", L"[/i]", 3, 4 },
+	{ L"[s]", L"[/s]", 3, 4 },
+	{ L"[u]", L"[/u]", 3, 4 },
+};
+
+TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
+{
+	auto res = TD::make_object<TD::formattedText>();
+	if (mir_strlen(pszText)) {
+		std::wstring str = Utf2T(pszText).get();
+		for (auto &it : bbCodes) {
+			while (true) {
+				int i1 = (int)str.find(it.begin);
+				if (i1 == str.npos)
+					break;
+
+				int i2 = (int)str.find(it.end, i1);
+				if (i2 == str.npos)
+					break;
+
+				for (auto &jt : res->entities_) {
+					if (jt->offset_ > i1)
+						jt->offset_ -= it.len1;
+					if (jt->offset_ > i2)
+						jt->offset_ -= it.len2;
+				}
+
+				str.erase(i2, it.len2); i2 -= it.len1;
+				str.erase(i1, it.len1);
+
+				TD::object_ptr<TD::TextEntityType> pNew;
+				switch (it.begin[1]) {
+				case 'b': pNew = TD::make_object<TD::textEntityTypeBold>(); break;
+				case 'i': pNew = TD::make_object<TD::textEntityTypeItalic>(); break;
+				case 's': pNew = TD::make_object<TD::textEntityTypeStrikethrough>(); break;
+				case 'u': pNew = TD::make_object<TD::textEntityTypeUnderline>(); break;
+				}
+
+				res->entities_.push_back(TD::make_object<TD::textEntity>(TD::int32(i1), TD::int32(i2 - i1), std::move(pNew)));
+			}
+		}
+		res->text_ = T2Utf(str.c_str()).get();
+	}
+	
+	return res;
+}
+
+static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
+{
+	if (pText->get_id() == TD::formattedText::ID) {
+		CMStringW ret(Utf2T(pText->text_.c_str()));
+		unsigned offset = 0;
+
+		for (auto &it : pText->entities_) {
+			int iCode;
+			switch (it->type_->get_id()) {
+			case TD::textEntityTypeBold::ID: iCode = 0; break;
+			case TD::textEntityTypeItalic::ID: iCode = 1; break;
+			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
+			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
+			default:
+				continue;
+			}
+
+			auto &bb = bbCodes[iCode];
+			ret.Insert(offset + it->offset_ + it->length_, bb.end);
+			ret.Insert(offset + it->offset_, bb.begin);
+			offset += bb.len1 + bb.len2;
+		}
+		return T2Utf(ret).get();
+	}
+	
+	return "";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA msg2id(TD::int53 chatId, TD::int53 msgId)
+{
+	return CMStringA(FORMAT, "%lld_%lld", chatId, msgId);
+}
+
+CMStringA msg2id(const TD::message *pMsg)
+{
+	return CMStringA(FORMAT, "%lld_%lld", pMsg->chat_id_, pMsg->id_);
+}
+
+TD::int53 dbei2id(const DBEVENTINFO &dbei)
+{
+	if (dbei.szId == nullptr)
+		return -1;
+
+	auto *p = strchr(dbei.szId, '_');
+	return _atoi64(p ? p + 1 : dbei.szId);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 const char *getName(const TD::usernames *pName)
 {
 	return (pName == nullptr) ? TranslateU("none") : pName->editable_username_.c_str();
 }
 
-TD::object_ptr<TD::inputFileLocal> makeFile(const CMStringW &wszFile)
+TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename)
 {
-	std::string szPath = T2Utf(wszFile);
+	std::string szPath = T2Utf(pwszFilename);
 	return TD::make_object<TD::inputFileLocal>(std::move(szPath));
 }
 
-void TG_FILE_REQUEST::AutoDetectType()
+TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 {
-	if (ProtoGetAvatarFileFormat(m_fileName) != PA_FORMAT_UNKNOWN) {
-		m_type = this->PICTURE;
-		return;
-	}
+	if (ProtoGetAvatarFileFormat(pwszFilename) != PA_FORMAT_UNKNOWN)
+		return TG_FILE_REQUEST::PICTURE;
 
-	int idx = m_fileName.ReverseFind('.');
-	if (idx == -1 || m_fileName.Find('\\', idx) != -1)
-		return;
+	CMStringW path(pwszFilename);
+	int idx = path.ReverseFind('.');
+	if (idx == -1 || path.Find('\\', idx) != -1)
+		return TG_FILE_REQUEST::FILE;
 
-	auto wszExt = m_fileName.Right(m_fileName.GetLength() - idx);
+	auto wszExt = path.Right(path.GetLength() - idx);
 	wszExt.MakeLower();
 	if (wszExt == L"mp4" || wszExt == L"webm")
-		m_type = this->VIDEO;
+		return TG_FILE_REQUEST::VIDEO;
 	else if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
-		m_type = this->VOICE;
+		return TG_FILE_REQUEST::VOICE;
+
+	return TG_FILE_REQUEST::FILE;
 }
 
 CMStringW TG_USER::getDisplayName() const
 {
+	if (hContact != INVALID_CONTACT_ID)
+		return Clist_GetContactDisplayName(hContact, 0);
+
 	if (!wszFirstName.IsEmpty())
 		return (wszLastName.IsEmpty()) ? wszFirstName : wszFirstName + L" " + wszLastName;
 
@@ -191,8 +301,11 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	else {
 		pUser->hContact = hContact;
 		setWString(hContact, "Nick", pUser->wszNick);
-		setWString(hContact, "FirstName", pUser->wszFirstName);
-		setWString(hContact, "LastName", pUser->wszLastName);
+		if (!pUser->isGroupChat) {
+			setWString(hContact, "FirstName", pUser->wszFirstName);
+			setWString(hContact, "LastName", pUser->wszLastName);
+		}
+		else pUser->bStartChat = true;
 	}
 
 	return pUser;
@@ -283,11 +396,13 @@ bool CTelegramProto::GetMessageFile(
 	auto *pRequest = new TG_FILE_REQUEST(fileType, pFile->id_, pFile->remote_->id_.c_str());
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
+	pRequest->m_bRecv = true;
 	{
 		mir_cslock lck(m_csFiles);
 		m_arFiles.insert(pRequest);
 	}
 
+	char szReplyId[100];
 	MCONTACT hContact = GetRealContact(pUser);
 	PROTORECVFILE pre = {};
 	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
@@ -303,6 +418,10 @@ bool CTelegramProto::GetMessageFile(
 		pre.dwFlags |= PRFF_SENT;
 	if (Contact::IsGroupChat(hContact))
 		pre.dwFlags |= PRFF_READ;
+	if (pMsg->reply_to_message_id_) {
+		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
+		pre.szReplyId = szReplyId;
+	}
 	ProtoChainRecvFile(hContact, &pre);
 	return true;
 }
@@ -349,26 +468,47 @@ static bool checkStickerType(uint32_t ID)
 	}	
 }
 
-static const char *getFormattedText(TD::object_ptr<TD::formattedText> &pText)
-{
-	if (pText->get_id() == TD::formattedText::ID)
-		return pText->text_.c_str();
-	return nullptr;
-}
-
-CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg)
+CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
 
-	char szId[100], szUserId[100], *pszUserId = nullptr;
-	_i64toa(pMsg->id_, szId, 10);
+	char szUserId[100], *pszUserId = nullptr;
+	auto szMsgId(msg2id(pMsg));
 	if (GetGcUserId(pUser, pMsg, szUserId))
 		pszUserId = szUserId;
 
 	switch (pBody->get_id()) {
+	case TD::messageChatUpgradeTo::ID:
+		if (auto *pUgrade = (TD::messageChatUpgradeTo *)pBody) {
+			MCONTACT hContact = pUser->hContact;
+			m_arChats.remove(pUser);
+			m_arUsers.remove(pUser);
+			SetId(hContact, pUgrade->supergroup_id_);
+			pUser = new TG_USER(pUgrade->supergroup_id_, hContact, true);
+			m_arUsers.insert(pUser);
+		}
+		break;
+
+	case TD::messageChatAddMembers::ID:
+		if (!bSkipJoin)
+			if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
+				for (auto &it : pDoc->member_user_ids_)
+					GcChangeMember(pUser, pszUserId, it, true);
+		break;
+
+	case TD::messageChatDeleteMember::ID:
+		if (!bSkipJoin)
+			if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
+				GcChangeMember(pUser, pszUserId, pDoc->user_id_, false);
+		break;
+
+	case TD::messageChatChangeTitle::ID:
+		if (auto *pDoc = (TD::messageChatChangeTitle *)pBody)
+			GcChangeTopic(pUser, Utf2T(pDoc->title_.c_str()));
+		break;
+
 	case TD::messagePhoto::ID:
-		{
-			auto *pDoc = (TD::messagePhoto *)pBody;
+		if (auto *pDoc = (TD::messagePhoto *)pBody) {
 			auto *pPhoto = GetBiggestPhoto(pDoc->photo_.get());
 			if (pPhoto == nullptr) {
 				debugLogA("cannot find photo, exiting");
@@ -376,13 +516,25 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 
 			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
-			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
+		}
+		break;
+
+	case TD::messageAudio::ID:
+		if (auto *pDoc = (TD::messageAudio *)pBody) {
+			auto *pAudio = pDoc->audio_.get();
+			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
+			std::string caption = fileName.c_str();
+			if (!pDoc->caption_->text_.empty()) {
+				caption += " ";
+				caption += pDoc->caption_->text_;
+			}
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageVideo::ID:
-		{
-			auto *pDoc = (TD::messageVideo *)pBody;
+		if (auto *pDoc = (TD::messageVideo *)pBody) {
 			auto *pVideo = pDoc->video_.get();
 			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			std::string caption = fileName.c_str();
@@ -390,13 +542,12 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageAnimation::ID:
-		{
-			auto *pDoc = (TD::messageAnimation *)pBody;
+		if (auto *pDoc = (TD::messageAnimation *)pBody) {
 			auto *pVideo = pDoc->animation_.get();
 			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			std::string caption = fileName.c_str();
@@ -404,28 +555,24 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageVoiceNote::ID:
-		{
-			auto *pDoc = (TD::messageVoiceNote *)pBody;
+		if (auto *pDoc = (TD::messageVoiceNote *)pBody) {
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
-			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szId, pszUserId, pMsg);
+			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		}
 		break;
 
 	case TD::messageDocument::ID:
-		{
-			auto *pDoc = (TD::messageDocument *)pBody;
-			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szId, pszUserId, pMsg);
-		}
+		if (auto *pDoc = (TD::messageDocument *)pBody)
+			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szMsgId, pszUserId, pMsg);
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
-		{
-			auto *pObj = (TD::messageAnimatedEmoji *)pBody;
+		if (auto *pObj = (TD::messageAnimatedEmoji *)pBody) {
 			if (m_bSmileyAdd) {
 				if (auto *pAnimated = pObj->animated_emoji_.get()) {
 					if (auto *pSticker = pAnimated->sticker_.get()) {
@@ -453,8 +600,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		}
 
 	case TD::messageSticker::ID:
-		{
-			auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
+		if (auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get()) {
 			if (!checkStickerType(pSticker->full_type_->get_id())) {
 				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
@@ -480,14 +626,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			CMStringA ret(FORMAT, "%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
 			if (!pInvoice->title_.empty())
 				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
-			if (auto *pszText = getFormattedText(pInvoice->description_))
-				ret.AppendFormat("\r\n%s", ((TD::formattedText *)pInvoice->description_.get())->text_.c_str());
+			if (auto pszText = getFormattedText(pInvoice->description_))
+				ret.AppendFormat("\r\n%s", pszText.c_str());
 			return ret;
 		}
 
 	case TD::messageText::ID:
-		if (auto *pszText = getFormattedText(((TD::messageText *)pBody)->text_))
-			return CMStringA(pszText);
+		if (auto pszText = getFormattedText(((TD::messageText *)pBody)->text_))
+			return pszText;
 		break;
 	}
 

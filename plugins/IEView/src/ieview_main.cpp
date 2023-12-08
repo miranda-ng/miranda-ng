@@ -72,12 +72,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	BBButton bbd = {};
 	bbd.pszModuleName = MODULENAME;
 	bbd.dwButtonID = 1;
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON | BBBF_NOREADONLY | BBBF_NOREADONLY;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_CODE);
 	bbd.pwszText = L"[Code]";
 	bbd.pwszTooltip = LPGENW("Format text as code");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
 

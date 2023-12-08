@@ -59,6 +59,8 @@
 [Separator]
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+[ %u KB]
+[wrote]
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 [Search]
@@ -107,6 +109,7 @@
 [History]
 [Global search]
 [Copy text]
+[Show in folder]
 [Quote]
 [Save as]
 [Download]

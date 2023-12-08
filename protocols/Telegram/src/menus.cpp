@@ -21,35 +21,34 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CTelegramProto::InitMenus()
 {
-	if (!ServiceExists(MS_NEWSTORY_GETSELECTION))
+	if (!HookProtoEvent(ME_NS_PREBUILDMENU, &CTelegramProto::OnPrebuildNSMenu))
 		return;
 
 	CreateProtoService(MenuExecService, &CTelegramProto::SvcExecMenu);
-	HookProtoEvent(ME_NS_PREBUILDMENU, &CTelegramProto::OnPrebuildMenu);
-	
+
 	CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, MenuExecService);
 	CMenuItem mi(&g_plugin);
 	mi.pszService = szServiceName;
 
-	mi.position = 1000000;
+	mi.position = NS_PROTO_MENU_POS;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
 	mi.name.a = LPGEN("Forward");
 	hmiForward = Menu_AddNewStoryMenuItem(&mi, 1);
 
-	mi.position = 1000000;
+	mi.position++;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REACTION);
 	mi.name.a = LPGEN("Reaction");
 	hmiReaction = Menu_AddNewStoryMenuItem(&mi, 2);
 }
 
-int CTelegramProto::OnPrebuildMenu(WPARAM hContact, LPARAM)
+int CTelegramProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM)
 {
 	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) {
 		Menu_ShowItem(hmiForward, false);
 		Menu_ShowItem(hmiReaction, false);
 	}
 	else {
-		Menu_ShowItem(hmiForward, true);
+		Menu_ShowItem(hmiForward, 0 == getByte(hContact, "Protected"));
 
 		auto *pUser = FindUser(GetId(hContact));
 		Menu_ShowItem(hmiReaction, pUser && pUser->pReactions);
@@ -110,8 +109,9 @@ public:
 		for (auto &it : m_ids) {
 			DB::EventInfo dbei(it, false);
 			if (dbei && dbei.szId)
-				message_ids.push_back(_atoi64(dbei.szId));
+				message_ids.push_back(dbei2id(dbei));
 		}
+		std::sort(message_ids.begin(), message_ids.end());
 
 		for (auto &hContact : m_proto->AccContacts()) {
 			if (HANDLE hItem = m_clist.FindContact(hContact)) {
@@ -157,7 +157,7 @@ public:
 	bool OnApply() override
 	{
 		DB::EventInfo dbei(m_hEvent, false);
-		__int64 msgId = (dbei && dbei.szId) ? _atoi64(dbei.szId) : 0;
+		__int64 msgId = ::dbei2id(dbei);
 		
 		char *pszEmoji = (char *)cmbReactions.GetCurData();
 		auto reaction = TD::make_object<TD::reactionTypeEmoji>(pszEmoji);
@@ -172,6 +172,8 @@ public:
 
 INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 {
+	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+
 	switch (iCommand) {
 	case 1: // forward message
 		{	std::vector<MEVENT> ids = NS_GetSelection(HANDLE(pHandle));
@@ -181,11 +183,8 @@ INT_PTR CTelegramProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 		break;
 
 	case 2: // reactions
-		{
-			MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
-			if (hCurrentEvent != -1)
-				CReactionsDlg(this, hCurrentEvent).DoModal();
-		}
+		if (hCurrentEvent != -1)
+			CReactionsDlg(this, hCurrentEvent).DoModal();
 		break;
 	}
 	return 0;

@@ -195,7 +195,7 @@ HANDLE CSametimeProto::SendFile(MCONTACT hContact, const wchar_t* szDescription,
 	return nullptr; // failure
 }
 
-int CSametimeProto::SendMsg(MCONTACT hContact, const char* msg)
+int CSametimeProto::SendMsg(MCONTACT hContact, MEVENT, const char* msg)
 {
 	debugLogW(L"CSametimeProto::SendMsg()  hContact=[%x]", hContact);
 

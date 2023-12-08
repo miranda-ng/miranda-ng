@@ -153,6 +153,153 @@ MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule
 	return g_arSessions.find(tmp);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat user manager
+
+USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus)
+{
+	if (!si || !pszUID || !pszNick)
+		return nullptr;
+
+	mir_cslock lck(si->csLock);
+	auto *pUser = UM_FindUser(si, pszUID);
+	if (pUser == nullptr) {
+		pUser = new USERINFO();
+		replaceStrW(pUser->pszUID, pszUID);
+		si->getUserList().insert(pUser);
+	}
+
+	replaceStrW(pUser->pszNick, pszNick);
+	pUser->Status = wStatus;
+	return pUser;
+}
+
+static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
+{
+	uint16_t dw1 = u1->Status;
+	uint16_t dw2 = u2->Status;
+
+	for (int i = 0; i < 8; i++) {
+		if ((dw1 & 1) && !(dw2 & 1))
+			return -1;
+		if ((dw2 & 1) && !(dw1 & 1))
+			return 1;
+		if ((dw1 & 1) && (dw2 & 1))
+			break;
+
+		dw1 = dw1 >> 1;
+		dw2 = dw2 >> 1;
+	}
+	return mir_wstrcmpi(u1->pszNick, u2->pszNick);
+}
+
+static USERINFO* UM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
+{
+	USERINFO *ui = UM_FindUser(si, pszUID);
+	if (ui == nullptr)
+		return nullptr;
+
+	ui->Status |= status;
+	return ui;
+}
+
+static USERINFO* UM_SetStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
+{
+	USERINFO *ui = UM_FindUser(si, pszUID);
+	if (ui == nullptr)
+		return nullptr;
+
+	if (ui->Status == status)
+		return nullptr;
+
+	ui->Status = status;
+	return ui;
+}
+
+static USERINFO* UM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
+{
+	USERINFO *ui = UM_FindUser(si, pszUID);
+	if (ui == nullptr)
+		return nullptr;
+
+	ui->ContactStatus = status;
+	return ui;
+}
+
+BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t *pszText, int flags)
+{
+	int bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bSetStatus = (flags & GC_SSE_ONLINE) != 0;
+	char cDelimiter = (flags & GC_SSE_TABDELIMITED) ? '\t' : ' ';
+
+	if (bOnlyMe) {
+		USERINFO *ui = UM_FindUser(si, pszText);
+		if (ui == nullptr)
+			return FALSE;
+
+		ui->iStatusEx = (bSetStatus) ? 1 : 0;
+		return TRUE;
+	}
+
+	for (auto &ui : si->getUserList()) {
+		ui->iStatusEx = 0;
+
+		if (pszText != nullptr) {
+			wchar_t *s = (wchar_t *)wcsstr(pszText, ui->pszUID);
+			if (s) {
+				ui->iStatusEx = 0;
+				if (s == pszText || s[-1] == cDelimiter) {
+					size_t len = mir_wstrlen(ui->pszUID);
+					if (s[len] == cDelimiter || s[len] == '\0')
+						ui->iStatusEx = bSetStatus ? 1 : 0;
+				}
+			}
+		}
+	}
+	return TRUE;
+}
+
+static USERINFO *UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
+{
+	USERINFO *ui = UM_FindUser(si, pszUID);
+	if (ui == nullptr)
+		return nullptr;
+
+	ui->Status &= ~status;
+	return ui;
+}
+
+static wchar_t *UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t *pszOriginal, const wchar_t *pszCurrent)
+{
+	if (!si || !pszOriginal || !pszCurrent)
+		return nullptr;
+
+	wchar_t *pszName = nullptr;
+	for (auto &ui : si->getUserList())
+		if (ui->pszNick && mir_wstrstri(ui->pszNick, pszOriginal) == ui->pszNick)
+			if (mir_wstrcmpi(ui->pszNick, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(ui->pszNick, pszName) < 0))
+				pszName = ui->pszNick;
+
+	return pszName;
+}
+
+BOOL UM_RemoveAll(SESSION_INFO *si)
+{
+	if (!si)
+		return FALSE;
+
+	if (!si->pParent) {
+		for (auto &ui : si->arUsers) {
+			mir_free(ui->pszUID);
+			mir_free(ui->pszNick);
+		}
+		si->arUsers.destroy();
+	}
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Chat session manager
+
 BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 {
 	if (si == nullptr) {
@@ -254,10 +401,22 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = g_chatApi.UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
+}
+
+BOOL SM_AssignStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
+{
+	if (si != nullptr)
+		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus))) {
+			if (si->pDlg)
+				si->pDlg->UpdateNickList();
+			return TRUE;
+		}
+
+	return FALSE;
 }
 
 BOOL SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStatus)
@@ -265,7 +424,7 @@ BOOL SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStat
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = g_chatApi.UM_SetContactStatus(si, pszUID, wStatus);
+	USERINFO *ui = UM_SetContactStatus(si, pszUID, wStatus);
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
@@ -570,136 +729,6 @@ void UM_SortKeys(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus)
-{
-	if (!si || !pszUID || !pszNick)
-		return nullptr;
-
-	mir_cslock lck(si->csLock);
-	auto *pUser = UM_FindUser(si, pszUID);
-	if (pUser == nullptr) {
-		pUser = new USERINFO();
-		replaceStrW(pUser->pszUID, pszUID);
-		si->getUserList().insert(pUser);
-	}
-	
-	replaceStrW(pUser->pszNick, pszNick);
-	pUser->Status = wStatus;
-	return pUser;
-}
-
-static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
-{
-	uint16_t dw1 = u1->Status;
-	uint16_t dw2 = u2->Status;
-
-	for (int i = 0; i < 8; i++) {
-		if ((dw1 & 1) && !(dw2 & 1))
-			return -1;
-		if ((dw2 & 1) && !(dw1 & 1))
-			return 1;
-		if ((dw1 & 1) && (dw2 & 1))
-			break;
-
-		dw1 = dw1 >> 1;
-		dw2 = dw2 >> 1;
-	}
-	return mir_wstrcmpi(u1->pszNick, u2->pszNick);
-}
-
-static USERINFO* UM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
-{
-	USERINFO *ui = UM_FindUser(si, pszUID);
-	if (ui == nullptr)
-		return nullptr;
-
-	ui->Status |= status;
-	return ui;
-}
-
-static USERINFO* UM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
-{
-	USERINFO *ui = UM_FindUser(si, pszUID);
-	if (ui == nullptr)
-		return nullptr;
-	
-	ui->ContactStatus = status;
-	return ui;
-}
-
-BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags)
-{
-	int bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bSetStatus = (flags & GC_SSE_ONLINE) != 0;
-	char cDelimiter = (flags & GC_SSE_TABDELIMITED) ? '\t' : ' ';
-
-	if (bOnlyMe) {
-		USERINFO *ui = UM_FindUser(si, pszText);
-		if (ui == nullptr)
-			return FALSE;
-
-		ui->iStatusEx = (bSetStatus) ? 1 : 0;
-		return TRUE;
-	}
-
-	for (auto &ui : si->getUserList()) {
-		ui->iStatusEx = 0;
-
-		if (pszText != nullptr) {
-			wchar_t *s = (wchar_t *)wcsstr(pszText, ui->pszUID);
-			if (s) {
-				ui->iStatusEx = 0;
-				if (s == pszText || s[-1] == cDelimiter) {
-					size_t len = mir_wstrlen(ui->pszUID);
-					if (s[len] == cDelimiter || s[len] == '\0')
-						ui->iStatusEx = bSetStatus ? 1 : 0;
-				}
-			}
-		}
-	}
-	return TRUE;
-}
-
-static USERINFO* UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
-{
-	USERINFO *ui = UM_FindUser(si, pszUID);
-	if (ui == nullptr)
-		return nullptr;
-
-	ui->Status &= ~status;
-	return ui;
-}
-
-static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
-{
-	if (!si || !pszOriginal || !pszCurrent)
-		return nullptr;
-
-	wchar_t *pszName = nullptr;
-	for (auto &ui : si->getUserList())
-		if (ui->pszNick && mir_wstrstri(ui->pszNick, pszOriginal) == ui->pszNick)
-			if (mir_wstrcmpi(ui->pszNick, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(ui->pszNick, pszName) < 0))
-				pszName = ui->pszNick;
-
-	return pszName;
-}
-
-BOOL UM_RemoveAll(SESSION_INFO *si)
-{
-	if (!si)
-		return FALSE;
-
-	if (!si->pParent) {
-		for (auto &ui : si->arUsers) {
-			mir_free(ui->pszUID);
-			mir_free(ui->pszNick);
-		}
-		si->arUsers.destroy();
-	}
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static void CreateNick(const SESSION_INFO *, const LOGINFO *lin, CMStringW &wszNick)
 {
 	if (lin->ptszNick) {
@@ -736,6 +765,7 @@ static void ResetApi()
 	g_chatApi.UM_CompareItem = ::UM_CompareItem;
 	g_chatApi.UM_FindUser = ::UM_FindUser;
 	g_chatApi.UM_GiveStatus = ::UM_GiveStatus;
+	g_chatApi.UM_RemoveAll = ::UM_RemoveAll;
 	g_chatApi.UM_SetContactStatus = ::UM_SetContactStatus;
 	g_chatApi.UM_TakeStatus = ::UM_TakeStatus;
 	g_chatApi.UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;

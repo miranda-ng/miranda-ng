@@ -10,6 +10,8 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
+#include "..\..\include\chat_resource.h"
+#include "..\..\include\statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -220,6 +222,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_CLIPSIBLINGS | WS_VSCROLL | WS_TABSTOP | 0x844,1,41,181,28,WS_EX_STATICEDGE
     CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,0,87,181,13,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
+    CONTROL         "",IDC_SRMM_QUOTE,"RichEdit50W",ES_AUTOHSCROLL | WS_DISABLED | WS_BORDER | WS_TABSTOP,0,95,235,16
+    CONTROL         "",IDC_SRMM_CLOSEQUOTE,"MButtonClass", WS_TABSTOP,237,97,16,16
     CONTROL         "",IDC_SPLITTERX,"Static",SS_ENHMETAFILE,172,23,10,73
     CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE | WS_CLIPSIBLINGS,0,85,183,2
     LISTBOX         IDC_SRMM_NICKLIST,182,23,69,73,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
@@ -400,6 +404,8 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
+    "#include ""..\\..\\include\\chat_resource.h""\r\n"
+    "#include ""..\\..\\include\\statusmodes.h""\r\n"
     "\0"
 END
 

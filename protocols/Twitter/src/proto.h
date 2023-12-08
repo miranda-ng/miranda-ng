@@ -177,7 +177,7 @@ public:
 	HANDLE   SearchBasic(const wchar_t *) override;
 	HANDLE   SearchByEmail(const wchar_t *) override;
 
-	int      SendMsg(MCONTACT, const char *) override;
+	int      SendMsg(MCONTACT, MEVENT, const char *) override;
 
 	int      SetStatus(int) override;
 

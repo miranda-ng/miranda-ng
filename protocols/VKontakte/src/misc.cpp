@@ -61,7 +61,8 @@ static IconItem iconList[] =
 	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST },
 	{ LPGEN("Status icon"), "status", IDI_STATUS },
 	{ LPGEN("Wall message icon"), "wall", IDI_WALL },
-	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD }
+	{ LPGEN("Mark messages as read icon"), "markread", IDI_MARKMESSAGESASREAD },
+	{ LPGEN("Forward icon"), "forward", IDI_FORWARD }
 };
 
 void InitIcons()
@@ -923,6 +924,28 @@ char* CVkProto::GetStickerId(const char *szMsg, int &iStickerId)
 	}
 
 	return szRetMsg;
+}
+
+uint8_t CVkProto::GetContactType(MCONTACT hContact)
+{
+	if (hContact == INVALID_CONTACT_ID)
+		return 0;
+
+	if (isChatRoom(hContact))
+		return VKContactType::vkContactMUCUser;
+	
+	if (IsGroupUser(hContact))
+		return VKContactType::vkContactGroupUser;
+
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+
+	if (!hContact || iUserId == m_iMyUserId)
+		return VKContactType::vkContactSelf;
+
+	if (iUserId == VK_FEED_USER)
+		return 0;
+
+	return VKContactType::vkContactNormal;
 }
 
 const char* FindVKUrls(const char *Msg)

@@ -85,27 +85,27 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_plugin.registerIcon("TabSRMM/TranslitSwitcher", iconList);
 
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_NOREADONLY;
 	bbd.pszModuleName = "Switch Layout and Send";
 	bbd.pwszTooltip = TranslateT("Switch Layout and Send");
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 30;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.pszModuleName = "Translit and Send";
 	bbd.pwszTooltip = TranslateT("Translit and Send");
 	bbd.hIcon = iconList[1].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 40;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	bbd.pszModuleName = "Invert Case and Send";
 	bbd.pwszTooltip = TranslateT("Invert Case and Send");
 	bbd.hIcon = iconList[2].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 50;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

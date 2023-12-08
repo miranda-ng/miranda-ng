@@ -23,9 +23,7 @@
 #define IDC_SENDSMS                     1008
 #define IDC_CODE                        1009
 #define IDC_ONLINESINCE                 1010
-#define IDC_IDLETIME                    1011
 #define IDC_NICK                        1012
-#define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
 #define IDC_SAVEPASS                    1015
 #define IDC_MEMBERSINCE2                1015

@@ -469,12 +469,12 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool     m_bInsertMode, m_bInitMode = true;
 	bool     m_bDeferredScroll;
 	bool     m_bWasBackgroundCreate;
+	bool     m_bSendFormat;
 
 	int      m_iRealAvatarHeight;
 	int      m_iButtonBarReallyNeeds;
 	uint32_t m_dwLastActivity;
 	MEVENT   m_hFlashingEvent;
-	int      m_SendFormat;
 	LCID     m_lcid;
 	wchar_t  m_lcID[10];
 	int      m_iPanelAvatarX, m_iPanelAvatarY;
@@ -488,6 +488,7 @@ class CMsgDialog : public CSrmmBaseDialog
 			  
 	uint32_t m_iSplitterSaved;
 	POINT    m_ptTipActivation;
+	RECT     m_rcMessage;
 
 protected:
 	void     GetMYUIN();
@@ -538,7 +539,7 @@ public:
 	char     m_szMicroLf[128];
 
 	int      m_iMultiSplit;
-	int      msgTop, rcLogBottom;
+	int      rcLogBottom;
 	bool     m_bActivate, m_bWantPopup, m_bIsMeta;
 
 	wchar_t* wszInitialText;
@@ -558,7 +559,7 @@ public:
 	SESSION_INFO *m_pLastSession;
 
 	CTimer timerAwayMsg;
-	CCtrlButton m_btnAdd, m_btnQuote, m_btnCancelAdd;
+	CCtrlButton m_btnAdd, m_btnQuote, m_btnCancelAdd, m_btnStrikeout;
 
 public:
 	CMsgDialog(int dlgId, MCONTACT hContact);

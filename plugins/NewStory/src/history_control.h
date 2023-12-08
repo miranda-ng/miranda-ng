@@ -3,24 +3,6 @@
 
 #define NEWSTORYLIST_CLASS "NewstoryList"
 
-enum
-{
-	NSM_FIRST = WM_USER + 100,
-
-	// wParam = fist item
-	// lParam = iLast item
-	// result = number of total selected items
-	NSM_SELECTITEMS = NSM_FIRST,
-
-	//
-	NSM_SEEKTIME,
-
-	// 
-	NSM_SET_OPTIONS,  // options were changed
-
-	NSM_LAST
-};
-
 struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);
@@ -36,7 +18,6 @@ struct NewstoryListData : public MZeroedObject
 	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
 	int cachedScrollbarPos = -1;
-	unsigned int cachedScrollbarPage = -1;
 	int totalCount;
 
 	RECT rcLastPaint;
@@ -83,11 +64,13 @@ struct NewstoryListData : public MZeroedObject
 	void      LineUp();
 	void      LineDown();
 	ItemData* LoadItem(int idx);
+	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();
 	int       PaintItem(HDC hdc, int index, int top, int width);
 	void      Quote();
 	void      RecalcScrollBar();
+	void      Reply();
 	void      ScheduleDraw();
 	void      ScrollBottom();
 	void      ScrollDown(int deltaY);

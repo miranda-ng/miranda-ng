@@ -677,11 +677,10 @@ void CImportBatch::ImportMeta(DBCachedContact *ccSrc)
 		// ok, now transfer the common data
 		CreateGroup(tszGroup, hDest);
 
-		if (tszNick && *tszNick) {
-			db_set_ws(hDest, "CList", "MyHandle", tszNick);
+		if (tszNick && *tszNick)
 			AddMessage(LPGENW("Added metacontact '%s'"), tszNick.get());
-		}
-		else AddMessage(LPGENW("Added metacontact"));
+		else
+			AddMessage(LPGENW("Added metacontact"));
 	}
 
 	ImportContactData icd = { ccSrc->contactID, ccDst->contactID, META_PROTO, META_PROTO, true };
@@ -807,11 +806,10 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	CreateGroup(tszGroup, hDst);
 
-	if (tszNick && *tszNick) {
-		db_set_ws(hDst, "CList", "MyHandle", tszNick);
+	if (tszNick && *tszNick)
 		AddMessage(LPGENW("Added %S contact %s, '%s'"), szDstModuleName, pszUniqueID, tszNick.get());
-	}
-	else AddMessage(LPGENW("Added %S contact %s"), szDstModuleName, pszUniqueID);
+	else
+		AddMessage(LPGENW("Added %S contact %s"), szDstModuleName, pszUniqueID);
 
 	srcDb->FreeVariant(&dbv);
 

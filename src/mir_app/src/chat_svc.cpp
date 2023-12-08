@@ -218,6 +218,9 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 		si->iStatusCount = 0;
 		si->pMe = nullptr;
 
+		if (mi->bPersistent)
+			Chat_Unserialize(si);
+
 		if (g_chatApi.OnReplaceSession)
 			g_chatApi.OnReplaceSession(si);
 		return si;
@@ -488,6 +491,13 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 
 	case GC_EVENT_ADDSTATUS:
 		SM_GiveStatus(si, gce.pszUID.w, gce.pszStatus.w);
+		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
+		break;
+
+	case GC_EVENT_SETSTATUS:
+		if (!SM_AssignStatus(si, gce.pszUID.w, gce.pszStatus.w))
+			return 0;
+
 		bIsHighlighted = g_chatApi.IsHighlighted(si, &gce);
 		break;
 

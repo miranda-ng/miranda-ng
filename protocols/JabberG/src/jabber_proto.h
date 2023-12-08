@@ -138,7 +138,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int      SendMsg(MCONTACT hContact, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 	int      SendMsgEx(MCONTACT hContact, const char *msg, XmlNode &m);
 
 	int      SetApparentMode(MCONTACT hContact, int mode) override;
@@ -492,11 +492,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_file.cpp ---------------------------------------------------------------
 
+	void       FileProcessHttpDownload(MCONTACT, const char *jid, const char *pszUrl, const char *pszDescr);
 	int        FileReceiveParse(filetransfer *ft, char* buffer, int datalen);
 	int        FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen);
-			     
+
 	void       GroupchatJoinRoomByJid(HWND hwndParent, char *jid);
-			     
+
 	void       RenameParticipantNick(JABBER_LIST_ITEM *item, const char *oldNick, const TiXmlElement *itemNode);
 
 	//---- jabber_ft.c -------------------------------------------------------------------

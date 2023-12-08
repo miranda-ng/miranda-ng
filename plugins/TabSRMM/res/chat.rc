@@ -8,6 +8,8 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
+#include "..\..\include\chat_resource.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -16,7 +18,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -32,8 +34,10 @@ BEGIN
     CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,0,128,127,12,WS_EX_STATICEDGE
     CONTROL         "",IDC_CONTACTPIC,"Button",BS_OWNERDRAW,242,127,12,12
     CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | 0x944,8,23,164,72,WS_EX_STATICEDGE
-    LISTBOX         IDC_SRMM_NICKLIST,182,98,69,42,LBS_MULTIPLESEL | LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_HASSTRINGS | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    LISTBOX         IDC_SRMM_NICKLIST,182,98,69,42,LBS_MULTIPLESEL | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
     CONTROL         "",IDC_PANELSPLITTER,"Static",SS_ENHMETAFILE,0,32,252,1,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_SRMM_QUOTE,"RichEdit50W",ES_AUTOHSCROLL | WS_DISABLED | WS_BORDER | WS_TABSTOP,0,95,235,16
+    CONTROL         "",IDC_SRMM_CLOSEQUOTE,"MButtonClass", WS_TABSTOP,237,97,16,16
 END
 
 IDD_FILTER DIALOG 0, 0, 201, 126
@@ -203,7 +207,9 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <winres.h>\0"
+    "#include <winres.h>\r\n"
+    "#include ""..\\..\\include\\chat_resource.h""\r\n"
+    "\0"
 END
 
 3 TEXTINCLUDE 

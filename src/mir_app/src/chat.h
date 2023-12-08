@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define DM_OPTIONSAPPLIED (WM_USER+14)
 
-void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
+void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
 void CheckChatCompatibility();
@@ -72,8 +72,8 @@ MODULEINFO*   MM_FindModule(const char *pszModule);
 LOGINFO*      SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted);
 BOOL          SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce);
 void          SM_FreeSession(SESSION_INFO *si);
-char*         SM_GetUsers(SESSION_INFO *si);
 BOOL          SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus);
+BOOL          SM_AssignStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus);
 void          SM_RemoveAll(void);
 BOOL          SM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID);
 BOOL          SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStatus);
@@ -102,6 +102,7 @@ int           RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
 
 // options.c
 void          ChatOptionsInit(WPARAM wParam);
+void          SrmmLogOptionsInit(WPARAM wParam);
 
 int           OptionsInit(void);
 int           OptionsUnInit(void);
@@ -135,5 +136,7 @@ void          Chat_RemoveContact(MCONTACT hContact);
 CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);
 void          Chat_Serialize(SESSION_INFO *si);
 bool          Chat_Unserialize(SESSION_INFO *si);
+
+EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang);
 
 #pragma comment(lib,"comctl32.lib")

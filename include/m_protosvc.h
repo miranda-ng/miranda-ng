@@ -141,6 +141,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_SINGLEFILEONLY   0x00001000 // protocol supports sending files one by one only
 #define PF4_READNOTIFY       0x00002000 // protocol supports receiving notify of message reading
 #define PF4_SERVERMSGID      0x00004000 // protocol uses server message ids
+#define PF4_REPLY            0x00008000 // protocol supports replies to messages
 
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
@@ -590,8 +591,8 @@ struct PROTOFILERESUME
 
 ///////////////////////////////////////////////////////////////////////////////
 // Send an instant message
-// wParam = flags
-// lParam = (LPARAM)(const char*)szMessage
+// wParam = (MEVENT)id of reply to message
+// lParam = (const char*)szMessage
 // returns a hProcess corresponding to the one in the ack event.
 // Will send an ack when the message actually gets sent
 // type = ACKTYPE_MESSAGE, result = success/failure, (char*)lParam = error message or NULL.
@@ -724,21 +725,22 @@ struct PROTOFILERESUME
 // DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 // Return 0 - success, other failure
 
-#define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
-#define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
-#define PREF_SENT        16     // message will be created with the DBEF_SENT flag
-#define PREF_ENCRYPTED   32     // message is encrypted
-#define PREF_ENCRYPTED_STRONG 64// message is encrypted with verified key
+#define PREF_CREATEREAD        1 // create the database event with the 'read' flag set
+#define PREF_RTL               4 // 0.5+ addition: support for right-to-left messages
+#define PREF_SENT             16 // message will be created with the DBEF_SENT flag
+#define PREF_ENCRYPTED        32 // message is encrypted
+#define PREF_ENCRYPTED_STRONG 64 // message is encrypted with verified key
 
 struct PROTORECVEVENT
 {
-	uint32_t flags;       // combination of PREF_*
-	uint32_t timestamp;   // unix time
-	char* szMessage;      // message body in utf8
-	LPARAM lParam;        // extra space for the network level protocol module
-	const char* szMsgId;  // server message id, optional, should be NULL otherwise
-	                      // ignored for protocols without PF4_SERVERMSGID in GetCaps()
-	const char *szUserId; // user id, for group chats stored in the database
+	uint32_t flags;               // combination of PREF_*
+	uint32_t timestamp;           // unix time
+	char* szMessage;              // message body in utf8
+	LPARAM lParam;                // extra space for the network level protocol module
+	const char* szMsgId;          // server message id, optional, should be NULL otherwise
+	                              // ignored for protocols without PF4_SERVERMSGID in GetCaps()
+	const char *szUserId;         // user id, for group chats stored in the database
+	const char *szReplyId;        // this message is a reply to a message with that server id
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -781,14 +783,15 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 
 struct PROTORECVFILE
 {
-	uint32_t dwFlags;       // PRFF_*
-	uint32_t timestamp;     // unix time
-	MAllCStrings descr;     // file description
-	int fileCount;          // number of files being transferred
-	MAllCStringArray files; // array of file names
-	LPARAM lParam;          // extra space for the network level protocol module
-	const char *szId;       // server message id
-	const char *szUserId;   // groupchat user id
+	uint32_t dwFlags;        // PRFF_*
+	uint32_t timestamp;      // unix time
+	MAllCStrings descr;      // file description
+	int fileCount;           // number of files being transferred
+	MAllCStringArray files;  // array of file names
+	LPARAM lParam;           // extra space for the network level protocol module
+	const char *szId;        // server message id
+	const char *szUserId;    // groupchat user id
+	const char *szReplyId;   // this message is a reply to a message with that server id
 };
 
 #define PSR_FILE "/RecvFile"

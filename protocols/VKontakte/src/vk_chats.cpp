@@ -191,7 +191,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveChatInfo", true, &CVkProto::OnReceiveChatInfo)
 		<< INT_PARAM("chatid", cc->m_iChatId)
-		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 3)
+		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 4)
 	)->pUserInfo = cc;
 }
 
@@ -611,7 +611,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			ptrW pwszBuf(mir_wstrdup(gch->ptszText));
 			rtrimw(pwszBuf);
 			Chat_UnescapeTags(pwszBuf);
-			SendMsg(cc->m_si->hContact, T2Utf(pwszBuf));
+			SendMsg(cc->m_si->hContact, gch->si->pDlg ? gch->si->pDlg->m_hQuoteEvent : 0, T2Utf(pwszBuf));
 		}
 		break;
 
@@ -987,8 +987,38 @@ INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 	if (!IsOnline())
 		return (INT_PTR)1;
 
-	CVkGCCreateForm dlg(this);
-	return (INT_PTR)!dlg.DoModal();
+	
+	CVkUserListForm dlg(
+		this,
+		"",
+		TranslateT("Create group chat"),
+		TranslateT("Mark users you want to invite to a new chat"),
+		TranslateT("New chat's title:"),
+		VKContactType::vkContactSelf | VKContactType::vkContactMUCUser | VKContactType::vkContactGroupUser
+	);
+
+	if (!dlg.DoModal())
+		return 0;
+
+	CMStringA szUIds;
+	for (auto& hContact : dlg.lContacts) {
+		if (isChatRoom((UINT_PTR)hContact))
+			continue;
+
+		VKUserID_t iUserId = ReadVKUserID((UINT_PTR)hContact);
+		if (iUserId != 0) {
+			if (!szUIds.IsEmpty())
+				szUIds.AppendChar(',');
+			szUIds.AppendFormat("%d", iUserId);
+		}	
+	}
+
+	if (szUIds.IsEmpty())
+		return 0;
+
+	CreateNewChat(szUIds, dlg.wszMessage);
+	
+	return 1;
 }
 
 void CVkProto::CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle)

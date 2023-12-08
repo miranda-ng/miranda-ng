@@ -25,13 +25,16 @@ const wchar_t *defAuthReply = LPGENW("StopSpam: send a message and reply to an a
 
 class COptMainDlg : public CDlgBase
 {
+	CCtrlCheck chk_INFTALKPROT, chk_ADDPERMANENT, chk_HANDLEAUTHREQ, chk_HIDECONTACTS, chk_IGNORESPAMMERS, chk_LOGSPAMTOFILE;
+	CCtrlData ctrl_DESCRIPTION;
+	CCtrlSpin edit_MAXQUESTCOUNT;
+
 public:
 	COptMainDlg() : CDlgBase(g_plugin, IDD_MAIN),
 		chk_INFTALKPROT(this, ID_INFTALKPROT), chk_ADDPERMANENT(this, ID_ADDPERMANENT), chk_HANDLEAUTHREQ(this, ID_HANDLEAUTHREQ),
 		chk_HIDECONTACTS(this, ID_HIDECONTACTS), chk_IGNORESPAMMERS(this, ID_IGNORESPAMMERS), chk_LOGSPAMTOFILE(this, ID_LOGSPAMTOFILE),
 		ctrl_DESCRIPTION(this, ID_DESCRIPTION), edit_MAXQUESTCOUNT(this, ID_MAXQUESTCOUNT)
-	{
-	}
+	{}
 
 	bool OnInitDialog() override
 	{
@@ -57,15 +60,13 @@ public:
 		g_plugin.setByte("LogSpamToFile", gbLogToFile = chk_LOGSPAMTOFILE.GetState());
 		return true;
 	}
-
-private:
-	CCtrlCheck chk_INFTALKPROT, chk_ADDPERMANENT, chk_HANDLEAUTHREQ, chk_HIDECONTACTS, chk_IGNORESPAMMERS, chk_LOGSPAMTOFILE;
-	CCtrlData ctrl_DESCRIPTION;
-	CCtrlSpin edit_MAXQUESTCOUNT;
 };
 
 class COptMessagesDlg : public CDlgBase
 {
+	CCtrlEdit edit_QUESTION, edit_ANSWER, edit_CONGRATULATION, edit_AUTHREPL;
+	CCtrlButton btn_RESTOREDEFAULTS, btn_VARS;
+
 public:
 	COptMessagesDlg() : CDlgBase(g_plugin, IDD_MESSAGES),
 		edit_QUESTION(this, ID_QUESTION), edit_ANSWER(this, ID_ANSWER), edit_CONGRATULATION(this, ID_CONGRATULATION), edit_AUTHREPL(this, ID_AUTHREPL),
@@ -102,25 +103,24 @@ public:
 		return true;
 	}
 
-	void onClick_RESTOREDEFAULTS(CCtrlButton*)
+	void onClick_RESTOREDEFAULTS(CCtrlButton *)
 	{
 		edit_QUESTION.SetText(TranslateW(defQuestion));
 		edit_ANSWER.SetText(L"nospam");
 		edit_AUTHREPL.SetText(TranslateW(defAuthReply));
 		edit_CONGRATULATION.SetText(TranslateW(defCongrats));
 	}
-	void onClick_VARS(CCtrlButton*)
+	void onClick_VARS(CCtrlButton *)
 	{
 		variables_showhelp(m_hwnd, WM_COMMAND, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
 	}
-private:
-	CCtrlEdit edit_QUESTION, edit_ANSWER, edit_CONGRATULATION, edit_AUTHREPL;
-	CCtrlButton btn_RESTOREDEFAULTS, btn_VARS;
-
 };
 
 class COptProtoDlg : public CDlgBase
 {
+	CCtrlListBox list_USEDPROTO, list_ALLPROTO;
+	CCtrlButton btn_ADD, btn_REMOVE, btn_ADDALL, btn_REMOVEALL;
+
 public:
 	COptProtoDlg() : CDlgBase(g_plugin, IDD_PROTO),
 		list_USEDPROTO(this, ID_USEDPROTO), list_ALLPROTO(this, ID_ALLPROTO),
@@ -131,7 +131,7 @@ public:
 		btn_ADDALL.OnClick = Callback(this, &COptProtoDlg::onClick_ADDALL);
 		btn_REMOVEALL.OnClick = Callback(this, &COptProtoDlg::onClick_REMOVEALL);
 	}
-	
+
 	bool OnInitDialog() override
 	{
 		for (auto &pa : Accounts()) {
@@ -141,10 +141,9 @@ public:
 		}
 		return true;
 	}
-	
+
 	bool OnApply() override
 	{
-		
 		LRESULT count = list_USEDPROTO.GetCount();
 		std::ostringstream out;
 		for (int i = 0; i < count; ++i) {
@@ -156,19 +155,21 @@ public:
 		return true;
 	}
 
-	void onClick_ADD(CCtrlButton*)
+	void onClick_ADD(CCtrlButton *)
 	{
 		list_USEDPROTO.AddString(list_ALLPROTO.GetItemText(list_ALLPROTO.GetCurSel()));
 		list_ALLPROTO.DeleteString(list_ALLPROTO.GetCurSel());
 		this->NotifyChange();
 	}
-	void onClick_REMOVE(CCtrlButton*)
+
+	void onClick_REMOVE(CCtrlButton *)
 	{
 		list_ALLPROTO.AddString(list_USEDPROTO.GetItemText(list_USEDPROTO.GetCurSel()));
 		list_USEDPROTO.DeleteString(list_USEDPROTO.GetCurSel());
 		this->NotifyChange();
 	}
-	void onClick_ADDALL(CCtrlButton*)
+
+	void onClick_ADDALL(CCtrlButton *)
 	{
 		for (;;) {
 			int count = list_ALLPROTO.GetCount();
@@ -179,7 +180,8 @@ public:
 		}
 		this->NotifyChange();
 	}
-	void onClick_REMOVEALL(CCtrlButton*)
+
+	void onClick_REMOVEALL(CCtrlButton *)
 	{
 		for (;;) {
 			int count = list_USEDPROTO.GetCount();
@@ -190,10 +192,6 @@ public:
 		}
 		this->NotifyChange();
 	}
-private:
-	CCtrlListBox list_USEDPROTO, list_ALLPROTO;
-	CCtrlButton btn_ADD, btn_REMOVE, btn_ADDALL, btn_REMOVEALL;
-
 };
 
 class COptAdvancedDlg : public CDlgBase
@@ -282,7 +280,7 @@ public:
 		return true;
 	}
 
-	void onClick_MATH_DETAILS(CCtrlButton*)
+	void onClick_MATH_DETAILS(CCtrlButton *)
 	{
 		MessageBox(m_hwnd, TranslateT("If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces."), TranslateT("Info"), MB_OK);
 	}

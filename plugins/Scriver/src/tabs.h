@@ -108,7 +108,7 @@ struct ParentWindowData
 	CMsgDialog *GetChildFromHWND(HWND hwnd);
 	void PopupWindow(CMsgDialog *pDlg, bool bIncoming);
 	void RemoveChild(HWND child);
-	void MessageSend(const MessageSendQueueItem &msg);
+	void MessageSend(const SendQueue::Item &msg);
 	void SetContainerWindowStyle();
 	void StartFlashing();
 	void ToggleInfoBar();

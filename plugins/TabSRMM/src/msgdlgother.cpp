@@ -343,7 +343,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 				}
 				else {
 					if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
-						if (m_SendFormat)
+						if (m_bSendFormat)
 							res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 				}
 			}
@@ -353,12 +353,12 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 						res.Append((p[2] != '0') ? L"%i" : L"%I");
 				}
 				else {
-					if (!lf.lfItalic && m_SendFormat)
+					if (!lf.lfItalic && m_bSendFormat)
 						res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 				}
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
-				if (!lf.lfStrikeOut && m_SendFormat)
+				if (!lf.lfStrikeOut && m_bSendFormat)
 					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
@@ -367,7 +367,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 						res.Append((p[3] != '0') ? L"%u" : L"%U");
 				}
 				else {
-					if (!lf.lfUnderline && m_SendFormat) {
+					if (!lf.lfUnderline && m_bSendFormat) {
 						if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 							res.Append(L"[u]");
 							bInsideUl = true;
@@ -1157,7 +1157,7 @@ void CMsgDialog::GetClientIcon()
 		DestroyIcon(m_hClientIcon);
 
 	m_hClientIcon = nullptr;
-	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+	if (Finger_IsPresent()) {
 		ptrW tszMirver(db_get_wsa(m_cache->getActiveContact(), m_cache->getActiveProto(), "MirVer"));
 		if (tszMirver)
 			m_hClientIcon = Finger_GetClientIcon(tszMirver, 1);
@@ -1217,11 +1217,7 @@ LRESULT CMsgDialog::GetSendButtonState()
 
 void CMsgDialog::GetSendFormat()
 {
-	m_SendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat);
-	if (m_SendFormat == -1)          // per contact override to disable it..
-		m_SendFormat = 0;
-	else if (m_SendFormat == 0)
-		m_SendFormat = g_plugin.bSendFormat;
+	m_bSendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat) != 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1404,6 +1400,11 @@ void CMsgDialog::LoadSettings()
 
 void CMsgDialog::LoadSplitter()
 {
+	if (m_bReadOnly) {
+		m_iSplitterY = DPISCALEY_S(22);
+		return;
+	}
+
 	if (m_bIsAutosizingInput) {
 		m_iSplitterY = (m_pContainer->cfg.flags.m_bBottomToolbar) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
 
@@ -1864,7 +1865,7 @@ void CMsgDialog::SaveAvatarToFile(HBITMAP hbm, int isOwnPic)
 
 void CMsgDialog::SaveSplitter()
 {
-	if (m_bIsAutosizingInput)
+	if (m_bIsAutosizingInput || m_bReadOnly)
 		return;
 
 	if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY) || m_iSplitterY < 0)
@@ -2154,6 +2155,11 @@ void CMsgDialog::ShowFilterMenu()
 
 void CMsgDialog::ShowPicture(bool showNewPic)
 {
+	if (m_bReadOnly) {
+		m_bShowAvatar = false;
+		return;
+	}
+
 	if (!m_pPanel.isActive())
 		m_pic.cy = m_pic.cx = DPISCALEY_S(60);
 
@@ -2195,8 +2201,9 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
-		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED);
-		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, g_plugin.bPasteAndSend ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_bSendFormat ? MF_ENABLED : MF_GRAYED);
+		if (!g_plugin.bPasteAndSend)
+			RemoveMenu(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, MF_BYCOMMAND);
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
 	}

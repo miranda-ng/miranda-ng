@@ -2,6 +2,8 @@
 
 #define MT_BBBUTTON "BBButton"
 
+EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *, HPLUGIN);
+
 static void MakeBBButton(lua_State *L, BBButton &bbb)
 {
 	bbb.dwDefPos = 100;

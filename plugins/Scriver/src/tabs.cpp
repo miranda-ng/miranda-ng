@@ -267,7 +267,7 @@ void ParentWindowData::CloseOtherChilden(CMsgDialog *pChildDlg)
 	ActivateChild(pChildDlg);
 }
 
-void ParentWindowData::MessageSend(const MessageSendQueueItem &msg)
+void ParentWindowData::MessageSend(const SendQueue::Item &msg)
 {
 	for (int i = 0; i < m_iChildrenCount; i++) {
 		CMsgDialog *pDlg = GetChildFromTab(m_hwndTabs, i);

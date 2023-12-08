@@ -475,8 +475,10 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 			setWString(hContact, "Deactivated", wszValue);
 	}
 
-	if (!wszValue.IsEmpty())
+	if (!wszValue.IsEmpty()) {
+		Contact::Readonly(hContact);
 		return hContact;
+	}
 
 	int sex = jnItem["sex"].as_int();
 	if (sex)
@@ -811,7 +813,11 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	if (!jnResponse)
 		return;
 
-	for (auto &jnItem : jnResponse) {
+	const JSONNode& jnGroups = jnResponse["groups"];
+	if (!jnGroups)
+		return;
+
+	for (auto &jnItem : jnGroups) {
 		VKUserID_t iGroupId = (-1)*jnItem["id"].as_int();
 		bool bIsMember = jnItem["is_member"].as_bool();
 

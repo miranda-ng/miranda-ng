@@ -11,6 +11,7 @@
 [Add shortcut]
 [Enable popups]
 ;file \plugins\Toaster\src\main.cpp
+[Popup mode]
 [This plugin requires Windows 8 or higher]
 [Failed to create temporary directory]
 ;file \plugins\Toaster\src\options.cpp

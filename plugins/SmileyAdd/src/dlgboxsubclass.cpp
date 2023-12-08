@@ -90,9 +90,9 @@ int SmileyButtonCreate(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Show smiley selection window");
 	bbd.dwDefPos = 31;
 	bbd.hIcon = IcoLib_GetIconHandle("SmileyAdd_ButtonSmiley");
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
 	bbd.pszHotkey = desc.pszName;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

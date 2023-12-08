@@ -5,6 +5,7 @@
 #include <time.h>
 #include <windows.h>
 
+#include <algorithm>
 #include <map>
 #include <memory>
 
@@ -30,6 +31,7 @@
 #include <m_popup.h>
 #include <m_skin.h>
 #include <m_smileyadd.h>
+#include <m_timezones.h>
 
 #include "../../libs/freeimage/src/FreeImage.h"
 

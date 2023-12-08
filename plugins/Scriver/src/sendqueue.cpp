@@ -23,12 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static OBJLIST<MessageSendQueueItem> arQueue(1, PtrKeySortT);
+using namespace SendQueue;
+
+static OBJLIST<Item> arQueue(1, PtrKeySortT);
 static mir_cs queueMutex;
 
-MessageSendQueueItem* CreateSendQueueItem(CMsgDialog *pDlg)
+Item* SendQueue::CreateItem(CMsgDialog *pDlg)
 {
-	MessageSendQueueItem *item = new MessageSendQueueItem();
+	Item *item = new Item();
 	item->pDlg = pDlg;
 
 	mir_cslock lck(queueMutex);
@@ -36,7 +38,7 @@ MessageSendQueueItem* CreateSendQueueItem(CMsgDialog *pDlg)
 	return item;
 }
 
-MessageSendQueueItem* FindOldestPendingSendQueueItem(CMsgDialog *pDlg, MCONTACT hContact)
+Item* SendQueue::FindOldestPendingItem(CMsgDialog *pDlg, MCONTACT hContact)
 {
 	mir_cslock lck(queueMutex);
 	for (auto &it : arQueue)
@@ -46,7 +48,7 @@ MessageSendQueueItem* FindOldestPendingSendQueueItem(CMsgDialog *pDlg, MCONTACT 
 	return nullptr;
 }
 
-MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
+Item* SendQueue::FindItem(MCONTACT hContact, HANDLE hSendId)
 {
 	mir_cslock lock(queueMutex);
 	for (auto &it : arQueue)
@@ -56,7 +58,7 @@ MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
 	return nullptr;
 }
 
-bool RemoveSendQueueItem(MessageSendQueueItem *item)
+bool SendQueue::RemoveItem(Item *item)
 {
 	auto *pDlg = item->pDlg;
 	{
@@ -71,7 +73,7 @@ bool RemoveSendQueueItem(MessageSendQueueItem *item)
 	return true;
 }
 
-void ReportSendQueueTimeouts(CMsgDialog *pDlg)
+void SendQueue::ReportTimeouts(CMsgDialog *pDlg)
 {
 	int timeout = g_plugin.iMsgTimeout * 1000;
 
@@ -80,7 +82,7 @@ void ReportSendQueueTimeouts(CMsgDialog *pDlg)
 	for (auto &it : arQueue.rev_iter()) {
 		if (it->timeout >= timeout)
 			continue;
-			
+
 		it->timeout += 1000;
 		if (it->timeout < timeout || it->pDlg != pDlg || it->hwndErrorDlg != nullptr)
 			continue;
@@ -93,7 +95,7 @@ void ReportSendQueueTimeouts(CMsgDialog *pDlg)
 	}
 }
 
-void ReleaseSendQueueItems(CMsgDialog *pDlg)
+void SendQueue::ReleaseItems(CMsgDialog *pDlg)
 {
 	mir_cslock lock(queueMutex);
 
@@ -109,7 +111,7 @@ void ReleaseSendQueueItems(CMsgDialog *pDlg)
 	}
 }
 
-int ReattachSendQueueItems(CMsgDialog *pDlg, MCONTACT hContact)
+int SendQueue::ReattachItems(CMsgDialog *pDlg, MCONTACT hContact)
 {
 	int count = 0;
 
@@ -125,14 +127,14 @@ int ReattachSendQueueItems(CMsgDialog *pDlg, MCONTACT hContact)
 	return count;
 }
 
-void RemoveAllSendQueueItems()
+void SendQueue::RemoveAllItems()
 {
 	mir_cslock lock(queueMutex);
 	arQueue.destroy();
 }
 
-void SendSendQueueItem(MessageSendQueueItem* item)
+void SendQueue::SendItem(Item *item)
 {
 	item->timeout = 0;
-	item->hSendId = ProtoChainSend(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
+	item->hSendId = ProtoChainSend(item->hContact, PSS_MESSAGE, item->pDlg->m_hQuoteEvent, (LPARAM)item->sendBuffer);
 }

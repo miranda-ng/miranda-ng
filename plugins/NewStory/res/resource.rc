@@ -72,6 +72,8 @@ IDI_OK                  ICON                    "ok.ico"
 
 IDI_USERS               ICON                    "users.ico"
 
+IDI_REPLY               ICON                    "reply.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

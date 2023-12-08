@@ -34,10 +34,12 @@ struct ItemData
 	ItemData* checkPrev(ItemData *pPrev);
 	ItemData* checkPrevGC(ItemData *pPrev);
 	void checkCreate(HWND hwnd);
+	void markRead();
 	void setText();
 
+	bool fetch(void);
 	void fill(int tmpl);
-	void load(bool bFullLoad);
+	void load(bool bFullLoad = false);
 	bool isLink(POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(int idx) const;
 
@@ -49,9 +51,9 @@ struct ItemData
 	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
 	CMStringW formatStringEx(wchar_t *sztpl);
 
-	inline wchar_t *getWBuf()
+	inline wchar_t* getWBuf()
 	{
-		load(true);
+		load();
 		return wtext;
 	}
 };

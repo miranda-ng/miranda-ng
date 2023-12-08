@@ -167,15 +167,17 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 
 	// SRMM toolbar button
 	BBButton bbd = {};
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_ATTACH);
 	bbd.pszModuleName = SRFILEMODULE;
 	bbd.pwszTooltip = LPGENW("Send file");
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 
 	HookEvent(ME_MSG_BUTTONPRESSED, OnToolbarButtonPressed);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
+	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 
 	RemoveUnreadFileEvents();
 	return 0;
@@ -191,13 +193,19 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-static int SRFileEventDeleted(WPARAM /*hContact*/, LPARAM hDbEvent)
+static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 {
 	DB::EventInfo dbei(hDbEvent);
-	if (dbei && dbei.eventType == EVENTTYPE_FILE && (dbei.flags & DBEF_SENT) == 0) {
+	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
-		if (auto *pwszName = blob.getLocalName())
-			DeleteFileW(pwszName);
+		if (auto *pwszName = blob.getLocalName()) {
+			wchar_t wszReceiveFolder[MAX_PATH];
+			GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
+
+			// we don't remove sent files, located outside Miranda's folder for sent offline files
+			if ((dbei.flags & DBEF_SENT) == 0 || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+				DeleteFileW(pwszName);
+		}
 	}
 
 	return 0;
@@ -241,6 +249,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 	dbei.timestamp = pre->timestamp;
 	dbei.szId = pre->szId;
 	dbei.szUserId = pre->szUserId;
+	dbei.szReplyId = pre->szReplyId;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_UTF;
 	if (bSent)
@@ -344,8 +353,6 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SRFilePreShutdown);
 	HookEvent(ME_OPT_INITIALISE, SRFileOptInitialise);
 	HookEvent(ME_DB_EVENT_DELETED, SRFileEventDeleted);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
-	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 
 	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
 	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);

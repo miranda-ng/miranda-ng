@@ -34,3 +34,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDC_SRMM_NICKLIST     3010
 #define IDC_SRMM_LOG          3011
 #define IDC_SRMM_MESSAGE      3012
+#define IDC_SRMM_QUOTE        3013
+#define IDC_SRMM_CLOSEQUOTE   3014

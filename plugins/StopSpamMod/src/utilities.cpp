@@ -17,18 +17,18 @@
 
 #include "stdafx.h"
 
-wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue)
+wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const *szModule, char const *szSetting, wstring errorValue)
 {
 	DBVARIANT dbv;
-		if (db_get_ws(hContact, szModule, szSetting, &dbv))
+	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return errorValue;
-	
+
 	errorValue = dbv.pwszVal;
 	db_free(&dbv);
 	return errorValue;
 }
 
-std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue)
+std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const *szModule, char const *szSetting, std::string errorValue)
 {
 	DBVARIANT dbv;
 	if (db_get_s(hContact, szModule, szSetting, &dbv))
@@ -39,11 +39,11 @@ std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szMod
 	return errorValue;
 }
 
-wstring& GetDlgItemString(HWND hwnd, int id)
+wstring &GetDlgItemString(HWND hwnd, int id)
 {
 	HWND h = GetDlgItem(hwnd, id);
 	int len = GetWindowTextLength(h);
-	wchar_t * buf = new wchar_t[len + 1];
+	wchar_t *buf = new wchar_t[len + 1];
 	GetWindowText(h, buf, len + 1);
 	static wstring s;
 	s = buf;
@@ -65,7 +65,7 @@ bool ProtoInList(const char *szProto)
 	return std::string::npos != GetProtoList().find(std::string(szProto) + "\r\n");
 }
 
-void DeleteCListGroupsByName(wchar_t* szGroupName)
+void DeleteCListGroupsByName(wchar_t *szGroupName)
 {
 	uint8_t ConfirmDelete = Clist::ConfirmDelete;
 	if (ConfirmDelete)
@@ -94,7 +94,7 @@ wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 		fi.szFormat.w = wcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;
 		fi.flags = FIF_UNICODE;
-		wchar_t *tszParsed = (wchar_t*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		wchar_t *tszParsed = (wchar_t *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 		free(fi.szFormat.w);
 
 		if (tszParsed) {
@@ -194,7 +194,7 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 
 	// Name, UID and Protocol Log line
 	LogProtocol = DBGetContactSettingStringPAN(hContact, "Protocol", "p", L"");
-	LogContactName = (wchar_t*)Clist_GetContactDisplayName(hContact);
+	LogContactName = (wchar_t *)Clist_GetContactDisplayName(hContact);
 	LogContactId = (LogProtocol == L"") ? L"" : GetContactUid(hContact, LogProtocol);
 	// Name, UID  and Protocol Log line
 
@@ -215,7 +215,7 @@ mir_cs clean_mutex;
 
 void __cdecl CleanProtocolExclThread(void *param)
 {
-	const char *szProto = (const char*)param;
+	const char *szProto = (const char *)param;
 
 	while (true) {
 		int status = Proto_GetStatus(szProto);
@@ -242,7 +242,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 	mir_free(param);
 }
 
-void __cdecl CleanThread(void*)
+void __cdecl CleanThread(void *)
 {
 	std::list<std::string> protocols;
 	for (auto &pa : Accounts())
@@ -262,7 +262,7 @@ void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 	Event.flags = flags | DBEF_UTF;
 	Event.timestamp = (uint32_t)time(0);
 	Event.cbBlob = (uint32_t)mir_strlen(data) + 1;
-	Event.pBlob = (uint8_t*)_strdup(data);
+	Event.pBlob = (uint8_t *)_strdup(data);
 	db_event_add(hContact, &Event);
 }
 
@@ -277,7 +277,7 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 		msg.append("Protocol: ").append(Proto_GetBaseAccountName(hContact)).append(" Contact: ");
 		msg.append(toUTF8(Clist_GetContactDisplayName(hContact))).append(" ID: ");
 		msg.append(toUTF8(GetContactUid(hContact, toUTF16(Proto_GetBaseAccountName(hContact)))));
-		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
+		HistoryLog(NULL, (char *)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}
 }
 
@@ -301,7 +301,7 @@ std::string get_random_num(int length)
 	std::string chars("123456789");
 	std::string data;
 	boost::random_device rng;
-	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, (int)chars.length() - 1));
+	boost::variate_generator<boost::random_device &, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, (int)chars.length() - 1));
 	for (int i = 0; i < length; ++i)
 		data += chars[gen()];
 	return data;

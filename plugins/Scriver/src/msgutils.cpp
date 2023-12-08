@@ -259,17 +259,17 @@ void CMsgDialog::LoadSettings()
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
 }
 
-void CMsgDialog::MessageSend(const MessageSendQueueItem &msi)
+void CMsgDialog::MessageSend(const SendQueue::Item &msi)
 {
 	StartMessageSending();
 
-	MessageSendQueueItem *item = CreateSendQueueItem(this);
+	SendQueue::Item *item = SendQueue::CreateItem(this);
 	item->hContact = m_hContact;
 	item->proto = mir_strdup(m_szProto);
 	item->flags = msi.flags;
 	item->sendBufferSize = msi.sendBufferSize;
 	item->sendBuffer = mir_strndup(msi.sendBuffer, msi.sendBufferSize);
-	SendSendQueueItem(item);
+	SendQueue::SendItem(item);
 }
 
 // Don't send to protocols who don't support typing

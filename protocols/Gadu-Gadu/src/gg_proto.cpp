@@ -506,7 +506,7 @@ HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 //////////////////////////////////////////////////////////
 // when messsage sent
 //
-int GaduProto::SendMsg(MCONTACT hContact, const char *msg)
+int GaduProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 	if (!isonline())

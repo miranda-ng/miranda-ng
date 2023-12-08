@@ -211,6 +211,7 @@ EXTERN_C MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusI
 #define BBBF_ISSEPARATOR		(1<<9)
 #define BBBF_CANTBEHIDDEN		(1<<10)
 #define BBBF_CREATEBYID			(1<<11)  // only for the internal use
+#define BBBF_NOREADONLY       (1<<12)
 
 struct BBButton
 {
@@ -225,10 +226,6 @@ struct BBButton
 	HANDLE         hIcon;          // Handle to icolib registered icon
 	const char    *pszHotkey;      // name of the registered hotkey or NULL
 };
-
-// adds a new toolbar button
-// returns button's handle on success or NULL otherwise
-EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN);
 
 // modifies the existing toolbar button
 // returns 0 on success and nonzero value otherwise

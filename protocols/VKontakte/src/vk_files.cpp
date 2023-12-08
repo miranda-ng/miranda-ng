@@ -383,7 +383,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}
 
 		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
-		pMsgReq << INT_PARAM("user_id", iUserId);
+		pMsgReq << INT_PARAM("peer_id", iUserId);
 		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	}
 

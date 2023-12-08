@@ -125,11 +125,9 @@ void CMsgDialog::SetDialogToType()
 
 	Utils::enableDlgControl(m_hwnd, IDC_TIME, true);
 
-	m_message.Show();
-
 	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_bErrorState ? SW_SHOW : SW_HIDE);
 
-	if (!m_SendFormat)
+	if (!m_bSendFormat)
 		ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
 	if (m_pContainer->m_hwndActive == m_hwnd)
@@ -141,8 +139,11 @@ void CMsgDialog::SetDialogToType()
 	GetAvatarVisibility();
 
 	Utils::showDlgControl(m_hwnd, IDC_CONTACTPIC, m_bShowAvatar ? SW_SHOW : SW_HIDE);
-	Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
 	Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
+
+	Utils::showDlgControl(m_hwnd, IDC_SPLITTERY, m_bIsAutosizingInput ? SW_HIDE : SW_SHOW);
+	if (m_bReadOnly)
+		Utils::enableDlgControl(m_hwnd, IDC_SPLITTERY, false);
 
 	EnableSendButton(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	UpdateTitle();
@@ -315,7 +316,8 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
-	m_btnCancelAdd(this, IDC_CANCELADD)
+	m_btnCancelAdd(this, IDC_CANCELADD),
+	m_btnStrikeout(this, IDC_FONTSTRIKEOUT)
 {
 	m_hContact = hContact;
 
@@ -332,7 +334,8 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
-	m_btnCancelAdd(this, IDC_CANCELADD)
+	m_btnCancelAdd(this, IDC_CANCELADD),
+	m_btnStrikeout(this, IDC_FONTSTRIKEOUT)
 {
 	m_hContact = si->hContact;
 
@@ -573,7 +576,7 @@ bool CMsgDialog::OnInitDialog()
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
 
-		if (!m_SendFormat)
+		if (!m_bSendFormat)
 			ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
 		UpdateNickList();
@@ -779,7 +782,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = L"{";
-		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
+		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_bSendFormat : 0;
 		fi.lpstrText = L"}";
 		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
 	}
@@ -864,7 +867,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 
 		if (m_sendMode & SMODE_CONTAINER && m_pContainer->m_hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->m_hwnd) {
 			int tabCount = TabCtrl_GetItemCount(m_hwndParent);
-			ptrA szFromStream(m_message.GetRichTextRtf(!m_SendFormat));
+			ptrA szFromStream(m_message.GetRichTextRtf(!m_bSendFormat));
 
 			for (int i = 0; i < tabCount; i++) {
 				// get the contact from the tabs lparam which hopefully is the tabs hwnd so we can get its userdata.... hopefully
@@ -887,6 +890,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		sendQueue->addTo(this, memRequired, flags);
 	}
 
+	m_btnCloseQuote.Click();
 	SetFocus(m_message.GetHwnd());
 }
 
@@ -1211,11 +1215,11 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERY:
+		urc->rcItem.left = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (isChat()) {
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
 			urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
-			urc->rcItem.left = 0;
 			urc->rcItem.bottom++;
 			urc->rcItem.top++;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
@@ -1223,7 +1227,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
 		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		OffsetRect(&urc->rcItem, 0, 1);
-		urc->rcItem.left = 0;
 
 		if (m_bUseOffset)
 			urc->rcItem.right -= (m_pic.cx); // + DPISCALEX(2));
@@ -1233,13 +1236,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		if (m_bShowAvatar)
 			urc->rcItem.right -= m_pic.cx + 2;
-		if (isChat()) {
-			urc->rcItem.bottom = urc->dlgNewSize.cy;
-			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
-		}
-		else {
-			urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
-		}
+
+		urc->rcItem.bottom = urc->dlgNewSize.cy;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
 
 		if (bBottomToolbar && bShowToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
@@ -1247,7 +1246,11 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		if (m_bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
-		msgTop = urc->rcItem.top;
+		if (m_hQuoteEvent)
+			urc->rcItem.top += 22;
+
+		m_rcMessage = urc->rcItem;
+
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[ID_EXTBKINPUTAREA];
 			if (!item->IGNORED) {
@@ -1257,9 +1260,21 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 				urc->rcItem.bottom -= item->MARGIN_BOTTOM;
 			}
 		}
-		if (isChat())
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_QUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= DPISCALEY_S(22);
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.right -= DPISCALEY_S(22);
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+	case IDC_SRMM_CLOSEQUOTE:
+		urc->rcItem = m_rcMessage;
+		urc->rcItem.top -= DPISCALEY_S(22);
+		urc->rcItem.bottom = m_rcMessage.top;
+		urc->rcItem.left = m_rcMessage.right - DPISCALEY_S(22);
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_MULTISPLITTER:
 		if (bInfoPanel)
@@ -1271,8 +1286,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_LOGFROZENTEXT:
 		urc->rcItem.right = urc->dlgNewSize.cx - 50;
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 16 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 16 - (bBottomToolbar ? 0 : 28);
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
 			urc->rcItem.top += 21;
@@ -1280,8 +1295,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
 	case IDC_ADD:
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 18 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 28;
 		urc->rcItem.left = urc->rcItem.right - 20;
 		if (!bShowToolbar && !bBottomToolbar) {
@@ -1291,8 +1306,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
 	case IDC_CANCELADD:
-		urc->rcItem.bottom = msgTop - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = msgTop - 18 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 4;
 		urc->rcItem.left = urc->rcItem.right - 20;
 		if (!bShowToolbar && !bBottomToolbar) {
@@ -1308,8 +1323,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_CANCELSEND:
 	case IDC_MSGSENDLATER:
 		if (m_bErrorState) {
-			urc->rcItem.bottom = msgTop - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
-			urc->rcItem.top = msgTop - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.bottom = m_rcMessage.top - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = m_rcMessage.top - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
@@ -1320,8 +1335,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_STATICTEXT:
 	case IDC_STATICERRORICON:
 		if (m_bErrorState) {
-			urc->rcItem.bottom = msgTop - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
-			urc->rcItem.top = msgTop - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.bottom = m_rcMessage.top - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = m_rcMessage.top - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
@@ -1643,6 +1658,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		else if (bStrikeout == BST_CHECKED)
 			CheckDlgButton(m_hwnd, IDC_FONTSTRIKEOUT, BST_UNCHECKED);
 	}
+	
 	switch (msg) {
 	case WM_LBUTTONDOWN:
 		{
@@ -1798,11 +1814,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				return 0;
 			}
-
-			if (wParam != VK_ESCAPE)
-				if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-					return 0;
 		}
+
+		if (wParam != VK_ESCAPE)
+			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+				return 0;
 
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 			replaceStrW(m_wszSearchQuery, nullptr);

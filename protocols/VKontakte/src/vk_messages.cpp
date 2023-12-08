@@ -19,9 +19,119 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SendMsg(MCONTACT hContact, const char *szMsg)
+int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents, const char* szMsg) 
 {
-	debugLogA("CVkProto::SendMsg");
+	debugLogA("CVkProto::ForwardMsg");
+	if (!IsOnline() || !vForvardEvents.size())
+		return -1;
+
+	bool bIsChat = isChatRoom(hContact);
+
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER) {
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0);
+		return 0;
+	}
+
+	CMStringA szBody;
+	int StickerId = 0;
+	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
+	if (StickerId) {
+		SendMsg(hContact, 0, CMStringA(FORMAT, "[sticker:%d]", StickerId));
+		szBody = pszRetMsg;
+	}
+	else
+		szBody = szMsg;
+
+	CMStringA szIds;
+	CMStringW wszForwardMessagesTxt;
+
+	int iForwardVKMessageCount = 0;
+	for (auto &mEvnt : vForvardEvents) {
+		if (iForwardVKMessageCount == VK_MAX_FORWARD_MESSAGES)
+			break;
+
+		iForwardVKMessageCount++;
+
+		DB::EventInfo dbei(mEvnt);
+		if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE)
+			continue;
+
+		MCONTACT hForwardContact = db_event_getContact(mEvnt);
+
+		if (!Proto_IsProtoOnContact(hForwardContact, m_szModuleName)) {
+			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
+
+			wchar_t ttime[64];
+			time_t  tTimestamp(dbei.timestamp);
+			_locale_t locale = _create_locale(LC_ALL, "");
+			_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&tTimestamp), locale);
+			_free_locale(locale);
+
+			wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
+			wszForwardMessagesTxt.AppendFormat(L"%s %s%c%s %s:\n\n%s\n\n",
+				TranslateT("Message from"),
+				wszContactName.c_str(),
+				tcSplit,
+				TranslateT("at"),
+				ttime,
+				dbei.pBlob ? ptrW(mir_utf8decodeW((char*)dbei.pBlob)) : L""
+			);
+			
+		} else if (mir_strlen(dbei.szId) > 0) {
+			if (!szIds.IsEmpty())
+				szIds.AppendChar(',');
+			szIds += dbei.szId;
+		}
+	}
+
+	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
+	AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
+		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
+	
+	pReq 
+		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) 
+		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100)
+		<< CHAR_PARAM("forward_messages", szIds);
+	
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+	szBody += T2Utf(wszForwardMessagesTxt);
+
+	if (!IsEmpty(szBody)) {
+		pReq << CHAR_PARAM("message", szBody);
+		if (m_vkOptions.bSendVKLinksAsAttachments) {
+			CMStringA szAttachments = GetAttachmentsFromMessage(szBody);
+			if (!szAttachments.IsEmpty()) {
+				debugLogA("CVkProto::ForwardMsg Attachments = %s", szAttachments.c_str());
+				pReq << CHAR_PARAM("attachment", szAttachments);
+			}
+		}
+	}
+
+	if (!bIsChat)
+		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
+
+	Push(pReq);
+
+	if (!m_vkOptions.bServerDelivery && !bIsChat)
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
+
+	if (vForvardEvents.size() > VK_MAX_FORWARD_MESSAGES) {
+		std::vector vNextForvardEvents(vForvardEvents.begin() + VK_MAX_FORWARD_MESSAGES, vForvardEvents.end());
+		ForwardMsg(hContact, vNextForvardEvents, "");
+	}
+
+	if (m_iStatus == ID_STATUS_INVISIBLE)
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+
+	return uMsgId;
+}
+
+
+int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
+{
+	debugLogA("CVkProto::SendMsg hReplyEvent = %d", hReplyEvent);
 	if (!IsOnline())
 		return -1;
 
@@ -42,6 +152,13 @@ int CVkProto::SendMsg(MCONTACT hContact, const char *szMsg)
 	pReq << INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) << INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
+	
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent, false);
+		if (dbei && mir_strlen(dbei.szId) > 0)
+			pReq << CHAR_PARAM("reply_to", dbei.szId);
+	}
+	
 	if (StickerId)
 		pReq << INT_PARAM("sticker_id", StickerId);
 	else {
@@ -64,7 +181,7 @@ int CVkProto::SendMsg(MCONTACT hContact, const char *szMsg)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
 
 	if (!IsEmpty(pszRetMsg))
-		SendMsg(hContact, pszRetMsg);
+		SendMsg(hContact, 0, pszRetMsg);
 	else if (m_iStatus == ID_STATUS_INVISIBLE)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 
@@ -241,7 +358,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (iChatId == 0)
 			hContact = FindUser(iUserId, true);
 
-		char szMid[40];
+		char szMid[40], szReplyId[40] = "";
 		_ltoa(iMessageId, szMid, 10);
 
 		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
@@ -270,13 +387,16 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
-		if (jnReplyMessages && !jnReplyMessages.empty()) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
-			if (!wszBody.IsEmpty())
-				wszReplyMessages = L"\n" + wszReplyMessages;
-			wszBody += wszReplyMessages;
-		}
-
+		if (jnReplyMessages && !jnReplyMessages.empty()) 
+			if (m_vkOptions.bShowReplyInMessage) {
+				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+				if (!wszBody.IsEmpty())
+					wszReplyMessages = L"\n" + wszReplyMessages;
+				wszBody += wszReplyMessages;
+			}
+			else if (jnReplyMessages["id"])
+					_ltoa(jnReplyMessages["id"].as_int(), szReplyId, 10);
+		
 		CMStringW wszBodyNoAttachments = wszBody;
 
 		CMStringW wszAttachmentDescr;
@@ -335,8 +455,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		T2Utf pszBody(wszBody);
 		recv.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
 		recv.szMessage = pszBody;
+		
+		if (!m_vkOptions.bShowReplyInMessage && szReplyId)
+			recv.szReplyId = szReplyId;
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
+		
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
@@ -488,6 +612,10 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
 				MarkMessagesRead(hContact);
 		}
+
+		if (jnConversation["can_write"] && jnConversation["can_write"]["allowed"])
+			Contact::Readonly(hContact, !jnConversation["can_write"]["allowed"].as_bool());
+
 	}
 	lufUsers.destroy();
 	RetrieveUsersInfo();

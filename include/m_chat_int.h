@@ -280,6 +280,7 @@ struct CHAT_MANAGER
 	USERINFO*     (*UM_AddUser)(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
 	USERINFO*     (*UM_FindUser)(SESSION_INFO *si, const wchar_t *pszUID);
 	USERINFO*     (*UM_GiveStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
+	BOOL          (*UM_RemoveAll)(SESSION_INFO *si);
 	USERINFO*     (*UM_SetContactStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);

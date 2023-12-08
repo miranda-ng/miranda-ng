@@ -213,7 +213,7 @@ INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int FacebookProto::SendMsg(MCONTACT hContact, const char *pszSrc)
+int FacebookProto::SendMsg(MCONTACT hContact, MEVENT, const char *pszSrc)
 {
 	if (!m_bOnline)
 		return -1;

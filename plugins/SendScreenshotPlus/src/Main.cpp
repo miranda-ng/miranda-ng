@@ -252,7 +252,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 	bbd.dwDefPos = 201;
 	bbd.hIcon = GetIconHandle(ICO_MAINXS);
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

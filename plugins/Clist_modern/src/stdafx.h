@@ -161,16 +161,6 @@ extern wchar_t SkinsFolder[MAX_PATH];
 
 char* __cdecl strstri(char *a, const char *b);
 
-//  Register of plugin's user
-//
-//  wParam = (WPARAM)szSetting - string that describes a user
-//           format: Category/ModuleName,
-//           eg: "Contact list background/CLUI",
-//               "Status bar background/StatusBar"
-//  lParam = (LPARAM)dwFlags
-//
-#define MS_BACKGROUNDCONFIG_REGISTER "ModernBkgrCfg/Register"
-
 //
 //  Notification about changed background
 //  wParam = ModuleName

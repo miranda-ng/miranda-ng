@@ -385,7 +385,7 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 6000;
 	bbd.pszHotkey = hkd.pszName;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

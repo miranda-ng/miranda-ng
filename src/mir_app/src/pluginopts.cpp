@@ -376,7 +376,6 @@ public:
 		CMStringW bufRestart(TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 		bufRestart.AppendChar('\n');
 
-		g_bLoadStd = false;
 		for (int iRow = 0; iRow != -1;) {
 			wchar_t buf[1024];
 			m_plugList.GetItemText(iRow, 0, buf, _countof(buf));

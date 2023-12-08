@@ -55,7 +55,7 @@ namespace SendLater
 	bool   processCurrentJob();
 	void   processContacts();
 	void   startJobListProcess();
-	int    addJob(const char *szSetting, void *lParam);
+	int    addJob(const char *szSetting, MCONTACT, MEVENT);
 	void   addContact(const MCONTACT hContact);
 	HANDLE processAck(const ACKDATA *ack);
 

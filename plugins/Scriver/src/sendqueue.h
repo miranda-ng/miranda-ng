@@ -24,35 +24,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_SENDQUEUE_H
 #define SRMM_SENDQUEUE_H
 
-struct MessageSendQueueItem : public MZeroedObject
+namespace SendQueue
 {
-	~MessageSendQueueItem()
+	struct Item : public MZeroedObject
 	{
-		mir_free(proto);
-		mir_free(sendBuffer);
-	}
+		~Item()
+		{
+			mir_free(proto);
+			mir_free(sendBuffer);
+		}
 
-	CMsgDialog *pDlg;
-	MCONTACT hContact;
-	char  *proto;
-	int    hSendId;
-	int    timeout;
-	char  *sendBuffer;
-	int    sendBufferSize;
-	int    codepage;
-	int    flags;
-	HWND   hwndErrorDlg;
+		CMsgDialog *pDlg;
+		MCONTACT hContact;
+		char  *proto;
+		int    hSendId;
+		int    timeout;
+		char  *sendBuffer;
+		int    sendBufferSize;
+		int    codepage;
+		int    flags;
+		HWND   hwndErrorDlg;
+	};
+
+	Item* CreateItem(CMsgDialog *pDlg);
+	Item* FindItem(MCONTACT hContact, HANDLE hSendId);
+	Item* FindOldestPendingItem(CMsgDialog *pDlg, MCONTACT hContact);
+
+	bool RemoveItem(Item *item);
+	void ReportTimeouts(CMsgDialog *pDlg);
+	void ReleaseItems(CMsgDialog *pDlg);
+	int  ReattachItems(CMsgDialog *pDlg, MCONTACT hContact);
+	void RemoveAllItems();
+	void SendItem(Item *item);
 };
-
-MessageSendQueueItem* CreateSendQueueItem(CMsgDialog *pDlg);
-MessageSendQueueItem* FindOldestPendingSendQueueItem(CMsgDialog *pDlg, MCONTACT hContact);
-MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId);
-
-bool RemoveSendQueueItem(MessageSendQueueItem* item);
-void ReportSendQueueTimeouts(CMsgDialog *pDlg);
-void ReleaseSendQueueItems(CMsgDialog *pDlg);
-int  ReattachSendQueueItems(CMsgDialog *pDlg, MCONTACT hContact);
-void RemoveAllSendQueueItems();
-void SendSendQueueItem(MessageSendQueueItem* item);
 
 #endif

@@ -98,6 +98,7 @@ MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINF
 		return true;
 
 	case GC_EVENT_ADDSTATUS:
+	case GC_EVENT_SETSTATUS:
 		if (lin->ptszNick && lin->ptszText && lin->ptszStatus)
 			res.AppendFormat(TranslateT("%s enables '%s' status for %s"), lin->ptszText, lin->ptszStatus, lin->ptszNick);
 		return true;

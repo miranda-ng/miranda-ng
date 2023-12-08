@@ -24,11 +24,32 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 
 void __cdecl CTelegramProto::ServerThread(void *)
 {
+	m_botIds.clear();
+
 	m_bTerminated = m_bAuthorized = false;
 	m_pClientManager = std::make_unique<td::ClientManager>();
 	m_iClientId = m_pClientManager->create_client_id();
 
 	SendQuery(new TD::getOption("version"));
+
+	NETLIBUSERSETTINGS nluSettings;
+	Netlib_GetUserSettings(m_hNetlibUser, &nluSettings);
+	if (nluSettings.useProxy) {
+		TD::object_ptr<TD::ProxyType> proxyType;
+		switch (nluSettings.proxyType) {
+		case PROXYTYPE_SOCKS4:
+		case PROXYTYPE_SOCKS5:
+			proxyType = TD::make_object<TD::proxyTypeSocks5>();
+			break;
+		case PROXYTYPE_HTTP:
+		case PROXYTYPE_HTTPS:
+			proxyType = TD::make_object<TD::proxyTypeHttp>();
+			break;
+		}
+
+		if (proxyType)
+			SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+	}
 
 	while (!m_bTerminated) {
 		ProcessResponse(m_pClientManager->receive(1));
@@ -176,8 +197,24 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessBasicGroup((TD::updateBasicGroup*)response.object.get());
 		break;
 
+	case TD::updateBasicGroupFullInfo::ID:
+		ProcessBasicGroupInfo((TD::updateBasicGroupFullInfo *)response.object.get());
+		break;
+
+	case TD::updateChatAction::ID:
+		ProcessChatAction((TD::updateChatAction *)response.object.get());
+		break;
+
+	case TD::updateChatAvailableReactions::ID:
+		ProcessChatReactions((TD::updateChatAvailableReactions *)response.object.get());
+		break;
+
 	case TD::updateChatFolders::ID:
 		ProcessGroups((TD::updateChatFolders *)response.object.get());
+		break;
+
+	case TD::updateChatHasProtectedContent::ID:
+		ProcessChatHasProtected((TD::updateChatHasProtectedContent *)response.object.get());
 		break;
 
 	case TD::updateChatLastMessage::ID:
@@ -190,10 +227,6 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateChatPosition::ID:
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
-		break;
-
-	case TD::updateChatAvailableReactions::ID:
-		ProcessChatReactions((TD::updateChatAvailableReactions *)response.object.get());
 		break;
 
 	case TD::updateChatReadInbox::ID:
@@ -218,25 +251,20 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateMessageSendSucceeded::ID:
 		{
-			auto *pMessage = (TD::updateMessageSendSucceeded *)response.object.get();
+			auto *pUpdate = (TD::updateMessageSendSucceeded *)response.object.get();
+			auto *pMessage = pUpdate->message_.get();
 
-			if (pMessage->old_message_id_) {
-				char szId[100];
-				_i64toa(pMessage->old_message_id_, szId, 10);
-				if (auto hDbEvent = db_event_getById(m_szModuleName, szId)) {
-					_i64toa(pMessage->message_->id_, szId, 10);
-					db_event_updateId(hDbEvent, szId);
-				}
-			}
+			auto szOldId = msg2id(pMessage->chat_id_, pUpdate->old_message_id_);
+			if (pUpdate->old_message_id_)
+				if (auto hDbEvent = db_event_getById(m_szModuleName, szOldId))
+					db_event_updateId(hDbEvent, msg2id(pMessage));
 
-			ProcessMessage(pMessage->message_.get());
+			ProcessMessage(pMessage);
 
-			if (auto *pOwnMsg = m_arOwnMsg.find((TG_OWN_MESSAGE *)&pMessage->old_message_id_)) {
-				if (pOwnMsg->hAck) {
-					char szMsgId[100];
-					_i64toa(pMessage->message_->id_, szMsgId, 10);
-					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId);
-				}
+			TG_OWN_MESSAGE tmp(0, 0, szOldId);
+			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
+				if (pOwnMsg->hAck)
+					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)msg2id(pMessage).c_str());
 
 				m_arOwnMsg.remove(pOwnMsg);
 			}
@@ -250,7 +278,8 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 	case TD::updateNewMessage::ID:
 		{
 			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
-			if (!m_arOwnMsg.find((TG_OWN_MESSAGE*)&pMessage->id_))
+			TG_OWN_MESSAGE tmp(0, 0, msg2id(pMessage));
+			if (!m_arOwnMsg.find(&tmp))
 				ProcessMessage(pMessage);
 		}
 		break;
@@ -295,7 +324,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 		for (auto &it : m_arOwnMsg)
 			if (it->hAck == (HANDLE)response.request_id) {
 				auto *pMessage = ((TD::message *)response.object.get());
-				it->tmpMsgId = pMessage->id_;
+				it->szMsgId = msg2id(pMessage);
 				break;
 			}
 		break;
@@ -306,15 +335,15 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	}
 }
 
-int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
+int CTelegramProto::SendTextMessage(int64_t chatId, TD::int53 replyId, const char *pszMessage)
 {
 	auto pContent = TD::make_object<TD::inputMessageText>();
-	pContent->text_ = TD::make_object<TD::formattedText>();
-	pContent->text_->text_ = std::move(pszMessage);
+	pContent->text_ = formatBbcodes(pszMessage);
 
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
+	pMessage->reply_to_message_id_ = replyId;
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 
@@ -372,12 +401,12 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		if (pMsg->id_ < lastMsgId)
 			lastMsgId = pMsg->id_;
 
-		char szMsgId[100], szUserId[100];
-		_i64toa(pMsg->id_, szMsgId, 10);
+		char szUserId[100];
+		auto szMsgId(msg2id(pMsg));
 		if (db_event_getById(m_szModuleName, szMsgId))
 			continue;
 
-		CMStringA szBody = GetMessageText(pUser, pMsg);
+		CMStringA szBody = GetMessageText(pUser, pMsg, true);
 		if (szBody.IsEmpty())
 			continue;
 
@@ -388,7 +417,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.cbBlob = szBody.GetLength();
 		dbei.pBlob = (uint8_t*)szBody.c_str();
 		dbei.szId = szMsgId;
-		dbei.flags = DBEF_READ | DBEF_UTF | DBEF_HAS_ID;
+		dbei.flags = DBEF_READ | DBEF_UTF;
 		if (pMsg->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
@@ -408,40 +437,6 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
-{
-	auto *pBasicGroup = pObj->basic_group_.get();
-	if (pBasicGroup->upgraded_to_supergroup_id_)
-		if (auto *pUser = FindUser(pBasicGroup->upgraded_to_supergroup_id_)) {
-			pUser->bLoadMembers = true;
-			if (pUser->m_si)
-				pUser->m_si->bHasNicklist = true;
-		}
-
-	auto iStatusId = pBasicGroup->status_->get_id();
-	if (iStatusId == TD::chatMemberStatusBanned::ID) {
-		debugLogA("We are banned here, skipping");
-		return;
-	}
-	
-	TG_BASIC_GROUP tmp(pBasicGroup->id_, 0);
-	auto *pGroup = m_arBasicGroups.find(&tmp);
-	if (pGroup == nullptr) {
-		pGroup = new TG_BASIC_GROUP(tmp.id, std::move(pObj->basic_group_));
-		m_arBasicGroups.insert(pGroup);
-	}
-	else pGroup->group = std::move(pObj->basic_group_);
-
-	TG_USER *pUser;
-	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		pUser = AddFakeUser(tmp.id, true);
-		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
-	}
-	else pUser = AddUser(tmp.id, true);
-
-	pUser->bLoadMembers = true;
-}
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
@@ -487,10 +482,50 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (CheckSearchUser(pUser))
 			return;
 
-		if (pUser->isGroupChat && pUser->hContact != INVALID_CONTACT_ID)
-			InitGroupChat(pUser, pChat);
+		if (pUser->hContact != INVALID_CONTACT_ID) {
+			if (pChat->has_protected_content_)
+				setByte(pUser->hContact, "Protected", 1);
+			else
+				delSetting(pUser->hContact, "Protected");
+
+			if (pChat->permissions_)
+				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
+
+			if (pUser->isGroupChat && pUser->m_si == nullptr)
+				InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
+		}
 	}
 	else debugLogA("Unknown user id %lld, ignoring", userId);
+}
+
+void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
+{
+	auto *pChat = FindChat(pObj->chat_id_);
+	if (pChat == nullptr) {
+		debugLogA("Unknown chat, skipping");
+		return;
+	}
+
+	if (pChat->hContact == INVALID_CONTACT_ID) {
+		debugLogA("Last message for a temporary contact, skipping");
+		return;
+	}
+
+	switch (pObj->action_->get_id()) {
+	case TD::chatActionTyping::ID:
+		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 1);
+		break;
+	}
+}
+
+void CTelegramProto::ProcessChatHasProtected(TD::updateChatHasProtectedContent *pObj)
+{
+	if (auto *pChat = FindChat(pObj->chat_id_)) {
+		if (pObj->has_protected_content_)
+			setByte(pChat->hContact, "Protected", 1);
+		else
+			delSetting(pChat->hContact, "Protected");
+	}
 }
 
 void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
@@ -647,12 +682,9 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 		return;
 	}
 
-	for (auto &it : pObj->message_ids_) {
-		char id[100];
-		_i64toa(it, id, 10);
-		if (MEVENT hEvent = db_event_getById(m_szModuleName, id))
+	for (auto &it : pObj->message_ids_)
+		if (MEVENT hEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, it)))
 			db_event_delete(hEvent, true);
-	}
 }
 
 void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
@@ -688,9 +720,7 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		return;
 	}
 
-	char szId[100];
-	_i64toa(pObj->last_read_inbox_message_id_, szId, 10);
-	MEVENT hLastRead = db_event_getById(m_szModuleName, szId);
+	MEVENT hLastRead = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
 	if (hLastRead == 0) {
 		debugLogA("unknown event, ignored");
 		return;
@@ -724,9 +754,9 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
 			return;
 
-	char szId[100], szUserId[100];
-	_i64toa(pMessage->id_, szId, 10);
-	if (db_event_getById(m_szModuleName, szId))
+	char szUserId[100], szReplyId[100];
+	auto szMsgId(msg2id(pMessage));
+	if (db_event_getById(m_szModuleName, szMsgId))
 		return;
 
 	CMStringA szText(GetMessageText(pUser, pMessage));
@@ -748,12 +778,16 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 	PROTORECVEVENT pre = {};
 	pre.szMessage = szText.GetBuffer();
-	pre.szMsgId = szId;
+	pre.szMsgId = szMsgId;
 	pre.timestamp = pMessage->date_;
 	if (pMessage->is_outgoing_)
 		pre.flags |= PREF_SENT;
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		pre.szUserId = szUserId;
+	if (pMessage->reply_to_message_id_) {
+		_i64toa(pMessage->reply_to_message_id_, szReplyId, 10);
+		pre.szReplyId = szReplyId;
+	}
 	ProtoChainRecvMsg(GetRealContact(pUser), &pre);
 }
 
@@ -765,10 +799,7 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 	}
 
-	char szMsgId[100];
-	_i64toa(pObj->message_id_, szMsgId, 10);
-	
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->message_id_));
 	if (hDbEvent == 0) {
 		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
 		return;
@@ -792,6 +823,15 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 	dbei.pBlob = (uint8_t *)szText.c_str();
 	db_event_edit(hDbEvent, &dbei, true);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char *sttBotIds[] = {
+	"replies_bot_chat_id",
+	"group_anonymous_bot_user_id",
+	"channel_bot_user_id",
+	"anti_spam_bot_user_id",
+};
 
 void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 {
@@ -822,8 +862,17 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 		}
 
 		setWString(m_iSavedMessages, "Nick", TranslateT("Saved messages"));
+		return;
 	}
+
+	for (auto &it : sttBotIds)
+		if (pObj->name_ == it) {
+			m_botIds.push_back(iValue);
+			return;
+		}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 {
@@ -849,31 +898,6 @@ void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 			debugLogA("!!!!! Unknown status packet, report it to the developers");
 		}
 	}
-}
-
-void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
-{
-	auto iStatusId = pObj->supergroup_->status_->get_id();
-	if (iStatusId == TD::chatMemberStatusBanned::ID) {
-		debugLogA("We are banned here, skipping");
-		return;
-	}
-
-	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-
-	auto *pGroup = m_arSuperGroups.find(&tmp);
-	if (pGroup == nullptr) {
-		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
-		m_arSuperGroups.insert(pGroup);
-	}
-	else pGroup->group = std::move(pObj->supergroup_);
-
-	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		auto *pUser = AddFakeUser(tmp.id, true);
-		pUser->wszNick = getName(pGroup->group->usernames_.get());
-		pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
-	}
-	else AddUser(tmp.id, true);
 }
 
 void CTelegramProto::ProcessUser(TD::updateUser *pObj)
@@ -905,6 +929,15 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		return;
 	}
 
+	for (auto &it : m_botIds)
+		if (it == pUser->id_) {
+			if (auto *pu = FindUser(it)) {
+				Contact::Hide(pu->hContact);
+				Contact::RemoveFromList(pu->hContact);
+			}
+			return;
+		}
+
 	auto *pu = AddUser(pUser->id_, false);
 	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
 	if (szLastName.empty()) {
@@ -930,6 +963,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (pUser->is_premium_)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
+	else if (typeID == TD::userTypeBot::ID)
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_bot");
 	else
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
@@ -939,9 +974,10 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
 			if (remoteId != storedId.c_str()) {
 				if (!remoteId.empty()) {
-					if (pu)
+					if (pu) {
 						pu->szAvatarHash = remoteId.c_str();
-					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+						setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+					}
 					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
 				}
 				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);

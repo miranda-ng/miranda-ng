@@ -64,7 +64,7 @@ struct CustomButtonData : public MZeroedObject
 	HANDLE   m_hIcon;         // Handle to icolib registred icon
 
 	bool     m_bIMButton, m_bChatButton;
-	bool     m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton;
+	bool     m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton, m_bNoReadonly;
 	bool     m_bRSided;
 	uint8_t  m_opFlags;
 	HPLUGIN  m_pPlugin;
@@ -322,6 +322,9 @@ protected:
 	int m_iNickSearch = -1;
 	CMStringW m_wszNickSearch;
 
+	CCtrlBase m_Quote;
+	CCtrlMButton m_btnCloseQuote;
+
 	CCtrlButton m_btnColor, m_btnBkColor, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
@@ -332,14 +335,15 @@ protected:
 
 	void onClick_ChanMgr(CCtrlButton *);
 	void onClick_History(CCtrlButton *);
+	void onClick_CloseQuote(CCtrlButton *);
 
 	void onDblClick_List(CCtrlListBox *);
 
 public:
 	MCONTACT m_hContact;
-	MEVENT m_hDbEventFirst;
+	MEVENT m_hDbEventFirst, m_hQuoteEvent = 0;
 	int m_iLogFilterFlags;
-	bool m_bFilterEnabled, m_bNicklistEnabled;
+	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false;
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;
@@ -350,6 +354,7 @@ public:
 	void RedrawLog();
 	void ScheduleRedrawLog();
 	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);
+	void SetQuoteEvent(MEVENT hEvent);
 	void ShowColorChooser(int iCtrlId);
 	void UpdateChatOptions();
 	void UpdateNickList(void);

@@ -40,6 +40,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_CHATCHANGETOPIC "/ChatChangeTopic"
 #define PS_CHATINVITEUSER "/ChatInviteUser"
 #define PS_CHATDESTROY "/ChatDestroy"
+#define PS_NSEXECMENU "/NSExecMenu"
 
 
 
@@ -66,7 +67,7 @@ struct CVkProto : public PROTO<CVkProto>
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	HANDLE   SearchByEmail(const wchar_t *email) override;
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	int      SendMsg(MCONTACT hContact, const char *msg) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
@@ -106,6 +107,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcChatChangeTopic(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcChatInviteUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcChatDestroy(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle);
 
 	//==== History Menus ==================================================================
 
@@ -139,6 +141,9 @@ struct CVkProto : public PROTO<CVkProto>
 	VKUserID_t ReadVKUserIDFromString(MCONTACT hContact);
 	VKUserID_t ReadVKUserID(MCONTACT hContact);
 	void WriteVKUserID(MCONTACT hContact, VKUserID_t iUserId);
+
+	int ForwardMsg(MCONTACT hContact, std::vector<MEVENT> &vForvardEvents, const char* szMsg);
+	uint8_t GetContactType(MCONTACT hContact);
 
 private:
 
@@ -186,6 +191,11 @@ private:
 		PMI_WIPENONFRIENDS,
 		PMI_VISITPROFILE,
 		PMI_COUNT
+	};
+
+	enum NewStoryMenuIndexes {
+		NSMI_FORWARD,
+		NSMI_COUNT
 	};
 
 	//====================================================================================
@@ -245,7 +255,8 @@ private:
 	HGENMENU
 		m_hContactMenuItems[CMI_COUNT],
 		m_hContactHistoryMenuItems[CHMI_COUNT],
-		m_hProtoMenuItems[PMI_COUNT];
+		m_hProtoMenuItems[PMI_COUNT],
+		m_hNewStoryMenuItems[NSMI_COUNT];
 
 
 	void InitSmileys();
@@ -255,6 +266,7 @@ private:
 	void InitMenus();
 	void UnInitMenus();
 	int __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
+	int __cdecl OnPrebuildNSMenu(WPARAM hContact, LPARAM);
 
 	//==== PopUps ========================================================================
 
@@ -348,7 +360,6 @@ private:
 	void SetAllContactStatuses(int iStatus);
 	MCONTACT FindUser(VKUserID_t iUserId, bool bCreate = false);
 	MCONTACT FindChat(VKUserID_t iUserId);
-	bool IsGroupUser(MCONTACT hContact);
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -368,6 +379,7 @@ private:
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	void CheckUpdate();
+	bool IsGroupUser(MCONTACT hContact);
 	char* GetStickerId(const char *szMsg, int& iStickerid);
 	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);

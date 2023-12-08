@@ -23,11 +23,34 @@
 struct IcqUserInfoDlg : public CUserInfoPageDlg
 {
 	CIcqProto *ppro;
+	HANDLE hEvent = 0;
 
 	IcqUserInfoDlg(CIcqProto *_ppro) :
 		CUserInfoPageDlg(g_plugin, IDD_INFO_ICQ),
 		ppro(_ppro)
 	{
+	}
+
+	bool OnInitDialog() override
+	{
+		hEvent = HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED, m_hwnd, WM_USER);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		UnhookEvent(hEvent);
+	}
+
+	UI_MESSAGE_MAP(IcqUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(WM_USER, OnSettingChanged);
+	UI_MESSAGE_MAP_END();
+
+	LRESULT OnSettingChanged(UINT, WPARAM hContact, LPARAM)
+	{
+		if (hContact == m_hContact)
+			OnRefresh();
+		return 0;
 	}
 
 	bool OnRefresh() override
@@ -36,10 +59,17 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 		SetDlgItemTextW(m_hwnd, IDC_NICK, ppro->getMStringW(m_hContact, DB_KEY_ICQNICK));
 		SetDlgItemTextW(m_hwnd, IDC_PHONE, ppro->getMStringW(m_hContact, DB_KEY_PHONE));
 
-		SetDlgItemTextW(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
-		SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
-		SetDlgItemTextW(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
-		SetDlgItemTextW(m_hwnd, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(m_hContact, DB_KEY_ONLINETS)));
+		DBVARIANT dbv = {};
+		if (!db_get(m_hContact, ppro->m_szModuleName, DB_KEY_LASTSEEN, &dbv)) {
+			SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(&dbv));
+			db_free(&dbv);
+		}
+
+		if (!db_get(m_hContact, ppro->m_szModuleName, DB_KEY_ONLINETS, &dbv)) {
+			SetDlgItemTextW(m_hwnd, IDC_ONLINESINCE, time2text(&dbv));
+			db_free(&dbv);
+		}
+
 		return false;
 	}
 };

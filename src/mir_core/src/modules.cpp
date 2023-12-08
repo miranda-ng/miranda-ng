@@ -102,6 +102,15 @@ static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
 ///////////////////////////////////////////////////////////////////////////////
 // HOOKS
 
+MIR_CORE_DLL(bool) EventExists(const char *name)
+{
+	if (name == nullptr)
+		return false;
+
+	mir_cslock lck(csHooks);
+	return hooks.getIndex((THook *)name) != -1;
+}
+
 MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 {
 	if (name == nullptr)

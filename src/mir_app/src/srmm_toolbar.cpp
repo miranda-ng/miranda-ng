@@ -68,7 +68,7 @@ static void CB_RegisterSeparators()
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
-		Srmm_AddButton(&bbd, &g_plugin);
+		g_plugin.addButton(&bbd);
 	}
 }
 
@@ -172,6 +172,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 				cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
 				cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0;
 				cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
+				cbd->m_bNoReadonly = (bbdi->bbbFlags & BBBF_NOREADONLY) != 0;
 			}
 		}
 	}
@@ -261,11 +262,10 @@ MIR_APP_DLL(void) Srmm_ResetToolbar()
 	}
 }
 
-void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
+void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags)
 {
+	MWindow hwndDlg = pDlg->GetHwnd();
 	HINSTANCE hInstance = (HINSTANCE)GetWindowLongPtr(hwndDlg, GWLP_HINSTANCE);
-
-	CDlgBase *pDlg = CDlgBase::Find(hwndDlg);
 
 	for (auto &cbd : arButtonsList) {
 		if (cbd->m_bSeparator)
@@ -289,7 +289,7 @@ void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 			if (cbd->m_pwszText)
 				SetWindowTextW(hwndButton, cbd->m_pwszText);
 			if (cbd->m_pwszTooltip)
-				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
+				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(TranslateW_LP(cbd->m_pwszTooltip, cbd->m_pPlugin)), BATF_UNICODE);
 			if (cbd->m_hIcon)
 				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 
@@ -300,7 +300,7 @@ void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 
 			if (cbd->m_bDisabled)
 				EnableWindow(hwndButton, FALSE);
-			if (cbd->m_bHidden)
+			if (cbd->m_bHidden || (pDlg->m_bReadOnly && cbd->m_bNoReadonly))
 				ShowWindow(hwndButton, SW_HIDE);
 		}
 		else if (hwndButton)
@@ -603,7 +603,7 @@ public:
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = ++dwSepCount;
 
-		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd, &g_plugin);
+		CustomButtonData *cbd = (CustomButtonData*)g_plugin.addButton(&bbd);
 
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
@@ -741,6 +741,7 @@ MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
 	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? cbd->m_dwButtonCID + 1 : 0;
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
 	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
+	cbd->m_bNoReadonly = (bbdi->bbbFlags & BBBF_NOREADONLY) != 0;
 
 	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
 	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;

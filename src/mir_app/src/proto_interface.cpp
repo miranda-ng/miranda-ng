@@ -220,6 +220,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.cbBlob = (uint32_t)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (uint8_t*)pre->szMessage;
 	dbei.szUserId = pre->szUserId;
+	dbei.szReplyId = pre->szReplyId;
 
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;
@@ -254,7 +255,7 @@ HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 	return nullptr; // error
 }
 
-int PROTO_INTERFACE::SendMsg(MCONTACT, const char*)
+int PROTO_INTERFACE::SendMsg(MCONTACT, MEVENT, const char*)
 {
 	return 0; // error
 }

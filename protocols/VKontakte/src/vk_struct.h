@@ -281,6 +281,7 @@ struct CVKOptions {
 	CMOption<uint8_t> bUseNonStandardNotifications;
 	CMOption<uint8_t> bShortenLinksForAudio;
 	CMOption<uint8_t> bAddMessageLinkToMesWAtt;
+	CMOption<uint8_t> bShowReplyInMessage;
 	CMOption<uint8_t> bSplitFormatFwdMsg;
 	CMOption<uint8_t> bSyncReadMessageStatusFromServer;
 	CMOption<uint8_t> bLoadFullCList;
@@ -321,7 +322,12 @@ struct CVKDeactivateEvent {
 	char *szDescription;
 };
 
-enum VKContactType : uint8_t { vkContactNormal, vkContactSelf, vkContactMUCUser };
+enum VKContactType : uint8_t { 
+	vkContactNormal		= 0x01, 
+	vkContactSelf		= 0x02,
+	vkContactMUCUser	= 0x04,
+	vkContactGroupUser	= 0x08
+};
 enum VKMesType : uint8_t { vkALL, vkIN, vkOUT };
 
 struct CVKImageSizeItem {

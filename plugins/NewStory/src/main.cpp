@@ -64,6 +64,7 @@ static IconItem icons[] =
 	{ LPGEN("Filter"), "filter", IDI_FILTER },
 	{ LPGEN("Export"), "export", IDI_EXPORT },
 	{ LPGEN("Copy"), "copy", IDI_COPY },
+	{ LPGEN("Reply"), "reply", IDI_REPLY },
 	{ LPGEN("Bookmark"), "bookmark", IDI_BOOKMARK },
 	{ LPGEN("Send message"), "message", IDI_SENDMSG },
 
@@ -107,7 +108,7 @@ static int evtEventAdded(WPARAM hContact, LPARAM lParam)
 
 static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
 {
-	return SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
+	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
 }
 
 static int evtEventEdited(WPARAM hContact, LPARAM lParam)

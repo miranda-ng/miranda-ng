@@ -45,6 +45,7 @@ struct SendJob
 	size_t    iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int       sendCount;
 	MCONTACT  hContact;
+	MEVENT    hEvent;
 	HWND      hOwnerWnd;
 	unsigned  iStatus;
 	wchar_t*  pwszErrorMsg;

@@ -37,6 +37,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
 	for (auto &hContact : Contacts(MODULENAME)) {
+		Contact::Readonly(hContact);
 		if (!g_plugin.getByte("StartupRetrieve", 1))
 			g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
@@ -137,53 +138,6 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR AddFeed(WPARAM, LPARAM)
-{
-	if (pAddFeedDialog == nullptr) {
-		pAddFeedDialog = new CFeedEditor(-1, nullptr, NULL);
-		pAddFeedDialog->Show();
-	}
-	else {
-		SetForegroundWindow(pAddFeedDialog->GetHwnd());
-		SetFocus(pAddFeedDialog->GetHwnd());
-	}
-	return 0;
-}
-
-INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
-{
-	CFeedEditor *pDlg = nullptr;
-	for (auto &it : g_arFeeds)
-		if (it->getContact() == hContact)
-			pDlg = it;
-
-	if (pDlg == nullptr) {
-		pDlg = new CFeedEditor(-1, nullptr, (MCONTACT)hContact);
-		pDlg->Show();
-	}
-	else {
-		SetForegroundWindow(pDlg->GetHwnd());
-		SetFocus(pDlg->GetHwnd());
-	}
-	return 0;
-}
-
-INT_PTR ImportFeeds(WPARAM, LPARAM)
-{
-	if (pImportDialog == nullptr)
-		pImportDialog = new CImportFeed(nullptr);
-	pImportDialog->Show();
-	return 0;
-}
-
-INT_PTR ExportFeeds(WPARAM, LPARAM)
-{
-	if (pExportDialog == nullptr)
-		pExportDialog = new CExportFeed();
-	pExportDialog->Show();
-	return 0;
-}
-
 INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
 	if(IsMyContact((MCONTACT)hContact))
@@ -219,17 +173,6 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-void UpdateMenu(bool State)
-{
-	if (!State) // to enable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ENABLED));
-	else  // to disable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
-
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
-	g_plugin.setByte("AutoUpdate", !State);
 }
 
 // update the newsaggregator auto-update menu item when click on it

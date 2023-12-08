@@ -199,7 +199,7 @@ static void InitMenuItems(void)
 	//////////////////////////////////////////////////////////////////////////////////////
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
-	sid.szTooltip.a = LPGEN("Popup Mode");
+	sid.szTooltip.a = LPGEN("Popup mode");
 	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	Srmm_AddIcon(&sid, &g_plugin);
 

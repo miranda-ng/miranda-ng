@@ -45,7 +45,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
 	m_arGroups(10, NumericKeySortT),
-	m_arLastSeenQueue(10, NumericKeySortT),
 	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
@@ -58,7 +57,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bErrorPopups(this, "ShowErrorPopups", true),
 	m_bLaunchMailbox(this, "LaunchMailbox", true)
 {
-	db_set_resident(m_szModuleName, DB_KEY_IDLE);
 	db_set_resident(m_szModuleName, DB_KEY_ONLINETS);
 
 	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");
@@ -71,9 +69,9 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
-	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::OnMenuLoadHistory);
-	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::GetEmailCount);
-	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::GotoInbox);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::SvcLoadHistory);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::SvcGetEmailCount);
+	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::SvcGotoInbox);
 
 	// cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CIcqProto::SvcOfflineFile);
@@ -86,12 +84,12 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	// group chats
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_DATABASE;
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_DATABASE | GC_PERSISTENT;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
-	CreateProtoService(PS_LEAVECHAT, &CIcqProto::OnLeaveChat);
+	CreateProtoService(PS_LEAVECHAT, &CIcqProto::SvcLeaveChat);
 
 	// avatars
 	CreateDirectoryTreeW(GetAvatarPath());
@@ -239,21 +237,25 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 	DB::EventInfo dbei(ofd->hDbEvent);
 	if (m_bOnline && dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
 		DB::FILE_BLOB blob(dbei);
-		MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
-		if (auto *pFileInfo = RetrieveFileInfo(hContact, fileText2url(blob.getUrl()))) {
-			if (!ofd->bCopy) {
-				auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
-				pReq->pUserInfo = ofd;
-				pReq->AddHeader("Sec-Fetch-User", "?1");
-				pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-				pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-				Push(pReq);
-				return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
-			}
 
-			ofd->wszPath.Empty();
-			ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
-			ofd->pCallback->Invoke(*ofd);
+		CMStringW wszUrl;
+		if (fileText2url(blob.getUrl(), &wszUrl)) {
+			MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
+			if (auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl)) {
+				if (!ofd->bCopy) {
+					auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
+					pReq->pUserInfo = ofd;
+					pReq->AddHeader("Sec-Fetch-User", "?1");
+					pReq->AddHeader("Sec-Fetch-Site", "cross-site");
+					pReq->AddHeader("Sec-Fetch-Mode", "navigate");
+					Push(pReq);
+					return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
+				}
+
+				ofd->wszPath.Empty();
+				ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
+				ofd->pCallback->Invoke(*ofd);
+			}
 		}
 	}
 
@@ -268,7 +270,7 @@ INT_PTR __cdecl CIcqProto::SvcOfflineFile(WPARAM param, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
+INT_PTR CIcqProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 {
 	delSetting(hContact, DB_KEY_LASTMSGID);
 
@@ -322,52 +324,17 @@ INT_PTR CIcqProto::EditProfile(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CIcqProto::GetEmailCount(WPARAM, LPARAM)
+INT_PTR CIcqProto::SvcGetEmailCount(WPARAM, LPARAM)
 {
 	if (!m_bOnline)
 		return 0;
 	return m_unreadEmails;
 }
 
-INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
+INT_PTR CIcqProto::SvcGotoInbox(WPARAM, LPARAM)
 {
 	Utils_OpenUrl("https://e.mail.ru/messages/inbox");
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CIcqProto::OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
-{
-	RobustReply root(pReply);
-	if (root.error() != 20000)
-		return;
-
-	const JSONNode &results = root.results();
-	for (auto &it : results["entries"]) {
-		if (auto *pUser = FindUser(it["sn"].as_mstring())) {
-			int iLastSeen = it["lastseen"].as_int();
-			if (iLastSeen != 0) {
-				setDword(pUser->m_hContact, DB_KEY_LASTSEEN, iLastSeen);
-				ProcessStatus(pUser, ID_STATUS_OFFLINE);
-			}
-			else ProcessStatus(pUser, ID_STATUS_ONLINE);
-		}
-	}
-}
-
-void CIcqProto::SendLastSeen()
-{
-	mir_cslock lck(m_csLastSeenQueue);
-
-	auto *pReq = new AsyncRapiRequest(this, "getUserLastseen", &CIcqProto::OnLastSeen);
-	JSONNode ids(JSON_ARRAY); ids.set_name("ids"); 
-	for (auto &it: m_arLastSeenQueue)
-		ids << WCHAR_PARAM("", GetUserId(it->m_hContact));
-	pReq->params.push_back(ids);
-	Push(pReq);
-
-	m_arLastSeenQueue.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -494,7 +461,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_INVISIBLE;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY;
+		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | 
+			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
@@ -510,6 +478,10 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 int CIcqProto::GetInfo(MCONTACT hContact, int)
 {
 	RetrieveUserInfo(hContact);
+	RetrievePresence(hContact);
+
+	if (Contact::IsGroupChat(hContact))
+		RetrieveChatInfo(hContact);
 	return 0;
 }
 
@@ -567,7 +539,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int CIcqProto::SendMsg(MCONTACT hContact, const char *pszSrc)
+int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc)
 {
 	CMStringA szUserid(GetUserId(hContact));
 	if (szUserid.IsEmpty())
@@ -583,8 +555,25 @@ int CIcqProto::SendMsg(MCONTACT hContact, const char *pszSrc)
 		m_arOwnIds.insert(pOwn);
 	}
 
+	JSONNode parts(JSON_ARRAY);
+	if (hReplyEvent) {
+		DB::EventInfo dbei(hReplyEvent);
+		if (dbei) {
+			JSONNode replyTo;
+			MCONTACT replyContact = db_event_getContact(hReplyEvent);
+			CMStringA replyId(GetUserId(replyContact));
+			replyTo << CHAR_PARAM("mediaType", "quote") << CHAR_PARAM("sn", replyId) << INT_PARAM("time", dbei.timestamp)
+				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(replyContact, 0))
+				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+			parts.push_back(replyTo);
+		}
+	}
+
+	JSONNode msgText; msgText << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", pszSrc);
+	parts.push_back(msgText);
+	
 	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") 
-		<< CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
+		 << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
 	Push(pReq);
 	return id;
 }

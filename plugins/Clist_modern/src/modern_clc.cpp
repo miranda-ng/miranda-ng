@@ -1615,10 +1615,10 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	for (auto &hContact : Contacts())
 		SetRateExtraIcon(hContact, -1, FALSE);
 
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Menu background")"/Menu"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Status bar background")"/StatusBar"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"), 0);
+	BackgroundConfig_Register(LPGEN("List background")"/CLC");
+	BackgroundConfig_Register(LPGEN("Menu background")"/Menu");
+	BackgroundConfig_Register(LPGEN("Status bar background")"/StatusBar");
+	BackgroundConfig_Register(LPGEN("Frames title bar background")"/FrameTitleBar");
 
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, clcHookBkgndConfigChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, BgStatusBarChange);

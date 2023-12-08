@@ -21,11 +21,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CIcqProto::InitMenus()
 {
-	if (!ServiceExists(MS_NEWSTORY_GETSELECTION))
+	if (!HookProtoEvent(ME_NS_PREBUILDMENU, &CIcqProto::OnPrebuildMenu))
 		return;
 
 	CreateProtoService(MenuExecService, &CIcqProto::SvcExecMenu);
-	HookProtoEvent(ME_NS_PREBUILDMENU, &CIcqProto::OnPrebuildMenu);
 
 	CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, MenuExecService);
 	CMenuItem mi(&g_plugin);
@@ -76,6 +75,6 @@ int CIcqProto::OnPrebuildMenu(WPARAM, LPARAM lParam)
 {
 	auto *dbei = (DB::EventInfo *)lParam;
 	ptrW wszText(DbEvent_GetTextW(dbei, CP_UTF8));
-	Menu_ShowItem(hmiConvert, 0 == mir_wstrncmp(wszText, L"https://files.icq.net/get/", 26));
+	Menu_ShowItem(hmiConvert, fileText2url(wszText.get()));
 	return 0;
 }

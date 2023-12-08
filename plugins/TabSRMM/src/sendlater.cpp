@@ -54,6 +54,7 @@ struct CSendLaterJob : public MZeroedObject
 	char     szId[20];            // database key name (time stamp of original send)
 	MCONTACT hContact;            // original contact where the message has been assigned
 	MCONTACT hTargetContact;      // *real* contact (can be different for metacontacts, e.g).
+	MEVENT   hEvent;
 	HANDLE   hProcess;            // returned from the protocols sending service. needed to find it in the ACK handler
 	time_t   created;             // job was created at this time (important to kill jobs, that are too old)
 	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
@@ -125,7 +126,7 @@ struct CSendLaterJob : public MZeroedObject
 		iSendCount++;
 		hTargetContact = cc;
 		bCode = JOB_WAITACK;
-		hProcess = (HANDLE)ProtoChainSend(cc, PSS_MESSAGE, 0, (LPARAM)sendBuffer);
+		hProcess = (HANDLE)ProtoChainSend(cc, PSS_MESSAGE, hEvent, (LPARAM)sendBuffer);
 		return 0;
 	}
 
@@ -649,10 +650,10 @@ bool SendLater::processCurrentJob()
 
 static int _cdecl addStub(const char *szSetting, void *lParam)
 {
-	return(SendLater::addJob(szSetting, lParam));
+	return(SendLater::addJob(szSetting, INT_PTR(lParam), 0));
 }
 
-static void processSingleContact(const MCONTACT hContact)
+static void processSingleContact(MCONTACT hContact)
 {
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 	if (iCount)
@@ -680,9 +681,8 @@ void SendLater::processContacts()
 // @param 	lParam: a contact handle for which the job should be scheduled
 // @return 	0 on failure, 1 otherwise
 
-int SendLater::addJob(const char *szSetting, void *lParam)
+int SendLater::addJob(const char *szSetting, MCONTACT hContact, MEVENT hEvent)
 {
-	MCONTACT	hContact = (UINT_PTR)lParam;
 	DBVARIANT dbv = { 0 };
 	char *szOrig_Utf = nullptr;
 
@@ -716,6 +716,7 @@ int SendLater::addJob(const char *szSetting, void *lParam)
 	strncpy_s(job->szId, szSetting, _TRUNCATE);
 	job->szId[19] = 0;
 	job->hContact = hContact;
+	job->hEvent = hEvent;
 	job->created = atol(&szSetting[1]);
 
 	size_t iLen = mir_strlen(szOrig_Utf);

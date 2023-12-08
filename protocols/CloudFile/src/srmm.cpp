@@ -11,7 +11,7 @@ int OnSrmmToolbarLoaded(WPARAM, LPARAM)
 	bbd.hIcon = g_plugin.getIconHandle(IDI_UPLOAD);
 	bbd.dwButtonID = BBB_ID_FILE_SEND;
 	bbd.dwDefPos = 100 + bbd.dwButtonID;
-	Srmm_AddButton(&bbd, &g_plugin);
+	g_plugin.addButton(&bbd);
 	return 0;
 }
 

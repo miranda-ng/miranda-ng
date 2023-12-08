@@ -371,7 +371,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// fingerprint icon
 					if (pwd->bIsIconVisible[5]) {
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
-						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+						if (Finger_IsPresent()) {
 							ptrW tszVersion(db_get_wsa(pwd->hContact, szProto, "MirVer"));
 							if (tszVersion != NULL) {
 								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(tszVersion, 0);

@@ -73,14 +73,13 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	{	delete ofd;
 	}
 
-	void AutoDetectType();
-
 	Type m_type;
 	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId, m_szUserId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
 	OFDTHREAD *ofd = 0;
+	bool m_bRecv = false;
 };
 
 struct TG_USER : public MZeroedObject
@@ -99,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, bLoadMembers;
+	bool      isGroupChat, bLoadMembers, bStartChat;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -134,21 +133,24 @@ struct TG_BASIC_GROUP
 
 struct TG_OWN_MESSAGE
 {
-	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, int64_t _3) :
+	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, const char *_3) :
 		hContact(_1),
 		hAck(_2),
-		tmpMsgId(_3)
+		szMsgId(_3)
 	{}
 
-	int64_t  tmpMsgId, tmpFileId = -1;
-	HANDLE   hAck;
-	MCONTACT hContact;
+	int64_t   tmpFileId = -1;
+	HANDLE    hAck;
+	MCONTACT  hContact;
+	CMStringA szMsgId;
 };
 
 class CTelegramProto : public PROTO<CTelegramProto>
 {
+	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
+	friend class COptSessionsDlg;
 	friend class CAddPhoneContactDlg;
 
 	class CProtoImpl
@@ -189,6 +191,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 	TD::object_ptr<TD::ConnectionState> pConnState;
 
+	TD::array<TD::int53> m_botIds;
+
 	mir_cs m_csMarkRead;
 	TD::int53 m_markChatId = 0;
 	TD::array<TD::int53> m_markIds;
@@ -219,7 +223,10 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
+	void OnKillSession(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
@@ -234,11 +241,14 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(int64_t chatId, const char *pszMessage);
+	int  SendTextMessage(TD::int53 chatId, TD::int53 replyId, const char *pszMessage);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
+	void ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
+	void ProcessChatAction(TD::updateChatAction *pObj);
+	void ProcessChatHasProtected(TD::updateChatHasProtectedContent *pObj);
 	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatNotification(TD::updateChatNotificationSettings *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
@@ -247,6 +257,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj);
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
+	void ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool);
 	void ProcessGroups(TD::updateChatFolders *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(const TD::message *pMsg);
@@ -258,7 +269,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
-	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg);
+	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -274,13 +285,19 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_BASIC_GROUP>  m_arBasicGroups;
 	OBJLIST<TG_SUPER_GROUP>  m_arSuperGroups;
 
-	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat);
+	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
+
+	void InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle);
 	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
 	
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_LogMenu(GCHOOK *gch);
 
 	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
+	void GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent);
+	void GcChangeMember(TG_USER *pChat, const char *adminId, TD::int53 userId, bool bJoined);
+	void GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic);
+	void GcRun(TG_USER *pChat);
 
 	// Search
 	volatile unsigned m_iSearchCount;
@@ -315,7 +332,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void InitMenus();
 
 	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
-	int     __cdecl OnPrebuildMenu(WPARAM, LPARAM);
+	int     __cdecl OnPrebuildNSMenu(WPARAM, LPARAM);
 
 	// Popups
 	HANDLE m_hPopupClass;
@@ -342,10 +359,13 @@ public:
 	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	int      SendMsg(MCONTACT hContact, const char *pszMessage) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage) override;
 	int      SetStatus(int iNewStatus) override;
+
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 		
 	void     OnBuildProtoMenu() override;
+	void     OnContactAdded(MCONTACT hContact) override;
 	void     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;

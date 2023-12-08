@@ -218,7 +218,7 @@ bool CMsgDialog::OnInitDialog()
 			StartFlashing();
 		}
 
-		m_iMessagesInProgress = ReattachSendQueueItems(this, m_hContact);
+		m_iMessagesInProgress = SendQueue::ReattachItems(this, m_hContact);
 		if (m_iMessagesInProgress > 0)
 			ShowMessageSending();
 	}
@@ -247,7 +247,7 @@ void CMsgDialog::OnDestroy()
 		m_hStatusIconOverlay = nullptr;
 	}	
 
-	ReleaseSendQueueItems(this);
+	SendQueue::ReleaseItems(this);
 	if (g_dat.flags.bSaveDrafts) {
 		ptrA szText(m_message.GetRichTextRtf(true));
 		if (szText)
@@ -296,7 +296,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-	MessageSendQueueItem msi = {};
+	SendQueue::Item msi = {};
 	if (pf2.wEffects & PFE_RTLPARA)
 		msi.flags |= PREF_RTL;
 
@@ -347,6 +347,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		else
 			MessageSend(msi);
 	}
+	m_btnCloseQuote.Click();
 }
 
 void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
@@ -505,7 +506,7 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	int avatarWidth = 0, avatarHeight = 0;
 	int toolbarWidth = w;
 	int messageEditWidth = w - 2;
-	int hSplitterPos = pdat->iSplitterY;
+	int hSplitterPos = (m_bReadOnly) ? 0 : pdat->iSplitterY;
 
 	if (!pdat->flags2.bShowInfoBar) {
 		if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
@@ -553,8 +554,12 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	if (hSplitterPos < hSplitterMinBottom)
 		hSplitterPos = hSplitterMinBottom;
 
-	pdat->iSplitterY = hSplitterPos;
+	if (m_bReadOnly)
+		hSplitterPos = 0;
+	else
+		pdat->iSplitterY = hSplitterPos;
 
+	HDWP hdwp;
 	if (isChat()) {
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
@@ -584,14 +589,10 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		logY = 0;
 		logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight - SPLITTER_HEIGHT;
 
-		HDWP hdwp = BeginDeferWindowPos(6);
+		hdwp = BeginDeferWindowPos(8);
 		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : messageEditWidth, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logH, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos - 1, messageEditWidth, hSplitterPos, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
-		EndDeferWindowPos(hdwp);
 
 		RedrawWindow(m_nickList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
@@ -599,16 +600,24 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		logY = infobarInnerHeight;
 		logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight - SPLITTER_HEIGHT;
 
-		HDWP hdwp = BeginDeferWindowPos(5);
+		hdwp = BeginDeferWindowPos(7);
 		hdwp = DeferWindowPos(hdwp, m_hwndInfo, nullptr, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos - 1, messageEditWidth, hSplitterPos, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
-		EndDeferWindowPos(hdwp);
 
 		RefreshInfobar();
 	}
+
+	int yTop = h - hSplitterPos - 1;
+	if (m_hQuoteEvent) {
+		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, yTop + 22, messageEditWidth, hSplitterPos + 22, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_Quote.GetHwnd(), nullptr, 1, yTop, messageEditWidth - 22, 22, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_btnCloseQuote.GetHwnd(), nullptr, messageEditWidth - 21, yTop, 22, 22, SWP_NOZORDER);
+	}
+	else hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, yTop, messageEditWidth, hSplitterPos, SWP_NOZORDER);
+
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
+	EndDeferWindowPos(hdwp);
 
 	m_pLog->Resize();
 
@@ -993,7 +1002,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_MSGSEND)
-			ReportSendQueueTimeouts(this);
+			SendQueue::ReportTimeouts(this);
 		else if (wParam == TIMERID_UNREAD) {
 			TabControlData tcd;
 			tcd.iFlags = TCDF_ICON;

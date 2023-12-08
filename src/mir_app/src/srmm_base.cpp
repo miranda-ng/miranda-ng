@@ -49,6 +49,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 
+	m_Quote(this, IDC_SRMM_QUOTE),
+	m_btnCloseQuote(this, IDC_SRMM_CLOSEQUOTE, SKINICON_OTHER_DELETE, LPGEN("Remove quoting")),
+
 	m_si(si),
 	m_hContact(0),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
@@ -59,6 +62,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
+
+	m_btnCloseQuote.OnClick = Callback(this, &CSrmmBaseDialog::onClick_CloseQuote);
 
 	m_nickList.OnDblClick = Callback(this, &CSrmmBaseDialog::onDblClick_List);
 
@@ -519,6 +524,13 @@ bool CSrmmBaseDialog::OnInitDialog()
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
+	m_btnCloseQuote.Hide();
+	m_Quote.Hide();
+
+	m_bReadOnly = Contact::IsReadonly(m_hContact);
+	if (m_bReadOnly)
+		m_message.Hide();
+
 	auto *pDlg = (CMsgDialog *)this;
 	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg)) {
 		m_pLog = pLogWindowClass->pfnBuilder(*pDlg);
@@ -542,11 +554,14 @@ bool CSrmmBaseDialog::OnInitDialog()
 			SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 			mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
 		}
-		else m_bNicklistEnabled = false;
+		else {
+			m_bNicklistEnabled = false;
+			m_btnNickList.Hide();
+		}
 	}
 
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
-	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
 	mir_subclassWindow(m_btnFilter.GetHwnd(), stubButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), stubButtonSubclassProc);
@@ -609,7 +624,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CBD_RECREATE:
-		Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+		Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 		break;
 
 	case WM_NOTIFY:
@@ -648,13 +663,13 @@ void CSrmmBaseDialog::UpdateChatOptions()
 	UpdateFilterButton();
 
 	MODULEINFO *mi = m_si->pMI;
-	EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
-	EnableWindow(m_btnItalic.GetHwnd(), mi->bItalics);
-	EnableWindow(m_btnUnderline.GetHwnd(), mi->bUnderline);
-	EnableWindow(m_btnColor.GetHwnd(), mi->bColor);
-	EnableWindow(m_btnBkColor.GetHwnd(), mi->bBkgColor);
+	m_btnBold.Enable(mi->bBold);
+	m_btnColor.Enable(mi->bColor);
+	m_btnItalic.Enable(mi->bItalics);
+	m_btnBkColor.Enable(mi->bBkgColor);
+	m_btnUnderline.Enable(mi->bUnderline);
 	if (m_si->iType == GCW_CHATROOM)
-		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
+		m_btnChannelMgr.Enable(mi->bChanMgr);
 
 	Resize();
 }
@@ -867,6 +882,14 @@ void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
 		Chat_DoEventHook(m_si, GC_USER_CHANMGR, nullptr, nullptr, 0);
 }
 
+void CSrmmBaseDialog::onClick_CloseQuote(CCtrlButton*)
+{
+	m_Quote.Hide();
+	m_btnCloseQuote.Hide();
+	m_hQuoteEvent = 0;
+	Resize();
+}
+
 void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 {
 	TVHITTESTINFO hti;
@@ -1059,5 +1082,21 @@ void CSrmmBaseDialog::RefreshButtonStatus()
 			m_btnUnderline.Push(true);
 		else if (bState && u2 == 0)
 			m_btnUnderline.Push(false);
+	}
+}
+
+void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
+{
+	DB::EventInfo dbei(hEvent);
+	if (dbei) {
+		CMStringW wszText(TranslateT("In reply to"));
+		wszText += L": ";
+		wszText += ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)).get();
+		m_Quote.SetText(wszText);
+
+		m_hQuoteEvent = hEvent;
+		m_Quote.Show();
+		m_btnCloseQuote.Show();
+		Resize();
 	}
 }

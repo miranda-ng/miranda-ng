@@ -50,6 +50,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			if (hContact == INVALID_CONTACT_ID)
 				continue;
 
+			ProcessOnline(buddy, hContact);
 			setWString(hContact, "IcqGroup", pGroup->wszName);
 
 			if (!bCreated) {
@@ -111,6 +112,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
+				ProcessOnline(buddy, hContact);
 				setWString(hContact, "IcqGroup", pGroup->wszName);
 
 				if (!bCreated) {
@@ -183,14 +185,10 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 		hContact = si->hContact;
 
-		if (si->arUsers.getCount() == 0) {
-			__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
-			__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
-			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion"))
-				RetrieveChatInfo(si);
-			else
-				LoadChatInfo(si);
-		}
+		__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
+		__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
+		if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion") || si->arUsers.getCount() == 0)
+			RetrieveChatInfo(hContact);
 	}
 	else {
 		hContact = CreateContact(wszId, true);
@@ -209,8 +207,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
-	__int64 patchVersion = _wtoi64(ev["patchVersion"].as_mstring());
-	setId(hContact, DB_KEY_PATCHVER, patchVersion);
+	ProcessPatchVersion(hContact, _wtoi64(ev["patchVersion"].as_mstring()));
 
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 

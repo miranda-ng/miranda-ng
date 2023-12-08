@@ -32,6 +32,7 @@
 // Windows includes
 #include <windows.h>
 
+#include <map>
 #include <memory>
 
 // Standard includes
@@ -85,7 +86,6 @@
 #define MODULENAME "ICQ"
 
 #define DB_KEY_ID "aimId"
-#define DB_KEY_IDLE "IdleTS"
 #define DB_KEY_ABOUT "About"
 #define DB_KEY_PHONE "Phone"
 #define DB_KEY_ATOKEN "AToken"
@@ -98,7 +98,6 @@
 #define DB_KEY_LASTMSGID "LastMsgId"
 #define DB_KEY_REMOTEREAD "RemoteReadId"
 #define DB_KEY_SESSIONKEY "SessionKey"
-#define DB_KEY_MEMBERSINCE "MemberSince"
 
 #include "http.h"
 #include "proto.h"
@@ -108,7 +107,8 @@ bool IsValidType(const JSONNode &aimid);
 
 void RefreshGroups(void);
 wchar_t* time2text(time_t time);
+wchar_t* time2text(DBVARIANT *dbv);
 
-CMStringW fileText2url(const CMStringW &wszText);
+bool fileText2url(const CMStringW &wszText, CMStringW *res = nullptr);
 
 extern bool g_bSecureIM, g_bMessageState;

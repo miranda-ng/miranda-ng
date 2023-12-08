@@ -209,6 +209,20 @@ void CVkProto::OnBuildProtoMenu()
 void CVkProto::InitMenus()
 {
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
+	
+	if(HookProtoEvent(ME_NS_PREBUILDMENU, &CVkProto::OnPrebuildNSMenu)) {
+		CreateProtoService(PS_NSEXECMENU, &CVkProto::SvcNSExecMenu);
+
+		CMStringA szServiceName(FORMAT, "%s%s", m_szModuleName, PS_NSEXECMENU);
+		CMenuItem mi(&g_plugin);
+		
+		mi.pszService = szServiceName;
+		
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
+		mi.position = NS_PROTO_MENU_POS + NSMI_FORWARD;
+		mi.name.a = LPGEN("Forward");
+		m_hNewStoryMenuItems[NSMI_FORWARD] = Menu_AddNewStoryMenuItem(&mi, NSMI_FORWARD);
+	};
 
 	//Contact Menu Services
 	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLastNDay<1>);
@@ -401,6 +415,53 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+int CVkProto::OnPrebuildNSMenu(WPARAM, LPARAM)
+{
+	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], true);
+	return 0;
+}
+
+INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
+{
+	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+	if (hCurrentEvent == -1)
+		return 1;
+
+	switch (iCommand) {
+	case NSMI_FORWARD: 
+		{
+			std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
+			wchar_t wszMsg[2048] = L"";
+			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
+				GetWindowText(pDlg->GetInput(), wszMsg, 2048);
+
+			CVkUserListForm dlg(
+				this,
+				wszMsg,
+				TranslateT("Mark contacts for forwarding messages"),
+				TranslateT("Mark contacts you want to forward messages"),
+				TranslateT("Enter accompanying messages"),
+				0
+			);
+
+			if (!dlg.DoModal())
+				break;
+
+			if (!vIds.size())
+				vIds.push_back(hCurrentEvent);
+
+			std::sort(vIds.begin(), vIds.end());
+
+			T2Utf pszMsg(dlg.wszMessage.c_str());
+			for (auto &hContact : dlg.lContacts)
+				ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);
+
+		}
+		break;
+	}
+	return 0;
+}
+
 void CVkProto::UnInitMenus()
 {
 	debugLogA("CVkProto::UnInitMenus");
@@ -413,6 +474,9 @@ void CVkProto::UnInitMenus()
 
 	for (int i = 0; i < CMI_COUNT; i++)
 		Menu_RemoveItem(m_hContactMenuItems[i]);
+
+	for (int i = 0; i < NSMI_COUNT; i++)
+		Menu_RemoveItem(m_hNewStoryMenuItems[i]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -532,7 +596,7 @@ INT_PTR CVkProto::GetCaps(int type, MCONTACT)
 
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE
-			| PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES | PF4_SERVERMSGID;
+			| PF4_OFFLINEFILES | PF4_READNOTIFY | PF4_GROUPCHATFILES | PF4_SERVERMSGID | PF4_REPLY;
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 4096;
