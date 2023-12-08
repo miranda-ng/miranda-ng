@@ -51,15 +51,17 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		if (iForwardVKMessageCount == VK_MAX_FORWARD_MESSAGES)
 			break;
 
+		iForwardVKMessageCount++;
+
 		DB::EventInfo dbei(mEvnt);
-		if (!dbei)
+		if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE)
 			continue;
 
 		MCONTACT hForwardContact = db_event_getContact(mEvnt);
 
 		if (!Proto_IsProtoOnContact(hForwardContact, m_szModuleName)) {
 			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(hContact, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
-			
+
 			wchar_t ttime[64];
 			time_t  tTimestamp(dbei.timestamp);
 			_locale_t locale = _create_locale(LC_ALL, "");
@@ -75,13 +77,12 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 				ttime,
 				dbei.pBlob ? ptrW(mir_utf8decodeW((char*)dbei.pBlob)) : L""
 			);
+			
 		} else if (mir_strlen(dbei.szId) > 0) {
 			if (!szIds.IsEmpty())
 				szIds.AppendChar(',');
 			szIds += dbei.szId;
 		}
-
-		iForwardVKMessageCount++;
 	}
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
