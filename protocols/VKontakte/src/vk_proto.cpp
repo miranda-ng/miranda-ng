@@ -415,7 +415,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
+int CVkProto::OnPrebuildNSMenu(WPARAM, LPARAM)
 {
 	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], true);
 	return 0;
@@ -449,6 +449,9 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 
 			if (!vIds.size())
 				vIds.push_back(hCurrentEvent);
+
+			std::sort(vIds.begin(), vIds.end());
+
 			T2Utf pszMsg(dlg.wszMessage.c_str());
 			for (auto &hContact : dlg.lContacts)
 				ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);

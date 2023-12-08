@@ -60,7 +60,7 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		MCONTACT hForwardContact = db_event_getContact(mEvnt);
 
 		if (!Proto_IsProtoOnContact(hForwardContact, m_szModuleName)) {
-			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(hContact, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
+			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
 
 			wchar_t ttime[64];
 			time_t  tTimestamp(dbei.timestamp);
