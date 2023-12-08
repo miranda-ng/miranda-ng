@@ -574,7 +574,6 @@ int GetWeatherData(MCONTACT hContact)
 
 	// assign condition icon
 	g_plugin.setWord(hContact, "StatusIcon", cond);
-	g_plugin.setWString(hContact, "MirVer", Data->DisplayName);
 	return 0;
 }
 
