@@ -635,6 +635,23 @@ int HistoryArray::find(int id, int dir, const Filter &filter)
 	return -1;
 }
 
+ItemData* HistoryArray::insert(int pos)
+{
+	int count = getCount();
+	ItemData *pNew = &allocateItem();
+	ItemData *pPrev = get(count-1, false);
+	
+	for (int i = count; i >= pos; i--) {
+		memcpy(pNew, pPrev, sizeof(ItemData));
+		pNew = pPrev;
+		pPrev = get(i - 1, false);
+	}
+
+	ItemData tmp;
+	memcpy(pNew, &tmp, sizeof(tmp));
+	return pNew;
+}
+
 void HistoryArray::remove(int id)
 {
 	int pageNo = id / HIST_BLOCK_SIZE;

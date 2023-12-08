@@ -149,6 +149,7 @@ public:
 	}
 
 	ItemData* get(int id, bool bLoad = false) const;
+	ItemData* insert(int idx);
 	
 	__forceinline int FindNext(int id, const Filter &filter) { return find(id, +1, filter); }
 	__forceinline int FindPrev(int id, const Filter &filter) { return find(id, -1, filter); }
