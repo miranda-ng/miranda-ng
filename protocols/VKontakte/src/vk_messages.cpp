@@ -68,12 +68,12 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 
 			wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
 			wszForwardMessagesTxt.AppendFormat(L"%s %s%c%s %s:\n\n%s\n\n",
-				SetBBCString(TranslateT("Message from"), m_vkOptions.BBCForAttachments(), vkbbcB).c_str(),
-				SetBBCString(wszContactName, m_vkOptions.BBCForAttachments(), vkbbcI).c_str(),
+				TranslateT("Message from"),
+				wszContactName.c_str(),
 				tcSplit,
-				SetBBCString(TranslateT("at"), m_vkOptions.BBCForAttachments(), vkbbcB).c_str(),
+				TranslateT("at"),
 				ttime,
-				SetBBCString(dbei.pBlob ? ptrW(mir_utf8decodeW((char*)dbei.pBlob)) : L"", m_vkOptions.BBCForAttachments(), vkbbcCode).c_str()
+				dbei.pBlob ? ptrW(mir_utf8decodeW((char*)dbei.pBlob)) : L""
 			);
 		} else if (mir_strlen(dbei.szId) > 0) {
 			if (!szIds.IsEmpty())
