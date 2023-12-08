@@ -97,10 +97,12 @@ static BOOL EnumProfilesForList(const wchar_t *tszFullPath, wchar_t *profile, CC
 	return TRUE;
 }
 
+static wchar_t sttBlockedChars[] = L".?/\\#' ";
+
 static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
-		if (wcschr(L".?/\\#' ", (wchar_t)wParam) != nullptr)
+		if (wcschr(sttBlockedChars, (wchar_t)wParam) != nullptr)
 			return 0;
 	}
 
@@ -239,7 +241,14 @@ public:
 
 	void onChange_Profile(CCtrlEdit *)
 	{
-		m_btnOk.Enable(GetWindowTextLength(m_profileName.GetHwnd()) > 0);
+		CMStringW wszProfile(ptrW(m_profileName.GetText()));
+		for (auto c: sttBlockedChars)
+			if (c && wszProfile.Find(c) != -1) {
+				wszProfile.Replace(c, '_');
+				m_profileName.SetText(wszProfile);
+			}
+
+		m_btnOk.Enable(!wszProfile.IsEmpty());
 	}
 };
 
