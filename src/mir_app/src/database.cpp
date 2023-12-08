@@ -189,6 +189,9 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 		pfd.Format(L"%s\\*.dat", profiledir);
 
 	for (auto &it: pfd.search()) {
+		if (it.isDir())
+			continue;
+
 		int idx = pfd.ReverseFind('\\');
 		if (idx != -1)
 			pfd.Trim(idx);
