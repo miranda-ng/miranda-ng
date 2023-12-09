@@ -938,7 +938,6 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			return;
 		}
 
-	auto *pu = AddUser(pUser->id_, false);
 	std::string szFirstName = pUser->first_name_, szLastName = pUser->last_name_;
 	if (szLastName.empty()) {
 		size_t p = szFirstName.rfind(' ');
@@ -947,6 +946,20 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			szFirstName = szFirstName.substr(0, p);
 		}
 	}
+
+	// if that's just a bot, keep it as a virtual contact in memory
+	if (typeID == TD::userTypeBot::ID) {
+		auto *pu = AddFakeUser(pUser->id_, false);
+		if (pu->hContact == INVALID_CONTACT_ID) {
+			pu->wszFirstName = Utf2T(szFirstName.c_str());
+			pu->wszLastName = Utf2T(szLastName.c_str());
+			if (pUser->usernames_)
+				pu->wszNick = Utf2T(pUser->usernames_->editable_username_.c_str());
+			return;
+		}
+	}
+
+	auto *pu = AddUser(pUser->id_, false);
 
 	setUString(pu->hContact, "FirstName", szFirstName.c_str());
 	setUString(pu->hContact, "LastName", szLastName.c_str());
