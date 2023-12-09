@@ -46,7 +46,7 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
 	int     SetStatus(int iNewStatus) override;
 
-	void    OnContactDeleted(MCONTACT) override;
+	bool    OnContactDeleted(MCONTACT) override;
 	MWindow OnCreateAccMgrUI(MWindow) override;
 	void    OnShutdown() override;
 
