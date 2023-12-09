@@ -116,22 +116,28 @@ void CTelegramProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-void CTelegramProto::OnContactDeleted(MCONTACT hContact)
+bool CTelegramProto::OnContactDeleted(MCONTACT hContact)
 {
 	TD::int53 id = GetId(hContact);
 	if (id == 0)
-		return;
-
-	TD::array<TD::int53> ids;
-	ids.push_back(id);
-	SendQuery(new TD::removeContacts(std::move(ids)));
+		return false;
 
 	if (auto *pUser = FindUser(id)) {
+		if (pUser->m_si) {
+			SvcLeaveChat(hContact, 0);
+			return false;
+		}
+
 		pUser->hContact = INVALID_CONTACT_ID;
 		pUser->wszNick = getMStringW(hContact, "Nick");
 		pUser->wszFirstName = getMStringW(hContact, "FirstName");
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
+
+	TD::array<TD::int53> ids;
+	ids.push_back(id);
+	SendQuery(new TD::removeContacts(std::move(ids)));
+	return true;
 }
 
 int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
