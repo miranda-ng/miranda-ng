@@ -288,7 +288,6 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	SetId(hContact, id);
 
 	if (bIsChat) {
-		Clist_SetGroup(hContact, TranslateT("Chat rooms"));
 		setByte(hContact, "ChatRoom", 1);
 	}
 	else if (mir_wstrlen(m_wszDefaultGroup))
