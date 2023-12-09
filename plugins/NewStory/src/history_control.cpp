@@ -245,6 +245,15 @@ void NewstoryListData::BeginEditItem()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void NewstoryListData::CalcBottom()
+{
+	int maxTopItem = totalCount, tmp = 0;
+	while (maxTopItem > 0 && tmp < cachedWindowHeight)
+		tmp += GetItemHeight(--maxTopItem);
+	cachedMaxTopItem = maxTopItem;
+	cachedMaxTopPixel = (cachedWindowHeight < tmp) ? cachedWindowHeight - tmp : 0;
+}
+
 void NewstoryListData::Clear()
 {
 	items.clear();
@@ -415,13 +424,8 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 {
 	EndEditItem(false);
 
-	if (bForce || cachedMaxTopItem != scrollTopItem) {
-		int maxTopItem = totalCount, tmp = 0;
-		while (maxTopItem > 0 && tmp < cachedWindowHeight)
-			tmp += GetItemHeight(--maxTopItem);
-		cachedMaxTopItem = maxTopItem;
-		cachedMaxTopPixel = (cachedWindowHeight < tmp) ? cachedWindowHeight - tmp : 0;
-	}
+	if (bForce || cachedMaxTopItem != scrollTopItem)
+		CalcBottom();
 
 	if (scrollTopItem < 0)
 		scrollTopItem = 0;
@@ -620,8 +624,9 @@ void NewstoryListData::RecalcScrollBar()
 	si.nPage = (totalCount <= 10) ? totalCount - 1 : 10;
 	si.nPos = scrollTopItem;
 
-	if (si.nPos != cachedScrollbarPos) {
+	if (si.nPos != cachedScrollbarPos || si.nMax != cachedScrollbarMax) {
 		cachedScrollbarPos = si.nPos;
+		cachedScrollbarMax = si.nMax;
 		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
 }
@@ -731,12 +736,48 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
+void NewstoryListData::TryUp(int iCount)
+{
+	if (totalCount == 0)
+		return;
+
+	auto *pTop = GetItem(0);
+	MCONTACT hContact = pTop->hContact;
+	if (pTop->hEvent == 0 || hContact == 0)
+		return;
+	
+	int i;
+	for (i = 0; i < iCount; i++) {
+		MEVENT hPrev = db_event_prev(hContact, pTop->hEvent);
+		if (hPrev == 0)
+			break;
+
+		auto *p = items.insert(0);
+		p->hContact = hContact;
+		p->hEvent = hPrev;
+		totalCount++;
+	}
+
+	ItemData *pPrev = nullptr;
+	for (int j = 0; j < i + 1; j++) {
+		auto *pItem = GetItem(j);
+		pPrev = pItem->checkNext(pPrev);
+	}
+
+	caret = 0;
+	CalcBottom();
+	FixScrollPosition();
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Navigation by coordinates
 
 void NewstoryListData::LineUp()
 {
-	if (!AtTop())
+	if (AtTop())
+		TryUp(1);
+	else
 		ScrollUp(10);
 }
 
@@ -748,7 +789,9 @@ void NewstoryListData::LineDown()
 
 void NewstoryListData::PageUp()
 {
-	if (!AtTop())
+	if (AtTop())
+		TryUp(10);
+	else
 		ScrollUp(cachedWindowHeight);
 }
 
@@ -763,7 +806,9 @@ void NewstoryListData::PageDown()
 
 void NewstoryListData::EventUp()
 {
-	if (caret > 0)
+	if (caret == 0)
+		TryUp(1);
+	else
 		SetPos(caret - 1);
 }
 
@@ -778,7 +823,7 @@ void NewstoryListData::EventPageUp()
 	if (caret >= 10)
 		SetPos(caret - 10);
 	else
-		SetPos(0);
+		TryUp(caret == 10 ? 1 : 10 - caret);
 }
 
 void NewstoryListData::EventPageDown()

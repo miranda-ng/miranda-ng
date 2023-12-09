@@ -120,6 +120,35 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+ItemData* ItemData::checkNext(ItemData *pPrev)
+{
+	m_grouping = GROUPING_NONE;
+	if (!pPrev || !g_plugin.bMsgGrouping)
+		return this;
+
+	// we don't group anything but messages
+	if (!fetch())
+		return this;
+
+	if (dbe.eventType != EVENTTYPE_MESSAGE)
+		return this;
+
+	pPrev->fetch();
+	if (isEqual(this, pPrev)) {
+		if (pPrev->m_grouping == GROUPING_NONE) {
+			pPrev->m_grouping = GROUPING_HEAD;
+			if (pPrev->m_bLoaded)
+				pPrev->setText();
+		}
+		m_grouping = GROUPING_ITEM;
+		if (m_bLoaded)
+			setText();
+	}
+	return this;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 {
 	if (p1->dbe.eventType != p2->dbe.eventType)

@@ -31,6 +31,7 @@ struct ItemData
 	ItemData();
 	~ItemData();
 
+	ItemData* checkNext(ItemData *pPrev);
 	ItemData* checkPrev(ItemData *pPrev);
 	ItemData* checkPrevGC(ItemData *pPrev);
 	void checkCreate(HWND hwnd);

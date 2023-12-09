@@ -17,7 +17,7 @@ struct NewstoryListData : public MZeroedObject
 	int cachedMaxTopPixel;
 	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
-	int cachedScrollbarPos = -1;
+	int cachedScrollbarPos = -1, cachedScrollbarMax = -1;
 	int totalCount;
 
 	RECT rcLastPaint;
@@ -41,6 +41,7 @@ struct NewstoryListData : public MZeroedObject
 	bool      AtBottom(void) const;
 	bool      AtTop(void) const;
 	void      BeginEditItem();
+	void      CalcBottom();
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      Copy(bool bTextOnly = false);
@@ -83,6 +84,7 @@ struct NewstoryListData : public MZeroedObject
 	void      SetSelection(int iFirst, int iLast);
 	void      ToggleBookmark();
 	void      ToggleSelection(int iFirst, int iLast);
+	void      TryUp(int iCount);
 };
 
 void InitNewstoryControl();
