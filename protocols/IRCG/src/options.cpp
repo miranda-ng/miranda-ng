@@ -231,146 +231,148 @@ static TDbSetting ConnectSettings[] =
 
 class CConnectPrefsDlg : public CIrcBaseDlg
 {
-	CCtrlEdit    m_server, m_port, m_port2, m_pass;
-	CCtrlEdit    m_nick, m_nick2, m_name, m_userID;
-	CCtrlCombo   m_ssl;
+	CCtrlEdit    edtServer, edtPort, edtPort2, edtPass;
+	CCtrlEdit    edtNick, edtNick2, edtName, edtUserId;
+	CCtrlCombo   cmbSSL;
 
-	CCtrlCheck   m_ident, m_identTimer;
-	CCtrlEdit    m_identSystem, m_identPort;
+	CCtrlCheck   chkIdent, chkIdentTimer;
+	CCtrlEdit    edtIdentSystem, edtIdentPort;
 
-	CCtrlCheck   m_forceVisible, m_rejoinOnKick, m_rejoinChannels, m_disableError;
-	CCtrlCheck   m_address, m_useServer, m_showServer, m_keepAlive, m_autoJoin;
-	CCtrlCheck   m_oldStyle, m_onlineNotif, m_channelAway, m_useSasl;
+	CCtrlCheck   chkForceVisible, chkRejoinOnKick, chkRejoinChannels, chkDisableError;
+	CCtrlCheck   chkAddress, chkUseServer, chkShowServer, chkKeepAlive, chkAutoJoin;
+	CCtrlCheck   chkOldStyle, chkOnlineNotif, chkChannelAway, chkUseSSL;
 
-	CCtrlEdit    m_onlineTimer, m_limit;
-	CCtrlSpin    m_spin1, m_spin2;
+	CCtrlEdit    edtOnlineTimer, edtLimit;
+	CCtrlSpin    spin1, spin2;
 
 public:
 	CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto *_pro) :
 		CIrcBaseDlg(_pro, IDD_PREFS_CONNECT),
-		m_server(this, IDC_SERVER),
-		m_port(this, IDC_PORT),
-		m_port2(this, IDC_PORT2),
-		m_pass(this, IDC_PASS),
-		m_nick(this, IDC_NICK),
-		m_nick2(this, IDC_NICK2),
-		m_name(this, IDC_NAME),
-		m_userID(this, IDC_USERID),
-		m_ident(this, IDC_IDENT),
-		m_identSystem(this, IDC_IDENTSYSTEM),
-		m_identPort(this, IDC_IDENTPORT),
-		m_identTimer(this, IDC_IDENT_TIMED),
-		m_forceVisible(this, IDC_FORCEVISIBLE),
-		m_rejoinOnKick(this, IDC_REJOINONKICK),
-		m_rejoinChannels(this, IDC_REJOINCHANNELS),
-		m_disableError(this, IDC_DISABLEERROR),
-		m_address(this, IDC_ADDRESS),
-		m_useServer(this, IDC_USESERVER),
-		m_showServer(this, IDC_SHOWSERVER),
-		m_keepAlive(this, IDC_KEEPALIVE),
-		m_autoJoin(this, IDC_AUTOJOIN),
-		m_oldStyle(this, IDC_OLDSTYLE),
-		m_useSasl(this, IDC_SASL),
-		m_onlineNotif(this, IDC_ONLINENOTIF),
-		m_channelAway(this, IDC_CHANNELAWAY),
-		m_onlineTimer(this, IDC_ONLINETIMER),
-		m_limit(this, IDC_LIMIT),
-		m_spin1(this, IDC_SPIN1, 999, 20),
-		m_spin2(this, IDC_SPIN2, 200),
-		m_ssl(this, IDC_SSL)
+		edtServer(this, IDC_SERVER),
+		edtPort(this, IDC_PORT),
+		edtPort2(this, IDC_PORT2),
+		edtPass(this, IDC_PASS),
+		edtNick(this, IDC_NICK),
+		edtNick2(this, IDC_NICK2),
+		edtName(this, IDC_NAME),
+		edtUserId(this, IDC_USERID),
+		chkIdent(this, IDC_IDENT),
+		edtIdentSystem(this, IDC_IDENTSYSTEM),
+		edtIdentPort(this, IDC_IDENTPORT),
+		chkIdentTimer(this, IDC_IDENT_TIMED),
+		chkForceVisible(this, IDC_FORCEVISIBLE),
+		chkRejoinOnKick(this, IDC_REJOINONKICK),
+		chkRejoinChannels(this, IDC_REJOINCHANNELS),
+		chkDisableError(this, IDC_DISABLEERROR),
+		chkAddress(this, IDC_ADDRESS),
+		chkUseServer(this, IDC_USESERVER),
+		chkShowServer(this, IDC_SHOWSERVER),
+		chkKeepAlive(this, IDC_KEEPALIVE),
+		chkAutoJoin(this, IDC_AUTOJOIN),
+		chkOldStyle(this, IDC_OLDSTYLE),
+		chkUseSSL(this, IDC_SASL),
+		chkOnlineNotif(this, IDC_ONLINENOTIF),
+		chkChannelAway(this, IDC_CHANNELAWAY),
+		edtOnlineTimer(this, IDC_ONLINETIMER),
+		edtLimit(this, IDC_LIMIT),
+		spin1(this, IDC_SPIN1, 999, 20),
+		spin2(this, IDC_SPIN2, 200),
+		cmbSSL(this, IDC_SSL)
 	{
-		m_ident.OnChange = Callback(this, &CConnectPrefsDlg::OnIdent);
-		m_useServer.OnChange = Callback(this, &CConnectPrefsDlg::OnUseServer);
-		m_onlineNotif.OnChange = Callback(this, &CConnectPrefsDlg::OnOnlineNotif);
-		m_channelAway.OnChange = Callback(this, &CConnectPrefsDlg::OnChannelAway);
+		chkIdent.OnChange = Callback(this, &CConnectPrefsDlg::OnIdent);
+		chkUseServer.OnChange = Callback(this, &CConnectPrefsDlg::OnUseServer);
+		chkOnlineNotif.OnChange = Callback(this, &CConnectPrefsDlg::OnOnlineNotif);
+		chkChannelAway.OnChange = Callback(this, &CConnectPrefsDlg::OnChannelAway);
 	}
 
 	bool OnInitDialog() override
 	{
 		m_proto->m_hwndConnect = m_hwnd;
 
-		m_server.SetTextA(m_proto->m_serverName);
-		m_port.SetTextA(m_proto->m_portStart);
-		m_port2.SetTextA(m_proto->m_portEnd);
-		m_pass.SetTextA(m_proto->m_password);
-		m_useSasl.SetState(m_proto->m_bUseSASL);
+		edtServer.SetTextA(m_proto->m_serverName);
+		edtPort.SetTextA(m_proto->m_portStart);
+		edtPort2.SetTextA(m_proto->m_portEnd);
+		edtPass.SetTextA(m_proto->m_password);
+		chkUseSSL.SetState(m_proto->m_bUseSASL);
 
-		m_ssl.AddString(TranslateT("Off"), 0);
-		m_ssl.AddString(TranslateT("Auto"), 1);
-		m_ssl.AddString(TranslateT("On"), 2);
-		m_ssl.SelectData(m_proto->m_iSSL);
+		cmbSSL.AddString(TranslateT("Off"), 0);
+		cmbSSL.AddString(TranslateT("Auto"), 1);
+		cmbSSL.AddString(TranslateT("On"), 2);
+		cmbSSL.SelectData(m_proto->m_iSSL);
 
-		m_spin1.SetPosition(m_proto->m_onlineNotificationTime);
-		m_spin2.SetPosition(m_proto->m_onlineNotificationLimit);
+		spin1.SetPosition(m_proto->m_onlineNotificationTime);
+		spin2.SetPosition(m_proto->m_onlineNotificationLimit);
 
-		m_nick.SetText(m_proto->m_nick);
-		m_nick2.SetText(m_proto->m_alternativeNick);
-		m_userID.SetText(m_proto->m_userID);
-		m_name.SetText(m_proto->m_name);
-		m_identSystem.SetText(m_proto->m_identSystem);
-		m_identPort.SetText(m_proto->m_identPort);
-		m_address.SetState(m_proto->m_showAddresses);
-		m_oldStyle.SetState(m_proto->m_oldStyleModes);
-		m_channelAway.SetState(m_proto->m_channelAwayNotification);
-		m_onlineNotif.SetState(m_proto->m_autoOnlineNotification);
-		m_ident.SetState(m_proto->m_ident);
-		m_identTimer.SetState(m_proto->m_identTimer);
-		m_disableError.SetState(m_proto->m_disableErrorPopups);
-		m_forceVisible.SetState(m_proto->m_forceVisible);
-		m_rejoinChannels.SetState(m_proto->m_rejoinChannels);
-		m_rejoinOnKick.SetState(m_proto->m_rejoinIfKicked);
-		m_keepAlive.SetState(m_proto->m_sendKeepAlive);
-		m_useServer.SetState(m_proto->m_useServer);
-		m_showServer.SetState(!m_proto->m_hideServerWindow);
-		m_showServer.Enable(m_proto->m_useServer);
-		m_autoJoin.SetState(m_proto->m_joinOnInvite);
+		edtNick.SetText(m_proto->m_nick);
+		edtNick2.SetText(m_proto->m_alternativeNick);
+		edtUserId.SetText(m_proto->m_userID);
+		edtName.SetText(m_proto->m_name);
+		edtIdentSystem.SetText(m_proto->m_identSystem);
+		edtIdentPort.SetText(m_proto->m_identPort);
+		chkAddress.SetState(m_proto->m_showAddresses);
+		chkOldStyle.SetState(m_proto->m_oldStyleModes);
+		chkChannelAway.SetState(m_proto->m_channelAwayNotification);
+		chkOnlineNotif.SetState(m_proto->m_autoOnlineNotification);
+		chkIdent.SetState(m_proto->m_ident);
+		chkIdentTimer.SetState(m_proto->m_identTimer);
+		chkDisableError.SetState(m_proto->m_disableErrorPopups);
+		chkForceVisible.SetState(m_proto->m_forceVisible);
+		chkRejoinChannels.SetState(m_proto->m_rejoinChannels);
+		chkRejoinOnKick.SetState(m_proto->m_rejoinIfKicked);
+		chkKeepAlive.SetState(m_proto->m_sendKeepAlive);
+		chkUseServer.SetState(m_proto->m_useServer);
+		chkShowServer.SetState(!m_proto->m_hideServerWindow);
+		chkShowServer.Enable(m_proto->m_useServer);
+		chkAutoJoin.SetState(m_proto->m_joinOnInvite);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		// Save the setting in the CONNECT dialog
-		m_server.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
-		m_port.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
-		m_port2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
-		m_pass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
-		m_proto->m_iSSL = m_ssl.GetCurData();
-		m_proto->m_bUseSASL = m_useSasl.GetState();
+		edtServer.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
+		edtPort.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
+		edtPort2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
+		edtPass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
+		m_proto->m_iSSL = cmbSSL.GetCurData();
+		m_proto->m_bUseSASL = chkUseSSL.GetState();
 
 		m_proto->m_onlineNotificationTime = SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
 		m_proto->m_onlineNotificationLimit = SendDlgItemMessage(m_hwnd, IDC_SPIN2, UDM_GETPOS, 0, 0);
-		m_proto->m_channelAwayNotification = m_channelAway.GetState();
+		m_proto->m_channelAwayNotification = chkChannelAway.GetState();
 
-		m_nick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
+		edtNick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
 		removeSpaces(m_proto->m_nick);
+		m_proto->setWString("ID", m_proto->m_nick);
 		wcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
-		m_nick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
+
+		edtNick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
 		removeSpaces(m_proto->m_alternativeNick);
-		m_userID.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
+		edtUserId.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
 		removeSpaces(m_proto->m_userID);
-		m_name.GetText(m_proto->m_name, _countof(m_proto->m_name));
-		m_identSystem.GetText(m_proto->m_identSystem, _countof(m_proto->m_identSystem));
-		m_identPort.GetText(m_proto->m_identPort, _countof(m_proto->m_identPort));
-		m_proto->m_ident = m_ident.GetState();
-		m_proto->m_identTimer = m_identTimer.GetState();
-		m_proto->m_forceVisible = m_forceVisible.GetState();
-		m_proto->m_disableErrorPopups = m_disableError.GetState();
-		m_proto->m_rejoinChannels = m_rejoinChannels.GetState();
-		m_proto->m_rejoinIfKicked = m_rejoinOnKick.GetState();
-		m_proto->m_showAddresses = m_address.GetState();
-		m_proto->m_oldStyleModes = m_oldStyle.GetState();
-		m_proto->m_useServer = m_useServer.GetState();
+		edtName.GetText(m_proto->m_name, _countof(m_proto->m_name));
+		edtIdentSystem.GetText(m_proto->m_identSystem, _countof(m_proto->m_identSystem));
+		edtIdentPort.GetText(m_proto->m_identPort, _countof(m_proto->m_identPort));
+		m_proto->m_ident = chkIdent.GetState();
+		m_proto->m_identTimer = chkIdentTimer.GetState();
+		m_proto->m_forceVisible = chkForceVisible.GetState();
+		m_proto->m_disableErrorPopups = chkDisableError.GetState();
+		m_proto->m_rejoinChannels = chkRejoinChannels.GetState();
+		m_proto->m_rejoinIfKicked = chkRejoinOnKick.GetState();
+		m_proto->m_showAddresses = chkAddress.GetState();
+		m_proto->m_oldStyleModes = chkOldStyle.GetState();
+		m_proto->m_useServer = chkUseServer.GetState();
 
 		Menu_EnableItem(m_proto->hMenuServer, m_proto->m_useServer != 0);
 
-		m_proto->m_joinOnInvite = m_autoJoin.GetState();
-		m_proto->m_hideServerWindow = !m_showServer.GetState();
-		if (m_proto->m_sendKeepAlive = m_keepAlive.GetState())
+		m_proto->m_joinOnInvite = chkAutoJoin.GetState();
+		m_proto->m_hideServerWindow = !chkShowServer.GetState();
+		if (m_proto->m_sendKeepAlive = chkKeepAlive.GetState())
 			m_proto->SetChatTimer(m_proto->KeepAliveTimer, 60 * 1000, KeepAliveTimerProc);
 		else
 			m_proto->KillChatTimer(m_proto->KeepAliveTimer);
 
-		m_proto->m_autoOnlineNotification = m_onlineNotif.GetState();
+		m_proto->m_autoOnlineNotification = chkOnlineNotif.GetState();
 		if (m_proto->m_autoOnlineNotification) {
 			if (!m_proto->bTempDisableCheck) {
 				m_proto->SetChatTimer(m_proto->OnlineNotifTimer, 500, OnlineNotifTimerProc);
@@ -389,29 +391,29 @@ public:
 
 	void OnIdent(CCtrlData *)
 	{
-		m_identSystem.Enable(m_ident.GetState());
-		m_identPort.Enable(m_ident.GetState());
-		m_identTimer.Enable(m_ident.GetState());
+		edtIdentSystem.Enable(chkIdent.GetState());
+		edtIdentPort.Enable(chkIdent.GetState());
+		chkIdentTimer.Enable(chkIdent.GetState());
 	}
 
 	void OnUseServer(CCtrlData *)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSERVER), m_useServer.GetState());
+		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSERVER), chkUseServer.GetState());
 	}
 
 	void OnOnlineNotif(CCtrlData *)
 	{
-		m_channelAway.Enable(m_onlineNotif.GetState());
-		m_onlineTimer.Enable(m_onlineNotif.GetState());
-		m_spin1.Enable(m_onlineNotif.GetState());
-		m_spin2.Enable(m_onlineNotif.GetState());
-		m_limit.Enable(m_onlineNotif.GetState() && m_channelAway.GetState());
+		chkChannelAway.Enable(chkOnlineNotif.GetState());
+		edtOnlineTimer.Enable(chkOnlineNotif.GetState());
+		spin1.Enable(chkOnlineNotif.GetState());
+		spin2.Enable(chkOnlineNotif.GetState());
+		edtLimit.Enable(chkOnlineNotif.GetState() && chkChannelAway.GetState());
 	}
 
 	void OnChannelAway(CCtrlData *)
 	{
-		m_spin2.Enable(m_onlineNotif.GetState() && m_channelAway.GetState());
-		m_limit.Enable(m_onlineNotif.GetState() && m_channelAway.GetState());
+		spin2.Enable(chkOnlineNotif.GetState() && chkChannelAway.GetState());
+		edtLimit.Enable(chkOnlineNotif.GetState() && chkChannelAway.GetState());
 	}
 };
 
@@ -623,7 +625,7 @@ class COtherPrefsDlg : public CIrcBaseDlg
 {
 	bool m_performlistModified;
 
-	CCtrlMButton m_add, m_delete;
+	CCtrlMButton btnAdd, m_delete;
 	CCtrlCombo   m_performCombo, m_codepage;
 	CCtrlEdit    m_pertormEdit, m_quitMessage, m_alias;
 	CCtrlCheck   m_perform, m_autodetect;
@@ -638,7 +640,7 @@ public:
 		m_autodetect(this, IDC_UTF_AUTODETECT),
 		m_quitMessage(this, IDC_QUITMESSAGE),
 		m_alias(this, IDC_ALIASEDIT),
-		m_add(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Click to set commands that will be performed for this event")),
+		btnAdd(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Click to set commands that will be performed for this event")),
 		m_delete(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Click to delete the commands for this event")),
 		m_performlistModified(false)
 	{
@@ -646,7 +648,7 @@ public:
 		m_codepage.OnChange = Callback(this, &COtherPrefsDlg::OnCodePage);
 		m_pertormEdit.OnChange = Callback(this, &COtherPrefsDlg::OnPerformEdit);
 		m_perform.OnChange = Callback(this, &COtherPrefsDlg::OnPerform);
-		m_add.OnClick = Callback(this, &COtherPrefsDlg::OnAdd);
+		btnAdd.OnClick = Callback(this, &COtherPrefsDlg::OnAdd);
 		m_delete.OnClick = Callback(this, &COtherPrefsDlg::OnDelete);
 	}
 
@@ -661,7 +663,7 @@ public:
 		m_perform.SetState(m_proto->m_perform);
 		m_performCombo.Enable(m_proto->m_perform);
 		m_pertormEdit.Enable(m_proto->m_perform);
-		m_add.Enable(m_proto->m_perform);
+		btnAdd.Enable(m_proto->m_perform);
 		m_delete.Enable(m_proto->m_perform);
 
 		m_codepage.AddString(TranslateT("Default ANSI codepage"), CP_ACP);
@@ -705,7 +707,7 @@ public:
 
 		m_proto->m_utfAutodetect = m_autodetect.GetState();
 		m_proto->m_perform = m_perform.GetState();
-		if (m_add.Enabled())
+		if (btnAdd.Enabled())
 			OnAdd(nullptr);
 
 		if (m_performlistModified) {
@@ -747,7 +749,7 @@ public:
 			m_pertormEdit.SetTextA("");
 		else
 			m_pertormEdit.SetText(pPerf->mText.c_str());
-		m_add.Disable();
+		btnAdd.Disable();
 		if (GetWindowTextLength(m_pertormEdit.GetHwnd()) != 0)
 			m_delete.Enable();
 		else
@@ -761,7 +763,7 @@ public:
 
 	void OnPerformEdit(CCtrlData *)
 	{
-		m_add.Enable();
+		btnAdd.Enable();
 
 		if (GetWindowTextLength(m_pertormEdit.GetHwnd()) != 0)
 			m_delete.Enable();
@@ -773,7 +775,7 @@ public:
 	{
 		m_performCombo.Enable(m_perform.GetState());
 		m_pertormEdit.Enable(m_perform.GetState());
-		m_add.Enable(m_perform.GetState());
+		btnAdd.Enable(m_perform.GetState());
 		m_delete.Enable(m_perform.GetState());
 	}
 
@@ -791,7 +793,7 @@ public:
 			if (pPerf != nullptr)
 				pPerf->mText = temp;
 
-			m_add.Disable();
+			btnAdd.Disable();
 			m_performlistModified = true;
 		}
 	}
@@ -806,7 +808,7 @@ public:
 			pPerf->mText = L"";
 			m_pertormEdit.SetTextA("");
 			m_delete.Disable();
-			m_add.Disable();
+			btnAdd.Disable();
 		}
 
 		m_performlistModified = true;
@@ -1008,14 +1010,14 @@ class CIgnorePrefsDlg : public CIrcBaseDlg
 {
 	void FixButtons()
 	{
-		m_add.Enable(m_enable.GetState());
+		btnAdd.Enable(chkEnable.GetState());
 		if (m_list.GetSelectionMark() != -1) {
-			m_edit.Enable();
-			m_del.Enable();
+			btnEdit.Enable();
+			btnDel.Enable();
 		}
 		else {
-			m_edit.Disable();
-			m_del.Disable();
+			btnEdit.Disable();
+			btnDel.Disable();
 		}
 	}
 
@@ -1092,28 +1094,28 @@ class CIgnorePrefsDlg : public CIrcBaseDlg
 		}
 	}
 
-	CCtrlMButton m_add, m_edit, m_del;
-	CCtrlCheck m_enable, m_ignoreChat, m_ignoreFile, m_ignoreChannel, m_ignoreUnknown;
+	CCtrlMButton btnAdd, btnEdit, btnDel;
+	CCtrlCheck chkEnable, chkIgnoreChat, chkIgnoreFile, chkIgnoreChannel, chkIgnoreUnknown;
 	CCtrlListView m_list;
 
 public:
 	CIgnorePrefsDlg(CIrcProto *_pro) :
 		CIrcBaseDlg(_pro, IDD_PREFS_IGNORE),
 		m_list(this, IDC_LIST),
-		m_add(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Add new ignore")),
-		m_edit(this, IDC_EDIT, g_plugin.getIcon(IDI_EDIT), LPGEN("Edit this ignore")),
-		m_del(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete this ignore")),
-		m_enable(this, IDC_ENABLEIGNORE),
-		m_ignoreChat(this, IDC_IGNORECHAT),
-		m_ignoreFile(this, IDC_IGNOREFILE),
-		m_ignoreChannel(this, IDC_IGNORECHANNEL),
-		m_ignoreUnknown(this, IDC_IGNOREUNKNOWN)
+		btnAdd(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Add new ignore")),
+		btnEdit(this, IDC_EDIT, g_plugin.getIcon(IDI_EDIT), LPGEN("Edit this ignore")),
+		btnDel(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete this ignore")),
+		chkEnable(this, IDC_ENABLEIGNORE),
+		chkIgnoreChat(this, IDC_IGNORECHAT),
+		chkIgnoreFile(this, IDC_IGNOREFILE),
+		chkIgnoreChannel(this, IDC_IGNORECHANNEL),
+		chkIgnoreUnknown(this, IDC_IGNOREUNKNOWN)
 	{
-		m_enable.OnChange = Callback(this, &CIgnorePrefsDlg::OnEnableIgnore);
-		m_ignoreChat.OnChange = Callback(this, &CIgnorePrefsDlg::OnIgnoreChat);
-		m_add.OnClick = Callback(this, &CIgnorePrefsDlg::OnAdd);
-		m_list.OnDoubleClick = m_edit.OnClick = Callback(this, &CIgnorePrefsDlg::OnEdit);
-		m_del.OnClick = Callback(this, &CIgnorePrefsDlg::OnDelete);
+		chkEnable.OnChange = Callback(this, &CIgnorePrefsDlg::OnEnableIgnore);
+		chkIgnoreChat.OnChange = Callback(this, &CIgnorePrefsDlg::OnIgnoreChat);
+		btnAdd.OnClick = Callback(this, &CIgnorePrefsDlg::OnAdd);
+		m_list.OnDoubleClick = btnEdit.OnClick = Callback(this, &CIgnorePrefsDlg::OnEdit);
+		btnDel.OnClick = Callback(this, &CIgnorePrefsDlg::OnDelete);
 		m_list.OnColumnClick = Callback(this, &CIgnorePrefsDlg::List_OnColumnClick);
 	}
 
@@ -1122,17 +1124,17 @@ public:
 		m_proto->m_ignoreDlg = this;
 		mir_subclassWindow(m_list.GetHwnd(), ListviewSubclassProc);
 
-		m_enable.SetState(m_proto->m_ignore);
-		m_ignoreFile.SetState(!m_proto->m_DCCFileEnabled);
-		m_ignoreChat.SetState(!m_proto->m_DCCChatEnabled);
-		m_ignoreChannel.SetState(m_proto->m_ignoreChannelDefault);
+		chkEnable.SetState(m_proto->m_ignore);
+		chkIgnoreFile.SetState(!m_proto->m_DCCFileEnabled);
+		chkIgnoreChat.SetState(!m_proto->m_DCCChatEnabled);
+		chkIgnoreChannel.SetState(m_proto->m_ignoreChannelDefault);
 		if (m_proto->m_DCCChatIgnore == 2)
-			m_ignoreUnknown.SetState(BST_CHECKED);
+			chkIgnoreUnknown.SetState(BST_CHECKED);
 
-		m_ignoreUnknown.Enable(m_proto->m_DCCChatEnabled);
+		chkIgnoreUnknown.Enable(m_proto->m_DCCChatEnabled);
 		m_list.Enable(m_proto->m_ignore);
-		m_ignoreChannel.Enable(m_proto->m_ignore);
-		m_add.Enable(m_proto->m_ignore);
+		chkIgnoreChannel.Enable(m_proto->m_ignore);
+		btnAdd.Enable(m_proto->m_ignore);
 
 		LV_COLUMN lvC;
 		lvC.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
@@ -1155,11 +1157,11 @@ public:
 
 	bool OnApply() override
 	{
-		m_proto->m_DCCFileEnabled = !m_ignoreFile.GetState();
-		m_proto->m_DCCChatEnabled = !m_ignoreChat.GetState();
-		m_proto->m_ignore = m_enable.GetState();
-		m_proto->m_ignoreChannelDefault = m_ignoreChannel.GetState();
-		m_proto->m_DCCChatIgnore = m_ignoreUnknown.GetState() ? 2 : 1;
+		m_proto->m_DCCFileEnabled = !chkIgnoreFile.GetState();
+		m_proto->m_DCCChatEnabled = !chkIgnoreChat.GetState();
+		m_proto->m_ignore = chkEnable.GetState();
+		m_proto->m_ignoreChannelDefault = chkIgnoreChannel.GetState();
+		m_proto->m_DCCChatIgnore = chkIgnoreUnknown.GetState() ? 2 : 1;
 		m_proto->WriteSettings(IgnoreSettings, _countof(IgnoreSettings));
 		return true;
 	}
@@ -1206,14 +1208,14 @@ public:
 
 	void OnEnableIgnore(CCtrlData *)
 	{
-		m_ignoreChannel.Enable(m_enable.GetState());
-		m_list.Enable(m_enable.GetState());
-		m_add.Enable(m_enable.GetState());
+		chkIgnoreChannel.Enable(chkEnable.GetState());
+		m_list.Enable(chkEnable.GetState());
+		btnAdd.Enable(chkEnable.GetState());
 	}
 
 	void OnIgnoreChat(CCtrlData *)
 	{
-		m_ignoreUnknown.Enable(m_ignoreChat.GetState() == BST_UNCHECKED);
+		chkIgnoreUnknown.Enable(chkIgnoreChat.GetState() == BST_UNCHECKED);
 	}
 
 	void OnAdd(CCtrlButton *)
@@ -1224,7 +1226,7 @@ public:
 
 	void OnEdit(CCtrlButton *)
 	{
-		if (!m_add.Enabled())
+		if (!btnAdd.Enabled())
 			return;
 
 		wchar_t szMask[512];
@@ -1238,7 +1240,7 @@ public:
 
 	void OnDelete(CCtrlButton *)
 	{
-		if (!m_del.Enabled())
+		if (!btnDel.Enabled())
 			return;
 
 		wchar_t szMask[512];
@@ -1286,61 +1288,63 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 
 class CDlgAccMgrUI : public CIrcBaseDlg
 {
-	CCtrlEdit m_server, m_port, m_port2, m_pass, m_nick, m_nick2, m_name, m_userID;
-	CCtrlCombo m_ssl;
+	CCtrlEdit edtServer, edtPort, edtPort2, edtPass, edtNick, edtNick2, edtName, edtUserId;
+	CCtrlCombo cmbSSL;
 
 public:
 	CDlgAccMgrUI(CIrcProto* _pro, HWND _owner) :
 		CIrcBaseDlg(_pro, IDD_ACCMGRUI),
-		m_server(this, IDC_SERVER),
-		m_port(this, IDC_PORT),
-		m_port2(this, IDC_PORT2),
-		m_pass(this, IDC_PASS),
-		m_nick(this, IDC_NICK),
-		m_nick2(this, IDC_NICK2),
-		m_name(this, IDC_NAME),
-		m_ssl(this, IDC_SSL),
-		m_userID(this, IDC_USERID)
+		edtServer(this, IDC_SERVER),
+		edtPort(this, IDC_PORT),
+		edtPort2(this, IDC_PORT2),
+		edtPass(this, IDC_PASS),
+		edtNick(this, IDC_NICK),
+		edtNick2(this, IDC_NICK2),
+		edtName(this, IDC_NAME),
+		cmbSSL(this, IDC_SSL),
+		edtUserId(this, IDC_USERID)
 	{
 		m_hwndParent = _owner;
 	}
 
 	bool OnInitDialog() override
 	{
-		m_server.SetTextA(m_proto->m_serverName);
-		m_port.SetTextA(m_proto->m_portStart);
-		m_port2.SetTextA(m_proto->m_portEnd);
-		m_pass.SetTextA(m_proto->m_password);
+		edtServer.SetTextA(m_proto->m_serverName);
+		edtPort.SetTextA(m_proto->m_portStart);
+		edtPort2.SetTextA(m_proto->m_portEnd);
+		edtPass.SetTextA(m_proto->m_password);
 
-		m_ssl.AddString(TranslateT("Off"), 0);
-		m_ssl.AddString(TranslateT("Auto"), 1);
-		m_ssl.AddString(TranslateT("On"), 2);
-		m_ssl.SelectData(m_proto->m_iSSL);
+		cmbSSL.AddString(TranslateT("Off"), 0);
+		cmbSSL.AddString(TranslateT("Auto"), 1);
+		cmbSSL.AddString(TranslateT("On"), 2);
+		cmbSSL.SelectData(m_proto->m_iSSL);
 
-		m_nick.SetText(m_proto->m_nick);
-		m_nick2.SetText(m_proto->m_alternativeNick);
-		m_userID.SetText(m_proto->m_userID);
-		m_name.SetText(m_proto->m_name);
+		edtNick.SetText(m_proto->m_nick);
+		edtNick2.SetText(m_proto->m_alternativeNick);
+		edtUserId.SetText(m_proto->m_userID);
+		edtName.SetText(m_proto->m_name);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		m_server.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
-		m_port.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
-		m_port2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
-		m_pass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
+		edtServer.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
+		edtPort.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
+		edtPort2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
+		edtPass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
 
-		m_proto->m_iSSL = m_ssl.GetCurData();
+		m_proto->m_iSSL = cmbSSL.GetCurData();
 
-		m_nick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
+		edtNick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
 		removeSpaces(m_proto->m_nick);
 		wcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
-		m_nick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
+		m_proto->setWString("ID", m_proto->m_nick);
+
+		edtNick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
 		removeSpaces(m_proto->m_alternativeNick);
-		m_userID.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
+		edtUserId.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
 		removeSpaces(m_proto->m_userID);
-		m_name.GetText(m_proto->m_name, _countof(m_proto->m_name));
+		edtName.GetText(m_proto->m_name, _countof(m_proto->m_name));
 		m_proto->WriteSettings(ConnectSettings, _countof(ConnectSettings));
 		return true;
 	}

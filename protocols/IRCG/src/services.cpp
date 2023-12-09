@@ -915,7 +915,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		m_info.bNickFlag = false;
 		int Temp = m_iStatus;
 		m_iStatus = ID_STATUS_CONNECTING;
-		nickflag = true;
+		bHandleNickErr = true;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_CONNECTING);
 		Sleep(100);
 		{

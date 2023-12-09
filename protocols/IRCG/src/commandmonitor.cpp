@@ -1782,7 +1782,7 @@ static INT_PTR __stdcall sttShowNickWnd(void* param)
 bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage *pmsg)
 {
 	if (pmsg->m_bIncoming) {
-		if (nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_wstrcmp(pmsg->parameters[1], m_alternativeNick))) {
+		if (bHandleNickErr && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_wstrcmp(pmsg->parameters[1], m_alternativeNick))) {
 			wchar_t m[200];
 			mir_snwprintf(m, L"NICK %s", m_alternativeNick);
 			if (IsConnected())
@@ -2321,7 +2321,7 @@ static void __stdcall sttMainThrdOnConnect(void* param)
 bool CIrcProto::DoOnConnect(const CIrcMessage*)
 {
 	bPerformDone = true;
-	nickflag = true;
+	bHandleNickErr = true;
 
 	Menu_ModifyItem(hMenuJoin, nullptr, INVALID_HANDLE_VALUE, 0);
 	Menu_ModifyItem(hMenuList, nullptr, INVALID_HANDLE_VALUE, 0);
@@ -2365,7 +2365,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	Chat_Control(SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);
-	nickflag = false;
+	bHandleNickErr = false;
 	return 0;
 }
 
