@@ -548,13 +548,14 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 	if (m_hDbEventFirst == 0)
 		m_hDbEventFirst = hDbEvent;
 
+	bool bAlertable = dbei.isAlertable();
 	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	bool bDisableNotify = (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ));
+	bool bDisableNotify = (bAlertable && (dbei.flags & DBEF_READ));
 
 	if (!DbEventIsShown(dbei))
 		return;
 
-	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
+	if (bAlertable && !(dbei.flags & DBEF_SENT)) {
 		m_lastMessage = dbei.timestamp;
 		m_wszStatusBar[0] = 0;
 		if (m_bShowTyping) {
@@ -564,7 +565,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		}
 		HandleIconFeedback(this, (HICON)-1);
 		if (m_pContainer->m_hwndStatus)
-			PostMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+			DM_UpdateLastMessage();
 	}
 
 	// set the message log divider to mark new (maybe unseen) messages, if the container has
@@ -611,7 +612,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	// try to flash the contact list...
 	if (!bDisableNotify)
-		FlashOnClist(hDbEvent, &dbei);
+		FlashOnClist(hDbEvent, dbei);
 
 	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 	// never switch for status changes...
@@ -640,7 +641,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		}
 
 	// play a sound
-	if (!bDisableNotify && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
+	if (!bDisableNotify && bAlertable && !(dbei.flags & DBEF_SENT))
 		PlayIncomingSound();
 
 	if (m_pWnd)
@@ -734,11 +735,11 @@ int CMsgDialog::FindRTLLocale()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::FlashOnClist(MEVENT hEvent, const DBEVENTINFO *dbei)
+void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
 		m_dwUnread++;
 		AddUnreadContact(m_hContact);
 	}
@@ -749,7 +750,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, const DBEVENTINFO *dbei)
 	if (!g_plugin.bFlashOnClist || isChat())
 		return;
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
 		for (int i = 0;; i++) {
 			auto *cle = Clist_GetEvent(m_hContact, i);
 			if (cle == nullptr)

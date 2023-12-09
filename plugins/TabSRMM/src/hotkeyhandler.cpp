@@ -257,12 +257,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_free((void*)lParam);
 		return 0;
 
-	case DM_REMOVECLISTEVENT:
-		// sent from the popup to "dismiss" the event. we should do this in the main thread
-		Clist_RemoveEvent(wParam, lParam);
-		db_event_markRead(wParam, lParam);
-		return 0;
-
 	case WM_DWMCOMPOSITIONCHANGED:
 		// react to changes in the desktop composition state
 		// (enable/disable DWM, change to a non-aero visual style

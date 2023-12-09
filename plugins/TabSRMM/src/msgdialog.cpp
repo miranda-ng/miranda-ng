@@ -624,9 +624,9 @@ bool CMsgDialog::OnInitDialog()
 		timerFlash.Start(TIMEOUT_FLASHWND);
 		m_bCanFlashTab = true;
 
-		DBEVENTINFO dbei = {};
+		DB::EventInfo dbei;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		FlashOnClist(m_hDbEventFirst, &dbei);
+		FlashOnClist(m_hDbEventFirst, dbei);
 
 		if (!isChat())
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
@@ -2427,10 +2427,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (pdw)
 				*pdw = m_dwTickLastEvent;
 		}
-		return 0;
-
-	case DM_UPDATELASTMESSAGE:
-		DM_UpdateLastMessage();
 		return 0;
 
 	case DM_SAVESIZE:

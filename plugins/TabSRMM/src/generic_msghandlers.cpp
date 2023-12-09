@@ -627,33 +627,32 @@ void CMsgDialog::DM_UpdateLastMessage() const
 	if (m_pContainer->m_hwndStatus == nullptr || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
-	wchar_t szBuf[100];
+	HICON hIcon = 0;
+	CMStringW szBuf;
+
 	if (m_bShowTyping) {
-		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-		mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), m_cache->getNick());
+		hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
+		szBuf.Format(TranslateT("%s is typing a message..."), m_cache->getNick());
 	}
 	else if (m_bStatusSet) {
-		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
-		SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
-		return;
+		hIcon = m_szStatusIcon;
+		szBuf = m_szStatusText;
 	}
 	else {
-		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, 0);
-
 		if (m_pContainer->cfg.flags.m_bUinStatusBar)
-			mir_snwprintf(szBuf, L"UID: %s", m_cache->getUIN());
+			szBuf.Format(L"UID: %s", m_cache->getUIN());
 		else if (m_lastMessage) {
 			wchar_t date[64], time[64];
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
 			if (m_pContainer->cfg.flags.m_bUinStatusBar && mir_wstrlen(date) > 6)
 				date[mir_wstrlen(date) - 5] = 0;
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
-			mir_snwprintf(szBuf, TranslateT("Last received: %s at %s"), date, time);
+			szBuf.Format(TranslateT("Last received: %s at %s"), date, time);
 		}
-		else szBuf[0] = 0;
 	}
 
-	SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
+	SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
