@@ -169,6 +169,10 @@ void CTelegramProto::OnModulesLoaded()
 void CTelegramProto::OnShutdown()
 {
 	m_bTerminated = true;
+
+	for (auto &cc : m_arUsers)
+		if (cc->isBot && !cc->chatId && cc->hContact != INVALID_CONTACT_ID)
+			Contact::RemoveFromList(cc->hContact);
 }
 
 int CTelegramProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)

@@ -98,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, bLoadMembers, bStartChat;
+	bool      isGroupChat, isBot, bLoadMembers, bStartChat;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
