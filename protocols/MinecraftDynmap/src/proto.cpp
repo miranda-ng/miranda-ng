@@ -144,6 +144,7 @@ void MinecraftDynmapProto::OnShutdown()
 bool MinecraftDynmapProto::OnContactDeleted(MCONTACT)
 {
 	OnLeaveChat(NULL, NULL);
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////
