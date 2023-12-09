@@ -57,7 +57,7 @@ struct GaduProto : public PROTO<GaduProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 				
 	void     OnBuildProtoMenu(void) override;
-	void     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;

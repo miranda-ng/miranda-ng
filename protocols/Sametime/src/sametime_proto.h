@@ -39,7 +39,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnShutdown() override;
-	void     OnContactDeleted(MCONTACT hContact) override;
+	bool     OnContactDeleted(MCONTACT hContact) override;
 
 	// sametime.cpp
 	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);

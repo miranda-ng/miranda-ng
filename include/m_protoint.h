@@ -261,7 +261,8 @@ public:
 	virtual void OnContactAdded(MCONTACT);
 
 	// called when an account's contact is deleted
-	virtual void OnContactDeleted(MCONTACT);
+	// returns true if deletion confirmed or false if not
+	virtual bool OnContactDeleted(MCONTACT);
 
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);

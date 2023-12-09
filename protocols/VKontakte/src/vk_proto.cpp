@@ -745,17 +745,17 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-void CVkProto::OnContactDeleted(MCONTACT hContact)
+bool CVkProto::OnContactDeleted(MCONTACT hContact)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());
 
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
-		return;
+		return true;
 
 	VKUserID_t iUserId = ReadVKUserID(hContact);
 	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return;
+		return true;
 
 	CONTACTDELETE_FORM_PARAMS *param = new CONTACTDELETE_FORM_PARAMS(pwszNick, true, !getBool(hContact, "Auth", true), true);
 	CVkContactDeleteForm dlg(this, param);
@@ -763,7 +763,7 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 
 	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick.get(), param->bDeleteDialog,  param->bDeleteFromFriendlist);
 	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
-		return;
+		return true;
 
 	CMStringA code(FORMAT, "var userID=\"%d\";", iUserId);
 
@@ -777,4 +777,5 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
 		<< CHAR_PARAM("code", code.c_str()));
+	return true;
 }

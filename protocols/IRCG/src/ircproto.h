@@ -70,7 +70,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 			   
 	void     OnBuildProtoMenu(void) override;
-	void     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;

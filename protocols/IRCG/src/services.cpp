@@ -166,10 +166,10 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CIrcProto::OnContactDeleted(MCONTACT hContact)
+bool CIrcProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (!hContact)
-		return;
+		return false;
 
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Nick", &dbv)) {
@@ -195,6 +195,7 @@ void CIrcProto::OnContactDeleted(MCONTACT hContact)
 
 		db_free(&dbv);
 	}
+	return true;
 }
 
 INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)

@@ -67,7 +67,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnBuildProtoMenu(void) override;
-	void     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
 	void     OnModulesLoaded() override;

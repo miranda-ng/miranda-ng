@@ -111,7 +111,8 @@ MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto)
 
 	if (!bFromProto)
 		if (auto *ppro = Proto_GetInstance(hContact))
-			ppro->OnContactDeleted(hContact);
+			if (!ppro->OnContactDeleted(hContact))
+				return 1;
 
 	Netlib_Logf(nullptr, "Contact deleted: %d", hContact);
 	return (g_pCurrDb) ? g_pCurrDb->DeleteContact(hContact) : 0;

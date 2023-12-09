@@ -201,20 +201,22 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CToxProto::OnContactDeleted(MCONTACT hContact)
+bool CToxProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (!IsOnline())
-		return;
+		return false;
 
 	if (!isChatRoom(hContact)) {
 		int32_t friendNumber = GetToxFriendNumber(hContact);
 		TOX_ERR_FRIEND_DELETE error;
 		if (!tox_friend_delete(m_tox, friendNumber, &error)) {
 			debugLogA(__FUNCTION__": failed to delete friend (%d)", error);
-			return;
+			return false;
 		}
 		SaveToxProfile(m_tox);
 	}
+
+	return true;
 }
 
 void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *message, size_t /* length */, void *arg)

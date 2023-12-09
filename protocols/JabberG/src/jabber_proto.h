@@ -150,7 +150,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnBuildProtoMenu(void) override;
-	void     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
