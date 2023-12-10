@@ -524,6 +524,17 @@ bool NewstoryListData::HasSelection() const
 	return false;
 }
 
+void NewstoryListData::HitTotal(int y)
+{
+	int i = 0;
+	while (i < totalCount && y > 0)
+		y -= GetItemHeight(i++);
+
+	scrollTopItem = i;
+	scrollTopPixel = y;
+	FixScrollPosition();
+}
+
 ItemData* NewstoryListData::LoadItem(int idx)
 {
 	if (totalCount == 0)
@@ -616,13 +627,20 @@ void NewstoryListData::RecalcScrollBar()
 	if (totalCount == 0)
 		return;
 
+	int yTotal = 0, yTop = 0;
+	for (int i = 0; i < totalCount; i++) {
+		if (i == scrollTopItem)
+			yTop = yTotal - scrollTopPixel;
+		yTotal += GetItemHeight(i);
+	}
+
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = totalCount-1;
-	si.nPage = (totalCount <= 10) ? totalCount - 1 : 10;
-	si.nPos = scrollTopItem;
+	si.nMax = yTotal;
+	si.nPage = cachedWindowHeight;
+	si.nPos = yTop;
 
 	if (si.nPos != cachedScrollbarPos || si.nMax != cachedScrollbarMax) {
 		cachedScrollbarPos = si.nPos;
@@ -1323,10 +1341,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_ALL;
 				GetScrollInfo(hwnd, SB_VERT, &si);
-
-				data->scrollTopItem = si.nTrackPos;
-				data->scrollTopPixel = 0;
-				data->FixScrollPosition();
+				data->HitTotal(si.nTrackPos);
 				break;
 
 			default:
