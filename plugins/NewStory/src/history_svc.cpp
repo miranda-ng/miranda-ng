@@ -38,11 +38,10 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 	auto *pData = (NewstoryListData *)wParam;
 	auto *pRet = (std::vector<MEVENT>*)lParam;
 	if (pData && pRet) {
-		for (int i = pData->totalCount; i >= 0; i--) {
-			auto *p = pData->items.get(i);
-			if (p->m_bSelected)
-				pRet->push_back(p->hEvent);
-		}
+		for (int i = pData->totalCount; i >= 0; i--)
+			if (auto *p = pData->items.get(i))
+				if (p->m_bSelected)
+					pRet->push_back(p->hEvent);
 
 		if (pRet->empty() && pData->caret != -1)
 			if (auto *p = pData->GetItem(pData->caret))
