@@ -177,7 +177,7 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto) :
 	lContacts(20, NumericKeySortT),
 	uClcFilterFlag(0)
 {
-	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
+	m_clc.OnNewContact = m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
 
 
@@ -194,7 +194,7 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStrin
 	lContacts(5, PtrKeySortT),
 	uClcFilterFlag(_uClcFilterFlag)
 {
-	m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
+	m_clc.OnNewContact = m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
 
 bool CVkUserListForm::OnInitDialog()
