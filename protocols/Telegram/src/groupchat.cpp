@@ -444,6 +444,9 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	}
 	else {
 		auto *pChat = AddUser(tmp.id, true);
+		if (!pGroup->group->is_channel_)
+			pChat->bLoadMembers = true;
+
 		if (pChat->bStartChat)
 			InitGroupChat(pChat, pChat->wszNick);
 
