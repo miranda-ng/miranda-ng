@@ -452,9 +452,6 @@ public:
 				if (ack->hContact != m_hContact && !(m_bIsMeta && db_mc_getMeta(ack->hContact) == m_hContact))
 					break;
 
-				if (ack->result == ACKRESULT_SUCCESS)
-					BuildTree();
-
 				SendMessage(m_hwnd, PSM_FORCECHANGED, 0, 0);
 
 				/* if they're not gonna send any more ACK's don't let that mean we should crash */
