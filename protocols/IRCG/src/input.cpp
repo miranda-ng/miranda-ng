@@ -121,12 +121,13 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 
 				wchar_t buf[5];
 				for (int index = 1; index < 8; index++) {
+					auto W = GetWord(line, index);
 					mir_snwprintf(buf, L"#$%u", index);
-					if (!GetWord(line, index).IsEmpty() && IsChannel(GetWord(line, index)))
-						str.Replace(buf, GetWord(line, index));
+					if (IsChannel(W))
+						str.Replace(buf, W);
 					else {
 						CMStringW S1 = L"#";
-						S1 += GetWord(line, index);
+						S1 += W;
 						str.Replace(buf, S1);
 					}
 				}

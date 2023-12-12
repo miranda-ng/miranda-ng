@@ -86,6 +86,7 @@ public:
 			SetDlgItemText(m_hwnd, IDC_HOST, dbv.pwszVal);
 			db_free(&dbv);
 		}
+		
 		ProtoBroadcastAck(ppro->m_szModuleName, m_hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 		return false;
 	}
@@ -198,7 +199,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM hContact)
 		return 0;
 
 	ptrW wszChannel(getWStringA(hContact, "Default"));
-	if (!wszChannel || !IsChannel(wszChannel))
+	if (IsChannel(wszChannel))
 		return 0;
 
 	USERINFOPAGE uip = {};

@@ -427,8 +427,7 @@ void __cdecl CIrcProto::AckBasicSearch(void *arg)
 HANDLE CIrcProto::SearchBasic(const wchar_t* szId)
 {
 	if (szId) {
-		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
-			szId && szId[0] && !IsChannel(szId)) {
+		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
 			mir_wstrncpy(param->buf, szId, 50);
 			ForkThread(&CIrcProto::AckBasicSearch, param);

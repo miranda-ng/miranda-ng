@@ -206,6 +206,17 @@ int __stdcall WCCmp(const wchar_t* wild, const wchar_t* string)
 
 bool CIrcProto::IsChannel(const wchar_t* sName)
 {
+	if (!sName || !sName[0])
+		return false;
+
+	return (sChannelPrefixes.Find(sName[0]) != -1);
+}
+
+bool CIrcProto::IsChannel(const char *sName)
+{
+	if (!sName || !sName[0])
+		return false;
+
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
@@ -240,11 +251,6 @@ CMStringA __stdcall GetWord(const char* text, int index)
 	}
 
 	return CMStringA();
-}
-
-bool CIrcProto::IsChannel(const char* sName)
-{
-	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
 static int mapIrc2srmm[] = { 15, 0, 1, 4, 14, 6, 3, 5, 13, 12, 2, 10, 9, 11, 7, 8 };
