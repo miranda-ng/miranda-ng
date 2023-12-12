@@ -754,12 +754,11 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		if (pMessage->sending_state_->get_id() == TD::messageSendingStatePending::ID)
 			return;
 
-	char szUserId[100], szReplyId[100];
+	char szUserId[100];
 	auto szMsgId(msg2id(pMessage));
-	if (db_event_getById(m_szModuleName, szMsgId))
-		return;
+	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 
-	CMStringA szText(GetMessageText(pUser, pMessage));
+	CMStringA szText(GetMessageText(pUser, pMessage)), szReplyId;
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
 		return;
@@ -776,19 +775,37 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		Contact::RemoveFromList(pUser->hContact);
 	}
 
-	PROTORECVEVENT pre = {};
-	pre.szMessage = szText.GetBuffer();
-	pre.szMsgId = szMsgId;
-	pre.timestamp = pMessage->date_;
-	if (pMessage->is_outgoing_)
-		pre.flags |= PREF_SENT;
-	if (GetGcUserId(pUser, pMessage, szUserId))
-		pre.szUserId = szUserId;
-	if (pMessage->reply_to_message_id_) {
-		_i64toa(pMessage->reply_to_message_id_, szReplyId, 10);
-		pre.szReplyId = szReplyId;
+	if (hOldEvent) {
+		DB::EventInfo dbei(hOldEvent);
+		mir_free(dbei.pBlob);
+		dbei.cbBlob = szText.GetLength();
+		dbei.pBlob = (uint8_t *)szText.Detach();
+		dbei.timestamp = pMessage->date_;
+		if (pMessage->is_outgoing_)
+			dbei.flags |= DBEF_SENT;
+		if (GetGcUserId(pUser, pMessage, szUserId))
+			dbei.szUserId = szUserId;
+		if (pMessage->reply_to_message_id_) {
+			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
+			dbei.szReplyId = szReplyId;
+		}
+		db_event_edit(hOldEvent, &dbei, true);
 	}
-	ProtoChainRecvMsg(GetRealContact(pUser), &pre);
+	else {
+		PROTORECVEVENT pre = {};
+		pre.szMessage = szText.GetBuffer();
+		pre.szMsgId = szMsgId;
+		pre.timestamp = pMessage->date_;
+		if (pMessage->is_outgoing_)
+			pre.flags |= PREF_SENT;
+		if (GetGcUserId(pUser, pMessage, szUserId))
+			pre.szUserId = szUserId;
+		if (pMessage->reply_to_message_id_) {
+			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
+			pre.szReplyId = szReplyId;
+		}
+		ProtoChainRecvMsg(GetRealContact(pUser), &pre);
+	}
 }
 
 void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
