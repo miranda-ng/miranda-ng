@@ -197,31 +197,30 @@ bool CIrcProto::OnContactDeleted(MCONTACT hContact)
 	return true;
 }
 
-INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)
+INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
-	if (!wp)
+	if (!hContact)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
-		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM)
+	if (!getWString(hContact, "Nick", &dbv)) {
+		if (getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM)
 			PostIrcMessage(L"/JOIN %s", dbv.pwszVal);
 		db_free(&dbv);
 	}
 	return 0;
 }
 
-INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
+INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
-	if (!wp)
+	if (!hContact)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
-		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
+	if (!getWString(hContact, "Nick", &dbv)) {
+		if (getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM)
 			PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
-			Chat_Terminate(Chat_Find(dbv.pwszVal, m_szModuleName));
-		}
+
 		db_free(&dbv);
 	}
 	return 0;
@@ -241,34 +240,33 @@ INT_PTR __cdecl CIrcProto::OnMenuChanSettings(WPARAM wp, LPARAM)
 	return 0;
 }
 
-INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
+INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM hContact, LPARAM)
 {
-	if (!wp)
+	if (!hContact)
 		return 0;
 
 	DBVARIANT dbv;
 
-	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
+	if (!getWString(hContact, "Nick", &dbv)) {
 		PostIrcMessage(L"/WHOIS %s %s", dbv.pwszVal, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	return 0;
 }
 
-INT_PTR __cdecl CIrcProto::OnMenuDisconnect(WPARAM wp, LPARAM)
+INT_PTR __cdecl CIrcProto::OnMenuDisconnect(WPARAM hContact, LPARAM)
 {
-	CDccSession *dcc = FindDCCSession((MCONTACT)wp);
+	CDccSession *dcc = FindDCCSession(hContact);
 	if (dcc)
 		dcc->Disconnect();
 	return 0;
 }
 
-INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
+INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM hContact, LPARAM)
 {
-	if (!wp)
+	if (!hContact)
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wp;
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Nick", &dbv)) {
 		if (!isChatRoom(hContact)) {

@@ -100,8 +100,8 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 			line = new wchar_t[S.GetLength() + 2];
 			mir_wstrncpy(line, S, S.GetLength() + 1);
 			CMStringW alias(m_alias);
-			const wchar_t* p3 = wcsstr(alias, (GetWord(line, 0) + L" "));
-			if (p3 != alias) {
+			const wchar_t* p3 = wcsstr(alias, GetWord(line, 0) + L" ");
+			if (p3 != alias.c_str()) {
 				CMStringW str = L"\r\n";
 				str += GetWord(line, 0) + L" ";
 				p3 = wcsstr(alias, str);
@@ -842,8 +842,9 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 		if (Message.Find(L"\r\n", 0) == 0)
 			Message.Delete(0, 2);
 
-		//do this if it's a /raw
-		if (IsConnected() && (GetWord(DoThis, 0) == L"/raw" || GetWord(DoThis, 0) == L"/quote")) {
+		// do this if it's a /raw
+		auto W0 = GetWord(DoThis, 0);
+		if (IsConnected() && (W0 == L"/raw" || W0 == L"/quote")) {
 			if (GetWord(DoThis, 1).IsEmpty())
 				continue;
 
@@ -852,9 +853,12 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 			continue;
 		}
 
+		if (!W0.CompareNoCase(L"/PART"))
+			Chat_Terminate(Chat_Find(GetWord(DoThis, 1), m_szModuleName));
+
 		// Do this if the message is not a command
-		if ((GetWord(DoThis, 0)[0] != '/') ||													// not a command
-			((GetWord(DoThis, 0)[0] == '/') && (GetWord(DoThis, 0)[1] == '/')) ||		// or double backslash at the beginning
+		if ((W0[0] != '/') ||													// not a command
+			(W0[0] == '/' && W0[1] == '/') ||		// or double backslash at the beginning
 			hContact) {
 			CMStringW S = L"/PRIVMSG ";
 			if (mir_wstrcmpi(window, SERVERWINDOW) == 0 && !m_info.sServerName.IsEmpty())
