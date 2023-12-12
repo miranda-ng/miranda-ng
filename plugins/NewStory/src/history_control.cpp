@@ -599,9 +599,9 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	RECT rc;
 	SetRect(&rc, 0, top, width, top + height);
 
-	HBRUSH hbr;
-	hbr = CreateSolidBrush(clBack);
+	HBRUSH hbr = CreateSolidBrush(clBack);
 	FillRect(hdc, &rc, hbr);
+	DeleteObject(hbr);
 
 	SetTextColor(hdc, clText);
 	SetBkMode(hdc, TRANSPARENT);
@@ -612,8 +612,6 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextDisplay(hdc, pos, sz, item->data);
 	SelectObject(hdc, hfnt);
-
-	DeleteObject(hbr);
 
 	HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
 	MoveToEx(hdc, rc.left, rc.bottom - 1, 0);
