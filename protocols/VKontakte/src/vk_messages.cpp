@@ -462,7 +462,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
 		
 
-		if (!IsMessageExist(iMessageId, vkALL) || bEdited) {
+		if (!IsMessageExist(iMessageId, vkALL) || bEdited || (m_vkOptions.bShowReplyInMessage && szReplyId)) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
 			recv.szMsgId = szMid;
 			ProtoChainRecvMsg(hContact, &recv);
