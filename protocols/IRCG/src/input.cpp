@@ -421,17 +421,19 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	}
 
 	if (command == L"/channelmanager") {
-		if (window && !hContact && IsChannel(window)) {
-			if (IsConnected()) {
-				if (m_managerDlg != nullptr) {
-					SetActiveWindow(m_managerDlg->GetHwnd());
-					m_managerDlg->Close();
-				}
-				else {
-					m_managerDlg = new CManagerDlg(this);
-					m_managerDlg->Show();
-					m_managerDlg->InitManager(1, window);
-				}
+		if (window && !hContact && IsChannel(window) && IsConnected()) {
+			if (m_managerDlg != nullptr) {
+				SetActiveWindow(m_managerDlg->GetHwnd());
+				m_managerDlg->Close();
+			}
+			else {
+				m_managerDlg = new CManagerDlg(this);
+				if (auto *si = Chat_Find(window, m_szModuleName))
+					if (si->pDlg)
+						m_managerDlg->SetParent(si->pDlg->GetHwnd());
+
+				m_managerDlg->Show();
+				m_managerDlg->InitManager(1, window);
 			}
 		}
 
