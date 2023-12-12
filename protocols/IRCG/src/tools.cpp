@@ -73,7 +73,7 @@ void CIrcProto::AddToJTemp(wchar_t op, CMStringW& sCommand)
 		db_free(&dbv);
 	}
 
-	setWString("JTemp", res.c_str());
+	setWString("JTemp", res);
 }
 
 CMStringW __stdcall GetWord(const wchar_t* text, int index)
@@ -411,7 +411,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *
 		gce.pszUserInfo.w = m_showAddresses ? pszUserInfo : nullptr;
 
 	if (!sText.IsEmpty())
-		gce.pszText.w = sText.c_str();
+		gce.pszText.w = sText;
 
 	if (timestamp == 1)
 		gce.time = time(0);
@@ -444,7 +444,7 @@ CMStringW CIrcProto::ModeToStatus(int sMode)
 
 CMStringW CIrcProto::PrefixToStatus(int cPrefix)
 {
-	const wchar_t* p = wcschr(sUserModePrefixes.c_str(), cPrefix);
+	const wchar_t* p = wcschr(sUserModePrefixes, cPrefix);
 	if (p) {
 		int index = int(p - sUserModePrefixes.c_str());
 		return ModeToStatus(sUserModes[index]);
@@ -531,7 +531,7 @@ int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi)
 	}
 	if (wi->pszTopic)
 		sTemp += wi->pszTopic;
-	sTemp = DoColorCodes(sTemp.c_str(), TRUE, FALSE);
+	sTemp = DoColorCodes(sTemp, TRUE, FALSE);
 	Chat_SetStatusbarText(Chat_Find(sWindow, m_szModuleName), sTemp);
 	return 0;
 }

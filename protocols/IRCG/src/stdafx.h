@@ -216,6 +216,11 @@ wchar_t*       __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bRe
 
 CMStringA      __stdcall GetWord(const char* text, int index);
 
+__forceinline const wchar_t* s2null(const CMStringW &str)
+{
+	return (str.IsEmpty()) ? nullptr : str.c_str();
+}
+
 #pragma comment(lib,"comctl32.lib")
 
 #endif

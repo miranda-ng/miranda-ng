@@ -40,7 +40,7 @@ static CMStringW FormatOutput(const CIrcMessage *pmsg)
 			goto THE_END;
 		}
 
-		int index = _wtoi(pmsg->sCommand.c_str());
+		int index = _wtoi(pmsg->sCommand);
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
 			sMessage.Format(TranslateT("%s is away"), pmsg->parameters[1].c_str());
 			for (int i = 2; i < pmsg->parameters.getCount(); i++)
@@ -68,7 +68,7 @@ static CMStringW FormatOutput(const CIrcMessage *pmsg)
 			CMStringW tempstr = pmsg->parameters[1];
 			tempstr.Delete(0, 1);
 			tempstr.Delete(tempstr.GetLength() - 1, 1);
-			CMStringW type = GetWord(tempstr.c_str(), 0);
+			CMStringW type = GetWord(tempstr, 0);
 			if (mir_wstrcmpi(type.c_str(), L"ping") == 0)
 				sMessage.Format(TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
 			else
@@ -112,23 +112,23 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 	if (!pmsg->m_bIncoming)
 		mess.Replace(L"%%", L"%");
 
-	int iTemp = _wtoi(pmsg->sCommand.c_str());
+	int iTemp = _wtoi(pmsg->sCommand);
 
 	//To active window
 	if ((iTemp > 400 || iTemp < 500) && pmsg->sCommand[0] == '4' //all error messages	
 		|| pmsg->sCommand == L"303"		//ISON command
 		|| pmsg->sCommand == L"INVITE"
-		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (wcsstr(pmsg->parameters[1].c_str(), L"\001") == nullptr) : false)) // CTCP answers should go to m_network Log window!
+		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (wcsstr(pmsg->parameters[1], L"\001") == nullptr) : false)) // CTCP answers should go to m_network Log window!
 		|| pmsg->sCommand == L"515")		//chanserv error
 	{
-		DoEvent(GC_EVENT_INFORMATION, nullptr, pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
+		DoEvent(GC_EVENT_INFORMATION, nullptr, pmsg->m_bIncoming ? pmsg->prefix.sNick : m_info.sNick, mess, nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
 		return TRUE;
 	}
 
 	if (m_useServer) {
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW,
-			(pmsg->m_bIncoming) ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(),
-			mess.c_str(), nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
+			(pmsg->m_bIncoming) ? pmsg->prefix.sNick : m_info.sNick,
+			mess, nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
 		return true;
 	}
 	return false;

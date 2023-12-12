@@ -117,7 +117,7 @@ public:
 				S += dbv.pwszVal;
 				S += L")";
 				if ((mir_wstrlen(temp) < 4 && mir_wstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.pwszVal))) {
-					MessageBox(nullptr, TranslateW(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
+					MessageBox(nullptr, TranslateW(S), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 					db_free(&dbv);
 					return;
 				}
@@ -125,25 +125,25 @@ public:
 			}
 
 			GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, _countof(temp));
-			if (mir_wstrlen(GetWord(temp, 0).c_str()))
-				ppro->setWString(m_hContact, "UWildcard", GetWord(temp, 0).c_str());
+			if (mir_wstrlen(GetWord(temp, 0)))
+				ppro->setWString(m_hContact, "UWildcard", GetWord(temp, 0));
 			else
-				db_unset(m_hContact, ppro->m_szModuleName, "UWildcard");
+				ppro->delSetting(m_hContact, "UWildcard");
 		}
 
 		ppro->setByte(m_hContact, "AdvancedMode", bAdvanced);
 
 		GetDlgItemText(m_hwnd, IDC_USER, temp, _countof(temp));
-		if (mir_wstrlen(GetWord(temp, 0).c_str()))
-			ppro->setWString(m_hContact, "UUser", GetWord(temp, 0).c_str());
+		if (mir_wstrlen(GetWord(temp, 0)))
+			ppro->setWString(m_hContact, "UUser", GetWord(temp, 0));
 		else
-			db_unset(m_hContact, ppro->m_szModuleName, "UUser");
+			ppro->delSetting(m_hContact, "UUser");
 
 		GetDlgItemText(m_hwnd, IDC_HOST, temp, _countof(temp));
-		if (mir_wstrlen(GetWord(temp, 0).c_str()))
-			ppro->setWString(m_hContact, "UHost", GetWord(temp, 0).c_str());
+		if (mir_wstrlen(GetWord(temp, 0)))
+			ppro->setWString(m_hContact, "UHost", GetWord(temp, 0));
 		else
-			db_unset(m_hContact, ppro->m_szModuleName, "UHost");
+			ppro->delSetting(m_hContact, "UHost");
 
 		btn1.Disable();
 	}

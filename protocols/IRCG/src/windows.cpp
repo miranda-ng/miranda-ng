@@ -153,10 +153,10 @@ void CWhoisDlg::ShowMessage(const CIrcMessage* pmsg)
 		m_InfoNick.SendMsg(CB_ADDSTRING, 0, (LPARAM)pmsg->parameters[1].c_str());
 	int i = m_InfoNick.SendMsg(CB_FINDSTRINGEXACT, -1, (LPARAM)pmsg->parameters[1].c_str());
 	m_InfoNick.SendMsg(CB_SETCURSEL, i, 0);
-	m_Caption.SetText(pmsg->parameters[1].c_str());
-	m_InfoName.SetText(pmsg->parameters[5].c_str());
-	m_InfoAddress.SetText(pmsg->parameters[3].c_str());
-	m_InfoId.SetText(pmsg->parameters[2].c_str());
+	m_Caption.SetText(pmsg->parameters[1]);
+	m_InfoName.SetText(pmsg->parameters[5]);
+	m_InfoAddress.SetText(pmsg->parameters[3]);
+	m_InfoId.SetText(pmsg->parameters[2]);
 	m_InfoChannels.SetText(L"");
 	m_InfoServer.SetText(L"");
 	m_InfoAway2.SetText(L"");
@@ -174,9 +174,9 @@ void CWhoisDlg::ShowMessage(const CIrcMessage* pmsg)
 
 void CWhoisDlg::ShowMessageNoUser(const CIrcMessage *pmsg)
 {
-	m_InfoNick.SetText(pmsg->parameters[2].c_str());
+	m_InfoNick.SetText(pmsg->parameters[2]);
 	m_InfoNick.SendMsg(CB_SETEDITSEL, 0, MAKELPARAM(0, -1));
-	m_Caption.SetText(pmsg->parameters[2].c_str());
+	m_Caption.SetText(pmsg->parameters[2]);
 	m_InfoName.SetText(L"");
 	m_InfoAddress.SetText(L"");
 	m_InfoId.SetText(L"");
@@ -235,7 +235,7 @@ bool CNickDlg::OnApply()
 		}
 		db_free(&dbv);
 	}
-	m_proto->setWString("RecentNicks", S.c_str());
+	m_proto->setWString("RecentNicks", S);
 	return true;
 }
 
@@ -541,7 +541,7 @@ bool CJoinDlg::OnApply()
 		}
 		db_free(&dbv);
 	}
-	m_proto->setWString("RecentChannels", S.c_str());
+	m_proto->setWString("RecentChannels", S);
 	return true;
 }
 
@@ -726,7 +726,7 @@ bool CManagerDlg::OnInitDialog()
 	m_list.SendMsg(LB_SETHORIZONTALEXTENT, 750, NULL);
 	m_radio1.SetState(true);
 
-	const char* modes = m_proto->sChannelModes.c_str();
+	const char* modes = m_proto->sChannelModes;
 	if (!strchr(modes, 't')) m_check1.Disable();
 	if (!strchr(modes, 'n')) m_check2.Disable();
 	if (!strchr(modes, 'i')) m_check3.Disable();
@@ -772,7 +772,7 @@ bool CManagerDlg::OnClose()
 	if (!S.IsEmpty() && m_proto->IsConnected()) {
 		mir_snwprintf(temp, L"Topic%s", window);
 		char* p = mir_u2a(temp);
-		m_proto->setWString(p, S.c_str());
+		m_proto->setWString(p, S);
 		mir_free(p);
 	}
 
@@ -849,7 +849,7 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			HWND addban_hWnd = dlg->GetHwnd();
 			SetDlgItemText(addban_hWnd, IDC_CAPTION, temp);
 			SetDlgItemText(addban_hWnd, IDC_TEXT, TranslateT("Please enter the hostmask (nick!user@host)"));
-			SetDlgItemText(addban_hWnd, IDC_EDIT, user.c_str());
+			SetDlgItemText(addban_hWnd, IDC_EDIT, user);
 
 			m_add.Disable();
 			m_edit.Disable();
@@ -892,7 +892,7 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 
 		wchar_t window[256];
 		GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-		if (MessageBox(m_hwnd, user.c_str(), temp, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
+		if (MessageBox(m_hwnd, user, temp, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
 			m_proto->PostIrcMessage(L"/MODE %s %s %s", window, mode, user.c_str());
 			ApplyQuestion();
 		}
@@ -1041,9 +1041,9 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			if (mir_wstrlen(toadd))
 				mir_snwprintf(temp, L"%s+%s", temp, toadd);
 			if (!appendixremove.IsEmpty())
-				mir_wstrcat(temp, appendixremove.c_str());
+				mir_wstrcat(temp, appendixremove);
 			if (!appendixadd.IsEmpty())
-				mir_wstrcat(temp, appendixadd.c_str());
+				mir_wstrcat(temp, appendixadd);
 			m_proto->PostIrcMessage(temp);
 		}
 	}
@@ -1210,7 +1210,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 		}
 	}
 
-	if (strchr(m_proto->sChannelModes.c_str(), 'b')) {
+	if (strchr(m_proto->sChannelModes, 'b')) {
 		m_radio1.SetState(true);
 		m_proto->PostIrcMessage(L"/MODE %s +b", window);
 	}

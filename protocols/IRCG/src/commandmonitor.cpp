@@ -55,7 +55,7 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		ppro->PostIrcMessage(L"/MODE %s -i", ppro->m_info.sNick.c_str());
 
 	if (mir_strlen(ppro->m_myHost) == 0 && ppro->IsConnected())
-		ppro->DoUserhostWithReason(2, (L"S" + ppro->m_info.sNick), true, L"%s", ppro->m_info.sNick.c_str());
+		ppro->DoUserhostWithReason(2, (L"S" + ppro->m_info.sNick).c_str(), true, L"%s", ppro->m_info.sNick.c_str());
 }
 
 VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
@@ -73,7 +73,7 @@ VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 	if (!ppro->m_info.sServerName.IsEmpty())
 		mir_snwprintf(temp2, L"PING %s", ppro->m_info.sServerName.c_str());
 	else
-		mir_snwprintf(temp2, L"PING %u", time(0));
+		mir_snwprintf(temp2, L"PING %u", (int)time(0));
 
 	if (ppro->IsConnected())
 		ppro->SendIrcMessage(temp2, false);
@@ -445,7 +445,7 @@ bool CIrcProto::OnIrc_MODEQUERY(const CIrcMessage *pmsg)
 			p1++;
 		}
 
-		AddWindowItemData(pmsg->parameters[1], sLimit.IsEmpty() ? nullptr : sLimit.c_str(), pmsg->parameters[2], sPassword.IsEmpty() ? nullptr : sPassword.c_str(), nullptr);
+		AddWindowItemData(pmsg->parameters[1], s2null(sLimit), pmsg->parameters[2], s2null(sPassword), nullptr);
 	}
 	ShowMessage(pmsg);
 	return true;
@@ -539,7 +539,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 
 				wchar_t temp[4000];
 				mir_snwprintf(temp, TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
-				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0].c_str(), pmsg->prefix.sNick, temp, nullptr, nullptr, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0], pmsg->prefix.sNick, temp, nullptr, nullptr, NULL, true, false);
 			}
 
 			if (flag)
@@ -624,7 +624,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 						S2 = GetWord(gci.pszID, 0);
 				}
 			}
-			DoEvent(GC_EVENT_NOTICE, S2.IsEmpty() ? nullptr : S2.c_str(), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
+			DoEvent(GC_EVENT_NOTICE, s2null(S2), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
 		}
 	}
 	else ShowMessage(pmsg);
@@ -1338,7 +1338,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 					SetChannelInfo(sChanName, wi);
 
 					if (!sTopic.IsEmpty() && !mir_wstrcmpi(GetWord(sTopic, 0), sChanName)) {
-						DoEvent(GC_EVENT_TOPIC, sChanName, sTopicName.IsEmpty() ? nullptr : sTopicName.c_str(), GetWordAddress(sTopic, 1), nullptr, sTopicTime.IsEmpty() ? nullptr : sTopicTime.c_str(), NULL, true, false);
+						DoEvent(GC_EVENT_TOPIC, sChanName, s2null(sTopicName), GetWordAddress(sTopic, 1), nullptr, s2null(sTopicTime), NULL, true, false);
 						AddWindowItemData(sChanName, nullptr, nullptr, nullptr, GetWordAddress(sTopic, 1));
 						sTopic = L"";
 						sTopicName = L"";
@@ -1895,7 +1895,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage *pmsg)
 					User = GetWord(m_whoReply, 0);
 				}
 
-				Chat_SetStatusEx(Chat_Find(pmsg->parameters[1], m_szModuleName), GC_SSE_TABDELIMITED, S.IsEmpty() ? nullptr : S.c_str());
+				Chat_SetStatusEx(Chat_Find(pmsg->parameters[1], m_szModuleName), GC_SSE_TABDELIMITED, s2null(S));
 				return true;
 			}
 

@@ -502,14 +502,14 @@ public:
 			if (m_proto->m_IPFromServer) {
 				if (m_proto->m_myHost[0]) {
 					CMStringW s = (CMStringW)TranslateT("<Resolved IP: ") + (wchar_t *)_A2T(m_proto->m_myHost) + L">";
-					m_ip.SetText(s.c_str());
+					m_ip.SetText(s);
 				}
 				else m_ip.SetText(TranslateT("<Automatic>"));
 			}
 			else {
 				if (m_proto->m_myLocalHost[0]) {
 					CMStringW s = (CMStringW)TranslateT("<Local IP: ") + (wchar_t *)_A2T(m_proto->m_myLocalHost) + L">";
-					m_ip.SetText(s.c_str());
+					m_ip.SetText(s);
 				}
 				else m_ip.SetText(TranslateT("<Automatic>"));
 			}
@@ -532,7 +532,7 @@ public:
 		if (m_enableIP.GetState()) {
 			char szTemp[500];
 			m_ip.GetTextA(szTemp, sizeof(szTemp));
-			mir_strncpy(m_proto->m_mySpecifiedHost, GetWord(szTemp, 0).c_str(), 499);
+			mir_strncpy(m_proto->m_mySpecifiedHost, GetWord(szTemp, 0), 499);
 			if (mir_strlen(m_proto->m_mySpecifiedHost))
 				m_proto->ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_proto->m_mySpecifiedHost, IP_MANUAL));
 		}
@@ -560,14 +560,14 @@ public:
 			if (m_fromServer.GetState()) {
 				if (m_proto->m_myHost[0]) {
 					CMStringW s = (CMStringW)TranslateT("<Resolved IP: ") + (wchar_t *)_A2T(m_proto->m_myHost) + L">";
-					m_ip.SetText(s.c_str());
+					m_ip.SetText(s);
 				}
 				else m_ip.SetText(TranslateT("<Automatic>"));
 			}
 			else {
 				if (m_proto->m_myLocalHost[0]) {
 					CMStringW s = (CMStringW)TranslateT("<Local IP: ") + (wchar_t *)_A2T(m_proto->m_myLocalHost) + L">";
-					m_ip.SetText(s.c_str());
+					m_ip.SetText(s);
 				}
 				else m_ip.SetText(TranslateT("<Automatic>"));
 			}
@@ -685,7 +685,7 @@ public:
 			CMStringA sSetting = CMStringA("PERFORM:") + it;
 			sSetting.MakeUpper();
 
-			PERFORM_INFO *pPref = new PERFORM_INFO(sSetting.c_str(), m_proto->getMStringW(sSetting.c_str()));
+			PERFORM_INFO *pPref = new PERFORM_INFO(sSetting, m_proto->getMStringW(sSetting));
 			m_performCombo.AddString(_A2T(Translate(it)), (LPARAM)pPref);
 		}
 
@@ -718,9 +718,9 @@ public:
 					continue;
 
 				if (pPerf->mText.IsEmpty())
-					m_proto->delSetting(pPerf->mSetting.c_str());
+					m_proto->delSetting(pPerf->mSetting);
 				else
-					m_proto->setWString(pPerf->mSetting.c_str(), pPerf->mText.c_str());
+					m_proto->setWString(pPerf->mSetting, pPerf->mText);
 			}
 		}
 		m_proto->WriteSettings(OtherSettings, _countof(OtherSettings));
@@ -748,7 +748,7 @@ public:
 		if (pPerf == nullptr)
 			m_pertormEdit.SetTextA("");
 		else
-			m_pertormEdit.SetText(pPerf->mText.c_str());
+			m_pertormEdit.SetText(pPerf->mText);
 		btnAdd.Disable();
 		if (GetWindowTextLength(m_pertormEdit.GetHwnd()) != 0)
 			m_delete.Enable();
@@ -883,13 +883,13 @@ public:
 
 		CMStringW Mask = GetWord(szMask, 0);
 		if (Mask.GetLength() != 0) {
-			if (!wcschr(Mask.c_str(), '!') && !wcschr(Mask.c_str(), '@'))
+			if (!wcschr(Mask, '!') && !wcschr(Mask, '@'))
 				Mask += L"!*@*";
 
 			if (!flags.IsEmpty()) {
 				if (szOldMask)
 					m_proto->RemoveIgnore(szOldMask);
-				m_proto->AddIgnore(Mask.c_str(), flags.c_str());
+				m_proto->AddIgnore(Mask, flags);
 			}
 		}
 		return true;
@@ -960,7 +960,7 @@ void CIrcProto::InitIgnore(void)
 			CMStringA mask = GetWord(p1, 0);
 			CMStringA flags = GetWord(p1, 1);
 			if (!mask.IsEmpty())
-				m_ignoreItems.insert(new CIrcIgnoreItem(getCodepage(), mask.c_str(), flags.c_str()));
+				m_ignoreItems.insert(new CIrcIgnoreItem(getCodepage(), mask, flags));
 
 			p1 = p2;
 		}
@@ -982,7 +982,7 @@ void CIrcProto::InitIgnore(void)
 
 		CMStringW mask = GetWord(dbv.pwszVal, 0);
 		CMStringW flags = GetWord(dbv.pwszVal, 1);
-		m_ignoreItems.insert(new CIrcIgnoreItem(mask.c_str(), flags.c_str()));
+		m_ignoreItems.insert(new CIrcIgnoreItem(mask, flags));
 		db_free(&dbv);
 	}
 }
@@ -1002,7 +1002,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 		mir_snprintf(settingName, "IGNORE:%d", i);
 
 		CIrcIgnoreItem &C = m_ignoreItems[i];
-		setWString(settingName, (C.mask + L" " + C.flags).c_str());
+		setWString(settingName, (C.mask + L" " + C.flags));
 	}
 }
 
