@@ -1477,11 +1477,13 @@
 [WAV files]
 [Unselect all]
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
 [&Message %s]
 [Nickname]
 [Unique ID]
 [Disable the event filter (Ctrl+F)]
 [Enable the event filter (Ctrl+F)]
+[In reply to]
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 ;file \src\mir_app\src\srmm_log_hpp.cpp

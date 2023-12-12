@@ -116,6 +116,7 @@
 [Edit]
 [Delete]
 [Select all]
+[Reply]
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 [Export]
