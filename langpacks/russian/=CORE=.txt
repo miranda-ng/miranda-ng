@@ -2840,6 +2840,8 @@ ANSI плагин
 [Unselect all]
 Снять выбор
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
+Отменить ответ
 [&Message %s]
 &Сообщение %s
 [Nickname]
@@ -2850,6 +2852,8 @@ ANSI плагин
 Вылючить фильтр событий (Ctrl+F)
 [Enable the event filter (Ctrl+F)]
 Включить фильтр событий (Ctrl+F)
+[In reply to]
+В ответ на
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Просмотрщик журнала сообщений

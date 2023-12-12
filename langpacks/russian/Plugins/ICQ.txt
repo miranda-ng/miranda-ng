@@ -63,6 +63,10 @@ UIN/почта:
 админ
 [member]
 пользователь
+[About]
+Информация
+[Rules]
+Правила
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
@@ -103,8 +107,6 @@ UIN/почта:
 Синхронизировать группы с сервером
 [Edit my web profile]
 Редактировать профиль на веб-сайте
-[long time ago]
-давно
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
@@ -125,3 +127,5 @@ UIN/почта/телефон
 [Buddy addition failed]
 Не удалось добавить контакт
 ;file \protocols\ICQ-WIM\src\utils.cpp
+[long time ago]
+давно

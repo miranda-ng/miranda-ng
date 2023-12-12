@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.1
+;  Version: 0.1.15.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -186,18 +186,16 @@ E-mail или номер телефона:
 Пригласить пользователя в чат
 [Choose one of your contacts to be invited:]
 Выбор пользователя для приглашения в чат:
-[Create group chat]
-Создать комнату чата
-[Mark users you want to invite to a new chat]
-Отметить пользователей для приглашения в комнату чата
-[New chat's title:]
-Название новой комнаты
 [Share]
 Поделиться
 [URL:]
 URL:
 [Only for friends]
 Только друзьям
+[Mark contacts]
+
+[Message]
+Сообщение
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Уведомление
@@ -223,6 +221,8 @@ URL:
 Сообщение на стене
 [Mark messages as read icon]
 Пометить сообщения прочитанными
+[Forward icon]
+Переслать
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -404,6 +404,12 @@ URL:
 &Выкинуть
 [%s is typing a message...]
 %s набирает текст...
+[Create group chat]
+Создать комнату чата
+[Mark users you want to invite to a new chat]
+Отметить пользователей для приглашения в комнату чата
+[New chat's title:]
+Название новой комнаты
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Введите текст, который видите
@@ -499,6 +505,8 @@ ID получателя ошибочен или неизвестен
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
 ;file \protocols\VKontakte\src\vk_messages.cpp
+[Me]
+Я
 [\nOriginal message:\n]
 \nИсходное сообщение:\n
 ;file \protocols\VKontakte\src\vk_options.cpp
@@ -554,6 +562,8 @@ ID получателя ошибочен или неизвестен
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
 Новости и уведомления
+[Forward]
+Переслать
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
@@ -582,6 +592,12 @@ ID получателя ошибочен или неизвестен
 за последние 90 дней
 [for all time]
 с самого начала
+[Mark contacts for forwarding messages]
+Выберите контакты для пересылки сообщений
+[Mark contacts you want to forward messages]
+Выберите контакты, которым вы хотите переслать сообщения
+[Enter accompanying messages]
+Введите сопроводительное сообщение
 [Errors]
 Ошибки
 [Notifications]

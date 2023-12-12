@@ -13070,6 +13070,10 @@ UIN/почта:
 админ
 [member]
 пользователь
+[About]
+Информация
+[Rules]
+Правила
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
@@ -13122,6 +13126,8 @@ UIN/почта/телефон
 Пользователь отправил стикер:
 [Buddy addition failed]
 Не удалось добавить контакт
+[long time ago]
+давно
 #muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
@@ -19272,6 +19278,8 @@ URL страницы с комментариями к новости.
 Разделитель
 [Unnamed]
 Без имени
+[ %u KB]
+ %u КБ
 [Toggle bookmark]
 Поставить/убрать закладку
 [Search]
@@ -19376,6 +19384,8 @@ URL страницы с комментариями к новости.
 Удалить
 [Select all]
 Выделить всё
+[Reply]
+Ответ
 [Main icon]
 Основной значок
 [Export]
@@ -25847,30 +25857,40 @@ URI объект
 Добавить профиль
 [Profile name]
 Имя профиля
-[Set window state]
-Состояние окна
-[Show dialog]
-Показывать диалог
-[Set status to offline before exit]
-"Не в сети" при выходе
-[Show CMDL]
-Ком. строка
-[Activate status profile]
-Статус-профиль
-[Set docked]
-Парковать
-[Other]
-Другое
 [Status on startup]
 Статус при запуске
-[ms]
-мс
+[Activate status profile]
+Статус-профиль
 [Set after]
 через
+[ms]
+мс
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Статус-профиль можно создать во вкладке "Профили статусов".
+[Allow override]
+Изменять
+[Show dialog]
+Показывать диалог
 [Timeout]
 Длительность
 [s]
 с
+[Dial-up (experimental)]
+Уд. доступ (экспериментально)
+[Automatically dial on startup]
+Подключаться при старте
+[Automatically hang up on exit]
+Разрывать связь при выходе
+[Other]
+Другое
+[Set status to offline before exit]
+"Не в сети" при выходе
+[Window on startup]
+Окно при запуске
+[Set window state]
+Состояние окна
+[Set docked]
+Парковать
 [Set window location]
 Положение окна
 [Left]
@@ -25881,20 +25901,10 @@ URI объект
 Размер окна
 [Width]
 Ширина
+[Show CMDL]
+Ком. строка
 [Height]
 Высота
-[Allow override]
-Изменять
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Статус-профиль можно создать во вкладке "Профили статусов".
-[Window on startup]
-Окно при запуске
-[Automatically dial on startup]
-Подключаться при старте
-[Automatically hang up on exit]
-Разрывать связь при выходе
-[Dial-up (experimental)]
-Уд. доступ (экспериментально)
 [Background color]
 Цвет фона
 [Text color]
@@ -28156,6 +28166,10 @@ TabSRMM: %s
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
+[IP address]
+IP-адрес
+[Software]
+Клиент
 [Add phone contact]
 Добавить контакт по номеру телефона
 [First name:]
@@ -28200,40 +28214,52 @@ TabSRMM: %s
 Посетитель
 [&Leave chat session]
 &Покинуть чат
+[%d member(s)]
+%d участник(ов)
 [Telegram Premium user]
 Подписчик Telegram Premium
 [Reaction]
 Реакция
-[Reply]
-Ответ
 [Bot]
 Бот
+[Name]
+Имя
+[Platform]
+Операционная система
+[Country]
+Страна
+[Last active]
+Последний активный
+[Kill session]
+Завершить сеанс
+[Unknown]
+Неизвестно
 [Network]
 Сеть
 [Account]
 Учётная запись
 [Advanced]
 Дополнительно
+[Sessions]
+Сессии
 [Error %d: %s]
 Ошибка %d: %s
-[%d member(s)]
-%d участник(ов)
 [Saved messages]
 Избранное
 [none]
 нет
-[Chat rooms]
-Чаты
 [%s error notifications]
 Уведомления об ошибках %s
 [Errors]
 Ошибки
 [Picture]
 Изображение
-[Video]
-Видео
+[Audio]
+Аудио
 [seconds]
 секунд
+[Video]
+Видео
 [Voice message]
 Голосовое сообщение
 [SmileyAdd plugin required to support stickers]
@@ -31163,7 +31189,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.1
+;  Version: 0.1.15.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31346,18 +31372,14 @@ E-mail или номер телефона:
 Пригласить пользователя в чат
 [Choose one of your contacts to be invited:]
 Выбор пользователя для приглашения в чат:
-[Create group chat]
-Создать комнату чата
-[Mark users you want to invite to a new chat]
-Отметить пользователей для приглашения в комнату чата
-[New chat's title:]
-Название новой комнаты
 [Share]
 Поделиться
 [URL:]
 URL:
 [Only for friends]
 Только друзьям
+[Message]
+Сообщение
 [Notification icon]
 Уведомление
 [Read message icon]
@@ -31562,6 +31584,12 @@ URL:
 &Выкинуть
 [%s is typing a message...]
 %s набирает текст...
+[Create group chat]
+Создать комнату чата
+[Mark users you want to invite to a new chat]
+Отметить пользователей для приглашения в комнату чата
+[New chat's title:]
+Название новой комнаты
 [Enter the text you see]
 Введите текст, который видите
 [Wall message for %s]
@@ -31652,6 +31680,8 @@ ID получателя ошибочен или неизвестен
 Изменённое сообщение (обновлено %s):\n 
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
+[Me]
+Я
 [\nOriginal message:\n]
 \nИсходное сообщение:\n
 [Network]
@@ -31704,6 +31734,8 @@ ID получателя ошибочен или неизвестен
 Отправитель удалил это сообщение в %s:\n
 [Newsfeed & notification event]
 Новости и уведомления
+[Forward]
+Переслать
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
