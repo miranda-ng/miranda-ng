@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static int g_iPixelY;
+
 wchar_t *weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
 
 wchar_t *months[12] =
@@ -106,11 +108,7 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
-	HDC hdc = GetDC(nullptr);
-	int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(nullptr, hdc);
-
-	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", 2 * abs(F.lf.lfHeight) * 74 / logPixelSY);
+	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", 2 * abs(F.lf.lfHeight) * 74 / g_iPixelY);
 	AppendUnicodeToBuffer(buf, (pwszStr) ? pwszStr : formatString());
 
 	buf.Append("}");
@@ -489,6 +487,10 @@ TemplateInfo templates[TPL_COUNT] =
 
 void LoadTemplates()
 {
+	HDC hdc = GetDC(nullptr);
+	g_iPixelY = GetDeviceCaps(hdc, LOGPIXELSY);
+	ReleaseDC(nullptr, hdc);	
+
 	for (auto &it : templates)
 		replaceStrW(it.value, g_plugin.getWStringA(it.setting));
 }
