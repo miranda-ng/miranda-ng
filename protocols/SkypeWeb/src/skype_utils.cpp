@@ -632,7 +632,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 
 	if (!mir_wstrcmpi(szCommand, L"sendfile")) {
 		MCONTACT hContact = AddContact(_T2A(szJid), nullptr, true);
-		CallService(MS_FILE_SENDFILE, hContact, NULL);
+		File::Send(hContact);
 		return 1;
 	}
 

@@ -58,20 +58,20 @@ char* CreateProcessUID(int pid, char* buf, size_t bufLen)
 
 struct TAddArgList
 {
-	LPSTR szFile; // file being processed
+	LPWSTR szFile; // file being processed
 	int cch; // it's length (with space for NULL char)
 	int count; // number we have so far
-	LPSTR* files;
+	LPWSTR* files;
 	MCONTACT hContact;
 	HANDLE hEvent;
 };
 
 BOOL AddToList(TAddArgList& args)
 {
-	char szBuf[MAX_PATH];
-	LPSTR szThis;
+	wchar_t szBuf[MAX_PATH];
+	LPWSTR szThis;
 
-	uint32_t attr = GetFileAttributesA(args.szFile);
+	uint32_t attr = GetFileAttributesW(args.szFile);
 	if (attr != 0xFFFFFFFF && (attr & FILE_ATTRIBUTE_HIDDEN) == 0) {
 		if ((args.count % 10) == 5)
 			if (Miranda_IsTerminated() != 0)
@@ -79,23 +79,23 @@ BOOL AddToList(TAddArgList& args)
 
 		if (attr & FILE_ATTRIBUTE_DIRECTORY) {
 			// add the directory
-			lstrcpyA(szBuf, args.szFile);
-			args.files = (LPSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPSTR));
-			char* p = mir_strdup(szBuf);
+			lstrcpyW(szBuf, args.szFile);
+			args.files = (LPWSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPWSTR));
+			wchar_t* p = mir_wstrdup(szBuf);
 			args.files[args.count++] = p;
 			// tack on ending search token
-			lstrcatA(szBuf, "\\*");
+			lstrcatW(szBuf, L"\\*");
 
-			WIN32_FIND_DATAA fd;
-			HANDLE hFind = FindFirstFileA(szBuf, &fd);
+			WIN32_FIND_DATAW fd;
+			HANDLE hFind = FindFirstFileW(szBuf, &fd);
 			while (true) {
 				if (fd.cFileName[0] != '.') {
-					mir_snprintf(szBuf, "%s\\%s", args.szFile, fd.cFileName);
+					mir_snwprintf(szBuf, L"%s\\%s", args.szFile, fd.cFileName);
 					// keep a copy of the current thing being processed
 					szThis = args.szFile;
 					args.szFile = szBuf;
 					int cchThis = args.cch;
-					args.cch = (int)strlen(szBuf) + 1;
+					args.cch = (int)wcslen(szBuf) + 1;
 					// recurse
 					BOOL Result = AddToList(args);
 					// restore
@@ -106,15 +106,15 @@ BOOL AddToList(TAddArgList& args)
 						return true;
 					}
 				}
-				if (!FindNextFileA(hFind, &fd))
+				if (!FindNextFileW(hFind, &fd))
 					break;
 			}
 			FindClose(hFind);
 		}
 		else {
 			// add the file
-			args.files = (LPSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPSTR));
-			args.files[args.count++] = mir_strdup(args.szFile);
+			args.files = (LPWSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPWSTR));
+			args.files[args.count++] = mir_wstrdup(args.szFile);
 		}
 	}
 	return false;
@@ -124,7 +124,7 @@ void NTAPI MainThreadIssueTransfer(ULONG_PTR param)
 {
 	TAddArgList* p = (TAddArgList*)param;
 	g_plugin.setByte(p->hContact, SHLExt_MRU, 1);
-	CallService(MS_FILE_SENDSPECIFICFILES, (WPARAM)p->hContact, LPARAM(p->files));
+	File::Send(p->hContact, p->files);
 	SetEvent(p->hEvent);
 }
 
@@ -143,7 +143,8 @@ void __cdecl IssueTransferThread(THeaderIPC * pipch)
 	while (pct != nullptr) {
 		if (pct->cbSize != sizeof(TSlotIPC))
 			break;
-		args.szFile = LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC));
+		
+		args.szFile = LPWSTR(UINT_PTR(pct) + sizeof(TSlotIPC));
 		args.hContact = pct->hContact;
 		args.cch = pct->cbStrSection + 1;
 		bQuit = AddToList(args);
@@ -153,7 +154,7 @@ void __cdecl IssueTransferThread(THeaderIPC * pipch)
 	} // while
 
 	if (args.files != nullptr) {
-		args.files = (LPSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPSTR));
+		args.files = (LPWSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPWSTR));
 		args.files[args.count++] = nullptr;
 		if (!bQuit) {
 			args.hEvent = CreateEvent(nullptr, true, false, nullptr);

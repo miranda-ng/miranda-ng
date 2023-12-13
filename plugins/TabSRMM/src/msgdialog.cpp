@@ -1392,7 +1392,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			CallService(MS_TABMSG_SETUSERPREFS, m_hContact, 0);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_SENDFILE:
-			CallService(MS_FILE_SENDFILE, m_hContact, 0);
+			File::Send(m_hContact);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_QUOTEMSG:
 			SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);

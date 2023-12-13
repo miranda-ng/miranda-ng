@@ -165,7 +165,7 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 	if (dbei.flags & DBEF_SENT) // don't mix sent & received files
 		GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
 	else
-		GetContactReceivedFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+		File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
 	CreateDirectoryTreeW(wszReceiveFolder);
 
 	MFilePath wszFullName(wszReceiveFolder);

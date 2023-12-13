@@ -115,6 +115,7 @@ ProtoGetAvatarFileFormat @120
 ProtoGetAvatarFormat @121
 ProtoGetBufferFormat @122
 ProtoHookEvent @123
+GetFileReceivedFolder @124
 Proto_IsProtocolLoaded @128
 GetPluginLangId @129
 Proto_GetAccount @130
@@ -917,3 +918,5 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?fetch@EventInfo@DB@@QAE_NI_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
+?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME
+?GetReceivedFolder@File@@YGPA_WIPA_WI_N@Z @1039 NONAME

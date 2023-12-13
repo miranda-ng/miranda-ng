@@ -369,7 +369,7 @@ void FILEECHO::incomeRequest(char *param)
 		return;
 	*p++ = 0;
 	
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
+	File::GetReceivedFolder(hContact, buf, _countof(buf));
 	wszFilename = buf;
 	wszFilename.Append(Utf2T(param));
 

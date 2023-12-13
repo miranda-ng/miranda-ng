@@ -624,14 +624,11 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 					}
 
 					if (three.IsEmpty())
-						CallService(MS_FILE_SENDFILE, ccNew, 0);
+						File::Send(ccNew);
 					else {
 						CMStringW temp = GetWordAddress(text, 3);
-						wchar_t* pp[2];
-						wchar_t* p = (wchar_t*)temp.c_str();
-						pp[0] = p;
-						pp[1] = nullptr;
-						CallService(MS_FILE_SENDSPECIFICFILEST, ccNew, (LPARAM)pp);
+						wchar_t *pp[2] = { temp.GetBuffer(), 0 };
+						File::Send(ccNew, pp);
 					}
 				}
 			}

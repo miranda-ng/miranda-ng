@@ -1979,8 +1979,8 @@ void CMsgDialog::SendHBitmapAsFile(HBITMAP hbmp) const
 
 	vTempFilenames.insert(mir_wstrdup(filename));
 
-	wchar_t *ppFiles[2] = { filename, nullptr };
-	CallService(MS_FILE_SENDSPECIFICFILEST, m_cache->getActiveContact(), (LPARAM)&ppFiles);
+	wchar_t *ppFiles[2] = { filename, 0 };
+	File::Send(m_cache->getActiveContact(), ppFiles);
 }
 
 // remove all temporary files created by the "send clipboard as file" feature.

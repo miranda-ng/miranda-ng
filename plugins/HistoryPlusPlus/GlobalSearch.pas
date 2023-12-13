@@ -2454,7 +2454,7 @@ var
   hContact: THandle;
 begin
   hContact := GetSearchItem(hg.Selected).Contact.Handle;
-  CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, LParam(@Path));
+  GetFileReceivedFolder(hContact, @Path);
   ShellExecuteW(0, 'open', Path, nil, nil, SW_SHOW);
 end;
 

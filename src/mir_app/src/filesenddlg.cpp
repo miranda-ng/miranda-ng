@@ -27,6 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sys/stat.h>
 #include "file.h"
 
+struct FileSendData
+{
+	MCONTACT hContact;
+	wchar_t** const ppFiles;
+};
+
 static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 {
 	int fileCount = 0, dirCount = 0, i;
@@ -198,7 +204,7 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, SendEditSubclassProc, msg, wParam, lParam);
 }
 
-INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	FileDlgData *dat = (FileDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
@@ -332,4 +338,10 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return TRUE;
 	}
 	return FALSE;
+}
+
+MIR_APP_DLL(MWindow) File::Send(MCONTACT hContact, wchar_t** const ppFiles)
+{
+	FileSendData fsd = { hContact, ppFiles };
+	return CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }

@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-static void ProcessDroppedItems(char **ppDroppedItems, int nCount, char **ppFiles);
-static int  CountDroppedFiles(char **ppDroppedItems, int nCount);
 static BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb);
 
 HRESULT STDMETHODCALLTYPE CDropTarget::QueryInterface(REFIID riid, LPVOID *ppvObj)
@@ -132,30 +130,128 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, D
 	return S_OK;
 }
 
-///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Send files processing
+
+static void SaveFiles(wchar_t *wszItem, wchar_t **ppFiles, int *pnCount)
+{
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = FindFirstFileW(wszItem, &fd);
+
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			if (fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY) {
+				// Skip parent directories
+				if ((0 != mir_wstrcmp(fd.cFileName, L".")) &&
+					(0 != mir_wstrcmp(fd.cFileName, L".."))) {
+					wchar_t wszDirName[MAX_PATH];
+					wcsncpy(wszDirName, wszItem, MAX_PATH - 1);
+
+					if (nullptr != wcsstr(wszItem, L"*.*")) {
+						size_t offset = mir_wstrlen(wszDirName) - 3;
+						mir_snwprintf(wszDirName + offset, _countof(wszDirName) - offset, L"%s\0", fd.cFileName);
+					}
+
+					ppFiles[*pnCount] = _wcsdup(wszDirName);
+					++(*pnCount);
+
+					mir_wstrcat(wszDirName, L"\\*.*");
+					SaveFiles(wszDirName, ppFiles, pnCount);
+
+				}
+			}
+			else {
+				size_t nSize = mir_wstrlen(wszItem) + mir_wstrlen(fd.cFileName) + 1;
+				wchar_t *wszFile = (wchar_t *)malloc(nSize * sizeof(wchar_t));
+
+				wcsncpy(wszFile, wszItem, nSize);
+
+				if (nullptr != wcsstr(wszFile, L"*.*")) {
+					wszFile[mir_wstrlen(wszFile) - 3] = '\0';
+					mir_wstrncat(wszFile, fd.cFileName, nSize - mir_wstrlen(wszFile));
+				}
+
+				ppFiles[*pnCount] = wszFile;
+				++(*pnCount);
+			}
+		} while (FALSE != FindNextFileW(hFind, &fd));
+	}
+}
+
+static void ProcessDroppedItems(wchar_t **ppDroppedItems, int nCount, wchar_t **ppFiles)
+{
+	int fileCount = 0;
+
+	for (int i = 0; i < nCount; ++i)
+		SaveFiles(ppDroppedItems[i], ppFiles, &fileCount);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int CountFiles(wchar_t *wszItem)
+{
+	int nCount = 0;
+	WIN32_FIND_DATA fd;
+
+	HANDLE hFind = FindFirstFileW(wszItem, &fd);
+
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			if (fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY) {
+				// Skip parent directories
+				if ((0 != mir_wstrcmp(fd.cFileName, L".")) &&
+					(0 != mir_wstrcmp(fd.cFileName, L".."))) {
+					wchar_t szDirName[MAX_PATH];
+					wcsncpy(szDirName, wszItem, MAX_PATH - 1);
+
+					if (nullptr != wcsstr(wszItem, L"*.*")) {
+						size_t offset = mir_wstrlen(szDirName) - 3;
+						mir_snwprintf(szDirName + offset, _countof(szDirName) - offset, L"%s\0", fd.cFileName);
+					}
+
+					++nCount;
+					mir_wstrcat(szDirName, L"\\*.*");
+					nCount += CountFiles(szDirName);
+				}
+			}
+			else ++nCount;
+		} while (FALSE != FindNextFileW(hFind, &fd));
+	}
+
+	return nCount;
+}
+
+static int CountDroppedFiles(wchar_t **ppDroppedItems, int nCount)
+{
+	int fileCount = 0;
+
+	for (int i = 0; i < nCount; ++i)
+		fileCount += CountFiles(ppDroppedItems[i]);
+
+	return fileCount;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb)
 {
-	UINT nDroppedItemsCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
+	UINT nDroppedItemsCount = DragQueryFileW(hDrop, 0xFFFFFFFF, nullptr, 0);
 
-	char **ppDroppedItems = (char**)malloc(sizeof(char*)*(nDroppedItemsCount + 1));
-
-	if (ppDroppedItems == nullptr) {
+	wchar_t **ppDroppedItems = (wchar_t **)malloc(sizeof(wchar_t *)*(nDroppedItemsCount + 1));
+	if (ppDroppedItems == nullptr)
 		return FALSE;
-	}
 
 	ppDroppedItems[nDroppedItemsCount] = nullptr;
 
-	char  szFilename[MAX_PATH];
+	wchar_t wszFilename[MAX_PATH];
 	for (UINT iItem = 0; iItem < nDroppedItemsCount; ++iItem) {
-		DragQueryFileA(hDrop, iItem, szFilename, sizeof(szFilename));
-		ppDroppedItems[iItem] = _strdup(szFilename);
+		DragQueryFileW(hDrop, iItem, wszFilename, _countof(wszFilename));
+		ppDroppedItems[iItem] = _wcsdup(wszFilename);
 	}
 
 	UINT nFilesCount = CountDroppedFiles(ppDroppedItems, nDroppedItemsCount);
 
-	char **ppFiles = (char**)malloc(sizeof(char *)* (nFilesCount + 1));
+	wchar_t **ppFiles = (wchar_t **)malloc(sizeof(wchar_t *)* (nFilesCount + 1));
 
 	BOOL bSuccess = FALSE;
 	if (ppFiles != nullptr) {
@@ -163,7 +259,7 @@ BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb)
 
 		ProcessDroppedItems(ppDroppedItems, nDroppedItemsCount, ppFiles);
 
-		bSuccess = (BOOL)CallService(MS_FILE_SENDSPECIFICFILES, pThumb->hContact, (LPARAM)ppFiles);
+		bSuccess = File::Send(pThumb->hContact, ppFiles) != 0;
 
 		for (UINT iItem = 0; iItem < nFilesCount; ++iItem)
 			free(ppFiles[iItem]);
@@ -180,111 +276,6 @@ BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb)
 
 	return bSuccess;
 }
-
-
-static int CountFiles(char *szItem)
-{
-	int nCount = 0;
-	WIN32_FIND_DATAA	fd;
-
-	HANDLE hFind = FindFirstFileA(szItem, &fd);
-
-	if (hFind != INVALID_HANDLE_VALUE) {
-		do {
-			if (fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY) {
-				// Skip parent directories
-				if ((0 != mir_strcmp(fd.cFileName, ".")) &&
-					(0 != mir_strcmp(fd.cFileName, ".."))) {
-					char szDirName[MAX_PATH];
-					strncpy(szDirName, szItem, MAX_PATH - 1);
-
-					if (nullptr != strstr(szItem, "*.*")) {
-						size_t offset = mir_strlen(szDirName) - 3;
-						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
-					}
-
-					++nCount;
-					mir_strcat(szDirName, "\\*.*");
-					nCount += CountFiles(szDirName);
-				}
-			}
-			else {
-				++nCount;
-			}
-		} while (FALSE != FindNextFileA(hFind, &fd));
-	}
-
-	return nCount;
-}
-
-
-
-static void SaveFiles(char *szItem, char **ppFiles, int *pnCount)
-{
-	WIN32_FIND_DATAA fd;
-	HANDLE hFind = FindFirstFileA(szItem, &fd);
-
-	if (hFind != INVALID_HANDLE_VALUE) {
-		do {
-			if (fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY) {
-				// Skip parent directories
-				if ((0 != mir_strcmp(fd.cFileName, ".")) &&
-					(0 != mir_strcmp(fd.cFileName, ".."))) {
-					char szDirName[MAX_PATH];
-					strncpy(szDirName, szItem, MAX_PATH - 1);
-
-					if (nullptr != strstr(szItem, "*.*")) {
-						size_t offset = mir_strlen(szDirName) - 3;
-						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
-					}
-
-					ppFiles[*pnCount] = _strdup(szDirName);
-					++(*pnCount);
-
-					mir_strcat(szDirName, "\\*.*");
-					SaveFiles(szDirName, ppFiles, pnCount);
-
-				}
-			}
-			else {
-				size_t nSize = sizeof(char) * (mir_strlen(szItem) + mir_strlen(fd.cFileName) + sizeof(char));
-				char  *szFile = (char*)malloc(nSize);
-
-				strncpy(szFile, szItem, nSize - 1);
-
-				if (nullptr != strstr(szFile, "*.*")) {
-					szFile[mir_strlen(szFile) - 3] = '\0';
-					mir_strncat(szFile, fd.cFileName, nSize - mir_strlen(szFile));
-				}
-
-				ppFiles[*pnCount] = szFile;
-				++(*pnCount);
-			}
-		} while (FALSE != FindNextFileA(hFind, &fd));
-	}
-}
-
-
-static void ProcessDroppedItems(char **ppDroppedItems, int nCount, char **ppFiles)
-{
-	int fileCount = 0;
-
-	for (int i = 0; i < nCount; ++i)
-		SaveFiles(ppDroppedItems[i], ppFiles, &fileCount);
-}
-
-
-static int CountDroppedFiles(char **ppDroppedItems, int nCount)
-{
-	int fileCount = 0;
-
-	for (int i = 0; i < nCount; ++i) {
-		fileCount += CountFiles(ppDroppedItems[i]);
-	}
-
-	return fileCount;
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // Init/destroy

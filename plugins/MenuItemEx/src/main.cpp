@@ -207,7 +207,7 @@ static void ShowPopup(const wchar_t *pwszText, MCONTACT hContact)
 BOOL DirectoryExists(MCONTACT hContact)
 {
 	wchar_t path[MAX_PATH];
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
+	File::GetReceivedFolder(hContact, path, _countof(path));
 	uint32_t attr = GetFileAttributesW(path);
 	return (attr != -1) && (attr & FILE_ATTRIBUTE_DIRECTORY);
 }
@@ -542,7 +542,7 @@ static INT_PTR OpenIgnoreOptions(WPARAM, LPARAM)
 static INT_PTR onRecvFiles(WPARAM hContact, LPARAM)
 {
 	wchar_t path[MAX_PATH];
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
+	File::GetReceivedFolder(hContact, path, _countof(path));
 	ShellExecuteW(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
 	return 0;
 }

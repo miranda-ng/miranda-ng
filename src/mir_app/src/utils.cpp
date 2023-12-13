@@ -364,7 +364,7 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 			AddToFileList(ppFiles, totalCount, szFilename);
 	}
 
-	CallService(MS_FILE_SENDSPECIFICFILEST, hContact, (LPARAM)ppFiles);
+	File::Send(hContact, ppFiles);
 
 	for (int i=0; ppFiles[i]; i++)
 		mir_free(ppFiles[i]);

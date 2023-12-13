@@ -40,12 +40,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define M_FILEEXISTSDLGREPLY   (WM_USER+200)
 
-struct FileSendData
-{
-	MCONTACT hContact;
-	const wchar_t **ppFiles;
-};
-
 #define BYTESRECVEDHISTORYCOUNT  10   //the number of bytes recved is sampled once a second and the last 10 are used to get the transfer speed
 
 struct FileDlgData : public MZeroedObject
@@ -76,14 +70,10 @@ struct FileDlgData : public MZeroedObject
 // file.c
 MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre);
 
-// filesenddlg.c
-INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 // filerecv.c
 void LaunchRecvDialog(CLISTEVENT *cle);
 void RemoveInvalidFilenameChars(wchar_t *tszString);
 void RemoveInvalidPathChars(wchar_t *tszString);
-void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL substVars);
 void GetContactSentFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir);
 void GetReceivedFilesDir(wchar_t *szDir, int cchDir);
 int  BrowseForFolder(HWND hwnd, wchar_t *szPath);

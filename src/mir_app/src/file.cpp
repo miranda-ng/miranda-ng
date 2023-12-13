@@ -46,48 +46,20 @@ CMOption<uint32_t> File::iOfflineSize(SRFILEMODULE, "OfflineSize", 2000);
 
 static HGENMENU hSRFileMenuItem;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// remove this piece of shit when we get rid of h++
+
+EXTERN_C MIR_APP_DLL(void) GetFileReceivedFolder(MCONTACT hContact, wchar_t *buf)
+{
+	File::GetReceivedFolder(hContact, buf, MAX_PATH);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Services
+
 static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 {
-	FileSendData fsd;
-	fsd.hContact = hContact;
-	fsd.ppFiles = nullptr;
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-}
-
-static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
-{
-	FileSendData fsd;
-	fsd.hContact = hContact;
-
-	char** ppFiles = (char**)lParam;
-	int count = 0;
-	while (ppFiles[count] != nullptr)
-		count++;
-
-	fsd.ppFiles = (const wchar_t**)alloca((count + 1) * sizeof(void*));
-	for (int i = 0; i < count; i++)
-		fsd.ppFiles[i] = mir_a2u(ppFiles[i]);
-	fsd.ppFiles[count] = nullptr;
-
-	HWND hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-	for (int j = 0; j < count; j++)
-		mir_free((void*)fsd.ppFiles[j]);
-	return (INT_PTR)hWnd;
-}
-
-static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
-{
-	FileSendData fsd;
-	fsd.hContact = hContact;
-	fsd.ppFiles = (const wchar_t**)lParam;
-	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-}
-
-static INT_PTR GetReceivedFilesFolder(WPARAM hContact, LPARAM lParam)
-{
-	wchar_t buf[MAX_PATH];
-	GetContactReceivedFilesDir(hContact, buf, _countof(buf), TRUE);
-	mir_wstrncpy((wchar_t *)lParam, buf, MAX_PATH);
+	File::Send(hContact);
 	return 0;
 }
 
@@ -96,6 +68,9 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 	LaunchRecvDialog((CLISTEVENT *)lParam);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Events
 
 static void RemoveUnreadFileEvents(void)
 {
@@ -148,7 +123,7 @@ static int OnToolbarButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (cbcd->dwButtonId == 1) {
-		CallService(MS_FILE_SENDFILE, cbcd->hContact);
+		File::Send(cbcd->hContact);
 		return 0;
 	}
 	return 1;
@@ -162,8 +137,9 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	mi.position = -2000020000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.name.a = LPGEN("&File");
-	mi.pszService = MS_FILE_SENDFILE;
+	mi.pszService = "SRFile/SendCommand";
 	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, SendFileCommand);
 
 	// SRMM toolbar button
 	BBButton bbd = {};
@@ -220,7 +196,7 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
 	wchar_t szContRecDir[MAX_PATH];
-	GetContactReceivedFilesDir(hContact, szContRecDir, _countof(szContRecDir), TRUE);
+	File::GetReceivedFolder(hContact, szContRecDir, _countof(szContRecDir));
 	ShellExecute(nullptr, L"open", szContRecDir, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
@@ -357,10 +333,6 @@ int LoadSendRecvFileModule(void)
 	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
 	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);
 
-	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
-	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES, SendSpecificFiles);
-	CreateServiceFunction(MS_FILE_SENDSPECIFICFILEST, SendSpecificFilesT);
-	CreateServiceFunction(MS_FILE_GETRECEIVEDFILESFOLDER, GetReceivedFilesFolder);
 	CreateServiceFunction("SRFile/RecvFile", RecvFileCommand);
 
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);

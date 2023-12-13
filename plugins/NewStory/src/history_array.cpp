@@ -415,7 +415,7 @@ void ItemData::load(bool bFullLoad)
 			}
 
 			wchar_t buf[MAX_PATH];
-			CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
+			File::GetReceivedFolder(hContact, buf, _countof(buf));
 
 			CMStringW wszFileName = buf;
 			wszFileName.Append(blob.getName());

@@ -481,7 +481,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			hContact = DBCreateContact(jid, jid, true, true);
 		if (hContact == 0)
 			return 1;
-		CallService(MS_FILE_SENDFILE, hContact, 0);
+		File::Send(hContact);
 		return 0;
 	}
 
