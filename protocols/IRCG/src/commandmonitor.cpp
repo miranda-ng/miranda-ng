@@ -1479,35 +1479,27 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage *pmsg)
 	lvItem.pszText = pmsg->parameters[1].GetBuffer();
 	lvItem.lParam = lvItem.iItem;
 	lvItem.iItem = ListView_InsertItem(hListView, &lvItem);
+
 	lvItem.mask = LVIF_TEXT;
 	lvItem.iSubItem = 1;
 	lvItem.pszText = pmsg->parameters[pmsg->parameters.getCount() - 2].GetBuffer();
 	ListView_SetItem(hListView, &lvItem);
 
-	wchar_t* temp = mir_wstrdup(pmsg->parameters[pmsg->parameters.getCount() - 1]);
-	wchar_t* find = wcsstr(temp, L"[+");
-	wchar_t* find2 = wcschr(temp, ']');
-	wchar_t* save = temp;
-	if (find == temp && find2 != nullptr && find + 8 >= find2) {
-		temp = wcschr(temp, ']');
-		if (mir_wstrlen(temp) > 1) {
-			temp++;
-			temp[0] = 0;
-			lvItem.iSubItem = 2;
-			lvItem.pszText = save;
-			ListView_SetItem(hListView, &lvItem);
-			temp[0] = ' ';
-			temp++;
-		}
-		else temp = save;
+	auto &wszTopic = pmsg->parameters[pmsg->parameters.getCount() - 1];
+	int iStart = wszTopic.Find(L"[+");
+	int iEnd = wszTopic.Find(']') + 1;
+	if (iStart == 0 && iEnd != 0 && iEnd >= 8) {
+		CMStringW wszMode(wszTopic.Mid(0, iEnd));
+		lvItem.iSubItem = 2;
+		lvItem.pszText = wszMode.GetBuffer();
+		ListView_SetItem(hListView, &lvItem);
+
+		wszTopic.Delete(0, iEnd);
 	}
 
 	lvItem.iSubItem = 3;
-	CMStringW S = DoColorCodes(temp, TRUE, FALSE);
-	lvItem.pszText = S.GetBuffer();
+	lvItem.pszText = DoColorCodes(wszTopic, TRUE, FALSE);
 	ListView_SetItem(hListView, &lvItem);
-	temp = save;
-	mir_free(temp);
 
 	int percent = 100;
 	if (m_noOfChannels > 0)
