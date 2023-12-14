@@ -226,8 +226,6 @@ public:
 			L"%S", TranslateT("my nickname"),
 			L"%N", TranslateT("buddy\'s nickname"),
 			L"%c", TranslateT("event count"),
-			L"%I", TranslateT("icon"),
-			L"%i", TranslateT("direction icon"),
 			L"%D", TranslateT("direction symbol"),
 			L"%t", TranslateT("timestamp"),
 			L"%h", TranslateT("hour (24 hour format, 0-23)"),
