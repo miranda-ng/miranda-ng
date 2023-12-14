@@ -7,4 +7,6 @@ bool CheckFilter(wchar_t *buf, wchar_t *filter);
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item);
 bool NSMenu_Process(int iCommand, NewstoryListData *data);
 
+int GetFontHeight(const LOGFONTA &lf);
+
 void RemoveBbcodes(CMStringW &pwszText);

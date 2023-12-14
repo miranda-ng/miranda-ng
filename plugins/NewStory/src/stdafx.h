@@ -108,3 +108,4 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat;
 extern wchar_t* months[12];
+extern int g_iPixelY;

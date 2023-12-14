@@ -36,6 +36,11 @@ bool CheckFilter(wchar_t *buf, wchar_t *filter)
 	return false;
 }
 
+int GetFontHeight(const LOGFONTA &lf)
+{
+	return 2 * abs(lf.lfHeight) * 74 / g_iPixelY;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct

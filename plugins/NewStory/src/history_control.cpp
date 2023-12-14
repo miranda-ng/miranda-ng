@@ -590,25 +590,66 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	item->checkCreate(m_hwnd);
 
 	SIZE sz;
-	sz.cx = width - 6;
+	sz.cx = width - 2;
+
+	POINT pos;
+	pos.x = 38;
+	pos.y = top + 2;
+
+	// Bookmark icon
+	if (item->dbe.flags & DBEF_BOOKMARK)
+		pos.x += 18;
+
+	sz.cx -= pos.x;
+	if (item->m_bOfflineDownloaded)
+		sz.cx -= 18;
+
 	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextMeasure(hdc, &sz, item->data);
 	SelectObject(hdc, hfnt);
+
 	int height = sz.cy + 5;
 
-	RECT rc;
-	SetRect(&rc, 0, top, width, top + height);
-
 	HBRUSH hbr = CreateSolidBrush(clBack);
+	RECT rc = { 0, top, width, top + height };
 	FillRect(hdc, &rc, hbr);
 	DeleteObject(hbr);
 
 	SetTextColor(hdc, clText);
 	SetBkMode(hdc, TRANSPARENT);
 
-	POINT pos;
-	pos.x = 3;
-	pos.y = top + 2;
+	HICON hIcon;
+	switch (item->dbe.eventType) {
+	case EVENTTYPE_MESSAGE:
+		hIcon = g_plugin.getIcon(IDI_SENDMSG);
+		break;
+	case EVENTTYPE_FILE:
+		hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+		break;
+	case EVENTTYPE_STATUSCHANGE:
+		hIcon = g_plugin.getIcon(IDI_SIGNIN);
+		break;
+	default:
+		hIcon = g_plugin.getIcon(IDI_UNKNOWN);
+		break;
+	}
+	DrawIconEx(hdc, 2, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+
+	// Direction icon
+	if (item->dbe.flags & DBEF_SENT)
+		hIcon = g_plugin.getIcon(IDI_MSGOUT);
+	else
+		hIcon = g_plugin.getIcon(IDI_MSGIN);
+	DrawIconEx(hdc, 20, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+
+	// Bookmark icon
+	if (item->dbe.flags & DBEF_BOOKMARK)
+		DrawIconEx(hdc, 38, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+
+	// Finished icon
+	if (item->m_bOfflineDownloaded)
+		DrawIconEx(hdc, width-20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+
 	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextDisplay(hdc, pos, sz, item->data);
 	SelectObject(hdc, hfnt);
