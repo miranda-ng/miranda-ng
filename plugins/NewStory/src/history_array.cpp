@@ -248,7 +248,7 @@ bool ItemData::fetch(void)
 {
 	// if this event is virtual (for example, in group chats), don't try to laod it
 	if (!hEvent)
-		return true;
+		return false;
 
 	if (!dbe) {
 		if (!dbe.fetch(hEvent))

@@ -318,11 +318,6 @@ void vfFile(TemplateVars *vars, MCONTACT, ItemData *item)
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfUrl(TemplateVars *vars, MCONTACT, ItemData *item)
-{
-	vars->SetVar('M', item->getWBuf(), false);
-}
-
 void vfSign(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
@@ -428,9 +423,6 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/copy/file", LPGENW("Clipboard"), -SKINICON_EVENT_FILE, LPGENW("Files"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/copy/url", LPGENW("Clipboard"), -SKINICON_EVENT_URL, LPGENW("URLs"),
-		L"%N, %t:\x0d\x0a%M%n", 0, 0,
-		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
 	{ "tpl/copy/status", LPGENW("Clipboard"), IDI_SIGNIN, LPGENW("Status changes"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
