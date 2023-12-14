@@ -227,7 +227,7 @@ public:
 	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
-		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 			L"%%", TranslateT("simply % character"),
 			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
 			L"%S", TranslateT("my nickname"),
