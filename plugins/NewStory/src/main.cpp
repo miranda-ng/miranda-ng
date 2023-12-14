@@ -23,6 +23,8 @@ CMPlugin g_plugin;
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
 CMOption<bool> g_bOptDrawEdge(MODULENAME, "DrawEdge", true);
 CMOption<bool> g_bOptHppCompat(MODULENAME, "HppCompat", false);
+CMOption<bool> g_bShowType(MODULENAME, "ShowType", true);
+CMOption<bool> g_bShowDirection(MODULENAME, "ShowDirection", true);
 
 MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
 
@@ -148,9 +150,11 @@ int CMPlugin::Load()
 {
 	registerIcon(MODULETITLE, icons);
 
+	bShowType = g_bShowType;
 	bDrawEdge = g_bOptDrawEdge;
-	bMsgGrouping = g_bOptGrouping;
 	bHppCompat = g_bOptHppCompat;
+	bMsgGrouping = g_bOptGrouping;
+	bShowDirecction = g_bShowDirection;
 
 	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
 

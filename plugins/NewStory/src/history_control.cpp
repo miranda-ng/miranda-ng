@@ -493,25 +493,13 @@ int NewstoryListData::GetItemHeight(int index)
 	if (!item)
 		return 0;
 
-	if (item->savedHeight >= 0)
-		return item->savedHeight;
-
-	int fontid, colorid;
-	item->getFontColor(fontid, colorid);
-	item->checkCreate(m_hwnd);
-
-	HDC hdc = GetDC(m_hwnd);
-	HFONT hOldFont = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-
-	RECT rc; GetClientRect(m_hwnd, &rc);
-	int width = rc.right - rc.left;
-
-	SIZE sz = { width - 6, 0 };
-	MTextMeasure(hdc, &sz, item->data);
-
-	SelectObject(hdc, hOldFont);
-	ReleaseDC(m_hwnd, hdc);
-	return item->savedHeight = sz.cy + 5;
+	if (item->savedHeight == -1) {
+		HDC hdc = GetDC(m_hwnd);
+		item->savedHeight = PaintItem(hdc, item, 0, cachedWindowWidth, false);
+		ReleaseDC(m_hwnd, hdc);
+	}
+	
+	return item->savedHeight;
 }
 
 bool NewstoryListData::HasSelection() const
@@ -558,26 +546,23 @@ void NewstoryListData::OpenFolder()
 	}
 }
 
-int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
+int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bool bDraw)
 {
-	auto *item = LoadItem(index);
-	item->savedTop = top;
-
 	// remove any selections that might be created by the BBCodes parser
-	MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
+	MTextSendMessage(0, pItem->data, EM_SETSEL, 0, 0);
 
 	//	LOGFONT lfText;
 	COLORREF clText, clBack, clLine;
 	int fontid, colorid;
-	item->getFontColor(fontid, colorid);
+	pItem->getFontColor(fontid, colorid);
 
 	clText = g_fontTable[fontid].cl;
-	if (item->m_bHighlighted) {
+	if (pItem->m_bHighlighted) {
 		clText = g_fontTable[FONT_HIGHLIGHT].cl;
 		clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
 		clLine = g_colorTable[COLOR_FRAME].cl;
 	}
-	else if (item->m_bSelected) {
+	else if (pItem->m_bSelected) {
 		clText = g_colorTable[COLOR_SELTEXT].cl;
 		clBack = g_colorTable[COLOR_SELBACK].cl;
 		clLine = g_colorTable[COLOR_SELFRAME].cl;
@@ -587,28 +572,35 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 		clBack = g_colorTable[colorid].cl;
 	}
 
-	item->checkCreate(m_hwnd);
+	pItem->checkCreate(m_hwnd);
 
 	SIZE sz;
 	sz.cx = width - 2;
 
 	POINT pos;
-	pos.x = 38;
+	pos.x = 2;
 	pos.y = top + 2;
 
-	// Bookmark icon
-	if (item->dbe.flags & DBEF_BOOKMARK)
+	if (g_plugin.bShowType)	// Message type icon
+		pos.x += 18;
+
+	if (g_plugin.bShowDirecction)	// Message direction icon
+		pos.x += 18;
+
+	if (pItem->dbe.flags & DBEF_BOOKMARK) // Bookmark icon
 		pos.x += 18;
 
 	sz.cx -= pos.x;
-	if (item->m_bOfflineDownloaded)
+	if (pItem->m_bOfflineDownloaded) // Download completed icon
 		sz.cx -= 18;
 
 	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextMeasure(hdc, &sz, item->data);
+	MTextMeasure(hdc, &sz, pItem->data);
 	SelectObject(hdc, hfnt);
 
 	int height = sz.cy + 5;
+	if (!bDraw)
+		return height;
 
 	HBRUSH hbr = CreateSolidBrush(clBack);
 	RECT rc = { 0, top, width, top + height };
@@ -618,40 +610,51 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 	SetTextColor(hdc, clText);
 	SetBkMode(hdc, TRANSPARENT);
 
+	pos.x = 2;
 	HICON hIcon;
-	switch (item->dbe.eventType) {
-	case EVENTTYPE_MESSAGE:
-		hIcon = g_plugin.getIcon(IDI_SENDMSG);
-		break;
-	case EVENTTYPE_FILE:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		break;
-	case EVENTTYPE_STATUSCHANGE:
-		hIcon = g_plugin.getIcon(IDI_SIGNIN);
-		break;
-	default:
-		hIcon = g_plugin.getIcon(IDI_UNKNOWN);
-		break;
+	
+	// Message type icon
+	if (g_plugin.bShowType) {
+		switch (pItem->dbe.eventType) {
+		case EVENTTYPE_MESSAGE:
+			hIcon = g_plugin.getIcon(IDI_SENDMSG);
+			break;
+		case EVENTTYPE_FILE:
+			hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+			break;
+		case EVENTTYPE_STATUSCHANGE:
+			hIcon = g_plugin.getIcon(IDI_SIGNIN);
+			break;
+		default:
+			hIcon = g_plugin.getIcon(IDI_UNKNOWN);
+			break;
+		}
+		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
 	}
-	DrawIconEx(hdc, 2, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
 
 	// Direction icon
-	if (item->dbe.flags & DBEF_SENT)
-		hIcon = g_plugin.getIcon(IDI_MSGOUT);
-	else
-		hIcon = g_plugin.getIcon(IDI_MSGIN);
-	DrawIconEx(hdc, 20, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+	if (g_plugin.bShowDirecction) {
+		if (pItem->dbe.flags & DBEF_SENT)
+			hIcon = g_plugin.getIcon(IDI_MSGOUT);
+		else
+			hIcon = g_plugin.getIcon(IDI_MSGIN);
+		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
+	}
 
 	// Bookmark icon
-	if (item->dbe.flags & DBEF_BOOKMARK)
-		DrawIconEx(hdc, 38, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+	if (pItem->dbe.flags & DBEF_BOOKMARK) {
+		DrawIconEx(hdc, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
+	}
 
 	// Finished icon
-	if (item->m_bOfflineDownloaded)
+	if (pItem->m_bOfflineDownloaded)
 		DrawIconEx(hdc, width-20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 
 	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextDisplay(hdc, pos, sz, item->data);
+	MTextDisplay(hdc, pos, sz, pItem->data);
 	SelectObject(hdc, hfnt);
 
 	HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
@@ -1092,7 +1095,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int top = data->scrollTopPixel;
 			idx = data->scrollTopItem;
 			while ((top < height) && (idx < data->totalCount))
-				top += data->PaintItem(hdc, idx++, top, width);
+				top += data->PaintItem(hdc, data->LoadItem(idx++), top, width, true);
 			data->cachedMaxDrawnItem = idx;
 
 			if (top <= height) {

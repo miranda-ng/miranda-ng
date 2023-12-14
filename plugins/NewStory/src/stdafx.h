@@ -98,7 +98,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HBRUSH hBackBrush;
 
 	CMOption<bool> bOptVScroll, bSortAscending;
-	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false; // thesw options are a copy of static CMOption to keep performance high
+
+	// thesw options are a copy of static CMOption to keep performance high
+	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false;
+	bool bShowType, bShowDirecction;
 
 	CMPlugin();
 
@@ -106,6 +109,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat;
+extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat, g_bShowType, g_bShowDirection;
 extern wchar_t* months[12];
 extern int g_iPixelY;

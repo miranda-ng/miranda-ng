@@ -42,29 +42,36 @@ protected:
 class CGeneralOptsDlg : public CBaseOptsDlg
 {
 	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder, chkHppCompat;
+	CCtrlCheck chkShowType, chkShowDirection;
 
 public:
 	CGeneralOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_ADVANCED),
 		chkVScroll(this, IDC_VSCROLL),
+		chkShowType(this, IDC_SHOW_TYPE),
 		chkDrawEdge(this, IDC_DRAWEDGE),
 		chkGrouping(this, IDC_GROUPING),
 		chkHppCompat(this, IDC_HPP_COMPAT),
-		chkSortOrder(this, IDC_SORT_ASCENDING)
+		chkSortOrder(this, IDC_SORT_ASCENDING),
+		chkShowDirection(this, IDC_SHOW_DIRECTION)
 	{
 		CreateLink(chkVScroll, g_plugin.bOptVScroll);
+		CreateLink(chkShowType, g_bShowType);
 		CreateLink(chkGrouping, g_bOptGrouping);
 		CreateLink(chkDrawEdge, g_bOptDrawEdge);
 		CreateLink(chkHppCompat, g_bOptHppCompat);
+		CreateLink(chkShowDirection, g_bShowDirection);
 
 		CreateLink(chkSortOrder, g_plugin.bSortAscending);
 	}
 
 	bool OnApply() override
 	{
+		g_plugin.bShowType = g_bShowType;
 		g_plugin.bDrawEdge = g_bOptDrawEdge;
 		g_plugin.bMsgGrouping = g_bOptGrouping;
 		g_plugin.bHppCompat = g_bOptHppCompat;
+		g_plugin.bShowDirecction = g_bShowDirection;
 		return true;
 	}
 };
