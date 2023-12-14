@@ -52,5 +52,8 @@
     <ClInclude Include="src\textusers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\dataobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

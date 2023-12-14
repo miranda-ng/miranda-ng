@@ -37,6 +37,7 @@ struct ItemData
 	void checkCreate(HWND hwnd);
 	void markRead();
 	void setText();
+	void setTextAndHwnd(HWND hwnd);
 
 	bool fetch(void);
 	void fill(int tmpl);

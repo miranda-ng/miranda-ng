@@ -132,7 +132,7 @@ static LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		if (data->mtext)
 			MTextDestroy(data->mtext);
 
-		data->mtext = MTextCreateEx(data->htu, (char*)lParam, wParam);
+		data->mtext = MTextCreateEx2(hwnd, data->htu, (char *)lParam, wParam);
 		MTextSetParent(data->mtext, hwnd);
 		InvalidateRect(hwnd, nullptr, TRUE);
 		return TRUE;

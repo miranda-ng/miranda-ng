@@ -66,6 +66,9 @@ MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const char *szProto, con
 // allocate text object (advanced)
 MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, const void *text, uint32_t flags);
 
+// allocate text object (advanced)
+MTEXTCONTROL_DLL(HText) MTextCreateEx2(HWND hwnd, HANDLE userHandle, const void *text, uint32_t flags);
+
 // destroys text object
 MTEXTCONTROL_DLL(int) MTextDestroy(HText text);
 

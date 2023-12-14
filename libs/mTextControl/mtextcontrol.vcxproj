@@ -39,6 +39,7 @@
     </ClCompile>
     <ClCompile Include="src\textcontrol.cpp" />
     <ClCompile Include="src\textusers.cpp" />
+    <ClInclude Include="src\dataobject.h" />
     <ClInclude Include="src\FormattedTextDraw.h" />
     <ClInclude Include="src\ImageDataObjectHlp.h" />
     <ClInclude Include="src\services.h" />

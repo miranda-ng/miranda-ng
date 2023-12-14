@@ -190,7 +190,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		setText();
+		setTextAndHwnd(hwnd);
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
@@ -476,6 +476,12 @@ void ItemData::markRead()
 void ItemData::setText()
 {
 	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
+	savedHeight = -1;
+}
+
+void ItemData::setTextAndHwnd(HWND hwnd)
+{
+	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
 	savedHeight = -1;
 }
 
