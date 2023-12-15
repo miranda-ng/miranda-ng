@@ -486,7 +486,7 @@ public:
 struct JabberVcardNoteDlg : public JabberVcardBaseDlg
 {
 	JabberVcardNoteDlg(CJabberProto *_ppro) :
-		JabberVcardBaseDlg(_ppro, IDD_VCARD_WORK, 4)
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_NOTE, 4)
 	{}
 
 	bool OnRefresh() override
