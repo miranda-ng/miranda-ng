@@ -1286,35 +1286,24 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_LOGFROZENTEXT:
 		urc->rcItem.right = urc->dlgNewSize.cx - 50;
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 16 - (bBottomToolbar ? 0 : 28);
+LBL_Frozen:
+		urc->rcItem.bottom = m_rcMessage.top - 2 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
 			urc->rcItem.top += 21;
 		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_ADD:
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 28;
 		urc->rcItem.left = urc->rcItem.right - 20;
-		if (!bShowToolbar && !bBottomToolbar) {
-			urc->rcItem.bottom += 21;
-			urc->rcItem.top += 21;
-		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		goto LBL_Frozen;
 
 	case IDC_CANCELADD:
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 4;
 		urc->rcItem.left = urc->rcItem.right - 20;
-		if (!bShowToolbar && !bBottomToolbar) {
-			urc->rcItem.bottom += 21;
-			urc->rcItem.top += 21;
-		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		goto LBL_Frozen;
 
 	case IDC_TOGGLESIDEBAR:
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
