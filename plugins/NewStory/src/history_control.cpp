@@ -81,7 +81,7 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 	if (newWidth != cachedWindowWidth) {
 		cachedWindowWidth = newWidth;
 		for (int i = 0; i < totalCount; i++)
-			LoadItem(i)->savedHeight = -1;
+			GetItem(i)->savedHeight = -1;
 		bDraw = true;
 	}
 
@@ -489,17 +489,20 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 
 int NewstoryListData::GetItemHeight(int index)
 {
-	auto *item = LoadItem(index);
-	if (!item)
-		return 0;
+	if (auto *pItem = LoadItem(index))
+		return GetItemHeight(pItem);
+	return 0;
+}
 
-	if (item->savedHeight == -1) {
+int NewstoryListData::GetItemHeight(ItemData *pItem)
+{
+	if (pItem->savedHeight == -1) {
 		HDC hdc = GetDC(m_hwnd);
-		item->savedHeight = PaintItem(hdc, item, 0, cachedWindowWidth, false);
+		pItem->savedHeight = PaintItem(hdc, pItem, 0, cachedWindowWidth, false);
 		ReleaseDC(m_hwnd, hdc);
 	}
-	
-	return item->savedHeight;
+
+	return pItem->savedHeight;
 }
 
 bool NewstoryListData::HasSelection() const
@@ -669,12 +672,26 @@ void NewstoryListData::RecalcScrollBar()
 	if (totalCount == 0)
 		return;
 
-	int yTotal = 0, yTop = 0;
+	int yTotal = 0, yTop = 0, numRec = 0;
 	for (int i = 0; i < totalCount; i++) {
 		if (i == scrollTopItem)
 			yTop = yTotal - scrollTopPixel;
-		yTotal += GetItemHeight(i);
+
+		auto *pItem = GetItem(i);
+		if (pItem->m_bLoaded) {
+			yTotal += GetItemHeight(pItem);
+			numRec++;
+		}
 	}
+
+	if (numRec != totalCount) {
+		yTotal = (yTotal * totalCount) / numRec;
+		for (int i = 0; i < totalCount; i++)
+			if (i == scrollTopItem) {
+				yTop = yTotal - scrollTopPixel;
+				break;
+			}
+		}
 
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
