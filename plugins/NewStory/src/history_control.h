@@ -63,7 +63,7 @@ struct NewstoryListData : public MZeroedObject
 	int       GetItemHeight(int index);
 	int       GetItemHeight(ItemData *pItem);
 	bool      HasSelection() const;
-	void      HitTotal(int y);
+	void      HitTotal(int yCurr, int yTotal);
 	void      LineUp();
 	void      LineDown();
 	ItemData* LoadItem(int idx);

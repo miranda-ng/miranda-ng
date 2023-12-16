@@ -515,11 +515,18 @@ bool NewstoryListData::HasSelection() const
 	return false;
 }
 
-void NewstoryListData::HitTotal(int y)
+void NewstoryListData::HitTotal(int yCurr, int yTotal)
 {
-	int i = 0;
-	while (i < totalCount && y > 0)
-		y -= GetItemHeight(i++);
+	int i = 0, y = yCurr;
+	while (i < totalCount && y > 0) {
+		auto *pItem = GetItem(i++);
+		if (!pItem->m_bLoaded) {
+			i = (totalCount * yCurr) / yTotal;
+			y = 0;
+			break;
+		}
+		else y -= GetItemHeight(pItem);
+	}
 
 	scrollTopItem = i;
 	scrollTopPixel = y;
@@ -685,13 +692,10 @@ void NewstoryListData::RecalcScrollBar()
 	}
 
 	if (numRec != totalCount) {
-		yTotal = (yTotal * totalCount) / numRec;
-		for (int i = 0; i < totalCount; i++)
-			if (i == scrollTopItem) {
-				yTop = yTotal - scrollTopPixel;
-				break;
-			}
-		}
+		double averageH = double(yTotal) / double(numRec);
+		yTotal = totalCount * averageH;
+		yTop = scrollTopItem * averageH;
+	}
 
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
@@ -1400,7 +1404,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_ALL;
 				GetScrollInfo(hwnd, SB_VERT, &si);
-				data->HitTotal(si.nTrackPos);
+				data->HitTotal(si.nTrackPos, si.nMax);
 				break;
 
 			default:
