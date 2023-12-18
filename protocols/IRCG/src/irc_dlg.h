@@ -88,29 +88,6 @@ struct CNickDlg : public CCoolIrcDlg
 	void OnDestroy() override;
 };
 
-struct CListDlg : public CIrcBaseDlg
-{
-	CListDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	void OnDestroy() override;
-	int Resizer(UTILRESIZECONTROL *urc) override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	CCtrlListView m_list, m_list2;
-	CCtrlEdit m_filter, m_status;
-	UINT_PTR m_timer;
-
-	CCtrlButton m_Join;
-	void onClick_Join(CCtrlButton*);
-
-	void onChange_Filter(CCtrlEdit *ctrl);
-	void onColumnClick_List(CCtrlListView::TEventInfo* ev);
-
-	void UpdateList(void);
-};
-
 struct CJoinDlg : public CCoolIrcDlg
 {
 	CJoinDlg(CIrcProto* _pro);

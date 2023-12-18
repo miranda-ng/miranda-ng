@@ -177,8 +177,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	bool  bTempDisableCheck, bTempForceCheck, bEcho, bHandleNickErr, bPerformDone;
 
+	CDlgBase *m_listDlg;
 	CJoinDlg *m_joinDlg;
-	CListDlg *m_listDlg;
 	CNickDlg *m_nickDlg;
 	CWhoisDlg *m_whoisDlg;
 	CManagerDlg *m_managerDlg;
@@ -187,6 +187,9 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int m_noOfChannels, m_manualWhoisCount;
 	CMStringA sChannelModes, sUserModes;
 	CMStringW sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
+
+	// channelList.cpp
+	void ResetChannelList();
 
 	// clist.cpp
 	MCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);

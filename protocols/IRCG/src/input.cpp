@@ -470,16 +470,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	}
 
 	if (command == L"/list") {
-		{
-			mir_cslock lck(m_csList);
-			if (m_listDlg == nullptr) {
-				m_listDlg = new CListDlg(this);
-				m_listDlg->Show();
-			}
-		}
-		SetActiveWindow(m_listDlg->GetHwnd());
-
-		ListView_DeleteAllItems(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW));
+		ResetChannelList();
 		PostIrcMessage(L"/lusers");
 		return false;
 	}
