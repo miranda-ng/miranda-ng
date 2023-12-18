@@ -170,20 +170,18 @@ bool CIrcProto::OnContactDeleted(MCONTACT hContact)
 	if (!hContact)
 		return false;
 
-	DBVARIANT dbv;
-	if (!getWString(hContact, "Nick", &dbv)) {
-		int type = getByte(hContact, "ChatRoom", 0);
-		if (type != 0) {
-			CMStringW S;
-			if (type == GCW_CHATROOM)
-				S = dbv.pwszVal;
-			if (type == GCW_SERVER)
-				S = SERVERWINDOW;
-			int i = Chat_Terminate(Chat_Find(S, m_szModuleName));
-			if (i && type == GCW_CHATROOM)
-				PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
-		}
-		else {
+	ptrW wszNick(getWStringA(hContact, "Nick"));
+	if (wszNick)
+		switch (getByte(hContact, "ChatRoom")) {
+		case GCW_CHATROOM:
+			PostIrcMessage(L"/PART %s %s", wszNick.get(), m_userInfo);
+			break;
+
+		case GCW_SERVER:
+			Chat_Terminate(Chat_Find(SERVERWINDOW, m_szModuleName));
+			break;
+
+		case 0:
 			uint8_t bDCC = getByte(hContact, "DCC", 0);
 			if (bDCC) {
 				CDccSession *dcc = FindDCCSession(hContact);
@@ -192,8 +190,6 @@ bool CIrcProto::OnContactDeleted(MCONTACT hContact)
 			}
 		}
 
-		db_free(&dbv);
-	}
 	return true;
 }
 

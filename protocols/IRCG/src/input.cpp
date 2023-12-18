@@ -844,9 +844,6 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 			continue;
 		}
 
-		if (!W0.CompareNoCase(L"/PART"))
-			Chat_Terminate(Chat_Find(GetWord(DoThis, 1), m_szModuleName));
-
 		// Do this if the message is not a command
 		if ((W0[0] != '/') ||													// not a command
 			(W0[0] == '/' && W0[1] == '/') ||		// or double backslash at the beginning

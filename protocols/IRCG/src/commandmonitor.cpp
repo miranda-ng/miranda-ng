@@ -387,8 +387,10 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage *pmsg)
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming) {
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0], pmsg->prefix.sNick, pmsg->parameters.getCount() > 1 ? pmsg->parameters[1].c_str() : nullptr, nullptr, host, NULL, true, false);
-		if (pmsg->prefix.sNick == m_info.sNick)
+		if (pmsg->prefix.sNick == m_info.sNick) {
 			Chat_Control(pmsg->parameters[0], SESSION_OFFLINE);
+			Chat_Terminate(Chat_Find(pmsg->parameters[0], m_szModuleName));
+		}
 	}
 	else ShowMessage(pmsg);
 
