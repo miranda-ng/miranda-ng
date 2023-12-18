@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct ListViewSortParam
 {
 	CCtrlListView *pList;
-	int iSubItem;
+	int iSubItem, iSortOrder;
 };
 
 static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
@@ -29,32 +29,33 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	if (!param->pList->GetHwnd())
 		return 0;
 
-	wchar_t temp1[512];
-	wchar_t temp2[512];
 	LVITEM lvm;
 	lvm.mask = LVIF_TEXT;
-	lvm.iItem = lParam1;
 	lvm.iSubItem = param->iSubItem;
+
+	wchar_t temp1[512];
+	lvm.iItem = lParam1;
 	lvm.pszText = temp1;
 	lvm.cchTextMax = _countof(temp1);
 	param->pList->GetItem(&lvm);
+	
+	wchar_t temp2[512];
 	lvm.iItem = lParam2;
 	lvm.pszText = temp2;
 	param->pList->GetItem(&lvm);
-	if (param->iSubItem != 1) {
-		if (mir_wstrlen(temp1) != 0 && mir_wstrlen(temp2) != 0)
-			return mir_wstrcmpi(temp1, temp2);
+	
+	if (param->iSubItem != 1)
+		return mir_wstrcmpi(temp1, temp2) * param->iSortOrder;
 
-		return (*temp1 == 0) ? 1 : -1;
-	}
-
-	return (_wtoi(temp1) < _wtoi(temp2)) ? 1 : -1;
+	int res = (_wtoi(temp1) < _wtoi(temp2)) ? 1 : -1;
+	return res * param->iSortOrder;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class CListDlg : public CIrcBaseDlg
 {
+	int iPrevCol = -1, iPrevSort = 1;
 	CTimer m_timer;
 	CCtrlButton m_Join;
 	CCtrlEdit m_filter, m_status;
@@ -247,6 +248,12 @@ public:
 	void onColumnClick_List(CCtrlListView::TEventInfo *ev)
 	{
 		ListViewSortParam param = { &m_list, ev->nmlv->iSubItem };
+		if (param.iSubItem != iPrevCol) {
+			param.iSortOrder = iPrevSort = 1;
+			iPrevCol = param.iSubItem;
+		}
+		else param.iSortOrder = iPrevSort = iPrevSort * -1;
+		
 		m_list.SortItems(ListViewSort, (LPARAM)&param);
 		UpdateList();
 	}
