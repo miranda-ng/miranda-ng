@@ -144,16 +144,26 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 				tsize += 16;
 			_i64toa(tsize, szSize, 10);
 
+			CMStringA ulname;
+			if (OmemoIsEnabled(ft->std.hContact) && !getByte("OMEMOInsecureNames")) {
+				uint8_t rnd[12];
+				Utils_GetRandom(rnd, sizeof(rnd));
+				ulname.Truncate(2 * sizeof(rnd));
+				bin2hex(rnd, sizeof(rnd), ulname.GetBuffer());
+				ulname.Append(T2Utf(wcsrchr(filename, L'.')));
+			}
+			else ulname = T2Utf(filename).get();
+
 			XmlNodeIq iq(AddIQ(&CJabberProto::OnHttpSlotAllocated, JABBER_IQ_TYPE_GET, szUploadService, ft));
 			if (getByte("HttpUploadVer")) {
 				auto *p = iq << XCHILDNS("request", JABBER_FEAT_UPLOAD);
-				p << XCHILD("filename", T2Utf(filename));
+				p << XCHILD("filename", ulname);
 				p << XCHILD("size", szSize);
 				p << XCHILD("content-type", pwszContentType);
 			}
 			else {
 				iq << XCHILDNS("request", JABBER_FEAT_UPLOAD0)
-					<< XATTR("filename", T2Utf(filename)) << XATTR("size", szSize) << XATTR("content-type", pwszContentType);
+					<< XATTR("filename", ulname) << XATTR("size", szSize) << XATTR("content-type", pwszContentType);
 			}
 			m_ThreadInfo->send(iq);
 			return;
