@@ -521,7 +521,7 @@ void NewstoryListData::HitTotal(int yCurr, int yTotal)
 	while (i < totalCount && y > 0) {
 		auto *pItem = GetItem(i++);
 		if (!pItem->m_bLoaded) {
-			i = (totalCount * yCurr) / yTotal;
+			i = totalCount * (double(yCurr) / double(yTotal));
 			y = 0;
 			break;
 		}
