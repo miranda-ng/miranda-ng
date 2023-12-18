@@ -42,6 +42,7 @@ Plugins\dbx_mdbx.dll
 Plugins\dbx_mmap.dll
 Plugins\dbx_sqlite.dll
 Plugins\db_autobackups.dll
+Plugins\discord.dll
 Plugins\dummy.dll
 Plugins\emlanproto.dll
 Plugins\exchange.dll
@@ -202,6 +203,7 @@ Icons\flags_icons.dll
 Icons\fp_icons.dll
 Icons\historypp_icons.dll
 Icons\proto_currencyrates.dll
+Icons\proto_discord.dll
 Icons\proto_dummy.dll
 Icons\proto_facebook.dll
 Icons\proto_gg.dll
