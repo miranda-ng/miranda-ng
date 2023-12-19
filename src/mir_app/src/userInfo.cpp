@@ -33,6 +33,17 @@ CUserInfoPageDlg::CUserInfoPageDlg(class CMPluginBase &pPlug, int idDialog) :
 	m_forceResizable = true;
 }
 
+INT_PTR CUserInfoPageDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_NOTIFY) {
+		NMHDR *pnmh = (NMHDR *)lParam;
+		if (pnmh->code == PSN_INFOCHANGED)
+			OnRefresh();
+	}
+
+	return CDlgBase::DlgProc(uMsg, wParam, lParam);
+}
+
 bool CUserInfoPageDlg::IsEmpty() const
 {
 	return false;

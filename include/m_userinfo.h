@@ -39,6 +39,8 @@ public:
 		m_hContact = hContact;
 	}
 
+	virtual INT_PTR DlgProc(UINT, WPARAM, LPARAM) override;
+
 	virtual bool IsEmpty() const;
 	virtual bool OnRefresh();
 };
