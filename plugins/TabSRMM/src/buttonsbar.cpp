@@ -267,7 +267,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 		}
 		else ShowWindow(hwndButton, SW_HIDE);
 		
-		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff - 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
 			lwidth += cbd->m_iButtonWidth + gap;
 
@@ -313,7 +313,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
 			rwidth += cbd->m_iButtonWidth + gap;
-		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff - 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 		mapHidden[cbd] = bAutoHidden;
 	}

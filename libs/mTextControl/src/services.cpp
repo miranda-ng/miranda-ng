@@ -113,6 +113,36 @@ MTEXTCONTROL_DLL(TextObject *) MTextCreateEx(HANDLE userHandle, const void *text
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// allocate text object (more advanced)
+
+MTEXTCONTROL_DLL(TextObject *) MTextCreateEx2(HWND hwnd, HANDLE userHandle, const void *text, uint32_t flags)
+{
+	TextObject *result = new TextObject;
+	result->options = TextUserGetOptions(userHandle);
+	result->ftd = new CFormattedTextDraw();
+	if (hwnd) {
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		result->ftd->setParentWnd(hwnd, rc);
+	}
+	InitRichEdit(result->ftd->getTextService());
+
+	MText_InitFormatting0(result->ftd, result->options);
+	if (flags & MTEXT_FLG_RTF) {
+		result->ftd->putRTFText((char *)text);
+	}
+	else {
+		if (flags & MTEXT_FLG_WCHAR)
+			result->ftd->putTextW((wchar_t *)text);
+		else
+			result->ftd->putTextA((char *)text);
+	}
+	MText_InitFormatting1(result);
+	return result;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // measure text object
 
 MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, TextObject *text)

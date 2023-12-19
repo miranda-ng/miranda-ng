@@ -154,10 +154,10 @@ HANDLE CTwitterProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-void CTwitterProto::OnContactDeleted(MCONTACT hContact)
+bool CTwitterProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
-		return;
+		return false;
 
 	ptrA szId(getStringA(hContact, TWITTER_KEY_UN));
 	if (szId) {
@@ -167,6 +167,7 @@ void CTwitterProto::OnContactDeleted(MCONTACT hContact)
 		mir_cslock s(twitter_lock_);
 		remove_friend(szId.get()); // Be careful about this until Miranda is fixed
 	}
+	return true;
 }
 
 void CTwitterProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)

@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -70,7 +70,7 @@ BEGIN
     0
 END
 
-#endif    // English resources
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -150,7 +150,8 @@ BEGIN
     EDITTEXT        IDC_NATIME,53,129,26,12,ES_AUTOHSCROLL
     LTEXT           "minutes of level 1 mode",IDC_SETNASTR,84,131,89,8
     CONTROL         "only set when inactive",IDC_LV2ONINACTIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,144,159,10
-    CONTROL         "Monitor Miranda's activity only",IDC_MONITORMIRANDA, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,163,174,10
+    CONTROL         "Monitor Miranda's activity only",IDC_MONITORMIRANDA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,163,174,10
     CONTROL         "Reset status on return",IDC_RESETSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,176,174,10
     CONTROL         "Confirm resetting status",IDC_CONFIRM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,189,174,10
     CONTROL         "Enter idle mode",IDC_ENTERIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,202,174,10
@@ -187,42 +188,42 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    COMBOBOX        IDC_WINSTATE,209,34,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Set window state",IDC_SETWINSTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,22,80,10
-    CONTROL         "Show dialog",IDC_SHOWDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,71,127,10
-    CONTROL         "Set status to offline before exit",IDC_OFFLINECLOSE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,180,174,10
-    PUSHBUTTON      "Show CMDL",IDC_SHOWCMDL,14,194,53,14
-    CONTROL         "Activate status profile",IDC_SETPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,20,89,10
-    COMBOBOX        IDC_DOCKED,209,64,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Set docked",IDC_SETDOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,52,80,10
-    GROUPBOX        "Other",IDC_STATIC,7,166,182,50
     GROUPBOX        "Status on startup",IDC_STATIC,7,7,182,102
+    CONTROL         "Activate status profile",IDC_SETPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,20,89,10
+    COMBOBOX        IDC_PROFILE,105,19,78,92,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Set after",IDC_STATIC,22,37,32,16
     EDITTEXT        IDC_SETPROFILEDELAY,57,35,28,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "ms",IDC_STATIC,88,37,13,8
-    LTEXT           "Set after",IDC_STATIC,26,37,28,8
-    EDITTEXT        IDC_DLGTIMEOUT,57,86,28,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Timeout",IDC_STATIC,26,89,30,8
-    LTEXT           "s",IDC_STATIC,88,89,12,8
+    LTEXT           "Note: status profiles can be created in the 'Status profiles' options screen",IDC_STATIC,105,37,77,46
+    CONTROL         "Allow override",IDC_OVERRIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,59,76,10
+    CONTROL         "Show dialog",IDC_SHOWDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,77,127,8
+    LTEXT           "Timeout",IDC_STATIC,26,92,84,8
+    EDITTEXT        IDC_DLGTIMEOUT,115,90,28,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "s",IDC_STATIC,146,92,12,8
+    GROUPBOX        "Dial-up (experimental)",IDC_STATIC,7,113,182,49
+    CONTROL         "Automatically dial on startup",IDC_AUTODIAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,129,168,10
+    CONTROL         "Automatically hang up on exit",IDC_AUTOHANGUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,144,168,10
+    GROUPBOX        "Other",IDC_STATIC,7,166,182,50
+    CONTROL         "Set status to offline before exit",IDC_OFFLINECLOSE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,180,174,10
+    GROUPBOX        "Window on startup",IDC_STATIC,194,7,104,209
+    CONTROL         "Set window state",IDC_SETWINSTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,22,80,10
+    COMBOBOX        IDC_WINSTATE,209,34,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Set docked",IDC_SETDOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,52,80,10
+    COMBOBOX        IDC_DOCKED,209,64,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Set window location",IDC_SETWINLOCATION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,82,80,10
     LTEXT           "Left",IDC_STATIC,214,97,35,8
     EDITTEXT        IDC_XPOS,259,94,30,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Top",IDC_STATIC,214,113,35,8
     EDITTEXT        IDC_YPOS,259,110,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "",IDC_CURWINLOC,209,128,80,8
     CONTROL         "Set window size",IDC_SETWINSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,140,80,10
     LTEXT           "Width",IDC_STATIC,214,155,35,8
     EDITTEXT        IDC_WIDTH,259,152,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Show CMDL",IDC_SHOWCMDL,14,194,53,14
     LTEXT           "Height",IDC_STATIC,214,171,35,8
     EDITTEXT        IDC_HEIGHT,259,168,30,14,ES_AUTOHSCROLL | ES_NUMBER
-    COMBOBOX        IDC_PROFILE,105,19,78,92,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Allow override",IDC_OVERRIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,53,76,10
-    LTEXT           "Note: status profiles can be created in the 'Status profiles' options screen",IDC_STATIC,105,37,77,34
-    LTEXT           "",IDC_CURWINLOC,209,128,80,8
     LTEXT           "",IDC_CURWINSIZE,209,186,80,8
-    GROUPBOX        "Window on startup",IDC_STATIC,194,7,104,209
-    CONTROL         "Automatically dial on startup",IDC_AUTODIAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,129,168,10
-    CONTROL         "Automatically hang up on exit",IDC_AUTOHANGUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,144,168,10
-    GROUPBOX        "Dial-up (experimental)",IDC_STATIC,7,113,182,49
 END
 
 IDD_PUOPT_KEEPSTATUS DIALOGEX 0, 0, 264, 223
@@ -378,6 +379,7 @@ BEGIN
     EDITTEXT        IDC_CNTDELAY,11,193,22,14,ES_AUTOHSCROLL | ES_NUMBER
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -402,6 +404,10 @@ BEGIN
     BEGIN
         VERTGUIDE, 182
         BOTTOMMARGIN, 204
+    END
+
+    IDD_OPT_STARTUPSTATUS, DIALOG
+    BEGIN
     END
 
     IDD_PUOPT_KEEPSTATUS, DIALOG
@@ -468,6 +474,11 @@ BEGIN
 END
 
 IDD_PUOPT_KEEPSTATUS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_STARTUPSTATUS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

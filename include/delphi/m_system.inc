@@ -76,4 +76,6 @@ const
 
 function Miranda_IsTerminated : bytebool; stdcall; external AppDll;
 
+procedure GetFileReceivedFolder(hContact:TMCONTACT; szFolder:PWideChar); external AppDll;
+
 {$ENDIF}

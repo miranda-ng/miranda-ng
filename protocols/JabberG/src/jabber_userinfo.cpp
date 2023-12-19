@@ -963,9 +963,9 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		USERINFOPAGE uip = {};
 		uip.dwInitParam = (LPARAM)this;
-		uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_ICON;
+		uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
 		uip.szGroup.w = m_tszUserName;
-		uip.dwInitParam = (LPARAM)Skin_GetProtoIcon(m_szModuleName, ID_STATUS_ONLINE);
+		uip.szProto = m_szModuleName;
 
 		uip.pDialog = new JabberUserInfoDlg(this);
 		uip.position = -2000000000;

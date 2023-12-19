@@ -183,15 +183,17 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 
 bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
+	bool bRet;
 	CMStringW wszUrl;
-	if (!fileText2url(wszText, &wszUrl))
+	int idx = wszText.Find(' ');
+	if (idx == -1)
+		bRet = fileText2url(wszText, &wszUrl);
+	else
+		bRet = fileText2url(wszText.Mid(0, idx), &wszUrl);
+	if (!bRet)
 		return false;
 
 	pFileInfo = nullptr;
-
-	int idx = wszText.Find(' ');
-	if (idx != -1)
-		wszText.Truncate(idx);
 
 	// is it already downloaded sticker?
 	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
@@ -221,7 +223,16 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 		}
 		else wszText = TranslateT("SmileyAdd plugin required to support stickers");
 	}
-	else pFileInfo->szOrigUrl = wszText;
+	else {
+		if (idx != -1) {
+			pFileInfo->szOrigUrl = wszText.Mid(0, idx);
+			wszText.Delete(0, idx + 1);
+		}
+		else {
+			pFileInfo->szOrigUrl = wszText;
+			wszText.Empty();
+		}
+	}
 
 	return true;
 }
@@ -578,7 +589,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (pFileInfo == nullptr && fileText2url(wszText)) {
 		if (hOldEvent)
 			return;
+		
 		CheckFile(hContact, wszText, pFileInfo);
+		if (pFileInfo)
+			pFileInfo->wszDescr = wszText;
 	}
 
 	// process our own messages

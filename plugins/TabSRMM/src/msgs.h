@@ -74,7 +74,6 @@
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
 #define DM_SPLITSENDACK          (TM_USER+19)
 #define DM_UPDATEWINICON         (TM_USER+21)
-#define DM_UPDATELASTMESSAGE     (TM_USER+22)
 
 #define DM_STATUSICONCHANGE      (TM_USER+25)
 #define DM_CREATECONTAINER       (TM_USER+26)
@@ -95,7 +94,6 @@
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
 #define DM_CHECKAUTOHIDE         (TM_USER+71)
 #define DM_HANDLECLISTEVENT      (TM_USER+73)
-#define DM_REMOVECLISTEVENT      (TM_USER+75)
 #define DM_DOCREATETAB           (TM_USER+77)
 #define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
 #define DM_MYAVATARCHANGED	      (TM_USER+86)
@@ -418,7 +416,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     DetermineMinHeight(void);
 	BOOL     DoRtfToTags(CMStringW &pszText) const;
 	int      FindRTLLocale(void);
-	void     FlashOnClist(MEVENT hEvent, const DBEVENTINFO *dbei);
+	void     FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei);
 	void     FlashTab(bool bInvertMode);
 	LRESULT  GetSendButtonState();
 	void     GetSendFormat(void);
@@ -622,7 +620,7 @@ public:
 		m_nTypeSecs = 0;
 		m_bShowTyping = 0;
 		m_wszStatusBar[0] = 0;
-		PostMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+		DM_UpdateLastMessage();
 	}
 
 	__forceinline CLogWindow* LOG() {

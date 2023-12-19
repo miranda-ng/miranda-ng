@@ -72,8 +72,10 @@ void PROTO_INTERFACE::OnBuildProtoMenu()
 void PROTO_INTERFACE::OnContactAdded(MCONTACT)
 {}
 
-void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
-{}
+bool PROTO_INTERFACE::OnContactDeleted(MCONTACT)
+{
+	return true;
+}
 
 MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
 {

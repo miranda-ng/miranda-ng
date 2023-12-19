@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.1
+;  Version: 0.1.15.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -96,12 +96,11 @@
 [Open in browser]
 [Invite user to chat]
 [Choose one of your contacts to be invited:]
-[Create group chat]
-[Mark users you want to invite to a new chat]
-[New chat's title:]
 [Share]
 [URL:]
 [Only for friends]
+[Mark contacts]
+[Message]
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 [Read message icon]
@@ -115,6 +114,7 @@
 [Status icon]
 [Wall message icon]
 [Mark messages as read icon]
+[Forward icon]
 [Access denied! Data will not be sent or received.]
 [Error]
 [You have to validate your account before you can use VK in Miranda NG]
@@ -206,6 +206,9 @@
 [Change nick]
 [&Kick]
 [%s is typing a message...]
+[Create group chat]
+[Mark users you want to invite to a new chat]
+[New chat's title:]
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 [Wall message for %s]
@@ -256,6 +259,7 @@
 [Edited message (updated %s):\n]
 [Loading messages for %s is completed.]
 ;file \protocols\VKontakte\src\vk_messages.cpp
+[Me]
 [\nOriginal message:\n]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
@@ -285,6 +289,7 @@
 [This message has been deleted by sender in %s:\n]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
+[Forward]
 [Mark messages as read]
 [Send message to user's wall]
 [Add as friend]
@@ -299,6 +304,9 @@
 [for last 30 days]
 [for last 90 days]
 [for all time]
+[Mark contacts for forwarding messages]
+[Mark contacts you want to forward messages]
+[Enter accompanying messages]
 [Errors]
 [Notifications]
 [VK user activate/deactivate action]

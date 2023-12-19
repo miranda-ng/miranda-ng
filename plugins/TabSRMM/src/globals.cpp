@@ -446,18 +446,19 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
 
 	for (auto &hContact : Contacts()) {
+		if (Proto_GetBaseAccountName(hContact) == nullptr)
+			continue;
+
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 			SendLater::addContact(hContact);
 
 		if (!Contact::IsGroupChat(hContact)) {
 			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-				DBEVENTINFO dbei = {};
-				if (db_event_get(hDbEvent, &dbei))
-					continue;
-				if (Proto_GetBaseAccountName(hContact) == nullptr)
+				DB::EventInfo dbei(hDbEvent);
+				if (!dbei)
 					continue;
 
-				if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE)
+				if (!dbei.markedRead() && dbei.isAlertable())
 					if (!Srmm_FindWindow(hContact))
 						arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}

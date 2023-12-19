@@ -98,7 +98,7 @@ class CEnterStringDlg : public CDlgBase
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "%s%d", m_param.szDataPrefix, id);
 		db_set_ws(0, m_param.szModuleName, setting, string);
-		db_set_b(0, m_param.szModuleName, m_param.szDataPrefix, (id + 1) % idcControl);
+		db_set_b(0, m_param.szModuleName, m_param.szDataPrefix, (id + 1) % m_param.recentCount);
 	}
 
 	LRESULT onModuleUnload(UINT, WPARAM wParam, LPARAM)

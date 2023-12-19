@@ -624,9 +624,9 @@ bool CMsgDialog::OnInitDialog()
 		timerFlash.Start(TIMEOUT_FLASHWND);
 		m_bCanFlashTab = true;
 
-		DBEVENTINFO dbei = {};
+		DB::EventInfo dbei;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		FlashOnClist(m_hDbEventFirst, &dbei);
+		FlashOnClist(m_hDbEventFirst, dbei);
 
 		if (!isChat())
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
@@ -1286,35 +1286,24 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_LOGFROZENTEXT:
 		urc->rcItem.right = urc->dlgNewSize.cx - 50;
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 16 - (bBottomToolbar ? 0 : 28);
+LBL_Frozen:
+		urc->rcItem.bottom = m_rcMessage.top - 2 - (bBottomToolbar ? 0 : 28);
+		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
 			urc->rcItem.top += 21;
 		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_ADD:
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 28;
 		urc->rcItem.left = urc->rcItem.right - 20;
-		if (!bShowToolbar && !bBottomToolbar) {
-			urc->rcItem.bottom += 21;
-			urc->rcItem.top += 21;
-		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		goto LBL_Frozen;
 
 	case IDC_CANCELADD:
-		urc->rcItem.bottom = m_rcMessage.top - (bBottomToolbar ? 0 : 28);
-		urc->rcItem.top = m_rcMessage.top - 18 - (bBottomToolbar ? 0 : 28);
 		urc->rcItem.right = urc->dlgNewSize.cx - 4;
 		urc->rcItem.left = urc->rcItem.right - 20;
-		if (!bShowToolbar && !bBottomToolbar) {
-			urc->rcItem.bottom += 21;
-			urc->rcItem.top += 21;
-		}
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
+		goto LBL_Frozen;
 
 	case IDC_TOGGLESIDEBAR:
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
@@ -1392,7 +1381,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			CallService(MS_TABMSG_SETUSERPREFS, m_hContact, 0);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_SENDFILE:
-			CallService(MS_FILE_SENDFILE, m_hContact, 0);
+			File::Send(m_hContact);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_QUOTEMSG:
 			SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
@@ -2427,10 +2416,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (pdw)
 				*pdw = m_dwTickLastEvent;
 		}
-		return 0;
-
-	case DM_UPDATELASTMESSAGE:
-		DM_UpdateLastMessage();
 		return 0;
 
 	case DM_SAVESIZE:

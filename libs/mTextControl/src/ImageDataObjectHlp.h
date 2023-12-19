@@ -21,8 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _IMAGEDATAOBJECTHLP_
 
 void UnloadEmfCache();
-HENHMETAFILE CacheIconToEmf(HICON hIcon);
-
-bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf);
+void CleanupEmfCache(HWND hwnd);
+bool InsertBitmap(HWND hwnd, IRichEditOle* pRichEditOle, HICON hIcon);
 
 #endif

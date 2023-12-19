@@ -235,7 +235,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnContactDeleted(MCONTACT hContact)
+bool CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (IsOnline() && hContact) {
 		if (isChatRoom(hContact))
@@ -243,6 +243,7 @@ void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 		else
 			PushRequest(new DeleteContactRequest(getId(hContact)));
 	}
+	return true;
 }
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)

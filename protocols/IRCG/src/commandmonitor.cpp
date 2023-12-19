@@ -55,7 +55,7 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		ppro->PostIrcMessage(L"/MODE %s -i", ppro->m_info.sNick.c_str());
 
 	if (mir_strlen(ppro->m_myHost) == 0 && ppro->IsConnected())
-		ppro->DoUserhostWithReason(2, (L"S" + ppro->m_info.sNick), true, L"%s", ppro->m_info.sNick.c_str());
+		ppro->DoUserhostWithReason(2, (L"S" + ppro->m_info.sNick).c_str(), true, L"%s", ppro->m_info.sNick.c_str());
 }
 
 VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
@@ -73,7 +73,7 @@ VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 	if (!ppro->m_info.sServerName.IsEmpty())
 		mir_snwprintf(temp2, L"PING %s", ppro->m_info.sServerName.c_str());
 	else
-		mir_snwprintf(temp2, L"PING %u", time(0));
+		mir_snwprintf(temp2, L"PING %u", (int)time(0));
 
 	if (ppro->IsConnected())
 		ppro->SendIrcMessage(temp2, false);
@@ -387,8 +387,10 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage *pmsg)
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming) {
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0], pmsg->prefix.sNick, pmsg->parameters.getCount() > 1 ? pmsg->parameters[1].c_str() : nullptr, nullptr, host, NULL, true, false);
-		if (pmsg->prefix.sNick == m_info.sNick)
+		if (pmsg->prefix.sNick == m_info.sNick) {
 			Chat_Control(pmsg->parameters[0], SESSION_OFFLINE);
+			Chat_Terminate(Chat_Find(pmsg->parameters[0], m_szModuleName));
+		}
 	}
 	else ShowMessage(pmsg);
 
@@ -445,7 +447,7 @@ bool CIrcProto::OnIrc_MODEQUERY(const CIrcMessage *pmsg)
 			p1++;
 		}
 
-		AddWindowItemData(pmsg->parameters[1], sLimit.IsEmpty() ? nullptr : sLimit.c_str(), pmsg->parameters[2], sPassword.IsEmpty() ? nullptr : sPassword.c_str(), nullptr);
+		AddWindowItemData(pmsg->parameters[1], s2null(sLimit), pmsg->parameters[2], s2null(sPassword), nullptr);
 	}
 	ShowMessage(pmsg);
 	return true;
@@ -539,7 +541,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 
 				wchar_t temp[4000];
 				mir_snwprintf(temp, TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
-				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0].c_str(), pmsg->prefix.sNick, temp, nullptr, nullptr, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0], pmsg->prefix.sNick, temp, nullptr, nullptr, NULL, true, false);
 			}
 
 			if (flag)
@@ -624,7 +626,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 						S2 = GetWord(gci.pszID, 0);
 				}
 			}
-			DoEvent(GC_EVENT_NOTICE, S2.IsEmpty() ? nullptr : S2.c_str(), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
+			DoEvent(GC_EVENT_NOTICE, s2null(S2), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
 		}
 	}
 	else ShowMessage(pmsg);
@@ -1338,7 +1340,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 					SetChannelInfo(sChanName, wi);
 
 					if (!sTopic.IsEmpty() && !mir_wstrcmpi(GetWord(sTopic, 0), sChanName)) {
-						DoEvent(GC_EVENT_TOPIC, sChanName, sTopicName.IsEmpty() ? nullptr : sTopicName.c_str(), GetWordAddress(sTopic, 1), nullptr, sTopicTime.IsEmpty() ? nullptr : sTopicTime.c_str(), NULL, true, false);
+						DoEvent(GC_EVENT_TOPIC, sChanName, s2null(sTopicName), GetWordAddress(sTopic, 1), nullptr, s2null(sTopicTime), NULL, true, false);
 						AddWindowItemData(sChanName, nullptr, nullptr, nullptr, GetWordAddress(sTopic, 1));
 						sTopic = L"";
 						sTopicName = L"";
@@ -1429,122 +1431,6 @@ bool CIrcProto::OnIrc_TOPIC(const CIrcMessage *pmsg)
 	if (pmsg->parameters.getCount() > 1 && pmsg->m_bIncoming) {
 		DoEvent(GC_EVENT_TOPIC, pmsg->parameters[0], pmsg->prefix.sNick, pmsg->parameters[1], nullptr, sTopicTime.IsEmpty() ? nullptr : sTopicTime.c_str(), NULL, true, false);
 		AddWindowItemData(pmsg->parameters[0], nullptr, nullptr, nullptr, pmsg->parameters[1]);
-	}
-	ShowMessage(pmsg);
-	return true;
-}
-
-static INT_PTR __stdcall sttShowDlgList(void* param)
-{
-	CIrcProto *ppro = (CIrcProto*)param;
-	
-	mir_cslock lck(ppro->m_csList);
-	if (ppro->m_listDlg == nullptr) {
-		ppro->m_listDlg = new CListDlg(ppro);
-		ppro->m_listDlg->Show();
-	}
-	return 0;
-}
-
-bool CIrcProto::OnIrc_LISTSTART(const CIrcMessage *pmsg)
-{
-	if (pmsg->m_bIncoming) {
-		CallFunctionSync(sttShowDlgList, this);
-		m_channelNumber = 0;
-	}
-
-	ShowMessage(pmsg);
-	return true;
-}
-
-bool CIrcProto::OnIrc_LIST(const CIrcMessage *pmsg)
-{
-	if (!pmsg->m_bIncoming || pmsg->parameters.getCount() <= 2)
-		return true;
-
-	mir_cslockfull lck(m_csList);
-	if (!m_listDlg)
-		return true;
-		
-	m_channelNumber++;
-
-	HWND hListView = GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW);
-	HWND hStatusWnd = m_listDlg->m_status.GetHwnd();
-	lck.unlock();
-
-	LVITEM lvItem;
-	lvItem.iItem = ListView_GetItemCount(hListView);
-	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-	lvItem.iSubItem = 0;
-	lvItem.pszText = pmsg->parameters[1].GetBuffer();
-	lvItem.lParam = lvItem.iItem;
-	lvItem.iItem = ListView_InsertItem(hListView, &lvItem);
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iSubItem = 1;
-	lvItem.pszText = pmsg->parameters[pmsg->parameters.getCount() - 2].GetBuffer();
-	ListView_SetItem(hListView, &lvItem);
-
-	wchar_t* temp = mir_wstrdup(pmsg->parameters[pmsg->parameters.getCount() - 1]);
-	wchar_t* find = wcsstr(temp, L"[+");
-	wchar_t* find2 = wcschr(temp, ']');
-	wchar_t* save = temp;
-	if (find == temp && find2 != nullptr && find + 8 >= find2) {
-		temp = wcschr(temp, ']');
-		if (mir_wstrlen(temp) > 1) {
-			temp++;
-			temp[0] = 0;
-			lvItem.iSubItem = 2;
-			lvItem.pszText = save;
-			ListView_SetItem(hListView, &lvItem);
-			temp[0] = ' ';
-			temp++;
-		}
-		else temp = save;
-	}
-
-	lvItem.iSubItem = 3;
-	CMStringW S = DoColorCodes(temp, TRUE, FALSE);
-	lvItem.pszText = S.GetBuffer();
-	ListView_SetItem(hListView, &lvItem);
-	temp = save;
-	mir_free(temp);
-
-	int percent = 100;
-	if (m_noOfChannels > 0)
-		percent = (int)(m_channelNumber * 100) / m_noOfChannels;
-
-	wchar_t text[100];
-	if (percent < 100)
-		mir_snwprintf(text, TranslateT("Downloading list (%u%%) - %u channels"), percent, m_channelNumber);
-	else
-		mir_snwprintf(text, TranslateT("Downloading list - %u channels"), m_channelNumber);
-	SetWindowText(hStatusWnd, text);
-	return true;
-}
-
-bool CIrcProto::OnIrc_LISTEND(const CIrcMessage *pmsg)
-{
-	if (pmsg->m_bIncoming) {
-		mir_cslock lck(m_csList);
-		if (m_listDlg) {
-			EnableWindow(GetDlgItem(m_listDlg->GetHwnd(), IDC_JOIN), true);
-			ListView_SetSelectionMark(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 0);
-			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 1, LVSCW_AUTOSIZE);
-			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 2, LVSCW_AUTOSIZE);
-			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 3, LVSCW_AUTOSIZE);
-			m_listDlg->UpdateList();
-
-			wchar_t text[100];
-			mir_snwprintf(text, TranslateT("Done: %u channels"), m_channelNumber);
-			int percent = 100;
-			if (m_noOfChannels > 0)
-				percent = (int)(m_channelNumber * 100) / m_noOfChannels;
-			if (percent < 70) {
-				mir_wstrcat(text, L" ");
-				mir_wstrcat(text, TranslateT("(probably truncated by server)"));
-			}
-			SetDlgItemText(m_listDlg->GetHwnd(), IDC_TEXT, text);
-		}
 	}
 	ShowMessage(pmsg);
 	return true;
@@ -1782,7 +1668,7 @@ static INT_PTR __stdcall sttShowNickWnd(void* param)
 bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage *pmsg)
 {
 	if (pmsg->m_bIncoming) {
-		if (nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_wstrcmp(pmsg->parameters[1], m_alternativeNick))) {
+		if (bHandleNickErr && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_wstrcmp(pmsg->parameters[1], m_alternativeNick))) {
 			wchar_t m[200];
 			mir_snwprintf(m, L"NICK %s", m_alternativeNick);
 			if (IsConnected())
@@ -1895,7 +1781,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage *pmsg)
 					User = GetWord(m_whoReply, 0);
 				}
 
-				Chat_SetStatusEx(Chat_Find(pmsg->parameters[1], m_szModuleName), GC_SSE_TABDELIMITED, S.IsEmpty() ? nullptr : S.c_str());
+				Chat_SetStatusEx(Chat_Find(pmsg->parameters[1], m_szModuleName), GC_SSE_TABDELIMITED, s2null(S));
 				return true;
 			}
 
@@ -2321,7 +2207,7 @@ static void __stdcall sttMainThrdOnConnect(void* param)
 bool CIrcProto::DoOnConnect(const CIrcMessage*)
 {
 	bPerformDone = true;
-	nickflag = true;
+	bHandleNickErr = true;
 
 	Menu_ModifyItem(hMenuJoin, nullptr, INVALID_HANDLE_VALUE, 0);
 	Menu_ModifyItem(hMenuList, nullptr, INVALID_HANDLE_VALUE, 0);
@@ -2365,7 +2251,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	Chat_Control(SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);
-	nickflag = false;
+	bHandleNickErr = false;
 	return 0;
 }
 

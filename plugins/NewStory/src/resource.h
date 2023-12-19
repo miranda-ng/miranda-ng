@@ -93,6 +93,8 @@
 #define IDC_HPP_COMPAT                  1059
 #define IDC_SORT_ASCENDING2             1059
 #define IDC_BOOKMARKSLIST               1060
+#define IDC_SHOW_TYPE                   1060
+#define IDC_SHOW_DIRECTION              1061
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003

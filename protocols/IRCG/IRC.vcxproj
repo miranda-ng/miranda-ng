@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\channelList.cpp" />
     <ClCompile Include="src\clist.cpp" />
     <ClCompile Include="src\commandmonitor.cpp" />
     <ClCompile Include="src\input.cpp" />

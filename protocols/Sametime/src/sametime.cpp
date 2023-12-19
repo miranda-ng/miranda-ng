@@ -128,10 +128,11 @@ void CSametimeProto::OnShutdown()
 		LogOut();
 }
 
-void CSametimeProto::OnContactDeleted(MCONTACT hContact)
+bool CSametimeProto::OnContactDeleted(MCONTACT hContact)
 {
 	ContactDeleted(hContact);
 	ChatDeleted(hContact);
+	return true;
 }
 
 void CSametimeProto::SetAllOffline()

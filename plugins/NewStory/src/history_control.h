@@ -17,7 +17,7 @@ struct NewstoryListData : public MZeroedObject
 	int cachedMaxTopPixel;
 	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
-	int cachedScrollbarPos = -1;
+	int cachedScrollbarPos = -1, cachedScrollbarMax = -1;
 	int totalCount;
 
 	RECT rcLastPaint;
@@ -41,6 +41,7 @@ struct NewstoryListData : public MZeroedObject
 	bool      AtBottom(void) const;
 	bool      AtTop(void) const;
 	void      BeginEditItem();
+	void      CalcBottom();
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      Copy(bool bTextOnly = false);
@@ -60,14 +61,16 @@ struct NewstoryListData : public MZeroedObject
 	ItemData* GetItem(int idx) const;
 	int       GetItemFromPixel(int yPos);
 	int       GetItemHeight(int index);
+	int       GetItemHeight(ItemData *pItem);
 	bool      HasSelection() const;
+	void      HitTotal(int yCurr, int yTotal);
 	void      LineUp();
 	void      LineDown();
 	ItemData* LoadItem(int idx);
 	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();
-	int       PaintItem(HDC hdc, int index, int top, int width);
+	int       PaintItem(HDC hdc, ItemData* pItem, int top, int width, bool bDraw);
 	void      Quote();
 	void      RecalcScrollBar();
 	void      Reply();
@@ -83,6 +86,7 @@ struct NewstoryListData : public MZeroedObject
 	void      SetSelection(int iFirst, int iLast);
 	void      ToggleBookmark();
 	void      ToggleSelection(int iFirst, int iLast);
+	void      TryUp(int iCount);
 };
 
 void InitNewstoryControl();

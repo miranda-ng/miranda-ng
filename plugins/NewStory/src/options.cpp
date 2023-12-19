@@ -42,29 +42,36 @@ protected:
 class CGeneralOptsDlg : public CBaseOptsDlg
 {
 	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder, chkHppCompat;
+	CCtrlCheck chkShowType, chkShowDirection;
 
 public:
 	CGeneralOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_ADVANCED),
 		chkVScroll(this, IDC_VSCROLL),
+		chkShowType(this, IDC_SHOW_TYPE),
 		chkDrawEdge(this, IDC_DRAWEDGE),
 		chkGrouping(this, IDC_GROUPING),
 		chkHppCompat(this, IDC_HPP_COMPAT),
-		chkSortOrder(this, IDC_SORT_ASCENDING)
+		chkSortOrder(this, IDC_SORT_ASCENDING),
+		chkShowDirection(this, IDC_SHOW_DIRECTION)
 	{
 		CreateLink(chkVScroll, g_plugin.bOptVScroll);
+		CreateLink(chkShowType, g_bShowType);
 		CreateLink(chkGrouping, g_bOptGrouping);
 		CreateLink(chkDrawEdge, g_bOptDrawEdge);
 		CreateLink(chkHppCompat, g_bOptHppCompat);
+		CreateLink(chkShowDirection, g_bShowDirection);
 
 		CreateLink(chkSortOrder, g_plugin.bSortAscending);
 	}
 
 	bool OnApply() override
 	{
+		g_plugin.bShowType = g_bShowType;
 		g_plugin.bDrawEdge = g_bOptDrawEdge;
 		g_plugin.bMsgGrouping = g_bOptGrouping;
 		g_plugin.bHppCompat = g_bOptHppCompat;
+		g_plugin.bShowDirecction = g_bShowDirection;
 		return true;
 	}
 };
@@ -220,14 +227,12 @@ public:
 	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
-		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 			L"%%", TranslateT("simply % character"),
 			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
 			L"%S", TranslateT("my nickname"),
 			L"%N", TranslateT("buddy\'s nickname"),
 			L"%c", TranslateT("event count"),
-			L"%I", TranslateT("icon"),
-			L"%i", TranslateT("direction icon"),
 			L"%D", TranslateT("direction symbol"),
 			L"%t", TranslateT("timestamp"),
 			L"%h", TranslateT("hour (24 hour format, 0-23)"),

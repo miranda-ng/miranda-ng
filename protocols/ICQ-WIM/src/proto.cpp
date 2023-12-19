@@ -156,7 +156,7 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-void CIcqProto::OnContactDeleted(MCONTACT hContact)
+bool CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
 	CMStringW szId(GetUserId(hContact));
 	if (!isChatRoom(hContact)) {
@@ -166,6 +166,7 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+	return true;
 }
 
 void CIcqProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft)

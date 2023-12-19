@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "FormattedTextDraw.h"
+#include "ImageDataObjectHlp.h"
 
 const IID IID_ITextServices = { // 8d33f740-cf58-11ce-a89d-00aa006cadc5
 	0x8d33f740,
@@ -54,6 +55,8 @@ CFormattedTextDraw::CFormattedTextDraw()
 
 CFormattedTextDraw::~CFormattedTextDraw()
 {
+	if (m_hwndParent)
+		CleanupEmfCache(m_hwndParent);
 	if (m_spTextServices != nullptr)
 		m_spTextServices->Release();
 	if (m_spTextDocument != nullptr)
@@ -293,8 +296,11 @@ BOOL CFormattedTextDraw::TxSetScrollPos(INT, INT, BOOL)
 	return FALSE;
 }
 
-void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL)
-{}
+void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL bRedraw)
+{
+	if (m_hwndParent)
+		::InvalidateRect(m_hwndParent, NULL, bRedraw);
+}
 
 void CFormattedTextDraw::TxViewChange(BOOL)
 {}

@@ -221,6 +221,8 @@
 Удалить
 [Select all]
 Выделить всё
+[Reply]
+Ответ
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Основной значок

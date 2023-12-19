@@ -98,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, bLoadMembers, bStartChat;
+	bool      isGroupChat, isBot, bLoadMembers, bStartChat;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -227,6 +227,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
 	void OnKillSession(td::ClientManager::Response &response, void *pUserInfo);
+	void OnLeaveChat(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
@@ -366,7 +367,7 @@ public:
 		
 	void     OnBuildProtoMenu() override;
 	void     OnContactAdded(MCONTACT hContact) override;
-	void     OnContactDeleted(MCONTACT hContact) override;
+	bool     OnContactDeleted(MCONTACT hContact) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;
 	void     OnEventDeleted(MCONTACT, MEVENT) override;

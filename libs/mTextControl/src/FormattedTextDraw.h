@@ -48,6 +48,7 @@ public:
 
 	__forceinline bool isNative() const { return m_bNative; }
 	__forceinline void setParentWnd(HWND hwnd, RECT rect) { m_hwndParent = hwnd; m_rcClient = rect; }
+	__forceinline HWND getParentWnd() { return m_hwndParent; }
 
 	// IUnknown
 	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void __RPC_FAR *__RPC_FAR *ppvObject) override

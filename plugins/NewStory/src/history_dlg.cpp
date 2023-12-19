@@ -360,7 +360,10 @@ class CHistoryDlg : public CDlgBase
 		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
 		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
 		for (int i = 0; i < numItems; i++) {
-			auto *pItem = pArray.get(i, true);
+			auto *pItem = pArray.get(i, false);
+			if (!pItem->fetch())
+				continue;
+
 			if (pItem->dbe.timestamp == 0)
 				continue;
 

@@ -1197,35 +1197,32 @@ void GaduProto::broadcastnewstatus(int newStatus)
 ////////////////////////////////////////////////////////////
 // When contact is deleted
 
-void GaduProto::OnContactDeleted(MCONTACT hContact)
+bool GaduProto::OnContactDeleted(MCONTACT hContact)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN);
 
 	// Terminate conference if contact is deleted
-	if (isChatRoom(hContact) && uin && gc_enabled)
-	{
+	if (isChatRoom(hContact) && uin && gc_enabled) {
 		CMStringW wszRoomId(FORMAT, L"%d", uin);
 		GGGC *chat = gc_lookup(wszRoomId);
 		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId.c_str());
-		if (chat)
-		{
+		if (chat) {
 			// Destroy chat entry
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
+
 			// Terminate chat window / shouldn't cascade entry is deleted
 			Chat_Control(chat->si, SESSION_OFFLINE);
 			Chat_Terminate(chat->si);
 			chat->si = nullptr;
 		}
-		return;
 	}
-
-	if (uin && isonline())
-	{
+	else if (uin && isonline()) {
 		gg_EnterCriticalSection(&sess_mutex, "contactdeleted", 25, "sess_mutex", 1);
 		gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
 		gg_LeaveCriticalSection(&sess_mutex, "contactdeleted", 25, 1, "sess_mutex", 1);
 	}
+	return true;
 }
 
 ////////////////////////////////////////////////////////////

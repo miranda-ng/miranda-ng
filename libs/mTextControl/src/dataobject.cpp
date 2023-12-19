@@ -11,57 +11,14 @@
 //#define STRICT
 
 #include "stdafx.h"
+#include "dataobject.h"
 
 const ULONG MAX_FORMATS = 100;
 
 HRESULT CreateEnumFormatEtc(UINT nNumFormats, FORMATETC *pFormatEtc, IEnumFORMATETC **ppEnumFormatEtc);
 
-class CDataObject : public IDataObject
-{
-public:
-	//
-	// IUnknown members
-	//
-	HRESULT __stdcall QueryInterface(REFIID iid, void ** ppvObject);
-	ULONG   __stdcall AddRef(void);
-	ULONG   __stdcall Release(void);
-
-	//
-	// IDataObject members
-	//
-	HRESULT __stdcall GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium);
-	HRESULT __stdcall GetDataHere(FORMATETC *pFormatEtc, STGMEDIUM *pMedium);
-	HRESULT __stdcall QueryGetData(FORMATETC *pFormatEtc);
-	HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC *pFormatEct, FORMATETC *pFormatEtcOut);
-	HRESULT __stdcall SetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium, BOOL fRelease);
-	HRESULT __stdcall EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC **ppEnumFormatEtc);
-	HRESULT __stdcall DAdvise(FORMATETC *pFormatEtc, DWORD advf, IAdviseSink *pAdvSink, DWORD *pdwConnection);
-	HRESULT __stdcall DUnadvise(DWORD dwConnection);
-	HRESULT __stdcall EnumDAdvise(IEnumSTATDATA **ppEnumAdvise);
-
-	//
-	// Constructor / Destructor
-	//
-	CDataObject(const FORMATETC *fmt, const STGMEDIUM *stgmed, int count);
-	~CDataObject();
-
-private:
-
-	int LookupFormatEtc(FORMATETC *pFormatEtc);
-
-	//
-	// any private members and functions
-	//
-	LONG	   m_lRefCount;
-
-	FORMATETC *m_pFormatEtc;
-	STGMEDIUM *m_pStgMedium;
-	LONG	   m_nNumFormats;
-
-};
-
 //
-//	Constructor
+//	Constructors
 //
 CDataObject::CDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmed, int count)
 {
@@ -77,18 +34,40 @@ CDataObject::CDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmed, int c
 	}
 }
 
+CDataObject::CDataObject()
+{
+	m_lRefCount = 1;
+	m_nNumFormats = 0;
+
+	m_pFormatEtc = nullptr;
+	m_pStgMedium = nullptr;
+}
+
 //
 //	Destructor
 //
 CDataObject::~CDataObject()
 {
-	// cleanup
-	for (int i = 0; i < m_nNumFormats; i++) {
-		//		ReleaseStgMedium(&m_pStgMedium[i]);
-	}
+	if (m_pFormatEtc) delete[] m_pFormatEtc;
+	if (m_pStgMedium) delete[] m_pStgMedium;
+}
+
+// for use in child's
+void CDataObject::UpdateData(const FORMATETC *fmtetc, const STGMEDIUM *stgmed, int count)
+{
+	m_lRefCount = 1;
+	m_nNumFormats = count;
 
 	if (m_pFormatEtc) delete[] m_pFormatEtc;
 	if (m_pStgMedium) delete[] m_pStgMedium;
+
+	m_pFormatEtc = new FORMATETC[count];
+	m_pStgMedium = new STGMEDIUM[count];
+
+	for (int i = 0; i < count; i++) {
+		m_pFormatEtc[i] = fmtetc[i];
+		m_pStgMedium[i] = stgmed[i];
+	}
 }
 
 //
@@ -135,7 +114,7 @@ HRESULT __stdcall CDataObject::QueryInterface(REFIID iid, void **ppvObject)
 int CDataObject::LookupFormatEtc(FORMATETC *pFormatEtc)
 {
 	for (int i = 0; i < m_nNumFormats; i++) {
-		if ((pFormatEtc->tymed    &  m_pFormatEtc[i].tymed) &&
+		if ((pFormatEtc->tymed & m_pFormatEtc[i].tymed) &&
 			pFormatEtc->cfFormat == m_pFormatEtc[i].cfFormat &&
 			pFormatEtc->dwAspect == m_pFormatEtc[i].dwAspect) {
 			return i;
@@ -155,9 +134,8 @@ HRESULT __stdcall CDataObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium
 	//
 	// try to match the requested FORMATETC with one of our supported formats
 	//
-	if ((idx = LookupFormatEtc(pFormatEtc)) == -1) {
+	if ((idx = LookupFormatEtc(pFormatEtc)) == -1)
 		return DV_E_FORMATETC;
-	}
 
 	//
 	// found a match! transfer the data into the supplied storage-medium
@@ -169,7 +147,6 @@ HRESULT __stdcall CDataObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium
 	case TYMED_HGLOBAL:
 	case TYMED_GDI:
 	case TYMED_ENHMF:
-		//			pMedium->hBitmap = (HBITMAP)OleDuplicateData(m_pStgMedium[idx].hBitmap, pFormatEtc->cfFormat, 0);
 		pMedium->hBitmap = m_pStgMedium[idx].hBitmap;
 		break;
 
@@ -273,4 +250,44 @@ HRESULT CreateDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmeds, UINT
 	*ppDataObject = new CDataObject(fmtetc, stgmeds, count);
 
 	return (*ppDataObject) ? S_OK : E_OUTOFMEMORY;
+}
+
+
+// CEMFObject
+
+// Constructor
+CEMFObject::CEMFObject(HENHMETAFILE hEmf)
+{
+	static const FORMATETC lc_format[] =
+	{
+		{ CF_ENHMETAFILE, nullptr, DVASPECT_CONTENT, -1, TYMED_ENHMF }
+	};
+
+	STGMEDIUM lc_stgmed[] =
+	{
+		{ TYMED_ENHMF, { (HBITMAP)hEmf }, nullptr }
+	};
+
+	UpdateData(lc_format, lc_stgmed, 1);
+
+	m_hEmf = hEmf;
+}
+
+// Destructor
+CEMFObject::~CEMFObject()
+{
+	DeleteEnhMetaFile(m_hEmf);
+}
+
+// GetData
+HRESULT __stdcall CEMFObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium)
+{
+	HRESULT hr;
+	hr = CDataObject::GetData(pFormatEtc, pMedium);
+	if (hr == S_OK) {
+		// we are responsible for releasing EMF object, not OLE client, so set pointer to IUnknown to us and Add a new reference
+		pMedium->pUnkForRelease = this;
+		AddRef();
+	}
+	return hr;
 }

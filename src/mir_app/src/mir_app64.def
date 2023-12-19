@@ -115,6 +115,7 @@ ProtoGetAvatarFileFormat @120
 ProtoGetAvatarFormat @121
 ProtoGetBufferFormat @122
 ProtoHookEvent @123
+GetFileReceivedFolder @124
 Proto_IsProtocolLoaded @128
 GetPluginLangId @129
 Proto_GetAccount @130
@@ -496,7 +497,7 @@ Proto_GetStatus @601
 ?OnModulesLoaded@PROTO_INTERFACE@@UEAAXXZ @607 NONAME
 ?OnShutdown@PROTO_INTERFACE@@UEAAXXZ @608 NONAME
 ?GetStatus@Contact@@YAHI@Z @609 NONAME
-?OnContactDeleted@PROTO_INTERFACE@@UEAAXI@Z @610 NONAME
+?OnContactDeleted@PROTO_INTERFACE@@UEAA_NI@Z @610 NONAME
 ?OnBuildProtoMenu@PROTO_INTERFACE@@UEAAXXZ @611 NONAME
 ?OnErase@PROTO_INTERFACE@@UEAAXXZ @612 NONAME
 ?getMStringA@CMPluginBase@@QEAA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPEBD0@Z @613 NONAME
@@ -916,3 +917,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IEAAXPEAVCCtrlButton@@@Z @1034 NONAME
 ?fetch@EventInfo@DB@@QEAA_NI_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QEAAXXZ @1036 NONAME
+?isAlertable@EventInfo@DB@@QEBA_NXZ @1037 NONAME
+?Send@File@@YAPEAUHWND__@@IQEAPEA_W@Z @1038 NONAME
+?GetReceivedFolder@File@@YAPEA_WIPEA_W_K_N@Z @1039 NONAME
+?DlgProc@CUserInfoPageDlg@@UEAA_JI_K_J@Z @1040 NONAME

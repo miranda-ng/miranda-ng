@@ -878,8 +878,6 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 	else hDst = NULL;
 
 	bool bSkipAll = false;
-	int cbAlloc = 4096;
-	uint8_t *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
 	int i = 0;
@@ -888,16 +886,12 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 		i++;
 
 		// Copy the event and import it
-		DBEVENTINFO dbei = {};
+		DB::EventInfo dbei;
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
-		if (dbei.cbBlob > cbAlloc) {
-			cbAlloc = dbei.cbBlob + 4096 - dbei.cbBlob % 4096;
-			eventBuf = (uint8_t*)mir_realloc(eventBuf, cbAlloc);
-		}
-		dbei.pBlob = eventBuf;
+		dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob+1);
 
 		bool bSkipThis = false;
-		if (!srcDb->GetEvent(hEvent, &dbei)) {
+ 		if (!srcDb->GetEvent(hEvent, &dbei)) {
 			if (dbei.szModule == nullptr)
 				dbei.szModule = szProto;
 
@@ -982,7 +976,6 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 		if (bSkipAll)
 			break;
 	}
-	mir_free(eventBuf);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+int g_iPixelY;
+
 wchar_t *weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
 
 wchar_t *months[12] =
@@ -106,11 +108,7 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
-	HDC hdc = GetDC(nullptr);
-	int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	ReleaseDC(nullptr, hdc);
-
-	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", 2 * abs(F.lf.lfHeight) * 74 / logPixelSY);
+	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
 	AppendUnicodeToBuffer(buf, (pwszStr) ? pwszStr : formatString());
 
 	buf.Append("}");
@@ -237,7 +235,6 @@ void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *)
 
 void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 {
-	HICON hIcon;
 	wchar_t buf[100];
 
 	//  %N: Nickname
@@ -253,38 +250,6 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
 		vars->SetNick(nick);
 	}
-
-	//  %I: Icon
-	switch (item->dbe.eventType) {
-	case EVENTTYPE_MESSAGE:
-		hIcon = g_plugin.getIcon(IDI_SENDMSG);
-		break;
-	case EVENTTYPE_FILE:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		break;
-	case EVENTTYPE_STATUSCHANGE:
-		hIcon = g_plugin.getIcon(IDI_SIGNIN);
-		break;
-	default:
-		hIcon = g_plugin.getIcon(IDI_UNKNOWN);
-		break;
-	}
-	mir_snwprintf(buf, L"[$hicon=%p$]", hIcon);
-	vars->SetVar('I', buf, true);
-
-	if (item->dbe.flags & DBEF_BOOKMARK) {
-		mir_snwprintf(buf, L"[$hicon=%p$]", g_plugin.getIcon(IDI_BOOKMARK));
-		vars->SetVar('B', buf, true);
-	}
-
-	//  %i: Direction icon
-	if (item->dbe.flags & DBEF_SENT)
-		hIcon = g_plugin.getIcon(IDI_MSGOUT);
-	else
-		hIcon = g_plugin.getIcon(IDI_MSGIN);
-
-	mir_snwprintf(buf, L"[$hicon=%p$]", hIcon);
-	vars->SetVar('i', buf, true);
 
 	// %D: direction symbol
 	if (item->dbe.flags & DBEF_SENT)
@@ -349,11 +314,6 @@ void vfMessage(TemplateVars *vars, MCONTACT, ItemData *item)
 }
 
 void vfFile(TemplateVars *vars, MCONTACT, ItemData *item)
-{
-	vars->SetVar('M', item->getWBuf(), false);
-}
-
-void vfUrl(TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	vars->SetVar('M', item->getWBuf(), false);
 }
@@ -426,35 +386,35 @@ TemplateInfo templates[TPL_COUNT] =
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
 	{ "tpl/msglog/msg", LPGENW("Message log"), IDI_SENDMSG, LPGENW("Messages"),
-		L"%I%i%B[b]%N, %t:[/b]\r\n%M", 0, 0,
+		L"[b]%N, %t:[/b]\r\n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/msglog/msg_head", LPGENW("Message log"), IDI_SENDMSG, LPGENW("Group head"),
-		L"%I%i%B[b]%N, %t:[/b] %M", 0, 0,
+		L"[b]%N, %t:[/b] %M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/msglog/msg_grp", LPGENW("Message log"), IDI_SENDMSG, LPGENW("Grouped messages"),
-		L"%I%i%B[b]%h:%m:%s:[/b] %M", 0, 0,
+		L"[b]%h:%m:%s:[/b] %M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/msglog/file", LPGENW("Message log"), -SKINICON_EVENT_FILE, LPGENW("Files"),
-		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
+		L"[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
 	{ "tpl/msglog/status", LPGENW("Message log"), IDI_SIGNIN, LPGENW("Status changes"),
-		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
+		L"[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
 	{ "tpl/msglog/presense", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Presence requests"),
-		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
+		L"%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
 	{ "tpl/msglog/other", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Other events"),
-		L"%I%i%B[b]%N, %t:[/b]%n%M", 0, 0,
+		L"%B[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
 
 	{ "tpl/msglog/authrq", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("Authorization requests"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+		L"[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAuth, 0 } },
 	{ "tpl/msglog/added", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("'You were added' events"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+		L"[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAdded, 0 } },
 	{ "tpl/msglog/deleted", LPGENW("Message log"), IDI_UNKNOWN, LPGENW("'You were deleted' events"),
-		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+		L"[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfDeleted, 0 } },
 
 	{ "tpl/copy/msg", LPGENW("Clipboard"), IDI_SENDMSG, LPGENW("Messages"),
@@ -463,9 +423,6 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/copy/file", LPGENW("Clipboard"), -SKINICON_EVENT_FILE, LPGENW("Files"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/copy/url", LPGENW("Clipboard"), -SKINICON_EVENT_URL, LPGENW("URLs"),
-		L"%N, %t:\x0d\x0a%M%n", 0, 0,
-		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
 	{ "tpl/copy/status", LPGENW("Clipboard"), IDI_SIGNIN, LPGENW("Status changes"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
@@ -489,6 +446,10 @@ TemplateInfo templates[TPL_COUNT] =
 
 void LoadTemplates()
 {
+	HDC hdc = GetDC(nullptr);
+	g_iPixelY = GetDeviceCaps(hdc, LOGPIXELSY);
+	ReleaseDC(nullptr, hdc);	
+
 	for (auto &it : templates)
 		replaceStrW(it.value, g_plugin.getWStringA(it.setting));
 }

@@ -373,7 +373,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact == 0 || Contact::IsGroupChat(hContact))
 		return 0;
 
-	DB::EventInfo dbei(hDbEvent, false);
+	DB::EventInfo dbei(hDbEvent);
 
 	auto *pDlg = Srmm_FindDialog(hContact);
 	if (pDlg == nullptr)
@@ -427,8 +427,12 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		switch (dbei.eventType) {
 		case EVENTTYPE_AUTHREQUEST:
 		case EVENTTYPE_ADDED:
-		case EVENTTYPE_FILE:
 			return 0;
+
+		case EVENTTYPE_FILE:
+			DB::FILE_BLOB blob(dbei);
+			if (!blob.isOffline())
+				return 0;
 		}
 	}
 

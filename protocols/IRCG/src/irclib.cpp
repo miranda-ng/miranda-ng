@@ -231,7 +231,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo &info)
 
 	NLSend(L"NICK %s\r\n", info.sNick.c_str());
 
-	CMStringW userID = GetWord(info.sUserID.c_str(), 0);
+	CMStringW userID = GetWord(info.sUserID, 0);
 	wchar_t szHostName[MAX_PATH];
 	DWORD cbHostName = _countof(szHostName);
 	GetComputerName(szHostName, &cbHostName);
@@ -613,7 +613,7 @@ void CIrcSessionInfo::Reset()
 void CIrcProto::OnIrcMessage(const CIrcMessage *pmsg)
 {
 	if (pmsg != nullptr) {
-		PfnIrcMessageHandler pfn = FindMethod(pmsg->sCommand.c_str());
+		PfnIrcMessageHandler pfn = FindMethod(pmsg->sCommand);
 		if (pfn) {
 			// call member function. if it returns 'false',
 			// call the default handling
@@ -910,7 +910,7 @@ int CDccSession::SetupConnection()
 
 			hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
 			if (hBindPort == nullptr) {
-				m_proto->DoEvent(GC_EVENT_INFORMATION, nullptr, m_proto->m_info.sNick.c_str(), LPGENW("DCC ERROR: Unable to bind local port for passive file transfer"), nullptr, nullptr, NULL, true, false);
+				m_proto->DoEvent(GC_EVENT_INFORMATION, nullptr, m_proto->m_info.sNick, LPGENW("DCC ERROR: Unable to bind local port for passive file transfer"), nullptr, nullptr, NULL, true, false);
 				delete this; // dcc objects destroy themselves when the connection has been closed or failed for some reasson.
 				return 0;
 			}
@@ -1021,7 +1021,7 @@ void CDccSession::DoSendFile()
 	// is there a connection?
 	if (con) {
 		// open the file for reading
-		int hFile = _wopen(di->sFileAndPath.c_str(), _O_RDONLY | _O_BINARY, _S_IREAD);
+		int hFile = _wopen(di->sFileAndPath, _O_RDONLY | _O_BINARY, _S_IREAD);
 		if (hFile >= 0) {
 			unsigned __int64 dwLastAck = 0;
 
@@ -1161,7 +1161,7 @@ void CDccSession::DoReceiveFile()
 	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, di);
 
 	// open the file for writing (and reading in case it is a resume)
-	int hFile = _wopen(di->sFileAndPath.c_str(),
+	int hFile = _wopen(di->sFileAndPath,
 		(dwWhatNeedsDoing == FILERESUME_RESUME ? _O_APPEND : _O_TRUNC | _O_CREAT) | _O_RDWR | _O_BINARY,
 		_S_IREAD | _S_IWRITE);
 	if (hFile >= 0) {

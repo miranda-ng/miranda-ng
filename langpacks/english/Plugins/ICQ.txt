@@ -35,6 +35,8 @@
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [admin]
 [member]
+[About]
+[Rules]
 [&Invite a user]
 [&Leave/destroy chat]
 ;file \protocols\ICQ-WIM\src\groups.cpp
@@ -58,7 +60,6 @@
 [%s error notifications]
 [Synchronize server groups]
 [Edit my web profile]
-[long time ago]
 [UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
 [SmileyAdd plugin required to support stickers]
@@ -70,3 +71,4 @@
 [User sent a sticker:]
 [Buddy addition failed]
 ;file \protocols\ICQ-WIM\src\utils.cpp
+[long time ago]

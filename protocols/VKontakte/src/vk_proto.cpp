@@ -415,9 +415,10 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CVkProto::OnPrebuildNSMenu(WPARAM, LPARAM)
+int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 {
-	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], true);
+	auto &dbei = *(DB::EventInfo *)lParam;
+	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], hContact != 0 && dbei);
 	return 0;
 }
 
@@ -431,6 +432,9 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 	case NSMI_FORWARD: 
 		{
 			std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
+			if (vIds.empty())
+				break;
+
 			wchar_t wszMsg[2048] = L"";
 			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
 				GetWindowText(pDlg->GetInput(), wszMsg, 2048);
@@ -745,17 +749,17 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-void CVkProto::OnContactDeleted(MCONTACT hContact)
+bool CVkProto::OnContactDeleted(MCONTACT hContact)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());
 
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
-		return;
+		return true;
 
 	VKUserID_t iUserId = ReadVKUserID(hContact);
 	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return;
+		return true;
 
 	CONTACTDELETE_FORM_PARAMS *param = new CONTACTDELETE_FORM_PARAMS(pwszNick, true, !getBool(hContact, "Auth", true), true);
 	CVkContactDeleteForm dlg(this, param);
@@ -763,7 +767,7 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 
 	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick.get(), param->bDeleteDialog,  param->bDeleteFromFriendlist);
 	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
-		return;
+		return true;
 
 	CMStringA code(FORMAT, "var userID=\"%d\";", iUserId);
 
@@ -777,4 +781,5 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
 		<< CHAR_PARAM("code", code.c_str()));
+	return true;
 }

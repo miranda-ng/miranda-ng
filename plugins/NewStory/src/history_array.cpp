@@ -120,6 +120,35 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+ItemData* ItemData::checkNext(ItemData *pPrev)
+{
+	m_grouping = GROUPING_NONE;
+	if (!pPrev || !g_plugin.bMsgGrouping)
+		return this;
+
+	// we don't group anything but messages
+	if (!fetch())
+		return this;
+
+	if (dbe.eventType != EVENTTYPE_MESSAGE)
+		return this;
+
+	pPrev->fetch();
+	if (isEqual(this, pPrev)) {
+		if (pPrev->m_grouping == GROUPING_NONE) {
+			pPrev->m_grouping = GROUPING_HEAD;
+			if (pPrev->m_bLoaded)
+				pPrev->setText();
+		}
+		m_grouping = GROUPING_ITEM;
+		if (m_bLoaded)
+			setText();
+	}
+	return this;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 {
 	if (p1->dbe.eventType != p2->dbe.eventType)
@@ -161,27 +190,27 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		setText();
+		setTextAndHwnd(hwnd);
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
 }
 
-bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
+bool ItemData::isLink(HWND hwnd, POINT pt, CMStringW *pwszUrl) const
 {
 	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
 	if (cp == -1)
 		return false;
 
-	if (!isLinkChar(cp))
+	if (!isLinkChar(hwnd, cp))
 		return false;
 
 	if (pwszUrl) {
 		CHARRANGE sel = { cp, cp };
-		while (isLinkChar(sel.cpMin-1))
+		while (isLinkChar(hwnd, sel.cpMin-1))
 			sel.cpMin--;
 
-		while (isLinkChar(sel.cpMax))
+		while (isLinkChar(hwnd, sel.cpMax))
 			sel.cpMax++;
 
 		if (sel.cpMax > sel.cpMin) {
@@ -200,18 +229,18 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 	return true;
 }
 
-bool ItemData::isLinkChar(int idx) const
+bool ItemData::isLinkChar(HWND hwnd, int idx) const
 {
 	if (idx < 0)
 		return false;
 
 	CHARRANGE sel = { idx, idx + 1 };
-	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&sel));
+	MTextSendMessage(hwnd, data, EM_EXSETSEL, 0, LPARAM(&sel));
 
 	CHARFORMAT2 cf = {};
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_LINK;
-	uint32_t res = MTextSendMessage(0, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
+	uint32_t res = MTextSendMessage(hwnd, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
 }
 
@@ -219,7 +248,7 @@ bool ItemData::fetch(void)
 {
 	// if this event is virtual (for example, in group chats), don't try to laod it
 	if (!hEvent)
-		return true;
+		return false;
 
 	if (!dbe) {
 		if (!dbe.fetch(hEvent))
@@ -377,16 +406,13 @@ void ItemData::load(bool bFullLoad)
 				if (uint32_t size = blob.getSize())
 					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
-				if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
-					buf.AppendFormat(L" [$hicon=%p$]", g_plugin.getIcon(IDI_OK));
-
 				wtext = buf.Detach();
 				markRead();
 				break;
 			}
 
 			wchar_t buf[MAX_PATH];
-			CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
+			File::GetReceivedFolder(hContact, buf, _countof(buf));
 
 			CMStringW wszFileName = buf;
 			wszFileName.Append(blob.getName());
@@ -450,6 +476,12 @@ void ItemData::markRead()
 void ItemData::setText()
 {
 	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
+	savedHeight = -1;
+}
+
+void ItemData::setTextAndHwnd(HWND hwnd)
+{
+	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
 	savedHeight = -1;
 }
 
@@ -633,6 +665,23 @@ int HistoryArray::find(int id, int dir, const Filter &filter)
 			return i;
 
 	return -1;
+}
+
+ItemData* HistoryArray::insert(int pos)
+{
+	int count = getCount();
+	ItemData *pNew = &allocateItem();
+	ItemData *pPrev = get(count-1, false);
+	
+	for (int i = count; i >= pos; i--) {
+		memcpy(pNew, pPrev, sizeof(ItemData));
+		pNew = pPrev;
+		pPrev = get(i - 1, false);
+	}
+
+	ItemData tmp;
+	memcpy(pNew, &tmp, sizeof(tmp));
+	return pNew;
 }
 
 void HistoryArray::remove(int id)

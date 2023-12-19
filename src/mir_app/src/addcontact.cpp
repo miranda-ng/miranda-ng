@@ -251,10 +251,7 @@ MIR_APP_DLL(void) Contact::AddBySearch(const char *szProto, struct PROTOSEARCHRE
 		}
 	};
 
-	if (hwndParent != nullptr) {
-		CAddBySearch dlg(szProto, psr);
-		dlg.SetParent(hwndParent);
-		dlg.DoModal();
-	}
-	else (new CAddBySearch(szProto, psr))->Show();
+	CAddBySearch dlg(szProto, psr);
+	dlg.SetParent(hwndParent);
+	dlg.DoModal();
 }

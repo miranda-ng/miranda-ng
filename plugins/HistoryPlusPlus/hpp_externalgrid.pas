@@ -1333,7 +1333,7 @@ var
 begin
   if Grid.Selected = -1 then
     exit;
-  CallService(MS_FILE_GETRECEIVEDFILESFOLDER, Items[Grid.Selected].hContact,LParam(@Path));
+  GetFileReceivedFolder(Items[Grid.Selected].hContact, @Path);
   ShellExecuteW(0, 'open', Path, nil, nil, SW_SHOW);
 end;
 

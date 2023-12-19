@@ -244,20 +244,27 @@ void CTelegramProto::Chat_LogMenu(GCHOOK *gch)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnLeaveChat(td::ClientManager::Response &, void *pUserInfo)
+{
+	auto *pUser = (TG_USER *)pUserInfo;
+
+	wchar_t wszId[100];
+	_i64tow(pUser->id, wszId, 10);
+	if (auto *si = Chat_Find(wszId, m_szModuleName))
+		Chat_Terminate(si);
+
+	db_delete_contact(pUser->hContact);
+}
+
 INT_PTR CTelegramProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 {
 	int64_t id = GetId(hContact);
 	if (auto *pUser = FindUser(id)) {
 		pUser->m_si = nullptr;
-		SendQuery(new TD::leaveChat(pUser->chatId));
+		SendQuery(new TD::leaveChat(pUser->chatId), &CTelegramProto::OnLeaveChat, pUser);
 	}
-
-	wchar_t wszId[100];
-	_i64tow(id, wszId, 10);
-	if (auto *si = Chat_Find(wszId, m_szModuleName))
-		Chat_Terminate(si);
-
-	db_delete_contact(hContact);
 	return 0;
 }
 
@@ -437,6 +444,9 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	}
 	else {
 		auto *pChat = AddUser(tmp.id, true);
+		if (!pGroup->group->is_channel_)
+			pChat->bLoadMembers = true;
+
 		if (pChat->bStartChat)
 			InitGroupChat(pChat, pChat->wszNick);
 

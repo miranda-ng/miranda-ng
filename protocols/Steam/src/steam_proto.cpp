@@ -332,7 +332,7 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-void CSteamProto::OnContactDeleted(MCONTACT hContact)
+bool CSteamProto::OnContactDeleted(MCONTACT hContact)
 {
 	// remove only authorized contacts
 	if (!getByte(hContact, "Auth", 0)) {
@@ -342,4 +342,5 @@ void CSteamProto::OnContactDeleted(MCONTACT hContact)
 		char *who = getStringA(hContact, DBKEY_STEAM_ID);
 		SendRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
+	return true;
 }

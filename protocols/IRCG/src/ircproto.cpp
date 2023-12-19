@@ -350,7 +350,7 @@ int CIrcProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilenam
 			unsigned __int64 dwPos = 0;
 
 			struct _stati64 statbuf;
-			if (_wstat64(di->sFileAndPath.c_str(), &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
+			if (_wstat64(di->sFileAndPath, &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 				dwPos = statbuf.st_size;
 
 			CMStringW sFileWithQuotes = di->sFile;
@@ -427,8 +427,7 @@ void __cdecl CIrcProto::AckBasicSearch(void *arg)
 HANDLE CIrcProto::SearchBasic(const wchar_t* szId)
 {
 	if (szId) {
-		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
-			szId && szId[0] && !IsChannel(szId)) {
+		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
 			mir_wstrncpy(param->buf, szId, 50);
 			ForkThread(&CIrcProto::AckBasicSearch, param);
@@ -461,7 +460,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 		ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 	if (!m_DCCPassive && !ulAdr) {
-		DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("DCC ERROR: Unable to automatically resolve external IP"), nullptr, nullptr, NULL, true, false);
+		DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick, TranslateT("DCC ERROR: Unable to automatically resolve external IP"), nullptr, nullptr, NULL, true, false);
 		return nullptr;
 	}
 
@@ -478,7 +477,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 		}
 
 		if (size == 0) {
-			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("DCC ERROR: No valid files specified"), nullptr, nullptr, NULL, true, false);
+			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick, TranslateT("DCC ERROR: No valid files specified"), nullptr, nullptr, NULL, true, false);
 			return nullptr;
 		}
 
@@ -528,7 +527,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 				mir_snwprintf(szTemp,
 					TranslateT("DCC reversed file transfer request sent to %s [%s]"),
 					dci->sContactName.c_str(), sFileCorrect.c_str());
-				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick, szTemp, nullptr, nullptr, NULL, true, false);
 
 				if (m_sendNotice) {
 					mir_snwprintf(szTemp,
@@ -547,7 +546,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 					mir_snwprintf(szTemp,
 						TranslateT("DCC file transfer request sent to %s [%s]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str());
-					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick, szTemp, nullptr, nullptr, NULL, true, false);
 
 					if (m_sendNotice) {
 						mir_snwprintf(szTemp,
@@ -672,7 +671,7 @@ HANDLE CIrcProto::GetAwayMsg(MCONTACT hContact)
 			CMStringW S = L"WHOIS ";
 			S += dbv.pwszVal;
 			if (IsConnected())
-				SendIrcMessage(S.c_str(), false);
+				SendIrcMessage(S, false);
 			db_free(&dbv);
 		}
 	}

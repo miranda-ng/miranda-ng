@@ -77,11 +77,10 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 
 	auto it = InterceptedContacts.find(hContact);
 	if (it == InterceptedContacts.end()) {
-		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
+		HWND hwnd = File::Send(hContact);
 		InterceptedContacts[hContact] = hwnd;
 	}
-	else
-		SetActiveWindow(it->second);
+	else SetActiveWindow(it->second);
 }
 
 MWindow CCloudService::OnCreateAccMgrUI(MWindow hwndParent)

@@ -93,10 +93,12 @@ static bool bbCodeImageFunc(CFormattedTextDraw *ftd, CHARRANGE range, wchar_t *t
 	if (!swscanf(txt, L"%p", &hIcon))
 		return false;
 
-	bool res = InsertBitmap(RichEditOle, CacheIconToEmf(hIcon));
+	bool res = InsertBitmap(ftd->getParentWnd(), RichEditOle, hIcon);
+	if (!res)
+		ts->TxSendMessage(EM_REPLACESEL, 0, (LPARAM)L"!E!", &lResult);
+
 	td->Unfreeze(&cnt);
-	RichEditOle->Release();
-	return res;
+	return true;
 }
 
 static BBCodeInfo bbCodes[] =

@@ -81,7 +81,7 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 	if (newWidth != cachedWindowWidth) {
 		cachedWindowWidth = newWidth;
 		for (int i = 0; i < totalCount; i++)
-			LoadItem(i)->savedHeight = -1;
+			GetItem(i)->savedHeight = -1;
 		bDraw = true;
 	}
 
@@ -244,6 +244,15 @@ void NewstoryListData::BeginEditItem()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void NewstoryListData::CalcBottom()
+{
+	int maxTopItem = totalCount, tmp = 0;
+	while (maxTopItem > 0 && tmp < cachedWindowHeight)
+		tmp += GetItemHeight(--maxTopItem);
+	cachedMaxTopItem = maxTopItem;
+	cachedMaxTopPixel = (cachedWindowHeight < tmp) ? cachedWindowHeight - tmp : 0;
+}
 
 void NewstoryListData::Clear()
 {
@@ -415,13 +424,8 @@ void NewstoryListData::FixScrollPosition(bool bForce)
 {
 	EndEditItem(false);
 
-	if (bForce || cachedMaxTopItem != scrollTopItem) {
-		int maxTopItem = totalCount, tmp = 0;
-		while (maxTopItem > 0 && tmp < cachedWindowHeight)
-			tmp += GetItemHeight(--maxTopItem);
-		cachedMaxTopItem = maxTopItem;
-		cachedMaxTopPixel = (cachedWindowHeight < tmp) ? cachedWindowHeight - tmp : 0;
-	}
+	if (bForce || cachedMaxTopItem != scrollTopItem)
+		CalcBottom();
 
 	if (scrollTopItem < 0)
 		scrollTopItem = 0;
@@ -485,29 +489,20 @@ int NewstoryListData::GetItemFromPixel(int yPos)
 
 int NewstoryListData::GetItemHeight(int index)
 {
-	auto *item = LoadItem(index);
-	if (!item)
-		return 0;
+	if (auto *pItem = LoadItem(index))
+		return GetItemHeight(pItem);
+	return 0;
+}
 
-	if (item->savedHeight >= 0)
-		return item->savedHeight;
+int NewstoryListData::GetItemHeight(ItemData *pItem)
+{
+	if (pItem->savedHeight == -1) {
+		HDC hdc = GetDC(m_hwnd);
+		pItem->savedHeight = PaintItem(hdc, pItem, 0, cachedWindowWidth, false);
+		ReleaseDC(m_hwnd, hdc);
+	}
 
-	int fontid, colorid;
-	item->getFontColor(fontid, colorid);
-	item->checkCreate(m_hwnd);
-
-	HDC hdc = GetDC(m_hwnd);
-	HFONT hOldFont = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-
-	RECT rc; GetClientRect(m_hwnd, &rc);
-	int width = rc.right - rc.left;
-
-	SIZE sz = { width - 6, 0 };
-	MTextMeasure(hdc, &sz, item->data);
-
-	SelectObject(hdc, hOldFont);
-	ReleaseDC(m_hwnd, hdc);
-	return item->savedHeight = sz.cy + 5;
+	return pItem->savedHeight;
 }
 
 bool NewstoryListData::HasSelection() const
@@ -518,6 +513,24 @@ bool NewstoryListData::HasSelection() const
 				return true;
 
 	return false;
+}
+
+void NewstoryListData::HitTotal(int yCurr, int yTotal)
+{
+	int i = 0, y = yCurr;
+	while (i < totalCount && y > 0) {
+		auto *pItem = GetItem(i++);
+		if (!pItem->m_bLoaded) {
+			i = totalCount * (double(yCurr) / double(yTotal));
+			y = 0;
+			break;
+		}
+		else y -= GetItemHeight(pItem);
+	}
+
+	scrollTopItem = i;
+	scrollTopPixel = y;
+	FixScrollPosition();
 }
 
 ItemData* NewstoryListData::LoadItem(int idx)
@@ -543,26 +556,23 @@ void NewstoryListData::OpenFolder()
 	}
 }
 
-int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
+int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bool bDraw)
 {
-	auto *item = LoadItem(index);
-	item->savedTop = top;
-
 	// remove any selections that might be created by the BBCodes parser
-	MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
+	MTextSendMessage(m_hwnd, pItem->data, EM_SETSEL, 0, 0);
 
 	//	LOGFONT lfText;
 	COLORREF clText, clBack, clLine;
 	int fontid, colorid;
-	item->getFontColor(fontid, colorid);
+	pItem->getFontColor(fontid, colorid);
 
 	clText = g_fontTable[fontid].cl;
-	if (item->m_bHighlighted) {
+	if (pItem->m_bHighlighted) {
 		clText = g_fontTable[FONT_HIGHLIGHT].cl;
 		clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
 		clLine = g_colorTable[COLOR_FRAME].cl;
 	}
-	else if (item->m_bSelected) {
+	else if (pItem->m_bSelected) {
 		clText = g_colorTable[COLOR_SELTEXT].cl;
 		clBack = g_colorTable[COLOR_SELBACK].cl;
 		clLine = g_colorTable[COLOR_SELFRAME].cl;
@@ -572,33 +582,90 @@ int NewstoryListData::PaintItem(HDC hdc, int index, int top, int width)
 		clBack = g_colorTable[colorid].cl;
 	}
 
-	item->checkCreate(m_hwnd);
+	pItem->checkCreate(m_hwnd);
 
 	SIZE sz;
-	sz.cx = width - 6;
+	sz.cx = width - 2;
+
+	POINT pos;
+	pos.x = 2;
+	pos.y = top + 2;
+
+	if (g_plugin.bShowType)	// Message type icon
+		pos.x += 18;
+
+	if (g_plugin.bShowDirecction)	// Message direction icon
+		pos.x += 18;
+
+	if (pItem->dbe.flags & DBEF_BOOKMARK) // Bookmark icon
+		pos.x += 18;
+
+	sz.cx -= pos.x;
+	if (pItem->m_bOfflineDownloaded) // Download completed icon
+		sz.cx -= 18;
+
 	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextMeasure(hdc, &sz, item->data);
+	MTextMeasure(hdc, &sz, pItem->data);
 	SelectObject(hdc, hfnt);
+
 	int height = sz.cy + 5;
+	if (!bDraw)
+		return height;
 
-	RECT rc;
-	SetRect(&rc, 0, top, width, top + height);
-
-	HBRUSH hbr;
-	hbr = CreateSolidBrush(clBack);
+	HBRUSH hbr = CreateSolidBrush(clBack);
+	RECT rc = { 0, top, width, top + height };
 	FillRect(hdc, &rc, hbr);
+	DeleteObject(hbr);
 
 	SetTextColor(hdc, clText);
 	SetBkMode(hdc, TRANSPARENT);
 
-	POINT pos;
-	pos.x = 3;
-	pos.y = top + 2;
-	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextDisplay(hdc, pos, sz, item->data);
-	SelectObject(hdc, hfnt);
+	pos.x = 2;
+	HICON hIcon;
+	
+	// Message type icon
+	if (g_plugin.bShowType) {
+		switch (pItem->dbe.eventType) {
+		case EVENTTYPE_MESSAGE:
+			hIcon = g_plugin.getIcon(IDI_SENDMSG);
+			break;
+		case EVENTTYPE_FILE:
+			hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+			break;
+		case EVENTTYPE_STATUSCHANGE:
+			hIcon = g_plugin.getIcon(IDI_SIGNIN);
+			break;
+		default:
+			hIcon = g_plugin.getIcon(IDI_UNKNOWN);
+			break;
+		}
+		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
+	}
 
-	DeleteObject(hbr);
+	// Direction icon
+	if (g_plugin.bShowDirecction) {
+		if (pItem->dbe.flags & DBEF_SENT)
+			hIcon = g_plugin.getIcon(IDI_MSGOUT);
+		else
+			hIcon = g_plugin.getIcon(IDI_MSGIN);
+		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
+	}
+
+	// Bookmark icon
+	if (pItem->dbe.flags & DBEF_BOOKMARK) {
+		DrawIconEx(hdc, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+		pos.x += 18;
+	}
+
+	// Finished icon
+	if (pItem->m_bOfflineDownloaded)
+		DrawIconEx(hdc, width-20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+
+	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
+	MTextDisplay(hdc, pos, sz, pItem->data);
+	SelectObject(hdc, hfnt);
 
 	HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
 	MoveToEx(hdc, rc.left, rc.bottom - 1, 0);
@@ -612,16 +679,35 @@ void NewstoryListData::RecalcScrollBar()
 	if (totalCount == 0)
 		return;
 
+	int yTotal = 0, yTop = 0, numRec = 0;
+	for (int i = 0; i < totalCount; i++) {
+		if (i == scrollTopItem)
+			yTop = yTotal - scrollTopPixel;
+
+		auto *pItem = GetItem(i);
+		if (pItem->m_bLoaded) {
+			yTotal += GetItemHeight(pItem);
+			numRec++;
+		}
+	}
+
+	if (numRec != totalCount) {
+		double averageH = double(yTotal) / double(numRec);
+		yTotal = totalCount * averageH;
+		yTop = scrollTopItem * averageH;
+	}
+
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = totalCount-1;
-	si.nPage = (totalCount <= 10) ? totalCount - 1 : 10;
-	si.nPos = scrollTopItem;
+	si.nMax = yTotal;
+	si.nPage = cachedWindowHeight;
+	si.nPos = yTop;
 
-	if (si.nPos != cachedScrollbarPos) {
+	if (si.nPos != cachedScrollbarPos || si.nMax != cachedScrollbarMax) {
 		cachedScrollbarPos = si.nPos;
+		cachedScrollbarMax = si.nMax;
 		SetScrollInfo(m_hwnd, SB_VERT, &si, TRUE);
 	}
 }
@@ -731,12 +817,48 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
+void NewstoryListData::TryUp(int iCount)
+{
+	if (totalCount == 0)
+		return;
+
+	auto *pTop = GetItem(0);
+	MCONTACT hContact = pTop->hContact;
+	if (pTop->hEvent == 0 || hContact == 0)
+		return;
+	
+	int i;
+	for (i = 0; i < iCount; i++) {
+		MEVENT hPrev = db_event_prev(hContact, pTop->hEvent);
+		if (hPrev == 0)
+			break;
+
+		auto *p = items.insert(0);
+		p->hContact = hContact;
+		p->hEvent = hPrev;
+		totalCount++;
+	}
+
+	ItemData *pPrev = nullptr;
+	for (int j = 0; j < i + 1; j++) {
+		auto *pItem = GetItem(j);
+		pPrev = pItem->checkNext(pPrev);
+	}
+
+	caret = 0;
+	CalcBottom();
+	FixScrollPosition();
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Navigation by coordinates
 
 void NewstoryListData::LineUp()
 {
-	if (!AtTop())
+	if (AtTop())
+		TryUp(1);
+	else
 		ScrollUp(10);
 }
 
@@ -748,7 +870,9 @@ void NewstoryListData::LineDown()
 
 void NewstoryListData::PageUp()
 {
-	if (!AtTop())
+	if (AtTop())
+		TryUp(10);
+	else
 		ScrollUp(cachedWindowHeight);
 }
 
@@ -763,7 +887,9 @@ void NewstoryListData::PageDown()
 
 void NewstoryListData::EventUp()
 {
-	if (caret > 0)
+	if (caret == 0)
+		TryUp(1);
+	else
 		SetPos(caret - 1);
 }
 
@@ -778,7 +904,7 @@ void NewstoryListData::EventPageUp()
 	if (caret >= 10)
 		SetPos(caret - 10);
 	else
-		SetPos(0);
+		TryUp(caret == 10 ? 1 : 10 - caret);
 }
 
 void NewstoryListData::EventPageDown()
@@ -990,7 +1116,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int top = data->scrollTopPixel;
 			idx = data->scrollTopItem;
 			while ((top < height) && (idx < data->totalCount))
-				top += data->PaintItem(hdc, idx++, top, width);
+				top += data->PaintItem(hdc, data->LoadItem(idx++), top, width, true);
 			data->cachedMaxDrawnItem = idx;
 
 			if (top <= height) {
@@ -1161,7 +1287,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				pt.y -= pItem->savedTop;
 
 				CMStringW wszUrl;
-				if (pItem->isLink(pt, &wszUrl)) {
+				if (pItem->isLink(hwnd, pt, &wszUrl)) {
 					Utils_OpenUrlW(wszUrl);
 					return 0;
 				}
@@ -1213,7 +1339,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
 
 			HCURSOR hOldCursor = GetCursor();
-			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
+			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(hwnd, pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
 			if (hOldCursor != hNewCursor)
 				SetCursor(hNewCursor);
 
@@ -1278,10 +1404,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_ALL;
 				GetScrollInfo(hwnd, SB_VERT, &si);
-
-				data->scrollTopItem = si.nTrackPos;
-				data->scrollTopPixel = 0;
-				data->FixScrollPosition();
+				data->HitTotal(si.nTrackPos, si.nMax);
 				break;
 
 			default:

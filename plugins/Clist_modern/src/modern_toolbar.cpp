@@ -41,7 +41,7 @@ static BTNS[] =
 {
 	{ "MainMenu", LPGEN("Main menu"), "CList/ShowMainMenu", LPGEN("Main menu"), nullptr, 100, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "StatusMenu", LPGEN("Status menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), nullptr, 105, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "AccoMgr", LPGEN("Accounts"), MS_PROTO_SHOWACCMGR, LPGEN("Accounts..."), nullptr, 282, IDI_ACCMGR, IDI_ACCMGR, TRUE },
+	{ "AccoMgr", LPGEN("Accounts"), MS_PROTO_SHOWACCMGR, LPGEN("Accounts"), nullptr, 282, IDI_ACCMGR, IDI_ACCMGR, TRUE },
 	{ "ShowHideOffline", LPGEN("Show/Hide offline contacts"), MS_CLIST_TOGGLEHIDEOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "FindUser", LPGEN("Find user"), "FindAdd/FindAddCommand", LPGEN("Find user"), nullptr, 140, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options", "Options", "Options/OptionsCommand", "Options", nullptr, 150, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },

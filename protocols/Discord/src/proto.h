@@ -377,7 +377,7 @@ public:
 	int      SetStatus(int iNewStatus) override;
 
 	void     OnBuildProtoMenu() override;
-	void     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;

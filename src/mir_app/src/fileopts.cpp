@@ -73,7 +73,7 @@ public:
 		cmbFileExists.SelectData(File::iIfExists);
 
 		wchar_t str[MAX_PATH];
-		GetContactReceivedFilesDir(NULL, str, _countof(str), FALSE);
+		File::GetReceivedFolder(NULL, str, _countof(str));
 		SetDlgItemText(m_hwnd, IDC_FILEDIR, str);
 		return true;
 	}

@@ -301,6 +301,19 @@ bool DB::EventInfo::isHistory() const
 	return et && et->flags & DETF_HISTORY;
 }
 
+bool DB::EventInfo::isAlertable() const
+{
+	if (eventType == EVENTTYPE_MESSAGE)
+		return true;
+
+	if (eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(*this);
+		return blob.isOffline();
+	}
+
+	return false;
+}
+
 wchar_t* DB::EventInfo::getString(const char *str) const
 {
 	if (flags & DBEF_UTF)

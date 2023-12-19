@@ -225,7 +225,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 						dbv.pszVal = (char *)pSlash;
 						db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
 
-						wszFullName.Truncate(wszFullName.ReverseFind('\\'));
+						wszFullName.Truncate(wszFullName.ReverseFind('\\') + 1);
 						wszFullName.Append(Utf2T(pSlash));
 						F->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
 

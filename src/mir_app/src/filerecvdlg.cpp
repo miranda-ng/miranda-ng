@@ -121,7 +121,7 @@ static void patchDir(wchar_t *str, size_t strSize)
 		mir_wstrcpy(str + len, L"\\");
 }
 
-void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL patchVars)
+MIR_APP_DLL(wchar_t*) File::GetReceivedFolder(MCONTACT hContact, wchar_t *szDir, size_t cchDir, bool patchVars)
 {
 	wchar_t tszTemp[MAX_PATH];
 
@@ -158,6 +158,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 		patchDir(tszTemp, _countof(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
 	mir_wstrncpy(szDir, tszTemp, cchDir);
+	return szDir;
 }
 
 void GetReceivedFilesDir(wchar_t *szDir, int cchDir)
@@ -223,7 +224,7 @@ public:
 		SetDlgItemText(m_hwnd, IDC_FROM, contactName);
 
 		wchar_t szPath[450];
-		GetContactReceivedFilesDir(dat->hContact, szPath, _countof(szPath), TRUE);
+		File::GetReceivedFolder(dat->hContact, szPath, _countof(szPath), TRUE);
 		SetDlgItemText(m_hwnd, IDC_FILEDIR, szPath);
 		SHAutoComplete(GetWindow(GetDlgItem(m_hwnd, IDC_FILEDIR), GW_CHILD), 1);
 
@@ -280,7 +281,7 @@ public:
 		wchar_t szRecvDir[MAX_PATH], szDefaultRecvDir[MAX_PATH];
 		GetDlgItemText(m_hwnd, IDC_FILEDIR, szRecvDir, _countof(szRecvDir));
 		RemoveInvalidPathChars(szRecvDir);
-		GetContactReceivedFilesDir(NULL, szDefaultRecvDir, _countof(szDefaultRecvDir), TRUE);
+		File::GetReceivedFolder(NULL, szDefaultRecvDir, _countof(szDefaultRecvDir), TRUE);
 		if (wcsnicmp(szRecvDir, szDefaultRecvDir, mir_wstrlen(szDefaultRecvDir))) {
 			char idstr[32];
 			ptrW wszValue;

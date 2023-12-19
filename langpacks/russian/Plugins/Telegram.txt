@@ -24,6 +24,10 @@
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
+[IP address]
+IP-адрес
+[Software]
+Клиент
 [Add phone contact]
 Добавить контакт по номеру телефона
 [First name:]
@@ -38,10 +42,6 @@
 Переслать сообщение
 [Forward]
 Переслать
-[Reply to a message]
-Ответить на сообщение
-[In reply to:]
-В ответ на:
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
@@ -74,48 +74,58 @@
 Посетитель
 [&Leave chat session]
 &Покинуть чат
+[%d member(s)]
+%d участник(ов)
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 Подписчик Telegram Premium
 [Reaction]
 Реакция
-[Reply]
-Ответ
 [Bot]
 Бот
 ;file \protocols\Telegram\src\menus.cpp
-[Attach file]
-Прикрепить файл
 ;file \protocols\Telegram\src\options.cpp
+[Name]
+Имя
+[Platform]
+Операционная система
+[Country]
+Страна
+[Last active]
+Последний активный
+[Kill session]
+Завершить сеанс
+[Unknown]
+Неизвестно
 [Network]
 Сеть
 [Account]
 Учётная запись
 [Advanced]
 Дополнительно
+[Sessions]
+Сессии
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 Ошибка %d: %s
-[%d member(s)]
-%d участник(ов)
 [Saved messages]
 Избранное
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 нет
-[Chat rooms]
-Чаты
 [%s error notifications]
 Уведомления об ошибках %s
 [Errors]
 Ошибки
 [Picture]
 Изображение
-[Video]
-Видео
+[Audio]
+Аудио
 [seconds]
 секунд
+[Video]
+Видео
 [Voice message]
 Голосовое сообщение
 [SmileyAdd plugin required to support stickers]

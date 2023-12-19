@@ -25,42 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FILE_H__
 #define M_FILE_H__ 1
 
-// brings up the send file dialog for a contact
-// wParam = (MCONTACT)hContact
-// lParam = 0
-// returns file selection dialog's handle or 0 on error
-// returns immediately, without waiting for the send
-#define MS_FILE_SENDFILE   "SRFile/SendCommand"
+namespace File
+{
+	MIR_APP_DLL(wchar_t *) GetReceivedFolder(MCONTACT hContact, wchar_t *pwszDest, size_t cbDest, bool substVars = true);
 
-// brings up the send file dialog with the specified files already chosen
-// returns immediately, without waiting for the send
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(const char**)ppFiles
-// returns file selection dialog's handle or 0 on error
-// returns immediately, without waiting for the send
-// the user is not prevented from changing the filename with the 'choose again' button
-// ppFiles is a NULL-terminated array of fully qualified filenames.
-// To send subdirectories, include their name in the list without a trailing
-// backslash. In order to keep contained files in their correct place on
-// receiving, the subdirectory they're in must preceed the file. This applies
-// to subdirectories themselves too: they must be preceeded by their container
-// if you want to send the container and keep the original directory inside it.
-#define MS_FILE_SENDSPECIFICFILES  "SRFile/SendSpecificFiles"
-
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(const wchar_t**)ppFiles
-// returns file selection dialog's handle or 0 on error
-// returns immediately, without waiting for the send
-#define MS_FILE_SENDSPECIFICFILEST  "SRFile/SendSpecificFilesT"
-
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(wchar_t *)pszOutput
-// returns 0 on success or nonzero on failure
-// pszOutput must be at least MAX_PATH characters long
-// If hContact is NULL this function will retrieve the received files folder
-// name without any appended user names.
-// Note that the directory name returned by this function does not necessarily exist.
-#define MS_FILE_GETRECEIVEDFILESFOLDER "SRFile/GetReceivedFilesFolder"
+	// List of files should be null-terminated
+	MIR_APP_DLL(MWindow) Send(MCONTACT hContact, wchar_t** const ppFiles = nullptr);
+	
+};
 
 // notifies a caller about file send start
 // wParam = (MCONTACT)hContact

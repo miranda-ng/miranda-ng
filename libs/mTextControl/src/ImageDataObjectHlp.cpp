@@ -22,150 +22,123 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "ImageDataObjectHlp.h"
+#include "dataobject.h"
+
+// cache up to 1000 objects
+#define MAX_CACHE_SIZE 2000
 
 struct EMFCACHE
 {
-	HENHMETAFILE hEmf;
+	HWND hwnd;
 	HICON hIcon;
-	EMFCACHE *prev;
-	EMFCACHE *next;
-} *emfCache = nullptr;
-int emfCacheSize = 0;
+	CEMFObject *pEmfObj = 0;
+	IStorage *pStorage = 0;
+	IOleObject *pOleObject = 0;
+
+	~EMFCACHE()
+	{
+		if (pEmfObj)
+			pEmfObj->Release();
+		if (pStorage)
+			pStorage->Release();
+		if (pOleObject)
+			pOleObject->Release();
+	}
+};
+
 mir_cs csEmfCache;
+static OBJLIST<EMFCACHE> g_arCache(50);
 
 void UnloadEmfCache()
 {
-	while (emfCache) {
-		EMFCACHE *tmp = emfCache->next;
-		delete emfCache;
-		emfCache = tmp;
-	}
+	g_arCache.destroy();
 }
 
-HENHMETAFILE CacheIconToEmf(HICON hIcon)
+void CleanupEmfCache(HWND hwnd)
 {
-	HENHMETAFILE result = nullptr;
+	for (auto &it : g_arCache.rev_iter())
+		if (it->hwnd == hwnd)
+			g_arCache.remove(g_arCache.indexOf(&it));
+}
+
+IDataObject* CacheIconToIDataObject(HWND hwnd, HICON hIcon, IOleClientSite *pOleClientSite, IStorage **ppStorage, IOleObject **ppOleObject)
+{
+	static const FORMATETC lc_format[] =
+	{
+		{ CF_ENHMETAFILE, nullptr, DVASPECT_CONTENT, -1, TYMED_ENHMF }
+	};
+
 	mir_cslock lck(csEmfCache);
-	for (EMFCACHE *p = emfCache; p; p = p->next)
-		if (p->hIcon == hIcon) {
-			if (p->prev) {
-				p->prev->next = p->next;
-				if (p->next) p->next->prev = p->prev;
-				p->prev = nullptr;
-				emfCache->prev = p;
-				p->next = emfCache;
-				emfCache = p;
-				result = CopyEnhMetaFile(emfCache->hEmf, nullptr);
-				break;
-			}
+	for (auto &it : g_arCache.rev_iter())
+		if (it->hwnd == hwnd && it->hIcon == hIcon) {
+			*ppStorage = it->pStorage;
+			*ppOleObject = it->pOleObject;
+			return it->pEmfObj;
 		}
 
 	// cache new item
-	if (!result) {
-		EMFCACHE *newItem = new EMFCACHE;
-		newItem->prev = nullptr;
-		newItem->next = emfCache;
-		if (emfCache) emfCache->prev = newItem;
-		emfCache = newItem;
-		emfCacheSize++;
+	EMFCACHE *newItem = new EMFCACHE();
 
-		HDC emfdc = CreateEnhMetaFile(nullptr, nullptr, nullptr, L"icon");
-		DrawIconEx(emfdc, 0, 0, (HICON)hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-		emfCache->hIcon = hIcon;
-		emfCache->hEmf = CloseEnhMetaFile(emfdc);
-		result = CopyEnhMetaFile(emfCache->hEmf, nullptr);
+	LPLOCKBYTES lpLockBytes = nullptr;
+	SCODE sc = CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes);
+	if (sc != S_OK) {
+		delete newItem;
+		return nullptr;
 	}
 
-	// tail cutoff
-	if (emfCacheSize > 20) {
-		int n = 0;
-		EMFCACHE *p;
-		for (p = emfCache; p; p = p->next)
-			if (++n > 20)
-				break;
-		while (p->next) {
-			EMFCACHE *tmp = p->next;
-			p->next = p->next->next;
-			delete tmp;
-		}
-		if (p->next) p->next->prev = p;
-		emfCacheSize = 20;
+	sc = StgCreateDocfileOnILockBytes(lpLockBytes, 
+		STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &newItem->pStorage);
+
+	lpLockBytes->Release();
+
+	if (sc != S_OK) {
+		delete newItem;
+		return nullptr;
 	}
 
-	return result;
+	HDC emfdc = CreateEnhMetaFile(nullptr, nullptr, nullptr, L"icon");
+	DrawIconEx(emfdc, 0, 0, (HICON)hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+	newItem->pEmfObj = new CEMFObject(CloseEnhMetaFile(emfdc));
+	newItem->hIcon = hIcon;
+	newItem->hwnd = hwnd;
+
+	sc = OleCreateStaticFromData(newItem->pEmfObj, IID_IOleObject, OLERENDER_FORMAT,
+		(LPFORMATETC)lc_format, pOleClientSite, newItem->pStorage, (void **)&newItem->pOleObject);
+
+	if (sc != S_OK) {
+		delete newItem;
+		return nullptr;
+	}
+
+	OleSetContainedObject(newItem->pOleObject, TRUE);
+
+	g_arCache.insert(newItem);
+
+	*ppStorage = newItem->pStorage;
+	*ppOleObject = newItem->pOleObject;
+	return newItem->pEmfObj;
 }
 
-HRESULT CreateDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmed, UINT count, IDataObject **ppDataObject);
-
 // returns true on success, false on failure
-//bool InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap, HGLOBAL hGlobal)
-bool InsertBitmap(IRichEditOle *pRichEditOle, HENHMETAFILE hEmf)
+bool InsertBitmap(HWND hwnd, IRichEditOle *pRichEditOle, HICON hIcon)
 {
-	SCODE sc;
-
-	// Get the image data object
-	//
-	static const FORMATETC lc_format[] =
-	{
-		{ CF_ENHMETAFILE, nullptr, DVASPECT_CONTENT, -1, TYMED_ENHMF }//,
-		//		{ CF_BITMAP, 0, DVASPECT_CONTENT, -1, TYMED_GDI },
-		//		{ CF_TEXT,   0, DVASPECT_CONTENT, -1, TYMED_HGLOBAL } 
-	};
-
-	STGMEDIUM lc_stgmed[] =
-	{
-		{ TYMED_ENHMF, { (HBITMAP)hEmf }, nullptr }//,
-		//		{ TYMED_GDI, { hBitmap }, 0 },
-		//		{ TYMED_HGLOBAL, { (HBITMAP)hGlobal }, 0 }
-	};
-
-	IDataObject *pods;
-	CreateDataObject(lc_format, lc_stgmed, 1, &pods);
-
 	// Get the RichEdit container site
-	//
 	IOleClientSite *pOleClientSite;
 	pRichEditOle->GetClientSite(&pOleClientSite);
 
-	// Initialize a Storage Object
-	//
-	LPLOCKBYTES lpLockBytes = nullptr;
-	sc = CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes);
-	if (sc != S_OK) {
-		pOleClientSite->Release();
-		return false;
-	}
-
 	IStorage *pStorage;
-	sc = StgCreateDocfileOnILockBytes(lpLockBytes,
-		STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
-	if (sc != S_OK) {
-		lpLockBytes->Release();
-		pOleClientSite->Release();
-		pods->Release();
-		return false;
-	}
-
-	// The final ole object which will be inserted in the richedit control
-	//
 	IOleObject *pOleObject;
-	sc = OleCreateStaticFromData(pods, IID_IOleObject, OLERENDER_FORMAT,
-		(LPFORMATETC)lc_format, pOleClientSite, pStorage, (void **)&pOleObject);
-	if (sc != S_OK) {
-		pStorage->Release();
-		lpLockBytes->Release();
+	IDataObject *pods = CacheIconToIDataObject(hwnd, hIcon, pOleClientSite, &pStorage, &pOleObject);
+	if (pods == nullptr) {
 		pOleClientSite->Release();
 		return false;
 	}
 
 	// all items are "contained" -- this makes our reference to this object
 	//  weak -- which is needed for links to embedding silent update.
-	OleSetContainedObject(pOleObject, TRUE);
 
 	// Now Add the object to the RichEdit 
-	//
-	REOBJECT reobject = { 0 };
-
+	REOBJECT reobject = {};
 	reobject.cbStruct = sizeof(REOBJECT);
 	reobject.cp = REO_CP_SELECTION;
 	reobject.dvaspect = DVASPECT_CONTENT;
@@ -174,26 +147,11 @@ bool InsertBitmap(IRichEditOle *pRichEditOle, HENHMETAFILE hEmf)
 	reobject.pstg = pStorage;
 	reobject.dwFlags = REO_BELOWBASELINE;
 
-	sc = pOleObject->GetUserClassID(&reobject.clsid);
-	if (sc != S_OK) {
-		pOleObject->Release();
-		pStorage->Release();
-		lpLockBytes->Release();
-		pOleClientSite->Release();
+	SCODE sc = pOleObject->GetUserClassID(&reobject.clsid);
+	if (sc != S_OK)
 		return false;
-	}
 
 	// Insert the bitmap at the current location in the richedit control
-	//
 	sc = pRichEditOle->InsertObject(&reobject);
-
-	// Release all unnecessary interfaces
-	//
-	pOleObject->Release();
-	pStorage->Release();
-	lpLockBytes->Release();
-	pOleClientSite->Release();
-	pods->Release();
-
 	return sc == S_OK;
 }

@@ -590,7 +590,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FILE)))
 					break;
 
-				CallService(MS_FILE_SENDFILE, hContact, 0);
+				File::Send(hContact);
 
 				g_plugin.setDword("LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);

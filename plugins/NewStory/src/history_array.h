@@ -31,17 +31,19 @@ struct ItemData
 	ItemData();
 	~ItemData();
 
+	ItemData* checkNext(ItemData *pPrev);
 	ItemData* checkPrev(ItemData *pPrev);
 	ItemData* checkPrevGC(ItemData *pPrev);
 	void checkCreate(HWND hwnd);
 	void markRead();
 	void setText();
+	void setTextAndHwnd(HWND hwnd);
 
 	bool fetch(void);
 	void fill(int tmpl);
 	void load(bool bFullLoad = false);
-	bool isLink(POINT pt, CMStringW *url = nullptr) const;
-	bool isLinkChar(int idx) const;
+	bool isLink(HWND, POINT pt, CMStringW *url = nullptr) const;
+	bool isLinkChar(HWND, int idx) const;
 
 	int getTemplate() const;
 	int getCopyTemplate() const;
@@ -149,6 +151,7 @@ public:
 	}
 
 	ItemData* get(int id, bool bLoad = false) const;
+	ItemData* insert(int idx);
 	
 	__forceinline int FindNext(int id, const Filter &filter) { return find(id, +1, filter); }
 	__forceinline int FindPrev(int id, const Filter &filter) { return find(id, -1, filter); }
