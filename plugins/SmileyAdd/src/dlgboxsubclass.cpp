@@ -122,11 +122,21 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // window hook
 
+static HWND checkRichEdit(HWND hwnd)
+{
+	wchar_t wszClass[200];
+	if (GetClassNameW(hwnd, wszClass, _countof(wszClass)))
+		if (!wcsicmp(wszClass, L"RICHEDIT50W"))
+			return hwnd;
+	
+	return nullptr;
+}
+
 static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 {
 	auto *pDlg = (CSrmmBaseDialog *)lParam;
-	auto hwndLog = pDlg->log()->GetHwnd();
-	auto hwndInput = pDlg->GetInput();
+	auto hwndLog = checkRichEdit(pDlg->log()->GetHwnd());
+	auto hwndInput = checkRichEdit(pDlg->GetInput());
 
 	switch (uType) {
 	case MSG_WINDOW_EVT_OPENING:
@@ -157,10 +167,7 @@ static int MsgDlgHook(WPARAM uType, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		if (hwndLog) {
-			CloseRichCallback(hwndLog);
-			CloseRichOwnerCallback(pDlg->GetHwnd());
-		}
+		CloseRichOwnerCallback(pDlg->GetHwnd());
 
 		mir_cslock lck(csWndList);
 		g_MsgWndList.remove((MsgWndData *)&pDlg);

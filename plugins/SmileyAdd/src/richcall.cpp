@@ -328,6 +328,9 @@ bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 
 void CloseRichCallback(HWND hwnd)
 {
+	if (!hwnd)
+		return;
+
 	RichEditData *rdt;
 	{
 		mir_cslock lck(csLists);
@@ -342,6 +345,7 @@ void CloseRichCallback(HWND hwnd)
 	if (rdt->hToolTip)
 		DestroyWindow(rdt->hToolTip);
 	delete rdt;
+	
 	mir_unsubclassWindow(hwnd, RichEditSubclass);
 }
 
