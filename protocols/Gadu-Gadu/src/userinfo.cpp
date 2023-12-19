@@ -313,11 +313,11 @@ int GaduProto::details_init(WPARAM wParam, LPARAM hContact)
 	}
 
 	USERINFOPAGE uip = {};
-	uip.flags = ODPF_DONTTRANSLATE | ODPF_UNICODE | ODPF_ICON;
+	uip.flags = ODPF_DONTTRANSLATE | ODPF_UNICODE;
 	uip.position = -1900000000;
 	uip.pDialog = new GaduUserInfoDlg(this, idDialog);
 	uip.szTitle.w = m_tszUserName;
-	uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_GG));
+	uip.szProto = m_szModuleName;
 	g_plugin.addUserInfo(wParam, &uip);
 
 	// Start search for user data

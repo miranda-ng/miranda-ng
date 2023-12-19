@@ -1105,9 +1105,9 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		ResolveTransportNicks((p != nullptr) ? p + 1 : jid);
 	}
 	else {
-		if (hContact != 0)
-			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
-		else {
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+
+		if (hContact == 0) {
 			CMStringA oldHash(getMStringA("VCardHash"));
 			if (oldHash != szNodeHash) {
 				setString("VCardHash", szNodeHash);

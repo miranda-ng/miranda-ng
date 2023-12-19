@@ -36,6 +36,7 @@ struct DetailsPageData : public MNonCopyable, public MZeroedObject
 	int               changed;
 	uint32_t          dwFlags;
 	wchar_t          *pwszTitle, *pwszGroup;
+	const char       *szProto;
 	INT_PTR           lParam;
 
 	~DetailsPageData()
@@ -82,9 +83,9 @@ static int PageSortProc(const DetailsPageData *item1, const DetailsPageData *ite
 	return mir_wstrcmp(s1, s2);
 }
 
-static int UserInfoContactDelete(WPARAM wParam, LPARAM)
+static int UserInfoContactDelete(WPARAM hContact, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, wParam);
+	HWND hwnd = WindowList_Find(hWindowList, hContact);
 	if (hwnd != nullptr)
 		DestroyWindow(hwnd);
 	return 0;
@@ -131,8 +132,17 @@ class CUserInfoDlg : public CDlgBase
 
 		for (auto &it : items) {
 			int iImage = 1;
-			if ((it->dwFlags & ODPF_ICON) && it->lParam) {
-				HICON hIcon = IcoLib_GetIconByHandle((HANDLE)it->lParam);
+
+			HANDLE hIcolib = nullptr;
+			if ((it->dwFlags & ODPF_ICON) && it->lParam)
+				hIcolib = (HANDLE)it->lParam;
+			else if (it->szProto)
+				hIcolib = Skin_GetProtoIcon(it->szProto, ID_STATUS_ONLINE);
+			else if (hContact)
+				it->szProto = Proto_GetBaseAccountName(hContact);
+
+			if (hIcolib) {
+				HICON hIcon = IcoLib_GetIconByHandle(hIcolib);
 				if (hIcon) {
 					iImage = ImageList_AddIcon(m_imageList, hIcon);
 					IcoLib_ReleaseIcon(hIcon);
@@ -216,10 +226,7 @@ class CUserInfoDlg : public CDlgBase
 
 	void CheckOnline()
 	{
-		if (m_hContact == 0)
-			return;
-
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr;
 		if (szProto == nullptr || m_bIsMeta)
 			btnUpdate.Disable();
 		else {
@@ -228,22 +235,6 @@ class CUserInfoDlg : public CDlgBase
 			else
 				btnUpdate.Enable(!IsWindowVisible(GetDlgItem(m_hwnd, IDC_UPDATING)));
 		}
-	}
-
-	void CreateDetailsPageWindow(DetailsPageData *ppg)
-	{
-		auto *pDlg = ppg->pDialog;
-		if (pDlg == nullptr)
-			return;
-
-		pDlg->SetParent(m_hwnd);
-		pDlg->SetContact(ppg->hContact);
-		pDlg->Create();
-		ppg->hwnd = pDlg->GetHwnd();
-
-		::ThemeDialogBackground(ppg->hwnd);
-
-		pDlg->OnRefresh();
 	}
 
 	void ResizeCurrent()
@@ -380,6 +371,12 @@ public:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	}
 
+	void OnChange() override
+	{
+		if (m_pCurrent)
+			m_pCurrent->changed = 1;
+	}
+
 	void OnDestroy() override
 	{
 		SaveLocation();
@@ -404,11 +401,6 @@ public:
 		PSHNOTIFY pshn;
 
 		switch (uMsg) {
-		case PSM_CHANGED:
-			if (m_pCurrent)
-				m_pCurrent->changed = 1;
-			return TRUE;
-
 		case PSM_FORCECHANGED:
 			pshn.hdr.code = PSN_INFOCHANGED;
 			pshn.hdr.idFrom = 0;
@@ -488,7 +480,6 @@ public:
 			ResizeCurrent();
 		
 		return res;
-
 	}
 
 	void onSelChanging(CCtrlTreeView *)
@@ -509,16 +500,27 @@ public:
 		if (m_pCurrent && m_pCurrent->hwnd != NULL)
 			ShowWindow(m_pCurrent->hwnd, SW_HIDE);
 
-		LPNMTREEVIEW pnmtv = ev->nmtv;
-		TVITEM tvi = pnmtv->itemNew;
-		m_pCurrent = (DetailsPageData*)tvi.lParam;
+		if (m_pCurrent = (DetailsPageData *)ev->nmtv->itemNew.lParam) {
+			if (m_pCurrent->hwnd == nullptr) {
+				auto *pDlg = m_pCurrent->pDialog;
+				if (pDlg == nullptr)
+					return;
 
-		if (m_pCurrent) {
-			if (m_pCurrent->hwnd == NULL)
-				CreateDetailsPageWindow(m_pCurrent);
+				pDlg->SetParent(m_hwnd);
+				pDlg->SetContact(m_pCurrent->hContact);
+				pDlg->Create();
+
+				m_pCurrent->hwnd = pDlg->GetHwnd();
+				::ThemeDialogBackground(m_pCurrent->hwnd);
+
+				pDlg->OnRefresh();
+			}
 
 			ResizeCurrent();
 			ShowWindow(m_pCurrent->hwnd, SW_SHOWNA);
+
+			if (!m_hContact)
+				CheckOnline();
 		}
 	}
 
@@ -544,13 +546,12 @@ public:
 			m_infosUpdated = NULL;
 		}
 
-		if (m_hContact != NULL) {
-			if (!ProtoChainSend(m_hContact, PSS_GETINFO, 0, 0)) {
+		if (auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr)
+			if (!CallProtoService(szProto, PSS_GETINFO, 0, 0)) {
 				btnUpdate.Disable();
 				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
 				updateTimer.Start(100);
 			}
-		}
 	}
 
 	void onTimer(CTimer *)
@@ -576,6 +577,7 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	auto *pNew = new DetailsPageData();
 	pNew->pPlugin = uip->pPlugin;
 	pNew->pDialog = uip->pDialog;
+	pNew->szProto = uip->szProto;
 
 	if (uip->flags & ODPF_UNICODE) {
 		pNew->pwszTitle = (uip->szTitle.w == nullptr) ? nullptr : mir_wstrdup(uip->szTitle.w);

@@ -51,6 +51,7 @@ struct USERINFOPAGE
 	HPLUGIN pPlugin;
 	uint32_t flags;               // ODPF_*, look at m_options.h
 	CUserInfoPageDlg *pDialog;
+	const char *szProto;          // for viewing our own pages
 
 	// used in UInfoEx only
 	int position;
