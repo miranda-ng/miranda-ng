@@ -632,7 +632,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 
 	const char *type, *jid;
 	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
-	if ((jid = XmlGetAttr(iqNode, "from")) == nullptr) return;
+	if ((jid = XmlGetAttr(iqNode, "from")) == nullptr) jid = m_szJabberJID;
 	int id = JabberGetPacketID(iqNode);
 
 	if (id == m_nJabberSearchID) {
