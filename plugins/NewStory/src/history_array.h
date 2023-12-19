@@ -42,8 +42,8 @@ struct ItemData
 	bool fetch(void);
 	void fill(int tmpl);
 	void load(bool bFullLoad = false);
-	bool isLink(POINT pt, CMStringW *url = nullptr) const;
-	bool isLinkChar(int idx) const;
+	bool isLink(HWND, POINT pt, CMStringW *url = nullptr) const;
+	bool isLinkChar(HWND, int idx) const;
 
 	int getTemplate() const;
 	int getCopyTemplate() const;

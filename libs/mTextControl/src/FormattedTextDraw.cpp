@@ -296,8 +296,11 @@ BOOL CFormattedTextDraw::TxSetScrollPos(INT, INT, BOOL)
 	return FALSE;
 }
 
-void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL)
-{}
+void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL bRedraw)
+{
+	if (m_hwndParent)
+		::InvalidateRect(m_hwndParent, NULL, bRedraw);
+}
 
 void CFormattedTextDraw::TxViewChange(BOOL)
 {}

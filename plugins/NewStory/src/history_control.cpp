@@ -559,7 +559,7 @@ void NewstoryListData::OpenFolder()
 int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bool bDraw)
 {
 	// remove any selections that might be created by the BBCodes parser
-	MTextSendMessage(0, pItem->data, EM_SETSEL, 0, 0);
+	MTextSendMessage(m_hwnd, pItem->data, EM_SETSEL, 0, 0);
 
 	//	LOGFONT lfText;
 	COLORREF clText, clBack, clLine;
@@ -1287,7 +1287,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				pt.y -= pItem->savedTop;
 
 				CMStringW wszUrl;
-				if (pItem->isLink(pt, &wszUrl)) {
+				if (pItem->isLink(hwnd, pt, &wszUrl)) {
 					Utils_OpenUrlW(wszUrl);
 					return 0;
 				}
@@ -1339,7 +1339,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
 
 			HCURSOR hOldCursor = GetCursor();
-			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
+			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(hwnd, pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
 			if (hOldCursor != hNewCursor)
 				SetCursor(hNewCursor);
 

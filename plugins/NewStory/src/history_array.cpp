@@ -196,21 +196,21 @@ void ItemData::checkCreate(HWND hwnd)
 	}
 }
 
-bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
+bool ItemData::isLink(HWND hwnd, POINT pt, CMStringW *pwszUrl) const
 {
 	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
 	if (cp == -1)
 		return false;
 
-	if (!isLinkChar(cp))
+	if (!isLinkChar(hwnd, cp))
 		return false;
 
 	if (pwszUrl) {
 		CHARRANGE sel = { cp, cp };
-		while (isLinkChar(sel.cpMin-1))
+		while (isLinkChar(hwnd, sel.cpMin-1))
 			sel.cpMin--;
 
-		while (isLinkChar(sel.cpMax))
+		while (isLinkChar(hwnd, sel.cpMax))
 			sel.cpMax++;
 
 		if (sel.cpMax > sel.cpMin) {
@@ -229,18 +229,18 @@ bool ItemData::isLink(POINT pt, CMStringW *pwszUrl) const
 	return true;
 }
 
-bool ItemData::isLinkChar(int idx) const
+bool ItemData::isLinkChar(HWND hwnd, int idx) const
 {
 	if (idx < 0)
 		return false;
 
 	CHARRANGE sel = { idx, idx + 1 };
-	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&sel));
+	MTextSendMessage(hwnd, data, EM_EXSETSEL, 0, LPARAM(&sel));
 
 	CHARFORMAT2 cf = {};
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_LINK;
-	uint32_t res = MTextSendMessage(0, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
+	uint32_t res = MTextSendMessage(hwnd, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
 	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
 }
 
