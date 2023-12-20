@@ -116,7 +116,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			ProcessChatUser(pUser, _atoi64(szUserId), pNode);
 		}
 
-		dbei.pBlob = buf.data();
+		dbei.pBlob = (char *)buf.data();
 		dbei.cbBlob = (uint32_t)buf.length();
 
 		bool bSucceeded = false;

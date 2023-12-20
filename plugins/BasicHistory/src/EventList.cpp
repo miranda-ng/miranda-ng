@@ -508,7 +508,7 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, nullptr, 0, nullptr, nullptr);
 			char* buf = new char[dbei.cbBlob];
 			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, nullptr, nullptr);
-			dbei.pBlob = (uint8_t*)buf;
+			dbei.pBlob = buf;
 			db_event_add(m_hContact, &dbei);
 			delete[] buf;
 		}
@@ -524,7 +524,7 @@ bool HistoryEventList::GetEventData(const EventIndex& ev, EventData& data)
 	if (!ev.isExternal) {
 		uint32_t newBlobSize = db_event_getBlobSize(ev.hEvent);
 		if (newBlobSize > m_oldBlobSize) {
-			m_dbei.pBlob = (uint8_t*)mir_realloc(m_dbei.pBlob, newBlobSize);
+			m_dbei.pBlob = (char *)mir_realloc(m_dbei.pBlob, newBlobSize);
 			m_oldBlobSize = newBlobSize;
 		}
 

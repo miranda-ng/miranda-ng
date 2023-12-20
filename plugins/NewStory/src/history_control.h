@@ -67,7 +67,7 @@ struct NewstoryListData : public MZeroedObject
 	void      HitTotal(int yCurr, int yTotal);
 	void      LineUp();
 	void      LineDown();
-	ItemData* LoadItem(int idx);
+	ItemData* LoadItem(int idx, bool bBack = false);
 	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();

@@ -10,6 +10,9 @@ enum
 
 CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 
+#define LOAD_ALWAYS 0x0001
+#define LOAD_BACK   0x0002
+
 struct ItemData
 {
 	MCONTACT hContact;
@@ -41,7 +44,7 @@ struct ItemData
 
 	bool fetch(void);
 	void fill(int tmpl);
-	void load(bool bFullLoad = false);
+	void load(int flags = 0);
 	bool isLink(HWND, POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(HWND, int idx) const;
 
@@ -150,7 +153,7 @@ public:
 		pages.insert(new ItemBlock());
 	}
 
-	ItemData* get(int id, bool bLoad = false) const;
+	ItemData* get(int id, bool bLoad = false, bool bBack = false) const;
 	ItemData* insert(int idx);
 	
 	__forceinline int FindNext(int id, const Filter &filter) { return find(id, +1, filter); }

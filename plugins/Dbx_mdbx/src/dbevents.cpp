@@ -188,12 +188,12 @@ bool CDbxMDBX::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
-	uint8_t *pBlob = dbei->pBlob;
+	char *pBlob = dbei->pBlob;
 
-	mir_ptr<uint8_t> pCryptBlob;
+	mir_ptr<char> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		uint8_t *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
+		char *pResult = (char*)m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = pBlob = pResult;
 			dbe.cbBlob = (uint16_t)len;
@@ -310,10 +310,10 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
 
-	uint32_t cbBlob = dbe->cbBlob;
+	int cbBlob = dbe->cbBlob;
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
-		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
+		dbei->pBlob = (char *)mir_calloc(cbBlob + 2);
 	else if (dbei->cbBlob < cbBlob)
 		bytesToCopy = dbei->cbBlob;
 

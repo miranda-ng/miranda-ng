@@ -241,8 +241,7 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 
 		CMStringW wszUrl;
 		if (fileText2url(blob.getUrl(), &wszUrl)) {
-			MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
-			if (auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl)) {
+			if (auto *pFileInfo = RetrieveFileInfo(dbei.hContact, wszUrl)) {
 				if (!ofd->bCopy) {
 					auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
 					pReq->pUserInfo = ofd;
@@ -561,10 +560,9 @@ int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc
 		DB::EventInfo dbei(hReplyEvent);
 		if (dbei) {
 			JSONNode replyTo;
-			MCONTACT replyContact = db_event_getContact(hReplyEvent);
-			CMStringA replyId(GetUserId(replyContact));
+			CMStringA replyId(GetUserId(dbei.hContact));
 			replyTo << CHAR_PARAM("mediaType", "quote") << CHAR_PARAM("sn", replyId) << INT_PARAM("time", dbei.timestamp)
-				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(replyContact, 0))
+				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(dbei.hContact, 0))
 				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
 			parts.push_back(replyTo);
 		}

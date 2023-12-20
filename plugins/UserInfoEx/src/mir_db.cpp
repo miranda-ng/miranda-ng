@@ -508,7 +508,7 @@ bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 		dbei->cbBlob = (size != -1) ? (uint32_t)size : 0;
 	}
 	if (dbei->cbBlob) {
-		dbei->pBlob = (uint8_t*) mir_alloc(dbei->cbBlob);
+		dbei->pBlob = (char *)mir_alloc(dbei->cbBlob);
 		if (dbei->pBlob == nullptr)
 			dbei->cbBlob = 0;
 	}

@@ -132,7 +132,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, uint8_t *blob
 	fillData->bIsMe = (dbInfo.flags & DBEF_SENT);
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;
 	fillData->time = dbInfo.timestamp;
-	size_t len = mir_strlen((char *)blob) + 1;
+	int len = (int)mir_strlen((char *)blob) + 1;
 	uint8_t *pos;
 
 	fillData->szText.a = (char *)blob;
@@ -164,7 +164,7 @@ uint32_t WINAPI WorkerThread(LPVOID lpvData)
 	ieEvent.iType = IEE_LOG_MEM_EVENTS;
 	ieEvent.eventData = ieData;
 	DBEVENTINFO dbInfo = {};
-	uint8_t *buffer = nullptr;
+	char *buffer = nullptr;
 	int newSize, oldSize = 0;
 	while (count < target) {
 		cLoad = (count + LOAD_COUNT > target) ? target - count : LOAD_COUNT;
@@ -173,7 +173,7 @@ uint32_t WINAPI WorkerThread(LPVOID lpvData)
 		for (i = 0; i < cLoad; i++) {
 			newSize = db_event_getBlobSize(dbEvent);
 			if (newSize > oldSize) {
-				buffer = (uint8_t*)realloc(buffer, newSize);
+				buffer = (char*)realloc(buffer, newSize);
 				dbInfo.pBlob = buffer;
 				oldSize = newSize;
 			}

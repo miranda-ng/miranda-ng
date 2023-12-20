@@ -183,7 +183,7 @@ MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre
 	dbei.flags = DBEF_UTF | pcre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pcre->lParam;
-	dbei.pBlob = (uint8_t*)pcre->szMessage;
+	dbei.pBlob = pcre->szMessage;
 	return db_event_add(0, &dbei);
 }
 

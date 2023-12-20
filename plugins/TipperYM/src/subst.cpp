@@ -168,7 +168,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
-			dbei.pBlob = (uint8_t *)alloca(dbei.cbBlob);
+			dbei.pBlob = (char *)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
 			if (dbei.cbBlob == 0 || dbei.pBlob == nullptr)
 				return nullptr;

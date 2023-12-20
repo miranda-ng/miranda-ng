@@ -47,13 +47,13 @@ INT_PTR CIcqProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 
 			IcqFileInfo *pFileInfo = nullptr;
 			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
-			if (CheckFile(db_event_getContact(hEvent), wszText, pFileInfo)) {
+			if (CheckFile(dbei.hContact, wszText, pFileInfo)) {
 				if (!pFileInfo || pFileInfo->bIsSticker) {
 					// sticker is a simple text message prcoessed by SmileyAdd
 					T2Utf szBody(wszText);
 					mir_free(dbei.pBlob);
 					dbei.cbBlob = (int)mir_strlen(szBody.get());
-					dbei.pBlob = (uint8_t*)szBody.detach();
+					dbei.pBlob = szBody.detach();
 				}
 				else {
 					// create the offline file event

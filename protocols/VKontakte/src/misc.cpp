@@ -717,10 +717,10 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 	if (!hDbEvent || !IsOnline())
 		return INVALID_CONTACT_ID;
 
-	uint32_t body[2];
+	char body[2];
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(uint32_t) * 2;
-	dbei.pBlob = (uint8_t*)&body;
+	dbei.pBlob = body;
 
 	if (db_event_get(hDbEvent, &dbei))
 		return INVALID_CONTACT_ID;
@@ -1839,7 +1839,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	ptrA pszDescription(mir_utf8encode(vkDeactivateEvent[iDEIdx].szDescription));
 	dbei.cbBlob = (uint32_t)mir_strlen(pszDescription) + 1;
-	dbei.pBlob = (uint8_t*)mir_strdup(pszDescription);
+	dbei.pBlob = mir_strdup(pszDescription);
 	dbei.flags = DBEF_UTF | (
 		(
 			m_vkOptions.bShowVkDeactivateEvents

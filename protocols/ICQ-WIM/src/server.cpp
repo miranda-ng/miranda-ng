@@ -653,7 +653,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		if (bCreateRead)
 			dbei.flags |= DBEF_READ;
 		dbei.cbBlob = (int)mir_strlen(szUtf);
-		dbei.pBlob = (BYTE*)szUtf.get();
+		dbei.pBlob = szUtf.get();
 		dbei.szId = szMsgId;
 		if (isChatRoom(hContact))
 			dbei.szUserId = szSender;

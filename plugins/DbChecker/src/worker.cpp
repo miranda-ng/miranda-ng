@@ -56,7 +56,7 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = (uint32_t)mir_strlen(utf8str);
-	dbei.pBlob = (uint8_t*)utf8str;
+	dbei.pBlob = utf8str;
 	return true;
 }
 
@@ -128,7 +128,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 						mir_free(dboldev.pBlob);
 						dboldev = dbei;
 						if (dboldev.cbBlob) {
-							dboldev.pBlob = (uint8_t *)mir_alloc(dboldev.cbBlob);
+							dboldev.pBlob = (char *)mir_alloc(dboldev.cbBlob);
 							memcpy(dboldev.pBlob, dbei.pBlob, dboldev.cbBlob);
 						}
 						else dboldev.pBlob = nullptr;

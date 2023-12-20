@@ -794,7 +794,7 @@ HANDLE SendLater::processAck(const ACKDATA *ack)
 				dbei.szModule = Proto_GetBaseAccountName((p->hContact));
 				dbei.timestamp = time(0);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
-				dbei.pBlob = (uint8_t*)(p->sendBuffer);
+				dbei.pBlob = p->sendBuffer;
 				db_event_add(p->hContact, &dbei);
 
 				p->cleanDB();

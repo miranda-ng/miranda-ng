@@ -375,7 +375,7 @@ void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 
 	std::string text = root.write();
 	dbei.cbBlob = (int)text.size() + 1;
-	dbei.pBlob = (uint8_t*)mir_realloc(dbei.pBlob, dbei.cbBlob);
+	dbei.pBlob = (char *)mir_realloc(dbei.pBlob, dbei.cbBlob);
 	memcpy(dbei.pBlob, text.c_str(), dbei.cbBlob);
 }
 
@@ -394,9 +394,9 @@ DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR ln
 	m_size = uint32_t(sizeof(uint32_t) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
 }
 
-DB::AUTH_BLOB::AUTH_BLOB(uint8_t *blob)
+DB::AUTH_BLOB::AUTH_BLOB(char *blob)
 {
-	char *pCurBlob = (char *)blob;
+	char *pCurBlob = blob;
 	m_dwUin = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
 	m_hContact = *(uint32_t*)pCurBlob;
@@ -406,24 +406,24 @@ DB::AUTH_BLOB::AUTH_BLOB(uint8_t *blob)
 	m_szLastName = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
 	m_szEmail = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
 	m_szReason = mir_strdup(pCurBlob); pCurBlob += mir_strlen(pCurBlob) + 1;
-	m_size = uint32_t(pCurBlob - (char *)blob);
+	m_size = uint32_t(pCurBlob - blob);
 }
 
 DB::AUTH_BLOB::~AUTH_BLOB()
 {
 }
 
-uint8_t* DB::AUTH_BLOB::makeBlob()
+char* DB::AUTH_BLOB::makeBlob()
 {
-	uint8_t *pBlob, *pCurBlob;
-	pCurBlob = pBlob = (uint8_t*)mir_alloc(m_size + 1);
+	char *pBlob, *pCurBlob;
+	pCurBlob = pBlob = (char *)mir_alloc(m_size + 1);
 
 	*((uint32_t*)pCurBlob) = m_dwUin;
 	pCurBlob += sizeof(uint32_t);
 	*((uint32_t*)pCurBlob) = (uint32_t)m_hContact;
 	pCurBlob += sizeof(uint32_t);
 
-	mir_snprintf((char*)pCurBlob, m_size - 8, "%s%c%s%c%s%c%s%c%s%c",
+	mir_snprintf(pCurBlob, m_size - 8, "%s%c%s%c%s%c%s%c%s%c",
 		(m_szNick) ? m_szNick.get() : "", 0,
 		(m_szFirstName) ? m_szFirstName.get() : "", 0,
 		(m_szLastName) ? m_szLastName.get() : "", 0,

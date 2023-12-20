@@ -286,15 +286,14 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	for (int i = 0; i < nCount; i++)
 		cbBlob += int(/*mir_wstrlen(isrList[i]->nick.w)*/0 + 2 + mir_wstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
 
-	uint8_t *pBlob = (uint8_t*)mir_calloc(cbBlob);
-	uint8_t *pCurBlob = pBlob;
+	char *pBlob = (char *)mir_calloc(cbBlob);
+	char *pCurBlob = pBlob;
 
 	for (int i = 0; i < nCount; i++) {
-		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
-		pCurBlob += mir_strlen((PCHAR)pCurBlob) + 1;
+		pCurBlob += mir_strlen(pCurBlob) + 1;
 
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.w));
-		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+		mir_strcpy(pCurBlob, _T2A(isrList[i]->id.w));
+		pCurBlob += mir_strlen(pCurBlob) + 1;
 	}
 
 	DBEVENTINFO dbei = {};

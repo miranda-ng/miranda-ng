@@ -190,7 +190,7 @@ public:
 
 				dbei->flags |= DBEF_UTF;
 				dbei->cbBlob = (uint32_t)szBody.size() + offset;
-				dbei->pBlob = (uint8_t*)mir_calloc(dbei->cbBlob + 1);
+				dbei->pBlob = (char *)mir_calloc(dbei->cbBlob + 1);
 				memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
 				dbei->pBlob[dbei->cbBlob] = 0;
 			}

@@ -123,10 +123,10 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	}
 	else szEventId = "";
 
-	mir_ptr<uint8_t> pCryptBlob;
+	mir_ptr<char> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		uint8_t *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		char *pResult = (char*)m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = tmp.pBlob = pResult;
 			tmp.cbBlob = (uint16_t)len;
@@ -265,10 +265,10 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 		return 1;
 
 	DBEVENTINFO tmp = *dbei;
-	mir_ptr<uint8_t> pCryptBlob;
+	mir_ptr<char> pCryptBlob;
 	if (m_bEncrypted && tmp.pBlob) {
 		size_t len;
-		uint8_t *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		char *pResult = (char*)m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = tmp.pBlob = pResult;
 			tmp.cbBlob = (uint16_t)len;
@@ -407,7 +407,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, reply_id, LENGTH(CAST(data AS BLOB)) AS l, data FROM events WHERE id = ? LIMIT 1;", qEvGet);
+	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, user_id, reply_id, LENGTH(CAST(data AS BLOB)) AS l, data, contact_id FROM events WHERE id = ? LIMIT 1;", qEvGet);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -424,7 +424,8 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->timestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
-	
+	dbei->hContact = sqlite3_column_int(stmt, 8);
+
 	p = (char *)sqlite3_column_text(stmt, 4);
 	if (mir_strlen(p)) {
 		mir_strncpy(g_szId, p, sizeof(g_szId));
@@ -449,7 +450,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	int32_t cbBlob = sqlite3_column_int64(stmt, 7);
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
-		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
+		dbei->pBlob = (char *)mir_calloc(cbBlob + 2);
 	else if (dbei->cbBlob < cbBlob)
 		bytesToCopy = dbei->cbBlob;
 

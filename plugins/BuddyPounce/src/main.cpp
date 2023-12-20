@@ -51,7 +51,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 					dbei.szModule = (char*)ack->szModule;
 					dbei.timestamp = time(0);
 					dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
-					dbei.pBlob = (uint8_t*)(char*)pszUtf;
+					dbei.pBlob = pszUtf;
 					db_event_add(ack->hContact, &dbei);
 				}
 				// check to reuse

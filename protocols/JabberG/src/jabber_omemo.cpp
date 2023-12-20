@@ -1373,7 +1373,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 
 		std::string text = root.write();
 		dbei.cbBlob = (int)text.size() + 1;
-		dbei.pBlob = (uint8_t *)text.c_str();
+		dbei.pBlob = (char *)text.c_str();
 		db_event_add(hContact, &dbei);
 	}
 	else {

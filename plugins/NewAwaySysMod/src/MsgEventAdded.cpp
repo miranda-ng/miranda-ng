@@ -72,7 +72,7 @@ void __cdecl AutoreplyDelayThread(CAutoreplyData *ad)
 		dbei.szModule = szProto;
 		dbei.timestamp = time(0);
 		dbei.cbBlob = ReplyLen;
-		dbei.pBlob = (uint8_t*)(char*)pszReply;
+		dbei.pBlob = pszReply;
 		db_event_add(ad->hContact, &dbei);
 	}
 

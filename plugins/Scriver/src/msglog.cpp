@@ -380,7 +380,7 @@ public:
 				return false;
 
 			dbei.flags = DBEF_UTF | ((streamData->eventsToInsert < 2) ? DBEF_SENT : 0);
-			dbei.pBlob = (uint8_t *)TranslateU(szBuiltinEvents[streamData->eventsToInsert]);
+			dbei.pBlob = TranslateU(szBuiltinEvents[streamData->eventsToInsert]);
 			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
 		}
 

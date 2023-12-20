@@ -1245,7 +1245,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// chatstates gone event
 	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_bLogChatstates) {
-		uint8_t bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
+		char bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;

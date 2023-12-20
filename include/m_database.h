@@ -188,9 +188,10 @@ struct DBEVENTINFO
 									    // unless you use the standard C library which is
 									    // signed and can only do until 2038. In GMT.
 	uint32_t    flags;          // combination of DBEF_* flags
-	uint16_t    eventType;      // module-defined event type field
+	uint32_t    eventType;      // module-defined event type field
+	MCONTACT    hContact;       // contact to which this event belongs
 	int         cbBlob;         // size of pBlob in bytes
-	uint8_t    *pBlob;          // pointer to buffer containing module-defined event data
+	char       *pBlob;          // pointer to buffer containing module-defined event data
 	const char *szId;           // server message id
 	const char *szUserId;       // user id (for group chats only)
 	const char *szReplyId;      // this message is a reply to a message with that server id
@@ -747,15 +748,14 @@ namespace DB
 		ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
 		uint32_t m_size;
 
-		uint8_t* makeBlob();
+		char* makeBlob();
 
 	public:
 		explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
-		explicit AUTH_BLOB(uint8_t *blob);
+		explicit AUTH_BLOB(char *blob);
 		~AUTH_BLOB();
 
-		__forceinline operator char*() { return (char*)makeBlob(); }
-		__forceinline operator uint8_t*() { return makeBlob(); }
+		__forceinline operator char*() { return makeBlob(); }
 
 		__forceinline uint32_t size() const  { return m_size; }
 

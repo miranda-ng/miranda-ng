@@ -630,7 +630,7 @@ public:
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
 			dbei.szModule = (char *)TranslateT("Sample error message");
-		dbei.pBlob = (uint8_t *)szText.detach();
+		dbei.pBlob = szText;
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);

@@ -120,7 +120,10 @@ static void __cdecl sttLoadItems(void *param)
 
 	auto *pData = (NewstoryListData *)param;
 	for (int i = pData->totalCount-1; i >= 0; i--) {
-		pData->LoadItem(i);
+		auto *pItem = pData->LoadItem(i, true);
+		if (pItem->dbe.eventType == EVENTTYPE_MESSAGE && !(pItem->dbe.flags & DBEF_SENT) && !pItem->dbe.markedRead())
+			PostMessage(pData->m_hwnd, UM_MARKREAD, WPARAM(pItem), 0);
+
 		if ((i % 100) == 0)
 			Sleep(50);
 	}
@@ -366,7 +369,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
-				dbei.pBlob = (uint8_t *)szUtf.get();
+				dbei.pBlob = szUtf.get();
 				db_event_edit(pItem->hEvent, &dbei);
 			}
 
@@ -552,13 +555,13 @@ void NewstoryListData::HitTotal(int yCurr, int yTotal)
 	FixScrollPosition();
 }
 
-ItemData* NewstoryListData::LoadItem(int idx)
+ItemData* NewstoryListData::LoadItem(int idx, bool bBack)
 {
 	if (totalCount == 0)
 		return nullptr;
 
 	mir_cslock lck(m_csItems);
-	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
+	return (bSortAscending) ? items.get(idx, true, bBack) : items.get(totalCount - 1 - idx, true, bBack);
 }
 
 void NewstoryListData::OpenFolder()
@@ -1103,6 +1106,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->FixScrollPosition(true);
 			InvalidateRect(hwnd, 0, FALSE);
 		}
+		break;
+
+	case UM_MARKREAD:
+		if (auto *pItem = (ItemData *)wParam)
+			pItem->markRead();
 		break;
 
 	case WM_SIZE:

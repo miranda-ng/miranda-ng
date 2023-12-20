@@ -49,7 +49,7 @@ MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timest
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
 	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
-	dbei.pBlob = (uint8_t *)szMsg;
+	dbei.pBlob = szMsg;
 	dbei.flags = flags;
 	dbei.szId = msgId;
 	return db_event_add(hContact, &dbei);
@@ -93,7 +93,7 @@ void CSkypeProto::EditEvent(MEVENT hEvent, const CMStringW &szContent, time_t ed
 	
 	std::string newMsg = jMsg.write().c_str();
 	dbei.cbBlob = int(newMsg.size() + 1);
-	dbei.pBlob = (uint8_t*)newMsg.c_str();
+	dbei.pBlob = (char *)newMsg.c_str();
 	db_event_edit(hEvent, &dbei, true);
 }
 

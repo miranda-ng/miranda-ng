@@ -326,7 +326,7 @@ void CSend::DB_EventAdd(uint16_t EventType)
 	dbei.timestamp = time(0);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = m_cbEventMsg;
-	dbei.pBlob = (uint8_t*)m_szEventMsg.GetString();
+	dbei.pBlob = m_szEventMsg.GetBuffer();
 	db_event_add(m_hContact, &dbei);
 }
 

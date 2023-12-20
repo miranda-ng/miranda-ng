@@ -847,9 +847,8 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			if (auto *pDlg = Srmm_FindDialog(hContact))
 				pDlg->EventAdded(hDbEvent, dbei);
 
-			MCONTACT hRealContact = db_event_getContact(hDbEvent);
-			if (hRealContact != hContact)
-				if (auto *pDlg = Srmm_FindDialog(hRealContact))
+			if (dbei.hContact != hContact)
+				if (auto *pDlg = Srmm_FindDialog(dbei.hContact))
 					pDlg->EventAdded(hDbEvent, dbei);
 		}
 	}

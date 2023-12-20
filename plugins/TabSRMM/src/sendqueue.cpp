@@ -347,7 +347,7 @@ void SendQueue::logError(CMsgDialog *dat, int iSendJobIndex, const wchar_t *szEr
 	DB::EventInfo dbei;
 	dbei.eventType = EVENTTYPE_ERRMSG;
 	if (iSendJobIndex >= 0) {
-		dbei.pBlob = (uint8_t *)m_jobs[iSendJobIndex].szSendBuffer;
+		dbei.pBlob = m_jobs[iSendJobIndex].szSendBuffer;
 		iMsgLen = mir_strlen(m_jobs[iSendJobIndex].szSendBuffer) + 1;
 	}
 	else {
@@ -473,7 +473,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 
 	if (job.dwFlags & PREF_RTL)
 		dbei.flags |= DBEF_RTL;
-	dbei.pBlob = (uint8_t*)job.szSendBuffer;
+	dbei.pBlob = job.szSendBuffer;
 	dbei.szId = (char *)ack->lParam;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
@@ -545,13 +545,14 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		else
 			szNote = TranslateT("The send later feature is not available on this protocol.");
 
+		ptrA szUtf(mir_utf8encodeW(szNote));
 		DB::EventInfo dbei;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = Proto_GetBaseAccountName(dat->m_hContact);
 		dbei.timestamp = time(0);
-		dbei.pBlob = (uint8_t*)mir_utf8encodeW(szNote);
-		dbei.cbBlob = (int)mir_strlen((char*)dbei.pBlob);
+		dbei.pBlob = szUtf;
+		dbei.cbBlob = (int)mir_strlen(szUtf);
 		dat->LogEvent(dbei);
 
 		if (dat->m_hDbEventFirst == 0)

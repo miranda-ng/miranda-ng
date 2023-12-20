@@ -1001,7 +1001,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 	DB::EventInfo dbei(hDbEvent);
 	if (dbei) {
 		if (db_mc_isMeta(hContact))
-			hContact = db_event_getContact(hDbEvent);
+			hContact = dbei.hContact;
 
 		// Write the event
 		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);

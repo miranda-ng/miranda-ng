@@ -8,6 +8,6 @@ void HistoryLog(MCONTACT hContact, LPCSTR szText)
 	dbei.timestamp = time(0);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)mir_strlen(szText) + 1;
-	dbei.pBlob = (uint8_t*)szText;
+	dbei.pBlob = (char *)szText;
 	db_event_add(0, &dbei);
 }

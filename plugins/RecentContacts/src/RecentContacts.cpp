@@ -368,7 +368,7 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 	cmultimap *contacts = new cmultimap;
 
 	DBEVENTINFO dbe = {};
-	uint8_t buf[1];
+	char buf[1];
 	dbe.pBlob = buf;
 
 	for (auto &curContact : Contacts()) {

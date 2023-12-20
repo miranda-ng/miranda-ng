@@ -97,8 +97,8 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 		buf.Append(msg + msgLen + 1, datalen);
 	}
 	
-	my_dbei.pBlob = (uint8_t*)buf.GetBuffer();
-	my_dbei.cbBlob = (int)buf.GetLength();
+	my_dbei.pBlob = buf.GetBuffer();
+	my_dbei.cbBlob = buf.GetLength();
 	my_dbei.flags |= DBEF_OTR_PREFIXED;
 	db_event_add(hContact, &my_dbei);
 	
@@ -115,7 +115,7 @@ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
 
 	DBEVENTINFO info = {};
 	info.cbBlob = len * 2;
-	info.pBlob = (uint8_t*)_alloca(info.cbBlob);
+	info.pBlob = (char *)_alloca(info.cbBlob);
 	if (db_event_get(lParam, &info))
 		return 0;
 

@@ -761,7 +761,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			//mir_free(dbei->pBlob);
 			str_event.insert(0, toUTF8(globals.wszOutopentag.c_str()));
 			str_event.append(toUTF8(globals.wszOutclosetag.c_str()));
-			dbei->pBlob = (uint8_t*)mir_strdup(str_event.c_str());
+			dbei->pBlob = mir_strdup(str_event.c_str());
 			dbei->cbBlob = (uint32_t)str_event.length() + 1;
 		}
 

@@ -888,7 +888,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 		// Copy the event and import it
 		DB::EventInfo dbei;
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
-		dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob+1);
+		dbei.pBlob = (char *)mir_alloc(dbei.cbBlob+1);
 
 		bool bSkipThis = false;
  		if (!srcDb->GetEvent(hEvent, &dbei)) {

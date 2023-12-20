@@ -38,7 +38,7 @@ bool EventInformation::isValidEvent(MEVENT event)
 	{
 		return false;
 	}
-	m_event_info.pBlob = new unsigned char[m_event_info.cbBlob];
+	m_event_info.pBlob = new char[m_event_info.cbBlob];
 
 	// get the event info
 	db_event_get(event, &m_event_info);

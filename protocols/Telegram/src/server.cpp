@@ -415,7 +415,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = pMsg->date_;
 		dbei.cbBlob = szBody.GetLength();
-		dbei.pBlob = (uint8_t*)szBody.c_str();
+		dbei.pBlob = szBody.GetBuffer();
 		dbei.szId = szMsgId;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		if (pMsg->is_outgoing_)
@@ -779,7 +779,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		DB::EventInfo dbei(hOldEvent);
 		mir_free(dbei.pBlob);
 		dbei.cbBlob = szText.GetLength();
-		dbei.pBlob = (uint8_t *)szText.Detach();
+		dbei.pBlob = szText.GetBuffer();
 		dbei.timestamp = pMessage->date_;
 		if (pMessage->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
@@ -837,7 +837,7 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 
 	dbei.cbBlob = szText.GetLength();
-	dbei.pBlob = (uint8_t *)szText.c_str();
+	dbei.pBlob = szText.GetBuffer();
 	db_event_edit(hDbEvent, &dbei, true);
 }
 

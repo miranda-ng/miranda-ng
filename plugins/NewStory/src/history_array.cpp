@@ -369,9 +369,9 @@ void ItemData::getFontColor(int &fontId, int &colorId) const
 	}
 }
 
-void ItemData::load(bool bFullLoad)
+void ItemData::load(int flags)
 {
-	if (!bFullLoad && m_bLoaded)
+	if (!(flags & LOAD_ALWAYS) && m_bLoaded)
 		return;
 
 	if (!fetch())
@@ -381,7 +381,8 @@ void ItemData::load(bool bFullLoad)
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		markRead();
+		if (!(flags & LOAD_BACK))
+			markRead();
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -639,7 +640,7 @@ int HistoryArray::find(MEVENT hEvent)
 	return -1;
 }
 
-ItemData* HistoryArray::get(int id, bool bLoad) const
+ItemData* HistoryArray::get(int id, bool bLoad, bool bBack) const
 {
 	int pageNo = id / HIST_BLOCK_SIZE;
 	if (pageNo >= pages.getCount())
@@ -647,7 +648,7 @@ ItemData* HistoryArray::get(int id, bool bLoad) const
 
 	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
 	if (bLoad && !p->m_bLoaded)
-		p->load();
+		p->load((bBack) ? LOAD_BACK : 0);
 	return p;
 }
 

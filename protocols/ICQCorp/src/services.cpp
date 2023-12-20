@@ -202,7 +202,7 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 		dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
-	dbei.pBlob = (uint8_t*)szMsg.get();
+	dbei.pBlob = szMsg.get();
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
