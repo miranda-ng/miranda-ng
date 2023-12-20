@@ -121,6 +121,9 @@ static void __cdecl sttLoadItems(void *param)
 	auto *pData = (NewstoryListData *)param;
 	for (int i = pData->totalCount-1; i >= 0; i--) {
 		auto *pItem = pData->LoadItem(i, true);
+		if (!pItem)
+			break;
+
 		switch (pItem->dbe.eventType) {
 		case EVENTTYPE_FILE:
 			if (!pItem->m_bOfflineFile)

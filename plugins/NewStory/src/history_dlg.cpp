@@ -339,12 +339,14 @@ class CHistoryDlg : public CDlgBase
 		else {
 			ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_BOOKMARK));
 
-			auto &pArray = m_histCtrl->items;
-			int numItems = pArray.getCount();
-			for (int i = 0; i < numItems; i++)
-				if (auto *pItem = pArray.get(i, true))
+			int numItems = m_histCtrl->totalCount;
+
+			for (int i = 0; i < numItems; i++) {
+				auto *pItem = m_histCtrl->GetItem(i);
+				if (pItem->fetch())
 					if (pItem->dbe.flags & DBEF_BOOKMARK)
 						m_bookmarks.AddItem(pItem->wtext, 0, i);
+			}
 		}
 	}
 
