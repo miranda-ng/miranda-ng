@@ -378,6 +378,7 @@ void ItemData::load(int flags)
 		return;
 
 	m_bLoaded = true;
+	hContact = dbe.hContact; // save true contact
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
