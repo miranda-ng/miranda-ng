@@ -111,6 +111,21 @@ public:
 	HRESULT  InitDefaultParaFormat();
 };
 
+struct TextObject
+{
+	uint32_t options = 0;
+	MCONTACT hContact = INVALID_CONTACT_ID;
+	const char *szProto = nullptr;
+	CFormattedTextDraw *ftd = nullptr;
+
+	TextObject() {}
+
+	~TextObject()
+	{
+		delete ftd;
+	}
+};
+
 void bbCodeParse(CFormattedTextDraw *ts);
 
 #endif //__FORMATTEDTEXTDRAW_H_

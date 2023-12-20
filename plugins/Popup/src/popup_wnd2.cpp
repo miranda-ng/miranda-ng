@@ -740,10 +740,9 @@ void PopupWnd2::buildMText()
 	m_mtText = m_mtTitle = nullptr;
 
 	if (m_lptzText && m_lptzTitle) {
-		auto *szProto = Proto_GetBaseAccountName(m_hContact);
 		m_textType = TT_MTEXT;
-		m_mtText = MTextCreateW(htuText, szProto, m_lptzText);
-		m_mtTitle = MTextCreateW(htuTitle, szProto, m_lptzTitle);
+		m_mtText = MTextCreateW(htuText, m_lptzText); MTextSetProto(m_mtText, m_hContact);
+		m_mtTitle = MTextCreateW(htuTitle, m_lptzTitle); MTextSetProto(m_mtTitle, m_hContact);
 	}
 }
 

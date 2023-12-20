@@ -18,12 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
+#include "FormattedTextDraw.h"
 
 struct TextControlData
 {
 	HANDLE htu;
 	wchar_t *text;
-	struct TextObject *mtext;
+	TextObject *mtext;
 	COLORREF clBack = -1;
 };
 
@@ -106,15 +107,21 @@ static LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case MTM_UPDATE:
 		if (data->text) delete[] data->text;
-		if (data->mtext) MTextDestroy(data->mtext);
 		{
+			MCONTACT hContact = INVALID_CONTACT_ID;
+			if (data->mtext) {
+				hContact = data->mtext->hContact;
+				MTextDestroy(data->mtext);
+			}
+
 			int textLength = GetWindowTextLengthW(hwnd);
 			data->text = new wchar_t[textLength + 1];
 			GetWindowTextW(hwnd, data->text, textLength + 1);
-		}
 
-		data->mtext = MTextCreateW(data->htu, 0, data->text);
-		MTextSetParent(data->mtext, hwnd);
+			data->mtext = MTextCreateW(data->htu, data->text);
+			MTextSetParent(data->mtext, hwnd);
+			MTextSetProto(data->mtext, hContact);
+		}
 		InvalidateRect(hwnd, nullptr, TRUE);
 		return TRUE;
 

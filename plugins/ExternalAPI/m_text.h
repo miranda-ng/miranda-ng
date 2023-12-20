@@ -61,7 +61,7 @@ enum
 MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, uint32_t options);
 
 // allocate text object (unicode)
-MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
+MTEXTCONTROL_DLL(HText) MTextCreateW(HANDLE userHandle, const wchar_t *text);
 
 // allocate text object (advanced)
 MTEXTCONTROL_DLL(HText) MTextCreateEx(HANDLE userHandle, const void *text, uint32_t flags);
@@ -81,11 +81,14 @@ MTEXTCONTROL_DLL(int) MTextActivate(HText text, bool bActivate = true);
 // wrapped text size is stored in sz, text
 MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, HText text);
 
-// display text object
+// displays text object
 // result = 1 (success), 0 (failure)
 MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, HText text);
 
-// set parent window for text object (this is required for mouse handling, etc)
+// sets a contact & protocol (optionally, for hContact == 0) for text object (required for valid stickers' processing)
+MTEXTCONTROL_DLL(int) MTextSetProto(HText text, MCONTACT hContact, const char *szProto = nullptr);
+
+// sets parent window for text object (this is required for mouse handling, etc)
 MTEXTCONTROL_DLL(int) MTextSetParent(HText text, HWND hwnd);
 
 // send message to an object
