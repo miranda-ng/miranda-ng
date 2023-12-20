@@ -207,7 +207,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	m_szSessionKey = data["sessionKey"].as_mstring();
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	m_szOwnId = data["loginId"].as_mstring();
+	SetOwnId(data["loginId"].as_mstring());
 	setByte(DB_KEY_PHONEREG, 1);
 }
 

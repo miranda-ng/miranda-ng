@@ -217,6 +217,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
 	void          SendMrimLogin(NETLIBHTTPREQUEST *pReply);
+	void          SetOwnId(const CMStringW &wszId);
 	void          SetServerStatus(int iNewStatus);
 	void          ShutdownSession(void);
 	void          StartSession(void);
@@ -300,6 +301,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	LONG          m_msgId = 1;
 	int           m_iRClientId;
 	HGENMENU      m_hUploadGroups;
+	MCONTACT      m_hFavContact = INVALID_CONTACT_ID;
 
 	mir_cs        m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;

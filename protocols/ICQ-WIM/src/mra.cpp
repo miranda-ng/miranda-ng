@@ -101,9 +101,7 @@ void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 
 	m_szSessionKey = data["sessionKey"].as_mstring();
 
-	CMStringW szUin = data["loginId"].as_mstring();
-	if (szUin)
-		m_szOwnId = szUin;
+	SetOwnId(data["loginId"].as_mstring());
 
 	int srvTS = data["hostTime"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;

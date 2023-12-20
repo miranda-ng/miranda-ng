@@ -320,6 +320,8 @@ void CIcqProto::OnLoggedIn()
 	for (auto &it : m_arCache)
 		it->m_timer1 = it->m_timer2 = 0;
 
+	setWord(m_hFavContact, "Status", ID_STATUS_ONLINE);
+
 	SetServerStatus(m_iDesiredStatus);
 	RetrieveUserInfo(0);
 	GetPermitDeny();
@@ -412,7 +414,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	else delSetting(hContact, "MirVer");
 
 	const JSONNode &var = buddy["friendly"];
-	if (var)
+	if (var && hContact != m_hFavContact)
 		setWString(hContact, "Nick", var.as_mstring());
 
 	if (buddy["deleted"].as_bool()) {
@@ -903,6 +905,28 @@ void CIcqProto::RetrieveHistoryChunk(MCONTACT hContact, __int64 patchVer, __int6
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::SetOwnId(const CMStringW &wszId)
+{
+	if (wszId.IsEmpty())
+		return;
+
+	m_szOwnId = wszId;
+
+	auto *pUser = FindUser(wszId);
+	if (!pUser) {
+		MCONTACT hContact = CreateContact(wszId, false);
+		Clist_SetGroup(hContact, TranslateT("Conferences"));
+		pUser = FindUser(wszId);
+	}
+	
+	setWString(pUser->m_hContact, "Nick", TranslateT("Favorites"));
+
+	if (m_hFavContact == INVALID_CONTACT_ID) {
+		m_hFavContact = pUser->m_hContact;
+		pUser->m_hContact = 0;
+	}
+}
+
 void CIcqProto::SetServerStatus(int iStatus)
 {
 	const char *szStatus = "online";
@@ -1079,9 +1103,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	CMStringW szUin = data["loginId"].as_mstring();
-	if (szUin)
-		m_szOwnId = szUin;
+	SetOwnId(data["loginId"].as_mstring());
 
 	int srvTS = data["hostTime"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
