@@ -5,10 +5,6 @@
 #include <m_core.h>
 #endif
 
-#ifndef M_NEWPLUGINAPI_H__
-#include <newpluginapi.h>
-#endif
-
 // predefined menu objects
 #define MO_MAIN    (-1)
 #define MO_CONTACT (-2)
@@ -40,7 +36,7 @@ struct TMO_MenuItem
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
-	const CMPluginBase *pPlugin;
+	const class CMPluginBase *pPlugin;
 	MUUID uid;
 };
 
