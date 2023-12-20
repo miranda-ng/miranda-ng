@@ -479,12 +479,14 @@ void ItemData::markRead()
 void ItemData::setText()
 {
 	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
+	MTextSetProto(data, hContact);
 	savedHeight = -1;
 }
 
 void ItemData::setTextAndHwnd(HWND hwnd)
 {
 	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
+	MTextSetProto(data, hContact);
 	savedHeight = -1;
 }
 

@@ -34,19 +34,6 @@ void MText_InitFormatting1(TextObject *text)
 {
 	// bbcodes
 	bbCodeParse(text->ftd);
-
-	// smilies
-	HWND hwnd = CreateProxyWindow();
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
-
-	SMADD_RICHEDIT sm = {};
-	sm.hwndRichEditControl = hwnd;
-	sm.rangeToReplace = nullptr;
-	sm.Protocolname = text->szProto;
-	sm.flags = SAFLRE_INSERTEMF;
-	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
-
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -205,6 +192,20 @@ MTEXTCONTROL_DLL(int) MTextSetProto(TextObject *text, MCONTACT hContact, const c
 
 	text->hContact = hContact;
 	text->szProto = szProto;
+
+	// smilies
+	HWND hwnd = CreateProxyWindow();
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
+
+	SMADD_RICHEDIT sm = {};
+	sm.hwndRichEditControl = hwnd;
+	sm.rangeToReplace = nullptr;
+	sm.hContact = text->hContact;
+	sm.Protocolname = text->szProto;
+	sm.flags = SAFLRE_INSERTEMF;
+	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
+
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 	return TRUE;
 }
 
