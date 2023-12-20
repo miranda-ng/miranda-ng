@@ -7,6 +7,7 @@ struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);
 
+	mir_cs m_csItems;
 	HistoryArray items;
 
 	int scrollTopItem; // topmost item

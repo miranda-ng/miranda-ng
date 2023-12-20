@@ -112,12 +112,31 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	totalCount++;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void __cdecl sttLoadItems(void *param)
+{
+	SetThreadPriority(GetCurrentThread(), THREAD_MODE_BACKGROUND_BEGIN);
+
+	auto *pData = (NewstoryListData *)param;
+	for (int i = pData->totalCount-1; i >= 0; i--) {
+		pData->LoadItem(i);
+		if ((i % 100) == 0)
+			Sleep(50);
+	}
+}
+
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
 	ScheduleDraw();
 	items.addEvent(hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
+
+	if (iCount == -1)
+		mir_forkthread(sttLoadItems, this);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 {
@@ -538,6 +557,7 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	if (totalCount == 0)
 		return nullptr;
 
+	mir_cslock lck(m_csItems);
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
