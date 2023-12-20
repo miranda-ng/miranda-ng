@@ -94,7 +94,7 @@ static bool isEqual(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrev(ItemData *pPrev)
+ItemData* ItemData::checkPrev(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -111,7 +111,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -120,7 +120,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ItemData* ItemData::checkNext(ItemData *pPrev)
+ItemData* ItemData::checkNext(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -138,11 +138,11 @@ ItemData* ItemData::checkNext(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 		if (m_bLoaded)
-			setText();
+			setText(hwnd);
 	}
 	return this;
 }
@@ -165,7 +165,7 @@ static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrevGC(ItemData *pPrev)
+ItemData* ItemData::checkPrevGC(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -178,7 +178,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -190,7 +190,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		setTextAndHwnd(hwnd);
+		setText(hwnd);
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
@@ -476,15 +476,11 @@ void ItemData::markRead()
 	}
 }
 
-void ItemData::setText()
+void ItemData::setText(HWND hwnd)
 {
-	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
-	MTextSetProto(data, hContact);
-	savedHeight = -1;
-}
+	if (data)
+		MTextDestroy(data);
 
-void ItemData::setTextAndHwnd(HWND hwnd)
-{
 	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
 	MTextSetProto(data, hContact);
 	savedHeight = -1;
@@ -569,7 +565,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 			p.wszNick = mir_wstrdup(lin->ptszNick);
 			strings.insert(p.wszNick);
 		}
-		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1));
+		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1), hwndOwner);
 	}
 }
 
@@ -585,7 +581,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
-		pPrev = p.checkPrev(pPrev);
+		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 	else {
 		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
@@ -597,7 +593,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 			auto &p = allocateItem();
 			p.hContact = hContact;
 			p.hEvent = hEvent;
-			pPrev = p.checkPrev(pPrev);
+			pPrev = p.checkPrev(pPrev, hwndOwner);
 		}
 	}
 
@@ -614,7 +610,7 @@ void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
 		p.hContact = it->hContact;
 		p.hEvent = it->hEvent;
 		p.m_bIsResult = true;
-		pPrev = p.checkPrev(pPrev);
+		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 }
 

@@ -34,13 +34,12 @@ struct ItemData
 	ItemData();
 	~ItemData();
 
-	ItemData* checkNext(ItemData *pPrev);
-	ItemData* checkPrev(ItemData *pPrev);
-	ItemData* checkPrevGC(ItemData *pPrev);
+	ItemData* checkNext(ItemData *pPrev, HWND hwnd);
+	ItemData* checkPrev(ItemData *pPrev, HWND hwnd);
+	ItemData* checkPrevGC(ItemData *pPrev, HWND hwnd);
 	void checkCreate(HWND hwnd);
 	void markRead();
-	void setText();
-	void setTextAndHwnd(HWND hwnd);
+	void setText(HWND hwnd);
 
 	bool fetch(void);
 	void fill(int tmpl);
@@ -132,6 +131,7 @@ class HistoryArray
 	LIST<wchar_t> strings;
 	OBJLIST<ItemBlock> pages;
 	int iLastPageCounter = 0;
+	MWindow hwndOwner = 0;
 
 	ItemData& allocateItem(void);
 
@@ -151,6 +151,9 @@ public:
 	{
 		clear();
 		pages.insert(new ItemBlock());
+	}
+	void setOwner(MWindow hwnd) {
+		hwndOwner = hwnd;
 	}
 
 	ItemData* get(int id, bool bLoad = false, bool bBack = false) const;

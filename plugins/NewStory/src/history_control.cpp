@@ -59,6 +59,8 @@ NewstoryListData::NewstoryListData(HWND _1) :
 	m_hwnd(_1),
 	redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
 {
+	items.setOwner(_1);
+
 	bSortAscending = g_plugin.bSortAscending;
 
 	redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
@@ -831,7 +833,7 @@ void NewstoryListData::ToggleBookmark()
 			p->dbe.flags |= DBEF_BOOKMARK;
 		db_event_edit(p->hEvent, &p->dbe);
 
-		p->setText();
+		p->setText(m_hwnd);
 	}
 
 	InvalidateRect(m_hwnd, 0, FALSE);
@@ -877,7 +879,7 @@ void NewstoryListData::TryUp(int iCount)
 	ItemData *pPrev = nullptr;
 	for (int j = 0; j < i + 1; j++) {
 		auto *pItem = GetItem(j);
-		pPrev = pItem->checkNext(pPrev);
+		pPrev = pItem->checkNext(pPrev, m_hwnd);
 	}
 
 	caret = 0;
@@ -1105,7 +1107,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			auto *p = data->GetItem(idx);
 			p->load(true);
-			p->setText();
+			p->setText(data->m_hwnd);
 			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
