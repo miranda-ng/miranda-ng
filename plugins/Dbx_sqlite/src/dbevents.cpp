@@ -424,7 +424,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->timestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
-	dbei->hContact = sqlite3_column_int(stmt, 8);
+	dbei->hContact = sqlite3_column_int(stmt, 9);
 
 	p = (char *)sqlite3_column_text(stmt, 4);
 	if (mir_strlen(p)) {

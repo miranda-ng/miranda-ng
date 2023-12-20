@@ -408,7 +408,8 @@ void ItemData::load(int flags)
 					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				wtext = buf.Detach();
-				markRead();
+				if (!(flags & LOAD_BACK))
+					markRead();
 				break;
 			}
 

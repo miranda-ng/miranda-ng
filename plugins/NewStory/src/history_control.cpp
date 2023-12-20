@@ -121,8 +121,17 @@ static void __cdecl sttLoadItems(void *param)
 	auto *pData = (NewstoryListData *)param;
 	for (int i = pData->totalCount-1; i >= 0; i--) {
 		auto *pItem = pData->LoadItem(i, true);
-		if (pItem->dbe.eventType == EVENTTYPE_MESSAGE && !(pItem->dbe.flags & DBEF_SENT) && !pItem->dbe.markedRead())
-			PostMessage(pData->m_hwnd, UM_MARKREAD, WPARAM(pItem), 0);
+		switch (pItem->dbe.eventType) {
+		case EVENTTYPE_FILE:
+			if (!pItem->m_bOfflineFile)
+				break;
+			__fallthrough;
+
+		case EVENTTYPE_MESSAGE:
+			if (!(pItem->dbe.flags & DBEF_SENT) && !pItem->dbe.markedRead())
+				PostMessage(pData->m_hwnd, UM_MARKREAD, WPARAM(pItem), 0);
+			break;
+		}
 
 		if ((i % 100) == 0)
 			Sleep(50);
