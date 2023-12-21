@@ -345,7 +345,7 @@ class CHistoryDlg : public CDlgBase
 				auto *pItem = m_histCtrl->GetItem(i);
 				if (pItem->fetch())
 					if (pItem->dbe.flags & DBEF_BOOKMARK)
-						m_bookmarks.AddItem(pItem->wtext, 0, i);
+						m_bookmarks.AddItem(pItem->getWBuf(), 0, i);
 			}
 		}
 	}
