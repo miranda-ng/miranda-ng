@@ -510,7 +510,7 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		}
 	}
 
-	if (m_tmJabberIdleStartTime) {
+	if (m_bAllowLast && m_tmJabberIdleStartTime) {
 		// XEP-0319 support
 		char szSince[100];
 		time2str(m_tmJabberIdleStartTime, szSince, _countof(szSince));

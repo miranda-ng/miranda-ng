@@ -726,6 +726,7 @@ public:
 		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), proto->m_bAllowTimeReplies);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), proto->m_bAllowVersionRequests);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), proto->m_bShowOSVersion);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow last activity replies (XEP-0319 & XEP-0012)"), proto->m_bAllowLast);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), proto->m_bAcceptHttpAuth);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)"), proto->m_bUseOMEMO);
 	}

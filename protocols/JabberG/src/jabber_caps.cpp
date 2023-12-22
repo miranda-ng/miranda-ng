@@ -342,6 +342,8 @@ JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)
 		for (auto &it : m_lstJabberFeatCapPairsDynamic)
 			jcb |= it->jcbCap;
 
+	if (!m_bAllowLast)
+		jcb &= ~JABBER_CAPS_LAST_ACTIVITY;
 	if (!m_bAllowTimeReplies)
 		jcb &= ~JABBER_CAPS_ENTITY_TIME;
 	if (!m_bAllowVersionRequests)

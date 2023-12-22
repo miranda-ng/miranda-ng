@@ -185,6 +185,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bAcceptNotes;
 	CMOption<bool> m_bAllowTimeReplies;
 	CMOption<bool> m_bAllowVersionRequests;
+	CMOption<bool> m_bAllowLast;
 	CMOption<bool> m_bAutoAcceptAuthorization;
 	CMOption<bool> m_bAutoAcceptMUC;
 	CMOption<bool> m_bAutoAdd;
