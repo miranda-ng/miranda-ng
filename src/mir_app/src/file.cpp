@@ -77,10 +77,10 @@ static void RemoveUnreadFileEvents(void)
 	for (auto &hContact : Contacts()) {
 		MEVENT hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
-			DBEVENTINFO dbei = {};
-			db_event_get(hDbEvent, &dbei);
-			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_FILE)
-				db_event_markRead(hContact, hDbEvent);
+			DB::EventInfo dbei(hDbEvent, false);
+			if (dbei.eventType == EVENTTYPE_FILE)
+				dbei.wipeNotify(hDbEvent);
+
 			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 	}

@@ -287,6 +287,16 @@ void DB::EventInfo::unload()
 	bValid = false;
 }
 
+void DB::EventInfo::wipeNotify(MEVENT hEvent)
+{
+	if (!bValid)
+		return;
+
+	if (!markedRead())
+		db_event_markRead(hContact, hEvent);
+	Clist_RemoveEvent(-1, hEvent);
+}
+
 // could be displayed in a SRMM window
 bool DB::EventInfo::isSrmm() const
 {

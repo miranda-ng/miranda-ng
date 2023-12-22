@@ -958,16 +958,15 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 
 	uint32_t timestamp = _wtoi64(root["watermarkTimestampMs"].as_mstring());
 	for (MEVENT ev = db_event_firstUnread(pUser->hContact); ev != 0; ev = db_event_next(pUser->hContact, ev)) {
-		DBEVENTINFO dbei = {};
-		if (db_event_get(ev, &dbei))
+		DB::EventInfo dbei(ev);
+		if (!dbei)
 			continue;
 
 		if (dbei.timestamp > timestamp)
 			break;
 
 		if (dbei.flags & DBEF_SENT)
-			if (!dbei.markedRead())
-				db_event_markRead(pUser->hContact, ev, true);
+			dbei.wipeNotify(ev);
 	}
 }
 

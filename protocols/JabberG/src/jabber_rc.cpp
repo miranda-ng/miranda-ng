@@ -560,9 +560,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 				nEventsSent++;
 
-				db_event_markRead(hContact, hDbEvent, true);
-				if (bRemoveCListEvents)
-					Clist_RemoveEvent(hContact, hDbEvent);
+				dbei.wipeNotify(hDbEvent);
 			}
 		}
 

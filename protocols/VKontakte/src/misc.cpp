@@ -888,14 +888,11 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 		return;
 
 	MEVENT hDBEvent = db_event_firstUnread(hContact);
-	MCONTACT hMContact = db_mc_tryMeta(hContact);
 	while (hDBEvent != 0) {
 		DBEVENTINFO dbei = {};
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule)) {
 			db_event_markRead(hContact, hDBEvent, true);
-			Clist_RemoveEvent(hMContact, hDBEvent);
-			if (hContact != hMContact)
-				Clist_RemoveEvent(hContact, hDBEvent);
+			Clist_RemoveEvent(-1, hDBEvent);
 		}
 
 		hDBEvent = db_event_next(hContact, hDBEvent);

@@ -469,11 +469,8 @@ void ItemData::load(int flags)
 
 void ItemData::markRead()
 {
-	if (!(dbe.flags & DBEF_SENT)) {
-		if (!dbe.markedRead())
-			db_event_markRead(hContact, hEvent);
-		Clist_RemoveEvent(-1, hEvent);
-	}
+	if (!(dbe.flags & DBEF_SENT))
+		dbe.wipeNotify(hEvent);
 }
 
 void ItemData::setText(HWND hwnd)

@@ -327,10 +327,14 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 	if (!dat->pLog->CreateRtfEvent(dat, dbei))
 		return false;
 
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
-		if (!dbei.markedRead())
-			db_event_markRead(dat->hContact, dat->hDbEvent);
-		Clist_RemoveEvent(-1, dat->hDbEvent);
+	if (!(dbei.flags & DBEF_SENT)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())
+			dbei.wipeNotify(dat->hDbEvent);
+		else if (dbei.eventType == EVENTTYPE_FILE) {
+			DB::FILE_BLOB blob(dbei);
+			if (blob.isOffline())
+				dbei.wipeNotify(dat->hDbEvent);
+		}
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);
@@ -620,7 +624,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	LRESULT res = mir_callNextSubclass(m_rtf.GetHwnd(), stubLogProc, msg, wParam, lParam);
+  	LRESULT res = mir_callNextSubclass(m_rtf.GetHwnd(), stubLogProc, msg, wParam, lParam);
 	if (msg == WM_GETDLGCODE)
 		return res & ~DLGC_HASSETSEL;
 	return res;
