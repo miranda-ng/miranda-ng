@@ -136,7 +136,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 	if (void *p = pInfo->GetUserData()) {
 		const char *szNode = (const char *)p;
 		const char *szVer = szNode + strlen(szNode) + 1;
-		g_clientCapsManager.SetClientCaps(szNode, szVer, "", jcb);
+		g_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, jcb);
 		mir_free(p);
 	}
 

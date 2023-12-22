@@ -1461,7 +1461,7 @@ void CJabberProto::OnProcessPresenceCapabilites(const TiXmlElement *node, pResou
 	else {
 		r->m_pCaps = g_clientCapsManager.GetPartialCaps(szNode, szVer);
 		if (r->m_pCaps == nullptr) {
-			r->m_pCaps = g_clientCapsManager.SetClientCaps(szNode, szVer, "", JABBER_RESOURCE_CAPS_UNINIT);
+			r->m_pCaps = g_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, JABBER_RESOURCE_CAPS_UNINIT);
 			GetResourceCapabilities(from, r);
 		}
 	}

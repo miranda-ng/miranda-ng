@@ -230,7 +230,7 @@ int CJabberProto::RegisterFeature(const char *pszFeature, const char *pszDescrip
 		if (!jcb)
 			return false;
 
-		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, "", jcb);
+		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, nullptr, jcb);
 
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = mir_strdup(pszExt);
