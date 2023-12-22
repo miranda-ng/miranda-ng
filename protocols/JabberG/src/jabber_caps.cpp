@@ -419,7 +419,7 @@ void CJabberProto::UpdateFeatHash()
 CJabberClientPartialCaps::CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer) :
 	m_parent(pParent),
 	m_szHash(mir_strdup(szHash)),
-	m_szSoftVer(mir_strdup(szVer))
+	m_szVer(mir_strdup(szVer))
 {
 	m_iTime = time(0);
 }
@@ -599,7 +599,7 @@ void CJabberClientCapsManager::Load()
 		}
 
 		for (auto &ver : node["versions"]) {
-			std::string szVer = ver["softver"].as_string();
+			std::string szVer = ver["ver"].as_string();
 			std::string szHash = ver["hash"].as_string();
 			JabberCapsBits jcbCaps = _atoi64(ver["caps"].as_string().c_str());
 
@@ -608,6 +608,7 @@ void CJabberClientCapsManager::Load()
 			res->SetOs(str2buf(ver["os"].as_string()));
 			res->SetOsVer(str2buf(ver["osver"].as_string()));
 			res->SetSoft(str2buf(ver["soft"].as_string()));
+			res->SetSoftVer(str2buf(ver["softver"].as_string()));
 			res->SetSoftMir(str2buf(ver["softmir"].as_string()));
 		}
 	}
@@ -625,9 +626,19 @@ void CJabberClientCapsManager::Save()
 				continue;
 
 			JSONNode ver;
-			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->GetTime())
-				<< CHAR_PARAM("os", p->GetOs()) << CHAR_PARAM("osver", p->GetOsVer())
-				<< CHAR_PARAM("soft", p->GetSoft()) << CHAR_PARAM("softver", p->GetSoftVer()) << CHAR_PARAM("softmir", p->GetSoftMir());
+			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->GetTime());
+			if (p->GetVer())
+				ver << CHAR_PARAM("ver", p->GetVer());
+			if(p->GetOs())
+				ver << CHAR_PARAM("os", p->GetOs());
+			if(p->GetOsVer())
+				ver << CHAR_PARAM("osver", p->GetOsVer());
+			if(p->GetSoft())
+				ver << CHAR_PARAM("soft", p->GetSoft());
+			if(p->GetSoftVer())
+				ver << CHAR_PARAM("softver", p->GetSoftVer());
+			if(p->GetSoftMir())
+				ver << CHAR_PARAM("softmir", p->GetSoftMir());
 			versions.push_back(ver);
 		}
 

@@ -234,32 +234,26 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 
 		if (r->m_szResourceName && *r->m_szResourceName)
 			htiResource = FillInfoLine(htiRoot, Skin_LoadProtoIcon(ppro->m_szModuleName, r->m_iStatus),
-				TranslateT("Resource"), r->m_szResourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
+				nullptr, r->m_szResourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
 
 		// StatusMsg
-		FillInfoLine(htiResource, nullptr /*Skin_LoadIcon(SKINICON_EVENT_MESSAGE)*/,
-			TranslateT("Message"), r->m_szStatusMessage,
-			sttInfoLineId(resource, INFOLINE_MESSAGE));
+		if (r->m_szStatusMessage)
+			FillInfoLine(htiResource, nullptr, TranslateT("Message"), r->m_szStatusMessage, sttInfoLineId(resource, INFOLINE_MESSAGE));
 
 		// Software
 		if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
 			HICON hIcon = nullptr;
 
 			if (Finger_IsPresent()) {
-				if (pCaps->GetSoft()) {
+				if (pCaps->GetVer()) {
 					wchar_t buf[256];
-					mir_snwprintf(buf, L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());
+					mir_snwprintf(buf, L"%S %S", pCaps->GetVer(), pCaps->GetSoftVer());
 					hIcon = Finger_GetClientIcon(buf, 0);
 				}
 			}
 
-			FillInfoLine(htiResource, hIcon, TranslateT("Software"), pCaps->GetSoft(), sttInfoLineId(resource, INFOLINE_SOFTWARE));
-
-			// Version
-			FillInfoLine(htiResource, nullptr, TranslateT("Version"), pCaps->GetSoftMir() ? pCaps->GetSoftMir() : pCaps->GetSoftVer(), sttInfoLineId(resource, INFOLINE_VERSION));
-
-			// System
-			FillInfoLine(htiResource, nullptr, TranslateT("System"), pCaps->GetOsVer() ? pCaps->GetOsVer() : pCaps->GetOs(), sttInfoLineId(resource, INFOLINE_SYSTEM));
+			if (pCaps->GetVer())
+				FillInfoLine(htiResource, hIcon, TranslateT("Software"), pCaps->GetVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE));
 
 			if (hIcon)
 				DestroyIcon(hIcon);
@@ -268,17 +262,12 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 		// Resource priority
 		char buf[256];
 		itoa(r->m_iPriority, buf, 10);
-		FillInfoLine(htiResource, nullptr, TranslateT("Resource priority"), buf, sttInfoLineId(resource, INFOLINE_PRIORITY));
+		FillInfoLine(htiResource, nullptr, TranslateT("Priority"), buf, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 		// Idle
-		if (r->m_dwIdleStartTime != -1) {
-			if (r->m_dwIdleStartTime != 0) {
-				mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
-				size_t len = mir_strlen(buf);
-				if (len > 0)
-					buf[len - 1] = 0;
-			}
-			else mir_strncpy(buf, TranslateU("<currently online>"), _countof(buf));
+		if (r->m_dwIdleStartTime > 0) {
+			struct tm *lt = localtime(&r->m_dwIdleStartTime);
+			mir_snprintf(buf, "%d.%d.%d %d:%d", lt->tm_mday, lt->tm_mon, 1900 + lt->tm_year, lt->tm_hour, lt->tm_min);
 
 			FillInfoLine(htiResource, nullptr, TranslateT("Last activity"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 		}
@@ -286,7 +275,7 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 		// caps
 		JabberCapsBits jcb = ppro->GetResourceCapabilities(MakeJid(item->jid, r->m_szResourceName), r);
 		if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
-			HTREEITEM htiCaps = FillInfoLine(htiResource, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), nullptr, TranslateU("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
+			HTREEITEM htiCaps = FillInfoLine(htiResource, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), nullptr, TranslateU("Client capabilities (only ones known to Miranda)"), sttInfoLineId(resource, INFOLINE_CAPS));
 			int i;
 			for (i = 0; i < g_cJabberFeatCapPairs; i++)
 				if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
@@ -310,20 +299,22 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 			}
 		}
 
-		// Software info
-		HTREEITEM htiSoftwareInfo = FillInfoLine(htiResource, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), nullptr, TranslateU("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
-		int nLineId = 0;
+		// Software info if extended one available
 		if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
-			if (pCaps->GetOs())
-				FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Operating system"), pCaps->GetOs(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			if (pCaps->GetOsVer())
-				FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Operating system version"), pCaps->GetOsVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			if (pCaps->GetSoft())
-				FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Software"), pCaps->GetSoft(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			if (pCaps->GetSoftVer())
-				FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Software version"), pCaps->GetSoftVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			if (pCaps->GetSoftMir())
-				FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Miranda core version"), pCaps->GetSoftMir(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			if (pCaps->GetSoft() || pCaps->GetSoftVer() || pCaps->GetOs() || pCaps->GetOsVer() || pCaps->GetSoftMir()) {
+				HTREEITEM htiSoftwareInfo = FillInfoLine(htiResource, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), nullptr, TranslateU("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
+				int nLineId = 0;
+				if (pCaps->GetOs())
+					FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Operating system"), pCaps->GetOs(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+				if (pCaps->GetOsVer())
+					FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Operating system version"), pCaps->GetOsVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+				if (pCaps->GetSoft())
+					FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Software"), pCaps->GetSoft(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+				if (pCaps->GetSoftVer())
+					FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Software version"), pCaps->GetSoftVer(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+				if (pCaps->GetSoftMir())
+					FillInfoLine(htiSoftwareInfo, nullptr, TranslateT("Miranda core version"), pCaps->GetSoftMir(), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			}
 		}
 	}
 
@@ -333,7 +324,7 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 
 		CleanupInfo(0);
 
-		HTREEITEM htiRoot = FillInfoLine(nullptr, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), L"JID", item->jid, sttInfoLineId(0, INFOLINE_NAME), true);
+		HTREEITEM htiRoot = FillInfoLine(nullptr, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), nullptr, item->jid, sttInfoLineId(0, INFOLINE_NAME), true);
 
 		if (MCONTACT hContact = ppro->HContactFromJID(item->jid)) {
 			FillAdvStatusInfo(htiRoot, sttInfoLineId(0, INFOLINE_MOOD), hContact, TranslateT("Mood"), ADVSTATUS_MOOD);
@@ -360,14 +351,9 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 		// logoff
 		char buf[256];
 		JABBER_RESOURCE_STATUS *r = item->getTemp();
-		if (r->m_dwIdleStartTime != -1) {
-			if (r->m_dwIdleStartTime > 0) {
-				mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
-				size_t len = mir_strlen(buf);
-				if (len > 0)
-					buf[len - 1] = 0;
-			}
-			else mir_strncpy(buf, TranslateU("<currently online>"), _countof(buf));
+		if (r->m_dwIdleStartTime > 0) {
+			struct tm *lt = localtime(&r->m_dwIdleStartTime);
+			mir_snprintf(buf, "%d.%d.%d %d:%d", lt->tm_mday, lt->tm_mon, 1900 + lt->tm_year, lt->tm_hour, lt->tm_min);
 
 			FillInfoLine(htiRoot, nullptr,
 				(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
@@ -379,10 +365,7 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 
 		// activity
 		if (item->m_pLastSeenResource)
-			mir_strncpy(buf, item->m_pLastSeenResource->m_szResourceName, _countof(buf));
-		else
-			mir_strncpy(buf, TranslateU("<no information available>"), _countof(buf));
-		FillInfoLine(htiRoot, nullptr, TranslateT("Last active resource"), buf, sttInfoLineId(0, INFOLINE_LASTACTIVE));
+			FillInfoLine(htiRoot, nullptr, TranslateT("Last active resource"), item->m_pLastSeenResource->m_szResourceName, sttInfoLineId(0, INFOLINE_LASTACTIVE));
 
 		// resources
 		if (item->arResources.getCount()) {
