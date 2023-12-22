@@ -291,7 +291,7 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 				if (jcb & it->jcbCap) {
 					char szDescription[1024];
 					if (it->szDescription)
-						mir_snprintf(szDescription, "%s (%s)", TranslateU(it->szDescription), it->szFeature);
+						mir_snprintf(szDescription, "%s (%s)", TranslateU(it->szDescription), it->szFeature.get());
 					else
 						strncpy_s(szDescription, it->szFeature, _TRUNCATE);
 					FillInfoLine(htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i++));
