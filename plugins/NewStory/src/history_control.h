@@ -19,7 +19,7 @@ struct NewstoryListData : public MZeroedObject
 	int cachedWindowWidth = -1, cachedWindowHeight = -1;
 	int cachedMaxDrawnItem = -1;
 	int cachedScrollbarPos = -1, cachedScrollbarMax = -1;
-	int totalCount;
+	int totalCount, loadCount = -1;
 
 	RECT rcLastPaint;
 
@@ -28,12 +28,14 @@ struct NewstoryListData : public MZeroedObject
 	HWND m_hwnd;
 	HWND hwndEditBox;
 
-	CTimer redrawTimer;
+	CTimer redrawTimer, loadTimer;
 	CSrmmBaseDialog *pMsgDlg = nullptr;
 
 	void      OnContextMenu(int index, POINT pt);
 	void      OnResize(int newWidth, int newHeight);
-	void      OnTimer(CTimer *pTimer);
+	
+	void      onTimer_Draw(CTimer *pTimer);
+	void      onTimer_Load(CTimer *pTimer);
 
 	void      AddChatEvent(SESSION_INFO *si, const LOGINFO *lin);
 	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount);
@@ -67,7 +69,7 @@ struct NewstoryListData : public MZeroedObject
 	void      HitTotal(int yCurr, int yTotal);
 	void      LineUp();
 	void      LineDown();
-	ItemData* LoadItem(int idx, bool bBack = false);
+	ItemData* LoadItem(int idx);
 	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();

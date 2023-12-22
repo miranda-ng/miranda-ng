@@ -57,13 +57,34 @@ void InitHotkeys()
 
 NewstoryListData::NewstoryListData(HWND _1) :
 	m_hwnd(_1),
-	redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
+	loadTimer(Miranda_GetSystemWindow(), LPARAM(this)),
+	redrawTimer(Miranda_GetSystemWindow(), LPARAM(this)+1)
 {
 	items.setOwner(_1);
 
 	bSortAscending = g_plugin.bSortAscending;
 
-	redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
+	loadTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Load);
+	redrawTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Draw);
+}
+
+void NewstoryListData::onTimer_Draw(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	if (bWasAtBottom)
+		EnsureVisible(totalCount - 1);
+
+	InvalidateRect(m_hwnd, 0, FALSE);
+}
+
+void NewstoryListData::onTimer_Load(CTimer *pTimer)
+{
+	for (int i = 0; i < 100 && loadCount >= 0; i++)
+		LoadItem(loadCount--);
+
+	if (loadCount < 0)
+		pTimer->Stop();
 }
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
@@ -97,16 +118,6 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 		InvalidateRect(m_hwnd, 0, FALSE);
 }
 
-void NewstoryListData::OnTimer(CTimer *pTimer)
-{
-	pTimer->Stop();
-
-	if (bWasAtBottom)
-		EnsureVisible(totalCount - 1);
-
-	InvalidateRect(m_hwnd, 0, FALSE);
-}
-
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
 	ScheduleDraw();
@@ -116,41 +127,16 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __cdecl sttLoadItems(void *param)
-{
-	SetThreadPriority(GetCurrentThread(), THREAD_MODE_BACKGROUND_BEGIN);
-
-	auto *pData = (NewstoryListData *)param;
-	for (int i = pData->totalCount-1; i >= 0; i--) {
-		auto *pItem = pData->LoadItem(i, true);
-		if (!pItem)
-			break;
-
-		switch (pItem->dbe.eventType) {
-		case EVENTTYPE_FILE:
-			if (!pItem->m_bOfflineFile)
-				break;
-			__fallthrough;
-
-		case EVENTTYPE_MESSAGE:
-			if (!(pItem->dbe.flags & DBEF_SENT) && !pItem->dbe.markedRead())
-				PostMessage(pData->m_hwnd, UM_MARKREAD, WPARAM(pItem), 0);
-			break;
-		}
-
-		if ((i % 100) == 0)
-			Sleep(50);
-	}
-}
-
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
 	ScheduleDraw();
 	items.addEvent(hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
 
-	if (iCount == -1)
-		mir_forkthread(sttLoadItems, this);
+	if (iCount == -1) {
+		loadCount = totalCount - 1;
+		loadTimer.Start(50);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -569,13 +555,13 @@ void NewstoryListData::HitTotal(int yCurr, int yTotal)
 	FixScrollPosition();
 }
 
-ItemData* NewstoryListData::LoadItem(int idx, bool bBack)
+ItemData* NewstoryListData::LoadItem(int idx)
 {
 	if (totalCount == 0)
 		return nullptr;
 
 	mir_cslock lck(m_csItems);
-	return (bSortAscending) ? items.get(idx, true, bBack) : items.get(totalCount - 1 - idx, true, bBack);
+	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
 void NewstoryListData::OpenFolder()
@@ -1120,11 +1106,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->FixScrollPosition(true);
 			InvalidateRect(hwnd, 0, FALSE);
 		}
-		break;
-
-	case UM_MARKREAD:
-		if (auto *pItem = (ItemData *)wParam)
-			pItem->markRead();
 		break;
 
 	case WM_SIZE:
