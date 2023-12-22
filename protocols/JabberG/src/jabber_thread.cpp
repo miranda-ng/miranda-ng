@@ -1324,10 +1324,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			if (auto *url = XmlGetChildText(xNode, "url"))
+			if (auto *url = XmlGetChildText(xNode, "url")) {
 				FileProcessHttpDownload(hContact, from, url, XmlGetChildText(xNode, "desc"));
-			else 
-				debugLogA("No URL in OOB file transfer, ignoring");
+				return;
+			}
+			
+			debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = XmlFirstChild(xNode, "invite");
