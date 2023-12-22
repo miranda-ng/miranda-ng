@@ -703,17 +703,17 @@ public:
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Inline pictures in messages (XEP-0231)"), proto->m_bInlinePictures);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable chat states sending (XEP-0085)"), proto->m_bEnableChatStates);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), proto->m_bEnableMsgArchive);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), proto->m_bEnableMam);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313) (experimental)"), proto->m_bEnableMam);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), proto->m_bEnableCarbons);
 		if (mir_strlen(ptrA(proto->getStringA("HttpUpload"))))
 			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), proto->m_bUseHttpUpload);
 		if (proto->FindFeature(JABBER_FEAT_JINGLE))
 			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), proto->m_bEnableVOIP);
 
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (experimental)"), proto->m_bEnableStreamMgmt);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198)"), proto->m_bEnableStreamMgmt);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), proto->m_bDisable3920auth);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression (if possible)"), proto->m_bEnableZlib);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Use TLS 1.3 bindings (if possible)"), proto->m_bUseTlsExport);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression"), proto->m_bEnableZlib);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Use TLS 1.3 bindings"), proto->m_bUseTlsExport);
 
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), proto->m_bEnableRemoteControl);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), proto->m_bShowTransport);
@@ -723,12 +723,12 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), proto->m_bProcessXMPPLinks);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), proto->m_bIgnoreRoster);
 
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), proto->m_bAllowTimeReplies);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), proto->m_bAllowVersionRequests);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), proto->m_bShowOSVersion);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone replies (XEP-0202)"), proto->m_bAllowTimeReplies);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Allow last activity replies (XEP-0319 & XEP-0012)"), proto->m_bAllowLast);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow version replies (XEP-0092)"), proto->m_bAllowVersionRequests);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Include OS information in version replies"), proto->m_bShowOSVersion);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), proto->m_bAcceptHttpAuth);
-		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)"), proto->m_bUseOMEMO);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption (XEP-0384)"), proto->m_bUseOMEMO);
 	}
 
 	bool OnInitDialog() override
