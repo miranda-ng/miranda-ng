@@ -320,7 +320,8 @@ void CIcqProto::OnLoggedIn()
 	for (auto &it : m_arCache)
 		it->m_timer1 = it->m_timer2 = 0;
 
-	setWord(m_hFavContact, "Status", ID_STATUS_ONLINE);
+	if (m_hFavContact != INVALID_CONTACT_ID)
+		setWord(m_hFavContact, "Status", ID_STATUS_ONLINE);
 
 	SetServerStatus(m_iDesiredStatus);
 	RetrieveUserInfo(0);
@@ -1287,7 +1288,9 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
 	m_aimsid = data["aimsid"].as_mstring();
 
-	ProcessMyInfo(data["myInfo"]);
+	auto &myInfo = data["myInfo"];
+	ProcessMyInfo(myInfo);
+	SetOwnId(myInfo["aimId"].as_mstring());
 
 	int srvTS = data["ts"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
