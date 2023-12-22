@@ -290,6 +290,7 @@ MIR_APP_DLL(int)       Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPref
 MIR_APP_DLL(void)      Clist_TrayIconUpdateBase(const char *szChangedProto);
 MIR_APP_DLL(void)      Clist_TraySetTimer();
 
+MIR_APP_DLL(CListEvent*) Clist_FindEvent(MCONTACT hContact, MEVENT hDbEvent);
 MIR_APP_DLL(CListEvent*) Clist_GetEvent(MCONTACT hContact, int idx);
 MIR_APP_DLL(CListEvent*) Clist_GetEventByMenu(int iMenuId);
 

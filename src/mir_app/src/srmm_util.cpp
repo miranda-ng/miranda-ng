@@ -31,6 +31,9 @@ const char *g_pszHotkeySection;
 
 MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
+	if (Clist_FindEvent(hContact, hDbEvent))
+		return;
+
 	wchar_t toolTip[256];
 	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 
