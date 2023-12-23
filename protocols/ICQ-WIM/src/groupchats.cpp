@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 
-SESSION_INFO* CIcqProto::CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick)
+SESSION_INFO* CIcqProto::GcCreate(const wchar_t *pwszId, const wchar_t *pwszNick)
 {
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pwszId, pwszNick);
 	if (si == nullptr)
@@ -214,7 +214,7 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Leave/destroy chat"), IDM_LEAVE, MENU_ITEM }
 };
 
-int CIcqProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
+int CIcqProto::GcMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (gcmi == nullptr)
@@ -233,7 +233,7 @@ int CIcqProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
+int CIcqProto::GcEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
 	if (gch == nullptr)
@@ -258,18 +258,18 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-		Chat_SendPrivateMessage(gch);
+		GcSendPrivateMessage(gch);
 		break;
 
 	case GC_USER_LOGMENU:
-		Chat_ProcessLogMenu(si, gch->dwData);
+		GcProcessLogMenu(si, gch->dwData);
 		break;
 	}
 
 	return 1;
 }
 
-void CIcqProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
+void CIcqProto::GcProcessLogMenu(SESSION_INFO *si, int iChoice)
 {
 	switch (iChoice) {
 	case IDM_INVITE:
@@ -282,7 +282,7 @@ void CIcqProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
 	}
 }
 
-void CIcqProto::Chat_SendPrivateMessage(GCHOOK *gch)
+void CIcqProto::GcSendPrivateMessage(GCHOOK *gch)
 {
 	MCONTACT hContact;
 	auto *pUser = FindUser(gch->ptszUID);

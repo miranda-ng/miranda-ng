@@ -78,8 +78,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	// events
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::OnGroupChange);
-	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
-	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
+	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GcMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 
 	// group chats

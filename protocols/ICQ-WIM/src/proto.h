@@ -318,13 +318,13 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
 
-	int       __cdecl GroupchatEventHook(WPARAM, LPARAM);
-	int       __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+	int       __cdecl GcEventHook(WPARAM, LPARAM);
+	int       __cdecl GcMenuHook(WPARAM, LPARAM);
 
-	void      Chat_ProcessLogMenu(SESSION_INFO *si, int);
-	void      Chat_SendPrivateMessage(GCHOOK *gch);
+	void      GcProcessLogMenu(SESSION_INFO *si, int);
+	void      GcSendPrivateMessage(GCHOOK *gch);
 
-	SESSION_INFO* CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick);
+	SESSION_INFO* GcCreate(const wchar_t *pwszId, const wchar_t *pwszNick);
 
 	void      RetrieveChatInfo(MCONTACT hContact);
 

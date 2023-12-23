@@ -357,7 +357,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 				return INVALID_CONTACT_ID;
 
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
-		auto *si = CreateGroupChat(wszId, wszChatName);
+		auto *si = GcCreate(wszId, wszChatName);
 		return (si) ? si->hContact : INVALID_CONTACT_ID;
 	}
 
