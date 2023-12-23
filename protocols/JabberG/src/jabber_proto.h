@@ -239,7 +239,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bUsePopups;
 	CMOption<bool> m_bUseSSL;
 	CMOption<bool> m_bUseTLS;
-	CMOption<bool> m_bUseTlsExport;
 
 	CMOption<int>   m_iMamMode;
 	CMOption<uint32_t> m_iConnectionKeepAliveInterval;
@@ -267,6 +266,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
 	bool   m_bMamDisableMessages, m_bMamCreateRead;
+	bool   m_bTlsExporter, m_bTlsServerEndpoint;
 
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;

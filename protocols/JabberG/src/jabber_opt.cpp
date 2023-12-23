@@ -713,7 +713,6 @@ public:
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198)"), proto->m_bEnableStreamMgmt);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), proto->m_bDisable3920auth);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression"), proto->m_bEnableZlib);
-		m_options.AddOption(LPGENW("Server options"), LPGENW("Use TLS 1.3 bindings"), proto->m_bUseTlsExport);
 
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), proto->m_bEnableRemoteControl);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), proto->m_bShowTransport);

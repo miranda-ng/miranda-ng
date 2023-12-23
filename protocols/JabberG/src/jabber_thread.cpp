@@ -632,6 +632,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 
 	bool isRegisterAvailable = false;
 	bool areMechanismsDefined = false;
+	m_bTlsExporter = m_bTlsServerEndpoint = false;
 
 	for (auto *n : TiXmlEnum(node)) {
 		auto *pszName = n->Name();
@@ -728,6 +729,16 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				info->pPendingQuery = AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, info->conn.server, payLoad.Detach(), 1);
 			}
 			else info->jabberServerCaps |= pCaps->GetCaps();
+		}
+		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(n->Attribute("xmlns"), JABBER_FEAT_CHANNEL_BINDING)) {
+			for (auto *it : TiXmlFilter(n, "channel-binding")) {
+				if (auto *pszType = it->Attribute("type")) {
+					if (!mir_strcmp(pszType, "tls-exporter"))
+						m_bTlsExporter = true;
+					else if (!mir_strcmp(pszType, "tls-server-end-point"))
+						m_bTlsServerEndpoint = true;
+				}
+			}
 		}
 	}
 
