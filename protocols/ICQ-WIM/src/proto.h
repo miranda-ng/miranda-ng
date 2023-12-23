@@ -265,7 +265,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLeaveChat(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void          OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -354,7 +353,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      InitContactCache(void);
 	IcqUser*  FindUser(const CMStringW &pwszId);
 	MCONTACT  CreateContact(const CMStringW &pwszId, bool bTemporary);
-
+	
 	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -450,6 +449,7 @@ public:
 	CMOption<uint32_t> m_iStatus2;
 
 	void CheckStatus(void);
+	MCONTACT GetRealContact(IcqUser *pUser);
 	CMStringW GetUserId(MCONTACT);
 
 	__forceinline int TS() const

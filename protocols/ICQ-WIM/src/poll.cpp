@@ -179,7 +179,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 					break;
 				}
 
-			if ((si = CreateGroupChat(wszId, wszNick)) == nullptr)
+			if ((si = GcCreate(wszId, wszNick)) == nullptr)
 				return;
 		}
 
@@ -328,12 +328,13 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (pUser == nullptr)
 		return;
 
-	int iNewStatus = StatusFromPresence(ev, pUser->m_hContact);
+	MCONTACT hContact = GetRealContact(pUser);
+	int iNewStatus = StatusFromPresence(ev, hContact);
 	if (iNewStatus != -1)
 		ProcessStatus(pUser, iNewStatus);
 
-	Json2string(pUser->m_hContact, ev, "friendly", "Nick", true);
-	CheckAvatarChange(pUser->m_hContact, ev);
+	Json2string(hContact, ev, "friendly", "Nick", true);
+	CheckAvatarChange(hContact, ev);
 }
 
 void CIcqProto::ProcessSessionEnd(const JSONNode &/*ev*/)
@@ -352,10 +353,11 @@ void CIcqProto::ProcessTyping(const JSONNode &ev)
 
 	auto *pUser = FindUser(aimId);
 	if (pUser) {
+		MCONTACT hContact = GetRealContact(pUser);
 		if (wszStatus == "typing")
-			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, 60);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 60);
 		else
-			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
 }
 

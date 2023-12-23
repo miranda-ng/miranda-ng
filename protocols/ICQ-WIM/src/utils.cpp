@@ -94,7 +94,7 @@ MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
 {
 	auto *pUser = FindUser(wszId);
 	if (pUser != nullptr)
-		return pUser->m_hContact;
+		return GetRealContact(pUser);
 
 	MCONTACT hContact = db_add_contact();
 	setWString(hContact, DB_KEY_ID, wszId);
@@ -148,6 +148,11 @@ void CIcqProto::Json2string(MCONTACT hContact, const JSONNode &node, const char 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+MCONTACT CIcqProto::GetRealContact(IcqUser *pUser)
+{
+	return (pUser->m_hContact == 0) ? m_hFavContact : pUser->m_hContact;
+}
 
 CMStringW CIcqProto::GetUserId(MCONTACT hContact)
 {
