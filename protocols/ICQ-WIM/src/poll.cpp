@@ -333,7 +333,8 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (iNewStatus != -1)
 		ProcessStatus(pUser, iNewStatus);
 
-	Json2string(hContact, ev, "friendly", "Nick", true);
+	if (hContact != m_hFavContact)
+		Json2string(hContact, ev, "friendly", "Nick", true);
 	CheckAvatarChange(hContact, ev);
 }
 
