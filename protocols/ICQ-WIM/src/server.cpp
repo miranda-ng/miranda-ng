@@ -150,21 +150,10 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	OnMarkRead(pReq->hContact, 0);
 
-	bool bIsSticker;
-	CMStringW wszDescr(pInfo["file_name"].as_mstring());
-	if (!mir_wstrncmp(wszDescr, L"dnld", 4)) {
-		bIsSticker = true;
-
-		std::string szPreview = pData["previews"]["192"].as_string();
-		if (!szPreview.empty())
-			szUrl = szPreview;
-	}
-	else bIsSticker = false;
-
 	mir_urlDecode(&*szUrl.begin());
 
+	CMStringW wszDescr(pInfo["file_name"].as_mstring());
 	*res = new IcqFileInfo(szUrl, wszDescr, pInfo["file_size"].as_int());
-	res[0]->bIsSticker = bIsSticker;
 }
 
 IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl)
@@ -195,45 +184,19 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 
 	pFileInfo = nullptr;
 
-	// is it already downloaded sticker?
-	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
-	if (!_waccess(wszLoadedPath, 0)) {
-		wszText.Format(L"STK{%s}", wszUrl.c_str());
-		return true;
-	}
-
 	// download file info
 	pFileInfo = RetrieveFileInfo(hContact, wszUrl);
 	if (!pFileInfo)
 		return false;
 
-	// is it a sticker?
-	if (pFileInfo->bIsSticker) {
-		if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
-			auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
-			pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-			pNew->pUserInfo = wszUrl.GetBuffer();
-			pNew->AddHeader("Sec-Fetch-User", "?1");
-			pNew->AddHeader("Sec-Fetch-Site", "cross-site");
-			pNew->AddHeader("Sec-Fetch-Mode", "navigate");
-			if (!ExecuteRequest(pNew))
-				return false;
-
-			wszText.Format(L"STK{%s}", wszUrl.c_str());
-		}
-		else wszText = TranslateT("SmileyAdd plugin required to support stickers");
+	if (idx != -1) {
+		pFileInfo->szOrigUrl = wszText.Mid(0, idx);
+		wszText.Delete(0, idx + 1);
 	}
 	else {
-		if (idx != -1) {
-			pFileInfo->szOrigUrl = wszText.Mid(0, idx);
-			wszText.Delete(0, idx + 1);
-		}
-		else {
-			pFileInfo->szOrigUrl = wszText;
-			wszText.Empty();
-		}
+		pFileInfo->szOrigUrl = wszText;
+		wszText.Empty();
 	}
-
 	return true;
 }
 
@@ -499,21 +462,30 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (auto &node = it["chat"]["sender"])
 		szSender = node.as_mstring();
 
-	CMStringW wszText;
-	const JSONNode &sticker = it["sticker"];
-	if (sticker) {
-		CMStringW wszUrl, wszSticker(sticker["id"].as_mstring());
-		int iCollectionId, iStickerId;
-		if (2 == swscanf(wszSticker, L"ext:%d:sticker:%d", &iCollectionId, &iStickerId))
-			wszUrl.Format(L"https://c.icq.com/store/stickers/%d/%d/medium", iCollectionId, iStickerId);
-		else
-			wszUrl = TranslateT("Unknown sticker");
-		wszText.Format(L"%s\n%s", TranslateT("User sent a sticker:"), wszUrl.c_str());
+	CMStringW wszText = it["text"].as_mstring();
+	wszText.TrimRight();
+
+	if (it["hasAnimatedSticker"].as_bool()) {
+		CMStringW wszUrl;
+		if (fileText2url(wszText, &wszUrl)) {
+			// is it already downloaded sticker?
+			CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
+			if (_waccess(wszLoadedPath, 0)) {
+				CMStringA szFullUrl("https://cicq.org/lottie_preview/stickerpicker_large/");
+				szFullUrl += wszUrl;
+				auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, szFullUrl, &CIcqProto::OnGetSticker);
+				pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+				pNew->pUserInfo = wszUrl.GetBuffer();
+				pNew->AddHeader("Sec-Fetch-User", "?1");
+				pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+				pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+				pNew->AddHeader("Accept-Encoding", "gzip");
+				ExecuteRequest(pNew);
+			}
+			wszText.Format(L"STK{%s}", wszUrl.c_str());
+		}
 	}
 	else {
-		wszText = it["text"].as_mstring();
-		wszText.TrimRight();
-
 		if (it["class"].as_mstring() == L"event") {
 			// user added you
 			if (it["eventTypeId"].as_mstring() == L"27:33000") {

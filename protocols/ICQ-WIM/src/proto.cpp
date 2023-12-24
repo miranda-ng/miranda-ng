@@ -287,6 +287,7 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 					pReq->AddHeader("Sec-Fetch-User", "?1");
 					pReq->AddHeader("Sec-Fetch-Site", "cross-site");
 					pReq->AddHeader("Sec-Fetch-Mode", "navigate");
+					pReq->AddHeader("Accept-Encoding", "gzip");
 					Push(pReq);
 					return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
 				}
