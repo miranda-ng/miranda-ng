@@ -146,12 +146,16 @@ struct IcqFileTransfer : public MZeroedObject
 
 struct IcqOwnMessage
 {
-	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid, const char *pszText) :
+	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *pszText) :
 		m_msgid(_msgid),
 		m_hContact(_hContact),
 		m_szText(mir_strdup(pszText))
 	{
-		strncpy_s(m_guid, guid, _TRUNCATE);
+	}
+
+	void setGuid(const char *pszGuid)
+	{
+		strncpy_s(m_guid, pszGuid, _TRUNCATE);
 	}
 
 	MCONTACT m_hContact;
@@ -163,6 +167,7 @@ struct IcqOwnMessage
 
 class CIcqProto : public PROTO<CIcqProto>
 {
+	friend class CForwardDlg;
 	friend struct AsyncRapiRequest;
 
 	class CIcqProtoImpl
@@ -207,6 +212,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          CheckPassword(void);
 	void          ConnectionFailed(int iReason, int iErrorCode = 0);
 	void          EmailNotification(const wchar_t *pwszText);
+	void          ForwardMessage(MEVENT hEVent, MCONTACT hContact);
 	void          GetPermitDeny();
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
@@ -217,6 +223,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
 	void          SendMrimLogin(NETLIBHTTPREQUEST *pReply);
+	void          SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOwnMessage *pOwn = nullptr);
 	void          SetOwnId(const CMStringW &wszId);
 	void          SetServerStatus(int iNewStatus);
 	void          ShutdownSession(void);
@@ -359,7 +366,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Menus
 
-	HGENMENU  hmiConvert;
+	HGENMENU  hmiForward, hmiConvert;
 
 	void      InitMenus();
 

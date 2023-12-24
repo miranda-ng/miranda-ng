@@ -84,6 +84,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
+	{ LPGEN("Forward"), "forward", IDI_FORWARD },
 	{ LPGEN("E-mail"), "icq_email", IDI_INBOX },
 	{ LPGEN("E-mail notification"), "icq_email_notif", IDI_MAIL_NOTIFY }
 };

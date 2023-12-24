@@ -541,20 +541,6 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 
 int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc)
 {
-	CMStringA szUserid(GetUserId(hContact));
-	if (szUserid.IsEmpty())
-		return 0;
-
-	int id = InterlockedIncrement(&m_msgId);
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
-
-	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId, pszSrc);
-	pReq->pUserInfo = pOwn;
-	{
-		mir_cslock lck(m_csOwnIds);
-		m_arOwnIds.insert(pOwn);
-	}
-
 	JSONNode parts(JSON_ARRAY);
 	if (hReplyEvent) {
 		DB::EventInfo dbei(hReplyEvent);
@@ -570,10 +556,15 @@ int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc
 
 	JSONNode msgText; msgText << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", pszSrc);
 	parts.push_back(msgText);
-	
-	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") 
-		 << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
-	Push(pReq);
+
+	int id = InterlockedIncrement(&m_msgId);
+	auto *pOwn = new IcqOwnMessage(hContact, id, pszSrc);
+	{
+		mir_cslock lck(m_csOwnIds);
+		m_arOwnIds.insert(pOwn);
+	}
+
+	SendMessageParts(hContact, parts, pOwn);
 	return id;
 }
 

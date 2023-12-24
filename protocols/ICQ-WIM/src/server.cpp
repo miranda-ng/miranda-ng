@@ -1151,7 +1151,8 @@ LBL_Error:
 		int id = InterlockedIncrement(&m_msgId);
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
 
-		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId, T2Utf(wszUrl));
+		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, T2Utf(wszUrl));
+		pOwn->setGuid(pReq->m_reqId);
 		pOwn->pTransfer = pTransfer;
 		pReq->pUserInfo = pOwn;
 		{
@@ -1368,21 +1369,23 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pReq);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Send message
+
 void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	IcqOwnMessage *ownMsg = (IcqOwnMessage *)pReq->pUserInfo;
 
 	JsonReply root(pReply);
 	if (root.error() != 200) {
-		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid);
+		if (ownMsg) {
+			ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid);
 
-		mir_cslock lck(m_csOwnIds);
-		m_arOwnIds.remove(ownMsg);
+			mir_cslock lck(m_csOwnIds);
+			m_arOwnIds.remove(ownMsg);
+		}
 		return;
 	}
-
-	if (g_bMessageState)
-		CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
 
 	const JSONNode &data = root.data();
 	if (auto &jsonMsg = data.at("histMsgId")) {
@@ -1391,8 +1394,30 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		CheckOwnMessage(reqId, msgId, false);
 	}
 
-	CheckLastId(ownMsg->m_hContact, data);
+	if (ownMsg) {
+		if (g_bMessageState)
+			CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
+		CheckLastId(ownMsg->m_hContact, data);
+	}
 }
+
+void CIcqProto::SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOwnMessage *pOwn)
+{
+	CMStringA szUserid(GetUserId(hContact));
+	if (szUserid.IsEmpty())
+		return;
+
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
+	pReq->pUserInfo = pOwn;
+	if (pOwn)
+		pOwn->setGuid(pReq->m_reqId);
+
+	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "")
+		<< CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 {
