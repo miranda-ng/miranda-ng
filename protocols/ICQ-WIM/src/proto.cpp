@@ -45,6 +45,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
 	m_arGroups(10, NumericKeySortT),
+	m_arDeleteQueue(10),
 	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
@@ -202,6 +203,44 @@ void CIcqProto::OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// batch events deletion from the server
+
+void CIcqProto::BatchDeleteMsg()
+{
+	auto *pReq = new AsyncRapiRequest(this, "delMsgBatch");
+
+	JSONNode ids(JSON_ARRAY); ids.set_name("msgIds");
+
+	mir_cslock lck(m_csDeleteQueue);
+	for (auto &it : m_arDeleteQueue) {
+		ids.push_back(JSONNode("", _atoi64(it)));
+		mir_free(it);
+	}
+
+	pReq->params << WCHAR_PARAM("sn", GetUserId(m_hDeleteContact)) << BOOL_PARAM("shared", true) << ids;
+	Push(pReq);
+
+	m_arDeleteQueue.destroy();
+	m_hDeleteContact = INVALID_CONTACT_ID;
+}
+
+void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent)
+{
+	if (m_hDeleteContact != INVALID_CONTACT_ID)
+		if (m_hDeleteContact != hContact)
+			BatchDeleteMsg();
+
+	DB::EventInfo dbei(hEvent, false);
+	if (!dbei || !dbei.szId)
+		return;
+
+	mir_cslock lck(m_csDeleteQueue);
+	m_hDeleteContact = hContact;
+	m_arDeleteQueue.insert(mir_strdup(dbei.szId));
+	m_impl.m_delete.Start(100);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
@@ -338,6 +377,7 @@ INT_PTR CIcqProto::SvcGotoInbox(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// mark events read at the server
 
 void CIcqProto::SendMarkRead()
 {

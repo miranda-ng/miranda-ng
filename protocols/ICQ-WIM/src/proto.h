@@ -175,7 +175,7 @@ class CIcqProto : public PROTO<CIcqProto>
 		friend class CIcqProto;
 
 		CIcqProto &m_proto;
-		CTimer m_heartBeat, m_markRead;
+		CTimer m_heartBeat, m_markRead, m_delete;
 		
 		void OnHeartBeat(CTimer *) {
 			m_proto.CheckStatus();
@@ -186,11 +186,18 @@ class CIcqProto : public PROTO<CIcqProto>
 			pTimer->Stop();
 		}
 
+		void OnDelete(CTimer *pTimer) {
+			m_proto.BatchDeleteMsg();
+			pTimer->Stop();
+		}
+
 		CIcqProtoImpl(CIcqProto &pro) :
 			m_proto(pro),
-			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+			m_delete(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
 		{
+			m_delete.OnEvent = Callback(this, &CIcqProtoImpl::OnDelete);
 			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
 			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
 		}
@@ -207,7 +214,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462;
 	int           m_iTimeShift;
-				     
+		
 	MCONTACT      CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void          CheckPassword(void);
 	void          ConnectionFailed(int iReason, int iErrorCode = 0);
@@ -247,6 +254,11 @@ class CIcqProto : public PROTO<CIcqProto>
 	mir_cs        m_csMarkReadQueue;
 	LIST<IcqUser> m_arMarkReadQueue;
 	void          SendMarkRead();
+
+	mir_cs        m_csDeleteQueue;
+	LIST<char>    m_arDeleteQueue;
+	MCONTACT      m_hDeleteContact = INVALID_CONTACT_ID;
+	void          BatchDeleteMsg();
 
 	__int64       getId(MCONTACT hContact, const char *szSetting);
 	void          setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
@@ -432,6 +444,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnContactAdded(MCONTACT) override;
 	bool      OnContactDeleted(MCONTACT) override;
 	MWindow   OnCreateAccMgrUI(MWindow) override;
+	void      OnEventDeleted(MCONTACT, MEVENT) override;
 	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
