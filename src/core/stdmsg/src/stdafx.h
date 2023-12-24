@@ -146,7 +146,7 @@ struct MODULEINFO : public GCModuleInfoBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
-	int iSplitterX, iSplitterY;
+	int iSplitterX;
 	
 	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;
 };

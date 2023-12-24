@@ -56,9 +56,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_pOwner(pOwner)
 {
 	m_iSplitterX = g_Settings.iSplitterX;
-	m_iSplitterY = g_Settings.iSplitterY;
-
-	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
@@ -1223,7 +1220,6 @@ void CMsgDialog::onSplitterY(CSplitter *pSplitter)
 		m_iSplitterY = min;
 	if (m_iSplitterY > rc.bottom - rc.top - toplimit)
 		m_iSplitterY = rc.bottom - rc.top - toplimit;
-	g_Settings.iSplitterY = m_iSplitterY;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1483,9 +1479,8 @@ void CMsgDialog::UpdateAvatar()
 
 	if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
 		m_minEditBoxSize.cy = m_avatarHeight;
-		if (m_iSplitterY < m_minEditBoxSize.cy + m_iBBarHeight) {
+		if (m_iSplitterY < m_minEditBoxSize.cy + m_iBBarHeight)
 			m_iSplitterY = m_minEditBoxSize.cy + m_iBBarHeight;
-		}
 	}
 
 	Resize();
