@@ -115,7 +115,11 @@ bool CMsgDialog::OnInitDialog()
 		m_iSplitterY = 0;
 		m_splitterY.Disable();
 	}
-	else m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
+	else {
+		m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos");
+		if (m_iSplitterY == 0)
+			m_iSplitterY = m_minEditInit.bottom - m_minEditInit.top;
+	}
 
 	// avatar stuff
 	m_avatar.Disable();
@@ -223,7 +227,8 @@ void CMsgDialog::OnDestroy()
 	m_cmdList.destroy();
 
 	MCONTACT hContact = (g_plugin.bSavePerContact) ? m_hContact : 0;
-	g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
+	if (!m_bReadOnly)
+		g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
 
 	if (m_hFont) {
 		DeleteObject(m_hFont);
