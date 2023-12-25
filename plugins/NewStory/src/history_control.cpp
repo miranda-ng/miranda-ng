@@ -57,14 +57,12 @@ void InitHotkeys()
 
 NewstoryListData::NewstoryListData(HWND _1) :
 	m_hwnd(_1),
-	loadTimer(Miranda_GetSystemWindow(), LPARAM(this)),
-	redrawTimer(Miranda_GetSystemWindow(), LPARAM(this)+1)
+	redrawTimer(Miranda_GetSystemWindow(), LPARAM(this))
 {
 	items.setOwner(_1);
 
 	bSortAscending = g_plugin.bSortAscending;
 
-	loadTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Load);
 	redrawTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Draw);
 }
 
@@ -76,15 +74,6 @@ void NewstoryListData::onTimer_Draw(CTimer *pTimer)
 		EnsureVisible(totalCount - 1);
 
 	InvalidateRect(m_hwnd, 0, FALSE);
-}
-
-void NewstoryListData::onTimer_Load(CTimer *pTimer)
-{
-	for (int i = 0; i < 100 && loadCount >= 0; i++)
-		LoadItem(loadCount--);
-
-	if (loadCount < 0)
-		pTimer->Stop();
 }
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
@@ -132,11 +121,6 @@ void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCoun
 	ScheduleDraw();
 	items.addEvent(hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
-
-	if (iCount == -1) {
-		loadCount = totalCount - 1;
-		loadTimer.Start(50);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

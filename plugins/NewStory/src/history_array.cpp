@@ -54,8 +54,15 @@ bool Filter::check(ItemData *item) const
 		}
 	}
 
-	if (flags & (EVENTTEXT | EVENTONLY))
-		return CheckFilter(item->getWBuf(), text);
+	if (flags & (EVENTTEXT | EVENTONLY)) {
+		if (item->m_bLoaded)
+			return CheckFilter(item->wtext, text);
+
+		if (!item->fetch())
+			return false;
+
+		return CheckFilter(ptrW(DbEvent_GetTextW(&item->dbe, CP_UTF8)), text);
+	}
 
 	return true;
 };
