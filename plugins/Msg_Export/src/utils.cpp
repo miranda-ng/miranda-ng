@@ -789,7 +789,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			}
 		}
 		else {
-			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+			ptrW msg(DbEvent_GetTextW(&dbei));
 			if (msg)
 				pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 		}
@@ -820,7 +820,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
-			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), bWriteUTF8Format);
+			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei)), bWriteUTF8Format);
 			break;
 
 		case EVENTTYPE_FILE:

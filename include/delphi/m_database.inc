@@ -298,7 +298,7 @@ function DbEvent_RegisterType(et:PDBEVENTTYPEDESCR) : int; stdcall; external App
 function DbEvent_GetType(szModule:PAnsiChar; eventType:int) : PDBEVENTTYPEDESCR; stdcall; external AppDll;
 
 function DbEvent_GetTextA(dbei:PDBEVENTINFO; codepage:int) : PAnsiChar; stdcall; external AppDll;
-function DbEvent_GetTextW(dbei:PDBEVENTINFO; codepage:int) : PWideChar; stdcall; external AppDll;
+function DbEvent_GetTextW(dbei:PDBEVENTINFO) : PWideChar; stdcall; external AppDll;
 
 function DbEvent_GetIcon(dbei:PDBEVENTINFO; flags:int) : HICON; stdcall; external AppDll;
 

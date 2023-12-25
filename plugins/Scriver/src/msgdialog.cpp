@@ -382,7 +382,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 			return;
 
 		if (DbEventIsMessageOrCustom(dbei)) {
-			ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+			ptrW wszText(DbEvent_GetTextW(&dbei));
 			SetMessageText(Srmm_Quote(wszText));
 		}
 	}

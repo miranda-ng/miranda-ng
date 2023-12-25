@@ -398,7 +398,7 @@ public:
 		}
 
 		bool bIsRtl = (dbei.flags & DBEF_RTL) != 0;
-		ptrW wszText(DbEvent_GetTextW(&dbei, CP_UTF8)), wszNick;
+		ptrW wszText(DbEvent_GetTextW(&dbei)), wszNick;
 		
 		// test contact
 		if (streamData->dbei == 0) {

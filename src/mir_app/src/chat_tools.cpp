@@ -735,7 +735,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 		return;
 
 	Utf2T wszUserId(dbei.szUserId);
-	CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+	CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
 	wszText.Replace(L"%", L"%%");
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };

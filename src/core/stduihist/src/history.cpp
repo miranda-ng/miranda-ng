@@ -274,7 +274,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				DB::EventInfo dbei(hDbEvent);
 				if (dbei) {
-					ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+					ptrW wszDescr(DbEvent_GetTextW(&dbei));
 					if (wszDescr)
 						SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);
 				}
@@ -309,7 +309,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.cbBlob = oldBlobSize;
 			db_event_get(hDbEvent, &dbei);
 
-			ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+			ptrW wszDescr(DbEvent_GetTextW(&dbei));
 			if (wszDescr) {
 				CharUpperW(wszDescr);
 				if (wcsstr(wszDescr, (const wchar_t *)lParam) != nullptr) {

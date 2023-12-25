@@ -934,7 +934,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		if (szQuoted.IsEmpty()) {
 			DB::EventInfo dbei(hDBEvent);
 			if (dbei)
-				szQuoted = Srmm_Quote(ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), iOutputWidth);
+				szQuoted = Srmm_Quote(ptrW(DbEvent_GetTextW(&dbei)), iOutputWidth);
 		}
 	}
 

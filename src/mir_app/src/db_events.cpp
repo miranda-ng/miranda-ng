@@ -185,12 +185,8 @@ static INT_PTR DbEventGetTextWorker(const DB::EventInfo *dbei, int codepage, int
 		memcpy(str, dbei->pBlob, dbei->cbBlob);
 		str[dbei->cbBlob] = 0;
 
-		if (dbei->flags & DBEF_UTF) {
-			wchar_t *msg = nullptr;
-			mir_utf8decodecp(str, codepage, &msg);
-			if (msg)
-				return (INT_PTR)msg;
-		}
+		if (dbei->flags & DBEF_UTF)
+			return (INT_PTR)mir_utf8decodeW(str);
 
 		return (INT_PTR)mir_a2u_cp(str, codepage);
 	}
@@ -210,9 +206,9 @@ MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage)
 	return (char*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_ASCIIZ);
 }
 
-MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei, int codepage)
+MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei)
 {
-	return (wchar_t*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_WCHAR);
+	return (wchar_t*)DbEventGetTextWorker((DB::EventInfo *)dbei, CP_ACP, DBVT_WCHAR);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

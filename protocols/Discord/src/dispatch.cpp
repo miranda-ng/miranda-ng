@@ -395,7 +395,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				DB::EventInfo dbei;
 				dbei.cbBlob = -1;
 				if (!db_event_get(hOldEvent, &dbei)) {
-					ptrW wszOldText(DbEvent_GetTextW(&dbei, CP_UTF8));
+					ptrW wszOldText(DbEvent_GetTextW(&dbei));
 					if (wszOldText)
 						wszText.Insert(0, wszOldText);
 					if (dbei.flags & DBEF_SENT)

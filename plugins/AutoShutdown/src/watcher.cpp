@@ -72,7 +72,7 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 			DBVARIANT dbv;
 			if (!g_plugin.getWString("Message", &dbv)) {
 				ltrimw(rtrimw(dbv.pwszVal));
-				ptrW wszMsg(DbEvent_GetTextW(&dbei, CP_ACP));
+				ptrW wszMsg(DbEvent_GetTextW(&dbei));
 				if (wszMsg != nullptr && wcsstr(wszMsg, dbv.pwszVal) != nullptr)
 					ShutdownAndStopWatcher(); /* msg with specified text recvd */
 				mir_free(dbv.pwszVal); /* does NULL check */

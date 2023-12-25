@@ -573,7 +573,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	if (!isSent && bIsStatusChangeEvent)
 		dbei.wipeNotify(streamData->hDbEvent);
 
-	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei)));
 	if (msg.IsEmpty())
 		return nullptr;
 
@@ -981,7 +981,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 						if (blob.isOffline())
 							InsertFileLink(str, streamData->hDbEvent, blob);
 						else
-							AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), 0);
+							AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei)), 0);
 					}
 					break;
 
@@ -991,7 +991,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 						str.AppendChar(' ');
 					}
 
-					ptrW tszText(DbEvent_GetTextW(&dbei, CP_ACP));
+					ptrW tszText(DbEvent_GetTextW(&dbei));
 					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;

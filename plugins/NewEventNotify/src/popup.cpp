@@ -157,7 +157,7 @@ static wchar_t* ShortenPreview(DB::EventInfo &dbei)
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	wchar_t *buf = DbEvent_GetTextW(&dbei, CP_ACP);
+	wchar_t *buf = DbEvent_GetTextW(&dbei);
 	if (mir_wstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
@@ -294,7 +294,7 @@ static wchar_t* GetEventPreview(DB::EventInfo &dbei)
 		// support for custom database event types
 		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei.szModule, dbei.eventType);
 		if (pei && pBlob) {
-			comment1 = DbEvent_GetTextW(&dbei, CP_ACP);
+			comment1 = DbEvent_GetTextW(&dbei);
 			commentFix = pei->descr;
 		}
 		else commentFix = POPUP_COMMENT_OTHER;

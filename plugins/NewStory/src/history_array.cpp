@@ -61,7 +61,7 @@ bool Filter::check(ItemData *item) const
 		if (!item->fetch())
 			return false;
 
-		return CheckFilter(ptrW(DbEvent_GetTextW(&item->dbe, CP_UTF8)), text);
+		return CheckFilter(ptrW(DbEvent_GetTextW(&item->dbe)), text);
 	}
 
 	return true;
@@ -441,7 +441,7 @@ void ItemData::load(bool bLoadAlways)
 		break;
 
 	default:
-		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+		wtext = DbEvent_GetTextW(&dbe);
 		break;
 	}
 
@@ -457,7 +457,7 @@ void ItemData::load(bool bLoadAlways)
 				}
 				else str.AppendFormat(L"%s %s: ", Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
 
-				ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+				ptrW wszText(DbEvent_GetTextW(&dbei));
 				if (mir_wstrlen(wszText) > 43)
 					wcscpy(wszText.get() + 40, L"...");
 				str.Append(wszText);

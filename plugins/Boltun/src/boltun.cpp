@@ -202,7 +202,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (Config.MarkAsRead)
 		db_event_markRead(hContact, hDbEvent);
 
-	AnswerToContact(hContact, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)));
+	AnswerToContact(hContact, ptrW(DbEvent_GetTextW(&dbei)));
 	return 0;
 }
 

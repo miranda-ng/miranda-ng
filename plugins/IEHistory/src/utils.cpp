@@ -141,7 +141,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 			switch (type) {
 			case SEARCH_TEXT:
 				{
-					ptrW data(DbEvent_GetTextW(&dbEvent, CP_UTF8));
+					ptrW data(DbEvent_GetTextW(&dbEvent));
 					wchar_t *tmp = wcsstr(data, (wchar_t *)searchData);
 					if (tmp)
 						found = true;

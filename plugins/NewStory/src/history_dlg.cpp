@@ -174,7 +174,7 @@ class CHistoryDlg : public CDlgBase
 			if (!dbei)
 				continue;
 
-			ptrW pwszText(DbEvent_GetTextW(&dbei, CP_UTF8));
+			ptrW pwszText(DbEvent_GetTextW(&dbei));
 			if (!mir_wstrlen(pwszText))
 				continue;
 
@@ -215,7 +215,7 @@ class CHistoryDlg : public CDlgBase
 			flags += "r";
 		pRoot2.push_back(JSONNode("flags", flags));
 
-		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+		ptrW msg(DbEvent_GetTextW(&dbei));
 		if (msg)
 			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
 

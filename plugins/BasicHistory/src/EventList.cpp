@@ -443,7 +443,7 @@ std::wstring HistoryEventList::GetContactId()
 
 static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	wchar_t *msg = DbEvent_GetTextW(dbei, CP_ACP);
+	wchar_t *msg = DbEvent_GetTextW(dbei);
 	wcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid message"), _TRUNCATE);
 	buf[cbBuf - 1] = 0;
 	mir_free(msg);

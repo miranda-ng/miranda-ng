@@ -525,7 +525,7 @@ begin
   Result := False;
   msg := nil;
   try
-    msg := DbEvent_GetTextW(@EventInfo, CP_ACP);
+    msg := DbEvent_GetTextW(@EventInfo);
     Result := Assigned(msg);
   except
     if Assigned(msg) then mir_free(msg);
