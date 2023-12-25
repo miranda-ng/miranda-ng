@@ -555,8 +555,8 @@ public:
 			m_infosUpdated = NULL;
 		}
 
-		if (const char *szProto = GetProto())
-			if (!CallProtoService(szProto, PSS_GETINFO, 0, 0)) {
+		if (m_hContact != NULL)
+			if (!ProtoChainSend(m_hContact, PSS_GETINFO, 0, 0)) {
 				btnUpdate.Disable();
 				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
 				updateTimer.Start(100);
