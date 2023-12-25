@@ -138,7 +138,8 @@ class CUserInfoDlg : public CDlgBase
 				hIcolib = (HANDLE)it->lParam;
 			else if (it->szProto)
 				hIcolib = Skin_GetProtoIcon(it->szProto, ID_STATUS_ONLINE);
-			else if (hContact)
+			
+			if (hContact && !it->szProto)
 				it->szProto = Proto_GetBaseAccountName(hContact);
 
 			if (hIcolib) {
