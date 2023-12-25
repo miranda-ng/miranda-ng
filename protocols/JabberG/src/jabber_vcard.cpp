@@ -1066,9 +1066,11 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	uip.szTitle.w = LPGENW("Work");
 	g_plugin.addUserInfo(wParam, &uip);
 
-	uip.pDialog = new JabberVcardPhotoDlg(this);
-	uip.szTitle.w = LPGENW("Photo");
-	g_plugin.addUserInfo(wParam, &uip);
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP)) {
+		uip.pDialog = new JabberVcardPhotoDlg(this);
+		uip.szTitle.w = LPGENW("Photo");
+		g_plugin.addUserInfo(wParam, &uip);
+	}
 
 	uip.pDialog = new JabberVcardNoteDlg(this);
 	uip.szTitle.w = LPGENW("Note");

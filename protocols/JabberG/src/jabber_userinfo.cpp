@@ -955,10 +955,12 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 		uip.szTitle.w = LPGENW("Account");
 		g_plugin.addUserInfo(wParam, &uip);
 
-		uip.pDialog = new JabberUserPhotoDlg(this);
-		uip.position = 2000000000;
-		uip.szTitle.w = LPGENW("Photo");
-		g_plugin.addUserInfo(wParam, &uip);
+		if (!ServiceExists(MS_AV_GETAVATARBITMAP)) {
+			uip.pDialog = new JabberUserPhotoDlg(this);
+			uip.position = 2000000000;
+			uip.szTitle.w = LPGENW("Photo");
+			g_plugin.addUserInfo(wParam, &uip);
+		}
 
 		CheckOmemoUserInfo(wParam, uip);
 	}
