@@ -113,7 +113,7 @@ static void SetAllContactIcons(HWND hwndList)
 			status = 0;
 		}
 		else {
-			flags = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			flags = CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			status = db_get_w(hContact, szProto, "ApparentMode", 0);
 		}
 

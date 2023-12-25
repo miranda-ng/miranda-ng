@@ -195,7 +195,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 	if (!hContact || !szProto)
 		return 0;
 
-	return (CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
+	return (CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
 }
 
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
@@ -206,7 +206,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (Proto_ValidTypingContact(wParam, szProto))
-			CallProtoServiceInt(0, szProto, PSS_USERISTYPING, wParam, lParam);
+			CallContactService(0, szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
 	return 0;
@@ -233,11 +233,11 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
-	if (CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if (CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
-		CallProtoServiceInt(0, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
+		CallContactService(0, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
-	CallProtoServiceInt(0, szProto, PS_SETSTATUS, status, 0);
+	CallContactService(0, szProto, PS_SETSTATUS, status, 0);
 }
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files)
@@ -384,10 +384,10 @@ MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 
 MIR_APP_DLL(INT_PTR) CallProtoService(const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam)
 {
-	return CallProtoServiceInt(0, szModule, szService, wParam, lParam);
+	return CallContactService(0, szModule, szService, wParam, lParam);
 }
 
-INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
 	auto *ppi = Proto_GetInstance(szModule);
 	if (ppi != nullptr) {

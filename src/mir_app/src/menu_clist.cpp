@@ -407,7 +407,7 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			CUSTOM_STATUS cs = { sizeof(cs) };
 			cs.flags = CSSF_MASK_STATUS;
 			cs.status = &XStatus;
-			if (CallProtoServiceInt(0, smep->szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) != 0)
+			if (CallContactService(0, smep->szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) != 0)
 				XStatus = 0;
 
 			char buf[255];
@@ -517,7 +517,7 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		acc->bIsLocked = !acc->bIsLocked;
 		db_set_b(0, prot, "LockMainStatus", acc->bIsLocked);
 
-		CallProtoServiceInt(0, smep->szProto, PS_GETNAME, _countof(szHumanName), (LPARAM)szHumanName);
+		CallContactService(0, smep->szProto, PS_GETNAME, _countof(szHumanName), (LPARAM)szHumanName);
 
 		TMO_IntMenuItem *pimi = MO_GetIntMenuItem(smep->pimi);
 		if (pimi == nullptr)
@@ -711,7 +711,7 @@ void RebuildMenuOrder(void)
 		CMenuItem mi(&g_plugin);
 		mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 		mi.position = pos++;
-		mi.hIcon = ic = (HICON)CallProtoServiceInt(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		mi.hIcon = ic = (HICON)CallContactService(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (pa->IsLocked()) {
 			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);

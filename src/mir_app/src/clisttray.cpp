@@ -52,7 +52,7 @@ static wchar_t* sttGetXStatus(const char *szProto)
 		CUSTOM_STATUS cs = { sizeof(cs) };
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_UNICODE;
 		cs.ptszMessage = tszStatus;
-		if (CallProtoServiceInt(0, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
+		if (CallContactService(0, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 			return mir_wstrdup(tszStatus);
 	}
 

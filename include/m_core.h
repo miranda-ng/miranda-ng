@@ -147,6 +147,7 @@ MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
 MIR_APP_DLL(int)      ProtoServiceExists(const char *szModule, const char *szService);
 MIR_APP_DLL(INT_PTR)  CallProtoService(const char *szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions

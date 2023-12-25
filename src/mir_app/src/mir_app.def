@@ -921,3 +921,4 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?GetReceivedFolder@File@@YGPA_WIPA_WI_N@Z @1039 NONAME
 ?DlgProc@CUserInfoPageDlg@@UAEHIIJ@Z @1040 NONAME
 ?wipeNotify@EventInfo@DB@@QAEXI@Z @1047 NONAME
+_CallContactService@20 @1048 NONAME

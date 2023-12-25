@@ -73,7 +73,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			if (i == COLUMNID_HANDLE) {
 				lvc.pszText = L"ID";
 				if (szProto) {
-					INT_PTR ret = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					INT_PTR ret = CallContactService(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 					if (ret != CALLSERVICE_NOTFOUND)
 						lvc.pszText = (wchar_t*)ret;
 				}
@@ -195,11 +195,11 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 			if (!pa->IsEnabled())
 				continue;
 			
-			uint32_t caps = (uint32_t)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (!(caps & requiredCapability))
 				continue;
 			
-			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(0, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
+			dat->search[dat->searchCount].hProcess = (HANDLE)CallContactService(0, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
 			if (dat->search[dat->searchCount].hProcess == nullptr) failures++;
 			else dat->searchCount++;
@@ -217,7 +217,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 	else {
 		dat->search = (struct ProtoSearchInfo*)mir_alloc(sizeof(struct ProtoSearchInfo));
 		dat->searchCount = 1;
-		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(0, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
+		dat->search[0].hProcess = (HANDLE)CallContactService(0, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
 		dat->search[0].szProto = szProto;
 		if (dat->search[0].hProcess == nullptr) {
 			// infuriatingly vague error message. fixme.
@@ -349,13 +349,13 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 
 	case IDC_DETAILS:
 		{
-			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallContactService(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 	case IDM_SENDMESSAGE:
 		{
-			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallContactService(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		}
 		break;

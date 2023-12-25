@@ -187,8 +187,8 @@ static void SetAllContactIcons(HWND hwndList)
 			uint32_t proto1Caps, proto4Caps;
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto) {
-				proto1Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				proto4Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+				proto1Caps = CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				proto4Caps = CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			}
 			else proto1Caps = proto4Caps = 0;
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);

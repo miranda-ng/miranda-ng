@@ -62,7 +62,7 @@ void fnLoadCluiGlobalOpts()
 static void DisconnectAll()
 {
 	for (auto &it : g_arAccounts)
-		CallProtoServiceInt(0, it->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+		CallContactService(0, it->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 
 static int CluiIconsChanged(WPARAM, LPARAM)
@@ -194,7 +194,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 		char *szProto = Proto_GetBaseAccountName(wParam);
 		if (szProto != nullptr) {
 			// Check if protocol uses server side lists
-			uint32_t caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				int status = Proto_GetStatus(szProto);
 				if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
