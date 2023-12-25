@@ -227,7 +227,7 @@ class CUserInfoDlg : public CDlgBase
 
 	void CheckOnline()
 	{
-		auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr;
+		const char *szProto = GetProto();
 		if (szProto == nullptr || m_bIsMeta)
 			btnUpdate.Disable();
 		else {
@@ -236,6 +236,14 @@ class CUserInfoDlg : public CDlgBase
 			else
 				btnUpdate.Enable(!IsWindowVisible(GetDlgItem(m_hwnd, IDC_UPDATING)));
 		}
+	}
+
+	const char *GetProto() const
+	{
+		if (m_pCurrent && m_pCurrent->szProto)
+			return m_pCurrent->szProto;
+		
+		return (m_hContact) ? Proto_GetBaseAccountName(m_hContact) : nullptr;
 	}
 
 	void ResizeCurrent()
@@ -547,7 +555,7 @@ public:
 			m_infosUpdated = NULL;
 		}
 
-		if (auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr)
+		if (const char *szProto = GetProto())
 			if (!CallProtoService(szProto, PSS_GETINFO, 0, 0)) {
 				btnUpdate.Disable();
 				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
