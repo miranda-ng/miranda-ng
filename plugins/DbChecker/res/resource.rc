@@ -48,8 +48,9 @@ BEGIN
     PUSHBUTTON      "...",IDC_OPENFILE,243,49,15,13
     CONTROL         "Mark all events as read",IDC_MARKREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,69,248,10
     CONTROL         "Fix UTF-8 encoding in old events",IDC_FIX_UTF8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,83,248,10
-    CONTROL         "Remove duplicate events",IDC_REMOVE_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,248,10
-    CONTROL         "Fix server event IDs",IDC_FIX_SERVER_IDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,111,248,10
+    CONTROL         "Fix RTF text in old events",IDC_FIX_RTF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,248,10
+    CONTROL         "Remove duplicate events",IDC_REMOVE_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,111,248,10
+    CONTROL         "Fix server event IDs",IDC_FIX_SERVER_IDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,125,248,10
 END
 
 IDD_OPENERROR DIALOGEX 0, 0, 262, 143
@@ -76,6 +77,7 @@ BEGIN
     LTEXT           "Working...",IDC_STATIC,11,6,250,8,WS_BORDER
     LTEXT           "Please wait while the requested operations are being performed.",IDC_STATIC,20,14,240,16
     CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "",IDC_MEMO,"RICHEDIT50W",NOT WS_VISIBLE,20,38,222,11
     CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,20,38,222,11
     LISTBOX         IDC_STATUS,20,52,222,84,NOT LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
 END

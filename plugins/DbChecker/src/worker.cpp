@@ -21,6 +21,63 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void ProcessingDone(void);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern HWND hwndRichEdit;
+
+struct StringBuf
+{
+	char *str;
+	size_t size, streamOffset;
+};
+
+DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	StringBuf *buf = (StringBuf *)dwCookie;
+
+	if (buf->streamOffset < buf->size) {
+		size_t cbLen = min(size_t(cb), buf->size - buf->streamOffset);
+		memcpy(pbBuff, buf->str + buf->streamOffset, cbLen);
+		buf->streamOffset += cbLen;
+		*pcb = (LONG)cbLen;
+	}
+	else *pcb = 0;
+
+	return 0;
+}
+
+static bool ConvertRtfEvent(DBEVENTINFO &dbei)
+{
+	if (mir_strncmp(dbei.pBlob, "{\\rtf1", 6))
+		return false;
+
+	StringBuf buf = {};
+	buf.str = dbei.pBlob;
+	buf.size = dbei.cbBlob;
+
+	EDITSTREAM es = {};
+	es.dwCookie = (DWORD_PTR)&buf;
+	es.pfnCallback = sttStreamInCallback;
+	SendMessage(hwndRichEdit, EM_STREAMIN, SF_RTF, (LPARAM)&es);
+
+	GETTEXTLENGTHEX param = { GTL_NUMBYTES, CP_UTF8 };
+	int iLength = SendMessage(hwndRichEdit, EM_GETTEXTLENGTHEX, WPARAM(&param), 0);
+
+	BOOL bFlag;
+	char *utf8str = (char *)mir_alloc(iLength + 1);
+	GETTEXTEX param2 = { (DWORD)iLength, GT_USECRLF, CP_UTF8, "?", &bFlag };
+	SendMessage(hwndRichEdit, EM_GETTEXTEX, WPARAM(&param2), LPARAM(utf8str));
+
+	mir_free(dbei.pBlob);
+
+	dbei.flags |= DBEF_UTF;
+	dbei.cbBlob = (uint32_t)mir_strlen(utf8str);
+	dbei.pBlob = utf8str;
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static bool ConvertOldEvent(DBEVENTINFO &dbei)
 {
 	if (dbei.flags & DBEF_UTF)
@@ -31,7 +88,7 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 		return true;
 	}
 
-	int msglen = (int)mir_strlen((char *)dbei.pBlob) + 1, msglenW = 0;
+	int msglen = (int)mir_strlen(dbei.pBlob) + 1, msglenW = 0;
 	if (msglen != (int)dbei.cbBlob) {
 		int count = ((dbei.cbBlob - msglen) / sizeof(wchar_t));
 		wchar_t *p = (wchar_t *)&dbei.pBlob[msglen];
@@ -83,14 +140,14 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	uint32_t sp = 0;
 
-	if (opts->bMarkRead || opts->bCheckUtf || opts->bCheckDups || opts->bCheckServerIds) {
-		int nCount = 0, nUtfCount = 0, nDups = 0, nIds = 0;
+	if (opts->bMarkRead || opts->bCheckRtf || opts->bCheckUtf || opts->bCheckDups || opts->bCheckServerIds) {
+		int nCount = 0, nUtfCount = 0, nRtfCount = 0, nDups = 0, nIds = 0;
 
 		for (auto &cc : Contacts()) {
 			DB::ECPTR pCursor(DB::Events(cc));
 			DBEVENTINFO dboldev = {};
 			while (MEVENT hEvent = pCursor.FetchNext()) {
-				DB::EventInfo dbei(hEvent, opts->bCheckUtf || opts->bCheckDups || opts->bCheckServerIds);
+				DB::EventInfo dbei(hEvent, opts->bCheckUtf || opts->bCheckRtf || opts->bCheckDups || opts->bCheckServerIds);
 				if (!dbei)
 					continue;
 
@@ -100,12 +157,17 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 				}
 
 				if (dbei.eventType == EVENTTYPE_MESSAGE) {
-					if (opts->bCheckUtf) {
+					if (opts->bCheckUtf)
 						if (ConvertOldEvent(dbei)) {
 							db_event_edit(hEvent, &dbei);
 							nUtfCount++;
 						}
-					}
+
+					if (opts->bCheckRtf)
+						if (ConvertRtfEvent(dbei)) {
+							db_event_edit(hEvent, &dbei);
+							nRtfCount++;
+						}
 
 					if (opts->bCheckServerIds) {
 						// if a blob is longer than its text part, there's a nessage id after text
@@ -143,6 +205,9 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 		if (nUtfCount)
 			AddToStatus(STATUS_MESSAGE, TranslateT("UTF-8 encoding fixed in %d events"), nUtfCount);
+
+		if (nRtfCount)
+			AddToStatus(STATUS_MESSAGE, TranslateT("RTF format fixed in %d events"), nRtfCount);
 
 		if (nDups)
 			AddToStatus(STATUS_MESSAGE, TranslateT("%d duplicate events removed"), nDups);

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <process.h>
 #include <malloc.h>
 #include <commctrl.h>
+#include <Richedit.h>
 #include <time.h>
 
 #include <newpluginapi.h>
@@ -64,7 +65,7 @@ struct DbToolOptions : public MZeroedObject
 	MIDatabaseChecker *dbChecker;
 	uint32_t error;
 	HANDLE hEventRun, hEventAbort;
-	bool bFinished, bAutoExit, bOwnsDb, bMarkRead, bCheckUtf, bCheckDups, bCheckServerIds;
+	bool bFinished, bAutoExit, bOwnsDb, bMarkRead, bCheckUtf, bCheckRtf, bCheckDups, bCheckServerIds;
 	wchar_t filename[MAX_PATH];
 };
 
@@ -113,7 +114,7 @@ class COptionsPageDlg : public CWizardPageDlg
 
 	CCtrlEdit edtFile;
 	CCtrlButton btnFile;
-	CCtrlCheck chkMarkRead, chkFixUtf, chkRemoveDups, chkFixServerIds;
+	CCtrlCheck chkMarkRead, chkFixUtf, chkFixRtf, chkRemoveDups, chkFixServerIds;
 
 public:
 	COptionsPageDlg();

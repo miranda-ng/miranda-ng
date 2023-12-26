@@ -21,6 +21,7 @@ COptionsPageDlg::COptionsPageDlg() :
 	CSuper(IDD_OPTPAGE),
 	edtFile(this, IDC_FILENAME),
 	btnFile(this, IDC_OPENFILE),
+	chkFixRtf(this, IDC_FIX_RTF),
 	chkFixUtf(this, IDC_FIX_UTF8),
 	chkMarkRead(this, IDC_MARKREAD),
 	chkRemoveDups(this, IDC_REMOVE_DUPS),
@@ -35,6 +36,7 @@ bool COptionsPageDlg::OnInitDialog()
 	auto *opts = getOpts();
 	edtFile.SetText(opts->filename);
 
+	chkFixRtf.SetState(opts->bCheckRtf);
 	chkFixUtf.SetState(opts->bCheckUtf);
 	chkMarkRead.SetState(opts->bMarkRead);
 	chkRemoveDups.SetState(opts->bCheckDups);
@@ -93,6 +95,7 @@ LBL_Error:
 		opts->db = pDb;
 	}
 
+	opts->bCheckRtf = chkFixRtf.IsChecked();
 	opts->bCheckUtf = chkFixUtf.IsChecked();
 	opts->bMarkRead = chkMarkRead.IsChecked();
 	opts->bCheckDups = chkRemoveDups.IsChecked();
