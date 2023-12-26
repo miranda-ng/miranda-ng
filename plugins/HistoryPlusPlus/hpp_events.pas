@@ -608,7 +608,7 @@ begin
     cp := CP_UTF8
   else
     cp := Hi.CodePage;
-  PText := DbEvent_GetTextW(@EventInfo, CP_ACP);
+  PText := DbEvent_GetTextW(@EventInfo);
   if not Assigned(PText) then
      PText := mir_wstrdup('');
   Hi.Text := Format(TranslateUnicodeString(Hi.Text), [PText]);
