@@ -50,7 +50,7 @@
 [E-mail]
 [E-mail notification]
 ;file \protocols\ICQ-WIM\src\menus.cpp
-[Add to faforites]
+[Add to favorites]
 [Convert a message into a file transfer]
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]

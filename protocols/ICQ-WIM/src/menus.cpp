@@ -53,7 +53,7 @@ void CIcqProto::InitMenus()
 
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	mi.name.a = LPGEN("Add to faforites");
+	mi.name.a = LPGEN("Add to favorites");
 	hmiConvert = Menu_AddNewStoryMenuItem(&mi, 2);
 
 	mi.position++;
