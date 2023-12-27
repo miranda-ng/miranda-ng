@@ -244,6 +244,23 @@ Wildcard поиск по сети
 Уведомления
 [Host]
 Сервер
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Комната чата
+[Mode]
+Режим
+[Please wait...]
+Подождите, пожалуйста...
+[%s - Filtered - %d items]
+%s - отфильтровано - %d объектов 
+[Downloading list (%u%%) - %u channels]
+Загружается список (%u%%) - %u% комнат чата
+[Downloading list - %u channels]
+Загружается список - %u комнат чата
+[Done: %u channels]
+Готово: %u комнат чата
+[(probably truncated by server)]
+(возможно, ограничено сервером)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
@@ -296,14 +313,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Полуоп
 [Voice]
 Войс
-[Downloading list (%u%%) - %u channels]
-Загружается список (%u%%) - %u% комнат чата
-[Downloading list - %u channels]
-Загружается список - %u комнат чата
-[Done: %u channels]
-Готово: %u комнат чата
-[(probably truncated by server)]
-(возможно, ограничено сервером)
 [%ud, %uh, %um, %us]
 %u дн, %u ч, %u мин, %u с
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Nickserv убить фантома
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Подождите, пожалуйста...
-[Channel]
-Комната чата
-[Mode]
-Режим
-[%s - Filtered - %d items]
-%s - отфильтровано - %d объектов 
 [Add ban/invite/exception]
 Добавить бан/приглашение/исключение
 [Edit selected ban/invite/exception]

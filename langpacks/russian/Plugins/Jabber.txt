@@ -1418,8 +1418,8 @@ OMEMO не поддерживает шифрование приватных со
 Включить уведомления о состоянии чата (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
-[Enable Message Archive Management (XEP-0313)]
-Включить архивацию сообщений на сервере (XEP-0313)
+[Enable Message Archive Management (XEP-0313) (experimental)]
+Включить архивацию сообщений на сервере (XEP-0313) (экспериментальная возможность)
 [Enable carbon copies (XEP-0280)]
 Включить копирование сообщений на все ресурсы (XEP-0280)
 [Enable HTTP File Upload (XEP-0363)]
@@ -1428,14 +1428,12 @@ OMEMO не поддерживает шифрование приватных со
 Включить VOIP (экспериментальная возможность)
 [Server options]
 Настройки сервера
-[Use Stream Management (XEP-0198) if possible (experimental)]
-Включить Stream Management (XEP-0198), если возможно (экспериментальная возможность)
+[Use Stream Management (XEP-0198)]
+Включить Stream Management (XEP-0198)
 [Disable SASL authentication (for old servers)]
 Отключить аутентификацию SASL (старые серверы)
-[Enable stream compression (if possible)]
-Сжимать поток (если возможно)
-[Use TLS 1.3 bindings (if possible)]
-
+[Enable stream compression]
+Сжимать поток
 [Other]
 Другое
 [Enable remote controlling (from another resource of same JID only)]
@@ -1454,16 +1452,18 @@ OMEMO не поддерживает шифрование приватных со
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]
 Безопасность
-[Allow local time and timezone requests (XEP-0202)]
+[Allow local time and timezone replies (XEP-0202)]
 Отвечать на запросы локального времени и часового пояса (XEP-0202)
-[Allow servers to request version (XEP-0092)]
-Отвечать серверу на запросы о версиях ПО (XEP-0092)
-[Show information about operating system in version replies]
-Отправлять информацию об операционной системе в запросах версии
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+Отвечать на запросы активности (XEP-0319 и XEP-0012)
+[Allow version replies (XEP-0092)]
+Отвечать на запросы о версиях ПО (XEP-0092)
+[Include OS information in version replies]
+Отправлять информацию об операционной системе в ответах на запросы версии
 [Accept HTTP Authentication requests (XEP-0070)]
 Принимать запросы аутентификации HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
-Шифровать сообщения с помощью OMEMO, если возможно (XEP-0384) (начальная поддержка, нет интерфейса)
+[Use OMEMO encryption (XEP-0384)]
+Шифровать сообщения с помощью OMEMO (XEP-0384)
 [General]
 Общее
 [Autoaccept multiuser chat invitations]
@@ -1801,20 +1801,12 @@ XML (кодировка UTF-8)
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <не указано>
-[Resource]
-Ресурс
 [Software]
 Клиент
-[Version]
-Версия
-[System]
-Система
-[<currently online>]
-<сейчас в сети>
 [Last activity]
 Последняя активность
-[Client capabilities]
-Возможности клиента
+[Client capabilities (only ones known to Miranda)]
+Возможности клиента (лишь те, о которых знает Miranda)
 [Software information]
 Информация о ПО
 [Operating system]
@@ -1837,8 +1829,6 @@ XML (кодировка UTF-8)
 Время работы
 [Logoff message]
 Сообщение выхода
-[<no information available>]
-<нет информации>
 [Last active resource]
 Последний активный ресурс
 [Please switch online to see more details.]

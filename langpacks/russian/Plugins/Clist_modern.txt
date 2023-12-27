@@ -803,8 +803,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Меню статуса
 [Accounts]
 Учётные записи
-[Accounts...]
-Учётные записи...
 [Show/Hide offline contacts]
 Показать/скрыть отключённых
 [Hide offline contacts]

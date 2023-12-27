@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -24,6 +24,8 @@
 Пометить все события прочитанными
 [Fix UTF-8 encoding in old events]
 Исправить кодировку UTF-8 в старых событиях
+[Fix RTF text in old events]
+Исправить RTF в старых событиях
 [Remove duplicate events]
 Удалить дубликаты событий
 [Fix server event IDs]
@@ -67,6 +69,8 @@ DbChecker
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
+[RTF format fixed in %d events]
+Событий с RTF исправлено: %d
 [%d duplicate events removed]
 Удалено %d дубликатов событий
 [%d server event IDs fixed]

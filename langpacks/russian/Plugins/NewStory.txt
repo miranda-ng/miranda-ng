@@ -36,6 +36,10 @@
 Сортировать события по возрастанию даты
 [History++ compatiblity mode]
 Режим совместимости с History++
+[Show event type]
+Показывать тип события
+[Show event direction]
+Показывать направление события
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -265,10 +269,6 @@
 имя собеседника
 [event count]
 количество событий
-[icon]
-значок
-[direction icon]
-значок направления
 [direction symbol]
 символ направления
 [timestamp]

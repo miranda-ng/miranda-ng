@@ -2743,6 +2743,8 @@ ANSI плагин
 Файлы WAV
 [Unselect all]
 Снять выбор
+[Remove quoting]
+Отменить ответ
 [&Message %s]
 &Сообщение %s
 [Nickname]
@@ -2753,6 +2755,8 @@ ANSI плагин
 Вылючить фильтр событий (Ctrl+F)
 [Enable the event filter (Ctrl+F)]
 Включить фильтр событий (Ctrl+F)
+[In reply to]
+В ответ на
 [Log viewer]
 Просмотрщик журнала сообщений
 [History++ log window]
@@ -7279,8 +7283,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Меню статуса
 [Accounts]
 Учётные записи
-[Accounts...]
-Учётные записи...
 [Show/Hide offline contacts]
 Показать/скрыть отключённых
 [Hide offline contacts]
@@ -9013,7 +9015,7 @@ ID пользователя
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -9034,6 +9036,8 @@ ID пользователя
 Пометить все события прочитанными
 [Fix UTF-8 encoding in old events]
 Исправить кодировку UTF-8 в старых событиях
+[Fix RTF text in old events]
+Исправить RTF в старых событиях
 [Remove duplicate events]
 Удалить дубликаты событий
 [Fix server event IDs]
@@ -9072,6 +9076,8 @@ DbChecker
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
+[RTF format fixed in %d events]
+Событий с RTF исправлено: %d
 [%d duplicate events removed]
 Удалено %d дубликатов событий
 [%d server event IDs fixed]
@@ -13066,6 +13072,10 @@ UIN/почта:
 Введите пароль
 [Remember this session password]
 Запомнить пароль на время сеанса
+[Forward message]
+Переслать сообщение
+[Forward]
+Переслать
 [admin]
 админ
 [member]
@@ -13090,6 +13100,8 @@ UIN/почта:
 Почта
 [E-mail notification]
 Уведомление об эл. почте
+[Add to favorites]
+Добавить в избранное
 [Convert a message into a file transfer]
 Преобразовать сообщение в событие передачи файла
 [Network]
@@ -13110,8 +13122,6 @@ UIN/почта:
 Редактировать профиль на веб-сайте
 [UIN/e-mail/phone]
 UIN/почта/телефон
-[SmileyAdd plugin required to support stickers]
-Для поддержки стикеров требуется плагин SmileyAdd
 [You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
 [Connection failed.\nYour login or password was rejected (%d).]
@@ -13120,10 +13130,10 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[Unknown sticker]
-Неизвестный стикер
-[User sent a sticker:]
-Пользователь отправил стикер:
+[Conferences]
+Комнаты чата
+[Favorites]
+Избранное
 [Buddy addition failed]
 Не удалось добавить контакт
 [long time ago]
@@ -13856,6 +13866,22 @@ Wildcard поиск по сети
 Уведомления
 [Host]
 Сервер
+[Channel]
+Комната чата
+[Mode]
+Режим
+[Please wait...]
+Подождите, пожалуйста...
+[%s - Filtered - %d items]
+%s - отфильтровано - %d объектов 
+[Downloading list (%u%%) - %u channels]
+Загружается список (%u%%) - %u% комнат чата
+[Downloading list - %u channels]
+Загружается список - %u комнат чата
+[Done: %u channels]
+Готово: %u комнат чата
+[(probably truncated by server)]
+(возможно, ограничено сервером)
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
 [%s sets mode %s]
@@ -13906,14 +13932,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Полуоп
 [Voice]
 Войс
-[Downloading list (%u%%) - %u channels]
-Загружается список (%u%%) - %u% комнат чата
-[Downloading list - %u channels]
-Загружается список - %u комнат чата
-[Done: %u channels]
-Готово: %u комнат чата
-[(probably truncated by server)]
-(возможно, ограничено сервером)
 [%ud, %uh, %um, %us]
 %u дн, %u ч, %u мин, %u с
 [%uh, %um, %us]
@@ -14310,14 +14328,6 @@ Nickserv убить фантома
 Медленнее: ищутся ники, удовлетворяющие указанным метасимволам. Необходимо указать маску узла и минимум 4 символа в поле "Ник". Поддерживаются метасимволы ? и *.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски) и совпадать с псевдонимом по умолчанию для этого контакта.
-[Please wait...]
-Подождите, пожалуйста...
-[Channel]
-Комната чата
-[Mode]
-Режим
-[%s - Filtered - %d items]
-%s - отфильтровано - %d объектов 
 [Add ban/invite/exception]
 Добавить бан/приглашение/исключение
 [Edit selected ban/invite/exception]
@@ -15727,8 +15737,8 @@ OMEMO не поддерживает шифрование приватных со
 Включить уведомления о состоянии чата (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
-[Enable Message Archive Management (XEP-0313)]
-Включить архивацию сообщений на сервере (XEP-0313)
+[Enable Message Archive Management (XEP-0313) (experimental)]
+Включить архивацию сообщений на сервере (XEP-0313) (экспериментальная возможность)
 [Enable carbon copies (XEP-0280)]
 Включить копирование сообщений на все ресурсы (XEP-0280)
 [Enable HTTP File Upload (XEP-0363)]
@@ -15737,12 +15747,12 @@ OMEMO не поддерживает шифрование приватных со
 Включить VOIP (экспериментальная возможность)
 [Server options]
 Настройки сервера
-[Use Stream Management (XEP-0198) if possible (experimental)]
-Включить Stream Management (XEP-0198), если возможно (экспериментальная возможность)
+[Use Stream Management (XEP-0198)]
+Включить Stream Management (XEP-0198)
 [Disable SASL authentication (for old servers)]
 Отключить аутентификацию SASL (старые серверы)
-[Enable stream compression (if possible)]
-Сжимать поток (если возможно)
+[Enable stream compression]
+Сжимать поток
 [Other]
 Другое
 [Enable remote controlling (from another resource of same JID only)]
@@ -15761,16 +15771,16 @@ OMEMO не поддерживает шифрование приватных со
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]
 Безопасность
-[Allow local time and timezone requests (XEP-0202)]
+[Allow local time and timezone replies (XEP-0202)]
 Отвечать на запросы локального времени и часового пояса (XEP-0202)
-[Allow servers to request version (XEP-0092)]
-Отвечать серверу на запросы о версиях ПО (XEP-0092)
-[Show information about operating system in version replies]
-Отправлять информацию об операционной системе в запросах версии
+[Allow version replies (XEP-0092)]
+Отвечать на запросы о версиях ПО (XEP-0092)
+[Include OS information in version replies]
+Отправлять информацию об операционной системе в ответах на запросы версии
 [Accept HTTP Authentication requests (XEP-0070)]
 Принимать запросы аутентификации HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
-Шифровать сообщения с помощью OMEMO, если возможно (XEP-0384) (начальная поддержка, нет интерфейса)
+[Use OMEMO encryption (XEP-0384)]
+Шифровать сообщения с помощью OMEMO (XEP-0384)
 [General]
 Общее
 [Autoaccept multiuser chat invitations]
@@ -16089,20 +16099,12 @@ XML (кодировка UTF-8)
 Отправка регистрационной информации...
 [<not specified>]
 <не указано>
-[Resource]
-Ресурс
 [Software]
 Клиент
-[Version]
-Версия
-[System]
-Система
-[<currently online>]
-<сейчас в сети>
 [Last activity]
 Последняя активность
-[Client capabilities]
-Возможности клиента
+[Client capabilities (only ones known to Miranda)]
+Возможности клиента (лишь те, о которых знает Miranda)
 [Software information]
 Информация о ПО
 [Operating system]
@@ -16125,8 +16127,6 @@ XML (кодировка UTF-8)
 Время работы
 [Logoff message]
 Сообщение выхода
-[<no information available>]
-<нет информации>
 [Last active resource]
 Последний активный ресурс
 [Please switch online to see more details.]
@@ -19210,6 +19210,10 @@ URL страницы с комментариями к новости.
 Сортировать события по возрастанию даты
 [History++ compatiblity mode]
 Режим совместимости с History++
+[Show event type]
+Показывать тип события
+[Show event direction]
+Показывать направление события
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -19426,10 +19430,6 @@ URL страницы с комментариями к новости.
 имя собеседника
 [event count]
 количество событий
-[icon]
-значок
-[direction icon]
-значок направления
 [direction symbol]
 символ направления
 [timestamp]
@@ -31404,6 +31404,8 @@ URL:
 Сообщение на стене
 [Mark messages as read icon]
 Пометить сообщения прочитанными
+[Forward icon]
+Переслать
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -31764,6 +31766,12 @@ ID получателя ошибочен или неизвестен
 за последние 90 дней
 [for all time]
 с самого начала
+[Mark contacts for forwarding messages]
+Выберите контакты для пересылки сообщений
+[Mark contacts you want to forward messages]
+Выберите контакты, которым вы хотите переслать сообщения
+[Enter accompanying messages]
+Введите сопроводительное сообщение
 [Errors]
 Ошибки
 [Notifications]

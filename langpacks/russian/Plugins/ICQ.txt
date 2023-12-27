@@ -58,6 +58,10 @@ UIN/почта:
 Введите пароль
 [Remember this session password]
 Запомнить пароль на время сеанса
+[Forward message]
+Переслать сообщение
+[Forward]
+Переслать
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [admin]
 админ
@@ -86,6 +90,8 @@ UIN/почта:
 [E-mail notification]
 Уведомление об эл. почте
 ;file \protocols\ICQ-WIM\src\menus.cpp
+[Add to favorites]
+Добавить в избранное
 [Convert a message into a file transfer]
 Преобразовать сообщение в событие передачи файла
 ;file \protocols\ICQ-WIM\src\options.cpp
@@ -110,8 +116,6 @@ UIN/почта:
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
-[SmileyAdd plugin required to support stickers]
-Для поддержки стикеров требуется плагин SmileyAdd
 [You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
 [Connection failed.\nYour login or password was rejected (%d).]
@@ -120,10 +124,10 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[Unknown sticker]
-Неизвестный стикер
-[User sent a sticker:]
-Пользователь отправил стикер:
+[Conferences]
+Комнаты чата
+[Favorites]
+Избранное
 [Buddy addition failed]
 Не удалось добавить контакт
 ;file \protocols\ICQ-WIM\src\utils.cpp
