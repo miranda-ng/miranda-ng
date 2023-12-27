@@ -412,7 +412,6 @@
 [Main menu]
 [Status menu]
 [Accounts]
-[Accounts...]
 [Show/Hide offline contacts]
 [Hide offline contacts]
 [Show offline contacts]

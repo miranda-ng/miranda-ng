@@ -32,6 +32,8 @@
 [Enter ICQ Password]
 [Enter a password:]
 [Remember this session password]
+[Forward message]
+[Forward]
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [admin]
 [member]
@@ -48,6 +50,7 @@
 [E-mail]
 [E-mail notification]
 ;file \protocols\ICQ-WIM\src\menus.cpp
+[Add to faforites]
 [Convert a message into a file transfer]
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
@@ -62,13 +65,12 @@
 [Edit my web profile]
 [UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
-[SmileyAdd plugin required to support stickers]
 [You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 [Connection failed.\nYour login or password was rejected (%d).]
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 [Connection failed.\nUnknown error during sign on: %d]
-[Unknown sticker]
-[User sent a sticker:]
+[Conferences]
+[Favorites]
 [Buddy addition failed]
 ;file \protocols\ICQ-WIM\src\utils.cpp
 [long time ago]
