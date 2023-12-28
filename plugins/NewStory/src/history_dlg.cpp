@@ -73,21 +73,6 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
 
-static const char *pSettings[] =
-{
-	LPGEN("FirstName"),
-	LPGEN("LastName"),
-	LPGEN("e-mail"),
-	LPGEN("Nick"),
-	LPGEN("Age"),
-	LPGEN("Gender"),
-	LPGEN("City"),
-	LPGEN("State"),
-	LPGEN("Phone"),
-	LPGEN("Homepage"),
-	LPGEN("About")
-};
-
 class CHistoryDlg : public CDlgBase
 {
 	HMENU m_hMenu;
@@ -182,47 +167,6 @@ class CHistoryDlg : public CDlgBase
 			if (wcsstr(pwszText, pwszPattern))
 				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.timestamp));
 		}
-	}
-
-	void ExportEvent(ItemData *pItem, FILE *out)
-	{
-		DB::EventInfo dbei(pItem->hEvent);
-		if (!dbei)
-			return;
-
-		if (bAppendOnly) {
-			fseek(out, -4, SEEK_END);
-			fputs(",", out);
-		}
-
-		JSONNode pRoot2;
-		pRoot2.push_back(JSONNode("type", dbei.eventType));
-
-		char *szProto = Proto_GetBaseAccountName(pItem->hContact);
-		if (mir_strcmp(dbei.szModule, szProto))
-			pRoot2.push_back(JSONNode("module", dbei.szModule));
-
-		pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
-
-		wchar_t szTemp[500];
-		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-		pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-		std::string flags;
-		if (dbei.flags & DBEF_SENT)
-			flags += "m";
-		if (dbei.flags & DBEF_READ)
-			flags += "r";
-		pRoot2.push_back(JSONNode("flags", flags));
-
-		ptrW msg(DbEvent_GetTextW(&dbei));
-		if (msg)
-			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
-
-		fputs(pRoot2.write_formatted().c_str(), out);
-		fputs("\n]}", out);
-
-		bAppendOnly = true;
 	}
 
 	void ShowHideControls()
@@ -445,6 +389,11 @@ public:
 	{
 		showFlags = g_plugin.getWord("showFlags", 0x7f);
 		m_dwOptions = g_plugin.getDword("dwOptions");
+
+		if (!GetDatabasePlugin("JSON")) {
+			btnExport.Disable();
+			btnExport.SetTooltip(LPGEN("You need to install the Import plugin to export events"));
+		}
 
 		if (m_hContact == INVALID_CONTACT_ID)
 			m_dwOptions |= WND_OPT_SEARCHBAR;
@@ -899,16 +848,11 @@ public:
 			return;
 		}
 
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, szProto));
-		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, szProto));
-		const char *uid = Proto_GetUniqueId(szProto);
-
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
 		CMStringW tszFilter, tszTitle, tszFileName;
 		tszFilter.AppendFormat(L"%s (*.json)%c*.json%c%c", TranslateT("JSON files"), 0, 0, 0);
-		tszTitle.AppendFormat(TranslateT("Export %s history"), nick);
+		tszTitle.AppendFormat(TranslateT("Export history"));
 		ofn.lpstrFilter = tszFilter;
 		ofn.hwndOwner = nullptr;
 		ofn.lpstrTitle = tszTitle;
@@ -927,33 +871,10 @@ public:
 		if (PathFileExistsW(FileName))
 			DeleteFileW(FileName);
 
-		FILE *out = _wfopen(FileName, L"wt");
-		if (out == NULL)
-			return;
-
-		// export contact info
-		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
-		pInfo.set_name("info");
-		if (szProto)
-			pInfo.push_back(JSONNode("proto", szProto));
-
-		if (id != NULL)
-			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
-
-		for (auto &it : pSettings) {
-			wchar_t *szValue = db_get_wsa(m_hContact, szProto, it);
-			if (szValue)
-				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
-			mir_free(szValue);
-		}
-
-		pRoot.push_back(pInfo);
-
-		pHist.set_name("history");
-		pRoot.push_back(pHist);
-
-		fputs(pRoot.write_formatted().c_str(), out);
-		fseek(out, -4, SEEK_CUR);
+		auto *pDriver = GetDatabasePlugin("JSON");
+		auto *pDB = pDriver->Export(FileName);
+		pDB->BeginExport();
+		pDB->ExportContact(m_hContact);
 
 		// export events
 		int iDone = 0;
@@ -963,18 +884,24 @@ public:
 		for (int i = 0; i < iCount; i++) {
 			auto *pItem = arItems.get(i);
 			if (pItem->m_bSelected) {
-				ExportEvent(pItem, out);
+				DB::EventInfo dbei(pItem->hEvent);
+				if (dbei)
+					pDB->ExportEvent(dbei);
 				iDone++;
 			}
 		}
 
 		// no items selected? export whole history
 		if (iDone == 0)
-			for (int i = 0; i < iCount; i++)
-				ExportEvent(arItems.get(i), out);
+			for (int i = 0; i < iCount; i++) {
+				auto *pItem = arItems.get(i);
+				DB::EventInfo dbei(pItem->hEvent);
+				if (dbei)
+					pDB->ExportEvent(dbei);
+			}
 
 		// Close the file
-		fclose(out);
+		pDB->EndExport();
 		MessageBox(m_hwnd, TranslateT("Complete"), TranslateT("History export"), MB_OK | MB_ICONINFORMATION);
 	}
 

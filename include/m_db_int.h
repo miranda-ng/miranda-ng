@@ -310,6 +310,19 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Export database, that can export a contact or an event in the specified format
+
+struct MIR_APP_EXPORT MDatabaseExport : public MDatabaseReadonly
+{
+	MDatabaseExport() {}
+
+	STDMETHOD_(BOOL, BeginExport)(void) PURE;
+	STDMETHOD_(BOOL, ExportContact)(MCONTACT hContact) PURE;
+	STDMETHOD_(BOOL, ExportEvent)(const DB::EventInfo &ddei) PURE;
+	STDMETHOD_(BOOL, EndExport)(void) PURE;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Each database plugin should register itself using this structure
 
 // Codes for DATABASELINK functions
@@ -328,7 +341,7 @@ public:
 #define MDB_CAPS_CREATE  0x0001 // new database can be created
 #define MDB_CAPS_COMPACT 0x0002 // database can be compacted
 #define MDB_CAPS_CHECK   0x0004 // database can be checked
-
+#define MDB_CAPS_EXPORT  0x0008 // driver can export contacts/events
 
 struct DATABASELINK
 {
@@ -336,32 +349,28 @@ struct DATABASELINK
 	char* szShortName;  // uniqie short database name
 	wchar_t* szFullName;  // in English, auto-translated by the core
 
-	/*
-		profile: pointer to a string which contains full path + name
-		Affect: The database plugin should create the profile, the filepath will not exist at
-			the time of this call, profile will be C:\..\<name>.dat
-		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
-	*/
+	// profile: pointer to a string which contains full path + name
+	// The database plugin should create the profile, the filepath will not exist at
+	//    the time of this call, profile will be C:\..\<name>.dat
+	// Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 	int (*makeDatabase)(const wchar_t *profile);
 
-	/*
-		profile: [in] a null terminated string to file path of selected profile
-		error: [in/out] pointer to an int to set with error if any
-		Affect: Ask the database plugin if it supports the given profile, if it does it will
-			return 0, if it doesnt return 1, with the error set in error -- EGROKPRF_* can be valid error
-			condition, most common error would be [EGROKPRF_UNKHEADER]
-		Note: Just because 1 is returned, doesnt mean the profile is not supported, the profile might be damaged
-			etc.
-		Returns: 0 on success, non zero on failure
-	*/
+	// profile: [in] a null terminated string to file path of selected profile
+	// error: [in/out] pointer to an int to set with error if any
+	// Asks the database plugin if it supports the given profile, if it does it will
+	// 	return 0, if it doesnt return 1, with the error set in error -- EGROKPRF_* can be valid error
+	// 	condition, most common error would be [EGROKPRF_UNKHEADER]
+	// Note: Just because 1 is returned, doesnt mean the profile is not supported, the profile might be damaged etc.
+	// Returns: 0 on success, non zero on failure
 	int (*grokHeader)(const wchar_t *profile);
 
-	/*
-	Affect: Tell the database to create all services/hooks that a 3.xx legacy database might support into link,
-		which is a PLUGINLINK structure
-	Returns: 0 on success, nonzero on failure
-	*/
+	// Loads the database and tells it to create all services/hooks
+	// Returns: 0 on success, nonzero on failure
 	MDatabaseCommon* (*Load)(const wchar_t *profile, BOOL bReadOnly);
+
+	// Prepares the export from the currently opened database into the specified file
+	// Should be implemented if capabilities contains MDB_CAPS_EXPORT
+	MDatabaseExport* (*Export)(const wchar_t *profile);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

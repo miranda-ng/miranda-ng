@@ -922,3 +922,6 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?DlgProc@CUserInfoPageDlg@@UEAA_JI_K_J@Z @1040 NONAME
 ?wipeNotify@EventInfo@DB@@QEAAXI@Z @1041 NONAME
 CallContactService @1042 NONAME
+??0MDatabaseExport@@QEAA@XZ @1043 NONAME
+??1MDatabaseExport@@UEAA@XZ @1044 NONAME
+??_7MDatabaseExport@@6B@ @1045 NONAME
