@@ -24,21 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_json.h>
 
-static const char *pSettings[] =
-{
-	LPGEN("FirstName"),
-	LPGEN("LastName"),
-	LPGEN("e-mail"),
-	LPGEN("Nick"),
-	LPGEN("Age"),
-	LPGEN("Gender"),
-	LPGEN("City"),
-	LPGEN("State"),
-	LPGEN("Phone"),
-	LPGEN("Homepage"),
-	LPGEN("About")
-};
-
 static int json_makeDatabase(const wchar_t*)
 {
 	return 1;
@@ -59,6 +44,7 @@ class CDbxJson : public MDatabaseExport, public MZeroedObject
 	LIST<char> m_modules;
 	FILE *m_out = nullptr;
 	bool m_bAppendOnly = false;
+	CMStringA m_szId, m_szReplyId, m_szUserId;
 
 public:
 	CDbxJson() :
@@ -173,6 +159,15 @@ public:
 			}
 		}
 
+		m_szId = node["server_id"].as_mstring();
+		dbei->szId = (m_szId.IsEmpty()) ? nullptr : m_szId.c_str();
+
+		m_szReplyId = node["reply_id"].as_mstring();
+		dbei->szReplyId = (m_szReplyId.IsEmpty()) ? nullptr : m_szReplyId.c_str();
+			
+		m_szUserId = node["reply_id"].as_mstring();
+		dbei->szUserId = (!m_szUserId.IsEmpty()) ? nullptr : m_szUserId.c_str();
+
 		if (dbei->eventType == EVENTTYPE_FILE) {
 			dbei->flags |= DBEF_UTF;
 
@@ -259,26 +254,54 @@ public:
 		return 0;
 	}
 
+	static int sttEnumSettings(const char *szSetting, void *param)
+	{
+		auto *pArray = (OBJLIST<char>*)param;
+		pArray->insert(newStr(szSetting));
+		return 1;
+	}
+
 	STDMETHODIMP_(int) ExportContact(MCONTACT hContact) override
 	{
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 		ptrW nick(Contact::GetInfo(CNF_DISPLAY, hContact, szProto));
-		const char *uid = Proto_GetUniqueId(szProto);
 
 		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 		pInfo.set_name("info");
 		if (szProto)
 			pInfo.push_back(JSONNode("proto", szProto));
 
-		if (id != NULL)
-			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
+		OBJLIST<char> arSettings(50);
+		db_enum_settings(hContact, &sttEnumSettings, szProto, &arSettings);
 
-		for (auto &it : pSettings) {
-			wchar_t *szValue = db_get_wsa(hContact, szProto, it);
-			if (szValue)
-				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
-			mir_free(szValue);
+		for (auto &it : arSettings) {
+			DBVARIANT dbv;
+			if (db_get_s(hContact, szProto, it, &dbv, 0))
+				continue;
+
+			JSONNode S; S.set_name(it); S << INT_PARAM("type", dbv.type);
+
+			switch (dbv.type) {
+			case DBVT_BYTE: S << INT_PARAM("value", dbv.bVal); break;
+			case DBVT_WORD: S << INT_PARAM("value", dbv.wVal); break;
+			case DBVT_DWORD: S << INT_PARAM("value", dbv.dVal); break;
+			case DBVT_ASCIIZ:
+			case DBVT_UTF8: S << CHAR_PARAM("value", dbv.pszVal); break;
+			case DBVT_WCHAR: S << WCHAR_PARAM("value", dbv.pwszVal); break;
+			case DBVT_BLOB:
+				{
+					CMStringA buf;
+					buf.Truncate(dbv.cchVal * 2);
+					bin2hex(dbv.pbVal, dbv.cpbVal, buf.GetBuffer());
+					S << CHAR_PARAM("value", buf);
+				}
+				break;
+
+			default:
+				continue;
+			}
+			pInfo << S;
 		}
 
 		pRoot.push_back(pInfo);
@@ -321,6 +344,13 @@ public:
 		ptrW msg(DbEvent_GetTextW(&dbei));
 		if (msg)
 			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+		if (dbei.szId)
+			pRoot2.push_back(JSONNode("server_id", dbei.szId));
+		if (dbei.szUserId)
+			pRoot2.push_back(JSONNode("user_id", dbei.szUserId));
+		if (dbei.szReplyId)
+			pRoot2.push_back(JSONNode("reply_id", dbei.szReplyId));
 
 		fputs(pRoot2.write_formatted().c_str(), m_out);
 		fputs("\n]}", m_out);

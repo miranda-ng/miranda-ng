@@ -307,11 +307,6 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char* newStr(const char *s)
-{
-	return (s == nullptr) ? nullptr : mir_strcpy(new char[mir_strlen(s) + 1], s);
-}
-
 bool CImportBatch::FindDestAccount(const char *szProto)
 {
 	for (auto &pam : m_accounts) {
