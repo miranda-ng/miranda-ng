@@ -629,6 +629,7 @@ public:
 
 	void MakeFlat();
 	void MakePush();
+	void SetTooltip(const char *pszTooltip);
 
 	void OnInit() override;
 

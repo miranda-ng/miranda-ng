@@ -46,8 +46,8 @@ void CCtrlMButton::OnInit()
 {
 	CCtrlButton::OnInit();
 
+	SetTooltip(m_toolTip);
 	SendMessage(m_hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hIcon);
-	SendMessage(m_hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(_A2T(m_toolTip), m_parentWnd->GetPlugin()), BATF_UNICODE);
 	SendMessage(m_hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 }
 
@@ -59,4 +59,9 @@ void CCtrlMButton::MakeFlat()
 void CCtrlMButton::MakePush()
 {
 	SendMessage(m_hwnd, BUTTONSETASPUSHBTN, TRUE, 0);
+}
+
+void CCtrlMButton::SetTooltip(const char *pszTooltip)
+{
+	SendMessage(m_hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(_A2T(pszTooltip), m_parentWnd->GetPlugin()), BATF_UNICODE);
 }

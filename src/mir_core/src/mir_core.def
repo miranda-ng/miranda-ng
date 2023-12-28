@@ -1561,3 +1561,4 @@ db_event_updateId @1772
 _TranslateW_UUID@8 @1785 NONAME
 ?Langpack_GetDefaultLocaleName@@YGPADXZ @1786 NONAME
 _EventExists@4 @1787 NONAME
+?SetTooltip@CCtrlMButton@@QAEXPBD@Z @1788 NONAME
