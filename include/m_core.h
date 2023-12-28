@@ -423,6 +423,8 @@ MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len);
 __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
+MIR_CORE_DLL(char *) newStr(const char *src);
+
 #if defined( __cplusplus )
 	MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src);
 	MIR_CORE_DLL(wchar_t*) replaceStrW(wchar_t* &dest, const wchar_t *src);

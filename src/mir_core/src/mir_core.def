@@ -1562,3 +1562,4 @@ _TranslateW_UUID@8 @1785 NONAME
 ?Langpack_GetDefaultLocaleName@@YGPADXZ @1786 NONAME
 _EventExists@4 @1787 NONAME
 ?SetTooltip@CCtrlMButton@@QAEXPBD@Z @1788 NONAME
+_newStr@4 @1789 NONAME

@@ -24,6 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+MIR_CORE_DLL(char *) newStr(const char *src)
+{
+	if (!src)
+		return nullptr;
+
+	return strcpy(new char[strlen(src) + 1], src);
+}
+
 MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src)
 {
 	if (dest != nullptr)
