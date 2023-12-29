@@ -41,35 +41,35 @@ uint8_t nameOrder[_countof(nameOrderDescr)];
 
 static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
-	DBVARIANT dbv;
-	if (!db_get_ws(hContact, szProto, szSetting, &dbv)) {
-		switch (dbv.type) {
-		case DBVT_ASCIIZ:
-			if (!dbv.pszVal[0]) break;
-		case DBVT_WCHAR:
-			if (!dbv.pwszVal[0]) break;
-			return dbv.pwszVal;
-		}
-		db_free(&dbv);
-	}
+	wchar_t *ret = db_get_wsa(hContact, szProto, szSetting);
+	if (ret)
+		return ret;
 
+	DBVARIANT dbv;
 	if (db_get(hContact, szProto, szSetting, &dbv))
 		return nullptr;
 
 	wchar_t buf[40];
 	switch (dbv.type) {
 	case DBVT_BYTE:
-		return mir_wstrdup(_itow(dbv.bVal, buf, 10));
+		ret = _itow(dbv.bVal, buf, 10);
+		break;
 	case DBVT_WORD:
-		return mir_wstrdup(_itow(dbv.wVal, buf, 10));
+		ret = _itow(dbv.wVal, buf, 10);
+		break;
 	case DBVT_DWORD:
-		return mir_wstrdup(_itow(dbv.dVal, buf, 10));
+		ret = _itow(dbv.dVal, buf, 10);
+		break;
 	case DBVT_BLOB:
-		return mir_wstrdup(bin2hexW(dbv.pbVal, min(int(dbv.cpbVal), 19), buf));
+		if (dbv.cpbVal == 8)
+			ret = _i64tow(*(__int64*)dbv.pbVal, buf, 10);
+		else
+			ret = bin2hexW(dbv.pbVal, min(int(dbv.cpbVal), 19), buf);
+		break;
 	}
 
 	db_free(&dbv);
-	return nullptr;
+	return mir_wstrdup(ret);
 }
 
 MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *szProto)
