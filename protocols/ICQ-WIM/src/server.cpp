@@ -403,8 +403,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
 		Json2string(hContact, profile, "friendlyName", DB_KEY_ICQNICK, bIsPartial);
-		Json2string(hContact, profile, "firstName", "FirstName", bIsPartial);
-		Json2string(hContact, profile, "lastName", "LastName", bIsPartial);
+		if (hContact != m_hFavContact) {
+			Json2string(hContact, profile, "firstName", "FirstName", bIsPartial);
+			Json2string(hContact, profile, "lastName", "LastName", bIsPartial);
+		}
 		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT, bIsPartial);
 
 		ptrW wszNick(getWStringA(hContact, "Nick"));
@@ -724,8 +726,10 @@ void CIcqProto::OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 
 	auto &data = root.data();
-	for (auto &it : data["users"])
+	for (auto &it : data["users"]) {
+		ParseBuddyInfo(it, pReq->hContact, true);
 		ProcessOnline(it, pReq->hContact);
+	}
 }
 
 void CIcqProto::RetrievePresence(MCONTACT hContact)
