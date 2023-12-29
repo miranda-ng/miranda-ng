@@ -403,10 +403,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
 		Json2string(hContact, profile, "friendlyName", DB_KEY_ICQNICK, bIsPartial);
-		if (hContact != m_hFavContact) {
-			Json2string(hContact, profile, "firstName", "FirstName", bIsPartial);
-			Json2string(hContact, profile, "lastName", "LastName", bIsPartial);
-		}
+		Json2string(hContact, profile, "firstName", "FirstName", bIsPartial);
+		Json2string(hContact, profile, "lastName", "LastName", bIsPartial);
 		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT, bIsPartial);
 
 		ptrW wszNick(getWStringA(hContact, "Nick"));
@@ -897,6 +895,7 @@ void CIcqProto::SetOwnId(const CMStringW &wszId)
 	}
 	
 	setWString(pUser->m_hContact, "Nick", TranslateT("Favorites"));
+	db_set_ws(pUser->m_hContact, "CList", "MyHandle", TranslateT("Favorites"));
 
 	if (m_hFavContact == INVALID_CONTACT_ID) {
 		m_hFavContact = pUser->m_hContact;
