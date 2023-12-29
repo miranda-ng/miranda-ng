@@ -315,6 +315,7 @@ public:
 		m_hContact(hContact),
 		m_tab(this, IDC_OPTIONSTAB)
 	{
+		m_tab.SetPageOwner();
 	}
 
 	bool OnInitDialog() override
@@ -326,7 +327,8 @@ public:
 		SetCaption(szBuffer);
 
 		m_tab.AddPage(TranslateT("General"), nullptr, new CUserPrefsOptDlg(m_hContact));
-		m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
+		if (!Srmm_IsCustomLogUsed())
+			m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
 		return true;
 	}
 
