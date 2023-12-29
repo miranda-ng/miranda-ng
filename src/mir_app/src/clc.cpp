@@ -1233,10 +1233,14 @@ LBL_MoveSelection:
 
 		if (contact->type == CLCIT_GROUP) {
 			switch (LOWORD(wParam)) {
+			case POPUP_NEWGROUP:
 			case POPUP_NEWSUBGROUP:
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				Clist_GroupCreate(contact->groupId, nullptr);
+				if (LOWORD(wParam) == POPUP_NEWGROUP)
+					Clist_GroupCreate(0, nullptr);
+				else
+					Clist_GroupCreate(contact->groupId, nullptr);
 				break;
 			case POPUP_RENAMEGROUP:
 				g_clistApi.pfnBeginRenameSelection(hwnd, dat);
