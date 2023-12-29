@@ -339,7 +339,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 
 	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-	HMENU hPopupMenu = GetSubMenu(hMenu, 4);
+	HMENU hPopupMenu = GetSubMenu(hMenu, 0);
 	TranslateMenu(hPopupMenu);
 	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);
 	switch (commandId) {

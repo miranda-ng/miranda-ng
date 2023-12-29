@@ -1674,51 +1674,14 @@ IDC_DROPUSER            CURSOR                  "cursor_drop_user.cur"
 
 IDR_CONTEXT MENU
 BEGIN
-    POPUP "Tray"
-    BEGIN
-        MENUITEM "&Hide/Show",                  ID_TRAY_HIDE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_TRAY_EXIT
-    END
-    POPUP "Nowhere"
-    BEGIN
-        MENUITEM "&New group",                  POPUP_NEWGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
-        MENUITEM SEPARATOR
-        MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
-    END
-    POPUP "Group"
-    BEGIN
-        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
-        MENUITEM SEPARATOR
-        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete group",               POPUP_DELETEGROUP
-    END
-    POPUP "IconOptions"
-    BEGIN
-        MENUITEM "&Reset to default",           ID_RESET
-    END
-    POPUP "find/add"
+    POPUP ""
     BEGIN
         MENUITEM "&Add to list",                IDC_ADD
         MENUITEM SEPARATOR
         MENUITEM "User &details",               IDC_DETAILS
         MENUITEM "Send &message",               IDM_SENDMESSAGE
     END
-    POPUP "Log"
-    BEGIN
-        MENUITEM "&Copy",                       IDM_COPY
-        MENUITEM "Co&py all",                   IDM_COPYALL
-        MENUITEM "Select &all",                 IDM_SELECTALL
-        MENUITEM SEPARATOR
-        MENUITEM "C&lear log",                  IDM_CLEAR
-    END
-    POPUP "LogLink"
+    POPUP ""
     BEGIN
         MENUITEM "&Open link",                  IDM_OPENLINK
         MENUITEM "&Copy link",                  IDM_COPYLINK

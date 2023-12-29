@@ -295,21 +295,21 @@ void InitGroupMenus(void)
 		CreateServiceFunction(mi.pszService, HideOfflineHelper);
 
 		SET_UID(mi, 0xeded7371, 0xf6e6, 0x48c3, 0x8c, 0x9e, 0x62, 0xc1, 0xd5, 0xcb, 0x51, 0xbc);
-		mi.position = 500002;
+		mi.position++;
 		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINEROOT;
 		mi.name.a = LPGEN("Hide offline users out here");
 		hHideOfflineUsersOutHereMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideOfflineRootHelper);
 
 		SET_UID(mi, 0x4c17b9cf, 0x513a, 0x41d8, 0x8d, 0x2b, 0x89, 0x44, 0x81, 0x14, 0x0, 0x91);
-		mi.position = 500003;
+		mi.position++;
 		mi.pszService = MS_CLIST_TOGGLEEMPTYGROUPS;
 		mi.name.a = LPGEN("Hide empty groups");
 		hHideEmptyGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideGroupsHelper);
 
 		SET_UID(mi, 0xfcbdbbb1, 0xa553, 0x49ac, 0xa5, 0xdf, 0xb4, 0x81, 0x38, 0xf, 0xa0, 0xc7);
-		mi.position = 500004;
+		mi.position++;
 		mi.pszService = MS_CLIST_TOGGLEGROUPS;
 		mi.name.a = LPGEN("Disable groups");
 		hDisableGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
@@ -337,18 +337,24 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_CHECK_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuCheckService");
 	{
 		CMenuItem mi(&g_plugin);
+		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
+		CreateServiceFunction(mi.pszService, GroupMenuExecProxy);
 
 		SET_UID(mi, 0xd208f1d2, 0x7220, 0x4d37, 0xb6, 0xe4, 0xd5, 0x4a, 0xe8, 0xa3, 0xf4, 0x53);
 		mi.position = 1000;
+		mi.name.a = LPGEN("New group");
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
-		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
+		gmp.wParam = POPUP_NEWGROUP;
+		Menu_AddSubGroupMenuItem(&mi, &gmp);
+
+		SET_UID(mi, 0x24bcb592, 0x660e, 0x4541, 0xa0, 0xac, 0x11, 0x4a, 0x23, 0xc8, 0x9b, 0x91);
+		mi.position++;
 		mi.name.a = LPGEN("New subgroup");
 		gmp.wParam = POPUP_NEWSUBGROUP;
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
-		CreateServiceFunction(mi.pszService, GroupMenuExecProxy);
 
 		SET_UID(mi, 0xd85f5ff0, 0x12ca, 0x464d, 0x86, 0x51, 0x53, 0x36, 0x9f, 0x1d, 0x80, 0x45);
-		mi.position = 1001;
+		mi.position++;
 		mi.hIcolibItem = nullptr;
 		mi.name.a = LPGEN("Hide offline users in here");
 		gmp.wParam = POPUP_GROUPHIDEOFFLINE;
@@ -362,7 +368,7 @@ void InitGroupMenus(void)
 		Menu_AddSubGroupMenuItem(&mi, &gmp);
 
 		SET_UID(mi, 0xb0d63cda, 0xa743, 0x4cfa, 0xa6, 0x2d, 0x50, 0xc0, 0x90, 0xe7, 0x6a, 0xc4);
-		mi.position = 900002;
+		mi.position++;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 		mi.name.a = LPGEN("Delete group");
 		gmp.wParam = POPUP_DELETEGROUP;

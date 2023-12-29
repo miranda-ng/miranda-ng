@@ -259,7 +259,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 
 		if (pLink->msg == WM_RBUTTONDOWN) {
 			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 6);
+			HMENU hSubMenu = GetSubMenu(hMenu, 1);
 			TranslateMenu(hSubMenu);
 
 			POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };

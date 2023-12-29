@@ -683,39 +683,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		switch (LOWORD(wParam)) {
-		case ID_TRAY_EXIT:
 		case ID_ICQ_EXIT:
 			if (Miranda_OkToExit())
 				DestroyWindow(hwnd);
-			break;
-
-		case ID_TRAY_HIDE:
-			g_clistApi.pfnShowHide();
-			break;
-
-		case POPUP_NEWGROUP:
-			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
-			Clist_GroupCreate(0, nullptr);
-			break;
-
-		case POPUP_HIDEOFFLINE:
-			g_clistApi.pfnSetHideOffline(-1);
-			break;
-
-		case POPUP_HIDEOFFLINEROOT:
-			CallService(MS_CLIST_TOGGLEHIDEOFFLINEROOT, 0, 0);
-			break;
-
-		case POPUP_HIDEEMPTYGROUPS:
-			CallService(MS_CLIST_TOGGLEEMPTYGROUPS);
-			break;
-
-		case POPUP_DISABLEGROUPS:
-			CallService(MS_CLIST_TOGGLEGROUPS);
-			break;
-
-		case POPUP_HIDEMIRANDA:
-			g_clistApi.pfnShowHide();
 			break;
 		}
 		return FALSE;
