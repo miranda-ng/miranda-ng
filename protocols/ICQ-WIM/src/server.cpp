@@ -623,6 +623,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		DBEVENTINFO dbei = {};
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = iMsgTime;
+		dbei.flags = DBEF_UTF;
 		if (bIsOutgoing)
 			dbei.flags |= DBEF_SENT;
 		if (bCreateRead)
