@@ -378,7 +378,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Menus
 
-	HGENMENU  hmiForward, hmiConvert;
+	HGENMENU  hmiForward, hmiConvert, hmiFavorites;
 
 	void      InitMenus();
 

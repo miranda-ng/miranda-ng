@@ -24,8 +24,11 @@ int CIcqProto::OnPrebuildMenu(WPARAM hContact, LPARAM lParam)
 	if (!Proto_IsProtoOnContact(hContact, m_szModuleName)) {
 		Menu_ShowItem(hmiForward, false);
 		Menu_ShowItem(hmiConvert, false);
+		Menu_ShowItem(hmiFavorites, false);
 	}
 	else {
+		Menu_ShowItem(hmiFavorites, true);
+
 		auto *dbei = (DB::EventInfo *)lParam;
 		Menu_ShowItem(hmiForward, dbei->eventType == EVENTTYPE_MESSAGE || dbei->eventType == EVENTTYPE_FILE);
 
@@ -54,7 +57,7 @@ void CIcqProto::InitMenus()
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	mi.name.a = LPGEN("Add to favorites");
-	hmiConvert = Menu_AddNewStoryMenuItem(&mi, 2);
+	hmiFavorites = Menu_AddNewStoryMenuItem(&mi, 2);
 
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
