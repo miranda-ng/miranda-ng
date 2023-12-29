@@ -889,8 +889,7 @@ void CIcqProto::SetOwnId(const CMStringW &wszId)
 
 	auto *pUser = FindUser(wszId);
 	if (!pUser) {
-		MCONTACT hContact = CreateContact(wszId, false);
-		Clist_SetGroup(hContact, TranslateT("Conferences"));
+		CreateContact(wszId, false);
 		pUser = FindUser(wszId);
 	}
 	
