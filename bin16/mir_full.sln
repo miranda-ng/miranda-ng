@@ -443,8 +443,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Telegram", "..\protocols\Te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jingle", "..\plugins\Jingle\Jingle.vcxproj", "{D3E24A92-E2C3-440F-BC87-002AB822ABFB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Discord", "..\protocols\Discord\discord.vcxproj", "{88928401-2CE8-4568-AAA7-226141870CBF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2019,14 +2017,6 @@ Global
 		{D3E24A92-E2C3-440F-BC87-002AB822ABFB}.Release|Win32.Build.0 = Release|Win32
 		{D3E24A92-E2C3-440F-BC87-002AB822ABFB}.Release|x64.ActiveCfg = Release|x64
 		{D3E24A92-E2C3-440F-BC87-002AB822ABFB}.Release|x64.Build.0 = Release|x64
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|Win32.Build.0 = Debug|Win32
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|x64.ActiveCfg = Debug|x64
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|x64.Build.0 = Debug|x64
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|Win32.ActiveCfg = Release|Win32
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|Win32.Build.0 = Release|Win32
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.ActiveCfg = Release|x64
-		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2156,7 +2146,6 @@ Global
 		{13E796AD-BEA4-4213-A1B8-E18E2397E544} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{D3E24A92-E2C3-440F-BC87-002AB822ABFB} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
-		{88928401-2CE8-4568-AAA7-226141870CBF} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}

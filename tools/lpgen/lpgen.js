@@ -43,7 +43,7 @@ var scriptpath = FSO.GetParentFolderName(WScript.ScriptFullName);
 //string for make path output into templates.
 var trunkPath = FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath));
 //path to sln file
-var slnfile = FSO.BuildPath(trunkPath, "bin15\\mir_full.sln");
+var slnfile = FSO.BuildPath(trunkPath, "bin16\\mir_full.sln");
 //core path
 var core = FSO.BuildPath(trunkPath, "src");
 //include path
