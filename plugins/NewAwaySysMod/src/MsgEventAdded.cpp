@@ -187,11 +187,6 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (!CContactSettings(iMode, hContactForSettings).Autoreply.IncludingParents(szProto) || CContactSettings(iMode, hContactForSettings).Ignore)
 		return 0;
 
-	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTREPLYINVISIBLE)) {
-		uint16_t ApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-		if ((iMode == ID_STATUS_INVISIBLE && (!(Flags1 & PF1_INVISLIST) || ApparentMode != ID_STATUS_ONLINE)) || (Flags1 & PF1_VISLIST && ApparentMode == ID_STATUS_OFFLINE))
-			return 0;
-	}
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYCLOSEDDLGREPLY)) {
 		if (bMsgWindowIsOpen && bMsgWindowIsOpen != MSGWNDOPEN_UNDEFINED)
 			return 0;

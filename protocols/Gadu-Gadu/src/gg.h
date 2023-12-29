@@ -230,7 +230,6 @@ struct GGGETAVATARDATA
 #define GG_KEYDEF_GC_POLICY_DEFAULT 0
 
 #define GG_KEY_BLOCK                "Block"          // Contact is blocked
-#define GG_KEY_APPARENT             "ApparentMode"   // Visible list
 											  
 #define GG_KEY_TIMEDEVIATION        "TimeDeviation"  // Max time deviation for connections (seconds)
 #define GG_KEYDEF_TIMEDEVIATION     300

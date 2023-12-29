@@ -392,34 +392,6 @@ static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
-{
-	/*
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	int oldMode, newMode = ccs->wParam;
-	ICQUser *u;
-
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL) return 1;
-
-	oldMode = db_get_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", 0);
-	if (newMode == oldMode) return 1;
-
-	Netlib_Logf(hNetlibUser, "[   ] set apparent mode\n");
-
-	if (newMode == ID_STATUS_ONLINE || newMode == ID_STATUS_OFFLINE) db_set_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", (uint16_t)newMode);
-	else db_unset(u->hContact, ICQCORP_PROTONAME, "ApparentMode");
-
-	if (icq.statusVal <= ID_STATUS_OFFLINE) return 0;
-
-	if (oldMode != 0) icq.updateUserList(u, oldMode == ID_STATUS_OFFLINE ? 1 : 2, 0);
-	if (newMode != 0) icq.updateUserList(u, newMode == ID_STATUS_OFFLINE ? 1 : 2, 1);
-	*/
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static int icqContactDeleted(WPARAM hContact, LPARAM)
 {
 	Netlib_Logf(hNetlibUser, "[   ] contact deleted\n");
@@ -469,7 +441,6 @@ int LoadServices()
 	CreateProtoServiceFunction(protoName, PSS_FILEALLOW, icqFileAllow);
 	CreateProtoServiceFunction(protoName, PSS_FILEDENY, icqFileDeny);
 	CreateProtoServiceFunction(protoName, PSS_FILECANCEL, icqFileCancel);
-	CreateProtoServiceFunction(protoName, PSS_SETAPPARENTMODE, icqSetApparentMode);
 
 	CreateProtoServiceFunction(protoName, PSR_MESSAGE, icqRecvMessage);
 	CreateProtoServiceFunction(protoName, PSR_AWAYMSG, icqRecvAwayMsg);

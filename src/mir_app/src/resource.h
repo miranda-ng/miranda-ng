@@ -354,8 +354,6 @@
 #define IDC_PAGETREE                    1186
 #define IDC_RUNNOW                      1186
 #define IDC_GETMORE                     1200
-#define IDC_VISIBLEICON                 1204
-#define IDC_INVISIBLEICON               1205
 #define IDC_FILEICON                    1206
 #define IDC_ONLINEICON                  1207
 #define IDC_FILENAMES                   1208

@@ -1376,13 +1376,6 @@ void CMsgDialog::NotifyTyping(int mode)
 		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
 	}
 	else {
-		uint32_t protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			return;
-
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-			return;
-
 		if (!g_plugin.bTypingUnknown && !Contact::OnList(m_hContact))
 			return;
 

@@ -57,10 +57,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PF1_MODEMSGRECV   0x00000080 // supports reading others' away messages
 #define PF1_SERVERCLIST   0x00000100 // contact lists are stored on the server, not locally. See notes below
 #define PF1_AUTHREQ       0x00000200 // will get authorisation requests for some or all contacts
-#define PF1_VISLIST       0x00000800 // has an invisible list
-#define PF1_INVISLIST     0x00001000 // has a visible list for when in invisible mode
-#define PF1_INDIVSTATUS   0x00002000 // supports setting different status modes to each contact
-#define PF1_EXTENSIBLE    0x00004000 // the protocol is extensible and supports plugin-defined messages
 #define PF1_PEER2PEER     0x00008000 // supports direct (not server mediated) communication between clients
 #define PF1_NEWUSER       0x00010000 // supports creation of new user IDs
 #define PF1_CHAT          0x00020000 // has a realtime chat capability
@@ -670,18 +666,6 @@ struct PROTOFILERESUME
 // If result = ACKRESULT_FAILED then lParam = (LPARAM)(const char*)szReason
 
 #define PSS_FILE    "/SendFile"
-
-///////////////////////////////////////////////////////////////////////////////
-// Set the status mode you will appear in to a user
-// wParam = statusMode
-// lParam = 0
-// Returns 0 on success, nonzero on failure
-// Set statusMode = 0 to revert to normal behaviour for the contact
-// ID_STATUS_ONLINE is possible iff PF1_VISLIST
-// ID_STATUS_OFFLINE is possible iff PF1_INVISLIST
-// Other modes are possible iff PF1_INDIVSTATUS
-
-#define PSS_SETAPPARENTMODE  "/SetApparentMode"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Send an auth request

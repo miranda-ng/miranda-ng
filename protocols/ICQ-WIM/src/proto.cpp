@@ -491,7 +491,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_1:
 		nReturn = PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES | /*PF1_SEARCHBYNAME | TODO */
-			PF1_VISLIST | PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
+			PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
 		break;
 
 	case PFLAGNUM_2:
@@ -666,18 +666,5 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/im/setTyping")
 		<< AIMSID(this) << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed"));
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_SetApparentMode - sets the visibility status
-
-int CIcqProto::SetApparentMode(MCONTACT hContact, int iMode)
-{
-	int oldMode = getWord(hContact, "ApparentMode");
-	if (oldMode != iMode) {
-		setWord(hContact, "ApparentMode", iMode);
-		SetPermitDeny(GetUserId(hContact), iMode != ID_STATUS_OFFLINE);
-	}
 	return 0;
 }

@@ -714,11 +714,6 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 
-	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-		return;
-	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-		return;
 	if (!Contact::OnList(hContact) && !db_get_b(0, "SRMsg", "UnknownTyping", 1))
 		return;
 	// End user check

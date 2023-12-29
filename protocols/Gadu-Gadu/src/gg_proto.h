@@ -48,7 +48,6 @@ struct GaduProto : public PROTO<GaduProto>
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char* msg) override;
 				
-	int      SetApparentMode(MCONTACT hContact, int mode) override;
 	int      SetStatus(int iNewStatus) override;
 				
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;

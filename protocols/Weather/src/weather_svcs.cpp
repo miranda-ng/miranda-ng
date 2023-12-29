@@ -59,7 +59,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 	switch (wParam) {
 	case PFLAGNUM_1:
 		// support search and visible list
-		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_VISLIST | PF1_MODEMSGRECV;
+		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_MODEMSGRECV;
 		break;
 
 	case PFLAGNUM_2:

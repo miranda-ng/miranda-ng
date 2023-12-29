@@ -81,8 +81,6 @@ BEGIN
     CONTROL         "",IDC_REPLYDLG_EVENTFILE,"Button",BS_AUTOCHECKBOX | BS_ICON | WS_TABSTOP,145,17,29,12
     CONTROL         "Don't reply to ICQ contacts",IDC_REPLYDLG_DONTSENDTOICQ,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,119,275,10
-    CONTROL         "Don't reply when I'm invisible to the contact",IDC_REPLYDLG_DONTREPLYINVISIBLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,107,275,10
     CONTROL         "Save autoreply to the history",IDC_REPLYDLG_LOGREPLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,34,275,10
     CONTROL         "Reply only when Idle",IDC_REPLYDLG_ONLYIDLEREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,48,275,10

@@ -242,7 +242,6 @@ public:
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg);
 
-	virtual	int      SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int      SetStatus(int iNewStatus);
 
 	virtual	HANDLE   GetAwayMsg(MCONTACT hContact);

@@ -79,7 +79,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	bool     m_bIsSub;
 	bool     m_bIsUnknown;
 
-	int      ApparentMode;
 	int      NotOnList;
 	int      IdleTS;
 	void*    ClcContact;

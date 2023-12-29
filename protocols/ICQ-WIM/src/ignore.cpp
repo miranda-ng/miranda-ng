@@ -58,18 +58,6 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		Contact::Hide(p->m_hContact);
 		m_bIgnoreListEmpty = false;
 	}
-
-	{	mir_cslock lck(m_csCache);
-		for (auto &it : m_arCache) {
-			int oldMode = getDword(it->m_hContact, "ApparentMode");
-			if (oldMode != it->m_iApparentMode) {
-				if (it->m_iApparentMode == 0)
-					delSetting(it->m_hContact, "ApparentMode");
-				else
-					setDword(it->m_hContact, "ApparentMode", it->m_iApparentMode);
-			}
-		}
-	}
 }
 
 void CIcqProto::SetPermitDeny(const CMStringW &userId, bool bAllow)

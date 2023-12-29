@@ -67,7 +67,6 @@ static TServiceListItem serviceItems[] =
 	{ PSS_CONTACTS,            23 },
 	{ PSS_FILE,                24 },
 	{ PSS_MESSAGE,             25 },
-	{ PSS_SETAPPARENTMODE,     26 },
 	{ PS_SETSTATUS,            27 },
 	{ PSS_GETAWAYMSG,          28 },
 	{ PSR_AWAYMSG,             29 },
@@ -432,7 +431,6 @@ MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule,
 				}
 				return msgId;
 			}
-			case 26: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
 			case 27: return (INT_PTR)ppi->SetStatus(wParam);
 			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
 			case 29: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT *)lParam);

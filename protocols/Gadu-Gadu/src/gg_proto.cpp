@@ -155,7 +155,7 @@ INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_EXTSEARCHUI | PF1_SEARCHBYNAME |
-			PF1_MODEMSG | PF1_NUMERICUSERID | PF1_VISLIST | PF1_FILE;
+			PF1_MODEMSG | PF1_NUMERICUSERID | PF1_FILE;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE |
 			PF2_LONGAWAY;
@@ -524,17 +524,6 @@ int GaduProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
 
 	return seq;
-}
-
-//////////////////////////////////////////////////////////
-// visible lists
-//
-int GaduProto::SetApparentMode(MCONTACT hContact, int mode)
-{
-	setWord(hContact, GG_KEY_APPARENT, (uint16_t)mode);
-	notifyuser(hContact, 1);
-
-	return 0;
 }
 
 //////////////////////////////////////////////////////////

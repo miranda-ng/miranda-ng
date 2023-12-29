@@ -147,8 +147,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if ((g_plugin.secondLine.getType() == TEXT_STATUS_MESSAGE || g_plugin.thirdLine.getType() == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 		}
-		else if (!strcmp(cws->szSetting, "ApparentMode"))
-			pdnce->ApparentMode = cws->value.wVal;
 		else if (!strcmp(cws->szSetting, "IdleTS"))
 			pdnce->IdleTS = cws->value.dVal;
 		else if (!strcmp(cws->szSetting, "IsSubcontact")) {

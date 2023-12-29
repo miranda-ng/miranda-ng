@@ -84,7 +84,6 @@
 #define IDC_CMB_VV                      1054
 #define IDC_CMB_LH                      1055
 #define IDC_CMB_VH                      1056
-#define IDC_CHK_DISABLEINVISIBLE        1059
 #define IDC_CHK_RETRIEVEXSTATUS         1060
 #define IDC_TREE_EXTRAICONS             1061
 #define IDC_CHK_ENABLESMILEYS           1062

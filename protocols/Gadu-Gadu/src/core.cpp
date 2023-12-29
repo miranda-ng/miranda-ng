@@ -1350,12 +1350,10 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 	if (!hContact)
 		return;
 
-	if (isonline() && (uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0)))
-	{
+	if (isonline() && (uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0))) {
 		// Check if user should be invisible
 		// Or be blocked ?
-		if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact::OnList(hContact))
-		{
+		if (!Contact::OnList(hContact)) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 77, "sess_mutex", 1);
 			if (refresh) {
 				gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
@@ -1365,8 +1363,7 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 			gg_add_notify_ex(m_sess, uin, GG_USER_OFFLINE);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyuser", 77, 1, "sess_mutex", 1);
 		}
-		else if (getByte(hContact, GG_KEY_BLOCK, 0))
-		{
+		else if (getByte(hContact, GG_KEY_BLOCK, 0)) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 78, "sess_mutex", 1);
 			if (refresh)
 				gg_remove_notify_ex(m_sess, uin, GG_USER_OFFLINE);
@@ -1409,7 +1406,7 @@ void GaduProto::notifyall()
 	int cc = 0;
 	for (auto &hContact : AccContacts()) {
 		if (uins[cc] = getDword(hContact, GG_KEY_UIN, 0)) {
-			if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact::OnList(hContact))
+			if (!Contact::OnList(hContact))
 				types[cc] = GG_USER_OFFLINE;
 			else if (getByte(hContact, GG_KEY_BLOCK, 0))
 				types[cc] = GG_USER_BLOCKED;

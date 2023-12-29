@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#define MS_SETINVIS   "MenuEx/SetInvis"
-#define MS_SETVIS     "MenuEx/SetVis"
 #define MS_HIDE       "MenuEx/Hide"
 #define MS_IGNORE     "MenuEx/Ignore"
 #define MS_PROTO      "MenuEx/ChangeProto"
@@ -12,9 +10,9 @@
 #define MS_COPYMIRVER "MenuEx/CopyMirVer"
 #define MS_OPENIGNORE "MenuEx/OpenIgnoreOptions"
 
-const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
+const int vf_default = VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
-HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto;
+HGENMENU hmenuOff, hmenuHide, hmenuIgnore, hmenuProto;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcons[5];
@@ -305,38 +303,11 @@ static BOOL isProtoOnline(char *szProto)
 	return (protoStatus > ID_STATUS_OFFLINE && protoStatus < ID_STATUS_IDLE);
 }
 
-// set the invisible-flag in db
-static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
-{
-	MCONTACT hContact = (MCONTACT)wparam;
-	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
-	return 0;
-}
-
-// set visible-flag in db
-static INT_PTR onSetVis(WPARAM wparam, LPARAM)
-{
-	MCONTACT hContact = (MCONTACT)wparam;
-	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
-	return 0;
-}
-
 static INT_PTR onHide(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wparam;
 	Contact::Hide(hContact, !Contact::IsHidden(hContact));
 	return 0;
-}
-
-// following 4 functions should be self-explanatory
-static void ModifyVisibleSet(int mode, BOOL alpha)
-{
-	Menu_ModifyItem(hmenuVis, nullptr, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT)));
-}
-
-static void ModifyInvisSet(int mode, BOOL alpha)
-{
-	Menu_ModifyItem(hmenuOff, nullptr, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT)));
 }
 
 static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
@@ -636,11 +607,9 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 
 	bIsOnline = isProtoOnline(pszProto);
 
-	bool bEnabled = bShowAll || (flags & VF_VS);
-	Menu_ShowItem(hmenuVis, bEnabled);
-	Menu_ShowItem(hmenuOff, bEnabled);
+	Menu_ShowItem(hmenuOff, bShowAll);
 
-	bEnabled = bShowAll || (flags & VF_HFL);
+	bool bEnabled = bShowAll || (flags & VF_HFL);
 	Menu_ShowItem(hmenuHide, bEnabled);
 	if (bEnabled) {
 		if (Contact::IsHidden(hContact))
@@ -704,19 +673,6 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	Menu_ShowItem(hmenuCopyMirVer, bEnabled);
 	if (bEnabled)
 		ModifyCopyMirVer(hContact);
-
-	if ((bShowAll || (flags & VF_VS)) && pszProto) {
-		INT_PTR caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		int apparent = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0);
-
-		Menu_ShowItem(hmenuVis, (caps & PF1_VISLIST) != 0);
-		if (caps & PF1_VISLIST)
-			ModifyVisibleSet(apparent == ID_STATUS_ONLINE, flags & VF_SAI);
-
-		Menu_ShowItem(hmenuOff, (caps & PF1_INVISLIST) != 0);
-		if (caps & PF1_INVISLIST)
-			ModifyInvisSet(apparent == ID_STATUS_OFFLINE, flags & VF_SAI);
-	}
 	return 0;
 }
 
@@ -793,18 +749,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-
-	SET_UID(mi, 0x2616aa3f, 0x535a, 0x464c, 0xbd, 0x26, 0x1b, 0x15, 0xbe, 0xfa, 0x1f, 0xf);
-	mi.position = 120000;
-	mi.name.w = LPGENW("Always visible");
-	mi.pszService = MS_SETVIS;
-	hmenuVis = Menu_AddContactMenuItem(&mi);
-
-	SET_UID(mi, 0x7d93de78, 0xb1c, 0x4c51, 0x8c, 0x88, 0x33, 0x72, 0x12, 0xb5, 0xb8, 0xe7);
-	mi.position++;
-	mi.name.w = LPGENW("Never visible");
-	mi.pszService = MS_SETINVIS;
-	hmenuOff = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x724f6ac0, 0x7f69, 0x407d, 0x85, 0x98, 0x9c, 0x80, 0x32, 0xdb, 0x66, 0x2d);
 	mi.position++;
@@ -889,8 +833,6 @@ int CMPlugin::Load()
 {
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList, "miex");
 
-	CreateServiceFunction(MS_SETINVIS, onSetInvis);
-	CreateServiceFunction(MS_SETVIS, onSetVis);
 	CreateServiceFunction(MS_HIDE, onHide);
 	CreateServiceFunction(MS_IGNORE, onIgnore);
 	CreateServiceFunction(MS_PROTO, onChangeProto);

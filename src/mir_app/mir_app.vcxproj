@@ -169,7 +169,6 @@
     </ClCompile>
     <ClCompile Include="src\usedIcons.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\visibility.cpp" />
     <ClCompile Include="src\userInfo.cpp" />
     <ClInclude Include="src\chat.h" />
     <ClInclude Include="src\clc.h" />

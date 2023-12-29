@@ -215,12 +215,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	int SetApparentMode(MCONTACT hContact, int mode) override
-	{
-		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, (WPARAM)mode, 0 };
-		return (int)ProtoCallService(m_szModuleName, PSS_SETAPPARENTMODE, 0, (LPARAM)&ccs);
-	}
-
 	int SetStatus(int iNewStatus) override
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, iNewStatus, 0);

@@ -141,7 +141,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 	int      SendMsgEx(MCONTACT hContact, const char *msg, XmlNode &m);
 
-	int      SetApparentMode(MCONTACT hContact, int mode) override;
 	int      SetStatus(int iNewStatus) override;
 
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;

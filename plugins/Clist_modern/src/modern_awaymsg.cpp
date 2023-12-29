@@ -90,9 +90,7 @@ static void amThreadProc(void *)
 
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
-			HANDLE ACK = nullptr;
-			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
+			HANDLE ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;

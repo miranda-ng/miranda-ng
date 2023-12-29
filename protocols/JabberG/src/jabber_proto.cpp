@@ -984,47 +984,6 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// rSetApparentMode - sets the visibility status
-
-int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
-{
-	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE)
-		return 1;
-
-	int oldMode = getWord(hContact, "ApparentMode", 0);
-	if (mode == oldMode)
-		return 1;
-
-	setWord(hContact, "ApparentMode", (uint16_t)mode);
-	if (!m_bJabberOnline)
-		return 0;
-
-	ptrA jid(getUStringA(hContact, "jid"));
-	if (jid == nullptr)
-		return 0;
-
-	switch (mode) {
-	case ID_STATUS_ONLINE:
-		if (m_iStatus == ID_STATUS_INVISIBLE || oldMode == ID_STATUS_OFFLINE)
-			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", jid));
-		break;
-	case ID_STATUS_OFFLINE:
-		if (m_iStatus != ID_STATUS_INVISIBLE || oldMode == ID_STATUS_ONLINE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
-		break;
-	case 0:
-		if (oldMode == ID_STATUS_ONLINE && m_iStatus == ID_STATUS_INVISIBLE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
-		else if (oldMode == ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
-			SendPresenceTo(m_iStatus, jid);
-		break;
-	}
-
-	// TODO: update the zebra list (jabber:iq:privacy)
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetStatus - sets the protocol status
 
 int CJabberProto::SetStatus(int iNewStatus)

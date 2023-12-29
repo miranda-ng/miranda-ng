@@ -800,15 +800,6 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 		if (protoStatus < ID_STATUS_ONLINE)
 			return;
 
-		// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
-		// should not see them (privacy issue)
-		uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			return;
-
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-			return;
-
 		// don't send to contacts which are not permanently added to the contact list,
 		// unless the option to ignore added status is set.
 		if (!Contact::OnList(m_hContact) && !g_plugin.bTypingUnknown)

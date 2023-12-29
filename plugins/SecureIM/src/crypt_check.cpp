@@ -99,18 +99,6 @@ bool isContactInvisible(MCONTACT hContact)
 	if (!db_mc_isSub(hContact) && Contact::IsHidden(hContact))
 		return true;
 
-	pUinKey p = findUinKey(hContact);
-	if (!p || p->waitForExchange || !p->proto || !p->proto->inspecting)
-		return false;
-
-	switch (db_get_w(hContact, p->proto->name, "ApparentMode", 0)) {
-	case 0:
-		return Proto_GetStatus(p->proto->name) == ID_STATUS_INVISIBLE;
-	case ID_STATUS_ONLINE:
-		return false;
-	case ID_STATUS_OFFLINE:
-		return true;
-	}
 	return false;
 }
 
