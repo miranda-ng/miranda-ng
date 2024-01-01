@@ -1225,6 +1225,8 @@ public:
 
     /// Set the attribute to a string value.
     void SetAttribute( const char* value );
+    /// Set the attribute to a wide string value.
+    void SetAttribute( const wchar_t* value );
     /// Set the attribute to value.
     void SetAttribute( int value );
     /// Set the attribute to value.
@@ -1469,6 +1471,10 @@ public:
         XMLAttribute* a = FindOrCreateAttribute( name );
         a->SetAttribute( value );
     }
+    void SetAttribute( const char* name, const wchar_t* value )	{
+        XMLAttribute* a = FindOrCreateAttribute( name );
+        a->SetAttribute( value );
+    }
     /// Sets the named attribute to value.
     void SetAttribute( const char* name, int value )			{
         XMLAttribute* a = FindOrCreateAttribute( name );
@@ -1585,6 +1591,7 @@ public:
     	@endverbatim
     */
 	void SetText( const char* inText );
+	void SetText( const wchar_t* inText );
     /// Convenience method for setting text inside an element. See SetText() for important limitations.
     void SetText( int value );
     /// Convenience method for setting text inside an element. See SetText() for important limitations.
@@ -1795,6 +1802,9 @@ public:
     Whitespace WhitespaceMode() const	{
         return _whitespaceMode;
     }
+    int BytesParsed() const {
+        return _bytesParsed;
+    }
 
     /**
     	Returns true if this document has a leading Byte Order Mark of UTF8.
@@ -1943,6 +1953,7 @@ private:
     int             _errorLineNum;
     char*			_charBuffer;
     int				_parseCurLineNum;
+    int				_bytesParsed;
 	int				_parsingDepth;
 	// Memory tracking does add some overhead.
 	// However, the code assumes that you don't
@@ -2071,6 +2082,10 @@ public:
         return *this;
     }
 
+    XMLHandle operator[]( const char* name ) {
+        return XMLHandle( _node ? _node->FirstChildElement( name ) : 0 );
+	}
+
     /// Get the first child of this handle.
     XMLHandle FirstChild() 													{
         return XMLHandle( _node ? _node->FirstChild() : 0 );
@@ -2147,6 +2162,10 @@ public:
     XMLConstHandle& operator=( const XMLConstHandle& ref )							{
         _node = ref._node;
         return *this;
+    }
+
+    const XMLConstHandle operator[]( const char* name ) const {
+        return XMLConstHandle( _node ? _node->FirstChildElement( name ) : 0 );
     }
 
     const XMLConstHandle FirstChild() const											{

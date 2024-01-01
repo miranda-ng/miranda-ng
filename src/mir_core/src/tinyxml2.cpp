@@ -21,7 +21,7 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-#include "tinyxml2.h"
+#include "stdafx.h"
 
 #include <new>		// yes, this one new style header, is in the Android SDK.
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
@@ -1168,6 +1168,7 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
                 }
                 node->_memPool->SetTracked();   // created and then immediately deleted.
                 DeleteNode( node );
+                _document->_bytesParsed = (int)(p-_document->_charBuffer);
                 return p;
             }
 
@@ -1195,6 +1196,7 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
         }
         InsertEndChild( node );
     }
+    _document->_bytesParsed = (int)(p-_document->_charBuffer);
     return 0;
 }
 
@@ -1555,6 +1557,12 @@ void XMLAttribute::SetAttribute( const char* v )
 }
 
 
+void XMLAttribute::SetAttribute( const wchar_t* v )
+{
+    _value.SetStr( T2Utf(v).get() );
+}
+
+
 void XMLAttribute::SetAttribute( int v )
 {
     char buf[BUF_SIZE];
@@ -1725,6 +1733,12 @@ void	XMLElement::SetText( const char* inText )
 		XMLText*	theText = GetDocument()->NewText( inText );
 		InsertFirstChild( theText );
 	}
+}
+
+
+void	XMLElement::SetText(const wchar_t* inText)
+{
+	SetText( T2Utf(inText).get() );
 }
 
 
@@ -2565,6 +2579,7 @@ void XMLDocument::Parse()
     TIXMLASSERT( _charBuffer );
     _parseCurLineNum = 1;
     _parseLineNum = 1;
+    _bytesParsed = 0;
     char* p = _charBuffer;
     p = XMLUtil::SkipWhiteSpace( p, &_parseCurLineNum );
     p = const_cast<char*>( XMLUtil::ReadBOM( p, &_writeBOM ) );
