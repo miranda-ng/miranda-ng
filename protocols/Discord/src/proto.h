@@ -439,10 +439,11 @@ public:
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveMarkRead(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+	void OnReceiveLogout(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMarkRead(NETLIBHTTPREQUEST*, AsyncHttpRequest *);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveToken(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
-	void OnReceiveUserinfo(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveUserinfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveMyInfo();
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

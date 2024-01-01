@@ -315,7 +315,7 @@ void CDiscordProto::GatewaySendResume()
 bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
 {
 	if (iStatus == ID_STATUS_OFFLINE) {
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout));
 		return true;
 	}
 

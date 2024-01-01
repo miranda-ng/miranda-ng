@@ -207,6 +207,14 @@ void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// logs a session out
+
+void CDiscordProto::OnReceiveLogout(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
+{
+	delSetting("AccessToken");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
