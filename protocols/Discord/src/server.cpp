@@ -107,17 +107,14 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		else
 			dbei.flags &= ~DBEF_READ;
 
-		MBinBuffer buf;
-		ptrA szBody(mir_utf8encodeW(wszText));
-		buf.append(szBody, mir_strlen(szBody) + 1);
-
 		if (!pUser->bIsPrivate) {
-			buf.append(szUserId, szUserId.GetLength() + 1);
+			dbei.szUserId = szUserId;
 			ProcessChatUser(pUser, _atoi64(szUserId), pNode);
 		}
 
-		dbei.pBlob = (char *)buf.data();
-		dbei.cbBlob = (uint32_t)buf.length();
+		ptrA szBody(mir_utf8encodeW(wszText));
+		dbei.pBlob = szBody;
+		dbei.cbBlob = (int)mir_strlen(szBody);
 
 		bool bSucceeded = false;
 		char szMsgId[100];
