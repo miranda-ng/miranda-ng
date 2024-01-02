@@ -34,7 +34,7 @@ int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
 
 static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 {
-	return compareInt64(p1->id, p2->id);
+	return compareInt64(p1->m_id, p2->m_id);
 }
 
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :

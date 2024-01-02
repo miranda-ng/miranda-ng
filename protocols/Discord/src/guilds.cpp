@@ -17,36 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
-
-static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
-{
-	return compareInt64(p1->id, p2->id);
-}
-
-static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMember *p2)
-{
-	return compareInt64(p1->userId, p2->userId);
-}
-
-CDiscordGuild::CDiscordGuild(SnowFlake _id) :
-	id(_id),
-	arChannels(10, compareUsers),
-	arChatUsers(30, compareChatUsers),
-	arRoles(10, compareRoles)
-{
-}
-
-CDiscordGuild::~CDiscordGuild()
-{
-}
-
-CDiscordUser::~CDiscordUser()
-{
-	if (pGuild != nullptr)
-		pGuild->arChannels.remove(this);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // reads a presence block from json
 
@@ -68,25 +38,6 @@ void CDiscordProto::ProcessPresence(const JSONNode &root)
 		if (!wszStatus.IsEmpty())
 			db_set_ws(pUser->hContact, "CList", "StatusMsg", wszStatus);
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// reads a role from json
-
-void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)
-{
-	SnowFlake id = ::getId(role["id"]);
-	CDiscordRole *p = guild->arRoles.find((CDiscordRole*)&id);
-	if (p == nullptr) {
-		p = new CDiscordRole();
-		p->id = id;
-		guild->arRoles.insert(p);
-	}
-
-	p->color = role["color"].as_int();
-	p->position = role["position"].as_int();
-	p->permissions = role["permissions"].as_int();
-	p->wszName = role["name"].as_mstring();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +85,7 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 			if (pParent != nullptr)
 				sttSetGroupName(pUser->hContact, pParent->wszChannelName);
 		}
-		else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->groupId));
+		else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->m_groupId));
 	}
 
 	BuildStatusList(pGuild, si);
@@ -163,31 +114,28 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 		arGuilds.insert(pGuild);
 	}
 
-	pGuild->ownerId = ::getId(pRoot["owner_id"]);
-	pGuild->wszName = pRoot["name"].as_mstring();
+	pGuild->m_ownerId = ::getId(pRoot["owner_id"]);
+	pGuild->m_wszName = pRoot["name"].as_mstring();
 	if (m_bUseGuildGroups)
-		pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
+		pGuild->m_groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->m_wszName);
 
-	SESSION_INFO *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
+	SESSION_INFO *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->m_wszName, pGuild->m_wszName, pGuild);
 	if (si == nullptr)
 		return;
 
 	pGuild->pParentSi = (SESSION_INFO*)si;
-	pGuild->hContact = si->hContact;
-	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
+	pGuild->m_hContact = si->hContact;
+	setId(pGuild->m_hContact, DB_KEY_CHANNELID, guildId);
 
 	Chat_Control(si, WINDOW_HIDDEN);
 	Chat_Control(si, SESSION_ONLINE);
 
 	for (auto &it : pRoot["roles"])
-		ProcessRole(pGuild, it);
+		pGuild->ProcessRole(it);
 
 	BuildStatusList(pGuild, si);
 
-	for (auto &it : pRoot["channels"])
-		ProcessGuildChannel(pGuild, it);
-
-	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
+	if (!pGuild->m_bSynced && getByte(si->hContact, "EnableSync"))
 		GatewaySendGuildInfo(pGuild);
 
 	// store all guild members
@@ -200,6 +148,10 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 		pm->iStatus = ID_STATUS_OFFLINE;
 	}
+
+	// parse channels
+	for (auto &it : pRoot["channels"])
+		ProcessGuildChannel(pGuild, it);
 
 	// parse online statuses
 	for (auto &it : pRoot["presences"]) {
@@ -214,7 +166,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	if (!m_bTerminated)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 
-	pGuild->bSynced = true;
+	pGuild->m_bSynced = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +177,11 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	SnowFlake channelId = _wtoi64(wszChannelId);
 	CMStringW wszName = pch["name"].as_mstring();
 	CDiscordUser *pUser;
+
+	// check permissions to enter the channel
+	auto permissions = pGuild->CalcPermissionOverride(m_ownId, pch["permission_overwrites"]);
+	if (!(permissions & Permission::VIEW_CHANNEL))
+		return nullptr;
 
 	// filter our all channels but the text ones
 	switch (pch["type"].as_int()) {
@@ -243,7 +200,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 			pGuild->arChannels.insert(pUser);
 
-			MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
+			MGROUP grpId = Clist_GroupCreate(pGuild->m_groupId, wszName);
 			pUser->wszChannelName = Clist_GroupGetName(grpId);
 		}
 		return pUser;
@@ -265,7 +222,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		if (m_bUseGuildGroups)
 			pUser->wszChannelName = L"#" + wszName;
 		else
-			pUser->wszChannelName = pGuild->wszName + L"#" + wszName;
+			pUser->wszChannelName = pGuild->m_wszName + L"#" + wszName;
 		pUser->wszTopic = pch["topic"].as_mstring();
 		pUser->pGuild = pGuild;
 		pUser->lastMsgId = ::getId(pch["last_message_id"]);
@@ -282,9 +239,10 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 {
 	auto& pUser = pRoot["user"];
 
-	bool bNew = false;
 	CMStringW wszUserId = pUser["id"].as_mstring();
 	SnowFlake userId = _wtoi64(wszUserId);
+	bool bNew = false, bIsMe = userId == m_ownId;
+
 	CDiscordGuildMember *pm = pGuild->FindUser(userId);
 	if (pm == nullptr) {
 		pm = new CDiscordGuildMember(userId);
@@ -299,14 +257,25 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 	else
 		bNew = true;
 
-	if (userId == pGuild->ownerId)
+	if (userId == pGuild->m_ownerId) {
 		pm->wszRole = L"@owner";
+		pm->permissions = Permission::ALL;
+	}
 	else {
+		pm->permissions = pGuild->m_permissions;
+
 		CDiscordRole *pRole = nullptr;
 		for (auto &itr : pRoot["roles"]) {
 			SnowFlake roleId = ::getId(itr);
-			if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
-				break;
+
+			if (auto *p = pGuild->arRoles.find((CDiscordRole *)&roleId)) {
+				pm->permissions |= p->permissions;
+				if (pRole == nullptr)
+					pRole = p;
+
+				if (bIsMe)
+					p->bIsMe = true;
+			}
 		}
 		pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
 	}
@@ -365,6 +334,125 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CDiscordGuild members
+
+int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
+
+static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
+{
+	return compareInt64(p1->id, p2->id);
+}
+
+static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMember *p2)
+{
+	return compareInt64(p1->userId, p2->userId);
+}
+
+CDiscordGuild::CDiscordGuild(SnowFlake _id) :
+	m_id(_id),
+	arChannels(10, compareUsers),
+	arChatUsers(30, compareChatUsers),
+	arRoles(10, compareRoles)
+{}
+
+CDiscordGuild::~CDiscordGuild()
+{}
+
+CDiscordUser::~CDiscordUser()
+{
+	if (pGuild != nullptr)
+		pGuild->arChannels.remove(this);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// calculates effective rights
+
+uint64_t CDiscordGuild::CalcPermissionOverride(SnowFlake myUserId, const JSONNode &json)
+{
+	if (myUserId == m_ownerId)
+		return Permission::ALL;
+
+	uint64_t permissions = m_permissions;
+
+	if (auto *pUser = FindUser(myUserId)) {
+		if (pUser->permissions & Permission::ADMIN)
+			return Permission::ALL;
+		
+		permissions = pUser->permissions;
+	}
+
+	struct Item
+	{
+		Item() :
+			allow(0),
+			deny(0)
+		{}
+
+		Item(SnowFlake _1, SnowFlake _2) :
+			allow(_1),
+			deny(_2)
+		{}
+
+		SnowFlake allow, deny;
+	};
+	std::map<SnowFlake, Item> items;
+
+	// verify permissions
+	for (auto &it : json) {
+		if (it["type"].as_int() != 0)
+			continue;
+
+		SnowFlake id = ::getId(it["id"]);
+		items[id] = Item(::getId(it["allow"]), ::getId(it["deny"]));
+	}
+
+	auto everyone = items[m_id];
+	permissions &= ~everyone.deny;
+	permissions |= everyone.allow;
+
+	uint64_t allow = 0, deny = 0;
+	for (auto &it : arRoles) {
+		if (it->bIsMe) {
+			auto role = items[it->id];
+			deny |= role.deny;
+			allow |= role.allow;
+		}
+	}
+
+	permissions &= ~deny;
+	permissions |= allow;
+
+	auto personal = items[myUserId];
+	permissions &= ~personal.deny;
+	permissions |= personal.allow;
+
+	return permissions;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// reads a role from json
+
+void CDiscordGuild::ProcessRole(const JSONNode &role)
+{
+	SnowFlake id = ::getId(role["id"]);
+	CDiscordRole *p = arRoles.find((CDiscordRole *)&id);
+	if (p == nullptr) {
+		p = new CDiscordRole();
+		p->id = id;
+		arRoles.insert(p);
+	}
+
+	p->color = role["color"].as_int();
+	p->position = role["position"].as_int();
+	p->permissions = ::getId(role["permissions"]);
+	p->wszName = role["name"].as_mstring();
+
+	if (m_id == id)
+		m_permissions = p->permissions;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Persistence manager
 
 void CDiscordGuild::LoadFromFile()
 {

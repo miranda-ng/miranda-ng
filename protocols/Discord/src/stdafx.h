@@ -16,6 +16,7 @@
 #include <direct.h>
 #include <time.h>
 
+#include <map>
 #include <vector>
 
 #include "resource.h"

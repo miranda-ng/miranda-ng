@@ -3,6 +3,58 @@
 #define EVENT_INCOMING_CALL 10001
 #define EVENT_CALL_FINISHED 10002
 
+enum Permission : uint64_t
+{
+	CREATE_INVITE      = (1ll << 0),  // Allows creation of instant invites
+	KICK_MEMBERS       = (1ll << 1),  // Allows kicking members
+	BAN_MEMBERS        = (1ll << 2),  // Allows banning members
+	ADMIN              = (1ll << 3),  // Allows all permissions and bypasses channel permission overwrites
+	MANAGE_CHANNELS    = (1ll << 4),  // Allows management and editing of channels
+	MANAGE_GUILD       = (1ll << 5),  // Allows management and editing of the guild	
+	ADD_REACTIONS      = (1ll << 6),  // Allows for the addition of reactions to messages
+	VIEW_AUDIT_LOG     = (1ll << 7),  // Allows for viewing of audit logs
+	PRIORITY_SPEAKER   = (1ll << 8),  // Allows for using priority speaker in a voice channel
+	STREAM             = (1ll << 9),  // Allows the user to go live
+	VIEW_CHANNEL       = (1ll << 10), // Allows guild members to view a channel, which includes reading messages in text channels and joining voice channels
+	SEND_MESSAGES      = (1ll << 11), // Allows for sending messages in a channel and creating threads in a forum (does not allow sending messages in threads)
+	SEND_TTS_MESSAGES  = (1ll << 12), // Allows for sending of /tts messages	
+	MANAGE_MESSAGES    = (1ll << 13), // Allows for deletion of other users messages	
+	EMBED_LINKS        = (1ll << 14), // Links sent by users with this permission will be auto-embedded
+	ATTACH_FILES       = (1ll << 15), // Allows for uploading images and files
+	READ_HISTORY       = (1ll << 16), // Allows for reading of message history
+	MENTION_EVERYONE   = (1ll << 17), // Allows for using the @everyone tag to notify all users in a channel, and the @here tag to notify all online users in a channel
+	USE_EXT_EMOJI      = (1ll << 18), // Allows the usage of custom emojis from other servers
+	VIEW_INSIGHTS      = (1ll << 19), // Allows for viewing guild insights	
+	VOICE_CONNECT      = (1ll << 20), // Allows for joining of a voice channel	
+	VOICE_SPEAK 		 = (1ll << 21), // Allows for speaking in a voice channel	
+	VOICE_MUTE 			 = (1ll << 22), // Allows for muting members in a voice channel	
+	VOICE_DEAFEN		 = (1ll << 23), // Allows for deafening of members in a voice channel	
+	VOICE_MOVE 			 = (1ll << 24), // Allows for moving of members between voice channels	
+	USE_VAD            = (1ll << 25), // Allows for using voice-activity-detection in a voice channel
+	CHANGE_NICKNAME    = (1ll << 26), // Allows for modification of own nickname	
+	MANAGE_NICKS 		 = (1ll << 27), // Allows for modification of other users nicknames	
+	MANAGE_ROLES 		 = (1ll << 28), // Allows management and editing of roles	
+	MANAGE_WEBHOOKS    = (1ll << 29), // 
+	MANAGE_EMOJI 		 = (1ll << 30), // Allows for editing and deleting emojis, stickers, and soundboard sounds created by all users
+	USE_APP_COMMANDS   = (1ll << 31), // Allows members to use application commands, including slash commands and context menu commands.
+	REQUEST_TO_SPEAK   = (1ll << 32), // Allows for requesting to speak in stage channels.
+	MANAGE_EVENTS		 = (1ll << 33), // Allows for editing and deleting scheduled events created by all users
+	MANAGE_THREADS		 = (1ll << 34), // Allows for deleting and archiving threads, and viewing all private threads
+	PUBLIC_THREADS		 = (1ll << 35), // Allows for creating public and announcement threads
+	PRIVATE_THREADS	 = (1ll << 36), // Allows for creating private threads	
+	USE_EXT_STICKERS	 = (1ll << 37), // Allows the usage of custom stickers from other servers
+	SEND_THREADS		 = (1ll << 38), // Allows for sending messages in threads	
+	EMBED_ACTIVITY		 = (1ll << 39), // Allows for using Activities (applications with the EMBEDDED flag) in a voice channel
+	MODERATE_MEMBERS	 = (1ll << 40), // Allows for timing out users to prevent them from sending or reacting to messages in chat and threads, and from speaking in voice and stage channels	
+	VIEW_MONETIZATION  = (1ll << 41), // Allows for viewing role subscription insights	
+	USE_SOUNDBOARD		 = (1ll << 42), // Allows for using soundboard in a voice channel	
+	CREATE_EXPRESSIONS = (1ll << 43), // Allows for creating emojis, stickers, and soundboard sounds, and editing and deleting those created by the current user.
+	CREATE_EVEMTS 		 = (1ll << 44), // Allows for creating scheduled events, and editing and deleting those created by the current user.
+	USE_EXT_SOUNDS		 = (1ll << 45), // Allows the usage of custom soundboard sounds from other servers	
+	SEND_VOICE			 = (1ll << 46), // Allows sending voice messages	
+	ALL                = -1ll
+};							
+
 typedef __int64 SnowFlake;
 
 __forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
@@ -41,9 +93,10 @@ public:
 struct CDiscordRole : public MZeroedObject
 {
 	SnowFlake id;
+	uint64_t permissions;
 	COLORREF color;
-	uint32_t permissions;
 	int position;
+	bool bIsMe;
 	CMStringW wszName;
 };
 
@@ -104,6 +157,7 @@ struct CDiscordGuildMember : public MZeroedObject
 	{}
 
 	SnowFlake userId;
+	uint64_t  permissions;
 	CMStringW wszDiscordId, wszNick, wszRole;
 	int iStatus;
 };
@@ -113,26 +167,32 @@ struct CDiscordGuild : public MZeroedObject
 	CDiscordGuild(SnowFlake _id);
 	~CDiscordGuild();
 
-	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId)
-	{
+	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId) {
 		return arChatUsers.find((CDiscordGuildMember *)&userId);
 	}
 
-	__inline CMStringW GetCacheFile() const
-	{
-		return CMStringW(FORMAT, L"%s\\DiscordCache\\%lld.json", VARSW(L"%miranda_userdata%").get(), id);
+	__forceinline CDiscordRole* FindRole(SnowFlake id) {
+		return arRoles.find((CDiscordRole *)&id);
 	}
 
-	SnowFlake id, ownerId;
-	CMStringW wszName;
-	MCONTACT hContact;
-	MGROUP groupId;
-	bool bSynced = false;
-	LIST<CDiscordUser> arChannels;
+	__forceinline CMStringW GetCacheFile() const {
+		return CMStringW(FORMAT, L"%s\\DiscordCache\\%lld.json", VARSW(L"%miranda_userdata%").get(), m_id);
+	}
 
+	SnowFlake m_id, m_ownerId;
+	uint64_t  m_permissions = 0; // my effective permissions
+	CMStringW m_wszName;
+	MCONTACT  m_hContact;
+	MGROUP    m_groupId;
+	bool      m_bSynced = false;
+	
 	SESSION_INFO *pParentSi;
+	LIST<CDiscordUser> arChannels;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
+
+	uint64_t CalcPermissionOverride(SnowFlake myUserId, const JSONNode &json);
+	void ProcessRole(const JSONNode &json);
 
 	void LoadFromFile();
 	void SaveToFile();
@@ -315,7 +375,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void AddGuildUser(CDiscordGuild *guild, const CDiscordGuildMember &pUser);
 	void ProcessGuild(const JSONNode &json);
 	void ProcessPresence(const JSONNode &json);
-	void ProcessRole(CDiscordGuild *guild, const JSONNode &json);
 	void ProcessType(CDiscordUser *pUser, const JSONNode &json);
 
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode &json);

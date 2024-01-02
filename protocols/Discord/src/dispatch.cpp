@@ -131,7 +131,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 		CMStringW wszName = pRoot["name"].as_mstring();
 		if (!wszName.IsEmpty()) {
-			CMStringW wszNewName = pGuild->wszName + L"#" + wszName;
+			CMStringW wszNewName = pGuild->m_wszName + L"#" + wszName;
 			Chat_ChangeSessionName(pUser->si, wszNewName);
 		}
 
@@ -245,7 +245,7 @@ void CDiscordProto::OnCommandGuildMemberListUpdate(const JSONNode &pRoot)
 		}
 	}
 
-	pGuild->bSynced = true;
+	pGuild->m_bSynced = true;
 }
 
 void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
@@ -310,9 +310,8 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandRoleCreated(const JSONNode &pRoot)
 {
-	CDiscordGuild *pGuild = FindGuild(::getId(pRoot["guild_id"]));
-	if (pGuild != nullptr)
-		ProcessRole(pGuild, pRoot["role"]);
+	if (auto *pGuild = FindGuild(::getId(pRoot["guild_id"])))
+		pGuild->ProcessRole(pRoot["role"]);
 }
 
 void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)

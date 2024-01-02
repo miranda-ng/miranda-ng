@@ -26,11 +26,20 @@ enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int SortRolesByPosition(const CDiscordRole *p1, const CDiscordRole *p2)
+{
+	return p1->position - p2->position;
+}
+
 void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
 {
 	Chat_AddGroup(si, L"@owner");
 
+	LIST<CDiscordRole> roles(pGuild->arRoles.getCount(), SortRolesByPosition);
 	for (auto &it : pGuild->arRoles)
+		roles.insert(it);
+
+	for (auto &it : roles)
 		Chat_AddGroup(si, it->wszName);
 }
 
@@ -146,7 +155,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		es.recentCount = 5;
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("nick", es.ptszResult);
-			CMStringA szUrl(FORMAT, "/guilds/%lld/members/@me/nick", pUser->pGuild->id);
+			CMStringA szUrl(FORMAT, "/guilds/%lld/members/@me/nick", pUser->pGuild->m_id);
 			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}

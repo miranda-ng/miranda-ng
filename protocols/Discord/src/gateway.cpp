@@ -257,7 +257,7 @@ void CDiscordProto::GatewaySendGuildInfo(CDiscordGuild *pGuild)
 	JSONNode channels; channels.set_name("channels"); channels << chl;
 
 	JSONNode payload; payload.set_name("d");
-	payload << SINT64_PARAM("guild_id", pGuild->id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
+	payload << SINT64_PARAM("guild_id", pGuild->m_id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
 		
 	JSONNode root;
 	root << INT_PARAM("op", OPCODE_REQUEST_SYNC_CHANNEL) << payload;
