@@ -1153,7 +1153,7 @@ db_event_edit @1268
 ?GetText@XMLElement@tinyxml2@@QBEPBDXZ @1375 NONAME
 ?GetUserData@XMLNode@tinyxml2@@QBEPAXXZ @1376 NONAME
 ?HasBOM@XMLDocument@tinyxml2@@QBE_NXZ @1377 NONAME
-?Identify@XMLDocument@tinyxml2@@QAEPADPADPAPAVXMLNode@2@@Z @1378 NONAME
+?Identify@XMLDocument@tinyxml2@@QAEPADPADPAPAVXMLNode@2@_N@Z @1378 NONAME
 ?InsertAfterChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@0@Z @1379 NONAME
 ?InsertChildPreamble@XMLNode@tinyxml2@@ABEXPAV12@@Z @1380 NONAME
 ?InsertEndChild@XMLNode@tinyxml2@@QAEPAV12@PAV12@@Z @1381 NONAME
@@ -1563,3 +1563,5 @@ _TranslateW_UUID@8 @1785 NONAME
 _EventExists@4 @1787 NONAME
 ?SetTooltip@CCtrlMButton@@QAEXPBD@Z @1788 NONAME
 _newStr@4 @1789 NONAME
+?ChildElementCount@XMLNode@tinyxml2@@QBEHPBD@Z @1790 NONAME
+?ChildElementCount@XMLNode@tinyxml2@@QBEHXZ @1791 NONAME
