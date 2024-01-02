@@ -73,7 +73,7 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 
 	SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
 	if (oldMsgId == 0)
-		RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId, 20);
+		RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId + 1, 20);
 	else if (!pUser->bSynced && pUser->lastMsgId > oldMsgId) {
 		pUser->bSynced = true;
 		RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
