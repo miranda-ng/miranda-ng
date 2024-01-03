@@ -94,7 +94,7 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 	ft->m_fileId = pFile->id_;
 	ft->m_uniqueId = pFile->remote_->unique_id_.c_str();
 
-	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
+	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, false));
 }
 
 void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
@@ -161,7 +161,7 @@ void CTelegramProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TG_FILE_REQUEST* CTelegramProto::PopFile(const char *pszUniqueId)
+TG_FILE_REQUEST* CTelegramProto::FindFile(const char *pszUniqueId)
 {
 	mir_cslock lck(m_csFiles);
 
@@ -177,99 +177,119 @@ TG_FILE_REQUEST* CTelegramProto::PopFile(const char *pszUniqueId)
 
 void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 {
-	if (auto *pFile = pObj->file_.get()) {
-		if (!pFile->local_->is_downloading_completed_)
-			return;
+	auto *pFile = pObj->file_.get();
+	if (pFile == nullptr)
+		return;
 
-		Utf2T wszExistingFile(pFile->local_->path_.c_str());
-
-		if (auto *F = PopFile(pFile->remote_->unique_id_.c_str())) {
-			if (F->m_type == F->AVATAR) {
-				CMStringW wszFullName = F->m_destPath;
-				if (!wszFullName.IsEmpty())
-					wszFullName += L"\\";
-				wszFullName += F->m_fileName;
-
-				if (F->m_fileName.Right(5).MakeLower() == L".webp") {
-					if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
-						wszFullName.Truncate(wszFullName.GetLength() - 5);
-						wszFullName += L".png";
-						FreeImage_SaveU(FIF_PNG, pImage, wszFullName);
-						FreeImage_Unload(pImage);
-					}
-				}
-				else MoveFileW(wszExistingFile, wszFullName);
-					
-				SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
-
-				mir_cslock lck(m_csFiles);
-				m_arFiles.remove(F);
+	if (!pFile->local_->is_downloading_completed_) {
+		if (auto *F = FindFile(pFile->remote_->unique_id_.c_str())) {
+			if (F->m_type != F->AVATAR && F->ofd) {
+				DBVARIANT dbv = { DBVT_DWORD };
+				dbv.dVal = pFile->local_->downloaded_size_;
+				db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
 			}
-			else { // FILE, PICTURE, VIDEO, VOICE
-				if (pFile->local_->is_downloading_completed_) {
-					if (F->ofd) {
-						DBVARIANT dbv = { DBVT_DWORD };
-						dbv.dVal = pFile->local_->downloaded_size_;
-						db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
-						db_event_setJson(F->ofd->hDbEvent, "fs", &dbv);
+		}
+		return;
+	}
 
-						CMStringW wszFullName(F->ofd->wszPath);
+	Utf2T wszExistingFile(pFile->local_->path_.c_str());
 
-						auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
-						if (!pSlash)
-							pSlash = pFile->local_->path_.c_str();
-						else
-							pSlash++;
+	if (auto *F = FindFile(pFile->remote_->unique_id_.c_str())) {
+		if (F->m_type == F->AVATAR) {
+			CMStringW wszFullName = F->m_destPath;
+			if (!wszFullName.IsEmpty())
+				wszFullName += L"\\";
+			wszFullName += F->m_fileName;
 
-						dbv.type = DBVT_UTF8;
-						dbv.pszVal = (char *)pSlash;
-						db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
-
-						wszFullName.Truncate(wszFullName.ReverseFind('\\') + 1);
-						wszFullName.Append(Utf2T(pSlash));
-						F->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
-
-						MoveFileW(wszExistingFile, F->ofd->wszPath);
-						F->ofd->Finish();
-					}
-
-					mir_cslock lck(m_csFiles);
-					m_arFiles.remove(F);
+			if (F->m_fileName.Right(5).MakeLower() == L".webp") {
+				if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
+					wszFullName.Truncate(wszFullName.GetLength() - 5);
+					wszFullName += L".png";
+					FreeImage_SaveU(FIF_PNG, pImage, wszFullName);
+					FreeImage_Unload(pImage);
 				}
 			}
+			else MoveFileW(wszExistingFile, wszFullName);
 
+			SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
+
+			mir_cslock lck(m_csFiles);
+			m_arFiles.remove(F);
 			delete F;
-			return;
 		}
+		else { // FILE, PICTURE, VIDEO, VOICE
+			if (F->ofd == nullptr)
+				return;
 
-		for (auto &it : m_arOwnMsg) {
-			if (it->tmpFileId == pFile->id_) {
-				if (!pFile->remote_->id_.empty()) {
-					if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
-						DBVARIANT dbv = { DBVT_UTF8 };
-						dbv.pszVal = (char *)pFile->remote_->id_.c_str();
-						db_event_setJson(hDbEvent, "u", &dbv);
+			DBVARIANT dbv = { DBVT_DWORD };
+			dbv.dVal = pFile->local_->downloaded_size_;
+			db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
+
+			CMStringW wszFullName(F->ofd->wszPath);
+			int idxSlash = wszFullName.ReverseFind('\\') + 1;
+			if (wszFullName.Find('.', idxSlash) == -1) {
+				auto *pSlash = strrchr(pFile->local_->path_.c_str(), '\\');
+				if (!pSlash)
+					pSlash = pFile->local_->path_.c_str();
+				else
+					pSlash++;
+
+				if (strchr(pSlash, '.')) {
+					dbv.type = DBVT_UTF8;
+					dbv.pszVal = (char *)pSlash;
+					db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
+
+					wszFullName.Truncate(idxSlash);
+					wszFullName.Append(Utf2T(pSlash));
+					F->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
+				}
+				else {
+					int iFormat = ProtoGetAvatarFileFormat(wszExistingFile);
+					if (iFormat != PA_FORMAT_UNKNOWN) {
+						wszFullName.AppendChar('.');
+						wszFullName.Append(ProtoGetAvatarExtension(iFormat));
+						F->ofd->ResetFileName(wszFullName);
 					}
 				}
-				return;
 			}
+
+			MoveFileW(wszExistingFile, F->ofd->wszPath);
+			F->ofd->Finish();
+
+			mir_cslock lck(m_csFiles);
+			m_arFiles.remove(F);
+			delete F;
 		}
+		return;
+	}
 
-		for (auto &it : m_arUsers) {
-			if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
-				PROTO_AVATAR_INFORMATION pai;
-				pai.hContact = it->hContact;
-				pai.format = ProtoGetAvatarFileFormat(wszExistingFile);
-				setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
-
-				CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
-				wcsncpy_s(pai.filename, wszAvatarPath, _TRUNCATE);
-
-				MoveFileW(wszExistingFile, wszAvatarPath);
-
-				ProtoBroadcastAck(it->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &pai);
-				break;
+	for (auto &it : m_arOwnMsg) {
+		if (it->tmpFileId == pFile->id_) {
+			if (!pFile->remote_->id_.empty()) {
+				if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
+					DBVARIANT dbv = { DBVT_UTF8 };
+					dbv.pszVal = (char *)pFile->remote_->id_.c_str();
+					db_event_setJson(hDbEvent, "u", &dbv);
+				}
 			}
+			return;
+		}
+	}
+
+	for (auto &it : m_arUsers) {
+		if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
+			PROTO_AVATAR_INFORMATION pai;
+			pai.hContact = it->hContact;
+			pai.format = ProtoGetAvatarFileFormat(wszExistingFile);
+			setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
+
+			CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
+			wcsncpy_s(pai.filename, wszAvatarPath, _TRUNCATE);
+
+			MoveFileW(wszExistingFile, wszAvatarPath);
+
+			ProtoBroadcastAck(it->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &pai);
+			break;
 		}
 	}
 }

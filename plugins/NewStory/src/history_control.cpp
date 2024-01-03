@@ -289,7 +289,7 @@ void NewstoryListData::Copy(bool bTextOnly)
 void NewstoryListData::CopyUrl()
 {
 	if (auto *pItem = GetItem(caret)) {
-		if (pItem->m_bOfflineDownloaded) {
+		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
 			Utils_ClipboardCopy(blob.getLocalName());
@@ -551,7 +551,7 @@ ItemData* NewstoryListData::LoadItem(int idx)
 void NewstoryListData::OpenFolder()
 {
 	if (auto *pItem = GetItem(caret)) {
-		if (pItem->m_bOfflineDownloaded) {
+		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
 			CMStringW wszFile(blob.getLocalName());
@@ -608,7 +608,7 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 		pos.x += 18;
 
 	sz.cx -= pos.x;
-	if (pItem->m_bOfflineDownloaded) // Download completed icon
+	if (pItem->m_bOfflineDownloaded != 0) // Download completed icon
 		sz.cx -= 18;
 
 	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
@@ -667,8 +667,16 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 	}
 
 	// Finished icon
-	if (pItem->m_bOfflineDownloaded)
-		DrawIconEx(hdc, width-20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+	if (pItem->m_bOfflineDownloaded != 0) {
+		if (pItem->completed())
+			DrawIconEx(hdc, width - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+		else {
+			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, RGB(255, 0, 0)));
+			MoveToEx(hdc, rc.left, rc.bottom - 4, 0);
+			LineTo(hdc, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
+			DeleteObject(SelectObject(hdc, hpn));
+		}
+	}
 
 	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextDisplay(hdc, pos, sz, pItem->data);

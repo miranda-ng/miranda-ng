@@ -368,6 +368,15 @@ int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *
 	}
 
 	DBFlush();
+
+	if (m_safetyMode) {
+		MCONTACT hContact = GetEventContact(hDbEvent);
+		if (auto *cc = m_cache->GetCachedContact(hContact))
+			if (cc->IsSub())
+				hContact = cc->parentID;
+
+		NotifyEventHooks(g_hevEventEdited, hContact, hDbEvent);
+	}
 	return 0;
 }
 

@@ -17,8 +17,8 @@ struct ItemData
 
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;
-	bool m_bOfflineFile, m_bOfflineDownloaded;
-	uint8_t m_grouping;
+	bool m_bOfflineFile;
+	uint8_t m_grouping, m_bOfflineDownloaded;
 	
 	int savedTop, savedHeight;
 
@@ -38,6 +38,7 @@ struct ItemData
 	void markRead();
 	void setText(HWND hwnd);
 
+	bool completed() const { return m_bOfflineDownloaded == 100; }
 	bool fetch(void);
 	void fill(int tmpl);
 	void load(bool bLoad = false);
