@@ -463,6 +463,7 @@ void CDiscordGuild::LoadFromFile()
 	int fSize = ::filelength(fileNo);
 	ptrA json((char*)mir_alloc(fSize + 1));
 	read(fileNo, json, fSize);
+	json[fSize] = 0;
 	close(fileNo);
 
 	JSONNode cached = JSONNode::parse(json);
