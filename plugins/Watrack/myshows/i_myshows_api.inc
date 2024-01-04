@@ -88,7 +88,6 @@ begin
   StrReplace(request,'<password>',buf);
 
   res:=SendRequestCookies(request,false);
-//  res:=SendRequest(request,REQUEST_GET);
   if res<>nil then
   begin
     if uint_ptr(res)<$0FFF then

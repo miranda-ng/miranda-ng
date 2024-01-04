@@ -61,12 +61,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		return false;
 	}
 
-	if (auto *pszNewCookie = Netlib_GetHeader(pReply, "Set-Cookie")) {
-		char *p = strchr(pszNewCookie, ';');
-		if (p) *p = 0;
-
-		m_szWSCookie = pszNewCookie;
-	}
+	m_szWSCookie = pReply->GetCookies();
 
 	if (pReply->resultCode != 101) {
 		// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again

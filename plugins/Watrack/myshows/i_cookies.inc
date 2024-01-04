@@ -2,46 +2,14 @@
 const
   cookies:pAnsiChar=nil;
 
-function ExtractCookies(resp:PNETLIBHTTPREQUEST):integer;
-var
-  cnt,len:integer;
-  p,pc:pAnsiChar;
-begin
-  result:=0;
-
-  mFreeMem(cookies);
-  mGetMem(cookies,1024);
-
-  pc:=cookies;
-  for cnt:=0 to resp^.headersCount-1 do
-  begin
-    with resp^.headers[cnt] do
-      if StrCmp(szName,'Set-Cookie')=0 then
-      begin
-        len:=0;
-        p:=szValue;
-        while (p^<>#0) and (p^<>';') do
-        begin
-          inc(p);
-          inc(len);
-        end;
-        if pc<>cookies then
-        begin
-          pc^:=';'; inc(pc);
-          pc^:=' '; inc(pc);
-        end;
-        pc:=StrCopyE(pc,szValue,len);
-        inc(result);
-      end;
-  end;
-end;
-
 function SendRequestCookies(url:PAnsiChar;useCookies:boolean):pAnsiChar;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
+  resp:THANDLE;
   hTmpNetLib:THANDLE;
+  bufLen:int;
+  pBuf:PAnsiChar;
   nlh:array [0..10] of TNETLIBHTTPHEADER;
 begin
   result:=nil;
@@ -66,20 +34,21 @@ begin
   hTmpNetLib:=Netlib_RegisterUser(@nlu);
 
   resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
+    if Netlib_HttpResult(resp)=200 then
     begin
-      if resp.pData<>nil then
-        StrDup(result,resp.pData,resp.dataLength)
+      pBuf := Netlib_HttpBuffer(resp,bufLen);
+      if pBuf<>nil then
+        StrDup(result,pBuf,bufLen)
       else
         result:=PAnsiChar(200);
       if not useCookies then
-        ExtractCookies(resp);
+        cookies := Netlib_HttpCookies(resp);
     end
     else
     begin
-      result:=pAnsiChar(int_ptr(resp^.resultCode and $0FFF));
+      result:=pAnsiChar(int_ptr(Netlib_HttpResult(resp) and $0FFF));
     end;
     Netlib_FreeHttpRequest(resp);
   end;

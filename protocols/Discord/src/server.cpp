@@ -165,18 +165,7 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 	m_wszEmail = data["email"].as_mstring();
 
 	m_ownId = id;
-	
-	m_szCookie.Empty();
-	for (int i=0; i < pReply->headersCount; i++) {
-		if (!mir_strcmpi(pReply->headers[i].szName, "Set-Cookie")) {
-			char *p = strchr(pReply->headers[i].szValue, ';');
-			if (p) *p = 0;
-			if (!m_szCookie.IsEmpty())
-				m_szCookie.Append("; ");
-
-			m_szCookie.Append(pReply->headers[i].szValue);
-		}
-	}
+	m_szCookie = pReply->GetCookies();
 
 	// launch gateway thread
 	if (m_szGateway.IsEmpty())

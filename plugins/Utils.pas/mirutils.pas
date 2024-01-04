@@ -404,7 +404,9 @@ function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
+  resp:THANDLE;
+  bufLen:int;
+  pBuf:PAnsiChar;
   hTmpNetLib:THANDLE;
   nlh:array [0..1] of TNETLIBHTTPHEADER;
   buf:array [0..31] of AnsiChar;
@@ -438,15 +440,16 @@ begin
     hTmpNetLib:=hNetLib;
 
   resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
+    if Netlib_HttpResult(resp)=200 then
     begin
-      StrDup(result,resp.pData,resp.dataLength);
+      pBuf := Netlib_HttpBuffer(resp,bufLen);
+      StrDup(result,pBuf,bufLen);
     end
     else
     begin
-      result:=PAnsiChar(int_ptr(resp^.resultCode and $0FFF));
+      result:=PAnsiChar(int_ptr(Netlib_HttpResult(resp) and $0FFF));
     end;
     Netlib_FreeHttpRequest(resp);
   end;
@@ -464,9 +467,10 @@ function GetFile(url:PAnsiChar; save_file:PAnsiChar; hNetLib:THANDLE=0; recurse_
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
+  resp:THANDLE;
   hSaveFile:THANDLE;
-  i:integer;
+  retCode, bufLen:integer;
+  pBuf:PAnsiChar;
 begin
   result:=false;
   if recurse_count>MAX_REDIRECT_RECURSE then
@@ -477,8 +481,7 @@ begin
   FillChar(req,SizeOf(req),0);
   req.requestType:=REQUEST_GET;
   req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP;
-
+  req.flags      :=NLHRF_NODUMP or NLHRF_REDIRECT;
 
   FillChar(nlu,SizeOf(nlu),0);
   if hNetLib=0 then
@@ -489,29 +492,19 @@ begin
   end;
 
   resp:=Netlib_HttpTransaction(hNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
+    retCode:=Netlib_HttpResult(resp);
+    if retCode=200 then
     begin
       hSaveFile:=Rewrite(save_file);
       if hSaveFile<>THANDLE(INVALID_HANDLE_VALUE) then
       begin
-        BlockWrite(hSaveFile,resp^.pData^,resp^.dataLength);
+        pBuf := Netlib_HttpBuffer(resp,bufLen);
+        BlockWrite(hSaveFile,pBuf^,bufLen);
         CloseHandle(hSaveFile);
         result:=true;
       end
-    end
-    else if (resp.resultCode>=300) and (resp.resultCode<400) then
-    begin
-      // get new location
-      for i:=0 to resp^.headersCount-1 do
-      begin
-        if StrCmp(resp^.headers^[i].szName,'Location')=0 then
-        begin
-          result:=GetFile(resp^.headers^[i].szValue,save_file,hNetLib,recurse_count+1);
-          break;
-        end
-      end;
     end;
     Netlib_FreeHttpRequest(resp);
 
@@ -583,8 +576,9 @@ function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
-  hNetLib:THANDLE;
+  resp,hNetLib:THANDLE;
+  bufLen:integer;
+  pBuf:PAnsiChar;
 begin
   result:=0;
   if (url=nil) or (url^=#0) then
@@ -601,10 +595,13 @@ begin
   hNetLib:=Netlib_RegisterUser(@nlu);
 
   resp:=Netlib_HttpTransaction(hNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
-      result  := Image_LoadFromMem(resp.pData, resp.dataLength, FIF_JPEG);
+    if Netlib_HttpResult(resp)=200 then
+    begin
+      pBuf := Netlib_HttpBuffer(resp,bufLen);
+      result := Image_LoadFromMem(pBuf, bufLen, FIF_JPEG);
+    end;
 
     Netlib_FreeHttpRequest(resp);
   end;

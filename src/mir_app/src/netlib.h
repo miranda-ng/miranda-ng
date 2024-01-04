@@ -166,7 +166,6 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
 
-NETLIBHTTPREQUEST* Netlib_RecvHttpHeaders(NetlibConnection *hConnection, int flags = 0);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
 
 // netliblog.cpp

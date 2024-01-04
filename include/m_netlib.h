@@ -434,7 +434,7 @@ EXTERN_C MIR_APP_DLL(char*) Netlib_GetHeader(const NETLIBHTTPREQUEST *pRec, cons
 #define NLHRF_DUMPASTEXT      0x00080000   // dump posted and reply data as text. Headers are always dumped as text.
 #define NLHRF_NODUMPSEND      0x00100000   // do not dump sent message.
 
-struct NETLIBHTTPREQUEST
+struct MIR_APP_EXPORT NETLIBHTTPREQUEST
 {
 	int requestType;	// a REQUEST_
 	uint32_t flags;
@@ -447,6 +447,8 @@ struct NETLIBHTTPREQUEST
 	char *szResultDescr;
 	HNETLIBCONN nlc;
 	int timeout;
+
+	CMStringA GetCookies() const;
 
 	__forceinline const char *operator[](const char *pszName) {
 		return Netlib_GetHeader(this, pszName);
