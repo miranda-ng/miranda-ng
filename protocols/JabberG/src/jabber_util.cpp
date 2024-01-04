@@ -882,7 +882,6 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	HNETLIBCONN hHttpCon = nullptr;
 	for (auto &it : avs) {
 		NETLIBHTTPREQUEST nlhr = { 0 };
-		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT;
 		nlhr.szUrl = it->Url;

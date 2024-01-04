@@ -694,7 +694,6 @@ LBL_Fail:
 	NETLIBHTTPHEADER hdr[10];
 
 	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_PUT;
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
 	nlhr.szUrl = (char *)szUrl;

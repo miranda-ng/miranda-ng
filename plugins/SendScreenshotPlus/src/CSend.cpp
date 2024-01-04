@@ -465,7 +465,6 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 			boundary[9 + i * 2] = (chcode < 0x0a ? '0' : 'a' - 0x0a) + chcode;
 		}
 	}
-	nlhr->cbSize = sizeof(NETLIBHTTPREQUEST);
 	nlhr->requestType = requestType;
 	nlhr->flags = NLHRF_HTTP11;
 	if (!strncmp(url, "https://", 8)) nlhr->flags |= NLHRF_SSL;

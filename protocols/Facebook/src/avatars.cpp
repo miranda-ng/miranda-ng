@@ -34,7 +34,6 @@ void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 void __cdecl FacebookProto::AvatarsUpdate(void *)
 {
 	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
 	req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.requestType = REQUEST_GET;
 

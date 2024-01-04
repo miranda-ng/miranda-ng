@@ -131,7 +131,6 @@ void WhatsAppProto::ServerFetchAvatar(const char *jid)
 bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 {
 	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
 	req.flags = NLHRF_NODUMP | NLHRF_PERSISTENT | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.requestType = REQUEST_GET;
 	req.szUrl = (char*)pszUrl;

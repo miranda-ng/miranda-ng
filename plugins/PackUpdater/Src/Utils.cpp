@@ -108,7 +108,6 @@ void LoadOptions()
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char* szUrl = mir_u2a(tszURL);

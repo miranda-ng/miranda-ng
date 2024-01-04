@@ -381,8 +381,7 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	char* token = getStringA(GG_KEY_TOKEN);
 
 	//construct request
-	NETLIBHTTPREQUEST req = { 0 };
-	req.cbSize = sizeof(req);
+	NETLIBHTTPREQUEST req = {};
 	req.requestType = REQUEST_POST;
 	req.szUrl = "http://avatars.nowe.gg/upload";
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
@@ -444,7 +443,6 @@ void __cdecl GaduProto::setavatarthread(void *param)
 
 		//construct 2nd request
 		memset(&req, 0, sizeof(req));
-		req.cbSize = sizeof(req);
 		req.requestType = REQUEST_POST;
 		req.szUrl = "http://avatars.nowe.gg/upload";
 		req.flags = NLHRF_NODUMP | NLHRF_HTTP11;

@@ -761,7 +761,6 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
 						NETLIBHTTPREQUEST req = {};
-						req.cbSize = sizeof(req);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 						req.requestType = REQUEST_GET;
 						req.szUrl = (char*)szUrl.c_str();

@@ -53,7 +53,6 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 
 	// initialize the netlib request
 	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
 	nlhr.szUrl = szUrl;

@@ -153,7 +153,6 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	ptrA szUrl(mir_u2a(pFileURL->wszDownloadURL));
 
 	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;

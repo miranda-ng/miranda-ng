@@ -1469,7 +1469,6 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
 						T2Utf szUrl(wszUrl);
 						NETLIBHTTPREQUEST req = {};
-						req.cbSize = sizeof(req);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 						req.requestType = REQUEST_GET;
 						req.szUrl = szUrl;

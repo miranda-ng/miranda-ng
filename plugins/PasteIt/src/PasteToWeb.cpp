@@ -431,9 +431,9 @@ char *PasteToWeb::SendToWeb(char *url, std::map<std::string, std::string> &heade
 		++nHeaders;
 	}
 
-	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER *httpHeaders = new NETLIBHTTPHEADER[nHeaders];
-	nlhr.cbSize = sizeof(nlhr);
+
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	nlhr.requestType = REQUEST_POST;
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT | NLHPIF_HTTP11;
 	nlhr.szUrl = url;

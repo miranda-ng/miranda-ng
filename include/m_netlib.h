@@ -450,7 +450,6 @@ EXTERN_C MIR_APP_DLL(char*) Netlib_GetHeader(const NETLIBHTTPREQUEST *pRec, cons
 
 struct NETLIBHTTPREQUEST
 {
-	int cbSize;
 	int requestType;	// a REQUEST_
 	uint32_t flags;
 	char *szUrl;

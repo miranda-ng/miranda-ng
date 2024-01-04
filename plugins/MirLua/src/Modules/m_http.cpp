@@ -5,7 +5,6 @@
 static NETLIBHTTPREQUEST* CreateRequest()
 {
 	NETLIBHTTPREQUEST *request = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
-	request->cbSize = sizeof(NETLIBHTTPREQUEST);
 	request->flags = NLHRF_HTTP11 | NLHRF_NODUMP;
 	return request;
 }
@@ -403,7 +402,6 @@ static int request_Send(lua_State *L)
 	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
 	NETLIBHTTPREQUEST *newRequest = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
-	newRequest->cbSize = sizeof(NETLIBHTTPREQUEST);
 	newRequest->flags = request->flags;
 	newRequest->requestType = request->requestType;
 	newRequest->szUrl = mir_strdup(request->szUrl);

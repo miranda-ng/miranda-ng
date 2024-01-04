@@ -38,7 +38,6 @@ bool CHTTPSession::ReadResponce(CMStringW &rsResponce)
 	};
 
 	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	nlhr.szUrl = m_szUrl.GetBuffer();

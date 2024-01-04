@@ -327,7 +327,6 @@ int GaduProto::oauth_receivetoken()
 	str = mir_strdup(szUrl);
 
 	memset(&req, 0, sizeof(req));
-	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
@@ -354,7 +353,6 @@ int GaduProto::oauth_receivetoken()
 	token_secret = nullptr;
 
 	memset(&req, 0, sizeof(req));
-	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;

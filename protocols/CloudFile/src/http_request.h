@@ -24,7 +24,6 @@ private:
 
 	void Init(int type)
 	{
-		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = type;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 		szUrl = NULL;

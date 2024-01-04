@@ -143,7 +143,6 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 
 	NETLIBHTTPREQUEST nlhr;
 	memset(&nlhr, 0, sizeof(nlhr));
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.szUrl = (char*)szURL;

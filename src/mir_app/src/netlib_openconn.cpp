@@ -308,8 +308,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), url.port);
 	}
 
-	NETLIBHTTPREQUEST nlhrSend = { 0 };
-	nlhrSend.cbSize = sizeof(nlhrSend);
+	NETLIBHTTPREQUEST nlhrSend = {};
 	nlhrSend.requestType = REQUEST_CONNECT;
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	nlhrSend.szUrl = szUrl.GetBuffer();

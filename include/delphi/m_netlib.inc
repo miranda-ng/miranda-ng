@@ -102,10 +102,9 @@ type
   end;
   ANETLIBHTTPHEADER = array [0..1000] of TNETLIBHTTPHEADER;
 
-  PNETLIBHTTPREQUEST    = ^TNETLIBHTTPREQUEST;
+  PNETLIBHTTPREQUEST = ^TNETLIBHTTPREQUEST;
 
   TNETLIBHTTPREQUEST = record
-    cbSize       :int;
     requestType  :int;                // REQUEST_* constant
     flags        :dword;
     szUrl        :PAnsiChar;
@@ -119,13 +118,6 @@ type
     nlc          :THANDLE;
     timeout      :int;                // Mirver 9.0+
   end;
-
-const
-  {$IFNDEF WIN64}
-  NETLIBHTTPREQUEST_V1_SIZE = 44;
-  {$ELSE}
-  NETLIBHTTPREQUEST_V1_SIZE = SIZEOF(TNETLIBHTTPREQUEST);
-  {$ENDIF}
 
 type
   PNETLIBUSER = ^TNETLIBUSER;

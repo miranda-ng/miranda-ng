@@ -31,16 +31,15 @@ HNETLIBUSER hNetlibUser;
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-//
+
 int InternetDownloadFile(char *szUrl)
 {
-	NETLIBHTTPREQUEST nlhr = { 0 };
-
 	// initialize the netlib request
-	nlhr.cbSize = sizeof(nlhr);
+	NETLIBHTTPREQUEST nlhr = {};
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.szUrl = szUrl;
+
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount++;
 	nlhr.headers = (NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);

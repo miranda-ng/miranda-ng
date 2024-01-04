@@ -378,7 +378,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 	int bytesSent = 0;
 	bool lastFirstLineFail = false;
 
-	if (nlhr == nullptr || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) || nlhr->szUrl == nullptr || nlhr->szUrl[0] == '\0') {
+	if (nlhr == nullptr || nlhr->szUrl == nullptr || nlhr->szUrl[0] == '\0') {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -690,7 +690,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 
 MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST *nlhr)
 {
-	if (nlhr == nullptr || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) || nlhr->requestType != REQUEST_RESPONSE) {
+	if (nlhr == nullptr || nlhr->requestType != REQUEST_RESPONSE) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return false;
 	}
@@ -720,7 +720,6 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 
 	uint32_t dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
-	nlhr->cbSize = sizeof(NETLIBHTTPREQUEST);
 	nlhr->nlc = nlc;  // Needed to id connection in the protocol HTTP gateway wrapper functions
 	nlhr->requestType = REQUEST_RESPONSE;
 
@@ -810,10 +809,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 
 MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHTTPREQUEST *nlhr)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) ||
-		nlhr == nullptr || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) ||
-		nlhr->szUrl == nullptr || nlhr->szUrl[0] == 0)
-	{
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) || !nlhr || !nlhr->szUrl || nlhr->szUrl[0] == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return nullptr;
 	}

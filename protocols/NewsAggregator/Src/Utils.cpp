@@ -50,7 +50,6 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (wcsstr(tszUrl, L"https://") != nullptr)
@@ -222,7 +221,6 @@ time_t DateToUnixTime(const char *stamp, bool FeedType)
 bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char *szUrl = mir_u2a(tszURL);

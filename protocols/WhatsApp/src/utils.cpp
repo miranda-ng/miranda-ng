@@ -522,7 +522,6 @@ MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufC
 	NETLIBHTTPHEADER headers[1] = {{"Origin", "https://web.whatsapp.com"}};
 
 	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_GET;
 	req.szUrl = (char*)url;
 	req.headersCount = _countof(headers);

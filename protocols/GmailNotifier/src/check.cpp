@@ -72,7 +72,6 @@ void CheckMailInbox(Account *curAcc)
 		};
 
 		NETLIBHTTPREQUEST nlr = {};
-		nlr.cbSize = sizeof(nlr);
 		nlr.szUrl = szUrl.GetBuffer();
 		nlr.requestType = REQUEST_POST;
 		nlr.headersCount = _countof(headers);
@@ -105,7 +104,6 @@ void CheckMailInbox(Account *curAcc)
 	};
 
 	NETLIBHTTPREQUEST nlr = {};
-	nlr.cbSize = sizeof(nlr);
 	nlr.szUrl = szUrl.GetBuffer();
 	nlr.requestType = REQUEST_GET;
 	nlr.headers = headers;
