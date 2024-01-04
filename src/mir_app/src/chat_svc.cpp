@@ -874,7 +874,7 @@ static int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 	if (Contact::IsGroupChat(hContact))
 		if (auto *si = SM_FindSessionByContact(hContact))
 			for (auto &it : si->arEvents.rev_iter())
-				if (it->hEvent == hDbEvent) {
+				if (it->hEvent == MEVENT(hDbEvent)) {
 					si->arEvents.removeItem(&it);
 					break;
 				}

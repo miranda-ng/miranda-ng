@@ -71,15 +71,3 @@ MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders)
 	replaceStr(nlu->szStickyHeaders, szHeaders); // pointer is ours
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN nlc, int iTimeout)
-{
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION)
-		return -1;
-	
-	int oldTimeout = nlc->pollingTimeout;
-	nlc->pollingTimeout = iTimeout;
-	return oldTimeout;
-}

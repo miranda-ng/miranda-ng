@@ -52,7 +52,7 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 		CMStringA szUrl(FORMAT, "https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
 		req.szUrl = szUrl.GetBuffer();
 	
-		NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		NLHR_PTR pReply(Netlib_HttpTransaction(m_hNetlibUser, &req));
 		if (pReply == nullptr) {
 			debugLogA("Failed to retrieve avatar from url: %s", szUrl.c_str());
 			continue;
@@ -82,8 +82,6 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, szUrl.c_str());
 
 		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
-
-		Netlib_FreeHttpRequest(pReply);
 	}
 }
 

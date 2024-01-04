@@ -357,11 +357,6 @@ EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection);
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Gets HNETLIBUSER owner of a connection
-
-EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HNETLIBCONN hConn);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Gets the fake User-Agent header field to make some sites happy
 
 EXTERN_C MIR_APP_DLL(char*) Netlib_GetUserAgent();
@@ -406,15 +401,6 @@ struct NETLIBIPLIST
 EXTERN_C MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Send an HTTP request over a connection
-//
-// Returns number of bytes sent on success, SOCKET_ERROR on failure
-// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
-// Note that if you use NLHRF_SMARTAUTHHEADER and NTLM authentication is in use
-// then the full NTLM authentication transaction occurs, comprising sending the
-// domain, receiving the challenge, then sending the response.
-// nlhr.resultCode and nlhr.szResultDescr are ignored by this function.
-// Errors: ERROR_INVALID_PARAMETER, anything returned by MS_NETLIB_SEND
 
 struct NETLIBHTTPHEADER
 {
@@ -466,27 +452,6 @@ struct NETLIBHTTPREQUEST
 		return Netlib_GetHeader(this, pszName);
 	}
 };
-
-EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Receives HTTP headers
-//
-// Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on failure.
-// Call Netlib_FreeHttpRequest() to free this.
-// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
-// nlhr->pData = NULL and nlhr->dataLength = 0 always. The requested data should
-// be retrieved using MS_NETLIB_RECV once the header has been parsed.
-// If the headers haven't finished within 60 seconds the function returns NULL
-// and ERROR_TIMEOUT.
-// Errors: ERROR_INVALID_PARAMETER, any from MS_NETLIB_RECV or select()
-//    ERROR_HANDLE_EOF (connection closed before headers complete)
-//    ERROR_TIMEOUT (headers still not complete after 60 seconds)
-//    ERROR_BAD_FORMAT (invalid character or line ending in headers, or first line is blank)
-//    ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
-//    ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
-
-EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free the memory used by a NETLIBHTTPREQUEST structure
@@ -714,14 +679,6 @@ struct NETLIBPACKETRECVER
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Sets a gateway polling timeout interval
-//
-// Returns previous timeout value
-// Errors: -1
-
-EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN hConnection, int iTimeout);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // netlib log funcitons

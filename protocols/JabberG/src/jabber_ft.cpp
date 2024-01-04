@@ -756,7 +756,7 @@ LBL_Fail:
 	}
 	_close(fileId);
 
-	NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR res(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	if (res == nullptr) {
 		debugLogA("error uploading file %S", pwszFileName);
 		goto LBL_Fail;
@@ -769,11 +769,8 @@ LBL_Fail:
 
 	default:
 		debugLogA("error uploading file %S: error %d", pwszFileName, res->resultCode);
-		Netlib_FreeHttpRequest(res);
 		goto LBL_Fail;
 	}
-
-	Netlib_FreeHttpRequest(res);
 
 	// this parameter is optional, if not specified we simply use upload URL
 	CMStringA szMessage;

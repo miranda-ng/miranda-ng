@@ -368,7 +368,18 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest,
 	return bytesSent;
 }
 
-MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Sends a HTTP request over a connection
+//
+// Returns number of bytes sent on success, SOCKET_ERROR on failure
+// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
+// Note that if you use NLHRF_SMARTAUTHHEADER and NTLM authentication is in use
+// then the full NTLM authentication transaction occurs, comprising sending the
+// domain, receiving the challenge, then sending the response.
+// nlhr.resultCode and nlhr.szResultDescr are ignored by this function.
+// Errors: ERROR_INVALID_PARAMETER, anything returned by MS_NETLIB_SEND
+
+int Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr)
 {
 	NETLIBHTTPREQUEST *nlhrReply = nullptr;
 	HttpSecurityContext httpSecurity;
@@ -544,13 +555,13 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
 
 		if (resultCode == 100)
-			nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
+			nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 
 		else if (resultCode == 307 || ((resultCode == 301 || resultCode == 302) && (nlhr->flags & NLHRF_REDIRECT))) { // redirect
 			pszUrl = nullptr;
 
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -592,7 +603,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 		}
 		else if (resultCode == 401 && !doneAuthHeader) { //auth required
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = (NETLIBHTTPREQUEST*)Netlib_RecvHttpHeaders(nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
@@ -710,9 +721,26 @@ MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST *nlhr)
 	return true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Receives HTTP headers
+//
+// Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on failure.
+// Call Netlib_FreeHttpRequest() to free this.
+// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
+// nlhr->pData = NULL and nlhr->dataLength = 0 always. The requested data should
+// be retrieved using MS_NETLIB_RECV once the header has been parsed.
+// If the headers haven't finished within 60 seconds the function returns NULL
+// and ERROR_TIMEOUT.
+// Errors: ERROR_INVALID_PARAMETER, any from MS_NETLIB_RECV or select()
+//    ERROR_HANDLE_EOF (connection closed before headers complete)
+//    ERROR_TIMEOUT (headers still not complete after 60 seconds)
+//    ERROR_BAD_FORMAT (invalid character or line ending in headers, or first line is blank)
+//    ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
+//    ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
+
 #define NHRV_BUF_SIZE 8192
 
-MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags)
+NETLIBHTTPREQUEST* Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags)
 {
 	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))

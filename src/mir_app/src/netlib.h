@@ -105,7 +105,6 @@ struct NetlibConnection : public MZeroedObject
 	uint16_t wProxyPort;
 	CMStringA szProxyBuf;
 
-	int pollingTimeout;
 	unsigned lastPost;
 };
 
@@ -165,7 +164,10 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
+int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
+
+NETLIBHTTPREQUEST* Netlib_RecvHttpHeaders(NetlibConnection *hConnection, int flags = 0);
+NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
 
 // netliblog.cpp
 void NetlibLogShowOptions(void);

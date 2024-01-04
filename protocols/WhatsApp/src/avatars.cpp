@@ -136,7 +136,7 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 	req.szUrl = (char*)pszUrl;
 	req.nlc = hAvatarConn;
 
-	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hAvatarUser, &req);
+	NLHR_PTR pReply(Netlib_HttpTransaction(hAvatarUser, &req));
 	if (pReply == nullptr) {
 		hAvatarConn = nullptr;
 		debugLogA("Failed to retrieve avatar from url: %s", pszUrl);
@@ -163,6 +163,5 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 	}
 	else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
 
-	Netlib_FreeHttpRequest(pReply);
 	return bSuccess;
 }

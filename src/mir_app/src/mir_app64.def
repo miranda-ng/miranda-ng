@@ -260,10 +260,7 @@ Netlib_Log @353
 Netlib_LogW @354
 Netlib_Logf @355
 Netlib_LogfW @356
-Netlib_GetConnNlu @357
-Netlib_RecvHttpHeaders @358
 Netlib_HttpTransaction @359
-Netlib_SendHttpRequest @360
 Netlib_GetUserSettings @361
 Netlib_SetUserSettings @362
 Netlib_OpenConnection @363
@@ -276,9 +273,7 @@ Netlib_AddressToString @369
 Netlib_StringToAddress @370
 Netlib_Select @371
 Netlib_SelectEx @372
-Netlib_SendHttpRequest @373
 Netlib_SetStickyHeaders @374
-Netlib_SetPollingTimeout @375
 Netlib_GetSocket @376
 Netlib_StartSsl @377
 Netlib_GetConnectionInfo @378

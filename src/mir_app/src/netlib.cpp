@@ -378,16 +378,6 @@ MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
-{
-	if (GetNetlibHandleType(hConn) != NLH_CONNECTION)
-		return nullptr;
-
-	return ((NetlibConnection*)hConn)->nlu;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_APP_DLL(char*) Netlib_GetUserAgent()
 {
 	return szUserAgent;
