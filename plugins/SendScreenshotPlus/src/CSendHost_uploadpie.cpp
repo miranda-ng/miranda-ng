@@ -65,11 +65,9 @@ void CSendHost_UploadPie::SendThread(void* obj)
 	CSendHost_UploadPie* self = (CSendHost_UploadPie*)obj;
 	// send DATA and wait for m_nlreply
 	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr));
-	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {
-		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
-			reply->pData[reply->dataLength - 1] = '\0'; // make sure its null terminated
-			char* url = reply->pData;
+		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->body.GetLength()) {
+			char* url = reply->body.GetBuffer();
 			do {
 				char* pos;
 				if ((url = strstr(url, kHostURL))) {
@@ -89,17 +87,17 @@ void CSendHost_UploadPie::SendThread(void* obj)
 				self->svcSendMsgExit(url); return;
 			}
 			else { // check error mess from server
-				const char* err = GetHTMLContent(reply->pData, "<p id=\"error\"", "</p>");
+				const char* err = GetHTMLContent(reply->body.GetBuffer(), "<p id=\"error\"", "</p>");
 				wchar_t* werr;
 				if (err) werr = mir_a2u(err);
-				else werr = mir_a2u(reply->pData);
+				else werr = mir_a2u(reply->body);
 				self->Error(L"%s", werr);
 				mir_free(werr);
 			}
 		}
 		else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, reply->resultCode);
 	}
-	else self->Error(SS_ERR_NORESPONSE, self->m_pszSendTyp, self->m_nlhr.resultCode);
+	else self->Error(SS_ERR_NORESPONSE, self->m_pszSendTyp, 500);
 
 	self->Exit(ACKRESULT_FAILED);
 }

@@ -260,7 +260,7 @@ MBinBuffer decodeBufStr(const std::string &buf)
 uint32_t decodeBigEndian(const uint8_t *buf, size_t len)
 {
 	uint32_t ret = 0;
-	for (int i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		ret <<= 8;
 		ret += buf[i];
 	}
@@ -271,7 +271,7 @@ uint32_t decodeBigEndian(const uint8_t *buf, size_t len)
 std::string encodeBigEndian(uint32_t num, size_t len)
 {
 	std::string res;
-	for (int i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		char c = num & 0xFF;
 		res = c + res;
 		num >>= 8;
@@ -519,20 +519,17 @@ WAMediaKeys::WAMediaKeys(const uint8_t *pKey, size_t keyLen, const char *pszMedi
 
 MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszMediaType)
 {
-	NETLIBHTTPHEADER headers[1] = {{"Origin", "https://web.whatsapp.com"}};
-
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.requestType = REQUEST_GET;
-	req.szUrl = (char*)url;
-	req.headersCount = _countof(headers);
-	req.headers = headers;
+	req.m_szUrl = url;
+	req.AddHeader("Origin", "https://web.whatsapp.com");
 
 	MBinBuffer ret;
 	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (pResp) {
 		if (pResp->resultCode == 200) {
 			WAMediaKeys out(mediaKeys.data, mediaKeys.len, pszMediaType);
-			ret = aesDecrypt(EVP_aes_256_cbc(), out.cipherKey, out.iv, pResp->pData, pResp->dataLength);
+			ret = aesDecrypt(EVP_aes_256_cbc(), out.cipherKey, out.iv, pResp->body, pResp->body.GetLength());
 		}
 	}
 

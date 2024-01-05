@@ -80,7 +80,7 @@ class JsonReply
 	int m_errorCode = 0;
 
 public:
-	JsonReply(NETLIBHTTPREQUEST *);
+	JsonReply(MHttpResponse *);
 	~JsonReply();
 
 	__forceinline int error() const { return m_errorCode; }
@@ -495,25 +495,25 @@ public:
 	void OnLoggedIn();
 	void OnLoggedOut();
 	
-	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveLogout(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveMarkRead(NETLIBHTTPREQUEST*, AsyncHttpRequest *);
-	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveUserinfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveCreateChannel(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveFile(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveGateway(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveLogout(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveMarkRead(MHttpResponse*, AsyncHttpRequest *);
+	void OnReceiveMessageAck(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveToken(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveUserinfo(MHttpResponse*, AsyncHttpRequest*);
 
 	void RetrieveMyInfo();
-	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMyInfo(MHttpResponse*, AsyncHttpRequest*);
 
 	void RetrieveHistory(CDiscordUser *pUser, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
-	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveHistory(MHttpResponse*, AsyncHttpRequest*);
 
 	bool RetrieveAvatar(MCONTACT hContact);
-	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveAvatar(MHttpResponse*, AsyncHttpRequest*);
 
-	void OnSendMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnSendMsg(MHttpResponse*, AsyncHttpRequest*);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Misc

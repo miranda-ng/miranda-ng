@@ -21,18 +21,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-http::response MinecraftDynmapProto::sendRequest(const int request_type, std::string *post_data, std::string *get_data)
+MHttpResponse* MinecraftDynmapProto::sendRequest(const int request_type, std::string *post_data, std::string *get_data)
 {
-	http::response resp;
-
 	// Prepare the request
-	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
+	MHttpRequest nlhr;
 
 	// FIXME: get server
 
 	// Set request URL
 	std::string url = m_server + chooseAction(request_type, get_data);
-	nlhr.szUrl = (char*)url.c_str();
+	nlhr.m_szUrl = url.c_str();
 
 	// Set timeout (bigger for channel request)
 	nlhr.timeout = 1000 * ((request_type == MINECRAFTDYNMAP_REQUEST_EVENTS) ? 65 : 20);
@@ -40,15 +38,18 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 	// Set request type (GET/POST) and eventually also POST data
 	if (post_data != nullptr) {
 		nlhr.requestType = REQUEST_POST;
-		nlhr.pData = (char*)(*post_data).c_str();
-		nlhr.dataLength = (int)post_data->length();
+		nlhr.SetData(post_data->c_str(), post_data->length());
 	}
-	else {
-		nlhr.requestType = REQUEST_GET;
-	}
+	else nlhr.requestType = REQUEST_GET;
 
 	// Set headers - it depends on requestType so it must be after setting that
-	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
+	if (request_type == REQUEST_POST)
+		nlhr.AddHeader("Content-Type", "application/json; charset=utf-8");
+	
+	nlhr.AddHeader("Cookie", m_cookie.c_str());
+	nlhr.AddHeader("User-Agent", g_strUserAgent.c_str());
+	nlhr.AddHeader("Accept", "*/*");
+	nlhr.AddHeader("Accept-Language", "en,en-US;q=0.9");
 
 	// Set flags
 	nlhr.flags = NLHRF_HTTP11;
@@ -78,12 +79,10 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 		break;
 	}
 
-	debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
+	debugLogA("@@@@@ Sending request to '%s'", nlhr.m_szUrl.c_str());
 
 	// Send the request	
-	NLHR_PTR pnlhr(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
-
-	mir_free(nlhr.headers);
+	auto *pnlhr = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 
 	// Remember the persistent connection handle (or not)
 	switch (request_type) {
@@ -100,22 +99,7 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 		break;
 	}
 
-	// Check and copy response data
-	if (pnlhr != nullptr)
-	{
-		debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
-		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
-		resp.code = pnlhr->resultCode;
-		resp.data = pnlhr->pData ? pnlhr->pData : "";
-
-		// debugLogA("&&&&& Got response: %s", resp.data.c_str());
-	} else {
-		debugLogA("!!!!! No response from server (time-out)");
-		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
-		// Better to have something set explicitely as this value is compaired in all communication requests
-	}
-
-	return resp;
+	return pnlhr;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -138,56 +122,17 @@ std::string MinecraftDynmapProto::chooseAction(int request_type, std::string *ge
 	}
 }
 
-
-NETLIBHTTPHEADER* MinecraftDynmapProto::get_request_headers(int request_type, int* headers_count)
-{
-	if (request_type == REQUEST_POST)
-		*headers_count = 5;
-	else
-		*headers_count = 4;
-
-	NETLIBHTTPHEADER *headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
-
-	if (request_type == REQUEST_POST) {
-		headers[4].szName = "Content-Type";
-		headers[4].szValue = "application/json; charset=utf-8";
-	}
-
-	headers[3].szName = "Cookie";
-	headers[3].szValue = (char *)m_cookie.c_str();
-	headers[2].szName = "User-Agent";
-	headers[2].szValue = (char *)g_strUserAgent.c_str();
-	headers[1].szName = "Accept";
-	headers[1].szValue = "*/*";
-	headers[0].szName = "Accept-Language";
-	headers[0].szValue = "en,en-US;q=0.9";
-
-	return headers;
-}
-
-void MinecraftDynmapProto::store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headersCount)
-{
-	for (size_t i = 0; i < (size_t)headersCount; i++) {
-		std::string header_name = headers[i].szName;
-		std::string header_value = headers[i].szValue;
-		
-		resp->headers[header_name] = header_value;
-	}
-}
-
 //////////////////////////////////////////////////////////////////////////////
 
 bool MinecraftDynmapProto::doSignOn()
 {
 	handleEntry(__FUNCTION__);
 
-	http::response resp = sendRequest(MINECRAFTDYNMAP_REQUEST_CONFIGURATION);
-
-	if (resp.code != HTTP_CODE_OK) {
+	NLHR_PTR resp(sendRequest(MINECRAFTDYNMAP_REQUEST_CONFIGURATION));
+	if (!resp || resp->resultCode != HTTP_CODE_OK)
 		return handleError(__FUNCTION__, "Can't load configuration", true);
-	}
 
-	JSONNode root = JSONNode::parse(resp.data.c_str());
+	JSONNode root = JSONNode::parse(resp->body);
 	if (!root)
 		return false;
 
@@ -212,16 +157,14 @@ bool MinecraftDynmapProto::doSignOn()
 	m_updateRate = rate_.as_int();
 	m_cookie.clear();
 
-	if (resp.headers.find("Set-Cookie") != resp.headers.end()) {
-		// Load Session identifier
-		std::string cookies = resp.headers["Set-Cookie"];
+	if (auto *pszCookie = resp->FindHeader("Set-Cookie")) {
+		m_cookie = pszCookie;
 
+		// Load Session identifier
 		const char *findStr = "JSESSIONID=";
-		std::string::size_type start = cookies.find(findStr);
-		
-		if (start != std::string::npos) {
-			m_cookie = cookies.substr(start, cookies.find(";") - start);
-		}
+		std::string::size_type start = m_cookie.find(findStr);
+		if (start != std::string::npos)
+			m_cookie = m_cookie.substr(start, m_cookie.find(";") - start);
 	}
 
 	if (m_cookie.empty()) {
@@ -236,12 +179,11 @@ bool MinecraftDynmapProto::doEvents()
 	handleEntry(__FUNCTION__);
 
 	// Get update
-	http::response resp = sendRequest(MINECRAFTDYNMAP_REQUEST_EVENTS);
-
-	if (resp.code != HTTP_CODE_OK)
+	NLHR_PTR resp(sendRequest(MINECRAFTDYNMAP_REQUEST_EVENTS));
+	if (!resp || resp->resultCode != HTTP_CODE_OK)
 		return handleError(__FUNCTION__, "Response is not code 200");
 
-	JSONNode root = JSONNode::parse(resp.data.c_str());
+	JSONNode root = JSONNode::parse(resp->body);
 	if (!root)
 		return handleError(__FUNCTION__, "Invalid JSON response");
 
@@ -290,10 +232,9 @@ bool MinecraftDynmapProto::doSendMessage(const std::string &message_text)
 	json.push_back(JSONNode("message", message_text.c_str()));
 	std::string data = json.write();
 
-	http::response resp = sendRequest(MINECRAFTDYNMAP_REQUEST_MESSAGE, &data);
-
-	if (resp.code == HTTP_CODE_OK) {
-		JSONNode root = JSONNode::parse(resp.data.c_str());
+	NLHR_PTR resp(sendRequest(MINECRAFTDYNMAP_REQUEST_MESSAGE, &data));
+	if (resp && resp->resultCode == HTTP_CODE_OK) {
+		JSONNode root = JSONNode::parse(resp->body);
 		if (root) {
 			const JSONNode &error_ = root["error"];
 			if (error_) {
@@ -315,15 +256,14 @@ std::string MinecraftDynmapProto::doGetPage(const int request_type)
 {
 	handleEntry(__FUNCTION__);
 
-	http::response resp = sendRequest(request_type);
-
-	if (resp.code == HTTP_CODE_OK) {
+	NLHR_PTR resp(sendRequest(request_type));
+	if (resp && resp->resultCode == HTTP_CODE_OK) {
 		handleSuccess(__FUNCTION__);
-	} else {
-		handleError(__FUNCTION__);
+		return resp->body.c_str();
 	}
 
-	return resp.data;
+	handleError(__FUNCTION__);
+	return "";
 }
 
 void MinecraftDynmapProto::SignOnWorker(void*)

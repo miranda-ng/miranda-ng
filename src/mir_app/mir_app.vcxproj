@@ -117,7 +117,9 @@
     <ClCompile Include="src\meta_options.cpp" />
     <ClCompile Include="src\meta_services.cpp" />
     <ClCompile Include="src\meta_utils.cpp" />
+    <ClCompile Include="src\MHttpHeaders.cpp" />
     <ClCompile Include="src\MHttpRequest.cpp" />
+    <ClCompile Include="src\MHttpResponse.cpp" />
     <ClCompile Include="src\miranda.cpp" />
     <ClCompile Include="src\modules.cpp" />
     <ClCompile Include="src\movetogroup.cpp" />

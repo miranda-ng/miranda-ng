@@ -28,7 +28,7 @@ void CVkProto::RetrievePollingInfo()
 	);
 }
 
-void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceivePollingInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceivePollingInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -253,9 +253,9 @@ int CVkProto::PollServer()
 
 	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_szPollingServer, m_szPollingKey, m_szPollingTs, m_szAccessToken, 106, 2);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.requestType = REQUEST_GET;
-	req.szUrl = szReqUrl.GetBuffer();
+	req.m_szUrl = szReqUrl.GetBuffer();
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_hPollingConn;
@@ -290,7 +290,7 @@ int CVkProto::PollServer()
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
-		JSONNode jnRoot = JSONNode::parse(reply->pData);
+		JSONNode jnRoot = JSONNode::parse(reply->body);
 		const JSONNode &jnFailed = jnRoot["failed"];
 		if (jnFailed && jnFailed.as_int() > 1) {
 			RetrievePollingInfo();

@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* HISTORY SYNC */
 
-void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -140,7 +140,7 @@ INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnSyncHistory(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())

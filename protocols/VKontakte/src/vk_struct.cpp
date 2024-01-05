@@ -68,9 +68,9 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	m_priority = rpPriority;
 }
 
-void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
+void AsyncHttpRequest::Redirect(MHttpResponse *nhr)
 {
-	if (auto *pszHdr = Netlib_GetHeader(nhr, "Location"))
+	if (auto *pszHdr = nhr->FindHeader("Location"))
 		m_szUrl = pszHdr;
 }
 

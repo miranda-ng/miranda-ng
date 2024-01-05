@@ -651,7 +651,7 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	return 0;
 }
 
-void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveAuthRequest(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;

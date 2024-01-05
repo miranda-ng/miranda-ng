@@ -107,37 +107,27 @@ void LoadOptions()
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char* szUrl = mir_u2a(tszURL);
-	nlhr.szUrl = szUrl;
-	nlhr.headersCount = 4;
-	nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName = "User-Agent";
-	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName = "Connection";
-	nlhr.headers[1].szValue = "close";
-	nlhr.headers[2].szName = "Cache-Control";
-	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName = "Pragma";
-	nlhr.headers[3].szValue = "no-cache";
+	nlhr.m_szUrl = _T2A(tszURL);
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Connection", "close");
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
 
 	bool ret = false;
 	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (pReply) {
-		if (200 == pReply->resultCode && pReply->dataLength > 0) {
+		if (200 == pReply->resultCode && !pReply->body.IsEmpty()) {
 			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			DWORD dwBytes;
-			WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
+			WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
 			ret = true;
 			if (hFile)
 				CloseHandle(hFile);
 		}
 	}
-
-	mir_free(szUrl);
-	mir_free(nlhr.headers);
 
 	DlgDld = ret;
 	return ret;

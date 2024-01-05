@@ -18,15 +18,15 @@ protected:
 	std::string PreparePath(const std::string &path) const;
 
 	virtual char* HttpStatusToError(int status = 0);
-	virtual void HttpResponseToError(NETLIBHTTPREQUEST *response);
-	virtual void HandleHttpError(NETLIBHTTPREQUEST *response);
+	virtual void HttpResponseToError(MHttpResponse *response);
+	virtual void HandleHttpError(MHttpResponse *response);
 	virtual void HandleJsonError(JSONNode &node) = 0;
 
 	// events
 	void OnModulesLoaded() override;
 	MWindow OnCreateAccMgrUI(MWindow) override;
 
-	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);
+	JSONNode GetJsonResponse(MHttpResponse *response);
 
 	virtual void Upload(FileTransferParam *ftp) = 0;
 

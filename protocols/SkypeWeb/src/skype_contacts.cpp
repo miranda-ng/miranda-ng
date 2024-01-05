@@ -100,7 +100,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isT
 	return hContact;
 }
 
-void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -142,7 +142,7 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 //[{"skypeId":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
 
-void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -255,7 +255,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	if (response != nullptr)
@@ -268,7 +268,7 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnUnblockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	if (response == nullptr)
 		return;

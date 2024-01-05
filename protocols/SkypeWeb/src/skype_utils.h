@@ -59,7 +59,7 @@ class JsonReply
 	int m_errorCode = 0;
 
 public:
-	JsonReply(NETLIBHTTPREQUEST *response);
+	JsonReply(MHttpResponse *response);
 	~JsonReply();
 
 	__forceinline JSONNode &data() const { return *m_root; }

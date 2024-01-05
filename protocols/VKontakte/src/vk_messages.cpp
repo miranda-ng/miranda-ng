@@ -186,7 +186,7 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	return uMsgId;
 }
 
-void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSendMessage(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
 	if (pReq->pUserInfo == nullptr) {
@@ -299,7 +299,7 @@ void CVkProto::RetrieveUnreadMessages()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveUnreadConversations", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh));
 }
 
-void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMessages %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -487,7 +487,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 }
 
-void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveDlgs %d", reply->resultCode);
 	if (reply->resultCode != 200)

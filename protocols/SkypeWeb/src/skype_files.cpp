@@ -28,10 +28,10 @@ void CSkypeProto::SendFileThread(void *p)
 	PushRequest(new ASMObjectCreateRequest(this, fup));
 }
 
-void CSkypeProto::OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	auto *fup = (CFileUploadParam*)pRequest->pUserInfo;
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 LBL_Error:
 		FILETRANSFER_FAILED(fup);
 		return;
@@ -42,7 +42,7 @@ LBL_Error:
 		goto LBL_Error;
 	}
 
-	JSONNode node = JSONNode::parse((char*)response->pData);
+	JSONNode node = JSONNode::parse(response->body);
 	std::string strObjectId = node["id"].as_string();
 	if (strObjectId.empty()) {
 		debugLogA("Invalid server response (empty object id)");
@@ -74,7 +74,7 @@ LBL_Error:
 	fclose(pFile);
 }
 
-void CSkypeProto::OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	auto *fup = (CFileUploadParam*)pRequest->pUserInfo;
 	if (response == nullptr) {

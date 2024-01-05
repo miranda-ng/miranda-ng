@@ -51,10 +51,9 @@ void IcqFileTransfer::FillHeaders(AsyncHttpRequest *pReq)
 	pReq->AddHeader("Content-Range", CMStringA(FORMAT, "bytes %lld-%lld/%lld", pfts.currentFileProgress, pfts.currentFileProgress + dwPortion - 1, pfts.currentFileSize));
 	pReq->AddHeader("Content-Length", CMStringA(FORMAT, "%d", dwPortion));
 
-	pReq->dataLength = dwPortion;
-	pReq->pData = (char *)mir_alloc(dwPortion);
+	pReq->m_szParam.Truncate(dwPortion);
 	_lseek(m_fileId, pfts.currentFileProgress, SEEK_SET);
-	_read(m_fileId, pReq->pData, dwPortion);
+	_read(m_fileId, pReq->m_szParam.GetBuffer(), dwPortion);
 
 	pfts.currentFileProgress += dwPortion;
 	pfts.totalProgress += dwPortion;

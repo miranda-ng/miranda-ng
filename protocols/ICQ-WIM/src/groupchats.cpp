@@ -60,7 +60,7 @@ INT_PTR CIcqProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetChatInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -191,7 +191,7 @@ void CIcqProto::InviteUserToChat(SESSION_INFO *si)
 	dlg.DoModal();
 }
 
-void CIcqProto::OnLeaveChat(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq)
+void CIcqProto::OnLeaveChat(MHttpResponse*, AsyncHttpRequest *pReq)
 {
 	db_delete_contact(INT_PTR(pReq->pUserInfo));
 }

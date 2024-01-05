@@ -49,10 +49,10 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 				}
 
 				// initialize the netlib request
-				NETLIBHTTPREQUEST nlhr = {};
+				MHttpRequest nlhr;
 				nlhr.requestType = REQUEST_GET;
 				nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
-				nlhr.szUrl = (char *)url;
+				nlhr.m_szUrl = url;
 
 				// download the page
 				NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
@@ -61,18 +61,18 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 					size_t written = 0;
 					if (f) {
 						if (encrypted) {
-							int payload_len = nlhrReply->dataLength - 16;
+							int payload_len = nlhrReply->body.GetLength() - 16;
 							if (payload_len > 0) {
 								uint8_t ivkey[44];
 								hex2bin(hexkey, ivkey, 44);
 								EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, NULL);
 								EVP_DecryptInit(ctx, EVP_aes_256_gcm(), ivkey + 12, ivkey);
-								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, nlhrReply->pData + payload_len);
+								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (uint8_t *)nlhrReply->body.c_str() + payload_len);
 
 								int outl = 0, round_len = 0;
 								uint8_t *out = (uint8_t *)mir_alloc(payload_len);
-								EVP_DecryptUpdate(ctx, out, &outl, (uint8_t *)nlhrReply->pData, (int)payload_len);
+								EVP_DecryptUpdate(ctx, out, &outl, (uint8_t *)nlhrReply->body.c_str(), (int)payload_len);
 								int dec_success = EVP_DecryptFinal(ctx, out + outl, &round_len);
 								outl += round_len;
 								EVP_CIPHER_CTX_free(ctx);
@@ -82,8 +82,8 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 								mir_free(out);
 							}
 						}
-						else if (fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f) == size_t(nlhrReply->dataLength))
-							written = nlhrReply->dataLength;
+						else if (fwrite(nlhrReply->body, 1, nlhrReply->body.GetLength(), f) == size_t(nlhrReply->body.GetLength()))
+							written = nlhrReply->body.GetLength();
 						fclose(f);
 					}
 
@@ -127,16 +127,16 @@ void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 
 void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 {
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.requestType = REQUEST_GET;
-	req.szUrl = ft->httpPath;
+	req.m_szUrl = ft->httpPath;
 
 	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (pResp && pResp->resultCode == 200) {
-		ft->std.currentFileSize = pResp->dataLength;
+		ft->std.currentFileSize = pResp->body.GetLength();
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft);
 
-		FtReceive(ft, pResp->pData, pResp->dataLength);
+		FtReceive(ft, pResp->body.GetBuffer(), pResp->body.GetLength());
 
 		ft->complete();
 	}
@@ -154,9 +154,9 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 		szName.AppendChar(*b++);
 	auto *pszName = szName.c_str();
 
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.requestType = REQUEST_HEAD;
-	req.szUrl = (char*)pszUrl;
+	req.m_szUrl = pszUrl;
 
 	filetransfer *ft = new filetransfer(this, 0);
 	ft->jid = mir_strdup(jid);

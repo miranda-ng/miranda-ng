@@ -308,15 +308,16 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), url.port);
 	}
 
-	NETLIBHTTPREQUEST nlhrSend = {};
+	MMemoryChunkStorage storage;
+	MHttpRequest nlhrSend;
 	nlhrSend.requestType = REQUEST_CONNECT;
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
-	nlhrSend.szUrl = szUrl.GetBuffer();
+	nlhrSend.m_szUrl = szUrl;
 
-	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR)
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend, &storage) == SOCKET_ERROR)
 		return false;
 
-	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
+	auto *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
 	if (nlhrReply == nullptr)
 		return false;
 

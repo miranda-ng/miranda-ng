@@ -271,7 +271,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 int GaduProto::oauth_receivetoken()
 {
-	char szUrl[256], uin[32], *token = nullptr, *token_secret = nullptr;
+	char uin[32], *token = nullptr, *token_secret = nullptr;
 	int res = 0;
 	HNETLIBCONN nlc = nullptr;
 
@@ -280,109 +280,90 @@ int GaduProto::oauth_receivetoken()
 
 	// 1. Obtaining an Unauthorized Request Token
 	debugLogA("oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
-	mir_strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
-	char *str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, nullptr, nullptr);
 
-	NETLIBHTTPHEADER httpHeaders[3];
-	httpHeaders[0].szName = "User-Agent";
-	httpHeaders[0].szValue = GG8_VERSION;
-	httpHeaders[1].szName = "Authorization";
-	httpHeaders[1].szValue = str;
-	httpHeaders[2].szName = "Accept";
-	httpHeaders[2].szValue = "*/*";
+	NLHR_PTR resp(0);
+	{
+		MHttpRequest req;
+		req.requestType = REQUEST_POST;
+		req.m_szUrl = "http://api.gadu-gadu.pl/request_token";
+		req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+		req.AddHeader("User-Agent", GG8_VERSION);
+		req.AddHeader("Authorization", ptrA(oauth_auth_header("POST", req.m_szUrl, HMACSHA1, uin, password, nullptr, nullptr)));
+		req.AddHeader("Accept", "*/*");
 
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = REQUEST_POST;
-	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-	req.headersCount = 3;
-	req.headers = httpHeaders;
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		if (resp) {
+			nlc = resp->nlc;
+			if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
+				TiXmlDocument doc;
+				if (0 == doc.Parse(resp->body)) {
+					TiXmlConst hXml(doc.FirstChildElement("result"));
+					if (auto *p = hXml["oauth_token"].ToElement())
+						token = mir_strdup(p->GetText());
 
-	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
-	if (resp) {
-		nlc = resp->nlc;
-		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			TiXmlDocument doc;
-			if (0 == doc.Parse(resp->pData)) {
-				TiXmlConst hXml(doc.FirstChildElement("result"));
-				if (auto *p = hXml["oauth_token"].ToElement())
-					token = mir_strdup(p->GetText());
-
-				if (auto *p = hXml["oauth_token_secret"].ToElement())
-					token_secret = mir_strdup(p->GetText());
+					if (auto *p = hXml["oauth_token_secret"].ToElement())
+						token_secret = mir_strdup(p->GetText());
+				}
 			}
+			else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
 		}
-		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+		else debugLogA("oauth_receivetoken(): No response from HTTP request");
 	}
-	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	// 2. Obtaining User Authorization
 	debugLogA("oauth_receivetoken(): Obtaining User Authorization...");
-	mir_free(str);
-	str = oauth_uri_escape("http://www.mojageneracja.pl");
+	{
+		MHttpRequest req;
+		req.requestType = REQUEST_POST;
+		req.m_szUrl = "https://login.gadu-gadu.pl/authorize";
+		req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
+		req.m_szParam.Format("callback_url=%s&request_token=%s&uin=%s&password=%s", ptrA(oauth_uri_escape("http://www.mojageneracja.pl")), token, uin, password);
+		req.AddHeader("User-Agent", GG8_VERSION);
+		req.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		req.AddHeader("Accept", "*/*");
 
-	mir_snprintf(szUrl, "callback_url=%s&request_token=%s&uin=%s&password=%s",
-		str, token, uin, password);
-	mir_free(str);
-	str = mir_strdup(szUrl);
-
-	memset(&req, 0, sizeof(req));
-	req.requestType = REQUEST_POST;
-	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
-	req.headersCount = 3;
-	req.headers = httpHeaders;
-	mir_strcpy(szUrl, "https://login.gadu-gadu.pl/authorize");
-	httpHeaders[1].szName = "Content-Type";
-	httpHeaders[1].szValue = "application/x-www-form-urlencoded";
-	req.pData = str;
-	req.dataLength = (int)mir_strlen(str);
-
-	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
-	if (!resp)
-		debugLogA("oauth_receivetoken(): No response from HTTP request");
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		if (!resp)
+			debugLogA("oauth_receivetoken(): No response from HTTP request");
+	}
 
 	// 3. Obtaining an Access Token
 	debugLogA("oauth_receivetoken(): Obtaining an Access Token...");
-	mir_strcpy(szUrl, "http://api.gadu-gadu.pl/access_token");
-	mir_free(str);
-	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, token, token_secret);
+
 	mir_free(token);
 	mir_free(token_secret);
 	token = nullptr;
 	token_secret = nullptr;
+	{
+		MHttpRequest req;
+		req.requestType = REQUEST_POST;
+		req.m_szUrl = "http://api.gadu-gadu.pl/access_token";
+		req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+		req.nlc = nlc;
+		req.AddHeader("User-Agent", GG8_VERSION);
+		req.AddHeader("Authorization", ptrA(oauth_auth_header("POST", req.m_szUrl, HMACSHA1, uin, password, token, token_secret)));
+		req.AddHeader("Accept", "*/*");
 
-	memset(&req, 0, sizeof(req));
-	req.requestType = REQUEST_POST;
-	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-	req.nlc = nlc;
-	req.headersCount = 3;
-	req.headers = httpHeaders;
-	httpHeaders[1].szName = "Authorization";
-	httpHeaders[1].szValue = str;
+		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		if (resp) {
+			if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
+				TiXmlDocument doc;
+				if (0 == doc.Parse(resp->body)) {
+					TiXmlConst hXml(doc.FirstChildElement("result"));
+					if (auto *p = hXml["oauth_token"].ToElement())
+						token = mir_strdup(p->GetText());
 
-	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
-	if (resp) {
-		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			TiXmlDocument doc;
-			if (0 == doc.Parse(resp->pData)) {
-				TiXmlConst hXml(doc.FirstChildElement("result"));
-				if (auto *p = hXml["oauth_token"].ToElement())
-					token = mir_strdup(p->GetText());
-
-				if (auto *p = hXml["oauth_token_secret"].ToElement())
-					token_secret = mir_strdup(p->GetText());
+					if (auto *p = hXml["oauth_token_secret"].ToElement())
+						token_secret = mir_strdup(p->GetText());
+				}
 			}
+			else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+
+			Netlib_CloseHandle(resp->nlc);
 		}
-		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
-
-		Netlib_CloseHandle(resp->nlc);
+		else debugLogA("oauth_receivetoken(): No response from HTTP request");
 	}
-	else debugLogA("oauth_receivetoken(): No response from HTTP request");
-
 	mir_free(password);
-	mir_free(str);
 
 	if (token != nullptr && token_secret != nullptr) {
 		setString(GG_KEY_TOKEN, token);

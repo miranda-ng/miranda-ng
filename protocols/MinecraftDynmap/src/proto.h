@@ -86,8 +86,6 @@ public:
 	HANDLE chatHandle_;
 
 	// Data storage
-	void    store_headers(http::response *resp, NETLIBHTTPHEADER *headers, int headers_count);
-
 	std::string get_server(bool not_last = false);
 	std::string get_language();
 
@@ -104,9 +102,8 @@ public:
 	void __inline reset_error() { error_count_ = 0; }
 	
 	// HTTP communication
-	http::response sendRequest(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
+	MHttpResponse* sendRequest(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
 	std::string chooseAction(int, std::string *get_data = nullptr);
-	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	// Requests and processing
 	bool doSignOn();

@@ -51,9 +51,9 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	char szUrl[128];
 	mir_snprintf(szUrl, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
 
-	NETLIBHTTPREQUEST req = { sizeof(req) };
+	MHttpRequest req;
 	req.requestType = REQUEST_GET;
-	req.szUrl = szUrl;
+	req.m_szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
 	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
@@ -62,15 +62,15 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		return false;
 	}
 
-	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
+	if (resp->resultCode != 200 || resp->body.IsEmpty()) {
 		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request");
 		return false;
 	}
 
-	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)) {
+	if ((strncmp(resp->body, "<result>", 8) == 0) || (strncmp(resp->body, "<?xml", 5) == 0)) {
 		// if this url returned xml data (before and after 11.2013 gg convention)
 		TiXmlDocument doc;
-		if (doc.Parse(resp->pData) == 0) {
+		if (doc.Parse(resp->body) == 0) {
 			auto *node = TiXmlConst(doc.FirstChildElement("result"))["users"]["user"]["avatars"]["avatar"].ToElement();
 			const char *blank = (node != nullptr) ? node->Attribute("blank") : nullptr;
 			if (mir_strcmp(blank, "1")) {
@@ -84,9 +84,9 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 			}
 		}
 	}
-	else if (strncmp(resp->pData, "{\"result\":", 10) == 0) {
+	else if (strncmp(resp->body, "{\"result\":", 10) == 0) {
 		// if this url returns json data (11.2013 gg convention)
-		JSONNode root = JSONNode::parse(resp->pData);
+		JSONNode root = JSONNode::parse(resp->body);
 		if (root) {
 			const JSONNode &respJSONavatars = root["result"].at("users").at("user").at("avatars");
 			if (respJSONavatars) {
@@ -225,26 +225,26 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			ai.hContact = data->hContact;
 			ai.format = getByte(ai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-			NETLIBHTTPREQUEST req = { sizeof(req) };
+			MHttpRequest req;
 			req.requestType = REQUEST_GET;
-			req.szUrl = data->szAvatarURL;
+			req.m_szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
 			NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 			if (resp) {
-				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
+				if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
 					int file_fd;
 
 					int avatarType = PA_FORMAT_UNKNOWN;
-					if (strncmp(resp->pData, "\xFF\xD8", 2) == 0) avatarType = PA_FORMAT_JPEG;
-					if (strncmp(resp->pData, "\x47\x49\x46\x38", 4) == 0) avatarType = PA_FORMAT_GIF;
-					if (strncmp(resp->pData, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", 8) == 0) avatarType = PA_FORMAT_PNG;
+					if (strncmp(resp->body, "\xFF\xD8", 2) == 0) avatarType = PA_FORMAT_JPEG;
+					if (strncmp(resp->body, "\x47\x49\x46\x38", 4) == 0) avatarType = PA_FORMAT_GIF;
+					if (strncmp(resp->body, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", 8) == 0) avatarType = PA_FORMAT_PNG;
 					setByte(data->hContact, GG_KEY_AVATARTYPE, (uint8_t)avatarType);
 
 					getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
 					file_fd = _wopen(ai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
 					if (file_fd != -1) {
-						_write(file_fd, resp->pData, resp->dataLength);
+						_write(file_fd, resp->body, resp->body.GetLength());
 						_close(file_fd);
 						result = 1;
 						debugLogW(L"avatarrequestthread() new avatar_transfers item. Saved data to file=%s.", ai.filename);
@@ -367,49 +367,26 @@ void __cdecl GaduProto::setavatarthread(void *param)
 
 	CMStringA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
 
-	char dataPrefix[64];
-	mir_snprintf(dataPrefix, "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
-	size_t dataPrefixLen = mir_strlen(dataPrefix);
-
-	size_t dataLen = dataPrefixLen + avatarFileB64Enc.GetLength();
-	char* data = (char*)mir_alloc(dataLen);
-	memcpy(data, dataPrefix, dataPrefixLen);
-	memcpy(data + dataPrefixLen, avatarFileB64Enc, avatarFileB64Enc.GetLength());
-
-	//check if we have token, if no - receive new one
+	// check if we have token, if no - receive new one
 	oauth_checktoken(0);
 	char* token = getStringA(GG_KEY_TOKEN);
 
-	//construct request
-	NETLIBHTTPREQUEST req = {};
+	// construct request
+	MHttpRequest req = {};
 	req.requestType = REQUEST_POST;
-	req.szUrl = "http://avatars.nowe.gg/upload";
+	req.m_szUrl = "http://avatars.nowe.gg/upload";
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
-	req.headersCount = 10;
-	NETLIBHTTPHEADER httpHeaders[10];
-	httpHeaders[0].szName = "X-Request";
-	httpHeaders[0].szValue = "JSON";
-	httpHeaders[1].szName = "Authorization";
-	httpHeaders[1].szValue = token;
-	httpHeaders[2].szName = "X-Requested-With";
-	httpHeaders[2].szValue = "XMLHttpRequest";
-	httpHeaders[3].szName = "From";
-	httpHeaders[3].szValue = "avatars to avatars";
-	httpHeaders[4].szName = "X-IM-Web-App-Version";
-	httpHeaders[4].szValue = "10,5,2,13164";
-	httpHeaders[5].szName = "User-Agent";
-	httpHeaders[5].szValue = "avatars to avatars";
-	httpHeaders[6].szName = "From";
-	httpHeaders[6].szValue = NETLIB_USER_AGENT;
-	httpHeaders[7].szName = "Content-type";
-	httpHeaders[7].szValue = "application/x-www-form-urlencoded; charset=utf-8";
-	httpHeaders[8].szName = "Accept";
-	httpHeaders[8].szValue = "application/json";
-	httpHeaders[9].szName = "Referer";
-	httpHeaders[9].szValue = "http://avatars.nowe.gg/.static/index_new_22.0.2_595nwh.html";
-	req.headers = httpHeaders;
-	req.pData = data;
-	req.dataLength = int(dataLen);
+	req.AddHeader("X-Request", "JSON");
+	req.AddHeader("Authorization", token);
+	req.AddHeader("X-Requested-With", "XMLHttpRequest");
+	req.AddHeader("From", "avatars to avatars");
+	req.AddHeader("X-IM-Web-App-Version", "10,5,2,13164");
+	req.AddHeader("User-Agent", "avatars to avatars");
+	req.AddHeader("From", NETLIB_USER_AGENT);
+	req.AddHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+	req.AddHeader("Accept", "application/json");
+	req.AddHeader("Referer", "http://avatars.nowe.gg/.static/index_new_22.0.2_595nwh.html");
+	req << INT_PARAM("uin", getDword(GG_KEY_UIN, 0)) << CHAR_PARAM("photo", avatarFileB64Enc);
 
 	// send request
 	int resultSuccess = 0;
@@ -417,8 +394,8 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	{
 		NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 		if (resp) {
-			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-				debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
+			if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
+				debugLogA("setavatarthread(): 1 resp.data= %s", resp->body.c_str());
 				resultSuccess = 1;
 			}
 			else {
@@ -439,22 +416,14 @@ void __cdecl GaduProto::setavatarthread(void *param)
 		oauth_checktoken(1);
 		mir_free(token);
 		token = getStringA(GG_KEY_TOKEN);
-		httpHeaders[1].szValue = token;
 
-		//construct 2nd request
-		memset(&req, 0, sizeof(req));
-		req.requestType = REQUEST_POST;
-		req.szUrl = "http://avatars.nowe.gg/upload";
-		req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
-		req.headersCount = 10;
-		req.headers = httpHeaders;
-		req.pData = data;
-		req.dataLength = int(dataLen);
+		// construct 2nd request
+		req.AddHeader("Authorization", token);
 
 		NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 		if (resp) {
-			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-				debugLogA("setavatarthread(): 2 resp.data= %s", resp->pData);
+			if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
+				debugLogA("setavatarthread(): 2 resp.data= %s", resp->body.c_str());
 				resultSuccess = 1;
 			}
 			else debugLogA("setavatarthread(): Invalid response code from HTTP request [%d]", resp->resultCode);
@@ -464,7 +433,6 @@ void __cdecl GaduProto::setavatarthread(void *param)
 
 	//clean and end thread
 	mir_free(token);
-	mir_free(data);
 
 	if (resultSuccess) {
 		debugLogA("setavatarthread(): User avatar set successfully.");

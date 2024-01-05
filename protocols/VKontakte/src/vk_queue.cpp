@@ -38,15 +38,11 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	do {
 		pReq->bNeedsRestart = false;
 		pReq->m_iErrorCode = 0;
-		pReq->szUrl = pReq->m_szUrl.GetBuffer();
+		pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
 		if (!pReq->m_szParam.IsEmpty()) {
 			if (pReq->requestType == REQUEST_GET) {
 				str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-				pReq->szUrl = str.GetBuffer();
-			}
-			else {
-				pReq->pData = mir_strdup(pReq->m_szParam);
-				pReq->dataLength = pReq->m_szParam.GetLength();
+				pReq->m_szUrl = str.GetBuffer();
 			}
 		}
 
@@ -64,7 +60,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
 		}
 
-		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
+		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
 		NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 		{
 			mir_cslock lck(m_csWorkThreadTimer);

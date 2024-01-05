@@ -234,7 +234,6 @@ Font_RegisterW @326
 Options_AddPage @327
 Options_Open @328
 Options_OpenPage @329
-Netlib_GetHeader @330
 Srmm_ModifyButton @331
 Srmm_AddButton @332
 Srmm_GetButtonState @333
@@ -584,15 +583,12 @@ g_hevSettingChanged @696 NONAME
 ?MetaRemoveSubHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@@Z @704 NONAME
 Chat_GetGroup @705
 Chat_SetGroup @706
-??0MHttpRequest@@QEAA@AEBU0@@Z @707 NONAME
 ??0MHttpRequest@@QEAA@XZ @708 NONAME
 ??1MHttpRequest@@QEAA@XZ @709 NONAME
-??4MHttpRequest@@QEAAAEAU0@AEBU0@@Z @710 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUCHAR_PARAM@@@Z @711 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUINT_PARAM@@@Z @712 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUWCHAR_PARAM@@@Z @713 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUINT64_PARAM@@@Z @714 NONAME
-?AddHeader@MHttpRequest@@QEAAXPEBD0@Z @715 NONAME
 db_mc_addToMeta @716
 db_mc_convertToMeta @717
 db_mc_enable @718
@@ -919,10 +915,50 @@ CallContactService @1042 NONAME
 ??0MDatabaseExport@@QEAA@XZ @1043 NONAME
 ??1MDatabaseExport@@UEAA@XZ @1044 NONAME
 ??_7MDatabaseExport@@6B@ @1045 NONAME
-??4NETLIBHTTPREQUEST@@QEAAAEAU0@$$QEAU0@@Z @1046 NONAME
-??4NETLIBHTTPREQUEST@@QEAAAEAU0@AEBU0@@Z @1047 NONAME
-??ANETLIBHTTPREQUEST@@QEAAPEBDPEBD@Z @1048 NONAME
-?GetCookies@NETLIBHTTPREQUEST@@QEBA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@XZ @1049 NONAME
-Netlib_HttpBuffer @1050
-Netlib_HttpCookies @1051
-Netlib_HttpResult @1052
+??0?$LIST@UMHttpHeader@@@@QEAA@AEBU0@@Z @1046 NONAME
+??0?$LIST@UMHttpHeader@@@@QEAA@HP6AHPEBUMHttpHeader@@0@Z@Z @1047 NONAME
+??0?$LIST@UMHttpHeader@@@@QEAA@H_J@Z @1048 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QEAA@AEBU0@@Z @1049 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QEAA@HP6AHPEBUMHttpHeader@@0@Z@Z @1050 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QEAA@H_J@Z @1051 NONAME
+??0MHttpHeaders@@QEAA@AEBU0@@Z @1052 NONAME
+??0MHttpHeaders@@QEAA@XZ @1053 NONAME
+??0MHttpResponse@@QEAA@XZ @1054 NONAME
+??1?$LIST@UMHttpHeader@@@@QEAA@XZ @1055 NONAME
+??1?$OBJLIST@UMHttpHeader@@@@QEAA@XZ @1056 NONAME
+??1MHttpHeaders@@QEAA@XZ @1057 NONAME
+??1MHttpResponse@@QEAA@XZ @1058 NONAME
+??4?$LIST@UMHttpHeader@@@@QEAAAEAU0@AEBU0@@Z @1059 NONAME
+??4?$OBJLIST@UMHttpHeader@@@@QEAAAEAU0@AEBU0@@Z @1060 NONAME
+??4MHttpHeaders@@QEAAAEAU0@AEBU0@@Z @1061 NONAME
+??A?$LIST@UMHttpHeader@@@@QEBAPEAUMHttpHeader@@H@Z @1062 NONAME
+??A?$OBJLIST@UMHttpHeader@@@@QEBAAEAUMHttpHeader@@H@Z @1063 NONAME
+??AMHttpHeaders@@QEAAPEBDPEBD@Z @1064 NONAME
+?AddHeader@MHttpHeaders@@QEAAXPEBD0@Z @1065 NONAME
+?FindHeader@MHttpHeaders@@QEBAPEADPEBD@Z @1066 NONAME
+?GetCookies@MHttpHeaders@@QEBA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@XZ @1067 NONAME
+?begin@?$LIST@UMHttpHeader@@@@QEBAPEAPEAUMHttpHeader@@XZ @1068 NONAME
+?destroy@?$LIST@UMHttpHeader@@@@QEAAXXZ @1069 NONAME
+?destroy@?$OBJLIST@UMHttpHeader@@@@QEAAXXZ @1070 NONAME
+?end@?$LIST@UMHttpHeader@@@@QEBAPEAPEAUMHttpHeader@@XZ @1071 NONAME
+?find@?$LIST@UMHttpHeader@@@@QEBAPEAUMHttpHeader@@PEAU2@@Z @1072 NONAME
+?getArray@?$LIST@UMHttpHeader@@@@QEBAPEAPEAUMHttpHeader@@XZ @1073 NONAME
+?getCount@?$LIST@UMHttpHeader@@@@QEBAHXZ @1074 NONAME
+?getIndex@?$LIST@UMHttpHeader@@@@QEBAHPEAUMHttpHeader@@@Z @1075 NONAME
+?indexOf@?$LIST@UMHttpHeader@@@@QEBAHPEAPEAUMHttpHeader@@@Z @1076 NONAME
+?indexOf@?$LIST@UMHttpHeader@@@@QEBAHPEAUMHttpHeader@@@Z @1077 NONAME
+?insert@?$LIST@UMHttpHeader@@@@QEAAHPEAUMHttpHeader@@@Z @1078 NONAME
+?insert@?$LIST@UMHttpHeader@@@@QEAAHPEAUMHttpHeader@@H@Z @1079 NONAME
+?put@?$LIST@UMHttpHeader@@@@QEAAXHPEAUMHttpHeader@@@Z @1080 NONAME
+?remove@?$LIST@UMHttpHeader@@@@QEAAHH@Z @1081 NONAME
+?remove@?$LIST@UMHttpHeader@@@@QEAAHPEAUMHttpHeader@@@Z @1082 NONAME
+?remove@?$OBJLIST@UMHttpHeader@@@@QEAAHH@Z @1083 NONAME
+?remove@?$OBJLIST@UMHttpHeader@@@@QEAAHPEAUMHttpHeader@@@Z @1084 NONAME
+?removeItem@?$LIST@UMHttpHeader@@@@QEAAPEAUMHttpHeader@@PEAPEAU2@@Z @1085 NONAME
+?removeItem@?$OBJLIST@UMHttpHeader@@@@QEAAXPEAPEAUMHttpHeader@@@Z @1086 NONAME
+?rev_iter@?$LIST@UMHttpHeader@@@@QEBA?AVreverse_iterator@1@XZ @1087 NONAME
+Netlib_HttpBuffer @1088 NONAME
+Netlib_HttpCookies @1089 NONAME
+Netlib_HttpResult @1090 NONAME
+?SetData@MHttpRequest@@QEAAXPEBX_K@Z @1091 NONAME
+?DeleteHeader@MHttpHeaders@@QEAAXPEBD@Z @1092 NONAME

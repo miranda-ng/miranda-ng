@@ -426,47 +426,19 @@ char *PasteToWeb::SendToWeb(char *url, std::map<std::string, std::string> &heade
 	WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, contentBytes, cbLen, nullptr, nullptr);
 	--cbLen;
 
-	int nHeaders = 0;
-	for (std::map<std::string, std::string>::iterator it = headers.begin(); it != headers.end(); ++it) {
-		++nHeaders;
-	}
-
-	NETLIBHTTPHEADER *httpHeaders = new NETLIBHTTPHEADER[nHeaders];
-
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_POST;
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT | NLHPIF_HTTP11;
-	nlhr.szUrl = url;
-	nlhr.headers = httpHeaders;
-	nlhr.pData = contentBytes;
-	nlhr.dataLength = cbLen;
-	nHeaders = 0;
-	std::list<char *> mallBuf;
-	for (std::map<std::string, std::string>::iterator it = headers.begin(); it != headers.end(); ++it) {
-		char *b1 = new char[it->first.length() + 1];
-		char *b2 = new char[it->second.length() + 1];
-		mir_strncpy(b1, it->first.c_str(), it->first.length() + 1);
-		mir_strncpy(b2, it->second.c_str(), it->second.length() + 1);
-		httpHeaders[nHeaders].szName = b1;
-		httpHeaders[nHeaders].szValue = b2;
-		mallBuf.push_back(b1);
-		mallBuf.push_back(b2);
-		++nHeaders;
-	}
+	nlhr.m_szUrl = url;
+	nlhr.SetData(contentBytes, cbLen);
+	for (auto it : headers)
+		nlhr.AddHeader(it.first.c_str(), it.second.c_str());
 
 	char *resCont = nullptr;
-	nlhr.headersCount = nHeaders;
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(g_hNetlibUser, &nlhr));
-	if (nlhrReply != nullptr) {
-		if (nlhrReply->resultCode == 200) {
-			resCont = nlhrReply->pData;
-			nlhrReply->pData = 0;
-		}
-	}
-
-	delete[] httpHeaders;
-	for (std::list<char *>::iterator it = mallBuf.begin(); it != mallBuf.end(); ++it)
-		delete *it;
+	if (nlhrReply != nullptr)
+		if (nlhrReply->resultCode == 200)
+			resCont = nlhrReply->body.Detach();
 
 	mir_free(contentBytes);
 	return resCont;

@@ -52,20 +52,16 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	nlu.toLog = 1;
 
 	// initialize the netlib request
-	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr;
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
-	nlhr.szUrl = szUrl;
+	nlhr.m_szUrl = szUrl;
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(&nlu, &nlhr));
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200) {
-			buf.lpszScriptBuffer = nlhrReply->pData;
-			buf.dwScriptBufferSize = nlhrReply->dataLength + 1;
-
-			nlhrReply->dataLength = 0;
-			nlhrReply->pData = nullptr;
+			buf.dwScriptBufferSize = nlhrReply->body.GetLength() + 1;
+			buf.lpszScriptBuffer = nlhrReply->body.Detach();
 		}
 	}
 }

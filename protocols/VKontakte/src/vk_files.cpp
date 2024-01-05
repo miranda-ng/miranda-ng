@@ -127,7 +127,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 }
 
 
-void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
@@ -201,9 +201,9 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	// Body size
 	long dataLength = iFileLen + DataBegin.GetLength() + DataEnd.GetLength();
 	// Body {
-	char *pData = (char *)mir_alloc(dataLength);
+	pUploadReq->m_szParam.Truncate(dataLength);
+	char *pData = pUploadReq->m_szParam.GetBuffer();
 	memcpy(pData, (void *)DataBegin.GetBuffer(), DataBegin.GetLength());
-	pUploadReq->pData = pData;
 
 	pData += DataBegin.GetLength();
 	long lBytes = (long)fread(pData, 1, iFileLen, pFile);
@@ -211,7 +211,6 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 	if (lBytes != iFileLen) {
 		SendFileFiled(fup, VKERR_ERR_READ_FILE);
-		mir_free(pUploadReq->pData);
 		delete pUploadReq;
 		return;
 	}
@@ -220,12 +219,11 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	memcpy(pData, (void *)DataEnd.GetBuffer(), DataEnd.GetLength());
 	// } Body
 
-	pUploadReq->dataLength = (int)dataLength;
 	pUploadReq->pUserInfo = pReq->pUserInfo;
 	Push(pUploadReq);
 }
 
-void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
@@ -303,7 +301,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	Push(pUploadReq);
 }
 
-void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {

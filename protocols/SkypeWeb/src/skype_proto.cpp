@@ -125,7 +125,7 @@ int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSkypeProto::OnReceiveAwayMsg(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	JsonReply reply(response);
 	if (reply.error())

@@ -69,7 +69,7 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
+JsonReply::JsonReply(MHttpResponse *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;
@@ -80,7 +80,7 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 	if (m_errorCode != 200)
 		return;
 
-	m_root = json_parse(pReply->pData);
+	m_root = json_parse(pReply->body);
 	if (m_root == nullptr) {
 		m_errorCode = 500;
 		return;
@@ -96,10 +96,10 @@ JsonReply::~JsonReply()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest* FacebookProto::CreateRequest(const char *szUrl, const char *szName, const char *szMethod)
+AsyncHttpRequest* FacebookProto::CreateRequest(const char *url, const char *szName, const char *szMethod)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->m_szUrl = szUrl;
+	pReq->m_szUrl = url;
 	pReq->requestType = REQUEST_POST;
 	pReq << CHAR_PARAM("api_key", FB_API_KEY) 
 		<< CHAR_PARAM("device_id", m_szDeviceID) 
@@ -160,26 +160,15 @@ AsyncHttpRequest* FacebookProto::CreateRequestGQL(int64_t query_id) {
 	return pReq;
 }
 
-NETLIBHTTPREQUEST* FacebookProto::ExecuteRequest(AsyncHttpRequest *pReq)
+MHttpResponse* FacebookProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
-
 	pReq->flags |= NLHRF_HTTP11;
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-			pReq->szUrl = str.GetBuffer();
-		}
-		else {
-			pReq->dataLength = pReq->m_szParam.GetLength();
-			pReq->pData = mir_strdup(pReq->m_szParam);
-		}
-	}
+	if (!pReq->m_szParam.IsEmpty() && pReq->requestType == REQUEST_GET)
+		pReq->m_szUrl.AppendFormat("?%s", pReq->m_szParam.c_str());
 
-	debugLogA("Executing request:\n%s", pReq->szUrl);
+	debugLogA("Executing request:\n%s", pReq->m_szUrl.c_str());
 
-	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+	MHttpResponse *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	delete pReq;
 	return reply;
 }

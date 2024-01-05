@@ -45,7 +45,7 @@ struct HttpRequest : public MTHttpRequest<CSteamProto>
 {
 	HttpRequest(int iRequestType, const char *pszUrl);
 
-	NETLIBHTTPREQUEST* Get();
+	MHttpRequest* Get();
 };
 
 struct ProtoRequest

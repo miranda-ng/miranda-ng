@@ -26,7 +26,7 @@ void CIcqProto::GetPermitDeny()
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny) << AIMSID(this));
 }
 
-void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnGetPermitDeny(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root.error() == 200)

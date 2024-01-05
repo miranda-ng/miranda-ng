@@ -51,7 +51,7 @@ SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 	return si;
 }
 
-void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnLoadChats(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -380,7 +380,7 @@ void CSkypeProto::AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const 
 	Chat_Event(&gce);
 }
 
-void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())

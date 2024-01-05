@@ -28,9 +28,9 @@ static std::string sub(const std::string &str, const char *start, const char *en
 	return (i2 == -1) ? "" : str.substr(i1, i2 - i1);
 }
 
-void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnOAuthStart(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -38,7 +38,7 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	std::regex regex;
 	std::smatch match;
-	std::string content = response->pData;
+	std::string content = response->body.c_str();
 
 	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";
 
@@ -52,11 +52,11 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	std::map<std::string, std::string> scookies;
 	regex = "^(.+?)=(.*?);";
 
-	for (int i = 0; i < response->headersCount; i++) {
-		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+	for (auto &it : *response) {
+		if (mir_strcmpi(it->szName, "Set-Cookie"))
 			continue;
 
-		content = response->headers[i].szValue;
+		content = it->szValue;
 		if (std::regex_search(content, match, regex))
 			scookies[match[1]] = match[2];
 	}
@@ -83,18 +83,18 @@ bool CSkypeProto::CheckOauth(const char *szResponse)
 	return true;
 }
 
-void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *)
+void CSkypeProto::OnOAuthConfirm(MHttpResponse *response, AsyncHttpRequest *)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	if (CheckOauth(response->pData))
+	if (CheckOauth(response->body))
 		return;
 
-	std::string content = response->pData;
+	std::string content = response->body.c_str();
 	std::string PPFT = sub(content, "sFT:'", "'");
 	std::string opid = sub(content, "opid=", "&");
 	if (PPFT.empty() || opid.empty()) {
@@ -107,11 +107,11 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	std::smatch match;
 	CMStringA mscookies;
 
-	for (int i = 0; i < response->headersCount; i++) {
-		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+	for (auto &it : *response) {
+		if (mir_strcmpi(it->szName, "Set-Cookie"))
 			continue;
 
-		content = response->headers[i].szValue;
+		content = it->szValue;
 		if (std::regex_search(content, match, regex))
 			mscookies.Append(match[1].str().c_str());
 	}
@@ -119,23 +119,23 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	PushRequest(new OAuthRequest(mscookies.c_str(), PPFT.c_str(), opid.c_str()));
 }
 
-void CSkypeProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnOAuthAuthorize(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	if (!CheckOauth(response->pData)) {
+	if (!CheckOauth(response->body)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 }
 
-void CSkypeProto::OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnOAuthEnd(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -143,7 +143,7 @@ void CSkypeProto::OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	std::regex regex;
 	std::smatch match;
-	std::string content = response->pData;
+	std::string content = response->body;
 
 	regex = "<input.+?type=\"hidden\".+?name=\"skypetoken\".+?value=\"(.+?)\".*?/>";
 	if (!std::regex_search(content, match, regex)) {

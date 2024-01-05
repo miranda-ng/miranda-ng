@@ -30,21 +30,15 @@ struct GetAvatarRequest : public AsyncHttpRequest
 
 struct SetAvatarRequest : public AsyncHttpRequest
 {
-	SetAvatarRequest(const uint8_t *data, size_t dataSize, const char *szMime, CSkypeProto *ppro) :
+	SetAvatarRequest(const uint8_t *data, int dataSize, const char *szMime, CSkypeProto *ppro) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_API, 0, &CSkypeProto::OnSentAvatar)
 	{
 		m_szUrl.AppendFormat("/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
 
 		AddHeader("Content-Type", szMime);
 
-		pData = (char *)mir_alloc(dataSize);
-		memcpy(pData, data, dataSize);
-		dataLength = (int)dataSize;
-	}
-
-	~SetAvatarRequest()
-	{
-		mir_free(pData);
+		m_szParam.Truncate(dataSize);
+		memcpy(m_szParam.GetBuffer(), data, dataSize);
 	}
 };
 

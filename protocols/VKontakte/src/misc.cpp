@@ -315,14 +315,14 @@ bool CVkProto::IsGroupUser(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root)
+JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, MHttpResponse *reply, JSONNode &root)
 {
 	debugLogA("CVkProto::CheckJsonResponse");
 
-	if (!reply || !reply->pData)
+	if (!reply || reply->body.IsEmpty())
 		return nullNode;
 
-	root = JSONNode::parse(reply->pData);
+	root = JSONNode::parse(reply->body);
 
 	if (!CheckJsonResult(pReq, root))
 		return nullNode;
@@ -442,7 +442,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	return (iErrorCode == 0);
 }
 
-void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveSmth(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
@@ -575,14 +575,15 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain)
+void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 {
 	debugLogA("CVkProto::GrabCookies");
-	for (int i = 0; i < nhr->headersCount; i++) {
-		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
+
+	for (auto &hdr : *nhr) {
+		if (_stricmp(hdr->szName, "Set-cookie"))
 			continue;
 
-		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
+		CMStringA szValue = hdr->szValue, szCookieName, szCookieVal, szDomain;
 		int iStart = 0;
 		while (true) {
 			bool bFirstToken = (iStart == 0);
@@ -1468,16 +1469,16 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 					if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
 						T2Utf szUrl(wszUrl);
-						NETLIBHTTPREQUEST req = {};
+						MHttpRequest req;
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 						req.requestType = REQUEST_GET;
-						req.szUrl = szUrl;
+						req.m_szUrl = szUrl.get();
 
-						NETLIBHTTPREQUEST* pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+						MHttpResponse *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+						if (pReply != nullptr && pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
 							bSuccess = true;
 							FILE* out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->pData, 1, pReply->dataLength, out);
+							fwrite(pReply->body, 1, pReply->body.GetLength(), out);
 							fclose(out);
 						}
 					}

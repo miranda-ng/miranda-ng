@@ -242,7 +242,7 @@ void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnFileRecv(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	if (pReply->resultCode != 200)
 		return;
@@ -255,10 +255,10 @@ void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	int cbWritten = _write(fileId, pReply->pData, pReply->dataLength);
+	int cbWritten = _write(fileId, pReply->body, pReply->body.GetLength());
 	_close(fileId);
-	if (cbWritten != pReply->dataLength) {
-		debugLogW(L"Error writing data into [%s]: %d instead of %d", ofd->wszPath.c_str(), cbWritten, pReply->dataLength);
+	if (cbWritten != pReply->body.GetLength()) {
+		debugLogW(L"Error writing data into [%s]: %d instead of %d", ofd->wszPath.c_str(), cbWritten, pReply->body.GetLength());
 		return;
 	}
 

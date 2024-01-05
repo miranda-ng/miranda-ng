@@ -100,8 +100,8 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
-		const char *error = response && response->dataLength
-			? response->pData
+		const char *error = response && response->body.GetLength()
+			? response->body
 			: HttpStatusToError(response ? response->resultCode : 0);
 
 		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
@@ -110,7 +110,7 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
 		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
@@ -180,7 +180,7 @@ auto CGDriveService::CreateUploadSession(const std::string &parentId, const std:
 	HandleHttpError(response);
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) 
-		if (auto *pszHdr = Netlib_GetHeader(response, "Location"))
+		if (auto *pszHdr = response->FindHeader("Location"))
 			return std::string(pszHdr);
 
 	HttpResponseToError(response);

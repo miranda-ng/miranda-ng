@@ -691,22 +691,16 @@ LBL_Fail:
 	if (!szUrl)
 		goto LBL_Fail;
 	
-	NETLIBHTTPHEADER hdr[10];
-
-	NETLIBHTTPREQUEST nlhr = {};
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_PUT;
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
-	nlhr.szUrl = (char *)szUrl;
+	nlhr.m_szUrl = szUrl;
 
 	for (auto *it : TiXmlFilter(putNode, "header")) {
 		auto *szName = it->Attribute("name");
 		auto *szValue = it->GetText();
-		if (szName && szValue && nlhr.headersCount < _countof(hdr)) {
-			nlhr.headers = hdr;
-			hdr[nlhr.headersCount].szName = (char *)szName;
-			hdr[nlhr.headersCount].szValue = (char *)szValue;
-			nlhr.headersCount++;
-		}
+		if (szName && szValue)
+			nlhr.AddHeader(szName, szValue);
 	}
 
 	const wchar_t *pwszFileName = ft->std.pszFiles.w[ft->std.currentFileNumber];
@@ -728,8 +722,8 @@ LBL_Fail:
 		EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
 
 		int tmp_len = 0, outl;
-		//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
-		unsigned char *out = (unsigned char *)mir_alloc(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		nlhr.m_szParam.Truncate(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		unsigned char *out = (unsigned char *)nlhr.m_szParam.GetBuffer();
 		unsigned char *in = (unsigned char *)mir_alloc(128 * 1024);
 		for (;;) {
 			int inl = _read(fileId, in, 128 * 1024);
@@ -746,13 +740,11 @@ LBL_Fail:
 		EVP_CIPHER_CTX_free(ctx);
 
 		memcpy(out + tmp_len, tag, _countof(tag));
-		nlhr.dataLength = tmp_len + _countof(tag);
-		nlhr.pData = (char *)out;
 	}
 	else {
-		nlhr.dataLength = _filelength(fileId);
-		nlhr.pData = new char[nlhr.dataLength];
-		_read(fileId, nlhr.pData, nlhr.dataLength);
+		int iLength = _filelength(fileId);
+		nlhr.m_szParam.Truncate(iLength);
+		_read(fileId, nlhr.m_szParam.GetBuffer(), iLength);
 	}
 	_close(fileId);
 

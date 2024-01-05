@@ -43,19 +43,15 @@ void CDiscordProto::GatewayThread(void*)
 
 bool CDiscordProto::GatewayThreadWorker()
 {
-	NETLIBHTTPHEADER hdrs[] =
-	{
-		{ "Origin", "https://discord.com" },
-		{ 0, 0 },
-		{ 0, 0 },
-	};
-
+	bool bHasCookie = false;
+	MHttpHeaders hdrs;
+	hdrs.AddHeader("Origin", "https://discord.com");
 	if (!m_szWSCookie.IsEmpty()) {
-		hdrs[1].szName = "Cookie";
-		hdrs[1].szValue = m_szWSCookie.GetBuffer();
+		bHasCookie = true;
+		hdrs.AddHeader("Cookie", m_szWSCookie);
 	}
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", hdrs));
+	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
@@ -66,7 +62,7 @@ bool CDiscordProto::GatewayThreadWorker()
 	if (pReply->resultCode != 101) {
 		// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again
 		if (pReply->resultCode == 404) {
-			if (hdrs[1].szName == nullptr)
+			if (!bHasCookie)
 				return true;
 
 			m_szWSCookie.Empty(); // don't use the same cookie twice

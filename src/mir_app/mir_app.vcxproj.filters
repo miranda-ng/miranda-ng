@@ -428,6 +428,12 @@
     <ClCompile Include="src\srmm_main.cpp">
       <Filter>Source Files\SRMM</Filter>
     </ClCompile>
+    <ClCompile Include="src\MHttpResponse.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MHttpHeaders.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">

@@ -71,10 +71,10 @@ void CTwitterProto::ShowPopup(const char *text, int Error)
 
 bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filename)
 {
-	NETLIBHTTPREQUEST req = { sizeof(req) };
+	MHttpRequest req;
 	req.requestType = REQUEST_GET;
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
-	req.szUrl = const_cast<char*>(url.c_str());
+	req.m_szUrl = const_cast<char*>(url.c_str());
 
 	NLHR_PTR resp(Netlib_HttpTransaction(hNetlib, &req));
 	if (!resp)
@@ -89,7 +89,7 @@ bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filena
 
 	// Write to file
 	if (FILE *f = _wfopen(filename, L"wb")) {
-		fwrite(resp->pData, 1, resp->dataLength, f);
+		fwrite(resp->body, 1, resp->body.GetLength(), f);
 		fclose(f);
 	}
 	else return false;

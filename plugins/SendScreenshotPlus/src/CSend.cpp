@@ -422,36 +422,10 @@ const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* e
 	return begin;
 }
 
-static void HTTPFormAppendData(NETLIBHTTPREQUEST* nlhr, size_t* dataMax, char** dataPos, const char* data, size_t len)
-{
-	nlhr->dataLength = (*dataPos - nlhr->pData);
-	if (nlhr->dataLength + len >= *dataMax) {
-		*dataPos = nlhr->pData;
-		*dataMax += 0x1000 + 0x1000 * (len >> 12);
-		nlhr->pData = (char*)mir_realloc(nlhr->pData, *dataMax);
-		if (!nlhr->pData) mir_free(*dataPos);
-		*dataPos = nlhr->pData;
-		if (!*dataPos)
-			return;
-		*dataPos += nlhr->dataLength;
-	}
-	if (data) {
-		memcpy(*dataPos, data, sizeof(char)*len); *dataPos += len;
-		nlhr->dataLength += (int)len; // not necessary
-	}
-}
-
-void CSend::HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr)
-{
-	mir_free(nlhr->headers[0].szValue), nlhr->headers[0].szValue = nullptr;
-	mir_free(nlhr->headers), nlhr->headers = nullptr;
-	mir_free(nlhr->pData), nlhr->pData = nullptr;
-}
-
-int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum)
+int CSend::HTTPFormCreate(MHttpRequest* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum)
 {
 	char boundary[16];
-	memcpy(boundary, "--M461C/", 8);
+	strcpy(boundary, "--M461C/");
 	{
 		union
 		{
@@ -467,57 +441,40 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 	}
 	nlhr->requestType = requestType;
 	nlhr->flags = NLHRF_HTTP11;
-	if (!strncmp(url, "https://", 8)) nlhr->flags |= NLHRF_SSL;
-	nlhr->szUrl = (char*)url;
-	nlhr->headersCount = 3;
+	if (!strncmp(url, "https://", 8))
+		nlhr->flags |= NLHRF_SSL;
+	nlhr->m_szUrl = url;
+	nlhr->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=") + boundary);
+	nlhr->AddHeader("User-Agent", __USER_AGENT_STRING);
+	nlhr->AddHeader("Accept-Language", "en-us,en;q=0.8");
 	for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
-		if (!(iter->flags&HTTPFF_HEADER)) break;
-		++nlhr->headersCount;
+		if (!(iter->flags & HTTPFF_HEADER))
+			break;
+		nlhr->AddHeader(iter->name, iter->value_str);
 	}
-	nlhr->headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr->headersCount);
-	{
-		char* contenttype = (char*)mir_alloc(sizeof(char)*(30 + 1 + sizeof(boundary)));
-		memcpy(contenttype, "multipart/form-data; boundary=", 30);
-		memcpy(contenttype + 30, boundary, sizeof(boundary));
-		contenttype[30 + sizeof(boundary)] = '\0';
-		nlhr->headers[0].szName = "Content-Type";
-		nlhr->headers[0].szValue = contenttype;
-		nlhr->headers[1].szName = "User-Agent";
-		nlhr->headers[1].szValue = __USER_AGENT_STRING;
-		nlhr->headers[2].szName = "Accept-Language";
-		nlhr->headers[2].szValue = "en-us,en;q=0.8";
-		int i = 3;
-		for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
-			if (!(iter->flags&HTTPFF_HEADER)) break;
-			nlhr->headers[i].szName = (char*)iter->name;
-			nlhr->headers[i++].szValue = (char*)iter->value_str;
-		}
-	}
-	char* dataPos = nlhr->pData;
-	size_t dataMax = 0;
-	for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
-		if (iter->flags&HTTPFF_HEADER) continue;
-		HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, 2 + sizeof(boundary) + 40);
-		memset(dataPos, '-', 2); dataPos += 2;
-		memcpy(dataPos, boundary, sizeof(boundary)); dataPos += sizeof(boundary);
-		memcpy(dataPos, "\r\nContent-Disposition: form-data; name=\"", 40); dataPos += 40;
-		size_t namelen = mir_strlen(iter->name), valuelen = 0;
-		if (!(iter->flags&HTTPFF_INT))
-			valuelen = mir_strlen(iter->value_str);
-		if (iter->flags&HTTPFF_FILE) {
-			const char* filename = strrchr(iter->value_str, '\\');
+
+	auto &str = nlhr->m_szParam;
+	for (HTTPFormData *iter = frm, *end = frm + frmNum; iter != end; ++iter) {
+		if (iter->flags & HTTPFF_HEADER)
+			continue;
+		
+		str.AppendFormat("--%s", boundary);
+		str.Append("\r\nContent-Disposition: form-data; name=\"");
+
+		if (iter->flags & HTTPFF_FILE) {
+			const char *filename = strrchr(iter->value_str, '\\');
 			if (!filename) filename = strrchr(iter->value_str, '/');
 			if (!filename) filename = iter->value_str;
 			else ++filename;
-			valuelen = mir_strlen(filename);
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 13 + valuelen + 17);
-			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
-			memcpy(dataPos, "\"; filename=\"", 13); dataPos += 13;
-			memcpy(dataPos, filename, valuelen); dataPos += valuelen;
-			memcpy(dataPos, "\"\r\nContent-Type: ", 17); dataPos += 17;
+
+			str.Append(iter->name);
+			str.Append("\"; filename=\"");
+			str.Append(filename);
+			str.Append("\"\r\nContent-Type: ");
+
 			/// add mime type
-			const char* mime = "application/octet-stream";
-			const char* fileext = strrchr(filename, '.');
+			const char *mime = "application/octet-stream";
+			const char *fileext = strrchr(filename, '.');
 			if (fileext) {
 				if (!mir_strcmp(fileext, ".jpg") || !mir_strcmp(fileext, ".jpeg") || !mir_strcmp(fileext, ".jpe"))
 					mime = "image/jpeg";
@@ -530,71 +487,49 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 				else if (!mir_strcmp(fileext, ".tif") || !mir_strcmp(fileext, ".tiff"))
 					mime = "image/tiff";
 			}
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, mime, mir_strlen(mime));
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, "\r\n\r\n", 4);
+			str.Append(mime);
+			str.Append("\r\n\r\n");
+			
 			/// add file content
 			size_t filesize = 0;
-			FILE* fp = fopen(iter->value_str, "rb");
+			FILE *fp = fopen(iter->value_str, "rb");
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
 				filesize = ftell(fp); fseek(fp, 0, SEEK_SET);
-				HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, filesize + 2);
-				if (fread(dataPos, 1, filesize, fp) != filesize) {
+				ptrA buf((char *)mir_alloc(filesize));
+				if (fread(buf, 1, filesize, fp) != filesize) {
+					str.Append(buf, filesize);
 					fclose(fp), fp = nullptr;
 				}
 			}
 			if (!fp) {
-				HTTPFormDestroy(nlhr);
 				Error(L"Error occurred when opening local file.\nAborting file upload...");
 				Exit(ACKRESULT_FAILED);
 				return 1;
 			}
-			else
-				fclose(fp);
-			dataPos += filesize;
-			memcpy(dataPos, "\r\n", 2); dataPos += 2;
+			fclose(fp);
+			str.Append("\r\n");
 		}
-		else if (iter->flags&HTTPFF_8BIT) {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 38 + valuelen + 2);
-			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
-			memcpy(dataPos, "\"\r\nContent-Transfer-Encoding: 8bit\r\n\r\n", 38); dataPos += 38;
-			memcpy(dataPos, iter->value_str, valuelen); dataPos += valuelen;
-			memcpy(dataPos, "\r\n", 2); dataPos += 2;
+		else if (iter->flags & HTTPFF_8BIT) {
+			str.Append(iter->name);
+			str.Append("\"\r\nContent-Transfer-Encoding: 8bit\r\n\r\n");
+			str.Append(iter->value_str);
+			str.Append("\r\n");
 		}
-		else if (iter->flags&HTTPFF_INT) {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 5 + 17/*max numbers*/ + 2);
-			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
-			memcpy(dataPos, "\"\r\n\r\n", 5); dataPos += 5;
-			int ret = snprintf(dataPos, 17, "%Id", iter->value_int);
-			if (ret < 17 && ret>0) dataPos += ret;
-			memcpy(dataPos, "\r\n", 2); dataPos += 2;
+		else if (iter->flags & HTTPFF_INT) {
+			str.Append(iter->name);
+			str.Append("\"\r\n\r\n");
+			str.AppendFormat("%Id", iter->value_int);
+			str.Append("\r\n");
 		}
 		else {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 5 + valuelen + 2);
-			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
-			memcpy(dataPos, "\"\r\n\r\n", 5); dataPos += 5;
-			memcpy(dataPos, iter->value_str, valuelen); dataPos += valuelen;
-			memcpy(dataPos, "\r\n", 2); dataPos += 2;
+			str.Append(iter->name);
+			str.Append("\"\r\n\r\n");
+			str.Append(iter->value_str);
+			str.Append("\r\n");
 		}
 	}
-	HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, 2 + sizeof(boundary) + 4);
-	memset(dataPos, '-', 2); dataPos += 2;
-	memcpy(dataPos, boundary, sizeof(boundary)); dataPos += sizeof(boundary);
-	memcpy(dataPos, "--\r\n", 4); dataPos += 4;
-	nlhr->dataLength = dataPos - nlhr->pData;
-#ifdef _DEBUG /// print request content to "_sendss_tmp" file for debugging
-	{
-		FILE* fp = fopen("_sendss_tmp", "wb");
-		if (fp) {
-			fprintf(fp, "--Target-- %s\n", nlhr->szUrl);
-			for (int i = 0; i < nlhr->headersCount; ++i) {
-				fprintf(fp, "%s: %s\n", nlhr->headers[i].szName, nlhr->headers[i].szValue);
-			}
-			fprintf(fp, "\n\n");
-			fwrite(nlhr->pData, 1, nlhr->dataLength, fp);
-			fclose(fp);
-		}
-	}
-#endif // _DEBUG
+
+	str.AppendFormat("--%s--\r\n", boundary);
 	return 0;
 }

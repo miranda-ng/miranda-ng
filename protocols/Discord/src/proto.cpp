@@ -329,7 +329,7 @@ HANDLE CDiscordProto::SearchAdvanced(HWND hwndDlg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic search - by SnowFlake
 
-void CDiscordProto::OnReceiveUserinfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveUserinfo(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -459,7 +459,7 @@ MCONTACT CDiscordProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMsg
 
-void CDiscordProto::OnSendMsg(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnSendMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -574,7 +574,7 @@ int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMarkRead(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CDiscordProto::OnReceiveMarkRead(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	if (root)
@@ -712,10 +712,10 @@ void CDiscordProto::SendFileThread(void *param)
 
 	szBoundary.Insert(0, "\r\n");
 	szBoundary.Append("--\r\n");
-	pReq->dataLength = int(szBody.GetLength() + szBoundary.GetLength() + cbBytes);
-	pReq->pData = (char*)mir_alloc(pReq->dataLength+1);
-	memcpy(pReq->pData, szBody.c_str(), szBody.GetLength());
-	size_t cbRead = fread(pReq->pData + szBody.GetLength(), 1, cbBytes, in);
+	pReq->m_szParam.Truncate(int(szBody.GetLength() + szBoundary.GetLength() + cbBytes));
+
+	memcpy(pReq->m_szParam.GetBuffer(), szBody.c_str(), szBody.GetLength());
+	size_t cbRead = fread(pReq->m_szParam.GetBuffer() + szBody.GetLength(), 1, cbBytes, in);
 	fclose(in);
 	if (cbBytes != cbRead) {
 		debugLogA("cannot read file %S: %d bytes read instead of %d", p->wszFileName.c_str(), cbRead, cbBytes);
@@ -723,14 +723,14 @@ void CDiscordProto::SendFileThread(void *param)
 		goto LBL_Error;
 	}
 	
-	memcpy(pReq->pData + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
+	memcpy(pReq->m_szParam.GetBuffer() + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
 	pReq->pUserInfo = p;
 	Push(pReq);
 
 	ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, param);
 }
 
-void CDiscordProto::OnReceiveFile(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveFile(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	SendFileThreadParam *p = (SendFileThreadParam*)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {

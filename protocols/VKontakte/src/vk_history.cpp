@@ -166,7 +166,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, VKMessageID_t iLastMsg)
 	}
 }
 
-void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveHistoryMessages %d", reply->resultCode);
 	if (reply->resultCode != 200 || !pReq->pUserInfo) {

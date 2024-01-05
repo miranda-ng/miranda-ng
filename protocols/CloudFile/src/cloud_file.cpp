@@ -129,16 +129,16 @@ char* CCloudService::HttpStatusToError(int status)
 	return "Unknown error";
 }
 
-void CCloudService::HttpResponseToError(NETLIBHTTPREQUEST *response)
+void CCloudService::HttpResponseToError(MHttpResponse *response)
 {
 	if (response == nullptr)
 		throw Exception(HttpStatusToError());
-	if (response->dataLength)
-		throw Exception(response->pData);
+	if (response->body.GetLength())
+		throw Exception(response->body.c_str());
 	throw Exception(HttpStatusToError(response->resultCode));
 }
 
-void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
+void CCloudService::HandleHttpError(MHttpResponse *response)
 {
 	if (response == nullptr)
 		throw Exception(HttpStatusToError());
@@ -152,11 +152,11 @@ void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
 	HttpResponseToError(response);
 }
 
-JSONNode CCloudService::GetJsonResponse(NETLIBHTTPREQUEST *response)
+JSONNode CCloudService::GetJsonResponse(MHttpResponse *response)
 {
 	HandleHttpError(response);
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root.isnull())
 		throw Exception(HttpStatusToError());
 

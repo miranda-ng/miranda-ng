@@ -52,9 +52,9 @@ void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 	SvcGetAvatarInfo(0, (LPARAM)&ai);
 }
 
-void CSkypeProto::OnReceiveAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	if (response == nullptr || response->pData == nullptr)
+	if (response == nullptr || response->body.IsEmpty())
 		return;
 	
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
@@ -62,7 +62,7 @@ void CSkypeProto::OnReceiveAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest 
 		return;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	ai.format = ProtoGetBufferFormat(response->pData);
+	ai.format = ProtoGetBufferFormat(response->body);
 	setByte(hContact, "AvatarType", ai.format);
 	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
 
@@ -72,13 +72,13 @@ void CSkypeProto::OnReceiveAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest 
 		return;
 	}
 
-	fwrite(response->pData, 1, response->dataLength, out);
+	fwrite(response->body, 1, response->body.GetLength(), out);
 	fclose(out);
 	setByte(hContact, "NeedNewAvatar", 0);
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 }
 
-void CSkypeProto::OnSentAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnSentAvatar(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply root(response);
 	if (root.error())
@@ -175,7 +175,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 					if (data != NULL && fread(data, sizeof(uint8_t), length, hFile) == length) {
 						const char *szMime = FreeImage_GetFIFMimeType(FreeImage_GetFIFFromFilenameU(path));
 
-						PushRequest(new SetAvatarRequest(data, length, szMime, this));
+						PushRequest(new SetAvatarRequest(data, (int)length, szMime, this));
 						fclose(hFile);
 						return 0;
 					}

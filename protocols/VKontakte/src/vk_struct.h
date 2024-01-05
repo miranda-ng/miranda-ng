@@ -25,7 +25,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 	AsyncHttpRequest();
 	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority = rpMedium);
 
-	void Redirect(NETLIBHTTPREQUEST*);
+	void Redirect(MHttpResponse*);
 
 	int m_iRetry;
 	int m_iErrorCode;

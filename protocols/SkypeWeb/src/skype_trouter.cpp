@@ -26,7 +26,7 @@ void CSkypeProto::ProcessTimer()
 	SendPresence();
 }
 
-void CSkypeProto::OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnReceiveStatus(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())

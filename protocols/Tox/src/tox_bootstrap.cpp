@@ -121,12 +121,12 @@ void CToxProto::UpdateNodes()
 	debugLogA(__FUNCTION__": updating nodes");
 	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
-	if (!response || response->resultCode != HTTP_CODE_OK || !response->pData) {
+	if (!response || response->resultCode != HTTP_CODE_OK || response->body.IsEmpty()) {
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
 		debugLogA(__FUNCTION__": failed to dowload tox.json");
 		return;
@@ -142,7 +142,7 @@ void CToxProto::UpdateNodes()
 		return;
 	}
 
-	if (fwrite(response->pData, sizeof(char), response->dataLength, hFile) != (size_t)response->dataLength)
+	if (fwrite(response->body, sizeof(char), response->body.GetLength(), hFile) != (size_t)response->body.GetLength())
 		debugLogA(__FUNCTION__": failed to write tox.json");
 
 	fclose(hFile);

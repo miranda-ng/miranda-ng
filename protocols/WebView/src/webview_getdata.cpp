@@ -104,20 +104,12 @@ void GetData(void *param)
 	if (mir_strlen(url) < 3)
 		WErrorPopup(hContact, TranslateT("URL not supplied"));
 
-	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
-	nlhr.szUrl = url;
-	nlhr.headersCount = 2;
-
-	NETLIBHTTPHEADER headers[2];
-	headers[0].szName = "User-Agent";
-	headers[0].szValue = NETLIB_USER_AGENT;
-
-	headers[1].szName = "Content-Length";
-	headers[1].szValue = nullptr;
-
-	nlhr.headers = headers;
+	nlhr.m_szUrl = url;
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Content-Length", nullptr);
 
 	if ( g_plugin.getByte(NO_PROTECT_KEY, 0)) // disable 
 		AlreadyDownloading = 0;
@@ -144,10 +136,10 @@ void GetData(void *param)
 				WErrorPopup(hContact, statusText);
 				db_set_ws(hContact, "CList", "StatusMsg", statusText);
 			}
-			if (nlhrReply->dataLength) {
+			if (nlhrReply->body.GetLength()) {
 				trunccount = 0;
-				downloadsize = (ULONG)mir_strlen(nlhrReply->pData);
-				strncpy_s(truncated2, nlhrReply->pData, _TRUNCATE);
+				downloadsize = nlhrReply->body.GetLength();
+				strncpy_s(truncated2, nlhrReply->body, _TRUNCATE);
 				AlreadyDownloading = 1;
 			} // END DATELENGTH
 		} // END REPLY

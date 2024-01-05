@@ -130,10 +130,10 @@ void WhatsAppProto::ServerFetchAvatar(const char *jid)
 
 bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 {
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.flags = NLHRF_NODUMP | NLHRF_PERSISTENT | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.requestType = REQUEST_GET;
-	req.szUrl = (char*)pszUrl;
+	req.m_szUrl = pszUrl;
 	req.nlc = hAvatarConn;
 
 	NLHR_PTR pReply(Netlib_HttpTransaction(hAvatarUser, &req));
@@ -146,14 +146,14 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 	hAvatarConn = pReply->nlc;
 
 	bool bSuccess = false;
-	if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-		if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
+	if (pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
+		if (auto *pszHdr = pReply->FindHeader("Content-Type"))
 			ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
 		if (ai.format != PA_FORMAT_UNKNOWN) {
 			FILE *fout = _wfopen(ai.filename, L"wb");
 			if (fout) {
-				fwrite(pReply->pData, 1, pReply->dataLength, fout);
+				fwrite(pReply->body, 1, pReply->body.GetLength(), fout);
 				fclose(fout);
 				bSuccess = true;
 			}

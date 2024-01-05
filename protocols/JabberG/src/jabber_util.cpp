@@ -881,17 +881,17 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HNETLIBCONN hHttpCon = nullptr;
 	for (auto &it : avs) {
-		NETLIBHTTPREQUEST nlhr = { 0 };
+		MHttpRequest nlhr;
 		nlhr.requestType = REQUEST_GET;
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT;
-		nlhr.szUrl = it->Url;
+		nlhr.m_szUrl = it->Url;
 		nlhr.nlc = hHttpCon;
 
 		NLHR_PTR res(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 		if (res) {
 			hHttpCon = res->nlc;
-			if (res->resultCode == 200 && res->dataLength) {
-				int pictureType = ProtoGetBufferFormat(res->pData);
+			if (res->resultCode == 200 && !res->body.IsEmpty()) {
+				int pictureType = ProtoGetBufferFormat(res->body);
 				if (pictureType != PA_FORMAT_UNKNOWN) {
 					PROTO_AVATAR_INFORMATION ai;
 					ai.format = pictureType;
@@ -909,7 +909,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					uint8_t digest[MIR_SHA1_HASH_SIZE];
 					mir_sha1_ctx sha;
 					mir_sha1_init(&sha);
-					mir_sha1_append(&sha, (uint8_t*)res->pData, res->dataLength);
+					mir_sha1_append(&sha, (uint8_t*)res->body.c_str(), res->body.GetLength());
 					mir_sha1_finish(&sha, digest);
 					bin2hex(digest, sizeof(digest), buffer);
 
@@ -920,7 +920,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 						wcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 						FILE* out = _wfopen(tszFileName, L"wb");
 						if (out != nullptr) {
-							fwrite(res->pData, res->dataLength, 1, out);
+							fwrite(res->body, res->body.GetLength(), 1, out);
 							fclose(out);
 							setString(ai.hContact, "AvatarHash", buffer);
 							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);

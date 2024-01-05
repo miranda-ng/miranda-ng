@@ -362,7 +362,7 @@ void CIcqProto::ProcessTyping(const JSONNode &ev)
 	}
 }
 
-void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnFetchEvents(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200) {

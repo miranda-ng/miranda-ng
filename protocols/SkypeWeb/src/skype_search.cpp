@@ -30,7 +30,7 @@ void CSkypeProto::SearchBasicThread(void *id)
 		PushRequest(new GetSearchRequest(T2Utf((wchar_t *)id)));
 }
 
-void CSkypeProto::OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnSearch(MHttpResponse *response, AsyncHttpRequest*)
 {
 	debugLogA(__FUNCTION__);
 

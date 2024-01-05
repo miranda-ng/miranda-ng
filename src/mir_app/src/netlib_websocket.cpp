@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../libs/zlib/src/zlib.h"
 
-MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost, NETLIBHTTPHEADER *pHeaders)
+MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost, const MHttpHeaders *pHeaders)
 {
 	CMStringA tmpHost(szHost);
 
@@ -37,7 +37,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *s
 
 	auto *nlr = new MHttpRequest;
 	nlr->flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
-	nlr->szUrl = tmpHost.GetBuffer();
+	nlr->m_szUrl = tmpHost.GetBuffer();
 	nlr->AddHeader("Accept", "*/*");
 	nlr->AddHeader("Upgrade", "websocket");
 	nlr->AddHeader("Pragma", "no-cache");
@@ -50,12 +50,9 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *s
 	nlr->AddHeader("Sec-WebSocket-Version", "13");
 	nlr->AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_max_window_bits");
 	
-	if (pHeaders) {
-		while (pHeaders->szName != nullptr) {
-			nlr->AddHeader(pHeaders->szName, pHeaders->szValue);
-			pHeaders++;
-		}
-	}
+	if (pHeaders)
+		for (auto &it: *pHeaders)
+			nlr->AddHeader(it->szName, it->szValue);
 
 	auto *pReply = Netlib_HttpTransaction(nlu, nlr);
 	delete nlr;

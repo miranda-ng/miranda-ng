@@ -9,15 +9,6 @@ void CALLBACK waitStub()
 	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG));
 }
 
-static int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
-{
-	for (int i = 0; i < pRequest->headersCount; ++i)
-		if (0 == _stricmp(pRequest->headers[i].szName, hdr))
-			return i;
-
-	return -1;
-}
-
 bool CHTTPSession::OpenURL(const CMStringW &rsURL)
 {
 	m_szUrl = rsURL;
@@ -29,20 +20,14 @@ bool CHTTPSession::ReadResponce(CMStringW &rsResponce)
 	if (m_szUrl.IsEmpty())
 		return false;
 
-	NETLIBHTTPHEADER headers[] =
-	{
-		{ "User-Agent", NETLIB_USER_AGENT },
-		{ "Connection", "close" },
-		{ "Cache-Control", "no-cache" },
-		{ "Pragma", "no-cache" }
-	};
-
-	NETLIBHTTPREQUEST nlhr = {};
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	nlhr.szUrl = m_szUrl.GetBuffer();
-	nlhr.headersCount = _countof(headers);
-	nlhr.headers = headers;
+	nlhr.m_szUrl = m_szUrl;
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Connection", "close");
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
 
 	bool bResult = false;
 	NLHR_PTR pReply(0);
@@ -52,13 +37,12 @@ bool CHTTPSession::ReadResponce(CMStringW &rsResponce)
 	}
 
 	if (pReply) {
-		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-			CMStringA buf(pReply->pData, pReply->dataLength);
-			int nIndex = find_header(pReply, "Content-Type");
-			if ((-1 != nIndex) && (nullptr != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8")))
-				rsResponce = ptrW(mir_utf8decodeW(buf));
+		if ((200 == pReply->resultCode) && !pReply->body.IsEmpty()) {
+			auto *pEncoding = pReply->FindHeader("Content-Type");
+			if (pEncoding && strstr(pEncoding, "utf-8"))
+				rsResponce = ptrW(mir_utf8decodeW(pReply->body));
 			else
-				rsResponce = _A2T(buf);
+				rsResponce = _A2T(pReply->body);
 
 			bResult = true;
 		}

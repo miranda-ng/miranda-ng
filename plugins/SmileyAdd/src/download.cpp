@@ -42,22 +42,17 @@ static bool threadRunning;
 bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwnl)
 {
 	int result = 0xBADBAD;
-	char *szRedirUrl = nullptr;
-	NETLIBHTTPREQUEST nlhr = {};
 
 	// initialize the netlib request
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
-	nlhr.szUrl = (char*)szUrl;
+	nlhr.m_szUrl = szUrl;
 	nlhr.nlc = hHttpDwnl;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
-	nlhr.headersCount = 2;
-	nlhr.headers = (NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName = "User-Agent";
-	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName = "Connection";
-	nlhr.headers[1].szValue = "close";
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Connection", "close");
 
 	while (result == 0xBADBAD) {
 		// download the page
@@ -73,35 +68,13 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 				int res = -1;
 				int fh = _open(szDest, _O_BINARY | _O_WRONLY | _O_CREAT, _S_IREAD | _S_IWRITE);
 				if (fh != -1) {
-					res = _write(fh, nlhrReply->pData, nlhrReply->dataLength);
+					res = _write(fh, nlhrReply->body, nlhrReply->body.GetLength());
 					_close(fh);
 				}
 				if (res < 0)
 					remove(szDest);
 				else
 					result = 0;
-			}
-			// if the recieved code is 302 Moved, Found, etc
-			// workaround for url forwarding
-			else if (nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 307) { // page moved
-				// get the url for the new location and save it to szInfo
-				// look for the reply header "Location"
-				if (auto *pszUrl = Netlib_GetHeader(nlhrReply, "Location")) {
-					size_t rlen = 0;
-					if (pszUrl[0] == '/') {
-						const char *szPref = strstr(szUrl, "://");
-						szPref = szPref ? szPref + 3 : szUrl;
-						const char *szPath = strchr(szPref, '/');
-						rlen = szPath != nullptr ? szPath - szUrl : mir_strlen(szUrl);
-					}
-
-					szRedirUrl = (char *)mir_realloc(szRedirUrl, rlen + mir_strlen(pszUrl) * 3 + 1);
-
-					strncpy(szRedirUrl, szUrl, rlen);
-					mir_strcpy(szRedirUrl + rlen, pszUrl);
-
-					nlhr.szUrl = szRedirUrl;
-				}
 			}
 			else result = 1;
 		}
@@ -110,8 +83,6 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 			result = 1;
 		}
 	}
-
-	mir_free(szRedirUrl);
 
 	return result == 0;
 }

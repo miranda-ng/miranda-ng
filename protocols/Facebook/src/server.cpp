@@ -760,16 +760,16 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 						// 	wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
-						NETLIBHTTPREQUEST req = {};
+						MHttpRequest req;
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 						req.requestType = REQUEST_GET;
-						req.szUrl = (char*)szUrl.c_str();
+						req.m_szUrl = szUrl.c_str();
 
-						NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+						MHttpResponse *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+						if (pReply != nullptr && pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
 							bSuccess = true;
 							FILE *out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->pData, 1, pReply->dataLength, out);
+							fwrite(pReply->body, 1, pReply->body.GetLength(), out);
 							fclose(out);
 						}
 					}

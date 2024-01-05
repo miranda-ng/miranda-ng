@@ -71,6 +71,56 @@ struct NetlibUrl
 	int flags = 0, port = 0;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MChunkHandler
+{
+	virtual int getTotal() const = 0;
+	virtual void updateChunk(const void *pData, size_t cbLen) = 0;
+	virtual void apply(MHttpResponse *nlhr) = 0;
+};
+
+class MMemoryChunkStorage : public MChunkHandler
+{
+	MBinBuffer buf;
+
+	int getTotal() const override
+	{
+		return (int)buf.length();
+	}
+
+	void updateChunk(const void *pData, size_t cbLen) override
+	{
+		buf.append(pData, cbLen);
+	}
+	
+	void apply(MHttpResponse *nlhr) override
+	{
+		unsigned dataLen = (unsigned)buf.length();
+		nlhr->body.Truncate(dataLen+1);
+		memcpy(nlhr->body.GetBuffer(), buf.data(), dataLen);
+		nlhr->body.SetAt(dataLen, 0);
+	}
+
+public:
+	MMemoryChunkStorage() {}
+};
+
+class MFileChunkStorage : public MChunkHandler
+{
+	CMStringW filePath;
+
+	void updateChunk(const void *pData, size_t cbLen) override;
+	void apply(MHttpResponse *nlhr) override;
+
+public:
+	MFileChunkStorage(const wchar_t *pwszFileName) :
+		filePath(pwszFileName)
+	{}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct NetlibConnection : public MZeroedObject
 {
 	NetlibConnection();
@@ -86,6 +136,7 @@ struct NetlibConnection : public MZeroedObject
 	NetlibUrl url;
 	int timeout;
 
+	MChunkHandler *pChunkHandler;
 	char *szNewUrl;
 	
 	mir_cs csHttpSequenceNums;
@@ -164,9 +215,9 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
-int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
+int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, MHttpRequest *pRec, MChunkHandler *pHandler);
 
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
+MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
 
 // netliblog.cpp
 void NetlibLogShowOptions(void);

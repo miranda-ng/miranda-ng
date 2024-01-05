@@ -119,8 +119,8 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	void RequestOauthToken(const char *szPin = nullptr);
 	void ResetOauthKeys();
 
-	void Oauth2RequestAuth(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
-	void Oauth2RequestToken(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+	void Oauth2RequestAuth(MHttpResponse *, AsyncHttpRequest *);
+	void Oauth2RequestToken(MHttpResponse *, AsyncHttpRequest *);
 
 	CMStringA OAuthWebRequestSubmit(const CMStringA &url, const char *httpMethod, const char *postData);
 

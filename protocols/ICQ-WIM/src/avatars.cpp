@@ -106,23 +106,13 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 		}
 
 		unsigned dwSize = (unsigned)_filelengthi64(fileId);
-		char *pData = (char *)mir_alloc(dwSize);
-		if (pData == nullptr) {
-			_close(fileId);
-			delete pReq;
-			return 2;
-		}
-
-		_read(fileId, pData, dwSize);
+		pReq->m_szParam.Truncate(dwSize);
+		_read(fileId, pReq->m_szParam.GetBuffer(), dwSize);
 		_close(fileId);
 
-		pReq->pData = pData;
-		pReq->dataLength = dwSize;
-
-		int iAvatarType = ProtoGetBufferFormat(pData);
+		int iAvatarType = ProtoGetBufferFormat(pReq->m_szParam);
 		if (iAvatarType == PA_FORMAT_UNKNOWN) {
 			delete pReq;
-			delete pData;
 			return 3;
 		}
 

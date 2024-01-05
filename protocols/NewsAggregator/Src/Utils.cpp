@@ -47,48 +47,35 @@ void NetlibUnInit()
 void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg)
 {
 	Netlib_LogfW(hNetlibUser, L"Getting feed data %s.", tszUrl);
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	MHttpRequest nlhr;
 
 	// initialize the netlib request
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (wcsstr(tszUrl, L"https://") != nullptr)
 		nlhr.flags |= NLHRF_SSL;
-	char *szUrl = mir_u2a(tszUrl);
-	nlhr.szUrl = szUrl;
+	nlhr.m_szUrl = _T2A(tszUrl);
 	nlhr.nlc = hNetlibHttp;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
-	NETLIBHTTPHEADER headers[5];
-	nlhr.headersCount = 4;
-	nlhr.headers = headers;
-	nlhr.headers[0].szName = "User-Agent";
-	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName = "Cache-Control";
-	nlhr.headers[1].szValue = "no-cache";
-	nlhr.headers[2].szName = "Pragma";
-	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName = "Connection";
-	nlhr.headers[3].szValue = "close";
-	char auth[256];
-	if (g_plugin.getByte(hContact, "UseAuth", 0) || (pEditDlg && pEditDlg->m_useauth.IsChecked()) /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
-		nlhr.headersCount++;
-		nlhr.headers[4].szName = "Authorization";
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
+	nlhr.AddHeader("Connection", "close");
 
+	if (g_plugin.getByte(hContact, "UseAuth", 0) || (pEditDlg && pEditDlg->m_useauth.IsChecked())) {
+		char auth[256];
 		CreateAuthString(auth, hContact, pEditDlg);
-		nlhr.headers[4].szValue = auth;
+		nlhr.AddHeader("Authorization", auth);
 	}
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
-		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
+		if (nlhrReply->resultCode == 200 && !nlhrReply->body.IsEmpty()) {
 			Netlib_LogfW(hNetlibUser, L"Code 200: Succeeded getting feed data %s.", tszUrl);
-			// allocate memory and save the retrieved data
-			*szData = (char *)mir_alloc((size_t)nlhrReply->dataLength + 2);
-			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
-			(*szData)[nlhrReply->dataLength] = 0;
+			*szData = nlhrReply->body.Detach();
 		}
 		else if (nlhrReply->resultCode == 401) {
 			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
@@ -99,8 +86,6 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
 	}
 	else Netlib_LogfW(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
-
-	mir_free(szUrl);
 }
 
 time_t DateToUnixTime(const char *stamp, bool FeedType)
@@ -220,81 +205,42 @@ time_t DateToUnixTime(const char *stamp, bool FeedType)
 
 bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char *szUrl = mir_u2a(tszURL);
-	nlhr.szUrl = szUrl;
-	NETLIBHTTPHEADER headers[4];
-	nlhr.headersCount = 4;
-	nlhr.headers = headers;
-	nlhr.headers[0].szName = "User-Agent";
-	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName = "Connection";
-	nlhr.headers[1].szValue = "close";
-	nlhr.headers[2].szName = "Cache-Control";
-	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName = "Pragma";
-	nlhr.headers[3].szValue = "no-cache";
+	nlhr.m_szUrl = _T2A(tszURL);
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
+	nlhr.AddHeader("Connection", "close");
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
 
-	bool ret = false;
 	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (pReply) {
-		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-			char *date = nullptr, *size = nullptr;
-			for (int i = 0; i < pReply->headersCount; i++) {
-				if (!mir_strcmpi(pReply->headers[i].szName, "Last-Modified")) {
-					date = pReply->headers[i].szValue;
-					continue;
-				}
-				else if (!mir_strcmpi(pReply->headers[i].szName, "Content-Length")) {
-					size = pReply->headers[i].szValue;
-					continue;
-				}
-			}
+		if (200 == pReply->resultCode && !pReply->body.IsEmpty()) {
+			const char *date = pReply->FindHeader("Last-Modified");
+			const char *size = pReply->FindHeader("Content-Length");
 			if (date != nullptr && size != nullptr) {
-				wchar_t *tsize = mir_a2u(size);
 				struct _stat buf;
-
 				int fh = _wopen(tszLocal, _O_RDONLY);
 				if (fh != -1) {
 					_fstat(fh, &buf);
+					_close(fh);
+
 					time_t modtime = DateToUnixTime(date, 0);
 					time_t filemodtime = mktime(localtime(&buf.st_atime));
-					if (modtime > filemodtime && buf.st_size != _wtoi(tsize)) {
-						DWORD dwBytes;
-						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-						WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
-						ret = true;
-						if (hFile)
-							CloseHandle(hFile);
-					}
-					_close(fh);
+					if (modtime <= filemodtime || buf.st_size == atoi(size))
+						return false;
 				}
-				else {
-					DWORD dwBytes;
-					HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-					WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
-					ret = true;
-					if (hFile)
-						CloseHandle(hFile);
-				}
-				mir_free(tsize);
 			}
-			else {
-				DWORD dwBytes;
-				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-				WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
-				ret = true;
-				if (hFile)
-					CloseHandle(hFile);
-			}
+
+			DWORD dwBytes;
+			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+			WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
+			if (hFile)
+				CloseHandle(hFile);
 		}
 	}
-
-	mir_free(szUrl);
-
-	return ret;
+	return true;
 }
 
 typedef HRESULT(MarkupCallback)(IHTMLDocument3 *, BSTR &message);

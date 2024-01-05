@@ -163,7 +163,7 @@ CMStringA CTwitterProto::OAuthCreateSignature(const CMStringA &signatureBase, co
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTwitterProto::Oauth2RequestToken(NETLIBHTTPREQUEST *pResp, AsyncHttpRequest *)
+void CTwitterProto::Oauth2RequestToken(MHttpResponse *pResp, AsyncHttpRequest *)
 {
 	if (pResp->resultCode != 200) {
 		OnLoggedFail();
@@ -196,7 +196,7 @@ void CTwitterProto::RequestOauthToken(const char *szPin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTwitterProto::Oauth2RequestAuth(NETLIBHTTPREQUEST *pResp, AsyncHttpRequest *)
+void CTwitterProto::Oauth2RequestAuth(MHttpResponse *pResp, AsyncHttpRequest *)
 {
 	if (pResp->resultCode != 200) {
 		OnLoggedFail();

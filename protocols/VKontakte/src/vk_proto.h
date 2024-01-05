@@ -82,8 +82,8 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Events ========================================================================
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnOAuthAuthorize(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveAvatar(MHttpResponse*, AsyncHttpRequest*);
 
 	//==== Services ======================================================================
 
@@ -284,15 +284,15 @@ private:
 	//==== Search ========================================================================
 
 	void FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam);
-	void OnSearch(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnSearchByMail(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnSearch(MHttpResponse*, AsyncHttpRequest*);
+	void OnSearchByMail(MHttpResponse*, AsyncHttpRequest*);
 
 	//==== Files Upload ==================================================================
 
 	void SendFileFiled(CVkFileUploadParam *fup, int ErrorCode);
-	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReciveUploadServer(MHttpResponse*, AsyncHttpRequest*);
+	void OnReciveUpload(MHttpResponse*, AsyncHttpRequest*);
+	void OnReciveUploadFile(MHttpResponse*, AsyncHttpRequest*);
 
 	//==== Feed ==========================================================================
 
@@ -308,11 +308,11 @@ private:
 	CMStringW GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCWSTR pwszReplyText = nullptr, LPCWSTR pwszReplyLink = nullptr);
 	void RetrieveUnreadNews(time_t tLastNewsTime);
-	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveUnreadNews(MHttpResponse*, AsyncHttpRequest*);
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
 	bool FilterNotification(CVKNewsItem *vkNotificationItem, bool& bIsCommented);
 	void NotificationMarkAsViewed();
-	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveUnreadNotifications(MHttpResponse*, AsyncHttpRequest*);
 	void RetrieveUnreadEvents();
 	void NewsClearHistory();
 	INT_PTR __cdecl SvcLoadVKNews(WPARAM, LPARAM);
@@ -323,50 +323,50 @@ private:
 	void RetrieveUsersInfo(bool bFlag = false, bool bRepeat = false);
 	void RetrieveStatusMsg(const CMStringW &StatusMsg);
 	void RetrieveStatusMusic(const CMStringW &StatusMsg);
-	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveStatus(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveStatusMsg(MHttpResponse*, AsyncHttpRequest*);
 	MCONTACT SetContactInfo(const JSONNode &jnItem, bool bFlag = false, VKContactType vkContactType = VKContactType::vkContactNormal);
 	void TrackVisitor();
 	void RetrieveMyInfo(void);
-	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMyInfo(MHttpResponse*, AsyncHttpRequest*);
 	void RetrieveUserInfo(VKUserID_t iUserId);
 	void RetrieveGroupInfo(VKUserID_t iGroupID);
 	void RetrieveGroupInfo(CMStringA & groupIDs);
-	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveGroupInfo(NETLIBHTTPREQUEST * reply, AsyncHttpRequest * pReq);
+	void OnReceiveUserInfo(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveGroupInfo(MHttpResponse * reply, AsyncHttpRequest * pReq);
 	void RetrieveFriends(bool bCleanNonFriendContacts = false);
-	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveFriends(MHttpResponse*, AsyncHttpRequest*);
 	void MarkMessagesRead(const MCONTACT hContact);
 	void RetrieveMessagesByIds(const CMStringA &szMids);
 	void RetrieveUnreadMessages();
-	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMessages(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveDlgs(MHttpResponse*, AsyncHttpRequest*);
+	void OnSendMessage(MHttpResponse*, AsyncHttpRequest*);
 	void WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, bool bFriendsOnly);
 	void GetServerHistoryLastNDay(MCONTACT hContact, int iNDay);
 	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, time_t tTime, VKMessageID_t iLastMsgId, bool bOnce = false);
-	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
+	void OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *pReq);
 	void GetHistoryDlg(MCONTACT hContact, VKMessageID_t iLastMsg);
 	void RetrievePollingInfo();
-	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceivePollingInfo(MHttpResponse*, AsyncHttpRequest*);
 	void __cdecl PollingThread(void*);
 	int PollServer();
 	void PollUpdates(const JSONNode&);
-	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveAuthRequest(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveDeleteFriend(MHttpResponse*, AsyncHttpRequest*);
 
 	//==== Misc ==========================================================================
 
 	void SetAllContactStatuses(int iStatus);
 	MCONTACT FindUser(VKUserID_t iUserId, bool bCreate = false);
 	MCONTACT FindChat(VKUserID_t iUserId);
-	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
+	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, MHttpResponse *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
-	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveSmth(MHttpResponse*, AsyncHttpRequest*);
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
 	CMStringW RunConfirmationCode(LPCWSTR pwszTitle);
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
-	void GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain = "");
+	void GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain = "");
 	void ApplyCookies(AsyncHttpRequest*);
 	bool IsAuthContactLater(MCONTACT hContact);
 	bool AddAuthContactLater(MCONTACT hContact);
@@ -417,16 +417,16 @@ private:
 
 	void StopChatContactTyping(VKUserID_t iChatId, VKUserID_t iUserId);
 
-	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnCreateNewChat(MHttpResponse*, AsyncHttpRequest*);
 	CVkChatInfo* AppendConversationChat(VKUserID_t iChatId, const JSONNode& jnItem);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
-	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnChatLeave(NETLIBHTTPREQUEST*, AsyncHttpRequest *);
-	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveChatInfo(MHttpResponse*, AsyncHttpRequest*);
+	void OnSendChatMsg(MHttpResponse*, AsyncHttpRequest*);
+	void OnChatLeave(MHttpResponse*, AsyncHttpRequest *);
+	void OnChatDestroy(MHttpResponse*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
 	void KickFromChat(VKUserID_t iChatId, VKUserID_t iUserId, const JSONNode &jnMsg, const JSONNode &jnFUsers);

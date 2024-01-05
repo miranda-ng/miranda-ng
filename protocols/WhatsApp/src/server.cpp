@@ -24,13 +24,10 @@ void WhatsAppProto::ServerThread(void *)
 void WhatsAppProto::ServerThreadWorker()
 {
 	// connect websocket
-	NETLIBHTTPHEADER hdrs[] =
-	{
-		{ "Origin", "https://web.whatsapp.com" },
-		{ 0, 0 }
-	};
+	MHttpHeaders hdrs;
+	hdrs.AddHeader("Origin", "https://web.whatsapp.com");
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, "web.whatsapp.com/ws/chat", hdrs));
+	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, "web.whatsapp.com/ws/chat", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Server connection failed, exiting");
 		return;

@@ -24,7 +24,7 @@ class CSendHost_UploadPie : public CSend {
 
 	protected:
 		int m_expire;
-		NETLIBHTTPREQUEST m_nlhr;
+		MHttpRequest m_nlhr;
 		static void SendThread(void* obj);
 };
 #endif

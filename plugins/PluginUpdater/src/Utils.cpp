@@ -143,22 +143,17 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	#endif
 	szUserAgent.Append(")");
 
-	NETLIBHTTPHEADER headers[4] = {
-		{ "User-Agent", szUserAgent.GetBuffer() },
-		{ "Connection", "close" },
-		{ "Cache-Control", "no-cache" },
-		{ "Pragma", "no-cache" }
-	};
-
 	ptrA szUrl(mir_u2a(pFileURL->wszDownloadURL));
 
-	NETLIBHTTPREQUEST nlhr = {};
+	MHttpRequest nlhr;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;
-	nlhr.szUrl = szUrl;
-	nlhr.headersCount = _countof(headers);
-	nlhr.headers = headers;
+	nlhr.m_szUrl = szUrl;
+	nlhr.AddHeader("User-Agent", szUserAgent);
+	nlhr.AddHeader("Connection", "close");
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
 
 	for (int i = 0; i < MAX_RETRIES; i++) {
 		Netlib_LogfW(g_hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->wszDownloadURL, pFileURL->wszDiskPath, i + 1);
@@ -170,14 +165,14 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 		}
 
 		nlc = pReply->nlc;
-		if (pReply->resultCode != 200 || pReply->dataLength <= 0) {
+		if (pReply->resultCode != 200 || pReply->body.IsEmpty()) {
 			Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->wszDownloadURL, pReply->resultCode);
 			return pReply->resultCode;
 		}
 
 		// Check CRC sum
 		if (pFileURL->CRCsum) {
-			int crc = crc32(0, (unsigned char *)pReply->pData, pReply->dataLength);
+			int crc = crc32(0, (unsigned char *)pReply->body.c_str(), pReply->body.GetLength());
 			if (crc != pFileURL->CRCsum) {
 				// crc check failed, try again
 				Netlib_LogfW(g_hNetlibUser, L"crc check failed for file %s", pFileURL->wszDiskPath);
@@ -190,7 +185,7 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 		HANDLE hFile = CreateFile(pFileURL->wszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hFile != INVALID_HANDLE_VALUE) {
 			// write the downloaded file directly
-			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+			WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
 			CloseHandle(hFile);
 		}
 		else {
@@ -199,7 +194,7 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 			mir_snwprintf(wszTempFile, L"%s\\pulocal.tmp", g_wszTempPath);
 			hFile = CreateFile(wszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
-				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+				WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
 				CloseHandle(hFile);
 				PU::SafeMoveFile(wszTempFile, pFileURL->wszDiskPath);
 			}

@@ -195,7 +195,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	)->pUserInfo = cc;
 }
 
-void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveChatInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveChatInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -644,7 +644,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSendChatMsg(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSendChatMsg %d", reply->resultCode);
 	int iResult = ACKRESULT_FAILED;
@@ -784,7 +784,7 @@ void CVkProto::KickFromChat(VKUserID_t iChatId, VKUserID_t iUserId, const JSONNo
 	LeaveChat(iChatId);
 }
 
-void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnChatLeave(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatLeave %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -795,7 +795,7 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 }
 
 
-void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnChatDestroy(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatDestroy %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -1031,7 +1031,7 @@ void CVkProto::CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle)
 		<< CHAR_PARAM("user_ids", uids));
 }
 
-void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnCreateNewChat(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnCreateNewChat %d", reply->resultCode);
 	if (reply->resultCode != 200)

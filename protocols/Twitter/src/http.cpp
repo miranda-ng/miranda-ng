@@ -39,9 +39,6 @@ void CTwitterProto::Execute(AsyncHttpRequest *pReq)
 			}
 			else pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			pReq->AddHeader("Cache-Control", "no-cache");
-
-			pReq->dataLength = (int)pReq->m_szParam.GetLength();
-			pReq->pData = pReq->m_szParam.Detach();
 		}
 		else {
 			if (pReq->requestType == REQUEST_PATCH)
@@ -60,7 +57,6 @@ void CTwitterProto::Execute(AsyncHttpRequest *pReq)
 	//	auth = OAuthWebRequestSubmit(pReq->m_szUrl, "POST", (bIsJson) ? "" : pReq->pData);
 	// pReq->AddHeader("Authorization", auth);
 
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
 	pReq->flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	pReq->nlc = m_hConnHttp;
 

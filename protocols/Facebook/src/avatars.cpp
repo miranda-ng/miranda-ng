@@ -33,7 +33,7 @@ void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 
 void __cdecl FacebookProto::AvatarsUpdate(void *)
 {
-	NETLIBHTTPREQUEST req = {};
+	MHttpRequest req;
 	req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.requestType = REQUEST_GET;
 
@@ -48,13 +48,11 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 			continue;
 
 		delSetting(cc, "UpdateNeeded");
-
-		CMStringA szUrl(FORMAT, "https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
-		req.szUrl = szUrl.GetBuffer();
+		req.m_szUrl.Format("https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
 	
 		NLHR_PTR pReply(Netlib_HttpTransaction(m_hNetlibUser, &req));
 		if (pReply == nullptr) {
-			debugLogA("Failed to retrieve avatar from url: %s", szUrl.c_str());
+			debugLogA("Failed to retrieve avatar from url: %s", req.m_szUrl.c_str());
 			continue;
 		}
 
@@ -64,14 +62,14 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 		GetAvatarFilename(cc, ai.filename);
 
 		bool bSuccess = false;
-		if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-			if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
+		if (pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
+			if (auto *pszHdr = pReply->FindHeader("Content-Type"))
 				ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
 			if (ai.format != PA_FORMAT_UNKNOWN) {
 				FILE *fout = _wfopen(ai.filename, L"wb");
 				if (fout) {
-					fwrite(pReply->pData, 1, pReply->dataLength, fout);
+					fwrite(pReply->body, 1, pReply->body.GetLength(), fout);
 					fclose(fout);
 					bSuccess = true;
 				}
@@ -79,7 +77,7 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 			}
 			else debugLogA("unknown avatar mime type");
 		}
-		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, szUrl.c_str());
+		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, req.m_szUrl.c_str());
 
 		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
 	}

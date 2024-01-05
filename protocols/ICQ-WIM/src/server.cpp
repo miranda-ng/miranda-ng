@@ -133,7 +133,7 @@ void CIcqProto::CheckPassword()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnFileInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	IcqFileInfo **res = (IcqFileInfo **)pReq->pUserInfo;
 	*res = nullptr;
@@ -691,7 +691,7 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserCaps(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -718,7 +718,7 @@ void CIcqProto::RetrieveUserCaps(IcqUser *pUser)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGePresence(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -744,7 +744,7 @@ void CIcqProto::RetrievePresence(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000) {
@@ -774,7 +774,7 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -828,7 +828,7 @@ void CIcqProto::ProcessPatchVersion(MCONTACT hContact, __int64 currPatch)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -998,7 +998,7 @@ void CIcqProto::StartSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnAddBuddy(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -1032,7 +1032,7 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	}
 }
 
-void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnAddClient(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	bool *pRet = (bool*)pReq->pUserInfo;
 
@@ -1048,7 +1048,7 @@ void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	*pRet = true;
 }
 
-void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnCheckPassword(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -1087,7 +1087,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
-void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+void CIcqProto::OnFileContinue(MHttpResponse *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
 	if (pTransfer->m_bCanceled) {
@@ -1155,7 +1155,7 @@ LBL_Error:
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
 }
 
-void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+void CIcqProto::OnFileInit(MHttpResponse *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
 	if (pTransfer->m_bCanceled) {
@@ -1192,7 +1192,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Support for stickers
 
-void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetSticker(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	if (pReply->resultCode != 200) {
 		debugLogA("Error getting sticker: %d", pReply->resultCode);
@@ -1204,7 +1204,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	CMStringW wszFileName(FORMAT, L"%s\\STK{%s}.png", wszPath.c_str(), (wchar_t*)pReq->pUserInfo);
 	FILE *out = _wfopen(wszFileName, L"wb");
-	fwrite(pReply->pData, 1, pReply->dataLength, out);
+	fwrite(pReply->body, 1, pReply->body.GetLength(), out);
 	fclose(out);
 
 	SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFileName);
@@ -1212,7 +1212,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnGenToken(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -1222,7 +1222,7 @@ void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szRToken = results["authToken"].as_mstring();
 }
 
-void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnStartSession(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -1279,18 +1279,18 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	ForkThread(&CIcqProto::PollThread);
 }
 
-void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnReceiveAvatar(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	PROTO_AVATAR_INFORMATION ai = {};
 	ai.hContact = pReq->hContact;
 
-	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
+	if (pReply->resultCode != 200 || pReply->body.IsEmpty()) {
 LBL_Error:
 		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
-	const char *szContentType = Netlib_GetHeader(pReply, "Content-Type");
+	const char *szContentType = pReply->FindHeader("Content-Type");
 	if (szContentType == nullptr)
 		szContentType = "image/jpeg";
 
@@ -1302,7 +1302,7 @@ LBL_Error:
 	if (out == nullptr)
 		goto LBL_Error;
 
-	fwrite(pReply->pData, pReply->dataLength, 1, out);
+	fwrite(pReply->body, pReply->body.GetLength(), 1, out);
 	fclose(out);
 
 	if (pReq->hContact != 0) {
@@ -1312,7 +1312,7 @@ LBL_Error:
 	else ReportSelfAvatarChanged();
 }
 
-void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnSearchResults(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000) {
@@ -1347,7 +1347,7 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send message
 
-void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnSendMessage(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	IcqOwnMessage *ownMsg = (IcqOwnMessage *)pReq->pUserInfo;
 
@@ -1394,7 +1394,7 @@ void CIcqProto::SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOw
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnSessionEnd(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	if (root.error() == 200) {

@@ -642,7 +642,7 @@ static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsIte
 	return compareType ? compareDate : (compareId ? (int)compareDate : 0);
 }
 
-void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUnreadNews(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNews %d", reply->resultCode);
 	db_unset(0, m_szModuleName, "LastNewsReqTime");
@@ -747,7 +747,7 @@ void CVkProto::NotificationMarkAsViewed()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.markAsViewed.json", true, &CVkProto::OnReceiveSmth));
 }
 
-void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUnreadNotifications(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNotifications %d", reply->resultCode);
 	db_unset(0, m_szModuleName, "LastNotificationsReqTime");

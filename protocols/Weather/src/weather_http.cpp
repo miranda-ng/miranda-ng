@@ -39,28 +39,17 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	if (userAgent == nullptr || userAgent[0] == 0)
 		userAgent = NETLIB_USER_AGENT;
 
-	NETLIBHTTPHEADER headers[5];
-	headers[0].szName = "User-Agent";
-	headers[0].szValue = userAgent;
-	headers[1].szName = "Cache-Control";
-	headers[1].szValue = "no-cache";
-	headers[2].szName = "Pragma";
-	headers[2].szValue = "no-cache";
-	headers[3].szName = "Connection";
-	headers[3].szValue = "close";
-	headers[4].szName = "Cookie";
-	headers[4].szValue = cookie;
-
 	// initialize the netlib request
-	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
+	MHttpRequest nlhr;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	nlhr.szUrl = szUrl;
-	nlhr.headers = headers;
-	nlhr.headersCount = _countof(headers);
-
-	if (cookie == nullptr || cookie[0] == 0)
-		--nlhr.headersCount;
+	nlhr.m_szUrl = szUrl;
+	nlhr.AddHeader("User-Agent", userAgent);
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Pragma", "no-cache");
+	nlhr.AddHeader("Connection", "close");
+	if (mir_strlen(cookie) > 0)
+		nlhr.AddHeader("Cookie", cookie);
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
@@ -75,17 +64,17 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	// if the recieved code is 200 OK
 	int result;
 	if (nlhrReply->resultCode == 200) {
-		if (nlhrReply->dataLength) {
+		if (!nlhrReply->body.IsEmpty()) {
 			bool bIsUtf = false;
 			result = 0;
 
 			// allocate memory and save the retrieved data
-			auto *pszHdr = Netlib_GetHeader(nlhrReply, "Content-Type");
+			auto *pszHdr = nlhrReply->FindHeader("Content-Type");
 			// look for Content-Type=utf-8 in header
 			if (pszHdr && strstr(_strlwr(pszHdr), "utf-8"))
 				bIsUtf = true;
 			else {
-				char *end = nlhrReply->pData;
+				char *end = nlhrReply->body.GetBuffer();
 				while (end) {
 					// look for
 					// <meta http-equiv="Content-Type" content="utf-8" />
@@ -112,9 +101,9 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 
 			wchar_t *retVal = nullptr;
 			if (bIsUtf)
-				retVal = mir_utf8decodeW(nlhrReply->pData);
+				retVal = mir_utf8decodeW(nlhrReply->body);
 			if (retVal == nullptr)
-				retVal = mir_a2u(nlhrReply->pData);
+				retVal = mir_a2u(nlhrReply->body);
 			*szData = retVal;
 		}
 		else result = DATA_EMPTY;

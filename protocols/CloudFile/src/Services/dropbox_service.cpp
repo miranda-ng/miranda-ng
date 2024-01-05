@@ -85,7 +85,7 @@ void CDropboxService::RequestAccessTokenThread(void *param)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
 		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
@@ -206,7 +206,7 @@ auto CDropboxService::CreateSharedLink(const std::string &path)
 	if (!response || response->resultCode != HTTP_CODE_CONFLICT)
 		HttpResponseToError(response);
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root.isnull())
 		throw Exception(HttpStatusToError());
 

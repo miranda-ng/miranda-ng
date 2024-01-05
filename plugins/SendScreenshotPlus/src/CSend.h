@@ -130,8 +130,7 @@ protected:
 	};
 
 	static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); // changes "str", can be successfully used only once
-	void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); // use to free data inside "nlhr" created by HTTPFormCreate
-	int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); // returns "0" on success, Exit() will be called on failure (stop processing)
+	int HTTPFormCreate(MHttpRequest* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); // returns "0" on success, Exit() will be called on failure (stop processing)
 };
 
 #endif

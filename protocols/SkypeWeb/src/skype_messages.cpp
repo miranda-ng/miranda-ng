@@ -45,7 +45,7 @@ int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
 	return param->hMessage;
 }
 
-void CSkypeProto::OnMessageSent(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	auto *param = (SendMessageParam*)pRequest->pUserInfo;
 	MCONTACT hContact = param->hContact;
@@ -56,8 +56,8 @@ void CSkypeProto::OnMessageSent(NETLIBHTTPREQUEST *response, AsyncHttpRequest *p
 		if (response->resultCode != 201) {
 			std::string strError = Translate("Unknown error!");
 
-			if (response->pData != nullptr) {
-				JSONNode jRoot = JSONNode::parse(response->pData);
+			if (!response->body.IsEmpty()) {
+				JSONNode jRoot = JSONNode::parse(response->body);
 				const JSONNode &jErr = jRoot["errorCode"];
 				if (jErr)
 					strError = jErr.as_string();

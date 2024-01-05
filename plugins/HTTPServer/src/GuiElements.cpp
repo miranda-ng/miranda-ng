@@ -141,11 +141,9 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 {
 	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(nullptr, IDC_WAIT));
 
-	NETLIBHTTPREQUEST nlhr;
-	memset(&nlhr, 0, sizeof(nlhr));
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr;
 	nlhr.flags = NLHRF_DUMPASTEXT;
-	nlhr.szUrl = (char*)szURL;
+	nlhr.m_szUrl = szURL;
 
 	IN_ADDR externIP;
 	externIP.s_addr = 0;
@@ -153,16 +151,15 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 	NLHR_PTR nlreply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlreply) {
 		if (nlreply->resultCode >= 200 && nlreply->resultCode < 300) {
-			nlreply->pData[nlreply->dataLength] = 0;// make sure its null terminated
-			char * pszIp = strstr(nlreply->pData, szPattern);
+			char *pszIp = strstr(nlreply->body.GetBuffer(), szPattern);
 			if (pszIp == nullptr)
-				pszIp = nlreply->pData;
+				pszIp = nlreply->body.GetBuffer();
 			else
 				pszIp += mir_strlen(szPattern);
 			while ((*pszIp < '0' || *pszIp > '9') && *pszIp)
 				pszIp++;
 
-			char * pszEnd = pszIp;
+			char *pszEnd = pszIp;
 			while ((*pszEnd >= '0' && *pszEnd <= '9') || *pszEnd == '.')
 				pszEnd++;
 			*pszEnd = NULL;

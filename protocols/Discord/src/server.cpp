@@ -54,7 +54,7 @@ static int compareMsgHistory(const JSONNode *p1, const JSONNode *p2)
 	return wcscmp((*p1)["id"].as_mstring(), (*p2)["id"].as_mstring());
 }
 
-void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	CDiscordUser *pUser = (CDiscordUser*)pReq->pUserInfo;
 
@@ -147,7 +147,7 @@ void CDiscordProto::RetrieveMyInfo()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
 }
 
-void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -179,7 +179,7 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a gateway address
 
-void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveGateway(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -195,7 +195,7 @@ void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 /////////////////////////////////////////////////////////////////////////////////////////
 // logs a session out
 
-void CDiscordProto::OnReceiveLogout(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
+void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
 {
 	delSetting("AccessToken");
 }
@@ -213,7 +213,7 @@ void CDiscordProto::SetServerStatus(int iStatus)
 /////////////////////////////////////////////////////////////////////////////////////////
 // channels
 
-void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveCreateChannel(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root)
@@ -222,7 +222,7 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveMessageAck(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root)
@@ -243,10 +243,10 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 #define RECAPTCHA_API_KEY "6Lef5iQTAAAAAKeIvIY-DeexoO3gj7ryl9rLMEnn"
 #define RECAPTCHA_SITE_URL "https://discord.com"
 
-void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveToken(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200) {
-		JSONNode root = JSONNode::parse(pReply->pData);
+		JSONNode root = JSONNode::parse(pReply->body);
 		if (root) {
 			const JSONNode &captcha = root["captcha_key"].as_array();
 			if (captcha) {

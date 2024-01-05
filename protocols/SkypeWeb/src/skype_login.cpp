@@ -66,18 +66,18 @@ void CSkypeProto::Login()
 		PushRequest(new OAuthRequest());
 }
 
-void CSkypeProto::OnLoginOAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnLoginOAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
 	if (!IsStatusConnecting(m_iStatus))
 		return;
 
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	JSONNode json = JSONNode::parse(response->pData);
+	JSONNode json = JSONNode::parse(response->body);
 	if (!json) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -148,7 +148,7 @@ void CSkypeProto::OnLoginSuccess()
 	PushRequest(new CreateEndpointRequest(this));
 }
 
-void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 {
 	if (IsStatusConnecting(m_iStatus))
 		m_iStatus++;
@@ -167,7 +167,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 
 	case 301:
 	case 302: // redirect to the closest data center
-		if (auto *hdr = Netlib_GetHeader(response, "Location")) {
+		if (auto *hdr = response->FindHeader("Location")) {
 			CMStringA szUrl(hdr+8);
 			int iEnd = szUrl.Find('/');
 			g_plugin.szDefaultServer = (iEnd != -1) ? szUrl.Left(iEnd) : szUrl;
@@ -176,7 +176,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 		return;
 
 	case 401: // unauthorized
-		if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
+		if (auto *szStatus = response->FindHeader("StatusText"))
 			if (strstr(szStatus, "SkypeTokenExpired"))
 				delSetting("TokenSecret");
 		delSetting("TokenExpiresIn");
@@ -191,7 +191,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 	}
 
 	// Succeeded, decode the answer
-	if (auto *hdr = Netlib_GetHeader(response, "Set-RegistrationToken")) {
+	if (auto *hdr = response->FindHeader("Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
 		int iStart = 0;
 		while (true) {
@@ -215,13 +215,13 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 	PushRequest(new CreateSubscriptionsRequest());
 }
 
-void CSkypeProto::OnEndpointDeleted(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
+void CSkypeProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
 {
 	m_szId = nullptr;
 	m_szToken = nullptr;
 }
 
-void CSkypeProto::OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest*)
 {
 	if (response == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to create subscription");
@@ -249,9 +249,9 @@ void CSkypeProto::SendPresence()
 	PushRequest(new SendCapabilitiesRequest(epname, this));
 }
 
-void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -277,23 +277,23 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 	if (bAutoHistorySync)
 		PushRequest(new SyncHistoryFirstRequest(100));
 
-	JSONNode root = JSONNode::parse(response->pData);
+	JSONNode root = JSONNode::parse(response->body);
 	if (root)
 		setString("SelfEndpointName", UrlToSkypeId(root["selfLink"].as_string().c_str()));
 
 	PushRequest(new GetProfileRequest(this, 0));
 }
 
-void CSkypeProto::OnStatusChanged(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	if (response == nullptr || response->body.IsEmpty()) {
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	JSONNode json = JSONNode::parse(response->pData);
+	JSONNode json = JSONNode::parse(response->body);
 	if (!json) {
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);

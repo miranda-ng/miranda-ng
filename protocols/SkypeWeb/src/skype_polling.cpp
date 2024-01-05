@@ -39,14 +39,14 @@ void CSkypeProto::PollingThread(void *)
 
 			if (response->resultCode == 200) {
 				nErrors = 0;
-				if (response->pData)
-					ParsePollData(response->pData);
+				if (!response->body.IsEmpty())
+					ParsePollData(response->body);
 			}
 			else {
 				nErrors++;
 
-				if (response->pData) {
-					JSONNode root = JSONNode::parse(response->pData);
+				if (!response->body.IsEmpty()) {
+					JSONNode root = JSONNode::parse(response->body);
 					const JSONNode &error = root["errorCode"];
 					if (error && error.as_int() == 729)
 						break;

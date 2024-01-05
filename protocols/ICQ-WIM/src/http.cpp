@@ -147,12 +147,8 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	strncpy_s(m_reqId, (char*)szId, _TRUNCATE);
 	RpcStringFreeA(&szId);
 
-	if (iType == REQUEST_POST) {
+	if (iType == REQUEST_POST)
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-		
-		dataLength = m_szParam.GetLength();
-		pData = m_szParam.Detach();
-	}
 }
 
 void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
@@ -166,29 +162,15 @@ void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
 	else
 		root.push_back(n);
 	m_szParam = root.write().c_str();
-
-	replaceStr(pData, nullptr);
-	dataLength = 0;
 }
 
 bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
-
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-			pReq->szUrl = str.GetBuffer();
-		}
-		else {
-			pReq->dataLength = pReq->m_szParam.GetLength();
-			pReq->pData = mir_strdup(pReq->m_szParam);
-		}
-	}
+	if (!pReq->m_szParam.IsEmpty() && pReq->requestType == REQUEST_GET)
+		pReq->m_szUrl.AppendFormat("?%s", pReq->m_szParam.c_str());
 
 	// replace credentials inside JSON body for pure RAPI requests
-	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->szUrl, ICQ_ROBUST_SERVER) && !getByte(DB_KEY_PHONEREG)) {
+	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->m_szUrl, ICQ_ROBUST_SERVER) && !getByte(DB_KEY_PHONEREG)) {
 		CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 		pReq->AddHeader("User-Agent", szAgent);
 		pReq->AddHeader("Content-Type", "application/json");
@@ -203,11 +185,9 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (m_iRClientId)
 			pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
 		pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
-		pReq->dataLength = pReq->m_szParam.GetLength();
-		pReq->pData = mir_strdup(pReq->m_szParam);
 	}
 
-	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
+	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->m_szUrl.c_str());
 
 	if (pReq->m_conn != CONN_NONE) {
 		pReq->flags |= NLHRF_PERSISTENT;
@@ -222,14 +202,14 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			auto &conn = m_ConnPool[pReq->m_conn];
 			conn.s = reply->nlc;
 			conn.timeout = 0;
-			if (auto *pszHdr = Netlib_GetHeader(reply, "Keep-Alive")) {
+			if (auto *pszHdr = reply->FindHeader("Keep-Alive")) {
 				int timeout;
 				if (1 == sscanf(pszHdr, "timeout=%d", &timeout))
 					conn.timeout = timeout;
 			}
 		}
 
-		if (pReq->m_conn == CONN_RAPI && reply->pData && strstr(reply->pData, "\"code\": 40201")) {
+		if (pReq->m_conn == CONN_RAPI && reply->body.Find("\"code\": 40201") != -1) {
 			RobustReply r(reply);
 			if (r.error() == 40201) { // robust token expired
 				m_szRToken.Empty();
@@ -305,7 +285,7 @@ MHttpRequest* operator<<(MHttpRequest *pReq, const GROUP_PARAM &param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
+JsonReply::JsonReply(MHttpResponse *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;
@@ -316,7 +296,7 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 	if (m_errorCode != 200)
 		return;
 
-	m_root = json_parse(pReply->pData);
+	m_root = json_parse(pReply->body);
 	if (m_root == nullptr) {
 		m_errorCode = 500;
 		return;
@@ -336,7 +316,7 @@ JsonReply::~JsonReply()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-FileReply::FileReply(NETLIBHTTPREQUEST *pReply)
+FileReply::FileReply(MHttpResponse *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;
@@ -347,7 +327,7 @@ FileReply::FileReply(NETLIBHTTPREQUEST *pReply)
 	if (m_errorCode != 200)
 		return;
 
-	m_root = json_parse(pReply->pData);
+	m_root = json_parse(pReply->body);
 	if (m_root == nullptr) {
 		m_errorCode = 500;
 		return;
@@ -364,7 +344,7 @@ FileReply::~FileReply()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RobustReply::RobustReply(NETLIBHTTPREQUEST *pReply)
+RobustReply::RobustReply(MHttpResponse *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;
@@ -375,7 +355,7 @@ RobustReply::RobustReply(NETLIBHTTPREQUEST *pReply)
 	if (m_errorCode != 200)
 		return;
 
-	m_root = json_parse(pReply->pData);
+	m_root = json_parse(pReply->body);
 	if (m_root == nullptr) {
 		m_errorCode = 500;
 		return;

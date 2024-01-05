@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CIcqProto::SendMrimLogin(NETLIBHTTPREQUEST *pReply)
+void CIcqProto::SendMrimLogin(MHttpResponse *pReply)
 {
 	m_szMraCookie = pReply->GetCookies();
 
@@ -33,7 +33,7 @@ void CIcqProto::SendMrimLogin(NETLIBHTTPREQUEST *pReply)
 	Push(pReq);
 }
 
-void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMrimLogin(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -98,7 +98,7 @@ void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	StartSession();
 }
 
-void CIcqProto::OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMraAuth(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -113,7 +113,7 @@ void CIcqProto::OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	}
 }
 
-void CIcqProto::OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMraAuthFinal(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	switch (pReply->resultCode) {
 	case 200:

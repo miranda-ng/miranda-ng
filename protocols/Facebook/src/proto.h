@@ -332,7 +332,7 @@ class JsonReply
 	int m_errorCode = 0;
 
 public:
-	JsonReply(NETLIBHTTPREQUEST *);
+	JsonReply(MHttpResponse *);
 	~JsonReply();
 
 	__forceinline JSONNode &data() const { return *m_root; }
@@ -412,7 +412,7 @@ class FacebookProto : public PROTO<FacebookProto>
 
 	AsyncHttpRequest *CreateRequest(const char *szUrl, const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
-	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
+	MHttpResponse *ExecuteRequest(AsyncHttpRequest *pReq);
 	CMStringA GetAgentString();
 
 	// Avatars

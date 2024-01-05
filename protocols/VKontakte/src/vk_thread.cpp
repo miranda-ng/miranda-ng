@@ -200,7 +200,7 @@ void CVkProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
+void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 {
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
 	GrabCookies(reply, szVKCookieDomain);
@@ -225,7 +225,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	}
 
 	if (reply->resultCode == 302) { // manual redirect
-		LPCSTR pszLocation = Netlib_GetHeader(reply, "Location");
+		LPCSTR pszLocation = reply->FindHeader("Location");
 		if (pszLocation) {
 			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
 				m_szAccessToken = nullptr;
@@ -283,12 +283,12 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	if (reply->resultCode != 200 || !reply->pData || (!(strstr(reply->pData, "method=\"post\"") || strstr(reply->pData, "method=\"POST\"")) && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
+	if (reply->resultCode != 200 || reply->body.IsEmpty() || (!(strstr(reply->body, "method=\"post\"") || strstr(reply->body, "method=\"POST\"")) && !strstr(reply->body, "meta http-equiv=\"refresh\""))) { // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
 
-	LPCSTR pBlankUrl = strstr(reply->pData, szBlankUrl);
+	LPCSTR pBlankUrl = strstr(reply->body, szBlankUrl);
 	if (pBlankUrl) {
 		debugLogA("CVkProto::OnOAuthAuthorize blank ulr found");
 		m_szAccessToken = nullptr;
@@ -311,10 +311,10 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	char* pMsgWarning = strstr(reply->pData, "service_msg_warning");
+	auto *pMsgWarning = strstr(reply->body, "service_msg_warning");
 	if (pMsgWarning) {
-		char *p1 = strchr(pMsgWarning, '>');
-		char *p2 = strchr(pMsgWarning, '<');
+		auto *p1 = strchr(pMsgWarning, '>');
+		auto *p2 = strchr(pMsgWarning, '<');
 		if (p1 && p2 && (p1 + 1 < p2)) {
 			CMStringA szMsg(p1 + 1, (int)(p2 - p1 - 1));
 			MsgPopup(ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
@@ -325,7 +325,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	}
 
 	CMStringA szAction, szBody;
-	bool bSuccess = AutoFillForm(reply->pData, szAction, szBody);
+	bool bSuccess = AutoFillForm(reply->body.GetBuffer(), szAction, szBody);
 	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
 		if (m_bPrevError) {
 			ConnectionFailed(LOGINERR_NOSERVER);
@@ -381,7 +381,7 @@ void CVkProto::RetrieveMyInfo()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo, AsyncHttpRequest::rpHigh));
 }
 
-void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveMyInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMyInfo %d", reply->resultCode);
 	if (reply->resultCode != 200) {
@@ -723,7 +723,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 }
 
-void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUserInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
 
@@ -801,7 +801,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 }
 
-void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveGroupInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
 
@@ -887,7 +887,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 		<< CHAR_PARAM("fields", szFieldsName))->pUserInfo = new CVkSendMsgParam(0, bCleanNonFriendContacts ? 1 : 0);
 }
 
-void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveFriends(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveFriends %d", reply->resultCode);
 	if (reply->resultCode != 200 || !IsOnline())
@@ -983,7 +983,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	return 0;
 }
 
-void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveDeleteFriend(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
