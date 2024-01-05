@@ -91,9 +91,8 @@ class MMemoryChunkStorage : public MChunkHandler
 	void apply(MHttpResponse *nlhr) override
 	{
 		unsigned dataLen = (unsigned)buf.length();
-		nlhr->body.Truncate(dataLen+1);
+		nlhr->body.Truncate(dataLen);
 		memcpy(nlhr->body.GetBuffer(), buf.data(), dataLen);
-		nlhr->body.SetAt(dataLen, 0);
 	}
 
 public:
