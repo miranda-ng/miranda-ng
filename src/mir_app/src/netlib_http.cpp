@@ -461,7 +461,7 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 		}
 
 		*pColon = 0;
-		nlhr->AddHeader(rtrim(pbuffer), lrtrimp(pColon + 1));
+		nlhr->insert(new MHttpHeader(rtrim(pbuffer), lrtrimp(pColon + 1)));
 		pbuffer = peol + 1;
 	}
 

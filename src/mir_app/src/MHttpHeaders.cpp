@@ -70,13 +70,17 @@ CMStringA MHttpHeaders::GetCookies() const
 		if (mir_strcmpi(it->szName, "Set-Cookie"))
 			continue;
 
+		CMStringA szCookie;
+		if (const char *p = strchr(it->szValue, ';'))
+			szCookie.Append(it->szValue, p - it->szValue.get());
+		else
+			szCookie = it->szValue;
+		
+		szCookie.TrimRight();
+
 		if (!ret.IsEmpty())
 			ret.Append("; ");
-
-		if (const char *p = strchr(it->szValue, ';'))
-			ret.Append(it->szValue, p - it->szValue.get());
-		else
-			ret.Append(it->szValue);
+		ret += szCookie;
 	}
 	return ret;
 }
