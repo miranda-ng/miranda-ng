@@ -75,7 +75,6 @@ struct NetlibUrl
 
 struct MChunkHandler
 {
-	virtual int getTotal() const = 0;
 	virtual void updateChunk(const void *pData, size_t cbLen) = 0;
 	virtual void apply(MHttpResponse *nlhr) = 0;
 };
@@ -83,11 +82,6 @@ struct MChunkHandler
 class MMemoryChunkStorage : public MChunkHandler
 {
 	MBinBuffer buf;
-
-	int getTotal() const override
-	{
-		return (int)buf.length();
-	}
 
 	void updateChunk(const void *pData, size_t cbLen) override
 	{

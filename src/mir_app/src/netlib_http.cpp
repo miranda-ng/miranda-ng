@@ -97,28 +97,27 @@ MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *nlhr)
 
 static int RecvWithTimeoutTime(NetlibConnection *nlc, int dwTimeoutTime, char *buf, int len, int flags)
 {
+	if (!nlc->foreBuf.isEmpty() || Netlib_SslPending(nlc->hSsl)) 
+		return Netlib_Recv(nlc, buf, len, flags);
+
 	int dwTimeNow;
+	while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
+		int dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
+		int res = WaitUntilReadable(nlc->s, dwDeltaTime);
 
-	if (nlc->foreBuf.isEmpty() && !Netlib_SslPending(nlc->hSsl)) {
-		while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
-			int dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
-			int res = WaitUntilReadable(nlc->s, dwDeltaTime);
+		switch (res) {
+		case SOCKET_ERROR:
+			return SOCKET_ERROR;
 
-			switch (res) {
-			case SOCKET_ERROR:
-				return SOCKET_ERROR;
-
-			case 1:
-				return Netlib_Recv(nlc, buf, len, flags);
-			}
-
-			if (nlc->termRequested || Miranda_IsTerminated())
-				return 0;
+		case 1:
+			return Netlib_Recv(nlc, buf, len, flags);
 		}
-		SetLastError(ERROR_TIMEOUT);
-		return SOCKET_ERROR;
+
+		if (nlc->termRequested || Miranda_IsTerminated())
+			return 0;
 	}
-	return Netlib_Recv(nlc, buf, len, flags);
+	SetLastError(ERROR_TIMEOUT);
+	return SOCKET_ERROR;
 }
 
 static char* NetlibHttpFindAuthHeader(MHttpResponse *nlhrReply, const char *hdr, const char *szProvider)
@@ -826,11 +825,9 @@ void NetlibHttpSetLastErrorUsingHttpResult(int result)
 	}
 }
 
-static char* gzip_decode(char *gzip_data, int *len_ptr, int window)
+static char* gzip_decode(char *gzip_data, int &len_ptr, int window)
 {
-	if (*len_ptr == 0) return nullptr;
-
-	int gzip_len = *len_ptr * 5;
+	int gzip_len = len_ptr * 5;
 	char* output_data = nullptr;
 
 	int gzip_err;
@@ -842,7 +839,7 @@ static char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 			break;
 
 		zstr.next_in = (Bytef*)gzip_data;
-		zstr.avail_in = *len_ptr;
+		zstr.avail_in = len_ptr;
 		zstr.zalloc = Z_NULL;
 		zstr.zfree = Z_NULL;
 		zstr.opaque = Z_NULL;
@@ -867,7 +864,7 @@ static char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 	}
 	else output_data[gzip_len] = 0;
 
-	*len_ptr = gzip_len;
+	len_ptr = gzip_len;
 	return output_data;
 }
 
@@ -946,30 +943,35 @@ next:
 	}
 
 	if (nlhrReply->resultCode >= 200 && (dataLen > 0 || (!isConnect && dataLen < 0))) {
-		int recvResult, chunksz = -1;
-
 		if (chunked) {
-			chunksz = NetlibHttpRecvChunkHeader(nlc, true, dflags | (cenctype ? MSG_NODUMP : 0));
-			if (chunksz == SOCKET_ERROR)
+			dataLen = NetlibHttpRecvChunkHeader(nlc, true, dflags | (cenctype ? MSG_NODUMP : 0));
+			if (dataLen == SOCKET_ERROR)
 				return nullptr;
-
-			dataLen = chunksz;
 		}
 
 		ptrA tmpBuf((char *)mir_alloc(65536));
-		while (chunksz != 0) {
+		while (dataLen != 0) {
+			// fetching one chunk
 			while (true) {
-				recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT,
-					tmpBuf, (chunked) ? chunksz : 65536, dflags | (cenctype ? MSG_NODUMP : 0));
+				int recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT,
+					tmpBuf, 65536, dflags | (cenctype ? MSG_NODUMP : 0));
 
 				if (recvResult == 0) break;
 				if (recvResult == SOCKET_ERROR)
 					return nullptr;
 
-				nlc->pChunkHandler->updateChunk(tmpBuf, recvResult);
-				if (dataLen >= 0)
-					if (nlc->pChunkHandler->getTotal() >= dataLen)
+
+				if (recvResult <= dataLen) {
+					nlc->pChunkHandler->updateChunk(tmpBuf, recvResult);
+					dataLen -= recvResult;
+					if (!dataLen)
 						break;
+				}
+				else {
+					nlc->pChunkHandler->updateChunk(tmpBuf, dataLen);
+					nlc->foreBuf.appendBefore(tmpBuf.get() + dataLen, recvResult - dataLen);
+					break;
+				}
 				
 				Sleep(10);
 			}
@@ -977,11 +979,9 @@ next:
 			if (!chunked)
 				break;
 
-			chunksz = NetlibHttpRecvChunkHeader(nlc, false, dflags | MSG_NODUMP);
-			if (chunksz == SOCKET_ERROR)
+			dataLen = NetlibHttpRecvChunkHeader(nlc, false, dflags | MSG_NODUMP);
+			if (dataLen == SOCKET_ERROR)
 				return nullptr;
-
-			dataLen += chunksz;
 		}
 	}
 
@@ -996,21 +996,21 @@ next:
 
 		switch (cenctype) {
 		case 1:
-			szData = gzip_decode(nlhrReply->body.GetBuffer(), &bufsz, 0x10 | MAX_WBITS);
+			szData = gzip_decode(nlhrReply->body.GetBuffer(), bufsz, 0x10 | MAX_WBITS);
 			break;
 
 		case 2:
-			szData = gzip_decode(nlhrReply->body.GetBuffer(), &bufsz, -MAX_WBITS);
+			szData = gzip_decode(nlhrReply->body.GetBuffer(), bufsz, -MAX_WBITS);
 			if (bufsz < 0) {
-				bufsz = nlhrReply->body.GetLength();;
-				szData = gzip_decode(nlhrReply->body.GetBuffer(), &bufsz, MAX_WBITS);
+				bufsz = nlhrReply->body.GetLength();
+				szData = gzip_decode(nlhrReply->body.GetBuffer(), bufsz, MAX_WBITS);
 			}
 			break;
 		}
 
 		if (bufsz > 0) {
 			Netlib_Dump(nlc, (uint8_t*)szData, bufsz, false, dflags | MSG_NOTITLE);
-			nlhrReply->body.Truncate(bufsz);
+			nlhrReply->body.Truncate(bufsz + 1);
 			memcpy(nlhrReply->body.GetBuffer(), szData, bufsz);
 			nlhrReply->body.SetAt(bufsz, 0);
 
@@ -1091,6 +1091,7 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 		nlhrReply->szUrl = nlc->szNewUrl;
 		nlc->szNewUrl = nullptr;
 	}
+	nlc->pChunkHandler = nullptr;
 
 	if ((nlhr->flags & NLHRF_PERSISTENT) == 0 || nlhrReply == nullptr) {
 		Netlib_CloseHandle(nlc);
