@@ -19,7 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CIcqProto::SendMrimLogin(MHttpResponse *pReply)
 {
-	m_szMraCookie = pReply->GetCookies();
+	if (pReply)
+		m_szMraCookie = pReply->GetCookies();
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, "https://icqapilogin.mail.ru/auth/mrimLogin", &CIcqProto::OnCheckMrimLogin);
 	pReq->AddHeader("User-Agent", NETLIB_USER_AGENT);
