@@ -166,9 +166,6 @@ void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
 
 bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	if (!pReq->m_szParam.IsEmpty() && pReq->requestType == REQUEST_GET)
-		pReq->m_szUrl.AppendFormat("?%s", pReq->m_szParam.c_str());
-
 	// replace credentials inside JSON body for pure RAPI requests
 	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->m_szUrl, ICQ_ROBUST_SERVER) && !getByte(DB_KEY_PHONEREG)) {
 		CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);

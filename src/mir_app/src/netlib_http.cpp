@@ -604,7 +604,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *p
 			else if (!mir_strcmpi(it->szName, "Authorization")) doneAuthHeader = true;
 			else if (!mir_strcmpi(it->szName, "Connection")) doneConnection = true;
 			if (it->szValue == nullptr) continue;
-			httpRequest.AppendFormat("%s: %s\r\n", it->szName, it->szValue);
+			httpRequest.AppendFormat("%s: %s\r\n", it->szName.get(), it->szValue.get());
 		}
 		if (szHost && !doneHostHeader)
 			httpRequest.AppendFormat("%s: %s\r\n", "Host", szHost);
@@ -1046,6 +1046,12 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 		return nullptr;
 
 	nlhr->flags |= NLHRF_SMARTREMOVEHOST;
+
+	if (!nlhr->m_szParam.IsEmpty() && nlhr->requestType == REQUEST_GET) {
+		nlhr->m_szUrl.AppendChar('?');
+		nlhr->m_szUrl += nlhr->m_szParam;
+		nlhr->m_szParam.Empty();
+	}
 
 	if (!nlhr->FindHeader("User-Agent")) {
 		char szUserAgent[64], szMirandaVer[64];

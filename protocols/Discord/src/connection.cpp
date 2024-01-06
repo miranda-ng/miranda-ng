@@ -19,15 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
-
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-			pReq->m_szUrl = str.GetBuffer();
-		}
-	}
-
 	if (pReq->m_bMainSite) {
 		pReq->flags |= NLHRF_PERSISTENT;
 		pReq->nlc = m_hAPIConnection;

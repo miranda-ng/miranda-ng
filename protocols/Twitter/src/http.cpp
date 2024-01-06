@@ -40,13 +40,8 @@ void CTwitterProto::Execute(AsyncHttpRequest *pReq)
 			else pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			pReq->AddHeader("Cache-Control", "no-cache");
 		}
-		else {
-			if (pReq->requestType == REQUEST_PATCH)
-				pReq->requestType = REQUEST_POST;
-
-			pReq->m_szUrl.AppendChar('?');
-			pReq->m_szUrl += pReq->m_szParam;
-		}
+		else if (pReq->requestType == REQUEST_PATCH)
+			pReq->requestType = REQUEST_POST;
 	}
 
 	// CMStringA auth(FORMAT, "%s:%s", OAUTH_CONSUMER_KEY, OAUTH_CONSUMER_SECRET);

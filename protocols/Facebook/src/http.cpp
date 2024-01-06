@@ -163,8 +163,6 @@ AsyncHttpRequest* FacebookProto::CreateRequestGQL(int64_t query_id) {
 MHttpResponse* FacebookProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	pReq->flags |= NLHRF_HTTP11;
-	if (!pReq->m_szParam.IsEmpty() && pReq->requestType == REQUEST_GET)
-		pReq->m_szUrl.AppendFormat("?%s", pReq->m_szParam.c_str());
 
 	debugLogA("Executing request:\n%s", pReq->m_szUrl.c_str());
 

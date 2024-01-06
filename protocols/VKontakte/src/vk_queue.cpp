@@ -34,17 +34,10 @@ void CVkProto::UninitQueue()
 
 bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
 	do {
 		pReq->bNeedsRestart = false;
 		pReq->m_iErrorCode = 0;
 		pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
-		if (!pReq->m_szParam.IsEmpty()) {
-			if (pReq->requestType == REQUEST_GET) {
-				str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-				pReq->m_szUrl = str.GetBuffer();
-			}
-		}
 
 		if (pReq->m_bApiReq) {
 			pReq->flags |= NLHRF_PERSISTENT;

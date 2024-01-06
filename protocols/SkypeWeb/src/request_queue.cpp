@@ -80,12 +80,6 @@ MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 
 	if (!pReq->m_szParam.IsEmpty()) {
 		switch (pReq->requestType) {
-		case REQUEST_GET:
-		case REQUEST_DELETE:
-			pReq->m_szUrl.AppendChar('?');
-			pReq->m_szUrl.Append(pReq->m_szParam.c_str());
-			break;
-
 		case REQUEST_PUT:
 		case REQUEST_POST:
 			if (!pReq->FindHeader("Content-Type")) {
