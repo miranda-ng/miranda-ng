@@ -484,7 +484,7 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 // nlhr.resultCode and nlhr.szResultDescr are ignored by this function.
 // Errors: ERROR_INVALID_PARAMETER, anything returned by MS_NETLIB_SEND
 
-int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *pHandler)
+int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &pHandler)
 {
 	MHttpResponse *nlhrReply = nullptr;
 	HttpSecurityContext httpSecurity;
@@ -526,8 +526,6 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *p
 
 	const char *pszFullUrl = nlhr->m_szUrl;
 	const char *pszUrl = nullptr;
-
-	nlc->pChunkHandler = pHandler;
 
 	unsigned complete = false;
 	int count = 11;
@@ -669,7 +667,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *p
 			if (nlhr->requestType == REQUEST_HEAD)
 				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
+				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
 
 			if (nlhrReply) {
 				auto *tmpUrl = nlhrReply->FindHeader("Location");
@@ -711,7 +709,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *p
 			if (nlhr->requestType == REQUEST_HEAD)
 				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
+				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
 
 			replaceStr(pszAuthHdr, nullptr);
 			if (nlhrReply) {
@@ -745,7 +743,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler *p
 			if (nlhr->requestType == REQUEST_HEAD)
 				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
+				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
 
 			mir_free(pszProxyAuthHdr); pszProxyAuthHdr = nullptr;
 			if (nlhrReply) {
@@ -904,7 +902,7 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, uint32_t
 	}
 }
 
-MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect)
+MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, MChunkHandler &pHandler, bool isConnect)
 {
 	int dataLen = -1;
 	bool chunked = false;
@@ -962,13 +960,13 @@ next:
 
 
 				if (recvResult <= dataLen) {
-					nlc->pChunkHandler->updateChunk(tmpBuf, recvResult);
+					pHandler.updateChunk(tmpBuf, recvResult);
 					dataLen -= recvResult;
 					if (!dataLen)
 						break;
 				}
 				else {
-					nlc->pChunkHandler->updateChunk(tmpBuf, dataLen);
+					pHandler.updateChunk(tmpBuf, dataLen);
 					nlc->foreBuf.appendBefore(tmpBuf.get() + dataLen, recvResult - dataLen);
 					break;
 				}
@@ -985,7 +983,7 @@ next:
 		}
 	}
 
-	nlc->pChunkHandler->apply(nlhrReply.get());
+	pHandler.apply(nlhrReply.get());
 
 	if (chunked)
 		nlhrReply->AddHeader("Content-Length", CMStringA(FORMAT, "%u", dataLen));
@@ -1074,7 +1072,7 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 		nlhr->AddHeader("Accept-Encoding", "deflate, gzip");
 	
 	MMemoryChunkStorage storage;
-	if (Netlib_SendHttpRequest(nlc, nlhr, &storage) == SOCKET_ERROR) {
+	if (Netlib_SendHttpRequest(nlc, nlhr, storage) == SOCKET_ERROR) {
 		Netlib_CloseHandle(nlc);
 		return nullptr;
 	}
@@ -1091,13 +1089,12 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 	if (nlhr->requestType == REQUEST_HEAD)
 		nlhrReply = Netlib_RecvHttpHeaders(nlc, 0);
 	else
-		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
+		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, storage);
 
 	if (nlhrReply) {
 		nlhrReply->szUrl = nlc->szNewUrl;
 		nlc->szNewUrl = nullptr;
 	}
-	nlc->pChunkHandler = nullptr;
 
 	if ((nlhr->flags & NLHRF_PERSISTENT) == 0 || nlhrReply == nullptr) {
 		Netlib_CloseHandle(nlc);

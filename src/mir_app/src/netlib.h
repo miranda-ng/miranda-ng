@@ -129,7 +129,6 @@ struct NetlibConnection : public MZeroedObject
 	NetlibUrl url;
 	int timeout;
 
-	MChunkHandler *pChunkHandler;
 	char *szNewUrl;
 	
 	mir_cs csHttpSequenceNums;
@@ -208,9 +207,9 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
-int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, MHttpRequest *pRec, MChunkHandler *pHandler);
+int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, MHttpRequest *pRec, MChunkHandler &pHandler);
 
-MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
+MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, MChunkHandler &pHandler, bool isConnect = false);
 
 // netliblog.cpp
 void NetlibLogShowOptions(void);

@@ -314,10 +314,10 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	nlhrSend.m_szUrl = szUrl;
 
-	if (Netlib_SendHttpRequest(nlc, &nlhrSend, &storage) == SOCKET_ERROR)
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend, storage) == SOCKET_ERROR)
 		return false;
 
-	auto *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
+	auto *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, storage, true);
 	if (nlhrReply == nullptr)
 		return false;
 
