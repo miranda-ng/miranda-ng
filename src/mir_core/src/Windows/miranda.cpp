@@ -390,17 +390,27 @@ MIR_CORE_DLL(void) LeaveMessageLoop()
 /////////////////////////////////////////////////////////////////////////////////////////
 // entry point
 
+HMODULE hMsfteditDll = nullptr;
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t fdwReason, LPVOID)
 {
-	if (fdwReason == DLL_PROCESS_ATTACH) {
+	switch (fdwReason) {
+	case DLL_PROCESS_ATTACH:
 		g_hInst = hinstDLL;
+		hMsfteditDll = LoadLibrary(L"msftedit.dll");
 		mir_tls = TlsAlloc();
 		LoadCoreModule();
-	}
-	else if (fdwReason == DLL_THREAD_DETACH) {
+		break;
+
+	case DLL_PROCESS_DETACH:
+		FreeLibrary(hMsfteditDll);
+		break;
+
+	case DLL_THREAD_DETACH:
 		HANDLE hEvent = TlsGetValue(mir_tls);
 		if (hEvent)
 			CloseHandle(hEvent);
+		break;
 	}
 	return TRUE;
 }
