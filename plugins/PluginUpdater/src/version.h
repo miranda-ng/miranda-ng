@@ -10,4 +10,4 @@
 #define __DESCRIPTION             "Installs and updates plugins and other Miranda NG components."
 #define __AUTHOR                  "Mataes, George Hazan"
 #define __AUTHORWEB               "https://miranda-ng.org/p/PluginUpdater"
-#define __COPYRIGHT               "© 2012-23 Mataes, George Hazan"
+#define __COPYRIGHT               "© 2012-24 Mataes, George Hazan"

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-23 sss
+// Copyright (c) 2017-24 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

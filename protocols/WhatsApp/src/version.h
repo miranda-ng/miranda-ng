@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "WhatsApp protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"
 #define __AUTHORWEB              "https://miranda-ng.org/p/WhatsApp"
-#define __COPYRIGHT              "© 2019-23 Miranda NG team"
+#define __COPYRIGHT              "© 2019-24 Miranda NG team"

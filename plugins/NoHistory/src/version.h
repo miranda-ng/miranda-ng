@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Prevent Miranda from storing any history."
 #define __AUTHOR                 "Scott Ellis, NightFox"
 #define __AUTHORWEB              "https://miranda-ng.org/p/NoHistory"
-#define __COPYRIGHT              "© 2005 Scott Ellis, 2010-17 NightFox, 2017-23 Miranda NG team"
+#define __COPYRIGHT              "© 2005 Scott Ellis, 2010-17 NightFox, 2017-24 Miranda NG team"

@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Provides Miranda database support: global settings, contacts, history, settings per contact."
 #define __AUTHOR                 "Miranda-NG project"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Dbx_sqlite"
-#define __COPYRIGHT              "© 2018-23 Miranda NG team"
+#define __COPYRIGHT              "© 2018-24 Miranda NG team"

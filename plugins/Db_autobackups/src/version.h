@@ -10,4 +10,4 @@
 #define __DESCRIPTION          "Database autobackuper plugin."
 #define __AUTHOR               "chaos.persei, sje, Kildor, Billy_Bons"
 #define __AUTHORWEB            "https://miranda-ng.org/p/Db_autobackups"
-#define __COPYRIGHT            "© 2005-23 chaos.persei, sje, Kildor, Billy_Bons, Vasilich, Miranda NG team"
+#define __COPYRIGHT            "© 2005-24 chaos.persei, sje, Kildor, Billy_Bons, Vasilich, Miranda NG team"
