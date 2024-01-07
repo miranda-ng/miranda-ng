@@ -247,6 +247,11 @@ int FacebookProto::SetStatus(int iNewStatus)
 	case ID_STATUS_OFFLINE:
 		break;
 
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_INVISIBLE:
+		iNewStatus = ID_STATUS_ONLINE;
+		break;
+
 	default:
 		iNewStatus = ID_STATUS_AWAY;
 		break;

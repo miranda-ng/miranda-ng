@@ -616,10 +616,18 @@ int CIcqProto::SetStatus(int iNewStatus)
 {
 	debugLogA("CIcqProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %p", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread);
 
+	switch (iNewStatus) {
+	case ID_STATUS_OFFLINE:
+	case ID_STATUS_ONLINE:
+		break;
+
+	default:
+		iNewStatus = ID_STATUS_ONLINE;
+	}
+
 	if (iNewStatus == m_iStatus)
 		return 0;
 
-	m_iDesiredStatus = iNewStatus;
 	int iOldStatus = m_iStatus;
 
 	// go offline
@@ -627,13 +635,17 @@ int CIcqProto::SetStatus(int iNewStatus)
 		if (m_bOnline)
 			SetServerStatus(ID_STATUS_OFFLINE);
 
-		m_iStatus = m_iDesiredStatus;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		return 0;
 	}
+
+	m_iDesiredStatus = iNewStatus;
+
 	// not logged in? come on
-	else if (!m_bOnline && !IsStatusConnecting(m_iStatus)) {
+	if (!m_bOnline && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 
@@ -655,7 +667,6 @@ int CIcqProto::SetStatus(int iNewStatus)
 		debugLogA("setting server online status to %d", iNewStatus);
 		SetServerStatus(iNewStatus);
 	}
-
 	return 0;
 }
 
