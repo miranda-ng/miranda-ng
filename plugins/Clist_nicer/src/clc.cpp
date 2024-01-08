@@ -631,60 +631,6 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}
 		return TRUE;
 
-	case WM_CONTEXTMENU:
-		Clist_EndRename(dat, 1);
-		Clist_HideInfoTip(dat);
-		KillTimer(hwnd, TIMERID_RENAME);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		if (GetFocus() != hwnd)
-			SetFocus(hwnd);
-		dat->iHotTrack = -1;
-		dat->szQuickSearch[0] = 0;
-		{
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			if (pt.x == -1 && pt.y == -1) {
-				dat->selection = g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
-				if (dat->selection != -1)
-					Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
-				pt.x = dat->iconXSpace + 15;
-				pt.y = RowHeight::getItemTopY(dat, dat->selection) - dat->yScroll + (int)(dat->row_heights[dat->selection] * .7);
-				hitFlags = dat->selection == -1 ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
-			}
-			else {
-				ScreenToClient(hwnd, &pt);
-				dat->selection = HitTest(hwnd, dat, pt.x, pt.y, &contact, nullptr, &hitFlags);
-			}
-			InvalidateRect(hwnd, nullptr, FALSE);
-			if (dat->selection != -1)
-				Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
-			UpdateWindow(hwnd);
-
-			HMENU hMenu = nullptr;
-			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
-				if (contact->type == CLCIT_GROUP) {
-					hMenu = Menu_BuildSubGroupMenu(contact->group);
-					ClientToScreen(hwnd, &pt);
-					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_clistApi.hwndContactList, nullptr);
-					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->bHideOffline ? MF_CHECKED : MF_UNCHECKED);
-					DestroyMenu(hMenu);
-					return 0;
-				}
-				else if (contact->type == CLCIT_CONTACT)
-					hMenu = Menu_BuildContactMenu(contact->hContact);
-			}
-			else {
-				//call parent for new group/hide offline menu
-				PostMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
-				return 0;
-			}
-			if (hMenu != nullptr) {
-				ClientToScreen(hwnd, &pt);
-				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
-				DestroyMenu(hMenu);
-			}
-		}
-		return 0;
-
 	case WM_COMMAND:
 		if (LOWORD(wParam) == POPUP_NEWGROUP)
 			SendMessage(GetParent(hwnd), msg, wParam, lParam);
