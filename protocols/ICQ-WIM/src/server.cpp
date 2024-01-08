@@ -895,7 +895,9 @@ void CIcqProto::SetOwnId(const CMStringW &wszId)
 	}
 	
 	setWString(pUser->m_hContact, "Nick", TranslateT("Favorites"));
-	db_set_ws(pUser->m_hContact, "CList", "MyHandle", TranslateT("Favorites"));
+	ptrW wszMyHandle(db_get_wsa(pUser->m_hContact, "CList", "MyHandle"));
+	if (!wszMyHandle)
+		db_set_ws(pUser->m_hContact, "CList", "MyHandle", TranslateT("Favorites"));
 
 	if (m_hFavContact == INVALID_CONTACT_ID) {
 		m_hFavContact = pUser->m_hContact;
