@@ -165,11 +165,6 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMen
 /////////////////////////////////////////////////////////////////////////////////////////
 // SUBGROUP MENU
 
-// builds the SubGroup menu
-// returns a HMENU identifying the menu.
-
-EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(struct ClcGroup *group);
-
 // adds a new item to the SubGroup menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi

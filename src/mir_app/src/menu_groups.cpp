@@ -157,20 +157,13 @@ struct SubGroupMenuExecParam
 	int Param1, Param2;
 };
 
-MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(ClcGroup *group)
+HMENU Menu_BuildSubGroupMenu(ClcGroup *group)
 {
 	NotifyEventHooks(hEventPreBuildSubGroupMenu, (WPARAM)group, 0);
 
 	HMENU hMenu = CreatePopupMenu();
 	Menu_Build(hMenu, hSubGroupMenuObject, (WPARAM)group, 0);
 	return hMenu;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-HMENU cliBuildGroupPopupMenu(ClcGroup *group)
-{
-	return Menu_BuildSubGroupMenu(group);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

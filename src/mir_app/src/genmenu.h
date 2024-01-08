@@ -126,6 +126,8 @@ int UninitGenMenu();
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
 
+HMENU Menu_BuildSubGroupMenu(struct ClcGroup *group);
+
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
 
 int GenMenuOptInit(WPARAM wParam, LPARAM);

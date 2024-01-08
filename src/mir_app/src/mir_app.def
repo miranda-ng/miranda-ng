@@ -157,7 +157,6 @@ Menu_AddStatusMenuItem @225
 Menu_BuildContactMenu @226
 Menu_GetMainMenu @228
 Menu_GetStatusMenu @229
-Menu_BuildSubGroupMenu @230
 Menu_AddGroupMenuItem @231
 Menu_AddSubGroupMenuItem @232
 Menu_BuildGroupMenu @233
