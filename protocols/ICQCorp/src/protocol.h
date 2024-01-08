@@ -22,6 +22,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+#define PSR_AWAYMSG    "/RecvAwayMsg"
 
 #define ICQ_TCP_VER                     0x0002
 #define ICQ_UDP_VER                     0x0003

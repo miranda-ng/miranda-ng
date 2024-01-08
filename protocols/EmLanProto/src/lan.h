@@ -4,6 +4,8 @@
 #ifndef __lan_h__
 #define __lan_h__
 
+#define PSR_AWAYMSG    "/RecvAwayMsg"
+
 #define MAKE_PORT(x) (HIBYTE(x)|(LOBYTE(x)<<8))
 
 #define MAX_INTERNAL_IP 32
