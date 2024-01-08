@@ -67,7 +67,7 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, NewsAggrSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, NewsAggrGetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, NewsAggrLoadIcon);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, NewsAggrGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, NewsAggrGetInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, NewsAggrRecvMessage);
 

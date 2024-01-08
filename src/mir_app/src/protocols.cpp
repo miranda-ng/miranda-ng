@@ -49,13 +49,13 @@ static TServiceListItem serviceItems[] =
 	{ PS_AUTHDENY,              4 },
 	{ PSR_AUTH,                 5 },
 	{ PSS_AUTHREQUEST,          6 },
-	{ PSS_FILEALLOW,            8 },
-	{ PSS_FILECANCEL,           9 },
-	{ PSS_FILEDENY,            10 },
+	{ PS_FILEALLOW,             8 },
+	{ PS_FILECANCEL,            9 },
+	{ PS_FILEDENY,             10 },
 	{ PS_FILERESUME,           11 },
 	{ PS_GETCAPS,              12 },
 	{ PS_LOADICON,             13 },
-	{ PSS_GETINFO,             14 },
+	{ PS_GETINFO,              14 },
 	{ PS_BASICSEARCH,          15 },
 	{ PS_SEARCHBYEMAIL,        16 },
 	{ PS_SEARCHBYNAME,         17 },
@@ -68,12 +68,11 @@ static TServiceListItem serviceItems[] =
 	{ PSS_FILE,                24 },
 	{ PSS_MESSAGE,             25 },
 	{ PS_SETSTATUS,            27 },
-	{ PSS_GETAWAYMSG,          28 },
-	{ PSR_AWAYMSG,             29 },
-	{ PS_SETAWAYMSG,           30 },
-	{ PSS_USERISTYPING,        31 },
-	{ PS_GETNAME,              32 },
-	{ PS_GETSTATUS,            33 },
+	{ PS_GETAWAYMSG,           28 },
+	{ PS_SETAWAYMSG,           29 },
+	{ PSS_USERISTYPING,        30 },
+	{ PS_GETNAME,              31 },
+	{ PS_GETSTATUS,            32 },
 };
 
 //------------------------------------------------------------------------------------
@@ -194,7 +193,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 	if (!hContact || !szProto)
 		return 0;
 
-	return (CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
+	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
 }
 
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
@@ -205,7 +204,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (Proto_ValidTypingContact(wParam, szProto))
-			CallContactService(0, szProto, PSS_USERISTYPING, wParam, lParam);
+			CallProtoService(szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
 	return 0;
@@ -232,11 +231,11 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
-	if (CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
-		CallContactService(0, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
+		CallProtoService(szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
-	CallContactService(0, szProto, PS_SETSTATUS, status, 0);
+	CallProtoService(szProto, PS_SETSTATUS, status, 0);
 }
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files)
@@ -381,16 +380,11 @@ MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(INT_PTR) CallProtoService(const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam)
-{
-	return CallContactService(0, szModule, szService, wParam, lParam);
-}
-
-MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
+INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
 	auto *ppi = Proto_GetInstance(szModule);
 	if (ppi != nullptr) {
-		TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
+		TServiceListItem *item = (TServiceListItem *)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
 		if (item) {
 			switch (item->id) {
 			case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT *)lParam);
@@ -402,20 +396,22 @@ MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule,
 			case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t *)lParam);
 			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t *)lParam);
-			case 11: {
-				PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
-				return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t *)pfr->szFilename);
-			}
+			case 11:
+				{
+					PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
+					return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t *)pfr->szFilename);
+				}
 
 			case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
 			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
 			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
 			case 15: return (INT_PTR)ppi->SearchBasic((wchar_t *)lParam);
 			case 16:	return (INT_PTR)ppi->SearchByEmail((wchar_t *)lParam);
-			case 17: {
-				PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME *)lParam;
-				return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
-			}
+			case 17:
+				{
+					PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME *)lParam;
+					return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
+				}
 			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT *)lParam);
@@ -423,21 +419,21 @@ MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule,
 			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT *)lParam);
 			case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
 			case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);
-			case 25: {
-				int msgId = ppi->SendMsg(hContact, wParam, (const char *)lParam);
-				if (msgId == -1) {
-					ppi->ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)-1, (LPARAM)TranslateT("Protocol is offline"));
-					return -1;
+			case 25:
+				{
+					int msgId = ppi->SendMsg(hContact, wParam, (const char *)lParam);
+					if (msgId == -1) {
+						ppi->ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)-1, (LPARAM)TranslateT("Protocol is offline"));
+						return -1;
+					}
+					return msgId;
 				}
-				return msgId;
-			}
 			case 27: return (INT_PTR)ppi->SetStatus(wParam);
 			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
-			case 29: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT *)lParam);
-			case 30: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t *)lParam);
-			case 31: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-			case 32: mir_strncpy((char *)lParam, ppi->m_szModuleName, wParam); return 0;
-			case 33:
+			case 29: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t *)lParam);
+			case 30: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
+			case 31: mir_strncpy((char *)lParam, ppi->m_szModuleName, wParam); return 0;
+			case 32:
 				return ppi->m_iStatus;
 			}
 		}
@@ -445,6 +441,19 @@ MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szModule,
 
 	return ProtoCallService(szModule, szService, wParam, lParam);
 }
+
+MIR_APP_DLL(INT_PTR) CallProtoService(const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam)
+{
+	return CallContactServiceInt(0, szModule, szService, wParam, lParam);
+}
+
+MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szService, WPARAM wParam, LPARAM lParam)
+{
+	auto *pa = Proto_GetContactAccount(hContact);
+	return (pa) ? CallContactServiceInt(hContact, pa->szModuleName, szService, wParam, lParam) : 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {

@@ -33,7 +33,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      SetStatus(int iNewStatus) override;
 
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
-	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) override;
 	int      SetAwayMsg(int iStatus, const wchar_t* msg) override;
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;

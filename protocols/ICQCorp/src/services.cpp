@@ -434,13 +434,13 @@ int LoadServices()
 	CreateProtoServiceFunction(protoName, PS_ADDTOLIST, icqAddToList);
 	CreateProtoServiceFunction(protoName, PS_FILERESUME, icqFileResume);
 
-	CreateProtoServiceFunction(protoName, PSS_GETINFO, icqGetInfo);
+	CreateProtoServiceFunction(protoName, PS_GETINFO, icqGetInfo);
 	CreateProtoServiceFunction(protoName, PSS_MESSAGE, icqSendMessage);
-	CreateProtoServiceFunction(protoName, PSS_GETAWAYMSG, icqGetAwayMsg);
+	CreateProtoServiceFunction(protoName, PS_GETAWAYMSG, icqGetAwayMsg);
 	CreateProtoServiceFunction(protoName, PSS_FILE, icqSendFile);
-	CreateProtoServiceFunction(protoName, PSS_FILEALLOW, icqFileAllow);
-	CreateProtoServiceFunction(protoName, PSS_FILEDENY, icqFileDeny);
-	CreateProtoServiceFunction(protoName, PSS_FILECANCEL, icqFileCancel);
+	CreateProtoServiceFunction(protoName, PS_FILEALLOW, icqFileAllow);
+	CreateProtoServiceFunction(protoName, PS_FILEDENY, icqFileDeny);
+	CreateProtoServiceFunction(protoName, PS_FILECANCEL, icqFileCancel);
 
 	CreateProtoServiceFunction(protoName, PSR_MESSAGE, icqRecvMessage);
 	CreateProtoServiceFunction(protoName, PSR_AWAYMSG, icqRecvAwayMsg);

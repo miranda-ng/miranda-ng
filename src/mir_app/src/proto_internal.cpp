@@ -78,30 +78,30 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
+		CCSDATA ccs = { hContact, PS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
 		if (m_iVersion > 1)
-			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
+			return (HANDLE)ProtoCallService(m_szModuleName, PS_FILEALLOW, 0, (LPARAM)&ccs);
 
 		ccs.lParam = (LPARAM)mir_u2a(szPath);
-		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
+		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PS_FILEALLOW, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
 
 	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILECANCEL, (WPARAM)hTransfer, 0 };
-		return (int)ProtoCallService(m_szModuleName, PSS_FILECANCEL, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_FILECANCEL, (WPARAM)hTransfer, 0 };
+		return (int)ProtoCallService(m_szModuleName, PS_FILECANCEL, 0, (LPARAM)&ccs);
 	}
 
 	int FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
+		CCSDATA ccs = { hContact, PS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
 		if (m_iVersion > 1)
-			return (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
+			return (int)ProtoCallService(m_szModuleName, PS_FILEDENY, 0, (LPARAM)&ccs);
 
 		ccs.lParam = (LPARAM)mir_u2a(szReason);
-		int res = (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
+		int res = (int)ProtoCallService(m_szModuleName, PS_FILEDENY, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
@@ -126,8 +126,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int GetInfo(MCONTACT hContact, int flags) override
 	{
-		CCSDATA ccs = { hContact, PSS_GETINFO, (WPARAM)flags, 0 };
-		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_GETINFO, (WPARAM)flags, 0 };
+		return ProtoCallService(m_szModuleName, PS_GETINFO, 0, (LPARAM)&ccs);
 	}
 
 	HANDLE SearchBasic(const wchar_t* id) override
@@ -222,14 +222,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE GetAwayMsg(MCONTACT hContact) override
 	{
-		CCSDATA ccs = { hContact, PSS_GETAWAYMSG, 0, 0 };
-		return (HANDLE)ProtoCallService(m_szModuleName, PSS_GETAWAYMSG, 0, (LPARAM)&ccs);
-	}
-
-	int RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt) override
-	{
-		CCSDATA ccs = { hContact, PSR_AWAYMSG, (WPARAM)statusMode, (LPARAM)evt };
-		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_GETAWAYMSG, 0, 0 };
+		return (HANDLE)ProtoCallService(m_szModuleName, PS_GETAWAYMSG, 0, (LPARAM)&ccs);
 	}
 
 	int SetAwayMsg(int iStatus, const wchar_t *msg) override

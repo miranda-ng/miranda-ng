@@ -139,7 +139,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 
 		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 			// if we're going offline, kill all contacts scheduled for deletion
-			uint32_t caps = (uint32_t)CallContactService(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 					MCONTACT hNext = db_find_next(hContact, ack->szModule);

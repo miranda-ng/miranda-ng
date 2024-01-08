@@ -162,6 +162,10 @@ struct MBaseProto : public PROTOCOLDESCRIPTOR, public MZeroedObject
 extern OBJLIST<MBaseProto> g_arProtos;
 extern LIST<MBaseProto> g_arFilters;
 
+// tries to call virtual methods of PROTO_INTERFACE by name
+INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+
+// simple wrapper for CallService(szModule + szService, wParam, lParam);
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);

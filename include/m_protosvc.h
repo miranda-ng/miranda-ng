@@ -246,6 +246,17 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PS_SETSTATUS   "/SetStatus"
 
 ///////////////////////////////////////////////////////////////////////////////
+// Sends a request to retrieve somebody's mode message.
+// wParam = lParam = 0
+// returns an hProcess identifying the request, or 0 on failure
+// This function will fail if the contact's current status mode doesn't have an
+// associated message
+// The reply will be in the form of an ack:
+// type = ACKTYPE_AWAYMSG, result = success/failure, lParam = (const char*)szMessage
+
+#define PS_GETAWAYMSG    "/GetAwayMsg"
+
+///////////////////////////////////////////////////////////////////////////////
 // Sets the status-mode specific message for yourself
 // wParam = status mode
 // lParam = (LPARAM)(const wchar_t*)szMessage
@@ -265,6 +276,59 @@ static __inline unsigned long Proto_Status2Flag(int status)
 // should leave this service unimplemented
 
 #define PS_GETSTATUS	"/GetStatus"
+
+///////////////////////////////////////////////////////////////////////////////
+// Updates a contact's details from the server
+// wParam = flags
+// lParam = 0
+// returns 0 on success, nonzero on failure
+// Will update all the information in the database, and then send acks with
+// type = ACKTYPE_GETINFO, result = ACKRESULT_SUCCESS, hProcess = (HANDLE)(int)nReplies, lParam = thisReply
+// Since some protocols do not allow the library to tell when it has got all
+// the information so it can send a final ack, one ack will be sent after each
+// chunk of data has been received. nReplies contains the number of distinct
+// acks that will be sent to get all the information, thisReply is the zero-
+// based index of this ack. When thisReply = 0 the 'minimal' information has just
+// been received. All other numbering is arbitrary.
+
+#define SGIF_MINIMAL   1     // get only the most basic information. This should
+									  // contain at least a Nick and e-mail.
+#define SGIF_ONOPEN    2     // set when the User Info form is being opened
+
+#define PS_GETINFO     "/GetInfo"
+
+///////////////////////////////////////////////////////////////////////////////
+// Allows a file transfer to begin
+// wParam = (WPARAM)(HANDLE)hTransfer
+// lParam = (LPARAM)(const wchar_t*)szPath
+// Returns a new handle to the transfer, to be used from now on
+// If szPath does not point to a directory then:
+//  if a single file is being transferred and the protocol supports file
+//    renaming (PF1_CANRENAMEFILE) then the file is given this name
+//  otherwise the filename is removed and the file(s) are placed in the
+//    resulting directory
+// File transfers are marked by an EVENTTYPE_FILE added to the database. The
+// format is:
+// uint32_t hTransfer
+// ASCIIZ filename(s), description
+
+#define PS_FILEALLOW   "/FileAllow"
+
+///////////////////////////////////////////////////////////////////////////////
+// Refuses a file transfer request
+// wParam = (WPARAM)(HANDLE)hTransfer
+// lParam = (LPARAM)(const wchar_t*)szReason
+// Returns 0 on success, nonzero on failure
+
+#define PS_FILEDENY    "/FileDeny"
+
+///////////////////////////////////////////////////////////////////////////////
+// Cancels an in-progress file transfer
+// wParam = (WPARAM)(HANDLE)hTransfer
+// lParam = 0
+// Returns 0 on success, nonzero on failure
+
+#define PS_FILECANCEL  "/FileCancel"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Allow somebody to add us to their contact list
@@ -565,25 +629,7 @@ struct PROTOFILERESUME
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            SENDING SERVICES
-// these should be called with CallContactService()
-
-// Updates a contact's details from the server
-// wParam = flags
-// lParam = 0
-// returns 0 on success, nonzero on failure
-// Will update all the information in the database, and then send acks with
-// type = ACKTYPE_GETINFO, result = ACKRESULT_SUCCESS, hProcess = (HANDLE)(int)nReplies, lParam = thisReply
-// Since some protocols do not allow the library to tell when it has got all
-// the information so it can send a final ack, one ack will be sent after each
-// chunk of data has been received. nReplies contains the number of distinct
-// acks that will be sent to get all the information, thisReply is the zero-
-// based index of this ack. When thisReply = 0 the 'minimal' information has just
-// been received. All other numbering is arbitrary.
-
-#define SGIF_MINIMAL   1     // get only the most basic information. This should
-                             // contain at least a Nick and e-mail.
-#define SGIF_ONOPEN    2     // set when the User Info form is being opened
-#define PSS_GETINFO      "/GetInfo"
+// these should be called with ProtoChainSend()
 
 ///////////////////////////////////////////////////////////////////////////////
 // Send an instant message
@@ -614,50 +660,6 @@ struct PROTOFILERESUME
 #define PSS_CONTACTS          "/SendContacts"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Send a request to retrieve somebody's mode message.
-// wParam = lParam = 0
-// returns an hProcess identifying the request, or 0 on failure
-// This function will fail if the contact's current status mode doesn't have an
-// associated message
-// The reply will be in the form of an ack:
-// type = ACKTYPE_AWAYMSG, result = success/failure, lParam = (const char*)szMessage
-
-#define PSS_GETAWAYMSG    "/GetAwayMsg"
-
-///////////////////////////////////////////////////////////////////////////////
-// Allows a file transfer to begin
-// wParam = (WPARAM)(HANDLE)hTransfer
-// lParam = (LPARAM)(const wchar_t*)szPath
-// Returns a new handle to the transfer, to be used from now on
-// If szPath does not point to a directory then:
-//  if a single file is being transferred and the protocol supports file
-//    renaming (PF1_CANRENAMEFILE) then the file is given this name
-//  otherwise the filename is removed and the file(s) are placed in the
-//    resulting directory
-// File transfers are marked by an EVENTTYPE_FILE added to the database. The
-// format is:
-// uint32_t hTransfer
-// ASCIIZ filename(s), description
-
-#define PSS_FILEALLOW   "/FileAllow"
-
-///////////////////////////////////////////////////////////////////////////////
-// Refuses a file transfer request
-// wParam = (WPARAM)(HANDLE)hTransfer
-// lParam = (LPARAM)(const wchar_t*)szReason
-// Returns 0 on success, nonzero on failure
-
-#define PSS_FILEDENY    "/FileDeny"
-
-///////////////////////////////////////////////////////////////////////////////
-// Cancel an in-progress file transfer
-// wParam = (WPARAM)(HANDLE)hTransfer
-// lParam = 0
-// Returns 0 on success, nonzero on failure
-
-#define PSS_FILECANCEL  "/FileCancel"
-
-///////////////////////////////////////////////////////////////////////////////
 // Initiate a file send
 // wParam = (WPARAM)(const wchar_t*)szDescription
 // lParam = (LPARAM)(wchar_t **)ppszFiles
@@ -684,15 +686,16 @@ struct PROTOFILERESUME
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            RECEIVING SERVICES
+// these should be called with ProtoChainRecv()
 
 // These services are not for calling by general modules. They serve a specific
 // role in communicating through protocol module chains before the whole app is
 // notified that an event has occurred.
 // When the respective event is received over the network, the network-level
-// protocol module initiates the chain by calling MS_PROTO_CHAINRECV with wParam
+// protocol module initiates the chain by calling ProtoChainRecv with wParam
 // set to zero and lParam pointing to the CCSDATA structure.
 // Protocol modules should continue the message up the chain by calling
-// MS_PROTO_CHAINRECV with the same wParam they received and a modified (or not)
+// ProtoChainRecv with the same wParam they received and a modified (or not)
 // lParam (CCSDATA). If they do not do this and return nonzero then all further
 // processing for the event will cease and the event will be ignored.
 // Once all non-network protocol modules have been called (in reverse order),
@@ -825,9 +828,6 @@ struct OFD_Callback
 // pre.flags can contain PREF_UTF defining the strings as utf-8 encoded (0.7.0+)
 // PS_ADDTOLIST can be used to add the contacts to the contact list.
 
-#define PSR_CONTACTS       "/RecvContacts"
-
-///////////////////////////////////////////////////////////////////////////////
 // contacts database event format (EVENTTYPE_CONTACTS)
 // repeat {
 // ASCIIZ userNick
@@ -842,10 +842,6 @@ struct OFD_Callback
 // zero-terminated, binary data should be converted to text.
 // Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
 
-// An away message reply has been received
-// wParam = statusMode
-// lParam = (LPARAM)(PROTORECVEVENT*)&pre
-
-#define PSR_AWAYMSG    "/RecvAwayMsg"
+#define PSR_CONTACTS       "/RecvContacts"
 
 #endif  // M_PROTOSVC_H__

@@ -272,11 +272,6 @@ HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT)
 	return nullptr; // no away message
 }
 
-int PROTO_INTERFACE::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
-{
-	return 1; // error
-}
-
 int PROTO_INTERFACE::SetAwayMsg(int, const wchar_t*)
 {
 	return 1; // error

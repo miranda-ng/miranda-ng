@@ -244,15 +244,6 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 	return nullptr;
 }
 
-int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
-{
-	debugLogW(L"CSametimeProto::RecvAwayMsg()  hContact=[%x], mode=[%d]", hContact, mode);
-
-	ptrW pszMsg(mir_utf8decodeW(evt->szMessage));
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, pszMsg);
-	return 0;
-}
-
 int CSametimeProto::SetAwayMsg(int iStatus, const wchar_t* msg)
 {
 	debugLogW(L"CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]", iStatus, msg == nullptr ? -1 : mir_wstrlen(msg));

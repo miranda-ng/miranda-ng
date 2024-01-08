@@ -241,7 +241,7 @@ MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status)
 	INT_PTR caps2;
 	if (szProto == nullptr)
 		caps2 = -1;
-	else if ((caps2 = CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
+	else if ((caps2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
 		caps2 = 0;
 
 	if (IsStatusConnecting(status)) {

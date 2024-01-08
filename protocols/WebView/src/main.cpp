@@ -64,7 +64,7 @@ void InitServices()
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, BasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, AddToList);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, GetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, GetInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -220,7 +220,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 
 		if (!swzMsg) {
 			if (CanRetrieveStatusMsg(hContact, szProto))
-				if (ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
+				if (CallContactService(hContact, PS_GETAWAYMSG, 0, 0))
 					return nullptr;
 
 			if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {

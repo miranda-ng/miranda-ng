@@ -50,7 +50,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_hSeq = (HANDLE)ProtoChainSend(m_hContact, PSS_GETAWAYMSG, 0, 0);
+		m_hSeq = (HANDLE)CallContactService(m_hContact, PS_GETAWAYMSG, 0, 0);
 		m_hAwayMsgEvent = m_hSeq ? HookEventMessage(ME_PROTO_ACK, m_hwnd, HM_AWAYMSG) : nullptr;
 		WindowList_Add(hWindowList, m_hwnd, m_hContact);
 
@@ -150,7 +150,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_hSeq = (HANDLE)ProtoChainSend(m_hContact, PSS_GETAWAYMSG, 0, 0);
+		m_hSeq = (HANDLE)CallContactService(m_hContact, PS_GETAWAYMSG, 0, 0);
 		m_hAwayMsgEvent = m_hSeq ? HookEventMessage(ME_PROTO_ACK, m_hwnd, HM_AWAYMSG) : nullptr;
 		WindowList_Add(hWindowList2, m_hwnd, m_hContact);
 

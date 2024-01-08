@@ -271,9 +271,9 @@ void InitServices(void)
 	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, WeatherBasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, WeatherAddToList);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, WeatherGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, WeatherGetInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, WeatherGetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
 	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_GETADVANCEDSTATUSICON, WeatherAdvancedStatusIcon);

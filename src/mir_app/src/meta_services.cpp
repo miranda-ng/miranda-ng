@@ -700,7 +700,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = hMostOnline;
-	return ProtoChainSend(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
+	return CallContactService(ccs->hContact, PS_GETAWAYMSG, ccs->wParam, ccs->lParam);
 }
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
@@ -762,10 +762,10 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = hMostOnline;
-	if (!ProtoServiceExists(proto, PSS_GETINFO))
+	if (!ProtoServiceExists(proto, PS_GETINFO))
 		return 0; // fail
 
-	return ProtoChainSend(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
+	return CallContactService(ccs->hContact, PS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
 int Meta_CallMostOnline(WPARAM hContact, LPARAM)
@@ -827,9 +827,9 @@ void Meta_InitServices()
 
 	// file recv is done by subcontacts
 	CreateProtoServiceFunction(META_PROTO, PSS_FILE, Meta_FileSend);
-	CreateProtoServiceFunction(META_PROTO, PSS_GETAWAYMSG, Meta_GetAwayMsg);
+	CreateProtoServiceFunction(META_PROTO, PS_GETAWAYMSG, Meta_GetAwayMsg);
 	CreateProtoServiceFunction(META_PROTO, PS_GETAVATARINFO, Meta_GetAvatarInfo);
-	CreateProtoServiceFunction(META_PROTO, PSS_GETINFO, Meta_GetInfo);
+	CreateProtoServiceFunction(META_PROTO, PS_GETINFO, Meta_GetInfo);
 
 	// receive filter
 	CreateProtoServiceFunction(META_FILTER, PSR_MESSAGE, MetaFilter_RecvMessage);

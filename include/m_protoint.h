@@ -245,7 +245,6 @@ public:
 	virtual	int      SetStatus(int iNewStatus);
 
 	virtual	HANDLE   GetAwayMsg(MCONTACT hContact);
-	virtual	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
 	virtual	int      SetAwayMsg(int iStatus, const wchar_t *msg);
 
 	virtual	int      UserIsTyping(MCONTACT hContact, int type);

@@ -90,7 +90,7 @@ static void amThreadProc(void *)
 
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
-			HANDLE ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
+			HANDLE ACK = (HANDLE)CallContactService(hContact, PS_GETAWAYMSG);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;

@@ -372,7 +372,7 @@ public:
 	void onClick_Cancel(CCtrlButton *)
 	{
 		if (dat->fs) {
-			ProtoChainSend(dat->hContact, PSS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
+			CallContactService(dat->hContact, PS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
 			dat->fs = nullptr; /* the protocol will free the handle */
 		}
 	}

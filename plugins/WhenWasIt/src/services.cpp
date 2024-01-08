@@ -123,7 +123,7 @@ void __cdecl RefreshUserDetailsWorkerThread(void*)
 
 	MCONTACT hContact = db_find_first();
 	while (hContact != NULL) {
-		ProtoChainSend(hContact, PSS_GETINFO, 0, 0);
+		CallContactService(hContact, PS_GETINFO);
 		hContact = db_find_next(hContact);
 		if (hContact)
 			Sleep(delay); //sleep for a few seconds between requests

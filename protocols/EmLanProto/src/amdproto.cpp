@@ -334,13 +334,13 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, EMPAddToList);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, EMPSendMessage);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, EMPRecvMessage);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, EMPGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, EMPGetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PS_SETAWAYMSG, EMPSetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PSR_AWAYMSG, EMPRecvAwayMessage);
 	CreateProtoServiceFunction(MODULENAME, PS_FILERESUME, EMPFileResume);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILEALLOW, EMPSendFileAllow);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILEDENY, EMPSendFileDeny);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILECANCEL, EMPSendFileCancel);
+	CreateProtoServiceFunction(MODULENAME, PS_FILEALLOW, EMPSendFileAllow);
+	CreateProtoServiceFunction(MODULENAME, PS_FILEDENY, EMPSendFileDeny);
+	CreateProtoServiceFunction(MODULENAME, PS_FILECANCEL, EMPSendFileCancel);
 	CreateProtoServiceFunction(MODULENAME, PSS_FILE, EMPSendFile);
 	CreateProtoServiceFunction(MODULENAME, PSR_FILE, EMPRecvFile);
 

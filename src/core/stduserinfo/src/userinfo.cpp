@@ -227,7 +227,7 @@ class CUserInfoDlg : public CDlgBase
 
 	void CheckOnline()
 	{
-		const char *szProto = GetProto();
+		const char *szProto = (m_pCurrent && m_pCurrent->szProto) ? m_pCurrent->szProto : Proto_GetBaseAccountName(m_hContact);
 		if (szProto == nullptr || m_bIsMeta)
 			btnUpdate.Disable();
 		else {
@@ -236,14 +236,6 @@ class CUserInfoDlg : public CDlgBase
 			else
 				btnUpdate.Enable(!IsWindowVisible(GetDlgItem(m_hwnd, IDC_UPDATING)));
 		}
-	}
-
-	const char *GetProto() const
-	{
-		if (m_pCurrent && m_pCurrent->szProto)
-			return m_pCurrent->szProto;
-		
-		return (m_hContact) ? Proto_GetBaseAccountName(m_hContact) : nullptr;
 	}
 
 	void ResizeCurrent()
@@ -323,7 +315,7 @@ public:
 		m_updateAnimFrame = 0;
 		GetDlgItemText(m_hwnd, IDC_UPDATING, m_szUpdating, _countof(m_szUpdating));
 		CheckOnline();
-		if (!ProtoChainSend(m_hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
+		if (!CallContactService(m_hContact, PS_GETINFO, SGIF_ONOPEN)) {
 			btnUpdate.Disable();
 			SetTimer(m_hwnd, 1, 100, nullptr);
 		}
@@ -555,8 +547,9 @@ public:
 			m_infosUpdated = NULL;
 		}
 
-		if (const char *szProto = GetProto())
-			if (!CallContactService(m_hContact, szProto, PSS_GETINFO)) {
+		MCONTACT hContact = (m_pCurrent && m_pCurrent->szProto) ? m_pCurrent->hContact : m_hContact;
+		if (hContact)
+			if (!CallContactService(hContact, PS_GETINFO)) {
 				btnUpdate.Disable();
 				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
 				updateTimer.Start(100);

@@ -135,7 +135,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 	if (mode & GCDNF_NOUNKNOWN)
 		return nullptr;
 
-	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
+	CallContactService(hContact, PS_GETINFO, SGIF_MINIMAL);
 
 	wchar_t *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == nullptr) ? mir_wstrdup(buffer) : buffer;

@@ -75,7 +75,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_hSeq = (HANDLE)ProtoChainSend(m_hContact, PSS_GETAWAYMSG, 0, 0);
+		m_hSeq = (HANDLE)CallContactService(m_hContact, PS_GETAWAYMSG);
 		if (m_hSeq == nullptr) {
 			ACKDATA ack = {};
 			ack.hContact = m_hContact;

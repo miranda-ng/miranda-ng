@@ -105,7 +105,7 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 			// The following HookEventMessage will hook the ME_PROTO_ACK event and send a WM_AWAYMSG to hWnd when the hooks get notified.
 			pdp->hAwayMsgHook = HookEventParam(ME_PROTO_ACK, AwayMsgHook, (LPARAM)pdp);
 			// The following instruction asks Miranda to retrieve the away message and associates a hProcess (handle) to this request. This handle will appear in the ME_PROTO_ACK event.
-			pdp->hAwayMsgProcess = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
+			pdp->hAwayMsgProcess = (HANDLE)CallContactService(hContact, PS_GETAWAYMSG);
 		}
 	}
 }

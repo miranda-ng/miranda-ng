@@ -220,7 +220,7 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 
 	if (dat->hwndAdvSearch == nullptr) {
 		RECT rc;
-		dat->hwndAdvSearch = (HWND)CallContactService(0, szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)hwndDlg);
+		dat->hwndAdvSearch = (HWND)CallProtoService(szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)hwndDlg);
 		if (dat->hwndAdvSearch != nullptr)
 			mir_subclassWindow(dat->hwndAdvSearch, AdvancedSearchDlgSubclassProc);
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULTS), &rc);
@@ -256,7 +256,7 @@ static void ShowTinySearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 		return;
 
 	if (dat->hwndTinySearch == nullptr) {
-		dat->hwndTinySearch = (HWND)CallContactService(0, szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)/*GetDlgItem(*/hwndDlg/*, IDC_TINYEXTENDEDGROUP)*/);
+		dat->hwndTinySearch = (HWND)CallProtoService(szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)/*GetDlgItem(*/hwndDlg/*, IDC_TINYEXTENDEDGROUP)*/);
 		if (dat->hwndTinySearch)
 			ReposTinySearchDlg(hwndDlg, dat);
 		else
@@ -373,7 +373,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!pa->IsEnabled())
 					continue;
 
-				uint32_t caps = (uint32_t)CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t caps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_ANYSEARCH)
 					netProtoCount++;
 			}
@@ -400,7 +400,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!pa->IsEnabled())
 					continue;
 
-				uint32_t caps = (uint32_t)CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t caps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (!(caps & PF1_ANYSEARCH))
 					continue;
 
@@ -409,7 +409,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
 
-				HICON hIcon = (HICON)CallContactService(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+				HICON hIcon = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 				cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(dat->himlComboIcons, hIcon);
 				DestroyIcon(hIcon);
 				cbei.lParam = (LPARAM)pa->szModuleName;
@@ -474,14 +474,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (szProto == nullptr) {
 				for (auto &pa : g_arAccounts) {
 					if (pa->IsEnabled()) {
-						uint32_t protoCaps = (uint32_t)CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+						uint32_t protoCaps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
 						if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
 					}
 				}
 			}
 			else {
-				uint32_t protoCaps = (uint32_t)CallContactService(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t protoCaps = (uint32_t)CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (protoCaps & PF1_BASICSEARCH) dat->showProtoId = 1;
 				if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
 				if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
@@ -491,7 +491,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (protoCaps & PF1_USERIDISEMAIL && dat->showProtoId) { dat->showProtoId = 0; dat->showEmail = 1; }
 				if (dat->showProtoId) {
-					wchar_t *wszUniqueId = (wchar_t *)CallContactService(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					wchar_t *wszUniqueId = (wchar_t *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 					if (wszUniqueId)
 						SetDlgItemTextW(hwndDlg, IDC_BYPROTOID, wszUniqueId);
 					else
@@ -986,7 +986,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 			if (!pa->IsEnabled())
 				continue;
 
-			int protoCaps = CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			int protoCaps = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (protoCaps & PF1_ANYSEARCH)
 				netProtoCount++;
 		}
@@ -1028,7 +1028,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	// Make sure we have some networks to search on.
 	for (auto &pa : g_arAccounts) {
-		int protoCaps = CallContactService(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		int protoCaps = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & PF1_ANYSEARCH)
 			netProtoCount++;
 	}

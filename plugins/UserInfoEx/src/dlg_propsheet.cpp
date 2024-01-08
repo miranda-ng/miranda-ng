@@ -1225,12 +1225,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				// need meta contact's subcontact information
 				if (DB::Module::IsMetaAndScan(pPs->pszProto)) {
-					// count valid subcontacts whose protocol supports the PSS_GETINFO service to update the information
+					// count valid subcontacts whose protocol supports the PS_GETINFO service to update the information
 					int numSubs = db_mc_getSubCount(pPs->hContact);
 					for (int i = 0; i < numSubs; i++) {
 						MCONTACT hSubContact = db_mc_getSub(pPs->hContact, i);
 						if (hSubContact) {
-							if (ProtoServiceExists(Proto_GetBaseAccountName(hSubContact), PSS_GETINFO)) {
+							if (ProtoServiceExists(Proto_GetBaseAccountName(hSubContact), PS_GETINFO)) {
 								pPs->infosUpdated = (TAckInfo *)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo) * (pPs->nSubContacts + 1));
 								pPs->infosUpdated[pPs->nSubContacts].hContact = hSubContact;
 								pPs->infosUpdated[pPs->nSubContacts].acks = nullptr;
@@ -1245,7 +1245,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 						// call the services
 						for (int i = 0; i < pPs->nSubContacts; i++)
-							if (!ProtoChainSend(pPs->infosUpdated[pPs->nSubContacts].hContact, PSS_GETINFO, NULL, NULL))
+							if (!CallContactService(pPs->infosUpdated[pPs->nSubContacts].hContact, PS_GETINFO))
 								bDo = TRUE;
 
 						if (bDo) {
@@ -1255,7 +1255,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						}
 					}
 				}
-				else if (!ProtoChainSend(pPs->hContact, PSS_GETINFO, NULL, NULL)) {
+				else if (!CallContactService(pPs->hContact, PS_GETINFO)) {
 					pPs->infosUpdated = (TAckInfo *)mir_calloc(sizeof(TAckInfo));
 					pPs->infosUpdated[0].hContact = pPs->hContact;
 					pPs->nSubContacts = 1;
