@@ -54,12 +54,13 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 				nlhr.m_szUrl = url;
 
 				// download the page
-				NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
+				NLHR_PTR nlhrReply(encrypted
+					? Netlib_HttpTransaction(m_hNetlibUser, &nlhr)
+					: Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath));
 				if (nlhrReply && nlhrReply->resultCode == 200) {
-					FILE *f = _wfopen(ofd->wszPath, L"wb");
 					size_t written = 0;
-					if (f) {
-						if (encrypted) {
+					if (encrypted) {
+						if (FILE *f = _wfopen(ofd->wszPath, L"wb")) {
 							int payload_len = nlhrReply->body.GetLength() - 16;
 							if (payload_len > 0) {
 								uint8_t ivkey[44];
@@ -80,10 +81,13 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 										written = payload_len;
 								mir_free(out);
 							}
+							fclose(f);
 						}
-						else if (fwrite(nlhrReply->body, 1, nlhrReply->body.GetLength(), f) == size_t(nlhrReply->body.GetLength()))
-							written = nlhrReply->body.GetLength();
-						fclose(f);
+					}
+					else {
+						struct _stat st;
+						_wstat(ofd->wszPath, &st);
+						written = st.st_size;
 					}
 
 					if (written) {
