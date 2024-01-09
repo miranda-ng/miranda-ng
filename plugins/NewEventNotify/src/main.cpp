@@ -61,29 +61,30 @@ CMPlugin::CMPlugin() :
 int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	//are popups currently enabled?
-	if (!g_plugin.bPopups)
+	if (!g_plugin.bPopups || Contact::IsGroupChat(hContact))
 		return 0;
 
 	//get DBEVENTINFO without pBlob
-	DBEVENTINFO dbe = {};
-	db_event_get(hDbEvent, &dbe);
+	DB::EventInfo dbei(hDbEvent, false);
+	if (!dbei)
+		return 0;
 
 	//do not show popups for sub-contacts
 	if (hContact && db_mc_isSub(hContact))
 		return 0;
 
 	//custom database event types
-	DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbe.szModule, dbe.eventType);
+	DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei.szModule, dbei.eventType);
 	// ignore events according to flags
 	if (pei && pei->flags & DETF_NONOTIFY)
 		return 0;
 
 	// if event was allready read don't show it
-	if (g_plugin.bReadCheck && (dbe.flags & DBEF_READ))
+	if (g_plugin.bReadCheck && (dbei.flags & DBEF_READ))
 		return 0;
 
 	// is it an event sent by the user? -> don't show
-	if (dbe.flags & DBEF_SENT) {
+	if (dbei.flags & DBEF_SENT) {
 		// JK, only message event, do not influence others
 		auto *pdata = PU_GetByContact(hContact, EVENTTYPE_MESSAGE);
 		if (g_plugin.bHideSend && pdata)
@@ -94,15 +95,15 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 	// which status do we have, are we allowed to post popups?
 	// UNDER CONSTRUCTION!!!
 	CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
-	if (dbe.eventType == EVENTTYPE_MESSAGE && (g_plugin.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
+	if (dbei.eventType == EVENTTYPE_MESSAGE && (g_plugin.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
 		return 0;
 
 	// is another popup for this contact already present? -> merge message popups if enabled
 	auto *pdata = PU_GetByContact(hContact, EVENTTYPE_MESSAGE);
-	if (dbe.eventType == EVENTTYPE_MESSAGE && g_plugin.bMergePopup && pdata)
+	if (dbei.eventType == EVENTTYPE_MESSAGE && g_plugin.bMergePopup && pdata)
 		PopupUpdate(*pdata, hDbEvent);
 	else
-		PopupShow(hContact, hDbEvent, (UINT)dbe.eventType);
+		PopupShow(hContact, hDbEvent, dbei.eventType);
 
 	return 0;
 }
