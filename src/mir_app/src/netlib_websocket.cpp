@@ -35,28 +35,26 @@ MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHos
 	if (!mir_strncmp(tmpHost, "wss://", 6))
 		tmpHost.Delete(0, 6);
 
-	auto *nlr = new MHttpRequest(0);
-	nlr->flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
-	nlr->m_szUrl = tmpHost.GetBuffer();
-	nlr->AddHeader("Accept", "*/*");
-	nlr->AddHeader("Upgrade", "websocket");
-	nlr->AddHeader("Pragma", "no-cache");
-	nlr->AddHeader("Cache-Control", "no-cache");
-	nlr->AddHeader("Connection", "keep-alive, Upgrade");
+	MHttpRequest nlhr(REQUEST_GET);
+	nlhr.flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
+	nlhr.m_szUrl = tmpHost.GetBuffer();
+	nlhr.AddHeader("Accept", "*/*");
+	nlhr.AddHeader("Upgrade", "websocket");
+	nlhr.AddHeader("Pragma", "no-cache");
+	nlhr.AddHeader("Cache-Control", "no-cache");
+	nlhr.AddHeader("Connection", "keep-alive, Upgrade");
 
 	uint8_t binNonce[16];
 	Utils_GetRandom(binNonce, sizeof(binNonce));
-	nlr->AddHeader("Sec-WebSocket-Key", ptrA(mir_base64_encode(binNonce, sizeof(binNonce))));
-	nlr->AddHeader("Sec-WebSocket-Version", "13");
-	nlr->AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_max_window_bits");
+	nlhr.AddHeader("Sec-WebSocket-Key", ptrA(mir_base64_encode(binNonce, sizeof(binNonce))));
+	nlhr.AddHeader("Sec-WebSocket-Version", "13");
+	nlhr.AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_max_window_bits");
 	
 	if (pHeaders)
 		for (auto &it: *pHeaders)
-			nlr->AddHeader(it->szName, it->szValue);
+			nlhr.AddHeader(it->szName, it->szValue);
 
-	auto *pReply = Netlib_HttpTransaction(nlu, nlr);
-	delete nlr;
-
+	auto *pReply = Netlib_HttpTransaction(nlu, &nlhr);
 	if (pReply == nullptr) {
 		Netlib_Logf(nlu, "Error establishing WebSocket connection to %s, send failed", tmpHost.c_str());
 		return nullptr;
