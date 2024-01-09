@@ -154,6 +154,7 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 	const char *b = strrchr(pszUrl, '/') + 1;
 	while (*b != 0 && *b != '#' && *b != '?')
 		szName.AppendChar(*b++);
+	mir_urlDecode(szName.GetBuffer());
 	auto *pszName = szName.c_str();
 
 	MHttpRequest req(REQUEST_HEAD);
