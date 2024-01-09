@@ -412,3 +412,8 @@ void RegisterJson()
 {
 	RegisterDatabasePlugin(&dblink);
 }
+
+void UnregisterJson()
+{
+	UnregisterDatabasePlugin(&dblink);
+}

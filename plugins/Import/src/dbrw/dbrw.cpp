@@ -103,3 +103,8 @@ void RegisterDbrw()
 {
 	RegisterDatabasePlugin(&dblink);
 }
+
+void UnregisterDbrw()
+{
+	UnregisterDatabasePlugin(&dblink);
+}

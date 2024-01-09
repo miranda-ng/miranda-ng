@@ -400,6 +400,9 @@ EXTERN_C MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db);
 // registers a database plugin
 EXTERN_C MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr);
 
+// unregisters a database plugin
+EXTERN_C MIR_APP_DLL(void) UnregisterDatabasePlugin(DATABASELINK *pDescr);
+
 // looks for a database plugin by its short name
 // returns DATABASELINK* of the required plugin or nullptr on error
 EXTERN_C MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName);

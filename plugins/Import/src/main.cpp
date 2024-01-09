@@ -158,3 +158,11 @@ int CMPlugin::Load()
 	RegisterJson();
 	return 0;
 }
+
+int CMPlugin::Unload()
+{
+	UnregisterDbrw();
+	UnregisterMContacts();
+	UnregisterJson();
+	return 0;
+}

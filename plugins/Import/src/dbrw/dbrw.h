@@ -28,3 +28,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBRW_HEADER_STR          "SQLite format 3"
 
 void RegisterDbrw();
+void UnregisterDbrw();

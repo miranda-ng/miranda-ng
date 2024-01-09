@@ -35,6 +35,13 @@ MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr)
 		arDbPlugins.insert(pDescr);
 }
 
+MIR_APP_DLL(void) UnregisterDatabasePlugin(DATABASELINK *pDescr)
+{
+	int idx = arDbPlugins.indexOf(pDescr);
+	if (idx != -1)
+		arDbPlugins.remove(idx);
+}
+
 MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName)
 {
 	for (auto &it : arDbPlugins)

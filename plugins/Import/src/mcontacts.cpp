@@ -320,3 +320,8 @@ void RegisterMContacts()
 {
 	RegisterDatabasePlugin(&dblink);
 }
+
+void UnregisterMContacts()
+{
+	UnregisterDatabasePlugin(&dblink);
+}

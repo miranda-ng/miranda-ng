@@ -214,7 +214,8 @@ Profile_GetPathW @293
 Profile_SetDefault @294
 Chat_GetDefaultEventDescr @295
 FindDatabasePlugin @296
-RegisterDatabasePlugin @298
+RegisterDatabasePlugin @297
+UnregisterDatabasePlugin @298
 Chat_CustomizeApi @299
 Clist_FindItem @314 NONAME
 Colour_Get @315

@@ -104,6 +104,7 @@ public:
 	CMPlugin();
 
 	int Load() override;
+	int Unload() override;
 };
 
 // Keys
@@ -320,7 +321,11 @@ extern CImportBatch *g_pBatch;
 extern HWND g_hwndWizard, g_hwndAccMerge;
 
 void RegisterIcons(void);
+
 void RegisterMContacts();
+void UnregisterMContacts();
+
 void RegisterJson();
+void UnregisterJson();
 
 INT_PTR ImportContact(WPARAM hContact, LPARAM);
