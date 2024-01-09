@@ -52,7 +52,7 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	nlu.toLog = 1;
 
 	// initialize the netlib request
-	MHttpRequest nlhr;
+	MHttpRequest nlhr(0);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
 	nlhr.m_szUrl = szUrl;
 

@@ -22,12 +22,9 @@ class HttpRequest : public MHttpRequest
 private:
 	CMStringA m_szUrl;
 
-	void Init(int type)
+	void Init()
 	{
-		requestType = type;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
-		nlc = NULL;
-		timeout = 0;
 	}
 
 protected:
@@ -78,16 +75,18 @@ protected:
 	}
 
 public:
-	HttpRequest(int type, LPCSTR url)
+	HttpRequest(int type, LPCSTR url) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		m_szUrl = url;
 	}
 
-	HttpRequest(int type, CMStringDataFormat, LPCSTR urlFormat, ...)
+	HttpRequest(int type, CMStringDataFormat, LPCSTR urlFormat, ...) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		va_list formatArgs;
 		va_start(formatArgs, urlFormat);

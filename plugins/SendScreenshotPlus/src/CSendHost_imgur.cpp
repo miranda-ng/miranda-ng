@@ -42,7 +42,7 @@ int CSendHost_Imgur::Send()
 		{ "image", HTTPFORM_FILE(tmp) },
 	};
 
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, "https://api.imgur.com/3/image", frm, _countof(frm));
+	int error = HTTPFormCreate(&m_nlhr, "https://api.imgur.com/3/image", frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;

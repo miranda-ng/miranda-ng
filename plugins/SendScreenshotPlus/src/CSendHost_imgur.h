@@ -24,7 +24,6 @@ class CSendHost_Imgur : public CSend {
 		int Send() override;
 
 	protected:
-		MHttpRequest m_nlhr;
 		static void SendThread(void* obj);
 };
 #endif

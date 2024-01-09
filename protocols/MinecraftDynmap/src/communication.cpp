@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 MHttpResponse* MinecraftDynmapProto::sendRequest(const int request_type, std::string *post_data, std::string *get_data)
 {
 	// Prepare the request
-	MHttpRequest nlhr;
+	MHttpRequest nlhr(REQUEST_GET);
 
 	// FIXME: get server
 
@@ -40,7 +40,6 @@ MHttpResponse* MinecraftDynmapProto::sendRequest(const int request_type, std::st
 		nlhr.requestType = REQUEST_POST;
 		nlhr.SetData(post_data->c_str(), post_data->length());
 	}
-	else nlhr.requestType = REQUEST_GET;
 
 	// Set headers - it depends on requestType so it must be after setting that
 	if (request_type == REQUEST_POST)

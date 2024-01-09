@@ -67,10 +67,9 @@ void CheckMailInbox(Account *curAcc)
 		szBody.Append("&password=");
 		szBody.Append(curAcc->pass);
 
-		MHttpRequest nlhr;
+		MHttpRequest nlhr(REQUEST_POST);
 		nlhr.m_szUrl = szUrl.GetBuffer();
 		nlhr.m_szParam = szBody;
-		nlhr.requestType = REQUEST_POST;
 		nlhr.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
@@ -93,9 +92,8 @@ void CheckMailInbox(Account *curAcc)
 	else
 		szUrl.Append("/mail/feed/atom");
 
-	MHttpRequest nlhr;
-	nlhr.m_szUrl = szUrl.GetBuffer();
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
+	nlhr.m_szUrl = szUrl;
 	nlhr.AddHeader("Authorization", szAuth.GetBuffer());
 
 	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));

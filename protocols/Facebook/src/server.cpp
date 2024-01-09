@@ -760,9 +760,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 						// 	wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
-						MHttpRequest req;
+						MHttpRequest req(REQUEST_GET);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-						req.requestType = REQUEST_GET;
 						req.m_szUrl = szUrl.c_str();
 
 						MHttpResponse *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);

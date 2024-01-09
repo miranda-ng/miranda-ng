@@ -23,7 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MHttpRequest::MHttpRequest()
+MHttpRequest::MHttpRequest(int _1) :
+	requestType(_1),
+	flags(0),
+	pUserInfo(nullptr),
+	nlc(0),
+	timeout(30000)
 {
 }
 

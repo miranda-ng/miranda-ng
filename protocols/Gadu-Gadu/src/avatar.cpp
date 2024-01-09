@@ -51,8 +51,7 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	char szUrl[128];
 	mir_snprintf(szUrl, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
 
-	MHttpRequest req;
-	req.requestType = REQUEST_GET;
+	MHttpRequest req(REQUEST_GET);
 	req.m_szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
@@ -225,8 +224,7 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			ai.hContact = data->hContact;
 			ai.format = getByte(ai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-			MHttpRequest req;
-			req.requestType = REQUEST_GET;
+			MHttpRequest req(REQUEST_GET);
 			req.m_szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
@@ -372,8 +370,7 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	char* token = getStringA(GG_KEY_TOKEN);
 
 	// construct request
-	MHttpRequest req = {};
-	req.requestType = REQUEST_POST;
+	MHttpRequest req(REQUEST_POST);
 	req.m_szUrl = "http://avatars.nowe.gg/upload";
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
 	req.AddHeader("X-Request", "JSON");

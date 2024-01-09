@@ -45,7 +45,8 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_hSend(nullptr),
 	m_hOnSend(nullptr),
 	m_ErrorMsg(nullptr),
-	m_ErrorTitle(nullptr)
+	m_ErrorTitle(nullptr),
+	m_nlhr(REQUEST_POST)
 {
 	SetContact(hContact);
 }
@@ -422,7 +423,7 @@ const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* e
 	return begin;
 }
 
-int CSend::HTTPFormCreate(MHttpRequest* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum)
+int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm, size_t frmNum)
 {
 	char boundary[16];
 	strcpy(boundary, "--M461C/");
@@ -439,7 +440,7 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, int requestType, const char* url, 
 			boundary[9 + i * 2] = (chcode < 0x0a ? '0' : 'a' - 0x0a) + chcode;
 		}
 	}
-	nlhr->requestType = requestType;
+
 	nlhr->flags = NLHRF_HTTP11;
 	if (!strncmp(url, "https://", 8))
 		nlhr->flags |= NLHRF_SSL;

@@ -283,8 +283,7 @@ int GaduProto::oauth_receivetoken()
 
 	NLHR_PTR resp(0);
 	{
-		MHttpRequest req;
-		req.requestType = REQUEST_POST;
+		MHttpRequest req(REQUEST_POST);
 		req.m_szUrl = "http://api.gadu-gadu.pl/request_token";
 		req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 		req.AddHeader("User-Agent", GG8_VERSION);
@@ -313,8 +312,7 @@ int GaduProto::oauth_receivetoken()
 	// 2. Obtaining User Authorization
 	debugLogA("oauth_receivetoken(): Obtaining User Authorization...");
 	{
-		MHttpRequest req;
-		req.requestType = REQUEST_POST;
+		MHttpRequest req(REQUEST_POST);
 		req.m_szUrl = "https://login.gadu-gadu.pl/authorize";
 		req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
 		req.m_szParam.Format("callback_url=%s&request_token=%s&uin=%s&password=%s", ptrA(oauth_uri_escape("http://www.mojageneracja.pl")), token, uin, password);
@@ -335,8 +333,7 @@ int GaduProto::oauth_receivetoken()
 	token = nullptr;
 	token_secret = nullptr;
 	{
-		MHttpRequest req;
-		req.requestType = REQUEST_POST;
+		MHttpRequest req(REQUEST_POST);
 		req.m_szUrl = "http://api.gadu-gadu.pl/access_token";
 		req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 		req.nlc = nlc;

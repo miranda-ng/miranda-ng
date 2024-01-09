@@ -107,8 +107,7 @@ void LoadOptions()
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	nlhr.m_szUrl = _T2A(tszURL);
 	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);

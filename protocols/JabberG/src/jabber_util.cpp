@@ -881,8 +881,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HNETLIBCONN hHttpCon = nullptr;
 	for (auto &it : avs) {
-		MHttpRequest nlhr;
-		nlhr.requestType = REQUEST_GET;
+		MHttpRequest nlhr(REQUEST_GET);
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT;
 		nlhr.m_szUrl = it->Url;
 		nlhr.nlc = hHttpCon;

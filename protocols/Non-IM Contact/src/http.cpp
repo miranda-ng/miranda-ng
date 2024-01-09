@@ -35,8 +35,7 @@ HNETLIBUSER hNetlibUser;
 int InternetDownloadFile(char *szUrl)
 {
 	// initialize the netlib request
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.m_szUrl = szUrl;
 

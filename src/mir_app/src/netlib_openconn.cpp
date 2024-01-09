@@ -309,8 +309,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 	}
 
 	MMemoryChunkStorage storage;
-	MHttpRequest nlhrSend;
-	nlhrSend.requestType = REQUEST_CONNECT;
+	MHttpRequest nlhrSend(REQUEST_CONNECT);
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	nlhrSend.m_szUrl = szUrl;
 

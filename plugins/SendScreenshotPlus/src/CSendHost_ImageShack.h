@@ -40,10 +40,8 @@ public:
 	int Send() override;
 
 protected:
-	MHttpRequest		m_nlhr;
-
-	void					SendThread();
-	static void				SendThreadWrapper(void * Obj);
+	void        SendThread();
+	static void SendThreadWrapper(void * Obj);
 };
 
 #endif

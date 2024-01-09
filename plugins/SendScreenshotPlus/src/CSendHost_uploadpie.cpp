@@ -15,8 +15,9 @@
 */
 #include "stdafx.h"
 
-CSendHost_UploadPie::CSendHost_UploadPie(HWND Owner, MCONTACT hContact, bool bAsync, int expire)
-	: m_expire(expire), CSend(Owner, hContact, bAsync)
+CSendHost_UploadPie::CSendHost_UploadPie(HWND Owner, MCONTACT hContact, bool bAsync, int expire) :
+	CSend(Owner, hContact, bAsync),
+	m_expire(expire)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("Image upload");
@@ -46,7 +47,7 @@ int CSendHost_UploadPie::Send()
 		{ "expire", HTTPFORM_INT(m_expire) },
 	};
 
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, kHostURL, frm, _countof(frm));
+	int error = HTTPFormCreate(&m_nlhr, kHostURL, frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;

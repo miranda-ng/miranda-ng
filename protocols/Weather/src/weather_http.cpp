@@ -40,8 +40,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 		userAgent = NETLIB_USER_AGENT;
 
 	// initialize the netlib request
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	nlhr.m_szUrl = szUrl;
 	nlhr.AddHeader("User-Agent", userAgent);

@@ -49,8 +49,7 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 				}
 
 				// initialize the netlib request
-				MHttpRequest nlhr;
-				nlhr.requestType = REQUEST_GET;
+				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
 				nlhr.m_szUrl = url;
 
@@ -127,8 +126,7 @@ void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 
 void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 {
-	MHttpRequest req;
-	req.requestType = REQUEST_GET;
+	MHttpRequest req(REQUEST_GET);
 	req.m_szUrl = ft->httpPath;
 
 	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
@@ -154,8 +152,7 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 		szName.AppendChar(*b++);
 	auto *pszName = szName.c_str();
 
-	MHttpRequest req;
-	req.requestType = REQUEST_HEAD;
+	MHttpRequest req(REQUEST_HEAD);
 	req.m_szUrl = pszUrl;
 
 	filetransfer *ft = new filetransfer(this, 0);

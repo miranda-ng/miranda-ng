@@ -44,8 +44,7 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 	int result = 0xBADBAD;
 
 	// initialize the netlib request
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	nlhr.m_szUrl = szUrl;
 	nlhr.nlc = hHttpDwnl;

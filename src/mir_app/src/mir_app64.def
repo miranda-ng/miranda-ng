@@ -582,7 +582,7 @@ g_hevSettingChanged @696 NONAME
 ?MetaRemoveSubHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@@Z @704 NONAME
 Chat_GetGroup @705
 Chat_SetGroup @706
-??0MHttpRequest@@QEAA@XZ @708 NONAME
+??0MHttpRequest@@QEAA@H@Z @708 NONAME
 ??1MHttpRequest@@QEAA@XZ @709 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUCHAR_PARAM@@@Z @711 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUINT_PARAM@@@Z @712 NONAME

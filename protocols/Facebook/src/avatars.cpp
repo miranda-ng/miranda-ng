@@ -33,9 +33,8 @@ void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 
 void __cdecl FacebookProto::AvatarsUpdate(void *)
 {
-	MHttpRequest req;
+	MHttpRequest req(REQUEST_GET);
 	req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	req.requestType = REQUEST_GET;
 
 	CMStringA szParams((m_bUseBigAvatars) ? "type=large" : "type=normal");
 	szParams.AppendFormat("&access_token=%s", m_szAuthToken.c_str());

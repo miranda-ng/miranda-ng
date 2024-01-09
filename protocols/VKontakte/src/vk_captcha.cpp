@@ -33,8 +33,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		Utils_OpenUrl(szCaptchaAssistant);
 	}
 	else {
-		MHttpRequest req;
-		req.requestType = REQUEST_GET;
+		MHttpRequest req(REQUEST_GET);
 		req.m_szUrl = (LPSTR)szUrl;
 		req.flags = VK_NODUMPHEADERS;
 

@@ -71,8 +71,7 @@ void CTwitterProto::ShowPopup(const char *text, int Error)
 
 bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filename)
 {
-	MHttpRequest req;
-	req.requestType = REQUEST_GET;
+	MHttpRequest req(REQUEST_GET);
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.m_szUrl = const_cast<char*>(url.c_str());
 

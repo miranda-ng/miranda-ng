@@ -145,9 +145,8 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 
 	ptrA szUrl(mir_u2a(pFileURL->wszDownloadURL));
 
-	MHttpRequest nlhr;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;
 	nlhr.m_szUrl = szUrl;
 	nlhr.AddHeader("User-Agent", szUserAgent);

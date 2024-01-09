@@ -141,7 +141,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 {
 	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(nullptr, IDC_WAIT));
 
-	MHttpRequest nlhr;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.m_szUrl = szURL;
 

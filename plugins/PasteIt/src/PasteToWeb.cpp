@@ -426,8 +426,7 @@ char *PasteToWeb::SendToWeb(char *url, std::map<std::string, std::string> &heade
 	WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, contentBytes, cbLen, nullptr, nullptr);
 	--cbLen;
 
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_POST;
+	MHttpRequest nlhr(REQUEST_POST);
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT | NLHPIF_HTTP11;
 	nlhr.m_szUrl = url;
 	nlhr.SetData(contentBytes, cbLen);

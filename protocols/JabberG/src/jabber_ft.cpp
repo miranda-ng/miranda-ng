@@ -691,8 +691,7 @@ LBL_Fail:
 	if (!szUrl)
 		goto LBL_Fail;
 	
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_PUT;
+	MHttpRequest nlhr(REQUEST_PUT);
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
 	nlhr.m_szUrl = szUrl;
 

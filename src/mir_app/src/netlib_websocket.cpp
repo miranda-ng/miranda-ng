@@ -35,7 +35,7 @@ MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHos
 	if (!mir_strncmp(tmpHost, "wss://", 6))
 		tmpHost.Delete(0, 6);
 
-	auto *nlr = new MHttpRequest;
+	auto *nlr = new MHttpRequest(0);
 	nlr->flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	nlr->m_szUrl = tmpHost.GetBuffer();
 	nlr->AddHeader("Accept", "*/*");

@@ -104,8 +104,7 @@ void GetData(void *param)
 	if (mir_strlen(url) < 3)
 		WErrorPopup(hContact, TranslateT("URL not supplied"));
 
-	MHttpRequest nlhr;
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.m_szUrl = url;
 	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);

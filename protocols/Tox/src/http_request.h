@@ -19,28 +19,27 @@ public:
 
 class HttpRequest : public MHttpRequest
 {
-	void Init(int type)
+	void Init()
 	{
-		requestType = type;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-		nlc = nullptr;
-		timeout = 0;
 	}
 
 protected:
 	enum HttpRequestUrlFormat { FORMAT };
 
 public:
-	HttpRequest(int type, LPCSTR url)
+	HttpRequest(int type, LPCSTR url) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		m_szUrl = url;
 	}
 
-	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
+	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		va_list formatArgs;
 		va_start(formatArgs, urlFormat);

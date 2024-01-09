@@ -30,8 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
-	: CSend(Owner, hContact, bAsync)
+CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync) :
+	CSend(Owner, hContact, bAsync)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("Image upload");
@@ -59,7 +59,7 @@ int CSendHost_ImageShack::Send()
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
+	int error = HTTPFormCreate(&m_nlhr, "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;

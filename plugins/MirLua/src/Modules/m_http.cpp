@@ -4,7 +4,7 @@
 
 static MHttpRequest* CreateRequest()
 {
-	MHttpRequest *request = new MHttpRequest();
+	MHttpRequest *request = new MHttpRequest(REQUEST_GET);
 	request->flags = NLHRF_HTTP11 | NLHRF_NODUMP;
 	return request;
 }
@@ -269,9 +269,8 @@ static int request_Send(lua_State *L)
 {
 	MHttpRequest *request = *(MHttpRequest**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
-	MHttpRequest *newRequest = new MHttpRequest();
+	MHttpRequest *newRequest = new MHttpRequest(request->requestType);
 	newRequest->flags = request->flags;
-	newRequest->requestType = request->requestType;
 	newRequest->m_szUrl = request->m_szUrl;
 	newRequest->m_szParam = request->m_szParam;
 	newRequest->timeout = request->timeout;

@@ -451,10 +451,10 @@ struct MIR_APP_EXPORT MHttpHeaders : public OBJLIST<MHttpHeader>
 
 struct MIR_APP_EXPORT MHttpRequest : public MHttpHeaders, public MNonCopyable, public MZeroedObject
 {
-	MHttpRequest();
+	MHttpRequest(int type);
 	~MHttpRequest();
 
-	int requestType = REQUEST_GET; // a REQUEST_
+	int requestType; // a REQUEST_
 	uint32_t flags;
 	CMStringA m_szUrl, m_szParam;
 	HNETLIBCONN nlc;
@@ -516,7 +516,8 @@ template <class T>
 class MTHttpRequest : public MHttpRequest
 {
 public:
-	__forceinline MTHttpRequest()
+	__forceinline MTHttpRequest() :
+		MHttpRequest(REQUEST_GET)
 	{}
 
 	typedef void (T::*MTHttpRequestHandler)(MHttpResponse*, struct AsyncHttpRequest*);
