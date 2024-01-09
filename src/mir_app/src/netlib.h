@@ -92,7 +92,8 @@ public:
 
 class MFileChunkStorage : public MChunkHandler
 {
-	int fileId, prevBlocks = 0;
+	int fileId;
+	size_t prevBlocks = 0;
 
 	pfnDownloadCallback pCallback;
 	void *pCallbackInfo;

@@ -274,7 +274,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          OnFileContinue(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnFileInit(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnFileInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq);
-	void          OnFileRecv(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnGenToken(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnGetChatInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq);

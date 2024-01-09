@@ -563,7 +563,7 @@ __forceinline MHttpRequest* operator<<(MHttpRequest &req, const WCHAR_PARAM &par
 
 EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER hNlu, MHttpRequest *pRequest);
 
-typedef void(__cdecl *pfnDownloadCallback)(void *);
+typedef void(__cdecl *pfnDownloadCallback)(size_t iProgress, void *pUserInfo);
 
 EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_DownloadFile(
 	HNETLIBUSER hNlu,

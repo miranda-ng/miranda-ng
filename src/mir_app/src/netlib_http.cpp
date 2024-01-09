@@ -1157,10 +1157,11 @@ bool MFileChunkStorage::updateChunk(const void *pData, size_t cbLen)
 	}
 
 	if (pCallback) {
-		int nBlocks = _filelength(fileId) / 65536;
+		size_t iProgress = _filelength(fileId);
+		size_t nBlocks = iProgress / 65536;
 		if (nBlocks != prevBlocks) {
 			prevBlocks = nBlocks;
-			pCallback(pCallbackInfo);
+			pCallback(iProgress, pCallbackInfo);
 		}
 	}
 	return true;

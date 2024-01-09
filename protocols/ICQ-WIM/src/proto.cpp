@@ -242,32 +242,13 @@ void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnFileRecv(MHttpResponse *pReply, AsyncHttpRequest *pReq)
+static void __cdecl DownloadCallack(size_t iProgress, void *pParam)
 {
-	if (pReply->resultCode != 200)
-		return;
-
-	auto *ofd = (OFDTHREAD *)pReq->pUserInfo;
-	debugLogW(L"Saving to [%s]", ofd->wszPath.c_str());
-	int fileId = _wopen(ofd->wszPath, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-	if (fileId == -1) {
-		debugLogW(L"Cannot open [%s] for writing", ofd->wszPath.c_str());
-		return;
-	}
-
-	int cbWritten = _write(fileId, pReply->body, pReply->body.GetLength());
-	_close(fileId);
-	if (cbWritten != pReply->body.GetLength()) {
-		debugLogW(L"Error writing data into [%s]: %d instead of %d", ofd->wszPath.c_str(), cbWritten, pReply->body.GetLength());
-		return;
-	}
+	auto *ofd = (OFDTHREAD *)pParam;
 
 	DBVARIANT dbv = { DBVT_DWORD };
-	dbv.dVal = cbWritten;
+	dbv.dVal = unsigned(iProgress);
 	db_event_setJson(ofd->hDbEvent, "ft", &dbv);
-
-	ofd->Finish();
-	delete ofd;
 }
 
 void __cdecl CIcqProto::OfflineFileThread(void *pParam)
@@ -282,19 +263,31 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 		if (fileText2url(blob.getUrl(), &wszUrl)) {
 			if (auto *pFileInfo = RetrieveFileInfo(dbei.hContact, wszUrl)) {
 				if (!ofd->bCopy) {
-					auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
-					pReq->pUserInfo = ofd;
-					pReq->AddHeader("Sec-Fetch-User", "?1");
-					pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-					pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-					pReq->AddHeader("Accept-Encoding", "gzip");
-					Push(pReq);
-					return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
-				}
+					MHttpRequest nlhr(REQUEST_GET);
+					nlhr.m_szUrl = pFileInfo->szUrl;
+					nlhr.AddHeader("Sec-Fetch-User", "?1");
+					nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
+					nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
+					nlhr.AddHeader("Accept-Encoding", "gzip");
 
-				ofd->wszPath.Empty();
-				ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
-				ofd->pCallback->Invoke(*ofd);
+					debugLogW(L"Saving to [%s]", ofd->wszPath.c_str());
+					NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath, DownloadCallack, ofd));
+					if (reply && reply->resultCode == 200) {
+						struct _stat st;
+						_wstat(ofd->wszPath, &st);
+
+						DBVARIANT dbv = { DBVT_DWORD };
+						dbv.dVal = st.st_size;
+						db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+
+						ofd->Finish();
+					}				
+				}
+				else {
+					ofd->wszPath.Empty();
+					ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
+					ofd->pCallback->Invoke(*ofd);
+				}
 			}
 		}
 	}
