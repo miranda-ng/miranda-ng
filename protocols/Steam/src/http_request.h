@@ -15,7 +15,7 @@ public:
 
 	~HttpResponse()
 	{
-		Netlib_FreeHttpRequest(m_response);
+		delete m_response;
 	}
 
 	bool operator!() const

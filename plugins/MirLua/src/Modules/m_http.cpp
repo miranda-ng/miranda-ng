@@ -115,7 +115,7 @@ static int response__index(lua_State *L)
 static int response__gc(lua_State *L)
 {
 	MHttpResponse **response = (MHttpResponse **)luaL_checkudata(L, 1, MT_NETLIBHTTPRESPONSE);
-	Netlib_FreeHttpRequest(*response);
+	delete *response;
 	return 0;
 }
 
