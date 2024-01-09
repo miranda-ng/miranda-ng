@@ -828,7 +828,7 @@ public:
 	{
 		auto *pDriver = GetDatabasePlugin("JSON");
 		if (pDriver == nullptr) {
-			CMStringW wszText(TranslateT("Import plugin is missing to perform this operation."));
+			CMStringW wszText(TranslateT("The required plugin 'Import' isn't loaded to perform this operation."));
 			if (ServiceExists(MS_PU_SHOWLIST)) {
 				wszText.AppendFormat(L" %s", TranslateT("Do you want to install it using Plugin Updater?"));
 				if (IDYES == MessageBoxW(m_hwnd, wszText, TranslateT("Missing plugin"), MB_YESNO | MB_ICONQUESTION))
