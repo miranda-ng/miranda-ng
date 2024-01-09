@@ -316,13 +316,12 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 	if (Netlib_SendHttpRequest(nlc, &nlhrSend, storage) == SOCKET_ERROR)
 		return false;
 
-	auto *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, storage, true);
+	NLHR_PTR nlhrReply(NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, storage, true));
 	if (nlhrReply == nullptr)
 		return false;
 
 	if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 		if (nlhrReply->resultCode == 403 && nlc->dnsThroughProxy) {
-			Netlib_FreeHttpRequest(nlhrReply);
 			nlc->dnsThroughProxy = 0;
 			return NetlibInitHttpsConnection(nlc);
 		}
@@ -330,10 +329,9 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 		Netlib_Logf(nlc->nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, 
 			nlc->nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
-		Netlib_FreeHttpRequest(nlhrReply);
-		return 0;
+		return false;
 	}
-	Netlib_FreeHttpRequest(nlhrReply);
+
 	return true; // connected
 }
 

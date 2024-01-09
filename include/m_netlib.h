@@ -501,8 +501,6 @@ public:
 	}
 };
 
-EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free the memory used by a MHttpRequest structure
 //
@@ -564,6 +562,15 @@ __forceinline MHttpRequest* operator<<(MHttpRequest &req, const WCHAR_PARAM &par
 //    list of functions
 
 EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER hNlu, MHttpRequest *pRequest);
+
+typedef void(__cdecl *pfnDownloadCallback)(void *);
+
+EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_DownloadFile(
+	HNETLIBUSER hNlu,
+	MHttpRequest *pRequest,
+	const MFilePath &wszFileName,
+	pfnDownloadCallback pCallback = nullptr,
+	void *pCallbackInfo = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send data over a connection

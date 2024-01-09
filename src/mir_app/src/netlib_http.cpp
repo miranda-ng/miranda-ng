@@ -82,7 +82,7 @@ ProxyAuthList proxyAuthList;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module exports
 
-MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *nlhr)
+EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *nlhr)
 {
 	if (nlhr == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -958,15 +958,18 @@ next:
 				if (recvResult == SOCKET_ERROR)
 					return nullptr;
 
-
 				if (recvResult <= dataLen) {
-					pHandler.updateChunk(tmpBuf, recvResult);
+					if (!pHandler.updateChunk(tmpBuf, recvResult))
+						return nullptr;
+
 					dataLen -= recvResult;
 					if (!dataLen)
 						break;
 				}
 				else {
-					pHandler.updateChunk(tmpBuf, dataLen);
+					if (!pHandler.updateChunk(tmpBuf, dataLen))
+						return nullptr;
+
 					nlc->foreBuf.appendBefore(tmpBuf.get() + dataLen, recvResult - dataLen);
 					break;
 				}
@@ -1029,7 +1032,7 @@ next:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point
 
-MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpRequest *nlhr)
+static MHttpResponse* HttpTransactionWorker(HNETLIBUSER nlu, MHttpRequest *nlhr, MChunkHandler &pHandler)
 {
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) || !nlhr || nlhr->m_szUrl.IsEmpty()) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -1070,9 +1073,8 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 
 	if (!nlhr->FindHeader("Accept-Encoding"))
 		nlhr->AddHeader("Accept-Encoding", "deflate, gzip");
-	
-	MMemoryChunkStorage storage;
-	if (Netlib_SendHttpRequest(nlc, nlhr, storage) == SOCKET_ERROR) {
+
+	if (Netlib_SendHttpRequest(nlc, nlhr, pHandler) == SOCKET_ERROR) {
 		Netlib_CloseHandle(nlc);
 		return nullptr;
 	}
@@ -1089,7 +1091,7 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 	if (nlhr->requestType == REQUEST_HEAD)
 		nlhrReply = Netlib_RecvHttpHeaders(nlc, 0);
 	else
-		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, storage);
+		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
 
 	if (nlhrReply) {
 		nlhrReply->szUrl = nlc->szNewUrl;
@@ -1104,4 +1106,76 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 	else nlhrReply->nlc = nlc;
 
 	return nlhrReply;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void MMemoryChunkStorage::apply(MHttpResponse *nlhr)
+{
+	unsigned dataLen = (unsigned)buf.length();
+	nlhr->body.Truncate(dataLen);
+	memcpy(nlhr->body.GetBuffer(), buf.data(), dataLen);
+}
+
+bool MMemoryChunkStorage::updateChunk(const void *pData, size_t cbLen)
+{
+	buf.append(pData, cbLen);
+	return true;
+}
+
+MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpRequest *nlhr)
+{
+	MMemoryChunkStorage storage;
+	return HttpTransactionWorker(nlu, nlhr, storage);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MFileChunkStorage::MFileChunkStorage(const MFilePath &_1, pfnDownloadCallback _2, void *_3) :
+	pCallback(_2),
+	pCallbackInfo(_3)
+{
+	fileId = _wopen(_1, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
+}
+
+void MFileChunkStorage::apply(MHttpResponse *nlhr)
+{
+	if (fileId != -1) {
+		nlhr->resultCode = 200;
+		nlhr->body = "OK";
+		_close(fileId);
+	}
+	else nlhr->resultCode = 500;
+}
+
+bool MFileChunkStorage::updateChunk(const void *pData, size_t cbLen)
+{
+	if (cbLen != _write(fileId, pData, unsigned(cbLen))) {
+		_close(fileId);
+		fileId = -1;
+		return false;
+	}
+
+	if (pCallback) {
+		int nBlocks = _filelength(fileId) / 65536;
+		if (nBlocks != prevBlocks) {
+			prevBlocks = nBlocks;
+			pCallback(pCallbackInfo);
+		}
+	}
+	return true;
+}
+
+MIR_APP_DLL(MHttpResponse *) Netlib_DownloadFile(
+	HNETLIBUSER nlu,
+	MHttpRequest *nlhr,
+	const MFilePath &wszFileName,
+	pfnDownloadCallback pCallback,
+	void *pCallbackInfo)
+{
+	MFileChunkStorage storage(wszFileName, pCallback, pCallbackInfo);
+	if (!storage)
+		return nullptr;
+
+	return HttpTransactionWorker(nlu, nlhr, storage);
 }

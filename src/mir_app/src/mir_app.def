@@ -961,3 +961,4 @@ _Netlib_HttpCookies@4 @1095 NONAME
 _Netlib_HttpResult@4 @1096 NONAME
 ?SetData@MHttpRequest@@QAEXPBXI@Z @1097 NONAME
 ?DeleteHeader@MHttpHeaders@@QAEXPBD@Z @1098 NONAME
+_Netlib_DownloadFile@20 @1099 NONAME

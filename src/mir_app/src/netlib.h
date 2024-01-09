@@ -75,25 +75,16 @@ struct NetlibUrl
 
 struct MChunkHandler
 {
-	virtual void updateChunk(const void *pData, size_t cbLen) = 0;
 	virtual void apply(MHttpResponse *nlhr) = 0;
+	virtual bool updateChunk(const void *pData, size_t cbLen) = 0;
 };
 
 class MMemoryChunkStorage : public MChunkHandler
 {
 	MBinBuffer buf;
 
-	void updateChunk(const void *pData, size_t cbLen) override
-	{
-		buf.append(pData, cbLen);
-	}
-	
-	void apply(MHttpResponse *nlhr) override
-	{
-		unsigned dataLen = (unsigned)buf.length();
-		nlhr->body.Truncate(dataLen);
-		memcpy(nlhr->body.GetBuffer(), buf.data(), dataLen);
-	}
+	void apply(MHttpResponse *nlhr) override;
+	bool updateChunk(const void *pData, size_t cbLen) override;
 
 public:
 	MMemoryChunkStorage() {}
@@ -101,15 +92,18 @@ public:
 
 class MFileChunkStorage : public MChunkHandler
 {
-	CMStringW filePath;
+	int fileId, prevBlocks = 0;
 
-	void updateChunk(const void *pData, size_t cbLen) override;
+	pfnDownloadCallback pCallback;
+	void *pCallbackInfo;
+
 	void apply(MHttpResponse *nlhr) override;
+	bool updateChunk(const void *pData, size_t cbLen) override;
 
 public:
-	MFileChunkStorage(const wchar_t *pwszFileName) :
-		filePath(pwszFileName)
-	{}
+	MFileChunkStorage(const MFilePath &pwszFileName, pfnDownloadCallback, void*);
+
+	__forceinline operator bool() const { return fileId != -1; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
