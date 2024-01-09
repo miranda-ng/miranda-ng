@@ -55,9 +55,7 @@ extern "C"
 #include "resource.h"
 
 #include <m_autobackups.h>
-
-#define MS_PU_CHECK    "PluginUpdater/CheckUpdates"
-#define MS_PU_SHOWLIST "PluginUpdater/ShowList"
+#include <m_PluginUpdater.h>
 
 #include "Notifications.h"
 

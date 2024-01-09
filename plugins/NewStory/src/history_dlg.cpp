@@ -826,6 +826,18 @@ public:
 
 	void onClick_Export(CCtrlButton *)
 	{
+		auto *pDriver = GetDatabasePlugin("JSON");
+		if (pDriver == nullptr) {
+			CMStringW wszText(TranslateT("Import plugin is missing to perform this operation."));
+			if (ServiceExists(MS_PU_SHOWLIST)) {
+				wszText.AppendFormat(L" %s", TranslateT("Do you want to install it using Plugin Updater?"));
+				if (IDYES == MessageBoxW(m_hwnd, wszText, TranslateT("Missing plugin"), MB_YESNO | MB_ICONQUESTION))
+					CallService(MS_PU_SHOWLIST);
+			}
+			else MessageBoxW(m_hwnd, wszText, TranslateT("Missing plugin"), MB_OK | MB_ICONERROR);
+			return;
+		}
+
 		wchar_t FileName[MAX_PATH];
 		VARSW tszMirDir(L"%miranda_userdata%\\NewStoryExport");
 
@@ -871,7 +883,6 @@ public:
 		if (PathFileExistsW(FileName))
 			DeleteFileW(FileName);
 
-		auto *pDriver = GetDatabasePlugin("JSON");
 		auto *pDB = pDriver->Export(FileName);
 		pDB->BeginExport();
 		pDB->ExportContact(m_hContact);

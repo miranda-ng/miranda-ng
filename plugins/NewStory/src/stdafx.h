@@ -60,6 +60,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_utils.h>
 
 #include "m_NewStory.h"
+#include "m_PluginUpdater.h"
 #include "m_smileyadd.h"
 #ifndef MTEXT_NOHELPERS
 #define MTEXT_NOHELPERS
