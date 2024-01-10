@@ -218,47 +218,24 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
 			debugLogA("avatarrequestthread() new avatar_transfers item for url=%s.", data->szAvatarURL);
 
-			int result = 0;
-
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = data->hContact;
 			ai.format = getByte(ai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
+			getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
 
 			MHttpRequest req(REQUEST_GET);
 			req.m_szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-			NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
-			if (resp) {
-				if (resp->resultCode == 200 && !resp->body.IsEmpty()) {
-					int file_fd;
-
-					int avatarType = PA_FORMAT_UNKNOWN;
-					if (strncmp(resp->body, "\xFF\xD8", 2) == 0) avatarType = PA_FORMAT_JPEG;
-					if (strncmp(resp->body, "\x47\x49\x46\x38", 4) == 0) avatarType = PA_FORMAT_GIF;
-					if (strncmp(resp->body, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", 8) == 0) avatarType = PA_FORMAT_PNG;
-					setByte(data->hContact, GG_KEY_AVATARTYPE, (uint8_t)avatarType);
-
-					getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
-					file_fd = _wopen(ai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
-					if (file_fd != -1) {
-						_write(file_fd, resp->body, resp->body.GetLength());
-						_close(file_fd);
-						result = 1;
-						debugLogW(L"avatarrequestthread() new avatar_transfers item. Saved data to file=%s.", ai.filename);
-					}
-					else {
-						debugLogW(L"avatarrequestthread(): _wopen file %s error. errno=%d: %s", ai.filename, errno, ws_strerror(errno));
-						wchar_t error[512];
-						mir_snwprintf(error, TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), ai.filename);
-						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
-					}
-				}
-				else debugLogA("avatarrequestthread(): Invalid response code from HTTP request");
+			NLHR_PTR resp(Netlib_DownloadFile(m_hNetlibUser, &req, ai.filename));
+			if (resp && resp->resultCode == 200) {
+				setByte(data->hContact, GG_KEY_AVATARTYPE, (uint8_t)ProtoGetBufferFormat(resp->body));
+				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 			}
-			else debugLogA("avatarrequestthread(): No response from HTTP request");
-
-			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
+			else {
+				debugLogA("avatarrequestthread(): No response from HTTP request");
+				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+			}
 
 			if (!ai.hContact)
 				ReportSelfAvatarChanged();

@@ -116,17 +116,9 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.AddHeader("Pragma", "no-cache");
 
 	bool ret = false;
-	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
-	if (pReply) {
-		if (200 == pReply->resultCode && !pReply->body.IsEmpty()) {
-			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-			DWORD dwBytes;
-			WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
-			ret = true;
-			if (hFile)
-				CloseHandle(hFile);
-		}
-	}
+	NLHR_PTR pReply(Netlib_DownloadFile(hNetlibUser, &nlhr, tszLocal));
+	if (pReply && pReply->resultCode == 200)
+		ret = true;
 
 	DlgDld = ret;
 	return ret;

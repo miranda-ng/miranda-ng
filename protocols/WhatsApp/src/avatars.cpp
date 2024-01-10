@@ -135,7 +135,7 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 	req.m_szUrl = pszUrl;
 	req.nlc = hAvatarConn;
 
-	NLHR_PTR pReply(Netlib_HttpTransaction(hAvatarUser, &req));
+	NLHR_PTR pReply(Netlib_DownloadFile(hAvatarUser, &req, ai.filename));
 	if (pReply == nullptr) {
 		hAvatarConn = nullptr;
 		debugLogA("Failed to retrieve avatar from url: %s", pszUrl);
@@ -144,23 +144,10 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 
 	hAvatarConn = pReply->nlc;
 
-	bool bSuccess = false;
-	if (pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
-		if (auto *pszHdr = pReply->FindHeader("Content-Type"))
-			ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
-
-		if (ai.format != PA_FORMAT_UNKNOWN) {
-			FILE *fout = _wfopen(ai.filename, L"wb");
-			if (fout) {
-				fwrite(pReply->body, 1, pReply->body.GetLength(), fout);
-				fclose(fout);
-				bSuccess = true;
-			}
-			else debugLogA("Error saving avatar to file %S", ai.filename);
-		}
-		else debugLogA("unknown avatar mime type");
+	if (pReply->resultCode != 200) {
+		debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
+		return false;
 	}
-	else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
 
-	return bSuccess;
+	return true;
 }

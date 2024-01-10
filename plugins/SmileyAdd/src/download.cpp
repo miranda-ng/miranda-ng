@@ -39,7 +39,7 @@ static LIST<QueueElem> dlQueue(10);
 static wchar_t g_wszCachePath[MAX_PATH];
 static bool threadRunning;
 
-bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwnl)
+static bool InternetDownloadFile(const char *szUrl, const wchar_t *szDest, HNETLIBCONN &hHttpDwnl)
 {
 	int result = 0xBADBAD;
 
@@ -53,33 +53,22 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
 	nlhr.AddHeader("Connection", "close");
 
+	CreatePathToFileW(szDest);
+
 	while (result == 0xBADBAD) {
 		// download the page
-		NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
+		NLHR_PTR nlhrReply(Netlib_DownloadFile(hNetlibUser, &nlhr, szDest));
 		if (nlhrReply) {
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK
-			if (nlhrReply->resultCode == 200) {
-				char *delim = strrchr(szDest, '\\');
-				if (delim) *delim = '\0';
-				CreateDirectoryTree(szDest);
-				if (delim) *delim = '\\';
-				int res = -1;
-				int fh = _open(szDest, _O_BINARY | _O_WRONLY | _O_CREAT, _S_IREAD | _S_IWRITE);
-				if (fh != -1) {
-					res = _write(fh, nlhrReply->body, nlhrReply->body.GetLength());
-					_close(fh);
-				}
-				if (res < 0)
-					remove(szDest);
-				else
-					result = 0;
-			}
-			else result = 1;
+			if (nlhrReply->resultCode == 200)
+				result = 0;
+			else
+				result = 1;
 		}
 		else {
+			// retry
 			hHttpDwnl = nullptr;
-			result = 1;
 		}
 	}
 
@@ -109,7 +98,7 @@ void __cdecl SmileyDownloadThread(void*)
 		}
 
 		if (_waccess(pItem->fname.c_str(), 0) != 0) {
-			InternetDownloadFile(_T2A(pItem->url.c_str()), _T2A(pItem->fname.c_str()), hHttpDwnl);
+			InternetDownloadFile(_T2A(pItem->url.c_str()), pItem->fname, hHttpDwnl);
 
 			CMStringW fname(pItem->fname);
 			if (pItem->needext) {

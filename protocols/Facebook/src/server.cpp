@@ -737,7 +737,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			CreateDirectoryTreeW(wszPath);
 
 			bool bSuccess = false;
-			CMStringW wszFileName(FORMAT, L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
+			MFilePath wszFileName;
+			wszFileName.Format(L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
 			uint32_t dwAttrib = GetFileAttributesW(wszFileName);
 			if (dwAttrib == INVALID_FILE_ATTRIBUTES) {
 				wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
@@ -753,24 +754,15 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 				JsonReply reply(ExecuteRequest(pReq));
 				if (!reply.error()) {
 					for (auto &sticker : reply.data()) {
-						// std::string szUrl = sticker["animated_image"]["uri"].as_string();
-						// if (szUrl.empty())
-						// 	szUrl = sticker["thread_image"]["uri"].as_string();
-						// else
-						// 	wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
 						MHttpRequest req(REQUEST_GET);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 						req.m_szUrl = szUrl.c_str();
 
-						MHttpResponse *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
+						NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, wszFileName));
+						if (pReply != nullptr && pReply->resultCode == 200)
 							bSuccess = true;
-							FILE *out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->body, 1, pReply->body.GetLength(), out);
-							fclose(out);
-						}
 					}
 				}
 			}

@@ -1465,21 +1465,17 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					CreateDirectoryTreeW(wszPath);
 
 					bool bSuccess = false;
-					CMStringW wszFileName(FORMAT, L"%s\\[sticker-%d].png", wszPath.c_str(), iStickerId);
+					MFilePath wszFileName;
+					wszFileName.Format(L"%s\\[sticker-%d].png", wszPath.c_str(), iStickerId);
 
 					if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
-						T2Utf szUrl(wszUrl);
 						MHttpRequest req(REQUEST_GET);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-						req.m_szUrl = szUrl.get();
+						req.m_szUrl = T2Utf(wszUrl).get();
 
-						MHttpResponse *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
+						NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, wszFileName));
+						if (pReply && pReply->resultCode == 200)
 							bSuccess = true;
-							FILE* out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->body, 1, pReply->body.GetLength(), out);
-							fclose(out);
-						}
 					}
 					else bSuccess = true;
 

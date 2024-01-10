@@ -212,33 +212,8 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.AddHeader("Cache-Control", "no-cache");
 	nlhr.AddHeader("Pragma", "no-cache");
 
-	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
-	if (pReply) {
-		if (200 == pReply->resultCode && !pReply->body.IsEmpty()) {
-			const char *date = pReply->FindHeader("Last-Modified");
-			const char *size = pReply->FindHeader("Content-Length");
-			if (date != nullptr && size != nullptr) {
-				struct _stat buf;
-				int fh = _wopen(tszLocal, _O_RDONLY);
-				if (fh != -1) {
-					_fstat(fh, &buf);
-					_close(fh);
-
-					time_t modtime = DateToUnixTime(date, 0);
-					time_t filemodtime = mktime(localtime(&buf.st_atime));
-					if (modtime <= filemodtime || buf.st_size == atoi(size))
-						return false;
-				}
-			}
-
-			DWORD dwBytes;
-			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-			WriteFile(hFile, pReply->body, pReply->body.GetLength(), &dwBytes, nullptr);
-			if (hFile)
-				CloseHandle(hFile);
-		}
-	}
-	return true;
+	NLHR_PTR pReply(Netlib_DownloadFile(hNetlibUser, &nlhr, tszLocal));
+	return (pReply && 200 == pReply->resultCode);
 }
 
 typedef HRESULT(MarkupCallback)(IHTMLDocument3 *, BSTR &message);

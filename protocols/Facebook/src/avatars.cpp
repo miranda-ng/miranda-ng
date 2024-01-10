@@ -49,36 +49,30 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 		delSetting(cc, "UpdateNeeded");
 		req.m_szUrl.Format("https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
 	
-		NLHR_PTR pReply(Netlib_HttpTransaction(m_hNetlibUser, &req));
-		if (pReply == nullptr) {
-			debugLogA("Failed to retrieve avatar from url: %s", req.m_szUrl.c_str());
-			continue;
-		}
-
 		PROTO_AVATAR_INFORMATION ai;
 		ai.hContact = cc;
 		ai.format = PA_FORMAT_UNKNOWN;
 		GetAvatarFilename(cc, ai.filename);
 
-		bool bSuccess = false;
-		if (pReply->resultCode == 200 && !pReply->body.IsEmpty()) {
+		NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, ai.filename));
+		if (pReply == nullptr) {
+			debugLogA("Failed to retrieve avatar from url: %s", req.m_szUrl.c_str());
+			continue;
+		}
+
+		if (pReply->resultCode == 200) {
 			if (auto *pszHdr = pReply->FindHeader("Content-Type"))
 				ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
-			if (ai.format != PA_FORMAT_UNKNOWN) {
-				FILE *fout = _wfopen(ai.filename, L"wb");
-				if (fout) {
-					fwrite(pReply->body, 1, pReply->body.GetLength(), fout);
-					fclose(fout);
-					bSuccess = true;
-				}
-				else debugLogA("Error saving avatar to file %S", ai.filename);
-			}
-			else debugLogA("unknown avatar mime type");
-		}
-		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, req.m_szUrl.c_str());
+			if (ai.format == PA_FORMAT_UNKNOWN)
+				debugLogA("unknown avatar mime type");
 
-		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
+			ProtoBroadcastAck(cc, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+		}
+		else {
+			debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, req.m_szUrl.c_str());
+			ProtoBroadcastAck(cc, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+		}
 	}
 }
 

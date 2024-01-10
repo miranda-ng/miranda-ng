@@ -164,7 +164,9 @@ void CTwitterProto::UpdateAvatarWorker(void *p)
 		return;
 
 	CMStringA ext = data->url.Mid(data->url.ReverseFind('.')); // finds the filetype of the avatar
-	CMStringW filename(FORMAT, L"%s\\%S%S", GetAvatarFolder().c_str(), username.c_str(), ext.c_str()); // local filename and path
+	
+	MFilePath filename; // local filename and path
+	filename.Format(L"%s\\%S%S", GetAvatarFolder().c_str(), username.c_str(), ext.c_str());
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = data->hContact;
@@ -185,7 +187,12 @@ void CTwitterProto::UpdateAvatarWorker(void *p)
 		return;
 	}
 
-	if (save_url(hAvatarNetlib_, data->url, filename)) {
+	MHttpRequest req(REQUEST_GET);
+	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
+	req.m_szUrl = data->url;
+
+	NLHR_PTR resp(Netlib_DownloadFile(hAvatarNetlib_, &req, filename));
+	if (resp && resp->resultCode == 200) {
 		setString(data->hContact, TWITTER_KEY_AV_URL, data->url.c_str());
 		ProtoBroadcastAck(data->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	}

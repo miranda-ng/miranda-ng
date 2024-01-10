@@ -24,5 +24,3 @@ StringPairs ParseQueryString(const CMStringA &queryString);
 void Split(const CMStringA &str, OBJLIST<CMStringA> &out, char sep, bool includeEmpty = false);
 
 void htmlEntitiesDecode(CMStringA &context);
-
-bool save_url(HNETLIBUSER hNetlib,const CMStringA &url,const CMStringW &filename);
