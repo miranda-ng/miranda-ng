@@ -451,7 +451,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead, bool bLocalTime)
 {
-	CMStringA szMsgId(it["msgId"].as_mstring()), szSender;
+	CMStringA szMsgId(it["msgId"].as_mstring()), szSender, szReply;
 	__int64 msgId = _atoi64(szMsgId);
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
@@ -533,32 +533,32 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// check for embedded file
 	IcqFileInfo *pFileInfo = nullptr;
+	const JSONNode *pForward = nullptr, *pQuote = nullptr;
 
 	for (auto &jt : it["parts"]) {
-		if (auto &content = jt["captionedContent"]) {
-			CMStringW wszUrl(content["url"].as_mstring());
-			if (wszUrl.IsEmpty())
-				continue;
+		auto szType = jt["mediaType"].as_string();
+		if (szType == "forward")
+			pForward = &jt;
+		else if (szType == "quote")
+			pQuote = &jt;
+		else if (szType == "text")
+			ParseMessagePart(hContact, jt, hOldEvent, pFileInfo);
+	}
 
-			if (hOldEvent && fileText2url(wszText))
-				return;
+	if (pForward) {
+		int idx = wszText.Find(L"\n\n");
+		if (idx != -1)
+			wszText.Truncate(idx + 2);
 
-			if (!CheckFile(hContact, wszUrl, pFileInfo))
-				continue;
-
-			if (jt["mediaType"].as_string() == "forward") {
-				int idx = wszText.Find(L"\n\n");
-				if (idx != -1)
-					wszText.Truncate(idx + 2);
+		if (!pFileInfo) {
+			ParseMessagePart(hContact, *pForward, hOldEvent, pFileInfo);
+			if (pFileInfo)
 				pFileInfo->wszDescr = wszText;
-			}
-
-			CMStringW wszDescr(content["caption"].as_mstring());
-			if (!wszDescr.IsEmpty())
-				pFileInfo->wszDescr = wszDescr;
-			break;
 		}
 	}
+
+	if (pQuote)
+		szReply = pQuote->at("msgId").as_mstring();
 
 	// message text might be a separate file link as well
 	if (pFileInfo == nullptr && fileText2url(wszText)) {
@@ -602,6 +602,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			pre.dwFlags |= PRFF_READ;
 		if (bIsOutgoing)
 			pre.dwFlags |= PRFF_SENT;
+		if (!szReply.IsEmpty())
+			pre.szReplyId = szReply;
 		if (isChatRoom(hContact))
 			pre.szUserId = szSender;
 		ProtoChainRecvFile(hContact, &pre);
@@ -633,6 +635,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		dbei.szId = szMsgId;
 		if (isChatRoom(hContact))
 			dbei.szUserId = szSender;
+		if (!szReply.IsEmpty())
+			dbei.szReplyId = szReply;
 		db_event_edit(hOldEvent, &dbei, true);
 	}
 	else {
@@ -646,7 +650,32 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		pre.szMsgId = szMsgId;
 		if (isChatRoom(hContact))
 			pre.szUserId = szSender;
+		if (!szReply.IsEmpty())
+			pre.szReplyId = szReply;
 		ProtoChainRecvMsg(hContact, &pre);
+	}
+}
+
+void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, MEVENT hOldEvent, IcqFileInfo *&pFileInfo)
+{
+	if (pFileInfo != nullptr)
+		return;
+
+	if (auto &content = part["captionedContent"]) {
+		CMStringW wszUrl(content["url"].as_mstring());
+		if (wszUrl.IsEmpty())
+			return;
+
+		CMStringW wszText(part["text"].as_mstring());
+		if (hOldEvent && fileText2url(wszText))
+			return;
+
+		if (!CheckFile(hContact, wszUrl, pFileInfo))
+			return;
+
+		CMStringW wszDescr(content["caption"].as_mstring());
+		if (!wszDescr.IsEmpty())
+			pFileInfo->wszDescr = wszDescr;
 	}
 }
 
