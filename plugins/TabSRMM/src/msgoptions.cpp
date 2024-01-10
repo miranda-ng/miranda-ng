@@ -910,7 +910,6 @@ class COptTypingDlg : public CDlgBase
 
 	void ResetCList(CCtrlClc* = nullptr)
 	{
-		m_clist.SetUseGroups(Clist::UseGroups);
 		m_clist.SetHideEmptyGroups(true);
 	}
 
@@ -969,7 +968,8 @@ public:
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = m_clist.AddInfoItem(&cii);
 
-		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | (CLS_SHOWHIDDEN));
+		DWORD dwStyle = GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE);
+		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE, dwStyle | CLS_SHOWHIDDEN | CLS_USEGROUPS | CLS_GROUPCHECKBOXES | CLS_NOHIDEOFFLINE);
 		ResetCList();
 
 		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
