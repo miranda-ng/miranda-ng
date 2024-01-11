@@ -585,19 +585,15 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 	}
 	else mir_snwprintf(tszHeader, L"M%d|", (int)time(0));
 
-	T2Utf utf_header(tszHeader);
-	size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
-	char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
-
+	CMStringA msg(T2Utf(tszHeader).get());
 	if (fIsSendLater) {
-		mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header.get());
-		db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, tszMsg);
+		msg.Insert(0, job->szSendBuffer);
+		db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, msg);
 	}
 	else {
-		mir_snprintf(tszMsg, required, "%s%s", utf_header.get(), job->szSendBuffer);
-		SendLater::addJob(tszMsg, hContact, dat->m_hQuoteEvent);
+		msg += job->szSendBuffer;
+		SendLater::addJob(msg, hContact, (dat) ? dat->m_hQuoteEvent : 0);
 	}
-	mir_free(tszMsg);
 
 	if (fIsSendLater) {
 		int iCount = db_get_dw(hContact ? hContact : job->hContact, "SendLater", "count", 0);
