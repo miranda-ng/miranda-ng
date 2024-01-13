@@ -192,7 +192,7 @@ void CIcqProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void
 		p++;
 	blob.setName(p);
 
-	blob.setUrl("boo");
+	blob.setUrl(ft->m_szHost);
 	blob.complete(ft->pfts.currentFileSize);
 	blob.setLocalName(ft->m_wszFileName);
 }

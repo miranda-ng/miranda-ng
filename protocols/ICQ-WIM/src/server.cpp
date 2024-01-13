@@ -1148,9 +1148,10 @@ LBL_Error:
 
 		JSONNode bundle, contents; contents.set_name("captionedContent");
 		contents << WCHAR_PARAM("caption", pTransfer->m_wszDescr) << WCHAR_PARAM("url", wszUrl);
-		bundle << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", "") << contents;
+		bundle << CHAR_PARAM("mediaType", "text") << WCHAR_PARAM("text", wszUrl) << contents;
 		CMStringW wszParts(FORMAT, L"[%s]", ptrW(json_write(&bundle)).get());
 
+		pTransfer->m_szHost = wszUrl;
 		if (!pTransfer->m_wszDescr.IsEmpty())
 			wszUrl += L" " + pTransfer->m_wszDescr;
 
