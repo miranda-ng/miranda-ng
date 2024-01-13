@@ -286,16 +286,20 @@ void NewstoryListData::Copy(bool bTextOnly)
 	Utils_ClipboardCopy(GatherSelected(bTextOnly));
 }
 
-void NewstoryListData::CopyUrl()
+void NewstoryListData::CopyPath()
 {
-	if (auto *pItem = GetItem(caret)) {
+	if (auto *pItem = GetItem(caret))
 		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
 			Utils_ClipboardCopy(blob.getLocalName());
 		}
-		else Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
-	}
+}
+
+void NewstoryListData::CopyUrl()
+{
+	if (auto *pItem = GetItem(caret))
+		Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
 }
 
 void NewstoryListData::DeleteItems(void)

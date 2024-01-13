@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
-	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_OPENFOLDER, MENU_QUOTE,
+	MENU_COPY, MENU_COPYTEXT, MENU_COPYURL, MENU_COPYPATH, MENU_OPENFOLDER, MENU_QUOTE,
 	MENU_SAVEAS, MENU_DOWNLOAD,
 	MENU_EDIT, MENU_DELETE, MENU_REPLY,
 	MENU_SELECTALL, MENU_BOOKMARK,
@@ -28,7 +28,7 @@ enum
 
 static int hMenuObject;
 static HANDLE hEventPreBuildMenu;
-static HGENMENU hmiHistory, hmiOpenFolder, hmiCopyUrl, hmiSaveAs, hmiDownload, hmiQuote;
+static HGENMENU hmiHistory, hmiOpenFolder, hmiCopyUrl, hmiCopyPath, hmiSaveAs, hmiDownload, hmiQuote;
 static HGENMENU hmiCopy, hmiCopyText, hmiEdit, hmiBookmark, hmiDelete, hmiReply;
 
 HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
@@ -45,15 +45,16 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	Menu_ShowItem(hmiReply, false);
 	Menu_ShowItem(hmiSaveAs, false);
 	Menu_ShowItem(hmiCopyUrl, false);
+	Menu_ShowItem(hmiCopyPath, false);
 	Menu_ShowItem(hmiDownload, false);
 	Menu_ShowItem(hmiOpenFolder, false);
 
 	bool bShowEventActions, bEditable;
 	if (item != nullptr) {
 		if (item->m_bOfflineFile) {
-			Menu_ModifyItem(hmiCopyUrl, (item->m_bOfflineDownloaded) ? TranslateT("Copy file path") : TranslateT("Copy URL"));
-			Menu_ShowItem(hmiCopyUrl, true);
 			Menu_ShowItem(hmiSaveAs, bNotProtected);
+			Menu_ShowItem(hmiCopyUrl, true);
+			Menu_ShowItem(hmiCopyPath, item->m_bOfflineDownloaded);
 			Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded && bNotProtected);
 			Menu_ShowItem(hmiOpenFolder, item->m_bOfflineDownloaded);
 		}
@@ -114,6 +115,10 @@ static INT_PTR NSMenuHelper(WPARAM wParam, LPARAM lParam)
 
 	case MENU_COPYURL:
 		pData->CopyUrl();
+		break;
+
+	case MENU_COPYPATH:
+		pData->CopyPath();
 		break;
 
 	case MENU_OPENFOLDER:
@@ -252,6 +257,10 @@ void InitMenus()
 	mi.position++;
 	mi.name.a = LPGEN("Copy URL");
 	hmiCopyUrl = Menu_AddNewStoryMenuItem(&mi, MENU_COPYURL);
+
+	mi.position++;
+	mi.name.a = LPGEN("Copy file path");
+	hmiCopyPath = Menu_AddNewStoryMenuItem(&mi, MENU_COPYPATH);
 
 	mi.position++;
 	mi.name.a = LPGEN("Show in folder");
