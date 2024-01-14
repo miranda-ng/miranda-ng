@@ -35,7 +35,7 @@ void InitHotkeys()
 
 	hkd.szDescription.a = LPGEN("Search");
 	hkd.pszName = "ns_search";
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'S') | HKF_MIRANDA_LOCAL;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = HOTKEY_SEARCH;
 	g_plugin.addHotkey(&hkd);
 
