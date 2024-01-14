@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
+class CDiscardAccountOptions : public CDiscordDlgBase
 {
 	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs;
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
@@ -27,7 +27,7 @@ class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 
 public:
 	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID, bool bFullDlg) :
-		CProtoDlgBase<CDiscordProto>(ppro, iDlgID),
+		CDiscordDlgBase(ppro, iDlgID),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),

@@ -35,6 +35,7 @@
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\menus.cpp" />
+    <ClCompile Include="src\mfa.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\server.cpp" />

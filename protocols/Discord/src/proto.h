@@ -227,6 +227,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 {
 	friend struct AsyncHttpRequest;
 	friend class CDiscardAccountOptions;
+	friend class CMfaDialog;
 
 	class CDiscordProtoImpl
 	{
@@ -395,6 +396,13 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	// two-factor auth
+
+	void ShowMfaDialog(const JSONNode &pRoot);
+	
+	void OnSendTotp(MHttpResponse *, struct AsyncHttpRequest *);
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// misc methods
 
 	SnowFlake getId(const char *szName);
@@ -525,6 +533,8 @@ public:
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 	void CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash);
 };
+
+typedef CProtoDlgBase<CDiscordProto> CDiscordDlgBase;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

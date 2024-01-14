@@ -281,13 +281,18 @@ void CDiscordProto::OnReceiveToken(MHttpResponse *pReply, AsyncHttpRequest*)
 	}
 
 	auto &data = root.data();
-	CMStringA szToken = data["token"].as_mstring();
-	if (szToken.IsEmpty()) {
-		debugLogA("Strange empty token received, exiting");
+	if (auto &token = data["token"]) {
+		CMStringA szToken = token.as_mstring();
+		m_szAccessToken = szToken.Detach();
+		setString("AccessToken", m_szAccessToken);
+		RetrieveMyInfo();
 		return;
 	}
 
-	m_szAccessToken = szToken.Detach();
-	setString("AccessToken", m_szAccessToken);
-	RetrieveMyInfo();
+	if (data["mfa"].as_bool())
+		ShowMfaDialog(data);
+	else {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		debugLogA("Strange empty token received, exiting");
+	}
 }
