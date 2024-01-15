@@ -36,6 +36,8 @@ public:
 		btnCancel(this, IDCANCEL),
 		btnAnother(this, IDC_ANOTHER)
 	{
+		btnCancel.OnClick = Callback(this, &CMfaDialog::onClick_Cancel);
+
 		m_bHasSms = pRoot["sms"].as_bool();
 		m_bHasTotp = pRoot["totp"].as_bool();
 		m_szTicket = pRoot["ticket"].as_mstring();
@@ -68,7 +70,7 @@ public:
 		return false;
 	}
 
-	void onClick_Cancel()
+	void onClick_Cancel(CCtrlButton *)
 	{
 		m_proto->ConnectionFailed(LOGINERR_WRONGPASSWORD);
 	}
