@@ -21,12 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CMfaDialog : public CDiscordDlgBase
 {
-	bool m_bHasSms, m_bHasTotp, m_bUseTotp = true;
+	bool m_bHasSms, m_bHasTotp;
+	int m_mode = 0;
 	CMStringA m_szTicket;
 
 	CCtrlBase m_label;
 	CCtrlEdit edtCode;
-	CCtrlButton btnCancel, btnAnother;
+	CCtrlCombo cmbAnother;
+	CCtrlButton btnCancel;
 
 public:
 	CMfaDialog(CDiscordProto *ppro, const JSONNode &pRoot) :
@@ -34,9 +36,11 @@ public:
 		m_label(this, IDC_LABEL),
 		edtCode(this, IDC_CODE),
 		btnCancel(this, IDCANCEL),
-		btnAnother(this, IDC_ANOTHER)
+		cmbAnother(this, IDC_ANOTHER)
 	{
 		btnCancel.OnClick = Callback(this, &CMfaDialog::onClick_Cancel);
+
+		cmbAnother.OnChange = Callback(this, &CMfaDialog::onChange_Combo);
 
 		m_bHasSms = pRoot["sms"].as_bool();
 		m_bHasTotp = pRoot["totp"].as_bool();
@@ -45,29 +49,48 @@ public:
 
 	bool OnInitDialog() override
 	{
-		if (m_bUseTotp)
-			m_label.SetText(TranslateT("Enter Discord verification code:"));
-		else
-			m_label.SetText(TranslateT("Enter SMS code"));
-
-		// if (!m_bHasSms)
-		btnAnother.Disable();
+		if (m_bHasTotp)
+			cmbAnother.AddString(TranslateT("Use authentication app"), 0);
+		if (m_bHasSms)
+			cmbAnother.AddString(TranslateT("Use a code sent to your phone"), 1);
+		cmbAnother.AddString(TranslateT("Use a backup code"), 2);
+		cmbAnother.SetCurSel(0);
 		return true;
 	}
 
 	bool OnApply() override
 	{
+		JSONNode root;
+		root << CHAR_PARAM("ticket", m_szTicket);
+
+		const char *wszUrl;
 		ptrW wszCode(edtCode.GetText());
-
-		if (m_bUseTotp) {
-			JSONNode root;
-			root << WCHAR_PARAM("code", wszCode) << CHAR_PARAM("ticket", m_szTicket);
-
-			auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/totp", &CDiscordProto::OnSendTotp, &root);
-			pReq->pUserInfo = this;
-			m_proto->Push(pReq);
+		if (mir_wstrlen(wszCode)) {
+			wszUrl = (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp";
+			root << WCHAR_PARAM("code", wszCode);
 		}
+		else wszUrl = "/auth/mfa/sms/send";
+
+		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, wszUrl, &CDiscordProto::OnSendTotp, &root);
+		pReq->pUserInfo = this;
+		m_proto->Push(pReq);
 		return false;
+	}
+
+	void onChange_Combo(CCtrlCombo *)
+	{
+		edtCode.SetText(L"");
+
+		switch (m_mode = cmbAnother.GetCurData()) {
+		case 0:
+			m_label.SetText(TranslateT("Enter Discord verification code:")); break;
+		case 1:
+			m_label.SetText(TranslateT("Enter SMS code you received:")); 
+			OnApply();
+			break;
+		default:
+			m_label.SetText(TranslateT("Enter one of your backup codes"));
+		}
 	}
 
 	void onClick_Cancel(CCtrlButton *)
@@ -78,7 +101,7 @@ public:
 	void WrongCode()
 	{
 		edtCode.SetText(L"");
-		Beep(470, 200);
+		MessageBeep(MB_ICONERROR);
 	}
 };
 
