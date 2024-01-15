@@ -389,6 +389,9 @@ void __cdecl CIcqProto::PollThread(void*)
 		else
 			szUrl.Append("&timeout=25000");
 
+		if (m_bInvisible)
+			szUrl.Append("&bg=1&hidden=1");
+
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
 		if (!m_bFirstBos)
 			pReq->timeout = 62000;

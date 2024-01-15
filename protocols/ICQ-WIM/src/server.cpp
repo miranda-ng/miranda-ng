@@ -937,7 +937,7 @@ void CIcqProto::SetOwnId(const CMStringW &wszId)
 void CIcqProto::SetServerStatus(int iStatus)
 {
 	const char *szStatus = "online";
-	int invisible = 0;
+	m_bInvisible = false;
 
 	switch (iStatus) {
 	case ID_STATUS_OFFLINE: szStatus = "offline"; break;
@@ -945,11 +945,11 @@ void CIcqProto::SetServerStatus(int iStatus)
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND: szStatus = "away"; break;
 	case ID_STATUS_INVISIBLE:
-		invisible = 1;
+		m_bInvisible = true;
 	}
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/presence/setState")
-		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
+		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", m_bInvisible));
 
 	if (iStatus == ID_STATUS_OFFLINE && !getByte(DB_KEY_PHONEREG)) {
 		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "/aim/endSession", &CIcqProto::OnSessionEnd);
