@@ -99,10 +99,15 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case AF_FORMATSUPPORTED: // Jabber supports avatars of virtually all formats
-		return 1;
+		return lParam == PA_FORMAT_JPEG
+			|| lParam == PA_FORMAT_PNG
+			|| lParam == PA_FORMAT_GIF;
 
 	case AF_ENABLED:
 		return m_bEnableAvatars;
+
+	case AF_PROPORTION:
+		return PIP_NONE;
 	}
 	return -1;
 }
