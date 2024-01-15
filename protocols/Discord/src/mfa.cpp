@@ -107,6 +107,6 @@ void CDiscordProto::OnSendTotp(MHttpResponse *pReply, struct AsyncHttpRequest *p
 	auto &data = root.data();
 	CMStringA szToken = data["token"].as_mstring();
 	m_szAccessToken = szToken.Detach();
-	setString("AccessToken", m_szAccessToken);
+	setString(DB_KEY_TOKEN, m_szAccessToken);
 	RetrieveMyInfo();
 }

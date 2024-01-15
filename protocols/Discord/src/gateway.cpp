@@ -303,6 +303,13 @@ void CDiscordProto::GatewaySendResume()
 	GatewaySend(root);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
+{
+	delSetting(DB_KEY_TOKEN);
+}
+
 bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
 {
 	if (iStatus == ID_STATUS_OFFLINE) {

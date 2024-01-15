@@ -193,14 +193,6 @@ void CDiscordProto::OnReceiveGateway(MHttpResponse *pReply, AsyncHttpRequest*)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// logs a session out
-
-void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
-{
-	delSetting("AccessToken");
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
@@ -284,7 +276,7 @@ void CDiscordProto::OnReceiveToken(MHttpResponse *pReply, AsyncHttpRequest*)
 	if (auto &token = data["token"]) {
 		CMStringA szToken = token.as_mstring();
 		m_szAccessToken = szToken.Detach();
-		setString("AccessToken", m_szAccessToken);
+		setString(DB_KEY_TOKEN, m_szAccessToken);
 		RetrieveMyInfo();
 		return;
 	}

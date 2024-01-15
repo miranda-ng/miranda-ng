@@ -54,6 +54,7 @@
 extern IconItem g_iconList[];
 
 #define DB_KEY_ID         "id"
+#define DB_KEY_TOKEN      "AccessToken"
 #define DB_KEY_PASSWORD   "Password"
 #define DB_KEY_DISCR      "Discriminator"
 #define DB_KEY_MFA        "MfaEnabled"
