@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#define WM_ERROR (WM_USER + 1)
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class CMfaDialog : public CDiscordDlgBase
@@ -28,18 +30,25 @@ class CMfaDialog : public CDiscordDlgBase
 	CCtrlBase m_label;
 	CCtrlEdit edtCode;
 	CCtrlCombo cmbAnother;
-	CCtrlButton btnCancel;
+	CCtrlButton btnCancel, btnOk;
+
+	UI_MESSAGE_MAP(CMfaDialog, CDiscordDlgBase);
+		UI_MESSAGE(WM_ERROR, OnError);
+	UI_MESSAGE_MAP_END();
+
 
 public:
 	CMfaDialog(CDiscordProto *ppro, const JSONNode &pRoot) :
 		CDiscordDlgBase(ppro, IDD_MFA),
+		btnOk(this, IDOK),
+		btnCancel(this, IDCANCEL),
 		m_label(this, IDC_LABEL),
 		edtCode(this, IDC_CODE),
-		btnCancel(this, IDCANCEL),
 		cmbAnother(this, IDC_ANOTHER)
 	{
 		btnCancel.OnClick = Callback(this, &CMfaDialog::onClick_Cancel);
 
+		edtCode.OnChange = Callback(this, &CMfaDialog::onChange_Edit);
 		cmbAnother.OnChange = Callback(this, &CMfaDialog::onChange_Combo);
 
 		m_bHasSms = pRoot["sms"].as_bool();
@@ -61,17 +70,15 @@ public:
 
 	bool OnApply() override
 	{
+		CMStringW wszCode(ptrW(edtCode.GetText()));
+		if (wszCode.IsEmpty())
+			return false;
+		wszCode.Replace(L"-", L"");
+
 		JSONNode root;
-		root << CHAR_PARAM("ticket", m_szTicket);
+		root << CHAR_PARAM("ticket", m_szTicket) << WCHAR_PARAM("code", wszCode);
 
-		AsyncHttpRequest *pReq;
-		ptrW wszCode(edtCode.GetText());
-		if (mir_wstrlen(wszCode)) {
-			root << WCHAR_PARAM("code", wszCode);
-			pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp", &CDiscordProto::OnSendTotp, &root);
-		}
-		else pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root);
-
+		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp", &CDiscordProto::OnSendTotp, &root);
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 		return false;
@@ -85,12 +92,21 @@ public:
 		case 0:
 			m_label.SetText(TranslateT("Enter Discord verification code:")); break;
 		case 1:
-			m_label.SetText(TranslateT("Enter SMS code you received:")); 
-			OnApply();
+			m_label.SetText(TranslateT("Enter SMS code you received:"));
+			{
+				JSONNode root; root << CHAR_PARAM("ticket", m_szTicket);
+				m_proto->Push(new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root));
+			}
 			break;
 		default:
 			m_label.SetText(TranslateT("Enter one of your backup codes"));
 		}
+	}
+
+	void onChange_Edit(CCtrlEdit *)
+	{
+		ptrW wszCode(edtCode.GetText());
+		btnOk.Enable(mir_wstrlen(wszCode) > 0);
 	}
 
 	void onClick_Cancel(CCtrlButton *)
@@ -98,10 +114,11 @@ public:
 		m_proto->ConnectionFailed(LOGINERR_WRONGPASSWORD);
 	}
 
-	void WrongCode()
+	INT_PTR OnError(UINT, WPARAM, LPARAM)
 	{
 		edtCode.SetText(L"");
-		MessageBeep(MB_ICONERROR);
+		MessageBox(m_hwnd, TranslateT("Wrong code entered"), TranslateT("MFA initialization"), MB_OK | MB_ICONERROR);
+		return 0;
 	}
 };
 
@@ -123,7 +140,7 @@ void CDiscordProto::OnSendTotp(MHttpResponse *pReply, struct AsyncHttpRequest *p
 
 	JsonReply root(pReply);
 	if (!root) {
-		pDlg->WrongCode();
+		PostMessage(pDlg->GetHwnd(), WM_ERROR, 0, 0);
 		return;
 	}
 
