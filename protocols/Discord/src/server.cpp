@@ -217,6 +217,7 @@ void CDiscordProto::OnReceiveCreateChannel(MHttpResponse *pReply, AsyncHttpReque
 void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
 {
 	delSetting(DB_KEY_TOKEN);
+	m_szAccessToken = 0;
 	ShutdownSession();
 }
 
