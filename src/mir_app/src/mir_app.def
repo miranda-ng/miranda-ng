@@ -956,9 +956,9 @@ _CallContactService@16 @1048 NONAME
 ?removeItem@?$LIST@UMHttpHeader@@@@QAEPAUMHttpHeader@@PAPAU2@@Z @1091 NONAME
 ?removeItem@?$OBJLIST@UMHttpHeader@@@@QAEXPAPAUMHttpHeader@@@Z @1092 NONAME
 ?rev_iter@?$LIST@UMHttpHeader@@@@QBE?AVreverse_iterator@1@XZ @1093 NONAME
-_Netlib_HttpBuffer@8 @1094 NONAME
-_Netlib_HttpCookies@4 @1095 NONAME
-_Netlib_HttpResult@4 @1096 NONAME
+Netlib_HttpBuffer @1094
+Netlib_HttpCookies @1095
+Netlib_HttpResult @1096
 ?SetData@MHttpRequest@@QAEXPBXI@Z @1097 NONAME
 ?DeleteHeader@MHttpHeaders@@QAEXPBD@Z @1098 NONAME
 _Netlib_DownloadFile@20 @1099 NONAME
