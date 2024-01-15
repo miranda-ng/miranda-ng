@@ -383,11 +383,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				group->totalMembers++;
 
 				if (dat->bFilterSearch && dat->szQuickSearch[0] != '\0') {
-					wchar_t *name = Clist_GetContactDisplayName(hContact);
-					wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(name));
-					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
-
-					if (wcsstr(lowered_name, lowered_search))
+					if (mir_wstrstri(Clist_GetContactDisplayName(hContact), dat->szQuickSearch))
 						g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
