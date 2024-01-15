@@ -214,6 +214,14 @@ void CDiscordProto::OnReceiveCreateChannel(MHttpResponse *pReply, AsyncHttpReque
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
+{
+	delSetting(DB_KEY_TOKEN);
+	ShutdownSession();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::OnReceiveMessageAck(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);

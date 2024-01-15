@@ -305,17 +305,10 @@ void CDiscordProto::GatewaySendResume()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
-{
-	delSetting(DB_KEY_TOKEN);
-}
-
 bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
 {
-	if (iStatus == ID_STATUS_OFFLINE) {
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout));
-		return true;
-	}
+	// if (iStatus == ID_STATUS_OFFLINE)
+	//	return true;
 
 	const char *pszStatus;
 	switch (iStatus) {
@@ -326,6 +319,8 @@ bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText
 		pszStatus = "dnd"; break;
 	case ID_STATUS_INVISIBLE:
 		pszStatus = "invisible"; break;
+	case ID_STATUS_OFFLINE:
+		pszStatus = "offline"; break;
 	default:
 		pszStatus = "online"; break;
 	}

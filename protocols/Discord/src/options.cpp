@@ -21,13 +21,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CDiscardAccountOptions : public CDiscordDlgBase
 {
-	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs;
-	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
 	ptrW m_wszOldGroup;
+	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
+	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs;
+	CCtrlButton btnLogout;
 
 public:
 	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID, bool bFullDlg) :
 		CDiscordDlgBase(ppro, iDlgID),
+		btnLogout(this, IDC_LOGOUT),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),
@@ -37,6 +39,8 @@ public:
 		chkDeleteMsgs(this, IDC_DELETE_MSGS),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
+		btnLogout.OnClick = Callback(this, &CDiscardAccountOptions::onClick_Logout);
+
 		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
 		CreateLink(m_edUserName, ppro->m_wszEmail);
 		if (bFullDlg) {
@@ -51,6 +55,9 @@ public:
 
 	bool OnInitDialog() override
 	{
+		if (m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty())
+			btnLogout.Disable();
+
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
 			m_edPassword.SetText(buf);
@@ -65,6 +72,11 @@ public:
 		ptrW buf(m_edPassword.GetText());
 		m_proto->setWString(DB_KEY_PASSWORD, buf);
 		return true;
+	}
+
+	void onClick_Logout(CCtrlButton *)
+	{
+		m_proto->Push(new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout));
 	}
 
 	void onChange_GroupChats(CCtrlCheck*)
