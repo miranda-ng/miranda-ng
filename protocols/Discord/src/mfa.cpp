@@ -55,6 +55,7 @@ public:
 			cmbAnother.AddString(TranslateT("Use a code sent to your phone"), 1);
 		cmbAnother.AddString(TranslateT("Use a backup code"), 2);
 		cmbAnother.SetCurSel(0);
+		onChange_Combo(0);
 		return true;
 	}
 
@@ -63,15 +64,14 @@ public:
 		JSONNode root;
 		root << CHAR_PARAM("ticket", m_szTicket);
 
-		const char *wszUrl;
+		AsyncHttpRequest *pReq;
 		ptrW wszCode(edtCode.GetText());
 		if (mir_wstrlen(wszCode)) {
-			wszUrl = (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp";
 			root << WCHAR_PARAM("code", wszCode);
+			pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp", &CDiscordProto::OnSendTotp, &root);
 		}
-		else wszUrl = "/auth/mfa/sms/send";
+		else pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root);
 
-		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, wszUrl, &CDiscordProto::OnSendTotp, &root);
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 		return false;
