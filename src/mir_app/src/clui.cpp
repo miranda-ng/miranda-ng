@@ -793,8 +793,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					}
 					SetWindowPos(hwnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,
 						SWP_NOZORDER | SWP_NOACTIVATE);
-					break;
 				}
+				break;
+
 			case NM_CLICK:
 				{
 					uint32_t hitFlags;
