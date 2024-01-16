@@ -1201,7 +1201,7 @@ LBL_MoveSelection:
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				HMENU hMenu;
 				if (contact->type == CLCIT_GROUP)
-					hMenu = Menu_BuildSubGroupMenu(contact->group);
+					hMenu = Menu_BuildGroupMenu(contact->group);
 				else if (contact->type == CLCIT_CONTACT)
 					hMenu = Menu_BuildContactMenu(contact->hContact);
 				else
@@ -1231,30 +1231,8 @@ LBL_MoveSelection:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, contact->hContact))
 				break;
 
-		if (contact->type == CLCIT_GROUP) {
-			switch (LOWORD(wParam)) {
-			case POPUP_NEWGROUP:
-			case POPUP_NEWSUBGROUP:
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				if (LOWORD(wParam) == POPUP_NEWGROUP)
-					Clist_GroupCreate(0, nullptr);
-				else
-					Clist_GroupCreate(contact->groupId, nullptr);
-				break;
-			case POPUP_RENAMEGROUP:
-				g_clistApi.pfnBeginRenameSelection(hwnd, dat);
-				break;
-			case POPUP_DELETEGROUP:
-				Clist_GroupDelete(contact->groupId);
-				break;
-			case POPUP_GROUPHIDEOFFLINE:
-				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->bHideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
-				break;
-			}
-
+		if (contact->type == CLCIT_GROUP)
 			Menu_ProcessCommandById(wParam, (LPARAM)hwnd);
-		}
 		break;
 
 	case WM_DESTROY:

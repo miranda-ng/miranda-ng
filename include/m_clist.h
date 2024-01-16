@@ -156,18 +156,6 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMen
 #define ME_CLIST_PREBUILDGROUPMENU "CList/PreBuildGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// SUBGROUP MENU
-
-// adds a new item to the SubGroup menus
-// wParam=GroupMenuParam*, params to call when exec menuitem
-// lParam=(LPARAM)(TMO_MenuItem*)&mi
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = nullptr);
-
-// the SubGroup menu is about to be built
-// wParam = lParam = 0
-#define ME_CLIST_PREBUILDSUBGROUPMENU "CList/PreBuildSubGroupMenu"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // TRAY MENU
 
 // builds the tray menu

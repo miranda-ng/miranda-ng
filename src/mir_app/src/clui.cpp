@@ -892,7 +892,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			}
 			if (PtInRect(&rc, pt)) {
-				HMENU hMenu = Menu_BuildGroupMenu();
+				HMENU hMenu = Menu_BuildGroupMenu(nullptr);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 				Menu_DestroyNestedMenu(hMenu);
 				return 0;

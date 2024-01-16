@@ -664,9 +664,6 @@
 #define ID_ICQ_EXIT                     40001
 #define IDM_COPY                        40001
 #define ID_RESET                        40002
-#define POPUP_NEWGROUP                  40003
-#define POPUP_NEWSUBGROUP               40004
-#define POPUP_GROUPHIDEOFFLINE          40006
 #define IDM_SENDMESSAGE                 40009
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
@@ -675,8 +672,6 @@
 #define IDM_COPYLINK                    40015
 #define ID_CANCELCHANGE                 40018
 #define POPUP_GROUPSHOWOFFLINE          40019
-#define POPUP_RENAMEGROUP               40052
-#define POPUP_DELETEGROUP               40053
 #define ID_GROUP                        40066
 #define ID_UNGROUP                      40067
 #define IDM_SEARCH_GOOGLE               40080

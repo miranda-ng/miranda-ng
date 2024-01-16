@@ -126,8 +126,7 @@ int UninitGenMenu();
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
 
-HMENU Menu_BuildGroupMenu(void);
-HMENU Menu_BuildSubGroupMenu(struct ClcGroup *group);
+HMENU Menu_BuildGroupMenu(struct ClcGroup *group);
 
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
 

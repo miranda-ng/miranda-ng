@@ -154,7 +154,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	// build contact's menuitems
 	RebuildMenu();
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
+	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildGroupMenu);
+	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, OnBuildStatusMenu);
 	return 0;
 }
 
