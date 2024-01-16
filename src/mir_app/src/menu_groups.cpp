@@ -43,7 +43,7 @@ struct GroupMenuExecParam
 	int Param1, Param2;
 };
 
-MIR_APP_DLL(HMENU) Menu_BuildGroupMenu()
+HMENU Menu_BuildGroupMenu()
 {
 	NotifyEventHooks(hEventPreBuildGroupMenu, 0, 0);
 

@@ -148,18 +148,11 @@ struct GroupMenuParam
 	int lParam;
 };
 
-// builds the Group menu
-// returns a HMENU identifying the menu.
-
-EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildGroupMenu(void);
-
 // adds a new item to the Group menus
-
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = nullptr);
 
 // the Group menu is about to be built
 // wParam = lParam = 0
-
 #define ME_CLIST_PREBUILDGROUPMENU "CList/PreBuildGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -168,12 +161,10 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMen
 // adds a new item to the SubGroup menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
-
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = nullptr);
 
 // the SubGroup menu is about to be built
 // wParam = lParam = 0
-
 #define ME_CLIST_PREBUILDSUBGROUPMENU "CList/PreBuildSubGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////

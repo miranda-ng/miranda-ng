@@ -159,7 +159,6 @@ Menu_GetMainMenu @228
 Menu_GetStatusMenu @229
 Menu_AddGroupMenuItem @231
 Menu_AddSubGroupMenuItem @232
-Menu_BuildGroupMenu @233
 Menu_AddTrayMenuItem @234
 Menu_BuildTrayMenu @235
 Menu_DestroyNestedMenu @236

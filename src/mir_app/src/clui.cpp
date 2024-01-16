@@ -23,8 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "profilemanager.h"
 #include "clc.h"
+#include "profilemanager.h"
+#include "genmenu.h"
 
 #define TM_AUTOALPHA  1
 #define MENU_MIRANDAMENU         0xFFFF1234

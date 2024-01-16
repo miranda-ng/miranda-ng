@@ -120,12 +120,13 @@ __forceinline TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *pimi, pfnWa
 	return MO_RecursiveWalkMenu(pimi, pFunc, (void *)pszParam);
 }
 
-//general stuff
+// general stuff
 int InitGenMenu();
 int UninitGenMenu();
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
 
+HMENU Menu_BuildGroupMenu(void);
 HMENU Menu_BuildSubGroupMenu(struct ClcGroup *group);
 
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
