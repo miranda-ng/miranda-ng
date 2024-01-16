@@ -29,7 +29,7 @@ static ClcCacheEntry nullpce = {};
 
 // routines for managing adding/removal of items in the list, including sorting
 
-ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
+ClcContact* Clist_AddItemToGroup(ClcGroup *group, int iAboveItem)
 {
 	ClcContact* newItem = g_clistApi.pfnCreateClcContact();
 	newItem->type = CLCIT_DIVIDER;
@@ -87,7 +87,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 			if (groupId == 0)
 				return nullptr;
 
-			ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+			ClcContact *cc = Clist_AddItemToGroup(group, i);
 			cc->type = CLCIT_GROUP;
 			mir_wstrncpy(cc->szText, pThisField, _countof(cc->szText));
 			cc->groupId = (uint16_t)(pNextField ? 0 : groupId);
@@ -155,7 +155,7 @@ ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszT
 			if (group->cl[i]->type != CLCIT_INFO)
 				break;
 
-	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+	ClcContact *cc = Clist_AddItemToGroup(group, i);
 	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle + 1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
@@ -186,7 +186,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	ClcCacheEntry *pce = Clist_GetCacheEntry(hContact);
 	replaceStrW(pce->tszGroup, nullptr);
 
-	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, index + 1);
+	ClcContact *cc = Clist_AddItemToGroup(group, index + 1);
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = Clist_GetContactIcon(hContact);
 	cc->hContact = hContact;
@@ -539,7 +539,7 @@ static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 				prevContactOnline = 1;
 			else {
 				if (prevContactOnline) {
-					ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+					ClcContact *cc = Clist_AddItemToGroup(group, i);
 					cc->type = CLCIT_DIVIDER;
 					mir_wstrcpy(cc->szText, TranslateT("Offline"));
 				}

@@ -73,7 +73,6 @@ void InitClistCore()
 	g_clistApi.pfnGetContactHiddenStatus = fnGetContactHiddenStatus;
 
 	g_clistApi.pfnAddGroup = fnAddGroup;
-	g_clistApi.pfnAddItemToGroup = fnAddItemToGroup;
 	g_clistApi.pfnCreateClcContact = fnCreateClcContact;
 	
 	g_clistApi.pfnFreeContact = fnFreeContact;	

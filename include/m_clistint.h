@@ -319,6 +319,7 @@ struct CLIST_INTERFACE
 
 	// clc.h
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	HICON          (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
 	// clcidents.c
 	ClcContact*    (*pfnFindItem)(uint32_t dwItem, ClcContact *contact);
@@ -335,7 +336,6 @@ struct CLIST_INTERFACE
 	void           (*pfnFreeContact)(ClcContact *contact);
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
-	ClcContact*    (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
 	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
@@ -425,8 +425,6 @@ struct CLIST_INTERFACE
 	int      cycleStep;
 	wchar_t* szTip;
 	BOOL     bTrayMenuOnScreen;
-
-	HICON    (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
 	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int      (*pfnTrayIconInit)(HWND hwnd);

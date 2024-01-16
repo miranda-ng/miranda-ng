@@ -56,8 +56,9 @@ ClcContact* fnFindItem(uint32_t dwItem, ClcContact *contact);
 ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
 ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
-ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
 ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
+
+ClcContact* Clist_AddItemToGroup(ClcGroup *group, int iAboveItem);
 
 void fnFreeContact(ClcContact *p);
 
