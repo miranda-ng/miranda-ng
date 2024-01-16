@@ -104,7 +104,6 @@ public:
 			HANDLE_MESSAGE(WM_GETMINMAXINFO, OnGetMinMaxInfo);
 			HANDLE_MESSAGE(WM_MOVING, OnMoving);
 			HANDLE_MESSAGE(WM_NOTIFY, OnNotify);
-			HANDLE_MESSAGE(WM_CONTEXTMENU, OnContextMenu);
 			HANDLE_MESSAGE(WM_MEASUREITEM, OnMeasureItem);
 			HANDLE_MESSAGE(WM_DRAWITEM, OnDrawItem);
 			HANDLE_MESSAGE(WM_DESTROY, OnDestroy);
@@ -171,7 +170,6 @@ private:
 	LRESULT OnNotify(UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT OnListSizeChangeNotify(NMCLISTCONTROL *pnmc);
 	LRESULT OnClickNotify(NMCLISTCONTROL *pnmc);
-	LRESULT OnContextMenu(UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT OnDestroy(UINT msg, WPARAM wParam, LPARAM lParam);
