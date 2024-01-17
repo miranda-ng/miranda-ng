@@ -1596,10 +1596,6 @@ IDI_ON                  ICON                    "On.ico"
 
 IDI_OFF                 ICON                    "Off.ico"
 
-IDI_ALWAYSVIS           ICON                    "always_visible.ico"
-
-IDI_NEVERVIS            ICON                    "never_visible.ico"
-
 IDI_CHAT                ICON                    "chat_channel.ico"
 
 IDI_MALE                ICON                    "male.ico"

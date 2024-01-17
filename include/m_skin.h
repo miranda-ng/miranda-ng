@@ -79,20 +79,18 @@
 #define SKINICON_OTHER_GROUP         237
 #define SKINICON_OTHER_ON            238
 #define SKINICON_OTHER_OFF           239
-#define SKINICON_OTHER_VISIBLE_ALL   240
-#define SKINICON_OTHER_INVISIBLE_ALL 241
-#define SKINICON_OTHER_FRAME         242
-#define SKINICON_AUTH_ADD            243
-#define SKINICON_AUTH_REQUEST        244
-#define SKINICON_AUTH_GRANT          245
-#define SKINICON_AUTH_REVOKE         246
-#define SKINICON_OTHER_GROUPADD      247
-#define SKINICON_OTHER_POPUP         248
-#define SKINICON_OTHER_NOPOPUP       249
-#define SKINICON_OTHER_KEYS          250
-#define SKINICON_OTHER_SOUND         251
-#define SKINICON_OTHER_EDIT          252
-#define SKINICON_OTHER_BLANK         253
+#define SKINICON_OTHER_FRAME         240
+#define SKINICON_AUTH_ADD            241
+#define SKINICON_AUTH_REQUEST        242
+#define SKINICON_AUTH_GRANT          243
+#define SKINICON_AUTH_REVOKE         244
+#define SKINICON_OTHER_GROUPADD      245
+#define SKINICON_OTHER_POPUP         246
+#define SKINICON_OTHER_NOPOPUP       247
+#define SKINICON_OTHER_KEYS          248
+#define SKINICON_OTHER_SOUND         249
+#define SKINICON_OTHER_EDIT          250
+#define SKINICON_OTHER_BLANK         251
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin

@@ -76,9 +76,7 @@
 #define IDR_CONTEXT                     180
 #define IDR_ICOLIB_CONTEXT              181
 #define IDC_DROP                        183
-#define IDI_ALWAYSVIS                   184
 #define IDD_EI_OPTIONS                  185
-#define IDI_NEVERVIS                    186
 #define IDI_CHAT                        187
 #define IDI_MALE                        188
 #define IDI_FEMALE                      189
