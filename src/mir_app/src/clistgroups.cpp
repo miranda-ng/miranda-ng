@@ -27,30 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_GROUPNAME_LEN 256
 
-struct CGroupInternal
-{
-	CGroupInternal(int _id, const wchar_t *_name) :
-		groupId(_id),
-		groupName(mir_wstrdup(_name))
-	{
-		bSaveExpanded = (groupName[0] & GROUPF_EXPANDED) != 0;
-	}
+HANDLE hGroupChangeEvent;
+bool g_bGroupsLocked = false;
 
-	~CGroupInternal()
-	{	mir_free(groupName);
-	}
-
-	int groupId, oldId = -1;
-	bool bSaveExpanded;
-	wchar_t *groupName;
-
-	void save()
-	{
-		char idstr[33];
-		itoa(groupId, idstr, 10);
-		db_set_ws(0, "CListGroups", idstr, groupName);
-	}
-};
+static mir_cs csGroups;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,25 +42,57 @@ static LIST<CGroupInternal> arByName(20, CompareGrpByName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CGroupList : public LIST<CGroupInternal>
+LIST<CGroupInternal> arByIds(20, NumericKeySortT);
+
+static CGroupInternal* FindGroup(int key)
 {
-	CGroupList() :
-		LIST<CGroupInternal>(20, NumericKeySortT)
-		{}
-
-	__inline CGroupInternal* find(int key)
-	{	return LIST<CGroupInternal>::find((CGroupInternal*)&key);
-	}
-};
-
-static CGroupList arByIds;
+	return arByIds.find((CGroupInternal *)&key);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hGroupChangeEvent;
-bool g_bGroupsLocked = false;
+static CTimer *g_pTimer;
 
-static mir_cs csGroups;
+struct CGroupImpl
+{
+	void OnTimer(CTimer *)
+	{
+		g_pTimer->Stop();
+
+		JSONNode root(JSON_ARRAY);
+		for (auto &it : arByIds) {
+			JSONNode grp;
+			grp << INT_PARAM("id", it->groupId) << WCHAR_PARAM("name", it->groupName) << INT_PARAM("flags", it->flags);
+			root << grp;
+		}
+
+		json2file(root, VARSW(L"%miranda_userdata%\\groups.json"));
+	}
+}
+g_impl;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CGroupInternal members
+
+CGroupInternal::CGroupInternal(int _id, const wchar_t *_name, int _flags) :
+	flags(_flags),
+	groupId(_id),
+	groupName(mir_wstrdup(_name))
+{
+	bSaveExpanded = (_flags & GROUPF_EXPANDED) != 0;
+}
+
+CGroupInternal::~CGroupInternal()
+{
+	mir_free(groupName);
+}
+
+void CGroupInternal::save()
+{
+	Clist_Broadcast(INTM_GROUPSCHANGED, 0, LPARAM(this));
+
+	g_pTimer->Start(1000);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -89,11 +101,8 @@ static int GroupNameExists(const wchar_t *ptszGroupName, int skipGroup)
 	if (ptszGroupName == nullptr)
 		return 0;
 
-	wchar_t str[256];
-	wcsncpy_s(str + 1, _countof(str) - 1, ptszGroupName, _TRUNCATE);
-
 	CGroupInternal *tmp = (CGroupInternal*)_alloca(sizeof(CGroupInternal));
-	tmp->groupName = (wchar_t*)str;
+	tmp->groupName = (wchar_t*)ptszGroupName;
 	if (tmp = arByName.find(tmp))
 		return (skipGroup == tmp->groupId) ? 0 : tmp->groupId + 1;
 	return 0;
@@ -112,35 +121,34 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 
 	const wchar_t *grpName = ptszName ? ptszName : TranslateT("New group");
 	if (hParent) {
-		CGroupInternal *tmp = arByIds.find(hParent-1);
+		CGroupInternal *tmp = FindGroup(hParent-1);
 		if (tmp == nullptr)
 			return 0;
 
-		mir_snwprintf(newBaseName, L"%s\\%s", tmp->groupName+1, grpName);
+		mir_snwprintf(newBaseName, L"%s\\%s", tmp->groupName, grpName);
 	}
 	else wcsncpy_s(newBaseName, grpName, _TRUNCATE);
 
-	mir_wstrncpy(newName + 1, newBaseName, _countof(newName) - 1);
+	mir_wstrncpy(newName, newBaseName, _countof(newName) - 1);
 	if (ptszName) {
 		int id = GroupNameExists(newBaseName, -1);
 		if (id)
 			return id;
 	}
 	else {
-		for (int idCopy = 1; GroupNameExists(newName + 1, -1); idCopy++)
-			mir_snwprintf(newName + 1, _countof(newName) - 1, L"%s (%d)", newBaseName, idCopy);
+		for (int idCopy = 1; GroupNameExists(newName, -1); idCopy++)
+			mir_snwprintf(newName, L"%s (%d)", newBaseName, idCopy);
 	}
 
 	int newId = arByIds.getCount();
-	newName[0] = 1 | GROUPF_EXPANDED;   // 1 is required so we never get '\0'
-	CGroupInternal *pNew = new CGroupInternal(newId, newName);
+	CGroupInternal *pNew = new CGroupInternal(newId, newName, GROUPF_EXPANDED);
 	arByIds.insert(pNew);
 	arByName.insert(pNew);
 	pNew->save();
 
 	Clist_GroupAdded(newId + 1);
 
-	CLISTGROUPCHANGE grpChg = { nullptr, newName+1 };
+	CLISTGROUPCHANGE grpChg = { nullptr, newName };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
 	return newId + 1;
@@ -170,13 +178,13 @@ MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
 
 MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFlags)
 {
-	CGroupInternal *p = arByIds.find(hGroup-1);
+	CGroupInternal *p = FindGroup(hGroup-1);
 	if (p == nullptr)
 		return nullptr;
 
 	if (pdwFlags != nullptr)
-		*pdwFlags = p->groupName[0] & ~1;
-	return p->groupName+1;
+		*pdwFlags = p->flags;
+	return p->groupName;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -198,13 +206,13 @@ static bool isParentOf(const CMStringW &pParent, const wchar_t *p)
 MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 {
 	// get the name
-	CGroupInternal *pGroup = arByIds.find(hGroup-1);
+	CGroupInternal *pGroup = FindGroup(hGroup-1);
 	if (pGroup == nullptr)
 		return 1;
 
 	if (Clist::ConfirmDelete) {
 		wchar_t szQuestion[256 + 100];
-		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
+		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName);
 		if (MessageBoxW(g_clistApi.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
@@ -213,7 +221,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	
 	// must remove setting from all child contacts too
 	// children are demoted to the next group up, not deleted.
-	CMStringW wszOldName(pGroup->groupName + 1), wszNewParent;
+	CMStringW wszOldName(pGroup->groupName), wszNewParent;
 	{
 		int idx = wszOldName.ReverseFind('\\');
 		if (idx != -1)
@@ -239,7 +247,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 
 	int iGap = 0;
 	for (auto &it : arByIds.rev_iter()) {
-		if (!isParentOf(wszOldName, it->groupName + 1))
+		if (!isParentOf(wszOldName, it->groupName))
 			continue;
 
 		iGap++;
@@ -251,12 +259,6 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 		it->groupId = arByIds.indexOf(&it);
 		if (it->groupId != it->oldId)
 			it->save();
-	}
-
-	for (int i = 0; i < iGap; i++) {
-		char idstr[33];
-		_itoa(arByIds.getCount()+i, idstr, 10);
-		db_unset(0, "CListGroups", idstr);
 	}
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
@@ -277,7 +279,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 		return 0;
 
 	hGroup--;
-	CGroupInternal *pGroup = arByIds.find(hGroup);
+	CGroupInternal *pGroup = FindGroup(hGroup);
 	if (pGroup == nullptr)
 		return 0;
 
@@ -290,7 +292,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	}
 	else {
 		hGroupBefore--;
-		CGroupInternal *pDest = arByIds.find(hGroupBefore);
+		CGroupInternal *pDest = FindGroup(hGroupBefore);
 		if (pDest == nullptr)
 			return 0;
 
@@ -333,17 +335,16 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 		return 1;
 	}
 
-	CGroupInternal *pGroup = arByIds.find(groupId);
+	CGroupInternal *pGroup = FindGroup(groupId);
 	if (pGroup == nullptr)
 		return 0;
 
 	// do the change
-	wchar_t *oldName = NEWWSTR_ALLOCA(pGroup->groupName+1);
+	wchar_t *oldName = NEWWSTR_ALLOCA(pGroup->groupName);
 	arByName.remove(pGroup);
 
 	wchar_t str[256];
-	str[0] = pGroup->groupName[0];
-	mir_wstrncpy(str + 1, szName, _countof(str) - 1);
+	mir_wstrncpy(str, szName, _countof(str));
 
 	replaceStrW(pGroup->groupName, str);
 	pGroup->save();
@@ -365,9 +366,9 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 			continue;
 
 		CGroupInternal *p = arByIds[i];
-		if (!wcsncmp(p->groupName+1, oldName, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == nullptr) {
+		if (!wcsncmp(p->groupName, oldName, len) && p->groupName[len] == '\\' && wcschr(p->groupName + len + 1, '\\') == nullptr) {
 			wchar_t szNewName[256];
-			mir_snwprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 2);
+			mir_snwprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 1);
 			RenameGroupWithMove(i, szNewName, 0); // luckily, child groups will never need reordering
 		}
 	}
@@ -380,7 +381,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 			*pszLastBackslash = '\0';
 			for (int i = 0; i < arByIds.getCount(); i++) {
 				CGroupInternal *p = arByIds[i];
-				if (!mir_wstrcmp(p->groupName+1, str)) {
+				if (!mir_wstrcmp(p->groupName, str)) {
 					if (i >= groupId)
 						Clist_GroupMoveBefore(groupId + 1, i + 2);
 					break;
@@ -404,16 +405,16 @@ MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNewName)
 MIR_APP_DLL(void) Clist_GroupSaveExpanded()
 {
 	for (auto &it : arByIds)
-		it->bSaveExpanded = (it->groupName[0] & GROUPF_EXPANDED) != 0;
+		it->bSaveExpanded = (it->flags & GROUPF_EXPANDED) != 0;
 }
 
 MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
 {
 	for (auto &it : arByIds) {
 		if (it->bSaveExpanded)
-			it->groupName[0] |= GROUPF_EXPANDED;
+			it->flags |= GROUPF_EXPANDED;
 		else
-			it->groupName[0] &= ~GROUPF_EXPANDED;
+			it->flags &= ~GROUPF_EXPANDED;
 		it->save();
 	}
 }
@@ -422,14 +423,14 @@ MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
 
 MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 {
-	CGroupInternal *pGroup = arByIds.find(hGroup-1);
+	CGroupInternal *pGroup = FindGroup(hGroup-1);
 	if (pGroup == nullptr)
 		return 1;
 
 	if (iNewState)
-		pGroup->groupName[0] |= GROUPF_EXPANDED;
+		pGroup->flags |= GROUPF_EXPANDED;
 	else
-		pGroup->groupName[0] &= ~GROUPF_EXPANDED;
+		pGroup->flags &= ~GROUPF_EXPANDED;
 	pGroup->save();
 	return 0;
 }
@@ -438,16 +439,16 @@ MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 
 MIR_APP_DLL(int) Clist_GroupSetFlags(MGROUP hGroup, LPARAM iNewFlags)
 {
-	CGroupInternal *pGroup = arByIds.find(hGroup-1);
+	CGroupInternal *pGroup = FindGroup(hGroup-1);
 	if (pGroup == nullptr)
 		return 1;
 
 	int flags = LOWORD(iNewFlags) & HIWORD(iNewFlags);
-	int oldval = pGroup->groupName[0];
-	pGroup->groupName[0] = ((oldval & ~HIWORD(iNewFlags)) | flags) & 0x7f;
+	int oldval = pGroup->flags;
+	pGroup->flags = ((oldval & ~HIWORD(iNewFlags)) | flags) & 0x7f;
 	pGroup->save();
 
-	if ((oldval & GROUPF_HIDEOFFLINE) != (pGroup->groupName[0] & GROUPF_HIDEOFFLINE))
+	if ((oldval & GROUPF_HIDEOFFLINE) != (pGroup->flags & GROUPF_HIDEOFFLINE))
 		Clist_LoadContactTree();
 	return 0;
 }
@@ -479,7 +480,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 
 	HMENU hRootMenu = CreateMenu();
 	for (int i = 0; i < arByIds.getCount(); i++) {
-		const wchar_t *pNextField = arByIds[i]->groupName + 1;
+		const wchar_t *pNextField = arByIds[i]->groupName;
 		HMENU hThisMenu = hRootMenu;
 
 		MENUITEMINFO mii = { 0 };
@@ -554,18 +555,38 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 	return hRootMenu;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
 int InitGroupServices(void)
 {
-	for (int i = 0;; i++) {
-		char str[32];
-		_itoa(i, str, 10);
-		ptrW tszGroup(db_get_wsa(0, "CListGroups", str));
-		if (tszGroup == nullptr)
-			break;
+	g_pTimer = new CTimer(Miranda_GetSystemWindow(), UINT_PTR(&g_pTimer));
+	g_pTimer->OnEvent = Callback(&g_impl, &CGroupImpl::OnTimer);
 
-		CGroupInternal *p = new CGroupInternal(i, tszGroup);
-		arByIds.insert(p);
-		arByName.insert(p);
+	if (!db_get_b(0, "Compatibility", "Groups")) {
+		char str[32];
+		for (int i = 0;; i++) {
+			_itoa(i, str, 10);
+			ptrW tszGroup(db_get_wsa(0, "CListGroups", str));
+			if (tszGroup == nullptr)
+				break;
+
+			auto *p = new CGroupInternal(i, tszGroup.get() + 1, tszGroup[0] & ~1);
+			arByIds.insert(p);
+			arByName.insert(p);
+		}
+		db_set_b(0, "Compatibility", "Groups", 1);
+		db_delete_module(0, "CListGroups");
+	}
+	else {
+		JSONNode cache;
+		if (file2json(VARSW(L"%miranda_userdata%\\groups.json"), cache)) {
+			for (auto &it : cache) {
+				CGroupInternal *p = new CGroupInternal(it["id"].as_int(), it["name"].as_mstring(), it["flags"].as_int());
+				arByIds.insert(p);
+				arByName.insert(p);
+			}
+		}
 	}
 
 	hGroupChangeEvent = CreateHookableEvent(ME_CLIST_GROUPCHANGE);
@@ -574,6 +595,9 @@ int InitGroupServices(void)
 
 void UninitGroupServices(void)
 {
+	g_pTimer->OnTimer();
+	delete g_pTimer;
+
 	for (auto &p : arByIds)
 		delete p;
 

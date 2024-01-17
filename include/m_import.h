@@ -42,7 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IOPT_SYSTEM        0x00000800
 #define IOPT_CONTACTS      0x00001000
-#define IOPT_GROUPS        0x00002000
 #define IOPT_SYS_SETTINGS  0x00004000
 #define IOPT_COMPLETE      0x00007FFE
 

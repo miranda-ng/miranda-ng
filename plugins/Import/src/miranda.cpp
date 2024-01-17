@@ -245,7 +245,7 @@ void CMirandaOptionsPageDlg::OnNext()
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_ALL)) {
-		g_pBatch->m_iOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | iFlags;
+		g_pBatch->m_iOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_CONTACTS | iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CONTACTS)) {
@@ -309,7 +309,7 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 	g_pBatch->m_iOptions &= IOPT_CHECKDUPS;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_CONTACTS))
-		g_pBatch->m_iOptions |= IOPT_CONTACTS | IOPT_GROUPS;
+		g_pBatch->m_iOptions |= IOPT_CONTACTS;
 	if (IsDlgButtonChecked(m_hwnd, IDC_SYSTEM))
 		g_pBatch->m_iOptions |= IOPT_SYSTEM;
 

@@ -275,7 +275,6 @@ class CImportBatch : public MZeroedObject
 	bool     ImportAccounts(OBJLIST<char> &arSkippedModules);
 	MCONTACT ImportContact(MCONTACT hSrc);
 	void     ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount);
-	int      ImportGroups();
 	void     ImportMeta(DBCachedContact *ccSrc);
 
 	MCONTACT MapContact(MCONTACT hSrc);

@@ -370,9 +370,6 @@ void RemoveUsers()
 		DB::ECPTR pCursor(DB::Events(0));
 		while (pCursor.FetchNext())
 			pCursor.DeleteEvent();
-
-		// Now delete groups
-		DeleteSettingEx("CListGroups", nullptr);
 	}
 }
 

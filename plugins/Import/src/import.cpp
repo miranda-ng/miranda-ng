@@ -517,43 +517,6 @@ int ModulesEnumProc(const char *szModuleName, void *pParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct MImportGroup
-{
-	MImportGroup(int _n, wchar_t *_nm) :
-		wszName(_nm),
-		iNumber(_n)
-	{}
-
-	int iNumber;
-	ptrW wszName;
-};
-
-static int ImportGroup(const char* szSettingName, void *param)
-{
-	OBJLIST<MImportGroup> *pArray = (OBJLIST<MImportGroup>*)param;
-	wchar_t *wszGroupName = g_pBatch->myGetWs(NULL, "CListGroups", szSettingName);
-	if (wszGroupName != nullptr)
-		pArray->insert(new MImportGroup(atoi(szSettingName), wszGroupName));
-	return 0;
-}
-
-int CImportBatch::ImportGroups()
-{
-	OBJLIST<MImportGroup> arGroups(10, NumericKeySortT);
-	srcDb->EnumContactSettings(NULL, ImportGroup, "CListGroups", &arGroups);
-
-	for (auto &it : arGroups) {
-		MGROUP group_id = Clist_GroupCreate(0, it->wszName.get() + 1);
-		if (group_id <= 0)
-			continue;
-
-		Clist_GroupSetExpanded(group_id, (it->wszName[0] & GROUPF_EXPANDED));
-	}
-	return arGroups.getCount();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 DBCachedContact* CImportBatch::FindDestMeta(DBCachedContact *ccSrc)
 {
 	for (MCONTACT hMeta = dstDb->FindFirstContact(META_PROTO); hMeta != 0; hMeta = dstDb->FindNextContact(hMeta, META_PROTO)) {
@@ -1023,7 +986,6 @@ void CImportBatch::DoImport()
 	uint32_t dwTimer = time(0);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
-	arSkippedAccs.insert(newStr("CListGroups"));
 	if (!ImportAccounts(arSkippedAccs)) {
 		AddMessage(LPGENW("Error mapping accounts, exiting."));
 		return;
@@ -1033,18 +995,6 @@ void CImportBatch::DoImport()
 	if (m_iOptions & IOPT_SYS_SETTINGS)
 		srcDb->EnumModuleNames(CopySystemSettings, &arSkippedAccs);
 	arSkippedAccs.destroy();
-
-	// Import Groups
-	if (m_iOptions & IOPT_GROUPS) {
-		AddMessage(LPGENW("Importing groups."));
-		nGroupsCount = ImportGroups();
-		if (nGroupsCount == -1)
-			AddMessage(LPGENW("Group import failed."));
-
-		AddMessage(L"");
-	}
-	dstDb->Flush();
-	// End of Import Groups
 
 	// Import Contacts
 	if (m_iOptions & IOPT_CONTACTS) {

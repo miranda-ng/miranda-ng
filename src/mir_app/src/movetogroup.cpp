@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "clc.h"
 
 static HGENMENU hMoveToGroupItem = nullptr, hPriorityItem = nullptr, hFloatingItem = nullptr;
 static LIST<HANDLE> lphGroupsItems(5);
@@ -85,6 +86,8 @@ static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, b
 // wparam - hcontact
 // lparam .popupposition from TMO_MenuItem
 
+extern LIST<CGroupInternal> arByIds;
+
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
@@ -100,19 +103,9 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
-	for (int i = 0;; i++) {
-		char intname[20];
-		_itoa(i, intname, 10);
-
-		DBVARIANT dbv;
-		if (db_get_ws(0, "CListGroups", intname, &dbv))
-			break;
-
-		if (dbv.pwszVal[0])
-			groups.insert(new GroupItemSort(dbv.pwszVal + 1, i + 1));
-
-		mir_free(dbv.pwszVal);
-	}
+	for (auto &it : arByIds)
+		if (it->flags)
+			groups.insert(new GroupItemSort(it->groupName, it->groupId));
 
 	for (auto &p : groups) {
 		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, p->name);

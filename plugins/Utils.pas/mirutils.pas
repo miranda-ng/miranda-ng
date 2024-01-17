@@ -28,7 +28,6 @@ function ShowVarHelp(dlg:HWND;id:integer=0):integer;
 
 function CreateGroupW(name:PWideChar;hContact:TMCONTACT):integer;
 
-function MakeGroupMenu(idxfrom:integer=100):HMENU;
 function GetNewGroupName(parent:HWND):PWideChar;
 
 const
@@ -351,36 +350,6 @@ begin
   result:=StrCmpW(PWideChar(para1),PWideChar(para2));
 end;
 
-function MakeGroupMenu(idxfrom:integer=100):HMENU;
-var
-  sl:TSortedList;
-  i:integer;
-  b:array [0..15] of AnsiChar;
-  p:PWideChar;
-begin
-  result:=CreatePopupMenu;
-  i:=0;
-  AppendMenuW(result,MF_STRING,idxfrom,TranslateW('<Root Group>'));
-  AppendMenuW(result,MF_SEPARATOR,0,nil);
-  FillChar(sl,SizeOf(sl),0);
-  sl.increment:=16;
-  sl.sortFunc:=@MyStrSort;
-  repeat
-    p:=DBReadUnicode(0,'CListGroups',IntToStr(b,i),nil);
-    if p=nil then break;
-    List_InsertPtr(@sl,p+1);
-    inc(i);
-  until false;
-  inc(idxfrom);
-  for i:=0 to sl.realCount-1 do
-  begin
-    AppendMenuW(result,MF_STRING,idxfrom+i,PWideChar(sl.Items[i]));
-    p:=PWideChar(sl.Items[i])-1;
-    mFreeMem(p);
-  end;
-  List_Destroy(@sl);
-end;
-
 function GetNewGroupName(parent:HWND):PWideChar;
 var
   mmenu:HMENU;
@@ -389,7 +358,7 @@ var
   pt:TPoint;
 begin
   result:=nil;
-  mmenu:=MakeGroupMenu(100);
+  mmenu:=Clist_GroupBuildMenu(100);
   GetCursorPos(pt);
   i:=integer(TrackPopupMenu(mmenu,TPM_RETURNCMD+TPM_NONOTIFY,pt.x,pt.y,0,parent,nil));
   if i>100 then // no root or cancel

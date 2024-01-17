@@ -129,4 +129,8 @@ function Clist_GroupCreate(hParentGroup:integer; groupName:PWideChar) : integer;
 
 procedure Clist_ContactDoubleClicked(hContact:TMCONTACT); stdcall; external AppDll;
 
+function Clist_GroupBuildMenu(idxfrom:integer=100) : HMENU; stdcall; external AppDll;
+
+procedure Clist_SetGroup(hContact:TMCONTACT; groupName:PWideChar); stdcall; external AppDll;
+
 {$ENDIF}

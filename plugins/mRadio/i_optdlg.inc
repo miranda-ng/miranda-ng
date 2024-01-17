@@ -168,12 +168,7 @@ begin
                     DBWriteUnicode(i,PluginName,optStationURL,@buf);
 }
                     // "changing" station group
-                    dst:=GetNewGroupName(Dialog);
-                    if dst<>nil then
-                      DBWriteUnicode(i,strCList,optGroup,dst)
-                    else
-                      db_unset(i,strCList,optGroup);
-                      
+                    Clist_SetGroup(i, GetNewGroupName(Dialog));
                   end
                   else if loword(wParam)=IDC_ADD_INI then
                   begin

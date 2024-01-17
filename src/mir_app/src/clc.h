@@ -168,3 +168,17 @@ int fnSetHideOffline(int iValue);
 
 /* docking.c */
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
+
+// clistgroups.cpp
+
+struct CGroupInternal
+{
+	CGroupInternal(int _id, const wchar_t *_name, int _flags);
+	~CGroupInternal();
+
+	int groupId, oldId = -1, flags;
+	bool bSaveExpanded;
+	wchar_t *groupName;
+
+	void save();
+};

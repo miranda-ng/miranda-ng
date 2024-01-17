@@ -69,15 +69,6 @@ extern bool g_bGroupsLocked;
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (hContact == 0) {
-		if (!strcmp(cws->szModule, "CListGroups")) {
-			if (g_bGroupsLocked)
-				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
-			else
-				Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
-		}
-		return 0;
-	}
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
@@ -361,40 +352,32 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
 
 	case INTM_GROUPSCHANGED:
-		{
-			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
-				int groupId = atoi(dbcws->szSetting) + 1;
+		if (auto *pGroup = (CGroupInternal *)lParam) {
+			// check name of group and ignore message if just being expanded/collapsed
+			if (!Clist_FindItem(hwnd, dat, pGroup->groupId | HCONTACT_ISGROUP, &contact, &group))
+				break;
 
-				// check name of group and ignore message if just being expanded/collapsed
-				if (Clist_FindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group)) {
-					CMStringW szFullName(contact->szText);
-					while (group->parent) {
-						ClcContact *cc = nullptr;
-						for (auto &it : group->parent->cl)
-							if (it->group == group) {
-								cc = it;
-								break;
-							}
-
-						if (cc == nullptr) {
-							szFullName.Empty();
-							break;
-						}
-						szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
-						group = group->parent;
+			CMStringW szFullName(contact->szText);
+			while (group->parent) {
+				ClcContact *cc = nullptr;
+				for (auto &it : group->parent->cl)
+					if (it->group == group) {
+						cc = it;
+						break;
 					}
 
-					int eq;
-					if (dbcws->value.type == DBVT_ASCIIZ)
-						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal + 1));
-					else
-						eq = !mir_wstrcmp(szFullName, ptrW(mir_utf8decodeW(dbcws->value.pszVal + 1)));
-
-					if (eq && contact->group->bHideOffline == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
-						break;  //only expanded has changed: no action reqd
+				if (cc == nullptr) {
+					szFullName.Empty();
+					break;
 				}
+				szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
+				group = group->parent;
 			}
+
+			bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
+			if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
+				break;  // only expanded has changed: no action reqd
+
 			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
 		break;
