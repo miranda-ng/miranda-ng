@@ -573,21 +573,8 @@ static const char *str2buf(const std::string &str)
 
 void CJabberClientCapsManager::Load()
 {
-	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_BINARY | _O_RDONLY);
-	if (fileId == -1)
-		return;
-
-	size_t dwFileLength = _filelength(fileId), dwReadLen;
-	ptrA szBuf((char *)mir_alloc(dwFileLength + 1));
-	dwReadLen = _read(fileId, szBuf, (unsigned)dwFileLength);
-	_close(fileId);
-	if (dwFileLength != dwReadLen)
-		return;
-
-	szBuf[dwFileLength] = 0;
-
-	JSONNode root = JSONNode::parse(szBuf);
-	if (!root)
+	JSONNode root;
+	if (!file2json(VARSW(L"%miranda_userdata%\\jabberCaps.json"), root))
 		return;
 
 	for (auto &node : root) {
@@ -646,11 +633,5 @@ void CJabberClientCapsManager::Save()
 		root << node;
 	}
 
-	std::string szBody = root.write_formatted();
-
-	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-	if (fileId != -1) {
-		_write(fileId, szBody.c_str(), (unsigned)szBody.length());
-		_close(fileId);
-	}
+	json2file(root, VARSW(L"%miranda_userdata%\\jabberCaps.json"));
 }

@@ -211,3 +211,5 @@ json_write_formatted @191
 ??9JSONNode@@QEBA_N_K@Z @208 NONAME
 ??6@YAAEAVJSONNode@@AEAV0@AEBUSINT64_PARAM@@@Z @209 NONAME
 ??0JSONNode@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEB_W@Z @210 NONAME
+?file2json@@YA_NPEB_WAEAVJSONNode@@@Z @211 NONAME
+?json2file@@YA_NAEBVJSONNode@@PEB_W@Z @212 NONAME

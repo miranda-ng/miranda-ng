@@ -456,17 +456,10 @@ void CDiscordGuild::ProcessRole(const JSONNode &role)
 
 void CDiscordGuild::LoadFromFile()
 {
-	int fileNo = _wopen(GetCacheFile(), O_TEXT | O_RDONLY);
-	if (fileNo == -1)
+	JSONNode cached;
+	if (!file2json(GetCacheFile(), cached))
 		return;
 
-	int fSize = ::filelength(fileNo);
-	ptrA json((char*)mir_alloc(fSize + 1));
-	read(fileNo, json, fSize);
-	json[fSize] = 0;
-	close(fileNo);
-
-	JSONNode cached = JSONNode::parse(json);
 	for (auto &it : cached) {
 		SnowFlake userId = getId(it["id"]);
 		auto *pUser = FindUser(userId);
@@ -491,10 +484,5 @@ void CDiscordGuild ::SaveToFile()
 
 	CMStringW wszFileName(GetCacheFile());
 	CreatePathToFileW(wszFileName);
-	int fileNo = _wopen(wszFileName, O_CREAT | O_TRUNC | O_TEXT | O_WRONLY);
-	if (fileNo != -1) {
-		std::string json = members.write_formatted();
-		write(fileNo, json.c_str(), (int)json.size());
-		close(fileNo);
-	}
+	json2file(members, wszFileName);
 }

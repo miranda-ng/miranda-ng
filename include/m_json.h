@@ -166,6 +166,12 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const JSON_PARAM &param);
 
+// loads a JSON contents of a file
+LIBJSON_DLL(bool) file2json(const wchar_t *pwszFilename, JSONNode &root);
+
+// saves a JSON variable into a flie
+LIBJSON_DLL(bool) json2file(const JSONNode &root, const wchar_t *pwszFilename);
+
 #endif // __cplusplus
 
 #ifndef LIBJSON_EXPORTS
