@@ -382,10 +382,11 @@ MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 
 INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-	auto *ppi = Proto_GetInstance(szModule);
-	if (ppi != nullptr) {
-		TServiceListItem *item = (TServiceListItem *)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
-		if (item) {
+	TServiceListItem *item = (TServiceListItem *)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
+	if (item) {
+		auto *pa = Proto_GetAccount(szModule);
+		auto *ppi = (pa) ? pa->ppro : 0;
+		if (ppi != nullptr) {
 			switch (item->id) {
 			case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT *)lParam);
 			case  2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
