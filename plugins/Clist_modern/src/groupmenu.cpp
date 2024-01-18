@@ -48,9 +48,9 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM lParam)
+static INT_PTR GroupMenuExecProxy(WPARAM, LPARAM lParam)
 {
-	SendMessage(lParam ? (HWND)lParam : (HWND)g_clistApi.hwndContactTree, WM_COMMAND, wParam, 0);
+	SendMessage(g_clistApi.hwndContactTree, WM_COMMAND, lParam, 0);
 	return 0;
 }
 
@@ -68,12 +68,13 @@ void InitGroupMenus(void)
 	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildSubGroupMenu);
 
 	// add exit command to menu
-	GroupMenuParam gmp = { POPUP_GROUPSHOWOFFLINE, 0 };
+	GroupMenuParam gmp = { 0, POPUP_GROUPSHOWOFFLINE };
 
 	SET_UID(mi, 0x7E081A28, 0x19B3, 0x407F, 0x80, 0x6B, 0x70, 0xC3, 0xC3, 0xA9, 0xD2, 0xA4);
 	mi.position = 900001;
-	mi.pszService = "Modern/GroupMenuExecProxy";
 	mi.name.a = LPGEN("&Show offline users in here");
+	mi.hIcolibItem = nullptr;
+	mi.pszService = "Modern/GroupMenuExecProxy";
 	hShowOfflineUsersHereMenuItem = Menu_AddGroupMenuItem(&mi, &gmp);
 	CreateServiceFunction(mi.pszService, GroupMenuExecProxy);
 }

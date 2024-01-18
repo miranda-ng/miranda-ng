@@ -59,10 +59,8 @@ MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *g
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	if (gmp != nullptr) {
-		mmep->Param1 = gmp->wParam;
+	if (gmp != nullptr)
 		mmep->Param2 = gmp->lParam;
-	}
 
 	HGENMENU hNewItem = Menu_AddItem(hGroupMenuObject, pmi, mmep);
 
@@ -80,10 +78,8 @@ static INT_PTR GroupMenuCheckService(WPARAM wParam, LPARAM)
 	TCheckProcParam *CParam = (TCheckProcParam *)wParam;
 	if (CParam) {
 		GroupMenuExecParam *mmep = (GroupMenuExecParam *)(CParam->MenuItemOwnerData);
-		if (mmep) {
+		if (mmep)
 			mmep->Param1 = CParam->wParam;
-			mmep->Param2 = CParam->lParam;
-		}
 	}
 	return 1;
 }
