@@ -226,7 +226,7 @@ bool CLangpackDlg::OnApply()
 	if (tszPath[0]) {
 		ReloadLangpack(tszPath);
 		
-		if (m_bExiting) {
+		if (!m_bExiting) {
 			PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
 			mir_forkthread(ReloadOptions, m_hwndParent);
 		}
