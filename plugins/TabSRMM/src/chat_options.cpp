@@ -570,7 +570,7 @@ class CChatLogOptionDlg : public CChatBaseOptionDlg
 
 public:
 	CChatLogOptionDlg() :
-		CChatBaseOptionDlg(IDD_OPTIONS2),
+		CChatBaseOptionDlg(Srmm_IsCustomLogUsed(true) ? IDD_OPTIONS3 : IDD_OPTIONS2),
 		m_timer(this, 1),
 		btnBaseDir(this, IDC_MUC_OPENLOGBASEDIR),
 		chkLogging(this, IDC_LOGGING),
@@ -895,11 +895,9 @@ void Chat_Options(WPARAM wParam)
 	odp.pDialog = new CChatSettingsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Srmm_IsCustomLogUsed(true)) {
-		odp.szTab.a = LPGEN("Log formatting");
-		odp.pDialog = new CChatLogOptionDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.a = LPGEN("Log formatting");
+	odp.pDialog = new CChatLogOptionDlg();
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Highlighting");
 	odp.pDialog = new CHighlighOptionDlg();
