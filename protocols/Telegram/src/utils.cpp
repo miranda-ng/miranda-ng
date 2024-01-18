@@ -415,7 +415,7 @@ bool CTelegramProto::GetMessageFile(
 		pre.descr.a = caption.c_str();
 	if (pMsg->is_outgoing_)
 		pre.dwFlags |= PRFF_SENT;
-	if (Contact::IsGroupChat(hContact))
+	if (Contact::IsGroupChat(hContact) || !pUser->bInited)
 		pre.dwFlags |= PRFF_READ;
 	if (pMsg->reply_to_message_id_) {
 		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);

@@ -536,6 +536,7 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		return;
 	}
 
+	pUser->bInited = true;
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		debugLogA("Last message for a temporary contact, skipping");
 		return;
@@ -783,6 +784,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		dbei.timestamp = pMessage->date_;
 		if (pMessage->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
+		if (!pUser->bInited)
+			dbei.flags |= DBEF_READ;
 		if (GetGcUserId(pUser, pMessage, szUserId))
 			dbei.szUserId = szUserId;
 		if (pMessage->reply_to_message_id_) {
@@ -798,6 +801,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		pre.timestamp = pMessage->date_;
 		if (pMessage->is_outgoing_)
 			pre.flags |= PREF_SENT;
+		if (!pUser->bInited)
+			pre.flags |= PREF_CREATEREAD;
 		if (GetGcUserId(pUser, pMessage, szUserId))
 			pre.szUserId = szUserId;
 		if (pMessage->reply_to_message_id_) {
