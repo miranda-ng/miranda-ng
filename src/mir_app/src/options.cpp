@@ -814,6 +814,9 @@ public:
 
 	bool OnApply() override
 	{
+		if (GetParent(GetFocus()) == GetDlgItem(m_hwnd, IDC_KEYWORD_FILTER))
+			return false;
+
 		m_btnApply.Disable();
 		SetFocus(m_pageTree.GetHwnd());
 
@@ -832,6 +835,7 @@ public:
 
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
+		pshn.lParam = (m_bExiting) ? IDOK : IDC_APPLY;
 		for (auto &p : m_arOpd) {
 			if (p == nullptr)
 				continue;
@@ -881,15 +885,6 @@ public:
 	{
 		OnApply();
 		m_btnApply.Disable();
-	}
-
-	void OnOk(void*)
-	{
-		if (GetParent(GetFocus()) == GetDlgItem(m_hwnd, IDC_KEYWORD_FILTER))
-			return;
-
-		OnApply();
-		Close();
 	}
 
 	void OnCancel(CCtrlButton*)

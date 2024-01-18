@@ -349,8 +349,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (pnmh->idFrom == 0) {
 				switch (pnmh->code) {
 				case PSN_APPLY:
-					if (LPPSHNOTIFY(lParam)->lParam != 3) // IDC_APPLY
-						m_bExiting = true;
+					m_bExiting = ((PSHNOTIFY*)pnmh)->lParam != 3; // IDC_APPLY
 
 					if (!VerifyControls(&CCtrlBase::OnApply))
 						m_bExiting = false;

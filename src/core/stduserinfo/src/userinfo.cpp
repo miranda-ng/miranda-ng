@@ -337,6 +337,7 @@ public:
 		}
 
 		pshn.hdr.code = PSN_APPLY;
+		pshn.lParam = IDOK;
 		for (auto &odp : m_pages) {
 			if (odp->hwnd == nullptr || !odp->changed)
 				continue;
