@@ -298,8 +298,11 @@ BOOL CFormattedTextDraw::TxSetScrollPos(INT, INT, BOOL)
 
 void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL bRedraw)
 {
-	if (m_hwndParent)
-		::InvalidateRect(m_hwndParent, NULL, bRedraw);
+	if (m_hwndParent) {
+		TextControlData *data = (TextControlData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
+		if (!data->m_bInsideDraw)
+			::InvalidateRect(m_hwndParent, NULL, bRedraw);
+	}
 }
 
 void CFormattedTextDraw::TxViewChange(BOOL)

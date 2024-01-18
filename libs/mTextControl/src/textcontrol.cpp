@@ -20,14 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "stdafx.h"
 #include "FormattedTextDraw.h"
 
-struct TextControlData
-{
-	HANDLE htu;
-	wchar_t *text;
-	TextObject *mtext;
-	COLORREF clBack = -1;
-};
-
 /// Paint ////////////////////////////////////
 
 static LRESULT MTextControl_OnPaint(HWND hwnd)
@@ -37,6 +29,7 @@ static LRESULT MTextControl_OnPaint(HWND hwnd)
 
 	// Find the text to draw
 	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	data->m_bInsideDraw = true;
 
 	SetTextColor(hdc, RGB(0, 0, 0));
 	SetBkMode(hdc, TRANSPARENT);
@@ -81,6 +74,7 @@ static LRESULT MTextControl_OnPaint(HWND hwnd)
 
 	// Release the device context
 	EndPaint(hwnd, &ps);
+	data->m_bInsideDraw = false;
 	return 0;
 }
 

@@ -128,4 +128,13 @@ struct TextObject
 
 void bbCodeParse(CFormattedTextDraw *ts);
 
+struct TextControlData
+{
+	HANDLE htu;
+	wchar_t *text;
+	TextObject *mtext;
+	COLORREF clBack = -1;
+	bool m_bInsideDraw = false;
+};
+
 #endif //__FORMATTEDTEXTDRAW_H_
