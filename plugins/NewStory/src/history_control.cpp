@@ -247,6 +247,7 @@ void NewstoryListData::BeginEditItem()
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
+	SetForegroundWindow(hwndEditBox);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1133,9 +1134,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int height = rc.bottom - rc.top;
 			int width = rc.right - rc.left;
 			int top = data->scrollTopPixel;
-			idx = data->scrollTopItem;
-			while ((top < height) && (idx < data->totalCount))
-				top += data->PaintItem(hdc, data->LoadItem(idx++), top, width, true);
+			
+			for (idx = data->scrollTopItem; top < height && idx < data->totalCount; idx++)
+				top += data->PaintItem(hdc, data->LoadItem(idx), top, width, !data->hwndEditBox || data->caret != idx);
+
 			data->cachedMaxDrawnItem = idx;
 
 			if (top <= height) {

@@ -300,7 +300,7 @@ void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL bRedraw)
 {
 	if (m_hwndParent) {
 		TextControlData *data = (TextControlData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
-		if (!data->m_bInsideDraw)
+		if (!data || !data->m_bInsideDraw)
 			::InvalidateRect(m_hwndParent, NULL, bRedraw);
 	}
 }
