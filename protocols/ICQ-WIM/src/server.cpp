@@ -557,8 +557,15 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		}
 	}
 
-	if (pQuote)
+	if (pQuote) {
 		szReply = pQuote->at("msgId").as_mstring();
+
+		if (!pFileInfo) {
+			ParseMessagePart(hContact, *pQuote, hOldEvent, pFileInfo);
+			if (pFileInfo)
+				pFileInfo->wszDescr = wszText;
+		}
+	}
 
 	// message text might be a separate file link as well
 	if (pFileInfo == nullptr && fileText2url(wszText)) {
