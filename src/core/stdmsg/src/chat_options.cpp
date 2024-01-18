@@ -332,7 +332,7 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.pDialog = new COptMainDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Chat::bEnableCustomLogs) {
+	if (!Srmm_IsCustomLogUsed(true)) {
 		odp.position = 910000001;
 		odp.szTab.a = LPGEN("Chat log");
 		odp.pDialog = new COptLogDlg();

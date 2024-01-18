@@ -895,7 +895,7 @@ void Chat_Options(WPARAM wParam)
 	odp.pDialog = new CChatSettingsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Chat::bEnableCustomLogs) {
+	if (!Srmm_IsCustomLogUsed(true)) {
 		odp.szTab.a = LPGEN("Log formatting");
 		odp.pDialog = new CChatLogOptionDlg();
 		g_plugin.addOptions(wParam, &odp);

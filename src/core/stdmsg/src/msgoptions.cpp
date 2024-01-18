@@ -572,7 +572,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Messaging log");
-	odp.pDialog = new COptionLogDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	odp.pDialog = new COptionLogDlg(Srmm_IsCustomLogUsed(false) ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Typing notify");

@@ -327,7 +327,7 @@ public:
 		SetCaption(szBuffer);
 
 		m_tab.AddPage(TranslateT("General"), nullptr, new CUserPrefsOptDlg(m_hContact));
-		if (!Srmm_IsCustomLogUsed())
+		if (!Srmm_IsCustomLogUsed(Contact::IsGroupChat(m_hContact)))
 			m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
 		return true;
 	}
