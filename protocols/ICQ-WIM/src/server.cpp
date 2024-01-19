@@ -542,7 +542,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		else if (szType == "quote")
 			pQuote = &jt;
 		else if (szType == "text")
-			ParseMessagePart(hContact, jt, hOldEvent, pFileInfo);
+			ParseMessagePart(hContact, jt, pFileInfo);
 	}
 
 	if (pForward) {
@@ -551,7 +551,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			wszText.Truncate(idx + 2);
 
 		if (!pFileInfo) {
-			ParseMessagePart(hContact, *pForward, hOldEvent, pFileInfo);
+			ParseMessagePart(hContact, *pForward, pFileInfo);
 			if (pFileInfo)
 				pFileInfo->wszDescr = wszText;
 		}
@@ -561,7 +561,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		szReply = pQuote->at("msgId").as_mstring();
 
 		if (!pFileInfo) {
-			ParseMessagePart(hContact, *pQuote, hOldEvent, pFileInfo);
+			ParseMessagePart(hContact, *pQuote, pFileInfo);
 			if (pFileInfo)
 				pFileInfo->wszDescr = wszText;
 		}
@@ -593,7 +593,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		auto *p = strrchr(pFileInfo->szUrl, '/');
 		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
 
-		DB::EventInfo dbei;
+		DB::EventInfo dbei(hOldEvent);
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.szId = szMsgId;
 		dbei.timestamp = iMsgTime;
@@ -605,7 +605,13 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			dbei.szReplyId = szReply;
 		if (isChatRoom(hContact))
 			dbei.szUserId = szSender;
-		ProtoChainRecvFile(hContact, DB::FILE_BLOB(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr)), dbei);
+
+		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
+		if (hOldEvent) {
+			blob.write(dbei);
+			db_event_edit(hOldEvent, &dbei, true);
+		}
+		else ProtoChainRecvFile(hContact, blob, dbei);
 		return;
 	}
 
@@ -655,7 +661,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 }
 
-void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, MEVENT hOldEvent, IcqFileInfo *&pFileInfo)
+void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, IcqFileInfo *&pFileInfo)
 {
 	if (pFileInfo != nullptr)
 		return;
@@ -663,10 +669,6 @@ void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, MEVENT
 	if (auto &content = part["captionedContent"]) {
 		CMStringW wszUrl(content["url"].as_mstring());
 		if (wszUrl.IsEmpty())
-			return;
-
-		CMStringW wszText(part["text"].as_mstring());
-		if (hOldEvent && fileText2url(wszText))
 			return;
 
 		if (!CheckFile(hContact, wszUrl, pFileInfo))
