@@ -355,10 +355,10 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+MEVENT CTelegramProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	auto *ft = (TG_FILE_REQUEST *)pre->pUserInfo;
-	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, pre) : 0;
+	auto *ft = (TG_FILE_REQUEST *)blob.getUserInfo();
+	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, blob, dbei) : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

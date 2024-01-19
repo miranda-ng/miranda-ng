@@ -1150,7 +1150,7 @@ void MFileChunkStorage::apply(MHttpResponse *nlhr)
 
 bool MFileChunkStorage::updateChunk(const void *pData, size_t cbLen)
 {
-	if (cbLen != _write(fileId, pData, unsigned(cbLen))) {
+	if (cbLen != (unsigned)_write(fileId, pData, unsigned(cbLen))) {
 		_close(fileId);
 		fileId = -1;
 		return false;

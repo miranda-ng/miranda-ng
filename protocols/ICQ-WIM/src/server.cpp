@@ -590,30 +590,22 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// convert a file info into Miranda's file transfer
 	if (pFileInfo) {
-		ptrW pwszFileName(mir_utf8decodeW(pFileInfo->szUrl));
-		if (pwszFileName == nullptr)
-			pwszFileName = mir_a2u(pFileInfo->szUrl);
+		auto *p = strrchr(pFileInfo->szUrl, '/');
+		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
 
-		const wchar_t *p = wcsrchr(pwszFileName, '/');
-		const wchar_t *m_wszShortName = (p == nullptr) ? pwszFileName : p + 1;
-
-		PROTORECVFILE pre = {};
-		pre.dwFlags = PRFF_UNICODE | PRFF_SILENT;
-		pre.fileCount = 1;
-		pre.szId = szMsgId;
-		pre.timestamp = iMsgTime;
-		pre.files.w = &m_wszShortName;
-		pre.descr.w = pFileInfo->wszDescr;
-		pre.pUserInfo = pFileInfo;
+		DB::EventInfo dbei;
+		dbei.flags = DBEF_TEMPORARY;
+		dbei.szId = szMsgId;
+		dbei.timestamp = iMsgTime;
 		if (bCreateRead)
-			pre.dwFlags |= PRFF_READ;
+			dbei.flags |= DBEF_READ;
 		if (bIsOutgoing)
-			pre.dwFlags |= PRFF_SENT;
+			dbei.flags |= DBEF_SENT;
 		if (!szReply.IsEmpty())
-			pre.szReplyId = szReply;
+			dbei.szReplyId = szReply;
 		if (isChatRoom(hContact))
-			pre.szUserId = szSender;
-		ProtoChainRecvFile(hContact, &pre);
+			dbei.szUserId = szSender;
+		ProtoChainRecvFile(hContact, DB::FILE_BLOB(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr)), dbei);
 		return;
 	}
 

@@ -1148,15 +1148,9 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 						setWString(hContact, "User", pmsg->prefix.sUser);
 						setWString(hContact, "Host", pmsg->prefix.sHost);
 
-						const wchar_t* tszTemp = sFile;
-
-						PROTORECVFILE pre = {};
-						pre.dwFlags = PRFF_UNICODE;
-						pre.timestamp = (uint32_t)time(0);
-						pre.fileCount = 1;
-						pre.files.w = &tszTemp;
-						pre.pUserInfo = di;
-						ProtoChainRecvFile(hContact, &pre);
+						DB::EventInfo dbei;
+						dbei.timestamp = (uint32_t)time(0);
+						ProtoChainRecvFile(hContact, DB::FILE_BLOB(di, T2Utf(sFile)), dbei);
 					}
 				}
 			}

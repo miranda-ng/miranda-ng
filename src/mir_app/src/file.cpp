@@ -211,58 +211,20 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	if (!pre || !pre->fileCount)
-		return 0;
+	bool bSilent = (dbei.flags & DBEF_TEMPORARY) != 0;
+	bool bSent = (dbei.flags & DBEF_SENT) != 0;
+	bool bRead = (dbei.flags & DBEF_READ) != 0;
 
-	bool bSilent = (pre->dwFlags & PRFF_SILENT) != 0;
-	bool bSent = (pre->dwFlags & PRFF_SENT) != 0;
-	bool bRead = (pre->dwFlags & PRFF_READ) != 0;
-
-	DB::EventInfo dbei;
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
-	dbei.timestamp = pre->timestamp;
-	dbei.szId = pre->szId;
-	dbei.szUserId = pre->szUserId;
-	dbei.szReplyId = pre->szReplyId;
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.flags = DBEF_UTF;
-	if (bSent)
-		dbei.flags |= DBEF_SENT;
-	if (bRead)
-		dbei.flags |= DBEF_READ;
+	dbei.flags = (dbei.flags & ~DBEF_TEMPORARY) | DBEF_UTF;
 
 	CMStringW wszFiles, wszDescr;
 
-	if ((pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE) {
-		for (int i = 0; i < pre->fileCount; i++) {
-			if (i != 0)
-				wszFiles.AppendChar(',');
-			wszFiles.Append(pre->files.w[i]);
-		}
-		
-		wszDescr = pre->descr.w;
-	}
-	else {
-		bool bUtf = (pre->dwFlags & PRFF_UTF) != 0;
-
-		for (int i = 0; i < pre->fileCount; i++) {
-			if (i != 0)
-				wszFiles.AppendChar(',');
-
-			if (bUtf)
-				wszFiles.Append(Utf2T(pre->files.a[i]));
-			else
-				wszFiles.Append(_A2T(pre->files.a[i]));
-		}
-
-		wszDescr = (bUtf) ? Utf2T(pre->descr.a).get() : _A2T(pre->descr.a);
-	}
-
-	DB::FILE_BLOB blob(wszFiles, wszDescr);
 	if (auto *ppro = Proto_GetContactInstance(hContact))
-		ppro->OnReceiveOfflineFile(blob, pre->pUserInfo);
+		ppro->OnReceiveOfflineFile(blob, blob.getUserInfo());
 	blob.write(dbei);
 
 	MEVENT hdbe = db_event_add(hContact, &dbei);
@@ -273,7 +235,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hdbe;
-		cle.lParam = LPARAM(pre->pUserInfo);
+		cle.lParam = LPARAM(blob.getUserInfo());
 
 		if (!bSilent && File::bAutoAccept && Contact::OnList(hContact))
 			LaunchRecvDialog(&cle);

@@ -21,11 +21,10 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 		{
 			proto->debugLogA(__FUNCTION__": incoming avatar (%d) from %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
 
-			ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
-			wchar_t avatarName[MAX_PATH];
-			mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address.get());
+			CMStringA address(proto->getMStringU(hContact, TOX_SETTINGS_ID));
+			address += "%s.png";
 
-			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, address, fileSize);
 			transfer->pfts.flags |= PFTS_RECEIVING;
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
@@ -45,21 +44,15 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 			proto->debugLogA(__FUNCTION__": incoming file (%d) from %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
 
 			CMStringA rawName((char*)fileName, (int)fileNameLength);
-			const wchar_t *name = mir_utf8decodeW(rawName);
 
-			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
+			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, rawName, fileSize);
 			transfer->pfts.flags |= PFTS_RECEIVING;
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
-			PROTORECVFILE pre = {};
-			pre.dwFlags = PRFF_UNICODE;
-			pre.fileCount = 1;
-			pre.timestamp = now();
-			pre.descr.w = L"";
-			pre.files.w = &name;
-			pre.pUserInfo = transfer;
-			ProtoChainRecvFile(hContact, &pre);
+			DB::EventInfo dbei;
+			dbei.timestamp = now();
+			ProtoChainRecvFile(hContact, DB::FILE_BLOB(transfer, rawName), dbei);
 		}
 		break;
 
@@ -270,7 +263,7 @@ HANDLE CToxProto::OnSendFile(Tox *tox, MCONTACT hContact, const wchar_t*, wchar_
 	}
 	debugLogA(__FUNCTION__": start sending file (%d) to %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
 
-	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, fileName, fileSize);
+	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, rawName, fileSize);
 	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.hContact = hContact;
 	transfer->pfts.szWorkingDir.w = fileDir;

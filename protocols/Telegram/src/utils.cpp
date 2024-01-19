@@ -402,26 +402,24 @@ bool CTelegramProto::GetMessageFile(
 	}
 
 	char szReplyId[100];
+	const char *szDesc = nullptr;
 	MCONTACT hContact = GetRealContact(pUser);
-	PROTORECVFILE pre = {};
-	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
-	pre.fileCount = 1;
-	pre.timestamp = pMsg->date_;
-	pre.files.a = &pszFileName;
-	pre.pUserInfo = pRequest;
-	pre.szId = pszId;
-	pre.szUserId = pszUserId;
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_TEMPORARY;
+	dbei.timestamp = pMsg->date_;
+	dbei.szId = pszId;
+	dbei.szUserId = pszUserId;
 	if (!caption.empty())
-		pre.descr.a = caption.c_str();
+		szDesc = caption.c_str();
 	if (pMsg->is_outgoing_)
-		pre.dwFlags |= PRFF_SENT;
+		dbei.flags |= DBEF_SENT;
 	if (Contact::IsGroupChat(hContact) || !pUser->bInited)
-		pre.dwFlags |= PRFF_READ;
+		dbei.flags |= DBEF_READ;
 	if (pMsg->reply_to_message_id_) {
 		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
-		pre.szReplyId = szReplyId;
+		dbei.szReplyId = szReplyId;
 	}
-	ProtoChainRecvFile(hContact, &pre);
+	ProtoChainRecvFile(hContact, DB::FILE_BLOB(pRequest, pszFileName, szDesc), dbei);
 	return true;
 }
 

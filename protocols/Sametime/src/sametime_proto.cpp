@@ -162,14 +162,14 @@ HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 }
 
 
-MEVENT CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
+MEVENT CSametimeProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
 	debugLogW(L"CSametimeProto::RecvFile()  hContact=[%x]", hContact);
 
 	Contact::Hide(hContact, false);
 	Contact::PutOnList(hContact);
 
-	return CSuper::RecvFile(hContact, pre);
+	return CSuper::RecvFile(hContact, blob, dbei);
 }
 
 MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)

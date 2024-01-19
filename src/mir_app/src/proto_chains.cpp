@@ -105,10 +105,10 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 
 	for (int i = iOrder - 1; i >= 0; i--)
 		if ((ret = CallProtoService(g_arFilters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
-			//chain was started, exit
+			// chain was started, exit
 			return ret;
 
-	//end of chain, call network protocol again
+	// end of chain, call network protocol again
 	char szProto[40];
 	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;

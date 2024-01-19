@@ -712,14 +712,17 @@ namespace DB
 		ptrW m_wszFileName, m_wszDescription, m_wszLocalName;
 		ptrA m_szProtoString;
 		int64_t m_iFileSize = -1, m_iTransferred = -1;
+		void *m_pUserInfo = 0;
 
 	public:
+		explicit FILE_BLOB(void *pUserInfo, const char *pszName, const char *pszDescr = nullptr, bool bUtf = true);
 		explicit FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr = nullptr);
 		explicit FILE_BLOB(const EventInfo &dbei);
 		~FILE_BLOB();
 
 		void write(EventInfo &dbei);
 
+		__forceinline void* getUserInfo() const { return m_pUserInfo; }
 		__forceinline const char* getUrl() const { return m_szProtoString; }
 		__forceinline const wchar_t* getLocalName() const { return m_wszLocalName; }
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
@@ -736,6 +739,7 @@ namespace DB
 		__forceinline void setName(const wchar_t *pszFileName) { m_wszFileName = mir_wstrdup(pszFileName); }
 		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
 		__forceinline void setLocalName(const wchar_t *pszFileName) { m_wszLocalName = mir_wstrdup(pszFileName); }
+		__forceinline void setUserInfo(void *pUserInfo) { m_pUserInfo = pUserInfo; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////

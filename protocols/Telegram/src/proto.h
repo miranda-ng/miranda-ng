@@ -357,7 +357,7 @@ public:
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
+	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage) override;

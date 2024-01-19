@@ -36,13 +36,9 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	else
 		strncpy_s(description, filename, _TRUNCATE);
 
-	PROTORECVFILE pre = {};
-	pre.fileCount = 1;
-	pre.timestamp = time(0);
-	pre.descr.a = description;
-	pre.files.a = &filename;
-	pre.pUserInfo = ft;
-	ProtoChainRecvFile(hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = time(0);
+	ProtoChainRecvFile(hContact, DB::FILE_BLOB(ft, filename, description), dbei);
 }
 
 //returns 0 if finished with current file

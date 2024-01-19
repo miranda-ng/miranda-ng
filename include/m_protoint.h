@@ -235,7 +235,7 @@ public:
 	virtual	MWindow  CreateExtendedSearchUI(MWindow owner);
 
 	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT *);
-	virtual	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *);
+	virtual	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei);
 	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *);
 
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);

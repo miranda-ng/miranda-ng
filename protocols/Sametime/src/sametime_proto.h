@@ -24,7 +24,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE*) override;
+	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override;
 	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;

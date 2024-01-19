@@ -175,14 +175,10 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 			ft->dwExpectedRecvFileSize = ft->std.currentFileSize = atoi(p);
 	}
 
-	PROTORECVFILE pre = {};
-	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
-	pre.fileCount = 1;
-	pre.timestamp = time(0);
-	pre.files.a = &pszName;
-	pre.pUserInfo = ft;
-	pre.descr.a = pszDescr;
-	ProtoChainRecvFile(ft->std.hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_TEMPORARY;
+	dbei.timestamp = time(0);
+	ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, szName, pszDescr), dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

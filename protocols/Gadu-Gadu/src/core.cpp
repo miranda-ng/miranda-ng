@@ -1026,13 +1026,9 @@ retry:
 
 			const char *fileName = (const char*)dcc7->filename;
 
-			PROTORECVFILE pre = {};
-			pre.fileCount = 1;
-			pre.timestamp = time(0);
-			pre.descr.a = fileName;
-			pre.files.a = &fileName;
-			pre.pUserInfo = dcc7;
-			ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
+			DB::EventInfo dbei;
+			dbei.timestamp = time(0);
+			ProtoChainRecvFile((UINT_PTR)dcc7->contact, DB::FILE_BLOB(dcc7, fileName, fileName), dbei);
 
 			e->event.dcc7_new = nullptr;
 		}

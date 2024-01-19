@@ -466,14 +466,9 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
-				PROTORECVFILE pre = {};
-				pre.dwFlags = PRFF_UTF;
-				pre.fileCount = 1;
-				pre.timestamp = time(0);
-				pre.files.a = &filename;
-				pre.pUserInfo = ft;
-				pre.descr.a = XmlGetChildText(fileNode, "desc");
-				ProtoChainRecvFile(ft->std.hContact, &pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = time(0);
+				ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, filename, XmlGetChildText(fileNode, "desc")), dbei);
 				return;
 			}
 		}

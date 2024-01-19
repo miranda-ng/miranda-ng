@@ -11,7 +11,7 @@ struct FileTransferParam
 
 	TOX_FILE_KIND transferType;
 
-	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const wchar_t *fileName, uint64_t fileSize)
+	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const char *fileName, uint64_t fileSize)
 	{
 		hFile = nullptr;
 		this->friendNumber = friendNumber;
@@ -22,7 +22,7 @@ struct FileTransferParam
 		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
 		pfts.pszFiles.w = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
-		pfts.pszFiles.w[0] = pfts.szCurrentFile.w = mir_wstrdup(fileName);
+		pfts.pszFiles.w[0] = pfts.szCurrentFile.w = mir_utf8decodeW(fileName);
 		pfts.pszFiles.w[pfts.totalFiles] = nullptr;
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
 		pfts.totalProgress = pfts.currentFileProgress = 0;
@@ -77,7 +77,7 @@ struct AvatarTransferParam : public FileTransferParam
 {
 	uint8_t hash[TOX_HASH_LENGTH];
 
-	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const wchar_t *fileName, uint64_t fileSize)
+	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const char *fileName, uint64_t fileSize)
 		: FileTransferParam(friendNumber, fileNumber, fileName, fileSize)
 	{
 		transferType = TOX_FILE_KIND_AVATAR;

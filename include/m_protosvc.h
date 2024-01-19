@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_PROTOSVC_H__
 #define M_PROTOSVC_H__ 1
 
+#include "m_database.h"
 #include "m_protocols.h"
 #include "m_utils.h"
 
@@ -759,33 +760,12 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 
 ///////////////////////////////////////////////////////////////////////////////
 // File(s) have been received
-// wParam = 0
-// lParam = (LPARAM)(PROTORECVFILE*)&prf
-
-#define PRFF_UNICODE 0x0001 // in all MAllCStrings .w is valid
-#define PRFF_UTF     0x0002 // in all MAllCStrings .a contains text in UTF8
-#define PRFF_SILENT  0x0004 // do not show file send/receive dialog
-#define PRFF_SENT    0x0008 // this is an outgoing file
-#define PRFF_READ    0x0010 // this event is marked read
-
-struct PROTORECVFILE
-{
-	uint32_t dwFlags;        // PRFF_*
-	uint32_t timestamp;      // unix time
-	MAllCStrings descr;      // file description
-	int fileCount;           // number of files being transferred
-	MAllCStringArray files;  // array of file names
-	void *pUserInfo;         // extra space for the network level protocol module
-	const char *szId;        // server message id
-	const char *szUserId;    // groupchat user id
-	const char *szReplyId;   // this message is a reply to a message with that server id
-};
 
 #define PSR_FILE "/RecvFile"
 
-__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, const DB::FILE_BLOB &blob, const DB::EventInfo &dbei)
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
+	CCSDATA ccs = { hContact, PSR_FILE, (WPARAM)&blob, (LPARAM)&dbei };
 	return Proto_ChainRecv(0, &ccs);
 }
 

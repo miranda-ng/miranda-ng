@@ -204,9 +204,9 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	return Proto_RecvFile(hContact, pre);
+	return Proto_RecvFile(hContact, blob, dbei);
 }
 
 MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)

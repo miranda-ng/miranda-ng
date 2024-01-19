@@ -68,7 +68,7 @@ struct FileDlgData : public MZeroedObject
 };
 
 // file.c
-MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre);
+MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei);
 
 // filerecv.c
 void LaunchRecvDialog(CLISTEVENT *cle);

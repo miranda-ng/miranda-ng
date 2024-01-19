@@ -331,6 +331,12 @@ wchar_t* DB::EventInfo::getString(const char *str) const
 /////////////////////////////////////////////////////////////////////////////////////////
 // File blob helper
 
+DB::FILE_BLOB::FILE_BLOB(void *pUserInfo, const char *pszName, const char *pszDescr, bool bUtf) :
+	m_wszFileName(bUtf ? mir_utf8decodeW(pszName) : mir_a2u(pszName)),
+	m_wszDescription(bUtf ? mir_utf8decodeW(pszDescr) : mir_a2u(pszDescr)),
+	m_pUserInfo(pUserInfo)
+{}
+
 DB::FILE_BLOB::FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr) :
 	m_wszFileName(mir_wstrdup(pwszName)),
 	m_wszDescription(mir_wstrdup(pwszDescr))

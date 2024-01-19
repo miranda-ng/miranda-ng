@@ -323,14 +323,9 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		else
 			str2 = ft->httpPath;
 
-		PROTORECVFILE pre = {};
-		pre.dwFlags = PRFF_UTF;
-		pre.timestamp = time(0);
-		pre.descr.a = desc;
-		pre.files.a = &str2;
-		pre.fileCount = 1;
-		pre.pUserInfo = ft;
-		ProtoChainRecvFile(ft->std.hContact, &pre);
+		DB::EventInfo dbei;
+		dbei.timestamp = time(0);
+		ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, str2, desc), dbei);
 	}
 	else { // reject
 		XmlNodeIq iq("error", pInfo);

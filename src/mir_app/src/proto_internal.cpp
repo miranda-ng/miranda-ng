@@ -175,9 +175,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	MEVENT RecvFile(MCONTACT hContact, PROTORECVFILE* evt) override
+	MEVENT RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_FILE, (WPARAM)&blob, (LPARAM)&dbei };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 

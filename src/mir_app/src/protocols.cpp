@@ -418,7 +418,7 @@ INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const cha
 		case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 		case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 		case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT *)lParam);
-		case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILE *)lParam);
+		case 21: return (INT_PTR)ppi->RecvFile(hContact, *(DB::FILE_BLOB*)wParam, *(DB::EventInfo*)lParam);
 		case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT *)lParam);
 		case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
 		case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);

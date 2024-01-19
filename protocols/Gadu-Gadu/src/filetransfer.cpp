@@ -367,15 +367,11 @@ void __cdecl GaduProto::dccmainthread(void*)
 						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
 						const char *pszFileName = (const char *)m_dcc->file_info.filename;
 
-						PROTORECVFILE pre = {};
-						pre.fileCount = 1;
-						pre.timestamp = time(0);
-						pre.descr.a = pszFileName;
-						pre.files.a = &pszFileName;
-						pre.pUserInfo = local_dcc;
+						DB::EventInfo dbei;
+						dbei.timestamp = time(0);
 
 						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
-						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, &pre);
+						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, DB::FILE_BLOB(local_dcc, pszFileName, pszFileName), dbei);
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 					}
 					break;
