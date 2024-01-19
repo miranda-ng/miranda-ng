@@ -471,7 +471,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
 				pre.files.a = &filename;
-				pre.lParam = (LPARAM)ft;
+				pre.pUserInfo = ft;
 				pre.descr.a = XmlGetChildText(fileNode, "desc");
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				return;

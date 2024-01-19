@@ -262,7 +262,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 
 	DB::FILE_BLOB blob(wszFiles, wszDescr);
 	if (auto *ppro = Proto_GetContactInstance(hContact))
-		ppro->OnReceiveOfflineFile(blob, (void*)pre->lParam);
+		ppro->OnReceiveOfflineFile(blob, pre->pUserInfo);
 	blob.write(dbei);
 
 	MEVENT hdbe = db_event_add(hContact, &dbei);
@@ -273,7 +273,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hdbe;
-		cle.lParam = pre->lParam;
+		cle.lParam = LPARAM(pre->pUserInfo);
 
 		if (!bSilent && File::bAutoAccept && Contact::OnList(hContact))
 			LaunchRecvDialog(&cle);

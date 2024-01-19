@@ -372,7 +372,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 						pre.timestamp = time(0);
 						pre.descr.a = pszFileName;
 						pre.files.a = &pszFileName;
-						pre.lParam = (LPARAM)local_dcc;
+						pre.pUserInfo = local_dcc;
 
 						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
 						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, &pre);

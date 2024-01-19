@@ -1031,7 +1031,7 @@ retry:
 			pre.timestamp = time(0);
 			pre.descr.a = fileName;
 			pre.files.a = &fileName;
-			pre.lParam = (LPARAM)dcc7;
+			pre.pUserInfo = dcc7;
 			ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
 
 			e->event.dcc7_new = nullptr;

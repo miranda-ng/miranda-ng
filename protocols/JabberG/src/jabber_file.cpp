@@ -180,7 +180,7 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 	pre.fileCount = 1;
 	pre.timestamp = time(0);
 	pre.files.a = &pszName;
-	pre.lParam = (LPARAM)ft;
+	pre.pUserInfo = ft;
 	pre.descr.a = pszDescr;
 	ProtoChainRecvFile(ft->std.hContact, &pre);
 }

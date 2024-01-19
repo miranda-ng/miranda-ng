@@ -604,7 +604,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		pre.timestamp = iMsgTime;
 		pre.files.w = &m_wszShortName;
 		pre.descr.w = pFileInfo->wszDescr;
-		pre.lParam = (LPARAM)pFileInfo;
+		pre.pUserInfo = pFileInfo;
 		if (bCreateRead)
 			pre.dwFlags |= PRFF_READ;
 		if (bIsOutgoing)

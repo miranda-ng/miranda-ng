@@ -357,7 +357,7 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
-	auto *ft = (TG_FILE_REQUEST *)pre->lParam;
+	auto *ft = (TG_FILE_REQUEST *)pre->pUserInfo;
 	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, pre) : 0;
 }
 

@@ -329,7 +329,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		pre.descr.a = desc;
 		pre.files.a = &str2;
 		pre.fileCount = 1;
-		pre.lParam = (LPARAM)ft;
+		pre.pUserInfo = ft;
 		ProtoChainRecvFile(ft->std.hContact, &pre);
 	}
 	else { // reject

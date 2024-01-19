@@ -408,7 +408,7 @@ bool CTelegramProto::GetMessageFile(
 	pre.fileCount = 1;
 	pre.timestamp = pMsg->date_;
 	pre.files.a = &pszFileName;
-	pre.lParam = (LPARAM)pRequest;
+	pre.pUserInfo = pRequest;
 	pre.szId = pszId;
 	pre.szUserId = pszUserId;
 	if (!caption.empty())

@@ -1155,7 +1155,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 						pre.timestamp = (uint32_t)time(0);
 						pre.fileCount = 1;
 						pre.files.w = &tszTemp;
-						pre.lParam = (LPARAM)di;
+						pre.pUserInfo = di;
 						ProtoChainRecvFile(hContact, &pre);
 					}
 				}

@@ -41,7 +41,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	pre.timestamp = time(0);
 	pre.descr.a = description;
 	pre.files.a = &filename;
-	pre.lParam = (LPARAM)ft;
+	pre.pUserInfo = ft;
 	ProtoChainRecvFile(hContact, &pre);
 }
 

@@ -58,7 +58,7 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 			pre.timestamp = now();
 			pre.descr.w = L"";
 			pre.files.w = &name;
-			pre.lParam = (LPARAM)transfer;
+			pre.pUserInfo = transfer;
 			ProtoChainRecvFile(hContact, &pre);
 		}
 		break;
