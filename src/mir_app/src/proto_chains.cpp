@@ -71,10 +71,6 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == nullptr || pa->ppro == nullptr)
-		return 1;
-
 	ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
 		ret = 1;
@@ -117,14 +113,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == nullptr || pa->ppro == nullptr)
-		return 1;
-
-	if (pa->bOldProto)
-		ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, -1, (LPARAM)ccs);
-	else
-		ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
+	ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
 		ret = 1;
 
