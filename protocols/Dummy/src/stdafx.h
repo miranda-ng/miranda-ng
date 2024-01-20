@@ -54,6 +54,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_utils.h>
 #include <m_proto_listeningto.h>
 #include <m_folders.h>
+#include <m_version.h>
 
 #include "resource.h"
 #include "dummy.h"
