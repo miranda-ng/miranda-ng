@@ -48,6 +48,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 	wchar_t uniqueIdSetting[100];
 
 	int getTemplateId();
+	void selectTemplate(HWND, int templateId);
 
 	volatile unsigned int msgid;
 };

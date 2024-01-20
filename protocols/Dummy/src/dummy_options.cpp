@@ -20,21 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////
 // Account manager dialog
 
-void onTemplateSelected(HWND hwndDlg, CDummyProto *ppro, int templateId)
-{
-	// Enable custom fields when selected custom template
-	EnableWindow(GetDlgItem(hwndDlg, IDC_ID_TEXT), templateId == 0);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_ID_SETTING), templateId == 0);
-
-	ptrA tszIdText(templateId > 0 ? mir_strdup(Translate(templates[templateId].text)) : ppro->getStringA(DUMMY_ID_TEXT));
-	if (tszIdText != NULL)
-		SetDlgItemTextA(hwndDlg, IDC_ID_TEXT, tszIdText);
-
-	ptrA tszIdSetting(templateId > 0 ? mir_strdup(templates[templateId].setting) : ppro->getStringA(DUMMY_ID_SETTING));
-	if (tszIdSetting != NULL)
-		SetDlgItemTextA(hwndDlg, IDC_ID_SETTING, tszIdSetting);
-}
-
 INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CDummyProto *ppro = (CDummyProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -49,7 +34,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		{
 			SendDlgItemMessageA(hwndDlg, IDC_TEMPLATE, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(templates[0].name)));
-			for (size_t i = 1; i < _countof(templates); i++)
+			for (size_t i = 1; templates[i].name != 0; i++)
 				SendDlgItemMessageA(hwndDlg, IDC_TEMPLATE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(templates[i].name));
 		
 			int templateId = ppro->getTemplateId();
@@ -58,7 +43,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 			boolean allowSending = ppro->getByte(DUMMY_KEY_ALLOW_SENDING, 0);
 			CheckDlgButton(hwndDlg, IDC_ALLOW_SENDING, allowSending ? BST_CHECKED : BST_UNCHECKED);
 
-			onTemplateSelected(hwndDlg, ppro, templateId);
+			ppro->selectTemplate(hwndDlg, templateId);
 		}
 		return TRUE;
 
@@ -67,7 +52,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		case IDC_TEMPLATE:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				int templateId = SendDlgItemMessage(hwndDlg, IDC_TEMPLATE, CB_GETCURSEL, 0, 0);
-				onTemplateSelected(hwndDlg, ppro, templateId);
+				ppro->selectTemplate(hwndDlg, templateId);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;

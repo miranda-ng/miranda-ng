@@ -31,8 +31,7 @@ struct ttemplate
 	const char *text;
 };
 
-#define DUMMY_PROTO_COUNT 26
-extern const ttemplate templates[DUMMY_PROTO_COUNT];
+extern const ttemplate templates[];
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {

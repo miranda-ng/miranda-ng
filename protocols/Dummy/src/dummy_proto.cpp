@@ -17,11 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-const ttemplate templates[DUMMY_PROTO_COUNT] =
+const ttemplate templates[] =
 {
 	{ LPGEN("Custom"), "", "" },
 	{ "AIM", "SN", LPGEN("Screen name") },
+#ifndef MIRANDA_VERSION_ISALPHA
 	{ "Discord", "id", LPGEN("Discord ID") },
+#endif
 	{ "EmLAN", "Nick", LPGEN("User name") },
 	{ "Facebook", "ID", LPGEN("Facebook ID") },
 	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
@@ -45,6 +47,7 @@ const ttemplate templates[DUMMY_PROTO_COUNT] =
 	{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
 	{ "XFire", "Username", LPGEN("Username") },
 	{ "Yahoo", "yahoo_id", LPGEN("ID") },
+	{ 0, 0, 0 }
 };
 
 void CDummyProto::SearchIdAckThread(void *targ)
@@ -99,6 +102,21 @@ int CDummyProto::getTemplateId()
 			return int(&it - templates);
 
 	return 0;
+}
+
+void CDummyProto::selectTemplate(HWND hwndDlg, int templateId)
+{
+	// Enable custom fields when selected custom template
+	EnableWindow(GetDlgItem(hwndDlg, IDC_ID_TEXT), templateId == 0);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_ID_SETTING), templateId == 0);
+
+	ptrA tszIdText(templateId > 0 ? mir_strdup(Translate(templates[templateId].text)) : getStringA(DUMMY_ID_TEXT));
+	if (tszIdText != NULL)
+		SetDlgItemTextA(hwndDlg, IDC_ID_TEXT, tszIdText);
+
+	ptrA tszIdSetting(templateId > 0 ? mir_strdup(templates[templateId].setting) : getStringA(DUMMY_ID_SETTING));
+	if (tszIdSetting != NULL)
+		SetDlgItemTextA(hwndDlg, IDC_ID_SETTING, tszIdSetting);
 }
 
 INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
