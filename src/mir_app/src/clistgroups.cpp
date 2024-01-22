@@ -89,7 +89,7 @@ CGroupInternal::~CGroupInternal()
 
 void CGroupInternal::save()
 {
-	Clist_Broadcast(INTM_GROUPSCHANGED, 0, LPARAM(this));
+	Clist_BroadcastAsync(INTM_GROUPSCHANGED, 0, LPARAM(this));
 
 	g_pTimer->Start(1000);
 }

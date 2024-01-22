@@ -341,7 +341,7 @@ MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 
 	if (contact->type == CLCIT_GROUP)
 		Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
-	if (contact->type == CLCIT_CONTACT)
+	else if (contact->type == CLCIT_CONTACT)
 		Clist_ContactDoubleClicked(contact->hContact);
 
 	if (dat->bFilterSearch && bSearchExisted)
