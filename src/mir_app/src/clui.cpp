@@ -126,93 +126,106 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CDeleteDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		{
-			LOGFONT lf;
-			HFONT hFont = (HFONT)SendDlgItemMessage(hWnd, IDYES, WM_GETFONT, 0, 0);
-			GetObject(hFont, sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			SendDlgItemMessage(hWnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+	MCONTACT m_hContact;
+	CCtrlCheck chkDelContact, chkDelHistory, chkForEveryone;
 
-			wchar_t szFormat[256], szFinal[256];
-			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
-			mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(lParam));
-			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
-		}
-		SetFocus(GetDlgItem(hWnd, IDNO));
-		SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		break;
+public:
+	char *szProto;
+	bool bDelContact, bDelHistory, bForEveryone;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDYES:
-			if (IsDlgButtonChecked(hWnd, IDC_HIDE)) {
-				EndDialog(hWnd, IDC_HIDE);
-				break;
-			}
-			__fallthrough;
-
-		case IDCANCEL:
-		case IDNO:
-			EndDialog(hWnd, LOWORD(wParam));
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		SendMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDNO, BN_CLICKED), 0);
-		break;
-
-	case WM_DESTROY:
-		DeleteObject((HFONT)SendDlgItemMessage(hWnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
-		break;
+	CDeleteDlg(MCONTACT hContact) :
+		CDlgBase(g_plugin, IDD_DELETECONTACT),
+		m_hContact(hContact),
+		chkDelContact(this, IDC_DELSERVERCONTACT),
+		chkDelHistory(this, IDC_DELETEHISTORY),
+		chkForEveryone(this, IDC_BOTH)
+	{
+		szProto = Proto_GetBaseAccountName(hContact);
+		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_SERVERCLIST) != 0;
+		bDelHistory = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SERVERMSGID) != 0;
+		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		chkDelContact.SetState(bDelContact);
+		chkDelHistory.Enable(bDelHistory);
+		chkDelHistory.SetState(bDelHistory);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
+		chkForEveryone.SetState(bForEveryone);
 
-static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
+		LOGFONT lf;
+		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDYES, WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		wchar_t szFormat[256], szFinal[256];
+		GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+		mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
+		SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+
+		SetFocus(GetDlgItem(m_hwnd, IDNO));
+		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		bDelContact = chkDelContact.IsChecked();
+		bDelHistory = chkDelHistory.IsChecked();
+		bForEveryone = chkForEveryone.IsChecked();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+};
+
+static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 {
-	//see notes about deleting contacts on PF1_SERVERCLIST servers in m_protosvc.h
-	UINT_PTR action;
+	CDeleteDlg dlg(hContact);
+	if (dlg.szProto == nullptr)
+		return 0;
 
-	if (Clist::ConfirmDelete && !(GetKeyState(VK_SHIFT) & 0x8000))
+	int action;
+	if (Clist::ConfirmDelete && !(GetKeyState(VK_SHIFT) & 0x8000)) {
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
-		action = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND)lParam, AskForConfirmationDlgProc, wParam);
-	else
-		action = IDYES;
-
-	switch (action) {
-	case IDC_HIDE: // Archive contact
-		Contact::Hide(wParam);
-		break;
-
-	case IDYES: // Delete contact
-		char *szProto = Proto_GetBaseAccountName(wParam);
-		if (szProto != nullptr) {
-			// Check if protocol uses server side lists
-			uint32_t caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-			if (caps & PF1_SERVERCLIST) {
-				int status = Proto_GetStatus(szProto);
-				if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
-					// Set a flag so we remember to delete the contact when the protocol goes online the next time
-					db_set_b(wParam, "CList", "Delete", 1);
-					MessageBoxW(nullptr,
-								  TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
-								  TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
-					return 0;
-				}
-			}
-		}
-
-		db_delete_contact(wParam);
-		break;
+		dlg.SetParent((HWND)lParam);
+		action = dlg.DoModal();
 	}
+	else action = IDOK;
 
+	if (action != IDOK)
+		return 0;
+
+	int options = 0;
+	if (!dlg.bDelContact)
+		Contact::Hide(hContact);
+	else
+		options |= CDF_DEL_CONTACT;
+
+	// Check if protocol uses server side lists
+	if (dlg.bDelHistory)
+		options |= CDF_DEL_HISTORY;
+	if (dlg.bForEveryone)
+		options |= CDF_FOR_EVERYONE;
+
+	int status = Proto_GetStatus(dlg.szProto);
+	if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
+		// Set a flag so we remember to delete the contact when the protocol goes online the next time
+		db_set_b(hContact, "CList", "Delete", options);
+		MessageBoxW(nullptr,
+						TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
+						TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
+	}
+	else db_delete_contact(hContact, options);
 	return 0;
 }
 

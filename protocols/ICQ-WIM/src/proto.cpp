@@ -157,7 +157,7 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CIcqProto::OnContactDeleted(MCONTACT hContact)
+bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	CMStringW szId(GetUserId(hContact));
 	if (!isChatRoom(hContact)) {

@@ -1193,7 +1193,7 @@ void GaduProto::broadcastnewstatus(int newStatus)
 ////////////////////////////////////////////////////////////
 // When contact is deleted
 
-bool GaduProto::OnContactDeleted(MCONTACT hContact)
+bool GaduProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN);
 

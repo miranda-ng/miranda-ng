@@ -259,8 +259,9 @@ public:
 	virtual void OnContactAdded(MCONTACT);
 
 	// called when an account's contact is deleted
+	// flags is a combination of CDF_* constants
 	// returns true if deletion confirmed or false if not
-	virtual bool OnContactDeleted(MCONTACT);
+	virtual bool OnContactDeleted(MCONTACT, uint32_t flags);
 
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);

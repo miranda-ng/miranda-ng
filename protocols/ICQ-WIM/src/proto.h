@@ -441,7 +441,7 @@ class CIcqProto : public PROTO<CIcqProto>
 			    
 	void      OnBuildProtoMenu(void) override;
 	void      OnContactAdded(MCONTACT) override;
-	bool      OnContactDeleted(MCONTACT) override;
+	bool      OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow   OnCreateAccMgrUI(MWindow) override;
 	void      OnEventDeleted(MCONTACT, MEVENT) override;
 	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;

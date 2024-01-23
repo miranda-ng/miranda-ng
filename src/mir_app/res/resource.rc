@@ -58,19 +58,19 @@ BEGIN
     EDITTEXT        IDC_AUTHREQ,13,95,204,29,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
 END
 
-IDD_DELETECONTACT DIALOGEX 0, 0, 294, 101
+IDD_DELETECONTACT DIALOGEX 0, 0, 294, 99
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Delete contact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "&Yes",IDYES,58,38,65,14
-    DEFPUSHBUTTON   "&No",IDNO,172,38,65,14
-    CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,280,9
-    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,16
     CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,16
+    CONTROL         "Remove contact from server too",IDC_DELSERVERCONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,280,8
+    CONTROL         "Remove server history", IDC_DELSERVERHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,280,8
+    CONTROL         "Remove history for everyone",IDC_BOTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,63,260,8
+    PUSHBUTTON      "&Yes",IDOK,149,78,65,14
+    DEFPUSHBUTTON   "&No",IDCANCEL,221,78,65,14
 END
 
 IDD_OPT_CONTACT DIALOGEX 0, 0, 313, 242
@@ -1185,7 +1185,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 286
         TOPMARGIN, 7
-        BOTTOMMARGIN, 88
+        BOTTOMMARGIN, 79
     END
 
     IDD_OPT_CONTACT, DIALOG
@@ -1267,12 +1267,6 @@ BEGIN
         VERTGUIDE, 8
         VERTGUIDE, 96
         VERTGUIDE, 221
-        VERTGUIDE, 305
-    END
-
-    IDD_OPT_VISIBILITY, DIALOG
-    BEGIN
-        VERTGUIDE, 8
         VERTGUIDE, 305
     END
 
@@ -1757,75 +1751,8 @@ BEGIN
     END
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPT_SRMMLOG AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CLIST AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CHAT_EVENTS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_SOUND AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_NETLIBLOGOPTS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_GENMENU AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_POPUPOPTION AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_FILESECURITY AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_FILEGENERAL AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_NEWPASS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_CHANGEPASS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_PROFILE_NEW AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED

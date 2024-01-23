@@ -513,7 +513,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			auto *item = ListGetItemPtrFromIndex(i);
 			if (item && item->hContact && !item->bRealContact) {
 				debugLogA("Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
-				db_delete_contact(item->hContact, true);
+				db_delete_contact(item->hContact, CDF_FROM_SERVER);
 			}
 		}
 	}

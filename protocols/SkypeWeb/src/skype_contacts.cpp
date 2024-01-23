@@ -235,7 +235,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-bool CSkypeProto::OnContactDeleted(MCONTACT hContact)
+bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (IsOnline() && hContact) {
 		if (isChatRoom(hContact))

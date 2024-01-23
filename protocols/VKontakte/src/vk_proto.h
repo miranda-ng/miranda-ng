@@ -73,7 +73,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnBuildProtoMenu() override;
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;

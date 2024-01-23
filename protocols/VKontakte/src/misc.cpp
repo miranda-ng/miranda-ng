@@ -1868,7 +1868,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, C
 int CVkProto::DeleteContact(MCONTACT hContact)
 {
 	setByte(hContact, "SilentDelete", 1);
-	return db_delete_contact(hContact, true);
+	return db_delete_contact(hContact, CDF_FROM_SERVER);
 }
 
 bool CVkProto::IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType)

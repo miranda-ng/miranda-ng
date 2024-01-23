@@ -201,7 +201,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-bool CToxProto::OnContactDeleted(MCONTACT hContact)
+bool CToxProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (!IsOnline())
 		return false;

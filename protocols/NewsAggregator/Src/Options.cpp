@@ -127,7 +127,7 @@ public:
 				if (mir_wstrcmp(dbURL, url))
 					continue;
 
-				db_delete_contact(hContact, true);
+				db_delete_contact(hContact, CDF_FROM_SERVER);
 				m_feeds.DeleteItem(isel);
 				break;
 			}

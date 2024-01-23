@@ -116,7 +116,7 @@ void CTelegramProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CTelegramProto::OnContactDeleted(MCONTACT hContact)
+bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	TD::int53 id = GetId(hContact);
 	if (id == 0)

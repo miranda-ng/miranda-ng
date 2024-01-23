@@ -290,7 +290,7 @@ INT_PTR addContact(WPARAM, LPARAM)
 	g_plugin.setWString(hContact, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 	replaceAllStrings(hContact);
 	return 0;
 }
@@ -307,7 +307,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 	}
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 	replaceAllStrings(hContact);
 	return 0;
 }

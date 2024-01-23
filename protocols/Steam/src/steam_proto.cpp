@@ -332,7 +332,7 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-bool CSteamProto::OnContactDeleted(MCONTACT hContact)
+bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
 	if (!getByte(hContact, "Auth", 0)) {

@@ -548,7 +548,7 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		if (Contact::OnList(pUser->hContact))
 			CallService(MS_HISTORY_EMPTY, pUser->hContact, TRUE);
 		else
-			db_delete_contact(pUser->hContact, true);
+			db_delete_contact(pUser->hContact, CDF_FROM_SERVER);
 	}
 }
 

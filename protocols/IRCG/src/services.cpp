@@ -165,7 +165,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-bool CIrcProto::OnContactDeleted(MCONTACT hContact)
+bool CIrcProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (!hContact)
 		return false;

@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnContactDeleted - processes a contact deletion
 
-bool CJabberProto::OnContactDeleted(MCONTACT hContact)
+bool CJabberProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (!m_bJabberOnline)	// should never happen
 		return false;

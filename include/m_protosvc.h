@@ -127,6 +127,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PFLAGNUM_4           4
 
 #define PF4_FORCEAUTH	     0x00000001 // forces auth requests to be sent when adding users
+#define PF4_DELETEFORALL     0x00000002 // events could be removed for everyone in the chat
 #define PF4_NOCUSTOMAUTH     0x00000004 // protocol doesn't support custom auth text (doesn't show auth text box)
 #define PF4_SUPPORTTYPING    0x00000008 // protocol supports user is typing messages
 #define PF4_SUPPORTIDLE      0x00000010 // protocol understands idle

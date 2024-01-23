@@ -749,7 +749,7 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-bool CVkProto::OnContactDeleted(MCONTACT hContact)
+bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());

@@ -496,6 +496,9 @@
 #define IDC_ASK                         1516
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
+#define IDC_BOTH                        1536
+#define IDC_DELSERVERCONTACT            1537
+#define IDC_DELSERVERHISTORY            1538
 #define IDC_MYHANDLE                    1540
 #define IDC_GROUP                       1541
 #define IDC_AUTH                        1543
@@ -687,7 +690,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        338
+#define _APS_NEXT_RESOURCE_VALUE        339
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1761
 #define _APS_NEXT_SYMED_VALUE           101

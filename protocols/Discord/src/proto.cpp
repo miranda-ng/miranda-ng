@@ -626,7 +626,7 @@ int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CDiscordProto::OnContactDeleted(MCONTACT hContact)
+bool CDiscordProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 	if (pUser == nullptr || !m_bOnline)

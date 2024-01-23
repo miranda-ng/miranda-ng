@@ -83,13 +83,19 @@ EXTERN_C MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szMod
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(void);
 
 // Deletes the contact hContact from the database and all events and settings associated with it.
+// The 'flags' parameter could be zero of any combination of CDF_* constants
 // Returns 0 on success or nonzero if hContact was invalid
 // Please don't try to delete the user contact (hContact = NULL)
 // Triggers a db/contact/deleted event just *before* it removes anything
 // Because all events are deleted, lots of people may end up with invalid event
 // handles from this operation, which they should be prepared for.
 
-EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto = false);
+#define CDF_FROM_SERVER  0x01 // delete operation requested from the server
+#define CDF_DEL_CONTACT  0x02 // delete server contact
+#define CDF_DEL_HISTORY  0x04 // delete server history (by default for me only)
+#define CDF_FOR_EVERYONE 0x08 // delete server history for everyone, not just for you
+
+EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags = 0);
 
 // Checks if a given value is a valid contact handle, note that due
 // to the nature of multiple threading, a valid contact can still become

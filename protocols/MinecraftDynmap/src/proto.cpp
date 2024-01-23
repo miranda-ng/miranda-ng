@@ -141,7 +141,7 @@ void MinecraftDynmapProto::OnShutdown()
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-bool MinecraftDynmapProto::OnContactDeleted(MCONTACT)
+bool MinecraftDynmapProto::OnContactDeleted(MCONTACT, uint32_t)
 {
 	OnLeaveChat(NULL, NULL);
 	return true;

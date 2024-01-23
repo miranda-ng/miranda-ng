@@ -367,7 +367,7 @@ public:
 		
 	void     OnBuildProtoMenu() override;
 	void     OnContactAdded(MCONTACT hContact) override;
-	bool     OnContactDeleted(MCONTACT hContact) override;
+	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;
 	void     OnEventDeleted(MCONTACT, MEVENT) override;

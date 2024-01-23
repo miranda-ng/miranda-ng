@@ -72,7 +72,7 @@ void PROTO_INTERFACE::OnBuildProtoMenu()
 void PROTO_INTERFACE::OnContactAdded(MCONTACT)
 {}
 
-bool PROTO_INTERFACE::OnContactDeleted(MCONTACT)
+bool PROTO_INTERFACE::OnContactDeleted(MCONTACT, uint32_t)
 {
 	return true;
 }

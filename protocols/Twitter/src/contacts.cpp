@@ -154,7 +154,7 @@ HANDLE CTwitterProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-bool CTwitterProto::OnContactDeleted(MCONTACT hContact)
+bool CTwitterProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return false;

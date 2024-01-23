@@ -98,7 +98,7 @@ MIR_CORE_DLL(MCONTACT) db_add_contact(void)
 	return hNew;
 }
 
-MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto)
+MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags)
 {
 	ptrW wszPhoto(db_get_wsa(hContact, "ContactPhoto", "File"));
 	if (wszPhoto != nullptr) {
@@ -109,9 +109,9 @@ MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto)
       #endif
    }
 
-	if (!bFromProto)
+	if (!(flags & CDF_FROM_SERVER))
 		if (auto *ppro = Proto_GetInstance(hContact))
-			if (!ppro->OnContactDeleted(hContact))
+			if (!ppro->OnContactDeleted(hContact, flags))
 				return 1;
 
 	Netlib_Logf(nullptr, "Contact deleted: %d", hContact);

@@ -284,7 +284,7 @@ public:
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 

@@ -912,7 +912,7 @@ bool CCurrencyRatesProviderBase::WatchForRate(const TRateInfo &ri, bool bWatch)
 		}
 	}
 	else if (!bWatch && hContact) {
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 		return true;
 	}
 

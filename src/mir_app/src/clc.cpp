@@ -134,8 +134,8 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 			if (caps & PF1_SERVERCLIST) {
 				for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 					MCONTACT hNext = db_find_next(hContact, ack->szModule);
-					if (db_get_b(hContact, "CList", "Delete", 0))
-						db_delete_contact(hContact);
+					if (int options = db_get_b(hContact, "CList", "Delete"))
+						db_delete_contact(hContact, options);
 					hContact = hNext;
 				}
 			}

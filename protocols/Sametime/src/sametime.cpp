@@ -128,7 +128,7 @@ void CSametimeProto::OnShutdown()
 		LogOut();
 }
 
-bool CSametimeProto::OnContactDeleted(MCONTACT hContact)
+bool CSametimeProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	ContactDeleted(hContact);
 	ChatDeleted(hContact);
@@ -141,7 +141,7 @@ void CSametimeProto::SetAllOffline()
 
 	for (auto &hContact : AccContacts()) {
 		if (Contact::IsGroupChat(hContact, m_szModuleName)) {
-			db_delete_contact(hContact, true);
+			db_delete_contact(hContact, CDF_FROM_SERVER);
 			continue;
 		}
 
