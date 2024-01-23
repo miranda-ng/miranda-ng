@@ -354,7 +354,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	case INTM_GROUPSCHANGED:
 		if (auto *pGroup = (CGroupInternal *)lParam) {
 			// check name of group and ignore message if just being expanded/collapsed
-			if (!Clist_FindItem(hwnd, dat, pGroup->groupId | HCONTACT_ISGROUP, &contact, &group))
+			if (!Clist_FindItem(hwnd, dat, pGroup->groupId+1 | HCONTACT_ISGROUP, &contact, &group))
 				break;
 
 			CMStringW szFullName(contact->szText);
