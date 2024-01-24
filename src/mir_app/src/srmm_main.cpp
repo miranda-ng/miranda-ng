@@ -22,7 +22,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookSrmmEvent;
 
-static HANDLE hHookEmptyHistory;
 static HGENMENU hmiEmpty;
 
 void LoadSrmmToolbarModule();
@@ -89,9 +88,6 @@ public:
 
 static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 {
-	if (NotifyEventHooks(hHookEmptyHistory))
-		return 2;
-
 	CEmptyHistoryDlg dlg(hContact);
 	if (lParam == 0)
 		if (dlg.DoModal() != IDOK)
@@ -106,7 +102,7 @@ static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 			Chat_EmptyHistory(si);
 
 	if (dlg.bDelHistory)
-		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
+		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, hContact, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
 	return 0;
 }
 
@@ -149,7 +145,6 @@ int LoadSrmmModule()
 	LoadSrmmToolbarModule();
 
 	CreateServiceFunction(MS_HISTORY_EMPTY, svcEmptyHistory);
-	hHookEmptyHistory = CreateHookableEvent(ME_HISTORY_EMPTY);
 
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);

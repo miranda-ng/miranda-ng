@@ -218,7 +218,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 		options |= CDF_FOR_EVERYONE;
 
 	if (dlg.bDelHistory)
-		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
+		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, hContact, options);
 
 	int status = Proto_GetStatus(dlg.szProto);
 	if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
@@ -228,7 +228,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 						TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 						TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
 	}
-	else db_delete_contact(hContact, options);
+	else db_delete_contact(hContact);
 	return 0;
 }
 

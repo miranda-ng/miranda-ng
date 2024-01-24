@@ -150,7 +150,7 @@ static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, int64_t dataLen, 
 	memcpy(sendBuf, header, cbLen);
 	if (dataLen) {
 		memcpy(sendBuf.get() + cbLen, pData, dataLen);
-		for (size_t i = 0; i < dataLen; i++)
+		for (int i = 0; i < dataLen; i++)
 			sendBuf[i + cbLen] ^= arMask[i & 3];
 	}
 	Netlib_Send(nlc, sendBuf, int(dataLen + cbLen), MSG_NODUMP);

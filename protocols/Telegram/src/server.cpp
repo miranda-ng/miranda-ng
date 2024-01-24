@@ -438,6 +438,15 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CTelegramProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
+{
+	if (auto *pUser = FindUser(GetId(hContact)))
+		SendQuery(new TD::deleteChatHistory(pUser->chatId, false, (lParam & CDF_FOR_EVERYONE) != 0));
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
 	int64_t userId;

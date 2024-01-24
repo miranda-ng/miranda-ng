@@ -380,7 +380,6 @@ public:
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	
-	int __cdecl OnEmptyHistory(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnWindowEvent(WPARAM, LPARAM);
 
@@ -393,6 +392,7 @@ public:
 	INT_PTR __cdecl SvcAddByPhone(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	

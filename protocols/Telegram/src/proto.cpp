@@ -64,9 +64,10 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
+	
 	CreateProtoService(PS_MENU_LOADHISTORY, &CTelegramProto::SvcLoadServerHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CTelegramProto::SvcEmptyServerHistory);
 
-	HookProtoEvent(ME_HISTORY_EMPTY, &CTelegramProto::OnEmptyHistory);
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CTelegramProto::OnWindowEvent);
 
@@ -138,16 +139,6 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	ids.push_back(id);
 	SendQuery(new TD::removeContacts(std::move(ids)));
 	return true;
-}
-
-int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
-{
-	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
-		if (auto *pUser = FindUser(GetId(hContact)))
-			SendQuery(new TD::deleteChatHistory(pUser->chatId, true, true));
-	}
-
-	return 0;
 }
 
 void CTelegramProto::OnModulesLoaded()
@@ -340,7 +331,8 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID | PF4_REPLY;
+		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS 
+			| PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_REPLY;
 
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_LONGAWAY;
