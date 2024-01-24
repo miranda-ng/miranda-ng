@@ -184,18 +184,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PS_GETCAPS     "/GetCaps"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Get a human-readable name for the protocol
-// wParam = cchName
-// lParam = (LPARAM)(char*)szName
-// Returns 0 on success, nonzero on failure
-// cchName is the number of characters in the buffer szName
-// This should be translated before being returned
-// Some example strings are:
-// "ICQ", "AIM", "RSA-1024 Encryption"
-
-#define PS_GETNAME     "/GetName"
-
-///////////////////////////////////////////////////////////////////////////////
 // Loads one of the protocol-specific icons
 // wParam = whichIcon
 // lParam = 0

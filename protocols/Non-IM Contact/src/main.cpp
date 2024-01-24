@@ -120,7 +120,6 @@ int CMPlugin::Load()
 
 	// load services (the first 5 are the basic ones needed to make a new protocol)
 	CreateProtoServiceFunction(MODNAME, PS_GETCAPS, GetLCCaps);
-	CreateProtoServiceFunction(MODNAME, PS_GETNAME, GetLCName);
 	CreateProtoServiceFunction(MODNAME, PS_LOADICON, LoadLCIcon);
 	CreateProtoServiceFunction(MODNAME, PS_GETSTATUS, GetLCStatus);
 

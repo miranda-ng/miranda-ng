@@ -487,7 +487,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OptionsProc;
 	odp.szGroup.a = LPGEN("Network");
-	odp.szTitle.a = WEATHERPROTOTEXT;
+	odp.szTitle.a = MODULENAME;
 	odp.szTab.a = LPGEN("General");
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);

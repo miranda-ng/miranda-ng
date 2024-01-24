@@ -102,7 +102,6 @@ void      NetlibUnInit();
 void      InitMenu();
 void      InitIcons();
 		    
-INT_PTR   NewsAggrGetName(WPARAM wParam, LPARAM lParam);
 INT_PTR   NewsAggrGetCaps(WPARAM wp, LPARAM lp);
 INT_PTR   NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/);
 INT_PTR   NewsAggrGetStatus(WPARAM/* wp*/, LPARAM/* lp*/);

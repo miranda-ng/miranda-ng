@@ -71,9 +71,7 @@ static wchar_t* GetProtoName(ClcContact *item)
 
 	PROTOACCOUNT *acc = Proto_GetAccount(item->pce->szProto);
 	if (acc == nullptr) {
-		char description[128];
-		CallProtoService(item->pce->szProto, PS_GETNAME, sizeof(description), (LPARAM)description);
-		mir_snwprintf(proto_name, L"%S", description);
+		mir_snwprintf(proto_name, L"%S", item->pce->szProto);
 		return proto_name;
 	}
 

@@ -146,7 +146,7 @@ public:
 	{
 		szProto = Proto_GetBaseAccountName(hContact);
 		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_SERVERCLIST) != 0;
-		bDelHistory = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SERVERMSGID) != 0;
+		bDelHistory = ProtoServiceExists(szProto, PS_GETCAPS);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
 	}
 

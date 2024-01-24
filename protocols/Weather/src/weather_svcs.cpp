@@ -81,14 +81,6 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 	return ret;
 }
 
-// protocol service function to get weather protocol name
-INT_PTR WeatherGetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, WEATHERPROTOTEXT, wParam - 1);
-	*((char*)lParam + wParam - 1) = 0;
-	return 0;
-}
-
 // protocol service function to get the current status of the protocol
 INT_PTR WeatherGetStatus(WPARAM, LPARAM)
 {
@@ -264,7 +256,6 @@ static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
 void InitServices(void)
 {
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, WeatherGetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, WeatherGetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, WeatherLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, WeatherSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, WeatherGetStatus);

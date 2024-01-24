@@ -847,15 +847,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-//gives  name to protocol module
-INT_PTR GetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char *)lParam, MODULENAME, wParam);
-	return 0;
-}
-
-
-//gives icon for proto module
+// gives icon for proto module
 INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 {
 	UINT id;
@@ -1066,7 +1058,6 @@ int CMPlugin::Load()
 		g_plugin.setWord(hContact, "status", ID_STATUS_OFFLINE);
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, TMLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);

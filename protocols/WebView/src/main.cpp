@@ -58,7 +58,6 @@ CMPlugin::CMPlugin() :
 void InitServices()
 {
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, BPLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);

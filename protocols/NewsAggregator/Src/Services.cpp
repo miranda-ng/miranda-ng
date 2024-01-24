@@ -62,16 +62,6 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
-{
-	if(lParam) {
-		mir_strncpy((char *)lParam, MODULENAME, wParam);
-		return 0;
-	}
-
-	return 1;
-}
-
 INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 {
 	switch(wp) {

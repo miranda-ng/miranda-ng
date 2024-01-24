@@ -22,11 +22,7 @@
 
 wchar_t* Hlp_GetProtocolName(const char *proto)
 {
-	char protoname[256];
-	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
-		return nullptr;
-
-	return mir_a2u(protoname);
+	return mir_a2u(proto);
 }
 
 wchar_t* Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem)

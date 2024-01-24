@@ -41,14 +41,6 @@ static INT_PTR icqGetCaps(WPARAM wParam, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, Translate(protoName), wParam);
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM)
 {
 	int id;
@@ -421,7 +413,6 @@ int LoadServices()
 	HookEvent(ME_SYSTEM_MODULESLOADED, icqModulesLoaded);
 
 	CreateProtoServiceFunction(protoName, PS_GETCAPS, icqGetCaps);
-	CreateProtoServiceFunction(protoName, PS_GETNAME, icqGetName);
 	CreateProtoServiceFunction(protoName, PS_LOADICON, icqLoadIcon);
 	CreateProtoServiceFunction(protoName, PS_SETSTATUS, icqSetStatus);
 	CreateProtoServiceFunction(protoName, PS_GETSTATUS, icqGetStatus);

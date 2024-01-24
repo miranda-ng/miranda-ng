@@ -65,7 +65,6 @@ static builtinCnfs[] =
 	{ CNF_COHOMEPAGE,  STR_COHOMEPAGE },
 
 	{ CCNF_ACCOUNT,    STR_ACCOUNT    },
-	{ CCNF_PROTOCOL,   STR_PROTOCOL   },
 	{ CCNF_STATUS,     STR_STATUS     },
 	{ CCNF_INTERNALIP, STR_INTERNALIP },
 	{ CCNF_EXTERNALIP, STR_EXTERNALIP },
@@ -127,12 +126,6 @@ wchar_t* getContactInfoT(uint8_t type, MCONTACT hContact)
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			return pa ? mir_wstrdup(pa->tszAccountName) : nullptr;
 		}
-
-	case CCNF_PROTOCOL:
-		char protoname[128];
-		if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
-			return nullptr;
-		return mir_a2u(protoname);
 
 	case CCNF_STATUS:
 		return mir_wstrdup(Clist_GetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));

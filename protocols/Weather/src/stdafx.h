@@ -67,7 +67,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // name
 #define MODULENAME         "Weather"
-#define WEATHERPROTOTEXT   "Weather"
 #define DEFCURRENTWEATHER  "WeatherCondition"
 #define WEATHERCONDITION   "Current"
 

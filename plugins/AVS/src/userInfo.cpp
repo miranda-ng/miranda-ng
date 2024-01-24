@@ -406,14 +406,9 @@ public:
 				SetMyAvatar(NULL, (LPARAM)L"");
 		}
 		else {
-			if (char *proto = GetSelectedProtocol()) {
-				char description[256];
-				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
-				wchar_t *descr = mir_a2u(description);
-				if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
+			if (char *proto = GetSelectedProtocol())
+				if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), _A2T(proto), MB_YESNO) == IDYES)
 					SetMyAvatar((WPARAM)proto, (LPARAM)L"");
-				mir_free(descr);
-			}
 		}
 	}
 

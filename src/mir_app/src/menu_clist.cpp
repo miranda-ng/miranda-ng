@@ -512,12 +512,9 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 
 	if (smep->status == 0 && smep->pimi != nullptr && smep->szProto != nullptr) {
 		char *prot = smep->szProto;
-		char szHumanName[64] = { 0 };
 		PROTOACCOUNT *acc = Proto_GetAccount(smep->szProto);
 		acc->bIsLocked = !acc->bIsLocked;
 		db_set_b(0, prot, "LockMainStatus", acc->bIsLocked);
-
-		CallProtoService(smep->szProto, PS_GETNAME, _countof(szHumanName), (LPARAM)szHumanName);
 
 		TMO_IntMenuItem *pimi = MO_GetIntMenuItem(smep->pimi);
 		if (pimi == nullptr)

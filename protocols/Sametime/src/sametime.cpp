@@ -36,17 +36,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol related services
 
-/** Copy the name of the protocol into lParam
-* @param wParam :	max size of the name
-* @param lParam :	reference to a char *, which will hold the name
-*/
-INT_PTR CSametimeProto::GetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, m_szModuleName, wParam);
-	return 0;
-}
-
-
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
 * @param wParam :	icon type

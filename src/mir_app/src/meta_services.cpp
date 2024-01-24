@@ -76,21 +76,6 @@ INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/** Copy the name of the protocole into lParam
-* @param wParam : 	max size of the name
-* @param lParam :	reference to a char *, which will hold the name
-*/
-
-INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
-{
-	char *name = (char *)Translate(META_PROTO);
-	size_t size = min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
-	if (strncpy((char *)lParam, name, size) == nullptr)
-		return 1;
-	((char *)lParam)[size] = '\0';
-	return 0;
-}
-
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
 * @param wParam : icon type
@@ -815,7 +800,6 @@ void Meta_InitServices()
 	}
 
 	CreateProtoServiceFunction(META_PROTO, PS_GETCAPS, Meta_GetCaps);
-	CreateProtoServiceFunction(META_PROTO, PS_GETNAME, Meta_GetName);
 	CreateProtoServiceFunction(META_PROTO, PS_LOADICON, Meta_LoadIcon);
 
 	CreateProtoServiceFunction(META_PROTO, PS_SETSTATUS, Meta_SetStatus);

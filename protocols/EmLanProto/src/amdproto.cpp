@@ -76,12 +76,6 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 	}
 }
 
-static INT_PTR __cdecl EMPGetName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, "EmLan", wParam);
-	return 0;
-}
-
 static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 {
 	if ((wParam & 0xFFFF) != PLI_PROTOCOL)
@@ -326,7 +320,6 @@ int CMPlugin::Load()
 	g_lan = new CMLan();
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, EMPGetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, EMPGetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, EMPLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, EMPSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, EMPGetStatus);

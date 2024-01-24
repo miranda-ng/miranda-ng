@@ -41,7 +41,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	// sametime.cpp
-	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SametimeLoadIcon(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnIdleChanged(WPARAM wParam, LPARAM lParam);

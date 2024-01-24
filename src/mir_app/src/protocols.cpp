@@ -71,8 +71,7 @@ static TServiceListItem serviceItems[] =
 	{ PS_GETAWAYMSG,           28 },
 	{ PS_SETAWAYMSG,           29 },
 	{ PSS_USERISTYPING,        30 },
-	{ PS_GETNAME,              31 },
-	{ PS_GETSTATUS,            32 },
+	{ PS_GETSTATUS,            31 },
 };
 
 //------------------------------------------------------------------------------------
