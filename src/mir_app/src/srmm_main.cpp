@@ -31,13 +31,70 @@ void UnloadSrmmToolbarModule();
 /////////////////////////////////////////////////////////////////////////////////////////
 // Empty history service for main menu
 
+class CEmptyHistoryDlg : public CDlgBase
+{
+	MCONTACT m_hContact;
+	CCtrlCheck chkDelHistory, chkForEveryone;
+
+public:
+	char *szProto;
+	bool bDelHistory, bForEveryone;
+
+	CEmptyHistoryDlg(MCONTACT hContact) :
+		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
+		m_hContact(hContact),
+		chkDelHistory(this, IDC_DELSERVERHISTORY),
+		chkForEveryone(this, IDC_BOTH)
+	{
+		szProto = Proto_GetBaseAccountName(hContact);
+		bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
+		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
+	}
+
+	bool OnInitDialog() override
+	{
+		chkDelHistory.SetState(bDelHistory);
+		chkDelHistory.Enable(bDelHistory);
+		chkForEveryone.SetState(bForEveryone);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
+
+		LOGFONT lf;
+		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		wchar_t szFormat[256], szFinal[256];
+		GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+		mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
+		SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+
+		SetFocus(GetDlgItem(m_hwnd, IDNO));
+		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		bDelHistory = chkDelHistory.IsChecked();
+		bForEveryone = chkForEveryone.IsChecked();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+};
+
 static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 {
 	if (NotifyEventHooks(hHookEmptyHistory))
 		return 2;
 
+	CEmptyHistoryDlg dlg(hContact);
 	if (lParam == 0)
-		if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNO | MB_ICONQUESTION))
+		if (dlg.DoModal() != IDOK)
 			return 1;
 
 	DB::ECPTR pCursor(DB::Events(hContact));
@@ -48,6 +105,8 @@ static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 		if (auto *si = SM_FindSessionByContact(hContact))
 			Chat_EmptyHistory(si);
 
+	if (dlg.bDelHistory)
+		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
 	return 0;
 }
 

@@ -141,25 +141,25 @@ public:
 		CDlgBase(g_plugin, IDD_DELETECONTACT),
 		m_hContact(hContact),
 		chkDelContact(this, IDC_DELSERVERCONTACT),
-		chkDelHistory(this, IDC_DELETEHISTORY),
+		chkDelHistory(this, IDC_DELSERVERHISTORY),
 		chkForEveryone(this, IDC_BOTH)
 	{
 		szProto = Proto_GetBaseAccountName(hContact);
 		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_SERVERCLIST) != 0;
-		bDelHistory = ProtoServiceExists(szProto, PS_GETCAPS);
+		bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
 	}
 
 	bool OnInitDialog() override
 	{
 		chkDelContact.SetState(bDelContact);
-		chkDelHistory.Enable(bDelHistory);
 		chkDelHistory.SetState(bDelHistory);
-		chkForEveryone.Enable(bDelHistory && bForEveryone);
+		chkDelHistory.Enable(bDelHistory);
 		chkForEveryone.SetState(bForEveryone);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
 
 		LOGFONT lf;
-		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDYES, WM_GETFONT, 0, 0);
+		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
 		GetObject(hFont, sizeof(lf), &lf);
 		lf.lfWeight = FW_BOLD;
 		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
@@ -216,6 +216,9 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 		options |= CDF_DEL_HISTORY;
 	if (dlg.bForEveryone)
 		options |= CDF_FOR_EVERYONE;
+
+	if (dlg.bDelHistory)
+		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
 
 	int status = Proto_GetStatus(dlg.szProto);
 	if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {

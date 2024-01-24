@@ -130,6 +130,7 @@
 #define IDD_FILETRANSFERINFO            249
 #define IDD_OPT_FILEGENERAL             250
 #define IDD_OPT_FILESECURITY            251
+#define IDD_EMPTYHISTORY                252
 #define IDD_FILEEXISTS                  253
 #define IDD_DELETECONTACT               254
 #define IDD_ADDCONTACT                  257

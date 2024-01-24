@@ -202,6 +202,15 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PS_LOADICON    "/LoadIcon"
 
 ///////////////////////////////////////////////////////////////////////////////
+// Get the status mode that a protocol is currently in
+// wParam = lParam = 0
+// Returns the status mode
+// Non-network-level protocol modules do not have the concept of a status and
+// should leave this service unimplemented
+
+#define PS_GETSTATUS	"/GetStatus"
+
+///////////////////////////////////////////////////////////////////////////////
 // Change the protocol's status mode
 // wParam = newMode, from ui/contactlist/statusmodes.h
 // lParam = 0
@@ -257,15 +266,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 // empty message, or (preferably) to not reply at all to any requests
 
 #define PS_SETAWAYMSG   "/SetAwayMsg"
-
-///////////////////////////////////////////////////////////////////////////////
-// Get the status mode that a protocol is currently in
-// wParam = lParam = 0
-// Returns the status mode
-// Non-network-level protocol modules do not have the concept of a status and
-// should leave this service unimplemented
-
-#define PS_GETSTATUS	"/GetStatus"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Updates a contact's details from the server
@@ -579,6 +579,13 @@ struct PROTOFILERESUME
 // lParam = 0
 
 #define PS_MENU_LOADHISTORY "/LoadServerHistory"
+
+///////////////////////////////////////////////////////////////////////////////
+// Empties the server history for a contact
+// wParam = hContact
+// lParam = 0
+
+#define PS_EMPTY_SRV_HISTORY "/EmptyServerHistory"
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            SENDING SERVICES
