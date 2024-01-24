@@ -553,34 +553,6 @@ struct PROTOFILERESUME
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
-// WAYD = What are you doing
-#define WAYD_UNICODE 1        // return Unicode texts
-
-///////////////////////////////////////////////////////////////////////////////
-// Get the WAYD message for the user
-// wParam = (WPARAM)WAYD_xxx
-// lParam = 0
-// Returns the text or NULL if there is none. Remember to mir_free the return value.
-
-#define PS_GETMYWAYD "/GetMyWAYD"
-
-///////////////////////////////////////////////////////////////////////////////
-// Sets the WAYD message for the user
-// wParam = (WPARAM)WAYD_xxx
-// lParam = (LPARAM)(wchar_t * or char *)The message
-// Returns 0 on success, nonzero on failure
-
-#define PS_SETMYWAYD "/SetMyWAYD"
-
-///////////////////////////////////////////////////////////////////////////////
-// Get the max allowed length that a WAYD message can have
-// Optional, default value is 1024
-// wParam = 0
-// lParam = 0
-// Returns the max length
-
-#define PS_GETMYWAYDMAXLENGTH "/GetMyWAYDMaxLength"
-
 ///////////////////////////////////////////////////////////////////////////////
 // Get the unread email message count, optional
 // wParam = 0
