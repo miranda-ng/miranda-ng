@@ -78,7 +78,7 @@ public:
 				}
 
 				m_edtNickname.SetText(proto->nickname);
-				m_edtNickname.SendMsg(EM_LIMITTEXT, min(MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, proto->GetNickMaxLength()), 0);
+				m_edtNickname.SendMsg(EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, 0);
 			}
 		}
 		return true;

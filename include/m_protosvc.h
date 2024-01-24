@@ -545,15 +545,6 @@ struct PROTOFILERESUME
 #define PS_SETMYNICKNAME "/SetNickname"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Get the max allowed length for the user nickname
-// Optional, default value is 1024
-// wParam = 0
-// lParam = 0
-// return = <= 0 for error, >0 the max length of the nick
-
-#define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
-
-///////////////////////////////////////////////////////////////////////////////
 // Get the unread email message count, optional
 // wParam = 0
 // lParam = 0
