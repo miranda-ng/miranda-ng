@@ -117,13 +117,16 @@ void CTelegramProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
 	TD::int53 id = GetId(hContact);
 	if (id == 0)
 		return false;
 
 	if (auto *pUser = FindUser(id)) {
+		if (flags & CDF_DEL_HISTORY)
+			SvcEmptyServerHistory(hContact, flags);
+
 		if (pUser->m_si) {
 			SvcLeaveChat(hContact, 0);
 			return false;
