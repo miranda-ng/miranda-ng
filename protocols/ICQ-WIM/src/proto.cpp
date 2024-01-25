@@ -71,6 +71,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
 	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::SvcLoadHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CIcqProto::SvcEmptyHistory);
+
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::SvcGetEmailCount);
 	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::SvcGotoInbox);
 
@@ -308,6 +310,18 @@ INT_PTR CIcqProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 	delSetting(hContact, DB_KEY_LASTMSGID);
 
 	RetrieveUserHistory(hContact, 1, true);
+	return 0;
+}
+
+INT_PTR CIcqProto::SvcEmptyHistory(WPARAM hContact, LPARAM)
+{
+	auto *pReq = new AsyncRapiRequest(this, "delHistory");
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("uptoMsgId", getId(hContact, DB_KEY_LASTMSGID));
+	Push(pReq);
 	return 0;
 }
 

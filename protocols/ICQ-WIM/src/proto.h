@@ -411,6 +411,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
 	INT_PTR   __cdecl SvcLoadHistory(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcEmptyHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
