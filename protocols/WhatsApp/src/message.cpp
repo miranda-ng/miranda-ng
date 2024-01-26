@@ -211,17 +211,17 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 		if (!szMessageText.IsEmpty()) {
 			// for chats & group chats store message in profile
 			if (type.bPrivateChat || type.bGroupChat) {
-				PROTORECVEVENT pre = {};
-				pre.timestamp = timestamp;
-				pre.szMessage = szMessageText.GetBuffer();
-				pre.szMsgId = msgId;
+				DB::EventInfo dbei;
+				dbei.timestamp = timestamp;
+				dbei.pBlob = szMessageText.GetBuffer();
+				dbei.szId = msgId;
 				if (type.bOffline)
-					pre.flags |= PREF_CREATEREAD;
+					dbei.flags |= DBEF_READ;
 				if (key->fromme)
-					pre.flags |= PREF_SENT;
+					dbei.flags |= DBEF_SENT;
 				if (pUser->bIsGroupChat)
-					pre.szUserId = participant;
-				ProtoChainRecvMsg(pUser->hContact, &pre);
+					dbei.szUserId = participant;
+				ProtoChainRecvMsg(pUser->hContact, dbei);
 			}
 			// translate statuses into status messages
 			else if (type.bOtherStatus || type.bDirectStatus || type.bPeerBroadcast || type.bOtherBroadcast) {

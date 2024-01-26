@@ -183,18 +183,14 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	Contact::Hide(ccs->hContact, false);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	ptrA szMsg(mir_utf8encode(pre->szMessage));
+	auto &dbei = *(DB::EventInfo*)ccs->lParam;
+	ptrA szMsg(mir_utf8encode(dbei.pBlob));
 
-	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
-	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF;
-	if (pre->flags & PREF_CREATEREAD) 
-		dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
-	dbei.pBlob = szMsg.get();
+	dbei.pBlob = szMsg;
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
@@ -235,8 +231,8 @@ static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 	Netlib_Logf(hNetlibUser, "[   ] receive away message\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->lParam, _A2T(pre->szMessage));
+	auto *dbei = (DB::EventInfo *)ccs->lParam;
+	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)dbei->cbBlob, _A2T(dbei->pBlob));
 	return 0;
 }
 
@@ -356,16 +352,9 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	Contact::Hide(ccs->hContact, false);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	char *szFile = pre->szMessage + sizeof(uint32_t);
-	char *szDesc = szFile + mir_strlen(szFile) + 1;
-
-	DB::EventInfo dbei;
+	auto &dbei = *(DB::EventInfo *)ccs->lParam;
 	dbei.szModule = protoName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	DB::FILE_BLOB(_A2T(szFile), _A2T(szDesc)).write(dbei);
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }

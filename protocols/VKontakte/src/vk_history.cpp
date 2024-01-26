@@ -273,11 +273,11 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 		if (bIsRead)
-			recv.flags |= PREF_CREATEREAD;
+			dbei.flags |= DBEF_READ;
 		if (bIsOut)
-			recv.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 
 		time_t tUpdateTime = (time_t)jnMsg["update_time"].as_int();
 		if (tUpdateTime) {
@@ -298,14 +298,14 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 
 		T2Utf pszBody(wszBody);
 
-		recv.timestamp = tDateTime;
-		recv.szMessage = pszBody;
-		recv.szMsgId = szMid;
+		dbei.timestamp = tDateTime;
+		dbei.pBlob = pszBody;
+		dbei.szId = szMid;
 
 		if (!m_vkOptions.bShowReplyInMessage &&	szReplyId)
-			recv.szReplyId = szReplyId;
+			dbei.szReplyId = szReplyId;
 
-		ProtoChainRecvMsg(hContact, &recv);
+		ProtoChainRecvMsg(hContact, dbei);
 
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
 		if (hDbEvent)

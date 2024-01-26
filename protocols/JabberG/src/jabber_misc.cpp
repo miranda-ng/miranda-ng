@@ -52,11 +52,11 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 
 	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
-	PROTORECVEVENT pre = {};
-	pre.timestamp = (uint32_t)time(0);
-	pre.lParam = blob.size();
-	pre.szMessage = blob;
-	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = (uint32_t)time(0);
+	dbei.cbBlob = blob.size();
+	dbei.pBlob = blob;
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 
 	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 }
@@ -499,10 +499,10 @@ void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 
 				wszFileName.Insert(0, L"[img]"); wszFileName.Append(L"[/img]");
 				T2Utf szMsg(wszFileName);
-				PROTORECVEVENT pre = {};
-				pre.timestamp = time(0);
-				pre.szMessage = szMsg;
-				ProtoChainRecvMsg(pReq->GetHContact(), &pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = time(0);
+				dbei.pBlob = szMsg;
+				ProtoChainRecvMsg(pReq->GetHContact(), dbei);
 			}
 		}
 	}

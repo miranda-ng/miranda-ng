@@ -697,14 +697,14 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 			}
 
 			MCONTACT hContact = CList_AddContact(&user, false, true);
+			T2Utf utf(mess);
 
-			PROTORECVEVENT pre = {};
-			pre.timestamp = (uint32_t)time(0);
-			pre.szMessage = mir_utf8encodeW(mess);
+			DB::EventInfo dbei;
+			dbei.timestamp = (uint32_t)time(0);
+			dbei.pBlob = utf;
 			setWString(hContact, "User", pmsg->prefix.sUser);
 			setWString(hContact, "Host", pmsg->prefix.sHost);
-			ProtoChainRecvMsg(hContact, &pre);
-			mir_free(pre.szMessage);
+			ProtoChainRecvMsg(hContact, dbei);
 			return true;
 		}
 

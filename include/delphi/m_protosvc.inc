@@ -176,16 +176,6 @@ type
     // they put there will be retained by anyone trying to save this structure.
   end;
 
-  PPROTORECVEVENT = ^TPROTORECVEVENT;
-  TPROTORECVEVENT = record
-    flags           : dword;
-    timestamp       : dword;
-    szMessage       : TChar;
-    lParam          : LPARAM;
-    szUserId        : PAnsiChar; // user id of event
-    szReplyId       : PAnsiChar; // reply id of event
-  end;
-
 const
   {
     wParam : PFLAGNUM_* (see above)

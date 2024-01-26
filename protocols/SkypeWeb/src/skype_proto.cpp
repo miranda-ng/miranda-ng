@@ -201,9 +201,9 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	return 0;
 }
 
-int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
+int CSkypeProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
@@ -273,18 +273,15 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
+int CSkypeProto::RecvContacts(MCONTACT hContact, DB::EventInfo &dbei)
 {
-	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;
+	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)dbei.pBlob;
 
-	int nCount = *((LPARAM*)pre->lParam);
-	char* szMessageId = ((char*)pre->lParam + sizeof(LPARAM));
-
-	//if (GetMessageFromDb(hContact, szMessageId, pre->timestamp)) return 0;
+	int nCount = dbei.cbBlob;
 
 	uint32_t cbBlob = 0;
 	for (int i = 0; i < nCount; i++)
-		cbBlob += int(/*mir_wstrlen(isrList[i]->nick.w)*/0 + 2 + mir_wstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
+		cbBlob += int(/*mir_wstrlen(isrList[i]->nick.w)*/0 + 2 + mir_wstrlen(isrList[i]->id.w));
 
 	char *pBlob = (char *)mir_calloc(cbBlob);
 	char *pCurBlob = pBlob;
@@ -296,13 +293,10 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 		pCurBlob += mir_strlen(pCurBlob) + 1;
 	}
 
-	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_CONTACTS;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	db_event_add(hContact, &dbei);
 
 	mir_free(pBlob);

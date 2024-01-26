@@ -171,14 +171,14 @@ MEVENT CSametimeProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::Even
 	return CSuper::RecvFile(hContact, blob, dbei);
 }
 
-MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, DB::EventInfo &dbei)
 {
 	debugLogW(L"CSametimeProto::RecvMsg() hContact=[%x]", hContact);
 
 	Contact::Hide(hContact, false);
 	Contact::PutOnList(hContact);
 
-	return CSuper::RecvMsg(hContact, pre);
+	return CSuper::RecvMsg(hContact, dbei);
 }
 
 HANDLE CSametimeProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)

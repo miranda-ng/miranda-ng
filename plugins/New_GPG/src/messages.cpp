@@ -299,11 +299,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!ccs)
 		return Proto_ChainRecv(w, ccs);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)(ccs->lParam);
-	if (!pre)
+	auto *dbei = (DB::EventInfo*)(ccs->lParam);
+	if (!dbei)
 		return Proto_ChainRecv(w, ccs);
 
-	char *msg = pre->szMessage;
+	char *msg = dbei->pBlob;
 	if (!msg)
 		return Proto_ChainRecv(w, ccs);
 	
@@ -497,7 +497,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 		return Proto_ChainRecv(w, ccs);
 
-	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, pre->timestamp));
+	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, dbei->timestamp));
 	return 0;
 }
 

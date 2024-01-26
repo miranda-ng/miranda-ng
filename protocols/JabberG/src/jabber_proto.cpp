@@ -454,9 +454,9 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthRecv - receives a auth
 
-int CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CJabberProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

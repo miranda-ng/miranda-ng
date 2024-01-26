@@ -169,18 +169,14 @@ MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic core services
 
-MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
+MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, DB::EventInfo &dbei)
 {
-	if (szProtoName == nullptr || pcre == nullptr)
+	if (szProtoName == nullptr)
 		return 0;
 
-	DBEVENTINFO dbei = {};
 	dbei.szModule = (char*)szProtoName;
-	dbei.timestamp = pcre->timestamp;
-	dbei.flags = DBEF_UTF | pcre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
+	dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = pcre->lParam;
-	dbei.pBlob = pcre->szMessage;
 	return db_event_add(0, &dbei);
 }
 
@@ -390,7 +386,7 @@ INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const cha
 			case  2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
 			case  3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
 			case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (wchar_t *)lParam);
-			case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT *)lParam);
+			case  5: return (INT_PTR)ppi->AuthRecv(hContact, *(DB::EventInfo*)lParam);
 			case  6: return (INT_PTR)ppi->AuthRequest(hContact, (wchar_t *)lParam);
 			case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t *)lParam);
 			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
@@ -413,9 +409,9 @@ INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const cha
 				}
 			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
-			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT *)lParam);
+			case 20: return (INT_PTR)ppi->RecvContacts(hContact, *(DB::EventInfo *)lParam);
 			case 21: return (INT_PTR)ppi->RecvFile(hContact, *(DB::FILE_BLOB *)wParam, *(DB::EventInfo *)lParam);
-			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT *)lParam);
+			case 22: return (INT_PTR)ppi->RecvMsg(hContact, *(DB::EventInfo *)lParam);
 			case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
 			case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);
 			case 25:

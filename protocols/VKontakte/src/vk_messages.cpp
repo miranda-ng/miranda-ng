@@ -440,30 +440,29 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 				wszOldMsg;
 		}
 
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 
 		if (isRead && bUseServerReadFlag)
-			recv.flags |= PREF_CREATEREAD;
+			dbei.flags |= DBEF_READ;
 
 		if (isOut)
-			recv.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && ((time(0) - tDateTime) < (60 * m_vkOptions.iInvisibleInterval)))
 			SetInvisible(hContact);
 
 		T2Utf pszBody(wszBody);
-		recv.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
-		recv.szMessage = pszBody;
+		dbei.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
+		dbei.pBlob = pszBody;
 		
 		if (!m_vkOptions.bShowReplyInMessage && szReplyId)
-			recv.szReplyId = szReplyId;
+			dbei.szReplyId = szReplyId;
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
-		
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited || (m_vkOptions.bShowReplyInMessage && szReplyId)) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
-			recv.szMsgId = szMid;
-			ProtoChainRecvMsg(hContact, &recv);
+			dbei.szId = szMid;
+			ProtoChainRecvMsg(hContact, dbei);
 			if (iMessageId > ReadQSWord(hContact, "lastmsgid", -1))
 				WriteQSWord(hContact, "lastmsgid", iMessageId);
 		}
@@ -479,10 +478,10 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			debugLogA("CVkProto::OnReceiveMessages add attachments");
 
 			T2Utf pszAttach(wszAttachmentDescr);
-			recv.timestamp = isOut ? time(0) : tDateTime;
-			recv.szMessage = pszAttach;
-			recv.szMsgId = strcat(szMid, "_");
-			ProtoChainRecvMsg(hContact, &recv);
+			dbei.timestamp = isOut ? time(0) : tDateTime;
+			dbei.pBlob = pszAttach;
+			dbei.szId = strcat(szMid, "_");
+			ProtoChainRecvMsg(hContact, dbei);
 		}
 	}
 }

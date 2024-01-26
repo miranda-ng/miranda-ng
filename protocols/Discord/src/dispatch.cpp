@@ -408,23 +408,23 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
 		// if a message has myself as an author, add some flags
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 		if (bOurMessage)
-			recv.flags = PREF_CREATEREAD | PREF_SENT;
+			dbei.flags = DBEF_READ | DBEF_SENT;
 
 		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 		ptrA buf(mir_utf8encodeW(wszText));
 
-		recv.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-		recv.szMessage = buf;
-		recv.szMsgId = szMsgId;
+		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		dbei.pBlob = buf;
+		dbei.szId = szMsgId;
 
 		if (!pUser->bIsPrivate || pUser->bIsGroup) {
-			recv.szUserId = szUserId;
+			dbei.szUserId = szUserId;
 			ProcessChatUser(pUser, userId, pRoot);
 		}
 
-		ProtoChainRecvMsg(pUser->hContact, &recv);
+		ProtoChainRecvMsg(pUser->hContact, dbei);
 	}
 
 	pUser->lastMsgId = msgId;

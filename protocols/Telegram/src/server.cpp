@@ -787,40 +787,27 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		Contact::RemoveFromList(pUser->hContact);
 	}
 
-	if (hOldEvent) {
-		DB::EventInfo dbei(hOldEvent);
-		mir_free(dbei.pBlob);
-		dbei.cbBlob = szText.GetLength();
-		dbei.pBlob = szText.GetBuffer();
-		dbei.timestamp = pMessage->date_;
-		if (pMessage->is_outgoing_)
-			dbei.flags |= DBEF_SENT;
-		if (!pUser->bInited)
-			dbei.flags |= DBEF_READ;
-		if (GetGcUserId(pUser, pMessage, szUserId))
-			dbei.szUserId = szUserId;
-		if (pMessage->reply_to_message_id_) {
-			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
-			dbei.szReplyId = szReplyId;
-		}
+	DB::EventInfo dbei(hOldEvent);
+	dbei.cbBlob = szText.GetLength();
+	dbei.timestamp = pMessage->date_;
+	if (pMessage->is_outgoing_)
+		dbei.flags |= DBEF_SENT;
+	if (!pUser->bInited)
+		dbei.flags |= DBEF_READ;
+	if (GetGcUserId(pUser, pMessage, szUserId))
+		dbei.szUserId = szUserId;
+	if (pMessage->reply_to_message_id_) {
+		szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
+		dbei.szReplyId = szReplyId;
+	}
+	
+	if (dbei) {
+		replaceStr(dbei.pBlob, szText.Detach());
 		db_event_edit(hOldEvent, &dbei, true);
 	}
 	else {
-		PROTORECVEVENT pre = {};
-		pre.szMessage = szText.GetBuffer();
-		pre.szMsgId = szMsgId;
-		pre.timestamp = pMessage->date_;
-		if (pMessage->is_outgoing_)
-			pre.flags |= PREF_SENT;
-		if (!pUser->bInited)
-			pre.flags |= PREF_CREATEREAD;
-		if (GetGcUserId(pUser, pMessage, szUserId))
-			pre.szUserId = szUserId;
-		if (pMessage->reply_to_message_id_) {
-			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
-			pre.szReplyId = szReplyId;
-		}
-		ProtoChainRecvMsg(GetRealContact(pUser), &pre);
+		dbei.pBlob = szText.GetBuffer();
+		ProtoChainRecvMsg(GetRealContact(pUser), dbei);
 	}
 }
 

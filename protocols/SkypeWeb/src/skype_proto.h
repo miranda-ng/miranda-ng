@@ -55,14 +55,14 @@ public:
 	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage) override;
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
-	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 	HANDLE   SearchBasic(const wchar_t* id) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char* msg) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
-	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      RecvContacts(MCONTACT hContact, DB::EventInfo &dbei) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;

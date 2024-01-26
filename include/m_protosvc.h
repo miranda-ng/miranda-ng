@@ -666,42 +666,18 @@ struct PROTOFILERESUME
 // just want to know the final result should hook.
 // In all cases, the database should store what the user read/wrote.
 
-// An instant message has been received
-// wParam = 0
-// lParam = (LPARAM)(PROTORECVEVENT*)&pre
-// DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
-// Return 0 - success, other failure
-
-#define PREF_CREATEREAD        1 // create the database event with the 'read' flag set
-#define PREF_RTL               4 // 0.5+ addition: support for right-to-left messages
-#define PREF_SENT             16 // message will be created with the DBEF_SENT flag
-#define PREF_ENCRYPTED        32 // message is encrypted
-#define PREF_ENCRYPTED_STRONG 64 // message is encrypted with verified key
-
-struct PROTORECVEVENT
-{
-	uint32_t flags;               // combination of PREF_*
-	uint32_t timestamp;           // unix time
-	char* szMessage;              // message body in utf8
-	LPARAM lParam;                // extra space for the network level protocol module
-	const char* szMsgId;          // server message id, optional, should be NULL otherwise
-	                              // ignored for protocols without PF4_SERVERMSGID in GetCaps()
-	const char *szUserId;         // user id, for group chats stored in the database
-	const char *szReplyId;        // this message is a reply to a message with that server id
-};
-
 ///////////////////////////////////////////////////////////////////////////////
 // Proto/RecvMessage
-// Copies a message from a PROTORECVEVENT event into the database
+// Copies a message from a DB::EventInfo event into the database
 // wParam = 0 (unused)
 // lParam = CCSDATA*
 // Returns the result of db_event_add()
 
 #define PSR_MESSAGE   "/RecvMessage"
 
-__forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+__forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, const DB::EventInfo &dbei)
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
+	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)&dbei };
 	return Proto_ChainRecv(0, &ccs);
 }
 
@@ -715,7 +691,7 @@ __forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 #define PSR_AUTH		"/RecvAuth"
 
 // adds the standard EVENTTYPE_AUTHREQUEST event to the database
-EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre);
+EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, DB::EventInfo &dbei);
 
 ///////////////////////////////////////////////////////////////////////////////
 // File(s) have been received

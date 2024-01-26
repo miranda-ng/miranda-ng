@@ -266,10 +266,10 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 				if (!cont)
 					RequestStatus(true, from.S_un.S_addr);
 				else {
-					PROTORECVEVENT pre = { 0 };
-					pre.timestamp = get_time();
-					pre.szMessage = pak.strMessage;
-					ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_MESSAGE, 0, (LPARAM)&pre);
+					DB::EventInfo dbei;
+					dbei.timestamp = get_time();
+					dbei.pBlob = pak.strMessage;
+					ProtoChainRecvMsg(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), dbei);
 
 					TPacket npak;
 					memset(&npak, 0, sizeof(npak));
@@ -285,11 +285,11 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 			}
 
 			if (pak.strAwayMessage && cont) {
-				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = get_time();
-				pre.szMessage = pak.strAwayMessage;
-				pre.lParam = pak.idAckAwayMessage;
-				ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_AWAYMSG, 0, (LPARAM)&pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = get_time();
+				dbei.pBlob = pak.strAwayMessage;
+				dbei.cbBlob = pak.idAckAwayMessage;
+				ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_AWAYMSG, 0, (LPARAM)&dbei);
 			}
 
 			if (pak.idReqAwayMessage && cont) {
@@ -320,16 +320,14 @@ void CMLan::RecvMessageUrl(CCSDATA *ccs)
 {
 	Contact::Hide(ccs->hContact, false);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	ptrA szMessage(mir_utf8encode(pre->szMessage));
+	DB::EventInfo &dbei = *(DB::EventInfo *)ccs->lParam;
+	ptrA szMsg(mir_utf8encode(dbei.pBlob));
 
-	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.szModule = MODULENAME;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF + ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
-	dbei.cbBlob = (uint32_t)mir_strlen(szMessage) + 1;
-	dbei.pBlob = szMessage.get();
+	dbei.flags |= DBEF_UTF;
+	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
+	dbei.pBlob = szMsg;
 	db_event_add(ccs->hContact, &dbei);
 }
 
@@ -375,8 +373,8 @@ int CMLan::GetAwayMsg(CCSDATA *ccs)
 
 int CMLan::RecvAwayMsg(CCSDATA *ccs)
 {
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	ProtoBroadcastAck(MODULENAME, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->lParam, (LPARAM)pre->szMessage);
+	auto *pre = (DB::EventInfo *)ccs->lParam;
+	ProtoBroadcastAck(MODULENAME, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->cbBlob, (LPARAM)pre->pBlob);
 	return 0;
 }
 
@@ -900,17 +898,14 @@ void CMLan::FileRemoveFromList(TFileConnection *conn)
 
 void CMLan::RecvFile(CCSDATA *ccs)
 {
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
+	auto &dbei = *(DB::EventInfo *)ccs->lParam;
 
 	Contact::Hide(ccs->hContact, false);
 
-	char *szFile = pre->szMessage + sizeof(uint32_t);
+	char *szFile = dbei.pBlob + sizeof(uint32_t);
 	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
-	DB::EventInfo dbei;
 	dbei.szModule = MODULENAME;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
 	DB::FILE_BLOB(_A2T(szFile), _A2T(szDesc)).write(dbei);
 	db_event_add(ccs->hContact, &dbei);
@@ -946,10 +941,10 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	int rcTotalSize = *((int*)(conn->m_buf + 1));
 	int rcTotalFiles = *((int*)(conn->m_buf + 1 + 4));
 
-	PROTORECVEVENT pre;
-	pre.szMessage = new char[conn->m_recSize + rcTotalFiles];
-	*((int*)pre.szMessage) = conn->m_cid;
-	char* pf_to = pre.szMessage + 4;
+	DB::EventInfo dbei;
+	dbei.pBlob = (char*)mir_alloc(conn->m_recSize + rcTotalFiles);
+	*((int*)dbei.pBlob) = conn->m_cid;
+	char* pf_to = dbei.pBlob + 4;
 	char* pf_fr = (char*)conn->m_buf + 1 + 4 + 4;
 
 	conn->m_szFiles = new wchar_t*[rcTotalFiles + 1];
@@ -971,12 +966,8 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	*pf_to++ = *pf_fr++;
 
 	conn->m_hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
-	pre.flags = 0;
-	pre.timestamp = get_time();
-	pre.lParam = 0;
-	ProtoChainRecv(conn->m_hContact, PSR_FILE, 0, (LPARAM)&pre);
-
-	delete[] pre.szMessage;
+	dbei.timestamp = get_time();
+	ProtoChainRecv(conn->m_hContact, PSR_FILE, 0, (LPARAM)&dbei);
 
 	while (!conn->m_state)
 		Sleep(10);

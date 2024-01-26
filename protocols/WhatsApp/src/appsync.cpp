@@ -274,16 +274,16 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 				if (!szMessageText.IsEmpty()) {
 					auto *key = pMessage->message->key;
 
-					PROTORECVEVENT pre = {};
-					pre.timestamp = pMessage->message->messagetimestamp;
-					pre.szMessage = szMessageText.GetBuffer();
-					pre.szMsgId = key->id;
-					pre.flags = PREF_CREATEREAD;
+					DB::EventInfo dbei;
+					dbei.timestamp = pMessage->message->messagetimestamp;
+					dbei.pBlob = szMessageText.GetBuffer();
+					dbei.szId = key->id;
+					dbei.flags = DBEF_READ;
 					if (key->fromme)
-						pre.flags |= PREF_SENT;
+						dbei.flags |= DBEF_SENT;
 					if (pUser->bIsGroupChat)
-						pre.szUserId = key->participant;
-					ProtoChainRecvMsg(pUser->hContact, &pre);
+						dbei.szUserId = key->participant;
+					ProtoChainRecvMsg(pUser->hContact, dbei);
 				}
 			}
 		}

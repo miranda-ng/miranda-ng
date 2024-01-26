@@ -264,7 +264,8 @@ DB::EventInfo::EventInfo() :
 
 DB::EventInfo::~EventInfo()
 {
-	mir_free(pBlob);
+	if (bValid)
+		mir_free(pBlob);
 }
 
 bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)

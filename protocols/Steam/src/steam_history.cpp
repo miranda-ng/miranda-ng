@@ -53,14 +53,14 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		if (timestamp <= storedMessageTS)
 			continue;
 
-		PROTORECVEVENT recv = {};
-		recv.timestamp = timestamp;
-		recv.szMessage = (char *)text.c_str();
+		DB::EventInfo dbei;
+		dbei.timestamp = timestamp;
+		dbei.pBlob = (char *)text.c_str();
 
 		if (IsMe(steamId))
-			recv.flags = PREF_SENT;
+			dbei.flags = DBEF_SENT;
 
-		RecvMsg(hContact, &recv);
+		RecvMsg(hContact, dbei);
 
 		if (timestamp > newTS)
 			newTS = timestamp;

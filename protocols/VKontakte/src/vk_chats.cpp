@@ -539,18 +539,16 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 
 		T2Utf pszBody(pwszBody);
 		
-		PROTORECVEVENT pre = {};
-		pre.szMsgId = szMid;
-		pre.timestamp = tMsgTime;
-		pre.szMessage = pszBody;
+		DB::EventInfo dbei;
+		dbei.szId = szMid;
+		dbei.timestamp = tMsgTime;
+		dbei.pBlob = pszBody;
 		if (iUserId == m_iMyUserId)
-			pre.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 		if (bIsHistory)
-			pre.flags |= PREF_CREATEREAD;
-
-		pre.szUserId = szId;
-
-		ProtoChainRecvMsg(hChatContact, &pre);
+			dbei.flags |= DBEF_READ;
+		dbei.szUserId = szId;
+		ProtoChainRecvMsg(hChatContact, dbei);
 	}
 
 	StopChatContactTyping(vkChatInfo->m_iChatId, iUserId);

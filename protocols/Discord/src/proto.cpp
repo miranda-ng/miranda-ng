@@ -369,9 +369,9 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	return 0;
 }
 
-int CDiscordProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CDiscordProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 int CDiscordProto::Authorize(MEVENT hDbEvent)

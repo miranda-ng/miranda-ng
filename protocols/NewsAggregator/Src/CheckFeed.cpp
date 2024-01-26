@@ -187,10 +187,10 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 		T2Utf pszMessage(message);
 
-		PROTORECVEVENT recv = {};
-		recv.timestamp = (uint32_t)stamp;
-		recv.szMessage = pszMessage;
-		ProtoChainRecvMsg(hContact, &recv);
+		DB::EventInfo dbei;
+		dbei.timestamp = (uint32_t)stamp;
+		dbei.pBlob = pszMessage;
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 }
 

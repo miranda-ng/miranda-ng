@@ -55,16 +55,16 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
 	T2Utf pszBody(vkNewsItem.wszText);
 
-	PROTORECVEVENT recv = {};
-	recv.timestamp = vkNewsItem.tDate;
-	recv.szMessage = pszBody;
+	DB::EventInfo dbei;
+	dbei.timestamp = vkNewsItem.tDate;
+	dbei.pBlob = pszBody;
 
 	if (m_vkOptions.bUseNonStandardNotifications) {
-		recv.flags = PREF_CREATEREAD;
+		dbei.flags = DBEF_READ;
 		MsgPopup(hContact, vkNewsItem.wszPopupText, vkNewsItem.wszPopupTitle);
 	}
 
-	ProtoChainRecvMsg(hContact, &recv);
+	ProtoChainRecvMsg(hContact, dbei);
 }
 
 void CVkProto::AddCListEvent(bool bNews)

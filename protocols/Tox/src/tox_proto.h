@@ -42,7 +42,7 @@ public:
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT *) override;
+	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath) override;

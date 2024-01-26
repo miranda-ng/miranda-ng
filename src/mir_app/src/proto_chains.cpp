@@ -62,7 +62,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 
 	for (int i = iOrder; i < g_arFilters.getCount(); i++) {
 		if ((ret = CallProtoService(g_arFilters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
-			//chain was started, exit
+			// chain was started, exit
 			return ret;
 		}
 	}

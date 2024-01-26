@@ -1416,17 +1416,17 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (!bOffline)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	PROTORECVEVENT recv = {};
+	DB::EventInfo dbei;
 	if (bCreateRead)
-		recv.flags |= PREF_CREATEREAD;
+		dbei.flags |= DBEF_READ;
 	if (bWasSent)
-		recv.flags |= PREF_SENT;
+		dbei.flags |= DBEF_SENT;
 
-	recv.timestamp = (uint32_t)msgTime;
-	recv.szMessage = szMessage.GetBuffer();
-	recv.szMsgId = szMsgId;
+	dbei.timestamp = (uint32_t)msgTime;
+	dbei.pBlob = szMessage.GetBuffer();
+	dbei.szId = szMsgId;
 
-	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, &recv);
+	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, dbei);
 	if (idStr)
 		m_arChatMarks.insert(new CChatMark(hDbEVent, idStr, from));
 }

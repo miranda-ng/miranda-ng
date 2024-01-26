@@ -299,10 +299,5 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&CCSDATA::lParam, "lParam", LUA_TLIGHTUSERDATA)
 		.Field(&CCSDATA::lParam, "Message", LUA_TSTRING);
 	
-	MT<PROTORECVEVENT>(L, "PROTORECVEVENT")
-		.Field(&PROTORECVEVENT::timestamp, "Timestamp", LUA_TINTEGER)
-		.Field(&PROTORECVEVENT::flags, "Flags", LUA_TINTEGER)
-		.Field(&PROTORECVEVENT::szMessage, "Message", LUA_TSTRING);
-
 	return 1;
 }

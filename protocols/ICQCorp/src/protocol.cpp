@@ -1984,18 +1984,10 @@ void ICQ::addMessage(ICQUser *u, char *m, time_t t)
 {
 	Netlib_Logf(hNetlibUser, "message: %s\n", m);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = (char*)m;
-	pre.lParam = 0;
-
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	Proto_ChainRecv(0, &ccs);
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	dbei.pBlob = m;
+	ProtoChainRecvMsg(u->hContact, dbei);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2004,17 +1996,12 @@ void ICQ::addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t)
 {
 	Netlib_Logf(hNetlibUser, "away msg: %s\n", m);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = (char*)m;
-	pre.lParam = theSequence;
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	dbei.pBlob = m;
+	dbei.cbBlob = theSequence;
 
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_AWAYMSG;
-	ccs.wParam = u->statusVal;
-	ccs.lParam = (LPARAM)&pre;
+	CCSDATA ccs = { u->hContact, PSR_AWAYMSG, u->statusVal, (LPARAM)&dbei };
 	Proto_ChainRecv(0, &ccs);
 }
 
@@ -2029,26 +2016,16 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
 	icqTransfers.push_back(transfer);
 
 	// Send chain event
-	char *szBlob = new char[sizeof(uint32_t) + mir_strlen(filename) + mir_strlen(m) + 2];
+	DB::FILE_BLOB blob(transfer, filename, m);
 
-	*(PDWORD)szBlob = (UINT_PTR)transfer;
-	mir_strcpy(szBlob + sizeof(uint32_t), filename);
-	mir_strcpy(szBlob + sizeof(uint32_t) + mir_strlen(filename) + 1, m);
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	blob.write(dbei);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = szBlob;
-	pre.lParam = theSequence;
-
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_FILE;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
+	CCSDATA ccs = { u->hContact, PSR_FILE, 0, (LPARAM)&dbei };
 	Proto_ChainRecv(0, &ccs);
 
-	delete[] szBlob;
+	mir_free(dbei.pBlob);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

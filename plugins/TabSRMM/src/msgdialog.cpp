@@ -849,7 +849,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		int flags = 0;
 		if (pf2.wEffects & PFE_RTLPARA)
 			if (Utils_IsRtl(decoded))
-				flags |= PREF_RTL;
+				flags |= DBEF_RTL;
 
 		SendMessage(hwndEdit, WM_SETREDRAW, TRUE, 0);
 		SendMessage(hwndEdit, EM_SETSEL, -1, -1);

@@ -268,7 +268,7 @@ public:
 	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 

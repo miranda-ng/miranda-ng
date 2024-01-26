@@ -137,9 +137,9 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 						m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszMsg;
 
-				PROTORECVEVENT recv = {};
+				DB::EventInfo dbei;
 				if (iUserId == m_iMyUserId)
-					recv.flags |= PREF_SENT;
+					dbei.flags |= DBEF_SENT;
 				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval)
 					SetInvisible(hContact);
 
@@ -147,10 +147,10 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				_itoa(iMessageId, szMid, 10);
 
 				T2Utf pszMsg(wszMsg);
-				recv.timestamp = tDateTime;
-				recv.szMessage = pszMsg;
-				recv.szMsgId = szMid;
-				ProtoChainRecvMsg(hContact, &recv);
+				dbei.timestamp = tDateTime;
+				dbei.pBlob = pszMsg;
+				dbei.szId = szMid;
+				ProtoChainRecvMsg(hContact, dbei);
 			}
 			break;
 

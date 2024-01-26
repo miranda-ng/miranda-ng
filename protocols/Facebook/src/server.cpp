@@ -844,15 +844,15 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	// if that's a group chat, send it to the room
 	auto szActorFbId(metadata["actorFbId"].as_string());
 
-	PROTORECVEVENT pre = {};
-	pre.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
-	pre.szMessage = (char *)szBody.c_str();
-	pre.szMsgId = (char *)szId.c_str();
+	DB::EventInfo dbei;
+	dbei.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+	dbei.pBlob = (char *)szBody.c_str();
+	dbei.szId = (char *)szId.c_str();
 	if (m_uid == _atoi64(szActorFbId.c_str()))
-		pre.flags |= PREF_SENT;
+		dbei.flags |= DBEF_SENT;
 	if (pUser->bIsChat)
-		pre.szUserId = szActorFbId.c_str();
-	ProtoChainRecvMsg(pUser->hContact, &pre);
+		dbei.szUserId = szActorFbId.c_str();
+	ProtoChainRecvMsg(pUser->hContact, dbei);
 }
 
 // changing thread name

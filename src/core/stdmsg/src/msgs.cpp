@@ -36,7 +36,7 @@ int SendMessageDirect(MCONTACT hContact, MEVENT hEvent, const wchar_t *szMsg)
 
 	int flags = 0;
 	if (Utils_IsRtl(szMsg))
-		flags |= PREF_RTL;
+		flags |= DBEF_RTL;
 
 	T2Utf sendBuffer(szMsg);
 	if (!mir_strlen(sendBuffer))

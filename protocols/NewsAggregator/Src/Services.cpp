@@ -159,7 +159,7 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 	PROTOACCOUNT *pa = Proto_GetAccount(MODULENAME);
 	if (pa && pa->ppro) {
 		CCSDATA *ccs = (CCSDATA*)lParam;
-		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
+		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, *(DB::EventInfo*)ccs->lParam);
 	}
 
 	return 0;

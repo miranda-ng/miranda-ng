@@ -308,11 +308,11 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 	DB::AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
-	PROTORECVEVENT recv = {};
-	recv.timestamp = now();
-	recv.szMessage = blob;
-	recv.lParam = blob.size();
-	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&recv);
+	DB::EventInfo dbei;
+	dbei.timestamp = now();
+	dbei.pBlob = blob;
+	dbei.cbBlob = blob.size();
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 }
 
 MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool isTemporary)

@@ -217,7 +217,7 @@ public:
 
 	virtual	int      Authorize(MEVENT hDbEvent);
 	virtual	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei);
 	virtual	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 
 	virtual	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
@@ -234,9 +234,9 @@ public:
 	virtual	HANDLE   SearchAdvanced(MWindow owner);
 	virtual	MWindow  CreateExtendedSearchUI(MWindow owner);
 
-	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      RecvContacts(MCONTACT hContact, DB::EventInfo &dbei);
 	virtual	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei);
-	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	MEVENT   RecvMsg(MCONTACT hContact, DB::EventInfo &dbei);
 
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);

@@ -119,7 +119,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
-	int      AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int      AuthRequest(MCONTACT, const wchar_t *pwszReason) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;

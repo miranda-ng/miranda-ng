@@ -822,11 +822,11 @@ retry:
 				}
 				// Check if not empty message ( who needs it? )
 				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
-					PROTORECVEVENT pre = {};
+					DB::EventInfo dbei;
 					time_t t = time(0);
-					pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-					pre.szMessage = e->event.msg.message;
-					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), &pre);
+					dbei.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
+					dbei.pBlob = e->event.msg.message;
+					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), dbei);
 				}
 
 				// RichEdit format included (image)

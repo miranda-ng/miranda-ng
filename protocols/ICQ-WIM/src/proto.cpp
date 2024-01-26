@@ -467,9 +467,9 @@ MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int CIcqProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CIcqProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

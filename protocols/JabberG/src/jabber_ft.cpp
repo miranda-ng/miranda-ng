@@ -871,11 +871,11 @@ bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 	// emulate a message for us
 	CMStringA szMsg(FORMAT, "[img]%s[/img]", T2Utf(wszFileName).get());
 
-	PROTORECVEVENT recv = {};
-	recv.flags = PREF_CREATEREAD | PREF_SENT;
-	recv.szMessage = szMsg.GetBuffer();
-	recv.timestamp = time(0);
-	ProtoChainRecvMsg(ft->std.hContact, &recv);
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_READ | DBEF_SENT;
+	dbei.pBlob = szMsg.GetBuffer();
+	dbei.timestamp = time(0);
+	ProtoChainRecvMsg(ft->std.hContact, dbei);
 	return true;
 }
 

@@ -298,7 +298,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 
 	SendQueue::Item msi = {};
 	if (pf2.wEffects & PFE_RTLPARA)
-		msi.flags |= PREF_RTL;
+		msi.flags |= DBEF_RTL;
 
 	msi.sendBuffer = m_message.GetRichTextRtf(true);
 	msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
@@ -306,7 +306,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		return;
 
 	if (Utils_IsRtl(ptrW(mir_utf8decodeW(msi.sendBuffer))))
-		msi.flags |= PREF_RTL;
+		msi.flags |= DBEF_RTL;
 
 	// Store messaging history
 	TCmdList *cmdListNew = tcmdlist_last(cmdList);

@@ -87,13 +87,13 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 	else {
 		T2Utf szOwnId(m_szOwnId);
 
-		PROTORECVEVENT pre = {};
-		pre.szMsgId = msgId.c_str();
-		pre.timestamp = time(0);
-		pre.szMessage = pOwn->m_szText;
-		pre.flags = PREF_SENT | PREF_CREATEREAD;
-		pre.szUserId = szOwnId;
-		ProtoChainRecvMsg(pOwn->m_hContact, &pre);
+		DB::EventInfo dbei;
+		dbei.szId = msgId.c_str();
+		dbei.timestamp = time(0);
+		dbei.pBlob = pOwn->m_szText;
+		dbei.flags = DBEF_SENT | DBEF_READ;
+		dbei.szUserId = szOwnId;
+		ProtoChainRecvMsg(pOwn->m_hContact, dbei);
 	}
 
 	if (bRemove) {
@@ -495,11 +495,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 					CMStringA nick = (pos == -1) ? id : id.Left(pos);
 					DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
 
-					PROTORECVEVENT pre = {};
-					pre.timestamp = (uint32_t)time(0);
-					pre.lParam = blob.size();
-					pre.szMessage = blob;
-					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+					DB::EventInfo dbei;
+					dbei.timestamp = (uint32_t)time(0);
+					dbei.cbBlob = blob.size();
+					dbei.pBlob = blob;
+					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 				}
 				return;
 			}
@@ -626,38 +626,29 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
 
-	if (hOldEvent) {
-		DBEVENTINFO dbei = {};
-		dbei.szModule = m_szModuleName;
-		dbei.timestamp = iMsgTime;
-		dbei.flags = DBEF_UTF;
-		if (bIsOutgoing)
-			dbei.flags |= DBEF_SENT;
-		if (bCreateRead)
-			dbei.flags |= DBEF_READ;
-		dbei.cbBlob = (int)mir_strlen(szUtf);
-		dbei.pBlob = szUtf.get();
-		dbei.szId = szMsgId;
-		if (isChatRoom(hContact))
-			dbei.szUserId = szSender;
-		if (!szReply.IsEmpty())
-			dbei.szReplyId = szReply;
+	DB::EventInfo dbei(hOldEvent);
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = iMsgTime;
+	dbei.flags = DBEF_UTF;
+	if (bIsOutgoing)
+		dbei.flags |= DBEF_SENT;
+	if (bCreateRead)
+		dbei.flags |= DBEF_READ;
+	dbei.cbBlob = (int)mir_strlen(szUtf);
+	dbei.pBlob = szUtf.get();
+	dbei.szId = szMsgId;
+	if (isChatRoom(hContact))
+		dbei.szUserId = szSender;
+	if (!szReply.IsEmpty())
+		dbei.szReplyId = szReply;
+
+	if (dbei) {
+		replaceStr(dbei.pBlob, szUtf.detach());
 		db_event_edit(hOldEvent, &dbei, true);
 	}
 	else {
-		PROTORECVEVENT pre = {};
-		pre.timestamp = iMsgTime;
-		pre.szMessage = szUtf;
-		if (bIsOutgoing)
-			pre.flags |= PREF_SENT;
-		if (bCreateRead)
-			pre.flags |= PREF_CREATEREAD;
-		pre.szMsgId = szMsgId;
-		if (isChatRoom(hContact))
-			pre.szUserId = szSender;
-		if (!szReply.IsEmpty())
-			pre.szReplyId = szReply;
-		ProtoChainRecvMsg(hContact, &pre);
+		dbei.pBlob = szUtf;
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 }
 

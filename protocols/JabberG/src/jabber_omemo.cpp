@@ -1377,14 +1377,14 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		db_event_add(hContact, &dbei);
 	}
 	else {
-		PROTORECVEVENT recv = {};
-		recv.timestamp = (uint32_t)msgTime;
-		recv.szMessage = result.GetBuffer();
+		DB::EventInfo dbei;
+		dbei.timestamp = (uint32_t)msgTime;
+		dbei.pBlob = result.GetBuffer();
 		if (trusted)
-			recv.flags = PREF_ENCRYPTED;
+			dbei.flags = DBEF_STRONG;
 		if (isCarbon)
-			recv.flags = PREF_SENT;
-		ProtoChainRecvMsg(hContact, &recv);
+			dbei.flags = DBEF_SENT;
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 
 	return true;

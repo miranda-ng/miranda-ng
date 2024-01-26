@@ -427,7 +427,7 @@ public:
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	MCONTACT AddToListByEvent(int flags, int, MEVENT hDbEvent) override;
 	
-	int      AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t*) override;

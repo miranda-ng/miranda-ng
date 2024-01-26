@@ -76,13 +76,13 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *) lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
+	auto *dbei = (DB::EventInfo *) ccs->lParam;
 
 	DEBUGOUTA("OTR - receiving message: '");
-	DEBUGOUTA(pre->szMessage);
+	DEBUGOUTA(dbei->pBlob);
 	DEBUGOUTA("'\n");
 
-	if (pre->flags & PREF_BYPASS_OTR)  // bypass for our inline messages
+	if (dbei->flags & PREF_BYPASS_OTR)  // bypass for our inline messages
 		return Proto_ChainRecv(wParam, ccs);
 
 	char *proto = Proto_GetBaseAccountName(ccs->hContact);
@@ -91,7 +91,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	else if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
 		return Proto_ChainRecv(wParam, ccs);
 
-	char *oldmessage = pre->szMessage;
+	char *oldmessage = dbei->pBlob;
 	// convert oldmessage to utf-8
 	if (!oldmessage)
 		return 1;
@@ -125,7 +125,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	if (newmessage == nullptr)
 		return Proto_ChainRecv(wParam, ccs);
 	
-	uint32_t oldflags = pre->flags;
+	uint32_t oldflags = dbei->flags;
 		
 	typedef void (*msg_free_t)(void*);
 	msg_free_t msg_free = (msg_free_t)otrl_message_free;
@@ -142,11 +142,11 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		replaceStr(newmessage, tmp.Detach());
 		msg_free = mir_free;
 	}
-	pre->szMessage = newmessage;
+	dbei->pBlob = newmessage;
 	BOOL ret = Proto_ChainRecv(wParam, ccs);
 /// @todo (White-Tiger#1#03/23/15): why are we doing this?
-	pre->flags = oldflags;
-	pre->szMessage = oldmessage;
+	dbei->flags = oldflags;
+	dbei->pBlob = oldmessage;
 	msg_free(newmessage);
 	return ret;
 }

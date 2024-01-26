@@ -127,10 +127,10 @@ static BOOL OnProcessJingle(struct IJabberInterface *api, const TiXmlElement *no
 					}
 
 					// Save this event to history
-					PROTORECVEVENT recv = {};
-					recv.timestamp = (uint32_t)time(0);
-					recv.szMessage = "** A call while we were busy **";
-					ProtoChainRecvMsg(api->ContactFromJID(from), &recv);
+					DB::EventInfo dbei;
+					dbei.timestamp = (uint32_t)time(0);
+					dbei.pBlob = "** A call while we were busy **";
+					ProtoChainRecvMsg(api->ContactFromJID(from), dbei);
 					reason = "busy";
 				}
 

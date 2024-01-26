@@ -129,7 +129,7 @@ LPSTR encodeMsg(pUinKey ptr, LPARAM lParam)
 LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
+	auto *dbei = (DB::EventInfo *)pccsd->lParam;
 
 	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = cpp_decodeU(ptr->cntx, szEncMsg);
@@ -155,7 +155,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
 		szNewMsg = (LPSTR)mir_alloc(olen);
 		memcpy(szNewMsg, szOldMsg, olen);
 	}
-	ppre->szMessage = szNewMsg;
+	dbei->pBlob = szNewMsg;
 	return szNewMsg;
 }
 

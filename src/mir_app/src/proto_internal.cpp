@@ -58,9 +58,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, _T2A(szReason));
 	}
 
-	int AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt) override
+	int AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)&dbei };
 		return (int)ProtoCallService(m_szModuleName, PSR_AUTH, 0, (LPARAM)&ccs);
 	}
 
@@ -169,9 +169,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HWND)ProtoCallService(m_szModuleName, PS_CREATEADVSEARCHUI, 0, (LPARAM)owner);
 	}
 
-	int RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt) override
+	int RecvContacts(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)&dbei };
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
@@ -181,9 +181,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 
-	MEVENT RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
+	MEVENT RecvMsg(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)&dbei };
 		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
 		return (res == CALLSERVICE_NOTFOUND) ? -1 : (int)res;
 	}

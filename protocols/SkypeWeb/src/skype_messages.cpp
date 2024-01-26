@@ -134,12 +134,12 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 				EditEvent(hDbEvent, wszContent, timestamp);
 			else {
 				T2Utf szMsg(wszContent);
-				PROTORECVEVENT recv = {};
-				recv.timestamp = timestamp;
-				recv.szMessage = szMsg;
-				recv.lParam = nEmoteOffset;
-				recv.szMsgId = szMessageId;
-				ProtoChainRecvMsg(hContact, &recv);
+				DB::EventInfo dbei;
+				dbei.timestamp = timestamp;
+				dbei.pBlob = szMsg;
+				dbei.cbBlob = nEmoteOffset;
+				dbei.szId = szMessageId;
+				ProtoChainRecvMsg(hContact, dbei);
 			}
 		}
 	}
@@ -214,25 +214,17 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 	}
 
 	if (nCount) {
-		PROTORECVEVENT pre = {};
-		pre.timestamp = (uint32_t)timestamp;
-		pre.szMessage = (char*)psr;
+		DB::EventInfo dbei;
+		dbei.timestamp = (uint32_t)timestamp;
+		dbei.pBlob = (char*)psr;
+		dbei.cbBlob = nCount;
+		dbei.szId = szMessageId;
 
-		uint8_t *b = (uint8_t*)mir_calloc(sizeof(uint32_t) + mir_strlen(szMessageId) + 1);
-		uint8_t *pCur = b;
-		*((PDWORD)pCur) = nCount;
-		pCur += sizeof(uint32_t);
-
-		mir_strcpy((char*)pCur, szMessageId);
-
-		pre.lParam = (LPARAM)b;
-
-		ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-		for (uint32_t i = 0; i < *((PDWORD)b); i++) {
+		ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&dbei);
+		for (int i = 0; i < nCount; i++) {
 			mir_free(psr[i]->id.a);
 			mir_free(psr[i]);
 		}
-		mir_free(b);
 	}
 	mir_free(psr);
 }

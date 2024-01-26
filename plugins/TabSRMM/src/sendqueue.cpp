@@ -471,7 +471,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	}
 
-	if (job.dwFlags & PREF_RTL)
+	if (job.dwFlags & DBEF_RTL)
 		dbei.flags |= DBEF_RTL;
 	dbei.pBlob = job.szSendBuffer;
 	dbei.szId = (char *)ack->lParam;
