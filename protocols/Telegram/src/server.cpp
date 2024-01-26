@@ -788,6 +788,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 	}
 
 	DB::EventInfo dbei(hOldEvent);
+	dbei.szId = szMsgId;
 	dbei.cbBlob = szText.GetLength();
 	dbei.timestamp = pMessage->date_;
 	if (pMessage->is_outgoing_)
