@@ -153,10 +153,15 @@ public:
 	bool OnInitDialog() override
 	{
 		chkDelContact.SetState(bDelContact);
-		chkDelHistory.SetState(bDelHistory);
+		
+		chkDelHistory.SetState(false);
 		chkDelHistory.Enable(bDelHistory);
-		chkForEveryone.SetState(bForEveryone);
-		chkForEveryone.Enable(bDelHistory && bForEveryone);
+
+		// this checkbox is disabled & checked, if deletion for everyone is not possible
+		// and enabled & unchecked otherwise
+		bool bEnabled = bDelHistory && bForEveryone;
+		chkForEveryone.SetState(!bEnabled);
+		chkForEveryone.Enable(bEnabled);
 
 		LOGFONT lf;
 		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
