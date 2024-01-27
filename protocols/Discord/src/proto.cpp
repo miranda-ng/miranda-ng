@@ -255,7 +255,7 @@ int CDiscordProto::SetStatus(int iNewStatus)
 	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, nullptr, nullptr);
+		ForkThread(&CDiscordProto::ServerThread);
 	}
 	else if (m_bOnline) {
 		debugLogA("setting server online status to %d", iNewStatus);

@@ -96,6 +96,7 @@ void CDiscordProto::ServerThread(void*)
 	m_szAccessToken = getStringA(DB_KEY_TOKEN);
 	m_hAPIConnection = nullptr;
 	m_bTerminated = false;
+	m_hWorkerThread = GetCurrentThread();
 
 	debugLogA("CDiscordProto::WorkerThread: %s", "entering");
 
