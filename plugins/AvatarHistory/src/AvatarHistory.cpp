@@ -341,6 +341,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	DeInitPopups();
 	WindowList_Destroy(hAvatarWindowsList);
 	return 0;
 }

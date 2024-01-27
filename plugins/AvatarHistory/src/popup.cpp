@@ -50,7 +50,10 @@ void InitPopups()
 
 // Deinitializations needed by popups
 void DeInitPopups()
-{}
+{
+	if (hPopupWindow)
+		DestroyWindow(hPopupWindow);
+}
 
 
 // Show an error popup
