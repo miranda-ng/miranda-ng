@@ -58,6 +58,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		m_proto->pMfaDialog = this;
+
 		if (m_bHasTotp)
 			cmbAnother.AddString(TranslateT("Use authentication app"), 0);
 		if (m_bHasSms)
@@ -82,6 +84,11 @@ public:
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 		return false;
+	}
+
+	void OnDestroy() override
+	{
+		m_proto->pMfaDialog = nullptr;
 	}
 
 	void onChange_Combo(CCtrlCombo *)

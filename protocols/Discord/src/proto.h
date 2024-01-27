@@ -281,6 +281,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
 	void SaveToken(const JSONNode &data);
 
+	CDlgBase *pMfaDialog;
+
 	HANDLE m_hWorkerThread;       // worker thread handle
 	HNETLIBCONN m_hAPIConnection; // working connection
 

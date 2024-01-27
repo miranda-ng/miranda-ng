@@ -89,6 +89,8 @@ void CDiscordProto::ShutdownSession()
 	debugLogA("CDiscordProto::ShutdownSession");
 
 	// shutdown all resources
+	if (pMfaDialog)
+		pMfaDialog->Close();
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 	if (m_hGatewayConnection)
