@@ -413,15 +413,15 @@ MIR_CORE_DLL(int) db_event_count(MCONTACT hContact)
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventCount(hContact);
 }
 
-MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer)
+MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, int flags)
 {
 	if (g_pCurrDb == nullptr)
 		return 0;
 	
-	if (!bFromServer) {
+	if (!(flags & CDF_FROM_SERVER)) {
 		MCONTACT hContact = g_pCurrDb->GetEventContact(hDbEvent);
 		if (auto *ppro = Proto_GetInstance(hContact))
-			ppro->OnEventDeleted(hContact, hDbEvent);
+			ppro->OnEventDeleted(hContact, hDbEvent, flags);
 	}
 
 	return g_pCurrDb->DeleteEvent(hDbEvent);

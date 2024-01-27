@@ -309,7 +309,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
 		if (hDbEvent)
-			db_event_delete(hDbEvent, true);
+			db_event_delete(hDbEvent, CDF_FROM_SERVER);
 
 		if (bIsRead && bIsOut && tDateTime > tLastReadMessageTime)
 			tLastReadMessageTime = tDateTime;

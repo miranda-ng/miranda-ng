@@ -22,6 +22,7 @@ struct NewstoryListData : public MZeroedObject
 	int totalCount;
 
 	RECT rcLastPaint;
+	MCONTACT m_hContact = INVALID_CONTACT_ID;
 
 	bool bWasShift, bSortAscending, bWasAtBottom;
 

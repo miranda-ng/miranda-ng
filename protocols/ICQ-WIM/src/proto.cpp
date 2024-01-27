@@ -226,8 +226,11 @@ void CIcqProto::BatchDeleteMsg()
 	m_hDeleteContact = INVALID_CONTACT_ID;
 }
 
-void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent)
+void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent, int flags)
 {
+	if (!(flags & CDF_FROM_SERVER))
+		return;
+
 	if (m_hDeleteContact != INVALID_CONTACT_ID)
 		if (m_hDeleteContact != hContact)
 			BatchDeleteMsg();

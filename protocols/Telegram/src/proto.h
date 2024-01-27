@@ -198,6 +198,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::array<TD::int53> m_markIds;
 
 	mir_cs m_csDeleteMsg;
+	bool m_bDeleteForAll;
 	TD::int53 m_deleteChatId = 0;
 	TD::array<TD::int53> m_deleteIds;
 
@@ -370,7 +371,7 @@ public:
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;
-	void     OnEventDeleted(MCONTACT, MEVENT) override;
+	void     OnEventDeleted(MCONTACT, MEVENT, int) override;
 	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;

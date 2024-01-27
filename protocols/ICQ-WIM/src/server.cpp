@@ -824,7 +824,7 @@ void CIcqProto::OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 			char msgId[100];
 			_i64toa(it.first, msgId, 10);
 			if (MEVENT hEvent = db_event_getById(m_szModuleName, msgId))
-				db_event_delete(hEvent, true);
+				db_event_delete(hEvent, CDF_FROM_SERVER);
 		}
 	}
 }

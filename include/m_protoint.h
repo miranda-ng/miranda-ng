@@ -267,7 +267,8 @@ public:
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
 	// called when an event is removed from the database
-	virtual void OnEventDeleted(MCONTACT, MEVENT);
+	// flags is a collection of CDF_* constants
+	virtual void OnEventDeleted(MCONTACT, MEVENT, int flags);
 
 	// called when an event is altered in database
 	virtual void OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei);

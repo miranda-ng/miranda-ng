@@ -152,7 +152,7 @@ void CTelegramProto::SendDeleteMsg()
 	m_impl.m_deleteMsg.Stop();
 
 	mir_cslock lck(m_csDeleteMsg);
-	SendQuery(new TD::deleteMessages(m_deleteChatId, std::move(m_deleteIds), true));
+	SendQuery(new TD::deleteMessages(m_deleteChatId, std::move(m_deleteIds), m_bDeleteForAll));
 	m_deleteChatId = 0;
 }
 
@@ -694,7 +694,7 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 
 	for (auto &it : pObj->message_ids_)
 		if (MEVENT hEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, it)))
-			db_event_delete(hEvent, true);
+			db_event_delete(hEvent, CDF_FROM_SERVER);
 }
 
 void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)

@@ -214,9 +214,9 @@ void CTelegramProto::OnErase()
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
-void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
+void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 {
-	if (!hContact)
+	if (!hContact || !(flags & CDF_FROM_SERVER))
 		return;
 
 	auto *pUser = FindUser(GetId(hContact));
@@ -224,19 +224,21 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 		return;
 
 	DB::EventInfo dbei(hDbEvent, false);
-	if (dbei.szId) {
-		mir_cslock lck(m_csDeleteMsg);
-		if (m_deleteChatId) {
-			if (m_deleteChatId != pUser->chatId)
-				SendDeleteMsg();
+	if (!dbei.szId)
+		return;
 
-			m_impl.m_deleteMsg.Stop();
-		}
+	mir_cslock lck(m_csDeleteMsg);
+	if (m_deleteChatId) {
+		if (m_deleteChatId != pUser->chatId)
+			SendDeleteMsg();
 
-		m_deleteChatId = pUser->chatId;
-		m_deleteIds.push_back(dbei2id(dbei));
-		m_impl.m_deleteMsg.Start(500);
+		m_impl.m_deleteMsg.Stop();
 	}
+
+	m_bDeleteForAll = (flags & CDF_FOR_EVERYONE) != 0;
+	m_deleteChatId = pUser->chatId;
+	m_deleteIds.push_back(dbei2id(dbei));
+	m_impl.m_deleteMsg.Start(500);
 }
 
 void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)

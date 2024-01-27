@@ -303,21 +303,87 @@ void NewstoryListData::CopyUrl()
 		Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Delete events dialog
+
+class CDeleteEventsDlg : public CDlgBase
+{
+	MCONTACT m_hContact;
+	CCtrlCheck chkDelHistory, chkForEveryone;
+
+public:
+	bool bDelHistory = false, bForEveryone = false;
+
+	CDeleteEventsDlg(MCONTACT hContact) :
+		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
+		chkDelHistory(this, IDC_DELSERVERHISTORY),
+		chkForEveryone(this, IDC_BOTH)
+	{
+		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
+			bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
+			bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
+		}
+	}
+
+	bool OnInitDialog() override
+	{
+		chkDelHistory.SetState(bDelHistory);
+		chkDelHistory.Enable(bDelHistory);
+
+		bool bEnabled = bDelHistory && bForEveryone;
+		chkForEveryone.SetState(!bEnabled);
+		chkForEveryone.Enable(bEnabled);
+
+		LOGFONT lf;
+		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		wchar_t szFormat[256], szFinal[256];
+		GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+		mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
+		SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+
+		SetFocus(GetDlgItem(m_hwnd, IDNO));
+		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		bDelHistory = chkDelHistory.IsChecked();
+		bForEveryone = chkForEveryone.IsChecked();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+};
+
 void NewstoryListData::DeleteItems(void)
 {
-	if (IDYES != MessageBoxW(m_hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+	CDeleteEventsDlg dlg(m_hContact);
+	if (IDOK != dlg.DoModal())
 		return;
 
 	g_plugin.bDisableDelete = true;
 
-	int firstSel = -1;
+	int firstSel = -1, flags = 0;
+	if (dlg.bDelHistory)
+		flags |= CDF_FROM_SERVER;
+	if (dlg.bForEveryone)
+		flags |= CDF_FOR_EVERYONE;
+
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *p = GetItem(i);
 		if (!p->m_bSelected)
 			continue;
 
 		if (p->hEvent)
-			db_event_delete(p->hEvent);
+			db_event_delete(p->hEvent, flags);
 		items.remove(i);
 		totalCount--;
 		firstSel = i;
@@ -331,6 +397,8 @@ void NewstoryListData::DeleteItems(void)
 		FixScrollPosition(true);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NewstoryListData::Download(int options)
 {
@@ -766,8 +834,11 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 			EnsureVisible(idx);
 	}
 }
+
 void NewstoryListData::SetContact(MCONTACT hContact)
 {
+	m_hContact = hContact;
+
 	WindowList_Add(g_hNewstoryLogs, m_hwnd, hContact);
 }
 
