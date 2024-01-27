@@ -608,6 +608,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
 		if (hOldEvent) {
+			OnReceiveOfflineFile(blob, pFileInfo);
 			blob.write(dbei);
 			db_event_edit(hOldEvent, &dbei, true);
 		}
@@ -635,7 +636,6 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (bCreateRead)
 		dbei.flags |= DBEF_READ;
 	dbei.cbBlob = (int)mir_strlen(szUtf);
-	dbei.pBlob = szUtf.get();
 	dbei.szId = szMsgId;
 	if (isChatRoom(hContact))
 		dbei.szUserId = szSender;
