@@ -31,8 +31,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
-static int OnRedrawLog(void *pObj, WPARAM hContact, LPARAM)
+static int OnRedrawLog(void *pObj, WPARAM hContact, LPARAM hDbEvent)
 {
+	DB::EventInfo dbei(hDbEvent);
+	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+		if (!blob.isCompleted())
+			return 0;
+	}
+
 	auto *pLog = (CRtfLogWindow *)pObj;
 	auto &pDlg = pLog->GetDialog();
 
