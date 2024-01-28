@@ -615,8 +615,11 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlID == IDC_SRMM_NICKLIST && dis->itemID != LB_ERR) {
 				UINT_PTR iData = m_nickList.GetItemData(dis->itemID);
 				if (iData != LB_ERR) {
-					if (auto *ui = (USERINFO *)iData)
+					if (auto *ui = (USERINFO *)iData) {
+						if (!ui->isValid())
+							DebugBreak();
 						DrawNickList(ui, dis);
+					}
 					return TRUE;
 				}
 			}

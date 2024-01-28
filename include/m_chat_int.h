@@ -79,11 +79,20 @@ class CMsgDialog;
 
 struct USERINFO : public MZeroedObject, public MNonCopyable
 {
+	~USERINFO() {
+		iSignature = 0;
+	}
+
 	wchar_t* pszUID;
 	wchar_t* pszNick;
+	uint32_t iSignature = GC_FAKE_EVENT;
 	uint16_t Status;
-	int      iStatusEx;
 	uint16_t ContactStatus;
+	int      iStatusEx;
+
+	bool isValid() const {
+		return iSignature == GC_FAKE_EVENT;
+	}
 };
 
 struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyable
