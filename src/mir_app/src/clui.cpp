@@ -211,17 +211,14 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	int options = 0;
-	if (!dlg.bDelContact)
-		Contact::Hide(hContact);
-	else
+	if (dlg.bDelContact)
 		options |= CDF_DEL_CONTACT;
-
-	// Check if protocol uses server side lists
 	if (dlg.bDelHistory)
 		options |= CDF_DEL_HISTORY;
 	if (dlg.bForEveryone)
 		options |= CDF_FOR_EVERYONE;
 
+	// Check if protocol uses server side lists
 	int status = Proto_GetStatus(dlg.szProto);
 	if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
 		// Set a flag so we remember to delete the contact when the protocol goes online the next time
