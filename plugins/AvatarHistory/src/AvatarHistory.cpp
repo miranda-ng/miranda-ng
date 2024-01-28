@@ -230,8 +230,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Avatars History");
 
-	InitPopups();
-
 	HookEvent(ME_AV_CONTACTAVATARCHANGED, AvatarChanged);
 	return 0;
 }
@@ -341,7 +339,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	DeInitPopups();
 	WindowList_Destroy(hAvatarWindowsList);
 	return 0;
 }
