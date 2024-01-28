@@ -159,16 +159,18 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	CMStringW szId(GetUserId(hContact));
-	if (!isChatRoom(hContact)) {
-		mir_cslock lck(m_csCache);
-		m_arCache.remove(FindUser(szId));
-	}
+	if (flags & CDF_FROM_SERVER) {
+		CMStringW szId(GetUserId(hContact));
+		if (!isChatRoom(hContact)) {
+			mir_cslock lck(m_csCache);
+			m_arCache.remove(FindUser(szId));
+		}
 
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
-		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
+			<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+	}
 	return true;
 }
 
