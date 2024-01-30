@@ -487,8 +487,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 	else {
 		if (it["class"].as_mstring() == L"event") {
+			CMStringW wszType(it["eventTypeId"].as_mstring());
+
 			// user added you
-			if (it["eventTypeId"].as_mstring() == L"27:33000") {
+			if (wszType == L"27:33000") {
 				if (bLocalTime) {
 					CMStringA id = getMStringA(hContact, DB_KEY_ID);
 					int pos = id.Find('@');
@@ -525,6 +527,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 				}
 				return;
 			}
+
+			// message was deleted
+			if (wszType == L"27:51000")
+				wszText = TranslateT("Message was deleted");
 		}
 	}
 
