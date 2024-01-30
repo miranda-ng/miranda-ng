@@ -216,7 +216,6 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_CHECK_SERVICE, "CLISTMENUSGroup/CheckService");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
-	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuOnAddService");
 
 	CMenuItem mi(&g_plugin);
 

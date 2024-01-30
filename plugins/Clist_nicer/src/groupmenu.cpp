@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////         Group MENU          //////////////////////////////
 
-static HGENMENU hGroupMainMenuItemProxy;
-static HGENMENU hHideShowMainMenuItem;
-static HGENMENU hGroupStatusMenuItemProxy;
 static HGENMENU hEventAreaMenuItemProxy;
 
 struct
@@ -47,24 +44,6 @@ static hAppearanceItems[] =
 };
 
 static HMENU hMenuOldContext;
-
-static INT_PTR GroupMenu_OnAddService(WPARAM wParam, LPARAM lParam)
-{
-	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == nullptr)
-		return 0;
-
-	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = Menu_GetMainMenu();
-	}
-
-	if (hGroupStatusMenuItemProxy == (HANDLE)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = Menu_GetStatusMenu();
-	}
-	return TRUE;
-}
 
 static INT_PTR CommandHelper(WPARAM wParam, LPARAM)
 {
@@ -91,38 +70,15 @@ void InitIconLibMenuIcons(void)
 
 void InitGroupMenus(void)
 {
-	CreateServiceFunction("CLISTMENUSGroup/GroupMenuOnAddService", GroupMenu_OnAddService);
-
 	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildGroupMenu);
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xe386678a, 0x5aee, 0x4bfa, 0xa8, 0x23, 0xd, 0xa0, 0x11, 0x99, 0xb1, 0x98);
-	mi.position = 500;
+	mi.position = 500001;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.name.a = LPGEN("&Hide/show");
-	hHideShowMainMenuItem = Menu_AddGroupMenuItem(&mi);
-
-	SET_UID(mi, 0xb0f29663, 0x68b6, 0x494c, 0xaf, 0xab, 0xf6, 0x86, 0x45, 0xb8, 0xdb, 0xde);
-	mi.position = 200000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
-	mi.pszService = "FindAdd/FindAddCommand";
-	mi.name.a = LPGEN("&Find/add contacts...");
 	Menu_AddGroupMenuItem(&mi);
-
-	SET_UID(mi, 0xff6855b4, 0x8c50, 0x43b7, 0x97, 0x51, 0xc1, 0x28, 0xa3, 0x10, 0x2b, 0x86);
-	mi.position = 300000;
-	mi.pszService = "";
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
-	mi.name.a = LPGEN("&Main menu");
-	hGroupMainMenuItemProxy = Menu_AddGroupMenuItem(&mi);
-
-	SET_UID(mi, 0xba91af46, 0x34e5, 0x4f3a, 0x88, 0x1c, 0xe7, 0xa3, 0x53, 0x58, 0x19, 0xde);
-	mi.position = 300100;
-	mi.pszService = "";
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
-	mi.name.a = LPGEN("&Status");
-	hGroupStatusMenuItemProxy = Menu_AddGroupMenuItem(&mi);
 
 	// Appearance menu
 	SET_UID(mi, 0x70c3cd5d, 0x775, 0x4197, 0x9a, 0x7f, 0x76, 0xd6, 0xba, 0x57, 0xf5, 0x78);
