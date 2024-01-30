@@ -8,7 +8,6 @@
 [Adds some useful options to a contacts menu.]
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
-[Visibility]
 [Show alpha icons]
 [Hide from list]
 [Ignore]

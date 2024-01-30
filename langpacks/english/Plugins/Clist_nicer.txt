@@ -312,9 +312,6 @@
 [Show additional buttons]
 [Draw sunken frame]
 [&Hide/show]
-[&Find/add contacts...]
-[&Main menu]
-[&Status]
 [Appearance]
 [&Options...]
 ;file \plugins\Clist_nicer\src\viewmodes.cpp

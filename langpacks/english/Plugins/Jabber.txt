@@ -935,6 +935,7 @@
 [Uptime]
 [Logoff message]
 [Last active resource]
+[Received vCard does not contain any information.]
 [Please switch online to see more details.]
 [Copy]
 [Copy only this value]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
+;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -69,7 +69,7 @@
 [Connection failed.\nYour login or password was rejected (%d).]
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 [Connection failed.\nUnknown error during sign on: %d]
-[Conferences]
+[Message was deleted]
 [Favorites]
 [Buddy addition failed]
 ;file \protocols\ICQ-WIM\src\utils.cpp

@@ -34,7 +34,6 @@
 [Checking...]
 [Can't send account data!]
 [Wrong name or password!]
-[Can't get RSS feed!]
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 [Gmail: New thread(s)]

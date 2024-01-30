@@ -257,11 +257,6 @@
 [Hide all title bars]
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
-[&Find/add contacts...]
-[&Main menu]
-[&Status]
-[&Options...]
-[&About]
 [&Show offline users in here]
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
