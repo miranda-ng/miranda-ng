@@ -434,7 +434,7 @@ public:
 				m_tree.DeleteAllItems();
 				HTREEITEM htiRoot = FillInfoLine(nullptr, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
 				if (ppro->m_bJabberOnline)
-					FillInfoLine(htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Received VCard does not contain any information."));
+					FillInfoLine(htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Received vCard does not contain any information."));
 				else
 					FillInfoLine(htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Please switch online to see more details."));
 				return false;
