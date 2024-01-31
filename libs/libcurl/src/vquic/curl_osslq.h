@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_PRINTF_H
-#define HEADER_CURL_PRINTF_H
+#ifndef HEADER_CURL_VQUIC_CURL_OSSLQ_H
+#define HEADER_CURL_VQUIC_CURL_OSSLQ_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -24,32 +24,28 @@
  *
  ***************************************************************************/
 
-/*
- * This header should be included by ALL code in libcurl that uses any
- * *rintf() functions.
- */
+#include "curl_setup.h"
 
-#include <curl/mprintf.h>
+#if defined(USE_OPENSSL_QUIC) && defined(USE_NGHTTP3)
 
-#define MERR_OK        0
-#define MERR_MEM       1
-#define MERR_TOO_LARGE 2
+#ifdef HAVE_NETINET_UDP_H
+#include <netinet/udp.h>
+#endif
 
-# undef printf
-# undef fprintf
-# undef msnprintf
-# undef vprintf
-# undef vfprintf
-# undef vsnprintf
-# undef mvsnprintf
-# undef aprintf
-# undef vaprintf
-# define printf curl_mprintf
-# define fprintf curl_mfprintf
-# define msnprintf curl_msnprintf
-# define vprintf curl_mvprintf
-# define vfprintf curl_mvfprintf
-# define mvsnprintf curl_mvsnprintf
-# define aprintf curl_maprintf
-# define vaprintf curl_mvaprintf
-#endif /* HEADER_CURL_PRINTF_H */
+struct Curl_cfilter;
+
+#include "urldata.h"
+
+void Curl_osslq_ver(char *p, size_t len);
+
+CURLcode Curl_cf_osslq_create(struct Curl_cfilter **pcf,
+                              struct Curl_easy *data,
+                              struct connectdata *conn,
+                              const struct Curl_addrinfo *ai);
+
+bool Curl_conn_is_osslq(const struct Curl_easy *data,
+                        const struct connectdata *conn,
+                        int sockindex);
+#endif
+
+#endif /* HEADER_CURL_VQUIC_CURL_OSSLQ_H */
