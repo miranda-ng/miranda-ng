@@ -106,12 +106,6 @@ static unsigned char hex_decode(char digit)
         ((digit >= 'A') ? (0xA + (digit - 'A')) : (digit - '0'));
 }
 
-/* Hack to fix builds with crypto backends with MD5 support disabled.
-   FIXME: Honor our LIBSSH2_MD5 macro for MD5-dependent logic. */
-#ifdef OPENSSL_NO_MD5
-#define MD5_DIGEST_LENGTH 16
-#endif
-
 int
 _libssh2_pem_parse(LIBSSH2_SESSION * session,
                    const char *headerbegin,
@@ -215,6 +209,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
     }
 
     if(method) {
+#if LIBSSH2_MD5_PEM
         /* Set up decryption */
         int free_iv = 0, free_secret = 0, len_decrypted = 0, padding = 0;
         int blocksize = method->blocksize;
@@ -223,24 +218,26 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         libssh2_md5_ctx fingerprint_ctx;
 
         /* Perform key derivation (PBKDF1/MD5) */
-        if(!libssh2_md5_init(&fingerprint_ctx)) {
+        if(!libssh2_md5_init(&fingerprint_ctx) ||
+           !libssh2_md5_update(fingerprint_ctx, passphrase,
+                               strlen((char *)passphrase)) ||
+           !libssh2_md5_update(fingerprint_ctx, iv, 8) ||
+           !libssh2_md5_final(fingerprint_ctx, secret)) {
             ret = -1;
             goto out;
         }
-        libssh2_md5_update(fingerprint_ctx, passphrase,
-                           strlen((char *)passphrase));
-        libssh2_md5_update(fingerprint_ctx, iv, 8);
-        libssh2_md5_final(fingerprint_ctx, secret);
         if(method->secret_len > MD5_DIGEST_LENGTH) {
-            if(!libssh2_md5_init(&fingerprint_ctx)) {
+            if(!libssh2_md5_init(&fingerprint_ctx) ||
+               !libssh2_md5_update(fingerprint_ctx,
+                                   secret, MD5_DIGEST_LENGTH) ||
+               !libssh2_md5_update(fingerprint_ctx,
+                                   passphrase, strlen((char *)passphrase)) ||
+               !libssh2_md5_update(fingerprint_ctx, iv, 8) ||
+               !libssh2_md5_final(fingerprint_ctx,
+                                  secret + MD5_DIGEST_LENGTH)) {
                 ret = -1;
                 goto out;
             }
-            libssh2_md5_update(fingerprint_ctx, secret, MD5_DIGEST_LENGTH);
-            libssh2_md5_update(fingerprint_ctx, passphrase,
-                               strlen((char *)passphrase));
-            libssh2_md5_update(fingerprint_ctx, iv, 8);
-            libssh2_md5_final(fingerprint_ctx, secret + MD5_DIGEST_LENGTH);
         }
 
         /* Initialize the decryption */
@@ -292,6 +289,10 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         /* Clean up */
         _libssh2_explicit_zero((char *)secret, sizeof(secret));
         method->dtor(session, &abstract);
+#else
+        ret = -1;
+        goto out;
+#endif
     }
 
     ret = 0;
@@ -599,13 +600,17 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         }
 
         while((size_t)len_decrypted <= decrypted.len - blocksize) {
+            /* We always pass MIDDLE_BLOCK here because OpenSSH Key Files
+             * do not use AAD to authenticate the length.
+             * Furthermore, the authentication tag is appended after the
+             * encrypted key, and the length of the authentication tag is
+             * not included in the key length, so we check it after the
+             * loop.
+             */
             if(method->crypt(session, decrypted.data + len_decrypted,
                              blocksize,
                              &abstract,
-                             len_decrypted == 0 ? FIRST_BLOCK : (
-                         ((size_t)len_decrypted == decrypted.len - blocksize) ?
-                               LAST_BLOCK : MIDDLE_BLOCK)
-                             )) {
+                             MIDDLE_BLOCK)) {
                 ret = LIBSSH2_ERROR_DECRYPT;
                 method->dtor(session, &abstract);
                 goto out;
@@ -615,6 +620,26 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         }
 
         /* No padding */
+
+        /* for the AES GCM methods, the 16 byte authentication tag is
+         * appended to the encrypted key */
+        if(strcmp(method->name, "aes256-gcm@openssh.com") == 0 ||
+           strcmp(method->name, "aes128-gcm@openssh.com") == 0) {
+            if(!_libssh2_check_length(&decoded, 16)) {
+                ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
+                                     "GCM auth tag missing");
+                method->dtor(session, &abstract);
+                goto out;
+            }
+            if(method->crypt(session, decoded.dataptr, 16, &abstract,
+                             LAST_BLOCK)) {
+                ret = _libssh2_error(session, LIBSSH2_ERROR_DECRYPT,
+                                     "GCM auth tag invalid");
+                method->dtor(session, &abstract);
+                goto out;
+            }
+            decoded.dataptr += 16;
+        }
 
         method->dtor(session, &abstract);
     }

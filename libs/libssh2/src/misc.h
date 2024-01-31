@@ -1,5 +1,5 @@
-#ifndef __LIBSSH2_MISC_H
-#define __LIBSSH2_MISC_H
+#ifndef LIBSSH2_MISC_H
+#define LIBSSH2_MISC_H
 /* Copyright (C) Daniel Stenberg
  * All rights reserved.
  *
@@ -44,8 +44,7 @@
                                               (void)(buf); \
                                               (void)(size); \
                                           } while(0)
-#else
-#ifdef WIN32
+#elif defined(_WIN32)
 #define _libssh2_explicit_zero(buf, size) SecureZeroMemory(buf, size)
 #elif defined(HAVE_EXPLICIT_BZERO)
 #define _libssh2_explicit_zero(buf, size) explicit_bzero(buf, size)
@@ -57,7 +56,6 @@
 #define LIBSSH2_MEMZERO
 void _libssh2_memzero(void *buf, size_t size);
 #define _libssh2_explicit_zero(buf, size) _libssh2_memzero(buf, size)
-#endif
 #endif
 
 struct list_head {
@@ -80,6 +78,11 @@ struct string_buf {
 int _libssh2_error_flags(LIBSSH2_SESSION* session, int errcode,
                          const char *errmsg, int errflags);
 int _libssh2_error(LIBSSH2_SESSION* session, int errcode, const char *errmsg);
+
+#ifdef _WIN32
+/* Convert Win32 WSAGetLastError to errno equivalent */
+int _libssh2_wsa2errno(void);
+#endif
 
 void _libssh2_list_init(struct list_head *head);
 
@@ -139,4 +142,4 @@ void _libssh2_xor_data(unsigned char *output,
 
 void _libssh2_aes_ctr_increment(unsigned char *ctr, size_t length);
 
-#endif /* _LIBSSH2_MISC_H */
+#endif /* LIBSSH2_MISC_H */
