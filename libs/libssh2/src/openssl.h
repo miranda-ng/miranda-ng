@@ -78,7 +78,6 @@
 
 #endif /* LIBSSH2_WOLFSSL */
 
-#include <openssl/opensslconf.h>
 #include <openssl/sha.h>
 #include <openssl/rsa.h>
 #ifndef OPENSSL_NO_ENGINE
