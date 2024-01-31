@@ -48,6 +48,18 @@
 Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
+[Empty history]
+Очистить историю
+[Are you sure to remove selected event(s)?]
+Уверены, что хотите удалить выбранные события?
+[Remove server history]
+Удалить историю с сервера
+[Remove history for everyone]
+Удалить историю для всех
+[&Yes]
+&Да
+[&No]
+&Нет
 [Filter]
 Фильтр
 [Show all events]
@@ -127,31 +139,7 @@
 Найти дальше
 [Search backward]
 Найти предыдущее
-[Are you sure to remove selected event(s)?]
-Уверены, что хотите удалить выбранные события?
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Имя
-[LastName]
-Фамилия
-[e-mail]
-Почта
-[Nick]
-Ник
-[Age]
-Возраст
-[Gender]
-Пол
-[City]
-Город
-[State]
-Штат
-[Phone]
-Телефон
-[Homepage]
-Сайт
-[About]
-Информация
 [Global history search]
 Поиск по всей истории
 [System history]
@@ -182,18 +170,26 @@
 Беседы
 [Bookmarks]
 Закладки
+[You need to install the Import plugin to export events]
+Для экспорта истории необходимо установить плагин Import
 [No more occuurences found]
 Больше вхождений не найдено
 [Passed the end of history]
 Пройден конец истории
+[The required plugin 'Import' isn't loaded to perform this operation.]
+Для выполнения этого действия необходим плагин 'Import'.
+[Do you want to install it using Plugin Updater?]
+Хотите установить его?
+[Missing plugin]
+Отсутствует необходимый плагин
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Это метаконтакт. Для экспорта выберите один из его субконтактов:\r\n%s
 [Export warning]
 Предупреждение экспорта
 [JSON files]
 Файлы JSON
-[Export %s history]
-Экспорт истории %s
+[Export history]
+Экспорт истории
 [Complete]
 Готово
 [History export]
@@ -201,16 +197,16 @@
 [Passed the beginning of history]
 Пройдено начало истории
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-Копировать путь к файлу
-[Copy URL]
-Копировать ссылку
 [History]
 История
 [Global search]
 Поиск по всей истории
 [Copy text]
 Копировать текст
+[Copy URL]
+Копировать ссылку
+[Copy file path]
+Копировать путь к файлу
 [Show in folder]
 Показать в папке
 [Quote]

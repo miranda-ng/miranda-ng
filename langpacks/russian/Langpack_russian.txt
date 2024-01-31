@@ -285,12 +285,14 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Отмена
 [&Send]
 &Отправить
-[Load unread events only]
-Только непрочитанные события
-[Load number of previous events]
-Предыдущие события в количестве
-[Load previous events less than]
-События, полученные менее чем
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события, полученные менее чем
 [minutes old]
 минут назад
 [Message window event log]
@@ -307,8 +309,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Показывать форматирование
 [Automatically copy selected text]
 Автоматически копировать выделенный текст
-[Load history events]
-Подгрузка истории
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]
@@ -575,6 +575,8 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 &Да
 [&No]
 &Нет
+[Empty history]
+Очистить историю
 [Contact display options]
 Параметры показа контактов
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -729,12 +731,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Игнорировать
 [Typing]
 Набор текста
-[Visibility]
-Видимость
-[You are visible to this person even when in invisible mode]
-Вы всегда видимы для этого человека
-[You are never visible to this person]
-Вы всегда невидимы для этого человека
 [Icon index]
 Номер значка
 [Icon library:]
@@ -1211,38 +1207,6 @@ UIN, E-mail и т.д.
 %f = имя проверяемого файла или папки
 [Warn me before opening a file that has not been scanned]
 Предупреждать при открытии непроверенного файла
-[&Hide/Show]
-С&крыть/Показать
-[E&xit]
-Вы&ход
-[Nowhere]
-Нигде
-[&New group]
-Со&здать группу
-[&Hide offline users]
-&Скрыть отключённых
-[Hide &offline users out here]
-Скрыть &отключённых вне группы
-[Hide &empty groups]
-Скрыть &пустые группы
-[Disable &groups]
-Отключить &группы
-[Hide Miranda]
-Скрыть список контактов
-[Group]
-Группа
-[&New subgroup]
-&Создать подгруппу
-[&Hide offline users in here]
-&Скрыть отключённых в группе
-[&Rename group]
-&Переименовать группу
-[&Delete group]
-&Удалить группу
-[&Reset to default]
-&Сбросить
-[find/add]
-найти/добавить
 [&Add to list]
 &Добавить в список
 [Send &message]
@@ -1253,6 +1217,10 @@ UIN, E-mail и т.д.
 &Копировать ссылку
 [Cancel change]
 Откатить изменения
+[&Reset to default]
+&Сбросить
+[Group]
+Группа
 [Ungroup]
 Разгруппировать
 [List]
@@ -1273,6 +1241,8 @@ Google Карты
 Переводчик Google
 [&Main menu]
 &Главное меню
+[E&xit]
+Вы&ход
 [&Status]
 &Статус
 [&Offline\tCtrl+0]
@@ -2361,16 +2331,12 @@ xСтатус
 Меню фреймов
 [Group menu]
 Меню групп
+[New subgroup]
+Новая подгруппа
 [Hide offline users out here]
 Скрыть отключённых вне группы
 [Disable groups]
 Отключить группы
-[Exit]
-Выход
-[Subgroup menu]
-Меню подгрупп
-[New subgroup]
-Новая подгруппа
 [Hide offline users in here]
 Скрыть отключённых в группе
 [New submenu]
@@ -2705,6 +2671,8 @@ ID учётной записи
 ANSI плагин
 [Show/Hide]
 Скрыть/показать
+[Exit]
+Выход
 [Join chat]
 Войти в чат
 [Leave chat]
@@ -2725,10 +2693,6 @@ ANSI плагин
 Предупреждение
 [Blank]
 Пустой
-[Always visible]
-Всегда видимый
-[Always invisible]
-Всегда невидимый
 [Locked status]
 Заблокированный статус
 [Status icons]
@@ -2777,10 +2741,6 @@ ANSI плагин
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
-[Are you sure to remove all events from history?]
-Уверены, что хотите удалить все события из истории?
-[Empty history]
-Очистить историю
 [Empty system history]
 Очистить системную историю
 [<Separator>]
@@ -6999,16 +6959,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть названия
 [&Hide/show]
 С&крыть/Показать
-[&Find/add contacts...]
-Добавить &контакты...
-[&Main menu]
-&Главное меню
-[&Status]
-&Статус
-[&Options...]
-&Настройки...
-[&About]
-О &программе
 [&Show offline users in here]
 &Показать отключённых в группе
 [Last seen]
@@ -7972,12 +7922,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Утопленный фрейм
 [&Hide/show]
 С&крыть/Показать
-[&Find/add contacts...]
-Добавить &контакты...
-[&Main menu]
-&Главное меню
-[&Status]
-&Статус
 [Appearance]
 Внешний вид
 [&Options...]
@@ -10791,8 +10735,6 @@ SFTP (FTP через SSH)
 Информация об активных одновременных сессиях
 [Sign out all sessions]
 Выйти из всех сессий
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-Не удалось создать файл аватара. Ошибка: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Не удалось открыть файл аватара. Ошибка: %d: %s\n%s
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
@@ -11132,8 +11074,6 @@ IP адрес
 Не могу отправить данные учётной записи!
 [Wrong name or password!]
 Неправильное имя или пароль!
-[Can't get RSS feed!]
-Не могу прочитать RSS-ленту!
 [Other]
 Другое
 [Gmail: New thread(s)]
@@ -13017,7 +12957,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
+;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -13130,8 +13070,8 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[Conferences]
-Комнаты чата
+[Message was deleted]
+Сообщение удалено
 [Favorites]
 Избранное
 [Buddy addition failed]
@@ -13555,10 +13495,6 @@ UIN/почта/телефон
 Количество контактов в базе: %d
 [Error mapping accounts, exiting.]
 Не найдено соответствия учётных записей.
-[Importing groups.]
-Импорт групп.
-[Group import failed.]
-Ошибка импорта группы
 [Importing contacts.]
 Импорт контактов.
 [Skipping new contacts import.]
@@ -15773,6 +15709,8 @@ OMEMO не поддерживает шифрование приватных со
 Безопасность
 [Allow local time and timezone replies (XEP-0202)]
 Отвечать на запросы локального времени и часового пояса (XEP-0202)
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+Отвечать на запросы активности (XEP-0319 и XEP-0012)
 [Allow version replies (XEP-0092)]
 Отвечать на запросы о версиях ПО (XEP-0092)
 [Include OS information in version replies]
@@ -16129,6 +16067,8 @@ XML (кодировка UTF-8)
 Сообщение выхода
 [Last active resource]
 Последний активный ресурс
+[Received vCard does not contain any information.]
+Полученный vCard не содержит данных.
 [Please switch online to see more details.]
 Подключитесь к сети, чтобы увидеть больше сведений.
 [Copy]
@@ -17192,8 +17132,6 @@ Lotus Notify
 Добавляет дополнительные пункты меню контактов.
 [Shown menu items]
 Показаны пункты меню
-[Visibility]
-Видимость
 [Show alpha icons]
 Альфа-значки
 [Hide from list]
@@ -18573,8 +18511,6 @@ URL:\s
 При...
 [Don't reply to ICQ contacts]
 Не отвечать контактам ICQ
-[Don't reply when I'm invisible to the contact]
-Не отвечать, когда я невидим для контакта
 [Save autoreply to the history]
 Сохранять сообщение автоответчика в истории
 [Reply only when Idle]
@@ -19222,6 +19158,18 @@ URL страницы с комментариями к новости.
 Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
+[Empty history]
+Очистить историю
+[Are you sure to remove selected event(s)?]
+Уверены, что хотите удалить выбранные события?
+[Remove server history]
+Удалить историю с сервера
+[Remove history for everyone]
+Удалить историю для всех
+[&Yes]
+&Да
+[&No]
+&Нет
 [Filter]
 Фильтр
 [Show all events]
@@ -19292,30 +19240,6 @@ URL страницы с комментариями к новости.
 Найти дальше
 [Search backward]
 Найти предыдущее
-[Are you sure to remove selected event(s)?]
-Уверены, что хотите удалить выбранные события?
-[FirstName]
-Имя
-[LastName]
-Фамилия
-[e-mail]
-Почта
-[Nick]
-Ник
-[Age]
-Возраст
-[Gender]
-Пол
-[City]
-Город
-[State]
-Штат
-[Phone]
-Телефон
-[Homepage]
-Сайт
-[About]
-Информация
 [Global history search]
 Поиск по всей истории
 [System history]
@@ -19356,24 +19280,24 @@ URL страницы с комментариями к новости.
 Предупреждение экспорта
 [JSON files]
 Файлы JSON
-[Export %s history]
-Экспорт истории %s
+[Export history]
+Экспорт истории
 [Complete]
 Готово
 [History export]
 Экспорт истории
 [Passed the beginning of history]
 Пройдено начало истории
-[Copy file path]
-Копировать путь к файлу
-[Copy URL]
-Копировать ссылку
 [History]
 История
 [Global search]
 Поиск по всей истории
 [Copy text]
 Копировать текст
+[Copy URL]
+Копировать ссылку
+[Copy file path]
+Копировать путь к файлу
 [Show in folder]
 Показать в папке
 [Quote]
@@ -26631,12 +26555,14 @@ ID пользователя в строке состояния
 Описание настроек
 [Reset all hidden warnings]
 Сбросить все скрытые предупреждения
-[Load unread events only]
-Только непрочитанные события
-[Load number of previous events]
-Предыдущие события в количестве
-[Load previous events less than]
-События, полученные менее чем
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события, полученные менее чем
 [minutes old]
 минут назад
 [Indent values]
@@ -26651,8 +26577,6 @@ ID пользователя в строке состояния
 Стандартные шаблоны...
 [RTL templates...]
 RTL шаблоны...
-[Load history events]
-Подгрузка истории
 [Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -28391,8 +28315,6 @@ IP-адрес
 Показать подсказку только после загрузки всего содержимого
 [Retrieve new status message]
 Запрашивать сообщение статуса
-[Disable in invisible status]
-Отключить запрос, когда невидимый
 [Retrieve xStatus details if auto-retrieve is disabled]
 Запрашивать подробный xСтатус, если автозапрос выключен
 [Status bar and tray tooltip]

@@ -133,10 +133,6 @@
 Количество контактов в базе: %d
 [Error mapping accounts, exiting.]
 Не найдено соответствия учётных записей.
-[Importing groups.]
-Импорт групп.
-[Group import failed.]
-Ошибка импорта группы
 [Importing contacts.]
 Импорт контактов.
 [Skipping new contacts import.]

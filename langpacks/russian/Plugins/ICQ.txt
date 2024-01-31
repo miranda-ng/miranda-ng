@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
+;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -124,8 +124,8 @@ UIN/почта/телефон
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 Ошибка подключения.\nНеизвестная ошибка при входе: %d
-[Conferences]
-Комнаты чата
+[Message was deleted]
+Сообщение удалено
 [Favorites]
 Избранное
 [Buddy addition failed]

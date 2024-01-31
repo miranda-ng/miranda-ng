@@ -1831,6 +1831,8 @@ XML (кодировка UTF-8)
 Сообщение выхода
 [Last active resource]
 Последний активный ресурс
+[Received vCard does not contain any information.]
+Полученный vCard не содержит данных.
 [Please switch online to see more details.]
 Подключитесь к сети, чтобы увидеть больше сведений.
 [Copy]

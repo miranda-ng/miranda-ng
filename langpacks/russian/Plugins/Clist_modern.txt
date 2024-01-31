@@ -506,16 +506,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&крыть/Показать
-[&Find/add contacts...]
-Добавить &контакты...
-[&Main menu]
-&Главное меню
-[&Status]
-&Статус
-[&Options...]
-&Настройки...
-[&About]
-О &программе
 [&Show offline users in here]
 &Показать отключённых в группе
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
