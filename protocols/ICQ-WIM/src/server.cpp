@@ -600,6 +600,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
 
 		DB::EventInfo dbei(hOldEvent);
+		dbei.eventType = EVENTTYPE_FILE;
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.szId = szMsgId;
 		dbei.timestamp = iMsgTime;
@@ -674,6 +675,10 @@ void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, IcqFil
 		CMStringW wszDescr(content["caption"].as_mstring());
 		if (!wszDescr.IsEmpty())
 			pFileInfo->wszDescr = wszDescr;
+	}
+	else {
+		auto wszText = part["text"].as_mstring();
+		CheckFile(hContact, wszText, pFileInfo);
 	}
 }
 
