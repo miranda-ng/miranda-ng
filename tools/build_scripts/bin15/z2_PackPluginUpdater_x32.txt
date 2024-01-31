@@ -179,12 +179,12 @@ Core\stduseronline.dll
 
 Libs\freeimage.mir
 Libs\hunspell.mir
-Libs\libcrypto-1_1.mir
+Libs\libcrypto-3.mir
 Libs\libcurl.mir
 Libs\libjson.mir
 Libs\libsignal.mir
 Libs\libssh2.mir
-Libs\libssl-1_1.mir
+Libs\libssl-3.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
 Libs\pcre16.mir

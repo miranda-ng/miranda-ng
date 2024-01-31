@@ -55,10 +55,10 @@ Core\StdUrl.dll
 Core\StdUserInfo.dll
 Core\StdUserOnline.dll
 Libs\freeimage.mir
-Libs\libcrypto-1_1.mir
+Libs\libcrypto-3.mir
 Libs\libjson.mir
 Libs\libsignal.mir
-Libs\libssl-1_1.mir
+Libs\libssl-3.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
 Libs\Pcre16.mir
