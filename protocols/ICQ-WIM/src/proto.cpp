@@ -221,7 +221,7 @@ void CIcqProto::BatchDeleteMsg()
 		mir_free(it);
 	}
 
-	pReq->params << WCHAR_PARAM("sn", GetUserId(m_hDeleteContact)) << BOOL_PARAM("shared", true) << ids;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(m_hDeleteContact)) << BOOL_PARAM("silent", true) << BOOL_PARAM("shared", m_bRemoveForAll) << ids;
 	Push(pReq);
 
 	m_arDeleteQueue.destroy();
@@ -243,6 +243,7 @@ void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent, int flags)
 
 	mir_cslock lck(m_csDeleteQueue);
 	m_hDeleteContact = hContact;
+	m_bRemoveForAll = (flags & CDF_FOR_EVERYONE) != 0;
 	m_arDeleteQueue.insert(mir_strdup(dbei.szId));
 	m_impl.m_delete.Start(100);
 }
@@ -514,8 +515,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | 
-			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY;
+		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING |
+			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY | PF4_DELETEFORALL;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:

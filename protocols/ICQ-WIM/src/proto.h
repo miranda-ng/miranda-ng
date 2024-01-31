@@ -212,7 +212,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462, m_bInvisible;
+	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462, m_bInvisible, m_bRemoveForAll;
 	int           m_iTimeShift;
 		
 	MCONTACT      CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
