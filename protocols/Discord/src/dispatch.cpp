@@ -255,17 +255,27 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 		return;
 	
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
+	auto *gm = pGuild->FindUser(_wtoi64(wszUserId));
+	if (gm == nullptr)
+		return;
 
-	for (auto &pUser : arUsers) {
-		if (pUser->pGuild != pGuild)
+	// remove a user once from the common list of users
+	GCEVENT gce = { pGuild->pParentSi, GC_EVENT_PART };
+	gce.pszNick.w = gm->wszNick;
+	gce.time = time(0);
+	gce.pszUID.w = wszUserId;
+	Chat_Event(&gce);
+
+	// then update every nicklist for any opened chat
+	for (auto &cc: arUsers) {
+		if (cc->pGuild != pGuild)
 			continue;
 
-		GCEVENT gce = { pUser->si, GC_EVENT_PART };
-		gce.pszUID.w = pUser->wszUsername;
-		gce.time = time(0);
-		gce.pszUID.w = wszUserId;
-		Chat_Event(&gce);
+		if (cc->si && cc->si->pDlg)
+			cc->si->pDlg->UpdateNickList();
 	}
+
+	pGuild->arChatUsers.remove(gm);
 }
 
 void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
@@ -285,11 +295,11 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 		gm->wszNick = pRoot["user"]["username"].as_mstring();
 
 	for (auto &it : arUsers) {
-		if (it->pGuild != pGuild)
+		if (it->pGuild != pGuild || !it->si)
 			continue;
 
 		CMStringW wszOldNick;
-		SESSION_INFO *si = Chat_Find(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = it->si;
 		if (si != nullptr) {
 			USERINFO *ui = g_chatApi.UM_FindUser(si, wszUserId);
 			if (ui != nullptr)
