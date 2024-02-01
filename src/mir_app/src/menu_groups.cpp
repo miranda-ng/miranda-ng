@@ -188,13 +188,14 @@ static int OnBuildGroupMenu(WPARAM wParam, LPARAM)
 	Menu_SetChecked(hmiHideEmptyGroups, (dwStyle & CLS_HIDEEMPTYGROUPS) != 0);
 	Menu_SetChecked(hmiDisableGroups, (dwStyle & CLS_USEGROUPS) == 0);
 
-	Menu_ShowItem(hmiRenameGroup, wParam != 0);
-	Menu_ShowItem(hmiDeleteGroup, wParam != 0);
-	Menu_ShowItem(hmiCreateSubgroup, wParam != 0);
-	Menu_ShowItem(hmiHideOfflineUsersInHere, wParam != 0);
-	Menu_ShowItem(hmiHideOfflineUsersOutHere, wParam == 0);
-
 	ClcGroup *group = (ClcGroup *)wParam;
+
+	Menu_ShowItem(hmiRenameGroup, group != 0);
+	Menu_ShowItem(hmiDeleteGroup, group != 0);
+	Menu_ShowItem(hmiCreateSubgroup, group != 0);
+	Menu_ShowItem(hmiHideOfflineUsersInHere, group && !group->bShowOffline);
+	Menu_ShowItem(hmiHideOfflineUsersOutHere, group == 0);
+
 	if (group != nullptr) // contact->group
 		Menu_SetChecked(hmiHideOfflineUsersInHere, group->bHideOffline != 0);
 	return 0;

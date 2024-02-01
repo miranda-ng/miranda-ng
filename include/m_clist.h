@@ -382,6 +382,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNe
 
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
+#define GROUPF_SHOWOFFLINE 0x40
 
 EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFlags = nullptr);
 

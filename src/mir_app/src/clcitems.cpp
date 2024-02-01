@@ -72,6 +72,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 					group = cc->group;
 					group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
 					group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+					group->bShowOffline = (flags & GROUPF_SHOWOFFLINE) != 0;
 					group->groupId = groupId;
 				}
 				else group = cc->group;
@@ -101,6 +102,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 			else {
 				group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
 				group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+				group->bShowOffline = (flags & GROUPF_SHOWOFFLINE) != 0;
 			}
 			group->groupId = pNextField ? 0 : groupId;
 			group->totalMembers = 0;

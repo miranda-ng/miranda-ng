@@ -180,10 +180,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 {
 	if (!group) return false;
 	if (group->bHideOffline) return false;
-
-	uint32_t groupFlags = 0;
-	Clist_GroupGetName(group->groupId, &groupFlags);
-	return (groupFlags & GROUPF_SHOWOFFLINE) != 0;
+	return group->bShowOffline;
 }
 
 MCONTACT SaveSelection(ClcData *dat)

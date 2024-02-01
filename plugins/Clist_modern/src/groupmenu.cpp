@@ -39,7 +39,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 	if (wParam == 0 || MirandaExiting())
 		showOfflineinGroup = gray = false;
 	else {
-		showOfflineinGroup = CLCItems_IsShowOfflineGroup(group);
+		showOfflineinGroup = group->bShowOffline;
 		gray = !group->bHideOffline;
 	}
 

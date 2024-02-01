@@ -85,7 +85,7 @@ struct ClcGroup : public MZeroedObject
 
 	LIST<ClcContact> cl;
 	int groupId;
-	bool bExpanded, bHideOffline;
+	bool bExpanded, bHideOffline, bShowOffline;
 	ClcGroup *parent;
 	int scanIndex;
 	int totalMembers;

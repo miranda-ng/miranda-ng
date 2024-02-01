@@ -326,7 +326,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	if (hit != -1 && contact->type == CLCIT_GROUP) {
 		switch (LOWORD(wParam)) {
 		case POPUP_GROUPSHOWOFFLINE:
-			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->bShowOffline ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			return 0;
 		}

@@ -140,6 +140,4 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 #define CLVM_MODULE "CLVM"
 #endif
 
-#define GROUPF_SHOWOFFLINE 0x40
-
 #endif
