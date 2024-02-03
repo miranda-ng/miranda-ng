@@ -169,6 +169,8 @@ public:
 				// Match the text?
 				wchar_t *t = wcsstr(lvm.pszText, strFilterText);
 				if (t == nullptr) { // If no, then Check if in the topics
+					lvm.iSubItem = 3;	// 4th column
+					lvm.iItem = i;
 					m_list.GetItem(&lvm);
 
 					// Match the text?
