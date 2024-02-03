@@ -603,13 +603,16 @@ static bool CheckFileRename(const wchar_t *pwszFolder, const wchar_t *pwszOldNam
 /////////////////////////////////////////////////////////////////////////////////////////
 // We only update ".dll", ".exe", ".txt" and ".bat"
 
+static wchar_t wszExtensionList[][5] = { L".dll", L".exe", L".txt", L".bat", L".cmd", L".mir" };
+
 static bool isValidExtension(const wchar_t *pwszFileName)
 {
-	const wchar_t *pExt = wcsrchr(pwszFileName, '.');
-	if (pExt == nullptr)
-		return false;
-
-	return !_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat") || !_wcsicmp(pExt, L".cmd");
+	if (const wchar_t *pExt = wcsrchr(pwszFileName, '.'))
+		for (auto &it : wszExtensionList)
+			if (!_wcsicmp(pExt, it))
+				return true;
+	
+	return false;
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
