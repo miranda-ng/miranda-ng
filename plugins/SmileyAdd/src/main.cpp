@@ -168,7 +168,6 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, MirandaShutdown);
 	HookEvent(ME_OPT_INITIALISE, SmileysOptionsInitialize);
-	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, UpdateSrmmDlg);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccountListChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DbSettingChanged);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
