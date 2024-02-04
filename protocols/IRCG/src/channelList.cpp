@@ -177,41 +177,47 @@ public:
 					t = wcsstr(lvm.pszText, strFilterText);
 				}
 
-				if (t) {
-					++itemCount;
+				if (!t)
+					continue;
 
-					// Column 0
-					LVITEM lvItem;
-					lvItem.iItem = m_list2.GetItemCount();
-					lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+				++itemCount;
 
-					lvItem.iSubItem = 0;
-					lvItem.pszText = lvm.pszText;
-					lvItem.lParam = lvItem.iItem;
-					lvItem.iItem = m_list2.InsertItem(&lvItem);
+				// Column 0
+				LVITEM lvItem;
+				lvItem.iItem = m_list2.GetItemCount();
+				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 
-					// Column 2
-					lvm.mask = LVIF_TEXT;
-					lvm.iSubItem = 1;
-					lvm.iItem = i;
-					m_list.GetItem(&lvm);
+				lvm.mask = LVIF_TEXT;
+				lvm.iSubItem = 0;
+				lvm.iItem = i;
+				m_list.GetItem(&lvm);
 
-					lvItem.mask = LVIF_TEXT;
-					lvItem.iSubItem = 1;
-					lvItem.pszText = lvm.pszText;
-					m_list2.SetItem(&lvItem);
+				lvItem.iSubItem = 0;
+				lvItem.pszText = lvm.pszText;
+				lvItem.lParam = lvItem.iItem;
+				lvItem.iItem = m_list2.InsertItem(&lvItem);
 
-					// Column 4
-					lvm.mask = LVIF_TEXT;
-					lvm.iSubItem = 3;
-					lvm.iItem = i;
-					m_list.GetItem(&lvm);
+				// Column 2
+				lvm.mask = LVIF_TEXT;
+				lvm.iSubItem = 1;
+				lvm.iItem = i;
+				m_list.GetItem(&lvm);
 
-					lvItem.mask = LVIF_TEXT;
-					lvItem.pszText = lvm.pszText;
-					lvItem.iSubItem = 3;
-					m_list2.SetItem(&lvItem);
-				}
+				lvItem.mask = LVIF_TEXT;
+				lvItem.iSubItem = 1;
+				lvItem.pszText = lvm.pszText;
+				m_list2.SetItem(&lvItem);
+
+				// Column 4
+				lvm.mask = LVIF_TEXT;
+				lvm.iSubItem = 3;
+				lvm.iItem = i;
+				m_list.GetItem(&lvm);
+
+				lvItem.mask = LVIF_TEXT;
+				lvItem.pszText = lvm.pszText;
+				lvItem.iSubItem = 3;
+				m_list2.SetItem(&lvItem);
 			}
 
 			// Show the list
