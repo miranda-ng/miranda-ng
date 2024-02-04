@@ -55,7 +55,6 @@ void CCtrlBase::OnDestroy()
 
 bool CCtrlBase::OnApply()
 {
-	m_bChanged = false;
 	return true;
 }
 

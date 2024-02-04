@@ -38,8 +38,6 @@ BOOL CCtrlEdit::OnCommand(HWND, uint16_t, uint16_t idCode)
 
 bool CCtrlEdit::OnApply()
 {
-	CSuper::OnApply();
-
 	if (GetDataType() == DBVT_WCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
 		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);

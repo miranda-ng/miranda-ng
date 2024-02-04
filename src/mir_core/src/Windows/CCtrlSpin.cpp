@@ -48,8 +48,6 @@ BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
 
 bool CCtrlSpin::OnApply()
 {
-	CSuper::OnApply();
-
 	m_wCurr = SendMsg(UDM_GETPOS, 0, 0);
 	if (m_hwnd && m_dbLink)
 		SaveInt(m_wCurr);

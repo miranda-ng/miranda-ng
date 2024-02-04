@@ -37,8 +37,6 @@ BOOL CCtrlColor::OnCommand(HWND, uint16_t, uint16_t)
 
 bool CCtrlColor::OnApply()
 {
-	CSuper::OnApply();
-
 	if (m_hwnd && m_dbLink)
 		SaveInt(GetColor());
 	return true;

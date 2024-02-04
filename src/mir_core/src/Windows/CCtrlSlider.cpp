@@ -44,8 +44,6 @@ BOOL CCtrlSlider::OnCommand(HWND, uint16_t, uint16_t idCode)
 
 bool CCtrlSlider::OnApply()
 {
-	CSuper::OnApply();
-
 	if (m_hwnd && m_dbLink)
 		SaveInt(GetPosition());
 	return true;

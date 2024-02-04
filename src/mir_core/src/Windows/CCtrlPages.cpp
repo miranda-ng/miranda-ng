@@ -395,7 +395,6 @@ bool CCtrlPages::OnApply()
 		}
 	}
 	
-	CSuper::OnApply();
 	return true;
 }
 

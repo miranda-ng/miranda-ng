@@ -355,6 +355,9 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						m_bExiting = false;
 					else if (!OnApply())
 						m_bExiting = false;
+
+					for (auto &it : m_controls)
+						it->m_bChanged = false;
 					break;
 
 				case PSN_RESET:

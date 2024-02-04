@@ -163,8 +163,6 @@ void CCtrlTreeOpts::OnDestroy()
 
 bool CCtrlTreeOpts::OnApply()
 {
-	CSuper::OnApply();
-
 	for (auto &it : m_options) {
 		TVITEMEX tvi;
 		tvi.mask = TVIF_STATE;

@@ -54,8 +54,6 @@ void CCtrlCombo::OnInit()
 
 bool CCtrlCombo::OnApply()
 {
-	CSuper::OnApply();
-
 	if (GetDataType() == DBVT_WCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
 		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);

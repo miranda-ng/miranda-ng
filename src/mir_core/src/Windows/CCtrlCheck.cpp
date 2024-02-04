@@ -39,8 +39,6 @@ BOOL CCtrlCheck::OnCommand(HWND, uint16_t, uint16_t)
 
 bool CCtrlCheck::OnApply()
 {
-	CSuper::OnApply();
-
 	if (m_hwnd && m_dbLink)
 		SaveInt(GetState());
 	return true;
