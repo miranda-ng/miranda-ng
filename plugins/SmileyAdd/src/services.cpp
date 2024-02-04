@@ -344,8 +344,8 @@ static INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 		break;
 
 	case SMADD_FILE:
-		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
+		if (g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path))
+			NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
 	case SMADD_FOLDER:

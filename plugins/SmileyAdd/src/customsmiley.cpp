@@ -120,7 +120,7 @@ bool SmileyPackCType::LoadSmiley(const wchar_t *path)
 	for (auto &it : m_SmileyList)
 		if (it->GetTriggerText() == name) {
 			it->LoadFromResource(dirs, 0);
-			return true;
+			return false;
 		}
 
 	m_SmileyList.insert(new SmileyCType(dirs, (wchar_t*)name.c_str()));
