@@ -339,76 +339,6 @@ class CChooseProfileDlg : public CDlgBase
 			m_pd->m_profile = tmpPath;
 	}
 
-	void ExecuteMenu(LPARAM lParam)
-	{
-		LVHITTESTINFO lvht = { 0 };
-		lvht.pt.x = GET_X_LPARAM(lParam);
-		lvht.pt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(m_profileList.GetHwnd(), &lvht.pt);
-
-		if (m_profileList.HitTest(&lvht) == -1)
-			return;
-
-		if (lvht.iItem == -1)
-			return;
-
-		wchar_t profile[MAX_PATH];
-		LVITEM item = { 0 };
-		item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT;
-		item.iItem = lvht.iItem;
-		item.pszText = profile;
-		item.cchTextMax = _countof(profile);
-		if (!m_profileList.GetItem(&item))
-			return;
-
-		lvht.pt.x = GET_X_LPARAM(lParam);
-		lvht.pt.y = GET_Y_LPARAM(lParam);
-
-		HMENU hMenu = CreatePopupMenu();
-		if (item.iImage < 2) {
-			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
-		}
-
-		DATABASELINK *dblink = (DATABASELINK*)item.lParam;
-		if (dblink != nullptr) {
-			bool bAdded = false;
-			if (dblink->capabilities & MDB_CAPS_COMPACT) {
-				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact database"));
-				bAdded = true;
-			}
-
-			if (plugin_checker && (dblink->capabilities & MDB_CAPS_CHECK)) {
-				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Check database"));
-				bAdded = true;
-			}
-
-			if (bAdded)
-				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
-		}
-
-		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Delete"));
-		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, m_hwnd, nullptr);
-		switch (index) {
-		case 1:
-			SendMessage(GetParent(m_hwndParent), WM_COMMAND, IDOK, 0);
-			break;
-
-		case 2:
-			DeleteProfile(item);
-			break;
-
-		case 3:
-			CompactProfile(dblink, profile);
-			break;
-
-		case 4:
-			CheckProfile(profile);
-			break;
-		}
-		DestroyMenu(hMenu);
-	}
-
 	void FindProfiles(const wchar_t *szProfile)
 	{
 		// find in Miranda NG profile subfolders
@@ -441,10 +371,11 @@ public:
 	{
 		timerCheck.OnEvent = Callback(this, &CChooseProfileDlg::onTimer_Check);
 
-		m_profileList.OnItemChanged = Callback(this, &CChooseProfileDlg::list_OnItemChanged);
 		m_profileList.OnKeyDown = Callback(this, &CChooseProfileDlg::list_OnKeyDown);
+		m_profileList.OnBuildMenu = Callback(this, &CChooseProfileDlg::list_OnContextMenu);
 		m_profileList.OnGetInfoTip = Callback(this, &CChooseProfileDlg::list_OnGetTip);
 		m_profileList.OnDoubleClick = Callback(this, &CChooseProfileDlg::list_OnDblClick);
+		m_profileList.OnItemChanged = Callback(this, &CChooseProfileDlg::list_OnItemChanged);
 	}
 
 	bool OnInitDialog() override
@@ -520,7 +451,11 @@ public:
 			m_profileList.GetItemText(pTip->iItem, 0, profilename, _countof(profilename));
 			mir_snwprintf(tszFullPath, L"%s\\%s\\%s.dat", g_profileDir, profilename, profilename);
 			_wstat(tszFullPath, &statbuf);
-			mir_snwprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), rtrimw(NEWWSTR_ALLOCA(_wctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimw(NEWWSTR_ALLOCA(_wctime(&statbuf.st_mtime))));
+
+			wchar_t buf1[100], buf2[100];
+			TimeZone_PrintTimeStamp(0, statbuf.st_ctime, L"D t", buf1, _countof(buf1), 0);
+			TimeZone_PrintTimeStamp(0, statbuf.st_mtime, L"D t", buf2, _countof(buf2), 0);
+			mir_snwprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), buf1, TranslateT("Modified"), buf2);
 		}
 	}
 
@@ -528,6 +463,62 @@ public:
 	{
 		CheckRun();
 		EndDialog(GetParent(m_hwndParent), 1);
+	}
+
+	void list_OnContextMenu(CContextMenuPos *pos)
+	{
+		wchar_t profile[MAX_PATH];
+		LVITEM item = {};
+		item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT;
+		item.iItem = pos->iCurr;
+		item.pszText = profile;
+		item.cchTextMax = _countof(profile);
+		if (!m_profileList.GetItem(&item))
+			return;
+
+		HMENU hMenu = CreatePopupMenu();
+		if (item.iImage < 2) {
+			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
+			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		}
+
+		DATABASELINK *dblink = (DATABASELINK *)item.lParam;
+		if (dblink != nullptr) {
+			bool bAdded = false;
+			if (dblink->capabilities & MDB_CAPS_COMPACT) {
+				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact database"));
+				bAdded = true;
+			}
+
+			if (plugin_checker && (dblink->capabilities & MDB_CAPS_CHECK)) {
+				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Check database"));
+				bAdded = true;
+			}
+
+			if (bAdded)
+				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		}
+
+		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Delete"));
+		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
+		switch (index) {
+		case 1:
+			SendMessage(GetParent(m_hwndParent), WM_COMMAND, IDOK, 0);
+			break;
+
+		case 2:
+			DeleteProfile(item);
+			break;
+
+		case 3:
+			CompactProfile(dblink, profile);
+			break;
+
+		case 4:
+			CheckProfile(profile);
+			break;
+		}
+		DestroyMenu(hMenu);
 	}
 
 	void onTimer_Check(CTimer *)
@@ -545,10 +536,6 @@ public:
 		case WM_SHOWWINDOW:
 			if (wParam)
 				CheckRun();
-			break;
-
-		case WM_CONTEXTMENU:
-			ExecuteMenu(lParam);
 			break;
 		}
 
