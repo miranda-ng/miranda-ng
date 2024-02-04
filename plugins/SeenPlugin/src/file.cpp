@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 bool g_bFileActive;
-static wchar_t *g_ptszFileStamp, *g_ptszFileName;
+static CMStringW g_ptszFileStamp, g_ptszFileName;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Prepares the log file:
@@ -30,24 +30,16 @@ static wchar_t *g_ptszFileStamp, *g_ptszFileName;
 
 void InitFileOutput(void)
 {
-	ptrW tszFileName(g_plugin.getWStringA("FileName"));
-	if (tszFileName == NULL)
-		tszFileName = mir_wstrdup(DEFAULT_FILENAME);
-	replaceStrW(g_ptszFileName, VARSW(tszFileName));
-
-	wchar_t *tszPath = NEWWSTR_ALLOCA(g_ptszFileName);
-	wchar_t *p = wcsrchr(tszPath, '\\');
-	if (p) *p = 0;
-	CreateDirectoryTreeW(tszPath);
+	g_ptszFileName = VARSW(g_plugin.getMStringW("FileName", DEFAULT_FILENAME));
+	CreatePathToFileW(g_ptszFileName);
 	
-	ptrW tszFileStamp(g_plugin.getWStringA("FileStamp"));
-	replaceStrW(g_ptszFileStamp, (tszFileStamp == NULL) ? DEFAULT_FILESTAMP : tszFileStamp);
+	g_ptszFileStamp = g_plugin.getMStringW("FileStamp", DEFAULT_FILESTAMP);
 }
 
 void UninitFileOutput()
 {
-	mir_free(g_ptszFileName);
-	mir_free(g_ptszFileStamp);
+	g_ptszFileName.Empty();
+	g_ptszFileStamp.Empty();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
