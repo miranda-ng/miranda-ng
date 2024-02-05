@@ -395,7 +395,7 @@ bool CTelegramProto::GetMessageFile(
 	auto *pRequest = new TG_FILE_REQUEST(fileType, pFile->id_, pFile->remote_->id_.c_str());
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
-	pRequest->m_bRecv = true;
+	pRequest->m_bRecv = !pMsg->is_outgoing_;
 	{
 		mir_cslock lck(m_csFiles);
 		m_arFiles.insert(pRequest);
