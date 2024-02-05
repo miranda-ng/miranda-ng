@@ -209,10 +209,19 @@ void CIcqProto::OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &)
 /////////////////////////////////////////////////////////////////////////////////////////
 // batch events deletion from the server
 
+void CIcqProto::OnBatchDeleteMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	if (auto *pUser = FindUser(GetUserId(pReq->hContact)))
+		pUser->m_bSkipPatch = true;
+	RetrievePatches(pReq->hContact);
+}
+
 void CIcqProto::BatchDeleteMsg()
 {
-	auto *pReq = new AsyncRapiRequest(this, "delMsgBatch");
-
 	JSONNode ids(JSON_ARRAY); ids.set_name("msgIds");
 
 	mir_cslock lck(m_csDeleteQueue);
@@ -221,6 +230,8 @@ void CIcqProto::BatchDeleteMsg()
 		mir_free(it);
 	}
 
+	auto *pReq = new AsyncRapiRequest(this, "delMsgBatch", &CIcqProto::OnBatchDeleteMsg);
+	pReq->hContact = m_hDeleteContact;
 	pReq->params << WCHAR_PARAM("sn", GetUserId(m_hDeleteContact)) << BOOL_PARAM("silent", true) << BOOL_PARAM("shared", m_bRemoveForAll) << ids;
 	Push(pReq);
 
@@ -230,7 +241,8 @@ void CIcqProto::BatchDeleteMsg()
 
 void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent, int flags)
 {
-	if (!(flags & CDF_FROM_SERVER))
+	// the command arrived from the server, don't send it back then
+	if (flags & CDF_FROM_SERVER)
 		return;
 
 	if (m_hDeleteContact != INVALID_CONTACT_ID)

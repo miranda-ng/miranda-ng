@@ -115,7 +115,7 @@ struct IcqUser : public MZeroedObject
 
 	CMStringW m_aimid;
 	MCONTACT  m_hContact;
-	bool      m_bInList, m_bGotCaps, m_bWasOnline;
+	bool      m_bInList, m_bGotCaps, m_bWasOnline, m_bSkipPatch;
 	__int64   m_iProcessedMsgId;
 	int       m_iApparentMode;
 	time_t    m_timer1, m_timer2;
@@ -245,6 +245,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 	void          ParseMessagePart(MCONTACT hContact, const JSONNode &msg, IcqFileInfo *&pFileInfo);
 	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
+	void          RetrievePatches(MCONTACT hContact);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessPatchVersion(MCONTACT hContact, __int64 currPatch);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
@@ -266,6 +267,7 @@ class CIcqProto : public PROTO<CIcqProto>
 				     
 	void          OnAddBuddy(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnAddClient(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnBatchDeleteMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnCheckMraAuth(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnCheckMraAuthFinal(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 	void          OnCheckMrimLogin(MHttpResponse *pReply, AsyncHttpRequest *pReq);

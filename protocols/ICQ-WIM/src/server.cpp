@@ -822,15 +822,26 @@ void CIcqProto::OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 	for (auto &it : results["patch"]) {
 		std::string type = it["type"].as_string();
 		__int64 msgId = _wtoi64(it["msgId"].as_mstring());
-		if (type == "update")
+		if (type == "update" || type == "modify")
 			events[msgId] = true;
 		else
 			events[msgId] = false;
 	}
 
 	for (auto &it : events) {
-		if (it.second)
-			RetrieveHistoryChunk(pReq->hContact, it.first, it.first-1, 1);
+		if (it.second) {
+			bool bFound = false;
+
+			for (auto &msg: results["messages"])
+				if (_wtoi64(msg["msgId"].as_mstring()) == it.first) {
+					bFound = true;
+					__int64 lastMsgId;
+					ParseMessage(pReq->hContact, lastMsgId, msg, true, false);
+				}
+
+			if (!bFound)
+				RetrieveHistoryChunk(pReq->hContact, it.first, it.first - 1, 1);
+		}
 		else {
 			char msgId[100];
 			_i64toa(it.first, msgId, 10);
@@ -855,6 +866,21 @@ void CIcqProto::ProcessPatchVersion(MCONTACT hContact, __int64 currPatch)
 	#endif
 	pReq->hContact = hContact;
 	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT_PARAM("fromMsgId", 0) << INT_PARAM("count", 0) << SINT64_PARAM("patchVersion", oldPatch);
+	Push(pReq);
+}
+
+void CIcqProto::RetrievePatches(MCONTACT hContact)
+{
+	__int64 oldPatch(getId(hContact, DB_KEY_PATCHVER));
+	if (!oldPatch)
+		oldPatch = 1;
+
+	auto *pReq = new AsyncRapiRequest(this, "getHistory", &CIcqProto::OnGetPatches);
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT_PARAM("fromMsgId", -1) << INT_PARAM("count", -1) << SINT64_PARAM("patchVersion", oldPatch);
 	Push(pReq);
 }
 

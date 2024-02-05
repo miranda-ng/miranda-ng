@@ -207,7 +207,13 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
+	if (pUser && pUser->m_bSkipPatch) {
+		pUser->m_bSkipPatch = false;
+		goto LBL_SkipPatch;
+	}
+
 	ProcessPatchVersion(hContact, _wtoi64(ev["patchVersion"].as_mstring()));
+LBL_SkipPatch:
 
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 
