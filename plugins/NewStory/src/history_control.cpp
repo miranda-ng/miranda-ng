@@ -373,7 +373,7 @@ void NewstoryListData::DeleteItems(void)
 
 	int firstSel = -1, flags = 0;
 	if (dlg.bDelHistory)
-		flags |= CDF_FROM_SERVER;
+		flags |= CDF_DEL_HISTORY;
 	if (dlg.bForEveryone)
 		flags |= CDF_FOR_EVERYONE;
 
