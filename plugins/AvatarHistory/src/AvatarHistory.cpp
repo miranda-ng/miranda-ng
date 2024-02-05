@@ -27,7 +27,6 @@ uint32_t mirVer;
 
 HANDLE hFolder = nullptr;
 
-wchar_t profilePath[MAX_PATH];		// database profile path (read at startup only)
 wchar_t basedir[MAX_PATH];
 CMPlugin g_plugin;
 MWindowList hAvatarWindowsList = nullptr;
@@ -225,7 +224,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	mir_snwprintf(basedir, L"%s\\Avatars History", profilePath);
+	wcsncpy_s(basedir, VARSW(MIRANDA_USERDATAW L"\\Avatars History"), _TRUNCATE);
 
 	hFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Avatars History");
@@ -324,8 +323,6 @@ int CMPlugin::Load()
 
 	CreateServiceFunction(MS_AVATARHISTORY_ENABLED, IsEnabled);
 	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
-
-	Profile_GetPathW(MAX_PATH, profilePath);
 
 	g_plugin.addSound("avatar_changed", LPGENW("Avatar history"), LPGENW("Contact changed avatar"));
 	g_plugin.addSound("avatar_removed", LPGENW("Avatar history"), LPGENW("Contact removed avatar"));
