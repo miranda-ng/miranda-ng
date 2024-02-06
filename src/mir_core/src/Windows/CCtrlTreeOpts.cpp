@@ -96,6 +96,8 @@ void CCtrlTreeOpts::OnInit()
 {
 	CSuper::OnInit();
 
+	OnFillOptions(this);
+
 	SelectItem(nullptr);
 	DeleteAllItems();
 

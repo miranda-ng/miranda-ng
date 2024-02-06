@@ -1371,6 +1371,8 @@ public:
 	void OnInit() override;
 	bool OnApply() override;
 
+	CCallback<CCtrlTreeOpts> OnFillOptions;
+
 protected:
 	struct COptionsItem
 	{
