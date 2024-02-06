@@ -67,11 +67,11 @@ static TServiceListItem serviceItems[] =
 	{ PSS_CONTACTS,            23 },
 	{ PSS_FILE,                24 },
 	{ PSS_MESSAGE,             25 },
+	{ PS_GETSTATUS,            26 },
 	{ PS_SETSTATUS,            27 },
 	{ PS_GETAWAYMSG,           28 },
 	{ PS_SETAWAYMSG,           29 },
 	{ PSS_USERISTYPING,        30 },
-	{ PS_GETSTATUS,            31 },
 };
 
 //------------------------------------------------------------------------------------
@@ -423,12 +423,11 @@ INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const cha
 					}
 					return msgId;
 				}
+			case 26: return (INT_PTR)ppi->GetStatus();
 			case 27: return (INT_PTR)ppi->SetStatus(wParam);
 			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
 			case 29: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t *)lParam);
 			case 30: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-			case 31: 
-				return ppi->m_iStatus;
 			}
 	}
 

@@ -244,6 +244,11 @@ int PROTO_INTERFACE::SendMsg(MCONTACT, MEVENT, const char*)
 	return 0; // error
 }
 
+int PROTO_INTERFACE::GetStatus()
+{
+	return m_iStatus;
+}
+
 int PROTO_INTERFACE::SetStatus(int)
 {
 	return 1; // you better declare it

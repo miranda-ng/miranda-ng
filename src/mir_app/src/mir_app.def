@@ -49,6 +49,7 @@ Button_SetSkin_IcoLib      @24
 ?GetCaps@PROTO_INTERFACE@@UAEHHI@Z @49 NONAME
 ?GetInfo@PROTO_INTERFACE@@UAEHIH@Z @50 NONAME
 ?GetProtoInterface@CProtoIntDlgBase@@QAEPAUPROTO_INTERFACE@@XZ @51 NONAME
+?GetStatus@PROTO_INTERFACE@@UAEHXZ @52 NONAME
 ?OnProtoActivate@CProtoIntDlgBase@@MAEXIJ@Z @53 NONAME
 ?OnProtoCheckOnline@CProtoIntDlgBase@@MAEXIJ@Z @54 NONAME
 ?OnProtoRefresh@CProtoIntDlgBase@@MAEXIJ@Z @55 NONAME

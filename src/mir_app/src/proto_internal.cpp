@@ -215,6 +215,11 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
+	int GetStatus() override
+	{
+		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, 0, 0);
+	}
+
 	int SetStatus(int iNewStatus) override
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, iNewStatus, 0);
