@@ -427,8 +427,7 @@ INT_PTR CallContactServiceInt(MCONTACT hContact, const char *szModule, const cha
 			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
 			case 29: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t *)lParam);
 			case 30: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-			case 31: mir_strncpy((char *)lParam, ppi->m_szModuleName, wParam); return 0;
-			case 32:
+			case 31: 
 				return ppi->m_iStatus;
 			}
 	}
