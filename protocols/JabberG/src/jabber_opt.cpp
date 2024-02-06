@@ -707,8 +707,6 @@ public:
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), proto->m_bEnableCarbons);
 		if (mir_strlen(ptrA(proto->getStringA("HttpUpload"))))
 			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), proto->m_bUseHttpUpload);
-		if (proto->FindFeature(JABBER_FEAT_JINGLE))
-			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), proto->m_bEnableVOIP);
 
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198)"), proto->m_bEnableStreamMgmt);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), proto->m_bDisable3920auth);
@@ -733,6 +731,9 @@ public:
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
+
+		if (m_proto->FindFeature(JABBER_FEAT_JINGLE))
+			m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
 
 		chkDirect_OnChange(&m_chkDirect);
 		return true;
