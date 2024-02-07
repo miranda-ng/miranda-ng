@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // ICQ plugin for Miranda NG
 // -----------------------------------------------------------------------------
-// Copyright © 2018-23 Miranda NG team
+// Copyright © 2018-24 Miranda NG team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -87,13 +87,13 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 	else {
 		T2Utf szOwnId(m_szOwnId);
 
-		PROTORECVEVENT pre = {};
-		pre.szMsgId = msgId.c_str();
-		pre.timestamp = time(0);
-		pre.szMessage = pOwn->m_szText;
-		pre.flags = PREF_SENT | PREF_CREATEREAD;
-		pre.szUserId = szOwnId;
-		ProtoChainRecvMsg(pOwn->m_hContact, &pre);
+		DB::EventInfo dbei;
+		dbei.szId = msgId.c_str();
+		dbei.timestamp = time(0);
+		dbei.pBlob = pOwn->m_szText;
+		dbei.flags = DBEF_SENT | DBEF_READ;
+		dbei.szUserId = szOwnId;
+		ProtoChainRecvMsg(pOwn->m_hContact, dbei);
 	}
 
 	if (bRemove) {
@@ -133,7 +133,7 @@ void CIcqProto::CheckPassword()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnFileInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	IcqFileInfo **res = (IcqFileInfo **)pReq->pUserInfo;
 	*res = nullptr;
@@ -150,21 +150,10 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	OnMarkRead(pReq->hContact, 0);
 
-	bool bIsSticker;
-	CMStringW wszDescr(pInfo["file_name"].as_mstring());
-	if (!mir_wstrncmp(wszDescr, L"dnld", 4)) {
-		bIsSticker = true;
-
-		std::string szPreview = pData["previews"]["192"].as_string();
-		if (!szPreview.empty())
-			szUrl = szPreview;
-	}
-	else bIsSticker = false;
-
 	mir_urlDecode(&*szUrl.begin());
 
+	CMStringW wszDescr(pInfo["file_name"].as_mstring());
 	*res = new IcqFileInfo(szUrl, wszDescr, pInfo["file_size"].as_int());
-	res[0]->bIsSticker = bIsSticker;
 }
 
 IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl)
@@ -195,45 +184,19 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 
 	pFileInfo = nullptr;
 
-	// is it already downloaded sticker?
-	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
-	if (!_waccess(wszLoadedPath, 0)) {
-		wszText.Format(L"STK{%s}", wszUrl.c_str());
-		return true;
-	}
-
 	// download file info
 	pFileInfo = RetrieveFileInfo(hContact, wszUrl);
 	if (!pFileInfo)
 		return false;
 
-	// is it a sticker?
-	if (pFileInfo->bIsSticker) {
-		if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
-			auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
-			pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-			pNew->pUserInfo = wszUrl.GetBuffer();
-			pNew->AddHeader("Sec-Fetch-User", "?1");
-			pNew->AddHeader("Sec-Fetch-Site", "cross-site");
-			pNew->AddHeader("Sec-Fetch-Mode", "navigate");
-			if (!ExecuteRequest(pNew))
-				return false;
-
-			wszText.Format(L"STK{%s}", wszUrl.c_str());
-		}
-		else wszText = TranslateT("SmileyAdd plugin required to support stickers");
+	if (idx != -1) {
+		pFileInfo->szOrigUrl = wszText.Mid(0, idx);
+		wszText.Delete(0, idx + 1);
 	}
 	else {
-		if (idx != -1) {
-			pFileInfo->szOrigUrl = wszText.Mid(0, idx);
-			wszText.Delete(0, idx + 1);
-		}
-		else {
-			pFileInfo->szOrigUrl = wszText;
-			wszText.Empty();
-		}
+		pFileInfo->szOrigUrl = wszText;
+		wszText.Empty();
 	}
-
 	return true;
 }
 
@@ -320,6 +283,9 @@ void CIcqProto::OnLoggedIn()
 	for (auto &it : m_arCache)
 		it->m_timer1 = it->m_timer2 = 0;
 
+	if (m_hFavContact != INVALID_CONTACT_ID)
+		setWord(m_hFavContact, "Status", ID_STATUS_ONLINE);
+
 	SetServerStatus(m_iDesiredStatus);
 	RetrieveUserInfo(0);
 	GetPermitDeny();
@@ -354,7 +320,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 				return INVALID_CONTACT_ID;
 
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
-		auto *si = CreateGroupChat(wszId, wszChatName);
+		auto *si = GcCreate(wszId, wszChatName);
 		return (si) ? si->hContact : INVALID_CONTACT_ID;
 	}
 
@@ -369,7 +335,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 			pUser->m_bInList = true;
 	}
 	else if (bIgnored) {
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 		return INVALID_CONTACT_ID;
 	}
 
@@ -412,7 +378,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	else delSetting(hContact, "MirVer");
 
 	const JSONNode &var = buddy["friendly"];
-	if (var)
+	if (var && hContact != m_hFavContact)
 		setWString(hContact, "Nick", var.as_mstring());
 
 	if (buddy["deleted"].as_bool()) {
@@ -485,7 +451,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead, bool bLocalTime)
 {
-	CMStringA szMsgId(it["msgId"].as_mstring()), szSender;
+	CMStringA szMsgId(it["msgId"].as_mstring()), szSender, szReply;
 	__int64 msgId = _atoi64(szMsgId);
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
@@ -496,35 +462,46 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (auto &node = it["chat"]["sender"])
 		szSender = node.as_mstring();
 
-	CMStringW wszText;
-	const JSONNode &sticker = it["sticker"];
-	if (sticker) {
-		CMStringW wszUrl, wszSticker(sticker["id"].as_mstring());
-		int iCollectionId, iStickerId;
-		if (2 == swscanf(wszSticker, L"ext:%d:sticker:%d", &iCollectionId, &iStickerId))
-			wszUrl.Format(L"https://c.icq.com/store/stickers/%d/%d/medium", iCollectionId, iStickerId);
-		else
-			wszUrl = TranslateT("Unknown sticker");
-		wszText.Format(L"%s\n%s", TranslateT("User sent a sticker:"), wszUrl.c_str());
+	CMStringW wszText = it["text"].as_mstring();
+	wszText.TrimRight();
+
+	if (it["hasAnimatedSticker"].as_bool()) {
+		CMStringW wszUrl;
+		if (fileText2url(wszText, &wszUrl)) {
+			// is it already downloaded sticker?
+			CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
+			if (_waccess(wszLoadedPath, 0)) {
+				CMStringA szFullUrl("https://cicq.org/lottie_preview/stickerpicker_large/");
+				szFullUrl += wszUrl;
+				auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, szFullUrl, &CIcqProto::OnGetSticker);
+				pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+				pNew->pUserInfo = wszUrl.GetBuffer();
+				pNew->AddHeader("Sec-Fetch-User", "?1");
+				pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+				pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+				pNew->AddHeader("Accept-Encoding", "gzip");
+				ExecuteRequest(pNew);
+			}
+			wszText.Format(L"STK{%s}", wszUrl.c_str());
+		}
 	}
 	else {
-		wszText = it["text"].as_mstring();
-		wszText.TrimRight();
-
 		if (it["class"].as_mstring() == L"event") {
+			CMStringW wszType(it["eventTypeId"].as_mstring());
+
 			// user added you
-			if (it["eventTypeId"].as_mstring() == L"27:33000") {
+			if (wszType == L"27:33000") {
 				if (bLocalTime) {
 					CMStringA id = getMStringA(hContact, DB_KEY_ID);
 					int pos = id.Find('@');
 					CMStringA nick = (pos == -1) ? id : id.Left(pos);
 					DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
 
-					PROTORECVEVENT pre = {};
-					pre.timestamp = (uint32_t)time(0);
-					pre.lParam = blob.size();
-					pre.szMessage = blob;
-					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+					DB::EventInfo dbei;
+					dbei.timestamp = (uint32_t)time(0);
+					dbei.cbBlob = blob.size();
+					dbei.pBlob = blob;
+					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 				}
 				return;
 			}
@@ -550,6 +527,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 				}
 				return;
 			}
+
+			// message was deleted
+			if (wszType == L"27:51000")
+				wszText = TranslateT("Message was deleted");
 		}
 	}
 
@@ -558,30 +539,37 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// check for embedded file
 	IcqFileInfo *pFileInfo = nullptr;
+	const JSONNode *pForward = nullptr, *pQuote = nullptr;
 
 	for (auto &jt : it["parts"]) {
-		if (auto &content = jt["captionedContent"]) {
-			CMStringW wszUrl(content["url"].as_mstring());
-			if (wszUrl.IsEmpty())
-				continue;
+		auto szType = jt["mediaType"].as_string();
+		if (szType == "forward")
+			pForward = &jt;
+		else if (szType == "quote")
+			pQuote = &jt;
+		else if (szType == "text")
+			ParseMessagePart(hContact, jt, pFileInfo);
+	}
 
-			if (hOldEvent && fileText2url(wszText))
-				return;
+	if (pForward) {
+		int idx = wszText.Find(L"\n\n");
+		if (idx != -1)
+			wszText.Truncate(idx + 2);
 
-			if (!CheckFile(hContact, wszUrl, pFileInfo))
-				continue;
-
-			if (jt["mediaType"].as_string() == "forward") {
-				int idx = wszText.Find(L"\n\n");
-				if (idx != -1)
-					wszText.Truncate(idx + 2);
+		if (!pFileInfo) {
+			ParseMessagePart(hContact, *pForward, pFileInfo);
+			if (pFileInfo)
 				pFileInfo->wszDescr = wszText;
-			}
+		}
+	}
 
-			CMStringW wszDescr(content["caption"].as_mstring());
-			if (!wszDescr.IsEmpty())
-				pFileInfo->wszDescr = wszDescr;
-			break;
+	if (pQuote) {
+		szReply = pQuote->at("msgId").as_mstring();
+
+		if (!pFileInfo) {
+			ParseMessagePart(hContact, *pQuote, pFileInfo);
+			if (pFileInfo)
+				pFileInfo->wszDescr = wszText;
 		}
 	}
 
@@ -608,28 +596,30 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// convert a file info into Miranda's file transfer
 	if (pFileInfo) {
-		ptrW pwszFileName(mir_utf8decodeW(pFileInfo->szUrl));
-		if (pwszFileName == nullptr)
-			pwszFileName = mir_a2u(pFileInfo->szUrl);
+		auto *p = strrchr(pFileInfo->szUrl, '/');
+		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
 
-		const wchar_t *p = wcsrchr(pwszFileName, '/');
-		const wchar_t *m_wszShortName = (p == nullptr) ? pwszFileName : p + 1;
-
-		PROTORECVFILE pre = {};
-		pre.dwFlags = PRFF_UNICODE | PRFF_SILENT;
-		pre.fileCount = 1;
-		pre.szId = szMsgId;
-		pre.timestamp = iMsgTime;
-		pre.files.w = &m_wszShortName;
-		pre.descr.w = pFileInfo->wszDescr;
-		pre.lParam = (LPARAM)pFileInfo;
+		DB::EventInfo dbei(hOldEvent);
+		dbei.eventType = EVENTTYPE_FILE;
+		dbei.flags = DBEF_TEMPORARY;
+		dbei.szId = szMsgId;
+		dbei.timestamp = iMsgTime;
 		if (bCreateRead)
-			pre.dwFlags |= PRFF_READ;
+			dbei.flags |= DBEF_READ;
 		if (bIsOutgoing)
-			pre.dwFlags |= PRFF_SENT;
+			dbei.flags |= DBEF_SENT;
+		if (!szReply.IsEmpty())
+			dbei.szReplyId = szReply;
 		if (isChatRoom(hContact))
-			pre.szUserId = szSender;
-		ProtoChainRecvFile(hContact, &pre);
+			dbei.szUserId = szSender;
+
+		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
+		if (hOldEvent) {
+			OnReceiveOfflineFile(blob, pFileInfo);
+			blob.write(dbei);
+			db_event_edit(hOldEvent, &dbei, true);
+		}
+		else ProtoChainRecvFile(hContact, blob, dbei);
 		return;
 	}
 
@@ -644,33 +634,51 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
 
-	if (hOldEvent) {
-		DBEVENTINFO dbei = {};
-		dbei.szModule = m_szModuleName;
-		dbei.timestamp = iMsgTime;
-		if (bIsOutgoing)
-			dbei.flags |= DBEF_SENT;
-		if (bCreateRead)
-			dbei.flags |= DBEF_READ;
-		dbei.cbBlob = (int)mir_strlen(szUtf);
-		dbei.pBlob = (BYTE*)szUtf.get();
-		dbei.szId = szMsgId;
-		if (isChatRoom(hContact))
-			dbei.szUserId = szSender;
+	DB::EventInfo dbei(hOldEvent);
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = iMsgTime;
+	dbei.flags = DBEF_UTF;
+	if (bIsOutgoing)
+		dbei.flags |= DBEF_SENT;
+	if (bCreateRead)
+		dbei.flags |= DBEF_READ;
+	dbei.cbBlob = (int)mir_strlen(szUtf);
+	dbei.szId = szMsgId;
+	if (isChatRoom(hContact))
+		dbei.szUserId = szSender;
+	if (!szReply.IsEmpty())
+		dbei.szReplyId = szReply;
+
+	if (dbei) {
+		replaceStr(dbei.pBlob, szUtf.detach());
 		db_event_edit(hOldEvent, &dbei, true);
 	}
 	else {
-		PROTORECVEVENT pre = {};
-		pre.timestamp = iMsgTime;
-		pre.szMessage = szUtf;
-		if (bIsOutgoing)
-			pre.flags |= PREF_SENT;
-		if (bCreateRead)
-			pre.flags |= PREF_CREATEREAD;
-		pre.szMsgId = szMsgId;
-		if (isChatRoom(hContact))
-			pre.szUserId = szSender;
-		ProtoChainRecvMsg(hContact, &pre);
+		dbei.pBlob = szUtf;
+		ProtoChainRecvMsg(hContact, dbei);
+	}
+}
+
+void CIcqProto::ParseMessagePart(MCONTACT hContact, const JSONNode &part, IcqFileInfo *&pFileInfo)
+{
+	if (pFileInfo != nullptr)
+		return;
+
+	if (auto &content = part["captionedContent"]) {
+		CMStringW wszUrl(content["url"].as_mstring());
+		if (wszUrl.IsEmpty())
+			return;
+
+		if (!CheckFile(hContact, wszUrl, pFileInfo))
+			return;
+
+		CMStringW wszDescr(content["caption"].as_mstring());
+		if (!wszDescr.IsEmpty())
+			pFileInfo->wszDescr = wszDescr;
+	}
+	else {
+		auto wszText = part["text"].as_mstring();
+		CheckFile(hContact, wszText, pFileInfo);
 	}
 }
 
@@ -715,7 +723,7 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserCaps(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -742,15 +750,17 @@ void CIcqProto::RetrieveUserCaps(IcqUser *pUser)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGePresence(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
 		return;
 
 	auto &data = root.data();
-	for (auto &it : data["users"])
+	for (auto &it : data["users"]) {
+		ParseBuddyInfo(it, pReq->hContact, true);
 		ProcessOnline(it, pReq->hContact);
+	}
 }
 
 void CIcqProto::RetrievePresence(MCONTACT hContact)
@@ -766,7 +776,7 @@ void CIcqProto::RetrievePresence(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000) {
@@ -796,7 +806,7 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -812,20 +822,31 @@ void CIcqProto::OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	for (auto &it : results["patch"]) {
 		std::string type = it["type"].as_string();
 		__int64 msgId = _wtoi64(it["msgId"].as_mstring());
-		if (type == "update")
+		if (type == "update" || type == "modify")
 			events[msgId] = true;
 		else
 			events[msgId] = false;
 	}
 
 	for (auto &it : events) {
-		if (it.second)
-			RetrieveHistoryChunk(pReq->hContact, it.first, it.first-1, 1);
+		if (it.second) {
+			bool bFound = false;
+
+			for (auto &msg: results["messages"])
+				if (_wtoi64(msg["msgId"].as_mstring()) == it.first) {
+					bFound = true;
+					__int64 lastMsgId;
+					ParseMessage(pReq->hContact, lastMsgId, msg, true, false);
+				}
+
+			if (!bFound)
+				RetrieveHistoryChunk(pReq->hContact, it.first, it.first - 1, 1);
+		}
 		else {
 			char msgId[100];
 			_i64toa(it.first, msgId, 10);
 			if (MEVENT hEvent = db_event_getById(m_szModuleName, msgId))
-				db_event_delete(hEvent, true);
+				db_event_delete(hEvent, CDF_FROM_SERVER);
 		}
 	}
 }
@@ -848,9 +869,24 @@ void CIcqProto::ProcessPatchVersion(MCONTACT hContact, __int64 currPatch)
 	Push(pReq);
 }
 
+void CIcqProto::RetrievePatches(MCONTACT hContact)
+{
+	__int64 oldPatch(getId(hContact, DB_KEY_PATCHVER));
+	if (!oldPatch)
+		oldPatch = 1;
+
+	auto *pReq = new AsyncRapiRequest(this, "getHistory", &CIcqProto::OnGetPatches);
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT_PARAM("fromMsgId", -1) << INT_PARAM("count", -1) << SINT64_PARAM("patchVersion", oldPatch);
+	Push(pReq);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetUserHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -903,10 +939,34 @@ void CIcqProto::RetrieveHistoryChunk(MCONTACT hContact, __int64 patchVer, __int6
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::SetOwnId(const CMStringW &wszId)
+{
+	if (wszId.IsEmpty())
+		return;
+
+	m_szOwnId = wszId;
+
+	auto *pUser = FindUser(wszId);
+	if (!pUser) {
+		CreateContact(wszId, false);
+		pUser = FindUser(wszId);
+	}
+	
+	setWString(pUser->m_hContact, "Nick", TranslateT("Favorites"));
+	ptrW wszMyHandle(db_get_wsa(pUser->m_hContact, "CList", "MyHandle"));
+	if (!wszMyHandle)
+		db_set_ws(pUser->m_hContact, "CList", "MyHandle", TranslateT("Favorites"));
+
+	if (m_hFavContact == INVALID_CONTACT_ID) {
+		m_hFavContact = pUser->m_hContact;
+		pUser->m_hContact = 0;
+	}
+}
+
 void CIcqProto::SetServerStatus(int iStatus)
 {
 	const char *szStatus = "online";
-	int invisible = 0;
+	m_bInvisible = false;
 
 	switch (iStatus) {
 	case ID_STATUS_OFFLINE: szStatus = "offline"; break;
@@ -914,11 +974,11 @@ void CIcqProto::SetServerStatus(int iStatus)
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND: szStatus = "away"; break;
 	case ID_STATUS_INVISIBLE:
-		invisible = 1;
+		m_bInvisible = true;
 	}
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/presence/setState")
-		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
+		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", m_bInvisible));
 
 	if (iStatus == ID_STATUS_OFFLINE && !getByte(DB_KEY_PHONEREG)) {
 		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "/aim/endSession", &CIcqProto::OnSessionEnd);
@@ -998,7 +1058,7 @@ void CIcqProto::StartSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnAddBuddy(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -1032,7 +1092,7 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	}
 }
 
-void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnAddClient(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	bool *pRet = (bool*)pReq->pUserInfo;
 
@@ -1048,7 +1108,7 @@ void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	*pRet = true;
 }
 
-void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnCheckPassword(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -1079,9 +1139,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	CMStringW szUin = data["loginId"].as_mstring();
-	if (szUin)
-		m_szOwnId = szUin;
+	SetOwnId(data["loginId"].as_mstring());
 
 	int srvTS = data["hostTime"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
@@ -1089,7 +1147,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
-void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+void CIcqProto::OnFileContinue(MHttpResponse *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
 	if (pTransfer->m_bCanceled) {
@@ -1119,16 +1177,18 @@ LBL_Error:
 
 		JSONNode bundle, contents; contents.set_name("captionedContent");
 		contents << WCHAR_PARAM("caption", pTransfer->m_wszDescr) << WCHAR_PARAM("url", wszUrl);
-		bundle << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", "") << contents;
+		bundle << CHAR_PARAM("mediaType", "text") << WCHAR_PARAM("text", wszUrl) << contents;
 		CMStringW wszParts(FORMAT, L"[%s]", ptrW(json_write(&bundle)).get());
 
+		pTransfer->m_szHost = wszUrl;
 		if (!pTransfer->m_wszDescr.IsEmpty())
 			wszUrl += L" " + pTransfer->m_wszDescr;
 
 		int id = InterlockedIncrement(&m_msgId);
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
 
-		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId, T2Utf(wszUrl));
+		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, T2Utf(wszUrl));
+		pOwn->setGuid(pReq->m_reqId);
 		pOwn->pTransfer = pTransfer;
 		pReq->pUserInfo = pOwn;
 		{
@@ -1156,7 +1216,7 @@ LBL_Error:
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
 }
 
-void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+void CIcqProto::OnFileInit(MHttpResponse *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
 	if (pTransfer->m_bCanceled) {
@@ -1193,7 +1253,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Support for stickers
 
-void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnGetSticker(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	if (pReply->resultCode != 200) {
 		debugLogA("Error getting sticker: %d", pReply->resultCode);
@@ -1205,7 +1265,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	CMStringW wszFileName(FORMAT, L"%s\\STK{%s}.png", wszPath.c_str(), (wchar_t*)pReq->pUserInfo);
 	FILE *out = _wfopen(wszFileName, L"wb");
-	fwrite(pReply->pData, 1, pReply->dataLength, out);
+	fwrite(pReply->body, 1, pReply->body.GetLength(), out);
 	fclose(out);
 
 	SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFileName);
@@ -1213,7 +1273,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnGenToken(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000)
@@ -1223,7 +1283,7 @@ void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szRToken = results["authToken"].as_mstring();
 }
 
-void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnStartSession(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -1265,7 +1325,9 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
 	m_aimsid = data["aimsid"].as_mstring();
 
-	ProcessMyInfo(data["myInfo"]);
+	auto &myInfo = data["myInfo"];
+	ProcessMyInfo(myInfo);
+	SetOwnId(myInfo["aimId"].as_mstring());
 
 	int srvTS = data["ts"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
@@ -1278,18 +1340,18 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	ForkThread(&CIcqProto::PollThread);
 }
 
-void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnReceiveAvatar(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	PROTO_AVATAR_INFORMATION ai = {};
 	ai.hContact = pReq->hContact;
 
-	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
+	if (pReply->resultCode != 200 || pReply->body.IsEmpty()) {
 LBL_Error:
 		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
-	const char *szContentType = Netlib_GetHeader(pReply, "Content-Type");
+	const char *szContentType = pReply->FindHeader("Content-Type");
 	if (szContentType == nullptr)
 		szContentType = "image/jpeg";
 
@@ -1301,7 +1363,7 @@ LBL_Error:
 	if (out == nullptr)
 		goto LBL_Error;
 
-	fwrite(pReply->pData, pReply->dataLength, 1, out);
+	fwrite(pReply->body, pReply->body.GetLength(), 1, out);
 	fclose(out);
 
 	if (pReq->hContact != 0) {
@@ -1311,7 +1373,7 @@ LBL_Error:
 	else ReportSelfAvatarChanged();
 }
 
-void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnSearchResults(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
 	if (root.error() != 20000) {
@@ -1343,21 +1405,23 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pReq);
 }
 
-void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Send message
+
+void CIcqProto::OnSendMessage(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	IcqOwnMessage *ownMsg = (IcqOwnMessage *)pReq->pUserInfo;
 
 	JsonReply root(pReply);
 	if (root.error() != 200) {
-		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid);
+		if (ownMsg) {
+			ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid);
 
-		mir_cslock lck(m_csOwnIds);
-		m_arOwnIds.remove(ownMsg);
+			mir_cslock lck(m_csOwnIds);
+			m_arOwnIds.remove(ownMsg);
+		}
 		return;
 	}
-
-	if (g_bMessageState)
-		CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
 
 	const JSONNode &data = root.data();
 	if (auto &jsonMsg = data.at("histMsgId")) {
@@ -1366,10 +1430,32 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		CheckOwnMessage(reqId, msgId, false);
 	}
 
-	CheckLastId(ownMsg->m_hContact, data);
+	if (ownMsg) {
+		if (g_bMessageState)
+			CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
+		CheckLastId(ownMsg->m_hContact, data);
+	}
 }
 
-void CIcqProto::OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOwnMessage *pOwn)
+{
+	CMStringA szUserid(GetUserId(hContact));
+	if (szUserid.IsEmpty())
+		return;
+
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
+	pReq->pUserInfo = pOwn;
+	if (pOwn)
+		pOwn->setGuid(pReq->m_reqId);
+
+	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "")
+		<< CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
+	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnSessionEnd(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	if (root.error() == 200) {

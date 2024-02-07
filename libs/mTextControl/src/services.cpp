@@ -20,20 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "stdafx.h"
 #include "FormattedTextDraw.h"
 
-struct TextObject
-{
-	uint32_t options = 0;
-	const char *szProto = nullptr;
-	CFormattedTextDraw *ftd = nullptr;
-
-	TextObject() {}
-
-	~TextObject()
-	{
-		delete ftd;
-	}
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Helper functions
 
@@ -48,19 +34,6 @@ void MText_InitFormatting1(TextObject *text)
 {
 	// bbcodes
 	bbCodeParse(text->ftd);
-
-	// smilies
-	HWND hwnd = CreateProxyWindow();
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
-
-	SMADD_RICHEDIT sm = {};
-	sm.hwndRichEditControl = hwnd;
-	sm.rangeToReplace = nullptr;
-	sm.Protocolname = text->szProto;
-	sm.flags = SAFLRE_INSERTEMF;
-	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
-
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,10 +47,9 @@ DWORD CALLBACK EditStreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb,
 	return 0;
 }
 
-MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text)
+MTEXTCONTROL_DLL(TextObject *) MTextCreateW(HANDLE userHandle, const wchar_t *text)
 {
 	TextObject *result = new TextObject;
-	result->szProto = szProto;
 	result->options = TextUserGetOptions(userHandle);
 	result->ftd = new CFormattedTextDraw();
 	InitRichEdit(result->ftd->getTextService());
@@ -206,6 +178,35 @@ MTEXTCONTROL_DLL(int) MTextSetParent(TextObject *text, HWND hwnd)
 		SetWindowLong(hwnd, GWL_STYLE, dwStyle | 8);
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sets a contact & protocol (optionally, for hContact == 0) for text object (required for valid stickers' processing)
+
+MTEXTCONTROL_DLL(int) MTextSetProto(TextObject *text, MCONTACT hContact, const char *szProto)
+{
+	if (!text) return 0;
+
+	if (hContact && szProto == nullptr)
+		szProto = Proto_GetBaseAccountName(hContact);
+
+	text->hContact = hContact;
+	text->szProto = szProto;
+
+	// smilies
+	HWND hwnd = CreateProxyWindow();
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
+
+	SMADD_RICHEDIT sm = {};
+	sm.hwndRichEditControl = hwnd;
+	sm.rangeToReplace = nullptr;
+	sm.hContact = text->hContact;
+	sm.Protocolname = text->szProto;
+	sm.flags = SAFLRE_INSERTEMF;
+	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
+
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

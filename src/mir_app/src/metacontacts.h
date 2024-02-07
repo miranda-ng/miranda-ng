@@ -1,7 +1,7 @@
 /*
 former MetaContacts Plugin for Miranda IM.
 
-Copyright © 2014-23 Miranda NG team
+Copyright © 2014-24 Miranda NG team
 Copyright © 2004-07 Scott Ellis
 Copyright © 2004 Universite Louis PASTEUR, STRASBOURG.
 
@@ -67,7 +67,6 @@ DBCachedContact* CheckMeta(MCONTACT hMeta);
 void Meta_FixStatus(DBCachedContact *ccMeta);
 
 INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM lParam);
-INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam);
 INT_PTR Meta_LoadIcon(WPARAM wParam, LPARAM lParam);
 INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM lParam);
 INT_PTR Meta_GetStatus(WPARAM wParam, LPARAM lParam);

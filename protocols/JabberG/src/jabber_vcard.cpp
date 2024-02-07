@@ -4,7 +4,7 @@ Jabber Protocol Plugin for Miranda NG
 
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -90,9 +90,13 @@ public:
 
 	bool OnInitDialog() override
 	{
-		ppro->m_vCardUpdates |= (1UL << iPageId);
 		ppro->WindowSubscribe(m_hwnd);
 		return true;
+	}
+
+	void OnChange() override
+	{
+		ppro->m_vCardUpdates |= (1UL << iPageId);
 	}
 
 	bool OnApply() override
@@ -857,7 +861,8 @@ void CJabberProto::AppendVcardFromDB(TiXmlElement *n, char *tag, char *key)
 		return;
 
 	ptrA tszValue(getUStringA(key));
-	n << XCHILD(tag, tszValue);
+	if (mir_strlen(tszValue))
+		n << XCHILD(tag, tszValue);
 }
 
 void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
@@ -875,6 +880,8 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	AppendVcardFromDB(n, "GIVEN", "FirstName");
 	AppendVcardFromDB(n, "MIDDLE", "MiddleName");
 	AppendVcardFromDB(n, "FAMILY", "LastName");
+	if (XmlGetChildCount(n) == 0)
+		v->DeleteChild(n);
 
 	AppendVcardFromDB(v, "NICKNAME", "Nick");
 	AppendVcardFromDB(v, "BDAY", "BirthDate");
@@ -907,6 +914,8 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	AppendVcardFromDB(n, "PCODE", "ZIP");
 	AppendVcardFromDB(n, "CTRY", "Country");
 	AppendVcardFromDB(n, "COUNTRY", "Country");	// for compatibility with client using old vcard format
+	if (XmlGetChildCount(n) == 1)
+		v->DeleteChild(n);
 
 	n = v << XCHILD("ADR");
 	n << XCHILD("WORK");
@@ -918,10 +927,14 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	AppendVcardFromDB(n, "PCODE", "CompanyZIP");
 	AppendVcardFromDB(n, "CTRY", "CompanyCountry");
 	AppendVcardFromDB(n, "COUNTRY", "CompanyCountry");	// for compatibility with client using old vcard format
+	if (XmlGetChildCount(n) == 1)
+		v->DeleteChild(n);
 
 	n = v << XCHILD("ORG");
 	AppendVcardFromDB(n, "ORGNAME", "Company");
 	AppendVcardFromDB(n, "ORGUNIT", "CompanyDepartment");
+	if (XmlGetChildCount(n) == 0)
+		v->DeleteChild(n);
 
 	AppendVcardFromDB(v, "TITLE", "CompanyPosition");
 	AppendVcardFromDB(v, "ROLE", "Role");
@@ -1053,9 +1066,11 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	uip.szTitle.w = LPGENW("Work");
 	g_plugin.addUserInfo(wParam, &uip);
 
-	uip.pDialog = new JabberVcardPhotoDlg(this);
-	uip.szTitle.w = LPGENW("Photo");
-	g_plugin.addUserInfo(wParam, &uip);
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP)) {
+		uip.pDialog = new JabberVcardPhotoDlg(this);
+		uip.szTitle.w = LPGENW("Photo");
+		g_plugin.addUserInfo(wParam, &uip);
+	}
 
 	uip.pDialog = new JabberVcardNoteDlg(this);
 	uip.szTitle.w = LPGENW("Note");

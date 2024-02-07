@@ -1,6 +1,6 @@
 /*
 Miranda NG SmileyAdd Plugin
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (C) 2005-11 Boris Krasnovskiy All Rights Reserved
 Copyright (C) 2003-04 Rein-Peter de Boer
 
@@ -344,8 +344,8 @@ static INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 		break;
 
 	case SMADD_FILE:
-		g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path);
-		NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
+		if (g_SmileyPackCStore.AddSmiley(cont->pszModule, cont->path))
+			NotifyEventHooks(g_hevOptionsChanged, 0, (WPARAM)cont->pszModule);
 		break;
 
 	case SMADD_FOLDER:

@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -206,6 +206,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_SOFTWARE_INFO               "urn:xmpp:dataforms:softwareinfo"
 #define JABBER_FEAT_UPLOAD                      "urn:xmpp:http:upload"
 #define JABBER_FEAT_UPLOAD0                     "urn:xmpp:http:upload:0"
+#define JABBER_FEAT_CHANNEL_BINDING             "urn:xmpp:sasl-cb:0"
 
 #define JABBER_FEAT_PUBSUB_EVENT                "http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          "http://jabber.org/protocol/pubsub#node_config"
@@ -265,7 +266,7 @@ typedef unsigned __int64 JabberCapsBits;
 
 class CJabberClientPartialCaps
 {
-	ptrA m_szHash, m_szOs, m_szOsVer, m_szSoft, m_szSoftVer, m_szSoftMir;
+	ptrA m_szHash, m_szVer, m_szOs, m_szOsVer, m_szSoft, m_szSoftVer, m_szSoftMir;
 	JabberCapsBits m_jcbCaps = JABBER_RESOURCE_CAPS_UNINIT;
 	int m_nIqId = -1, m_iTime;
 	uint32_t m_dwRequestTime = 0;
@@ -304,10 +305,8 @@ public:
 
 	__inline int GetIqId() const { return m_nIqId; }
 
-	__inline void SetVer(const char *szVer)
-	{
-		m_szSoft = mir_strdup(szVer);
-	}
+	__inline void SetVer(const char *szVer)	{ m_szVer = mir_strdup(szVer); }
+	__inline const char* GetVer() const { return m_szVer.get(); }
 };
 
 class CJabberClientCaps

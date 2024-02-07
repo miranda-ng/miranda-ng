@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -615,8 +615,11 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlID == IDC_SRMM_NICKLIST && dis->itemID != LB_ERR) {
 				UINT_PTR iData = m_nickList.GetItemData(dis->itemID);
 				if (iData != LB_ERR) {
-					if (auto *ui = (USERINFO *)iData)
+					if (auto *ui = (USERINFO *)iData) {
+						if (!ui->isValid())
+							DebugBreak();
 						DrawNickList(ui, dis);
+					}
 					return TRUE;
 				}
 			}
@@ -731,7 +734,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 				continue;
 
 			Utf2T wszUserId(dbei.szUserId);
-			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei, CP_ACP)));
+			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
 			wszText.Replace(L"%", L"%%");
 
 			GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
@@ -1091,7 +1094,7 @@ void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
 	if (dbei) {
 		CMStringW wszText(TranslateT("In reply to"));
 		wszText += L": ";
-		wszText += ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)).get();
+		wszText += ptrW(DbEvent_GetTextW(&dbei)).get();
 		m_Quote.SetText(wszText);
 
 		m_hQuoteEvent = hEvent;

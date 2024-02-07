@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -90,9 +90,7 @@ static void amThreadProc(void *)
 
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
-			HANDLE ACK = nullptr;
-			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
+			HANDLE ACK = (HANDLE)CallContactService(hContact, PS_GETAWAYMSG);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;

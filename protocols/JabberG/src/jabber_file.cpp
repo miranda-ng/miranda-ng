@@ -4,7 +4,7 @@ Jabber Protocol Plugin for Miranda NG
 
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -49,31 +49,30 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 				}
 
 				// initialize the netlib request
-				NETLIBHTTPREQUEST nlhr = {};
-				nlhr.cbSize = sizeof(nlhr);
-				nlhr.requestType = REQUEST_GET;
+				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
-				nlhr.szUrl = (char *)url;
+				nlhr.m_szUrl = url;
 
 				// download the page
-				NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
+				NLHR_PTR nlhrReply(encrypted
+					? Netlib_HttpTransaction(m_hNetlibUser, &nlhr)
+					: Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath));
 				if (nlhrReply && nlhrReply->resultCode == 200) {
-					FILE *f = _wfopen(ofd->wszPath, L"wb");
 					size_t written = 0;
-					if (f) {
-						if (encrypted) {
-							int payload_len = nlhrReply->dataLength - 16;
+					if (encrypted) {
+						if (FILE *f = _wfopen(ofd->wszPath, L"wb")) {
+							int payload_len = nlhrReply->body.GetLength() - 16;
 							if (payload_len > 0) {
 								uint8_t ivkey[44];
 								hex2bin(hexkey, ivkey, 44);
 								EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, NULL);
 								EVP_DecryptInit(ctx, EVP_aes_256_gcm(), ivkey + 12, ivkey);
-								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, nlhrReply->pData + payload_len);
+								EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (uint8_t *)nlhrReply->body.c_str() + payload_len);
 
 								int outl = 0, round_len = 0;
 								uint8_t *out = (uint8_t *)mir_alloc(payload_len);
-								EVP_DecryptUpdate(ctx, out, &outl, (uint8_t *)nlhrReply->pData, (int)payload_len);
+								EVP_DecryptUpdate(ctx, out, &outl, (uint8_t *)nlhrReply->body.c_str(), (int)payload_len);
 								int dec_success = EVP_DecryptFinal(ctx, out + outl, &round_len);
 								outl += round_len;
 								EVP_CIPHER_CTX_free(ctx);
@@ -82,10 +81,13 @@ void __cdecl CJabberProto::OfflineFileThread(OFDTHREAD *ofd)
 										written = payload_len;
 								mir_free(out);
 							}
+							fclose(f);
 						}
-						else if (fwrite(nlhrReply->pData, 1, nlhrReply->dataLength, f) == size_t(nlhrReply->dataLength))
-							written = nlhrReply->dataLength;
-						fclose(f);
+					}
+					else {
+						struct _stat st;
+						_wstat(ofd->wszPath, &st);
+						written = st.st_size;
 					}
 
 					if (written) {
@@ -128,17 +130,15 @@ void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
 
 void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 {
-	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
-	req.requestType = REQUEST_GET;
-	req.szUrl = ft->httpPath;
+	MHttpRequest req(REQUEST_GET);
+	req.m_szUrl = ft->httpPath;
 
 	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (pResp && pResp->resultCode == 200) {
-		ft->std.currentFileSize = pResp->dataLength;
+		ft->std.currentFileSize = pResp->body.GetLength();
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft);
 
-		FtReceive(ft, pResp->pData, pResp->dataLength);
+		FtReceive(ft, pResp->body.GetBuffer(), pResp->body.GetLength());
 
 		ft->complete();
 	}
@@ -154,12 +154,10 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 	const char *b = strrchr(pszUrl, '/') + 1;
 	while (*b != 0 && *b != '#' && *b != '?')
 		szName.AppendChar(*b++);
-	auto *pszName = szName.c_str();
+	mir_urlDecode(szName.GetBuffer());
 
-	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
-	req.requestType = REQUEST_HEAD;
-	req.szUrl = (char*)pszUrl;
+	MHttpRequest req(REQUEST_HEAD);
+	req.m_szUrl = pszUrl;
 
 	filetransfer *ft = new filetransfer(this, 0);
 	ft->jid = mir_strdup(jid);
@@ -176,14 +174,10 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 			ft->dwExpectedRecvFileSize = ft->std.currentFileSize = atoi(p);
 	}
 
-	PROTORECVFILE pre = {};
-	pre.dwFlags = PRFF_UTF | PRFF_SILENT;
-	pre.fileCount = 1;
-	pre.timestamp = time(0);
-	pre.files.a = &pszName;
-	pre.lParam = (LPARAM)ft;
-	pre.descr.a = pszDescr;
-	ProtoChainRecvFile(ft->std.hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_TEMPORARY;
+	dbei.timestamp = time(0);
+	ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, szName, pszDescr), dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

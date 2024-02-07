@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -390,17 +390,27 @@ MIR_CORE_DLL(void) LeaveMessageLoop()
 /////////////////////////////////////////////////////////////////////////////////////////
 // entry point
 
+HMODULE hMsfteditDll = nullptr;
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t fdwReason, LPVOID)
 {
-	if (fdwReason == DLL_PROCESS_ATTACH) {
+	switch (fdwReason) {
+	case DLL_PROCESS_ATTACH:
 		g_hInst = hinstDLL;
+		hMsfteditDll = LoadLibrary(L"msftedit.dll");
 		mir_tls = TlsAlloc();
 		LoadCoreModule();
-	}
-	else if (fdwReason == DLL_THREAD_DETACH) {
+		break;
+
+	case DLL_PROCESS_DETACH:
+		FreeLibrary(hMsfteditDll);
+		break;
+
+	case DLL_THREAD_DETACH:
 		HANDLE hEvent = TlsGetValue(mir_tls);
 		if (hEvent)
 			CloseHandle(hEvent);
+		break;
 	}
 	return TRUE;
 }

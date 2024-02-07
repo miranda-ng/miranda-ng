@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -94,8 +94,6 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 #define DROPTARGET_ONSUBCONTACT  7
 
 #define CONTACTF_ONLINE    1
-#define CONTACTF_INVISTO   2
-#define CONTACTF_VISTO     4
 #define CONTACTF_NOTONLIST 8
 #define CONTACTF_CHECKED   16
 #define CONTACTF_IDLE      32

@@ -1,6 +1,6 @@
 /*
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -572,7 +572,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Messaging log");
-	odp.pDialog = new COptionLogDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	odp.pDialog = new COptionLogDlg(Srmm_IsCustomLogUsed(false) ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Typing notify");

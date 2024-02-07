@@ -107,9 +107,6 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\visibility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\pu_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,6 +427,12 @@
     </ClCompile>
     <ClCompile Include="src\srmm_main.cpp">
       <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MHttpResponse.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MHttpHeaders.cpp">
+      <Filter>Source Files\Netlib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

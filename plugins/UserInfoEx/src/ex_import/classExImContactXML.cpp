@@ -923,7 +923,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent)
 		return ERROR_INVALID_VALUE;
 
 	size_t baselen;
-	mir_ptr<uint8_t> tmpVal((uint8_t*)mir_base64_decode(tmp, &baselen));
+	mir_ptr<char > tmpVal((char *)mir_base64_decode(tmp, &baselen));
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;

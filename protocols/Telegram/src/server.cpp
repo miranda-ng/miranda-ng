@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -152,7 +152,7 @@ void CTelegramProto::SendDeleteMsg()
 	m_impl.m_deleteMsg.Stop();
 
 	mir_cslock lck(m_csDeleteMsg);
-	SendQuery(new TD::deleteMessages(m_deleteChatId, std::move(m_deleteIds), true));
+	SendQuery(new TD::deleteMessages(m_deleteChatId, std::move(m_deleteIds), m_bDeleteForAll));
 	m_deleteChatId = 0;
 }
 
@@ -415,7 +415,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = pMsg->date_;
 		dbei.cbBlob = szBody.GetLength();
-		dbei.pBlob = (uint8_t*)szBody.c_str();
+		dbei.pBlob = szBody.GetBuffer();
 		dbei.szId = szMsgId;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		if (pMsg->is_outgoing_)
@@ -433,6 +433,15 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 {
 	if (auto *pUser = FindUser(GetId(hContact)))
 		SendQuery(new TD::getChatHistory(pUser->chatId, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CTelegramProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
+{
+	if (auto *pUser = FindUser(GetId(hContact)))
+		SendQuery(new TD::deleteChatHistory(pUser->chatId, false, (lParam & CDF_FOR_EVERYONE) != 0));
 	return 0;
 }
 
@@ -536,6 +545,7 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		return;
 	}
 
+	pUser->bInited = true;
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		debugLogA("Last message for a temporary contact, skipping");
 		return;
@@ -547,7 +557,7 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		if (Contact::OnList(pUser->hContact))
 			CallService(MS_HISTORY_EMPTY, pUser->hContact, TRUE);
 		else
-			db_delete_contact(pUser->hContact, true);
+			db_delete_contact(pUser->hContact, CDF_FROM_SERVER);
 	}
 }
 
@@ -684,7 +694,7 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 
 	for (auto &it : pObj->message_ids_)
 		if (MEVENT hEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, it)))
-			db_event_delete(hEvent, true);
+			db_event_delete(hEvent, CDF_FROM_SERVER);
 }
 
 void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
@@ -719,6 +729,8 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		debugLogA("message from unknown chat/user, ignored");
 		return;
 	}
+
+	pUser->bInited = true;
 
 	MEVENT hLastRead = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
 	if (hLastRead == 0) {
@@ -775,36 +787,28 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		Contact::RemoveFromList(pUser->hContact);
 	}
 
-	if (hOldEvent) {
-		DB::EventInfo dbei(hOldEvent);
-		mir_free(dbei.pBlob);
-		dbei.cbBlob = szText.GetLength();
-		dbei.pBlob = (uint8_t *)szText.Detach();
-		dbei.timestamp = pMessage->date_;
-		if (pMessage->is_outgoing_)
-			dbei.flags |= DBEF_SENT;
-		if (GetGcUserId(pUser, pMessage, szUserId))
-			dbei.szUserId = szUserId;
-		if (pMessage->reply_to_message_id_) {
-			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
-			dbei.szReplyId = szReplyId;
-		}
+	DB::EventInfo dbei(hOldEvent);
+	dbei.szId = szMsgId;
+	dbei.cbBlob = szText.GetLength();
+	dbei.timestamp = pMessage->date_;
+	if (pMessage->is_outgoing_)
+		dbei.flags |= DBEF_SENT;
+	if (!pUser->bInited)
+		dbei.flags |= DBEF_READ;
+	if (GetGcUserId(pUser, pMessage, szUserId))
+		dbei.szUserId = szUserId;
+	if (pMessage->reply_to_message_id_) {
+		szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
+		dbei.szReplyId = szReplyId;
+	}
+	
+	if (dbei) {
+		replaceStr(dbei.pBlob, szText.Detach());
 		db_event_edit(hOldEvent, &dbei, true);
 	}
 	else {
-		PROTORECVEVENT pre = {};
-		pre.szMessage = szText.GetBuffer();
-		pre.szMsgId = szMsgId;
-		pre.timestamp = pMessage->date_;
-		if (pMessage->is_outgoing_)
-			pre.flags |= PREF_SENT;
-		if (GetGcUserId(pUser, pMessage, szUserId))
-			pre.szUserId = szUserId;
-		if (pMessage->reply_to_message_id_) {
-			szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
-			pre.szReplyId = szReplyId;
-		}
-		ProtoChainRecvMsg(GetRealContact(pUser), &pre);
+		dbei.pBlob = szText.GetBuffer();
+		ProtoChainRecvMsg(GetRealContact(pUser), dbei);
 	}
 }
 
@@ -837,7 +841,7 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 
 	dbei.cbBlob = szText.GetLength();
-	dbei.pBlob = (uint8_t *)szText.c_str();
+	dbei.pBlob = szText.GetBuffer();
 	db_event_edit(hDbEvent, &dbei, true);
 }
 

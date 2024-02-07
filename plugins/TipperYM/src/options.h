@@ -153,7 +153,6 @@ struct OPTIONS
 	bool bAvatarBorder;
 	bool bWaitForContent;
 	bool bGetNewStatusMsg;
-	bool bDisableIfInvisible;
 	bool bRetrieveXstatus;
 	bool bLimitMsg;
 	int iLimitCharCount;

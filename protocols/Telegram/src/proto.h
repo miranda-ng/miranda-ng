@@ -98,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, isBot, bLoadMembers, bStartChat;
+	bool      isGroupChat, isBot, bLoadMembers, bStartChat, bInited;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -198,6 +198,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::array<TD::int53> m_markIds;
 
 	mir_cs m_csDeleteMsg;
+	bool m_bDeleteForAll;
 	TD::int53 m_deleteChatId = 0;
 	TD::array<TD::int53> m_deleteIds;
 
@@ -210,7 +211,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	mir_cs m_csFiles;
 	LIST<TG_FILE_REQUEST> m_arFiles;
-	TG_FILE_REQUEST* PopFile(const char *pszUniqueId);
+	TG_FILE_REQUEST* FindFile(const char *pszUniqueId);
 
 	static INT_PTR CALLBACK EnterEmail(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
@@ -357,7 +358,7 @@ public:
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *pre) override;
+	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override;
 
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage) override;
@@ -367,10 +368,10 @@ public:
 		
 	void     OnBuildProtoMenu() override;
 	void     OnContactAdded(MCONTACT hContact) override;
-	bool     OnContactDeleted(MCONTACT hContact) override;
+	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;
 	void     OnErase() override;
-	void     OnEventDeleted(MCONTACT, MEVENT) override;
+	void     OnEventDeleted(MCONTACT, MEVENT, int) override;
 	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -380,7 +381,6 @@ public:
 
 	// Events ////////////////////////////////////////////////////////////////////////////
 	
-	int __cdecl OnEmptyHistory(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnWindowEvent(WPARAM, LPARAM);
 
@@ -393,6 +393,7 @@ public:
 	INT_PTR __cdecl SvcAddByPhone(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	

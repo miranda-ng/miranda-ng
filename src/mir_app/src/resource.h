@@ -76,9 +76,7 @@
 #define IDR_CONTEXT                     180
 #define IDR_ICOLIB_CONTEXT              181
 #define IDC_DROP                        183
-#define IDI_ALWAYSVIS                   184
 #define IDD_EI_OPTIONS                  185
-#define IDI_NEVERVIS                    186
 #define IDI_CHAT                        187
 #define IDI_MALE                        188
 #define IDI_FEMALE                      189
@@ -132,6 +130,7 @@
 #define IDD_FILETRANSFERINFO            249
 #define IDD_OPT_FILEGENERAL             250
 #define IDD_OPT_FILESECURITY            251
+#define IDD_EMPTYHISTORY                252
 #define IDD_FILEEXISTS                  253
 #define IDD_DELETECONTACT               254
 #define IDD_ADDCONTACT                  257
@@ -354,8 +353,6 @@
 #define IDC_PAGETREE                    1186
 #define IDC_RUNNOW                      1186
 #define IDC_GETMORE                     1200
-#define IDC_VISIBLEICON                 1204
-#define IDC_INVISIBLEICON               1205
 #define IDC_FILEICON                    1206
 #define IDC_ONLINEICON                  1207
 #define IDC_FILENAMES                   1208
@@ -500,6 +497,9 @@
 #define IDC_ASK                         1516
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
+#define IDC_BOTH                        1536
+#define IDC_DELSERVERCONTACT            1537
+#define IDC_DELSERVERHISTORY            1538
 #define IDC_MYHANDLE                    1540
 #define IDC_GROUP                       1541
 #define IDC_AUTH                        1543
@@ -666,26 +666,14 @@
 #define ID_ICQ_EXIT                     40001
 #define IDM_COPY                        40001
 #define ID_RESET                        40002
-#define POPUP_HIDEEMPTYGROUPS           40003
-#define POPUP_NEWSUBGROUP               40004
-#define POPUP_HIDEOFFLINE               40005
-#define POPUP_GROUPHIDEOFFLINE          40006
-#define POPUP_HIDEOFFLINEROOT           40007
-#define POPUP_DISABLEGROUPS             40008
 #define IDM_SENDMESSAGE                 40009
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
 #define IDM_CLEAR                       40013
 #define IDM_OPENLINK                    40014
 #define IDM_COPYLINK                    40015
-#define POPUP_HIDEMIRANDA               40017
 #define ID_CANCELCHANGE                 40018
 #define POPUP_GROUPSHOWOFFLINE          40019
-#define ID_TRAY_HIDE                    40038
-#define ID_TRAY_EXIT                    40040
-#define POPUP_NEWGROUP                  40050
-#define POPUP_RENAMEGROUP               40052
-#define POPUP_DELETEGROUP               40053
 #define ID_GROUP                        40066
 #define ID_UNGROUP                      40067
 #define IDM_SEARCH_GOOGLE               40080
@@ -703,7 +691,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        338
+#define _APS_NEXT_RESOURCE_VALUE        339
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1761
 #define _APS_NEXT_SYMED_VALUE           101

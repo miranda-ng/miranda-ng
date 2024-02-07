@@ -339,7 +339,7 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nn
 			AddNewMailsToListView(hDlg == nullptr ? nullptr : GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount, nflags);
 
 		if (RunMailBrowser)
-			SetWindowTextW(hDlg, CMStringW(FORMAT, LPGENW("%s - %d new mail messages, %d total"),
+			SetWindowTextW(hDlg, CMStringW(FORMAT, TranslateT("%s - %d new mail messages, %d total"),
 				_A2T(ActualAccount->Name).get(), MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display));
 
 		DoMailActions(hDlg, ActualAccount, &MN, nflags, nnflags);

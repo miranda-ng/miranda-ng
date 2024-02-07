@@ -1,7 +1,7 @@
 /*
 
 Facebook plugin for Miranda NG
-Copyright © 2019-23 Miranda NG team
+Copyright © 2019-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -245,6 +245,11 @@ int FacebookProto::SetStatus(int iNewStatus)
 	switch (iNewStatus) {
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_OFFLINE:
+		break;
+
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_INVISIBLE:
+		iNewStatus = ID_STATUS_ONLINE;
 		break;
 
 	default:

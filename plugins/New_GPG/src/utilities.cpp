@@ -1,4 +1,4 @@
-// Copyright © 2010-23 sss
+// Copyright © 2010-24 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -476,7 +476,7 @@ void HistoryLog(MCONTACT hContact, const char *msg, uint32_t _time, uint32_t fla
 	dbei.flags = DBEF_UTF | flags;
 	dbei.timestamp = (_time) ? _time : (uint32_t)time(0);
 	dbei.cbBlob = (uint32_t)mir_strlen(msg) + 1;
-	dbei.pBlob = (uint8_t*)msg;
+	dbei.pBlob = (char *)msg;
 	db_event_add(hContact, &dbei);
 }
 

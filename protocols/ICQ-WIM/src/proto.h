@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
-// Copyright © 2012-2023 Miranda NG team
+// Copyright © 2012-2024 Miranda NG team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@ struct IcqUser : public MZeroedObject
 
 	CMStringW m_aimid;
 	MCONTACT  m_hContact;
-	bool      m_bInList, m_bGotCaps, m_bWasOnline;
+	bool      m_bInList, m_bGotCaps, m_bWasOnline, m_bSkipPatch;
 	__int64   m_iProcessedMsgId;
 	int       m_iApparentMode;
 	time_t    m_timer1, m_timer2;
@@ -146,12 +146,16 @@ struct IcqFileTransfer : public MZeroedObject
 
 struct IcqOwnMessage
 {
-	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid, const char *pszText) :
+	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *pszText) :
 		m_msgid(_msgid),
 		m_hContact(_hContact),
 		m_szText(mir_strdup(pszText))
 	{
-		strncpy_s(m_guid, guid, _TRUNCATE);
+	}
+
+	void setGuid(const char *pszGuid)
+	{
+		strncpy_s(m_guid, pszGuid, _TRUNCATE);
 	}
 
 	MCONTACT m_hContact;
@@ -163,6 +167,7 @@ struct IcqOwnMessage
 
 class CIcqProto : public PROTO<CIcqProto>
 {
+	friend class CForwardDlg;
 	friend struct AsyncRapiRequest;
 
 	class CIcqProtoImpl
@@ -170,7 +175,7 @@ class CIcqProto : public PROTO<CIcqProto>
 		friend class CIcqProto;
 
 		CIcqProto &m_proto;
-		CTimer m_heartBeat, m_markRead;
+		CTimer m_heartBeat, m_markRead, m_delete;
 		
 		void OnHeartBeat(CTimer *) {
 			m_proto.CheckStatus();
@@ -181,11 +186,18 @@ class CIcqProto : public PROTO<CIcqProto>
 			pTimer->Stop();
 		}
 
+		void OnDelete(CTimer *pTimer) {
+			m_proto.BatchDeleteMsg();
+			pTimer->Stop();
+		}
+
 		CIcqProtoImpl(CIcqProto &pro) :
 			m_proto(pro),
-			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+			m_delete(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
 		{
+			m_delete.OnEvent = Callback(this, &CIcqProtoImpl::OnDelete);
 			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
 			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
 		}
@@ -200,13 +212,14 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462;
+	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462, m_bInvisible, m_bRemoveForAll;
 	int           m_iTimeShift;
-				     
+		
 	MCONTACT      CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void          CheckPassword(void);
 	void          ConnectionFailed(int iReason, int iErrorCode = 0);
 	void          EmailNotification(const wchar_t *pwszText);
+	void          ForwardMessage(MEVENT hEVent, MCONTACT hContact);
 	void          GetPermitDeny();
 	wchar_t*      GetUIN(MCONTACT hContact);
 	void          MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
@@ -216,7 +229,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          RetrieveUserCaps(IcqUser *pUser);
 	void          RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void          RetrieveUserInfo(MCONTACT hContact);
-	void          SendMrimLogin(NETLIBHTTPREQUEST *pReply);
+	void          SendMrimLogin(MHttpResponse *pReply);
+	void          SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOwnMessage *pOwn = nullptr);
+	void          SetOwnId(const CMStringW &wszId);
 	void          SetServerStatus(int iNewStatus);
 	void          ShutdownSession(void);
 	void          StartSession(void);
@@ -228,7 +243,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
 	MCONTACT      ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
 	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
+	void          ParseMessagePart(MCONTACT hContact, const JSONNode &msg, IcqFileInfo *&pFileInfo);
 	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
+	void          RetrievePatches(MCONTACT hContact);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessPatchVersion(MCONTACT hContact, __int64 currPatch);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
@@ -240,40 +257,44 @@ class CIcqProto : public PROTO<CIcqProto>
 	LIST<IcqUser> m_arMarkReadQueue;
 	void          SendMarkRead();
 
+	mir_cs        m_csDeleteQueue;
+	LIST<char>    m_arDeleteQueue;
+	MCONTACT      m_hDeleteContact = INVALID_CONTACT_ID;
+	void          BatchDeleteMsg();
+
 	__int64       getId(MCONTACT hContact, const char *szSetting);
 	void          setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
 				     
-	void          OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetPatches(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGePresence(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetUserCaps(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnLastSeen(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnLeaveChat(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
-	void          OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void          OnAddBuddy(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnAddClient(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnBatchDeleteMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMraAuth(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMraAuthFinal(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckMrimLogin(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckPassword(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnCheckPhone(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnFetchEvents(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnFileContinue(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnFileInit(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnFileInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGenToken(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetChatInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetPermitDeny(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGePresence(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetSticker(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserCaps(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnGetUserInfo(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnLeaveChat(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnLoginViaPhone(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnNormalizePhone(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnReceiveAvatar(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnSearchResults(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnSendMessage(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnSessionEnd(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnStartSession(MHttpResponse *pReply, AsyncHttpRequest *pReq);
+	void          OnValidateSms(MHttpResponse *pReply, AsyncHttpRequest *pReq);
 				     
 	void          ProcessBuddyList(const JSONNode &pRoot);
 	void          ProcessDiff(const JSONNode &pRoot);
@@ -300,6 +321,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	LONG          m_msgId = 1;
 	int           m_iRClientId;
 	HGENMENU      m_hUploadGroups;
+	MCONTACT      m_hFavContact = INVALID_CONTACT_ID;
 
 	mir_cs        m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
@@ -316,13 +338,13 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
 
-	int       __cdecl GroupchatEventHook(WPARAM, LPARAM);
-	int       __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+	int       __cdecl GcEventHook(WPARAM, LPARAM);
+	int       __cdecl GcMenuHook(WPARAM, LPARAM);
 
-	void      Chat_ProcessLogMenu(SESSION_INFO *si, int);
-	void      Chat_SendPrivateMessage(GCHOOK *gch);
+	void      GcProcessLogMenu(SESSION_INFO *si, int);
+	void      GcSendPrivateMessage(GCHOOK *gch);
 
-	SESSION_INFO* CreateGroupChat(const wchar_t *pwszId, const wchar_t *pwszNick);
+	SESSION_INFO* GcCreate(const wchar_t *pwszId, const wchar_t *pwszNick);
 
 	void      RetrieveChatInfo(MCONTACT hContact);
 
@@ -352,13 +374,13 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      InitContactCache(void);
 	IcqUser*  FindUser(const CMStringW &pwszId);
 	MCONTACT  CreateContact(const CMStringW &pwszId, bool bTemporary);
-
+	
 	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Menus
 
-	HGENMENU  hmiConvert;
+	HGENMENU  hmiForward, hmiConvert, hmiFavorites;
 
 	void      InitMenus();
 
@@ -391,6 +413,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
 	INT_PTR   __cdecl SvcLoadHistory(WPARAM, LPARAM);
+	INT_PTR   __cdecl SvcEmptyHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
@@ -404,7 +427,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	MCONTACT  AddToList( int flags, PROTOSEARCHRESULT *psr) override;
 			    
-	int       AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
+	int       AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int       AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
 	INT_PTR   GetCaps(int type, MCONTACT hContact = NULL) override;
@@ -415,15 +438,15 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int       SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 			    
-	int       SetApparentMode(MCONTACT hContact, int mode) override;
 	int       SetStatus(int iNewStatus) override;
 			    
 	int       UserIsTyping(MCONTACT hContact, int type) override;
 			    
 	void      OnBuildProtoMenu(void) override;
 	void      OnContactAdded(MCONTACT) override;
-	bool      OnContactDeleted(MCONTACT) override;
+	bool      OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow   OnCreateAccMgrUI(MWindow) override;
+	void      OnEventDeleted(MCONTACT, MEVENT, int) override;
 	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
@@ -448,6 +471,7 @@ public:
 	CMOption<uint32_t> m_iStatus2;
 
 	void CheckStatus(void);
+	MCONTACT GetRealContact(IcqUser *pUser);
 	CMStringW GetUserId(MCONTACT);
 
 	__forceinline int TS() const

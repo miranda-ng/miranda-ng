@@ -160,13 +160,13 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	bool  MesExist = false;
 	T2Utf pszTemp(message);
 	int cbMemoLen = 10000, cbOrigLen = (uint32_t)mir_strlen(pszTemp);
-	uint8_t *pbBuffer = (uint8_t*)mir_alloc(cbMemoLen);
+	char *pbBuffer = (char *)mir_alloc(cbMemoLen);
 
 	DB::ECPTR pCursor(DB::EventsRev(hContact));
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (olddbei.cbBlob > cbMemoLen)
-			pbBuffer = (uint8_t*)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));
+			pbBuffer = (char *)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));
 		olddbei.pBlob = pbBuffer;
 		db_event_get(hDbEvent, &olddbei);
 
@@ -187,10 +187,10 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 		T2Utf pszMessage(message);
 
-		PROTORECVEVENT recv = {};
-		recv.timestamp = (uint32_t)stamp;
-		recv.szMessage = pszMessage;
-		ProtoChainRecvMsg(hContact, &recv);
+		DB::EventInfo dbei;
+		dbei.timestamp = (uint32_t)stamp;
+		dbei.pBlob = pszMessage;
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 }
 

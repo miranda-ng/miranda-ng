@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -75,10 +75,6 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		char *szProto = pdnce->szProto;
 		if (szProto != nullptr && !Clist_IsHiddenMode(dat, wStatus))
 			p.flags |= CONTACTF_ONLINE;
-		int apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
-		if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
-		else if (apparentMode == ID_STATUS_ONLINE) p.flags |= CONTACTF_VISTO;
-		else if (apparentMode) p.flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
 		if (pdnce->NotOnList) p.flags |= CONTACTF_NOTONLIST;
 		int idleMode = szProto != nullptr ? pdnce->IdleTS : 0;
 		if (idleMode) p.flags |= CONTACTF_IDLE;
@@ -132,19 +128,6 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, pdnce->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
 
-	uint16_t apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
-	if (apparentMode)
-		switch (apparentMode) {
-		case ID_STATUS_OFFLINE:
-			cont->flags |= CONTACTF_INVISTO;
-			break;
-		case ID_STATUS_ONLINE:
-			cont->flags |= CONTACTF_VISTO;
-			break;
-		default:
-			cont->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-		}
-
 	if (pdnce->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
 
@@ -197,10 +180,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 {
 	if (!group) return false;
 	if (group->bHideOffline) return false;
-
-	uint32_t groupFlags = 0;
-	Clist_GroupGetName(group->groupId, &groupFlags);
-	return (groupFlags & GROUPF_SHOWOFFLINE) != 0;
+	return group->bShowOffline;
 }
 
 MCONTACT SaveSelection(ClcData *dat)
@@ -331,7 +311,6 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
 	pdnce->m_bNoHiddenOffline = g_plugin.getByte(hContact, "noOffline");
 	pdnce->IdleTS = db_get_dw(hContact, pdnce->szProto, "IdleTS", 0);
-	pdnce->ApparentMode = db_get_w(hContact, pdnce->szProto, "ApparentMode", 0);
 	pdnce->NotOnList = !Contact::OnList(hContact);
 	pdnce->IsExpanded = g_plugin.getByte(hContact, "Expanded");
 	pdnce->dwLastOnlineTime = db_get_dw(hContact, pdnce->szProto, "LastSeen", 0);

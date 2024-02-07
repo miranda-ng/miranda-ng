@@ -34,6 +34,7 @@ echo #define MIRANDA_VERSION_DISPLAY     "%1.%2.%3 alpha build #%4 (%5)"        
 echo #define MIRANDA_VERSION_DWORD       MIRANDA_MAKE_VERSION(%1, %2, %3, %4)      >> "%TempFileName%"
 echo #define MIRANDA_VERSION_CORE        MIRANDA_MAKE_VERSION(%1, %2, %3, 0)       >> "%TempFileName%"
 echo #define MIRANDA_VERSION_CORE_STRING "%1.%2.%3"                                >> "%TempFileName%"
+echo #define MIRANDA_VERSION_ISALPHA     1                                         >> "%TempFileName%"
 echo.                                                                              >> "%TempFileName%"
 echo #endif // M_VERSION_H__                                                       >> "%TempFileName%"
 

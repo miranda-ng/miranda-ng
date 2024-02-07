@@ -628,6 +628,12 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	wstring sRemoteUser;
 	string::size_type nFirstColumnWidth;
 
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto == nullptr) {
+		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
+		return false;
+	}
+
 	if (g_bUseLessAndGreaterInExport) {
 		sLocalUser = L"<<";
 		sRemoteUser = L">>";
@@ -636,6 +642,13 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	else {
 		sLocalUser = ptrW(GetMyOwnNick(hContact));
 		sRemoteUser = Clist_GetContactDisplayName(hContact);
+		if (dbei.szUserId && Contact::IsGroupChat(hContact)) {
+			ptrW contactId(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+			if (auto *si = Chat_Find(contactId, szProto))
+				if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
+					sRemoteUser = pUser->pszNick;
+		}
+
 		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
 		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
 		nFirstColumnWidth += 2;
@@ -643,12 +656,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 	wchar_t szTemp[500];
 	bool bWriteUTF8Format = false;
-
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto == nullptr) {
-		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
-		return false;
-	}
 
 	if (bAppendOnly) {
 		bWriteUTF8Format = g_bUseUtf8InNewFiles;
@@ -681,9 +688,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str()).get()));
 				pInfo.push_back(JSONNode("proto", szProto));
 
-				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-				if (id != NULL)
-					pInfo.push_back(JSONNode("uin", T2Utf(id).get()));
+				ptrW contactId(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+				if (contactId != NULL)
+					pInfo.push_back(JSONNode("uin", T2Utf(contactId).get()));
 
 				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
 				if (szTemp[0]) {
@@ -761,6 +768,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		if (mir_strcmp(dbei.szModule, szProto))
 			pRoot.push_back(JSONNode("module", dbei.szModule));
 
+		if (dbei.szUserId && !(dbei.flags & DBEF_SENT))
+			pRoot.push_back(JSONNode("member", T2Utf(sRemoteUser.c_str()).get()));
+
 		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
 		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
@@ -789,7 +799,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			}
 		}
 		else {
-			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+			ptrW msg(DbEvent_GetTextW(&dbei));
 			if (msg)
 				pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 		}
@@ -804,7 +814,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	}
 
 	// Get time stamp 
-	int nIndent = mir_snwprintf(szTemp, L"%-*s", nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
+	int nIndent = mir_snwprintf(szTemp, L"%-*s", (int)nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
 	TimeZone_ToStringT(dbei.timestamp, g_sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
@@ -820,7 +830,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
-			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), bWriteUTF8Format);
+			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei)), bWriteUTF8Format);
 			break;
 
 		case EVENTTYPE_FILE:
@@ -1001,7 +1011,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 	DB::EventInfo dbei(hDbEvent);
 	if (dbei) {
 		if (db_mc_isMeta(hContact))
-			hContact = db_event_getContact(hDbEvent);
+			hContact = dbei.hContact;
 
 		// Write the event
 		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);

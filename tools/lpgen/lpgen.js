@@ -43,7 +43,7 @@ var scriptpath = FSO.GetParentFolderName(WScript.ScriptFullName);
 //string for make path output into templates.
 var trunkPath = FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath));
 //path to sln file
-var slnfile = FSO.BuildPath(trunkPath, "bin15\\mir_full.sln");
+var slnfile = FSO.BuildPath(trunkPath, "bin16\\mir_full.sln");
 //core path
 var core = FSO.BuildPath(trunkPath, "src");
 //include path
@@ -135,7 +135,6 @@ sln_stream.Close();
 // remove following lines comments to add Pascal plugins processing.
 // project_files.push(trunkPath+"\\plugins\\Actman\\actman.dpr");
 // project_files.push(trunkPath+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
-// project_files.push(trunkPath+"\\plugins\\QuickSearch\\quicksearch.dpr");
 // project_files.push(trunkPath+"\\plugins\\Watrack\\watrack.dpr");
 // project_files.push(trunkPath+"\\plugins\\mRadio\\mradio.dpr");
 
@@ -537,7 +536,7 @@ function ParseSourceFile(FileTextVar, array) {
         nofirstlaststring = noslashstring.slice(1, -1);
         //remove escape slashes before ' and "
         stringtolangpack = nofirstlaststring.replace(/\\(")/g, "$1");
-        ///if our string still exist, and length at least one symbol
+        //if our string still exist, and length at least one symbol
         if (stringtolangpack.length > 0) {
             //brand new _T() crap filtering engine :)
             clearstring = filter_T(stringtolangpack);

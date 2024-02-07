@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright (c) 2014-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -54,6 +54,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_utils.h>
 #include <m_proto_listeningto.h>
 #include <m_folders.h>
+#include <m_version.h>
 
 #include "resource.h"
 #include "dummy.h"

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -98,7 +98,7 @@ MIR_CORE_DLL(MCONTACT) db_add_contact(void)
 	return hNew;
 }
 
-MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto)
+MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags)
 {
 	ptrW wszPhoto(db_get_wsa(hContact, "ContactPhoto", "File"));
 	if (wszPhoto != nullptr) {
@@ -109,9 +109,9 @@ MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto)
       #endif
    }
 
-	if (!bFromProto)
+	if (!(flags & CDF_FROM_SERVER))
 		if (auto *ppro = Proto_GetInstance(hContact))
-			if (!ppro->OnContactDeleted(hContact))
+			if (!ppro->OnContactDeleted(hContact, flags))
 				return 1;
 
 	Netlib_Logf(nullptr, "Contact deleted: %d", hContact);
@@ -413,15 +413,15 @@ MIR_CORE_DLL(int) db_event_count(MCONTACT hContact)
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventCount(hContact);
 }
 
-MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer)
+MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, int flags)
 {
 	if (g_pCurrDb == nullptr)
 		return 0;
 	
-	if (!bFromServer) {
+	if (!(flags & CDF_FROM_SERVER)) {
 		MCONTACT hContact = g_pCurrDb->GetEventContact(hDbEvent);
 		if (auto *ppro = Proto_GetInstance(hContact))
-			ppro->OnEventDeleted(hContact, hDbEvent);
+			ppro->OnEventDeleted(hContact, hDbEvent, flags);
 	}
 
 	return g_pCurrDb->DeleteEvent(hDbEvent);

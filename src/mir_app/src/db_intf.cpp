@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -33,6 +33,13 @@ MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr)
 {
 	if (pDescr != nullptr)
 		arDbPlugins.insert(pDescr);
+}
+
+MIR_APP_DLL(void) UnregisterDatabasePlugin(DATABASELINK *pDescr)
+{
+	int idx = arDbPlugins.indexOf(pDescr);
+	if (idx != -1)
+		arDbPlugins.remove(idx);
 }
 
 MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName)

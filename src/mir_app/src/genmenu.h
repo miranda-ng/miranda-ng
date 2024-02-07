@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -44,7 +44,7 @@ struct TMO_LinkedList
 
 struct TMO_IntMenuItem
 {
-	uint32_t        signature;
+	uint32_t     signature;
 	int          iCommand;
 	int          iconId;           // icon index in the section's image list
 	TMO_MenuItem mi;               // user-defined data
@@ -55,7 +55,7 @@ struct TMO_IntMenuItem
 	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
 	bool         customVisible;
 
-	uint32_t        hotKey;
+	uint32_t     hotKey;
 	WPARAM       execParam;
 	void*        pUserData;
 
@@ -120,11 +120,13 @@ __forceinline TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *pimi, pfnWa
 	return MO_RecursiveWalkMenu(pimi, pFunc, (void *)pszParam);
 }
 
-//general stuff
+// general stuff
 int InitGenMenu();
 int UninitGenMenu();
 
 int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
+
+HMENU Menu_BuildGroupMenu(struct ClcGroup *group);
 
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
 

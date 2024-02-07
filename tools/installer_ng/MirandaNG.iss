@@ -17,7 +17,7 @@ AppVersion={#AppVer}
 AppName=Miranda NG
 AppVerName=Miranda NG {#SetupSetting("AppVersion")}
 AppPublisher=Miranda NG team
-AppCopyRight=2023 © Miranda NG team
+AppCopyRight=2024 © Miranda NG team
 VersionInfoVersion={#SetupSetting("AppVersion")}
 MinVersion=5.0
 ArchitecturesAllowed={#ArcAllow}
@@ -66,9 +66,9 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\*.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\FreeImage.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Libs\libcrypto-1_1.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Libs\libcrypto-3.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libjson.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Libs\libssl-1_1.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Libs\libssl-3.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_app.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_core.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\Pcre16.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 

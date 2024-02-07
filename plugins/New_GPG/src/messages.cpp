@@ -1,4 +1,4 @@
-// Copyright © 2010-23 sss
+// Copyright © 2010-24 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -299,11 +299,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!ccs)
 		return Proto_ChainRecv(w, ccs);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)(ccs->lParam);
-	if (!pre)
+	auto *dbei = (DB::EventInfo*)(ccs->lParam);
+	if (!dbei)
 		return Proto_ChainRecv(w, ccs);
 
-	char *msg = pre->szMessage;
+	char *msg = dbei->pBlob;
 	if (!msg)
 		return Proto_ChainRecv(w, ccs);
 	
@@ -497,7 +497,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 		return Proto_ChainRecv(w, ccs);
 
-	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, pre->timestamp));
+	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, dbei->timestamp));
 	return 0;
 }
 
@@ -761,7 +761,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			//mir_free(dbei->pBlob);
 			str_event.insert(0, toUTF8(globals.wszOutopentag.c_str()));
 			str_event.append(toUTF8(globals.wszOutclosetag.c_str()));
-			dbei->pBlob = (uint8_t*)mir_strdup(str_event.c_str());
+			dbei->pBlob = mir_strdup(str_event.c_str());
 			dbei->cbBlob = (uint32_t)str_event.length() + 1;
 		}
 

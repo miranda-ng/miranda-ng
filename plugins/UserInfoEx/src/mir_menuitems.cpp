@@ -40,7 +40,8 @@ HGENMENU *hMenuItemAccount	= nullptr;
  *
  * @return	0 on success, -1 on failure
  **/
-INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
+
+static INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
 {
 	if (!Count || !pItems) {
 		return -1;
@@ -63,6 +64,7 @@ INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
  *
  * @return	nothing
  **/
+
 void RebuildContact()
 {
 	HGENMENU mhRoot = nullptr;
@@ -85,7 +87,6 @@ void RebuildContact()
 	// support new genmenu style
 	CMenuItem mi(&g_plugin);
 
-	
 	switch (flag) {
 	case 3:
 		//cascade off
@@ -280,14 +281,15 @@ void RebuildMain()
  *
  * @return	nothing
  **/
+
+static HGENMENU hGroupMenuItems[3], hSubGroupMenuItems[3];
+
 void RebuildGroup()
 {
 	int flag = 0;
 	uint8_t item = 0;
 
 	HGENMENU mhRoot = nullptr;
-	HGENMENU mhExIm = nullptr;
-	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
 
 	// load options
 	flag = g_plugin.getByte(SET_MI_GROUP, MCAS_NOTINITIATED);
@@ -297,7 +299,7 @@ void RebuildGroup()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hGroupMenuItems, _countof(hGroupMenuItems));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
@@ -308,19 +310,18 @@ void RebuildGroup()
 
 	switch (flag) {
 	case 3:
-		//cascade off
-		mhRoot = mhExIm = nullptr;
-		hMenuItem[item++] = nullptr;
+		// cascade off
+		mhRoot = nullptr;
+		hGroupMenuItems[item++] = nullptr;
 		break;
 	case 5:
-		//cascade all
+		// cascade all
 		SET_UID(mi, 0xfefe20db, 0x431f, 0x4fef, 0x9d, 0xa6, 0x70, 0xcd, 0x25, 0xf1, 0x2f, 0x1d);
 		mi.position = 250000;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.name.a = MODULELONGNAME;
 		mhRoot = Menu_AddGroupMenuItem(&mi);
-		hMenuItem[item++] = mhRoot;
-		mhExIm = mhRoot;
+		hGroupMenuItems[item++] = mhRoot;
 		break;
 	case 9:
 		//cascade Ex/Import
@@ -328,9 +329,8 @@ void RebuildGroup()
 		mi.position = 250100;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
-		mhExIm = Menu_AddGroupMenuItem(&mi);
-		hMenuItem[item++] = mhExIm;
-		mhRoot = nullptr;
+		mhRoot = Menu_AddGroupMenuItem(&mi);
+		hGroupMenuItems[item++] = mhRoot;
 		break;
 	default:
 		//disable Menue
@@ -338,7 +338,7 @@ void RebuildGroup()
 	}
 
 	// VCard's Ex/Import menuitems
-	mi.root = mhExIm;
+	mi.root = mhRoot;
 
 	// Export
 	SET_UID(mi, 0x9a0d81ec, 0x6795, 0x421a, 0xb2, 0x79, 0x41, 0xbd, 0xde, 0x29, 0x3b, 0xa4);
@@ -346,7 +346,7 @@ void RebuildGroup()
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 250200;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
-	hMenuItem[item++] = Menu_AddGroupMenuItem(&mi);
+	hGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi);
 
 	// Import
 	SET_UID(mi, 0xd6d98c8f, 0x5cdf, 0x4138, 0x88, 0x6c, 0x31, 0x1a, 0x5a, 0x9, 0x56, 0xbb);
@@ -354,7 +354,7 @@ void RebuildGroup()
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 250300;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
-	hMenuItem[item++] = Menu_AddGroupMenuItem(&mi);
+	hGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi);
 }
 
 /******************************
@@ -376,10 +376,6 @@ void RebuildSubGroup()
 	uint8_t item = 0;
 	GroupMenuParam gmp = { 0 };
 
-	HGENMENU mhRoot = nullptr;
-	HGENMENU mhExIm = nullptr;
-	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
-
 	// load options
 	flag = g_plugin.getByte(SET_MI_SUBGROUP, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
@@ -388,7 +384,7 @@ void RebuildSubGroup()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hSubGroupMenuItems, _countof(hSubGroupMenuItems));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
@@ -398,11 +394,13 @@ void RebuildSubGroup()
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
+	HGENMENU mhRoot;
+
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = nullptr;
-		hMenuItem[item++] = nullptr;
+		mhRoot = nullptr;
+		hSubGroupMenuItems[item++] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -410,9 +408,8 @@ void RebuildSubGroup()
 		mi.position = 1050000;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.name.a = MODULELONGNAME;
-		mhRoot = Menu_AddSubGroupMenuItem(&mi);
-		hMenuItem[item++] = mhRoot;
-		mhExIm = mhRoot;
+		mhRoot = Menu_AddGroupMenuItem(&mi);
+		hSubGroupMenuItems[item++] = mhRoot;
 		break;
 	case 9:
 		//cascade Ex/Import
@@ -420,9 +417,8 @@ void RebuildSubGroup()
 		mi.position = 1050100;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import group");
-		mhExIm = Menu_AddSubGroupMenuItem(&mi);
-		hMenuItem[item++] = mhExIm;
-		mhRoot = nullptr;
+		mhRoot = Menu_AddGroupMenuItem(&mi);
+		hSubGroupMenuItems[item++] = mhRoot;
 		break;
 	default:
 		//disable Menue
@@ -430,27 +426,37 @@ void RebuildSubGroup()
 	}
 
 	// VCard's Ex/Import menuitems
-	mi.root = mhExIm;
+	mi.root = mhRoot;
 
 	// Export
 	SET_UID(mi, 0x65be2523, 0x15fd, 0x45ca, 0xae, 0xe6, 0xc2, 0x98, 0xd2, 0xa9, 0xff, 0xd5);
 	mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
+	mi.name.a = mhRoot!= NULL ? LPGEN("&Export") : LPGEN("&Export group");
 	mi.position = 1050200;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
 	gmp.wParam = TRUE;
-	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&mi, &gmp);
+	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi, &gmp);
 
 	// Import
 	SET_UID(mi, 0xf6be7278, 0x4adb, 0x4e6a, 0x9f, 0x63, 0x79, 0xda, 0xbb, 0xcd, 0xbe, 0x42);
 	mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
+	mi.name.a = mhRoot != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 	mi.position = 1050300;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
 	gmp.wParam = FALSE;
-	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&mi, &gmp);
+	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi, &gmp);
+}
+
+int OnBuildGroupMenu(WPARAM wParam, LPARAM)
+{
+	for (auto &it : hGroupMenuItems)
+		Menu_ShowItem(it, wParam == 0);
+
+	for (auto &it : hSubGroupMenuItems)
+		Menu_ShowItem(it, wParam != 0);
+	return 0;
 }
 
 /******************************
@@ -469,7 +475,7 @@ void RebuildSubGroup()
  *
  * @return	always 0
  **/
-INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
+int OnBuildStatusMenu(WPARAM, LPARAM lParam)
 {
 	if (Miranda_IsTerminated())
 		return 0;
@@ -577,5 +583,6 @@ void RebuildMenu()
 	RebuildContact();
 	RebuildGroup();
 	RebuildSubGroup();
-	RebuildAccount(NULL, 1);
+	
+	OnBuildStatusMenu(NULL, 1);
 }

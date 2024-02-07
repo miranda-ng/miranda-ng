@@ -64,7 +64,6 @@
 [Advanced options]
 [Show tooltip after all content is ready (avatar && status message)]
 [Retrieve new status message]
-[Disable in invisible status]
 [Retrieve xStatus details if auto-retrieve is disabled]
 [Status bar and tray tooltip]
 [Limit status messages in status bar and tray tooltips to:]

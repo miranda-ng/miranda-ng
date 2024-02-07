@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -52,21 +52,16 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	nlu.toLog = 1;
 
 	// initialize the netlib request
-	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT;
-	nlhr.szUrl = szUrl;
+	nlhr.m_szUrl = szUrl;
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(&nlu, &nlhr));
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200) {
-			buf.lpszScriptBuffer = nlhrReply->pData;
-			buf.dwScriptBufferSize = nlhrReply->dataLength + 1;
-
-			nlhrReply->dataLength = 0;
-			nlhrReply->pData = nullptr;
+			buf.dwScriptBufferSize = nlhrReply->body.GetLength() + 1;
+			buf.lpszScriptBuffer = nlhrReply->body.Detach();
 		}
 	}
 }

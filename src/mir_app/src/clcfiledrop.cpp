@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -82,7 +82,7 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 	if (szProto == nullptr)
 		return 0;
 
-	uint32_t protoCaps = CallProtoServiceInt(0,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (!(protoCaps & PF1_FILESEND))
 		return 0;
 	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))

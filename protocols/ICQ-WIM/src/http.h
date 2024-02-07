@@ -49,7 +49,7 @@ class JsonReply
 	CMStringA m_requestId;
 
 public:
-	JsonReply(NETLIBHTTPREQUEST*);
+	JsonReply(MHttpResponse*);
 	~JsonReply();
 
 	__forceinline const CMStringA& requestId() const { return m_requestId; }
@@ -65,7 +65,7 @@ class FileReply
 	JSONNode* m_data = nullptr;
 
 public:
-	FileReply(NETLIBHTTPREQUEST*);
+	FileReply(MHttpResponse*);
 	~FileReply();
 
 	__forceinline JSONNode& data() const { return *m_data; }
@@ -80,7 +80,7 @@ class RobustReply
 	JSONNode *m_results = nullptr;
 
 public:
-	RobustReply(NETLIBHTTPREQUEST*);
+	RobustReply(MHttpResponse*);
 	~RobustReply();
 
 	__forceinline JSONNode &result() const { return *m_result; }

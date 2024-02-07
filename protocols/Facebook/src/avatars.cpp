@@ -1,7 +1,7 @@
 /*
 
 Facebook plugin for Miranda NG
-Copyright © 2019-23 Miranda NG team
+Copyright © 2019-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,10 +33,8 @@ void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 
 void __cdecl FacebookProto::AvatarsUpdate(void *)
 {
-	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
+	MHttpRequest req(REQUEST_GET);
 	req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	req.requestType = REQUEST_GET;
 
 	CMStringA szParams((m_bUseBigAvatars) ? "type=large" : "type=normal");
 	szParams.AppendFormat("&access_token=%s", m_szAuthToken.c_str());
@@ -49,42 +47,32 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 			continue;
 
 		delSetting(cc, "UpdateNeeded");
-
-		CMStringA szUrl(FORMAT, "https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
-		req.szUrl = szUrl.GetBuffer();
+		req.m_szUrl.Format("https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
 	
-		NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-		if (pReply == nullptr) {
-			debugLogA("Failed to retrieve avatar from url: %s", szUrl.c_str());
-			continue;
-		}
-
 		PROTO_AVATAR_INFORMATION ai;
 		ai.hContact = cc;
 		ai.format = PA_FORMAT_UNKNOWN;
 		GetAvatarFilename(cc, ai.filename);
 
-		bool bSuccess = false;
-		if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-			if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
+		NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, ai.filename));
+		if (pReply == nullptr) {
+			debugLogA("Failed to retrieve avatar from url: %s", req.m_szUrl.c_str());
+			continue;
+		}
+
+		if (pReply->resultCode == 200) {
+			if (auto *pszHdr = pReply->FindHeader("Content-Type"))
 				ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
-			if (ai.format != PA_FORMAT_UNKNOWN) {
-				FILE *fout = _wfopen(ai.filename, L"wb");
-				if (fout) {
-					fwrite(pReply->pData, 1, pReply->dataLength, fout);
-					fclose(fout);
-					bSuccess = true;
-				}
-				else debugLogA("Error saving avatar to file %S", ai.filename);
-			}
-			else debugLogA("unknown avatar mime type");
+			if (ai.format == PA_FORMAT_UNKNOWN)
+				debugLogA("unknown avatar mime type");
+
+			ProtoBroadcastAck(cc, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 		}
-		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, szUrl.c_str());
-
-		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
-
-		Netlib_FreeHttpRequest(pReply);
+		else {
+			debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, req.m_szUrl.c_str());
+			ProtoBroadcastAck(cc, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+		}
 	}
 }
 

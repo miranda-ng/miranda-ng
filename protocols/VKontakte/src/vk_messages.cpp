@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -57,10 +57,8 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE)
 			continue;
 
-		MCONTACT hForwardContact = db_event_getContact(mEvnt);
-
-		if (!Proto_IsProtoOnContact(hForwardContact, m_szModuleName)) {
-			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(hForwardContact);
+		if (!Proto_IsProtoOnContact(dbei.hContact, m_szModuleName)) {
+			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(dbei.hContact);
 
 			wchar_t ttime[64];
 			time_t  tTimestamp(dbei.timestamp);
@@ -188,7 +186,7 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	return uMsgId;
 }
 
-void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSendMessage(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
 	if (pReq->pUserInfo == nullptr) {
@@ -301,7 +299,7 @@ void CVkProto::RetrieveUnreadMessages()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveUnreadConversations", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh));
 }
 
-void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMessages %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -442,30 +440,29 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				wszOldMsg;
 		}
 
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 
 		if (isRead && bUseServerReadFlag)
-			recv.flags |= PREF_CREATEREAD;
+			dbei.flags |= DBEF_READ;
 
 		if (isOut)
-			recv.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && ((time(0) - tDateTime) < (60 * m_vkOptions.iInvisibleInterval)))
 			SetInvisible(hContact);
 
 		T2Utf pszBody(wszBody);
-		recv.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
-		recv.szMessage = pszBody;
+		dbei.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
+		dbei.pBlob = pszBody;
 		
 		if (!m_vkOptions.bShowReplyInMessage && szReplyId)
-			recv.szReplyId = szReplyId;
+			dbei.szReplyId = szReplyId;
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
-		
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited || (m_vkOptions.bShowReplyInMessage && szReplyId)) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
-			recv.szMsgId = szMid;
-			ProtoChainRecvMsg(hContact, &recv);
+			dbei.szId = szMid;
+			ProtoChainRecvMsg(hContact, dbei);
 			if (iMessageId > ReadQSWord(hContact, "lastmsgid", -1))
 				WriteQSWord(hContact, "lastmsgid", iMessageId);
 		}
@@ -481,15 +478,15 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			debugLogA("CVkProto::OnReceiveMessages add attachments");
 
 			T2Utf pszAttach(wszAttachmentDescr);
-			recv.timestamp = isOut ? time(0) : tDateTime;
-			recv.szMessage = pszAttach;
-			recv.szMsgId = strcat(szMid, "_");
-			ProtoChainRecvMsg(hContact, &recv);
+			dbei.timestamp = isOut ? time(0) : tDateTime;
+			dbei.pBlob = pszAttach;
+			dbei.szId = strcat(szMid, "_");
+			ProtoChainRecvMsg(hContact, dbei);
 		}
 	}
 }
 
-void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveDlgs %d", reply->resultCode);
 	if (reply->resultCode != 200)

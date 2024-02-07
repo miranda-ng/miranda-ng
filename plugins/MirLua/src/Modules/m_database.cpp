@@ -305,8 +305,8 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	switch (lua_type(L, -1)) {
 	case LUA_TTABLE:
 		dbei.cbBlob = (uint32_t)lua_rawlen(L, 4);
-		dbei.pBlob = (uint8_t*)mir_calloc(dbei.cbBlob);
-		for (uint32_t i = 0; i < dbei.cbBlob; i++) {
+		dbei.pBlob = (char *)mir_calloc(dbei.cbBlob);
+		for (int i = 0; i < dbei.cbBlob; i++) {
 			lua_geti(L, 4, i + 1);
 			dbei.pBlob[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
@@ -316,7 +316,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 		size_t nLen;
 		const char *str = lua_tolstring(L, -1, &nLen);
 		dbei.cbBlob = (uint32_t)nLen;
-		dbei.pBlob = (uint8_t*)mir_alloc(nLen);
+		dbei.pBlob = (char *)mir_alloc(nLen);
 		memcpy(dbei.pBlob, str, nLen);
 		break;
 	}
@@ -649,7 +649,7 @@ int MT<DBEVENTINFO>::Get(lua_State *L, DBEVENTINFO *dbei)
 
 	if (mir_strcmpi(key, "Blob") == 0) {
 		lua_createtable(L, dbei->cbBlob, 0);
-		for (uint32_t i = 0; i < dbei->cbBlob; i++) {
+		for (int i = 0; i < dbei->cbBlob; i++) {
 			lua_pushinteger(L, dbei->pBlob[i]);
 			lua_rawseti(L, -2, i + 1);
 		}

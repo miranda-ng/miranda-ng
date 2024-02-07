@@ -1,6 +1,6 @@
 /*
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -36,7 +36,7 @@ int SendMessageDirect(MCONTACT hContact, MEVENT hEvent, const wchar_t *szMsg)
 
 	int flags = 0;
 	if (Utils_IsRtl(szMsg))
-		flags |= PREF_RTL;
+		flags |= DBEF_RTL;
 
 	T2Utf sendBuffer(szMsg);
 	if (!mir_strlen(sendBuffer))

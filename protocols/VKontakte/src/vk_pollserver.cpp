@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@ void CVkProto::RetrievePollingInfo()
 	);
 }
 
-void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceivePollingInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceivePollingInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -137,9 +137,9 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 						m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszMsg;
 
-				PROTORECVEVENT recv = {};
+				DB::EventInfo dbei;
 				if (iUserId == m_iMyUserId)
-					recv.flags |= PREF_SENT;
+					dbei.flags |= DBEF_SENT;
 				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval)
 					SetInvisible(hContact);
 
@@ -147,10 +147,10 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				_itoa(iMessageId, szMid, 10);
 
 				T2Utf pszMsg(wszMsg);
-				recv.timestamp = tDateTime;
-				recv.szMessage = pszMsg;
-				recv.szMsgId = szMid;
-				ProtoChainRecvMsg(hContact, &recv);
+				dbei.timestamp = tDateTime;
+				dbei.pBlob = pszMsg;
+				dbei.szId = szMid;
+				ProtoChainRecvMsg(hContact, dbei);
 			}
 			break;
 
@@ -253,10 +253,8 @@ int CVkProto::PollServer()
 
 	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_szPollingServer, m_szPollingKey, m_szPollingTs, m_szAccessToken, 106, 2);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
-	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
-	req.requestType = REQUEST_GET;
-	req.szUrl = szReqUrl.GetBuffer();
+	MHttpRequest req(REQUEST_GET);
+	req.m_szUrl = szReqUrl.GetBuffer();
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_hPollingConn;
@@ -291,7 +289,7 @@ int CVkProto::PollServer()
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
-		JSONNode jnRoot = JSONNode::parse(reply->pData);
+		JSONNode jnRoot = JSONNode::parse(reply->body);
 		const JSONNode &jnFailed = jnRoot["failed"];
 		if (jnFailed && jnFailed.as_int() > 1) {
 			RetrievePollingInfo();

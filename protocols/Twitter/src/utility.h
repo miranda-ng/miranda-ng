@@ -1,5 +1,5 @@
 /*
-Copyright © 2012-23 Miranda NG team
+Copyright © 2012-24 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -24,5 +24,3 @@ StringPairs ParseQueryString(const CMStringA &queryString);
 void Split(const CMStringA &str, OBJLIST<CMStringA> &out, char sep, bool includeEmpty = false);
 
 void htmlEntitiesDecode(CMStringA &context);
-
-bool save_url(HNETLIBUSER hNetlib,const CMStringA &url,const CMStringW &filename);

@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -570,7 +570,7 @@ class CChatLogOptionDlg : public CChatBaseOptionDlg
 
 public:
 	CChatLogOptionDlg() :
-		CChatBaseOptionDlg(IDD_OPTIONS2),
+		CChatBaseOptionDlg(Srmm_IsCustomLogUsed(true) ? IDD_OPTIONS3 : IDD_OPTIONS2),
 		m_timer(this, 1),
 		btnBaseDir(this, IDC_MUC_OPENLOGBASEDIR),
 		chkLogging(this, IDC_LOGGING),
@@ -895,11 +895,9 @@ void Chat_Options(WPARAM wParam)
 	odp.pDialog = new CChatSettingsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (!Chat::bEnableCustomLogs) {
-		odp.szTab.a = LPGEN("Log formatting");
-		odp.pDialog = new CChatLogOptionDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.a = LPGEN("Log formatting");
+	odp.pDialog = new CChatLogOptionDlg();
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Highlighting");
 	odp.pDialog = new CHighlighOptionDlg();

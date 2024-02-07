@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -31,8 +31,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
-static int OnRedrawLog(void *pObj, WPARAM hContact, LPARAM)
+static int OnRedrawLog(void *pObj, WPARAM hContact, LPARAM hDbEvent)
 {
+	DB::EventInfo dbei(hDbEvent);
+	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+		if (!blob.isCompleted())
+			return 0;
+	}
+
 	auto *pLog = (CRtfLogWindow *)pObj;
 	auto &pDlg = pLog->GetDialog();
 
@@ -259,7 +266,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 
 		if (pLink->msg == WM_RBUTTONDOWN) {
 			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 6);
+			HMENU hSubMenu = GetSubMenu(hMenu, 1);
 			TranslateMenu(hSubMenu);
 
 			POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
@@ -327,10 +334,14 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 	if (!dat->pLog->CreateRtfEvent(dat, dbei))
 		return false;
 
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())) {
-		if (!dbei.markedRead())
-			db_event_markRead(dat->hContact, dat->hDbEvent);
-		Clist_RemoveEvent(-1, dat->hDbEvent);
+	if (!(dbei.flags & DBEF_SENT)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())
+			dbei.wipeNotify(dat->hDbEvent);
+		else if (dbei.eventType == EVENTTYPE_FILE) {
+			DB::FILE_BLOB blob(dbei);
+			if (blob.isOffline())
+				dbei.wipeNotify(dat->hDbEvent);
+		}
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);
@@ -620,7 +631,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	LRESULT res = mir_callNextSubclass(m_rtf.GetHwnd(), stubLogProc, msg, wParam, lParam);
+  	LRESULT res = mir_callNextSubclass(m_rtf.GetHwnd(), stubLogProc, msg, wParam, lParam);
 	if (msg == WM_GETDLGCODE)
 		return res & ~DLGC_HASSETSEL;
 	return res;

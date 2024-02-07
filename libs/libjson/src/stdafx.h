@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stddef.h>
 #include <process.h>
 #include <io.h>
+#include <fcntl.h>
 #include <limits.h>
 #include <string.h>
 #include <locale.h>

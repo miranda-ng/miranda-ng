@@ -462,12 +462,9 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			return NULL; // return it now, as later we change NULL to ""
 	}
 	else if (!mir_wstrcmp(ai->argv.w[0], VAR_PROTOCOL)) {
-		if (VarParseData.szProto) {
-			CString AnsiResult;
-			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));
-			AnsiResult.ReleaseBuffer();
-			Result = _A2T(AnsiResult);
-		}
+		if (VarParseData.szProto)
+			Result = _A2T(VarParseData.szProto);
+
 		if (Result == nullptr) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}

@@ -1,6 +1,6 @@
 /*
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -91,11 +91,11 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | DBEF_UTF | (p->flags & PREF_RTL ? DBEF_RTL : 0);
+	dbei.flags = DBEF_SENT | DBEF_UTF | (p->flags & DBEF_RTL ? DBEF_RTL : 0);
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (uint32_t)(mir_strlen(p->szMsg) + 1);
-	dbei.pBlob = (uint8_t*)p->szMsg;
+	dbei.pBlob = p->szMsg;
 	dbei.szId = (char *)lParam;
 
 	MessageWindowEvent evt = { id, hContact, &dbei };

@@ -253,18 +253,6 @@ void Protocol::GetAvatar()
 	data_changed = true;
 }
 
-
-int Protocol::GetNickMaxLength()
-{
-	if (!ProtoServiceExists(name, PS_GETMYNICKNAMEMAXLENGTH))
-		return MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE;
-
-	int ret = CallProtoService(name, PS_GETMYNICKNAMEMAXLENGTH, 0, 0);
-	if (ret <= 0)
-		ret = MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE;
-	return ret;
-}
-
 wchar_t* Protocol::GetNick()
 {
 	ptrW nick(Contact::GetInfo(CNF_DISPLAY, NULL, name));

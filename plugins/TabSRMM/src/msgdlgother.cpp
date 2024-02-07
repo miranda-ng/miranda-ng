@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -1909,13 +1909,7 @@ void CMsgDialog::SendHBitmapAsFile(HBITMAP hbmp) const
 
 	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == m_cache->getActiveStatus() && !(typeCaps & PF4_OFFLINEFILES)))
 		fSend = false;
-
-	if (protoCaps & PF1_VISLIST && db_get_w(m_cache->getActiveContact(), szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-		fSend = false;
-
-	if (protoCaps & PF1_INVISLIST && wMyStatus == ID_STATUS_INVISIBLE && db_get_w(m_cache->getActiveContact(), szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-		fSend = false;
-
+	
 	if (!fSend) {
 		CWarning::show(CWarning::WARN_SENDFILE, MB_OK | MB_ICONEXCLAMATION | CWarning::CWF_NOALLOWHIDE);
 		return;

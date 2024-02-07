@@ -705,7 +705,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							DBEVENTINFO dbei = {};
 							dbei.eventType = EVENTTYPE_MESSAGE;
 							dbei.flags = DBEF_SENT | DBEF_UTF;
-							dbei.pBlob = (uint8_t*)szMessage.get();
+							dbei.pBlob = szMessage.get();
 							dbei.cbBlob = (uint32_t)mir_strlen(szMessage) + 1;
 							dbei.szModule = ack->szModule;
 							dbei.timestamp = (uint32_t)time(0);
@@ -1223,7 +1223,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, wchar_t *contact, PReply reply)
 	TimeZone_ToString(dbEvent->timestamp, "D, s", timestamp, _countof(timestamp));
 
 	wchar_t *sender = (dbEvent->flags & DBEF_SENT) ? TranslateT("[me]") : contact;
-	wchar_t *message = DbEvent_GetTextW(dbEvent, CP_ACP);
+	wchar_t *message = DbEvent_GetTextW(dbEvent);
 
 	static wchar_t buffer[8192];
 	mir_snwprintf(buffer, L"[%S] %15s: %s", timestamp, sender, message);
@@ -1346,7 +1346,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 								DBEVENTINFO dbEvent = {};
 								char message[4096];
-								dbEvent.pBlob = (uint8_t*)message;
+								dbEvent.pBlob = message;
 
 								DB::ECPTR pCursor(DB::Events(hContact));
 								while (MEVENT hEvent = pCursor.FetchNext()) {

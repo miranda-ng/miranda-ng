@@ -54,12 +54,6 @@ struct MsgWndData : public MZeroedObject
 
 static OBJLIST<MsgWndData> g_MsgWndList(10, HandleKeySortT);
 
-int UpdateSrmmDlg(WPARAM, LPARAM)
-{
-	Srmm_ApplyOptions();
-	return 0;
-}
-
 // find the dialog info in the stored list
 static MsgWndData* IsMsgWnd(HWND hwnd)
 {

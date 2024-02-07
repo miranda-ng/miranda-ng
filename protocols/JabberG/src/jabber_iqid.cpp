@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -136,7 +136,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 	if (void *p = pInfo->GetUserData()) {
 		const char *szNode = (const char *)p;
 		const char *szVer = szNode + strlen(szNode) + 1;
-		g_clientCapsManager.SetClientCaps(szNode, szVer, "", jcb);
+		g_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, jcb);
 		mir_free(p);
 	}
 
@@ -513,7 +513,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			auto *item = ListGetItemPtrFromIndex(i);
 			if (item && item->hContact && !item->bRealContact) {
 				debugLogA("Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
-				db_delete_contact(item->hContact, true);
+				db_delete_contact(item->hContact, CDF_FROM_SERVER);
 			}
 		}
 	}

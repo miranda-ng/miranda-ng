@@ -908,8 +908,7 @@ int CPsTree::OnApply()
 	if (pti == nullptr)
 		return 1;
 
-	PSHNOTIFY pshn;
-	pshn.hdr.idFrom = 0;
+	PSHNOTIFY pshn = {};
 	pshn.hdr.code = PSN_KILLACTIVE;
 	pshn.hdr.hwndFrom = pti->Wnd();
 	if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn))

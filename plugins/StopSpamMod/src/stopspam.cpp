@@ -45,12 +45,9 @@ int OnDbEventAdded(WPARAM, LPARAM hDbEvent)
 				if (gbIgnoreURL)
 					isMessage = !IsUrlContains(Utf2T(blob.get_reason()));
 
-				if (gbInvisDisable) {
+				if (gbInvisDisable)
 					if (Proto_GetStatus(dbei.szModule) == ID_STATUS_INVISIBLE)
 						isMessage = false;
-					else if (db_get_w(hContact, dbei.szModule, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-						isMessage = false; //is it useful ?
-				}
 
 				// ...send message
 				if (isMessage) {
@@ -119,8 +116,6 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	if (gbInvisDisable) {
 		if (Proto_GetStatus(dbei->szModule) == ID_STATUS_INVISIBLE)
 			bSendMsg = false;
-		else if (db_get_w(hContact, dbei->szModule, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			bSendMsg = false; //is it useful ?
 	}
 	bool answered = false;
 	if (gbMathExpression) {

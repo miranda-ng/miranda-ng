@@ -168,12 +168,12 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
-			dbei.pBlob = (uint8_t *)alloca(dbei.cbBlob);
+			dbei.pBlob = (char *)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
 			if (dbei.cbBlob == 0 || dbei.pBlob == nullptr)
 				return nullptr;
 
-			wchar_t *buff = DbEvent_GetTextW(&dbei, CP_ACP);
+			wchar_t *buff = DbEvent_GetTextW(&dbei);
 			wchar_t *swzMsg = mir_wstrdup(buff);
 			mir_free(buff);
 
@@ -190,17 +190,8 @@ bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 	if (opt.bGetNewStatusMsg) {
 		int iFlags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0);
 		uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		if ((CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && (iFlags & Proto_Status2Flag(wStatus))) {
-			iFlags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_VISLIST | PF1_INVISLIST);
-			if (opt.bDisableIfInvisible && iFlags) {
-				int iVisMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-				int wProtoStatus = Proto_GetStatus(szProto);
-				if ((iVisMode == ID_STATUS_OFFLINE) || (wProtoStatus == ID_STATUS_INVISIBLE && iVisMode != ID_STATUS_ONLINE))
-					return false;
-				return true;
-			}
+		if ((CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && (iFlags & Proto_Status2Flag(wStatus)))
 			return true;
-		}
 	}
 
 	return false;
@@ -229,7 +220,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 
 		if (!swzMsg) {
 			if (CanRetrieveStatusMsg(hContact, szProto))
-				if (ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
+				if (CallContactService(hContact, PS_GETAWAYMSG, 0, 0))
 					return nullptr;
 
 			if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {

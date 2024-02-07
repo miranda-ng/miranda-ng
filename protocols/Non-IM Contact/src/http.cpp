@@ -31,21 +31,16 @@ HNETLIBUSER hNetlibUser;
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-//
+
 int InternetDownloadFile(char *szUrl)
 {
-	NETLIBHTTPREQUEST nlhr = { 0 };
-
 	// initialize the netlib request
-	nlhr.cbSize = sizeof(nlhr);
-	nlhr.requestType = REQUEST_GET;
+	MHttpRequest nlhr(REQUEST_GET);
 	nlhr.flags = NLHRF_DUMPASTEXT;
-	nlhr.szUrl = szUrl;
+	nlhr.m_szUrl = szUrl;
+
 	// change the header so the plugin is pretended to be IE 6 + WinXP
-	nlhr.headersCount++;
-	nlhr.headers = (NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[nlhr.headersCount - 1].szName = "User-Agent";
-	nlhr.headers[nlhr.headersCount - 1].szValue = NETLIB_USER_AGENT;
+	nlhr.AddHeader("User-Agent", NETLIB_USER_AGENT);
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
@@ -58,14 +53,14 @@ int InternetDownloadFile(char *szUrl)
 	// if the recieved code is 200 OK
 	else if (nlhrReply->resultCode == 200) {
 		// allocate memory and save the retrieved data
-		szData = (char *)malloc(mir_strlen(nlhrReply->pData) + 2);
-		mir_strncpy(szData, nlhrReply->pData, mir_strlen(nlhrReply->pData));
+		szData = (char *)malloc(nlhrReply->body.GetLength() + 2);
+		mir_strncpy(szData, nlhrReply->body, nlhrReply->body.GetLength());
 	}
 	// if the recieved code is 302 Moved, Found, etc
 	else if (nlhrReply->resultCode == 302) {	// page moved
 		// get the url for the new location and save it to szInfo
 		// look for the reply header "Location"
-		if (auto *pszHdr = Netlib_GetHeader(nlhrReply, "Location")) {
+		if (auto *pszHdr = nlhrReply->FindHeader("Location")) {
 			szData = (char *)malloc(512);
 			// add "Moved/Location:" in front of the new URL for identification
 			mir_snprintf(szData, 512, "Moved/Location: %s\n", pszHdr);

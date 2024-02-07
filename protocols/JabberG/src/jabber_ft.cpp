@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -466,14 +466,9 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
-				PROTORECVFILE pre = {};
-				pre.dwFlags = PRFF_UTF;
-				pre.fileCount = 1;
-				pre.timestamp = time(0);
-				pre.files.a = &filename;
-				pre.lParam = (LPARAM)ft;
-				pre.descr.a = XmlGetChildText(fileNode, "desc");
-				ProtoChainRecvFile(ft->std.hContact, &pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = time(0);
+				ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, filename, XmlGetChildText(fileNode, "desc")), dbei);
 				return;
 			}
 		}
@@ -691,23 +686,15 @@ LBL_Fail:
 	if (!szUrl)
 		goto LBL_Fail;
 	
-	NETLIBHTTPHEADER hdr[10];
-
-	NETLIBHTTPREQUEST nlhr = {};
-	nlhr.cbSize = sizeof(nlhr);
-	nlhr.requestType = REQUEST_PUT;
+	MHttpRequest nlhr(REQUEST_PUT);
 	nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
-	nlhr.szUrl = (char *)szUrl;
+	nlhr.m_szUrl = szUrl;
 
 	for (auto *it : TiXmlFilter(putNode, "header")) {
 		auto *szName = it->Attribute("name");
 		auto *szValue = it->GetText();
-		if (szName && szValue && nlhr.headersCount < _countof(hdr)) {
-			nlhr.headers = hdr;
-			hdr[nlhr.headersCount].szName = (char *)szName;
-			hdr[nlhr.headersCount].szValue = (char *)szValue;
-			nlhr.headersCount++;
-		}
+		if (szName && szValue)
+			nlhr.AddHeader(szName, szValue);
 	}
 
 	const wchar_t *pwszFileName = ft->std.pszFiles.w[ft->std.currentFileNumber];
@@ -729,8 +716,8 @@ LBL_Fail:
 		EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
 
 		int tmp_len = 0, outl;
-		//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
-		unsigned char *out = (unsigned char *)mir_alloc(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		nlhr.m_szParam.Truncate(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		unsigned char *out = (unsigned char *)nlhr.m_szParam.GetBuffer();
 		unsigned char *in = (unsigned char *)mir_alloc(128 * 1024);
 		for (;;) {
 			int inl = _read(fileId, in, 128 * 1024);
@@ -747,17 +734,15 @@ LBL_Fail:
 		EVP_CIPHER_CTX_free(ctx);
 
 		memcpy(out + tmp_len, tag, _countof(tag));
-		nlhr.dataLength = tmp_len + _countof(tag);
-		nlhr.pData = (char *)out;
 	}
 	else {
-		nlhr.dataLength = _filelength(fileId);
-		nlhr.pData = new char[nlhr.dataLength];
-		_read(fileId, nlhr.pData, nlhr.dataLength);
+		int iLength = _filelength(fileId);
+		nlhr.m_szParam.Truncate(iLength);
+		_read(fileId, nlhr.m_szParam.GetBuffer(), iLength);
 	}
 	_close(fileId);
 
-	NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR res(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	if (res == nullptr) {
 		debugLogA("error uploading file %S", pwszFileName);
 		goto LBL_Fail;
@@ -770,11 +755,8 @@ LBL_Fail:
 
 	default:
 		debugLogA("error uploading file %S: error %d", pwszFileName, res->resultCode);
-		Netlib_FreeHttpRequest(res);
 		goto LBL_Fail;
 	}
-
-	Netlib_FreeHttpRequest(res);
 
 	// this parameter is optional, if not specified we simply use upload URL
 	CMStringA szMessage;
@@ -889,11 +871,11 @@ bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 	// emulate a message for us
 	CMStringA szMsg(FORMAT, "[img]%s[/img]", T2Utf(wszFileName).get());
 
-	PROTORECVEVENT recv = {};
-	recv.flags = PREF_CREATEREAD | PREF_SENT;
-	recv.szMessage = szMsg.GetBuffer();
-	recv.timestamp = time(0);
-	ProtoChainRecvMsg(ft->std.hContact, &recv);
+	DB::EventInfo dbei;
+	dbei.flags = DBEF_READ | DBEF_SENT;
+	dbei.pBlob = szMsg.GetBuffer();
+	dbei.timestamp = time(0);
+	ProtoChainRecvMsg(ft->std.hContact, dbei);
 	return true;
 }
 

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -211,7 +211,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		else {	//recv
 			CreateDirectoryTreeW(dat->szSavePath);
-			dat->fs = (HANDLE)ProtoChainSend(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
+			dat->fs = (HANDLE)CallContactService(dat->hContact, PS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 			dat->transferStatus.szWorkingDir.w = mir_wstrdup(dat->szSavePath);
 			if (!Contact::OnList(dat->hContact))
 				dat->resumeBehaviour = FILERESUME_ASK;
@@ -428,7 +428,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			switch (pfr->action) {
 			case FILERESUME_CANCEL:
 				if (dat->fs) {
-					ProtoChainSend(dat->hContact, PSS_FILECANCEL, (WPARAM)dat->fs, 0);
+					CallContactService(dat->hContact, PS_FILECANCEL, (WPARAM)dat->fs, 0);
 					dat->fs = nullptr;
 				}
 				delete pfr;
@@ -698,7 +698,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 FileDlgData::~FileDlgData()
 {
 	if (fs)
-		ProtoChainSend(hContact, PSS_FILECANCEL, (WPARAM)fs, 0);
+		CallContactService(hContact, PS_FILECANCEL, (WPARAM)fs, 0);
 
 	UnhookEvent(hNotifyEvent);
 

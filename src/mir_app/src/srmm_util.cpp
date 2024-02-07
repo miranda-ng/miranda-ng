@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -31,6 +31,9 @@ const char *g_pszHotkeySection;
 
 MIR_APP_DLL(void) Srmm_AddEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
+	if (Clist_FindEvent(hContact, hDbEvent))
+		return;
+
 	wchar_t toolTip[256];
 	mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 

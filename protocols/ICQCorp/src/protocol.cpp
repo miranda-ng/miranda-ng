@@ -1151,81 +1151,6 @@ void ICQ::updateContactList()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void ICQ::sendVisibleList()
-{
-	/*
-		unsigned int i, numUsers = 0;
-		ICQUser *u;
-
-		if (statusVal != ID_STATUS_INVISIBLE) return;
-
-		Packet userPacket;
-		userPacket << ICQ_VERSION
-		<< ICQ_CMDxSND_VISxLIST
-		<< sequenceVal
-		<< sequenceVal
-		<< uin
-		<< (unsigned int)0x00;
-
-		for (i=0; i<icqUsers.size(); i++)
-		{
-		u = icqUsers[i];
-		if (u->statusVal != ID_STATUS_OFFLINE && g_plugin.getWord(u->hContact, "ApparentMode") == ID_STATUS_ONLINE)
-		numUsers++;
-		}
-
-		if (numUsers == 0) return;
-		userPacket << (char)numUsers;
-
-		for (i=0; i<icqUsers.size(); i++)
-		{
-		u = icqUsers[i];
-		if (u->statusVal != ID_STATUS_OFFLINE && g_plugin.getWord(u->hContact, "ApparentMode") == ID_STATUS_ONLINE)
-		userPacket << icqUsers[i]->uin;
-		}
-
-		Netlib_Logf(hNetlibUser, "[udp] sending visible list (%d)\n", sequenceVal);
-		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_VISxLIST, sequenceVal);
-		*/
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void ICQ::sendInvisibleList()
-{
-	/*
-		unsigned int i, numUsers = 0;
-
-		Packet userPacket;
-		userPacket << ICQ_VERSION
-		<< ICQ_CMDxSND_INVISxLIST
-		<< sequenceVal
-		<< sequenceVal
-		<< uin
-		<< (unsigned int)0x00;
-
-		for (i=0; i<icqUsers.size(); i++)
-		{
-		if (g_plugin.getWord(icqUsers[i]->hContact, "ApparentMode") == ID_STATUS_OFFLINE)
-		numUsers++;
-		}
-
-		if (numUsers == 0) return;
-		userPacket << (char)numUsers;
-
-		for (i=0; i<icqUsers.size(); i++)
-		{
-		if (g_plugin.getWord(icqUsers[i]->hContact, "ApparentMode") == ID_STATUS_OFFLINE)
-		userPacket << icqUsers[i]->uin;
-		}
-
-		Netlib_Logf(hNetlibUser, "[udp] sending invisible list (%d)\n", sequenceVal);
-		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_INVISxLIST, sequenceVal);
-		*/
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void ICQ::updateUserList(ICQUser* /*u*/, char /*list*/, char /*add*/)
 {
 	/*
@@ -2059,18 +1984,10 @@ void ICQ::addMessage(ICQUser *u, char *m, time_t t)
 {
 	Netlib_Logf(hNetlibUser, "message: %s\n", m);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = (char*)m;
-	pre.lParam = 0;
-
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	Proto_ChainRecv(0, &ccs);
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	dbei.pBlob = m;
+	ProtoChainRecvMsg(u->hContact, dbei);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2079,17 +1996,12 @@ void ICQ::addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t)
 {
 	Netlib_Logf(hNetlibUser, "away msg: %s\n", m);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = (char*)m;
-	pre.lParam = theSequence;
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	dbei.pBlob = m;
+	dbei.cbBlob = theSequence;
 
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_AWAYMSG;
-	ccs.wParam = u->statusVal;
-	ccs.lParam = (LPARAM)&pre;
+	CCSDATA ccs = { u->hContact, PSR_AWAYMSG, u->statusVal, (LPARAM)&dbei };
 	Proto_ChainRecv(0, &ccs);
 }
 
@@ -2104,26 +2016,16 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
 	icqTransfers.push_back(transfer);
 
 	// Send chain event
-	char *szBlob = new char[sizeof(uint32_t) + mir_strlen(filename) + mir_strlen(m) + 2];
+	DB::FILE_BLOB blob(transfer, filename, m);
 
-	*(PDWORD)szBlob = (UINT_PTR)transfer;
-	mir_strcpy(szBlob + sizeof(uint32_t), filename);
-	mir_strcpy(szBlob + sizeof(uint32_t) + mir_strlen(filename) + 1, m);
+	DB::EventInfo dbei;
+	dbei.timestamp = t;
+	blob.write(dbei);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = szBlob;
-	pre.lParam = theSequence;
-
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_FILE;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
+	CCSDATA ccs = { u->hContact, PSR_FILE, 0, (LPARAM)&dbei };
 	Proto_ChainRecv(0, &ccs);
 
-	delete[] szBlob;
+	mir_free(dbei.pBlob);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

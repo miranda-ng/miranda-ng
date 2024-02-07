@@ -68,12 +68,6 @@ INT_PTR GetStatus(WPARAM, LPARAM)
 	return ID_STATUS_ONLINE;
 }
 
-INT_PTR GetName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, MODULENAME, wParam);
-	return 0;
-}
-
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	PluginMenuCommand(0, 0);
@@ -106,7 +100,6 @@ int CMPlugin::Load()
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
 	DBVARIANT dbv;

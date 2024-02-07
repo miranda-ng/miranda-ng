@@ -16,16 +16,6 @@ INT_PTR GetLCCaps(WPARAM wParam, LPARAM)
 }
 
 //=======================================================
-// GetName
-//=======================================================
-//
-INT_PTR GetLCName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, MODNAME, wParam);
-	return 0;
-}
-
-//=======================================================
 // BPLoadIcon
 //=======================================================
 //

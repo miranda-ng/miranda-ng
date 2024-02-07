@@ -740,10 +740,9 @@ void PopupWnd2::buildMText()
 	m_mtText = m_mtTitle = nullptr;
 
 	if (m_lptzText && m_lptzTitle) {
-		auto *szProto = Proto_GetBaseAccountName(m_hContact);
 		m_textType = TT_MTEXT;
-		m_mtText = MTextCreateW(htuText, szProto, m_lptzText);
-		m_mtTitle = MTextCreateW(htuTitle, szProto, m_lptzTitle);
+		m_mtText = MTextCreateW(htuText, m_lptzText); MTextSetProto(m_mtText, m_hContact);
+		m_mtTitle = MTextCreateW(htuTitle, m_lptzTitle); MTextSetProto(m_mtTitle, m_hContact);
 	}
 }
 
@@ -799,7 +798,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(msg) + 1;
-	dbei.pBlob = (uint8_t*)msg;
+	dbei.pBlob = msg;
 	db_event_add(hContact, &dbei);
 }
 

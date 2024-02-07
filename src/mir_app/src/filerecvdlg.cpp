@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -372,7 +372,7 @@ public:
 	void onClick_Cancel(CCtrlButton *)
 	{
 		if (dat->fs) {
-			ProtoChainSend(dat->hContact, PSS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
+			CallContactService(dat->hContact, PS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
 			dat->fs = nullptr; /* the protocol will free the handle */
 		}
 	}

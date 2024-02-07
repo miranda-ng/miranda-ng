@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -326,7 +326,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	if (hit != -1 && contact->type == CLCIT_GROUP) {
 		switch (LOWORD(wParam)) {
 		case POPUP_GROUPSHOWOFFLINE:
-			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+			Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->bShowOffline ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			return 0;
 		}

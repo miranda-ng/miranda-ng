@@ -34,7 +34,7 @@ Button_SetSkin_IcoLib      @24
 ?AddToList@PROTO_INTERFACE@@UAEIHPAUPROTOSEARCHRESULT@@@Z @34 NONAME
 ?AddToListByEvent@PROTO_INTERFACE@@UAEIHHI@Z @35 NONAME
 ?AuthDeny@PROTO_INTERFACE@@UAEHIPB_W@Z @36 NONAME
-?AuthRecv@PROTO_INTERFACE@@UAEHIPAUPROTORECVEVENT@@@Z @37 NONAME
+?AuthRecv@PROTO_INTERFACE@@UAEHIAAVEventInfo@DB@@@Z @37 NONAME
 ?AuthRequest@PROTO_INTERFACE@@UAEHIPB_W@Z @38 NONAME
 ?Authorize@PROTO_INTERFACE@@UAEHI@Z @39 NONAME
 ?CreateExtendedSearchUI@PROTO_INTERFACE@@UAEPAUHWND__@@PAU2@@Z @40 NONAME
@@ -49,14 +49,14 @@ Button_SetSkin_IcoLib      @24
 ?GetCaps@PROTO_INTERFACE@@UAEHHI@Z @49 NONAME
 ?GetInfo@PROTO_INTERFACE@@UAEHIH@Z @50 NONAME
 ?GetProtoInterface@CProtoIntDlgBase@@QAEPAUPROTO_INTERFACE@@XZ @51 NONAME
+?GetStatus@PROTO_INTERFACE@@UAEHXZ @52 NONAME
 ?OnProtoActivate@CProtoIntDlgBase@@MAEXIJ@Z @53 NONAME
 ?OnProtoCheckOnline@CProtoIntDlgBase@@MAEXIJ@Z @54 NONAME
 ?OnProtoRefresh@CProtoIntDlgBase@@MAEXIJ@Z @55 NONAME
 ?ProtoBroadcastAck@PROTO_INTERFACE@@QAEHIHHPAXJ@Z @56 NONAME
-?RecvAwayMsg@PROTO_INTERFACE@@UAEHIHPAUPROTORECVEVENT@@@Z @57 NONAME
-?RecvContacts@PROTO_INTERFACE@@UAEHIPAUPROTORECVEVENT@@@Z @58 NONAME
-?RecvFile@PROTO_INTERFACE@@UAEIIPAUPROTORECVFILE@@@Z @59 NONAME
-?RecvMsg@PROTO_INTERFACE@@UAEIIPAUPROTORECVEVENT@@@Z @60 NONAME
+?RecvContacts@PROTO_INTERFACE@@UAEHIAAVEventInfo@DB@@@Z @57 NONAME
+?RecvFile@PROTO_INTERFACE@@UAEIIAAVFILE_BLOB@DB@@AAVEventInfo@3@@Z @59 NONAME
+?RecvMsg@PROTO_INTERFACE@@UAEIIAAVEventInfo@DB@@@Z @60 NONAME
 ?SearchAdvanced@PROTO_INTERFACE@@UAEPAXPAUHWND__@@@Z @62 NONAME
 ?SearchBasic@PROTO_INTERFACE@@UAEPAXPB_W@Z @63 NONAME
 ?SearchByEmail@PROTO_INTERFACE@@UAEPAXPB_W@Z @64 NONAME
@@ -64,7 +64,6 @@ Button_SetSkin_IcoLib      @24
 ?SendContacts@PROTO_INTERFACE@@UAEHIHHPAI@Z @66 NONAME
 ?SendFile@PROTO_INTERFACE@@UAEPAXIPB_WPAPA_W@Z @67 NONAME
 ?SendMsg@PROTO_INTERFACE@@UAEHIIPBD@Z @68 NONAME
-?SetApparentMode@PROTO_INTERFACE@@UAEHIH@Z @70 NONAME
 ?SetAwayMsg@PROTO_INTERFACE@@UAEHHPB_W@Z @71 NONAME
 ?SetStatus@PROTO_INTERFACE@@UAEHH@Z @72 NONAME
 ?SetStatusText@CProtoIntDlgBase@@QAEXPB_W@Z @73 NONAME
@@ -159,10 +158,7 @@ Menu_AddStatusMenuItem @225
 Menu_BuildContactMenu @226
 Menu_GetMainMenu @228
 Menu_GetStatusMenu @229
-Menu_BuildSubGroupMenu @230
 Menu_AddGroupMenuItem @231
-Menu_AddSubGroupMenuItem @232
-Menu_BuildGroupMenu @233
 Menu_AddTrayMenuItem @234
 Menu_BuildTrayMenu @235
 Menu_DestroyNestedMenu @236
@@ -217,7 +213,8 @@ Profile_GetPathW @293
 Profile_SetDefault @294
 Chat_GetDefaultEventDescr @295
 FindDatabasePlugin @296
-RegisterDatabasePlugin @298
+RegisterDatabasePlugin @297
+UnregisterDatabasePlugin @298
 Chat_CustomizeApi @299
 Clist_FindItem @314 NONAME
 Colour_Get @315
@@ -235,7 +232,6 @@ Font_RegisterW @326
 Options_AddPage @327
 Options_Open @328
 Options_OpenPage @329
-Netlib_GetHeader @330
 Srmm_ModifyButton @331
 Srmm_AddButton @332
 Srmm_GetButtonState @333
@@ -261,10 +257,7 @@ Netlib_Log @353
 Netlib_LogW @354
 Netlib_Logf @355
 Netlib_LogfW @356
-Netlib_GetConnNlu @357
-Netlib_RecvHttpHeaders @358
 Netlib_HttpTransaction @359
-Netlib_SendHttpRequest @360
 Netlib_GetUserSettings @361
 Netlib_SetUserSettings @362
 Netlib_OpenConnection @363
@@ -277,9 +270,7 @@ Netlib_AddressToString @369
 Netlib_StringToAddress @370
 Netlib_Select @371
 Netlib_SelectEx @372
-Netlib_SendHttpRequest @373
 Netlib_SetStickyHeaders @374
-Netlib_SetPollingTimeout @375
 Netlib_GetSocket @376
 Netlib_StartSsl @377
 Netlib_GetConnectionInfo @378
@@ -289,11 +280,10 @@ Netlib_DestroySecurityProvider @381
 Netlib_InitSecurityProvider @382
 Netlib_NtlmCreateResponse @383
 ??0AUTH_BLOB@DB@@QAE@IPBD0000@Z @384 NONAME
-??0AUTH_BLOB@DB@@QAE@PAE@Z @385 NONAME
+??0AUTH_BLOB@DB@@QAE@PAD@Z @385 NONAME
 ??1AUTH_BLOB@DB@@QAE@XZ @386 NONAME
 ??4AUTH_BLOB@DB@@QAEAAV01@ABV01@@Z @387 NONAME
 ??BAUTH_BLOB@DB@@QAEPADXZ @388 NONAME
-??BAUTH_BLOB@DB@@QAEPAEXZ @389 NONAME
 ?get_contact@AUTH_BLOB@DB@@QBEIXZ @390 NONAME
 ?get_email@AUTH_BLOB@DB@@QBEPBDXZ @391 NONAME
 ?get_firstName@AUTH_BLOB@DB@@QBEPBDXZ @392 NONAME
@@ -301,7 +291,7 @@ Netlib_NtlmCreateResponse @383
 ?get_nick@AUTH_BLOB@DB@@QBEPBDXZ @394 NONAME
 ?get_reason@AUTH_BLOB@DB@@QBEPBDXZ @395 NONAME
 ?get_uin@AUTH_BLOB@DB@@QBEIXZ @396 NONAME
-?makeBlob@AUTH_BLOB@DB@@AAEPAEXZ @397 NONAME
+?makeBlob@AUTH_BLOB@DB@@AAEPADXZ @1046 NONAME
 ?size@AUTH_BLOB@DB@@QBEIXZ @398 NONAME
 Chat_UnescapeTags @399 NONAME
 ProtoGetAvatarFormatByMimeType @400
@@ -497,7 +487,7 @@ Proto_GetStatus @601
 ?OnModulesLoaded@PROTO_INTERFACE@@UAEXXZ @607 NONAME
 ?OnShutdown@PROTO_INTERFACE@@UAEXXZ @608 NONAME
 ?GetStatus@Contact@@YGHI@Z @609 NONAME
-?OnContactDeleted@PROTO_INTERFACE@@UAE_NI@Z @610 NONAME
+?OnContactDeleted@PROTO_INTERFACE@@UAE_NII@Z @610 NONAME
 ?OnBuildProtoMenu@PROTO_INTERFACE@@UAEXXZ @611 NONAME
 ?OnErase@PROTO_INTERFACE@@UAEXXZ @612 NONAME
 ?getMStringA@CMPluginBase@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD0@Z @613 NONAME
@@ -591,15 +581,12 @@ g_hevSettingChanged @696 NONAME
 ?MetaRemoveSubHistory@MDatabaseReadonly@@UAGHPAUDBCachedContact@@@Z @704 NONAME
 Chat_GetGroup @705
 Chat_SetGroup @706
-??0MHttpRequest@@QAE@ABU0@@Z @707 NONAME
-??0MHttpRequest@@QAE@XZ @708 NONAME
+??0MHttpRequest@@QAE@H@Z @708 NONAME
 ??1MHttpRequest@@QAE@XZ @709 NONAME
-??4MHttpRequest@@QAEAAU0@ABU0@@Z @710 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUCHAR_PARAM@@@Z @711 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUINT_PARAM@@@Z @712 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUWCHAR_PARAM@@@Z @713 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUINT64_PARAM@@@Z @714 NONAME
-?AddHeader@MHttpRequest@@QAEXPBD0@Z @715 NONAME
 db_mc_addToMeta @716
 db_mc_convertToMeta @717
 db_mc_enable @718
@@ -820,7 +807,7 @@ Srmm_CreateHotkey @886 NONAME
 ?OnCreateAccMgrUI@PROTO_INTERFACE@@UAEPAUHWND__@@PAU2@@Z @937 NONAME
 ?getMStringU@PROTO_INTERFACE@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD0@Z @938 NONAME
 ?getMStringU@PROTO_INTERFACE@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@PBD0@Z @939 NONAME
-?OnEventDeleted@PROTO_INTERFACE@@UAEXII@Z @940 NONAME
+?OnEventDeleted@PROTO_INTERFACE@@UAEXIIH@Z @940 NONAME
 Chat_IsMuted @941 NONAME
 ?Srmm_AddEvent@@YGXII@Z @942 NONAME
 ?iDiskLogFlags@Chat@@3V?$CMOption@I@@A @943 NONAME
@@ -900,7 +887,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ??1MAsyncObject@@UAE@XZ @1017 NONAME
 ??_7MAsyncObject@@6B@ @1018 NONAME
 ?bEnableCustomLogs@Chat@@3V?$CMOption@_N@@A @1019 NONAME
-?Srmm_IsCustomLogUsed@@YG_NXZ @1020 NONAME
+?Srmm_IsCustomLogUsed@@YG_N_N@Z @1020 NONAME
 ?IconFlashTime@Clist@@3V?$CMOption@I@@A @1021 NONAME
 ?Srmm_Quote@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PB_WH@Z @1022 NONAME
 ?SetMessageText@CSrmmBaseDialog@@QAEXPB_W_N@Z @1023 NONAME
@@ -921,3 +908,59 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME
 ?GetReceivedFolder@File@@YGPA_WIPA_WI_N@Z @1039 NONAME
 ?DlgProc@CUserInfoPageDlg@@UAEHIIJ@Z @1040 NONAME
+?wipeNotify@EventInfo@DB@@QAEXI@Z @1047 NONAME
+_CallContactService@16 @1048 NONAME
+??0MDatabaseExport@@QAE@XZ @1049 NONAME
+??1MDatabaseExport@@UAE@XZ @1050 NONAME
+??_7MDatabaseExport@@6B@ @1051 NONAME
+??0?$LIST@UMHttpHeader@@@@QAE@ABU0@@Z @1052 NONAME
+??0?$LIST@UMHttpHeader@@@@QAE@HH@Z @1053 NONAME
+??0?$LIST@UMHttpHeader@@@@QAE@HP6AHPBUMHttpHeader@@0@Z@Z @1054 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QAE@ABU0@@Z @1055 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QAE@HH@Z @1056 NONAME
+??0?$OBJLIST@UMHttpHeader@@@@QAE@HP6AHPBUMHttpHeader@@0@Z@Z @1057 NONAME
+??0MHttpHeaders@@QAE@ABU0@@Z @1058 NONAME
+??0MHttpHeaders@@QAE@XZ @1059 NONAME
+??0MHttpResponse@@QAE@XZ @1060 NONAME
+??1?$LIST@UMHttpHeader@@@@QAE@XZ @1061 NONAME
+??1?$OBJLIST@UMHttpHeader@@@@QAE@XZ @1062 NONAME
+??1MHttpHeaders@@QAE@XZ @1063 NONAME
+??1MHttpResponse@@QAE@XZ @1064 NONAME
+??4?$LIST@UMHttpHeader@@@@QAEAAU0@ABU0@@Z @1065 NONAME
+??4?$OBJLIST@UMHttpHeader@@@@QAEAAU0@ABU0@@Z @1066 NONAME
+??4MHttpHeaders@@QAEAAU0@ABU0@@Z @1067 NONAME
+??A?$LIST@UMHttpHeader@@@@QBEPAUMHttpHeader@@H@Z @1068 NONAME
+??A?$OBJLIST@UMHttpHeader@@@@QBEAAUMHttpHeader@@H@Z @1069 NONAME
+??AMHttpHeaders@@QAEPBDPBD@Z @1070 NONAME
+?AddHeader@MHttpHeaders@@QAEXPBD0@Z @1071 NONAME
+?FindHeader@MHttpHeaders@@QBEPADPBD@Z @1072 NONAME
+?GetCookies@MHttpHeaders@@QBE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@XZ @1073 NONAME
+?begin@?$LIST@UMHttpHeader@@@@QBEPAPAUMHttpHeader@@XZ @1074 NONAME
+?destroy@?$LIST@UMHttpHeader@@@@QAEXXZ @1075 NONAME
+?destroy@?$OBJLIST@UMHttpHeader@@@@QAEXXZ @1076 NONAME
+?end@?$LIST@UMHttpHeader@@@@QBEPAPAUMHttpHeader@@XZ @1077 NONAME
+?find@?$LIST@UMHttpHeader@@@@QBEPAUMHttpHeader@@PAU2@@Z @1078 NONAME
+?getArray@?$LIST@UMHttpHeader@@@@QBEPAPAUMHttpHeader@@XZ @1079 NONAME
+?getCount@?$LIST@UMHttpHeader@@@@QBEHXZ @1080 NONAME
+?getIndex@?$LIST@UMHttpHeader@@@@QBEHPAUMHttpHeader@@@Z @1081 NONAME
+?indexOf@?$LIST@UMHttpHeader@@@@QBEHPAPAUMHttpHeader@@@Z @1082 NONAME
+?indexOf@?$LIST@UMHttpHeader@@@@QBEHPAUMHttpHeader@@@Z @1083 NONAME
+?insert@?$LIST@UMHttpHeader@@@@QAEHPAUMHttpHeader@@@Z @1084 NONAME
+?insert@?$LIST@UMHttpHeader@@@@QAEHPAUMHttpHeader@@H@Z @1085 NONAME
+?put@?$LIST@UMHttpHeader@@@@QAEXHPAUMHttpHeader@@@Z @1086 NONAME
+?remove@?$LIST@UMHttpHeader@@@@QAEHH@Z @1087 NONAME
+?remove@?$LIST@UMHttpHeader@@@@QAEHPAUMHttpHeader@@@Z @1088 NONAME
+?remove@?$OBJLIST@UMHttpHeader@@@@QAEHH@Z @1089 NONAME
+?remove@?$OBJLIST@UMHttpHeader@@@@QAEHPAUMHttpHeader@@@Z @1090 NONAME
+?removeItem@?$LIST@UMHttpHeader@@@@QAEPAUMHttpHeader@@PAPAU2@@Z @1091 NONAME
+?removeItem@?$OBJLIST@UMHttpHeader@@@@QAEXPAPAUMHttpHeader@@@Z @1092 NONAME
+?rev_iter@?$LIST@UMHttpHeader@@@@QBE?AVreverse_iterator@1@XZ @1093 NONAME
+Netlib_HttpBuffer @1094
+Netlib_HttpCookies @1095
+Netlib_HttpResult @1096
+?SetData@MHttpRequest@@QAEXPBXI@Z @1097 NONAME
+?DeleteHeader@MHttpHeaders@@QAEXPBD@Z @1098 NONAME
+_Netlib_DownloadFile@20 @1099 NONAME
+??0FILE_BLOB@DB@@QAE@PAXPBD1_N@Z @1100 NONAME
+?getUserInfo@FILE_BLOB@DB@@QBEPAXXZ @1101 NONAME
+?setUserInfo@FILE_BLOB@DB@@QAEXPAX@Z @1102 NONAME

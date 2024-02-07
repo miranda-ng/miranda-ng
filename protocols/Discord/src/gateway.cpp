@@ -43,35 +43,26 @@ void CDiscordProto::GatewayThread(void*)
 
 bool CDiscordProto::GatewayThreadWorker()
 {
-	NETLIBHTTPHEADER hdrs[] =
-	{
-		{ "Origin", "https://discord.com" },
-		{ 0, 0 },
-		{ 0, 0 },
-	};
-
+	bool bHasCookie = false;
+	MHttpHeaders hdrs;
+	hdrs.AddHeader("Origin", "https://discord.com");
 	if (!m_szWSCookie.IsEmpty()) {
-		hdrs[1].szName = "Cookie";
-		hdrs[1].szValue = m_szWSCookie.GetBuffer();
+		bHasCookie = true;
+		hdrs.AddHeader("Cookie", m_szWSCookie);
 	}
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", hdrs));
+	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
 	}
 
-	if (auto *pszNewCookie = Netlib_GetHeader(pReply, "Set-Cookie")) {
-		char *p = strchr(pszNewCookie, ';');
-		if (p) *p = 0;
-
-		m_szWSCookie = pszNewCookie;
-	}
+	m_szWSCookie = pReply->GetCookies();
 
 	if (pReply->resultCode != 101) {
 		// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again
 		if (pReply->resultCode == 404) {
-			if (hdrs[1].szName == nullptr)
+			if (!bHasCookie)
 				return true;
 
 			m_szWSCookie.Empty(); // don't use the same cookie twice
@@ -257,7 +248,7 @@ void CDiscordProto::GatewaySendGuildInfo(CDiscordGuild *pGuild)
 	JSONNode channels; channels.set_name("channels"); channels << chl;
 
 	JSONNode payload; payload.set_name("d");
-	payload << SINT64_PARAM("guild_id", pGuild->id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
+	payload << SINT64_PARAM("guild_id", pGuild->m_id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
 		
 	JSONNode root;
 	root << INT_PARAM("op", OPCODE_REQUEST_SYNC_CHANNEL) << payload;
@@ -312,12 +303,12 @@ void CDiscordProto::GatewaySendResume()
 	GatewaySend(root);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
 {
-	if (iStatus == ID_STATUS_OFFLINE) {
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
-		return true;
-	}
+	// if (iStatus == ID_STATUS_OFFLINE)
+	//	return true;
 
 	const char *pszStatus;
 	switch (iStatus) {
@@ -328,6 +319,8 @@ bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText
 		pszStatus = "dnd"; break;
 	case ID_STATUS_INVISIBLE:
 		pszStatus = "invisible"; break;
+	case ID_STATUS_OFFLINE:
+		pszStatus = "offline"; break;
 	default:
 		pszStatus = "online"; break;
 	}

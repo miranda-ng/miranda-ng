@@ -62,16 +62,6 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
-{
-	if(lParam) {
-		mir_strncpy((char *)lParam, MODULENAME, wParam);
-		return 0;
-	}
-
-	return 1;
-}
-
 INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 {
 	switch(wp) {
@@ -169,7 +159,7 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 	PROTOACCOUNT *pa = Proto_GetAccount(MODULENAME);
 	if (pa && pa->ppro) {
 		CCSDATA *ccs = (CCSDATA*)lParam;
-		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
+		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, *(DB::EventInfo*)ccs->lParam);
 	}
 
 	return 0;

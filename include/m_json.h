@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -165,6 +165,12 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const JSON_PARAM &param);
+
+// loads a JSON contents of a file
+LIBJSON_DLL(bool) file2json(const wchar_t *pwszFilename, JSONNode &root);
+
+// saves a JSON variable into a flie
+LIBJSON_DLL(bool) json2file(const JSONNode &root, const wchar_t *pwszFilename);
 
 #endif // __cplusplus
 

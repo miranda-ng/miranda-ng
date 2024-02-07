@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,19 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CIcqProto::SendMrimLogin(NETLIBHTTPREQUEST *pReply)
+void CIcqProto::SendMrimLogin(MHttpResponse *pReply)
 {
 	if (pReply) {
-		for (int i=0; i < pReply->headersCount; i++) {
-			if (!mir_strcmpi(pReply->headers[i].szName, "Set-Cookie")) {
-				char *p = strchr(pReply->headers[i].szValue, ';');
-				if (p) *p = 0;
-				if (!m_szMraCookie.IsEmpty())
-					m_szMraCookie.Append("; ");
-
-				m_szMraCookie.Append(pReply->headers[i].szValue);
-			}
-		}
+		if (!m_szMraCookie.IsEmpty())
+			m_szMraCookie += "; ";
+		m_szMraCookie += pReply->GetCookies();
 	}
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, "https://icqapilogin.mail.ru/auth/mrimLogin", &CIcqProto::OnCheckMrimLogin);
@@ -44,7 +37,7 @@ void CIcqProto::SendMrimLogin(NETLIBHTTPREQUEST *pReply)
 	Push(pReq);
 }
 
-void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMrimLogin(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -101,9 +94,7 @@ void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 
 	m_szSessionKey = data["sessionKey"].as_mstring();
 
-	CMStringW szUin = data["loginId"].as_mstring();
-	if (szUin)
-		m_szOwnId = szUin;
+	SetOwnId(data["loginId"].as_mstring());
 
 	int srvTS = data["hostTime"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
@@ -111,7 +102,7 @@ void CIcqProto::OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	StartSession();
 }
 
-void CIcqProto::OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMraAuth(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -126,7 +117,7 @@ void CIcqProto::OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	}
 }
 
-void CIcqProto::OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CIcqProto::OnCheckMraAuthFinal(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	switch (pReply->resultCode) {
 	case 200:

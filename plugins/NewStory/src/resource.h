@@ -31,6 +31,7 @@
 #define IDI_VARHELP                     128
 #define IDI_TIMETREE                    129
 #define IDI_REPLY                       130
+#define IDD_EMPTYHISTORY                131
 #define IDC_USERINFO                    1000
 #define IDC_USERMENU                    1001
 #define IDC_MESSAGE                     1002
@@ -95,6 +96,9 @@
 #define IDC_BOOKMARKSLIST               1060
 #define IDC_SHOW_TYPE                   1060
 #define IDC_SHOW_DIRECTION              1061
+#define IDC_TOPLINE                     1062
+#define IDC_DELSERVERHISTORY            1063
+#define IDC_BOTH                        1064
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003

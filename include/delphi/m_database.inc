@@ -42,7 +42,8 @@ type
     szModule : PAnsiChar; // module that 'owns' this event and controls the data format
     timestamp: dword;     // timestamp in UNIX time
     flags    : dword;     // the DBEF_* flags above
-    eventType: word;      // event type, such as message, can be module defined
+    eventType: dword;     // event type, such as message, can be module defined
+    hContact : TMCONTACT; // contact to which this event belongs
     cbBlob   : dword;     // size in bytes of pBlob^
     pBlob    : PByte;     // pointer to buffer containing the module defined event data
     szId     : PAnsiChar; // server id of event
@@ -297,7 +298,7 @@ function DbEvent_RegisterType(et:PDBEVENTTYPEDESCR) : int; stdcall; external App
 function DbEvent_GetType(szModule:PAnsiChar; eventType:int) : PDBEVENTTYPEDESCR; stdcall; external AppDll;
 
 function DbEvent_GetTextA(dbei:PDBEVENTINFO; codepage:int) : PAnsiChar; stdcall; external AppDll;
-function DbEvent_GetTextW(dbei:PDBEVENTINFO; codepage:int) : PWideChar; stdcall; external AppDll;
+function DbEvent_GetTextW(dbei:PDBEVENTINFO) : PWideChar; stdcall; external AppDll;
 
 function DbEvent_GetIcon(dbei:PDBEVENTINFO; flags:int) : HICON; stdcall; external AppDll;
 

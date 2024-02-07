@@ -139,11 +139,11 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
-int CSteamProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT *pre)
+int CSteamProto::AuthRecv(MCONTACT hContact, DB::EventInfo &dbei)
 {
 	// remember to not create this event again, unless authorization status changes again
 	setByte(hContact, "AuthAsked", 1);
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
@@ -332,7 +332,7 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-bool CSteamProto::OnContactDeleted(MCONTACT hContact)
+bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
 	if (!getByte(hContact, "Auth", 0)) {

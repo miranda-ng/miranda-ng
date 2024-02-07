@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -315,14 +315,14 @@ bool CVkProto::IsGroupUser(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root)
+JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, MHttpResponse *reply, JSONNode &root)
 {
 	debugLogA("CVkProto::CheckJsonResponse");
 
-	if (!reply || !reply->pData)
+	if (!reply || reply->body.IsEmpty())
 		return nullNode;
 
-	root = JSONNode::parse(reply->pData);
+	root = JSONNode::parse(reply->body);
 
 	if (!CheckJsonResult(pReq, root))
 		return nullNode;
@@ -442,7 +442,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	return (iErrorCode == 0);
 }
 
-void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveSmth(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
@@ -575,14 +575,15 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain)
+void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 {
 	debugLogA("CVkProto::GrabCookies");
-	for (int i = 0; i < nhr->headersCount; i++) {
-		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
+
+	for (auto &hdr : *nhr) {
+		if (_stricmp(hdr->szName, "Set-cookie"))
 			continue;
 
-		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
+		CMStringA szValue = hdr->szValue, szCookieName, szCookieVal, szDomain;
 		int iStart = 0;
 		while (true) {
 			bool bFirstToken = (iStart == 0);
@@ -717,10 +718,10 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 	if (!hDbEvent || !IsOnline())
 		return INVALID_CONTACT_ID;
 
-	uint32_t body[2];
+	char body[2];
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(uint32_t) * 2;
-	dbei.pBlob = (uint8_t*)&body;
+	dbei.pBlob = body;
 
 	if (db_event_get(hDbEvent, &dbei))
 		return INVALID_CONTACT_ID;
@@ -888,14 +889,11 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 		return;
 
 	MEVENT hDBEvent = db_event_firstUnread(hContact);
-	MCONTACT hMContact = db_mc_tryMeta(hContact);
 	while (hDBEvent != 0) {
 		DBEVENTINFO dbei = {};
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule)) {
 			db_event_markRead(hContact, hDBEvent, true);
-			Clist_RemoveEvent(hMContact, hDBEvent);
-			if (hContact != hMContact)
-				Clist_RemoveEvent(hContact, hDBEvent);
+			Clist_RemoveEvent(-1, hDBEvent);
 		}
 
 		hDBEvent = db_event_next(hContact, hDBEvent);
@@ -1467,23 +1465,17 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					CreateDirectoryTreeW(wszPath);
 
 					bool bSuccess = false;
-					CMStringW wszFileName(FORMAT, L"%s\\[sticker-%d].png", wszPath.c_str(), iStickerId);
+					MFilePath wszFileName;
+					wszFileName.Format(L"%s\\[sticker-%d].png", wszPath.c_str(), iStickerId);
 
 					if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
-						T2Utf szUrl(wszUrl);
-						NETLIBHTTPREQUEST req = {};
-						req.cbSize = sizeof(req);
+						MHttpRequest req(REQUEST_GET);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-						req.requestType = REQUEST_GET;
-						req.szUrl = szUrl;
+						req.m_szUrl = T2Utf(wszUrl).get();
 
-						NETLIBHTTPREQUEST* pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+						NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, wszFileName));
+						if (pReply && pReply->resultCode == 200)
 							bSuccess = true;
-							FILE* out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->pData, 1, pReply->dataLength, out);
-							fclose(out);
-						}
 					}
 					else bSuccess = true;
 
@@ -1839,7 +1831,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	ptrA pszDescription(mir_utf8encode(vkDeactivateEvent[iDEIdx].szDescription));
 	dbei.cbBlob = (uint32_t)mir_strlen(pszDescription) + 1;
-	dbei.pBlob = (uint8_t*)mir_strdup(pszDescription);
+	dbei.pBlob = mir_strdup(pszDescription);
 	dbei.flags = DBEF_UTF | (
 		(
 			m_vkOptions.bShowVkDeactivateEvents
@@ -1876,7 +1868,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, C
 int CVkProto::DeleteContact(MCONTACT hContact)
 {
 	setByte(hContact, "SilentDelete", 1);
-	return db_delete_contact(hContact, true);
+	return db_delete_contact(hContact, CDF_FROM_SERVER);
 }
 
 bool CVkProto::IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType)

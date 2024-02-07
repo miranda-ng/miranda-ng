@@ -37,53 +37,6 @@ type
 
   (* clc.h *)
     pfnContactListControlWndProc       : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
-
-  (* clcidents.c *)
-    pfnFindItem                        : procedure; cdecl;
-
-    pfnGetRowsPriorTo                  : procedure; cdecl;
-    pfnGetRowByIndex                   : procedure; cdecl;
-    pfnGetContactHiddenStatus          : procedure; cdecl;
-    pfnIsVisibleContact                : procedure; cdecl;
-
-  (* clcitems.c *)
-    pfnCreateClcContact                : procedure; cdecl;
-    pfnAddGroup                        : procedure; cdecl;
-
-    pfnFreeContact                     : procedure; cdecl;
-
-    pfnAddInfoItemToGroup              : procedure; cdecl;
-    pfnAddItemToGroup                  : procedure; cdecl;
-    pfnAddContactToGroup               : procedure; cdecl;
-
-    pfnAddContactToTree                : procedure; cdecl;
-    pfnRebuildEntireList               : procedure; cdecl;
-    pfnGetGroupContentsCount           : procedure; cdecl;
-    pfnSortCLC                         : procedure; cdecl;
-
-  (* clcmsgs.c *)
-    pfnProcessExternalMessages         : procedure; cdecl;
-
-  (* clcpaint.c *)
-    pfnPaintClc                        : procedure; cdecl;
-
-  (* clcutils.c *)
-    pfnHitTest                         : procedure; cdecl;
-    pfnScrollTo                        : procedure; cdecl;
-    pfnRecalcScrollBar                 : procedure; cdecl;
-    pfnSetGroupExpand                  : procedure; cdecl;
-    pfnFindRowByText                   : procedure; cdecl;
-    pfnBeginRenameSelection            : procedure; cdecl;
-    pfnGetDefaultFontSetting           : procedure; cdecl;
-    pfnLoadClcOptions                  : procedure; cdecl;
-
-    pfnGetRowBottomY                   : procedure; cdecl;
-    pfnGetRowHeight                    : procedure; cdecl;
-    pfnGetRowTopY                      : procedure; cdecl;
-    pfnGetRowTotalHeight               : procedure; cdecl;
-    pfnRowHitTest                      : procedure; cdecl;
-
-  (* clistmod.c *)
     pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
   end;
 

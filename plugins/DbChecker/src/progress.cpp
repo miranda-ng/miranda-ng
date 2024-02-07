@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void __cdecl WorkerThread(DbToolOptions *opts);
 static HWND hwndStatus, hdlgProgress, hwndBar;
+HWND hwndRichEdit;
 int errorCount;
 extern HFONT hBoldFont;
 
@@ -75,6 +76,7 @@ bool CProgressPageDlg::OnInitDialog()
 	EnableWindow(GetDlgItem(m_hwndParent, IDOK), FALSE);
 	hdlgProgress = m_hwnd;
 	hwndStatus = GetDlgItem(m_hwnd, IDC_STATUS);
+	hwndRichEdit = GetDlgItem(m_hwnd, IDC_MEMO);
 	errorCount = 0;
 	hwndBar = GetDlgItem(m_hwnd, IDC_PROGRESS);
 	SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));

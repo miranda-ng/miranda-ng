@@ -228,7 +228,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.timestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.pBlob = (uint8_t*)mir_utf8encodeW(S);
+	dbei.pBlob = mir_utf8encodeW(S);
 	dbei.cbBlob = (uint32_t)mir_strlen((char*)dbei.pBlob) + 1;
 	db_event_add(hContact, &dbei);
 	mir_free(dbei.pBlob);
@@ -697,14 +697,14 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 			}
 
 			MCONTACT hContact = CList_AddContact(&user, false, true);
+			T2Utf utf(mess);
 
-			PROTORECVEVENT pre = {};
-			pre.timestamp = (uint32_t)time(0);
-			pre.szMessage = mir_utf8encodeW(mess);
+			DB::EventInfo dbei;
+			dbei.timestamp = (uint32_t)time(0);
+			dbei.pBlob = utf;
 			setWString(hContact, "User", pmsg->prefix.sUser);
 			setWString(hContact, "Host", pmsg->prefix.sHost);
-			ProtoChainRecvMsg(hContact, &pre);
-			mir_free(pre.szMessage);
+			ProtoChainRecvMsg(hContact, dbei);
 			return true;
 		}
 
@@ -1148,15 +1148,9 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 						setWString(hContact, "User", pmsg->prefix.sUser);
 						setWString(hContact, "Host", pmsg->prefix.sHost);
 
-						const wchar_t* tszTemp = sFile;
-
-						PROTORECVFILE pre = {};
-						pre.dwFlags = PRFF_UNICODE;
-						pre.timestamp = (uint32_t)time(0);
-						pre.fileCount = 1;
-						pre.files.w = &tszTemp;
-						pre.lParam = (LPARAM)di;
-						ProtoChainRecvFile(hContact, &pre);
+						DB::EventInfo dbei;
+						dbei.timestamp = (uint32_t)time(0);
+						ProtoChainRecvFile(hContact, DB::FILE_BLOB(di, T2Utf(sFile)), dbei);
 					}
 				}
 			}

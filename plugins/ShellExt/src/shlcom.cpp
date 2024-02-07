@@ -276,10 +276,6 @@ bool ipcGetSortedContacts(THeaderIPC * ipch, int* pSlot, bool bGroupMode)
 				if (Contact::IsHidden(hContact) || !Contact::OnList(hContact) || Ignore_IsIgnored(hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_FILE) != 0)
 					continue;
 			}
-			// is HIT2 off?
-			if (BST_UNCHECKED == g_plugin.getByte(SHLExt_UseHIT2Contacts, BST_UNCHECKED))
-				if (db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-					continue;
 
 			// store
 			pContacts[i].hContact = hContact;

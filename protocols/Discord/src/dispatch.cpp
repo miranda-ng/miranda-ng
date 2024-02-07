@@ -131,7 +131,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 		CMStringW wszName = pRoot["name"].as_mstring();
 		if (!wszName.IsEmpty()) {
-			CMStringW wszNewName = pGuild->wszName + L"#" + wszName;
+			CMStringW wszNewName = pGuild->m_wszName + L"#" + wszName;
 			Chat_ChangeSessionName(pUser->si, wszNewName);
 		}
 
@@ -245,7 +245,7 @@ void CDiscordProto::OnCommandGuildMemberListUpdate(const JSONNode &pRoot)
 		}
 	}
 
-	pGuild->bSynced = true;
+	pGuild->m_bSynced = true;
 }
 
 void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
@@ -255,17 +255,27 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 		return;
 	
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
+	auto *gm = pGuild->FindUser(_wtoi64(wszUserId));
+	if (gm == nullptr)
+		return;
 
-	for (auto &pUser : arUsers) {
-		if (pUser->pGuild != pGuild)
+	// remove a user once from the common list of users
+	GCEVENT gce = { pGuild->pParentSi, GC_EVENT_PART };
+	gce.pszNick.w = gm->wszNick;
+	gce.time = time(0);
+	gce.pszUID.w = wszUserId;
+	Chat_Event(&gce);
+
+	// then update every nicklist for any opened chat
+	for (auto &cc: arUsers) {
+		if (cc->pGuild != pGuild)
 			continue;
 
-		GCEVENT gce = { pUser->si, GC_EVENT_PART };
-		gce.pszUID.w = pUser->wszUsername;
-		gce.time = time(0);
-		gce.pszUID.w = wszUserId;
-		Chat_Event(&gce);
+		if (cc->si && cc->si->pDlg)
+			cc->si->pDlg->UpdateNickList();
 	}
+
+	pGuild->arChatUsers.remove(gm);
 }
 
 void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
@@ -285,11 +295,11 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 		gm->wszNick = pRoot["user"]["username"].as_mstring();
 
 	for (auto &it : arUsers) {
-		if (it->pGuild != pGuild)
+		if (it->pGuild != pGuild || !it->si)
 			continue;
 
 		CMStringW wszOldNick;
-		SESSION_INFO *si = Chat_Find(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = it->si;
 		if (si != nullptr) {
 			USERINFO *ui = g_chatApi.UM_FindUser(si, wszUserId);
 			if (ui != nullptr)
@@ -310,9 +320,8 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandRoleCreated(const JSONNode &pRoot)
 {
-	CDiscordGuild *pGuild = FindGuild(::getId(pRoot["guild_id"]));
-	if (pGuild != nullptr)
-		ProcessRole(pGuild, pRoot["role"]);
+	if (auto *pGuild = FindGuild(::getId(pRoot["guild_id"])))
+		pGuild->ProcessRole(pRoot["role"]);
 }
 
 void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
@@ -395,7 +404,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				DB::EventInfo dbei;
 				dbei.cbBlob = -1;
 				if (!db_event_get(hOldEvent, &dbei)) {
-					ptrW wszOldText(DbEvent_GetTextW(&dbei, CP_UTF8));
+					ptrW wszOldText(DbEvent_GetTextW(&dbei));
 					if (wszOldText)
 						wszText.Insert(0, wszOldText);
 					if (dbei.flags & DBEF_SENT)
@@ -409,23 +418,23 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
 		// if a message has myself as an author, add some flags
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 		if (bOurMessage)
-			recv.flags = PREF_CREATEREAD | PREF_SENT;
+			dbei.flags = DBEF_READ | DBEF_SENT;
 
 		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 		ptrA buf(mir_utf8encodeW(wszText));
 
-		recv.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-		recv.szMessage = buf;
-		recv.szMsgId = szMsgId;
+		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		dbei.pBlob = buf;
+		dbei.szId = szMsgId;
 
 		if (!pUser->bIsPrivate || pUser->bIsGroup) {
-			recv.szUserId = szUserId;
+			dbei.szUserId = szUserId;
 			ProcessChatUser(pUser, userId, pRoot);
 		}
 
-		ProtoChainRecvMsg(pUser->hContact, &recv);
+		ProtoChainRecvMsg(pUser->hContact, dbei);
 	}
 
 	pUser->lastMsgId = msgId;
@@ -457,7 +466,7 @@ void CDiscordProto::OnCommandMessageDelete(const JSONNode &pRoot)
 	if (!msgid.IsEmpty()) {
 		MEVENT hEvent = db_event_getById(m_szModuleName, msgid);
 		if (hEvent)
-			db_event_delete(hEvent, true);
+			db_event_delete(hEvent, CDF_FROM_SERVER);
 	}
 }
 

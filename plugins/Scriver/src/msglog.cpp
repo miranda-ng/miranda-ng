@@ -380,7 +380,7 @@ public:
 				return false;
 
 			dbei.flags = DBEF_UTF | ((streamData->eventsToInsert < 2) ? DBEF_SENT : 0);
-			dbei.pBlob = (uint8_t *)TranslateU(szBuiltinEvents[streamData->eventsToInsert]);
+			dbei.pBlob = TranslateU(szBuiltinEvents[streamData->eventsToInsert]);
 			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
 		}
 
@@ -398,7 +398,7 @@ public:
 		}
 
 		bool bIsRtl = (dbei.flags & DBEF_RTL) != 0;
-		ptrW wszText(DbEvent_GetTextW(&dbei, CP_UTF8)), wszNick;
+		ptrW wszText(DbEvent_GetTextW(&dbei)), wszNick;
 		
 		// test contact
 		if (streamData->dbei == 0) {

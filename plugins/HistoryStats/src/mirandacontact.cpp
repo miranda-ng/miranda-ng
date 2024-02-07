@@ -28,7 +28,7 @@ void MirandaContact::fetchSlot(int i)
 
 	if (ei.dbe.cbBlob > ei.nAllocated) {
 		ei.nAllocated = ei.dbe.cbBlob;
-		ei.dbe.pBlob = reinterpret_cast<uint8_t*>(realloc(ei.dbe.pBlob, ei.dbe.cbBlob + 1));
+		ei.dbe.pBlob = reinterpret_cast<char *>(realloc(ei.dbe.pBlob, ei.dbe.cbBlob + 1));
 	}
 
 	db_event_get(ci.hEvent, &ei.dbe);

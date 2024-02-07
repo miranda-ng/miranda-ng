@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -71,9 +71,7 @@ static wchar_t* GetProtoName(ClcContact *item)
 
 	PROTOACCOUNT *acc = Proto_GetAccount(item->pce->szProto);
 	if (acc == nullptr) {
-		char description[128];
-		CallProtoService(item->pce->szProto, PS_GETNAME, sizeof(description), (LPARAM)description);
-		mir_snwprintf(proto_name, L"%S", description);
+		mir_snwprintf(proto_name, L"%S", item->pce->szProto);
 		return proto_name;
 	}
 

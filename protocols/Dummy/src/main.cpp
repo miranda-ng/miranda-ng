@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright (c) 2014-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CDummyProto>("Dummy", pluginInfoEx)
 {
 	int id = db_get_b(0, m_szModuleName, DUMMY_ID_TEMPLATE, -1);
-	if (id < 0 || id >= _countof(templates))
+	if (id < 0)
 		SetUniqueId(ptrA(db_get_sa(0, m_szModuleName, DUMMY_ID_SETTING)));
 	else
 		SetUniqueId(templates[id].setting);
@@ -68,6 +68,7 @@ struct CMPluginAim : public ACCPROTOPLUGIN<CDummyProto>
 }
 static g_pluginAim;
 
+#ifndef MIRANDA_VERSION_ISALPHA
 struct CMPluginDiscord : public ACCPROTOPLUGIN<CDummyProto>
 {
 	CMPluginDiscord() : ACCPROTOPLUGIN<CDummyProto>("Discord", pluginInfoEx)
@@ -76,6 +77,7 @@ struct CMPluginDiscord : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginDiscord;
+#endif
 
 struct CMPluginYahoo : public ACCPROTOPLUGIN<CDummyProto>
 {

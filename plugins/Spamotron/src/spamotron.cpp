@@ -234,7 +234,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				szAuthEventModule = mir_u2a(AuthEventModule);
 				dbei2.szModule = szAuthEventModule;
 				dbei2.timestamp = dbei->timestamp;
-				dbei2.pBlob = _dbv.pbVal + sizeof(uint32_t);
+				dbei2.pBlob = (char*)_dbv.pbVal + sizeof(uint32_t);
 				db_event_add(hContact, &dbei2);
 
 				g_plugin.delSetting(hContact, "AuthEvent");

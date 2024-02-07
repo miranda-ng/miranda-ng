@@ -2,7 +2,7 @@
 
 Object UI extensions
 Copyright (c) 2008  Victor Pavlychko, George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -349,13 +349,15 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (pnmh->idFrom == 0) {
 				switch (pnmh->code) {
 				case PSN_APPLY:
-					if (LPPSHNOTIFY(lParam)->lParam != 3) // IDC_APPLY
-						m_bExiting = true;
+					m_bExiting = ((PSHNOTIFY*)pnmh)->lParam != 3; // IDC_APPLY
 
 					if (!VerifyControls(&CCtrlBase::OnApply))
 						m_bExiting = false;
 					else if (!OnApply())
 						m_bExiting = false;
+
+					for (auto &it : m_controls)
+						it->m_bChanged = false;
 					break;
 
 				case PSN_RESET:

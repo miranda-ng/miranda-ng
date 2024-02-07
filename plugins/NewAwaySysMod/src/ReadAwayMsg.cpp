@@ -59,7 +59,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)awayData);
 			awayData->hContact = lParam;
 			awayData->hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, UM_RAM_AWAYMSGACK);
-			awayData->hSeq = (HANDLE)ProtoChainSend(awayData->hContact, PSS_GETAWAYMSG, 0, 0);
+			awayData->hSeq = (HANDLE)CallContactService(awayData->hContact, PS_GETAWAYMSG);
 			WindowList_Add(g_hReadWndList, hwndDlg, awayData->hContact);
 
 			wchar_t str[256], format[128];

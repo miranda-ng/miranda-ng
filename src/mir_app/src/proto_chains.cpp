@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -61,8 +61,8 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	for (int i = iOrder; i < g_arFilters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(0, g_arFilters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
-			//chain was started, exit
+		if ((ret = CallProtoService(g_arFilters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
+			// chain was started, exit
 			return ret;
 		}
 	}
@@ -71,14 +71,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == nullptr || pa->ppro == nullptr)
-		return 1;
-
-	if (pa->bOldProto)
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, -1, (LPARAM)ccs);
-	else
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
+	ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
 		ret = 1;
 
@@ -111,23 +104,16 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	else iOrder--;
 
 	for (int i = iOrder - 1; i >= 0; i--)
-		if ((ret = CallProtoServiceInt(0, g_arFilters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
-			//chain was started, exit
+		if ((ret = CallProtoService(g_arFilters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
+			// chain was started, exit
 			return ret;
 
-	//end of chain, call network protocol again
+	// end of chain, call network protocol again
 	char szProto[40];
 	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == nullptr || pa->ppro == nullptr)
-		return 1;
-
-	if (pa->bOldProto)
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, -1, (LPARAM)ccs);
-	else
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
+	ret = CallContactServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
 		ret = 1;
 

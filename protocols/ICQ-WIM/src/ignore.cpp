@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // ICQ plugin for Miranda NG
 // -----------------------------------------------------------------------------
-// Copyright © 2018-23 Miranda NG team
+// Copyright © 2018-24 Miranda NG team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ void CIcqProto::GetPermitDeny()
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny) << AIMSID(this));
 }
 
-void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnGetPermitDeny(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root.error() == 200)
@@ -57,18 +57,6 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		p->m_iApparentMode = ID_STATUS_OFFLINE;
 		Contact::Hide(p->m_hContact);
 		m_bIgnoreListEmpty = false;
-	}
-
-	{	mir_cslock lck(m_csCache);
-		for (auto &it : m_arCache) {
-			int oldMode = getDword(it->m_hContact, "ApparentMode");
-			if (oldMode != it->m_iApparentMode) {
-				if (it->m_iApparentMode == 0)
-					delSetting(it->m_hContact, "ApparentMode");
-				else
-					setDword(it->m_hContact, "ApparentMode", it->m_iApparentMode);
-			}
-		}
 	}
 }
 

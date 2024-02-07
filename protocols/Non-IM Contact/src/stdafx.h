@@ -59,7 +59,6 @@ extern IconItem iconList[];
 
 // Services.c
 INT_PTR GetLCCaps(WPARAM wParam,LPARAM lParam);
-INT_PTR GetLCName(WPARAM wParam,LPARAM lParam);
 INT_PTR LoadLCIcon(WPARAM wParam,LPARAM lParam); 
 int     SetLCStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR GetLCStatus(WPARAM wParam,LPARAM lParam);

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -40,13 +40,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // hContact can be NULL to wipe system history
 
 #define MS_HISTORY_EMPTY "History/EmptyHistory"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Event called when someone gonna wipe contact's history
-// wParam = (MCONTACT)hContact
-// hContact can be NULL to wipe system history
-// returns 0 if the core should wipe local history or any other value to cancel wiping
-
-#define ME_HISTORY_EMPTY "History/OnEmptyHistory"
 
 #endif // M_HISTORY_H__

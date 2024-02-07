@@ -594,7 +594,7 @@ class CContactUpdater : public CContactQueue
 				_pProgress->SetTextParam(TranslateT("[b]%s (%S)...[/b]\n%d Contacts remaining"), Clist_GetContactDisplayName(_hContact), pszProto, Size());
 
 			if (IsProtoOnline(pszProto))
-				for (int i = 0; i < 3 && ProtoChainSend(hContact, PSS_GETINFO, 0, 0); i++)
+				for (int i = 0; i < 3 && CallContactService(hContact, PS_GETINFO, 0, 0); i++)
 					Sleep(3000);
 		}
 	}

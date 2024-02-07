@@ -59,7 +59,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 	switch (wParam) {
 	case PFLAGNUM_1:
 		// support search and visible list
-		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_VISLIST | PF1_MODEMSGRECV;
+		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_MODEMSGRECV;
 		break;
 
 	case PFLAGNUM_2:
@@ -79,14 +79,6 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 		break;
 	}
 	return ret;
-}
-
-// protocol service function to get weather protocol name
-INT_PTR WeatherGetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, WEATHERPROTOTEXT, wParam - 1);
-	*((char*)lParam + wParam - 1) = 0;
-	return 0;
 }
 
 // protocol service function to get the current status of the protocol
@@ -264,16 +256,15 @@ static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
 void InitServices(void)
 {
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, WeatherGetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, WeatherGetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, WeatherLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, WeatherSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, WeatherGetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, WeatherBasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, WeatherAddToList);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, WeatherGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, WeatherGetInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, WeatherGetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
 	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_GETADVANCEDSTATUSICON, WeatherAdvancedStatusIcon);

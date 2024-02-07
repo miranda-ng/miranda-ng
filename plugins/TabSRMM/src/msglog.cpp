@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -570,13 +570,10 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 
 	BOOL isSent = (dbei.flags & DBEF_SENT);
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	if (!isSent && bIsStatusChangeEvent) {
-		if (!dbei.markedRead())
-			db_event_markRead(streamData->hContact, streamData->hDbEvent);
-		Clist_RemoveEvent(-1, streamData->hDbEvent);
-	}
+	if (!isSent && bIsStatusChangeEvent)
+		dbei.wipeNotify(streamData->hDbEvent);
 
-	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei)));
 	if (msg.IsEmpty())
 		return nullptr;
 
@@ -984,7 +981,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 						if (blob.isOffline())
 							InsertFileLink(str, streamData->hDbEvent, blob);
 						else
-							AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), 0);
+							AppendUnicodeToBuffer(str, ptrW(DbEvent_GetTextW(&dbei)), 0);
 					}
 					break;
 
@@ -994,7 +991,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 						str.AppendChar(' ');
 					}
 
-					ptrW tszText(DbEvent_GetTextW(&dbei, CP_ACP));
+					ptrW tszText(DbEvent_GetTextW(&dbei));
 					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;

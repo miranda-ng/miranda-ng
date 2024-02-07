@@ -125,6 +125,15 @@
 [Messages]
 [Notices]
 [Host]
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+[Mode]
+[Please wait...]
+[%s - Filtered - %d items]
+[Downloading list (%u%%) - %u channels]
+[Downloading list - %u channels]
+[Done: %u channels]
+[(probably truncated by server)]
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 ;file \protocols\IRCG\src\commandmonitor.cpp
@@ -152,10 +161,6 @@
 [Op]
 [Halfop]
 [Voice]
-[Downloading list (%u%%) - %u channels]
-[Downloading list - %u channels]
-[Done: %u channels]
-[(probably truncated by server)]
 [%ud, %uh, %um, %us]
 [%uh, %um, %us]
 [%um, %us]
@@ -364,10 +369,6 @@
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-[Channel]
-[Mode]
-[%s - Filtered - %d items]
 [Add ban/invite/exception]
 [Edit selected ban/invite/exception]
 [Delete selected ban/invite/exception]

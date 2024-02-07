@@ -247,18 +247,8 @@ void ThumbInfo::ResizeThumb()
 	if (Contact::OnList(hContact)) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
-			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-
-			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
-				(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE)) {
-				if (ID_STATUS_OFFLINE == nContactStatus)
-					index = FLT_FONTID_OFFINVIS;
-				else
-					index = FLT_FONTID_INVIS;
-			}
-			else if (ID_STATUS_OFFLINE == nContactStatus)
+			if (ID_STATUS_OFFLINE == nContactStatus)
 				index = FLT_FONTID_OFFLINE;
 			else
 				index = FLT_FONTID_CONTACTS;
@@ -575,23 +565,9 @@ void ThumbInfo::UpdateContent()
 	if (Contact::OnList(hContact)) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
-			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-
-			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
-				(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE)) {
-				if (ID_STATUS_OFFLINE == nContactStatus)
-					index = FLT_FONTID_OFFINVIS;
-				else {
-					index = FLT_FONTID_INVIS;
-					if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0))
-						fStyle |= ILD_BLEND50;
-				}
-			}
-			else if (ID_STATUS_OFFLINE == nContactStatus) {
+			if (ID_STATUS_OFFLINE == nContactStatus)
 				index = FLT_FONTID_OFFLINE;
-			}
 			else {
 				index = FLT_FONTID_CONTACTS;
 				if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0))

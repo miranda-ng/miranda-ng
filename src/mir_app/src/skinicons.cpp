@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -97,8 +97,6 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_EDIT,            LPGEN("Edit"),                  -IDI_TYPING,         0, nullptr }, // 56
 	{ SKINICON_OTHER_BLANK,           LPGEN("Blank"),                 -IDI_BLANK,          0, nullptr }, // 57
 	
-	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact list") },
-	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status icons") },
 };
 
@@ -241,7 +239,7 @@ MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status)
 	INT_PTR caps2;
 	if (szProto == nullptr)
 		caps2 = -1;
-	else if ((caps2 = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
+	else if ((caps2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
 		caps2 = 0;
 
 	if (IsStatusConnecting(status)) {

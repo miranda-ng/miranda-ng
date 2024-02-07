@@ -1,6 +1,6 @@
 /*
 Weather Protocol plugin for Miranda NG
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
 Copyright (c) 2002-2005 Calvin Che
 
@@ -67,7 +67,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // name
 #define MODULENAME         "Weather"
-#define WEATHERPROTOTEXT   "Weather"
 #define DEFCURRENTWEATHER  "WeatherCondition"
 #define WEATHERCONDITION   "Current"
 

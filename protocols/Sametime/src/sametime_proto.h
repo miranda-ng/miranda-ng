@@ -24,8 +24,8 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	HANDLE   SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE*) override;
-	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override;
+	MEVENT   RecvMsg(MCONTACT hContact, DB::EventInfo &dbei) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, MEVENT, const char* msg) override;
@@ -33,16 +33,14 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      SetStatus(int iNewStatus) override;
 
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
-	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) override;
 	int      SetAwayMsg(int iStatus, const wchar_t* msg) override;
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnShutdown() override;
-	bool     OnContactDeleted(MCONTACT hContact) override;
+	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	// sametime.cpp
-	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SametimeLoadIcon(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnIdleChanged(WPARAM wParam, LPARAM lParam);

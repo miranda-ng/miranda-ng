@@ -41,7 +41,7 @@ static LONG g_reqNum = 0;
 AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR _url, MTHttpRequestHandler pFunc, JSONNode *pRoot)
 {
 	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = "https://discord.com/api/v8";
+		m_szUrl = "https://discord.com/api/v9";
 		m_szUrl += _url;
 		m_bMainSite = true;
 	}
@@ -59,8 +59,7 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 
 	if (pRoot != nullptr) {
 		ptrW text(json_write(pRoot));
-		pData = mir_utf8encodeW(text);
-		dataLength = (int)mir_strlen(pData);
+		m_szParam = ptrA(mir_utf8encodeW(text));
 
 		AddHeader("Content-Type", "application/json");
 	}
@@ -71,7 +70,7 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }
 
-JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
+JsonReply::JsonReply(MHttpResponse *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;
@@ -80,7 +79,7 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 
 	m_errorCode = pReply->resultCode;
 
-	m_root = json_parse(pReply->pData);
+	m_root = json_parse(pReply->body);
 	if (m_root == nullptr)
 		m_errorCode = 500;
 }
@@ -94,9 +93,10 @@ JsonReply::~JsonReply()
 
 void CDiscordProto::ServerThread(void*)
 {
-	m_szAccessToken = getStringA("AccessToken");
+	m_szAccessToken = getStringA(DB_KEY_TOKEN);
 	m_hAPIConnection = nullptr;
 	m_bTerminated = false;
+	m_hWorkerThread = GetCurrentThread();
 
 	debugLogA("CDiscordProto::WorkerThread: %s", "entering");
 

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -56,8 +56,9 @@ ClcContact* fnFindItem(uint32_t dwItem, ClcContact *contact);
 ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
 ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
-ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
 ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
+
+ClcContact* Clist_AddItemToGroup(ClcGroup *group, int iAboveItem);
 
 void fnFreeContact(ClcContact *p);
 
@@ -167,3 +168,17 @@ int fnSetHideOffline(int iValue);
 
 /* docking.c */
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
+
+// clistgroups.cpp
+
+struct CGroupInternal
+{
+	CGroupInternal(int _id, const wchar_t *_name, int _flags);
+	~CGroupInternal();
+
+	int groupId, oldId = -1, flags;
+	bool bSaveExpanded;
+	wchar_t *groupName;
+
+	void save();
+};

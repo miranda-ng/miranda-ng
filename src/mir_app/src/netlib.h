@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -71,6 +71,44 @@ struct NetlibUrl
 	int flags = 0, port = 0;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MChunkHandler
+{
+	virtual void apply(MHttpResponse *nlhr) = 0;
+	virtual bool updateChunk(const void *pData, size_t cbLen) = 0;
+};
+
+class MMemoryChunkStorage : public MChunkHandler
+{
+	MBinBuffer buf;
+
+	void apply(MHttpResponse *nlhr) override;
+	bool updateChunk(const void *pData, size_t cbLen) override;
+
+public:
+	MMemoryChunkStorage() {}
+};
+
+class MFileChunkStorage : public MChunkHandler
+{
+	int fileId;
+	size_t prevBlocks = 0;
+
+	pfnDownloadCallback pCallback;
+	void *pCallbackInfo;
+
+	void apply(MHttpResponse *nlhr) override;
+	bool updateChunk(const void *pData, size_t cbLen) override;
+
+public:
+	MFileChunkStorage(const MFilePath &pwszFileName, pfnDownloadCallback, void*);
+
+	__forceinline operator bool() const { return fileId != -1; }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct NetlibConnection : public MZeroedObject
 {
 	NetlibConnection();
@@ -105,7 +143,6 @@ struct NetlibConnection : public MZeroedObject
 	uint16_t wProxyPort;
 	CMStringA szProxyBuf;
 
-	int pollingTimeout;
 	unsigned lastPost;
 };
 
@@ -165,7 +202,9 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
+int  Netlib_SendHttpRequest(HNETLIBCONN hConnection, MHttpRequest *pRec, MChunkHandler &pHandler);
+
+MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, MChunkHandler &pHandler, bool isConnect = false);
 
 // netliblog.cpp
 void NetlibLogShowOptions(void);

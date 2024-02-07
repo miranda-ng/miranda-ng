@@ -18,13 +18,6 @@ begin
   end
 end;
 
-function Service_GetName(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
-begin
-  if lParam<>0 then
-    StrCopy(PAnsiChar(lParam),Translate(PluginName),wParam);
-  result:=0;
-end;
-
 procedure GetAwayMsgProc(hContact:TMCONTACT); cdecl;
 var
   buf,p:PWideChar;
@@ -161,7 +154,7 @@ begin
 end;
 
 var
-  prh0,prh1,prh2,prh3,prh4,prh5,prh6,prh7,prh8,prh9:THANDLE;
+  prh0,prh1,prh2,prh3,prh4,prh5,prh6,prh7,prh8:THANDLE;
 
 procedure DestroyProtoServices;
 begin
@@ -174,7 +167,6 @@ begin
   DestroyServiceFunction(prh6);
   DestroyServiceFunction(prh7);
   DestroyServiceFunction(prh8);
-  DestroyServiceFunction(prh9);
 end;
 
 procedure CreateProtoServices;
@@ -184,9 +176,8 @@ begin
   prh2:=CreateProtoService(PS_CREATEADVSEARCHUI, @Service_ExtSearchUI);
   prh3:=CreateProtoService(PS_SEARCHBYADVANCED,  @Service_SearchByAdvanced);
   prh4:=CreateProtoService(PS_BASICSEARCH,       @Service_SearchBasic);
-  prh5:=CreateProtoService(PS_GETNAME,           @Service_GetName);
-  prh6:=CreateProtoService(PS_LOADICON,          @Service_LoadIcon);
-  prh7:=CreateProtoService(PS_GETSTATUS,         @Service_GetStatus);
-  prh8:=CreateProtoService(PS_SETSTATUS,         @Service_SetStatus);
-  prh9:=CreateProtoService(PSS_GETAWAYMSG,       @Service_GetAwayMsg);
+  prh5:=CreateProtoService(PS_LOADICON,          @Service_LoadIcon);
+  prh6:=CreateProtoService(PS_GETSTATUS,         @Service_GetStatus);
+  prh7:=CreateProtoService(PS_SETSTATUS,         @Service_SetStatus);
+  prh8:=CreateProtoService(PSS_GETAWAYMSG,       @Service_GetAwayMsg);
 end;

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -147,6 +147,7 @@ MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
 MIR_APP_DLL(int)      ProtoServiceExists(const char *szModule, const char *szService);
 MIR_APP_DLL(INT_PTR)  CallProtoService(const char *szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT hContact, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
@@ -421,6 +422,8 @@ MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len);
 
 __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
+
+MIR_CORE_DLL(char *) newStr(const char *src);
 
 #if defined( __cplusplus )
 	MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src);

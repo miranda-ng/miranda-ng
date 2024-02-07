@@ -58,19 +58,33 @@ BEGIN
     EDITTEXT        IDC_AUTHREQ,13,95,204,29,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
 END
 
-IDD_DELETECONTACT DIALOGEX 0, 0, 294, 101
+IDD_DELETECONTACT DIALOGEX 0, 0, 294, 99
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Delete contact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "&Yes",IDYES,58,38,65,14
-    DEFPUSHBUTTON   "&No",IDNO,172,38,65,14
-    CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,280,9
-    LTEXT           "Use Options -> Contacts -> Ignore to unhide contacts.",IDC_STATIC,20,78,257,16
     CONTROL         "Are you sure you want to delete %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,16
+    CONTROL         "Remove contact from server too",IDC_DELSERVERCONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,280,8
+    CONTROL         "Remove server history", IDC_DELSERVERHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,280,8
+    CONTROL         "Remove history for everyone",IDC_BOTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,63,260,8
+    PUSHBUTTON      "&Yes",IDOK,149,78,65,14
+    DEFPUSHBUTTON   "&No",IDCANCEL,221,78,65,14
+END
+
+IDD_EMPTYHISTORY DIALOGEX 0, 0, 294, 86
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Empty history"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Are you sure to wipe the history for %s?",IDC_TOPLINE,"Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
+    LTEXT           "This will erase all history for this contact!",IDC_STATIC,7,18,239,16
+    CONTROL         "Remove server history", IDC_DELSERVERHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,280,8
+    CONTROL         "Remove history for everyone",IDC_BOTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,50,260,8
+    PUSHBUTTON      "&Yes",IDOK,149,65,65,14
+    DEFPUSHBUTTON   "&No",IDCANCEL,221,65,65,14
 END
 
 IDD_OPT_CONTACT DIALOGEX 0, 0, 313, 242
@@ -295,19 +309,6 @@ BEGIN
     GROUPBOX        "Ignore",IDC_STATIC,0,0,313,240
     ICON            IDI_TYPING,IDC_TYPINGICON,221,172,20,20,SS_CENTERIMAGE
     LTEXT           "Typing",IDC_STATIC,241,178,66,8,SS_NOPREFIX | SS_CENTERIMAGE
-END
-
-IDD_OPT_VISIBILITY DIALOGEX 0, 0, 313, 240
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    GROUPBOX        "Visibility",IDC_STATIC,0,0,313,240
-    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,8,14,297,183,WS_EX_CLIENTEDGE
-    ICON            IDI_ONLINE,IDC_VISIBLEICON,8,203,20,20,SS_CENTERIMAGE
-    LTEXT           "You are visible to this person even when in invisible mode",IDC_STATIC,26,209,279,8,SS_NOPREFIX | SS_CENTERIMAGE
-    ICON            IDI_INVISIBLE,IDC_INVISIBLEICON,8,218,20,20,SS_CENTERIMAGE
-    LTEXT           "You are never visible to this person",IDC_STATIC,26,224,279,8,SS_NOPREFIX | SS_CENTERIMAGE
 END
 
 IDD_ICONINDEX DIALOGEX 0, 0, 219, 197
@@ -1198,7 +1199,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 286
         TOPMARGIN, 7
-        BOTTOMMARGIN, 88
+        BOTTOMMARGIN, 79
     END
 
     IDD_OPT_CONTACT, DIALOG
@@ -1280,12 +1281,6 @@ BEGIN
         VERTGUIDE, 8
         VERTGUIDE, 96
         VERTGUIDE, 221
-        VERTGUIDE, 305
-    END
-
-    IDD_OPT_VISIBILITY, DIALOG
-    BEGIN
-        VERTGUIDE, 8
         VERTGUIDE, 305
     END
 
@@ -1609,10 +1604,6 @@ IDI_ON                  ICON                    "On.ico"
 
 IDI_OFF                 ICON                    "Off.ico"
 
-IDI_ALWAYSVIS           ICON                    "always_visible.ico"
-
-IDI_NEVERVIS            ICON                    "never_visible.ico"
-
 IDI_CHAT                ICON                    "chat_channel.ico"
 
 IDI_MALE                ICON                    "male.ico"
@@ -1687,51 +1678,14 @@ IDC_DROPUSER            CURSOR                  "cursor_drop_user.cur"
 
 IDR_CONTEXT MENU
 BEGIN
-    POPUP "Tray"
-    BEGIN
-        MENUITEM "&Hide/Show",                  ID_TRAY_HIDE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_TRAY_EXIT
-    END
-    POPUP "Nowhere"
-    BEGIN
-        MENUITEM "&New group",                  POPUP_NEWGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
-        MENUITEM SEPARATOR
-        MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
-    END
-    POPUP "Group"
-    BEGIN
-        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
-        MENUITEM SEPARATOR
-        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete group",               POPUP_DELETEGROUP
-    END
-    POPUP "IconOptions"
-    BEGIN
-        MENUITEM "&Reset to default",           ID_RESET
-    END
-    POPUP "find/add"
+    POPUP ""
     BEGIN
         MENUITEM "&Add to list",                IDC_ADD
         MENUITEM SEPARATOR
         MENUITEM "User &details",               IDC_DETAILS
         MENUITEM "Send &message",               IDM_SENDMESSAGE
     END
-    POPUP "Log"
-    BEGIN
-        MENUITEM "&Copy",                       IDM_COPY
-        MENUITEM "Co&py all",                   IDM_COPYALL
-        MENUITEM "Select &all",                 IDM_SELECTALL
-        MENUITEM SEPARATOR
-        MENUITEM "C&lear log",                  IDM_CLEAR
-    END
-    POPUP "LogLink"
+    POPUP ""
     BEGIN
         MENUITEM "&Open link",                  IDM_OPENLINK
         MENUITEM "&Copy link",                  IDM_COPYLINK
@@ -1811,75 +1765,8 @@ BEGIN
     END
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPT_SRMMLOG AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CLIST AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CHAT_EVENTS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_SOUND AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_NETLIBLOGOPTS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_GENMENU AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_POPUPOPTION AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_FILESECURITY AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_FILEGENERAL AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_NEWPASS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_CHANGEPASS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_PROFILE_NEW AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED

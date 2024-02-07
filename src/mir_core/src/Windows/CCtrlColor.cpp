@@ -2,7 +2,7 @@
 
 Object UI extensions
 Copyright (c) 2008  Victor Pavlychko, George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,8 +37,6 @@ BOOL CCtrlColor::OnCommand(HWND, uint16_t, uint16_t)
 
 bool CCtrlColor::OnApply()
 {
-	CSuper::OnApply();
-
 	if (m_hwnd && m_dbLink)
 		SaveInt(GetColor());
 	return true;

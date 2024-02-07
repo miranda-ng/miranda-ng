@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -52,7 +52,7 @@ static wchar_t* sttGetXStatus(const char *szProto)
 		CUSTOM_STATUS cs = { sizeof(cs) };
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_UNICODE;
 		cs.ptszMessage = tszStatus;
-		if (CallProtoServiceInt(0, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
+		if (CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 			return mir_wstrdup(tszStatus);
 	}
 

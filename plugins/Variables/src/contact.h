@@ -59,18 +59,16 @@
 #define STR_COHOMEPAGE  L"cohomepage"
 
 #define STR_ACCOUNT     L"account"
-#define STR_PROTOCOL    L"protocol"
 #define STR_STATUS      L"status"
 #define STR_INTERNALIP  L"intip"
 #define STR_EXTERNALIP  L"extip"
 #define STR_GROUP       L"group"
 #define STR_PROTOID     L"protoid"
 
-#define CCNF_ACCOUNT    51 // CUSTOM, returns contact's account name (0.8.0+)
-#define CCNF_PROTOCOL   50 // CUSTOM, returns the contact's protocol (human-readable)
+#define CCNF_ACCOUNT    50 // CUSTOM, returns contact's account name (0.8.0+)
 #define CCNF_STATUS     49 // CUSTOM, returns status mode description
-#define CCNF_INTERNALIP 48    // CUSTOM, returns the contact's internal IP
-#define CCNF_EXTERNALIP 47    // CUSTOM, returns the contact's external IP
+#define CCNF_INTERNALIP 48 // CUSTOM, returns the contact's internal IP
+#define CCNF_EXTERNALIP 47 // CUSTOM, returns the contact's external IP
 #define CCNF_GROUP      46 // CUSTOM, returns group name
 #define CCNF_PROTOID    45 // CUSTOM, returns protocol ID instead of name
 

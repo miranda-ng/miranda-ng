@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,35 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MHttpRequest::MHttpRequest()
+MHttpRequest::MHttpRequest(int _1) :
+	requestType(_1),
+	flags(0),
+	pUserInfo(nullptr),
+	nlc(0),
+	timeout(30000)
 {
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	requestType = REQUEST_GET;
 }
 
 MHttpRequest::~MHttpRequest()
 {
-	for (int i = 0; i < headersCount; i++) {
-		mir_free(headers[i].szName);
-		mir_free(headers[i].szValue);
-	}
-	mir_free(headers);
-	mir_free(pData);
 }
 
-void MHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
+void MHttpRequest::SetData(const void *pData, size_t cbLen)
 {
-	for (int i = 0; i < headersCount; i++)
-		if (!mir_strcmp(headers[i].szName, szName)) {
-			replaceStr(headers[i].szValue, szValue);
-			return;
-		}
-
-	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-	headers[headersCount].szName = mir_strdup(szName);
-	headers[headersCount].szValue = mir_strdup(szValue);
-	headersCount++;
+	m_szParam.Truncate((int)cbLen);
+	memcpy(m_szParam.GetBuffer(), pData, cbLen);
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

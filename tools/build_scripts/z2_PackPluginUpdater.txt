@@ -61,8 +61,8 @@ Libs\libjson.mir
 Libs\Pcre16.mir
 Libs\sqlite3.mir
 Libs\Zlib.mir
-Libs\libcrypto-1_1.mir
-Libs\libssl-1_1.mir
+Libs\libcrypto-3.mir
+Libs\libssl-3.mir
 Plugins\Db_autobackups.dll
 Plugins\DbChecker.dll
 Plugins\Dbx_sqlite.dll

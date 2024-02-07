@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-12 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // a pointer, I have decided to diverge from the rest of Miranda and go with
 // the convention that functions return false on failure and nonzero on success.
 
-struct NETLIBHTTPREQUEST;
+struct MHttpRequest;
 struct NETLIBOPENCONNECTION;
 
 #define NETLIB_USER_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.112 Safari/537.36"
@@ -357,11 +357,6 @@ EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection);
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Gets HNETLIBUSER owner of a connection
-
-EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HNETLIBCONN hConn);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Gets the fake User-Agent header field to make some sites happy
 
 EXTERN_C MIR_APP_DLL(char*) Netlib_GetUserAgent();
@@ -406,25 +401,6 @@ struct NETLIBIPLIST
 EXTERN_C MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Send an HTTP request over a connection
-//
-// Returns number of bytes sent on success, SOCKET_ERROR on failure
-// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
-// Note that if you use NLHRF_SMARTAUTHHEADER and NTLM authentication is in use
-// then the full NTLM authentication transaction occurs, comprising sending the
-// domain, receiving the challenge, then sending the response.
-// nlhr.resultCode and nlhr.szResultDescr are ignored by this function.
-// Errors: ERROR_INVALID_PARAMETER, anything returned by MS_NETLIB_SEND
-
-struct NETLIBHTTPHEADER
-{
-	char *szName;
-	char *szValue;
-};
-
-EXTERN_C MIR_APP_DLL(char*) Netlib_GetHeader(const NETLIBHTTPREQUEST *pRec, const char *pszName);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 #define REQUEST_RESPONSE 0	// used by structure returned by MS_NETLIB_RECVHTTPHEADERS
 #define REQUEST_GET      1
@@ -448,49 +424,85 @@ EXTERN_C MIR_APP_DLL(char*) Netlib_GetHeader(const NETLIBHTTPREQUEST *pRec, cons
 #define NLHRF_DUMPASTEXT      0x00080000   // dump posted and reply data as text. Headers are always dumped as text.
 #define NLHRF_NODUMPSEND      0x00100000   // do not dump sent message.
 
-struct NETLIBHTTPREQUEST
+struct MHttpHeader
 {
-	int cbSize;
-	int requestType;	// a REQUEST_
-	uint32_t flags;
-	char *szUrl;
-	NETLIBHTTPHEADER *headers;	 // If this is a POST request and headers doesn't contain a Content-Length it'll be added automatically
-	int headersCount;
-	char *pData;   // data to be sent in POST request.
-	int dataLength;		 // must be 0 for REQUEST_GET/REQUEST_CONNECT
-	int resultCode;
-	char *szResultDescr;
-	HNETLIBCONN nlc;
-	int timeout;
+	MHttpHeader(const char *_1, const char *_2) :
+		szName(mir_strdup(_1)),
+		szValue(mir_strdup(_2))
+	{}
+
+	ptrA szName, szValue;
+};
+
+struct MIR_APP_EXPORT MHttpHeaders : public OBJLIST<MHttpHeader>
+{
+	MHttpHeaders();
+	~MHttpHeaders();
 
 	__forceinline const char *operator[](const char *pszName) {
-		return Netlib_GetHeader(this, pszName);
+		return FindHeader(pszName);
+	}
+
+	void AddHeader(const char *pszName, const char *pszValue);
+	void DeleteHeader(const char *pszName);
+	char* FindHeader(const char *pszName) const;
+	CMStringA GetCookies() const;
+};
+
+struct MIR_APP_EXPORT MHttpRequest : public MHttpHeaders, public MNonCopyable, public MZeroedObject
+{
+	MHttpRequest(int type);
+	~MHttpRequest();
+
+	int requestType; // a REQUEST_
+	uint32_t flags;
+	CMStringA m_szUrl, m_szParam;
+	HNETLIBCONN nlc;
+	int timeout;
+	void *pUserInfo;
+
+	void SetData(const void *pData, size_t cbLen);
+};
+
+struct MIR_APP_EXPORT MHttpResponse : public MHttpHeaders, public MNonCopyable, public MZeroedObject
+{
+	MHttpResponse();
+	~MHttpResponse();
+
+	int resultCode;
+	char *szUrl, *szResultDescr;
+	HNETLIBCONN nlc;
+	CMStringA body;
+};
+
+class NLHR_PTR
+{
+	MHttpResponse *_p;
+
+public:
+	__forceinline explicit NLHR_PTR(MHttpResponse *p) : _p(p) {}
+
+	__forceinline MHttpResponse *operator=(INT_PTR i_p)
+	{
+		return operator=((MHttpResponse *)i_p);
+	}
+	__forceinline MHttpResponse* operator=(MHttpResponse *p)
+	{
+		if (_p)
+			delete _p;
+		_p = p;
+		return _p;
+	}
+	__forceinline operator MHttpResponse*() const { return _p; }
+	__forceinline MHttpResponse* operator->() const { return _p; }
+	__forceinline ~NLHR_PTR()
+	{
+		delete _p;
 	}
 };
 
-EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);
-
 /////////////////////////////////////////////////////////////////////////////////////////
-// Receives HTTP headers
-//
-// Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on failure.
-// Call Netlib_FreeHttpRequest() to free this.
-// hConnection must have been returned by MS_NETLIB_OPENCONNECTION
-// nlhr->pData = NULL and nlhr->dataLength = 0 always. The requested data should
-// be retrieved using MS_NETLIB_RECV once the header has been parsed.
-// If the headers haven't finished within 60 seconds the function returns NULL
-// and ERROR_TIMEOUT.
-// Errors: ERROR_INVALID_PARAMETER, any from MS_NETLIB_RECV or select()
-//    ERROR_HANDLE_EOF (connection closed before headers complete)
-//    ERROR_TIMEOUT (headers still not complete after 60 seconds)
-//    ERROR_BAD_FORMAT (invalid character or line ending in headers, or first line is blank)
-//    ERROR_BUFFER_OVERFLOW (each header line must be less than 4096 chars long)
-//    ERROR_INVALID_DATA (first header line is malformed ("http/[01].[0-9] [0-9]+ .*", or no colon in subsequent line)
-
-EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, int flags = 0);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Free the memory used by a NETLIBHTTPREQUEST structure
+// Free the memory used by a MHttpRequest structure
 //
 // Returns true on success, false on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This should only be called on structures returned by
@@ -498,73 +510,33 @@ EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hCon
 // arbitrary structure will have disastrous results.
 // Errors: ERROR_INVALID_PARAMETER
 
-EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(NETLIBHTTPREQUEST*);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// smart pointer for NETLIBHTTPREQUEST via a call of Netlib_FreeHttpRequest()
-
-#ifdef __cplusplus
-class NLHR_PTR
-{
-protected:
-	NETLIBHTTPREQUEST *_p;
-
-public:
-	__forceinline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
-
-	__forceinline NETLIBHTTPREQUEST* operator=(INT_PTR i_p)
-	{
-		return operator=((NETLIBHTTPREQUEST*)i_p);
-	}
-	__forceinline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
-	{
-		if (_p)
-			Netlib_FreeHttpRequest(_p);
-		_p = p;
-		return _p;
-	}
-	__forceinline operator NETLIBHTTPREQUEST*() const { return _p; }
-	__forceinline NETLIBHTTPREQUEST* operator->() const { return _p; }
-	__forceinline ~NLHR_PTR()
-	{
-		Netlib_FreeHttpRequest(_p);
-	}
-};
-
-struct MIR_APP_EXPORT MHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
-{
-	MHttpRequest();
-	~MHttpRequest();
-
-	CMStringA m_szUrl;
-	CMStringA m_szParam;
-	void *pUserInfo = nullptr;
-
-	void AddHeader(const char *szName, const char *szValue);
-};
-
 template <class T>
 class MTHttpRequest : public MHttpRequest
 {
 public:
-	__forceinline MTHttpRequest()
+	__forceinline MTHttpRequest() :
+		MHttpRequest(REQUEST_GET)
 	{}
 
-	typedef void (T::*MTHttpRequestHandler)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
+	typedef void (T::*MTHttpRequestHandler)(MHttpResponse*, struct AsyncHttpRequest*);
 	MTHttpRequestHandler m_pFunc = nullptr;
 };
 
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT_PARAM&);
-MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT64_PARAM&);
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const CHAR_PARAM&);
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT64_PARAM&);
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const WCHAR_PARAM&);
 
-#endif
+__forceinline MHttpRequest* operator<<(MHttpRequest &req, const INT_PARAM &param) { return &req << param; }
+__forceinline MHttpRequest* operator<<(MHttpRequest &req, const CHAR_PARAM &param) { return &req << param; }
+__forceinline MHttpRequest* operator<<(MHttpRequest &req, const INT64_PARAM &param) { return &req << param; }
+__forceinline MHttpRequest* operator<<(MHttpRequest &req, const WCHAR_PARAM &param) { return &req << param; }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Do an entire HTTP transaction
 //
-// Returns a pointer to another NETLIBHTTPREQUEST structure on success, NULL on failure.
+// Returns a pointer to another MHttpRequest structure on success, NULL on failure.
 // Call Netlib_FreeHttpRequest() to free this.
 // hUser must have been returned by MS_NETLIB_REGISTERUSER
 // nlhr.szUrl should be a full HTTP URL. If it does not start with http:// , that
@@ -589,7 +561,16 @@ MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const WCHAR_PARAM&);
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, anything from the above
 //    list of functions
 
-EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER hNlu, NETLIBHTTPREQUEST *pRequest);
+EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER hNlu, MHttpRequest *pRequest);
+
+typedef void(__cdecl *pfnDownloadCallback)(size_t iProgress, void *pUserInfo);
+
+EXTERN_C MIR_APP_DLL(MHttpResponse *) Netlib_DownloadFile(
+	HNETLIBUSER hNlu,
+	MHttpRequest *pRequest,
+	const MFilePath &wszFileName,
+	pfnDownloadCallback pCallback = nullptr,
+	void *pCallbackInfo = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send data over a connection
@@ -717,14 +698,6 @@ struct NETLIBPACKETRECVER
 EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Sets a gateway polling timeout interval
-//
-// Returns previous timeout value
-// Errors: -1
-
-EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN hConnection, int iTimeout);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // netlib log funcitons
 
 EXTERN_C MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr);
@@ -795,7 +768,7 @@ struct WSHeader
 };
 
 // connects to a WebSocket server
-EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER, const char *szHost, NETLIBHTTPHEADER *pHeaders = nullptr);
+EXTERN_C MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER, const char *szHost, const MHttpHeaders *pHeaders = nullptr);
 
 // validates that the provided buffer contains full WebSocket datagram
 EXTERN_C MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t bufSize);

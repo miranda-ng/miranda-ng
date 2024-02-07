@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -124,7 +124,7 @@ INT_PTR __cdecl CVkProto::SvcSetStatusMsg(WPARAM, LPARAM)
 	return 0;
 }
 
-void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveStatusMsg(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveStatusMsg %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -153,7 +153,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	setWString("OldStatusMsg", pwszOldStatusMsg);
 }
 
-void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveStatus(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveStatus %d", reply->resultCode);
 	if (reply->resultCode != 200)

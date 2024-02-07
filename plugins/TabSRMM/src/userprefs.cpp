@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -315,6 +315,7 @@ public:
 		m_hContact(hContact),
 		m_tab(this, IDC_OPTIONSTAB)
 	{
+		m_tab.SetPageOwner();
 	}
 
 	bool OnInitDialog() override
@@ -326,7 +327,8 @@ public:
 		SetCaption(szBuffer);
 
 		m_tab.AddPage(TranslateT("General"), nullptr, new CUserPrefsOptDlg(m_hContact));
-		m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
+		if (!Srmm_IsCustomLogUsed(Contact::IsGroupChat(m_hContact)))
+			m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
 		return true;
 	}
 

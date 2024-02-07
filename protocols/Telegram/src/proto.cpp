@@ -64,9 +64,10 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
+	
 	CreateProtoService(PS_MENU_LOADHISTORY, &CTelegramProto::SvcLoadServerHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CTelegramProto::SvcEmptyServerHistory);
 
-	HookProtoEvent(ME_HISTORY_EMPTY, &CTelegramProto::OnEmptyHistory);
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CTelegramProto::OnWindowEvent);
 
@@ -116,7 +117,7 @@ void CTelegramProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CTelegramProto::OnContactDeleted(MCONTACT hContact)
+bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
 	TD::int53 id = GetId(hContact);
 	if (id == 0)
@@ -134,20 +135,15 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact)
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
 
-	TD::array<TD::int53> ids;
-	ids.push_back(id);
-	SendQuery(new TD::removeContacts(std::move(ids)));
-	return true;
-}
+	if (flags & CDF_DEL_HISTORY)
+		SvcEmptyServerHistory(hContact, flags);
 
-int CTelegramProto::OnEmptyHistory(WPARAM hContact, LPARAM)
-{
-	if (Proto_IsProtoOnContact(hContact, m_szModuleName)) {
-		if (auto *pUser = FindUser(GetId(hContact)))
-			SendQuery(new TD::deleteChatHistory(pUser->chatId, true, true));
+	if (flags & CDF_FROM_SERVER) {
+		TD::array<TD::int53> ids;
+		ids.push_back(id);
+		SendQuery(new TD::removeContacts(std::move(ids)));
 	}
-
-	return 0;
+	return true;
 }
 
 void CTelegramProto::OnModulesLoaded()
@@ -220,9 +216,9 @@ void CTelegramProto::OnErase()
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
-void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
+void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 {
-	if (!hContact)
+	if (!hContact || (flags & CDF_FROM_SERVER) != 0)
 		return;
 
 	auto *pUser = FindUser(GetId(hContact));
@@ -230,19 +226,21 @@ void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent)
 		return;
 
 	DB::EventInfo dbei(hDbEvent, false);
-	if (dbei.szId) {
-		mir_cslock lck(m_csDeleteMsg);
-		if (m_deleteChatId) {
-			if (m_deleteChatId != pUser->chatId)
-				SendDeleteMsg();
+	if (!dbei.szId)
+		return;
 
-			m_impl.m_deleteMsg.Stop();
-		}
+	mir_cslock lck(m_csDeleteMsg);
+	if (m_deleteChatId) {
+		if (m_deleteChatId != pUser->chatId)
+			SendDeleteMsg();
 
-		m_deleteChatId = pUser->chatId;
-		m_deleteIds.push_back(dbei2id(dbei));
-		m_impl.m_deleteMsg.Start(500);
+		m_impl.m_deleteMsg.Stop();
 	}
+
+	m_bDeleteForAll = (flags & CDF_FOR_EVERYONE) != 0;
+	m_deleteChatId = pUser->chatId;
+	m_deleteIds.push_back(dbei2id(dbei));
+	m_impl.m_deleteMsg.Start(500);
 }
 
 void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
@@ -340,7 +338,8 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID | PF4_REPLY;
+		return PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS 
+			| PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_REPLY;
 
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_LONGAWAY;
@@ -355,10 +354,10 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT CTelegramProto::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+MEVENT CTelegramProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	auto *ft = (TG_FILE_REQUEST *)pre->lParam;
-	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, pre) : 0;
+	auto *ft = (TG_FILE_REQUEST *)blob.getUserInfo();
+	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, blob, dbei) : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

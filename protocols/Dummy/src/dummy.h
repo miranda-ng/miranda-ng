@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright (c) 2014-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,8 +31,7 @@ struct ttemplate
 	const char *text;
 };
 
-#define DUMMY_PROTO_COUNT 26
-extern const ttemplate templates[DUMMY_PROTO_COUNT];
+extern const ttemplate templates[];
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {

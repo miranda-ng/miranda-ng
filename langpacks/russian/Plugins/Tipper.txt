@@ -122,8 +122,6 @@
 Показать подсказку только после загрузки всего содержимого
 [Retrieve new status message]
 Запрашивать сообщение статуса
-[Disable in invisible status]
-Отключить запрос, когда невидимый
 [Retrieve xStatus details if auto-retrieve is disabled]
 Запрашивать подробный xСтатус, если автозапрос выключен
 [Status bar and tray tooltip]

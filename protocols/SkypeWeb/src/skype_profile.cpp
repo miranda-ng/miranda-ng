@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -397,7 +397,7 @@ void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 }
 
 //{"firstname":"Echo \/ Sound Test Service", "lastname" : null, "birthday" : null, "gender" : null, "country" : null, "city" : null, "language" : null, "homepage" : null, "about" : null, "province" : null, "jobtitle" : null, "emails" : [], "phoneMobile" : null, "phoneHome" : null, "phoneOffice" : null, "mood" : null, "richMood" : null, "avatarUrl" : null, "username" : "echo123"}
-void CSkypeProto::LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 

@@ -228,8 +228,6 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	// Only on these 2 events we need to refresh
 	if (0 == strcmp(pdbcws->szSetting, "Status"))
 		idStatus = pdbcws->value.wVal;
-	else if (0 == strcmp(pdbcws->szSetting, "ApparentMode"))
-		idStatus = GetContactStatus(hContact);
 	else if (0 == strcmp(pdbcws->szSetting, "Nick"))
 		idStatus = GetContactStatus(hContact);
 	else if (0 == strcmp(pdbcws->szSetting, "MyHandle"))

@@ -150,7 +150,7 @@ void NotifyUser(Account *curAcc)
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
 				dbei.cbBlob = (uint32_t)mir_strlen(prst->content) + 1;
-				dbei.pBlob = (uint8_t*)prst->content;
+				dbei.pBlob = prst->content;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;
 			}

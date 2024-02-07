@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -217,7 +217,7 @@ public:
 
 	virtual	int      Authorize(MEVENT hDbEvent);
 	virtual	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei);
 	virtual	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 
 	virtual	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
@@ -234,19 +234,18 @@ public:
 	virtual	HANDLE   SearchAdvanced(MWindow owner);
 	virtual	MWindow  CreateExtendedSearchUI(MWindow owner);
 
-	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT *);
-	virtual	MEVENT   RecvFile(MCONTACT hContact, PROTORECVFILE *);
-	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      RecvContacts(MCONTACT hContact, DB::EventInfo &dbei);
+	virtual	MEVENT   RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei);
+	virtual	MEVENT   RecvMsg(MCONTACT hContact, DB::EventInfo &dbei);
 
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg);
 
-	virtual	int      SetApparentMode(MCONTACT hContact, int mode);
+	virtual	int      GetStatus();
 	virtual	int      SetStatus(int iNewStatus);
 
 	virtual	HANDLE   GetAwayMsg(MCONTACT hContact);
-	virtual	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
 	virtual	int      SetAwayMsg(int iStatus, const wchar_t *msg);
 
 	virtual	int      UserIsTyping(MCONTACT hContact, int type);
@@ -261,14 +260,16 @@ public:
 	virtual void OnContactAdded(MCONTACT);
 
 	// called when an account's contact is deleted
+	// flags is a combination of CDF_* constants
 	// returns true if deletion confirmed or false if not
-	virtual bool OnContactDeleted(MCONTACT);
+	virtual bool OnContactDeleted(MCONTACT, uint32_t flags);
 
 	// called when the Account Manager needs to draw short account's options
 	virtual MWindow OnCreateAccMgrUI(MWindow hwndParent);
 
 	// called when an event is removed from the database
-	virtual void OnEventDeleted(MCONTACT, MEVENT);
+	// flags is a collection of CDF_* constants
+	virtual void OnEventDeleted(MCONTACT, MEVENT, int flags);
 
 	// called when an event is altered in database
 	virtual void OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei);

@@ -5,27 +5,27 @@
 
 class HttpResponse
 {
-	NETLIBHTTPREQUEST *m_response;
+	MHttpResponse *m_response;
 
 public:
-	HttpResponse(NETLIBHTTPREQUEST *response) :
+	HttpResponse(MHttpResponse *response) :
 		m_response(response)
 	{
 	}
 
 	~HttpResponse()
 	{
-		Netlib_FreeHttpRequest(m_response);
+		delete m_response;
 	}
 
 	bool operator!() const
 	{
-		return !m_response || !m_response->pData;
+		return !m_response || m_response->body.IsEmpty();
 	}
 
 	operator bool() const
 	{
-		return m_response && m_response->pData;
+		return m_response && !m_response->body.IsEmpty();
 	}
 
 	bool IsSuccess() const
@@ -37,15 +37,13 @@ public:
 
 	char* data() const
 	{
-		return (m_response) ? m_response->pData : nullptr;
+		return (m_response) ? m_response->body.GetBuffer() : nullptr;
 	}
 
 	unsigned length() const
 	{
-		return (m_response) ? m_response->dataLength : 0;
+		return (m_response) ? m_response->body.GetLength() : 0;
 	}
-
-	LIST<NETLIBHTTPHEADER> Headers() const;
 
 	int GetStatusCode() const
 	{

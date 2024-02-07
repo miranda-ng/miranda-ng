@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -55,16 +55,16 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
 	T2Utf pszBody(vkNewsItem.wszText);
 
-	PROTORECVEVENT recv = {};
-	recv.timestamp = vkNewsItem.tDate;
-	recv.szMessage = pszBody;
+	DB::EventInfo dbei;
+	dbei.timestamp = vkNewsItem.tDate;
+	dbei.pBlob = pszBody;
 
 	if (m_vkOptions.bUseNonStandardNotifications) {
-		recv.flags = PREF_CREATEREAD;
+		dbei.flags = DBEF_READ;
 		MsgPopup(hContact, vkNewsItem.wszPopupText, vkNewsItem.wszPopupTitle);
 	}
 
-	ProtoChainRecvMsg(hContact, &recv);
+	ProtoChainRecvMsg(hContact, dbei);
 }
 
 void CVkProto::AddCListEvent(bool bNews)
@@ -642,7 +642,7 @@ static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsIte
 	return compareType ? compareDate : (compareId ? (int)compareDate : 0);
 }
 
-void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUnreadNews(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNews %d", reply->resultCode);
 	db_unset(0, m_szModuleName, "LastNewsReqTime");
@@ -747,7 +747,7 @@ void CVkProto::NotificationMarkAsViewed()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.markAsViewed.json", true, &CVkProto::OnReceiveSmth));
 }
 
-void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUnreadNotifications(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNotifications %d", reply->resultCode);
 	db_unset(0, m_szModuleName, "LastNotificationsReqTime");

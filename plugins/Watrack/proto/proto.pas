@@ -84,6 +84,7 @@ const
 var
   ccs:PCCSDATA;
   ccdata:TCCSDATA;
+  dbei:PDBEVENTINFO;
   s:pWideChar;
   buf:PWideChar;
   data:PByte;
@@ -102,12 +103,11 @@ begin
   result:=0;
   mGetMem(buf,bufsize);
 
-  isNewRequest:=StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,
-     wpRequestNew,Length(wpRequestNew))=0;
+  dbei:=PDBEVENTINFO(ccs^.lParam);
+  isNewRequest:=StrCmp(PAnsiChar(dbei.pBlob),wpRequestNew,Length(wpRequestNew))=0;
 
   if isNewRequest or
-     (StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,
-             wpRequest,Length(wpRequest))=0) then
+     (StrCmp(PAnsiChar(dbei.pBlob),wpRequest,Length(wpRequest))=0) then
   begin
     StrCopy(PAnsiChar(buf),Proto_GetBaseAccountName(ccs^.hContact));
     i:=DBReadWord(ccs^.hContact,PAnsiChar(buf),'ApparentMode');
@@ -120,8 +120,7 @@ begin
 // or (NotListedAllow and (DBReadByte(ccs^.hContact,strCList,'NotOnList',0))
     begin
       if (HistMask and hmInRequest)<>0 then
-        AddEvent(ccs^.hContact,EVENTTYPE_WAT_REQUEST,DBEF_READ,nil,0,
-                PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
+        AddEvent(ccs^.hContact,EVENTTYPE_WAT_REQUEST,DBEF_READ,nil,0,dbei.Timestamp);
       if GetContactStatus(ccs^.hContact)<>ID_STATUS_OFFLINE then
       begin
 //!! Request Answer
@@ -204,8 +203,7 @@ begin
     else
     begin
       if (HistMask and hmIRequest)<>0 then
-        AddEvent(ccs^.hContact,EVENTTYPE_WAT_REQUEST,DBEF_READ,nil,0,
-                 PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
+        AddEvent(ccs^.hContact,EVENTTYPE_WAT_REQUEST,DBEF_READ,nil,0,dbei.Timestamp);
       if (HistMask and hmISend)<>0 then
       begin
 //!! Request Error Answer
@@ -224,16 +222,15 @@ begin
         Proto_ChainSend(0, @ccdata);
         if (HistMask and hmOutError)<>0 then
         begin
-          AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_SENT,nil,0,
-                   PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
+          AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_SENT,nil,0,dbei.Timestamp);
         end;
       end;
     end;
   end
-  else if StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,wpAnswer,Length(wpAnswer))=0 then
+  else if StrCmp(PAnsiChar(dbei.pBlob),wpAnswer,Length(wpAnswer))=0 then
   begin
 // decode
-    data:=mir_base64_decode(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a+Length(wpAnswer),dataSize);
+    data:=mir_base64_decode(PAnsiChar(dbei.pBlob)+Length(wpAnswer),dataSize);
 
     curpos:=pWideChar(data);           // pos_artist:=curpos;
     while curpos^<>#0 do inc(curpos); inc(curpos); // pos_title :=curpos;
@@ -242,9 +239,7 @@ begin
     pos_template:=curpos;
 
     if (HistMask and hmInInfo)<>0 then
-      AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_READ,
-          data,dataSize,
-          PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
+      AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_READ,data,dataSize,dbei.Timestamp);
 //  Action
 
     StrCopyW(buf,TranslateW('Music Info from '));
@@ -254,12 +249,11 @@ begin
 
     mFreeMem(data);
   end
-  else if StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,wpError,Length(wpError))=0 then
+  else if StrCmp(PAnsiChar(dbei.pBlob),wpError,Length(wpError))=0 then
   begin
     if (HistMask and hmInError)<>0 then
-      AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_READ,nil,0,
-               PPROTORECVEVENT(ccs^.lParam)^.Timestamp);
-    MessageBoxA(0,Translate(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a+Length(wpError)),
+      AddEvent(ccs^.hContact,EVENTTYPE_WAT_ERROR,DBEF_READ,nil,0,dbei.Timestamp);
+    MessageBoxA(0,Translate(PAnsiChar(dbei.pBlob)+Length(wpError)),
                Translate('You Get Error'),MB_ICONERROR);
   end
   else

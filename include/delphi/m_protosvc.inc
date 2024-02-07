@@ -176,16 +176,6 @@ type
     // they put there will be retained by anyone trying to save this structure.
   end;
 
-  PPROTORECVEVENT = ^TPROTORECVEVENT;
-  TPROTORECVEVENT = record
-    flags           : dword;
-    timestamp       : dword;
-    szMessage       : TChar;
-    lParam          : LPARAM;
-    szUserId        : PAnsiChar; // user id of event
-    szReplyId       : PAnsiChar; // reply id of event
-  end;
-
 const
   {
     wParam : PFLAGNUM_* (see above)
@@ -196,16 +186,6 @@ const
              module
   }
   PS_GETCAPS = '/GetCaps';
-
-  {
-    wParam : cchName
-    lParam : Pointer to a buffer to fill with human-readable name
-    Affect : Get a human-readable name for the protocol, see notes
-    Result : 0 on success, [non zero] on failure
-    Notes  : Should be translated before being returned, cchName
-             has the size of the buffer, example strings: "ICQ", "AIM"
-  }
-  PS_GETNAME = '/GetName';
 
   PLI_PROTOCOL = $1;     // An icon representing the protocol (eg the multicoloured flower for ICQ)
 

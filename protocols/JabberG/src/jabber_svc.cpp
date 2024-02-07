@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -99,10 +99,15 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case AF_FORMATSUPPORTED: // Jabber supports avatars of virtually all formats
-		return 1;
+		return lParam == PA_FORMAT_JPEG
+			|| lParam == PA_FORMAT_PNG
+			|| lParam == PA_FORMAT_GIF;
 
 	case AF_ENABLED:
 		return m_bEnableAvatars;
+
+	case AF_PROPORTION:
+		return PIP_NONE;
 	}
 	return -1;
 }

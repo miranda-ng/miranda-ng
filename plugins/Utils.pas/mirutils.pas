@@ -28,7 +28,6 @@ function ShowVarHelp(dlg:HWND;id:integer=0):integer;
 
 function CreateGroupW(name:PWideChar;hContact:TMCONTACT):integer;
 
-function MakeGroupMenu(idxfrom:integer=100):HMENU;
 function GetNewGroupName(parent:HWND):PWideChar;
 
 const
@@ -351,36 +350,6 @@ begin
   result:=StrCmpW(PWideChar(para1),PWideChar(para2));
 end;
 
-function MakeGroupMenu(idxfrom:integer=100):HMENU;
-var
-  sl:TSortedList;
-  i:integer;
-  b:array [0..15] of AnsiChar;
-  p:PWideChar;
-begin
-  result:=CreatePopupMenu;
-  i:=0;
-  AppendMenuW(result,MF_STRING,idxfrom,TranslateW('<Root Group>'));
-  AppendMenuW(result,MF_SEPARATOR,0,nil);
-  FillChar(sl,SizeOf(sl),0);
-  sl.increment:=16;
-  sl.sortFunc:=@MyStrSort;
-  repeat
-    p:=DBReadUnicode(0,'CListGroups',IntToStr(b,i),nil);
-    if p=nil then break;
-    List_InsertPtr(@sl,p+1);
-    inc(i);
-  until false;
-  inc(idxfrom);
-  for i:=0 to sl.realCount-1 do
-  begin
-    AppendMenuW(result,MF_STRING,idxfrom+i,PWideChar(sl.Items[i]));
-    p:=PWideChar(sl.Items[i])-1;
-    mFreeMem(p);
-  end;
-  List_Destroy(@sl);
-end;
-
 function GetNewGroupName(parent:HWND):PWideChar;
 var
   mmenu:HMENU;
@@ -389,7 +358,7 @@ var
   pt:TPoint;
 begin
   result:=nil;
-  mmenu:=MakeGroupMenu(100);
+  mmenu:=Clist_GroupBuildMenu(100);
   GetCursorPos(pt);
   i:=integer(TrackPopupMenu(mmenu,TPM_RETURNCMD+TPM_NONOTIFY,pt.x,pt.y,0,parent,nil));
   if i>100 then // no root or cancel
@@ -404,7 +373,9 @@ function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
+  resp:THANDLE;
+  bufLen:int;
+  pBuf:PAnsiChar;
   hTmpNetLib:THANDLE;
   nlh:array [0..1] of TNETLIBHTTPHEADER;
   buf:array [0..31] of AnsiChar;
@@ -412,7 +383,6 @@ begin
   result:=nil;
 
   FillChar(req,SizeOf(req),0);
-  req.cbSize     :=NETLIBHTTPREQUEST_V1_SIZE;//SizeOf(req);
   req.requestType:=rtype;
   req.szUrl      :=url;
   req.flags      :=NLHRF_NODUMP or NLHRF_HTTP11;
@@ -439,15 +409,16 @@ begin
     hTmpNetLib:=hNetLib;
 
   resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
+    if Netlib_HttpResult(resp)=200 then
     begin
-      StrDup(result,resp.pData,resp.dataLength);
+      pBuf := Netlib_HttpBuffer(resp,bufLen);
+      StrDup(result,pBuf,bufLen);
     end
     else
     begin
-      result:=PAnsiChar(int_ptr(resp^.resultCode and $0FFF));
+      result:=PAnsiChar(int_ptr(Netlib_HttpResult(resp) and $0FFF));
     end;
     Netlib_FreeHttpRequest(resp);
   end;
@@ -465,9 +436,10 @@ function GetFile(url:PAnsiChar; save_file:PAnsiChar; hNetLib:THANDLE=0; recurse_
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
+  resp:THANDLE;
   hSaveFile:THANDLE;
-  i:integer;
+  retCode, bufLen:integer;
+  pBuf:PAnsiChar;
 begin
   result:=false;
   if recurse_count>MAX_REDIRECT_RECURSE then
@@ -476,11 +448,9 @@ begin
     exit;
 
   FillChar(req,SizeOf(req),0);
-  req.cbSize     :=NETLIBHTTPREQUEST_V1_SIZE;//SizeOf(req);
   req.requestType:=REQUEST_GET;
   req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP;
-
+  req.flags      :=NLHRF_NODUMP or NLHRF_REDIRECT;
 
   FillChar(nlu,SizeOf(nlu),0);
   if hNetLib=0 then
@@ -491,29 +461,19 @@ begin
   end;
 
   resp:=Netlib_HttpTransaction(hNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
+    retCode:=Netlib_HttpResult(resp);
+    if retCode=200 then
     begin
       hSaveFile:=Rewrite(save_file);
       if hSaveFile<>THANDLE(INVALID_HANDLE_VALUE) then
       begin
-        BlockWrite(hSaveFile,resp^.pData^,resp^.dataLength);
+        pBuf := Netlib_HttpBuffer(resp,bufLen);
+        BlockWrite(hSaveFile,pBuf^,bufLen);
         CloseHandle(hSaveFile);
         result:=true;
       end
-    end
-    else if (resp.resultCode>=300) and (resp.resultCode<400) then
-    begin
-      // get new location
-      for i:=0 to resp^.headersCount-1 do
-      begin
-        if StrCmp(resp^.headers^[i].szName,'Location')=0 then
-        begin
-          result:=GetFile(resp^.headers^[i].szValue,save_file,hNetLib,recurse_count+1);
-          break;
-        end
-      end;
     end;
     Netlib_FreeHttpRequest(resp);
 
@@ -585,15 +545,15 @@ function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
-  resp:PNETLIBHTTPREQUEST;
-  hNetLib:THANDLE;
+  resp,hNetLib:THANDLE;
+  bufLen:integer;
+  pBuf:PAnsiChar;
 begin
   result:=0;
   if (url=nil) or (url^=#0) then
     exit;
 
   FillChar(req,SizeOf(req),0);
-  req.cbSize     :=NETLIBHTTPREQUEST_V1_SIZE;//SizeOf(req);
   req.requestType:=REQUEST_GET;
   req.szUrl      :=url;
   req.flags      :=NLHRF_NODUMP;
@@ -604,10 +564,13 @@ begin
   hNetLib:=Netlib_RegisterUser(@nlu);
 
   resp:=Netlib_HttpTransaction(hNetLib,@req);
-  if resp<>nil then
+  if resp<>0 then
   begin
-    if resp^.resultCode=200 then
-      result  := Image_LoadFromMem(resp.pData, resp.dataLength, FIF_JPEG);
+    if Netlib_HttpResult(resp)=200 then
+    begin
+      pBuf := Netlib_HttpBuffer(resp,bufLen);
+      result := Image_LoadFromMem(pBuf, bufLen, FIF_JPEG);
+    end;
 
     Netlib_FreeHttpRequest(resp);
   end;

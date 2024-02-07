@@ -3,7 +3,7 @@
  * Copyright (C) 2005 Vincent Joyce.
  * 
  * Miranda IM: the free icq client for MS Windows 
- * Copyright (C) 2000-23 Richard Hughes, Roland Rabien & Tristan Van de Vreede
+ * Copyright (C) 2000-24 Richard Hughes, Roland Rabien & Tristan Van de Vreede
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,13 +58,12 @@ CMPlugin::CMPlugin() :
 void InitServices()
 {
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, BPLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, BasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, AddToList);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, GetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, GetInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -72,7 +72,7 @@ void PROTO_INTERFACE::OnBuildProtoMenu()
 void PROTO_INTERFACE::OnContactAdded(MCONTACT)
 {}
 
-bool PROTO_INTERFACE::OnContactDeleted(MCONTACT)
+bool PROTO_INTERFACE::OnContactDeleted(MCONTACT, uint32_t)
 {
 	return true;
 }
@@ -82,7 +82,7 @@ MWindow PROTO_INTERFACE::OnCreateAccMgrUI(MWindow)
 	return nullptr; // error
 }
 
-void PROTO_INTERFACE::OnEventDeleted(MCONTACT, MEVENT)
+void PROTO_INTERFACE::OnEventDeleted(MCONTACT, MEVENT, int)
 {}
 
 void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &)
@@ -134,7 +134,7 @@ int PROTO_INTERFACE::AuthDeny(MEVENT, const wchar_t*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthRecv(MCONTACT, PROTORECVEVENT*)
+int PROTO_INTERFACE::AuthRecv(MCONTACT, DB::EventInfo&)
 {
 	return 1; // error
 }
@@ -199,47 +199,29 @@ MWindow PROTO_INTERFACE::CreateExtendedSearchUI(MWindow)
 	return nullptr; // error
 }
 
-int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
+int PROTO_INTERFACE::RecvContacts(MCONTACT, DB::EventInfo &)
 {
 	return 1; // error
 }
 
-MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pre)
+MEVENT PROTO_INTERFACE::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	return Proto_RecvFile(hContact, pre);
+	return Proto_RecvFile(hContact, blob, dbei);
 }
 
-MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, DB::EventInfo &dbei)
 {
-	if (pre->szMessage == nullptr)
-		return 0;
-
-	DBEVENTINFO dbei = {};
-	dbei.flags = DBEF_UTF;
+	dbei.flags |= DBEF_UTF;
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
-	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (uint32_t)mir_strlen(pre->szMessage) + 1;
-	dbei.pBlob = (uint8_t*)pre->szMessage;
-	dbei.szUserId = pre->szUserId;
-	dbei.szReplyId = pre->szReplyId;
-
-	if (pre->flags & PREF_CREATEREAD)
-		dbei.flags |= DBEF_READ;
-	if (pre->flags & PREF_SENT)
-		dbei.flags |= DBEF_SENT;
-	if (pre->flags & PREF_ENCRYPTED)
-		dbei.flags |= DBEF_SECURE;
-	if (pre->flags & PREF_ENCRYPTED_STRONG)
-		dbei.flags |= DBEF_STRONG;
+	dbei.cbBlob = (uint32_t)mir_strlen(dbei.pBlob) + 1;
 
 	// if it's possible to find an existing event by its id, do that
-	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && pre->szMsgId != nullptr) {
-		MEVENT hDbEvent = db_event_getById(m_szModuleName, pre->szMsgId);
-		if (hDbEvent == 0 || db_event_edit(hDbEvent, &dbei)) {
-			dbei.szId = pre->szMsgId;
+	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && dbei.szId != nullptr) {
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, dbei.szId);
+		if (hDbEvent == 0 || db_event_edit(hDbEvent, &dbei))
 			hDbEvent = db_event_add(hContact, &dbei);
-		}
+
 		return hDbEvent;
 	}
 
@@ -262,9 +244,9 @@ int PROTO_INTERFACE::SendMsg(MCONTACT, MEVENT, const char*)
 	return 0; // error
 }
 
-int PROTO_INTERFACE::SetApparentMode(MCONTACT, int)
+int PROTO_INTERFACE::GetStatus()
 {
-	return 1; // error
+	return m_iStatus;
 }
 
 int PROTO_INTERFACE::SetStatus(int)
@@ -275,11 +257,6 @@ int PROTO_INTERFACE::SetStatus(int)
 HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT)
 {
 	return nullptr; // no away message
-}
-
-int PROTO_INTERFACE::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
-{
-	return 1; // error
 }
 
 int PROTO_INTERFACE::SetAwayMsg(int, const wchar_t*)

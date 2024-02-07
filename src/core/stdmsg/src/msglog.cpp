@@ -1,6 +1,6 @@
 /*
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -364,7 +364,7 @@ public:
 			AppendToBufferWithRTF(buf, szName);
 			AppendToBufferWithRTF(buf, L" ");
 
-			msg = DbEvent_GetTextW(&dbei, CP_ACP);
+			msg = DbEvent_GetTextW(&dbei);
 			if (msg) {
 				AppendToBufferWithRTF(buf, msg);
 				mir_free(msg);
@@ -394,7 +394,7 @@ public:
 
 		case EVENTTYPE_MESSAGE:
 		default:
-			msg = DbEvent_GetTextW(&dbei, CP_ACP);
+			msg = DbEvent_GetTextW(&dbei);
 			SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
 			AppendToBufferWithRTF(buf, msg);
 			mir_free(msg);

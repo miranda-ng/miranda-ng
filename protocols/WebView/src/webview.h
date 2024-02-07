@@ -166,7 +166,6 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 // Services
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM lParam);
-INT_PTR GetName(WPARAM wParam, LPARAM lParam);
 INT_PTR BPLoadIcon(WPARAM wParam, LPARAM lParam); // BPLoadIcon
 
 INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -148,38 +148,12 @@ struct GroupMenuParam
 	int lParam;
 };
 
-// builds the Group menu
-// returns a HMENU identifying the menu.
-
-EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildGroupMenu(void);
-
 // adds a new item to the Group menus
-
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = nullptr);
 
 // the Group menu is about to be built
 // wParam = lParam = 0
-
 #define ME_CLIST_PREBUILDGROUPMENU "CList/PreBuildGroupMenu"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// SUBGROUP MENU
-
-// builds the SubGroup menu
-// returns a HMENU identifying the menu.
-
-EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(struct ClcGroup *group);
-
-// adds a new item to the SubGroup menus
-// wParam=GroupMenuParam*, params to call when exec menuitem
-// lParam=(LPARAM)(TMO_MenuItem*)&mi
-
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = nullptr);
-
-// the SubGroup menu is about to be built
-// wParam = lParam = 0
-
-#define ME_CLIST_PREBUILDSUBGROUPMENU "CList/PreBuildSubGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // TRAY MENU
@@ -408,6 +382,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNe
 
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
+#define GROUPF_SHOWOFFLINE 0x40
 
 EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFlags = nullptr);
 

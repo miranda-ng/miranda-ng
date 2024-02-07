@@ -376,7 +376,7 @@ INT_PTR GaduProto::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 INT_PTR GaduProto::leavechat(WPARAM hContact, LPARAM)
 {
 	if (hContact)
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 
 	return 0;
 }

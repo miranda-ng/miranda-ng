@@ -2,7 +2,7 @@
 
 Object UI extensions
 Copyright (c) 2008  Victor Pavlychko, George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -54,8 +54,6 @@ void CCtrlCombo::OnInit()
 
 bool CCtrlCombo::OnApply()
 {
-	CSuper::OnApply();
-
 	if (GetDataType() == DBVT_WCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
 		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);

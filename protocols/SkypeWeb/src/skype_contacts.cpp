@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -44,7 +44,7 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 	uint32_t body[3];
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(uint32_t) * 2;
-	dbei.pBlob = (uint8_t*)&body;
+	dbei.pBlob = (char *)&body;
 
 	if (db_event_get(hEvent, &dbei))
 		return INVALID_CONTACT_ID;
@@ -100,7 +100,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isT
 	return hContact;
 }
 
-void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -130,19 +130,18 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 
 		DB::AUTH_BLOB blob(hContact, displayName.c_str(), nullptr, nullptr, skypeId.c_str(), reason.c_str());
 
-		PROTORECVEVENT pre = {};
-		pre.timestamp = time(0);
-		pre.lParam = blob.size();
-		pre.szMessage = blob;
-
-		ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+		DB::EventInfo dbei;
+		dbei.timestamp = time(0);
+		dbei.cbBlob = blob.size();
+		dbei.pBlob = blob;
+		ProtoChainRecv(hContact, PSR_AUTH, 0, dbei);
 	}
 }
 
 //[{"skypeId":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
 
-void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -235,7 +234,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-bool CSkypeProto::OnContactDeleted(MCONTACT hContact)
+bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (IsOnline() && hContact) {
 		if (isChatRoom(hContact))
@@ -255,7 +254,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	if (response != nullptr)
@@ -268,7 +267,7 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::OnUnblockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	if (response == nullptr)
 		return;

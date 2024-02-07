@@ -29,6 +29,8 @@ CDbxSQLite::~CDbxSQLite()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#define CURRVER 6
+
 int CDbxSQLite::Create()
 {
 	ptrA path(mir_utf8encodeW(m_wszFileName));
@@ -71,14 +73,12 @@ int CDbxSQLite::Create()
 	rc = sqlite3_exec(m_db, "CREATE INDEX idx_settings_module ON settings(module);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
-	DBVARIANT dbv = { DBVT_BYTE, 2 };
+	DBVARIANT dbv = { DBVT_BYTE, CURRVER };
 	WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-#define CURRVER 6
 
 static bool g_bConversionOver = false;
 

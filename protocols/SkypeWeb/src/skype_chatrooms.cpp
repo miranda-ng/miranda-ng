@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 	return si;
 }
 
-void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnLoadChats(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -233,7 +233,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 		PushRequest(new KickUserRequest(_T2A(idT), m_szSkypename));
 
-		db_delete_contact(hContact, true);
+		db_delete_contact(hContact, CDF_FROM_SERVER);
 	}
 	return 0;
 }
@@ -380,7 +380,7 @@ void CSkypeProto::AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const 
 	Chat_Event(&gce);
 }
 
-void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())

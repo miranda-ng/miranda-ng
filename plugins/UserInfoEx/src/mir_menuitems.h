@@ -32,7 +32,8 @@ void RebuildMain();
 void RebuildContact();
 void RebuildGroup();
 void RebuildSubGroup();
-INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam);
 
+int OnBuildGroupMenu(WPARAM wParam, LPARAM lParam);
+int OnBuildStatusMenu(WPARAM wParam, LPARAM lParam);
 
 #endif /* _UINFOEX_MENUITEMS_H_INCLUDED_ */

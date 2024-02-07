@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -651,7 +651,7 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	return 0;
 }
 
-void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveAuthRequest(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
@@ -749,7 +749,7 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-bool CVkProto::OnContactDeleted(MCONTACT hContact)
+bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());

@@ -866,10 +866,10 @@ int GaduProto::img_displayasmsg(MCONTACT hContact, void *img)
 		mir_snwprintf(image_msg, L"[img]%s[/img]", szPath);
 
 		T2Utf szMessage(image_msg);
-		PROTORECVEVENT pre = {};
-		pre.timestamp = time(0);
-		pre.szMessage = szMessage;
-		ProtoChainRecvMsg(hContact, &pre);
+		DB::EventInfo dbei;
+		dbei.timestamp = time(0);
+		dbei.pBlob = szMessage;
+		ProtoChainRecvMsg(hContact, dbei);
 		debugLogW(L"img_displayasmsg(): Image saved to %s.", szPath);
 	}
 	else

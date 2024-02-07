@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Allows you to transfer files via cloud services."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/CloudFile"
-#define __COPYRIGHT                "© 2017-23 Miranda NG team"
+#define __COPYRIGHT                "© 2017-24 Miranda NG team"

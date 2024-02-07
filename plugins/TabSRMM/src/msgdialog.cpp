@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -849,7 +849,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		int flags = 0;
 		if (pf2.wEffects & PFE_RTLPARA)
 			if (Utils_IsRtl(decoded))
-				flags |= PREF_RTL;
+				flags |= DBEF_RTL;
 
 		SendMessage(hwndEdit, WM_SETREDRAW, TRUE, 0);
 		SendMessage(hwndEdit, EM_SETSEL, -1, -1);
@@ -934,7 +934,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		if (szQuoted.IsEmpty()) {
 			DB::EventInfo dbei(hDBEvent);
 			if (dbei)
-				szQuoted = Srmm_Quote(ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), iOutputWidth);
+				szQuoted = Srmm_Quote(ptrW(DbEvent_GetTextW(&dbei)), iOutputWidth);
 		}
 	}
 

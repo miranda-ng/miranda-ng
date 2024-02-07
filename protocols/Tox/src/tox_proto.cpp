@@ -95,9 +95,9 @@ int CToxProto::Authorize(MEVENT hDbEvent)
 	return OnGrantAuth(hContact, 0);
 }
 
-int CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
+int CToxProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 int CToxProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)

@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -63,6 +63,9 @@ bool CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
 // last activity (XEP-0012) support
 bool CJabberProto::OnIqRequestLastActivity(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
+	if (!m_bAllowLast)
+		return false;
+
 	m_ThreadInfo->send(
 		XmlNodeIq("result", pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
 		<< XATTRI("seconds", m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
@@ -320,14 +323,9 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		else
 			str2 = ft->httpPath;
 
-		PROTORECVFILE pre = {};
-		pre.dwFlags = PRFF_UTF;
-		pre.timestamp = time(0);
-		pre.descr.a = desc;
-		pre.files.a = &str2;
-		pre.fileCount = 1;
-		pre.lParam = (LPARAM)ft;
-		ProtoChainRecvFile(ft->std.hContact, &pre);
+		DB::EventInfo dbei;
+		dbei.timestamp = time(0);
+		ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, str2, desc), dbei);
 	}
 	else { // reject
 		XmlNodeIq iq("error", pInfo);

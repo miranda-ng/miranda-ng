@@ -1274,10 +1274,10 @@ void CDccSession::DoChatReceive()
 
 			if (*pStart) {
 				// send it off to some messaging module
-				PROTORECVEVENT pre = {};
-				pre.timestamp = (uint32_t)time(0);
-				pre.szMessage = pStart;
-				ProtoChainRecvMsg(di->hContact, &pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = (uint32_t)time(0);
+				dbei.pBlob = pStart;
+				ProtoChainRecvMsg(di->hContact, dbei);
 			}
 
 			cbInBuf -= pEnd - pStart;

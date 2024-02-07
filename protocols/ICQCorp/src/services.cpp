@@ -41,14 +41,6 @@ static INT_PTR icqGetCaps(WPARAM wParam, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqGetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, Translate(protoName), wParam);
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM)
 {
 	int id;
@@ -191,18 +183,14 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	Contact::Hide(ccs->hContact, false);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	ptrA szMsg(mir_utf8encode(pre->szMessage));
+	auto &dbei = *(DB::EventInfo*)ccs->lParam;
+	ptrA szMsg(mir_utf8encode(dbei.pBlob));
 
-	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
-	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF;
-	if (pre->flags & PREF_CREATEREAD) 
-		dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
-	dbei.pBlob = (uint8_t*)szMsg.get();
+	dbei.pBlob = szMsg;
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
@@ -243,8 +231,8 @@ static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 	Netlib_Logf(hNetlibUser, "[   ] receive away message\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->lParam, _A2T(pre->szMessage));
+	auto *dbei = (DB::EventInfo *)ccs->lParam;
+	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)dbei->cbBlob, _A2T(dbei->pBlob));
 	return 0;
 }
 
@@ -364,16 +352,9 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	Contact::Hide(ccs->hContact, false);
 
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	char *szFile = pre->szMessage + sizeof(uint32_t);
-	char *szDesc = szFile + mir_strlen(szFile) + 1;
-
-	DB::EventInfo dbei;
+	auto &dbei = *(DB::EventInfo *)ccs->lParam;
 	dbei.szModule = protoName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	DB::FILE_BLOB(_A2T(szFile), _A2T(szDesc)).write(dbei);
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
@@ -387,34 +368,6 @@ static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 	PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
 	ICQTransfer *t = (ICQTransfer *)wParam;
 	t->resume(pfr->action, pfr->szFilename);
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
-{
-	/*
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	int oldMode, newMode = ccs->wParam;
-	ICQUser *u;
-
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL) return 1;
-
-	oldMode = db_get_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", 0);
-	if (newMode == oldMode) return 1;
-
-	Netlib_Logf(hNetlibUser, "[   ] set apparent mode\n");
-
-	if (newMode == ID_STATUS_ONLINE || newMode == ID_STATUS_OFFLINE) db_set_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", (uint16_t)newMode);
-	else db_unset(u->hContact, ICQCORP_PROTONAME, "ApparentMode");
-
-	if (icq.statusVal <= ID_STATUS_OFFLINE) return 0;
-
-	if (oldMode != 0) icq.updateUserList(u, oldMode == ID_STATUS_OFFLINE ? 1 : 2, 0);
-	if (newMode != 0) icq.updateUserList(u, newMode == ID_STATUS_OFFLINE ? 1 : 2, 1);
-	*/
 	return 0;
 }
 
@@ -449,7 +402,6 @@ int LoadServices()
 	HookEvent(ME_SYSTEM_MODULESLOADED, icqModulesLoaded);
 
 	CreateProtoServiceFunction(protoName, PS_GETCAPS, icqGetCaps);
-	CreateProtoServiceFunction(protoName, PS_GETNAME, icqGetName);
 	CreateProtoServiceFunction(protoName, PS_LOADICON, icqLoadIcon);
 	CreateProtoServiceFunction(protoName, PS_SETSTATUS, icqSetStatus);
 	CreateProtoServiceFunction(protoName, PS_GETSTATUS, icqGetStatus);
@@ -462,14 +414,13 @@ int LoadServices()
 	CreateProtoServiceFunction(protoName, PS_ADDTOLIST, icqAddToList);
 	CreateProtoServiceFunction(protoName, PS_FILERESUME, icqFileResume);
 
-	CreateProtoServiceFunction(protoName, PSS_GETINFO, icqGetInfo);
+	CreateProtoServiceFunction(protoName, PS_GETINFO, icqGetInfo);
 	CreateProtoServiceFunction(protoName, PSS_MESSAGE, icqSendMessage);
-	CreateProtoServiceFunction(protoName, PSS_GETAWAYMSG, icqGetAwayMsg);
+	CreateProtoServiceFunction(protoName, PS_GETAWAYMSG, icqGetAwayMsg);
 	CreateProtoServiceFunction(protoName, PSS_FILE, icqSendFile);
-	CreateProtoServiceFunction(protoName, PSS_FILEALLOW, icqFileAllow);
-	CreateProtoServiceFunction(protoName, PSS_FILEDENY, icqFileDeny);
-	CreateProtoServiceFunction(protoName, PSS_FILECANCEL, icqFileCancel);
-	CreateProtoServiceFunction(protoName, PSS_SETAPPARENTMODE, icqSetApparentMode);
+	CreateProtoServiceFunction(protoName, PS_FILEALLOW, icqFileAllow);
+	CreateProtoServiceFunction(protoName, PS_FILEDENY, icqFileDeny);
+	CreateProtoServiceFunction(protoName, PS_FILECANCEL, icqFileCancel);
 
 	CreateProtoServiceFunction(protoName, PSR_MESSAGE, icqRecvMessage);
 	CreateProtoServiceFunction(protoName, PSR_AWAYMSG, icqRecvAwayMsg);

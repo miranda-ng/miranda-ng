@@ -268,12 +268,14 @@ ID пользователя в строке состояния
 Описание настроек
 [Reset all hidden warnings]
 Сбросить все скрытые предупреждения
-[Load unread events only]
-Только непрочитанные события
-[Load number of previous events]
-Предыдущие события в количестве
-[Load previous events less than]
-События, полученные менее чем
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события, полученные менее чем
 [minutes old]
 минут назад
 [Indent values]
@@ -288,8 +290,6 @@ ID пользователя в строке состояния
 Стандартные шаблоны...
 [RTL templates...]
 RTL шаблоны...
-[Load history events]
-Подгрузка истории
 [Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]

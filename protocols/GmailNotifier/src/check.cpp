@@ -67,20 +67,12 @@ void CheckMailInbox(Account *curAcc)
 		szBody.Append("&password=");
 		szBody.Append(curAcc->pass);
 
-		NETLIBHTTPHEADER headers[1] = {
-			{ "Content-Type", "application/x-www-form-urlencoded" }
-		};
+		MHttpRequest nlhr(REQUEST_POST);
+		nlhr.m_szUrl = szUrl.GetBuffer();
+		nlhr.m_szParam = szBody;
+		nlhr.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-		NETLIBHTTPREQUEST nlr = {};
-		nlr.cbSize = sizeof(nlr);
-		nlr.szUrl = szUrl.GetBuffer();
-		nlr.requestType = REQUEST_POST;
-		nlr.headersCount = _countof(headers);
-		nlr.headers = headers;
-		nlr.dataLength = szBody.GetLength();
-		nlr.pData = szBody.GetBuffer();
-
-		NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlr));
+		NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 		if (nlu == nullptr || nlu->resultCode != 200) {
 			mir_strcpy(curAcc->results.content, Translate("Can't send account data!"));
 
@@ -100,26 +92,17 @@ void CheckMailInbox(Account *curAcc)
 	else
 		szUrl.Append("/mail/feed/atom");
 
-	NETLIBHTTPHEADER headers[1] = {
-		{ "Authorization", szAuth.GetBuffer() }
-	};
+	MHttpRequest nlhr(REQUEST_GET);
+	nlhr.m_szUrl = szUrl;
+	nlhr.AddHeader("Authorization", szAuth.GetBuffer());
 
-	NETLIBHTTPREQUEST nlr = {};
-	nlr.cbSize = sizeof(nlr);
-	nlr.szUrl = szUrl.GetBuffer();
-	nlr.requestType = REQUEST_GET;
-	nlr.headers = headers;
-	nlr.headersCount = _countof(headers);
-
-	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlr));
+	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlu == nullptr) {
-		mir_snprintf(curAcc->results.content, "%s [%s]", szNick.get(), 
-			(nlr.resultCode == 401) ? Translate("Wrong name or password!") : Translate("Can't get RSS feed!"));
-
+		mir_snprintf(curAcc->results.content, "%s [%s]", szNick.get(), Translate("Wrong name or password!"));
 		curAcc->results_num = -1;
 	}
 	else {
-		curAcc->results_num = ParsePage(nlu->pData, &curAcc->results);
+		curAcc->results_num = ParsePage(nlu->body.GetBuffer(), &curAcc->results);
 		mir_snprintf(curAcc->results.content, "%s [%d]", szNick.get(), curAcc->results_num);
 	}
 

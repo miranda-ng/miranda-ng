@@ -124,9 +124,9 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM)
 INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)ccs->lParam;
+	auto *dbei = (DB::EventInfo*)ccs->lParam;
 
-	if (strncmp(ppre->szMessage, szServicePrefix, mir_strlen(szServicePrefix)))
+	if (strncmp(dbei->pBlob, szServicePrefix, mir_strlen(szServicePrefix)))
 		return Proto_ChainRecv(wParam, ccs);
 
 	HWND hwnd = WindowList_Find(hFileList, ccs->hContact);
@@ -142,7 +142,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
-	char *msg = mir_strdup(ppre->szMessage + mir_strlen(szServicePrefix));
+	char *msg = mir_strdup(dbei->pBlob + mir_strlen(szServicePrefix));
 	PostMessage(hwnd, WM_FE_MESSAGE, (WPARAM)ccs->hContact, (LPARAM)msg);
 
 	return 0;

@@ -1,5 +1,5 @@
 /*
-Copyright © 2012-23 Miranda NG team
+Copyright © 2012-24 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -306,7 +306,7 @@ void CTwitterProto::UpdateSettings()
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact;) {
 			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			if (isChatRoom(hContact))
-				db_delete_contact(hContact, true);
+				db_delete_contact(hContact, CDF_FROM_SERVER);
 			hContact = hNext;
 		}
 	}

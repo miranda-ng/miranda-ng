@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -89,7 +89,7 @@ public:
 		if (db_get_b(0, "Miranda", "AuthOpenWindow", 1))
 			m_chkOpen.SetState(true);
 
-		uint32_t flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+		uint32_t flags = (m_szProto) ? CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
 			m_chkAuth.Disable();
 
@@ -108,7 +108,7 @@ public:
 
 		MCONTACT hContact = 0;
 		if (m_hDbEvent)
-			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLISTBYEVENT, 0, m_hDbEvent);
+			hContact = (MCONTACT)CallProtoService(m_szProto, PS_ADDTOLISTBYEVENT, 0, m_hDbEvent);
 		else if (m_psr) {
 			if (!wszHandle.IsEmpty()) {
 				CMStringW wszFirstName, wszLastName;
@@ -126,7 +126,7 @@ public:
 					replaceStrW(m_psr->lastName.w, wszLastName.Detach());
 			}
 
-			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLIST, 0, (LPARAM)m_psr);
+			hContact = (MCONTACT)CallProtoService(m_szProto, PS_ADDTOLIST, 0, (LPARAM)m_psr);
 		}
 		else hContact = m_hContact;
 
@@ -143,7 +143,7 @@ public:
 		Contact::PutOnList(hContact);
 
 		if (m_chkAuth.GetState()) {
-			uint32_t flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+			uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			if (flags & PF4_NOCUSTOMAUTH)
 				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
@@ -162,7 +162,7 @@ public:
 
 	void OnAuthClicked(CCtrlButton*)
 	{
-		uint32_t flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 		if (flags & PF4_NOCUSTOMAUTH)
 			m_authReq.Enable(false);
 		else
@@ -210,7 +210,7 @@ MIR_APP_DLL(void) Contact::AddByEvent(MEVENT hEvent, MWindow hwndParent)
 			uint32_t dwData[2];
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = sizeof(dwData);
-			dbei.pBlob = (uint8_t*)&dwData;
+			dbei.pBlob = (char *)&dwData;
 			db_event_get(hEvent, &dbei);
 			if (dwData[0] != 0)
 				m_szName.Format(L"%d", dwData[0]);

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -69,15 +69,6 @@ extern bool g_bGroupsLocked;
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (hContact == 0) {
-		if (!strcmp(cws->szModule, "CListGroups")) {
-			if (g_bGroupsLocked)
-				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
-			else
-				Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
-		}
-		return 0;
-	}
 
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
@@ -139,12 +130,12 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 
 		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 			// if we're going offline, kill all contacts scheduled for deletion
-			uint32_t caps = (uint32_t)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 					MCONTACT hNext = db_find_next(hContact, ack->szModule);
-					if (db_get_b(hContact, "CList", "Delete", 0))
-						db_delete_contact(hContact);
+					if (int options = db_get_b(hContact, "CList", "Delete"))
+						db_delete_contact(hContact, options);
 					hContact = hNext;
 				}
 			}
@@ -361,40 +352,32 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
 
 	case INTM_GROUPSCHANGED:
-		{
-			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
-				int groupId = atoi(dbcws->szSetting) + 1;
+		if (auto *pGroup = (CGroupInternal *)lParam) {
+			// check name of group and ignore message if just being expanded/collapsed
+			if (!Clist_FindItem(hwnd, dat, pGroup->groupId+1 | HCONTACT_ISGROUP, &contact, &group))
+				break;
 
-				// check name of group and ignore message if just being expanded/collapsed
-				if (Clist_FindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group)) {
-					CMStringW szFullName(contact->szText);
-					while (group->parent) {
-						ClcContact *cc = nullptr;
-						for (auto &it : group->parent->cl)
-							if (it->group == group) {
-								cc = it;
-								break;
-							}
-
-						if (cc == nullptr) {
-							szFullName.Empty();
-							break;
-						}
-						szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
-						group = group->parent;
+			CMStringW szFullName(contact->szText);
+			while (group->parent) {
+				ClcContact *cc = nullptr;
+				for (auto &it : group->parent->cl)
+					if (it->group == group) {
+						cc = it;
+						break;
 					}
 
-					int eq;
-					if (dbcws->value.type == DBVT_ASCIIZ)
-						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal + 1));
-					else
-						eq = !mir_wstrcmp(szFullName, ptrW(mir_utf8decodeW(dbcws->value.pszVal + 1)));
-
-					if (eq && contact->group->bHideOffline == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
-						break;  //only expanded has changed: no action reqd
+				if (cc == nullptr) {
+					szFullName.Empty();
+					break;
 				}
+				szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
+				group = group->parent;
 			}
+
+			bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
+			if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
+				break;  // only expanded has changed: no action reqd
+
 			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
 		break;
@@ -1201,7 +1184,7 @@ LBL_MoveSelection:
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				HMENU hMenu;
 				if (contact->type == CLCIT_GROUP)
-					hMenu = Menu_BuildSubGroupMenu(contact->group);
+					hMenu = Menu_BuildGroupMenu(contact->group);
 				else if (contact->type == CLCIT_CONTACT)
 					hMenu = Menu_BuildContactMenu(contact->hContact);
 				else
@@ -1231,26 +1214,8 @@ LBL_MoveSelection:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, contact->hContact))
 				break;
 
-		if (contact->type == CLCIT_GROUP) {
-			switch (LOWORD(wParam)) {
-			case POPUP_NEWSUBGROUP:
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				Clist_GroupCreate(contact->groupId, nullptr);
-				break;
-			case POPUP_RENAMEGROUP:
-				g_clistApi.pfnBeginRenameSelection(hwnd, dat);
-				break;
-			case POPUP_DELETEGROUP:
-				Clist_GroupDelete(contact->groupId);
-				break;
-			case POPUP_GROUPHIDEOFFLINE:
-				Clist_GroupSetFlags(contact->groupId, MAKELPARAM(contact->group->bHideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
-				break;
-			}
-
+		if (contact->type == CLCIT_GROUP)
 			Menu_ProcessCommandById(wParam, (LPARAM)hwnd);
-		}
 		break;
 
 	case WM_DESTROY:

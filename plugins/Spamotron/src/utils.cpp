@@ -465,7 +465,7 @@ int LogToSystemHistory(char *message, char *origmessage)
 	DBEVENTINFO dbei = {};
 	dbei.timestamp = time(&tm);
 	dbei.szModule = MODULENAME;
-	dbei.pBlob = (uint8_t*)msg;
+	dbei.pBlob = msg;
 	if (origmessage)
 		dbei.cbBlob = (1 + mir_snprintf(msg, "%s: %s%s %s: %s", MODULENAME, message, DOT(message), Translate("Their message was"), origmessage));
 	else 
@@ -498,7 +498,7 @@ void MarkUnread(MCONTACT hContact)
 			pos += mir_strlen((const char*)pos)+1;
 
 			memcpy(&dbei.cbBlob, pos, sizeof(uint32_t)); pos += sizeof(uint32_t);
-			dbei.pBlob = (uint8_t*)malloc(dbei.cbBlob);
+			dbei.pBlob = (char *)malloc(dbei.cbBlob);
 			memcpy(dbei.pBlob, pos, dbei.cbBlob);
 			pos += dbei.cbBlob;
 			db_event_add(hContact,&dbei);

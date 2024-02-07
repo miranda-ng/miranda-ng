@@ -1,7 +1,7 @@
 /*
 Chat module plugin for Miranda IM
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -847,9 +847,8 @@ static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			if (auto *pDlg = Srmm_FindDialog(hContact))
 				pDlg->EventAdded(hDbEvent, dbei);
 
-			MCONTACT hRealContact = db_event_getContact(hDbEvent);
-			if (hRealContact != hContact)
-				if (auto *pDlg = Srmm_FindDialog(hRealContact))
+			if (dbei.hContact != hContact)
+				if (auto *pDlg = Srmm_FindDialog(dbei.hContact))
 					pDlg->EventAdded(hDbEvent, dbei);
 		}
 	}
@@ -875,7 +874,7 @@ static int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 	if (Contact::IsGroupChat(hContact))
 		if (auto *si = SM_FindSessionByContact(hContact))
 			for (auto &it : si->arEvents.rev_iter())
-				if (it->hEvent == hDbEvent) {
+				if (it->hEvent == MEVENT(hDbEvent)) {
 					si->arEvents.removeItem(&it);
 					break;
 				}

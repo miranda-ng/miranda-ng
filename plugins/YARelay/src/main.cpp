@@ -69,7 +69,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.cbBlob = (uint32_t)mir_strlen(p->msgText) + 1;
-		dbei.pBlob = (uint8_t*)p->msgText;
+		dbei.pBlob = p->msgText;
 		db_event_add(hForwardTo, &dbei);
 	}
 

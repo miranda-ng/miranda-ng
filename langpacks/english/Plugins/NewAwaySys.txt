@@ -10,7 +10,6 @@
 [Enable autoreply]
 [On event...]
 [Don't reply to ICQ contacts]
-[Don't reply when I'm invisible to the contact]
 [Save autoreply to the history]
 [Reply only when Idle]
 [Reply only when contact's message window is closed]

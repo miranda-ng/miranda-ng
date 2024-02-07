@@ -6,7 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
-// Copyright © 2012-2023 Miranda NG team
+// Copyright © 2012-2024 Miranda NG team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -45,6 +45,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
 	m_arGroups(10, NumericKeySortT),
+	m_arDeleteQueue(10),
 	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
@@ -70,6 +71,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
 	CreateProtoService(PS_MENU_LOADHISTORY, &CIcqProto::SvcLoadHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CIcqProto::SvcEmptyHistory);
+
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::SvcGetEmailCount);
 	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::SvcGotoInbox);
 
@@ -78,8 +81,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	// events
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::OnGroupChange);
-	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
-	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
+	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GcMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 
 	// group chats
@@ -156,16 +159,18 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 	}
 }
 
-bool CIcqProto::OnContactDeleted(MCONTACT hContact)
+bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	CMStringW szId(GetUserId(hContact));
-	if (!isChatRoom(hContact)) {
-		mir_cslock lck(m_csCache);
-		m_arCache.remove(FindUser(szId));
-	}
+	if (flags & CDF_FROM_SERVER) {
+		CMStringW szId(GetUserId(hContact));
+		if (!isChatRoom(hContact)) {
+			mir_cslock lck(m_csCache);
+			m_arCache.remove(FindUser(szId));
+		}
 
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
-		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/buddylist/removeBuddy")
+			<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+	}
 	return true;
 }
 
@@ -191,7 +196,7 @@ void CIcqProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void
 		p++;
 	blob.setName(p);
 
-	blob.setUrl("boo");
+	blob.setUrl(ft->m_szHost);
 	blob.complete(ft->pfts.currentFileSize);
 	blob.setLocalName(ft->m_wszFileName);
 }
@@ -202,33 +207,68 @@ void CIcqProto::OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// batch events deletion from the server
 
-void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnBatchDeleteMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
-	if (pReply->resultCode != 200)
+	RobustReply root(pReply);
+	if (root.error() != 20000)
 		return;
 
-	auto *ofd = (OFDTHREAD *)pReq->pUserInfo;
-	debugLogW(L"Saving to [%s]", ofd->wszPath.c_str());
-	int fileId = _wopen(ofd->wszPath, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-	if (fileId == -1) {
-		debugLogW(L"Cannot open [%s] for writing", ofd->wszPath.c_str());
-		return;
+	if (auto *pUser = FindUser(GetUserId(pReq->hContact)))
+		pUser->m_bSkipPatch = true;
+	RetrievePatches(pReq->hContact);
+}
+
+void CIcqProto::BatchDeleteMsg()
+{
+	JSONNode ids(JSON_ARRAY); ids.set_name("msgIds");
+
+	mir_cslock lck(m_csDeleteQueue);
+	for (auto &it : m_arDeleteQueue) {
+		ids.push_back(JSONNode("", _atoi64(it)));
+		mir_free(it);
 	}
 
-	int cbWritten = _write(fileId, pReply->pData, pReply->dataLength);
-	_close(fileId);
-	if (cbWritten != pReply->dataLength) {
-		debugLogW(L"Error writing data into [%s]: %d instead of %d", ofd->wszPath.c_str(), cbWritten, pReply->dataLength);
+	auto *pReq = new AsyncRapiRequest(this, "delMsgBatch", &CIcqProto::OnBatchDeleteMsg);
+	pReq->hContact = m_hDeleteContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(m_hDeleteContact)) << BOOL_PARAM("silent", true) << BOOL_PARAM("shared", m_bRemoveForAll) << ids;
+	Push(pReq);
+
+	m_arDeleteQueue.destroy();
+	m_hDeleteContact = INVALID_CONTACT_ID;
+}
+
+void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent, int flags)
+{
+	// the command arrived from the server, don't send it back then
+	if (flags & CDF_FROM_SERVER)
 		return;
-	}
+
+	if (m_hDeleteContact != INVALID_CONTACT_ID)
+		if (m_hDeleteContact != hContact)
+			BatchDeleteMsg();
+
+	DB::EventInfo dbei(hEvent, false);
+	if (!dbei || !dbei.szId)
+		return;
+
+	mir_cslock lck(m_csDeleteQueue);
+	m_hDeleteContact = hContact;
+	m_bRemoveForAll = (flags & CDF_FOR_EVERYONE) != 0;
+	m_arDeleteQueue.insert(mir_strdup(dbei.szId));
+	m_impl.m_delete.Start(100);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void __cdecl DownloadCallack(size_t iProgress, void *pParam)
+{
+	auto *ofd = (OFDTHREAD *)pParam;
 
 	DBVARIANT dbv = { DBVT_DWORD };
-	dbv.dVal = cbWritten;
+	dbv.dVal = unsigned(iProgress);
 	db_event_setJson(ofd->hDbEvent, "ft", &dbv);
-
-	ofd->Finish();
-	delete ofd;
 }
 
 void __cdecl CIcqProto::OfflineFileThread(void *pParam)
@@ -241,21 +281,33 @@ void __cdecl CIcqProto::OfflineFileThread(void *pParam)
 
 		CMStringW wszUrl;
 		if (fileText2url(blob.getUrl(), &wszUrl)) {
-			MCONTACT hContact = db_event_getContact(ofd->hDbEvent);
-			if (auto *pFileInfo = RetrieveFileInfo(hContact, wszUrl)) {
+			if (auto *pFileInfo = RetrieveFileInfo(dbei.hContact, wszUrl)) {
 				if (!ofd->bCopy) {
-					auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnFileRecv);
-					pReq->pUserInfo = ofd;
-					pReq->AddHeader("Sec-Fetch-User", "?1");
-					pReq->AddHeader("Sec-Fetch-Site", "cross-site");
-					pReq->AddHeader("Sec-Fetch-Mode", "navigate");
-					Push(pReq);
-					return; // ofd is used inside CIcqProto::OnFileRecv, don't remove it
-				}
+					MHttpRequest nlhr(REQUEST_GET);
+					nlhr.m_szUrl = pFileInfo->szUrl;
+					nlhr.AddHeader("Sec-Fetch-User", "?1");
+					nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
+					nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
+					nlhr.AddHeader("Accept-Encoding", "gzip");
 
-				ofd->wszPath.Empty();
-				ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
-				ofd->pCallback->Invoke(*ofd);
+					debugLogW(L"Saving to [%s]", ofd->wszPath.c_str());
+					NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath, DownloadCallack, ofd));
+					if (reply && reply->resultCode == 200) {
+						struct _stat st;
+						_wstat(ofd->wszPath, &st);
+
+						DBVARIANT dbv = { DBVT_DWORD };
+						dbv.dVal = st.st_size;
+						db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+
+						ofd->Finish();
+					}				
+				}
+				else {
+					ofd->wszPath.Empty();
+					ofd->wszPath.Append(_A2T(pFileInfo->szUrl));
+					ofd->pCallback->Invoke(*ofd);
+				}
 			}
 		}
 	}
@@ -276,6 +328,18 @@ INT_PTR CIcqProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 	delSetting(hContact, DB_KEY_LASTMSGID);
 
 	RetrieveUserHistory(hContact, 1, true);
+	return 0;
+}
+
+INT_PTR CIcqProto::SvcEmptyHistory(WPARAM hContact, LPARAM)
+{
+	auto *pReq = new AsyncRapiRequest(this, "delHistory");
+	#ifndef _DEBUG
+	pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
+	pReq->hContact = hContact;
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("uptoMsgId", getId(hContact, DB_KEY_LASTMSGID));
+	Push(pReq);
 	return 0;
 }
 
@@ -339,6 +403,7 @@ INT_PTR CIcqProto::SvcGotoInbox(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// mark events read at the server
 
 void CIcqProto::SendMarkRead()
 {
@@ -420,9 +485,9 @@ MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int CIcqProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CIcqProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -451,7 +516,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_1:
 		nReturn = PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES | /*PF1_SEARCHBYNAME | TODO */
-			PF1_VISLIST | PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
+			PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
 		break;
 
 	case PFLAGNUM_2:
@@ -459,11 +524,11 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_INVISIBLE;
 	
 	case PFLAGNUM_5:
-		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_INVISIBLE;
+		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | 
-			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY;
+		nReturn = PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING |
+			PF4_AVATARS | PF4_SERVERMSGID | PF4_READNOTIFY | PF4_REPLY | PF4_DELETEFORALL;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
@@ -542,40 +607,30 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 
 int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc)
 {
-	CMStringA szUserid(GetUserId(hContact));
-	if (szUserid.IsEmpty())
-		return 0;
-
-	int id = InterlockedIncrement(&m_msgId);
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "/im/sendIM", &CIcqProto::OnSendMessage);
-
-	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId, pszSrc);
-	pReq->pUserInfo = pOwn;
-	{
-		mir_cslock lck(m_csOwnIds);
-		m_arOwnIds.insert(pOwn);
-	}
-
 	JSONNode parts(JSON_ARRAY);
 	if (hReplyEvent) {
 		DB::EventInfo dbei(hReplyEvent);
 		if (dbei) {
 			JSONNode replyTo;
-			MCONTACT replyContact = db_event_getContact(hReplyEvent);
-			CMStringA replyId(GetUserId(replyContact));
+			CMStringA replyId(GetUserId(dbei.hContact));
 			replyTo << CHAR_PARAM("mediaType", "quote") << CHAR_PARAM("sn", replyId) << INT_PARAM("time", dbei.timestamp)
-				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(replyContact, 0))
-				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
+				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(dbei.hContact, 0))
+				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei)));
 			parts.push_back(replyTo);
 		}
 	}
 
 	JSONNode msgText; msgText << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", pszSrc);
 	parts.push_back(msgText);
-	
-	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") 
-		 << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
-	Push(pReq);
+
+	int id = InterlockedIncrement(&m_msgId);
+	auto *pOwn = new IcqOwnMessage(hContact, id, pszSrc);
+	{
+		mir_cslock lck(m_csOwnIds);
+		m_arOwnIds.insert(pOwn);
+	}
+
+	SendMessageParts(hContact, parts, pOwn);
 	return id;
 }
 
@@ -586,10 +641,19 @@ int CIcqProto::SetStatus(int iNewStatus)
 {
 	debugLogA("CIcqProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %p", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread);
 
+	switch (iNewStatus) {
+	case ID_STATUS_OFFLINE:
+	case ID_STATUS_ONLINE:
+	case ID_STATUS_INVISIBLE:
+		break;
+
+	default:
+		iNewStatus = ID_STATUS_ONLINE;
+	}
+
 	if (iNewStatus == m_iStatus)
 		return 0;
 
-	m_iDesiredStatus = iNewStatus;
 	int iOldStatus = m_iStatus;
 
 	// go offline
@@ -597,13 +661,17 @@ int CIcqProto::SetStatus(int iNewStatus)
 		if (m_bOnline)
 			SetServerStatus(ID_STATUS_OFFLINE);
 
-		m_iStatus = m_iDesiredStatus;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		return 0;
 	}
+
+	m_iDesiredStatus = iNewStatus;
+
 	// not logged in? come on
-	else if (!m_bOnline && !IsStatusConnecting(m_iStatus)) {
+	if (!m_bOnline && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 
@@ -625,7 +693,6 @@ int CIcqProto::SetStatus(int iNewStatus)
 		debugLogA("setting server online status to %d", iNewStatus);
 		SetServerStatus(iNewStatus);
 	}
-
 	return 0;
 }
 
@@ -636,18 +703,5 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "/im/setTyping")
 		<< AIMSID(this) << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed"));
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_SetApparentMode - sets the visibility status
-
-int CIcqProto::SetApparentMode(MCONTACT hContact, int iMode)
-{
-	int oldMode = getWord(hContact, "ApparentMode");
-	if (oldMode != iMode) {
-		setWord(hContact, "ApparentMode", iMode);
-		SetPermitDeny(GetUserId(hContact), iMode != ID_STATUS_OFFLINE);
-	}
 	return 0;
 }

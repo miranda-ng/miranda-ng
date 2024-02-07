@@ -681,7 +681,7 @@ public:
 		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
 
 		if (ActualAccount->hContact != NULL)
-			db_delete_contact(ActualAccount->hContact, true);
+			db_delete_contact(ActualAccount->hContact, CDF_FROM_SERVER);
 
 		DeleteAccount(POP3Plugin, ActualAccount);
 

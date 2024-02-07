@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ void CVkProto::FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam)
 	delete pParam;
 }
 
-void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSearch(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)pReq->pUserInfo;
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
@@ -124,7 +124,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	FreeProtoShearchStruct(pParam);
 }
 
-void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSearchByMail(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
 	if (reply->resultCode != 200) {

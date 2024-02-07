@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
@@ -65,7 +65,7 @@ public:
 	void        SetContact(MCONTACT hContact);
 	const char* GetURL() { return m_URL; }
 	const char* GetURLthumbnail() {return m_URLthumb; }
-	uint8_t        GetEnableItem() {return m_EnableItem;};
+	uint8_t     GetEnableItem() {return m_EnableItem;};
 	wchar_t*    GetErrorMsg() {return m_ErrorMsg;};
 
 	bool        m_bDeleteAfterSend;
@@ -81,23 +81,25 @@ protected:
 	wchar_t*    m_pszSendTyp;      // hold string for error mess
 	char*       m_pszProto;        // Contact Proto Module
 	MCONTACT    m_hContact;        // Contact handle
-	uint8_t        m_EnableItem;      // hold flag for send type
-	uint8_t        m_ChatRoom;        // is Contact chatroom
+	uint8_t     m_EnableItem;      // hold flag for send type
+	uint8_t     m_ChatRoom;        // is Contact chatroom
 				   
 	void        Error(LPCTSTR pszFormat, ...);
 	void        svcSendFileExit();
 	void        svcSendMsgExit(const char* szMessage);
 	void        Exit(unsigned int Result);
 				   
-	uint32_t       m_cbEventMsg;      // sizeof EventMsg(T) buffer
+	uint32_t    m_cbEventMsg;      // sizeof EventMsg(T) buffer
 	CMStringA   m_szEventMsg;      // EventMsg char*
 	HANDLE      m_hSend;           // protocol send handle
 	HANDLE      m_hOnSend;         // HookEventObj on ME_PROTO_ACK
-				   
+
 	MSGBOX      m_box;
 	wchar_t*    m_ErrorMsg;
 	wchar_t*    m_ErrorTitle;
-      
+
+	MHttpRequest m_nlhr;
+
 	void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = nullptr;}}
 	void DB_EventAdd(uint16_t EventType);
       
@@ -130,8 +132,7 @@ protected:
 	};
 
 	static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); // changes "str", can be successfully used only once
-	void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); // use to free data inside "nlhr" created by HTTPFormCreate
-	int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); // returns "0" on success, Exit() will be called on failure (stop processing)
+	int HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm, size_t frmNum); // returns "0" on success, Exit() will be called on failure (stop processing)
 };
 
 #endif

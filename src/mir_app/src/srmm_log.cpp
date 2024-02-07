@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team,
+Copyright (C) 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -85,8 +85,11 @@ MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg)
 	return nullptr; // shall never happen
 }
 
-MIR_APP_DLL(bool) Srmm_IsCustomLogUsed()
+MIR_APP_DLL(bool) Srmm_IsCustomLogUsed(bool forGroupChats)
 {
+	if (forGroupChats && !Chat::bEnableCustomLogs)
+		return false;
+
 	return mir_strcmp(g_logger, "built-in") != 0;
 }
 

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -29,7 +29,7 @@ static ClcCacheEntry nullpce = {};
 
 // routines for managing adding/removal of items in the list, including sorting
 
-ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
+ClcContact* Clist_AddItemToGroup(ClcGroup *group, int iAboveItem)
 {
 	ClcContact* newItem = g_clistApi.pfnCreateClcContact();
 	newItem->type = CLCIT_DIVIDER;
@@ -72,6 +72,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 					group = cc->group;
 					group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
 					group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+					group->bShowOffline = (flags & GROUPF_SHOWOFFLINE) != 0;
 					group->groupId = groupId;
 				}
 				else group = cc->group;
@@ -87,7 +88,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 			if (groupId == 0)
 				return nullptr;
 
-			ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+			ClcContact *cc = Clist_AddItemToGroup(group, i);
 			cc->type = CLCIT_GROUP;
 			mir_wstrncpy(cc->szText, pThisField, _countof(cc->szText));
 			cc->groupId = (uint16_t)(pNextField ? 0 : groupId);
@@ -101,6 +102,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t fl
 			else {
 				group->bExpanded = (flags & GROUPF_EXPANDED) != 0;
 				group->bHideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
+				group->bShowOffline = (flags & GROUPF_SHOWOFFLINE) != 0;
 			}
 			group->groupId = pNextField ? 0 : groupId;
 			group->totalMembers = 0;
@@ -155,7 +157,7 @@ ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszT
 			if (group->cl[i]->type != CLCIT_INFO)
 				break;
 
-	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+	ClcContact *cc = Clist_AddItemToGroup(group, i);
 	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle + 1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
@@ -186,7 +188,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	ClcCacheEntry *pce = Clist_GetCacheEntry(hContact);
 	replaceStrW(pce->tszGroup, nullptr);
 
-	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, index + 1);
+	ClcContact *cc = Clist_AddItemToGroup(group, index + 1);
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = Clist_GetContactIcon(hContact);
 	cc->hContact = hContact;
@@ -383,11 +385,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				group->totalMembers++;
 
 				if (dat->bFilterSearch && dat->szQuickSearch[0] != '\0') {
-					wchar_t *name = Clist_GetContactDisplayName(hContact);
-					wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(name));
-					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
-
-					if (wcsstr(lowered_name, lowered_search))
+					if (mir_wstrstri(Clist_GetContactDisplayName(hContact), dat->szQuickSearch))
 						g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->bHideOffline)) {
@@ -543,7 +541,7 @@ static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 				prevContactOnline = 1;
 			else {
 				if (prevContactOnline) {
-					ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
+					ClcContact *cc = Clist_AddItemToGroup(group, i);
 					cc->type = CLCIT_DIVIDER;
 					mir_wstrcpy(cc->szText, TranslateT("Offline"));
 				}

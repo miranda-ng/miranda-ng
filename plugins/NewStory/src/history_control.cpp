@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@ void InitHotkeys()
 
 	hkd.szDescription.a = LPGEN("Search");
 	hkd.pszName = "ns_search";
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'S') | HKF_MIRANDA_LOCAL;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = HOTKEY_SEARCH;
 	g_plugin.addHotkey(&hkd);
 
@@ -57,11 +57,23 @@ void InitHotkeys()
 
 NewstoryListData::NewstoryListData(HWND _1) :
 	m_hwnd(_1),
-	redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
+	redrawTimer(Miranda_GetSystemWindow(), LPARAM(this))
 {
+	items.setOwner(_1);
+
 	bSortAscending = g_plugin.bSortAscending;
 
-	redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
+	redrawTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Draw);
+}
+
+void NewstoryListData::onTimer_Draw(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	if (bWasAtBottom)
+		EnsureVisible(totalCount - 1);
+
+	InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::OnContextMenu(int index, POINT pt)
@@ -95,16 +107,6 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 		InvalidateRect(m_hwnd, 0, FALSE);
 }
 
-void NewstoryListData::OnTimer(CTimer *pTimer)
-{
-	pTimer->Stop();
-
-	if (bWasAtBottom)
-		EnsureVisible(totalCount - 1);
-
-	InvalidateRect(m_hwnd, 0, FALSE);
-}
-
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
 	ScheduleDraw();
@@ -112,12 +114,16 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	totalCount++;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
 	ScheduleDraw();
 	items.addEvent(hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 {
@@ -241,6 +247,7 @@ void NewstoryListData::BeginEditItem()
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
+	SetForegroundWindow(hwndEditBox);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -280,33 +287,103 @@ void NewstoryListData::Copy(bool bTextOnly)
 	Utils_ClipboardCopy(GatherSelected(bTextOnly));
 }
 
-void NewstoryListData::CopyUrl()
+void NewstoryListData::CopyPath()
 {
-	if (auto *pItem = GetItem(caret)) {
-		if (pItem->m_bOfflineDownloaded) {
+	if (auto *pItem = GetItem(caret))
+		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
 			Utils_ClipboardCopy(blob.getLocalName());
 		}
-		else Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
-	}
 }
+
+void NewstoryListData::CopyUrl()
+{
+	if (auto *pItem = GetItem(caret))
+		Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Delete events dialog
+
+class CDeleteEventsDlg : public CDlgBase
+{
+	MCONTACT m_hContact;
+	CCtrlCheck chkDelHistory, chkForEveryone;
+
+public:
+	bool bDelHistory = false, bForEveryone = false;
+
+	CDeleteEventsDlg(MCONTACT hContact) :
+		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
+		chkDelHistory(this, IDC_DELSERVERHISTORY),
+		chkForEveryone(this, IDC_BOTH)
+	{
+		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
+			bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
+			bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
+		}
+	}
+
+	bool OnInitDialog() override
+	{
+		chkDelHistory.SetState(bDelHistory);
+		chkDelHistory.Enable(bDelHistory);
+
+		bool bEnabled = bDelHistory && bForEveryone;
+		chkForEveryone.SetState(!bEnabled);
+		chkForEveryone.Enable(bEnabled);
+
+		LOGFONT lf;
+		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		wchar_t szFormat[256], szFinal[256];
+		GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+		mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
+		SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+
+		SetFocus(GetDlgItem(m_hwnd, IDNO));
+		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		bDelHistory = chkDelHistory.IsChecked();
+		bForEveryone = chkForEveryone.IsChecked();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+};
 
 void NewstoryListData::DeleteItems(void)
 {
-	if (IDYES != MessageBoxW(m_hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+	CDeleteEventsDlg dlg(m_hContact);
+	if (IDOK != dlg.DoModal())
 		return;
 
 	g_plugin.bDisableDelete = true;
 
-	int firstSel = -1;
+	int firstSel = -1, flags = 0;
+	if (dlg.bDelHistory)
+		flags |= CDF_DEL_HISTORY;
+	if (dlg.bForEveryone)
+		flags |= CDF_FOR_EVERYONE;
+
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *p = GetItem(i);
 		if (!p->m_bSelected)
 			continue;
 
 		if (p->hEvent)
-			db_event_delete(p->hEvent);
+			db_event_delete(p->hEvent, flags);
 		items.remove(i);
 		totalCount--;
 		firstSel = i;
@@ -320,6 +397,8 @@ void NewstoryListData::DeleteItems(void)
 		FixScrollPosition(true);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NewstoryListData::Download(int options)
 {
@@ -347,7 +426,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
-				dbei.pBlob = (uint8_t *)szUtf.get();
+				dbei.pBlob = szUtf.get();
 				db_event_edit(pItem->hEvent, &dbei);
 			}
 
@@ -538,13 +617,14 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	if (totalCount == 0)
 		return nullptr;
 
+	mir_cslock lck(m_csItems);
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
 void NewstoryListData::OpenFolder()
 {
 	if (auto *pItem = GetItem(caret)) {
-		if (pItem->m_bOfflineDownloaded) {
+		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
 			CMStringW wszFile(blob.getLocalName());
@@ -601,7 +681,7 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 		pos.x += 18;
 
 	sz.cx -= pos.x;
-	if (pItem->m_bOfflineDownloaded) // Download completed icon
+	if (pItem->m_bOfflineDownloaded != 0) // Download completed icon
 		sz.cx -= 18;
 
 	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
@@ -660,8 +740,16 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 	}
 
 	// Finished icon
-	if (pItem->m_bOfflineDownloaded)
-		DrawIconEx(hdc, width-20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+	if (pItem->m_bOfflineDownloaded != 0) {
+		if (pItem->completed())
+			DrawIconEx(hdc, width - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+		else {
+			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, RGB(255, 0, 0)));
+			MoveToEx(hdc, rc.left, rc.bottom - 4, 0);
+			LineTo(hdc, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
+			DeleteObject(SelectObject(hdc, hpn));
+		}
+	}
 
 	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextDisplay(hdc, pos, sz, pItem->data);
@@ -746,8 +834,11 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 			EnsureVisible(idx);
 	}
 }
+
 void NewstoryListData::SetContact(MCONTACT hContact)
 {
+	m_hContact = hContact;
+
 	WindowList_Add(g_hNewstoryLogs, m_hwnd, hContact);
 }
 
@@ -796,7 +887,7 @@ void NewstoryListData::ToggleBookmark()
 			p->dbe.flags |= DBEF_BOOKMARK;
 		db_event_edit(p->hEvent, &p->dbe);
 
-		p->setText();
+		p->setText(m_hwnd);
 	}
 
 	InvalidateRect(m_hwnd, 0, FALSE);
@@ -842,7 +933,7 @@ void NewstoryListData::TryUp(int iCount)
 	ItemData *pPrev = nullptr;
 	for (int j = 0; j < i + 1; j++) {
 		auto *pItem = GetItem(j);
-		pPrev = pItem->checkNext(pPrev);
+		pPrev = pItem->checkNext(pPrev, m_hwnd);
 	}
 
 	caret = 0;
@@ -1070,7 +1161,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			auto *p = data->GetItem(idx);
 			p->load(true);
-			p->setText();
+			p->setText(data->m_hwnd);
 			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
@@ -1114,9 +1205,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int height = rc.bottom - rc.top;
 			int width = rc.right - rc.left;
 			int top = data->scrollTopPixel;
-			idx = data->scrollTopItem;
-			while ((top < height) && (idx < data->totalCount))
-				top += data->PaintItem(hdc, data->LoadItem(idx++), top, width, true);
+			
+			for (idx = data->scrollTopItem; top < height && idx < data->totalCount; idx++)
+				top += data->PaintItem(hdc, data->LoadItem(idx), top, width, !data->hwndEditBox || data->caret != idx);
+
 			data->cachedMaxDrawnItem = idx;
 
 			if (top <= height) {

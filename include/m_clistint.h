@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -85,7 +85,7 @@ struct ClcGroup : public MZeroedObject
 
 	LIST<ClcContact> cl;
 	int groupId;
-	bool bExpanded, bHideOffline;
+	bool bExpanded, bHideOffline, bShowOffline;
 	ClcGroup *parent;
 	int scanIndex;
 	int totalMembers;
@@ -290,6 +290,7 @@ MIR_APP_DLL(int)       Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPref
 MIR_APP_DLL(void)      Clist_TrayIconUpdateBase(const char *szChangedProto);
 MIR_APP_DLL(void)      Clist_TraySetTimer();
 
+MIR_APP_DLL(CListEvent*) Clist_FindEvent(MCONTACT hContact, MEVENT hDbEvent);
 MIR_APP_DLL(CListEvent*) Clist_GetEvent(MCONTACT hContact, int idx);
 MIR_APP_DLL(CListEvent*) Clist_GetEventByMenu(int iMenuId);
 
@@ -318,6 +319,7 @@ struct CLIST_INTERFACE
 
 	// clc.h
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	HICON          (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
 	// clcidents.c
 	ClcContact*    (*pfnFindItem)(uint32_t dwItem, ClcContact *contact);
@@ -334,7 +336,6 @@ struct CLIST_INTERFACE
 	void           (*pfnFreeContact)(ClcContact *contact);
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
-	ClcContact*    (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
 	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
@@ -424,8 +425,6 @@ struct CLIST_INTERFACE
 	int      cycleStep;
 	wchar_t* szTip;
 	BOOL     bTrayMenuOnScreen;
-
-	HICON    (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
 	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int      (*pfnTrayIconInit)(HWND hwnd);

@@ -3,7 +3,7 @@
 Minecraft Dynmap plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2015-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright © 2015-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,17 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // HTTP constants and object
 #define HTTP_CODE_FAKE_DISCONNECTED 0
 #define HTTP_CODE_FAKE_ERROR        1
-
-namespace http
-{
-	struct response
-	{
-		response() : code(0) {}
-		int code;
-		std::map< std::string, std::string > headers;
-		std::string data;
-	};
-}
 
 class ScopedLock
 {

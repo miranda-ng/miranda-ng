@@ -102,10 +102,9 @@ type
   end;
   ANETLIBHTTPHEADER = array [0..1000] of TNETLIBHTTPHEADER;
 
-  PNETLIBHTTPREQUEST    = ^TNETLIBHTTPREQUEST;
+  PNETLIBHTTPREQUEST = ^TNETLIBHTTPREQUEST;
 
   TNETLIBHTTPREQUEST = record
-    cbSize       :int;
     requestType  :int;                // REQUEST_* constant
     flags        :dword;
     szUrl        :PAnsiChar;
@@ -119,13 +118,6 @@ type
     nlc          :THANDLE;
     timeout      :int;                // Mirver 9.0+
   end;
-
-const
-  {$IFNDEF WIN64}
-  NETLIBHTTPREQUEST_V1_SIZE = 44;
-  {$ELSE}
-  NETLIBHTTPREQUEST_V1_SIZE = SIZEOF(TNETLIBHTTPREQUEST);
-  {$ENDIF}
 
 type
   PNETLIBUSER = ^TNETLIBUSER;
@@ -208,7 +200,7 @@ function Netlib_CloseHandle(pHandle:THANDLE) : int; stdcall; external AppDll;
 
   }
 
-function Netlib_FreeHttpRequest(param:PNETLIBHTTPREQUEST) : bytebool; stdcall; external AppDll;
+function Netlib_FreeHttpRequest(param:THANDLE) : bytebool; stdcall; external AppDll;
 
   {
     wParam : HANDLE
@@ -247,7 +239,11 @@ function Netlib_FreeHttpRequest(param:PNETLIBHTTPREQUEST) : bytebool; stdcall; e
              Errors returned by the aforementioned internally used functions
   }
 
-function Netlib_HttpTransaction(nlu:THANDLE; param:PNETLIBHTTPREQUEST) : PNETLIBHTTPREQUEST; stdcall; external AppDll;
+function Netlib_HttpTransaction(nlu:THANDLE; param:PNETLIBHTTPREQUEST) : THANDLE; stdcall; external AppDll;
+
+function Netlib_HttpResult(http:THANDLE) : int; stdcall; external AppDll;
+function Netlib_HttpBuffer(http:THANDLE; var cbLen:int) : PAnsiChar; stdcall; external AppDll;
+function Netlib_HttpCookies(http:THANDLE) : PAnsiChar; stdcall; external AppDll;
 
   {
     Affect : Send data over an open connection see notes

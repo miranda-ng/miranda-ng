@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -54,8 +54,15 @@ bool Filter::check(ItemData *item) const
 		}
 	}
 
-	if (flags & (EVENTTEXT | EVENTONLY))
-		return CheckFilter(item->getWBuf(), text);
+	if (flags & (EVENTTEXT | EVENTONLY)) {
+		if (item->m_bLoaded)
+			return CheckFilter(item->wtext, text);
+
+		if (!item->fetch())
+			return false;
+
+		return CheckFilter(ptrW(DbEvent_GetTextW(&item->dbe)), text);
+	}
 
 	return true;
 };
@@ -94,7 +101,7 @@ static bool isEqual(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrev(ItemData *pPrev)
+ItemData* ItemData::checkPrev(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -111,7 +118,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -120,7 +127,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ItemData* ItemData::checkNext(ItemData *pPrev)
+ItemData* ItemData::checkNext(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -138,11 +145,11 @@ ItemData* ItemData::checkNext(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 		if (m_bLoaded)
-			setText();
+			setText(hwnd);
 	}
 	return this;
 }
@@ -165,7 +172,7 @@ static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrevGC(ItemData *pPrev)
+ItemData* ItemData::checkPrevGC(ItemData *pPrev, HWND hwnd)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -178,7 +185,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText();
+				pPrev->setText(hwnd);
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -190,7 +197,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		setTextAndHwnd(hwnd);
+		setText(hwnd);
 		MTextSetParent(data, hwnd);
 		MTextActivate(data, true);
 	}
@@ -369,15 +376,16 @@ void ItemData::getFontColor(int &fontId, int &colorId) const
 	}
 }
 
-void ItemData::load(bool bFullLoad)
+void ItemData::load(bool bLoadAlways)
 {
-	if (!bFullLoad && m_bLoaded)
+	if (!bLoadAlways && m_bLoaded)
 		return;
 
 	if (!fetch())
 		return;
 
 	m_bLoaded = true;
+	hContact = dbe.hContact; // save true contact
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -393,7 +401,10 @@ void ItemData::load(bool bFullLoad)
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
 				m_bOfflineFile = true;
-				m_bOfflineDownloaded = blob.isCompleted();
+				if (blob.isCompleted())
+					m_bOfflineDownloaded = 100;
+				else
+					m_bOfflineDownloaded = uint8_t(100.0 * blob.getTransferred() / blob.getSize());
 
 				CMStringW buf;
 				buf.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));
@@ -433,7 +444,7 @@ void ItemData::load(bool bFullLoad)
 		break;
 
 	default:
-		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+		wtext = DbEvent_GetTextW(&dbe);
 		break;
 	}
 
@@ -449,7 +460,7 @@ void ItemData::load(bool bFullLoad)
 				}
 				else str.AppendFormat(L"%s %s: ", Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
 
-				ptrW wszText(DbEvent_GetTextW(&dbei, CP_ACP));
+				ptrW wszText(DbEvent_GetTextW(&dbei));
 				if (mir_wstrlen(wszText) > 43)
 					wcscpy(wszText.get() + 40, L"...");
 				str.Append(wszText);
@@ -466,22 +477,17 @@ void ItemData::load(bool bFullLoad)
 
 void ItemData::markRead()
 {
-	if (!(dbe.flags & DBEF_SENT)) {
-		if (!dbe.markedRead())
-			db_event_markRead(hContact, hEvent);
-		Clist_RemoveEvent(-1, hEvent);
-	}
+	if (!(dbe.flags & DBEF_SENT))
+		dbe.wipeNotify(hEvent);
 }
 
-void ItemData::setText()
+void ItemData::setText(HWND hwnd)
 {
-	data = MTextCreateEx(htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
-	savedHeight = -1;
-}
+	if (data)
+		MTextDestroy(data);
 
-void ItemData::setTextAndHwnd(HWND hwnd)
-{
 	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
+	MTextSetProto(data, hContact);
 	savedHeight = -1;
 }
 
@@ -564,7 +570,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 			p.wszNick = mir_wstrdup(lin->ptszNick);
 			strings.insert(p.wszNick);
 		}
-		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1));
+		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1), hwndOwner);
 	}
 }
 
@@ -580,7 +586,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
-		pPrev = p.checkPrev(pPrev);
+		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 	else {
 		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
@@ -592,7 +598,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 			auto &p = allocateItem();
 			p.hContact = hContact;
 			p.hEvent = hEvent;
-			pPrev = p.checkPrev(pPrev);
+			pPrev = p.checkPrev(pPrev, hwndOwner);
 		}
 	}
 
@@ -609,7 +615,7 @@ void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
 		p.hContact = it->hContact;
 		p.hEvent = it->hEvent;
 		p.m_bIsResult = true;
-		pPrev = p.checkPrev(pPrev);
+		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 }
 

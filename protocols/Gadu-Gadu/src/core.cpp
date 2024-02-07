@@ -822,11 +822,11 @@ retry:
 				}
 				// Check if not empty message ( who needs it? )
 				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
-					PROTORECVEVENT pre = {};
+					DB::EventInfo dbei;
 					time_t t = time(0);
-					pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-					pre.szMessage = e->event.msg.message;
-					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), &pre);
+					dbei.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
+					dbei.pBlob = e->event.msg.message;
+					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), dbei);
 				}
 
 				// RichEdit format included (image)
@@ -897,7 +897,7 @@ retry:
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.cbBlob = (uint32_t)mir_strlen(e->event.multilogon_msg.message) + 1;
-				dbei.pBlob = (uint8_t*)e->event.multilogon_msg.message;
+				dbei.pBlob = e->event.multilogon_msg.message;
 				db_event_add(getcontact(e->event.multilogon_msg.sender, 1, 0, nullptr), &dbei);
 			}
 			break;
@@ -1026,13 +1026,9 @@ retry:
 
 			const char *fileName = (const char*)dcc7->filename;
 
-			PROTORECVFILE pre = {};
-			pre.fileCount = 1;
-			pre.timestamp = time(0);
-			pre.descr.a = fileName;
-			pre.files.a = &fileName;
-			pre.lParam = (LPARAM)dcc7;
-			ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
+			DB::EventInfo dbei;
+			dbei.timestamp = time(0);
+			ProtoChainRecvFile((UINT_PTR)dcc7->contact, DB::FILE_BLOB(dcc7, fileName, fileName), dbei);
 
 			e->event.dcc7_new = nullptr;
 		}
@@ -1197,7 +1193,7 @@ void GaduProto::broadcastnewstatus(int newStatus)
 ////////////////////////////////////////////////////////////
 // When contact is deleted
 
-bool GaduProto::OnContactDeleted(MCONTACT hContact)
+bool GaduProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN);
 
@@ -1350,12 +1346,10 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 	if (!hContact)
 		return;
 
-	if (isonline() && (uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0)))
-	{
+	if (isonline() && (uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0))) {
 		// Check if user should be invisible
 		// Or be blocked ?
-		if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact::OnList(hContact))
-		{
+		if (!Contact::OnList(hContact)) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 77, "sess_mutex", 1);
 			if (refresh) {
 				gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
@@ -1365,8 +1359,7 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 			gg_add_notify_ex(m_sess, uin, GG_USER_OFFLINE);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyuser", 77, 1, "sess_mutex", 1);
 		}
-		else if (getByte(hContact, GG_KEY_BLOCK, 0))
-		{
+		else if (getByte(hContact, GG_KEY_BLOCK, 0)) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 78, "sess_mutex", 1);
 			if (refresh)
 				gg_remove_notify_ex(m_sess, uin, GG_USER_OFFLINE);
@@ -1409,7 +1402,7 @@ void GaduProto::notifyall()
 	int cc = 0;
 	for (auto &hContact : AccContacts()) {
 		if (uins[cc] = getDword(hContact, GG_KEY_UIN, 0)) {
-			if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact::OnList(hContact))
+			if (!Contact::OnList(hContact))
 				types[cc] = GG_USER_OFFLINE;
 			else if (getByte(hContact, GG_KEY_BLOCK, 0))
 				types[cc] = GG_USER_BLOCKED;

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -68,9 +68,9 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	m_priority = rpPriority;
 }
 
-void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
+void AsyncHttpRequest::Redirect(MHttpResponse *nhr)
 {
-	if (auto *pszHdr = Netlib_GetHeader(nhr, "Location"))
+	if (auto *pszHdr = nhr->FindHeader("Location"))
 		m_szUrl = pszHdr;
 }
 

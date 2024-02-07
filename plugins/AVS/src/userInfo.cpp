@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -406,14 +406,9 @@ public:
 				SetMyAvatar(NULL, (LPARAM)L"");
 		}
 		else {
-			if (char *proto = GetSelectedProtocol()) {
-				char description[256];
-				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
-				wchar_t *descr = mir_a2u(description);
-				if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
+			if (char *proto = GetSelectedProtocol())
+				if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), _A2T(proto), MB_YESNO) == IDYES)
 					SetMyAvatar((WPARAM)proto, (LPARAM)L"");
-				mir_free(descr);
-			}
 		}
 	}
 

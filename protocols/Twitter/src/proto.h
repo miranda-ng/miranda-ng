@@ -1,5 +1,5 @@
 /*
-Copyright © 2012-23 Miranda NG team
+Copyright © 2012-24 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -119,8 +119,8 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	void RequestOauthToken(const char *szPin = nullptr);
 	void ResetOauthKeys();
 
-	void Oauth2RequestAuth(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
-	void Oauth2RequestToken(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
+	void Oauth2RequestAuth(MHttpResponse *, AsyncHttpRequest *);
+	void Oauth2RequestToken(MHttpResponse *, AsyncHttpRequest *);
 
 	CMStringA OAuthWebRequestSubmit(const CMStringA &url, const char *httpMethod, const char *postData);
 
@@ -183,7 +183,7 @@ public:
 
 	HANDLE   GetAwayMsg(MCONTACT) override;
 
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;

@@ -17,8 +17,8 @@ struct ItemData
 
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;
-	bool m_bOfflineFile, m_bOfflineDownloaded;
-	uint8_t m_grouping;
+	bool m_bOfflineFile;
+	uint8_t m_grouping, m_bOfflineDownloaded;
 	
 	int savedTop, savedHeight;
 
@@ -31,17 +31,17 @@ struct ItemData
 	ItemData();
 	~ItemData();
 
-	ItemData* checkNext(ItemData *pPrev);
-	ItemData* checkPrev(ItemData *pPrev);
-	ItemData* checkPrevGC(ItemData *pPrev);
+	ItemData* checkNext(ItemData *pPrev, HWND hwnd);
+	ItemData* checkPrev(ItemData *pPrev, HWND hwnd);
+	ItemData* checkPrevGC(ItemData *pPrev, HWND hwnd);
 	void checkCreate(HWND hwnd);
 	void markRead();
-	void setText();
-	void setTextAndHwnd(HWND hwnd);
+	void setText(HWND hwnd);
 
+	bool completed() const { return m_bOfflineDownloaded == 100; }
 	bool fetch(void);
 	void fill(int tmpl);
-	void load(bool bFullLoad = false);
+	void load(bool bLoad = false);
 	bool isLink(HWND, POINT pt, CMStringW *url = nullptr) const;
 	bool isLinkChar(HWND, int idx) const;
 
@@ -129,6 +129,7 @@ class HistoryArray
 	LIST<wchar_t> strings;
 	OBJLIST<ItemBlock> pages;
 	int iLastPageCounter = 0;
+	MWindow hwndOwner = 0;
 
 	ItemData& allocateItem(void);
 
@@ -148,6 +149,9 @@ public:
 	{
 		clear();
 		pages.insert(new ItemBlock());
+	}
+	void setOwner(MWindow hwnd) {
+		hwndOwner = hwnd;
 	}
 
 	ItemData* get(int id, bool bLoad = false) const;

@@ -25,7 +25,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 
 	SametimeInitIcons();
 
-	CreateProtoService(PS_GETNAME, &CSametimeProto::GetName);
 	CreateProtoService(PS_LOADICON, &CSametimeProto::SametimeLoadIcon);
 
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CSametimeProto::OnWindowEvent);
@@ -162,24 +161,24 @@ HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 }
 
 
-MEVENT CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
+MEVENT CSametimeProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
 	debugLogW(L"CSametimeProto::RecvFile()  hContact=[%x]", hContact);
 
 	Contact::Hide(hContact, false);
 	Contact::PutOnList(hContact);
 
-	return CSuper::RecvFile(hContact, pre);
+	return CSuper::RecvFile(hContact, blob, dbei);
 }
 
-MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, DB::EventInfo &dbei)
 {
 	debugLogW(L"CSametimeProto::RecvMsg() hContact=[%x]", hContact);
 
 	Contact::Hide(hContact, false);
 	Contact::PutOnList(hContact);
 
-	return CSuper::RecvMsg(hContact, pre);
+	return CSuper::RecvMsg(hContact, dbei);
 }
 
 HANDLE CSametimeProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
@@ -242,15 +241,6 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 		return (HANDLE)1;
 	}
 	return nullptr;
-}
-
-int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
-{
-	debugLogW(L"CSametimeProto::RecvAwayMsg()  hContact=[%x], mode=[%d]", hContact, mode);
-
-	ptrW pszMsg(mir_utf8decodeW(evt->szMessage));
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, pszMsg);
-	return 0;
 }
 
 int CSametimeProto::SetAwayMsg(int iStatus, const wchar_t* msg)

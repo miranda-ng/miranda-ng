@@ -47,7 +47,6 @@ int OptionsInit(WPARAM, LPARAM);
 #define MAX_GROUPS 32
 #define MAX_IDLEN  16
 
-#define VF_VS     0x00000001
 #define VF_SMNAME 0x00000002
 #define VF_HFL    0x00000004
 #define VF_IGN    0x00000008

@@ -10,7 +10,6 @@ static const checkboxes[] = {
 	{ IDC_STATUSMSG, VF_STAT },
 	{ IDC_COPYIP, VF_CIP },
 	{ IDC_COPYMIRVER, VF_CMV },
-	{ IDC_VIS, VF_VS },
 	{ IDC_SHOWALPHAICONS, VF_SAI },
 	{ IDC_HIDE, VF_HFL },
 	{ IDC_IGNORE, VF_IGN },
@@ -27,14 +26,13 @@ class COptDialog : public CDlgBase
 {
 	uint32_t m_flags;
 
-	CCtrlCheck m_chkVis, m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
+	CCtrlCheck m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
 		m_chkSMName, m_chkCopyID, m_chkCopyIDName, m_chkShowID, m_chkTrimID, m_chkIgnoreHide;
 	CCtrlLabel m_lblHint;
 
 public:
 	COptDialog() :
 		CDlgBase(g_plugin, IDD_OPTIONS),
-		m_chkVis(this, IDC_VIS),
 		m_chkAlpha(this, IDC_SHOWALPHAICONS),
 		m_chkHide(this, IDC_HIDE),
 		m_chkIgnore(this, IDC_IGNORE),
@@ -53,7 +51,6 @@ public:
 	{
 		m_flags = g_plugin.getDword("flags", vf_default);
 
-		m_chkVis.OnChange = Callback(this, &COptDialog::onChange_Vis);
 		m_chkIgnore.OnChange = Callback(this, &COptDialog::onChange_Ignore);
 		m_chkStatusMsg.OnChange = Callback(this, &COptDialog::onChange_StatusMsg);
 		m_chkCopyID.OnChange = m_chkShowID.OnChange = Callback(this, &COptDialog::onChange_CopyID);
@@ -86,11 +83,6 @@ public:
 
 		g_plugin.setDword("flags", mod_flags);
 		return true;
-	}
-
-	void onChange_Vis(CCtrlBase *)
-	{
-		m_chkAlpha.Enable(m_chkVis.GetState());
 	}
 
 	void onChange_Ignore(CCtrlBase *)

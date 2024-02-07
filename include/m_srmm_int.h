@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -151,7 +151,7 @@ typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
 MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 
-MIR_APP_DLL(bool) Srmm_IsCustomLogUsed();
+MIR_APP_DLL(bool) Srmm_IsCustomLogUsed(bool forGroupChats);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // SRMM log window class

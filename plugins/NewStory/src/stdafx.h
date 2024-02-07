@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -60,6 +60,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_utils.h>
 
 #include "m_NewStory.h"
+#include "m_PluginUpdater.h"
 #include "m_smileyadd.h"
 #ifndef MTEXT_NOHELPERS
 #define MTEXT_NOHELPERS

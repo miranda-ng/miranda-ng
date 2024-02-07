@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // ICQ plugin for Miranda NG
 // -----------------------------------------------------------------------------
-// Copyright © 2018-23 Miranda NG team
+// Copyright © 2018-24 Miranda NG team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -179,7 +179,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 					break;
 				}
 
-			if ((si = CreateGroupChat(wszId, wszNick)) == nullptr)
+			if ((si = GcCreate(wszId, wszNick)) == nullptr)
 				return;
 		}
 
@@ -207,7 +207,13 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
+	if (pUser && pUser->m_bSkipPatch) {
+		pUser->m_bSkipPatch = false;
+		goto LBL_SkipPatch;
+	}
+
 	ProcessPatchVersion(hContact, _wtoi64(ev["patchVersion"].as_mstring()));
+LBL_SkipPatch:
 
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 
@@ -328,12 +334,14 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (pUser == nullptr)
 		return;
 
-	int iNewStatus = StatusFromPresence(ev, pUser->m_hContact);
+	MCONTACT hContact = GetRealContact(pUser);
+	int iNewStatus = StatusFromPresence(ev, hContact);
 	if (iNewStatus != -1)
 		ProcessStatus(pUser, iNewStatus);
 
-	Json2string(pUser->m_hContact, ev, "friendly", "Nick", true);
-	CheckAvatarChange(pUser->m_hContact, ev);
+	if (hContact != m_hFavContact)
+		Json2string(hContact, ev, "friendly", "Nick", true);
+	CheckAvatarChange(hContact, ev);
 }
 
 void CIcqProto::ProcessSessionEnd(const JSONNode &/*ev*/)
@@ -352,14 +360,15 @@ void CIcqProto::ProcessTyping(const JSONNode &ev)
 
 	auto *pUser = FindUser(aimId);
 	if (pUser) {
+		MCONTACT hContact = GetRealContact(pUser);
 		if (wszStatus == "typing")
-			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, 60);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 60);
 		else
-			CallService(MS_PROTO_CONTACTISTYPING, pUser->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
 }
 
-void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnFetchEvents(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200) {
@@ -385,6 +394,9 @@ void __cdecl CIcqProto::PollThread(void*)
 			szUrl.Append("&first=1");
 		else
 			szUrl.Append("&timeout=25000");
+
+		if (m_bInvisible)
+			szUrl.Append("&bg=1&hidden=1");
 
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
 		if (!m_bFirstBos)

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -52,7 +52,6 @@ int  LoadSkinIcons(void);
 int  LoadSkinSounds(void);
 int  LoadSkinHotkeys(void);
 int  LoadUserInfoModule(void);	// ui: user info
-int  LoadVisibilityModule(void);	// ui: visibility control
 
 int  LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
 int  LoadCLCModule(void);		// window class: CLC control
@@ -144,7 +143,6 @@ int LoadDefaultModules(void)
 	// order becomes less important below here
 	if (LoadFindAddModule()) return 1;
 	if (LoadIgnoreModule()) return 1;
-	if (LoadVisibilityModule()) return 1;
 	if (LoadIdleModule()) return 1;
 	return 0;
 }

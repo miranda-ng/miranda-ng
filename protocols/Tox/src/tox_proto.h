@@ -42,7 +42,7 @@ public:
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT *) override;
+	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath) override;
@@ -67,7 +67,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnBuildProtoMenu(void) override;
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
 	void     OnModulesLoaded() override;
@@ -248,7 +248,7 @@ private:
 
 	static bool IsFileExists(const wchar_t* path);
 
-	MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, uint32_t timestamp, uint32_t flags, uint8_t *pBlob, size_t cbBlob);
+	MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, uint32_t timestamp, uint32_t flags, char *pBlob, size_t cbBlob);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>

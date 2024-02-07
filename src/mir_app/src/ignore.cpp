@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -187,8 +187,8 @@ static void SetAllContactIcons(HWND hwndList)
 			uint32_t proto1Caps, proto4Caps;
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto) {
-				proto1Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				proto4Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+				proto1Caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				proto4Caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			}
 			else proto1Caps = proto4Caps = 0;
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);

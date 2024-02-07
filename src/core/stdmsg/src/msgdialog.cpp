@@ -1,6 +1,6 @@
 /*
 
-Copyright 2000-12 Miranda IM, 2012-23 Miranda NG team,
+Copyright 2000-12 Miranda IM, 2012-24 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -56,9 +56,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_pOwner(pOwner)
 {
 	m_iSplitterX = g_Settings.iSplitterX;
-	m_iSplitterY = g_Settings.iSplitterY;
-
-	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
@@ -115,7 +112,11 @@ bool CMsgDialog::OnInitDialog()
 		m_iSplitterY = 0;
 		m_splitterY.Disable();
 	}
-	else m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
+	else {
+		m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos");
+		if (m_iSplitterY == 0)
+			m_iSplitterY = m_minEditInit.bottom - m_minEditInit.top;
+	}
 
 	// avatar stuff
 	m_avatar.Disable();
@@ -223,7 +224,8 @@ void CMsgDialog::OnDestroy()
 	m_cmdList.destroy();
 
 	MCONTACT hContact = (g_plugin.bSavePerContact) ? m_hContact : 0;
-	g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
+	if (!m_bReadOnly)
+		g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
 
 	if (m_hFont) {
 		DeleteObject(m_hFont);
@@ -1218,7 +1220,6 @@ void CMsgDialog::onSplitterY(CSplitter *pSplitter)
 		m_iSplitterY = min;
 	if (m_iSplitterY > rc.bottom - rc.top - toplimit)
 		m_iSplitterY = rc.bottom - rc.top - toplimit;
-	g_Settings.iSplitterY = m_iSplitterY;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1375,13 +1376,6 @@ void CMsgDialog::NotifyTyping(int mode)
 		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
 	}
 	else {
-		uint32_t protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			return;
-
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-			return;
-
 		if (!g_plugin.bTypingUnknown && !Contact::OnList(m_hContact))
 			return;
 
@@ -1478,9 +1472,8 @@ void CMsgDialog::UpdateAvatar()
 
 	if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
 		m_minEditBoxSize.cy = m_avatarHeight;
-		if (m_iSplitterY < m_minEditBoxSize.cy + m_iBBarHeight) {
+		if (m_iSplitterY < m_minEditBoxSize.cy + m_iBBarHeight)
 			m_iSplitterY = m_minEditBoxSize.cy + m_iBBarHeight;
-		}
 	}
 
 	Resize();

@@ -2,7 +2,7 @@
 
 Object UI extensions
 Copyright (c) 2008  Victor Pavlychko, George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -96,6 +96,8 @@ void CCtrlTreeOpts::OnInit()
 {
 	CSuper::OnInit();
 
+	OnFillOptions(this);
+
 	SelectItem(nullptr);
 	DeleteAllItems();
 
@@ -163,8 +165,6 @@ void CCtrlTreeOpts::OnDestroy()
 
 bool CCtrlTreeOpts::OnApply()
 {
-	CSuper::OnApply();
-
 	for (auto &it : m_options) {
 		TVITEMEX tvi;
 		tvi.mask = TVIF_STATE;

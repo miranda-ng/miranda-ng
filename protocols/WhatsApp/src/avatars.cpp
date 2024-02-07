@@ -1,7 +1,7 @@
 /*
 
 WhatsApp plugin for Miranda NG
-Copyright © 2019-23 George Hazan
+Copyright © 2019-24 George Hazan
 
 */
 
@@ -130,14 +130,12 @@ void WhatsAppProto::ServerFetchAvatar(const char *jid)
 
 bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 {
-	NETLIBHTTPREQUEST req = {};
-	req.cbSize = sizeof(req);
+	MHttpRequest req(REQUEST_GET);
 	req.flags = NLHRF_NODUMP | NLHRF_PERSISTENT | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	req.requestType = REQUEST_GET;
-	req.szUrl = (char*)pszUrl;
+	req.m_szUrl = pszUrl;
 	req.nlc = hAvatarConn;
 
-	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hAvatarUser, &req);
+	NLHR_PTR pReply(Netlib_DownloadFile(hAvatarUser, &req, ai.filename));
 	if (pReply == nullptr) {
 		hAvatarConn = nullptr;
 		debugLogA("Failed to retrieve avatar from url: %s", pszUrl);
@@ -146,24 +144,10 @@ bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
 
 	hAvatarConn = pReply->nlc;
 
-	bool bSuccess = false;
-	if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-		if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
-			ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
-
-		if (ai.format != PA_FORMAT_UNKNOWN) {
-			FILE *fout = _wfopen(ai.filename, L"wb");
-			if (fout) {
-				fwrite(pReply->pData, 1, pReply->dataLength, fout);
-				fclose(fout);
-				bSuccess = true;
-			}
-			else debugLogA("Error saving avatar to file %S", ai.filename);
-		}
-		else debugLogA("unknown avatar mime type");
+	if (pReply->resultCode != 200) {
+		debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
+		return false;
 	}
-	else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
 
-	Netlib_FreeHttpRequest(pReply);
-	return bSuccess;
+	return true;
 }

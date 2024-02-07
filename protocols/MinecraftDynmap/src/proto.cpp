@@ -3,7 +3,7 @@
 Minecraft Dynmap plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2015-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright © 2015-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ void MinecraftDynmapProto::OnShutdown()
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-bool MinecraftDynmapProto::OnContactDeleted(MCONTACT)
+bool MinecraftDynmapProto::OnContactDeleted(MCONTACT, uint32_t)
 {
 	OnLeaveChat(NULL, NULL);
 	return true;

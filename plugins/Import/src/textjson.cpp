@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_json.h>
 
-static int mc_makeDatabase(const wchar_t*)
+static int json_makeDatabase(const wchar_t*)
 {
 	return 1;
 }
@@ -37,11 +37,14 @@ static int CompareModules(const char *p1, const char *p2)
 	return mir_strcmp(p1, p2);
 }
 
-class CDbxJson : public MDatabaseReadonly, public MZeroedObject
+class CDbxJson : public MDatabaseExport, public MZeroedObject
 {
 	JSONNode *m_root = nullptr;
 	LIST<JSONNode> m_events;
 	LIST<char> m_modules;
+	FILE *m_out = nullptr;
+	bool m_bAppendOnly = false;
+	CMStringA m_szId, m_szReplyId, m_szUserId;
 
 public:
 	CDbxJson() :
@@ -71,7 +74,7 @@ public:
 			return EGROKPRF_CANTREAD;
 
 		DWORD dwSize = GetFileSize(hFile, nullptr), dwRead;
-		ptrA szFile((char*)mir_alloc(dwSize + 1));
+		ptrA szFile((char *)mir_alloc(dwSize + 1));
 		BOOL r = ReadFile(hFile, szFile, dwSize, &dwRead, nullptr);
 		CloseHandle(hFile);
 		if (!r)
@@ -149,12 +152,21 @@ public:
 
 		std::string szModule = node["module"].as_string();
 		if (!szModule.empty()) {
-			dbei->szModule = m_modules.find((char*)szModule.c_str());
+			dbei->szModule = m_modules.find((char *)szModule.c_str());
 			if (dbei->szModule == nullptr) {
 				dbei->szModule = mir_strdup(szModule.c_str());
-				m_modules.insert((char*)dbei->szModule);
+				m_modules.insert((char *)dbei->szModule);
 			}
 		}
+
+		m_szId = node["server_id"].as_mstring();
+		dbei->szId = (m_szId.IsEmpty()) ? nullptr : m_szId.c_str();
+
+		m_szReplyId = node["reply_id"].as_mstring();
+		dbei->szReplyId = (m_szReplyId.IsEmpty()) ? nullptr : m_szReplyId.c_str();
+			
+		m_szUserId = node["reply_id"].as_mstring();
+		dbei->szUserId = (!m_szUserId.IsEmpty()) ? nullptr : m_szUserId.c_str();
 
 		if (dbei->eventType == EVENTTYPE_FILE) {
 			dbei->flags |= DBEF_UTF;
@@ -169,7 +181,7 @@ public:
 			if (auto &size = node["size"])
 				blob.setSize(size.as_int());
 
-			blob.write(*(DB::EventInfo*)dbei);
+			blob.write(*(DB::EventInfo *)dbei);
 		}
 		else {
 			std::string szBody = node["body"].as_string();
@@ -190,7 +202,7 @@ public:
 
 				dbei->flags |= DBEF_UTF;
 				dbei->cbBlob = (uint32_t)szBody.size() + offset;
-				dbei->pBlob = (uint8_t*)mir_calloc(dbei->cbBlob + 1);
+				dbei->pBlob = (char *)mir_calloc(dbei->cbBlob + 1);
 				memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
 				dbei->pBlob[dbei->cbBlob] = 0;
 			}
@@ -209,13 +221,13 @@ public:
 		if ((int)iEvent >= m_events.getCount())
 			return 0;
 
-		return iEvent+1;
+		return iEvent + 1;
 	}
 
 	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
 	{
 		int numEvents = m_events.getCount();
-		return numEvents ? numEvents-1 : 0;
+		return numEvents ? numEvents - 1 : 0;
 	}
 
 	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT iEvent) override
@@ -223,18 +235,144 @@ public:
 		if (iEvent <= 1)
 			return 0;
 
-		return iEvent-1;
+		return iEvent - 1;
 	}
 
 	STDMETHODIMP_(DATABASELINK *) GetDriver();
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Export interface
+
+	int Create(const wchar_t *profile)
+	{
+		m_out = _wfopen(profile, L"wt");
+		return (m_out == nullptr) ? EGROKPRF_CANTREAD : EGROKPRF_NOERROR;
+	}
+
+	STDMETHODIMP_(int) BeginExport() override
+	{
+		return 0;
+	}
+
+	static int sttEnumSettings(const char *szSetting, void *param)
+	{
+		auto *pArray = (OBJLIST<char>*)param;
+		pArray->insert(newStr(szSetting));
+		return 1;
+	}
+
+	STDMETHODIMP_(int) ExportContact(MCONTACT hContact) override
+	{
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+		ptrW nick(Contact::GetInfo(CNF_DISPLAY, hContact, szProto));
+
+		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
+		pInfo.set_name("info");
+		if (szProto)
+			pInfo.push_back(JSONNode("proto", szProto));
+
+		OBJLIST<char> arSettings(50);
+		db_enum_settings(hContact, &sttEnumSettings, szProto, &arSettings);
+
+		for (auto &it : arSettings) {
+			DBVARIANT dbv;
+			if (db_get_s(hContact, szProto, it, &dbv, 0))
+				continue;
+
+			JSONNode S; S.set_name(it); S << INT_PARAM("type", dbv.type);
+
+			switch (dbv.type) {
+			case DBVT_BYTE: S << INT_PARAM("value", dbv.bVal); break;
+			case DBVT_WORD: S << INT_PARAM("value", dbv.wVal); break;
+			case DBVT_DWORD: S << INT_PARAM("value", dbv.dVal); break;
+			case DBVT_ASCIIZ:
+			case DBVT_UTF8: S << CHAR_PARAM("value", dbv.pszVal); break;
+			case DBVT_WCHAR: S << WCHAR_PARAM("value", dbv.pwszVal); break;
+			case DBVT_BLOB:
+				{
+					CMStringA buf;
+					buf.Truncate(dbv.cchVal * 2);
+					bin2hex(dbv.pbVal, dbv.cpbVal, buf.GetBuffer());
+					S << CHAR_PARAM("value", buf);
+				}
+				break;
+
+			default:
+				continue;
+			}
+			pInfo << S;
+		}
+
+		pRoot.push_back(pInfo);
+
+		pHist.set_name("history");
+		pRoot.push_back(pHist);
+
+		fputs(pRoot.write_formatted().c_str(), m_out);
+		fseek(m_out, -4, SEEK_CUR);
+		return 0;
+	}
+
+	STDMETHODIMP_(int) ExportEvent(const DB::EventInfo &dbei) override
+	{
+		if (m_bAppendOnly) {
+			fseek(m_out, -4, SEEK_END);
+			fputs(",", m_out);
+		}
+
+		JSONNode pRoot2;
+		pRoot2.push_back(JSONNode("type", dbei.eventType));
+
+		char *szProto = Proto_GetBaseAccountName(dbei.hContact);
+		if (mir_strcmp(dbei.szModule, szProto))
+			pRoot2.push_back(JSONNode("module", dbei.szModule));
+
+		pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+
+		wchar_t szTemp[500];
+		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+		pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+
+		std::string flags;
+		if (dbei.flags & DBEF_SENT)
+			flags += "m";
+		if (dbei.flags & DBEF_READ)
+			flags += "r";
+		pRoot2.push_back(JSONNode("flags", flags));
+
+		ptrW msg(DbEvent_GetTextW(&dbei));
+		if (msg)
+			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+		if (dbei.szId)
+			pRoot2.push_back(JSONNode("server_id", dbei.szId));
+		if (dbei.szUserId)
+			pRoot2.push_back(JSONNode("user_id", dbei.szUserId));
+		if (dbei.szReplyId)
+			pRoot2.push_back(JSONNode("reply_id", dbei.szReplyId));
+
+		fputs(pRoot2.write_formatted().c_str(), m_out);
+		fputs("\n]}", m_out);
+
+		m_bAppendOnly = true;
+		return 0;
+	}
+
+	STDMETHODIMP_(int) EndExport() override
+	{
+		if (m_out)
+			fclose(m_out);
+		return 0;
+	}
 };
 
-static int mc_grokHeader(const wchar_t *profile)
+static int json_grokHeader(const wchar_t *profile)
 {
 	return CDbxJson().Open(profile);
 }
 
-static MDatabaseCommon* mc_load(const wchar_t *profile, BOOL)
+static MDatabaseCommon* json_load(const wchar_t *profile, BOOL)
 {
 	std::unique_ptr<CDbxJson> db(new CDbxJson());
 	if (db->Open(profile))
@@ -244,14 +382,25 @@ static MDatabaseCommon* mc_load(const wchar_t *profile, BOOL)
 	return db.release();
 }
 
+static MDatabaseExport *json_export(const wchar_t *profile)
+{
+	std::unique_ptr<CDbxJson> db(new CDbxJson());
+	if	(db->Create(profile))
+		return nullptr;
+
+	db->Load();
+	return db.release();
+}
+
 static DATABASELINK dblink =
 {
-	0,
-	"mcontacts",
-	L"mContacts file driver",
-	mc_makeDatabase,
-	mc_grokHeader,
-	mc_load
+	MDB_CAPS_EXPORT,
+	"JSON",
+	L"JSON text file driver",
+	json_makeDatabase,
+	json_grokHeader,
+	json_load,
+	json_export
 };
 
 STDMETHODIMP_(DATABASELINK *) CDbxJson::GetDriver()
@@ -262,4 +411,9 @@ STDMETHODIMP_(DATABASELINK *) CDbxJson::GetDriver()
 void RegisterJson()
 {
 	RegisterDatabasePlugin(&dblink);
+}
+
+void UnregisterJson()
+{
+	UnregisterDatabasePlugin(&dblink);
 }

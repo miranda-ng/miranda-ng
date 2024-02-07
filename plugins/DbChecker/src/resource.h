@@ -16,6 +16,8 @@
 #define IDC_FILE                        1004
 #define IDC_ERRORTEXT                   1006
 #define IDC_INUSE                       1007
+#define IDC_FIX_RTF                     1008
+#define IDC_MEMO                        1009
 #define IDC_PROGRESS                    1011
 #define IDC_STATUS                      1012
 #define IDC_MARKREAD                    1013

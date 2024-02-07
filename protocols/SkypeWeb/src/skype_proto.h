@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -55,20 +55,20 @@ public:
 	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage) override;
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
-	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 	HANDLE   SearchBasic(const wchar_t* id) override;
 	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char* msg) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
-	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      RecvContacts(MCONTACT hContact, DB::EventInfo &dbei) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
 	void     OnBuildProtoMenu(void) override;
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -120,48 +120,48 @@ public:
 		return getMStringA(hContact, SKYPE_SETTINGS_ID);
 	}
 
-	void OnReceiveAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnSentAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSentAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// login
-	void OnLoginOAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnStatusChanged(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnLoginOAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveStatus(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnEndpointDeleted(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnEndpointDeleted(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// oauth
-	void OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnOAuthConfirm(NETLIBHTTPREQUEST* response, AsyncHttpRequest* pRequest);
-	void OnOAuthAuthorize(NETLIBHTTPREQUEST* response, AsyncHttpRequest* pRequest);
-	void OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnOAuthStart(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnOAuthConfirm(MHttpResponse* response, AsyncHttpRequest* pRequest);
+	void OnOAuthAuthorize(MHttpResponse* response, AsyncHttpRequest* pRequest);
+	void OnOAuthEnd(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void LoadContactList(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnUnblockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnMessageSent(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSyncHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnReceiveAwayMsg(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnLoadChats(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void CheckConvert(void);
 
 	bool CheckOauth(const char *szResponse);
-	void LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 
@@ -206,7 +206,7 @@ private:
 	void StartQueue();
 	void StopQueue();
 
-	NETLIBHTTPREQUEST* DoSend(AsyncHttpRequest *request);
+	MHttpResponse* DoSend(AsyncHttpRequest *request);
 
 	void Execute(AsyncHttpRequest *request);
 	void PushRequest(AsyncHttpRequest *request);

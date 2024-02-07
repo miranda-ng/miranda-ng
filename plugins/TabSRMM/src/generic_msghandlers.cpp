@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -798,15 +798,6 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 	else {
 		uint32_t protoStatus = Proto_GetStatus(szProto);
 		if (protoStatus < ID_STATUS_ONLINE)
-			return;
-
-		// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
-		// should not see them (privacy issue)
-		uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-			return;
-
-		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 			return;
 
 		// don't send to contacts which are not permanently added to the contact list,

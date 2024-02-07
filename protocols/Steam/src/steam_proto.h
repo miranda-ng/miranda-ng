@@ -45,7 +45,7 @@ struct HttpRequest : public MTHttpRequest<CSteamProto>
 {
 	HttpRequest(int iRequestType, const char *pszUrl);
 
-	NETLIBHTTPREQUEST* Get();
+	MHttpRequest* Get();
 };
 
 struct ProtoRequest
@@ -268,7 +268,7 @@ public:
 	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
@@ -284,7 +284,7 @@ public:
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnModulesLoaded() override;
 

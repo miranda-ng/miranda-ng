@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -104,6 +104,7 @@ public:
 	CMPlugin();
 
 	int Load() override;
+	int Unload() override;
 };
 
 // Keys
@@ -274,7 +275,6 @@ class CImportBatch : public MZeroedObject
 	bool     ImportAccounts(OBJLIST<char> &arSkippedModules);
 	MCONTACT ImportContact(MCONTACT hSrc);
 	void     ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount);
-	int      ImportGroups();
 	void     ImportMeta(DBCachedContact *ccSrc);
 
 	MCONTACT MapContact(MCONTACT hSrc);
@@ -320,7 +320,11 @@ extern CImportBatch *g_pBatch;
 extern HWND g_hwndWizard, g_hwndAccMerge;
 
 void RegisterIcons(void);
+
 void RegisterMContacts();
+void UnregisterMContacts();
+
 void RegisterJson();
+void UnregisterJson();
 
 INT_PTR ImportContact(WPARAM hContact, LPARAM);

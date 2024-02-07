@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 	AsyncHttpRequest();
 	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority = rpMedium);
 
-	void Redirect(NETLIBHTTPREQUEST*);
+	void Redirect(MHttpResponse*);
 
 	int m_iRetry;
 	int m_iErrorCode;

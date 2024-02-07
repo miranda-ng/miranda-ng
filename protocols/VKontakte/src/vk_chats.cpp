@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -195,7 +195,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	)->pUserInfo = cc;
 }
 
-void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveChatInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveChatInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -539,18 +539,16 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 
 		T2Utf pszBody(pwszBody);
 		
-		PROTORECVEVENT pre = {};
-		pre.szMsgId = szMid;
-		pre.timestamp = tMsgTime;
-		pre.szMessage = pszBody;
+		DB::EventInfo dbei;
+		dbei.szId = szMid;
+		dbei.timestamp = tMsgTime;
+		dbei.pBlob = pszBody;
 		if (iUserId == m_iMyUserId)
-			pre.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 		if (bIsHistory)
-			pre.flags |= PREF_CREATEREAD;
-
-		pre.szUserId = szId;
-
-		ProtoChainRecvMsg(hChatContact, &pre);
+			dbei.flags |= DBEF_READ;
+		dbei.szUserId = szId;
+		ProtoChainRecvMsg(hChatContact, dbei);
 	}
 
 	StopChatContactTyping(vkChatInfo->m_iChatId, iUserId);
@@ -644,7 +642,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnSendChatMsg(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSendChatMsg %d", reply->resultCode);
 	int iResult = ACKRESULT_FAILED;
@@ -784,7 +782,7 @@ void CVkProto::KickFromChat(VKUserID_t iChatId, VKUserID_t iUserId, const JSONNo
 	LeaveChat(iChatId);
 }
 
-void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnChatLeave(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatLeave %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -795,7 +793,7 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 }
 
 
-void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnChatDestroy(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatDestroy %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -1031,7 +1029,7 @@ void CVkProto::CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle)
 		<< CHAR_PARAM("user_ids", uids));
 }
 
-void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnCreateNewChat(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnCreateNewChat %d", reply->resultCode);
 	if (reply->resultCode != 200)

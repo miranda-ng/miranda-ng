@@ -2,7 +2,7 @@
 
 Chat module interface for Miranda NG
 
-Copyright (c) 2014-23 George Hazan
+Copyright (c) 2014-24 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -79,11 +79,20 @@ class CMsgDialog;
 
 struct USERINFO : public MZeroedObject, public MNonCopyable
 {
+	~USERINFO() {
+		iSignature = 0;
+	}
+
 	wchar_t* pszUID;
 	wchar_t* pszNick;
+	uint32_t iSignature = GC_FAKE_EVENT;
 	uint16_t Status;
-	int      iStatusEx;
 	uint16_t ContactStatus;
+	int      iStatusEx;
+
+	bool isValid() const {
+		return iSignature == GC_FAKE_EVENT;
+	}
 };
 
 struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyable

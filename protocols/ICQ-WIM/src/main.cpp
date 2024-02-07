@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // ICQ plugin for Miranda NG
 // -----------------------------------------------------------------------------
-// Copyright © 2018-23 Miranda NG team
+// Copyright © 2018-24 Miranda NG team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -84,6 +84,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
+	{ LPGEN("Forward"), "forward", IDI_FORWARD },
 	{ LPGEN("E-mail"), "icq_email", IDI_INBOX },
 	{ LPGEN("E-mail notification"), "icq_email_notif", IDI_MAIL_NOTIFY }
 };

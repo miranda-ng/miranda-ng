@@ -619,7 +619,6 @@ void LoadOptions()
 	// extra setting
 	opt.bWaitForContent = g_plugin.getByte("WaitForContent", 0) ? true : false;
 	opt.bGetNewStatusMsg = g_plugin.getByte("GetNewStatusMsg", 0) ? true : false;
-	opt.bDisableIfInvisible = g_plugin.getByte("DisableInvisible", 1) ? true : false;
 	opt.bRetrieveXstatus = g_plugin.getByte("RetrieveXStatus", 0) ? true : false;
 	opt.bOriginalAvatarSize = g_plugin.getByte("OriginalAvSize", 0) ? true : false;
 	opt.bAvatarBorder = g_plugin.getByte("AvatarBorder", 0) ? true : false;
@@ -1587,15 +1586,12 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		CheckDlgButton(hwndDlg, IDC_CHK_WAITFORCONTENT, opt.bWaitForContent ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_GETSTATUSMSG, opt.bGetNewStatusMsg ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_DISABLEINVISIBLE, opt.bDisableIfInvisible ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_RETRIEVEXSTATUS, opt.bRetrieveXstatus ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_LIMITMSG, opt.bLimitMsg ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_ENABLESMILEYS, opt.iSmileyAddFlags & SMILEYADD_ENABLE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_USEPROTOSMILEYS, opt.iSmileyAddFlags & SMILEYADD_USEPROTO ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_ONLYISOLATED, opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_RESIZESMILEYS, opt.iSmileyAddFlags & SMILEYADD_RESIZE ? BST_CHECKED : BST_UNCHECKED);
-
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), opt.bGetNewStatusMsg);
 		{
 			BOOL bEnable = opt.iSmileyAddFlags & SMILEYADD_ENABLE;
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEPROTOSMILEYS), bEnable);
@@ -1646,10 +1642,6 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_CHK_LIMITMSG:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG));
 			break;
-
-		case IDC_CHK_GETSTATUSMSG:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG));
-			break;
 		}
 
 		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
@@ -1683,7 +1675,6 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				opt.bWaitForContent = IsDlgButtonChecked(hwndDlg, IDC_CHK_WAITFORCONTENT) ? true : false;
 				opt.bGetNewStatusMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG) ? true : false;
-				opt.bDisableIfInvisible = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEINVISIBLE) ? true : false;
 				opt.bRetrieveXstatus = IsDlgButtonChecked(hwndDlg, IDC_CHK_RETRIEVEXSTATUS) ? true : false;
 				opt.bLimitMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG) ? true : false;
 				opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, nullptr, FALSE);
@@ -1691,7 +1682,6 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				g_plugin.setDword("SmileyAddFlags", opt.iSmileyAddFlags);
 				g_plugin.setByte("WaitForContent", opt.bWaitForContent ? 1 : 0);
 				g_plugin.setByte("GetNewStatusMsg", opt.bGetNewStatusMsg ? 1 : 0);
-				g_plugin.setByte("DisableInvisible", opt.bDisableIfInvisible ? 1 : 0);
 				g_plugin.setByte("RetrieveXStatus", opt.bRetrieveXstatus ? 1 : 0);
 				g_plugin.setByte("LimitMsg", opt.bLimitMsg ? 1 : 0);
 				g_plugin.setByte("LimitCharCount", opt.iLimitCharCount);

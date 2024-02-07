@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -630,7 +630,7 @@ public:
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
 			dbei.szModule = (char *)TranslateT("Sample error message");
-		dbei.pBlob = (uint8_t *)szText.detach();
+		dbei.pBlob = szText;
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);
@@ -910,7 +910,6 @@ class COptTypingDlg : public CDlgBase
 
 	void ResetCList(CCtrlClc* = nullptr)
 	{
-		m_clist.SetUseGroups(Clist::UseGroups);
 		m_clist.SetHideEmptyGroups(true);
 	}
 
@@ -969,7 +968,8 @@ public:
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = m_clist.AddInfoItem(&cii);
 
-		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | (CLS_SHOWHIDDEN));
+		DWORD dwStyle = GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE);
+		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE, dwStyle | CLS_SHOWHIDDEN | CLS_USEGROUPS | CLS_GROUPCHECKBOXES | CLS_NOHIDEOFFLINE);
 		ResetCList();
 
 		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
@@ -1489,7 +1489,7 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Message log");
-	odp.pDialog = new COptLogDlg(Srmm_IsCustomLogUsed() ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
+	odp.pDialog = new COptLogDlg(Srmm_IsCustomLogUsed(false) ? IDD_OPT_MSGHIST : IDD_OPT_MSGLOG);
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced tweaks");

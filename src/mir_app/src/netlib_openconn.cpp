@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -308,22 +308,20 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), url.port);
 	}
 
-	NETLIBHTTPREQUEST nlhrSend = { 0 };
-	nlhrSend.cbSize = sizeof(nlhrSend);
-	nlhrSend.requestType = REQUEST_CONNECT;
+	MMemoryChunkStorage storage;
+	MHttpRequest nlhrSend(REQUEST_CONNECT);
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
-	nlhrSend.szUrl = szUrl.GetBuffer();
+	nlhrSend.m_szUrl = szUrl;
 
-	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR)
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend, storage) == SOCKET_ERROR)
 		return false;
 
-	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
+	NLHR_PTR nlhrReply(NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, storage, true));
 	if (nlhrReply == nullptr)
 		return false;
 
 	if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 		if (nlhrReply->resultCode == 403 && nlc->dnsThroughProxy) {
-			Netlib_FreeHttpRequest(nlhrReply);
 			nlc->dnsThroughProxy = 0;
 			return NetlibInitHttpsConnection(nlc);
 		}
@@ -331,10 +329,9 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 		Netlib_Logf(nlc->nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, 
 			nlc->nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
-		Netlib_FreeHttpRequest(nlhrReply);
-		return 0;
+		return false;
 	}
-	Netlib_FreeHttpRequest(nlhrReply);
+
 	return true; // connected
 }
 

@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -80,6 +80,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bAcceptNotes(this, "AcceptNotes", true),
 	m_bAllowTimeReplies(this, "AllowTimeReplies", true),
 	m_bAllowVersionRequests(this, "AllowVersionRequests", true),
+	m_bAllowLast(this, "AllowLast", false),
 	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", false),
 	m_bAutoAcceptMUC(this, "AutoAcceptMUC", false),
 	m_bAutoAdd(this, "AutoAdd", true),
@@ -133,7 +134,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bUsePopups(this, "UsePopups", true),
 	m_bUseSSL(this, "UseSSL", false),
 	m_bUseTLS(this, "UseTLS", true),
-	m_bUseTlsExport(this, "UseTlsExport", false),
 
 	m_iMamMode(this, "MamMode", 0),
 	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
@@ -454,9 +454,9 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthRecv - receives a auth
 
-int CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CJabberProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -981,47 +981,6 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 	}
 
 	return id;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// rSetApparentMode - sets the visibility status
-
-int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
-{
-	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE)
-		return 1;
-
-	int oldMode = getWord(hContact, "ApparentMode", 0);
-	if (mode == oldMode)
-		return 1;
-
-	setWord(hContact, "ApparentMode", (uint16_t)mode);
-	if (!m_bJabberOnline)
-		return 0;
-
-	ptrA jid(getUStringA(hContact, "jid"));
-	if (jid == nullptr)
-		return 0;
-
-	switch (mode) {
-	case ID_STATUS_ONLINE:
-		if (m_iStatus == ID_STATUS_INVISIBLE || oldMode == ID_STATUS_OFFLINE)
-			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", jid));
-		break;
-	case ID_STATUS_OFFLINE:
-		if (m_iStatus != ID_STATUS_INVISIBLE || oldMode == ID_STATUS_ONLINE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
-		break;
-	case 0:
-		if (oldMode == ID_STATUS_ONLINE && m_iStatus == ID_STATUS_INVISIBLE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
-		else if (oldMode == ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
-			SendPresenceTo(m_iStatus, jid);
-		break;
-	}
-
-	// TODO: update the zebra list (jabber:iq:privacy)
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

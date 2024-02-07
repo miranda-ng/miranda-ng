@@ -215,11 +215,11 @@ void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg)
 	mir_snwprintf(buff, L"%s%s", _A2W(LANG_INLINE_PREFIX), msg);
 	T2Utf utf(buff);
 
-	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(0);
-	pre.szMessage = utf;
-	pre.flags = PREF_BYPASS_OTR;
-	ProtoChainRecvMsg(hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = time(0);
+	dbei.pBlob = utf;
+	dbei.flags = PREF_BYPASS_OTR;
+	ProtoChainRecvMsg(hContact, dbei);
 }
 
 void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg)
@@ -227,11 +227,11 @@ void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg)
 	char buff[1024];
 	mir_snprintf(buff, "%s%s", LANG_INLINE_PREFIX, msg);
 
-	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(0);
-	pre.szMessage = buff;
-	pre.flags = PREF_BYPASS_OTR;
-	ProtoChainRecvMsg(hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = time(0);
+	dbei.pBlob = buff;
+	dbei.flags = PREF_BYPASS_OTR;
+	ProtoChainRecvMsg(hContact, dbei);
 }
 
 void ShowMessageUtf(const MCONTACT hContact, const char *msg)

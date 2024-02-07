@@ -62,12 +62,11 @@ int CMPlugin::Load()
 
 	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, NewsAggrGetName);
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, NewsAggrGetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, NewsAggrSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, NewsAggrGetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, NewsAggrLoadIcon);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, NewsAggrGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, NewsAggrGetInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, NewsAggrRecvMessage);
 

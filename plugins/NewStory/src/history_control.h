@@ -7,6 +7,7 @@ struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);
 
+	mir_cs m_csItems;
 	HistoryArray items;
 
 	int scrollTopItem; // topmost item
@@ -21,6 +22,7 @@ struct NewstoryListData : public MZeroedObject
 	int totalCount;
 
 	RECT rcLastPaint;
+	MCONTACT m_hContact = INVALID_CONTACT_ID;
 
 	bool bWasShift, bSortAscending, bWasAtBottom;
 
@@ -32,7 +34,8 @@ struct NewstoryListData : public MZeroedObject
 
 	void      OnContextMenu(int index, POINT pt);
 	void      OnResize(int newWidth, int newHeight);
-	void      OnTimer(CTimer *pTimer);
+	
+	void      onTimer_Draw(CTimer *pTimer);
 
 	void      AddChatEvent(SESSION_INFO *si, const LOGINFO *lin);
 	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount);
@@ -45,6 +48,7 @@ struct NewstoryListData : public MZeroedObject
 	void      Clear();
 	void      ClearSelection(int iFirst, int iLast);
 	void      Copy(bool bTextOnly = false);
+	void      CopyPath();
 	void      CopyUrl();
 	void      DeleteItems(void);
 	void      Download(int iOptions);

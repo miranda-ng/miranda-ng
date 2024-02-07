@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 XEP-0146 support for Miranda IM
 
@@ -451,7 +451,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DB::EventInfo dbei(hDbEvent);
 			if (dbei && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-				ptrW szEventText(DbEvent_GetTextW(&dbei, CP_ACP));
+				ptrW szEventText(DbEvent_GetTextW(&dbei));
 				if (szEventText)
 					nEventsSent++;
 			}
@@ -529,7 +529,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))
 					continue;
 
-				ptrW szEventText(DbEvent_GetTextW(&dbei, CP_ACP));
+				ptrW szEventText(DbEvent_GetTextW(&dbei));
 				if (szEventText == nullptr)
 					continue;
 
@@ -560,9 +560,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 				nEventsSent++;
 
-				db_event_markRead(hContact, hDbEvent, true);
-				if (bRemoveCListEvents)
-					Clist_RemoveEvent(hContact, hDbEvent);
+				dbei.wipeNotify(hDbEvent);
 			}
 		}
 

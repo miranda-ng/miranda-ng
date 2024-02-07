@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -59,7 +59,7 @@ class JsonReply
 	int m_errorCode = 0;
 
 public:
-	JsonReply(NETLIBHTTPREQUEST *response);
+	JsonReply(MHttpResponse *response);
 	~JsonReply();
 
 	__forceinline JSONNode &data() const { return *m_root; }

@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team,
+// Copyright (C) 2012-24 Miranda NG team,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -504,12 +504,13 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	else
 		text.Format(TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 
+	T2Utf szUtf(text);
 	DB::EventInfo dbei;
-	dbei.pBlob = (uint8_t*)T2Utf(text).detach();
-	dbei.cbBlob = (int)mir_strlen((char*)dbei.pBlob);
+	dbei.pBlob = szUtf;
+	dbei.cbBlob = (int)mir_strlen(szUtf);
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(0);
-	dbei.szModule = (char*)c->getProto();
+	dbei.szModule = (char *)c->getProto();
 	dat->LogEvent(dbei);
 }

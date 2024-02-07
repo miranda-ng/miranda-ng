@@ -2,7 +2,7 @@
 
 bool CSteamProto::SendRequest(HttpRequest *request)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
+	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	delete request;
 	return response.IsSuccess();
@@ -10,7 +10,7 @@ bool CSteamProto::SendRequest(HttpRequest *request)
 
 bool CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
+	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	if (callback)
 		(this->*callback)(response, param);
@@ -20,7 +20,7 @@ bool CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void 
 
 bool CSteamProto::SendRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
-	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
+	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
 	HttpResponse response(pResp);
 	if (callback) {
 		JSONNode root = JSONNode::parse(response.data());
@@ -42,26 +42,11 @@ HttpRequest::HttpRequest(int iRequestType, const char *szUrl)
 		m_szUrl = szUrl;
 }
 
-NETLIBHTTPREQUEST* HttpRequest::Get()
+MHttpRequest* HttpRequest::Get()
 {
 	if (m_szUrl[0]== '/') {
 		m_szUrl.Insert(0, STEAM_API_URL);
 		AddHeader("User-Agent", STEAM_USER_AGENT);
 	}
-	szUrl = m_szUrl.GetBuffer();
 	return this;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// HttpResponse
-
-LIST<NETLIBHTTPHEADER> HttpResponse::Headers() const
-{
-	LIST<NETLIBHTTPHEADER> ret(10);
-
-	if (m_response)
-		for (int i = 0; i < m_response->headersCount; i++)
-			ret.insert(&m_response->headers[i]);
-	
-	return ret;
 }

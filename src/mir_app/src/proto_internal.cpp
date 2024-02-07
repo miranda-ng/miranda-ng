@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -58,9 +58,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, _T2A(szReason));
 	}
 
-	int AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt) override
+	int AuthRecv(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)&dbei };
 		return (int)ProtoCallService(m_szModuleName, PSR_AUTH, 0, (LPARAM)&ccs);
 	}
 
@@ -78,30 +78,30 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
+		CCSDATA ccs = { hContact, PS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
 		if (m_iVersion > 1)
-			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
+			return (HANDLE)ProtoCallService(m_szModuleName, PS_FILEALLOW, 0, (LPARAM)&ccs);
 
 		ccs.lParam = (LPARAM)mir_u2a(szPath);
-		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
+		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PS_FILEALLOW, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
 
 	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILECANCEL, (WPARAM)hTransfer, 0 };
-		return (int)ProtoCallService(m_szModuleName, PSS_FILECANCEL, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_FILECANCEL, (WPARAM)hTransfer, 0 };
+		return (int)ProtoCallService(m_szModuleName, PS_FILECANCEL, 0, (LPARAM)&ccs);
 	}
 
 	int FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override
 	{
-		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
+		CCSDATA ccs = { hContact, PS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
 		if (m_iVersion > 1)
-			return (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
+			return (int)ProtoCallService(m_szModuleName, PS_FILEDENY, 0, (LPARAM)&ccs);
 
 		ccs.lParam = (LPARAM)mir_u2a(szReason);
-		int res = (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
+		int res = (int)ProtoCallService(m_szModuleName, PS_FILEDENY, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
@@ -126,8 +126,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int GetInfo(MCONTACT hContact, int flags) override
 	{
-		CCSDATA ccs = { hContact, PSS_GETINFO, (WPARAM)flags, 0 };
-		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_GETINFO, (WPARAM)flags, 0 };
+		return ProtoCallService(m_szModuleName, PS_GETINFO, 0, (LPARAM)&ccs);
 	}
 
 	HANDLE SearchBasic(const wchar_t* id) override
@@ -169,21 +169,21 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HWND)ProtoCallService(m_szModuleName, PS_CREATEADVSEARCHUI, 0, (LPARAM)owner);
 	}
 
-	int RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt) override
+	int RecvContacts(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)&dbei };
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	MEVENT RecvFile(MCONTACT hContact, PROTORECVFILE* evt) override
+	MEVENT RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_FILE, (WPARAM)&blob, (LPARAM)&dbei };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 
-	MEVENT RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
+	MEVENT RecvMsg(MCONTACT hContact, DB::EventInfo &dbei) override
 	{
-		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
+		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)&dbei };
 		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
 		return (res == CALLSERVICE_NOTFOUND) ? -1 : (int)res;
 	}
@@ -215,10 +215,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	int SetApparentMode(MCONTACT hContact, int mode) override
+	int GetStatus() override
 	{
-		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, (WPARAM)mode, 0 };
-		return (int)ProtoCallService(m_szModuleName, PSS_SETAPPARENTMODE, 0, (LPARAM)&ccs);
+		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, 0, 0);
 	}
 
 	int SetStatus(int iNewStatus) override
@@ -228,14 +227,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE GetAwayMsg(MCONTACT hContact) override
 	{
-		CCSDATA ccs = { hContact, PSS_GETAWAYMSG, 0, 0 };
-		return (HANDLE)ProtoCallService(m_szModuleName, PSS_GETAWAYMSG, 0, (LPARAM)&ccs);
-	}
-
-	int RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt) override
-	{
-		CCSDATA ccs = { hContact, PSR_AWAYMSG, (WPARAM)statusMode, (LPARAM)evt };
-		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
+		CCSDATA ccs = { hContact, PS_GETAWAYMSG, 0, 0 };
+		return (HANDLE)ProtoCallService(m_szModuleName, PS_GETAWAYMSG, 0, (LPARAM)&ccs);
 	}
 
 	int SetAwayMsg(int iStatus, const wchar_t *msg) override

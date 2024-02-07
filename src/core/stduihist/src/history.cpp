@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -274,7 +274,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				DB::EventInfo dbei(hDbEvent);
 				if (dbei) {
-					ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+					ptrW wszDescr(DbEvent_GetTextW(&dbei));
 					if (wszDescr)
 						SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);
 				}
@@ -303,13 +303,13 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int newBlobSize = db_event_getBlobSize(hDbEvent);
 			if (newBlobSize > oldBlobSize) {
-				dbei.pBlob = (uint8_t*)mir_realloc(dbei.pBlob, newBlobSize);
+				dbei.pBlob = (char *)mir_realloc(dbei.pBlob, newBlobSize);
 				oldBlobSize = newBlobSize;
 			}
 			dbei.cbBlob = oldBlobSize;
 			db_event_get(hDbEvent, &dbei);
 
-			ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+			ptrW wszDescr(DbEvent_GetTextW(&dbei));
 			if (wszDescr) {
 				CharUpperW(wszDescr);
 				if (wcsstr(wszDescr, (const wchar_t *)lParam) != nullptr) {

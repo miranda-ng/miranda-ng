@@ -3,7 +3,7 @@
 Minecraft Dynmap plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2015-17 Robert Pösel, 2017-23 Miranda NG team
+Copyright © 2015-17 Robert Pösel, 2017-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
 	int     SetStatus(int iNewStatus) override;
 
-	bool    OnContactDeleted(MCONTACT) override;
+	bool    OnContactDeleted(MCONTACT, uint32_t) override;
 	MWindow OnCreateAccMgrUI(MWindow) override;
 	void    OnShutdown() override;
 
@@ -86,8 +86,6 @@ public:
 	HANDLE chatHandle_;
 
 	// Data storage
-	void    store_headers(http::response *resp, NETLIBHTTPHEADER *headers, int headers_count);
-
 	std::string get_server(bool not_last = false);
 	std::string get_language();
 
@@ -104,9 +102,8 @@ public:
 	void __inline reset_error() { error_count_ = 0; }
 	
 	// HTTP communication
-	http::response sendRequest(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
+	MHttpResponse* sendRequest(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
 	std::string chooseAction(int, std::string *get_data = nullptr);
-	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	// Requests and processing
 	bool doSignOn();

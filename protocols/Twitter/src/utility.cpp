@@ -1,5 +1,5 @@
 /*
-Copyright © 2012-23 Miranda NG team
+Copyright © 2012-24 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -65,34 +65,4 @@ void CTwitterProto::ShowPopup(const char *text, int Error)
 		popup.colorText = 0x00FFFFFF;
 	}
 	PUAddPopupW(&popup);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filename)
-{
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = REQUEST_GET;
-	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
-	req.szUrl = const_cast<char*>(url.c_str());
-
-	NLHR_PTR resp(Netlib_HttpTransaction(hNetlib, &req));
-	if (!resp)
-		return false;
-	
-	if (resp->resultCode != 200)
-		return false;
-	
-	// Create folder if necessary
-	if (CreatePathToFileW(filename) != ERROR_SUCCESS)
-		return false;
-
-	// Write to file
-	if (FILE *f = _wfopen(filename, L"wb")) {
-		fwrite(resp->pData, 1, resp->dataLength, f);
-		fclose(f);
-	}
-	else return false;
-	
-	return true;
 }

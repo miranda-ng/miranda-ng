@@ -54,7 +54,7 @@ static int compareMsgHistory(const JSONNode *p1, const JSONNode *p2)
 	return wcscmp((*p1)["id"].as_mstring(), (*p2)["id"].as_mstring());
 }
 
-void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	CDiscordUser *pUser = (CDiscordUser*)pReq->pUserInfo;
 
@@ -107,17 +107,14 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		else
 			dbei.flags &= ~DBEF_READ;
 
-		MBinBuffer buf;
-		ptrA szBody(mir_utf8encodeW(wszText));
-		buf.append(szBody, mir_strlen(szBody) + 1);
-
 		if (!pUser->bIsPrivate) {
-			buf.append(szUserId, szUserId.GetLength() + 1);
+			dbei.szUserId = szUserId;
 			ProcessChatUser(pUser, _atoi64(szUserId), pNode);
 		}
 
-		dbei.pBlob = buf.data();
-		dbei.cbBlob = (uint32_t)buf.length();
+		ptrA szBody(mir_utf8encodeW(wszText));
+		dbei.pBlob = szBody;
+		dbei.cbBlob = (int)mir_strlen(szBody);
 
 		bool bSucceeded = false;
 		char szMsgId[100];
@@ -150,7 +147,7 @@ void CDiscordProto::RetrieveMyInfo()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
 }
 
-void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -168,18 +165,7 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 	m_wszEmail = data["email"].as_mstring();
 
 	m_ownId = id;
-	
-	m_szCookie.Empty();
-	for (int i=0; i < pReply->headersCount; i++) {
-		if (!mir_strcmpi(pReply->headers[i].szName, "Set-Cookie")) {
-			char *p = strchr(pReply->headers[i].szValue, ';');
-			if (p) *p = 0;
-			if (!m_szCookie.IsEmpty())
-				m_szCookie.Append("; ");
-
-			m_szCookie.Append(pReply->headers[i].szValue);
-		}
-	}
+	m_szCookie = pReply->GetCookies();
 
 	// launch gateway thread
 	if (m_szGateway.IsEmpty())
@@ -193,7 +179,7 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a gateway address
 
-void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveGateway(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -219,7 +205,7 @@ void CDiscordProto::SetServerStatus(int iStatus)
 /////////////////////////////////////////////////////////////////////////////////////////
 // channels
 
-void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveCreateChannel(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (root)
@@ -228,7 +214,16 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
+{
+	delSetting(DB_KEY_TOKEN);
+	m_szAccessToken = 0;
+	ShutdownSession();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveMessageAck(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root)
@@ -249,10 +244,10 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 #define RECAPTCHA_API_KEY "6Lef5iQTAAAAAKeIvIY-DeexoO3gj7ryl9rLMEnn"
 #define RECAPTCHA_SITE_URL "https://discord.com"
 
-void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveToken(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200) {
-		JSONNode root = JSONNode::parse(pReply->pData);
+		JSONNode root = JSONNode::parse(pReply->body);
 		if (root) {
 			const JSONNode &captcha = root["captcha_key"].as_array();
 			if (captcha) {
@@ -287,13 +282,18 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	}
 
 	auto &data = root.data();
-	CMStringA szToken = data["token"].as_mstring();
-	if (szToken.IsEmpty()) {
-		debugLogA("Strange empty token received, exiting");
+	if (auto &token = data["token"]) {
+		CMStringA szToken = token.as_mstring();
+		m_szAccessToken = szToken.Detach();
+		setString(DB_KEY_TOKEN, m_szAccessToken);
+		RetrieveMyInfo();
 		return;
 	}
 
-	m_szAccessToken = szToken.Detach();
-	setString("AccessToken", m_szAccessToken);
-	RetrieveMyInfo();
+	if (data["mfa"].as_bool())
+		ShowMfaDialog(data);
+	else {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		debugLogA("Strange empty token received, exiting");
+	}
 }

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -341,7 +341,7 @@ MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 
 	if (contact->type == CLCIT_GROUP)
 		Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
-	if (contact->type == CLCIT_CONTACT)
+	else if (contact->type == CLCIT_CONTACT)
 		Clist_ContactDoubleClicked(contact->hContact);
 
 	if (dat->bFilterSearch && bSearchExisted)

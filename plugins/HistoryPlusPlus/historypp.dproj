@@ -125,6 +125,7 @@
 			<DCC_DcuOutput>..\..\bin17\Debug\Obj\hpp\</DCC_DcuOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+			<DCC_MapFile>3</DCC_MapFile>
 			<Debugger_CWD>W:\miranda-ng\bin17\Debug64</Debugger_CWD>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 			<Debugger_HostApplication>W:\miranda-ng\bin17\Debug64\Miranda64.exe</Debugger_HostApplication>

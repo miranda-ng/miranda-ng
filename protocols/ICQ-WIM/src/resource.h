@@ -13,6 +13,8 @@
 #define IDD_OPTIONS_ADV                 109
 #define IDD_LOGINPW                     110
 #define IDD_EDITGROUPS                  111
+#define IDD_FORWARD                     112
+#define IDI_FORWARD                     113
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003
@@ -45,7 +47,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        113
+#define _APS_NEXT_RESOURCE_VALUE        114
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1026
 #define _APS_NEXT_SYMED_VALUE           101

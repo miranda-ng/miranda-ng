@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,12 +33,11 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 		Utils_OpenUrl(szCaptchaAssistant);
 	}
 	else {
-		NETLIBHTTPREQUEST req = { sizeof(req) };
-		req.requestType = REQUEST_GET;
-		req.szUrl = (LPSTR)szUrl;
+		MHttpRequest req(REQUEST_GET);
+		req.m_szUrl = (LPSTR)szUrl;
 		req.flags = VK_NODUMPHEADERS;
 
-		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		auto *reply = Netlib_HttpTransaction(m_hNetlibUser, &req);
 		if (reply == nullptr)
 			return false;
 
@@ -47,7 +46,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 			return false;
 		}
 
-		param.bmp = Image_LoadFromMem(reply->pData, reply->dataLength, FIF_UNKNOWN);
+		param.bmp = Image_LoadFromMem(reply->body, reply->body.GetLength(), FIF_UNKNOWN);
 
 		BITMAP bmp = { 0 };
 		GetObject(param.bmp, sizeof(bmp), &bmp);

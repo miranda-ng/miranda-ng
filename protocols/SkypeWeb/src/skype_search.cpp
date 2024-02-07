@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ void CSkypeProto::SearchBasicThread(void *id)
 		PushRequest(new GetSearchRequest(T2Utf((wchar_t *)id)));
 }
 
-void CSkypeProto::OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnSearch(MHttpResponse *response, AsyncHttpRequest*)
 {
 	debugLogA(__FUNCTION__);
 

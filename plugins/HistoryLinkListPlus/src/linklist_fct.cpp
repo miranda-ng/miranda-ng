@@ -57,7 +57,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	date[0] = 0;
 	time[0] = 0;
 
-	msg = DbEvent_GetTextW(dbei, CP_ACP);
+	msg = DbEvent_GetTextW(dbei);
 	if (msg == nullptr)
 		return 0;
 
@@ -382,7 +382,7 @@ void WriteLinkList(HWND hDlg, uint8_t params, LISTELEMENT *listStart, LPCTSTR se
 					{
 						DB::EventInfo dbe(actualElement->hEvent);
 
-						ptrW msg(DbEvent_GetTextW(&dbe, CP_ACP));
+						ptrW msg(DbEvent_GetTextW(&dbe));
 						if (wcsstr(msg, searchString))
 							filter3 = 1;
 					}
@@ -611,7 +611,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 				SetDlgItemTextW(hDlg, IDC_MESSAGE, L"");
 
 				DB::EventInfo dbe(hEvent);
-				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
+				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, ptrW(DbEvent_GetTextW(&dbe)));
 			}
 			break;
 		}

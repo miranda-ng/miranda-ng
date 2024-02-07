@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -138,7 +138,8 @@ class CUserInfoDlg : public CDlgBase
 				hIcolib = (HANDLE)it->lParam;
 			else if (it->szProto)
 				hIcolib = Skin_GetProtoIcon(it->szProto, ID_STATUS_ONLINE);
-			else if (hContact)
+			
+			if (hContact && !it->szProto)
 				it->szProto = Proto_GetBaseAccountName(hContact);
 
 			if (hIcolib) {
@@ -226,7 +227,7 @@ class CUserInfoDlg : public CDlgBase
 
 	void CheckOnline()
 	{
-		auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr;
+		const char *szProto = (m_pCurrent && m_pCurrent->szProto) ? m_pCurrent->szProto : Proto_GetBaseAccountName(m_hContact);
 		if (szProto == nullptr || m_bIsMeta)
 			btnUpdate.Disable();
 		else {
@@ -314,7 +315,7 @@ public:
 		m_updateAnimFrame = 0;
 		GetDlgItemText(m_hwnd, IDC_UPDATING, m_szUpdating, _countof(m_szUpdating));
 		CheckOnline();
-		if (!ProtoChainSend(m_hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
+		if (!CallContactService(m_hContact, PS_GETINFO, SGIF_ONOPEN)) {
 			btnUpdate.Disable();
 			SetTimer(m_hwnd, 1, 100, nullptr);
 		}
@@ -336,6 +337,7 @@ public:
 		}
 
 		pshn.hdr.code = PSN_APPLY;
+		pshn.lParam = IDOK;
 		for (auto &odp : m_pages) {
 			if (odp->hwnd == nullptr || !odp->changed)
 				continue;
@@ -546,8 +548,9 @@ public:
 			m_infosUpdated = NULL;
 		}
 
-		if (auto *szProto = (m_pCurrent) ? m_pCurrent->szProto : nullptr)
-			if (!CallProtoService(szProto, PSS_GETINFO, 0, 0)) {
+		MCONTACT hContact = (m_pCurrent && m_pCurrent->szProto) ? m_pCurrent->hContact : m_hContact;
+		if (hContact)
+			if (!CallContactService(hContact, PS_GETINFO)) {
 				btnUpdate.Disable();
 				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
 				updateTimer.Start(100);

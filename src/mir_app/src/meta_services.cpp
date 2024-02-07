@@ -1,7 +1,7 @@
 /*
 former MetaContacts Plugin for Miranda IM.
 
-Copyright © 2014-23 Miranda NG team
+Copyright © 2014-24 Miranda NG team
 Copyright © 2004-07 Scott Ellis
 Copyright © 2004 Universite Louis PASTEUR, STRASBOURG.
 
@@ -73,21 +73,6 @@ INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM)
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)L"Metacontact";
 	}
-	return 0;
-}
-
-/** Copy the name of the protocole into lParam
-* @param wParam : 	max size of the name
-* @param lParam :	reference to a char *, which will hold the name
-*/
-
-INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
-{
-	char *name = (char *)Translate(META_PROTO);
-	size_t size = min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
-	if (strncpy((char *)lParam, name, size) == nullptr)
-		return 1;
-	((char *)lParam)[size] = '\0';
 	return 0;
 }
 
@@ -700,7 +685,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = hMostOnline;
-	return ProtoChainSend(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
+	return CallContactService(ccs->hContact, PS_GETAWAYMSG, ccs->wParam, ccs->lParam);
 }
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
@@ -762,10 +747,10 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = hMostOnline;
-	if (!ProtoServiceExists(proto, PSS_GETINFO))
+	if (!ProtoServiceExists(proto, PS_GETINFO))
 		return 0; // fail
 
-	return ProtoChainSend(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
+	return CallContactService(ccs->hContact, PS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
 int Meta_CallMostOnline(WPARAM hContact, LPARAM)
@@ -815,7 +800,6 @@ void Meta_InitServices()
 	}
 
 	CreateProtoServiceFunction(META_PROTO, PS_GETCAPS, Meta_GetCaps);
-	CreateProtoServiceFunction(META_PROTO, PS_GETNAME, Meta_GetName);
 	CreateProtoServiceFunction(META_PROTO, PS_LOADICON, Meta_LoadIcon);
 
 	CreateProtoServiceFunction(META_PROTO, PS_SETSTATUS, Meta_SetStatus);
@@ -827,9 +811,9 @@ void Meta_InitServices()
 
 	// file recv is done by subcontacts
 	CreateProtoServiceFunction(META_PROTO, PSS_FILE, Meta_FileSend);
-	CreateProtoServiceFunction(META_PROTO, PSS_GETAWAYMSG, Meta_GetAwayMsg);
+	CreateProtoServiceFunction(META_PROTO, PS_GETAWAYMSG, Meta_GetAwayMsg);
 	CreateProtoServiceFunction(META_PROTO, PS_GETAVATARINFO, Meta_GetAvatarInfo);
-	CreateProtoServiceFunction(META_PROTO, PSS_GETINFO, Meta_GetInfo);
+	CreateProtoServiceFunction(META_PROTO, PS_GETINFO, Meta_GetInfo);
 
 	// receive filter
 	CreateProtoServiceFunction(META_FILTER, PSR_MESSAGE, MetaFilter_RecvMessage);

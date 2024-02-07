@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -166,7 +166,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, VKMessageID_t iLastMsg)
 	}
 }
 
-void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveHistoryMessages %d", reply->resultCode);
 	if (reply->resultCode != 200 || !pReq->pUserInfo) {
@@ -273,11 +273,11 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 
-		PROTORECVEVENT recv = {};
+		DB::EventInfo dbei;
 		if (bIsRead)
-			recv.flags |= PREF_CREATEREAD;
+			dbei.flags |= DBEF_READ;
 		if (bIsOut)
-			recv.flags |= PREF_SENT;
+			dbei.flags |= DBEF_SENT;
 
 		time_t tUpdateTime = (time_t)jnMsg["update_time"].as_int();
 		if (tUpdateTime) {
@@ -298,18 +298,18 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		T2Utf pszBody(wszBody);
 
-		recv.timestamp = tDateTime;
-		recv.szMessage = pszBody;
-		recv.szMsgId = szMid;
+		dbei.timestamp = tDateTime;
+		dbei.pBlob = pszBody;
+		dbei.szId = szMid;
 
 		if (!m_vkOptions.bShowReplyInMessage &&	szReplyId)
-			recv.szReplyId = szReplyId;
+			dbei.szReplyId = szReplyId;
 
-		ProtoChainRecvMsg(hContact, &recv);
+		ProtoChainRecvMsg(hContact, dbei);
 
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
 		if (hDbEvent)
-			db_event_delete(hDbEvent, true);
+			db_event_delete(hDbEvent, CDF_FROM_SERVER);
 
 		if (bIsRead && bIsOut && tDateTime > tLastReadMessageTime)
 			tLastReadMessageTime = tDateTime;

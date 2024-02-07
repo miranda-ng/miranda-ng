@@ -14,8 +14,6 @@
 При...
 [Don't reply to ICQ contacts]
 Не отвечать контактам ICQ
-[Don't reply when I'm invisible to the contact]
-Не отвечать, когда я невидим для контакта
 [Save autoreply to the history]
 Сохранять сообщение автоответчика в истории
 [Reply only when Idle]

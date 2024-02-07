@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Simple updater for Miranda NG premodified packs."
 #define __AUTHOR                 "Mataes, ZERO_BiT"
 #define __AUTHORWEB              "https://miranda-ng.org/p/PackUpdater"
-#define __COPYRIGHT              "© 2011-23 Mataes, 2007 ZERO_BiT"
+#define __COPYRIGHT              "© 2011-24 Mataes, 2007 ZERO_BiT"

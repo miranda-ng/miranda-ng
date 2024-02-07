@@ -17,41 +17,29 @@ public:
 	}
 };
 
-class HttpRequest : protected NETLIBHTTPREQUEST
+class HttpRequest : public MHttpRequest
 {
-private:
-	CMStringA m_szUrl;
-
-	void Init(int type)
+	void Init()
 	{
-		cbSize = sizeof(NETLIBHTTPREQUEST);
-		requestType = type;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-		szUrl = nullptr;
-		headers = nullptr;
-		headersCount = 0;
-		pData = nullptr;
-		dataLength = 0;
-		resultCode = 0;
-		szResultDescr = nullptr;
-		nlc = nullptr;
-		timeout = 0;
 	}
 
 protected:
 	enum HttpRequestUrlFormat { FORMAT };
 
 public:
-	HttpRequest(int type, LPCSTR url)
+	HttpRequest(int type, LPCSTR url) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		m_szUrl = url;
 	}
 
-	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
+	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...) :
+		MHttpRequest(type)
 	{
-		Init(type);
+		Init();
 
 		va_list formatArgs;
 		va_start(formatArgs, urlFormat);
@@ -61,22 +49,6 @@ public:
 
 	~HttpRequest()
 	{
-		for (int i = 0; i < headersCount; i++)
-		{
-			mir_free(headers[i].szName);
-			mir_free(headers[i].szValue);
-		}
-		mir_free(headers);
-		if (pData)
-			mir_free(pData);
-	}
-
-	void AddHeader(LPCSTR szName, LPCSTR szValue)
-	{
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER) * (headersCount + 1));
-		headers[headersCount].szName = mir_strdup(szName);
-		headers[headersCount].szValue = mir_strdup(szValue);
-		headersCount++;
 	}
 
 	void AddUrlParameter(const char *urlFormat, ...)
@@ -88,20 +60,9 @@ public:
 		va_end(urlArgs);
 	}
 
-	void SetData(const char *data, size_t size)
-	{
-		if (pData != nullptr)
-			mir_free(pData);
-
-		dataLength = (int)size;
-		pData = (char*)mir_alloc(size);
-		memcpy(pData, data, size);
-	}
-
-	NETLIBHTTPREQUEST* Send(HNETLIBUSER hNetlibConnection)
+	MHttpResponse* Send(HNETLIBUSER hNetlibConnection)
 	{
 		m_szUrl.Replace('\\', '/');
-		szUrl = m_szUrl.GetBuffer();
 		return Netlib_HttpTransaction(hNetlibConnection, this);
 	}
 };

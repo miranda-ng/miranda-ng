@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -42,7 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IOPT_SYSTEM        0x00000800
 #define IOPT_CONTACTS      0x00001000
-#define IOPT_GROUPS        0x00002000
 #define IOPT_SYS_SETTINGS  0x00004000
 #define IOPT_COMPLETE      0x00007FFE
 

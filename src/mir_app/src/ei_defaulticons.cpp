@@ -1,7 +1,7 @@
 /*
 
 Copyright (C) 2009 Ricardo Pescuma Domenecci
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -29,7 +29,7 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////////////////////////////////////////////////////
 // DB extra icons
 
-HANDLE hExtraVisibility, hExtraChat, hExtraChatMute, hExtraGender, hExtraProto;
+HANDLE hExtraChat, hExtraChatMute, hExtraGender, hExtraProto;
 
 static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 {
@@ -43,20 +43,13 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 	if (apparentMode <= 0)
 		apparentMode = db_get_w(hContact, proto, "ApparentMode", 0);
 
-	HANDLE hExtraIcon, hIcolib = nullptr;
+	HANDLE hExtraIcon = nullptr, hIcolib = nullptr;
 
 	// Is chat
 	if (Contact::IsGroupChat(hContact, proto)) {
 		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			hIcolib = IcoLib_GetIconHandle("ChatActivity");
-	}
-	else { // Not chat
-		hExtraIcon = hExtraVisibility;
-		if (apparentMode == ID_STATUS_OFFLINE)
-			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_INVISIBLE_ALL);
-		else if (apparentMode == ID_STATUS_ONLINE)
-			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL);
 	}
 
 	if (hIcolib != nullptr || clear)
@@ -315,7 +308,6 @@ void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraChatMute = ExtraIcon_RegisterIcolib("chat_mute", LPGEN("Chat mute mode"), "ChatMute");
-	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", LPGEN("Visibility"), Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL));
 	hExtraGender = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender"), "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", LPGEN("Account"), Skin_GetIconHandle(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);

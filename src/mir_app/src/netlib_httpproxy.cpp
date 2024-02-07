@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -70,16 +70,4 @@ MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders)
 	
 	replaceStr(nlu->szStickyHeaders, szHeaders); // pointer is ours
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN nlc, int iTimeout)
-{
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION)
-		return -1;
-	
-	int oldTimeout = nlc->pollingTimeout;
-	nlc->pollingTimeout = iTimeout;
-	return oldTimeout;
 }

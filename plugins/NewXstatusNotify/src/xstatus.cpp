@@ -289,7 +289,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = (uint32_t)mir_strlen(blob) + 1;
-		dbei.pBlob = (uint8_t*)(char*)blob;
+		dbei.pBlob = blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.timestamp = (uint32_t)time(0);

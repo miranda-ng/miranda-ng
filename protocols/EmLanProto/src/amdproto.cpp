@@ -63,7 +63,7 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_PEER2PEER | PF1_INDIVSTATUS |
+		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_PEER2PEER |
 			PF1_MODEMSG | PF1_FILE | PF1_CANRENAMEFILE | PF1_FILERESUME;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
@@ -74,12 +74,6 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 	default:
 		return 0;
 	}
-}
-
-static INT_PTR __cdecl EMPGetName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, "EmLan", wParam);
-	return 0;
 }
 
 static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
@@ -326,7 +320,6 @@ int CMPlugin::Load()
 	g_lan = new CMLan();
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, EMPGetCaps);
-	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, EMPGetName);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, EMPLoadIcon);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, EMPSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, EMPGetStatus);
@@ -334,13 +327,13 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, EMPAddToList);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, EMPSendMessage);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, EMPRecvMessage);
-	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, EMPGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, EMPGetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PS_SETAWAYMSG, EMPSetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PSR_AWAYMSG, EMPRecvAwayMessage);
 	CreateProtoServiceFunction(MODULENAME, PS_FILERESUME, EMPFileResume);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILEALLOW, EMPSendFileAllow);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILEDENY, EMPSendFileDeny);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILECANCEL, EMPSendFileCancel);
+	CreateProtoServiceFunction(MODULENAME, PS_FILEALLOW, EMPSendFileAllow);
+	CreateProtoServiceFunction(MODULENAME, PS_FILEDENY, EMPSendFileDeny);
+	CreateProtoServiceFunction(MODULENAME, PS_FILECANCEL, EMPSendFileCancel);
 	CreateProtoServiceFunction(MODULENAME, PSS_FILE, EMPSendFile);
 	CreateProtoServiceFunction(MODULENAME, PSR_FILE, EMPRecvFile);
 

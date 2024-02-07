@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // ICQ plugin for Miranda NG
 // -----------------------------------------------------------------------------
-// Copyright © 2018-23 Miranda NG team
+// Copyright © 2018-24 Miranda NG team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -133,7 +133,7 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 	}
 };
 
-void CIcqProto::OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnCheckPhone(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	if (pReply == nullptr || pReply->resultCode != 200)
 		return;
@@ -142,7 +142,7 @@ void CIcqProto::OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	pDlg->btnSendSms.Disable();
 	pDlg->edtCode.Disable();
 
-	JSONROOT root(pReply->pData);
+	JSONROOT root(pReply->body);
 	CMStringW wszStatus((*root)["status"].as_mstring());
 	if (wszStatus != L"OK") {
 		pDlg->edtCode.SetText((*root)["printable"].as_mstring());
@@ -159,7 +159,7 @@ void CIcqProto::OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	Push(pNew);
 }
 
-void CIcqProto::OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnNormalizePhone(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	CIcqRegistrationDlg *pDlg = (CIcqRegistrationDlg*)pReq->pUserInfo;
 
@@ -173,7 +173,7 @@ void CIcqProto::OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 	pDlg->btnSendSms.Enable();
 }
 
-void CIcqProto::OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnValidateSms(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() != 200)
@@ -187,7 +187,7 @@ void CIcqProto::OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	pDlg->edtCode.SetText(L"");
 }
 
-void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CIcqProto::OnLoginViaPhone(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	CIcqRegistrationDlg *pDlg = (CIcqRegistrationDlg*)pReq->pUserInfo;
 
@@ -207,7 +207,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	m_szSessionKey = data["sessionKey"].as_mstring();
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	m_szOwnId = data["loginId"].as_mstring();
+	SetOwnId(data["loginId"].as_mstring());
 	setByte(DB_KEY_PHONEREG, 1);
 }
 

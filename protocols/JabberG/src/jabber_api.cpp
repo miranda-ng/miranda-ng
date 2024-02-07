@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -230,7 +230,7 @@ int CJabberProto::RegisterFeature(const char *pszFeature, const char *pszDescrip
 		if (!jcb)
 			return false;
 
-		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, "", jcb);
+		g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, nullptr, jcb);
 
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = mir_strdup(pszExt);

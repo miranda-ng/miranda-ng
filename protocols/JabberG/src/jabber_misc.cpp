@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -52,11 +52,11 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 
 	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
-	PROTORECVEVENT pre = {};
-	pre.timestamp = (uint32_t)time(0);
-	pre.lParam = blob.size();
-	pre.szMessage = blob;
-	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = (uint32_t)time(0);
+	dbei.cbBlob = blob.size();
+	dbei.pBlob = blob;
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 
 	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 }
@@ -122,7 +122,7 @@ bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, uint8_t btEventType)
 	}
 
 	DBEVENTINFO dbei = {};
-	dbei.pBlob = &btEventType;
+	dbei.pBlob = (char *)&btEventType;
 	dbei.cbBlob = sizeof(btEventType);
 	dbei.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbei.flags = DBEF_READ;
@@ -499,10 +499,10 @@ void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 
 				wszFileName.Insert(0, L"[img]"); wszFileName.Append(L"[/img]");
 				T2Utf szMsg(wszFileName);
-				PROTORECVEVENT pre = {};
-				pre.timestamp = time(0);
-				pre.szMessage = szMsg;
-				ProtoChainRecvMsg(pReq->GetHContact(), &pre);
+				DB::EventInfo dbei;
+				dbei.timestamp = time(0);
+				dbei.pBlob = szMsg;
+				ProtoChainRecvMsg(pReq->GetHContact(), dbei);
 			}
 		}
 	}

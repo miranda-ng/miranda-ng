@@ -209,7 +209,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						dbei.szModule = pszProto;
 						dbei.timestamp = time(0);
 						dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
-						dbei.pBlob = (uint8_t*)pszUtf;
+						dbei.pBlob = pszUtf;
 						db_event_add(hContact, &dbei);
 
 						mir_free(ptszTemp2);

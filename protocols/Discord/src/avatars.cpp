@@ -52,7 +52,7 @@ INT_PTR CDiscordProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveAvatar(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = PA_FORMAT_UNKNOWN;
@@ -64,7 +64,7 @@ LBL_Error:
 		return;
 	}
 
-	if (auto *pszHdr = Netlib_GetHeader(reply, "Content-Type"))
+	if (auto *pszHdr = reply->FindHeader("Content-Type"))
 		ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
 	if (ai.format == PA_FORMAT_UNKNOWN) {
@@ -81,7 +81,7 @@ LBL_Error:
 		goto LBL_Error;
 	}
 
-	fwrite(reply->pData, 1, reply->dataLength, out);
+	fwrite(reply->body, 1, reply->body.GetLength(), out);
 	fclose(out);
 
 	if (ai.hContact)

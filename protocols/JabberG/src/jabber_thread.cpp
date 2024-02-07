@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -632,6 +632,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 
 	bool isRegisterAvailable = false;
 	bool areMechanismsDefined = false;
+	m_bTlsExporter = m_bTlsServerEndpoint = false;
 
 	for (auto *n : TiXmlEnum(node)) {
 		auto *pszName = n->Name();
@@ -728,6 +729,16 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				info->pPendingQuery = AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, info->conn.server, payLoad.Detach(), 1);
 			}
 			else info->jabberServerCaps |= pCaps->GetCaps();
+		}
+		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(n->Attribute("xmlns"), JABBER_FEAT_CHANNEL_BINDING)) {
+			for (auto *it : TiXmlFilter(n, "channel-binding")) {
+				if (auto *pszType = it->Attribute("type")) {
+					if (!mir_strcmp(pszType, "tls-exporter"))
+						m_bTlsExporter = true;
+					else if (!mir_strcmp(pszType, "tls-server-end-point"))
+						m_bTlsServerEndpoint = true;
+				}
+			}
 		}
 	}
 
@@ -1245,7 +1256,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// chatstates gone event
 	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_bLogChatstates) {
-		uint8_t bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
+		char bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;
@@ -1324,10 +1335,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			if (auto *url = XmlGetChildText(xNode, "url"))
+			if (auto *url = XmlGetChildText(xNode, "url")) {
 				FileProcessHttpDownload(hContact, from, url, XmlGetChildText(xNode, "desc"));
-			else 
-				debugLogA("No URL in OOB file transfer, ignoring");
+				return;
+			}
+			
+			debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = XmlFirstChild(xNode, "invite");
@@ -1357,7 +1370,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 					else if (!mir_strcmp(action, "delete")) {
 						MCONTACT cc = HContactFromJID(jid);
 						if (cc)
-							db_delete_contact(cc, true);
+							db_delete_contact(cc, CDF_FROM_SERVER);
 					}
 				}
 			}
@@ -1403,17 +1416,17 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (!bOffline)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	PROTORECVEVENT recv = {};
+	DB::EventInfo dbei;
 	if (bCreateRead)
-		recv.flags |= PREF_CREATEREAD;
+		dbei.flags |= DBEF_READ;
 	if (bWasSent)
-		recv.flags |= PREF_SENT;
+		dbei.flags |= DBEF_SENT;
 
-	recv.timestamp = (uint32_t)msgTime;
-	recv.szMessage = szMessage.GetBuffer();
-	recv.szMsgId = szMsgId;
+	dbei.timestamp = (uint32_t)msgTime;
+	dbei.pBlob = szMessage.GetBuffer();
+	dbei.szId = szMsgId;
 
-	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, &recv);
+	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, dbei);
 	if (idStr)
 		m_arChatMarks.insert(new CChatMark(hDbEVent, idStr, from));
 }
@@ -1461,7 +1474,7 @@ void CJabberProto::OnProcessPresenceCapabilites(const TiXmlElement *node, pResou
 	else {
 		r->m_pCaps = g_clientCapsManager.GetPartialCaps(szNode, szVer);
 		if (r->m_pCaps == nullptr) {
-			r->m_pCaps = g_clientCapsManager.SetClientCaps(szNode, szVer, "", JABBER_RESOURCE_CAPS_UNINIT);
+			r->m_pCaps = g_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, JABBER_RESOURCE_CAPS_UNINIT);
 			GetResourceCapabilities(from, r);
 		}
 	}

@@ -34,7 +34,7 @@ int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2)
 
 static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 {
-	return compareInt64(p1->id, p2->id);
+	return compareInt64(p1->m_id, p2->m_id);
 }
 
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
@@ -241,10 +241,11 @@ int CDiscordProto::SetStatus(int iNewStatus)
 
 	// go offline
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (m_bOnline) {
+		if (m_bOnline)
 			SetServerStatus(ID_STATUS_OFFLINE);
-			ShutdownSession();
-		}
+		
+		ShutdownSession();
+		
 		m_iStatus = m_iDesiredStatus;
 		setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
@@ -254,7 +255,7 @@ int CDiscordProto::SetStatus(int iNewStatus)
 	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, nullptr, nullptr);
+		ForkThread(&CDiscordProto::ServerThread);
 	}
 	else if (m_bOnline) {
 		debugLogA("setting server online status to %d", iNewStatus);
@@ -329,7 +330,7 @@ HANDLE CDiscordProto::SearchAdvanced(HWND hwndDlg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic search - by SnowFlake
 
-void CDiscordProto::OnReceiveUserinfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveUserinfo(MHttpResponse *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -368,9 +369,9 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	return 0;
 }
 
-int CDiscordProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+int CDiscordProto::AuthRecv(MCONTACT, DB::EventInfo &dbei)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);
+	return Proto_AuthRecv(m_szModuleName, dbei);
 }
 
 int CDiscordProto::Authorize(MEVENT hDbEvent)
@@ -459,7 +460,7 @@ MCONTACT CDiscordProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMsg
 
-void CDiscordProto::OnSendMsg(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnSendMsg(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (!root) {
@@ -574,7 +575,7 @@ int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMarkRead(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+void CDiscordProto::OnReceiveMarkRead(MHttpResponse *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	if (root)
@@ -625,7 +626,7 @@ int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CDiscordProto::OnContactDeleted(MCONTACT hContact)
+bool CDiscordProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 	if (pUser == nullptr || !m_bOnline)
@@ -712,10 +713,10 @@ void CDiscordProto::SendFileThread(void *param)
 
 	szBoundary.Insert(0, "\r\n");
 	szBoundary.Append("--\r\n");
-	pReq->dataLength = int(szBody.GetLength() + szBoundary.GetLength() + cbBytes);
-	pReq->pData = (char*)mir_alloc(pReq->dataLength+1);
-	memcpy(pReq->pData, szBody.c_str(), szBody.GetLength());
-	size_t cbRead = fread(pReq->pData + szBody.GetLength(), 1, cbBytes, in);
+	pReq->m_szParam.Truncate(int(szBody.GetLength() + szBoundary.GetLength() + cbBytes));
+
+	memcpy(pReq->m_szParam.GetBuffer(), szBody.c_str(), szBody.GetLength());
+	size_t cbRead = fread(pReq->m_szParam.GetBuffer() + szBody.GetLength(), 1, cbBytes, in);
 	fclose(in);
 	if (cbBytes != cbRead) {
 		debugLogA("cannot read file %S: %d bytes read instead of %d", p->wszFileName.c_str(), cbRead, cbBytes);
@@ -723,14 +724,14 @@ void CDiscordProto::SendFileThread(void *param)
 		goto LBL_Error;
 	}
 	
-	memcpy(pReq->pData + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
+	memcpy(pReq->m_szParam.GetBuffer() + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
 	pReq->pUserInfo = p;
 	Push(pReq);
 
 	ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, param);
 }
 
-void CDiscordProto::OnReceiveFile(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveFile(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 {
 	SendFileThreadParam *p = (SendFileThreadParam*)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {

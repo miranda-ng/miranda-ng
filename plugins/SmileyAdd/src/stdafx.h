@@ -113,7 +113,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 void InstallDialogBoxHook(void);
 void RemoveDialogBoxHook(void);
 
-int  UpdateSrmmDlg(WPARAM, LPARAM);
 int  SmileyButtonCreate(WPARAM, LPARAM);
 int  SmileyButtonPressed(WPARAM, LPARAM);
 

@@ -56,18 +56,6 @@ uint32_t	WhenAdded(uint32_t dwUIN, LPCSTR)
 namespace Module {
 
 /**
-* Enum Proc for DBModule_IsEmpty
-* @param	pszSetting	- the setting
-* @param	lParam		- DBCONTACTENUMSETTINGS - (LPARAM)&dbces
-* @retval	TRUE		- always true
-**/
-
-static int IsEmptyEnumProc(LPCSTR, void*)
-{
-	return 1;
-}
-
-/**
 * This function tests, whether a module belongs to a metacontact protocol
 * @param	pszModule	- the module to read the setting from (e.g. USERINFO)
 * @retval	TRUE		- the module belongs to a metacontact protocol
@@ -508,7 +496,7 @@ bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 		dbei->cbBlob = (size != -1) ? (uint32_t)size : 0;
 	}
 	if (dbei->cbBlob) {
-		dbei->pBlob = (uint8_t*) mir_alloc(dbei->cbBlob);
+		dbei->pBlob = (char *)mir_alloc(dbei->cbBlob);
 		if (dbei->pBlob == nullptr)
 			dbei->cbBlob = 0;
 	}

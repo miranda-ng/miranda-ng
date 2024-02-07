@@ -17,7 +17,7 @@ MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 	uint32_t body[3];
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(uint32_t) * 2;
-	dbei.pBlob = (uint8_t*)&body;
+	dbei.pBlob = (char *)&body;
 
 	if (db_event_get(hEvent, &dbei))
 		return INVALID_CONTACT_ID;
@@ -201,7 +201,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-bool CToxProto::OnContactDeleted(MCONTACT hContact)
+bool CToxProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	if (!IsOnline())
 		return false;
@@ -234,11 +234,11 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 
 	DB::AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, (LPCSTR)address, (LPCSTR)message);
 
-	PROTORECVEVENT pre = {};
-	pre.timestamp = now();
-	pre.lParam = blob.size();
-	pre.szMessage = blob;
-	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = now();
+	dbei.cbBlob = blob.size();
+	dbei.pBlob = blob;
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 }
 
 void CToxProto::OnFriendNameChange(Tox *tox, uint32_t friendNumber, const uint8_t *name, size_t length, void *arg)

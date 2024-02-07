@@ -47,6 +47,9 @@
     <ClCompile Include="src\voice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\mfa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\proto.h">
@@ -69,5 +72,19 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\discord.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\groupchat.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\voiceCall.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\voiceEnded.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

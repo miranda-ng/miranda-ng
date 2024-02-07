@@ -66,13 +66,13 @@ LPSTR szUnrtfMsg = nullptr;
 INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)ccs->lParam;
+	auto *dbei = (DB::EventInfo *)ccs->lParam;
 	pUinKey ptr = getUinKey(ccs->hContact);
-	LPSTR szEncMsg = ppre->szMessage, szPlainMsg = nullptr;
+	LPSTR szEncMsg = dbei->pBlob, szPlainMsg = nullptr;
 
 	Sent_NetLog("onRecvMsg: %s", szEncMsg);
 
-	int ssig = getSecureSig(ppre->szMessage, &szEncMsg);
+	int ssig = getSecureSig(dbei->pBlob, &szEncMsg);
 	bool bSecured = (isContactSecured(ccs->hContact)&SECURED) != 0;
 	bool bPGP = isContactPGP(ccs->hContact);
 	bool bGPG = isContactGPG(ccs->hContact);
@@ -96,7 +96,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		Sent_NetLog("onRecvMsg: non-secure message");
 
 		ptrA szPlainMsg(m_aastrcat(Translate("SecureIM received unencrypted message:\n"), szEncMsg));
-		ppre->szMessage = szPlainMsg;
+		dbei->pBlob = szPlainMsg;
 		ccs->wParam |= PREF_SIMNOMETA;
 		return Proto_ChainRecv(wParam, ccs);
 	}
@@ -131,7 +131,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		mir_strcpy(tmp, ptr->msgSplitted);
 		mir_strcat(tmp, szEncMsg);
 		mir_free(ptr->msgSplitted);
-		ptr->msgSplitted = szEncMsg = ppre->szMessage = tmp;
+		ptr->msgSplitted = szEncMsg = dbei->pBlob = tmp;
 		ssig = getSecureSig(tmp, &szEncMsg);
 	}
 	else SAFE_FREE(ptr->msgSplitted);
@@ -140,7 +140,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_SECP || ssig == SiG_PART) {
 		LPSTR msg = combineMessage(ptr, szEncMsg);
 		if (!msg) return 1;
-		szEncMsg = ppre->szMessage = msg;
+		szEncMsg = dbei->pBlob = msg;
 		ssig = getSecureSig(msg, &szEncMsg);
 	}
 
@@ -148,7 +148,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_PGPM && ((bPGPloaded && (bPGPkeyrings || bPGPprivkey)) || (bGPGloaded && bGPGkeyrings))) {
 		Sent_NetLog("onRecvMsg: PGP/GPG message");
 
-		szEncMsg = ppre->szMessage;
+		szEncMsg = dbei->pBlob;
 		if (!ptr->cntx) {
 			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings) ? CPP_MODE_GPG : CPP_MODE_PGP) | ((db_get_b(ccs->hContact, MODULENAME, "gpgANSI", 0)) ? CPP_MODE_GPG_ANSI : 0));
 			ptr->keyLoaded = 0;
@@ -169,7 +169,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (!szOldMsg) { // error while decrypting message, send error
 			SAFE_FREE(ptr->msgSplitted);
-			ppre->szMessage = Translate("SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");
+			dbei->pBlob = Translate("SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");
 			return Proto_ChainRecv(wParam, ccs);
 		}
 
@@ -178,9 +178,9 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			szNewMsg = m_ustrcat(Translate("SecureIM received encrypted message:\n"), szOldMsg);
 			szOldMsg = szNewMsg;
 		}
-		ptrA szMsgUtf(utf8_to_miranda(szOldMsg, ppre->flags));
-		ccs->wParam = ppre->flags;
-		ppre->szMessage = szMsgUtf;
+		ptrA szMsgUtf(utf8_to_miranda(szOldMsg, dbei->flags));
+		ccs->wParam = dbei->flags;
+		dbei->pBlob = szMsgUtf;
 
 		// show decoded message
 		showPopupRM(ptr->hContact);
@@ -213,9 +213,9 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			if (!szOldMsg)
 				return 1; // don't display it ...
 
-			ptrA szNewMsg(utf8_to_miranda(szOldMsg, ppre->flags));
-			ccs->wParam = ppre->flags;
-			ppre->szMessage = szNewMsg;
+			ptrA szNewMsg(utf8_to_miranda(szOldMsg, dbei->flags));
+			ccs->wParam = dbei->flags;
+			dbei->pBlob = szNewMsg;
 
 			// show decoded message
 			showPopupRM(ptr->hContact);

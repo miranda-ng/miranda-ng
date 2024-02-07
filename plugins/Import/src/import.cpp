@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -307,11 +307,6 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char* newStr(const char *s)
-{
-	return (s == nullptr) ? nullptr : mir_strcpy(new char[mir_strlen(s) + 1], s);
-}
-
 bool CImportBatch::FindDestAccount(const char *szProto)
 {
 	for (auto &pam : m_accounts) {
@@ -518,43 +513,6 @@ int ModulesEnumProc(const char *szModuleName, void *pParam)
 	else g_pBatch->CopySettings(icd->from, szModuleName, icd->to, szModuleName);
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct MImportGroup
-{
-	MImportGroup(int _n, wchar_t *_nm) :
-		wszName(_nm),
-		iNumber(_n)
-	{}
-
-	int iNumber;
-	ptrW wszName;
-};
-
-static int ImportGroup(const char* szSettingName, void *param)
-{
-	OBJLIST<MImportGroup> *pArray = (OBJLIST<MImportGroup>*)param;
-	wchar_t *wszGroupName = g_pBatch->myGetWs(NULL, "CListGroups", szSettingName);
-	if (wszGroupName != nullptr)
-		pArray->insert(new MImportGroup(atoi(szSettingName), wszGroupName));
-	return 0;
-}
-
-int CImportBatch::ImportGroups()
-{
-	OBJLIST<MImportGroup> arGroups(10, NumericKeySortT);
-	srcDb->EnumContactSettings(NULL, ImportGroup, "CListGroups", &arGroups);
-
-	for (auto &it : arGroups) {
-		MGROUP group_id = Clist_GroupCreate(0, it->wszName.get() + 1);
-		if (group_id <= 0)
-			continue;
-
-		Clist_GroupSetExpanded(group_id, (it->wszName[0] & GROUPF_EXPANDED));
-	}
-	return arGroups.getCount();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -888,7 +846,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 		// Copy the event and import it
 		DB::EventInfo dbei;
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
-		dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob+1);
+		dbei.pBlob = (char *)mir_alloc(dbei.cbBlob+1);
 
 		bool bSkipThis = false;
  		if (!srcDb->GetEvent(hEvent, &dbei)) {
@@ -1028,7 +986,6 @@ void CImportBatch::DoImport()
 	uint32_t dwTimer = time(0);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
-	arSkippedAccs.insert(newStr("CListGroups"));
 	if (!ImportAccounts(arSkippedAccs)) {
 		AddMessage(LPGENW("Error mapping accounts, exiting."));
 		return;
@@ -1038,18 +995,6 @@ void CImportBatch::DoImport()
 	if (m_iOptions & IOPT_SYS_SETTINGS)
 		srcDb->EnumModuleNames(CopySystemSettings, &arSkippedAccs);
 	arSkippedAccs.destroy();
-
-	// Import Groups
-	if (m_iOptions & IOPT_GROUPS) {
-		AddMessage(LPGENW("Importing groups."));
-		nGroupsCount = ImportGroups();
-		if (nGroupsCount == -1)
-			AddMessage(LPGENW("Group import failed."));
-
-		AddMessage(L"");
-	}
-	dstDb->Flush();
-	// End of Import Groups
 
 	// Import Contacts
 	if (m_iOptions & IOPT_CONTACTS) {

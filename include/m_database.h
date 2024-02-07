@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+// Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 // Copyright (c) 2000-08 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -83,13 +83,19 @@ EXTERN_C MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szMod
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(void);
 
 // Deletes the contact hContact from the database and all events and settings associated with it.
+// The 'flags' parameter could be zero of any combination of CDF_* constants
 // Returns 0 on success or nonzero if hContact was invalid
 // Please don't try to delete the user contact (hContact = NULL)
 // Triggers a db/contact/deleted event just *before* it removes anything
 // Because all events are deleted, lots of people may end up with invalid event
 // handles from this operation, which they should be prepared for.
 
-EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto = false);
+#define CDF_FROM_SERVER  0x01 // delete operation requested from the server
+#define CDF_DEL_CONTACT  0x02 // delete server contact
+#define CDF_DEL_HISTORY  0x04 // delete server history (by default for me only)
+#define CDF_FOR_EVERYONE 0x08 // delete server history for everyone, not just for you
+
+EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, uint32_t flags = 0);
 
 // Checks if a given value is a valid contact handle, note that due
 // to the nature of multiple threading, a valid contact can still become
@@ -188,9 +194,10 @@ struct DBEVENTINFO
 									    // unless you use the standard C library which is
 									    // signed and can only do until 2038. In GMT.
 	uint32_t    flags;          // combination of DBEF_* flags
-	uint16_t    eventType;      // module-defined event type field
+	uint32_t    eventType;      // module-defined event type field
+	MCONTACT    hContact;       // contact to which this event belongs
 	int         cbBlob;         // size of pBlob in bytes
-	uint8_t    *pBlob;          // pointer to buffer containing module-defined event data
+	char       *pBlob;          // pointer to buffer containing module-defined event data
 	const char *szId;           // server message id
 	const char *szUserId;       // user id (for group chats only)
 	const char *szReplyId;      // this message is a reply to a message with that server id
@@ -289,7 +296,7 @@ EXTERN_C MIR_CORE_DLL(int) db_event_count(MCONTACT hContact);
 // Returns 0 on success, or nonzero if hDbEvent was invalid
 // Triggers a db/event/deleted event just *before* the event is deleted
 
-EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, bool bFromServer = false);
+EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, int flags = 0);
 
 // Edits an event in the database
 // Returns 0 on success, or nonzero on error
@@ -522,7 +529,7 @@ __forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO *dbei)
 // This string should be freed by a call of mir_free
 
 EXTERN_C MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage);
-EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei, int codepage);
+EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves the event's icon
@@ -689,6 +696,7 @@ namespace DB
 
 		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
 		void unload();
+		void wipeNotify(MEVENT hEvent);
 
 		__forceinline operator bool() const { return bValid; }
 
@@ -710,14 +718,17 @@ namespace DB
 		ptrW m_wszFileName, m_wszDescription, m_wszLocalName;
 		ptrA m_szProtoString;
 		int64_t m_iFileSize = -1, m_iTransferred = -1;
+		void *m_pUserInfo = 0;
 
 	public:
+		explicit FILE_BLOB(void *pUserInfo, const char *pszName, const char *pszDescr = nullptr, bool bUtf = true);
 		explicit FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr = nullptr);
 		explicit FILE_BLOB(const EventInfo &dbei);
 		~FILE_BLOB();
 
 		void write(EventInfo &dbei);
 
+		__forceinline void* getUserInfo() const { return m_pUserInfo; }
 		__forceinline const char* getUrl() const { return m_szProtoString; }
 		__forceinline const wchar_t* getLocalName() const { return m_wszLocalName; }
 		__forceinline const wchar_t* getName() const { return m_wszFileName; }
@@ -734,6 +745,7 @@ namespace DB
 		__forceinline void setName(const wchar_t *pszFileName) { m_wszFileName = mir_wstrdup(pszFileName); }
 		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
 		__forceinline void setLocalName(const wchar_t *pszFileName) { m_wszLocalName = mir_wstrdup(pszFileName); }
+		__forceinline void setUserInfo(void *pUserInfo) { m_pUserInfo = pUserInfo; }
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -747,15 +759,14 @@ namespace DB
 		ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
 		uint32_t m_size;
 
-		uint8_t* makeBlob();
+		char* makeBlob();
 
 	public:
 		explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
-		explicit AUTH_BLOB(uint8_t *blob);
+		explicit AUTH_BLOB(char *blob);
 		~AUTH_BLOB();
 
-		__forceinline operator char*() { return (char*)makeBlob(); }
-		__forceinline operator uint8_t*() { return makeBlob(); }
+		__forceinline operator char*() { return makeBlob(); }
 
 		__forceinline uint32_t size() const  { return m_size; }
 

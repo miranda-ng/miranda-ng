@@ -55,7 +55,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady) {
 			g_plugin.delSetting(hContact, "TempStatusMsg");
-			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0)) {
+			if (CanRetrieveStatusMsg(hContact, szProto) && CallContactService(hContact, PS_GETAWAYMSG, 0, 0)) {
 				if (WaitForContentTimerID)
 					KillTimer(nullptr, WaitForContentTimerID);
 

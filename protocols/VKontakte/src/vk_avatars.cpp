@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveAvatar(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	if (reply->resultCode != 200 || !pReq->pUserInfo)
 		return;
@@ -25,7 +25,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
 	GetAvatarFileName(param->hContact, ai.filename, _countof(ai.filename));
-	ai.format = ProtoGetBufferFormat(reply->pData);
+	ai.format = ProtoGetBufferFormat(reply->body);
 
 	FILE *out = _wfopen(ai.filename, L"wb");
 	if (out == nullptr) {
@@ -35,7 +35,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	fwrite(reply->pData, 1, reply->dataLength, out);
+	fwrite(reply->body, 1, reply->body.GetLength(), out);
 	fclose(out);
 	setByte(param->hContact, "NeedNewAvatar", 0);
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);

@@ -19,20 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
-
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-			pReq->szUrl = str.GetBuffer();
-		}
-		else {
-			pReq->pData = mir_strdup(pReq->m_szParam);
-			pReq->dataLength = pReq->m_szParam.GetLength();
-		}
-	}
-
 	if (pReq->m_bMainSite) {
 		pReq->flags |= NLHRF_PERSISTENT;
 		pReq->nlc = m_hAPIConnection;
@@ -40,7 +26,7 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	bool bRetryable = pReq->nlc != nullptr;
-	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
+	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->m_szUrl.c_str());
 
 LBL_Retry:
 	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
@@ -103,6 +89,8 @@ void CDiscordProto::ShutdownSession()
 	debugLogA("CDiscordProto::ShutdownSession");
 
 	// shutdown all resources
+	if (pMfaDialog)
+		pMfaDialog->Close();
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 	if (m_hGatewayConnection)
@@ -116,7 +104,7 @@ void CDiscordProto::ShutdownSession()
 void CDiscordProto::ConnectionFailed(int iReason)
 {
 	debugLogA("CDiscordProto::ConnectionFailed -> reason %d", iReason);
-	delSetting("AccessToken");
+	delSetting(DB_KEY_TOKEN);
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	ShutdownSession();

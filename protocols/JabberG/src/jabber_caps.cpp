@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -342,6 +342,8 @@ JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)
 		for (auto &it : m_lstJabberFeatCapPairsDynamic)
 			jcb |= it->jcbCap;
 
+	if (!m_bAllowLast)
+		jcb &= ~JABBER_CAPS_LAST_ACTIVITY;
 	if (!m_bAllowTimeReplies)
 		jcb &= ~JABBER_CAPS_ENTITY_TIME;
 	if (!m_bAllowVersionRequests)
@@ -417,7 +419,7 @@ void CJabberProto::UpdateFeatHash()
 CJabberClientPartialCaps::CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer) :
 	m_parent(pParent),
 	m_szHash(mir_strdup(szHash)),
-	m_szSoftVer(mir_strdup(szVer))
+	m_szVer(mir_strdup(szVer))
 {
 	m_iTime = time(0);
 }
@@ -571,21 +573,8 @@ static const char *str2buf(const std::string &str)
 
 void CJabberClientCapsManager::Load()
 {
-	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_BINARY | _O_RDONLY);
-	if (fileId == -1)
-		return;
-
-	size_t dwFileLength = _filelength(fileId), dwReadLen;
-	ptrA szBuf((char *)mir_alloc(dwFileLength + 1));
-	dwReadLen = _read(fileId, szBuf, (unsigned)dwFileLength);
-	_close(fileId);
-	if (dwFileLength != dwReadLen)
-		return;
-
-	szBuf[dwFileLength] = 0;
-
-	JSONNode root = JSONNode::parse(szBuf);
-	if (!root)
+	JSONNode root;
+	if (!file2json(VARSW(L"%miranda_userdata%\\jabberCaps.json"), root))
 		return;
 
 	for (auto &node : root) {
@@ -597,7 +586,7 @@ void CJabberClientCapsManager::Load()
 		}
 
 		for (auto &ver : node["versions"]) {
-			std::string szVer = ver["softver"].as_string();
+			std::string szVer = ver["ver"].as_string();
 			std::string szHash = ver["hash"].as_string();
 			JabberCapsBits jcbCaps = _atoi64(ver["caps"].as_string().c_str());
 
@@ -606,6 +595,7 @@ void CJabberClientCapsManager::Load()
 			res->SetOs(str2buf(ver["os"].as_string()));
 			res->SetOsVer(str2buf(ver["osver"].as_string()));
 			res->SetSoft(str2buf(ver["soft"].as_string()));
+			res->SetSoftVer(str2buf(ver["softver"].as_string()));
 			res->SetSoftMir(str2buf(ver["softmir"].as_string()));
 		}
 	}
@@ -623,9 +613,19 @@ void CJabberClientCapsManager::Save()
 				continue;
 
 			JSONNode ver;
-			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->GetTime())
-				<< CHAR_PARAM("os", p->GetOs()) << CHAR_PARAM("osver", p->GetOsVer())
-				<< CHAR_PARAM("soft", p->GetSoft()) << CHAR_PARAM("softver", p->GetSoftVer()) << CHAR_PARAM("softmir", p->GetSoftMir());
+			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->GetTime());
+			if (p->GetVer())
+				ver << CHAR_PARAM("ver", p->GetVer());
+			if(p->GetOs())
+				ver << CHAR_PARAM("os", p->GetOs());
+			if(p->GetOsVer())
+				ver << CHAR_PARAM("osver", p->GetOsVer());
+			if(p->GetSoft())
+				ver << CHAR_PARAM("soft", p->GetSoft());
+			if(p->GetSoftVer())
+				ver << CHAR_PARAM("softver", p->GetSoftVer());
+			if(p->GetSoftMir())
+				ver << CHAR_PARAM("softmir", p->GetSoftMir());
 			versions.push_back(ver);
 		}
 
@@ -633,11 +633,5 @@ void CJabberClientCapsManager::Save()
 		root << node;
 	}
 
-	std::string szBody = root.write_formatted();
-
-	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-	if (fileId != -1) {
-		_write(fileId, szBody.c_str(), (unsigned)szBody.length());
-		_close(fileId);
-	}
+	json2file(root, VARSW(L"%miranda_userdata%\\jabberCaps.json"));
 }

@@ -36,17 +36,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol related services
 
-/** Copy the name of the protocol into lParam
-* @param wParam :	max size of the name
-* @param lParam :	reference to a char *, which will hold the name
-*/
-INT_PTR CSametimeProto::GetName(WPARAM wParam, LPARAM lParam)
-{
-	strncpy((char*)lParam, m_szModuleName, wParam);
-	return 0;
-}
-
-
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
 * @param wParam :	icon type
@@ -128,7 +117,7 @@ void CSametimeProto::OnShutdown()
 		LogOut();
 }
 
-bool CSametimeProto::OnContactDeleted(MCONTACT hContact)
+bool CSametimeProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	ContactDeleted(hContact);
 	ChatDeleted(hContact);
@@ -141,7 +130,7 @@ void CSametimeProto::SetAllOffline()
 
 	for (auto &hContact : AccContacts()) {
 		if (Contact::IsGroupChat(hContact, m_szModuleName)) {
-			db_delete_contact(hContact, true);
+			db_delete_contact(hContact, CDF_FROM_SERVER);
 			continue;
 		}
 

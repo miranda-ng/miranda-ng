@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -73,32 +73,21 @@ void CSkypeProto::PushRequest(AsyncHttpRequest *request)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-NETLIBHTTPREQUEST* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
+MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 {
 	if (pReq->m_host != HOST_OTHER)
 		pReq->m_szUrl.Insert(0, ((pReq->flags & NLHRF_SSL) ? "https://" : "http://"));
 
 	if (!pReq->m_szParam.IsEmpty()) {
 		switch (pReq->requestType) {
-		case REQUEST_GET:
-		case REQUEST_DELETE:
-			pReq->m_szUrl.AppendChar('?');
-			pReq->m_szUrl.Append(pReq->m_szParam.c_str());
-			break;
-
 		case REQUEST_PUT:
 		case REQUEST_POST:
-			if (Netlib_GetHeader(pReq, "Content-Type") == nullptr) {
+			if (!pReq->FindHeader("Content-Type")) {
 				if (pReq->m_szParam[0] == '[' || pReq->m_szParam[0] == '{')
 					pReq->AddHeader("Content-Type", "application/json; charset=UTF-8");
 				else
 					pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			}
-			__fallthrough;
-
-		default:
-			pReq->pData = pReq->m_szParam.Detach();
-			pReq->dataLength = (int)mir_strlen(pReq->pData);
 		}
 	}
 
@@ -126,8 +115,8 @@ NETLIBHTTPREQUEST* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 		break;
 	}
 
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	debugLogA("Send request to %s", pReq->szUrl);
+	pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
+	debugLogA("Send request to %s", pReq->m_szUrl.c_str());
 
 	return Netlib_HttpTransaction(m_hNetlibUser, pReq);
 }

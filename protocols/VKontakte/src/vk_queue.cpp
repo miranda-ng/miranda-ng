@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,21 +34,10 @@ void CVkProto::UninitQueue()
 
 bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	CMStringA str;
 	do {
 		pReq->bNeedsRestart = false;
 		pReq->m_iErrorCode = 0;
-		pReq->szUrl = pReq->m_szUrl.GetBuffer();
-		if (!pReq->m_szParam.IsEmpty()) {
-			if (pReq->requestType == REQUEST_GET) {
-				str.Format("%s?%s", pReq->m_szUrl.c_str(), pReq->m_szParam.c_str());
-				pReq->szUrl = str.GetBuffer();
-			}
-			else {
-				pReq->pData = mir_strdup(pReq->m_szParam);
-				pReq->dataLength = pReq->m_szParam.GetLength();
-			}
-		}
+		pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
 
 		if (pReq->m_bApiReq) {
 			pReq->flags |= NLHRF_PERSISTENT;
@@ -64,7 +53,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
 		}
 
-		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
+		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
 		NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 		{
 			mir_cslock lck(m_csWorkThreadTimer);

@@ -22,6 +22,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+#define PSR_AWAYMSG    "/RecvAwayMsg"
 
 #define ICQ_TCP_VER                     0x0002
 #define ICQ_UDP_VER                     0x0003
@@ -165,8 +166,6 @@ public:
     void requestSystemMsg();
     void requestBroadcastMsg();
     void updateContactList();
-    void sendVisibleList();
-    void sendInvisibleList();
     void updateUserList(ICQUser *u, char list, char add);
     void processSystemMessage(Packet &packet, unsigned long checkUin, unsigned short newCommand, time_t timeSent);
     void ackSYS(unsigned int timeStamp);

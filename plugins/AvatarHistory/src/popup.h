@@ -42,13 +42,6 @@ struct Options {
 	uint16_t popup_right_click_action;
 };
 
-// Initializations needed by popups
-void InitPopups();
-
-// Deinitializations needed by popups
-void DeInitPopups();
-
-
 #define POPUP_TYPE_NORMAL	0
 #define POPUP_TYPE_TEST		1
 #define POPUP_TYPE_ERROR	2
@@ -61,7 +54,6 @@ void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *desc
 void ShowTestPopup(MCONTACT hContact,const wchar_t *title, const wchar_t *description, const Options *op);
 
 // Show an error popup
-void ShowErrPopup(const char *description, const char *title = nullptr);
 
 void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description, 
 			   void *plugin_data, int type, const Options *op);

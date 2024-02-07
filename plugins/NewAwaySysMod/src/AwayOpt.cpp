@@ -579,7 +579,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				EnableAutoreplyOptDlgControls();
 				// go through
 			case IDC_REPLYDLG_DONTSENDTOICQ:
-			case IDC_REPLYDLG_DONTREPLYINVISIBLE:
 			case IDC_REPLYDLG_ONLYCLOSEDDLGREPLY:
 			case IDC_REPLYDLG_ONLYIDLEREPLY:
 			case IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON:
@@ -1099,7 +1098,6 @@ void InitOptions()
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_EVENTMSG, "ReplyOnEvent", DBVT_BYTE, AUTOREPLY_DEF_REPLYONEVENT, EF_MSG, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_EVENTFILE, "ReplyOnEvent", DBVT_BYTE, AUTOREPLY_DEF_REPLYONEVENT, EF_FILE, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DONTSENDTOICQ, "DontSendToICQ", DBVT_BYTE, 0, 0, IDC_REPLYDLG_ENABLEREPLY));
-	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DONTREPLYINVISIBLE, "DontReplyInvisible", DBVT_BYTE, 1, 0, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_LOGREPLY, "LogReply", DBVT_BYTE, 1, 0, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_ONLYIDLEREPLY, "OnlyIdleReply", DBVT_BYTE, 0, 0, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_ONLYCLOSEDDLGREPLY, "OnlyClosedDlgReply", DBVT_BYTE, 1, 0, IDC_REPLYDLG_ENABLEREPLY));

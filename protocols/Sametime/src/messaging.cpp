@@ -81,11 +81,10 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 	if (type != mwImSend_PLAIN)
 		return;
 
-	PROTORECVEVENT pre = {};
-	time_t t = time(0);
-	pre.timestamp = t;
-	pre.szMessage = (char*)msg;
-	ProtoChainRecvMsg(hContact, &pre);
+	DB::EventInfo dbei;
+	dbei.timestamp = time(0);
+	dbei.pBlob = (char*)msg;
+	ProtoChainRecvMsg(hContact, dbei);
 }
 
 void mwIm_place_invite(struct mwConversation* conv, const char* message, const char*, const char*)

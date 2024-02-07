@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -567,7 +567,7 @@ public:
 		dbei->timestamp = RLInteger(&pMsg[0x12]);
 		dbei->timestamp -= TimeZone_ToLocal(dbei->timestamp) - dbei->timestamp; // deduct time zone offset from timestamp
 		dbei->cbBlob = RLWord(&pMsg[m_iMsgHeaderSize - 2]);
-		dbei->pBlob = (uint8_t*)mir_alloc(dbei->cbBlob + 1);
+		dbei->pBlob = (char *)mir_alloc(dbei->cbBlob + 1);
 		memcpy(dbei->pBlob, pMsg + m_iMsgHeaderSize, dbei->cbBlob);
 		if (m_iFileVersion != 1)
 			for (int i = 0; i < dbei->cbBlob; i++) {

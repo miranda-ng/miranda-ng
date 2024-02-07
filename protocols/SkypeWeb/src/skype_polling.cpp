@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-23 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2015-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -39,14 +39,14 @@ void CSkypeProto::PollingThread(void *)
 
 			if (response->resultCode == 200) {
 				nErrors = 0;
-				if (response->pData)
-					ParsePollData(response->pData);
+				if (!response->body.IsEmpty())
+					ParsePollData(response->body);
 			}
 			else {
 				nErrors++;
 
-				if (response->pData) {
-					JSONNode root = JSONNode::parse(response->pData);
+				if (!response->body.IsEmpty()) {
+					JSONNode root = JSONNode::parse(response->body);
 					const JSONNode &error = root["errorCode"];
 					if (error && error.as_int() == 729)
 						break;

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -79,7 +79,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	bool     m_bIsSub;
 	bool     m_bIsUnknown;
 
-	int      ApparentMode;
 	int      NotOnList;
 	int      IdleTS;
 	void*    ClcContact;
@@ -140,7 +139,5 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 #else
 #define CLVM_MODULE "CLVM"
 #endif
-
-#define GROUPF_SHOWOFFLINE 0x40
 
 #endif

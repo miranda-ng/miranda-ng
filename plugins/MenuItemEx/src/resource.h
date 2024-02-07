@@ -16,7 +16,6 @@
 #define IDI_COPYIP                      121
 #define IDI_BROWSE                      122
 #define IDI_MIRVER                      123
-#define IDC_VIS                         1000
 #define IDC_REASON                      1001
 #define IDC_HIDE                        1002
 #define IDC_IGNORE                      1003

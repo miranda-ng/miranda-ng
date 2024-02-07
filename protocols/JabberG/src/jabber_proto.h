@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Maxim Mluhov
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -119,7 +119,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
-	int      AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
 	int      AuthRequest(MCONTACT, const wchar_t *pwszReason) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
@@ -141,7 +141,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 	int      SendMsgEx(MCONTACT hContact, const char *msg, XmlNode &m);
 
-	int      SetApparentMode(MCONTACT hContact, int mode) override;
 	int      SetStatus(int iNewStatus) override;
 
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
@@ -150,7 +149,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnBuildProtoMenu(void) override;
-	bool     OnContactDeleted(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -185,6 +184,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bAcceptNotes;
 	CMOption<bool> m_bAllowTimeReplies;
 	CMOption<bool> m_bAllowVersionRequests;
+	CMOption<bool> m_bAllowLast;
 	CMOption<bool> m_bAutoAcceptAuthorization;
 	CMOption<bool> m_bAutoAcceptMUC;
 	CMOption<bool> m_bAutoAdd;
@@ -238,7 +238,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bUsePopups;
 	CMOption<bool> m_bUseSSL;
 	CMOption<bool> m_bUseTLS;
-	CMOption<bool> m_bUseTlsExport;
 
 	CMOption<int>   m_iMamMode;
 	CMOption<uint32_t> m_iConnectionKeepAliveInterval;
@@ -266,6 +265,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
 	bool   m_bMamDisableMessages, m_bMamCreateRead;
+	bool   m_bTlsExporter, m_bTlsServerEndpoint;
 
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;

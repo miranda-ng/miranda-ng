@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -135,7 +135,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 	if (mode & GCDNF_NOUNKNOWN)
 		return nullptr;
 
-	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
+	CallContactService(hContact, PS_GETINFO, SGIF_MINIMAL);
 
 	wchar_t *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == nullptr) ? mir_wstrdup(buffer) : buffer;

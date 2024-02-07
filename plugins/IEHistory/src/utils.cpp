@@ -123,7 +123,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 
 	int index = 0;
 	MEVENT hEvent = hFirstEvent;
-	void *buffer = nullptr;
+	char *buffer = nullptr;
 	bool found = false;
 	int oldSize, newSize;
 	oldSize = newSize = 0;
@@ -132,16 +132,16 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 	while ((!found) && (hEvent)) {
 		newSize = db_event_getBlobSize(hEvent);
 		if (newSize > oldSize) {
-			buffer = (wchar_t *)realloc(buffer, newSize);
+			buffer = (char *)realloc(buffer, newSize);
 			oldSize = newSize;
 		}
-		dbEvent.pBlob = (uint8_t*)buffer;
+		dbEvent.pBlob = buffer;
 		dbEvent.cbBlob = newSize;
 		if (db_event_get(hEvent, &dbEvent) == 0) { //successful
 			switch (type) {
 			case SEARCH_TEXT:
 				{
-					ptrW data(DbEvent_GetTextW(&dbEvent, CP_UTF8));
+					ptrW data(DbEvent_GetTextW(&dbEvent));
 					wchar_t *tmp = wcsstr(data, (wchar_t *)searchData);
 					if (tmp)
 						found = true;

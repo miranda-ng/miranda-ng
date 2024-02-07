@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -147,8 +147,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if ((g_plugin.secondLine.getType() == TEXT_STATUS_MESSAGE || g_plugin.thirdLine.getType() == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 		}
-		else if (!strcmp(cws->szSetting, "ApparentMode"))
-			pdnce->ApparentMode = cws->value.wVal;
 		else if (!strcmp(cws->szSetting, "IdleTS"))
 			pdnce->IdleTS = cws->value.dVal;
 		else if (!strcmp(cws->szSetting, "IsSubcontact")) {

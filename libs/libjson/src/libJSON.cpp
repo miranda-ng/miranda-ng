@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -457,4 +457,44 @@ LIBJSON_DLL(int) json_equal(JSONNode *node, JSONNode *node2) {
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_equal"), return false;);
 	JSON_ASSERT_SAFE(node2, JSON_TEXT("null node2 to json_equal"), return false;);
 	return *node == *node2;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LIBJSON_DLL(bool) file2json(const wchar_t *pwszFilename, JSONNode &root)
+{
+	if (!pwszFilename)
+		return false;
+
+	int fileId = _wopen(pwszFilename, _O_BINARY | _O_RDONLY);
+	if (fileId == -1)
+		return false;
+
+	size_t dwFileLength = _filelength(fileId), dwReadLen;
+	ptrA szBuf((char *)mir_alloc(dwFileLength + 1));
+	dwReadLen = _read(fileId, szBuf, (unsigned)dwFileLength);
+	_close(fileId);
+	if (dwFileLength != dwReadLen)
+		return false;
+
+	szBuf[dwFileLength] = 0;
+
+	root = JSONNode::parse(szBuf);
+	if (!root)
+		return false;
+
+	return true;
+}
+
+LIBJSON_DLL(bool) json2file(const JSONNode &root, const wchar_t *pwszFilename)
+{
+	auto szBody = root.write_formatted();
+
+	int fileId = _wopen(pwszFilename, _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+	if (fileId == -1)
+		return false;
+
+	int cbLen = _write(fileId, szBody.c_str(), (unsigned)szBody.length());
+	_close(fileId);
+	return cbLen == (int)szBody.length();
 }

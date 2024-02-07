@@ -10,4 +10,4 @@
 #define __DESCRIPTION           "Jingle support for Jabber protocol."
 #define __AUTHOR                "George Hazan"
 #define __AUTHORWEB             "https://miranda-ng.org/p/Jingle"
-#define __COPYRIGHT             "© 2023 George Hazan"
+#define __COPYRIGHT             "© 2023-24 George Hazan"

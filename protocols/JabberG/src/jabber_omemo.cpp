@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda NG
 
-Copyright (c) 2017-23 Miranda NG team
+Copyright (c) 2017-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1373,18 +1373,18 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 
 		std::string text = root.write();
 		dbei.cbBlob = (int)text.size() + 1;
-		dbei.pBlob = (uint8_t *)text.c_str();
+		dbei.pBlob = (char *)text.c_str();
 		db_event_add(hContact, &dbei);
 	}
 	else {
-		PROTORECVEVENT recv = {};
-		recv.timestamp = (uint32_t)msgTime;
-		recv.szMessage = result.GetBuffer();
+		DB::EventInfo dbei;
+		dbei.timestamp = (uint32_t)msgTime;
+		dbei.pBlob = result.GetBuffer();
 		if (trusted)
-			recv.flags = PREF_ENCRYPTED;
+			dbei.flags = DBEF_STRONG;
 		if (isCarbon)
-			recv.flags = PREF_SENT;
-		ProtoChainRecvMsg(hContact, &recv);
+			dbei.flags = DBEF_SENT;
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 
 	return true;

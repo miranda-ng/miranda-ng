@@ -1,7 +1,7 @@
 /*
 
 Facebook plugin for Miranda NG
-Copyright © 2019-23 Miranda NG team
+Copyright © 2019-24 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -737,7 +737,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			CreateDirectoryTreeW(wszPath);
 
 			bool bSuccess = false;
-			CMStringW wszFileName(FORMAT, L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
+			MFilePath wszFileName;
+			wszFileName.Format(L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
 			uint32_t dwAttrib = GetFileAttributesW(wszFileName);
 			if (dwAttrib == INVALID_FILE_ATTRIBUTES) {
 				wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
@@ -753,26 +754,15 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 				JsonReply reply(ExecuteRequest(pReq));
 				if (!reply.error()) {
 					for (auto &sticker : reply.data()) {
-						// std::string szUrl = sticker["animated_image"]["uri"].as_string();
-						// if (szUrl.empty())
-						// 	szUrl = sticker["thread_image"]["uri"].as_string();
-						// else
-						// 	wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
-						NETLIBHTTPREQUEST req = {};
-						req.cbSize = sizeof(req);
+						MHttpRequest req(REQUEST_GET);
 						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-						req.requestType = REQUEST_GET;
-						req.szUrl = (char*)szUrl.c_str();
+						req.m_szUrl = szUrl.c_str();
 
-						NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+						NLHR_PTR pReply(Netlib_DownloadFile(m_hNetlibUser, &req, wszFileName));
+						if (pReply != nullptr && pReply->resultCode == 200)
 							bSuccess = true;
-							FILE *out = _wfopen(wszFileName, L"wb");
-							fwrite(pReply->pData, 1, pReply->dataLength, out);
-							fclose(out);
-						}
 					}
 				}
 			}
@@ -854,15 +844,15 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	// if that's a group chat, send it to the room
 	auto szActorFbId(metadata["actorFbId"].as_string());
 
-	PROTORECVEVENT pre = {};
-	pre.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
-	pre.szMessage = (char *)szBody.c_str();
-	pre.szMsgId = (char *)szId.c_str();
+	DB::EventInfo dbei;
+	dbei.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+	dbei.pBlob = (char *)szBody.c_str();
+	dbei.szId = (char *)szId.c_str();
 	if (m_uid == _atoi64(szActorFbId.c_str()))
-		pre.flags |= PREF_SENT;
+		dbei.flags |= DBEF_SENT;
 	if (pUser->bIsChat)
-		pre.szUserId = szActorFbId.c_str();
-	ProtoChainRecvMsg(pUser->hContact, &pre);
+		dbei.szUserId = szActorFbId.c_str();
+	ProtoChainRecvMsg(pUser->hContact, dbei);
 }
 
 // changing thread name
@@ -958,16 +948,15 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 
 	uint32_t timestamp = _wtoi64(root["watermarkTimestampMs"].as_mstring());
 	for (MEVENT ev = db_event_firstUnread(pUser->hContact); ev != 0; ev = db_event_next(pUser->hContact, ev)) {
-		DBEVENTINFO dbei = {};
-		if (db_event_get(ev, &dbei))
+		DB::EventInfo dbei(ev);
+		if (!dbei)
 			continue;
 
 		if (dbei.timestamp > timestamp)
 			break;
 
 		if (dbei.flags & DBEF_SENT)
-			if (!dbei.markedRead())
-				db_event_markRead(pUser->hContact, ev, true);
+			dbei.wipeNotify(ev);
 	}
 }
 

@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-Copyright (C) 2012-23 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -72,21 +72,6 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 	DeferWindowPos(hDwp, ib->hwndTxtOut, 0,
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
-
-static const char *pSettings[] =
-{
-	LPGEN("FirstName"),
-	LPGEN("LastName"),
-	LPGEN("e-mail"),
-	LPGEN("Nick"),
-	LPGEN("Age"),
-	LPGEN("Gender"),
-	LPGEN("City"),
-	LPGEN("State"),
-	LPGEN("Phone"),
-	LPGEN("Homepage"),
-	LPGEN("About")
-};
 
 class CHistoryDlg : public CDlgBase
 {
@@ -174,7 +159,7 @@ class CHistoryDlg : public CDlgBase
 			if (!dbei)
 				continue;
 
-			ptrW pwszText(DbEvent_GetTextW(&dbei, CP_UTF8));
+			ptrW pwszText(DbEvent_GetTextW(&dbei));
 			if (!mir_wstrlen(pwszText))
 				continue;
 
@@ -182,47 +167,6 @@ class CHistoryDlg : public CDlgBase
 			if (wcsstr(pwszText, pwszPattern))
 				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.timestamp));
 		}
-	}
-
-	void ExportEvent(ItemData *pItem, FILE *out)
-	{
-		DB::EventInfo dbei(pItem->hEvent);
-		if (!dbei)
-			return;
-
-		if (bAppendOnly) {
-			fseek(out, -4, SEEK_END);
-			fputs(",", out);
-		}
-
-		JSONNode pRoot2;
-		pRoot2.push_back(JSONNode("type", dbei.eventType));
-
-		char *szProto = Proto_GetBaseAccountName(pItem->hContact);
-		if (mir_strcmp(dbei.szModule, szProto))
-			pRoot2.push_back(JSONNode("module", dbei.szModule));
-
-		pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
-
-		wchar_t szTemp[500];
-		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-		pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-		std::string flags;
-		if (dbei.flags & DBEF_SENT)
-			flags += "m";
-		if (dbei.flags & DBEF_READ)
-			flags += "r";
-		pRoot2.push_back(JSONNode("flags", flags));
-
-		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-		if (msg)
-			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
-
-		fputs(pRoot2.write_formatted().c_str(), out);
-		fputs("\n]}", out);
-
-		bAppendOnly = true;
 	}
 
 	void ShowHideControls()
@@ -339,12 +283,14 @@ class CHistoryDlg : public CDlgBase
 		else {
 			ImageList_ReplaceIcon(hBookmarksIcons, -1, g_plugin.getIcon(IDI_BOOKMARK));
 
-			auto &pArray = m_histCtrl->items;
-			int numItems = pArray.getCount();
-			for (int i = 0; i < numItems; i++)
-				if (auto *pItem = pArray.get(i, true))
+			int numItems = m_histCtrl->totalCount;
+
+			for (int i = 0; i < numItems; i++) {
+				auto *pItem = m_histCtrl->GetItem(i);
+				if (pItem->fetch())
 					if (pItem->dbe.flags & DBEF_BOOKMARK)
-						m_bookmarks.AddItem(pItem->wtext, 0, i);
+						m_bookmarks.AddItem(pItem->getWBuf(), 0, i);
+			}
 		}
 	}
 
@@ -443,6 +389,11 @@ public:
 	{
 		showFlags = g_plugin.getWord("showFlags", 0x7f);
 		m_dwOptions = g_plugin.getDword("dwOptions");
+
+		if (!GetDatabasePlugin("JSON")) {
+			btnExport.Disable();
+			btnExport.SetTooltip(LPGEN("You need to install the Import plugin to export events"));
+		}
 
 		if (m_hContact == INVALID_CONTACT_ID)
 			m_dwOptions |= WND_OPT_SEARCHBAR;
@@ -875,6 +826,18 @@ public:
 
 	void onClick_Export(CCtrlButton *)
 	{
+		auto *pDriver = GetDatabasePlugin("JSON");
+		if (pDriver == nullptr) {
+			CMStringW wszText(TranslateT("The required plugin 'Import' isn't loaded to perform this operation."));
+			if (ServiceExists(MS_PU_SHOWLIST)) {
+				wszText.AppendFormat(L" %s", TranslateT("Do you want to install it using Plugin Updater?"));
+				if (IDYES == MessageBoxW(m_hwnd, wszText, TranslateT("Missing plugin"), MB_YESNO | MB_ICONQUESTION))
+					CallService(MS_PU_SHOWLIST);
+			}
+			else MessageBoxW(m_hwnd, wszText, TranslateT("Missing plugin"), MB_OK | MB_ICONERROR);
+			return;
+		}
+
 		wchar_t FileName[MAX_PATH];
 		VARSW tszMirDir(L"%miranda_userdata%\\NewStoryExport");
 
@@ -897,16 +860,11 @@ public:
 			return;
 		}
 
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, szProto));
-		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, szProto));
-		const char *uid = Proto_GetUniqueId(szProto);
-
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
 		CMStringW tszFilter, tszTitle, tszFileName;
 		tszFilter.AppendFormat(L"%s (*.json)%c*.json%c%c", TranslateT("JSON files"), 0, 0, 0);
-		tszTitle.AppendFormat(TranslateT("Export %s history"), nick);
+		tszTitle.AppendFormat(TranslateT("Export history"));
 		ofn.lpstrFilter = tszFilter;
 		ofn.hwndOwner = nullptr;
 		ofn.lpstrTitle = tszTitle;
@@ -925,33 +883,9 @@ public:
 		if (PathFileExistsW(FileName))
 			DeleteFileW(FileName);
 
-		FILE *out = _wfopen(FileName, L"wt");
-		if (out == NULL)
-			return;
-
-		// export contact info
-		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
-		pInfo.set_name("info");
-		if (szProto)
-			pInfo.push_back(JSONNode("proto", szProto));
-
-		if (id != NULL)
-			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
-
-		for (auto &it : pSettings) {
-			wchar_t *szValue = db_get_wsa(m_hContact, szProto, it);
-			if (szValue)
-				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
-			mir_free(szValue);
-		}
-
-		pRoot.push_back(pInfo);
-
-		pHist.set_name("history");
-		pRoot.push_back(pHist);
-
-		fputs(pRoot.write_formatted().c_str(), out);
-		fseek(out, -4, SEEK_CUR);
+		auto *pDB = pDriver->Export(FileName);
+		pDB->BeginExport();
+		pDB->ExportContact(m_hContact);
 
 		// export events
 		int iDone = 0;
@@ -961,18 +895,24 @@ public:
 		for (int i = 0; i < iCount; i++) {
 			auto *pItem = arItems.get(i);
 			if (pItem->m_bSelected) {
-				ExportEvent(pItem, out);
+				DB::EventInfo dbei(pItem->hEvent);
+				if (dbei)
+					pDB->ExportEvent(dbei);
 				iDone++;
 			}
 		}
 
 		// no items selected? export whole history
 		if (iDone == 0)
-			for (int i = 0; i < iCount; i++)
-				ExportEvent(arItems.get(i), out);
+			for (int i = 0; i < iCount; i++) {
+				auto *pItem = arItems.get(i);
+				DB::EventInfo dbei(pItem->hEvent);
+				if (dbei)
+					pDB->ExportEvent(dbei);
+			}
 
 		// Close the file
-		fclose(out);
+		pDB->EndExport();
 		MessageBox(m_hwnd, TranslateT("Complete"), TranslateT("History export"), MB_OK | MB_ICONINFORMATION);
 	}
 

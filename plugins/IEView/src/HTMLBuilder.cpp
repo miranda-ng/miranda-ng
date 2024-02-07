@@ -204,10 +204,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			continue;
 		}
 
-		if (!(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
-			db_event_markRead(event->hContact, hDbEvent);
-			Clist_RemoveEvent(-1, hDbEvent);
-		}
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE)
+			dbei.wipeNotify(hDbEvent);
 
 		if (!isDbEventShown(dbei)) {
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
@@ -231,14 +229,14 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->bIsMe = FALSE;
 		}
 		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm()) {
-			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
+			eventData->szText.w = DbEvent_GetTextW(&dbei);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}
 		else if (dbei.eventType == EVENTTYPE_FILE) {
-			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
+			eventData->szText.w = DbEvent_GetTextW(&dbei);
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
@@ -254,7 +252,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else { // custom event
-			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
+			eventData->szText.w = DbEvent_GetTextW(&dbei);
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 

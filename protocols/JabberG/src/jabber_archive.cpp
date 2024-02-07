@@ -4,7 +4,7 @@ Jabber Protocol Plugin for Miranda NG
 
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -125,7 +125,7 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 		dbei.szModule = m_szModuleName;
 		dbei.cbBlob = (uint32_t)mir_strlen(tszBody) + 1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
-		dbei.pBlob = (uint8_t*)tszBody;
+		dbei.pBlob = (char *)tszBody;
 		dbei.timestamp = tmStart + atol(tszSecs);
 		if (!DB::IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);

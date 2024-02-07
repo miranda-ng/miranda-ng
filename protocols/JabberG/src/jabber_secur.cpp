@@ -4,7 +4,7 @@ Jabber Protocol Plugin for Miranda NG
 
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
-Copyright (C) 2012-23 Miranda NG team
+Copyright (C) 2012-24 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -209,18 +209,6 @@ TScramAuth::TScramAuth(ThreadData *info, const char *pszMech, const EVP_MD *pMet
 	hashMethod(pMethod)
 {
 	priority = iPriority;
-
-	if ((iPriority % 10) == 1) {
-		int cbLen, tlsVer = info->proto->m_bUseTlsExport;
-		void *pData = Netlib_GetTlsUnique(info->s, cbLen, tlsVer);
-		if (pData == nullptr)
-			bIsValid = false;
-		else {
-			bindFlag = (tlsVer == 13) ? "p=tls-exporter,," : "p=tls-unique,,";
-			bindData.append(pData, cbLen);
-		}
-	}
-	else bindFlag = "n,,";
 }
 
 TScramAuth::~TScramAuth()
@@ -253,6 +241,19 @@ char* TScramAuth::getInitialRequest()
 	unsigned char nonce[24];
 	Utils_GetRandom(nonce, sizeof(nonce));
 	cnonce = mir_base64_encode(nonce, sizeof(nonce));
+
+	if ((priority % 10) == 1) {
+		if (info->proto->m_bTlsExporter) {
+			int cbLen, tlsVer = true;
+			void *pData = Netlib_GetTlsUnique(info->s, cbLen, tlsVer);
+			if (pData == nullptr)
+				return nullptr;
+
+			bindFlag = (tlsVer == 13) ? "p=tls-exporter,," : "p=tls-unique,,";
+			bindData.append(pData, cbLen);
+		}
+	}
+	else bindFlag = "n,,";
 
 	CMStringA buf(FORMAT, "n=%s,r=%s", info->conn.username, cnonce);
 	msg1 = mir_strdup(buf);
