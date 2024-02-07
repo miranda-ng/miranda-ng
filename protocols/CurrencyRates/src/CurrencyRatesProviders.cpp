@@ -3,6 +3,7 @@
 #define LAST_RUN_VERSION "LastRunVersion"
 
 void InitCC();
+void InitCbrf();
 void InitExchangeRates();
 
 TCurrencyRatesProviders g_apProviders;
@@ -14,6 +15,7 @@ CCurrencyRatesProviderBase *g_pCurrentProvider = nullptr;
 void InitProviders()
 {
 	InitCC();
+	InitCbrf();
 	InitExchangeRates();
 
 	g_pCurrentProvider = FindProvider(g_plugin.getMStringW(DB_STR_PROVIDER));

@@ -59,6 +59,9 @@
     <ClCompile Include="src\CurrencyRatesProviderExchangeRates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CurrencyRatesProviderCbrf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Chart.h">

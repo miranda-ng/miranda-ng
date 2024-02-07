@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Russian Central Bank Rates API</name>
+  <ref>https://www.cbr-xml-daily.ru/</ref>
+  <url>https://www.cbr-xml-daily.ru/latest.js</url>  
+
+<section>
+	<name>Currencies</name>
+	<currencyrate>
+		<id>AMD</id><symbol>AMD</symbol><description>Armenian Dram (AMD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ANG</id><symbol>ANG</symbol><description>Netherlands Antillean Gulden (ANG)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>AUD</id><symbol>AUD</symbol><description>Australian Dollar (AUD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BGN</id><symbol>BGN</symbol><description>Bulgarian Lev (BGN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BRL</id><symbol>BRL</symbol><description>Brazilian Real (BRL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>BYN</id><symbol>BYN</symbol><description>Belarusian Ruble (BYN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CAD</id><symbol>CAD</symbol><description>Canadian Dollar (CAD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CHF</id><symbol>CHF</symbol><description>Swiss Franc (CHF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>CNY</id><symbol>CNY</symbol><description>Chinese Yuan (CNY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>DKK</id><symbol>DKK</symbol><description>Danish Krone (DKK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>EGP</id><symbol>EGP</symbol><description>Egyptian Pound (EGP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>EUR</id><symbol>EUR</symbol><description>Euro (EUR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GBP</id><symbol>GBP</symbol><description>British Pound (GBP)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>GEL</id><symbol>GEL</symbol><description>Georgian Lari (GEL)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>HUF</id><symbol>HUF</symbol><description>Hungarian Forint (HUF)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>INR</id><symbol>INR</symbol><description>Indian Rupee (INR)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>JPY</id><symbol>JPY</symbol><description>Japanese Yen (JPY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KGS</id><symbol>KGS</symbol><description>Kyrgystani Som (KGS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KRW</id><symbol>KRW</symbol><description>South Korean Won (KRW)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>KZT</id><symbol>KZT</symbol><description>Kazakhstani Tenge (KZT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NOK</id><symbol>NOK</symbol><description>Norwegian Krone (NOK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>NZD</id><symbol>NZD</symbol><description>New Zealand Dollar (NZD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>PLN</id><symbol>PLN</symbol><description>Polish Zloty (PLN)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>RUB</id><symbol>RUB</symbol><description>Russian Ruble (RUB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>SEK</id><symbol>SEK</symbol><description>Swedish Krona (SEK)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>THB</id><symbol>THB</symbol><description>Thai Baht (THB)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TJS</id><symbol>TJS</symbol><description>Tajikistani Somoni (TJS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TMT</id><symbol>TMT</symbol><description>Turkmenistani Manat (TMT)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>TRY</id><symbol>TRY</symbol><description>Turkish Lira (TRY)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UAH</id><symbol>UAH</symbol><description>Ukrainian Hryvnia (UAH)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>USD</id><symbol>USD</symbol><description>United States Dollar (USD)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>UZS</id><symbol>UZS</symbol><description>Uzbekistani Som (UZS)</description>
+	</currencyrate>
+	<currencyrate>
+		<id>ZAR</id><symbol>ZAR</symbol><description>South African Rand (ZAR)</description>
+	</currencyrate>
+</section>
+</Provider>
