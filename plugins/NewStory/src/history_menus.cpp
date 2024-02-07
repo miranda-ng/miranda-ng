@@ -78,7 +78,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 	}
 
 	Menu_ShowItem(hmiEdit, bShowEventActions && bEditable);
-	Menu_ShowItem(hmiDelete, bShowEventActions && bEditable);
+	Menu_ShowItem(hmiDelete, bShowEventActions);
 	Menu_ShowItem(hmiBookmark, bShowEventActions);
 
 	HMENU hMenu = CreatePopupMenu();
