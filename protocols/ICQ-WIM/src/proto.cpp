@@ -242,7 +242,7 @@ void CIcqProto::BatchDeleteMsg()
 void CIcqProto::OnEventDeleted(MCONTACT hContact, MEVENT hEvent, int flags)
 {
 	// the command arrived from the server, don't send it back then
-	if (flags & CDF_FROM_SERVER)
+	if (!(flags & CDF_DEL_HISTORY))
 		return;
 
 	if (m_hDeleteContact != INVALID_CONTACT_ID)

@@ -218,7 +218,7 @@ void CTelegramProto::OnErase()
 
 void CTelegramProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 {
-	if (!hContact || (flags & CDF_FROM_SERVER) != 0)
+	if (!hContact || !(flags & CDF_DEL_HISTORY))
 		return;
 
 	auto *pUser = FindUser(GetId(hContact));
