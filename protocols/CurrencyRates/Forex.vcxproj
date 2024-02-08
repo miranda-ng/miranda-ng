@@ -31,6 +31,7 @@
     <ClCompile Include="src\CurrencyRateChart.cpp" />
     <ClCompile Include="src\CurrencyRateInfoDlg.cpp" />
     <ClCompile Include="src\CurrencyRatesProviderBase.cpp" />
+    <ClCompile Include="src\CurrencyRatesProviderCbrf.cpp" />
     <ClCompile Include="src\CurrencyRatesProviderCurrencyConverter.cpp" />
     <ClCompile Include="src\CurrencyRatesProviderExchangeRates.cpp" />
     <ClCompile Include="src\CurrencyRatesProviders.cpp" />
