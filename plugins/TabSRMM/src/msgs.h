@@ -110,7 +110,7 @@
 #define MINSPLITTERX         60
 #define MINSPLITTERY         42
 #define MINLOGHEIGHT         30
-#define ERRORPANEL_HEIGHT    51
+#define ERRORPANEL_HEIGHT    30
 
 // wParam values for DM_SELECTTAB
 

@@ -1319,7 +1319,7 @@ LBL_Frozen:
 			urc->rcItem.bottom += 21;
 			urc->rcItem.top += 21;
 		}
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_STATICTEXT:
 	case IDC_STATICERRORICON:
