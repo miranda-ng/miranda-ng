@@ -744,7 +744,7 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 		if (pItem->completed())
 			DrawIconEx(hdc, width - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 		else {
-			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, RGB(255, 0, 0)));
+			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
 			MoveToEx(hdc, rc.left, rc.bottom - 4, 0);
 			LineTo(hdc, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
 			DeleteObject(SelectObject(hdc, hpn));
