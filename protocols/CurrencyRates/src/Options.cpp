@@ -90,6 +90,7 @@ class COptionsDlg : public CDlgBase
 
 	CCurrencyRatesProviderBase *m_pProvider;
 
+	CCtrlEdit edtKey;
 	CCtrlCombo cmbProvider, cmbRefresh;
 	CCtrlButton btnAdd, btnRemove, btnDescr, btnGetKey;
 	CCtrlListBox m_list;
@@ -101,18 +102,23 @@ public:
 		m_list(this, IDC_LIST_RATES),
 		cmbRefresh(this, IDC_COMBO_REFRESH_RATE),
 		cmbProvider(this, IDC_PROVIDER),
+		edtKey(this, IDC_EDIT_PERSONAL_KEY),
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
 		btnGetKey(this, IDC_GET_KEY),
 		btnRemove(this, IDC_BUTTON_REMOVE)		
 	{
+		CreateLink(edtKey, DB_KEY_ApiKey, L"");
+
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
 		btnGetKey.OnClick = Callback(this, &COptionsDlg::onClick_GetKey);
 		btnRemove.OnClick = Callback(this, &COptionsDlg::onClick_Remove);
 
 		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
+
 		cmbRefresh.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Refresh);
+		cmbProvider.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Provider);
 	}
 
 	bool OnInitDialog() override
@@ -131,9 +137,6 @@ public:
 
 		// set tendency format
 		::SetDlgItemTextW(m_hwnd, IDC_EDIT_TENDENCY_FORMAT, g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat));
-
-		// set api key
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_PERSONAL_KEY, g_plugin.getMStringW(DB_KEY_ApiKey));
 
 		// refresh rate
 		cmbRefresh.AddString(TranslateT("Seconds"));
@@ -189,7 +192,6 @@ public:
 		g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
 		g_plugin.setWString(DB_KEY_StatusMsgFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT)));
 		g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_TENDENCY_FORMAT)));
-		g_plugin.setWString(DB_KEY_ApiKey, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_PERSONAL_KEY)));
 
 		TWatchedRates aTemp(g_aWatchedRates);
 		TWatchedRates aRemove;
@@ -225,6 +227,14 @@ public:
 	void onSelChange_Rates(CCtrlListBox *)
 	{
 		btnRemove.Enable(LB_ERR != m_list.GetCurSel());
+	}
+
+	void onSelChange_Provider(CCtrlCombo *)
+	{
+		auto *pProvider = (CCurrencyRatesProviderBase *)cmbProvider.GetCurData();
+		bool bEnabled = pProvider->HasAuth();
+		edtKey.Enable(bEnabled);
+		btnGetKey.Enable(bEnabled);
 	}
 
 	void onSelChange_Refresh(CCtrlCombo *)

@@ -4,11 +4,6 @@ HNETLIBUSER CHTTPSession::g_hNetLib = nullptr;
 
 #define ERROR_MSG LPGENW("This plugin requires a personal key. Open the Options dialog to obtain it.")
 
-void CALLBACK waitStub()
-{
-	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG));
-}
-
 bool CHTTPSession::OpenURL(const CMStringW &rsURL)
 {
 	m_szUrl = rsURL;
@@ -52,12 +47,17 @@ bool CHTTPSession::ReadResponce(CMStringW &rsResponce)
 /////////////////////////////////////////////////////////////////////////////////////////
 // module initialization
 
+static void CALLBACK waitStub()
+{
+	show_popup(g_pCurrentProvider, 0, -1, TranslateW(ERROR_MSG));
+}
+
 bool CHTTPSession::Init()
 {
 	assert(nullptr == g_hNetLib);
 
 	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
-	if (mir_strlen(szApiKey) == 0)
+	if (mir_strlen(szApiKey) == 0 && g_pCurrentProvider->HasAuth())
 		Miranda_WaitOnHandle(waitStub);
 
 	NETLIBUSER nlu = {};
