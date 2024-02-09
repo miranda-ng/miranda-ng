@@ -165,7 +165,7 @@ E-mail или номер телефона:
 [Sync history on protocol online:]
 При входе синхронизировать историю:
 [Load last messages when message window open and local history is empty]
-Загружать последние сообщения, если открыто окно сообщений и локальная история пуста
+Загружать сообщения при открытии окна сообщений, если история контакта пуста
 [Use local time for received messages]
 Местное время для принятых сообщений
 [Load only friends to local contact list]
