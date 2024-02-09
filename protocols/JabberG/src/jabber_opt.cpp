@@ -482,7 +482,7 @@ protected:
 			m_proto->delSetting("Password");
 
 		char *szLanguageCode = (char *)m_cbLocale.GetCurData();
-		if (szLanguageCode && szLanguageCode != INVALID_HANDLE_VALUE) {
+		if (szLanguageCode) {
 			m_proto->setString("XmlLang", szLanguageCode);
 			replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
 		}

@@ -76,7 +76,8 @@ void CCtrlCombo::OnReset()
 
 LPARAM CCtrlCombo::GetCurData() const
 {
-	return GetItemData(GetCurSel());
+	int idx = GetCurSel();
+	return (idx == CB_ERR) ? 0 : GetItemData(idx);
 }
 
 // selects line with userdata passed
