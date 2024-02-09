@@ -101,7 +101,7 @@ BEGIN
     LTEXT           "Delay between retries (secs)",IDC_STATIC,47,95,129,17
     CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,180,52,101,92
     CTEXT           "Accounts to check",IDC_STATIC,180,41,101,8
-    GROUPBOX        "Dial-up",IDC_STATIC,4,149,285,69
+    GROUPBOX        "Internet connection",IDC_STATIC,4,149,285,69
     CONTROL         "Don't reconnect if no internet connection seems available",IDC_CHKINET,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,161,270,8
     CONTROL         "Continuously check for internet connection",IDC_CONTCHECK,

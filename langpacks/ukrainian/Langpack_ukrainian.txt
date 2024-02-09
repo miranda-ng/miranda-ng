@@ -24430,7 +24430,7 @@ Upload Pie (1 тижд)
 Затримка між спробами (с)
 [Accounts to check]
 Перевіряти облікові записи
-[Dial-up]
+[Internet connection]
 Віддалений доступ
 [Don't reconnect if no internet connection seems available]
 Не підключатися, якщо немає з'єднання з Інтернетом

@@ -17536,7 +17536,7 @@ Cлужба недоступна
 неудачных пингов
 [Continuously check interval (secs)]
 Интервал проверки (сек)
-[Dial-Up]
+[Internet connection]
 Удалённый доступ
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 Проверяет наличие подключения к сети и автоматически переподключает при разрывах.

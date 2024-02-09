@@ -22,7 +22,7 @@
 [Maximum retries (0 - infinite)]
 [Delay between retries (secs)]
 [Accounts to check]
-[Dial-up]
+[Internet connection]
 [Don't reconnect if no internet connection seems available]
 [Continuously check for internet connection]
 [Do so by pinging host]

@@ -38,7 +38,7 @@ Général
 
 [Accounts to check]
 
-[Dial-up]
+[Internet connection]
 
 [Don't reconnect if no internet connection seems available]
 

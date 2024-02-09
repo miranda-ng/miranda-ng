@@ -25534,7 +25534,7 @@ Maksimum prób (0 - nieskończenie)
 Przerwa między powtórzeniami
 [Accounts to check]
 Konta do sprawdzenia
-[Dial-up]
+[Internet connection]
 Połączenie
 [Don't reconnect if no internet connection seems available]
 Nie próbuj łączyć ponownie, jeśli nie wykryjesz połączenia z internetem

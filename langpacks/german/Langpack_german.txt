@@ -25666,7 +25666,7 @@ Max. Anzahl Versuche (0 - unendlich)
 Verzögerung zwischen Versuchen (Sek.)
 [Accounts to check]
 Folgende Konten prüfen
-[Dial-up]
+[Internet connection]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
 Nicht wiederverbinden, wenn keine Internetverbindung

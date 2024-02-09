@@ -6,7 +6,7 @@
 [Improved auto away module with some more options than the built in, configurable per account.]
 [Account connection]
 [Accounts to check]
-[Dial-up]
+[Internet connection]
 [Away mode]
 [when full-screen mode is active]
 [when terminal session is disconnected]

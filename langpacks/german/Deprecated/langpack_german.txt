@@ -17993,7 +17993,7 @@ Max. Versuche
 [Delay between retries (secs)]
 Verzögerung der Versuche (Sek.)
 
-[Dial-Up]
+[Internet connection]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
 Nicht wiederverbinden, wenn keine Internetverbindung

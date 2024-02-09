@@ -38,7 +38,7 @@
 Пауза между 2 опита (сек)
 [Accounts to check]
 
-[Dial-up]
+[Internet connection]
 
 [Don't reconnect if no internet connection seems available]
 Без автовписване, когато връзката с интернет се възстанови

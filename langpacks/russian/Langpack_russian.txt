@@ -25717,7 +25717,7 @@ URI объект
 Задержка между попытками (сек)
 [Accounts to check]
 Проверять следующие
-[Dial-up]
+[Internet connection]
 Удалённый доступ
 [Don't reconnect if no internet connection seems available]
 Не подключаться, если нет соединения с Интернетом
