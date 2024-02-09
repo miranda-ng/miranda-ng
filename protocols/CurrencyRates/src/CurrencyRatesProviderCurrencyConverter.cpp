@@ -3,9 +3,8 @@
 static CMStringW build_url(const CMStringW &rsURL, const CMStringW &from, const CMStringW &to)
 {
 	CMStringW res = rsURL + L"?q=" + from + L"_" + to + L"&compact=ultra";
-	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
-	if (szApiKey != nullptr)
-		res.AppendFormat(L"&apiKey=%S", szApiKey.get());
+	if (mir_wstrlen(g_plugin.wszApiKey))
+		res.AppendFormat(L"&apiKey=%S", (wchar_t*)g_plugin.wszApiKey);
 	return res;
 }
 

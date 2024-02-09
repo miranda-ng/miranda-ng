@@ -583,11 +583,11 @@ uint32_t get_refresh_timeout_miliseconds()
 	if (!g_bAutoUpdate)
 		return INFINITE;
 
-	int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
+	int nRefreshRateType = g_plugin.wRateType;
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	uint32_t nTimeout = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
+	uint32_t nTimeout = g_plugin.wRateValue;
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:
@@ -635,9 +635,9 @@ static void refreshContacts(TContacts &list)
 void CCurrencyRatesProviderBase::Run()
 {
 	uint32_t nTimeout = get_refresh_timeout_miliseconds();
-	m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-	m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-	m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+	m_sContactListFormat = g_plugin.wszDisplayFormat;
+	m_sStatusMsgFormat = g_plugin.wszStatusFormat;
+	m_sTendencyFormat = g_plugin.wszTendencyFormat;
 
 	enum
 	{
@@ -685,9 +685,9 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds();
-			m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-			m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-			m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+			m_sContactListFormat = g_plugin.wszDisplayFormat;
+			m_sStatusMsgFormat = g_plugin.wszStatusFormat;
+			m_sTendencyFormat = g_plugin.wszTendencyFormat;
 
 			refreshContacts(anContacts);
 			break;

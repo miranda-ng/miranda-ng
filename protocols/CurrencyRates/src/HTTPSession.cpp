@@ -56,8 +56,7 @@ bool CHTTPSession::Init()
 {
 	assert(nullptr == g_hNetLib);
 
-	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
-	if (mir_strlen(szApiKey) == 0 && g_pCurrentProvider->HasAuth())
+	if (mir_wstrlen(g_plugin.wszApiKey) == 0 && g_pCurrentProvider->HasAuth())
 		Miranda_WaitOnHandle(waitStub);
 
 	NETLIBUSER nlu = {};

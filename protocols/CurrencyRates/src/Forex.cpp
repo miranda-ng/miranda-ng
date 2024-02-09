@@ -259,6 +259,15 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	
+	// main settings
+	wRateType(MODULENAME, "CC_RefreshRateType", RRT_MINUTES),
+	wRateValue(MODULENAME, "CC_RefreshRateValue", 1),
+	wszApiKey(MODULENAME, "CC_ApiKey"),
+	wszStatusFormat(MODULENAME, "CC_StatusMessageFormat"),
+	wszDisplayFormat(MODULENAME, "CC_DspNameFrmt", L"1 %f = %r %i"),
+	wszTendencyFormat(MODULENAME, "CC_TendencyFormat", L"%r>%p"),
+
 	// log settings
 	wLogMode(MODULENAME, "CC_LogMode", lmDisabled),
 	bIsOnlyChangedHistory(MODULENAME, "CC_AddToHistoryOnlyIfValueIsChanged", false),

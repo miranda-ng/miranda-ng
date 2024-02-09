@@ -90,7 +90,7 @@ class COptionsDlg : public CDlgBase
 
 	CCurrencyRatesProviderBase *m_pProvider;
 
-	CCtrlEdit edtKey;
+	CCtrlEdit edtKey, edtDisplayFormat, edtStatusFormat, edtTendencyFormat;
 	CCtrlCombo cmbProvider, cmbRefresh;
 	CCtrlButton btnAdd, btnRemove, btnDescr, btnGetKey;
 	CCtrlListBox m_list;
@@ -102,13 +102,19 @@ public:
 		m_list(this, IDC_LIST_RATES),
 		cmbRefresh(this, IDC_COMBO_REFRESH_RATE),
 		cmbProvider(this, IDC_PROVIDER),
-		edtKey(this, IDC_EDIT_PERSONAL_KEY),
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
 		btnGetKey(this, IDC_GET_KEY),
-		btnRemove(this, IDC_BUTTON_REMOVE)		
+		btnRemove(this, IDC_BUTTON_REMOVE),
+		edtKey(this, IDC_EDIT_PERSONAL_KEY),
+		edtDisplayFormat(this, IDC_EDIT_CONTACT_LIST_FORMAT),
+		edtStatusFormat(this, IDC_EDIT_STATUS_MESSAGE_FORMAT),
+		edtTendencyFormat(this, IDC_EDIT_TENDENCY_FORMAT)
 	{
-		CreateLink(edtKey, DB_KEY_ApiKey, L"");
+		CreateLink(edtKey, g_plugin.wszApiKey);
+		CreateLink(edtStatusFormat, g_plugin.wszStatusFormat);
+		CreateLink(edtDisplayFormat, g_plugin.wszDisplayFormat);
+		CreateLink(edtTendencyFormat, g_plugin.wszTendencyFormat);
 
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
@@ -128,26 +134,18 @@ public:
 			if (it == g_pCurrentProvider)
 				cmbProvider.SetCurSel(idx);
 		}
-
-		// set contact list display format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT, g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat));
-
-		// set status message display format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT, g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat));
-
-		// set tendency format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_TENDENCY_FORMAT, g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat));
+		onSelChange_Provider(0);
 
 		// refresh rate
 		cmbRefresh.AddString(TranslateT("Seconds"));
 		cmbRefresh.AddString(TranslateT("Minutes"));
 		cmbRefresh.AddString(TranslateT("Hours"));
 
-		int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
+		int nRefreshRateType = g_plugin.wRateType;
 		if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 			nRefreshRateType = RRT_MINUTES;
 
-		UINT nRate = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
+		UINT nRate = g_plugin.wRateValue;
 		switch (nRefreshRateType) {
 		case RRT_SECONDS:
 		case RRT_MINUTES:
@@ -186,12 +184,8 @@ public:
 		BOOL bOk = FALSE;
 		UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
 
-		g_plugin.setWord(DB_KEY_RefreshRateType, cmbRefresh.GetCurSel());
-		g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
-
-		g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
-		g_plugin.setWString(DB_KEY_StatusMsgFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT)));
-		g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_TENDENCY_FORMAT)));
+		g_plugin.wRateType = cmbRefresh.GetCurSel();
+		g_plugin.wRateValue = nRefreshRate;
 
 		TWatchedRates aTemp(g_aWatchedRates);
 		TWatchedRates aRemove;
