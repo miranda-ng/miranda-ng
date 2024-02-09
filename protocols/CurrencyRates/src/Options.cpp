@@ -45,13 +45,15 @@ public:
 			cmbFrom.AddString(TranslateW(sName), LPARAM(&it));
 			cmbTo.AddString(TranslateW(sName), LPARAM(&it));
 		}
+
+		onSelChange_From(0);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		auto *c1 = (CCurrencyRate*)cmbFrom.GetCurData();
-		auto *c2 = (CCurrencyRate *)cmbTo.GetCurData();
+		auto *c2 = (CCurrencyRate*)cmbTo.GetCurData();
 		if (c1 && c2) {
 			ri.first = *c1;
 			ri.second = *c2;
