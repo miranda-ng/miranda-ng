@@ -820,15 +820,21 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 	}
 
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->message_id_));
+	auto szMsgId = msg2id(pObj->chat_id_, pObj->message_id_);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
 	if (hDbEvent == 0) {
 		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
 		return;
 	}
 
 	auto msg = TD::make_object<TD::message>();
+	msg->id_ = pObj->message_id_;
 	msg->sender_id_ = TD::make_object<TD::messageSenderChat>(pObj->chat_id_);
 	msg->content_ = std::move(pObj->new_content_);
+
+	TG_OWN_MESSAGE tmp(0, 0, szMsgId);
+	if (auto *pOwnMsg = m_arOwnMsg.find(&tmp))
+		msg->is_outgoing_ = true;
 
 	CMStringA szText(GetMessageText(pUser, msg.get()));
 	if (szText.IsEmpty()) {

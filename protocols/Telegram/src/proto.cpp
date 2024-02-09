@@ -354,14 +354,6 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT CTelegramProto::RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
-{
-	auto *ft = (TG_FILE_REQUEST *)blob.getUserInfo();
-	return (ft->m_bRecv) ? CSuper::RecvFile(hContact, blob, dbei) : 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
 	int iCount = ::InterlockedDecrement(&m_iSearchCount);

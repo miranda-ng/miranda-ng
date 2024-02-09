@@ -396,6 +396,7 @@ bool CTelegramProto::GetMessageFile(
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
 	pRequest->m_bRecv = !pMsg->is_outgoing_;
+	pRequest->m_hContact = GetRealContact(pUser);
 	{
 		mir_cslock lck(m_csFiles);
 		m_arFiles.insert(pRequest);
@@ -403,8 +404,9 @@ bool CTelegramProto::GetMessageFile(
 
 	char szReplyId[100];
 	const char *szDesc = nullptr;
-	MCONTACT hContact = GetRealContact(pUser);
-	DB::EventInfo dbei;
+
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, pszId);
+	DB::EventInfo dbei(hDbEvent);
 	dbei.flags = DBEF_TEMPORARY;
 	dbei.timestamp = pMsg->date_;
 	dbei.szId = pszId;
@@ -413,13 +415,21 @@ bool CTelegramProto::GetMessageFile(
 		szDesc = caption.c_str();
 	if (pMsg->is_outgoing_)
 		dbei.flags |= DBEF_SENT;
-	if (Contact::IsGroupChat(hContact) || !pUser->bInited)
+	if (Contact::IsGroupChat(pRequest->m_hContact) || !pUser->bInited)
 		dbei.flags |= DBEF_READ;
 	if (pMsg->reply_to_message_id_) {
 		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
 		dbei.szReplyId = szReplyId;
 	}
-	ProtoChainRecvFile(hContact, DB::FILE_BLOB(pRequest, pszFileName, szDesc), dbei);
+
+	if (dbei) {
+		DB::FILE_BLOB blob(dbei);
+		OnReceiveOfflineFile(blob, pRequest);
+		blob.write(dbei);
+		db_event_edit(hDbEvent, &dbei, true);
+		delete pRequest;
+	}
+	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, szDesc), dbei);
 	return true;
 }
 
