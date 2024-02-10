@@ -776,6 +776,31 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		return;
 	}
 
+	if (auto *pForward = pMessage->forward_info_.get()) {
+		CMStringW wszNick;
+		switch (pForward->origin_->get_id()) {
+		case TD::messageForwardOriginUser::ID:
+			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChat::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChannel::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		default:
+			wszNick = TranslateT("Unknown");
+		}
+
+		wchar_t wszDate[100];
+		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
+		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
+		szText.Insert(0, T2Utf(wszForward));
+	}
+
 	// make a temporary contact if needed
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		if (pUser->isGroupChat) {
