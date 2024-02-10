@@ -65,6 +65,7 @@
 [Highlighted messages]
 [Grid background]
 [Separator]
+[Progress indicator]
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 [ %u KB]
