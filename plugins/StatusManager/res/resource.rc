@@ -371,7 +371,7 @@ BEGIN
     CONTROL         "Set delay to",IDC_LOGINERR_SETDELAY,"Button",BS_AUTORADIOBUTTON,22,143,110,12
     LTEXT           "seconds",IDC_STATIC,164,145,77,8
     EDITTEXT        IDC_LOGINERR_DELAY,136,142,22,14,ES_AUTOHSCROLL | ES_NUMBER
-    GROUPBOX        "Dial-up",IDC_STATIC,5,166,282,51
+    GROUPBOX        "Internet connection",IDC_STATIC,5,166,282,51
     LTEXT           "Consider connection lost after",IDC_STATIC,12,180,122,8
     EDITTEXT        IDC_PINGCOUNT,135,177,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "failed pings",IDC_STATIC,160,180,101,8
