@@ -38,7 +38,7 @@ Maximální počet pokusů (0 - neustále)
 Prodleva mezi obnovením (sek.)
 [Accounts to check]
 Účty ke kontrole
-[Dial-up]
+[Internet connection]
 Vytáčené spojení
 [Don't reconnect if no internet connection seems available]
 Neobnovovat stav při odpojení od internetu

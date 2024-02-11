@@ -38,7 +38,7 @@
 Затрымка паміж спробамі (сек)
 [Accounts to check]
 Правяраць наступныя:
-[Dial-up]
+[Internet connection]
 Выдалены доступ
 [Don't reconnect if no internet connection seems available]
 Не далучацца, калі няма злучэння з Інтэрнэтам

@@ -242,6 +242,7 @@ char* TScramAuth::getInitialRequest()
 	Utils_GetRandom(nonce, sizeof(nonce));
 	cnonce = mir_base64_encode(nonce, sizeof(nonce));
 
+	bindFlag = "n,,";
 	if ((priority % 10) == 1) {
 		if (info->proto->m_bTlsExporter) {
 			int cbLen, tlsVer = true;
@@ -253,7 +254,6 @@ char* TScramAuth::getInitialRequest()
 			bindData.append(pData, cbLen);
 		}
 	}
-	else bindFlag = "n,,";
 
 	CMStringA buf(FORMAT, "n=%s,r=%s", info->conn.username, cnonce);
 	msg1 = mir_strdup(buf);

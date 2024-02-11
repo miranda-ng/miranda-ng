@@ -742,9 +742,6 @@ public:
 	void OnPerformCombo(CCtrlData *)
 	{
 		PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
-		if (pPerf == INVALID_HANDLE_VALUE)
-			return;
-
 		if (pPerf == nullptr)
 			m_pertormEdit.SetTextA("");
 		else
@@ -787,9 +784,6 @@ public:
 			MessageBox(nullptr, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 		else {
 			PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
-			if (pPerf == INVALID_HANDLE_VALUE)
-				return;
-
 			if (pPerf != nullptr)
 				pPerf->mText = temp;
 
@@ -801,9 +795,6 @@ public:
 	void OnDelete(CCtrlButton *)
 	{
 		PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
-		if (pPerf == INVALID_HANDLE_VALUE)
-			return;
-
 		if (pPerf != nullptr) {
 			pPerf->mText = L"";
 			m_pertormEdit.SetTextA("");

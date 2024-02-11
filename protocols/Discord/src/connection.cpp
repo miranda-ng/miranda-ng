@@ -104,7 +104,9 @@ void CDiscordProto::ShutdownSession()
 void CDiscordProto::ConnectionFailed(int iReason)
 {
 	debugLogA("CDiscordProto::ConnectionFailed -> reason %d", iReason);
-	delSetting(DB_KEY_TOKEN);
+
+	if (iReason != LOGINERR_NONETWORK && iReason != LOGINERR_NOSERVER)
+		delSetting(DB_KEY_TOKEN);
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	ShutdownSession();

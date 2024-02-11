@@ -109,13 +109,11 @@ const char *PSPBaseDlg::GetBaseProto() const
 
 void PSPBaseDlg::UpdateCountryIcon(CCtrlCombo &pCombo)
 {
-	LPIDSTRLIST pd = (LPIDSTRLIST)pCombo.GetCurData();
-	if (pd == nullptr)
-		return;
-
-	auto *pCtrl = FindControl(ICO_COUNTRY);
-	HICON hIcon = LoadFlagIcon(pd->nID);
-	HICON hOld = Static_SetIcon(pCtrl->GetHwnd(), hIcon);
-	pCtrl->Show(hIcon != 0);
-	IcoLib_ReleaseIcon(hOld);
+	if (LPIDSTRLIST pd = (LPIDSTRLIST)pCombo.GetCurData()) {
+		auto *pCtrl = FindControl(ICO_COUNTRY);
+		HICON hIcon = LoadFlagIcon(pd->nID);
+		HICON hOld = Static_SetIcon(pCtrl->GetHwnd(), hIcon);
+		pCtrl->Show(hIcon != 0);
+		IcoLib_ReleaseIcon(hOld);
+	}
 }

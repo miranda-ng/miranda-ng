@@ -9096,7 +9096,7 @@ Número máximo de reintentos (0 - infinito)
 Tiempo entre reintentos (segundos)
 [Accounts to check]
 Cuentas a comprobar
-[Dial-up]
+[Internet connection]
 Dial-Up
 [Don't reconnect if no internet connection seems available]
 No volver a conectar si parece que no hay conexión a Internet disponible

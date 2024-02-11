@@ -80,6 +80,8 @@ public:
 	void RefreshSettings() override;
 	void RefreshContact(MCONTACT hContact) override;
 
+	__forceinline bool HasAuth() const { return m_bRequiresAuth; }
+
 	MCONTACT ImportContact(const TiXmlNode *) override;
 
 	using TRateInfo = std::pair<CCurrencyRate, CCurrencyRate>;
@@ -103,7 +105,8 @@ protected:
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 
 protected:
-	mutable mir_cs m_cs;
+	mir_cs m_cs;
+	bool m_bRequiresAuth = true;
 };
 
 bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, int nComparison, const CMStringW &rsFormat);

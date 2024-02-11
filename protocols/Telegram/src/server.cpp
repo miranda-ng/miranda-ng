@@ -776,6 +776,31 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		return;
 	}
 
+	if (auto *pForward = pMessage->forward_info_.get()) {
+		CMStringW wszNick;
+		switch (pForward->origin_->get_id()) {
+		case TD::messageForwardOriginUser::ID:
+			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChat::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChannel::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		default:
+			wszNick = TranslateT("Unknown");
+		}
+
+		wchar_t wszDate[100];
+		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
+		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
+		szText.Insert(0, T2Utf(wszForward));
+	}
+
 	// make a temporary contact if needed
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		if (pUser->isGroupChat) {
@@ -820,15 +845,21 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 		return;
 	}
 
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->message_id_));
+	auto szMsgId = msg2id(pObj->chat_id_, pObj->message_id_);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
 	if (hDbEvent == 0) {
 		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
 		return;
 	}
 
 	auto msg = TD::make_object<TD::message>();
+	msg->id_ = pObj->message_id_;
 	msg->sender_id_ = TD::make_object<TD::messageSenderChat>(pObj->chat_id_);
 	msg->content_ = std::move(pObj->new_content_);
+
+	TG_OWN_MESSAGE tmp(0, 0, szMsgId);
+	if (auto *pOwnMsg = m_arOwnMsg.find(&tmp))
+		msg->is_outgoing_ = true;
 
 	CMStringA szText(GetMessageText(pUser, msg.get()));
 	if (szText.IsEmpty()) {

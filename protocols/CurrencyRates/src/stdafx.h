@@ -84,6 +84,10 @@ enum EDelayMode
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	// Main settings
+	CMOption<wchar_t *> wszApiKey, wszDisplayFormat, wszStatusFormat, wszTendencyFormat;
+	CMOption<uint16_t> wRateType, wRateValue;
+
 	// Log settings
 	CMOption<uint16_t> wLogMode;
 	CMOption<bool> bIsOnlyChangedHistory, bIsOnlyChangedLogFile;

@@ -20,7 +20,9 @@ class CCurrencyRatesProviderCbrf : public CCurrencyRatesProviderBase
 
 public:
 	CCurrencyRatesProviderCbrf()
-	{}
+	{
+		m_bRequiresAuth = false;
+	}
 
 	void RefreshCurrencyRates(TContacts &anContacts) override
 	{

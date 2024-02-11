@@ -118,8 +118,8 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_SESSIONS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,1,0,309,182
-    LTEXT           "IP address",IDC_STATIC,0,188,75,8
-    LTEXT           "Software",IDC_STATIC,0,204,75,8
+    LTEXT           "IP address",IDC_STATIC,7,188,75,8
+    LTEXT           "Software",IDC_STATIC,7,204,75,8
     EDITTEXT        IDC_IPADDRESS,87,187,75,12,ES_AUTOHSCROLL | WS_DISABLED
     EDITTEXT        IDC_SOFTWARE,87,202,217,12,ES_AUTOHSCROLL | WS_DISABLED
 END
@@ -162,6 +162,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,158,22,50,14
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -178,6 +179,7 @@ IDI_FORWARD             ICON                    "forward.ico"
 IDI_REACTION            ICON                    "reaction.ico"
 
 IDI_BOT                 ICON                    "bot.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -45,13 +45,15 @@ public:
 			cmbFrom.AddString(TranslateW(sName), LPARAM(&it));
 			cmbTo.AddString(TranslateW(sName), LPARAM(&it));
 		}
+
+		onSelChange_From(0);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		auto *c1 = (CCurrencyRate*)cmbFrom.GetCurData();
-		auto *c2 = (CCurrencyRate *)cmbTo.GetCurData();
+		auto *c2 = (CCurrencyRate*)cmbTo.GetCurData();
 		if (c1 && c2) {
 			ri.first = *c1;
 			ri.second = *c2;
@@ -90,6 +92,7 @@ class COptionsDlg : public CDlgBase
 
 	CCurrencyRatesProviderBase *m_pProvider;
 
+	CCtrlEdit edtKey, edtDisplayFormat, edtStatusFormat, edtTendencyFormat;
 	CCtrlCombo cmbProvider, cmbRefresh;
 	CCtrlButton btnAdd, btnRemove, btnDescr, btnGetKey;
 	CCtrlListBox m_list;
@@ -104,15 +107,26 @@ public:
 		btnAdd(this, IDC_BUTTON_ADD),
 		btnDescr(this, IDC_BUTTON_DESCRIPTION),
 		btnGetKey(this, IDC_GET_KEY),
-		btnRemove(this, IDC_BUTTON_REMOVE)		
+		btnRemove(this, IDC_BUTTON_REMOVE),
+		edtKey(this, IDC_EDIT_PERSONAL_KEY),
+		edtDisplayFormat(this, IDC_EDIT_CONTACT_LIST_FORMAT),
+		edtStatusFormat(this, IDC_EDIT_STATUS_MESSAGE_FORMAT),
+		edtTendencyFormat(this, IDC_EDIT_TENDENCY_FORMAT)
 	{
+		CreateLink(edtKey, g_plugin.wszApiKey);
+		CreateLink(edtStatusFormat, g_plugin.wszStatusFormat);
+		CreateLink(edtDisplayFormat, g_plugin.wszDisplayFormat);
+		CreateLink(edtTendencyFormat, g_plugin.wszTendencyFormat);
+
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDescr.OnClick = Callback(this, &COptionsDlg::onClick_Descr);
 		btnGetKey.OnClick = Callback(this, &COptionsDlg::onClick_GetKey);
 		btnRemove.OnClick = Callback(this, &COptionsDlg::onClick_Remove);
 
 		m_list.OnSelChange = Callback(this, &COptionsDlg::onSelChange_Rates);
+
 		cmbRefresh.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Refresh);
+		cmbProvider.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_Provider);
 	}
 
 	bool OnInitDialog() override
@@ -122,29 +136,18 @@ public:
 			if (it == g_pCurrentProvider)
 				cmbProvider.SetCurSel(idx);
 		}
-
-		// set contact list display format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT, g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat));
-
-		// set status message display format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT, g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat));
-
-		// set tendency format
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_TENDENCY_FORMAT, g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat));
-
-		// set api key
-		::SetDlgItemTextW(m_hwnd, IDC_EDIT_PERSONAL_KEY, g_plugin.getMStringW(DB_KEY_ApiKey));
+		onSelChange_Provider(0);
 
 		// refresh rate
 		cmbRefresh.AddString(TranslateT("Seconds"));
 		cmbRefresh.AddString(TranslateT("Minutes"));
 		cmbRefresh.AddString(TranslateT("Hours"));
 
-		int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
+		int nRefreshRateType = g_plugin.wRateType;
 		if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 			nRefreshRateType = RRT_MINUTES;
 
-		UINT nRate = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
+		UINT nRate = g_plugin.wRateValue;
 		switch (nRefreshRateType) {
 		case RRT_SECONDS:
 		case RRT_MINUTES:
@@ -183,13 +186,8 @@ public:
 		BOOL bOk = FALSE;
 		UINT nRefreshRate = ::GetDlgItemInt(m_hwnd, IDC_EDIT_REFRESH_RATE, &bOk, FALSE);
 
-		g_plugin.setWord(DB_KEY_RefreshRateType, cmbRefresh.GetCurSel());
-		g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
-
-		g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
-		g_plugin.setWString(DB_KEY_StatusMsgFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_STATUS_MESSAGE_FORMAT)));
-		g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_TENDENCY_FORMAT)));
-		g_plugin.setWString(DB_KEY_ApiKey, get_window_text(::GetDlgItem(m_hwnd, IDC_EDIT_PERSONAL_KEY)));
+		g_plugin.wRateType = cmbRefresh.GetCurSel();
+		g_plugin.wRateValue = nRefreshRate;
 
 		TWatchedRates aTemp(g_aWatchedRates);
 		TWatchedRates aRemove;
@@ -225,6 +223,14 @@ public:
 	void onSelChange_Rates(CCtrlListBox *)
 	{
 		btnRemove.Enable(LB_ERR != m_list.GetCurSel());
+	}
+
+	void onSelChange_Provider(CCtrlCombo *)
+	{
+		auto *pProvider = (CCurrencyRatesProviderBase *)cmbProvider.GetCurData();
+		bool bEnabled = pProvider->HasAuth();
+		edtKey.Enable(bEnabled);
+		btnGetKey.Enable(bEnabled);
 	}
 
 	void onSelChange_Refresh(CCtrlCombo *)

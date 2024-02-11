@@ -522,7 +522,7 @@ class COptionsDlg : public CDlgBase
 		}
 		else {
 			HINSTANCE hinst = (HINSTANCE)m_keywordFilter.GetCurData();
-			if (hinst != INVALID_HANDLE_VALUE) {
+			if (hinst) {
 				wchar_t szFileName[300];
 				GetModuleFileName(hinst, szFileName, _countof(szFileName));
 				wchar_t *pos = wcsrchr(szFileName, '\\');

@@ -240,7 +240,7 @@ void NewstoryListData::BeginEditItem()
 	wszText.Replace(L"\r\n", L"\n");
 	wszText.Replace(L"\n", L"\r\n");
 
-	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
+	uint32_t dwStyle = WS_CHILD | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL;
 	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
@@ -744,7 +744,7 @@ int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bo
 		if (pItem->completed())
 			DrawIconEx(hdc, width - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 		else {
-			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, RGB(255, 0, 0)));
+			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
 			MoveToEx(hdc, rc.left, rc.bottom - 4, 0);
 			LineTo(hdc, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
 			DeleteObject(SelectObject(hdc, hpn));
