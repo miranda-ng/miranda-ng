@@ -263,11 +263,12 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	Clist_LoadContactTree();
+	Clist_BroadcastAsync(INTM_GROUPSCHANGED, 0, 0);
 
 	const CLISTGROUPCHANGE grpChg = { wszOldName, nullptr };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
-	delete(pGroup);
+	delete pGroup;
 	return 0;
 }
 
