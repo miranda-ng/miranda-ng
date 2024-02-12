@@ -172,7 +172,7 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 
 static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 {
-	if (File::bOfflineAuto) {
+	if (File::bOfflineDelete) {
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && dbei.eventType == EVENTTYPE_FILE) {
 			DB::FILE_BLOB blob(dbei);
