@@ -593,20 +593,25 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		return;
 
 	auto *pPos = (TD::chatPosition *)pObj->position_.get();
-	if (pPos->list_) {
-		auto *pList = (TD::chatListFolder *)pPos->list_.get();
+	if (auto *pList = pPos->list_.get()) {
+		CMStringW wszGroup;
+		if (pList->get_id() == TD::chatListArchive::ID)
+			wszGroup = TranslateT("Archive");
+		else if (pList->get_id() == TD::chatListFolder::ID) {
+			CMStringA szSetting(FORMAT, "ChatFilter%d", ((TD::chatListFolder*)pList)->chat_folder_id_);
+			wszGroup = getMStringW(szSetting);
+			if (wszGroup.IsEmpty())
+				return;
+		}
+		else return;
 
-		CMStringA szSetting(FORMAT, "ChatFilter%d", pList->chat_folder_id_);
-		CMStringW wszGroup(getMStringW(szSetting));
-		if (!wszGroup.IsEmpty()) {
-			ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
-			if (!pwszExistingGroup
-				|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
-				|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup())))) {
-				CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
-				Clist_GroupCreate(0, wszNewGroup);
-				Clist_SetGroup(pUser->hContact, wszNewGroup);
-			}
+		ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
+		if (!pwszExistingGroup
+			|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
+			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup())))) {
+			CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
+			Clist_GroupCreate(0, wszNewGroup);
+			Clist_SetGroup(pUser->hContact, wszNewGroup);
 		}
 	}
 }
