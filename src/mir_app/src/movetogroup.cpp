@@ -105,7 +105,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	for (auto &it : arByIds)
 		if (it->flags)
-			groups.insert(new GroupItemSort(it->groupName, it->groupId));
+			groups.insert(new GroupItemSort(it->groupName, it->groupId+1));
 
 	for (auto &p : groups) {
 		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, p->name);
