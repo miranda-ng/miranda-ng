@@ -380,6 +380,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
+		else Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case INTM_NAMEORDERCHANGED:
