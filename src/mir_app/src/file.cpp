@@ -33,6 +33,7 @@ CMOption<bool> File::bAutoClear(SRFILEMODULE, "AutoClear", true);
 CMOption<bool> File::bAutoClose(SRFILEMODULE, "AutoClose", false);
 CMOption<bool> File::bAutoAccept(SRFILEMODULE, "AutoAccept", false);
 CMOption<bool> File::bOfflineAuto(SRFILEMODULE, "OfflineAuto", true);
+CMOption<bool> File::bOfflineDelete(SRFILEMODULE, "OfflineDelete", true);
 CMOption<bool> File::bReverseOrder(SRFILEMODULE, "ReverseOrder", false);
 CMOption<bool> File::bWarnBeforeOpening(SRFILEMODULE, "WarnBeforeOpening", true);
 
@@ -171,16 +172,18 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 
 static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 {
-	DB::EventInfo dbei(hDbEvent);
-	if (dbei && dbei.eventType == EVENTTYPE_FILE) {
-		DB::FILE_BLOB blob(dbei);
-		if (auto *pwszName = blob.getLocalName()) {
-			wchar_t wszReceiveFolder[MAX_PATH];
-			GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
+	if (File::bOfflineAuto) {
+		DB::EventInfo dbei(hDbEvent);
+		if (dbei && dbei.eventType == EVENTTYPE_FILE) {
+			DB::FILE_BLOB blob(dbei);
+			if (auto *pwszName = blob.getLocalName()) {
+				wchar_t wszReceiveFolder[MAX_PATH];
+				GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
 
-			// we don't remove sent files, located outside Miranda's folder for sent offline files
-			if ((dbei.flags & DBEF_SENT) == 0 || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
-				DeleteFileW(pwszName);
+				// we don't remove sent files, located outside Miranda's folder for sent offline files
+				if ((dbei.flags & DBEF_SENT) == 0 || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+					DeleteFileW(pwszName);
+			}
 		}
 	}
 

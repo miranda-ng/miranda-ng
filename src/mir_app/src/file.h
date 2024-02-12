@@ -112,7 +112,7 @@ extern MWindowList g_hFileWindows;
 namespace File
 {
 	extern CMOption<bool> bAutoMin, bAutoClear, bAutoClose, bAutoAccept, bReverseOrder;
-	extern CMOption<bool> bWarnBeforeOpening, bOfflineAuto;
+	extern CMOption<bool> bWarnBeforeOpening, bOfflineAuto, bOfflineDelete;
 	extern CMOption<uint8_t> iIfExists, iUseScanner;
 	extern CMOption<uint32_t> iOfflineSize;
 	extern CMOption<wchar_t*> wszSaveDir, wszScanCmdLine;

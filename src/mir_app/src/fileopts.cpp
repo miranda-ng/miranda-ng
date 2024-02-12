@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CFileGeneralOptsDlg : public CDlgBase
 {
 	CCtrlSpin spinSize;
-	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder, chkOfflineAuto;
+	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder, chkOfflineAuto, chkOfflineDelete;
 	CCtrlCombo cmbFileExists;
 	CCtrlButton btnFileDir;
 
@@ -44,6 +44,7 @@ public:
 		chkAutoClose(this, IDC_AUTOCLOSE),
 		chkAutoAccept(this, IDC_AUTOACCEPT),
 		chkOfflineAuto(this, IDC_OFFLINE_AUTO),
+		chkOfflineDelete(this, IDC_OFFLINE_DELETE),
 		cmbFileExists(this, IDC_FILEEXISTS),
 		chkReverseOrder(this, IDC_REVERSE_ORDER),
 		spinSize(this, IDC_OFFLINE_AUTOSIZE_SPIN, 10000)
@@ -54,6 +55,7 @@ public:
 		CreateLink(chkAutoClose, File::bAutoClose);
 		CreateLink(chkAutoAccept, File::bAutoAccept);
 		CreateLink(chkOfflineAuto, File::bOfflineAuto);
+		CreateLink(chkOfflineDelete, File::bOfflineDelete);
 		CreateLink(chkReverseOrder, File::bReverseOrder);
 
 		btnFileDir.OnClick = Callback(this, &CFileGeneralOptsDlg::onClick_FileDir);
