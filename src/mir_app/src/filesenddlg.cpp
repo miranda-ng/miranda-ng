@@ -168,7 +168,7 @@ void __cdecl ChooseFilesThread(void *param)
 	ofn.Flags = OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
 
 	char *szProto = Proto_GetBaseAccountName(dat->hContact);
-	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SINGLEFILEONLY))
+	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_SINGLEFILEONLY))
 		ofn.Flags |= OFN_ALLOWMULTISELECT;
 
 	if (GetOpenFileName(&ofn))

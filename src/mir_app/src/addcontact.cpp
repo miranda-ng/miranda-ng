@@ -89,7 +89,7 @@ public:
 		if (db_get_b(0, "Miranda", "AuthOpenWindow", 1))
 			m_chkOpen.SetState(true);
 
-		uint32_t flags = (m_szProto) ? CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+		uint32_t flags = (m_szProto) ? CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4) : 0;
 		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
 			m_chkAuth.Disable();
 
@@ -143,7 +143,7 @@ public:
 		Contact::PutOnList(hContact);
 
 		if (m_chkAuth.GetState()) {
-			uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+			uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4);
 			if (flags & PF4_NOCUSTOMAUTH)
 				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
@@ -162,7 +162,7 @@ public:
 
 	void OnAuthClicked(CCtrlButton*)
 	{
-		uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		uint32_t flags = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4);
 		if (flags & PF4_NOCUSTOMAUTH)
 			m_authReq.Enable(false);
 		else

@@ -346,12 +346,12 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 	if (szProto == nullptr)
 		return false;
 
-	int pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	int pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1);
 	if (!(pcaps & PF1_FILESEND))
 		return false;
 
 	if (Contact::GetStatus(hContact) == ID_STATUS_OFFLINE) {
-		pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4);
 		if (!(pcaps & PF4_OFFLINEFILES))
 			return false;
 	}

@@ -627,7 +627,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 		// open message window if protocol supports message sending or chat, else simulate double click
 		char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto) {
-			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
+			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
 				// set default contact for sending/status and open message window
 				Meta_SetSrmmSub(hMeta, hContact);

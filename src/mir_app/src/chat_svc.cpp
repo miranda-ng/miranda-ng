@@ -825,7 +825,7 @@ static INT_PTR LeaveChat(WPARAM hContact, LPARAM)
 	if (hContact) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto)
-			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
+			CallProtoService(szProto, PS_LEAVECHAT, hContact);
 	}
 	return 0;
 }
@@ -864,7 +864,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 			_wremove(Chat_GetFolderName(si));
 
 		if (Contact::GetStatus(hContact) != ID_STATUS_OFFLINE)
-			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
+			CallProtoService(szProto, PS_LEAVECHAT, hContact);
 	}
 	return 0;
 }	

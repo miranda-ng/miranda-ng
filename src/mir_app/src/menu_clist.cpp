@@ -708,7 +708,7 @@ void RebuildMenuOrder(void)
 		CMenuItem mi(&g_plugin);
 		mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 		mi.position = pos++;
-		mi.hIcon = ic = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		mi.hIcon = ic = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL);
 
 		if (pa->IsLocked()) {
 			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);

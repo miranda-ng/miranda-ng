@@ -231,7 +231,7 @@ void InitGroupMenus(void)
 	SET_UID(mi, 0x24bcb592, 0x660e, 0x4541, 0xa0, 0xac, 0x11, 0x4a, 0x23, 0xc8, 0x9b, 0x91);
 	mi.position++;
 	mi.name.a = LPGEN("New subgroup");
-	mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
+	mi.pszService = "CLISTMENUSGroup/CreateSubGroupHelper";
 	hmiCreateSubgroup = Menu_AddGroupMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CreateSubGroupHelper);
 
