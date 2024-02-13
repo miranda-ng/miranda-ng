@@ -1138,12 +1138,19 @@ MFileChunkStorage::MFileChunkStorage(const MFilePath &_1, pfnDownloadCallback _2
 	fileId = _wopen(_1, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
 }
 
+MFileChunkStorage::~MFileChunkStorage()
+{
+	if (fileId != -1) {
+		_close(fileId);
+		fileId = -1;
+	}
+}
+
 void MFileChunkStorage::apply(MHttpResponse *nlhr)
 {
 	if (fileId != -1) {
 		nlhr->resultCode = 200;
 		nlhr->body = "OK";
-		_close(fileId);
 	}
 	else nlhr->resultCode = 500;
 }

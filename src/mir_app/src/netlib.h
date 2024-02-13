@@ -103,6 +103,7 @@ class MFileChunkStorage : public MChunkHandler
 
 public:
 	MFileChunkStorage(const MFilePath &pwszFileName, pfnDownloadCallback, void*);
+	~MFileChunkStorage();
 
 	__forceinline operator bool() const { return fileId != -1; }
 };
