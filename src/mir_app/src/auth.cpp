@@ -77,8 +77,8 @@ public:
 		char *reason = email + mir_strlen(email) + 1;
 
 		#ifdef _WINDOWS
-			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL));
+			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE));
 		#endif
 
 		ptrW lastT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(last) : mir_a2u(last));
@@ -118,7 +118,7 @@ public:
 			btnAdd.Hide();
 
 		edtReason.SetMaxLength(255);
-		if (CallProtoService(dbei.szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON) {
+		if (CallProtoService(dbei.szModule, PS_GETCAPS, PFLAGNUM_4) & PF4_NOAUTHDENYREASON) {
 			edtReason.Disable();
 			edtReason.SetText(TranslateT("Feature is not supported by protocol"));
 		}
@@ -133,7 +133,7 @@ public:
 
 	bool OnApply() override
 	{
-		CallProtoService(m_szProto, PS_AUTHALLOW, m_hDbEvent, 0);
+		CallProtoService(m_szProto, PS_AUTHALLOW, m_hDbEvent);
 
 		if (chkAdd.GetState())
 			Contact::AddByEvent(m_hDbEvent, m_hwnd);
@@ -214,8 +214,8 @@ public:
 		char* email = last + mir_strlen(last) + 1;
 
 		#ifdef _WINDOWS
-			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL));
+			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE));
 		#endif
 
 		PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);

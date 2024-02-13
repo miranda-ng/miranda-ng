@@ -188,7 +188,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 	if (!hContact || !szProto)
 		return 0;
 
-	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
+	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_SUPPORTTYPING) ? 1 : 0;
 }
 
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
@@ -226,11 +226,11 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
-	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_MODEMSGSEND) {
 		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
 		CallProtoService(szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
-	CallProtoService(szProto, PS_SETSTATUS, status, 0);
+	CallProtoService(szProto, PS_SETSTATUS, status);
 }
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files)

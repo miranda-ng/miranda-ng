@@ -63,7 +63,7 @@ void fnLoadCluiGlobalOpts()
 static void DisconnectAll()
 {
 	for (auto &it : g_arAccounts)
-		CallProtoService(it->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+		CallProtoService(it->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE);
 }
 
 static int CluiIconsChanged(WPARAM, LPARAM)
@@ -145,9 +145,9 @@ public:
 		chkForEveryone(this, IDC_BOTH)
 	{
 		szProto = Proto_GetBaseAccountName(hContact);
-		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_SERVERCLIST) != 0;
+		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_SERVERCLIST) != 0;
 		bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
-		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
+		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
 	}
 
 	bool OnInitDialog() override

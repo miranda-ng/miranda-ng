@@ -204,7 +204,7 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 	else {
 		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), iCommand);
 		ofd->pCallback = pCallback;
-		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
+		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 	}
 }
 
@@ -222,7 +222,7 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, i
 		{
 			OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, L"", iCommand);
 			ofd->pCallback = new OFD_CopyUrl(blob.getUrl());
-			CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd, 0);
+			CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 		}
 		return;
 

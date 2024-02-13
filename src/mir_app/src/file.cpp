@@ -93,8 +93,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (szProto != nullptr) {
 		bool isChat = Contact::IsGroupChat(wParam, szProto);
-		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1, 0) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
+		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_OFFLINEFILES)
 				bEnabled = true;
 			else if (db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				bEnabled = true;

@@ -73,7 +73,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			if (i == COLUMNID_HANDLE) {
 				lvc.pszText = L"ID";
 				if (szProto) {
-					INT_PTR ret = CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					INT_PTR ret = CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT);
 					if (ret != CALLSERVICE_NOTFOUND)
 						lvc.pszText = (wchar_t*)ret;
 				}
@@ -195,7 +195,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 			if (!pa->IsEnabled())
 				continue;
 			
-			uint32_t caps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1);
 			if (!(caps & requiredCapability))
 				continue;
 			
