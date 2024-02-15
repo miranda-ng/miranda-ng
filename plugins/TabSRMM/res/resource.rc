@@ -213,7 +213,7 @@ BEGIN
     EDITTEXT        IDC_MAXAVATARHEIGHT,174,169,35,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_AVATARSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,209,166,9,11
     LTEXT           "(0 = no limit)",IDC_STATIC,216,171,79,10
-    CONTROL         "Try to keep original size",IDC_PRESERVEAVATARSIZE,
+    CONTROL         "Use the original size if it is smaller",IDC_PRESERVEAVATARSIZE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,184,285,9
     CONTROL         "Help on this",IDC_HELP_GENERAL,"Hyperlink",WS_TABSTOP | 0x1,4,209,67,9
     PUSHBUTTON      "Reset all hidden warnings",IDC_RESETWARNINGS,144,206,153,15
