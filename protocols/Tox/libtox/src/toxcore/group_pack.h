@@ -7,11 +7,12 @@
  * Packer and unpacker functions for saving and loading groups.
  */
 
-#ifndef GROUP_PACK_H
-#define GROUP_PACK_H
+#ifndef C_TOXCORE_TOXCORE_GROUP_PACK_H
+#define C_TOXCORE_TOXCORE_GROUP_PACK_H
 
 #include <stdbool.h>
 
+#include "attributes.h"
 #include "bin_pack.h"
 #include "bin_unpack.h"
 #include "group_common.h"
@@ -32,4 +33,9 @@ void gc_save_pack_group(const GC_Chat *chat, Bin_Pack *bp);
 non_null()
 bool gc_load_unpack_group(GC_Chat *chat, Bin_Unpack *bu);
 
-#endif // GROUP_PACK_H
+non_null()
+bool group_privacy_state_from_int(uint8_t value, Group_Privacy_State *out);
+non_null()
+bool group_voice_state_from_int(uint8_t value, Group_Voice_State *out);
+
+#endif /* C_TOXCORE_TOXCORE_GROUP_PACK_H */

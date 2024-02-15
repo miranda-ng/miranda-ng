@@ -4,13 +4,14 @@
 
 #include "shared_key_cache.h"
 
-#include <assert.h>
 #include <stdint.h>
-#include <stdlib.h>     // calloc(...)
 #include <string.h>     // memcpy(...)
 
+#include "attributes.h"
 #include "ccompat.h"
 #include "crypto_core.h"
+#include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
 
 typedef struct Shared_Key {
@@ -21,15 +22,18 @@ typedef struct Shared_Key {
 
 struct Shared_Key_Cache {
     Shared_Key *keys;
-    const uint8_t* self_secret_key;
+    const uint8_t *self_secret_key;
     uint64_t timeout; /** After this time (in seconds), a key is erased on the next housekeeping cycle */
-    const Mono_Time *time;
+    const Mono_Time *mono_time;
+    const Memory *mem;
+    const Logger *log;
     uint8_t keys_per_slot;
 };
 
 non_null()
-static bool shared_key_is_empty(const Shared_Key *k) {
-    assert(k != nullptr);
+static bool shared_key_is_empty(const Logger *log, const Shared_Key *k)
+{
+    LOGGER_ASSERT(log, k != nullptr, "shared key must not be NULL");
     /*
      * Since time can never be 0, we use that to determine if a key slot is empty.
      * Additionally this allows us to use crypto_memzero and leave the slot in a valid state.
@@ -38,42 +42,48 @@ static bool shared_key_is_empty(const Shared_Key *k) {
 }
 
 non_null()
-static void shared_key_set_empty(Shared_Key *k) {
-    crypto_memzero(k, sizeof (Shared_Key));
-    assert(shared_key_is_empty(k));
+static void shared_key_set_empty(const Logger *log, Shared_Key *k)
+{
+    crypto_memzero(k, sizeof(Shared_Key));
+    LOGGER_ASSERT(log, shared_key_is_empty(log, k), "shared key must be empty after clearing it");
 }
 
-Shared_Key_Cache *shared_key_cache_new(const Mono_Time *time, const uint8_t *self_secret_key, uint64_t timeout, uint8_t keys_per_slot)
+Shared_Key_Cache *shared_key_cache_new(const Logger *log, const Mono_Time *mono_time, const Memory *mem, const uint8_t *self_secret_key, uint64_t timeout, uint8_t keys_per_slot)
 {
-    if (time == nullptr || self_secret_key == nullptr || timeout == 0 || keys_per_slot == 0) {
+    if (mono_time == nullptr || self_secret_key == nullptr || timeout == 0 || keys_per_slot == 0) {
         return nullptr;
     }
 
     // Time must not be zero, since we use that as special value for empty slots
-    if (mono_time_get(time) == 0) {
+    if (mono_time_get(mono_time) == 0) {
         // Fail loudly in debug environments
-        assert(false);
+        LOGGER_FATAL(log, "time must not be zero (mono_time not initialised?)");
         return nullptr;
     }
 
-    Shared_Key_Cache *res = (Shared_Key_Cache *)calloc(1, sizeof (Shared_Key_Cache));
+    Shared_Key_Cache *res = (Shared_Key_Cache *)mem_alloc(mem, sizeof(Shared_Key_Cache));
     if (res == nullptr) {
         return nullptr;
     }
 
     res->self_secret_key = self_secret_key;
-    res->time = time;
+    res->mono_time = mono_time;
+    res->mem = mem;
+    res->log = log;
     res->keys_per_slot = keys_per_slot;
+
     // We take one byte from the public key for each bucket and store keys_per_slot elements there
     const size_t cache_size = 256 * keys_per_slot;
-    res->keys = (Shared_Key *)calloc(cache_size, sizeof (Shared_Key));
+    Shared_Key *keys = (Shared_Key *)mem_valloc(mem, cache_size, sizeof(Shared_Key));
 
-    if (res->keys == nullptr) {
-        free(res);
+    if (keys == nullptr) {
+        mem_delete(mem, res);
         return nullptr;
     }
 
-    crypto_memlock(res->keys, cache_size * sizeof (Shared_Key));
+    crypto_memlock(keys, cache_size * sizeof(Shared_Key));
+
+    res->keys = keys;
 
     return res;
 }
@@ -86,26 +96,26 @@ void shared_key_cache_free(Shared_Key_Cache *cache)
 
     const size_t cache_size = 256 * cache->keys_per_slot;
     // Don't leave key material in memory
-    crypto_memzero(cache->keys, cache_size * sizeof (Shared_Key));
-    crypto_memunlock(cache->keys, cache_size * sizeof (Shared_Key));
-    free(cache->keys);
-    free(cache);
+    crypto_memzero(cache->keys, cache_size * sizeof(Shared_Key));
+    crypto_memunlock(cache->keys, cache_size * sizeof(Shared_Key));
+    mem_delete(cache->mem, cache->keys);
+    mem_delete(cache->mem, cache);
 }
 
 /* NOTE: On each lookup housekeeping is performed to evict keys that did timeout. */
 const uint8_t *shared_key_cache_lookup(Shared_Key_Cache *cache, const uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE])
 {
     // caching the time is not necessary, but calls to mono_time_get(...) are not free
-    const uint64_t cur_time = mono_time_get(cache->time);
+    const uint64_t cur_time = mono_time_get(cache->mono_time);
     // We can't use the first and last bytes because they are masked in curve25519. Selected 8 for good alignment.
     const uint8_t bucket_idx = public_key[8];
-    Shared_Key* bucket_start = &cache->keys[bucket_idx*cache->keys_per_slot];
+    Shared_Key *bucket_start = &cache->keys[bucket_idx * cache->keys_per_slot];
 
-    const uint8_t* found = nullptr;
+    const uint8_t *found = nullptr;
 
     // Perform lookup
-    for(size_t i = 0; i < cache->keys_per_slot; ++i) {
-        if (shared_key_is_empty(&bucket_start[i])) {
+    for (size_t i = 0; i < cache->keys_per_slot; ++i) {
+        if (shared_key_is_empty(cache->log, &bucket_start[i])) {
             continue;
         }
 
@@ -118,13 +128,13 @@ const uint8_t *shared_key_cache_lookup(Shared_Key_Cache *cache, const uint8_t pu
 
     // Perform housekeeping for this bucket
     for (size_t i = 0; i < cache->keys_per_slot; ++i) {
-        if (shared_key_is_empty(&bucket_start[i])) {
+        if (shared_key_is_empty(cache->log, &bucket_start[i])) {
             continue;
         }
 
         const bool timed_out = (bucket_start[i].time_last_requested + cache->timeout) < cur_time;
         if (timed_out) {
-            shared_key_set_empty(&bucket_start[i]);
+            shared_key_set_empty(cache->log, &bucket_start[i]);
         }
     }
 

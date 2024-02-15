@@ -210,6 +210,12 @@
     <ClCompile Include="src\third_party\cmp\cmp.c">
       <Filter>Source Files\third_party</Filter>
     </ClCompile>
+    <ClCompile Include="src\toxcore\mem.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\crypto_core_pack.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\toxcore\announce.h">
@@ -331,6 +337,12 @@
     </ClInclude>
     <ClInclude Include="src\third_party\cmp\cmp.h">
       <Filter>Source Files\third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\mem.h">
+      <Filter>Source Files\toxcore</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\crypto_core_pack.h">
+      <Filter>Source Files\toxcore</Filter>
     </ClInclude>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.filters" />

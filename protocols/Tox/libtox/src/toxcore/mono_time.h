@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "attributes.h"
+#include "mem.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,11 +48,11 @@ typedef struct Mono_Time Mono_Time;
 
 typedef uint64_t mono_time_current_time_cb(void *user_data);
 
-nullable(1, 2)
-Mono_Time *mono_time_new(mono_time_current_time_cb *current_time_callback, void *user_data);
+non_null(1) nullable(2, 3)
+Mono_Time *mono_time_new(const Memory *mem, mono_time_current_time_cb *current_time_callback, void *user_data);
 
-nullable(1)
-void mono_time_free(Mono_Time *mono_time);
+non_null(1) nullable(2)
+void mono_time_free(const Memory *mem, Mono_Time *mono_time);
 
 /**
  * Update mono_time; subsequent calls to mono_time_get or mono_time_is_timeout
@@ -60,8 +61,16 @@ void mono_time_free(Mono_Time *mono_time);
 non_null()
 void mono_time_update(Mono_Time *mono_time);
 
-/**
- * Return unix time since epoch in seconds.
+/** @brief Return current monotonic time in milliseconds (ms).
+ *
+ * The starting point is UNIX epoch as measured by `time()` in `mono_time_new()`.
+ */
+non_null()
+uint64_t mono_time_get_ms(const Mono_Time *mono_time);
+
+/** @brief Return a monotonically increasing time in seconds.
+ *
+ * The starting point is UNIX epoch as measured by `time()` in `mono_time_new()`.
  */
 non_null()
 uint64_t mono_time_get(const Mono_Time *mono_time);
@@ -72,9 +81,10 @@ uint64_t mono_time_get(const Mono_Time *mono_time);
 non_null()
 bool mono_time_is_timeout(const Mono_Time *mono_time, uint64_t timestamp, uint64_t timeout);
 
-/**
- * Return current monotonic time in milliseconds (ms). The starting point is
- * unspecified.
+/** @brief Return current monotonic time in milliseconds (ms).
+ *
+ * The starting point is unspecified and in particular is likely not comparable
+ * to the return value of `mono_time_get_ms()`.
  */
 non_null()
 uint64_t current_time_monotonic(Mono_Time *mono_time);
@@ -90,7 +100,7 @@ void mono_time_set_current_time_callback(Mono_Time *mono_time,
         mono_time_current_time_cb *current_time_callback, void *user_data);
 
 #ifdef __cplusplus
-}
+} /* extern "C" */
 #endif
 
-#endif // C_TOXCORE_TOXCORE_MONO_TIME_H
+#endif /* C_TOXCORE_TOXCORE_MONO_TIME_H */

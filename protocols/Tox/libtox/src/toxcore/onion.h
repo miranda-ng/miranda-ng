@@ -10,8 +10,12 @@
 #define C_TOXCORE_TOXCORE_ONION_H
 
 #include "DHT.h"
+#include "attributes.h"
+#include "crypto_core.h"
 #include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
+#include "network.h"
 #include "shared_key_cache.h"
 
 typedef int onion_recv_1_cb(void *object, const IP_Port *dest, const uint8_t *data, uint16_t length);
@@ -20,6 +24,7 @@ typedef struct Onion {
     const Logger *log;
     const Mono_Time *mono_time;
     const Random *rng;
+    const Memory *mem;
     DHT *dht;
     Networking_Core *net;
     uint8_t secret_symmetric_key[CRYPTO_SYMMETRIC_KEY_SIZE];
@@ -104,7 +109,6 @@ int create_onion_packet(const Random *rng, uint8_t *packet, uint16_t max_packet_
                         const Onion_Path *path, const IP_Port *dest,
                         const uint8_t *data, uint16_t length);
 
-
 /** @brief Create a onion packet to be sent over tcp.
  *
  * Use Onion_Path path to create packet for data of length to dest.
@@ -126,7 +130,8 @@ int create_onion_packet_tcp(const Random *rng, uint8_t *packet, uint16_t max_pac
  * return 0 on success.
  */
 non_null()
-int send_onion_response(const Networking_Core *net, const IP_Port *dest, const uint8_t *data, uint16_t length,
+int send_onion_response(const Logger *log, const Networking_Core *net,
+                        const IP_Port *dest, const uint8_t *data, uint16_t length,
                         const uint8_t *ret);
 
 /** @brief Function to handle/send received decrypted versions of the packet created by create_onion_packet.
@@ -147,10 +152,9 @@ non_null(1) nullable(2, 3)
 void set_callback_handle_recv_1(Onion *onion, onion_recv_1_cb *function, void *object);
 
 non_null()
-Onion *new_onion(const Logger *log, const Mono_Time *mono_time, const Random *rng, DHT *dht);
+Onion *new_onion(const Logger *log, const Memory *mem, const Mono_Time *mono_time, const Random *rng, DHT *dht);
 
 nullable(1)
 void kill_onion(Onion *onion);
 
-
-#endif
+#endif /* C_TOXCORE_TOXCORE_ONION_H */

@@ -11,8 +11,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "attributes.h"
 #include "ccompat.h"
-#include "util.h"
+#include "crypto_core.h"
+#include "friend_connection.h"
+#include "network.h"
+#include "onion.h"
+#include "onion_announce.h"
+#include "onion_client.h"
 
 /**
  * NOTE: The following is just a temporary fix for the multiple friend requests received at the same time problem.
@@ -47,7 +53,6 @@ uint32_t get_nospam(const Friend_Requests *fr)
 {
     return fr->nospam;
 }
-
 
 /** Set the function that will be executed when a friend request for us is received. */
 void callback_friendrequest(Friend_Requests *fr, fr_friend_request_cb *function, void *object)
@@ -112,9 +117,8 @@ int remove_request_received(Friend_Requests *fr, const uint8_t *real_pk)
     return -1;
 }
 
-
 non_null()
-static int friendreq_handlepacket(void *object, const uint8_t *source_pubkey, const uint8_t *packet, uint16_t length,
+static int friendreq_handlepacket(void *object, const uint8_t *source_pubkey, const uint8_t *data, uint16_t length,
                                   void *userdata)
 {
     Friend_Requests *const fr = (Friend_Requests *)object;
@@ -123,7 +127,7 @@ static int friendreq_handlepacket(void *object, const uint8_t *source_pubkey, co
         return 1;
     }
 
-    ++packet;
+    ++data;
     --length;
 
     if (fr->handle_friendrequest_isset == 0) {
@@ -134,22 +138,22 @@ static int friendreq_handlepacket(void *object, const uint8_t *source_pubkey, co
         return 1;
     }
 
-    if (memcmp(packet, &fr->nospam, sizeof(fr->nospam)) != 0) {
+    if (memcmp(data, &fr->nospam, sizeof(fr->nospam)) != 0) {
         return 1;
     }
 
     if (fr->filter_function != nullptr) {
-        if (fr->filter_function(source_pubkey, fr->filter_function_userdata) != 0) {
+        if (fr->filter_function(fr->filter_function_userdata, source_pubkey) != 0) {
             return 1;
         }
     }
 
     addto_receivedlist(fr, source_pubkey);
 
-    const uint32_t message_len = length - sizeof(fr->nospam);
+    const uint16_t message_len = length - sizeof(fr->nospam);
     VLA(uint8_t, message, message_len + 1);
-    memcpy(message, packet + sizeof(fr->nospam), message_len);
-    message[SIZEOF_VLA(message) - 1] = 0; /* Be sure the message is null terminated. */
+    memcpy(message, data + sizeof(fr->nospam), message_len);
+    message[message_len] = 0; /* Be sure the message is null terminated. TODO(iphydf): But why? */
 
     fr->handle_friendrequest(fr->handle_friendrequest_object, source_pubkey, message, message_len, userdata);
     return 0;

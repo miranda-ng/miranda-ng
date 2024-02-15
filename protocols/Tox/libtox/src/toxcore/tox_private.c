@@ -10,8 +10,16 @@
 
 #include <assert.h>
 
+#include "DHT.h"
+#include "attributes.h"
 #include "ccompat.h"
+#include "crypto_core.h"
+#include "group_chats.h"
+#include "group_common.h"
+#include "mem.h"
+#include "net_crypto.h"
 #include "network.h"
+#include "tox.h"
 #include "tox_struct.h"
 
 #define SET_ERROR_PARAMETER(param, x) \
@@ -26,8 +34,9 @@ Tox_System tox_default_system(void)
     const Tox_System sys = {
         nullptr,  // mono_time_callback
         nullptr,  // mono_time_user_data
-        system_random(),
-        system_network(),
+        os_random(),
+        os_network(),
+        os_memory(),
     };
     return sys;
 }
@@ -115,11 +124,11 @@ bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip
 
     IP_Port *root;
 
-    const int32_t count = net_getipport(ip, &root, TOX_SOCK_DGRAM);
+    const int32_t count = net_getipport(tox->sys.mem, ip, &root, TOX_SOCK_DGRAM);
 
     if (count < 1) {
         SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_BAD_IP);
-        net_freeipport(root);
+        net_freeipport(tox->sys.mem, root);
         tox_unlock(tox);
         return false;
     }
@@ -136,7 +145,7 @@ bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip
 
     tox_unlock(tox);
 
-    net_freeipport(root);
+    net_freeipport(tox->sys.mem, root);
 
     if (!success) {
         SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_FAIL);
@@ -145,5 +154,75 @@ bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip
 
     SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_OK);
 
+    return true;
+}
+
+uint16_t tox_dht_get_num_closelist(const Tox *tox)
+{
+    tox_lock(tox);
+    const uint16_t num_total = dht_get_num_closelist(tox->m->dht);
+    tox_unlock(tox);
+
+    return num_total;
+}
+
+uint16_t tox_dht_get_num_closelist_announce_capable(const Tox *tox)
+{
+    tox_lock(tox);
+    const uint16_t num_cap = dht_get_num_closelist_announce_capable(tox->m->dht);
+    tox_unlock(tox);
+
+    return num_cap;
+}
+
+size_t tox_group_peer_get_ip_address_size(const Tox *tox, uint32_t group_number, uint32_t peer_id,
+        Tox_Err_Group_Peer_Query *error)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+    const GC_Chat *chat = gc_get_group(tox->m->group_handler, group_number);
+
+    if (chat == nullptr) {
+        SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_GROUP_NOT_FOUND);
+        tox_unlock(tox);
+        return -1;
+    }
+
+    const int ret = gc_get_peer_ip_address_size(chat, gc_peer_id_from_int(peer_id));
+    tox_unlock(tox);
+
+    if (ret == -1) {
+        SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_PEER_NOT_FOUND);
+        return -1;
+    } else {
+        SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_OK);
+        return ret;
+    }
+}
+
+bool tox_group_peer_get_ip_address(const Tox *tox, uint32_t group_number, uint32_t peer_id, uint8_t *ip_addr,
+                                   Tox_Err_Group_Peer_Query *error)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+    const GC_Chat *chat = gc_get_group(tox->m->group_handler, group_number);
+
+    if (chat == nullptr) {
+        SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_GROUP_NOT_FOUND);
+        tox_unlock(tox);
+        return false;
+    }
+
+    const int ret = gc_get_peer_ip_address(chat, gc_peer_id_from_int(peer_id), ip_addr);
+    tox_unlock(tox);
+
+    if (ret == -1) {
+        SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_PEER_NOT_FOUND);
+        return false;
+    }
+
+    SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_OK);
     return true;
 }

@@ -9,6 +9,9 @@
 #ifndef C_TOXCORE_TOXCORE_FRIEND_REQUESTS_H
 #define C_TOXCORE_TOXCORE_FRIEND_REQUESTS_H
 
+#include <stddef.h>
+
+#include "attributes.h"
 #include "friend_connection.h"
 
 #define MAX_FRIEND_REQUEST_DATA_SIZE (ONION_CLIENT_MAX_DATA_SIZE - (1 + sizeof(uint32_t)))
@@ -34,7 +37,7 @@ typedef void fr_friend_request_cb(void *object, const uint8_t *public_key, const
 non_null()
 void callback_friendrequest(Friend_Requests *fr, fr_friend_request_cb *function, void *object);
 
-typedef int filter_function_cb(const uint8_t *public_key, void *user_data);
+typedef int filter_function_cb(void *object, const uint8_t *public_key);
 
 /** @brief Set the function used to check if a friend request should be displayed to the user or not.
  * It must return 0 if the request is ok (anything else if it is bad).
@@ -51,4 +54,4 @@ Friend_Requests *friendreq_new(void);
 nullable(1)
 void friendreq_kill(Friend_Requests *fr);
 
-#endif
+#endif /* C_TOXCORE_TOXCORE_FRIEND_REQUESTS_H */

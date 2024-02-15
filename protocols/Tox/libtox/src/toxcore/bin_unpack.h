@@ -16,25 +16,37 @@ extern "C" {
 
 /**
  * @brief Binary deserialisation object.
+ *
+ * User code never creates this object. It is created and destroyed within the below functions,
+ * and passed to the callback. This enforces an alloc/dealloc bracket, so user code can never
+ * forget to clean up an unpacker.
  */
 typedef struct Bin_Unpack Bin_Unpack;
 
-/** @brief Allocate a new unpacker object.
+/** @brief Function used to unpack an object.
  *
- * @param buf The byte array to unpack values from.
+ * This function would typically cast the `void *` to the actual object pointer type and then call
+ * more appropriately typed unpacking functions.
+ */
+typedef bool bin_unpack_cb(void *obj, Bin_Unpack *bu);
+
+/** @brief Unpack an object from a buffer of a given size.
+ *
+ * This function creates and initialises a `Bin_Unpack` object, calls the callback with the
+ * unpacker object and the to-be-unpacked object, and then cleans up the unpacker object.
+ *
+ * Unlike `bin_pack_obj`, this function does not support NULL anywhere. The input array
+ * must be non-null, even if it is zero-length.
+ *
+ * @param callback The function called on the created unpacker and unpacked object.
+ * @param obj The object to be packed, passed as `obj` to the callback.
+ * @param buf A byte array containing the serialised representation of `obj`.
  * @param buf_size The size of the byte array.
  *
- * @retval nullptr on allocation failure.
+ * @retval false if an error occurred (e.g. buffer overrun).
  */
 non_null()
-Bin_Unpack *bin_unpack_new(const uint8_t *buf, uint32_t buf_size);
-
-/** @brief Deallocates an unpacker object.
- *
- * Does not deallocate the buffer inside.
- */
-nullable(1)
-void bin_unpack_free(Bin_Unpack *bu);
+bool bin_unpack_obj(bin_unpack_cb *callback, void *obj, const uint8_t *buf, uint32_t buf_size);
 
 /** @brief Start unpacking a MessagePack array.
  *
@@ -46,9 +58,13 @@ non_null() bool bin_unpack_array(Bin_Unpack *bu, uint32_t *size);
 
 /** @brief Start unpacking a fixed size MessagePack array.
  *
+ * Fails if the array size is not the required size. If `actual_size` is passed a non-null
+ * pointer, the array size is written there.
+ *
  * @retval false if the packed array size is not exactly the required size.
  */
-non_null() bool bin_unpack_array_fixed(Bin_Unpack *bu, uint32_t required_size);
+non_null(1) nullable(3)
+bool bin_unpack_array_fixed(Bin_Unpack *bu, uint32_t required_size, uint32_t *actual_size);
 
 /** @brief Unpack a MessagePack bool. */
 non_null() bool bin_unpack_bool(Bin_Unpack *bu, bool *val);
@@ -71,10 +87,16 @@ non_null() bool bin_unpack_nil(Bin_Unpack *bu);
  * large allocation unless the input array was already that large.
  */
 non_null() bool bin_unpack_bin(Bin_Unpack *bu, uint8_t **data_ptr, uint32_t *data_length_ptr);
+/** @brief Unpack a variable size MessagePack bin into a fixed size byte array.
+ *
+ * Stores unpacked data into `data` with its length stored in `data_length_ptr`. This function does
+ * not allocate memory and requires that `max_data_length` is less than or equal to `sizeof(arr)`
+ * when `arr` is passed as `data` pointer.
+ */
+non_null() bool bin_unpack_bin_max(Bin_Unpack *bu, uint8_t *data, uint16_t *data_length_ptr, uint16_t max_data_length);
 /** @brief Unpack a MessagePack bin of a fixed length into a pre-allocated byte array.
  *
- * Unlike the function above, this function does not allocate any memory, but requires the size to
- * be known up front.
+ * Similar to the function above, but doesn't output the data length.
  */
 non_null() bool bin_unpack_bin_fixed(Bin_Unpack *bu, uint8_t *data, uint32_t data_length);
 
@@ -97,7 +119,7 @@ non_null() bool bin_unpack_u64_b(Bin_Unpack *bu, uint64_t *val);
 non_null() bool bin_unpack_bin_b(Bin_Unpack *bu, uint8_t *data, uint32_t length);
 
 #ifdef __cplusplus
-}  // extern "C"
+} /* extern "C" */
 #endif
 
-#endif  // C_TOXCORE_TOXCORE_BIN_UNPACK_H
+#endif /* C_TOXCORE_TOXCORE_BIN_UNPACK_H */

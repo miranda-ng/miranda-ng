@@ -6,7 +6,11 @@
 #ifndef C_TOXCORE_TOXCORE_TOX_STRUCT_H
 #define C_TOXCORE_TOXCORE_TOX_STRUCT_H
 
+#include <pthread.h>
+
 #include "Messenger.h"
+#include "mem.h"
+#include "mono_time.h"
 #include "tox.h"
 #include "tox_private.h"
 
@@ -17,8 +21,7 @@ extern "C" {
 struct Tox {
     Messenger *m;
     Mono_Time *mono_time;
-    Random rng;
-    Network ns;
+    Tox_System sys;
     pthread_mutex_t *mutex;
 
     tox_log_cb *log_callback;
@@ -67,7 +70,7 @@ struct Tox {
 };
 
 #ifdef __cplusplus
-}
+} /* extern "C" */
 #endif
 
-#endif // C_TOXCORE_TOXCORE_TOX_STRUCT_H
+#endif /* C_TOXCORE_TOXCORE_TOX_STRUCT_H */

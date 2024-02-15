@@ -17,6 +17,7 @@
 #ifndef C_TOXCORE_TOXCORE_STATE_H
 #define C_TOXCORE_TOXCORE_STATE_H
 
+#include "attributes.h"
 #include "logger.h"
 
 #ifdef __cplusplus
@@ -51,7 +52,7 @@ typedef enum State_Load_Status {
     STATE_LOAD_STATUS_END,
 } State_Load_Status;
 
-typedef State_Load_Status state_load_cb(void *outer, const uint8_t *data, uint32_t len, uint16_t type);
+typedef State_Load_Status state_load_cb(void *outer, const uint8_t *data, uint32_t length, uint16_t type);
 
 /** state load/save */
 non_null()
@@ -82,7 +83,7 @@ non_null()
 void lendian_bytes_to_host16(uint16_t *dest, const uint8_t *lendian);
 
 #ifdef __cplusplus
-}  // extern "C"
+} /* extern "C" */
 #endif
 
-#endif // C_TOXCORE_TOXCORE_STATE_H
+#endif /* C_TOXCORE_TOXCORE_STATE_H */

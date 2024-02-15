@@ -10,10 +10,12 @@
  */
 #include "list.h"
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "attributes.h"
 #include "ccompat.h"
 
 /**
@@ -28,8 +30,7 @@
  * - some considerations since the array size is never perfect
  */
 
-static int32_t
-list_index(uint32_t i)
+static int32_t list_index(uint32_t i)
 {
     return ~i;
 }
@@ -59,7 +60,7 @@ static int find(const BS_List *list, const uint8_t *data)
     // closest match is found if we move back to where we have already been
 
     while (true) {
-        const int r = memcmp(data, list->data + list->element_size * i, list->element_size);
+        const int r = list->cmp_callback(data, list->data + list->element_size * i, list->element_size);
 
         if (r == 0) {
             return i;
@@ -122,7 +123,7 @@ static bool resize(BS_List *list, uint32_t new_size)
 
     list->data = data;
 
-    int *ids = (int *)realloc(list->ids, sizeof(int) * new_size);
+    int *ids = (int *)realloc(list->ids, new_size * sizeof(int));
 
     if (ids == nullptr) {
         return false;
@@ -133,8 +134,7 @@ static bool resize(BS_List *list, uint32_t new_size)
     return true;
 }
 
-
-int bs_list_init(BS_List *list, uint32_t element_size, uint32_t initial_capacity)
+int bs_list_init(BS_List *list, uint32_t element_size, uint32_t initial_capacity, bs_list_cmp_cb *cmp_callback)
 {
     // set initial values
     list->n = 0;
@@ -142,6 +142,7 @@ int bs_list_init(BS_List *list, uint32_t element_size, uint32_t initial_capacity
     list->capacity = 0;
     list->data = nullptr;
     list->ids = nullptr;
+    list->cmp_callback = cmp_callback;
 
     if (initial_capacity != 0) {
         if (!resize(list, initial_capacity)) {
@@ -206,6 +207,7 @@ bool bs_list_add(BS_List *list, const uint8_t *data, int id)
     }
 
     // insert data to element array
+    assert(list->data != nullptr);
     memmove(list->data + (i + 1) * list->element_size, list->data + i * list->element_size,
             (list->n - i) * list->element_size);
     memcpy(list->data + i * list->element_size, data, list->element_size);

@@ -14,7 +14,10 @@
 #include <stdint.h>
 
 #include "DHT.h"
+#include "attributes.h"
+#include "crypto_core.h"
 #include "logger.h"
+#include "mem.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,6 +81,7 @@ typedef struct Mod_Sanction {
 } Mod_Sanction;
 
 typedef struct Moderation {
+    const       Memory *mem;
     const       Logger *log;
 
     Mod_Sanction *sanctions;
@@ -290,7 +294,7 @@ non_null()
 void sanctions_list_cleanup(Moderation *moderation);
 
 #ifdef __cplusplus
-}  // extern "C"
+} /* extern "C" */
 #endif
 
-#endif // C_TOXCORE_TOXCORE_GROUP_MODERATION_H
+#endif /* C_TOXCORE_TOXCORE_GROUP_MODERATION_H */

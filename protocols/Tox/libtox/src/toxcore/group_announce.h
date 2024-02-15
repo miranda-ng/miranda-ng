@@ -6,12 +6,18 @@
 /**
  * Similar to ping.h, but designed for group chat purposes
  */
-#ifndef GROUP_ANNOUNCE_H
-#define GROUP_ANNOUNCE_H
+#ifndef C_TOXCORE_TOXCORE_GROUP_ANNOUNCE_H
+#define C_TOXCORE_TOXCORE_GROUP_ANNOUNCE_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "DHT.h"
+#include "attributes.h"
+#include "crypto_core.h"
+#include "logger.h"
+#include "mono_time.h"
+#include "network.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -76,7 +82,6 @@ struct GC_Announces_List {
     GC_Announces *root_announces;
     uint64_t last_timeout_check;
 };
-
 
 /** @brief Returns a new group announces list.
  *
@@ -212,7 +217,7 @@ non_null()
 bool gca_is_valid_announce(const GC_Announce *announce);
 
 #ifdef __cplusplus
-}  // extern "C"
+} /* extern "C" */
 #endif
 
-#endif // GROUP_ANNOUNCE_H
+#endif /* C_TOXCORE_TOXCORE_GROUP_ANNOUNCE_H */

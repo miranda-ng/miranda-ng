@@ -13,15 +13,19 @@
 #include <stdint.h>
 
 #include "DHT.h"
+#include "attributes.h"
+#include "crypto_core.h"
+#include "mem.h"
+#include "mono_time.h"
 #include "network.h"
 
 typedef struct Ping Ping;
 
 non_null()
-Ping *ping_new(const Mono_Time *mono_time, const Random *rng, DHT *dht);
+Ping *ping_new(const Memory *mem, const Mono_Time *mono_time, const Random *rng, DHT *dht);
 
-nullable(1)
-void ping_kill(Ping *ping);
+non_null(1) nullable(2)
+void ping_kill(const Memory *mem, Ping *ping);
 
 /** @brief Add nodes to the to_ping list.
  * All nodes in this list are pinged every TIME_TO_PING seconds
@@ -45,4 +49,4 @@ void ping_iterate(Ping *ping);
 non_null()
 void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key);
 
-#endif // C_TOXCORE_TOXCORE_PING_H
+#endif /* C_TOXCORE_TOXCORE_PING_H */

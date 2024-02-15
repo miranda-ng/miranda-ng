@@ -55,6 +55,9 @@
     <ClCompile Include="src\toxcore\crypto_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\crypto_core_pack.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\DHT.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -163,6 +166,9 @@
     <ClCompile Include="src\toxcore\logger.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\mem.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\Messenger.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -242,6 +248,7 @@
     <ClInclude Include="src\toxcore\bin_unpack.h" />
     <ClInclude Include="src\toxcore\ccompat.h" />
     <ClInclude Include="src\toxcore\crypto_core.h" />
+    <ClInclude Include="src\toxcore\crypto_core_pack.h" />
     <ClInclude Include="src\toxcore\DHT.h" />
     <ClInclude Include="src\toxcore\events\events_alloc.h" />
     <ClInclude Include="src\toxcore\forwarding.h" />
@@ -253,6 +260,7 @@
     <ClInclude Include="src\toxcore\LAN_discovery.h" />
     <ClInclude Include="src\toxcore\list.h" />
     <ClInclude Include="src\toxcore\logger.h" />
+    <ClInclude Include="src\toxcore\mem.h" />
     <ClInclude Include="src\toxcore\Messenger.h" />
     <ClInclude Include="src\toxcore\mono_time.h" />
     <ClInclude Include="src\toxcore\network.h" />

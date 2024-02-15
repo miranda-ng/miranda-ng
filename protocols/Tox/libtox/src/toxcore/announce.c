@@ -12,8 +12,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "DHT.h"
 #include "LAN_discovery.h"
+#include "attributes.h"
 #include "ccompat.h"
+#include "crypto_core.h"
+#include "forwarding.h"
+#include "logger.h"
+#include "mem.h"
+#include "mono_time.h"
+#include "network.h"
 #include "shared_key_cache.h"
 #include "timed_auth.h"
 #include "util.h"
@@ -50,6 +58,7 @@ typedef struct Announce_Entry {
 
 struct Announcements {
     const Logger *log;
+    const Memory *mem;
     const Random *rng;
     Forwarding *forwarding;
     const Mono_Time *mono_time;
@@ -156,7 +165,6 @@ static const Announce_Entry *get_stored_const(const Announcements *announce, con
     return nullptr;
 }
 
-
 bool announce_on_stored(const Announcements *announce, const uint8_t *data_public_key,
                         announce_on_retrieve_cb *on_retrieve_callback, void *object)
 {
@@ -231,17 +239,17 @@ bool announce_store_data(Announcements *announce, const uint8_t *data_public_key
     if (length > 0) {
         assert(data != nullptr);
 
-        if (entry->data != nullptr) {
-            free(entry->data);
-        }
+        free(entry->data);
 
-        entry->data = (uint8_t *)malloc(length);
+        uint8_t *entry_data = (uint8_t *)malloc(length);
 
-        if (entry->data == nullptr) {
+        if (entry_data == nullptr) {
+            entry->data = nullptr;  // TODO(iphydf): Is this necessary?
             return false;
         }
 
-        memcpy(entry->data, data, length);
+        memcpy(entry_data, data, length);
+        entry->data = entry_data;
     }
 
     entry->length = length;
@@ -301,7 +309,7 @@ static int create_reply_plain_data_search_request(Announcements *announce,
         const IP_Port *source,
         const uint8_t *data, uint16_t length,
         uint8_t *reply, uint16_t reply_max_length,
-        uint8_t *to_auth, uint16_t to_auth_length)
+        const uint8_t *to_auth, uint16_t to_auth_length)
 {
     if (length != CRYPTO_PUBLIC_KEY_SIZE &&
             length != CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_SHA256_SIZE) {
@@ -344,7 +352,7 @@ static int create_reply_plain_data_search_request(Announcements *announce,
                         to_auth, to_auth_length, p);
     p += TIMED_AUTH_SIZE;
 
-    *p = would_accept_store_request(announce, data_public_key);
+    *p = would_accept_store_request(announce, data_public_key) ? 1 : 0;
     ++p;
 
     Node_format nodes_list[MAX_SENT_NODES];
@@ -376,11 +384,12 @@ static int create_reply_plain_data_search_request(Announcements *announce,
 }
 
 non_null()
-static int create_reply_plain_data_retrieve_request(Announcements *announce,
-        const IP_Port *source,
-        const uint8_t *data, uint16_t length,
-        uint8_t *reply, uint16_t reply_max_length,
-        uint8_t *to_auth, uint16_t to_auth_length)
+static int create_reply_plain_data_retrieve_request(
+    const Announcements *announce,
+    const IP_Port *source,
+    const uint8_t *data, uint16_t length,
+    uint8_t *reply, uint16_t reply_max_length,
+    const uint8_t *to_auth, uint16_t to_auth_length)
 {
     if (length != CRYPTO_PUBLIC_KEY_SIZE + 1 + TIMED_AUTH_SIZE) {
         return -1;
@@ -422,10 +431,10 @@ static int create_reply_plain_store_announce_request(Announcements *announce,
         const IP_Port *source,
         const uint8_t *data, uint16_t length,
         uint8_t *reply, uint16_t reply_max_length,
-        uint8_t *to_auth, uint16_t to_auth_length)
+        const uint8_t *to_auth, uint16_t to_auth_length)
 {
     const int plain_len = (int)length - (CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE + CRYPTO_MAC_SIZE);
-    const int announcement_len = (int)plain_len - (TIMED_AUTH_SIZE + sizeof(uint32_t) + 1);
+    const int announcement_len = plain_len - (TIMED_AUTH_SIZE + sizeof(uint32_t) + 1);
 
     const uint8_t *const data_public_key = data;
 
@@ -435,7 +444,7 @@ static int create_reply_plain_store_announce_request(Announcements *announce,
 
     VLA(uint8_t, plain, plain_len);
 
-    const uint8_t* shared_key = shared_key_cache_lookup(announce->shared_keys, data_public_key);
+    const uint8_t *shared_key = shared_key_cache_lookup(announce->shared_keys, data_public_key);
 
     if (shared_key == nullptr) {
         /* Error looking up/deriving the shared key */
@@ -593,8 +602,8 @@ static int create_reply(Announcements *announce, const IP_Port *source,
 
     const uint8_t response_type = announce_response_of_request_type(data[0]);
 
-    return dht_create_packet(announce->rng, announce->public_key, shared_key, response_type,
-                             plain_reply, plain_reply_len, reply, reply_max_length);
+    return dht_create_packet(announce->mem, announce->rng, announce->public_key, shared_key,
+                             response_type, plain_reply, plain_reply_len, reply, reply_max_length);
 }
 
 non_null(1, 2, 3, 5) nullable(7)
@@ -618,16 +627,15 @@ static void forwarded_request_callback(void *object, const IP_Port *forwarder,
 }
 
 non_null(1, 2, 3) nullable(5)
-static int handle_dht_announce_request(void *object, const IP_Port *source,
-                                       const uint8_t *data, uint16_t length, void *userdata)
+static int handle_dht_announce_request(
+    void *object, const IP_Port *source, const uint8_t *packet, uint16_t length, void *userdata)
 {
-    Announcements *announce = (Announcements *) object;
+    Announcements *announce = (Announcements *)object;
 
     uint8_t reply[MAX_FORWARD_DATA_SIZE];
 
-    const int len = create_reply(announce, source,
-                                 nullptr, 0,
-                                 data, length, reply, sizeof(reply));
+    const int len
+        = create_reply(announce, source, nullptr, 0, packet, length, reply, sizeof(reply));
 
     if (len == -1) {
         return -1;
@@ -636,7 +644,7 @@ static int handle_dht_announce_request(void *object, const IP_Port *source,
     return sendpacket(announce->net, source, reply, len) == len ? 0 : -1;
 }
 
-Announcements *new_announcements(const Logger *log, const Random *rng, const Mono_Time *mono_time,
+Announcements *new_announcements(const Logger *log, const Memory *mem, const Random *rng, const Mono_Time *mono_time,
                                  Forwarding *forwarding)
 {
     if (log == nullptr || mono_time == nullptr || forwarding == nullptr) {
@@ -650,6 +658,7 @@ Announcements *new_announcements(const Logger *log, const Random *rng, const Mon
     }
 
     announce->log = log;
+    announce->mem = mem;
     announce->rng = rng;
     announce->forwarding = forwarding;
     announce->mono_time = mono_time;
@@ -658,7 +667,7 @@ Announcements *new_announcements(const Logger *log, const Random *rng, const Mon
     announce->public_key = dht_get_self_public_key(announce->dht);
     announce->secret_key = dht_get_self_secret_key(announce->dht);
     new_hmac_key(announce->rng, announce->hmac_key);
-    announce->shared_keys = shared_key_cache_new(mono_time, announce->secret_key, KEYS_TIMEOUT, MAX_KEYS_PER_SLOT);
+    announce->shared_keys = shared_key_cache_new(log, mono_time, mem, announce->secret_key, KEYS_TIMEOUT, MAX_KEYS_PER_SLOT);
     if (announce->shared_keys == nullptr) {
         free(announce);
         return nullptr;
@@ -691,9 +700,7 @@ void kill_announcements(Announcements *announce)
     shared_key_cache_free(announce->shared_keys);
 
     for (uint32_t i = 0; i < ANNOUNCE_BUCKETS * ANNOUNCE_BUCKET_SIZE; ++i) {
-        if (announce->entries[i].data != nullptr) {
-            free(announce->entries[i].data);
-        }
+        free(announce->entries[i].data);
     }
 
     free(announce);

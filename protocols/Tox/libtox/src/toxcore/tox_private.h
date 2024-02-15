@@ -23,12 +23,15 @@ struct Tox_System {
     void *mono_time_user_data;
     const struct Random *rng;
     const struct Network *ns;
+    const struct Memory *mem;
 };
 
 Tox_System tox_default_system(void);
 
 void tox_lock(const Tox *tox);
 void tox_unlock(const Tox *tox);
+
+const Tox_System *tox_get_system(Tox *tox);
 
 /**
  * Set the callback for the `friend_lossy_packet` event for a specific packet ID.
@@ -52,7 +55,6 @@ void tox_callback_friend_lossless_packet_per_pktid(Tox *tox, tox_friend_lossless
 
 void tox_set_av_object(Tox *tox, void *object);
 void *tox_get_av_object(const Tox *tox);
-
 
 /*******************************************************************************
  *
@@ -82,14 +84,12 @@ uint32_t tox_dht_node_public_key_size(void);
 typedef void tox_dht_get_nodes_response_cb(Tox *tox, const uint8_t *public_key, const char *ip, uint16_t port,
         void *user_data);
 
-
 /**
  * Set the callback for the `dht_get_nodes_response` event. Pass NULL to unset.
  *
  * This event is triggered when a getnodes response is received from a DHT peer.
  */
 void tox_callback_dht_get_nodes_response(Tox *tox, tox_dht_get_nodes_response_cb *callback);
-
 
 typedef enum Tox_Err_Dht_Get_Nodes {
     /**
@@ -139,8 +139,68 @@ typedef enum Tox_Err_Dht_Get_Nodes {
 bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip, uint16_t port,
                        const uint8_t *target_public_key, Tox_Err_Dht_Get_Nodes *error);
 
+/**
+ * This function returns the ratio of close dht nodes that are known to support announce/store.
+ * This function returns the number of DHT nodes in the closelist.
+ *
+ * @return number
+ */
+uint16_t tox_dht_get_num_closelist(const Tox *tox);
+
+/**
+ * This function returns the number of DHT nodes in the closelist,
+ * that are capable to store annouce data (introduced in version 0.2.18).
+ *
+ * @return number
+ */
+uint16_t tox_dht_get_num_closelist_announce_capable(const Tox *tox);
+
+/*******************************************************************************
+ *
+ * :: DHT groupchat queries.
+ *
+ ******************************************************************************/
+
+/**
+ * Maximum size of a peer IP address string.
+ */
+#define TOX_GROUP_PEER_IP_STRING_MAX_LENGTH 96
+
+uint32_t tox_group_peer_ip_string_max_length(void);
+
+/**
+ * Return the length of the peer's IP address in string form. If the group number or ID
+ * is invalid, the return value is unspecified.
+ *
+ * @param group_number The group number of the group we wish to query.
+ * @param peer_id The ID of the peer whose IP address length we want to retrieve.
+ */
+size_t tox_group_peer_get_ip_address_size(const Tox *tox, uint32_t group_number, uint32_t peer_id,
+        Tox_Err_Group_Peer_Query *error);
+/**
+ * Write the IP address associated with the designated peer_id for the designated group number
+ * to ip_addr.
+ *
+ * If the peer is forcing TCP connections a placeholder value will be written instead,
+ * indicating that their real IP address is unknown to us.
+ *
+ * If `peer_id` designates ourself, it will write either our own IP address or a placeholder value,
+ * depending on whether or not we're forcing TCP connections.
+ *
+ * Call tox_group_peer_get_ip_address_size to determine the allocation size for the `ip_addr` parameter.
+ *
+ * @param group_number The group number of the group we wish to query.
+ * @param peer_id The ID of the peer whose public key we wish to retrieve.
+ * @param ip_addr A valid memory region large enough to store the IP address string.
+ *   If this parameter is NULL, this function call has no effect.
+ *
+ * @return true on success.
+ */
+bool tox_group_peer_get_ip_address(const Tox *tox, uint32_t group_number, uint32_t peer_id, uint8_t *ip_addr,
+                                   Tox_Err_Group_Peer_Query *error);
+
 #ifdef __cplusplus
-}
+} /* extern "C" */
 #endif
 
-#endif // C_TOXCORE_TOXCORE_TOX_PRIVATE_H
+#endif /* C_TOXCORE_TOXCORE_TOX_PRIVATE_H */

@@ -5,18 +5,22 @@
 
 #include "TCP_common.h"
 
-#include <stdlib.h>
 #include <string.h>
 
+#include "attributes.h"
 #include "ccompat.h"
+#include "crypto_core.h"
+#include "logger.h"
+#include "mem.h"
+#include "network.h"
 
-void wipe_priority_list(TCP_Priority_List *p)
+void wipe_priority_list(const Memory *mem, TCP_Priority_List *p)
 {
     while (p != nullptr) {
         TCP_Priority_List *pp = p;
         p = p->next;
-        free(pp->data);
-        free(pp);
+        mem_delete(mem, pp->data);
+        mem_delete(mem, pp);
     }
 }
 
@@ -74,8 +78,8 @@ int send_pending_data(const Logger *logger, TCP_Connection *con)
 
         TCP_Priority_List *pp = p;
         p = p->next;
-        free(pp->data);
-        free(pp);
+        mem_delete(con->mem, pp->data);
+        mem_delete(con->mem, pp);
     }
 
     con->priority_queue_start = p;
@@ -89,30 +93,32 @@ int send_pending_data(const Logger *logger, TCP_Connection *con)
 }
 
 /**
- * @retval false on failure (only if calloc fails)
+ * @retval false on failure (only if mem_alloc fails)
  * @retval true on success
  */
 non_null()
 static bool add_priority(TCP_Connection *con, const uint8_t *packet, uint16_t size, uint16_t sent)
 {
     TCP_Priority_List *p = con->priority_queue_end;
-    TCP_Priority_List *new_list = (TCP_Priority_List *)calloc(1, sizeof(TCP_Priority_List));
+    TCP_Priority_List *new_list = (TCP_Priority_List *)mem_alloc(con->mem, sizeof(TCP_Priority_List));
 
     if (new_list == nullptr) {
         return false;
     }
 
-    new_list->next = nullptr;
-    new_list->size = size;
-    new_list->sent = sent;
-    new_list->data = (uint8_t *)malloc(size);
+    uint8_t *data = (uint8_t *)mem_balloc(con->mem, size);
 
-    if (new_list->data == nullptr) {
-        free(new_list);
+    if (data == nullptr) {
+        mem_delete(con->mem, new_list);
         return false;
     }
 
-    memcpy(new_list->data, packet, size);
+    memcpy(data, packet, size);
+    new_list->data = data;
+    new_list->size = size;
+
+    new_list->next = nullptr;
+    new_list->sent = sent;
 
     if (p != nullptr) {
         p->next = new_list;
@@ -129,7 +135,7 @@ static bool add_priority(TCP_Connection *con, const uint8_t *packet, uint16_t si
  * @retval 0 if could not send packet.
  * @retval -1 on failure (connection must be killed).
  */
-int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
+int write_packet_tcp_secure_connection(const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
                                        bool priority)
 {
     if (length + CRYPTO_MAC_SIZE > MAX_PACKET_SIZE) {
@@ -146,18 +152,19 @@ int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con
         }
     }
 
-    VLA(uint8_t, packet, sizeof(uint16_t) + length + CRYPTO_MAC_SIZE);
+    const uint16_t packet_size = sizeof(uint16_t) + length + CRYPTO_MAC_SIZE;
+    VLA(uint8_t, packet, packet_size);
 
     uint16_t c_length = net_htons(length + CRYPTO_MAC_SIZE);
     memcpy(packet, &c_length, sizeof(uint16_t));
     int len = encrypt_data_symmetric(con->shared_key, con->sent_nonce, data, length, packet + sizeof(uint16_t));
 
-    if ((unsigned int)len != (SIZEOF_VLA(packet) - sizeof(uint16_t))) {
+    if ((unsigned int)len != (packet_size - sizeof(uint16_t))) {
         return -1;
     }
 
     if (priority) {
-        len = sendpriority ? net_send(con->ns, logger, con->sock, packet, SIZEOF_VLA(packet), &con->ip_port) : 0;
+        len = sendpriority ? net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port) : 0;
 
         if (len <= 0) {
             len = 0;
@@ -165,14 +172,14 @@ int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con
 
         increment_nonce(con->sent_nonce);
 
-        if ((unsigned int)len == SIZEOF_VLA(packet)) {
+        if ((unsigned int)len == packet_size) {
             return 1;
         }
 
-        return add_priority(con, packet, SIZEOF_VLA(packet), len) ? 1 : 0;
+        return add_priority(con, packet, packet_size, len) ? 1 : 0;
     }
 
-    len = net_send(con->ns, logger, con->sock, packet, SIZEOF_VLA(packet), &con->ip_port);
+    len = net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port);
 
     if (len <= 0) {
         return 0;
@@ -180,12 +187,12 @@ int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con
 
     increment_nonce(con->sent_nonce);
 
-    if ((unsigned int)len == SIZEOF_VLA(packet)) {
+    if ((unsigned int)len == packet_size) {
         return 1;
     }
 
-    memcpy(con->last_packet, packet, SIZEOF_VLA(packet));
-    con->last_packet_length = SIZEOF_VLA(packet);
+    memcpy(con->last_packet, packet, packet_size);
+    con->last_packet_length = packet_size;
     con->last_packet_sent = len;
     return 1;
 }
@@ -195,12 +202,17 @@ int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con
  * return length on success
  * return -1 on failure/no data in buffer.
  */
-int read_TCP_packet(const Logger *logger, const Network *ns, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port)
+int read_tcp_packet(
+    const Logger *logger, const Memory *mem, const Network *ns, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port)
 {
     const uint16_t count = net_socket_data_recv_buffer(ns, sock);
 
     if (count < length) {
-        LOGGER_TRACE(logger, "recv buffer has %d bytes, but requested %d bytes", count, length);
+        if (count != 0) {
+            // Only log when there are some bytes available, as empty buffer
+            // is a very common case and this spams our logs.
+            LOGGER_TRACE(logger, "recv buffer has %d bytes, but requested %d bytes", count, length);
+        }
         return -1;
     }
 
@@ -222,7 +234,7 @@ int read_TCP_packet(const Logger *logger, const Network *ns, Socket sock, uint8_
  * return -1 on failure.
  */
 non_null()
-static uint16_t read_TCP_length(const Logger *logger, const Network *ns, Socket sock, const IP_Port *ip_port)
+static uint16_t read_tcp_length(const Logger *logger, const Memory *mem, const Network *ns, Socket sock, const IP_Port *ip_port)
 {
     const uint16_t count = net_socket_data_recv_buffer(ns, sock);
 
@@ -254,13 +266,14 @@ static uint16_t read_TCP_length(const Logger *logger, const Network *ns, Socket 
  * @retval 0 if could not read any packet.
  * @retval -1 on failure (connection must be killed).
  */
-int read_packet_TCP_secure_connection(
-        const Logger *logger, const Network *ns, Socket sock, uint16_t *next_packet_length,
-        const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
-        uint16_t max_len, const IP_Port *ip_port)
+int read_packet_tcp_secure_connection(
+    const Logger *logger, const Memory *mem, const Network *ns,
+    Socket sock, uint16_t *next_packet_length,
+    const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
+    uint16_t max_len, const IP_Port *ip_port)
 {
     if (*next_packet_length == 0) {
-        const uint16_t len = read_TCP_length(logger, ns, sock, ip_port);
+        const uint16_t len = read_tcp_length(logger, mem, ns, sock, ip_port);
 
         if (len == (uint16_t) -1) {
             return -1;
@@ -279,7 +292,7 @@ int read_packet_TCP_secure_connection(
     }
 
     VLA(uint8_t, data_encrypted, (int) *next_packet_length);
-    const int len_packet = read_TCP_packet(logger, ns, sock, data_encrypted, *next_packet_length, ip_port);
+    const int len_packet = read_tcp_packet(logger, mem, ns, sock, data_encrypted, *next_packet_length, ip_port);
 
     if (len_packet == -1) {
         return 0;
