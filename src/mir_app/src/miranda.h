@@ -59,6 +59,10 @@ const char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   LoadStdPlugins(void);
 int   LaunchServicePlugin(pluginEntry *p);
 
+/**** options.cpp **********************************************************************/
+
+void KillObjectOptions(PROTO_INTERFACE *p);
+
 /**** path.cpp *************************************************************************/
 
 void InitPathVar(void);
