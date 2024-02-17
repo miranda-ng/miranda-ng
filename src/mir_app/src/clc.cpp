@@ -354,33 +354,33 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	case INTM_GROUPSCHANGED:
 		if (auto *pGroup = (CGroupInternal *)lParam) {
 			// check name of group and ignore message if just being expanded/collapsed
-			if (!Clist_FindItem(hwnd, dat, pGroup->groupId+1 | HCONTACT_ISGROUP, &contact, &group))
-				break;
+			if (Clist_FindItem(hwnd, dat, pGroup->groupId + 1 | HCONTACT_ISGROUP, &contact, &group)) {
+				CMStringW szFullName(contact->szText);
+				while (group->parent) {
+					ClcContact *cc = nullptr;
+					for (auto &it : group->parent->cl)
+						if (it->group == group) {
+							cc = it;
+							break;
+						}
 
-			CMStringW szFullName(contact->szText);
-			while (group->parent) {
-				ClcContact *cc = nullptr;
-				for (auto &it : group->parent->cl)
-					if (it->group == group) {
-						cc = it;
+					if (cc == nullptr) {
+						szFullName.Empty();
 						break;
 					}
-
-				if (cc == nullptr) {
-					szFullName.Empty();
-					break;
+					szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
+					group = group->parent;
 				}
-				szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
-				group = group->parent;
+
+				bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
+				if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
+					break;  // only expanded has changed: no action reqd
+
+				Clist_SaveStateAndRebuildList(hwnd, dat);
+				break;
 			}
-
-			bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
-			if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
-				break;  // only expanded has changed: no action reqd
-
-			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
-		else Clist_InitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case INTM_NAMEORDERCHANGED:
