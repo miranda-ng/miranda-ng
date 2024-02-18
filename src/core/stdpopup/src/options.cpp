@@ -42,7 +42,9 @@ void LoadOptions()
 		options.disable_status[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
 
-	options.disable_full_screen = g_plugin.getByte("DisableFullScreen", 1) == 1;
+	options.disable_always = g_plugin.getByte("DisableAlways", false);
+	options.disable_full_screen = g_plugin.getBool("DisableFullScreen", true);
+
 	options.drop_shadow = g_plugin.getByte("DropShadow", 0) == 1;
 	options.sb_width = g_plugin.getDword("SidebarWidth", 22);
 	options.padding = g_plugin.getDword("Padding", 4);
@@ -75,27 +77,47 @@ void SaveOptions()
 		mir_snprintf(buff, "DisableStatus%d", i - 1);
 		g_plugin.setByte(buff, options.disable_status[i] ? 1 : 0);
 	}
-	g_plugin.setByte("DisableFullScreen", (options.disable_full_screen ? 1 : 0));
+	g_plugin.setByte("DisableAlways", options.disable_always);
+	g_plugin.setByte("DisableFullScreen", options.disable_full_screen);
 	g_plugin.setByte("DropShadow", (options.drop_shadow ? 1 : 0));
 	g_plugin.setDword("SidebarWidth", options.sb_width);
 	g_plugin.setDword("Padding", options.padding);
 	g_plugin.setDword("AvatarPadding", options.av_padding);
 }
 
-class CMainOptDlg : public CDlgBase
+/////////////////////////////////////////////////////////////////////////////////////////
+// Options basic class
+
+class CBaseOptionsDlg : public CDlgBase
+{
+	void OnFinish(CDlgBase *)
+	{
+		SaveOptions();
+	}
+
+public:
+	CBaseOptionsDlg(int iDlgId) :
+		CDlgBase(g_plugin, iDlgId)
+	{
+		m_OnFinishWizard = Callback(this, &CBaseOptionsDlg::OnFinish);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Main options dialog
+
+class CMainOptDlg : public CBaseOptionsDlg
 {
 	CCtrlCheck chkTimeout, chkNoTimeout;
 	CCtrlCombo cmbPlacement, cmbIcon, cmbTime, cmbAva, cmbAnimate;
 	CCtrlButton btnPreview;
-	CCtrlListView m_statuses;
 
 public: 
 	CMainOptDlg() :
-		CDlgBase(g_plugin, IDD_OPT1),
+		CBaseOptionsDlg(IDD_OPT_MAIN),
 		cmbAva(this, IDC_CMB_AV),
 		cmbIcon(this, IDC_CMB_ICON),
 		cmbTime(this, IDC_CMB_TIME),
-		m_statuses(this, IDC_LST_STATUS),
 		btnPreview(this, IDC_BTN_PREVIEW),
 		cmbAnimate(this, IDC_CMB_ANIMATE),
 		chkTimeout(this, IDC_RAD_TIMEOUT),
@@ -139,42 +161,6 @@ public:
 		cmbAva.SetCurSel(options.av_layout);
 
 		CheckDlgButton(m_hwnd, IDC_CHK_GLOBALHOVER, options.global_hover ? BST_CHECKED : BST_UNCHECKED);
-
-		// initialise and fill listbox
-		m_statuses.DeleteAllItems();
-
-		m_statuses.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-
-		LVCOLUMN lvc = { 0 };
-		// Initialize the LVCOLUMN structure.
-		// The mask specifies that the format, width, text, and
-		// subitem members of the structure are valid. 
-		lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-		lvc.fmt = LVCFMT_LEFT;
-
-		lvc.iSubItem = 0;
-		lvc.pszText = TranslateT("Status");
-		lvc.cx = 200;
-		m_statuses.InsertColumn(0, &lvc);
-
-		// Some code to create the list-view control.
-		// Initialize LVITEM members that are common to all
-		// items. 
-		LVITEM lvI = { 0 };
-		lvI.mask = LVIF_TEXT;
-
-		int i = 0;
-		for (; i < _countof(options.disable_status); i++) {
-			lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
-			lvI.iItem = i;
-			m_statuses.InsertItem(&lvI);
-			m_statuses.SetCheckState(i, options.disable_status[i]);
-		}
-
-		lvI.pszText = TranslateT("Full-screen app running");
-		lvI.iItem = i;
-		m_statuses.InsertItem(&lvI);
-		m_statuses.SetCheckState(i, options.disable_full_screen);
 
 		SendDlgItemMessage(m_hwnd, IDC_SPIN_TIMEOUT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 1));
 		SendDlgItemMessage(m_hwnd, IDC_SPIN_WIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
@@ -286,13 +272,6 @@ public:
 		options.av_round = IsDlgButtonChecked(m_hwnd, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(m_hwnd, IDC_CHK_ROUNDCORNERSAV)) ? true : false;
 		options.trans_bg = IsDlgButtonChecked(m_hwnd, IDC_CHK_TRANSBG) ? true : false;
 		options.global_hover = IsDlgButtonChecked(m_hwnd, IDC_CHK_GLOBALHOVER) ? true : false;
-
-		int i = 0;
-		for (; i < _countof(options.disable_status); i++)
-			options.disable_status[i] = (m_statuses.GetCheckState(i) == 1);
-		options.disable_full_screen = (m_statuses.GetCheckState(i) == 1);
-
-		SaveOptions();
 		return true;
 	}
 
@@ -330,6 +309,80 @@ public:
 	void onChange_Timeout(CCtrlCheck *)
 	{
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ED_TIMEOUT), chkTimeout.GetState());
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Advanced options dialog
+
+class CAdvancedOptDlg : public CBaseOptionsDlg
+{
+	CCtrlCheck chkAlways, chkFullScreen;
+	CCtrlListView m_statuses;
+
+public:
+	CAdvancedOptDlg() :
+		CBaseOptionsDlg(IDD_OPT_ADVANCED),
+		m_statuses(this, IDC_LST_STATUS),
+		chkAlways(this, IDC_DISABLE_ALWAYS),
+		chkFullScreen(this, IDC_DISABLE_FULLSCREEN)
+	{
+		chkAlways.OnChange = Callback(this, &CAdvancedOptDlg::onChange_Always);
+	}
+
+	bool OnInitDialog() override
+	{
+		chkAlways.SetState(options.disable_always);
+		chkFullScreen.SetState(options.disable_full_screen);
+
+		// initialise and fill listbox
+		m_statuses.DeleteAllItems();
+
+		m_statuses.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+
+		LVCOLUMN lvc = { 0 };
+		// Initialize the LVCOLUMN structure.
+		// The mask specifies that the format, width, text, and
+		// subitem members of the structure are valid. 
+		lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+		lvc.fmt = LVCFMT_LEFT;
+
+		lvc.iSubItem = 0;
+		lvc.pszText = TranslateT("Status");
+		lvc.cx = 200;
+		m_statuses.InsertColumn(0, &lvc);
+
+		// Some code to create the list-view control.
+		// Initialize LVITEM members that are common to all
+		// items. 
+		LVITEM lvI = { 0 };
+		lvI.mask = LVIF_TEXT;
+
+		int i = 0;
+		for (; i < _countof(options.disable_status); i++) {
+			lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
+			lvI.iItem = i;
+			m_statuses.InsertItem(&lvI);
+			m_statuses.SetCheckState(i, options.disable_status[i]);
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		options.disable_always = chkAlways.IsChecked();
+		options.disable_full_screen = chkFullScreen.IsChecked();
+
+		for (int i = 0; i < _countof(options.disable_status); i++)
+			options.disable_status[i] = (m_statuses.GetCheckState(i) == 1);
+		return true;
+	}
+
+	void onChange_Always(CCtrlCheck *)
+	{
+		bool bEnable = chkAlways.IsChecked();
+		m_statuses.Enable(bEnable);
+		chkFullScreen.Enable(bEnable);
 	}
 };
 
@@ -493,6 +546,10 @@ int OptInit(WPARAM wParam, LPARAM)
 
 	odp.szTab.a = LPGEN("Settings");
 	odp.pDialog = new CMainOptDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Advanced");
+	odp.pDialog = new CAdvancedOptDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Classes");
