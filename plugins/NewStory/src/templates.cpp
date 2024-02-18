@@ -106,6 +106,8 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 	COLORREF cr = F.cl;
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
+	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	cr = g_colorTable[COLOR_DATE].cl;
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
 	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
@@ -264,44 +266,44 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 
 		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf));
 		GetTimeFormatW(iLocale, 0, &st, L"HH:mm", buf + 12, _countof(buf));
-		vars->SetVar('t', buf, true);
+		vars->SetDate('t', buf);
 
 		//  %h: hour (24 hour format, 0-23)
 		GetTimeFormatW(iLocale, 0, &st, L"HH", buf, _countof(buf));
-		vars->SetVar('h', buf, true);
+		vars->SetDate('h', buf);
 
 		//  %a: hour (12 hour format)
 		GetTimeFormatW(iLocale, 0, &st, L"hh", buf, _countof(buf));
-		vars->SetVar('a', buf, true);
+		vars->SetDate('a', buf);
 
 		//  %m: minute
 		GetTimeFormatW(iLocale, 0, &st, L"mm", buf, _countof(buf));
-		vars->SetVar('m', buf, true);
+		vars->SetDate('m', buf);
 
 		//  %s: second
 		GetTimeFormatW(iLocale, 0, &st, L"ss", buf, _countof(buf));
-		vars->SetVar('s', buf, true);
+		vars->SetDate('s', buf);
 
 		//  %o: month
 		GetDateFormatW(iLocale, 0, &st, L"MM", buf, _countof(buf));
-		vars->SetVar('o', buf, true);
+		vars->SetDate('o', buf);
 
 		//  %d: day of month
 		GetDateFormatW(iLocale, 0, &st, L"dd", buf, _countof(buf));
-		vars->SetVar('d', buf, true);
+		vars->SetDate('d', buf);
 
 		//  %y: year
 		GetDateFormatW(iLocale, 0, &st, L"yyyy", buf, _countof(buf));
-		vars->SetVar('y', buf, true);
+		vars->SetDate('y', buf);
 
 		//  %w: day of week (Sunday, Monday... translatable)
-		vars->SetVar('w', TranslateW(weekDays[st.wDayOfWeek]), false);
+		vars->SetDate('w', TranslateW(weekDays[st.wDayOfWeek]));
 
 		//  %p: AM/PM symbol
-		vars->SetVar('p', (st.wHour > 11) ? L"PM" : L"AM", false);
+		vars->SetDate('p', (st.wHour > 11) ? L"PM" : L"AM");
 
 		//  %O: Name of month, translatable
-		vars->SetVar('O', TranslateW(months[st.wMonth-1]), false);
+		vars->SetDate('O', TranslateW(months[st.wMonth-1]));
 	}
 }
 
@@ -350,6 +352,17 @@ void vfOther(TemplateVars *vars, MCONTACT, ItemData *item)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void TemplateVars::SetDate(char option, const wchar_t *v)
+{
+	CMStringW wszDate(FORMAT, L"[c2]%s[c0]", v);
+
+	auto &V = vars[option];
+	if (V.del)
+		mir_free(V.val);
+	V.val = wszDate.Detach();
+	V.del = true;
+}
 
 void TemplateVars::SetNick(wchar_t *v)
 {

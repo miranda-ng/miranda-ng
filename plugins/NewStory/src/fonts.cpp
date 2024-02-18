@@ -22,6 +22,7 @@ MyColourID g_colorTable[COLOR_COUNT] =
 {
 	{ LPGEN("Incoming name"),              "ColorNickIn",    RGB(0x00, 0x00, 0x00) },
 	{ LPGEN("Outgoing name"),              "ColorNickOut",   RGB(0x00, 0x00, 0x00) },
+	{ LPGEN("Date color"),                 "ColorDate",      RGB(0x00, 0x00, 0x00) },
 																			   
 	{ LPGEN("Incoming messages"),          "ColorMsgIn",     RGB(0xd6, 0xf5, 0xc0) },
 	{ LPGEN("Outgoing messages"),          "ColorMsgOut",    RGB(0xf5, 0xe7, 0xd8) },
