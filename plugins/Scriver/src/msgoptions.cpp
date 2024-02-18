@@ -553,7 +553,7 @@ public:
 		chkMarkFollowups(this, IDC_MARKFOLLOWUPS),
 		chkMsgOnNewline(this, IDC_MESSAGEONNEWLINE),
 		spinTime(this, IDC_LOADTIMESPIN, 12 * 60),
-		spinCount(this, IDC_LOADCOUNTSPIN, 100),
+		spinCount(this, IDC_LOADCOUNTSPIN, 1000),
 		spinIndent(this, IDC_INDENTSPIN, 999)
 	{
 		m_fonts.OnClick = Callback(this, &CLogOptionsDlg::onClick_Fonts);

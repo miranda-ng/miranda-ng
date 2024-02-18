@@ -752,7 +752,7 @@ public:
 		spnLeft(this, IDC_INDENTSPIN, 1000),
 		spnRight(this, IDC_RINDENTSPIN, 1000),
 		spnLoadTime(this, IDC_LOADTIMESPIN, 24 * 60),
-		spnLoadCount(this, IDC_LOADCOUNTSPIN, 100),
+		spnLoadCount(this, IDC_LOADCOUNTSPIN, 1000),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkAlwaysTrim(this, IDC_ALWAYSTRIM),

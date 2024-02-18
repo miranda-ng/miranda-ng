@@ -319,7 +319,7 @@ public:
 		chkLoadUnread(this, IDC_LOADUNREAD),
 		
 		spinTime(this, IDC_LOADTIMESPIN, 12 * 60),
-		spinCount(this, IDC_LOADCOUNTSPIN, 100)
+		spinCount(this, IDC_LOADCOUNTSPIN, 1000)
 	{
 		chkTime.OnChange = Callback(this, &COptionLogDlg::onChange_Time);
 		chkLoadUnread.OnChange = chkLoadCount.OnChange = chkLoadTime.OnChange = Callback(this, &COptionLogDlg::onChange_Load);
