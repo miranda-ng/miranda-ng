@@ -75,6 +75,13 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Template options dialog
 
+static void AppendSymbol(CMStringW &buf, const wchar_t *pwszSymbol, const wchar_t *pwszMeaning)
+{
+	if (!buf.IsEmpty())
+		buf.AppendChar('\n');
+	buf.AppendFormat(L"%s - %s", pwszSymbol, pwszMeaning);
+}
+
 class CTemplateOptsDlg : public CBaseOptsDlg
 {
 	TemplateInfo *m_curr = 0;
@@ -236,28 +243,24 @@ public:
 	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
-		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-			L"%%", TranslateT("simply % character"),
-			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
-			L"%S", TranslateT("my nickname"),
-			L"%N", TranslateT("buddy\'s nickname"),
-			L"%c", TranslateT("event count"),
-			L"%D", TranslateT("direction symbol"),
-			L"%t", TranslateT("timestamp"),
-			L"%h", TranslateT("hour (24 hour format, 0-23)"),
-			L"%a", TranslateT("hour (12 hour format)"),
-			L"%m", TranslateT("minute"),
-			L"%s", TranslateT("second"),
-			L"%o", TranslateT("month"),
-			L"%d", TranslateT("day of month"),
-			L"%y", TranslateT("year (4 digits)"),
-			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
-			L"%p", TranslateT("AM/PM symbol"),
-			L"%O", TranslateT("name of month, translatable"),
-			L"%M", TranslateT("the message string itself"),
-			L"[c0]", TranslateT("default text color"),
-			L"[c1]", TranslateT("nickname's color"),
-			L"[c2]-[c6]", TranslateT("one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)"));
+		AppendSymbol(wszVarHelp, L"%%", TranslateT("simply % character"));
+		AppendSymbol(wszVarHelp, L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"));
+		AppendSymbol(wszVarHelp, L"%S", TranslateT("my nickname"));
+		AppendSymbol(wszVarHelp, L"%N", TranslateT("buddy\'s nickname"));
+		AppendSymbol(wszVarHelp, L"%c", TranslateT("event count"));
+		AppendSymbol(wszVarHelp, L"%D", TranslateT("direction symbol"));
+		AppendSymbol(wszVarHelp, L"%t", TranslateT("timestamp"));
+		AppendSymbol(wszVarHelp, L"%h", TranslateT("hour (24 hour format, 0-23)"));
+		AppendSymbol(wszVarHelp, L"%a", TranslateT("hour (12 hour format)"));
+		AppendSymbol(wszVarHelp, L"%m", TranslateT("minute"));
+		AppendSymbol(wszVarHelp, L"%s", TranslateT("second"));
+		AppendSymbol(wszVarHelp, L"%o", TranslateT("month"));
+		AppendSymbol(wszVarHelp, L"%d", TranslateT("day of month"));
+		AppendSymbol(wszVarHelp, L"%y", TranslateT("year (4 digits)"));
+		AppendSymbol(wszVarHelp, L"%w", TranslateT("day of week (Sunday, Monday... translatable)"));
+		AppendSymbol(wszVarHelp, L"%p", TranslateT("AM/PM symbol"));
+		AppendSymbol(wszVarHelp, L"%O", TranslateT("name of month, translatable"));
+		AppendSymbol(wszVarHelp, L"%M", TranslateT("the message string itself"));
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
