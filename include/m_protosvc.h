@@ -725,7 +725,7 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 	MEVENT hDbEvent;
 	MFilePath wszPath;
 	struct OFD_Callback *pCallback = nullptr;
-	bool bOpen = false, bCopy = false;
+	bool bOpen = false, bCopy = false, bLocked = false;
 };
 
 struct OFD_Callback
