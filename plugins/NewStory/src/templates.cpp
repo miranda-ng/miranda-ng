@@ -106,9 +106,14 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 	COLORREF cr = F.cl;
 	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;}", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
 
-	buf.AppendFormat("\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
+	for (auto cl : g_plugin.clCustom) {
+		cr = (cl == -1) ? 0 : cl;
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	}
+
+	buf.AppendFormat("}\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
 	AppendUnicodeToBuffer(buf, (pwszStr) ? pwszStr : formatString());
 
 	buf.Append("}");

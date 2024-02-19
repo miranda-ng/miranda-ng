@@ -67,11 +67,7 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.bShowType = g_bShowType;
-		g_plugin.bDrawEdge = g_bOptDrawEdge;
-		g_plugin.bMsgGrouping = g_bOptGrouping;
-		g_plugin.bHppCompat = g_bOptHppCompat;
-		g_plugin.bShowDirecction = g_bShowDirection;
+		g_plugin.LoadOptions();
 		return true;
 	}
 };
@@ -86,6 +82,7 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 
 	CCtrlBase preview, gpreview;
 	CCtrlEdit m_edit;
+	CCtrlColor clr0, clr1, clr2, clr3, clr4;
 	CCtrlMButton btnDiscard, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
@@ -102,6 +99,11 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 public:
 	CTemplateOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_TEMPLATES),
+		clr0(this, IDC_COLOR1),
+		clr1(this, IDC_COLOR2),
+		clr2(this, IDC_COLOR3),
+		clr3(this, IDC_COLOR4),
+		clr4(this, IDC_COLOR5),
 		m_edit(this, IDC_EDITTEMPLATE),
 		m_tree(this, IDC_TEMPLATES),
 		preview(this, IDC_PREVIEW),
@@ -110,6 +112,12 @@ public:
 		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(IDI_RESET), LPGEN("Cancel edit")),
 		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(IDI_VARHELP), LPGEN("Variables help"))
 	{
+		CreateLink(clr0, g_clCustom0);
+		CreateLink(clr1, g_clCustom1);
+		CreateLink(clr2, g_clCustom2);
+		CreateLink(clr3, g_clCustom3);
+		CreateLink(clr4, g_clCustom4);
+
 		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
 		btnDiscard.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Discard);
 		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Help);
@@ -187,6 +195,7 @@ public:
 			}
 		}
 
+		g_plugin.LoadOptions();
 		onChange_Edit();
 		SaveTemplates();
 		return true;
@@ -251,6 +260,9 @@ public:
 
 	void onChange_Edit(CCtrlEdit* = 0)
 	{
+		if (m_curr == nullptr)
+			return;
+
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
 		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event

@@ -26,6 +26,12 @@ CMOption<bool> g_bOptHppCompat(MODULENAME, "HppCompat", false);
 CMOption<bool> g_bShowType(MODULENAME, "ShowType", true);
 CMOption<bool> g_bShowDirection(MODULENAME, "ShowDirection", true);
 
+CMOption<uint32_t> g_clCustom0(MODULENAME, "CustomColor0", -1);
+CMOption<uint32_t> g_clCustom1(MODULENAME, "CustomColor1", -1);
+CMOption<uint32_t> g_clCustom2(MODULENAME, "CustomColor2", -1);
+CMOption<uint32_t> g_clCustom3(MODULENAME, "CustomColor3", -1);
+CMOption<uint32_t> g_clCustom4(MODULENAME, "CustomColor4", -1);
+
 MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -146,15 +152,26 @@ static int evtPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int CMPlugin::Load()
+void CMPlugin::LoadOptions()
 {
-	registerIcon(MODULETITLE, icons);
-
 	bShowType = g_bShowType;
 	bDrawEdge = g_bOptDrawEdge;
 	bHppCompat = g_bOptHppCompat;
 	bMsgGrouping = g_bOptGrouping;
 	bShowDirecction = g_bShowDirection;
+
+	clCustom[0] = g_clCustom0;
+	clCustom[1] = g_clCustom1;
+	clCustom[2] = g_clCustom2;
+	clCustom[3] = g_clCustom3;
+	clCustom[4] = g_clCustom4;
+}
+
+int CMPlugin::Load()
+{
+	registerIcon(MODULETITLE, icons);
+
+	LoadOptions();
 
 	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
 
