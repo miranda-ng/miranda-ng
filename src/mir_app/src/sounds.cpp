@@ -354,6 +354,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -200000000;
+	odp.szGroup.a = LPGEN("Customize");
 	odp.szTitle.a = LPGEN("Sounds");
 	odp.pDialog = new CSoundOptionsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
