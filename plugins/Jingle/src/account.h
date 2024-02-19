@@ -9,6 +9,7 @@ struct CJabberAccount : public MZeroedObject
 	IJabberInterface *m_api;
 
 	CMOption<bool> m_bEnableVOIP;
+	CMOption<wchar_t *> m_szStunServer;
 
 	void Init();
 	static void InitHooks();

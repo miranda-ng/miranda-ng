@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
+
 	for (auto &it : Accounts())
 		if (auto *pApi = getJabberApi(it->szModuleName)) {
 			auto *pAccount = new CJabberAccount(pApi);
@@ -270,7 +272,8 @@ static INT_PTR __cdecl JabberVOIP_dropcall(void *pThis, WPARAM id, LPARAM)
 CJabberAccount::CJabberAccount(IJabberInterface *_1) :
 	m_api(_1),
 	m_szModuleName(m_api->GetModuleName()),
-	m_bEnableVOIP(m_api->GetModuleName(), "EnableVOIP", false)
+	m_bEnableVOIP(m_api->GetModuleName(), "EnableVOIP", false),
+	m_szStunServer(m_api->GetModuleName(), "StunServer", L"")
 {
 	CMStringA tmp(m_szModuleName);
 	m_hVoiceEvent = CreateHookableEvent(tmp + PE_VOICE_CALL_STATE);

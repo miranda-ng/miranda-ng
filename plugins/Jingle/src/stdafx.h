@@ -24,6 +24,7 @@
 #include <m_jingle.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
+#include <m_options.h>
 #include <m_voice.h>
 #include <m_voiceservice.h>
 
@@ -39,5 +40,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	int Load() override;
 };
+
+int OnOptionsInit(WPARAM wParam, LPARAM);
 
 #endif //_COMMONHEADERS_H
