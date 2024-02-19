@@ -104,12 +104,18 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false;
 	bool bShowType, bShowDirecction;
 
+	COLORREF clCustom[5];
+
 	CMPlugin();
+
+	void LoadOptions();
 
 	int Load() override;
 	int Unload() override;
 };
 
 extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat, g_bShowType, g_bShowDirection;
+extern CMOption<uint32_t> g_clCustom0, g_clCustom1, g_clCustom2, g_clCustom3, g_clCustom4;
+
 extern wchar_t* months[12];
 extern int g_iPixelY;

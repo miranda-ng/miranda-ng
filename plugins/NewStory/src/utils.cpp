@@ -61,8 +61,14 @@ static bbcodes[] =
 
 	{ L"[color=", L"]"     },
 	{ L"[/color]", nullptr },
+
 	{ L"[c0]",     nullptr },
 	{ L"[c1]",     nullptr },
+	{ L"[c2]",     nullptr },
+	{ L"[c3]",     nullptr },
+	{ L"[c4]",     nullptr },
+	{ L"[c5]",     nullptr },
+	{ L"[c6]",     nullptr },
 
 	{ L"[$hicon=", L"$]"   },
 

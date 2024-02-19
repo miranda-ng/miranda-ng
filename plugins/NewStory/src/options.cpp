@@ -261,6 +261,9 @@ public:
 		AppendSymbol(wszVarHelp, L"%p", TranslateT("AM/PM symbol"));
 		AppendSymbol(wszVarHelp, L"%O", TranslateT("name of month, translatable"));
 		AppendSymbol(wszVarHelp, L"%M", TranslateT("the message string itself"));
+		AppendSymbol(wszVarHelp, L"[c0]", TranslateT("default text color"));
+		AppendSymbol(wszVarHelp, L"[c1]", TranslateT("nickname's color"));
+		AppendSymbol(wszVarHelp, L"[c2]-[c6]", TranslateT("one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)"));
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
