@@ -206,7 +206,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bEnableUserActivity;
 	CMOption<bool> m_bEnableUserMood;
 	CMOption<bool> m_bEnableUserTune;
-	CMOption<bool> m_bEnableVOIP;
 	CMOption<bool> m_bEnableZlib;
 	CMOption<bool> m_bFixIncorrectTimestamps;
 	CMOption<bool> m_bGcLogAffiliations;
@@ -902,12 +901,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       AppendVcardFromDB(TiXmlElement *n, char* tag, char* key);
 	void       AppendPhotoToVcard(TiXmlElement *n, bool bPhotoChanged, const wchar_t *szPhotoFileName, MCONTACT hContact = 0);
 	void       SetServerVcard(bool bPhotoChanged, wchar_t* szPhotoFileName);
-
-	//---- jabber_voip.c -----------------------------------------------------------------
-
-	__forceinline bool hasJingle()
-	{	return FindFeature(JABBER_FEAT_JINGLE) != 0 && m_bEnableVOIP;
-	}
 
 	//---- jabber_xml.c ------------------------------------------------------------------
 

@@ -749,8 +749,6 @@ public:
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
 		if (mir_strlen(ptrA(m_proto->getStringA("HttpUpload"))))
 			pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable HTTP File Upload (XEP-0363)"), m_proto->m_bUseHttpUpload);
-		if (m_proto->FindFeature(JABBER_FEAT_JINGLE))
-			pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP (experimental)"), m_proto->m_bEnableVOIP);
 
 		pOptions->AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198)"), m_proto->m_bEnableStreamMgmt);
 		pOptions->AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
