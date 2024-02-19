@@ -99,11 +99,6 @@
 #define IDC_TOPLINE                     1062
 #define IDC_DELSERVERHISTORY            1063
 #define IDC_BOTH                        1064
-#define IDC_COLOR1                      1065
-#define IDC_COLOR2                      1066
-#define IDC_COLOR3                      1067
-#define IDC_COLOR4                      1068
-#define IDC_COLOR5                      1069
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003

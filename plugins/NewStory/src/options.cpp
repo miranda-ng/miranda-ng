@@ -236,7 +236,7 @@ public:
 	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
-		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 			L"%%", TranslateT("simply % character"),
 			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
 			L"%S", TranslateT("my nickname"),
@@ -254,7 +254,10 @@ public:
 			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
 			L"%p", TranslateT("AM/PM symbol"),
 			L"%O", TranslateT("name of month, translatable"),
-			L"%M", TranslateT("the message string itself"));
+			L"%M", TranslateT("the message string itself"),
+			L"[c0]", TranslateT("default text color"),
+			L"[c1]", TranslateT("nickname's color"),
+			L"[c2]-[c6]", TranslateT("one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)"));
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
