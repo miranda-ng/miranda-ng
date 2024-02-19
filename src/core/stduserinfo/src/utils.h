@@ -201,7 +201,7 @@ void SetValue(HWND hwndDlg, MCONTACT hContact, DataItem(&buffer)[_Size], const c
 		}
 
 		if (unspecified)
-			SetDlgItemText(hwndDlg, it.idCtrl, TranslateT("<not specified>"));
+			(void)0;// SetDlgItemText(hwndDlg, it.idCtrl, TranslateT("<not specified>"));
 		else if (pwstr != nullptr)
 			SetDlgItemText(hwndDlg, it.idCtrl, pwstr);
 		else

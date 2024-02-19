@@ -20,8 +20,10 @@
 #define IDD_INFO_WORK                   115
 #define IDI_LOCATION                    116
 #define IDC_COUNTRY                     1001
+#define IDC_CPADDR                      1001
 #define IDC_AREA                        1002
 #define IDC_NUMBER                      1003
+#define IDC_AVA                         1003
 #define IDC_PHONE                       1004
 #define IDC_EMAIL                       1005
 #define IDC_HEADERBAR                   1006
@@ -35,11 +37,13 @@
 #define IDC_LASTNAME                    1014
 #define IDC_AGE                         1015
 #define IDC_SMS                         1016
+#define IDC_ADDR                        1016
 #define IDC_DOBDAY                      1017
 #define IDC_DOBMONTH                    1018
 #define IDC_DOBYEAR                     1019
 #define IDC_MARITAL                     1020
 #define IDC_EMAILS                      1021
+#define IDC_FN                          1021
 #define IDC_PHONES                      1022
 #define IDC_WEBPAGE                     1023
 #define IDC_PAST                        1024
@@ -59,14 +63,15 @@
 #define IDC_COMPANY                     1038
 #define IDC_DEPARTMENT                  1039
 #define IDC_POSITION                    1040
+#define IDC_HORLINE                     1041
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        101
+#define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

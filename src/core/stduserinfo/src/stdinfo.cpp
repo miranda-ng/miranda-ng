@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Summary dlg page
 
 static DataItem itemsSummary1[] = {
+	{ "FullName",      IDC_FN,        0 },
 	{ "Nick",          IDC_NICK,      0 },
 	{ "FirstName",     IDC_FIRSTNAME, 0 },
 	{ "LastName",      IDC_LASTNAME,  0 },
@@ -47,13 +48,38 @@ static DataItem itemsSummary2[] = {
 class CSummaryDlg : public CUserInfoPageDlg
 {
 	CCtrlHyperlink m_email;
+	CCtrlButton m_btnCopy;
+	HFONT m_nickfont;
 
 public:
 	CSummaryDlg() :
 		CUserInfoPageDlg(g_plugin, IDD_INFO_SUMMARY),
-		m_email(this, IDC_EMAIL)
+		m_email(this, IDC_EMAIL),
+		m_btnCopy(this, IDC_CPADDR)
 	{
 		m_email.OnClick = Callback(this, &CSummaryDlg::onClick_Email);
+		m_btnCopy.OnClick = Callback(this, &CSummaryDlg::onClick_cpAddr);
+	}
+
+	bool OnInitDialog()
+	{
+		LOGFONT lf;
+		HFONT hf = (HFONT)SendDlgItemMessage(m_hwnd, IDC_NICK, WM_GETFONT, 0, 0);
+		GetObject(hf, sizeof(LOGFONT), &lf);
+		lf.lfWeight = FW_BOLD;
+		m_nickfont = CreateFontIndirect(&lf);
+		SendDlgItemMessage(m_hwnd, IDC_NICK, WM_SETFONT, (WPARAM)m_nickfont, 0);
+
+		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETCONTACT, 0, m_hContact);
+		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETNOAVATARTEXT, 0, (WPARAM)TranslateT("No avatar"));
+		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETAVATARBORDERCOLOR, 0, 0);
+
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject(m_nickfont);
 	}
 
 	bool IsEmpty() const override
@@ -72,6 +98,9 @@ public:
 		if (szProto == nullptr)
 			return false;
 
+		ptrW adr(db_get_wsa(m_hContact, szProto, Proto_GetUniqueId(szProto)));
+		if(adr)
+			SetDlgItemTextW(m_hwnd, IDC_ADDR, adr);
 		SetValue(m_hwnd, m_hContact, itemsSummary1);
 
 		const char *szModule = (-1 == db_get_dw(m_hContact, "UserInfo", "BirthDay", -1)) ? szProto : "UserInfo";
@@ -86,6 +115,28 @@ public:
 			mir_snwprintf(szExec, L"mailto:%s", ptrW(m_email.GetText()).get());
 			ShellExecute(m_hwnd, L"open", szExec, NULL, NULL, SW_SHOW);
 		}
+	}
+
+	void onClick_cpAddr(CCtrlButton *)
+	{
+		wchar_t buf[1024];
+		if (GetDlgItemText(m_hwnd, IDC_ADDR, buf, _countof(buf)))
+			Utils_ClipboardCopy(buf);
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_CPADDR:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+		case IDC_FN:
+		case IDC_ADDR:
+		case IDC_NICK:
+		case IDC_HORLINE:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		}
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 };
 
