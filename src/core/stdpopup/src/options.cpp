@@ -42,7 +42,6 @@ void LoadOptions()
 		options.disable_status[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
 
-	options.disable_always = g_plugin.getByte("DisableAlways", false);
 	options.disable_full_screen = g_plugin.getBool("DisableFullScreen", true);
 
 	options.drop_shadow = g_plugin.getByte("DropShadow", 0) == 1;
@@ -77,8 +76,9 @@ void SaveOptions()
 		mir_snprintf(buff, "DisableStatus%d", i - 1);
 		g_plugin.setByte(buff, options.disable_status[i] ? 1 : 0);
 	}
-	g_plugin.setByte("DisableAlways", options.disable_always);
+
 	g_plugin.setByte("DisableFullScreen", options.disable_full_screen);
+
 	g_plugin.setByte("DropShadow", (options.drop_shadow ? 1 : 0));
 	g_plugin.setDword("SidebarWidth", options.sb_width);
 	g_plugin.setDword("Padding", options.padding);
@@ -332,7 +332,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		chkAlways.SetState(options.disable_always);
+		chkAlways.SetState(!Popup_Enabled());
 		chkFullScreen.SetState(options.disable_full_screen);
 
 		// initialise and fill listbox
@@ -370,7 +370,7 @@ public:
 
 	bool OnApply() override
 	{
-		options.disable_always = chkAlways.IsChecked();
+		Popup_Enable(!chkAlways.IsChecked());
 		options.disable_full_screen = chkFullScreen.IsChecked();
 
 		for (int i = 0; i < _countof(options.disable_status); i++)
@@ -380,7 +380,7 @@ public:
 
 	void onChange_Always(CCtrlCheck *)
 	{
-		bool bEnable = chkAlways.IsChecked();
+		bool bEnable = !chkAlways.IsChecked();
 		m_statuses.Enable(bEnable);
 		chkFullScreen.Enable(bEnable);
 	}

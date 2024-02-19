@@ -22,7 +22,7 @@ unsigned __stdcall MessagePumpThread(void *)
 				int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 				if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_MAX && options.disable_status[status - ID_STATUS_OFFLINE])
 					enabled = false;
-				if (options.disable_always || (options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
+				if ((options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
 					enabled = false;
 
 				PopupData *pd = (PopupData *)hwndMsg.lParam;

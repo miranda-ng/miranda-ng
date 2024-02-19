@@ -22,7 +22,7 @@ struct Options
 	int text_indent;
 	bool global_hover;
 	PopupTimeLayout time_layout;
-	bool disable_full_screen, disable_always;
+	bool disable_full_screen;
 	bool drop_shadow;
 	int sb_width;
 	int padding, av_padding;
