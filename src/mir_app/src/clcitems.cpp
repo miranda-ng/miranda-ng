@@ -224,43 +224,38 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 		if (szProto != nullptr)
 			status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-	int i;
-	uint32_t groupFlags;
 	ClcGroup *group;
-	ptrW tszGroup(Clist_GetGroup(hContact));
-	if (tszGroup == nullptr)
+	ptrW wszGroup(Clist_GetGroup(hContact));
+	if (wszGroup == nullptr)
 		group = &dat->list;
 	else {
-		group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, (uint32_t)-1, 0, 0);
+		group = g_clistApi.pfnAddGroup(hwnd, dat, wszGroup, (uint32_t)-1, 0, 0);
 		if (group == nullptr) {
+			MGROUP hGroup = Clist_GroupCreate(NULL, wszGroup);
+
 			if (!(style & CLS_HIDEEMPTYGROUPS))
 				return;
 
+			uint32_t groupFlags;
 			if (checkHideOffline && Clist_IsHiddenMode(dat, status)) {
-				for (i = 1;; i++) {
-					wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
-					if (szGroupName == nullptr)
-						return;
-
-					if (!mir_wstrcmp(szGroupName, tszGroup))
-						break;
-				}
+				Clist_GroupGetName(hGroup, &groupFlags);
 				if (groupFlags & GROUPF_HIDEOFFLINE)
 					return;
 			}
-			for (i = 1;; i++) {
+			
+			for (MGROUP i = 1;; i++) {
 				wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 				if (szGroupName == nullptr)
 					return;
 
-				if (!mir_wstrcmp(szGroupName, tszGroup))
+				if (!mir_wstrcmp(szGroupName, wszGroup))
 					break;
 
 				size_t len = mir_wstrlen(szGroupName);
-				if (!wcsncmp(szGroupName, tszGroup, len) && tszGroup[len] == '\\')
+				if (!wcsncmp(szGroupName, wszGroup, len) && wszGroup[len] == '\\')
 					g_clistApi.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
-			group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, groupFlags, i, 1);
+			group = g_clistApi.pfnAddGroup(hwnd, dat, wszGroup, groupFlags, hGroup, 1);
 		}
 	}
 
