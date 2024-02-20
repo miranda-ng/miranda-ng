@@ -70,10 +70,19 @@ public:
 		m_nickfont = CreateFontIndirect(&lf);
 		SendDlgItemMessage(m_hwnd, IDC_NICK, WM_SETFONT, (WPARAM)m_nickfont, 0);
 
-		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETCONTACT, 0, m_hContact);
-		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETNOAVATARTEXT, 0, (WPARAM)TranslateT("No avatar"));
-		SendDlgItemMessage(m_hwnd, IDC_AVA, AVATAR_SETAVATARBORDERCOLOR, 0, 0);
+		if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
+			RECT rc;
+			MWindow hwndAva = GetDlgItem(m_hwnd, IDC_AVA);
+			GetClientRect(hwndAva, &rc);
+			DestroyWindow(hwndAva);
 
+			hwndAva = CreateWindowW(AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD,
+				rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, 0, g_plugin.getInst(), 0);
+
+			SendMessage(hwndAva, AVATAR_SETCONTACT, 0, m_hContact);
+			SendMessage(hwndAva, AVATAR_SETNOAVATARTEXT, 0, (WPARAM)TranslateT("No avatar"));
+			SendMessage(hwndAva, AVATAR_SETAVATARBORDERCOLOR, 0, 0);
+		}
 		return true;
 	}
 
@@ -127,8 +136,6 @@ public:
 	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		switch (urc->wId) {
-		case IDC_CPADDR:
-			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
 		case IDC_FN:
 		case IDC_ADDR:
 		case IDC_NICK:

@@ -45,6 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 
 #include <newpluginapi.h>
+#include <m_avatars.h>
 #include <m_button.h>
 #include <m_clist.h>
 #include <m_contacts.h>
