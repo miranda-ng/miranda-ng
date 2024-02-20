@@ -1024,7 +1024,7 @@ public:
 			CreateOptionWindowEx(opd);
 
 		ShowWindow(opd->getHwnd(), SW_SHOW);
-		SetFocus(m_pageTree.GetHwnd());
+		SetFocus(opd->getHwnd());
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
