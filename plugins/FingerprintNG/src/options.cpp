@@ -120,10 +120,11 @@ public:
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.szGroup.w = LPGENW("Icons");
-	odp.szTitle.w = LPGENW("Fingerprint");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szGroup.a = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Icons");
+	odp.szTab.a = LPGEN("Fingerprint");
 	odp.pDialog = new COptDialog;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

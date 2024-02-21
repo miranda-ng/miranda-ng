@@ -926,8 +926,10 @@ int SkinOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
-	odp.pDialog = new CIcoLibOptsDlg();
+	odp.szGroup.a = LPGEN("Customize");
 	odp.szTitle.a = LPGEN("Icons");
+	odp.szTab.a = LPGEN("Icons");
+	odp.pDialog = new CIcoLibOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

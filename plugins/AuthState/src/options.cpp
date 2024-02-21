@@ -48,8 +48,9 @@ public:
 int onOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.szGroup.a = LPGEN("Icons");
-	odp.szTitle.a = LPGEN("Auth state");
+	odp.szGroup.a = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Icons");
+	odp.szTab.a = LPGEN("Auth state");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new COptionsDialog();
 	g_plugin.addOptions(wParam, &odp);
