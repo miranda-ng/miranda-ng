@@ -1024,7 +1024,7 @@ public:
 			CreateOptionWindowEx(opd);
 
 		ShowWindow(opd->getHwnd(), SW_SHOW);
-		SetFocus(m_pageTree.GetHwnd());
+		SetFocus(opd->getHwnd());
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -1123,6 +1123,25 @@ public:
 				m_arOpd.insert(opd);
 			m_timerRebuild.Start(50);
 		}
+	}
+
+	void KillAccount(PROTO_INTERFACE *ppro)
+	{
+		for (auto &opd : m_arOpd) {
+			if (opd->pDialog == nullptr)
+				continue;
+
+			if (auto *pDlg = dynamic_cast<CProtoIntDlgBase *>(opd->pDialog)) {
+				if (pDlg->GetProtoInterface() == ppro) {
+					opd->pDialog->Close();
+					opd->pDialog = nullptr;
+					m_arDeleted.insert(opd);
+				}
+			}
+		}
+
+		if (m_arDeleted.getCount())
+			m_timerRebuild.Start(50);
 	}
 
 	void KillModule(HPLUGIN pPlugin)
@@ -1245,6 +1264,12 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, HPLUGIN 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void KillObjectOptions(PROTO_INTERFACE *ppro)
+{
+	if (pOptionsDlg != nullptr)
+		pOptionsDlg->KillAccount(ppro);
+}
 
 MIR_APP_DLL(void) KillModuleOptions(HPLUGIN pPlugin)
 {

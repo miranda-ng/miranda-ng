@@ -84,13 +84,25 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 	return pa;
 }
 
-static bool FindAccountByName(const char *szModuleName)
+static bool FindAccountByModule(const char *pszModuleName)
 {
-	if (!mir_strlen(szModuleName))
+	if (!mir_strlen(pszModuleName))
 		return false;
 
 	for (auto &pa : g_arAccounts)
-		if (_stricmp(szModuleName, pa->szModuleName) == 0)
+		if (_stricmp(pszModuleName, pa->szModuleName) == 0)
+			return true;
+
+	return false;
+}
+
+static bool FindAccountByName(const wchar_t *pwszUserName)
+{
+	if (!mir_wstrlen(pwszUserName))
+		return false;
+
+	for (auto &pa : g_arAccounts)
+		if (_wcsicmp(pwszUserName, pa->tszAccountName) == 0)
 			return true;
 
 	return false;
@@ -883,8 +895,13 @@ bool CAccountFormDlg::OnApply()
 				return false;
 			}
 
-		if (FindAccountByName(_T2A(buf))) {
+		if (FindAccountByModule(_T2A(buf))) {
 			MessageBoxW(m_hwnd, TranslateT("Account internal name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			return false;
+		}
+
+		if (FindAccountByName(wszAccName)) {
+			MessageBoxW(m_hwnd, TranslateT("Account's name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 			return false;
 		}
 	}

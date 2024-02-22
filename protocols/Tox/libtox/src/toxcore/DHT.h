@@ -14,6 +14,7 @@
 #include "attributes.h"
 #include "crypto_core.h"
 #include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
 #include "network.h"
 #include "ping_array.h"
@@ -21,20 +22,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/* Encryption and signature keys definition */
-#define ENC_PUBLIC_KEY_SIZE CRYPTO_PUBLIC_KEY_SIZE
-#define ENC_SECRET_KEY_SIZE CRYPTO_SECRET_KEY_SIZE
-#define SIG_PUBLIC_KEY_SIZE CRYPTO_SIGN_PUBLIC_KEY_SIZE
-#define SIG_SECRET_KEY_SIZE CRYPTO_SIGN_SECRET_KEY_SIZE
-
-/* Size of the group chat_id */
-#define CHAT_ID_SIZE SIG_PUBLIC_KEY_SIZE
-
-/* Extended keys for group chats */
-#define EXT_SECRET_KEY_SIZE (ENC_SECRET_KEY_SIZE + SIG_SECRET_KEY_SIZE)
-#define EXT_PUBLIC_KEY_SIZE (ENC_PUBLIC_KEY_SIZE + SIG_PUBLIC_KEY_SIZE)
-
 
 /* Maximum size of a signature (may be smaller) */
 #define SIGNATURE_SIZE CRYPTO_SIGNATURE_SIZE
@@ -168,7 +155,7 @@ typedef struct Client_data {
 #ifdef CHECK_ANNOUNCE_NODE
     /* Responded to data search? */
     bool        announce_node;
-#endif
+#endif /* CHECK_ANNOUNCE_NODE */
 } Client_data;
 
 /*----------------------------------------------------------------------------------*/
@@ -203,37 +190,17 @@ non_null() const Client_data *dht_friend_client(const DHT_Friend *dht_friend, si
  */
 int packed_node_size(Family ip_family);
 
-/** @brief Pack an IP_Port structure into data of max size length.
- *
- * Packed_length is the offset of data currently packed.
- *
- * @return size of packed IP_Port data on success.
- * @retval -1 on failure.
- */
-non_null()
-int pack_ip_port(const Logger *logger, uint8_t *data, uint16_t length, const IP_Port *ip_port);
-
 /** @brief Encrypt plain and write resulting DHT packet into packet with max size length.
  *
  * @return size of packet on success.
  * @retval -1 on failure.
  */
 non_null()
-int dht_create_packet(const Random *rng,
+int dht_create_packet(const Memory *mem, const Random *rng,
                       const uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE],
-                      const uint8_t *shared_key, const uint8_t type,
+                      const uint8_t *shared_key, uint8_t type,
                       const uint8_t *plain, size_t plain_length,
                       uint8_t *packet, size_t length);
-
-/** @brief Unpack IP_Port structure from data of max size length into ip_port.
- *
- * len_processed is the offset of data currently unpacked.
- *
- * @return size of unpacked ip_port on success.
- * @retval -1 on failure.
- */
-non_null()
-int unpack_ip_port(IP_Port *ip_port, const uint8_t *data, uint16_t length, bool tcp_enabled);
 
 /** @brief Pack number of nodes into data of maxlength length.
  *
@@ -256,8 +223,8 @@ int unpack_nodes(Node_format *nodes, uint16_t max_num_nodes, uint16_t *processed
 
 /*----------------------------------------------------------------------------------*/
 
-typedef int cryptopacket_handler_cb(void *object, const IP_Port *ip_port, const uint8_t *source_pubkey,
-                                    const uint8_t *data, uint16_t len, void *userdata);
+typedef int cryptopacket_handler_cb(void *object, const IP_Port *source, const uint8_t *source_pubkey,
+                                    const uint8_t *packet, uint16_t length, void *userdata);
 
 typedef struct DHT DHT;
 
@@ -369,7 +336,8 @@ unsigned int bit_by_bit_cmp(const uint8_t *pk1, const uint8_t *pk2);
  */
 non_null()
 bool add_to_list(
-    Node_format *nodes_list, uint32_t length, const uint8_t *pk, const IP_Port *ip_port, const uint8_t *cmp_pk);
+    Node_format *nodes_list, uint32_t length, const uint8_t pk[CRYPTO_PUBLIC_KEY_SIZE],
+    const IP_Port *ip_port, const uint8_t cmp_pk[CRYPTO_PUBLIC_KEY_SIZE]);
 
 /** Return 1 if node can be added to close list, 0 if it can't. */
 non_null()
@@ -379,22 +347,23 @@ bool node_addable_to_close_list(DHT *dht, const uint8_t *public_key, const IP_Po
 /** Set node as announce node. */
 non_null()
 void set_announce_node(DHT *dht, const uint8_t *public_key);
-#endif
+#endif /* CHECK_ANNOUNCE_NODE */
 
 /**
- * Get the (maximum MAX_SENT_NODES) closest nodes to public_key we know
+ * @brief Get the (maximum MAX_SENT_NODES) closest nodes to public_key we know
  * and put them in nodes_list (must be MAX_SENT_NODES big).
  *
- * sa_family = family (IPv4 or IPv6) (0 if we don't care)?
- * is_LAN = return some LAN ips (true or false)
- * want_announce: return only nodes which implement the dht announcements protocol.
+ * @param sa_family family (IPv4 or IPv6) (0 if we don't care)?
+ * @param is_lan return some LAN ips (true or false).
+ * @param want_announce return only nodes which implement the dht announcements protocol.
  *
  * @return the number of nodes returned.
  */
 non_null()
-int get_close_nodes(const DHT *dht, const uint8_t *public_key, Node_format *nodes_list, Family sa_family,
-                    bool is_LAN, bool want_announce);
-
+int get_close_nodes(
+    const DHT *dht, const uint8_t *public_key,
+    Node_format nodes_list[MAX_SENT_NODES], Family sa_family,
+    bool is_lan, bool want_announce);
 
 /** @brief Put up to max_num nodes in nodes from the random friends.
  *
@@ -436,12 +405,12 @@ bool dht_bootstrap(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key);
  * @param ipv6enabled if false, the resolving sticks STRICTLY to IPv4 addresses.
  *   Otherwise, the resolving looks for IPv6 addresses first, then IPv4 addresses.
  *
- * @retval 1 if the address could be converted into an IP address
- * @retval 0 otherwise
+ * @retval true if the address could be converted into an IP address
+ * @retval false otherwise
  */
 non_null()
-int dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled,
-                               uint16_t port, const uint8_t *public_key);
+bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled,
+                                uint16_t port, const uint8_t *public_key);
 
 /** @brief Start sending packets after DHT loaded_friends_list and loaded_clients_list are set.
  *
@@ -494,8 +463,8 @@ int dht_load(DHT *dht, const uint8_t *data, uint32_t length);
 
 /** Initialize DHT. */
 non_null()
-DHT *new_dht(const Logger *log, const Random *rng, const Network *ns, Mono_Time *mono_time, Networking_Core *net,
-             bool hole_punching_enabled, bool lan_discovery_enabled);
+DHT *new_dht(const Logger *log, const Memory *mem, const Random *rng, const Network *ns,
+             Mono_Time *mono_time, Networking_Core *net, bool hole_punching_enabled, bool lan_discovery_enabled);
 
 nullable(1)
 void kill_dht(DHT *dht);
@@ -513,6 +482,24 @@ bool dht_isconnected(const DHT *dht);
  */
 non_null()
 bool dht_non_lan_connected(const DHT *dht);
+
+/**
+ * This function returns the ratio of close dht nodes that are known to support announce/store.
+ * This function returns the number of DHT nodes in the closelist.
+ *
+ * @return number
+ */
+non_null()
+uint16_t dht_get_num_closelist(const DHT *dht);
+
+/**
+ * This function returns the number of DHT nodes in the closelist,
+ * that are capable to store annouce data (introduced in version 0.2.18).
+ *
+ * @return number
+ */
+non_null()
+uint16_t dht_get_num_closelist_announce_capable(const DHT *dht);
 
 /** @brief Attempt to add client with ip_port and public_key to the friends client list
  * and close_clientlist.
@@ -536,7 +523,7 @@ non_null()
 unsigned int ipport_self_copy(const DHT *dht, IP_Port *dest);
 
 #ifdef __cplusplus
-}  // extern "C"
+} /* extern "C" */
 #endif
 
-#endif
+#endif /* C_TOXCORE_TOXCORE_DHT_H */

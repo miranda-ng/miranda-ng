@@ -67,17 +67,20 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.bShowType = g_bShowType;
-		g_plugin.bDrawEdge = g_bOptDrawEdge;
-		g_plugin.bMsgGrouping = g_bOptGrouping;
-		g_plugin.bHppCompat = g_bOptHppCompat;
-		g_plugin.bShowDirecction = g_bShowDirection;
+		g_plugin.LoadOptions();
 		return true;
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Template options dialog
+
+static void AppendSymbol(CMStringW &buf, const wchar_t *pwszSymbol, const wchar_t *pwszMeaning)
+{
+	if (!buf.IsEmpty())
+		buf.AppendChar('\n');
+	buf.AppendFormat(L"%s - %s", pwszSymbol, pwszMeaning);
+}
 
 class CTemplateOptsDlg : public CBaseOptsDlg
 {
@@ -86,6 +89,7 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 
 	CCtrlBase preview, gpreview;
 	CCtrlEdit m_edit;
+	CCtrlColor clr0, clr1, clr2, clr3, clr4;
 	CCtrlMButton btnDiscard, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
@@ -102,6 +106,11 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 public:
 	CTemplateOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_TEMPLATES),
+		clr0(this, IDC_COLOR1),
+		clr1(this, IDC_COLOR2),
+		clr2(this, IDC_COLOR3),
+		clr3(this, IDC_COLOR4),
+		clr4(this, IDC_COLOR5),
 		m_edit(this, IDC_EDITTEMPLATE),
 		m_tree(this, IDC_TEMPLATES),
 		preview(this, IDC_PREVIEW),
@@ -110,6 +119,12 @@ public:
 		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(IDI_RESET), LPGEN("Cancel edit")),
 		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(IDI_VARHELP), LPGEN("Variables help"))
 	{
+		CreateLink(clr0, g_clCustom0);
+		CreateLink(clr1, g_clCustom1);
+		CreateLink(clr2, g_clCustom2);
+		CreateLink(clr3, g_clCustom3);
+		CreateLink(clr4, g_clCustom4);
+
 		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
 		btnDiscard.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Discard);
 		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Help);
@@ -187,6 +202,7 @@ public:
 			}
 		}
 
+		g_plugin.LoadOptions();
 		onChange_Edit();
 		SaveTemplates();
 		return true;
@@ -227,30 +243,35 @@ public:
 	void onClick_Help(CCtrlButton *)
 	{
 		CMStringW wszVarHelp;
-		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-			L"%%", TranslateT("simply % character"),
-			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
-			L"%S", TranslateT("my nickname"),
-			L"%N", TranslateT("buddy\'s nickname"),
-			L"%c", TranslateT("event count"),
-			L"%D", TranslateT("direction symbol"),
-			L"%t", TranslateT("timestamp"),
-			L"%h", TranslateT("hour (24 hour format, 0-23)"),
-			L"%a", TranslateT("hour (12 hour format)"),
-			L"%m", TranslateT("minute"),
-			L"%s", TranslateT("second"),
-			L"%o", TranslateT("month"),
-			L"%d", TranslateT("day of month"),
-			L"%y", TranslateT("year (4 digits)"),
-			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
-			L"%p", TranslateT("AM/PM symbol"),
-			L"%O", TranslateT("name of month, translatable"),
-			L"%M", TranslateT("the message string itself"));
+		AppendSymbol(wszVarHelp, L"%%", TranslateT("simply % character"));
+		AppendSymbol(wszVarHelp, L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"));
+		AppendSymbol(wszVarHelp, L"%S", TranslateT("my nickname"));
+		AppendSymbol(wszVarHelp, L"%N", TranslateT("buddy\'s nickname"));
+		AppendSymbol(wszVarHelp, L"%c", TranslateT("event count"));
+		AppendSymbol(wszVarHelp, L"%D", TranslateT("direction symbol"));
+		AppendSymbol(wszVarHelp, L"%t", TranslateT("timestamp"));
+		AppendSymbol(wszVarHelp, L"%h", TranslateT("hour (24 hour format, 0-23)"));
+		AppendSymbol(wszVarHelp, L"%a", TranslateT("hour (12 hour format)"));
+		AppendSymbol(wszVarHelp, L"%m", TranslateT("minute"));
+		AppendSymbol(wszVarHelp, L"%s", TranslateT("second"));
+		AppendSymbol(wszVarHelp, L"%o", TranslateT("month"));
+		AppendSymbol(wszVarHelp, L"%d", TranslateT("day of month"));
+		AppendSymbol(wszVarHelp, L"%y", TranslateT("year (4 digits)"));
+		AppendSymbol(wszVarHelp, L"%w", TranslateT("day of week (Sunday, Monday... translatable)"));
+		AppendSymbol(wszVarHelp, L"%p", TranslateT("AM/PM symbol"));
+		AppendSymbol(wszVarHelp, L"%O", TranslateT("name of month, translatable"));
+		AppendSymbol(wszVarHelp, L"%M", TranslateT("the message string itself"));
+		AppendSymbol(wszVarHelp, L"[c0]", TranslateT("default text color"));
+		AppendSymbol(wszVarHelp, L"[c1]", TranslateT("nickname's color"));
+		AppendSymbol(wszVarHelp, L"[c2]-[c6]", TranslateT("one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)"));
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
 	void onChange_Edit(CCtrlEdit* = 0)
 	{
+		if (m_curr == nullptr)
+			return;
+
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
 		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event

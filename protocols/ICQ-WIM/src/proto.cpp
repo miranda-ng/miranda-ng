@@ -574,17 +574,18 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 	IcqFileTransfer *pTransfer = nullptr;
 
 	for (int i = 0; ppszFiles[i] != 0; i++) {
+		auto *pwszFileName = ppszFiles[i];
 		struct _stat statbuf;
-		if (_wstat(ppszFiles[0], &statbuf)) {
-			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
+		if (_wstat(pwszFileName, &statbuf)) {
+			debugLogW(L"'%s' is an invalid filename", pwszFileName);
 			continue;
 		}
 
-		int iFileId = _wopen(ppszFiles[i], _O_RDONLY | _O_BINARY, _S_IREAD);
+		int iFileId = _wopen(pwszFileName, _O_RDONLY | _O_BINARY, _S_IREAD);
 		if (iFileId < 0)
 			continue;
 
-		pTransfer = new IcqFileTransfer(hContact, ppszFiles[i]);
+		pTransfer = new IcqFileTransfer(hContact, pwszFileName);
 		pTransfer->pfts.totalFiles = 1;
 		pTransfer->pfts.currentFileSize = pTransfer->pfts.totalBytes = statbuf.st_size;
 		pTransfer->m_fileId = iFileId;

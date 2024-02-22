@@ -26,7 +26,6 @@
 #if !defined(DISABLE_VLA) && !defined(_MSC_VER) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 // C99 VLAs.
 #define ALLOC_VLA(type, name, size) type name[size]
-#define SIZEOF_VLA sizeof
 #else
 
 // Emulation using alloca.
@@ -47,9 +46,7 @@
 #endif
 
 #define ALLOC_VLA(type, name, size)                       \
-    const size_t name##_vla_size = (size) * sizeof(type); \
-    type *const name = (type *)alloca(name##_vla_size)
-#define SIZEOF_VLA(name) name##_vla_size
+    type *const name = (type *)alloca((size) * sizeof(type))
 
 #endif
 
@@ -72,16 +69,10 @@
 #define STATIC_ASSERT_(cond, msg, line) typedef int static_assert_##line[(cond) ? 1 : -1]
 #define STATIC_ASSERT(cond, msg, line) STATIC_ASSERT_(cond, msg, line)
 #define static_assert(cond, msg) STATIC_ASSERT(cond, msg, __LINE__)
-#endif // !__GNUC__
-#endif // !static_assert
-#endif // !__cplusplus
-
-#ifdef __GNUC__
-#define GNU_PRINTF(f, a) __attribute__((__format__(__printf__, f, a)))
-#else
-#define GNU_PRINTF(f, a)
-#endif
+#endif /* !__GNUC__ */
+#endif /* !static_assert */
+#endif /* !__cplusplus */
 
 //!TOKSTYLE+
 
-#endif // C_TOXCORE_TOXCORE_CCOMPAT_H
+#endif /* C_TOXCORE_TOXCORE_CCOMPAT_H */

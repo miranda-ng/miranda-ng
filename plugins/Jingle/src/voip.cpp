@@ -278,7 +278,7 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 			MessageBoxA(0, "Cannot load Gstreamer library!", 0, MB_OK | MB_ICONERROR);
 			goto err;
 		}
-		gst_init(NULL, NULL);
+		gst_init(nullptr, nullptr);
 		g_set_print_handler(dbgprint);
 		gst_print("preved medved");
 		if (!check_plugins()) {
@@ -288,21 +288,22 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 		gstinited = 1;
 	}
 
-	#define STUN_SERVER "stun-server=stun://stun.tng.de:3478 "
-	#define RTP_CAPS_OPUS "application/x-rtp,media=audio,encoding-name=OPUS,payload="
 	#define RTP_TWCC_URI "http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01"
+	{
+		CMStringA szPipeDescr;
+		szPipeDescr += "webrtcbin bundle-policy=max-bundle name=sendrecv ";
+		if (mir_wstrlen(m_szStunServer))
+			szPipeDescr.AppendFormat("stun-server=%S ", (wchar_t *)m_szStunServer);
+		szPipeDescr += "autoaudiosrc ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay name=audiopay ! ";
+		szPipeDescr += "queue ! application/x-rtp,media=audio,encoding-name=OPUS,payload=111 ! sendrecv. ";
 
-	GError *error = NULL;
-	m_pipe1 = gst_parse_launch(
-		"webrtcbin bundle-policy=max-bundle name=sendrecv "
-		STUN_SERVER
-		"autoaudiosrc ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay name=audiopay ! "
-		"queue ! " RTP_CAPS_OPUS "111 ! sendrecv. ", &error);
-
-	if (error) {
-		MessageBoxA(0, "Failed to parse launch: ", error->message, MB_OK);
-		g_error_free(error);
-		goto err;
+		GError *error = nullptr;
+		m_pipe1 = gst_parse_launch(szPipeDescr, &error);
+		if (error) {
+			MessageBoxA(0, "Failed to parse launch: ", error->message, MB_OK);
+			g_error_free(error);
+			goto err;
+		}
 	}
 
 	m_webrtc1 = gst_bin_get_by_name(GST_BIN(m_pipe1), "sendrecv");

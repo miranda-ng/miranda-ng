@@ -4,6 +4,7 @@
 #ifndef C_TOXCORE_TOXCORE_TIMED_AUTH_H
 #define C_TOXCORE_TOXCORE_TIMED_AUTH_H
 
+#include "attributes.h"
 #include "crypto_core.h"
 #include "mono_time.h"
 
@@ -32,4 +33,4 @@ void generate_timed_auth(const Mono_Time *mono_time, uint16_t timeout, const uin
 non_null(1, 3, 6) nullable(4)
 bool check_timed_auth(const Mono_Time *mono_time, uint16_t timeout, const uint8_t *key,
                       const uint8_t *data, uint16_t length, const uint8_t *timed_auth);
-#endif
+#endif /* C_TOXCORE_TOXCORE_TIMED_AUTH_H */

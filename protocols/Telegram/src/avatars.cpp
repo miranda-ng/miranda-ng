@@ -181,8 +181,12 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 	if (pFile == nullptr)
 		return;
 
+	auto *pRemote = pFile->remote_.get();
+	if (pRemote == nullptr)
+		return;
+
 	if (!pFile->local_->is_downloading_completed_) {
-		if (auto *F = FindFile(pFile->remote_->unique_id_.c_str())) {
+		if (auto *F = FindFile(pRemote->unique_id_.c_str())) {
 			if (F->m_type != F->AVATAR && F->ofd) {
 				DBVARIANT dbv = { DBVT_DWORD };
 				dbv.dVal = pFile->local_->downloaded_size_;
@@ -194,7 +198,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 	Utf2T wszExistingFile(pFile->local_->path_.c_str());
 
-	if (auto *F = FindFile(pFile->remote_->unique_id_.c_str())) {
+	if (auto *F = FindFile(pRemote->unique_id_.c_str())) {
 		if (F->m_type == F->AVATAR) {
 			CMStringW wszFullName = F->m_destPath;
 			if (!wszFullName.IsEmpty())
@@ -265,10 +269,10 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 	for (auto &it : m_arOwnMsg) {
 		if (it->tmpFileId == pFile->id_) {
-			if (!pFile->remote_->id_.empty()) {
+			if (!pRemote->id_.empty()) {
 				if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
 					DBVARIANT dbv = { DBVT_UTF8 };
-					dbv.pszVal = (char *)pFile->remote_->id_.c_str();
+					dbv.pszVal = (char *)pRemote->id_.c_str();
 					db_event_setJson(hDbEvent, "u", &dbv);
 				}
 			}
@@ -277,7 +281,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 	}
 
 	for (auto &it : m_arUsers) {
-		if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
+		if (it->szAvatarHash == pRemote->unique_id_.c_str()) {
 			PROTO_AVATAR_INFORMATION pai;
 			pai.hContact = it->hContact;
 			pai.format = ProtoGetAvatarFileFormat(wszExistingFile);

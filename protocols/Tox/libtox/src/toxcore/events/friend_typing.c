@@ -1,19 +1,18 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2022 The TokTok team.
+ * Copyright © 2023-2024 The TokTok team.
  */
 
 #include "events_alloc.h"
 
 #include <assert.h>
-#include <stdlib.h>
-#include <string.h>
 
+#include "../attributes.h"
 #include "../bin_pack.h"
 #include "../bin_unpack.h"
 #include "../ccompat.h"
+#include "../mem.h"
 #include "../tox.h"
 #include "../tox_events.h"
-
 
 /*****************************************************
  *
@@ -21,24 +20,10 @@
  *
  *****************************************************/
 
-
 struct Tox_Event_Friend_Typing {
     uint32_t friend_number;
     bool typing;
 };
-
-non_null()
-static void tox_event_friend_typing_construct(Tox_Event_Friend_Typing *friend_typing)
-{
-    *friend_typing = (Tox_Event_Friend_Typing) {
-        0
-    };
-}
-non_null()
-static void tox_event_friend_typing_destruct(Tox_Event_Friend_Typing *friend_typing)
-{
-    return;
-}
 
 non_null()
 static void tox_event_friend_typing_set_friend_number(Tox_Event_Friend_Typing *friend_typing,
@@ -54,7 +39,8 @@ uint32_t tox_event_friend_typing_get_friend_number(const Tox_Event_Friend_Typing
 }
 
 non_null()
-static void tox_event_friend_typing_set_typing(Tox_Event_Friend_Typing *friend_typing, bool typing)
+static void tox_event_friend_typing_set_typing(Tox_Event_Friend_Typing *friend_typing,
+        bool typing)
 {
     assert(friend_typing != nullptr);
     friend_typing->typing = typing;
@@ -66,23 +52,32 @@ bool tox_event_friend_typing_get_typing(const Tox_Event_Friend_Typing *friend_ty
 }
 
 non_null()
-static bool tox_event_friend_typing_pack(
+static void tox_event_friend_typing_construct(Tox_Event_Friend_Typing *friend_typing)
+{
+    *friend_typing = (Tox_Event_Friend_Typing) {
+        0
+    };
+}
+non_null()
+static void tox_event_friend_typing_destruct(Tox_Event_Friend_Typing *friend_typing, const Memory *mem)
+{
+    return;
+}
+
+bool tox_event_friend_typing_pack(
     const Tox_Event_Friend_Typing *event, Bin_Pack *bp)
 {
-    assert(event != nullptr);
     return bin_pack_array(bp, 2)
-           && bin_pack_u32(bp, TOX_EVENT_FRIEND_TYPING)
-           && bin_pack_array(bp, 2)
            && bin_pack_u32(bp, event->friend_number)
            && bin_pack_bool(bp, event->typing);
 }
 
 non_null()
-static bool tox_event_friend_typing_unpack(
+static bool tox_event_friend_typing_unpack_into(
     Tox_Event_Friend_Typing *event, Bin_Unpack *bu)
 {
     assert(event != nullptr);
-    if (!bin_unpack_array_fixed(bu, 2)) {
+    if (!bin_unpack_array_fixed(bu, 2, nullptr)) {
         return false;
     }
 
@@ -90,95 +85,88 @@ static bool tox_event_friend_typing_unpack(
            && bin_unpack_bool(bu, &event->typing);
 }
 
-
 /*****************************************************
  *
- * :: add/clear/get
+ * :: new/free/add/get/size/unpack
  *
  *****************************************************/
 
-
-non_null()
-static Tox_Event_Friend_Typing *tox_events_add_friend_typing(Tox_Events *events)
+const Tox_Event_Friend_Typing *tox_event_get_friend_typing(const Tox_Event *event)
 {
-    if (events->friend_typing_size == UINT32_MAX) {
+    return event->type == TOX_EVENT_FRIEND_TYPING ? event->data.friend_typing : nullptr;
+}
+
+Tox_Event_Friend_Typing *tox_event_friend_typing_new(const Memory *mem)
+{
+    Tox_Event_Friend_Typing *const friend_typing =
+        (Tox_Event_Friend_Typing *)mem_alloc(mem, sizeof(Tox_Event_Friend_Typing));
+
+    if (friend_typing == nullptr) {
         return nullptr;
     }
 
-    if (events->friend_typing_size == events->friend_typing_capacity) {
-        const uint32_t new_friend_typing_capacity = events->friend_typing_capacity * 2 + 1;
-        Tox_Event_Friend_Typing *new_friend_typing = (Tox_Event_Friend_Typing *)realloc(
-                    events->friend_typing, new_friend_typing_capacity * sizeof(Tox_Event_Friend_Typing));
-
-        if (new_friend_typing == nullptr) {
-            return nullptr;
-        }
-
-        events->friend_typing = new_friend_typing;
-        events->friend_typing_capacity = new_friend_typing_capacity;
-    }
-
-    Tox_Event_Friend_Typing *const friend_typing = &events->friend_typing[events->friend_typing_size];
     tox_event_friend_typing_construct(friend_typing);
-    ++events->friend_typing_size;
     return friend_typing;
 }
 
-void tox_events_clear_friend_typing(Tox_Events *events)
+void tox_event_friend_typing_free(Tox_Event_Friend_Typing *friend_typing, const Memory *mem)
 {
-    if (events == nullptr) {
-        return;
+    if (friend_typing != nullptr) {
+        tox_event_friend_typing_destruct(friend_typing, mem);
     }
-
-    for (uint32_t i = 0; i < events->friend_typing_size; ++i) {
-        tox_event_friend_typing_destruct(&events->friend_typing[i]);
-    }
-
-    free(events->friend_typing);
-    events->friend_typing = nullptr;
-    events->friend_typing_size = 0;
-    events->friend_typing_capacity = 0;
+    mem_delete(mem, friend_typing);
 }
 
-uint32_t tox_events_get_friend_typing_size(const Tox_Events *events)
+non_null()
+static Tox_Event_Friend_Typing *tox_events_add_friend_typing(Tox_Events *events, const Memory *mem)
 {
-    if (events == nullptr) {
-        return 0;
+    Tox_Event_Friend_Typing *const friend_typing = tox_event_friend_typing_new(mem);
+
+    if (friend_typing == nullptr) {
+        return nullptr;
     }
 
-    return events->friend_typing_size;
+    Tox_Event event;
+    event.type = TOX_EVENT_FRIEND_TYPING;
+    event.data.friend_typing = friend_typing;
+
+    tox_events_add(events, &event);
+    return friend_typing;
 }
 
-const Tox_Event_Friend_Typing *tox_events_get_friend_typing(const Tox_Events *events, uint32_t index)
+bool tox_event_friend_typing_unpack(
+    Tox_Event_Friend_Typing **event, Bin_Unpack *bu, const Memory *mem)
 {
-    assert(index < events->friend_typing_size);
-    assert(events->friend_typing != nullptr);
-    return &events->friend_typing[index];
-}
+    assert(event != nullptr);
+    assert(*event == nullptr);
+    *event = tox_event_friend_typing_new(mem);
 
-bool tox_events_pack_friend_typing(const Tox_Events *events, Bin_Pack *bp)
-{
-    const uint32_t size = tox_events_get_friend_typing_size(events);
-
-    for (uint32_t i = 0; i < size; ++i) {
-        if (!tox_event_friend_typing_pack(tox_events_get_friend_typing(events, i), bp)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool tox_events_unpack_friend_typing(Tox_Events *events, Bin_Unpack *bu)
-{
-    Tox_Event_Friend_Typing *event = tox_events_add_friend_typing(events);
-
-    if (event == nullptr) {
+    if (*event == nullptr) {
         return false;
     }
 
-    return tox_event_friend_typing_unpack(event, bu);
+    return tox_event_friend_typing_unpack_into(*event, bu);
 }
 
+non_null()
+static Tox_Event_Friend_Typing *tox_event_friend_typing_alloc(void *user_data)
+{
+    Tox_Events_State *state = tox_events_alloc(user_data);
+    assert(state != nullptr);
+
+    if (state->events == nullptr) {
+        return nullptr;
+    }
+
+    Tox_Event_Friend_Typing *friend_typing = tox_events_add_friend_typing(state->events, state->mem);
+
+    if (friend_typing == nullptr) {
+        state->error = TOX_ERR_EVENTS_ITERATE_MALLOC;
+        return nullptr;
+    }
+
+    return friend_typing;
+}
 
 /*****************************************************
  *
@@ -186,20 +174,13 @@ bool tox_events_unpack_friend_typing(Tox_Events *events, Bin_Unpack *bu)
  *
  *****************************************************/
 
-
-void tox_events_handle_friend_typing(Tox *tox, uint32_t friend_number, bool typing, void *user_data)
+void tox_events_handle_friend_typing(
+    Tox *tox, uint32_t friend_number, bool typing,
+    void *user_data)
 {
-    Tox_Events_State *state = tox_events_alloc(user_data);
-    assert(state != nullptr);
-
-    if (state->events == nullptr) {
-        return;
-    }
-
-    Tox_Event_Friend_Typing *friend_typing = tox_events_add_friend_typing(state->events);
+    Tox_Event_Friend_Typing *friend_typing = tox_event_friend_typing_alloc(user_data);
 
     if (friend_typing == nullptr) {
-        state->error = TOX_ERR_EVENTS_ITERATE_MALLOC;
         return;
     }
 

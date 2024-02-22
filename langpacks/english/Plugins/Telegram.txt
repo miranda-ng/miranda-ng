@@ -61,6 +61,7 @@
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
+[wrote]
 [Saved messages]
 ;file \protocols\Telegram\src\utils.cpp
 [none]

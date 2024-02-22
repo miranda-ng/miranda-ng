@@ -6,7 +6,10 @@
 #ifndef C_TOXCORE_TOXCORE_TCP_COMMON_H
 #define C_TOXCORE_TOXCORE_TCP_COMMON_H
 
+#include "attributes.h"
 #include "crypto_core.h"
+#include "logger.h"
+#include "mem.h"
 #include "network.h"
 
 typedef struct TCP_Priority_List TCP_Priority_List;
@@ -17,39 +20,26 @@ struct TCP_Priority_List {
     uint8_t *data;
 };
 
-nullable(1)
-void wipe_priority_list(TCP_Priority_List *p);
+non_null(1) nullable(2)
+void wipe_priority_list(const Memory *mem, TCP_Priority_List *p);
 
 #define NUM_RESERVED_PORTS 16
 #define NUM_CLIENT_CONNECTIONS (256 - NUM_RESERVED_PORTS)
 
-#ifdef USE_TEST_NETWORK
-#define TCP_PACKET_FORWARD_REQUEST 11
-#define TCP_PACKET_FORWARDING 10
-#define TCP_PACKET_ROUTING_REQUEST  9
-#define TCP_PACKET_ROUTING_RESPONSE 8
-#define TCP_PACKET_CONNECTION_NOTIFICATION 7
-#define TCP_PACKET_DISCONNECT_NOTIFICATION 6
-#define TCP_PACKET_PING 5
-#define TCP_PACKET_PONG 4
-#define TCP_PACKET_OOB_SEND 3
-#define TCP_PACKET_OOB_RECV 2
-#define TCP_PACKET_ONION_REQUEST  1
-#define TCP_PACKET_ONION_RESPONSE 0
-#else
-#define TCP_PACKET_ROUTING_REQUEST  0
-#define TCP_PACKET_ROUTING_RESPONSE 1
-#define TCP_PACKET_CONNECTION_NOTIFICATION 2
-#define TCP_PACKET_DISCONNECT_NOTIFICATION 3
-#define TCP_PACKET_PING 4
-#define TCP_PACKET_PONG 5
-#define TCP_PACKET_OOB_SEND 6
-#define TCP_PACKET_OOB_RECV 7
-#define TCP_PACKET_ONION_REQUEST  8
-#define TCP_PACKET_ONION_RESPONSE 9
-#define TCP_PACKET_FORWARD_REQUEST 10
-#define TCP_PACKET_FORWARDING 11
-#endif  // test network
+typedef enum Tcp_Packet {
+    TCP_PACKET_ROUTING_REQUEST          = 0,
+    TCP_PACKET_ROUTING_RESPONSE         = 1,
+    TCP_PACKET_CONNECTION_NOTIFICATION  = 2,
+    TCP_PACKET_DISCONNECT_NOTIFICATION  = 3,
+    TCP_PACKET_PING                     = 4,
+    TCP_PACKET_PONG                     = 5,
+    TCP_PACKET_OOB_SEND                 = 6,
+    TCP_PACKET_OOB_RECV                 = 7,
+    TCP_PACKET_ONION_REQUEST            = 8,
+    TCP_PACKET_ONION_RESPONSE           = 9,
+    TCP_PACKET_FORWARD_REQUEST          = 10,
+    TCP_PACKET_FORWARDING               = 11,
+} Tcp_Packet;
 
 #define TCP_HANDSHAKE_PLAIN_SIZE (CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE)
 #define TCP_SERVER_HANDSHAKE_SIZE (CRYPTO_NONCE_SIZE + TCP_HANDSHAKE_PLAIN_SIZE + CRYPTO_MAC_SIZE)
@@ -63,6 +53,7 @@ void wipe_priority_list(TCP_Priority_List *p);
 #define MAX_PACKET_SIZE 2048
 
 typedef struct TCP_Connection {
+    const Memory *mem;
     const Random *rng;
     const Network *ns;
     Socket sock;
@@ -97,9 +88,9 @@ int send_pending_data(const Logger *logger, TCP_Connection *con);
  * @retval -1 on failure (connection must be killed).
  */
 non_null()
-int write_packet_TCP_secure_connection(
-        const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
-        bool priority);
+int write_packet_tcp_secure_connection(
+    const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
+    bool priority);
 
 /** @brief Read length bytes from socket.
  *
@@ -107,8 +98,8 @@ int write_packet_TCP_secure_connection(
  * return -1 on failure/no data in buffer.
  */
 non_null()
-int read_TCP_packet(
-        const Logger *logger, const Network *ns, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port);
+int read_tcp_packet(
+    const Logger *logger, const Memory *mem, const Network *ns, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port);
 
 /**
  * @return length of received packet on success.
@@ -116,9 +107,10 @@ int read_TCP_packet(
  * @retval -1 on failure (connection must be killed).
  */
 non_null()
-int read_packet_TCP_secure_connection(
-        const Logger *logger, const Network *ns, Socket sock, uint16_t *next_packet_length,
-        const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
-        uint16_t max_len, const IP_Port *ip_port);
+int read_packet_tcp_secure_connection(
+    const Logger *logger, const Memory *mem, const Network *ns,
+    Socket sock, uint16_t *next_packet_length,
+    const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
+    uint16_t max_len, const IP_Port *ip_port);
 
-#endif
+#endif /* C_TOXCORE_TOXCORE_TCP_COMMON_H */

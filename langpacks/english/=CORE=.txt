@@ -1369,11 +1369,11 @@
 [&Create]
 [Are you sure you want to remove profile "%s"?]
 [&Convert]
-[Run]
-[Check database]
 [Size]
 [Created]
 [Modified]
+[Run]
+[Check database]
 [My profiles]
 [New profile]
 ;file \src\mir_app\src\protocols.cpp

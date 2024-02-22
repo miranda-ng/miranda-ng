@@ -9,15 +9,16 @@
  */
 #include "ping.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 #include "DHT.h"
+#include "attributes.h"
 #include "ccompat.h"
+#include "crypto_core.h"
+#include "mem.h"
 #include "mono_time.h"
 #include "network.h"
 #include "ping_array.h"
-#include "util.h"
 
 #define PING_NUM_MAX 512
 
@@ -26,7 +27,6 @@
 
 /** Ping newly announced nodes to ping per TIME_TO_PING seconds*/
 #define TIME_TO_PING 2
-
 
 struct Ping {
     const Mono_Time *mono_time;
@@ -37,7 +37,6 @@ struct Ping {
     Node_format to_ping[MAX_TO_PING];
     uint64_t    last_to_ping;
 };
-
 
 #define PING_PLAIN_SIZE (1 + sizeof(uint64_t))
 #define DHT_PING_SIZE (1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE + PING_PLAIN_SIZE + CRYPTO_MAC_SIZE)
@@ -52,7 +51,6 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     if (pk_equal(public_key, dht_get_self_public_key(ping->dht))) {
         return;
     }
-
 
     // generate key to encrypt ping_id with recipient privkey
     const uint8_t *shared_key = dht_get_shared_key_sent(ping->dht, public_key);
@@ -73,7 +71,6 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     pk[0] = NET_PACKET_PING_REQUEST;
     pk_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
     random_nonce(ping->rng, pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
-
 
     rc = encrypt_data_symmetric(shared_key,
                                 pk + 1 + CRYPTO_PUBLIC_KEY_SIZE,
@@ -301,7 +298,6 @@ int32_t ping_add(Ping *ping, const uint8_t *public_key, const IP_Port *ip_port)
     return -1;
 }
 
-
 /** @brief Ping all the valid nodes in the to_ping list every TIME_TO_PING seconds.
  * This function must be run at least once every TIME_TO_PING seconds.
  */
@@ -335,19 +331,18 @@ void ping_iterate(Ping *ping)
     }
 }
 
-
-Ping *ping_new(const Mono_Time *mono_time, const Random *rng, DHT *dht)
+Ping *ping_new(const Memory *mem, const Mono_Time *mono_time, const Random *rng, DHT *dht)
 {
-    Ping *ping = (Ping *)calloc(1, sizeof(Ping));
+    Ping *ping = (Ping *)mem_alloc(mem, sizeof(Ping));
 
     if (ping == nullptr) {
         return nullptr;
     }
 
-    ping->ping_array = ping_array_new(PING_NUM_MAX, PING_TIMEOUT);
+    ping->ping_array = ping_array_new(mem, PING_NUM_MAX, PING_TIMEOUT);
 
     if (ping->ping_array == nullptr) {
-        free(ping);
+        mem_delete(mem, ping);
         return nullptr;
     }
 
@@ -360,7 +355,7 @@ Ping *ping_new(const Mono_Time *mono_time, const Random *rng, DHT *dht)
     return ping;
 }
 
-void ping_kill(Ping *ping)
+void ping_kill(const Memory *mem, Ping *ping)
 {
     if (ping == nullptr) {
         return;
@@ -370,5 +365,5 @@ void ping_kill(Ping *ping)
     networking_registerhandler(dht_get_net(ping->dht), NET_PACKET_PING_RESPONSE, nullptr, nullptr);
     ping_array_kill(ping->ping_array);
 
-    free(ping);
+    mem_delete(mem, ping);
 }

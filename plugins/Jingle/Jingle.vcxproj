@@ -34,12 +34,14 @@
     <ClCompile Include="..\..\protocols\JabberG\src\jabber_xml.cpp" />
     <ClCompile Include="src\account.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\voip.cpp" />
     <ClInclude Include="..\ExternalAPI\m_jingle.h" />
     <ClInclude Include="src\account.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

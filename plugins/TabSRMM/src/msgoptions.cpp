@@ -752,7 +752,7 @@ public:
 		spnLeft(this, IDC_INDENTSPIN, 1000),
 		spnRight(this, IDC_RINDENTSPIN, 1000),
 		spnLoadTime(this, IDC_LOADTIMESPIN, 24 * 60),
-		spnLoadCount(this, IDC_LOADCOUNTSPIN, 100),
+		spnLoadCount(this, IDC_LOADCOUNTSPIN, 1000),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkAlwaysTrim(this, IDC_ALWAYSTRIM),
@@ -1229,7 +1229,7 @@ class COptAdvancedDlg : public CDlgBase
 public:
 	COptAdvancedDlg() :
 		CDlgBase(g_plugin, IDD_OPTIONS_PLUS),
-		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Typing_notifications"),
+		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Advanced_tweaks"),
 		spnTimeout(this, IDC_TIMEOUTSPIN, 300, SRMSGSET_MSGTIMEOUT_MIN / 1000),
 		spnHistSize(this, IDC_HISTORYSIZESPIN, 255, 15),
 		plusOptions(this, IDC_PLUS_CHECKTREE)

@@ -15,14 +15,16 @@
 #include <string.h>
 
 #include "DHT.h"
+#include "TCP_connection.h"
+#include "attributes.h"
 #include "ccompat.h"
 #include "crypto_core.h"
 #include "group_chats.h"
 #include "group_common.h"
+#include "logger.h"
 #include "mono_time.h"
+#include "network.h"
 #include "util.h"
-
-#ifndef VANILLA_NACL
 
 /** Seconds since last direct UDP packet was received before the connection is considered dead */
 #define GCC_UDP_DIRECT_TIMEOUT (GC_PING_TIMEOUT + 4)
@@ -39,9 +41,7 @@ static bool array_entry_is_empty(const GC_Message_Array_Entry *array_entry)
 non_null()
 static void clear_array_entry(GC_Message_Array_Entry *const array_entry)
 {
-    if (array_entry->data != nullptr) {
-        free(array_entry->data);
-    }
+    free(array_entry->data);
 
     *array_entry = (GC_Message_Array_Entry) {
         nullptr
@@ -85,29 +85,43 @@ void gcc_set_recv_message_id(GC_Connection *gconn, uint64_t id)
 
 /** @brief Puts packet data in array_entry.
  *
+ * Requires an empty array entry to be passed, and must not modify the passed
+ * array entry on error.
+ *
  * Return true on success.
  */
-non_null(1, 2) nullable(3)
-static bool create_array_entry(const Mono_Time *mono_time, GC_Message_Array_Entry *array_entry, const uint8_t *data,
-                               uint16_t length, uint8_t packet_type, uint64_t message_id)
+non_null(1, 2, 3) nullable(4)
+static bool create_array_entry(const Logger *log, const Mono_Time *mono_time, GC_Message_Array_Entry *array_entry,
+                               const uint8_t *data, uint16_t length, uint8_t packet_type, uint64_t message_id)
 {
-    if (length > 0) {
-        if (data == nullptr) {
+    if (!array_entry_is_empty(array_entry)) {
+        LOGGER_WARNING(log, "Failed to create array entry; entry is not empty.");
+        return false;
+    }
+
+    if (length == 0) {
+        array_entry->data = nullptr;
+        array_entry->data_length = 0;
+    } else {
+        if (data == nullptr) {  // should never happen
+            LOGGER_FATAL(log, "Got null data with non-zero length (length: %u, type %u)",
+                         length, packet_type);
             return false;
         }
 
-        array_entry->data = (uint8_t *)malloc(sizeof(uint8_t) * length);
+        uint8_t *entry_data = (uint8_t *)malloc(length);
 
-        if (array_entry->data == nullptr) {
+        if (entry_data == nullptr) {
             return false;
         }
 
-        memcpy(array_entry->data, data, length);
+        memcpy(entry_data, data, length);
+        array_entry->data = entry_data;
+        array_entry->data_length = length;
     }
 
     const uint64_t tm = mono_time_get(mono_time);
 
-    array_entry->data_length = length;
     array_entry->packet_type = packet_type;
     array_entry->message_id = message_id;
     array_entry->time_added = tm;
@@ -118,7 +132,7 @@ static bool create_array_entry(const Mono_Time *mono_time, GC_Message_Array_Entr
 
 /** @brief Adds data of length to gconn's send_array.
  *
- * Returns true on success and increments gconn's send_message_id.
+ * Returns true and increments gconn's send_message_id on success.
  */
 non_null(1, 2, 3) nullable(4)
 static bool add_to_send_array(const Logger *log, const Mono_Time *mono_time, GC_Connection *gconn, const uint8_t *data,
@@ -133,13 +147,7 @@ static bool add_to_send_array(const Logger *log, const Mono_Time *mono_time, GC_
     const uint16_t idx = gcc_get_array_index(gconn->send_message_id);
     GC_Message_Array_Entry *array_entry = &gconn->send_array[idx];
 
-    if (!array_entry_is_empty(array_entry)) {
-        LOGGER_DEBUG(log, "Send array entry isn't empty");
-        return false;
-    }
-
-    if (!create_array_entry(mono_time, array_entry, data, length, packet_type, gconn->send_message_id)) {
-        LOGGER_WARNING(log, "Failed to create array entry");
+    if (!create_array_entry(log, mono_time, array_entry, data, length, packet_type, gconn->send_message_id)) {
         return false;
     }
 
@@ -158,14 +166,20 @@ int gcc_send_lossless_packet(const GC_Chat *chat, GC_Connection *gconn, const ui
         return -1;
     }
 
-    if (!gcc_encrypt_and_send_lossless_packet(chat, gconn, data, length, message_id, packet_type)) {
-        LOGGER_DEBUG(chat->log, "Failed to send payload: (type: 0x%02x, length: %d)", packet_type, length);
+    // If the packet fails to wrap/encrypt, we remove it from the send array, since trying to-resend
+    // the same bad packet probably won't help much. Otherwise we don't care if it doesn't successfully
+    // send through the wire as it will keep retrying until the connection times out.
+    if (gcc_encrypt_and_send_lossless_packet(chat, gconn, data, length, message_id, packet_type) == -1) {
+        const uint16_t idx = gcc_get_array_index(message_id);
+        GC_Message_Array_Entry *array_entry = &gconn->send_array[idx];
+        clear_array_entry(array_entry);
+        gconn->send_message_id = message_id;
+        LOGGER_ERROR(chat->log, "Failed to encrypt payload: (type: 0x%02x, length: %d)", packet_type, length);
         return -2;
     }
 
     return 0;
 }
-
 
 bool gcc_send_lossless_packet_fragments(const GC_Chat *chat, GC_Connection *gconn, const uint8_t *data,
                                         uint16_t length, uint8_t packet_type)
@@ -211,7 +225,7 @@ bool gcc_send_lossless_packet_fragments(const GC_Chat *chat, GC_Connection *gcon
     const uint16_t end_idx = gcc_get_array_index(gconn->send_message_id);
 
     for (uint16_t i = start_idx; i != end_idx; i = (i + 1) % GCC_BUFFER_SIZE) {
-        GC_Message_Array_Entry *entry = &gconn->send_array[i];
+        const GC_Message_Array_Entry *entry = &gconn->send_array[i];
 
         if (array_entry_is_empty(entry)) {
             LOGGER_FATAL(chat->log, "array entry for packet chunk is empty");
@@ -330,17 +344,7 @@ static bool store_in_recv_array(const Logger *log, const Mono_Time *mono_time, G
     const uint16_t idx = gcc_get_array_index(message_id);
     GC_Message_Array_Entry *ary_entry = &gconn->recv_array[idx];
 
-    if (!array_entry_is_empty(ary_entry)) {
-        LOGGER_DEBUG(log, "Recv array is not empty");
-        return false;
-    }
-
-    if (!create_array_entry(mono_time, ary_entry, data, length, packet_type, message_id)) {
-        LOGGER_WARNING(log, "Failed to create array entry");
-        return false;
-    }
-
-    return true;
+    return create_array_entry(log, mono_time, ary_entry, data, length, packet_type, message_id);
 }
 
 /**
@@ -366,7 +370,7 @@ static uint16_t reassemble_packet(const Logger *log, GC_Connection *gconn, uint8
     // search backwards in recv array until we find an empty slot or a non-fragment packet type
     while (!array_entry_is_empty(entry) && entry->packet_type == GP_FRAGMENT) {
         assert(entry->data != nullptr);
-        assert(entry->data_length <= MAX_GC_PACKET_CHUNK_SIZE);
+        assert(entry->data_length <= MAX_GC_PACKET_INCOMING_CHUNK_SIZE);
 
         const uint16_t diff = packet_length + entry->data_length;
 
@@ -391,10 +395,9 @@ static uint16_t reassemble_packet(const Logger *log, GC_Connection *gconn, uint8
         return 0;
     }
 
-    assert(*payload == nullptr);
-    *payload = (uint8_t *)malloc(packet_length);
+    uint8_t *tmp_payload = (uint8_t *)malloc(packet_length);
 
-    if (*payload == nullptr) {
+    if (tmp_payload == nullptr) {
         LOGGER_ERROR(log, "Failed to allocate %u bytes for payload buffer", packet_length);
         return 0;
     }
@@ -408,11 +411,14 @@ static uint16_t reassemble_packet(const Logger *log, GC_Connection *gconn, uint8
         entry = &gconn->recv_array[i];
 
         assert(processed + entry->data_length <= packet_length);
-        memcpy(*payload + processed, entry->data, entry->data_length);
+        memcpy(tmp_payload + processed, entry->data, entry->data_length);
         processed += entry->data_length;
 
         clear_array_entry(entry);
     }
+
+    assert(*payload == nullptr);
+    *payload = tmp_payload;
 
     return processed;
 }
@@ -433,7 +439,7 @@ int gcc_handle_packet_fragment(const GC_Session *c, GC_Chat *chat, uint32_t peer
     }
 
     uint8_t sender_pk[ENC_PUBLIC_KEY_SIZE];
-    memcpy(sender_pk, get_enc_key(gconn->addr.public_key), ENC_PUBLIC_KEY_SIZE);
+    memcpy(sender_pk, get_enc_key(&gconn->addr.public_key), ENC_PUBLIC_KEY_SIZE);
 
     uint8_t *payload = nullptr;
     const uint16_t processed_len = reassemble_packet(chat->log, gconn, &payload, message_id);
@@ -453,6 +459,7 @@ int gcc_handle_packet_fragment(const GC_Session *c, GC_Chat *chat, uint32_t peer
     gconn = get_gc_connection(chat, peer_number);
 
     if (gconn == nullptr) {
+        free(payload);
         return 0;
     }
 
@@ -506,7 +513,7 @@ static bool process_recv_array_entry(const GC_Session *c, GC_Chat *chat, GC_Conn
                                      GC_Message_Array_Entry *const array_entry, void *userdata)
 {
     uint8_t sender_pk[ENC_PUBLIC_KEY_SIZE];
-    memcpy(sender_pk, get_enc_key(gconn->addr.public_key), ENC_PUBLIC_KEY_SIZE);
+    memcpy(sender_pk, get_enc_key(&gconn->addr.public_key), ENC_PUBLIC_KEY_SIZE);
 
     const bool ret = handle_gc_lossless_helper(c, chat, peer_number, array_entry->data, array_entry->data_length,
                      array_entry->packet_type, userdata);
@@ -610,7 +617,7 @@ bool gcc_send_packet(const GC_Chat *chat, const GC_Connection *gconn, const uint
     return ret == 0 || direct_send_attempt;
 }
 
-bool gcc_encrypt_and_send_lossless_packet(const GC_Chat *chat, const GC_Connection *gconn, const uint8_t *data,
+int gcc_encrypt_and_send_lossless_packet(const GC_Chat *chat, const GC_Connection *gconn, const uint8_t *data,
         uint16_t length, uint64_t message_id, uint8_t packet_type)
 {
     const uint16_t packet_size = gc_get_wrapped_packet_size(length, NET_PACKET_GC_LOSSLESS);
@@ -618,28 +625,28 @@ bool gcc_encrypt_and_send_lossless_packet(const GC_Chat *chat, const GC_Connecti
 
     if (packet == nullptr) {
         LOGGER_ERROR(chat->log, "Failed to allocate memory for packet buffer");
-        return false;
+        return -1;
     }
 
     const int enc_len = group_packet_wrap(
-                            chat->log, chat->rng, chat->self_public_key, gconn->session_shared_key, packet,
+                            chat->log, chat->rng, chat->self_public_key.enc, gconn->session_shared_key, packet,
                             packet_size, data, length, message_id, packet_type, NET_PACKET_GC_LOSSLESS);
 
     if (enc_len < 0) {
         LOGGER_ERROR(chat->log, "Failed to wrap packet (type: 0x%02x, error: %d)", packet_type, enc_len);
         free(packet);
-        return false;
+        return -1;
     }
 
     if (!gcc_send_packet(chat, gconn, packet, (uint16_t)enc_len)) {
         LOGGER_DEBUG(chat->log, "Failed to send packet (type: 0x%02x, enc_len: %d)", packet_type, enc_len);
         free(packet);
-        return false;
+        return -2;
     }
 
     free(packet);
 
-    return true;
+    return 0;
 }
 
 void gcc_make_session_shared_key(GC_Connection *gconn, const uint8_t *sender_pk)
@@ -703,5 +710,3 @@ void gcc_cleanup(const GC_Chat *chat)
         gcc_peer_cleanup(gconn);
     }
 }
-
-#endif // VANILLA_NACL

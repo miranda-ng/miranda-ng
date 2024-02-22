@@ -117,6 +117,9 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // downloads or launches cloud file
 
+static mir_cs csLocked;
+static std::map<MEVENT, bool> arLocked;
+
 OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, int iCommand) :
 	hDbEvent(_1),
 	wszPath(_2)
@@ -127,6 +130,11 @@ OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, int iCommand) :
 
 OFDTHREAD::~OFDTHREAD()
 {
+	if (bLocked) {
+		mir_cslock lck(csLocked);
+		arLocked.erase(hDbEvent);
+	}
+
 	delete pCallback;
 }
 
@@ -161,7 +169,6 @@ void GetContactSentFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir)
 	mir_snwprintf(szDir, cchDir, L"%s\\dlFiles\\%d\\", VARSW(L"%miranda_userdata%").get(), hContact);
 }
 
-
 static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MCONTACT hContact)
 {
 	wchar_t wszReceiveFolder[MAX_PATH];
@@ -178,6 +185,8 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 
 void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei, int iCommand, OFD_Callback *pCallback)
 {
+	std::unique_ptr<OFD_Callback> callback(pCallback);
+
 	DB::FILE_BLOB blob(dbei);
 	if (!blob.isOffline())
 		return;
@@ -199,11 +208,19 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 	if (bDownloaded) {
 		OFDTHREAD ofd(hDbEvent, blob.getLocalName(), iCommand);
 		pCallback->Invoke(ofd);
-		delete pCallback;
 	}
 	else {
+		{
+			mir_cslock lck(csLocked);
+			if (arLocked.find(hDbEvent) != arLocked.end())
+				return;
+
+			arLocked[hDbEvent] = true;
+		}
+
 		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), iCommand);
-		ofd->pCallback = pCallback;
+		ofd->bLocked = true;
+		ofd->pCallback = callback.release();
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 	}
 }

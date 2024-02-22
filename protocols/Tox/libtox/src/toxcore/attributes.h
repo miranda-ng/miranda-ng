@@ -18,7 +18,7 @@
 #define GNU_PRINTF(f, a)
 #endif
 
-#if defined(__GNUC__) && defined(_DEBUG) && !defined(__OPTIMIZE__)
+#if defined(__GNUC__) && defined(_DEBUG)
 #define non_null(...) __attribute__((__nonnull__(__VA_ARGS__)))
 #else
 #define non_null(...)
@@ -26,6 +26,14 @@
 
 #define nullable(...)
 
+#ifdef SPARSE
+#define bitwise __attribute__((bitwise))
+#define force __attribute__((force))
+#else
+#define bitwise
+#define force
+#endif
+
 //!TOKSTYLE+
 
-#endif // C_TOXCORE_TOXCORE_ATTRIBUTES_H
+#endif /* C_TOXCORE_TOXCORE_ATTRIBUTES_H */

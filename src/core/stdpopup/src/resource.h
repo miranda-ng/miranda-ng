@@ -1,8 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Development\Miranda NG\plugins\YAPP\res\yapp.rc
+// Used by W:\miranda-ng\src\core\stdpopup\res\resource.rc
 //
-#define IDD_OPT1                        101
+#define IDD_OPT_MAIN                    101
+#define IDD_OPT_ADVANCED                102
 #define IDD_LST_HISTORY                 104
 #define IDI_POPUP                       105
 #define IDI_NOPOPUP                     106
@@ -55,14 +56,16 @@
 #define IDC_HISTORY_FILTER_CASESENSITIVE 1046
 #define IDC_LST_CLASSES                 1047
 #define IDC_CHK_TIMEOUT                 1048
+#define IDC_DISABLE_ALWAYS              1051
+#define IDC_DISABLE_FULLSCREEN          1052
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1051
+#define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

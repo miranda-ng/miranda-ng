@@ -83,13 +83,13 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARA
 int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
-	odp.position = 900000002;
-	odp.szGroup.a = LPGEN("Icons");  /* autotranslated */
-	odp.szTitle.a = LPGEN("Country Flags"); /* autotranslated */
-	odp.szTab.a = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 900000002;
+	odp.szGroup.a = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Icons");
+	odp.szTab.a = LPGEN("Country Flags");
 	odp.pfnDlgProc = ExtraImgOptDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

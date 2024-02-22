@@ -7,7 +7,10 @@
 
 #include <stdint.h>     // uint*_t
 
+#include "attributes.h"
 #include "crypto_core.h"
+#include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
 
 /**
@@ -18,7 +21,7 @@ typedef struct Shared_Key_Cache Shared_Key_Cache;
 
 /**
  * @brief Initializes a new shared key cache.
- * @param time Time object for retrieving current time.
+ * @param mono_time Time object for retrieving current time.
  * @param self_secret_key Our own secret key of length CRYPTO_SECRET_KEY_SIZE,
  * it must not change during the lifetime of the cache.
  * @param timeout Number of milliseconds, after which a key should be evicted.
@@ -26,9 +29,10 @@ typedef struct Shared_Key_Cache Shared_Key_Cache;
  * @return nullptr on error.
  */
 non_null()
-Shared_Key_Cache *shared_key_cache_new(const Mono_Time *time,
-                                       const uint8_t *self_secret_key,
-                                       uint64_t timeout, uint8_t keys_per_slot);
+Shared_Key_Cache *shared_key_cache_new(
+    const Logger *log, const Mono_Time *mono_time, const Memory *mem,
+    const uint8_t *self_secret_key,
+    uint64_t timeout, uint8_t keys_per_slot);
 
 /**
  * @brief Deletes the cache and frees all resources.
@@ -46,6 +50,6 @@ void shared_key_cache_free(Shared_Key_Cache *cache);
  * @return nullptr on error.
  */
 non_null()
-const uint8_t* shared_key_cache_lookup(Shared_Key_Cache *cache, const uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE]);
+const uint8_t *shared_key_cache_lookup(Shared_Key_Cache *cache, const uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE]);
 
-#endif // C_TOXCORE_TOXCORE_SHARED_KEY_CACHE_H
+#endif /* C_TOXCORE_TOXCORE_SHARED_KEY_CACHE_H */

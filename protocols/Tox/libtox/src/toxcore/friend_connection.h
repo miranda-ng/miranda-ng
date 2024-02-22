@@ -9,9 +9,15 @@
 #ifndef C_TOXCORE_TOXCORE_FRIEND_CONNECTION_H
 #define C_TOXCORE_TOXCORE_FRIEND_CONNECTION_H
 
+#include <stdint.h>
+
 #include "DHT.h"
 #include "LAN_discovery.h"
+#include "attributes.h"
+#include "logger.h"
+#include "mono_time.h"
 #include "net_crypto.h"
+#include "network.h"
 #include "onion_client.h"
 
 #define MAX_FRIEND_CONNECTION_CALLBACKS 2
@@ -38,7 +44,6 @@
 
 /** How often we share our TCP relays with each friend connection */
 #define SHARE_RELAYS_INTERVAL (60 * 2)
-
 
 typedef enum Friendconn_Status {
     FRIENDCONN_STATUS_NONE,
@@ -84,11 +89,11 @@ int get_friendcon_public_keys(uint8_t *real_pk, uint8_t *dht_temp_pk, const Frie
 non_null()
 void set_dht_temp_pk(Friend_Connections *fr_c, int friendcon_id, const uint8_t *dht_temp_pk, void *userdata);
 
-typedef int global_status_cb(void *object, int id, bool status, void *userdata);
+typedef int global_status_cb(void *object, int friendcon_id, bool status, void *userdata);
 
-typedef int fc_status_cb(void *object, int id, bool status, void *userdata);
-typedef int fc_data_cb(void *object, int id, const uint8_t *data, uint16_t length, void *userdata);
-typedef int fc_lossy_data_cb(void *object, int id, const uint8_t *data, uint16_t length, void *userdata);
+typedef int fc_status_cb(void *object, int friendcon_id, bool status, void *userdata);
+typedef int fc_data_cb(void *object, int friendcon_id, const uint8_t *data, uint16_t length, void *userdata);
+typedef int fc_lossy_data_cb(void *object, int friendcon_id, const uint8_t *data, uint16_t length, void *userdata);
 
 /** Set global status callback for friend connections. */
 non_null(1) nullable(2, 3)
@@ -144,7 +149,7 @@ int send_friend_request_packet(
     Friend_Connections *fr_c, int friendcon_id, uint32_t nospam_num, const uint8_t *data, uint16_t length);
 
 typedef int fr_request_cb(
-    void *object, const uint8_t *source_pubkey, const uint8_t *data, uint16_t len, void *userdata);
+    void *object, const uint8_t *source_pubkey, const uint8_t *data, uint16_t length, void *userdata);
 
 /** @brief Set friend request callback.
  *
@@ -156,8 +161,8 @@ void set_friend_request_callback(Friend_Connections *fr_c, fr_request_cb *fr_req
 /** Create new friend_connections instance. */
 non_null()
 Friend_Connections *new_friend_connections(
-        const Logger *logger, const Mono_Time *mono_time, const Network *ns,
-        Onion_Client *onion_c, bool local_discovery_enabled);
+    const Logger *logger, const Mono_Time *mono_time, const Network *ns,
+    Onion_Client *onion_c, bool local_discovery_enabled);
 
 /** main friend_connections loop. */
 non_null()
@@ -173,4 +178,4 @@ non_null() Friend_Conn *get_conn(const Friend_Connections *fr_c, int friendcon_i
 non_null() int friend_conn_get_onion_friendnum(const Friend_Conn *fc);
 non_null() const IP_Port *friend_conn_get_dht_ip_port(const Friend_Conn *fc);
 
-#endif
+#endif /* C_TOXCORE_TOXCORE_FRIEND_CONNECTION_H */

@@ -9,7 +9,14 @@
 #ifndef C_TOXCORE_TOXCORE_GROUP_H
 #define C_TOXCORE_TOXCORE_GROUP_H
 
+#include <stddef.h>
+#include <stdint.h>
+
 #include "Messenger.h"
+#include "attributes.h"
+#include "crypto_core.h"
+#include "mono_time.h"
+#include "state.h"
 
 typedef enum Groupchat_Type {
     GROUPCHAT_TYPE_TEXT,
@@ -71,7 +78,6 @@ void g_callback_group_connected(Group_Chats *g_c, g_conference_connected_cb *fun
 /** Set the callback for group messages. */
 non_null()
 void g_callback_group_message(Group_Chats *g_c, g_conference_message_cb *function);
-
 
 /** Set callback function for title changes. */
 non_null()
@@ -216,7 +222,6 @@ int group_action_send(const Group_Chats *g_c, uint32_t groupnumber, const uint8_
  */
 non_null()
 int group_title_send(const Group_Chats *g_c, uint32_t groupnumber, const uint8_t *title, uint8_t title_len);
-
 
 /** @brief return the group's title size.
  * @retval -1 of groupnumber is invalid.
@@ -395,4 +400,4 @@ void do_groupchats(Group_Chats *g_c, void *userdata);
 nullable(1)
 void kill_groupchats(Group_Chats *g_c);
 
-#endif
+#endif /* C_TOXCORE_TOXCORE_GROUP_H */

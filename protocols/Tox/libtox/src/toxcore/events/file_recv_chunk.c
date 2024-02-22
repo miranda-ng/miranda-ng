@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2022 The TokTok team.
+ * Copyright © 2023-2024 The TokTok team.
  */
 
 #include "events_alloc.h"
@@ -8,19 +8,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../attributes.h"
 #include "../bin_pack.h"
 #include "../bin_unpack.h"
 #include "../ccompat.h"
+#include "../mem.h"
 #include "../tox.h"
 #include "../tox_events.h"
-
 
 /*****************************************************
  *
  * :: struct and accessors
  *
  *****************************************************/
-
 
 struct Tox_Event_File_Recv_Chunk {
     uint32_t friend_number;
@@ -29,19 +29,6 @@ struct Tox_Event_File_Recv_Chunk {
     uint8_t *data;
     uint32_t data_length;
 };
-
-non_null()
-static void tox_event_file_recv_chunk_construct(Tox_Event_File_Recv_Chunk *file_recv_chunk)
-{
-    *file_recv_chunk = (Tox_Event_File_Recv_Chunk) {
-        0
-    };
-}
-non_null()
-static void tox_event_file_recv_chunk_destruct(Tox_Event_File_Recv_Chunk *file_recv_chunk)
-{
-    free(file_recv_chunk->data);
-}
 
 non_null()
 static void tox_event_file_recv_chunk_set_friend_number(Tox_Event_File_Recv_Chunk *file_recv_chunk,
@@ -82,9 +69,9 @@ uint64_t tox_event_file_recv_chunk_get_position(const Tox_Event_File_Recv_Chunk 
     return file_recv_chunk->position;
 }
 
-non_null()
-static bool tox_event_file_recv_chunk_set_data(Tox_Event_File_Recv_Chunk *file_recv_chunk, const uint8_t *data,
-        uint32_t data_length)
+non_null(1) nullable(2)
+static bool tox_event_file_recv_chunk_set_data(Tox_Event_File_Recv_Chunk *file_recv_chunk,
+        const uint8_t *data, uint32_t data_length)
 {
     assert(file_recv_chunk != nullptr);
 
@@ -94,17 +81,23 @@ static bool tox_event_file_recv_chunk_set_data(Tox_Event_File_Recv_Chunk *file_r
         file_recv_chunk->data_length = 0;
     }
 
-    file_recv_chunk->data = (uint8_t *)malloc(data_length);
+    if (data == nullptr) {
+        assert(data_length == 0);
+        return true;
+    }
 
-    if (file_recv_chunk->data == nullptr) {
+    uint8_t *data_copy = (uint8_t *)malloc(data_length);
+
+    if (data_copy == nullptr) {
         return false;
     }
 
-    memcpy(file_recv_chunk->data, data, data_length);
+    memcpy(data_copy, data, data_length);
+    file_recv_chunk->data = data_copy;
     file_recv_chunk->data_length = data_length;
     return true;
 }
-uint32_t tox_event_file_recv_chunk_get_length(const Tox_Event_File_Recv_Chunk *file_recv_chunk)
+uint32_t tox_event_file_recv_chunk_get_data_length(const Tox_Event_File_Recv_Chunk *file_recv_chunk)
 {
     assert(file_recv_chunk != nullptr);
     return file_recv_chunk->data_length;
@@ -116,13 +109,22 @@ const uint8_t *tox_event_file_recv_chunk_get_data(const Tox_Event_File_Recv_Chun
 }
 
 non_null()
-static bool tox_event_file_recv_chunk_pack(
+static void tox_event_file_recv_chunk_construct(Tox_Event_File_Recv_Chunk *file_recv_chunk)
+{
+    *file_recv_chunk = (Tox_Event_File_Recv_Chunk) {
+        0
+    };
+}
+non_null()
+static void tox_event_file_recv_chunk_destruct(Tox_Event_File_Recv_Chunk *file_recv_chunk, const Memory *mem)
+{
+    free(file_recv_chunk->data);
+}
+
+bool tox_event_file_recv_chunk_pack(
     const Tox_Event_File_Recv_Chunk *event, Bin_Pack *bp)
 {
-    assert(event != nullptr);
-    return bin_pack_array(bp, 2)
-           && bin_pack_u32(bp, TOX_EVENT_FILE_RECV_CHUNK)
-           && bin_pack_array(bp, 4)
+    return bin_pack_array(bp, 4)
            && bin_pack_u32(bp, event->friend_number)
            && bin_pack_u32(bp, event->file_number)
            && bin_pack_u64(bp, event->position)
@@ -130,11 +132,11 @@ static bool tox_event_file_recv_chunk_pack(
 }
 
 non_null()
-static bool tox_event_file_recv_chunk_unpack(
+static bool tox_event_file_recv_chunk_unpack_into(
     Tox_Event_File_Recv_Chunk *event, Bin_Unpack *bu)
 {
     assert(event != nullptr);
-    if (!bin_unpack_array_fixed(bu, 4)) {
+    if (!bin_unpack_array_fixed(bu, 4, nullptr)) {
         return false;
     }
 
@@ -144,95 +146,88 @@ static bool tox_event_file_recv_chunk_unpack(
            && bin_unpack_bin(bu, &event->data, &event->data_length);
 }
 
-
 /*****************************************************
  *
- * :: add/clear/get
+ * :: new/free/add/get/size/unpack
  *
  *****************************************************/
 
-
-non_null()
-static Tox_Event_File_Recv_Chunk *tox_events_add_file_recv_chunk(Tox_Events *events)
+const Tox_Event_File_Recv_Chunk *tox_event_get_file_recv_chunk(const Tox_Event *event)
 {
-    if (events->file_recv_chunk_size == UINT32_MAX) {
+    return event->type == TOX_EVENT_FILE_RECV_CHUNK ? event->data.file_recv_chunk : nullptr;
+}
+
+Tox_Event_File_Recv_Chunk *tox_event_file_recv_chunk_new(const Memory *mem)
+{
+    Tox_Event_File_Recv_Chunk *const file_recv_chunk =
+        (Tox_Event_File_Recv_Chunk *)mem_alloc(mem, sizeof(Tox_Event_File_Recv_Chunk));
+
+    if (file_recv_chunk == nullptr) {
         return nullptr;
     }
 
-    if (events->file_recv_chunk_size == events->file_recv_chunk_capacity) {
-        const uint32_t new_file_recv_chunk_capacity = events->file_recv_chunk_capacity * 2 + 1;
-        Tox_Event_File_Recv_Chunk *new_file_recv_chunk = (Tox_Event_File_Recv_Chunk *)realloc(
-                    events->file_recv_chunk, new_file_recv_chunk_capacity * sizeof(Tox_Event_File_Recv_Chunk));
-
-        if (new_file_recv_chunk == nullptr) {
-            return nullptr;
-        }
-
-        events->file_recv_chunk = new_file_recv_chunk;
-        events->file_recv_chunk_capacity = new_file_recv_chunk_capacity;
-    }
-
-    Tox_Event_File_Recv_Chunk *const file_recv_chunk = &events->file_recv_chunk[events->file_recv_chunk_size];
     tox_event_file_recv_chunk_construct(file_recv_chunk);
-    ++events->file_recv_chunk_size;
     return file_recv_chunk;
 }
 
-void tox_events_clear_file_recv_chunk(Tox_Events *events)
+void tox_event_file_recv_chunk_free(Tox_Event_File_Recv_Chunk *file_recv_chunk, const Memory *mem)
 {
-    if (events == nullptr) {
-        return;
+    if (file_recv_chunk != nullptr) {
+        tox_event_file_recv_chunk_destruct(file_recv_chunk, mem);
     }
-
-    for (uint32_t i = 0; i < events->file_recv_chunk_size; ++i) {
-        tox_event_file_recv_chunk_destruct(&events->file_recv_chunk[i]);
-    }
-
-    free(events->file_recv_chunk);
-    events->file_recv_chunk = nullptr;
-    events->file_recv_chunk_size = 0;
-    events->file_recv_chunk_capacity = 0;
+    mem_delete(mem, file_recv_chunk);
 }
 
-uint32_t tox_events_get_file_recv_chunk_size(const Tox_Events *events)
+non_null()
+static Tox_Event_File_Recv_Chunk *tox_events_add_file_recv_chunk(Tox_Events *events, const Memory *mem)
 {
-    if (events == nullptr) {
-        return 0;
+    Tox_Event_File_Recv_Chunk *const file_recv_chunk = tox_event_file_recv_chunk_new(mem);
+
+    if (file_recv_chunk == nullptr) {
+        return nullptr;
     }
 
-    return events->file_recv_chunk_size;
+    Tox_Event event;
+    event.type = TOX_EVENT_FILE_RECV_CHUNK;
+    event.data.file_recv_chunk = file_recv_chunk;
+
+    tox_events_add(events, &event);
+    return file_recv_chunk;
 }
 
-const Tox_Event_File_Recv_Chunk *tox_events_get_file_recv_chunk(const Tox_Events *events, uint32_t index)
+bool tox_event_file_recv_chunk_unpack(
+    Tox_Event_File_Recv_Chunk **event, Bin_Unpack *bu, const Memory *mem)
 {
-    assert(index < events->file_recv_chunk_size);
-    assert(events->file_recv_chunk != nullptr);
-    return &events->file_recv_chunk[index];
-}
+    assert(event != nullptr);
+    assert(*event == nullptr);
+    *event = tox_event_file_recv_chunk_new(mem);
 
-bool tox_events_pack_file_recv_chunk(const Tox_Events *events, Bin_Pack *bp)
-{
-    const uint32_t size = tox_events_get_file_recv_chunk_size(events);
-
-    for (uint32_t i = 0; i < size; ++i) {
-        if (!tox_event_file_recv_chunk_pack(tox_events_get_file_recv_chunk(events, i), bp)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool tox_events_unpack_file_recv_chunk(Tox_Events *events, Bin_Unpack *bu)
-{
-    Tox_Event_File_Recv_Chunk *event = tox_events_add_file_recv_chunk(events);
-
-    if (event == nullptr) {
+    if (*event == nullptr) {
         return false;
     }
 
-    return tox_event_file_recv_chunk_unpack(event, bu);
+    return tox_event_file_recv_chunk_unpack_into(*event, bu);
 }
 
+non_null()
+static Tox_Event_File_Recv_Chunk *tox_event_file_recv_chunk_alloc(void *user_data)
+{
+    Tox_Events_State *state = tox_events_alloc(user_data);
+    assert(state != nullptr);
+
+    if (state->events == nullptr) {
+        return nullptr;
+    }
+
+    Tox_Event_File_Recv_Chunk *file_recv_chunk = tox_events_add_file_recv_chunk(state->events, state->mem);
+
+    if (file_recv_chunk == nullptr) {
+        state->error = TOX_ERR_EVENTS_ITERATE_MALLOC;
+        return nullptr;
+    }
+
+    return file_recv_chunk;
+}
 
 /*****************************************************
  *
@@ -240,21 +235,13 @@ bool tox_events_unpack_file_recv_chunk(Tox_Events *events, Bin_Unpack *bu)
  *
  *****************************************************/
 
-
-void tox_events_handle_file_recv_chunk(Tox *tox, uint32_t friend_number, uint32_t file_number, uint64_t position,
-                                       const uint8_t *data, size_t length, void *user_data)
+void tox_events_handle_file_recv_chunk(
+    Tox *tox, uint32_t friend_number, uint32_t file_number, uint64_t position, const uint8_t *data, size_t length,
+    void *user_data)
 {
-    Tox_Events_State *state = tox_events_alloc(user_data);
-    assert(state != nullptr);
-
-    if (state->events == nullptr) {
-        return;
-    }
-
-    Tox_Event_File_Recv_Chunk *file_recv_chunk = tox_events_add_file_recv_chunk(state->events);
+    Tox_Event_File_Recv_Chunk *file_recv_chunk = tox_event_file_recv_chunk_alloc(user_data);
 
     if (file_recv_chunk == nullptr) {
-        state->error = TOX_ERR_EVENTS_ITERATE_MALLOC;
         return;
     }
 

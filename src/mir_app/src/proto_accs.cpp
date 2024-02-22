@@ -305,6 +305,7 @@ static void __cdecl DeactivationThread(DeactivationThreadParam *param)
 		p->OnShutdown();
 	}
 
+	KillObjectOptions(p);
 	KillObjectThreads(p); // waits for them before terminating
 	KillObjectEventHooks(p); // untie an object from the outside world
 

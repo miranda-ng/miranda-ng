@@ -8,12 +8,12 @@
  */
 #include "logger.h"
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "attributes.h"
 #include "ccompat.h"
 
 struct Logger {
@@ -44,7 +44,7 @@ static const char *logger_level_name(Logger_Level level)
 
     return "<unknown>";
 }
-#endif
+#endif /* NDEBUG */
 
 non_null(1, 3, 5, 6) nullable(7)
 static void logger_stderr_handler(void *context, Logger_Level level, const char *file, int line, const char *func,
@@ -55,7 +55,7 @@ static void logger_stderr_handler(void *context, Logger_Level level, const char 
     fprintf(stderr, "[GL] %s %s:%d(%s): %s\n", logger_level_name(level), file, line, func, message);
     fprintf(stderr, "Default stderr logger triggered; aborting program\n");
     abort();
-#endif
+#endif /* NDEBUG */
 }
 
 static const Logger logger_stderr = {
@@ -106,7 +106,7 @@ void logger_write(const Logger *log, Logger_Level level, const char *file, int l
     // one too.
     const char *windows_filename = strrchr(file, '\\');
     file = windows_filename != nullptr ? windows_filename + 1 : file;
-#endif
+#endif /* WIN32 */
 
     // Format message
     char msg[1024];
@@ -116,4 +116,9 @@ void logger_write(const Logger *log, Logger_Level level, const char *file, int l
     va_end(args);
 
     log->callback(log->context, level, file, line, func, msg, log->userdata);
+}
+
+void logger_abort(void)
+{
+    abort();
 }

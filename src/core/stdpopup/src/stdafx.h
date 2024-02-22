@@ -42,8 +42,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	void InitIcons();
-
 	int Load() override;
 	int Unload() override;
 };

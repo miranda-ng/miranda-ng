@@ -102,7 +102,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bEnableUserActivity(this, "EnableUserActivity", true),
 	m_bEnableUserMood(this, "EnableUserMood", true),
 	m_bEnableUserTune(this, "EnableUserTune", false),
-	m_bEnableVOIP(this, "EnableVOIP", false),
 	m_bEnableZlib(this, "EnableZlib", true),
 	m_bFixIncorrectTimestamps(this, "FixIncorrectTimestamps", true),
 	m_bGcLogAffiliations(this, "GcLogAffiliations", false),
