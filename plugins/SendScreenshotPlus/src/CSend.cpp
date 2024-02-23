@@ -165,7 +165,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			}
 			else len = GetDlgItemText(hwndDlg, edtID, tmp, _countof(tmp));
 
-			Utils_ClipboardCopy(CMStringW(tmp, len + 1));
+			Utils_ClipboardCopy(MClipUnicode(CMStringW(tmp, len + 1)));
 			
 			if (LOWORD(wParam) == IDOK)
 				DestroyWindow(hwndDlg);

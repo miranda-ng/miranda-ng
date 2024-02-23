@@ -428,7 +428,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 	}
 	else buf = wszId;
 
-	Utils_ClipboardCopy(buf);
+	Utils_ClipboardCopy(MClipUnicode(buf));
 	if (CTRL_IS_PRESSED)
 		ShowPopup(buf, hContact);
 
@@ -464,7 +464,7 @@ static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 		}
 	}
 
-	Utils_ClipboardCopy(wszBuffer);
+	Utils_ClipboardCopy(MClipUnicode(wszBuffer));
 	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
@@ -484,7 +484,7 @@ static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 	if (rIP)
 		wszBuffer.AppendFormat(L"Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 
-	Utils_ClipboardCopy(wszBuffer);
+	Utils_ClipboardCopy(MClipUnicode(wszBuffer));
 	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
@@ -495,7 +495,7 @@ static INT_PTR onCopyMirVer(WPARAM hContact, LPARAM)
 {
 	LPWSTR msg = getMirVer(hContact);
 	if (msg) {
-		Utils_ClipboardCopy(msg);
+		Utils_ClipboardCopy(MClipUnicode(msg));
 		if (CTRL_IS_PRESSED)
 			ShowPopup(msg, hContact);
 

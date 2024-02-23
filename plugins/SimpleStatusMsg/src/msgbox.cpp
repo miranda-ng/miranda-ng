@@ -463,7 +463,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 	default:
 		wchar_t item_string[128];
 		GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
-		Utils_ClipboardCopy(item_string);
+		Utils_ClipboardCopy(MClipUnicode(item_string));
 		SendMessage(edit_control, WM_PASTE, 0, 0);
 		break;
 	}

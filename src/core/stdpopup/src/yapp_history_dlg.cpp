@@ -422,7 +422,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 		if (ListView_GetItemState(hList, i, LVIS_SELECTED)) {
 			wchar_t buffer[2048]; buffer[0] = '\0';
 			ListView_GetItemText(hList, i, selection - 100, buffer, _countof(buffer));
-			Utils_ClipboardCopy(buffer);
+			Utils_ClipboardCopy(MClipUnicode(buffer));
 			break;
 		}
 	}

@@ -424,7 +424,7 @@ int ChangeLayout(HWND hTextWnd, uint8_t TextOperation, BOOL CurrentWord)
 				Skin_PlaySound(SND_ChangeCase);
 
 			if (moOptions.CopyToClipboard)
-				Utils_ClipboardCopy(ptszMBox);
+				Utils_ClipboardCopy(MClipUnicode(ptszMBox));
 
 			//-------------------------------Покажем попапы------------------------------------------ 			
 			if (moOptions.ShowPopup) {

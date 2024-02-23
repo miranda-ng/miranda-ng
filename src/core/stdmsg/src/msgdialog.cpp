@@ -662,7 +662,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDC_USERMENU:
 			if (GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
 				ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-				Utils_ClipboardCopy(id);
+				Utils_ClipboardCopy(MClipUnicode(id));
 			}
 			else {
 				HMENU hMenu = Menu_BuildContactMenu(m_hContact);

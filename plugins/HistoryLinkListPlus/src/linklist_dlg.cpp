@@ -162,7 +162,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case IDM_LINK_COPY:
-					Utils_ClipboardCopy(link);
+					Utils_ClipboardCopy(MClipUnicode(link));
 					break;
 
 				case IDM_SHOWMESSAGE:

@@ -64,7 +64,7 @@ wchar_t* Utils::getFileNameFromPath(wchar_t *stzPath)
 
 void Utils::copyToClipboard(char *szText)
 {
-	Utils_ClipboardCopy(szText);
+	Utils_ClipboardCopy(MClipAnsi(szText));
 }
 
 void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff)

@@ -91,5 +91,5 @@ void Report(MCONTACT hContact, const wchar_t *data)
 		PasteToInputArea(hContact, data);
 
 	if (g_plugin.getByte("UrlCopyToClipboard", 0))
-		Utils_ClipboardCopy(data);
+		Utils_ClipboardCopy(MClipUnicode(data));
 }

@@ -1539,8 +1539,7 @@ _Utils_CorrectFontSize@4 @1762 NONAME
 ?OnResize@CDlgBase@@MAEXXZ @1763 NONAME
 ??0MBinBuffer@@QAE@ABV0@@Z @1764 NONAME
 ??0MBinBuffer@@QAE@I@Z @1765 NONAME
-?Utils_ClipboardCopy@@YGXPBD@Z @1766 NONAME
-?Utils_ClipboardCopy@@YGXPB_W@Z @1767 NONAME
+?Utils_ClipboardCopy@@YGXABUMClipData@@@Z @1766 NONAME
 ?mir_base64_encode@@YGPADABVMBinBuffer@@@Z @1768 NONAME
 ?append@MBinBuffer@@QAEXABV1@@Z @1769 NONAME
 ?appendBefore@MBinBuffer@@QAEXABV1@@Z @1770 NONAME
@@ -1565,3 +1564,15 @@ _EventExists@4 @1787 NONAME
 _newStr@4 @1789 NONAME
 ?ChildElementCount@XMLNode@tinyxml2@@QBEHPBD@Z @1790 NONAME
 ?ChildElementCount@XMLNode@tinyxml2@@QBEHXZ @1791 NONAME
+??0MClipAnsi@@QAE@PBD@Z @1792 NONAME
+??0MClipData@@QAE@XZ @1793 NONAME
+??0MClipRtf@@QAE@PBD@Z @1794 NONAME
+??0MClipUnicode@@QAE@PB_W@Z @1795 NONAME
+??HMClipData@@QAEAAU0@ABU0@@Z @1796 NONAME
+??_7MClipAnsi@@6B@ @1797 NONAME
+??_7MClipData@@6B@ @1798 NONAME
+??_7MClipRtf@@6B@ @1799 NONAME
+??_7MClipUnicode@@6B@ @1800 NONAME
+?Copy@MClipAnsi@@UBEXXZ @1801 NONAME
+?Copy@MClipRtf@@UBEXXZ @1802 NONAME
+?Copy@MClipUnicode@@UBEXXZ @1803 NONAME

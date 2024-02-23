@@ -324,7 +324,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 					ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 					ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
 					mir_snwprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
-					Utils_ClipboardCopy(szText);
+					Utils_ClipboardCopy(MClipUnicode(szText));
 				}
 				break;
 

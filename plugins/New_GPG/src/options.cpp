@@ -449,7 +449,7 @@ public:
 	{
 		CMStringW str(g_plugin.getMStringW("GPGPubKey"));
 		str.Replace(L"\n", L"\r\n");
-		Utils_ClipboardCopy(str);
+		Utils_ClipboardCopy(MClipUnicode(str));
 	}
 
 	void onClick_LOG_FILE_SET(CCtrlButton*)

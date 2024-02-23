@@ -1054,15 +1054,15 @@ public:
 					break;
 
 				case SD_ACT_COPYJID:
-					Utils_ClipboardCopyU(pNode->GetJid());
+					Utils_ClipboardCopy(MClipUtf8(pNode->GetJid()));
 					break;
 
 				case SD_ACT_COPYNODE:
-					Utils_ClipboardCopyU(pNode->GetNode());
+					Utils_ClipboardCopy(MClipUtf8(pNode->GetNode()));
 					break;
 
 				case SD_ACT_COPYINFO:
-					Utils_ClipboardCopyU(pNode->GetTooltipText());
+					Utils_ClipboardCopy(MClipUtf8(pNode->GetTooltipText()));
 					break;
 
 				case SD_ACT_FAVORITE:

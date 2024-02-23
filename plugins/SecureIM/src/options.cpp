@@ -1039,7 +1039,7 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 		case IDC_RSA_COPY:
 			wchar_t txt[128];
 			GetDlgItemTextW(hDlg, IDC_RSA_SHA, txt, _countof(txt));
-			Utils_ClipboardCopy(txt);
+			Utils_ClipboardCopy(MClipUnicode(txt));
 			return TRUE;
 
 		case IDC_RSA_EXP:

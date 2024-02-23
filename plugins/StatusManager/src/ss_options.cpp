@@ -161,7 +161,7 @@ public:
 	{
 		wchar_t cmdl[2048];
 		GetDlgItemText(m_hwnd, IDC_CMDL, cmdl, _countof(cmdl));
-		Utils_ClipboardCopy(cmdl);
+		Utils_ClipboardCopy(MClipUnicode(cmdl));
 	}
 
 	void onClick_Link(CCtrlButton*)

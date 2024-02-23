@@ -3029,7 +3029,7 @@ LRESULT CMsgDialog::WMCopyHandler(UINT msg, WPARAM wParam, LPARAM lParam)
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		if (converted != nullptr) {
 			Utils::FilterEventMarkers(converted);
-			Utils_ClipboardCopy(converted);
+			Utils_ClipboardCopy(MClipUnicode(converted));
 		}
 	}
 

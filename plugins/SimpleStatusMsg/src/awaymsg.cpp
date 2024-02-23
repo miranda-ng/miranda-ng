@@ -117,7 +117,7 @@ public:
 	{
 		wchar_t msg[1024];
 		GetDlgItemText(m_hwnd, IDC_MSG, msg, _countof(msg));
-		Utils_ClipboardCopy(msg);
+		Utils_ClipboardCopy(MClipUnicode(msg));
 	}
 };
 
@@ -186,7 +186,7 @@ public:
 
 			CMStringW wszMsg((wchar_t *)ack->lParam);
 			wszMsg.Replace(L"\n", L"\r\n");
-			Utils_ClipboardCopy(wszMsg);
+			Utils_ClipboardCopy(MClipUnicode(wszMsg));
 
 			Close();
 		}

@@ -203,7 +203,7 @@ namespace External
 		if (p == nullptr || p->cArgs < 1)
 			return E_INVALIDARG;
 
-		Utils_ClipboardCopy(p->rgvarg[0].bstrVal);
+		Utils_ClipboardCopy(MClipUnicode(p->rgvarg[0].bstrVal));
 		return S_OK;
 	}
 }

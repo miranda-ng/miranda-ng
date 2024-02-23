@@ -278,7 +278,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 				break;
 
 			case IDM_COPYLINK:
-				Utils_ClipboardCopy(wszText);
+				Utils_ClipboardCopy(MClipUnicode(wszText));
 				break;
 			}
 

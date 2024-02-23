@@ -53,12 +53,50 @@ EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNe
 /////////////////////////////////////////////////////////////////////////////////////////
 // copies a string into clipboard
 
-MIR_CORE_DLL(void) Utils_ClipboardCopy(const char *pszText);
-MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pszText);
+struct MIR_CORE_EXPORT MClipData : public MNonCopyable
+{
+	const MClipData *m_pNext = 0;
 
-__forceinline void Utils_ClipboardCopyU(const char *p)
-{	Utils_ClipboardCopy(Utf2T(p));
-}
+	MClipData& operator+(const MClipData &);
+
+	virtual void Copy() const = 0;
+};
+
+struct MIR_CORE_EXPORT MClipAnsi : public MClipData
+{
+	const char *m_szString;
+
+	explicit MClipAnsi(const char *pszString);
+
+	void Copy() const override;
+};
+
+struct MIR_CORE_EXPORT MClipUnicode : public MClipData
+{
+	const wchar_t *m_wszString;
+
+	explicit MClipUnicode(const wchar_t *pwszString);
+
+	void Copy() const override;
+};
+
+struct MClipUtf8 : public MClipUnicode
+{
+	explicit MClipUtf8(const char *pszString) :
+		MClipUnicode(Utf2T(pszString))
+	{}
+};
+
+struct MIR_CORE_EXPORT MClipRtf : public MClipData
+{
+	const char *m_szString;
+
+	explicit MClipRtf(const char *pszString);
+
+	void Copy() const override;
+};
+
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const MClipData &pData);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual

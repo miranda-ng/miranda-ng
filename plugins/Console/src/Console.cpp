@@ -499,7 +499,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			}
 
 			if (dst - buf > 0)
-				Utils_ClipboardCopy(buf);
+				Utils_ClipboardCopy(MClipUnicode(buf));
 
 			free(buf);
 			break;

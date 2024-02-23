@@ -551,7 +551,7 @@ public:
 			return;
 
 		params.out.Remove('\r');
-		Utils_ClipboardCopy(params.out);
+		Utils_ClipboardCopy(MClipAnsi(params.out));
 	}
 
 	void onClick_EXPORT_PRIVATE(CCtrlButton *)
