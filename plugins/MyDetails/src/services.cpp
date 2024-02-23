@@ -118,10 +118,6 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 
 		if (proto_num == -1)
 			return -1;
-
-		if (!protocols[proto_num]->CanSetNick())
-			return -2;
-
 	}
 
 	if (pSetNickDialog == nullptr) {
@@ -142,9 +138,6 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 	if (proto != nullptr) {
 		for (auto &it : protocols) {
 			if (mir_strcmpi(it->name, proto) == 0) {
-				if (!it->CanSetNick())
-					return -2;
-
 				it->SetNick((wchar_t *)lParam);
 				return 0;
 			}

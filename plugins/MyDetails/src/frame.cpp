@@ -1182,7 +1182,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_NICK]);
 		SetTextColor(hdc, font_colour[FONT_NICK]);
 
-		DrawTextWithRect(hdc, proto->nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick && proto->CanSetNick(), *proto);
+		DrawTextWithRect(hdc, proto->nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick, *proto);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1628,7 +1628,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					CallService(MS_MYDETAILS_SETMYAVATARUI, 0, (LPARAM)proto->name);
 			}
 			// In nick?
-			else if (data->draw_nick && InsideRect(&p, &data->nick_rect) && proto->CanSetNick()) {
+			else if (data->draw_nick && InsideRect(&p, &data->nick_rect)) {
 				if (opts.global_on_nickname)
 					CallService(MS_MYDETAILS_SETMYNICKNAMEUI, 0, 0);
 				else
@@ -1774,12 +1774,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.dwTypeData = tmp;
 				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 1;
-
-				if (!proto->CanSetNick()) {
-					mii.fMask |= MIIM_STATE;
-					mii.fState = MFS_DISABLED;
-				}
-
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				ClientToScreen(hwnd, &p);
@@ -1957,12 +1951,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.dwTypeData = tmp;
 				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 2;
-
-				if (!proto->CanSetNick()) {
-					mii.fMask |= MIIM_STATE;
-					mii.fState = MFS_DISABLED;
-				}
-
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				mir_snwprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
