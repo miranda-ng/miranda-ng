@@ -293,7 +293,7 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 		CMStringA szPipeDescr;
 		szPipeDescr += "webrtcbin bundle-policy=max-bundle name=sendrecv ";
 		if (mir_wstrlen(m_szStunServer))
-			szPipeDescr.AppendFormat("stun-server=%S ", (wchar_t *)m_szStunServer);
+			szPipeDescr.AppendFormat("stun-server=stun://%S ", (wchar_t *)m_szStunServer);
 		szPipeDescr += "autoaudiosrc ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay name=audiopay ! ";
 		szPipeDescr += "queue ! application/x-rtp,media=audio,encoding-name=OPUS,payload=111 ! sendrecv. ";
 
