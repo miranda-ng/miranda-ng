@@ -92,9 +92,9 @@ static DWORD CALLBACK MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 char* CCtrlRichEdit::GetRichTextRtf(bool bText, bool bSelection) const
 {
 	char *pszText = nullptr;
-	uint32_t dwFlags = SF_USECODEPAGE | (CP_UTF8 << 16);
+	uint32_t dwFlags = 0;
 	if (bText)
-		dwFlags |= SF_TEXT;
+		dwFlags |= SF_USECODEPAGE | (CP_UTF8 << 16) / SF_TEXT;
 	else
 		dwFlags |= SF_RTFNOOBJS | SFF_PLAINRTF;
 	if (bSelection)
