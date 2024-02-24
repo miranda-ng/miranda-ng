@@ -924,7 +924,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 			CHARRANGE sel;
 			LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
-				ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
+				ptrA szFromStream(LOG()->RTF().GetRichTextRtf(true, true));
 				ptrW converted(mir_utf8decodeW(szFromStream));
 				Utils::FilterEventMarkers(converted);
 				szQuoted = Srmm_Quote(converted, iOutputWidth);
@@ -1674,7 +1674,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			cr.cpMin = cr.cpMax;
 			if (isCtrl) {
 				SETTEXTEX stx = { ST_KEEPUNDO | ST_SELECTION, CP_UTF8 };
-				ptrA streamOut(LOG()->GetRichTextRtf(!isAlt, true));
+				ptrA streamOut(LOG()->RTF().GetRichTextRtf(!isAlt, true));
 				if (streamOut) {
 					Utils::FilterEventMarkers(streamOut);
 					m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);

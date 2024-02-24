@@ -1576,3 +1576,4 @@ _newStr@4 @1789 NONAME
 ?Copy@MClipAnsi@@UBEXXZ @1801 NONAME
 ?Copy@MClipRtf@@UBEXXZ @1802 NONAME
 ?Copy@MClipUnicode@@UBEXXZ @1803 NONAME
+?GetPlainRtf@CCtrlRichEdit@@QAEPAD_N@Z @1804 NONAME
