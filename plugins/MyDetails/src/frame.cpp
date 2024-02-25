@@ -33,9 +33,9 @@ Boston, MA 02111-1307, USA.
 
 #define IDC_HAND				MAKEINTRESOURCE(32649)
 
-#define DEFAULT_NICKNAME		L"<no nickname>"
-#define DEFAULT_STATUS_MESSAGE	L"<no status message>"
-#define DEFAULT_LISTENING_TO	L"<nothing playing>"
+#define DEFAULT_NICKNAME		LPGENW("<no nickname>")
+#define DEFAULT_STATUS_MESSAGE	LPGENW("<no status message>")
+#define DEFAULT_LISTENING_TO	LPGENW("<nothing playing>")
 
 
 // Messages

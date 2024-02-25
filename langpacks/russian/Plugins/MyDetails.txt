@@ -140,6 +140,12 @@
 Изменить статусное сообщение для %s...
 [Hide my details]
 Скрыть мои данные
+[<no status message>]
+<нет сообщения статуса>
+[<no nickname>]
+<нет ника>
+[<nothing playing>]
+<ничего не играет>
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
 Предыдущая учётная запись
