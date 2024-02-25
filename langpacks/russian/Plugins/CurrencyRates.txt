@@ -210,6 +210,9 @@
 Поменять местами
 [Import]
 Импорт
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+Курсы валют
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
 [This plugin requires a personal key. Open the Options dialog to obtain it.]
 Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ в настройках плагина.
@@ -244,3 +247,4 @@
 Журналы (*.txt,*.log)
 [Enter popup window format.]
 Введите формат всплывающего окна.
+
