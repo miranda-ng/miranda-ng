@@ -69,7 +69,7 @@
 [&Watched currency rates:]
 &Отслеживаемые курсы валют:
 [&Remove]
-&Очистить
+&Удалить
 [&Refresh Rates Every:]
 &Обновлять курсы каждые:
 [&Display in Contact List as:]
