@@ -19,7 +19,7 @@
 
 #include "global.h"
 
-#define MODULENAME "MessageState"
+#define MODULENAME LPGEN("MessageState")
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
