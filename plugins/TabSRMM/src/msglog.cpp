@@ -575,7 +575,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei)));
 	if (msg.IsEmpty())
-		return nullptr;
+		return false;
 
 	msg.TrimRight();
 	dat->FormatRaw(msg, 1, FALSE);
@@ -1117,7 +1117,7 @@ skip:
 
 	dat->m_iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->m_lastEventTime = dbei.timestamp;
-	return str.Detach();
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
