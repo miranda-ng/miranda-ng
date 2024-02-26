@@ -98,7 +98,7 @@ public:
 	int    doSendLater(int iIndex, CMsgDialog *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 
 	// static members
-	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
+	static LRESULT TSAPI WarnPendingJobs();
 
 private:
 	SendJob m_jobs[NR_SENDJOBS];

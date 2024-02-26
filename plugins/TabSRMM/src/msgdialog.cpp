@@ -2695,7 +2695,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return TRUE;
 
 				m_bWarnClose = true;
-				LRESULT result = SendQueue::WarnPendingJobs(0);
+				LRESULT result = SendQueue::WarnPendingJobs();
 				m_bWarnClose = false;
 				if (result == IDNO)
 					return TRUE;
