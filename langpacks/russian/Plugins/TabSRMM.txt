@@ -1126,8 +1126,8 @@ ID текущего контакта (если определён). Наприм
 TabSRMM: набор текста
 [&Messaging settings...]
 Настройки &бесед...
-[&Send later job list...]
-Задачи для &отправки с задержкой...
+[Send later job list...]
+Задачи для отправки с задержкой...
 [signed off.]
 отключён(а).
 [signed on and is now %s.]

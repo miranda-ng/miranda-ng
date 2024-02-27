@@ -251,7 +251,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 		SET_UID(mi, 0x8f32b04e, 0x314e, 0x42eb, 0x89, 0xc6, 0x56, 0x21, 0xf5, 0x1a, 0x2f, 0x22);
 		mi.position = -500050006;
 		mi.hIcolibItem = nullptr;
-		mi.name.a = LPGEN("&Send later job list...");
+		mi.name.a = LPGEN("Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);
 	}
