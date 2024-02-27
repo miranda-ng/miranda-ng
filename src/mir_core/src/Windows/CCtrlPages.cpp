@@ -257,7 +257,11 @@ void CCtrlPages::InsertPage(TPageInfo *pPage)
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM | TCIF_TEXT;
 	tci.lParam = (LPARAM)pPage;
-	tci.pszText = TranslateW_LP(pPage->m_ptszHeader);
+	if (auto *pDlg = pPage->m_pDlg)
+		tci.pszText = TranslateW_LP(pPage->m_ptszHeader, pDlg->GetPlugin());
+	else
+		tci.pszText = TranslateW_LP(pPage->m_ptszHeader);
+
 	if (pPage->m_hIcon) {
 		if (!m_hIml) {
 			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
