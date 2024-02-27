@@ -1037,7 +1037,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		if (auto *pSmall = pPhoto->small_.get()) {
 			auto remoteId = pSmall->remote_->unique_id_;
 			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
-			if (remoteId != storedId.c_str()) {
+			auto wszFileName = GetAvatarFilename(pu->hContact);
+			if (remoteId != storedId.c_str() || _waccess(wszFileName, 0)) {
 				if (!remoteId.empty()) {
 					pu->szAvatarHash = remoteId.c_str();
 					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());

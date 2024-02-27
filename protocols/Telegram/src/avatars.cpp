@@ -65,9 +65,11 @@ INT_PTR CTelegramProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM, LPARAM)
+INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	return 1;
+	auto wszFileName(GetAvatarFilename(0));
+	mir_wstrncpy((wchar_t *)wParam, wszFileName, lParam);
+	return 0;
 }
 
 INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
