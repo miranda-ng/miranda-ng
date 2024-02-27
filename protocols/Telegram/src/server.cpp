@@ -553,15 +553,6 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		debugLogA("Last message for a temporary contact, skipping");
 		return;
 	}
-
-	// according to #3406 we wipe history for the contacts from contacts' list
-	// but remove the contact itself if it's a temporary one
-	if (pObj->last_message_ == nullptr) {
-		if (Contact::OnList(pUser->hContact))
-			CallService(MS_HISTORY_EMPTY, pUser->hContact, TRUE);
-		else
-			db_delete_contact(pUser->hContact, CDF_FROM_SERVER);
-	}
 }
 
 void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings *pObj)
