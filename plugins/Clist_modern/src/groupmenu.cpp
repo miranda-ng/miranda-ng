@@ -72,7 +72,7 @@ void InitGroupMenus(void)
 
 	SET_UID(mi, 0x7E081A28, 0x19B3, 0x407F, 0x80, 0x6B, 0x70, 0xC3, 0xC3, 0xA9, 0xD2, 0xA4);
 	mi.position = 900001;
-	mi.name.a = LPGEN("&Show offline users in here");
+	mi.name.a = LPGEN("Show offline users in here");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "Modern/GroupMenuExecProxy";
 	hShowOfflineUsersHereMenuItem = Menu_AddGroupMenuItem(&mi, &gmp);
