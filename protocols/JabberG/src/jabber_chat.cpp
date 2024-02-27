@@ -1125,16 +1125,16 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		break;
 
 	case IDM_CPY_NICK:
-		Utils_ClipboardCopyU(him->m_szResourceName);
+		Utils_ClipboardCopy(MClipUtf8(him->m_szResourceName));
 		break;
 
 	case IDM_RJID_COPY:
 	case IDM_CPY_RJID:
-		Utils_ClipboardCopyU(him->m_szRealJid);
+		Utils_ClipboardCopy(MClipUtf8(him->m_szRealJid));
 		break;
 
 	case IDM_CPY_INROOMJID:
-		Utils_ClipboardCopyU(MakeJid(item->jid, him->m_szResourceName));
+		Utils_ClipboardCopy(MClipUtf8(MakeJid(item->jid, him->m_szResourceName)));
 		break;
 
 	case IDM_RJID_VCARD:
@@ -1299,11 +1299,11 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		break;
 
 	case IDM_CPY_RJID:
-		Utils_ClipboardCopyU(item->jid);
+		Utils_ClipboardCopy(MClipUtf8(item->jid));
 		break;
 
 	case IDM_CPY_TOPIC:
-		Utils_ClipboardCopyU(item->getTemp()->m_szStatusMessage);
+		Utils_ClipboardCopy(MClipUtf8(item->getTemp()->m_szStatusMessage));
 		break;
 	}
 }

@@ -31,3 +31,7 @@
 Значок отправки сообщения
 [Unread clist extra icon]
 Значок непрочитанного сообщения в списке контактов
+;file \plugins\MessageState\src\stdafx.h
+[MessageState]
+Состояние сообщения
+

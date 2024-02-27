@@ -31,15 +31,15 @@
 [for original size images]
 для исходного размера
 [for preview max 130*130 px]
-для предпросмотра в 130*130 пикселей
+для предпросмотра в 130*130 пикс.
 [for preview max 604*604 px]
-для предпросмотра в 604*604 пикселей
+для предпросмотра в 604*604 пикс.
 [BBCode support on news and event notifications]
 Поддержка BBCode для новостей и уведомлений
 [basic ([b], [i], [u], [s])]
 базовая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color], [code])]
-продвинутая (+[url], [size], [color], [code])
+продв. (+[url], [size], [color], [code])
 [Use this setting also for attachments on news and notifications]
 Использовать эту настройку также для вложений в новостях и уведомлениях
 [BBCode support on attachments]
@@ -165,7 +165,7 @@ E-mail или номер телефона:
 [Sync history on protocol online:]
 При входе синхронизировать историю:
 [Load last messages when message window open and local history is empty]
-Загружать сообщения при открытии окна сообщений, если история контакта пуста
+Загружать сообщения при открытии окна сообщений, если история пуста
 [Use local time for received messages]
 Местное время для принятых сообщений
 [Load only friends to local contact list]

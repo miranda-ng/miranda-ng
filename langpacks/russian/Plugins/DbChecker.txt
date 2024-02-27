@@ -48,7 +48,7 @@
 [Check database]
 Проверить базу
 [DbChecker]
-DbChecker
+Проверка БД
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящий драйвер базы для открытия '%s'.

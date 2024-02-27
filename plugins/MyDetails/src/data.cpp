@@ -260,22 +260,15 @@ wchar_t* Protocol::GetNick()
 	return nickname;
 }
 
-bool Protocol::CanSetNick()
-{
-	return can_set_nick;
-}
-
 void Protocol::SetNick(const wchar_t *nick)
 {
-	// See if can get one
-	if (!CanSetNick())
-		return;
-
 	if (nick == nullptr)
 		return;
 
-	// Get it
-	CallProtoService(name, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)nick);
+	if (can_set_nick)
+		CallProtoService(name, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)nick);
+	else
+		db_set_ws(0, name, "MyHandle", nick);
 }
 
 bool Protocol::CanSetAvatar()

@@ -410,7 +410,7 @@ public:
 			if (proto) {
 				char fprint[45];
 				if (otrl_privkey_fingerprint(otr_user_state, fprint, proto, proto))
-					Utils_ClipboardCopy(fprint);
+					Utils_ClipboardCopy(MClipAnsi(fprint));
 			}
 			break;
 
@@ -795,7 +795,7 @@ public:
 		case IDM_OPT_COPY:
 			wchar_t hash[45];
 			otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-			Utils_ClipboardCopy(hash);
+			Utils_ClipboardCopy(MClipUnicode(hash));
 			break;
 
 		case IDM_OPT_FINGER_FORGET:

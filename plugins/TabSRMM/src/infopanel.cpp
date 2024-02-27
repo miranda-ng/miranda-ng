@@ -739,11 +739,11 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 	switch (cmd) {
 	case CMD_IP_COPY:
 		if (m_hoverFlags & HOVER_NICK) {
-			Utils_ClipboardCopy(m_dat->m_cache->getNick());
+			Utils_ClipboardCopy(MClipUnicode(m_dat->m_cache->getNick()));
 			return(S_OK);
 		}
 		if (m_hoverFlags & HOVER_UIN) {
-			Utils_ClipboardCopy(m_isChat ? m_dat->m_si->ptszTopic : m_dat->m_cache->getUIN());
+			Utils_ClipboardCopy(MClipUnicode(m_isChat ? m_dat->m_si->ptszTopic : m_dat->m_cache->getUIN()));
 			return(S_OK);
 		}
 		break;

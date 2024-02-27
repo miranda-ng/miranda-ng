@@ -694,14 +694,12 @@ public:
 	void ScrollToBottom() override;
 	void UpdateOptions() override;
 
-	void DisableStaticEdge()
-	{
+	void DisableStaticEdge() {
 		SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 	}
 
-	char *GetRichTextRtf(bool bText, bool bSelection)
-	{
-		return m_rtf.GetRichTextRtf(bText, bSelection);
+	CCtrlRichEdit& RTF() const {
+		return m_rtf;
 	}
 
 	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DB::EventInfo *dbei);

@@ -3024,12 +3024,14 @@ LRESULT CMsgDialog::WMCopyHandler(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = mir_callNextSubclass(m_pLog->GetHwnd(), stubLogProc, msg, wParam, lParam);
 
-	ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
+	ptrA szFromStream(LOG()->RTF().GetRichTextRtf(true, true));
 	if (szFromStream != nullptr) {
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		if (converted != nullptr) {
 			Utils::FilterEventMarkers(converted);
-			Utils_ClipboardCopy(converted);
+
+			ptrA szRtf(LOG()->RTF().GetPlainRtf(true));
+			Utils_ClipboardCopy(MClipUnicode(converted) + MClipRtf(szRtf));
 		}
 	}
 

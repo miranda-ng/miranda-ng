@@ -572,7 +572,7 @@ bool bAdvancedCopy(HWND hwnd)
 		pszCurDec++;
 	}
 	pszCurDec[0] = 0;
-	Utils_ClipboardCopy(pszSrcBuf);
+	Utils_ClipboardCopy(MClipUnicode(pszSrcBuf));
 	delete[] pszSrcBuf;
 	return true;
 }

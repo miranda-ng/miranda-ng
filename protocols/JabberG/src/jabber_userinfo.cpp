@@ -483,7 +483,7 @@ public:
 		if (nReturnCmd == 1) {
 			CMStringW buf;
 			GetNodeText(pos->hItem, buf);
-			Utils_ClipboardCopy(buf);
+			Utils_ClipboardCopy(MClipUnicode(buf));
 		}
 		else if (nReturnCmd == 2) {
 			wchar_t szBuffer[1024];
@@ -494,9 +494,9 @@ public:
 			tvi.pszText = szBuffer;
 			if (m_tree.GetItem(&tvi)) {
 				if (wchar_t *str = wcsstr(szBuffer, L": "))
-					Utils_ClipboardCopy(str + 2);
+					Utils_ClipboardCopy(MClipUnicode(str + 2));
 				else
-					Utils_ClipboardCopy(szBuffer);
+					Utils_ClipboardCopy(MClipUnicode(szBuffer));
 			}
 		}
 		DestroyMenu(hMenu);

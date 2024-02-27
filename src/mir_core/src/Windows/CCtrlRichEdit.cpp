@@ -89,6 +89,20 @@ static DWORD CALLBACK MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 	return 0;
 }
 
+char* CCtrlRichEdit::GetPlainRtf(bool bSelection)
+{
+	char *pszText = nullptr;
+	uint32_t dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF;
+	if (bSelection)
+		dwFlags |= SFF_SELECTION;
+
+	EDITSTREAM stream = {};
+	stream.pfnCallback = MessageStreamCallback;
+	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
+	SendMessage(m_hwnd, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
+	return pszText; // pszText contains the text
+}
+
 char* CCtrlRichEdit::GetRichTextRtf(bool bText, bool bSelection) const
 {
 	char *pszText = nullptr;
@@ -100,7 +114,7 @@ char* CCtrlRichEdit::GetRichTextRtf(bool bText, bool bSelection) const
 	if (bSelection)
 		dwFlags |= SFF_SELECTION;
 
-	EDITSTREAM stream = { 0 };
+	EDITSTREAM stream = {};
 	stream.pfnCallback = MessageStreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 	SendMessage(m_hwnd, EM_STREAMOUT, dwFlags, (LPARAM)&stream);

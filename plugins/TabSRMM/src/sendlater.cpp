@@ -443,7 +443,7 @@ public:
 					job->writeFlags();
 					break;
 				case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-					Utils_ClipboardCopy(ptrW(mir_utf8decodeW(job->sendBuffer)));
+					Utils_ClipboardCopy(MClipUnicode(ptrW(mir_utf8decodeW(job->sendBuffer))));
 					break;
 				case ID_QUEUEMANAGER_RESETSELECTED:
 					if (job->bCode == CSendLaterJob::JOB_DEFERRED) {

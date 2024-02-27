@@ -2134,7 +2134,7 @@ panel_found:
 						return TRUE;
 
 					pContainer->m_exFlags |= CNT_EX_CLOSEWARN;
-					LRESULT result = SendQueue::WarnPendingJobs(iOpenJobs);
+					LRESULT result = SendQueue::WarnPendingJobs();
 					pContainer->m_exFlags &= ~CNT_EX_CLOSEWARN;
 					if (result == IDNO)
 						return TRUE;

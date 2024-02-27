@@ -211,7 +211,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_NAME:
 		if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
-			Utils_ClipboardCopy(m_cache->getUIN());
+			Utils_ClipboardCopy(MClipUnicode(m_cache->getUIN()));
 		else
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)(m_cache->getActiveContact()), 0);
 		break;

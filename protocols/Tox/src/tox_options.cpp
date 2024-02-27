@@ -95,7 +95,7 @@ void CToxOptionsMain::EnableUdp_OnClick(CCtrlBase*)
 
 void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 {
-	Utils_ClipboardCopy(ptrW(m_toxAddress.GetText()));
+	Utils_ClipboardCopy(MClipUnicode(ptrW(m_toxAddress.GetText())));
 }
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)

@@ -145,7 +145,7 @@ struct OFD_CopyUrl : public OFD_Callback
 
 	void Invoke(const OFDTHREAD &ofd) override
 	{
-		Utils_ClipboardCopy(ofd.wszPath.IsEmpty() ? wszUrl : ofd.wszPath);
+		Utils_ClipboardCopy(MClipUnicode(ofd.wszPath.IsEmpty() ? wszUrl : ofd.wszPath));
 	}
 };
 

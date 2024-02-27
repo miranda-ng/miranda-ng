@@ -138,7 +138,7 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 	if (flags & CDF_DEL_HISTORY)
 		SvcEmptyServerHistory(hContact, flags);
 
-	if (flags & CDF_FROM_SERVER) {
+	if (flags & CDF_DEL_CONTACT) {
 		TD::array<TD::int53> ids;
 		ids.push_back(id);
 		SendQuery(new TD::removeContacts(std::move(ids)));

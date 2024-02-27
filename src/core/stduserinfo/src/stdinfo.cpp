@@ -130,7 +130,7 @@ public:
 	{
 		wchar_t buf[1024];
 		if (GetDlgItemText(m_hwnd, IDC_ADDR, buf, _countof(buf)))
-			Utils_ClipboardCopy(buf);
+			Utils_ClipboardCopy(MClipUnicode(buf));
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override

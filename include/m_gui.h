@@ -856,6 +856,7 @@ public:
 	int GetRichTextLength(int iCodePage = CP_ACP) const;
 
 	// returns a buffer that should be freed using mir_free() or ptrA/ptrW
+	char* GetPlainRtf(bool bSelection = false);
 	char* GetRichTextRtf(bool bText = false, bool bSelection = false) const; // returns text with formatting
 	wchar_t* GetRichText() const;	// returns only text in ucs2
 

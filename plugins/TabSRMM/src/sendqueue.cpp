@@ -517,11 +517,9 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-LRESULT SendQueue::WarnPendingJobs(unsigned int)
+LRESULT SendQueue::WarnPendingJobs()
 {
-	return MessageBox(nullptr,
-		TranslateT("There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?"),
-		TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND);
+	return CWarning::show(CWarning::WARN_SEND_ERROR, MB_YESNO | MB_ICONHAND);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

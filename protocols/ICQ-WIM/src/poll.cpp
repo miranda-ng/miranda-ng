@@ -104,13 +104,17 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 
 			bool bCreated = false, bDeleted = (szType == "deleted");
 
+			int iProcessed = 0;
 			for (auto &buddy : it["buddies"]) {
-				if (bDeleted)
-					continue;
-
 				MCONTACT hContact = ParseBuddyInfo(buddy, true);
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
+
+				iProcessed++;
+				if (bDeleted) {
+					db_delete_contact(hContact, CDF_FROM_SERVER);
+					continue;
+				}
 
 				ProcessOnline(buddy, hContact);
 				setWString(hContact, "IcqGroup", pGroup->wszName);
@@ -125,7 +129,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 					Clist_SetGroup(hContact, pGroup->wszName);
 			}
 
-			if (bDeleted)
+			if (bDeleted && !iProcessed)
 				m_arGroups.remove(pGroup);
 		}
 

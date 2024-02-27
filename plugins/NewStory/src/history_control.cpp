@@ -284,7 +284,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 
 void NewstoryListData::Copy(bool bTextOnly)
 {
-	Utils_ClipboardCopy(GatherSelected(bTextOnly));
+	Utils_ClipboardCopy(MClipUnicode(GatherSelected(bTextOnly)));
 }
 
 void NewstoryListData::CopyPath()
@@ -293,7 +293,7 @@ void NewstoryListData::CopyPath()
 		if (pItem->completed()) {
 			DB::EventInfo dbei(pItem->hEvent);
 			DB::FILE_BLOB blob(dbei);
-			Utils_ClipboardCopy(blob.getLocalName());
+			Utils_ClipboardCopy(MClipUnicode(blob.getLocalName()));
 		}
 }
 

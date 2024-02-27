@@ -88,7 +88,7 @@ void CProgressPageDlg::OnContextMenu(CCtrlBase*)
 			}
 		}
 
-		Utils_ClipboardCopy(wszText);
+		Utils_ClipboardCopy(MClipUnicode(wszText));
 		break;
 	}
 

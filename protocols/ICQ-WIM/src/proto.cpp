@@ -161,7 +161,7 @@ void CIcqProto::OnContactAdded(MCONTACT hContact)
 
 bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	if (flags & CDF_FROM_SERVER) {
+	if (flags & CDF_DEL_CONTACT) {
 		CMStringW szId(GetUserId(hContact));
 		if (!isChatRoom(hContact)) {
 			mir_cslock lck(m_csCache);

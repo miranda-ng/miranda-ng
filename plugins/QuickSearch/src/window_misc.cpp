@@ -211,7 +211,7 @@ void QSMainDlg::CopyMultiLines()
 		buf.Append(L"\r\n");
 	}
 
-	Utils_ClipboardCopy(buf);
+	Utils_ClipboardCopy(MClipUnicode(buf));
 }
 
 void QSMainDlg::DeleteByList()

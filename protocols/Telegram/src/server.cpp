@@ -309,11 +309,11 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	if (!response.object)
 		return;
 
-	switch(response.object->get_id()) {
+	switch (response.object->get_id()) {
 	case TD::error::ID:
 		for (auto &it : m_arOwnMsg)
 			if (it->hAck == (HANDLE)response.request_id) {
-				auto *pError= ((TD::error *)response.object.get());
+				auto *pError = ((TD::error *)response.object.get());
 				CMStringW wszMsg(FORMAT, TranslateT("Error %d: %s"), pError->code_, TranslateW(Utf2T(pError->message_.c_str())));
 				ProtoBroadcastAck(it->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, it->hAck, (LPARAM)wszMsg.c_str());
 				break;
@@ -454,14 +454,14 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
 
-	switch(pChat->type_->get_id()) {
+	switch (pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
 	case TD::chatTypeSecret::ID:
 		userId = pChat->id_;
 		break;
 
 	case TD::chatTypeBasicGroup::ID:
-		userId = ((TD::chatTypeBasicGroup*)pChat->type_.get())->basic_group_id_;
+		userId = ((TD::chatTypeBasicGroup *)pChat->type_.get())->basic_group_id_;
 		szTitle = pChat->title_;
 		break;
 
@@ -551,15 +551,6 @@ void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
 		debugLogA("Last message for a temporary contact, skipping");
 		return;
 	}
-
-	// according to #3406 we wipe history for the contacts from contacts' list
-	// but remove the contact itself if it's a temporary one
-	if (pObj->last_message_ == nullptr) {
-		if (Contact::OnList(pUser->hContact))
-			CallService(MS_HISTORY_EMPTY, pUser->hContact, TRUE);
-		else
-			db_delete_contact(pUser->hContact, CDF_FROM_SERVER);
-	}
 }
 
 void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings *pObj)
@@ -599,7 +590,7 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		if (pList->get_id() == TD::chatListArchive::ID)
 			wszGroup = TranslateT("Archive");
 		else if (pList->get_id() == TD::chatListFolder::ID) {
-			CMStringA szSetting(FORMAT, "ChatFilter%d", ((TD::chatListFolder*)pList)->chat_folder_id_);
+			CMStringA szSetting(FORMAT, "ChatFilter%d", ((TD::chatListFolder *)pList)->chat_folder_id_);
 			wszGroup = getMStringW(szSetting);
 			if (wszGroup.IsEmpty())
 				return;
@@ -623,7 +614,7 @@ void CTelegramProto::ProcessChatReactions(TD::updateChatAvailableReactions *pObj
 		debugLogA("Unsupported reactions type: %d", pObj->available_reactions_->get_id());
 		return;
 	}
-	
+
 	auto &pReactions = ((TD::chatAvailableReactionsSome *)pObj->available_reactions_.get())->reactions_;
 
 	if (auto *pChat = FindChat(pObj->chat_id_)) {
@@ -674,7 +665,7 @@ void CTelegramProto::ProcessConnectionState(TD::updateConnectionState *pObj)
 		if (pAuthState->get_id() == TD::authorizationStateReady::ID)
 			OnLoggedIn();
 		break;
-	}		
+	}
 }
 
 void CTelegramProto::ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj)
@@ -706,7 +697,7 @@ void CTelegramProto::ProcessDeleteMessage(TD::updateDeleteMessages *pObj)
 void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
 {
 	for (auto &grp : pObj->chat_folders_) {
-		if (grp->icon_->name_!= "Custom")
+		if (grp->icon_->name_ != "Custom")
 			continue;
 
 		CMStringA szSetting(FORMAT, "ChatFilter%d", grp->id_);
@@ -813,7 +804,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 			debugLogA("spam from unknown group chat, ignored");
 			return;
 		}
-		
+
 		AddUser(pUser->id, false);
 		Contact::RemoveFromList(pUser->hContact);
 	}
@@ -832,7 +823,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
 		dbei.szReplyId = szReplyId;
 	}
-	
+
 	if (dbei) {
 		replaceStr(dbei.pBlob, szText.Detach());
 		db_event_edit(hOldEvent, &dbei, true);
@@ -1046,10 +1037,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
 			if (remoteId != storedId.c_str()) {
 				if (!remoteId.empty()) {
-					if (pu) {
-						pu->szAvatarHash = remoteId.c_str();
-						setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
-					}
+					pu->szAvatarHash = remoteId.c_str();
+					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
 					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
 				}
 				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);

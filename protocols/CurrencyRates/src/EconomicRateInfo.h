@@ -2,7 +2,7 @@
 #define __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 
 // db settings module path
-#define MODULENAME "CurrencyRates" 
+#define MODULENAME LPGEN("CurrencyRates") 
 
 enum ERefreshRateType
 {

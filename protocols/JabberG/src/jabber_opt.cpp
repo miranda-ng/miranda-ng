@@ -451,8 +451,8 @@ protected:
 				m_cbLocale.SetCurSel(iItem);
 		}
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), !m_chkUseHostnameAsResource.IsChecked());
-		EnableWindow(GetDlgItem(m_hwnd, IDC_UNREGISTER), m_proto->m_bJabberOnline);
+		m_cbResource.Enable(!m_chkUseHostnameAsResource.IsChecked());
+		m_btnUnregister.Enable(m_proto->m_bJabberOnline);
 
 		m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
 		if (m_proto->m_bDisable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
@@ -574,10 +574,8 @@ private:
 		m_proto->OnMenuHandleChangePassword(0, 0);
 	}
 
-	void chkManualHost_OnChange(CCtrlData *sender)
+	void chkManualHost_OnChange(CCtrlCheck *chk)
 	{
-		CCtrlCheck *chk = (CCtrlCheck *)sender;
-
 		if (chk->IsChecked()) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
@@ -590,22 +588,13 @@ private:
 		}
 	}
 
-	void chkUseHostnameAsResource_OnChange(CCtrlData *sender)
+	void chkUseHostnameAsResource_OnChange(CCtrlCheck *chk)
 	{
-		CCtrlCheck *chk = (CCtrlCheck *)sender;
-
 		m_cbResource.Enable(!chk->IsChecked());
-		if (chk->IsChecked()) {
-			wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
-			DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
-			if (GetComputerName(szCompName, &dwCompNameLength))
-				m_cbResource.SetText(szCompName);
-		}
 	}
 
-	void chkUseDomainLogin_OnChange(CCtrlData *sender)
+	void chkUseDomainLogin_OnChange(CCtrlCheck *chk)
 	{
-		CCtrlCheck *chk = (CCtrlCheck *)sender;
 		bool bChecked = chk->IsChecked();
 
 		m_txtPassword.Enable(!bChecked);

@@ -632,7 +632,7 @@ public:
 			dbei.szModule = (char *)TranslateT("Sample error message");
 		dbei.pBlob = szText;
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob);
-		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
+		dbei.flags = DBEF_UTF | ((iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0);
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);
 		m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(0) - 1 : 0;
 		m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);

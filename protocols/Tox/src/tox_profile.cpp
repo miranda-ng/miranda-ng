@@ -186,7 +186,7 @@ void CToxProto::OnErase()
 
 INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
-	Utils_ClipboardCopy(ptrW(getWStringA(TOX_SETTINGS_ID)));
+	Utils_ClipboardCopy(MClipUnicode(ptrW(getWStringA(TOX_SETTINGS_ID))));
 	return 0;
 }
 
