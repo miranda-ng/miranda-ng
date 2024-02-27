@@ -1473,7 +1473,7 @@ static int CLUIFramesLoadMainMenu()
 		mi.hIcolibItem = F.TitleBar.hicon;
 		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 		mi.position = separator++;
-		mi.name.w = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
+		mi.name.w = TranslateW_LP(F.TitleBar.tbname ? F.TitleBar.tbname : F.name, F.pPlugin);
 		mi.pszService = nullptr;
 		g_frameMenus.insert(F.MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi));
 		CLUIFramesCreateMenuForFrame(F.id, F.MenuHandles.MainMenuItem, separator, true);
