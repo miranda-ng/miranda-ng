@@ -67,20 +67,20 @@ void TContainerData::ApplySetting(bool fForceResize)
 struct
 {
 	const wchar_t *szTitle, *szDesc;
-	UINT uIds[10];
+	UINT uIds[12];
 }
 static o_pages[] =
 {
-	{ LPGENW("General options"), nullptr, IDC_O_NOTABS, IDC_O_STICKY, IDC_VERTICALMAX, IDC_AUTOSPLITTER, IDC_O_AUTOHIDE, IDC_AUTOCLOSETABTIME, IDC_AUTOCLOSETABSPIN, IDC_O_AUTOHIDESECONDS, 0, 0 },
-	{ LPGENW("Window layout"), nullptr, IDC_CNTNOSTATUSBAR, IDC_HIDEMENUBAR, IDC_UIDSTATUSBAR, IDC_HIDETOOLBAR, IDC_INFOPANEL, IDC_BOTTOMTOOLBAR, 0, 0, 0, 0 },
-	{ LPGENW("Tabs and switch bar"), LPGENW("Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them."), IDC_TABMODE, IDC_O_TABMODE, IDC_O_SBARLAYOUT, IDC_SBARLAYOUT, IDC_FLASHICON, IDC_FLASHLABEL, IDC_SINGLEROWTAB, IDC_BUTTONTABS, IDC_CLOSEBUTTONONTABS, 0 },
-	{ LPGENW("Notifications"), LPGENW("Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window."), IDC_O_DONTREPORT, IDC_DONTREPORTUNFOCUSED2, IDC_DONTREPORTFOCUSED2, IDC_ALWAYSPOPUPSINACTIVE, IDC_O_EXPLAINGLOBALNOTIFY, 0, 0, 0, 0, 0 },
-	{ LPGENW("Flashing"), nullptr, IDC_O_FLASHDEFAULT, IDC_O_FLASHALWAYS, IDC_O_FLASHNEVER, 0, 0, 0, 0, 0, 0, 0 },
-	{ LPGENW("Title bar"), nullptr, IDC_O_HIDETITLE, IDC_TITLEFORMAT, IDC_O_TITLEBARFORMAT, IDC_O_HELP_TITLEFORMAT, 0, 0, 0, 0, 0, 0 },
-	{ LPGENW("Window size and theme"), LPGENW("You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option."), IDC_THEME, IDC_SELECTTHEME, IDC_USEGLOBALSIZE, IDC_SAVESIZEASGLOBAL, IDC_LABEL_PRIVATETHEME, IDC_TSLABEL_EXPLAINTHEME, 0, 0, 0, 0 },
-	{ LPGENW("Transparency"), LPGENW("This feature may be unavailable when using a container skin."), IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE, 0, 0, 0, 0, 0 },
-	{ LPGENW("Contact avatars"), nullptr, IDC_O_STATIC_AVATAR, IDC_O_STATIC_OWNAVATAR, IDC_AVATARMODE, IDC_OWNAVATARMODE, IDC_AVATARSONTASKBAR, 0, 0, 0, 0, 0 },
-	{ LPGENW("Sound notifications"), nullptr, IDC_O_ENABLESOUNDS, IDC_O_SOUNDSMINIMIZED, IDC_O_SOUNDSUNFOCUSED, IDC_O_SOUNDSINACTIVE, IDC_O_SOUNDSFOCUSED, 0, 0, 0, 0, 0 },
+	{ LPGENW("General options"), nullptr, IDC_O_NOTABS, IDC_O_STICKY, IDC_VERTICALMAX, IDC_AUTOSPLITTER, IDC_O_AUTOHIDE, IDC_AUTOCLOSETABTIME, IDC_AUTOCLOSETABSPIN, IDC_O_AUTOHIDESECONDS },
+	{ LPGENW("Window layout"), nullptr, IDC_CNTNOSTATUSBAR, IDC_HIDEMENUBAR, IDC_UIDSTATUSBAR, IDC_HIDETOOLBAR, IDC_INFOPANEL, IDC_BOTTOMTOOLBAR },
+	{ LPGENW("Tabs and switch bar"), LPGENW("Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them."), IDC_TABMODE, IDC_O_TABMODE, IDC_O_SBARLAYOUT, IDC_SBARLAYOUT, IDC_FLASHICON, IDC_FLASHLABEL, IDC_SINGLEROWTAB, IDC_BUTTONTABS, IDC_CLOSEBUTTONONTABS, IDC_O_SBARWIDTH, IDC_SBARWIDTH, IDC_SBARWIDTH_SPIN },
+	{ LPGENW("Notifications"), LPGENW("Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window."), IDC_O_DONTREPORT, IDC_DONTREPORTUNFOCUSED2, IDC_DONTREPORTFOCUSED2, IDC_ALWAYSPOPUPSINACTIVE, IDC_O_EXPLAINGLOBALNOTIFY },
+	{ LPGENW("Flashing"), nullptr, IDC_O_FLASHDEFAULT, IDC_O_FLASHALWAYS, IDC_O_FLASHNEVER },
+	{ LPGENW("Title bar"), nullptr, IDC_O_HIDETITLE, IDC_TITLEFORMAT, IDC_O_TITLEBARFORMAT, IDC_O_HELP_TITLEFORMAT },
+	{ LPGENW("Window size and theme"), LPGENW("You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option."), IDC_THEME, IDC_SELECTTHEME, IDC_USEGLOBALSIZE, IDC_SAVESIZEASGLOBAL, IDC_LABEL_PRIVATETHEME, IDC_TSLABEL_EXPLAINTHEME },
+	{ LPGENW("Transparency"), LPGENW("This feature may be unavailable when using a container skin."), IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE },
+	{ LPGENW("Contact avatars"), nullptr, IDC_O_STATIC_AVATAR, IDC_O_STATIC_OWNAVATAR, IDC_AVATARMODE, IDC_OWNAVATARMODE, IDC_AVATARSONTASKBAR },
+	{ LPGENW("Sound notifications"), nullptr, IDC_O_ENABLESOUNDS, IDC_O_SOUNDSMINIMIZED, IDC_O_SOUNDSUNFOCUSED, IDC_O_SOUNDSINACTIVE, IDC_O_SOUNDSFOCUSED },
 };
 
 static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
@@ -416,6 +416,9 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 
 			Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, NEN::bWindowCheck ? SW_SHOW : SW_HIDE);
 
+			SendDlgItemMessage(hwndDlg, IDC_SBARWIDTH_SPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
+			SendDlgItemMessage(hwndDlg, IDC_SBARWIDTH_SPIN, UDM_SETPOS, 0, cs->sideBarWidth);
+
 			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
 			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETPOS, 0, (LPARAM)cs->autoCloseSeconds);
 		}
@@ -495,6 +498,7 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			cs->flags = newFlags;
 			cs->flagsEx = newFlagsEx;
 			cs->autoCloseSeconds = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
+			cs->sideBarWidth = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_SBARWIDTH_SPIN, UDM_GETPOS, 0, 0);
 		}
 		break;
 

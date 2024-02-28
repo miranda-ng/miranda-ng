@@ -391,7 +391,10 @@ void CSideBar::Init()
 		m_isActive = m_isVisible = true;
 		createScroller();
 		m_elementHeight = m_currentLayout->height;
-		m_elementWidth = m_currentLayout->width;
+		if (m_dwFlags & (SIDEBARORIENTATION_RIGHT | SIDEBARORIENTATION_LEFT))
+			m_elementWidth = max(m_pContainer->cfg.sideBarWidth, m_currentLayout->width);
+		else
+			m_elementWidth = m_currentLayout->width;
 		m_width = m_elementWidth + 4;
 		populateAll();
 		if (m_activeItem)

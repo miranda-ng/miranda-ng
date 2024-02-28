@@ -269,6 +269,7 @@ struct TContainerSettings
 	uint16_t   avatarMode;
 	uint16_t   ownAvatarMode;
 	uint16_t   autoCloseSeconds;
+	uint16_t   sideBarWidth;
 	bool       fPrivate;
 };
 
