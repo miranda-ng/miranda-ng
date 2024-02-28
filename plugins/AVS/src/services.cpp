@@ -196,7 +196,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 	int ret = 0;
 	if (protocol != nullptr) {
 		if (ProtoServiceExists(protocol, PS_SETMYAVATAR))
-			ret = SaveAvatar(protocol, nullptr);
+			ret = CallProtoService(protocol, PS_SETMYAVATAR);
 		else
 			ret = -3;
 
@@ -219,7 +219,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 				continue;
 
 			// Found a protocol
-			int retTmp = SaveAvatar(it->szModuleName, nullptr);
+			int retTmp = CallProtoService(it->szModuleName, PS_SETMYAVATAR);
 			if (retTmp != 0)
 				ret = retTmp;
 		}
@@ -354,7 +354,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 	else d.saved = TRUE;
 }
 
-static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilename, int originalFormat, BOOL square, BOOL grow)
+static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, const wchar_t *originalFilename, int originalFormat, BOOL square, BOOL grow)
 {
 	if (!ProtoServiceExists(protocol, PS_SETMYAVATAR))
 		return -1;
@@ -365,14 +365,14 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 		if (!Proto_IsAvatarFormatSupported(protocol, PA_FORMAT_SWF))
 			return -1;
 
-		return SaveAvatar(protocol, originalFilename);
+		return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
 	}
 
 	if (originalFormat == PA_FORMAT_XML) {
 		if (!Proto_IsAvatarFormatSupported(protocol, PA_FORMAT_XML))
 			return -1;
 
-		return SaveAvatar(protocol, originalFilename);
+		return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
 	}
 
 	// Get protocol info
@@ -408,7 +408,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 				DeleteFile(d.temp_file);
 
 			// Use original image
-			return SaveAvatar(protocol, originalFilename);
+			return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
 		}
 
 		// Create a temporary file (if was not created already)
@@ -455,8 +455,8 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 
 	if (d.saved) {
 		// Call proto service
-		ret = SaveAvatar(protocol, d.image_file_name);
-		DeleteFile(d.image_file_name);
+		ret = CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)d.image_file_name);
+		DeleteFileW(d.image_file_name);
 	}
 	else ret = -1;
 

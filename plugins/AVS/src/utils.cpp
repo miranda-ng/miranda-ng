@@ -230,7 +230,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 #define TOPBIT (1 << (WIDTH - 1)) /* MSB */
 #define WIDTH 32
 
-int GetFileHash(wchar_t *filename)
+int GetFileHash(const wchar_t *filename)
 {
 	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -458,7 +458,7 @@ void SetIgnoreNotify(char *protocol, BOOL ignore)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-uint32_t GetFileSize(wchar_t *szFilename)
+uint32_t GetFileSize(const wchar_t *szFilename)
 {
 	struct _stat info;
 	return (_wstat(szFilename, &info) == -1) ? 0 : info.st_size;

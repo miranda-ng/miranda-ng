@@ -142,8 +142,8 @@ extern HANDLE hGlobalAvatarFolder;
 extern HANDLE hLoaderEvent, hLoaderThread, hShutdownEvent;
 extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
-int GetFileHash(wchar_t* filename);
-uint32_t GetFileSize(wchar_t *szFilename);
+int GetFileHash(const wchar_t* filename);
+uint32_t GetFileSize(const wchar_t *szFilename);
 void MakePathRelative(MCONTACT hContact);
 void MakePathRelative(MCONTACT hContact, wchar_t *dest);
 void MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
