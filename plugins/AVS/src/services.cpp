@@ -337,13 +337,13 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 		return;
 
 	if (d.max_size != 0 && GetFileSize(d.image_file_name) > d.max_size) {
-		DeleteFile(d.image_file_name);
+		DeleteFileW(d.image_file_name);
 
 		if (format == PA_FORMAT_JPEG) {
 			// Try with lower quality
 			if (!BmpFilterSaveBitmap(d.hBmpProto, d.image_file_name, JPEG_QUALITYGOOD)) {
 				if (GetFileSize(d.image_file_name) > d.max_size) {
-					DeleteFile(d.image_file_name);
+					DeleteFileW(d.image_file_name);
 					d.need_smaller_size = TRUE;
 				}
 				else d.saved = TRUE;
@@ -365,14 +365,14 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, const wchar_t *origina
 		if (!Proto_IsAvatarFormatSupported(protocol, PA_FORMAT_SWF))
 			return -1;
 
-		return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
+		return CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)originalFilename);
 	}
 
 	if (originalFormat == PA_FORMAT_XML) {
 		if (!Proto_IsAvatarFormatSupported(protocol, PA_FORMAT_XML))
 			return -1;
 
-		return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
+		return CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)originalFilename);
 	}
 
 	// Get protocol info
@@ -396,7 +396,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, const wchar_t *origina
 
 		if (d.hBmpProto == nullptr) {
 			if (d.temp_file[0] != '\0')
-				DeleteFile(d.temp_file);
+				DeleteFileW(d.temp_file);
 			return -1;
 		}
 
@@ -405,17 +405,16 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, const wchar_t *origina
 			&& Proto_IsAvatarFormatSupported(protocol, originalFormat)
 			&& (d.max_size == 0 || GetFileSize(originalFilename) < d.max_size)) {
 			if (d.temp_file[0] != '\0')
-				DeleteFile(d.temp_file);
+				DeleteFileW(d.temp_file);
 
 			// Use original image
-			return CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)originalFilename);
+			return CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)originalFilename);
 		}
 
 		// Create a temporary file (if was not created already)
 		if (d.temp_file[0] == '\0') {
 			d.temp_file[0] = '\0';
-			if (GetTempPath(MAX_PATH, d.temp_file) == 0
-				|| GetTempFileName(d.temp_file, L"mir_av_", 0, d.temp_file) == 0) {
+			if (GetTempPathW(MAX_PATH, d.temp_file) == 0 || GetTempFileNameW(d.temp_file, L"mir_av_", 0, d.temp_file) == 0) {
 				DeleteObject(d.hBmpProto);
 				return -1;
 			}
@@ -455,13 +454,14 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, const wchar_t *origina
 
 	if (d.saved) {
 		// Call proto service
-		ret = CallProtoService(protocol, PS_SETMYAVATAR, (LPARAM)d.image_file_name);
-		DeleteFileW(d.image_file_name);
+		ret = CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)d.image_file_name);
+		if (ret != -1)
+			DeleteFileW(d.image_file_name);
 	}
 	else ret = -1;
 
 	if (d.temp_file[0] != '\0')
-		DeleteFile(d.temp_file);
+		DeleteFileW(d.temp_file);
 
 	if (d.hBmpProto != hBmp)
 		DeleteObject(d.hBmpProto);

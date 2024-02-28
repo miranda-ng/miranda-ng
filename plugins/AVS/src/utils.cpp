@@ -440,7 +440,7 @@ void DeleteGlobalUserAvatar()
 	wchar_t szFilename[MAX_PATH];
 	MyPathToAbsolute(wszPath, szFilename);
 
-	DeleteFile(szFilename);
+	DeleteFileW(szFilename);
 	g_plugin.delSetting("GlobalUserAvatarFile");
 }
 
