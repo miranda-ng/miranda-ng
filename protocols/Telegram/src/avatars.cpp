@@ -72,9 +72,26 @@ INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnAvatarSet(td::ClientManager::Response&, void *pUserInfo)
 {
-	return 1;
+	ptrW pwszFileName((wchar_t *)pUserInfo);
+	DeleteFileW(pwszFileName);
+}
+
+INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
+{
+	auto *pwszFileName = (const wchar_t *)lParam;
+	if (ProtoGetAvatarFileFormat(pwszFileName) != PA_FORMAT_JPEG) {
+		Popup(0, TranslateT("Avatar file must be a picture in JPEG format"), TranslateT("Error setting avatar"));
+		return 1;
+	}
+
+	TD::object_ptr<TD::InputFile> localFile(new TD::inputFileLocal(T2Utf(pwszFileName).get()));
+	TD::object_ptr<TD::InputChatPhoto> photo(new TD::inputChatPhotoStatic(std::move(localFile)));
+	SendQuery(new TD::setProfilePhoto(std::move(photo), true), &CTelegramProto::OnAvatarSet, mir_wstrdup(pwszFileName));
+	return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +120,6 @@ void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
 {
 	if (!response.object)
 		return;
-
 }
 
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
