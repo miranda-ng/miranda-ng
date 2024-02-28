@@ -957,24 +957,30 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	bool bIsMe = pUser->id_ == m_iOwnId;
 	auto typeID = (pUser->type_) ? pUser->type_->get_id() : 0;
 
-	if (!bIsMe && !pUser->is_contact_ && typeID == TD::userTypeRegular::ID) {
-		auto *pu = AddFakeUser(pUser->id_, false);
-		if (pu->hContact != INVALID_CONTACT_ID)
-			Contact::RemoveFromList(pu->hContact);
+	if (!bIsMe && !pUser->is_contact_) {
+		switch (typeID) {
+		case TD::userTypeDeleted::ID:
+			return;
 
-		pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
-		pu->wszLastName = Utf2T(pUser->last_name_.c_str());
-		if (pUser->usernames_) {
-			pu->wszNick = L"@";
-			pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
-		}
-		else {
-			pu->wszNick = Utf2T(pUser->first_name_.c_str());
-			if (!pUser->last_name_.empty())
-				pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
-		}
+		case TD::userTypeRegular::ID:
+			auto *pu = AddFakeUser(pUser->id_, false);
+			if (pu->hContact != INVALID_CONTACT_ID)
+				Contact::RemoveFromList(pu->hContact);
 
-		CheckSearchUser(pu);
+			pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
+			pu->wszLastName = Utf2T(pUser->last_name_.c_str());
+			if (pUser->usernames_) {
+				pu->wszNick = L"@";
+				pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
+			}
+			else {
+				pu->wszNick = Utf2T(pUser->first_name_.c_str());
+				if (!pUser->last_name_.empty())
+					pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
+			}
+
+			CheckSearchUser(pu);
+		}
 
 		debugLogA("User doesn't belong to your contacts, skipping");
 		return;
@@ -1012,8 +1018,16 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	auto *pu = AddUser(pUser->id_, false);
 
-	setUString(pu->hContact, "FirstName", szFirstName.c_str());
-	setUString(pu->hContact, "LastName", szLastName.c_str());
+	if (szFirstName.empty())
+		delSetting(pu->hContact, "FirstName");
+	else
+		setUString(pu->hContact, "FirstName", szFirstName.c_str());
+
+	if (szLastName.empty())
+		delSetting(pu->hContact, "LastName");
+	else
+		setUString(pu->hContact, "LastName", szLastName.c_str());
+	
 	if (pu->hContact)
 		UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 
