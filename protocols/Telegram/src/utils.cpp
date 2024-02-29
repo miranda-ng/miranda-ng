@@ -484,6 +484,8 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	if (GetGcUserId(pUser, pMsg, szUserId))
 		pszUserId = szUserId;
 
+	CMStringA ret;
+
 	switch (pBody->get_id()) {
 	case TD::messageChatUpgradeTo::ID:
 		if (auto *pUgrade = (TD::messageChatUpgradeTo *)pBody) {
@@ -599,12 +601,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 						default:pwszFileExt = "jpeg"; break;
 						}
 
-						return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+						ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+						break;
 					}
 				}
 			}
-			return pObj->emoji_.c_str();
+			ret = pObj->emoji_.c_str();
 		}
+		break;
 
 	case TD::messageSticker::ID:
 		if (auto *pSticker = ((TD::messageSticker *)pBody)->sticker_.get()) {
@@ -613,36 +617,64 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				break;
 			}
 			
-			if (!m_bSmileyAdd)
-				return CMStringA(FORMAT, "%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
-					
-			const char *pwszFileExt;
-			switch (pSticker->format_->get_id()) {
-			case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
-			case TD::stickerFormatWebm::ID: pwszFileExt = "webm"; break;
-			case TD::stickerFormatWebp::ID: pwszFileExt = "webp"; break;
-			default:pwszFileExt = "jpeg"; break;
-			}
+			if (m_bSmileyAdd) {
+				const char *pwszFileExt;
+				switch (pSticker->format_->get_id()) {
+				case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
+				case TD::stickerFormatWebm::ID: pwszFileExt = "webm"; break;
+				case TD::stickerFormatWebp::ID: pwszFileExt = "webp"; break;
+				default:pwszFileExt = "jpeg"; break;
+				}
 
-			return GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+				ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+			}
+			else ret.Format("%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
 		}
+		break;
 
 	case TD::messageInvoice::ID:
-		{
-			auto *pInvoice = ((TD::messageInvoice *)pBody);
-			CMStringA ret(FORMAT, "%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
+		if (auto *pInvoice = ((TD::messageInvoice *)pBody)) {
+			ret.Format("%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
 			if (!pInvoice->title_.empty())
 				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
 			if (auto pszText = getFormattedText(pInvoice->description_))
 				ret.AppendFormat("\r\n%s", pszText.c_str());
-			return ret;
 		}
+		break;
 
 	case TD::messageText::ID:
-		if (auto pszText = getFormattedText(((TD::messageText *)pBody)->text_))
-			return pszText;
+		ret = getFormattedText(((TD::messageText *)pBody)->text_);
 		break;
 	}
 
-	return CMStringA();
+	if (auto *pForward = pMsg->forward_info_.get()) {
+		CMStringW wszNick;
+		switch (pForward->origin_->get_id()) {
+		case TD::messageForwardOriginUser::ID:
+			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChat::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginHiddenUser::ID:
+			if (auto *p = (TD::messageForwardOriginHiddenUser *)pForward->origin_.get())
+				wszNick = Utf2T(p->sender_name_.c_str());
+			break;
+		case TD::messageForwardOriginChannel::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		default:
+			wszNick = TranslateT("Unknown");
+		}
+
+		wchar_t wszDate[100];
+		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
+		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
+		ret.Insert(0, T2Utf(wszForward));
+	}
+
+	return ret;
 }
