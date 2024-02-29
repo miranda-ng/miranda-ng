@@ -2,6 +2,7 @@
 
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
+#define DBKEY_THREAD "ThreadId"
 #define DBKEY_AUTHORIZED "Authorized"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
@@ -246,7 +247,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(int64_t chatId, int64_t replyId, const char *pszMessage);
+	int  SendTextMessage(int64_t chatId, int64_t threadId, int64_t replyId, const char *pszMessage);
 
 	void ProcessAvatar(const TD::file *pFile, TG_USER *pUser);
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
@@ -328,8 +329,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
 	
-	int64_t  GetId(MCONTACT);
-	void     SetId(MCONTACT, int64_t id);
+	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
+	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
 
 	MCONTACT GetRealContact(const TG_USER *pUser);
 

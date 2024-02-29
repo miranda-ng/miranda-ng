@@ -215,7 +215,7 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 					if (dbei)
 						replyId = dbei2id(dbei);
 				}
-				SendTextMessage(pUser->chatId, replyId, T2Utf(gch->ptszText));
+				SendTextMessage(pUser->chatId, GetId(gch->si->hContact, DBKEY_THREAD), replyId, T2Utf(gch->ptszText));
 			}
 		}
 		break;
@@ -434,6 +434,9 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
 	si->pParent = pUser->m_si;
+
+	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+
 	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
 
 	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
