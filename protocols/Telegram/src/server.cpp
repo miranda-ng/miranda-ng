@@ -791,6 +791,10 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
 				wszNick = p->getDisplayName();
 			break;
+		case TD::messageForwardOriginHiddenUser::ID:
+			if (auto *p = (TD::messageForwardOriginHiddenUser *)pForward->origin_.get())
+				wszNick = Utf2T(p->sender_name_.c_str());
+			break;
 		case TD::messageForwardOriginChannel::ID:
 			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
 				wszNick = p->getDisplayName();
