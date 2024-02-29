@@ -630,8 +630,10 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 
 		if (!pwszExistingGroup
 			|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
-			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup())))) {
+			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup()))))
+		{
 			CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
+			debugLogW(L"Setting group for %d to %s", pUser->hContact, wszNewGroup.c_str());
 			Clist_GroupCreate(0, wszNewGroup);
 			Clist_SetGroup(pUser->hContact, wszNewGroup);
 		}
