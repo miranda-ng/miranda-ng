@@ -191,6 +191,27 @@ TG_FILE_REQUEST* CTelegramProto::FindFile(const char *pszUniqueId)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Extracts a photo/avatar to a file
+
+void CTelegramProto::ProcessAvatar(const TD::file *pFile, TG_USER *pUser)
+{
+	if (pUser->hContact == INVALID_CONTACT_ID)
+		return;
+
+	auto remoteId = pFile->remote_->unique_id_;
+	auto storedId = getMStringA(pUser->hContact, DBKEY_AVATAR_HASH);
+	auto wszFileName = GetAvatarFilename(pUser->hContact);
+	if (remoteId != storedId.c_str() || _waccess(wszFileName, 0)) {
+		if (!remoteId.empty()) {
+			pUser->szAvatarHash = remoteId.c_str();
+			setString(pUser->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+			SendQuery(new TD::downloadFile(pFile->id_, 5, 0, 0, false));
+		}
+		else delSetting(pUser->hContact, DBKEY_AVATAR_HASH);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // handles file info updates
 
 void CTelegramProto::ProcessFile(TD::updateFile *pObj)

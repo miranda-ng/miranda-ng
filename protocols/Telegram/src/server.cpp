@@ -336,7 +336,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	}
 }
 
-int CTelegramProto::SendTextMessage(int64_t chatId, TD::int53 replyId, const char *pszMessage)
+int CTelegramProto::SendTextMessage(int64_t chatId, int64_t replyId, const char *pszMessage)
 {
 	auto pContent = TD::make_object<TD::inputMessageText>();
 	pContent->text_ = formatBbcodes(pszMessage);
@@ -482,37 +482,43 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		return;
 	}
 
-	if (auto *pUser = FindUser(userId)) {
-		pUser->chatId = pChat->id_;
-		MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
-
-		if (!m_arChats.find(pUser))
-			m_arChats.insert(pUser);
-
-		if (!szTitle.empty()) {
-			if (hContact != INVALID_CONTACT_ID)
-				setUString(hContact, "Nick", szTitle.c_str());
-			else if (pUser->wszNick.IsEmpty())
-				pUser->wszFirstName = Utf2T(szTitle.c_str());
-		}
-
-		if (CheckSearchUser(pUser))
-			return;
-
-		if (pUser->hContact != INVALID_CONTACT_ID) {
-			if (pChat->has_protected_content_)
-				setByte(pUser->hContact, "Protected", 1);
-			else
-				delSetting(pUser->hContact, "Protected");
-
-			if (pChat->permissions_)
-				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
-
-			if (pUser->isGroupChat && pUser->m_si == nullptr)
-				InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
-		}
+	auto *pUser = FindUser(userId);
+	if (pUser == nullptr) {
+		debugLogA("Unknown user id %lld for chat %lld, ignoring", userId, pChat->id_);
+		return;
 	}
-	else debugLogA("Unknown user id %lld, ignoring", userId);
+
+	pUser->chatId = pChat->id_;
+	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
+
+	if (!m_arChats.find(pUser))
+		m_arChats.insert(pUser);
+
+	if (!szTitle.empty()) {
+		if (hContact != INVALID_CONTACT_ID)
+			setUString(hContact, "Nick", szTitle.c_str());
+		else if (pUser->wszNick.IsEmpty())
+			pUser->wszFirstName = Utf2T(szTitle.c_str());
+	}
+
+	if (auto *pPhoto = pChat->photo_.get())
+		ProcessAvatar(pPhoto->small_.get(), pUser);
+
+	if (CheckSearchUser(pUser))
+		return;
+
+	if (pUser->hContact != INVALID_CONTACT_ID) {
+		if (pChat->has_protected_content_)
+			setByte(pUser->hContact, "Protected", 1);
+		else
+			delSetting(pUser->hContact, "Protected");
+
+		if (pChat->permissions_)
+			Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
+
+		if (pUser->isGroupChat && pUser->m_si == nullptr)
+			InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
+	}
 }
 
 void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
@@ -1056,21 +1062,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 	else ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
-	if (auto *pPhoto = pUser->profile_photo_.get()) {
-		if (auto *pSmall = pPhoto->small_.get()) {
-			auto remoteId = pSmall->remote_->unique_id_;
-			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
-			auto wszFileName = GetAvatarFilename(pu->hContact);
-			if (remoteId != storedId.c_str() || _waccess(wszFileName, 0)) {
-				if (!remoteId.empty()) {
-					pu->szAvatarHash = remoteId.c_str();
-					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
-					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
-				}
-				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);
-			}
-		}
-	}
+	if (auto *pPhoto = pUser->profile_photo_.get())
+		ProcessAvatar(pPhoto->small_.get(), pu);
 
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {

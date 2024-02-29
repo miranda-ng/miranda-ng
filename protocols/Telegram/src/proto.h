@@ -246,8 +246,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(TD::int53 chatId, TD::int53 replyId, const char *pszMessage);
+	int  SendTextMessage(int64_t chatId, int64_t replyId, const char *pszMessage);
 
+	void ProcessAvatar(const TD::file *pFile, TG_USER *pUser);
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
 	void ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj);
