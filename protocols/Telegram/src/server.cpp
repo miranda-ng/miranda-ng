@@ -246,6 +246,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessFile((TD::updateFile *)response.object.get());
 		break;
 
+	case TD::updateForumTopicInfo::ID:
+		ProcessForum((TD::updateForumTopicInfo*)response.object.get());
+		break;
+
 	case TD::updateMessageContent::ID:
 		ProcessMessageContent((TD::updateMessageContent *)response.object.get());
 		break;
@@ -460,6 +464,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	int64_t userId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
+	bool isForum = false;
 
 	switch (pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
@@ -475,6 +480,14 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	case TD::chatTypeSupergroup::ID:
 		userId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
+		{
+			TG_SUPER_GROUP tmp(userId, 0);
+			if (auto *pGroup = m_arSuperGroups.find(&tmp))
+				isForum = pGroup->group->is_forum_;
+
+			if (isForum)
+				SendQuery(new TD::getForumTopics(pChat->id_, "", 0, 0, 0, 100));
+		}
 		break;
 
 	default:
@@ -489,14 +502,17 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	pUser->chatId = pChat->id_;
+	pUser->isForum = isForum;
 	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
 	if (!m_arChats.find(pUser))
 		m_arChats.insert(pUser);
 
 	if (!szTitle.empty()) {
-		if (hContact != INVALID_CONTACT_ID)
+		if (hContact != INVALID_CONTACT_ID) {
 			setUString(hContact, "Nick", szTitle.c_str());
+			pUser->wszNick = Utf2T(szTitle.c_str());
+		}
 		else if (pUser->wszNick.IsEmpty())
 			pUser->wszFirstName = Utf2T(szTitle.c_str());
 	}
@@ -517,7 +533,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 			Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
 
 		if (pUser->isGroupChat && pUser->m_si == nullptr)
-			InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
+			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
 	}
 }
 
@@ -608,6 +624,10 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			wszGroup = TranslateT("Archive");
 			break;
 
+		case TD::chatListMain::ID:
+			wszGroup = TranslateT("Main");
+			break;
+
 		case TD::chatListFolder::ID:
 			{
 				int iGroupId = ((TD::chatListFolder *)pList)->chat_folder_id_;
@@ -625,7 +645,8 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			return;
 		}
 
-		ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
+		MCONTACT hContact = GetRealContact(pUser);
+		ptrW pwszExistingGroup(Clist_GetGroup(hContact));
 		debugLogW(L"Existing contact group %s, calculated %s", pwszExistingGroup.get(), wszGroup.c_str());
 
 		if (!pwszExistingGroup
@@ -633,9 +654,12 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup()))))
 		{
 			CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
-			debugLogW(L"Setting group for %d to %s", pUser->hContact, wszNewGroup.c_str());
+			if (pUser->isForum)
+				wszNewGroup.AppendFormat(L"\\%s", pUser->wszNick.c_str());
+
+			debugLogW(L"Setting group for %d to %s", hContact, wszNewGroup.c_str());
 			Clist_GroupCreate(0, wszNewGroup);
-			Clist_SetGroup(pUser->hContact, wszNewGroup);
+			Clist_SetGroup(hContact, wszNewGroup);
 		}
 	}
 }
@@ -816,6 +840,14 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		Contact::RemoveFromList(pUser->hContact);
 	}
 
+	MCONTACT hContact = GetRealContact(pUser);
+	if (pMessage->message_thread_id_) {
+		wchar_t buf[100];
+		mir_snwprintf(buf, L"%lld_%lld", pMessage->chat_id_, pMessage->message_thread_id_);
+		if (auto *si = Chat_Find(buf, m_szModuleName))
+			hContact = si->hContact;
+	}
+
 	DB::EventInfo dbei(hOldEvent);
 	dbei.szId = szMsgId;
 	dbei.cbBlob = szText.GetLength();
@@ -837,7 +869,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 	}
 	else {
 		dbei.pBlob = szText.GetBuffer();
-		ProtoChainRecvMsg(GetRealContact(pUser), dbei);
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 }
 

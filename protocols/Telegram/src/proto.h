@@ -98,7 +98,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, isBot, bLoadMembers, bStartChat, bInited;
+	bool      isGroupChat, isBot, isForum, bLoadMembers, bStartChat, bInited;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -264,6 +264,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool);
+	void ProcessForum(TD::updateForumTopicInfo *pForum);
 	void ProcessGroups(TD::updateChatFolders *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(const TD::message *pMsg);

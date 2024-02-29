@@ -416,6 +416,30 @@ void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
 	}
 }
 
+void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
+{
+	auto *pUser = FindChat(pForum->chat_id_);
+	if (!pUser) {
+		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	if (pUser->m_si == nullptr) {
+		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	wchar_t wszId[100];
+	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
+
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
+	si->pParent = pUser->m_si;
+	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
+
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
+}
+
 void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 {
 	auto iStatusId = pObj->supergroup_->status_->get_id();
@@ -425,7 +449,6 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	}
 
 	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-
 	auto *pGroup = m_arSuperGroups.find(&tmp);
 	if (pGroup == nullptr) {
 		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
