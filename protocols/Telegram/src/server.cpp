@@ -594,23 +594,40 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		return;
 	}
 
-	if (pUser->hContact == INVALID_CONTACT_ID)
+	if (pUser->hContact == INVALID_CONTACT_ID) {
+		debugLogA("Temporary contact, skipping");
 		return;
+	}
 
 	auto *pPos = (TD::chatPosition *)pObj->position_.get();
 	if (auto *pList = pPos->list_.get()) {
 		CMStringW wszGroup;
-		if (pList->get_id() == TD::chatListArchive::ID)
+
+		switch (auto typeId = pList->get_id()) {
+		case TD::chatListArchive::ID:
 			wszGroup = TranslateT("Archive");
-		else if (pList->get_id() == TD::chatListFolder::ID) {
-			CMStringA szSetting(FORMAT, "ChatFilter%d", ((TD::chatListFolder *)pList)->chat_folder_id_);
-			wszGroup = getMStringW(szSetting);
-			if (wszGroup.IsEmpty())
-				return;
+			break;
+
+		case TD::chatListFolder::ID:
+			{
+				int iGroupId = ((TD::chatListFolder *)pList)->chat_folder_id_;
+				CMStringA szSetting(FORMAT, "ChatFilter%d", iGroupId);
+				wszGroup = getMStringW(szSetting);
+				if (wszGroup.IsEmpty()) {
+					debugLogA("Empty group name for group #%d, ignored", iGroupId);
+					return;
+				}
+			}
+			break;
+
+		default:
+			debugLogA("Unknown position type ID %d, ignored", typeId);
+			return;
 		}
-		else return;
 
 		ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
+		debugLogW(L"Existing contact group %s, calculated %s", pwszExistingGroup.get(), wszGroup.c_str());
+
 		if (!pwszExistingGroup
 			|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
 			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup())))) {
