@@ -123,12 +123,12 @@ void GetLanguagePackString(CMStringW& buffer);
 void GetWow64String(CMStringW& buffer);
 void GetVersionInfo(HMODULE hLib, CMStringW& buffer);
 
-void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, uint32_t dwSize);
-
 void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMStringW& buffer);
 
-void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, uint32_t dwSize);
-void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, uint32_t dwSize);
+CMStringW GetISO8061Time(SYSTEMTIME *stLocal);
+CMStringW GetLastWriteTime(LPCTSTR fileName);
+CMStringW GetLastWriteTime(FILETIME* ftime);
+
 void ShowMessage(int type, const wchar_t* format, ...);
 
 const PLUGININFOEX* GetMirInfo(HMODULE hModule);
@@ -143,8 +143,6 @@ void SetExceptionHandler(void);
 void RemoveExceptionHandler(void);
 
 extern CDlgBase *pViewDialog;
-
-void OpenAuthUrl(const char* url);
 
 void InitIcons(void);
 
