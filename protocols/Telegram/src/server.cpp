@@ -176,6 +176,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	if (response.request_id) {
 		TG_REQUEST tmp(response.request_id, 0);
+		mir_cslock lck(m_csRequests);
 		auto *p = m_arRequests.find(&tmp);
 		if (p) {
 			p->Execute(this, response);
@@ -359,8 +360,10 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
-	if (pHandler)
+	if (pHandler) {
+		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
+	}
 	return queryId;
 }
 
@@ -376,8 +379,10 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandle
 
 	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
-	if (pHandler)
+	if (pHandler) {
+		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));
+	}
 	return queryId;
 }
 

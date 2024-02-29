@@ -207,6 +207,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	CMStringA m_defaultEmoji;
 
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
+
+	mir_cs m_csRequests;
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 
 	mir_cs m_csFiles;
