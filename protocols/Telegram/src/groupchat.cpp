@@ -437,6 +437,7 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 
 	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
 
+	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));
 	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
 
 	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
