@@ -99,6 +99,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
+	int       folderId = -1;
 	bool      isGroupChat, isBot, isForum, bLoadMembers, bStartChat, bInited;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;

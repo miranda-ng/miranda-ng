@@ -625,19 +625,23 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			wszGroup = TranslateT("Archive");
 			break;
 
-		case TD::chatListMain::ID:
-			wszGroup = TranslateT("Main");
+		case TD::chatListMain::ID:  // leave group empty
+			if (pUser->folderId != -1)
+				return;
 			break;
 
 		case TD::chatListFolder::ID:
 			{
-				int iGroupId = ((TD::chatListFolder *)pList)->chat_folder_id_;
-				CMStringA szSetting(FORMAT, "ChatFilter%d", iGroupId);
+				int iFolderId = ((TD::chatListFolder *)pList)->chat_folder_id_;
+				CMStringA szSetting(FORMAT, "ChatFilter%d", iFolderId);
 				wszGroup = getMStringW(szSetting);
 				if (wszGroup.IsEmpty()) {
-					debugLogA("Empty group name for group #%d, ignored", iGroupId);
+					debugLogA("Empty group name for group #%d, ignored", iFolderId);
 					return;
 				}
+				if (wszGroup == "Unread")
+					return;
+				pUser->folderId = iFolderId;
 			}
 			break;
 
@@ -648,13 +652,16 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 
 		MCONTACT hContact = GetRealContact(pUser);
 		ptrW pwszExistingGroup(Clist_GetGroup(hContact));
-		debugLogW(L"Existing contact group %s, calculated %s", pwszExistingGroup.get(), wszGroup.c_str());
+		debugLogW(L"Existing contact group <%s>, calculated <%s>", pwszExistingGroup.get(), wszGroup.c_str());
 
-		if (!pwszExistingGroup
-			|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
+		wchar_t *pwszDefaultGroup = m_wszDefaultGroup;
+		if (!pwszExistingGroup || pUser->isForum
+			|| !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, mir_wstrlen(pwszDefaultGroup))
 			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup()))))
 		{
-			CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
+			CMStringW wszNewGroup(pwszDefaultGroup);
+			if (!wszGroup.IsEmpty())
+				wszNewGroup.AppendFormat(L"\\%s", wszGroup.c_str());
 			if (pUser->isForum)
 				wszNewGroup.AppendFormat(L"\\%s", pUser->wszNick.c_str());
 
