@@ -201,6 +201,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		m_list.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
+
 		LVCOLUMN lvc = {};
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 
@@ -235,6 +237,9 @@ public:
 
 	void onContextMenu(CContextMenuPos *pos)
 	{
+		if (pos->iCurr == -1)
+			return;
+
 		HMENU hMenu = CreatePopupMenu();
 		AppendMenuW(hMenu, MF_STRING, 100, TranslateT("Kill session"));
 
