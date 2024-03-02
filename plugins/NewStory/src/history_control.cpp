@@ -284,7 +284,7 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 
 void NewstoryListData::Copy(bool bTextOnly)
 {
-	Utils_ClipboardCopy(MClipUnicode(GatherSelected(bTextOnly)));
+	Utils_ClipboardCopy(MClipUnicode(GatherSelected(bTextOnly)) + MClipRtf(GatherSelectedRtf()));
 }
 
 void NewstoryListData::CopyPath()

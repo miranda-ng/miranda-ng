@@ -121,6 +121,42 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 	return buf;
 }
 
+CMStringA NewstoryListData::GatherSelectedRtf()
+{
+	CMStringA buf;
+	buf.Append("{\\rtf1\\ansi\\deff0");
+
+	int eventCount = totalCount;
+	for (int i = 0; i < eventCount; i++) {
+		ItemData *p = GetItem(i);
+		if (!p->m_bSelected)
+			continue;
+
+		buf.Append("{");
+		int fontID, colorID;
+		p->getFontColor(fontID, colorID);
+		auto &F = g_fontTable[fontID];
+		buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset0 %s;}}", F.lf.lfFaceName);
+
+		COLORREF cr = F.cl;
+		buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+		cr = g_colorTable[(p->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+
+		for (auto cl : g_plugin.clCustom) {
+			cr = (cl == -1) ? 0 : cl;
+			buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+		}
+
+		buf.AppendFormat("}\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
+		AppendUnicodeToBuffer(buf, p->formatString());
+		buf.Append("} \\par");
+	}
+
+	buf.Append("}");
+	return buf;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Template formatting for the control
 
