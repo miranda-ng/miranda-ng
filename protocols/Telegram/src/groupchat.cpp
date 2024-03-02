@@ -152,6 +152,9 @@ void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr
 			break;
 		}
 
+		if (*gce.pszNick.w == '@')
+			gce.pszNick.w++;
+
 		Chat_Event(&gce);
 	}
 
