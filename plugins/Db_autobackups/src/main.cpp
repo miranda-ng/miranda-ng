@@ -103,7 +103,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x15e93f83, 0x930e, 0x4cf9, 0x91, 0x31, 0x4c, 0x2b, 0xb, 0xaa, 0xd2, 0x18);
-	mi.name.a = LPGEN("Save profile as...");
+	mi.name.a = LPGEN("Save database as...");
 	mi.pszService = MS_AB_SAVEAS;
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
