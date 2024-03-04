@@ -57,9 +57,9 @@
 Производится резервирование базы данных...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
-Резервировать базу данных
-[Save profile as...]
-Сохранить профиль как...
+Резервировать профиль
+[Save database as...]
+Сохранить базу данных как...
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]

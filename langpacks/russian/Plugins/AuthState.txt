@@ -30,5 +30,7 @@
 [Auth state]
 Состояние авторизации
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
+Тонкая настройка
 [Icons]
 Значки

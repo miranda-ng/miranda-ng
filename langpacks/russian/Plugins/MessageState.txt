@@ -29,9 +29,8 @@
 Значок ошибки при отправке сообщения
 [Sending message icon]
 Значок отправки сообщения
-[Unread clist extra icon]
+[Unread contact list extra icon]
 Значок непрочитанного сообщения в списке контактов
 ;file \plugins\MessageState\src\stdafx.h
 [MessageState]
 Состояние сообщения
-

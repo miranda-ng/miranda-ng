@@ -61,6 +61,11 @@ IP-адрес
 Неверный код
 [Invalid password]
 Неверный пароль
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+Аватар должен быть изображением в формате JPEG
+[Error setting avatar]
+Ошибка при установке аватара
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 Создатель
@@ -109,6 +114,10 @@ IP-адрес
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 Ошибка %d: %s
+[General]
+Общее
+[Archive]
+Архив
 [Saved messages]
 Избранное
 ;file \protocols\Telegram\src\utils.cpp
@@ -134,3 +143,5 @@ IP-адрес
 Вы получили счёт
 [Title]
 Заголовок
+[wrote]
+писал(а)

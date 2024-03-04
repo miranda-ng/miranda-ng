@@ -1,3 +1,2 @@
 [Use custom filter...]
 [Auto search]
-[wrote]

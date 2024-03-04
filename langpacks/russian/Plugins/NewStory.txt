@@ -48,6 +48,16 @@
 Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
+[[c2]]
+\[c2]
+[[c4]]
+\[c4]
+[[c6]]
+\[c6]
+[[c3]]
+\[c3]
+[[c5]]
+\[c5]
 [Empty history]
 Очистить историю
 [Are you sure to remove selected event(s)?]
@@ -123,6 +133,8 @@
 Фон сетки
 [Separator]
 Разделитель
+[Progress indicator]
+Индикатор прогресса
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 Без имени
@@ -291,6 +303,12 @@
 название месяца
 [the message string itself]
 текст сообщения
+[default text color]
+цвет текста по умолчанию
+[nickname's color]
+цвет имени
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
+один из цветов, предопределённых в настройках, которым будет выведен последующий текст (X это число от 2 до 6 включительно, соответствующее порядковому номеру цвета)
 [Advanced]
 Дополнительно
 ;file \plugins\NewStory\src\templates.cpp

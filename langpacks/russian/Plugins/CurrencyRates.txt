@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -163,6 +163,9 @@
 Ошибка в процессе обработки HTML.
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+Курсы валют
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Автоматическое обновление включено
@@ -210,9 +213,6 @@
 Поменять местами
 [Import]
 Импорт
-;file \protocols\CurrencyRates\src\EconomicRateInfo.h
-[CurrencyRates]
-Курсы валют
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
 [This plugin requires a personal key. Open the Options dialog to obtain it.]
 Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ в настройках плагина.
@@ -247,4 +247,3 @@
 Журналы (*.txt,*.log)
 [Enter popup window format.]
 Введите формат всплывающего окна.
-

@@ -177,6 +177,8 @@ MirOTR оверлей
 [SecureIM overlay]
 Оверлей SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Тонкая настройка
 [Icons]
 Значки
 ;file \plugins\FingerprintNG\src\prepare.cpp
