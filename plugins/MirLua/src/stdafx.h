@@ -52,7 +52,7 @@ class CMLuaScript;
 #include "options.h"
 #include "metatable.h"
 
-#define MODULENAME "MirLua"
+#define MODULENAME LPGEN("MirLua")
 
 extern PLUGININFOEX g_pluginInfoEx;
 
