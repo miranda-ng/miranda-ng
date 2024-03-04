@@ -87,6 +87,8 @@
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 [Error occurred during site access.]
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 [Auto Update Disabled]

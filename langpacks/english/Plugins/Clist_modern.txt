@@ -257,7 +257,7 @@
 [Hide all title bars]
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
-[&Show offline users in here]
+[Show offline users in here]
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 ;file \plugins\Clist_modern\src\modern_clc.cpp

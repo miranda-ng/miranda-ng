@@ -15,4 +15,5 @@
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
 [Icons]

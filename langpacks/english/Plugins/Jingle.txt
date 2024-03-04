@@ -6,9 +6,15 @@
 ;  Authors: George Hazan
 ;============================================================
 [Jingle support for Jabber protocol.]
+;file \plugins\Jingle\res\resource.rc
+[Enable VoIP]
+[STUN server address:]
 ;file \plugins\Jingle\src\account.cpp
 [Supports Jingle]
 [Jingle ICE-UDP Transport]
 [Jingle RTP]
 [Jingle DTLS]
 [Jingle RTP Audio]
+;file \plugins\Jingle\src\options.cpp
+[Network]
+[VoIP]

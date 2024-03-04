@@ -93,6 +93,7 @@
 [MirOTR overlay]
 [SecureIM overlay]
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
 [Icons]
 ;file \plugins\FingerprintNG\src\prepare.cpp
 [Client icons]

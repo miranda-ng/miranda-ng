@@ -34,6 +34,9 @@
 [Error]
 [Invalid secret code]
 [Invalid password]
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+[Error setting avatar]
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 [Admin]
@@ -61,7 +64,8 @@
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
-[wrote]
+[General]
+[Archive]
 [Saved messages]
 ;file \protocols\Telegram\src\utils.cpp
 [none]
@@ -75,3 +79,4 @@
 [SmileyAdd plugin required to support stickers]
 [You received an invoice]
 [Title]
+[wrote]

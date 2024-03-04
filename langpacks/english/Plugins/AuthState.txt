@@ -19,4 +19,5 @@
 [Enable AuthState icons]
 [Auth state]
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
 [Icons]

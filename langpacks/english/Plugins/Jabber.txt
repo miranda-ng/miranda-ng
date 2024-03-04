@@ -727,7 +727,6 @@
 [Enable Message Archive Management (XEP-0313) (experimental)]
 [Enable carbon copies (XEP-0280)]
 [Enable HTTP File Upload (XEP-0363)]
-[Enable VOIP (experimental)]
 [Server options]
 [Use Stream Management (XEP-0198)]
 [Disable SASL authentication (for old servers)]
@@ -772,7 +771,6 @@
 [League Of Legends (EU West)]
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
-[Odnoklassniki]
 [S.ms]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
