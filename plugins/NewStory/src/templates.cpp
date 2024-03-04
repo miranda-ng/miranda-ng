@@ -50,10 +50,17 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 		}
 		else if (*p == '[') {
 			p++;
-			if (*p == 'c' && p[2] == ']') {
-				buf.AppendFormat("\\cf%c ", p[1]);
-				p += 2;
-				continue;
+			if (*p == 'c') {
+				if (p[2] == ']') {
+					buf.AppendFormat("\\cf%c ", p[1]);
+					p += 2;
+					continue;
+				}
+				if (p[3] == ']') {
+					buf.AppendFormat("\\cf%d ", _wtoi(p + 1));
+					p += 3;
+					continue;
+				}
 			}
 
 			char *pEnd = "";
@@ -124,7 +131,28 @@ CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
 CMStringA NewstoryListData::GatherSelectedRtf()
 {
 	CMStringA buf;
-	buf.Append("{\\rtf1\\ansi\\deff0");
+	buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl ");
+	for (int i=0; i < FONT_COUNT; i++)
+		buf.AppendFormat("{\\f%d\\fnil\\fcharset0 %s;}", i, g_fontTable[i].lf.lfFaceName);
+
+	buf.AppendFormat("}{\\colortbl \\red%u\\green%u\\blue%u;\\red%u\\green%u\\blue%u;", 0, 0, 0, 0, 0, 0);
+
+	for (auto cl : g_plugin.clCustom) {
+		COLORREF cr = (cl == -1) ? 0 : cl;
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	}
+
+	for (int i = 0; i < COLOR_COUNT; i++) {
+		COLORREF cr = g_colorTable[i].cl;
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	}
+
+	for (int i = 0; i < FONT_COUNT; i++) {
+		COLORREF cr = g_fontTable[i].cl;
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
+	}
+
+	buf.Append("}");
 
 	int eventCount = totalCount;
 	for (int i = 0; i < eventCount; i++) {
@@ -132,25 +160,15 @@ CMStringA NewstoryListData::GatherSelectedRtf()
 		if (!p->m_bSelected)
 			continue;
 
-		buf.Append("{");
 		int fontID, colorID;
 		p->getFontColor(fontID, colorID);
-		auto &F = g_fontTable[fontID];
-		buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset0 %s;}}", F.lf.lfFaceName);
 
-		COLORREF cr = F.cl;
-		buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-		cr = g_colorTable[(p->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
-		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-
-		for (auto cl : g_plugin.clCustom) {
-			cr = (cl == -1) ? 0 : cl;
-			buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-		}
-
-		buf.AppendFormat("}\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
-		AppendUnicodeToBuffer(buf, p->formatString());
-		buf.Append("} \\par");
+		buf.AppendFormat("{\\uc1\\pard \\cb%d\\cf%d\\f%d\\b0\\i0\\fs%d ", COLOR_BACK + 7, colorID+COLOR_COUNT+7, fontID, GetFontHeight(g_fontTable[fontID].lf));
+		CMStringW wszText(p->formatString());
+		wszText.Replace(L"[c0]", CMStringW(FORMAT, L"[c%d]", colorID + COLOR_COUNT + 7));
+		wszText.Replace(L"[c1]", CMStringW(FORMAT, L"[c%d]", 7 + ((p->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK)));
+		AppendUnicodeToBuffer(buf, wszText);
+		buf.Append("}\\par");
 	}
 
 	buf.Append("}");
