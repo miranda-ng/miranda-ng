@@ -8,7 +8,7 @@ char g_szMirVer[100];
 static IconItem iconList[] =
 {
 	{ LPGEN("Backup profile"),     "backup", IDI_BACKUP },
-	{ LPGEN("Save profile as..."), "saveas", IDI_BACKUP }
+	{ LPGEN("Save database as..."), "saveas", IDI_BACKUP }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
