@@ -525,6 +525,8 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	if (si->pMI->bDatabase && lin->hEvent) {
 		p.hEvent = lin->hEvent;
 		p.load();
+		if (p.dbe.szUserId)
+			addNick(p, Utf2T(p.dbe.szUserId));
 	}
 	else {
 		CMStringW wszText;
@@ -565,11 +567,8 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	}
 
 	if (lin->ptszNick) {
-		p.wszNick = strings.find(lin->ptszNick);
-		if (p.wszNick == nullptr) {
-			p.wszNick = mir_wstrdup(lin->ptszNick);
-			strings.insert(p.wszNick);
-		}
+		addNick(p, lin->ptszNick);
+
 		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1), hwndOwner);
 	}
 }
@@ -603,6 +602,15 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	}
 
 	return true;
+}
+
+void HistoryArray::addNick(ItemData &pItem, wchar_t *pwszNick)
+{
+	pItem.wszNick = strings.find(pwszNick);
+	if (pItem.wszNick == nullptr) {
+		pItem.wszNick = mir_wstrdup(pwszNick);
+		strings.insert(pItem.wszNick);
+	}
 }
 
 void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
