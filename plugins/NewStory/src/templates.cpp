@@ -168,7 +168,7 @@ CMStringA NewstoryListData::GatherSelectedRtf()
 		wszText.Replace(L"[c0]", CMStringW(FORMAT, L"[c%d]", colorID + COLOR_COUNT + 7));
 		wszText.Replace(L"[c1]", CMStringW(FORMAT, L"[c%d]", 7 + ((p->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK)));
 		AppendUnicodeToBuffer(buf, wszText);
-		buf.Append("}\\par");
+		buf.Append("\\par }");
 	}
 
 	buf.Append("}");
