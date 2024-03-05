@@ -367,6 +367,8 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 			_i64toa(pSender->id, dest, 10);
 			if (pUser->m_si && !pSender->wszFirstName.IsEmpty())
 				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(dest), pSender->getDisplayName(), ID_STATUS_ONLINE);
+			else
+				mir_strncpy(dest, T2Utf(pSender->getDisplayName()), 100);
 			return true;
 		}
 	}
