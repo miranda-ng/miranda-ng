@@ -156,11 +156,13 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 
 CMStringW TG_USER::getDisplayName() const
 {
-	if (hContact != INVALID_CONTACT_ID)
-		return Clist_GetContactDisplayName(hContact, 0);
+	if (hContact != 0) {
+		if (hContact != INVALID_CONTACT_ID)
+			return Clist_GetContactDisplayName(hContact, 0);
 
-	if (!wszFirstName.IsEmpty())
-		return (wszLastName.IsEmpty()) ? wszFirstName : wszFirstName + L" " + wszLastName;
+		if (!wszFirstName.IsEmpty())
+			return (wszLastName.IsEmpty()) ? wszFirstName : wszFirstName + L" " + wszLastName;
+	}
 
 	return wszNick;
 }
@@ -365,10 +367,12 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 	if (pUser->isGroupChat) {
 		if (auto *pSender = GetSender(pMsg->sender_id_.get())) {
 			_i64toa(pSender->id, dest, 10);
+
+			CMStringW wszDisplayName(pSender->getDisplayName());
 			if (pUser->m_si && !pSender->wszFirstName.IsEmpty())
-				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(dest), pSender->getDisplayName(), ID_STATUS_ONLINE);
+				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(dest), wszDisplayName, ID_STATUS_ONLINE);
 			else
-				mir_strncpy(dest, T2Utf(pSender->getDisplayName()), 100);
+				mir_strncpy(dest, T2Utf(wszDisplayName), 100);
 			return true;
 		}
 	}
