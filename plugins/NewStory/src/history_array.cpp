@@ -521,9 +521,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 	if (si->pMI->bDatabase && lin->hEvent) {
 		p.hEvent = lin->hEvent;
-		p.load();
-		if (p.dbe.szUserId)
-			addNick(p, Utf2T(p.dbe.szUserId));
+		checkGC(p, si);
 	}
 	else {
 		CMStringW wszText;
@@ -577,12 +575,20 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
+	
+	SESSION_INFO *si = nullptr;
+	if (Contact::IsGroupChat(hContact))
+		si = Chat_Find(hContact);
 
 	if (count == 1) {
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
-		pPrev = p.checkPrev(pPrev, hwndOwner);
+		if (si) {
+			checkGC(p, si);
+			pPrev = p.checkPrevGC(pPrev, hwndOwner);
+		}
+		else pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 	else {
 		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
@@ -594,7 +600,11 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 			auto &p = allocateItem();
 			p.hContact = hContact;
 			p.hEvent = hEvent;
-			pPrev = p.checkPrev(pPrev, hwndOwner);
+			if (si) {
+				checkGC(p, si);
+				pPrev = p.checkPrevGC(pPrev, hwndOwner);
+			}
+			else pPrev = p.checkPrev(pPrev, hwndOwner);
 		}
 	}
 
@@ -635,6 +645,18 @@ ItemData& HistoryArray::allocateItem()
 
 	auto &p = pages[pages.getCount() - 1];
 	return p.data[iLastPageCounter++];
+}
+
+void HistoryArray::checkGC(ItemData &p, SESSION_INFO *si)
+{
+	p.load();
+	if (p.dbe.szUserId) {
+		Utf2T wszUser(p.dbe.szUserId);
+		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUser))
+			addNick(p, pUser->pszNick);
+		else
+			addNick(p, wszUser);
+	}
 }
 
 int HistoryArray::find(MEVENT hEvent)

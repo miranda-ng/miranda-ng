@@ -143,6 +143,7 @@ public:
 
 	void addNick(ItemData &pItem, wchar_t *pwszNick);
 	void clear();
+	void checkGC(ItemData &pItem, SESSION_INFO *si);
 	int  find(MEVENT hEvent);
 	int  find(int id, int dir, const Filter &filter);
 	int  getCount() const;
