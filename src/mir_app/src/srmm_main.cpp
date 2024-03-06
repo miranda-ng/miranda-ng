@@ -99,9 +99,13 @@ static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM lParam)
 	while (pCursor.FetchNext())
 		pCursor.DeleteEvent();
 
-	if (Contact::IsGroupChat(hContact))
+	if (Contact::IsGroupChat(hContact)) {
 		if (auto *si = SM_FindSessionByContact(hContact))
 			Chat_EmptyHistory(si);
+
+		if (auto *szProto = Proto_GetBaseAccountName(hContact))
+			db_unset(hContact, szProto, "ApparentMode");
+	}
 
 	if (dlg.bDelHistory)
 		CallContactService(hContact, PS_EMPTY_SRV_HISTORY, hContact, CDF_DEL_HISTORY | (dlg.bForEveryone ? CDF_FOR_EVERYONE : 0));
