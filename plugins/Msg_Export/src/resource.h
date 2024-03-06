@@ -29,7 +29,7 @@
 #define IDC_FILE_VIEWER_BROWSE          1063
 #define IDC_FILE_VIEWER                 1064
 #define IDC_APPEND_NEWLINE              1065
-#define IDC_USE_LESS_AND_GREATER_IN_EXPORT 1066
+#define IDC_USE_ANGLE_BRACKETS 1066
 #define IDC_FC_PROMPT                   1067
 #define IDC_FC_RENAME                   1068
 #define IDC_FC_NOTHING                  1069

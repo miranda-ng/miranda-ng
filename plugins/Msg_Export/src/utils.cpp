@@ -49,21 +49,15 @@ map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 // default line width
 int nMaxLineWidth = 80;
 
-// Allow this plugin to replace the history function of miranda !!
-bool g_bReplaceHistory;
-
 // This enum define the actions which MsgExport must take when a File is renamed
 ENDialogAction g_enRenameAction;
 
 // This enum define the actions which MsgExport must take when a user is delete
 ENDialogAction g_enDeleteAction;
 
-// If true MsgExport will use << and >> instead of the nick in the exported format
-bool g_bUseLessAndGreaterInExport;
-
-bool g_bAppendNewLine;
-bool g_bUseUtf8InNewFiles;
 bool g_bUseJson;
+
+DATABASELINK *g_pDriver = nullptr;
 
 const char szUtf8ByteOrderHeader[] = "\xEF\xBB\xBF";
 bool bIsUtf8Header(uint8_t * pucByteOrder)
@@ -226,21 +220,6 @@ static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File
 	}
 
 	return bWriteToFile(hFile, T2Utf(pszSrc), -1);
-}
-
-
-static bool bWriteTextToFile(HANDLE hFile, const char *pszSrc, bool bUtf8File, int nLen = -1)
-{
-	if (!bUtf8File)
-		return bWriteToFile(hFile, pszSrc, nLen);
-
-	if (nLen != -1) {
-		char *tmp = (char*)alloca(nLen + 1);
-		mir_strncpy(tmp, pszSrc, nLen + 1);
-		pszSrc = tmp;
-	}
-
-	return bWriteToFile(hFile, ptrA(mir_utf8encode(pszSrc)), -1);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -627,6 +606,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	wstring sLocalUser;
 	wstring sRemoteUser;
 	string::size_type nFirstColumnWidth;
+	auto *pJson = (MDatabaseExport *)hFile;
 
 	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr) {
@@ -634,7 +614,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		return false;
 	}
 
-	if (g_bUseLessAndGreaterInExport) {
+	if (g_plugin.bUseAngleBrackets) {
 		sLocalUser = L"<<";
 		sRemoteUser = L">>";
 		nFirstColumnWidth = 4;
@@ -656,14 +636,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	bool bWriteUTF8Format = false;
 
 	if (bAppendOnly) {
-		bWriteUTF8Format = g_bUseUtf8InNewFiles;
-
-		if (g_bUseJson) {
-			SetFilePointer(hFile, -3, nullptr, FILE_END);
-			bWriteToFile(hFile, ",", 1);
-		}
+		bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
 	}
-	else {
+	else if (!g_bUseJson) {
 		DWORD dwHighSize = 0;
 		DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
 		if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
@@ -672,142 +647,54 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
 				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
 
-			DWORD dwPtr = SetFilePointer(hFile, g_bUseJson ? -3 : 0, nullptr, FILE_END);
+			DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
 			if (dwPtr == INVALID_SET_FILE_POINTER)
 				return false;
 
-			if (g_bUseJson)
-				bWriteToFile(hFile, ",", 1);		
-		}
-		else {
-			if (g_bUseJson) {
-				JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
-				pInfo.set_name("info");
-				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str()).get()));
-				pInfo.push_back(JSONNode("proto", szProto));
-
-				ptrW contactId(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-				if (contactId != NULL)
-					pInfo.push_back(JSONNode("uin", T2Utf(contactId).get()));
-
-				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
-				if (szTemp[0]) {
-					szTemp[1] = 0;
-					pInfo.push_back(JSONNode("gender", T2Utf(szTemp).get()));
-				}
-
-				int age = db_get_w(hContact, szProto, "Age", 0);
-				if (age != 0)
-					pInfo.push_back(JSONNode("age", age));
-
-				for (auto &it : pSettings) {
-					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
-					if (!szValue.empty())
-						pInfo.push_back(JSONNode(it, T2Utf(szValue.c_str()).get()));
-				}
-				pRoot.push_back(pInfo);
-
-				pHist.set_name("history");
-				pRoot.push_back(pHist);
-
-				std::string output = pRoot.write_formatted();
-				if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size()))
+			bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
+			if (bWriteUTF8Format)
+				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
 					return false;
 
-				SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
+			CMStringW output = L"------------------------------------------------\r\n";
+			output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
+
+			// This is written this way because I expect this will become a string the user may set 
+			// in the options dialog.
+			output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
+			output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
+
+			ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+			if (id != NULL)
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
+
+			szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
+			if (szTemp[0]) {
+				szTemp[1] = 0;
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
 			}
-			else {
-				bWriteUTF8Format = g_bUseUtf8InNewFiles;
-				if (bWriteUTF8Format)
-					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
-						return false;
 
-				CMStringW output = L"------------------------------------------------\r\n";
-				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
+			int age = db_get_w(hContact, szProto, "Age", 0);
+			if (age != 0)
+				output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
 
-				// This is written this way because I expect this will become a string the user may set 
-				// in the options dialog.
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
-
-				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-				if (id != NULL)
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
-
-				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
-				if (szTemp[0]) {
-					szTemp[1] = 0;
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
+			for (auto &it : pSettings) {
+				wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
+				if (!szValue.empty()) {
+					mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
+					output += szTemp;
 				}
-
-				int age = db_get_w(hContact, szProto, "Age", 0);
-				if (age != 0)
-					output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
-
-				for (auto &it : pSettings) {
-					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
-					if (!szValue.empty()) {
-						mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
-						output += szTemp;
-					}
-				}
-
-				output += L"------------------------------------------------\r\n";
-
-				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
-					return false;
 			}
+
+			output += L"------------------------------------------------\r\n";
+
+			if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
+				return false;
 		}
 	}
 
 	if (g_bUseJson) {
-		JSONNode pRoot;
-		pRoot.push_back(JSONNode("type", dbei.eventType));
-		if (mir_strcmp(dbei.szModule, szProto))
-			pRoot.push_back(JSONNode("module", dbei.szModule));
-
-		if (dbei.szUserId && !(dbei.flags & DBEF_SENT))
-			pRoot.push_back(JSONNode("member", T2Utf(sRemoteUser.c_str()).get()));
-
-		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-		std::string flags;
-		if (dbei.flags & DBEF_SENT)
-			flags += "m";
-		if (dbei.flags & DBEF_READ)
-			flags += "r";
-		if (dbei.flags & DBEF_BOOKMARK)
-			flags += "b";
-
-		pRoot.push_back(JSONNode("flags", flags));
-
-		if (dbei.eventType == EVENTTYPE_FILE) {
-			DB::FILE_BLOB blob(dbei);
-
-			pRoot << WCHAR_PARAM("file", blob.getName());
-			if (mir_wstrlen(blob.getDescr()))
-				pRoot << WCHAR_PARAM("descr", blob.getDescr());
-			if (blob.isOffline()) {
-				pRoot << INT_PARAM("fileSize", blob.getSize()) << INT_PARAM("transferred", blob.getTransferred());
-				if (mir_wstrlen(blob.getLocalName()))
-					pRoot << WCHAR_PARAM("localFile", blob.getLocalName());
-				if (mir_strlen(blob.getUrl()))
-					pRoot << CHAR_PARAM("url", blob.getUrl());
-			}
-		}
-		else {
-			ptrW msg(DbEvent_GetTextW(&dbei));
-			if (msg)
-				pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
-		}
-
-		std::string output = pRoot.write_formatted();
-		output += "\n]}";
-
-		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size()))
-			return false;
-
+		pJson->ExportEvent(dbei);
 		return true;
 	}
 
@@ -937,7 +824,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
 	}
 
-	bWriteToFile(hFile, g_bAppendNewLine ? "\r\n\r\n" : "\r\n");
+	bWriteToFile(hFile, g_plugin.bAppendNewLine ? "\r\n\r\n" : "\r\n");
 	UpdateFileViews(sFilePath.c_str());
 	return true;
 }
@@ -987,17 +874,37 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	
 	// Open/create file for writing
 	wstring sFilePath = GetFilePathFromUser(hContact);
-	HANDLE hFile = openCreateFile(sFilePath);
-	if (hFile == INVALID_HANDLE_VALUE) {
-		DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
-		return 0;
+	MDatabaseExport *pJson = nullptr;
+	HANDLE hFile;
+
+	if (g_bUseJson) {
+		pJson = g_pDriver->Export(sFilePath.c_str());
+		if (pJson == nullptr) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
+			return 0;
+		}
+
+		if (!pJson->BeginExport())
+			pJson->ExportContact(hContact);
+		hFile = pJson;
+	}
+	else {
+		hFile = openCreateFile(sFilePath);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
+			return 0;
+		}
 	}
 
 	// Write the event
 	bExportEvent(hContact, hDbEvent, hFile, sFilePath, false);
 
 	// Close the file
-	CloseHandle(hFile);
+	if (pJson) {
+		pJson->EndExport();
+		delete pJson;
+	}
+	else CloseHandle(hFile);
 
 	return 0;
 }

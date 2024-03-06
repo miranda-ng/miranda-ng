@@ -29,6 +29,15 @@ static int json_makeDatabase(const wchar_t*)
 	return 1;
 }
 
+static void replaceAll(std::string &str, const char *from, const char *to)
+{
+	size_t start_pos = 0;
+	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+		str.replace(start_pos, strlen(from), to);
+		start_pos += strlen(to);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // JSON text driver, read-only
 
@@ -42,8 +51,8 @@ class CDbxJson : public MDatabaseExport, public MZeroedObject
 	JSONNode *m_root = nullptr;
 	LIST<JSONNode> m_events;
 	LIST<char> m_modules;
-	FILE *m_out = nullptr;
-	bool m_bAppendOnly = false;
+	bool m_bAppend = true;
+	HANDLE m_out = nullptr;
 	CMStringA m_szId, m_szReplyId, m_szUserId;
 
 public:
@@ -69,7 +78,7 @@ public:
 
 	int Open(const wchar_t *profile)
 	{
-		HANDLE hFile = CreateFile(profile, GENERIC_READ, 0, 0, OPEN_ALWAYS, 0, 0);
+		HANDLE hFile = CreateFileW(profile, GENERIC_READ, 0, 0, OPEN_ALWAYS, 0, 0);
 		if (hFile == INVALID_HANDLE_VALUE)
 			return EGROKPRF_CANTREAD;
 
@@ -245,13 +254,17 @@ public:
 
 	int Create(const wchar_t *profile)
 	{
-		m_out = _wfopen(profile, L"wt");
-		return (m_out == nullptr) ? EGROKPRF_CANTREAD : EGROKPRF_NOERROR;
+		m_out = CreateFileW(profile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (m_out == INVALID_HANDLE_VALUE)
+			return EGROKPRF_CANTREAD;
+		
+		SetFilePointer(m_out, -4, 0, FILE_END);
+		return EGROKPRF_NOERROR;
 	}
 
 	STDMETHODIMP_(int) BeginExport() override
 	{
-		return 0;
+		return GetFileSize(m_out, 0) != 0;
 	}
 
 	static int sttEnumSettings(const char *szSetting, void *param)
@@ -309,60 +322,70 @@ public:
 		pHist.set_name("history");
 		pRoot.push_back(pHist);
 
-		fputs(pRoot.write_formatted().c_str(), m_out);
-		fseek(m_out, -4, SEEK_CUR);
+		DWORD dwWritten;
+		auto szOut = pRoot.write_formatted();
+		replaceAll(szOut, "\n", "\r\n");
+		WriteFile(m_out, szOut.c_str(), (DWORD)szOut.size(), &dwWritten, 0);
+
+		m_bAppend = false;
+		SetFilePointer(m_out, -4, 0, FILE_END);
 		return 0;
 	}
 
 	STDMETHODIMP_(int) ExportEvent(const DB::EventInfo &dbei) override
 	{
-		if (m_bAppendOnly) {
-			fseek(m_out, -4, SEEK_END);
-			fputs(",", m_out);
+		if (m_bAppend) {
+			SetFilePointer(m_out, -4, 0, FILE_END);
+
+			DWORD dwWritten;
+			WriteFile(m_out, ",", 1, &dwWritten, 0);
 		}
 
-		JSONNode pRoot2;
-		pRoot2.push_back(JSONNode("type", dbei.eventType));
+		JSONNode pRoot;
+		pRoot.push_back(JSONNode("type", dbei.eventType));
 
 		char *szProto = Proto_GetBaseAccountName(dbei.hContact);
 		if (mir_strcmp(dbei.szModule, szProto))
-			pRoot2.push_back(JSONNode("module", dbei.szModule));
+			pRoot.push_back(JSONNode("module", dbei.szModule));
 
-		pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+		pRoot.push_back(JSONNode("timestamp", dbei.timestamp));
 
 		wchar_t szTemp[500];
 		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-		pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
 		std::string flags;
 		if (dbei.flags & DBEF_SENT)
 			flags += "m";
 		if (dbei.flags & DBEF_READ)
 			flags += "r";
-		pRoot2.push_back(JSONNode("flags", flags));
+		pRoot.push_back(JSONNode("flags", flags));
 
 		ptrW msg(DbEvent_GetTextW(&dbei));
 		if (msg)
-			pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+			pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 
 		if (dbei.szId)
-			pRoot2.push_back(JSONNode("server_id", dbei.szId));
+			pRoot.push_back(JSONNode("server_id", dbei.szId));
 		if (dbei.szUserId)
-			pRoot2.push_back(JSONNode("user_id", dbei.szUserId));
+			pRoot.push_back(JSONNode("user_id", dbei.szUserId));
 		if (dbei.szReplyId)
-			pRoot2.push_back(JSONNode("reply_id", dbei.szReplyId));
+			pRoot.push_back(JSONNode("reply_id", dbei.szReplyId));
 
-		fputs(pRoot2.write_formatted().c_str(), m_out);
-		fputs("\n]}", m_out);
+		auto szOut = pRoot.write_formatted();
+		replaceAll(szOut, "\n", "\r\n");
 
-		m_bAppendOnly = true;
+		DWORD dwWritten;
+		WriteFile(m_out, szOut.c_str(), (DWORD)szOut.size(), &dwWritten, 0);
+		WriteFile(m_out, "\r\n]}", 4, &dwWritten, 0);
+		m_bAppend = true;
 		return 0;
 	}
 
 	STDMETHODIMP_(int) EndExport() override
 	{
 		if (m_out)
-			fclose(m_out);
+			CloseHandle(m_out);
 		return 0;
 	}
 };

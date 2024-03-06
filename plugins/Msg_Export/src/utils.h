@@ -36,12 +36,9 @@ extern wstring g_sDefaultFile;
 extern wstring g_sTimeFormat;
 extern map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 
-extern bool g_bAppendNewLine;
 extern bool g_bUseJson;
-extern bool g_bUseUtf8InNewFiles;
-extern bool g_bUseLessAndGreaterInExport;
 
-extern bool g_bReplaceHistory;
+extern DATABASELINK *g_pDriver;
 
 void LogLastError(const wchar_t *pszError);
 void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei);

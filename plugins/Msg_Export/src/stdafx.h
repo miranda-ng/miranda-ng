@@ -32,22 +32,22 @@ using namespace std;
 #include <map>
 
 #include <newpluginapi.h>
-#include <m_database.h>
-#include <m_metacontacts.h>
 #include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_contacts.h>
+#include <m_db_int.h>
+#include <m_gui.h>
+#include <m_history.h>
+#include <m_icolib.h>
+#include <m_json.h>
 #include <m_langpack.h>
+#include <m_metacontacts.h>
 #include <m_netlib.h>
 #include <m_options.h>
-#include <m_icolib.h>
-#include <m_history.h>
-#include <m_userinfo.h>
 #include <m_protosvc.h>
-#include <m_timezones.h>
 #include <m_skin.h>
-#include <m_gui.h>
-#include <m_json.h>
+#include <m_timezones.h>
+#include <m_userinfo.h>
 
 #include "utils.h"
 #include "options.h"
@@ -65,6 +65,8 @@ using namespace std;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> bUseJson, bAppendNewLine, bReplaceHistory, bUseIntViewer, bUseAngleBrackets, bUseUtf8InNewFiles;
 
 	int Load() override;
 	int Unload() override;

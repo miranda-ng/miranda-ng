@@ -22,9 +22,7 @@ CMPlugin g_plugin;
 
 MWindowList hInternalWindowList = nullptr;
 
-/////////////////////////////////////////////////////
-// Remember to update the Version in the resource !!!
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -40,29 +38,24 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bUseJson(MODULENAME, "UseJson", false),
+	bUseIntViewer(MODULENAME, "UseInternalViewer", true),
+	bAppendNewLine(MODULENAME, "AppendNewLine", true),
+	bReplaceHistory(MODULENAME, "ReplaceHistory", false),
+	bUseAngleBrackets(MODULENAME, "UseLessAndGreaterInExport", false),
+	bUseUtf8InNewFiles(MODULENAME, "UseUtf8InNewFiles", true)
 {}
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : ShowExportHistory
-// Type            : Global
-// Parameters      : wParam - (MCONTACT)hContact
-//                   lParam - ?
-// Returns         : static int
-// Description     : Called when user selects my menu item "Open Exported History"
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Services
 
-static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM)
+static INT_PTR ShowExportHistory(WPARAM hContact, LPARAM)
 {
-	if (g_bUseIntViewer)
-		bShowFileViewer(wParam);
+	if (g_plugin.bUseIntViewer)
+		bShowFileViewer(hContact);
 	else
-		bOpenExternaly(wParam);
+		bOpenExternaly(hContact);
 	return 0;
 }
 
@@ -74,43 +67,28 @@ static INT_PTR ExportContactHistory(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : nSystemShutdown
-// Type            : Global
-// Parameters      : wparam - 0
-//                   lparam - 0
-// Returns         : int
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020428, 28 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
+static int nSystemShutdown(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hInternalWindowList, WM_CLOSE, 0, 0);
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : MainInit
-// Type            : Global
-// Parameters      : wparam - ?
-//                   lparam - ?
-// Returns         : int
-// Description     : Called when system modules has been loaded
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
+static int OnModuleLoaded(WPARAM, LPARAM)
+{
+	if (g_pDriver = GetDatabasePlugin("JSON"))
+		g_bUseJson = g_plugin.bUseJson;
+	else
+		g_bUseJson = false;
 
-int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
+	return 0;
+}
+
+int MainInit(WPARAM, LPARAM)
 {
 	bReadMirandaDirAndPath();
+	OnModuleLoaded(0, 0);
 	UpdateFileToColWidth();
 
 	CMenuItem mi(&g_plugin);
@@ -121,7 +99,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	mi.pszService = MS_EXPORT_HISTORY;
 	Menu_AddContactMenuItem(&mi);
 
-	if (!g_bReplaceHistory) {
+	if (!g_plugin.bReplaceHistory) {
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.position = 1000090100;
@@ -130,22 +108,14 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		Menu_AddContactMenuItem(&mi);
 	}
 
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : Load
-// Type            : Global
-// Parameters      : link - ?
-// Returns         : int
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Plugin entry point
 
 static IconItem iconList[] =
 {
@@ -172,19 +142,12 @@ int CMPlugin::Load()
 	g_sTimeFormat = _DBGetStringW(0, MODULENAME, "TimeFormat", L"d s");
 
 	sFileViewerPrg = _DBGetStringW(0, MODULENAME, "FileViewerPrg", L"");
-	g_bUseIntViewer = getBool("UseInternalViewer", true);
-
-	g_bUseJson = getBool("UseJson", false);
-	g_bAppendNewLine = getBool("AppendNewLine", true);
-	g_bReplaceHistory = getBool("ReplaceHistory", false);
-	g_bUseUtf8InNewFiles = getBool("UseUtf8InNewFiles", true);
-	g_bUseLessAndGreaterInExport = getBool("UseLessAndGreaterInExport", false);
 
 	g_enRenameAction = (ENDialogAction)getByte("RenameAction", eDAPromptUser);
 	g_enDeleteAction = (ENDialogAction)getByte("DeleteAction", eDAPromptUser);
 
 	HANDLE hServiceFunc = nullptr;
-	if (g_bReplaceHistory)
+	if (g_plugin.bReplaceHistory)
 		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
 	if (!hServiceFunc)
@@ -195,19 +158,6 @@ int CMPlugin::Load()
 	hInternalWindowList = WindowList_Create();
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : Unload
-// Type            : Global
-// Parameters      : none
-// Returns         : 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 int CMPlugin::Unload()
 {

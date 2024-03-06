@@ -25,9 +25,6 @@ static UINT UM_FIND_CMD = RegisterWindowMessage(FINDMSGSTRING);
 #define ID_FV_SYNTAX_HL    0x0030
 #define ID_FV_SAVE_AS_RTF  0x0040
 
-// Specifies if history is opened internaly or externaly
-bool g_bUseIntViewer = true;
-
 // External program used to view files
 wstring sFileViewerPrg;
 
@@ -396,17 +393,6 @@ bool bOpenExternaly(MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Member Function : bGetInternalViewer
-// Type            : Global
-// Parameters      : None
-// Returns         : Returns true if
-
-bool bUseInternalViewer()
-{
-	return g_bUseIntViewer;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Member Function : bUseInternalViewer
 // Type            : Global
 // Parameters      : bNew - ?
@@ -414,8 +400,8 @@ bool bUseInternalViewer()
 
 bool bUseInternalViewer(bool bNew)
 {
-	g_bUseIntViewer = bNew;
-	if (g_bUseIntViewer && !hRichEditDll) {
+	g_plugin.bUseIntViewer = bNew;
+	if (g_plugin.bUseIntViewer && !hRichEditDll) {
 		hRichEditDll = LoadLibraryA("Msftedit.dll");
 		if (!hRichEditDll) {
 			LogLastError(L"Failed to load Rich Edit (Msftedit.dll)");
