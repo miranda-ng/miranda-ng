@@ -642,12 +642,10 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	else {
 		sLocalUser = ptrW(GetMyOwnNick(hContact));
 		sRemoteUser = Clist_GetContactDisplayName(hContact);
-		if (dbei.szUserId && Contact::IsGroupChat(hContact)) {
-			ptrW contactId(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-			if (auto *si = Chat_Find(contactId, szProto))
+		if (dbei.szUserId && Contact::IsGroupChat(hContact))
+			if (auto *si = Chat_Find(hContact, szProto))
 				if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
 					sRemoteUser = pUser->pszNick;
-		}
 
 		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
 		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
