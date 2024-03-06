@@ -109,6 +109,9 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
+	if (si == nullptr)
+		return;
+
 	ScheduleDraw();
 	items.addChatEvent(si, lin);
 	totalCount++;

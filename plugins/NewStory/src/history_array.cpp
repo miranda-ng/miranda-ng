@@ -515,9 +515,6 @@ void HistoryArray::clear()
 
 void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
-	if (si == nullptr)
-		return;
-
 	int numItems = getCount();
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
