@@ -407,12 +407,8 @@ void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
 		return;
 
 	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
-		if (!pInfo->description_.empty()) {
-			Utf2T wszTopic(pInfo->description_.c_str());
-			GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
-			gce.pszText.w = wszTopic;
-			Chat_Event(&gce);
-		}
+		if (!pInfo->description_.empty())
+			GcChangeTopic(pChat, Utf2T(pInfo->description_.c_str()));
 
 		g_chatApi.UM_RemoveAll(pChat->m_si);
 		GcAddMembers(pChat, pInfo->members_, true);
