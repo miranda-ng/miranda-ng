@@ -729,10 +729,6 @@ void CSrmmBaseDialog::UpdateChatLog()
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
-			auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
-			if (pUser == nullptr)
-				continue;
-
 			Utf2T wszUserId(dbei.szUserId);
 			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
 			wszText.Replace(L"%", L"%%");
@@ -746,6 +742,8 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 			if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
 				gce.pszNick.w = ui->pszNick;
+			else 
+				gce.pszNick.w = wszUserId;
 			SM_AddEvent(m_si, &gce, false);
 		}
 	}
