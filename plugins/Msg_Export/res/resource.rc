@@ -198,11 +198,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_EXPORT_MESSAGE      ICON                    "export_m.ico"
-
-IDI_TICK                ICON                    "tick.ico"
-
-IDI_NOTICK              ICON                    "notick.ico"
+IDI_MAIN                ICON                    "export_m.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

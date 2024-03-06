@@ -741,8 +741,8 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		pclDlg = (CLHistoryDlg *)lParam;
 
-		Window_SetIcon_IcoLib(hwndDlg, iconList[0].hIcolib);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
+		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_MAIN));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIN)));
 		{
 			HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
 			mir_subclassWindow(hRichEdit, EditSubclassProc);

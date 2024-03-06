@@ -72,7 +72,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 extern MWindowList hInternalWindowList;
 extern wstring g_sDBPath, g_sMirandaPath;
-extern IconItem iconList[];
 
 ///////////////////////////////////////////////////////////////////////////////
 

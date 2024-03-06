@@ -22,11 +22,6 @@ CMPlugin g_plugin;
 
 MWindowList hInternalWindowList = nullptr;
 
-IconItem iconList[] =
-{
-	{ "Main icon", "main", IDI_EXPORT_MESSAGE },
-};
-
 /////////////////////////////////////////////////////
 // Remember to update the Version in the resource !!!
 /////////////////////////////////////////////////////
@@ -120,7 +115,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x4e889089, 0x2304, 0x425f, 0x8f, 0xaa, 0x4f, 0x8a, 0x7b, 0x26, 0x4d, 0x4d); // {4E889089-2304-425F-8FAA-4F8A7B264D4D}
-	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 	mi.position = 1000090101;
 	mi.name.a = LPGEN("Export history");
 	mi.pszService = MS_EXPORT_HISTORY;
@@ -128,7 +123,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	if (!g_bReplaceHistory) {
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
-		mi.hIcolibItem = iconList[0].hIcolib;
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
@@ -151,6 +146,11 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 // Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ "Main icon", "main", IDI_MAIN },
+};
 
 int CMPlugin::Load()
 {
