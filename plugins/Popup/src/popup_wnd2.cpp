@@ -44,7 +44,7 @@ void	WindowThread(void *arg);
 
 LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-bool	LoadPopupWnd2()
+bool LoadPopupWnd2()
 {
 	bool res = true;
 
@@ -99,7 +99,7 @@ bool	LoadPopupWnd2()
 	return res && ghwndMenuHost;
 }
 
-void	UnloadPopupWnd2()
+void UnloadPopupWnd2()
 {
 	DestroyWindow(ghwndMenuHost);
 }
@@ -1219,7 +1219,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, L
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-void	WindowThread(void *arg)
+void WindowThread(void *arg)
 {
 	Thread_SetName("POPUP: WindowThread");
 

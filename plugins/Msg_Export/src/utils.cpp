@@ -650,7 +650,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
 			if (dwPtr == INVALID_SET_FILE_POINTER)
 				return false;
-
+		}
+		else {
 			bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
 			if (bWriteUTF8Format)
 				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
