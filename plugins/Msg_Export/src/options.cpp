@@ -22,44 +22,6 @@ const int nUINColWitdh = 80;    // width in pixels of the UIN column in the List
 const int nProtoColWitdh = 100; // width in pixels of the UIN column in the List Ctrl
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Class           :  CLDBEvent
-// Superclass      :  
-// Project         :  Mes_export
-// Designer        :  Kennet Nielsen
-// Version         :  1.0.0
-// Date            :  020422, 22 April 2002
-//
-//
-// Description: This class is used to store one DB event dyring the export 
-//              All history function
-//
-// Version History:
-//   Ver:     Initials:    Date:     Text:
-//   1.0.0    KN           020422    First edition
-
-class CLDBEvent
-{
-	uint32_t time;
-public:
-	MCONTACT hUser;
-	MEVENT   hDbEvent;
-
-	CLDBEvent(MCONTACT hU, MEVENT hDBE)
-	{
-		hUser = hU;
-		hDbEvent = hDBE;
-
-		DBEVENTINFO dbei = {};
-		db_event_get(hDbEvent, &dbei);
-		time = dbei.timestamp;
-	}
-
-	bool operator <(const CLDBEvent& rOther) const
-	{	return time < rOther.time;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Member Function : CompareFunc
 // Type            : Global
 // Parameters      : lParam1    - ?
@@ -130,20 +92,15 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
 	// map with list to stored all DB history before it is exported 
-	map<wstring, list< CLDBEvent >, less<wstring> > AllEvents;
+	std::list<MCONTACT> todo;
 	{
-		// reading from the database !!! 
 		int nCur = 0;
 		for (auto &hContact : data->contacts) {
 			// Check if we should ignore this contact/protocol
 			if (!bIsExportEnabled(hContact))
 				continue;
 
-			list<CLDBEvent> &rclCurList = AllEvents[GetFilePathFromUser(hContact)];
-
-			DB::ECPTR pCursor(DB::Events(hContact));
-			while (MEVENT hDbEvent = pCursor.FetchNext())
-				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
+			todo.push_back(hContact);
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
 			RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
@@ -157,18 +114,14 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 
 	// window text update 
 	SetWindowText(hStatus, TranslateT("Sorting and writing database information (Phase 2 of 2)"));
-	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, AllEvents.size() - 1));
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, todo.size() - 1));
 	SendMessage(hProg, PBM_SETPOS, 0, 0);
 
 	// time to write to files !!!
 	int nCur = 0;
-	for (auto &F : AllEvents) {
-		F.second.sort(); // Sort is preformed here !!
-		// events with same time will not be swaped, they will 
-		// remain in there original order
-
+	for (auto &hContact : todo) {
 		// Open/create file for writing
-		wstring sFilePath = F.first;
+		wstring sFilePath = GetFilePathFromUser(hContact);
 		MDatabaseExport *pJson = nullptr;
 		HANDLE hFile;
 		
@@ -187,9 +140,8 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 		// At first write we need to have this false (to write file header, etc.), for each next write to same file use true
 		bool bAppendOnly = false;
 
-		for (auto &E : F.second) {
-			MEVENT hDbEvent = E.hDbEvent;
-			MCONTACT hContact = E.hUser;
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
 			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath, bAppendOnly))
 				break; // serious error, we should close the file and don't continue with it
 
