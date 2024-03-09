@@ -43,13 +43,15 @@ class CDbxJson : public MDatabaseExport, public MZeroedObject
 	LIST<JSONNode> m_events;
 	LIST<char> m_modules;
 	bool m_bAppend = true;
-	HANDLE m_out = nullptr;
+	HANDLE m_out = INVALID_HANDLE_VALUE;
+	ptrW m_wszFileName;
 	CMStringA m_szId, m_szReplyId, m_szUserId;
 
 public:
-	CDbxJson() :
+	CDbxJson(const wchar_t *pwszFileName = nullptr) :
 		m_events(100),
-		m_modules(10, CompareModules)
+		m_modules(10, CompareModules),
+		m_wszFileName(mir_wstrdup(pwszFileName))
 	{}
 
 	~CDbxJson()
@@ -243,9 +245,9 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Export interface
 
-	int Create(const wchar_t *profile)
+	int Create()
 	{
-		m_out = CreateFileW(profile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		m_out = CreateFileW(m_wszFileName, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (m_out == INVALID_HANDLE_VALUE)
 			return EGROKPRF_CANTREAD;
 		
@@ -255,6 +257,9 @@ public:
 
 	STDMETHODIMP_(int) BeginExport() override
 	{
+		if (m_out == INVALID_HANDLE_VALUE)
+			Create();
+
 		return GetFileSize(m_out, 0) != 0;
 	}
 
@@ -395,12 +400,9 @@ static MDatabaseCommon* json_load(const wchar_t *profile, BOOL)
 
 static MDatabaseExport *json_export(const wchar_t *profile)
 {
-	std::unique_ptr<CDbxJson> db(new CDbxJson());
-	if	(db->Create(profile))
-		return nullptr;
-
-	db->Load();
-	return db.release();
+	auto *pDB = new CDbxJson(profile);
+	pDB->Load();
+	return pDB;
 }
 
 static DATABASELINK dblink =
