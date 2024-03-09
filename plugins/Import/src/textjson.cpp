@@ -29,15 +29,6 @@ static int json_makeDatabase(const wchar_t*)
 	return 1;
 }
 
-static void replaceAll(std::string &str, const char *from, const char *to)
-{
-	size_t start_pos = 0;
-	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-		str.replace(start_pos, strlen(from), to);
-		start_pos += strlen(to);
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // JSON text driver, read-only
 
@@ -258,7 +249,7 @@ public:
 		if (m_out == INVALID_HANDLE_VALUE)
 			return EGROKPRF_CANTREAD;
 		
-		SetFilePointer(m_out, -4, 0, FILE_END);
+		SetFilePointer(m_out, -3, 0, FILE_END);
 		return EGROKPRF_NOERROR;
 	}
 
@@ -324,18 +315,17 @@ public:
 
 		DWORD dwWritten;
 		auto szOut = pRoot.write_formatted();
-		replaceAll(szOut, "\n", "\r\n");
 		WriteFile(m_out, szOut.c_str(), (DWORD)szOut.size(), &dwWritten, 0);
 
 		m_bAppend = false;
-		SetFilePointer(m_out, -4, 0, FILE_END);
+		SetFilePointer(m_out, -3, 0, FILE_END);
 		return 0;
 	}
 
 	STDMETHODIMP_(int) ExportEvent(const DB::EventInfo &dbei) override
 	{
 		if (m_bAppend) {
-			SetFilePointer(m_out, -4, 0, FILE_END);
+			SetFilePointer(m_out, -3, 0, FILE_END);
 
 			DWORD dwWritten;
 			WriteFile(m_out, ",", 1, &dwWritten, 0);
@@ -372,12 +362,10 @@ public:
 		if (dbei.szReplyId)
 			pRoot.push_back(JSONNode("reply_id", dbei.szReplyId));
 
-		auto szOut = pRoot.write_formatted();
-		replaceAll(szOut, "\n", "\r\n");
-
 		DWORD dwWritten;
+		auto szOut = pRoot.write_formatted();
 		WriteFile(m_out, szOut.c_str(), (DWORD)szOut.size(), &dwWritten, 0);
-		WriteFile(m_out, "\r\n]}", 4, &dwWritten, 0);
+		WriteFile(m_out, "\n]}", 3, &dwWritten, 0);
 		m_bAppend = true;
 		return 0;
 	}
