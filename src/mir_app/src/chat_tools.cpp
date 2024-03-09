@@ -740,6 +740,8 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
+	if (dbei.flags & DBEF_READ)
+		gce.dwFlags |= GCEF_NOTNOTIFY;
 	gce.pszUID.w = wszUserId;
 	gce.pszText.w = wszText;
 	gce.time = dbei.timestamp;
