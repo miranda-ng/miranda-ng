@@ -174,7 +174,6 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 		
 		if (g_bUseJson) {
 			pJson = g_pDriver->Export(sFilePath.c_str());
-			pJson->BeginExport();
 			hFile = pJson;
 		}
 		else {

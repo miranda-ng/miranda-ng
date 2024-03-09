@@ -638,59 +638,65 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	if (bAppendOnly) {
 		bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
 	}
-	else if (!g_bUseJson) {
-		DWORD dwHighSize = 0;
-		DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
-		if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
-			DWORD dwDataRead = 0;
-			uint8_t ucByteOrder[3];
-			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
-				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
-
-			DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
-			if (dwPtr == INVALID_SET_FILE_POINTER)
-				return false;
+	else {
+		if (g_bUseJson) {
+			if (!pJson->BeginExport())
+				pJson->ExportContact(hContact);
 		}
 		else {
-			bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
-			if (bWriteUTF8Format)
-				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
+			DWORD dwHighSize = 0;
+			DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
+			if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
+				DWORD dwDataRead = 0;
+				uint8_t ucByteOrder[3];
+				if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
+					bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
+
+				DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
+				if (dwPtr == INVALID_SET_FILE_POINTER)
 					return false;
-
-			CMStringW output = L"------------------------------------------------\r\n";
-			output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
-
-			// This is written this way because I expect this will become a string the user may set 
-			// in the options dialog.
-			output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-			output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
-
-			ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-			if (id != NULL)
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
-
-			szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
-			if (szTemp[0]) {
-				szTemp[1] = 0;
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
 			}
+			else {
+				bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
+				if (bWriteUTF8Format)
+					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
+						return false;
 
-			int age = db_get_w(hContact, szProto, "Age", 0);
-			if (age != 0)
-				output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
+				CMStringW output = L"------------------------------------------------\r\n";
+				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
 
-			for (auto &it : pSettings) {
-				wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
-				if (!szValue.empty()) {
-					mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
-					output += szTemp;
+				// This is written this way because I expect this will become a string the user may set 
+				// in the options dialog.
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
+				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
+
+				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+				if (id != NULL)
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
+
+				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
+				if (szTemp[0]) {
+					szTemp[1] = 0;
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
 				}
+
+				int age = db_get_w(hContact, szProto, "Age", 0);
+				if (age != 0)
+					output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
+
+				for (auto &it : pSettings) {
+					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
+					if (!szValue.empty()) {
+						mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
+						output += szTemp;
+					}
+				}
+
+				output += L"------------------------------------------------\r\n";
+
+				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
+					return false;
 			}
-
-			output += L"------------------------------------------------\r\n";
-
-			if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
-				return false;
 		}
 	}
 
@@ -885,8 +891,6 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 			return 0;
 		}
 
-		if (!pJson->BeginExport())
-			pJson->ExportContact(hContact);
 		hFile = pJson;
 	}
 	else {
