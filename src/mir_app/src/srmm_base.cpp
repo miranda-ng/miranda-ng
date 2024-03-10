@@ -598,6 +598,16 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		OnOptionsApplied();
 		return 0;
 
+	case WM_SHOWWINDOW:
+		if (wParam) {
+			m_bActive = true;
+			for (auto &it : m_arDisplayedEvents)
+				doMarkEventRead(m_hContact, it);
+			m_arDisplayedEvents.clear();
+		}
+		else m_bActive = false;
+		break;
+
 	case WM_COMMAND:
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
 			return 0;
@@ -609,13 +619,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATE:
-		m_bActive = LOWORD(wParam) != WA_INACTIVE;
-		if (m_bActive) {
-			for (auto &it : m_arDisplayedEvents)
-				doMarkEventRead(m_hContact, it);
-			m_arDisplayedEvents.clear();
-		}
-		else if (m_si) {
+		if (m_si && LOWORD(wParam) == WA_INACTIVE) {
 			m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 			m_si->wState &= ~STATE_TALK;
 		}
