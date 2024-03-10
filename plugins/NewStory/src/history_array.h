@@ -24,6 +24,7 @@ struct ItemData
 	DB::EventInfo dbe;
 	wchar_t *wtext;
 	wchar_t *wszNick;
+	struct NewstoryListData *pOwner;
 
 	HText data;
 
@@ -34,7 +35,6 @@ struct ItemData
 	ItemData* checkPrev(ItemData *pPrev, HWND hwnd);
 	ItemData* checkPrevGC(ItemData *pPrev, HWND hwnd);
 	void checkCreate(HWND hwnd);
-	void markRead();
 	void setText(HWND hwnd);
 
 	bool completed() const { return m_bOfflineDownloaded == 100; }
@@ -136,9 +136,9 @@ public:
 	HistoryArray();
 	~HistoryArray();
 
-	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
-	void addChatEvent(SESSION_INFO *si, const LOGINFO *pEvent);
-	void addResults(const OBJLIST<SearchResult> &pArray);
+	bool addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count);
+	void addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *pEvent);
+	void addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray);
 
 	void addNick(ItemData &pItem, wchar_t *pwszNick);
 	void clear();

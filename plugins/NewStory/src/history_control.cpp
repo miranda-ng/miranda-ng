@@ -113,7 +113,7 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 		return;
 
 	ScheduleDraw();
-	items.addChatEvent(si, lin);
+	items.addChatEvent(this, si, lin);
 	totalCount++;
 }
 
@@ -122,7 +122,7 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
 	ScheduleDraw();
-	items.addEvent(hContact, hFirstEvent, iCount);
+	items.addEvent(this, hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
 }
 
@@ -131,7 +131,7 @@ void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCoun
 void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 {
 	ScheduleDraw();
-	items.addResults(results);
+	items.addResults(this, results);
 	totalCount = items.getCount();
 }
 
@@ -624,6 +624,12 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
+void NewstoryListData::MarkRead(ItemData *pItem)
+{
+	if (pMsgDlg)
+		pMsgDlg->MarkEventRead(pItem->dbe);
+}
+
 void NewstoryListData::OpenFolder()
 {
 	if (auto *pItem = GetItem(caret)) {
@@ -928,6 +934,7 @@ void NewstoryListData::TryUp(int iCount)
 			break;
 
 		auto *p = items.insert(0);
+		p->pOwner = this;
 		p->hContact = hContact;
 		p->dbe = hPrev;
 		totalCount++;

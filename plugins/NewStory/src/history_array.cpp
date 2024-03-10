@@ -389,7 +389,7 @@ void ItemData::load(bool bLoadAlways)
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		markRead();
+		pOwner->MarkRead(this);
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -418,7 +418,7 @@ void ItemData::load(bool bLoadAlways)
 					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				wtext = buf.Detach();
-				markRead();
+				pOwner->MarkRead(this);
 				break;
 			}
 
@@ -475,12 +475,6 @@ void ItemData::load(bool bLoadAlways)
 	dbe.unload();
 }
 
-void ItemData::markRead()
-{
-	if (!(dbe.flags & DBEF_SENT))
-		dbe.wipeNotify();
-}
-
 void ItemData::setText(HWND hwnd)
 {
 	if (data)
@@ -513,10 +507,11 @@ void HistoryArray::clear()
 	iLastPageCounter = 0;
 }
 
-void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
+void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *lin)
 {
 	int numItems = getCount();
 	auto &p = allocateItem();
+	p.pOwner = pOwner;
 	p.hContact = si->hContact;
 
 	if (si->pMI->bDatabase && lin->hEvent) {
@@ -568,7 +563,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	}
 }
 
-bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
+bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count)
 {
 	if (count == -1)
 		count = MAXINT;
@@ -582,6 +577,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 
 	if (count == 1) {
 		auto &p = allocateItem();
+		p.pOwner = pOwner;
 		p.hContact = hContact;
 		p.dbe = hEvent;
 		if (si) {
@@ -598,6 +594,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 				break;
 
 			auto &p = allocateItem();
+			p.pOwner = pOwner;
 			p.hContact = hContact;
 			p.dbe = hEvent;
 			if (si) {
@@ -620,13 +617,14 @@ void HistoryArray::addNick(ItemData &pItem, wchar_t *pwszNick)
 	}
 }
 
-void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
+void HistoryArray::addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray)
 {
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
 	for (auto &it : pArray) {
 		auto &p = allocateItem();
+		p.pOwner = pOwner;
 		p.hContact = it->hContact;
 		p.dbe = it->hEvent;
 		p.m_bIsResult = true;
