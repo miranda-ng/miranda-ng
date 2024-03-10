@@ -585,6 +585,12 @@ void CSrmmBaseDialog::OnDestroy()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void doMarkEventRead(MCONTACT hContact, MEVENT hEvent)
+{
+	db_event_markRead(hContact, hEvent);
+	Clist_RemoveEvent(-1, hEvent);
+}
+
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -603,7 +609,13 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATE:
-		if (m_si && LOWORD(wParam) == WA_INACTIVE) {
+		m_bActive = LOWORD(wParam) != WA_INACTIVE;
+		if (m_bActive) {
+			for (auto &it : m_arDisplayedEvents)
+				doMarkEventRead(m_hContact, it);
+			m_arDisplayedEvents.clear();
+		}
+		else if (m_si) {
 			m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 			m_si->wState &= ~STATE_TALK;
 		}
@@ -659,6 +671,18 @@ void CSrmmBaseDialog::ClearLog()
 bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 {
 	return (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType));
+}
+
+void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
+{
+	if (dbei.markedRead())
+		return;
+
+	if (m_bActive)
+		doMarkEventRead(m_hContact, dbei.getEvent());
+	else {
+		m_arDisplayedEvents.push_back(dbei.getEvent());
+	}
 }
 
 void CSrmmBaseDialog::UpdateChatOptions()

@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_SRMM_INT_H__ 1
 
 #include <shellapi.h>
+#include <vector>
 
 #include <m_gui.h>
 
@@ -287,6 +288,8 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	void OnNickListTimer(CTimer *);
 	void OnRedrawTimer(CTimer *);
 
+	std::vector<MEVENT> m_arDisplayedEvents;
+
 protected:
 	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, struct SESSION_INFO *si = nullptr);
 
@@ -345,12 +348,13 @@ public:
 	int m_iLogFilterFlags;
 	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false;
 	bool m_bFGSet, m_bBGSet;
-	bool m_bInMenu;
+	bool m_bInMenu, m_bActive;
 	COLORREF m_iFG, m_iBG;
 	CTimer timerFlash, timerType, timerNickList, timerRedraw;
 
 	void ClearLog();
 	bool IsSuitableEvent(const LOGINFO &lin) const;
+	void MarkEventRead(const DB::EventInfo &dbei);
 	void RedrawLog();
 	void ScheduleRedrawLog();
 	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);

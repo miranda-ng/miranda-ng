@@ -902,7 +902,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QAEXI@Z @1033 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @1034 NONAME
-?fetch@EventInfo@DB@@QAE_N_N@Z @1035 NONAME
+?fetch@EventInfo@DB@@QAE_NI_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
 ?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME

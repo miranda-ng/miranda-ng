@@ -254,7 +254,7 @@ DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob) :
 	m_hEvent(hEvent)
 {
 	memset(this, 0, sizeof(*this));
-	fetch(bFetchBlob);
+	fetch(hEvent, bFetchBlob);
 }
 
 DB::EventInfo::EventInfo() :
@@ -269,8 +269,9 @@ DB::EventInfo::~EventInfo()
 		mir_free(pBlob);
 }
 
-bool DB::EventInfo::fetch(bool bFetchBlob)
+bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)
 {
+	m_hEvent = hEvent;
 	if (bFetchBlob)
 		cbBlob = -1;
 	return m_bValid = ::db_event_get(m_hEvent, this) == 0;

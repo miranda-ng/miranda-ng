@@ -320,12 +320,12 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 		DB::EventInfo dbei(lin.hEvent);
 		if (dbei) {
 			if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm())
-				dbei.wipeNotify();
+				m_pDlg.MarkEventRead(dbei);
 
 			if (dbei.eventType == EVENTTYPE_FILE) {
 				DB::FILE_BLOB blob(dbei);
 				if (blob.isOffline()) {
-					dbei.wipeNotify();
+					m_pDlg.MarkEventRead(dbei);
 					InsertFileLink(buf, lin.hEvent, blob);
 					return;
 				}

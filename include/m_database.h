@@ -695,10 +695,11 @@ namespace DB
 		explicit EventInfo(MEVENT hEvent, bool bFetchBlob = true);
 		~EventInfo();
 
-		bool fetch(bool bFetchBlob = true);
+		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
 		void unload();
 		void wipeNotify();
 
+		__forceinline MEVENT getEvent() const { return m_hEvent; }
 		__forceinline operator bool() const { return m_bValid; }
 
 		bool isSrmm() const; // could be displayed in a SRMM window
