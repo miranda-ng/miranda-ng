@@ -571,7 +571,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	BOOL isSent = (dbei.flags & DBEF_SENT);
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	if (!isSent && bIsStatusChangeEvent)
-		dbei.wipeNotify(streamData->hDbEvent);
+		dbei.wipeNotify();
 
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei)));
 	if (msg.IsEmpty())

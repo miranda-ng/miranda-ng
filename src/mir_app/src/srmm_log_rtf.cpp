@@ -336,11 +336,11 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 
 	if (!(dbei.flags & DBEF_SENT)) {
 		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())
-			dbei.wipeNotify(dat->hDbEvent);
+			dbei.wipeNotify();
 		else if (dbei.eventType == EVENTTYPE_FILE) {
 			DB::FILE_BLOB blob(dbei);
 			if (blob.isOffline())
-				dbei.wipeNotify(dat->hDbEvent);
+				dbei.wipeNotify();
 		}
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {

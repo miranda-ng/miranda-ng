@@ -687,18 +687,19 @@ namespace DB
 
 	class MIR_APP_EXPORT EventInfo : public DBEVENTINFO, public MNonCopyable
 	{
-		bool bValid;
+		bool m_bValid;
+		MEVENT m_hEvent;
 
 	public:
 		explicit EventInfo();
 		explicit EventInfo(MEVENT hEvent, bool bFetchBlob = true);
 		~EventInfo();
 
-		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
+		bool fetch(bool bFetchBlob = true);
 		void unload();
-		void wipeNotify(MEVENT hEvent);
+		void wipeNotify();
 
-		__forceinline operator bool() const { return bValid; }
+		__forceinline operator bool() const { return m_bValid; }
 
 		bool isSrmm() const; // could be displayed in a SRMM window
 		bool isHistory() const; // could be displayed in a history window

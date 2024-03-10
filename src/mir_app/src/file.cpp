@@ -80,7 +80,7 @@ static void RemoveUnreadFileEvents(void)
 		while (hDbEvent) {
 			DB::EventInfo dbei(hDbEvent, false);
 			if (dbei.eventType == EVENTTYPE_FILE)
-				dbei.wipeNotify(hDbEvent);
+				dbei.wipeNotify();
 
 			hDbEvent = db_event_next(hContact, hDbEvent);
 		}

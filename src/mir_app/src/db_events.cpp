@@ -250,29 +250,30 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
+DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob) :
+	m_hEvent(hEvent)
 {
 	memset(this, 0, sizeof(*this));
-	fetch(hEvent, bFetchBlob);
+	fetch(bFetchBlob);
 }
 
 DB::EventInfo::EventInfo() :
-	bValid(false)
+	m_bValid(false)
 {
 	memset(this, 0, sizeof(*this));
 }
 
 DB::EventInfo::~EventInfo()
 {
-	if (bValid)
+	if (m_bValid)
 		mir_free(pBlob);
 }
 
-bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)
+bool DB::EventInfo::fetch(bool bFetchBlob)
 {
 	if (bFetchBlob)
 		cbBlob = -1;
-	return bValid = ::db_event_get(hEvent, this) == 0;
+	return m_bValid = ::db_event_get(m_hEvent, this) == 0;
 }
 
 void DB::EventInfo::unload()
@@ -281,17 +282,17 @@ void DB::EventInfo::unload()
 		mir_free(pBlob);
 		pBlob = nullptr;
 	}
-	bValid = false;
+	m_bValid = false;
 }
 
-void DB::EventInfo::wipeNotify(MEVENT hEvent)
+void DB::EventInfo::wipeNotify()
 {
-	if (!bValid)
+	if (!m_bValid)
 		return;
 
 	if (!markedRead())
-		db_event_markRead(hContact, hEvent);
-	Clist_RemoveEvent(-1, hEvent);
+		db_event_markRead(hContact, m_hEvent);
+	Clist_RemoveEvent(-1, m_hEvent);
 }
 
 // could be displayed in a SRMM window

@@ -902,13 +902,13 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QAEXI@Z @1033 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @1034 NONAME
-?fetch@EventInfo@DB@@QAE_NI_N@Z @1035 NONAME
+?fetch@EventInfo@DB@@QAE_N_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
 ?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME
 ?GetReceivedFolder@File@@YGPA_WIPA_WI_N@Z @1039 NONAME
 ?DlgProc@CUserInfoPageDlg@@UAEHIIJ@Z @1040 NONAME
-?wipeNotify@EventInfo@DB@@QAEXI@Z @1047 NONAME
+?wipeNotify@EventInfo@DB@@QAEXXZ @1041 NONAME
 _CallContactService@16 @1048 NONAME
 ??0MDatabaseExport@@QAE@XZ @1049 NONAME
 ??1MDatabaseExport@@UAE@XZ @1050 NONAME

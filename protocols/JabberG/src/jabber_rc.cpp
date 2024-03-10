@@ -560,7 +560,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 				nEventsSent++;
 
-				dbei.wipeNotify(hDbEvent);
+				dbei.wipeNotify();
 			}
 		}
 

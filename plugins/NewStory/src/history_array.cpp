@@ -478,7 +478,7 @@ void ItemData::load(bool bLoadAlways)
 void ItemData::markRead()
 {
 	if (!(dbe.flags & DBEF_SENT))
-		dbe.wipeNotify(hEvent);
+		dbe.wipeNotify();
 }
 
 void ItemData::setText(HWND hwnd)
