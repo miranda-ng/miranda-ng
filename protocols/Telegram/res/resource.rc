@@ -76,6 +76,7 @@ BEGIN
     EDITTEXT        IDC_DEVICE_NAME,96,56,86,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,75,182,10
+    PUSHBUTTON      "Log out",IDC_LOGOUT,108,124,74,14
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 305, 188
@@ -95,6 +96,7 @@ BEGIN
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,83,294,10
     CONTROL         "Compress files on send",IDC_COMPRESS_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,97,294,10
+    PUSHBUTTON      "Log out",IDC_LOGOUT,212,168,86,14
 END
 
 IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86

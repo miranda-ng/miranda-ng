@@ -58,6 +58,14 @@ void __cdecl CTelegramProto::ServerThread(void *)
 	m_pClientManager = std::move(nullptr);
 }
 
+void CTelegramProto::UnregisterSession()
+{
+	if (getByte(DBKEY_AUTHORIZED)) {
+		m_bUnregister = true;
+		ForkThread(&CTelegramProto::ServerThread);
+	}
+}
+
 void CTelegramProto::LogOut()
 {
 	if (m_bTerminated)

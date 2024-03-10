@@ -152,6 +152,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
+	friend class COptionsDlg;
 	friend class COptSessionsDlg;
 	friend class CAddPhoneContactDlg;
 
@@ -275,6 +276,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
+
+	void UnregisterSession();
 
 	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);

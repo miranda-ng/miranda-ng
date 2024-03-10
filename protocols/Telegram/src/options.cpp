@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 class COptionsDlg : public CTelegramDlgBase
 {
+	CCtrlButton btnLogout;
 	CCtrlCheck chkHideChats, chkUsePopups, chkCompressFiles;
 	CCtrlCombo cmbCountry;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
@@ -29,6 +30,7 @@ class COptionsDlg : public CTelegramDlgBase
 public:
 	COptionsDlg(CTelegramProto *ppro, int iDlgID, bool bFullDlg) :
 		CTelegramDlgBase(ppro, iDlgID),
+		btnLogout(this, IDC_LOGOUT),
 		cmbCountry(this, IDC_COUNTRY),
 		chkUsePopups(this, IDC_POPUPS),
 		chkHideChats(this, IDC_HIDECHATS),
@@ -47,6 +49,9 @@ public:
 			CreateLink(chkUsePopups, ppro->m_bUsePopups);
 			CreateLink(chkCompressFiles, ppro->m_bCompressFiles);
 		}
+
+		btnLogout.Enable(m_proto->getByte(DBKEY_AUTHORIZED));
+		btnLogout.OnClick = Callback(this, &COptionsDlg::onClick_Logout);
 
 		cmbCountry.OnChange = Callback(this, &COptionsDlg::onChange_Country);
 	}
@@ -81,6 +86,11 @@ public:
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 		return true;
+	}
+
+	void onClick_Logout(CCtrlButton *)
+	{
+		m_proto->UnregisterSession();
 	}
 
 	void onChange_Country(CCtrlCombo *)
