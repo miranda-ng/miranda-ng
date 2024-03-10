@@ -895,7 +895,7 @@ public:
 		for (int i = 0; i < iCount; i++) {
 			auto *pItem = arItems.get(i);
 			if (pItem->m_bSelected) {
-				DB::EventInfo dbei(pItem->hEvent);
+				DB::EventInfo dbei(pItem->dbe.getEvent());
 				if (dbei)
 					pDB->ExportEvent(dbei);
 				iDone++;
@@ -906,7 +906,7 @@ public:
 		if (iDone == 0)
 			for (int i = 0; i < iCount; i++) {
 				auto *pItem = arItems.get(i);
-				DB::EventInfo dbei(pItem->hEvent);
+				DB::EventInfo dbei(pItem->dbe.getEvent());
 				if (dbei)
 					pDB->ExportEvent(dbei);
 			}

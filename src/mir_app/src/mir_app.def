@@ -902,7 +902,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QAEXI@Z @1033 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @1034 NONAME
-?fetch@EventInfo@DB@@QAE_NI_N@Z @1035 NONAME
+?fetch@EventInfo@DB@@QAE_N_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
 ?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME
@@ -965,3 +965,6 @@ _Netlib_DownloadFile@20 @1099 NONAME
 ?getUserInfo@FILE_BLOB@DB@@QBEPAXXZ @1101 NONAME
 ?setUserInfo@FILE_BLOB@DB@@QAEXPAX@Z @1102 NONAME
 ?Chat_Find@@YGPAUSESSION_INFO@@IPBD@Z @1103 NONAME
+??4EventInfo@DB@@QAEAAV01@I@Z @1104 NONAME
+?MarkEventRead@CSrmmBaseDialog@@QAEXABVEventInfo@DB@@@Z @1105 NONAME
+?getEvent@EventInfo@DB@@QBEIXZ @1106 NONAME

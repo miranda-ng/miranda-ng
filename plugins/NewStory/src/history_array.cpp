@@ -254,11 +254,11 @@ bool ItemData::isLinkChar(HWND hwnd, int idx) const
 bool ItemData::fetch(void)
 {
 	// if this event is virtual (for example, in group chats), don't try to laod it
-	if (!hEvent)
+	if (!dbe.getEvent())
 		return false;
 
 	if (!dbe) {
-		if (!dbe.fetch(hEvent))
+		if (!dbe.fetch())
 			return false;
 
 		if (dbe.szReplyId)
@@ -520,7 +520,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	p.hContact = si->hContact;
 
 	if (si->pMI->bDatabase && lin->hEvent) {
-		p.hEvent = lin->hEvent;
+		p.dbe = lin->hEvent;
 		checkGC(p, si);
 	}
 	else {
@@ -583,7 +583,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	if (count == 1) {
 		auto &p = allocateItem();
 		p.hContact = hContact;
-		p.hEvent = hEvent;
+		p.dbe = hEvent;
 		if (si) {
 			checkGC(p, si);
 			pPrev = p.checkPrevGC(pPrev, hwndOwner);
@@ -599,7 +599,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 
 			auto &p = allocateItem();
 			p.hContact = hContact;
-			p.hEvent = hEvent;
+			p.dbe = hEvent;
 			if (si) {
 				checkGC(p, si);
 				pPrev = p.checkPrevGC(pPrev, hwndOwner);
@@ -628,7 +628,7 @@ void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
 	for (auto &it : pArray) {
 		auto &p = allocateItem();
 		p.hContact = it->hContact;
-		p.hEvent = it->hEvent;
+		p.dbe = it->hEvent;
 		p.m_bIsResult = true;
 		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
@@ -664,7 +664,7 @@ int HistoryArray::find(MEVENT hEvent)
 	int i = 0;
 	for (auto &it : pages)
 		for (auto &p : it->data) {
-			if (p.hEvent == hEvent)
+			if (p.dbe.getEvent() == hEvent)
 				return i;
 			i++;
 		}

@@ -13,7 +13,6 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 struct ItemData
 {
 	MCONTACT hContact;
-	MEVENT hEvent;
 
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;

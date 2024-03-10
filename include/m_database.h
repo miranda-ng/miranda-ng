@@ -693,9 +693,10 @@ namespace DB
 	public:
 		explicit EventInfo();
 		explicit EventInfo(MEVENT hEvent, bool bFetchBlob = true);
+		EventInfo& operator=(MEVENT hEvent);
 		~EventInfo();
 
-		bool fetch(MEVENT hEvent, bool bFetchBlob = true);
+		bool fetch(bool bFetchBlob = true);
 		void unload();
 		void wipeNotify();
 

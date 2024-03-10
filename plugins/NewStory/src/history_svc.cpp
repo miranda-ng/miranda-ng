@@ -22,7 +22,7 @@ static INT_PTR SvcGetCurrent(WPARAM wParam, LPARAM)
 {
 	if (auto *pData = (NewstoryListData *)wParam)
 		if (auto *p = pData->GetItem(pData->caret))
-			return p->hEvent;
+			return p->dbe.getEvent();
 
 	return 0;
 }
@@ -41,11 +41,11 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 		for (int i = pData->totalCount; i >= 0; i--)
 			if (auto *p = pData->items.get(i))
 				if (p->m_bSelected)
-					pRet->push_back(p->hEvent);
+					pRet->push_back(p->dbe.getEvent());
 
 		if (pRet->empty() && pData->caret != -1)
 			if (auto *p = pData->GetItem(pData->caret))
-				pRet->push_back(p->hEvent);
+				pRet->push_back(p->dbe.getEvent());
 	}
 
 	return 0;

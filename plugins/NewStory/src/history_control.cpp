@@ -294,7 +294,7 @@ void NewstoryListData::CopyPath()
 {
 	if (auto *pItem = GetItem(caret))
 		if (pItem->completed()) {
-			DB::EventInfo dbei(pItem->hEvent);
+			DB::EventInfo dbei(pItem->dbe.getEvent());
 			DB::FILE_BLOB blob(dbei);
 			Utils_ClipboardCopy(MClipUnicode(blob.getLocalName()));
 		}
@@ -303,7 +303,7 @@ void NewstoryListData::CopyPath()
 void NewstoryListData::CopyUrl()
 {
 	if (auto *pItem = GetItem(caret))
-		Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
+		Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -385,8 +385,8 @@ void NewstoryListData::DeleteItems(void)
 		if (!p->m_bSelected)
 			continue;
 
-		if (p->hEvent)
-			db_event_delete(p->hEvent, flags);
+		if (p->dbe.getEvent())
+			db_event_delete(p->dbe.getEvent(), flags);
 		items.remove(i);
 		totalCount--;
 		firstSel = i;
@@ -406,7 +406,7 @@ void NewstoryListData::DeleteItems(void)
 void NewstoryListData::Download(int options)
 {
 	if (auto *p = LoadItem(caret))
-		Srmm_DownloadOfflineFile(p->hContact, p->hEvent, options);
+		Srmm_DownloadOfflineFile(p->hContact, p->dbe.getEvent(), options);
 }
 
 void NewstoryListData::EndEditItem(bool bAccept)
@@ -424,13 +424,13 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
-			if (pItem->hContact && pItem->hEvent) {
+			if (pItem->hContact && pItem->dbe.getEvent()) {
 				DBEVENTINFO dbei = pItem->dbe;
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
 				dbei.pBlob = szUtf.get();
-				db_event_edit(pItem->hEvent, &dbei);
+				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
 			MTextDestroy(pItem->data); pItem->data = 0;
@@ -628,7 +628,7 @@ void NewstoryListData::OpenFolder()
 {
 	if (auto *pItem = GetItem(caret)) {
 		if (pItem->completed()) {
-			DB::EventInfo dbei(pItem->hEvent);
+			DB::EventInfo dbei(pItem->dbe.getEvent());
 			DB::FILE_BLOB blob(dbei);
 			CMStringW wszFile(blob.getLocalName());
 			int idx = wszFile.ReverseFind('\\');
@@ -818,7 +818,7 @@ void NewstoryListData::Reply()
 {
 	if (pMsgDlg)
 		if (auto *pItem = GetItem(caret))
-			pMsgDlg->SetQuoteEvent(pItem->hEvent);
+			pMsgDlg->SetQuoteEvent(pItem->dbe.getEvent());
 }
 
 void NewstoryListData::ScheduleDraw()
@@ -888,7 +888,7 @@ void NewstoryListData::ToggleBookmark()
 			p->dbe.flags &= ~DBEF_BOOKMARK;
 		else
 			p->dbe.flags |= DBEF_BOOKMARK;
-		db_event_edit(p->hEvent, &p->dbe);
+		db_event_edit(p->dbe.getEvent(), &p->dbe);
 
 		p->setText(m_hwnd);
 	}
@@ -918,18 +918,18 @@ void NewstoryListData::TryUp(int iCount)
 
 	auto *pTop = GetItem(0);
 	MCONTACT hContact = pTop->hContact;
-	if (pTop->hEvent == 0 || hContact == 0)
+	if (pTop->dbe.getEvent() == 0 || hContact == 0)
 		return;
 	
 	int i;
 	for (i = 0; i < iCount; i++) {
-		MEVENT hPrev = db_event_prev(hContact, pTop->hEvent);
+		MEVENT hPrev = db_event_prev(hContact, pTop->dbe.getEvent());
 		if (hPrev == 0)
 			break;
 
 		auto *p = items.insert(0);
 		p->hContact = hContact;
-		p->hEvent = hPrev;
+		p->dbe = hPrev;
 		totalCount++;
 	}
 
@@ -1413,7 +1413,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			pt.y -= pItem->savedTop;
 
 			if (pItem->m_bOfflineFile) {
-				Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_DOWNLOAD | OFD_RUN);
+				Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
 

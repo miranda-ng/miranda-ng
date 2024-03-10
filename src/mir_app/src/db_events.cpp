@@ -250,11 +250,11 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob) :
-	m_hEvent(hEvent)
+DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
 {
 	memset(this, 0, sizeof(*this));
-	fetch(hEvent, bFetchBlob);
+	m_hEvent = hEvent;
+	fetch(bFetchBlob);
 }
 
 DB::EventInfo::EventInfo() :
@@ -263,15 +263,21 @@ DB::EventInfo::EventInfo() :
 	memset(this, 0, sizeof(*this));
 }
 
+DB::EventInfo& DB::EventInfo::operator=(MEVENT hEvent)
+{
+	m_hEvent = hEvent;
+	m_bValid = false;
+	return *this;
+}
+
 DB::EventInfo::~EventInfo()
 {
 	if (m_bValid)
 		mir_free(pBlob);
 }
 
-bool DB::EventInfo::fetch(MEVENT hEvent, bool bFetchBlob)
+bool DB::EventInfo::fetch(bool bFetchBlob)
 {
-	m_hEvent = hEvent;
 	if (bFetchBlob)
 		cbBlob = -1;
 	return m_bValid = ::db_event_get(m_hEvent, this) == 0;
