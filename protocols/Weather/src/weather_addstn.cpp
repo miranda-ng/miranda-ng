@@ -134,15 +134,15 @@ BOOL CheckSearch()
 
 // ============ BASIC ID SEARCH  ============
 
-static wchar_t sttSID[32];
-
 // A timer process for the ID search (threaded)
-static void __cdecl BasicSearchTimerProc(LPVOID)
+static void __cdecl BasicSearchTimerProc(void *pParam)
 {
+	ptrW sID((wchar_t *)pParam);
+
 	int result;
 	// search only when it's not current updating weather.
 	if (CheckSearch())
-		result = IDSearch(sttSID, sttSearchId);
+		result = IDSearch(sID, sttSearchId);
 
 	// broadcast the search result
 	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
@@ -155,12 +155,11 @@ static void __cdecl BasicSearchTimerProc(LPVOID)
 // lParam = ID search string
 INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam)
 {
-	if (sttSearchId != -1) return 0;   //only one search at a time
-	wcsncpy(sttSID, (wchar_t*)lParam, _countof(sttSID));
-	sttSID[_countof(sttSID) - 1] = 0;
+	if (sttSearchId != -1)
+		return 0;   // only one search at a time
+	
 	sttSearchId = 1;
-	// create a thread for the ID search
-	mir_forkthread(BasicSearchTimerProc);
+	mir_forkthread(BasicSearchTimerProc, mir_a2u((char *)lParam));  // create a thread for the ID search
 	return sttSearchId;
 }
 
@@ -234,7 +233,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 		wchar_t *szData = nullptr;
 
 		// load the page
-		mir_snprintf(loc, sData->SearchURL, sID);
+		mir_snprintf(loc, sData->SearchURL, _T2A(sID).get());
 		BOOL bFound = (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0);
 		if (bFound) {
 			wchar_t *szInfo = szData;
@@ -246,7 +245,8 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 
 		mir_free(szData);
 		// Station not found exit
-		if (!bFound) return 1;
+		if (!bFound)
+			return 1;
 	}
 
 	// give no station name but only ID if the search is unavailable
