@@ -386,6 +386,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		Contact::PutOnList(hContact);
 	}
 
+	Json2string(hContact, buddy, "about", "About", bIsPartial);
 	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
 	Json2string(hContact, buddy, "cellNumber", "Cellular", bIsPartial);
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone", bIsPartial);

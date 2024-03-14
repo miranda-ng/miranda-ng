@@ -74,6 +74,35 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 	}
 };
 
+struct IcqAboutDlg : public CUserInfoPageDlg
+{
+	CIcqProto *ppro;
+
+	IcqAboutDlg(CIcqProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_ABOUT),
+		ppro(_ppro)
+	{}
+
+	bool IsEmpty() const override
+	{
+		return ppro->getMStringW(m_hContact, "About").IsEmpty();
+	}
+
+	bool OnRefresh() override
+	{
+		SetDlgItemTextW(m_hwnd, IDC_ABOUT, ppro->getMStringW(m_hContact, "About"));
+		return false;
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		if (urc->wId == IDC_ABOUT)
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+	}
+};
+
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	if (hContact && mir_strcmp(Proto_GetBaseAccountName(hContact), m_szModuleName))
@@ -84,11 +113,17 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 
 	USERINFOPAGE uip = {};
 	uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-	uip.szTitle.w = L"ICQ";
 	uip.szGroup.w = m_tszUserName;
 	uip.szProto = m_szModuleName;
+
+	uip.szTitle.w = L"ICQ";
 	uip.position = -1900000000;
 	uip.pDialog = new IcqUserInfoDlg(this);
+	g_plugin.addUserInfo(wParam, &uip);
+
+	uip.szTitle.w = TranslateT("About");
+	uip.position = -1900000001;
+	uip.pDialog = new IcqAboutDlg(this);
 	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }

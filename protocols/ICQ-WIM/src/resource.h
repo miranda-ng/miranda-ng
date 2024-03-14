@@ -15,6 +15,7 @@
 #define IDD_EDITGROUPS                  111
 #define IDD_FORWARD                     112
 #define IDI_FORWARD                     113
+#define IDD_ABOUT                       114
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003
@@ -25,6 +26,7 @@
 #define IDC_SENDSMS                     1008
 #define IDC_CODE                        1009
 #define IDC_ONLINESINCE                 1010
+#define IDC_ABOUT                       1011
 #define IDC_NICK                        1012
 #define IDC_LASTSEEN                    1014
 #define IDC_SAVEPASS                    1015
