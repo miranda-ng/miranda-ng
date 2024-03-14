@@ -474,9 +474,8 @@ void ReplaceDefines(MCONTACT hContact, wstring &sTarget)
 		ReplaceAllNoColon(sTarget, L"%group%", sGroup);
 	}
 
-	// We can't replace the : here because if the user uses C:\... in the file path 
-	// this will also be replaced 
-	string::size_type nCur = 0;
+	// we don't touch the leading colon and \\ either
+	string::size_type nCur = 2;
 	while ((nCur = sTarget.find_first_of(L"/*?:<>|\"", nCur)) != sTarget.npos)
 		sTarget[nCur] = cBadCharReplace;
 }
