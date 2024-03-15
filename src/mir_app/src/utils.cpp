@@ -379,6 +379,7 @@ void SendHBitmapAsFile(HBITMAP hbmp, MCONTACT hContact)
 	wchar_t wszTempPath[MAX_PATH], wszTempFile[MAX_PATH];
 	GetTempPathW(_countof(wszTempPath), wszTempPath);
 	GetTempFileNameW(wszTempPath, L"clip_", 0, wszTempFile);
+	wcscpy(wszTempFile + wcslen(wszTempFile) - 3, L"JPG");
 
 	const char *szProto = Proto_GetBaseAccountName(hContact);
 	int wMyStatus = Proto_GetStatus(szProto);
