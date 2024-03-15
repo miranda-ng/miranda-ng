@@ -227,7 +227,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbe
 	CMStringW wszFiles, wszDescr;
 
 	if (auto *ppro = Proto_GetContactInstance(hContact))
-		ppro->OnReceiveOfflineFile(blob, blob.getUserInfo());
+		ppro->OnReceiveOfflineFile(blob);
 	blob.write(dbei);
 
 	MEVENT hdbe = db_event_add(hContact, &dbei);

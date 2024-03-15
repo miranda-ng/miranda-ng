@@ -102,7 +102,7 @@ bool PROTO_INTERFACE::IsReadyToExit()
 	return true;
 }
 
-void PROTO_INTERFACE::OnReceiveOfflineFile(DB::FILE_BLOB &, void *)
+void PROTO_INTERFACE::OnReceiveOfflineFile(DB::FILE_BLOB &)
 {}
 
 void PROTO_INTERFACE::OnSendOfflineFile(DB::EventInfo &, DB::FILE_BLOB &, void *)

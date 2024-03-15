@@ -616,7 +616,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
 		if (hOldEvent) {
-			OnReceiveOfflineFile(blob, pFileInfo);
+			OnReceiveOfflineFile(blob);
 			blob.write(dbei);
 			db_event_edit(hOldEvent, &dbei, true);
 		}

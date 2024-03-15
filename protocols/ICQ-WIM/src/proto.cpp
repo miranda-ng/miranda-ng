@@ -174,11 +174,12 @@ bool CIcqProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 	return true;
 }
 
-void CIcqProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft)
+void CIcqProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
 {
-	if (auto *pFileInfo = (IcqFileInfo *)ft) {
+	if (auto *pFileInfo = (IcqFileInfo *)blob.getUserInfo()) {
 		blob.setUrl(pFileInfo->szOrigUrl);
 		blob.setSize(pFileInfo->dwFileSize);
+		delete pFileInfo;
 	}
 }
 

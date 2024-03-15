@@ -403,10 +403,6 @@ bool CTelegramProto::GetMessageFile(
 	pRequest->m_fileSize = pFile->size_;
 	pRequest->m_bRecv = !pMsg->is_outgoing_;
 	pRequest->m_hContact = GetRealContact(pUser);
-	{
-		mir_cslock lck(m_csFiles);
-		m_arFiles.insert(pRequest);
-	}
 
 	char szReplyId[100];
 	const char *szDesc = nullptr;
@@ -430,7 +426,7 @@ bool CTelegramProto::GetMessageFile(
 
 	if (dbei) {
 		DB::FILE_BLOB blob(dbei);
-		OnReceiveOfflineFile(blob, pRequest);
+		OnReceiveOfflineFile(blob);
 		blob.write(dbei);
 		db_event_edit(hDbEvent, &dbei, true);
 		delete pRequest;

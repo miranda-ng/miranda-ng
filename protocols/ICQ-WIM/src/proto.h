@@ -450,7 +450,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
-	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
 	void      OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft) override;
 	void      OnShutdown() override;
 

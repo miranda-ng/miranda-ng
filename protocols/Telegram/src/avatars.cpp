@@ -149,11 +149,12 @@ INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Cloud file pre-creator
 
-void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
 {
-	if (auto *ft = (TG_FILE_REQUEST *)pHandle) {
+	if (auto *ft = (TG_FILE_REQUEST *)blob.getUserInfo()) {
 		blob.setUrl(ft->m_uniqueId.GetBuffer());
 		blob.setSize(ft->m_fileSize);
+		delete ft;
 	}
 }
 

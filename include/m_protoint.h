@@ -284,7 +284,7 @@ public:
 	virtual void OnModulesLoaded(void);
 
 	// called when an cloud file is being received
-	virtual void OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft);
+	virtual void OnReceiveOfflineFile(DB::FILE_BLOB &blob);
 
 	// prepares an event of the file being sent
 	virtual void OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft);

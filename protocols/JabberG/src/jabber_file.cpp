@@ -113,14 +113,15 @@ INT_PTR __cdecl CJabberProto::OnOfflineFile(WPARAM param, LPARAM)
 	return 0;
 }
 
-void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
 {
-	if (auto *ft = (filetransfer *)pHandle) {
+	if (auto *ft = (filetransfer *)blob.getUserInfo()) {
 		if (ft->type == FT_HTTP) {
 			if (ft->httpPath)
 				blob.setUrl(ft->httpPath);
 			blob.setSize(ft->dwExpectedRecvFileSize);
 		}
+		delete ft;
 	}
 }
 
