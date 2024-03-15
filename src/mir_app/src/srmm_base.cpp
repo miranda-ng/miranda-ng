@@ -194,6 +194,22 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_PASTE:
+	case EM_PASTESPECIAL:
+		if (OpenClipboard(m_message.GetHwnd())) {
+			if (HANDLE hClip = GetClipboardData(CF_BITMAP))
+				SendHBitmapAsFile((HBITMAP)hClip, m_hContact);
+			else if (HANDLE hClip = GetClipboardData(CF_HDROP))
+				ProcessFileDrop((HDROP)hClip, m_hContact);
+
+			CloseClipboard();
+		}
+		break;
+
+	case WM_DROPFILES:
+		ProcessFileDrop((HDROP)wParam, m_hContact);
+		return 0;
+
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 		if (wParam == VK_BACK)
@@ -624,6 +640,10 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_si->wState &= ~STATE_TALK;
 		}
 		break;
+
+	case WM_DROPFILES:
+		ProcessFileDrop((HDROP)wParam, m_hContact);
+		return 0;
 
 	case WM_DRAWITEM:
 		{

@@ -777,23 +777,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case EM_PASTESPECIAL:
-	case WM_PASTE:
-		if (IsClipboardFormatAvailable(CF_HDROP)) {
-			if (OpenClipboard(m_message.GetHwnd())) {
-				HANDLE hDrop = GetClipboardData(CF_HDROP);
-				if (hDrop)
-					ProcessFileDrop((HDROP)hDrop, m_hContact);
-				CloseClipboard();
-			}
-			return 0;
-		}
-		break;
-
-	case WM_DROPFILES:
-		ProcessFileDrop((HDROP)wParam, m_hContact);
-		return 0;
-
 	case WM_CONTEXTMENU:
 		InputAreaContextMenu(m_message.GetHwnd(), wParam, lParam, m_hContact);
 		return TRUE;
@@ -857,10 +840,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_pLog->ScrollToBottom();
 		else
 			SendMessage(m_hwndParent, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-		break;
-
-	case WM_DROPFILES:
-		ProcessFileDrop((HDROP)wParam, m_hContact);
 		break;
 
 	case DM_AVATARCHANGED:

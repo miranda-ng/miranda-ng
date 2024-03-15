@@ -430,7 +430,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     PlayIncomingSound(void) const;
 	LRESULT  ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, WPARAM wParam, LPARAM lParam);
 	void     SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
-	void 	   SendHBitmapAsFile(HBITMAP hbmp) const;
 	void     ShowPopupMenu(const CCtrlBase&, POINT pt);
 	void     StreamEvents(MEVENT, int, bool);
 	void     UpdateWindowIcon(void);

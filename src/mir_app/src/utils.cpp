@@ -311,11 +311,9 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void AddToFileList(wchar_t **&pppFiles, int &totalCount, const wchar_t *szFilename)
+static void AddToFileList(OBJLIST<wchar_t> &arFiles, const wchar_t *szFilename)
 {
-	pppFiles = (wchar_t **)mir_realloc(pppFiles, (++totalCount + 1) * sizeof(wchar_t *));
-	pppFiles[totalCount] = nullptr;
-	pppFiles[totalCount - 1] = mir_wstrdup(szFilename);
+	arFiles.insert(newStrW(szFilename));
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
@@ -330,7 +328,7 @@ static void AddToFileList(wchar_t **&pppFiles, int &totalCount, const wchar_t *s
 				mir_wstrcpy(szPath, szFilename);
 				mir_wstrcat(szPath, L"\\");
 				mir_wstrcat(szPath, fd.cFileName);
-				AddToFileList(pppFiles, totalCount, szPath);
+				AddToFileList(arFiles, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
 		}
@@ -356,19 +354,63 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 			return false;
 	}
 
-	int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0;
-	wchar_t **ppFiles = nullptr;
+	OBJLIST<wchar_t> arFiles(10);
+	int fileCount = DragQueryFile(hDrop, -1, nullptr, 0);
 	for (int i = 0; i < fileCount; i++) {
 		wchar_t szFilename[MAX_PATH];
 		if (DragQueryFileW(hDrop, i, szFilename, _countof(szFilename)))
-			AddToFileList(ppFiles, totalCount, szFilename);
+			AddToFileList(arFiles, szFilename);
 	}
 
-	File::Send(hContact, ppFiles);
-
-	for (int i=0; ppFiles[i]; i++)
-		mir_free(ppFiles[i]);
+	File::Send(hContact, arFiles.getArray());
 	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// send a pasted bitmap by file transfer.
+
+OBJLIST<wchar_t> arTempFiles(1);
+
+void SendHBitmapAsFile(HBITMAP hbmp, MCONTACT hContact)
+{
+	wchar_t wszTempPath[MAX_PATH], wszTempFile[MAX_PATH];
+	GetTempPathW(_countof(wszTempPath), wszTempPath);
+	GetTempFileNameW(wszTempPath, L"clip_", 0, wszTempFile);
+
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	int wMyStatus = Proto_GetStatus(szProto);
+
+	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+
+	// check protocol capabilities, status modes and visibility lists (privacy)
+	// to determine whether the file can be sent. Throw a warning if any of
+	// these checks fails.
+	if (!(protoCaps & PF1_FILESEND))
+		return;
+
+	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == Contact::GetStatus(hContact) && !(typeCaps & PF4_OFFLINEFILES)))
+		return;
+
+	IMGSRVC_INFO ii;
+	ii.cbSize = sizeof(ii);
+	ii.hbm = hbmp;
+	ii.pwszName = wszTempFile;
+	ii.dwMask = IMGI_HBITMAP;
+	ii.fif = FIF_JPEG;
+	if (!Image_Save(&ii))
+		return;
+
+	arTempFiles.insert(newStrW(wszTempFile));
+
+	wchar_t *ppFiles[2] = { wszTempFile, 0 };
+	File::Send(hContact, ppFiles);
+}
+
+void CleanTempFiles()
+{
+	for (auto &it : arTempFiles)
+		DeleteFileW(it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
