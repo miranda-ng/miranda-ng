@@ -362,6 +362,9 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 			AddToFileList(arFiles, szFilename);
 	}
 
+	arFiles.insert(L"");
+	arFiles.put(arFiles.getCount() - 1, 0);
+
 	File::Send(hContact, arFiles.getArray());
 	return true;
 }
