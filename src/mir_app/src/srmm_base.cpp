@@ -197,10 +197,10 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_PASTE:
 	case EM_PASTESPECIAL:
 		if (OpenClipboard(m_message.GetHwnd())) {
-			if (HANDLE hClip = GetClipboardData(CF_BITMAP))
-				SendHBitmapAsFile((HBITMAP)hClip, m_hContact);
-			else if (HANDLE hClip = GetClipboardData(CF_HDROP))
-				ProcessFileDrop((HDROP)hClip, m_hContact);
+			if (HANDLE hBitmap = GetClipboardData(CF_BITMAP))
+				SendHBitmapAsFile((HBITMAP)hBitmap, m_hContact);
+			else if (HANDLE hDrop = GetClipboardData(CF_HDROP))
+				ProcessFileDrop((HDROP)hDrop, m_hContact);
 
 			CloseClipboard();
 		}
@@ -239,7 +239,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		if ((GetKeyState(VK_CONTROL) & 0x8000) && wParam == 'V' || (GetKeyState(VK_SHIFT) & 0x8000) && wParam == VK_INSERT) {
-			if (IsClipboardFormatAvailable(CF_HDROP)) {
+			if (IsClipboardFormatAvailable(CF_HDROP) || IsClipboardFormatAvailable(CF_BITMAP)) {
 				m_message.SendMsg(WM_PASTE, 0, 0);
 				return 0;
 			}
