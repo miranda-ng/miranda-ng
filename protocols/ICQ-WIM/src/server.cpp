@@ -439,6 +439,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 			Json2string(hContact, it, "country", "Country", bIsPartial);
 		}
 	}
+	else {
+		Json2string(hContact, buddy, "firstName", "FirstName", bIsPartial);
+		Json2string(hContact, buddy, "lastName", "LastName", bIsPartial);
+	}
 
 	CMStringW str = buddy["statusMsg"].as_mstring();
 	if (str.IsEmpty())
@@ -1404,6 +1408,22 @@ void CIcqProto::OnSearchResults(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::PatchProfileInfo(const char *pszVariable, const wchar_t *pwszValue)
+{
+	if (!mir_wstrlen(pwszValue))
+		return;
+
+	auto *pReq = new AsyncRapiRequest(this, "/profile/update", nullptr, 1);
+	pReq->params << WCHAR_PARAM(pszVariable, pwszValue);
+	Push(pReq);
+
+	char *buf = NEWSTR_ALLOCA(pszVariable);
+	buf[0] = _toupper(buf[0]);
+	setWString(buf, pwszValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

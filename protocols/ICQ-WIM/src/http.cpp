@@ -99,12 +99,15 @@ void __cdecl CIcqProto::ServerThread(void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncRapiRequest::AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc) :
-	AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, pFunc)
+AsyncRapiRequest::AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc, int mode) :
+	AsyncHttpRequest(CONN_RAPI, REQUEST_POST, (mode == -1) ? ICQ_ROBUST_SERVER : ICQ_ROBUST_SERVER_NEW, pFunc)
 {
 	params.set_name("params");
 
-	if (ppro->getByte(DB_KEY_PHONEREG)) {
+	if (mode == -1)
+		mode = ppro->getByte(DB_KEY_PHONEREG);
+
+	if (mode) {
 		m_szUrl.AppendChar('/');
 		m_szUrl.Append(pszMethod);
 		

@@ -28,10 +28,12 @@
 #define IDC_ONLINESINCE                 1010
 #define IDC_ABOUT                       1011
 #define IDC_NICK                        1012
+#define IDC_FIRST_NAME                  1013
 #define IDC_LASTSEEN                    1014
 #define IDC_SAVEPASS                    1015
 #define IDC_MEMBERSINCE2                1015
 #define IDC_LIST                        1016
+#define IDC_LAST_NAME                   1016
 #define IDC_DIFF1                       1017
 #define IDC_SPIN1                       1018
 #define IDC_STATUS1                     1019
@@ -40,7 +42,6 @@
 #define IDC_SHOWERRORPOPUPS             1022
 #define IDC_DIFF2                       1023
 #define IDC_SPIN2                       1024
-#define IDC_LIST1                       1024
 #define IDC_STATUS2                     1025
 #define IDC_GROUPS                      1025
 #define IDC_UIN_LABEL                   1026
