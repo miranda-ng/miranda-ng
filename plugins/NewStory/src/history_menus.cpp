@@ -60,9 +60,9 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 		}
 
 		bEditable = (item->dbe.flags & DBEF_SENT) != 0;
-		bShowEventActions = item->hEvent != 0;
+		bShowEventActions = item->dbe;
 
-		DB::EventInfo dbei(item->hEvent);
+		DB::EventInfo dbei(item->dbe.getEvent());
 		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
 
 		if (data->pMsgDlg) {

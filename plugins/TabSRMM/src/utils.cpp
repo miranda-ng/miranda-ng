@@ -215,6 +215,7 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 	cs->iSplitterY = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterY", 0);
 	cs->avatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", 0);
 	cs->ownAvatarMode = db_get_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", 0);
+	cs->sideBarWidth = db_get_w(hContact, SRMSGMOD_T, szSetting + "_SideBarWidth", 100);
 	cs->autoCloseSeconds = db_get_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", 0);
 	cs->fPrivate = db_get_b(hContact, SRMSGMOD_T, szSetting + "_Private", 0) != 0;
 	db_get_wstatic(hContact, SRMSGMOD_T, szSetting + "_Format", cs->szTitleFormat, _countof(cs->szTitleFormat));
@@ -234,6 +235,7 @@ int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSetting
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AvatarMode", cs->avatarMode);
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_OwnAvatarMode", cs->ownAvatarMode);
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", cs->autoCloseSeconds);
+	db_set_w(hContact, SRMSGMOD_T, szSetting + "_SideBarWidth", cs->sideBarWidth);
 	db_set_b(hContact, SRMSGMOD_T, szSetting + "_Private", cs->fPrivate);
 	return 0;
 }

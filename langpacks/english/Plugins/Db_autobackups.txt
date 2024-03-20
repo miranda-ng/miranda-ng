@@ -33,7 +33,7 @@
 [Database back up in process...]
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
-[Save profile as...]
+[Save database as...]
 [Miranda NG databases]
 [Compressed Miranda NG databases]
 [All files]

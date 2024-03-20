@@ -237,7 +237,7 @@ struct CONTACTAVATARCHANGEDNOTIFICATION
 /*
 wParam=0
 lParam=(const wchar_t*)Avatar file name or NULL to remove the avatar
-return=0 for success
+return=0 for success, -1 to deny temporary file deletion (suitable for async operations)
 */
 #define PS_SETMYAVATAR "/SetMyAvatar"
 

@@ -1424,8 +1424,6 @@ OMEMO не поддерживает шифрование приватных со
 Включить копирование сообщений на все ресурсы (XEP-0280)
 [Enable HTTP File Upload (XEP-0363)]
 Включить HTTP File Upload (XEP-0363)
-[Enable VOIP (experimental)]
-Включить VOIP (экспериментальная возможность)
 [Server options]
 Настройки сервера
 [Use Stream Management (XEP-0198)]
@@ -1514,8 +1512,6 @@ League Of Legends (EU West)
 League Of Legends (Oceania)
 [League Of Legends (US)]
 League Of Legends (US)
-[Odnoklassniki]
-Одноклассники
 [S.ms]
 S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]

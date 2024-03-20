@@ -39,6 +39,4 @@ void     TSAPI RearrangeTab(HWND hwndDlg, const CMsgDialog *dat, int iMode, BOOL
 bool     TSAPI IsStatusEvent(int eventType);
 bool     TSAPI IsCustomEvent(int eventType);
 
-void	   TSAPI CleanTempFiles();
-
 #endif

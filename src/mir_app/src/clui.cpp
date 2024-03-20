@@ -135,7 +135,8 @@ class CDeleteDlg : public CDlgBase
 
 public:
 	char *szProto;
-	bool bDelContact, bDelHistory, bForEveryone;
+	bool bDelContact = true, bDelHistory = false, bForEveryone = false;
+	bool bHasServer, bHasHistory;
 
 	CDeleteDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_DELETECONTACT),
@@ -145,17 +146,18 @@ public:
 		chkForEveryone(this, IDC_BOTH)
 	{
 		szProto = Proto_GetBaseAccountName(hContact);
-		bDelContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_SERVERCLIST) != 0;
-		bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
+		bHasServer = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_SERVERCLIST) != 0;
+		bHasHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
 	}
 
 	bool OnInitDialog() override
 	{
-		chkDelContact.SetState(bDelContact);
+		chkDelContact.SetState(bHasServer);
+		chkDelContact.Enable(bHasServer);
 		
 		chkDelHistory.SetState(false);
-		chkDelHistory.Enable(bDelHistory);
+		chkDelHistory.Enable(bHasHistory);
 
 		// this checkbox is disabled & checked, if deletion for everyone is not possible
 		// and enabled & unchecked otherwise
@@ -219,15 +221,19 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 		options |= CDF_FOR_EVERYONE;
 
 	// Check if protocol uses server side lists
-	int status = Proto_GetStatus(dlg.szProto);
-	if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
-		// Set a flag so we remember to delete the contact when the protocol goes online the next time
-		db_set_b(hContact, "CList", "Delete", options);
-		MessageBoxW(nullptr,
-						TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
-						TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
+	if (dlg.bHasServer) {
+		int status = Proto_GetStatus(dlg.szProto);
+		if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
+			// Set a flag so we remember to delete the contact when the protocol goes online the next time
+			db_set_b(hContact, "CList", "Delete", options);
+			MessageBoxW(nullptr,
+				TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
+				TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
+			return 0;
+		}
 	}
-	else db_delete_contact(hContact, options);
+
+	db_delete_contact(hContact, options);
 	return 0;
 }
 

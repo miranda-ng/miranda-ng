@@ -2,7 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by w:\miranda-ng\plugins\Msg_Export\res\resource.rc
 //
-#define IDI_EXPORT_MESSAGE              108
+#define IDI_MAIN                        108
 #define IDD_EXPORT_ALL_DLG              110
 #define IDR_MSG_EXPORT                  114
 #define IDD_FILE_VIEWER                 116
@@ -10,8 +10,6 @@
 #define IDD_OPT_MSGEXPORT               121
 #define IDD_OPT_CONTACTS                122
 #define IDD_OPT_MSGEXPORT2              123
-#define IDI_NOTICK                      205
-#define IDI_TICK                        206
 #define IDC_EXPORTALL                   1001
 #define IDC_EXPORT_DIR                  1002
 #define IDC_MAX_CLOUMN_WIDTH            1003
@@ -31,7 +29,7 @@
 #define IDC_FILE_VIEWER_BROWSE          1063
 #define IDC_FILE_VIEWER                 1064
 #define IDC_APPEND_NEWLINE              1065
-#define IDC_USE_LESS_AND_GREATER_IN_EXPORT 1066
+#define IDC_USE_ANGLE_BRACKETS 1066
 #define IDC_FC_PROMPT                   1067
 #define IDC_FC_RENAME                   1068
 #define IDC_FC_NOTHING                  1069

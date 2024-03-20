@@ -136,7 +136,6 @@ int CMPlugin::Unload()
 	int iRet = SplitmsgShutdown();
 	Skin->setupTabCloseBitmap(true);
 	Skin->UnloadAeroTabs();
-	CleanTempFiles();
 	SendLater::shutDown();
 	delete Skin;
 	delete sendQueue;

@@ -42,7 +42,7 @@ int GetTZOffset(void)
 	return offset;
 }
 
-void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, uint32_t dwSize)
+CMStringW GetISO8061Time(SYSTEMTIME *stLocal)
 {
 	SYSTEMTIME loctime;
 	if (stLocal == nullptr) {
@@ -50,23 +50,28 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, uint32_t dwSize)
 		GetLocalTime(stLocal);
 	}
 
+	CMStringW ret;
 	if (g_plugin.bClassicDates) {
-		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, L"d MMM yyyy", lpszString, dwSize);
-		int dlen = (int)mir_wstrlen(lpszString);
-		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, L" H:mm:ss", lpszString + dlen, dwSize - dlen);
+		wchar_t buf[100];
+		GetDateFormatW(LOCALE_CUSTOM_DEFAULT, DATE_LONGDATE, stLocal, 0, buf, _countof(buf));
+		ret.AppendFormat(L"%s ", buf);
+
+		GetTimeFormatW(LOCALE_CUSTOM_DEFAULT, 0, stLocal, 0, buf, _countof(buf));
+		ret.Append(buf);
 	}
 	else {
 		int offset = GetTZOffset();
 
 		// Build a string showing the date and time.
-		mir_snwprintf(lpszString, dwSize, L"%d-%02d-%02d %02d:%02d:%02d%+03d%02d",
+		ret.Format(L"%d-%02d-%02d %02d:%02d:%02d%+03d%02d",
 			stLocal->wYear, stLocal->wMonth, stLocal->wDay,
 			stLocal->wHour, stLocal->wMinute, stLocal->wSecond,
 			offset / 60, offset % 60);
 	}
+	return ret;
 }
 
-void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, uint32_t dwSize)
+CMStringW GetLastWriteTime(FILETIME *ftime)
 {
 	FILETIME ftLocal;
 	SYSTEMTIME stLocal;
@@ -75,18 +80,19 @@ void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, uint32_t dwSize)
 	FileTimeToLocalFileTime(ftime, &ftLocal);
 	FileTimeToSystemTime(&ftLocal, &stLocal);
 
-	GetISO8061Time(&stLocal, lpszString, dwSize);
+	return GetISO8061Time(&stLocal);
 }
 
-void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, uint32_t dwSize)
+CMStringW GetLastWriteTime(LPCTSTR fileName)
 {
 	WIN32_FIND_DATA FindFileData;
 
 	HANDLE hFind = FindFirstFile(fileName, &FindFileData);
-	if (hFind == INVALID_HANDLE_VALUE) return;
+	if (hFind == INVALID_HANDLE_VALUE)
+		return L"";
 	FindClose(hFind);
 
-	GetLastWriteTime(&FindFileData.ftLastWriteTime, lpszString, dwSize);
+	return GetLastWriteTime(&FindFileData.ftLastWriteTime);
 }
 
 const PLUGININFOEX* GetMirInfo(HMODULE hModule)

@@ -32,6 +32,14 @@ MIR_CORE_DLL(char *) newStr(const char *src)
 	return strcpy(new char[strlen(src) + 1], src);
 }
 
+MIR_CORE_DLL(wchar_t *) newStrW(const wchar_t *src)
+{
+	if (!src)
+		return nullptr;
+
+	return wcscpy(new wchar_t[wcslen(src) + 1], src);
+}
+
 MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src)
 {
 	if (dest != nullptr)

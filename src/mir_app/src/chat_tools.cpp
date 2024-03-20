@@ -734,13 +734,19 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 	if (mir_strcmp(szProto, dbei.szModule) || !g_chatApi.DbEventIsShown(dbei) || !dbei.szUserId)
 		return;
 
-	Utf2T wszUserId(dbei.szUserId);
 	CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
 	wszText.Replace(L"%", L"%%");
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.pszUID.w = wszUserId;
+	if (dbei.flags & DBEF_READ)
+		gce.dwFlags |= GCEF_NOTNOTIFY;
+
+	Utf2T wszUserId(dbei.szUserId);
+	if (g_chatApi.UM_FindUser(si, wszUserId))
+		gce.pszUID.w = wszUserId;
+	else
+		gce.pszNick.w = wszUserId;
 	gce.pszText.w = wszText;
 	gce.time = dbei.timestamp;
 	gce.hEvent = hDbEvent;

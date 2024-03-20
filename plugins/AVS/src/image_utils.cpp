@@ -540,15 +540,3 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	free(p);
 	return TRUE;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Other utils
-
-int SaveAvatar(const char *protocol, const wchar_t *tszFileName)
-{
-	INT_PTR result = CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)tszFileName);
-	if (result == CALLSERVICE_NOTFOUND)
-		result = CallProtoService(protocol, PS_SETMYAVATAR, 0, _T2A(tszFileName));
-
-	return result;
-}

@@ -28,9 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h> // datetimepicker
 #include <ShlObj.h>
 
+#include <io.h>
 #include <malloc.h>
 #include <time.h>
 
+#include <algorithm>
 #include <memory>
 
 #include <newpluginapi.h>

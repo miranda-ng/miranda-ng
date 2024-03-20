@@ -140,6 +140,15 @@ void SM_FreeSession(SESSION_INFO *si)
 	delete si;
 }
 
+MIR_APP_DLL(SESSION_INFO*) Chat_Find(MCONTACT hContact, const char *pszModule)
+{
+	if (pszModule == nullptr)
+		pszModule = Proto_GetBaseAccountName(hContact);
+
+	ptrW contactId(Contact::GetInfo(CNF_UNIQUEID, hContact, pszModule));
+	return Chat_Find(contactId, pszModule);
+}
+
 MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule)
 {
 	if (!pszID || !pszModule)

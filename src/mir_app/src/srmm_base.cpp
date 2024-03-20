@@ -194,6 +194,22 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_PASTE:
+	case EM_PASTESPECIAL:
+		if (OpenClipboard(m_message.GetHwnd())) {
+			if (HANDLE hBitmap = GetClipboardData(CF_BITMAP))
+				SendHBitmapAsFile((HBITMAP)hBitmap, m_hContact);
+			else if (HANDLE hDrop = GetClipboardData(CF_HDROP))
+				ProcessFileDrop((HDROP)hDrop, m_hContact);
+
+			CloseClipboard();
+		}
+		break;
+
+	case WM_DROPFILES:
+		ProcessFileDrop((HDROP)wParam, m_hContact);
+		return 0;
+
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 		if (wParam == VK_BACK)
@@ -223,7 +239,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		if ((GetKeyState(VK_CONTROL) & 0x8000) && wParam == 'V' || (GetKeyState(VK_SHIFT) & 0x8000) && wParam == VK_INSERT) {
-			if (IsClipboardFormatAvailable(CF_HDROP)) {
+			if (IsClipboardFormatAvailable(CF_HDROP) || IsClipboardFormatAvailable(CF_BITMAP)) {
 				m_message.SendMsg(WM_PASTE, 0, 0);
 				return 0;
 			}
@@ -585,12 +601,28 @@ void CSrmmBaseDialog::OnDestroy()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void doMarkEventRead(MCONTACT hContact, MEVENT hEvent)
+{
+	db_event_markRead(hContact, hEvent);
+	Clist_RemoveEvent(-1, hEvent);
+}
+
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case DM_OPTIONSAPPLIED:
 		OnOptionsApplied();
 		return 0;
+
+	case WM_SHOWWINDOW:
+		if (wParam) {
+			m_bActive = true;
+			for (auto &it : m_arDisplayedEvents)
+				doMarkEventRead(m_hContact, it);
+			m_arDisplayedEvents.clear();
+		}
+		else m_bActive = false;
+		break;
 
 	case WM_COMMAND:
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
@@ -608,6 +640,10 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_si->wState &= ~STATE_TALK;
 		}
 		break;
+
+	case WM_DROPFILES:
+		ProcessFileDrop((HDROP)wParam, m_hContact);
+		return 0;
 
 	case WM_DRAWITEM:
 		{
@@ -659,6 +695,18 @@ void CSrmmBaseDialog::ClearLog()
 bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 {
 	return (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType));
+}
+
+void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
+{
+	if (dbei.markedRead())
+		return;
+
+	if (m_bActive)
+		doMarkEventRead(m_hContact, dbei.getEvent());
+	else {
+		m_arDisplayedEvents.push_back(dbei.getEvent());
+	}
 }
 
 void CSrmmBaseDialog::UpdateChatOptions()
@@ -729,10 +777,6 @@ void CSrmmBaseDialog::UpdateChatLog()
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
-			auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
-			if (pUser == nullptr)
-				continue;
-
 			Utf2T wszUserId(dbei.szUserId);
 			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
 			wszText.Replace(L"%", L"%%");
@@ -746,6 +790,8 @@ void CSrmmBaseDialog::UpdateChatLog()
 
 			if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
 				gce.pszNick.w = ui->pszNick;
+			else 
+				gce.pszNick.w = wszUserId;
 			SM_AddEvent(m_si, &gce, false);
 		}
 	}

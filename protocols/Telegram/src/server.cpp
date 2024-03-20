@@ -58,6 +58,14 @@ void __cdecl CTelegramProto::ServerThread(void *)
 	m_pClientManager = std::move(nullptr);
 }
 
+void CTelegramProto::UnregisterSession()
+{
+	if (getByte(DBKEY_AUTHORIZED)) {
+		m_bUnregister = true;
+		ForkThread(&CTelegramProto::ServerThread);
+	}
+}
+
 void CTelegramProto::LogOut()
 {
 	if (m_bTerminated)
@@ -176,6 +184,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	if (response.request_id) {
 		TG_REQUEST tmp(response.request_id, 0);
+		mir_cslock lck(m_csRequests);
 		auto *p = m_arRequests.find(&tmp);
 		if (p) {
 			p->Execute(this, response);
@@ -243,6 +252,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateFile::ID:
 		ProcessFile((TD::updateFile *)response.object.get());
+		break;
+
+	case TD::updateForumTopicInfo::ID:
+		ProcessForum((TD::updateForumTopicInfo*)response.object.get());
 		break;
 
 	case TD::updateMessageContent::ID:
@@ -335,7 +348,7 @@ void CTelegramProto::OnSendMessage(td::ClientManager::Response &response)
 	}
 }
 
-int CTelegramProto::SendTextMessage(int64_t chatId, TD::int53 replyId, const char *pszMessage)
+int CTelegramProto::SendTextMessage(int64_t chatId, int64_t threadId, int64_t replyId, const char *pszMessage)
 {
 	auto pContent = TD::make_object<TD::inputMessageText>();
 	pContent->text_ = formatBbcodes(pszMessage);
@@ -343,6 +356,7 @@ int CTelegramProto::SendTextMessage(int64_t chatId, TD::int53 replyId, const cha
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
+	pMessage->message_thread_id_ = threadId;
 	pMessage->reply_to_message_id_ = replyId;
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
@@ -359,8 +373,10 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
-	if (pHandler)
+	if (pHandler) {
+		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
+	}
 	return queryId;
 }
 
@@ -376,8 +392,10 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandle
 
 	m_pClientManager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
-	if (pHandler)
+	if (pHandler) {
+		mir_cslock lck(m_csRequests);
 		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));
+	}
 	return queryId;
 }
 
@@ -453,6 +471,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	int64_t userId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
+	bool isForum = false;
 
 	switch (pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
@@ -468,6 +487,14 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	case TD::chatTypeSupergroup::ID:
 		userId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
+		{
+			TG_SUPER_GROUP tmp(userId, 0);
+			if (auto *pGroup = m_arSuperGroups.find(&tmp))
+				isForum = pGroup->group->is_forum_;
+
+			if (isForum)
+				SendQuery(new TD::getForumTopics(pChat->id_, "", 0, 0, 0, 100));
+		}
 		break;
 
 	default:
@@ -475,37 +502,46 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		return;
 	}
 
-	if (auto *pUser = FindUser(userId)) {
-		pUser->chatId = pChat->id_;
-		MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
-
-		if (!m_arChats.find(pUser))
-			m_arChats.insert(pUser);
-
-		if (!szTitle.empty()) {
-			if (hContact != INVALID_CONTACT_ID)
-				setUString(hContact, "Nick", szTitle.c_str());
-			else if (pUser->wszNick.IsEmpty())
-				pUser->wszFirstName = Utf2T(szTitle.c_str());
-		}
-
-		if (CheckSearchUser(pUser))
-			return;
-
-		if (pUser->hContact != INVALID_CONTACT_ID) {
-			if (pChat->has_protected_content_)
-				setByte(pUser->hContact, "Protected", 1);
-			else
-				delSetting(pUser->hContact, "Protected");
-
-			if (pChat->permissions_)
-				Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
-
-			if (pUser->isGroupChat && pUser->m_si == nullptr)
-				InitGroupChat(pUser, Utf2T(pChat->title_.c_str()));
-		}
+	auto *pUser = FindUser(userId);
+	if (pUser == nullptr) {
+		debugLogA("Unknown user id %lld for chat %lld, ignoring", userId, pChat->id_);
+		return;
 	}
-	else debugLogA("Unknown user id %lld, ignoring", userId);
+
+	pUser->chatId = pChat->id_;
+	pUser->isForum = isForum;
+	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
+
+	if (!m_arChats.find(pUser))
+		m_arChats.insert(pUser);
+
+	if (!szTitle.empty()) {
+		if (hContact != INVALID_CONTACT_ID) {
+			setUString(hContact, "Nick", szTitle.c_str());
+			pUser->wszNick = Utf2T(szTitle.c_str());
+		}
+		else if (pUser->wszNick.IsEmpty())
+			pUser->wszFirstName = Utf2T(szTitle.c_str());
+	}
+
+	if (auto *pPhoto = pChat->photo_.get())
+		ProcessAvatar(pPhoto->small_.get(), pUser);
+
+	if (CheckSearchUser(pUser))
+		return;
+
+	if (pUser->hContact != INVALID_CONTACT_ID) {
+		if (pChat->has_protected_content_)
+			setByte(pUser->hContact, "Protected", 1);
+		else
+			delSetting(pUser->hContact, "Protected");
+
+		if (pChat->permissions_)
+			Contact::Readonly(hContact, !pChat->permissions_->can_send_basic_messages_);
+
+		if (pUser->isGroupChat && pUser->m_si == nullptr)
+			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
+	}
 }
 
 void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
@@ -581,29 +617,63 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		return;
 	}
 
-	if (pUser->hContact == INVALID_CONTACT_ID)
+	if (pUser->hContact == INVALID_CONTACT_ID) {
+		debugLogA("Temporary contact, skipping");
 		return;
+	}
 
 	auto *pPos = (TD::chatPosition *)pObj->position_.get();
 	if (auto *pList = pPos->list_.get()) {
 		CMStringW wszGroup;
-		if (pList->get_id() == TD::chatListArchive::ID)
-			wszGroup = TranslateT("Archive");
-		else if (pList->get_id() == TD::chatListFolder::ID) {
-			CMStringA szSetting(FORMAT, "ChatFilter%d", ((TD::chatListFolder *)pList)->chat_folder_id_);
-			wszGroup = getMStringW(szSetting);
-			if (wszGroup.IsEmpty())
-				return;
-		}
-		else return;
 
-		ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
-		if (!pwszExistingGroup
-			|| (!pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup))
-			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup())))) {
-			CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
+		switch (auto typeId = pList->get_id()) {
+		case TD::chatListArchive::ID:
+			wszGroup = TranslateT("Archive");
+			break;
+
+		case TD::chatListMain::ID:  // leave group empty
+			if (pUser->folderId != -1)
+				return;
+			break;
+
+		case TD::chatListFolder::ID:
+			{
+				int iFolderId = ((TD::chatListFolder *)pList)->chat_folder_id_;
+				CMStringA szSetting(FORMAT, "ChatFilter%d", iFolderId);
+				wszGroup = getMStringW(szSetting);
+				if (wszGroup.IsEmpty()) {
+					debugLogA("Empty group name for group #%d, ignored", iFolderId);
+					return;
+				}
+				if (wszGroup == "Unread")
+					return;
+				pUser->folderId = iFolderId;
+			}
+			break;
+
+		default:
+			debugLogA("Unknown position type ID %d, ignored", typeId);
+			return;
+		}
+
+		MCONTACT hContact = GetRealContact(pUser);
+		ptrW pwszExistingGroup(Clist_GetGroup(hContact));
+		debugLogW(L"Existing contact group <%s>, calculated <%s>", pwszExistingGroup.get(), wszGroup.c_str());
+
+		wchar_t *pwszDefaultGroup = m_wszDefaultGroup;
+		if (!pwszExistingGroup || pUser->isForum
+			|| !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, mir_wstrlen(pwszDefaultGroup))
+			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup()))))
+		{
+			CMStringW wszNewGroup(pwszDefaultGroup);
+			if (!wszGroup.IsEmpty())
+				wszNewGroup.AppendFormat(L"\\%s", wszGroup.c_str());
+			if (pUser->isForum)
+				wszNewGroup.AppendFormat(L"\\%s", pUser->wszNick.c_str());
+
+			debugLogW(L"Setting group for %d to %s", hContact, wszNewGroup.c_str());
 			Clist_GroupCreate(0, wszNewGroup);
-			Clist_SetGroup(pUser->hContact, wszNewGroup);
+			Clist_SetGroup(hContact, wszNewGroup);
 		}
 	}
 }
@@ -773,31 +843,6 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		return;
 	}
 
-	if (auto *pForward = pMessage->forward_info_.get()) {
-		CMStringW wszNick;
-		switch (pForward->origin_->get_id()) {
-		case TD::messageForwardOriginUser::ID:
-			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
-				wszNick = p->getDisplayName();
-			break;
-		case TD::messageForwardOriginChat::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
-				wszNick = p->getDisplayName();
-			break;
-		case TD::messageForwardOriginChannel::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
-				wszNick = p->getDisplayName();
-			break;
-		default:
-			wszNick = TranslateT("Unknown");
-		}
-
-		wchar_t wszDate[100];
-		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
-		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
-		szText.Insert(0, T2Utf(wszForward));
-	}
-
 	// make a temporary contact if needed
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		if (pUser->isGroupChat) {
@@ -807,6 +852,14 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 		AddUser(pUser->id, false);
 		Contact::RemoveFromList(pUser->hContact);
+	}
+
+	MCONTACT hContact = GetRealContact(pUser);
+	if (pMessage->message_thread_id_) {
+		wchar_t buf[100];
+		mir_snwprintf(buf, L"%lld_%lld", pMessage->chat_id_, pMessage->message_thread_id_);
+		if (auto *si = Chat_Find(buf, m_szModuleName))
+			hContact = si->hContact;
 	}
 
 	DB::EventInfo dbei(hOldEvent);
@@ -830,7 +883,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 	}
 	else {
 		dbei.pBlob = szText.GetBuffer();
-		ProtoChainRecvMsg(GetRealContact(pUser), dbei);
+		ProtoChainRecvMsg(hContact, dbei);
 	}
 }
 
@@ -955,24 +1008,30 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	bool bIsMe = pUser->id_ == m_iOwnId;
 	auto typeID = (pUser->type_) ? pUser->type_->get_id() : 0;
 
-	if (!bIsMe && !pUser->is_contact_ && typeID == TD::userTypeRegular::ID) {
-		auto *pu = AddFakeUser(pUser->id_, false);
-		if (pu->hContact != INVALID_CONTACT_ID)
-			Contact::RemoveFromList(pu->hContact);
+	if (!bIsMe && !pUser->is_contact_) {
+		switch (typeID) {
+		case TD::userTypeDeleted::ID:
+			return;
 
-		pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
-		pu->wszLastName = Utf2T(pUser->last_name_.c_str());
-		if (pUser->usernames_) {
-			pu->wszNick = L"@";
-			pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
-		}
-		else {
-			pu->wszNick = Utf2T(pUser->first_name_.c_str());
-			if (!pUser->last_name_.empty())
-				pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
-		}
+		case TD::userTypeRegular::ID:
+			auto *pu = AddFakeUser(pUser->id_, false);
+			if (pu->hContact != INVALID_CONTACT_ID)
+				Contact::RemoveFromList(pu->hContact);
 
-		CheckSearchUser(pu);
+			pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
+			pu->wszLastName = Utf2T(pUser->last_name_.c_str());
+			if (pUser->usernames_) {
+				pu->wszNick = L"@";
+				pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
+			}
+			else {
+				pu->wszNick = Utf2T(pUser->first_name_.c_str());
+				if (!pUser->last_name_.empty())
+					pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
+			}
+
+			CheckSearchUser(pu);
+		}
 
 		debugLogA("User doesn't belong to your contacts, skipping");
 		return;
@@ -1010,8 +1069,16 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	auto *pu = AddUser(pUser->id_, false);
 
-	setUString(pu->hContact, "FirstName", szFirstName.c_str());
-	setUString(pu->hContact, "LastName", szLastName.c_str());
+	if (szFirstName.empty())
+		delSetting(pu->hContact, "FirstName");
+	else
+		setUString(pu->hContact, "FirstName", szFirstName.c_str());
+
+	if (szLastName.empty())
+		delSetting(pu->hContact, "LastName");
+	else
+		setUString(pu->hContact, "LastName", szLastName.c_str());
+	
 	if (pu->hContact)
 		UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 
@@ -1031,20 +1098,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 	else ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
-	if (auto *pPhoto = pUser->profile_photo_.get()) {
-		if (auto *pSmall = pPhoto->small_.get()) {
-			auto remoteId = pSmall->remote_->unique_id_;
-			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
-			if (remoteId != storedId.c_str()) {
-				if (!remoteId.empty()) {
-					pu->szAvatarHash = remoteId.c_str();
-					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
-					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
-				}
-				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);
-			}
-		}
-	}
+	if (auto *pPhoto = pUser->profile_photo_.get())
+		ProcessAvatar(pPhoto->small_.get(), pu);
 
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {

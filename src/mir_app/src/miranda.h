@@ -204,7 +204,9 @@ BOOL IsAeroMode();
 
 #ifdef _WINDOWS
 bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
+void SendHBitmapAsFile(HBITMAP hbmp, MCONTACT hContact);
 #endif
+void CleanTempFiles();
 
 void RegisterModule(CMPluginBase*);
 

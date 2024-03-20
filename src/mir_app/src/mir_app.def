@@ -851,7 +851,7 @@ Chat_IsMuted @941 NONAME
 ?getIcon@LOGINFO@@QBEHXZ @981 NONAME
 ?getIndex@LOGINFO@@QBEHXZ @982 NONAME
 ?write@LOGINFO@@QBEXPAURtfChatLogStreamData@@_NAAV?$CMStringT@DV?$ChTraitsCRT@D@@@@PB_W@Z @983 NONAME
-?OnReceiveOfflineFile@PROTO_INTERFACE@@UAEXAAVFILE_BLOB@DB@@PAX@Z @984 NONAME
+?OnReceiveOfflineFile@PROTO_INTERFACE@@UAEXAAVFILE_BLOB@DB@@@Z @984 NONAME
 ?setSize@FILE_BLOB@DB@@QAEX_J@Z @985 NONAME
 ?setUrl@FILE_BLOB@DB@@QAEXPBD@Z @986 NONAME
 ?Clist_GetEvent@@YGPAUCListEvent@@IH@Z @987 NONAME
@@ -902,13 +902,13 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QAEXI@Z @1033 NONAME
 ?onClick_CloseQuote@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @1034 NONAME
-?fetch@EventInfo@DB@@QAE_NI_N@Z @1035 NONAME
+?fetch@EventInfo@DB@@QAE_N_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
 ?Send@File@@YGPAUHWND__@@IQAPA_W@Z @1038 NONAME
 ?GetReceivedFolder@File@@YGPA_WIPA_WI_N@Z @1039 NONAME
 ?DlgProc@CUserInfoPageDlg@@UAEHIIJ@Z @1040 NONAME
-?wipeNotify@EventInfo@DB@@QAEXI@Z @1047 NONAME
+?wipeNotify@EventInfo@DB@@QAEXXZ @1041 NONAME
 _CallContactService@16 @1048 NONAME
 ??0MDatabaseExport@@QAE@XZ @1049 NONAME
 ??1MDatabaseExport@@UAE@XZ @1050 NONAME
@@ -964,3 +964,7 @@ _Netlib_DownloadFile@20 @1099 NONAME
 ??0FILE_BLOB@DB@@QAE@PAXPBD1_N@Z @1100 NONAME
 ?getUserInfo@FILE_BLOB@DB@@QBEPAXXZ @1101 NONAME
 ?setUserInfo@FILE_BLOB@DB@@QAEXPAX@Z @1102 NONAME
+?Chat_Find@@YGPAUSESSION_INFO@@IPBD@Z @1103 NONAME
+??4EventInfo@DB@@QAEAAV01@I@Z @1104 NONAME
+?MarkEventRead@CSrmmBaseDialog@@QAEXABVEventInfo@DB@@@Z @1105 NONAME
+?getEvent@EventInfo@DB@@QBEIXZ @1106 NONAME

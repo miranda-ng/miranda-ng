@@ -440,8 +440,6 @@
 Размещение
 [Avatar size:]
 Аватар:
-[Disable when]
-Выключить когда
 [Global hover]
 Общее наведение
 [Sidebar width:]
@@ -452,6 +450,14 @@
 Промежуток:
 [Round corners (avatar)]
 Округлять углы аватара
+[Disable when]
+Выключить когда
+[Always (has priority)]
+Всегда (имеет приоритет)
+[Fullscreen mode]
+Полноэкранный режим
+[Statuses]
+Статусы
 [Text color:]
 Цвет текста:
 [Background color:]
@@ -490,8 +496,6 @@
 Обновить
 [Updating]
 Обновление
-[Nickname:]
-Ник:
 [First name:]
 Имя:
 [Gender:]
@@ -1195,6 +1199,8 @@ UIN, E-mail и т.д.
 Если их размер менее
 [KBytes (0 - always)]
 Кбайт (0 - всегда скачивать)
+[Remove cached files when an event is deleted]
+Удалить кэшированные файлы при удалении события
 [Virus scanner]
 Антивирус
 [Scan files:]
@@ -1653,8 +1659,6 @@ Miranda не смогла загрузить встроенную систему
 Аватар слева
 [Right avatar]
 Аватар справа
-[Full-screen app running]
-Полноэкранное приложение
 [No animate]
 Без анимации
 [Horizontal animate]
@@ -2634,16 +2638,16 @@ xСтатус
 Вы уверены, что хотите удалить профиль "%s"?
 [&Convert]
 &Конвертировать
-[Run]
-Запустить
-[Check database]
-Проверить базу
 [Size]
 Размер
 [Created]
 Создан
 [Modified]
 Изменён
+[Run]
+Запустить
+[Check database]
+Проверить базу
 [My profiles]
 Мои профили
 [New profile]
@@ -2718,6 +2722,8 @@ ID учётной записи
 Внутреннее имя учётной записи содержит недопустимые символы (поддерживаются только символы ASCII).
 [Account internal name has to be unique. Please enter unique name.]
 Внутреннее имя учётной записи должно быть уникальным. Введите уникальное имя.
+[Account's name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

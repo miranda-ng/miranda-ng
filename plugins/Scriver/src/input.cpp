@@ -49,7 +49,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 
 	if (!SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
 		EnableMenuItem(hSubMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
-		if (!IsClipboardFormatAvailable(CF_HDROP))
+		if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP))
 			EnableMenuItem(hSubMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
 	}
 	if (lParam == 0xFFFFFFFF) {

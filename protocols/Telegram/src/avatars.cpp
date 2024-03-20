@@ -65,14 +65,33 @@ INT_PTR CTelegramProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM, LPARAM)
+INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	return 1;
+	auto wszFileName(GetAvatarFilename(0));
+	mir_wstrncpy((wchar_t *)wParam, wszFileName, lParam);
+	return 0;
 }
 
-INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::OnAvatarSet(td::ClientManager::Response&, void *pUserInfo)
 {
-	return 1;
+	ptrW pwszFileName((wchar_t *)pUserInfo);
+	DeleteFileW(pwszFileName);
+}
+
+INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
+{
+	auto *pwszFileName = (const wchar_t *)lParam;
+	if (ProtoGetAvatarFileFormat(pwszFileName) != PA_FORMAT_JPEG) {
+		Popup(0, TranslateT("Avatar file must be a picture in JPEG format"), TranslateT("Error setting avatar"));
+		return 1;
+	}
+
+	TD::object_ptr<TD::InputFile> localFile(new TD::inputFileLocal(T2Utf(pwszFileName).get()));
+	TD::object_ptr<TD::InputChatPhoto> photo(new TD::inputChatPhotoStatic(std::move(localFile)));
+	SendQuery(new TD::setProfilePhoto(std::move(photo), true), &CTelegramProto::OnAvatarSet, mir_wstrdup(pwszFileName));
+	return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +120,6 @@ void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
 {
 	if (!response.object)
 		return;
-
 }
 
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
@@ -131,11 +149,12 @@ INT_PTR __cdecl CTelegramProto::SvcOfflineFile(WPARAM param, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Cloud file pre-creator
 
-void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *pHandle)
+void CTelegramProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
 {
-	if (auto *ft = (TG_FILE_REQUEST *)pHandle) {
+	if (auto *ft = (TG_FILE_REQUEST *)blob.getUserInfo()) {
 		blob.setUrl(ft->m_uniqueId.GetBuffer());
 		blob.setSize(ft->m_fileSize);
+		delete ft;
 	}
 }
 
@@ -170,6 +189,27 @@ TG_FILE_REQUEST* CTelegramProto::FindFile(const char *pszUniqueId)
 			return it;
 
 	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extracts a photo/avatar to a file
+
+void CTelegramProto::ProcessAvatar(const TD::file *pFile, TG_USER *pUser)
+{
+	if (pUser->hContact == INVALID_CONTACT_ID)
+		return;
+
+	auto remoteId = pFile->remote_->unique_id_;
+	auto storedId = getMStringA(pUser->hContact, DBKEY_AVATAR_HASH);
+	auto wszFileName = GetAvatarFilename(pUser->hContact);
+	if (remoteId != storedId.c_str() || _waccess(wszFileName, 0)) {
+		if (!remoteId.empty()) {
+			pUser->szAvatarHash = remoteId.c_str();
+			setString(pUser->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+			SendQuery(new TD::downloadFile(pFile->id_, 5, 0, 0, false));
+		}
+		else delSetting(pUser->hContact, DBKEY_AVATAR_HASH);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

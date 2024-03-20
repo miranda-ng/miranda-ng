@@ -588,10 +588,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_DROPFILES: // Mod from tabsrmm
-		ProcessFileDrop((HDROP)wParam, m_hContact);
-		return FALSE;
-
 	case HM_AVATARACK:
 		UpdateAvatar();
 		break;
@@ -771,10 +767,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		SetActiveWindow(m_hwnd);
 		break;
 
-	case WM_DROPFILES:
-		ProcessFileDrop((HDROP)wParam, m_hContact);
-		return FALSE;
-
 	case WM_SYSCHAR:
 		if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU) & 0x8000) {
 			m_btnOk.Click();
@@ -809,7 +801,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				EnableMenuItem(mwpd.hMenu, IDM_REDO, MF_BYCOMMAND | MF_GRAYED);
 
 			if (!m_message.SendMsg(EM_CANPASTE, 0, 0)) {
-				if (!IsClipboardFormatAvailable(CF_HDROP))
+				if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP))
 					EnableMenuItem(mwpd.hMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
 				EnableMenuItem(mwpd.hMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
 			}
@@ -878,19 +870,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			DestroyMenu(hMenu);
 			return 0;
 		}
-
-	case EM_PASTESPECIAL:
-	case WM_PASTE:
-		if (IsClipboardFormatAvailable(CF_HDROP)) {
-			if (OpenClipboard(m_message.GetHwnd())) {
-				HANDLE hDrop = GetClipboardData(CF_HDROP);
-				if (hDrop)
-					ProcessFileDrop((HDROP)hDrop, m_hContact);
-				CloseClipboard();
-			}
-			return 0;
-		}
-		break;
 
 	case WM_SETFOCUS:
 		{

@@ -38,6 +38,7 @@
 #define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
+#define ICQ_ROBUST_SERVER_NEW "https://u.icq.net/api/v92/rapi"
 
 #define PS_DUMMY "/DoNothing"
 #define PS_GOTO_INBOX "/SvcGotoInbox"
@@ -450,7 +451,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
-	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
 	void      OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft) override;
 	void      OnShutdown() override;
 
@@ -471,6 +472,8 @@ public:
 	CMOption<uint32_t> m_iStatus2;
 
 	void CheckStatus(void);
+	void PatchProfileInfo(const char *pszVariable, const wchar_t *pwszValue);
+
 	MCONTACT GetRealContact(IcqUser *pUser);
 	CMStringW GetUserId(MCONTACT);
 

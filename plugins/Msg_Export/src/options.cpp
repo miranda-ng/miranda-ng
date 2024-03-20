@@ -22,44 +22,6 @@ const int nUINColWitdh = 80;    // width in pixels of the UIN column in the List
 const int nProtoColWitdh = 100; // width in pixels of the UIN column in the List Ctrl
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Class           :  CLDBEvent
-// Superclass      :  
-// Project         :  Mes_export
-// Designer        :  Kennet Nielsen
-// Version         :  1.0.0
-// Date            :  020422, 22 April 2002
-//
-//
-// Description: This class is used to store one DB event dyring the export 
-//              All history function
-//
-// Version History:
-//   Ver:     Initials:    Date:     Text:
-//   1.0.0    KN           020422    First edition
-
-class CLDBEvent
-{
-	uint32_t time;
-public:
-	MCONTACT hUser;
-	MEVENT   hDbEvent;
-
-	CLDBEvent(MCONTACT hU, MEVENT hDBE)
-	{
-		hUser = hU;
-		hDbEvent = hDBE;
-
-		DBEVENTINFO dbei = {};
-		db_event_get(hDbEvent, &dbei);
-		time = dbei.timestamp;
-	}
-
-	bool operator <(const CLDBEvent& rOther) const
-	{	return time < rOther.time;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Member Function : CompareFunc
 // Type            : Global
 // Parameters      : lParam1    - ?
@@ -130,20 +92,15 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
 	// map with list to stored all DB history before it is exported 
-	map<wstring, list< CLDBEvent >, less<wstring> > AllEvents;
+	std::list<MCONTACT> todo;
 	{
-		// reading from the database !!! 
 		int nCur = 0;
 		for (auto &hContact : data->contacts) {
 			// Check if we should ignore this contact/protocol
 			if (!bIsExportEnabled(hContact))
 				continue;
 
-			list<CLDBEvent> &rclCurList = AllEvents[GetFilePathFromUser(hContact)];
-
-			DB::ECPTR pCursor(DB::Events(hContact));
-			while (MEVENT hDbEvent = pCursor.FetchNext())
-				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
+			todo.push_back(hContact);
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
 			RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
@@ -157,30 +114,34 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 
 	// window text update 
 	SetWindowText(hStatus, TranslateT("Sorting and writing database information (Phase 2 of 2)"));
-	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, AllEvents.size() - 1));
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, todo.size() - 1));
 	SendMessage(hProg, PBM_SETPOS, 0, 0);
 
 	// time to write to files !!!
 	int nCur = 0;
-	for (auto &F : AllEvents) {
-		F.second.sort(); // Sort is preformed here !!
-		// events with same time will not be swaped, they will 
-		// remain in there original order
-
+	for (auto &hContact : todo) {
 		// Open/create file for writing
-		wstring sFilePath = F.first;
-		HANDLE hFile = openCreateFile(sFilePath);
-		if (hFile == INVALID_HANDLE_VALUE) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
-			continue;
+		wstring sFilePath = GetFilePathFromUser(hContact);
+		MDatabaseExport *pJson = nullptr;
+		HANDLE hFile;
+		
+		if (g_bUseJson) {
+			pJson = g_pDriver->Export(sFilePath.c_str());
+			hFile = pJson;
+		}
+		else {
+			hFile = openCreateFile(sFilePath);
+			if (hFile == INVALID_HANDLE_VALUE) {
+				DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
+				continue;
+			}
 		}
 
 		// At first write we need to have this false (to write file header, etc.), for each next write to same file use true
 		bool bAppendOnly = false;
 
-		for (auto &E : F.second) {
-			MEVENT hDbEvent = E.hDbEvent;
-			MCONTACT hContact = E.hUser;
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
 			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath, bAppendOnly))
 				break; // serious error, we should close the file and don't continue with it
 
@@ -189,7 +150,11 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 		}
 
 		// Close the file
-		CloseHandle(hFile);
+		if (pJson) {
+			pJson->EndExport();
+			delete pJson;
+		}
+		else CloseHandle(hFile);
 
 		SendMessage(hProg, PBM_SETPOS, ++nCur, 0);
 		RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
@@ -204,18 +169,36 @@ void __cdecl exportContactsMessages(struct ExportDialogData *data)
 class CBasicOptDlg : public CDlgBase
 {
 	CCtrlButton btnBrowseDir, btnBrowseFile;
+	CCtrlCheck chkJson, chkUseUtf8, chkAppendNewLine, chkIntViewer, chkAngleBrackets, chkReplaceHistory;
 	CCtrlCombo cmbExportDir, cmbDefaultFile, cmbTimeFormat, cmbFileViewer;
+
+	bool bOrigReplaceHistory;
 
 public:
 	CBasicOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGEXPORT),
 		btnBrowseDir(this, IDC_EXPORT_DIR_BROWSE),
 		btnBrowseFile(this, IDC_FILE_VIEWER_BROWSE),
+		chkJson(this, IDC_USE_JSON),
+		chkUseUtf8(this, IDC_USE_UTF8_IN_NEW_FILES),
+		chkIntViewer(this, IDC_USE_INTERNAL_VIEWER),
+		chkAppendNewLine(this, IDC_APPEND_NEWLINE),
+		chkAngleBrackets(this, IDC_USE_ANGLE_BRACKETS),
+		chkReplaceHistory(this, IDC_REPLACE_MIRANDA_HISTORY),
 		cmbExportDir(this, IDC_EXPORT_DIR),
 		cmbTimeFormat(this, IDC_EXPORT_TIMEFORMAT),
 		cmbFileViewer(this, IDC_FILE_VIEWER),
 		cmbDefaultFile(this, IDC_DEFAULT_FILE)
 	{
+		CreateLink(chkJson, g_plugin.bUseJson);
+		CreateLink(chkUseUtf8, g_plugin.bUseUtf8InNewFiles);
+		CreateLink(chkIntViewer, g_plugin.bUseIntViewer);
+		CreateLink(chkAppendNewLine, g_plugin.bAppendNewLine);
+		CreateLink(chkAngleBrackets, g_plugin.bUseAngleBrackets);
+		CreateLink(chkReplaceHistory, g_plugin.bReplaceHistory);
+
+		bOrigReplaceHistory = g_plugin.bReplaceHistory;
+
 		btnBrowseDir.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseDir);
 		btnBrowseFile.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseFile);
 	}
@@ -264,12 +247,7 @@ public:
 		cmbFileViewer.AddString(L"C:\\WinNT\\Notepad.exe");
 		cmbFileViewer.AddString(L"C:\\Program Files\\Notepad++\\notepad++.exe");
 
-		CheckDlgButton(m_hwnd, IDC_USE_JSON, g_bUseJson ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, g_bUseIntViewer ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY, g_bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_APPEND_NEWLINE, g_bAppendNewLine ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES, g_bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT, g_bUseLessAndGreaterInExport ? BST_CHECKED : BST_UNCHECKED);
+		chkJson.Enable(g_pDriver != 0);
 		return true;
 	}
 
@@ -303,27 +281,12 @@ public:
 		sFileViewerPrg = szTemp;
 		g_plugin.setWString("FileViewerPrg", sFileViewerPrg.c_str());
 
-		bUseInternalViewer(IsDlgButtonChecked(m_hwnd, IDC_USE_INTERNAL_VIEWER) == BST_CHECKED);
-		g_plugin.setByte("UseInternalViewer", g_bUseIntViewer);
-
-		bool bNewRp = IsDlgButtonChecked(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY) == BST_CHECKED;
-		if (g_bReplaceHistory != bNewRp) {
-			g_bReplaceHistory = bNewRp;
+		if (bOrigReplaceHistory != g_plugin.bReplaceHistory)
 			MessageBox(m_hwnd, TranslateT("You need to restart Miranda to change the history function"), MSG_BOX_TITEL, MB_OK);
-		}
-		g_plugin.setByte("ReplaceHistory", g_bReplaceHistory);
 
-		g_bUseJson = IsDlgButtonChecked(m_hwnd, IDC_USE_JSON) == BST_CHECKED;
-		g_plugin.setByte("UseJson", g_bUseJson);
+		if (chkJson.Enabled())
+			g_bUseJson = g_plugin.bUseJson;
 
-		g_bAppendNewLine = IsDlgButtonChecked(m_hwnd, IDC_APPEND_NEWLINE) == BST_CHECKED;
-		g_plugin.setByte("AppendNewLine", g_bAppendNewLine);
-
-		g_bUseUtf8InNewFiles = IsDlgButtonChecked(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES) == BST_CHECKED;
-		g_plugin.setByte("UseUtf8InNewFiles", g_bUseUtf8InNewFiles);
-
-		g_bUseLessAndGreaterInExport = IsDlgButtonChecked(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT) == BST_CHECKED;
-		g_plugin.setByte("UseLessAndGreaterInExport", g_bUseLessAndGreaterInExport);
 		return true;
 	}
 

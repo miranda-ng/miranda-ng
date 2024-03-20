@@ -6,7 +6,7 @@ static IconItem Icons[] =
 	{ LPGEN("Read message icon"), "read_icon", IDI_READ },
 	{ LPGEN("Failed sending icon"), "fail_icon", IDI_FAIL },
 	{ LPGEN("Sending message icon"), "nosent_icon", IDI_NOSENT },
-	{ LPGEN("Unread clist extra icon"), "clist_unread_icon", IDI_EXTRA },
+	{ LPGEN("Unread contact list extra icon"), "clist_unread_icon", IDI_EXTRA },
 };
 
 static INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)

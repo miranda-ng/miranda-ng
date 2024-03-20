@@ -478,6 +478,9 @@ bool CManagerDlg::OnInitDialog()
 	m_list.SendMsg(LB_SETHORIZONTALEXTENT, 750, NULL);
 	m_radio1.SetState(true);
 
+	m_applyModes.Disable();
+	m_applyTopic.Disable();
+
 	const char* modes = m_proto->sChannelModes;
 	if (!strchr(modes, 't')) m_check1.Disable();
 	if (!strchr(modes, 'n')) m_check2.Disable();
@@ -820,19 +823,22 @@ void CManagerDlg::OnApplyTopic(CCtrlButton*)
 
 void CManagerDlg::OnCheck(CCtrlData*)
 {
-	m_applyModes.Enable();
+	if (m_bInitialized)
+		m_applyModes.Enable();
 }
 
 void CManagerDlg::OnCheck5(CCtrlData*)
 {
 	m_key.Enable(m_check5.GetState());
-	m_applyModes.Enable();
+	if (m_bInitialized)
+		m_applyModes.Enable();
 }
 
 void CManagerDlg::OnCheck6(CCtrlData*)
 {
 	m_limit.Enable(m_check6.GetState());
-	m_applyModes.Enable();
+	if (m_bInitialized)
+		m_applyModes.Enable();
 }
 
 void CManagerDlg::OnRadio(CCtrlData*)

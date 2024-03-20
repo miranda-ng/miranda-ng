@@ -22,5 +22,7 @@
 [Country flag]
 Флаг страны
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Тонкая настройка
 [Icons]
 Значки

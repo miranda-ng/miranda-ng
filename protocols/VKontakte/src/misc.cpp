@@ -21,6 +21,7 @@ static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
 static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d", "story%d_%d" };
 static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
+static const wchar_t* wszVKStickerUrlMask = L"https://vk.com/sticker/1-%d-%d%s";
 
 JSONNode nullNode(JSON_NULL);
 
@@ -1441,6 +1442,12 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			int iStickerId = jnSticker["sticker_id"].as_int();
 
+			wszLink.AppendFormat(wszVKStickerUrlMask,
+				iStickerId, 
+				(int)m_vkOptions.iStickerSize ? (int)m_vkOptions.iStickerSize : 128, 
+				m_vkOptions.bStickerBackground ? L"b" : L""
+			);
+
 			for (auto& jnImage : jnImages) {
 				if (jnImage["width"].as_int() == (int)m_vkOptions.iStickerSize) {
 					wszLink = jnImage["url"].as_mstring();
@@ -1454,6 +1461,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			}
 
 			wszUrl = wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink;
+		
 
 			if (!m_vkOptions.bStikersAsSmileys)
 				res += SetBBCString(wszUrl, iBBC, vkbbcImg);

@@ -956,7 +956,7 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 			break;
 
 		if (dbei.flags & DBEF_SENT)
-			dbei.wipeNotify(ev);
+			dbei.wipeNotify();
 	}
 }
 

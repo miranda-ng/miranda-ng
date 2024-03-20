@@ -205,7 +205,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 
 		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE)
-			dbei.wipeNotify(hDbEvent);
+			dbei.wipeNotify();
 
 		if (!isDbEventShown(dbei)) {
 			hDbEvent = db_event_next(event->hContact, hDbEvent);

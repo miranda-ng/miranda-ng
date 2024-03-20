@@ -13,7 +13,6 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 struct ItemData
 {
 	MCONTACT hContact;
-	MEVENT hEvent;
 
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;
@@ -25,6 +24,7 @@ struct ItemData
 	DB::EventInfo dbe;
 	wchar_t *wtext;
 	wchar_t *wszNick;
+	struct NewstoryListData *pOwner;
 
 	HText data;
 
@@ -35,7 +35,6 @@ struct ItemData
 	ItemData* checkPrev(ItemData *pPrev, HWND hwnd);
 	ItemData* checkPrevGC(ItemData *pPrev, HWND hwnd);
 	void checkCreate(HWND hwnd);
-	void markRead();
 	void setText(HWND hwnd);
 
 	bool completed() const { return m_bOfflineDownloaded == 100; }
@@ -137,10 +136,13 @@ public:
 	HistoryArray();
 	~HistoryArray();
 
-	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
-	void addChatEvent(SESSION_INFO *si, const LOGINFO *pEvent);
-	void addResults(const OBJLIST<SearchResult> &pArray);
+	bool addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count);
+	void addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *pEvent);
+	void addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray);
+
+	void addNick(ItemData &pItem, wchar_t *pwszNick);
 	void clear();
+	void checkGC(ItemData &pItem, SESSION_INFO *si);
 	int  find(MEVENT hEvent);
 	int  find(int id, int dir, const Filter &filter);
 	int  getCount() const;

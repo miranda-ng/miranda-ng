@@ -152,6 +152,9 @@ void CTelegramProto::GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr
 			break;
 		}
 
+		if (*gce.pszNick.w == '@')
+			gce.pszNick.w++;
+
 		Chat_Event(&gce);
 	}
 
@@ -215,7 +218,7 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 					if (dbei)
 						replyId = dbei2id(dbei);
 				}
-				SendTextMessage(pUser->chatId, replyId, T2Utf(gch->ptszText));
+				SendTextMessage(pUser->chatId, GetId(gch->si->hContact, DBKEY_THREAD), replyId, T2Utf(gch->ptszText));
 			}
 		}
 		break;
@@ -404,16 +407,40 @@ void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
 		return;
 
 	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
-		if (!pInfo->description_.empty()) {
-			Utf2T wszTopic(pInfo->description_.c_str());
-			GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
-			gce.pszText.w = wszTopic;
-			Chat_Event(&gce);
-		}
+		if (!pInfo->description_.empty())
+			GcChangeTopic(pChat, Utf2T(pInfo->description_.c_str()));
 
 		g_chatApi.UM_RemoveAll(pChat->m_si);
 		GcAddMembers(pChat, pInfo->members_, true);
 	}
+}
+
+void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
+{
+	auto *pUser = FindChat(pForum->chat_id_);
+	if (!pUser) {
+		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	if (pUser->m_si == nullptr) {
+		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	wchar_t wszId[100];
+	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
+
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
+	si->pParent = pUser->m_si;
+
+	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+
+	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));
+	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
+
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 }
 
 void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
@@ -425,7 +452,6 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 	}
 
 	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-
 	auto *pGroup = m_arSuperGroups.find(&tmp);
 	if (pGroup == nullptr) {
 		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));

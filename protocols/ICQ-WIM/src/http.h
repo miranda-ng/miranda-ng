@@ -23,7 +23,7 @@ struct AsyncRapiRequest : public AsyncHttpRequest
 {
 	JSONNode request, params;
 
-	AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc = nullptr);
+	AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc = nullptr, int mode = -1);
 
 	void OnPush() override;
 };

@@ -466,6 +466,7 @@ MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *pInfo);
 // Finds a session by its module & unique id
 // returns a pointer to session or NULL on error
 
+MIR_APP_DLL(SESSION_INFO*) Chat_Find(MCONTACT hContact, const char *pszModule = nullptr);
 MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule);
 
 //------------------------- HOOKS ------------------------

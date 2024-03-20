@@ -133,11 +133,9 @@
 #define IDC_SCROLLFIX                   1060
 #define IDC_CLIENTINSTATBAR             1061
 #define IDC_TYPINGSOUNDS                1062
-#define IDC_RADIO2                      1062
 #define IDC_OFFLINEMULTI                1063
 #define IDC_CLIENTINSTATBAR2            1063
 #define IDC_ICONWARNINGS                1063
-#define IDC_RADIO3                      1063
 #define IDC_AUTOCLOSEV2                 1064
 #define IDC_TEXT                        1064
 #define IDC_RESTART                     1065
@@ -152,9 +150,12 @@
 #define IDC_TEXTO3                      1071
 #define IDC_CHKSHOWTIME                 1072
 #define IDC_TEXTO4                      1072
+#define IDC_SBARWIDTH                   1073
 #define IDC_LOADCOUNTN                  1074
 #define IDC_TEXTO5                      1074
+#define IDC_O_SBARWIDTH                 1075
 #define IDC_LOADCOUNTSPIN               1076
+#define IDC_SBARWIDTH_SPIN              1077
 #define IDC_SHOWINFOLINE                1078
 #define IDC_STATIC_ULIST                1078
 #define IDC_STATIC_OTHER                1079

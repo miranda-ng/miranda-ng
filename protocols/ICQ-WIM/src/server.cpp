@@ -386,6 +386,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		Contact::PutOnList(hContact);
 	}
 
+	Json2string(hContact, buddy, "about", "About", bIsPartial);
 	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
 	Json2string(hContact, buddy, "cellNumber", "Cellular", bIsPartial);
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone", bIsPartial);
@@ -437,6 +438,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 			Json2string(hContact, it, "state", "State", bIsPartial);
 			Json2string(hContact, it, "country", "Country", bIsPartial);
 		}
+	}
+	else {
+		Json2string(hContact, buddy, "firstName", "FirstName", bIsPartial);
+		Json2string(hContact, buddy, "lastName", "LastName", bIsPartial);
 	}
 
 	CMStringW str = buddy["statusMsg"].as_mstring();
@@ -615,7 +620,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
 		if (hOldEvent) {
-			OnReceiveOfflineFile(blob, pFileInfo);
+			OnReceiveOfflineFile(blob);
 			blob.write(dbei);
 			db_event_edit(hOldEvent, &dbei, true);
 		}
@@ -1403,6 +1408,22 @@ void CIcqProto::OnSearchResults(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::PatchProfileInfo(const char *pszVariable, const wchar_t *pwszValue)
+{
+	if (!mir_wstrlen(pwszValue))
+		return;
+
+	auto *pReq = new AsyncRapiRequest(this, "/profile/update", nullptr, 1);
+	pReq->params << WCHAR_PARAM(pszVariable, pwszValue);
+	Push(pReq);
+
+	char *buf = NEWSTR_ALLOCA(pszVariable);
+	buf[0] = _toupper(buf[0]);
+	setWString(buf, pwszValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

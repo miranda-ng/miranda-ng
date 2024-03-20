@@ -203,7 +203,7 @@ public:
 		if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 			DBVARIANT dbv = { 0 };
 			if (!db_get_ws(m_hContact, "ContactPhoto", "File", &dbv)) {
-				DeleteFile(dbv.pwszVal);
+				DeleteFileW(dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}
@@ -226,7 +226,7 @@ public:
 		if (MessageBoxW(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 			DBVARIANT dbv = { 0 };
 			if (!db_get_ws(m_hContact, "ContactPhoto", "File", &dbv)) {
-				DeleteFile(dbv.pwszVal);
+				DeleteFileW(dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

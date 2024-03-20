@@ -424,6 +424,7 @@ __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 MIR_CORE_DLL(char *) newStr(const char *src);
+MIR_CORE_DLL(wchar_t *) newStrW(const wchar_t *src);
 
 #if defined( __cplusplus )
 	MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src);

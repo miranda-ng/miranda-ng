@@ -1731,10 +1731,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NCPAINT:
 		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
-	case WM_DROPFILES:
-		SendMessage(m_hwnd, WM_DROPFILES, wParam, lParam);
-		return 0;
-
 	case WM_CHAR:
 		KbdState(isShift, isCtrl, isAlt);
 
@@ -1762,11 +1758,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					ActivateTooltip(IDC_SRMM_MESSAGE, szBuffer);
 				}
 			}
-			else if (hClip = GetClipboardData(CF_BITMAP))
-				SendHBitmapAsFile((HBITMAP)hClip);
-			else if (hClip = GetClipboardData(CF_HDROP))
-				SendMessage(m_hwnd, WM_DROPFILES, WPARAM(hClip), 0);
-
 			CloseClipboard();
 		}
 		break;
@@ -2644,11 +2635,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CB_DestroyButton((uint32_t)wParam, (uint32_t)lParam);
 		else
 			CB_DestroyAllButtons();
-		return 0;
-
-	case WM_DROPFILES:
-		if (!ProcessFileDrop((HDROP)wParam, m_cache->getActiveContact()))
-			ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 		return 0;
 
 	case DM_CHECKQUEUEFORCLOSE:

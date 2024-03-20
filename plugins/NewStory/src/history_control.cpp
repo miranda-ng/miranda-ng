@@ -109,8 +109,11 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 {
+	if (si == nullptr)
+		return;
+
 	ScheduleDraw();
-	items.addChatEvent(si, lin);
+	items.addChatEvent(this, si, lin);
 	totalCount++;
 }
 
@@ -119,7 +122,7 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
 {
 	ScheduleDraw();
-	items.addEvent(hContact, hFirstEvent, iCount);
+	items.addEvent(this, hContact, hFirstEvent, iCount);
 	totalCount = items.getCount();
 }
 
@@ -128,7 +131,7 @@ void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCoun
 void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 {
 	ScheduleDraw();
-	items.addResults(results);
+	items.addResults(this, results);
 	totalCount = items.getCount();
 }
 
@@ -218,7 +221,7 @@ void NewstoryListData::BeginEditItem()
 		return;
 
 	RECT rc; GetClientRect(m_hwnd, &rc);
-	int height = rc.bottom - rc.top;
+	int height = rc.bottom - rc.top, width = rc.right - rc.left;
 
 	int top = scrollTopPixel;
 	int idx = scrollTopItem;
@@ -240,8 +243,11 @@ void NewstoryListData::BeginEditItem()
 	wszText.Replace(L"\r\n", L"\n");
 	wszText.Replace(L"\n", L"\r\n");
 
-	uint32_t dwStyle = WS_CHILD | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL;
-	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, rc.right - rc.left, itemHeight, m_hwnd, NULL, g_plugin.getInst(), NULL);
+	uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
+	if (itemHeight > height)
+		dwStyle |= WS_VSCROLL;
+
+	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, width, min(height, itemHeight), m_hwnd, NULL, g_plugin.getInst(), NULL);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
@@ -284,14 +290,14 @@ void NewstoryListData::ClearSelection(int iFirst, int iLast)
 
 void NewstoryListData::Copy(bool bTextOnly)
 {
-	Utils_ClipboardCopy(MClipUnicode(GatherSelected(bTextOnly)));
+	Utils_ClipboardCopy(MClipUnicode(GatherSelected(bTextOnly)) + MClipRtf(GatherSelectedRtf()));
 }
 
 void NewstoryListData::CopyPath()
 {
 	if (auto *pItem = GetItem(caret))
 		if (pItem->completed()) {
-			DB::EventInfo dbei(pItem->hEvent);
+			DB::EventInfo dbei(pItem->dbe.getEvent());
 			DB::FILE_BLOB blob(dbei);
 			Utils_ClipboardCopy(MClipUnicode(blob.getLocalName()));
 		}
@@ -300,7 +306,7 @@ void NewstoryListData::CopyPath()
 void NewstoryListData::CopyUrl()
 {
 	if (auto *pItem = GetItem(caret))
-		Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_COPYURL);
+		Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -382,8 +388,8 @@ void NewstoryListData::DeleteItems(void)
 		if (!p->m_bSelected)
 			continue;
 
-		if (p->hEvent)
-			db_event_delete(p->hEvent, flags);
+		if (p->dbe.getEvent())
+			db_event_delete(p->dbe.getEvent(), flags);
 		items.remove(i);
 		totalCount--;
 		firstSel = i;
@@ -403,7 +409,7 @@ void NewstoryListData::DeleteItems(void)
 void NewstoryListData::Download(int options)
 {
 	if (auto *p = LoadItem(caret))
-		Srmm_DownloadOfflineFile(p->hContact, p->hEvent, options);
+		Srmm_DownloadOfflineFile(p->hContact, p->dbe.getEvent(), options);
 }
 
 void NewstoryListData::EndEditItem(bool bAccept)
@@ -421,13 +427,13 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
-			if (pItem->hContact && pItem->hEvent) {
+			if (pItem->hContact && pItem->dbe.getEvent()) {
 				DBEVENTINFO dbei = pItem->dbe;
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
 				dbei.pBlob = szUtf.get();
-				db_event_edit(pItem->hEvent, &dbei);
+				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
 			MTextDestroy(pItem->data); pItem->data = 0;
@@ -621,11 +627,17 @@ ItemData* NewstoryListData::LoadItem(int idx)
 	return (bSortAscending) ? items.get(idx, true) : items.get(totalCount - 1 - idx, true);
 }
 
+void NewstoryListData::MarkRead(ItemData *pItem)
+{
+	if (pMsgDlg)
+		pMsgDlg->MarkEventRead(pItem->dbe);
+}
+
 void NewstoryListData::OpenFolder()
 {
 	if (auto *pItem = GetItem(caret)) {
 		if (pItem->completed()) {
-			DB::EventInfo dbei(pItem->hEvent);
+			DB::EventInfo dbei(pItem->dbe.getEvent());
 			DB::FILE_BLOB blob(dbei);
 			CMStringW wszFile(blob.getLocalName());
 			int idx = wszFile.ReverseFind('\\');
@@ -815,7 +827,7 @@ void NewstoryListData::Reply()
 {
 	if (pMsgDlg)
 		if (auto *pItem = GetItem(caret))
-			pMsgDlg->SetQuoteEvent(pItem->hEvent);
+			pMsgDlg->SetQuoteEvent(pItem->dbe.getEvent());
 }
 
 void NewstoryListData::ScheduleDraw()
@@ -885,7 +897,7 @@ void NewstoryListData::ToggleBookmark()
 			p->dbe.flags &= ~DBEF_BOOKMARK;
 		else
 			p->dbe.flags |= DBEF_BOOKMARK;
-		db_event_edit(p->hEvent, &p->dbe);
+		db_event_edit(p->dbe.getEvent(), &p->dbe);
 
 		p->setText(m_hwnd);
 	}
@@ -915,18 +927,19 @@ void NewstoryListData::TryUp(int iCount)
 
 	auto *pTop = GetItem(0);
 	MCONTACT hContact = pTop->hContact;
-	if (pTop->hEvent == 0 || hContact == 0)
+	if (pTop->dbe.getEvent() == 0 || hContact == 0)
 		return;
 	
 	int i;
 	for (i = 0; i < iCount; i++) {
-		MEVENT hPrev = db_event_prev(hContact, pTop->hEvent);
+		MEVENT hPrev = db_event_prev(hContact, pTop->dbe.getEvent());
 		if (hPrev == 0)
 			break;
 
 		auto *p = items.insert(0);
+		p->pOwner = this;
 		p->hContact = hContact;
-		p->hEvent = hPrev;
+		p->dbe = hPrev;
 		totalCount++;
 	}
 
@@ -1410,7 +1423,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			pt.y -= pItem->savedTop;
 
 			if (pItem->m_bOfflineFile) {
-				Srmm_DownloadOfflineFile(pItem->hContact, pItem->hEvent, OFD_DOWNLOAD | OFD_RUN);
+				Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
 

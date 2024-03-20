@@ -506,8 +506,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&крыть/Показать
-[&Show offline users in here]
-&Показать отключённых в группе
+[Show offline users in here]
+Показать отключённых в группе
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 Был(а)

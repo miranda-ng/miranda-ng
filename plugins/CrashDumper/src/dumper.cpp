@@ -59,11 +59,7 @@ BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOI
 	buffer.AppendFormat(L"%s  %p - %p", path, (void*)ModuleBase, (void*)(ModuleBase + ModuleSize));
 
 	GetVersionInfo(hModule, buffer);
-
-	wchar_t timebuf[30] = L"";
-	GetLastWriteTime(path, timebuf, 30);
-
-	buffer.AppendFormat(L" [%s]\r\n", timebuf);
+	buffer.AppendFormat(L" [%s]\r\n", GetLastWriteTime(path).c_str());
 	return TRUE;
 }
 
@@ -175,14 +171,11 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 
 		if (hModule == nullptr) {
 			if ((flags & VI_FLAG_PRNVAR) && IsPluginOnWhiteList(_T2A(FindFileData.cFileName))) {
-				wchar_t timebuf[30] = L"";
-				GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
-
 				ubuffer.AppendFormat(L"\xa4 %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n", FindFileData.cFileName,
 					(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
 					0, 0, 0, 0,
 					(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"",
-					timebuf, "<unknown>", L"");
+					GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str(), "<unknown>", L"");
 
 				GetLinkedModulesInfo(path, ubuffer);
 				ubuffer.Append(L"\r\n");
@@ -194,9 +187,6 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 
 		const PLUGININFOEX *pi = GetMirInfo(hModule);
 		if (pi != nullptr) {
-			wchar_t timebuf[30] = L"";
-			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
-
 			const wchar_t *unica = !(((PLUGININFOEX*)pi)->flags & UNICODE_AWARE) ? L"|ANSI|" : L"";
 
 			int v1, v2, v3, v4;
@@ -219,7 +209,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 				(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
 				v1, v2, v3, v4,
 				(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"",
-				timebuf, pi->shortName ? pi->shortName : "", unica);
+				GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str(), pi->shortName ? pi->shortName : "", unica);
 			arDlls.insert(tmp.Detach());
 
 			if (mir_wstrcmpi(FindFileData.cFileName, L"weather.dll") == 0)
@@ -233,7 +223,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 		while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 
-	buffer.AppendFormat(L"\r\n%sActive Plugins (%u):%s\r\n", (flags & VI_FLAG_FORMAT) ? L"[b]" : L"", count, (flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");
+	buffer.AppendFormat(L"\r\n%sActive Plugins (%u):%s\r\n", (flags & VI_FLAG_FORMAT) ? L"[b]" : L"", (int)count, (flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");
 
 	for (auto &str : arDlls) {
 		buffer.Append(str);
@@ -241,7 +231,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 	}
 
 	if (ucount) {
-		buffer.AppendFormat(L"\r\n%sUnloadable Plugins (%u):%s\r\n", (flags & VI_FLAG_FORMAT) ? L"[b]" : L"", ucount, (flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");
+		buffer.AppendFormat(L"\r\n%sUnloadable Plugins (%u):%s\r\n", (flags & VI_FLAG_FORMAT) ? L"[b]" : L"", (int)ucount, (flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");
 		buffer.Append(ubuffer);
 	}
 }
@@ -349,14 +339,11 @@ static void GetWeatherStrings(CMStringW &buffer, unsigned flags)
 				id += 5;
 			}
 
-			wchar_t timebuf[30] = L"";
-			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
-
 			buffer.AppendFormat(L" %s v.%s%S%s [%s] - %S\r\n", FindFileData.cFileName,
 				(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
 				ver,
 				(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"",
-				timebuf, id);
+				GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str(), id);
 			CloseHandle(hDumpFile);
 		}
 	}
@@ -378,12 +365,10 @@ static void GetIconStrings(CMStringW& buffer)
 	if (hFind == INVALID_HANDLE_VALUE) return;
 
 	do {
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			continue;
 
-		wchar_t timebuf[30] = L"";
-		GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
-
-		buffer.AppendFormat(L" %s [%s]\r\n", FindFileData.cFileName, timebuf);
+		buffer.AppendFormat(L" %s [%s]\r\n", FindFileData.cFileName, GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str());
 	} while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 }
@@ -420,10 +405,9 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 	GetWow64String(buffer);
 	buffer.Append(L"\r\n");
 
-	wchar_t path[MAX_PATH], mirtime[30];
+	wchar_t path[MAX_PATH];
 	GetModuleFileName(nullptr, path, MAX_PATH);
-	GetLastWriteTime(path, mirtime, 30);
-	buffer.AppendFormat(L"Build time: %s\r\n", mirtime);
+	buffer.AppendFormat(L"Build time: %s\r\n", GetLastWriteTime(path).c_str());
 
 	wchar_t profpn[MAX_PATH];
 	mir_snwprintf(profpn, L"%s\\%s", profpathfull, profname);
@@ -440,8 +424,8 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 			FindClose(hFind);
 
 			unsigned __int64 fsize = (unsigned __int64)FindFileData.nFileSizeHigh << 32 | FindFileData.nFileSizeLow;
-			buffer.AppendFormat(L"Profile size: %I64u Bytes\r\n", fsize), GetLastWriteTime(&FindFileData.ftCreationTime, mirtime, 30);
-			buffer.AppendFormat(L"Profile creation date: %s\r\n", mirtime);
+			buffer.AppendFormat(L"Profile size: %I64u Bytes\r\n", fsize);
+			buffer.AppendFormat(L"Profile creation date: %s\r\n", GetLastWriteTime(&FindFileData.ftCreationTime).c_str());
 		}
 	}
 	mir_free(profpathfull);
@@ -550,14 +534,11 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	frame.AddrFrame.Mode = AddrModeFlat;
 	frame.AddrStack.Mode = AddrModeFlat;
 
-	wchar_t curtime[30];
-	GetISO8061Time(nullptr, curtime, 30);
-
 	CMStringW buffer;
 	PrintSymbolsInfo(buffer);
 
 	buffer.AppendFormat(L"Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n", 
-		curtime, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+		GetISO8061Time(nullptr).c_str(), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 
 	int crashpos = buffer.GetLength();
 

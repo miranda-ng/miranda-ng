@@ -254,11 +254,11 @@ bool ItemData::isLinkChar(HWND hwnd, int idx) const
 bool ItemData::fetch(void)
 {
 	// if this event is virtual (for example, in group chats), don't try to laod it
-	if (!hEvent)
+	if (!dbe.getEvent())
 		return false;
 
 	if (!dbe) {
-		if (!dbe.fetch(hEvent))
+		if (!dbe.fetch())
 			return false;
 
 		if (dbe.szReplyId)
@@ -389,7 +389,7 @@ void ItemData::load(bool bLoadAlways)
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		markRead();
+		pOwner->MarkRead(this);
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -418,7 +418,7 @@ void ItemData::load(bool bLoadAlways)
 					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				wtext = buf.Detach();
-				markRead();
+				pOwner->MarkRead(this);
 				break;
 			}
 
@@ -475,12 +475,6 @@ void ItemData::load(bool bLoadAlways)
 	dbe.unload();
 }
 
-void ItemData::markRead()
-{
-	if (!(dbe.flags & DBEF_SENT))
-		dbe.wipeNotify(hEvent);
-}
-
 void ItemData::setText(HWND hwnd)
 {
 	if (data)
@@ -513,18 +507,16 @@ void HistoryArray::clear()
 	iLastPageCounter = 0;
 }
 
-void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
+void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *lin)
 {
-	if (si == nullptr)
-		return;
-
 	int numItems = getCount();
 	auto &p = allocateItem();
+	p.pOwner = pOwner;
 	p.hContact = si->hContact;
 
 	if (si->pMI->bDatabase && lin->hEvent) {
-		p.hEvent = lin->hEvent;
-		p.load();
+		p.dbe = lin->hEvent;
+		checkGC(p, si);
 	}
 	else {
 		CMStringW wszText;
@@ -565,28 +557,34 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 	}
 
 	if (lin->ptszNick) {
-		p.wszNick = strings.find(lin->ptszNick);
-		if (p.wszNick == nullptr) {
-			p.wszNick = mir_wstrdup(lin->ptszNick);
-			strings.insert(p.wszNick);
-		}
+		addNick(p, lin->ptszNick);
+
 		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1), hwndOwner);
 	}
 }
 
-bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
+bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count)
 {
 	if (count == -1)
 		count = MAXINT;
 
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
+	
+	SESSION_INFO *si = nullptr;
+	if (Contact::IsGroupChat(hContact))
+		si = Chat_Find(hContact);
 
 	if (count == 1) {
 		auto &p = allocateItem();
+		p.pOwner = pOwner;
 		p.hContact = hContact;
-		p.hEvent = hEvent;
-		pPrev = p.checkPrev(pPrev, hwndOwner);
+		p.dbe = hEvent;
+		if (si) {
+			checkGC(p, si);
+			pPrev = p.checkPrevGC(pPrev, hwndOwner);
+		}
+		else pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
 	else {
 		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
@@ -596,24 +594,39 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 				break;
 
 			auto &p = allocateItem();
+			p.pOwner = pOwner;
 			p.hContact = hContact;
-			p.hEvent = hEvent;
-			pPrev = p.checkPrev(pPrev, hwndOwner);
+			p.dbe = hEvent;
+			if (si) {
+				checkGC(p, si);
+				pPrev = p.checkPrevGC(pPrev, hwndOwner);
+			}
+			else pPrev = p.checkPrev(pPrev, hwndOwner);
 		}
 	}
 
 	return true;
 }
 
-void HistoryArray::addResults(const OBJLIST<SearchResult> &pArray)
+void HistoryArray::addNick(ItemData &pItem, wchar_t *pwszNick)
+{
+	pItem.wszNick = strings.find(pwszNick);
+	if (pItem.wszNick == nullptr) {
+		pItem.wszNick = mir_wstrdup(pwszNick);
+		strings.insert(pItem.wszNick);
+	}
+}
+
+void HistoryArray::addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray)
 {
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
 	for (auto &it : pArray) {
 		auto &p = allocateItem();
+		p.pOwner = pOwner;
 		p.hContact = it->hContact;
-		p.hEvent = it->hEvent;
+		p.dbe = it->hEvent;
 		p.m_bIsResult = true;
 		pPrev = p.checkPrev(pPrev, hwndOwner);
 	}
@@ -632,12 +645,24 @@ ItemData& HistoryArray::allocateItem()
 	return p.data[iLastPageCounter++];
 }
 
+void HistoryArray::checkGC(ItemData &p, SESSION_INFO *si)
+{
+	p.load();
+	if (p.dbe.szUserId) {
+		Utf2T wszUser(p.dbe.szUserId);
+		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUser))
+			addNick(p, pUser->pszNick);
+		else
+			addNick(p, wszUser);
+	}
+}
+
 int HistoryArray::find(MEVENT hEvent)
 {
 	int i = 0;
 	for (auto &it : pages)
 		for (auto &p : it->data) {
-			if (p.hEvent == hEvent)
+			if (p.dbe.getEvent() == hEvent)
 				return i;
 			i++;
 		}

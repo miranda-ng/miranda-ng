@@ -2,6 +2,7 @@
 
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
+#define DBKEY_THREAD "ThreadId"
 #define DBKEY_AUTHORIZED "Authorized"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
@@ -98,7 +99,8 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	bool      isGroupChat, isBot, bLoadMembers, bStartChat, bInited;
+	int       folderId = -1;
+	bool      isGroupChat, isBot, isForum, bLoadMembers, bStartChat, bInited;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -150,6 +152,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
+	friend class COptionsDlg;
 	friend class COptSessionsDlg;
 	friend class CAddPhoneContactDlg;
 
@@ -207,6 +210,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	CMStringA m_defaultEmoji;
 
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
+
+	mir_cs m_csRequests;
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 
 	mir_cs m_csFiles;
@@ -222,6 +227,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	{	return CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName);
 	}
 
+	void OnAvatarSet(td::ClientManager::Response &response, void *pUserInfo);
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileLink(td::ClientManager::Response &response);
@@ -243,8 +249,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	int  SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(TD::int53 chatId, TD::int53 replyId, const char *pszMessage);
+	int  SendTextMessage(int64_t chatId, int64_t threadId, int64_t replyId, const char *pszMessage);
 
+	void ProcessAvatar(const TD::file *pFile, TG_USER *pUser);
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
 	void ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj);
@@ -260,6 +267,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
 	void ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool);
+	void ProcessForum(TD::updateForumTopicInfo *pForum);
 	void ProcessGroups(TD::updateChatFolders *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(const TD::message *pMsg);
@@ -268,6 +276,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
+
+	void UnregisterSession();
 
 	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
@@ -323,8 +333,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
 	
-	int64_t  GetId(MCONTACT);
-	void     SetId(MCONTACT, int64_t id);
+	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
+	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
 
 	MCONTACT GetRealContact(const TG_USER *pUser);
 
@@ -374,7 +384,7 @@ public:
 	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
-	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob, void *ft) override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
 	void     OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer) override;
 	void     OnShutdown() override;
 
