@@ -142,6 +142,10 @@ CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
 	AppendString(str, T2Utf((pwszStr) ? pwszStr : formatString()));
 
 	str.Append("</body></html>");
+
+	// url autodetect
+	UrlAutodetect(str);
+	
 	// Netlib_Logf(0, str);
 	return str;
 }

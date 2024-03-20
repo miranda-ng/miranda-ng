@@ -115,3 +115,44 @@ void RemoveBbcodes(CMStringW &wszText)
 			idx++;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int countNoWhitespace(const char *str)
+{
+	int c;
+	for (c = 0; *str != '\n' && *str != '\r' && *str != '\t' && *str != ' ' && *str != '\0'; str++, c++);
+	return c;
+}
+
+static int DetectUrl(const char *text)
+{
+	int i;
+	for (i = 0; text[i] != '\0'; i++)
+		if (!((text[i] >= '0' && text[i] <= '9') || isalpha(text[i])))
+			break;
+
+	if (i <= 0 || memcmp(text + i, "://", 3))
+		return 0;
+
+	i += countNoWhitespace(text + i);
+	for (; i > 0; i--)
+		if ((text[i - 1] >= '0' && text[i - 1] <= '9') || isalpha(text[i - 1]) || text[i - 1] == '/')
+			break;
+
+	return i;
+}
+
+void UrlAutodetect(CMStringA &str)
+{
+	for (auto *p = str.c_str(); *p; p++)
+		if (int len = DetectUrl(p)) {
+			int pos = p - str.c_str();
+			CMStringA url = str.Mid(pos, len);
+			str.Delete(pos, len);
+
+			CMStringA newText(FORMAT, "<a href =\"%s\">%s</a>", url.c_str(), url.c_str());
+			str.Insert(pos, newText);
+			p = str.c_str() + pos + newText.GetLength();
+		}
+}
