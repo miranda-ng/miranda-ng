@@ -41,6 +41,24 @@
     <ClCompile Include="src\history_svc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\cairo\container_cairo.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\cairo_font.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\windows_container.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\cairo\cairo_borders.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\webpage.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dib.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\calendartool.h">
@@ -84,5 +102,10 @@
     <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files\Litehtml">
+      <UniqueIdentifier>{b1a3b930-2ec1-4ee0-8a76-0d65fecddd00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

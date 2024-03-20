@@ -18,11 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\libs\mTextControl\mtextcontrol.vcxproj">
-      <Project>{e26d2311-c164-48cf-ba24-5ceda873d1b2}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>NewStory</ProjectName>
     <ProjectGuid>{A7FAD273-8C71-4D72-A84F-2D160F2DC589}</ProjectGuid>
@@ -30,8 +25,27 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\src;../../libs/litehtml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4458;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\libs\litehtml\containers\cairo\cairo_borders.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\cairo\container_cairo.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\cairo_font.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\windows_container.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\calendartool.cpp" />
+    <ClCompile Include="src\dib.cpp" />
     <ClCompile Include="src\fonts.cpp" />
     <ClCompile Include="src\history_array.cpp" />
     <ClCompile Include="src\history_control.cpp" />
@@ -39,6 +53,7 @@
     <ClCompile Include="src\history_log.cpp" />
     <ClCompile Include="src\history_menus.cpp" />
     <ClCompile Include="src\history_svc.cpp" />
+    <ClCompile Include="src\webpage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cxx">
@@ -61,5 +76,10 @@
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\litehtml\litehtml.vcxproj">
+      <Project>{51db004a-e160-47c7-b017-bec90fdc442d}</Project>
+    </ProjectReference>
   </ItemGroup>
 </Project>

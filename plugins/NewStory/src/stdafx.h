@@ -17,8 +17,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
+#pragma warning(disable: 4458)
 
-//Windows headers
+#define NOMINMAX
+
+// Windows headers
 #include <windows.h>
 #include <windowsx.h>
 #include <process.h>
@@ -53,7 +56,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protosvc.h>
 #include <m_skin.h>
 #include <m_srmm_int.h>
-#include <m_text.h>
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
@@ -62,10 +64,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "m_NewStory.h"
 #include "m_PluginUpdater.h"
 #include "m_smileyadd.h"
-#ifndef MTEXT_NOHELPERS
-#define MTEXT_NOHELPERS
-#endif // MTEXT_NOHELPERS
-#include "m_text.h"
+
+#include "../../Libs/litehtml/include/cairo.h"
+#include "../../Libs/litehtml/include/litehtml.h"
+#include "../../Libs/litehtml/containers/windows/cairo/cairo_font.h"
+#include "../../Libs/litehtml/containers/windows/cairo/windows_container.h"
+#include "dib.h"
 
 #include "resource.h"
 #include "version.h"
@@ -102,7 +106,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	// thesw options are a copy of static CMOption to keep performance high
 	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false;
-	bool bShowType, bShowDirecction;
+	bool bShowType, bShowDirection;
 
 	COLORREF clCustom[5];
 

@@ -158,7 +158,7 @@ void CMPlugin::LoadOptions()
 	bDrawEdge = g_bOptDrawEdge;
 	bHppCompat = g_bOptHppCompat;
 	bMsgGrouping = g_bOptGrouping;
-	bShowDirecction = g_bShowDirection;
+	bShowDirection = g_bShowDirection;
 
 	clCustom[0] = g_clCustom0;
 	clCustom[1] = g_clCustom1;

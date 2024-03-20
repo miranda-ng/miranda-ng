@@ -26,29 +26,28 @@ struct ItemData
 	wchar_t *wszNick;
 	struct NewstoryListData *pOwner;
 
-	HText data;
+	litehtml::document::ptr m_doc;
 
 	ItemData();
 	~ItemData();
 
-	ItemData* checkNext(ItemData *pPrev, HWND hwnd);
-	ItemData* checkPrev(ItemData *pPrev, HWND hwnd);
-	ItemData* checkPrevGC(ItemData *pPrev, HWND hwnd);
-	void checkCreate(HWND hwnd);
-	void setText(HWND hwnd);
+	ItemData* checkNext(ItemData *pPrev);
+	ItemData* checkPrev(ItemData *pPrev);
+	ItemData* checkPrevGC(ItemData *pPrev);
+	void checkCreate();
 
+	int  calcHeight(int top, int width, POINT *pPos = nullptr);
 	bool completed() const { return m_bOfflineDownloaded == 100; }
 	bool fetch(void);
 	void fill(int tmpl);
 	void load(bool bLoad = false);
-	bool isLink(HWND, POINT pt, CMStringW *url = nullptr) const;
-	bool isLinkChar(HWND, int idx) const;
+	void setText();
 
 	int getTemplate() const;
 	int getCopyTemplate() const;
 	void getFontColor(int &fontId, int &colorId) const;
 
-	CMStringA formatRtf(const wchar_t *pwszStr = 0);
+	CMStringA formatHtml(const wchar_t *pwszStr = 0);
 	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
 	CMStringW formatStringEx(wchar_t *sztpl);
 

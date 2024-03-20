@@ -165,7 +165,7 @@ litehtml::string windows_container::resolve_color(const litehtml::string& color)
     return std::move(litehtml::string());
 }
 
-cairo_surface_t* windows_container::get_image(const std::string& url)
+cairo_surface_t* windows_container::get_image(const std::string &)
 {
 	return nullptr;
 }

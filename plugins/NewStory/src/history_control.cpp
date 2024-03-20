@@ -20,8 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define AVERAGE_ITEM_HEIGHT 100
 
-HANDLE htuLog = 0;
-
 void InitHotkeys()
 {
 	HOTKEYDESC hkd = {};
@@ -57,6 +55,7 @@ void InitHotkeys()
 
 NewstoryListData::NewstoryListData(HWND _1) :
 	m_hwnd(_1),
+	webPage(*this),
 	redrawTimer(Miranda_GetSystemWindow(), LPARAM(this))
 {
 	items.setOwner(_1);
@@ -89,6 +88,11 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 
 void NewstoryListData::OnResize(int newWidth, int newHeight)
 {
+	if (dib.width() < newWidth || dib.height() < newHeight) {
+		dib.destroy();
+		dib.create(newWidth, newHeight, true);
+	}
+
 	bool bDraw = false;
 	if (newWidth != cachedWindowWidth) {
 		cachedWindowWidth = newWidth;
@@ -137,8 +141,8 @@ void NewstoryListData::AddResults(const OBJLIST<SearchResult> &results)
 
 void NewstoryListData::AddSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, iFirst);
-	int end = min(totalCount - 1, max(0, iLast));
+	int start = std::min(totalCount - 1, iFirst);
+	int end = std::min(totalCount - 1, std::max(0, iLast));
 	if (start > end)
 		std::swap(start, end);
 
@@ -247,7 +251,7 @@ void NewstoryListData::BeginEditItem()
 	if (itemHeight > height)
 		dwStyle |= WS_VSCROLL;
 
-	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, width, min(height, itemHeight), m_hwnd, NULL, g_plugin.getInst(), NULL);
+	hwndEditBox = CreateWindow(L"EDIT", wszText, dwStyle, 0, top, width, std::min(height, itemHeight), m_hwnd, NULL, g_plugin.getInst(), NULL);
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
@@ -276,7 +280,7 @@ void NewstoryListData::Clear()
 
 void NewstoryListData::ClearSelection(int iFirst, int iLast)
 {
-	int start = min(0, iFirst);
+	int start = std::min(0, iFirst);
 	int end = (iLast <= 0) ? totalCount - 1 : iLast;
 	if (start > end)
 		std::swap(start, end);
@@ -436,9 +440,9 @@ void NewstoryListData::EndEditItem(bool bAccept)
 				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
-			MTextDestroy(pItem->data); pItem->data = 0;
+			pItem->m_doc = 0;
 			pItem->savedHeight = -1;
-			pItem->checkCreate(m_hwnd);
+			pItem->checkCreate();
 		}
 	}
 
@@ -581,11 +585,8 @@ int NewstoryListData::GetItemHeight(int index)
 
 int NewstoryListData::GetItemHeight(ItemData *pItem)
 {
-	if (pItem->savedHeight == -1) {
-		HDC hdc = GetDC(m_hwnd);
-		pItem->savedHeight = PaintItem(hdc, pItem, 0, cachedWindowWidth, false);
-		ReleaseDC(m_hwnd, hdc);
-	}
+	if (pItem->savedHeight == -1)
+		pItem->savedHeight = pItem->calcHeight(0, cachedWindowWidth);
 
 	return pItem->savedHeight;
 }
@@ -648,130 +649,142 @@ void NewstoryListData::OpenFolder()
 	}
 }
 
-int NewstoryListData::PaintItem(HDC hdc, ItemData *pItem, int top, int width, bool bDraw)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Painting
+
+void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 {
-	// remove any selections that might be created by the BBCodes parser
-	MTextSendMessage(m_hwnd, pItem->data, EM_SETSEL, 0, 0);
+	cairo_surface_t *surface = cairo_image_surface_create_for_data((unsigned char *)dib.bits(), CAIRO_FORMAT_ARGB32, dib.width(), dib.height(), dib.width() * 4);
+	cairo_t *cr = cairo_create(surface);
 
-	//	LOGFONT lfText;
-	COLORREF clText, clBack, clLine;
-	int fontid, colorid;
-	pItem->getFontColor(fontid, colorid);
+	cairo_rectangle(cr, rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
+	cairo_clip(cr);
 
-	clText = g_fontTable[fontid].cl;
-	if (pItem->m_bHighlighted) {
-		clText = g_fontTable[FONT_HIGHLIGHT].cl;
-		clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
-		clLine = g_colorTable[COLOR_FRAME].cl;
-	}
-	else if (pItem->m_bSelected) {
-		clText = g_colorTable[COLOR_SELTEXT].cl;
-		clBack = g_colorTable[COLOR_SELBACK].cl;
-		clLine = g_colorTable[COLOR_SELFRAME].cl;
-	}
-	else {
-		clLine = g_colorTable[COLOR_FRAME].cl;
-		clBack = g_colorTable[colorid].cl;
-	}
+	cairo_set_source_rgb(cr, 1, 1, 1);
+	cairo_paint(cr);
 
-	pItem->checkCreate(m_hwnd);
+	int top = scrollTopPixel;
 
-	SIZE sz;
-	sz.cx = width - 2;
+	int idx;
+	for (idx = scrollTopItem; top < cachedWindowHeight && idx < totalCount; idx++) {
+		if (hwndEditBox && caret == idx)
+			continue;
 
-	POINT pos;
-	pos.x = 2;
-	pos.y = top + 2;
+		auto *pItem = LoadItem(idx);
 
-	if (g_plugin.bShowType)	// Message type icon
-		pos.x += 18;
+		POINT pos;
+		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
 
-	if (g_plugin.bShowDirecction)	// Message direction icon
-		pos.x += 18;
+		COLORREF clText, clBack, clLine;
+		int fontid, colorid;
+		pItem->getFontColor(fontid, colorid);
 
-	if (pItem->dbe.flags & DBEF_BOOKMARK) // Bookmark icon
-		pos.x += 18;
-
-	sz.cx -= pos.x;
-	if (pItem->m_bOfflineDownloaded != 0) // Download completed icon
-		sz.cx -= 18;
-
-	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextMeasure(hdc, &sz, pItem->data);
-	SelectObject(hdc, hfnt);
-
-	int height = sz.cy + 5;
-	if (!bDraw)
-		return height;
-
-	HBRUSH hbr = CreateSolidBrush(clBack);
-	RECT rc = { 0, top, width, top + height };
-	FillRect(hdc, &rc, hbr);
-	DeleteObject(hbr);
-
-	SetTextColor(hdc, clText);
-	SetBkMode(hdc, TRANSPARENT);
-
-	pos.x = 2;
-	HICON hIcon;
-	
-	// Message type icon
-	if (g_plugin.bShowType) {
-		switch (pItem->dbe.eventType) {
-		case EVENTTYPE_MESSAGE:
-			hIcon = g_plugin.getIcon(IDI_SENDMSG);
-			break;
-		case EVENTTYPE_FILE:
-			hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-			break;
-		case EVENTTYPE_STATUSCHANGE:
-			hIcon = g_plugin.getIcon(IDI_SIGNIN);
-			break;
-		default:
-			hIcon = g_plugin.getIcon(IDI_UNKNOWN);
-			break;
+		if (pItem->m_bHighlighted) {
+			clText = g_fontTable[FONT_HIGHLIGHT].cl;
+			clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
+			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
-		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-		pos.x += 18;
-	}
-
-	// Direction icon
-	if (g_plugin.bShowDirecction) {
-		if (pItem->dbe.flags & DBEF_SENT)
-			hIcon = g_plugin.getIcon(IDI_MSGOUT);
-		else
-			hIcon = g_plugin.getIcon(IDI_MSGIN);
-		DrawIconEx(hdc, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-		pos.x += 18;
-	}
-
-	// Bookmark icon
-	if (pItem->dbe.flags & DBEF_BOOKMARK) {
-		DrawIconEx(hdc, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
-		pos.x += 18;
-	}
-
-	// Finished icon
-	if (pItem->m_bOfflineDownloaded != 0) {
-		if (pItem->completed())
-			DrawIconEx(hdc, width - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+		else if (pItem->m_bSelected) {
+			clText = g_colorTable[COLOR_SELTEXT].cl;
+			clBack = g_colorTable[COLOR_SELBACK].cl;
+			clLine = g_colorTable[COLOR_SELFRAME].cl;
+		}
 		else {
-			HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
-			MoveToEx(hdc, rc.left, rc.bottom - 4, 0);
-			LineTo(hdc, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
-			DeleteObject(SelectObject(hdc, hpn));
+			clText = g_fontTable[fontid].cl;
+			clLine = g_colorTable[COLOR_FRAME].cl;
+			clBack = g_colorTable[colorid].cl;
 		}
+
+		HBRUSH hbr = CreateSolidBrush(clBack);
+		RECT rc = { 0, top, cachedWindowWidth, top + height };
+		FillRect(dib, &rc, hbr);
+		DeleteObject(hbr);
+
+		SetTextColor(dib, clText);
+		SetBkMode(dib, TRANSPARENT);
+
+		pos.x = 2;
+		HICON hIcon;
+
+		// Message type icon
+		if (g_plugin.bShowType) {
+			switch (pItem->dbe.eventType) {
+			case EVENTTYPE_MESSAGE:
+				hIcon = g_plugin.getIcon(IDI_SENDMSG);
+				break;
+			case EVENTTYPE_FILE:
+				hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+				break;
+			case EVENTTYPE_STATUSCHANGE:
+				hIcon = g_plugin.getIcon(IDI_SIGNIN);
+				break;
+			default:
+				hIcon = g_plugin.getIcon(IDI_UNKNOWN);
+				break;
+			}
+			DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+			pos.x += 18;
+		}
+
+		// Direction icon
+		if (g_plugin.bShowDirection) {
+			if (pItem->dbe.flags & DBEF_SENT)
+				hIcon = g_plugin.getIcon(IDI_MSGOUT);
+			else
+				hIcon = g_plugin.getIcon(IDI_MSGIN);
+			DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+			pos.x += 18;
+		}
+
+		// Bookmark icon
+		if (pItem->dbe.flags & DBEF_BOOKMARK) {
+			DrawIconEx(dib, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+			pos.x += 18;
+		}
+
+		// Finished icon
+		if (pItem->m_bOfflineDownloaded != 0) {
+			if (pItem->completed())
+				DrawIconEx(dib, cachedWindowWidth - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+			else {
+				HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
+				MoveToEx(dib, rc.left, rc.bottom - 4, 0);
+				LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
+				DeleteObject(SelectObject(dib, hpn));
+			}
+		}
+
+		HFONT hfnt = (HFONT)SelectObject(dib, g_fontTable[fontid].hfnt);
+		litehtml::position clip(pos.x, pos.y, cachedWindowWidth - pos.x, height);
+		pItem->m_doc->draw((UINT_PTR)cr, pos.x, pos.y, &clip);
+		SelectObject(dib, hfnt);
+
+		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
+		MoveToEx(dib, rc.left, rc.bottom - 1, 0);
+		LineTo(dib, rc.right, rc.bottom - 1);
+		DeleteObject(SelectObject(dib, hpn));
+
+		top += height;
 	}
 
-	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-	MTextDisplay(hdc, pos, sz, pItem->data);
-	SelectObject(hdc, hfnt);
+	cachedMaxDrawnItem = idx;
 
-	HPEN hpn = (HPEN)SelectObject(hdc, CreatePen(PS_SOLID, 1, clLine));
-	MoveToEx(hdc, rc.left, rc.bottom - 1, 0);
-	LineTo(hdc, rc.right, rc.bottom - 1);
-	DeleteObject(SelectObject(hdc, hpn));
-	return height;
+	if (top <= cachedWindowHeight) {
+		RECT rc2;
+		SetRect(&rc2, 0, top, cachedWindowWidth, cachedWindowHeight);
+
+		HBRUSH hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
+		FillRect(dib, &rc2, hbr);
+		DeleteObject(hbr);
+	}
+
+	if (g_plugin.bOptVScroll)
+		RecalcScrollBar();
+	
+	if (g_plugin.bDrawEdge) {
+		RECT rc = { 0, 0, cachedWindowWidth, cachedWindowHeight };
+		DrawEdge(dib, &rc, BDR_SUNKENOUTER, BF_RECT);
+	}
 }
 
 void NewstoryListData::RecalcScrollBar()
@@ -868,8 +881,8 @@ void NewstoryListData::SetPos(int pos)
 
 void NewstoryListData::SetSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, iFirst);
-	int end = min(totalCount - 1, max(0, iLast));
+	int start = std::min(totalCount - 1, iFirst);
+	int end = std::min(totalCount - 1, std::max(0, iLast));
 	if (start > end)
 		std::swap(start, end);
 
@@ -899,7 +912,7 @@ void NewstoryListData::ToggleBookmark()
 			p->dbe.flags |= DBEF_BOOKMARK;
 		db_event_edit(p->dbe.getEvent(), &p->dbe);
 
-		p->setText(m_hwnd);
+		p->setText();
 	}
 
 	InvalidateRect(m_hwnd, 0, FALSE);
@@ -907,8 +920,8 @@ void NewstoryListData::ToggleBookmark()
 
 void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 {
-	int start = min(totalCount - 1, iFirst);
-	int end = min(totalCount - 1, max(0, iLast));
+	int start = std::min(totalCount - 1, iFirst);
+	int end = std::min(totalCount - 1, std::max(0, iLast));
 	if (start > end)
 		std::swap(start, end);
 
@@ -946,7 +959,7 @@ void NewstoryListData::TryUp(int iCount)
 	ItemData *pPrev = nullptr;
 	for (int j = 0; j < i + 1; j++) {
 		auto *pItem = GetItem(j);
-		pPrev = pItem->checkNext(pPrev, m_hwnd);
+		pPrev = pItem->checkNext(pPrev);
 	}
 
 	caret = 0;
@@ -1174,7 +1187,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (idx != -1) {
 			auto *p = data->GetItem(idx);
 			p->load(true);
-			p->setText(data->m_hwnd);
+			p->setText();
 			InvalidateRect(hwnd, 0, FALSE);
 		}
 		break;
@@ -1207,40 +1220,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		we'll just ignore them */
 		if (IsWindowVisible(hwnd)) {
 			PAINTSTRUCT ps;
-			HDC hdcWindow = BeginPaint(hwnd, &ps);
+			HDC hdc = BeginPaint(hwnd, &ps);
 
-			RECT rc;
-			GetClientRect(hwnd, &rc);
+			data->Paint(data->dib, &ps.rcPaint);
 
-			HDC hdc = CreateCompatibleDC(hdcWindow);
-			HBITMAP hbmSave = (HBITMAP)SelectObject(hdc, CreateCompatibleBitmap(hdcWindow, rc.right - rc.left, rc.bottom - rc.top));
+			BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top,
+				ps.rcPaint.right - ps.rcPaint.left,
+				ps.rcPaint.bottom - ps.rcPaint.top, data->dib, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY);
 
-			int height = rc.bottom - rc.top;
-			int width = rc.right - rc.left;
-			int top = data->scrollTopPixel;
-			
-			for (idx = data->scrollTopItem; top < height && idx < data->totalCount; idx++)
-				top += data->PaintItem(hdc, data->LoadItem(idx), top, width, !data->hwndEditBox || data->caret != idx);
-
-			data->cachedMaxDrawnItem = idx;
-
-			if (top <= height) {
-				RECT rc2;
-				SetRect(&rc2, 0, top, width, height);
-
-				HBRUSH hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
-				FillRect(hdc, &rc2, hbr);
-				DeleteObject(hbr);
-			}
-
-			if (g_plugin.bOptVScroll)
-				data->RecalcScrollBar();
-			if (g_plugin.bDrawEdge)
-				DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
-
-			BitBlt(hdcWindow, 0, 0, rc.right, rc.bottom, hdc, 0, 0, SRCCOPY);
-			DeleteObject(SelectObject(hdc, hbmSave));
-			DeleteDC(hdc);
 			EndPaint(hwnd, &ps);
 		}
 		break;
@@ -1391,12 +1378,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			else {
 				pt.y -= pItem->savedTop;
 
-				CMStringW wszUrl;
-				if (pItem->isLink(hwnd, pt, &wszUrl)) {
-					Utils_OpenUrlW(wszUrl);
-					return 0;
-				}
-
 				data->selStart = idx;
 				data->SetSelection(idx, idx);
 				data->SetCaret(idx);
@@ -1440,14 +1421,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		idx = data->GetItemFromPixel(pt.y);
 		if (idx >= 0) {
-			auto *pItem = data->LoadItem(idx);
-			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
-
-			HCURSOR hOldCursor = GetCursor();
-			HCURSOR hNewCursor = LoadCursor(0, (pItem->isLink(hwnd, pt) || pItem->m_bOfflineFile) ? IDC_HAND : IDC_ARROW);
-			if (hOldCursor != hNewCursor)
-				SetCursor(hNewCursor);
-
 			if (data->selStart != -1) {
 				data->SetSelection(data->selStart, idx);
 				InvalidateRect(hwnd, 0, FALSE);
@@ -1541,7 +1514,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 void InitNewstoryControl()
 {
-	htuLog = MTextRegister("Newstory", MTEXT_FANCY_DEFAULT | MTEXT_SYSTEM_HICONS | MTEXT_FANCY_SMILEYS);
+	InitializeCriticalSection(&cairo_font::m_sync);
 
 	WNDCLASS wndclass = {};
 	wndclass.style = /*CS_HREDRAW | CS_VREDRAW | */CS_DBLCLKS | CS_GLOBALCLASS;

@@ -13,7 +13,6 @@
 #include "cairo-win32.h"
 #include <litehtml.h>
 #include <dib.h>
-#include <txdib.h>
 #include "../../libs/litehtml/containers/cairo/container_cairo.h"
 
 class windows_container :	public container_cairo

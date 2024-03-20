@@ -18,8 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern HANDLE htuLog;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Filters
 
@@ -82,8 +80,6 @@ ItemData::~ItemData()
 	mir_free(wtext);
 	if (dbe.szReplyId)
 		mir_free((char*)dbe.szReplyId);
-	if (data)
-		MTextDestroy(data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +97,7 @@ static bool isEqual(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrev(ItemData *pPrev, HWND hwnd)
+ItemData* ItemData::checkPrev(ItemData *pPrev)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -118,7 +114,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev, HWND hwnd)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText(hwnd);
+				pPrev->setText();
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -127,7 +123,7 @@ ItemData* ItemData::checkPrev(ItemData *pPrev, HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ItemData* ItemData::checkNext(ItemData *pPrev, HWND hwnd)
+ItemData* ItemData::checkNext(ItemData *pPrev)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -145,11 +141,11 @@ ItemData* ItemData::checkNext(ItemData *pPrev, HWND hwnd)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText(hwnd);
+				pPrev->setText();
 		}
 		m_grouping = GROUPING_ITEM;
 		if (m_bLoaded)
-			setText(hwnd);
+			setText();
 	}
 	return this;
 }
@@ -172,7 +168,7 @@ static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 	return true;
 }
 
-ItemData* ItemData::checkPrevGC(ItemData *pPrev, HWND hwnd)
+ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 {
 	m_grouping = GROUPING_NONE;
 	if (!pPrev || !g_plugin.bMsgGrouping)
@@ -185,7 +181,7 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev, HWND hwnd)
 		if (pPrev->m_grouping == GROUPING_NONE) {
 			pPrev->m_grouping = GROUPING_HEAD;
 			if (pPrev->m_bLoaded)
-				pPrev->setText(hwnd);
+				pPrev->setText();
 		}
 		m_grouping = GROUPING_ITEM;
 	}
@@ -194,61 +190,44 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev, HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void ItemData::checkCreate(HWND hwnd)
+int ItemData::calcHeight(int top, int width, POINT *pPos)
 {
-	if (data == nullptr) {
-		setText(hwnd);
-		MTextSetParent(data, hwnd);
-		MTextActivate(data, true);
+	checkCreate();
+
+	SIZE sz;
+	sz.cx = width - 2;
+
+	POINT pos;
+	pos.x = 2;
+	pos.y = top + 2;
+
+	if (g_plugin.bShowType)	// Message type icon
+		pos.x += 18;
+
+	if (g_plugin.bShowDirection)	// Message direction icon
+		pos.x += 18;
+
+	if (dbe.flags & DBEF_BOOKMARK) // Bookmark icon
+		pos.x += 18;
+
+	sz.cx -= pos.x;
+	if (m_bOfflineDownloaded != 0) // Download completed icon
+		sz.cx -= 18;
+
+	if (savedHeight == -1) {
+		m_doc->render(sz.cx);
+		savedHeight = m_doc->height();
 	}
+
+	if (pPos)
+		*pPos = pos;
+	return savedHeight + 5;
 }
 
-bool ItemData::isLink(HWND hwnd, POINT pt, CMStringW *pwszUrl) const
+void ItemData::checkCreate()
 {
-	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
-	if (cp == -1)
-		return false;
-
-	if (!isLinkChar(hwnd, cp))
-		return false;
-
-	if (pwszUrl) {
-		CHARRANGE sel = { cp, cp };
-		while (isLinkChar(hwnd, sel.cpMin-1))
-			sel.cpMin--;
-
-		while (isLinkChar(hwnd, sel.cpMax))
-			sel.cpMax++;
-
-		if (sel.cpMax > sel.cpMin) {
-			pwszUrl->Truncate(sel.cpMax - sel.cpMin + 1);
-
-			TEXTRANGE tr = { 0 };
-			tr.chrg = sel;
-			tr.lpstrText = pwszUrl->GetBuffer();
-			int iRes = MTextSendMessage(0, data, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-			if (iRes > 0)
-				pwszUrl->Trim();
-			else
-				pwszUrl->Empty();
-		}
-	}
-	return true;
-}
-
-bool ItemData::isLinkChar(HWND hwnd, int idx) const
-{
-	if (idx < 0)
-		return false;
-
-	CHARRANGE sel = { idx, idx + 1 };
-	MTextSendMessage(hwnd, data, EM_EXSETSEL, 0, LPARAM(&sel));
-
-	CHARFORMAT2 cf = {};
-	cf.cbSize = sizeof(cf);
-	cf.dwMask = CFM_LINK;
-	uint32_t res = MTextSendMessage(hwnd, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
-	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
+	if (m_doc == nullptr)
+		setText();
 }
 
 bool ItemData::fetch(void)
@@ -475,14 +454,11 @@ void ItemData::load(bool bLoadAlways)
 	dbe.unload();
 }
 
-void ItemData::setText(HWND hwnd)
+void ItemData::setText()
 {
-	if (data)
-		MTextDestroy(data);
-
-	data = MTextCreateEx2(hwnd, htuLog, formatRtf().GetBuffer(), MTEXT_FLG_RTF);
-	MTextSetProto(data, hContact);
-	savedHeight = -1;
+	m_doc = litehtml::document::createFromString(formatHtml(), &pOwner->webPage);
+	m_doc->render(pOwner->cachedWindowWidth);
+	savedHeight = m_doc->height();
 }
 
 // Array
@@ -559,7 +535,7 @@ void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, cons
 	if (lin->ptszNick) {
 		addNick(p, lin->ptszNick);
 
-		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1), hwndOwner);
+		p.checkPrevGC((numItems == 0) ? nullptr : get(numItems - 1));
 	}
 }
 
@@ -582,9 +558,9 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 		p.dbe = hEvent;
 		if (si) {
 			checkGC(p, si);
-			pPrev = p.checkPrevGC(pPrev, hwndOwner);
+			pPrev = p.checkPrevGC(pPrev);
 		}
-		else pPrev = p.checkPrev(pPrev, hwndOwner);
+		else pPrev = p.checkPrev(pPrev);
 	}
 	else {
 		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
@@ -599,9 +575,9 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 			p.dbe = hEvent;
 			if (si) {
 				checkGC(p, si);
-				pPrev = p.checkPrevGC(pPrev, hwndOwner);
+				pPrev = p.checkPrevGC(pPrev);
 			}
-			else pPrev = p.checkPrev(pPrev, hwndOwner);
+			else pPrev = p.checkPrev(pPrev);
 		}
 	}
 
@@ -628,7 +604,7 @@ void HistoryArray::addResults(NewstoryListData *pOwner, const OBJLIST<SearchResu
 		p.hContact = it->hContact;
 		p.dbe = it->hEvent;
 		p.m_bIsResult = true;
-		pPrev = p.checkPrev(pPrev, hwndOwner);
+		pPrev = p.checkPrev(pPrev);
 	}
 }
 

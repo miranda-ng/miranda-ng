@@ -93,16 +93,6 @@ class CTemplateOptsDlg : public CBaseOptsDlg
 	CCtrlMButton btnDiscard, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
-	UI_MESSAGE_MAP(CTemplateOptsDlg, CBaseOptsDlg);
-		UI_MESSAGE(UM_REDRAWLISTH, OnColorChanged);
-	UI_MESSAGE_MAP_END();
-
-	LRESULT OnColorChanged(UINT, WPARAM, LPARAM)
-	{
-		gpreview.SendMsg(MTM_SETBKCOLOR, g_colorTable[COLOR_BACK].cl, 0);
-		return 0;
-	}
-
 public:
 	CTemplateOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_TEMPLATES),
@@ -186,7 +176,6 @@ public:
 		m_tree.EnsureVisible(hFirst);
 
 		WindowList_Add(g_hNewstoryWindows, m_hwnd);
-		OnColorChanged(0, 0, 0);
 		return true;
 	}
 
@@ -278,7 +267,7 @@ public:
 
 		CMStringW wszText(m_tempItem.formatStringEx(m_curr->tmpValue));
 		preview.SetText(wszText);
-		gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
+		// gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
 	}
 
 	void onSelChanged(CCtrlTreeView::TEventInfo *)

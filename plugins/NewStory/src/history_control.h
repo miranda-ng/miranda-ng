@@ -3,6 +3,31 @@
 
 #define NEWSTORYLIST_CLASS "NewstoryList"
 
+struct NewstoryListData;
+
+class NSWebPage : public windows_container
+{
+	NewstoryListData &ctrl;
+
+	cairo_surface_t *get_image(const std::string &url) override;
+
+	void get_client_rect(litehtml::position &client) const override;
+	void import_css(litehtml::string &text, const litehtml::string &url, litehtml::string &baseurl) override;
+	void load_image(const char *src, const char *baseurl, bool redraw_on_ready) override;
+	void on_anchor_click(const char *url, const litehtml::element::ptr &el) override;
+	void set_base_url(const char *base_url) override;
+	void set_caption(const char *caption) override;
+	void set_clip(const litehtml::position &pos, const litehtml::border_radiuses &bdr_radius) override;
+	void set_cursor(const char *cursor) override;
+
+public:
+	NSWebPage(NewstoryListData &_1) :
+		ctrl(_1)
+	{}
+
+	litehtml::uint_ptr getRC() const { return (litehtml::uint_ptr)m_temp_cr; }
+};
+
 struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);
@@ -31,6 +56,9 @@ struct NewstoryListData : public MZeroedObject
 
 	CTimer redrawTimer;
 	CSrmmBaseDialog *pMsgDlg = nullptr;
+
+	NSWebPage webPage;
+	simpledib::dib dib;
 
 	void      OnContextMenu(int index, POINT pt);
 	void      OnResize(int newWidth, int newHeight);
@@ -76,7 +104,7 @@ struct NewstoryListData : public MZeroedObject
 	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();
-	int       PaintItem(HDC hdc, ItemData* pItem, int top, int width, bool bDraw);
+	void      Paint(simpledib::dib &dib, RECT *rcDraw);
 	void      Quote();
 	void      RecalcScrollBar();
 	void      Reply();

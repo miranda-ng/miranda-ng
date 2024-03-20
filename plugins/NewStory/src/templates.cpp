@@ -29,6 +29,124 @@ wchar_t *months[12] =
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// HTML generator
+
+static uint32_t color2html(COLORREF clr)
+{
+	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
+}
+
+static char* font2html(LOGFONTA &lf, char *dest)
+{
+	mir_snprintf(dest, 100, "font-family: %s; font-size: %dpt; font-weight: %s; %s", 
+		lf.lfFaceName, abs((signed char)lf.lfHeight) * 74 / g_iPixelY,
+		lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+		lf.lfItalic ? "font-style: italic;" : "");
+	return dest;
+}
+
+static void AppendString(CMStringA &buf, const char *p)
+{
+	bool wasSpace = false;
+
+	for (; *p; p++) {
+		if (*p == ' ') {
+			if (wasSpace)
+				buf.Append("&nbsp;");
+			else {
+				buf.AppendChar(' ');
+				wasSpace = true;
+			}
+			continue;
+		}
+
+		wasSpace = false;
+		if (*p == '\r' && p[1] == '\n') {
+			buf.Append("<br>");
+			p++;
+		}
+		else if (*p == '\n') buf.Append("<br>");
+		else if (*p == '&') buf.Append("&amp;");
+		else if (*p == '>') buf.Append("&gt;");
+		else if (*p == '<') buf.Append("&lt;");
+		else if (*p == '&') buf.Append("&quot;");
+		else if (*p == '[') {
+			p++;
+			if (*p == 'c') {
+				int colorId = -1;
+				if (p[2] == ']') {
+					colorId = atoi(p + 1);
+					p += 2;
+				}
+				else if (p[3] == ']') {
+					colorId = atoi(p + 1);
+					p += 3;
+				}
+
+				switch (colorId) {
+				case 0: buf.Append("</font>"); continue;
+				case 1: buf.Append("<font class=\"nick\">"); continue;
+				case 2: case 3: case 4: case 5: case 6:
+					buf.AppendFormat("<font color=%06X>", color2html(g_plugin.clCustom[colorId-2]));
+					continue;
+				}
+			}
+
+			char *pEnd = "";
+			if (*p == '/') {
+				pEnd = "/";
+				p++;
+			}
+			if (*p == 'b' && p[1] == ']') {
+				buf.AppendFormat("<%sb>", pEnd);
+				p++;
+			}
+			else if (*p == 'i' && p[1] == ']') {
+				buf.AppendFormat("<%si>", pEnd);
+				p++;
+			}
+			else if (*p == 'u' && p[1] == ']') {
+				buf.AppendFormat("<%su>", pEnd);
+				p++;
+			}
+			else if (*p == 's' && p[1] == ']') {
+				buf.AppendFormat("<%ss>", pEnd);
+				p++;
+			}
+			else {
+				buf.AppendChar('[');
+				if (*pEnd == '/')
+					p--;
+				p--;
+			}
+		}
+		else buf.AppendChar(*p);
+	}
+}
+
+CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
+{
+	CMStringA str;
+	str.Append("<html><head>");
+	str.Append("<style type=\"text/css\">\n");
+
+	int fontID, colorID;
+	getFontColor(fontID, colorID);
+	auto &F = g_fontTable[fontID];
+
+	char szFont[100];
+	str.AppendFormat("body {margin: 0px; text-align: left; %s; overflow: auto;}\n", font2html(F.lf, szFont));
+	str.AppendFormat(".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
+
+	str.Append("</style></head><body class=\"body\">\n");
+	AppendString(str, T2Utf((pwszStr) ? pwszStr : formatString()));
+
+	str.Append("</body></html>");
+	// Netlib_Logf(0, str);
+	return str;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // RTF generator
 
 static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
@@ -98,34 +216,6 @@ static void AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *p)
 			buf.AppendFormat("\\u%d ?", *p);
 		}
 	}
-}
-
-CMStringA ItemData::formatRtf(const wchar_t *pwszStr)
-{
-	CMStringA buf;
-	buf.Append("{\\rtf1\\ansi\\deff0");
-
-	int fontID, colorID;
-	getFontColor(fontID, colorID);
-	auto &F = g_fontTable[fontID];
-	buf.AppendFormat("{\\fonttbl{\\f0\\fnil\\fcharset0 %s;}}", F.lf.lfFaceName);
-
-	COLORREF cr = F.cl;
-	buf.AppendFormat("{\\colortbl \\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-	cr = g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl;
-	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-
-	for (auto cl : g_plugin.clCustom) {
-		cr = (cl == -1) ? 0 : cl;
-		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(cr), GetGValue(cr), GetBValue(cr));
-	}
-
-	buf.AppendFormat("}\\uc1\\pard \\cf0\\f0\\b0\\i0\\fs%d ", GetFontHeight(F.lf));
-	AppendUnicodeToBuffer(buf, (pwszStr) ? pwszStr : formatString());
-
-	buf.Append("}");
-	// Netlib_Logf(0, buf);
-	return buf;
 }
 
 CMStringA NewstoryListData::GatherSelectedRtf()
