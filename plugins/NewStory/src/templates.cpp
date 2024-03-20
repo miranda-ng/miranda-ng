@@ -143,6 +143,8 @@ CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
 	CMStringA szBody;
 	AppendString(szBody, T2Utf((pwszStr) ? pwszStr : formatString()).get());
 	UrlAutodetect(szBody);
+	if (g_plugin.bHasSmileys)
+		ReplaceSmileys(hContact, szBody);
 	str += szBody;
 
 	str.Append("</body></html>");

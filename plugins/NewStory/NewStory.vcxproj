@@ -53,6 +53,7 @@
     <ClCompile Include="src\history_log.cpp" />
     <ClCompile Include="src\history_menus.cpp" />
     <ClCompile Include="src\history_svc.cpp" />
+    <ClCompile Include="src\TxDIB.cpp" />
     <ClCompile Include="src\webpage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
@@ -78,6 +79,9 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
+      <Project>{5d14cff3-0d17-4528-99ea-de9dca47cc2e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\litehtml\litehtml.vcxproj">
       <Project>{51db004a-e160-47c7-b017-bec90fdc442d}</Project>
     </ProjectReference>

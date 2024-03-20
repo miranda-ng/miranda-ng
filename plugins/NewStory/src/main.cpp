@@ -136,9 +136,18 @@ static int evtTopToolbar(WPARAM, LPARAM)
 	return 0;
 }
 
+static int evtModuleLoaded(WPARAM, LPARAM)
+{
+	g_plugin.bHasSmileys = ServiceExists(MS_SMILEYADD_BATCHPARSE);
+	return 0;
+}
+
 static int evtModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, evtTopToolbar);
+	HookEvent(ME_SYSTEM_MODULELOAD, evtModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, evtModuleLoaded);
+	evtModuleLoaded(0, 0);
 
 	InitFonts();
 	InitNewstoryControl();

@@ -23,6 +23,8 @@ enum
 	// 
 	NSM_SET_OPTIONS,  // options were changed
 
+	NSM_IMAGE_LOADED,
+
 	NSM_LAST
 };
 

@@ -59,6 +59,9 @@
     <ClCompile Include="src\dib.cpp">
       <Filter>Source Files\Litehtml</Filter>
     </ClCompile>
+    <ClCompile Include="src\TxDIB.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\calendartool.h">

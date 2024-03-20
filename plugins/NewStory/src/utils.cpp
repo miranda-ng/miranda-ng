@@ -156,3 +156,32 @@ void UrlAutodetect(CMStringA &str)
 			p = str.c_str() + pos + newText.GetLength();
 		}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void ReplaceSmileys(MCONTACT hContact, CMStringA &str)
+{
+	SMADD_BATCHPARSE sp;
+	sp.Protocolname = Proto_GetBaseAccountName(hContact);
+	sp.flag = SAFL_PATH;
+	sp.str.a = str.c_str();
+	sp.hContact = hContact;
+
+	if (auto *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp)) {
+		for (int i = (int)sp.numSmileys-1; i >= 0; i--) {
+			auto &smiley = spRes[i];
+			if (mir_wstrlen(smiley.filepath) > 0) {
+				CMStringA szText(str.Mid(smiley.startChar, smiley.size));
+				str.Delete(smiley.startChar, smiley.size);
+
+				CMStringA szNew;
+				if (sp.oflag & SAFL_UNICODE)
+					szNew.Format("<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", T2Utf(smiley.filepath).get(), szText.c_str(), szText.c_str());
+				else
+					szNew.Format("<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", (char *)smiley.filepath, szText.c_str(), szText.c_str());
+				str.Insert(smiley.startChar, szNew);
+			}
+		}
+		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
+	}
+}

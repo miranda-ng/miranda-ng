@@ -8,6 +8,7 @@ struct NewstoryListData;
 class NSWebPage : public windows_container
 {
 	NewstoryListData &ctrl;
+	cairo_images_cache m_images;
 
 	cairo_surface_t *get_image(const std::string &url) override;
 
@@ -19,6 +20,8 @@ class NSWebPage : public windows_container
 	void set_caption(const char *caption) override;
 	void set_clip(const litehtml::position &pos, const litehtml::border_radiuses &bdr_radius) override;
 	void set_cursor(const char *cursor) override;
+
+	void on_image_loaded(const wchar_t *file, const wchar_t *url, bool redraw_only);
 
 public:
 	NSWebPage(NewstoryListData &_1) :

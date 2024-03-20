@@ -65,10 +65,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "m_PluginUpdater.h"
 #include "m_smileyadd.h"
 
-#include "../../Libs/litehtml/include/cairo.h"
-#include "../../Libs/litehtml/include/litehtml.h"
-#include "../../Libs/litehtml/containers/windows/cairo/cairo_font.h"
-#include "../../Libs/litehtml/containers/windows/cairo/windows_container.h"
+#include "../../Libs/freeimage/src/FreeImage.h"
+
+#include <../include/cairo.h>
+#include <../include/litehtml.h>
+#include <../containers/windows/cairo/cairo_font.h>
+#include <../containers/windows/cairo/windows_container.h>
+#include <../containers/cairo/cairo_images_cache.h>
 #include "dib.h"
 
 #include "resource.h"
@@ -106,7 +109,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	// thesw options are a copy of static CMOption to keep performance high
 	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false;
-	bool bShowType, bShowDirection;
+	bool bShowType, bShowDirection, bHasSmileys;
 
 	COLORREF clCustom[5];
 
