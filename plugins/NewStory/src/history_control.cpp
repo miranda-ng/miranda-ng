@@ -671,6 +671,7 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 			continue;
 
 		auto *pItem = LoadItem(idx);
+		pItem->savedTop = top;
 
 		POINT pos;
 		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
@@ -1446,7 +1447,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			auto *pItem = data->LoadItem(idx);
 			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_mouse_over(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_mouse_over(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
 		}
 		break;
 

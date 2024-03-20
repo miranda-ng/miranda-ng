@@ -19,7 +19,7 @@ struct ItemData
 	bool m_bOfflineFile;
 	uint8_t m_grouping, m_bOfflineDownloaded;
 	
-	int savedTop, savedHeight;
+	int savedTop, savedHeight, leftOffset;
 
 	DB::EventInfo dbe;
 	wchar_t *wtext;

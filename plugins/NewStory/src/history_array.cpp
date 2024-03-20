@@ -214,14 +214,16 @@ int ItemData::calcHeight(int top, int width, POINT *pPos)
 	if (m_bOfflineDownloaded != 0) // Download completed icon
 		sz.cx -= 18;
 
+	leftOffset = pos.x;
 	if (savedHeight == -1) {
 		m_doc->render(sz.cx);
-		savedHeight = m_doc->height();
+		savedHeight = m_doc->height() + 5;
+		Netlib_Logf(0, "Event %d rendered to %d with width %d", dbe.getEvent(), savedHeight, sz.cx);
 	}
 
 	if (pPos)
 		*pPos = pos;
-	return savedHeight + 5;
+	return savedHeight;
 }
 
 void ItemData::checkCreate()
@@ -457,8 +459,6 @@ void ItemData::load(bool bLoadAlways)
 void ItemData::setText()
 {
 	m_doc = litehtml::document::createFromString(formatHtml(), &pOwner->webPage);
-	m_doc->render(pOwner->cachedWindowWidth);
-	savedHeight = m_doc->height();
 }
 
 // Array

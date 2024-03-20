@@ -139,12 +139,13 @@ CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
 	str.AppendFormat(".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
 
 	str.Append("</style></head><body class=\"body\">\n");
-	AppendString(str, T2Utf((pwszStr) ? pwszStr : formatString()));
+
+	CMStringA szBody;
+	AppendString(szBody, T2Utf((pwszStr) ? pwszStr : formatString()).get());
+	UrlAutodetect(szBody);
+	str += szBody;
 
 	str.Append("</body></html>");
-
-	// url autodetect
-	UrlAutodetect(str);
 	
 	// Netlib_Logf(0, str);
 	return str;
