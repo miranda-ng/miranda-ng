@@ -42,8 +42,9 @@ void NSWebPage::load_image(const char *, const char *, bool)
 {
 }
 
-void NSWebPage::on_anchor_click(const char *, const litehtml::element::ptr &)
+void NSWebPage::on_anchor_click(const char *pszUtl, const litehtml::element::ptr &)
 {
+	Utils_OpenUrl(pszUtl);
 }
 
 void NSWebPage::set_base_url(const char *)
@@ -58,6 +59,10 @@ void NSWebPage::set_clip(const litehtml::position &, const litehtml::border_radi
 {
 }
 
-void NSWebPage::set_cursor(const char *)
+void NSWebPage::set_cursor(const char *pszCursor)
 {
+	if (!mir_strcmp(pszCursor, "pointer"))
+		SetCursor(LoadCursor(NULL, IDC_HAND));
+	else
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
 }

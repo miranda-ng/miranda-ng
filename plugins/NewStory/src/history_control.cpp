@@ -1367,6 +1367,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			auto *pItem = data->LoadItem(idx);
 
+			litehtml::position::vector redraw_boxes;
+			pItem->m_doc->on_lbutton_down(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
+
 			if (wParam & MK_CONTROL) {
 				data->ToggleSelection(idx, idx);
 				data->SetCaret(idx);
@@ -1389,8 +1392,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_LBUTTONUP:
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		idx = data->GetItemFromPixel(pt.y);
-		if (idx >= 0)
+		if (idx >= 0) {
 			data->selStart = -1;
+
+			auto *pItem = data->LoadItem(idx);
+			litehtml::position::vector redraw_boxes;
+			pItem->m_doc->on_lbutton_up(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
+		}
 		break;
 
 	case WM_LBUTTONDBLCLK:
@@ -1417,6 +1425,16 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SetFocus(hwnd);
 		return 0;
 
+	case WM_MOUSELEAVE:
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		idx = data->GetItemFromPixel(pt.y);
+		if (idx >= 0) {
+			auto *pItem = data->LoadItem(idx);
+			litehtml::position::vector redraw_boxes;
+			pItem->m_doc->on_mouse_leave(redraw_boxes);
+		}
+		break;
+
 	case WM_MOUSEMOVE:
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		idx = data->GetItemFromPixel(pt.y);
@@ -1425,6 +1443,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				data->SetSelection(data->selStart, idx);
 				InvalidateRect(hwnd, 0, FALSE);
 			}
+
+			auto *pItem = data->LoadItem(idx);
+			litehtml::position::vector redraw_boxes;
+			pItem->m_doc->on_mouse_over(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
 		}
 		break;
 
