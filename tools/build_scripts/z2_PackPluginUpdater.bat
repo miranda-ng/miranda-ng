@@ -64,7 +64,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="MirLua.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Scripts\*.dll" "Libs\lua*.dll")
 	if /I "%%a"=="mRadio.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_mRadio.dll" "Plugins\BASS\*.dll")
 	if /I "%%a"=="NewsAggregator.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_NewsAggregator.dll")
-	if /I "%%a"=="NewStory.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "libs\libTextControl.mir")
 	if /I "%%a"=="NotifyAnything.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "SendLog*.exe")
 	if /I "%%a"=="PluginUpdater.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "pu_stub.exe")
 	if /I "%%a"=="PopupPlus.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "libs\libTextControl.mir")
@@ -84,6 +83,14 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll" "Plugins\Weather\*.ini")
 	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "libs\libqrencode.mir")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
+	if /I "%%a"=="NewStory.dll" (
+		ren Libs Libs2
+		mkdir Libs
+		xcopy /S /V /Y "../../redist/x%tp%/cairo.dll" "Libs"
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll"
+		rd /S /Q Libs
+		ren Libs2 Libs
+	)
 	if /I "%%a"=="Jingle.dll" (
 		ren Libs Libs2
 		mkdir Libs
