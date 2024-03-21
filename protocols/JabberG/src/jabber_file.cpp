@@ -120,8 +120,8 @@ void CJabberProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
 			if (ft->httpPath)
 				blob.setUrl(ft->httpPath);
 			blob.setSize(ft->dwExpectedRecvFileSize);
+			delete ft;
 		}
-		delete ft;
 	}
 }
 
