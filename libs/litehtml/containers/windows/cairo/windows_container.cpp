@@ -131,7 +131,7 @@ litehtml::string windows_container::resolve_color(const litehtml::string& color)
 		{ "ButtonShadow",          COLOR_BTNSHADOW },
 		{ "ButtonText",            COLOR_BTNTEXT },
 		{ "CaptionText",           COLOR_CAPTIONTEXT },
-        { "GrayText",              COLOR_GRAYTEXT },
+		{ "GrayText",              COLOR_GRAYTEXT },
 		{ "Highlight",             COLOR_HIGHLIGHT },
 		{ "HighlightText",         COLOR_HIGHLIGHTTEXT },
 		{ "InactiveBorder",        COLOR_INACTIVEBORDER },

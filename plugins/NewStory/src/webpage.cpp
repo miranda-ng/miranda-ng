@@ -39,6 +39,18 @@ cairo_surface_t *dib_to_surface(CTxDIB &img)
 	return surface;
 }
 
+litehtml::string NSWebPage::resolve_color(const litehtml::string &color) const
+{
+	char buf[20];
+
+	if (color == "NSText") {
+		mir_snprintf(buf, "#%02X%02X%02X", GetRValue(clText), GetGValue(clText), GetBValue(clText));
+		return buf;
+	}
+
+	return windows_container::resolve_color(color);
+}
+
 void NSWebPage::on_image_loaded(const wchar_t *file, const wchar_t *url, bool redraw_only)
 {
 	if (!mir_wstrncmp(file, L"file://", 7))

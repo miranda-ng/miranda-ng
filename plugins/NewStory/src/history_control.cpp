@@ -676,32 +676,31 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 		POINT pos;
 		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
 
-		COLORREF clText, clBack, clLine;
+		COLORREF clLine;
 		int fontid, colorid;
 		pItem->getFontColor(fontid, colorid);
 
 		if (pItem->m_bHighlighted) {
-			clText = g_fontTable[FONT_HIGHLIGHT].cl;
-			clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
+			webPage.clText = g_fontTable[FONT_HIGHLIGHT].cl;
+			webPage.clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
 		else if (pItem->m_bSelected) {
-			clText = g_colorTable[COLOR_SELTEXT].cl;
-			clBack = g_colorTable[COLOR_SELBACK].cl;
+			webPage.clText = g_colorTable[COLOR_SELTEXT].cl;
+			webPage.clBack = g_colorTable[COLOR_SELBACK].cl;
 			clLine = g_colorTable[COLOR_SELFRAME].cl;
 		}
 		else {
-			clText = g_fontTable[fontid].cl;
+			webPage.clText = g_fontTable[fontid].cl;
+			webPage.clBack = g_colorTable[colorid].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
-			clBack = g_colorTable[colorid].cl;
 		}
 
-		HBRUSH hbr = CreateSolidBrush(clBack);
+		HBRUSH hbr = CreateSolidBrush(webPage.clBack);
 		RECT rc = { 0, top, cachedWindowWidth, top + height };
 		FillRect(dib, &rc, hbr);
 		DeleteObject(hbr);
 
-		SetTextColor(dib, clText);
 		SetBkMode(dib, TRANSPARENT);
 
 		pos.x = 2;
@@ -786,6 +785,9 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 		RECT rc = { 0, 0, cachedWindowWidth, cachedWindowHeight };
 		DrawEdge(dib, &rc, BDR_SUNKENOUTER, BF_RECT);
 	}
+
+	cairo_destroy(cr);
+	cairo_surface_destroy(surface);
 }
 
 void NewstoryListData::RecalcScrollBar()

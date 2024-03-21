@@ -326,9 +326,6 @@ void CTxDIB::tile(HDC hdc, LPRECT rcDraw, LPRECT rcClip /*= NULL*/)
 	bf.AlphaFormat = AC_SRC_ALPHA;
 	bf.SourceConstantAlpha = 255;
 
-	int x = 0;
-	int y = 0;
-
 	HBITMAP bmp = createBitmap(hdc);
 	HDC		memDC = CreateCompatibleDC(hdc);
 	HBITMAP	oldBmp = (HBITMAP)SelectObject(memDC, bmp);
@@ -415,7 +412,7 @@ BOOL CTxDIB::createFromHBITMAP(HBITMAP bmp)
 		if (dib) {
 			int nColors = FreeImage_GetColorsUsed(dib);
 			HDC dc = GetDC(NULL);
-			int res = GetDIBits(dc, bmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
+			GetDIBits(dc, bmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
 			ReleaseDC(NULL, dc);
 			FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
 			FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
@@ -445,7 +442,6 @@ BOOL CTxDIB::attach(LPVOID pdib)
 			}
 		}
 		if (dib) {
-			BITMAPINFO *hdr = FreeImage_GetInfo(dib);
 			m_width = FreeImage_GetWidth(dib);
 			m_height = FreeImage_GetHeight(dib);
 			m_bits = (LPRGBQUAD)malloc(m_width * m_height * sizeof(RGBQUAD));
@@ -759,7 +755,7 @@ bool CTxDIB::QIShrink(int newWidth, int newHeight, CTxDIB *dst /*= NULL */)
 	srcPtrS = m_bits;
 	destPtrS = newBits;
 	int ex = 0, ey = 0;                                               //ex and ey replace division... 
-	int dy = 0;
+
 	//(we just add pixels, until by adding newWidth or newHeight we get a number greater than old size... then
 	// it's time to move to next pixel)
 

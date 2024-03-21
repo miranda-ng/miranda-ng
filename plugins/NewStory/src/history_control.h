@@ -11,6 +11,7 @@ class NSWebPage : public windows_container
 	cairo_images_cache m_images;
 
 	cairo_surface_t *get_image(const std::string &url) override;
+	litehtml::string resolve_color(const litehtml::string &color) const;
 
 	void get_client_rect(litehtml::position &client) const override;
 	void import_css(litehtml::string &text, const litehtml::string &url, litehtml::string &baseurl) override;
@@ -28,7 +29,7 @@ public:
 		ctrl(_1)
 	{}
 
-	litehtml::uint_ptr getRC() const { return (litehtml::uint_ptr)m_temp_cr; }
+	COLORREF clText = -1, clBack = -1;
 };
 
 struct NewstoryListData : public MZeroedObject

@@ -135,7 +135,7 @@ CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
 	auto &F = g_fontTable[fontID];
 
 	char szFont[100];
-	str.AppendFormat("body {margin: 0px; text-align: left; %s; overflow: auto;}\n", font2html(F.lf, szFont));
+	str.AppendFormat("body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
 
 	str.Append("</style></head><body class=\"body\">\n");
