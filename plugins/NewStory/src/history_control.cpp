@@ -673,9 +673,6 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 		auto *pItem = LoadItem(idx);
 		pItem->savedTop = top;
 
-		POINT pos;
-		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
-
 		COLORREF clLine;
 		int fontid, colorid;
 		pItem->getFontColor(fontid, colorid);
@@ -695,6 +692,9 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 			webPage.clBack = g_colorTable[colorid].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
+
+		POINT pos;
+		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
 
 		HBRUSH hbr = CreateSolidBrush(webPage.clBack);
 		RECT rc = { 0, top, cachedWindowWidth, top + height };

@@ -458,6 +458,11 @@ void ItemData::load(bool bLoadAlways)
 
 void ItemData::setText()
 {
+	int fontid, colorid;
+	getFontColor(fontid, colorid);
+
+	pOwner->webPage.clText = g_fontTable[fontid].cl;
+	pOwner->webPage.clBack = g_colorTable[colorid].cl;
 	m_doc = litehtml::document::createFromString(T2Utf(formatHtml()), &pOwner->webPage);
 }
 
