@@ -458,7 +458,7 @@ void ItemData::load(bool bLoadAlways)
 
 void ItemData::setText()
 {
-	m_doc = litehtml::document::createFromString(formatHtml(), &pOwner->webPage);
+	m_doc = litehtml::document::createFromString(T2Utf(formatHtml()), &pOwner->webPage);
 }
 
 // Array

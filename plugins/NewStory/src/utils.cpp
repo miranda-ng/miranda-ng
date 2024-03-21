@@ -118,18 +118,18 @@ void RemoveBbcodes(CMStringW &wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int countNoWhitespace(const char *str)
+static int countNoWhitespace(const wchar_t *str)
 {
 	int c;
 	for (c = 0; *str != '\n' && *str != '\r' && *str != '\t' && *str != ' ' && *str != '\0'; str++, c++);
 	return c;
 }
 
-static int DetectUrl(const char *text)
+static int DetectUrl(const wchar_t *text)
 {
 	int i;
 	for (i = 0; text[i] != '\0'; i++)
-		if (!((text[i] >= '0' && text[i] <= '9') || isalpha(text[i])))
+		if (!((text[i] >= '0' && text[i] <= '9') || iswalpha(text[i])))
 			break;
 
 	if (i <= 0 || memcmp(text + i, "://", 3))
@@ -137,21 +137,21 @@ static int DetectUrl(const char *text)
 
 	i += countNoWhitespace(text + i);
 	for (; i > 0; i--)
-		if ((text[i - 1] >= '0' && text[i - 1] <= '9') || isalpha(text[i - 1]) || text[i - 1] == '/')
+		if ((text[i - 1] >= '0' && text[i - 1] <= '9') || iswalpha(text[i - 1]) || text[i - 1] == '/')
 			break;
 
 	return i;
 }
 
-void UrlAutodetect(CMStringA &str)
+void UrlAutodetect(CMStringW &str)
 {
 	for (auto *p = str.c_str(); *p; p++)
 		if (int len = DetectUrl(p)) {
 			int pos = p - str.c_str();
-			CMStringA url = str.Mid(pos, len);
+			CMStringW url = str.Mid(pos, len);
 			str.Delete(pos, len);
 
-			CMStringA newText(FORMAT, "<a href =\"%s\">%s</a>", url.c_str(), url.c_str());
+			CMStringW newText(FORMAT, L"<a href =\"%s\">%s</a>", url.c_str(), url.c_str());
 			str.Insert(pos, newText);
 			p = str.c_str() + pos + newText.GetLength();
 		}
@@ -159,29 +159,27 @@ void UrlAutodetect(CMStringA &str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void ReplaceSmileys(MCONTACT hContact, CMStringA &str)
+void ReplaceSmileys(MCONTACT hContact, CMStringW &str)
 {
 	SMADD_BATCHPARSE sp;
 	sp.Protocolname = Proto_GetBaseAccountName(hContact);
-	sp.flag = SAFL_PATH;
-	sp.str.a = str.c_str();
+	sp.flag = SAFL_PATH | SAFL_UNICODE;
+	sp.str.w = str.c_str();
 	sp.hContact = hContact;
 
 	if (auto *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp)) {
 		for (int i = (int)sp.numSmileys-1; i >= 0; i--) {
 			auto &smiley = spRes[i];
 			if (mir_wstrlen(smiley.filepath) > 0) {
-				CMStringA szText(str.Mid(smiley.startChar, smiley.size));
+				CMStringW szText(str.Mid(smiley.startChar, smiley.size));
 				str.Delete(smiley.startChar, smiley.size);
 
-				CMStringA szNew;
-				if (sp.oflag & SAFL_UNICODE)
-					szNew.Format("<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", T2Utf(smiley.filepath).get(), szText.c_str(), szText.c_str());
-				else
-					szNew.Format("<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", (char *)smiley.filepath, szText.c_str(), szText.c_str());
+				CMStringW szNew;
+				szNew.Format(L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", smiley.filepath, szText.c_str(), szText.c_str());
 				str.Insert(smiley.startChar, szNew);
 			}
 		}
+		
 		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
 	}
 }

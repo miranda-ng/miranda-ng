@@ -47,7 +47,7 @@ struct ItemData
 	int getCopyTemplate() const;
 	void getFontColor(int &fontId, int &colorId) const;
 
-	CMStringA formatHtml(const wchar_t *pwszStr = 0);
+	CMStringW formatHtml(const wchar_t *pwszStr = 0);
 	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
 	CMStringW formatStringEx(wchar_t *sztpl);
 

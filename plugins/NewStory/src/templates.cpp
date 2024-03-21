@@ -36,23 +36,23 @@ static uint32_t color2html(COLORREF clr)
 	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
 }
 
-static char* font2html(LOGFONTA &lf, char *dest)
+static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 {
-	mir_snprintf(dest, 100, "font-family: %s; font-size: %dpt; font-weight: %s; %s", 
+	mir_snwprintf(dest, 100, L"font-family: %s; font-size: %dpt; font-weight: %s %s", 
 		lf.lfFaceName, abs((signed char)lf.lfHeight) * 74 / g_iPixelY,
 		lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-		lf.lfItalic ? "font-style: italic;" : "");
+		lf.lfItalic ? "; font-style: italic;" : "");
 	return dest;
 }
 
-static void AppendString(CMStringA &buf, const char *p)
+static void AppendString(CMStringW &buf, const wchar_t *p)
 {
 	bool wasSpace = false;
 
 	for (; *p; p++) {
 		if (*p == ' ') {
 			if (wasSpace)
-				buf.Append("&nbsp;");
+				buf.Append(L"&nbsp;");
 			else {
 				buf.AppendChar(' ');
 				wasSpace = true;
@@ -62,55 +62,55 @@ static void AppendString(CMStringA &buf, const char *p)
 
 		wasSpace = false;
 		if (*p == '\r' && p[1] == '\n') {
-			buf.Append("<br>");
+			buf.Append(L"<br>");
 			p++;
 		}
-		else if (*p == '\n') buf.Append("<br>");
-		else if (*p == '&') buf.Append("&amp;");
-		else if (*p == '>') buf.Append("&gt;");
-		else if (*p == '<') buf.Append("&lt;");
-		else if (*p == '&') buf.Append("&quot;");
+		else if (*p == '\n') buf.Append(L"<br>");
+		else if (*p == '&') buf.Append(L"&amp;");
+		else if (*p == '>') buf.Append(L"&gt;");
+		else if (*p == '<') buf.Append(L"&lt;");
+		else if (*p == '&') buf.Append(L"&quot;");
 		else if (*p == '[') {
 			p++;
 			if (*p == 'c') {
 				int colorId = -1;
 				if (p[2] == ']') {
-					colorId = atoi(p + 1);
+					colorId = _wtoi(p + 1);
 					p += 2;
 				}
 				else if (p[3] == ']') {
-					colorId = atoi(p + 1);
+					colorId = _wtoi(p + 1);
 					p += 3;
 				}
 
 				switch (colorId) {
-				case 0: buf.Append("</font>"); continue;
-				case 1: buf.Append("<font class=\"nick\">"); continue;
+				case 0: buf.Append(L"</font>"); continue;
+				case 1: buf.Append(L"<font class=\"nick\">"); continue;
 				case 2: case 3: case 4: case 5: case 6:
-					buf.AppendFormat("<font color=%06X>", color2html(g_plugin.clCustom[colorId-2]));
+					buf.AppendFormat(L"<font color=%06X>", color2html(g_plugin.clCustom[colorId-2]));
 					continue;
 				}
 			}
 
-			char *pEnd = "";
+			wchar_t *pEnd = L"";
 			if (*p == '/') {
-				pEnd = "/";
+				pEnd = L"/";
 				p++;
 			}
 			if (*p == 'b' && p[1] == ']') {
-				buf.AppendFormat("<%sb>", pEnd);
+				buf.AppendFormat(L"<%sb>", pEnd);
 				p++;
 			}
 			else if (*p == 'i' && p[1] == ']') {
-				buf.AppendFormat("<%si>", pEnd);
+				buf.AppendFormat(L"<%si>", pEnd);
 				p++;
 			}
 			else if (*p == 'u' && p[1] == ']') {
-				buf.AppendFormat("<%su>", pEnd);
+				buf.AppendFormat(L"<%su>", pEnd);
 				p++;
 			}
 			else if (*p == 's' && p[1] == ']') {
-				buf.AppendFormat("<%ss>", pEnd);
+				buf.AppendFormat(L"<%ss>", pEnd);
 				p++;
 			}
 			else {
@@ -124,30 +124,30 @@ static void AppendString(CMStringA &buf, const char *p)
 	}
 }
 
-CMStringA ItemData::formatHtml(const wchar_t *pwszStr)
+CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 {
-	CMStringA str;
-	str.Append("<html><head>");
-	str.Append("<style type=\"text/css\">\n");
+	CMStringW str;
+	str.Append(L"<html><head>");
+	str.Append(L"<style type=\"text/css\">\n");
 
 	int fontID, colorID;
 	getFontColor(fontID, colorID);
 	auto &F = g_fontTable[fontID];
 
-	char szFont[100];
-	str.AppendFormat("body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
-	str.AppendFormat(".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
+	wchar_t szFont[100];
+	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
+	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
 
-	str.Append("</style></head><body class=\"body\">\n");
+	str.Append(L"</style></head><body class=\"body\">\n");
 
-	CMStringA szBody;
-	AppendString(szBody, T2Utf((pwszStr) ? pwszStr : formatString()).get());
+	CMStringW szBody;
+	AppendString(szBody, (pwszStr) ? pwszStr : formatString());
 	UrlAutodetect(szBody);
 	if (g_plugin.bHasSmileys)
 		ReplaceSmileys(hContact, szBody);
 	str += szBody;
 
-	str.Append("</body></html>");
+	str.Append(L"</body></html>");
 	
 	// Netlib_Logf(0, str);
 	return str;
