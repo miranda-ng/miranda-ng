@@ -38,10 +38,10 @@ static uint32_t color2html(COLORREF clr)
 
 static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 {
-	mir_snwprintf(dest, 100, L"font-family: %s; font-size: %dpt; font-weight: %s %s", 
+	mir_snwprintf(dest, 100, L"font-family: %S; font-size: %dpt; font-weight: %s %s", 
 		lf.lfFaceName, abs((signed char)lf.lfHeight) * 74 / g_iPixelY,
-		lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-		lf.lfItalic ? "; font-style: italic;" : "");
+		lf.lfWeight >= FW_BOLD ? L"bold" : L"normal",
+		lf.lfItalic ? L"; font-style: italic;" : L"");
 	return dest;
 }
 
@@ -149,7 +149,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	str.Append(L"</body></html>");
 	
-	// Netlib_Logf(0, str);
+	// Netlib_LogfW(0, str);
 	return str;
 }
 
