@@ -86,7 +86,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="NewStory.dll" (
 		ren Libs Libs2
 		mkdir Libs
-		xcopy /S /V /Y "../../redist/x%tp%/cairo.dll" "Libs"
+		copy ..\..\redist\x%tp%\cairo.dll .\Libs
 		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll"
 		rd /S /Q Libs
 		ren Libs2 Libs
