@@ -1,6 +1,7 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#include <algorithm>
 #include <windows.h>
 #include <gdiplus.h>
 #include "gdiplus_container.h"
