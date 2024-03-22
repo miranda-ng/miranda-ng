@@ -140,11 +140,39 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	str.Append(L"</style></head><body class=\"body\">\n");
 
+	CMStringW wszOrigText((pwszStr) ? pwszStr : formatString());
+
+	SMADD_BATCHPARSE sp = {};
+	SMADD_BATCHPARSERES *spRes = nullptr;
+	if (g_plugin.bHasSmileys) {
+		sp.Protocolname = Proto_GetBaseAccountName(hContact);
+		sp.flag = SAFL_PATH | SAFL_UNICODE;
+		sp.str.w = wszOrigText;
+		sp.hContact = hContact;
+		spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	}
+
 	CMStringW szBody;
-	AppendString(szBody, (pwszStr) ? pwszStr : formatString());
+	AppendString(szBody, wszOrigText);
 	UrlAutodetect(szBody);
-	if (g_plugin.bHasSmileys)
-		ReplaceSmileys(hContact, szBody);
+	if (spRes) {
+		for (int i = 0; i < (int)sp.numSmileys; i++) {
+			auto &smiley = spRes[i];
+			if (!mir_wstrlen(smiley.filepath))
+				continue;
+
+			CMStringW wszFound(wszOrigText.Mid(smiley.startChar, smiley.size));
+			int idx = szBody.Find(wszFound);
+			if (idx == -1)
+				continue;
+
+			szBody.Delete(idx, smiley.size);
+			szBody.Insert(idx, CMStringW(FORMAT, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />",
+				smiley.filepath, wszFound.c_str(), wszFound.c_str()));
+		}
+
+		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
+	}
 	str += szBody;
 
 	str.Append(L"</body></html>");

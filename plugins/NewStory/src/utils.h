@@ -9,6 +9,5 @@ bool NSMenu_Process(int iCommand, NewstoryListData *data);
 
 int GetFontHeight(const LOGFONTA &lf);
 
-void ReplaceSmileys(MCONTACT hContact, CMStringW &str);
 void UrlAutodetect(CMStringW &str);
 void RemoveBbcodes(CMStringW &pwszText);

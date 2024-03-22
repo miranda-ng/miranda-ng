@@ -156,30 +156,3 @@ void UrlAutodetect(CMStringW &str)
 			p = str.c_str() + pos + newText.GetLength();
 		}
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void ReplaceSmileys(MCONTACT hContact, CMStringW &str)
-{
-	SMADD_BATCHPARSE sp;
-	sp.Protocolname = Proto_GetBaseAccountName(hContact);
-	sp.flag = SAFL_PATH | SAFL_UNICODE;
-	sp.str.w = str.c_str();
-	sp.hContact = hContact;
-
-	if (auto *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp)) {
-		for (int i = (int)sp.numSmileys-1; i >= 0; i--) {
-			auto &smiley = spRes[i];
-			if (mir_wstrlen(smiley.filepath) > 0) {
-				CMStringW szText(str.Mid(smiley.startChar, smiley.size));
-				str.Delete(smiley.startChar, smiley.size);
-
-				CMStringW szNew;
-				szNew.Format(L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", smiley.filepath, szText.c_str(), szText.c_str());
-				str.Insert(smiley.startChar, szNew);
-			}
-		}
-		
-		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
-	}
-}
