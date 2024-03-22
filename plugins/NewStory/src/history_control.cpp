@@ -754,11 +754,8 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 			}
 		}
 
-		HFONT hfnt = (HFONT)SelectObject(dib, g_fontTable[fontid].hfnt);
 		litehtml::position clip(pos.x, pos.y, cachedWindowWidth - pos.x, height);
 		pItem->m_doc->draw((UINT_PTR)cr, pos.x, pos.y, &clip);
-		SelectObject(dib, hfnt);
-
 		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
 		MoveToEx(dib, rc.left, rc.bottom - 1, 0);
 		LineTo(dib, rc.right, rc.bottom - 1);
