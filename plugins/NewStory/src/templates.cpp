@@ -156,19 +156,22 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	AppendString(szBody, wszOrigText);
 	UrlAutodetect(szBody);
 	if (spRes) {
+		int iOffset = 0;
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
 			auto &smiley = spRes[i];
 			if (!mir_wstrlen(smiley.filepath))
 				continue;
 
 			CMStringW wszFound(wszOrigText.Mid(smiley.startChar, smiley.size));
-			int idx = szBody.Find(wszFound);
+			int idx = szBody.Find(wszFound, iOffset);
 			if (idx == -1)
 				continue;
 
 			szBody.Delete(idx, smiley.size);
-			szBody.Insert(idx, CMStringW(FORMAT, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />",
-				smiley.filepath, wszFound.c_str(), wszFound.c_str()));
+
+			CMStringW wszNew(FORMAT, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", smiley.filepath, wszFound.c_str(), wszFound.c_str());
+			szBody.Insert(idx, wszNew);
+			iOffset = idx + wszNew.GetLength();
 		}
 
 		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
