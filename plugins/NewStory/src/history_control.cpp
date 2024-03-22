@@ -652,17 +652,8 @@ void NewstoryListData::OpenFolder()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Painting
 
-void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
+void NewstoryListData::Paint(simpledib::dib &dib)
 {
-	cairo_surface_t *surface = cairo_image_surface_create_for_data((unsigned char *)dib.bits(), CAIRO_FORMAT_ARGB32, dib.width(), dib.height(), dib.width() * 4);
-	cairo_t *cr = cairo_create(surface);
-
-	cairo_rectangle(cr, rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
-	cairo_clip(cr);
-
-	cairo_set_source_rgb(cr, 1, 1, 1);
-	cairo_paint(cr);
-
 	int top = scrollTopPixel;
 
 	int idx;
@@ -755,7 +746,8 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 		}
 
 		litehtml::position clip(pos.x, pos.y, cachedWindowWidth - pos.x, height);
-		pItem->m_doc->draw((UINT_PTR)cr, pos.x, pos.y, &clip);
+		pItem->m_doc->draw((UINT_PTR)dib.hdc(), pos.x, pos.y, &clip);
+
 		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
 		MoveToEx(dib, rc.left, rc.bottom - 1, 0);
 		LineTo(dib, rc.right, rc.bottom - 1);
@@ -782,9 +774,6 @@ void NewstoryListData::Paint(simpledib::dib &dib, RECT *rcDraw)
 		RECT rc = { 0, 0, cachedWindowWidth, cachedWindowHeight };
 		DrawEdge(dib, &rc, BDR_SUNKENOUTER, BF_RECT);
 	}
-
-	cairo_destroy(cr);
-	cairo_surface_destroy(surface);
 }
 
 void NewstoryListData::RecalcScrollBar()
@@ -1234,7 +1223,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 
-			data->Paint(data->dib, &ps.rcPaint);
+			data->Paint(data->dib);
 
 			BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top,
 				ps.rcPaint.right - ps.rcPaint.left,
@@ -1548,8 +1537,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 void InitNewstoryControl()
 {
-	InitializeCriticalSection(&cairo_font::m_sync);
-
 	WNDCLASS wndclass = {};
 	wndclass.style = /*CS_HREDRAW | CS_VREDRAW | */CS_DBLCLKS | CS_GLOBALCLASS;
 	wndclass.lpfnWndProc = NewstoryListWndProc;

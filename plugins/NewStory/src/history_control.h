@@ -5,24 +5,23 @@
 
 struct NewstoryListData;
 
-class NSWebPage : public windows_container
+class NSWebPage : public gdiplus_container
 {
-	NewstoryListData &ctrl;
-	cairo_images_cache m_images;
+	typedef gdiplus_container CSuper;
 
-	cairo_surface_t *get_image(const std::string &url) override;
+	NewstoryListData &ctrl;
+
 	litehtml::string resolve_color(const litehtml::string &color) const;
 
 	void get_client_rect(litehtml::position &client) const override;
+	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready) override;
 	void import_css(litehtml::string &text, const litehtml::string &url, litehtml::string &baseurl) override;
-	void load_image(const char *src, const char *baseurl, bool redraw_on_ready) override;
+	void make_url(LPCWSTR url, LPCWSTR basepath, std::wstring &out) override;
 	void on_anchor_click(const char *url, const litehtml::element::ptr &el) override;
 	void set_base_url(const char *base_url) override;
 	void set_caption(const char *caption) override;
 	void set_clip(const litehtml::position &pos, const litehtml::border_radiuses &bdr_radius) override;
 	void set_cursor(const char *cursor) override;
-
-	void on_image_loaded(const wchar_t *file, const wchar_t *url, bool redraw_only);
 
 public:
 	NSWebPage(NewstoryListData &_1) :
@@ -108,7 +107,7 @@ struct NewstoryListData : public MZeroedObject
 	void      OpenFolder();
 	void      PageUp();
 	void      PageDown();
-	void      Paint(simpledib::dib &dib, RECT *rcDraw);
+	void      Paint(simpledib::dib &dib);
 	void      Quote();
 	void      RecalcScrollBar();
 	void      Reply();

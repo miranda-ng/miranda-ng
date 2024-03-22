@@ -17,27 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "TxDIB.h"
+
+#undef Translate
+#include <gdiplus.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Litehtml interface
-
-CRITICAL_SECTION cairo_font::m_sync;
-
-cairo_surface_t *dib_to_surface(CTxDIB &img)
-{
-	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, img.getWidth(), img.getHeight());
-	unsigned char *dst = cairo_image_surface_get_data(surface);
-	unsigned char *src = (unsigned char *)img.getBits();
-	int line_size = img.getWidth() * 4;
-	int dst_offset = img.getWidth() * (img.getHeight() - 1) * 4;
-	int src_offset = 0;
-	for (int i = 0; i < img.getHeight(); i++, src_offset += line_size, dst_offset -= line_size) {
-		memcpy(dst + dst_offset, src + src_offset, line_size);
-	}
-	cairo_surface_mark_dirty(surface);
-	return surface;
-}
 
 litehtml::string NSWebPage::resolve_color(const litehtml::string &color) const
 {
@@ -48,45 +33,31 @@ litehtml::string NSWebPage::resolve_color(const litehtml::string &color) const
 		return buf;
 	}
 
-	return windows_container::resolve_color(color);
-}
-
-void NSWebPage::on_image_loaded(const wchar_t *file, const wchar_t *url, bool redraw_only)
-{
-	if (!mir_wstrncmp(file, L"file://", 7))
-		file += 7;
-
-	CTxDIB img;
-	if (img.load(file)) {
-		cairo_surface_t *surface = dib_to_surface(img);
-		m_images.add_image(T2Utf(url).get(), surface);
-
-		PostMessage(ctrl.m_hwnd, NSM_IMAGE_LOADED, redraw_only, 0);
-	}
+	return CSuper::resolve_color(color);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-cairo_surface_t* NSWebPage::get_image(const std::string &url)
+litehtml::uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 {
-	return m_images.get_image(url);
+	if (!mir_wstrncmp(url_or_path, L"file://", 7))
+		url_or_path += 7;
+
+	return (litehtml::uint_ptr)new Gdiplus::Bitmap(url_or_path);
 }
 
 void NSWebPage::get_client_rect(litehtml::position &pos) const
 {
 	pos = litehtml::size(ctrl.cachedWindowWidth, ctrl.cachedWindowHeight);
-
 }
 
 void NSWebPage::import_css(litehtml::string &, const litehtml::string &, litehtml::string &)
 {
 }
 
-void NSWebPage::load_image(const char *src, const char */*baseUrl*/, bool redraw_on_ready)
+void NSWebPage::make_url(LPCWSTR url, LPCWSTR, std::wstring &out)
 {
-	Utf2T wszUrl(src);
-	if (m_images.reserve(src))
-		on_image_loaded(wszUrl, wszUrl, redraw_on_ready);
+	out = url;
 }
 
 void NSWebPage::on_anchor_click(const char *pszUtl, const litehtml::element::ptr &)

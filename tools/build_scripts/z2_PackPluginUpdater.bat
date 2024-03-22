@@ -83,14 +83,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll" "Plugins\Weather\*.ini")
 	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "libs\libqrencode.mir")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
-	if /I "%%a"=="NewStory.dll" (
-		ren Libs Libs2
-		mkdir Libs
-		copy ..\..\redist\x%tp%\cairo.dll .\Libs
-		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll"
-		rd /S /Q Libs
-		ren Libs2 Libs
-	)
 	if /I "%%a"=="Jingle.dll" (
 		ren Libs Libs2
 		mkdir Libs

@@ -32,16 +32,10 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libs\litehtml\containers\cairo\cairo_borders.cpp">
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\gdiplus\gdiplus_container.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\cairo\container_cairo.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\cairo_font.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\windows_container.cpp">
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\win32\win32_container.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\calendartool.cpp" />
@@ -53,7 +47,6 @@
     <ClCompile Include="src\history_log.cpp" />
     <ClCompile Include="src\history_menus.cpp" />
     <ClCompile Include="src\history_svc.cpp" />
-    <ClCompile Include="src\TxDIB.cpp" />
     <ClCompile Include="src\webpage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />

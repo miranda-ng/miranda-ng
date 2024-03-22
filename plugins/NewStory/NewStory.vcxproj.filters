@@ -41,25 +41,16 @@
     <ClCompile Include="src\history_svc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\cairo\container_cairo.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\cairo_font.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\cairo\windows_container.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\cairo\cairo_borders.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
     <ClCompile Include="src\webpage.cpp">
       <Filter>Source Files\Litehtml</Filter>
     </ClCompile>
     <ClCompile Include="src\dib.cpp">
       <Filter>Source Files\Litehtml</Filter>
     </ClCompile>
-    <ClCompile Include="src\TxDIB.cpp">
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\win32\win32_container.cpp">
+      <Filter>Source Files\Litehtml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\litehtml\containers\windows\gdiplus\gdiplus_container.cpp">
       <Filter>Source Files\Litehtml</Filter>
     </ClCompile>
   </ItemGroup>
