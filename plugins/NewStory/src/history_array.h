@@ -41,7 +41,7 @@ struct ItemData
 	bool fetch(void);
 	void fill(int tmpl);
 	void load(bool bLoad = false);
-	void setText();
+	void setText(const wchar_t *pwszText = nullptr);
 
 	int getTemplate() const;
 	int getCopyTemplate() const;

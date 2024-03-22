@@ -201,18 +201,20 @@ int ItemData::calcHeight(int top, int width, POINT *pPos)
 	pos.x = 2;
 	pos.y = top + 2;
 
-	if (g_plugin.bShowType)	// Message type icon
-		pos.x += 18;
+	if (!pOwner->bReadOnly) {
+		if (g_plugin.bShowType)	// Message type icon
+			pos.x += 18;
 
-	if (g_plugin.bShowDirection)	// Message direction icon
-		pos.x += 18;
+		if (g_plugin.bShowDirection)	// Message direction icon
+			pos.x += 18;
 
-	if (dbe.flags & DBEF_BOOKMARK) // Bookmark icon
-		pos.x += 18;
+		if (dbe.flags & DBEF_BOOKMARK) // Bookmark icon
+			pos.x += 18;
 
-	sz.cx -= pos.x;
-	if (m_bOfflineDownloaded != 0) // Download completed icon
-		sz.cx -= 18;
+		sz.cx -= pos.x;
+		if (m_bOfflineDownloaded != 0) // Download completed icon
+			sz.cx -= 18;
+	}
 
 	leftOffset = pos.x;
 	if (savedHeight == -1) {
@@ -456,14 +458,14 @@ void ItemData::load(bool bLoadAlways)
 	dbe.unload();
 }
 
-void ItemData::setText()
+void ItemData::setText(const wchar_t *pwszText)
 {
 	int fontid, colorid;
 	getFontColor(fontid, colorid);
 
 	pOwner->webPage.clText = g_fontTable[fontid].cl;
 	pOwner->webPage.clBack = g_colorTable[colorid].cl;
-	m_doc = litehtml::document::createFromString(T2Utf(formatHtml()), &pOwner->webPage);
+	m_doc = litehtml::document::createFromString(T2Utf(formatHtml(pwszText)), &pOwner->webPage);
 }
 
 // Array
@@ -683,12 +685,14 @@ ItemData* HistoryArray::insert(int pos)
 {
 	int count = getCount();
 	ItemData *pNew = &allocateItem();
-	ItemData *pPrev = get(count-1, false);
-	
-	for (int i = count; i >= pos; i--) {
-		memcpy(pNew, pPrev, sizeof(ItemData));
-		pNew = pPrev;
-		pPrev = get(i - 1, false);
+
+	if (count > 0) {
+		ItemData *pPrev = get(count - 1, false);
+		for (int i = count; i >= pos; i--) {
+			memcpy(pNew, pPrev, sizeof(ItemData));
+			pNew = pPrev;
+			pPrev = get(i - 1, false);
+		}
 	}
 
 	ItemData tmp;

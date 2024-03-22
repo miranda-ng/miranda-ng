@@ -673,7 +673,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			webPage.clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
-		else if (pItem->m_bSelected) {
+		else if (pItem->m_bSelected && !bReadOnly) {
 			webPage.clText = g_colorTable[COLOR_SELTEXT].cl;
 			webPage.clBack = g_colorTable[COLOR_SELBACK].cl;
 			clLine = g_colorTable[COLOR_SELFRAME].cl;
@@ -695,53 +695,56 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		SetBkMode(dib, TRANSPARENT);
 
 		pos.x = 2;
-		HICON hIcon;
 
-		// Message type icon
-		if (g_plugin.bShowType) {
-			switch (pItem->dbe.eventType) {
-			case EVENTTYPE_MESSAGE:
-				hIcon = g_plugin.getIcon(IDI_SENDMSG);
-				break;
-			case EVENTTYPE_FILE:
-				hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-				break;
-			case EVENTTYPE_STATUSCHANGE:
-				hIcon = g_plugin.getIcon(IDI_SIGNIN);
-				break;
-			default:
-				hIcon = g_plugin.getIcon(IDI_UNKNOWN);
-				break;
+		if (!bReadOnly) {
+			HICON hIcon;
+
+			// Message type icon
+			if (g_plugin.bShowType) {
+				switch (pItem->dbe.eventType) {
+				case EVENTTYPE_MESSAGE:
+					hIcon = g_plugin.getIcon(IDI_SENDMSG);
+					break;
+				case EVENTTYPE_FILE:
+					hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+					break;
+				case EVENTTYPE_STATUSCHANGE:
+					hIcon = g_plugin.getIcon(IDI_SIGNIN);
+					break;
+				default:
+					hIcon = g_plugin.getIcon(IDI_UNKNOWN);
+					break;
+				}
+				DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+				pos.x += 18;
 			}
-			DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-			pos.x += 18;
-		}
 
-		// Direction icon
-		if (g_plugin.bShowDirection) {
-			if (pItem->dbe.flags & DBEF_SENT)
-				hIcon = g_plugin.getIcon(IDI_MSGOUT);
-			else
-				hIcon = g_plugin.getIcon(IDI_MSGIN);
-			DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-			pos.x += 18;
-		}
+			// Direction icon
+			if (g_plugin.bShowDirection) {
+				if (pItem->dbe.flags & DBEF_SENT)
+					hIcon = g_plugin.getIcon(IDI_MSGOUT);
+				else
+					hIcon = g_plugin.getIcon(IDI_MSGIN);
+				DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
+				pos.x += 18;
+			}
 
-		// Bookmark icon
-		if (pItem->dbe.flags & DBEF_BOOKMARK) {
-			DrawIconEx(dib, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
-			pos.x += 18;
-		}
+			// Bookmark icon
+			if (pItem->dbe.flags & DBEF_BOOKMARK) {
+				DrawIconEx(dib, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+				pos.x += 18;
+			}
 
-		// Finished icon
-		if (pItem->m_bOfflineDownloaded != 0) {
-			if (pItem->completed())
-				DrawIconEx(dib, cachedWindowWidth - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
-			else {
-				HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
-				MoveToEx(dib, rc.left, rc.bottom - 4, 0);
-				LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
-				DeleteObject(SelectObject(dib, hpn));
+			// Finished icon
+			if (pItem->m_bOfflineDownloaded != 0) {
+				if (pItem->completed())
+					DrawIconEx(dib, cachedWindowWidth - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+				else {
+					HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
+					MoveToEx(dib, rc.left, rc.bottom - 4, 0);
+					LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
+					DeleteObject(SelectObject(dib, hpn));
+				}
 			}
 		}
 

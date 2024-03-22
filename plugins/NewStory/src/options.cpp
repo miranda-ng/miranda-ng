@@ -85,7 +85,8 @@ static void AppendSymbol(CMStringW &buf, const wchar_t *pwszSymbol, const wchar_
 class CTemplateOptsDlg : public CBaseOptsDlg
 {
 	TemplateInfo *m_curr = 0;
-	ItemData m_tempItem;
+	ItemData *m_tempItem;
+	NewstoryListData *m_histCtrl;
 
 	CCtrlBase preview, gpreview;
 	CCtrlEdit m_edit;
@@ -131,12 +132,18 @@ public:
 
 		ImageList_AddIcon(himgTree, g_plugin.getIcon(IDI_TPLGROUP));
 
-		m_tempItem.wszNick = TranslateT("Test contact");
-		m_tempItem.wtext = mir_wstrdup(TranslateT("The quick brown fox jumps over the lazy dog."));
-		m_tempItem.dbe.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
-		m_tempItem.dbe.szModule = MODULENAME;
-		m_tempItem.dbe.eventType = EVENTTYPE_MESSAGE;
-		m_tempItem.dbe.timestamp = time(0);
+		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(gpreview.GetHwnd(), 0);
+		m_histCtrl->bReadOnly = true;
+
+		m_tempItem = m_histCtrl->items.insert(0);
+		m_tempItem->pOwner = m_histCtrl;
+		m_tempItem->wszNick = TranslateT("Test contact");
+		m_tempItem->wtext = mir_wstrdup(TranslateT("The quick brown fox jumps over the lazy dog."));
+		m_tempItem->dbe.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
+		m_tempItem->dbe.szModule = MODULENAME;
+		m_tempItem->dbe.eventType = EVENTTYPE_MESSAGE;
+		m_tempItem->dbe.timestamp = time(0);
+		m_histCtrl->totalCount++;
 
 		HTREEITEM hGroup = 0, hFirst = 0;
 		const wchar_t *pwszPrevGroup = nullptr;
@@ -263,11 +270,14 @@ public:
 
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
-		m_tempItem.fill(int(m_curr - templates)); // copy data from template to event
+		m_tempItem->savedHeight = -1;
+		m_tempItem->fill(int(m_curr - templates)); // copy data from template to event
 
-		CMStringW wszText(m_tempItem.formatStringEx(m_curr->tmpValue));
+		CMStringW wszText(m_tempItem->formatStringEx(m_curr->tmpValue));
 		preview.SetText(wszText);
-		// gpreview.SendMsg(MTM_UPDATEEX, MTEXT_FLG_RTF, LPARAM(m_tempItem.formatRtf(wszText).c_str()));
+
+		m_tempItem->setText(wszText);
+		InvalidateRect(gpreview.GetHwnd(), 0, TRUE);
 	}
 
 	void onSelChanged(CCtrlTreeView::TEventInfo *)

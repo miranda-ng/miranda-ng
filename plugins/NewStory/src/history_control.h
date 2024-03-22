@@ -52,7 +52,7 @@ struct NewstoryListData : public MZeroedObject
 	RECT rcLastPaint;
 	MCONTACT m_hContact = INVALID_CONTACT_ID;
 
-	bool bWasShift, bSortAscending, bWasAtBottom;
+	bool bWasShift, bSortAscending, bWasAtBottom, bReadOnly;
 
 	HWND m_hwnd;
 	HWND hwndEditBox;
