@@ -34,7 +34,6 @@ struct ItemData
 	ItemData* checkNext(ItemData *pPrev);
 	ItemData* checkPrev(ItemData *pPrev);
 	ItemData* checkPrevGC(ItemData *pPrev);
-	void checkCreate();
 
 	int  calcHeight(int top, int width, POINT *pPos = nullptr);
 	bool completed() const { return m_bOfflineDownloaded == 100; }

@@ -442,7 +442,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 
 			pItem->m_doc = 0;
 			pItem->savedHeight = -1;
-			pItem->checkCreate();
+			pItem->setText();
 		}
 	}
 

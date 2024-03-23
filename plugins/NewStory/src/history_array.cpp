@@ -191,7 +191,8 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 
 int ItemData::calcHeight(int top, int width, POINT *pPos)
 {
-	checkCreate();
+	if (m_doc == nullptr)
+		setText();
 
 	SIZE sz;
 	sz.cx = width - 2;
@@ -225,12 +226,6 @@ int ItemData::calcHeight(int top, int width, POINT *pPos)
 	if (pPos)
 		*pPos = pos;
 	return savedHeight;
-}
-
-void ItemData::checkCreate()
-{
-	if (m_doc == nullptr)
-		setText();
 }
 
 bool ItemData::fetch(void)
