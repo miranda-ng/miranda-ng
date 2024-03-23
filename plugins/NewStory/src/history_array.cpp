@@ -453,6 +453,8 @@ void ItemData::load(bool bLoadAlways)
 
 void ItemData::setText(const wchar_t *pwszText)
 {
+	savedHeight = -1;
+
 	int fontid, colorid;
 	getFontColor(fontid, colorid);
 
