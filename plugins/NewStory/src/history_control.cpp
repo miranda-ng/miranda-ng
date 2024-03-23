@@ -326,6 +326,7 @@ public:
 
 	CDeleteEventsDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
+		m_hContact(hContact),
 		chkDelHistory(this, IDC_DELSERVERHISTORY),
 		chkForEveryone(this, IDC_BOTH)
 	{
