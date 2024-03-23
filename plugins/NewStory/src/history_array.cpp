@@ -71,7 +71,6 @@ bool Filter::check(ItemData *item) const
 ItemData::ItemData()
 {
 	memset(this, 0, sizeof(*this));
-	m_grouping = g_plugin.bMsgGrouping ? -1 : GROUPING_NONE;
 	savedHeight = -1;
 }
 
