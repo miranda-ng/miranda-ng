@@ -1170,18 +1170,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
-	case NSM_IMAGE_LOADED:
-		/* {
-			int eventCount = data->totalCount;
-			for (int i = 0; i < eventCount; i++) {
-				auto *p = data->GetItem(i);
-				if (p->m_doc)
-					p->m_doc->render(data->cachedWindowWidth);
-			}
-		}
-		InvalidateRect(hwnd, 0, FALSE);*/
-		break;
-
 	case UM_ADDEVENT:
 		if (data->pMsgDlg == nullptr)
 			data->AddEvent(wParam, lParam, 1);
