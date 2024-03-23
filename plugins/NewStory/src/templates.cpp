@@ -87,7 +87,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 				case 0: buf.Append(L"</font>"); continue;
 				case 1: buf.Append(L"<font class=\"nick\">"); continue;
 				case 2: case 3: case 4: case 5: case 6:
-					buf.AppendFormat(L"<font color=%06X>", color2html(g_plugin.clCustom[colorId-2]));
+					buf.AppendFormat(L"<font color=#%06X>", color2html(g_plugin.clCustom[colorId-2]));
 					continue;
 				}
 			}

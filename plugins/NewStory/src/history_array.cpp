@@ -220,7 +220,6 @@ int ItemData::calcHeight(int top, int width, POINT *pPos)
 	if (savedHeight == -1) {
 		m_doc->render(sz.cx);
 		savedHeight = m_doc->height() + 5;
-		Netlib_Logf(0, "Event %d rendered to %d with width %d", dbe.getEvent(), savedHeight, sz.cx);
 	}
 
 	if (pPos)
