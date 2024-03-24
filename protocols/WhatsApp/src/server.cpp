@@ -226,7 +226,7 @@ void WhatsAppProto::ProcessFailure(int code)
 		debugLogA("Connection logged out from another device, exiting");
 		Popup(0, TranslateT("This account was logged out from mobile phone, you need to link it again"), m_tszUserName);
 
-		OnErase();
+		RemoveCachedSettings();
 		break;
 
 	case 408:

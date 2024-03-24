@@ -123,11 +123,8 @@ static int sttEnumFunc(const char *szSetting, void *param)
 	return 0;
 }
 
-void WhatsAppProto::OnErase()
+void WhatsAppProto::RemoveCachedSettings()
 {
-	m_bUnregister = true;
-	ServerThreadWorker();
-
 	// remove all temporary data from database & disk folder
 	LIST<char> arSettings(50);
 	db_enum_settings(0, sttEnumFunc, m_szModuleName, &arSettings);
@@ -136,9 +133,17 @@ void WhatsAppProto::OnErase()
 		mir_free(it);
 	}
 
-	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
-
 	m_szJid.Empty();
+}
+
+void WhatsAppProto::OnErase()
+{
+	m_bUnregister = true;
+	ServerThreadWorker();
+
+	RemoveCachedSettings();
+
+	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
