@@ -1361,7 +1361,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *pItem = data->LoadItem(idx);
 
 			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_lbutton_down(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_lbutton_down(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
 
 			if (wParam & MK_CONTROL) {
 				data->ToggleSelection(idx, idx);
@@ -1390,7 +1390,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			auto *pItem = data->LoadItem(idx);
 			litehtml::position::vector redraw_boxes;
-			pItem->m_doc->on_lbutton_up(pt.x, pt.y, pt.x, pt.y, redraw_boxes);
+			pItem->m_doc->on_lbutton_up(pt.x - pItem->leftOffset, pt.y - pItem->savedTop, pt.x, pt.y, redraw_boxes);
 		}
 		break;
 

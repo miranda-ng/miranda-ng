@@ -132,7 +132,7 @@ static int DetectUrl(const wchar_t *text)
 		if (!((text[i] >= '0' && text[i] <= '9') || iswalpha(text[i])))
 			break;
 
-	if (i <= 0 || memcmp(text + i, "://", 3))
+	if (i <= 0 || wcsncmp(text + i, L"://", 3))
 		return 0;
 
 	i += countNoWhitespace(text + i);
