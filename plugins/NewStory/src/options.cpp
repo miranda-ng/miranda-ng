@@ -287,24 +287,20 @@ public:
 		tvi.mask = TVIF_PARAM;
 		m_tree.GetItem(&tvi);
 
-		if (tvi.lParam == 0) {
-			m_edit.Disable();
-			preview.Disable();
-			gpreview.Disable();
-			btnDiscard.Disable();
-			bthVarHelp.Disable();
-
+		bool bEnabled = tvi.lParam != 0;
+		m_edit.Enable(bEnabled);
+		preview.Enable(bEnabled);
+		gpreview.Enable(bEnabled);
+		btnReset.Enable(bEnabled);
+		btnDiscard.Enable(bEnabled);
+		bthVarHelp.Enable(bEnabled);
+		
+		if (!bEnabled) {
 			HTREEITEM hItem = m_tree.GetChild(tvi.hItem);
 			if (hItem)
 				m_tree.Expand(tvi.hItem, TVE_EXPAND);
 			return;
 		}
-
-		m_edit.Enable();
-		preview.Enable();
-		gpreview.Enable();
-		btnDiscard.Enable();
-		bthVarHelp.Enable();
 
 		if (m_curr != nullptr)
 			replaceStrW(m_curr->tmpValue, m_edit.GetText());
