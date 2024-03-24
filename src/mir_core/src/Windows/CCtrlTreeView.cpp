@@ -120,6 +120,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 	for (auto &it : arChildren) {
 		it->hParent = hNewItem;
 		it->hInsertAfter = hInsertAfter;
+		it->itemex.stateMask = it->itemex.state;
 		hInsertAfter = InsertItem(it);
 
 		mir_free(it->itemex.pszText);
