@@ -149,7 +149,8 @@ int ContactAdded(WPARAM hContact, LPARAM)
 
 int ContactDeleted(WPARAM hContact, LPARAM)
 {
-	Clist_Broadcast(INTM_CONTACTDELETED, hContact, 0);
+	if (!Contact::IsHidden(hContact))
+		Clist_Broadcast(INTM_CONTACTDELETED, hContact, 0);
 
 	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
 	if (idx != -1) {
