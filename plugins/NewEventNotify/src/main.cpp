@@ -86,21 +86,18 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 	// is it an event sent by the user? -> don't show
 	if (dbei.flags & DBEF_SENT) {
 		// JK, only message event, do not influence others
-		auto *pdata = PU_GetByContact(hContact, EVENTTYPE_MESSAGE);
+		auto *pdata = PU_GetByContact(hContact, dbei.eventType);
 		if (g_plugin.bHideSend && pdata)
 			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		return 0; 
 	}
 
-	// which status do we have, are we allowed to post popups?
-	// UNDER CONSTRUCTION!!!
-	CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
-	if (dbei.eventType == EVENTTYPE_MESSAGE && (g_plugin.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
+	if (dbei.isSrmm() && (g_plugin.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
 		return 0;
 
 	// is another popup for this contact already present? -> merge message popups if enabled
-	auto *pdata = PU_GetByContact(hContact, EVENTTYPE_MESSAGE);
-	if (dbei.eventType == EVENTTYPE_MESSAGE && g_plugin.bMergePopup && pdata)
+	auto *pdata = PU_GetByContact(hContact, dbei.eventType);
+	if (dbei.isSrmm() && g_plugin.bMergePopup && pdata)
 		PopupUpdate(*pdata, hDbEvent);
 	else
 		PopupShow(hContact, hDbEvent, dbei.eventType);
