@@ -113,6 +113,15 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 				buf.AppendFormat(L"<%ss>", pEnd);
 				p++;
 			}
+			else if (!wcsncmp(p, L"url]", 4)) {
+				p += 4;
+
+				if (auto *p2 = wcsstr(p, L"[/url]")) {
+					CMStringW wszUrl(p, int(p2 - p));
+					buf.AppendFormat(L"<a href =\"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
+					p = p2 + 5;
+				}
+			}
 			else {
 				buf.AppendChar('[');
 				if (*pEnd == '/')
@@ -152,9 +161,9 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 		spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	}
 
-	CMStringW szBody;
-	AppendString(szBody, wszOrigText);
+	CMStringW szBody(wszOrigText);
 	UrlAutodetect(szBody);
+	AppendString(str, szBody);
 	if (spRes) {
 		int iOffset = 0;
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
@@ -163,24 +172,23 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 				continue;
 
 			CMStringW wszFound(wszOrigText.Mid(smiley.startChar, smiley.size));
-			int idx = szBody.Find(wszFound, iOffset);
+			int idx = str.Find(wszFound, iOffset);
 			if (idx == -1)
 				continue;
 
-			szBody.Delete(idx, smiley.size);
+			str.Delete(idx, smiley.size);
 
 			CMStringW wszNew(FORMAT, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", smiley.filepath, wszFound.c_str(), wszFound.c_str());
-			szBody.Insert(idx, wszNew);
+			str.Insert(idx, wszNew);
 			iOffset = idx + wszNew.GetLength();
 		}
 
 		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
 	}
-	str += szBody;
 
 	str.Append(L"</body></html>");
 	
-	// Netlib_LogfW(0, str);
+	Netlib_LogfW(0, str);
 	return str;
 }
 

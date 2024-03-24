@@ -146,13 +146,11 @@ static int DetectUrl(const wchar_t *text)
 void UrlAutodetect(CMStringW &str)
 {
 	for (auto *p = str.c_str(); *p; p++)
-		if (int len = DetectUrl(p)) {
+		if (int len = DetectUrl(p)) { 
 			int pos = p - str.c_str();
 			CMStringW url = str.Mid(pos, len);
-			str.Delete(pos, len);
-
-			CMStringW newText(FORMAT, L"<a href =\"%s\">%s</a>", url.c_str(), url.c_str());
-			str.Insert(pos, newText);
-			p = str.c_str() + pos + newText.GetLength();
+			str.Insert(pos + len, L"[/url]");
+			str.Insert(pos, L"[url]");
+			p = str.c_str() + pos + len + 11;
 		}
 }
