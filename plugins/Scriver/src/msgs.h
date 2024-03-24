@@ -192,7 +192,6 @@ public:
 #define EVENTTYPE_JABBER_PRESENCE	2001
 
 bool DbEventIsShown(const DB::EventInfo &dbei);
-bool DbEventIsMessageOrCustom(const DB::EventInfo &dbei);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 int IsAutoPopup(MCONTACT hContact);

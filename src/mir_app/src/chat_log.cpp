@@ -319,7 +319,7 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 	if (lin.hEvent) {
 		DB::EventInfo dbei(lin.hEvent);
 		if (dbei) {
-			if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm())
+			if (dbei.isSrmm())
 				m_pDlg.MarkEventRead(dbei);
 
 			if (dbei.eventType == EVENTTYPE_FILE) {

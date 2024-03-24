@@ -122,7 +122,7 @@ bool CMsgDialog::GetFirstEvent()
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {
 			DB::EventInfo dbei(m_hDbEventFirst, false);
-			if (DbEventIsMessageOrCustom(dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
+			if (dbei.isSrmm() && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
 				notifyUnread = true;
 		}
 

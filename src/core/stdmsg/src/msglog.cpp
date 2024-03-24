@@ -144,7 +144,7 @@ static void SetToStyle(int style, CMStringA &dest)
 
 bool DbEventIsShown(const DB::EventInfo &dbei)
 {
-	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm();
+	return dbei.isSrmm();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

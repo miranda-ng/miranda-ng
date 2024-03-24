@@ -70,14 +70,7 @@ ScriverHTMLBuilder::ScriverHTMLBuilder()
 
 bool ScriverHTMLBuilder::isDbEventShown(const DB::EventInfo &dbei)
 {
-	switch (dbei.eventType) {
-	case EVENTTYPE_MESSAGE:
-		return 1;
-	case EVENTTYPE_FILE:
-		return 1;
-	default:
-		return dbei.isSrmm();
-	}
+	return dbei.isSrmm();
 }
 
 void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA *lf, COLORREF *colour)

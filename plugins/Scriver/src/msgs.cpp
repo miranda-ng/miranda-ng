@@ -124,7 +124,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
 
-	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(dbei))
+	if (dbei.flags & DBEF_SENT || !dbei.isSrmm())
 		return 0;
 
 	Utils_InvokeAsync(new CAutoPpopup(hContact, hDbEvent));
@@ -256,7 +256,7 @@ static void RestoreUnreadMessageAlerts(void)
 			DB::EventInfo dbei(hDbEvent, false);
 			if (!dbei)
 				continue;
-			if (dbei.markedRead() || !DbEventIsMessageOrCustom(dbei) || !Proto_GetBaseAccountName(hContact))
+			if (dbei.markedRead() || !dbei.isSrmm() || !Proto_GetBaseAccountName(hContact))
 				continue;
 
 			int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;

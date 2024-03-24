@@ -228,16 +228,17 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->szNick.w = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
-		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm()) {
+
+		if (dbei.eventType == EVENTTYPE_FILE) {
+			eventData->szText.w = DbEvent_GetTextW(&dbei);
+			eventData->iType = IEED_EVENT_FILE;
+		}
+		else if (dbei.isSrmm()) {
 			eventData->szText.w = DbEvent_GetTextW(&dbei);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
-		}
-		else if (dbei.eventType == EVENTTYPE_FILE) {
-			eventData->szText.w = DbEvent_GetTextW(&dbei);
-			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			// blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
