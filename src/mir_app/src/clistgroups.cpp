@@ -479,7 +479,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 
 	int nextMenuId = startId + 1; // to use it as MGROUP then
 
-	HMENU hRootMenu = CreateMenu();
+	HMENU hRootMenu = CreatePopupMenu();
 	for (int i = 0; i < arByIds.getCount(); i++) {
 		const wchar_t *pNextField = arByIds[i]->groupName;
 		HMENU hThisMenu = hRootMenu;
