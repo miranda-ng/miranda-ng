@@ -142,18 +142,11 @@ int CMPlugin::Load()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Check Window Message function
 
-// Took this snippet of code from "EventNotify" by micron-x, thx *g*
-// checks if the message-dialog window is already opened
-// return values:
-//	0 - No window found
-//	1 - Split-mode window found
-//	2 - Single-mode window found
-
 int CheckMsgWnd(MCONTACT hContact)
 {
 	MessageWindowData mwd;
 	if (!Srmm_GetWindowData(hContact, mwd))
-		if (mwd.hwndWindow != nullptr && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
+		if (mwd.hwndWindow != nullptr && (mwd.uState & MSG_WINDOW_STATE_FOCUS))
 			return 1;
 
 	return 0;

@@ -107,7 +107,7 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 	mwd.uState = MSG_WINDOW_STATE_EXISTS;
 	if (IsWindowVisible(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_VISIBLE;
-	if (GetForegroundWindow() == hwnd)
+	if (GetForegroundWindow() == hwnd || GetForegroundWindow() == GetParent(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_FOCUS;
 	if (IsIconic(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_ICONIC;
