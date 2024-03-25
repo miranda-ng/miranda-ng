@@ -429,16 +429,22 @@ void ItemData::load(bool bLoadAlways)
 		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
 			DB::EventInfo dbei(hReply);
 			if (dbei) {
-				CMStringW str;
+				CMStringW str, wszNick;
 
 				wchar_t wszTime[100];
 				TimeZone_PrintTimeStamp(0, dbe.timestamp, L"D t", wszTime, _countof(wszTime), 0);
 
-				if (dbei.flags & DBEF_SENT) {
+				if (Contact::IsGroupChat(hContact) && dbe.szUserId)
+					wszNick = Utf2T(dbe.szUserId);
+				else if (dbei.flags & DBEF_SENT) {
 					if (char *szProto = Proto_GetBaseAccountName(hContact))
-						str.AppendFormat(L"%s %s %s:\n", wszTime, ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)).get(), TranslateT("wrote"));
+						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
+					else
+						wszNick = TranslateT("I"); // shall never happen
 				}
-				else str.AppendFormat(L"%s %s %s:\n", wszTime, Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
+				else wszNick = Clist_GetContactDisplayName(hContact, 0);
+				
+				str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
 
 				ptrW wszText(DbEvent_GetTextW(&dbei));
 				if (mir_wstrlen(wszText) > 43)
