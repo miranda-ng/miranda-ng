@@ -40,6 +40,7 @@ MyColourID g_colorTable[COLOR_COUNT] =
 
 	{ LPGEN("Highlighted messages"),       "ColorHighlight", RGB(0xf0, 0xf0, 0xf0) },
 	{ LPGEN("Grid background"),            "Background",     RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Quoting"),                    "Quote",          RGB(0x80, 0x80, 0xff) },
 	{ LPGEN("Separator"),                  "Separator",      RGB(0x60, 0x60, 0x60) },
 	{ LPGEN("Progress indicator"),         "Progress",       RGB(0xff, 0x00, 0x00) },
 };

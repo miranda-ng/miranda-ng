@@ -22,7 +22,7 @@ struct ItemData
 	int savedTop, savedHeight, leftOffset;
 
 	DB::EventInfo dbe;
-	wchar_t *wtext;
+	wchar_t *wtext, *qtext;
 	wchar_t *wszNick;
 	struct NewstoryListData *pOwner;
 

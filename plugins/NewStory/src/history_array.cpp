@@ -76,6 +76,7 @@ ItemData::ItemData()
 
 ItemData::~ItemData()
 {
+	mir_free(qtext);
 	mir_free(wtext);
 	if (dbe.szReplyId)
 		mir_free((char*)dbe.szReplyId);
@@ -428,23 +429,22 @@ void ItemData::load(bool bLoadAlways)
 		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
 			DB::EventInfo dbei(hReply);
 			if (dbei) {
-				CMStringW str(L"> ");
+				CMStringW str;
+
+				wchar_t wszTime[100];
+				TimeZone_PrintTimeStamp(0, dbe.timestamp, L"D t", wszTime, _countof(wszTime), 0);
 
 				if (dbei.flags & DBEF_SENT) {
 					if (char *szProto = Proto_GetBaseAccountName(hContact))
-						str.AppendFormat(L"%s %s: ", ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)).get(), TranslateT("wrote"));
+						str.AppendFormat(L"%s %s %s:\n", wszTime, ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)).get(), TranslateT("wrote"));
 				}
-				else str.AppendFormat(L"%s %s: ", Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
+				else str.AppendFormat(L"%s %s %s:\n", wszTime, Clist_GetContactDisplayName(hContact, 0), TranslateT("wrote"));
 
 				ptrW wszText(DbEvent_GetTextW(&dbei));
 				if (mir_wstrlen(wszText) > 43)
 					wcscpy(wszText.get() + 40, L"...");
 				str.Append(wszText);
-				str.Append(L"\r\n");
-				str.Append(wtext);
-
-				mir_free(wtext);
-				wtext = str.Detach();
+				qtext = str.Detach();
 			}
 		}
 

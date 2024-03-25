@@ -146,8 +146,16 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	wchar_t szFont[100];
 	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
+	if (qtext)
+		str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
 
 	str.Append(L"</style></head><body class=\"body\">\n");
+
+	if (qtext) {
+		str.Append(L"<div class=\"quote\">");
+		AppendString(str, qtext);
+		str.Append(L"</div>\n");
+	}
 
 	CMStringW wszOrigText((pwszStr) ? pwszStr : formatString());
 
