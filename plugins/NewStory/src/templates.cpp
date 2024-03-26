@@ -118,7 +118,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 
 				if (auto *p2 = wcsstr(p, L"[/url]")) {
 					CMStringW wszUrl(p, int(p2 - p));
-					buf.AppendFormat(L"<a href =\"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
+					buf.AppendFormat(L"<a class=\"link\" href = \"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
 					p = p2 + 5;
 				}
 			}
@@ -146,6 +146,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	wchar_t szFont[100];
 	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
+	str.AppendFormat(L".link {color: #%06X }\n", color2html(g_colorTable[COLOR_LINK].cl));
 	if (qtext)
 		str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
 
