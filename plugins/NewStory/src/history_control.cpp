@@ -309,8 +309,12 @@ void NewstoryListData::CopyPath()
 
 void NewstoryListData::CopyUrl()
 {
-	if (auto *pItem = GetItem(caret))
-		Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
+	if (auto *pItem = GetItem(caret)) {
+		if (pItem->m_bOfflineFile)
+			Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
+		else if (auto *pszUrl = pItem->getUrl())
+			Utils_ClipboardCopy(MClipAnsi(pszUrl));
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

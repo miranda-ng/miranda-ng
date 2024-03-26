@@ -58,6 +58,8 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 			Menu_ShowItem(hmiDownload, !item->m_bOfflineDownloaded && bNotProtected);
 			Menu_ShowItem(hmiOpenFolder, item->m_bOfflineDownloaded);
 		}
+		else if (mir_strlen(item->getUrl()))
+			Menu_ShowItem(hmiCopyUrl, true);
 
 		bEditable = (item->dbe.flags & DBEF_SENT) != 0;
 		bShowEventActions = item->dbe;

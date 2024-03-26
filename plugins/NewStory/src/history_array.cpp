@@ -353,6 +353,15 @@ void ItemData::getFontColor(int &fontId, int &colorId) const
 	}
 }
 
+const char* ItemData::getUrl() const
+{
+	if (auto el = m_doc->get_over_element())
+		if (!mir_strcmp(el->get_tagName(), "a"))
+			return el->get_attr("href");
+
+	return nullptr;
+}
+
 void ItemData::load(bool bLoadAlways)
 {
 	if (!bLoadAlways && m_bLoaded)
