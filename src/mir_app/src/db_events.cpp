@@ -305,15 +305,19 @@ void DB::EventInfo::wipeNotify()
 // could be displayed in a SRMM window
 bool DB::EventInfo::isSrmm() const
 {
-	auto *et = DbEvent_GetType(szModule, eventType);
-	return et && et->flags & DETF_MSGWINDOW;
+	if (auto *et = DbEvent_GetType(szModule, eventType))
+		return (et->flags & DETF_MSGWINDOW) != 0;
+	
+	return (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_FILE);
 }
 
 // could be displayed in a history window
 bool DB::EventInfo::isHistory() const
 {
-	auto *et = DbEvent_GetType(szModule, eventType);
-	return et && et->flags & DETF_HISTORY;
+	if (auto *et = DbEvent_GetType(szModule, eventType))
+		return (et->flags & DETF_HISTORY) != 0;
+
+	return (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_FILE);
 }
 
 bool DB::EventInfo::isAlertable() const

@@ -12,6 +12,9 @@ begin
   end
   else
   begin
+    Menu_ShowItem(hCMenuItemRec, 1);
+    Menu_ShowItem(hCMenuItemPlay, 1);
+
     // play/Stop
     if THANDLE(hContact)<>ActiveContact then
       Menu_ModifyItem(hCMenuItemPlay, 'Start broadcasting', IcoLib_GetIconHandle(IcoBtnOn))

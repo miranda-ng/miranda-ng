@@ -335,7 +335,7 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 		return false;
 
 	if (!(dbei.flags & DBEF_SENT)) {
-		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.isSrmm())
+		if (dbei.isSrmm())
 			dat->pLog->GetDialog().MarkEventRead(dbei);
 
 		else if (dbei.eventType == EVENTTYPE_FILE) {

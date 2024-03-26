@@ -311,6 +311,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data);
 	void ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, bool bSet);
 	void ProcessHistorySync(const Wa__HistorySync *pSync);
+	void RemoveCachedSettings();
 	void ResyncServer(const OBJLIST<WACollection> &task);
 	void ResyncAll(void);
 

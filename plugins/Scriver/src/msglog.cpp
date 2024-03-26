@@ -39,18 +39,9 @@ struct RtfLogStreamData : public RtfLogStreamBase
 	GlobalMessageData *gdat;
 };
 
-bool DbEventIsMessageOrCustom(const DB::EventInfo &dbei)
-{
-	return dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE || dbei.isSrmm();
-}
-
 bool DbEventIsShown(const DB::EventInfo &dbei)
 {
 	switch (dbei.eventType) {
-	case EVENTTYPE_MESSAGE:
-	case EVENTTYPE_FILE:
-		return 1;
-
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		return 0;

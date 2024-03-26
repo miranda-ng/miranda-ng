@@ -3,6 +3,7 @@
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
 #define DBKEY_THREAD "ThreadId"
+#define DBKEY_LAST_MSG "LastMessageId"
 #define DBKEY_AUTHORIZED "Authorized"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
@@ -231,6 +232,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileLink(td::ClientManager::Response &response);
+	void OnGetForumTopics(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
 	void OnKillSession(td::ClientManager::Response &response, void *pUserInfo);

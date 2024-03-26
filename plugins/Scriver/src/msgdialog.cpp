@@ -381,7 +381,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		if (!dbei)
 			return;
 
-		if (DbEventIsMessageOrCustom(dbei)) {
+		if (dbei.isSrmm()) {
 			ptrW wszText(DbEvent_GetTextW(&dbei));
 			SetMessageText(Srmm_Quote(wszText));
 		}
@@ -910,7 +910,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_hDbUnreadEventFirst = 0;
 				while (hDbEvent != 0) {
 					DB::EventInfo dbei(hDbEvent, false);
-					if (!(dbei.flags & DBEF_SENT) && DbEventIsMessageOrCustom(dbei))
+					if (!(dbei.flags & DBEF_SENT) && dbei.isSrmm())
 						Clist_RemoveEvent(-1, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);
 				}

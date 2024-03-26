@@ -201,8 +201,7 @@ void Load_ChatModule(void);
 void InitGlobals(void);
 
 // log.cpp
-char* Log_CreateRtfHeader(void);
-CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);
+CSrmmLogWindow* logBuilder(CMsgDialog &pDlg);
 
 // window.cpp
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);

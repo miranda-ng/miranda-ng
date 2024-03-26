@@ -76,7 +76,7 @@ static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
 
 class CGenMenuOptionsPage : public CDlgBase
 {
-	int iInitMenuValue;
+	bool m_bInitMenuValue;
 	LIST<TMO_IntMenuItem> m_arDeleted;
 
 	wchar_t idstr[100];
@@ -326,9 +326,8 @@ public:
 	//---- init dialog -------------------------------------------
 	bool OnInitDialog() override
 	{
-		iInitMenuValue = db_get_b(0, "CList", "MoveProtoMenus", TRUE);
-		
-		if (iInitMenuValue)
+		m_bInitMenuValue = db_get_b(0, "CList", "MoveProtoMenus", true) != 0;
+		if (m_bInitMenuValue)
 			m_radio2.SetState(true);
 		else
 			m_radio1.SetState(true);
@@ -347,19 +346,23 @@ public:
 
 	bool OnApply() override
 	{
-		bIconsDisabled = m_enableIcons.GetState() == 0;
+		bIconsDisabled = !m_enableIcons.IsChecked();
 		db_set_b(0, "CList", "DisableMenuIcons", bIconsDisabled);
+
+		if (m_customName.IsChanged())
+			btnSet_Clicked(0);
+
 		SaveTree();
 
 		for (auto &pimi : m_arDeleted)
 			Menu_RemoveItem(pimi);
 
-		int iNewMenuValue = !m_radio1.GetState();
-		if (iNewMenuValue != iInitMenuValue) {
+		bool iNewMenuValue = !m_radio1.IsChecked();
+		if (iNewMenuValue != m_bInitMenuValue) {
 			db_set_b(0, "CList", "MoveProtoMenus", iNewMenuValue);
 
 			RebuildProtoMenus();
-			iInitMenuValue = iNewMenuValue;
+			m_bInitMenuValue = iNewMenuValue;
 		}
 		RebuildCurrent();
 		return true;

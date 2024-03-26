@@ -245,6 +245,7 @@ CMsgDialog* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int iNo
 		Create();
 		pDlg->SetParent(m_hwnd);
 		pDlg->Create();
+		SendMessage(pDlg->GetHwnd(), WM_SHOWWINDOW, 1, 0);
 		Show(iNoActivate ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
