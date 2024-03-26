@@ -467,6 +467,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 				pUser->wszNick = Utf2T(getName(pGroup->group->usernames_.get()));
 			pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 		}
+		else Contact::RemoveFromList(pUser->hContact);
 	}
 	else {
 		auto *pChat = AddUser(tmp.id, true);
