@@ -52,20 +52,20 @@ MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINF
 	case GC_EVENT_JOIN:
 		if (!lin->bIsMe) {
 			if (!wszNick.IsEmpty())
-				res.AppendFormat(TranslateT("%s has joined"), wszNick.c_str());
+				res.AppendFormat(TranslateT("%s has joined %s"), wszNick.c_str(), si->ptszName);
 		}
 		else res.AppendFormat(TranslateT("You have joined %s"), si->ptszName);
-		break;
+		return true;
 
 	case GC_EVENT_PART:
 		if (!wszNick.IsEmpty())
-			res.AppendFormat(TranslateT("%s has left"), wszNick.c_str());
-		break;
+			res.AppendFormat(TranslateT("%s has left %s"), wszNick.c_str(), si->ptszName);
+		return true;
 
 	case GC_EVENT_QUIT:
 		if (!wszNick.IsEmpty())
 			res.AppendFormat(TranslateT("%s has disconnected"), wszNick.c_str());
-		break;
+		return true;
 
 	case GC_EVENT_NICK:
 		if (!lin->bIsMe) {
