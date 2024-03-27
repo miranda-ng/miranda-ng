@@ -34,9 +34,10 @@ struct GroupItemSort
 {
 	wchar_t* name;
 	int position;
+	HGENMENU hMenu = 0;
 
-	GroupItemSort(wchar_t* pname, int pos)
-		: name(mir_wstrdup(pname)), position(pos)
+	GroupItemSort(wchar_t* pname, int pos) :
+		name(mir_wstrdup(pname)), position(pos)
 	{
 	}
 
@@ -48,38 +49,25 @@ struct GroupItemSort
 	}
 };
 
-static wchar_t* PrepareGroupName(wchar_t* str)
+static HGENMENU AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, bool checked)
 {
-	wchar_t* p = wcschr(str, '&'), *d;
-	if (p == nullptr)
-		return mir_wstrdup(str);
+	CMStringW wszName(name);
+	wszName.Replace(L"&", L"&&");
 
-	d = p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(2 * mir_wstrlen(str) + 1));
-	while (*str) {
-		if (*str == '&')
-			*d++ = '&';
-		*d++ = *str++;
-	}
-
-	*d++ = 0;
-	return p;
-}
-
-static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, bool checked)
-{
 	CMenuItem mi(&g_plugin);
 	mi.root = hRoot;
 	mi.position = pos;
-	mi.name.w = PrepareGroupName(name);
+	mi.name.w = wszName.GetBuffer();
 	mi.flags = CMIF_SYSTEM | CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
+	
 	HGENMENU result = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(result, MCI_OPT_EXECPARAM, param);
 
 	lphGroupsItems.insert((HANDLE*)result);
-	mir_free(mi.name.w);
+	return result;
 }
 
 // service
@@ -90,7 +78,6 @@ extern LIST<CGroupInternal> arByIds;
 
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
-	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 	for (auto &p : lphGroupsItems)
 		Menu_RemoveItem((HGENMENU)p);
 	lphGroupsItems.destroy();
@@ -103,13 +90,26 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
+	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 	for (auto &it : arByIds)
-		if (it->flags)
-			groups.insert(new GroupItemSort(it->groupName, it->groupId+1));
+		groups.insert(new GroupItemSort(it->groupName, it->groupId+1));
 
 	for (auto &p : groups) {
 		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, p->name);
-		AddGroupItem(hMoveToGroupItem, p->name, ++pos, p->position, checked);
+
+		HGENMENU hRoot = hMoveToGroupItem;
+		if (auto *pSlash = wcsrchr(p->name, '\\')) {
+			*pSlash = 0;
+			for (auto &it : groups) {
+				if (!mir_wstrcmp(it->name, p->name)) {
+					hRoot = it->hMenu;
+					break;
+				}
+			}
+			*pSlash = '\\';
+			p->hMenu = AddGroupItem(hRoot, pSlash + 1, ++pos, p->position, checked);
+		}
+		else p->hMenu = AddGroupItem(hRoot, p->name, ++pos, p->position, checked);
 	}
 
 	return 0;
