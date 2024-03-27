@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_SMB_H
-#define HEADER_CURL_SMB_H
+#ifndef HEADER_CURL_SHA512_256_H
+#define HEADER_CURL_SHA512_256_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -7,8 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) Bill Nagel <wnagel@tycoint.com>, Exacq Technologies
- * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Evgeny Grin (Karlson2k), <k2k@narod.ru>.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -25,37 +24,21 @@
  *
  ***************************************************************************/
 
-enum smb_conn_state {
-  SMB_NOT_CONNECTED = 0,
-  SMB_CONNECTING,
-  SMB_NEGOTIATE,
-  SMB_SETUP,
-  SMB_CONNECTED
-};
+#if !defined(CURL_DISABLE_DIGEST_AUTH) && !defined(CURL_DISABLE_SHA512_256)
 
-struct smb_conn {
-  enum smb_conn_state state;
-  char *user;
-  char *domain;
-  char *share;
-  unsigned char challenge[8];
-  unsigned int session_key;
-  unsigned short uid;
-  char *recv_buf;
-  char *send_buf;
-  size_t upload_size;
-  size_t send_size;
-  size_t sent;
-  size_t got;
-};
+#include <curl/curl.h>
+#include "curl_hmac.h"
 
-#if !defined(CURL_DISABLE_SMB) && defined(USE_CURL_NTLM_CORE) && \
-    (SIZEOF_CURL_OFF_T > 4)
+#define CURL_HAVE_SHA512_256
 
-extern const struct Curl_handler Curl_handler_smb;
-extern const struct Curl_handler Curl_handler_smbs;
+extern const struct HMAC_params Curl_HMAC_SHA512_256[1];
 
-#endif /* CURL_DISABLE_SMB && USE_CURL_NTLM_CORE &&
-          SIZEOF_CURL_OFF_T > 4 */
+#define SHA512_256_DIGEST_LENGTH 32
 
-#endif /* HEADER_CURL_SMB_H */
+CURLcode
+Curl_sha512_256it(unsigned char *output, const unsigned char *input,
+                  size_t input_size);
+
+#endif /* !CURL_DISABLE_DIGEST_AUTH && !CURL_DISABLE_SHA512_256 */
+
+#endif /* HEADER_CURL_SHA256_H */

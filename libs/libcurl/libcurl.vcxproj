@@ -125,6 +125,9 @@
     <ClCompile Include="src\curl_sasl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curl_sha512_256.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curl_sspi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -132,6 +135,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_trc.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cw-out.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -318,6 +324,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\rename.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\request.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\rtsp.c">
@@ -529,9 +538,11 @@
     <ClInclude Include="src\curl_setup.h" />
     <ClInclude Include="src\curl_setup_once.h" />
     <ClInclude Include="src\curl_sha256.h" />
+    <ClInclude Include="src\curl_sha512_256.h" />
     <ClInclude Include="src\curl_sspi.h" />
     <ClInclude Include="src\curl_threads.h" />
     <ClInclude Include="src\curl_trc.h" />
+    <ClInclude Include="src\cw-out.h" />
     <ClInclude Include="src\dict.h" />
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
@@ -585,6 +596,7 @@
     <ClInclude Include="src\psl.h" />
     <ClInclude Include="src\rand.h" />
     <ClInclude Include="src\rename.h" />
+    <ClInclude Include="src\request.h" />
     <ClInclude Include="src\rtsp.h" />
     <ClInclude Include="src\select.h" />
     <ClInclude Include="src\sendf.h" />

@@ -101,6 +101,9 @@
     <ClCompile Include="src\curl_sasl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\curl_sha512_256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\curl_sspi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_trc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cw-out.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -294,6 +300,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\rename.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\request.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\rtsp.c">
@@ -646,6 +655,9 @@
     <ClInclude Include="src\curl_sha256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\curl_sha512_256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\curl_sspi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -653,6 +665,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_trc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cw-out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dict.h">
@@ -812,6 +827,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\rename.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\request.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\rtsp.h">
