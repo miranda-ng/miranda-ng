@@ -66,10 +66,10 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 			p++;
 		}
 		else if (*p == '\n') buf.Append(L"<br>");
+		else if (*p == '\"') buf.Append(L"&quot;");
 		else if (*p == '&') buf.Append(L"&amp;");
 		else if (*p == '>') buf.Append(L"&gt;");
 		else if (*p == '<') buf.Append(L"&lt;");
-		else if (*p == '&') buf.Append(L"&quot;");
 		else if (*p == '[') {
 			p++;
 			if (*p == 'c') {
