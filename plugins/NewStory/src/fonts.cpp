@@ -43,7 +43,7 @@ MyColourID g_colorTable[COLOR_COUNT] =
 	{ LPGEN("Quoting"),                    "Quote",          RGB(0x80, 0x80, 0xff) },
 	{ LPGEN("Separator"),                  "Separator",      RGB(0x60, 0x60, 0x60) },
 	{ LPGEN("Progress indicator"),         "Progress",       RGB(0xff, 0x00, 0x00) },
-	{ LPGEN("Links"),                      "Links",          RGB(0x00, 0x00, 0xff) },
+	{ LPGEN("Links"),                      "Links",          RGB(0x24, 0x7E, 0xCA) },
 };
 
 MyFontID g_fontTable[FONT_COUNT] =
