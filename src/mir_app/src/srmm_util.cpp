@@ -93,6 +93,17 @@ MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static HWND GetContainer(HWND hwnd)
+{
+	while (true) {
+		HWND hwndParent = GetParent(hwnd);
+		if (hwndParent == nullptr)
+			return hwnd;
+		
+		hwnd = hwndParent;
+	}
+}
+
 MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 {
 	if (hContact == 0)
@@ -107,7 +118,9 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 	mwd.uState = MSG_WINDOW_STATE_EXISTS;
 	if (IsWindowVisible(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_VISIBLE;
-	if (GetForegroundWindow() == hwnd || GetForegroundWindow() == GetParent(hwnd))
+	
+	HWND hwndFocused = GetForegroundWindow();
+	if (hwndFocused == hwnd || hwndFocused == GetContainer(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_FOCUS;
 	if (IsIconic(hwnd))
 		mwd.uState |= MSG_WINDOW_STATE_ICONIC;
