@@ -506,9 +506,8 @@ MIR_CORE_DLL(MEVENT) db_event_replace(MCONTACT hContact, const DBEVENTINFO *dbei
 		ret = db_event_getById(dbei->szModule, dbei->szId);
 	if (!ret)
 		ret = db_event_add(hContact, dbei);
-	// do not uncomment
-	// else
-	//	db_event_edit(hContact, ret, dbei);
+	else
+		db_event_edit(ret, dbei);
 	return ret;
 }
 
