@@ -113,13 +113,18 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 				buf.AppendFormat(L"<%ss>", pEnd);
 				p++;
 			}
-			else if (!wcsncmp(p, L"img]", 4)) {
+			else if (!wcsncmp(p, L"img=", 4)) {
 				p += 4;
 
-				if (auto *p2 = wcsstr(p, L"[/img]")) {
-					CMStringW wszUrl(p, int(p2 - p));
-					buf.AppendFormat(L"<img style=\"width: 300;\" src=\"%s\" /><br>", wszUrl.c_str());
-					p = p2 + 5;
+				if (auto *p1 = wcschr(p, ']')) {
+					CMStringW wszUrl(p, int(p1 - p));
+					p1++;
+
+					if (auto *p2 = wcsstr(p1, L"[/img]")) {
+						CMStringW wszDescr(p1, int(p2 - p1));
+						buf.AppendFormat(L"<img style=\"width: 300;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+						p = p2 + 5;
+					}
 				}
 			}
 			else if (!wcsncmp(p, L"url]", 4)) {

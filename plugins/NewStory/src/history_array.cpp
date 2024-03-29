@@ -386,7 +386,17 @@ void ItemData::load(bool bLoadAlways)
 		{
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
-				CMStringW buf;
+				CMStringW wszDescr, buf;
+
+				wszDescr.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));
+
+				if (auto *pwszDescr = blob.getDescr()) {
+					wszDescr.Append(L" - ");
+					wszDescr.Append(pwszDescr);
+				}
+
+				if (uint32_t size = blob.getSize())
+					wszDescr.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				m_bOfflineFile = true;
 				if (blob.isCompleted()) {
@@ -394,21 +404,14 @@ void ItemData::load(bool bLoadAlways)
 
 					auto *pwszLocalName = blob.getLocalName();
 					if (ProtoGetAvatarFileFormat(pwszLocalName) != PA_FORMAT_UNKNOWN)
-						buf.AppendFormat(L"[img]file://%s[/img]", pwszLocalName);
+						buf.AppendFormat(L"[img=file://%s]%s[/img]%s", pwszLocalName, wszDescr.c_str(), wszDescr.c_str());
 					else
-						buf.AppendFormat(L"[url]file://%s[/url]", pwszLocalName);
+						buf.AppendFormat(L"[url]file://%s[/url] %s", pwszLocalName, wszDescr.c_str());
 				}
-				else m_bOfflineDownloaded = uint8_t(100.0 * blob.getTransferred() / blob.getSize());
-
-				buf.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));
-
-				if (auto *pwszDescr = blob.getDescr()) {
-					buf.Append(L" - ");
-					buf.Append(pwszDescr);
+				else {
+					buf += wszDescr;
+					m_bOfflineDownloaded = uint8_t(100.0 * blob.getTransferred() / blob.getSize());
 				}
-
-				if (uint32_t size = blob.getSize())
-					buf.AppendFormat(TranslateT(" %u KB"), size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 				wtext = buf.Detach();
 				pOwner->MarkRead(this);

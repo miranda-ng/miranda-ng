@@ -148,7 +148,7 @@ void UrlAutodetect(CMStringW &str)
 	int level = 0;
 
 	for (auto *p = str.c_str(); *p; p++) {
-		if (!wcsncmp(p, L"[img]", 5) || !wcsncmp(p, L"[url]", 5)) {
+		if (!wcsncmp(p, L"[img=", 5) || !wcsncmp(p, L"[url]", 5)) {
 			p += 4;
 			level++;
 		}
