@@ -123,6 +123,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
+	char buf[100];
 	hContact = (db_mc_isMeta(hContact)) ? db_mc_getSrmmSub(item->hContact) : item->hContact;
 
 	DBEVENTINFO dbei = {};
@@ -133,6 +134,10 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
 	dbei.pBlob = item->sendBuffer;
 	dbei.szId = (char *)pAck->lParam;
+	if (item->hReplyEvent) {
+		itoa(item->hReplyEvent, buf, 10);
+		dbei.szReplyId = buf;
+	}
 
 	MessageWindowEvent evt = { item->hSendId, hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
