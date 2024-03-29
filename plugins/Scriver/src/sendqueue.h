@@ -36,7 +36,6 @@ namespace SendQueue
 
 		CMsgDialog *pDlg;
 		MCONTACT hContact;
-		MEVENT hReplyEvent;
 		char  *proto;
 		int    hSendId;
 		int    timeout;

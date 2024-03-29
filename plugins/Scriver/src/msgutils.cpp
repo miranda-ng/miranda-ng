@@ -260,7 +260,6 @@ void CMsgDialog::MessageSend(const SendQueue::Item &msi)
 	item->hContact = m_hContact;
 	item->proto = mir_strdup(m_szProto);
 	item->flags = msi.flags;
-	item->hReplyEvent = m_hQuoteEvent;
 	item->sendBufferSize = msi.sendBufferSize;
 	item->sendBuffer = mir_strndup(msi.sendBuffer, msi.sendBufferSize);
 	SendQueue::SendItem(item);

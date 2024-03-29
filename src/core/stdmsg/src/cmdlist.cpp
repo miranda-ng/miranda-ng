@@ -89,7 +89,6 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 		return;
 	}
 
-	char buf[100];
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF | (p->flags & DBEF_RTL ? DBEF_RTL : 0);
@@ -98,10 +97,6 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 	dbei.cbBlob = (uint32_t)(mir_strlen(p->szMsg) + 1);
 	dbei.pBlob = p->szMsg;
 	dbei.szId = (char *)lParam;
-	if (p->hEvent) {
-		itoa(p->hEvent, buf, 10);
-		dbei.szReplyId = buf;
-	}
 
 	MessageWindowEvent evt = { id, hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);

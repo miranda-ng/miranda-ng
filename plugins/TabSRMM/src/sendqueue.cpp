@@ -457,7 +457,6 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	char buf[100];
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
@@ -476,10 +475,6 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		dbei.flags |= DBEF_RTL;
 	dbei.pBlob = job.szSendBuffer;
 	dbei.szId = (char *)ack->lParam;
-	if (job.hEvent) {
-		itoa(job.hEvent, buf, 10);
-		dbei.szReplyId = buf;
-	}
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
