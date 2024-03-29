@@ -386,13 +386,20 @@ void ItemData::load(bool bLoadAlways)
 		{
 			DB::FILE_BLOB blob(dbe);
 			if (blob.isOffline()) {
-				m_bOfflineFile = true;
-				if (blob.isCompleted())
-					m_bOfflineDownloaded = 100;
-				else
-					m_bOfflineDownloaded = uint8_t(100.0 * blob.getTransferred() / blob.getSize());
-
 				CMStringW buf;
+
+				m_bOfflineFile = true;
+				if (blob.isCompleted()) {
+					m_bOfflineDownloaded = 100;
+
+					auto *pwszLocalName = blob.getLocalName();
+					if (ProtoGetAvatarFileFormat(pwszLocalName) != PA_FORMAT_UNKNOWN)
+						buf.AppendFormat(L"[img]%s[/img]", pwszLocalName);
+					else
+						buf.AppendFormat(L"[url]file://%s[/url]", pwszLocalName);
+				}
+				else m_bOfflineDownloaded = uint8_t(100.0 * blob.getTransferred() / blob.getSize());
+
 				buf.Append(blob.getName() ? blob.getName() : TranslateT("Unnamed"));
 
 				if (auto *pwszDescr = blob.getDescr()) {
@@ -414,17 +421,9 @@ void ItemData::load(bool bLoadAlways)
 			CMStringW wszFileName = buf;
 			wszFileName.Append(blob.getName());
 
-			// if a filename contains spaces, URL will be broken
-			if (wszFileName.Find(' ') != -1) {
-				wchar_t wszShortPath[MAX_PATH];
-				if (GetShortPathNameW(wszFileName, wszShortPath, _countof(wszShortPath))) {
-					wszFileName = wszShortPath;
-					wszFileName.MakeLower();
-				}
-			}
-
 			wszFileName.Replace('\\', '/');
-			wszFileName.Insert(0, L"file://");
+			wszFileName.Insert(0, L"[url]file://");
+			wszFileName.Append(L"[/url]");
 			wtext = wszFileName.Detach();
 		}
 		break;

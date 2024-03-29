@@ -113,6 +113,15 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 				buf.AppendFormat(L"<%ss>", pEnd);
 				p++;
 			}
+			else if (!wcsncmp(p, L"img]", 4)) {
+				p += 4;
+
+				if (auto *p2 = wcsstr(p, L"[/img]")) {
+					CMStringW wszUrl(p, int(p2 - p));
+					buf.AppendFormat(L"<img style=\"width: 300;\" src=\"file://%s\" /><br>", wszUrl.c_str());
+					p = p2 + 5;
+				}
+			}
 			else if (!wcsncmp(p, L"url]", 4)) {
 				p += 4;
 
