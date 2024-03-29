@@ -279,9 +279,9 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt;
 	if (tmp.pBlob)
-		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ?, is_read = ? WHERE id = ?;", qEvEdit1);
+		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ?, is_read = ?, server_id = ?, user_id = ?, reply_id = ? WHERE id = ?;", qEvEdit1);
 	else
-		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, is_read = ? WHERE id = ?;", qEvEdit2);
+		stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, is_read = ?, server_id = ?, user_id = ?, reply_id = ? WHERE id = ?;", qEvEdit2);
 
 	int i = 1;
 	sqlite3_bind_text(stmt, i++, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
@@ -291,6 +291,9 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	if (tmp.pBlob)
 		sqlite3_bind_blob(stmt, i++, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_int(stmt, i++, tmp.markedRead());
+	sqlite3_bind_text(stmt, i++, tmp.szId, (int)mir_strlen(tmp.szId), nullptr);
+	sqlite3_bind_text(stmt, i++, tmp.szUserId, (int)mir_strlen(tmp.szUserId), nullptr);
+	sqlite3_bind_text(stmt, i++, tmp.szReplyId, (int)mir_strlen(tmp.szReplyId), nullptr);
 	sqlite3_bind_int64(stmt, i++, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
