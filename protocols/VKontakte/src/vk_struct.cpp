@@ -194,7 +194,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
 	bAddMessageLinkToMesWAtt(proto, "AddMessageLinkToMesWAtt", true),
-	bShowReplyInMessage(proto, "ShowReplyInMessage", true),
+	bShowReplyInMessage(proto, "ShowReplyInMessage", false),
 	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
 	bLoadFullCList(proto, "LoadFullCList", false),

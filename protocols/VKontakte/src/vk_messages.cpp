@@ -454,12 +454,14 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		dbei.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
 		dbei.pBlob = pszBody;
 		
-		if (!m_vkOptions.bShowReplyInMessage && szReplyId)
+		if (!m_vkOptions.bShowReplyInMessage && szReplyId) {
 			dbei.szReplyId = szReplyId;
+			debugLogA("CVkProto::OnReceiveMessages szReplyId = %s", szReplyId);
+		}
 
-		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
+		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, szReplyId = %s Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, szReplyId, (int)bEdited);
 
-		if (!IsMessageExist(iMessageId, vkALL) || bEdited || (m_vkOptions.bShowReplyInMessage && szReplyId)) {
+		if (!IsMessageExist(iMessageId, vkALL) || bEdited || szReplyId) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
 			dbei.szId = szMid;
 			ProtoChainRecvMsg(hContact, dbei);
