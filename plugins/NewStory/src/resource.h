@@ -97,6 +97,7 @@
 #define IDC_SHOW_TYPE                   1060
 #define IDC_SHOW_DIRECTION              1061
 #define IDC_TOPLINE                     1062
+#define IDC_SHOW_PREVIEW                1062
 #define IDC_DELSERVERHISTORY            1063
 #define IDC_BOTH                        1064
 #define IDC_COLOR1                      1065

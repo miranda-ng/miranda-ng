@@ -23,7 +23,9 @@ CMPlugin g_plugin;
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
 CMOption<bool> g_bOptDrawEdge(MODULENAME, "DrawEdge", true);
 CMOption<bool> g_bOptHppCompat(MODULENAME, "HppCompat", false);
+
 CMOption<bool> g_bShowType(MODULENAME, "ShowType", true);
+CMOption<bool> g_bShowPreview(MODULENAME, "ShowPreview", true);
 CMOption<bool> g_bShowDirection(MODULENAME, "ShowDirection", true);
 
 CMOption<uint32_t> g_clCustom0(MODULENAME, "CustomColor0", -1);
@@ -166,6 +168,7 @@ void CMPlugin::LoadOptions()
 	bShowType = g_bShowType;
 	bDrawEdge = g_bOptDrawEdge;
 	bHppCompat = g_bOptHppCompat;
+	bShowPreview = g_bShowPreview;
 	bMsgGrouping = g_bOptGrouping;
 	bShowDirection = g_bShowDirection;
 

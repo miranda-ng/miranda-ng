@@ -106,7 +106,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	// thesw options are a copy of static CMOption to keep performance high
 	bool bMsgGrouping, bDrawEdge, bHppCompat, bDisableDelete = false;
-	bool bShowType, bShowDirection, bHasSmileys;
+	bool bShowType, bShowDirection, bShowPreview, bHasSmileys;
 
 	COLORREF clCustom[5];
 
@@ -118,7 +118,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat, g_bShowType, g_bShowDirection;
+extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge, g_bOptHppCompat, g_bShowType, g_bShowDirection, g_bShowPreview;
 extern CMOption<uint32_t> g_clCustom0, g_clCustom1, g_clCustom2, g_clCustom3, g_clCustom4;
 
 extern wchar_t* months[12];

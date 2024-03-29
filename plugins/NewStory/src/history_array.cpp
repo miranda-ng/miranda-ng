@@ -403,7 +403,7 @@ void ItemData::load(bool bLoadAlways)
 					m_bOfflineDownloaded = 100;
 
 					auto *pwszLocalName = blob.getLocalName();
-					if (ProtoGetAvatarFileFormat(pwszLocalName) != PA_FORMAT_UNKNOWN)
+					if (g_plugin.bShowPreview && ProtoGetAvatarFileFormat(pwszLocalName) != PA_FORMAT_UNKNOWN)
 						buf.AppendFormat(L"[img=file://%s]%s[/img]%s", pwszLocalName, wszDescr.c_str(), wszDescr.c_str());
 					else
 						buf.AppendFormat(L"[url]file://%s[/url] %s", pwszLocalName, wszDescr.c_str());
