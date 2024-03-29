@@ -118,7 +118,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 
 				if (auto *p2 = wcsstr(p, L"[/img]")) {
 					CMStringW wszUrl(p, int(p2 - p));
-					buf.AppendFormat(L"<img style=\"width: 300;\" src=\"file://%s\" /><br>", wszUrl.c_str());
+					buf.AppendFormat(L"<img style=\"width: 300;\" src=\"%s\" /><br>", wszUrl.c_str());
 					p = p2 + 5;
 				}
 			}

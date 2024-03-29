@@ -394,7 +394,7 @@ void ItemData::load(bool bLoadAlways)
 
 					auto *pwszLocalName = blob.getLocalName();
 					if (ProtoGetAvatarFileFormat(pwszLocalName) != PA_FORMAT_UNKNOWN)
-						buf.AppendFormat(L"[img]%s[/img]", pwszLocalName);
+						buf.AppendFormat(L"[img]file://%s[/img]", pwszLocalName);
 					else
 						buf.AppendFormat(L"[url]file://%s[/url]", pwszLocalName);
 				}

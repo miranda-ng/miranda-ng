@@ -145,12 +145,25 @@ static int DetectUrl(const wchar_t *text)
 
 void UrlAutodetect(CMStringW &str)
 {
-	for (auto *p = str.c_str(); *p; p++)
-		if (int len = DetectUrl(p)) { 
-			int pos = p - str.c_str();
-			CMStringW url = str.Mid(pos, len);
-			str.Insert(pos + len, L"[/url]");
-			str.Insert(pos, L"[url]");
-			p = str.c_str() + pos + len + 11;
+	int level = 0;
+
+	for (auto *p = str.c_str(); *p; p++) {
+		if (!wcsncmp(p, L"[img]", 5) || !wcsncmp(p, L"[url]", 5)) {
+			p += 4;
+			level++;
 		}
+		if (!wcsncmp(p, L"[/img]", 6) || !wcsncmp(p, L"[/img]", 6)) {
+			p += 5;
+			level--;
+		}
+		else if (int len = DetectUrl(p)) {
+			if (level == 0) {
+				int pos = p - str.c_str();
+				CMStringW url = str.Mid(pos, len);
+				str.Insert(pos + len, L"[/url]");
+				str.Insert(pos, L"[url]");
+				p = str.c_str() + pos + len + 11;
+			}
+		}
+	}
 }
