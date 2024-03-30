@@ -1,8 +1,10 @@
 #include "html.h"
 #include "utf8_strings.h"
 
+namespace litehtml
+{
 
-litehtml::utf8_to_wchar::utf8_to_wchar(const char* val)
+utf8_to_wchar::utf8_to_wchar(const char* val)
 {
 	m_utf8 = (const byte*) val;
 	if (!m_utf8) return;
@@ -11,11 +13,11 @@ litehtml::utf8_to_wchar::utf8_to_wchar(const char* val)
 	{
 		ucode_t wch = get_char();
 		if (!wch) break;
-		m_str += wch;
+		m_str += (wchar_t)wch;
 	}
 }
 
-litehtml::ucode_t litehtml::utf8_to_wchar::get_char()
+ucode_t utf8_to_wchar::get_char()
 {
 	ucode_t b1 = getb();
 
@@ -63,37 +65,40 @@ litehtml::ucode_t litehtml::utf8_to_wchar::get_char()
 	return '?';
 }
 
-litehtml::wchar_to_utf8::wchar_to_utf8(const std::wstring& val)
+void append_char(string& str, int code)
 {
-	unsigned int code;
-	for (int i = 0; val[i]; i++)
+	if (code <= 0x7F)
 	{
-		code = val[i];
-		if (code <= 0x7F)
-		{
-			m_str += (char)code;
-		}
-		else if (code <= 0x7FF)
-		{
-			m_str += (code >> 6) + 192;
-			m_str += (code & 63) + 128;
-		}
-		else if (0xd800 <= code && code <= 0xdfff)
-		{
-			//invalid block of utf8
-		}
-		else if (code <= 0xFFFF)
-		{
-			m_str += (code >> 12) + 224;
-			m_str += ((code >> 6) & 63) + 128;
-			m_str += (code & 63) + 128;
-		}
-		else if (code <= 0x10FFFF)
-		{
-			m_str += (code >> 18) + 240;
-			m_str += ((code >> 12) & 63) + 128;
-			m_str += ((code >> 6) & 63) + 128;
-			m_str += (code & 63) + 128;
-		}
+		str += (char)code;
+	}
+	else if (code <= 0x7FF)
+	{
+		str += char((code >> 6) + 192);
+		str += (code & 63) + 128;
+	}
+	else if (0xd800 <= code && code <= 0xdfff)
+	{
+		// error: surrogate
+	}
+	else if (code <= 0xFFFF)
+	{
+		str += char((code >> 12) + 224);
+		str += ((code >> 6) & 63) + 128;
+		str += (code & 63) + 128;
+	}
+	else if (code <= 0x10FFFF)
+	{
+		str += char((code >> 18) + 240);
+		str += ((code >> 12) & 63) + 128;
+		str += ((code >> 6) & 63) + 128;
+		str += (code & 63) + 128;
 	}
 }
+
+wchar_to_utf8::wchar_to_utf8(const std::wstring& wstr)
+{
+	for (auto ch: wstr)
+		append_char(m_str, ch);
+}
+
+} // namespace litehtml

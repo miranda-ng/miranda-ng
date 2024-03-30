@@ -24,7 +24,7 @@ win32_container::~win32_container()
 	ReleaseDC(NULL, m_tmp_hdc);
 }
 
-int CALLBACK win32_container::EnumFontsProc(const LOGFONT* lplf, const TEXTMETRIC* lptm, DWORD dwType, LPARAM lpData)
+int CALLBACK win32_container::EnumFontsProc(const LOGFONT* lplf, const TEXTMETRIC*, DWORD, LPARAM lpData)
 {
 	win32_container* container = (win32_container*)lpData;
 	container->m_installed_fonts.insert(lplf->lfFaceName);
@@ -147,6 +147,32 @@ int win32_container::pt_to_px( int pt ) const
 	return MulDiv(pt, GetDeviceCaps(m_tmp_hdc, LOGPIXELSY), 72);
 }
 
+void win32_container::draw_image(litehtml::uint_ptr, const litehtml::background_layer &, const std::string &, const std::string &)
+{
+}
+
+void win32_container::draw_solid_fill(litehtml::uint_ptr _hdc, const litehtml::background_layer &bg, const litehtml::web_color &color)
+{
+	HDC hdc = (HDC)_hdc;
+	apply_clip(hdc);
+
+	fill_rect(hdc, bg.border_box.x, bg.border_box.y, bg.border_box.width, bg.border_box.height, color);
+
+	release_clip(hdc);
+}
+
+void win32_container::draw_linear_gradient(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::background_layer::linear_gradient &)
+{
+}
+
+void win32_container::draw_radial_gradient(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::background_layer::radial_gradient &)
+{
+}
+
+void win32_container::draw_conic_gradient(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::background_layer::conic_gradient &)
+{
+}
+
 void win32_container::draw_list_marker(uint_ptr hdc, const litehtml::list_marker& marker)
 {
 	apply_clip((HDC)hdc);
@@ -252,33 +278,7 @@ void win32_container::unlock_images_cache()
 	LeaveCriticalSection(&m_img_sync);
 }
 
-void win32_container::draw_background( uint_ptr _hdc, const std::vector<litehtml::background_paint>& bg )
-{
-	HDC hdc = (HDC)_hdc;
-	apply_clip(hdc);
-
-	auto border_box = bg.back().border_box;
-	auto color = bg.back().color;
-	fill_rect(hdc, border_box.x, border_box.y, border_box.width, border_box.height, color);
-
-	for (int i = (int)bg.size() - 1; i >= 0; i--)
-	{
-		std::wstring url;
-		make_url_utf8(bg[i].image.c_str(), bg[i].baseurl.c_str(), url);
-
-		lock_images_cache();
-		images_map::iterator img = m_images.find(url);
-		if (img != m_images.end() && img->second)
-		{
-			draw_img_bg(hdc, img->second, bg[i]);
-		}
-		unlock_images_cache();
-	}
-
-	release_clip(hdc);
-}
-
-void win32_container::set_clip( const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius )
+void win32_container::set_clip( const litehtml::position& pos, const litehtml::border_radiuses&)
 {
 	m_clips.push_back(pos);
 }
@@ -321,7 +321,7 @@ void win32_container::release_clip(HDC hdc)
 	}
 }
 
-litehtml::element::ptr win32_container::create_element(const char* tag_name, const litehtml::string_map& attributes, const litehtml::document::ptr& doc)
+litehtml::element::ptr win32_container::create_element(const char*, const litehtml::string_map&, const litehtml::document::ptr&)
 {
 	return 0;
 }
@@ -369,7 +369,7 @@ void win32_container::transform_text(litehtml::string& text, litehtml::text_tran
 	free(txt);
 }
 
-void win32_container::link(const litehtml::document::ptr& doc, const litehtml::element::ptr& el)
+void win32_container::link(const litehtml::document::ptr&, const litehtml::element::ptr&)
 {
 }
 

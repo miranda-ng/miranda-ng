@@ -1,7 +1,6 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include <algorithm>
 #include <windows.h>
 #include <gdiplus.h>
 #include "gdiplus_container.h"
@@ -26,7 +25,7 @@ static Color gdiplus_color(web_color color)
 	return Color(color.alpha, color.red, color.green, color.blue);
 }
 
-void gdiplus_container::draw_ellipse(HDC hdc, int x, int y, int width, int height, web_color color, int line_width)
+void gdiplus_container::draw_ellipse(HDC hdc, int x, int y, int width, int height, web_color color, int)
 {
 	Graphics graphics(hdc);
 
@@ -71,7 +70,7 @@ void gdiplus_container::free_image(uint_ptr img)
 	Bitmap* bmp = (Bitmap*)img;
 	delete bmp;
 }
-
+/*
 void gdiplus_container::draw_img_bg(HDC hdc, uint_ptr img, const background_paint& bg)
 {
 	Bitmap* bgbmp = (Bitmap*)img;
@@ -143,6 +142,7 @@ void gdiplus_container::draw_img_bg(HDC hdc, uint_ptr img, const background_pain
 
 	delete scaled_img;
 }
+*/
 
 // length of dash and space for "dashed" style, in multiples of pen width
 const float dash = 3;
@@ -216,7 +216,7 @@ static void draw_vert_border(Graphics& graphics, const border& border, int x, in
 	}
 }
 
-void gdiplus_container::draw_borders(uint_ptr hdc, const borders& borders, const position& draw_pos, bool root)
+void gdiplus_container::draw_borders(uint_ptr hdc, const borders& borders, const position& draw_pos, bool)
 {
 	apply_clip((HDC) hdc);
 	Graphics graphics((HDC)hdc);

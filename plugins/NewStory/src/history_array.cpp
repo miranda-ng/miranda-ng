@@ -477,7 +477,9 @@ void ItemData::setText(const wchar_t *pwszText)
 
 	pOwner->webPage.clText = g_fontTable[fontid].cl;
 	pOwner->webPage.clBack = g_colorTable[colorid].cl;
-	m_doc = litehtml::document::createFromString(T2Utf(formatHtml(pwszText)), &pOwner->webPage);
+
+	litehtml::estring body(T2Utf(formatHtml(pwszText)).get(), litehtml::encoding::utf_8);
+	m_doc = litehtml::document::createFromString(body, &pOwner->webPage);
 }
 
 // Array
