@@ -444,6 +444,24 @@ bool CTelegramProto::GetMessageFile(
 	return true;
 }
 
+CMStringA CTelegramProto::GetMessagePreview(const TD::file *pFile)
+{
+	auto *pFileId = pFile->remote_->unique_id_.c_str();
+
+	auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFile->id_, pFileId);
+	pRequest->m_destPath = GetAvatarPath() + L"\\Preview";
+	CreateDirectoryW(pRequest->m_destPath, 0);
+
+	pRequest->m_fileName.Format(L"{%S}.jpg", pFileId);
+	{
+		mir_cslock lck(m_csFiles);
+		m_arFiles.insert(pRequest);
+	}
+
+	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
+	return T2Utf(pRequest->m_destPath + L"\\" + pRequest->m_fileName).get();
+}
+
 CMStringA CTelegramProto::GetMessageSticker(const TD::file *pFile, const char *pwszExtension)
 {
 	auto *pFileId = pFile->remote_->unique_id_.c_str();
@@ -654,7 +672,29 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageText::ID:
-		ret = getFormattedText(((TD::messageText *)pBody)->text_);
+		if (auto *pText = ((TD::messageText *)pBody)) {
+			ret = getFormattedText(pText->text_);
+
+			if (auto *pWeb = pText->web_page_.get()) {
+				ret.AppendFormat("\r\n[url]%s[/url]", pWeb->embed_url_.c_str());
+
+				if (pWeb->photo_) {
+					const TD::photoSize *pSize = nullptr;
+					for (auto &it : pWeb->photo_->sizes_)
+						if (it->type_ == "m")
+							pSize = it.get();
+
+					if (pSize == nullptr)
+						pSize = pWeb->photo_->sizes_[0].get();
+
+					if (auto szText = GetMessagePreview(pSize->photo_.get()))
+						ret.AppendFormat("\r\n[img=%s][/img]", szText.c_str());
+				}
+
+				if (auto szText = getFormattedText(pWeb->description_))
+					ret.AppendFormat("\r\n%s", szText.c_str());
+			}
+		}
 		break;
 	}
 
