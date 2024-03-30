@@ -17,17 +17,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+enum class BBCODE
+{
+	BOLD, ITALIC, STRIKE, UNDERLINE, URL
+};
+
 struct
 {
+	BBCODE type;
 	const wchar_t *begin, *end;
 	unsigned len1, len2;
 }
 static bbCodes[] =
 {
-	{ L"[b]", L"[/b]", 3, 4 },
-	{ L"[i]", L"[/i]", 3, 4 },
-	{ L"[s]", L"[/s]", 3, 4 },
-	{ L"[u]", L"[/u]", 3, 4 },
+	{ BBCODE::BOLD,      L"[b]",   L"[/b]",   3, 4 },
+	{ BBCODE::ITALIC,    L"[i]",   L"[/i]",   3, 4 },
+	{ BBCODE::STRIKE,    L"[s]",   L"[/s]",   3, 4 },
+	{ BBCODE::UNDERLINE, L"[u]",   L"[/u]",   3, 4 },
+	{ BBCODE::URL,       L"[url]", L"[/url]", 5, 6 },
 };
 
 TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
@@ -56,11 +63,12 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 				str.erase(i1, it.len1);
 
 				TD::object_ptr<TD::TextEntityType> pNew;
-				switch (it.begin[1]) {
-				case 'b': pNew = TD::make_object<TD::textEntityTypeBold>(); break;
-				case 'i': pNew = TD::make_object<TD::textEntityTypeItalic>(); break;
-				case 's': pNew = TD::make_object<TD::textEntityTypeStrikethrough>(); break;
-				case 'u': pNew = TD::make_object<TD::textEntityTypeUnderline>(); break;
+				switch (it.type) {
+				case BBCODE::URL: pNew = TD::make_object<TD::textEntityTypeUrl>(); break;
+				case BBCODE::BOLD: pNew = TD::make_object<TD::textEntityTypeBold>(); break;
+				case BBCODE::ITALIC: pNew = TD::make_object<TD::textEntityTypeItalic>(); break;
+				case BBCODE::STRIKE: pNew = TD::make_object<TD::textEntityTypeStrikethrough>(); break;
+				case BBCODE::UNDERLINE: pNew = TD::make_object<TD::textEntityTypeUnderline>(); break;
 				}
 
 				res->entities_.push_back(TD::make_object<TD::textEntity>(TD::int32(i1), TD::int32(i2 - i1), std::move(pNew)));
@@ -85,6 +93,7 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 			case TD::textEntityTypeItalic::ID: iCode = 1; break;
 			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
 			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
+			case TD::textEntityTypeUrl::ID: iCode = 4; break;
 			default:
 				continue;
 			}
