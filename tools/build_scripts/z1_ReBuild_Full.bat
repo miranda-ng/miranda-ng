@@ -75,7 +75,6 @@ md "Release%tp%\Plugins\CurrencyRates"
 md "Release%tp%\Plugins\Import"
 md "Release%tp%\Plugins\Weather"
 
-copy /V /Y ..\tools\build_scripts\fixme.cmd "Release%tp%\"
 copy /V /Y ..\plugins\Actman\services.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\FavContacts\gadget\favcontacts.gadget "Release%tp%\Gadgets\"
