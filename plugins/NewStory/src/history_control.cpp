@@ -536,6 +536,9 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 			continue;
 
 		CMStringW wszText(bTextOnly ? p->wtext : p->formatString());
+		if (wszText.IsEmpty())
+			continue;
+
 		RemoveBbcodes(wszText);
 		ret.Append(wszText);
 		ret.Append(L"\r\n");
