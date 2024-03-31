@@ -459,7 +459,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			debugLogA("CVkProto::OnReceiveMessages szReplyId = %s", szReplyId);
 		}
 
-		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, szReplyId = %s Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, szReplyId, (int)bEdited);
+		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited || szReplyId) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
