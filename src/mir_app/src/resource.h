@@ -495,6 +495,7 @@
 #define IDC_SAVEAS                      1513
 #define IDC_AUTORENAME                  1514
 #define IDC_ASK                         1516
+#define IDC_SECONDLINE                  1533
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
 #define IDC_BOTH                        1536

@@ -65,10 +65,16 @@ public:
 		lf.lfWeight = FW_BOLD;
 		SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
 
-		wchar_t szFormat[256], szFinal[256];
-		GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
-		mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
-		SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+		if (m_hContact != 0) {
+			wchar_t szFormat[256], szFinal[256];
+			GetDlgItemText(m_hwnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+			mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(m_hContact));
+			SetDlgItemText(m_hwnd, IDC_TOPLINE, szFinal);
+		}
+		else {
+			SetDlgItemText(m_hwnd, IDC_TOPLINE, TranslateT("Are you sure to wipe the system history?"));
+			ShowWindow(GetDlgItem(m_hwnd, IDC_SECONDLINE), SW_HIDE);
+		}
 
 		SetFocus(GetDlgItem(m_hwnd, IDNO));
 		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);

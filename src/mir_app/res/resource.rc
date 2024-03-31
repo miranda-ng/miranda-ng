@@ -82,7 +82,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Are you sure to wipe the history for %s?",IDC_TOPLINE,
                     "Static",SS_SIMPLE | SS_NOPREFIX | WS_GROUP,7,7,270,8
-    LTEXT           "This will erase all history for this contact!",IDC_STATIC,7,18,239,16
+    LTEXT           "This will erase all history for this contact!",IDC_SECONDLINE,7,18,239,16
     CONTROL         "Remove server history",IDC_DELSERVERHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,280,8
     CONTROL         "Remove history for everyone",IDC_BOTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,50,260,8
     PUSHBUTTON      "&Yes",IDOK,149,65,65,14
