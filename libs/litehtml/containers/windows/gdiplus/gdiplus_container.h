@@ -15,6 +15,7 @@ protected:
 	void	draw_ellipse(HDC hdc, int x, int y, int width, int height, litehtml::web_color color, int line_width) override;
 	void	fill_ellipse(HDC hdc, int x, int y, int width, int height, litehtml::web_color color) override;
 	void	fill_rect(HDC hdc, int x, int y, int width, int height, litehtml::web_color color) override;
+	void	draw_image(litehtml::uint_ptr, const litehtml::background_layer &, const std::string &, const std::string &) override;
 	void	get_img_size(uint_ptr img, litehtml::size& sz) override;
 	void	free_image(uint_ptr img) override;
 

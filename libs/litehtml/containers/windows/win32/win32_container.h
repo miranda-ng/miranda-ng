@@ -33,7 +33,6 @@ public:
 	void		draw_text(uint_ptr hdc, const char* text, uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos) override;
 	void		transform_text(litehtml::string& text, litehtml::text_transform tt) override;
 
-	void draw_image(litehtml::uint_ptr, const litehtml::background_layer &, const std::string &, const std::string &) override;
 	void draw_solid_fill(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::web_color &) override;
 	void draw_linear_gradient(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::background_layer::linear_gradient &) override;
 	void draw_radial_gradient(litehtml::uint_ptr, const litehtml::background_layer &, const litehtml::background_layer::radial_gradient &) override;
@@ -43,6 +42,7 @@ public:
 	void		draw_list_marker(uint_ptr hdc, const litehtml::list_marker& marker) override;
 	void		load_image(const char* src, const char* baseurl, bool redraw_on_ready) override;
 	void		get_image_size(const char* src, const char* baseurl, litehtml::size& sz) override;
+	uint_ptr find_image(const std::wstring &url);
 	
 	void		set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius) override;
 	void		del_clip() override;

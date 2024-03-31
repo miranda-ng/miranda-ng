@@ -70,25 +70,33 @@ void gdiplus_container::free_image(uint_ptr img)
 	Bitmap* bmp = (Bitmap*)img;
 	delete bmp;
 }
-/*
-void gdiplus_container::draw_img_bg(HDC hdc, uint_ptr img, const background_paint& bg)
-{
-	Bitmap* bgbmp = (Bitmap*)img;
 
-	Graphics graphics(hdc);
-	graphics.SetInterpolationMode(InterpolationModeNearestNeighbor);
-	graphics.SetPixelOffsetMode(PixelOffsetModeHalf);
+void gdiplus_container::draw_image(litehtml::uint_ptr _hdc, const litehtml::background_layer &bg, const std::string &src, const std::string &base_url)
+{
+	if (src.empty() || (!bg.clip_box.width && !bg.clip_box.height))
+		return;
+
+	std::wstring url;
+	make_url_utf8(src.c_str(), base_url.c_str(), url);
+
+	Bitmap* bgbmp = (Bitmap*)find_image(url.c_str());
+	if (!bgbmp)
+		return;
+
+	Graphics graphics((HDC)_hdc);
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
+	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHalf);
 
 	Region reg(Rect(bg.border_box.left(), bg.border_box.top(), bg.border_box.width, bg.border_box.height));
 	graphics.SetClip(&reg);
 
 	Bitmap* scaled_img = nullptr;
-	if (bg.image_size.width != bgbmp->GetWidth() || bg.image_size.height != bgbmp->GetHeight())
+	if (bg.origin_box.width != bgbmp->GetWidth() || bg.origin_box.height != bgbmp->GetHeight())
 	{
-		scaled_img = new Bitmap(bg.image_size.width, bg.image_size.height);
+		scaled_img = new Bitmap(bg.origin_box.width, bg.origin_box.height);
 		Graphics gr(scaled_img);
-		gr.SetPixelOffsetMode(PixelOffsetModeHighQuality);
-		gr.DrawImage(bgbmp, 0, 0, bg.image_size.width, bg.image_size.height);
+		gr.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+		gr.DrawImage(bgbmp, 0, 0, bg.origin_box.width, bg.origin_box.height);
 		bgbmp = scaled_img;
 	}
 
@@ -96,37 +104,37 @@ void gdiplus_container::draw_img_bg(HDC hdc, uint_ptr img, const background_pain
 	{
 	case background_repeat_no_repeat:
 		{
-			graphics.DrawImage(bgbmp, bg.position_x, bg.position_y, bgbmp->GetWidth(), bgbmp->GetHeight());
+			graphics.DrawImage(bgbmp, bg.origin_box.x, bg.origin_box.y, bgbmp->GetWidth(), bgbmp->GetHeight());
 		}
 		break;
 	case background_repeat_repeat_x:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int x = bg.position_x;
+			int x = bg.origin_box.x;
 			while(x > bg.clip_box.left()) x -= bgbmp->GetWidth();
 			for(; x < bg.clip_box.right(); x += bgbmp->GetWidth())
 			{
-				graphics.DrawCachedBitmap(&bmp, x, bg.position_y);
+				graphics.DrawCachedBitmap(&bmp, x, bg.origin_box.y);
 			}
 		}
 		break;
 	case background_repeat_repeat_y:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int y = bg.position_y;
+			int y = bg.origin_box.y;
 			while(y > bg.clip_box.top()) y -= bgbmp->GetHeight();
 			for(; y < bg.clip_box.bottom(); y += bgbmp->GetHeight())
 			{
-				graphics.DrawCachedBitmap(&bmp, bg.position_x, y);
+				graphics.DrawCachedBitmap(&bmp, bg.origin_box.x, y);
 			}
 		}
 		break;
 	case background_repeat_repeat:
 		{
 			CachedBitmap bmp(bgbmp, &graphics);
-			int x = bg.position_x;
+			int x = bg.origin_box.x;
 			while(x > bg.clip_box.left()) x -= bgbmp->GetWidth();
-			int y0 = bg.position_y;
+			int y0 = bg.origin_box.y;
 			while(y0 > bg.clip_box.top()) y0 -= bgbmp->GetHeight();
 
 			for(; x < bg.clip_box.right(); x += bgbmp->GetWidth())
@@ -142,7 +150,6 @@ void gdiplus_container::draw_img_bg(HDC hdc, uint_ptr img, const background_pain
 
 	delete scaled_img;
 }
-*/
 
 // length of dash and space for "dashed" style, in multiples of pen width
 const float dash = 3;

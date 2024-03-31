@@ -148,10 +148,6 @@ int win32_container::pt_to_px( int pt ) const
 	return MulDiv(pt, GetDeviceCaps(m_tmp_hdc, LOGPIXELSY), 72);
 }
 
-void win32_container::draw_image(litehtml::uint_ptr, const litehtml::background_layer &, const std::string &, const std::string &)
-{
-}
-
 void win32_container::draw_solid_fill(litehtml::uint_ptr _hdc, const litehtml::background_layer &bg, const litehtml::web_color &color)
 {
 	HDC hdc = (HDC)_hdc;
@@ -211,6 +207,19 @@ void win32_container::draw_list_marker(uint_ptr hdc, const litehtml::list_marker
 void win32_container::make_url_utf8(const char* url, const char* basepath, std::wstring& out)
 {
 	make_url(Utf2T(url), Utf2T(basepath), out);
+}
+
+litehtml::uint_ptr win32_container::find_image(const std::wstring &url)
+{
+	uint_ptr ret = 0;
+
+	lock_images_cache();
+	images_map::iterator img = m_images.find(url);
+	if (img != m_images.end() && img->second)
+		ret = img->second;
+
+	unlock_images_cache();
+	return ret;
 }
 
 void win32_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
