@@ -239,6 +239,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		m_tszSelectedLang = mir_strdup("en");
 
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
+
+	ListInit();
 }
 
 CJabberProto::~CJabberProto()

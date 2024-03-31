@@ -88,6 +88,9 @@ void JABBER_RESOURCE_STATUS::Release()
 
 void CJabberProto::ListInit(void)
 {
+	if (m_lstRoster.getCount())
+		return;
+
 	for (auto &hContact : AccContacts()) {
 		ptrA jid(ContactToJID(hContact));
 		if (jid != nullptr)
