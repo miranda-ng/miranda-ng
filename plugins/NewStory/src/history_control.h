@@ -5,28 +5,84 @@
 
 struct NewstoryListData;
 
-class NSWebPage : public gdiplus_container
+class NSWebPage : public document_container
 {
-	typedef gdiplus_container CSuper;
+	typedef std::map<std::wstring, uint_ptr> images_map;
+
+	ULONG_PTR m_gdiplusToken;
+
+	mir_cs m_csImages;
+	images_map m_images;
+
+	position::vector	m_clips;
+	HRGN m_hClipRgn;
+	std::set<std::wstring> m_installed_fonts;
+	HDC m_tmp_hdc;
 
 	NewstoryListData &ctrl;
 
-	litehtml::string resolve_color(const litehtml::string &color) const;
+	std::string resolve_color(const string &color) const;
+	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready);
+	void make_url(LPCWSTR url, LPCWSTR basepath, std::wstring &out);
 
-	void get_client_rect(litehtml::position &client) const override;
-	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready) override;
-	void import_css(litehtml::string &text, const litehtml::string &url, litehtml::string &baseurl) override;
-	void make_url(LPCWSTR url, LPCWSTR basepath, std::wstring &out) override;
-	void on_anchor_click(const char *url, const litehtml::element::ptr &el) override;
+	void get_client_rect(position &client) const override;
+	void import_css(string &text, const string &url, string &baseurl) override;
+	void on_anchor_click(const char *url, const element::ptr &el) override;
 	void set_base_url(const char *base_url) override;
 	void set_caption(const char *caption) override;
-	void set_clip(const litehtml::position &pos, const litehtml::border_radiuses &bdr_radius) override;
 	void set_cursor(const char *cursor) override;
 
+	void draw_image(uint_ptr hdc, const background_layer &layer, const std::string &url, const std::string &base_url) override;
+	void get_img_size(uint_ptr img, size &sz);
+	void free_image(uint_ptr img);
+
+	// document_container members
+	uint_ptr create_font(const char *faceName, int size, int weight, font_style italic, unsigned int decoration, font_metrics *fm) override;
+	void delete_font(uint_ptr hFont) override;
+	const char* get_default_font_name() const override;
+	int  get_default_font_size() const override;
+	
+	void draw_text(uint_ptr hdc, const char *text, uint_ptr hFont, web_color color, const position &pos) override;
+	int  text_width(const char *text, uint_ptr hFont) override;
+	void transform_text(string &text, text_transform tt) override;
+
+	void draw_borders(uint_ptr hdc, const borders &borders, const position &draw_pos, bool root) override;
+	void draw_ellipse(HDC hdc, int x, int y, int width, int height, web_color color, int line_width);
+	void draw_list_marker(uint_ptr hdc, const list_marker &marker) override;
+	void draw_solid_fill(uint_ptr, const background_layer &, const web_color &) override;
+
+	void draw_linear_gradient(uint_ptr, const background_layer &, const background_layer::linear_gradient &) override;
+	void draw_radial_gradient(uint_ptr, const background_layer &, const background_layer::radial_gradient &) override;
+	void draw_conic_gradient(uint_ptr, const background_layer &, const background_layer::conic_gradient &) override;
+
+	void fill_ellipse(HDC hdc, int x, int y, int width, int height, web_color color);
+	void fill_rect(HDC hdc, int x, int y, int width, int height, web_color color);
+
+	int  pt_to_px(int pt) const override;
+
+	void add_image(LPCWSTR url, uint_ptr img);
+	void load_image(const char *src, const char *baseurl, bool redraw_on_ready) override;
+	void get_image_size(const char *src, const char *baseurl, size &sz) override;
+
+	element::ptr create_element(const char *tag_name, const string_map &attributes, const document::ptr &doc) override;
+	void get_media_features(media_features &media) const override;
+	void get_language(string &language, string &culture) const override;
+	void link(const document::ptr &doc, const element::ptr &el) override;
+
+	void apply_clip(HDC hdc);
+	void del_clip() override;
+	void release_clip(HDC hdc);
+	void set_clip(const position &pos, const border_radiuses &bdr_radius) override;
+
+	void make_url_utf8(const char *url, const char *basepath, std::wstring &out);
+
+	void clear_images();
+
+	static int CALLBACK EnumFontsProc(const LOGFONT *lplf, const TEXTMETRIC *lptm, DWORD dwType, LPARAM lpData);
+
 public:
-	NSWebPage(NewstoryListData &_1) :
-		ctrl(_1)
-	{}
+	NSWebPage(NewstoryListData &_1);
+	~NSWebPage();
 
 	COLORREF clText = -1, clBack = -1;
 };

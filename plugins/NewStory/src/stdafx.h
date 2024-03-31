@@ -32,6 +32,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <map>
+#include <set>
 
 //Miranda headers
 #include <newpluginapi.h>
@@ -68,8 +69,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "../../Libs/freeimage/src/FreeImage.h"
 
 #include <../include/litehtml.h>
-#include <../containers/windows/gdiplus/gdiplus_container.h>
 #include "dib.h"
+using namespace litehtml;
 
 #include "resource.h"
 #include "version.h"

@@ -32,12 +32,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\gdiplus\gdiplus_container.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\win32\win32_container.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\calendartool.cpp" />
     <ClCompile Include="src\dib.cpp" />
     <ClCompile Include="src\fonts.cpp" />

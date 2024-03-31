@@ -47,12 +47,6 @@
     <ClCompile Include="src\dib.cpp">
       <Filter>Source Files\Litehtml</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\win32\win32_container.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\libs\litehtml\containers\windows\gdiplus\gdiplus_container.cpp">
-      <Filter>Source Files\Litehtml</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\calendartool.h">
