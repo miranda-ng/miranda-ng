@@ -91,7 +91,8 @@ void CGroupInternal::save()
 {
 	Clist_BroadcastAsync(INTM_GROUPSCHANGED, 0, LPARAM(this));
 
-	g_pTimer->Start(1000);
+	if (g_pTimer)
+		g_pTimer->Start(1000);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
