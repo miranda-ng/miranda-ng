@@ -1,4 +1,5 @@
 #include "win32_container.h"
+#include <newpluginapi.h>
 
 win32_container::win32_container()
 {
@@ -60,15 +61,15 @@ litehtml::uint_ptr win32_container::create_font( const char* font_list, int size
 	{
 		litehtml::trim(name);
 		trim_quotes(name);
-		std::wstring wname = (const wchar_t*)litehtml_to_wchar(name.c_str());
-		if (m_installed_fonts.count(wname))
+		Utf2T wname(name.c_str());
+		if (m_installed_fonts.count(wname.get()))
 		{
 			font_name = wname;
 			found = true;
 			break;
 		}
 	}
-	if (!found) font_name = litehtml_to_wchar(get_default_font_name());
+	if (!found) font_name = Utf2T(get_default_font_name());
 	font_name = get_exact_font_name(font_name.c_str());
 
 	LOGFONT lf = {};
@@ -119,8 +120,8 @@ int win32_container::text_width( const char* text, uint_ptr hFont )
 {
 	SIZE size = {};
 	SelectObject(m_tmp_hdc, (HFONT)hFont);
-	std::wstring wtext = (const wchar_t*)litehtml_to_wchar(text);
-	GetTextExtentPoint32(m_tmp_hdc, wtext.c_str(), (int)wtext.size(), &size);
+	Utf2T wtext(text);
+	GetTextExtentPoint32(m_tmp_hdc, wtext, (int)mir_wstrlen(wtext), &size);
 	return size.cx;
 }
 
@@ -135,7 +136,7 @@ void win32_container::draw_text( uint_ptr hdc, const char* text, uint_ptr hFont,
 	SetTextColor((HDC) hdc, RGB(color.red, color.green, color.blue));
 
 	RECT rcText = { pos.left(), pos.top(), pos.right(), pos.bottom() };
-	DrawText((HDC) hdc, litehtml_to_wchar(text), -1, &rcText, DT_SINGLELINE | DT_NOPREFIX | DT_BOTTOM | DT_NOCLIP);
+	DrawText((HDC) hdc, Utf2T(text), -1, &rcText, DT_SINGLELINE | DT_NOPREFIX | DT_BOTTOM | DT_NOCLIP);
 
 	SelectObject((HDC) hdc, oldFont);
 
@@ -209,7 +210,7 @@ void win32_container::draw_list_marker(uint_ptr hdc, const litehtml::list_marker
 
 void win32_container::make_url_utf8(const char* url, const char* basepath, std::wstring& out)
 {
-	make_url(litehtml::utf8_to_wchar(url), litehtml::utf8_to_wchar(basepath), out);
+	make_url(Utf2T(url), Utf2T(basepath), out);
 }
 
 void win32_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
@@ -352,7 +353,7 @@ void win32_container::transform_text(litehtml::string& text, litehtml::text_tran
 {
 	if (text.empty()) return;
 
-	LPWSTR txt = _wcsdup(litehtml_to_wchar(text.c_str()));
+	LPWSTR txt = _wcsdup(Utf2T(text.c_str()));
 	switch (tt)
 	{
 	case litehtml::text_transform_capitalize:
@@ -365,7 +366,7 @@ void win32_container::transform_text(litehtml::string& text, litehtml::text_tran
 		CharLowerBuff(txt, lstrlen(txt));
 		break;
 	}
-	text = litehtml_from_wchar(txt);
+	text = T2Utf(txt);
 	free(txt);
 }
 
