@@ -358,6 +358,7 @@ private:
 	//==== Misc ==========================================================================
 
 	void SetAllContactStatuses(int iStatus);
+	MCONTACT FindTempUser(VKUserID_t iUserid, int iWait = 0);
 	MCONTACT FindUser(VKUserID_t iUserId, bool bCreate = false);
 	MCONTACT FindChat(VKUserID_t iUserId);
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, MHttpResponse *reply, JSONNode &root);
@@ -421,7 +422,7 @@ private:
 	CVkChatInfo* AppendConversationChat(VKUserID_t iChatId, const JSONNode& jnItem);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
+	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(MHttpResponse*, AsyncHttpRequest*);
 	void OnSendChatMsg(MHttpResponse*, AsyncHttpRequest*);

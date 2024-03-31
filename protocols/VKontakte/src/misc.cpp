@@ -254,7 +254,21 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+MCONTACT CVkProto::FindTempUser(VKUserID_t iUserId, int iWait)
+{
+	MCONTACT hContact = FindUser(iUserId);
+	if (hContact == 0) {
+		hContact = FindUser(iUserId, true);
+		RetrieveUserInfo(iUserId);
+		Contact::Hide(hContact);
+		Contact::RemoveFromList(hContact);
+		db_set_dw(hContact, "Ignore", "Mask1", 0);
+		if (iWait)
+			Sleep(iWait);
+	}
 
+	return hContact;
+}
 MCONTACT CVkProto::FindUser(VKUserID_t dwUserid, bool bCreate)
 {
 	if (!dwUserid)

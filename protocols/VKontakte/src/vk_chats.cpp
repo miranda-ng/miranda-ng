@@ -334,7 +334,7 @@ void CVkProto::OnReceiveChatInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	cc->m_bHistoryRead = true;
 
 	for (auto &p : cc->m_msgs)
-		AppendChatMessage(cc, p->m_iMessageId, p->m_iUserId, p->m_tDate, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
+		AppendChatMessage(cc, p->m_iMessageId, p->m_iReplyMsgId, p->m_iUserId, p->m_tDate, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
 
 	cc->m_msgs.destroy();
 }
@@ -363,7 +363,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	if (vkChatInfo == nullptr)
 		return;
 
-	VKMessageID_t iMessageId = jnMsg["id"].as_int();
+	VKMessageID_t iMessageId = jnMsg["id"].as_int(), iReplyMsgId = 0;
 	VKUserID_t iUserId = jnMsg["from_id"].as_int();
 	bool bIsAction = false;
 
@@ -384,10 +384,14 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 	if (jnReplyMessages && !jnReplyMessages.empty()) {
-		CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
-		if (!wszBody.IsEmpty())
-			wszReplyMessages = L"\n" + wszReplyMessages;
-		wszBody += wszReplyMessages;
+		if (m_vkOptions.bShowReplyInMessage) {
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
+			if (!wszBody.IsEmpty())
+				wszReplyMessages = L"\n" + wszReplyMessages;
+			wszBody += wszReplyMessages;
+		}
+		else if (jnReplyMessages["id"])
+			iReplyMsgId = jnReplyMessages["id"].as_int();
 	}
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
@@ -483,13 +487,14 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	wszBody.Replace(L"%", L"%%");
 
 	if (vkChatInfo->m_bHistoryRead) {
-		AppendChatMessage(vkChatInfo, iMessageId, iUserId, tMsgTime, wszBody, bIsHistory, bIsAction);
+		AppendChatMessage(vkChatInfo, iMessageId, iReplyMsgId, iUserId, tMsgTime, wszBody, bIsHistory, bIsAction);
 	}
 	else {
 		CVkChatMessage* vkChatMessage = vkChatInfo->m_msgs.find((CVkChatMessage*)&iMessageId);
 		if (vkChatMessage == nullptr)
 			vkChatInfo->m_msgs.insert(vkChatMessage = new CVkChatMessage(iMessageId));
-
+		
+		vkChatMessage->m_iReplyMsgId = iReplyMsgId;
 		vkChatMessage->m_iUserId = iUserId;
 		vkChatMessage->m_tDate = tMsgTime;
 		vkChatMessage->m_wszBody = mir_wstrdup(wszBody);
@@ -499,7 +504,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 }
 
 
-void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
+void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
 {
 	debugLogA("CVkProto::AppendChatMessage2");
 
@@ -507,16 +512,17 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 	if (!hChatContact)
 		return;
 
-	if (bIsAction) {
-		MCONTACT hContact = FindUser(iUserId);
-		CVkChatUser* cu = vkChatInfo->m_users.find((CVkChatUser*)&iUserId);
-		if (cu == nullptr) {
-			vkChatInfo->m_users.insert(cu = new CVkChatUser(iUserId));
-			CMStringW wszNick(ptrW(db_get_wsa(vkChatInfo->m_si->hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_iUserId))));
-			cu->m_wszNick = mir_wstrdup(wszNick.IsEmpty() ? (hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : wszNick);
-			cu->m_bUnknown = true;
-		}
+	MCONTACT hContact = FindTempUser(iUserId);
+	
+	CVkChatUser* cu = vkChatInfo->m_users.find((CVkChatUser*)&iUserId);
+	if (cu == nullptr) {
+		vkChatInfo->m_users.insert(cu = new CVkChatUser(iUserId));
+		CMStringW wszNick(ptrW(db_get_wsa(vkChatInfo->m_si->hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_iUserId))));
+		cu->m_wszNick = mir_wstrdup(wszNick.IsEmpty() ? (hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : wszNick);
+		cu->m_bUnknown = true;
+	}
 
+	if (bIsAction) {
 		wchar_t wszId[20];
 		_itow(iUserId, wszId, 10);
 
@@ -530,14 +536,13 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 		Chat_Event(&gce);
 	}
 	else {
-
-		char szId[20];
-		_ltoa(iUserId, szId, 10);
-
+		char szReplyMsgId[40] = "";
 		char szMid[40];
+
 		_ltoa(iMessageId, szMid, 10);
 
 		T2Utf pszBody(pwszBody);
+		T2Utf pszNick(cu->m_wszNick);
 		
 		DB::EventInfo dbei;
 		dbei.szId = szMid;
@@ -547,7 +552,13 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 			dbei.flags |= DBEF_SENT;
 		if (bIsHistory)
 			dbei.flags |= DBEF_READ;
-		dbei.szUserId = szId;
+		dbei.szUserId = pszNick;
+		
+		if (iReplyMsgId) {
+			_ltoa(iReplyMsgId, szReplyMsgId, 10);
+			dbei.szReplyId = szReplyMsgId;
+		}
+
 		ProtoChainRecvMsg(hChatContact, dbei);
 	}
 
@@ -818,13 +829,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *vkChatInfo, GCHOOK *gch)
 
 	switch (gch->dwData) {
 	case IDM_INFO:
-		hContact = FindUser(vkChatUser->m_iUserId);
-		if (hContact == 0) {
-			hContact = FindUser(vkChatUser->m_iUserId, true);
-			Contact::Hide(hContact);
-			Contact::RemoveFromList(hContact);
-			db_set_dw(hContact, "Ignore", "Mask1", 0);
-		}
+		hContact = FindTempUser(vkChatUser->m_iUserId, 1000);
 		CallService(MS_USERINFO_SHOWDIALOG, hContact);
 		break;
 
