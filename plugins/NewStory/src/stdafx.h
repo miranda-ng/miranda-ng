@@ -31,6 +31,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <Shlwapi.h>
 #include <malloc.h>
 
+#undef Translate
+#include <gdiplus.h>
+using namespace Gdiplus;
+
 #include <map>
 #include <set>
 

@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#pragma comment(lib, "gdiplus.lib")
+
 CMPlugin g_plugin;
 
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);

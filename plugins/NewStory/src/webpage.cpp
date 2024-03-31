@@ -18,12 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#undef Translate
-#include <gdiplus.h>
-
-#pragma comment(lib, "gdiplus.lib")
-using namespace Gdiplus;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Litehtml interface
 
@@ -293,6 +287,18 @@ void NSWebPage::make_url_utf8(const char *url, const char *basepath, std::wstrin
 	make_url(Utf2T(url), Utf2T(basepath), out);
 }
 
+Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl)
+{
+	mir_cslockfull lck(m_csImages);
+	auto img = m_images.find(pwszUrl);
+	if (img != m_images.end() && img->second)
+		return (Bitmap *)img->second;
+
+	uint_ptr newImg = get_image(pwszUrl, false);
+	add_image(pwszUrl, newImg);
+	return (Bitmap *)newImg;
+}
+
 void NSWebPage::load_image(const char *src, const char *baseurl, bool redraw_on_ready)
 {
 	std::wstring url;
@@ -313,19 +319,27 @@ void NSWebPage::add_image(LPCWSTR url, uint_ptr img)
 	m_images[url] = img;
 }
 
+Bitmap* NSWebPage::find_image(const wchar_t *pwszUrl)
+{
+	mir_cslock lck(m_csImages);
+	auto img = m_images.find(pwszUrl);
+	if (img != m_images.end() && img->second)
+		return (Bitmap *)img->second;
+
+	return nullptr;
+}
+
 void NSWebPage::get_image_size(const char *src, const char *baseurl, size &sz)
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
 
-	sz.width = 0;
-	sz.height = 0;
-
 	mir_cslock lck(m_csImages);
 	images_map::iterator img = m_images.find(url);
-	if (img != m_images.end() && img->second) {
+	if (img != m_images.end() && img->second)
 		get_img_size(img->second, sz);
-	}
+	else
+		sz.width = sz.height = 0;
 }
 
 void NSWebPage::clear_images()
@@ -346,9 +360,8 @@ void NSWebPage::set_clip(const position &pos, const border_radiuses &)
 
 void NSWebPage::del_clip()
 {
-	if (!m_clips.empty()) {
+	if (!m_clips.empty())
 		m_clips.pop_back();
-	}
 }
 
 void NSWebPage::apply_clip(HDC hdc)
@@ -486,17 +499,12 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	if (src.empty() || (!bg.clip_box.width && !bg.clip_box.height))
 		return;
 
-	Bitmap *bgbmp;
 	std::wstring url;
 	make_url_utf8(src.c_str(), base_url.c_str(), url);
-	{
-		mir_cslock lck(m_csImages);
-		images_map::iterator img = m_images.find(url);
-		if (img != m_images.end() && img->second)
-			bgbmp = (Bitmap *)img->second;
-		else
-			return;
-	}
+	
+	Bitmap *bgbmp = find_image(url.c_str());
+	if (!bgbmp)
+		return;
 
 	Graphics graphics((HDC)_hdc);
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
@@ -506,7 +514,7 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	graphics.SetClip(&reg);
 
 	Bitmap *scaled_img = nullptr;
-	if (bg.origin_box.width != bgbmp->GetWidth() || bg.origin_box.height != bgbmp->GetHeight()) {
+	if (bg.origin_box.width != (int)bgbmp->GetWidth() || bg.origin_box.height != (int)bgbmp->GetHeight()) {
 		scaled_img = new Bitmap(bg.origin_box.width, bg.origin_box.height);
 		Graphics gr(scaled_img);
 		gr.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);

@@ -85,6 +85,9 @@ public:
 	~NSWebPage();
 
 	COLORREF clText = -1, clBack = -1;
+
+	Bitmap* find_image(const wchar_t *pwszUrl);
+	Bitmap* load_image(const wchar_t *pwszUrl);
 };
 
 struct NewstoryListData : public MZeroedObject

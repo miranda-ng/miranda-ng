@@ -45,7 +45,7 @@ static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 	return dest;
 }
 
-static void AppendString(CMStringW &buf, const wchar_t *p)
+static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 {
 	bool wasSpace = false;
 
@@ -122,7 +122,15 @@ static void AppendString(CMStringW &buf, const wchar_t *p)
 
 					if (auto *p2 = wcsstr(p1, L"[/img]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
-						buf.AppendFormat(L"<img style=\"width: 300;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+
+						int iWidth = 300;
+						pItem->pOwner->webPage.load_image(wszUrl);
+						if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
+							if (pImage->GetWidth() < 300)
+								iWidth = pImage->GetWidth();
+
+						buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", 
+							iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
 						p = p2 + 5;
 					}
 				}
@@ -168,7 +176,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	if (qtext) {
 		str.Append(L"<div class=\"quote\">");
-		AppendString(str, qtext);
+		AppendString(str, qtext, this);
 		str.Append(L"</div>\n");
 	}
 
@@ -186,7 +194,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	CMStringW szBody(wszOrigText);
 	UrlAutodetect(szBody);
-	AppendString(str, szBody);
+	AppendString(str, szBody, this);
 	if (spRes) {
 		int iOffset = 0;
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
