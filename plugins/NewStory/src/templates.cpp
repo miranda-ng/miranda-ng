@@ -123,14 +123,18 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 					if (auto *p2 = wcsstr(p1, L"[/img]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
 
-						int iWidth = 300;
-						pItem->pOwner->webPage.load_image(wszUrl);
-						if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
-							if (pImage->GetWidth() < 300)
-								iWidth = pImage->GetWidth();
+						if (g_plugin.bShowPreview) {
+							int iWidth = 300;
+							pItem->pOwner->webPage.load_image(wszUrl);
+							if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
+								if (pImage->GetWidth() < 300)
+									iWidth = pImage->GetWidth();
 
-						buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", 
-							iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+							buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
+								iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+						}
+						else buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
+
 						p = p2 + 5;
 					}
 				}
@@ -140,7 +144,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 				if (auto *p2 = wcsstr(p, L"[/url]")) {
 					CMStringW wszUrl(p, int(p2 - p));
-					buf.AppendFormat(L"<a class=\"link\" href = \"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
+					buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
 					p = p2 + 5;
 				}
 			}
