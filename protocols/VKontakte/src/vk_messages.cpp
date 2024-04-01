@@ -413,7 +413,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			wszBody += wszAttachmentDescr;
 		}
 
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 
@@ -573,13 +573,6 @@ void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			WriteQSWord(hContact, "in_read", jnConversation["in_read"].as_int());
 			WriteQSWord(hContact, "out_read", jnConversation["out_read"].as_int());
 
-			if (g_bMessageState) {
-				bool bIsOut = jnLastMessage["out"].as_bool();
-				bool bIsRead = (jnLastMessage["id"].as_int() <= jnConversation["in_read"].as_int());
-
-				if (bIsRead && bIsOut)
-					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
-			}
 		}
 
 		if (wszPeerType == L"chat") {
@@ -587,8 +580,20 @@ void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			debugLogA("CVkProto::OnReceiveDlgs chatid = %d", iChatId);
 			if (m_chats.find((CVkChatInfo*)&iChatId) == nullptr)
 				AppendConversationChat(iChatId, it);
+			
+			hContact = FindChat(iChatId);
 		}
-		else if (m_vkOptions.iSyncHistoryMetod) {
+
+		if (g_bMessageState) {
+			bool bIsOut = jnLastMessage["out"].as_bool();
+			bool bIsRead = (jnLastMessage["id"].as_int() <= jnConversation["in_read"].as_int());
+
+			if (bIsRead && bIsOut)
+				CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
+		}
+
+		
+		if (m_vkOptions.iSyncHistoryMetod) {
 			VKMessageID_t iMessageId = jnLastMessage["id"].as_int();
 			m_bNotifyForEndLoadingHistory = false;
 

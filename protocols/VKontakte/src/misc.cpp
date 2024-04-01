@@ -867,8 +867,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM uType, LPARAM lParam)
 	if (uType == MSG_WINDOW_EVT_OPENING && !g_bMessageState)
 		SetSrmmReadStatus(pDlg->m_hContact);
 
-	if (uType == MSG_WINDOW_EVT_OPENING && m_vkOptions.bLoadLastMessageOnMsgWindowsOpen
-		&& !isChatRoom(pDlg->m_hContact) && IsHystoryMessageExist(pDlg->m_hContact) != 1) {
+	if (uType == MSG_WINDOW_EVT_OPENING && m_vkOptions.bLoadLastMessageOnMsgWindowsOpen && IsHystoryMessageExist(pDlg->m_hContact) != 1) {
 		m_bNotifyForEndLoadingHistory = false;
 		if (!getBool(pDlg->m_hContact, "ActiveHistoryTask")) {
 			setByte(pDlg->m_hContact, "ActiveHistoryTask", 1);

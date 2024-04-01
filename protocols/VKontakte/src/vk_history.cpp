@@ -125,7 +125,8 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, time
 	if (!IsOnline() || iCount == 0)
 		return;
 
-	VKUserID_t iUserId = ReadVKUserID(hContact);
+	VKUserID_t iUserId = isChatRoom(hContact) ? VK_CHAT_MIN + ReadVKUserID(hContact) : ReadVKUserID(hContact);
+
 	debugLogA("CVkProto::GetServerHistory %ld %d %d %d %d %d", iUserId, iOffset, iCount, tTime, iLastMsgId, (int)bOnce);
 	if (VK_INVALID_USER == iUserId || iUserId == VK_FEED_USER)
 		return;
@@ -225,15 +226,27 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 		if (iLastMsgId < iMessageId)
 			iLastMsgId = iMessageId;
 
+		VKUserID_t iUserId = jnMsg["peer_id"].as_int();
+		VKUserID_t iChatId = (GetVKPeerType(iUserId) == VKPeerType::vkPeerMUC) ? iUserId % VK_CHAT_MIN : 0;
+		VKMessageID_t iReadMsg = ReadQSWord(param->hContact, "in_read", 0);
+		bool bIsRead = (iMessageId <= iReadMsg);
+		bool bIsOut = jnMsg["out"].as_int();
+		time_t tDateTime = jnMsg["date"].as_int();
+		
+		if (iChatId != 0){
+			AppendChatConversationMessage(iChatId, jnMsg, jnFUsers, true);
+
+			if (bIsRead && bIsOut && tDateTime > tLastReadMessageTime)
+				tLastReadMessageTime = tDateTime;
+
+			count++;
+			continue;
+		}
+
 		char szMid[40], szReplyId[40] = "";
 		_ltoa(iMessageId, szMid, 10);
 
 		CMStringW wszBody(jnMsg["text"].as_mstring());
-		VKUserID_t iUserId = jnMsg["peer_id"].as_int();
-		VKMessageID_t iReadMsg = ReadQSWord(param->hContact, "in_read", 0);
-		bool bIsRead = (iMessageId <= iReadMsg);
-		time_t tDateTime = jnMsg["date"].as_int();
-		bool bIsOut = jnMsg["out"].as_int();
 		MCONTACT hContact = FindUser(iUserId, true);
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
@@ -269,7 +282,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 			wszBody += wszAttachmentDescr;
 		}
 
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 

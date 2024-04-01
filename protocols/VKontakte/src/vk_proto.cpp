@@ -408,10 +408,10 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATINVITEUSER], isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_CHATDESTROY], isChatRoom(hContact));
 
-	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && iUserId != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], iUserId != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_LOADVKNEWS], iUserId == VK_FEED_USER);
 	for (int i = 0; i < CHMI_COUNT; i++)
-		Menu_ShowItem(m_hContactHistoryMenuItems[i], !isChatRoom(hContact) && iUserId != VK_FEED_USER);
+		Menu_ShowItem(m_hContactHistoryMenuItems[i], iUserId != VK_FEED_USER);
 	return 0;
 }
 

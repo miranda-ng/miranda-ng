@@ -191,7 +191,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveChatInfo", true, &CVkProto::OnReceiveChatInfo)
 		<< INT_PARAM("chatid", cc->m_iChatId)
-		<< INT_PARAM("func_v", cc->m_bHistoryRead ? 1 : 4)
+		<< INT_PARAM("func_v", (cc->m_bHistoryRead || m_vkOptions.iSyncHistoryMetod) ? 5 : 4)
 	)->pUserInfo = cc;
 }
 
@@ -406,9 +406,10 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 		wszBody += wszAttachmentDescr;
 	}
 
-	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
+	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
 		wszBody += SetBBCString(TranslateT("Message link"), bbcNo, vkbbcUrl,
 			CMStringW(FORMAT, L"https://vk.com/im?sel=c%d&msgid=%d", vkChatInfo->m_iChatId, iMessageId));
+	
 
 	if (jnMsg["action"] && jnMsg["action"]["type"]) {
 		bIsAction = true;

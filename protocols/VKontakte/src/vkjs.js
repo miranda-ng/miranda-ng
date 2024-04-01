@@ -302,9 +302,9 @@ return 1;
 // Args.chatid
 
 // ver 1
-var Info = API.messages.getChat({ "chat_id": Args.chatid });
-var ChatUsers = API.messages.getChatUsers({ "chat_id": Args.chatid, "fields": "id,first_name,last_name" });
-return { "info": Info, "users": ChatUsers;};
+var Info = API.messages.getChat({"chat_id": Args.chatid});
+var ChatUsers = API.messages.getChatUsers({"chat_id": Args.chatid,"fields": "id,first_name,last_name"});
+return {"info":Info, "users":ChatUsers};
 
 
 // ver 2
@@ -409,6 +409,14 @@ if(GUids.length>0){
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.from_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers + GUsers.groups, "msgs_users": MsgUsers};
+
+
+// ver 5
+var Info=API.messages.getChat({"chat_id": Args.chatid});
+var PeerId = 2000000000 + parseInt(Args.chatid);
+var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, "fields": "id,first_name,last_name" });
+return {"info":Info,"users":ChatUsers};
+
 // Stored procedure name: RetrieveChatInfo = End
 
 // Stored procedure name: DestroyKickChat = Begin
