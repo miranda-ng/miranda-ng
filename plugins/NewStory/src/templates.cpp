@@ -45,6 +45,21 @@ static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 	return dest;
 }
 
+static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem)
+{
+	if (g_plugin.bShowPreview) {
+		int iWidth = 300;
+		pItem->pOwner->webPage.load_image(wszUrl);
+		if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
+			if (pImage->GetWidth() < 300)
+				iWidth = pImage->GetWidth();
+
+		buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
+			iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+	}
+	else buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
+}
+
 static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 {
 	bool wasSpace = false;
@@ -122,19 +137,30 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 					if (auto *p2 = wcsstr(p1, L"[/img]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
+						AppendImage(buf, wszUrl, wszDescr, pItem);
+						p = p2 + 5;
+					}
+				}
+			}
+			else if (!wcsncmp(p, L"img]", 4)) {
+				p += 4;
 
-						if (g_plugin.bShowPreview) {
-							int iWidth = 300;
-							pItem->pOwner->webPage.load_image(wszUrl);
-							if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
-								if (pImage->GetWidth() < 300)
-									iWidth = pImage->GetWidth();
+				if (auto *p1 = wcsstr(p, L"[/img]")) {
+					CMStringW wszUrl(p, int(p1 - p));
+					AppendImage(buf, wszUrl, L"", pItem);
+					p = p1 + 5;
+				}
+			}
+			else if (!wcsncmp(p, L"url=", 4)) {
+				p += 4;
 
-							buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
-								iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
-						}
-						else buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
+				if (auto *p1 = wcschr(p, ']')) {
+					CMStringW wszUrl(p, int(p1 - p));
+					p1++;
 
+					if (auto *p2 = wcsstr(p1, L"[/url]")) {
+						CMStringW wszDescr(p1, int(p2 - p1));
+						buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
 						p = p2 + 5;
 					}
 				}
@@ -142,10 +168,10 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 			else if (!wcsncmp(p, L"url]", 4)) {
 				p += 4;
 
-				if (auto *p2 = wcsstr(p, L"[/url]")) {
-					CMStringW wszUrl(p, int(p2 - p));
+				if (auto *p1 = wcsstr(p, L"[/url]")) {
+					CMStringW wszUrl(p, int(p1 - p));
 					buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
-					p = p2 + 5;
+					p = p1 + 5;
 				}
 			}
 			else {
