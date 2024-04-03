@@ -1140,17 +1140,29 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		break;
 	}
 
-	wszRes.AppendFormat(L"%s (%dx%d)",
-		SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl).c_str(),
-		vkSizes[iMaxSize].iSizeW,
-		vkSizes[iMaxSize].iSizeH
-	);
-	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-		wszRes.AppendFormat(L"\n\t%s",
-			SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")),
-				bbcBasic,
-				vkbbcImg).c_str()
+	if (m_vkOptions.bBBCNewStorySupport) {
+		wszRes.AppendFormat(L"%s (%dx%d)",
+			TranslateT("Photo"),
+			vkSizes[iMaxSize].iSizeW,
+			vkSizes[iMaxSize].iSizeH
 		);
+		wszPreviewLink = GetVkFileItem(vkSizes[iMaxSize].wszUrl);
+		wszRes = SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink : L""));
+	}
+	else {
+		wszRes.AppendFormat(L"%s (%dx%d)",
+			SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl).c_str(),
+			vkSizes[iMaxSize].iSizeW,
+			vkSizes[iMaxSize].iSizeH
+		);
+		if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
+			wszRes.AppendFormat(L"\n\t%s",
+				SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")),
+					bbcBasic,
+					vkbbcImg).c_str()
+			);
+	}
+	
 	CMStringW wszText(jnPhoto["text"].as_mstring());
 	if (!wszText.IsEmpty())
 		wszRes += L"\n" + wszText;
@@ -1182,6 +1194,9 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		{ vkbbcUrl, bbcNo, L"%s (%s)" },
 		{ vkbbcUrl, bbcBasic, L"[i]%s[/i] (%s)" },
 		{ vkbbcUrl, bbcAdvanced, L"[url=%s]%s[/url]" },
+		{ vkbbcImgE, bbcNo, L"%s (%s)" },
+		{ vkbbcImgE, bbcBasic, L"[i]%s[/i] (%s)" },
+		{ vkbbcImgE, bbcAdvanced, L"[img=%s]%s[/img]" },
 		{ vkbbcSize, bbcNo, L"%s" },
 		{ vkbbcSize, bbcBasic, L"%s" },
 		{ vkbbcSize, bbcAdvanced, L"[size=%s]%s[/size]" },
@@ -1204,12 +1219,15 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 	if (pwszFormat == nullptr)
 		return CMStringW(pwszString);
 
-	if (bbcType == vkbbcUrl && iBBC != bbcAdvanced)
+	if ((bbcType == vkbbcUrl || bbcType == vkbbcImgE) && iBBC != bbcAdvanced)
 		res.AppendFormat(pwszFormat, pwszString, wszAddString ? wszAddString : L"");
 	else if (iBBC == bbcAdvanced && bbcType >= vkbbcUrl)
 		res.AppendFormat(pwszFormat, wszAddString ? wszAddString : L"", pwszString);
 	else
 		res.AppendFormat(pwszFormat, pwszString);
+
+	if (bbcType == vkbbcImgE && iBBC == bbcAdvanced)
+		res += SetBBCString(pwszString, bbcAdvanced, vkbbcUrl, wszAddString) + L"\n";
 
 	return res;
 }

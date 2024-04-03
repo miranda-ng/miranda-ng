@@ -287,6 +287,11 @@ private:
 	void OnSearch(MHttpResponse*, AsyncHttpRequest*);
 	void OnSearchByMail(MHttpResponse*, AsyncHttpRequest*);
 
+	//==== Files Download ================================================================
+
+	CMStringW CVkProto::GetVkFileItem(CMStringW& wszUrl, bool bAsync = false);
+	void OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq);
+
 	//==== Files Upload ==================================================================
 
 	void SendFileFiled(CVkFileUploadParam *fup, int ErrorCode);

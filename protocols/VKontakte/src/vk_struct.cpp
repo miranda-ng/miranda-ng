@@ -213,6 +213,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
 	bPopupContactsMusic(proto, "PopupContactsMusic", false),
 	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
+	bBBCNewStorySupport(proto, "BBCNewStorySupport", false),
 	iIMGBBCSupport(proto, "IMGBBCSupport", IMGBBCSypport::imgNo),
 	iBBCForNews(proto, "BBCForNews", BBCSupport::bbcBasic),
 	iBBCForAttachments(proto, "BBCForAttachments", BBCSupport::bbcBasic),

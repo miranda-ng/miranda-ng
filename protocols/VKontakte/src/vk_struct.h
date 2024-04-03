@@ -190,7 +190,7 @@ struct CVKNewsItem : public MZeroedObject {
 	bool bIsRepost;
 };
 
-enum VKBBCType : uint8_t { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
+enum VKBBCType : uint8_t { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcImgE, vkbbcSize, vkbbcColor };
 enum BBCSupport : uint8_t { bbcNo, bbcBasic, bbcAdvanced };
 
 struct CVKBBCItem {
@@ -259,6 +259,7 @@ struct CVKOptions {
 	CMOption<uint8_t> bNotificationsEnabled;
 	CMOption<uint8_t> bNotificationsMarkAsViewed;
 	CMOption<uint8_t> bSpecialContactAlwaysEnabled;
+	CMOption<uint8_t> bBBCNewStorySupport;
 	CMOption<uint8_t> iIMGBBCSupport;
 	CMOption<uint8_t> iBBCForNews;
 	CMOption<uint8_t> iBBCForAttachments;

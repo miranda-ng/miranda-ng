@@ -17,6 +17,95 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, bool bAsync)
+{
+
+	wchar_t buf[MAX_PATH];
+	File::GetReceivedFolder(0, buf, _countof(buf));
+
+	if (_wszUrl.IsEmpty())
+		return _wszUrl;
+
+	CMStringW wszUrl = _wszUrl;
+
+	wszUrl.Replace(L"\\", L"/");
+
+	if (int i = wszUrl.Find('?'))
+		wszUrl.Truncate(i);
+
+	if (int i = wszUrl.ReverseFind('/'))
+		wszUrl = wszUrl.Mid(i + 1);
+
+	wszUrl.Insert(0, buf);
+
+	if (::_waccess(wszUrl.c_str(), 0) && IsOnline())
+		if (bAsync) {
+			AsyncHttpRequest* pReq = new AsyncHttpRequest();
+			pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
+			pReq->m_szUrl = CMStringA(_wszUrl);
+			pReq->pUserInfo = mir_wstrdup(wszUrl.c_str());
+			pReq->m_pFunc = &CVkProto::OnGetVkFileItem;
+			pReq->requestType = REQUEST_GET;
+			pReq->m_bApiReq = false;
+			Push(pReq);
+		}
+		else {
+			MHttpRequest req(REQUEST_GET);
+			req.m_szUrl = CMStringA(_wszUrl);
+			req.flags = VK_NODUMPHEADERS;
+
+			auto* reply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+			if (reply == nullptr)
+				return _wszUrl;
+
+			if (reply->resultCode != 200) {
+				debugLogA("CVkProto::GetVkFileItem: failed with code %d", reply->resultCode);
+				return _wszUrl;
+			}
+
+			FILE* out = _wfopen(wszUrl.c_str(), L"wb");
+			if (out) {
+				fwrite(reply->body, 1, reply->body.GetLength(), out);
+				fclose(out);
+				debugLogW(L"CVkProto::GetVkFileItem file %s saved", wszUrl.c_str());
+			}
+
+		}
+	else 
+		debugLogW(L"CVkProto::GetVkFileItem file %s already exist or connection lost", wszUrl.c_str());
+
+	wszUrl.Insert(0, L"file://");
+	wszUrl.Replace(L"\\", L"/");
+
+	return wszUrl;
+}
+
+void CVkProto::OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq)
+{
+	ptrW pwszFileName((wchar_t*)pReq->pUserInfo);
+
+	if (reply->resultCode != 200 || !pReq->pUserInfo) {
+		debugLogW(L"CVkProto::OnGetVkFileItem error load file %s", pwszFileName);
+		return;
+	}
+
+
+	debugLogW(L"CVkProto::OnGetVkFileItem %s", pwszFileName);
+
+	FILE* out = _wfopen(pwszFileName, L"wb");
+	if (out) {
+		fwrite(reply->body, 1, reply->body.GetLength(), out);
+		fclose(out);
+		debugLogW(L"CVkProto::OnGetVkFileItem file %s saved", pwszFileName);
+	}
+	else
+		debugLogW(L"CVkProto::OnGetVkFileItem error open file %s", pwszFileName);
+
+	return;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **files)
 {
 	debugLogA("CVkProto::SendFile");
