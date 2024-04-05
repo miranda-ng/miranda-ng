@@ -294,9 +294,11 @@ Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl)
 	if (img != m_images.end() && img->second)
 		return (Bitmap *)img->second;
 
-	uint_ptr newImg = get_image(pwszUrl, false);
-	add_image(pwszUrl, newImg);
-	return (Bitmap *)newImg;
+	if (uint_ptr newImg = get_image(pwszUrl, false)) {
+		add_image(pwszUrl, newImg);
+		return (Bitmap *)newImg;
+	}
+	return 0;
 }
 
 void NSWebPage::load_image(const char *src, const char *baseurl, bool redraw_on_ready)
@@ -308,8 +310,8 @@ void NSWebPage::load_image(const char *src, const char *baseurl, bool redraw_on_
 	if (m_images.count(url) == 0) {
 		lck.unlock();
 
-		uint_ptr img = get_image(url.c_str(), redraw_on_ready);
-		add_image(url.c_str(), img);
+		if (uint_ptr img = get_image(url.c_str(), redraw_on_ready))
+			add_image(url.c_str(), img);
 	}
 }
 
@@ -661,7 +663,12 @@ uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 	if (!mir_wstrncmp(url_or_path, L"file://", 7))
 		url_or_path += 7;
 
-	return (uint_ptr)new Gdiplus::Bitmap(url_or_path);
+	auto *pImage = new Gdiplus::Bitmap(url_or_path);
+	if (pImage->GetLastStatus() != Ok) {
+		delete pImage;
+		return 0;
+	}
+	return (uint_ptr)pImage;
 }
 
 void NSWebPage::get_client_rect(position &pos) const

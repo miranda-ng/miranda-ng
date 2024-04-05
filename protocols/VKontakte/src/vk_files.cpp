@@ -44,7 +44,7 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 	wszUrl.Insert(0, buf);
 
 	if (::_waccess(wszUrl.c_str(), 0) && IsOnline())
-		if (bAsync) {
+		if (true) {
 			AsyncHttpRequest* pReq = new AsyncHttpRequest();
 			pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 			pReq->m_szUrl = CMStringA(_wszUrl);
