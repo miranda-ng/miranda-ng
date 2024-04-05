@@ -172,9 +172,11 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	vkNewsItem->bIsGroup = vkNewsItem->vkUser->m_bIsGroup;
 	vkNewsItem->tDate = jnItem["date"].as_int();
 
+	MCONTACT hNewsContact = FindUser(VK_FEED_USER, true);
+
 	if (!wszText.IsEmpty())
 		wszText += L"\n";
-
+	
 	debugLogW(L"CVkProto::GetVkNewsItem %d %d %s", iSourceId, iPostId, vkNewsItem->wszType.c_str());
 
 	if (vkNewsItem->wszType == L"photo_tag") {
@@ -186,7 +188,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 				wszText = TranslateT("User was tagged in these photos:");
 				wszPopupText = wszText + TranslateT("(photos)");
 				for (auto &it : jnPhotoItems)
-					wszText += L"\n" + GetVkPhotoItem(it, m_vkOptions.BBCForNews());
+					wszText += L"\n" + GetVkPhotoItem(it, m_vkOptions.BBCForNews(), hNewsContact, -1, false);
 			}
 		}
 	}
@@ -199,7 +201,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (jnPhotoItems) {
 				wszPopupText += TranslateT("(photos)");
 				for (auto &jnPhotoItem : jnPhotoItems) {
-					wszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews()) + L"\n";
+					wszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews(), hNewsContact, -1, false) + L"\n";
 					if (i == 0 && vkNewsItem->wszType == L"wall_photo") {
 						if (jnPhotoItem["post_id"]) {
 							bPostLink = true;
@@ -238,7 +240,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (!wszPopupText.IsEmpty())
 				wszPopupText.AppendChar('\n');
 			wszPopupText += TranslateT("(attachments)");
-			wszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments());
+			wszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments(), hNewsContact, -1, false);
 		}
 	}
 
@@ -328,9 +330,10 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		return nullptr;
 
 	CVKNewsItem *vkNotificationItem = new CVKNewsItem();
+	MCONTACT hNewsContact = FindUser(VK_FEED_USER, true);
 
 	if (vkParentType == vkPhoto) {
-		CMStringW wszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews());
+		CMStringW wszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews(), hNewsContact, -1, false);
 		VKUserID_t iOwnerId = jnParent["owner_id"].as_int();
 		int iId = jnParent["id"].as_int();
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);

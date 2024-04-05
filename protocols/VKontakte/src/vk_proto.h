@@ -289,7 +289,7 @@ private:
 
 	//==== Files Download ================================================================
 
-	CMStringW CVkProto::GetVkFileItem(CMStringW& wszUrl, bool bAsync = false);
+	CMStringW CVkProto::GetVkFileItem(CMStringW& wszUrl, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
 	void OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq);
 
 	//==== Files Upload ==================================================================
@@ -389,12 +389,12 @@ private:
 	char* GetStickerId(const char *szMsg, int& iStickerid);
 	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
-	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
+	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
 	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
 	CMStringW& ClearFormatNick(CMStringW& wszText);
-	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC);
-	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC);
-	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC);
+	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
+	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC, bool bAsync);
+	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC, bool bAsync);
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
@@ -427,7 +427,7 @@ private:
 	CVkChatInfo* AppendConversationChat(VKUserID_t iChatId, const JSONNode& jnItem);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
+	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsRead, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(MHttpResponse*, AsyncHttpRequest*);
 	void OnSendChatMsg(MHttpResponse*, AsyncHttpRequest*);

@@ -17,17 +17,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, bool bAsync)
+CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessageID_t /*iMessageId*/, bool bAsync)
 {
 
 	wchar_t buf[MAX_PATH];
-	File::GetReceivedFolder(0, buf, _countof(buf));
+	File::GetReceivedFolder(hContact, buf, _countof(buf));
 
-	if (_wszUrl.IsEmpty())
+	debugLogW(L"CVkProto::GetVkFileItem: (%s) %d", buf, hContact);
+	
+	if (_wszUrl.IsEmpty()) {
+		debugLogW(L"CVkProto::GetVkFileItem: url empty");
 		return _wszUrl;
+	}
+
+	CreateDirectoryTreeW(buf);
 
 	CMStringW wszUrl = _wszUrl;
-
 	wszUrl.Replace(L"\\", L"/");
 
 	if (int i = wszUrl.Find('?'))
@@ -63,12 +68,14 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, bool bAsync)
 				return _wszUrl;
 			}
 
-			FILE* out = _wfopen(wszUrl.c_str(), L"wb");
+			FILE* out = _wfopen(wszUrl.c_str(), L"wb+");
 			if (out) {
 				fwrite(reply->body, 1, reply->body.GetLength(), out);
 				fclose(out);
 				debugLogW(L"CVkProto::GetVkFileItem file %s saved", wszUrl.c_str());
 			}
+			else 
+				debugLogW(L"CVkProto::GetVkFileItem error open file %s", wszUrl.c_str());
 
 		}
 	else 

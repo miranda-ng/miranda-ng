@@ -94,6 +94,7 @@ struct CVkChatMessage : public MZeroedObject
 		m_iUserId(0),
 		m_tDate(0),
 		m_bHistory(false),
+		m_bIsRead(false),
 		m_bIsAction(false)
 	{}
 
@@ -101,7 +102,7 @@ struct CVkChatMessage : public MZeroedObject
 	VKMessageID_t m_iReplyMsgId;
 	VKUserID_t m_iUserId; 
 	time_t m_tDate;
-	bool m_bHistory, m_bIsAction;
+	bool m_bHistory, m_bIsRead, m_bIsAction;
 	ptrW m_wszBody;
 };
 

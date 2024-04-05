@@ -376,7 +376,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo, vkChatInfo->m_bHistoryRead);
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -385,7 +385,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 	if (jnReplyMessages && !jnReplyMessages.empty()) {
 		if (m_vkOptions.bShowReplyInMessage) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo, vkChatInfo->m_bHistoryRead);
 			if (!wszBody.IsEmpty())
 				wszReplyMessages = L"\n" + wszReplyMessages;
 			wszBody += wszReplyMessages;
@@ -396,7 +396,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo, vkChatInfo->m_si->hContact, iMessageId, vkChatInfo->m_bHistoryRead);
 
 		if (wszAttachmentDescr == L"== FilterAudioMessages ==")
 			return;
@@ -404,6 +404,29 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 		if (!wszBody.IsEmpty())
 			wszAttachmentDescr = L"\n" + wszAttachmentDescr;
 		wszBody += wszAttachmentDescr;
+	}
+
+	VKMessageID_t iReadMsg = ReadQSWord(vkChatInfo->m_si->hContact, "in_read", 0);
+	bool bIsRead = (iMessageId <= iReadMsg);
+
+	time_t tUpdateTime = (time_t)jnMsg["update_time"].as_int();
+	bool bEdited = (tUpdateTime != 0);
+
+	if (bEdited) {
+		wchar_t ttime[64];
+		_locale_t locale = _create_locale(LC_ALL, "");
+		_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&tUpdateTime), locale);
+		_free_locale(locale);
+
+		wszBody = SetBBCString(
+			CMStringW(FORMAT, TranslateT("Edited message (updated %s):\n"), ttime),
+			m_vkOptions.BBCForAttachments(), vkbbcB) +
+			wszBody;
+
+		CMStringW wszOldMsg;
+		if (GetMessageFromDb(iMessageId, tMsgTime, wszOldMsg))
+			wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+			wszOldMsg;
 	}
 
 	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
@@ -500,12 +523,13 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 		vkChatMessage->m_tDate = tMsgTime;
 		vkChatMessage->m_wszBody = mir_wstrdup(wszBody);
 		vkChatMessage->m_bHistory = bIsHistory;
+		vkChatMessage->m_bIsRead = bIsRead;
 		vkChatMessage->m_bIsAction = bIsAction;
 	}
 }
 
 
-void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
+void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsRead, bool bIsAction)
 {
 	debugLogA("CVkProto::AppendChatMessage2");
 
@@ -551,7 +575,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 		dbei.pBlob = pszBody;
 		if (iUserId == m_iMyUserId)
 			dbei.flags |= DBEF_SENT;
-		if (bIsHistory)
+		if (bIsHistory || bIsRead)
 			dbei.flags |= DBEF_READ;
 		dbei.szUserId = pszNick;
 		

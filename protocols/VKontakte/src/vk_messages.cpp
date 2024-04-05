@@ -378,7 +378,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 
 		const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages && !jnFwdMessages.empty()) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments(), false);
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody += wszFwdMessages;
@@ -387,7 +387,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 		if (jnReplyMessages && !jnReplyMessages.empty()) 
 			if (m_vkOptions.bShowReplyInMessage) {
-				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments(), false);
 				if (!wszBody.IsEmpty())
 					wszReplyMessages = L"\n" + wszReplyMessages;
 				wszBody += wszReplyMessages;
@@ -400,7 +400,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		CMStringW wszAttachmentDescr;
 		const JSONNode& jnAttachments = jnMsg["attachments"];
 		if (jnAttachments && !jnAttachments.empty()) {
-			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments(),  hContact, iMessageId, false);
 
 			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
 				if (hContact && (iMessageId > ReadQSWord(hContact, "lastmsgid", -1)))
@@ -418,7 +418,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", iUserId, iMessageId));
 
 		VKMessageID_t iReadMsg = ReadQSWord(hContact, "in_read", 0);
-		int isRead = (iMessageId <= iReadMsg);
+		bool bIsRead = (iMessageId <= iReadMsg);
 
 		time_t tUpdateTime = (time_t)jnMsg["update_time"].as_int();
 		bool bEdited = (tUpdateTime != 0);
@@ -442,7 +442,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 
 		DB::EventInfo dbei;
 
-		if (isRead && bUseServerReadFlag)
+		if (bIsRead && bUseServerReadFlag)
 			dbei.flags |= DBEF_READ;
 
 		if (isOut)
@@ -459,7 +459,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			debugLogA("CVkProto::OnReceiveMessages szReplyId = %s", szReplyId);
 		}
 
-		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, isRead, iUserId, (int)bEdited);
+		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, iUserId = %d, Edited = %d", iMessageId, tDateTime, isOut, (int)bIsRead, iUserId, (int)bEdited);
 
 		if (!IsMessageExist(iMessageId, vkALL) || bEdited || szReplyId) {
 			debugLogA("CVkProto::OnReceiveMessages new or edited message");
