@@ -73,7 +73,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 219
     END
 
     IDD_OPT_FEEDS, DIALOG
@@ -176,37 +176,40 @@ BEGIN
     CONTROL         "Visit profile",IDC_SHOW_MENU6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,85,280,10
 END
 
-IDD_OPT_VIEW DIALOGEX 0, 0, 304, 209
+IDD_OPT_VIEW DIALOGEX 0, 0, 304, 220
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "[img] BBCode support for image",IDC_STATIC,4,8,293,39,WS_GROUP
-    CONTROL         "off",IDC_IMG_OFF,"Button",BS_AUTORADIOBUTTON,12,19,129,10
-    CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,12,30,129,10
-    CONTROL         "for preview max 130*130 px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,154,19,132,10
-    CONTROL         "for preview max 604*604 px",IDC_IMG_604,"Button",BS_AUTORADIOBUTTON,154,30,132,10
-    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,48,WS_GROUP
-    CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,61,129,10
-    CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
+    CONTROL         "Support BBC for NewStory",IDC_BBC_NEWSTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,278,10
+	GROUPBOX        "[img] BBCode support for image",IDC_STATIC,13,20,280,33,WS_GROUP
+    CONTROL         "off",IDC_IMG_OFF,"Button",BS_AUTORADIOBUTTON,21,29,129,10
+    CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,21,40,129,10
+    CONTROL         "for preview max 130*130 px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,163,29,127,10
+    CONTROL         "for preview max 604*604 px",IDC_IMG_604,"Button",BS_AUTORADIOBUTTON,163,40,128,10
+    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,13,56,280,48,WS_GROUP
+    CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,21,67,129,10
+    CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,21,78,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_NEWSBBC_ADV,
-                    "Button",BS_AUTORADIOBUTTON,154,61,149,10
+                    "Button",BS_AUTORADIOBUTTON,140,67,149,10
     CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
-    GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
-    CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
-    CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,89,269,10
+    GROUPBOX        "BBCode support on attachments",IDC_STATIC,13,105,280,36,WS_GROUP
+    CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,21,116,129,10
+    CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,21,127,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_ATTBBC_ADV,
-                    "Button",BS_AUTORADIOBUTTON,154,110,149,10
-    GROUPBOX        "Other",IDC_STATIC,4,138,294,57
+                    "Button",BS_AUTORADIOBUTTON,134,116,149,10
+    GROUPBOX        "Other",IDC_STATIC,4,144,294,69
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,153,278,10
     CONTROL         "Shorten links for audio attachments",IDC_SHOTEN_LINKS_FOR_AUDIO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,160,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,164,278,10
     CONTROL         "Use non-standard popups for news and event notifications",IDC_USENOSTDPOPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,171,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,175,278,10
     CONTROL         "Add message link to messages with attachments",IDC_ADD_MES_LINK_MES_ATT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,182,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,186,278,10
+    CONTROL         "Add original message version in edited message",IDC_ADD_ORIG_VER_IN_EDITED_MES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,197,278,10  
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 232

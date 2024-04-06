@@ -289,7 +289,7 @@ private:
 
 	//==== Files Download ================================================================
 
-	CMStringW CVkProto::GetVkFileItem(CMStringW& wszUrl, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
+	CMStringW CVkProto::GetVkFileItem(CMStringW& wszUrl, MCONTACT hContact, VKMessageID_t iMessageId);
 	void OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq);
 
 	//==== Files Upload ==================================================================
@@ -389,12 +389,12 @@ private:
 	char* GetStickerId(const char *szMsg, int& iStickerid);
 	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
-	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
+	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId);
 	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
 	CMStringW& ClearFormatNick(CMStringW& wszText);
-	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync);
-	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC, bool bAsync);
-	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC, bool bAsync);
+	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId);
+	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC);
+	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC);
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);

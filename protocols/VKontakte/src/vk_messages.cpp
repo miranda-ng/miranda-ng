@@ -382,7 +382,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 
 		const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages && !jnFwdMessages.empty()) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments(), false);
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody += wszFwdMessages;
@@ -391,7 +391,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 		if (jnReplyMessages && !jnReplyMessages.empty()) 
 			if (m_vkOptions.bShowReplyInMessage) {
-				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments(), false);
+				CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 				if (!wszBody.IsEmpty())
 					wszReplyMessages = L"\n" + wszReplyMessages;
 				wszBody += wszReplyMessages;
@@ -404,7 +404,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		CMStringW wszAttachmentDescr;
 		const JSONNode& jnAttachments = jnMsg["attachments"];
 		if (jnAttachments && !jnAttachments.empty()) {
-			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments(),  hContact, iMessageId, false);
+			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments(),  hContact, iMessageId);
 
 			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
 				if (hContact && (iMessageId > ReadQSWord(hContact, "lastmsgid", -1)))
@@ -437,11 +437,12 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 				CMStringW(FORMAT, TranslateT("Edited message (updated %s):\n"), ttime),
 				m_vkOptions.BBCForAttachments(), vkbbcB) +
 				wszBody;
-
-			CMStringW wszOldMsg;
-			if (GetMessageFromDb(iMessageId, tDateTime, wszOldMsg))
-				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
-				wszOldMsg;
+			if (m_vkOptions.bShowBeforeEditedPostVersion) {
+				CMStringW wszOldMsg;
+				if (GetMessageFromDb(iMessageId, tDateTime, wszOldMsg))
+					wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+					wszOldMsg;
+			}
 		}
 
 		DB::EventInfo dbei;

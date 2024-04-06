@@ -130,6 +130,7 @@ public:
 
 class CVkOptionViewForm : public CVkDlgBase
 {
+	CCtrlCheck m_cbBBCSupportForNewStory;
 	CCtrlCheck m_cbIMGBBCSupportOff;
 	CCtrlCheck m_cbIMGBBCSupportFullSize;
 	CCtrlCheck m_cbIMGBBCSupport130;
@@ -149,11 +150,13 @@ class CVkOptionViewForm : public CVkDlgBase
 	CCtrlCheck m_cbShortenLinksForAudio;
 	CCtrlCheck m_cbAddMessageLinkToMesWAtt;
 	CCtrlCheck m_cbUseNonStandardNotifications;
+	CCtrlCheck m_cbShowBeforeEditedPostVersion;
 
 public:
 	CVkOptionViewForm(CVkProto *proto);
 	bool OnInitDialog() override;
 	bool OnApply() override;
+	void On_cbBBCSupportForNewStory(CCtrlCheck*);
 };
 
 ////////////////////// Menu page /////////////////////////////////////////////

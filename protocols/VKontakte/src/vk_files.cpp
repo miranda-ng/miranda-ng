@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessageID_t /*iMessageId*/, bool bAsync)
+CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessageID_t iMessageId)
 {
 
 	wchar_t buf[MAX_PATH];
@@ -44,11 +44,11 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 	wszUrl.Insert(0, buf);
 
 	if (::_waccess(wszUrl.c_str(), 0) && IsOnline())
-		if (bAsync) {
+		if (iMessageId != -1 && m_vkOptions.bLoadFilesAsync) {
 			AsyncHttpRequest* pReq = new AsyncHttpRequest();
 			pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 			pReq->m_szUrl = CMStringA(_wszUrl);
-			pReq->pUserInfo = mir_wstrdup(wszUrl.c_str());
+			pReq->pUserInfo = new CVkFileDownloadParam(hContact, iMessageId, wszUrl.c_str());
 			pReq->m_pFunc = &CVkProto::OnGetVkFileItem;
 			pReq->requestType = REQUEST_GET;
 			pReq->m_bApiReq = false;
@@ -89,25 +89,40 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 
 void CVkProto::OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq)
 {
-	ptrW pwszFileName((wchar_t*)pReq->pUserInfo);
-
-	if (reply->resultCode != 200 || !pReq->pUserInfo) {
-		debugLogW(L"CVkProto::OnGetVkFileItem error load file %s", pwszFileName);
+	
+	CVkFileDownloadParam* param = (CVkFileDownloadParam*)pReq->pUserInfo;
+	
+	if (reply->resultCode != 200 || !param) {
+		debugLogW(L"CVkProto::OnGetVkFileItem error load file %s", param && param->wszFileName ? param->wszFileName : L"NULL");
+		delete param;
 		return;
 	}
 
+	debugLogW(L"CVkProto::OnGetVkFileItem %s", param->wszFileName);
 
-	debugLogW(L"CVkProto::OnGetVkFileItem %s", pwszFileName);
-
-	FILE* out = _wfopen(pwszFileName, L"wb");
+	FILE* out = _wfopen(param->wszFileName, L"wb");
 	if (out) {
 		fwrite(reply->body, 1, reply->body.GetLength(), out);
 		fclose(out);
-		debugLogW(L"CVkProto::OnGetVkFileItem file %s saved", pwszFileName);
+		debugLogW(L"CVkProto::OnGetVkFileItem file %s saved", param->wszFileName);
+
+		MessageWindowData mwd = {};
+		if (!Srmm_GetWindowData(param->hContact, mwd) && mwd.uState) {
+			char szMid[40];
+			_itoa(param->iMsgID, szMid, 10);
+			MEVENT hDbEvent =  db_event_getById(m_szModuleName, szMid);
+			
+			DBEVENTINFO dbei = {};
+			if (db_event_get(hDbEvent, &dbei)) {
+				int i = db_event_edit(hDbEvent, &dbei, true);
+				debugLogW(L"CVkProto::OnGetVkFileItem file %s even edit %d", param->wszFileName, i);
+			}
+		}
 	}
 	else
-		debugLogW(L"CVkProto::OnGetVkFileItem error open file %s", pwszFileName);
+		debugLogW(L"CVkProto::OnGetVkFileItem error open file %s", param->wszFileName);
 
+	delete param;
 	return;
 }
 

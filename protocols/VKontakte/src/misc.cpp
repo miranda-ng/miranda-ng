@@ -1101,7 +1101,7 @@ CMStringW CVkProto::SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeed
 	return wszRes;
 }
 
-CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync)
+CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId)
 {
 	CMStringW wszRes;
 
@@ -1146,7 +1146,7 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 			vkSizes[iMaxSize].iSizeW,
 			vkSizes[iMaxSize].iSizeH
 		);
-		wszPreviewLink = GetVkFileItem(vkSizes[iMaxSize].wszUrl, hContact, iMessageId, bAsync);
+		wszPreviewLink = GetVkFileItem(vkSizes[iMaxSize].wszUrl, hContact, iMessageId);
 		wszRes = SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink : L""));
 	}
 	else {
@@ -1247,7 +1247,7 @@ CMStringW& CVkProto::ClearFormatNick(CMStringW& wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId, bool bAsync)
+CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMStringW res;
@@ -1267,7 +1267,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (!jnPhoto)
 				continue;
 
-			res += GetVkPhotoItem(jnPhoto, iBBC, hContact, iMessageId, bAsync);
+			res += GetVkPhotoItem(jnPhoto, iBBC, hContact, iMessageId);
 		}
 		else if (wszType == L"audio") {
 			const JSONNode& jnAudio = jnAttach["audio"];
@@ -1370,7 +1370,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					const JSONNode& jnSubAttachments = jnCopyHystoryItem["attachments"];
 					if (jnSubAttachments) {
 						debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId, bAsync);
+						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId);
 						wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
 						wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 						res += L"\n\t\t" + wszAttachmentDescr;
@@ -1381,7 +1381,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			const JSONNode& jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId, bAsync);
+				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId);
 				wszAttachmentDescr.Replace(L"\n", L"\n\t");
 				wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 				res += L"\n\t" + wszAttachmentDescr;
@@ -1418,7 +1418,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			const JSONNode& jnSubAttachments = jnWallReply["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId, bAsync);
+				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC, hContact, iMessageId);
 				wszAttachmentDescr.Replace(L"\n", L"\n\t");
 				wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 				res += L"\n\t" + wszAttachmentDescr;
@@ -1443,7 +1443,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					continue;
 
 				res += L"\n\t";
-				res += GetVkPhotoItem(jnPhoto, iBBC, hContact, iMessageId, bAsync);
+				res += GetVkPhotoItem(jnPhoto, iBBC, hContact, iMessageId);
 			}
 			else if (wszStoryType == L"video") {
 				const JSONNode& jnVideo = jnStory["video"];
@@ -1545,7 +1545,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				res.AppendFormat(L"\n\t%s", SetBBCString(wszCaption, iBBC, vkbbcI).c_str());
 
 			if (jnLink["photo"])
-				res.AppendFormat(L"\n\t%s", GetVkPhotoItem(jnLink["photo"], iBBC, hContact, iMessageId, bAsync).c_str());
+				res.AppendFormat(L"\n\t%s", GetVkPhotoItem(jnLink["photo"], iBBC, hContact, iMessageId).c_str());
 
 			if (!wszDescription.IsEmpty())
 				res.AppendFormat(L"\n\t%s", wszDescription.c_str());
@@ -1615,7 +1615,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	return res;
 }
 
-CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC, bool bAsync)
+CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC)
 {
 	VKUserID_t iUserId = jnMsg["from_id"].as_int();
 	CMStringW wszBody(jnMsg["text"].as_mstring());
@@ -1646,7 +1646,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments(), bAsync);
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -1654,7 +1654,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments(), hContact, iMessageId, bAsync);
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments(), hContact, iMessageId);
 		if (wszAttachmentDescr != L"== FilterAudioMessages ==") {
 			if (!wszBody.IsEmpty())
 				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
@@ -1677,7 +1677,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 }
 
-CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC, bool bAsync)
+CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
 {
 	CMStringW res;
 	debugLogA("CVkProto::GetFwdMessages");
@@ -1705,10 +1705,10 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		for (auto& jnMsg : jnMessages.as_array()) {
 			if (!res.IsEmpty())
 				res.AppendChar('\n');
-			res += GetFwdMessage(jnMsg, jnFUsers, vkUsers, iBBC, bAsync);
+			res += GetFwdMessage(jnMsg, jnFUsers, vkUsers, iBBC);
 		}
 	else
-		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, iBBC, bAsync);
+		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, iBBC);
 
 	res.AppendChar('\n');
 	vkUsers.destroy();

@@ -433,6 +433,7 @@ void CVkOptionFeedsForm::On_cbNotificationsEnabledChange(CCtrlCheck*)
 
 CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_VIEW),
+	m_cbBBCSupportForNewStory(this, IDC_BBC_NEWSTORY),
 	m_cbIMGBBCSupportOff(this, IDC_IMG_OFF),
 	m_cbIMGBBCSupportFullSize(this, IDC_IMG_FULLSIZE),
 	m_cbIMGBBCSupport130(this, IDC_IMG_130),
@@ -447,17 +448,25 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	m_cbStikersAsSmyles(this, IDC_STICKERS_AS_SMYLES),
 	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO),
 	m_cbAddMessageLinkToMesWAtt(this, IDC_ADD_MES_LINK_MES_ATT),
-	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS)
+	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS),
+	m_cbShowBeforeEditedPostVersion(this, IDC_ADD_ORIG_VER_IN_EDITED_MES)
 {
+	CreateLink(m_cbBBCSupportForNewStory, m_proto->m_vkOptions.bBBCNewStorySupport);
 	CreateLink(m_cbUseBBCOnAttacmentsAsNews, m_proto->m_vkOptions.bUseBBCOnAttacmentsAsNews);
 	CreateLink(m_cbStikersAsSmyles, m_proto->m_vkOptions.bStikersAsSmileys);
 	CreateLink(m_cbShortenLinksForAudio, m_proto->m_vkOptions.bShortenLinksForAudio);
 	CreateLink(m_cbAddMessageLinkToMesWAtt, m_proto->m_vkOptions.bAddMessageLinkToMesWAtt);
 	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
+	CreateLink(m_cbShowBeforeEditedPostVersion, m_proto->m_vkOptions.bShowBeforeEditedPostVersion);
+
+	m_cbBBCSupportForNewStory.OnChange = Callback(this, &CVkOptionViewForm::On_cbBBCSupportForNewStory);
 }
+
 
 bool CVkOptionViewForm::OnInitDialog()
 {
+	On_cbBBCSupportForNewStory(&m_cbBBCSupportForNewStory);
+		
 	m_cbIMGBBCSupportOff.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgNo);
 	m_cbIMGBBCSupportFullSize.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgFullSize);
 	m_cbIMGBBCSupport130.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgPreview130);
@@ -498,6 +507,38 @@ bool CVkOptionViewForm::OnApply()
 	if (m_cbBBCForAttachmentsAdvanced.GetState())
 		m_proto->m_vkOptions.iBBCForAttachments = BBCSupport::bbcAdvanced;
 	return true;
+}
+
+void CVkOptionViewForm::On_cbBBCSupportForNewStory(CCtrlCheck*)
+{
+	bool bState = m_cbBBCSupportForNewStory.GetState() != 0; 
+
+	if (bState) {
+		m_cbIMGBBCSupportOff.SetState(false);
+		m_cbIMGBBCSupportFullSize.SetState(true);
+		m_cbIMGBBCSupport130.SetState(false);
+		m_cbIMGBBCSupport604.SetState(false);
+		m_cbBBCForNewsOff.SetState(false);
+		m_cbBBCForNewsBasic.SetState(false);
+		m_cbBBCForNewsAdvanced.SetState(true);
+		m_cbBBCForAttachmentsOff.SetState(false);
+		m_cbBBCForAttachmentsBasic.SetState(false);
+		m_cbBBCForAttachmentsAdvanced.SetState(true);
+		m_cbUseBBCOnAttacmentsAsNews.SetState(true);
+	}
+
+	m_cbIMGBBCSupportOff.Enable(!bState);
+	m_cbIMGBBCSupportFullSize.Enable(!bState);
+	m_cbIMGBBCSupport130.Enable(!bState);
+	m_cbIMGBBCSupport604.Enable(!bState);
+	m_cbBBCForNewsOff.Enable(!bState);
+	m_cbBBCForNewsBasic.Enable(!bState);
+	m_cbBBCForNewsAdvanced.Enable(!bState);
+	m_cbBBCForAttachmentsOff.Enable(!bState);
+	m_cbBBCForAttachmentsBasic.Enable(!bState);
+	m_cbBBCForAttachmentsAdvanced.Enable(!bState);
+	m_cbUseBBCOnAttacmentsAsNews.Enable(!bState);
+
 }
 
 ////////////////////// Menu page /////////////////////////////////////////////

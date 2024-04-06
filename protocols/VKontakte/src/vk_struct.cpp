@@ -136,6 +136,13 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CVkFileDownloadParam::~CVkFileDownloadParam() 
+{
+	mir_free(wszFileName);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CVkChatUser* CVkChatInfo::GetUserById(LPCWSTR pwszId)
 {
 	VKUserID_t iUserId = _wtol(pwszId);
@@ -213,6 +220,8 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
 	bPopupContactsMusic(proto, "PopupContactsMusic", false),
 	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
+	bShowBeforeEditedPostVersion(proto, "ShowBeforeEditedPostVersion", true),
+	bLoadFilesAsync(proto, "LoadFilesAsync", true),
 	bBBCNewStorySupport(proto, "BBCNewStorySupport", false),
 	iIMGBBCSupport(proto, "IMGBBCSupport", IMGBBCSypport::imgNo),
 	iBBCForNews(proto, "BBCForNews", BBCSupport::bbcBasic),

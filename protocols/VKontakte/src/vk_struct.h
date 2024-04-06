@@ -53,6 +53,21 @@ struct CVkFileUploadParam : public MZeroedObject {
 	__forceinline char* fileName() { GetType();  return szFname; }
 };
 
+struct CVkFileDownloadParam : public MZeroedObject
+{
+	CVkFileDownloadParam(MCONTACT _hContact, VKMessageID_t _iMsgID, const wchar_t* _wszFileName) :
+		hContact(_hContact),
+		iMsgID(_iMsgID),
+		wszFileName(mir_wstrdup(_wszFileName))
+	{}
+
+	~CVkFileDownloadParam();
+
+	MCONTACT hContact;
+	VKMessageID_t iMsgID;
+	wchar_t* wszFileName;
+};
+
 struct CVkSendMsgParam : public MZeroedObject
 {
 	CVkSendMsgParam(MCONTACT _hContact, VKMessageID_t _iMsgID = 0, int _iCount = 0) :
@@ -260,6 +275,8 @@ struct CVKOptions {
 	CMOption<uint8_t> bNotificationsEnabled;
 	CMOption<uint8_t> bNotificationsMarkAsViewed;
 	CMOption<uint8_t> bSpecialContactAlwaysEnabled;
+	CMOption<uint8_t> bShowBeforeEditedPostVersion;
+	CMOption<uint8_t> bLoadFilesAsync;
 	CMOption<uint8_t> bBBCNewStorySupport;
 	CMOption<uint8_t> iIMGBBCSupport;
 	CMOption<uint8_t> iBBCForNews;

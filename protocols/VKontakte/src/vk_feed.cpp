@@ -188,7 +188,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 				wszText = TranslateT("User was tagged in these photos:");
 				wszPopupText = wszText + TranslateT("(photos)");
 				for (auto &it : jnPhotoItems)
-					wszText += L"\n" + GetVkPhotoItem(it, m_vkOptions.BBCForNews(), hNewsContact, -1, false);
+					wszText += L"\n" + GetVkPhotoItem(it, m_vkOptions.BBCForNews(), hNewsContact, -1);
 			}
 		}
 	}
@@ -201,7 +201,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (jnPhotoItems) {
 				wszPopupText += TranslateT("(photos)");
 				for (auto &jnPhotoItem : jnPhotoItems) {
-					wszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews(), hNewsContact, -1, false) + L"\n";
+					wszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews(), hNewsContact, -1) + L"\n";
 					if (i == 0 && vkNewsItem->wszType == L"wall_photo") {
 						if (jnPhotoItem["post_id"]) {
 							bPostLink = true;
@@ -240,7 +240,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (!wszPopupText.IsEmpty())
 				wszPopupText.AppendChar('\n');
 			wszPopupText += TranslateT("(attachments)");
-			wszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments(), hNewsContact, -1, false);
+			wszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments(), hNewsContact, -1);
 		}
 	}
 
@@ -333,7 +333,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 	MCONTACT hNewsContact = FindUser(VK_FEED_USER, true);
 
 	if (vkParentType == vkPhoto) {
-		CMStringW wszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews(), hNewsContact, -1, false);
+		CMStringW wszPhoto = GetVkPhotoItem(jnParent, m_vkOptions.BBCForNews(), hNewsContact, -1);
 		VKUserID_t iOwnerId = jnParent["owner_id"].as_int();
 		int iId = jnParent["id"].as_int();
 		vkNotificationItem->wszId.AppendFormat(L"%d_%d", iOwnerId, iId);

@@ -376,7 +376,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo, vkChatInfo->m_bHistoryRead);
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -385,7 +385,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 	if (jnReplyMessages && !jnReplyMessages.empty()) {
 		if (m_vkOptions.bShowReplyInMessage) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo, vkChatInfo->m_bHistoryRead);
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
 			if (!wszBody.IsEmpty())
 				wszReplyMessages = L"\n" + wszReplyMessages;
 			wszBody += wszReplyMessages;
@@ -396,7 +396,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo, vkChatInfo->m_si->hContact, iMessageId, vkChatInfo->m_bHistoryRead);
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo, vkChatInfo->m_si->hContact, iMessageId);
 
 		if (wszAttachmentDescr == L"== FilterAudioMessages ==")
 			return;
@@ -422,11 +422,13 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 			CMStringW(FORMAT, TranslateT("Edited message (updated %s):\n"), ttime),
 			m_vkOptions.BBCForAttachments(), vkbbcB) +
 			wszBody;
-
-		CMStringW wszOldMsg;
-		if (GetMessageFromDb(iMessageId, tMsgTime, wszOldMsg))
-			wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
-			wszOldMsg;
+		
+		if (m_vkOptions.bShowBeforeEditedPostVersion) {
+			CMStringW wszOldMsg;
+			if (GetMessageFromDb(iMessageId, tMsgTime, wszOldMsg))
+				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+				wszOldMsg;
+		}
 	}
 
 	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
