@@ -30,7 +30,7 @@ static char szVKLoginDomain[] = "https://m.vk.com";
 static char szVKCookieDomain[] = ".vk.com";
 static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
 	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
-	"music, movies, tv, books, games, quotes, about,  domain";
+	"music, movies, tv, books, games, quotes, about,  domain, can_write_private_message";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -644,6 +644,9 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 		setWString(hContact, "Homepage", wszUrl);
 	}
 
+	if (jnItem["can_write_private_message"])
+		Contact::Readonly(hContact, jnItem["can_write_private_message"].as_int() == 0);
+
 	return hContact;
 }
 
@@ -697,7 +700,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	int i = 0;
 	for (auto &hContact : AccContacts()) {
 		VKUserID_t iUserId = ReadVKUserID(hContact);
-		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER || iUserId < 0)
+		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER || iUserId < 0 || isChatRoom(hContact))
 			continue;
 
 		bool bIsFriend = !getBool(hContact, "Auth", true);
@@ -715,7 +718,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersInfo", true, &CVkProto::OnReceiveUserInfo)
 		<< CHAR_PARAM("userids", userIDs)
-		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status" : szFieldsName))
+		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status,can_write_private_message" : szFieldsName))
 		<< INT_PARAM("norepeat", (int)bRepeat)
 		<< INT_PARAM("setonline", (int)m_bNeedSendOnline)
 		<< INT_PARAM("func_v", (bFreeOffline && !m_vkOptions.bLoadFullCList) ? 1 : 2)

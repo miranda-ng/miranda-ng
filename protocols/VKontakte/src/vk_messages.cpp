@@ -334,6 +334,10 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			WriteQSWord(hContact, "out_read", jnItem["out_read"].as_int());
 			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
 				MarkMessagesRead(hContact);
+
+			const JSONNode& jnCanWrite = jnItem["can_write"];
+			if (jnCanWrite)
+				Contact::Readonly(hContact, !jnCanWrite["allowed"].as_bool());			
 		}
 	}
 
