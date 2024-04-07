@@ -443,10 +443,10 @@ void ItemData::load(bool bLoadAlways)
 				CMStringW str, wszNick;
 
 				wchar_t wszTime[100];
-				TimeZone_PrintTimeStamp(0, dbe.timestamp, L"D t", wszTime, _countof(wszTime), 0);
+				TimeZone_PrintTimeStamp(0, dbei.timestamp, L"D t", wszTime, _countof(wszTime), 0);
 
-				if (Contact::IsGroupChat(hContact) && dbe.szUserId)
-					wszNick = Utf2T(dbe.szUserId);
+				if (Contact::IsGroupChat(hContact) && dbei.szUserId)
+					wszNick = Utf2T(dbei.szUserId);
 				else if (dbei.flags & DBEF_SENT) {
 					if (char *szProto = Proto_GetBaseAccountName(hContact))
 						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
