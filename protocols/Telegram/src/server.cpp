@@ -429,7 +429,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		if (db_event_getById(m_szModuleName, szMsgId))
 			continue;
 
-		CMStringA szBody = GetMessageText(pUser, pMsg, true);
+		CMStringA szBody = GetMessageText(pUser, pMsg, true), szReplyId;
 		if (szBody.IsEmpty())
 			continue;
 
@@ -445,6 +445,10 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
 			dbei.szUserId = szUserId;
+		if (pMsg->reply_to_message_id_) {
+			szReplyId = msg2id(pMsg->chat_id_, pMsg->reply_to_message_id_);
+			dbei.szReplyId = szReplyId;
+		}
 		db_event_add(GetRealContact(pUser), &dbei);
 	}
 
