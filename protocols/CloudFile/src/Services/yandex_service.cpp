@@ -102,11 +102,10 @@ void CYandexService::RequestAccessTokenThread(void *param)
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
-		const char *error = response->body.GetLength()
-			? response->body
-			: HttpStatusToError(response->resultCode);
-
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
+		if (response) {
+			const char *error = response->body.GetLength() ? response->body : HttpStatusToError(response->resultCode);
+			Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
+		}
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;

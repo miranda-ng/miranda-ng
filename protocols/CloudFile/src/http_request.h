@@ -20,8 +20,6 @@ public:
 class HttpRequest : public MHttpRequest
 {
 private:
-	CMStringA m_szUrl;
-
 	void Init()
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
