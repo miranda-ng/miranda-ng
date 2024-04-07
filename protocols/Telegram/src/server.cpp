@@ -62,7 +62,12 @@ void CTelegramProto::UnregisterSession()
 {
 	if (getByte(DBKEY_AUTHORIZED)) {
 		m_bUnregister = true;
-		ForkThread(&CTelegramProto::ServerThread);
+
+		if (m_pClientManager) {
+			SendQuery(new TD::terminateSession());
+			SendQuery(new TD::logOut(), &CTelegramProto::OnEndSession);
+		}
+		else ForkThread(&CTelegramProto::ServerThread);
 	}
 }
 
