@@ -947,9 +947,9 @@
 [%s added you to their contact list]
 [%u added you to their contact list]
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
+[%s has joined %s]
 [You have joined %s]
-[%s has left]
+[%s has left %s]
 [%s has disconnected]
 [%s is now known as %s]
 [You are now known as %s]
@@ -1003,8 +1003,6 @@
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 [%s speaks in %s]
-[%s has joined %s]
-[%s has left %s]
 [%s kicked %s from %s]
 [Topic change in %s]
 [Information in %s]
@@ -1488,6 +1486,7 @@
 [Look up '%s':]
 [No word to look up]
 ;file \src\mir_app\src\srmm_main.cpp
+[Are you sure to wipe the system history?]
 [Empty system history]
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]

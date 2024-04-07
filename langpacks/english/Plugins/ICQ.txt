@@ -29,6 +29,9 @@
 [Last seen:]
 [Online since:]
 [Phone number:]
+[First name:]
+[Last name:]
+[About:]
 [Enter ICQ Password]
 [Enter a password:]
 [Remember this session password]
@@ -72,5 +75,6 @@
 [Message was deleted]
 [Favorites]
 [Buddy addition failed]
+;file \protocols\ICQ-WIM\src\userinfo.cpp
 ;file \protocols\ICQ-WIM\src\utils.cpp
 [long time ago]

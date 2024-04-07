@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.6
+;  Version: 0.1.16.3
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -15,6 +15,7 @@
 [Load history for all contacts from VK]
 [Wipe contacts missing in friend list]
 [Visit profile]
+[Support BBC for NewStory]
 [[img] BBCode support for image]
 [off]
 [for original size images]
@@ -30,6 +31,7 @@
 [Shorten links for audio attachments]
 [Use non-standard popups for news and event notifications]
 [Add message link to messages with attachments]
+[Add original message version in edited message]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
@@ -182,6 +184,9 @@
 [Not supported]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Warning]
+[%x at %X]
+[Edited message (updated %s):\n]
+[\nOriginal message:\n]
 [Message link]
 [create chat]
 [kick user]
@@ -255,12 +260,9 @@
 [Loading messages for all contacts is completed.]
 [Loading history]
 [Error loading message history for %s from server.]
-[%x at %X]
-[Edited message (updated %s):\n]
 [Loading messages for %s is completed.]
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
-[\nOriginal message:\n]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]

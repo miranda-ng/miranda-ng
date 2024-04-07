@@ -653,7 +653,6 @@
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
 [Delivery failure: %s]
 [The message send timed out]
-[Contact is offline and this protocol does not support sending files to offline users.]
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
@@ -663,7 +662,6 @@
 [Save contact picture]
 [Image files]
 [The file exists. Do you want to overwrite it?]
-[JPEG-compressed images]
 [Copy all]
 [Save and close session]
 [, %d %s, %d %s idle]
