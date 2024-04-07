@@ -426,7 +426,7 @@ bool CTelegramProto::GetMessageFile(
 		szDesc = caption.c_str();
 	if (pMsg->is_outgoing_)
 		dbei.flags |= DBEF_SENT;
-	if (Contact::IsGroupChat(pRequest->m_hContact) || !pUser->bInited)
+	if (!pUser->bInited)
 		dbei.flags |= DBEF_READ;
 	if (pMsg->reply_to_message_id_) {
 		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
