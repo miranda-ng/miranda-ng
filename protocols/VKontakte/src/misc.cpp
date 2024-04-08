@@ -451,7 +451,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_YOU_ON_BLACKLIST:
 	case VKERR_USER_ON_BLACKLIST:
 		break;
-	// See also CVkProto::SendFileFiled
+	// See also CVkProto::SendFileFailed
 	}
 
 	return (iErrorCode == 0);

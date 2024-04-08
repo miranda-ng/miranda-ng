@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 {
-	enum RequestPriority { rpLow, rpMedium, rpHigh };
+	enum RequestPriority { rpLowLow, rpLow, rpMedium, rpHigh };
 
 	AsyncHttpRequest();
 	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority = rpMedium);

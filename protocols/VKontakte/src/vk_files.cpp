@@ -52,6 +52,7 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 			pReq->m_pFunc = &CVkProto::OnGetVkFileItem;
 			pReq->requestType = REQUEST_GET;
 			pReq->m_bApiReq = false;
+			pReq->m_priority = AsyncHttpRequest::rpLowLow;
 			Push(pReq);
 		}
 		else {
@@ -104,7 +105,7 @@ void CVkProto::OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq)
 	if (out) {
 		fwrite(reply->body, 1, reply->body.GetLength(), out);
 		fclose(out);
-		debugLogW(L"CVkProto::OnGetVkFileItem file %s saved", param->wszFileName);
+		debugLogW(L"CVkProto::OnGetVkFileItem file %s saved %d %d", param->wszFileName, param->hContact, param->iMsgID);
 
 		MessageWindowData mwd = {};
 		if (!Srmm_GetWindowData(param->hContact, mwd) && mwd.uState) {
@@ -113,7 +114,7 @@ void CVkProto::OnGetVkFileItem(MHttpResponse* reply, AsyncHttpRequest* pReq)
 			MEVENT hDbEvent =  db_event_getById(m_szModuleName, szMid);
 			
 			DBEVENTINFO dbei = {};
-			if (db_event_get(hDbEvent, &dbei)) {
+			if (!db_event_get(hDbEvent, &dbei)) {
 				int i = db_event_edit(hDbEvent, &dbei, true);
 				debugLogW(L"CVkProto::OnGetVkFileItem file %s even edit %d", param->wszFileName, i);
 			}
@@ -141,7 +142,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
 
 	if (!fup->IsAccess()) {
-		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
+		SendFileFailed(fup, VKERR_FILE_NOT_EXIST);
 		return (HANDLE)nullptr;
 	}
 
@@ -161,7 +162,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	default:
-		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
+		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return (HANDLE)nullptr;
 	}
 	pReq->pUserInfo = fup;
@@ -173,7 +174,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 	return (HANDLE)fup;
 }
 
-void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
+void CVkProto::SendFileFailed(CVkFileUploadParam *fup, int ErrorCode)
 {
 	CMStringW wszError;
 	switch (ErrorCode) {
@@ -242,13 +243,13 @@ void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, VKERR_OFFLINE);
+		SendFileFailed(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup, VKERR_INVALID_SERVER);
+		SendFileFailed(fup, VKERR_INVALID_SERVER);
 		return;
 	}
 
@@ -256,19 +257,19 @@ void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse || pReq->m_iErrorCode) {
 		if (!pReq->bNeedsRestart)
-			SendFileFiled(fup, pReq->m_iErrorCode);
+			SendFileFailed(fup, pReq->m_iErrorCode);
 		return;
 	}
 
 	CMStringA uri(jnResponse["upload_url"].as_mstring());
 	if (uri.IsEmpty()) {
-		SendFileFiled(fup, VKERR_INVALID_URL);
+		SendFileFailed(fup, VKERR_INVALID_URL);
 		return;
 	}
 
 	FILE *pFile = _wfopen(fup->wszFileName, L"rb");
 	if (pFile == nullptr) {
-		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
+		SendFileFailed(fup, VKERR_ERR_OPEN_FILE);
 		return;
 	}
 
@@ -276,7 +277,7 @@ void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq
 	long iFileLen = ftell(pFile); //FileSize
 	if (iFileLen < 1) {
 		fclose(pFile);
-		SendFileFiled(fup, VKERR_ERR_READ_FILE);
+		SendFileFailed(fup, VKERR_ERR_READ_FILE);
 		return;
 	}
 	fseek(pFile, 0, SEEK_SET);
@@ -321,7 +322,7 @@ void CVkProto::OnReciveUploadServer(MHttpResponse *reply, AsyncHttpRequest *pReq
 	fclose(pFile);
 
 	if (lBytes != iFileLen) {
-		SendFileFiled(fup, VKERR_ERR_READ_FILE);
+		SendFileFailed(fup, VKERR_ERR_READ_FILE);
 		delete pUploadReq;
 		return;
 	}
@@ -338,13 +339,13 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, VKERR_OFFLINE);
+		SendFileFailed(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup, VKERR_FILE_NOT_UPLOADED);
+		SendFileFailed(fup, VKERR_FILE_NOT_UPLOADED);
 		return;
 	}
 
@@ -352,12 +353,12 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	CheckJsonResponse(pReq, reply, jnRoot);
 
 	if (pReq->m_iErrorCode) {
-		SendFileFiled(fup, pReq->m_iErrorCode);
+		SendFileFailed(fup, pReq->m_iErrorCode);
 		return;
 	}
 
 	if ((!jnRoot["server"] || !jnRoot["hash"]) && !jnRoot["file"]) {
-		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+		SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
 
@@ -374,7 +375,7 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeImg:
 		upload = jnRoot["photo"].as_mstring();
 		if (upload == L"[]") {
-			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+			SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile);
@@ -383,7 +384,7 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
 		if (upload == L"[]") {
-			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+			SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile);
@@ -393,7 +394,7 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeAudioMsg:
 		upload = jnRoot["file"].as_mstring();
 		if (upload.IsEmpty()) {
-			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+			SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile);
@@ -404,7 +405,7 @@ void CVkProto::OnReciveUpload(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			<< INT_PARAM("return_tags", 0);
 		break;
 	default:
-		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
+		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
 
@@ -416,13 +417,13 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()) {
-		SendFileFiled(fup, VKERR_OFFLINE);
+		SendFileFailed(fup, VKERR_OFFLINE);
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadFile %d", reply->resultCode);
 	if (reply->resultCode != 200) {
-		SendFileFiled(fup, VKERR_FILE_NOT_UPLOADED);
+		SendFileFailed(fup, VKERR_FILE_NOT_UPLOADED);
 		return;
 	}
 
@@ -430,7 +431,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse || pReq->m_iErrorCode) {
 		if (!pReq->bNeedsRestart)
-			SendFileFiled(fup, pReq->m_iErrorCode);
+			SendFileFailed(fup, pReq->m_iErrorCode);
 		return;
 	}
 
@@ -448,7 +449,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	}
 
 	if ((id == 0) || (iOwnerId == 0)) {
-		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
+		SendFileFailed(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
 
@@ -466,7 +467,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		Attachment.AppendFormat(L"doc%d_%d", iOwnerId, id);
 		break;
 	default:
-		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
+		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
 		return;
 	}
 
@@ -475,7 +476,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	if (isChatRoom(fup->hContact)) {
 		CVkChatInfo *cc = GetChatByContact(fup->hContact);
 		if (cc == nullptr) {
-			SendFileFiled(fup, VKERR_INVALID_USER);
+			SendFileFailed(fup, VKERR_INVALID_USER);
 			return;
 		}
 
@@ -487,7 +488,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	else {
 		VKUserID_t iUserId = ReadVKUserID(fup->hContact);
 		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER) {
-			SendFileFiled(fup, VKERR_INVALID_USER);
+			SendFileFailed(fup, VKERR_INVALID_USER);
 			return;
 		}
 
