@@ -53,10 +53,12 @@ CMStringW GetISO8061Time(SYSTEMTIME *stLocal)
 	CMStringW ret;
 	if (g_plugin.bClassicDates) {
 		wchar_t buf[100];
-		GetDateFormatW(LOCALE_CUSTOM_DEFAULT, DATE_LONGDATE, stLocal, 0, buf, _countof(buf));
+		if (!GetDateFormatW(LOCALE_CUSTOM_DEFAULT, DATE_LONGDATE, stLocal, 0, buf, _countof(buf)))
+			GetDateFormatW(LOCALE_CUSTOM_DEFAULT, 0, stLocal, L"d MMM yyyy", buf, _countof(buf));
 		ret.AppendFormat(L"%s ", buf);
 
-		GetTimeFormatW(LOCALE_CUSTOM_DEFAULT, 0, stLocal, 0, buf, _countof(buf));
+		if (!GetTimeFormatW(LOCALE_CUSTOM_DEFAULT, 0, stLocal, 0, buf, _countof(buf)))
+			GetTimeFormatW(LOCALE_CUSTOM_DEFAULT, 0, stLocal, L"H:mm:ss", buf, _countof(buf));
 		ret.Append(buf);
 	}
 	else {
