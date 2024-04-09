@@ -1332,23 +1332,6 @@ void CLogWindow::LogChatEvents(const LOGINFO *lin)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
-	// trim the message log to the number of most recent events
-	// this uses hidden marks in the rich text to find the events which should be deleted
-	if (si->bTrimmed) {
-		wchar_t szPattern[50];
-		mir_snwprintf(szPattern, L"~-+%p+-~", &lin);
-
-		FINDTEXTEX fi;
-		fi.lpstrText = szPattern;
-		fi.chrg.cpMin = 0;
-		fi.chrg.cpMax = -1;
-		if (m_rtf.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
-			m_rtf.SendMsg(EM_SETSEL, 0, fi.chrgText.cpMax + 1);
-			m_rtf.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)L"");
-		}
-		si->bTrimmed = false;
-	}
-
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
 	if (bRedraw || bAtBottom)
 		ScrollToBottom(false, false);
