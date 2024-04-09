@@ -663,7 +663,13 @@ uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 	if (!mir_wstrncmp(url_or_path, L"file://", 7))
 		url_or_path += 7;
 
-	auto *pImage = new Gdiplus::Bitmap(url_or_path);
+	IStream *pStream = 0;
+	HRESULT hr = SHCreateStreamOnFileEx(url_or_path, STGM_READ | STGM_SHARE_DENY_NONE, 0, FALSE, 0, &pStream);
+	if (!SUCCEEDED(hr))
+		return 0;
+
+	auto *pImage = new Gdiplus::Bitmap(pStream);
+	pStream->Release();
 	if (pImage->GetLastStatus() != Ok) {
 		delete pImage;
 		return 0;
