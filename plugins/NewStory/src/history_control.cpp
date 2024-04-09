@@ -930,17 +930,27 @@ void NewstoryListData::ToggleSelection(int iFirst, int iLast)
 
 void NewstoryListData::TryUp(int iCount)
 {
-	if (totalCount == 0)
+	MEVENT hTopEvent = 0;
+	MCONTACT hContact;
+	
+	if (totalCount != 0) {
+		auto *pTop = GetItem(0);
+		hContact = pTop->hContact;
+		hTopEvent = pTop->dbe.getEvent();
+		if (hTopEvent == 0)
+			return;
+	}
+	else {
+		hContact = (pMsgDlg) ? pMsgDlg->m_hContact : 0;
+		hTopEvent = -1;
+	}
+	
+	if (hContact == 0)
 		return;
 
-	auto *pTop = GetItem(0);
-	MCONTACT hContact = pTop->hContact;
-	if (pTop->dbe.getEvent() == 0 || hContact == 0)
-		return;
-	
 	int i;
 	for (i = 0; i < iCount; i++) {
-		MEVENT hPrev = db_event_prev(hContact, pTop->dbe.getEvent());
+		MEVENT hPrev = (hTopEvent == -1) ? db_event_last(hContact) : db_event_prev(hContact, hTopEvent);
 		if (hPrev == 0)
 			break;
 
@@ -952,10 +962,9 @@ void NewstoryListData::TryUp(int iCount)
 	}
 
 	ItemData *pPrev = nullptr;
-	for (int j = 0; j < i + 1; j++) {
-		auto *pItem = GetItem(j);
-		pPrev = pItem->checkNext(pPrev);
-	}
+	for (int j = 0; j < i + 1; j++)
+		if (auto *pItem = GetItem(j))
+			pPrev = pItem->checkNext(pPrev);
 
 	caret = 0;
 	CalcBottom();
