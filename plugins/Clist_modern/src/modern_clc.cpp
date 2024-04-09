@@ -1333,7 +1333,6 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	int contacticon = Clist_GetContactIcon(wParam);
 	MCONTACT hSelItem = 0;
 
-	ClcGroup *selgroup;
 	ClcContact *selcontact = nullptr;
 
 	char *szProto = Proto_GetBaseAccountName(wParam);
@@ -1401,6 +1400,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	}
 
 	if (hSelItem) {
+		ClcGroup *selgroup;
 		if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
 			dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		else

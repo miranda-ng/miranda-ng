@@ -85,8 +85,12 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1);
 	if (!(protoCaps & PF1_FILESEND))
 		return 0;
-	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))
-		return 0;
+
+	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE)) {
+		protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4);
+		if (!(protoCaps & PF4_OFFLINEFILES))
+			return 0;
+	}
 	if (hitLine)
 		*hitLine = hit;
 	return contact->hContact;
