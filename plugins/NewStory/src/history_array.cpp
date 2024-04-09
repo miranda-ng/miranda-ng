@@ -71,15 +71,7 @@ bool Filter::check(ItemData *item) const
 ItemData::ItemData()
 {
 	memset(this, 0, sizeof(*this));
-}
-
-ItemData::ItemData(MEVENT hEvent) :
-	dbe(hEvent, true),
-	qtext(0),
-	pOwner(0)
-{
-	if (dbe.szReplyId)
-		dbe.szReplyId = mir_strdup(dbe.szReplyId);
+	savedHeight = -1;
 }
 
 ItemData::~ItemData()
@@ -383,8 +375,7 @@ void ItemData::load(bool bLoadAlways)
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (pOwner)
-			pOwner->MarkRead(this);
+		pOwner->MarkRead(this);
 		__fallthrough;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -447,13 +438,16 @@ void ItemData::load(bool bLoadAlways)
 
 	if (dbe.szReplyId)
 		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
-			ItemData reply(hReply);
-			if (reply.dbe) {
+			DB::EventInfo dbei(hReply);
+			if (dbei) {
 				CMStringW str, wszNick;
 
-				if (Contact::IsGroupChat(hContact) && reply.dbe.szUserId)
-					wszNick = Utf2T(reply.dbe.szUserId);
-				else if (reply.dbe.flags & DBEF_SENT) {
+				wchar_t wszTime[100];
+				TimeZone_PrintTimeStamp(0, dbei.timestamp, L"D t", wszTime, _countof(wszTime), 0);
+
+				if (Contact::IsGroupChat(hContact) && dbei.szUserId)
+					wszNick = Utf2T(dbei.szUserId);
+				else if (dbei.flags & DBEF_SENT) {
 					if (char *szProto = Proto_GetBaseAccountName(hContact))
 						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
 					else
@@ -461,9 +455,13 @@ void ItemData::load(bool bLoadAlways)
 				}
 				else wszNick = Clist_GetContactDisplayName(hContact, 0);
 				
-				reply.wszNick = wszNick.GetBuffer();
+				str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
 
-				qtext = TplFormatString(TPL_MESSAGE, hContact, &reply).Detach();
+				ptrW wszText(DbEvent_GetTextW(&dbei));
+				if (mir_wstrlen(wszText) > 43)
+					wcscpy(wszText.get() + 40, L"...");
+				str.Append(wszText);
+				qtext = str.Detach();
 			}
 		}
 

@@ -19,7 +19,7 @@ struct ItemData
 	bool m_bOfflineFile;
 	uint8_t m_grouping, m_bOfflineDownloaded;
 	
-	int savedTop, savedHeight = -1, leftOffset;
+	int savedTop, savedHeight, leftOffset;
 
 	DB::EventInfo dbe;
 	wchar_t *wtext, *qtext;
@@ -28,8 +28,7 @@ struct ItemData
 
 	litehtml::document::ptr m_doc;
 
-	explicit ItemData();
-	explicit ItemData(MEVENT);
+	ItemData();
 	~ItemData();
 
 	ItemData* checkNext(ItemData *pPrev);
