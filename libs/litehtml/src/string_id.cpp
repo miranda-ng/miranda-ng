@@ -3,9 +3,10 @@
 #include <assert.h>
 
 #ifndef LITEHTML_NO_THREADS
-	#include <mutex>
-	static std::mutex mutex;
-	#define lock_guard std::lock_guard<std::mutex> lock(mutex)
+	#include <Windows.h>
+	#include <newpluginapi.h>
+	static mir_cs mutex;
+	#define lock_guard mir_cslock lock(mutex)
 #else
 	#define lock_guard
 #endif
