@@ -38,13 +38,11 @@ public:
 
 		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_hwnd, 0);
 		m_histCtrl->SetDialog(&m_pDlg);
-
-		WindowList_Add(g_hNewstoryWindows, m_pDlg.GetHwnd(), m_pDlg.m_hContact);
 	}
 
 	void Detach() override
 	{
-		WindowList_Remove(g_hNewstoryWindows, m_pDlg.GetHwnd());
+		WindowList_Remove(g_hNewstoryLogs, m_pDlg.GetHwnd());
 		::DestroyWindow(m_hwnd);
 	}
 
