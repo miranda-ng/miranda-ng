@@ -250,7 +250,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	str.Append(L"</body></html>");
 	
-	Netlib_LogfW(0, str);
+	// Netlib_LogfW(0, str);
 	return str;
 }
 

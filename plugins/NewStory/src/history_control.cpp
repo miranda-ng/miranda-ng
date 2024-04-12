@@ -589,7 +589,7 @@ int NewstoryListData::GetItemHeight(int index)
 int NewstoryListData::GetItemHeight(ItemData *pItem)
 {
 	if (pItem->savedHeight == -1)
-		pItem->savedHeight = pItem->calcHeight(0, cachedWindowWidth);
+		pItem->calcHeight(cachedWindowWidth);
 
 	return pItem->savedHeight;
 }
@@ -606,15 +606,22 @@ bool NewstoryListData::HasSelection() const
 
 void NewstoryListData::HitTotal(int yCurr, int yTotal)
 {
-	int i = 0, y = yCurr;
-	while (i < totalCount && y > 0) {
-		auto *pItem = GetItem(i++);
+	int i, y = yCurr;
+	for (i = 0; i < totalCount; i++) {
+		auto *pItem = GetItem(i);
 		if (!pItem->m_bLoaded) {
 			i = totalCount * (double(yCurr) / double(yTotal));
 			y = 0;
 			break;
 		}
-		else y -= GetItemHeight(pItem);
+		
+		int h = GetItemHeight(pItem);
+		if (h > y) {
+			y = -y;
+			break;
+		}
+
+		y -= h;
 	}
 
 	scrollTopItem = i;
@@ -657,15 +664,14 @@ void NewstoryListData::OpenFolder()
 
 void NewstoryListData::Paint(simpledib::dib &dib)
 {
-	int top = scrollTopPixel;
+	int top = 0;
 
-	int idx;
-	for (idx = scrollTopItem; top < cachedWindowHeight && idx < totalCount; idx++) {
+	for (int idx = scrollTopItem; top < cachedWindowHeight && idx < totalCount; idx++) {
 		if (hwndEditBox && caret == idx)
 			continue;
 
 		auto *pItem = LoadItem(idx);
-		pItem->savedTop = top;
+		pItem->calcHeight(cachedWindowWidth); // ensure that the item's height is calculated
 
 		COLORREF clLine;
 		int fontid, colorid;
@@ -687,17 +693,27 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
 
-		POINT pos;
-		int height = pItem->calcHeight(top, cachedWindowWidth, &pos);
+		int iItemHeigth, iOffsetY;
+		if (top == 0) {
+			pItem->savedTop = iOffsetY = scrollTopPixel;
+			iItemHeigth = pItem->savedHeight + scrollTopPixel;
+		}
+		else {
+			pItem->savedTop = top;
+			iOffsetY = 0;
+			iItemHeigth = pItem->savedHeight;
+		}
 
+		// draw item background
 		HBRUSH hbr = CreateSolidBrush(webPage.clBack);
-		RECT rc = { 0, top, cachedWindowWidth, top + height };
+		RECT rc = { 0, top, cachedWindowWidth, top + iItemHeigth };
 		FillRect(dib, &rc, hbr);
 		DeleteObject(hbr);
 
 		SetBkMode(dib, TRANSPARENT);
 
-		pos.x = 2;
+		// left offset of icons & text
+		int xPos = 2, yPos = top + 2;
 
 		if (!bReadOnly) {
 			HICON hIcon;
@@ -718,8 +734,8 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					hIcon = g_plugin.getIcon(IDI_UNKNOWN);
 					break;
 				}
-				DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-				pos.x += 18;
+				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
+				xPos += 18;
 			}
 
 			// Direction icon
@@ -728,20 +744,20 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					hIcon = g_plugin.getIcon(IDI_MSGOUT);
 				else
 					hIcon = g_plugin.getIcon(IDI_MSGIN);
-				DrawIconEx(dib, pos.x, pos.y, hIcon, 16, 16, 0, 0, DI_NORMAL);
-				pos.x += 18;
+				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
+				xPos += 18;
 			}
 
 			// Bookmark icon
 			if (pItem->dbe.flags & DBEF_BOOKMARK) {
-				DrawIconEx(dib, pos.x, pos.y, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
-				pos.x += 18;
+				DrawIconEx(dib, xPos, yPos, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
+				xPos += 18;
 			}
 
 			// Finished icon
 			if (pItem->m_bOfflineDownloaded != 0) {
 				if (pItem->completed())
-					DrawIconEx(dib, cachedWindowWidth - 20, pos.y, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(dib, cachedWindowWidth - 20, yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 				else {
 					HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
 					MoveToEx(dib, rc.left, rc.bottom - 4, 0);
@@ -751,18 +767,19 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			}
 		}
 
-		litehtml::position clip(pos.x, pos.y, cachedWindowWidth - pos.x, height);
-		pItem->m_doc->draw((UINT_PTR)dib.hdc(), pos.x, pos.y, &clip);
+		// draw html itself
+		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos, iItemHeigth);
+		pItem->m_doc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
 
+		// draw border
 		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
 		MoveToEx(dib, rc.left, rc.bottom - 1, 0);
 		LineTo(dib, rc.right, rc.bottom - 1);
 		DeleteObject(SelectObject(dib, hpn));
 
-		top += height;
+		top += iItemHeigth;
+		cachedMaxDrawnItem = idx;
 	}
-
-	cachedMaxDrawnItem = idx;
 
 	if (top <= cachedWindowHeight) {
 		RECT rc2;

@@ -190,42 +190,36 @@ ItemData* ItemData::checkPrevGC(ItemData *pPrev)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ItemData::calcHeight(int top, int width, POINT *pPos)
+int ItemData::calcHeight(int width)
 {
 	if (m_doc == nullptr)
 		setText();
 
-	SIZE sz;
-	sz.cx = width - 2;
-
-	POINT pos;
-	pos.x = 2;
-	pos.y = top + 2;
+	int cx = width - 2;
+	int xPos = 2;
 
 	if (!pOwner->bReadOnly) {
 		if (g_plugin.bShowType)	// Message type icon
-			pos.x += 18;
+			xPos += 18;
 
 		if (g_plugin.bShowDirection)	// Message direction icon
-			pos.x += 18;
+			xPos += 18;
 
 		if (dbe.flags & DBEF_BOOKMARK) // Bookmark icon
-			pos.x += 18;
+			xPos += 18;
 
-		sz.cx -= pos.x;
+		cx -= xPos;
 		if (m_bOfflineDownloaded != 0) // Download completed icon
-			sz.cx -= 18;
+			cx -= 18;
 	}
 
-	leftOffset = pos.x;
+	leftOffset = xPos;
 	if (savedHeight == -1) {
-		m_doc->render(sz.cx);
+		m_doc->render(cx);
 		savedHeight = m_doc->height() + 5;
 	}
 
-	if (pPos)
-		*pPos = pos;
-	return savedHeight;
+	return xPos;
 }
 
 bool ItemData::fetch(void)
