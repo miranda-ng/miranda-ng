@@ -247,6 +247,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		m_bInitialized = m_bSucceeded = false;
 		TranslateDialog_LP(m_hwnd, &m_pPlugin);
 
+		GetClientRect(m_hwnd, &m_rcPrev);
+
 		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
 
 		NotifyControls(&CCtrlBase::OnInit);
@@ -399,7 +401,12 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		OnResize();
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		if (memcmp(&m_rcPrev, &rc, sizeof(RECT))) {
+			OnResize();
+			m_rcPrev = rc;
+		}
 		return TRUE;
 
 	case WM_TIMER:

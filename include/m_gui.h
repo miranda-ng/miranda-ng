@@ -487,6 +487,7 @@ protected:
 	MWindow m_hwnd = nullptr;  // must be the first data item
 	MWindow m_hwndParent = nullptr;
 	int     m_idDialog;
+	RECT    m_rcPrev;
 
 	bool    m_isModal = false;
 	bool    m_bInitialized = false;
@@ -496,7 +497,7 @@ protected:
 	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
-	uint8_t    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
+	uint8_t m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
 
 	CMPluginBase &m_pPlugin;
 
