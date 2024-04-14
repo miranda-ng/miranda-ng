@@ -946,10 +946,13 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Group chats");
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SRMM_OPTIONS);
-	odp.pfnDlgProc = IEViewHistoryOptDlgProc;
-	odp.szTab.w = LPGENW("History");
-	g_plugin.addOptions(wParam, &odp);
+	MUUID muidIEHistory = { 0x2f093b88, 0xf389, 0x44f1, { 0x9e, 0x2a, 0x37, 0xc2, 0x91, 0x94, 0x20, 0x3a } };
+	if (IsPluginLoaded(muidIEHistory)) {
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SRMM_OPTIONS);
+		odp.pfnDlgProc = IEViewHistoryOptDlgProc;
+		odp.szTab.w = LPGENW("History");
+		g_plugin.addOptions(wParam, &odp);
+	}
 	return 0;
 }
 
