@@ -597,6 +597,7 @@ public:
 	bool IsActive() const override;
 	void LoadSettings() override;
 	void OnOptionsApplied() override;
+	void OnResize() override;
 	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;

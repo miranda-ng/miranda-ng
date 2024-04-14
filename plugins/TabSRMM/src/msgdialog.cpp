@@ -1336,6 +1336,102 @@ LBL_Frozen:
 	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 }
 
+void CMsgDialog::OnResize()
+{
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+
+	if (m_ipFieldHeight == 0)
+		m_ipFieldHeight = CInfoPanel::m_ipConfig.height2;
+
+	if (m_pContainer->m_uChildMinHeight > 0 && rc.bottom >= m_pContainer->m_uChildMinHeight) {
+		if (m_iSplitterY > rc.bottom - DPISCALEY_S(MINLOGHEIGHT)) {
+			m_iSplitterY = rc.bottom - DPISCALEY_S(MINLOGHEIGHT);
+			m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
+			DM_RecalcPictureSize();
+		}
+		if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY))
+			LoadSplitter();
+	}
+
+	if (m_si == nullptr) {
+		HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->cfg.avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+		if (hbm != nullptr) {
+			BITMAP bminfo;
+			GetObject(hbm, sizeof(bminfo), &bminfo);
+			CalcDynamicAvatarSize(&bminfo);
+		}
+	}
+
+	CSuper::OnResize();
+
+	BB_SetButtonsPos();
+
+	// size info panel fields
+	if (m_pPanel.isActive()) {
+		LONG cx = rc.right;
+		LONG panelHeight = m_pPanel.getHeight();
+
+		HBITMAP hbm = (m_pContainer->cfg.avatarMode == 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+		double dHeight = 0, dWidth = 0;
+		Utils::scaleAvatarHeightLimited(hbm, dWidth, dHeight, panelHeight - 2);
+		m_iPanelAvatarX = (int)dWidth;
+		m_iPanelAvatarY = (int)dHeight;
+
+		rc.top = 1;
+		rc.left = cx - m_iPanelAvatarX;
+		rc.bottom = panelHeight - (CSkin::m_bAvatarBorderType ? 2 : 0);
+		rc.right = cx;
+		m_rcPic = rc;
+
+		if (m_bShowInfoAvatar) {
+			SetWindowPos(m_hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, rc.bottom - rc.top + 1, 0);
+			ShowWindow(m_hwndPanelPicParent, (m_iPanelAvatarX == 0) || !m_pPanel.isActive() ? SW_HIDE : SW_SHOW);
+		}
+		else {
+			ShowWindow(m_hwndPanelPicParent, SW_HIDE);
+			m_iPanelAvatarX = m_iPanelAvatarY = 0;
+		}
+
+		rc.right = cx - m_iPanelAvatarX;
+		rc.left = rc.right - m_panelStatusCX;
+		rc.bottom = panelHeight - 3;
+		rc.top = rc.bottom - m_ipFieldHeight;
+		m_rcStatus = rc;
+
+		rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
+		rc.right = cx - m_iPanelAvatarX - (panelHeight < CInfoPanel::DEGRADE_THRESHOLD ? (m_rcStatus.right - m_rcStatus.left) + 3 : 0);
+		rc.bottom = panelHeight - (panelHeight >= CInfoPanel::DEGRADE_THRESHOLD ? m_ipFieldHeight : 0) - 1;
+		rc.top = 1;
+		m_rcNick = rc;
+
+		rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
+		rc.right = cx - (m_iPanelAvatarX + 2) - m_panelStatusCX;
+		rc.bottom = panelHeight - 3;
+		rc.top = rc.bottom - m_ipFieldHeight;
+		m_rcUIN = rc;
+
+		m_pPanel.Invalidate();
+	}
+
+	if (GetDlgItem(m_hwnd, IDC_CLIST) != nullptr) {
+		RECT rcLog, rcClient;
+		GetClientRect(m_hwnd, &rcClient);
+		GetClientRect(m_pLog->GetHwnd(), &rcLog);
+		rc.top = 0;
+		rc.right = rcClient.right;
+		rc.left = rcClient.right - m_iMultiSplit;
+		rc.bottom = rcLog.bottom;
+		if (m_pPanel.isActive())
+			rc.top += (m_pPanel.getHeight() + 1);
+		MoveWindow(GetDlgItem(m_hwnd, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
+	}
+
+	m_pLog->Resize();
+
+	DetermineMinHeight();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // message filter
 
@@ -2083,100 +2179,9 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (wParam == SIZE_MAXIMIZED)
 			m_pLog->ScrollToBottom();
 
-		if (!IsIconic(m_hwnd)) {
-			if (m_ipFieldHeight == 0)
-				m_ipFieldHeight = CInfoPanel::m_ipConfig.height2;
-
-			if (m_pContainer->m_uChildMinHeight > 0 && HIWORD(lParam) >= m_pContainer->m_uChildMinHeight) {
-				if (m_iSplitterY > HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT)) {
-					m_iSplitterY = HIWORD(lParam) - DPISCALEY_S(MINLOGHEIGHT);
-					m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
-					DM_RecalcPictureSize();
-				}
-				if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY))
-					LoadSplitter();
-			}
-
-			if (m_si == nullptr) {
-				HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->cfg.avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
-				if (hbm != nullptr) {
-					BITMAP bminfo;
-					GetObject(hbm, sizeof(bminfo), &bminfo);
-					CalcDynamicAvatarSize(&bminfo);
-				}
-			}
-
-			GetClientRect(m_hwnd, &rc);
-
-			CSuper::DlgProc(uMsg, 0, 0); // call basic window resizer
-
-			BB_SetButtonsPos();
-
-			// size info panel fields
-			if (m_pPanel.isActive()) {
-				LONG cx = rc.right;
-				LONG panelHeight = m_pPanel.getHeight();
-
-				HBITMAP hbm = (m_pContainer->cfg.avatarMode == 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
-				double dHeight = 0, dWidth = 0;
-				Utils::scaleAvatarHeightLimited(hbm, dWidth, dHeight, panelHeight - 2);
-				m_iPanelAvatarX = (int)dWidth;
-				m_iPanelAvatarY = (int)dHeight;
-
-				rc.top = 1;
-				rc.left = cx - m_iPanelAvatarX;
-				rc.bottom = panelHeight - (CSkin::m_bAvatarBorderType ? 2 : 0);
-				rc.right = cx;
-				m_rcPic = rc;
-
-				if (m_bShowInfoAvatar) {
-					SetWindowPos(m_hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, rc.bottom - rc.top + 1, 0);
-					ShowWindow(m_hwndPanelPicParent, (m_iPanelAvatarX == 0) || !m_pPanel.isActive() ? SW_HIDE : SW_SHOW);
-				}
-				else {
-					ShowWindow(m_hwndPanelPicParent, SW_HIDE);
-					m_iPanelAvatarX = m_iPanelAvatarY = 0;
-				}
-
-				rc.right = cx - m_iPanelAvatarX;
-				rc.left = rc.right - m_panelStatusCX;
-				rc.bottom = panelHeight - 3;
-				rc.top = rc.bottom - m_ipFieldHeight;
-				m_rcStatus = rc;
-
-				rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
-				rc.right = cx - m_iPanelAvatarX - (panelHeight < CInfoPanel::DEGRADE_THRESHOLD ? (m_rcStatus.right - m_rcStatus.left) + 3 : 0);
-				rc.bottom = panelHeight - (panelHeight >= CInfoPanel::DEGRADE_THRESHOLD ? m_ipFieldHeight : 0) - 1;
-				rc.top = 1;
-				m_rcNick = rc;
-
-				rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
-				rc.right = cx - (m_iPanelAvatarX + 2) - m_panelStatusCX;
-				rc.bottom = panelHeight - 3;
-				rc.top = rc.bottom - m_ipFieldHeight;
-				m_rcUIN = rc;
-
-				m_pPanel.Invalidate();
-			}
-
-			if (GetDlgItem(m_hwnd, IDC_CLIST) != nullptr) {
-				RECT rcLog;
-				GetClientRect(m_hwnd, &rcClient);
-				GetClientRect(m_pLog->GetHwnd(), &rcLog);
-				rc.top = 0;
-				rc.right = rcClient.right;
-				rc.left = rcClient.right - m_iMultiSplit;
-				rc.bottom = rcLog.bottom;
-				if (m_pPanel.isActive())
-					rc.top += (m_pPanel.getHeight() + 1);
-				MoveWindow(GetDlgItem(m_hwnd, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
-			}
-
-			m_pLog->Resize();
-
-			DetermineMinHeight();
-		}
-		return 0;
+		if (IsIconic(m_hwnd))
+			return 0;
+		break;
 
 	case WM_TIMECHANGE:
 		if (isChat())
