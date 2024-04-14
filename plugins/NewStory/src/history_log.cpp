@@ -91,7 +91,7 @@ public:
 
 	void Resize() override
 	{
-		bool bottomScroll = m_pDlg.isChat() ? AtBottom() : true;
+		bool bottomScroll = AtBottom();
 
 		RECT rc;
 		GetWindowRect(GetDlgItem(m_pDlg.GetHwnd(), IDC_SRMM_LOG), &rc);
