@@ -449,8 +449,8 @@ CMStringA CTelegramProto::GetMessagePreview(const TD::file *pFile)
 	auto *pFileId = pFile->remote_->unique_id_.c_str();
 
 	auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFile->id_, pFileId);
-	pRequest->m_destPath = GetAvatarPath() + L"\\Preview";
-	CreateDirectoryW(pRequest->m_destPath, 0);
+	pRequest->m_destPath = GetPreviewPath();
+	CreateDirectoryTreeW(pRequest->m_destPath);
 
 	pRequest->m_fileName.Format(L"{%S}.jpg", pFileId);
 	{

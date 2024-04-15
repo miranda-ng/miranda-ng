@@ -968,3 +968,4 @@ Netlib_DownloadFile @1093 NONAME
 ??4EventInfo@DB@@QEAAAEAV01@I@Z @1098 NONAME
 ?MarkEventRead@CSrmmBaseDialog@@QEAAXAEBVEventInfo@DB@@@Z @1099 NONAME
 ?getEvent@EventInfo@DB@@QEBAIXZ @1100 NONAME
+?GetPreviewPath@PROTO_INTERFACE@@QEBA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1101 NONAME

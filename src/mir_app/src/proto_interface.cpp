@@ -66,6 +66,11 @@ CMStringW PROTO_INTERFACE::GetAvatarPath() const
 	return CMStringW(FORMAT, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 }
 
+CMStringW PROTO_INTERFACE::GetPreviewPath() const
+{
+	return CMStringW(FORMAT, L"%s\\Preview\\%S", VARSW(L"%miranda_userdata%").get(), m_szModuleName);
+}
+
 void PROTO_INTERFACE::OnBuildProtoMenu()
 {}
 

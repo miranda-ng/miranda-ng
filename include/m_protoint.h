@@ -208,6 +208,7 @@ public:
 	HGENMENU GetMenuItem(ProtoMenuItemType);
 
 	CMStringW GetAvatarPath() const;
+	CMStringW GetPreviewPath() const;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
