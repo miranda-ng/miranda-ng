@@ -564,6 +564,7 @@ public:
 		}
 		else Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "glb_");
 
+		OnResize();
 		BuildBookmarksList();
 
 		m_histCtrl->SetContact(m_hContact);
