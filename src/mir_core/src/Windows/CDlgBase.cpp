@@ -402,7 +402,14 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		RECT rc;
-		GetClientRect(m_hwnd, &rc);
+		if (lParam == 0)
+			GetClientRect(m_hwnd, &rc);
+		else {
+			rc.left = rc.top = 0;
+			rc.right = GET_X_LPARAM(lParam);
+			rc.left = GET_Y_LPARAM(lParam);
+		}
+		
 		if (memcmp(&m_rcPrev, &rc, sizeof(RECT))) {
 			OnResize();
 			m_rcPrev = rc;
