@@ -149,6 +149,8 @@ public:
 		bHasServer = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_SERVERCLIST) != 0;
 		bHasHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
+
+		chkDelHistory.OnChange = Callback(this, &CDeleteDlg::onChange_Server);
 	}
 
 	bool OnInitDialog() override
@@ -192,6 +194,11 @@ public:
 	void OnDestroy() override
 	{
 		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+
+	void onChange_Server(CCtrlCheck *pButton)
+	{
+		chkForEveryone.Enable(pButton->IsChecked());
 	}
 };
 
