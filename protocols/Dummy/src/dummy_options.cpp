@@ -33,9 +33,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		{
-			SendDlgItemMessageA(hwndDlg, IDC_TEMPLATE, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(templates[0].name)));
-			for (size_t i = 1; templates[i].name != 0; i++)
-				SendDlgItemMessageA(hwndDlg, IDC_TEMPLATE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(templates[i].name));
+			FillTemplateCombo(hwndDlg, IDC_TEMPLATE);
 		
 			int templateId = ppro->getTemplateId();
 			SendDlgItemMessage(hwndDlg, IDC_TEMPLATE, CB_SETCURSEL, templateId, 0);

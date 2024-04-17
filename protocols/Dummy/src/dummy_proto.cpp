@@ -24,31 +24,39 @@ const ttemplate templates[] =
 #ifndef MIRANDA_VERSION_ISALPHA
 	{ "Discord", "id", LPGEN("Discord ID") },
 #endif
-	{ "EmLAN", "Nick", LPGEN("User name") },
-	{ "Facebook", "ID", LPGEN("Facebook ID") },
-	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
-	{ "ICQ", "UIN", LPGEN("User ID") },
-	{ "ICQCorp", "UIN", LPGEN("ICQ number") },
-	{ "IRC", "Nick", LPGEN("Nickname") },
-	{ "Jabber", "jid", LPGEN("JID") },
-	{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
-	{ "MRA", "e-mail", LPGEN("E-mail address") },
-	{ "MSN", "wlid", LPGEN("Live ID") },
-	{ "Omegle", "nick", LPGEN("Visible name") },
-	{ "Sametime", "stid", LPGEN("ID") },
-	{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
-	{ "Skype (Classic)", "Username", LPGEN("Skype name") },
-	{ "Skype (Web)", "Username", LPGEN("Skype name") },
-	{ "Steam", "SteamID", LPGEN("Steam ID") },
-	{ "Tlen", "jid", LPGEN("Tlen login") },
-	{ "Tox", "ToxID", LPGEN("Tox ID") },
-	{ "Twitter", "Username", LPGEN("Username") },
-	{ "VK", "ID", LPGEN("VKontakte ID") },
-	{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
-	{ "XFire", "Username", LPGEN("Username") },
-	{ "Yahoo", "yahoo_id", LPGEN("ID") },
-	{ 0, 0, 0 }
+	{ "EmLAN",            "Nick",     LPGEN("User name")        },
+	{ "Facebook",         "ID",       LPGEN("Facebook ID")      },
+	{ "GG",               "UIN",      LPGEN("Gadu-Gadu number") },
+	{ "ICQ",              "UIN",      LPGEN("User ID")          },
+	{ "ICQCorp",          "UIN",      LPGEN("ICQ number")       },
+	{ "IRC",              "Nick",     LPGEN("Nickname")         },
+	{ "Jabber",           "jid",      LPGEN("JID")              },
+	{ "MinecraftDynmap",  "Nick",     LPGEN("Visible name")     },
+	{ "MRA",              "e-mail",   LPGEN("E-mail address")   },
+	{ "MSN",              "wlid",     LPGEN("Live ID")          },
+	{ "Omegle",           "nick",     LPGEN("Visible name")     },
+	{ "Sametime",         "stid",     LPGEN("ID")               },
+	{ "Skype (SkypeKit)", "sid",      LPGEN("Skype name")       },
+	{ "Skype (Classic)",  "Username", LPGEN("Skype name")       },
+	{ "Skype (Web)",      "Username", LPGEN("Skype name")       },
+	{ "Steam",            "SteamID",  LPGEN("Steam ID")         },
+	{ "Tlen",             "jid",      LPGEN("Tlen login")       },
+	{ "Tox",              "ToxID",    LPGEN("Tox ID")           },
+	{ "Twitter",          "Username", LPGEN("Username")         },
+	{ "VK",               "ID",       LPGEN("VKontakte ID")     },
+	{ "WhatsApp",         "ID",       LPGEN("WhatsApp ID")      },
+	{ "XFire",            "Username", LPGEN("Username")         },
+	{ "Yahoo",            "yahoo_id", LPGEN("ID")               },
+	{ "Telegram",         "id",       LPGEN("Telegram ID")      },
 };
+
+void FillTemplateCombo(HWND hwndDlg, int iCtrlId)
+{
+	for (auto &it : templates) {
+		int i = &it - templates;
+		SendDlgItemMessageA(hwndDlg, iCtrlId, CB_INSERTSTRING, i, LPARAM(i == 0 ? Translate(it.name) : it.name));
+	}
+}
 
 void CDummyProto::SearchIdAckThread(void *targ)
 {
@@ -62,6 +70,8 @@ void CDummyProto::SearchIdAckThread(void *targ)
 
 	mir_free(targ);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 {

@@ -59,3 +59,5 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "resource.h"
 #include "dummy.h"
 #include "dummy_proto.h"
+
+void FillTemplateCombo(HWND hwndDlg, int iCtrlId);
