@@ -175,6 +175,15 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 					p = p1 + 5;
 				}
 			}
+			else if (!wcsncmp(p, L"code]", 5)) {
+				p += 5;
+
+				if (auto *p1 = wcsstr(p, L"[/code]")) {
+					CMStringW wszUrl(p, int(p1 - p));
+					buf.AppendFormat(L"<pre>%s</pre>", wszUrl.c_str());
+					p = p1 + 6;
+				}
+			}
 			else {
 				buf.AppendChar('[');
 				if (*pEnd == '/')

@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum class BBCODE
 {
-	BOLD, ITALIC, STRIKE, UNDERLINE, URL
+	BOLD, ITALIC, STRIKE, UNDERLINE, URL, CODE
 };
 
 struct
@@ -30,11 +30,12 @@ struct
 }
 static bbCodes[] =
 {
-	{ BBCODE::BOLD,      L"[b]",   L"[/b]",   3, 4 },
-	{ BBCODE::ITALIC,    L"[i]",   L"[/i]",   3, 4 },
-	{ BBCODE::STRIKE,    L"[s]",   L"[/s]",   3, 4 },
-	{ BBCODE::UNDERLINE, L"[u]",   L"[/u]",   3, 4 },
-	{ BBCODE::URL,       L"[url]", L"[/url]", 5, 6 },
+	{ BBCODE::BOLD,      L"[b]",    L"[/b]",    3, 4 },
+	{ BBCODE::ITALIC,    L"[i]",    L"[/i]",    3, 4 },
+	{ BBCODE::STRIKE,    L"[s]",    L"[/s]",    3, 4 },
+	{ BBCODE::UNDERLINE, L"[u]",    L"[/u]",    3, 4 },
+	{ BBCODE::URL,       L"[url]",  L"[/url]",  5, 6 },
+	{ BBCODE::CODE,      L"[code]", L"[/code]", 6, 7 },
 };
 
 TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
@@ -65,6 +66,7 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 				TD::object_ptr<TD::TextEntityType> pNew;
 				switch (it.type) {
 				case BBCODE::URL: pNew = TD::make_object<TD::textEntityTypeUrl>(); break;
+				case BBCODE::CODE: pNew = TD::make_object<TD::textEntityTypeCode>(); break;
 				case BBCODE::BOLD: pNew = TD::make_object<TD::textEntityTypeBold>(); break;
 				case BBCODE::ITALIC: pNew = TD::make_object<TD::textEntityTypeItalic>(); break;
 				case BBCODE::STRIKE: pNew = TD::make_object<TD::textEntityTypeStrikethrough>(); break;
@@ -94,6 +96,7 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
 			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
 			case TD::textEntityTypeUrl::ID: iCode = 4; break;
+			case TD::textEntityTypeCode::ID: iCode = 5; break;
 			default:
 				continue;
 			}
