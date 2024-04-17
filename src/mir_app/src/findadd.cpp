@@ -57,34 +57,38 @@ static int FindAddDlgResizer(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 	case IDC_PROTOIDGROUP:	//the resize is always processed in template order
 		nextY = y = urc->rcItem.top;
-		if (dat->showProtoId) nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
+		if (dat->bShowProtoId)
+			nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
 		break;
 
 	case IDC_EMAILGROUP:
 		oldTop = urc->rcItem.top;
 		y = nextY;
-		if (dat->showEmail) nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
+		if (dat->bShowEmail)
+			nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
 		OffsetRect(&urc->rcItem, 0, y - oldTop);
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_NAMEGROUP:
 		oldTop = urc->rcItem.top;
 		y = nextY;
-		if (dat->showName) nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
+		if (dat->bShowName)
+			nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
 		OffsetRect(&urc->rcItem, 0, y - oldTop);
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_ADVANCEDGROUP:
 		oldTop = urc->rcItem.top;
 		y = nextY;
-		if (dat->showAdvanced) nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
+		if (dat->bShowAdvanced)
+			nextY = y + urc->rcItem.bottom - urc->rcItem.top + 7;
 		OffsetRect(&urc->rcItem, 0, y - oldTop);
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_TINYEXTENDEDGROUP:
 		oldTop = urc->rcItem.top;
 		y = nextY;
-		if (dat->showTiny) {
+		if (dat->bShowTiny) {
 			int height = urc->dlgNewSize.cy - y - (urc->dlgOriginalSize.cy - urc->rcItem.bottom);
 			nextY = y + 200;  //min height for custom dialog
 			urc->rcItem.top = urc->rcItem.bottom - height;
@@ -260,7 +264,7 @@ static void ShowTinySearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 		if (dat->hwndTinySearch)
 			ReposTinySearchDlg(hwndDlg, dat);
 		else
-			dat->showTiny = false;
+			dat->bShowTiny = false;
 	}
 	ShowWindow(dat->hwndTinySearch, SW_SHOW);
 }
@@ -466,31 +470,23 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 
 	case M_SETGROUPVISIBILITIES:
-		dat->showAdvanced = dat->showEmail = dat->showName = dat->showProtoId = dat->showTiny = 0;
+		dat->bShowAdvanced = dat->bShowEmail = dat->bShowName = dat->bShowProtoId = dat->bShowTiny = false;
 		{
 			char *szProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
 			if (szProto == (char *)CB_ERR)
 				break;
+			
 			if (szProto == nullptr) {
-				for (auto &pa : g_arAccounts) {
-					if (pa->IsEnabled()) {
-						uint32_t protoCaps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1);
-						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
-						if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
-					}
-				}
+				for (auto &pa : g_arAccounts)
+					if (pa->IsEnabled())
+						dat->proto2show(pa->szModuleName);
+
+				if (dat->bShowProtoId)
+					SetDlgItemTextW(hwndDlg, IDC_BYPROTOID, TranslateT("Unique ID"));
 			}
 			else {
-				uint32_t protoCaps = (uint32_t)CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1);
-				if (protoCaps & PF1_BASICSEARCH) dat->showProtoId = 1;
-				if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
-				if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
-
-				if (protoCaps & PF1_EXTSEARCHUI) dat->showAdvanced = 1;
-				else if (protoCaps & PF1_EXTSEARCH) dat->showTiny = 1;
-
-				if (protoCaps & PF1_USERIDISEMAIL && dat->showProtoId) { dat->showProtoId = 0; dat->showEmail = 1; }
-				if (dat->showProtoId) {
+				auto protoCaps = dat->proto2show(szProto);
+				if (dat->bShowProtoId) {
 					wchar_t *wszUniqueId = (wchar_t *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT);
 					if (wszUniqueId)
 						SetDlgItemTextW(hwndDlg, IDC_BYPROTOID, wszUniqueId);
@@ -504,14 +500,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 
-			if (dat->showTiny)
+			if (dat->bShowTiny)
 				ShowTinySearchDlg(hwndDlg, dat);
 			else if (dat->hwndTinySearch) {
 				DestroyWindow(dat->hwndTinySearch);
 				dat->hwndTinySearch = nullptr;
 			}
 
-#define en(id, t) ShowWindow( GetDlgItem(hwndDlg, IDC_##id), dat->show##t?SW_SHOW:SW_HIDE)
+#define en(id, t) ShowWindow( GetDlgItem(hwndDlg, IDC_##id), dat->bShow##t?SW_SHOW:SW_HIDE)
 			en(PROTOIDGROUP, ProtoId); en(BYPROTOID, ProtoId); en(PROTOID, ProtoId);
 			en(EMAILGROUP, Email); en(BYEMAIL, Email); en(EMAIL, Email);
 			en(NAMEGROUP, Name);  en(BYNAME, Name);
@@ -521,17 +517,17 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			en(ADVANCEDGROUP, Advanced); en(BYADVANCED, Advanced); en(ADVANCED, Advanced);
 			en(BYCUSTOM, Tiny); en(TINYEXTENDEDGROUP, Tiny);
 #undef en
-			int checkmarkVisible = (dat->showAdvanced && IsDlgButtonChecked(hwndDlg, IDC_BYADVANCED)) ||
-				(dat->showEmail && IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) ||
-				(dat->showTiny && IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM)) ||
-				(dat->showName && IsDlgButtonChecked(hwndDlg, IDC_BYNAME)) ||
-				(dat->showProtoId && IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID));
+			int checkmarkVisible = (dat->bShowAdvanced && IsDlgButtonChecked(hwndDlg, IDC_BYADVANCED)) ||
+				(dat->bShowEmail && IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) ||
+				(dat->bShowTiny && IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM)) ||
+				(dat->bShowName && IsDlgButtonChecked(hwndDlg, IDC_BYNAME)) ||
+				(dat->bShowProtoId && IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID));
 			if (!checkmarkVisible) {
-				if (dat->showProtoId) CheckSearchTypeRadioButton(hwndDlg, IDC_BYPROTOID);
-				else if (dat->showEmail) CheckSearchTypeRadioButton(hwndDlg, IDC_BYEMAIL);
-				else if (dat->showName) CheckSearchTypeRadioButton(hwndDlg, IDC_BYNAME);
-				else if (dat->showAdvanced) CheckSearchTypeRadioButton(hwndDlg, IDC_BYADVANCED);
-				else if (dat->showTiny) CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
+				if (dat->bShowProtoId) CheckSearchTypeRadioButton(hwndDlg, IDC_BYPROTOID);
+				else if (dat->bShowEmail) CheckSearchTypeRadioButton(hwndDlg, IDC_BYEMAIL);
+				else if (dat->bShowName) CheckSearchTypeRadioButton(hwndDlg, IDC_BYNAME);
+				else if (dat->bShowAdvanced) CheckSearchTypeRadioButton(hwndDlg, IDC_BYADVANCED);
+				else if (dat->bShowTiny) CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
 			}
 
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);

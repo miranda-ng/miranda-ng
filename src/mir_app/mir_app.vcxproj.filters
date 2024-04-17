@@ -32,9 +32,6 @@
     <ClCompile Include="src\filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\findadd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\FontOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,9 +81,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\popups.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\searchresults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skin2opts.cpp">
@@ -434,12 +428,15 @@
     <ClCompile Include="src\MHttpHeaders.cpp">
       <Filter>Source Files\Netlib</Filter>
     </ClCompile>
+    <ClCompile Include="src\findadd.cpp">
+      <Filter>Source Files\FindAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\searchresults.cpp">
+      <Filter>Source Files\FindAdd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\findadd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\FontService.h">
@@ -499,6 +496,9 @@
     <ClInclude Include="src\file.h">
       <Filter>Source Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="src\findadd.h">
+      <Filter>Source Files\FindAdd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -545,6 +545,9 @@
     </Filter>
     <Filter Include="Source Files\File">
       <UniqueIdentifier>{bf5fc3bb-4d3d-4237-a43b-94cb18041b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FindAdd">
+      <UniqueIdentifier>{65ad8d13-2071-424c-b57a-436beaffbaa1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
