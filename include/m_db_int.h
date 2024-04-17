@@ -378,12 +378,13 @@ struct DATABASELINK
 
 EXTERN_C MIR_APP_EXPORT HANDLE
 	g_hevContactDeleted,   // ME_DB_CONTACT_DELETED
-	g_hevContactAdded, 	  // ME_DB_CONTACT_ADDED
+	g_hevContactAdded,     // ME_DB_CONTACT_ADDED
 	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED
 	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
-	g_hevEventAdded,		  // ME_DB_EVENT_ADDED
-	g_hevEventEdited, 	  // ME_DB_EVENT_EDITED
+	g_hevEventAdded,       // ME_DB_EVENT_ADDED
+	g_hevEventEdited,      // ME_DB_EVENT_EDITED
 	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
+	g_hevEventDelivered,   // ME_DB_EVENT_DELIVERED
 	g_hevEventFiltered;    // ME_DB_EVENT_FILTER_ADD
 
 /////////////////////////////////////////////////////////////////////////////////////////

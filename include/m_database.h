@@ -298,6 +298,10 @@ EXTERN_C MIR_CORE_DLL(int) db_event_count(MCONTACT hContact);
 
 EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, int flags = 0);
 
+// Marks our own event as delivered
+
+EXTERN_C MIR_CORE_DLL(int) db_event_delivered(MCONTACT hContact, MEVENT hDbEvent);
+
 // Edits an event in the database
 // Returns 0 on success, or nonzero on error
 
@@ -611,6 +615,16 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // usual, stop other hooks from being called.
 
 #define ME_DB_EVENT_DELETED  "DB/Event/Deleted"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/Delivered event
+// Called when the server confirms that an event was successfully delivered to server
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event.
+// hContact is a valid handle to the contact to which hDbEvent refers, and will remain valid.
+
+#define ME_DB_EVENT_DELIVERED "DB/Event/Delivered"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // DB/Contact/Added event

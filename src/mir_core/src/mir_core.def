@@ -1560,8 +1560,8 @@ db_event_updateId @1772
 _TranslateW_UUID@8 @1785 NONAME
 ?Langpack_GetDefaultLocaleName@@YGPADXZ @1786 NONAME
 _EventExists@4 @1787 NONAME
-?SetTooltip@CCtrlMButton@@QAEXPBD@Z @1788 NONAME
-_newStr@4 @1789 NONAME
+_newStr@4 @1788 NONAME
+_newStrW@4 @1789 NONAME
 ?ChildElementCount@XMLNode@tinyxml2@@QBEHPBD@Z @1790 NONAME
 ?ChildElementCount@XMLNode@tinyxml2@@QBEHXZ @1791 NONAME
 ??0MClipAnsi@@QAE@PBD@Z @1792 NONAME
@@ -1577,4 +1577,5 @@ _newStr@4 @1789 NONAME
 ?Copy@MClipRtf@@UBEXXZ @1802 NONAME
 ?Copy@MClipUnicode@@UBEXXZ @1803 NONAME
 ?GetPlainRtf@CCtrlRichEdit@@QAEPAD_N@Z @1804 NONAME
-_newStrW@4 @1805 NONAME
+?SetTooltip@CCtrlMButton@@QAEXPBD@Z @1805 NONAME
+_db_event_delivered@8 @1806 NONAME

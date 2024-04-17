@@ -427,6 +427,12 @@ MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent, int flags)
 	return g_pCurrDb->DeleteEvent(hDbEvent);
 }
 
+MIR_CORE_DLL(int) db_event_delivered(MCONTACT hContact, MEVENT hDbEvent)
+{
+	NotifyEventHooks(g_hevEventDelivered, hContact, hDbEvent);
+	return 0;
+}
+
 MIR_CORE_DLL(int) db_event_edit(MEVENT hDbEvent, const DBEVENTINFO *dbei, bool bFromServer)
 {
 	if (g_pCurrDb == nullptr)
