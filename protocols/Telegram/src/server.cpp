@@ -281,9 +281,12 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 			TG_OWN_MESSAGE tmp(0, 0, szOldId);
 			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
+				auto szMsgId = msg2id(pMessage);
 				if (pOwnMsg->hAck)
-					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)msg2id(pMessage).c_str());
+					ProtoBroadcastAck(pOwnMsg->hContact ? pOwnMsg->hContact : m_iSavedMessages, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pOwnMsg->hAck, (LPARAM)szMsgId.c_str());
 
+				if (auto hDbEvent = db_event_getById(m_szModuleName, szMsgId))
+					db_event_delivered(pOwnMsg->hContact, hDbEvent);
 				m_arOwnMsg.remove(pOwnMsg);
 			}
 		}

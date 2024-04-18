@@ -314,6 +314,9 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 					DBVARIANT dbv = { DBVT_UTF8 };
 					dbv.pszVal = (char *)pRemote->id_.c_str();
 					db_event_setJson(hDbEvent, "u", &dbv);
+
+					// file is uploaded to the server
+					db_event_delivered(it->hContact, hDbEvent);
 				}
 			}
 			return;

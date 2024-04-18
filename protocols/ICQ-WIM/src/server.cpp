@@ -96,6 +96,9 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 		ProtoChainRecvMsg(pOwn->m_hContact, dbei);
 	}
 
+	if (auto hDbEvent = db_event_getById(m_szModuleName, msgId))
+		db_event_delivered(pOwn->m_hContact, hDbEvent);
+
 	if (bRemove) {
 		mir_cslock lck(m_csOwnIds);
 		m_arOwnIds.remove(pOwn);
