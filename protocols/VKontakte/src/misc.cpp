@@ -1350,7 +1350,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (jnVideo["image"]) {
 				CMStringW wszPreviewImage = GetVkPhotoForVideoItem(jnVideo["image"], hContact, iMessageId);
 				if (!wszPreviewImage.IsEmpty())
-					res.AppendFormat(L"%s\n", wszPreviewImage.c_str());
+					res.Append(wszPreviewImage);
 			}
 			
 			res.AppendFormat(L"%s: %s",
