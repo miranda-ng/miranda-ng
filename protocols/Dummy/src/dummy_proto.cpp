@@ -40,6 +40,7 @@ const ttemplate templates[] =
 	{ "Skype (Classic)",  "Username", LPGEN("Skype name")       },
 	{ "Skype (Web)",      "Username", LPGEN("Skype name")       },
 	{ "Steam",            "SteamID",  LPGEN("Steam ID")         },
+	{ "Telegram",         "id",       LPGEN("Telegram ID")      },
 	{ "Tlen",             "jid",      LPGEN("Tlen login")       },
 	{ "Tox",              "ToxID",    LPGEN("Tox ID")           },
 	{ "Twitter",          "Username", LPGEN("Username")         },
@@ -47,7 +48,6 @@ const ttemplate templates[] =
 	{ "WhatsApp",         "ID",       LPGEN("WhatsApp ID")      },
 	{ "XFire",            "Username", LPGEN("Username")         },
 	{ "Yahoo",            "yahoo_id", LPGEN("ID")               },
-	{ "Telegram",         "id",       LPGEN("Telegram ID")      },
 };
 
 void FillTemplateCombo(HWND hwndDlg, int iCtrlId)
