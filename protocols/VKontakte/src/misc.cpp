@@ -1170,6 +1170,29 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	return wszRes;
 }
 
+CMStringW CVkProto::GetVkPhotoForVideoItem(const JSONNode& Images, MCONTACT hContact, VKMessageID_t iMessageId)
+{
+	CMStringW wszRes;
+
+	if (!Images || !m_vkOptions.bBBCNewStorySupport)
+		return wszRes;
+
+	int iMaxSize = 0;
+
+	for (auto& it : Images) {
+		int iSize = it["width"].as_int();
+		if (iMaxSize < iSize)
+			wszRes = it["url"].as_mstring();
+
+		if (iMaxSize > 300)
+			break;
+	}
+
+	wszRes = GetVkFileItem(wszRes, hContact, iMessageId);
+	return wszRes.IsEmpty() ? wszRes : SetBBCString(wszRes, bbcAdvanced, vkbbcImg, wszRes);
+}
+
+
 CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString)
 {
 	CVKBBCItem bbcItem[] = {
@@ -1187,7 +1210,7 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		{ vkbbcU, bbcAdvanced, L"[u]%s[/u]" },
 		{ vkbbcCode, bbcNo, L"%s" },
 		{ vkbbcCode, bbcBasic, L"%s" },
-		{ vkbbcCode, bbcAdvanced, m_vkOptions.bBBCNewStorySupport ? L"%s" : L"[code]%s[/code]"},
+		{ vkbbcCode, bbcAdvanced, L"[code]%s[/code]"},
 		{ vkbbcImg, bbcNo, L"%s" },
 		{ vkbbcImg, bbcBasic, L"[img]%s[/img]" },
 		{ vkbbcImg, bbcAdvanced, L"[img]%s[/img]" },
@@ -1324,6 +1347,12 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			VKUserID_t iOwnerId = jnVideo["owner_id"].as_int();
 			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
 
+			if (jnVideo["image"]) {
+				CMStringW wszPreviewImage = GetVkPhotoForVideoItem(jnVideo["image"], hContact, iMessageId);
+				if (!wszPreviewImage.IsEmpty())
+					res.AppendFormat(L"%s\n", wszPreviewImage.c_str());
+			}
+			
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB).c_str(),
 				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl).c_str());

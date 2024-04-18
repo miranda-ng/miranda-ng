@@ -390,6 +390,7 @@ private:
 	CMStringA GetAttachmentsFromMessage(const char * szMsg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId);
+	CMStringW GetVkPhotoForVideoItem(const JSONNode& jnPhoto, MCONTACT hContact, VKMessageID_t iMessageId);
 	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
 	CMStringW& ClearFormatNick(CMStringW& wszText);
 	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC, MCONTACT hContact, VKMessageID_t iMessageId);

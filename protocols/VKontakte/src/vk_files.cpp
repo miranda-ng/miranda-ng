@@ -34,11 +34,13 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 
 	CMStringW wszUrl = _wszUrl;
 	wszUrl.Replace(L"\\", L"/");
-
-	if (int i = wszUrl.Find('?'))
+	
+	int i = wszUrl.Find('?');
+	if (i > -1)
 		wszUrl.Truncate(i);
-
-	if (int i = wszUrl.ReverseFind('/'))
+	
+	i = wszUrl.ReverseFind('/');
+	if (i > -1)
 		wszUrl = wszUrl.Mid(i + 1);
 
 	wszUrl.Insert(0, buf);
