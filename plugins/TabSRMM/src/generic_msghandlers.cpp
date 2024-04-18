@@ -253,7 +253,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
 				DM_RecalcPictureSize();
-				Resize();
+				OnResize();
 				break;
 
 			case ID_MODE_PRIVATE:
@@ -262,7 +262,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
 				DM_RecalcPictureSize();
-				Resize();
+				OnResize();
 				break;
 
 			case ID_GLOBAL_BBCODE:
@@ -365,7 +365,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		m_pContainer->QueryClientArea(rc);
-		Resize();
+		OnResize();
 		DM_ScrollToBottom(1, 1);
 		Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 		Utils::showDlgControl(m_hwnd, IDC_CLIST, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
@@ -390,7 +390,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			if (!m_bIsAutosizingInput) {
 				m_iSplitterSaved = m_iSplitterY;
 				m_iSplitterY = rc.bottom / 2;
-				SendMessage(m_hwnd, WM_SIZE, 1, 1);
+				OnResize();
 			}
 
 			ptrW wszText(db_get_wsa(m_hContact, "UserInfo", "MyNotes"));
@@ -404,7 +404,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 			if (!m_bIsAutosizingInput) {
 				m_iSplitterY = m_iSplitterSaved;
-				Resize();
+				OnResize();
 				DM_ScrollToBottom(0, 1);
 			}
 		}
@@ -617,7 +617,7 @@ void CMsgDialog::DM_RecalcPictureSize()
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
 		if (CalcDynamicAvatarSize(&bminfo))
-			Resize();
+			OnResize();
 	}
 	else m_pic.cy = m_pic.cx = 60;
 }
@@ -988,7 +988,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 	LoadSplitter();
 	AdjustBottomAvatarDisplay();
 	DM_RecalcPictureSize();
-	Resize();
+	OnResize();
 	DM_ScrollToBottom(1, 1);
 	if (this != srcDat)
 		UpdateToolbarBG();

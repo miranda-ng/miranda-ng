@@ -1355,7 +1355,7 @@ void CMsgDialog::LoadContactAvatar()
 
 	if (!m_pPanel.isActive() || m_pContainer->cfg.avatarMode == 3) {
 		m_iRealAvatarHeight = 0;
-		PostMessage(m_hwnd, WM_SIZE, 0, 0);
+		OnResize();
 	}
 	else if (m_pPanel.isActive())
 		GetAvatarVisibility();
@@ -1385,7 +1385,7 @@ void CMsgDialog::LoadOwnAvatar()
 		BITMAP bm;
 		GetObject(m_hOwnPic, sizeof(bm), &bm);
 		if (CalcDynamicAvatarSize(&bm))
-			Resize();
+			OnResize();
 	}
 }
 
@@ -1703,7 +1703,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 			}
 
 			ShowPicture(false);
-			Resize();
+			OnResize();
 			DM_ScrollToBottom(0, 1);
 			return 1;
 
@@ -2059,7 +2059,7 @@ void CMsgDialog::ShowPicture(bool showNewPic)
 			if (!m_hwndPanelPic) {
 				InvalidateRect(m_hwnd, nullptr, TRUE);
 				UpdateWindow(m_hwnd);
-				Resize();
+				OnResize();
 			}
 			return;
 		}
@@ -2077,7 +2077,7 @@ void CMsgDialog::ShowPicture(bool showNewPic)
 	if (!showNewPic)
 		SetDialogToType();
 	else
-		Resize();
+		OnResize();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2167,7 +2167,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
 		db_set_b(0, SRMSGMOD_T, "msgsizebar", (uint8_t)PluginConfig.m_visualMessageSizeIndicator);
 		Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 0);
-		Resize();
+		OnResize();
 		if (m_pContainer->m_hwndStatus)
 			RedrawWindow(m_pContainer->m_hwndStatus, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
@@ -2201,7 +2201,7 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 			if (m_iMultiSplit > ((rc.right - rc.left) - 80))
 				m_iMultiSplit = oldSplitterX;
 		}
-		Resize();
+		OnResize();
 		break;
 
 	case IDC_SPLITTERX:
@@ -2216,7 +2216,7 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 				iSplitterX = rc.right - rc.left - 35;
 			m_pContainer->cfg.iSplitterX = iSplitterX;
 		}
-		Resize();
+		OnResize();
 		break;
 
 	case IDC_SPLITTERY:
@@ -2253,7 +2253,7 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 			}
 		}
 		UpdateToolbarBG();
-		Resize();
+		OnResize();
 		break;
 
 	case IDC_PANELSPLITTER:

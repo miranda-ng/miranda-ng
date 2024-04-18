@@ -155,7 +155,7 @@ public:
 		if (dat) {
 			SendMessage(dat->GetHwnd(), DM_CONFIGURETOOLBAR, 0, 1);
 			dat->ShowPicture(false);
-			dat->Resize();
+			dat->OnResize();
 			dat->DM_ScrollToBottom(0, 1);
 		}
 		return true;

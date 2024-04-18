@@ -1204,7 +1204,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 
 			if (m_height != lOldHeight) {
-				::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
+				m_dat->OnResize();
 				m_dat->m_pContainer->SetAeroMargins();
 				::RedrawWindow(m_dat->GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 				::RedrawWindow(GetParent(m_dat->GetHwnd()), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
