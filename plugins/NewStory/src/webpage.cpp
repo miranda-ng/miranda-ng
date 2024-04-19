@@ -693,7 +693,7 @@ void NSWebPage::make_url(LPCWSTR url, LPCWSTR, std::wstring &out)
 
 void NSWebPage::on_anchor_click(const char *pszUtl, const element::ptr &)
 {
-	Utils_OpenUrl(pszUtl);
+	Utils_OpenUrlW(Utf2T(pszUtl));
 }
 
 void NSWebPage::set_base_url(const char *)
