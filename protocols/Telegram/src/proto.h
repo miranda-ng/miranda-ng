@@ -281,10 +281,10 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void UnregisterSession();
 
-	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg);
+	bool GetMessageFile(TG_FILE_REQUEST::Type, TG_USER *pUser, const TD::file *pFile, const char *pszFileName, const std::string &caption, const char *szId, const char *szUser, const TD::message *pMsg, bool bRead);
 	CMStringA GetMessagePreview(const TD::file *pFile);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
-	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false);
+	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false, bool bRead = false);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
