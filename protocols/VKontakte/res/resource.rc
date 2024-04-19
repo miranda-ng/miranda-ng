@@ -51,6 +51,8 @@ IDI_MARKMESSAGESASREAD  ICON                    "markread.ico"
 
 IDI_FORWARD             ICON                    "forward.ico"
 
+IDI_RELOADMESSAGE       ICON                    "reload.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -182,7 +184,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Support BBC for NewStory",IDC_BBC_NEWSTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,278,10
-	GROUPBOX        "[img] BBCode support for image",IDC_STATIC,13,20,280,33,WS_GROUP
+    GROUPBOX        "[img] BBCode support for image",IDC_STATIC,13,20,280,33,WS_GROUP
     CONTROL         "off",IDC_IMG_OFF,"Button",BS_AUTORADIOBUTTON,21,29,129,10
     CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,21,40,129,10
     CONTROL         "for preview max 130*130 px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,163,29,127,10
@@ -209,7 +211,7 @@ BEGIN
     CONTROL         "Add message link to messages with attachments",IDC_ADD_MES_LINK_MES_ATT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,186,278,10
     CONTROL         "Add original message version in edited message",IDC_ADD_ORIG_VER_IN_EDITED_MES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,197,278,10  
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,197,278,10
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 232

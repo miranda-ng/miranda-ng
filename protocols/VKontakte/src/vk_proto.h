@@ -195,6 +195,7 @@ private:
 
 	enum NewStoryMenuIndexes {
 		NSMI_FORWARD,
+		NSMI_RELOADMESSAGE,
 		NSMI_COUNT
 	};
 
@@ -430,8 +431,7 @@ private:
 	void AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessageId, VKMessageID_t iReplyMsgId, VKUserID_t iUserId, time_t tMsgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsRead, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
-	void OnReceiveChatInfo(MHttpResponse*, AsyncHttpRequest*);
-	void OnSendChatMsg(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveChatInfo(MHttpResponse*, AsyncHttpRequest*);	
 	void OnChatLeave(MHttpResponse*, AsyncHttpRequest *);
 	void OnChatDestroy(MHttpResponse*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);

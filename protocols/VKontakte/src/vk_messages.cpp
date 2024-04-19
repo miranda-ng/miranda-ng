@@ -84,8 +84,14 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 	}
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
-	AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
-		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
+	AsyncHttpRequest* pReq = new AsyncHttpRequest(
+		this, 
+		REQUEST_POST, 
+		"/method/messages.send.json", 
+		true,
+		&CVkProto::OnSendMessage, 
+		AsyncHttpRequest::rpHigh
+	);
 	
 	pReq 
 		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) 
@@ -107,12 +113,10 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		}
 	}
 
-	if (!bIsChat)
-		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
-
+	pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
 	Push(pReq);
 
-	if (!m_vkOptions.bServerDelivery && !bIsChat)
+	if (!m_vkOptions.bServerDelivery)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
 
 	if (vForvardEvents.size() > VK_MAX_FORWARD_MESSAGES) {
@@ -145,9 +149,19 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	ptrA pszRetMsg(GetStickerId(szMsg, StickerId));
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
-		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
-	pReq << INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) << INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(
+		this, 
+		REQUEST_POST, 
+		"/method/messages.send.json", 
+		true,
+		&CVkProto::OnSendMessage,
+		AsyncHttpRequest::rpHigh
+	);
+	
+	pReq 
+		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) 
+		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
+
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	
@@ -170,12 +184,11 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 		}
 	}
 
-	if (!bIsChat)
-		pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
-
+	
+	pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
 	Push(pReq);
 
-	if (!m_vkOptions.bServerDelivery && !bIsChat)
+	if (!m_vkOptions.bServerDelivery)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
 
 	if (!IsEmpty(pszRetMsg))
@@ -237,6 +250,12 @@ void CVkProto::OnSendMessage(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	}
 	else if (m_vkOptions.bServerDelivery)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID), (LPARAM)szMid);
+	
+
+	MEVENT hDbEvent;
+	if ((iResult == ACKRESULT_SUCCESS) && (hDbEvent = db_event_getById(m_szModuleName, szMid)))
+		db_event_delivered(param->hContact, hDbEvent);
+
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;

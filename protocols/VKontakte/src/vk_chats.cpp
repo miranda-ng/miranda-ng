@@ -680,26 +680,6 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-void CVkProto::OnSendChatMsg(MHttpResponse *reply, AsyncHttpRequest *pReq)
-{
-	debugLogA("CVkProto::OnSendChatMsg %d", reply->resultCode);
-	int iResult = ACKRESULT_FAILED;
-	if (reply->resultCode == 200) {
-		JSONNode jnRoot;
-		CheckJsonResponse(pReq, reply, jnRoot);
-		iResult = ACKRESULT_SUCCESS;
-	}
-	if (!pReq->pUserInfo)
-		return;
-
-	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)(fup));
-	if (!pReq->bNeedsRestart || m_bTerminated) {
-		delete fup;
-		pReq->pUserInfo = nullptr;
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)

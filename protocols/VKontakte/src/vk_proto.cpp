@@ -222,6 +222,11 @@ void CVkProto::InitMenus()
 		mi.position = NS_PROTO_MENU_POS + NSMI_FORWARD;
 		mi.name.a = LPGEN("Forward");
 		m_hNewStoryMenuItems[NSMI_FORWARD] = Menu_AddNewStoryMenuItem(&mi, NSMI_FORWARD);
+
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_RELOADMESSAGE);
+		mi.position = NS_PROTO_MENU_POS + NSMI_RELOADMESSAGE;
+		mi.name.a = LPGEN("Reload messages");
+		m_hNewStoryMenuItems[NSMI_RELOADMESSAGE] = Menu_AddNewStoryMenuItem(&mi, NSMI_RELOADMESSAGE);
 	};
 
 	//Contact Menu Services
@@ -419,6 +424,7 @@ int CVkProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
 {
 	auto &dbei = *(DB::EventInfo *)lParam;
 	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_FORWARD], hContact != 0 && dbei);
+	Menu_ShowItem(m_hNewStoryMenuItems[NSMI_RELOADMESSAGE], Proto_IsProtoOnContact(hContact, m_szModuleName) && hContact != 0 && dbei);
 	return 0;
 }
 
@@ -428,13 +434,18 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 	if (hCurrentEvent == -1)
 		return 1;
 
+	std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
+	if (vIds.empty())
+		return 1;
+
+	if (!vIds.size())
+		vIds.push_back(hCurrentEvent);
+
+	std::sort(vIds.begin(), vIds.end());
+
 	switch (iCommand) {
 	case NSMI_FORWARD: 
 		{
-			std::vector<MEVENT> vIds = NS_GetSelection(HANDLE(pHandle));
-			if (vIds.empty())
-				break;
-
 			wchar_t wszMsg[2048] = L"";
 			if (auto *pDlg = NS_GetSrmm((HANDLE)pHandle))
 				GetWindowText(pDlg->GetInput(), wszMsg, 2048);
@@ -451,15 +462,27 @@ INT_PTR CVkProto::SvcNSExecMenu(WPARAM iCommand, LPARAM pHandle)
 			if (!dlg.DoModal())
 				break;
 
-			if (!vIds.size())
-				vIds.push_back(hCurrentEvent);
-
-			std::sort(vIds.begin(), vIds.end());
-
 			T2Utf pszMsg(dlg.wszMessage.c_str());
 			for (auto &hContact : dlg.lContacts)
 				ForwardMsg((UINT_PTR)hContact, vIds, pszMsg);
 
+		}
+		break;
+	case NSMI_RELOADMESSAGE:
+		{
+			CMStringA szIds;
+			for (auto& mEvnt : vIds) {
+				DB::EventInfo dbei(mEvnt);
+				if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE)
+					continue;
+
+				if (!szIds.IsEmpty())
+					szIds.AppendChar(',');
+				szIds += dbei.szId;
+			}
+
+			if (!szIds.IsEmpty())
+				RetrieveMessagesByIds(szIds);
 		}
 		break;
 	}

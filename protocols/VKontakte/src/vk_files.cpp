@@ -473,7 +473,7 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	AsyncHttpRequest *pMsgReq;
+	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
 
 	if (isChatRoom(fup->hContact)) {
 		CVkChatInfo *cc = GetChatByContact(fup->hContact);
@@ -482,7 +482,6 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			return;
 		}
 
-		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh);
 		pMsgReq << INT_PARAM("chat_id", cc->m_iChatId);
 		pMsgReq->pUserInfo = pReq->pUserInfo;
 
@@ -494,15 +493,16 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			return;
 		}
 
-		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
 		pMsgReq << INT_PARAM("peer_id", iUserId);
 		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	}
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
-	pMsgReq << WCHAR_PARAM("message", fup->wszDesc) << WCHAR_PARAM("attachment", Attachment);
-	pMsgReq << INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
-	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	pMsgReq 
+		<< WCHAR_PARAM("message", fup->wszDesc) 
+		<< WCHAR_PARAM("attachment", Attachment)
+		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
 
+	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pMsgReq);
 }
