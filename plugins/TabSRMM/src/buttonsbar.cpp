@@ -247,6 +247,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 
 		bool bAutoHidden = mapHidden[cbd];
 
+		int iCmd = SW_SHOW;
 		if (showToolbar) {
 			if (!cbd->m_bSeparator && !IsWindowEnabled(hwndButton) && !bAutoHidden)
 				tempL -= cbd->m_iButtonWidth + gap;
@@ -254,18 +255,16 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 			if (cbd->m_bCanBeHidden && !cbd->m_bHidden) {
 				if (!bAutoHidden) {
 					if (tempL + tempR > (rect.right - foravatar) && (cbd->m_bSeparator || IsWindowVisible(hwndButton))) {
-						ShowWindow(hwndButton, SW_HIDE);
+						iCmd = SW_HIDE;
 						bAutoHidden = true;
 						tempL -= cbd->m_iButtonWidth + gap;
 					}
 				}
-				else {
-					ShowWindow(hwndButton, SW_SHOW);
-					bAutoHidden = false;
-				}
+				else bAutoHidden = false;
 			}
 		}
-		else ShowWindow(hwndButton, SW_HIDE);
+		else iCmd = SW_HIDE;
+		ShowWindow(hwndButton, iCmd);
 		
 		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff - 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
@@ -291,6 +290,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 
 		bool bAutoHidden = mapHidden[cbd];
 
+		int iCmd = SW_SHOW;
 		if (showToolbar) {
 			if (!cbd->m_bSeparator && !IsWindowVisible(hwndButton) && !IsWindowEnabled(hwndButton) && !bAutoHidden)
 				tempR -= cbd->m_iButtonWidth + gap;
@@ -298,18 +298,16 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 			if (cbd->m_bCanBeHidden && !cbd->m_bHidden) {
 				if (!bAutoHidden) {
 					if (tempL + tempR > (rect.right - foravatar) && (cbd->m_bSeparator || IsWindowVisible(hwndButton))) {
-						ShowWindow(hwndButton, SW_HIDE);
+						iCmd = SW_HIDE;
 						bAutoHidden = true;
 						tempR -= cbd->m_iButtonWidth + gap;
 					}
 				}
-				else {
-					ShowWindow(hwndButton, SW_SHOW);
-					bAutoHidden = false;
-				}
+				else bAutoHidden = false;
 			}
 		}
-		else ShowWindow(hwndButton, SW_HIDE);
+		else iCmd = SW_HIDE;
+		ShowWindow(hwndButton, iCmd);
 
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
 			rwidth += cbd->m_iButtonWidth + gap;
