@@ -362,11 +362,11 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 	}
 	else li->hEvent = si->iLastEvent++;
 	
-	si->arEvents.insert(li);
-
 	if (g_Settings->iEventLimit > 0 && si->arEvents.getCount() > g_Settings->iEventLimit + 20)
 		for (int i = si->arEvents.getCount() - g_Settings->iEventLimit; i >= 0; i--)
 			si->arEvents.remove(0);
+
+	si->arEvents.insert(li);
 
 	return li;
 }
