@@ -37,7 +37,7 @@ class CEmptyHistoryDlg : public CDlgBase
 
 public:
 	char *szProto;
-	bool bDelHistory, bForEveryone;
+	bool bDelHistory, bForEveryone = false;
 
 	CEmptyHistoryDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
@@ -55,9 +55,8 @@ public:
 		chkDelHistory.SetState(false);
 		chkDelHistory.Enable(bDelHistory);
 
-		bool bEnabled = bDelHistory && bForEveryone;
-		chkForEveryone.SetState(!bEnabled);
-		chkForEveryone.Enable(bEnabled);
+		chkForEveryone.SetState(false);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
 
 		LOGFONT lf;
 		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
