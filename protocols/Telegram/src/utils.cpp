@@ -395,45 +395,36 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CTelegramProto::GetMessageFile(
-	TG_FILE_REQUEST::Type fileType,
-	TG_USER *pUser,
-	const TD::file *pFile,
-	const char *pszFileName,
-	const std::string &caption,
-	const char *pszId,
-	const char *pszUserId,
-	const TD::message *pMsg,
-	bool bRead)
+bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type iType, const TD::file *pFile, const char *pszFileName, const char *pszCaption)
 {
 	if (pFile->get_id() != TD::file::ID) {
 		debugLogA("Document contains unsupported type %d, exiting", pFile->get_id());
 		return false;
 	}
 
-	auto *pRequest = new TG_FILE_REQUEST(fileType, pFile->id_, pFile->remote_->id_.c_str());
+	auto *pRequest = new TG_FILE_REQUEST(iType, pFile->id_, pFile->remote_->id_.c_str());
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
-	pRequest->m_bRecv = !pMsg->is_outgoing_;
-	pRequest->m_hContact = GetRealContact(pUser);
+	pRequest->m_bRecv = !F.pMsg->is_outgoing_;
+	pRequest->m_hContact = GetRealContact(F.pUser);
+
+	if (mir_strlen(pszCaption))
+		F.szBody += pszCaption;
 
 	char szReplyId[100];
-	const char *szDesc = nullptr;
 
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, pszId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, F.pszId);
 	DB::EventInfo dbei(hDbEvent);
 	dbei.flags = DBEF_TEMPORARY;
-	dbei.timestamp = pMsg->date_;
-	dbei.szId = pszId;
-	dbei.szUserId = pszUserId;
-	if (!caption.empty())
-		szDesc = caption.c_str();
-	if (pMsg->is_outgoing_)
+	dbei.timestamp = F.pMsg->date_;
+	dbei.szId = F.pszId;
+	dbei.szUserId = F.pszUser;
+	if (F.pMsg->is_outgoing_)
 		dbei.flags |= DBEF_SENT;
-	if (!pUser->bInited || bRead)
+	if (!F.pUser->bInited || F.bRead)
 		dbei.flags |= DBEF_READ;
-	if (pMsg->reply_to_message_id_) {
-		_i64toa(pMsg->reply_to_message_id_, szReplyId, 10);
+	if (F.pMsg->reply_to_message_id_) {
+		_i64toa(F.pMsg->reply_to_message_id_, szReplyId, 10);
 		dbei.szReplyId = szReplyId;
 	}
 
@@ -444,7 +435,9 @@ bool CTelegramProto::GetMessageFile(
 		db_event_edit(hDbEvent, &dbei, true);
 		delete pRequest;
 	}
-	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, szDesc), dbei);
+	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, F.szBody), dbei);
+	
+	F.szBody.Empty();
 	return true;
 }
 
@@ -519,6 +512,42 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	CMStringA ret;
 
+	if (auto *pForward = pMsg->forward_info_.get()) {
+		CMStringW wszNick;
+		switch (pForward->origin_->get_id()) {
+		case TD::messageForwardOriginUser::ID:
+			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginChat::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		case TD::messageForwardOriginHiddenUser::ID:
+			if (auto *p = (TD::messageForwardOriginHiddenUser *)pForward->origin_.get())
+				wszNick = Utf2T(p->sender_name_.c_str());
+			break;
+		case TD::messageForwardOriginChannel::ID:
+			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
+				wszNick = p->getDisplayName();
+			break;
+		default:
+			wszNick = TranslateT("Unknown");
+		}
+
+		wchar_t wszDate[100];
+		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
+		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
+		ret.Insert(0, T2Utf(wszForward));
+	}
+
+	EmbeddedFile embed(ret);
+	embed.pUser = pUser;
+	embed.bRead = bRead;
+	embed.pszId= szMsgId;
+	embed.pszUser = szUserId;
+	embed.pMsg = pMsg;
+
 	switch (pBody->get_id()) {
 	case TD::messageChatUpgradeTo::ID:
 		if (auto *pUgrade = (TD::messageChatUpgradeTo *)pBody) {
@@ -558,7 +587,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 
 			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
-			GetMessageFile(TG_FILE_REQUEST::PICTURE, pUser, pPhoto->photo_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::PICTURE, pPhoto->photo_.get(), fileName, pDoc->caption_->text_.c_str());
 		}
 		break;
 
@@ -571,7 +600,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption.c_str());
 		}
 		break;
 
@@ -584,7 +613,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->video_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), pVideo->file_name_.c_str(), caption.c_str());
 		}
 		break;
 
@@ -597,20 +626,20 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				caption += " ";
 				caption += pDoc->caption_->text_;
 			}
-			GetMessageFile(TG_FILE_REQUEST::VIDEO, pUser, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption.c_str());
 		}
 		break;
 
 	case TD::messageVoiceNote::ID:
 		if (auto *pDoc = (TD::messageVoiceNote *)pBody) {
 			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
-			GetMessageFile(TG_FILE_REQUEST::VOICE, pUser, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::VOICE, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_.c_str());
 		}
 		break;
 
 	case TD::messageDocument::ID:
 		if (auto *pDoc = (TD::messageDocument *)pBody)
-			GetMessageFile(TG_FILE_REQUEST::FILE, pUser, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_, szMsgId, pszUserId, pMsg, bRead);
+			GetMessageFile(embed, TG_FILE_REQUEST::FILE, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_.c_str());
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
@@ -639,7 +668,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 					}
 				}
 			}
-			ret = pObj->emoji_.c_str();
+			ret += pObj->emoji_.c_str();
 		}
 		break;
 
@@ -661,7 +690,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 				ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
 			}
-			else ret.Format("%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
+			else ret.AppendFormat("%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
 		}
 		break;
 
@@ -700,35 +729,6 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 		}
 		break;
-	}
-
-	if (auto *pForward = pMsg->forward_info_.get()) {
-		CMStringW wszNick;
-		switch (pForward->origin_->get_id()) {
-		case TD::messageForwardOriginUser::ID:
-			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
-				wszNick = p->getDisplayName();
-			break;
-		case TD::messageForwardOriginChat::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
-				wszNick = p->getDisplayName();
-			break;
-		case TD::messageForwardOriginHiddenUser::ID:
-			if (auto *p = (TD::messageForwardOriginHiddenUser *)pForward->origin_.get())
-				wszNick = Utf2T(p->sender_name_.c_str());
-			break;
-		case TD::messageForwardOriginChannel::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
-				wszNick = p->getDisplayName();
-			break;
-		default:
-			wszNick = TranslateT("Unknown");
-		}
-
-		wchar_t wszDate[100];
-		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
-		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
-		ret.Insert(0, T2Utf(wszForward));
 	}
 
 	return ret;
