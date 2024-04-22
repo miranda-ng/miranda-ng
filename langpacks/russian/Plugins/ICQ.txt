@@ -52,6 +52,12 @@ UIN/почта:
 В сети с:
 [Phone number:]
 Телефон:
+[First name:]
+Имя:
+[Last name:]
+Фамилия:
+[About:]
+Информация:
 [Enter ICQ Password]
 Введите пароль ICQ
 [Enter a password:]
@@ -130,6 +136,7 @@ UIN/почта/телефон
 Избранное
 [Buddy addition failed]
 Не удалось добавить контакт
+;file \protocols\ICQ-WIM\src\userinfo.cpp
 ;file \protocols\ICQ-WIM\src\utils.cpp
 [long time ago]
 давно

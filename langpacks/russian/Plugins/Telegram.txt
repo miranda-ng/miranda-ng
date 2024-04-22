@@ -18,6 +18,8 @@
 Имя устройства:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[Log out]
+Выйти
 [Compress files on send]
 Сжимать файлы при отправке
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -127,6 +129,8 @@ IP-адрес
 Уведомления об ошибках %s
 [Errors]
 Ошибки
+[wrote]
+писал(а)
 [Picture]
 Изображение
 [Audio]
@@ -143,5 +147,3 @@ IP-адрес
 Вы получили счёт
 [Title]
 Заголовок
-[wrote]
-писал(а)

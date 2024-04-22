@@ -277,9 +277,9 @@ ID пользователя в строке состояния
 [Preload number of previous events]
 Подгружать события в количестве
 [Preload previous events less than]
-Подгружать события, полученные менее чем
+Подгружать события за последние
 [minutes old]
-минут назад
+минут
 [Indent values]
 Интервалы отступов
 [Left/Right]
@@ -1285,8 +1285,6 @@ TabSRMM: набор текста
 Доставка не удалась: %s
 [The message send timed out]
 время отправки истекло
-[Contact is offline and this protocol does not support sending files to offline users.]
-Контакт не в сети и этот протокол не поддерживает оффлайн сообщения.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 '(Неизвестный контакт)'
@@ -1304,8 +1302,6 @@ TabSRMM: набор текста
 Файлы изображений
 [The file exists. Do you want to overwrite it?]
 Файл уже существует. Перезаписать?
-[JPEG-compressed images]
-Изображения в формате JPEG
 [Copy all]
 Копировать всё
 [Save and close session]

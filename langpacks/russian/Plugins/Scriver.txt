@@ -78,17 +78,15 @@
 строк
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Допускаются переменные: %name% - имя контакта, %status% - его статус, %statusmsg% - сообщение статуса, %account% - имя учётной записи
-[Preload]
-Подгружать историю
-[Unread events only]
-Только непрочитанные события
-[Last]
-Последние
-[Events in the last]
-События полученные позже, чем
-[events]
-событий
-[minutes]
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события за последние
+[minutes old]
 минут
 [Message window event log]
 Журнал окна сообщений

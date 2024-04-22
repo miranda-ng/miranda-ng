@@ -292,9 +292,9 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 [Preload number of previous events]
 Подгружать события в количестве
 [Preload previous events less than]
-Подгружать события, полученные менее чем
+Подгружать события за последние
 [minutes old]
-минут назад
+минут
 [Message window event log]
 Журнал в окне сообщений
 [Show names]
@@ -1205,6 +1205,8 @@ UIN, E-mail и т.д.
 Если их размер менее
 [KBytes (0 - always)]
 Кбайт (0 - всегда скачивать)
+[Remove cached files when an event is deleted]
+Удалить кэшированные файлы при удалении события
 [Virus scanner]
 Антивирус
 [Scan files:]
@@ -1821,12 +1823,12 @@ Miranda не смогла загрузить встроенную систему
 %s добавил вас в свой список контактов
 [%u added you to their contact list]
 %u добавил вас в свой список контактов
-[%s has joined]
-%s вошёл
+[%s has joined %s]
+%s вошёл в %s
 [You have joined %s]
 Вы пришли на '%s'
-[%s has left]
-%s вышел
+[%s has left %s]
+%s вышел из %s
 [%s has disconnected]
 %s отключился
 [%s is now known as %s]
@@ -1927,10 +1929,6 @@ Miranda не смогла загрузить встроенную систему
 %s требует вашего внимания в %s
 [%s speaks in %s]
 %s говорит в %s
-[%s has joined %s]
-%s вошёл в %s
-[%s has left %s]
-%s вышел из %s
 [%s kicked %s from %s]
 %s выкинул %s из %s
 [Topic change in %s]
@@ -2183,6 +2181,8 @@ Ctrl+Искать добавляет контакт
 Поиск
 [All networks]
 Все сети
+[Unique ID]
+Уник. ID
 [Handle]
 Название
 [&Find/add contacts...]
@@ -2629,6 +2629,8 @@ ID учётной записи
 Внутреннее имя учётной записи содержит недопустимые символы (поддерживаются только символы ASCII).
 [Account internal name has to be unique. Please enter unique name.]
 Внутреннее имя учётной записи должно быть уникальным. Введите уникальное имя.
+[Account's name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
 [Could not search on any of the protocols, are you online?]
@@ -2725,8 +2727,6 @@ ANSI плагин
 &Сообщение %s
 [Nickname]
 Ник
-[Unique ID]
-Уник. ID
 [Disable the event filter (Ctrl+F)]
 Вылючить фильтр событий (Ctrl+F)
 [Enable the event filter (Ctrl+F)]
@@ -2753,6 +2753,8 @@ ANSI плагин
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
+[Are you sure to wipe the system history?]
+Уверены, что хотите очистить системную историю?
 [Empty system history]
 Очистить системную историю
 [<Separator>]
@@ -9499,6 +9501,8 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Производится резервирование базы данных...
 [Backup profile]
 Резервировать профиль
+[Save database as...]
+Сохранить базу данных как...
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]
@@ -13024,6 +13028,12 @@ UIN/почта:
 В сети с:
 [Phone number:]
 Телефон:
+[First name:]
+Имя:
+[Last name:]
+Фамилия:
+[About:]
+Информация:
 [Enter ICQ Password]
 Введите пароль ICQ
 [Enter a password:]
@@ -16520,6 +16530,10 @@ Jabber vCard: редактирование телефона
 ;============================================================
 [Jingle support for Jabber protocol.]
 Поддержка Jingle для протокола Jabber.
+[Enable VoIP]
+Включить VOIP
+[STUN server address:]
+Адрес сервера STUN:
 [Supports Jingle]
 Поддержка Jingle
 [Jingle ICE-UDP Transport]
@@ -16530,6 +16544,8 @@ Jingle RTP
 Jingle DTLS
 [Network]
 Сеть
+[VoIP]
+VoIP
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -17247,6 +17263,8 @@ Lotus Notify
 Значок ошибки при отправке сообщения
 [Sending message icon]
 Значок отправки сообщения
+[Unread contact list extra icon]
+Значок непрочитанного сообщения в списке контактов
 [MessageState]
 Состояние сообщения
 #muuid {7efa77d0-5ca2-485e-a045-609b988f3718}
@@ -17634,6 +17652,8 @@ MirFox (Miranda) - Ошибка
 Папка с библиотеками C
 [Scripts folder]
 Папка со скриптами
+[MirLua]
+Lua скрипты
 #muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
@@ -18160,7 +18180,7 @@ bass.dll не найден! Укажите путь к нему
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -19172,14 +19192,26 @@ URL страницы с комментариями к новости.
 Показывать тип события
 [Show event direction]
 Показывать направление события
+[Show picture preview]
+Включить предпросмотр изображений
 [Template list:]
 Список шаблонов:
 [Edit template:]
 Изменить шаблон:
-[Text preview:]
-Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
+[Text preview:]
+Текстовый предпросмотр:
+[[c2]]
+\[c2]
+[[c4]]
+\[c4]
+[[c6]]
+\[c6]
+[[c3]]
+\[c3]
+[[c5]]
+\[c5]
 [Empty history]
 Очистить историю
 [Are you sure to remove selected event(s)?]
@@ -19248,12 +19280,22 @@ URL страницы с комментариями к новости.
 Подсвеченные сообщения
 [Grid background]
 Фон сетки
+[Quoting]
+Цитирование
 [Separator]
 Разделитель
+[Progress indicator]
+Индикатор прогресса
+[Links]
+Ссылки
 [Unnamed]
 Без имени
 [ %u KB]
  %u КБ
+[I]
+Я
+[wrote]
+писал(а)
 [Toggle bookmark]
 Поставить/убрать закладку
 [Search]
@@ -19410,6 +19452,12 @@ URL страницы с комментариями к новости.
 название месяца
 [the message string itself]
 текст сообщения
+[default text color]
+цвет текста по умолчанию
+[nickname's color]
+цвет имени
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
+один из цветов, предопределённых в настройках, которым будет выведен последующий текст (X это число от 2 до 6 включительно, соответствующее порядковому номеру цвета)
 [Advanced]
 Дополнительно
 [Sunday]
@@ -22994,17 +23042,15 @@ IP токена не совпадает
 строк
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Допускаются переменные: %name% - имя контакта, %status% - его статус, %statusmsg% - сообщение статуса, %account% - имя учётной записи
-[Preload]
-Подгружать историю
-[Unread events only]
-Только непрочитанные события
-[Last]
-Последние
-[Events in the last]
-События полученные позже, чем
-[events]
-событий
-[minutes]
+[Preload history events on window opening]
+Подгрузка истории при открытии окна
+[Preload unread events only]
+Подгружать только непрочитанные события
+[Preload number of previous events]
+Подгружать события в количестве
+[Preload previous events less than]
+Подгружать события за последние
+[minutes old]
 минут
 [Message window event log]
 Журнал окна сообщений
@@ -26551,6 +26597,8 @@ ID пользователя в строке состояния
 Кнопка "Закрыть" на вкладках
 [Use button tabs (*)]
 Вкладки-кнопки (*)
+[Side bar width]
+Ширина боковой панели
 [You have chosen to disable all event notifications for open message windows.]
 Вы отключили все уведомления о событиях, которые открывают окно сообщений.
 [Show contact avatars]
@@ -26579,6 +26627,8 @@ ID пользователя в строке состояния
 Максимальная высота (в пикселях)
 [(0 = no limit)]
 (0 = не ограничено)
+[Use the original size if it is smaller]
+Использовать исходный размер, если он меньше указанного
 [Help on this]
 Описание настроек
 [Reset all hidden warnings]
@@ -26590,9 +26640,9 @@ ID пользователя в строке состояния
 [Preload number of previous events]
 Подгружать события в количестве
 [Preload previous events less than]
-Подгружать события, полученные менее чем
+Подгружать события за последние
 [minutes old]
-минут назад
+минут
 [Indent values]
 Интервалы отступов
 [Left/Right]
@@ -27585,8 +27635,6 @@ TabSRMM: набор текста
 Доставка не удалась: %s
 [The message send timed out]
 время отправки истекло
-[Contact is offline and this protocol does not support sending files to offline users.]
-Контакт не в сети и этот протокол не поддерживает оффлайн сообщения.
 ['(Unknown contact)']
 '(Неизвестный контакт)'
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
@@ -27603,8 +27651,6 @@ TabSRMM: набор текста
 Файлы изображений
 [The file exists. Do you want to overwrite it?]
 Файл уже существует. Перезаписать?
-[JPEG-compressed images]
-Изображения в формате JPEG
 [Copy all]
 Копировать всё
 [Save and close session]
@@ -28110,6 +28156,8 @@ TabSRMM: %s
 Имя устройства:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[Log out]
+Выйти
 [Compress files on send]
 Сжимать файлы при отправке
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -28152,6 +28200,10 @@ IP-адрес
 Неверный код
 [Invalid password]
 Неверный пароль
+[Avatar file must be a picture in JPEG format]
+Аватар должен быть изображением в формате JPEG
+[Error setting avatar]
+Ошибка при установке аватара
 [Creator]
 Создатель
 [Admin]
@@ -28196,6 +28248,8 @@ IP-адрес
 Ошибка %d: %s
 [General]
 Общее
+[Archive]
+Архив
 [Saved messages]
 Избранное
 [none]
@@ -28204,6 +28258,8 @@ IP-адрес
 Уведомления об ошибках %s
 [Errors]
 Ошибки
+[wrote]
+писал(а)
 [Picture]
 Изображение
 [Audio]
@@ -31139,7 +31195,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.6
+;  Version: 0.1.16.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31160,6 +31216,8 @@ x, и сохраняет y, как переменную с именем x
 Удалить контакты, не являющиеся друзьями
 [Visit profile]
 Профиль на сайте
+[Support BBC for NewStory]
+Поддержка BBCode для журнала NewStory
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
@@ -31190,6 +31248,8 @@ x, и сохраняет y, как переменную с именем x
 Использовать нестандартные всплывающие окна для новостей и событий
 [Add message link to messages with attachments]
 Добавлять ссылку на сообщение к сообщениям с вложениями
+[Add original message version in edited message]
+Добавлять к изменённому сообщению его предыдущую версию
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
@@ -31488,6 +31548,12 @@ URL:
 Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
 [Warning]
 Предупреждение
+[%x at %X]
+%x в %X
+[Edited message (updated %s):\n]
+Изменённое сообщение (обновлено %s):\n 
+[\nOriginal message:\n]
+\nИсходное сообщение:\n
 [Message link]
 Ссылка на сообщение
 [create chat]
@@ -31626,16 +31692,10 @@ ID получателя ошибочен или неизвестен
 Загрузка истории
 [Error loading message history for %s from server.]
 Ошибка загрузки истории сообщений для %s с сервера.
-[%x at %X]
-%x в %X
-[Edited message (updated %s):\n]
-Изменённое сообщение (обновлено %s):\n 
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
 [Me]
 Я
-[\nOriginal message:\n]
-\nИсходное сообщение:\n
 [Network]
 Сеть
 [Account]

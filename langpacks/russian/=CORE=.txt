@@ -282,9 +282,9 @@
 [Preload number of previous events]
 Подгружать события в количестве
 [Preload previous events less than]
-Подгружать события, полученные менее чем
+Подгружать события за последние
 [minutes old]
-минут назад
+минут
 [Message window event log]
 Журнал в окне сообщений
 [Show names]
@@ -1850,12 +1850,12 @@ Miranda не смогла загрузить встроенную систему
 [%u added you to their contact list]
 %u добавил вас в свой список контактов
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
-%s вошёл
+[%s has joined %s]
+%s вошёл в %s
 [You have joined %s]
 Вы пришли на '%s'
-[%s has left]
-%s вышел
+[%s has left %s]
+%s вышел из %s
 [%s has disconnected]
 %s отключился
 [%s is now known as %s]
@@ -1959,10 +1959,6 @@ Miranda не смогла загрузить встроенную систему
 %s требует вашего внимания в %s
 [%s speaks in %s]
 %s говорит в %s
-[%s has joined %s]
-%s вошёл в %s
-[%s has left %s]
-%s вышел из %s
 [%s kicked %s from %s]
 %s выкинул %s из %s
 [Topic change in %s]
@@ -2239,6 +2235,8 @@ Ctrl+Искать добавляет контакт
 Поиск
 [All networks]
 Все сети
+[Unique ID]
+Уник. ID
 [Handle]
 Название
 [&Find/add contacts...]
@@ -2826,8 +2824,6 @@ ANSI плагин
 &Сообщение %s
 [Nickname]
 Ник
-[Unique ID]
-Уник. ID
 [Disable the event filter (Ctrl+F)]
 Вылючить фильтр событий (Ctrl+F)
 [Enable the event filter (Ctrl+F)]
@@ -2858,6 +2854,8 @@ ANSI плагин
 [No word to look up]
 Нет слов для просмотра
 ;file \src\mir_app\src\srmm_main.cpp
+[Are you sure to wipe the system history?]
+Уверены, что хотите очистить системную историю?
 [Empty system history]
 Очистить системную историю
 ;file \src\mir_app\src\srmm_toolbar.cpp

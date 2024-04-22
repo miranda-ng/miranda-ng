@@ -40,14 +40,16 @@
 Показывать тип события
 [Show event direction]
 Показывать направление события
+[Show picture preview]
+Включить предпросмотр изображений
 [Template list:]
 Список шаблонов:
 [Edit template:]
 Изменить шаблон:
-[Text preview:]
-Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
+[Text preview:]
+Текстовый предпросмотр:
 [[c2]]
 \[c2]
 [[c4]]
@@ -131,17 +133,23 @@
 Подсвеченные сообщения
 [Grid background]
 Фон сетки
+[Quoting]
+Цитирование
 [Separator]
 Разделитель
 [Progress indicator]
 Индикатор прогресса
+[Links]
+Ссылки
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 Без имени
 [ %u KB]
  %u КБ
+[I]
+Я
 [wrote]
-
+писал(а)
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 Поставить/убрать закладку
@@ -376,3 +384,8 @@
 События 'Вас удалили'
 [Clipboard]
 Буфер обмена
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+Нажатие на эту ссылку запустит исполняемый файл, который может оказаться вредоносным. Вы уверены?
+[Potentially dangerous URL]
+Потенциально небезопасная ссылка

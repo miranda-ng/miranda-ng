@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.6
+;  Version: 0.1.16.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,6 +24,8 @@
 Удалить контакты, не являющиеся друзьями
 [Visit profile]
 Профиль на сайте
+[Support BBC for NewStory]
+Поддержка BBCode для журнала NewStory
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
@@ -54,6 +56,8 @@
 Использовать нестандартные всплывающие окна для новостей и событий
 [Add message link to messages with attachments]
 Добавлять ссылку на сообщение к сообщениям с вложениями
+[Add original message version in edited message]
+Добавлять к изменённому сообщению его предыдущую версию
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
@@ -223,6 +227,8 @@ URL:
 Пометить сообщения прочитанными
 [Forward icon]
 Переслать
+[Reload messages icon]
+Перезагрузить сообщения
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -356,6 +362,12 @@ URL:
 Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
 [Warning]
 Предупреждение
+[%x at %X]
+%x в %X
+[Edited message (updated %s):\n]
+Изменённое сообщение (обновлено %s):\n 
+[\nOriginal message:\n]
+\nИсходное сообщение:\n
 [Message link]
 Ссылка на сообщение
 [create chat]
@@ -498,17 +510,11 @@ ID получателя ошибочен или неизвестен
 Загрузка истории
 [Error loading message history for %s from server.]
 Ошибка загрузки истории сообщений для %s с сервера.
-[%x at %X]
-%x в %X
-[Edited message (updated %s):\n]
-Изменённое сообщение (обновлено %s):\n 
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 Я
-[\nOriginal message:\n]
-\nИсходное сообщение:\n
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеть
@@ -564,6 +570,8 @@ ID получателя ошибочен или неизвестен
 Новости и уведомления
 [Forward]
 Переслать
+[Reload messages]
+Перезагрузить сообщения
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
