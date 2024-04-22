@@ -228,7 +228,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Preload history events on window opening",IDC_STATIC,1,1,301,54
-    CONTROL         "Preload unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,12,135,10
+    CONTROL         "Preload unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,12,178,10
     CONTROL         "Preload number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,26,138,10
     CONTROL         "Preload previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,40,138,10
     LTEXT           "minutes old",IDC_STMINSOLD,210,40,83,8,WS_DISABLED
@@ -236,7 +236,6 @@ BEGIN
     CONTROL         "Spin1",IDC_LOADCOUNTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,203,22,10,14
     EDITTEXT        IDC_LOADTIMEN,164,38,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
     CONTROL         "Spin1",IDC_LOADTIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,201,36,11,14
-    EDITTEXT        IDC_TRIM,164,53,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
 END
 
 IDD_OPT_MSGLOG DIALOGEX 0, 0, 303, 226
@@ -257,7 +256,7 @@ BEGIN
     PUSHBUTTON      "Standard templates...",IDC_MODIFY,27,147,95,14
     PUSHBUTTON      "RTL templates...",IDC_RTLMODIFY,178,147,95,14
     GROUPBOX        "Preload history events on window opening",IDC_STATIC,3,168,300,57
-    CONTROL         "Preload unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,177,135,10
+    CONTROL         "Preload unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,177,178,10
     CONTROL         "Preload number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,188,138,10
     CONTROL         "Preload previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,200,138,10
     CONTROL         "Always trim message log to",IDC_ALWAYSTRIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,212,146,10
