@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
-static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d", "story%d_%d" };
+static const char *szAttachmentMasks[] = { "wall%d_%d",  "wall-%d_%d", "video%d_%d", "video-%d_%d",  "photo%d_%d", "photo-%d_%d", "audio%d_%d", "audio-%d_%d", "doc%d_%d", "doc-%d_%d", "market-%d_%d", "market%d_%d", "story%d_%d", "story-%d_%d" };
 static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
 static const wchar_t* wszVKStickerUrlMask = L"https://vk.com/sticker/1-%d-%d%s";
 
@@ -1701,7 +1701,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 		tcSplit,
 		SetBBCString(TranslateT("at"), iBBC, vkbbcB).c_str(),
 		ttime,
-		SetBBCString(wszBody, iBBC, vkbbcCode).c_str());
+		wszBody.c_str());
 
 	return wszMes;
 
