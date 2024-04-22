@@ -199,3 +199,6 @@
 ['You were added' events]
 ['You were deleted' events]
 [Clipboard]
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+[Potentially dangerous URL]

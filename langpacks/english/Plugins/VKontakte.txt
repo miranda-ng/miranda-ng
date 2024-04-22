@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.3
+;  Version: 0.1.16.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -117,6 +117,7 @@
 [Wall message icon]
 [Mark messages as read icon]
 [Forward icon]
+[Reload messages icon]
 [Access denied! Data will not be sent or received.]
 [Error]
 [You have to validate your account before you can use VK in Miranda NG]
@@ -292,6 +293,7 @@
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
 [Forward]
+[Reload messages]
 [Mark messages as read]
 [Send message to user's wall]
 [Add as friend]

@@ -1153,6 +1153,7 @@
 [There are no results to display.]
 [Searching]
 [All networks]
+[Unique ID]
 [Handle]
 [&Find/add contacts...]
 ;file \src\mir_app\src\FontOptions.cpp
@@ -1468,7 +1469,6 @@
 [Remove quoting]
 [&Message %s]
 [Nickname]
-[Unique ID]
 [Disable the event filter (Ctrl+F)]
 [Enable the event filter (Ctrl+F)]
 [In reply to]
