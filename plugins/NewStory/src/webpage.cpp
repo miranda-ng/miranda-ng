@@ -693,7 +693,16 @@ void NSWebPage::make_url(LPCWSTR url, LPCWSTR, std::wstring &out)
 
 void NSWebPage::on_anchor_click(const char *pszUtl, const element::ptr &)
 {
-	Utils_OpenUrlW(Utf2T(pszUtl));
+	Utf2T wszUrl(pszUtl);
+
+	DWORD dwType;
+	const wchar_t *p = (!mir_wstrncmp(wszUrl, L"file://", 7)) ? wszUrl.get() + 7 : wszUrl.get();
+	if (GetBinaryTypeW(p, &dwType)) {
+		CMStringW wszText(FORMAT, L"%s\r\n\r\n%s", TranslateT("This url might launch an executable program or virus, are you sure?"), wszUrl.get());
+		if (IDYES != MessageBoxW(0, wszText, TranslateT("Potentially dangerous URL"), MB_ICONWARNING | MB_YESNO))
+			return;
+	}
+	Utils_OpenUrlW(wszUrl);
 }
 
 void NSWebPage::set_base_url(const char *)
