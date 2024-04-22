@@ -666,8 +666,8 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	BOOL showDate = dwEffectiveFlags & MWF_LOG_SHOWDATES;
 
 	if (dat->m_hHistoryEvents) {
-		if (dat->m_curHistory == dat->m_maxHistory) {
-			memmove(dat->m_hHistoryEvents, &dat->m_hHistoryEvents[1], sizeof(HANDLE) * (dat->m_maxHistory - 1));
+		if (dat->m_curHistory > dat->m_maxHistory) {
+			memmove(dat->m_hHistoryEvents, &dat->m_hHistoryEvents[1], sizeof(MEVENT) * dat->m_maxHistory);
 			dat->m_curHistory--;
 		}
 		dat->m_hHistoryEvents[dat->m_curHistory++] = streamData->hDbEvent;
@@ -1460,7 +1460,7 @@ void CLogWindow::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smadd);
 	}
 
-	if (m_pDlg.m_hHistoryEvents && m_pDlg.m_curHistory == m_pDlg.m_maxHistory) {
+	if (m_pDlg.m_hHistoryEvents && m_pDlg.m_curHistory > m_pDlg.m_maxHistory) {
 		wchar_t szPattern[50];
 		mir_snwprintf(szPattern, L"~-+%d+-~", m_pDlg.m_hHistoryEvents[0]);
 

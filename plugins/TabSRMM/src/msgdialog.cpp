@@ -460,7 +460,7 @@ bool CMsgDialog::OnInitDialog()
 	m_maxHistory = M.GetDword(m_hContact, "maxhist", M.GetDword("maxhist", 0));
 	m_curHistory = 0;
 	if (m_maxHistory)
-		m_hHistoryEvents = (MEVENT*)mir_alloc(m_maxHistory * sizeof(MEVENT));
+		m_hHistoryEvents = (MEVENT*)mir_alloc((m_maxHistory+1) * sizeof(MEVENT));
 	else
 		m_hHistoryEvents = nullptr;
 
