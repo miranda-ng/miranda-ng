@@ -214,7 +214,7 @@ int ItemData::calcHeight(int width)
 	}
 
 	leftOffset = xPos;
-	if (savedHeight == -1) {
+	if (m_doc && savedHeight == -1) {
 		m_doc->render(cx);
 		savedHeight = m_doc->height() + 5;
 	}
@@ -472,8 +472,9 @@ void ItemData::setText(const wchar_t *pwszText)
 	pOwner->webPage.clText = g_fontTable[fontid].cl;
 	pOwner->webPage.clBack = g_colorTable[colorid].cl;
 
-	litehtml::estring body(T2Utf(formatHtml(pwszText)).get(), litehtml::encoding::utf_8);
-	m_doc = litehtml::document::createFromString(body, &pOwner->webPage);
+	T2Utf szFormattedBody(formatHtml(pwszText));
+	if (szFormattedBody)
+		m_doc = litehtml::document::createFromString(litehtml::estring(szFormattedBody.get(), litehtml::encoding::utf_8), &pOwner->webPage);
 }
 
 // Array
