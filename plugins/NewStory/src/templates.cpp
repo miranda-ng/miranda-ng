@@ -142,6 +142,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 						p = p2 + 5;
 					}
 				}
+				else p--;
 			}
 			else if (!wcsncmp(p, L"img]", 4)) {
 				p += 4;
@@ -151,6 +152,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 					AppendImage(buf, wszUrl, L"", pItem);
 					p = p1 + 5;
 				}
+				else p--;
 			}
 			else if (!wcsncmp(p, L"url=", 4)) {
 				p += 4;
@@ -165,6 +167,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 						p = p2 + 5;
 					}
 				}
+				else p--;
 			}
 			else if (!wcsncmp(p, L"url]", 4)) {
 				p += 4;
@@ -174,6 +177,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 					buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszUrl.c_str());
 					p = p1 + 5;
 				}
+				else p--;
 			}
 			else if (!wcsncmp(p, L"code]", 5)) {
 				p += 5;
