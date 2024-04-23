@@ -437,6 +437,7 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	m_cbIMGBBCSupportOff(this, IDC_IMG_OFF),
 	m_cbIMGBBCSupportFullSize(this, IDC_IMG_FULLSIZE),
 	m_cbIMGBBCSupport130(this, IDC_IMG_130),
+	m_cbIMGBBCSupport300(this, IDC_IMG_300),
 	m_cbIMGBBCSupport604(this, IDC_IMG_604),
 	m_cbBBCForNewsOff(this, IDC_NEWSBBC_OFF),
 	m_cbBBCForNewsBasic(this, IDC_NEWSBBC_BASIC),
@@ -470,6 +471,7 @@ bool CVkOptionViewForm::OnInitDialog()
 	m_cbIMGBBCSupportOff.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgNo);
 	m_cbIMGBBCSupportFullSize.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgFullSize);
 	m_cbIMGBBCSupport130.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgPreview130);
+	m_cbIMGBBCSupport300.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgPreview300);
 	m_cbIMGBBCSupport604.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgPreview604);
 
 	m_cbBBCForNewsOff.SetState(m_proto->m_vkOptions.iBBCForNews == BBCSupport::bbcNo);
@@ -490,6 +492,8 @@ bool CVkOptionViewForm::OnApply()
 		m_proto->m_vkOptions.iIMGBBCSupport = IMGBBCSypport::imgFullSize;
 	if (m_cbIMGBBCSupport130.GetState())
 		m_proto->m_vkOptions.iIMGBBCSupport = IMGBBCSypport::imgPreview130;
+	if (m_cbIMGBBCSupport300.GetState())
+		m_proto->m_vkOptions.iIMGBBCSupport = IMGBBCSypport::imgPreview300;
 	if (m_cbIMGBBCSupport604.GetState())
 		m_proto->m_vkOptions.iIMGBBCSupport = IMGBBCSypport::imgPreview604;
 
@@ -515,8 +519,9 @@ void CVkOptionViewForm::On_cbBBCSupportForNewStory(CCtrlCheck*)
 
 	if (bState) {
 		m_cbIMGBBCSupportOff.SetState(false);
-		m_cbIMGBBCSupportFullSize.SetState(true);
+		m_cbIMGBBCSupportFullSize.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgFullSize);
 		m_cbIMGBBCSupport130.SetState(false);
+		m_cbIMGBBCSupport300.SetState(m_proto->m_vkOptions.iIMGBBCSupport != IMGBBCSypport::imgFullSize);
 		m_cbIMGBBCSupport604.SetState(false);
 		m_cbBBCForNewsOff.SetState(false);
 		m_cbBBCForNewsBasic.SetState(false);
@@ -528,8 +533,9 @@ void CVkOptionViewForm::On_cbBBCSupportForNewStory(CCtrlCheck*)
 	}
 
 	m_cbIMGBBCSupportOff.Enable(!bState);
-	m_cbIMGBBCSupportFullSize.Enable(!bState);
+	m_cbIMGBBCSupportFullSize.Enable(true);
 	m_cbIMGBBCSupport130.Enable(!bState);
+	m_cbIMGBBCSupport300.Enable(true);
 	m_cbIMGBBCSupport604.Enable(!bState);
 	m_cbBBCForNewsOff.Enable(!bState);
 	m_cbBBCForNewsBasic.Enable(!bState);

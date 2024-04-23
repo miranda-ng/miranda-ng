@@ -238,7 +238,7 @@ struct CVKLang {
 enum MarkMsgReadOn : uint8_t { markOnRead, markOnReceive, markOnReply, markOnTyping };
 enum SyncHistoryMetod : uint8_t { syncOff, syncAuto, sync1Days, sync3Days };
 enum MusicSendMetod : uint8_t { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
-enum IMGBBCSypport : uint8_t { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+enum IMGBBCSypport : uint8_t { imgNo, imgFullSize, imgPreview130, imgPreview604, imgPreview300 };
 
 struct CVkCookie
 {

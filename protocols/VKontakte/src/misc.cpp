@@ -1109,8 +1109,8 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	if (!jnPhoto)
 		return wszRes;
 
-	CVKImageSizeItem vkSizes[6];
-	CMStringW wszPriorSize = L"smxyzw", wszPreviewLink;
+	CVKImageSizeItem vkSizes[9];
+	CMStringW wszPriorSize = L"smpqrxyzw", wszPreviewLink;
 	int iMaxSize = 0;
 
 	for (auto& it : jnPhoto["sizes"]) {
@@ -1130,6 +1130,9 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	case imgNo:
 		wszPreviewLink = L"";
 		break;
+	case imgPreview300:
+		wszPreviewLink = vkSizes[wszPriorSize.Find(L"q")].wszUrl.IsEmpty() ? (vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"o")].wszUrl : vkSizes[wszPriorSize.Find(L"x")].wszUrl) : vkSizes[wszPriorSize.Find(L"q")].wszUrl;
+		break;
 	case imgFullSize:
 		wszPreviewLink = vkSizes[iMaxSize].wszUrl;
 		break;
@@ -1141,32 +1144,28 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 		break;
 	}
 
-	if (m_vkOptions.bBBCNewStorySupport) {
-		wszRes.AppendFormat(L"%s (%dx%d)",
-			TranslateT("Photo"),
-			vkSizes[iMaxSize].iSizeW,
-			vkSizes[iMaxSize].iSizeH
-		);
-		wszPreviewLink = GetVkFileItem(vkSizes[iMaxSize].wszUrl, hContact, iMessageId);
-		wszRes = SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink : L""));
-	}
-	else {
-		wszRes.AppendFormat(L"%s (%dx%d)",
-			SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl).c_str(),
-			vkSizes[iMaxSize].iSizeW,
-			vkSizes[iMaxSize].iSizeH
-		);
-		if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-			wszRes.AppendFormat(L"\n\t%s",
-				SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")),
-					bbcBasic,
-					vkbbcImg).c_str()
-			);
-	}
+	wszRes.AppendFormat(L"%s (%dx%d)",
+		TranslateT("Photo"),
+		vkSizes[iMaxSize].iSizeW,
+		vkSizes[iMaxSize].iSizeH
+	);
+
+
+	if (m_vkOptions.bBBCNewStorySupport)
+		wszPreviewLink = GetVkFileItem(wszPreviewLink, hContact, iMessageId);
+
+	CMStringW wszImg;
+
+	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
+		wszImg = m_vkOptions.bBBCNewStorySupport ? 
+			SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink : L"")) :
+			SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")), bbcBasic, vkbbcImg);
 	
+	wszRes = wszImg + SetBBCString(wszRes, iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl) + L"\n";
+
 	CMStringW wszText(jnPhoto["text"].as_mstring());
 	if (!wszText.IsEmpty())
-		wszRes += L"\n" + wszText;
+		wszRes += wszText + L"\n";
 
 	return wszRes;
 }
@@ -1249,9 +1248,6 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		res.AppendFormat(pwszFormat, wszAddString ? wszAddString : L"", pwszString);
 	else
 		res.AppendFormat(pwszFormat, pwszString);
-
-	if (bbcType == vkbbcImgE && iBBC == bbcAdvanced)
-		res += SetBBCString(pwszString, bbcAdvanced, vkbbcUrl, wszAddString) + L"\n";
 
 	return res;
 }

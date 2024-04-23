@@ -137,6 +137,7 @@
 #define IDC_STATIC_MESSAGE              1120
 #define IDC_ADD_MES_LINK_MES_ATT        1121
 #define IDC_ADD_ORIG_VER_IN_EDITED_MES  1122
+#define IDC_IMG_300                     1123
 
 // Next default values for new objects
 // 
@@ -145,7 +146,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1121
+#define _APS_NEXT_CONTROL_VALUE         1124
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

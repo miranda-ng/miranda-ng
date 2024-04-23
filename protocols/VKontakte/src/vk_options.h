@@ -135,6 +135,7 @@ class CVkOptionViewForm : public CVkDlgBase
 	CCtrlCheck m_cbIMGBBCSupportFullSize;
 	CCtrlCheck m_cbIMGBBCSupport130;
 	CCtrlCheck m_cbIMGBBCSupport604;
+	CCtrlCheck m_cbIMGBBCSupport300;
 
 	CCtrlCheck m_cbBBCForNewsOff;
 	CCtrlCheck m_cbBBCForNewsBasic;
