@@ -1259,9 +1259,6 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, HPLUGIN 
 
 	if (pList != nullptr)
 		pList->insert(dst);
-
-	if (pOptionsDlg && !bLoadingPrivateOptions)
-		pOptionsDlg->DynamicAddPage(dst);
 	return 0;
 }
 
@@ -1289,8 +1286,13 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 
 static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 {
-	OptionsPageList arPages(1);
-	CallPluginEventHook((HINSTANCE)hInstance, ME_OPT_INITIALISE, (WPARAM)&arPages, 0);
+	if (pOptionsDlg && !bLoadingPrivateOptions) {
+		OptionsPageList arPages(1);
+		CallPluginEventHook((HINSTANCE)hInstance, ME_OPT_INITIALISE, (WPARAM)&arPages, 0);
+
+		for (auto &it: arPages)
+			pOptionsDlg->DynamicAddPage(it);
+	}
 	return 0;
 }
 
