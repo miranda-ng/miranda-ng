@@ -1089,6 +1089,7 @@ public:
 			delete it;
 			m_arOpd.remove(idx);
 		}
+		m_arDeleted.destroy();
 
 		RebuildPageTree();
 	}
@@ -1114,15 +1115,16 @@ public:
 	void DynamicAddPage(OptionsPage *pPage)
 	{
 		OptionsPageData *opd = new OptionsPageData(*pPage);
-		if (opd->pDialog == nullptr) // smth went wrong
+		if (opd->pDialog == nullptr) { // smth went wrong
 			delete opd;
-		else {
-			if (m_bInsideApply)
-				m_arInserted.insert(opd);
-			else
-				m_arOpd.insert(opd);
-			m_timerRebuild.Start(50);
+			return;
 		}
+
+		if (m_bInsideApply)
+			m_arInserted.insert(opd);
+		else
+			m_arOpd.insert(opd);
+		m_timerRebuild.Start(50);
 	}
 
 	void KillAccount(PROTO_INTERFACE *ppro)
