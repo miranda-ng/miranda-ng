@@ -1136,16 +1136,6 @@ class COptContainersDlg : public CDlgBase
 	CCtrlCheck chkUseAero, chkUseAeroPeek, chkLimits, chkSingle, chkGroup, chkDefault;
 	CCtrlHyperlink urlHelp;
 
-	void onChangeAero(CCtrlCheck*)
-	{
-		Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, chkUseAero.GetState() != 0);
-	}
-
-	void onChangeLimits(CCtrlCheck*)
-	{
-		Utils::enableDlgControl(m_hwnd, IDC_TABLIMIT, chkLimits.GetState() != 0);
-	}
-
 public:
 	COptContainersDlg()
 		: CDlgBase(g_plugin, IDD_OPT_CONTAINERS),
@@ -1161,8 +1151,8 @@ public:
 		chkGroup(this, IDC_CONTAINERGROUPMODE),
 		chkDefault(this, IDC_DEFAULTCONTAINERMODE)
 	{
-		chkUseAero.OnChange = Callback(this, &COptContainersDlg::onChangeAero);
-		chkLimits.OnChange = chkSingle.OnChange = chkGroup.OnChange = chkDefault.OnChange = Callback(this, &COptContainersDlg::onChangeLimits);
+		chkUseAero.OnChange = Callback(this, &COptContainersDlg::onChange_Aero);
+		chkLimits.OnChange = chkSingle.OnChange = chkGroup.OnChange = chkDefault.OnChange = Callback(this, &COptContainersDlg::onChange_Limits);
 	}
 
 	bool OnInitDialog() override
@@ -1171,7 +1161,7 @@ public:
 		chkLimits.SetState(M.GetByte("limittabs", 0));
 
 		spnTabLimit.SetPosition(M.GetDword("maxtabs", 1));
-		onChangeLimits(nullptr);
+		onChange_Limits(0);
 
 		chkSingle.SetState(M.GetByte("singlewinmode", 0));
 		chkDefault.SetState(!(chkGroup.GetState() || chkLimits.GetState() || chkSingle.GetState()));
@@ -1183,7 +1173,7 @@ public:
 		chkUseAeroPeek.SetState(M.GetByte("useAeroPeek", 1));
 
 		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
-			cmbAeroEffect.InsertString(TranslateW(CSkin::m_aeroEffects[i].tszName), -1);
+			cmbAeroEffect.AddString(TranslateW(CSkin::m_aeroEffects[i].tszName));
 		cmbAeroEffect.SetCurSel(CSkin::m_aeroEffect);
 		cmbAeroEffect.Enable(IsWinVerVistaPlus());
 
@@ -1214,6 +1204,16 @@ public:
 		}
 		BuildContainerMenu();
 		return true;
+	}
+
+	void onChange_Aero(CCtrlCheck *)
+	{
+		cmbAeroEffect.Enable(chkUseAero.IsChecked());
+	}
+
+	void onChange_Limits(CCtrlCheck *)
+	{
+		Utils::enableDlgControl(m_hwnd, IDC_TABLIMIT, chkLimits.IsChecked());
 	}
 };
 

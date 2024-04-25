@@ -359,7 +359,7 @@ BEGIN
     GROUPBOX        "Windows Aero settings",IDC_STATIC,4,140,294,42
     CONTROL         "Use Aero UI elements (only when not using a custom skin)",IDC_USEAERO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,150,284,11
-    COMBOBOX        IDC_AEROEFFECT,8,165,194,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_AEROEFFECT,8,165,194,36,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use Windows 7 task bar enhancements (restart required)",IDC_USEAEROPEEK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,185,284,11
 END

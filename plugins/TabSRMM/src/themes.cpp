@@ -2310,8 +2310,8 @@ void CSkin::AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffect
 {
 	if (iEffectArea < 0x1000)
 		DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, m_pCurrentAeroEffect->m_baseAlpha,
-		m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
-		m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, nullptr);
+			m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
+			m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, nullptr);
 }
 
 void CSkin::AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea)
