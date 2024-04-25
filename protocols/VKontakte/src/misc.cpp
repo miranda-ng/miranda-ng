@@ -1271,7 +1271,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMStringW res;
-	if (!jnAttachments) {
+	if (!jnAttachments || jnAttachments.as_array().empty()) {
 		debugLogA("CVkProto::GetAttachmentDescr pAttachments == nullptr");
 		return res;
 	}
