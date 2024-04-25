@@ -220,10 +220,10 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 	RECT rect;
 	GetClientRect(m_hwnd, &rect);
 
-	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(1) : rect.bottom;
+	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(2) : rect.bottom;
 	int tempL = m_bbLSideWidth, tempR = m_bbRSideWidth;
 	int lwidth = 0, rwidth = 0;
-	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (!isChat() ? 22 : 23) : 22);
+	int iOff = DPISCALEY_S(22);
 
 	int foravatar = 0;
 	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < m_pic.cy - DPISCALEY_S(2)) && m_bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
@@ -266,7 +266,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 		else iCmd = SW_HIDE;
 		ShowWindow(hwndButton, iCmd);
 		
-		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff - 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
 			lwidth += cbd->m_iButtonWidth + gap;
 
@@ -311,7 +311,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 
 		if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(bAutoHidden || cbd->m_bHidden)))
 			rwidth += cbd->m_iButtonWidth + gap;
-		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff - 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 		mapHidden[cbd] = bAutoHidden;
 	}
