@@ -1112,6 +1112,7 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	CVKImageSizeItem vkSizes[9];
 	CMStringW wszPriorSize = L"smpqrxyzw", wszPreviewLink;
 	int iMaxSize = 0;
+	int iPreviewHeight = 300;
 
 	for (auto& it : jnPhoto["sizes"]) {
 		int iIndex = wszPriorSize.Find(it["type"].as_mstring());
@@ -1132,15 +1133,19 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 		break;
 	case imgPreview300:
 		wszPreviewLink = vkSizes[wszPriorSize.Find(L"q")].wszUrl.IsEmpty() ? (vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"o")].wszUrl : vkSizes[wszPriorSize.Find(L"x")].wszUrl) : vkSizes[wszPriorSize.Find(L"q")].wszUrl;
+		iPreviewHeight = vkSizes[wszPriorSize.Find(L"q")].wszUrl.IsEmpty() ? (vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"o")].iSizeH : vkSizes[wszPriorSize.Find(L"x")].iSizeH) : vkSizes[wszPriorSize.Find(L"q")].iSizeH;
 		break;
 	case imgFullSize:
 		wszPreviewLink = vkSizes[iMaxSize].wszUrl;
+		iPreviewHeight = vkSizes[iMaxSize].iSizeH;
 		break;
 	case imgPreview130:
 		wszPreviewLink = vkSizes[wszPriorSize.Find(L"m")].wszUrl;
+		iPreviewHeight = vkSizes[wszPriorSize.Find(L"m")].iSizeH;
 		break;
 	case imgPreview604:
 		wszPreviewLink = vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"m")].wszUrl : vkSizes[wszPriorSize.Find(L"x")].wszUrl;
+		iPreviewHeight = vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"m")].iSizeH : vkSizes[wszPriorSize.Find(L"x")].iSizeH;
 		break;
 	}
 
@@ -1156,9 +1161,11 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 
 	CMStringW wszImg;
 
+	CMStringW wszPreviewHeight(FORMAT, L" height=%d", iPreviewHeight);
+
 	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 		wszImg = m_vkOptions.bBBCNewStorySupport ? 
-			SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink : L"")) :
+			SetBBCString(wszRes, bbcAdvanced, vkbbcImgE, (!wszPreviewLink.IsEmpty() ? wszPreviewLink + wszPreviewHeight : L"")) :
 			SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")), bbcBasic, vkbbcImg);
 	
 	wszRes = wszImg + SetBBCString(wszRes, iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl) + L"\n";
