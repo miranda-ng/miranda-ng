@@ -1188,16 +1188,20 @@ CMStringW CVkProto::GetVkPhotoForVideoItem(const JSONNode& Images, MCONTACT hCon
 	int iMaxSize = 0;
 
 	for (auto& it : Images) {
-		int iSize = it["width"].as_int();
+		int iSize = it["height"].as_int();
 		if (iMaxSize < iSize)
 			wszRes = it["url"].as_mstring();
 
-		if (iMaxSize > 300)
+		if (iMaxSize > 240)
 			break;
 	}
 
+	
+
 	wszRes = GetVkFileItem(wszRes, hContact, iMessageId);
-	return wszRes.IsEmpty() ? wszRes : SetBBCString(wszRes, bbcAdvanced, vkbbcImg, wszRes);
+	CMStringW wszPreview(FORMAT, L"%s height=%d", wszRes.c_str(), 240);
+	
+	return wszRes.IsEmpty() ? wszRes : SetBBCString(TranslateT("Video"), bbcAdvanced, vkbbcImgE, wszPreview);
 }
 
 
