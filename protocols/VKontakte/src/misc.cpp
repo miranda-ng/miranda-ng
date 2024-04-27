@@ -1134,7 +1134,6 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	case imgPreview300:
 		wszPreviewLink = vkSizes[wszPriorSize.Find(L"q")].wszUrl.IsEmpty() ? (vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"o")].wszUrl : vkSizes[wszPriorSize.Find(L"x")].wszUrl) : vkSizes[wszPriorSize.Find(L"q")].wszUrl;
 		iPreviewHeight = vkSizes[wszPriorSize.Find(L"q")].wszUrl.IsEmpty() ? (vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"o")].iSizeH : vkSizes[wszPriorSize.Find(L"x")].iSizeH) : vkSizes[wszPriorSize.Find(L"q")].iSizeH;
-		iPreviewHeight = min(320, iPreviewHeight);
 		break;
 	case imgFullSize:
 		wszPreviewLink = vkSizes[iMaxSize].wszUrl;
@@ -1157,11 +1156,12 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC, MCO
 	);
 
 
-	if (m_vkOptions.bBBCNewStorySupport)
+	if (m_vkOptions.bBBCNewStorySupport) {
 		wszPreviewLink = GetVkFileItem(wszPreviewLink, hContact, iMessageId);
+		iPreviewHeight = min(320, iPreviewHeight);
+	}
 
 	CMStringW wszImg;
-
 	CMStringW wszPreviewHeight(FORMAT, L" height=%d", iPreviewHeight);
 
 	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
