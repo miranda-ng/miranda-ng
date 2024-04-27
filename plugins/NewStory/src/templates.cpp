@@ -45,17 +45,17 @@ static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 	return dest;
 }
 
-static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem)
+static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem, UINT uMaxHeight = 300)
 {
 	if (g_plugin.bShowPreview) {
-		int iWidth = 300;
+		int iHeight = uMaxHeight;
 		pItem->pOwner->webPage.load_image(wszUrl);
 		if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
-			if (pImage->GetWidth() < 300)
-				iWidth = pImage->GetWidth();
+			if (pImage->GetHeight() < uMaxHeight)
+				iHeight = pImage->GetHeight();
 
-		buf.AppendFormat(L"<img style=\"width: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
-			iWidth, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+		buf.AppendFormat(L"<img style=\"height: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
+			iHeight, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
 	}
 	else buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
 }
@@ -132,13 +132,23 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 			else if (!wcsncmp(p, L"img=", 4)) {
 				p += 4;
 
+				int iMaxHeight = 0;
+				const wchar_t * pHeightBegin = nullptr;
+				if (pHeightBegin = wcsstr(p, L" height=")) {
+					auto* p1 = pHeightBegin + 8;
+					if (auto* p2 = wcschr(p1, ']')) {
+						CMStringW wszHeight(p1, int(p2 - p1));
+						iMaxHeight = _wtoi(wszHeight);
+					}
+				}
+
 				if (auto *p1 = wcschr(p, ']')) {
-					CMStringW wszUrl(p, int(p1 - p));
+					CMStringW wszUrl(p, int((pHeightBegin ? pHeightBegin : p1) - p));
 					p1++;
 
 					if (auto *p2 = wcsstr(p1, L"[/img]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
-						AppendImage(buf, wszUrl, wszDescr, pItem);
+						AppendImage(buf, wszUrl, wszDescr, pItem, iMaxHeight ? iMaxHeight : 300);
 						p = p2 + 5;
 					}
 				}
