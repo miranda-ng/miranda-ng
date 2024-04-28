@@ -315,7 +315,7 @@ void NewstoryListData::CopyUrl()
 		if (pItem->m_bOfflineFile)
 			Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
 		else if (auto *pszUrl = pItem->getUrl())
-			Utils_ClipboardCopy(MClipAnsi(pszUrl));
+			Utils_ClipboardCopy(MClipUnicode(Utf2T(pszUrl)));
 	}
 }
 
