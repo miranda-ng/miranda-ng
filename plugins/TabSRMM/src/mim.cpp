@@ -374,11 +374,6 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	DB::EventInfo dbei(hDbEvent);
-
-	auto *pDlg = Srmm_FindDialog(hContact);
-	if (pDlg == nullptr)
-		pDlg = Srmm_FindDialog(db_event_getContact(hDbEvent));
-
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	bool isShownCustomEvent = dbei.isSrmm();
 	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
@@ -388,6 +383,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	bool bAutoCreate = g_plugin.bAutoTabs;
 	bool bAutoContainer = g_plugin.bAutoContainer;
 
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg == nullptr && hContact != dbei.hContact)
+		pDlg = Srmm_FindDialog(dbei.hContact);
 	if (pDlg) {
 		TContainerData *pTargetContainer = pDlg->m_pContainer;
 		if (pTargetContainer == nullptr || !g_plugin.bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
