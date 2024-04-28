@@ -107,6 +107,7 @@ struct NewstoryListData : public MZeroedObject
 	int cachedMaxDrawnItem = -1;
 	int cachedScrollbarPos = -1, cachedScrollbarMax = -1;
 	int totalCount;
+	int iLineHeigth;
 
 	RECT rcLastPaint;
 	MCONTACT m_hContact = INVALID_CONTACT_ID;
@@ -159,8 +160,8 @@ struct NewstoryListData : public MZeroedObject
 	int       GetItemHeight(ItemData *pItem);
 	bool      HasSelection() const;
 	void      HitTotal(int yCurr, int yTotal);
-	void      LineUp();
-	void      LineDown();
+	void      LineUp(int iCount = 1);
+	void      LineDown(int iCount = 1);
 	ItemData* LoadItem(int idx);
 	void      MarkRead(ItemData *pItem);
 	void      OpenFolder();

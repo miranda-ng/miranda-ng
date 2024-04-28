@@ -63,6 +63,8 @@ NewstoryListData::NewstoryListData(HWND _1) :
 	bSortAscending = g_plugin.bSortAscending;
 
 	redrawTimer.OnEvent = Callback(this, &NewstoryListData::onTimer_Draw);
+
+	iLineHeigth = GetFontHeight(g_fontTable[FONT_INMSG].lf);
 }
 
 void NewstoryListData::onTimer_Draw(CTimer *pTimer)
@@ -992,18 +994,18 @@ void NewstoryListData::TryUp(int iCount)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Navigation by coordinates
 
-void NewstoryListData::LineUp()
+void NewstoryListData::LineUp(int iCount)
 {
 	if (AtTop())
 		TryUp(1);
 	else
-		ScrollUp(10);
+		ScrollUp(iLineHeigth * iCount);
 }
 
-void NewstoryListData::LineDown()
+void NewstoryListData::LineDown(int iCount)
 {
 	if (!AtBottom())
-		ScrollDown(10);
+		ScrollDown(iLineHeigth * iCount);
 }
 
 void NewstoryListData::PageUp()
@@ -1473,9 +1475,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_MOUSEWHEEL:
 		if ((short)HIWORD(wParam) < 0)
-			data->LineDown();
+			data->LineDown(3);
 		else
-			data->LineUp();
+			data->LineUp(3);
 		return TRUE;
 
 	case WM_VSCROLL:
