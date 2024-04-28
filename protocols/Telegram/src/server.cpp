@@ -847,7 +847,8 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		return;
 	}
 
-	pUser->bInited = true;
+	if (pObj->last_read_inbox_message_id_)
+		pUser->bInited = true;
 
 	MEVENT hLastRead = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
 	if (hLastRead == 0) {
