@@ -25,7 +25,6 @@
 #define IDC_STATUSMSG                   1010
 #define IDC_COPYIDNAME                  1011
 #define IDC_COPYIP                      1012
-#define IDC_SHOWALPHAICONS              1013
 #define IDC_SMNAME                      1014
 #define IDC_COPYMIRVER                  1015
 #define IDC_HINT1                       1016

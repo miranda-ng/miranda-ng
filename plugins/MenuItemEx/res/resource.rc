@@ -56,28 +56,27 @@ IDI_MIRVER              ICON                    "CopyMirVer.ico"
 // Dialog
 //
 
-IDD_OPTIONS DIALOGEX 0, 0, 280, 171
+IDD_OPTIONS DIALOGEX 0, 0, 280, 154
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Shown menu items",IDC_STATIC,7,3,266,151
-    CONTROL         "Show alpha icons",IDC_SHOWALPHAICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,18,116,10
-    CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,30,251,10
-    CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,42,253,10
+    GROUPBOX        "Shown menu items",IDC_STATIC,7,3,266,138
+    CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,16,251,10
+    CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,28,251,10
     CONTROL         "Copy to Account (Ctrl+click for move to Account)",IDC_PROTOS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,67,251,10
-    CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,253,10
-    CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,91,252,10
-    CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,103,253,10
-    CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,131,10
-    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,115,116,10
-    CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,127,131,10
-    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,127,116,10
-    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,139,124,10
-    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,139,116,10
-    LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,158,251,11
-    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,54,254,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,53,251,10
+    CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,65,253,10
+    CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,77,251,10
+    CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,251,10
+    CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,101,131,10
+    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,101,116,10
+    CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,131,10
+    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,113,116,10
+    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,125,124,10
+    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,125,116,10
+    LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,142,251,11
+    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,40,251,10
 END
 
 
@@ -91,7 +90,6 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
-        BOTTOMMARGIN, 158
     END
 END
 #endif    // APSTUDIO_INVOKED
