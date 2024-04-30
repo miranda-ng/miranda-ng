@@ -29,7 +29,7 @@ CDbxSQLite::~CDbxSQLite()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define CURRVER 6
+#define CURRVER 7
 
 int CDbxSQLite::Create()
 {
@@ -49,9 +49,6 @@ int CDbxSQLite::Create()
 
 	rc = sqlite3_exec(m_db, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
 		"timestamp INTEGER NOT NULL, type INTEGER NOT NULL, flags INTEGER NOT NULL, data BLOB, server_id TEXT NULL, user_id TEXT NULL, is_read INTEGER NOT NULL DEFAULT 0, reply_id TEXT NULL);", nullptr, nullptr, nullptr);
-	logError(rc, __FILE__, __LINE__);
-
-	rc = sqlite3_exec(m_db, "CREATE INDEX idx_events_contactid_timestamp ON events(contact_id, timestamp);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(m_db, "CREATE INDEX idx_events_module_serverid ON events(module, server_id);", nullptr, nullptr, nullptr);
@@ -201,6 +198,11 @@ void CDbxSQLite::CheckConversion()
 
 	if (dbv.bVal < 6) {
 		int rc = sqlite3_exec(m_db, "ALTER TABLE events ADD COLUMN reply_id TEXT NULL;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+	}
+
+	if (dbv.bVal < 7) {
+		int rc = sqlite3_exec(m_db, "DROP INDEX IF EXISTS idx_events_contactid_timestamp;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
 	}
 
