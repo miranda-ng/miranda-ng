@@ -191,7 +191,7 @@ void CInfoPanel::showHide() const
 			InvalidateRect(hwndDlg, nullptr, FALSE);
 		}
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
-		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
+		m_dat->Resize();
 		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), nullptr, TRUE);
 	}
 	else {
@@ -202,7 +202,7 @@ void CInfoPanel::showHide() const
 			::InvalidateRect(hwndDlg, nullptr, FALSE);
 		}
 
-		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
+		m_dat->Resize();
 	}
 	m_dat->m_pContainer->SetAeroMargins();
 	if (M.isAero())
@@ -330,7 +330,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 		dis.hDC = hdc;
 		dis.hwndItem = m_dat->GetHwnd();
 		if (m_dat->MsgWindowDrawHandler(&dis) == 0) {
-			::PostMessage(m_dat->GetHwnd(), WM_SIZE, 0, 1);
+			m_dat->OnResize();
 			::PostMessage(m_dat->GetHwnd(), DM_FORCEREDRAW, 0, 0);
 		}
 
@@ -539,7 +539,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	m_dat->m_panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->m_hClientIcon ? 20 : 0) + sTime.cx + 13;
 
 	if (m_dat->m_panelStatusCX != oldPanelStatusCX) {
-		SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
+		m_dat->OnResize();
 		rcItem = m_dat->m_rcStatus;
 	}
 
@@ -1153,7 +1153,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 							db_set_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", vNew);
 
 						m_dat->ShowPicture(false);
-						::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
+						m_dat->Resize();
 						m_dat->DM_ScrollToBottom(0, 1);
 					}
 				}
@@ -1204,7 +1204,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 
 			if (m_height != lOldHeight) {
-				m_dat->Resize();
+				m_dat->OnResize();
 				m_dat->m_pContainer->SetAeroMargins();
 				::RedrawWindow(m_dat->GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 				::RedrawWindow(GetParent(m_dat->GetHwnd()), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
