@@ -157,12 +157,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	Miranda_GetVersionText(temp, _countof(temp));
 	crs_a2t(vertxt, temp);
 
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
+	if (hVerInfoFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Version Information"), VersionInfoFolder)) {
 		replaceStrW(profpath, L"%miranda_userdata%");
-
-		// Removed because it isn't available on Load()
-		//		hCrashLogFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Crash Reports"), CrashLogFolder);
-		hVerInfoFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Version Information"), VersionInfoFolder);
 
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 		FoldersPathChanged(0, 0);
