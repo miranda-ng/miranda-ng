@@ -147,7 +147,7 @@ void CMsgDialog::SetDialogToType()
 
 	EnableSendButton(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	UpdateTitle();
-	OnResize();
+	Resize();
 
 	Utils::enableDlgControl(m_hwnd, IDC_CONTACTPIC, false);
 
@@ -235,7 +235,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		ReleaseCapture();
 		dat->DM_ScrollToBottom(0, 1);
 		if (!dat->isChat() && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
-			dat->OnResize();
+			dat->Resize();
 			RedrawWindow(hwndParent, nullptr, nullptr, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		else if (hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY)) {
@@ -298,7 +298,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				dat->m_dynaSplitter = dat->m_savedDynaSplit;
 				dat->DM_RecalcPictureSize();
 				dat->UpdateToolbarBG();
-				dat->OnResize();
+				dat->Resize();
 				dat->DM_ScrollToBottom(0, 1);
 				break;
 			}
@@ -903,7 +903,7 @@ void CMsgDialog::onClick_Add(CCtrlButton*)
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 		if (!m_bScrollingDisabled)
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
-		OnResize();
+		Resize();
 	}
 }
 
@@ -950,7 +950,7 @@ void CMsgDialog::onClick_CancelAdd(CCtrlButton*)
 	ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 	if (!m_bScrollingDisabled)
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
-	OnResize();
+	Resize();
 }
 
 void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
@@ -976,7 +976,7 @@ void CMsgDialog::onClick_ShowNickList(CCtrlButton *pButton)
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 
-	OnResize();
+	Resize();
 	if (CSkin::m_skinEnabled)
 		InvalidateRect(m_hwnd, nullptr, TRUE);
 	m_pLog->ScrollToBottom();
@@ -1546,7 +1546,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 
 			HWND hwndEdit = m_message.GetHwnd();
 			SetWindowPos(hwndEdit, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
-			OnResize();
+			Resize();
 			RedrawWindow(hwndEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 			DM_ScrollToBottom(0, 0);
 			Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
@@ -1646,7 +1646,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		else
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-		OnResize();
+		Resize();
 		DM_ScrollToBottom(1, 1);
 		return _dlgReturn(m_hwnd, 1);
 	}
@@ -2315,7 +2315,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetSendFormat();
 			SetDialogToType();
 			DM_RecalcPictureSize();
-			OnResize();
+			Resize();
 			DM_ScrollToBottom(0, 1);
 		}
 		return 0;
@@ -2364,7 +2364,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_UPDATEPICLAYOUT:
 		if (wParam == 0 || wParam == m_hContact) {
 			LoadContactAvatar();
-			OnResize();
+			Resize();
 		}
 		return 0;
 
@@ -2429,7 +2429,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
 		if (m_bWasBackgroundCreate) {
 			m_bWasBackgroundCreate = false;
-			OnResize();
+			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 
 			SetFocus(m_message.GetHwnd());
@@ -2437,7 +2437,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_pContainer->m_pSideBar->moveButtons();
 		}
 		else {
-			OnResize();
+			Resize();
 			if (lParam == 0)
 				DM_ScrollToBottom(0, 1);
 		}
@@ -2730,7 +2730,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					m_pPanel.setHeight((LONG)lParam);
 				}
 			}
-			OnResize();
+			Resize();
 		}
 		return 0;
 

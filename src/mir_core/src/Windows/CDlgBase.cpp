@@ -144,7 +144,8 @@ void CDlgBase::NotifyChange(void)
 
 void CDlgBase::Resize()
 {
-	SendMessage(m_hwnd, WM_SIZE, 0, 0);
+	m_bScheduledResize = true;
+	PostMessageW(m_hwnd, WM_SIZE, 0, 0);
 }
 
 void CDlgBase::SetCaption(const wchar_t *ptszCaption)
@@ -401,18 +402,25 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		RECT rc;
-		if (lParam == 0)
-			GetClientRect(m_hwnd, &rc);
-		else {
-			rc.left = rc.top = 0;
-			rc.right = GET_X_LPARAM(lParam);
-			rc.left = GET_Y_LPARAM(lParam);
-		}
-		
-		if (memcmp(&m_rcPrev, &rc, sizeof(RECT))) {
+		if (m_bScheduledResize) {
+			m_bScheduledResize = false;
 			OnResize();
-			m_rcPrev = rc;
+			GetClientRect(m_hwnd, &m_rcPrev);
+		}
+		else {
+			RECT rc;
+			if (lParam == 0)
+				GetClientRect(m_hwnd, &rc);
+			else {
+				rc.left = rc.top = 0;
+				rc.right = GET_X_LPARAM(lParam);
+				rc.left = GET_Y_LPARAM(lParam);
+			}
+
+			if (memcmp(&m_rcPrev, &rc, sizeof(RECT))) {
+				OnResize();
+				m_rcPrev = rc;
+			}
 		}
 		return TRUE;
 

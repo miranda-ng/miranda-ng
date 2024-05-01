@@ -69,13 +69,13 @@ LRESULT CSplitter::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			OnChange(this);
-			PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
+			m_parentWnd->Resize();
 		}
 		return 0;
 
 	case WM_LBUTTONUP:
 		ReleaseCapture();
-		PostMessage(m_parentWnd->GetHwnd(), WM_SIZE, 0, 0);
+		m_parentWnd->Resize();
 		return 0;
 	}
 
