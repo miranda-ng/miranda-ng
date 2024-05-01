@@ -73,6 +73,7 @@ typedef struct SslHandle *HSSL;
 #include <m_extraicons.h>
 #include <m_file.h>
 #include <m_findadd.h>
+#include <m_folders.h>
 #include <m_fontservice.h>
 #include <m_gui.h>
 #include <m_history.h>

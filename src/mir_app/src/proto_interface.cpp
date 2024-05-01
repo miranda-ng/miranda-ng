@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "file.h"
 
+static wchar_t wszPreviewFolder[MAX_PATH];
+static HANDLE hPreviewFolder;
+
 static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr, hServerHist = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +71,7 @@ CMStringW PROTO_INTERFACE::GetAvatarPath() const
 
 CMStringW PROTO_INTERFACE::GetPreviewPath() const
 {
-	return CMStringW(FORMAT, L"%s\\Preview\\%S", VARSW(L"%miranda_userdata%").get(), m_szModuleName);
+	return CMStringW(FORMAT, L"%s\\%S", wszPreviewFolder, m_szModuleName);
 }
 
 void PROTO_INTERFACE::OnBuildProtoMenu()
@@ -275,6 +278,25 @@ int PROTO_INTERFACE::UserIsTyping(MCONTACT, int)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// folders support
+
+static int FoldersPathChanged(WPARAM, LPARAM)
+{
+	FoldersGetCustomPathW(hPreviewFolder, wszPreviewFolder, _countof(wszPreviewFolder), L"");
+	return 0;
+}
+
+static int ProtoModulesLoaded(WPARAM, LPARAM)
+{
+	wcsncpy_s(wszPreviewFolder, VARSW(L"%miranda_userdata%\\Preview"), _TRUNCATE);
+	if (hPreviewFolder = FoldersRegisterCustomPathW("Preview", LPGEN("Preview folder"), wszPreviewFolder)) {
+		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
+		FoldersPathChanged(0, 0);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // protocol menus
 
 static INT_PTR __cdecl stubRequestAuth(WPARAM hContact, LPARAM)
@@ -356,5 +378,6 @@ void InitProtoMenus(void)
 	hServerHist = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, stubLoadHistory);
 
+	HookEvent(ME_SYSTEM_MODULESLOADED, ProtoModulesLoaded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, ProtoPrebuildContactMenu);
 }
