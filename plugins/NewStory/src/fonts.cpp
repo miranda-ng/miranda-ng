@@ -35,7 +35,7 @@ MyColourID g_colorTable[COLOR_COUNT] =
 	{ LPGEN("Other outgoing events"),      "ColorOut",       RGB(0xff, 0xff, 0xff) },
 																			   
 	{ LPGEN("Selected item's text"),       "ColorSelTxt",    RGB(0xff, 0xff, 0xff) },
-	{ LPGEN("Selected item's background"), "ColorSel",       GetSysColor(COLOR_HIGHLIGHT) },
+	{ LPGEN("Selected item's background"), "ColorSel",       RGB(0xcd, 0xcd, 0xfc) },
 	{ LPGEN("Selected item's frame"),      "ColorSelFrm",    GetSysColor(COLOR_HIGHLIGHTTEXT) },
 
 	{ LPGEN("Highlighted messages"),       "ColorHighlight", RGB(0xf0, 0xf0, 0xf0) },
