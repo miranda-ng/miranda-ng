@@ -181,11 +181,12 @@ MIR_CORE_DLL(BOOL) OS_GetDisplayString(char *buf, size_t bufSize)
 
 	// Test for the specific product.
 	if (osvi.dwMajorVersion >= 6) {
+		int iVersion = (osvi.dwBuildNumber > 22000) ? 11 : 10;
 		if (osvi.dwMajorVersion == 10) {
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-				ret.Append("Windows 10 ");
+				ret.AppendFormat("Windows %d ", iVersion);
 			else
-				ret.Append("Windows Server 10 ");
+				ret.AppendFormat("Windows Server %d ", iVersion);
 		}
 		else switch (osvi.dwMinorVersion) {
 		case 0:
