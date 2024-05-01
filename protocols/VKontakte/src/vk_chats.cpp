@@ -376,7 +376,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo);
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -385,7 +385,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 	if (jnReplyMessages && !jnReplyMessages.empty()) {
 		if (m_vkOptions.bShowReplyInMessage) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo);
 			if (!wszBody.IsEmpty())
 				wszReplyMessages = L"\n" + wszReplyMessages;
 			wszBody += wszReplyMessages;
@@ -396,7 +396,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo, vkChatInfo->m_si->hContact, iMessageId);
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo, vkChatInfo->m_si->hContact, iMessageId);
 
 		if (wszAttachmentDescr == L"== FilterAudioMessages ==")
 			return;
@@ -432,7 +432,7 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 	}
 
 	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
-		wszBody += SetBBCString(TranslateT("Message link"), bbcNo, vkbbcUrl,
+		wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo, vkbbcUrl,
 			CMStringW(FORMAT, L"https://vk.com/im?sel=c%d&msgid=%d", vkChatInfo->m_iChatId, iMessageId));
 	
 
