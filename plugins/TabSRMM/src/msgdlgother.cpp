@@ -1181,7 +1181,7 @@ void CMsgDialog::GetMyNick()
 {
 	ptrW tszNick(Contact::GetInfo(CNF_CUSTOMNICK, 0, m_cache->getActiveProto()));
 	if (tszNick == nullptr)
-		tszNick = Contact::GetInfo(CNF_NICK, 0, m_cache->getActiveProto());
+		tszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_cache->getActiveProto());
 	if (tszNick != nullptr) {
 		if (mir_wstrlen(tszNick) == 0 || !mir_wstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
 			wcsncpy_s(m_wszMyNickname, (m_myUin[0] ? m_myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
