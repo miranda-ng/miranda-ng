@@ -1,0 +1,81 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+;file \protocols\Discord\res\discord.rc
+[User details]
+[E-mail:]
+[Password:]
+[Contacts]
+[Default group:]
+[Enable guilds (servers)]
+[Do not open chat windows on creation]
+[Use subgroups for server channels (requires restart)]
+[Delete messages in Miranda when they are deleted from server]
+[Log out]
+[Nick:]
+[2-step verification]
+[Cancel]
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+[Channel control]
+[Change &topic]
+[&Rename channel]
+[&Destroy channel]
+[Copy ID]
+[Do you really want to destroy this channel? This action is non-revertable.]
+[Enter new channel name:]
+[Enter new topic:]
+[Enter your new nick name:]
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+[Group chats]
+[Call]
+[Call ended]
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+[Enter invitation code you received]
+[Do you really want to leave the guild?]
+[Disable sync]
+[Enable sync]
+[Join guild]
+[Copy my Discord ID]
+[Leave guild]
+[Create new channel]
+[Enable guild sync]
+;file \protocols\Discord\src\mfa.cpp
+[Use authentication app]
+[Use a code sent to your phone]
+[Use a backup code]
+[Enter Discord verification code:]
+[Enter SMS code you received:]
+[Enter one of your backup codes]
+[Wrong code entered]
+[MFA initialization]
+;file \protocols\Discord\src\options.cpp
+[Network]
+[Account]
+;file \protocols\Discord\src\proto.cpp
+[Incoming call]
+[%s server connection]
+[%s gateway connection]
+[Discord voice call]
+[User ID]
+[Message send failed]
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+[Connection failed.\n%s (%s).]
+;file \protocols\Discord\src\utils.cpp
+[Owners]
+[Participants]
+[Attachment]
+[Embed]
+[Preview]
+;file \protocols\Discord\src\voice.cpp
+[Call ended, %d seconds long]

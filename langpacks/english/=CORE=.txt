@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.5
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1382,6 +1382,7 @@
 ;file \src\mir_app\src\proto_accs.cpp
 [Protocols]
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
