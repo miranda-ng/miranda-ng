@@ -59,6 +59,17 @@ int SerialNext()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringW getNick(const JSONNode &pNode)
+{
+	CMStringW name = pNode["username"].as_mstring(), discriminator = pNode["discriminator"].as_mstring();
+	if (discriminator == L"0")
+		return name;
+
+	return name + L"#" + discriminator;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 SnowFlake getId(const JSONNode &pNode)
 {
 	return _wtoi64(pNode.as_mstring());

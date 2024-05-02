@@ -338,9 +338,7 @@ void CDiscordProto::OnReceiveUserinfo(MHttpResponse *pReply, AsyncHttpRequest*)
 		return;
 	}
 
-	auto &data = root.data();
-	CMStringW wszUserId(data["username"].as_mstring() + L"#" + data["discriminator"].as_mstring());
-	ForkThread(&CDiscordProto::SearchThread, wszUserId.Detach());
+	ForkThread(&CDiscordProto::SearchThread, getNick(root.data()).Detach());
 }
 
 HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)

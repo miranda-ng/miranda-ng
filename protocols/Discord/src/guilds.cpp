@@ -250,7 +250,7 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 		bNew = true;
 	}
 
-	pm->wszDiscordId = pUser["username"].as_mstring() + L"#" + pUser["discriminator"].as_mstring();
+	pm->wszDiscordId = getNick(pUser);
 	pm->wszNick = pRoot["nick"].as_mstring();
 	if (pm->wszNick.IsEmpty())
 		pm->wszNick = pUser["username"].as_mstring();
@@ -301,7 +301,7 @@ void CDiscordProto::ProcessChatUser(CDiscordUser *pChat, SnowFlake userId, const
 
 	// otherwise let's create a user and insert him into all guild's chats
 	pm = new CDiscordGuildMember(userId);
-	pm->wszDiscordId = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
+	pm->wszDiscordId = getNick(pRoot["author"]);
 	pm->wszNick = pRoot["nick"].as_mstring();
 	if (pm->wszNick.IsEmpty())
 		pm->wszNick = pRoot["author"]["username"].as_mstring();
