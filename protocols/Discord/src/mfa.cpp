@@ -61,7 +61,7 @@ public:
 		m_proto->pMfaDialog = this;
 
 		if (m_bHasTotp)
-			cmbAnother.AddString(TranslateT("Use authentication app"), 0);
+			cmbAnother.AddString(TranslateT("Use your authenticator app"), 0);
 		if (m_bHasSms)
 			cmbAnother.AddString(TranslateT("Use a code sent to your phone"), 1);
 		cmbAnother.AddString(TranslateT("Use a backup code"), 2);
@@ -97,9 +97,9 @@ public:
 
 		switch (m_mode = cmbAnother.GetCurData()) {
 		case 0:
-			m_label.SetText(TranslateT("Enter Discord verification code:")); break;
+			m_label.SetText(TranslateT("6-digit authentication code:")); break;
 		case 1:
-			m_label.SetText(TranslateT("Enter SMS code you received:"));
+			m_label.SetText(TranslateT("6-digit authentication code:"));
 			{
 				JSONNode root; root << CHAR_PARAM("ticket", m_szTicket);
 				auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root);
@@ -109,7 +109,7 @@ public:
 			}
 			break;
 		default:
-			m_label.SetText(TranslateT("Enter one of your backup codes"));
+			m_label.SetText(TranslateT("8-digit backup code:"));
 		}
 	}
 
@@ -127,7 +127,7 @@ public:
 	INT_PTR OnError(UINT, WPARAM, LPARAM)
 	{
 		edtCode.SetText(L"");
-		MessageBox(m_hwnd, TranslateT("Wrong code entered"), TranslateT("MFA initialization"), MB_OK | MB_ICONERROR);
+		MessageBox(m_hwnd, TranslateT("Invalid two-factor code"), TranslateT("MFA initialization"), MB_OK | MB_ICONERROR);
 		return 0;
 	}
 };
