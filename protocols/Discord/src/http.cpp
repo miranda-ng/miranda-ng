@@ -53,9 +53,13 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
 	if (ppro->m_szAccessToken != nullptr) {
 		AddHeader("Authorization", ppro->m_szAccessToken);
+		#ifndef _DEBUG
 		flags |= NLHRF_DUMPASTEXT | NLHRF_NODUMPHEADERS;
+		#endif
 	}
+	#ifndef _DEBUG
 	else flags |= NLHRF_NODUMPSEND;
+	#endif
 
 	if (pRoot != nullptr) {
 		ptrW text(json_write(pRoot));

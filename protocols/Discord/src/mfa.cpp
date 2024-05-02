@@ -102,7 +102,10 @@ public:
 			m_label.SetText(TranslateT("Enter SMS code you received:"));
 			{
 				JSONNode root; root << CHAR_PARAM("ticket", m_szTicket);
-				m_proto->Push(new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root));
+				auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/mfa/sms/send", 0, &root);
+				if (m_proto->m_szCookie)
+					pReq->AddHeader("Cookie", m_proto->m_szCookie);
+				m_proto->Push(pReq);
 			}
 			break;
 		default:

@@ -290,8 +290,10 @@ void CDiscordProto::OnReceiveToken(MHttpResponse *pReply, AsyncHttpRequest*)
 		return;
 	}
 
-	if (data["mfa"].as_bool())
+	if (data["mfa"].as_bool()) {
+		m_szCookie = pReply->GetCookies();
 		ShowMfaDialog(data);
+	}
 	else {
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		debugLogA("Strange empty token received, exiting");
