@@ -177,7 +177,7 @@ void ThreadData::xmpp_client_query(void)
 		return;
 
 	char temp[256];
-	mir_snprintf(temp, "_xmpp-client._tcp.%s", conn.server);
+	mir_snprintf(temp, "_xmpp%s-client._tcp.%s", conn.useSSL ? "s" : "", conn.server);
 
 	DNS_RECORDA *results = nullptr;
 	DNS_STATUS status = DnsQuery_A(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, nullptr, (PDNS_RECORD *)&results, nullptr);
@@ -189,10 +189,10 @@ void ThreadData::xmpp_client_query(void)
 				dnsList.insert(&rec->Data.Srv);
 
 		for (auto &it : dnsList) {
-			uint16_t dnsPort = (conn.port == 0 || conn.port == 5222) ? it->wPort : conn.port;
+			uint16_t dnsPort = (conn.port == 0 || conn.port == (conn.useSSL ? 5223 : 5222)) ? it->wPort : conn.port;
 			char *dnsHost = it->pNameTarget;
 
-			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", conn.server, dnsHost, dnsPort);
+			proto->debugLogA("%s resolved to %s:%d", temp, dnsHost, dnsPort);
 			s = Netlib_OpenConnection(proto->m_hNetlibUser, dnsHost, dnsPort);
 			if (s) {
 				strncpy_s(conn.manualHost, dnsHost, _TRUNCATE);
@@ -305,11 +305,13 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 		if (szManualHost != nullptr)
 			strncpy_s(info.conn.manualHost, szManualHost, _TRUNCATE);
 
-		info.conn.port = getWord("ManualPort", JABBER_DEFAULT_PORT);
+		info.conn.port = getWord("ManualPort");
 	}
-	else info.conn.port = getWord("Port", JABBER_DEFAULT_PORT);
+	else info.conn.port = getWord("Port");
 
 	info.conn.useSSL = m_bUseSSL;
+	if (!info.conn.port)
+		info.conn.port = info.conn.useSSL ? 5223 : 5222;
 
 	if (!info.bIsReg) {
 		m_ThreadInfo = &info;
@@ -415,10 +417,20 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 	}
 
 	if (info.conn.manualHost[0] == 0) {
-		info.xmpp_client_query();
+		NETLIBUSERSETTINGS us = {};
+		us.cbSize = sizeof(us);
+		Netlib_GetUserSettings(m_hNetlibUser, &us);
+		if (us.useProxy && us.dnsThroughProxy) {
+			//TODO implement dns request thru proxy
+		} else
+			info.xmpp_client_query();
+
 		if (info.s == nullptr) {
 			strncpy_s(info.conn.manualHost, info.conn.server, _TRUNCATE);
 			info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
+			if (info.s == nullptr && us.useProxy && us.dnsThroughProxy)
+				PUShowMessageW(TranslateT("Requesting XMPP service address through proxy is not supported.\n"
+						"Please allow direct DNS in options or specify the hostname manually"), SM_WARNING);
 		}
 	}
 	else info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
@@ -439,8 +451,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 	// Determine local IP
 	if (info.conn.useSSL) {
 		debugLogA("Intializing SSL connection");
-		if (!Netlib_StartSsl(info.s, nullptr)) {
-			MsgPopup(0, TranslateT("Error"), TranslateT("SSL initialization failed"));
+		if (!Netlib_StartSsl(info.s, info.conn.server)) {
 			if (!info.bIsReg)
 				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			else
@@ -913,11 +924,7 @@ void CJabberProto::OnProcessProceed(const TiXmlElement *node, ThreadData *info)
 	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-tls")) {
 		debugLogA("Starting TLS...");
 
-		char *gtlk = strstr(info->conn.manualHost, "google.com");
-		bool isHosted = gtlk && !gtlk[10] && mir_strcmpi(info->conn.server, "gmail.com") &&
-			mir_strcmpi(info->conn.server, "googlemail.com");
-
-		if (!Netlib_StartSsl(info->s, isHosted ? info->conn.manualHost : info->conn.server)) {
+		if (!Netlib_StartSsl(info->s, info->conn.server)) {
 			debugLogA("SSL initialization failed");
 			info->send("</stream:stream>");
 			info->shutdown();
