@@ -481,6 +481,8 @@ public:
 	void OnCommandChannelCreated(const JSONNode &json);
 	void OnCommandChannelDeleted(const JSONNode &json);
 	void OnCommandChannelUpdated(const JSONNode &json);
+	void OnCommandChannelUserAdded(const JSONNode &json);
+	void OnCommandChannelUserLeft(const JSONNode &json);
 	void OnCommandGuildCreated(const JSONNode &json);
 	void OnCommandGuildDeleted(const JSONNode &json);
 	void OnCommandGuildMemberAdded(const JSONNode &json);

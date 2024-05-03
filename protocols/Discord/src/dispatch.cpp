@@ -34,6 +34,8 @@ static handlers[] = // these structures must me sorted alphabetically
 
 	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
+	{ L"CHANNEL_RECIPIENT_ADD", &CDiscordProto::OnCommandChannelUserAdded },
+	{ L"CHANNEL_RECIPIENT_REMOVE", &CDiscordProto::OnCommandChannelUserLeft },
 	{ L"CHANNEL_UPDATE", &CDiscordProto::OnCommandChannelUpdated },
 
 	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreated },
@@ -113,6 +115,37 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 			pUser->si = nullptr;
 		}
 	}
+}
+
+void CDiscordProto::OnCommandChannelUserAdded(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["channel_id"]));
+	if (pUser == nullptr || pUser->si == nullptr)
+		return;
+
+	auto nUser = pRoot["user"];
+	CMStringW wszUserId = nUser["id"].as_mstring();
+	CMStringW wszNick = getNick(nUser);
+
+	GCEVENT gce = { pUser->si, GC_EVENT_JOIN };
+	gce.pszUID.w = wszUserId;
+	gce.pszNick.w = wszNick;
+	gce.time = time(0);
+	Chat_Event(&gce);
+}
+
+void CDiscordProto::OnCommandChannelUserLeft(const JSONNode &pRoot)
+{
+	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["channel_id"]));
+	if (pUser == nullptr || pUser->si == nullptr)
+		return;
+
+	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
+
+	GCEVENT gce = { pUser->si, GC_EVENT_PART };
+	gce.pszUID.w = wszUserId;
+	gce.time = time(0);
+	Chat_Event(&gce);
 }
 
 void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
