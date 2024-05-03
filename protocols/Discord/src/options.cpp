@@ -55,6 +55,11 @@ public:
 
 	bool OnInitDialog() override
 	{
+		if (!mir_strlen(m_proto->m_szAccessToken)) {
+			m_edUserName.Disable();
+			m_edPassword.Disable();
+		}
+
 		if (m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty())
 			btnLogout.Disable();
 
