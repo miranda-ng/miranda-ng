@@ -224,8 +224,12 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 				Chat_Event(&gce);
 			}
 
-			CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID));
-			CMStringW wszNick(FORMAT, L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), getDword(DB_KEY_DISCR));
+			CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
+			if (auto iDiscr = getDword(DB_KEY_DISCR))
+				wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
+			else
+				wszNick = getMStringW(DB_KEY_NICK);
+
 			gce.bIsMe = true;
 			gce.pszUID.w = wszId;
 			gce.pszNick.w = wszNick;
