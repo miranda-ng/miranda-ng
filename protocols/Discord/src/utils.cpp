@@ -163,6 +163,7 @@ CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 
 void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 {
+	SESSION_INFO *si;
 	CDiscordUser *pUser = nullptr;
 
 	CMStringW wszChannelId = root["id"].as_mstring();
@@ -190,7 +191,9 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 		if (pUser->wszChannelName.IsEmpty()) {
 			int i = 0;
 			for (auto &it : root["recipients"]) {
-				CMStringW wszNick = it["username"].as_mstring();
+				CMStringW wszNick = it["global_name"].as_mstring();
+				if (wszNick.IsEmpty())
+					wszNick = it["username"].as_mstring();
 				if (wszNick.IsEmpty())
 					continue;
 
@@ -202,19 +205,19 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 					break;
 			}
 		}
+		
+		si = pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
+		pUser->hContact = si->hContact;
+
+		Chat_AddGroup(si, LPGENW("Owners"));
+		Chat_AddGroup(si, LPGENW("Participants"));
 		{
-			SESSION_INFO *si = pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
-			pUser->hContact = si->hContact;
-
-			Chat_AddGroup(si, LPGENW("Owners"));
-			Chat_AddGroup(si, LPGENW("Participants"));
-
 			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
 
 			GCEVENT gce = { si, GC_EVENT_JOIN };
 			for (auto &it : root["recipients"]) {
 				CMStringW wszId = it["id"].as_mstring();
-				CMStringW wszNick = it["nick"].as_mstring();
+				CMStringW wszNick = it["global_name"].as_mstring();
 				if (wszNick.IsEmpty())
 					wszNick = getNick(it);
 
@@ -223,7 +226,7 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
 				Chat_Event(&gce);
 			}
-
+		
 			CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
 			if (auto iDiscr = getDword(DB_KEY_DISCR))
 				wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
@@ -235,10 +238,10 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 			gce.pszNick.w = wszNick;
 			gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
 			Chat_Event(&gce);
-
-			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-			Chat_Control(si, SESSION_ONLINE);
 		}
+
+		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+		Chat_Control(si, SESSION_ONLINE);
 		break;
 
 	default:
@@ -300,6 +303,14 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 
 		pUser->hContact = hContact;
 	}
+
+	CMStringW wszName(user["global_name"].as_mstring());
+	int idx = wszName.ReverseFind(' ');
+	if (idx != -1) {
+		setWString(pUser->hContact, "FirstName", wszName.Left(idx));
+		setWString(pUser->hContact, "LastName", wszName.Mid(idx + 1));
+	}
+	else setWString(pUser->hContact, "FirstName", wszName);
 
 	CheckAvatarChange(pUser->hContact, user["avatar"].as_mstring());
 	return pUser;
