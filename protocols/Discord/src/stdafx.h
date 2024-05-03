@@ -59,6 +59,7 @@ extern IconItem g_iconList[];
 #define DB_KEY_DISCR      "Discriminator"
 #define DB_KEY_MFA        "MfaEnabled"
 #define DB_KEY_NICK       "Nick"
+#define DB_KEY_OWNERID    "OwnerID"
 #define DB_KEY_AVHASH     "AvatarHash"
 #define DB_KEY_CHANNELID  "ChannelID"
 #define DB_KEY_LASTMSGID  "LastMessageID"

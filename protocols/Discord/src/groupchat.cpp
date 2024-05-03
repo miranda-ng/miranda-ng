@@ -21,7 +21,7 @@ enum {
 	IDM_CANCEL,
 	IDM_COPY_ID,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY, IDM_LEAVE
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,8 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_POPUPITEM },
 	{ LPGENW("&Rename channel"), IDM_RENAME, MENU_POPUPITEM },
 	{ nullptr, 0, MENU_POPUPSEPARATOR },
-	{ LPGENW("&Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
+	{ LPGENW("Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
+	{ LPGENW("Leave channel"), IDM_LEAVE, MENU_POPUPITEM },
 };
 
 static gc_item sttNicklistItems[] =
@@ -76,6 +77,12 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi->Type == MENU_ON_LOG) {
 		if (pChat->pGuild == nullptr)
 			sttLogListItems[0].uType = 0;
+		
+		if (getId(pChat->hContact, DB_KEY_OWNERID) == m_ownId)
+			sttLogListItems[6].uType = 0;
+		else
+			sttLogListItems[5].uType = 0;
+
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
@@ -121,10 +128,12 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 
 	switch (gch->dwData) {
 	case IDM_DESTROY:
-		if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to destroy this channel? This action is non-revertable."), m_tszUserName, MB_YESNO | MB_ICONQUESTION)) {
-			CMStringA szUrl(FORMAT, "/channels/%S", pUser->wszUsername.c_str());
-			Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
-		}
+		if (IDYES == MessageBox(nullptr, TranslateT("Do you really want to destroy this channel? This action is non-revertable."), m_tszUserName, MB_YESNO | MB_ICONQUESTION))
+			LeaveChat(pUser);
+		break;
+
+	case IDM_LEAVE:
+		LeaveChat(pUser);
 		break;
 
 	case IDM_RENAME:
@@ -244,4 +253,20 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	}
 
 	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::LeaveChat(CDiscordUser *pChat)
+{
+	CMStringA szUrl(FORMAT, "/channels/%S", pChat->wszUsername.c_str());
+	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
+}
+
+INT_PTR CDiscordProto::SvcLeaveChat(WPARAM hContact, LPARAM)
+{
+	if (auto *pUser = FindUserByChannel(getId(hContact, DB_KEY_ID)))
+		if (pUser->si)
+			LeaveChat(pUser);
+	return 0;
 }

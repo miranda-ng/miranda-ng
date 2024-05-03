@@ -213,6 +213,7 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 		Chat_AddGroup(si, LPGENW("Participants"));
 		{
 			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
+			setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
 
 			GCEVENT gce = { si, GC_EVENT_JOIN };
 			for (auto &it : root["recipients"]) {

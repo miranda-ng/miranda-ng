@@ -105,8 +105,11 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	if (guildId == 0) {
-		pUser->channelId = pUser->lastMsgId = 0;
-		delSetting(pUser->hContact, DB_KEY_CHANNELID);
+		if (auto *si = pUser->si) {
+			Chat_Control(si, SESSION_OFFLINE);
+			Chat_Terminate(si);
+		}
+		db_delete_contact(pUser->hContact);
 	}
 	else {
 		CDiscordGuild *pGuild = FindGuild(guildId);
@@ -115,6 +118,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 			pUser->si = nullptr;
 		}
 	}
+	arUsers.remove(pUser);
 }
 
 void CDiscordProto::OnCommandChannelUserAdded(const JSONNode &pRoot)

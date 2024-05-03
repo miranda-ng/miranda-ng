@@ -394,6 +394,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_ProcessNickMenu(GCHOOK* gch);
 
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
+	void LeaveChat(CDiscordUser *pChat);
 	void ProcessChatUser(CDiscordUser *pChat, SnowFlake userId, const JSONNode &pRoot);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
@@ -456,6 +457,8 @@ public:
 	// Services
 
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
+
+	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
