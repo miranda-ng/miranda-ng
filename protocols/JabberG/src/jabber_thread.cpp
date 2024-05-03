@@ -420,9 +420,9 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 		NETLIBUSERSETTINGS us = {};
 		us.cbSize = sizeof(us);
 		Netlib_GetUserSettings(m_hNetlibUser, &us);
-		if (us.useProxy && us.dnsThroughProxy) {
-			//TODO implement dns request thru proxy
-		} else
+		if (us.useProxy && us.dnsThroughProxy)
+			; // TODO implement dns request thru proxy
+		else
 			info.xmpp_client_query();
 
 		if (info.s == nullptr) {
@@ -430,7 +430,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 			info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
 			if (info.s == nullptr && us.useProxy && us.dnsThroughProxy)
 				PUShowMessageW(TranslateT("Requesting XMPP service address through proxy is not supported.\n"
-						"Please allow direct DNS in options or specify the hostname manually"), SM_WARNING);
+					"Please allow direct DNS in options or specify the hostname manually"), SM_WARNING);
 		}
 	}
 	else info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
@@ -1296,7 +1296,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		debugLogA("http auth event added, returning");
 		return;
 	}
-	
+
 	if (m_bUseOMEMO) {
 		if (auto *encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
 			OmemoHandleMessage(encNode, from, msgTime, bWasSent);
@@ -1346,7 +1346,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				FileProcessHttpDownload(hContact, from, url, XmlGetChildText(xNode, "desc"));
 				return;
 			}
-			
+
 			debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
