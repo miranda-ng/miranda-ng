@@ -73,8 +73,11 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	if (pChat == nullptr)
 		return 0;
 
-	if (gcmi->Type == MENU_ON_LOG)
+	if (gcmi->Type == MENU_ON_LOG) {
+		if (pChat->pGuild == nullptr)
+			sttLogListItems[0].uType = 0;
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
+	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttNicklistItems), sttNicklistItems, &g_plugin);
 
