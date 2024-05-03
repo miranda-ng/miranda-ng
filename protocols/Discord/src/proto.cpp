@@ -624,17 +624,19 @@ int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CDiscordProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CDiscordProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-	if (pUser == nullptr || !m_bOnline)
-		return false;
+	if (flags & CDF_DEL_CONTACT) {
+		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
+		if (pUser == nullptr || !m_bOnline)
+			return false;
 
-	if (pUser->channelId)
-		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), nullptr));
+		if (pUser->channelId)
+			Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), nullptr));
 
-	if (pUser->id)
-		RemoveFriend(pUser->id);
+		if (pUser->id)
+			RemoveFriend(pUser->id);
+	}
 	return true;
 }
 
