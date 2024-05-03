@@ -429,45 +429,50 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (wszText.IsEmpty())
 			return;
 
-		// old message? try to restore it from database
-		bool bOurMessage = userId == m_ownId;
-		if (!bIsNew) {
-			MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
-			if (hOldEvent) {
-				DB::EventInfo dbei;
-				dbei.cbBlob = -1;
-				if (!db_event_get(hOldEvent, &dbei)) {
-					ptrW wszOldText(DbEvent_GetTextW(&dbei));
-					if (wszOldText)
-						wszText.Insert(0, wszOldText);
-					if (dbei.flags & DBEF_SENT)
-						bOurMessage = true;
+		if (pRoot["type"].as_int() == 4 && pUser->si) {
+			setWString(pUser->si->hContact, "Nick", wszText);
+		}
+		else {
+			// old message? try to restore it from database
+			bool bOurMessage = userId == m_ownId;
+			if (!bIsNew) {
+				MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
+				if (hOldEvent) {
+					DB::EventInfo dbei;
+					dbei.cbBlob = -1;
+					if (!db_event_get(hOldEvent, &dbei)) {
+						ptrW wszOldText(DbEvent_GetTextW(&dbei));
+						if (wszOldText)
+							wszText.Insert(0, wszOldText);
+						if (dbei.flags & DBEF_SENT)
+							bOurMessage = true;
+					}
 				}
 			}
+
+			const JSONNode &edited = pRoot["edited_timestamp"];
+			if (!edited.isnull())
+				wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
+
+			// if a message has myself as an author, add some flags
+			DB::EventInfo dbei;
+			if (bOurMessage)
+				dbei.flags = DBEF_READ | DBEF_SENT;
+
+			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
+			ptrA buf(mir_utf8encodeW(wszText));
+
+			dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+			dbei.pBlob = buf;
+			dbei.szId = szMsgId;
+
+			if (!pUser->bIsPrivate || pUser->bIsGroup) {
+				dbei.szUserId = szUserId;
+				ProcessChatUser(pUser, userId, pRoot);
+			}
+
+			ProtoChainRecvMsg(pUser->hContact, dbei);
 		}
-
-		const JSONNode &edited = pRoot["edited_timestamp"];
-		if (!edited.isnull())
-			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
-
-		// if a message has myself as an author, add some flags
-		DB::EventInfo dbei;
-		if (bOurMessage)
-			dbei.flags = DBEF_READ | DBEF_SENT;
-
-		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
-		ptrA buf(mir_utf8encodeW(wszText));
-
-		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-		dbei.pBlob = buf;
-		dbei.szId = szMsgId;
-
-		if (!pUser->bIsPrivate || pUser->bIsGroup) {
-			dbei.szUserId = szUserId;
-			ProcessChatUser(pUser, userId, pRoot);
-		}
-
-		ProtoChainRecvMsg(pUser->hContact, dbei);
 	}
 
 	pUser->lastMsgId = msgId;
