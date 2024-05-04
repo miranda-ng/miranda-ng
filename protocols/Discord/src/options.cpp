@@ -55,7 +55,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		if (!mir_strlen(m_proto->m_szAccessToken)) {
+		if (mir_strlen(m_proto->m_szAccessToken)) {
 			m_edUserName.Disable();
 			m_edPassword.Disable();
 		}
