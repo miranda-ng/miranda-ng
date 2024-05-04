@@ -696,8 +696,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CSuper::OnInitDialog();
-
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMStringW(FORMAT, TranslateT("Invite Users to\n%s"), Utf2T(m_room).get()));
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
