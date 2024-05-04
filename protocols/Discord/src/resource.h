@@ -10,6 +10,7 @@
 #define IDI_VOICE_CALL                  106
 #define IDI_VOICE_ENDED                 107
 #define IDD_MFA                         108
+#define IDD_GROUPCHAT_INVITE            109
 #define IDC_PASSWORD                    1001
 #define IDC_USERNAME                    1002
 #define IDC_GROUP                       1003
@@ -22,7 +23,8 @@
 #define IDC_ANOTHER                     1009
 #define IDC_LABEL                       1010
 #define IDC_LOGOUT                      1011
-#define IDC_COMBO1                      1012
+#define IDC_CLIST                       1012
+
 
 // Next default values for new objects
 // 

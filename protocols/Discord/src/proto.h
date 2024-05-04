@@ -228,6 +228,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	friend struct AsyncHttpRequest;
 	friend class CDiscardAccountOptions;
 	friend class CMfaDialog;
+	friend class CGroupchatInviteDlg;
 
 	class CDiscordProtoImpl
 	{
@@ -394,6 +395,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_ProcessNickMenu(GCHOOK* gch);
 
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
+	void KickChatUser(CDiscordUser *pChat, const wchar_t *pszUID);
 	void LeaveChat(CDiscordUser *pChat);
 	void ProcessChatUser(CDiscordUser *pChat, SnowFlake userId, const JSONNode &pRoot);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);

@@ -21,8 +21,24 @@ enum {
 	IDM_CANCEL,
 	IDM_COPY_ID,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY, IDM_LEAVE
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY, IDM_LEAVE,
+
+	IDM_KICK, IDM_INVITE
 };
+
+static void sttDisableMenuItem(int nItems, gc_item *items, uint32_t id, bool disabled)
+{
+	for (int i = 0; i < nItems; i++)
+		if (items[i].dwID == id)
+			items[i].bDisabled = disabled;
+}
+
+static void sttShowGcMenuItem(int nItems, gc_item *items, uint32_t id, int type)
+{
+	for (int i = 0; i < nItems; i++)
+		if (items[i].dwID == id)
+			items[i].uType = type;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,6 +64,8 @@ void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },
+	{ nullptr, 0, MENU_SEPARATOR },
+	{ LPGENW("Invite users"), IDM_INVITE, MENU_ITEM },
 	{ LPGENW("Channel control"), FALSE, MENU_NEWPOPUP },
 	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_POPUPITEM },
 	{ LPGENW("&Rename channel"), IDM_RENAME, MENU_POPUPITEM },
@@ -59,6 +77,8 @@ static gc_item sttLogListItems[] =
 static gc_item sttNicklistItems[] =
 {
 	{ LPGENW("Copy ID"), IDM_COPY_ID, MENU_ITEM },
+	{ nullptr, 0, MENU_SEPARATOR },
+	{ LPGENW("Kick user"), IDM_KICK, MENU_ITEM },
 };
 
 int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
@@ -71,22 +91,25 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	CDiscordUser *pChat = FindUserByChannel(_wtoi64(gcmi->pszID));
-	if (pChat == nullptr)
+	if (pChat == nullptr || pChat->si == nullptr)
 		return 0;
+
+	bool isOwner = getId(pChat->hContact, DB_KEY_OWNERID) == m_ownId;
 
 	if (gcmi->Type == MENU_ON_LOG) {
 		if (pChat->pGuild == nullptr)
-			sttLogListItems[0].uType = 0;
-		
-		if (getId(pChat->hContact, DB_KEY_OWNERID) == m_ownId)
-			sttLogListItems[6].uType = 0;
-		else
-			sttLogListItems[5].uType = 0;
+			sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_CHANGENICK, 0);
+
+		sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_LEAVE, isOwner ? 0 : MENU_POPUPITEM);
+		sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_DESTROY, isOwner ? 0 : MENU_POPUPITEM);
 
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
-	else if (gcmi->Type == MENU_ON_NICKLIST)
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
+		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_KICK, !isOwner);
+
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttNicklistItems), sttNicklistItems, &g_plugin);
+	}
 
 	return 0;
 }
@@ -115,6 +138,86 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 	else hContact = pUser->hContact;
 
 	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Invitation dialog
+
+class CGroupchatInviteDlg : public CDiscordDlgBase
+{
+	CCtrlClc m_clc;
+	SnowFlake m_iChatId;
+
+	void FilterList(CCtrlClc *)
+	{
+		for (auto &hContact : Contacts()) {
+			char *proto = Proto_GetBaseAccountName(hContact);
+			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+				if (HANDLE hItem = m_clc.FindContact(hContact))
+					m_clc.DeleteItem(hItem);
+		}
+	}
+
+	void ResetListOptions(CCtrlClc *)
+	{
+		m_clc.SetHideEmptyGroups(true);
+		m_clc.SetHideOfflineRoot(true);
+	}
+
+public:
+	CGroupchatInviteDlg(CDiscordProto *ppro, SnowFlake chatId) :
+		CDiscordDlgBase(ppro, IDD_GROUPCHAT_INVITE),
+		m_clc(this, IDC_CLIST),
+		m_iChatId(chatId)
+	{
+		m_clc.OnNewContact =
+			m_clc.OnListRebuilt = Callback(this, &CGroupchatInviteDlg::FilterList);
+		m_clc.OnOptionsChanged = Callback(this, &CGroupchatInviteDlg::ResetListOptions);
+	}
+
+	bool OnInitDialog() override
+	{
+		SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
+			GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+		ResetListOptions(&m_clc);
+		FilterList(&m_clc);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		// invite users from roster
+		for (auto &hContact : m_proto->AccContacts()) {
+			if (m_proto->isChatRoom(hContact))
+				continue;
+
+			if (HANDLE hItem = m_clc.FindContact(hContact)) {
+				if (m_clc.GetCheck(hItem)) {
+					CMStringA szUrl(FORMAT, "/channels/%lld/recipients/%lld", m_iChatId, m_proto->getId(hContact, DB_KEY_ID));
+					m_proto->Push(new AsyncHttpRequest(m_proto, REQUEST_PUT, szUrl, 0));
+				}
+			}
+		}
+		return true;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Log menu
+
+void CDiscordProto::LeaveChat(CDiscordUser *pChat)
+{
+	CMStringA szUrl(FORMAT, "/channels/%S", pChat->wszUsername.c_str());
+	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
+}
+
+INT_PTR CDiscordProto::SvcLeaveChat(WPARAM hContact, LPARAM)
+{
+	if (auto *pUser = FindUserByChannel(getId(hContact, DB_KEY_CHANNELID)))
+		if (pUser->si)
+			LeaveChat(pUser);
+	return 0;
 }
 
 void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
@@ -172,25 +275,43 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 			mir_free(es.ptszResult);
 		}
 		break;
+
+	case IDM_INVITE:
+		CGroupchatInviteDlg dlg(this, pUser->channelId);
+		if (gch->si->pDlg)
+			dlg.SetParent(gch->si->pDlg->GetHwnd());
+		dlg.DoModal();
+		break;
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Nick list menu
+
+void CDiscordProto::KickChatUser(CDiscordUser *pChat, const wchar_t *pszUID)
+{
+	CMStringA szUrl(FORMAT, "/channels/%lld/recipients/%S", pChat->channelId, pszUID);
+	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, 0));
 }
 
 void CDiscordProto::Chat_ProcessNickMenu(GCHOOK* gch)
 {
 	auto *pChannel = FindUserByChannel(_wtoi64(gch->si->ptszID));
-	if (pChannel == nullptr || pChannel->pGuild == nullptr)
-		return;
-
-	auto* pUser = pChannel->pGuild->FindUser(_wtoi64(gch->ptszUID));
-	if (pUser == nullptr)
+	if (pChannel == nullptr)
 		return;
 
 	switch (gch->dwData) {
 	case IDM_COPY_ID:
-		CopyId(pUser->wszDiscordId);
+		CopyId(gch->ptszUID);
+		break;
+
+	case IDM_KICK:
+		KickChatUser(pChannel, gch->ptszUID);
 		break;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 {
@@ -253,20 +374,4 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	}
 
 	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::LeaveChat(CDiscordUser *pChat)
-{
-	CMStringA szUrl(FORMAT, "/channels/%S", pChat->wszUsername.c_str());
-	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
-}
-
-INT_PTR CDiscordProto::SvcLeaveChat(WPARAM hContact, LPARAM)
-{
-	if (auto *pUser = FindUserByChannel(getId(hContact, DB_KEY_CHANNELID)))
-		if (pUser->si)
-			LeaveChat(pUser);
-	return 0;
 }
