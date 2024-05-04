@@ -178,11 +178,6 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	CMStringW wszName = pch["name"].as_mstring();
 	CDiscordUser *pUser;
 
-	// check permissions to enter the channel
-	auto permissions = pGuild->CalcPermissionOverride(m_ownId, pch["permission_overwrites"]);
-	if (!(permissions & Permission::VIEW_CHANNEL))
-		return nullptr;
-
 	// filter our all channels but the text ones
 	switch (pch["type"].as_int()) {
 	case 4: // channel group
@@ -206,6 +201,11 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		return pUser;
 
 	case 0: // text channel
+		// check permissions to enter the channel
+		auto permissions = pGuild->CalcPermissionOverride(m_ownId, pch["permission_overwrites"]);
+		if (!(permissions & Permission::VIEW_CHANNEL))
+		 	return nullptr;
+
 		pUser = FindUserByChannel(channelId);
 		if (pUser == nullptr) {
 			// missing channel - create it
