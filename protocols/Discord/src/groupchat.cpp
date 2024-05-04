@@ -64,7 +64,6 @@ void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("Change &nickname"), IDM_CHANGENICK, MENU_ITEM },
-	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Invite users"), IDM_INVITE, MENU_ITEM },
 	{ LPGENW("Channel control"), FALSE, MENU_NEWPOPUP },
 	{ LPGENW("Change &topic"), IDM_CHANGETOPIC, MENU_POPUPITEM },
@@ -101,7 +100,7 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 			sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_CHANGENICK, 0);
 
 		sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_LEAVE, isOwner ? 0 : MENU_POPUPITEM);
-		sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_DESTROY, isOwner ? 0 : MENU_POPUPITEM);
+		sttShowGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_DESTROY, isOwner ? MENU_POPUPITEM : 0);
 
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
