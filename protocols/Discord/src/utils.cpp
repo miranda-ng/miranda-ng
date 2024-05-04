@@ -59,6 +59,14 @@ int SerialNext()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringW getName(const JSONNode &pNode)
+{
+	CMStringW wszNick = pNode["global_name"].as_mstring();
+	if (wszNick.IsEmpty())
+		wszNick = pNode["username"].as_mstring();
+	return wszNick;
+}
+
 CMStringW getNick(const JSONNode &pNode)
 {
 	CMStringW name = pNode["username"].as_mstring(), discriminator = pNode["discriminator"].as_mstring();
@@ -191,15 +199,13 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 		if (pUser->wszChannelName.IsEmpty()) {
 			int i = 0;
 			for (auto &it : root["recipients"]) {
-				CMStringW wszNick = it["global_name"].as_mstring();
-				if (wszNick.IsEmpty())
-					wszNick = it["username"].as_mstring();
-				if (wszNick.IsEmpty())
+				CMStringW wszName = getName(it);
+				if (wszName.IsEmpty())
 					continue;
 
 				if (!pUser->wszChannelName.IsEmpty())
 					pUser->wszChannelName += L", ";
-				pUser->wszChannelName += wszNick;
+				pUser->wszChannelName += wszName;
 
 				if (i++ > 3)
 					break;

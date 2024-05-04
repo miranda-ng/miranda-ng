@@ -538,30 +538,29 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 	}
 
 	// add to log
-	if (gce.dwFlags & GCEF_SILENT)
-		return 0;
+	if (!(gce.dwFlags & GCEF_SILENT)) {
+		// fix for IRC's old style mode notifications. Should not affect any other protocol
+		if ((gce.iType == GC_EVENT_ADDSTATUS || gce.iType == GC_EVENT_REMOVESTATUS) && !(gce.dwFlags & GCEF_ADDTOLOG))
+			return 0;
 
-	// fix for IRC's old style mode notifications. Should not affect any other protocol
-	if ((gce.iType == GC_EVENT_ADDSTATUS || gce.iType == GC_EVENT_REMOVESTATUS) && !(gce.dwFlags & GCEF_ADDTOLOG))
-		return 0;
+		if (gce.iType == GC_EVENT_JOIN && gce.time == 0)
+			return 0;
 
-	if (gce.iType == GC_EVENT_JOIN && gce.time == 0)
-		return 0;
+		if (si && (si->bInitDone || gce.iType == GC_EVENT_TOPIC || (gce.iType == GC_EVENT_JOIN && gce.bIsMe))) {
+			if (gce.pszNick.w == nullptr && gce.pszUID.w != nullptr)
+				if (USERINFO *ui = g_chatApi.UM_FindUser(si, gce.pszUID.w))
+					gce.pszNick.w = ui->pszNick;
 
-	if (si && (si->bInitDone || gce.iType == GC_EVENT_TOPIC || (gce.iType == GC_EVENT_JOIN && gce.bIsMe))) {
-		if (gce.pszNick.w == nullptr && gce.pszUID.w != nullptr)
-			if (USERINFO *ui = g_chatApi.UM_FindUser(si, gce.pszUID.w))
-				gce.pszNick.w = ui->pszNick;
+			if (auto *lin = SM_AddEvent(si, &gce, bIsHighlighted))
+				if (si->pDlg)
+					si->pDlg->AddLog(*lin);
 
-		if (auto *lin = SM_AddEvent(si, &gce, bIsHighlighted))
-			if (si->pDlg)
-				si->pDlg->AddLog(*lin);
+			if (!(gce.dwFlags & GCEF_NOTNOTIFY))
+				g_chatApi.DoSoundsFlashPopupTrayStuff(si, &gce, bIsHighlighted, bManyFix);
 
-		if (!(gce.dwFlags & GCEF_NOTNOTIFY))
-			g_chatApi.DoSoundsFlashPopupTrayStuff(si, &gce, bIsHighlighted, bManyFix);
-
-		if ((gce.dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			LogToFile(si, &gce);
+			if ((gce.dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
+				LogToFile(si, &gce);
+		}
 	}
 
 	if (bRemoveFlag)

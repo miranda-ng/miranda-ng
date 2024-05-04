@@ -133,6 +133,7 @@ void CDiscordProto::OnCommandChannelUserAdded(const JSONNode &pRoot)
 	CMStringW wszNick = getNick(nUser);
 
 	GCEVENT gce = { pUser->si, GC_EVENT_JOIN };
+	gce.dwFlags = GCEF_SILENT;
 	gce.pszUID.w = wszUserId;
 	gce.pszNick.w = wszNick;
 	gce.time = time(0);
@@ -148,6 +149,7 @@ void CDiscordProto::OnCommandChannelUserLeft(const JSONNode &pRoot)
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
 
 	GCEVENT gce = { pUser->si, GC_EVENT_PART };
+	gce.dwFlags = GCEF_SILENT;
 	gce.pszUID.w = wszUserId;
 	gce.time = time(0);
 	Chat_Event(&gce);
@@ -432,6 +434,13 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		return;
 	}
 
+	// shift & store LastMsgId field
+	pUser->lastMsgId = msgId;
+
+	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
+	if (lastId < msgId)
+		setId(pUser->hContact, DB_KEY_LASTMSGID, msgId);
+
 	char szMsgId[100];
 	_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
 
@@ -442,13 +451,34 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msgId);
 	}
 	else {
-		CMStringW wszText = PrepareMessageText(pRoot);
+		CMStringW wszText = PrepareMessageText(pRoot), wszMentioned;
+		for (auto &it : pRoot["mentions"]) {
+			wszMentioned = getName(it);
+			break;
+		}
+
+		switch (pRoot["type"].as_int()) {
+		case 4: // chat was renamed
+			if (pUser->si)
+				setWString(pUser->si->hContact, "Nick", wszText);
+			return;
+
+		case 1: // user was added to chat
+			wszText.Format(TranslateT("%s added %s to the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+			break;
+
+		case 2: // user was removed from chat
+			wszText.Format(TranslateT("%s removed %s from the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+			break;
+
+		case 3: // user left chat
+			wszText.Format(TranslateT("%s left group"), wszMentioned.c_str());
+			break;
+		}
+
 		if (wszText.IsEmpty())
 			return;
 
-		if (pRoot["type"].as_int() == 4 && pUser->si) {
-			setWString(pUser->si->hContact, "Nick", wszText);
-		}
 		else {
 			// old message? try to restore it from database
 			bool bOurMessage = userId == m_ownId;
@@ -492,11 +522,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		}
 	}
 
-	pUser->lastMsgId = msgId;
-
-	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
-	if (lastId < msgId)
-		setId(pUser->hContact, DB_KEY_LASTMSGID, msgId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
