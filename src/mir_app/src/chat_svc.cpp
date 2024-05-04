@@ -325,8 +325,10 @@ static int RoomControlHandler(int iCommand, SESSION_INFO *si)
 
 	case SESSION_ONLINE:
 		SM_SetStatus(si->pszModule, si, ID_STATUS_ONLINE);
-		if (si && si->pDlg)
+		if (si && si->pDlg) {
 			si->pDlg->UpdateStatusBar();
+			si->pDlg->UpdateNickList();
+		}
 		break;
 
 	case WINDOW_CLEARLOG:
