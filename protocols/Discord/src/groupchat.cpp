@@ -265,7 +265,7 @@ void CDiscordProto::LeaveChat(CDiscordUser *pChat)
 
 INT_PTR CDiscordProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 {
-	if (auto *pUser = FindUserByChannel(getId(hContact, DB_KEY_ID)))
+	if (auto *pUser = FindUserByChannel(getId(hContact, DB_KEY_CHANNELID)))
 		if (pUser->si)
 			LeaveChat(pUser);
 	return 0;
