@@ -483,6 +483,7 @@ public:
 	void OnCommandCallUpdated(const JSONNode &json);
 	void OnCommandChannelCreated(const JSONNode &json);
 	void OnCommandChannelDeleted(const JSONNode &json);
+	void OnCommandChannelUnreadUpdate(const JSONNode &json);
 	void OnCommandChannelUpdated(const JSONNode &json);
 	void OnCommandChannelUserAdded(const JSONNode &json);
 	void OnCommandChannelUserLeft(const JSONNode &json);

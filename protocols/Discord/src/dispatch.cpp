@@ -36,6 +36,7 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
 	{ L"CHANNEL_RECIPIENT_ADD", &CDiscordProto::OnCommandChannelUserAdded },
 	{ L"CHANNEL_RECIPIENT_REMOVE", &CDiscordProto::OnCommandChannelUserLeft },
+	{ L"CHANNEL_UNREAD_UPDATE", &CDiscordProto::OnCommandChannelUnreadUpdate },
 	{ L"CHANNEL_UPDATE", &CDiscordProto::OnCommandChannelUpdated },
 
 	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreated },
@@ -150,6 +151,18 @@ void CDiscordProto::OnCommandChannelUserLeft(const JSONNode &pRoot)
 	gce.pszUID.w = wszUserId;
 	gce.time = time(0);
 	Chat_Event(&gce);
+}
+
+void CDiscordProto::OnCommandChannelUnreadUpdate(const JSONNode &pRoot)
+{
+	auto *pGuild = FindGuild(::getId(pRoot["guild_id"]));
+	if (pGuild == nullptr)
+		return;
+
+	for (auto &it : pRoot["channel_unread_updates"])
+		if (auto *pChannel = FindUserByChannel(::getId(it["id"])))
+			if (pChannel->lastMsgId < ::getId(it["last_message_id"]))
+				RetrieveHistory(pChannel, MSG_AFTER, pChannel->lastMsgId, 99);
 }
 
 void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
