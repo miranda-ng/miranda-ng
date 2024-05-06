@@ -105,6 +105,8 @@ void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *pReq)
 	m_szAccessToken = 0;
 	ShutdownSession();
 
+	CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_szModuleName));
+
 	auto *pDlg = (CDiscardAccountOptions *)pReq->pUserInfo;
 	pDlg->onLogout();
 }

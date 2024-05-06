@@ -44,6 +44,7 @@
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <m_srmm_int.h>
+#include <m_statusplugins.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
 #include <m_voice.h>
