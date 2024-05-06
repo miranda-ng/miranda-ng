@@ -102,7 +102,19 @@ SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
 	if (db_get(hContact, m_szModuleName, szSetting, &dbv))
 		return 0;
 
-	SnowFlake result = (dbv.cpbVal == sizeof(SnowFlake)) ? *(SnowFlake*)dbv.pbVal : 0;
+	SnowFlake result;
+	switch (dbv.type) {
+	case DBVT_BLOB:
+		result = (dbv.cpbVal == sizeof(SnowFlake)) ? *(SnowFlake *)dbv.pbVal : 0;
+		break;
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+		result = _atoi64(dbv.pszVal);
+		break;
+	case DBVT_WCHAR:
+		result = _wtoi64(dbv.pwszVal);
+		break;
+	}
 	db_free(&dbv);
 	return result;
 }
