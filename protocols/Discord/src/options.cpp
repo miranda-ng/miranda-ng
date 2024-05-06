@@ -81,7 +81,15 @@ public:
 
 	void onClick_Logout(CCtrlButton *)
 	{
-		m_proto->Push(new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout));
+		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout);
+		pReq->pUserInfo = this;
+		m_proto->Push(pReq);
+	}
+
+	void onLogout()
+	{
+		m_edUserName.Enable();
+		m_edPassword.Enable();
 	}
 
 	void onChange_GroupChats(CCtrlCheck*)
@@ -91,6 +99,16 @@ public:
 		chkUseGroups.Enable(bEnabled);
 	}
 };
+
+void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *pReq)
+{
+	delSetting(DB_KEY_TOKEN);
+	m_szAccessToken = 0;
+	ShutdownSession();
+
+	auto *pDlg = (CDiscardAccountOptions *)pReq->pUserInfo;
+	pDlg->onLogout();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

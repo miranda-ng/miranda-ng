@@ -107,7 +107,8 @@ void CDiscordProto::ServerThread(void*)
 	if (m_szAccessToken != nullptr)
 		RetrieveMyInfo(); // try to receive a response from server
 	else {
-		if (mir_wstrlen(m_wszEmail) == 0) {
+		CMStringW wszEmail(m_wszEmail);
+		if (wszEmail.IsEmpty()) {
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return;
 		}
@@ -118,7 +119,14 @@ void CDiscordProto::ServerThread(void*)
 			return;
 		}
 
-		JSONNode root; root << WCHAR_PARAM("email", m_wszEmail) << WCHAR_PARAM("password", wszPassword);
+		JSONNode root; root << WCHAR_PARAM("password", wszPassword);
+		if (wszEmail.Find('@') == -1) {
+			if (wszEmail[0] != '+')
+				wszEmail.Insert(0, L"+");
+			root << WCHAR_PARAM("login", wszEmail) ;
+		}
+		else root << WCHAR_PARAM("email", wszEmail);
+
 		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
 	}
 

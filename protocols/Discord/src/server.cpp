@@ -165,7 +165,6 @@ void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
 	setByte(0, DB_KEY_MFA, data["mfa_enabled"].as_bool());
 	setDword(0, DB_KEY_DISCR, _wtoi(data["discriminator"].as_mstring()));
 	setWString(0, DB_KEY_NICK, data["username"].as_mstring());
-	m_wszEmail = data["email"].as_mstring();
 
 	m_ownId = id;
 	m_szCookie = pReply->GetCookies();
@@ -213,15 +212,6 @@ void CDiscordProto::OnReceiveCreateChannel(MHttpResponse *pReply, AsyncHttpReque
 	JsonReply root(pReply);
 	if (root)
 		OnCommandChannelCreated(root.data());
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *)
-{
-	delSetting(DB_KEY_TOKEN);
-	m_szAccessToken = 0;
-	ShutdownSession();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
