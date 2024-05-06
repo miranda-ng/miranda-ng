@@ -55,13 +55,12 @@ public:
 
 	bool OnInitDialog() override
 	{
-		if (mir_strlen(m_proto->m_szAccessToken)) {
+		if (m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty())
+			btnLogout.Disable();
+		else {
 			m_edUserName.Disable();
 			m_edPassword.Disable();
 		}
-
-		if (m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty())
-			btnLogout.Disable();
 
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
