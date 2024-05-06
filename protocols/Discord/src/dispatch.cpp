@@ -473,8 +473,11 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 	}
 	else {
 		CMStringW wszText = PrepareMessageText(pRoot), wszMentioned;
+		SnowFlake mentionId = 0;
+
 		for (auto &it : pRoot["mentions"]) {
 			wszMentioned = getName(it);
+			mentionId = _wtoi64(it["id"].as_mstring());
 			break;
 		}
 
@@ -485,15 +488,17 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			return;
 
 		case 1: // user was added to chat
-			wszText.Format(TranslateT("%s added %s to the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+			if (mentionId != userId)
+				wszText.Format(TranslateT("%s added %s to the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+			else
+				wszText.Format(TranslateT("%s joined the group"), wszMentioned.c_str());
 			break;
 
 		case 2: // user was removed from chat
-			wszText.Format(TranslateT("%s removed %s from the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
-			break;
-
-		case 3: // user left chat
-			wszText.Format(TranslateT("%s left group"), wszMentioned.c_str());
+			if (mentionId != userId)
+				wszText.Format(TranslateT("%s removed %s from the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+			else
+				wszText.Format(TranslateT("%s left the group"), wszMentioned.c_str());
 			break;
 		}
 

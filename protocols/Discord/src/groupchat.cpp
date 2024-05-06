@@ -210,7 +210,7 @@ public:
 
 void CDiscordProto::LeaveChat(CDiscordUser *pChat)
 {
-	CMStringA szUrl(FORMAT, "/channels/%S", pChat->wszUsername.c_str());
+	CMStringA szUrl(FORMAT, "/channels/%S?silent=false", pChat->wszUsername.c_str());
 	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, nullptr));
 }
 
