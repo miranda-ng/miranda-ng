@@ -397,6 +397,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
 	void KickChatUser(CDiscordUser *pChat, const wchar_t *pszUID);
 	void LeaveChat(CDiscordUser *pChat);
+	void MakeChatOwner(CDiscordUser *pChat, const wchar_t *pszUID);
 	void ProcessChatUser(CDiscordUser *pChat, SnowFlake userId, const JSONNode &pRoot);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 

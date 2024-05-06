@@ -21,7 +21,8 @@ enum {
 	IDM_CANCEL,
 	IDM_COPY_ID,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY, IDM_LEAVE,
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_PASSOWNER,
+	IDM_DESTROY, IDM_LEAVE,
 
 	IDM_KICK, IDM_INVITE
 };
@@ -78,6 +79,7 @@ static gc_item sttNicklistItems[] =
 	{ LPGENW("Copy ID"), IDM_COPY_ID, MENU_ITEM },
 	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Kick user"), IDM_KICK, MENU_ITEM },
+	{ LPGENW("Make group owner"), IDM_PASSOWNER, MENU_ITEM },
 };
 
 int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
@@ -106,6 +108,7 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_KICK, !isOwner);
+		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_PASSOWNER, !isOwner);
 
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttNicklistItems), sttNicklistItems, &g_plugin);
 	}
@@ -293,6 +296,14 @@ void CDiscordProto::KickChatUser(CDiscordUser *pChat, const wchar_t *pszUID)
 	Push(new AsyncHttpRequest(this, REQUEST_DELETE, szUrl, 0));
 }
 
+void CDiscordProto::MakeChatOwner(CDiscordUser *pChat, const wchar_t *pszUID)
+{
+	JSONNode payload; payload << WCHAR_PARAM("owner", pszUID);
+
+	CMStringA szUrl(FORMAT, "/channels/%lld", pChat->channelId);
+	Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, 0, &payload));
+}
+
 void CDiscordProto::Chat_ProcessNickMenu(GCHOOK* gch)
 {
 	auto *pChannel = FindUserByChannel(_wtoi64(gch->si->ptszID));
@@ -306,6 +317,10 @@ void CDiscordProto::Chat_ProcessNickMenu(GCHOOK* gch)
 
 	case IDM_KICK:
 		KickChatUser(pChannel, gch->ptszUID);
+		break;
+
+	case IDM_PASSOWNER:
+		MakeChatOwner(pChannel, gch->ptszUID);
 		break;
 	}
 }

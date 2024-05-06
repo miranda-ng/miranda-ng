@@ -175,6 +175,9 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 	pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
 
+	SnowFlake ownerId = ::getId(pRoot["owner_id"]);
+	setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
+
 	// if channel name was changed
 	CMStringW wszName = pRoot["name"].as_mstring();
 	if (!wszName.IsEmpty()) {
@@ -202,15 +205,13 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 	// reset members info for private channels
 	if (pUser->pGuild == nullptr) {
-		SnowFlake ownerId = getId(pUser->hContact, DB_KEY_OWNERID);
-
-		for (auto &it : pRoot["recipients"]) {
-			CMStringW wszNick(getName(it)), wszUserId(it["id"].as_mstring());
+		for (auto &it : pUser->si->arUsers) {
+			SnowFlake userId = _wtoi64(it->pszUID);
 
 			GCEVENT gce = { pUser->si, GC_EVENT_SETSTATUS };
-			gce.pszNick.w = wszNick;
-			gce.pszUID.w = wszUserId;
-			gce.pszStatus.w = (_wtoi64(wszUserId) == ownerId) ? L"Owners" : L"Participants";
+			gce.pszUID.w = it->pszUID;
+			gce.pszStatus.w = (userId == ownerId) ? L"Owners" : L"Participants";
+			gce.bIsMe = userId == m_ownId;
 			gce.time = time(0);
 			Chat_Event(&gce);
 		}
