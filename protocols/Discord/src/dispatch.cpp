@@ -175,25 +175,45 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 	pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
 
-	SnowFlake guildId = ::getId(pRoot["guild_id"]);
-	if (guildId != 0) {
-		CDiscordGuild *pGuild = FindGuild(guildId);
-		if (pGuild == nullptr)
-			return;
+	// if channel name was changed
+	CMStringW wszName = pRoot["name"].as_mstring();
+	if (!wszName.IsEmpty()) {
+		SnowFlake guildId = ::getId(pRoot["guild_id"]);
+		if (guildId != 0) {
+			CDiscordGuild *pGuild = FindGuild(guildId);
+			if (pGuild == nullptr)
+				return;
 
-		CMStringW wszName = pRoot["name"].as_mstring();
-		if (!wszName.IsEmpty()) {
 			CMStringW wszNewName = pGuild->m_wszName + L"#" + wszName;
 			Chat_ChangeSessionName(pUser->si, wszNewName);
 		}
+		else Chat_ChangeSessionName(pUser->si, wszName);
+	}
 
-		CMStringW wszTopic = pRoot["topic"].as_mstring();
-		Chat_SetStatusbarText(pUser->si, wszTopic);
-
+	// if a topic was changed
+	CMStringW wszTopic = pRoot["topic"].as_mstring();
+	Chat_SetStatusbarText(pUser->si, wszTopic);
+	{
 		GCEVENT gce = { pUser->si, GC_EVENT_TOPIC };
 		gce.pszText.w = wszTopic;
 		gce.time = time(0);
 		Chat_Event(&gce);
+	}
+
+	// reset members info for private channels
+	if (pUser->pGuild == nullptr) {
+		SnowFlake ownerId = getId(pUser->hContact, DB_KEY_OWNERID);
+
+		for (auto &it : pRoot["recipients"]) {
+			CMStringW wszNick(getName(it)), wszUserId(it["id"].as_mstring());
+
+			GCEVENT gce = { pUser->si, GC_EVENT_SETSTATUS };
+			gce.pszNick.w = wszNick;
+			gce.pszUID.w = wszUserId;
+			gce.pszStatus.w = (_wtoi64(wszUserId) == ownerId) ? L"Owners" : L"Participants";
+			gce.time = time(0);
+			Chat_Event(&gce);
+		}
 	}
 }
 
