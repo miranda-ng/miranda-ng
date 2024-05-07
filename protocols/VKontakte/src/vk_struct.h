@@ -268,6 +268,7 @@ struct CVKOptions {
 	CMOption<uint8_t> bUseStikersAsStaticSmileys;
 	CMOption<uint8_t> bUserForceInvisibleOnActivity;
 	CMOption<uint8_t> iMusicSendMetod;
+	CMOption<uint8_t> bOggInAudioMessages;
 	CMOption<uint8_t> bPopupContactsMusic;
 	CMOption<uint8_t> iSyncHistoryMetod;
 	CMOption<uint8_t> bNewsEnabled;

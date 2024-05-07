@@ -218,6 +218,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bShowProtoMenuItem6(proto, "ShowProtoMenuItem6", true),
 
 	iMusicSendMetod(proto, "MusicSendMetod", MusicSendMetod::sendBroadcastOnly),
+	bOggInAudioMessages(proto, "OggInAudioMessages", false),
 	bPopupContactsMusic(proto, "PopupContactsMusic", false),
 	iSyncHistoryMetod(proto, "SyncHistoryMetod", SyncHistoryMetod::syncOff),
 	bShowBeforeEditedPostVersion(proto, "ShowBeforeEditedPostVersion", true),

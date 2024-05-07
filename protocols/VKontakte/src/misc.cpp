@@ -1327,7 +1327,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (m_vkOptions.bFilterAudioMessages)
 				return L"== FilterAudioMessages ==";
 
-			CMStringW wszUrl(jnAudioMessage["link_mp3"].as_mstring());
+			CMStringW wszUrl(jnAudioMessage[m_vkOptions.bOggInAudioMessages ? "link_ogg" : "link_mp3"].as_mstring());
 			CMStringW wszTranscriptText(jnAudioMessage["transcript"].as_mstring());
 
 			res.AppendFormat(L"%s", SetBBCString(TranslateT("Audio message"), iBBC, vkbbcUrl, wszUrl).c_str());
