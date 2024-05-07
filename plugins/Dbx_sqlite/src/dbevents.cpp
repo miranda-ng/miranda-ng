@@ -378,7 +378,7 @@ int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *
 			if (cc->IsSub())
 				hContact = cc->parentID;
 
-		NotifyEventHooks(g_hevEventEdited, hContact, hDbEvent);
+		NotifyEventHooks(g_hevEventSetJson, hContact, hDbEvent);
 	}
 	return 0;
 }

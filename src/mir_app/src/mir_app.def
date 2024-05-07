@@ -970,3 +970,4 @@ _Netlib_DownloadFile@20 @1099 NONAME
 ?getEvent@EventInfo@DB@@QBEIXZ @1106 NONAME
 ?GetPreviewPath@PROTO_INTERFACE@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1107 NONAME
 g_hevEventDelivered @1108 NONAME
+g_hevEventSetJson @1109 NONAME

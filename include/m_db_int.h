@@ -384,6 +384,7 @@ EXTERN_C MIR_APP_EXPORT HANDLE
 	g_hevEventAdded,       // ME_DB_EVENT_ADDED
 	g_hevEventEdited,      // ME_DB_EVENT_EDITED
 	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
+	g_hevEventSetJson,     // ME_DB_EVENT_SETJSON
 	g_hevEventDelivered,   // ME_DB_EVENT_DELIVERED
 	g_hevEventFiltered;    // ME_DB_EVENT_FILTER_ADD
 

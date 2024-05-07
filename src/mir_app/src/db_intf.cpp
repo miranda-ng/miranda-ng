@@ -71,6 +71,7 @@ MIR_APP_EXPORT HANDLE
 	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
 	g_hevEventAdded,		  // ME_DB_EVENT_ADDED
 	g_hevEventEdited, 	  // ME_DB_EVENT_EDITED
+	g_hevEventSetJson,     // ME_DB_EVENT_SETJSON
 	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
 	g_hevEventDelivered,   // ME_DB_EVENT_DELIVERED
 	g_hevEventFiltered;
@@ -86,6 +87,7 @@ int LoadDbintfModule()
 	g_hevEventAdded = CreateHookableEvent(ME_DB_EVENT_ADDED);
 	g_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
 	g_hevEventDeleted = CreateHookableEvent(ME_DB_EVENT_DELETED);
+	g_hevEventSetJson = CreateHookableEvent(ME_DB_EVENT_SETJSON);
 	g_hevEventDelivered = CreateHookableEvent(ME_DB_EVENT_DELIVERED);
 	g_hevEventFiltered = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 

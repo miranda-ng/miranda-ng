@@ -576,6 +576,16 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 #define ME_DB_EVENT_EDITED "DB/Event/Edited"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/SetJson event
+// Called when the JSON part of an existing event was changed
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event. hContact is a valid handle to the
+// contact to which hDbEvent refers.
+
+#define ME_DB_EVENT_SETJSON "DB/Event/SetJson"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // DB/Event/FilterAdd (NOTE: Added during 0.3.3+ development!)
 // Called **before** a new event is made of a DBEVENTINFO structure, this
 // hook is not SAFE unless you know what you're doing with it, the arguments

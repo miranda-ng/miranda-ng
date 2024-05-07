@@ -195,6 +195,7 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
 	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
+	HookEvent(ME_DB_EVENT_SETJSON, evtEventEdited);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, evtPreShutdown);
