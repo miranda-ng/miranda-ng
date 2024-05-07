@@ -740,12 +740,12 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				}
 
 				if (blob.isOffline()) {
-					CMStringW val(FORMAT, L"%d", blob.getSize());
+					CMStringW val(FORMAT, L"%lld", blob.getSize());
 					bWriteNewLine(hFile, nIndent);
 					bWriteTextToFile(hFile, LPGENW("Size: "), bWriteUTF8Format);
 					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
 
-					val.Format(L"%d", blob.getTransferred());
+					val.Format(L"%lld", blob.getTransferred());
 					bWriteNewLine(hFile, nIndent);
 					bWriteTextToFile(hFile, LPGENW("Transferred: "), bWriteUTF8Format);
 					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
