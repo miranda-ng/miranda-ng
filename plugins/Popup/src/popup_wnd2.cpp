@@ -718,7 +718,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	if (m_options->bDisplayTime) {
 		if (ppd->dwTimestamp)
-			TimeZone_ToStringT(ppd->dwTimestamp, L"t", m_time, _countof(m_time));
+			TimeZone_ToStringW(ppd->dwTimestamp, L"t", m_time, _countof(m_time));
 		else
 			GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", m_time, _countof(m_time));
 	}

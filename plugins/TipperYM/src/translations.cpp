@@ -160,7 +160,7 @@ wchar_t* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const
 	if (ts == 0)
 		return nullptr;
 
-	return TimeZone_ToStringT(ts, L"d", buff, bufflen);
+	return TimeZone_ToStringW(ts, L"d", buff, bufflen);
 }
 
 wchar_t* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
@@ -169,7 +169,7 @@ wchar_t* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const 
 	if (ts == 0)
 		return nullptr;
 
-	return TimeZone_ToStringT(ts, L"D", buff, bufflen);
+	return TimeZone_ToStringW(ts, L"D", buff, bufflen);
 }
 
 wchar_t* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
@@ -178,7 +178,7 @@ wchar_t* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char
 	if (ts == 0)
 		return nullptr;
 
-	return TimeZone_ToStringT(ts, L"s", buff, bufflen);
+	return TimeZone_ToStringW(ts, L"s", buff, bufflen);
 }
 
 wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
@@ -187,7 +187,7 @@ wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, cons
 	if (ts == 0)
 		return nullptr;
 
-	return TimeZone_ToStringT(ts, L"t", buff, bufflen);
+	return TimeZone_ToStringW(ts, L"t", buff, bufflen);
 }
 
 wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)

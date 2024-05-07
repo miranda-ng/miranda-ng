@@ -411,7 +411,7 @@ static void ReplaceVars(CMStringW &buffer, MCONTACT hContact, wchar_t **variable
 	buffer.Replace(L"%contact%", Clist_GetContactDisplayName(hContact));
 	
 	wchar_t tmp[128];
-	TimeZone_ToStringT(time(0), L"d s", tmp, _countof(tmp));
+	TimeZone_ToStringW(time(0), L"d s", tmp, _countof(tmp));
 	buffer.Replace(L"%date%", tmp);
 
 	for (int k = 0; k < numVariables; k += 2) {

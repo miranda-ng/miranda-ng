@@ -420,7 +420,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 
 		// Get time
 		wchar_t date[64];
-		TimeZone_ToStringT(dbei.timestamp, L"d s", date, _countof(date));
+		TimeZone_ToStringW(dbei.timestamp, L"d s", date, _countof(date));
 
 		// Get file in disk
 		wchar_t path[MAX_PATH];

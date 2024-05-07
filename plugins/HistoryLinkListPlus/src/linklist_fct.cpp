@@ -147,7 +147,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 				wcsncpy_s(link, word, LINK_MAX);
 			}
 
-			TimeZone_ToStringT(dbei->timestamp, L"d-t", dbdate, _countof(dbdate));
+			TimeZone_ToStringW(dbei->timestamp, L"d-t", dbdate, _countof(dbdate));
 			date_ptr = wcstok_s(dbdate, L"-", &tok_ctx);
 			time_ptr = wcstok_s(nullptr, L"-", &tok_ctx);
 			wcsncpy_s(date, date_ptr, _TRUNCATE);

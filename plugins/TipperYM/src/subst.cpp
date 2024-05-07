@@ -135,7 +135,7 @@ void FormatTimestamp(uint32_t ts, char *szFormat, wchar_t *buff, int bufflen)
 {
 	wchar_t swzForm[16];
 	a2t(szFormat, swzForm, 16);
-	TimeZone_ToStringT(ts, swzForm, buff, bufflen);
+	TimeZone_ToStringW(ts, swzForm, buff, bufflen);
 }
 
 bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen)

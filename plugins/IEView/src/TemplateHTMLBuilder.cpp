@@ -82,7 +82,7 @@ char *TemplateHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int
 	wchar_t str[300];
 
 	if (mode) // time
-		TimeZone_ToStringT(check, (dwFlags & Options::LOG_SHOW_SECONDS) ? L"s" : L"t", str, _countof(str));
+		TimeZone_ToStringW(check, (dwFlags & Options::LOG_SHOW_SECONDS) ? L"s" : L"t", str, _countof(str));
 	else { // date
 		struct tm tm_now, tm_today;
 		time_t now = time(0);
@@ -96,7 +96,7 @@ char *TemplateHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int
 		else if (dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
 			wcsncpy(str, TranslateT("Yesterday"), _countof(str));
 		else
-			TimeZone_ToStringT(check, (dwFlags & Options::LOG_LONG_DATE) ? L"D" : L"d", str, _countof(str));
+			TimeZone_ToStringW(check, (dwFlags & Options::LOG_LONG_DATE) ? L"D" : L"d", str, _countof(str));
 	}
 
 	mir_strncpy(szResult, T2Utf(str), 500);

@@ -134,6 +134,4 @@ EXTERN_C MIR_CORE_DLL(uint32_t) TimeZone_ToLocal(uint32_t);
 EXTERN_C MIR_CORE_DLL(char*) TimeZone_ToString(mir_time timeVal, const char *szFormat, char *szDest, size_t cchDest);
 EXTERN_C MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFormat, wchar_t *wszDest, size_t cchDest);
 
-#define TimeZone_ToStringT TimeZone_ToStringW
-
 #endif /* __M_TIMEZONES_H */

@@ -606,7 +606,7 @@ static wchar_t* parseMirDateString(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	wchar_t ret[128];
-	return mir_wstrdup(TimeZone_ToStringT(time(0), L"d s", ret, _countof(ret)));
+	return mir_wstrdup(TimeZone_ToStringW(time(0), L"d s", ret, _countof(ret)));
 }
 
 static wchar_t* parseMirandaCoreVar(ARGUMENTSINFO *ai)

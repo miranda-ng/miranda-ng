@@ -708,7 +708,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 	// Get time stamp 
 	int nIndent = mir_snwprintf(szTemp, L"%-*s", (int)nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
-	TimeZone_ToStringT(dbei.timestamp, g_sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
+	TimeZone_ToStringW(dbei.timestamp, g_sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
 	nIndent = (int)mir_wstrlen(szTemp);
 	szTemp[nIndent++] = ' ';
