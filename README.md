@@ -6,6 +6,7 @@ fast.
 
 ## Protocol support ##
 
+- Discord
 - Em-LAN
 - Facebook
 - Gadu-Gadu
