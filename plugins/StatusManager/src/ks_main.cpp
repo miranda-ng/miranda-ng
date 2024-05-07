@@ -955,7 +955,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 			if (wParam)
 				it->AssignStatus(Proto_GetStatus(it->m_szName));
 			else
-				it->AssignStatus(ID_STATUS_DISABLED);
+				it->m_status = ID_STATUS_DISABLED;
 
 			ret = 0;
 			break;
