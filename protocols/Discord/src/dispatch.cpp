@@ -508,29 +508,22 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		else {
 			// old message? try to restore it from database
 			bool bOurMessage = userId == m_ownId;
-			if (!bIsNew) {
-				MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
-				if (hOldEvent) {
-					DB::EventInfo dbei;
-					dbei.cbBlob = -1;
-					if (!db_event_get(hOldEvent, &dbei)) {
-						ptrW wszOldText(DbEvent_GetTextW(&dbei));
-						if (wszOldText)
-							wszText.Insert(0, wszOldText);
-						if (dbei.flags & DBEF_SENT)
-							bOurMessage = true;
-					}
-				}
-			}
+			MEVENT hOldEvent = (bIsNew) ? 0 : db_event_getById(m_szModuleName, szMsgId);
 
 			const JSONNode &edited = pRoot["edited_timestamp"];
 			if (!edited.isnull())
 				wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
 			// if a message has myself as an author, add some flags
-			DB::EventInfo dbei;
+			DB::EventInfo dbei(hOldEvent);
 			if (bOurMessage)
-				dbei.flags = DBEF_READ | DBEF_SENT;
+				dbei.flags |= DBEF_READ | DBEF_SENT;
+
+			if (dbei) {
+				ptrW wszOldText(DbEvent_GetTextW(&dbei));
+				if (wszOldText)
+					wszText.Insert(0, wszOldText);
+			}
 
 			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 			ptrA buf(mir_utf8encodeW(wszText));
@@ -544,7 +537,10 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				ProcessChatUser(pUser, userId, pRoot);
 			}
 
-			ProtoChainRecvMsg(pUser->hContact, dbei);
+			if (dbei)
+				db_event_edit(dbei.getEvent(), &dbei, true);
+			else
+				ProtoChainRecvMsg(pUser->hContact, dbei);
 		}
 	}
 

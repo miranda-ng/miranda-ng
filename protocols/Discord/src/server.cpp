@@ -110,7 +110,7 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 		else
 			dbei.flags &= ~DBEF_READ;
 
-		if (!pUser->bIsPrivate) {
+		if (!pUser->bIsPrivate || pUser->bIsGroup) {
 			dbei.szUserId = szUserId;
 			ProcessChatUser(pUser, _atoi64(szUserId), pNode);
 		}
@@ -122,14 +122,8 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 		bool bSucceeded = false;
 		char szMsgId[100];
 		_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
-		MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-		if (hDbEvent != 0)
-			bSucceeded = 0 == db_event_edit(hDbEvent, &dbei, true);
-			
-		if (!bSucceeded) {
-			dbei.szId = szMsgId;
-			db_event_add(pUser->hContact, &dbei);
-		}
+		dbei.szId = szMsgId;
+		db_event_replace(pUser->hContact, &dbei);
 
 		if (lastId < msgid)
 			lastId = msgid;
