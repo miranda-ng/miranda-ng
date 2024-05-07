@@ -59,12 +59,6 @@ bool g_bUseJson;
 
 DATABASELINK *g_pDriver = nullptr;
 
-const char szUtf8ByteOrderHeader[] = "\xEF\xBB\xBF";
-bool bIsUtf8Header(uint8_t * pucByteOrder)
-{
-	return memcmp(pucByteOrder, szUtf8ByteOrderHeader, 3) == 0;
-}
-
 /////////////////////////////////////////////////////////////////////
 // Member Function : nGetFormatCount
 // Type            : Global
@@ -180,81 +174,53 @@ void LogLastError(const wchar_t *pszError)
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : bWriteToFile
+// Member Function : nContactDeleted
 // Type            : Global
-// Parameters      : hFile  - ?
-//                   pszSrc - in UTF8 or ANSII
-//                   nLen   - ?
-// Returns         : Returns true if all the data was written to the file
+// Parameters      : wparam - handle to the deleted Contact
+//                   lparam - 0
+// Returns         : int
+// Description     : Called when an contact is about to be deleted
 
-static bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
+int nContactDeleted(WPARAM hContact, LPARAM)
 {
-	if (nLen < 0)
-		nLen = (int)mir_strlen(pszSrc);
+	HWND hInternalWindow = WindowList_Find(hInternalWindowList, hContact);
+	if (hInternalWindow)
+		CloseWindow(hInternalWindow);
 
-	DWORD dwBytesWritten;
-	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (uint32_t)nLen);
-}
+	if (g_enDeleteAction == eDANothing)
+		return 0;
 
+	wstring sFilePath = GetFilePathFromUser(hContact);
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteTextToFile
-// Type            : Global
-// Parameters      : hFile     - ?
-//                   pszSrc    - ?
-//                   bUtf8File - ?
-// Returns         : Returns true if 
+	// Test if there is another user using this file
+	for (auto &hOtherContact : Contacts())
+		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser(hOtherContact))
+			return 0; // we found another contact abort mission :-)
 
-static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File, int nLen = -1)
-{
-	if (nLen != -1) {
-		wchar_t *tmp = (wchar_t*)alloca(sizeof(wchar_t)*(nLen + 1));
-		mir_wstrncpy(tmp, pszSrc, nLen + 1);
-		pszSrc = tmp;
+	// Test to see if there is a file to delete
+	HANDLE hPrevFile = CreateFile(sFilePath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (hPrevFile != INVALID_HANDLE_VALUE) {
+		CloseHandle(hPrevFile);
+
+		wchar_t szTemp[500];
+		mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
+
+		if (g_enDeleteAction == eDAAutomatic || MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
+			if (!DeleteFile(sFilePath.c_str())) {
+				mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("Failed to delete the file"), sFilePath.c_str());
+				LogLastError(szTemp);
+			}
+		}
 	}
-
-	if (!bUtf8File) {
-		// We need to downgrade text to ansi
-		ptrA pszAstr(mir_u2a(pszSrc));
-		return bWriteToFile(hFile, pszAstr, -1);
-	}
-
-	return bWriteToFile(hFile, T2Utf(pszSrc), -1);
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteNewLine
-// Type            : Global
-// Parameters      : hFile   - ?
-//                   nIndent - ?
-// Returns         : Returns true if all the data was written to the file
-
-const char szNewLineIndent[] = "\r\n                                                                                                   ";
-bool bWriteNewLine(HANDLE hFile, uint32_t dwIndent)
-{
-	if (dwIndent > sizeof(szNewLineIndent) - 2)
-		dwIndent = sizeof(szNewLineIndent) - 2;
-	
-	return bWriteToFile(hFile, szNewLineIndent, dwIndent + 2);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : bWriteHexToFile
-// Type            : Global
-// Parameters      : hFile - ?
-//                         - ?
-//                   nSize - ?
 
-bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
+wchar_t* GetMyOwnNick(MCONTACT hContact)
 {
-	char cBuf[10];
-	uint8_t *p = (uint8_t*)pData;
-	for (int n = 0; n < nSize; n++) {
-		mir_snprintf(cBuf, "%.2X ", p[n]);
-		if (!bWriteToFile(hFile, cBuf, 3))
-			return false;
-	}
-	return true;
+	wchar_t *p = Contact::GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(hContact));
+	return (p != nullptr) ? p : mir_wstrdup(TranslateT("No_Nick"));
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -529,7 +495,7 @@ void UpdateFileToColWidth()
 //                   sFile    - ?
 //                   dbei     - ?
 
-void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei)
+void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath)
 {
 	wstring sError = TranslateW(pszError);
 	sError += sFilePath;
@@ -537,303 +503,7 @@ void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO
 	sError += sGetErrorString();
 	sError += TranslateT("\nMessage has not been saved!\n");
 	sError += TranslateT("Do you wish to save debug information?");
-	if (MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
-		wchar_t szFile[260];       // buffer for file name
-		wcsncpy_s(szFile, L"DebugInfo.txt", _TRUNCATE);
-
-		// Initialize OPENFILENAME
-		OPENFILENAME ofn = {};
-		ofn.lStructSize = sizeof(OPENFILENAME);
-		ofn.lpstrFile = szFile;
-		ofn.nMaxFile = _countof(szFile);
-		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
-		ofn.nFilterIndex = 1;
-		ofn.lpstrDefExt = L"TXT";
-
-		// Display the Open dialog box. 
-		if (GetSaveFileName(&ofn)) {
-			HANDLE hf = CreateFile(ofn.lpstrFile, GENERIC_WRITE,
-				0, (LPSECURITY_ATTRIBUTES)nullptr,
-				CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-				(HANDLE)nullptr); // file handle
-
-			bWriteTextToFile(hf, sError.c_str(), false);
-			if (dbei) {
-				bWriteToFile(hf, "\r\ndbei          :");
-
-				bWriteHexToFile(hf, dbei, sizeof(DBEVENTINFO));
-				if (dbei->pBlob) {
-					bWriteToFile(hf, "\r\ndbei.pBlob    :");
-					bWriteHexToFile(hf, dbei->pBlob, min(dbei->cbBlob, 10000));
-				}
-				if (dbei->szModule) {
-					bWriteToFile(hf, "\r\ndbei.szModule :");
-					bWriteToFile(hf, dbei->szModule);
-				}
-			}
-			CloseHandle(hf);
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : ExportDBEventInfo
-// Type            : Global
-// Parameters      : hContact  - handle to contact
-//                   hFile     - handle to file
-//                   sFilePath - path to file
-//                   dbei      - Event to export
-// Returns         : false on serious error, when file should be closed to not lost/overwrite any data
-
-const char *pSettings[] =
-{
-	LPGEN("FirstName"),
-	LPGEN("LastName"),
-	LPGEN("e-mail"),
-	LPGEN("Nick"),
-	LPGEN("Age"),
-	LPGEN("Gender"),
-	LPGEN("City"),
-	LPGEN("State"),
-	LPGEN("Phone"),
-	LPGEN("Homepage"),
-	LPGEN("About")
-};
-
-static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DB::EventInfo &dbei, bool bAppendOnly)
-{
-	wstring sLocalUser;
-	wstring sRemoteUser;
-	string::size_type nFirstColumnWidth;
-	auto *pJson = (MDatabaseExport *)hFile;
-
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto == nullptr) {
-		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
-		return false;
-	}
-
-	if (g_plugin.bUseAngleBrackets) {
-		sLocalUser = L"<<";
-		sRemoteUser = L">>";
-		nFirstColumnWidth = 4;
-	}
-	else {
-		sLocalUser = ptrW(GetMyOwnNick(hContact));
-		sRemoteUser = Clist_GetContactDisplayName(hContact);
-
-		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
-		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
-		nFirstColumnWidth += 2;
-	}
-
-	wchar_t szTemp[500];
-	bool bWriteUTF8Format = false;
-
-	if (bAppendOnly) {
-		bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
-	}
-	else {
-		if (g_bUseJson) {
-			if (!pJson->BeginExport())
-				pJson->ExportContact(hContact);
-		}
-		else {
-			DWORD dwHighSize = 0;
-			DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
-			if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
-				DWORD dwDataRead = 0;
-				uint8_t ucByteOrder[3];
-				if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
-					bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
-
-				DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
-				if (dwPtr == INVALID_SET_FILE_POINTER)
-					return false;
-			}
-			else {
-				bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
-				if (bWriteUTF8Format)
-					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
-						return false;
-
-				CMStringW output = L"------------------------------------------------\r\n";
-				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
-
-				// This is written this way because I expect this will become a string the user may set 
-				// in the options dialog.
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
-
-				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-				if (id != NULL)
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
-
-				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
-				if (szTemp[0]) {
-					szTemp[1] = 0;
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
-				}
-
-				int age = db_get_w(hContact, szProto, "Age", 0);
-				if (age != 0)
-					output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
-
-				for (auto &it : pSettings) {
-					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
-					if (!szValue.empty()) {
-						mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
-						output += szTemp;
-					}
-				}
-
-				output += L"------------------------------------------------\r\n";
-
-				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
-					return false;
-			}
-		}
-	}
-
-	if (g_bUseJson) {
-		pJson->ExportEvent(dbei);
-		return true;
-	}
-
-	if (dbei.szUserId && Contact::IsGroupChat(hContact))
-		if (auto *si = Chat_Find(hContact, szProto))
-			if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
-				sRemoteUser = pUser->pszNick;
-
-	// Get time stamp 
-	int nIndent = mir_snwprintf(szTemp, L"%-*s", (int)nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
-
-	TimeZone_ToStringW(dbei.timestamp, g_sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
-
-	nIndent = (int)mir_wstrlen(szTemp);
-	szTemp[nIndent++] = ' ';
-
-	// Write first part of line with name and timestamp
-	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent))
-		return false;
-
-	if (dbei.pBlob != nullptr && dbei.cbBlob >= 2) {
-		dbei.pBlob[dbei.cbBlob] = 0;
-
-		switch (dbei.eventType) {
-		case EVENTTYPE_MESSAGE:
-			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei)), bWriteUTF8Format);
-			break;
-
-		case EVENTTYPE_FILE:
-			{
-				DB::FILE_BLOB blob(dbei);
-
-				const wchar_t *pszType = LPGENW("File: ");
-				bWriteTextToFile(hFile, pszType, bWriteUTF8Format);
-				bWriteIndentedToFile(hFile, nIndent, blob.getName(), bWriteUTF8Format);
-
-				if (mir_wstrlen(blob.getDescr())) {
-					bWriteNewLine(hFile, nIndent);
-					bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format);
-					bWriteIndentedToFile(hFile, nIndent, blob.getDescr(), bWriteUTF8Format);
-				}
-
-				if (blob.isOffline()) {
-					CMStringW val(FORMAT, L"%lld", blob.getSize());
-					bWriteNewLine(hFile, nIndent);
-					bWriteTextToFile(hFile, LPGENW("Size: "), bWriteUTF8Format);
-					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
-
-					val.Format(L"%lld", blob.getTransferred());
-					bWriteNewLine(hFile, nIndent);
-					bWriteTextToFile(hFile, LPGENW("Transferred: "), bWriteUTF8Format);
-					bWriteIndentedToFile(hFile, nIndent, val, bWriteUTF8Format);
-
-					if (mir_wstrlen(blob.getLocalName())) {
-						bWriteNewLine(hFile, nIndent);
-						bWriteTextToFile(hFile, LPGENW("Path: "), bWriteUTF8Format);
-						bWriteIndentedToFile(hFile, nIndent, blob.getLocalName(), bWriteUTF8Format);
-					}
-
-					if (mir_strlen(blob.getUrl())) {
-						bWriteNewLine(hFile, nIndent);
-						bWriteTextToFile(hFile, LPGENW("URL: "), bWriteUTF8Format);
-						bWriteIndentedToFile(hFile, nIndent, _A2T(blob.getUrl()), bWriteUTF8Format);
-					}
-				}
-			}
-			break;
-
-		case EVENTTYPE_AUTHREQUEST:
-		case EVENTTYPE_ADDED:
-			{
-				const wchar_t *pszTypes[] = {
-					LPGENW("Nick      :"),
-					LPGENW("FirstName :"),
-					LPGENW("LastName  :"),
-					LPGENW("e-mail    :"),
-					LPGENW("Reason    :") };
-
-				if (dbei.cbBlob < 8 || dbei.cbBlob > 5000) {
-					int n = mir_snwprintf(szTemp, TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
-					bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
-					break;
-				}
-
-				int nStringCount;
-				const wchar_t *pszTitle;
-				char *pszCurBlobPos;
-				if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {	// request 
-					//blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-					nStringCount = 5;
-					pszCurBlobPos = (char *)dbei.pBlob + sizeof(uint32_t) * 2;
-					pszTitle = LPGENW("The following user made an authorization request:");
-				}
-				else {  // Added
-					//blob is: uin(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-					pszCurBlobPos = (char *)dbei.pBlob + sizeof(uint32_t);
-					nStringCount = 4;
-					pszTitle = LPGENW("The following user added you to their contact list:");
-				}
-
-				if (bWriteTextToFile(hFile, pszTitle, bWriteUTF8Format) &&
-					bWriteNewLine(hFile, nIndent) &&
-					bWriteTextToFile(hFile, LPGENW("UIN       :"), bWriteUTF8Format)) {
-					uint32_t uin = *((PDWORD)(dbei.pBlob));
-					int n = mir_snwprintf(szTemp, L"%d", uin);
-					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
-						char *pszEnd = (char *)(dbei.pBlob + sizeof(dbei));
-						for (int i = 0; i < nStringCount && pszCurBlobPos < pszEnd; i++) {
-							if (*pszCurBlobPos) {
-								if (!bWriteNewLine(hFile, nIndent) ||
-									!bWriteTextToFile(hFile, TranslateW(pszTypes[i]), bWriteUTF8Format) ||
-									!bWriteIndentedToFile(hFile, nIndent, _A2T(pszCurBlobPos), bWriteUTF8Format)) {
-									break;
-								}
-								pszCurBlobPos += mir_strlen(pszCurBlobPos);
-							}
-							pszCurBlobPos++;
-						}
-					}
-				}
-			}
-			break;
-
-		default:
-			int n = mir_snwprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
-			bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
-			break;
-		}
-	}
-	else {
-		int n = mir_snwprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
-		bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
-	}
-
-	bWriteToFile(hFile, g_plugin.bAppendNewLine ? "\r\n\r\n" : "\r\n");
-	UpdateFileViews(sFilePath.c_str());
-	return true;
+	MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_OK | MB_ICONERROR);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -887,7 +557,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	if (g_bUseJson) {
 		pJson = g_pDriver->Export(sFilePath.c_str());
 		if (pJson == nullptr) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath);
 			return 0;
 		}
 
@@ -896,7 +566,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	else {
 		hFile = openCreateFile(sFilePath);
 		if (hFile == INVALID_HANDLE_VALUE) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath);
 			return 0;
 		}
 	}
@@ -912,148 +582,4 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	else CloseHandle(hFile);
 
 	return 0;
-}
-
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly)
-{
-	bool result = true;
-
-	DB::EventInfo dbei(hDbEvent);
-	if (dbei) {
-		if (db_mc_isMeta(hContact))
-			hContact = dbei.hContact;
-
-		// Write the event
-		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);
-	}
-
-	return result;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteIndentedToFile
-// Type            : Global
-// Parameters      : hFile   - ?
-//                   nIndent - ?
-//                   pszSrc  - 
-// Returns         : Returns true if 
-
-bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File)
-{
-	if (pszSrc == nullptr)
-		return true;
-
-	bool bOk = true;
-	bool bFirstLine = true;
-
-	while (*pszSrc) {	// first we will scan forward in string to finde either new line or "max line with"
-		int nLineLen = 0;
-		do {
-			if (pszSrc[nLineLen] == '\n' || pszSrc[nLineLen] == '\r')
-				break;
-
-			// if user set nMaxLineWidth to 0, we don't break anything, otherwise check the length
-			if (nMaxLineWidth != 0 && nLineLen >= nMaxLineWidth) {
-				// ok the line was not broken. we need to force a break
-				// we will scan backwards again to finde a space !!
-				// then we will look for a ? and so on.
-
-				const wchar_t ac[] = { ' ', '?', '-', '.', ',' };
-				for (auto &it : ac) {
-					for (int n = nLineLen; n > 0; n--) {
-						if (pszSrc[n] == it) {
-							nLineLen = n;
-							goto SuperBreak;
-						}
-					}
-				}
-				break;
-			}
-			nLineLen++;
-		} while (pszSrc[nLineLen]);
-
-		// trim away traling spaces !!
-		if (nLineLen > 0) {
-			while (pszSrc[nLineLen - 1] == ' ')
-				nLineLen--;
-		}
-
-	SuperBreak:
-		// nLineLen should contain the number af chars we need to write to the file 
-		if (nLineLen > 0) {
-			if (!bFirstLine)
-				if (!bWriteNewLine(hFile, nIndent))
-					bOk = false;
-
-			if (!bWriteTextToFile(hFile, pszSrc, bUtf8File, nLineLen))
-				bOk = false;
-		}
-		bFirstLine = false;
-
-		// skip any noice chars, MAC style '\r' '\r' '\n' 
-		// and excess spaces 
-		const wchar_t *pszPrev = pszSrc;
-		pszSrc += nLineLen;
-		while (*pszSrc == ' ' || *pszSrc == '\n' || *pszSrc == '\r')
-			pszSrc++;
-
-		if (pszPrev == pszSrc) {
-			// this is an programming error we have not moved forward in string 
-			MessageBox(nullptr, L"Programming error on line __LINE__ please report this", MSG_BOX_TITEL, MB_OK);
-			break;
-		}
-	}
-
-	// if bOk if false file writing failed 
-	return bOk;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : nContactDeleted
-// Type            : Global
-// Parameters      : wparam - handle to the deleted Contact
-//                   lparam - 0
-// Returns         : int
-// Description     : Called when an contact is about to be deleted
-
-int nContactDeleted(WPARAM hContact, LPARAM)
-{
-	HWND hInternalWindow = WindowList_Find(hInternalWindowList, hContact);
-	if (hInternalWindow)
-		CloseWindow(hInternalWindow);
-
-	if (g_enDeleteAction == eDANothing)
-		return 0;
-
-	wstring sFilePath = GetFilePathFromUser(hContact);
-
-	// Test if there is another user using this file
-	for (auto &hOtherContact : Contacts())
-		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser(hOtherContact))
-			return 0; // we found another contact abort mission :-)
-
-	// Test to see if there is a file to delete
-	HANDLE hPrevFile = CreateFile(sFilePath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (hPrevFile != INVALID_HANDLE_VALUE) {
-		CloseHandle(hPrevFile);
-
-		wchar_t szTemp[500];
-		mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
-
-		if (g_enDeleteAction == eDAAutomatic || MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
-			if (!DeleteFile(sFilePath.c_str())) {
-				mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("Failed to delete the file"), sFilePath.c_str());
-				LogLastError(szTemp);
-			}
-		}
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////
-
-wchar_t* GetMyOwnNick(MCONTACT hContact)
-{
-	wchar_t *p = Contact::GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(hContact));
-	return (p != nullptr) ? p : mir_wstrdup(TranslateT("No_Nick"));
 }

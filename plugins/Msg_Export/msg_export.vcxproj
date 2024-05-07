@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\export.cpp" />
     <ClCompile Include="src\FileViewer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />

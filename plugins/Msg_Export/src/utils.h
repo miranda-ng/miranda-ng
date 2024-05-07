@@ -41,7 +41,7 @@ extern bool g_bUseJson;
 extern DATABASELINK *g_pDriver;
 
 void LogLastError(const wchar_t *pszError);
-void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei);
+void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath);
 
 bool bIsExportEnabled(MCONTACT hContact);
 HANDLE openCreateFile(const wstring &sFilePath);
@@ -62,8 +62,6 @@ wstring GetFilePathFromUser(MCONTACT hContact);
 void ReplaceDefines(MCONTACT hContact, wstring &sTarget);
 void ReplaceTimeVariables(wstring &sRet);
 
-bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File);
-bool bWriteNewLine(HANDLE hFile, uint32_t dwIndent);
 bool bIsUtf8Header(uint8_t *pucByteOrder);
 
 #endif
