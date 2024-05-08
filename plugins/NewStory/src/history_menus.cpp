@@ -62,7 +62,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 			Menu_ShowItem(hmiCopyUrl, true);
 
 		bEditable = (item->dbe.flags & DBEF_SENT) != 0;
-		bShowEventActions = item->dbe;
+		bShowEventActions = item->dbe.getEvent() != 0;
 
 		DB::EventInfo dbei(item->dbe.getEvent());
 		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
