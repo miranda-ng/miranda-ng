@@ -233,6 +233,8 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
 			setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
 
+			CheckAvatarChange(si->hContact, root["icon"].as_mstring());
+
 			GCEVENT gce = { si, GC_EVENT_JOIN };
 			for (auto &it : root["recipients"]) {
 				CMStringW wszId = it["id"].as_mstring();

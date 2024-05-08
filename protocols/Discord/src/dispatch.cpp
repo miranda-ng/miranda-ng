@@ -205,6 +205,8 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 	// reset members info for private channels
 	if (pUser->pGuild == nullptr) {
+		CheckAvatarChange(pUser->hContact, pRoot["icon"].as_mstring());
+
 		for (auto &it : pUser->si->arUsers) {
 			SnowFlake userId = _wtoi64(it->pszUID);
 
@@ -472,7 +474,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msgId);
 	}
 	else {
-		CMStringW wszText = PrepareMessageText(pRoot), wszMentioned;
+		CMStringW wszText = PrepareMessageText(pRoot), wszMentioned, wszAuthor = getName(pRoot["author"]);
 		SnowFlake mentionId = 0;
 
 		for (auto &it : pRoot["mentions"]) {
@@ -482,23 +484,30 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		}
 
 		switch (pRoot["type"].as_int()) {
-		case 4: // chat was renamed
-			if (pUser->si)
-				setWString(pUser->si->hContact, "Nick", wszText);
-			return;
-
 		case 1: // user was added to chat
 			if (mentionId != userId)
-				wszText.Format(TranslateT("%s added %s to the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+				wszText.Format(TranslateT("%s added %s to the group"), wszAuthor.c_str(), wszMentioned.c_str());
 			else
 				wszText.Format(TranslateT("%s joined the group"), wszMentioned.c_str());
 			break;
 
 		case 2: // user was removed from chat
 			if (mentionId != userId)
-				wszText.Format(TranslateT("%s removed %s from the group"), getName(pRoot["author"]).c_str(), wszMentioned.c_str());
+				wszText.Format(TranslateT("%s removed %s from the group"), wszAuthor.c_str(), wszMentioned.c_str());
 			else
 				wszText.Format(TranslateT("%s left the group"), wszMentioned.c_str());
+			break;
+
+		case 3: // call
+			break;
+
+		case 4: // chat was renamed
+			if (pUser->si)
+				setWString(pUser->si->hContact, "Nick", wszText);
+			return;
+
+		case 5: // chat icon is changed
+			wszText.Format(TranslateT("%s changed the group icon"), wszAuthor.c_str());
 			break;
 		}
 

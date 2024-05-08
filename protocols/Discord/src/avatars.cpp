@@ -104,6 +104,20 @@ bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)
 	return true;
 }
 
+bool CDiscordProto::RetrieveChannelAvatar(MCONTACT hContact)
+{
+	ptrA szAvatarHash(getStringA(hContact, DB_KEY_AVHASH));
+	SnowFlake id = getId(hContact, DB_KEY_ID);
+	if (id == 0 || szAvatarHash == nullptr)
+		return false;
+
+	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/channel-icons/%lld/%s.jpg", id, szAvatarHash.get());
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveAvatar);
+	pReq->pUserInfo = (void *)hContact;
+	Push(pReq);
+	return true;
+}
+
 INT_PTR CDiscordProto::GetAvatarInfo(WPARAM flags, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
@@ -198,6 +212,12 @@ void CDiscordProto::CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNew
 	// if avatar's hash changed, we need to request a new one
 	if (mir_wstrcmp(wszNewHash, wszOldAvatar)) {
 		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
-		RetrieveAvatar(hContact);
+
+		if (auto *pUser = FindUser(getId(hContact, DB_KEY_ID))) {
+			if (pUser->bIsGroup)
+				RetrieveChannelAvatar(hContact);
+			else
+				RetrieveAvatar(hContact);
+		}
 	}
 }

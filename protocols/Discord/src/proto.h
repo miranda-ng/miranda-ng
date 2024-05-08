@@ -530,6 +530,7 @@ public:
 	void OnReceiveHistory(MHttpResponse*, AsyncHttpRequest*);
 
 	bool RetrieveAvatar(MCONTACT hContact);
+	bool RetrieveChannelAvatar(MCONTACT hContact);
 	void OnReceiveAvatar(MHttpResponse*, AsyncHttpRequest*);
 
 	void OnSendMsg(MHttpResponse*, AsyncHttpRequest*);
@@ -543,6 +544,7 @@ public:
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 	void CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash);
+	void CheckChannelAvatar(MCONTACT hContact, const CMStringW &wszNewHash);
 };
 
 typedef CProtoDlgBase<CDiscordProto> CDiscordDlgBase;

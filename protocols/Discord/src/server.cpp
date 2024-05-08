@@ -119,7 +119,6 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 		dbei.pBlob = szBody;
 		dbei.cbBlob = (int)mir_strlen(szBody);
 
-		bool bSucceeded = false;
 		char szMsgId[100];
 		_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
 		dbei.szId = szMsgId;
