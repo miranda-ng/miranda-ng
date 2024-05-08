@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 ITaskbarList3* pTaskbarInterface;
 
+static bool bIgnoreCallback = false;
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
 static UINT_PTR RefreshTimerId = 0;
@@ -63,7 +64,9 @@ static HICON lastTaskBarIcon;
 static void SetTaskBarIcon(const HICON hIcon, const wchar_t *szNewTip)
 {
 	if (pTaskbarInterface) {
+		bIgnoreCallback = true;
 		pTaskbarInterface->SetOverlayIcon(g_clistApi.hwndContactList, hIcon, szNewTip);
+		bIgnoreCallback = false;
 		lastTaskBarIcon = hIcon;
 	}
 }
@@ -670,6 +673,9 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case TIM_CALLBACK:
+		if (bIgnoreCallback)
+			break;
+
 		if (msg->lParam == WM_RBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN && g_trayTooltipActive) {
 			Tipper_Hide();
 			g_trayTooltipActive = false;
