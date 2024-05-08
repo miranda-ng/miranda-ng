@@ -317,22 +317,19 @@ public:
 
 class CAdvancedOptDlg : public CBaseOptionsDlg
 {
-	CCtrlCheck chkAlways, chkFullScreen;
+	CCtrlCheck chkFullScreen;
 	CCtrlListView m_statuses;
 
 public:
 	CAdvancedOptDlg() :
 		CBaseOptionsDlg(IDD_OPT_ADVANCED),
 		m_statuses(this, IDC_LST_STATUS),
-		chkAlways(this, IDC_DISABLE_ALWAYS),
 		chkFullScreen(this, IDC_DISABLE_FULLSCREEN)
 	{
-		chkAlways.OnChange = Callback(this, &CAdvancedOptDlg::onChange_Always);
 	}
 
 	bool OnInitDialog() override
 	{
-		chkAlways.SetState(!Popup_Enabled());
 		chkFullScreen.SetState(options.disable_full_screen);
 
 		// initialise and fill listbox
@@ -370,19 +367,11 @@ public:
 
 	bool OnApply() override
 	{
-		Popup_Enable(!chkAlways.IsChecked());
 		options.disable_full_screen = chkFullScreen.IsChecked();
 
 		for (int i = 0; i < _countof(options.disable_status); i++)
 			options.disable_status[i] = (m_statuses.GetCheckState(i) == 1);
 		return true;
-	}
-
-	void onChange_Always(CCtrlCheck *)
-	{
-		bool bEnable = !chkAlways.IsChecked();
-		m_statuses.Enable(bEnable);
-		chkFullScreen.Enable(bEnable);
 	}
 };
 

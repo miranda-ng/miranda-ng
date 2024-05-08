@@ -56,7 +56,6 @@
 #define IDC_HISTORY_FILTER_CASESENSITIVE 1046
 #define IDC_LST_CLASSES                 1047
 #define IDC_CHK_TIMEOUT                 1048
-#define IDC_DISABLE_ALWAYS              1051
 #define IDC_DISABLE_FULLSCREEN          1052
 
 // Next default values for new objects
