@@ -942,7 +942,7 @@ public:
 
 	void onClick_Message(CCtrlButton *)
 	{
-		CallService(MS_MSG_SENDMESSAGE, m_hContact, 0);
+		Clist_ContactDoubleClicked(m_hContact);
 	}
 
 	void onClick_Options(CCtrlButton *pButton)
