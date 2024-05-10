@@ -128,7 +128,7 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CDeleteDlg : public CDlgBase
+class CDeleteContactDlg : public CDlgBase
 {
 	MCONTACT m_hContact;
 	CCtrlCheck chkDelContact, chkDelHistory, chkForEveryone;
@@ -138,7 +138,7 @@ public:
 	bool bDelContact = true, bDelHistory = false, bForEveryone = false;
 	bool bHasServer, bHasHistory;
 
-	CDeleteDlg(MCONTACT hContact) :
+	CDeleteContactDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_DELETECONTACT),
 		m_hContact(hContact),
 		chkDelContact(this, IDC_DELSERVERCONTACT),
@@ -150,7 +150,7 @@ public:
 		bHasHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
 
-		chkDelHistory.OnChange = Callback(this, &CDeleteDlg::onChange_Server);
+		chkDelHistory.OnChange = Callback(this, &CDeleteContactDlg::onChange_Server);
 	}
 
 	bool OnInitDialog() override
@@ -204,7 +204,7 @@ public:
 
 static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 {
-	CDeleteDlg dlg(hContact);
+	CDeleteContactDlg dlg(hContact);
 	if (dlg.szProto == nullptr)
 		return 0;
 

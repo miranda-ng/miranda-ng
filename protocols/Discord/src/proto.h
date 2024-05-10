@@ -452,6 +452,7 @@ public:
 
 	void     OnBuildProtoMenu() override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
+	void     OnEventDeleted(MCONTACT, MEVENT, int flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -463,6 +464,7 @@ public:
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
 
 	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
