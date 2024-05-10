@@ -347,6 +347,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
 	CDiscordUser* FindUserByChannel(SnowFlake channelId);
 
+	CMStringW     PrepareMessageText(const JSONNode &pRoot, CDiscordUser *pUser);
 	void          PreparePrivateChannel(const JSONNode &);
 	CDiscordUser* PrepareUser(const JSONNode &);
 

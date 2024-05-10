@@ -85,10 +85,10 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 
 	for (auto &it : arNodes) {
 		auto &pNode = *it;
-		if (pNode["type"].as_int() != 0)
+		CMStringW wszText = PrepareMessageText(pNode, pUser);
+		if (wszText.IsEmpty())
 			continue;
 
-		CMStringW wszText = PrepareMessageText(pNode);
 		CMStringA szUserId = pNode["author"]["id"].as_mstring();
 		SnowFlake msgid = ::getId(pNode["id"]);
 		SnowFlake authorid = _atoi64(szUserId);

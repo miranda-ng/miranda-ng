@@ -114,6 +114,8 @@ SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
 	case DBVT_WCHAR:
 		result = _wtoi64(dbv.pwszVal);
 		break;
+	default:
+		result = 0;
 	}
 	db_free(&dbv);
 	return result;
@@ -230,7 +232,7 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 		Chat_AddGroup(si, LPGENW("Owners"));
 		Chat_AddGroup(si, LPGENW("Participants"));
 		{
-			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
+			SnowFlake ownerId = ::getId(root["owner_id"]);
 			setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
 
 			CheckAvatarChange(si->hContact, root["icon"].as_mstring());
@@ -339,7 +341,7 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringW PrepareMessageText(const JSONNode &pRoot)
+CMStringW CDiscordProto::PrepareMessageText(const JSONNode &pRoot, CDiscordUser *pUser)
 {
 	CMStringW wszText = pRoot["content"].as_mstring();
 
@@ -372,6 +374,44 @@ CMStringW PrepareMessageText(const JSONNode &pRoot)
 		str = it["thumbnail"]["url"].as_mstring();
 		if (!str.IsEmpty())
 			wszText.AppendFormat(L"\n%s: %s", TranslateT("Preview"), str.c_str());
+	}
+
+	auto &nAuthor = pRoot["author"];
+	SnowFlake mentionId = 0, userId = ::getId(nAuthor["id"]);
+	CMStringW wszMentioned, wszAuthor = getName(nAuthor);
+
+	for (auto &it : pRoot["mentions"]) {
+		wszMentioned = getName(it);
+		mentionId = ::getId(it["id"]);
+		break;
+	}
+
+	switch (pRoot["type"].as_int()) {
+	case 1: // user was added to chat
+		if (mentionId != userId)
+			wszText.Format(TranslateT("%s added %s to the group"), wszAuthor.c_str(), wszMentioned.c_str());
+		else
+			wszText.Format(TranslateT("%s joined the group"), wszMentioned.c_str());
+		break;
+
+	case 2: // user was removed from chat
+		if (mentionId != userId)
+			wszText.Format(TranslateT("%s removed %s from the group"), wszAuthor.c_str(), wszMentioned.c_str());
+		else
+			wszText.Format(TranslateT("%s left the group"), wszMentioned.c_str());
+		break;
+
+	case 3: // call
+		break;
+
+	case 4: // chat was renamed
+		if (pUser->si)
+			setWString(pUser->si->hContact, "Nick", wszText);
+		break;
+
+	case 5: // chat icon is changed
+		wszText.Format(TranslateT("%s changed the group icon"), wszAuthor.c_str());
+		break;
 	}
 
 	return wszText;

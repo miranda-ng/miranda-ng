@@ -226,7 +226,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		pUser->wszTopic = pch["topic"].as_mstring();
 		pUser->pGuild = pGuild;
 		pUser->lastMsgId = ::getId(pch["last_message_id"]);
-		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
+		pUser->parentId = ::getId(pch["parent_id"]);
 		return pUser;
 	}
 

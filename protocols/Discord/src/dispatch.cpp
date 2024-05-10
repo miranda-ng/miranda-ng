@@ -444,10 +444,9 @@ void CDiscordProto::OnCommandMessageUpdate(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 {
-	CMStringW wszMessageId = pRoot["id"].as_mstring();
 	CMStringA szUserId = pRoot["author"]["id"].as_mstring();
 	SnowFlake userId = _atoi64(szUserId);
-	SnowFlake msgId = _wtoi64(wszMessageId);
+	SnowFlake msgId = ::getId(pRoot["id"]);
 
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
@@ -474,43 +473,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msgId);
 	}
 	else {
-		CMStringW wszText = PrepareMessageText(pRoot), wszMentioned, wszAuthor = getName(pRoot["author"]);
-		SnowFlake mentionId = 0;
-
-		for (auto &it : pRoot["mentions"]) {
-			wszMentioned = getName(it);
-			mentionId = _wtoi64(it["id"].as_mstring());
-			break;
-		}
-
-		switch (pRoot["type"].as_int()) {
-		case 1: // user was added to chat
-			if (mentionId != userId)
-				wszText.Format(TranslateT("%s added %s to the group"), wszAuthor.c_str(), wszMentioned.c_str());
-			else
-				wszText.Format(TranslateT("%s joined the group"), wszMentioned.c_str());
-			break;
-
-		case 2: // user was removed from chat
-			if (mentionId != userId)
-				wszText.Format(TranslateT("%s removed %s from the group"), wszAuthor.c_str(), wszMentioned.c_str());
-			else
-				wszText.Format(TranslateT("%s left the group"), wszMentioned.c_str());
-			break;
-
-		case 3: // call
-			break;
-
-		case 4: // chat was renamed
-			if (pUser->si)
-				setWString(pUser->si->hContact, "Nick", wszText);
-			return;
-
-		case 5: // chat icon is changed
-			wszText.Format(TranslateT("%s changed the group icon"), wszAuthor.c_str());
-			break;
-		}
-
+		CMStringW wszText = PrepareMessageText(pRoot, pUser);
 		if (wszText.IsEmpty())
 			return;
 
@@ -552,7 +515,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				ProtoChainRecvMsg(pUser->hContact, dbei);
 		}
 	}
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
