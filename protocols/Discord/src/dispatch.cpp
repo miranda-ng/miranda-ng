@@ -463,12 +463,12 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 	if (lastId < msgId)
 		setId(pUser->hContact, DB_KEY_LASTMSGID, msgId);
 
-	char szMsgId[100];
+	char szMsgId[100], szReplyId[100];
 	_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
 
 	COwnMessage ownMsg(::getId(pRoot["nonce"]), 0);
 	COwnMessage *p = arOwnMessages.find(&ownMsg);
-	if (p != nullptr) { // own message? skip it
+	if (p != nullptr && !Contact::IsGroupChat(pUser->hContact)) { // own message? skip it
 		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)p->reqId, (LPARAM)szMsgId);
 		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msgId);
 	}
@@ -497,12 +497,16 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 					wszText.Insert(0, wszOldText);
 			}
 
+			if (auto &nReply = pRoot["message_reference"]) {
+				_i64toa(::getId(nReply["message_id"]), szReplyId, 10);
+				dbei.szReplyId = szReplyId;
+			}
+
 			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
-			ptrA buf(mir_utf8encodeW(wszText));
 
 			dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-			dbei.pBlob = buf;
 			dbei.szId = szMsgId;
+			replaceStr(dbei.pBlob, mir_utf8encodeW(wszText));
 
 			if (!pUser->bIsPrivate || pUser->bIsGroup) {
 				dbei.szUserId = szUserId;
