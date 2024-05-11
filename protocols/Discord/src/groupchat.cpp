@@ -24,7 +24,7 @@ enum {
 	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_PASSOWNER,
 	IDM_DESTROY, IDM_LEAVE,
 
-	IDM_KICK, IDM_INVITE
+	IDM_KICK, IDM_INVITE, IDM_ADD
 };
 
 static void sttDisableMenuItem(int nItems, gc_item *items, uint32_t id, bool disabled)
@@ -77,6 +77,7 @@ static gc_item sttLogListItems[] =
 static gc_item sttNicklistItems[] =
 {
 	{ LPGENW("Copy ID"), IDM_COPY_ID, MENU_ITEM },
+	{ LPGENW("Add friend"), IDM_ADD, MENU_ITEM },
 	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Kick user"), IDM_KICK, MENU_ITEM },
 	{ LPGENW("Make group owner"), IDM_PASSOWNER, MENU_ITEM },
@@ -107,6 +108,10 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
+		SnowFlake userId = (gcmi->pszUID) ? _wtoi64(gcmi->pszUID) : 0;
+		bool isFriend = (userId == m_ownId) ? true : FindUser(userId) != 0;
+
+		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_ADD, isFriend);
 		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_KICK, !isOwner);
 		sttDisableMenuItem(_countof(sttNicklistItems), sttNicklistItems, IDM_PASSOWNER, !isOwner);
 
@@ -313,6 +318,10 @@ void CDiscordProto::Chat_ProcessNickMenu(GCHOOK* gch)
 	switch (gch->dwData) {
 	case IDM_COPY_ID:
 		CopyId(gch->ptszUID);
+		break;
+
+	case IDM_ADD:
+		AddFriend(_wtoi64(gch->ptszUID));
 		break;
 
 	case IDM_KICK:

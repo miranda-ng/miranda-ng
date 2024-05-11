@@ -543,11 +543,12 @@ public:
 
 	void SendMarkRead(void);
 	void SetServerStatus(int iStatus);
+
+	void AddFriend(SnowFlake id);
 	void RemoveFriend(SnowFlake id);
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 	void CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash);
-	void CheckChannelAvatar(MCONTACT hContact, const CMStringW &wszNewHash);
 };
 
 typedef CProtoDlgBase<CDiscordProto> CDiscordDlgBase;

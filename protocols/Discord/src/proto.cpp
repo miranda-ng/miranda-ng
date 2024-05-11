@@ -280,7 +280,9 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 	if (wszUsername == nullptr || iDiscriminator == -1)
 		return 1; // error
 
-	JSONNode root; root << WCHAR_PARAM("username", wszUsername) << INT_PARAM("discriminator", iDiscriminator);
+	JSONNode root; root << WCHAR_PARAM("username", wszUsername);
+	if (iDiscriminator )
+		root << INT_PARAM("discriminator", iDiscriminator);
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/users/@me/relationships", nullptr, &root));
 	return 0;
 }
@@ -298,10 +300,8 @@ int CDiscordProto::Authorize(MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
-	JSONNode root;
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
-	CMStringA szUrl(FORMAT, "/users/@me/relationships/%lld", getId(hContact, DB_KEY_ID));
-	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, nullptr, &root));
+	AddFriend(getId(hContact, DB_KEY_ID));
 	return 0;
 }
 

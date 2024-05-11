@@ -18,7 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// removes a friend from the server
+// add / removes a friend from the server
+
+void CDiscordProto::AddFriend(SnowFlake id)
+{
+	Push(new AsyncHttpRequest(this, REQUEST_PUT, CMStringA(FORMAT, "/users/@me/relationships/%lld", id), nullptr));
+}
 
 void CDiscordProto::RemoveFriend(SnowFlake id)
 {
