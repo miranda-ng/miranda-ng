@@ -50,11 +50,12 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	m_wszEmail(this, "Email", L""),
 	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
+	m_bSyncMarkRead(this, "SendMarkRead", true),
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideChats", true),
 	m_bUseGuildGroups(this, "UseGuildGroups", false),
 	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true),
-	m_bSyncMarkRead(this, "SendMarkRead", true)
+	m_bSyncDeleteUsers(this, "DeleteServerUsers", true)
 {
 	// Services
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);

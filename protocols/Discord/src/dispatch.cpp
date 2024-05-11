@@ -110,7 +110,11 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 			Chat_Control(si, SESSION_OFFLINE);
 			Chat_Terminate(si);
 		}
-		db_delete_contact(pUser->hContact);
+
+		if (m_bSyncDeleteUsers)
+			db_delete_contact(pUser->hContact);
+		else
+			Contact::Hide(pUser->hContact);
 	}
 	else {
 		CDiscordGuild *pGuild = FindGuild(guildId);
@@ -236,8 +240,12 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 	CDiscordUser *pUser = FindUser(id);
 	if (pUser != nullptr) {
 		if (pUser->hContact)
-			if (pUser->bIsPrivate)
-				db_delete_contact(pUser->hContact);
+			if (pUser->bIsPrivate) {
+				if (m_bSyncDeleteUsers)
+					db_delete_contact(pUser->hContact);
+				else
+					Contact::Hide(pUser->hContact);
+			}
 
 		arUsers.remove(pUser);
 	}

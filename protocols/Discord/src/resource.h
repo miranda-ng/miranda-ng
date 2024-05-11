@@ -22,9 +22,9 @@
 #define IDC_DELETE_MSGS                 1009
 #define IDC_ANOTHER                     1009
 #define IDC_LABEL                       1010
+#define IDC_DELETE_CONTACTS             1010
 #define IDC_LOGOUT                      1011
 #define IDC_CLIST                       1012
-
 
 // Next default values for new objects
 // 

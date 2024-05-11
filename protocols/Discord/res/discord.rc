@@ -66,7 +66,7 @@ IDI_VOICE_ENDED         ICON                    "voiceEnded.ico"
 // Dialog
 //
 
-IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 228
+IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 161
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -76,7 +76,7 @@ BEGIN
     EDITTEXT        IDC_USERNAME,84,18,123,13,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PASSWORD,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Contacts",IDC_STATIC,7,54,291,86
+    GROUPBOX        "Contacts",IDC_STATIC,7,54,291,101
     LTEXT           "Default group:",IDC_STATIC,17,73,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,71,123,13,ES_AUTOHSCROLL
     CONTROL         "Enable guilds (servers)",IDC_USEGUILDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,275,10
@@ -87,6 +87,8 @@ BEGIN
     CONTROL         "Delete messages in Miranda when they are deleted from server",IDC_DELETE_MSGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,126,275,10
     PUSHBUTTON      "Log out",IDC_LOGOUT,211,18,81,13
+    CONTROL         "Delete contacts in Miranda when they are deleted from server",IDC_DELETE_CONTACTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,139,275,10
 END
 
 IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88

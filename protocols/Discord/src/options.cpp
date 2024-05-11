@@ -23,7 +23,7 @@ class CDiscardAccountOptions : public CDiscordDlgBase
 {
 	ptrW m_wszOldGroup;
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
-	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs;
+	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs, chkDeleteUsers;
 	CCtrlButton btnLogout;
 
 public:
@@ -37,6 +37,7 @@ public:
 		chkHideChats(this, IDC_HIDECHATS),
 		chkUseGroups(this, IDC_USEGROUPS),
 		chkDeleteMsgs(this, IDC_DELETE_MSGS),
+		chkDeleteUsers(this, IDC_DELETE_CONTACTS),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		btnLogout.OnClick = Callback(this, &CDiscardAccountOptions::onClick_Logout);
@@ -48,6 +49,7 @@ public:
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkUseGroups, ppro->m_bUseGuildGroups);
 			CreateLink(chkDeleteMsgs, ppro->m_bSyncDeleteMsgs);
+			CreateLink(chkDeleteUsers, ppro->m_bSyncDeleteUsers);
 
 			chkUseChats.OnChange = Callback(this, &CDiscardAccountOptions::onChange_GroupChats);
 		}
