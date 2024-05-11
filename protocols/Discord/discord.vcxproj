@@ -61,10 +61,4 @@
     <ResourceCompile Include="res\discord.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\discord.ico" />
-    <Image Include="res\groupchat.ico" />
-    <Image Include="res\voiceCall.ico" />
-    <Image Include="res\voiceEnded.ico" />
-  </ItemGroup>
 </Project>
