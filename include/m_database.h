@@ -737,6 +737,8 @@ namespace DB
 		bool isAlertable() const; // should raise SRMM window
 
 		wchar_t* getString(const char *str) const;
+
+		void flushJson();
 		JSONNode& setJson();
 	};
 

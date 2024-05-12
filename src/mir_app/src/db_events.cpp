@@ -348,13 +348,26 @@ wchar_t* DB::EventInfo::getString(const char *str) const
 	return mir_a2u(str);
 }
 
+void DB::EventInfo::flushJson()
+{
+	if (!m_json)
+		return;
+
+	std::string text = m_json->write();
+	cbBlob = (int)text.size() + 1;
+	pBlob = (char *)mir_realloc(pBlob, cbBlob);
+	memcpy(pBlob, text.c_str(), cbBlob);
+}
+
 JSONNode& DB::EventInfo::setJson()
 {
 	if (!(flags & DBEF_JSON)) {
-		if (m_json == nullptr)
-			m_json = new JSONNode(JSONNode::parse((const char*)pBlob));
-
 		flags |= DBEF_JSON;
+
+		if (m_json == nullptr)
+			m_json = new JSONNode(JSON_NODE);
+		if (pBlob)
+			*m_json << CHAR_PARAM("b", (char *)pBlob);
 	}
 
 	return *m_json;
@@ -409,7 +422,7 @@ bool DB::FILE_BLOB::isCompleted() const
 
 void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 {
-	JSONNode root;
+	auto &root = dbei.setJson();
 	root << WCHAR_PARAM("f", m_wszFileName) << WCHAR_PARAM("d", m_wszDescription ? m_wszDescription : L"");
 	if (isOffline()) {
 		root << CHAR_PARAM("u", m_szProtoString) << INT_PARAM("fs", m_iFileSize) << INT_PARAM("ft", m_iTransferred);
@@ -417,10 +430,7 @@ void DB::FILE_BLOB::write(DB::EventInfo &dbei)
 			root << WCHAR_PARAM("lf", m_wszLocalName);
 	}
 
-	std::string text = root.write();
-	dbei.cbBlob = (int)text.size() + 1;
-	dbei.pBlob = (char *)mir_realloc(dbei.pBlob, dbei.cbBlob);
-	memcpy(dbei.pBlob, text.c_str(), dbei.cbBlob);
+	dbei.flushJson();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
