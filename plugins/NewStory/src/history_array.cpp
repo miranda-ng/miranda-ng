@@ -370,7 +370,8 @@ void ItemData::load(bool bLoadAlways)
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
 		pOwner->MarkRead(this);
-		__fallthrough;
+		wtext = DbEvent_GetTextW(&dbe);
+		break;
 
 	case EVENTTYPE_STATUSCHANGE:
 		wtext = mir_utf8decodeW((char *)dbe.pBlob);

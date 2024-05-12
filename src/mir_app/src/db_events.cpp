@@ -179,6 +179,20 @@ static INT_PTR DbEventGetTextWorker(const DB::EventInfo *dbei, int codepage, int
 		return 0;
 	}
 
+	if (dbei->flags & DBEF_JSON) {
+		JSONNode json = dbei->getJson();
+		std::string str = json["b"].as_string();
+		switch (datatype) {
+		case DBVT_WCHAR:
+			return (INT_PTR)mir_utf8decodeW(str.c_str());
+		case DBVT_ASCIIZ:
+			char *msg = mir_strdup(str.c_str());
+			mir_utf8decodecp(msg, codepage, nullptr);
+			return (INT_PTR)msg;
+		}
+		return 0;
+	}
+
 	// by default treat an event's blob as a string
 	if (datatype == DBVT_WCHAR) {
 		char *str = (char*)alloca(dbei->cbBlob + 1);
