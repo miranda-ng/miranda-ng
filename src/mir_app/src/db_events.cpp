@@ -272,6 +272,8 @@ DB::EventInfo& DB::EventInfo::operator=(MEVENT hEvent)
 
 DB::EventInfo::~EventInfo()
 {
+	delete m_json;
+
 	if (m_bValid)
 		mir_free(pBlob);
 }
@@ -280,7 +282,12 @@ bool DB::EventInfo::fetch(bool bFetchBlob)
 {
 	if (bFetchBlob)
 		cbBlob = -1;
-	return m_bValid = ::db_event_get(m_hEvent, this) == 0;
+	
+	if (m_bValid = ::db_event_get(m_hEvent, this) == 0)
+		if ((flags & DBEF_JSON) && pBlob)
+			m_json = new JSONNode(JSONNode::parse((const char *)pBlob));
+
+	return m_bValid;
 }
 
 void DB::EventInfo::unload()
@@ -341,6 +348,18 @@ wchar_t* DB::EventInfo::getString(const char *str) const
 	return mir_a2u(str);
 }
 
+JSONNode& DB::EventInfo::setJson()
+{
+	if (!(flags & DBEF_JSON)) {
+		if (m_json == nullptr)
+			m_json = new JSONNode(JSONNode::parse((const char*)pBlob));
+
+		flags |= DBEF_JSON;
+	}
+
+	return *m_json;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // File blob helper
 
@@ -357,8 +376,8 @@ DB::FILE_BLOB::FILE_BLOB(const wchar_t *pwszName, const wchar_t *pwszDescr) :
 
 DB::FILE_BLOB::FILE_BLOB(const DB::EventInfo &dbei)
 {
-	JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
-	if (root) {
+	auto &root = dbei.getJson();
+	if (&root) {
 		m_wszFileName = root["f"].as_mstring().Detach();
 		m_wszDescription = root["d"].as_mstring().Detach();
 

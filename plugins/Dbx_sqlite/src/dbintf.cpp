@@ -29,7 +29,7 @@ CDbxSQLite::~CDbxSQLite()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define CURRVER 7
+#define CURRVER 8
 
 int CDbxSQLite::Create()
 {
@@ -203,6 +203,11 @@ void CDbxSQLite::CheckConversion()
 
 	if (dbv.bVal < 7) {
 		int rc = sqlite3_exec(m_db, "DROP INDEX IF EXISTS idx_events_contactid_timestamp;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+	}
+
+	if (dbv.bVal < 8) {
+		int rc = sqlite3_exec(m_db, "UPDATE events SET flags = flags + 1024 WHERE type=1002;", 0, 0, 0);
 		logError(rc, __FILE__, __LINE__);
 	}
 

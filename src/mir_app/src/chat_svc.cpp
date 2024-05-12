@@ -442,8 +442,6 @@ static void AddUser(SESSION_INFO *si, GCEVENT &gce)
 
 	if (gce.bIsMe)
 		si->pMe = ui;
-	ui->Status = status;
-	ui->Status |= si->pStatuses->iStatus;
 
 	if (si->pDlg)
 		si->pDlg->UpdateNickList();

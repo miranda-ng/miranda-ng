@@ -237,6 +237,7 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 
 			CheckAvatarChange(si->hContact, root["icon"].as_mstring());
 
+			bool bHasMe = false;
 			GCEVENT gce = { si, GC_EVENT_JOIN };
 			for (auto &it : root["recipients"]) {
 				CMStringW wszId = it["id"].as_mstring();
@@ -244,23 +245,29 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 				if (wszNick.IsEmpty())
 					wszNick = getNick(it);
 
+				gce.bIsMe = _wtoi64(wszId) == m_ownId;
+				gce.pszUID.w = wszId;
+				gce.pszNick.w = wszNick;
+				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
+				Chat_Event(&gce);
+
+				if (gce.bIsMe)
+					bHasMe = true;
+			}
+		
+			if (!bHasMe) {
+				CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
+				if (auto iDiscr = getDword(DB_KEY_DISCR))
+					wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
+				else
+					wszNick = getMStringW(DB_KEY_NICK);
+
+				gce.bIsMe = true;
 				gce.pszUID.w = wszId;
 				gce.pszNick.w = wszNick;
 				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
 				Chat_Event(&gce);
 			}
-		
-			CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
-			if (auto iDiscr = getDword(DB_KEY_DISCR))
-				wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
-			else
-				wszNick = getMStringW(DB_KEY_NICK);
-
-			gce.bIsMe = true;
-			gce.pszUID.w = wszId;
-			gce.pszNick.w = wszNick;
-			gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
-			Chat_Event(&gce);
 		}
 
 		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);

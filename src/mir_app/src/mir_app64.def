@@ -971,3 +971,5 @@ Netlib_DownloadFile @1093 NONAME
 ?GetPreviewPath@PROTO_INTERFACE@@QEBA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1101 NONAME
 g_hevEventDelivered @1102 NONAME
 g_hevEventSetJson @1103 NONAME
+?getJson@EventInfo@DB@@QEBAAEAVJSONNode@@XZ @1104 NONAME
+?setJson@EventInfo@DB@@QEAAAEAVJSONNode@@XZ @1105 NONAME

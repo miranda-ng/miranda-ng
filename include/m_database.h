@@ -186,6 +186,7 @@ struct DBVARIANT
 #define DBEF_SECURE    0x0080  // event is encrypted
 #define DBEF_STRONG    0x0100  // event is encrypted by the verified sender
 #define DBEF_BOOKMARK  0x0200  // event is bookmarked
+#define DBEF_JSON      0x0400  // event's body is a JSON structure
 
 struct DBEVENTINFO
 {
@@ -702,6 +703,8 @@ __inline uint32_t DBGetContactSettingRangedDword(MCONTACT hContact, const char *
 
 #endif
 
+class JSONNode;
+
 namespace DB
 {
 	MIR_APP_DLL(bool) IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei);
@@ -713,6 +716,7 @@ namespace DB
 	{
 		bool m_bValid;
 		MEVENT m_hEvent;
+		JSONNode *m_json = 0;
 
 	public:
 		explicit EventInfo();
@@ -724,6 +728,7 @@ namespace DB
 		void unload();
 		void wipeNotify();
 
+		__forceinline JSONNode& getJson() const { return *m_json; }
 		__forceinline MEVENT getEvent() const { return m_hEvent; }
 		__forceinline operator bool() const { return m_bValid; }
 
@@ -732,6 +737,7 @@ namespace DB
 		bool isAlertable() const; // should raise SRMM window
 
 		wchar_t* getString(const char *str) const;
+		JSONNode& setJson();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////
