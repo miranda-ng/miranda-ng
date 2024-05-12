@@ -373,6 +373,46 @@ JSONNode& DB::EventInfo::setJson()
 	return *m_json;
 }
 
+void DB::EventInfo::addReaction(const char *emoji)
+{
+	if (!mir_strlen(emoji))
+		return;
+
+	auto &json = setJson();
+	JSONNode &reactions = json["r"];
+	if (!reactions) {
+		reactions = JSONNode(JSON_NODE); reactions.set_name("r");
+		json.push_back(reactions);
+	}
+
+	auto it = reactions.find(emoji);
+	if (it == reactions.end())
+		reactions << INT_PARAM(emoji, 1);
+	else
+		(*it) = JSONNode(emoji, (*it).as_int() + 1);
+
+	flushJson();
+}
+
+void DB::EventInfo::delReaction(const char *emoji)
+{
+	if (!mir_strlen(emoji))
+		return;
+
+	auto &json = setJson();
+	auto &reactions = json["r"];
+	auto it = reactions.find(emoji);
+	if (it != reactions.end()) {
+		JSONNode &n = *it;
+		if (n.as_int() > 1)
+			n = JSONNode(emoji, n.as_int() - 1);
+		else
+			reactions.erase(it);
+
+		flushJson();
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // File blob helper
 

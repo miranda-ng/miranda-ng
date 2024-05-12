@@ -974,3 +974,5 @@ g_hevEventSetJson @1103 NONAME
 ?getJson@EventInfo@DB@@QEBAAEAVJSONNode@@XZ @1104 NONAME
 ?setJson@EventInfo@DB@@QEAAAEAVJSONNode@@XZ @1105 NONAME
 ?flushJson@EventInfo@DB@@QEAAXXZ @1106 NONAME
+?addReaction@EventInfo@DB@@QEAAXPEBD@Z @1107 NONAME
+?delReaction@EventInfo@DB@@QEAAXPEBD@Z @1108 NONAME

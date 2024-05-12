@@ -738,6 +738,9 @@ namespace DB
 
 		wchar_t* getString(const char *str) const;
 
+		void addReaction(const char *emoji);
+		void delReaction(const char *emoji);
+
 		void flushJson();
 		JSONNode& setJson();
 	};

@@ -506,6 +506,8 @@ public:
 	void OnCommandMessageCreate(const JSONNode &json);
 	void OnCommandMessageDelete(const JSONNode &json);
 	void OnCommandMessageUpdate(const JSONNode &json);
+	void OnCommandMessageAddReaction(const JSONNode &json);
+	void OnCommandMessageRemoveReaction(const JSONNode &json);
 	void OnCommandMessageAck(const JSONNode &json);
 	void OnCommandPresence(const JSONNode &json);
 	void OnCommandReady(const JSONNode &json);
