@@ -236,6 +236,14 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	CMStringW wszOrigText((pwszStr) ? pwszStr : formatString());
 
+	if (dbe.flags & DBEF_JSON) {
+		wszOrigText.Append(L"\r\n");
+			
+		auto &json = dbe.getJson();
+		for (auto &it : json["r"])
+			wszOrigText.AppendFormat(L"%s: %d ", Utf2T(it.name()).get(), it.as_int());
+	}
+
 	SMADD_BATCHPARSE sp = {};
 	SMADD_BATCHPARSERES *spRes = nullptr;
 	if (g_plugin.bHasSmileys) {
