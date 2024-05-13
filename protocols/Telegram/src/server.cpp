@@ -267,6 +267,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessMessageContent((TD::updateMessageContent *)response.object.get());
 		break;
 
+	case TD::updateMessageInteractionInfo::ID:
+		ProcessMessageReactions((TD::updateMessageInteractionInfo *)response.object.get());
+		break;
+
 	case TD::updateMessageSendSucceeded::ID:
 		{
 			auto *pUpdate = (TD::updateMessageSendSucceeded *)response.object.get();
@@ -975,6 +979,41 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 	dbei.cbBlob = szText.GetLength();
 	dbei.pBlob = szText.GetBuffer();
 	db_event_edit(hDbEvent, &dbei, true);
+}
+
+void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *pObj)
+{
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("message from unknown chat/user, ignored");
+		return;
+	}
+
+	CMStringA szMsgId(msg2id(pObj->chat_id_, pObj->message_id_));
+	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
+	if (!dbei) {
+		debugLogA("Unknown message with id=%lld (chat id %lld, ignored", pObj->message_id_, pObj->chat_id_);
+		return;
+	}
+
+	JSONNode reactions; reactions.set_name("r");
+	for (auto &it : pObj->interaction_info_->reactions_) {
+		if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
+			continue;
+
+		auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
+		reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+	}
+
+	auto &json = dbei.setJson();
+	auto it = json.find("r");
+	if (it != json.end())
+		json.erase(it);
+
+	json << reactions;
+	dbei.flushJson();
+
+	db_event_edit(dbei.getEvent(), &dbei, true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
