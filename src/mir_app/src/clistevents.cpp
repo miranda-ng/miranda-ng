@@ -302,7 +302,8 @@ MIR_APP_DLL(CListEvent *) Clist_GetEvent(MCONTACT hContact, int idx)
 int EventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	if (auto *pEvent = Clist_GetEvent(hContact, 0)) {
-		CallService(pEvent->pszService, 0, (LPARAM)pEvent);
+		if (CallService(pEvent->pszService, 0, (LPARAM)pEvent) == CALLSERVICE_NOTFOUND)
+			return 1;
 
 		// if the event is still alive, free it
 		if (g_cliEvents.indexOf(pEvent))
