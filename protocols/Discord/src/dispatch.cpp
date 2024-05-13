@@ -541,7 +541,7 @@ void CDiscordProto::OnCommandMessageAddReaction(const JSONNode &pRoot)
 		DB::EventInfo dbei(hEvent);
 		if (dbei) {
 			dbei.addReaction(pRoot["emoji"]["name"].as_string().c_str());
-			db_event_edit(hEvent, &dbei);
+			db_event_edit(hEvent, &dbei, true);
 		}
 	}
 }
@@ -553,7 +553,7 @@ void CDiscordProto::OnCommandMessageRemoveReaction(const JSONNode &pRoot)
 		DB::EventInfo dbei(hEvent);
 		if (dbei) {
 			dbei.delReaction(pRoot["emoji"]["name"].as_string().c_str());
-			db_event_edit(hEvent, &dbei);
+			db_event_edit(hEvent, &dbei, true);
 		}
 	}
 }
