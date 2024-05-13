@@ -389,7 +389,7 @@ public:
 		}
 
 		bool bIsRtl = (dbei.flags & DBEF_RTL) != 0;
-		ptrW wszText(DbEvent_GetTextW(&dbei)), wszNick;
+		ptrW wszText(dbei.getText()), wszNick;
 		
 		// test contact
 		if (streamData->dbei == 0) {

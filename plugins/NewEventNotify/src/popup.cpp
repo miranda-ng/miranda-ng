@@ -157,7 +157,7 @@ static wchar_t* ShortenPreview(DB::EventInfo &dbei)
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	wchar_t *buf = DbEvent_GetTextW(&dbei);
+	wchar_t *buf = dbei.getText();
 	if (mir_wstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
@@ -294,7 +294,7 @@ static wchar_t* GetEventPreview(DB::EventInfo &dbei)
 		// support for custom database event types
 		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei.szModule, dbei.eventType);
 		if (pei && pBlob) {
-			comment1 = DbEvent_GetTextW(&dbei);
+			comment1 = dbei.getText();
 			commentFix = pei->descr;
 		}
 		else commentFix = POPUP_COMMENT_OTHER;
@@ -363,12 +363,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	}
 
 	// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-	DB::EventInfo dbe;
-	if (hEvent) {
-		if ((g_plugin.bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST))
-			dbe.cbBlob = -1;
-		db_event_get(hEvent, &dbe);
-	}
+	DB::EventInfo dbe(hEvent, g_plugin.bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST);
 
 	// retrieve correct hContact for AUTH events
 	if (dbe.pBlob && (eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST))

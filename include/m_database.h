@@ -533,8 +533,7 @@ __forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO *dbei)
 // Function returns a pointer to a string in the required format.
 // This string should be freed by a call of mir_free
 
-EXTERN_C MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage);
-EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei);
+EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetText(const DBEVENTINFO *dbei);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves the event's icon
@@ -737,6 +736,7 @@ namespace DB
 		bool isAlertable() const; // should raise SRMM window
 
 		wchar_t* getString(const char *str) const;
+		wchar_t* getText() const;
 
 		void addReaction(const char *emoji);
 		void delReaction(const char *emoji);

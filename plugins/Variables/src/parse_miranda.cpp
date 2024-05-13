@@ -565,7 +565,7 @@ static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	DB::EventInfo dbe(hDbEvent);
-	return (dbe) ? DbEvent_GetTextW(&dbe) : nullptr;
+	return (dbe) ? dbe.getText() : nullptr;
 }
 
 static wchar_t* parseTranslate(ARGUMENTSINFO *ai)

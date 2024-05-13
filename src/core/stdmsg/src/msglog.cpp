@@ -364,7 +364,7 @@ public:
 			AppendToBufferWithRTF(buf, szName);
 			AppendToBufferWithRTF(buf, L" ");
 
-			msg = DbEvent_GetTextW(&dbei);
+			msg = dbei.getText();
 			if (msg) {
 				AppendToBufferWithRTF(buf, msg);
 				mir_free(msg);
@@ -394,7 +394,7 @@ public:
 
 		case EVENTTYPE_MESSAGE:
 		default:
-			msg = DbEvent_GetTextW(&dbei);
+			msg = dbei.getText();
 			SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
 			AppendToBufferWithRTF(buf, msg);
 			mir_free(msg);

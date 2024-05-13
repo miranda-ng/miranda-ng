@@ -202,8 +202,7 @@ Srmm_ModifyIcon @280
 Srmm_RemoveIcon @281
 ExtraIcon_AddIcon @282
 DbEvent_GetIcon @283
-DbEvent_GetTextA @285
-DbEvent_GetTextW @286
+DbEvent_GetText @286
 DbEvent_GetType @287
 DbEvent_RegisterType @288
 Profile_GetNameA @290
@@ -976,3 +975,4 @@ g_hevEventSetJson @1103 NONAME
 ?flushJson@EventInfo@DB@@QEAAXXZ @1106 NONAME
 ?addReaction@EventInfo@DB@@QEAAXPEBD@Z @1107 NONAME
 ?delReaction@EventInfo@DB@@QEAAXPEBD@Z @1108 NONAME
+?getText@EventInfo@DB@@QEBAPEA_WXZ @1109 NONAME

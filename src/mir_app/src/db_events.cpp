@@ -91,138 +91,14 @@ MIR_APP_DLL(DBEVENTTYPEDESCR*) DbEvent_GetType(const char *szModule, int eventTy
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t* getEventString(const DB::EventInfo *dbei, LPSTR &buf)
-{
-	LPSTR in = buf;
-	buf += mir_strlen(buf) + 1;
-	return dbei->getString(in);
-}
-
-static INT_PTR DbEventGetTextWorker(const DB::EventInfo *dbei, int codepage, int datatype)
+MIR_APP_DLL(wchar_t*) DbEvent_GetText(const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr || dbei->szModule == nullptr)
 		return 0;
 
-	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-	if (et && ServiceExists(et->textService))
-		return CallService(et->textService, (WPARAM)dbei, datatype);
-
-	if (!dbei->pBlob)
-		return 0;
-
-	if (dbei->eventType == EVENTTYPE_AUTHREQUEST || dbei->eventType == EVENTTYPE_ADDED) {
-		DB::AUTH_BLOB blob(dbei->pBlob);
-
-		ptrW tszNick(dbei->getString(blob.get_nick()));
-		ptrW tszFirst(dbei->getString(blob.get_firstName()));
-		ptrW tszLast(dbei->getString(blob.get_lastName()));
-		ptrW tszEmail(dbei->getString(blob.get_email()));
-
-		CMStringW nick, text;
-		if (tszFirst || tszLast) {
-			nick.AppendFormat(L"%s %s", tszFirst.get(), tszLast.get());
-			nick.Trim();
-		}
-		if (tszEmail) {
-			if (!nick.IsEmpty())
-				nick.Append(L", ");
-			nick.Append(tszEmail);
-		}
-		if (blob.get_uin() != 0) {
-			if (!nick.IsEmpty())
-				nick.Append(L", ");
-			nick.AppendFormat(L"%d", blob.get_uin());
-		}
-		if (!nick.IsEmpty())
-			nick = L"(" + nick + L")";
-
-		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
-			ptrW tszReason(dbei->getString(blob.get_reason()));
-			text.Format(TranslateT("Authorization request from %s%s: %s"), 
-				(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str(), tszReason.get());
-		}
-		else text.Format(TranslateT("You were added by %s%s"),
-			(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str());
-		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
-	}
-
-	if (dbei->eventType == EVENTTYPE_CONTACTS) {
-		CMStringW text(TranslateT("Contacts: "));
-		// blob is: [uin(ASCIIZ), nick(ASCIIZ)]*
-		char *buf = LPSTR(dbei->pBlob), *limit = LPSTR(dbei->pBlob) + dbei->cbBlob;
-		while (buf < limit) {
-			ptrW tszUin(getEventString(dbei, buf));
-			ptrW tszNick(getEventString(dbei, buf));
-			if (tszNick && *tszNick)
-				text.AppendFormat(L"\"%s\" ", tszNick.get());
-			if (tszUin && *tszUin)
-				text.AppendFormat(L"<%s>; ", tszUin.get());
-		}
-		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
-	}
-
-	if (dbei->eventType == EVENTTYPE_FILE) {
-		DB::FILE_BLOB blob(*dbei);
-
-		CMStringW wszText(blob.getName());
-		if (mir_wstrlen(blob.getDescr())) {
-			wszText.Append(L": ");
-			wszText.Append(blob.getDescr());
-		}
-		
-		switch (datatype) {
-		case DBVT_WCHAR:
-			return (INT_PTR)wszText.Detach();
-		case DBVT_ASCIIZ:
-			return (INT_PTR)mir_u2a(wszText);
-		}
-		return 0;
-	}
-
-	if (dbei->flags & DBEF_JSON) {
-		JSONNode json = dbei->getJson();
-		std::string str = json["b"].as_string();
-		switch (datatype) {
-		case DBVT_WCHAR:
-			return (INT_PTR)mir_utf8decodeW(str.c_str());
-		case DBVT_ASCIIZ:
-			char *msg = mir_strdup(str.c_str());
-			mir_utf8decodecp(msg, codepage, nullptr);
-			return (INT_PTR)msg;
-		}
-		return 0;
-	}
-
-	// by default treat an event's blob as a string
-	if (datatype == DBVT_WCHAR) {
-		char *str = (char*)alloca(dbei->cbBlob + 1);
-		memcpy(str, dbei->pBlob, dbei->cbBlob);
-		str[dbei->cbBlob] = 0;
-
-		if (dbei->flags & DBEF_UTF)
-			return (INT_PTR)mir_utf8decodeW(str);
-
-		return (INT_PTR)mir_a2u_cp(str, codepage);
-	}
-
-	if (datatype == DBVT_ASCIIZ) {
-		char *msg = mir_strdup((char*)dbei->pBlob);
-		if (dbei->flags & DBEF_UTF)
-			mir_utf8decodecp(msg, codepage, nullptr);
-
-		return (INT_PTR)msg;
-	}
-	return 0;
-}
-
-MIR_APP_DLL(char*) DbEvent_GetTextA(const DBEVENTINFO *dbei, int codepage)
-{
-	return (char*)DbEventGetTextWorker((DB::EventInfo *)dbei, codepage, DBVT_ASCIIZ);
-}
-
-MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(const DBEVENTINFO *dbei)
-{
-	return (wchar_t*)DbEventGetTextWorker((DB::EventInfo *)dbei, CP_ACP, DBVT_WCHAR);
+	DB::EventInfo tmp;
+	memcpy(&tmp, dbei, sizeof(*dbei));
+	return tmp.getText();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -360,6 +236,103 @@ wchar_t* DB::EventInfo::getString(const char *str) const
 		return mir_utf8decodeW(str);
 
 	return mir_a2u(str);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static wchar_t* getEventString(const DB::EventInfo *dbei, LPSTR &buf)
+{
+	LPSTR in = buf;
+	buf += mir_strlen(buf) + 1;
+	return dbei->getString(in);
+}
+
+wchar_t* DB::EventInfo::getText() const
+{
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(szModule, eventType);
+	if (et && ServiceExists(et->textService))
+		return (wchar_t *)CallService(et->textService, (WPARAM)this, DBVT_WCHAR);
+
+	if (!pBlob)
+		return 0;
+
+	if (eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_ADDED) {
+		DB::AUTH_BLOB blob(pBlob);
+
+		ptrW tszNick(getString(blob.get_nick()));
+		ptrW tszFirst(getString(blob.get_firstName()));
+		ptrW tszLast(getString(blob.get_lastName()));
+		ptrW tszEmail(getString(blob.get_email()));
+
+		CMStringW nick, text;
+		if (tszFirst || tszLast) {
+			nick.AppendFormat(L"%s %s", tszFirst.get(), tszLast.get());
+			nick.Trim();
+		}
+		if (tszEmail) {
+			if (!nick.IsEmpty())
+				nick.Append(L", ");
+			nick.Append(tszEmail);
+		}
+		if (blob.get_uin() != 0) {
+			if (!nick.IsEmpty())
+				nick.Append(L", ");
+			nick.AppendFormat(L"%d", blob.get_uin());
+		}
+		if (!nick.IsEmpty())
+			nick = L"(" + nick + L")";
+
+		if (eventType == EVENTTYPE_AUTHREQUEST) {
+			ptrW tszReason(getString(blob.get_reason()));
+			text.Format(TranslateT("Authorization request from %s%s: %s"),
+				(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str(), tszReason.get());
+		}
+		else text.Format(TranslateT("You were added by %s%s"),
+			(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str());
+		return mir_wstrdup(text);
+	}
+
+	if (eventType == EVENTTYPE_CONTACTS) {
+		CMStringW text(TranslateT("Contacts: "));
+		// blob is: [uin(ASCIIZ), nick(ASCIIZ)]*
+		char *buf = LPSTR(pBlob), *limit = LPSTR(pBlob) + cbBlob;
+		while (buf < limit) {
+			ptrW tszUin(getEventString(this, buf));
+			ptrW tszNick(getEventString(this, buf));
+			if (tszNick && *tszNick)
+				text.AppendFormat(L"\"%s\" ", tszNick.get());
+			if (tszUin && *tszUin)
+				text.AppendFormat(L"<%s>; ", tszUin.get());
+		}
+		return mir_wstrdup(text);
+	}
+
+	if (eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(*this);
+
+		CMStringW wszText(blob.getName());
+		if (mir_wstrlen(blob.getDescr())) {
+			wszText.Append(L": ");
+			wszText.Append(blob.getDescr());
+		}
+		return wszText.Detach();
+	}
+
+	if (flags & DBEF_JSON) {
+		JSONNode json = getJson();
+		std::string str = json["b"].as_string();
+		return mir_utf8decodeW(str.c_str());
+	}
+
+	// by default treat an event's blob as a string
+	char *str = (char *)alloca(cbBlob + 1);
+	memcpy(str, pBlob, cbBlob);
+	str[cbBlob] = 0;
+
+	if (flags & DBEF_UTF)
+		return mir_utf8decodeW(str);
+
+	return mir_a2u_cp(str, CP_ACP);
 }
 
 void DB::EventInfo::flushJson()

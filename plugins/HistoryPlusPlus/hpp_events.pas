@@ -525,7 +525,7 @@ begin
   Result := False;
   msg := nil;
   try
-    msg := DbEvent_GetTextW(@EventInfo);
+    msg := DbEvent_GetText(@EventInfo);
     Result := Assigned(msg);
   except
     if Assigned(msg) then mir_free(msg);
@@ -608,7 +608,7 @@ begin
     cp := CP_UTF8
   else
     cp := Hi.CodePage;
-  PText := DbEvent_GetTextW(@EventInfo);
+  PText := DbEvent_GetText(@EventInfo);
   if not Assigned(PText) then
      PText := mir_wstrdup('');
   Hi.Text := Format(TranslateUnicodeString(Hi.Text), [PText]);

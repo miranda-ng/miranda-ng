@@ -159,7 +159,7 @@ class CHistoryDlg : public CDlgBase
 			if (!dbei)
 				continue;
 
-			ptrW pwszText(DbEvent_GetTextW(&dbei));
+			ptrW pwszText(dbei.getText());
 			if (!mir_wstrlen(pwszText))
 				continue;
 

@@ -59,7 +59,7 @@ bool Filter::check(ItemData *item) const
 		if (!item->fetch())
 			return false;
 
-		return CheckFilter(ptrW(DbEvent_GetTextW(&item->dbe)), text);
+		return CheckFilter(ptrW(item->dbe.getText()), text);
 	}
 
 	return true;
@@ -370,7 +370,7 @@ void ItemData::load(bool bLoadAlways)
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
 		pOwner->MarkRead(this);
-		wtext = DbEvent_GetTextW(&dbe);
+		wtext = dbe.getText();
 		break;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -427,7 +427,7 @@ void ItemData::load(bool bLoadAlways)
 		break;
 
 	default:
-		wtext = DbEvent_GetTextW(&dbe);
+		wtext = dbe.getText();
 		break;
 	}
 
@@ -452,7 +452,7 @@ void ItemData::load(bool bLoadAlways)
 				
 				str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
 
-				ptrW wszText(DbEvent_GetTextW(&dbei));
+				ptrW wszText(dbei.getText());
 				if (mir_wstrlen(wszText) > 43)
 					wcscpy(wszText.get() + 40, L"...");
 				str.Append(wszText);

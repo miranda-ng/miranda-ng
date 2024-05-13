@@ -330,7 +330,7 @@ void CRtfLogWindow::CreateChatRtfMessage(RtfChatLogStreamData *streamData, const
 					return;
 				}
 			}
-			lin.write(streamData, false, buf, ptrW(DbEvent_GetTextW(&dbei)));
+			lin.write(streamData, false, buf, ptrW(dbei.getText()));
 			return;
 		}
 	}

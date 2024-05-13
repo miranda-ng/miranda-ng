@@ -32,7 +32,7 @@ int CIcqProto::OnPrebuildMenu(WPARAM hContact, LPARAM lParam)
 		auto *dbei = (DB::EventInfo *)lParam;
 		Menu_ShowItem(hmiForward, dbei->eventType == EVENTTYPE_MESSAGE || dbei->eventType == EVENTTYPE_FILE);
 
-		ptrW wszText(DbEvent_GetTextW(dbei));
+		ptrW wszText(dbei->getText());
 		Menu_ShowItem(hmiConvert, fileText2url(wszText.get()));
 	}
 	return 0;
@@ -126,7 +126,7 @@ void CIcqProto::ForwardMessage(MEVENT hEvent, MCONTACT to)
 		return;
 
 	CMStringW wszId(GetUserId(dbei.hContact));
-	ptrW wszText(DbEvent_GetTextW(&dbei));
+	ptrW wszText(dbei.getText());
 
 	JSONNode parts(JSON_ARRAY);
 	JSONNode msgText; msgText << CHAR_PARAM("mediaType", "forward") << WCHAR_PARAM("sn", wszId) << INT_PARAM("time", dbei.timestamp)
@@ -158,7 +158,7 @@ INT_PTR CIcqProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
 			return 0;
 
 		IcqFileInfo *pFileInfo = nullptr;
-		CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
+		CMStringW wszText(ptrW(dbei.getText()));
 		if (CheckFile(dbei.hContact, wszText, pFileInfo)) {
 			if (!pFileInfo || pFileInfo->bIsSticker) {
 				// sticker is a simple text message prcoessed by SmileyAdd

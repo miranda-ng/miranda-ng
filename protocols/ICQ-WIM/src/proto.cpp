@@ -617,7 +617,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszSrc
 			CMStringA replyId(GetUserId(dbei.hContact));
 			replyTo << CHAR_PARAM("mediaType", "quote") << CHAR_PARAM("sn", replyId) << INT_PARAM("time", dbei.timestamp)
 				<< CHAR_PARAM("msgId", dbei.szId) << WCHAR_PARAM("friendly", Clist_GetContactDisplayName(dbei.hContact, 0))
-				<< WCHAR_PARAM("text", ptrW(DbEvent_GetTextW(&dbei)));
+				<< WCHAR_PARAM("text", ptrW(dbei.getText()));
 			parts.push_back(replyTo);
 		}
 	}

@@ -1223,7 +1223,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, wchar_t *contact, PReply reply)
 	TimeZone_ToString(dbEvent->timestamp, "D, s", timestamp, _countof(timestamp));
 
 	wchar_t *sender = (dbEvent->flags & DBEF_SENT) ? TranslateT("[me]") : contact;
-	wchar_t *message = DbEvent_GetTextW(dbEvent);
+	wchar_t *message = DbEvent_GetText(dbEvent);
 
 	static wchar_t buffer[8192];
 	mir_snwprintf(buffer, L"[%S] %15s: %s", timestamp, sender, message);

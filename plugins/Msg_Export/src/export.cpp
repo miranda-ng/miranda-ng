@@ -318,7 +318,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
-			output += ptrW(DbEvent_GetTextW(&dbei));
+			output += ptrW(dbei.getText());
 			break;
 
 		case EVENTTYPE_FILE:

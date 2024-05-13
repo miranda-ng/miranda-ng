@@ -230,11 +230,11 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
-			eventData->szText.w = DbEvent_GetTextW(&dbei);
+			eventData->szText.w = dbei.getText();
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.isSrmm()) {
-			eventData->szText.w = DbEvent_GetTextW(&dbei);
+			eventData->szText.w = dbei.getText();
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else
@@ -253,7 +253,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else { // custom event
-			eventData->szText.w = DbEvent_GetTextW(&dbei);
+			eventData->szText.w = dbei.getText();
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 

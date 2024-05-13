@@ -181,12 +181,12 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	if (i1 == 1)
 		c1 = mir_wstrdup(Clist_GetContactDisplayName(wParam));
 	else if (i1 == 2)
-		c1 = DbEvent_GetTextW(&dbe);
+		c1 = dbe.getText();
 
 	if (i2 == 1)
 		c2 = mir_wstrdup(Clist_GetContactDisplayName(wParam));
 	else if (i2 == 2)
-		c2 = DbEvent_GetTextW(&dbe);
+		c2 = dbe.getText();
 
 	wchar_t buffer[512];
 	mir_snwprintf(buffer, buf, c1, c2);

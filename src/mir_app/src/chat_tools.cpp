@@ -734,7 +734,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 	if (mir_strcmp(szProto, dbei.szModule) || !g_chatApi.DbEventIsShown(dbei) || !dbei.szUserId)
 		return;
 
-	CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
+	CMStringW wszText(ptrW(dbei.getText()));
 	wszText.Replace(L"%", L"%%");
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };

@@ -778,7 +778,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
 			Utf2T wszUserId(dbei.szUserId);
-			CMStringW wszText(ptrW(DbEvent_GetTextW(&dbei)));
+			CMStringW wszText(ptrW(dbei.getText()));
 			wszText.Replace(L"%", L"%%");
 
 			GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
@@ -1140,7 +1140,7 @@ void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
 	if (dbei) {
 		CMStringW wszText(TranslateT("In reply to"));
 		wszText += L": ";
-		wszText += ptrW(DbEvent_GetTextW(&dbei)).get();
+		wszText += ptrW(dbei.getText()).get();
 		m_Quote.SetText(wszText);
 
 		m_hQuoteEvent = hEvent;

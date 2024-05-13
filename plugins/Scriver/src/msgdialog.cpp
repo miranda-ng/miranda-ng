@@ -382,7 +382,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 			return;
 
 		if (dbei.isSrmm()) {
-			ptrW wszText(DbEvent_GetTextW(&dbei));
+			ptrW wszText(dbei.getText());
 			SetMessageText(Srmm_Quote(wszText));
 		}
 	}

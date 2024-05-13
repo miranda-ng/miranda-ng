@@ -502,7 +502,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				dbei.flags |= DBEF_READ | DBEF_SENT;
 
 			if (dbei) {
-				ptrW wszOldText(DbEvent_GetTextW(&dbei));
+				ptrW wszOldText(dbei.getText());
 				if (wszOldText)
 					wszText.Insert(0, wszOldText);
 			}

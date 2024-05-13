@@ -356,7 +356,7 @@ public:
 			flags += "r";
 		pRoot.push_back(JSONNode("flags", flags));
 
-		ptrW msg(DbEvent_GetTextW(&dbei));
+		ptrW msg(dbei.getText());
 		if (msg)
 			pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 
