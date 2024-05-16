@@ -18,7 +18,6 @@
 #define IDC_MAP_USER_LIST               1034
 #define IDC_EXPORT_PROGRESS             1037
 #define IDC_EXP_ALL_STATUS              1039
-#define IDC_OPEN_HELP                   1041
 #define IDC_DEFAULT_FILE                1043
 #define IDC_RICHEDIT                    1046
 #define IDC_USE_INTERNAL_VIEWER         1048
