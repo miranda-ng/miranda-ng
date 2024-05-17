@@ -194,15 +194,14 @@ public:
 
 class COptSessionsDlg : public CTelegramDlgBase
 {
-	CCtrlBase m_ipAddress, m_software;
+	CCtrlBase m_software;
 	CCtrlListView m_list;
 
 public:
 	COptSessionsDlg(CTelegramProto *ppro) :
 		CTelegramDlgBase(ppro, IDD_OPTIONS_SESSIONS),
 		m_list(this, IDC_SESSIONS),
-		m_software(this, IDC_SOFTWARE),
-		m_ipAddress(this, IDC_IPADDRESS)
+		m_software(this, IDC_SOFTWARE)
 	{
 		m_list.OnBuildMenu = Callback(this, &COptSessionsDlg::onContextMenu);
 		m_list.OnDeleteItem = Callback(this, &COptSessionsDlg::onDeleteItem);
@@ -221,11 +220,11 @@ public:
 		m_list.InsertColumn(0, &lvc);
 
 		lvc.pszText = TranslateT("Platform");
-		lvc.cx = 110;
+		lvc.cx = 80;
 		m_list.InsertColumn(1, &lvc);
 
 		lvc.pszText = TranslateT("Country");
-		lvc.cx = 120;
+		lvc.cx = 115;
 		m_list.InsertColumn(2, &lvc);
 
 		lvc.pszText = TranslateT("Last active");
@@ -268,7 +267,6 @@ public:
 	void onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
 		auto *pSession = (TD::session*)m_list.GetItemData(ev->nmlv->iItem);
-		m_ipAddress.SetTextA(pSession->ip_.c_str());
 		m_software.SetTextA((pSession->application_name_ + " " + pSession->application_version_).c_str());
 	}
 
