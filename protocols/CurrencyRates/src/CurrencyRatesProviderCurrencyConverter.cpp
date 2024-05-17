@@ -4,7 +4,7 @@ static CMStringW build_url(const CMStringW &rsURL, const CMStringW &from, const 
 {
 	CMStringW res = rsURL + L"?q=" + from + L"_" + to + L"&compact=ultra";
 	if (mir_wstrlen(g_plugin.wszApiKey))
-		res.AppendFormat(L"&apiKey=%S", (wchar_t*)g_plugin.wszApiKey);
+		res.AppendFormat(L"&apiKey=%s", (wchar_t*)g_plugin.wszApiKey);
 	return res;
 }
 

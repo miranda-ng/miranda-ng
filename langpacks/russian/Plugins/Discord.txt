@@ -1,0 +1,144 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+Поддержка протокола Discord в Miranda NG.
+;file \protocols\Discord\res\discord.rc
+[User details]
+О пользователе
+[E-mail:]
+Почта:
+[Password:]
+Пароль:
+[Contacts]
+Контакты
+[Default group:]
+Группа:
+[Enable guilds (servers)]
+Включить поддержку гильдий (серверов)
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[Use subgroups for server channels (requires restart)]
+Создавать подгруппы для каждого сервера (требуется перезапуск)
+[Delete messages in Miranda when they are deleted from server]
+Удалять сообщения из истории Миранды, если они удалены с сервера
+[Log out]
+Выйти
+[Nick:]
+Ник:
+[2-step verification]
+Двухфакторная аутентификация
+[Cancel]
+Отмена
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+изменено в
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+Изменить &ник
+[Channel control]
+Управление комнатой чата
+[Change &topic]
+&Изменить тему
+[&Rename channel]
+&Переименовать комнату чата
+[&Destroy channel]
+&Удалить комнату чата
+[Copy ID]
+Копировать ID
+[Do you really want to destroy this channel? This action is non-revertable.]
+Удалить этот канал? Удаление невозможно будет отменить.
+[Enter new channel name:]
+Укажите новое имя комнаты чата:
+[Enter new topic:]
+Укажите новую тему
+[Enter your new nick name:]
+Введите свой новый ник:
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+Главный значок
+[Group chats]
+Чаты
+[Call]
+Звонок
+[Call ended]
+Звонок завершён
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+Укажите имя комнаты чаты
+[Enter invitation code you received]
+Введите полученный код приглашения
+[Do you really want to leave the guild?]
+Вы действительно хотите покинуть гильдию?
+[Disable sync]
+Выключить синхронизацию
+[Enable sync]
+Включить синхронизацию
+[Join guild]
+Присоединиться к гильдии
+[Copy my Discord ID]
+Копировать Discord ID
+[Leave guild]
+Покинуть гильдию
+[Create new channel]
+Создать новую комнату чата
+[Enable guild sync]
+Вкл. синхронизацию для этого сервера
+;file \protocols\Discord\src\mfa.cpp
+[Use authentication app]
+Использовать приложение для аутентификации
+[Use a code sent to your phone]
+Использовать код с телефона
+[Use a backup code]
+Использовать резервный код
+[Enter Discord verification code:]
+Введите 6-значный код подтверждения:
+[Enter SMS code you received:]
+Введите 6-значный код подтверждения:
+[Enter one of your backup codes]
+Введите 8-значный резервный код:
+[Wrong code entered]
+Неверный двухфакторный код
+[MFA initialization]
+
+;file \protocols\Discord\src\options.cpp
+[Network]
+Сеть
+[Account]
+Учётная запись
+;file \protocols\Discord\src\proto.cpp
+[Incoming call]
+Входящий звонок
+[%s server connection]
+%s подключение к серверу
+[%s gateway connection]
+%s подключение к шлюзу
+[Discord voice call]
+Голосовой вызов Discord
+[User ID]
+ID пользователя
+[Message send failed]
+Не удалось отправить сообщение
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Сервер требует ввести капчу. Сейчас Миранда перенаправит вас в браузер
+[Connection failed.\n%s (%s).]
+Ошибка подключения.\n%s (%s).
+;file \protocols\Discord\src\utils.cpp
+[Owners]
+Владельцы
+[Participants]
+Участники
+[Attachment]
+Вложение
+[Embed]
+Встроенное изображение
+[Preview]
+Предварительный просмотр
+;file \protocols\Discord\src\voice.cpp
+[Call ended, %d seconds long]
+Звонок завершён, длительность - %d секунд
