@@ -33,7 +33,7 @@
 [Use hostname as resource]
 [Port:]
 [Use SSL]
-[Use TLS]
+[Use STARTTLS]
 [Unregister]
 [Expert]
 [Manually specify connection host]
@@ -907,8 +907,8 @@
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 [Error: Not enough memory]
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
 [Error: Cannot connect to the server]
-[SSL initialization failed]
 [Error: Connection lost]
 [Requesting registration instruction...]
 [Authentication failed for %s@%s.]

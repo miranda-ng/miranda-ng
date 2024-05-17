@@ -230,7 +230,6 @@
 [Padding:]
 [Round corners (avatar)]
 [Disable when]
-[Always (has priority)]
 [Fullscreen mode]
 [Statuses]
 [Text color:]
