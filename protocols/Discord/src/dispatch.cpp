@@ -501,12 +501,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			if (bOurMessage)
 				dbei.flags |= DBEF_READ | DBEF_SENT;
 
-			if (dbei) {
-				ptrW wszOldText(dbei.getText());
-				if (wszOldText)
-					wszText.Insert(0, wszOldText);
-			}
-
 			if (auto &nReply = pRoot["message_reference"]) {
 				_i64toa(::getId(nReply["message_id"]), szReplyId, 10);
 				dbei.szReplyId = szReplyId;
@@ -517,6 +511,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
 			dbei.szId = szMsgId;
 			replaceStr(dbei.pBlob, mir_utf8encodeW(wszText));
+			dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
 
 			if (!pUser->bIsPrivate || pUser->bIsGroup) {
 				dbei.szUserId = szUserId;
