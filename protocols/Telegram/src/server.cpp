@@ -983,6 +983,11 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 
 void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *pObj)
 {
+	if (pObj->interaction_info_ == nullptr) {
+		debugLogA("no reactions to process");
+		return;
+	}
+
 	auto *pUser = FindChat(pObj->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("message from unknown chat/user, ignored");
