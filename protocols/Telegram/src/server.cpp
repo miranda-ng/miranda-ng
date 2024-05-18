@@ -983,11 +983,6 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 
 void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *pObj)
 {
-	if (pObj->interaction_info_ == nullptr) {
-		debugLogA("no reactions to process");
-		return;
-	}
-
 	auto *pUser = FindChat(pObj->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("message from unknown chat/user, ignored");
@@ -1002,12 +997,14 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 	}
 
 	JSONNode reactions; reactions.set_name("r");
-	for (auto &it : pObj->interaction_info_->reactions_) {
-		if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
-			continue;
+	if (pObj->interaction_info_) {
+		for (auto &it : pObj->interaction_info_->reactions_) {
+			if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
+				continue;
 
-		auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
-		reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+			auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
+			reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+		}
 	}
 
 	auto &json = dbei.setJson();
