@@ -555,7 +555,7 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 
 		RemoveBbcodes(wszText);
 		ret.Append(wszText);
-		ret.Append(L"\r\n");
+		ret.Append(L"\r\n\r\n");
 	}
 
 	return ret;
